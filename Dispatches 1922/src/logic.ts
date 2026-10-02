@@ -124,10 +124,11 @@ export function resolveChoice(args: {
     if (d !== 0) triangleDeltas[axis] = d;
   }
 
-  // Destination: the choice's own `next`; a post-choice catastrophic meter state may divert it.
-  // A choice with no `next` of its own (only its roll outcomes name destinations) falls back to the
-  // rolled outcome's `next`; without that fallback such a choice routed to `undefined` and crashed.
-  let destination = choice.next ?? rolledNext;
+  // Destination: a rolled outcome that names its own `next` wins over the choice's shared `next`
+  // (same rule as 1914/1941/1940); a post-choice catastrophic meter state may still divert it below.
+  // Earlier builds ignored per-roll `next` unless the choice had none, which made two authored
+  // endings unreachable and crashed the choice that had no `next` of its own.
+  let destination = rolledNext || choice.next;
   if (typeof choice.nextIf === "function") {
     const diverted = choice.nextIf(clamped);
     if (diverted) destination = diverted;
