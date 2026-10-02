@@ -16,7 +16,7 @@
     "build:dev": "node build.mjs --dev",
     "build:nozip": "node build.mjs --no-zip",
     "typecheck": "tsc -p tsconfig.json",
-    "verify:baseline": "node tools/ui_differential.mjs verify dist/full/bundle.js"
+    "verify:baseline": "node ../packages/testkit/src/cli.mjs verify"
   },
   "license": "UNLICENSED",
   "devDependencies": {

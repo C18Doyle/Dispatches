@@ -8,7 +8,7 @@
     "smoke": "node smoke.js",
     "render": "node render-test.js",
     "roundtrip": "node roundtrip-test.mjs",
-    "verify:baseline": "node tools/ui_differential.mjs verify dist/bundle.js",
+    "verify:baseline": "node ../packages/testkit/src/cli.mjs verify",
     "test": "npm run build && npm run smoke && npm run render && npm run roundtrip && npm run verify:baseline"
   },
   "license": "UNLICENSED",

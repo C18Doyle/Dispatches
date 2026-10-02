@@ -22867,16 +22867,11 @@ function WW2CommandInner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign, position, flags, meters, mode]);
 
-  // The stage the outcome/battle-result screens and proceed() read. Normally the live stage, exactly
-  // as before. But a dynamic stage re-resolves from flags and meters after the choice applies its
-  // impact, and that can drop (or shift) a meter-gated choice, so the live list may no longer hold
-  // the choice the player made. In that case use the snapshot taken at choice time instead.
-  const seenStage = (() => {
-    if (!outcomeStage) return stage;
-    const live = stage && stage.choices ? stage.choices[choiceIndex] : null;
-    const snap = outcomeStage.choices[choiceIndex];
-    return live && snap && live.label === snap.label ? stage : outcomeStage;
-  })();
+  // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as
+  // the choice applies its impact, which can drop or shift a meter-gated choice (and moves the roll
+  // odds the stage computes from meters). The outcome screen and proceed() therefore always read
+  // this snapshot, so the picked choice, its odds and the log all reflect what the player faced.
+  const seenStage = outcomeStage || stage;
 
   // `seed`, when provided (Grand Campaign only), is a { seedFlags, seedMeters } pair from
   // GRAND_CAMPAIGN_SEEDS — merged on top of the normal defaults rather than replacing them, so

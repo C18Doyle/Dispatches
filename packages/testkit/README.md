@@ -1,0 +1,3 @@
+# @dispatches/testkit
+
+Shared headless UI-differential test core. Each game has `tests/ui.config.mjs` (jsdom import, cases, seeds, `meta`, `setup`, `isCrashed`, optional `isEnded`, `choose`) and runs `node ../packages/testkit/src/cli.mjs <record <tag>|verify|compare|one <case> <seed>>` from its folder. Baselines live in `tests/baseline/ui`; `tests/baseline/known-diffs.json` lists runs allowed to differ from a given step. Ported and verified against the recorded baselines: 1914 (24/24 identical), 1922 (44 identical + 4 crashes fixed), 1940 (Italian runs 12/12 identical on the legacy build). 1941 still uses its browser driver.
