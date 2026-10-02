@@ -50,6 +50,10 @@ export type Condition =
   | { flag: FlagId }
   | { resource: ResourceId; op: Comparator; value: number }
   | { axis: AxisId; op: Comparator; value: number }
+  | { stat: "money"; op: Comparator; value: number }
+  | { branch: BranchId }
+  | { difficulty: Difficulty }
+  | { favorUsed: boolean }
   | { all: Condition[] }
   | { any: Condition[] }
   | { not: Condition };
@@ -225,6 +229,8 @@ export interface GameConfig {
   epilogue?: EpilogueConfig;
   difficulties: Record<Difficulty, DifficultyRules>;
   defaultDifficulty: Difficulty;
+  /** Branch active at the start of a run and after skipping ahead. */
+  startBranch: BranchId;
   interludeTriggers: InterludeTrigger[];
   assist?: AssistConfig;
   /** Node to jump to for returning players. Resets resources/axes/flags to start values. */

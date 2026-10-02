@@ -164,12 +164,12 @@ export const HOW_TO_PLAY: { heading: string; body: string }[] = [
  * say) and picks one at random, so re-clicking Gossip on the same node can
  * surface something different.
  */
-interface GossipEntry {
+export interface GossipEntry {
   applies: (state: GameState) => boolean;
   lines: string[];
 }
 
-const GOSSIP_POOL: GossipEntry[] = [
+export const GOSSIP_POOL: GossipEntry[] = [
   {
     applies: (s) => !!s.flags.executedOrigin,
     lines: [
@@ -342,7 +342,7 @@ function temperamentBucket(n: number): "pos" | "neutral" | "neg" {
   return "neutral";
 }
 
-const TEMPERAMENT_READINGS: Record<string, { label: string; epilogue: string }> = {
+export const TEMPERAMENT_READINGS: Record<string, { label: string; epilogue: string }> = {
   pos_pos: {
     label: "Eloquent & Longing",
     epilogue:
@@ -404,7 +404,7 @@ export function getTemperamentReading(state: GameState): { label: string; epilog
 // uncertain, still-in-progress — rather than the ending screen's settled,
 // past-tense "how it's remembered." That keeps it a foreshadowing nudge, not
 // a spoiler: the run can still swing the bucket by the time it ends.
-const CREATURE_REPORT_LINES: Record<string, string[]> = {
+export const CREATURE_REPORT_LINES: Record<string, string[]> = {
   pos_pos: [
     "It listens more than it strikes, sir. I've started to think it wants a conversation more than a fight.",
     "Whatever it becomes, I don't think it wants to face it alone. Watch how it lingers near the light.",
