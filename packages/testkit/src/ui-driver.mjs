@@ -39,7 +39,19 @@ function makeContext(cfg, bundle, seed) {
   w.HTMLMediaElement.prototype.load = () => {};
   w.scrollTo = () => {};
   w.Element.prototype.scrollIntoView = () => {};
-  w.fetch = async () => ({ ok: true, json: async () => ({}) });
+  // fetch: serves files from cfg.assetRoot when the game fetches its own assets (e.g. map JSON); an
+  // empty object otherwise.
+  w.fetch = async (url) => {
+    if (cfg.assetRoot) {
+      try {
+        const txt = readFileSync(join(cfg.assetRoot, String(url).split("?")[0]), "utf8");
+        return { ok: true, json: async () => JSON.parse(txt), text: async () => txt };
+      } catch {
+        /* fall through to the empty stub */
+      }
+    }
+    return { ok: true, json: async () => ({}) };
+  };
   if (!w.matchMedia) w.matchMedia = (q) => ({ matches: false, media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {} });
   // Seed the game's randomness inside the page.
   w.eval(`(function(){var a=${seed}>>>0;Math.random=function(){a=(a+0x6d2b79f5)>>>0;var t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}})()`);
@@ -173,7 +185,7 @@ export async function playRun(cfg, bundle, runCase, seed) {
     errors: ctx.errors.filter((e) => !/Not implemented/.test(e)).slice(0, 2),
     hashes: hashes.join(","),
     tail: trail.slice(-3),
-    lastText: ctx.text().slice(0, 1500),
+    lastText: ctx.text().slice(0, Number(process.env.LAST_CHARS) || 1500),
   };
   ctx.restore();
   return out;
