@@ -1,0 +1,11 @@
+# Always check out text files with LF, including on Windows. The split/assemble tools and the baseline
+# hashes match on exact text; CRLF checkouts broke 1914's roundtrip test on the Windows CI runner.
+* text=auto eol=lf
+*.zip binary
+*.png binary
+*.jpg binary
+*.mp3 binary
+*.ogg binary
+*.wav binary
+*.woff binary
+*.woff2 binary
