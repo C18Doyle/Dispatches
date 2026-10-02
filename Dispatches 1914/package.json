@@ -1,0 +1,18 @@
+{
+  "name": "1918",
+  "version": "1.0.0",
+  "description": "",
+  "main": "_load.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.28.2",
+    "jsdom": "^30.1.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  }
+}

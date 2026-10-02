@@ -9,7 +9,7 @@ One folder per game plus a shared engine. Read the folder's own `CLAUDE.md` befo
 | `Dispatches 1940/` | Unmigrated. JSX, one 1.9 MB `src/App.jsx`, four campaigns, maps, Tone audio, own audit tools (`npm run audit`). |
 | `Dispatches 1941/` | Unmigrated. JSX (`dispatches-pacific.jsx`), map JSON, map tool. |
 | `Dispatches 1922/` | Unmigrated. JSX (`dispatches-1917.jsx` is the 1922 game), validators and jsdom tests. |
-| `Dispatches 1914/` | Source not on disk yet (Cowork container `/mnt/user-data/outputs/dispatches-1918/`). |
+| `Dispatches 1914/` | Unmigrated. JSX, split into src/ parts by campaign, own validators and CLAUDE.md (internally titled 1918). |
 
 ## Rules for the whole repo
 - Never read a whole large source file. Use Grep and ranged Read. `1940/src/App.jsx` alone is ~1.9 MB.
