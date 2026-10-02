@@ -7,7 +7,7 @@ One folder per game plus a shared engine. Read the folder's own `CLAUDE.md` befo
 | `packages/engine/` | Shared pure engine `@dispatches/engine`. Read its CLAUDE.md before changing it: every game depends on it. |
 | `Dispatches Frankenstein/` | Migrated to the engine. TypeScript. `npm test` green. |
 | `Dispatches 1940/` | Unmigrated. JSX, one 1.9 MB `src/App.jsx`, four campaigns, maps, Tone audio, own audit tools (`npm run audit`). |
-| `Dispatches 1941/` | Unmigrated. JSX (`dispatches-pacific.jsx`), map JSON, map tool. |
+| `Dispatches 1941/` | Partly migrated: buildable, `src/logic.ts` extracted, UI-differential baseline. Content is code in `src/App.jsx`; not on the shared engine yet. |
 | `Dispatches 1922/` | Unmigrated. JSX (`dispatches-1917.jsx` is the 1922 game), validators and jsdom tests. |
 | `Dispatches 1914/` | Unmigrated. JSX, split into src/ parts by campaign, own validators and CLAUDE.md (internally titled 1918). |
 

@@ -1,5 +1,18 @@
 import { useState, useEffect, useMemo, useRef, Component } from "react";
 import * as Tone from "tone";
+import {
+  EMPTY_METERS,
+  impactSum,
+  effectiveChoice,
+  applyDoctrineImpact,
+  playableStage,
+  resolveChoice,
+  buildLogEntry,
+  nextPosition,
+  nextVisited,
+  arrivalScreen,
+  startFlags,
+} from "./logic";
 
 // ---------- STORAGE POLYFILL (real-browser / Electron deployment) ----------
 // window.storage.get/set/delete is a Claude-artifact-environment-specific API and
@@ -10723,25 +10736,12 @@ function Typewriter({ text, instant, soundOn }) {
   );
 }
 
-function impactSum(impact) {
-  if (!impact) return 0;
-  return (impact.readiness || 0) + (impact.pipeline || 0) + (impact.initiative || 0);
-}
-
 function cohesionLabel(c) {
   const v = c || 0;
   if (v >= 3) return "Solid";
   if (v >= 0) return "Workable";
   if (v >= -2) return "Strained";
   return "Fraying";
-}
-
-function effectiveChoice(choice, rollIndex) {
-  if (choice.uncertain && rollIndex != null && choice.uncertain[rollIndex]) {
-    const v = choice.uncertain[rollIndex];
-    return { impact: v.impact || choice.impact, outcome: v.outcome, variantTitle: v.title };
-  }
-  return { impact: choice.impact, outcome: choice.outcome, variantTitle: null };
 }
 
 function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome }) {
@@ -11920,8 +11920,6 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
   );
 }
 
-const EMPTY_METERS = { readiness: 0, pipeline: 0, initiative: 0 };
-
 // ---------- SAVE SCHEMA VERSIONING ----------
 // Bumped whenever a change could make an old save unsafe to resume — most commonly,
 // node ids being renamed or removed (this has happened repeatedly across content
@@ -12265,6 +12263,11 @@ function WW2CommandInner() {
     setMusicVolumeState(pct);
     setMusicVolume(pct);
   }
+  // Snapshot of the stage the player chose from. Dynamic stages re-resolve from flags and
+  // meters, and a choice's own impact can remove a meter-gated choice from the re-resolved
+  // list (e.g. a choice that needs pipeline >= 6 and costs 3). The outcome screen and
+  // proceed() must read the stage as it was when the choice was made.
+  const [outcomeStage, setOutcomeStage] = useState(null);
   const [log, setLog] = useState([]);
   const [flags, setFlags] = useState({});
   const [meters, setMeters] = useState(EMPTY_METERS);
@@ -12274,48 +12277,20 @@ function WW2CommandInner() {
   const campaign = campaignId ? CAMPAIGNS[campaignId] : null;
   const stage = useMemo(() => {
     if (!campaign) return null;
-    const s = resolveStage(campaign, position, flags, meters);
-    // Necessity rule (generalized from the Europe file's Führer Mode-only version):
-    // if EVERY choice on a node is currently blocked — by capital cost (iron mode,
-    // unused by Pacific but harmless to keep), by a resource gate (disabledReason),
-    // or both — the run cannot be allowed to dead-end with literally no move
-    // available. This must apply regardless of hard-mode variant, since Pacific's
-    // Fanatical Resolve and Coalition Resolve modes have no capital mechanic but can
-    // still gate choices by disabledReason, and neither currently has its own
-    // necessity check the way iron mode originally did.
-    if (s && s.choices && s.choices.length) {
-      const isBlocked = (c) => (mode === "iron" && c.favor && c.favor > favor) || !!c.disabledReason;
-      if (s.choices.every(isBlocked)) {
-        if (mode === "iron") {
-          // Prefer a choice blocked ONLY by capital (no resource gate) — waive its cost.
-          const capitalOnly = s.choices.filter((c) => !c.disabledReason);
-          if (capitalOnly.length) {
-            const minFav = Math.min(...capitalOnly.map((c) => c.favor || 0));
-            let waived = false;
-            return {
-              ...s,
-              choices: s.choices.map((c) => {
-                if (!waived && !c.disabledReason && (c.favor || 0) === minFav) {
-                  waived = true;
-                  return { ...c, favor: undefined };
-                }
-                return c;
-              }),
-            };
-          }
-        }
-        // Every choice is resource-gated (or, in iron mode, resource-gated even after
-        // a capital waiver was considered) — a genuine dead end nothing else fixes.
-        // Force the first choice open as an absolute safety net; the run must always
-        // have a move.
-        return {
-          ...s,
-          choices: s.choices.map((c, i) => (i === 0 ? { ...c, favor: undefined, disabledReason: undefined } : c)),
-        };
-      }
-    }
-    return s;
-  }, [campaign, position, flags, meters, mode]);
+    // Necessity rule lives in logic.ts (playableStage): a node can never dead-end.
+    return playableStage(resolveStage(campaign, position, flags, meters), mode, favor);
+  }, [campaign, position, flags, meters, mode, favor]);
+
+  // The stage the outcome screen and proceed() read. Normally the live stage, exactly as before.
+  // But a dynamic stage re-resolves from flags and meters after the choice applies its impact, and
+  // that can drop (or shift) a meter-gated choice, so the live list may no longer hold the choice
+  // the player made. In that case use the snapshot taken at choice time instead.
+  const seenStage = (() => {
+    if (!outcomeStage) return stage;
+    const live = stage && stage.choices ? stage.choices[choiceIndex] : null;
+    const snap = outcomeStage.choices[choiceIndex];
+    return live && snap && live.label === snap.label ? stage : outcomeStage;
+  })();
 
   function pickCampaign(id, playMode = "open") {
     const camp = CAMPAIGNS[id];
@@ -12326,7 +12301,7 @@ function WW2CommandInner() {
     clearActiveRun();
     setCampaignId(id);
     if (soundOn) switchMusic(id);
-    const seedFlags = playMode === "fanatical" || playMode === "coalition" ? { hardMode: true } : {};
+    const seedFlags = startFlags(playMode);
     setPosition(startPos);
     setChoiceIndex(null);
     setRollIndex(null);
@@ -12356,11 +12331,7 @@ function WW2CommandInner() {
   }
 
   function selectDoctrine(doctrine) {
-    setMeters((prev) => ({
-      readiness: Math.max(-10, Math.min(10, prev.readiness + (doctrine.impact.readiness || 0))),
-      pipeline: Math.max(-10, Math.min(10, prev.pipeline + (doctrine.impact.pipeline || 0))),
-      initiative: prev.initiative + (doctrine.impact.initiative || 0),
-    }));
+    setMeters((prev) => applyDoctrineImpact(prev, doctrine.impact));
     setFlags((prev) => ({ ...prev, doctrinePath: doctrine.id }));
     setScreen("briefing");
   }
@@ -12383,154 +12354,71 @@ function WW2CommandInner() {
   }
 
   function chooseOption(i) {
-    const choice = stage.choices[i];
-    if (mode === "iron" && choice.favor && choice.favor > favor) return;
-    if (mode === "iron" && choice.favor) setFavor((f) => f - choice.favor);
-    let ri = null;
-    if (choice.uncertain) {
-      if (soundOn) playDice();
-      const totalWeight = choice.uncertain.reduce((a, v) => a + v.weight, 0);
-      let roll = Math.random() * totalWeight;
-      ri = 0;
-      for (let k = 0; k < choice.uncertain.length; k++) {
-        roll -= choice.uncertain[k].weight;
-        if (roll <= 0) {
-          ri = k;
-          break;
-        }
-      }
-    }
-    const eff = effectiveChoice(choice, ri);
-    // Merge synchronously (not via the setFlags callback) so the hard-mode ceiling checks
-    // below can see the true resulting state before it's committed.
-    let mergedFlags = { ...flags };
-    if (choice.setFlags) mergedFlags = { ...mergedFlags, ...choice.setFlags };
-    if (choice.uncertain && ri != null && choice.uncertain[ri].setFlags) {
-      mergedFlags = { ...mergedFlags, ...choice.uncertain[ri].setFlags };
-    }
-    // Hard-mode ceilings are a hard stop, not just a worse roll from here on. Hitting the cap
-    // itself is the event — IGHQ's hardliners or the fraying coalition act on it directly,
-    // rather than merely making some future dice throw less forgiving.
-    if (mode === "fanatical" && (mergedFlags.suspicion || 0) >= 5 && !mergedFlags.purged) {
-      mergedFlags = { ...mergedFlags, purged: true, purgedAt: "suspicionCeiling" };
-    }
-    if (mode === "coalition" && (mergedFlags.cohesion || 0) <= -6 && !mergedFlags.relieved) {
-      mergedFlags = { ...mergedFlags, relieved: true };
-    }
-    // Inert in this file: no Pacific mode sets choice.favor or mode === "iron", so this
-    // capital-spend/defiance-counter block (inherited from the Europe file's Führer Mode)
-    // never fires. Left in place rather than surgically removed under time pressure —
-    // safe to delete once confirmed unneeded.
-    let newDefiance = defiance;
-    if (mode === "iron" && choice.favor) {
-      newDefiance = defiance + 1;
-      setDefiance(newDefiance);
-      if (newDefiance >= 5 && !mergedFlags.dismissed) {
-        mergedFlags = { ...mergedFlags, dismissed: true };
-      }
-    }
-    setFlags(mergedFlags);
-    if (eff.impact) {
-      setMeters((prev) => ({
-        // Clamped to [-10, 10]: readiness/pipeline representing genuine institutional
-        // collapse or genuine institutional overextension at the extremes. Below -10,
-        // the numbers stop being a meaningful signal and start being an arbitrary void
-        // a player could keep sinking into with no real additional consequence — the
-        // STAFF NOTE warnings at -5/-6 already say the force is broken and the pipeline
-        // has collapsed, so there has to be an actual floor behind that language, not
-        // just a worsening number forever. The +10 ceiling is the symmetric case:
-        // simulation showed unclamped random play reaching +16, which is just as
-        // meaningless a number on the good side as -17 was on the bad side.
-        readiness: Math.max(-10, Math.min(10, prev.readiness + (eff.impact.readiness || 0))),
-        pipeline: Math.max(-10, Math.min(10, prev.pipeline + (eff.impact.pipeline || 0))),
-        initiative: Math.max(-10, Math.min(10, prev.initiative + (eff.impact.initiative || 0))),
-      }));
-    }
-    setRollIndex(ri);
+    const picked = stage.choices[i];
+    if (picked.uncertain && soundOn) playDice();
+    const res = resolveChoice({ stage, index: i, mode, favor, defiance, flags, meters, rand: Math.random });
+    if (!res) return;
+    setFavor(res.favor);
+    setDefiance(res.defiance);
+    setFlags(res.flags);
+    setMeters(res.meters);
+    setRollIndex(res.rollIndex);
     setChoiceIndex(i);
+    setOutcomeStage(stage);
     if (DEMO_BUILD && campaignId === "japan") setDemoChoiceCount((n) => n + 1);
     setScreen("outcome");
   }
 
   function proceed() {
-    const choice = stage.choices[choiceIndex];
-    const eff = effectiveChoice(choice, rollIndex);
-    const histChoice = stage.choices.find((c) => c.historical);
-    const newLog = [
-      ...log,
-      {
-        date: stage.date,
-        title: stage.title,
-        label: choice.label + (eff.variantTitle ? ` (${eff.variantTitle})` : ""),
-        sum: impactSum(eff.impact),
-        histSum: histChoice ? impactSum(histChoice.impact) : null,
-        histLabel: histChoice ? histChoice.label : null,
-        isHistorical: !!choice.historical,
-        advisor: choice.advisor ? choice.advisor.name : null,
-        notTakenAdvisors: stage.choices.filter((c, idx) => idx !== choiceIndex && c.advisor).map((c) => c.advisor.name),
-        rollP:
-          choice.uncertain && rollIndex != null
-            ? choice.uncertain[rollIndex].weight / choice.uncertain.reduce((a, v) => a + v.weight, 0)
-            : null,
-      },
-    ];
+    const seen = seenStage;
+    const choice = seen.choices[choiceIndex];
+    const newLog = [...log, buildLogEntry(seen, choiceIndex, rollIndex)];
     setLog(newLog);
 
-    let nextPos, isEnd;
-    if (campaign.dynamic) {
-      nextPos = (choice.uncertain && rollIndex != null && choice.uncertain[rollIndex].next) || choice.next;
-      isEnd = nextPos === "END";
-      // A hard-mode ceiling break ends the run immediately — hitting the cap is the event,
-      // regardless of where the choice itself would otherwise have routed.
-      if ((mode === "fanatical" && flags.purged) || (mode === "coalition" && flags.relieved)) {
-        nextPos = "END";
-        isEnd = true;
-      }
-    } else {
-      nextPos = position + 1;
-      isEnd = nextPos >= campaign.length;
-    }
+    const { nextPos, isEnd } = nextPosition({
+      dynamic: !!campaign.dynamic,
+      length: campaign.length,
+      position,
+      choice,
+      rollIndex,
+      mode,
+      flags,
+    });
 
     // Demo build wall: intercept before any position/history state changes, so the
     // player stays parked at their last playable node rather than landing on a 7th
-    // decision. Only the Japan campaign is playable at all in a demo build (see
-    // SelectScreen), so this only ever needs to check campaignId === "japan". A real
-    // ending (isEnd) is never overridden by this — reaching a genuine narrative
-    // conclusion in fewer than 6 choices is always shown as-is, never blocked.
+    // decision. A real ending (isEnd) is never overridden by this.
     if (DEMO_BUILD && campaignId === "japan" && !isEnd && demoChoiceCount >= 6) {
       setScreen("demoWall");
       return;
     }
 
+    setOutcomeStage(null);
     if (!isEnd) {
       const newHistory = [...history, { position: nextPos, flags, meters, log: newLog }];
       setHistory(newHistory);
-      const newVisited = visited.includes(String(nextPos)) ? visited : [...visited, String(nextPos)];
+      const newVisited = nextVisited(visited, nextPos);
       setVisited(newVisited);
       setPosition(nextPos);
       setChoiceIndex(null);
       setRollIndex(null);
-      // Historical Divergence Mode reveal check runs first and wins outright when it
-      // matches: it's deterministic (this fork fired, this is its one reveal point),
-      // keyed off the node being arrived at rather than SPECIAL_EVENTS' afterNode
-      // ("the node just left"), so the two systems don't naturally collide anyway.
-      const divergeFork = campaign.dynamic
-        ? (DIVERGENCE_FORKS[campaignId] || []).find(
-            (fk) => fk.revealNode === String(nextPos) && flags[fk.flag] && !seenDivergenceReveals.includes(fk.id)
-          )
-        : null;
-      const pendingEvent = campaign.dynamic
-        ? (SPECIAL_EVENTS[campaignId] || []).find(
-            (e) => e.afterNode === position && (!e.condition || e.condition(flags))
-          )
-        : null;
-      if (divergeFork) {
-        setPendingDivergenceReveal(DIVERGENCE_HEADLINES[divergeFork.id]);
+      const arrival = arrivalScreen({
+        dynamic: !!campaign.dynamic,
+        campaignId,
+        position,
+        nextPos,
+        flags,
+        forks: DIVERGENCE_FORKS,
+        events: SPECIAL_EVENTS,
+        seenReveals: seenDivergenceReveals,
+      });
+      if (arrival.divergenceForkId) {
+        setPendingDivergenceReveal(DIVERGENCE_HEADLINES[arrival.divergenceForkId]);
         setPendingPressEvent(null);
         setScreen("divergence");
       } else {
-        setPendingPressEvent(pendingEvent && pendingEvent.type === "press" ? pendingEvent.pressEvent : null);
-        setScreen(pendingEvent ? pendingEvent.type : "briefing");
+        setPendingPressEvent(arrival.pressEvent);
+        setScreen(arrival.screen);
       }
       // Autosave every 3rd decision (plus always on manual Save / Home) — the storage API is
       // rate-limited, and saving on every single choice was very likely exhausting it over a
@@ -12540,7 +12428,7 @@ function WW2CommandInner() {
           schemaVersion: SAVE_SCHEMA_VERSION,
           campaignId,
           mode,
-          favor: mode === "iron" && stage.choices[choiceIndex].favor ? favor - stage.choices[choiceIndex].favor : favor,
+          favor: mode === "iron" && choice.favor ? favor - choice.favor : favor,
           defiance,
           position: nextPos,
           flags,
@@ -12626,6 +12514,7 @@ function WW2CommandInner() {
     setPosition(snap.position);
     setChoiceIndex(null);
     setRollIndex(null);
+    setOutcomeStage(null);
     setHistory(history.slice(0, k + 1));
     setScreen("briefing");
   }
@@ -12715,16 +12604,16 @@ function WW2CommandInner() {
           onHome={goHome}
         />
       )}
-      {screen === "outcome" && campaign && stage && (
+      {screen === "outcome" && campaign && seenStage && (
         <OutcomeScreen
           campaign={campaign}
-          stage={stage}
+          stage={seenStage}
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
           onProceed={proceed}
           soundOn={soundOn}
-          isLast={campaign.dynamic ? stage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
+          isLast={campaign.dynamic ? seenStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
         />
       )}
       {screen === "demoWall" && campaign && (

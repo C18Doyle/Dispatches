@@ -8,7 +8,7 @@ One folder per game. Each is a standalone project (own package.json, src/, scrip
 | Dispatches 1914 | Imported (split src/, validators, CLAUDE.md; the game is titled 1918 internally). JSX. |
 | Dispatches 1922 | Imported (`dispatches-1917.jsx` is the 1922 game; validators, tests, docs). `geo/` map pipeline left out. JSX. |
 | Dispatches 1940 | Full source imported (src/App.jsx ~1.9 MB, build.mjs, tools, docs, maps). JSX; own audit scripts. |
-| Dispatches 1941 | Imported (dispatches-pacific.jsx, map JSON, map-build tool, theme audio). JSX, not TS. |
+| Dispatches 1941 | Builds (full + demo). Pure run logic extracted to `src/logic.ts`; 24-run UI baseline; shipped crash fixed. Content still code inside App.jsx. See its CLAUDE.md. |
 
 Shared engine: `packages/engine/` (`@dispatches/engine`), imported by each game through a tsconfig path alias. Amend it there; each game must stay green (`npm test`).
 
