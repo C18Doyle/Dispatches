@@ -5,8 +5,8 @@ One folder per game. Each is a standalone project (own package.json, src/, scrip
 | Folder | Status |
 |---|---|
 | Dispatches Frankenstein | Source imported. `src/engine/schema.ts` drafted. Refactor in progress. |
-| Dispatches 1914 | Awaiting source export |
-| Dispatches 1922 | Awaiting source export |
+| Dispatches 1914 | Source is in a Cowork container (`/mnt/user-data/outputs/dispatches-1918/`, 16 files in `src/`). Not on disk yet. |
+| Dispatches 1922 | Imported (`dispatches-1917.jsx` is the 1922 game; validators, tests, docs). `geo/` map pipeline left out. JSX. |
 | Dispatches 1940 | `src/App.jsx` imported (single 1.5 MB JSX). Full project (build.mjs, assets, package.json) still in the Cowork session outputs. |
 | Dispatches 1941 | Imported (dispatches-pacific.jsx, map JSON, map-build tool, theme audio). JSX, not TS. |
 
