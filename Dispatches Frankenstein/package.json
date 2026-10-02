@@ -4,11 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.engine.json",
     "validate": "tsx scripts/validate.ts",
+    "validate:schema": "tsx scripts/validate_schema.ts",
+    "verify:baseline": "tsx scripts/verify_baseline.ts",
+    "check:boundaries": "node scripts/check_boundaries.mjs",
+    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run verify:baseline && npm run validate",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
-    "build:audio": "mkdir -p dist/audio && cp audio/lament.mp3 dist/audio/lament.mp3",
+    "build:audio": "node scripts/copy_audio.mjs",
     "build": "npm run build:css && npm run build:js && npm run build:audio && node scripts/inline.mjs"
   },
   "dependencies": {

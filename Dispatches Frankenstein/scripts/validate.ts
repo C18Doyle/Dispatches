@@ -4,9 +4,21 @@
  * so this can't silently drift from what ships. Reports measured counts, per
  * Craig's own validation standard: never "looks good" without numbers.
  */
-import { NODES, ENDINGS, START_NODE_ID, LORE_NODE_IDS, ACT2_ENTRY_NODES } from "../src/data";
-import { clamp, isOptionLocked, isOptionFlagLocked, FAILURE_THRESHOLD } from "../src/engine";
-import type { Resources, Resource } from "../src/types";
+import { clampTo, isOptionLocked, isOptionFlagLocked } from "../src/engine/index";
+import { loadDefinition } from "./lib/load_definition";
+
+const def = loadDefinition("frankenstein");
+const NODES = def.content.nodes;
+const ENDINGS = def.content.endings;
+const START_NODE_ID = def.content.startNodeId;
+const triggerNodes = (id: string) => def.config.interludeTriggers.find((t) => t.interludeId === id)?.onEnterNodes ?? [];
+const LORE_NODE_IDS = triggerNodes("LORE_YEAR_WITHOUT_SUMMER");
+const ACT2_ENTRY_NODES = triggerNodes("TRANSITION_WILLIAM_MURDERED");
+// All Frankenstein resources share one range and one failure level.
+const { min: RES_MIN, max: RES_MAX, failAt: FAILURE_THRESHOLD = -10 } = def.config.resources[0];
+const clamp = (n: number) => clampTo(n, RES_MIN, RES_MAX);
+type Resource = string;
+type Resources = Record<string, number>;
 
 // Flags set by reducer logic outside the node graph (Fritz's Favor sets
 // "fritzPatron" from a UI action, not from any option's setFlags), so the
@@ -14,7 +26,7 @@ import type { Resources, Resource } from "../src/types";
 // node-authored flags. Checked separately, by static cross-reference only.
 const ENGINE_LEVEL_FLAGS = ["fritzPatron"];
 
-const RESOURCES: Resource[] = ["voltage", "biomass", "secrecy"];
+const RESOURCES: Resource[] = def.config.resources.map((r) => r.id);
 let failures = 0;
 
 function fail(msg: string) {

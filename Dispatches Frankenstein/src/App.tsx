@@ -1,18 +1,34 @@
 import { useEffect, useRef, useState, useReducer } from "react";
-import { NODES, ENDINGS, PROLOGUE_TEXT, CHAPTER_CARD, HOW_TO_PLAY, getFritzGossip, getFritzCreatureReport } from "./data";
-import { reducer, initialState, isOptionUnavailable, isOptionLocked, isOptionFlagLocked, resolveEndingText, effectiveRollChance, CRISIS_THRESHOLD } from "./engine";
-import type { Difficulty, FontSize, Resource, GameState } from "./types";
+import {
+  reduce,
+  createInitialState,
+  resolveEnding,
+  gossipPool,
+  creatureReportPool,
+  pickLine,
+  isOptionUnavailable,
+  isOptionLocked,
+  isOptionFlagLocked,
+  effectiveRollChance,
+} from "./engine/index";
+import type { Action, Difficulty, GameState, UiPrefs } from "./engine/index";
+import { def } from "./game";
 import * as sfx from "./sfx";
 
-const TOTAL_ENDINGS = Object.keys(ENDINGS).length;
+type Resource = string;
+type FontSize = UiPrefs["fontSize"];
 
-const IN_RUN_SCREENS = new Set(["PROLOGUE", "CHAPTER_CARD", "NODE", "OUTCOME", "EXPERIMENT", "NEWSPAPER"]);
+const TOTAL_ENDINGS = Object.keys(def.content.endings).length;
 
-const RESOURCE_LABELS: Record<Resource, string> = {
-  voltage: "Voltage",
-  biomass: "Biomass",
-  secrecy: "Secrecy",
-};
+const IN_RUN_SCREENS = new Set(["PROLOGUE", "CHAPTER_CARD", "NODE", "OUTCOME", "ROLL", "INTERLUDE"]);
+
+const RESOURCE_IDS: Resource[] = def.config.resources.map((r) => r.id);
+const RESOURCE_LABELS: Record<Resource, string> = Object.fromEntries(def.config.resources.map((r) => [r.id, r.label]));
+
+function isInCrisis(resource: Resource, value: number): boolean {
+  const r = def.config.resources.find((x) => x.id === resource);
+  return r?.crisisAt !== undefined && value <= r.crisisAt;
+}
 
 const BRANCH_LABELS: Record<string, string> = {
   UNIVERSAL: "Act I · The Foundation",
@@ -46,13 +62,7 @@ const ROLL_SUSPENSE_PHRASES = [
 
 const STORAGE_KEY = "frankenstein_modern_prometheus_settings";
 
-function loadSettings(): {
-  fontSize: FontSize;
-  musicEnabled: boolean;
-  musicVolume: number;
-  sfxEnabled: boolean;
-  sfxVolume: number;
-} {
+function loadSettings(): UiPrefs {
   const fallback = {
     fontSize: "medium" as FontSize,
     musicEnabled: true,
@@ -111,7 +121,7 @@ function saveEndingsSeen(seen: Set<string>) {
   }
 }
 
-const RUN_SAVE_KEY = "frankenstein_run_save";
+const RUN_SAVE_KEY = "frankenstein_run_save_v2";
 
 function loadRunSave(): GameState | null {
   try {
@@ -120,8 +130,9 @@ function loadRunSave(): GameState | null {
     const parsed = JSON.parse(raw) as GameState;
     // Guard against a save from an older content build naming a node that no
     // longer exists — better to discard it than to hydrate into a crash.
-    if (!parsed || typeof parsed.screen !== "string" || !IN_RUN_SCREENS.has(parsed.screen)) return null;
-    if (parsed.screen !== "PROLOGUE" && parsed.screen !== "CHAPTER_CARD" && !NODES[parsed.currentNodeId]) return null;
+    if (!parsed || typeof parsed.phase !== "string" || !IN_RUN_SCREENS.has(parsed.phase)) return null;
+    if (typeof parsed.resources !== "object" || parsed.resources === null) return null;
+    if (parsed.phase !== "PROLOGUE" && parsed.phase !== "CHAPTER_CARD" && !def.content.nodes[parsed.currentNodeId]) return null;
     return parsed;
   } catch {
     return null;
@@ -191,8 +202,9 @@ function CornerFlourishes() {
 }
 
 function Meter({ resource, value }: { resource: Resource; value: number }) {
-  const pct = ((value + 10) / 20) * 100;
-  const inCrisis = value <= CRISIS_THRESHOLD;
+  const range = def.config.resources.find((r) => r.id === resource) ?? { min: -10, max: 10 };
+  const pct = ((value - range.min) / (range.max - range.min)) * 100;
+  const inCrisis = isInCrisis(resource, value);
   const fillColor = inCrisis ? "bg-blood-bright" : value >= 0 ? "bg-verdigris-bright" : "bg-blood-bright";
   const glow = inCrisis
     ? "shadow-[0_0_10px_rgba(179,40,31,0.85)]"
@@ -242,10 +254,13 @@ function VoidScreen({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const initial = loadSettings();
-  const [state, dispatch] = useReducer(reducer, undefined, () =>
-    initialState(initial.fontSize, initial.musicEnabled, initial.musicVolume, initial.sfxEnabled, initial.sfxVolume)
-  );
+  // Engine state: only the pure reducer changes it. Everything else below is UI-only.
+  const [state, dispatch] = useReducer((s: GameState, a: Action) => reduce(def, s, a), undefined, () => createInitialState(def));
+  const [prefs, setPrefs] = useState<UiPrefs>(loadSettings);
+  const [overlay, setOverlay] = useState<"SETTINGS" | "RESEARCH" | null>(null);
+  const screen: string = overlay ?? state.phase;
+  const rules = def.config.difficulties[state.difficulty];
+  const interlude = state.activeInterludeId ? def.content.interludes[state.activeInterludeId] : undefined;
   const audioRef = useRef<HTMLAudioElement>(null);
   const [favorPanelOpen, setFavorPanelOpen] = useState(false);
   const [fritzPanelOpen, setFritzPanelOpen] = useState(false);
@@ -289,7 +304,7 @@ export default function App() {
     if (!rolling) return;
     const interval = setInterval(() => setSuspenseTick((t) => t + 1), 380);
     const timeout = setTimeout(() => {
-      dispatch({ type: "CONDUCT_EXPERIMENT" });
+      dispatch({ type: "CONDUCT_EXPERIMENT", roll: Math.random() });
       setRolling(false);
       setSuspenseTick(0);
     }, ROLL_SUSPENSE_MS);
@@ -301,9 +316,9 @@ export default function App() {
   }, [rolling]);
 
   useEffect(() => {
-    document.documentElement.style.fontSize = FONT_SIZE_PX[state.fontSize];
-    saveSettings(state.fontSize, state.musicEnabled, state.musicVolume, state.sfxEnabled, state.sfxVolume);
-  }, [state.fontSize, state.musicEnabled, state.musicVolume, state.sfxEnabled, state.sfxVolume]);
+    document.documentElement.style.fontSize = FONT_SIZE_PX[prefs.fontSize];
+    saveSettings(prefs.fontSize, prefs.musicEnabled, prefs.musicVolume, prefs.sfxEnabled, prefs.sfxVolume);
+  }, [prefs.fontSize, prefs.musicEnabled, prefs.musicVolume, prefs.sfxEnabled, prefs.sfxVolume]);
 
   // Mid-run autosave: every state change while a run is in progress is
   // written to localStorage, so refreshing or losing the tab doesn't lose
@@ -320,8 +335,8 @@ export default function App() {
   // the ENDING screen, after this same effect has already cleared the
   // save via the ENDING branch), so ENDING alone is the correct trigger.
   useEffect(() => {
-    if (IN_RUN_SCREENS.has(state.screen)) saveRunSave(state);
-    else if (state.screen === "ENDING") clearRunSave();
+    if (IN_RUN_SCREENS.has(state.phase)) saveRunSave(state);
+    else if (state.phase === "ENDING") clearRunSave();
   }, [state]);
 
   // Re-reads localStorage every time the menu is reached, rather than only
@@ -329,15 +344,15 @@ export default function App() {
   // load and never updated again for the rest of the session, so it could
   // keep pointing at a run that had already finished and been cleared above.
   useEffect(() => {
-    if (state.screen === "MENU") setResumableSave(loadRunSave());
-  }, [state.screen]);
+    if (state.phase === "MENU") setResumableSave(loadRunSave());
+  }, [state.phase]);
 
   // Tracks which of the 12 endings this browser has discovered, for the
   // menu's progress counter and the "new ending" note on the ending screen
   // itself. Persisted separately from the run save, since it should survive
   // across runs rather than being cleared when one finishes.
   useEffect(() => {
-    if (state.screen !== "ENDING" || !state.endingId) return;
+    if (screen !== "ENDING" || !state.endingId) return;
     const id = state.endingId;
     const wasNew = !endingsSeen.has(id);
     setIsNewEnding(wasNew);
@@ -350,35 +365,35 @@ export default function App() {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.screen, state.endingId]);
+  }, [screen, state.endingId]);
 
   // Sound effects tied to screen transitions rather than clicks alone, so
   // they fire once per transition regardless of which button caused it.
   useEffect(() => {
-    if (!state.sfxEnabled) return;
-    if (state.screen === "OUTCOME") {
-      if (state.pendingOutcomeKind === "SUCCESS") sfx.playSuccess(state.sfxVolume);
-      else if (state.pendingOutcomeKind === "FAILURE") sfx.playFailure(state.sfxVolume);
-    } else if (state.screen === "NEWSPAPER" && state.activeNewspaper?.type === "crisis") {
-      sfx.playCrisis(state.sfxVolume);
-    } else if (state.screen === "ENDING") {
-      if (state.endingId?.startsWith("ENDING_CRISIS")) sfx.playEndingCrisis(state.sfxVolume);
-      else sfx.playEnding(state.sfxVolume);
+    if (!prefs.sfxEnabled) return;
+    if (screen === "OUTCOME") {
+      if (state.pendingOutcomeKind === "SUCCESS") sfx.playSuccess(prefs.sfxVolume);
+      else if (state.pendingOutcomeKind === "FAILURE") sfx.playFailure(prefs.sfxVolume);
+    } else if (screen === "INTERLUDE" && interlude?.kind === "crisis") {
+      sfx.playCrisis(prefs.sfxVolume);
+    } else if (screen === "ENDING") {
+      if (state.endingId?.startsWith("ENDING_CRISIS")) sfx.playEndingCrisis(prefs.sfxVolume);
+      else sfx.playEnding(prefs.sfxVolume);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.screen, state.pendingOutcomeKind]);
+  }, [screen, state.pendingOutcomeKind]);
 
   function click() {
-    if (state.sfxEnabled) sfx.playClick(state.sfxVolume);
+    if (prefs.sfxEnabled) sfx.playClick(prefs.sfxVolume);
   }
   function select() {
-    if (state.sfxEnabled) sfx.playSelect(state.sfxVolume);
+    if (prefs.sfxEnabled) sfx.playSelect(prefs.sfxVolume);
   }
   function pageTurn() {
-    if (state.sfxEnabled) sfx.playPageTurn(state.sfxVolume);
+    if (prefs.sfxEnabled) sfx.playPageTurn(prefs.sfxVolume);
   }
   function unlock() {
-    if (state.sfxEnabled) sfx.playUnlock(state.sfxVolume);
+    if (prefs.sfxEnabled) sfx.playUnlock(prefs.sfxVolume);
   }
 
   // There's only one music track, and it's too warm for a failure ending —
@@ -389,36 +404,36 @@ export default function App() {
   useEffect(() => {
     const el = audioRef.current;
     if (!el) return;
-    const isCrisisEnding = state.screen === "ENDING" && !!state.endingId?.startsWith("ENDING_CRISIS");
+    const isCrisisEnding = screen === "ENDING" && !!state.endingId?.startsWith("ENDING_CRISIS");
     try {
-      el.volume = isCrisisEnding ? state.musicVolume * 0.3 : state.musicVolume;
+      el.volume = isCrisisEnding ? prefs.musicVolume * 0.3 : prefs.musicVolume;
     } catch {
       /* ignore */
     }
-  }, [state.musicVolume, state.screen, state.endingId]);
+  }, [prefs.musicVolume, screen, state.endingId]);
 
   useEffect(() => {
     const el = audioRef.current;
     if (!el) return;
-    if (state.musicEnabled) {
+    if (prefs.musicEnabled) {
       el.play().catch(() => {
         /* blocked until the viewer interacts — retried from click handlers */
       });
     } else {
       el.pause();
     }
-  }, [state.musicEnabled]);
+  }, [prefs.musicEnabled]);
 
   function tryStartMusic() {
     const el = audioRef.current;
-    if (el && state.musicEnabled) el.play().catch(() => {});
+    if (el && prefs.musicEnabled) el.play().catch(() => {});
   }
 
   const settingsButton = (
     <button
       onClick={() => {
         click();
-        dispatch({ type: "OPEN_SETTINGS" });
+        setOverlay("SETTINGS");
       }}
       aria-label="Settings"
       className="fixed top-4 right-4 z-40 p-2 rounded-full border border-brass-dim/70 bg-black/50 text-brass hover:text-brass-bright hover:border-brass transition-colors"
@@ -431,7 +446,7 @@ export default function App() {
 
   let content: JSX.Element;
 
-  if (state.screen === "SETTINGS") {
+  if (screen === "SETTINGS") {
     content = (
       <VoidScreen>
         <div className="parchment-card max-w-sm w-full p-7 font-body text-ink relative">
@@ -446,10 +461,10 @@ export default function App() {
                 key={size}
                 onClick={() => {
                   click();
-                  dispatch({ type: "SET_FONT_SIZE", size });
+                  setPrefs((p) => ({ ...p, fontSize: size }));
                 }}
                 className={`flex-1 py-2 border font-heading text-xs uppercase tracking-widest transition-colors ${
-                  state.fontSize === size
+                  prefs.fontSize === size
                     ? "bg-ink text-parchment border-ink"
                     : "border-ink/30 text-ink/70 hover:border-ink/60"
                 }`}
@@ -463,19 +478,19 @@ export default function App() {
           <div className="flex gap-2 mb-4">
             <button
               onClick={() => {
-                dispatch({ type: "SET_MUSIC_ENABLED", enabled: true });
+                setPrefs((p) => ({ ...p, musicEnabled: true }));
                 tryStartMusic();
               }}
               className={`flex-1 py-2 border font-heading text-xs uppercase tracking-widest transition-colors ${
-                state.musicEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
+                prefs.musicEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
               }`}
             >
               On
             </button>
             <button
-              onClick={() => dispatch({ type: "SET_MUSIC_ENABLED", enabled: false })}
+              onClick={() => setPrefs((p) => ({ ...p, musicEnabled: false }))}
               className={`flex-1 py-2 border font-heading text-xs uppercase tracking-widest transition-colors ${
-                !state.musicEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
+                !prefs.musicEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
               }`}
             >
               Off
@@ -483,16 +498,16 @@ export default function App() {
           </div>
           <label className="block mb-7">
             <span className="font-heading text-[0.65rem] uppercase tracking-widest text-ink-soft/70">
-              Volume — {Math.round(state.musicVolume * 100)}%
+              Volume — {Math.round(prefs.musicVolume * 100)}%
             </span>
             <input
               type="range"
               min={0}
               max={1}
               step={0.05}
-              value={state.musicVolume}
-              disabled={!state.musicEnabled}
-              onChange={(e) => dispatch({ type: "SET_MUSIC_VOLUME", volume: Number(e.target.value) })}
+              value={prefs.musicVolume}
+              disabled={!prefs.musicEnabled}
+              onChange={(e) => setPrefs((p) => ({ ...p, musicVolume: Number(e.target.value) }))}
               className="w-full mt-2 accent-blood"
             />
           </label>
@@ -501,19 +516,19 @@ export default function App() {
           <div className="flex gap-2 mb-4">
             <button
               onClick={() => {
-                dispatch({ type: "SET_SFX_ENABLED", enabled: true });
-                sfx.playClick(state.sfxVolume || 0.6);
+                setPrefs((p) => ({ ...p, sfxEnabled: true }));
+                sfx.playClick(prefs.sfxVolume || 0.6);
               }}
               className={`flex-1 py-2 border font-heading text-xs uppercase tracking-widest transition-colors ${
-                state.sfxEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
+                prefs.sfxEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
               }`}
             >
               On
             </button>
             <button
-              onClick={() => dispatch({ type: "SET_SFX_ENABLED", enabled: false })}
+              onClick={() => setPrefs((p) => ({ ...p, sfxEnabled: false }))}
               className={`flex-1 py-2 border font-heading text-xs uppercase tracking-widest transition-colors ${
-                !state.sfxEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
+                !prefs.sfxEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
               }`}
             >
               Off
@@ -521,16 +536,16 @@ export default function App() {
           </div>
           <label className="block mb-7">
             <span className="font-heading text-[0.65rem] uppercase tracking-widest text-ink-soft/70">
-              Volume — {Math.round(state.sfxVolume * 100)}%
+              Volume — {Math.round(prefs.sfxVolume * 100)}%
             </span>
             <input
               type="range"
               min={0}
               max={1}
               step={0.05}
-              value={state.sfxVolume}
-              disabled={!state.sfxEnabled}
-              onChange={(e) => dispatch({ type: "SET_SFX_VOLUME", volume: Number(e.target.value) })}
+              value={prefs.sfxVolume}
+              disabled={!prefs.sfxEnabled}
+              onChange={(e) => setPrefs((p) => ({ ...p, sfxVolume: Number(e.target.value) }))}
               className="w-full mt-2 accent-blood"
             />
           </label>
@@ -552,7 +567,7 @@ export default function App() {
           <button
             onClick={() => {
               click();
-              dispatch({ type: "CLOSE_SETTINGS" });
+              setOverlay(null);
             }}
             className="w-full px-5 py-2.5 bg-blood text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-blood-bright transition-colors"
           >
@@ -561,7 +576,7 @@ export default function App() {
         </div>
       </VoidScreen>
     );
-  } else if (state.screen === "RESEARCH") {
+  } else if (screen === "RESEARCH") {
     content = (
       <VoidScreen>
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto">
@@ -569,7 +584,7 @@ export default function App() {
           <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">How To</p>
           <h2 className="font-heading text-2xl font-bold mb-6">How to Play</h2>
           <div className="space-y-5">
-            {HOW_TO_PLAY.map((section) => (
+            {def.flavor.howToPlay.map((section) => (
               <div key={section.heading}>
                 <h3 className="font-heading text-sm uppercase tracking-widest text-blood-bright font-bold mb-1.5">
                   {section.heading}
@@ -581,7 +596,7 @@ export default function App() {
           <button
             onClick={() => {
               click();
-              dispatch({ type: "CLOSE_RESEARCH" });
+              setOverlay(null);
             }}
             className="mt-8 px-6 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
           >
@@ -590,7 +605,7 @@ export default function App() {
         </div>
       </VoidScreen>
     );
-  } else if (state.screen === "MENU") {
+  } else if (screen === "MENU") {
     content = (
       <VoidScreen>
         <div className="max-w-lg w-full text-center">
@@ -628,7 +643,7 @@ export default function App() {
             <button
               onClick={() => {
                 click();
-                dispatch({ type: "OPEN_RESEARCH" });
+                setOverlay("RESEARCH");
               }}
               className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
             >
@@ -637,7 +652,7 @@ export default function App() {
             <button
               onClick={() => {
                 click();
-                dispatch({ type: "OPEN_SETTINGS" });
+                setOverlay("SETTINGS");
               }}
               className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
             >
@@ -655,14 +670,14 @@ export default function App() {
         </div>
       </VoidScreen>
     );
-  } else if (state.screen === "PROLOGUE") {
+  } else if (screen === "PROLOGUE") {
     content = (
       <VoidScreen>
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
           <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-5">From a Private Journal</p>
           <div className="space-y-4 text-[1.05rem] leading-relaxed">
-            {PROLOGUE_TEXT.map((para, i) => (
+            {def.flavor.prologue.map((para, i) => (
               <p key={i} className={i === 0 ? "font-heading text-lg tracking-wide" : ""}>
                 {para}
               </p>
@@ -680,15 +695,15 @@ export default function App() {
         </div>
       </VoidScreen>
     );
-  } else if (state.screen === "CHAPTER_CARD") {
+  } else if (screen === "CHAPTER_CARD") {
     content = (
       <VoidScreen>
         <div className="text-center max-w-lg w-full">
           <OrnamentDivider />
           <h2 className="flicker font-display text-4xl sm:text-5xl font-bold text-parchment my-6">
-            {CHAPTER_CARD.title}
+            {def.flavor.chapterCard.title}
           </h2>
-          <p className="font-heading text-xs uppercase tracking-[0.4em] text-brass/80 mb-8">{CHAPTER_CARD.subtitle}</p>
+          <p className="font-heading text-xs uppercase tracking-[0.4em] text-brass/80 mb-8">{def.flavor.chapterCard.subtitle}</p>
 
           <p className="font-heading text-xs uppercase tracking-[0.3em] text-ash mb-3">Choose Your Difficulty</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
@@ -734,7 +749,7 @@ export default function App() {
               </button>
               <p className="text-ash/70 text-sm italic mt-2 max-w-xs mx-auto">
                 Jumps straight to the first choice that decides your track. Your reserves reset to zero
-                {state.difficulty === "HARD" ? ", your purse refills to its full starting sum," : ""} and any
+                {rules.enforceMoney ? ", your purse refills to its full starting sum," : ""} and any
                 option that depended on an earlier choice is out of reach for the rest of this run.
               </p>
             </div>
@@ -742,8 +757,8 @@ export default function App() {
         </div>
       </VoidScreen>
     );
-  } else if (state.screen === "ENDING") {
-    const ending = resolveEndingText(state);
+  } else if (screen === "ENDING") {
+    const ending = resolveEnding(def, state);
     const isFailure = state.endingId?.startsWith("ENDING_CRISIS");
     content = (
       <VoidScreen>
@@ -761,15 +776,15 @@ export default function App() {
             {ending.headline}
           </p>
           <p className="leading-relaxed text-[1.05rem] whitespace-pre-line">{ending.text}</p>
-          {ending.temperamentLabel && (
+          {ending.epilogueLabel && (
             <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-brass-dim font-semibold mt-4">
-              How It's Remembered: <span className="text-ink">{ending.temperamentLabel}</span>
+              How It's Remembered: <span className="text-ink">{ending.epilogueLabel}</span>
             </p>
           )}
 
           <div className="mt-7 pt-5 border-t border-ink/20">
             <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-3">Your Record</p>
-            <div className={`grid grid-cols-2 gap-3 text-sm ${state.difficulty === "HARD" ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}>
+            <div className={`grid grid-cols-2 gap-3 text-sm ${rules.enforceMoney ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}>
               <div>
                 <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Track</p>
                 <p className="font-semibold">{BRANCH_LABELS[state.activeBranch]?.split("· ")[1] ?? state.activeBranch}</p>
@@ -782,7 +797,7 @@ export default function App() {
                 <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Difficulty</p>
                 <p className="font-semibold">{DIFFICULTY_INFO[state.difficulty].label}</p>
               </div>
-              {state.difficulty === "HARD" && (
+              {rules.enforceMoney && (
                 <div>
                   <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Purse Left</p>
                   <p className="font-semibold">{state.money} Thaler</p>
@@ -790,10 +805,10 @@ export default function App() {
               )}
             </div>
             <div className="flex flex-wrap gap-4 mt-4">
-              {(["voltage", "biomass", "secrecy"] as Resource[]).map((r) => (
+              {RESOURCE_IDS.map((r) => (
                 <div key={r} className="flex-1 min-w-[5rem]">
                   <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">{RESOURCE_LABELS[r]}</p>
-                  <p className={`font-heading text-lg font-bold ${state.resources[r] <= CRISIS_THRESHOLD ? "text-blood" : "text-ink"}`}>
+                  <p className={`font-heading text-lg font-bold ${isInCrisis(r, state.resources[r]) ? "text-blood" : "text-ink"}`}>
                     {state.resources[r] > 0 ? `+${state.resources[r]}` : state.resources[r]}
                   </p>
                 </div>
@@ -814,21 +829,21 @@ export default function App() {
         </div>
       </VoidScreen>
     );
-  } else if (state.screen === "NEWSPAPER" && state.activeNewspaper) {
-    const paper = state.activeNewspaper;
+  } else if (screen === "INTERLUDE" && interlude) {
+    const paper = interlude;
     content = (
       <VoidScreen>
         <div className="max-w-xl w-full bg-parchment border-4 border-double border-ink p-6 sm:p-8 font-broadsheet text-ink shadow-2xl relative">
           <div className="flex items-center justify-between border-b-2 border-ink pb-2 mb-4">
-            <span className="text-xs uppercase tracking-[0.25em] font-bold">{paper.masthead}</span>
-            <span className="text-xs uppercase tracking-widest text-ink/60">{paper.type}</span>
+            <span className="text-xs uppercase tracking-[0.25em] font-bold">{paper.source}</span>
+            <span className="text-xs uppercase tracking-widest text-ink/60">{paper.kind}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold leading-tight mb-3">{paper.headline}</h2>
           <p className="font-body text-sm leading-relaxed columns-1 sm:columns-2 gap-6 whitespace-pre-line">{paper.bodyText}</p>
           <button
             onClick={() => {
               pageTurn();
-              dispatch({ type: "DISMISS_NEWSPAPER" });
+              dispatch({ type: "DISMISS_INTERLUDE" });
             }}
             className="mt-6 px-4 py-2 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
           >
@@ -837,7 +852,7 @@ export default function App() {
         </div>
       </VoidScreen>
     );
-  } else if (state.screen === "EXPERIMENT" && state.pendingRoll) {
+  } else if (screen === "ROLL" && state.pendingRoll) {
     const pct = Math.round(effectiveRollChance(state.pendingRoll, state.resources) * 100);
     content = (
       <VoidScreen>
@@ -873,7 +888,7 @@ export default function App() {
             onClick={() => {
               if (rolling) return;
               select();
-              if (state.sfxEnabled) sfx.playTension(state.sfxVolume);
+              if (prefs.sfxEnabled) sfx.playTension(prefs.sfxVolume);
               setSuspenseTick(0);
               setRolling(true);
             }}
@@ -888,7 +903,7 @@ export default function App() {
         </div>
       </VoidScreen>
     );
-  } else if (state.screen === "OUTCOME") {
+  } else if (screen === "OUTCOME") {
     const kindLabel =
       state.pendingOutcomeKind === "SUCCESS"
         ? "Experiment Successful"
@@ -908,7 +923,7 @@ export default function App() {
           <CornerFlourishes />
           <p className={`font-heading text-xs uppercase tracking-[0.3em] font-bold mb-5 ${kindColor}`}>{kindLabel}</p>
           <p className="text-[1.1rem] leading-relaxed italic">{state.pendingOutcomeText}</p>
-          {state.difficulty !== "EASY" &&
+          {!rules.showPreview &&
             state.pendingOutcomeStamps &&
             Object.values(state.pendingOutcomeStamps).some((d) => !!d) && (
               <div className="mt-5 pt-4 border-t border-ink/15">
@@ -935,8 +950,8 @@ export default function App() {
       </VoidScreen>
     );
   } else {
-    // state.screen === "NODE"
-    const node = NODES[state.currentNodeId];
+    // screen === "NODE"
+    const node = def.content.nodes[state.currentNodeId];
     content = (
       <div className="min-h-screen px-4 py-8 sm:py-12">
         {settingsButton}
@@ -949,7 +964,7 @@ export default function App() {
 
           <div className="parchment-card p-4 sm:p-5 mb-6 relative">
             <CornerFlourishes />
-            {state.difficulty === "HARD" && (
+            {rules.enforceMoney && (
               <div className="flex items-center gap-1.5 mb-3 text-brass-dim">
                 <CoinIcon className="w-3.5 h-3.5" />
                 <span className="font-heading text-[0.65rem] uppercase tracking-widest font-semibold">
@@ -979,25 +994,25 @@ export default function App() {
               <CornerFlourishes />
               <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">Fritz</p>
               <div className="flex flex-wrap gap-2">
-                {state.difficulty !== "EASY" && (
+                {rules.adviceEnabled && (
                   <button
-                    disabled={state.fritzAdviceUsesLeft <= 0 || state.fritzAdviceRevealed}
+                    disabled={state.adviceUsesLeft <= 0 || state.adviceRevealed}
                     onClick={() => {
                       unlock();
-                      dispatch({ type: "ASK_FRITZ_ADVICE" });
+                      dispatch({ type: "ASK_ADVICE" });
                     }}
                     className={`px-4 py-2 border font-heading uppercase text-xs tracking-widest transition-colors ${
-                      state.fritzAdviceUsesLeft <= 0 || state.fritzAdviceRevealed
+                      state.adviceUsesLeft <= 0 || state.adviceRevealed
                         ? "cursor-not-allowed border-ink/15 text-ink/40"
                         : "border-ink/40 text-ink hover:border-ink hover:bg-ink hover:text-parchment"
                     }`}
                   >
-                    {state.fritzAdviceRevealed
+                    {state.adviceRevealed
                       ? "Fritz Has Advised You"
-                      : `Ask Fritz's Advice (${state.fritzAdviceUsesLeft} left)`}
+                      : `Ask Fritz's Advice (${state.adviceUsesLeft} left)`}
                   </button>
                 )}
-                {!state.fritzFavorUsed && (
+                {!state.favorUsed && (
                   <button
                     onClick={() => {
                       click();
@@ -1012,7 +1027,7 @@ export default function App() {
                   onClick={() => {
                     click();
                     setCreatureReportLine(null);
-                    setGossipLine(getFritzGossip(state));
+                    setGossipLine(pickLine(gossipPool(def, state), Math.random()));
                   }}
                   className="px-4 py-2 border border-ink/40 text-ink font-heading uppercase text-xs tracking-widest hover:border-ink hover:bg-ink hover:text-parchment transition-colors"
                 >
@@ -1022,14 +1037,14 @@ export default function App() {
                   onClick={() => {
                     click();
                     setGossipLine(null);
-                    setCreatureReportLine(getFritzCreatureReport(state));
+                    setCreatureReportLine(pickLine(creatureReportPool(def, state), Math.random()));
                   }}
                   className="px-4 py-2 border border-ink/40 text-ink font-heading uppercase text-xs tracking-widest hover:border-ink hover:bg-ink hover:text-parchment transition-colors"
                 >
                   Creature Report
                 </button>
               </div>
-              {state.fritzAdviceRevealed && (
+              {state.adviceRevealed && (
                 <p className="mt-2 text-sm italic text-ink/70">
                   Fritz leans in and tells you, quietly, exactly what each choice below will cost you.
                 </p>
@@ -1047,20 +1062,20 @@ export default function App() {
                   Fritz, on the creature: "{creatureReportLine}"
                 </p>
               )}
-              {favorPanelOpen && !state.fritzFavorUsed && (
+              {favorPanelOpen && !state.favorUsed && (
                 <div className="mt-3 border-t border-ink/15 pt-3">
                   <p className="text-xs text-ink/80 mb-2">
                     Fritz can have one of your resources quietly improved — but only, he admits, at the behest of
                     someone he won't name, and the improvement always costs you elsewhere. Use it once, and choose carefully.
                   </p>
                   <div className="flex gap-2">
-                    {(["voltage", "biomass", "secrecy"] as Resource[]).map((r) => (
+                    {RESOURCE_IDS.map((r) => (
                       <button
                         key={r}
                         onClick={() => {
                           unlock();
                           setFavorPanelOpen(false);
-                          dispatch({ type: "USE_FRITZ_FAVOR", resource: r });
+                          dispatch({ type: "USE_FAVOR", resource: r });
                         }}
                         className="flex-1 px-3 py-2 border border-blood/50 text-blood font-heading uppercase text-xs tracking-widest hover:bg-blood hover:text-parchment transition-colors"
                       >
@@ -1081,11 +1096,11 @@ export default function App() {
 
             <div className="space-y-4">
               {node.options.map((option, i) => {
-                const locked = isOptionUnavailable(state.resources, state.money, state.difficulty, state.flags, option);
+                const locked = isOptionUnavailable(def, state, option);
                 const gateLocked = isOptionLocked(state.resources, option.gate);
                 const flagLocked = isOptionFlagLocked(state.flags, option.requiresFlag);
                 const affordLocked = !gateLocked && !flagLocked && locked;
-                const showStampPreview = state.difficulty === "EASY" || state.fritzAdviceRevealed;
+                const showStampPreview = rules.showPreview || state.adviceRevealed;
                 const armed = armedOptionIndex === i;
                 return (
                   <button
@@ -1132,12 +1147,12 @@ export default function App() {
                           <LockIcon className="w-3 h-3" /> {flagLocked ? option.requiresFlagHint ?? "REQUIRES AN EARLIER CHOICE" : "UNLOCKED BY AN EARLIER CHOICE"}
                         </span>
                       )}
-                      {state.difficulty === "HARD" && option.moneyCost ? (
+                      {rules.enforceMoney && option.moneyCost ? (
                         <span className={`stamp ${affordLocked ? "text-blood-bright border-blood-bright" : "text-brass-dim border-brass-dim"}`}>
                           <CoinIcon className="w-3 h-3" /> COST {option.moneyCost}
                         </span>
                       ) : null}
-                      {state.difficulty === "HARD" && option.moneyDelta ? (
+                      {rules.enforceMoney && option.moneyDelta ? (
                         <span className="stamp text-verdigris-bright border-verdigris-bright">
                           <CoinIcon className="w-3 h-3" /> +{option.moneyDelta}
                         </span>
@@ -1174,7 +1189,7 @@ export default function App() {
   return (
     <>
       {audioEl}
-      {content}
+      <div className="app-shell">{content}</div>
     </>
   );
 }
