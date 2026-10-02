@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Deliberately single-theme: a candlelit 1818 laboratory ledger. Inverting
+   this to a light palette would break the conceit, so we commit to dark
+   and declare it explicitly rather than by omission. */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    background-color: #0a0a0a;
+    background-image:
+      /* engraving hatch, carried across every screen rather than just the
+         card, so the whole game reads as printed on the same stock */
+      repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 5px),
+      radial-gradient(ellipse 60% 40% at 50% -10%, rgba(201, 48, 44, 0.13), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgba(201, 48, 44, 0.35);
+  }
+}
+
+@layer utilities {
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-family: "Cinzel", Georgia, serif;
+    font-weight: 600;
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 1px;
+    border: 1px solid currentColor;
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .parchment-card {
+    position: relative;
+    background-color: #EDEAE0;
+    /* halftone dot-grid, closer to a woodcut/engraving print texture than
+       the old fine parallel-line hatch */
+    background-image: radial-gradient(circle, rgba(10, 10, 10, 0.07) 1px, transparent 1px);
+    background-size: 4px 4px;
+    border: 1px solid rgba(10, 10, 10, 0.65);
+    box-shadow:
+      0 0 0 1px rgba(201, 48, 44, 0.2),
+      0 20px 60px -12px rgba(0, 0, 0, 0.85),
+      0 0 70px -22px rgba(201, 48, 44, 0.3);
+  }
+
+  .parchment-card::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(201, 48, 44, 0.22);
+    pointer-events: none;
+  }
+
+  .corner-flourish {
+    position: absolute;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 1.5px solid rgba(201, 48, 44, 0.55);
+  }
+  .corner-flourish.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .corner-flourish.tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+  .corner-flourish.bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+  .corner-flourish.br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .ornament-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(176, 141, 70, 0.7);
+  }
+  .ornament-divider::before,
+  .ornament-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+  }
+
+  .gauge-track {
+    background: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0 1px, transparent 1px 10%);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .flicker {
+      animation: flicker 6s ease-in-out infinite;
+    }
+    .tension-pulse {
+      animation: tension-pulse 0.7s ease-in-out infinite;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* Suspense is still conveyed via the cycling phrase text below the
+       percentage, so reduced-motion users lose only the pulsing, not the
+       sense that something is being held back. */
+    .tension-pulse {
+      opacity: 0.85;
+    }
+  }
+  @keyframes tension-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.06); opacity: 0.72; }
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; text-shadow: 0 0 18px rgba(201, 48, 44, 0.55), 0 0 40px rgba(201, 48, 44, 0.25); }
+    42% { opacity: 0.96; text-shadow: 0 0 14px rgba(201, 48, 44, 0.4), 0 0 28px rgba(201, 48, 44, 0.18); }
+    45% { opacity: 1; text-shadow: 0 0 22px rgba(201, 48, 44, 0.65), 0 0 46px rgba(201, 48, 44, 0.3); }
+    68% { opacity: 0.9; text-shadow: 0 0 10px rgba(201, 48, 44, 0.35); }
+    71% { opacity: 1; text-shadow: 0 0 18px rgba(201, 48, 44, 0.55), 0 0 40px rgba(201, 48, 44, 0.25); }
+  }
+}

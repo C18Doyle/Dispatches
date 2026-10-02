@@ -1,0 +1,28 @@
+{
+  "name": "frankenstein-jam",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "validate": "tsx scripts/validate.ts",
+    "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
+    "build:js": "node esbuild.config.mjs",
+    "build:audio": "mkdir -p dist/audio && cp audio/lament.mp3 dist/audio/lament.mp3",
+    "build": "npm run build:css && npm run build:js && npm run build:audio && node scripts/inline.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "esbuild": "^0.24.0",
+    "playwright": "^1.63.0",
+    "tailwindcss": "^3.4.14",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
