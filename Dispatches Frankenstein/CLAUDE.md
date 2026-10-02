@@ -11,7 +11,7 @@ Document-driven branching strategy game (React + TypeScript, built with esbuild 
 ## Hard rules
 1. The engine imports nothing outside its own folder: no React, no DOM or browser globals, no storage, no JSON, no `Math.random`/`Date`. Randomness arrives in the action (`CONDUCT_EXPERIMENT.roll`).
 2. State changes only through `reduce(def, state, action)`. UI code never assigns into state or mutates its arrays; it dispatches actions. UI-only state (settings, overlays, panels, audio) lives in React `useState`, never in `GameState`.
-3. Every JSON file must conform to `schema.ts`. Change the schema first, then the JSON, then `scripts/validate_schema.ts` if a field table changed.
+3. Every JSON file must conform to `schema.ts`. Change the schema first, then the JSON, then the field tables in `../packages/engine/tools/validate_schema.ts`.
 4. Rules and numbers belong in `config.json`, not in code. Resource bounds, crisis/failure thresholds, difficulty behaviour, interlude triggers and Fritz's favor are config. Do not hardcode resource names or ranges in the engine or UI.
 5. Content text lives in JSON only. No story text in `.ts`/`.tsx`.
 6. No external state libraries. `useReducer` and pure functions only.
