@@ -59,5 +59,5 @@ format change is intended, write the migration so the old fixtures still load; o
 - Test without pushing: `node tools/itch-push.mjs 1941 --dry-run`.
 
 ## Dependencies
-Dependabot opens weekly pull requests for the GitHub Actions and for each game's npm packages. CI decides if one
-is safe. Do not merge a major-version bump of React, jsdom or esbuild without reading the baseline result.
+Dependabot opens monthly pull requests (minor and patch only, grouped per folder) for the GitHub Actions and for each game's npm packages. CI decides if one
+is safe. Major versions (React 19, Tailwind 4, TypeScript 7) are skipped on purpose: upgrade them by hand, one game at a time, with the baseline result in front of you.
