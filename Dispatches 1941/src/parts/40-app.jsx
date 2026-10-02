@@ -68,11 +68,19 @@ function WW2CommandInner() {
     return playableStage(resolveStage(campaign, position, flags, meters), mode, favor);
   }, [campaign, position, flags, meters, mode, favor]);
 
-  // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as
-  // the choice applies its impact, which can drop or shift a meter-gated choice (and moves the roll
-  // odds the stage computes from meters). The outcome screen and proceed() therefore always read
-  // this snapshot, so the picked choice, its odds and the log all reflect what the player faced.
+  // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as the
+  // choice applies its impact, which can drop or shift a meter-gated choice and changes the roll odds
+  // the stage computes from meters. proceed() reads this snapshot, so the picked choice, its next
+  // node and the after-action log (end-screen odds, "passed over" counts) reflect what the player faced.
   const seenStage = outcomeStage || stage;
+  // What the outcome/battle-result screens render: exactly the live stage as before (so their text and
+  // labels are unchanged), except when the live list no longer holds the picked choice, then the snapshot.
+  const displayStage = (() => {
+    if (!outcomeStage) return stage;
+    const live = stage && stage.choices ? stage.choices[choiceIndex] : null;
+    const snap = outcomeStage.choices[choiceIndex];
+    return live && snap && live.label === snap.label ? stage : outcomeStage;
+  })();
 
   function pickCampaign(id, playMode = "open") {
     const camp = CAMPAIGNS[id];
@@ -386,16 +394,16 @@ function WW2CommandInner() {
           onHome={goHome}
         />
       )}
-      {screen === "outcome" && campaign && seenStage && (
+      {screen === "outcome" && campaign && displayStage && (
         <OutcomeScreen
           campaign={campaign}
-          stage={seenStage}
+          stage={displayStage}
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
           onProceed={proceed}
           soundOn={soundOn}
-          isLast={campaign.dynamic ? seenStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
+          isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
         />
       )}
       {screen === "demoWall" && campaign && (

@@ -5,12 +5,12 @@ Order is by dependency. Update the Status column as steps land (each step is its
 | # | Step | Depends on | Status |
 |---|---|---|---|
 | 3a | 1922: roll outcomes route to their own `next` (two endings become reachable) | none | done |
-| 3b | 1941, 1940: outcome screen and log use the stage the player faced | none | done (1941 baseline re-recorded; 1940 baseline pending) |
+| 3b | 1941, 1940: log and routing use the stage the player faced | none | done |
 | 6 | Shared UI-differential test kit (`packages/testkit`), one driver core, per-game config | 3a, 3b | done for 1914, 1922, 1941, 1940 |
-| 3c | Re-record baselines after 3a/3b (diffs inspected, then promoted) | 6 | 1922 done (no change), 1941 done; 1940 pending (slow) |
+| 3c | Re-record baselines after 3a/3b (diffs inspected, then promoted) | 6 | done: 1922 (no change), 1941, 1940 (masked proof in 1940 CLAUDE.md) |
 | 9 | Campaign-per-file split/assemble for 1941, 1922, 1940 (roundtrip-tested) | 3c | done (parts committed; build assembles; guard against editing the artifact) |
 | 8 | Content rules as machine checks (shared structural checks; 1941 gets validators) | 9 | done: `npm run check:structure` in 1941, 1940, 1922 (0 problems found); 1914 keeps its own 13 validators |
-| 4 | Shared engine: campaign primitives (`packages/engine/src/campaign.ts`), games' `logic.ts` become thin adapters, 1914 equivalence test | 3c | engine + equivalence test (140k comparisons vs 1914, 1922, 1941, 1940) done; 1941 and 1940 `logic.ts` moved onto it (1941 baseline identical; 1940 baseline verification running); 1922 still uses its own pick/impact helpers (kept for its validators) |
+| 4 | Shared engine: campaign primitives (`packages/engine/src/campaign.ts`), games' `logic.ts` become thin adapters, equivalence test | 3c | done for 1941 and 1940 (baselines verified), equivalence test covers 1914, 1922, 1941, 1940; 1922 keeps its own pick/impact helpers because its validators evaluate the data section alone |
 | 1 | Root test runner: fast and slow tiers across all games | 4, 8 | done: `npm test`, `npm run test:slow`, `node tools/run-all.mjs` |
 | 2 | CI workflow (files only, you push) | 1 | done: `.github/workflows/ci.yml` (fast on Linux + Windows, slow weekly/manual); not pushed |
 | 10 | Release scripts, engine version + changelog | 1 | done: `npm run release` per game, engine 0.2.0 + CHANGELOG |

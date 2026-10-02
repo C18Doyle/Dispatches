@@ -22867,11 +22867,19 @@ function WW2CommandInner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign, position, flags, meters, mode]);
 
-  // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as
-  // the choice applies its impact, which can drop or shift a meter-gated choice (and moves the roll
-  // odds the stage computes from meters). The outcome screen and proceed() therefore always read
-  // this snapshot, so the picked choice, its odds and the log all reflect what the player faced.
+  // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as the
+  // choice applies its impact, which can drop or shift a meter-gated choice and changes the roll odds
+  // the stage computes from meters. proceed() reads this snapshot, so the picked choice, its next
+  // node and the after-action log (end-screen odds, "passed over" counts) reflect what the player faced.
   const seenStage = outcomeStage || stage;
+  // What the outcome/battle-result screens render: exactly the live stage as before (so their text and
+  // labels are unchanged), except when the live list no longer holds the picked choice, then the snapshot.
+  const displayStage = (() => {
+    if (!outcomeStage) return stage;
+    const live = stage && stage.choices ? stage.choices[choiceIndex] : null;
+    const snap = outcomeStage.choices[choiceIndex];
+    return live && snap && live.label === snap.label ? stage : outcomeStage;
+  })();
 
   // `seed`, when provided (Grand Campaign only), is a { seedFlags, seedMeters } pair from
   // GRAND_CAMPAIGN_SEEDS — merged on top of the normal defaults rather than replacing them, so
@@ -23390,13 +23398,13 @@ function WW2CommandInner() {
           }}
         />
       )}
-      {screen === "battleResult" && campaign && seenStage && pendingBattle && pendingBattle.plan && (
+      {screen === "battleResult" && campaign && displayStage && pendingBattle && pendingBattle.plan && (
         <BattleSimulationScreen
           campaign={campaign}
           config={pendingBattle.config}
           plan={pendingBattle.plan}
           baseWeights={pendingBattle.baseWeights}
-          uncertain={seenStage.choices[pendingBattle.index].uncertain}
+          uncertain={displayStage.choices[pendingBattle.index].uncertain}
           result={pendingBattleResult}
           soundOn={soundOn}
           onResolve={(payload) => chooseOption(pendingBattle.index, payload)}
@@ -23430,16 +23438,16 @@ function WW2CommandInner() {
           history={history}
         />
       )}
-      {screen === "outcome" && campaign && seenStage && (
+      {screen === "outcome" && campaign && displayStage && (
         <OutcomeScreen
           campaign={campaign}
-          stage={seenStage}
+          stage={displayStage}
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
           onProceed={proceed}
           soundOn={soundOn}
-          isLast={campaign.dynamic ? seenStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
+          isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
           resolvedWeights={pendingBattleResult ? pendingBattleResult.weights : null}
           planCosts={pendingBattleResult ? pendingBattleResult.planCosts : null}
           battleNotes={pendingBattleResult ? pendingBattleResult.notes : null}
