@@ -1,1 +1,12 @@
-{"compilerOptions":{"strict":true,"target":"es2022","lib":["es2022"],"types":[],"noEmit":true},"files":["src/engine/schema.ts"]}
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es2022",
+    "lib": ["es2022"],
+    "types": [],
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "bundler"
+  },
+  "include": ["src/engine/**/*.ts"]
+}

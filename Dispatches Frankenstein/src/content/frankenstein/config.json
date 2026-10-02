@@ -1,0 +1,233 @@
+{
+  "id": "frankenstein",
+  "title": "Frankenstein: The Modern Prometheus",
+  "schemaVersion": 1,
+  "resources": [
+    {
+      "id": "voltage",
+      "label": "Voltage",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_VOLTAGE",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_VOLTAGE"
+    },
+    {
+      "id": "biomass",
+      "label": "Biomass",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_BIOMASS",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_BIOMASS"
+    },
+    {
+      "id": "secrecy",
+      "label": "Secrecy",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_SECRECY",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_SECRECY"
+    }
+  ],
+  "axes": [
+    {
+      "id": "voice",
+      "label": "Voice",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "bond",
+      "label": "Bond",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    }
+  ],
+  "epilogue": {
+    "axes": [
+      "voice",
+      "bond"
+    ],
+    "inferredRules": [
+      {
+        "when": {
+          "flag": "executedOrigin"
+        },
+        "delta": {
+          "voice": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "waldmanDebt"
+        },
+        "delta": {
+          "voice": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "constructSighted"
+        },
+        "delta": {
+          "voice": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "superConstruct"
+        },
+        "delta": {
+          "bond": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "galvanicOvercharge"
+        },
+        "delta": {
+          "voice": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "fritzPatron"
+        },
+        "delta": {
+          "bond": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "secrecy",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "voice": -1,
+          "bond": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "secrecy",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "voice": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "voltage",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "voice": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "voltage",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "voice": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "biomass",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "bond": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "biomass",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "bond": 1
+        }
+      }
+    ]
+  },
+  "difficulties": {
+    "EASY": {
+      "showPreview": true,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": false
+    },
+    "MEDIUM": {
+      "showPreview": false,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": true
+    },
+    "HARD": {
+      "showPreview": false,
+      "enforceMoney": true,
+      "startingMoney": 50,
+      "adviceEnabled": true
+    }
+  },
+  "defaultDifficulty": "MEDIUM",
+  "startBranch": "UNIVERSAL",
+  "interludeTriggers": [
+    {
+      "interludeId": "LORE_YEAR_WITHOUT_SUMMER",
+      "onEnterNodes": [
+        "2",
+        "2-DARK"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_WILLIAM_MURDERED",
+      "onEnterNodes": [
+        "8A",
+        "8B",
+        "8C",
+        "8B-SURGE"
+      ]
+    }
+  ],
+  "assist": {
+    "adviceLimit": 3,
+    "favors": {
+      "voltage": {
+        "voltage": 3,
+        "secrecy": -2
+      },
+      "biomass": {
+        "biomass": 3,
+        "secrecy": -2
+      },
+      "secrecy": {
+        "secrecy": 3,
+        "biomass": -1,
+        "voltage": -1
+      }
+    },
+    "favorFlag": "fritzPatron"
+  },
+  "skipToNodeId": "5"
+}

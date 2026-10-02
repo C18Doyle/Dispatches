@@ -101,6 +101,17 @@ function chooseAction(s: GameState, rng: () => number, tendency: number): Record
   }
 }
 
+/** Legacy CONDUCT_EXPERIMENT reads Math.random(); feed it the recorded roll so the new reducer sees the same dice. */
+function step_(s: GameState, a: RecordedAction): GameState {
+  const saved = Math.random;
+  if (a.type === "CONDUCT_EXPERIMENT") Math.random = () => a.roll;
+  try {
+    return reducer(s, toLegacy(a));
+  } finally {
+    Math.random = saved;
+  }
+}
+
 const runs: RecordedRun[] = [];
 const coverage: Record<string, number> = {};
 const bump = (k: string) => (coverage[k] = (coverage[k] ?? 0) + 1);
@@ -120,7 +131,7 @@ for (let seed = 1; seed <= RUNS; seed++) {
     const a = chooseAction(s, rng, tendency);
     if (!a) break;
     actions.push(a);
-    s = reducer(s, toLegacy(a));
+    s = step_(s, a);
     hashes.push(hashProjection(project(s)));
     if (a.type === "SKIP_TO_ACT2") bump("skipToAct2");
     if (a.type === "ASK_ADVICE") bump("adviceAsked");

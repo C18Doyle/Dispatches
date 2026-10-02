@@ -1,0 +1,305 @@
+{
+  "prologue": [
+    "Ingolstadt, 1818.",
+    "Your mother died of a fever no physician in Geneva could name, let alone cure, when you were eleven years old. You remember, with total clarity, the specific uselessness of every book in your father's library that week — none of them had an answer, only postures of grief dressed up as medicine. You have spent thirteen years since then deciding that death is not a mystery to be mourned but a mechanical failure to be corrected, and the university's lecture halls, for all their Latin and their caution, have taught you nothing that changes your mind.",
+    "You have told your family you are pursuing your studies. This much, at least, is true. What you have not told them is what those studies have become — three years of anatomy the faculty considers indecent, galvanic theory Professor Krempe forbade you to continue in his own lecture theatre, and the disused west tower of Wolfsberg Castle, granted to you for “independent study” by a Rector who has never once climbed the stairs to check on it.",
+    "Fritz waits for you there most nights already. He is a scholarship student two years below you, the son of a gravedigger's assistant from a village outside Munich, and he owes his place at the university — tuition, board, the coat on his back — entirely to a debt you quietly settled on his behalf in his first term. He has never asked why you did it. He has also never once, in eighteen months, refused you anything, which is either the most loyal thing you have ever been given or the most dangerous, and you have not yet decided which.",
+    "Tonight, the storm finally comes."
+  ],
+  "chapterCard": {
+    "title": "To the Castle",
+    "subtitle": "Chapter One"
+  },
+  "howToPlay": [
+    {
+      "heading": "The Logistical Triangle",
+      "body": "Every decision moves one or more of three resources — Voltage, Biomass, and Secrecy — each held between -10 and +10. Drive any of them to -10 and the work collapses outright, ending the campaign in failure regardless of where you stood in the story."
+    },
+    {
+      "heading": "Locked Options",
+      "body": "Some choices require a resource to already sit at or above a threshold before they can be taken — shown as \"REQUIRES [RESOURCE] ≥ [N]\" on the option itself, on every difficulty, whether or not you can currently see the numbers your other choices move. A few others unlock only after a specific earlier choice; those show a hint about what unlocks them instead of a threshold. Every node keeps at least one option that's never locked, so you're never fully shut out of continuing — you may just be choosing between fewer things."
+    },
+    {
+      "heading": "Fritz",
+      "body": "Fritz can help twice, in two different ways. On Medium or Hard, you may ask his advice up to three times per run — each use reveals that node's resource preview on demand, the same one Easy shows automatically. Separately, once per run on any difficulty, you may call in Fritz's Favor: a resource of your choice improved at the behest of a patron Fritz won't name, always at some cost elsewhere — voltage or biomass cost secrecy, and secrecy itself costs a little of the other two instead. Both are optional, and neither can be undone."
+    },
+    {
+      "heading": "Difficulty",
+      "body": "Easy shows exactly how each choice will move the Triangle before you commit. Medium hides that preview, so you're judging choices by their description and consequence rather than their arithmetic — three uses of Fritz's advice are all you get to see the numbers directly. Hard hides it too, and adds a fifth resource: fifty Thaler, spent on certain choices that require paying for materials, bribes, or silence, and shown as a \"COST\" badge on the option. A very small number of choices instead pay Thaler back — nowhere near enough to cover every costed option in one run, so on Hard, spending early on one branch's costs can leave you unable to afford another branch's later ones. That's deliberate: it's a real trade-off, not a trap, since every node still keeps a free option regardless."
+    },
+    {
+      "heading": "Experiments",
+      "body": "A handful of pivotal choices are framed as experiments rather than certainties — you'll be told the odds before committing, and the result is decided by a roll against that percentage. Most experiments only change the cost of what happens next; a few of the bigger ones also change what happens next, sending a clean success down a path a failure (or a safer option) never sees."
+    },
+    {
+      "heading": "Returning to the Laboratory",
+      "body": "After you've reached any ending once, the Chapter Card offers a second way in: \"Skip to the Laboratory,\" which jumps straight past Act I's non-branching opening to the first choice that actually decides your track. It resets your resources to zero, refills a Hard run's purse to its full starting sum, and forfeits the handful of options that only unlock from an early-game choice — a faster way back in, at the cost of a clean slate."
+    },
+    {
+      "heading": "The Newspaper",
+      "body": "Ingolstadt keeps its own record of your work. Lore and chapter-transition articles appear at fixed points in the story; crisis bulletins appear automatically whenever a resource drops to -7 or below, warning you before it's too late to change course."
+    },
+    {
+      "heading": "Endings",
+      "body": "The campaign resolves into one of twelve endings: nine narrative conclusions, three apiece across the Alchemical, Galvanic, and Prometheus tracks, and three collapse endings reserved for whichever resource you drive to ruin."
+    },
+    {
+      "heading": "Sending for Fritz",
+      "body": "Fritz waits outside each node rather than hovering over your shoulder — \"Send for Fritz\" calls him in. Once he's there, Advice and Favor work as described above, and Gossip is purely for color: a line of what he's heard or noticed, shaped by how the run has gone so far. It costs nothing and changes nothing."
+    },
+    {
+      "heading": "How It's Remembered",
+      "body": "How the story closes isn't only about which of the twelve endings you reach. A number of the run's more human choices — mercy or cruelty, honesty or betrayal, the way the campaign as a whole went — shape a closing line about what kind of thing you actually built, from sensitive and eloquent to crazed and vengeful. There's no meter to watch for it. It reveals itself only at the end."
+    }
+  ],
+  "gossip": [
+    {
+      "when": {
+        "flag": "executedOrigin"
+      },
+      "lines": [
+        "The hangman's assistant has been buying rounds he can't afford, sir. Best hope he stays a cheerful drunk and not a talkative one.",
+        "I still hear the gallows creak some nights. Might be the wind. Might not be."
+      ]
+    },
+    {
+      "when": {
+        "flag": "waldmanDebt"
+      },
+      "lines": [
+        "Clerk Waldman drinks alone at the Golden Hart these days. A man who's forged one seal starts wondering who else might ask him to forge another.",
+        "Waldman asked after you twice this week, sir — once for the university, and once, I think, for himself."
+      ]
+    },
+    {
+      "when": {
+        "flag": "constructSighted"
+      },
+      "lines": [
+        "Half the town still swears they saw it on the wall. The other half is starting to believe them.",
+        "A child at the market drew it in chalk today. Got the shoulders wrong. Got the eyes right, somehow."
+      ]
+    },
+    {
+      "when": {
+        "flag": "galvanicOvercharge"
+      },
+      "lines": [
+        "The whole west wing still smells of ozone, sir. I've stopped asking if that's normal.",
+        "The wiring hums even with the current off. I don't love sleeping under it, if I'm honest."
+      ]
+    },
+    {
+      "when": {
+        "flag": "superConstruct"
+      },
+      "lines": [
+        "It doesn't move like the sketches, sir. It moves like it's deciding whether to.",
+        "I keep waiting for it to look ordinary. It hasn't yet."
+      ]
+    },
+    {
+      "when": {
+        "resource": "secrecy",
+        "op": "<=",
+        "value": -4
+      },
+      "lines": [
+        "The magistrate's clerk was asking around the tavern about you by name last night. Not a good sign, that.",
+        "Two more neighbors have started crossing the street rather than pass the gate. Word is getting ahead of us."
+      ]
+    },
+    {
+      "when": {
+        "resource": "secrecy",
+        "op": ">=",
+        "value": 5
+      },
+      "lines": [
+        "It's been quiet, sir. Almost too quiet. I keep checking the road out of habit.",
+        "Not a whisper about us in town this week. Waldman must be earning his keep."
+      ]
+    },
+    {
+      "when": {
+        "resource": "voltage",
+        "op": "<=",
+        "value": -4
+      },
+      "lines": [
+        "The generator's coughing again. I patched what I could, but it wants a proper engineer, not me with a spanner.",
+        "Half the castle's candles are lit because the current keeps failing. It's romantic, if you squint."
+      ]
+    },
+    {
+      "when": {
+        "resource": "voltage",
+        "op": ">=",
+        "value": 5
+      },
+      "lines": [
+        "The tower drew lightning again last night. The porter swears the whole hill lit up blue.",
+        "I felt that last discharge in my teeth, sir. Truly."
+      ]
+    },
+    {
+      "when": {
+        "resource": "biomass",
+        "op": "<=",
+        "value": -4
+      },
+      "lines": [
+        "The vats are running thinner than I'd like. We'll need another source soon, and I'm running out of discreet ones.",
+        "The smell's easing off, at least. Small mercies."
+      ]
+    },
+    {
+      "when": {
+        "resource": "biomass",
+        "op": ">=",
+        "value": 5
+      },
+      "lines": [
+        "The tissue stock's growing faster than the ledgers can account for it. I don't ask where it all goes anymore.",
+        "The vats overflowed again. I mopped it up before the porter saw. Don't ask what it looked like."
+      ]
+    },
+    {
+      "when": {
+        "all": [
+          {
+            "difficulty": "HARD"
+          },
+          {
+            "stat": "money",
+            "op": "<=",
+            "value": 10
+          }
+        ]
+      },
+      "lines": [
+        "The purse is thin, sir. I'd think twice before spending on anything that isn't strictly necessary.",
+        "We're down to counting coins twice before we spend them. It wasn't always like this."
+      ]
+    },
+    {
+      "when": {
+        "branch": "ALCHEMICAL"
+      },
+      "lines": [
+        "The vats have their own rhythm now, sir. I swear they breathe when no one's watching.",
+        "Krempe asked after your dissection notes again. I told him you were still cataloguing."
+      ]
+    },
+    {
+      "when": {
+        "branch": "GALVANIC"
+      },
+      "lines": [
+        "The town's taken to calling this the lightning tower. Not affectionately, I think.",
+        "Every storm now, half of Ingolstadt watches our roofline instead of the sky."
+      ]
+    },
+    {
+      "when": {
+        "branch": "PROMETHEUS"
+      },
+      "lines": [
+        "The university's inquiries have a rhythm to them now — predictable, almost. Waldman's doing, mostly.",
+        "There's a great deal of paperwork protecting us these days, sir. I try not to think about who signed it."
+      ]
+    },
+    {
+      "when": {
+        "favorUsed": true
+      },
+      "lines": [
+        "I still don't know who your patron is, sir. I've stopped asking. Some debts are better left unnamed."
+      ]
+    },
+    {
+      "lines": [
+        "The porter's log says nothing unusual, sir, which these days feels like the most unusual thing of all.",
+        "Nothing new to report, Frankenstein. For once.",
+        "The town clock's been running slow all week. I blame the cold. Probably it's just old.",
+        "I find myself glancing at the west tower out of habit now, even on nights like this one, when there's nothing to see."
+      ]
+    }
+  ],
+  "epilogueReadings": {
+    "pos_pos": {
+      "label": "Eloquent & Longing",
+      "epilogue": "In the tellings that outlast the newspapers, the thing Victor built is rarely called a monster twice. Those who claim to have met it — a shepherd, a customs clerk, a widow who swears she is not lying — describe something that listens before it acts, that seems to grieve what little it ever broke, that is, more than anything, still looking for someone to talk to. If it is a monster, it is the kind stories eventually forgive."
+    },
+    "pos_neutral": {
+      "label": "Eloquent, Guarded",
+      "epilogue": "The legend that survives is a careful, complicated one — not a monster exactly, but not quite a man either, described by those who claim to have spoken with it as measured, watchful, and difficult to read. It seems to want something from the world it was given. No one who tells the story is entirely sure what."
+    },
+    "pos_neg": {
+      "label": "Eloquent & Vengeful",
+      "epilogue": "What travelers describe, when they describe it at all, is unsettling precisely because it is so reasonable — a low, patient voice explaining, in perfect detail, exactly what was done to it and exactly what it intends to do about that. It is not raving. That, more than anything else about it, is what keeps people awake afterward."
+    },
+    "neutral_pos": {
+      "label": "Watchful & Longing",
+      "epilogue": "The stories that travel furthest agree on very little except this: whatever Victor built wanted, above all, not to be alone. Witnesses describe it lingering near lit windows on cold nights, never entering, never quite leaving either — less a monster on the prowl than something homesick for a home it was never given."
+    },
+    "neutral_neutral": {
+      "label": "Ambiguous",
+      "epilogue": "History settles on no single account of the thing Victor built. Depending on who is asked, it was a marvel, an atrocity, or simply a rumor that outgrew its origins — and Victor himself, in the few private notes that survive him, never quite manages to decide either."
+    },
+    "neutral_neg": {
+      "label": "Watchful & Vengeful",
+      "epilogue": "The accounts that circulate longest are the unkind ones — a shape glimpsed doing exactly the kind of harm its maker taught it, indifferent to whether the harm was ever asked for. Whatever gentleness it may once have carried, the record that survives has no patience left for it."
+    },
+    "neg_pos": {
+      "label": "Ferocious & Longing",
+      "epilogue": "Every surviving account agrees the thing is dangerous. Fewer agree on why. A hunter who claims to have tracked it for a season insists it never attacked anyone who did not corner it first, and that twice, from a safe distance, he watched it simply sit and watch a village's lit windows until dawn — like something starving for a kind of company it had no way of asking for."
+    },
+    "neg_neutral": {
+      "label": "Ferocious, Unmoved",
+      "epilogue": "What reaches the newspapers is mostly teeth — a shape that moves fast, hits hard, and is gone before anyone can describe it twice the same way. Nobody bothers asking what it wants anymore. By the time the question would matter, it has usually already answered it with its hands."
+    },
+    "neg_neg": {
+      "label": "Ferocious & Vengeful",
+      "epilogue": "There is no gentler version of this story left to tell. What survives in the record is a thing that took every lesson Victor taught it about cruelty and returned each one, exactly, without interest in mercy or any memory of ever having asked for a different one."
+    }
+  },
+  "creatureReportLines": {
+    "pos_pos": [
+      "It listens more than it strikes, sir. I've started to think it wants a conversation more than a fight.",
+      "Whatever it becomes, I don't think it wants to face it alone. Watch how it lingers near the light."
+    ],
+    "pos_neutral": [
+      "It's careful with its words when it has them, sir. Watchful, though. I can't yet tell what it's waiting for.",
+      "Measured. That's the word I'd use for it. Whether that holds, I couldn't say."
+    ],
+    "pos_neg": [
+      "It reasons everything through, sir, calm as you like — which frightens me more than shouting would.",
+      "It doesn't rage. It explains. I think that's worse, somehow."
+    ],
+    "neutral_pos": [
+      "It keeps near the windows at night, sir. Not hunting. Just watching the lit ones.",
+      "I don't think it wants trouble. I think it wants somewhere to belong, and hasn't found it yet."
+    ],
+    "neutral_neutral": [
+      "Too early to say, sir. Could still go either way, the way I see it.",
+      "Hard to read it yet. Some nights it seems almost gentle. Others, I'm not so sure."
+    ],
+    "neutral_neg": [
+      "It's quieter than I'd like, sir. Quiet things have a way of deciding things on their own.",
+      "I've stopped trying to guess what it's thinking. I don't much like where my guesses land."
+    ],
+    "neg_pos": [
+      "It's dangerous, no question — but I've seen it stop short of a killing blow more than once. Like it's holding something back.",
+      "Quick to violence, sir, but slower to it than it could be. I think it's still deciding what it wants to become."
+    ],
+    "neg_neutral": [
+      "It moves fast and doesn't explain itself, sir. I've stopped asking why.",
+      "Efficient. Cold about it. I don't see much softness left in there, if there ever was."
+    ],
+    "neg_neg": [
+      "It's learned every lesson you taught it, sir, and I don't think it's forgotten a single cruel one.",
+      "I don't recognize what's under that roof anymore. I'm not sure you do either."
+    ]
+  }
+}
