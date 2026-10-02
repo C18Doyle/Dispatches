@@ -1,0 +1,17 @@
+{
+  "artifact": "src/App.jsx",
+  "partsDir": "src/parts",
+  "parts": [
+    { "name": "00-head" },
+    { "name": "10-campaign-german", "start": "^  german: \\{", "after": "^const CAMPAIGNS = \\{" },
+    { "name": "11-campaign-soviet", "start": "^  soviet: \\{" },
+    { "name": "12-campaign-allied", "start": "^  allied: \\{" },
+    { "name": "13-campaign-italy", "start": "^  italy: \\{" },
+    { "name": "20-registries-and-gallery", "start": "^const ARBITRARY_CSS = " },
+    { "name": "25-battle-subgame", "start": "^const BATTLE_ALLOCATION_CATEGORIES = " },
+    { "name": "30-warroom-and-maps", "start": "^function WarRoomDocOKW\\(" },
+    { "name": "40-select-briefing-end-screens", "start": "^function SelectScreen\\(" },
+    { "name": "45-dossiers-objectives", "start": "^const ADVISOR_DOSSIERS = \\{" },
+    { "name": "50-app", "start": "^function WW2CommandInner\\(" }
+  ]
+}

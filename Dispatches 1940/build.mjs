@@ -27,6 +27,19 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
+// src/parts/ is the editing surface; src/App.jsx is the artifact (the audit tools read it). Assemble before
+// building so an edit to a part cannot be left out of the bundle, and refuse if the artifact was
+// edited by hand instead.
+{
+  const splitCli = path.join(ROOT, "..", "packages", "testkit", "src", "split.mjs");
+  const run = (cmd) => execFileSync(process.execPath, [splitCli, cmd], { cwd: ROOT, stdio: "inherit" });
+  try {
+    run("check");
+  } catch {
+    process.exit(1);
+  }
+  run("assemble");
+}
 const DIST = path.join(ROOT, "dist");
 const BUILDS = path.join(ROOT, "builds");
 const ASSETS = path.join(ROOT, "assets");

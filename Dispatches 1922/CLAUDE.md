@@ -8,6 +8,12 @@ React 18 + Tailwind 3, esbuild. Four campaigns (`provisionalGov17`, `southRussia
 - `src/main.jsx`, `src/input.css`, `src/prelude.html`, `build.mjs` build. `tools/` validators (`check-*.js`, `walk-historical.js`, `monte-carlo.js`) and `tools/ui_differential.mjs`. `tests/*.js` older jsdom behaviour tests (need `bundle_test.js` = a copy of `dist/bundle.js` in the project root). `tests/baseline/ui/` recorded runs from the pre-refactor build.
 - `HANDOVER.md`, `VALIDATION_REPORT.md`, `CIVILWAR_EXPANSION_PLAN.md`, `IMPROVEMENT_RECOMMENDATIONS.md` content/history notes.
 
+## Editing surface: src/parts/ (not src/App.jsx)
+`src/App.jsx` is an assembled artifact (the validators, extractors and baselines read it). Edit the parts in `src/parts/`: `00-head-and-helpers`, one file per campaign (`10-campaign-southrussia`, `11-campaign-siberia`, `12-campaign-bolsheviks`, `13-campaign-provisionalgov17`), `20-data-exports`, `30-screens` (starts at the `// PREVIEW SCREENS` marker), `40-app`. A session that touches one campaign needs that one part plus this file.
+- `npm run build` assembles the parts into `src/App.jsx` first, and refuses if `src/App.jsx` is newer than every part (you edited the artifact by hand). Run `npm run split` to push such an edit back into the parts, or revert it.
+- `npm run assemble` / `npm run roundtrip` (proves split then assemble is byte-identical) are available on their own. The split points live in `split.config.json`; the tool is `../packages/testkit/src/split.mjs`.
+- Both the parts and the artifact are committed.
+
 ## Commands
 - `npm run build` writes `dist/index.html` (single playable file), `dist/bundle.js`, `dist/output.css`.
 - `npm run check` all data validators (flag values, continuity, advisor coverage, gates, bulletins, historical spine). Run before and after any content change.

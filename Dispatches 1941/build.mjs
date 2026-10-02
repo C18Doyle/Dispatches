@@ -47,6 +47,19 @@ function indexHtml(meta) {
 `;
 }
 
+// src/parts/ is the editing surface; src/App.jsx is the artifact. Assemble before building so an edit
+// to a part cannot be left out of the bundle, and refuse if the artifact was edited by hand instead.
+{
+  const splitCli = path.join(ROOT, "..", "packages", "testkit", "src", "split.mjs");
+  const run = (cmd) => execFileSync(process.execPath, [splitCli, cmd], { cwd: ROOT, stdio: "inherit" });
+  try {
+    run("check");
+  } catch {
+    process.exit(1);
+  }
+  run("assemble");
+}
+
 async function buildVariant(name, isDemo) {
   const outDir = path.join(DIST, name);
   mkdirSync(outDir, { recursive: true });

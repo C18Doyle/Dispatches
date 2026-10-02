@@ -8,7 +8,10 @@
     "typecheck": "tsc -p tsconfig.json",
     "check": "node tools/check-flag-values.js src/App.jsx && node tools/check-continuity.js src/App.jsx && node tools/check-advisor-coverage.js src/App.jsx && node tools/check-gates.js src/App.jsx && node tools/check-bulletins.js src/App.jsx && node tools/walk-historical.js src/App.jsx",
     "verify:baseline": "node ../packages/testkit/src/cli.mjs verify",
-    "test:routing": "node tests/routing.test.mjs"
+    "test:routing": "node tests/routing.test.mjs",
+    "split": "node ../packages/testkit/src/split.mjs split",
+    "assemble": "node ../packages/testkit/src/split.mjs assemble",
+    "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip"
   },
   "license": "UNLICENSED",
   "dependencies": {

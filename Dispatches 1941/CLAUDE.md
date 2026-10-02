@@ -8,6 +8,12 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 - `src/main.jsx`, `src/tailwind.css`, `build.mjs` build. `assets/maps/pacific-regions.json` (fetched at runtime), `audio/theme.mp3`, `tools/build_pacific_map_geometry.py` (map geometry pipeline).
 - `tests/baseline/ui/` recorded runs (24: 2 campaigns x 2 modes x 6 seeds). `tests/ui.config.mjs` configures the shared headless driver in `../packages/testkit`.
 
+## Editing surface: src/parts/ (not src/App.jsx)
+`src/App.jsx` is an assembled artifact (the validators, extractors and baselines read it). Edit the parts in `src/parts/`: `00-head`, one file per campaign (`10-campaign-japan`, `11-campaign-alliedpacific`), `20-registries-and-gallery`, `30-screens`, `40-app`. A session that touches one campaign needs that one part plus this file.
+- `npm run build` assembles the parts into `src/App.jsx` first, and refuses if `src/App.jsx` is newer than every part (you edited the artifact by hand). Run `npm run split` to push such an edit back into the parts, or revert it.
+- `npm run assemble` / `npm run roundtrip` (proves split then assemble is byte-identical) are available on their own. The split points live in `split.config.json`; the tool is `../packages/testkit/src/split.mjs`.
+- Both the parts and the artifact are committed.
+
 ## Commands
 - `npm run build` writes `dist/full` and `dist/demo` (demo = `process.env.DEMO_BUILD` defined true).
 - `npm run typecheck` checks `src/logic.ts` (App.jsx is not typed yet).

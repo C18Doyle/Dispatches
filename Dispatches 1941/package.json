@@ -7,7 +7,10 @@
   "scripts": {
     "build": "node build.mjs",
     "typecheck": "tsc -p tsconfig.json",
-    "verify:baseline": "node ../packages/testkit/src/cli.mjs verify"
+    "verify:baseline": "node ../packages/testkit/src/cli.mjs verify",
+    "split": "node ../packages/testkit/src/split.mjs split",
+    "assemble": "node ../packages/testkit/src/split.mjs assemble",
+    "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip"
   },
   "license": "UNLICENSED",
   "devDependencies": {

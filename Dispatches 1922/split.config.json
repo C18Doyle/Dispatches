@@ -1,0 +1,14 @@
+{
+  "artifact": "src/App.jsx",
+  "partsDir": "src/parts",
+  "parts": [
+    { "name": "00-head-and-helpers" },
+    { "name": "10-campaign-southrussia", "start": "^  southRussia: \\{", "after": "^export const CAMPAIGNS = \\{" },
+    { "name": "11-campaign-siberia", "start": "^  siberia: \\{" },
+    { "name": "12-campaign-bolsheviks", "start": "^CAMPAIGNS\\.bolsheviks = \\{" },
+    { "name": "13-campaign-provisionalgov17", "start": "^CAMPAIGNS\\.provisionalGov17 = \\{" },
+    { "name": "20-data-exports", "start": "^export \\{ modWeight, meterPct" },
+    { "name": "30-screens", "start": "^// PREVIEW SCREENS" },
+    { "name": "40-app", "start": "^const SAVE_KEY = " }
+  ]
+}

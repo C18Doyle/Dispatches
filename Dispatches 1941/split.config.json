@@ -1,0 +1,12 @@
+{
+  "artifact": "src/App.jsx",
+  "partsDir": "src/parts",
+  "parts": [
+    { "name": "00-head" },
+    { "name": "10-campaign-japan", "start": "^  japan: \\{", "after": "^const CAMPAIGNS = \\{" },
+    { "name": "11-campaign-alliedpacific", "start": "^  alliedPacific: \\{" },
+    { "name": "20-registries-and-gallery", "start": "^const ARBITRARY_CSS = " },
+    { "name": "30-screens", "start": "^function WarRoomScreen\\(" },
+    { "name": "40-app", "start": "^function WW2CommandInner\\(" }
+  ]
+}

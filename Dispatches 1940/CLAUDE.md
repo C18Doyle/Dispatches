@@ -7,6 +7,12 @@ React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 250 nodes, Easy / Sta
 - `src/logic.ts` the pure run logic (typed; no React/DOM/storage/sound/`Math.random`): choice resolution (roll, battle nudge, plan costs, flags, hard-mode ceilings, meters), log entry, next position, divergence-fork arrival, Führer-mode necessity rule. App.jsx calls it. Content is passed in, never imported.
 - `src/main.jsx`, `src/tailwind.css`, `build.mjs` build. `tools/` data audits (`npm run audit`), `tools/extract_campaigns.js` (loads CAMPAIGNS in Node), `tools/ui_differential.mjs` (behaviour baseline). `tests/baseline/ui/` recorded runs from the pre-refactor build. `docs/` devlog, specs, reports.
 
+## Editing surface: src/parts/ (not src/App.jsx)
+`src/App.jsx` is an assembled artifact (the validators, extractors and baselines read it). Edit the parts in `src/parts/`: `00-head`, one file per campaign (`10-campaign-german`, `11-campaign-soviet`, `12-campaign-allied`, `13-campaign-italy`), `20-registries-and-gallery`, `25-battle-subgame`, `30-warroom-and-maps`, `40-select-briefing-end-screens`, `45-dossiers-objectives`, `50-app`. A session that touches one campaign needs that one part plus this file.
+- `npm run build` assembles the parts into `src/App.jsx` first, and refuses if `src/App.jsx` is newer than every part (you edited the artifact by hand). Run `npm run split` to push such an edit back into the parts, or revert it.
+- `npm run assemble` / `npm run roundtrip` (proves split then assemble is byte-identical) are available on their own. The split points live in `split.config.json`; the tool is `../packages/testkit/src/split.mjs`.
+- Both the parts and the artifact are committed.
+
 ## Commands
 - `npm run build:nozip` writes `dist/full` and `dist/demo`. `npm run build` also zips into `builds/` and needs the `zip` CLI (absent on stock Windows).
 - `npm run audit` all data audits (reachability, advisor dates, pace text, outcome sign, battle balance, claims). Run before and after content changes.
