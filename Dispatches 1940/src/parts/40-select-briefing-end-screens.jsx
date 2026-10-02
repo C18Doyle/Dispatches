@@ -2713,7 +2713,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
   return (
     <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
       <div
-        className={`${paper} w-full max-w-2xl p-6 sm:p-8 relative overflow-hidden`}
+        className={`${paper} w-full max-w-[600px] p-6 sm:p-8 relative overflow-hidden`}
         style={campaignPaperStyle(campaign.id, campaign.accent)}
       >
         {campaign.dynamic && <WearWaterStains count={FUEL_STAIN_COUNT[fuelSev]} />}
@@ -3333,7 +3333,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   return (
     <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
       <div
-        className={`${paper} w-full max-w-2xl p-6 sm:p-8`}
+        className={`${paper} w-full max-w-[600px] p-6 sm:p-8`}
         style={campaignPaperStyle(campaign.id, campaign.accent)}
       >
         <div className="text-xs uppercase tracking-[0.25em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
@@ -3937,7 +3937,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
 
   return (
     <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
-      <div className={`${paper} w-full max-w-2xl p-6 sm:p-8`} style={campaignPaperStyle(campaign.id, campaign.accent)}>
+      <div className={`${paper} w-full max-w-[600px] p-6 sm:p-8`} style={campaignPaperStyle(campaign.id, campaign.accent)}>
         <div className="text-xs uppercase tracking-[0.25em] mb-1 opacity-70" style={labelStyle}>
           Battle Report
         </div>
@@ -4153,7 +4153,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
   const outcomeWithNote = outcomeNote ? eff.outcome + "\n\n" + outcomeNote : eff.outcome;
   return (
     <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
-      <div className={`${paper} w-full max-w-2xl p-6 sm:p-8`} style={campaignPaperStyle(campaign.id, campaign.accent)}>
+      <div className={`${paper} w-full max-w-[600px] p-6 sm:p-8`} style={campaignPaperStyle(campaign.id, campaign.accent)}>
         <Stamp text={campaignReportLabel(campaign.id, "outcome")} color={campaign.accent} campaignId={campaign.id} />
         {(campaign.id === "german" || campaign.id === "soviet") && (
           <div
@@ -4419,7 +4419,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
   return (
     <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
       <div
-        className={`${paper} w-full max-w-2xl p-6 sm:p-8 relative overflow-hidden`}
+        className={`${paper} w-full max-w-[600px] p-6 sm:p-8 relative overflow-hidden`}
         style={campaignPaperStyle(campaign.id, campaign.accent)}
       >
         {campaign.dynamic && <WearWaterStains count={FUEL_STAIN_COUNT[fuelSev]} />}

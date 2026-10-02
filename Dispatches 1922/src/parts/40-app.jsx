@@ -277,7 +277,7 @@ export function App() {
   }
 
   return (
-    <div className="w-full h-full min-h-screen font-sans">
+    <div className="w-full h-full min-h-screen font-sans" style={{ maxWidth: 600, margin: "0 auto", overflowX: "hidden" }}>
       <FontImports />
       <TextScaleStyle textSize={textSize} />
       {screen === "records" && (

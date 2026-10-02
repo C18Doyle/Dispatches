@@ -11,7 +11,7 @@
 //   - the page loads with no uncaught error and no console.error
 //   - something is rendered (non-trivial body text)
 //   - no horizontal scrolling (the mobile rule: container max-width 600px, overflow-x hidden)
-//   - the first content block under #root is at most 600px wide on desktop
+//   - on desktop the text sits in a column at most 600px wide (mobile-first: phones get the full width)
 //   - it can click through five buttons without an error, and the page keeps rendering
 // First run on a machine: npx playwright install chromium
 import { createServer } from "node:http";
@@ -77,14 +77,27 @@ async function checkGame(browser, game, vp) {
     if (overflow.scroll > overflow.client + 1) problems.push(`horizontal overflow: page is ${overflow.scroll}px wide in a ${overflow.client}px viewport`);
 
     if (vp.label === "desktop") {
-      const w = await page.evaluate(() => {
-        const root = document.getElementById("root") || document.body;
-        let el = root.firstElementChild;
-        // skip wrappers that only exist to hold one child
-        while (el && el.children.length === 1 && el.getBoundingClientRect().width > 600) el = el.firstElementChild;
-        return el ? Math.round(el.getBoundingClientRect().width) : null;
+      // How wide is the column the text actually sits in? (Backgrounds may be full-width; text must not be.)
+      const extent = await page.evaluate(() => {
+        let left = Infinity;
+        let right = -Infinity;
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const el = n.parentElement;
+          if (!n.textContent.trim() || !el || /^(SCRIPT|STYLE|NOSCRIPT)$/.test(el.tagName)) continue;
+          const cs = getComputedStyle(el);
+          if (cs.visibility === "hidden" || cs.display === "none") continue;
+          const range = document.createRange();
+          range.selectNodeContents(n);
+          for (const r of range.getClientRects()) {
+            if (r.width < 1 || r.height < 1) continue;
+            left = Math.min(left, r.left);
+            right = Math.max(right, r.right);
+          }
+        }
+        return right > left ? Math.round(right - left) : null;
       });
-      if (w !== null && w > 600) problems.push(`main container is ${w}px wide on desktop (max-width should be 600px)`);
+      if (extent !== null && extent > 600) problems.push(`text spans ${extent}px on desktop: the content column should be at most 600px wide`);
     }
 
     if (SHOTS) {

@@ -20,4 +20,4 @@ Rule for every step: all existing baselines stay green except where a step delib
 
 ## Pre-game setup round (2026-10)
 Done: shared browser smoke test (`tools/smoke-browser.mjs`, in CI on Linux); save-compatibility tests (Frankenstein, 1922, 1941; 1914 and 1940 keep no saves); release pipeline (`release.yml`, `tools/verify-release.mjs`, `tools/itch-push.mjs`, `itch.json`); `baseline:accept`; per-game CHANGELOGs; `docs/WORKFLOW.md`; Dependabot; actions bumped, npm cache, Ubuntu pinned; 1922 Monte Carlo rewritten on the real rules; data-readiness report.
-Open decisions: 1922 and 1940 are full-width on desktop (see `tests/browser-allowlist.json`); whether to start the JSON pilot (`docs/DATA_MIGRATION.md`); itch.io targets and `BUTLER_API_KEY`.
+Decided: 1922, 1940 and 1914 use a mobile-first column of at most 600px (the browser allowlist is now empty). Open decisions: whether to start the JSON pilot (`docs/DATA_MIGRATION.md`); itch.io targets and `BUTLER_API_KEY`.

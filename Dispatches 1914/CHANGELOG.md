@@ -6,6 +6,8 @@ Format: version or date, then Fixed / Changed / Added. A change that moves the U
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased (2026-10)
+### Changed
+- Desktop layout: the content column is now 600px wide (was 760px) and hides sideways overflow, matching the other games. Phones are unchanged.
 ### Fixed
 - Phone layout: the WAR RECORD card on the menu was wider than the screen (missing box-sizing), causing 20px of sideways scrolling at 375px. It now fits like the other cards.
 
