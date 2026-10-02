@@ -1,0 +1,11 @@
+{
+  "name": "dispatches-code",
+  "private": true,
+  "description": "Dispatches series monorepo: shared engine + test kit and one folder per game.",
+  "scripts": {
+    "install:all": "node tools/run-all.mjs --install",
+    "test": "node tools/run-all.mjs --fast",
+    "test:slow": "node tools/run-all.mjs --slow",
+    "test:engine": "node packages/engine/tests/campaign-equivalence.test.mjs"
+  }
+}

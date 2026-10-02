@@ -11,9 +11,9 @@ Order is by dependency. Update the Status column as steps land (each step is its
 | 9 | Campaign-per-file split/assemble for 1941, 1922, 1940 (roundtrip-tested) | 3c | done (parts committed; build assembles; guard against editing the artifact) |
 | 8 | Content rules as machine checks (shared structural checks; 1941 gets validators) | 9 | done: `npm run check:structure` in 1941, 1940, 1922 (0 problems found); 1914 keeps its own 13 validators |
 | 4 | Shared engine: campaign primitives (`packages/engine/src/campaign.ts`), games' `logic.ts` become thin adapters, 1914 equivalence test | 3c | engine + equivalence test (140k comparisons vs 1914, 1922, 1941, 1940) done; 1941 and 1940 `logic.ts` moved onto it (1941 baseline identical; 1940 baseline verification running); 1922 still uses its own pick/impact helpers (kept for its validators) |
-| 1 | Root test runner: fast and slow tiers across all games | 4, 8 | todo |
-| 2 | CI workflow (files only, you push) | 1 | todo |
-| 10 | Release scripts, engine version + changelog | 1 | todo |
-| 5 | New-game checklist and root docs | all | todo |
+| 1 | Root test runner: fast and slow tiers across all games | 4, 8 | done: `npm test`, `npm run test:slow`, `node tools/run-all.mjs` |
+| 2 | CI workflow (files only, you push) | 1 | done: `.github/workflows/ci.yml` (fast on Linux + Windows, slow weekly/manual); not pushed |
+| 10 | Release scripts, engine version + changelog | 1 | done: `npm run release` per game, engine 0.2.0 + CHANGELOG |
+| 5 | New-game checklist and root docs | all | done: `docs/NEW_GAME_CHECKLIST.md`, root CLAUDE.md |
 
 Rule for every step: all existing baselines stay green except where a step deliberately changes behaviour (3a, 3b), and those are re-recorded once and noted in the game's CLAUDE.md.

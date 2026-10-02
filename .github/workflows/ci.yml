@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1" # Mondays: also run the slow behaviour baselines
+
+jobs:
+  fast:
+    # Every push and PR: each game's test:fast plus the engine equivalence test, on Linux and Windows
+    # (the repo was built on Windows; most of the early breakage was path and shell differences).
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/run-all.mjs --install
+      - run: node tools/run-all.mjs --fast
+
+  slow:
+    # Manual runs and the weekly schedule only: the long behaviour baselines (1940's takes ~20 minutes).
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/run-all.mjs --install
+      - run: node tools/run-all.mjs --slow

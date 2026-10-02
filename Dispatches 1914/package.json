@@ -9,7 +9,9 @@
     "render": "node render-test.js",
     "roundtrip": "node roundtrip-test.mjs",
     "verify:baseline": "node ../packages/testkit/src/cli.mjs verify",
-    "test": "npm run build && npm run smoke && npm run render && npm run roundtrip && npm run verify:baseline"
+    "test": "npm run build && npm run smoke && npm run render && npm run roundtrip && npm run verify:baseline",
+    "test:fast": "npm test",
+    "release": "node ../packages/testkit/src/release.mjs"
   },
   "license": "UNLICENSED",
   "dependencies": {
@@ -18,5 +20,18 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
-  "private": true
+  "private": true,
+  "release": {
+    "build": "npm run build",
+    "variants": [
+      {
+        "name": "web",
+        "from": "dist",
+        "zip": "dispatches-1914-web.zip",
+        "include": [
+          "index.html"
+        ]
+      }
+    ]
+  }
 }

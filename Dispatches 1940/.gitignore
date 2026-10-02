@@ -18,3 +18,4 @@ scratch/
 
 # headless UI differential: recorded per run, only tests/baseline/ is tracked
 tests/ui-runs/
+releases/

@@ -2,3 +2,4 @@ node_modules/
 dist/
 tests/ui-runs/
 *_tmp.js
+releases/

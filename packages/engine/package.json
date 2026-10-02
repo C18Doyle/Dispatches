@@ -1,6 +1,6 @@
 {
   "name": "@dispatches/engine",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Shared, dependency-free engine for the Dispatches series. Consumed by path alias from each game; see CLAUDE.md.",

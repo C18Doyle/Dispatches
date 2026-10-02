@@ -20,7 +20,10 @@
     "split": "node ../packages/testkit/src/split.mjs split",
     "assemble": "node ../packages/testkit/src/split.mjs assemble",
     "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip",
-    "check:structure": "node tools/check-structure.mjs"
+    "check:structure": "node tools/check-structure.mjs",
+    "test:fast": "npm run build:nozip && npm run typecheck && npm run check:structure && npm run roundtrip && npm run check-reachability && npm run check-advisor-dates && npm run check-pace-text && npm run check-outcome-sign && npm run check-battle-balance",
+    "test:slow": "npm run build:nozip && npm run verify:baseline",
+    "release": "node ../packages/testkit/src/release.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {
@@ -34,5 +37,20 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "tone": "^15.1.22"
+  },
+  "release": {
+    "build": "npm run build:nozip",
+    "variants": [
+      {
+        "name": "full",
+        "from": "dist/full",
+        "zip": "dispatches-1940-full.zip"
+      },
+      {
+        "name": "demo",
+        "from": "dist/demo",
+        "zip": "dispatches-1940-demo.zip"
+      }
+    ]
   }
 }
