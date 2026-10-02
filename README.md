@@ -5,7 +5,7 @@ One folder per game. Each is a standalone project (own package.json, src/, scrip
 | Folder | Status |
 |---|---|
 | Dispatches Frankenstein | Refactored: pure engine in `src/engine/`, content in JSON, `npm test` green, baseline-verified. See its CLAUDE.md. |
-| Dispatches 1914 | Imported (split src/, validators, CLAUDE.md; the game is titled 1918 internally). JSX. |
+| Dispatches 1914 | Builds; logic layer already pure (reference shape); 24-run headless UI baseline; validators/smoke/render green (Ottoman gate fails on purpose). See its CLAUDE.md. |
 | Dispatches 1922 | Builds. Pure run logic in `src/logic.ts`; 48-run headless UI baseline; shipped crash fixed; validators green. Content still code in App.jsx. See its CLAUDE.md. |
 | Dispatches 1940 | Full source imported (src/App.jsx ~1.9 MB, build.mjs, tools, docs, maps). JSX; own audit scripts. |
 | Dispatches 1941 | Builds (full + demo). Pure run logic extracted to `src/logic.ts`; 24-run UI baseline; shipped crash fixed. Content still code inside App.jsx. See its CLAUDE.md. |

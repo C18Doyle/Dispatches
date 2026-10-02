@@ -3,11 +3,13 @@
  * the editing surface silently diverges from the artifact every validator reads.
  */
 import fs from "fs";
+import os from "os";
+import path from "path";
 import { execSync } from "child_process";
 
 const F = "dispatches-greatwar.jsx";
 const before = fs.readFileSync(F);
-fs.writeFileSync("/tmp/original.jsx", before);
+fs.writeFileSync(path.join(os.tmpdir(), "dispatches-1914-original.jsx"), before);
 
 execSync("node split.mjs", { stdio: "pipe" });
 execSync("node assemble.mjs", { stdio: "pipe" });
@@ -18,6 +20,7 @@ if (Buffer.compare(before, after) === 0) {
   process.exit(0);
 }
 fs.writeFileSync(F, before); // restore rather than leave a corrupted artifact
-console.log(`roundtrip: DIVERGED — ${before.length} bytes before, ${after.length} after. Original restored.`);
-execSync(`diff <(cat /tmp/original.jsx) <(cat ${F}) | head -20 || true`, { shell: "/bin/bash", stdio: "inherit" });
+let i = 0;
+while (i < Math.min(before.length, after.length) && before[i] === after[i]) i++;
+console.log(`roundtrip: DIVERGED — ${before.length} bytes before, ${after.length} after, first difference at byte ${i}. Original restored.`);
 process.exit(1);

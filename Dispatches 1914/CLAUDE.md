@@ -2,6 +2,15 @@
 
 Auto-loads each session. Read before touching the file.
 
+## Monorepo notes (added on import to Dispatches Code)
+
+- This is the reference shape for the series: the logic layer is already pure and separate. `src/50-registries` to `57-nodeids` (registries, meters, succession, hard mode, `resolveNode`, `chooseNext`, `walkSpine`) have no React/DOM, take an injectable `rng`, and read content only from `CAMPAIGNS`. `chooseNext(campaignId, choice, flags, meters, hardState, rng)` already honours per-roll `next`, `nextIf` on post-choice meters, and the hard-mode forced ending. The shared engine's "function returns the node" mode should be modelled on it.
+- No logic extraction was needed. A headless UI baseline was added instead: `npm run verify:baseline` (jsdom, ~20 s) plays 24 seeded runs (3 campaigns x 8 seeds) through `dist/bundle.js` and compares every step's page hash to `tests/baseline/ui`. Build first (`npm run build`).
+- `npm test` = build, smoke, render-test, roundtrip, verify:baseline. `npm run validate` (= `bash validate.sh`) is separate because it exits 1 on the deliberate Ottoman research gate.
+- The UI has no hard-mode switch yet, so hard mode is covered by `smoke.js` and `montecarlo.js`, not by the UI baseline.
+- `roundtrip-test.mjs` now uses the OS temp dir (it hardcoded `/tmp`, which failed on Windows).
+- Moving a campaign's text into JSON is not planned: nodes use functions of `flags`/`meters` for prose and gates.
+
 ## State
 
 Engine scaffold only. **No content. No UI.** Node sets are empty by design.

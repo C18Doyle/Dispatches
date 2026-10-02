@@ -1,18 +1,22 @@
 {
-  "name": "1918",
+  "name": "dispatches-1914",
   "version": "1.0.0",
-  "description": "",
-  "main": "_load.js",
+  "description": "Dispatches 1914 (internally titled 1918): the Great War from OHL, GQG and STAVKA.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node build.mjs",
+    "validate": "bash validate.sh",
+    "smoke": "node smoke.js",
+    "render": "node render-test.js",
+    "roundtrip": "node roundtrip-test.mjs",
+    "verify:baseline": "node tools/ui_differential.mjs verify dist/bundle.js",
+    "test": "npm run build && npm run smoke && npm run render && npm run roundtrip && npm run verify:baseline"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "dependencies": {
     "esbuild": "^0.28.2",
     "jsdom": "^30.1.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
-  }
+  },
+  "private": true
 }
