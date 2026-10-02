@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* App.jsx builds nearly all class names as static string literals, so Tailwind v4's
+   automatic content detection (scanning from this file's project root) picks them up without
+   an explicit @source directive. The one exception is the handful of dynamically-built
+   classNames (e.g. conditional ternaries choosing between two whole literal strings) — those
+   are still literal strings on each branch, just not textually adjacent, which v4's scanner
+   handles fine since it doesn't require classes to appear on one line. */

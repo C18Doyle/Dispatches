@@ -1,0 +1,4 @@
+Wrote /home/claude/dispatches-1940/tools/campaigns_extracted.js (campaigns: german, soviet, allied)
+
+checked 4 initiative/campaign combination(s) with a directional date claim.
+All directional date claims agree with their own computed dates.

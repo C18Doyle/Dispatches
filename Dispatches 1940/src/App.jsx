@@ -1,5 +1,17 @@
 import { useState, useEffect, useMemo, useRef, Component } from "react";
 import * as Tone from "tone";
+// Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
+// at runtime. A player who downloads the full/demo zip and opens index.html directly is using
+// the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
+// built from a plain file:// <audio src> are blocked by Chrome's CORS/opaque-origin rules — the
+// former throws outright ("URL scheme file is not supported"), the latter silently plays silence
+// ("outputs zeroes due to CORS access restrictions"). Inlining both as data straight into the JS
+// bundle sidesteps the restriction entirely (no cross-origin resource load happens at all) and
+// works identically whether the game is served over HTTP (itch.io's browser embed, the itch app)
+// or opened as a bare local file — which a paying customer who just unzips the download is
+// entirely likely to do.
+import THEME_MUSIC_DATA_URL from "../assets/theme.mp3";
+import REGIONS_GEOMETRY from "../assets/maps/regions.json";
 
 // ---------- SOUND ENGINE (default off; lazily initialized on user gesture) ----------
 let soundReady = false;
@@ -769,7 +781,7 @@ const CAMPAIGNS = {
               advisor: { name: "Halder", quote: "I have run every version of this calendar. None of them are good. This is the one we have left." },
               setFlags: { eastFront: "lateAutumn" },
               impact: { manpower: -2, fuel: -1, initiative: 2 },
-              next: "typhoon",
+              next: "rostov41",
               outcome:
                 "The harshest starting position this campaign can construct: no summer offensive, no encirclement victories, straight into mud and then snow with an invasion force that has not gained a single one of the advantages the historical June launch built before winter arrived. The same December Soviet counteroffensive that stopped the historical Typhoon twenty miles from Moscow now hits a force that has covered a fraction of the historical distance.",
             },
@@ -1626,16 +1638,27 @@ const CAMPAIGNS = {
                 historical: true,
                 setFlags: { eastFront: "kiev" },
                 impact: { manpower: 3, fuel: 0, initiative: -1 },
-                next: "typhoon",
+                next: "rostov41",
+                // Round 13 (Craig, relaying player feedback): the outcome text described the
+                // encirclement as generically "the largest in military history" without naming
+                // how it was actually sealed — reading as Army Group Center acting alone, which
+                // is only half the pincer. Verified (Wikipedia, Battle of Kiev (1941), 2026-09-24):
+                // Kleist's 1st Panzer Group, from Army Group SOUTH, forced a Dnieper crossing near
+                // Kremenchuk on 31 August, then drove north; Guderian's 2nd Panzer Group (Army
+                // Group Center) pushed south from the Desna the same day, its own headquarters
+                // running through Romny by mid-September — nearly overrun by a Soviet breakout
+                // attempt on the 18th-19th. The two pincers linked south of Lokhvytsia on 16
+                // September, closing the ring. Named here rather than left as the generic
+                // "envelopment" the reviewer's feedback flagged.
                 outcome:
-                  "The historical choice, and the high-end intelligence estimate turned out closer to true: roughly 660,000 Soviet troops were captured or killed — the largest encirclement in military history. But when Army Group Center resumed toward Moscow in October (Operation Typhoon), it still failed, stopped by mud, then cold, then fresh reserves nobody's intelligence had placed. Kiev didn't cost Moscow — Moscow was likely never taking either way on this timeline.",
+                  "The historical choice, and the high-end intelligence estimate turned out closer to true: roughly 660,000 Soviet troops were captured or killed — the largest encirclement in military history, and not Army Group Center's doing alone. Guderian's panzers pushed south while Kleist's Panzer Group, forcing its own Dnieper crossing far to the south at Kremenchuk, drove north to meet them; the two pincers closed south of Lokhvytsia on the 16th of September, with Romny — Guderian's own headquarters through the fighting — very nearly overrun by a Soviet breakout attempt two days later. But when Army Group Center resumed toward Moscow in October (Operation Typhoon), it still failed, stopped by mud, then cold, then fresh reserves nobody's intelligence had placed. Kiev didn't cost Moscow — Moscow was likely never taking either way on this timeline.",
               },
               {
                 label: "Split forces — partial support south, partial momentum toward Moscow",
                 advisor: { name: "Bock", quote: "If we must have both, let neither be starved entirely — though I confess I have never seen half a spearhead pierce anything." },
                 setFlags: { eastFront: "split" },
                 impact: { manpower: -2, fuel: 0, initiative: -1 },
-                next: "typhoon",
+                next: "rostov41",
                 outcome:
                   "Weakens both outcomes at once. A partial encirclement lets meaningful Soviet forces escape Kiev intact — trimming the historical prisoner haul by perhaps a third — while diverted panzers dilute whatever chance existed of reaching Moscow before autumn. No real-world staff study favored this as anything but the worst of both options.",
               },
@@ -1668,7 +1691,7 @@ const CAMPAIGNS = {
               advisor: { name: "Guderian", quote: "You have handed me the impossible with the fuel to attempt it. I will not pretend I am not tempted." },
               setFlags: { doubleEnvelopment: "committed" },
               impact: { manpower: 1, fuel: 0, initiative: 1 },
-              next: "typhoon",
+              next: "rostov41",
               outcome:
                 "The single best-case eastern position reachable in this campaign — but it's speculative fiction built from two stacked efficiencies, not a documented near-miss. Rail-gauge conversion and fuel logistics still cap how far any of this force can actually operate, banked time or not. The bonus here is real but modest, and Moscow still isn't reachable this year by any serious accounting — the reserves FHO couldn't count were real, and they were coming.",
             },
@@ -1677,7 +1700,7 @@ const CAMPAIGNS = {
               advisor: { name: "Bock", quote: "Prudence, gentlemen. The advantage will keep." },
               setFlags: { doubleEnvelopment: "hedged" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
-              next: "typhoon",
+              next: "rostov41",
               outcome:
                 "Playing it safe here just reproduces the historical Kiev-then-Typhoon result almost exactly, banked time or not. The lesson is a real one: two efficiencies stacked earlier only pay off if you're willing to spend them aggressively later — hedging wastes the advantage entirely. The advantage, it turns out, does not keep.",
             },
@@ -1739,7 +1762,7 @@ const CAMPAIGNS = {
               setFlags: { moscowRace41: "committed" },
               favor: -1,
               impact: { manpower: -2, fuel: -2, initiative: 1 },
-              next: "typhoon",
+              next: "rostov41",
               uncertain: [
                 {
                   // Historical Divergence Mode: the forkMoscowHolds fork doesn't force this
@@ -1757,7 +1780,7 @@ const CAMPAIGNS = {
                   weight: 100 - (modWeight(12, meters.fuel) + (flags.forkMoscowHolds ? 20 : 0)),
                   title: "The flank collapses before the center arrives",
                   impact: { manpower: -3, fuel: -1, initiative: -1 },
-                  next: "typhoon",
+                  next: "rostov41",
                   outcome:
                     "The likelier case, and the one every serious staff study of this scenario lands on: the exposed flank doesn't hold quietly while the center makes its final push. Counterattacking Soviet forces cut into rear-area supply columns already running on fumes, and the spearheads reaching for Moscow arrive weaker and later than the undivided version of this same gambit needed. Typhoon, when it comes, inherits a worse starting position than the historical version — Kiev's diversion at least secured the flank it spent.",
                 },
@@ -1769,9 +1792,51 @@ const CAMPAIGNS = {
               setFlags: { moscowRace41: "secured" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
-              next: "typhoon",
+              next: "rostov41",
               outcome:
                 "The disciplined version of the same gambit, and an honest accounting of its cost: securing the flank first is the correct military answer to the problem the flank actually poses, and it spends the one resource this entire departure from history depended on — time. Autumn's mud and winter's cold don't wait for a secured flank any more than they waited for the historical Kiev detour. What the delay buys in safety, it spends in the season, which this campaign has punished at every other node that tried to outrun it.",
+            },
+          ],
+        };
+        },
+        // Round 13 (Craig, relaying a player review's "railroading" complaint): every path
+        // through the German 1941 campaign funneled straight from the August Moscow-or-Kiev fork
+        // to December's "Typhoon Stalls" — eight separate `next: "typhoon"` sites, all of them
+        // silent on Army Group South's own autumn. Verified (Wikipedia, Battle of Rostov (1941),
+        // 2026-09-24): Kleist's 1st Panzer Army took Rostov-on-Don on 21 November; Timoshenko's
+        // Southern Front hit its exposed flank on the 27th; Rundstedt ordered a withdrawal to the
+        // Mius River rather than risk encirclement, Hitler countermanded it, and when Rundstedt
+        // executed the withdrawal anyway, Hitler relieved him on 1 December — one of the war's
+        // first dismissals over a retreat. His replacement, Reichenau, confirmed the identical
+        // order within days, backed by Halder, and Hitler let it stand. Inserted here as a new
+        // predecessor to `typhoon` (all eight sites above now point to this instead), so the
+        // German campaign gets a real southern-front beat in the same autumn it forces Moscow's.
+        get rostov41() {
+          return {
+          date: "NOVEMBER 1941",
+          title: "The Rostov Crisis",
+          historicalRecord: true,
+          situation:
+            "Nine hundred miles south of the argument still playing out in front of Moscow, Army Group South has just had its worst week of the war. Kleist's 1st Panzer Army took Rostov-on-Don on the 21st — the gateway to the Caucasus oil fields, and the largest Soviet city to fall so far. Six days later, Timoshenko's Southern Front hit the spearhead's exposed northern flank with a force Fremde Heere Ost hadn't placed on its board, and the army that took the city is now the one at risk of losing it back the hard way — encircled, not merely pushed out. Kleist is asking permission to fall back to the Mius River, forty miles west, before that stops being a choice available to him.",
+          choices: [
+            {
+              label: "Authorize the withdrawal — trade Rostov for the army",
+              advisor: { name: "Kleist", quote: "The city was never the objective that mattered. The army I have left inside it is." },
+              setFlags: { rostov41: "authorized" },
+              impact: { manpower: 1, fuel: 0, initiative: 0 },
+              next: "typhoon",
+              outcome:
+                "Not what happened — Hitler's actual first answer was no. Granting it here, before the argument that historically cost Rundstedt his command even starts, buys the identical retreat four days earlier and without the command crisis attached: 1st Panzer Army disengages in reasonable order, and nobody's career is spent proving what Kleist is already saying for free.",
+            },
+            {
+              label: "Refuse — Rostov holds, no retreat authorized",
+              advisor: { name: "Hitler", quote: "Ground taken is ground defended. I did not send an army to the Don to hand the city back on the strength of one bad week." },
+              historical: true,
+              setFlags: { rostov41: "refused", rundstedtRelieved41: true },
+              impact: { manpower: -1, fuel: 0, initiative: -1 },
+              next: "typhoon",
+              outcome:
+                "What actually happened, start to finish: refused here, and Rundstedt orders the withdrawal anyway on his own authority rather than watch the army encircled for a city. Hitler relieves him for it on the 1st of December — one of the war's first command dismissals over a retreat, and far from the last. His replacement, Reichenau, confirms the identical withdrawal order within days, backed by Halder, and Hitler lets it stand. Rostov is lost either way; refusing spent four days, a slice of the spearhead's strength, and Rundstedt's command; it bought nothing the earlier answer didn't already get for free.",
             },
           ],
         };
@@ -2091,6 +2156,9 @@ const CAMPAIGNS = {
               : "") +
             (flags.eastFront === "moscow"
               ? " Given how thin the reserve already is, staff officers are, atypically, openly asking whether a major offensive should be attempted at all this year."
+              : "") +
+            (flags.forkCaucasusThin
+              ? " For once, FHO's low-end estimate turns out to be the one worth trusting — early prisoner interrogations suggest the Don-bend reserves are thinner than even the cautious planners assumed."
               : ""),
           choices: (() => {
             const afterCaseBlue = "torch42";
@@ -2166,6 +2234,9 @@ const CAMPAIGNS = {
             "Anglo-American forces have landed across French North Africa. Vichy's forces there resist for barely two days before Admiral Darlan brokers a ceasefire and hands the territory to the Allies — a defection that ends the strategic purpose Vichy's 'Free Zone' in metropolitan France was created to serve. But one asset still sits entirely within reach: the French fleet at Toulon, some 200,000 tons of warships including capital units, anchored and waiting to see who reaches the harbor first." +
             (flags.forkTorchShift
               ? " The landing convoys themselves reportedly ran days behind their planned schedule — weather, by the same reports — which buys an unexpected few extra days for whatever happens at Toulon."
+              : "") +
+            (flags.forkCaucasusThin && flags.caseBlue === "both"
+              ? " The southern front, for what it's worth this week, is still holding both axes it was never supposed to be able to supply at once — the thinner Soviet reserve FHO flagged in June hasn't yet forced the choice between Stalingrad and the Caucasus that the historical overextension eventually did."
               : ""),
           choices: [
             {
@@ -2429,6 +2500,135 @@ const CAMPAIGNS = {
               next: "stalingradPocket",
               outcome:
                 "Essentially what happened, in stages — Alam Halfa in September, then grinding defense until Montgomery's October offensive broke the position. The supply estimates were the accurate ones: Panzerarmee Afrika attacked into prepared defenses on fumes, and the high-end estimates of British reinforcement were correct. The retreat that followed ran two thousand kilometers and never really stopped until Tunisia, where the army was finally lost entirely in May 1943 — a quarter-million Axis prisoners, a second Stalingrad that history remembers less.",
+              // Key Battle Subgame, battle #4 (round 15). Dev build only, same
+              // KEY_BATTLE_SUBGAME_ENABLED-gated spread as Omaha/Stalingrad — shipped builds keep
+              // this choice exactly as it already was (deterministic, straight to
+              // stalingradPocket). Models the actual push, the Battle of Alam Halfa (30 August –
+              // 5 September 1942) — the "in stages" the outcome text above already gestures at.
+              // All facts verified 2026-09-24/25 (Wikipedia: Battle of Alam el Halfa,
+              // Fliegerführer Afrika; historyofwar.org: Battle of Alam Halfa): Rommel's own
+              // after-action message cited "lack of fuel, Allied air superiority and the loss of
+              // surprise" for calling it off on 2 September — the same three pressures this
+              // subgame's categories and postures are built around. Order of battle: 93 Panzer
+              // III, 73 Panzer III Special (long 50mm), 10 Panzer IV, 27 Panzer IV Special (long
+              // 75mm) in the two panzer divisions, 243 mostly-obsolete tanks in the two Italian
+              // armoured divisions, 298 Luftwaffe + 460 Italian aircraft against a Desert Air
+              // Force that flew 167 bomber and 501 fighter sorties on 2 September alone.
+              concealRoll: true,
+              ...(KEY_BATTLE_SUBGAME_ENABLED
+                ? {
+                    keyBattleSubgame: {
+                      id: "elAlamein",
+                      title: "Order of Battle — The Push to Alam Halfa",
+                      flavor:
+                        "Sixty miles from Alexandria and this is the ground that decides it: sea on one flank, the Qattara Depression on the other, no room to maneuver around the British line the way every earlier battle in this desert allowed. The plan is a night march south around the minefields, then a hard turn north behind the Alam Halfa ridge before the sun comes up and the Desert Air Force owns the sky over open ground. Every vehicle in this army is already running on requisitioned and captured fuel that isn't being replaced at the rate it's being burned — what's decided here is how much of what's left drives, how much walks, what the Luftwaffe can put over the column, and how much gets held back rather than spent finding the gap.",
+                      effectiveness: { divisions: 2.0, armour: 2.4, air: 1.4, supply: 2.8 },
+                      categoryContext: {
+                        divisions:
+                          "Six divisions against their four sounds like advantage — until you count the Italian infantry formations lacking transport for a night march this fast. Navarini's corps can hold whatever the armor takes, provided it arrives in time to hold it.",
+                        armour:
+                          "Two hundred gun-armed tanks across both panzer divisions, including twenty-seven of the new long-barreled Panzer IV. Von Vaerst notes the 75mm can open engagement at ranges the British aren't yet equipped to answer — assuming the tanks themselves remain running.",
+                        air:
+                          "Two hundred ninety-eight Luftwaffe sorties possible, four hundred sixty more from the Italians, ranged against the Desert Air Force that has owned the sky since Gazala. Seidemann takes command of Fliegerführer Afrika this morning — the same morning the attack begins. A new commander inheriting a battle he didn't plan for, without promise he can hold it.",
+                        supply:
+                          "The quartermasters delivered half of what was requested. Whatever fuel sits in the tanks now is all this army has for the entire operation. Around minefields, each mile adds distance that won't be recovered from a depot that's already spread thin.",
+                      },
+                      flashups: {
+                        divisions: [
+                          "An Italian infantry column force-marches to keep the night schedule.",
+                          "A motorized company stops to help tow a truck stuck to its axles in soft sand.",
+                          "The line infantry digs in on ground the tanks have already crossed.",
+                          "A forward company reports contact with a position that wasn't on the map.",
+                          "Stragglers from a scattered platoon catch up with the column at first light.",
+                        ],
+                        armour: [
+                          "The panzer spearhead probes the minefield's edge, looking for a lane already cleared.",
+                          "A long-barreled Panzer IV opens fire at a range that catches the defenders off guard.",
+                          "A tank runs dry short of the ridge and is left where it stopped.",
+                          "The column loses an hour finding a way around ground that shouldn't have been mined.",
+                          "Two tanks brew up in quick succession crossing the same stretch of open sand.",
+                        ],
+                        air: [
+                          "A flight of Stukas works over the ridge ahead of the advance.",
+                          "Fairey Albacores drop flares over the column, turning night into a lit target.",
+                          "A dogfight breaks up high overhead without either side losing the sky.",
+                          "Wellingtons work the column by the light the flares left behind.",
+                          "Flak claims one of the escorting fighters on a low pass.",
+                        ],
+                        supply: [
+                          "A fuel truck is drained into the tanks still capable of moving forward.",
+                          "An ammunition column falls behind the pace the armor is setting.",
+                          "Engineers lift a string of mines from a lane the column needs by dawn.",
+                          "A water ration is cut in half for the men on the column's tail.",
+                          "A quartermaster reports the reserve dump is already thinner than briefed.",
+                        ],
+                      },
+                      reportTimes: { open: "1900", contact: "2130", cats: ["0100", "0430", "0730", "1000"], reserve: "1300", counter: "1500" },
+                      idleLines: {
+                        divisions: [
+                          "The infantry corps stays on its start line. Nothing is following the armor forward.",
+                          "No infantry moves up behind the spearhead. Whatever it takes, it holds alone.",
+                        ],
+                        armour: [
+                          "The panzer reserve sits fueled and idle behind the line. Nothing is finding the gap.",
+                          "No armored thrust goes forward. The night march has nothing leading it.",
+                        ],
+                        air: [
+                          "Nothing flies over the column. Whatever finds it in the open finds it alone.",
+                          "The airfields behind the line stay quiet through the advance.",
+                        ],
+                        supply: [
+                          "Nothing extra is loaded before the march. The column carries only what it already had.",
+                          "The reserve dump stays put, untouched, behind a line that needed it forward.",
+                        ],
+                      },
+                      verdicts: ["The Ridge Falls", "The Attack Runs Dry"],
+                      verdictGrades: {
+                        clean: "Every arm reached the ridge together, and the line in front of it simply wasn't strong enough to hold.",
+                        costly: "The ridge falls — but the fuel and the daylight it cost to take it are gone for good.",
+                        marginal: "The column stalls short of the ridge. The plan held together; the ground and the clock didn't.",
+                        total: "The column doesn't stall so much as burn out in the open, in full view of the Desert Air Force.",
+                      },
+                      counterattack: {
+                        category: "armour",
+                        severity: { deepMinefields: 1, airSuperiority: 1, hullDownLine: 2 },
+                        warn: {
+                          1: "British armour is massing behind the ridge, waiting rather than maneuvering.",
+                          2: "The whole of the ridge's dug-in armour and anti-tank line is waiting behind hull-down positions for the panzers to close the range.",
+                        },
+                        results: {
+                          repulsed: "The panzer screen answers the fire and holds its ground; the ridge stays contested.",
+                          heldAtCost: "The armor holds the ground it's on, barely, and half the tanks that held it won't move again today.",
+                          broke: "The dug-in guns break the panzer spearhead before it ever closes the range.",
+                          gaveGround: "The armor pulls back off the ridge's open ground rather than fight the gun line at close range.",
+                        },
+                      },
+                    },
+                    uncertain: [
+                      {
+                        // Slightly under a coin flip, matching Rommel's own after-action
+                        // reasoning (fuel, air superiority, lost surprise) rather than the node's
+                        // own "essentially what happened" framing a plain failure — the subgame
+                        // exists to let a well-run plan beat those odds the way the historical
+                        // attempt, with its accurate British estimates, could not.
+                        weight: modWeight(45, meters.fuel),
+                        title: "The Panzers Break the Ridge",
+                        setFlags: { alameinPush: "breakthrough" },
+                        impact: { manpower: 1, fuel: 0, initiative: 1 },
+                        outcome:
+                          "What Rommel's own plan called for and the real attempt, on fumes and against accurate British estimates, could not deliver: the ridge falls before the buildup Montgomery was banking on ever completes. Sixty miles from Alexandria becomes the war's actual hinge rather than its high-water mark — the retreat that historically ran two thousand kilometers to Tunisia never has to start.",
+                      },
+                      {
+                        weight: 100 - modWeight(45, meters.fuel),
+                        title: "The Attack Runs Dry",
+                        setFlags: { alameinPush: "stalled" },
+                        impact: { manpower: -3, fuel: -2, initiative: -1 },
+                        outcome:
+                          "The fuel arithmetic Rommel cited in his own after-action message catches this attempt exactly where it caught the historical one: stalled short of the ridge, in the open, under a sky the Desert Air Force never stopped owning. What follows is the retreat the outer choice already describes — two thousand kilometers, ending in Tunisia.",
+                      },
+                    ],
+                  }
+                : {}),
             },
             {
               label: "Halt and dig in at El Alamein — make the British come to you",
@@ -2480,6 +2680,132 @@ const CAMPAIGNS = {
               next: "reconstituted",
               outcome:
                 "This is what General Paulus actually requested, and Hitler refused it, ordering the army to hold as a 'fortress' instead. Later wargaming suggests a breakout attempted before the encirclement fully solidified had real odds of extracting a meaningful fraction of the force — a window that closed within days. The airlift numbers everyone would later argue about become irrelevant if the army simply isn't in the pocket.",
+              // Key Battle Subgame, battle #3 (round 15). Dev build only, same
+              // KEY_BATTLE_SUBGAME_ENABLED-gated spread as Omaha — shipped builds keep this choice
+              // exactly as it already was (deterministic, straight to reconstituted). Built on
+              // the counterfactual breakout Paulus actually requested and Hitler refused, in the
+              // first days after Uranus closed — before the pocket's ring hardened, and weeks
+              // before Manstein's real relief attempt (Operation Winter Storm) ran into the fuel
+              // wall that later doomed it. All facts verified 2026-09-24 (Wikipedia: Operation
+              // Winter Storm, Hans-Valentin Hube, Walther von Seydlitz-Kurzbach, Martin Fiebig):
+              // Colonel Wilhelm Adam's own account of the December relief attempt records that
+              // "the 6th Army tanks only had fuel for 30 km" before needing more flown in, against
+              // a gap to Kirchner's LVII Panzer Corps that never closed below 48 km — the same
+              // fuel arithmetic a breakout attempted here would face early rather than late.
+              concealRoll: true,
+              ...(KEY_BATTLE_SUBGAME_ENABLED
+                ? {
+                    keyBattleSubgame: {
+                      id: "stalingrad",
+                      title: "Order of Battle — The Breakout West",
+                      flavor:
+                        "The ring has closed, but it hasn't set. Staff estimates of the trapped strength still range from 200,000 to well over that, the same uncertainty the airlift planners are about to build their own numbers on — but for a breakout ordered now, in these first days, the harder number is fuel: whatever isn't already inside the pocket isn't coming, and every kilometer west spends it. What's decided here is how the army moves while it still can — how much of the panzer reserve leads the way west, how much of the infantry mass comes with it, what the Luftwaffe can fly in over the column, and how much fuel and ammunition gets carried forward instead of destroyed in place before the retreat starts.",
+                      effectiveness: { divisions: 2.0, armour: 2.2, air: 1.6, supply: 3.0 },
+                      categoryContext: {
+                        divisions:
+                          "Most of the army's remaining infantry divisions could march out under their own power — if movement happens before the ring tightens completely. The transport shortage means a choice: what the men can carry comes, what they can't gets left on the ground they're standing on.",
+                        armour:
+                          "Panzer strength that survived Uranus remains concentrated enough to lead westward, but fuel is absolute. Hube would rather spend it driving than watching captured tanks burn. Every kilometer driven is a kilometer not coming back from a supply line that can't resupply.",
+                        air:
+                          "VIII Fliegerkorps can cover a moving column the way it's covered the city. Fiebig made clear to Berlin that flying cargo into a static pocket is a different problem than providing cover for a column breaking out. Different problem. Different outcomes.",
+                        supply:
+                          "This calculation decides it, not enemy action. Every wagon, truck, fuel can loaded before the order becomes something this army carries on the march. Everything destroyed in place to deny the enemy is lost to this army a hundred kilometers from here.",
+                      },
+                      flashups: {
+                        divisions: [
+                          "A column of infantry forms up in the dark, packs as heavy as a man can carry.",
+                          "A rearguard company digs in behind the retreating column's line of march.",
+                          "Stragglers from a scattered platoon fall in with the nearest formed unit.",
+                          "An officer redistributes ammunition from a company that's run short.",
+                          "The column halts twice in an hour for men who can't keep the pace.",
+                        ],
+                        armour: [
+                          "The panzer screen probes west, looking for the softest line to push through.",
+                          "A tank runs dry a kilometer short of the fuel dump and is towed rather than abandoned.",
+                          "The armored spearhead brushes aside a blocking position without slowing.",
+                          "Two tanks collide in the dark on a road never meant for a night march.",
+                          "The lead company reports open ground ahead — for now.",
+                        ],
+                        air: [
+                          "A flight of transports drops canisters near the marching column's last reported position.",
+                          "Fighters sweep the column's line of march, looking for trouble before it arrives.",
+                          "A supply drop scatters wide of the column in the dark and is only partly recovered.",
+                          "Soviet aircraft find a stretch of open road and the column pays for it.",
+                          "The airfield behind the line launches one more sortie than the schedule allows.",
+                        ],
+                        supply: [
+                          "A fuel can is siphoned from a truck that won't be moving again to one that will.",
+                          "Engineers rig the depot for demolition, then unrig half of it when the order changes.",
+                          "A horse-drawn column falls behind the motorized one and is left to catch up on its own.",
+                          "The last ammunition train west is loaded past its rated capacity and moves anyway.",
+                          "A quartermaster argues, and loses, for five more minutes of loading time.",
+                        ],
+                      },
+                      reportTimes: { open: "0500", contact: "0620", cats: ["0730", "0900", "1030", "1200"], reserve: "1400", counter: "1600" },
+                      idleLines: {
+                        divisions: [
+                          "The infantry mass stays where it was briefed to stay. Nobody is marching yet.",
+                          "No column forms up. The order hasn't reached the men who'd have to carry it out.",
+                        ],
+                        armour: [
+                          "The panzer reserve sits fueled and idle. Nothing is leading anybody west.",
+                          "No armored screen goes forward. The column, if there is one, moves without cover.",
+                        ],
+                        air: [
+                          "Nothing flies over the line of march. Whatever finds the column finds it alone.",
+                          "The airfields stay quiet. No cover, no resupply drop, nothing overhead at all.",
+                        ],
+                        supply: [
+                          "Nothing extra is loaded before the march. The column carries only what it already had.",
+                          "The depots are neither stripped nor destroyed. They're simply left, whole, behind the line.",
+                        ],
+                      },
+                      verdicts: ["The Army Marches Out", "The Column Is Run to Ground"],
+                      verdictGrades: {
+                        clean: "Every arm moved together, and the ring wasn't hard enough yet to stop it.",
+                        costly: "The army gets out — but the ground it crossed to do it cost more than the plan allowed for.",
+                        marginal: "The column stalls short of open country. The plan held together; the ring, this time, held tighter.",
+                        total: "The column doesn't stall so much as come apart on the march.",
+                      },
+                      counterattack: {
+                        category: "divisions",
+                        severity: { ringHardening: 2, softSpot: 1, deepWinter: 1 },
+                        warn: {
+                          1: "Soviet cavalry is probing the column's flank as it moves.",
+                          2: "A Soviet mobile corps, freed up from closing the ring, is coming in against the column's flank and rear in strength.",
+                        },
+                        results: {
+                          repulsed: "The flank guard throws the attack back and the column keeps moving.",
+                          heldAtCost: "The flank holds, barely, and the rearguard that held it is nearly used up.",
+                          broke: "The attack breaks into the column's rear before the flank guard can stop it.",
+                          gaveGround: "The rearguard falls back into the column rather than fight it out, and the march loses its order doing it.",
+                        },
+                      },
+                    },
+                    uncertain: [
+                      {
+                        // Neutral base slightly better than a coin flip, matching the node's own
+                        // outcome text ("real odds of extracting a meaningful fraction") without
+                        // overstating it as a sure thing — the ring is soft, not absent.
+                        weight: modWeight(55, meters.fuel),
+                        title: "The army marches out",
+                        setFlags: { stalingradBreakout: "escaped" },
+                        impact: { manpower: 3, fuel: 0, initiative: 0 },
+                        outcome:
+                          "The order goes out before the ring has fully hardened, and it works — not cleanly, not without cost, but Sixth Army comes out of the pocket as an army rather than a surrender roll three months later. What Paulus actually requested, and was actually refused, here gets the chance the real war never tested it against.",
+                      },
+                      {
+                        weight: 100 - modWeight(55, meters.fuel),
+                        title: "The column is run to ground",
+                        setFlags: { stalingradBreakout: "destroyed" },
+                        next: "easternCollapse1943",
+                        impact: { manpower: -4, fuel: -1, initiative: -1 },
+                        outcome:
+                          "The fuel arithmetic that would strand Manstein's own relief column three weeks later catches this breakout earlier and just as completely — a column in the open, without the pocket's own perimeter to fall back on, is not obviously safer than a fortress that at least has walls. What's left of Sixth Army is run down in the snow rather than starved in the ruins, a worse end reached by a different road, and Army Group South's line loses the same divisions either way.",
+                      },
+                    ],
+                  }
+                : {}),
             },
             meters.manpower <= -4
               ? {
@@ -2521,7 +2847,8 @@ const CAMPAIGNS = {
           title: "The Eastern Front Collapses",
           historicalRecord: false,
           situation:
-            "The compounding losses since 1941 leave Sixth Army's destruction the blow the front can't absorb. Army Group South's line disintegrates faster than any historical retreat — this isn't the slow 1943–45 grind of the real war, it's a rout, and the reports arriving hourly can't even agree where the front line currently is. There's no Kursk to fight here and no long buildup to Normandy on the historical terms: the war in the east is effectively lost more than two years before Berlin in fact fell in 1945.",
+            "The compounding losses since 1941 leave Sixth Army's destruction the blow the front can't absorb. Army Group South's line disintegrates faster than any historical retreat — this isn't the slow 1943–45 grind of the real war, it's a rout, and the reports arriving hourly can't even agree where the front line currently is. There's no Kursk to fight here and no long buildup to Normandy on the historical terms: the war in the east is effectively lost more than two years before Berlin in fact fell in 1945." +
+            (flags.stalingradBreakout === "destroyed" ? keyBattleEcho("stalingrad", flags) : ""),
           choices: [
             {
               label: "Order a fighting withdrawal — try to shorten the line and save what's left",
@@ -2645,7 +2972,8 @@ const CAMPAIGNS = {
           historicalRecord: false,
           situation: `Sixth Army wasn't lost at Stalingrad in this timeline — its survivors, reorganized, give the southern front real divisions the historical record never had at this point. Fuel reserves are ${
             meters.fuel <= -2 ? "critically low" : meters.fuel <= 0 ? "thin" : "holding steady"
-          }. Two live problems compete for those divisions: the salient at Kursk, where air reconnaissance shows Soviet fortification on a scale nobody has seen before, and Italy, where every intelligence channel agrees an armistice is coming — the estimates disagree only on whether it's weeks or months away.`,
+          }. Two live problems compete for those divisions: the salient at Kursk, where air reconnaissance shows Soviet fortification on a scale nobody has seen before, and Italy, where every intelligence channel agrees an armistice is coming — the estimates disagree only on whether it's weeks or months away.` +
+            (flags.stalingradBreakout === "escaped" ? keyBattleEcho("stalingrad", flags) : ""),
           choices: [
             {
               label: "Reinforce Kursk — launch a larger Operation Citadel with the extra divisions",
@@ -2739,7 +3067,7 @@ const CAMPAIGNS = {
           title: "Kursk — Strike Early or Wait",
           historicalRecord: true,
           situation:
-            "A visible Soviet-prepared salient sits at Kursk, and the intelligence problem, this time, isn't finding the enemy — it's believing what you can see. Air reconnaissance and signals intercepts show fortification in depth that exceeds anything previously encountered: minefield densities estimated at up to 2,500 anti-personnel and 2,200 anti-tank mines per kilometer of front in key sectors, anti-tank gun belts arranged in mutually supporting layers, and defensive zones extending back 100 kilometers or more.\n\nManstein wants to strike as soon as possible, before this system finishes maturing. Hitler wants to wait for new Panther tanks to reach strength first — but the Panthers arriving now have serious mechanical reliability problems, including engine fires, that no amount of waiting fully resolves.\n\nWhat nobody's estimate includes: the Soviets know you're coming, know roughly where, and are being fed elements of your own planning through channels you haven't found." +
+            "A visible Soviet-prepared salient sits at Kursk, and the intelligence problem, this time, isn't finding the enemy — it's believing what you can see. Air reconnaissance and signals intercepts show fortification in depth that exceeds anything previously encountered: minefield densities estimated at up to 2,500 anti-personnel and 2,200 anti-tank mines per kilometer of front in key sectors, anti-tank gun belts arranged in mutually supporting layers, and defensive zones extending back 100 kilometers or more.\n\nManstein wants to strike as soon as possible, before this system finishes maturing. Hitler wants to wait for new Panther tanks to reach strength first — but the Panthers arriving now are breaking down and catching fire in trials, and the workshops can't say when that will stop.\n\nOne thing sits badly under every estimate: the Soviets seem to be expecting this — where, and roughly when. If the plans are leaking, nobody has found the leak." +
             (flags.med42 === "malta"
               ? " One quiet difference from the historical ledger: with Malta taken and the convoy war won, fuel for the assault divisions, unusually, is not the limiting worry."
               : "") +
@@ -2755,6 +3083,9 @@ const CAMPAIGNS = {
               ? " The panzer divisions massing on both shoulders of this salient are, in no small part, the ones the 1941 push for Moscow spent rather than saved — this front has never fully recovered the depth that gamble cost it."
               : flags.eastFront === "kiev"
               ? " The reserve this offensive draws on owes something to 1941's own choice to take the southern prize first rather than gamble everything on Moscow that autumn."
+              : "") +
+            (flags.forkPanthersFixed
+              ? "\n\nOne mechanical variable breaks the other way this time: the worst of the early Panther's engine-fire problem has, unusually, been chased down and fixed in the workshops before a single one goes into action."
               : ""),
           choices: (() => {
             const offensivePossible = meters.fuel > -3;
@@ -2768,27 +3099,205 @@ const CAMPAIGNS = {
               favor: 1,
               impact: { manpower: -2, fuel: -1, initiative: 1 },
               next: "kurskBreach43",
-              // Hidden-information choice: the situation text says outright that "the Soviets know
-              // you're coming... and are being fed elements of your own planning through channels
-              // you haven't found" — concealRoll keeps that compromised picture real for the player
-              // too, revealing the true odds only on the OutcomeScreen after the choice resolves.
+              // Hidden-information choice: the situation text says the Soviets "seem to be
+              // expecting this" and that nobody has found the leak — concealRoll keeps that
+              // compromised picture real for the player too, withholding the odds before the
+              // choice. (Round 10: that line used to state the leak as fact, which the German
+              // command couldn't have known; rewritten as the suspicion it would actually be.)
               concealRoll: true,
+              // Key Battle Subgame prototype (KEY_BATTLE_SUBGAME_ENABLED only — see
+              // BATTLE_ALLOCATION_CATEGORIES for the full design rationale, including round 2's
+              // swap from Positioning & Intelligence to Supply). Mechanised Armour is the
+              // strongest lever here, matching the node's own emphasis on Panther reliability and
+              // armored tempo as the battle's real swing factor; Supply (breaching and sustaining
+              // a push through the defensive belts' mine density, per the situation text above)
+              // is the clear second-strongest, ahead of Air, with Divisions as the baseline.
+              // categoryContext supplies the per-category "what does this represent" expansion
+              // panel — see BattleAllocationScreen — sourced from the Battle of Kursk order of
+              // battle and infobox figures (Wikipedia, cross-checked 2026-09-19); the mine-density
+              // figure matches what the situation text above already states, not a new claim.
+              // Round 3: these four values raised ~1.8x (see BATTLE_ALLOCATION_CATEGORIES comment)
+              // to reach the new, higher clamp on a full commitment; relative ordering unchanged.
+              keyBattleSubgame: {
+                id: "kursk",
+                title: "Order of Battle — The Kursk Salient",
+                // Round 4 (Craig: "the opening battle paragraph needs to be more specific to
+                // Kursk, maybe mention the weather"). Verified via Wikipedia (Operation Citadel,
+                // Rasputitsa, 2026-09-19): the historical offensive was originally slated for
+                // early May 1943, and "as the spring rasputitsa (mud) season came to an end in
+                // 1943, both the German and Soviet commands considered their plans" — an early
+                // strike lands in the tail of that thaw, not clear of it. The region's chernozem
+                // soil is specifically what makes the mud so bad (it "acts as a sponge"), and
+                // tanks are, factually, "less useful in spring and autumn" than in summer or
+                // winter — which is exactly the real logistical tension this choice's own failure
+                // branch already dramatizes ("spring ground conditions bog the assault
+                // formations... mud and the breakdowns"). This isn't new content, just making the
+                // opening paragraph state outright the same risk the mechanics already model.
+                flavor:
+                  "Early May, and the rasputitsa has only just loosened its grip. Weeks of thaw have turned this region's black chernozem into the kind of mud that swallows road wheels and tank treads alike — tanks are never at their best in the gap between winter's hard ground and summer's dry earth, and this order asks the panzer arm to move through exactly that gap. Before it goes out, the staff wants to know where the weight actually falls against ground and enemy both: which divisions lead, how much of the armored reserve commits while the mud still has a say in it, what the Luftwaffe can put over the breach point, and how much ammunition and engineering effort is set aside just to open a path through what's ahead.",
+                effectiveness: { divisions: 1.8, armour: 3, air: 2.2, supply: 2.6 },
+                // Round 13, Craig's item #6 ("weather/terrain mechanically matters"). The opening
+                // flavor paragraph above already states this as fact, sourced (Wikipedia,
+                // Rasputitsa): the offensive lands in the tail end of the spring thaw, and tanks
+                // are "less useful in spring and autumn" than on hard or frozen ground. Previously
+                // that was scenery the mechanics never touched — Armour's effectiveness was 3,
+                // full stop, mud or no mud. This is a static, KNOWN multiplier (unlike the hidden
+                // enemy posture) applied in effectiveWeight() — the player can see and plan around
+                // it the same way they can read the flavor text, rather than it being one more
+                // hidden roll. 0.85 (a 15% cut) is deliberately mild: nowhere near the -0.5 an
+                // approach's own tradeoff can apply, since the mud is a condition of the ground,
+                // not a doctrine choice, and shouldn't be able to out-punish an actual plan. Omaha
+                // gets no equivalent field — its weather cost is already the reason Air's base
+                // effectiveness (1.6) is the lowest of that battle's four categories, so adding a
+                // second, separate terrain penalty on top would double-count the same historical
+                // fact. check-battle-balance.js's weightFor was updated to apply this too.
+                terrainModifiers: { armour: 0.85 },
+                terrainNotes: { armour: "slowed by the rasputitsa mud" },
+                // Round 4 (Craig, mobile playtest: "should be done as a situation report and
+                // written in the right perspective — Sir, we have..."). Rewritten as an
+                // intelligence officer's spoken report to the commander rather than reference
+                // prose — same sourced figures as round 2, word for word on every number, just
+                // reframed as dialogue. One correction worth flagging: these are Soviet (enemy)
+                // strength estimates, not German strength — "Sir, we have 1.9 million troops"
+                // would misstate whose army that figure describes, so each line reports it as
+                // "their" / "Soviet" strength, the way a staff officer actually would.
+                categoryContext: {
+                  divisions:
+                    "Reconnaissance and signals intercepts place Soviet strength across the Central and Voronezh Fronts at roughly 1.9 million troops — before counting the reserve armies held entirely out of the initial defense. They're positioned for counterattack after the initial German assault has spent itself, not to hold the line today.",
+                  armour:
+                    "Soviet armor reserves run to something like 4,900 tanks and self-propelled guns behind these lines. One-third lighter T-60s and T-70s; the rest mostly T-34. Much of it is already dug in as gun emplacements rather than held for maneuver.",
+                  air:
+                    "Nearly 2,800 Soviet aircraft are massed for this operation — essentially the VVS's entire front-line strength committed to one battle. The Luftwaffe should own the sky over the southern face when the attack opens. How long it holds it remains an open question.",
+                  supply:
+                    "Defensive belts 130 to 150 kilometers deep guard either side of the salient, backed by upward of 25,000 guns and mortars. Mine densities reach 2,500 anti-personnel and 2,200 anti-tank per kilometer of front — six times what was in front of Moscow in '41.",
+                },
+                // Round 6 (Craig: "two bars... move backward and forwards... doing flashups of
+                // what may have happened"). Short battlefield vignettes drawn during
+                // BattleSimulationScreen's animated reveal, weighted toward whichever category
+                // the player actually put chits in — see that component. Deliberately a
+                // different bar from categoryContext/situation text above: these are illustrative
+                // texture for a few real, sourced details already established elsewhere in this
+                // node (Tigers leading the wedge, the AT-gun "Pakfront" belts, the minefields, a
+                // genuinely contested sky), not new individually-sourced claims — no unit numbers,
+                // named officers, or specific events invented here, just plausible generic beats
+                // consistent with what the node's own verified text already says.
+                // Round 12 (Craig's item #5, "richer dispatch text"): expanded from 3 variants to
+                // 5 per category so a replayed battle doesn't keep showing the same handful of
+                // lines. Same rule as the original round-6 set: illustrative texture consistent
+                // with what this node's own verified text already establishes (Tigers leading
+                // the wedge, the Pakfront belts, the minefields, a contested sky) — no new unit
+                // numbers, named officers, or specific events invented here.
+                flashups: {
+                  divisions: [
+                    "The infantry pushes into the first trench line, yard by yard.",
+                    "A forward company loses cohesion under artillery fire — the line holds anyway.",
+                    "Reserves move up behind the lead battalions.",
+                    "A trench changes hands twice in an hour before it holds.",
+                    "Pioneers clear a communications trench room by room.",
+                  ],
+                  armour: [
+                    "The armored wedge grinds forward, drawing the Pakfront's fire onto its glacis.",
+                    "A tank brews up in the antitank belt; the column presses on regardless.",
+                    "The spearhead reaches the second defensive line.",
+                    "A Tiger's frontal armor shrugs off two hits and keeps closing.",
+                    "The column loses momentum picking a way around a minefield's edge.",
+                  ],
+                  air: [
+                    "Stukas work over the gun line ahead of the advance.",
+                    "A flight of Soviet ground-attack aircraft catches a column in the open.",
+                    "The sky over the breach is contested — neither side holds it for long.",
+                    "A dogfight breaks up high overhead; nobody on the ground looks up long.",
+                    "Flak claims one of the escort fighters on its second pass.",
+                  ],
+                  supply: [
+                    "Engineers lift another string of mines from the lane ahead.",
+                    "An ammunition column finally catches up to the forward companies.",
+                    "A fuel truck goes up on a mine meant for something bigger.",
+                    "A cleared lane is reseeded by Soviet engineers under cover of dark before dawn.",
+                    "The forward dressing station is already short of morphine.",
+                  ],
+                },
+                // Round 10 (Craig's items 2, 3, 5). reportTimes stamp each battle-report line as a
+                // dispatch; idleLines replace round 7's out-of-world "No chits went to X" with what
+                // an uncommitted arm actually looks like from headquarters; verdicts replace "The
+                // Odds Broke Your Way" (game language — and the report no longer shows odds at
+                // all, since a general wouldn't know the road not taken). counterattack: the
+                // battle's second mid-battle decision. Sourced: Hoth "expected large Soviet
+                // armoured reserve forces to arrive from the east" (Wikipedia, Battle of
+                // Prokhorovka), and the flank east of his advance was exactly where Kempf's corps
+                // was meant to cover him — so the counterattack tests Divisions (the infantry
+                // holding the flank), not Armour. That also means the old all-armour plan is now
+                // exposed on the flank, which is the point. Heavier when the Soviet armour was
+                // held deep (reservesDeep), since that reserve IS the counterattack.
+                reportTimes: { open: "0430", contact: "0515", cats: ["0600", "0730", "0900", "1100"], reserve: "1300", counter: "1500" },
+                // Round 12: each idle line is now a small pool, not a single fixed sentence, so
+                // an uncommitted arm doesn't read identically on every replay (see BattleSimulationScreen's
+                // idleLine picker).
+                idleLines: {
+                  divisions: [
+                    "No infantry behind the tanks. There's nobody to hold what they take.",
+                    "The infantry stays in its jump-off trenches. Nothing moves behind the armor.",
+                  ],
+                  armour: [
+                    "The panzers are still in their assembly areas. Nothing is breaking the gun line.",
+                    "The tanks sit idling behind the start line, engines running, going nowhere.",
+                  ],
+                  air: [
+                    "No Luftwaffe over the breach. Soviet aircraft have the sky to themselves.",
+                    "The airfields behind the line stay quiet all morning.",
+                  ],
+                  supply: [
+                    "No engineers at the minefields. The lanes stay closed.",
+                    "The ammunition dumps stay put. Nothing moves forward to feed the attack.",
+                  ],
+                },
+                verdicts: ["The Breach Is Open", "The Attack Bogs Down"],
+                // Round 13, item #1: quality-graded subtitle under the verdict heading — see
+                // computeBattlePlanCosts's grade comment for exactly what earns which label.
+                verdictGrades: {
+                  clean: "Every arm did its job at once, and the line simply gave way.",
+                  costly: "The breach is open — but it cost more than the plan allowed for.",
+                  marginal: "The attack stalls a yard short of the wire. The plan held up; the day didn't.",
+                  total: "The attack doesn't stall so much as come apart.",
+                },
+                counterattack: {
+                  category: "divisions",
+                  severity: { antiTankFirst: 1, airForward: 1, reservesDeep: 2 },
+                  warn: {
+                    1: "Soviet tank brigades are coming in against the right flank of the breach.",
+                    2: "The Soviet tank armies held back east of the salient are coming in against the right flank, in strength.",
+                  },
+                  results: {
+                    repulsed: "The flank holds. The Soviet tanks are thrown back with heavy losses.",
+                    heldAtCost: "The flank holds, just, and the infantry on it are badly cut up.",
+                    broke: "The Soviet tanks break into the flank before anyone can stop them.",
+                    gaveGround: "The flank pulls back and gives up ground to keep the line intact.",
+                  },
+                },
+              },
               uncertain: [
                 {
-                  weight: modWeight(50, meters.fuel),
+                  // Historical Divergence Mode: forkPanthersFixed nudges this same roll rather
+                  // than adding a separate branch — the mud-and-breakdowns failure mode below
+                  // explicitly cites Panther engine fires as part of what tips it, so a fixed
+                  // reliability problem is a legitimate thumb on this exact scale. Same pattern
+                  // established by forkEastAfricaSlow (italy).
+                  weight: modWeight(50, meters.fuel) + (flags.forkPanthersFixed ? 15 : 0),
                   title: "The incomplete fortress",
                   setFlags: { kurskResult: "breach" },
                   impact: { manpower: 0, fuel: 0, initiative: 1 },
-                  outcome:
-                    "The contested call breaks favorably: the spring attack catches the defensive system with its third belt unfinished and its armored reserves not yet assembled, and the salient's neck is pinched at costs the panzer force can actually bear. Not a war-turning victory — the Red Army's depth absorbs even this — but the panzer reserve survives the year as a fighting force, which the historical July attack cannot say. Manstein's clock argument, vindicated — and now there is a real question of what to do with the opening it bought.",
+                  outcome: flags.forkPanthersFixed
+                    ? "The spring attack catches the defensive system with its third belt unfinished and its armored reserves not yet assembled, and — without the engine fires historically thinning the panzer regiments before they even reached contact — the salient's neck is pinched at costs the panzer force can actually bear. Not a war-turning victory — the Red Army's depth absorbs even this — but the panzer reserve survives the year as a fighting force, which the historical July attack cannot say. Manstein's clock argument, vindicated twice over — and now there is a real question of what to do with the opening it bought."
+                    : "The spring attack catches the defensive system with its third belt unfinished and its armored reserves not yet assembled, and the salient's neck is pinched at costs the panzer force can actually bear. Not a war-turning victory — the Red Army's depth absorbs even this — but the panzer reserve survives the year as a fighting force, which the historical July attack cannot say. Manstein's clock argument, vindicated — and now there is a real question of what to do with the opening it bought.",
                 },
                 {
-                  weight: 100 - modWeight(50, meters.fuel),
+                  weight: 100 - (modWeight(50, meters.fuel) + (flags.forkPanthersFixed ? 15 : 0)),
                   title: "The mud and the breakdowns",
                   setFlags: { kurskResult: "bogged" },
                   impact: { manpower: -2, fuel: 0, initiative: 0 },
-                  outcome:
-                    "The contested call breaks the other way: spring ground conditions bog the assault formations exactly as the wait-faction warned, the early-production Panthers shed engines and catch fire at rates even worse than their historical July debut, and the 'incomplete' defenses turn out to have been complete enough. Historians who argue the early strike was a mirage — that ANY attack into that salient fails — get their evidence. The offensive is broken off with the panzer reserve bloodied for even less than the historical battle bought.",
+                  outcome: flags.forkPanthersFixed
+                    ? "Spring ground conditions bog the assault formations exactly as the wait-faction warned, and the 'incomplete' defenses turn out to have been complete enough — the fixed engine problem spares the panzer force one specific failure mode, but not the mud, and not the belts that were finished after all. The offensive is broken off with the panzer reserve bloodied for even less than the historical battle bought."
+                    : "Spring ground conditions bog the assault formations exactly as the wait-faction warned, the early-production Panthers shed engines and catch fire at rates even worse than their historical July debut, and the 'incomplete' defenses turn out to have been complete enough. Historians who argue the early strike was a mirage — that ANY attack into that salient fails — get their evidence. The offensive is broken off with the panzer reserve bloodied for even less than the historical battle bought.",
                 },
               ],
             });
@@ -2825,9 +3334,14 @@ const CAMPAIGNS = {
           title: "The Breach",
           historicalRecord: false,
           situation:
-            flags.kurskResult === "breach"
+            (flags.kurskResult === "breach"
               ? "The salient's neck is pinched, its third defensive belt still unfinished when the panzer spearheads reach it. For a handful of days, something the historical July offensive never achieved is real: open ground, a defense still assembling its depth, and reserves that haven't arrived yet. It will not last — the Red Army's own reserves are already moving to close it — but for now the choice is real: push through while the gap exists, or take what's already been won and pull back before those reserves arrive."
-              : "The spring offensive is broken off — mud, mechanical failure, and defenses that turned out to be complete enough have settled the question before it could really be asked. There is little left to decide here except how cleanly the withdrawal is managed.",
+              : "The spring offensive is broken off — mud, mechanical failure, and defenses that turned out to be complete enough have settled the question before it could really be asked. There is little left to decide here except how cleanly the withdrawal is managed.") +
+            (flags.forkPanthersFixed && flags.kurskResult === "breach"
+              ? " The panzer regiments running this exploitation are, notably, not the ones losing tanks to engine fires the way the historical battle's early Panther units did — whatever this offensive runs out of first, it won't be armor lost to its own machinery."
+              : "") +
+            // Round 10 (item 8): how the Order of Battle was fought, if it was (dev build only).
+            keyBattleEcho("kursk", flags),
           choices:
             flags.kurskResult === "breach"
               ? [
@@ -2975,7 +3489,16 @@ const CAMPAIGNS = {
             (flags.kursk === "cancelDefend"
               ? " The panzer reserve Guderian argued for preserving rather than spending at Kursk is the only reason there's a real division to argue about sending either direction at all."
               : flags.kursk === "attack"
-              ? " What's left of the armor that waited for the Panthers and then spent itself against Kursk's defenses in July is not, this month, a reserve either crisis can actually draw on."
+              ? " What's left of the armor that waited for the Panthers and then spent itself against Kursk's defenses in July is not, this month, a reserve either crisis can actually draw on." +
+                // Round 13, item #9 (dev build only): a second, later node reacting to HOW the
+                // Order of Battle went at Kursk, not just that it happened — a clean breakthrough
+                // left more intact by September than a costly one did, and a total collapse left
+                // less than the base sentence above already assumes.
+                (flags.kurskGrade === "clean"
+                  ? " What did come out of the breach came out whole, at least — this isn't quite the empty cupboard it could have been."
+                  : flags.kurskGrade === "total"
+                  ? " What's left isn't much more than the divisions that never went in at all."
+                  : "")
               : ""),
           choices: [
             {
@@ -4716,6 +5239,14 @@ const CAMPAIGNS = {
       // result flowing from it a distinct title. Placed this high because the combination is
       // rarer than anything else in this chain.
       if (flags.forkMoscowHolds && flags.moscowCaptured) return "The Winter That Wasn't Supposed to Happen";
+      // Round 20: forkPanthersFixed nudges the same Kursk roll rather than forcing a result —
+      // reachable only on the "breach" branch, the same rare-combination logic as forkMoscowHolds
+      // above, so it sits at the same priority.
+      if (flags.forkPanthersFixed && flags.kurskResult === "breach") return "Citadel, Fought With Tanks That Didn't Burn";
+      // Round 20: forkCaucasusThin doesn't change what Case Blue's own choice produces — "both"
+      // is a player choice available with or without the fork — it just makes the overextension
+      // that historically followed less inevitable. Only reachable on that specific choice.
+      if (flags.forkCaucasusThin && flags.caseBlue === "both") return "The Overextension That Didn't Bite";
       // Extreme meter states outrank the flag chain below — see the Soviet chain for the
       // reasoning. Moderate tiers stay at the bottom as fallbacks by design.
       // Only the POSITIVE extreme is promoted. A German army that finished the war essentially
@@ -4827,6 +5358,8 @@ const CAMPAIGNS = {
       if (flags.atlantic === "continue") causes.push("the wolfpack crews fed into Black May's teeth");
       if (flags.bagration === "south" || flags.bagration === "hedge")
         causes.push("reserves watching the wrong front when the summer blow fell");
+      if (flags.rundstedtRelieved41)
+        causes.push("the command purge at Rostov, spent proving a retreat Berlin approved four days too late");
       const causeClause = causes.length
         ? ` The road here ran through ${causes.slice(0, 2).join(", and through ")}.`
         : "";
@@ -5364,8 +5897,13 @@ const CAMPAIGNS = {
           date: "JULY – SEPTEMBER 1941",
           title: "Smolensk and the Kiev Question",
           historicalRecord: true,
+          // Round 13 (Craig, relaying player feedback): "Army Group Center's panzers turn to
+          // envelop it" credited the whole pincer to one army group. Verified (Wikipedia, Battle
+          // of Kiev (1941), 2026-09-24): Army Group South's own Panzer Group, under Kleist, was
+          // already across the Dnieper far to the south at Kremenchuk and driving north to close
+          // the other half of the ring — named here rather than folded silently into "German."
           situation:
-            "The battle around Smolensk is the first real check on the German advance — costly, and not decisive, but it buys weeks German planning did not budget for. Further south, an entire Southwestern Front sits exposed around Kiev as German Army Group Center's panzers turn to envelop it rather than press on toward Moscow. Zhukov has already told Stalin directly that Kiev cannot be held and should be abandoned now, before the trap closes. Stalin's response was to relieve Zhukov of his post as Chief of the General Staff on the spot." +
+            "The battle around Smolensk is the first real check on the German advance — costly, and not decisive, but it buys weeks German planning did not budget for. Further south, an entire Southwestern Front sits exposed around Kiev as German panzers close on it from two directions at once — Army Group Center's turning south to envelop rather than pressing on toward Moscow, Army Group South's already across the Dnieper far to the south at Kremenchuk and driving north to meet them. Zhukov has already told Stalin directly that Kiev cannot be held and should be abandoned now, before the trap closes. Stalin's response was to relieve Zhukov of his post as Chief of the General Staff on the spot." +
             (flags.border41 === "hold"
               ? " Zhukov's own argument for abandoning Kiev is the same one this command already overruled once at the border, in June — and it went no better received the second time."
               : flags.border41 === "withdraw"
@@ -5685,7 +6223,7 @@ const CAMPAIGNS = {
           title: "The Special Section",
           historicalRecord: false,
           situation:
-            "A visit that is not on your calendar: the front's Special Section — the NKVD's presence inside the army, the organ that will later be named SMERSH — has a file open on one of your best divisional commanders. In October his division retreated eleven kilometers without written orders; it is also the reason the division still exists, and half your line's stability since. The special section officer across the desk is not asking whether the retreat was correct. He is asking for your assessment of the commander's political reliability, and both of you know the assessment is the verdict.",
+            "A visit that is not on your calendar: the front's Special Section — the NKVD's presence inside the army, the organ that will later be named SMERSH — has a file open on one of your best divisional commanders. In October his division retreated eleven kilometers without written orders; it is also the reason the division still exists, and for half your line's stability since. The special section officer across the desk is not asking whether the retreat was correct. He is asking for your assessment of the commander's political reliability, and both of you know the assessment is the verdict.",
           choices: [
             {
               label: "Give them what the file needs — the commander's war is over, yours continues",
@@ -5754,6 +6292,50 @@ const CAMPAIGNS = {
           ],
         };
         },
+        // Round 13b (Craig, relaying a player review's "railroading" complaint): the reviewer
+        // named Rzhev/Karmanovo specifically as a flanking option the campaign never offers —
+        // and the campaign's only Rzhev content was `rzhev42`, Operation Mars in November-December.
+        // Verified (Wikipedia, Battle of Rzhev, summer 1942, 2026-09-24): there was an earlier,
+        // separate operation first — the First Rzhev-Sychyovka Offensive, 30 July-23 August 1942 —
+        // fought by Konev's Kalinin Front and Zhukov's Western Front (20th, 31st, 5th, 33rd
+        // Armies) against Model's 9th Army. Karmanovo itself fell to the 20th Army on 23 August,
+        // the operation's near-final day, after which it "could advance no further against a
+        // shortened and strengthened German line." Combined Soviet losses across the participating
+        // armies ran above 290,000; German 9th Army alone lost over 53,000 by mid-September. The
+        // line barely moved — contemporaries called it the Rzhev Meat Grinder. This is a distinct,
+        // earlier operation from Mars, not the same one under another name, and it is inserted here
+        // as a new predecessor to `autumnWeight42` (all four `next: "autumnWeight42"` sites in
+        // `order227_42` below now route through it instead).
+        get rzhevSummer42() {
+          return {
+          date: "JULY – AUGUST 1942",
+          title: "The First Blow at the Salient",
+          historicalRecord: true,
+          situation:
+            "While Case Blue tears open the southern front, Zhukov has his own offensive underway in the center: a push by the Western and Kalinin Fronts to crack the German salient at Rzhev before it can be reinforced from elsewhere. Konev's armies opened the attack on the 30th of July with the heaviest artillery preparation the front has yet fired; the Western Front's own assault followed days later, driving toward Karmanovo and the Vazuza. Model's 9th Army has thrown five fresh divisions into the gap and stabilized the line — the advance now runs a village at a time, and every village costs a division's worth of men to take.",
+          choices: [
+            {
+              label: "Press the assault to its historical limit — Karmanovo or the last man",
+              advisor: { name: "Zhukov", quote: "The salient does not open by itself. It opens because I spend what it costs, until it costs less than staying closed." },
+              historical: true,
+              setFlags: { rzhevSummer42: "pressed" },
+              impact: { manpower: -2, fuel: 0, initiative: 0 },
+              next: "autumnWeight42",
+              outcome:
+                "What happened: the offensive ran five more weeks past this point, capturing Karmanovo on the 23rd of August and a bridgehead over the Vazuza near Zubtsov — and then stopping, unable to force the shortened line Model had built behind the first collapse. Combined losses across the participating armies passed 290,000; German 9th Army alone lost over 53,000 by mid-September. The salient held. Contemporaries called it the Rzhev Meat Grinder, and Soviet official histories stayed quiet about the toll for decades.",
+            },
+            {
+              label: "Scale the offensive back to holding pressure — preserve the armies for autumn",
+              advisor: { name: "Konev", quote: "I inherit this front from Georgy Konstantinovich at the end of the month regardless. I would rather inherit armies than a casualty report." },
+              setFlags: { rzhevSummer42: "limited" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "autumnWeight42",
+              outcome:
+                "Speculative: the historical operation never broke the salient at any cost, so trading the second half of its casualty bill for a smaller advance forfeits little the full-price version actually bought. What it costs is a hedge, not a result — if Mars is chosen again in the autumn, it will be argued for by the same logic that just failed here, against the same commander, on the same ground.",
+            },
+          ],
+        };
+        },
         get order227_42() {
           return {
           date: "JULY 1942",
@@ -5779,7 +6361,7 @@ const CAMPAIGNS = {
               historical: true,
               setFlags: { order227: "enforce" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
-              next: "autumnWeight42",
+              next: "rzhevSummer42",
                             outcome:
                 "The order was read aloud to every unit in the Red Army; penal battalions and blocking detachments became institutional facts, and hundreds of thousands of men eventually passed through the penal system, used for the war's most lethal tasks. Whether the terror or the honesty did more of the work remains a real dispute — soldiers' memoirs cite both — but the southern front's collapse slowed, and this campaign will not pretend the human cost of the method was incidental to it.",
               uncertain: flags.hardMode && (flags.suspicion || 0) >= 2
@@ -5788,7 +6370,7 @@ const CAMPAIGNS = {
                       weight: 100 - 5 * (flags.suspicion || 0),
                       title: "Enforced, and enough",
                       impact: { manpower: -1, fuel: 0, initiative: 0 },
-                      next: "autumnWeight42",
+                      next: "rzhevSummer42",
                       outcome:
                         "The order was enforced to the letter — penal battalions, blocking detachments, the full apparatus — and this time full compliance is exactly what the file wanted to see. The southern front's collapse slows. Nothing further is asked of this headquarters this month.",
                     },
@@ -5810,7 +6392,7 @@ const CAMPAIGNS = {
               setFlags: { order227: "discretion", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
                             impact: { manpower: 1, fuel: 0, initiative: 0 },
-              next: "autumnWeight42",
+              next: "rzhevSummer42",
               outcome:
                 "A speculative reading of the argument some front commanders quietly made and some quietly practiced: the order's admission of crisis travels army-wide either way, while its cruelest instruments are applied sparingly. Most of the historical order's disciplinary architecture was, in practice, softened within months as the crisis passed — this path simply starts there.",
               uncertain: flags.hardMode
@@ -5819,7 +6401,7 @@ const CAMPAIGNS = {
                       weight: 100 - (5 + 5 * (flags.suspicion || 0)),
                       title: "The discretion holds",
                       impact: { manpower: 1, fuel: 0, initiative: 0 },
-                      next: "autumnWeight42",
+                      next: "rzhevSummer42",
                       outcome:
                         "The likely shape of the argument some front commanders quietly made and some quietly practiced: the order's admission of crisis travels army-wide either way, while its cruelest instruments are applied sparingly. The paperwork records full compliance. The paperwork is not closely audited this month; the front is too busy surviving.",
                     },
@@ -6030,7 +6612,7 @@ const CAMPAIGNS = {
               impact: { manpower: 2, fuel: 0, initiative: 0 },
               next: "maskingForceQuestion45",
               outcome:
-                "A screened East Prussia can shell the Baltic coast and consume a masking force, and can do essentially nothing else — Courland's actual garrison sat exactly this way, intact and irrelevant, until May 8. The men the historical storm spent are preserved for the Berlin operation instead. What this path forgoes is harder to put on a ledger: the historical campaign was also, unavoidably, about what East Prussia meant — the war being carried, finally and terribly, into the country that launched it. What to in fact do with the troops now watching a garrison that can't affect the war is its own, smaller question.",
+                "A screened East Prussia can shell the Baltic coast and consume a masking force, and can do essentially nothing else — Courland's actual garrison sat exactly this way, intact and irrelevant, until May 8. The men the historical storm spent are preserved for the Berlin operation instead. What this path forgoes is harder to put on a ledger: the historical campaign was also, unavoidably, about what East Prussia meant — the war being carried, finally and terribly, into the country that launched it. What in fact to do with the troops now watching a garrison that can't affect the war is its own, smaller question.",
             },
           ],
         };
@@ -6242,7 +6824,13 @@ const CAMPAIGNS = {
           title: "The Rzhev Grinder",
           historicalRecord: true,
           situation:
-            "A stubborn German salient at Rzhev, roughly 130 miles from Moscow, has absorbed repeated Soviet offensives through 1942 without breaking. As Stavka finalizes the plan that will become Operation Uranus at Stalingrad, Zhukov himself is preparing a second, simultaneous offensive against Rzhev — Operation Mars — arguing the salient still threatens the capital and that German reserves pinned there cannot reinforce the south.",
+            "A stubborn German salient at Rzhev, roughly 130 miles from Moscow, has absorbed repeated Soviet offensives through 1942 without breaking. As Stavka finalizes the plan that will become Operation Uranus at Stalingrad, Zhukov himself is preparing a second, simultaneous offensive against Rzhev — Operation Mars — arguing the salient still threatens the capital and that German reserves pinned there cannot reinforce the south." +
+            (flags.rzhevSummer42 === "limited"
+              ? " The armies that will carry Mars are not the ones the historical record spent here in August — this command held the summer offensive to limited pressure rather than pressing it to Karmanovo and past, so Zhukov is arguing his case with formations that went into autumn less bled than they otherwise would have."
+              : "") +
+            (flags.forkRzhevThin
+              ? "\n\nOne detail Zhukov's own staff can't yet explain: Model's garrison here is reporting thinner than the winter's usual pattern — reserves that should be backstopping this salient are, for reasons Soviet intelligence hasn't identified, not where the order of battle says they should be."
+              : ""),
           choices: [
             {
               label: "Launch Operation Mars against Rzhev in full strength, alongside the southern offensive",
@@ -6275,6 +6863,9 @@ const CAMPAIGNS = {
             "German Sixth Army is committed, street by street, to the ruins of Stalingrad — exactly the kind of static, grinding fight Soviet planners have learned to feed rather than resist directly. Its flanks, north and south of the city, are held by Romanian and Italian armies: weaker, more thinly equipped, and now the target of the largest counteroffensive Stavka has assembled. How large to make the encirclement, and how far to trust that German reserves cannot reach it in time, is what's actually undecided." +
             (flags.forkStalingradConsolidate
               ? " Sixth Army's own earlier hesitation to press fully into the city has left it somewhat better organized on the flanks than the historical, fully-committed version ever was — Uranus is closing on a defense that had a little more time to prepare for it."
+              : "") +
+            (flags.forkRzhevThin && flags.rzhev42 === "mars"
+              ? " Whatever thinned Model's garrison at Rzhev never got explained, and it hasn't mattered enough on its own to change anything here — Mars still spent itself against the salient at full historical cost, and Uranus was assembled and launched without reference to it."
               : ""),
           choices: [
             {
@@ -6320,7 +6911,7 @@ const CAMPAIGNS = {
               impact: { manpower: -2, fuel: -2, initiative: 1 },
               next: "vacuumOverreach43",
               outcome:
-                "The maximalist read of a unprecedented opportunity: the offensive drives deep into Ukraine on momentum and audacity, well past what the supply lines can actually sustain — the historical Kharkov overextension, repeated at a scale the historical version never risked, because this time the prize actually justified the gamble. Whether the front can hold what it just took is now the entire war in miniature.",
+                "The maximalist read of an unprecedented opportunity: the offensive drives deep into Ukraine on momentum and audacity, well past what the supply lines can actually sustain — the historical Kharkov overextension, repeated at a scale the historical version never risked, because this time the prize actually justified the gamble. Whether the front can hold what it just took is now the entire war in miniature.",
             },
             {
               label: "Fill the gap methodically — advance only as far as supply lines can properly support",
@@ -6569,7 +7160,7 @@ const CAMPAIGNS = {
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "katynBreak43",
               outcome:
-                "A quiet, limited acknowledgment might have slowed the diplomatic break with London — or, just as plausibly, have been leaked and used against Moscow regardless. Either way, the wartime alliance with the London Poles was already effectively over either way; this only changes how it ends, not whether — and what fills the vacuum is still the next real question.",
+                "A quiet, limited acknowledgment might have slowed the diplomatic break with London — or, just as plausibly, have been leaked and used against Moscow regardless. Either way, the wartime alliance with the London Poles was already effectively over; this only changes how it ends, not whether — and what fills the vacuum is still the next real question.",
             },
           ],
         };
@@ -6851,6 +7442,9 @@ const CAMPAIGNS = {
               : "") +
             (flags.easternWallBreach43 === "probe"
               ? " The fuel saved probing rather than bombarding the Eastern Wall last autumn is fuel this offensive is spending now instead."
+              : "") +
+            (flags.forkDeceptionSeen
+              ? " One thread of the maskirovka plan hasn't held as cleanly as the rest: persistent German air reconnaissance over the Center sector's concentration areas — ground the deception plan was supposed to keep uninteresting — has been reported for a fortnight now, and staff cannot yet say whether it will be read correctly, or in time, by whoever receives it in Berlin."
               : ""),
           choices: [
             {
@@ -6862,6 +7456,132 @@ const CAMPAIGNS = {
               next: "warsawUprising44",
               outcome:
                 "What happened, launched June 22, 1944 — three years to the day after Barbarossa. Army Group Center was effectively destroyed: 28 divisions gone, casualties estimated between 300,000 and 450,000, the largest single defeat the German army suffered in the entire war. Soviet forces reached the outskirts of Warsaw by early August — where the offensive's own supply lines, not German resistance, finally imposed a halt.",
+              // Key Battle Subgame, battle #6 (round 15). Dev build only, same
+              // KEY_BATTLE_SUBGAME_ENABLED-gated spread as Omaha/Stalingrad/Alam Halfa — shipped
+              // builds keep this choice exactly as it was (deterministic, straight to
+              // warsawUprising44). Models the opening breakthrough and the encirclement east of
+              // Minsk, the operation's first and most decisive phase — not the whole June-August
+              // offensive the outer choice's own text already covers. All facts verified
+              // 2026-09-25 (Wikipedia: Operation Bagration, Minsk offensive): Soviet strength of
+              // roughly 1,670,300 personnel, ~6,000 tanks and assault guns, and 7,799 aircraft
+              // against Army Group Center's 486,493 combat troops, 495 tanks and assault guns,
+              // and 920 aircraft (602 operational); the double maskirovka deception that left
+              // four tank armies visible near Lvov while concealing the real Belorussian axis;
+              // Hitler's Feste Plätze ("fortified places") order turning strongpoints into traps;
+              // and the roughly 100,000-strong pocket east of Minsk, closed by early July, whose
+              // trapped divisions (including the 25th Panzergrenadier Division, spearheading)
+              // attempted a desperate breakout to the northwest and west on the night of 5 July
+              // and were largely scattered, with Lieutenant-General Müller captured on 8 July.
+              concealRoll: true,
+              ...(KEY_BATTLE_SUBGAME_ENABLED
+                ? {
+                    keyBattleSubgame: {
+                      id: "bagrationSoviet44",
+                      title: "Order of Battle — The Drive on Minsk",
+                      flavor:
+                        "The front is open, and the only real question left is how fast the ring closes east of Minsk before what's left of Army Group Center finds a way back through it. The maskirovka has done its work — the reserves that could have blunted this are watching Lvov instead — and what stands between the spearheads and a hundred thousand trapped Germans is a matter of pace: how much of the rifle mass keeps the pocket sealed, how much of the tank strength drives the encirclement shut, what the air armies can do to a road network already choked with retreating columns, and how much gets held back to keep the whole advance fed rather than stretched thin across four hundred miles of liberated Belorussia.",
+                      effectiveness: { divisions: 2.0, armour: 2.6, air: 1.8, supply: 2.2 },
+                      categoryContext: {
+                        divisions:
+                          "The rifle armies seal the ring after the tanks cut it. Chernyakhovsky's front alone commits rifle strength in the hundreds of thousands. Without them pressing behind the armored spearheads, whatever gets encircled finds its way back out.",
+                        armour:
+                          "Roughly six thousand tanks and assault guns committed against fewer than five hundred the Germans can field. Rotmistrov sees less a battle of maneuver than a battle of arithmetic — and the arithmetic is decided. The only variable is how quickly the ring closes.",
+                        air:
+                          "Nearly eight thousand aircraft massed against well under a thousand the Luftwaffe can put up, barely six hundred of those still flying. The roads out of the pocket are ours to strike whenever chosen.",
+                        supply:
+                          "Four hundred miles of advance since Vitebsk means four hundred miles of front for the rear services to feed. What isn't stockpiled now becomes a shortage the offensive discovers somewhere past the Berezina.",
+                      },
+                      flashups: {
+                        divisions: [
+                          "A rifle division moves up to seal another stretch of the encirclement line.",
+                          "Forward scouts report a German column trying to slip the ring under cover of dark.",
+                          "A rifle regiment digs in across a road the pocket's garrison will need.",
+                          "Partisan units link up with the advancing rifle line, reporting German movements.",
+                          "A company holds a crossroads against a probing German patrol.",
+                        ],
+                        armour: [
+                          "The tank spearhead cuts another road west of the pocket.",
+                          "A tank column brushes aside a blocking position without slowing.",
+                          "Rotmistrov's tanks close another few kilometers of the ring.",
+                          "A tank brigade reports the encirclement line now continuous along its whole front.",
+                          "The armored screen turns back a column trying to break west in the dark.",
+                        ],
+                        air: [
+                          "Ground-attack aircraft work over a column jammed on the road out of the pocket.",
+                          "A reconnaissance flight reports the pocket's exact shape by first light.",
+                          "Fighters sweep the sky over the encirclement without contest.",
+                          "A flight of bombers catches a column trying to move by daylight.",
+                          "Air reconnaissance flags a gap in the ring before the ground troops find it themselves.",
+                        ],
+                        supply: [
+                          "A fuel column finally catches up to the leading tank brigades.",
+                          "Engineers finish a bridge the retreating Germans tried to destroy.",
+                          "An ammunition train reaches the front after four hundred miles of track.",
+                          "A supply officer reports the forward dumps thinner than the plan assumed.",
+                          "Rail repair crews restore another stretch of line behind the advance.",
+                        ],
+                      },
+                      reportTimes: { open: "0300", contact: "0600", cats: ["0900", "1200", "1600", "2000"], reserve: "2300", counter: "0100" },
+                      idleLines: {
+                        divisions: [
+                          "The rifle armies stay on their start lines. Nobody is sealing anything yet.",
+                          "No infantry moves up behind the spearhead. The ring stays open where they'd have closed it.",
+                        ],
+                        armour: [
+                          "The tank reserve sits fueled and idle. Nothing is cutting the roads west.",
+                          "No armored spearhead goes forward. The encirclement has nothing driving it shut.",
+                        ],
+                        air: [
+                          "Nothing flies over the pocket's roads. Whatever moves on them, moves unmolested.",
+                          "The air armies stay grounded. The Luftwaffe's remnant has the sky to itself today.",
+                        ],
+                        supply: [
+                          "Nothing extra moves up behind the advance. The spearheads run on what they already have.",
+                          "The rear services make no special effort today. The front feeds itself or it doesn't.",
+                        ],
+                      },
+                      verdicts: ["The Ring Closes at Minsk", "The Pocket Stays Open"],
+                      verdictGrades: {
+                        clean: "Every arm moved together, and a hundred thousand Germans found the ring already shut behind them.",
+                        costly: "The ring closes at Minsk — but it cost more to hold shut than the plan allowed for.",
+                        marginal: "The encirclement stalls with a gap still open. The plan held together; the ring didn't quite.",
+                        total: "The encirclement doesn't stall so much as come apart before it ever really closes.",
+                      },
+                      counterattack: {
+                        category: "divisions",
+                        severity: { deceptionHolding: 1, fortifiedResistance: 1, collapsingCenter: 2 },
+                        warn: {
+                          1: "German troops trapped inside the pocket are probing the ring for a way out.",
+                          2: "Whole divisions inside the pocket — the 25th Panzergrenadier spearheading — are massing for a breakout west, not a token probe.",
+                        },
+                        results: {
+                          repulsed: "The breakout is thrown back into the pocket and the ring holds its shape.",
+                          heldAtCost: "The ring holds, and the rifle division that held it is badly cut up doing it.",
+                          broke: "The breakout punches through the ring before the line can be reinforced.",
+                          gaveGround: "The line gives up a stretch of the ring rather than fight the breakout out where it lands.",
+                        },
+                      },
+                    },
+                    uncertain: [
+                      {
+                        weight: modWeight(60, meters.fuel),
+                        title: "The Ring Closes at Minsk",
+                        setFlags: { bagrationMinsk: "sealed" },
+                        impact: { manpower: 1, fuel: 0, initiative: 1 },
+                        outcome:
+                          "The ring closes east of Minsk close to on schedule, and what the historical record already calls the worst German intelligence failure of the war gets the clean encirclement its own planning assumed rather than the partial one several divisions actually escaped through. Army Group Center doesn't just lose 28 divisions' worth of strength on paper — it loses the men inside this specific pocket as an organized force, in full, rather than in the scattered fragments that historically slipped west.",
+                      },
+                      {
+                        weight: 100 - modWeight(60, meters.fuel),
+                        title: "The Pocket Stays Open",
+                        setFlags: { bagrationMinsk: "leaked" },
+                        impact: { manpower: -2, fuel: -1, initiative: -1 },
+                        outcome:
+                          "Close to what actually happened: the ring closes late and thin, and a meaningful fraction of the encircled force — spearheaded by the 25th Panzergrenadier Division, the way the record already describes — scatters west through gaps the advance didn't have the reach to seal in time. Army Group Center is still destroyed as a fighting force; it just isn't destroyed as completely, or as fast, as the plan wanted.",
+                      },
+                    ],
+                  }
+                : {}),
             },
             {
               label: "Halt at Warsaw's approaches — consolidate the gains, let supply lines catch up first",
@@ -6898,7 +7618,14 @@ const CAMPAIGNS = {
               : "") +
             (flags.forwardSupply44
               ? " The fortnight spent dumping supply forward before Bagration launched has an uncomfortable consequence here: these divisions are not the overextended, fuel-starved formations the historical halt was explained by. The logistics case that carried real weight in the actual August of 1944 carries much less of it on this front, this month. What that leaves standing is the other argument — the one about Lublin and London — with rather less to stand behind."
-              : ""),
+              : "") +
+            (flags.forkDeceptionSeen && flags.bagration44soviet === "full"
+              ? " The reconnaissance thread noted over the concentration areas a fortnight before launch never did resolve into a repositioned defense — whoever read those reports in Berlin, and whatever they made of them, Army Group Center was still destroyed on schedule. Wehrmacht postwar accounts would later wonder aloud how a warning that specific went nowhere."
+              : "") +
+            // Round 15 (battle #6 echo): the Minsk encirclement's own detail, not a fork — the
+            // overextension this node's own text already turns on reads the same regardless of
+            // whether the pocket sealed clean or leaked.
+            (flags.bagrationMinsk ? keyBattleEcho("bagrationSoviet44", flags) : ""),
           choices: [
             {
               label: "Push the advance to relieve the uprising, whatever the logistics say",
@@ -7189,7 +7916,7 @@ const CAMPAIGNS = {
           title: "What Holding a Hostile Population Actually Costs",
           historicalRecord: false,
           situation:
-            "Finland is occupied in the sense that matters on a map — garrisons sit in Helsinki and every port worth naming — but the population Vasilevsky warned about hasn't stopped being the same one that fought two wars in five years rather than accept this. Scattered resistance is already testing how this occupation intends to answer it: isolated attacks on rail lines and requisition parties, nothing organized enough to change the military picture, but enough to force a real doctrine question before winter sets the pattern for however long this occupation actually runs.",
+            "Finland is occupied in the sense that matters on a map — garrisons sit in Helsinki and every port worth naming — but the population Vasilevsky warned about hasn't stopped being the same one that resisted occupation twice before. Scattered resistance is already testing how this occupation intends to answer it: isolated attacks on rail lines and requisition parties, nothing organized enough to change the military picture, but enough to force a real doctrine question before winter sets the pattern for however long this occupation actually runs.",
           choices: [
             {
               label: "Answer hard — collective reprisals, broad internment, treat any resistance as a population problem",
@@ -7465,6 +8192,16 @@ const CAMPAIGNS = {
       // evacuated at moscowPanic41 anyway. Placed high — this specific combination is rarer than
       // anything else in this chain.
       if (flags.forkKievPush && flags.moscowPanic === "left") return "The Capital That Evacuated Anyway";
+      // Round 20: forkRzhevThin doesn't change what Mars costs — the choice's own outcome text
+      // stays the historical failure regardless of the fork, deliberately, since nothing about
+      // the garrison being thinner was ever acted on by Stavka's own planning. The ending marks
+      // the irony rather than a different result.
+      if (flags.forkRzhevThin && flags.rzhev42 === "mars") return "The Weakness Nobody Exploited";
+      // Round 20: forkDeceptionSeen, same principle — Army Group Center is still destroyed on
+      // the historical schedule; the fork only adds a detail (a German reconnaissance thread
+      // that never got acted on in time) that makes the historical surprise look narrower in
+      // hindsight than it felt to Stavka's own planners at the time.
+      if (flags.forkDeceptionSeen && flags.bagration44soviet === "full") return "The Warning That Went Nowhere";
       // Extreme meter states outrank the flag chain below. An army that finished essentially
       // intact, or one that stopped existing as an army, is the defining fact of a run — a
       // bigger truth about it than any single mid-war decision. Only the extremes qualify;
@@ -7941,7 +8678,134 @@ const CAMPAIGNS = {
               // situation text says outright that Pound "has to decide... on an estimate, not a
               // fix." concealRoll keeps that literally true for the player too, withholding the
               // odds until the post-hoc reveal on the OutcomeScreen.
+              // Key Battle Subgame, battle #9 (round 15, "getting 10 battles"). Same
+              // unconditional-add pattern as Kursk, Monte Cassino, Anzio, and Arnhem (uncertain[]
+              // already existed on this choice before the subgame, so keyBattleSubgame is added
+              // directly rather than spread behind KEY_BATTLE_SUBGAME_ENABLED — shipped builds
+              // never read keyBattleSubgame at all, and check-battle-balance.js/
+              // check-reachability.js both evaluate with the flag false, so the shipped graph is
+              // unaffected either way). The uncertain[] array below, its weight, and both
+              // branches' own outcome text are left exactly as they were — the battleship threat
+              // they resolve is a separate question from the sustained U-boat/air attack this
+              // subgame models on the same convoy, during the same voyage.
+              //
+              // Attached here rather than on atlanticConvoys42's own choices deliberately: that
+              // earlier node is a resourcing and intelligence-security decision (divert VLR
+              // aircraft, or risk Ultra's security), not a tactical engagement — nothing in it
+              // resembles a convoy actually fighting off an attack. PQ-17's own voyage is the
+              // real, dated, documented naval battle in this arc, the same reasoning that put
+              // Monte Cassino's subgame on Monte Marrone rather than the abbey assault the node
+              // named it after. Bespoke naval-archetype categories, distinct from Anzio's
+              // amphibious and Arnhem's airborne sets. All facts verified 2026-09-25 (Wikipedia,
+              // Convoy PQ 17): the close escort (Commander Jack Broome, Senior Officer of the
+              // Escort) numbered six destroyers, two anti-aircraft auxiliary cruisers (Palomares
+              // and Pozarica), corvettes, minesweepers, and armed trawlers; the covering force
+              // further out, under Rear-Admiral Louis Hamilton (1st Cruiser Squadron: British
+              // cruisers London and Norfolk, American cruisers Wichita and Tuscaloosa, plus
+              // destroyers), stayed back from the convoy itself, screening against the battleship
+              // threat rather than the convoy's immediate U-boat and air attackers; and the
+              // voyage ran 27 June - 10 July 1942.
               concealRoll: true,
+              keyBattleSubgame: {
+                id: "pq17_1942",
+                title: "Order of Battle — Holding the Convoy Together",
+                flavor:
+                  "Tight formation, full escort, the battleship risk accepted rather than scattering to face it in the open — the convoy holds together, which means Broome's destroyers and corvettes still have something worth defending as long as the ships stay in company. What's decided here is how the close escort, the anti-aircraft auxiliaries riding with the merchantmen, Hamilton's covering force standing off at a distance, and the signals effort tracking what's actually out there are weighed against each other before the wolfpacks and the torpedo bombers find the convoy's track.",
+                categories: [
+                  { id: "escorts", name: "Destroyer & Corvette Screen", meter: "manpower", glyph: "▲" },
+                  { id: "aaShips", name: "Anti-Aircraft Auxiliaries", meter: "manpower", glyph: "✦" },
+                  { id: "coveringForce", name: "Distant Covering Force", meter: "fuel", glyph: "≋" },
+                  { id: "intelligence", name: "Signals Intelligence", meter: "fuel", glyph: "✎" },
+                ],
+                // Escorts highest — the close screen is the convoy's own direct defense against
+                // U-boats; Covering Force second — real deterrent weight, but held back rather
+                // than committed to the convoy's own fight; AA Auxiliaries third — necessary and
+                // real, but two ships covering thirty-five; Intelligence lowest, deliberately —
+                // real value in routing around known contacts, but it doesn't sink a U-boat or
+                // down a torpedo bomber by itself, the same design choice as Anzio's Naval or
+                // Arnhem's Supply Drop.
+                effectiveness: { escorts: 2.6, coveringForce: 2.2, aaShips: 2.0, intelligence: 1.6 },
+                categoryContext: {
+                  escorts:
+                    "Broome commands six destroyers and the corvette screen — the entire close protection between wolfpacks and thirty-five loaded ships. Every gun added here is a gun actually on the convoy's perimeter.",
+                  aaShips:
+                    "Palomares and Pozarica are the only vessels in this convoy built to fight torpedo bombers. Norway is close enough for the Luftwaffe to reach in strength. Two ships. That's the inventory.",
+                  coveringForce:
+                    "Hamilton's cruisers are stationed to watch for Tirpitz — close enough to matter if she commits, far enough back they're not fighting the convoy's own battle. Weight here is insurance against the threat no one can quite see.",
+                  intelligence:
+                    "Direction-finding plots and decrypted signals are the only way to learn where the wolfpacks gather before they're on top of the convoy. Intelligence spent here means the convoy steers around what's coming instead of just answering it.",
+                },
+                flashups: {
+                  escorts: [
+                    "A corvette drops a pattern of depth charges on a firm contact off the convoy's beam.",
+                    "One of Broome's destroyers closes a straggler to shepherd it back into the column.",
+                    "A trawler's asdic operator reports a contact fading below the layer.",
+                    "The destroyer screen tightens as the convoy alters course together.",
+                    "A corvette rescues survivors from a torpedoed merchantman's boats.",
+                  ],
+                  aaShips: [
+                    "Pozarica's guns put up a curtain of fire as torpedo bombers come in low.",
+                    "Palomares claims a hit on an He 111 breaking off its run trailing smoke.",
+                    "A merchantman's own gun crew joins the barrage against a low pass.",
+                    "The AA ships shift position to cover the column's most exposed flank.",
+                    "A torpedo bomber presses its attack through the flak and misses astern.",
+                  ],
+                  coveringForce: [
+                    "Hamilton's cruisers alter course to stay between the convoy's track and the fjords.",
+                    "A cruiser's scout plane sweeps the horizon for any sign of Tirpitz putting to sea.",
+                    "The covering force holds position, visible on radar, too far to engage today.",
+                    "A destroyer detaches from the covering force to investigate a radar contact.",
+                    "The cruiser squadron reports no change in the surface threat picture.",
+                  ],
+                  intelligence: [
+                    "A direction-finding fix puts a wolfpack forming well south of the convoy's track.",
+                    "A decrypt gives the convoy a few hours' warning before a shadowing aircraft finds it.",
+                    "The plot room updates the convoy's course to open the distance from a reported contact.",
+                    "An intercepted signal confirms a U-boat has lost contact overnight.",
+                    "A fix on a shadowing aircraft lets the escort work out roughly when it will report again.",
+                  ],
+                },
+                reportTimes: { open: "0600", contact: "0900", cats: ["1200", "1500", "1800", "2100"], reserve: "2300", counter: "0100" },
+                idleLines: {
+                  escorts: [
+                    "The screen holds its stations and nothing more. No extra weight goes to the perimeter.",
+                    "No destroyer breaks formation to chase a contact. The screen stays exactly as thin as it started.",
+                  ],
+                  aaShips: [
+                    "The AA auxiliaries hold their positions. Nothing extra is done to thicken the flak.",
+                    "No additional fire discipline is drilled into the merchant gun crews today.",
+                  ],
+                  coveringForce: [
+                    "Hamilton's cruisers hold their distant station, unchanged. Nothing more is asked of them.",
+                    "The covering force stays exactly where it already was, watching and no closer.",
+                  ],
+                  intelligence: [
+                    "No extra effort goes into the plot. The convoy sails on its existing course, blind to what's forming.",
+                    "The direction-finding watch stays at its existing pace. Nothing new comes out of it today.",
+                  ],
+                },
+                verdicts: ["The Convoy Holds Its Course", "The Wolfpack Finds the Gaps"],
+                verdictGrades: {
+                  clean: "The screen, the flak, the covering force, and the plot room all held together at once — everything the convoy could ask of an escort this size.",
+                  costly: "The convoy holds together, but every ship in company paid more than the plan allowed for to keep it that way.",
+                  marginal: "The convoy takes losses it shouldn't have. It's still in company by nightfall, which is not nothing.",
+                  total: "The convoy's own discipline doesn't break so much as never get tested properly — the losses are what there is to show for the day.",
+                },
+                counterattack: {
+                  category: "escorts",
+                  severity: { wolfpackConcentration: 2, luftwaffeStrike: 1, distantShadow: 1 },
+                  warn: {
+                    1: "Hydrophone effect is reported on multiple bearings around the convoy's track.",
+                    2: "Multiple U-boats are closing on the convoy in what looks like a coordinated pack attack.",
+                  },
+                  results: {
+                    repulsed: "The pack attack is broken up before it presses home, and the convoy sails on in company.",
+                    heldAtCost: "The convoy holds together, at the cost of ships the escort couldn't cover in time.",
+                    broke: "The pack presses home through the screen and the convoy takes losses it can't make good.",
+                    gaveGround: "The escort pulls the column into a tighter, slower formation rather than fight the pack out where it struck.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: 78,
@@ -8189,7 +9053,8 @@ const CAMPAIGNS = {
           title: "Sicily and the Messina Escape",
           historicalRecord: true,
           situation:
-            "Operation Husky lands in Sicily in July, and the island is largely secured within weeks — but as Patton's Seventh Army and Montgomery's Eighth Army race each other toward Messina from different directions, roughly 100,000 German and Italian troops, along with a substantial amount of their heavy equipment, are evacuating across the narrow strait to the Italian mainland largely unmolested. Allied naval and air commanders have the resources to interdict the strait far more heavily than they currently are.",
+            "Operation Husky lands in Sicily in July, and the island is largely secured within weeks — but as Patton's Seventh Army and Montgomery's Eighth Army race each other toward Messina from different directions, roughly 100,000 German and Italian troops, along with a substantial amount of their heavy equipment, are evacuating across the narrow strait to the Italian mainland largely unmolested. Allied naval and air commanders have the resources to interdict the strait far more heavily than they currently are." +
+            (flags.pointblank43 === "precision" ? keyBattleEcho("bomberDirective43", flags) : ""),
           choices: [
             {
               label: "Redirect naval and air assets to seal the Strait of Messina",
@@ -8225,7 +9090,10 @@ const CAMPAIGNS = {
             (flags.pq17 === "scatter"
               ? " Stalin's own briefing books have not forgotten the specific grievance: a convoy scattered on incomplete intelligence, twenty-four ships lost, and months of suspended Arctic shipments at the exact point in 1942 his armies most needed what was sitting undelivered in Iceland. It is precisely the kind of concrete injury that makes an abstract promise about a second front harder to simply take on faith."
               : flags.pq17 === "hold"
-              ? " The one Arctic convoy that sailed intact rather than scattering is a small, specific counterexample Stalin's delegation has not been shy about raising when the conversation turns to whether the West's promises are ever kept in full."
+              ? " The one Arctic convoy that sailed intact rather than scattering is a small, specific counterexample Stalin's delegation has not been shy about raising when the conversation turns to whether the West's promises are ever kept in full." +
+                // Round 15 (battle #9 echo): only on the "hold" branch, the one where the
+                // subgame was actually played.
+                keyBattleEcho("pq17_1942", flags)
               : ""),
           choices: [
             {
@@ -8339,7 +9207,15 @@ const CAMPAIGNS = {
               ? " One option is already closed before the briefing starts: after everything this alliance has absorbed, SHAEF will not greenlight a plan built entirely around one field marshal's solo glory. Whatever happens at Arnhem, it will happen at a scale the coalition can survive being wrong about."
               : "") +
             (flags.normandyDelayFlagged
-              ? " The Omaha report is still on file, and it says plainly that this army's margin for a plan that assumes everything goes right is thinner than the historical schedule ever had to admit."
+              ? " The Omaha report is still on file, and it says plainly that this army's margin for a plan that assumes everything goes right is thinner than the historical schedule ever had to admit." +
+                // Round 13, item #9 (dev build only): a September node reacting to HOW that June
+                // battle actually went, three months on — the report's own conclusion reads
+                // differently depending on whether the plan barely held or came apart outright.
+                (flags.omahaGrade === "total"
+                  ? " Its own conclusion is blunter than the summary above lets on: the plan didn't just run late, it came apart, and only got patched back together after the fact."
+                  : flags.omahaGrade === "costly"
+                  ? " Its own conclusion: the plan worked, in the end, but not without paying for ground it should have taken cleaner."
+                  : "")
               : "") +
             (flags.forkArnhemLucky
               ? " Aerial reconnaissance ahead of the drop zones near Arnhem has come back unusually quiet — no sign of the armor historically found refitting in the area, though planners are treating the absence with some suspicion rather than relief."
@@ -8396,6 +9272,138 @@ const CAMPAIGNS = {
               favor: -1,
               impact: { manpower: -2, fuel: -1, initiative: 0 },
               next: "anvilDragoon44",
+              // Key Battle Subgame, battle #8 (round 15, "getting 10 battles"). Same
+              // unconditional-add pattern as Kursk, Monte Cassino, and Anzio (uncertain[] already
+              // existed on this choice before the subgame, so keyBattleSubgame is added directly
+              // rather than spread behind KEY_BATTLE_SUBGAME_ENABLED — shipped builds never read
+              // keyBattleSubgame at all, and check-battle-balance.js/check-reachability.js both
+              // evaluate with the flag false, so the shipped graph is unaffected either way). The
+              // uncertain[] array below, its weight formula, and both branches' own outcome text
+              // are left exactly as they were.
+              //
+              // Bespoke airborne-archetype categories: this operation's real four moving parts
+              // during the 21-25 September window are XXX Corps's stalled relief column, 1st
+              // Airborne's own shrinking perimeter defense, the RAF's daylight resupply drops, and
+              // the Polish 1st Independent Parachute Brigade's attempt to cross the Rhine from
+              // Driel — a genuinely airborne-flavored set distinct from Anzio's amphibious one and
+              // Bagration's default land set. All facts verified 2026-09-25 (Wikipedia, Battle of
+              // Arnhem; Robert Henry Cain; 1st Independent Parachute Brigade): the 22 September
+              // drop (164 aircraft, 390 tons attempted) recovered only 31 tons, its drop zone
+              // still in German hands throughout the battle; the 23 September drop saw only 13%
+              // of supplies reach British hands, with Germans using captured British marker
+              // panels and flares to lure aircraft to their own positions; the Polish brigade
+              // dropped near Driel on 20 September (1,003 men, 5 killed/25 wounded in the drop)
+              // to find the Heveadorp ferry already scuttled; its crossing attempts recovered only
+              // 35 men into the perimeter on the night of 21-22 September and 153 more on 24
+              // September, against a hoped-for reinforcement several times that size; XXX Corps
+              // was stalled at Nijmegen and then Elst, and the Germans cut its single supply road
+              // near Koevering on 25 September, the blow that led Horrocks to conclude the
+              // relief could not succeed; and Major Robert Cain of the South Staffordshire
+              // Regiment (commanding survivors folded into Lonsdale Force) destroyed or drove off
+              // German armor with a PIAT at close range on 21 and 22 September, then helped
+              // disable a Tiger tank with a 6-pounder gun on 24 September, earning the Victoria
+              // Cross for six days of continuous defense.
+              concealRoll: true,
+              keyBattleSubgame: {
+                id: "arnhemPerimeter44",
+                title: "Order of Battle — The Corridor and the Perimeter",
+                flavor:
+                  "Four days in, and the bridge itself is gone — Frost's men overwhelmed, the crossing back in German hands. What's left of 1st Airborne has drawn into a shrinking horseshoe around Oosterbeek, holding on artillery support and whatever gets through the ring, while Sosabowski's Poles try to cross the Rhine from the south bank in the dark and Horrocks's own corps sits close enough at Nijmegen and Elst to hear the guns and no closer. What's decided here is how the armor, the perimeter's own defense, the air resupply, and the Polish crossing effort are weighed against each other before the corridor behind all of them closes for good.",
+                categories: [
+                  { id: "corpsPush", name: "XXX Corps Armored Push", meter: "fuel", glyph: "▲" },
+                  { id: "perimeter", name: "Oosterbeek Perimeter", meter: "manpower", glyph: "◆◆◆" },
+                  { id: "resupply", name: "Supply Drop", meter: "fuel", glyph: "✈" },
+                  { id: "poles", name: "Polish Parachute Brigade", meter: "manpower", glyph: "✦" },
+                ],
+                // Corps Push highest — the relief column is the only thing that can actually end
+                // the siege; Poles second — a small, determined reinforcement effort, the same
+                // shape as Monte Cassino's Paratroops or Anzio's Rangers; Perimeter third — real
+                // weight, but holding ground rather than relieving it; Supply Drop lowest,
+                // deliberately — necessary and real, but by the record itself mostly a casualty
+                // count for the RAF rather than a lever that changes the siege, the same design
+                // choice as Omaha's Air or Anzio's Naval.
+                effectiveness: { corpsPush: 2.6, perimeter: 2.0, resupply: 1.6, poles: 2.2 },
+                categoryContext: {
+                  corpsPush:
+                    "The relief column is stalled on one road between Nijmegen and Elst. Every mile forward means the Germans can cut behind that same road. Moving it forward brings relief closer. It also thins the position being held.",
+                  perimeter:
+                    "The division is dug into a horseshoe a few hundred yards deep in places. Major Cain's men are fighting tanks with anti-tank rifles at twenty yards. Every man pulled from the wire is a man not defending it.",
+                  resupply:
+                    "The RAF flies supplies in daylight through flak the German batteries put up. The Germans now have the British marker panels used for drops. Whatever gets through is what the division eats today.",
+                  poles:
+                    "Sosabowski's brigade sits on the south bank at Driel with no ferry and small boats for a river crossing under fire. Every man who makes it across reinforces the perimeter. Most don't.",
+                },
+                flashups: {
+                  corpsPush: [
+                    "The lead Sherman troop pushes another half-mile up the road from Elst.",
+                    "A column halts to clear a roadblock before it can push on.",
+                    "Forward observers report the church spire at Oosterbeek just visible from the column's furthest point.",
+                    "A bridge-laying tank moves up to replace a blown culvert on the only road forward.",
+                    "The column's rearguard reports German infantry probing the road behind it.",
+                  ],
+                  perimeter: [
+                    "Major Cain's PIAT drives off another armored vehicle at twenty yards' range.",
+                    "The line around the Hartenstein hotel holds against another probing attack.",
+                    "A platoon falls back thirty yards to a tighter perimeter line rather than break outright.",
+                    "Artillery from across the river breaks up a German company forming to attack.",
+                    "A six-pounder gun crew manhandles their weapon into position against a reported Tiger.",
+                  ],
+                  resupply: [
+                    "A Dakota comes in low through flak, its chutes opening over what used to be the drop zone.",
+                    "A supply canister lands inside the perimeter for once, and the men fight over what's in it.",
+                    "German troops on the old drop zone wave captured marker panels at the next flight in.",
+                    "A pilot holds his run straight through the flak rather than break early and miss the zone.",
+                    "The division's last mortar rounds are rationed out a few per gun.",
+                  ],
+                  poles: [
+                    "A boat load of Poles pushes off from the south bank in the dark.",
+                    "Small-arms fire finds a crossing party halfway over the river.",
+                    "A handful of Poles reach the north bank and are guided into the perimeter.",
+                    "The engineers report another boat holed and sinking mid-river.",
+                    "Sosabowski's men prepare another crossing attempt before first light.",
+                  ],
+                },
+                reportTimes: { open: "2100", contact: "2300", cats: ["0100", "0300", "0500", "0700"], reserve: "0900", counter: "1100" },
+                idleLines: {
+                  corpsPush: [
+                    "The column stays halted on the road. Not another yard is made toward the river.",
+                    "No armor moves forward. Whatever's between here and the perimeter stays exactly as far away.",
+                  ],
+                  perimeter: [
+                    "Nobody reinforces the line. The horseshoe holds only as tight as it already is.",
+                    "No fresh men go to the wire. Whatever's coming at the perimeter, it finds what's already there.",
+                  ],
+                  resupply: [
+                    "No aircraft go up. Whatever the division has is what it has.",
+                    "The drop is scrubbed. Nothing comes in today.",
+                  ],
+                  poles: [
+                    "No boats go out. The brigade stays on the south bank, watching the far shore.",
+                    "The crossing attempt is called off before it starts. Nobody new reaches the perimeter tonight.",
+                  ],
+                },
+                verdicts: ["The Corridor Holds Long Enough", "The Road Closes Behind Them"],
+                verdictGrades: {
+                  clean: "The column, the perimeter, the air drop, and the Polish crossing all held together at once — as close as this operation gets to the plan working.",
+                  costly: "The corridor holds, but every element paid more than the plan allowed for to keep it that way.",
+                  marginal: "The relief stalls short of the river. The perimeter survives the day; the crossing doesn't happen.",
+                  total: "The relief doesn't stall so much as never get close — the corridor is what there is to show for the day.",
+                },
+                counterattack: {
+                  category: "perimeter",
+                  severity: { corridorCut: 1, dropZoneCompromised: 1, freshPanzerReserves: 2 },
+                  warn: {
+                    1: "German infantry are massing for another push on the perimeter's southern sector.",
+                    2: "Tanks, newly arrived, are forming up for a direct assault on the perimeter line.",
+                  },
+                  results: {
+                    repulsed: "The assault is thrown back, PIATs and six-pounders both, and the line holds without losing ground.",
+                    heldAtCost: "The line holds, and the sector that held it is down to a handful of men still standing.",
+                    broke: "The German assault breaks into the perimeter and the line has to be fought back inch by inch.",
+                    gaveGround: "The perimeter pulls back to a tighter line rather than fight the assault out where it lands.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: modWeight(15, meters.manpower),
@@ -8437,7 +9445,11 @@ const CAMPAIGNS = {
             "A second Allied landing is ready to launch — southern France, near Marseille, using divisions currently tied down in Italy. Churchill objects strenuously, one final time: redirect this force to the Balkans instead, or to a landing near Trieste, positioning Western Allied forces to reach Vienna and the Danube before Soviet troops do, shaping the postwar political map while there's still time. American planners want the straightforward answer — a landing that gives the Overlord buildup a desperately needed additional port, Marseille, still functioning while Cherbourg and the artificial Mulberry harbors strain under the weight of an entire theater's supply." +
             (flags.normandyDelayFlagged
               ? " The extra week Omaha cost the timeline hasn't stopped mattering — it's one more reason the supply staff's case for Marseille's capacity is harder to argue against now than it would have been on the schedule this campaign never actually kept."
-              : ""),
+              : "") +
+            // Round 15 (battle #8 echo): only on the path where the subgame was actually played —
+            // the OTHER choice at arnhemPerimeter44 (the night evacuation) also routes here, and
+            // never set up a battle to echo.
+            (flags.arnhemPerimeter44 === "force" ? keyBattleEcho("arnhemPerimeter44", flags) : ""),
           choices: [
             {
               label: "Proceed with the southern France landing — secure Marseille as a supply port",
@@ -8937,6 +9949,128 @@ const CAMPAIGNS = {
               cohesionDelta: -1,
               impact: { manpower: -1, fuel: 1, initiative: 0 },
               next: "sicilyHusky43",
+              // Round 15, battle #10 (Pointblank / Second Schweinfurt). Attached to this choice's
+              // own already-uncertain[] rather than a separate node: the choice's outcome text
+              // already names the Second Schweinfurt raid (14 October 1943) directly ("Schweinfurt's
+              // second raid alone lost 60"), the same real, dated, documented engagement this
+              // subgame models — a strategic-air archetype, distinct from Anzio's amphibious,
+              // Arnhem's airborne, and PQ-17's naval sets. All facts verified 2026-09-25
+              // (Wikipedia: Second Schweinfurt raid, Combat box, Curtis LeMay, William Ellsworth
+              // Kepner, Ira C. Eaker; National WWII Museum, "Black Thursday"): nine bomb groups of
+              // the 1st and 3rd Air Divisions flew the mission; P-47 escort could only cover the
+              // first roughly 200 of 400 miles before turning back near Aachen, lacking drop tanks
+              // with the range to go further; the "combat box" mutual-defensive-fire formation was
+              // developed by then-Colonel Curtis LeMay, who was promoted to Brigadier General on
+              // 28 September 1943 and became the first commander of the newly formed 3rd Air
+              // Division that same month; Major General William Kepner had taken command of VIII
+              // Fighter Command in September 1943; Lieutenant General Ira Eaker commanded Eighth
+              // Air Force throughout this period; a diversionary feint sent B-24s toward the North
+              // Sea but failed to draw German fighter controllers off the real formation's track;
+              // German fighters attacked in relayed waves, landing to refuel and rearm before
+              // sortying again, while twin-engine Ju 88s fired 21cm rockets from roughly 1,000
+              // yards, outside the bombers' own defensive gun range; 60 B-17s were shot down of
+              // roughly 72 total losses, with 600+ aircrew casualties.
+              keyBattleSubgame: {
+                id: "bomberDirective43",
+                title: "Order of Battle — The Second Schweinfurt Mission",
+                flavor:
+                  "The plan is exactly what the doctrine says it should be — tight combat-box formation for mutual defensive fire, fighter escort as far as the fuel actually allows, a disciplined bomb run held steady over the ball-bearing works, and enough of a diversionary threat elsewhere to keep German fighter controllers guessing about which formation is the real one. What's decided here is how the staff effort behind each of those pieces gets weighted before Kepner's Thunderbolts reach the limit of their range near Aachen and the Luftwaffe's fighter wings — relayed in waves, landing to refuel and rearm before coming up again — find the bomber stream on its own for the rest of the way to Schweinfurt and back.",
+                categories: [
+                  { id: "formation", name: "Combat Box Discipline", meter: "manpower", glyph: "▣" },
+                  { id: "escort", name: "Fighter Escort Coordination", meter: "fuel", glyph: "✈" },
+                  { id: "targeting", name: "Precision Bomb-Run", meter: "initiative", glyph: "◎" },
+                  { id: "diversion", name: "Diversionary Routing", meter: "manpower", glyph: "↝" },
+                ],
+                // Formation highest — LeMay's own combat box is the mission's whole defense once
+                // the escort turns back, the single largest determinant of the loss rate; Escort
+                // second — a real force multiplier, sharply limited by the fuel a P-47 without a
+                // drop tank actually carries; Targeting third — necessary for the mission to mean
+                // anything, but it doesn't keep a single bomber in the air; Diversion lowest,
+                // deliberately — real value in drawing fighters off the real formation, but the
+                // historical diversion drew none off at all, the same asymmetric-by-design choice
+                // as PQ-17's Signals Intelligence or Kursk's Supply.
+                effectiveness: { formation: 2.6, escort: 2.3, targeting: 2.0, diversion: 1.6 },
+                categoryContext: {
+                  formation:
+                    "LeMay's combat box is the formation's entire defense once the escort turns back at Aachen. Box discipline means overlapping fire from every gun — stragglers get picked off alone. Each commitment here keeps the wings tight.",
+                  escort:
+                    "Kepner's Thunderbolts ride with the formation only as far as their fuel permits. No drop tanks yet to stretch that range. Every commitment here makes the handoff exact and buys whatever additional minutes of cover the range allows.",
+                  targeting:
+                    "General Eaker didn't dispatch nine groups to fly formation. He sent them to put bombs on the ball-bearing works. Each commitment holds the bomb run steady through the flak instead of releasing early just to escape it.",
+                  diversion:
+                    "The diversion force draws off exactly as many fighters as German controllers send after it. No more, no less. Worth something when committed. But never worth as much as the escort actually being there.",
+                },
+                flashups: {
+                  formation: [
+                    "A group tightens its box after a straggler starts falling behind.",
+                    "Wingmen close the gap a fighter's pass opened in the formation.",
+                    "A squadron leader waves his element back into tighter interval.",
+                    "Gunners across the box coordinate fire onto a single fighter's pass.",
+                    "A damaged Fortress is walked back into the formation's own defensive fire.",
+                  ],
+                  escort: [
+                    "A flight of Thunderbolts peels off to break up a fighter group still forming up.",
+                    "Kepner's fighters stretch past their briefed turnback point by a few precious minutes.",
+                    "An escort flight catches a German fighter group still climbing for altitude.",
+                    "Relief fighters arrive early enough to cover the handoff more cleanly than briefed.",
+                    "A Thunderbolt pilot claims a fighter that was lining up on the lead group.",
+                  ],
+                  targeting: [
+                    "A lead bombardier calls a correction that tightens his group's bomb pattern.",
+                    "The formation holds its run through a first burst of flak rather than break early.",
+                    "A navigator's course correction lines his group up cleaner for the final approach.",
+                    "A group's bombs walk across the factory roofline instead of scattering short.",
+                    "A second run is flown rather than waste the bombs on a spoiled first pass.",
+                  ],
+                  diversion: [
+                    "The diversion force holds its own course, drawing fighters that never reach the main formation.",
+                    "A feint toward the coast pulls a German fighter wing out of position.",
+                    "The diversionary group reports fighters climbing to meet them instead of the bombers.",
+                    "A spoof course change buys the main formation a few empty miles.",
+                    "The diversion holds together long enough to still look like the real raid.",
+                  ],
+                },
+                reportTimes: { open: "0715", contact: "0910", cats: ["1005", "1140", "1315", "1450"], reserve: "1620", counter: "0940" },
+                idleLines: {
+                  formation: [
+                    "No extra effort goes into tightening the box. The formation holds whatever interval it already had.",
+                    "Nothing is done to close the gaps a fighter's pass already opened.",
+                  ],
+                  escort: [
+                    "The fighter escort flies its briefed profile and nothing more. No extra minutes are bought at the turnback line.",
+                    "No additional coordination goes into the handoff. The escort turns back exactly on schedule.",
+                  ],
+                  targeting: [
+                    "The bomb run gets no extra attention. Groups fly it exactly as briefed, nothing tightened.",
+                    "No correction is called on the pattern. The run goes in however it happens to line up.",
+                  ],
+                  diversion: [
+                    "The diversion flies its own track and nothing more elaborate is asked of it.",
+                    "No extra effort goes into making the feint convincing. It draws whatever attention it draws on its own.",
+                  ],
+                },
+                verdicts: ["The Formation Holds Together", "The Box Comes Apart"],
+                verdictGrades: {
+                  clean: "Formation, escort, bomb run, and diversion all held together at once — everything the mission could ask of a force this size, over a target defended this heavily.",
+                  costly: "The force gets its bombs on the target and comes home in company, but every group paid more than the plan allowed for to make that happen.",
+                  marginal: "The mission gets through, but not cleanly — losses mount past what the plan accounted for, and the formation that lands is not the one that took off.",
+                  total: "The formation's own discipline doesn't survive contact intact — the losses are what there is to show for the day, whatever the bomb run itself achieved.",
+                },
+                counterattack: {
+                  category: "formation",
+                  severity: { headOnWaves: 2, rocketStandoff: 1, flakOverTarget: 1 },
+                  warn: {
+                    1: "Fighter controllers are vectoring multiple German wings onto the formation's track.",
+                    2: "The lead groups report fighters massing for a coordinated pass from dead ahead.",
+                  },
+                  results: {
+                    repulsed: "The attack is broken up before it presses home, and the formation holds its course intact.",
+                    heldAtCost: "The formation holds together, at a cost in aircraft the box couldn't cover in time.",
+                    broke: "The attack presses home through the box, and the formation takes losses it can't make good.",
+                    gaveGround: "The lead group pulls the formation into a tighter, slower box rather than fight the attack out where it struck.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: 30,
@@ -8974,7 +10108,10 @@ const CAMPAIGNS = {
           title: "The Aegean Temptation",
           historicalRecord: true,
           situation:
-            "With Italy's surrender, Churchill sees an Aegean door swinging open: the Italian-garrisoned Dodecanese islands — Rhodes, Kos, Leros — could be seized cheaply, pressuring Turkey toward the Allied camp and opening a Balkan flank. American planners want nothing to do with it: no carrier cover, German airpower dominant from Rhodes the moment they take it, and every landing craft in the theater already spoken for by Overlord's schedule. Churchill presses anyway, with mostly British forces. It is his Mediterranean thesis in miniature — and history's version supplies the test result.",
+            "With Italy's surrender, Churchill sees an Aegean door swinging open: the Italian-garrisoned Dodecanese islands — Rhodes, Kos, Leros — could be seized cheaply, pressuring Turkey toward the Allied camp and opening a Balkan flank. American planners want nothing to do with it: no carrier cover, German airpower dominant from Rhodes the moment they take it, and every landing craft in the theater already spoken for by Overlord's schedule. Churchill presses anyway, with mostly British forces. It is his Mediterranean thesis in miniature — and history's version supplies the test result." +
+            (flags.forkRhodesWeak
+              ? " One planning assumption looks softer than usual this week: aerial reconnaissance over Rhodes itself suggests the German garrison racing to secure it may be thinner than the historical order of battle assumed. Confidence in the estimate is, so far, limited."
+              : ""),
           choices: [
             {
               label: "Launch the Aegean operation — seize the islands while the Italian surrender holds them open",
@@ -8985,15 +10122,19 @@ const CAMPAIGNS = {
               next: "anzio44",
               uncertain: [
                 {
-                  weight: modWeight(20, meters.fuel),
+                  // Historical Divergence Mode: forkRhodesWeak doesn't force Rhodes to fall
+                  // first, it nudges the odds — same pattern as forkEastAfricaSlow (italy),
+                  // the established precedent for a fork touching an already-uncertain roll.
+                  weight: modWeight(20, meters.fuel) + (flags.forkRhodesWeak ? 20 : 0),
                   title: "The improvisation lands",
                   impact: { manpower: 0, fuel: -1, initiative: 0 },
                   next: "turkishQuestion44",
-                  outcome:
-                    "The minority projection: Rhodes itself is taken in the first rush — the historical operation's cardinal omission corrected — and with its airfields denied to the Luftwaffe, the island chain holds. The Aegean flank becomes a standing German anxiety at modest cost, and Ankara notices exactly what Churchill wanted it to notice.",
+                  outcome: flags.forkRhodesWeak
+                    ? "The minority projection, made rather less of a minority this time: Rhodes itself is taken in the first rush — the historical operation's cardinal omission corrected, and helped along by a German garrison that turned out to be as thin as the reconnaissance suggested — and with its airfields denied to the Luftwaffe, the island chain holds. The Aegean flank becomes a standing German anxiety at modest cost, and Ankara notices exactly what Churchill wanted it to notice."
+                    : "The minority projection: Rhodes itself is taken in the first rush — the historical operation's cardinal omission corrected — and with its airfields denied to the Luftwaffe, the island chain holds. The Aegean flank becomes a standing German anxiety at modest cost, and Ankara notices exactly what Churchill wanted it to notice.",
                 },
                 {
-                  weight: 100 - modWeight(20, meters.fuel),
+                  weight: 100 - (modWeight(20, meters.fuel) + (flags.forkRhodesWeak ? 20 : 0)),
                   title: "The lesson of Leros",
                   next: "aegeanReckoning43",
                   impact: { manpower: -2, fuel: -1, initiative: 0 },
@@ -9053,7 +10194,10 @@ const CAMPAIGNS = {
           title: "The Turkish Question",
           historicalRecord: false,
           situation:
-            "An Aegean flank held against German airpower is exactly the leverage Churchill's whole Mediterranean thesis was built to produce: proof, sitting off Turkey's own coast, that the Allied position in the region is not the paper tiger Ankara has spent two years treating it as. Turkey has stayed neutral since 1939 by design, hedging against whichever side looked stronger. The Aegean flank is now a live argument for joining the war — how hard to press an argument that was never going to be settled by anything less than the war's own trajectory is what's actually on the table.",
+            "An Aegean flank held against German airpower is exactly the leverage Churchill's whole Mediterranean thesis was built to produce: proof, sitting off Turkey's own coast, that the Allied position in the region is not the paper tiger Ankara has spent two years treating it as. Turkey has stayed neutral since 1939 by design, hedging against whichever side looked stronger. The Aegean flank is now a live argument for joining the war — how hard to press an argument that was never going to be settled by anything less than the war's own trajectory is what's actually on the table." +
+            (flags.forkRhodesWeak
+              ? " Ankara's own military attachés have noticed the same thing British planners did going in — that Rhodes fell faster than anyone briefed them to expect — and it's exactly the kind of detail that reads differently in a neutral capital weighing which side actually has the initiative."
+              : ""),
           choices: [
             {
               label: "Press Ankara hard — full diplomatic weight behind Turkish belligerence now",
@@ -9141,6 +10285,9 @@ const CAMPAIGNS = {
               : "") +
             (flags.secondFront42 === "torch"
               ? " Shingle is what fourteen months of the Mediterranean-first commitment this command argued for in 1942 has actually bought: enough landing craft and amphibious experience in-theater to attempt a maneuver like this one at all."
+              : "") +
+            (flags.forkAnzioWeak
+              ? " Planners are treating one estimate with real caution rather than staking the landing's timing on it: aerial reconnaissance suggests the coastal garrison opposite the chosen beaches may be thinner than the historical planning assumption, though nobody is yet prepared to promise the beach itself stays that way."
               : ""),
           choices: [
             {
@@ -9150,17 +10297,153 @@ const CAMPAIGNS = {
               setFlags: { anzio44: "launch" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: flags.dieppe42 === "cancel" ? "untestedDoctrine44" : "overlordPrep44",
+              // Key Battle Subgame, battle #7 (round 15, "getting 10 battles"). Same unconditional-
+              // add pattern as Kursk and Monte Cassino (uncertain[] already existed on this choice
+              // before the subgame, so keyBattleSubgame is added directly rather than spread behind
+              // KEY_BATTLE_SUBGAME_ENABLED — shipped builds never read keyBattleSubgame at all, and
+              // check-battle-balance.js/check-reachability.js both evaluate with the flag false, so
+              // the shipped graph is unaffected either way). The uncertain[] array below, its
+              // weight formula, the Historical Divergence Mode fork on forkAnzioWeak, and both
+              // branches' own next-routing are all left exactly as they were — this only adds an
+              // allocation screen ahead of the existing roll, it doesn't change what the roll means.
+              //
+              // Bespoke amphibious-archetype categories, not the default land set: this is the
+              // third amphibious-flavored subgame (after Omaha), and the real historical tension
+              // here isn't beach resistance — the landing was almost unopposed — it's what this
+              // choice's own outcome text already describes: how much of the corps pushes inland
+              // while the roads are still open versus how much stays back to hold what's ashore.
+              // All facts verified 2026-09-25 (Wikipedia, Battle of Anzio): H-Hour was roughly
+              // 0200 on 22 January 1944, the landing achieved complete surprise against a coastal
+              // garrison caught unprepared, and a US patrol reportedly reached the outskirts of
+              // Rome itself before turning back; Kesselring received word at 0300 and issued
+              // Operation "Richard" at 0500, ordering Kampfgruppe elements of the 4th Parachute
+              // Division and the Hermann Göring Fallschirm Panzer Division to block the roads to
+              // the Alban Hills via Campoleone and Cisterna; by 24 January the Germans had over
+              // 40,000 troops in place, including the 3rd Panzer Grenadier and 71st Infantry
+              // Divisions, and von Mackensen's 14th Army took over the defense on 25 January —
+              // "within twenty-four hours, the Germans had a complete but thin defensive line
+              // around the beachhead." Major General Lucian K. Truscott Jr. commanded the US 3rd
+              // Infantry Division and later argued the inland thrust toward Valmontone "would have
+              // accomplished in full" the operation's aims; Major General Ronald Penney commanded
+              // the British 1st Infantry Division; Colonel William O. Darby's 6615th Ranger Force
+              // took the port of Anzio itself on the landing's first day.
+              concealRoll: true,
+              keyBattleSubgame: {
+                id: "anzio44",
+                title: "Order of Battle — The Beachhead's First Hours",
+                flavor:
+                  "Ashore before dawn against almost no opposition — the surprise is total, a forward patrol reportedly reaching the outskirts of Rome itself before turning back. What happens next is the entire question Shingle was built to answer: how much of this corps pushes inland now, while the roads to the Alban Hills are still open, and how much stays back to hold the beach it will need for however long this actually takes. Somewhere behind the German lines, an order is already moving to close that door. What's decided here is how the infantry, the tanks, Darby's Rangers, and the buildup off two hundred and forty ships are weighed against each other before it does.",
+                categories: [
+                  { id: "assault", name: "Infantry Beachhead", meter: "manpower", glyph: "◆◆◆" },
+                  { id: "armor", name: "Armored Exploitation", meter: "fuel", glyph: "▲" },
+                  { id: "rangers", name: "Ranger & Commando Vanguard", meter: "manpower", glyph: "✦" },
+                  { id: "naval", name: "Naval Gunfire & Buildup", meter: "fuel", glyph: "≋" },
+                ],
+                // Armor highest — the exploitation column is what could actually unhinge the
+                // Gustav Line's rear before the roads close; Rangers second — a small, aggressive
+                // vanguard, historically the first element to take an objective (the port) outright;
+                // assault third — the numerical bulk of the corps, but holding ground rather than
+                // taking it; naval lowest, deliberately — real and necessary (everything the corps
+                // uses comes off those ships), but it is buildup and support, not what decides
+                // whether the door stays open, the same design choice as Omaha's Air or Monte
+                // Cassino's Supply.
+                effectiveness: { assault: 1.8, armor: 2.8, rangers: 2.4, naval: 1.6 },
+                categoryContext: {
+                  assault:
+                    "The 3rd Division and British 1st are ashore against minimal opposition. The question isn't how many men fit on the beach — it's how many stay to hold the line versus how many push forward with the rest.",
+                  armor:
+                    "Tanks are ashore. The roads to the Alban Hills are open now. Every hour spent deciding is an hour Kesselring's counter-order gets closer to closing that door.",
+                  rangers:
+                    "Darby's Rangers took the port this morning without firing. Pushed ahead of the main line, they're the fastest way to see how far this beachhead can actually run before hitting something solid.",
+                  naval:
+                    "Two hundred and forty ships are standing off the beach. Everything this corps eats, shoots, drives — all of it comes from those ships. Weight here is what keeps everything else moving past the first day.",
+                },
+                flashups: {
+                  assault: [
+                    "The 3rd Division's lead battalions push their line out from the beach without meeting a shot.",
+                    "British 1st Division troops come ashore behind their own start line, dry and unopposed.",
+                    "A forward platoon reports the ground ahead clear all the way to the first crossroads.",
+                    "The beachhead perimeter pushes out another few hundred yards before digging in.",
+                    "A patrol finds the road to Campoleone open and undefended, for now.",
+                  ],
+                  armor: [
+                    "A tank column rolls off the beach and turns north on the road toward the Alban Hills.",
+                    "Sherman tanks push past the start line without a German gun to answer them.",
+                    "The lead armored element reports it could reach the hills by dark at this rate.",
+                    "A tank platoon stops at a forward dump to refuel rather than push on unsupported.",
+                    "Armor probes forward along the road to Cisterna and finds it still open.",
+                  ],
+                  rangers: [
+                    "Darby's Rangers secure the port of Anzio before the town's garrison can react.",
+                    "A Ranger patrol pushes well ahead of the main line, looking for the first sign of resistance.",
+                    "Commandos clear the coast road north of the beachhead without a shot fired.",
+                    "A Ranger company reports the crossroads ahead still undefended.",
+                    "The vanguard element radios back that it has outrun its own flank security.",
+                  ],
+                  naval: [
+                    "Another wave of landing craft threads through the anchorage and grounds on the beach.",
+                    "A cruiser stands off the coast, guns laid on the approaches, still unfired.",
+                    "The buildup continues over open beach — no port yet secured for deep-draft ships.",
+                    "A supply officer reports the beachhead dump growing faster than the roads can clear it.",
+                    "Destroyers screen the anchorage against the first German air reconnaissance of the day.",
+                  ],
+                },
+                reportTimes: { open: "0200", contact: "0630", cats: ["0900", "1200", "1500", "1800"], reserve: "2000", counter: "2200" },
+                idleLines: {
+                  assault: [
+                    "No infantry moves beyond the start line. The beachhead stays exactly its first-hour size.",
+                    "The perimeter holds where it landed. Nobody is pushing it further out.",
+                  ],
+                  armor: [
+                    "The tanks stay parked above the beach. Whatever window the roads offer, nothing is using it.",
+                    "No armored column moves. The roads inland stay whatever the enemy leaves them.",
+                  ],
+                  rangers: [
+                    "The Rangers hold the port and go no further. Nobody is out ahead finding out what's coming.",
+                    "No vanguard element moves forward. The beachhead's flanks are whatever the main line already covers.",
+                  ],
+                  naval: [
+                    "The buildup stalls. What's already ashore is what there is to work with.",
+                    "No further landing craft come in. The dump behind the beach stops growing.",
+                  ],
+                },
+                verdicts: ["The Roads Stay Open", "The Ring Closes First"],
+                verdictGrades: {
+                  clean: "Every arm moved together — infantry, armor, and the vanguard ahead of it — before the door had a chance to shut.",
+                  costly: "The roads stay open, but holding the ground past them costs more than the plan allowed for.",
+                  marginal: "The advance stalls short of the hills. The beachhead holds; the breakout doesn't.",
+                  total: "The advance doesn't stall so much as never really start — the beachhead is what there is to show for the day.",
+                },
+                counterattack: {
+                  category: "armor",
+                  severity: { richardOrder: 2, windowStillOpen: 1, thinCordon: 1 },
+                  warn: {
+                    1: "A German blocking force is reported moving toward the roads out of the beachhead.",
+                    2: "Kampfgruppe elements of the Hermann Göring and 4th Parachute Divisions are closing on the roads to Campoleone and Cisterna.",
+                  },
+                  results: {
+                    repulsed: "The blocking force is brushed aside and the roads stay open.",
+                    heldAtCost: "The roads stay open, but the column that forced them through is badly thinned doing it.",
+                    broke: "The German blocking force seals the roads before the column can force them.",
+                    gaveGround: "The column pulls back onto the beachhead rather than force roads that are no longer open.",
+                  },
+                },
+              },
               uncertain: [
                 {
-                  weight: modWeight(35, meters.manpower),
+                  // Historical Divergence Mode: forkAnzioWeak nudges this roll's odds the same
+                  // way forkEastAfricaSlow (italy) established the pattern — it doesn't force
+                  // the wildcat to run, it makes the plan's own premise more likely to hold.
+                  weight: modWeight(35, meters.manpower) + (flags.forkAnzioWeak ? 20 : 0),
                   title: "The wildcat runs",
                   impact: { manpower: 0, fuel: -1, initiative: -1 },
                   next: "romeDividend44",
-                  outcome:
-                    "This resolves to the version the plan promised: the landing force drives inland off an undefended beach in its first days — the historical corps commander's caution, much criticized since, replaced here by the aggression the plan's logic demanded — and the Gustav Line's rear is compromised before Kesselring can seal the beachhead. Rome falls months early, undamaged, and with divisions still intact that the historical four-month siege spent instead.",
+                  outcome: flags.forkAnzioWeak
+                    ? "This resolves to the version the plan promised, and for once the coastal garrison estimate turns out to be the one worth trusting: the landing force drives inland off a beach even thinner-held than briefed — the historical corps commander's caution, much criticized since, replaced here by the aggression the plan's logic demanded — and the Gustav Line's rear is compromised before Kesselring can seal the beachhead. Rome falls months early, undamaged, and with divisions still intact that the historical four-month siege spent instead."
+                    : "This resolves to the version the plan promised: the landing force drives inland off an undefended beach in its first days — the historical corps commander's caution, much criticized since, replaced here by the aggression the plan's logic demanded — and the Gustav Line's rear is compromised before Kesselring can seal the beachhead. Rome falls months early, undamaged, and with divisions still intact that the historical four-month siege spent instead.",
                 },
                 {
-                  weight: 100 - modWeight(35, meters.manpower),
+                  weight: 100 - (modWeight(35, meters.manpower) + (flags.forkAnzioWeak ? 20 : 0)),
                   title: "The stranded whale",
                   next: "anzioSiege44",
                   impact: { manpower: -2, fuel: -1, initiative: 0 },
@@ -9187,7 +10470,14 @@ const CAMPAIGNS = {
           title: "Four Months on the Beach",
           historicalRecord: true,
           situation:
-            "The beachhead is real, and so is the ring around it — Kesselring's forces hold the high ground overlooking every square meter of the perimeter, and 'Anzio Annie,' the German railway guns, can reach any point on the beach on a schedule the garrison has learned to live by. Truscott's corps is dug in, resupplied by sea under constant artillery observation, in a position some staff officers privately compare to Gallipoli. The question that recurs every week of this siege, and never gets easier to answer: is a breakout attempt worth the losses it would cost against a ring this dug in, or does patience — waiting for the Gustav Line's own collapse to unlock the perimeter from outside — actually cost less blood in the end?",
+            "The beachhead is real, and so is the ring around it — Kesselring's forces hold the high ground overlooking every square meter of the perimeter, and 'Anzio Annie,' the German railway guns, can reach any point on the beach on a schedule the garrison has learned to live by. Truscott's corps is dug in, resupplied by sea under constant artillery observation, in a position some staff officers privately compare to Gallipoli. The question that recurs every week of this siege, and never gets easier to answer: is a breakout attempt worth the losses it would cost against a ring this dug in, or does patience — waiting for the Gustav Line's own collapse to unlock the perimeter from outside — actually cost less blood in the end?" +
+            (flags.forkAnzioWeak
+              ? " The garrison that was reportedly thin on landing day is not the ring holding this beachhead now — whatever briefing suggested the coast was lightly held, Kesselring's reinforcement since has made the point moot for everyone still pinned down here."
+              : "") +
+            // Round 15 (battle #7 echo): this is the "stranded whale" branch — the ring closed
+            // before the column forced the roads, which is exactly why this beachhead is a
+            // four-month siege now rather than a corps already past the Alban Hills.
+            keyBattleEcho("anzio44", flags),
           choices: [
             {
               label: "Attempt an early breakout — test the ring before Kesselring reinforces it further",
@@ -9234,7 +10524,10 @@ const CAMPAIGNS = {
           title: "What an Early Rome Buys",
           historicalRecord: false,
           situation:
-            "Rome falls months ahead of schedule, undamaged, with the divisions that historically spent four months pinned at Anzio's perimeter still intact and available. It is the rarest thing this theater ever produces: a genuine surplus, arriving with Overlord's own preparation still weeks from complete. What an Italian campaign that finished early is actually for is a problem this desk has never had to solve before.",
+            "Rome falls months ahead of schedule, undamaged, with the divisions that historically spent four months pinned at Anzio's perimeter still intact and available. It is the rarest thing this theater ever produces: a genuine surplus, arriving with Overlord's own preparation still weeks from complete. What an Italian campaign that finished early is actually for is a problem this desk has never had to solve before." +
+            // Round 15 (battle #7 echo): this is the "wildcat runs" branch — the column forced
+            // the roads before the ring closed, which is the whole reason this surplus exists.
+            keyBattleEcho("anzio44", flags),
           choices: [
             {
               label: "Push north hard — Florence, the Gothic Line, and see how far intact divisions can carry the momentum",
@@ -9353,7 +10646,7 @@ const CAMPAIGNS = {
           title: "Omaha",
           historicalRecord: false,
           situation:
-            "The reports reaching V Corps by mid-morning are as grim as any the campaign has to offer, and they are close to the real ones: the bombers overshot, the DD tanks that were supposed to swim ashore ahead of the infantry mostly didn't, and the defenders on the bluffs above the beach are pouring fire into a strip of sand with almost no cover. Bradley, watching from offshore, has seriously weighed diverting the follow-on waves to Utah and the British beaches and writing Omaha off as a coordinated landing for this day. That consideration is real history, not invention — what this campaign asks is what happens if the moment that broke it, historically, doesn't arrive. No single rally, no Cota walking the shingle line, no destroyer captain risking his hull in the shallows to lay gunfire on the bluffs at near-suicidal range. The beach stays a killing ground into the early afternoon, and the follow-on schedule can't simply wait for it to resolve itself.",
+            "The reports reaching V Corps by mid-morning are grim. The bombers overshot, the swimming tanks that were supposed to reach the sand ahead of the infantry mostly haven't, and the defenders on the bluffs above the beach are pouring fire into a strip of sand with almost no cover. Bradley, watching from offshore, is weighing whether to divert the follow-on waves to Utah and the British beaches and write Omaha off as a coordinated landing for today. Nothing on the beach has broken yet. The men at the shingle aren't moving, the destroyers are standing off in deep water, and the landing schedule won't wait for either to change.",
           choices: [
             {
               label: "Feed the follow-on waves into Omaha regardless — commit further rather than divert",
@@ -9364,6 +10657,160 @@ const CAMPAIGNS = {
               next: "falaise44",
               outcome:
                 "The closest this campaign comes to the actual morning of June 6th: naval gunfire, and the accumulating weight of men who have nowhere else to go, eventually break the deadlock roughly on the historical timeline. It costs what it cost historically — Omaha remains the bloodiest of the five beaches by a wide margin — but the lodgment consolidates without the extended crisis the diverted path produces. History, it turns out, was already the version of this morning where the follow-on waves kept coming.",
+              // Key Battle Subgame, battle #2 (round 9 — Craig: "6 (D-Day)"). Dev build ONLY: the
+              // spread below is empty when KEY_BATTLE_SUBGAME_ENABLED is false, so the shipped
+              // game keeps this choice exactly as it was (deterministic, straight to falaise44),
+              // and the audit tools — which evaluate with the flag false — see the shipped graph.
+              // Built from the Allied side rather than the German campaign's Normandy node: the
+              // German choices there turn on whether anyone woke Hitler, which no allocation of
+              // effort can meaningfully affect; Bradley's morning is a real resource crisis, and
+              // the node's own premise (the rally that broke Omaha doesn't arrive on its own) is
+              // exactly the question the subgame asks — can the weight you commit force it?
+              // The failure branch routes into omahaIsolated44, the same "beach that didn't link
+              // up" evening the diverted path already reaches, with flag-conditional wording
+              // there so it reads right when the waves WERE committed. All facts in the config
+              // verified 2026-09-21 against Wikipedia's Omaha Beach article: the second wave at
+              // 07:00, the tide covering the uncleared obstacles, six of sixteen gaps cleared at
+              // over 40% engineer casualties, bombers overshooting in overcast ("only three bombs
+              // fell near the beach area"), 27 of 29 of one battalion's DD tanks swamped, the
+              // 09:50 order sending destroyers in close, and the five draws as the only exits.
+              ...(KEY_BATTLE_SUBGAME_ENABLED
+                ? {
+                    concealRoll: true,
+                    keyBattleSubgame: {
+                      id: "omaha",
+                      title: "Order of Battle — Omaha, Mid-Morning",
+                      flavor:
+                        "Mid-morning, and the tide is coming in over the obstacles the engineers never cleared. The bombers dropped their loads inland through the overcast, most of one battalion's swimming tanks went down on the way in, and fire from the bluffs is sweeping a beach with nowhere to hide. The decision to keep the waves coming is made. What's left is how the weight behind them lands: how many more go at the sand, how close the destroyers are sent in, how much goes to the engineers and tanks trying to open the exits, and what the aircraft overhead can do through the cloud.",
+                      categories: [
+                        { id: "waves", name: "Follow-on Waves", meter: "manpower", glyph: "▮▮▮" },
+                        { id: "naval", name: "Naval Gunfire", meter: "fuel", glyph: "≋" },
+                        { id: "engineers", name: "Engineers & Tanks", meter: "fuel", glyph: "▨" },
+                        { id: "air", name: "Air Support", meter: "fuel", glyph: "✈" },
+                      ],
+                      // Naval gunfire strongest (the destroyers closing in is what the record
+                      // credits with breaking the strongpoints), engineers second (the exits are
+                      // the only way off the beach), infantry baseline, air weakest (overcast).
+                      effectiveness: { waves: 1.8, naval: 3, engineers: 2.6, air: 1.6 },
+                      categoryContext: {
+                        waves:
+                          "The first waves are pinned against the shingle bank. The second came in at seven onto the same fire. Adding more men puts more on the sand. Whether it creates pressure on the bluffs depends on what's supporting them.",
+                        naval:
+                          "Destroyers have held offshore for fear of the shallows. Moved in close, they can fire straight into embrasures — at real risk of running aground.",
+                        engineers:
+                          "Gap assault teams were tasked with blowing sixteen lanes through the obstacles. Six are open now, at cost of four in ten men in those teams. The tide is covering the rest.",
+                        air:
+                          "The heavy bombers overshot in the overcast. Hardly a bomb fell near the beach. Fighter-bombers are overhead, but the cloud is low and the targets small.",
+                      },
+                      // Round 12 (Craig's item #5, "richer dispatch text"): expanded from 3
+                      // variants to 5 per category, same illustrative-texture rule as Kursk's —
+                      // consistent with what this node already establishes, no new specific
+                      // claims invented here.
+                      flashups: {
+                        waves: [
+                          "Another wave grounds on the sandbar and wades in under fire.",
+                          "Men pile up behind the shingle bank with nowhere to go but forward.",
+                          "A handful of men work up the bluff between two strongpoints.",
+                          "A boat team scatters and re-forms fifty yards down the beach.",
+                          "A sergeant gets a dozen men moving off the sand by himself.",
+                        ],
+                        naval: [
+                          "A destroyer turns parallel to the beach, guns firing at the bluffs.",
+                          "An embrasure on the bluff goes silent under direct fire from offshore.",
+                          "Naval fire walks along the mouth of a draw.",
+                          "A destroyer's keel scrapes bottom as it closes another hundred yards.",
+                          "Spotters ashore correct fire onto a strongpoint by radio.",
+                        ],
+                        engineers: [
+                          "Engineers blow another lane through the obstacles before the tide covers it.",
+                          "A tank that made it ashore fires into an embrasure at point-blank range.",
+                          "A demolition charge goes up early and takes its team with it.",
+                          "A bulldozer tank drags wire clear of a half-opened lane.",
+                          "The tide reaches a lane marked but not yet cleared.",
+                        ],
+                        air: [
+                          "Fighter-bombers hunt for targets through gaps in the overcast.",
+                          "The cloud hides the bluffs from the aircraft circling overhead.",
+                          "Nothing German flies over the beach all morning.",
+                          "A fighter-bomber makes a low pass at a strongpoint and finds the cloud again.",
+                          "Radio traffic overhead argues about targets nobody below can mark for them.",
+                        ],
+                      },
+                      // Round 10. The counterattack is sourced to the one that actually came
+                      // (Wikipedia, Omaha Beach): "a battalion was detached from the 915th
+                      // Regiment... Along with an anti-tank company... committed to a
+                      // counterattack in the Colleville area in the early afternoon" — hence 1330
+                      // and the heavier warning when the 352nd is the posture. The 352nd's main
+                      // reserve (Kampfgruppe Meyer) was sent toward the British sector and never
+                      // reached Omaha, so it deliberately isn't used here.
+                      reportTimes: { open: "0930", contact: "0940", cats: ["1000", "1030", "1100", "1200"], reserve: "1245", counter: "1330" },
+                      // Round 12: pooled, same as Kursk's.
+                      idleLines: {
+                        waves: [
+                          "No new waves are coming in. The men at the shingle are on their own.",
+                          "The follow-on boats hold offshore. Nobody new is landing.",
+                        ],
+                        naval: [
+                          "The destroyers are still out in deep water. The strongpoints fire unanswered.",
+                          "No naval fire is called in. The bluffs answer every strongpoint on their own.",
+                        ],
+                        engineers: [
+                          "Nobody is clearing the obstacles. The exits stay shut.",
+                          "The demolition teams stay back. The obstacle belt is untouched.",
+                        ],
+                        air: [
+                          "Nothing overhead to call on. The bluffs are left to the men on the ground.",
+                          "No aircraft answer the call for support. The overcast keeps them away.",
+                        ],
+                      },
+                      verdicts: ["The Bluffs Are Broken", "The Beach Holds Against You"],
+                      // Round 13, item #1: quality-graded subtitle under the verdict heading —
+                      // same grade logic as Kursk's, see computeBattlePlanCosts.
+                      verdictGrades: {
+                        clean: "Every element came together at once — naval fire, engineers, and the waves behind them.",
+                        costly: "The bluffs are broken, but the beach paid for every yard of it.",
+                        marginal: "The beach holds, but only barely. Another wave in the right place might have turned it.",
+                        total: "The beach holds, and holds hard — nothing here breaks it today.",
+                      },
+                      counterattack: {
+                        category: "waves",
+                        severity: { fieldDivision: 2, strongpointsIntact: 1, thinGarrison: 1 },
+                        warn: {
+                          1: "A German counterattack is forming against the men on the bluff top near Colleville.",
+                          2: "A German battalion with anti-tank guns is coming in against the bluff top near Colleville.",
+                        },
+                        results: {
+                          repulsed: "The men on the bluff top stop the counterattack cold.",
+                          heldAtCost: "The bluff top holds, but the companies up there are shot to pieces.",
+                          broke: "The counterattack drives the forward companies back down toward the shingle.",
+                          gaveGround: "The forward companies pull back to the bluff edge and hold there.",
+                        },
+                      },
+                    },
+                    uncertain: [
+                      {
+                        // Round 10 (item 7, Craig: bad planning should be able to ruin the
+                        // battle): base lowered from 60 to 45. Simulated at neutral Manpower: a
+                        // plan suited to the posture wins ~63-73%, a balanced one ~60%, a bad
+                        // one ~40%. Previously a good plan reached the 90s and almost nothing lost.
+                        weight: modWeight(45, meters.manpower),
+                        title: "The bluffs break by afternoon",
+                        impact: { manpower: -1, fuel: 0, initiative: 0 },
+                        outcome:
+                          "Naval gunfire, and the weight of men with nowhere to go but forward, break the deadlock on the bluffs by early afternoon. It costs what Omaha was always going to cost — the bloodiest of the five beaches by a wide margin — but by nightfall there is a foothold on the high ground above the beach, thin in places, but real.",
+                      },
+                      {
+                        weight: 100 - modWeight(45, meters.manpower),
+                        title: "The beach holds against you into the evening",
+                        setFlags: { omahaCrisis44: "stalled" },
+                        next: "omahaIsolated44",
+                        impact: { manpower: -2, fuel: 0, initiative: -1 },
+                        outcome:
+                          "The follow-on waves keep coming and the beach keeps taking them. By evening the other four beaches have joined into something like a single lodgment, and Omaha is still a narrow strip of sand under the bluffs. Keeping the waves coming was not the wrong order. The morning simply never produced the moment that broke the bluffs, and V Corps ends the day with far less ashore, and far less depth, than the plan called for.",
+                      },
+                    ],
+                  }
+                : {}),
             },
             {
               label: "Divert the follow-on strength to Utah and the British sector — leave V Corps to fight its own crisis",
@@ -9383,11 +10830,27 @@ const CAMPAIGNS = {
           title: "The Beach That Didn't Link Up",
           historicalRecord: false,
           situation:
-            "By evening, four of the five invasion beaches have joined into something recognizable as a single Allied lodgment. Omaha hasn't — V Corps holds perhaps a mile and a half of coastline and very little depth, its own follow-on schedule badly behind, with a real gap on the map between it and the nearest British units to the east. Naval gunfire keeps German armor from closing that gap outright — the campaign's own logic on air and naval supremacy holds here as everywhere else — but the gap is real, the survivors on the beach know it, and the question SHAEF has to answer overnight is whether Omaha gets treated as an emergency to be fixed immediately or a problem to be managed while the rest of the invasion proceeds.",
+            "By evening, four of the five invasion beaches have joined into something recognizable as a single Allied lodgment. Omaha hasn't — V Corps holds perhaps a mile and a half of coastline and very little depth, its own follow-on schedule badly behind, with a real gap on the map between it and the nearest British units to the east. Naval gunfire keeps German armor from closing that gap outright — the campaign's own logic on air and naval supremacy holds here as everywhere else — but the gap is real, the survivors on the beach know it, and the question SHAEF has to answer overnight is whether Omaha gets treated as an emergency to be fixed immediately or a problem to be managed while the rest of the invasion proceeds." +
+            // Round 10 (item 8): only on the dev build's stalled-battle path.
+            (flags.omahaCrisis44 === "stalled" ? keyBattleEcho("omaha", flags) : ""),
           choices: [
             {
-              label: "Reverse course — divert the divisions earmarked for the breakout phase to force Omaha open now",
+              // Round 9: omahaCrisis44 === "stalled" only exists in the dev build's Key Battle
+              // Subgame path (the waves WERE committed and the beach held anyway), where "reverse
+              // course" and a quote about correcting the morning's order would misdescribe what
+              // happened. Unnamed staff voice rather than a new line put in Eisenhower's mouth.
+              label:
+                flags.omahaCrisis44 === "stalled"
+                  ? "Double down — pull the divisions earmarked for the breakout phase into Omaha tonight"
+                  : "Reverse course — divert the divisions earmarked for the breakout phase to force Omaha open now",
               advisor: { name: "Eisenhower", quote: "I am not fighting five beachheads for a week because I was too proud to admit the order I gave this morning needs correcting tonight." },
+              // Spread AFTER the literal on purpose: check-advisor-dates.js matches the literal
+              // `advisor: { name, quote }` form, and a ternary in its place silently dropped
+              // Eisenhower's quote out of the date audit (557 -> 556 checked) in round 9's first
+              // pass. The later key overrides the earlier one only on the stalled path.
+              ...(flags.omahaCrisis44 === "stalled"
+                ? { advisor: { name: "SHAEF staff", quote: "The beach has had everything we planned to give it. What it needs now is what we planned to give somewhere else." } }
+                : {}),
               setFlags: { omahaIsolated44: "reinforce" },
               impact: { manpower: -1, fuel: -1, initiative: -1 },
               next: "omahaBreakthroughLate44",
@@ -9395,7 +10858,10 @@ const CAMPAIGNS = {
                 "The correction costs real capital — divisions meant for the exploitation phase spend themselves widening a beachhead instead — and it costs the schedule days that a smoother June 6th wouldn't have. It also works: throwing weight at the actual problem, rather than hoping it resolves itself, is usually the more expensive and more reliable answer both.",
             },
             {
-              label: "Hold the diversion — let Omaha consolidate what it has while the main weight builds through Utah and the British sector",
+              label:
+                flags.omahaCrisis44 === "stalled"
+                  ? "Hold what's ashore — let Omaha consolidate while the main weight builds through Utah and the British sector"
+                  : "Hold the diversion — let Omaha consolidate what it has while the main weight builds through Utah and the British sector",
               advisor: { name: "Montgomery", quote: "One corps, dug in on a mile and a half of sand, is not the invasion failing. It is the invasion costing more than we budgeted for on one beach out of five. I will not unbalance the whole front to spare it a hard week." },
               setFlags: { omahaIsolated44: "hold" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -9482,7 +10948,9 @@ const CAMPAIGNS = {
               ? " Patton's spearheads racing north for this pocket are, in a real sense, the same aggression this command rewarded once already on the Omaha bluffs in June — feeding the follow-on waves in rather than diverting them bought a beachhead that turned into exactly this kind of fast-moving army."
               : (flags.normandyDelay === "prolonged" || flags.normandyDelay === "prolongedCautious")
               ? " The two extra days Omaha's landing cost back in June are still, in a small way, baked into this week's schedule — this front reached Falaise's outskirts slightly later than the historical timeline, for the same reason it went in more carefully."
-              : ""),
+              : "") +
+            // Round 10 (item 8): a won Omaha battle leaves its commander's mark (dev build only).
+            (flags.omahaCrisis44 === "committed" ? keyBattleEcho("omahaLater", flags, "omaha") : ""),
           choices: [
             {
               label: "Hold the shoulder — let the boundary stand, accept that some of the pocket escapes",
@@ -9993,9 +11461,262 @@ const CAMPAIGNS = {
               setFlags: { italyEntry: "wait" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "extendedHoldout40",
+              outcome:
+                "The road Mussolini himself never seriously entertained, whatever his generals privately wished for: France's collapse is happening regardless of Rome's timetable, and the peace conference forming in its wake will seat whoever is a belligerent when it convenes. Holding out a few more weeks costs the one asset the 'parallel war' concept was built on — being present at the finish — in exchange for readiness numbers the standing mobilization plan says the army still needs.",
+            },
+          ],
+        };
+        },
+        // Round 19: a real delayed/avoided-entry fork off the "wait" choice above, which
+        // previously only set a flavor flag before funneling into the same alpsFront40 node
+        // "declare" used — no actual delay. This chain gives "wait" somewhere real to lead:
+        // a genuine late-declaration branch, and — if the player keeps pushing it — a deep,
+        // explicitly speculative non-belligerence arc with its own distinct ending states,
+        // built to the same standard as the backMussolini branch below (historicalRecord: false
+        // throughout, speculative: true from enduringNeutrality40 onward, marked plainly as
+        // departing from the documented record, wired into positionLabel/projectedEnd/epilogue/
+        // oneYearLater/mapOverrides/NODE_HIGHLIGHT_REGIONS).
+        get extendedHoldout40() {
+          return {
+          date: "LATE JUNE 1940",
+          title: "The Window Closes Without Rome",
+          historicalRecord: false,
+          situation:
+            "The extra weeks this command argued for have arrived at their actual cost: Germany and France are finalizing armistice terms this week at Compiègne, a negotiation Italy has no seat at because Italy has not yet declared war on anyone. The 'parallel war' doctrine's entire premise — being present as a belligerent when the peace table forms — is about to expire with France still fighting nobody but Germany. Badoglio's readiness numbers have improved only marginally in a month; Mussolini's patience for improving them further has not.",
+          choices: [
+            {
+              label: "Declare now, even at the eleventh hour — a late entry is still an entry",
+              advisor: { name: "Mussolini", quote: "Late is not the same as absent. I would rather be recorded as the belligerent who arrived at the last possible hour than the one who never arrived at all." },
+              historical: false,
+              setFlags: { italyEntry: "lateDeclare" },
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "alpsFront40",
               outcome:
-                "The road Mussolini himself never seriously entertained, whatever his generals privately wished for: France's collapse is happening regardless of Rome's timetable, and the peace conference forming in its wake will seat whoever is a belligerent when it convenes. Holding out a few more weeks costs the one asset the 'parallel war' concept was built on — being present at the finish — in exchange for readiness numbers the standing mobilization plan says the army genuinely needs.",
+                "Rome declares days before Compiègne closes the question — technically still a belligerent when France's armistice is signed, though with even less of a war fought to justify the claim than the historical June 10 declaration managed. The peace-table logic the whole doctrine was built on survives in name only: presence without participation.",
+            },
+            {
+              label: "Let the window close — France settles its own armistice without Italy ever entering against it",
+              advisor: { name: "Badoglio", quote: "There is no dishonor in an army that waited to be ready. There may be real dishonor in a war entered a week before the enemy stops fighting anyone at all. Let the window close." },
+              setFlags: { italyEntry: "missedFrance" },
+              favor: 1,
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "britainAloneQuestion40",
+              outcome:
+                "For the first time since Mussolini began arguing for a 'parallel war' a decade of doctrine assumed would always be there to join, Rome watches a European power's collapse happen entirely without Italian participation. France signs its armistice with Germany as a belligerent Italy is not, forfeiting whatever claim on French territory or colonies the peace table might otherwise have allowed. What remains open, with France now out of it, is a narrower and stranger question: whether there is still a war worth entering at all.",
+            },
+          ],
+        };
+        },
+        get britainAloneQuestion40() {
+          return {
+          date: "JULY 1940",
+          title: "A War Only Half Joined",
+          historicalRecord: false,
+          situation:
+            "France is out, and Italy sat out its fall — a fact no amount of after-the-event diplomacy can undo, whatever the peace conference in Paris ultimately looks like. Britain, alone now among the major powers still fighting Germany, has refused every overture toward a negotiated peace and is bracing for whatever comes out of the air campaign already building over the Channel. The Mediterranean ambitions this staff has argued over for years — Malta, Egypt, Suez — were never actually contingent on France; they are a British problem, not a French one. What is different this month is that entering the war now would mean entering it against Britain alone, for reasons that would have to stand on their own rather than ride the peace-table logic that justified the historical June declaration.",
+          choices: [
+            {
+              label: "Declare war on Britain alone — the Mediterranean fight was always a British one, not a French one",
+              advisor: { name: "Ciano", quote: "Malta and Suez were never France's to contest. If this government still wants Mare Nostrum, it can want it without a peace table that no longer exists to seat us at." },
+              historical: false,
+              setFlags: { italyEntry: "britainOnly" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "medStrategy40",
+              outcome:
+                "A declaration built on a different premise than the historical one — not a rush to claim a seat at a peace conference that no longer needs seating, but a direct wager on the Mediterranean prize itself. Italy enters a war it never fought in the Alps and never fought against France at all, funneling straight into the Malta and Egypt argument that was always the more consequential theater regardless of how the war started.",
+            },
+            {
+              label: "Hold non-belligerence indefinitely — Rome stays out of the wider war entirely",
+              advisor: { name: "Badoglio", quote: "There is no doctrine that requires this country to fight. There is only a decade of one man's rhetoric that assumed it always would. I am recommending the rhetoric be proven wrong." },
+              setFlags: { italyEntry: "neutral" },
+              favor: 1,
+              impact: { manpower: 1, fuel: 1, initiative: -2 },
+              next: "enduringNeutrality40",
+              outcome:
+                "This is a road essentially no Italian government under Mussolini ever seriously entertained past the planning-document stage, marked plainly for what it is: a genuine counterfactual, run forward on its own terms rather than folded back into the war that actually happened. Rome stays out — not neutral in the legal sense the regime always insisted was different from non-belligerence, but functionally the same thing the word was invented to avoid admitting.",
+            },
+          ],
+        };
+        },
+        get enduringNeutrality40() {
+          return {
+          date: "AUTUMN 1940",
+          title: "The Cost of Staying Out",
+          historicalRecord: false,
+          speculative: true,
+          situation:
+            "Marked plainly, up front: nothing from here reflects a policy any Italian government under Mussolini's regime actually pursued past a planning document's margin notes — it is a counterfactual, run forward on its own terms rather than folded quietly back into the history that actually happened. Sustained non-belligerence is a stranger position for this regime to hold than it sounds: the entire domestic case for Fascism rested on martial prestige, and a country that sits out a war Germany appears to be winning is a government handing its own opposition — what little of it survives — the one argument it never had before. Berlin, meanwhile, has said nothing formal yet. Hitler's attention this autumn is elsewhere, but an Axis partnership that exists on paper without an Italian war to show for it is not a position anyone in this room expects Berlin to leave unexamined indefinitely.",
+          choices: [
+            {
+              label: "Hold firm publicly — declare non-belligerence a settled, permanent state policy",
+              advisor: { name: "Mussolini", quote: "I would rather stake this government's legitimacy on having judged the war correctly than on having joined it. History rewards the second far less often than my generals seem to assume." },
+              checkLabel: "Initiative",
+              disabledReason: (meters.initiative || 0) >= -3 ? undefined : "too little standing left in the regime's own propaganda apparatus to sell indefinite non-belligerence as strength rather than weakness",
+              setFlags: { neutralItaly40: "declared" },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
+              next: "germanPressure41",
+              outcome:
+                "A public, formal commitment — non-belligerence recast in the regime's own propaganda as judgment rather than absence, a harder sell domestically than a declaration of war would have been, but a real one. What it does not settle, and cannot settle unilaterally, is what Berlin eventually decides to do about an ally that never actually fought.",
+            },
+            {
+              label: "Stay non-belligerent but quietly hedge — maintain contingency plans in case Berlin's patience runs out",
+              advisor: { name: "Badoglio", quote: "Say what the propaganda ministry needs said. I am not staking the army's readiness on Berlin's goodwill lasting indefinitely, whatever gets announced on the radio." },
+              setFlags: { neutralItaly40: "hedge" },
+              favor: 1,
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
+              next: "germanPressure41",
+              outcome:
+                "A quieter posture — non-belligerence in public, contingency planning in private, in case the regime's wager on Berlin's patience turns out to be wrong. It costs nothing today and buys, at most, a head start on a crisis this command hopes never arrives.",
+            },
+          ],
+        };
+        },
+        get germanPressure41() {
+          return {
+          date: "1941",
+          title: "Berlin's Patience, Tested",
+          historicalRecord: false,
+          speculative: true,
+          situation:
+            "A year into a European war Italy has still not entered on either side, Berlin's attention through most of 1941 is consumed by a campaign in the Soviet Union that dwarfs anything the Mediterranean could offer — which has, so far, worked in Rome's favor more than any Italian diplomacy has. But an ally that contributes nothing militarily while occupying strategically significant territory on Germany's southern flank is not a standing arrangement Berlin's own planners are likely to leave unexamined forever, particularly once the Eastern campaign's own demands make every spare division and every secure supply route worth having elsewhere. What this command controls is not whether the question gets asked, only how it answers when it does." +
+            (flags.neutralItaly40 === "hedge"
+              ? " The contingency planning kept quiet since last autumn has not gone entirely unnoticed — German liaison officers have asked more questions about Italian mobilization readiness than a purely neutral posture would explain."
+              : ""),
+          choices: [
+            {
+              label: "Offer economic concessions short of alliance — raw materials, basing rights, transit access — to keep Berlin tolerant of the arrangement",
+              advisor: { name: "Ciano", quote: "We do not have to give Berlin a war. We have to give Berlin enough of what a war would have provided that the difference stops mattering to them." },
+              checkLabel: "Fuel",
+              disabledReason: (meters.fuel || 0) >= -2 ? undefined : "too little left in reserve to offer German transit and resource access without visibly straining the arrangement it's meant to protect",
+              setFlags: { neutralItalyResponse41: "concede" },
+              impact: { manpower: 0, fuel: -2, initiative: 0 },
+              next: "neutralItalyEnd45",
+              uncertain: [
+                {
+                  weight: modWeight(55, meters.initiative),
+                  title: "The concessions hold Berlin's patience — for the duration",
+                  setFlags: { neutralItalyPressure: "tolerated" },
+                  impact: { manpower: 1, fuel: 0, initiative: 1 },
+                  outcome:
+                    "Eastern-front demands keep absorbing everything Berlin has to spare for the rest of the war, and a non-belligerent Italy quietly paying its way in raw materials and transit access turns out to cost Germany less attention than actually compelling compliance would. The arrangement holds, uneasily but completely, for the duration — a country that spends the entire European war neither fighting nor fully sovereign, and never once fires a shot in it.",
+                },
+                {
+                  weight: 100 - modWeight(55, meters.initiative),
+                  title: "The concessions buy time, not tolerance",
+                  setFlags: { neutralItalyPressure: "coerced" },
+                  impact: { manpower: -1, fuel: -1, initiative: -1 },
+                  next: "neutralItalyOccupied42",
+                  outcome:
+                    "What the concessions actually bought turns out to be measured in months, not years — useful cover while Berlin was occupied elsewhere, not a durable settlement. By late 1942, with the strategic picture shifting and Rome's usefulness as a compliant-but-uncommitted neighbor no longer outweighing the risk of leaving it that way, Berlin moves.",
+                },
+              ],
+            },
+            {
+              label: "Refuse all concessions — stake this government's remaining legitimacy on genuine, unconditional independence",
+              advisor: { name: "Mussolini", quote: "A neutrality that pays tribute to be tolerated is not neutrality. I would rather find out directly what this alliance was actually worth to Berlin than spend it slowly, concession by concession, finding out the same thing." },
+              setFlags: { neutralItalyResponse41: "refuse" },
+              impact: { manpower: 0, fuel: 1, initiative: 1 },
+              next: "neutralItalyEnd45",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "Berlin lets it stand — the Eastern campaign has no attention left to spare",
+                  setFlags: { neutralItalyPressure: "tolerated" },
+                  impact: { manpower: 1, fuel: 1, initiative: 2 },
+                  outcome:
+                    "The gamble pays off, against odds this staff's own assessment gave it: whatever irritation Rome's refusal generates in Berlin, it never translates into action, because the resources compelling it would require are resources the Eastern Front will not release for the rest of the war. Italy holds an independent, unconditional non-belligerence through to the end of a European war it never once entered — the wager Mussolini staked his government's legitimacy on, vindicated in full.",
+                },
+                {
+                  weight: 100 - modWeight(35, meters.initiative),
+                  title: "Berlin answers the refusal directly",
+                  setFlags: { neutralItalyPressure: "coerced" },
+                  impact: { manpower: -2, fuel: -1, initiative: -1 },
+                  next: "neutralItalyOccupied42",
+                  outcome:
+                    "The refusal is answered, not ignored — German formations already stationed in southern France and the Balkans begin repositioning toward the Italian frontier within weeks, a pressure campaign considerably blunter than the concessions path's slower squeeze. Whatever independence this wager was staked on is about to be tested directly rather than merely asserted.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get neutralItalyOccupied42() {
+          return {
+          date: "LATE 1942",
+          title: "The Ultimatum",
+          historicalRecord: false,
+          speculative: true,
+          situation:
+            "What arrives is not an invasion in the conventional sense — Berlin has neither the spare divisions nor, this deep into the Eastern campaign, the appetite for conquering a nominal ally outright. What arrives instead is closer to the arrangement Germany actually imposed on Vichy France's unoccupied zone the same season, when Allied landings in North Africa made a fully neutral southern France an intolerable risk: German formations moving to occupy strategic points — ports, airfields, the Alpine passes — while offering Rome a choice dressed as a formality. Accept German 'protection' and effective occupation without further resistance, or refuse it and find out directly what a German military response to an ally's refusal actually looks like.",
+          choices: [
+            {
+              label: "Submit — accept German terms rather than resist a war this command spent two years avoiding",
+              advisor: { name: "Cavallero", quote: "We built an entire policy around not fighting this war. I am not spending the men that policy saved us proving a point about sovereignty at the last possible moment." },
+              historical: false,
+              setFlags: { neutralItalyEnd: "submit" },
+              impact: { manpower: 0, fuel: -1, initiative: -1 },
+              next: "END",
+              outcome:
+                "The arrangement Mussolini's regime spent two years and considerable domestic credibility avoiding arrives anyway, just later and by a quieter road than the war it sidestepped would have taken: German garrisons at the ports and passes, an occupied-in-practice status dressed in whatever language the propaganda ministry can still manage, and a country that never fired a shot in this war ending up dominated by the same power its non-belligerence was supposed to keep at arm's length.",
+            },
+            {
+              label: "Resist — refuse the ultimatum and find out what a German response to an ally's defiance actually costs",
+              advisor: { name: "Ciano", quote: "We refused to fight for Berlin for two years. I would at least like this government's last act to be refusing to fight for Berlin, rather than simply being absorbed by it without a shot fired either way." },
+              checkLabel: "Manpower",
+              disabledReason: (meters.manpower || 0) >= -3 ? undefined : "too depleted a standing army left to make a refusal credible rather than merely symbolic",
+              setFlags: { neutralItalyEnd: "resist" },
+              impact: { manpower: -2, fuel: -1, initiative: 1 },
+              next: "END",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "The refusal holds — Berlin doesn't press further",
+                  setFlags: { neutralItalyResistResult: "held" },
+                  impact: { manpower: -1, fuel: 0, initiative: 1 },
+                  outcome:
+                    "Against most of this staff's own private assessment, the refusal is not immediately tested further — an occupation Berlin cannot fully resource on top of the Eastern Front's own demands turns out to be a threat with less follow-through behind it than the ultimatum implied. Italy ends the year still formally independent, at a cost measured in reserves spent readying for a fight that, for now, doesn't come.",
+                },
+                {
+                  weight: 100 - modWeight(30, meters.initiative),
+                  title: "Berlin presses the point directly",
+                  setFlags: { neutralItalyResistResult: "fought" },
+                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  outcome:
+                    "The country that spent two years engineering a way to avoid fighting this war ends up fighting a version of it after all — not alongside Germany and not, in any organized sense, against the Allies either, but directly against the ally its entire policy was built to placate. A stranger, smaller war than the one it avoided, against an opponent this army was never built or postured to face.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get neutralItalyEnd45() {
+          return {
+          date: "1945",
+          title: "The War That Passed Rome By",
+          historicalRecord: false,
+          speculative: true,
+          situation:
+            "The war in Europe ends without this command ever having fought it — no declaration against France, no desert campaign, no Greek winter, no armistice split into two rival governments. What the documented record's own Italy paid in casualties, occupied territory, and a fractured postwar reckoning between north and south, this Italy simply never billed. What it also never has is a place at whichever peace conference now assembles: a non-belligerent for six years running is not a power anyone at that table is likely to consult about how Europe gets redrawn.",
+          choices: [
+            {
+              label: "Treat the outcome as vindication — the regime judged the war correctly, and history should say so",
+              advisor: { name: "Mussolini", quote: "Let the history books record what they will about courage. I would rather be remembered as the government that judged a catastrophe correctly than the one that shared in it heroically." },
+              setFlags: { neutralItalyRetrospect: "vindicated" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "END",
+              outcome:
+                "A verdict this command is, in fairness, better positioned to argue than almost any other in this war: the army is intact, the cities are unbombed, and the casualty lists that define every other version of this campaign simply don't exist here. What it costs is harder to put a number on — a seat at the table where the postwar order actually gets decided, forfeited the moment this government chose not to be a belligerent on either side of it.",
+            },
+            {
+              label: "Acknowledge the cost plainly — surviving a catastrophe is not the same as having answered for it",
+              advisor: { name: "Badoglio", quote: "We are alive, and the army is intact, and I will not pretend either of those facts is a small thing after what this continent has spent the last six years doing to itself. But we did not answer for anything. We only avoided being asked." },
+              favor: 1,
+              setFlags: { neutralItalyRetrospect: "unresolved" },
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
+              next: "END",
+              outcome:
+                "The more honest closing note available to this command: a country that spent six years neither fighting fascism's war nor answering for having built the regime that might have joined one, left to decide for itself — in a Europe it had no hand in remaking — what, if anything, that avoidance actually cost it.",
             },
           ],
         };
@@ -10011,6 +11732,8 @@ const CAMPAIGNS = {
               ? " This is exactly the readiness gap Badoglio warned the declaration itself would produce — a rifle shortage and a rushed staff plan, arriving on schedule."
               : flags.italyEntry === "wait"
               ? " The extra weeks this command spent arguing for before declaring bought a marginally less threadbare mobilization than the historical timetable had, though not enough to turn a rushed mountain offensive into a properly planned one."
+              : flags.italyEntry === "lateDeclare"
+              ? " This command held out nearly to the armistice itself before declaring — the readiness gap Badoglio warned about is smaller than the historical one, but the window to actually use it against a French army already collapsing is smaller still."
               : "") +
             " The armistice clock is also running — France and Germany are already talking terms — which means whatever ground gets taken has to get taken fast to count for anything at the table at all.",
           choices: [
@@ -10109,7 +11832,7 @@ const CAMPAIGNS = {
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "gibraltarResolution40",
               outcome:
-                "A real diplomatic wager, and a genuinely uncomfortable one for a government that has its own list of French territory it wants at the eventual peace table: sweetening Franco's price with Italian consent, rather than Italian silence, is the one lever the historical Hendaye meeting never actually had available to it. What it buys, if it buys anything, is untested — nothing in the documented record says Franco's caution was only ever about the price on offer.",
+                "A real diplomatic wager, and an uncomfortable one for a government that has its own list of French territory it wants at the eventual peace table: sweetening Franco's price with Italian consent, rather than Italian silence, is the one lever the historical Hendaye meeting never actually had available to it. What it buys, if it buys anything, is untested — nothing in the documented record says Franco's caution was only ever about the price on offer.",
             },
             {
               label: "Hold back — let Madrid name its price to Berlin alone, and keep Rome's own claims out of the bargaining",
@@ -10129,10 +11852,10 @@ const CAMPAIGNS = {
           title: "Hendaye, With Rome in the Room",
           historicalRecord: false,
           situation:
-            "The meeting the documented history actually records — Hitler's train halted at the French-Spanish border town of Hendaye, nine hours of negotiation that end with Franco's price unmet and Spain still out of the war — runs this time with an Italian delegation present and Rome's guarantees on the table alongside Berlin's. It changes the shape of the argument without changing its hardest constraint: Franco's Spain, three years out of its own civil war, genuinely cannot feed itself without grain shipments only Germany and Italy can realistically promise, and genuinely cannot fight without weapons neither power can spare from fronts already open. Rome's guarantees on Tunisia and Nice sweeten what Franco is offered without touching the actual bottleneck — food and matériel this command's own fuel and manpower ledger will have to answer for, on top of everything already committed to Libya and Greece.",
+            "The meeting the documented history actually records — Hitler's train halted at the French-Spanish border town of Hendaye, nine hours of negotiation that end with Franco's price unmet and Spain still out of the war — runs this time with an Italian delegation present and Rome's guarantees on the table alongside Berlin's. It changes the shape of the argument without changing its hardest constraint: Franco's Spain, three years out of its own civil war, cannot feed itself without grain shipments only Germany and Italy can realistically promise, and cannot fight without weapons neither power can spare from fronts already open. Rome's guarantees on Tunisia and Nice sweeten what Franco is offered without touching the actual bottleneck — food and matériel this command's own fuel and manpower ledger will have to answer for, on top of everything already committed to Libya and Greece.",
           choices: [
             {
-              label: "Commit real Italian grain and fuel shipments to Spain — make the price genuinely affordable, not just politically sweeter",
+              label: "Commit real Italian grain and fuel shipments to Spain — make the price actually affordable, not just politically sweeter",
               advisor: { name: "Cavallero", quote: "Guarantees on paper cost this command nothing and bought nothing at Hendaye. Ships full of grain cost a great deal and might actually buy something. I would rather spend the fuel and find out than keep the promise cheap and watch it fail the same way." },
               checkLabel: "Fuel",
               disabledReason: meters.fuel <= -3 ? "no fuel reserve left to commit to shipments Spain would actually need to move" : undefined,
@@ -10148,7 +11871,7 @@ const CAMPAIGNS = {
                   setFlags: { gibraltarTaken: "success" },
                   impact: { manpower: -1, fuel: -1, initiative: 2 },
                   outcome:
-                    "The documented failure of Hendaye turns out not to have been inevitable after all: a genuinely resourced offer, backed by Italian shipments Berlin alone never put forward, gives Franco's own war cabinet the material argument its more cautious members were missing. Spanish and German forces move on Gibraltar in early 1941, and the Mediterranean's western mouth closes — Force H, the Gibraltar-based squadron that has spent a year raiding Italian convoys and escorting everything bound for Malta, no longer has a home port to sail from. Every convoy calculation this command has made since June 1940 is due for revision.",
+                    "The documented failure of Hendaye turns out not to have been inevitable after all: a properly resourced offer, backed by Italian shipments Berlin alone never put forward, gives Franco's own war cabinet the material argument its more cautious members were missing. Spanish and German forces move on Gibraltar in early 1941, and the Mediterranean's western mouth closes — Force H, the Gibraltar-based squadron that has spent a year raiding Italian convoys and escorting everything bound for Malta, no longer has a home port to sail from. Every convoy calculation this command has made since June 1940 is due for revision.",
                 },
                 {
                   weight: 100 - modWeight(30, meters.initiative),
@@ -10156,7 +11879,7 @@ const CAMPAIGNS = {
                   setFlags: { gibraltarTaken: "failed" },
                   impact: { manpower: 0, fuel: -1, initiative: -1 },
                   outcome:
-                    "The costlier and, on the weight of the actual historical evidence, likelier answer: Franco's reluctance was never only a price to be met, and a Spain still counting its own civil war's dead declines a second one regardless of what Rome adds to Berlin's offer. The shipments are spent, the guarantees on Tunisia and Nice stand unused for now, and Gibraltar remains exactly the British fortress it has always been — the documented history reasserting itself despite a genuinely different attempt to bend it.",
+                    "The costlier and, on the weight of the actual historical evidence, likelier answer: Franco's reluctance was never only a price to be met, and a Spain still counting its own civil war's dead declines a second one regardless of what Rome adds to Berlin's offer. The shipments are spent, the guarantees on Tunisia and Nice stand unused for now, and Gibraltar remains exactly the British fortress it has always been — the documented history reasserting itself despite a materially different attempt to bend it.",
                 },
               ],
             },
@@ -10183,6 +11906,10 @@ const CAMPAIGNS = {
               ? " Four months into a war entered on a peace-table deadline rather than a readiness one, the rifle and artillery shortfall Badoglio warned about in June has never actually closed — it has simply moved theaters, from the Alps to Albania."
               : flags.italyEntry === "wait"
               ? " Whatever the extra weeks bought back in June, they bought nothing here — Albania's own garrison-scale army was never going to be an invasion force on two weeks' notice regardless of how the war started."
+              : flags.italyEntry === "lateDeclare"
+              ? " A declaration made days before France's own armistice closed the question is, four months on, still finding out what it actually bought — Albania's garrison-scale army was never an invasion force on short notice, whenever the war it belongs to happened to start."
+              : flags.italyEntry === "britainOnly"
+              ? " This command entered a war against Britain alone, never against France — Albania's own thin garrison inherits an invasion timetable set by Berlin's Balkans anger regardless, on an army built for defense rather than offense in either version of this war."
               : "") +
             (flags.forkGreeceResistance
               ? " One report complicates the timetable further: frontier units along the Greek side are said to be standing firmer than any prewar assessment expected, well before the invasion has even crossed the border in strength."
@@ -10220,7 +11947,10 @@ const CAMPAIGNS = {
           title: "The Taranto Shock",
           historicalRecord: true,
           situation:
-            "Twenty-one aging Fairey Swordfish biplanes, launched from a single British carrier on the night of November 11, have done in one attack what years of naval planning assumed a battleship-scale action would be needed to do: torpedo nets that were budgeted, ordered, and never actually delivered to Taranto's harbor turn out to matter more than any tactical decision made that night, and three of the six battleships anchored there are sunk or crippled at their moorings for the loss of two attacking aircraft. Half the Regia Marina's battle line is out of the war in a single evening none of the fleet's own doctrine had modeled as a live threat. Cavagnari, who signed off on Taranto's air defenses without the nets those defenses assumed, is finished as naval chief within weeks regardless of what happens next. The question that survives him is what doctrine the surviving fleet fights under from here.",
+            "Twenty-one aging Fairey Swordfish biplanes, launched from a single British carrier on the night of November 11, have done in one attack what years of naval planning assumed a battleship-scale action would be needed to do: torpedo nets that were budgeted, ordered, and never actually delivered to Taranto's harbor turn out to matter more than any tactical decision made that night, and three of the six battleships anchored there are sunk or crippled at their moorings for the loss of two attacking aircraft. Half the Regia Marina's battle line is out of the war in a single evening none of the fleet's own doctrine had modeled as a live threat. Cavagnari, who signed off on Taranto's air defenses without the nets those defenses assumed, is finished as naval chief within weeks regardless of what happens next. The question that survives him is what doctrine the surviving fleet fights under from here." +
+            (flags.forkFleetFast
+              ? " One piece of unusually good news reaches the naval yards ahead of the doctrine debate itself: work on the crippled battleships is running ahead of the engineers' own initial projections, though nobody in Rome is yet prepared to make a public estimate of when the ships actually rejoin the battle line."
+              : ""),
           choices: [
             {
               label: "Preserve the fleet — a 'fleet in being' doctrine, risked only when the odds are clearly favorable",
@@ -10291,7 +12021,7 @@ const CAMPAIGNS = {
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "compass40",
               outcome:
-                "The historical Badoglio resigned on December 4, 1940 rather than preside over this front any further — a real act, even if it changed nothing about the men still fighting in it. A deliberate, organized withdrawal to shorter interior lines costs less blood per mile given up than the historical reserve-feeding approach did, and produces a genuinely more defensible position by the time winter fully sets in — at the price of ceding ground a propaganda ministry already struggling to explain this campaign has no good way to spin as anything but retreat.",
+                "The historical Badoglio resigned on December 4, 1940 rather than preside over this front any further — a real act, even if it changed nothing about the men still fighting in it. A deliberate, organized withdrawal to shorter interior lines costs less blood per mile given up than the historical reserve-feeding approach did, and produces a more defensible position by the time winter fully sets in — at the price of ceding ground a propaganda ministry already struggling to explain this campaign has no good way to spin as anything but retreat.",
             },
           ],
         };
@@ -10302,7 +12032,10 @@ const CAMPAIGNS = {
           title: "Operation Compass",
           historicalRecord: true,
           situation:
-            "While Albania absorbs every headline, a British Western Desert Force roughly a third the size of the Tenth Army it is about to attack launches what its own planners initially conceived as a five-day raid against the string of fortified camps Graziani's advance stopped at back in September. There has been no serious effort to link those camps into a continuous defensive line, and the gap between them is exactly wide enough for an armored force to drive through and roll the whole position up from behind rather than through the front anyone actually fortified.",
+            "While Albania absorbs every headline, a British Western Desert Force roughly a third the size of the Tenth Army it is about to attack launches what its own planners initially conceived as a five-day raid against the string of fortified camps Graziani's advance stopped at back in September. There has been no serious effort to link those camps into a continuous defensive line, and the gap between them is exactly wide enough for an armored force to drive through and roll the whole position up from behind rather than through the front anyone actually fortified." +
+            (flags.forkDesertGap
+              ? " Conflicting reports complicate the picture further: engineers attached to the western camps claim real, if incomplete, progress narrowing that gap, though Rome's own intelligence — already dismissing this as a five-day raid not worth the reserve — has no interest in revising its estimate on the strength of an engineer's unverified claim."
+              : ""),
           choices: [
             {
               label: "Order an immediate general withdrawal to a shorter line before the flanking attack lands",
@@ -10333,7 +12066,10 @@ const CAMPAIGNS = {
           title: "Asking Berlin",
           historicalRecord: true,
           situation:
-            "Two fronts are collapsing at once, and neither collapse can be solved with what Comando Supremo has left to send. Greece has stabilized, barely, but only by pulling in everything the reserve could spare; Libya's western desert has no reserve left at all after Compass, and the road to Tripoli itself is now genuinely open if the British pursuit doesn't stop on its own. The request Rome has spent months avoiding — asking the ally it went to war partly to avoid looking dependent on for direct military rescue — is now the only option left that isn't losing both colonies and the Balkans campaign inside the same winter.",
+            "Two fronts are collapsing at once, and neither collapse can be solved with what Comando Supremo has left to send. Greece has stabilized, barely, but only by pulling in everything the reserve could spare; Libya's western desert has no reserve left at all after Compass, and the road to Tripoli itself is now fully open if the British pursuit doesn't stop on its own. The request Rome has spent months avoiding — asking the ally it went to war partly to avoid looking dependent on for direct military rescue — is now the only option left that isn't losing both colonies and the Balkans campaign inside the same winter." +
+            (flags.forkDesertGap
+              ? " The engineers' claim about the gap west of Sidi Barrani, whatever it was actually worth, is academic now — the position it described is gone along with the army that held it, and no amount of partial linkage would have mattered against a defeat this total."
+              : ""),
           choices: [
             {
               label: "Request German intervention in both theaters — Libya and Greece, whatever the political cost",
@@ -10495,6 +12231,9 @@ const CAMPAIGNS = {
             (flags.eastAfrica === "guerrilla" ? (flags.eastAfricaGuerrilla === "traction" ? " Italian East Africa's last defenders are still tying down a Commonwealth garrison commitment in the highlands, a fact this planning has to account for even if only at the margins." : " Italian East Africa's last defenders scattered into the highlands rather than surrender outright, a decision this planning doesn't need to account for one way or the other.") : " Italian East Africa's last defenders have already surrendered on terms, the empire entirely gone before this season's Mediterranean planning even begins.") +
             (flags.forkMaltaWeak
               ? " Convoy losses this month are, unusually, running below every recent estimate — escort commanders report unusually light interference from the island's air and submarine forces, though naval staff aren't yet prepared to call it durable."
+              : "") +
+            (flags.forkFleetFast
+              ? " The battle line Taranto crippled is back in service faster than the historical repair schedule ever managed, and the extra hulls available for escort duty are one more reason this quarter's convoy numbers look better than the historical record."
               : "") +
             (flags.gibraltarTaken === "success"
               ? " One change dwarfs everything else in this quarter's convoy report: with Gibraltar closed and Force H gone from the equation entirely, the western Mediterranean is no longer a British-patrolled sea at all, and losses to Libya-bound shipping are a fraction of what any prewar staff estimate assumed this war would cost."
@@ -10808,7 +12547,14 @@ const CAMPAIGNS = {
               ? " One thing this crossing has that the historical Sicilian Strait run never did: Malta, sitting directly across the shortest route to Tunisia, is this command's own base rather than a British one — every convoy runs it without the air and submarine interdiction that historically made this exact crossing as costly as it was."
               : flags.maltaRetaken
               ? " The Sicilian Strait crossing runs past a Malta this command once held and then lost back to Britain — interdiction from the island is, if anything, sharper than the historical baseline, the garrison there fighting a war it has personal cause to make expensive."
-              : ""),
+              : "") +
+            // Round 15 (battle #4 echo): the Alam Halfa key battle's own detail, not a fork —
+            // this node's own framing (a retreating army squeezed from both sides) is the fixed
+            // outcome either way, since the ridge falling in September doesn't survive Second
+            // Alamein in October and November on the historical timeline this campaign's later
+            // nodes are built on. keyBattleEcho() is a no-op ("") when the flag isn't set, which
+            // covers both shipped builds and a player who chose not to push at Alam Halfa at all.
+            (flags.alameinPush ? keyBattleEcho("elAlamein", flags) : ""),
           choices: [
             {
               label: "Rush every available reinforcement into Tunisia to build a defensible bridgehead before the Allies close the trap",
@@ -10836,7 +12582,7 @@ const CAMPAIGNS = {
                   impact: { manpower: -1, fuel: -1, initiative: -1 },
                   outcome: flags.maltaRetaken
                     ? "Even an Italian-held Malta once, and a bitterly recaptured British one now, doesn't spare this crossing — if anything a garrison that fought to retake the island interdicts this convoy run harder than the historical baseline ever did, and the bridgehead gets built at a heavier toll than the historical buildup paid for it."
-                    : "The bridgehead gets built, but at a heavier toll than the historical buildup paid: convoys running the narrow Sicilian Strait lose a larger share of the men and matériel committed to interdiction that has only gotten more effective as the campaign wears on, and the mountain position this reinforcement was meant to make genuinely defensible holds for a shorter, thinner winter than the actual six-month defense managed — the same eventual collapse, reached with less to show for the men spent reaching it.",
+                    : "The bridgehead gets built, but at a heavier toll than the historical buildup paid: convoys running the narrow Sicilian Strait lose a larger share of the men and matériel committed to interdiction that has only gotten more effective as the campaign wears on, and the mountain position this reinforcement was meant to make properly defensible holds for a shorter, thinner winter than the actual six-month defense managed — the same eventual collapse, reached with less to show for the men spent reaching it.",
                 },
               ],
             },
@@ -10863,7 +12609,7 @@ const CAMPAIGNS = {
             (flags.tunisiaBuildup === "reinforce" ? (flags.tunisiaCrossing === "mauled" ? " These are the men left after a reinforcement convoy that took heavy losses crossing the Strait, spent now on a defense that was always going to end here." : " These are the six months the fuller winter buildup bought, spent now on a defense that was always going to end here.") : " This is the leaner defense the evacuation-first choice after Torch left holding the pocket."),
           choices: [
             {
-              label: "Order a fighting surrender only after every position is genuinely untenable",
+              label: "Order a fighting surrender only after every position is actually untenable",
               advisor: { name: "Messe", quote: "I will not order this army to lay down its arms while it can still fight for a single more hour of dignity, however little that hour changes the outcome." },
               historical: true,
               setFlags: { tunisiaCollapse: "fight" },
@@ -10896,6 +12642,10 @@ const CAMPAIGNS = {
               ? " Three years ago this war was sold as a few thousand dead bought against a peace table already mostly decided — the gap between that promise and what the home front is living through under these raids is exactly the gap this ministry's controlled news has to keep papering over."
               : flags.italyEntry === "wait"
               ? " Even the more reluctant version of this war's opening — a declaration argued for on readiness rather than opportunity — bought nothing the propaganda ministry can point to now; three years on, the bombs don't distinguish why the war started."
+              : flags.italyEntry === "lateDeclare"
+              ? " A declaration made in the war's last days before France's armistice bought this command no readiness advantage worth mentioning by now — three years on, the bombs don't distinguish a late entry from an early one."
+              : flags.italyEntry === "britainOnly"
+              ? " This war was never sold on a peace-table deadline at all — it was fought for Malta and Egypt from its first declared day — and three years of raids have made that distinction no easier to explain to a home front under the same bombs regardless."
               : "") +
             " The question in front of Comando Supremo is less military than it is political: what, if anything, changes about how the war is presented and resourced at home, with an invasion of Italian soil now a matter of when rather than if.",
           choices: [
@@ -11076,7 +12826,7 @@ const CAMPAIGNS = {
               impact: { manpower: -2, fuel: 0, initiative: 1 },
               next: "germanExploitation43",
               outcome:
-                "Enforcing loyalty at gunpoint against an officer corps whose actual, documented sympathies ran overwhelmingly the other way produces exactly the kind of internal violence the real transition of July 1943 — bloodless, and by most accounts almost anticlimactic — never had to absorb. What it buys the loyalist faction is a smaller, more genuinely committed core; what it costs is any remaining claim that this movement represents more than a fraction of an army that has, in the documented history this branch has now fully departed from, already decided where its loyalty actually lies.",
+                "Enforcing loyalty at gunpoint against an officer corps whose actual, documented sympathies ran overwhelmingly the other way produces exactly the kind of internal violence the real transition of July 1943 — bloodless, and by most accounts almost anticlimactic — never had to absorb. What it buys the loyalist faction is a smaller, more tightly committed core; what it costs is any remaining claim that this movement represents more than a fraction of an army that has, in the documented history this branch has now fully departed from, already decided where its loyalty actually lies.",
             },
             {
               label: "Accept the fracture rather than force it — avoid a Fascist-on-Fascist civil war inside the army itself",
@@ -11273,7 +13023,7 @@ const CAMPAIGNS = {
           title: "Salerno, and What the Co-Belligerent Army Actually Is",
           historicalRecord: true,
           situation:
-            "Allied forces land at Salerno the same week the armistice is announced, opening the mainland invasion into a German defense that very nearly throws the landing back into the sea before reinforcement stabilizes the beachhead. What remains of the Italian regular army under Badoglio's government — the piece of the old Comando Supremo that chose the co-belligerent path over Salò when the two Italys split — is, in these first weeks, mostly a question mark to Allied planners rather than an asset — disarmed by the armistice's own chaos in many sectors, distrusted after three years as an enemy, and offered, for now, a status considerably smaller than full co-belligerent partnership: labor units, garrison duties, a first small combat formation being assembled from what didn't scatter. The choice facing what remains of Comando Supremo's southern rump is how hard to push for a larger, genuinely combat-capable role rather than accept the auxiliary status the Allies' initial caution has assigned it.",
+            "Allied forces land at Salerno the same week the armistice is announced, opening the mainland invasion into a German defense that very nearly throws the landing back into the sea before reinforcement stabilizes the beachhead. What remains of the Italian regular army under Badoglio's government — the piece of the old Comando Supremo that chose the co-belligerent path over Salò when the two Italys split — is, in these first weeks, mostly a question mark to Allied planners rather than an asset — disarmed by the armistice's own chaos in many sectors, distrusted after three years as an enemy, and offered, for now, a status considerably smaller than full co-belligerent partnership: labor units, garrison duties, a first small combat formation being assembled from what didn't scatter. The choice facing what remains of Comando Supremo's southern rump is how hard to push for a larger, meaningfully combat-capable role rather than accept the auxiliary status the Allies' initial caution has assigned it.",
           choices: [
             {
               label: "Push hard for an expanded combat role — offer whatever intact formations remain for the front line",
@@ -11324,7 +13074,7 @@ const CAMPAIGNS = {
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "vaticanChannel44",
               outcome:
-                "A colder accounting of a genuinely weak hand — this government's actual leverage over how Germany treats the men it is holding was, in fact, close to nothing, and this choice simply says so out loud rather than spending effort on appeals unlikely to move Berlin regardless. What it does not change is what those men are living through in the meantime, which this choice does nothing to improve and does not claim to.",
+                "A colder accounting of a plainly weak hand — this government's actual leverage over how Germany treats the men it is holding was, in fact, close to nothing, and this choice simply says so out loud rather than spending effort on appeals unlikely to move Berlin regardless. What it does not change is what those men are living through in the meantime, which this choice does nothing to improve and does not claim to.",
             },
           ],
         };
@@ -11418,6 +13168,134 @@ const CAMPAIGNS = {
               setFlags: { cassino44: "direct" },
               impact: { manpower: -2, fuel: 0, initiative: 1 },
               next: "romeLiberation44",
+              // Key Battle Subgame, battle #5 (round 15). Same unconditional-add pattern as
+              // Kursk (uncertain[] already existed on this choice before the subgame, so
+              // keyBattleSubgame is added directly rather than spread behind
+              // KEY_BATTLE_SUBGAME_ENABLED — shipped builds never read keyBattleSubgame at all,
+              // and check-battle-balance.js/check-reachability.js both evaluate with the flag
+              // false, so the shipped graph is unaffected either way).
+              //
+              // Bespoke categories, not the default Divisions/Armour/Air/Supply set the other
+              // land battles reuse: the actual Co-Belligerent combat action this choice's own
+              // text describes ("the abbey assault's main effort") was never realistic at this
+              // army's size, and what it fought instead — the Battle of Monte Marrone, 31 March
+              // - 28 April 1944, the actual engagement that "forces the trust question" this
+              // choice is about — was a mountain infantry action with no Italian armor in it at
+              // all. Forcing tanks into an order of battle that didn't have them would be
+              // inventing a unit, not modeling one, so this uses the real four arms instead. All
+              // facts verified 2026-09-25 (Wikipedia: Battle of Monte Marrone, Italian
+              // Co-belligerent Army): Piemonte Alpine Battalion took the 1,805m peak by night
+              // surprise attack on 31 March; German counterattacks came on 2 April (an
+              // exploratory push stopped 800m out), 3 April (a strong dawn attack repelled by
+              // fire and mines), and 10 April (three Gebirgsjäger — German mountain — battalions,
+              // one of which broke in for hand-to-hand trench fighting before Italian
+              // reinforcements and artillery sealed it off); the force numbered 4,933 Italians
+              // against roughly 3,000 Germans, with Anglo-Polish artillery attached; the
+              // advance reached Picinisco on 28 April. General Vincenzo Dapino commanded the 1st
+              // Motorized Group (the CIL's own predecessor formation — it wasn't reorganized and
+              // renamed the Corpo Italiano di Liberazione under Utili until 18 April, after most
+              // of this specific fighting) — which is why Dapino, not Utili, is this subgame's
+              // one commander pick.
+              concealRoll: true,
+              keyBattleSubgame: {
+                id: "monteCassino44",
+                title: "Order of Battle — Monte Marrone",
+                flavor:
+                  "Not the abbey — this army's own share of the Cassino winter is a mountain fifteen miles east of it, 1,805 meters up in the Mainarde range, held by German troops who don't yet know an attack is coming. Taking it by surprise, at night, on foot, is the plan; holding it against whatever comes up the mountain afterward, with Anglo-Polish guns as the only support that can actually reach this ground, is the part that will decide whether anyone outside this army's own ranks remembers it did either. What's decided here is how much of the assault force leads the climb, how much of the elite Nembo paratroop element goes in beside it, what the attached artillery is asked to range in on, and how much gets held back on the mule trails that are this mountain's only supply line.",
+                categories: [
+                  { id: "assault", name: "Alpine & Bersaglieri Assault", meter: "manpower", glyph: "▲▲▲" },
+                  { id: "paratroops", name: "Nembo Paratroops", meter: "manpower", glyph: "✦" },
+                  { id: "artillery", name: "Anglo-Polish Artillery", meter: "fuel", glyph: "✺" },
+                  { id: "supply", name: "Mule-Train Supply", meter: "fuel", glyph: "▤" },
+                ],
+                // Paratroops highest (a small, elite, all-volunteer force); assault second
+                // (Piemonte + the two Bersaglieri battalions, the numerical bulk of the force);
+                // artillery third (real, but it's attached support, not this army's own guns);
+                // supply lowest, deliberately — a mule trail up a 1,805m mountain is this
+                // battle's own well-documented logistics ceiling, the same design choice as
+                // Kursk's mud or Alam Halfa's fuel arithmetic.
+                effectiveness: { assault: 2.2, paratroops: 2.6, artillery: 2.0, supply: 1.6 },
+                categoryContext: {
+                  assault:
+                    "The Piemonte battalion and both Bersaglieri battalions form the assault force — roughly five thousand men against perhaps three thousand Germans dug in on the peak. Dapino notes that surprise and night attack favor the numbers more than daylight calculations suggest.",
+                  paratroops:
+                    "The 185th's Arditi paratroopers are smaller in number but the most aggressive troops in the force. Placed beside the assault battalions instead of held in reserve, they're the difference between taking a position and taking it quickly.",
+                  artillery:
+                    "The Anglo-Polish guns are the only heavy support this force brings with it. Everything else is carried up the mountain on foot. Ranged in ahead of time, they're what stops a German counterattack before it reaches the line.",
+                  supply:
+                    "There is no road to that peak — only mule trails. Every round and ration this force uses has to go up them. What isn't stockpiled before the attack becomes a shortage discovered during it.",
+                },
+                flashups: {
+                  assault: [
+                    "The Piemonte battalion moves up the last stretch of trail in silence.",
+                    "A Bersaglieri company reaches the ridge line ahead of schedule.",
+                    "Rifle fire opens somewhere along the peak's northern shoulder.",
+                    "A forward platoon signals the summit position is in Italian hands.",
+                    "The assault line digs in on ground it didn't hold an hour ago.",
+                  ],
+                  paratroops: [
+                    "The Nembo company moves ahead of the main line, quiet, looking for the gap.",
+                    "A paratroop section clears a forward outpost before it can raise the alarm.",
+                    "The Arditi element pushes past the first line rather than stopping to consolidate it.",
+                    "A Nembo patrol reports the ground ahead clear, for now.",
+                    "The paratroop company holds the most exposed stretch of the new line.",
+                  ],
+                  artillery: [
+                    "The Anglo-Polish battery fires a ranging round onto the approach the maps say the Germans would use.",
+                    "A fire mission breaks up a German column before it reaches the line.",
+                    "The guns fall silent for an hour, waiting on a target worth the ammunition.",
+                    "Observers on the peak correct a battery's fire onto a reported assembly area.",
+                    "A German patrol turns back under artillery fire well short of the line.",
+                  ],
+                  supply: [
+                    "A mule train switchbacks up the trail with the next load of ammunition.",
+                    "A supply party reports the trail iced over on the mountain's shaded face.",
+                    "Rations are split smaller to stretch what's already up the mountain.",
+                    "A mule goes down on the trail and its load is redistributed by hand.",
+                    "The forward dressing station reports it's short of morphine again.",
+                  ],
+                },
+                reportTimes: { open: "2200", contact: "0130", cats: ["0230", "0500", "0800", "1100"], reserve: "1400", counter: "1600" },
+                idleLines: {
+                  assault: [
+                    "The assault battalions stay on the start line. Nobody is climbing yet.",
+                    "No infantry moves up the trail. The peak stays exactly whose it already was.",
+                  ],
+                  paratroops: [
+                    "The Nembo company stays in reserve, unused. Whatever's ahead, the line finds it alone.",
+                    "No paratroop element goes forward. The assault has nothing screening its point.",
+                  ],
+                  artillery: [
+                    "The guns stay laid on their registered points, unfired. Nothing is asked of them yet.",
+                    "No fire mission goes up. Whatever the line runs into, it runs into without support.",
+                  ],
+                  supply: [
+                    "Nothing extra goes up the mule trail before the attack. The force carries what it already has.",
+                    "The forward dump stays where it is, untouched, at the bottom of the mountain.",
+                  ],
+                },
+                verdicts: ["Monte Marrone Falls by Surprise", "The Peak Costs More Than It's Worth"],
+                verdictGrades: {
+                  clean: "Every arm moved together, and the peak fell before its garrison could make the fight even.",
+                  costly: "The peak falls — but holding it after cost more than the plan allowed for.",
+                  marginal: "The assault stalls short of the summit. The plan held together; the mountain didn't give it up.",
+                  total: "The assault doesn't stall so much as come apart on the mountain's own ground.",
+                },
+                counterattack: {
+                  category: "assault",
+                  severity: { gebirgsjagerReserve: 2, thinInitialLine: 1, highAltitudeCold: 1 },
+                  warn: {
+                    1: "German mountain troops are probing the new line's flank.",
+                    2: "German Gebirgsjäger — mountain specialists, not the garrison troops expected — are massing for a real counterattack on the line.",
+                  },
+                  results: {
+                    repulsed: "The Gebirgsjäger attack is thrown back and the line holds without giving an inch.",
+                    heldAtCost: "The line holds, and the company that held it is badly cut up doing it.",
+                    broke: "The Gebirgsjäger break into the line and it comes to hand-to-hand fighting in the trenches.",
+                    gaveGround: "The line falls back off the most exposed ground rather than fight the counterattack out where it lands.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: modWeight(45, meters.initiative),
@@ -11426,7 +13304,7 @@ const CAMPAIGNS = {
                   favor: 1,
                   impact: { manpower: -2, fuel: 0, initiative: 1 },
                   outcome:
-                    "The riskier bet pays off close to what Utili was arguing for: a direct role in one of the war's costliest single battles produces a faster, more visible answer to the trust question Salerno's aftermath left open, at a casualty cost the still-rebuilding Co-Belligerent Army feels but survives. The historical fourth and final assault fell to Polish forces specifically, at a cost their own government spent decades ensuring was remembered; here, a heavier Italian role earns enough of a share of that same recognition to matter to how Allied command treats this army afterward.",
+                    "The riskier bet pays off close to what Utili was arguing for: Monte Marrone falls by surprise at night, holds against the Gebirgsjäger counterattack that follows, and produces a faster, more visible answer to the trust question Salerno's aftermath left open, at a casualty cost the still-rebuilding Co-Belligerent Army feels but survives. The historical fourth and final assault on the abbey itself fell to Polish forces specifically, at a cost their own government spent decades ensuring was remembered; here, a documented Italian victory next door earns enough of a share of that same recognition to matter to how Allied command treats this army afterward.",
                 },
                 {
                   weight: 100 - modWeight(45, meters.initiative),
@@ -11434,7 +13312,7 @@ const CAMPAIGNS = {
                   setFlags: { cassinoDirectResult: "unrecognized" },
                   impact: { manpower: -3, fuel: 0, initiative: 0 },
                   outcome:
-                    "The casualties this gambit risked arrive in full, and the trust question it was meant to force stays open regardless: a battle already being fought by Polish, British, American, Indian, and New Zealand formations at a scale hard to distinguish from the outside absorbs the Co-Belligerent Army's direct contribution into the same undifferentiated toll everyone else is paying, without the discrete, rememberable moment Utili was actually betting on.",
+                    "The casualties this gambit risked arrive in full, and the trust question it was meant to force stays open regardless: a mountain taken and held at real cost, fifteen miles from a battle already being fought by Polish, British, American, Indian, and New Zealand formations at a scale hard to distinguish from the outside, doesn't reach the ears it needed to reach — the discrete, rememberable moment Utili was actually betting on.",
                 },
               ],
             },
@@ -11448,7 +13326,10 @@ const CAMPAIGNS = {
           historicalRecord: true,
           situation:
             "Rome falls to advancing Allied forces on June 4, 1944, two days before Overlord's landings in Normandy make the moment a footnote in most of the world's newspapers within seventy-two hours — a piece of timing that has genuinely irritated Clark's Fifth Army command, whose costly Anzio and Gustav Line campaigns to reach the capital are about to be overshadowed almost entirely by an invasion elsewhere. For the government now moving north from Brindisi to reoccupy the capital — the same institutional line that dates back to a Comando Supremo choosing the King's authority over Mussolini's, nearly a year ago — the question is less about the military moment than the political one: what kind of state gets reconstituted in the city the war has just returned to Italian civil administration." +
-            (flags.cassino44 === "direct" ? (flags.cassinoDirectResult === "recognized" ? " The army marching in with this government spent the Gustav Line proving a point at the abbey's foothills — and this time, the point landed." : " The army marching in with this government spent the Gustav Line proving a point at the abbey's foothills that mostly went unnoticed.") : " The army marching in with this government built its Gustav Line record the patient way, in the supporting line rather than the headline assault."),
+            (flags.cassino44 === "direct" ? (flags.cassinoDirectResult === "recognized" ? " The army marching in with this government spent the Gustav Line proving a point at the abbey's foothills — and this time, the point landed." : " The army marching in with this government spent the Gustav Line proving a point at the abbey's foothills that mostly went unnoticed.") : " The army marching in with this government built its Gustav Line record the patient way, in the supporting line rather than the headline assault.") +
+            // Round 15 (battle #5 echo): Monte Marrone's own detail, not a fork — the recognized/
+            // unrecognized split above already carries the branch this node's text turns on.
+            (flags.cassino44 === "direct" ? keyBattleEcho("monteCassino44", flags) : ""),
           choices: [
             {
               label: "Move quickly to a broader, more representative government beyond the monarchy's own circle",
@@ -11501,7 +13382,7 @@ const CAMPAIGNS = {
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "gothicLine44",
               outcome:
-                "A more conservative accounting of a genuinely thin supply picture — formal recognition costs the government nothing it doesn't already have to give, while material support is left mostly to Allied channels operating independently of Rome's own priorities. The CLNAI grows and fights regardless, largely on its own organizational strength, with or without this government's own gold behind it.",
+                "A more conservative accounting of a thin supply picture — formal recognition costs the government nothing it doesn't already have to give, while material support is left mostly to Allied channels operating independently of Rome's own priorities. The CLNAI grows and fights regardless, largely on its own organizational strength, with or without this government's own gold behind it.",
             },
           ],
         };
@@ -11584,7 +13465,7 @@ const CAMPAIGNS = {
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: "alpenvorlandQuestion43",
               outcome:
-                "What Graziani, as the RSI's Minister of Defense, actually attempted: a conscription law that summoned roughly 300,000 men to the colors, of whom perhaps half actually reported — draft evasion into the mountains, often straight into the arms of the partisan bands it was meant to fight, undercut the program from the start. What did materialize were several genuinely trained divisions, some formed and equipped in Germany itself, that fought on the front line alongside the Wehrmacht through the campaign's final phase — a real military, just never the reliable mass mobilization its planners on paper had projected.",
+                "What Graziani, as the RSI's Minister of Defense, actually attempted: a conscription law that summoned roughly 300,000 men to the colors, of whom perhaps half actually reported — draft evasion into the mountains, often straight into the arms of the partisan bands it was meant to fight, undercut the program from the start. What did materialize were several properly trained divisions, some formed and equipped in Germany itself, that fought on the front line alongside the Wehrmacht through the campaign's final phase — a real military, just never the reliable mass mobilization its planners on paper had projected.",
             },
             {
               label: "Keep the RSI's military footprint deliberately small — rely on German forces for the front, Italian units for internal order only",
@@ -11658,7 +13539,7 @@ const CAMPAIGNS = {
                   setFlags: { partisanWar44Result: "suppressed" },
                   impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
-                    "In the districts hit hardest, partisan activity genuinely drops for weeks afterward — the military logic Pavolini argued for is not simply propaganda, in these specific sectors. What it buys the Republic in the same districts, longer term, is a hatred no garrison report is honest enough to put a number on.",
+                    "In the districts hit hardest, partisan activity does drop for weeks afterward — the military logic Pavolini argued for is not simply propaganda, in these specific sectors. What it buys the Republic in the same districts, longer term, is a hatred no garrison report is honest enough to put a number on.",
                 },
                 {
                   weight: 100 - modWeight(35, meters.initiative),
@@ -11819,6 +13700,12 @@ const CAMPAIGNS = {
       // than falling through to the "incomplete record" default meant for runs that stop early.
       if (flags.coupResponse === "backMussolini")
         return { stamp: "SEPTEMBER 1943 — SPECULATIVE", prose: "September 1943", exact: false };
+      // Round 19: the extended non-belligerence branch never reaches the armistice fork either —
+      // it closes on its own dates, same reasoning as the backMussolini case immediately above.
+      if (flags.italyEntry === "neutral" && flags.neutralItalyEnd)
+        return { stamp: "LATE 1942 — SPECULATIVE", prose: "late 1942", exact: false };
+      if (flags.italyEntry === "neutral" && flags.neutralItalyPressure === "tolerated")
+        return { stamp: "1945 — SPECULATIVE", prose: "1945", exact: false };
       if (flags.italyPath === "rsi") {
         if (flags.rsiEnd === "flee")
           return { stamp: "APRIL 28, 1945", prose: "April 28, 1945", exact: true };
@@ -11839,6 +13726,13 @@ const CAMPAIGNS = {
       // Commonwealth advance into East Africa stalled) AND the highland guerrilla campaign
       // actually gained traction rather than fizzling. Placed high as the rarest combination.
       if (flags.forkEastAfricaSlow && flags.eastAfricaGuerrilla === "traction") return "The Highland War Rome Didn't Plan For";
+      // Round 19: the extended non-belligerence branch (off nonBelligerence40's "wait" choice,
+      // several steps deeper) is a second, deeper counterfactual than anything else in this
+      // chain — checked here, ahead of even the manpower extremes, for the same "rarer and more
+      // specific outranks a meter reading" reasoning documented at those checks below.
+      if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "resist") return "The War Rome Refused, Then Fought Anyway";
+      if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "submit") return "Occupied Without Ever Having Fought";
+      if (flags.italyEntry === "neutral" && flags.neutralItalyPressure === "tolerated") return "The War That Passed Rome By";
       if ((meters.manpower || 0) <= -6) return "An Army Spent Twice, on Both Sides of the Line";
       if ((meters.manpower || 0) >= 6) return "The Command That Lost the Least";
       if (flags.coupResponse === "backMussolini" && flags.loyalistEnd === "absorbed") return "A Republic Founded a Month Early";
@@ -11846,11 +13740,29 @@ const CAMPAIGNS = {
       if (flags.italyPath === "rsi" && flags.rsiEnd === "negotiate") return "The Uniform Handed Over, Not Torn Off";
       if (flags.italyPath === "rsi" && flags.partisanWar44 === "reprisal") return "A Republic Remembered by Marzabotto";
       if (flags.italyPath === "rsi" && flags.rsiEnd === "flee") return "The Republic's Last Address";
-      if (flags.italyPath === "rsi") return "Twenty Months at Salò";
+      // "Twenty Months at Salò" (the italyPath==="rsi" catch-all with no rsiEnd/partisanWar44
+      // condition) is DELETED here, along with its ENDINGS_GALLERY entry — Round 19 audit traced
+      // it and found it permanently unreachable, not merely rare: rsiCollapse45, the RSI path's
+      // only terminal node, has exactly two choices and BOTH set rsiEnd (to "negotiate" or
+      // "flee"), both already claimed by the two checks immediately above. No run can reach this
+      // point with italyPath==="rsi" and rsiEnd still unset. Same pattern check-reachability.js's
+      // own header comment says has already been found and fixed at least four times elsewhere
+      // in this file (20 Soviet ending titles, atomic45/finalStand nesting, iberianQuestion42
+      // promoted twice, the darlanDeal42/battleOfBritain40 nesting fix).
       if (flags.italyPath === "coBelligerent" && flags.postwarRecognition === "press") return "A Record Argued For, Not Assumed";
       if (flags.italyPath === "coBelligerent" && flags.gothicLine44 === "commit") return "The Line Held on Its Own Front";
       if (flags.italyPath === "coBelligerent") return "The Co-Belligerent's Uncertain Honor";
-      return "Two Italies, One File";
+      // Defensive-only fallback, not listed in ENDINGS_GALLERY. Every path that reaches END
+      // without setting italyPath is now caught by one of the three neutral-branch checks above
+      // (germanPressure41's uncertain roll always sets neutralItalyPressure; the coerced side
+      // always resolves neutralItalyEnd before END). This line should be structurally
+      // unreachable — kept only in case a future branch reaches END some other way, same
+      // reasoning as any function needing an exhaustive fallback. The old label here ("Two
+      // Italies, One File") was ALSO permanently unreachable before Round 19 for a different
+      // reason (twoItalies43, the armistice-fork node, always sets italyPath — no run could
+      // leave it unset either), so its ENDINGS_GALLERY entry was deleted rather than kept as a
+      // stale reference to dead code.
+      return "An Incomplete File";
     },
     epilogue(flags, meters) {
       if (flags.superseded) {
@@ -11872,12 +13784,30 @@ const CAMPAIGNS = {
       } else if (flags.italyPath === "coBelligerent") {
         dateClause =
           `Army Group C surrenders in Italy on ${end.prose}, five days before the wider European war ends — the close of nineteen months fighting as a junior Allied partner on Italian soil.`;
+      } else if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "resist") {
+        dateClause =
+          `This file closes on ${end.prose}, speculative throughout — a non-belligerent Italy that held out for two years, then fought a war after all, just against the ally its whole policy was built to accommodate rather than for it.`;
+      } else if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "submit") {
+        dateClause =
+          `This file closes on ${end.prose}, speculative throughout — a non-belligerent Italy occupied in practice, without ever having fought a war on either side of it.`;
+      } else if (flags.italyEntry === "neutral") {
+        dateClause =
+          `This file closes on ${end.prose}, speculative throughout — the war in Europe ends with this command never having entered it, on either side.`;
       } else {
         dateClause = "This file ends before the armistice fork that defines the rest of this campaign — an incomplete record.";
       }
 
       let costClause;
-      if ((meters.manpower || 0) >= 3) {
+      if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "resist") {
+        costClause =
+          " The human cost of this path is real but not comparable to the documented record's roughly 300,000 Italian dead — a short, localized conflict against a former ally, fought years into a war this command otherwise avoided entirely.";
+      } else if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "submit") {
+        costClause =
+          " The human cost of this path is the lowest of any branch this campaign can reach — an occupation absorbed without armed resistance, paid for in sovereignty rather than in the roughly 300,000 dead the documented war actually cost Italy.";
+      } else if (flags.italyEntry === "neutral") {
+        costClause =
+          " The human cost of this path is the lowest of any branch this campaign can reach — a European war that, for this file alone among every other run of this campaign, was never actually fought.";
+      } else if ((meters.manpower || 0) >= 3) {
         costClause =
           " The forces under this command's authority came through both the North African collapse and the armistice split more intact than the historical record — fewer of them spent proving points the war's arithmetic had already settled.";
       } else if ((meters.manpower || 0) <= -3) {
@@ -11891,9 +13821,27 @@ const CAMPAIGNS = {
       const notes = [];
       const add = (w, t) => notes.push({ w, t });
       if (flags.italyEntry === "wait")
-        add(7, "Non-belligerence was held past the historical June 10 declaration — a delay that cost the peace-table access Mussolini's actual gamble was built to secure, in exchange for readiness numbers the standing mobilization plan genuinely needed.");
+        add(7, "Non-belligerence was held past the historical June 10 declaration — a delay that cost the peace-table access Mussolini's actual gamble was built to secure, in exchange for readiness numbers the standing mobilization plan still needed.");
+      if (flags.italyEntry === "lateDeclare")
+        add(8, "War was declared only in the war's last days before France's own armistice — a real entry, but with almost none of the peace-table logic the historical June 10 declaration was built around still intact by the time it happened.");
+      if (flags.italyEntry === "britainOnly")
+        add(9, "War was declared on Britain alone, months after France had already settled its own armistice without Italian participation — a different opening than the historical one, fought for the Mediterranean prize directly rather than for a seat at a peace table that no longer existed to claim.");
+      if (flags.italyEntry === "neutral")
+        add(10, "Non-belligerence was held past every deadline the historical 'parallel war' doctrine assumed would force a choice — France's fall, Britain's survival, Barbarossa's launch — a counterfactual with almost no footing in what any Italian government under this regime actually considered.");
+      if (flags.neutralItalyResponse41 === "refuse")
+        add(7, "Berlin's 1941 pressure was met with an outright refusal to offer any concessions at all, a wager staked directly on this government's own remaining legitimacy rather than on a negotiated accommodation.");
+      if (flags.neutralItalyResponse41 === "concede")
+        add(6, "Berlin's 1941 pressure was answered with economic concessions short of alliance — raw materials and transit access offered to keep the arrangement tolerable without actually joining the war.");
+      if (flags.neutralItalyResistResult === "held")
+        add(7, "The refusal to submit to Berlin's 1942 ultimatum held — an occupation Germany could not fully resource on top of the Eastern Front's own demands never materialized past the threat of it.");
+      else if (flags.neutralItalyResistResult === "fought")
+        add(8, "The refusal to submit to Berlin's 1942 ultimatum was pressed, and answered directly — a real, if small and strange, war fought against the ally this command spent two years avoiding fighting for.");
+      if (flags.neutralItalyRetrospect === "vindicated")
+        add(6, "This command's own closing verdict on six years of non-belligerence was vindication — a judgment defended on the strength of an army that survived intact and cities that were never bombed, whatever it cost at the peace table this government never had a seat at.");
+      else if (flags.neutralItalyRetrospect === "unresolved")
+        add(6, "This command's own closing verdict on six years of non-belligerence declined to claim vindication — survival, it argued, is not the same thing as having answered for the choice not to fight.");
       if (flags.malta40 === "fell" && flags.maltaRetaken)
-        add(6, "Malta was taken in an actual 1940 invasion, while the garrison was still weak — then lost back to a determined British counter-effort over the following winter, the documented British commitment to the island reasserting itself even against a genuinely early and successful Italian gamble.");
+        add(6, "Malta was taken in an actual 1940 invasion, while the garrison was still weak — then lost back to a determined British counter-effort over the following winter, the documented British commitment to the island reasserting itself even against an early and successful Italian gamble.");
       else if (flags.malta40 === "fell")
         add(9, "The Mediterranean question was answered with an actual 1940 invasion of Malta, while the garrison was still weak — the operation the historical Comando Supremo only ever planned as Operation Hercules a year too late, attempted, won, and then held against Britain's own attempt to take it back.");
       else if (flags.herculesResult === "fell" && flags.maltaRetaken)
@@ -11907,6 +13855,20 @@ const CAMPAIGNS = {
             ? "Rome reached past both Malta and Egypt for the whole sea's western lock — Italian shipments to Madrid succeeded where the real Hitler-Franco meeting at Hendaye failed, and Gibraltar's fall took Force H off the board entirely, a strategic reversal with no equivalent anywhere else in the documented Mediterranean war."
             : "Rome pressed Berlin and Madrid for a seat in the Gibraltar question rather than settling for Malta or Egypt alone — a diplomatic wager the documented record never records Italy attempting, win or lose at Hendaye's actual table."
         );
+      // Round 19: gibraltarGambit and gibraltarCommitment were flagged write-only by the audit —
+      // set at gibraltarGambit40/gibraltarResolution40, but previously only ever read indirectly
+      // through the derived gibraltarTaken flag above. These give the player's actual choice at
+      // each of those two nodes its own narrative line, independent of how the roll landed.
+      if (flags.gibraltarGambit === "backFranco")
+        add(5, "Rome pressed its own seat at the Gibraltar question rather than let Berlin negotiate it alone — a real diplomatic stake taken up even before the fuel-and-shipments question that followed it was decided.");
+      else if (flags.gibraltarGambit === "abstain")
+        add(5, "Rome floated a seat at the Gibraltar question and then abandoned it, closer to the documented Hendaye meeting's actual absence of an Italian delegate than the alternative this branch also offered.");
+      if (flags.gibraltarCommitment === "guaranteesOnly")
+        add(5, "Franco's price at Hendaye was met with paper guarantees on Tunisia and Nice rather than real Italian shipments — a wager this command declined to make, leaving Gibraltar exactly the fortress the documented meeting also failed to close.");
+      if (flags.maltaDefense41 === "reinforce")
+        add(5, "Malta's garrison was reinforced from the fleet's own continuing budget rather than left to what was already there — an ongoing commitment against a British effort this command judged certain to come, whatever it cost the desert war's own timetable.");
+      else if (flags.maltaDefense41 === "minimal")
+        add(5, "Malta was defended with whatever was already on the island, nothing further diverted from the desert war to reinforce it — the cheaper bet, and the more exposed one, whichever way the British effort against it actually went.");
       if (flags.greeceDecision === "delay")
         add(8, "Mussolini's answer to Romania was delayed rather than rushed — the single change every honest account of the Greek campaign says should have been made, and on this path, was.");
       if (flags.tarantoDoctrine === "escort")
@@ -12014,6 +13976,15 @@ const CAMPAIGNS = {
             ? "the harder diplomatic push for recognized co-belligerent standing has, within the year, produced language in the peace negotiations that a purely passive record never would have earned — not equal treatment, but not the flattest possible defeated-power terms either"
             : "the more gradual, Allied-paced path to recognition means the peace negotiations opening within the year still treat Italy substantially as a defeated Axis power, whatever combat record the Co-Belligerent Army actually built";
         return `A year past Army Group C's surrender in Italy, the same June 1946 referendum that follows the RSI's collapse follows this branch too — the monarchy that declared war in 1940 does not survive a popular vote a year after the fighting stops, whichever branch of this campaign reaches that vote. What differs on this path is the country's negotiating position going in: ${standing}. Either way, the peace conference that opens within the year will cost Italy its colonial empire outright and leave the Trieste border an open dispute — an argument this command's wartime choices never actually reached.`;
+      }
+      if (flags.italyEntry === "neutral") {
+        if (flags.neutralItalyEnd === "resist") {
+          return "SPECULATIVE — a year past a short, strange war against the ally this command spent two years avoiding, Italy is not the country the documented June 1946 referendum actually found: Mussolini's regime, having staked its legitimacy on judgment rather than combat, faces a domestic reckoning of its own, though not the same one — a public asked to weigh a government that kept the country largely out of Europe's catastrophe against one that ultimately fought anyway, on nobody's side but its own, against the power it spent two years trying not to provoke.";
+        }
+        if (flags.neutralItalyEnd === "submit") {
+          return "SPECULATIVE — a year past an occupation absorbed rather than resisted, Italy exists in a strange diplomatic limbo the documented postwar order has no real category for: neither a defeated Axis power nor a liberated Allied one, a country whose army never fired a shot in Europe's war now administered, in practice, by the ally it spent two years trying to avoid antagonizing.";
+        }
+        return "SPECULATIVE — a year past a European war this command never entered on either side, Italy faces a postwar order it had no hand in shaping and no casualty list to bring to the table. Mussolini's regime, whatever it argued about vindicated judgment, is a government that sat out the defining catastrophe of its own generation — a fact history is likely to remember differently than this file's own closing choice framed it.";
       }
       return "This file closes before the armistice fork that defines what 'a year later' would even mean for the rest of this campaign — an incomplete record with no later chapter to project.";
     },
@@ -12162,6 +14133,7 @@ const NODE_ATLAS = {
     { id: "doubleEnvelopment", date: "SEPTEMBER 1941", title: "The Double Envelopment" },
     { id: "exposedFlank", date: "AUGUST – SEPTEMBER 1941", title: "The Exposed Flank" },
     { id: "moscowRace41", date: "SEPTEMBER 1941", title: "The Race, With the Flank Still Open" },
+    { id: "rostov41", date: "NOVEMBER 1941", title: "The Rostov Crisis" },
     { id: "typhoon", date: "DECEMBER 1941", title: "Typhoon Stalls" },
     { id: "pearlHarbor", date: "DECEMBER 11, 1941", title: "The American Question" },
     { id: "staticEast", date: "1942 – 1943", title: "A Static Eastern Front" },
@@ -12223,6 +14195,7 @@ const NODE_ATLAS = {
     { id: "moscowPanic41", date: "OCTOBER 16, 1941", title: "The Moscow Panic" },
     { id: "specialSection41", date: "DECEMBER 1941", title: "The Special Section" },
     { id: "lendLease42", date: "1942", title: "The Lifeline Routes" },
+    { id: "rzhevSummer42", date: "JULY – AUGUST 1942", title: "The First Blow at the Salient" },
     { id: "order227_42", date: "JULY 1942", title: "Not One Step Back" },
     { id: "stalingradStreets42", date: "SEPTEMBER – NOVEMBER 1942", title: "The City on the Volga" },
     { id: "escapedRemnants43", date: "DECEMBER 1942", title: "What the Looser Ring Let Through" },
@@ -12397,8 +14370,12 @@ const ENDINGS_GALLERY = [
   { campaign: "OKW", label: "A Country Taken Apart to Last Longer", hint: "The only answer to the weapon the physics doesn't refute.", tier: "Contested Outcome" },
   { campaign: "OKW", label: "An army that barely resembles the historical one", hint: "Four years of arithmetic, kept.", tier: "Contested Outcome" },
   { campaign: "OKW", label: "The Winter That Wasn't Supposed to Happen", hint: "Historical Divergence Mode: Moscow falls not through history's narrow window but a wider one — the reinforcements that saved it historically arrived thinner this time.", tier: "Major Victory" },
+  { campaign: "OKW", label: "Citadel, Fought With Tanks That Didn't Burn", hint: "Historical Divergence Mode: the early Panther's engine-fire problem is chased down and fixed before Kursk rather than during it, and the spring strike breaches the unfinished defenses it was always supposed to catch.", tier: "Minor Victory" },
+  { campaign: "OKW", label: "The Overextension That Didn't Bite", hint: "Historical Divergence Mode: a thinner-than-expected Soviet reserve lets Case Blue hold both the Stalingrad and Caucasus axes at once, longer than the historical overextension ever allowed.", tier: "Minor Victory" },
   { campaign: "STAVKA", label: "Recalled to Moscow", hint: "What NKVD Mode was watching for.", tier: "Minor Defeat" },
   { campaign: "STAVKA", label: "The Capital That Evacuated Anyway", hint: "Historical Divergence Mode: without the historical Kiev diversion slowing the German advance, October's panic reaches all the way to the government itself.", tier: "Major Defeat" },
+  { campaign: "STAVKA", label: "The Weakness Nobody Exploited", hint: "Historical Divergence Mode: Model's Rzhev garrison runs thinner than the winter pattern, and Operation Mars is launched — and fails at its full historical cost anyway, the gap never noticed in time to change the plan.", tier: "Minor Defeat" },
+  { campaign: "STAVKA", label: "The Warning That Went Nowhere", hint: "Historical Divergence Mode: German reconnaissance flags the real concentration areas before Bagration launches, and Army Group Center is destroyed on schedule regardless — whoever read the reports in Berlin, they changed nothing.", tier: "Major Victory" },
   { campaign: "STAVKA", label: "Berlin, Taken Early — At Stalingrad's Price", hint: "February, and paid for the fast way.", tier: "Major Victory" },
   { campaign: "STAVKA", label: "The City That Surrendered to the Ring", hint: "Three days, and no street contested.", tier: "Major Victory" },
   { campaign: "STAVKA", label: "The Heights That Held an Empty Front", hint: "Seelow, declined.", tier: "Major Victory" },
@@ -12498,11 +14475,16 @@ const ENDINGS_GALLERY = [
   { campaign: "COMANDO SUPREMO", label: "The Uniform Handed Over, Not Torn Off", hint: "Salò's collapse, negotiated rather than fled.", tier: "Minor Defeat" },
   { campaign: "COMANDO SUPREMO", label: "A Republic Remembered by Marzabotto", hint: "The Republic's final address, after the reprisal years.", tier: "Major Defeat" },
   { campaign: "COMANDO SUPREMO", label: "The Republic's Last Address", hint: "The historical ending — Dongo, and Piazzale Loreto.", tier: "Major Defeat" },
-  { campaign: "COMANDO SUPREMO", label: "Twenty Months at Salò", hint: "The Republic's collapse, in outline.", tier: "Major Defeat" },
+  // "Twenty Months at Salò" and "Two Italies, One File" were both deleted here, Round 19 —
+  // positionLabel's own comments (next to the checks that replaced them) trace exactly why each
+  // was permanently unreachable rather than merely rare.
   { campaign: "COMANDO SUPREMO", label: "A Record Argued For, Not Assumed", hint: "The Co-Belligerent Army's case, pressed at the peace table.", tier: "Minor Defeat" },
   { campaign: "COMANDO SUPREMO", label: "The Line Held on Its Own Front", hint: "The Gothic Line, fully committed to.", tier: "Minor Defeat" },
   { campaign: "COMANDO SUPREMO", label: "The Co-Belligerent's Uncertain Honor", hint: "The historical ending — a junior partner's war, quietly closed.", tier: "Minor Defeat" },
-  { campaign: "COMANDO SUPREMO", label: "Two Italies, One File", hint: "A record of both governments this command could serve.", tier: "Contested Outcome" },
+  // Round 19: the extended non-belligerence branch, off nonBelligerence40's "wait" choice.
+  { campaign: "COMANDO SUPREMO", label: "The War That Passed Rome By", hint: "Extended non-belligerence, held for the whole war — Berlin let it stand.", tier: "Minor Victory" },
+  { campaign: "COMANDO SUPREMO", label: "Occupied Without Ever Having Fought", hint: "Extended non-belligerence, called by Berlin — submitted to rather than resisted.", tier: "Major Defeat" },
+  { campaign: "COMANDO SUPREMO", label: "The War Rome Refused, Then Fought Anyway", hint: "Extended non-belligerence, called by Berlin — resisted, against the ally instead of beside it.", tier: "Contested Outcome" },
   { campaign: "COMANDO SUPREMO", label: "Rome Stops Being Consulted", hint: "Axis Mode's own ceiling on independent judgment.", tier: "Major Defeat" },
 ];
 
@@ -12537,10 +14519,6 @@ function EndingTierBadge({ tier }) {
   );
 }
 
-// Build-time gate: false produces the free browser build (Standard Issue Command only across
-// all three campaigns), true produces the full paid download (adds Führer, NKVD, and Yalta
-// Mode). Toggle this one line and re-export — nothing else about the game changes.
-const HARD_MODES_ENABLED = true;
 // esbuild replaces the __DEMO_BUILD__ token at build time (see build.mjs `define`).
 // The typeof guard means the raw source also runs standalone — pasted into a preview,
 // opened directly, etc. — instead of throwing "Can't find variable: __DEMO_BUILD__".
@@ -12548,10 +14526,23 @@ const HARD_MODES_ENABLED = true;
 // so the full build carries no demo-only content and vice versa (verified in build).
 const DEMO_BUILD = typeof __DEMO_BUILD__ === "undefined" ? false : __DEMO_BUILD__;
 const DEMO_UNLOCKED_CAMPAIGNS = ["german"];
+// Round 20c (Craig: "the demo file is just the German campaign on standard difficulty
+// only"). Previously hardcoded to `true` regardless of build variant — the "— full version"
+// locked-button UI for Führer/NKVD/Yalta/Axis Mode already existed and was fully wired, but
+// nothing ever actually flipped this to false for the demo zip, so the shipped demo build
+// let a player select Führer Mode in the one campaign it unlocked. Wired to the same
+// __DEMO_BUILD__ token every other demo restriction already uses, so a plain `npm run
+// build` now produces a correctly-restricted demo without a manual step to remember.
+const HARD_MODES_ENABLED = !DEMO_BUILD;
+// Same fix applied to Easy Command: unlike hard mode, Easy had no gate at all — any
+// unlocked campaign (i.e. German, in the demo) could still play Elefant Command. Craig's
+// "standard difficulty only" is read literally: the demo's one campaign gets Standard Issue
+// Command and nothing else, not Standard-plus-Easy.
+const EASY_MODE_ENABLED = !DEMO_BUILD;
 
 // Background music track path. Silent/harmless until a real file exists at this relative path
 // alongside the built HTML — swap this constant if the eventual filename differs.
-const MUSIC_TRACK_SRC = "theme.mp3";
+const MUSIC_TRACK_SRC = THEME_MUSIC_DATA_URL;
 
 // Grand Campaign — prototype, per docs/specs/grand-campaign-mode.md. Chains German → Soviet →
 // Allied into one continuous state carry-over (Italy excluded for now, per Craig — its
@@ -12563,6 +14554,1587 @@ const MUSIC_TRACK_SRC = "theme.mp3";
 // version wouldn't test whether the actual chaining mechanic is any good.
 const GRAND_CAMPAIGN_ENABLED = typeof __GRAND_CAMPAIGN__ === "undefined" ? false : __GRAND_CAMPAIGN__;
 const GRAND_CAMPAIGN_ORDER = ["german", "soviet", "allied"];
+
+// Key Battle Subgame — prototype, Craig's "Order of Battle" allocation concept (2026-09-18).
+// At a small set of pivotal battles, resolving the historical uncertain[] roll is preceded by a
+// resource-allocation subgame: the player spends a small pool of "effort" chits across four
+// categories (Divisions, Mechanised Armour, Air Support, Positioning & Intelligence), and the
+// resulting mix nudges that battle's roll weight up or down — exactly the same mechanism an
+// existing Historical Divergence fork uses (see forkPanthersFixed in the kursk node), just
+// player-driven instead of a random fork. Deliberately NOT meter-threshold gating — every
+// category is always available regardless of standing — because the series' own non-negotiable
+// design rule is "decisions drive endings, never meter thresholds alone"; the chit pool's SIZE
+// grows with the campaign's Manpower/Fuel/Initiative standing instead (Craig: "extra manpower or
+// fuel or initiative should directly help your choices"), and the resulting bonus is clamped to
+// +/-30 (see chooseOption) — well past the +/-15 an existing Historical Divergence fork nudges a
+// roll by, since this is a whole subgame's worth of commitment, not one flag — so a maxed
+// allocation tilts a roll hard without ever making it a certainty. Per-category effectiveness is
+// battle-specific (set per choice via keyBattleSubgame.effectiveness), not a flat multiplier, so
+// each pivotal battle can favor different levers for reasons the node's own text already
+// establishes — see the kursk node's comment for why Positioning is weak there specifically.
+// Round 3 (2026-09-19, Craig): raised the clamp and the effectiveness values behind it (roughly
+// 1.8x across the board) so a heavy commitment can swing meaningfully further than round 2's cap
+// allowed, and added a battle-instance jitter — see BattleAllocationScreen's `jitter` state — so
+// the exact effectiveness of each category isn't the same fixed, memorizable number every time a
+// player reaches this screen. Craig's own framing: "like an actual battle with the multipliers
+// working differently so a player isn't confident on their choices." The UI shows a banded
+// qualitative readout ("in good order" / "holding to plan" / "reports uncertain") per category
+// instead of the raw number, so the player is reading intelligence, not solving an equation —
+// consistent with the concealRoll fog-of-war precedent already established on Kursk's own choice.
+// Same __KEY_BATTLE_SUBGAME__ esbuild-define pattern as Grand Campaign: false in every shipped
+// itch build, true only in the unlisted dev prototype build (see build.mjs). Real plumbing
+// feeding a real roll, not a mockup, for the same reason Grand Campaign is real plumbing — a fake
+// version wouldn't test whether the actual mechanic is any good. Piloted on exactly one node
+// (kursk) pending Craig's reaction, per the project's own "pilot narrow before generalizing"
+// convention.
+const KEY_BATTLE_SUBGAME_ENABLED = typeof __KEY_BATTLE_SUBGAME__ === "undefined" ? false : __KEY_BATTLE_SUBGAME__;
+// Field is `name`, not `label` — deliberately, so these don't collide with
+// check-reachability.js's stale-ENDINGS_GALLERY scan, which regexes every label field (as a
+// quoted string following a colon) between `const ENDINGS_GALLERY` and `const NODE_TOTAL` (this
+// array sits in that span) and treats each match as a claimed ending title.
+// Round 2 (2026-09-19, Craig): dropped Positioning & Intelligence — it duplicated the
+// concealRoll mechanic already live on Kursk's own choice (the situation text already tells the
+// player their planning is compromised; a chit category for "outmaneuver them" restated the same
+// idea a second way instead of adding one) — and replaced it with Supply, the more universally
+// real lever Craig asked about directly ("what other factors drive the outcome, supplies etc?").
+// Craig's other two calls this round: build out future battles one per archetype (land/naval/
+// amphibious/strategic-air) rather than generalizing the land-battle set across every remaining
+// battle — this array and its `keyBattleSubgame.effectiveness` pattern stay archetype-specific,
+// not assumed universal — and try the per-category expansion panel (see
+// BattleAllocationScreen's <details> blocks) showing what the historical order of battle
+// actually looked like, sourced the same way every other claim in this game is.
+const BATTLE_ALLOCATION_CATEGORIES = [
+  { id: "divisions", name: "Divisions", meter: "manpower", glyph: "▮▮▮" },
+  { id: "armour", name: "Mechanised Armour", meter: "fuel", glyph: "▶▶" },
+  { id: "air", name: "Air Support", meter: "fuel", glyph: "✈" },
+  { id: "supply", name: "Supply", meter: "fuel", glyph: "▤" },
+];
+
+// Round 4 (Craig, mobile playtest: "could we have a commander selection option which had a
+// modifier on one of the four categories"). Keyed per battle id (matches
+// keyBattleSubgame.id) since a roster is only honest for the specific army group/front that
+// battle actually involved — no generic "pick a general" list. Each entry's `category` tie is
+// to the officer's REAL documented command, not an invented personal doctrine, since only one
+// of the four (Hoth) has a well-sourced individual reputation as an armor specialist; the other
+// three are represented by what they verifiably commanded, which is a defensible way to give
+// them a category without overclaiming a personality trait no source actually states. All
+// ranks/roles/dates checked via Wikipedia and (for the Deßloch handover date, which Wikipedia's
+// own infobox and body text disagree on) a cross-check against a specialist Luftwaffe-history
+// source, 2026-09-19:
+//  - Hoth: Generaloberst, 4th Panzer Army — the offensive's main armored spearhead (~700 tanks
+//    committed). Well-documented as a Panzer specialist going back to 1940-41.
+//  - Kempf: General der Panzertruppe, Army Detachment Kempf — its own order of battle was two
+//    full infantry corps (XI, XLII — six infantry divisions) alongside III Panzer Corps, so
+//    "Divisions" reflects the actual weight of what he commanded, not a claimed specialty.
+//  - Deßloch: Generaloberst, commander-in-chief of Luftflotte 4 — confirmed (Dupuy Institute
+//    Luftwaffe-history research citing Bundesarchiv-sourced correspondence) as having taken
+//    over from Wolfram von Richthofen on 11 June 1943, weeks before Kursk opened, correcting an
+//    initial assumption during research that Richthofen was still in command in July.
+//  - Busse: Chief of Staff, Army Group South, under Manstein from 1943 — his rank at that exact
+//    moment isn't pinned down by the sources checked (Oberst is confirmed for 1942,
+//    Generalleutnant only confirmed by January 1944), so he's identified by role rather than a
+//    guessed rank. A chief of staff is the officer who actually turns an army group's plan into
+//    its logistics and troop-movement machinery, which is the honest tie to Supply here.
+const KEY_BATTLE_COMMANDERS = {
+  kursk: [
+    {
+      id: "hoth",
+      name: "Generaloberst Hermann Hoth",
+      role: "Commanding, 4th Panzer Army",
+      category: "armour",
+      note: "The offensive's main armored fist — roughly 700 tanks under his direct command. Chits spent on Mechanised Armour carry further with him running that push.",
+      // Round 9 report lines (Craig's item #4 — commander/approach voice in the battle report).
+      // Each verified 2026-09-21: Hoth "had discussed [turning toward Prokhorovka] with
+      // Manstein since early May, as he expected large Soviet armoured reserve forces to arrive
+      // from the east" (Wikipedia, Battle of Prokhorovka) — so an early-May strike under Hoth
+      // carrying that same intent is consistent, not anachronistic.
+      reportLine: "Hoth angles the SS panzer corps toward Prokhorovka, braced for the Soviet armour he expects from the east.",
+    },
+    {
+      id: "kempf",
+      name: "General der Panzertruppe Werner Kempf",
+      role: "Commanding, Army Detachment Kempf",
+      category: "divisions",
+      note: "His own command is built around two full infantry corps flanking its one panzer corps. Chits spent on Divisions carry further under him.",
+      // Verified: Army Detachment Kempf's III Panzer Corps crossed the Northern Donets "to
+      // protect the 4th Panzer Army's eastern flank" (Wikipedia, Operation Citadel).
+      reportLine: "Kempf's corps fights its way across the Donets to cover Hoth's right flank.",
+    },
+    // Round 10 correction: this was Deßloch, which is wrong for THIS battle — the early strike
+    // is May 1943, and Luftflotte 4 was still Richthofen's then (Wikipedia, Luftflotte 4:
+    // "Generalfeldmarschall Wolfram von Richthofen, 20 July 1942 – 4 September 1943"; the Dupuy
+    // Institute's correspondence-based date for Deßloch taking over is 11 June 1943 — either
+    // way, after May). The round-4 note below about Deßloch is kept for the record but no
+    // longer describes a roster entry.
+    {
+      id: "richthofen",
+      name: "Generalfeldmarschall Wolfram von Richthofen",
+      role: "Commander-in-Chief, Luftflotte 4",
+      category: "air",
+      note: "Commands the air fleet flying direct support for this front. Chits spent on Air Support carry further under him.",
+      // Verified: "The Hs 129 formations from SG 1 inflicted grievous losses on Soviet tanks"
+      // with 30 mm anti-tank cannon, flying in support of the southern attack (Wikipedia,
+      // Battle of Prokhorovka).
+      reportLine: "Hs 129 tank-busters of Luftflotte 4 catch Soviet armour moving up in the open.",
+    },
+  ],
+  // Round 9 (Craig picked D-Day as the second battle — built as Omaha, Allied side; see the
+  // omahaCrisis44 node for why). Three commanders, one per category the morning actually turned
+  // on; Air left without a named tie, same asymmetric-by-design pattern as Kursk's Supply.
+  // Verified 2026-09-21 (Wikipedia, Omaha Beach; William M. Hoge): Hall commanded naval Task
+  // Force O; at 09:50 the destroyers "were ordered to get as close in as possible. Some
+  // approached within 900 meters (1,000 yd) several times, scraping bottom." Cota, 29th Division
+  // assistant commander, "led the charge off of Dog White, between WN-68 and WN-70, by forcing
+  // gaps in the wire with a Bangalore torpedo." Hoge "commanded the Provisional Engineer Special
+  // Brigade Group attached directly to V Corps in the assault on Omaha Beach" (a brigadier
+  // general from 1942 until his May 1945 promotion to major general). The node's own premise is
+  // that the historical rally doesn't arrive on its own — putting Cota or Hall forward is the
+  // player's attempt to force it, which is why their notes are phrased as an order, not a given.
+  omaha: [
+    {
+      id: "hall",
+      name: "Rear Admiral John L. Hall Jr.",
+      role: "Commanding, Naval Task Force O",
+      category: "naval",
+      note: "The ships off this beach are his. Order his destroyers in close and they can fire straight into the strongpoints, shallows or not. Chits spent on Naval Gunfire carry further under him.",
+      reportLine: "Hall's destroyers come in to a thousand yards, scraping bottom, firing into the bluffs.",
+    },
+    {
+      id: "cota",
+      name: "Brigadier General Norman Cota",
+      role: "Assistant Commander, 29th Infantry Division",
+      category: "waves",
+      note: "Already ashore with the men pinned at the shingle. Put him forward and he can get them moving. Chits spent on Follow-on Waves carry further with him on the beach.",
+      reportLine: "Cota gets men off the shingle and through a gap blown in the wire, up the bluff.",
+    },
+    {
+      id: "hoge",
+      name: "Brigadier General William M. Hoge",
+      role: "Commanding, Provisional Engineer Special Brigade Group",
+      category: "engineers",
+      note: "His brigade group exists to open this beach's exits and keep them open. Chits spent on Engineers & Tanks carry further under him.",
+      reportLine: "Hoge's engineers go to work on the exits as each draw falls.",
+    },
+  ],
+  // Round 15 (battle #3, Stalingrad breakout). Three officers, each with a documented, sourced
+  // tie to the category they're listed under — verified 2026-09-24 (Wikipedia: Hans-Valentin
+  // Hube, Walther von Seydlitz-Kurzbach, Martin Fiebig). Supply left without a named commander
+  // tie, same asymmetric-by-design pattern as Kursk's Supply and Omaha's Air.
+  stalingrad: [
+    {
+      id: "hube",
+      name: "Generalleutnant Hans-Valentin Hube",
+      role: "Commanding, XIV Panzer Corps",
+      category: "armour",
+      note: "His corps is what panzer strength survived Uranus inside the pocket. Chits spent on Mechanised Armour carry further under him.",
+      // Verified: Hube personally "argued strongly, but to no avail, for Hitler to allow the 6th
+      // Army to attempt a breakout" (Wikipedia, Hans-Valentin Hube) — he wants this order, not
+      // just executes it.
+      reportLine: "Hube pushes what's left of his panzer corps forward to screen the column's advance.",
+    },
+    {
+      id: "seydlitz",
+      name: "General der Artillerie Walther von Seydlitz-Kurzbach",
+      role: "Commanding, LI Army Corps",
+      category: "divisions",
+      note: "His corps is three infantry divisions, and he's one of the army's own generals already arguing for exactly this order. Chits spent on Divisions carry further under him.",
+      // Verified: Seydlitz was "one of the generals who argued most forcefully in favour of a
+      // breakout or a surrender, against Hitler's orders" (Wikipedia, Walther von
+      // Seydlitz-Kurzbach) — his actual advocacy on record is documented from January 1943, after
+      // this node's moment; his corps command and rank are contemporaneous and accurately stated.
+      reportLine: "Seydlitz gets his three divisions moving on schedule, no argument needed this time.",
+    },
+    {
+      id: "fiebig",
+      name: "Generalleutnant Martin Fiebig",
+      role: "Commanding, VIII Fliegerkorps",
+      category: "air",
+      note: "His air corps has been flying support over this front for months. Chits spent on Air Support carry further under him.",
+      // Verified: Fiebig told Paulus directly that an airlift "was not feasible," then appealed to
+      // Richthofen, who agreed and "urged senior commanders to authorize a breakout rather than an
+      // airlift" (Wikipedia, Martin Fiebig) — the airlift order hasn't been given yet at this
+      // node's moment, but Fiebig's own math already points the same direction this choice does.
+      reportLine: "Fiebig has VIII Fliegerkorps flying cover over the column before the order is even confirmed.",
+    },
+  ],
+  // Round 15, battle #4 (Alam Halfa). Three officers, each with a documented, sourced tie to the
+  // category they're listed under — verified 2026-09-25 (Wikipedia: Battle of Alam el Halfa,
+  // Fliegerführer Afrika). Supply left without a named commander tie, same asymmetric-by-design
+  // pattern as the other three battles above.
+  elAlamein: [
+    {
+      id: "vaerst",
+      name: "General Gustav von Vaerst",
+      role: "Commanding, Afrika Korps",
+      category: "armour",
+      // Verified: von Vaerst took over the Afrika Korps after Nehring was wounded in an air raid
+      // on 31 August 1942, mid-battle (Wikipedia, Battle of Alam el Halfa).
+      note: "Takes over the Korps from a wounded Nehring in the middle of this fight. Chits spent on Mechanised Armour carry further under him.",
+      reportLine: "Von Vaerst pushes the panzer spearhead forward himself, Korps command or not.",
+    },
+    {
+      id: "navarini",
+      name: "Generale Enea Navarini",
+      role: "Commanding, XXI Corpo d'Armata",
+      category: "divisions",
+      // Verified: Navarini commanded the Italian XXI Corps at Alam el Halfa (Wikipedia, Battle of
+      // Alam el Halfa order of battle).
+      note: "His corps is the Italian infantry mass that has to keep pace with a night march built around the panzers' own schedule. Chits spent on Divisions carry further under him.",
+      reportLine: "Navarini gets his corps moving on the night schedule, no argument needed this time.",
+    },
+    {
+      id: "seidemann",
+      name: "General der Flieger Hans Seidemann",
+      role: "Commanding, Fliegerführer Afrika",
+      category: "air",
+      // Verified: Seidemann took command of Fliegerführer Afrika on 30 August 1942 — the day this
+      // attack opened — succeeding Hoffmann von Waldau (Wikipedia, Fliegerführer Afrika).
+      note: "Takes command of the air corps the same morning this attack goes in. Chits spent on Air Support carry further under him.",
+      reportLine: "Seidemann has what's flyable over the column before the first report comes in.",
+    },
+  ],
+  // Round 15, battle #5 (Monte Marrone). One commander, not three — a deliberate departure from
+  // the other battles' rosters, not an oversight: no individually-named commander for the Nembo
+  // paratroop element, the attached Anglo-Polish artillery, or the mule-supply effort turned up
+  // in verification, and inventing one would cross the line this project has held everywhere
+  // else between "asymmetric by design" (Kursk's Supply, Omaha's Air) and simply making a name
+  // up. Verified 2026-09-25 (Wikipedia, Italian Co-belligerent Army): General Vincenzo Dapino
+  // commanded the 1st Motorized Group — the Corpo Italiano di Liberazione's own predecessor
+  // formation, not yet reorganized under that name or under Utili's command until 18 April 1944,
+  // after most of the fighting this subgame models.
+  monteCassino44: [
+    {
+      id: "dapino",
+      name: "General Vincenzo Dapino",
+      role: "Commanding, 1st Motorized Group",
+      category: "assault",
+      note: "His group is the Piemonte and Bersaglieri battalions making the climb. Chits spent on Alpine & Bersaglieri Assault carry further under him.",
+      reportLine: "Dapino pushes the assault line up the last stretch of trail himself.",
+    },
+  ],
+  // Round 15, battle #6 (Minsk). Two commanders, not three — Rokossovsky already speaks as this
+  // choice's own advisor, so he isn't repeated here as a commander pick; no individually-named
+  // air-army commander specific to Bagration turned up in verification (Novikov commanded the
+  // whole VVS from 1942 on, but nothing found ties him personally to this operation rather than
+  // Kursk or Königsberg), so Air is left uncommanded rather than attributed on an inference.
+  // Verified 2026-09-25 (Wikipedia: Operation Bagration).
+  bagrationSoviet44: [
+    {
+      id: "chernyakhovsky",
+      name: "General Ivan Chernyakhovsky",
+      role: "Commanding, 3rd Belorussian Front",
+      category: "divisions",
+      note: "His front's rifle armies are doing much of the work sealing the ring shut. Chits spent on Divisions carry further under him.",
+      reportLine: "Chernyakhovsky pushes his rifle armies forward to seal another stretch of the ring.",
+    },
+    {
+      id: "rotmistrov",
+      name: "General Pavel Rotmistrov",
+      role: "Commanding, 5th Guards Tank Army",
+      category: "armour",
+      note: "His tank army is the offensive's own exploitation force, committed straight through the gap the breakthrough opened. Chits spent on Mechanised Armour carry further under him.",
+      reportLine: "Rotmistrov drives his tank army forward through the gap without waiting for orders to confirm it.",
+    },
+  ],
+  // Round 15, battle #7 (Anzio). Three commanders, Naval Gunfire & Buildup left uncommanded —
+  // no individually-named commander for the ships and the beach logistics effort as a whole
+  // turned up in verification (the naval task force answered to Rear Admiral Frank Lowry, but
+  // nothing found ties him personally to the corps-level push-inland-or-consolidate decision this
+  // subgame models, unlike Hall's documented close-support decision at Omaha), so it's left
+  // asymmetric the same way Omaha's Air and Bagration's Air already are. Verified 2026-09-25
+  // (Wikipedia, Battle of Anzio): Truscott commanded 3rd Infantry Division and later argued the
+  // inland thrust toward Valmontone "would have accomplished in full" the operation's aims;
+  // Penney commanded the British 1st Infantry Division; Darby's 6615th Ranger Force took the
+  // port of Anzio itself on the landing's first day.
+  anzio44: [
+    {
+      id: "truscott",
+      name: "Major General Lucian K. Truscott Jr.",
+      role: "Commanding, 3rd Infantry Division",
+      category: "armor",
+      note: "His division leads the push toward the Alban Hills, armor included — the same thrust he will later argue should never have stopped short of Valmontone. Chits spent on Armored Exploitation carry further under him.",
+      reportLine: "Truscott pushes his division's own column forward without waiting on the corps to confirm it.",
+    },
+    {
+      id: "penney",
+      name: "Major General Ronald Penney",
+      role: "Commanding, British 1st Infantry Division",
+      category: "assault",
+      note: "His division holds the other half of the beachhead's own infantry line. Chits spent on Infantry Beachhead carry further under him.",
+      reportLine: "Penney gets his division's line squared away and pushing its own perimeter forward.",
+    },
+    {
+      id: "darby",
+      name: "Colonel William O. Darby",
+      role: "Commanding, 6615th Ranger Force",
+      category: "rangers",
+      note: "His Rangers took the port itself this morning without firing a shot. Chits spent on Ranger & Commando Vanguard carry further under him.",
+      reportLine: "Darby pushes his Rangers out ahead of the main line on his own authority.",
+    },
+  ],
+  // Round 15, battle #8 (Arnhem). Three commanders. Urquhart's own quote is the OTHER choice's
+  // advisor at this same node ("Organize the night evacuation"), not this one — Horrocks speaks
+  // for the choice this subgame is attached to — so using Urquhart as a commander pick here
+  // follows the same rule Bagration's roster established (a choice's own advisor isn't repeated
+  // as a commander pick; anyone else is fair game). Verified 2026-09-25 (Wikipedia, Battle of
+  // Arnhem; 1st Independent Parachute Brigade): Horrocks commanded XXX Corps; Urquhart commanded
+  // 1st Airborne Division, holding the Oosterbeek perimeter; Sosabowski commanded the 1st
+  // Independent Parachute Brigade (Poland) at Driel.
+  arnhemPerimeter44: [
+    {
+      id: "horrocks",
+      name: "Lieutenant General Brian Horrocks",
+      role: "Commanding, XXX Corps",
+      category: "corpsPush",
+      note: "His corps is the column stalled on the one road north of Nijmegen. Chits spent on XXX Corps Armored Push carry further under him.",
+      reportLine: "Horrocks pushes the column forward on his own authority rather than wait for the road to clear itself.",
+    },
+    {
+      id: "urquhart",
+      name: "Major General Roy Urquhart",
+      role: "Commanding, 1st Airborne Division",
+      category: "perimeter",
+      note: "His division, what's left of it, is the horseshoe around Oosterbeek. Chits spent on Oosterbeek Perimeter carry further under him.",
+      reportLine: "Urquhart tightens the perimeter's own line rather than let it be pulled thinner.",
+    },
+    {
+      id: "sosabowski",
+      name: "Major General Stanisław Sosabowski",
+      role: "Commanding, 1st Independent Parachute Brigade (Poland)",
+      category: "poles",
+      note: "His brigade is the one making the crossing attempts from Driel. Chits spent on Polish Parachute Brigade carry further under him.",
+      reportLine: "Sosabowski sends another boat load across on his own order, ferry or no ferry.",
+    },
+  ],
+  // Round 15, battle #9 (PQ-17). Two commanders, not three — no individually-named commander
+  // for the anti-aircraft auxiliaries or the signals-intelligence effort specific to this convoy
+  // turned up in verification, so Anti-Aircraft Auxiliaries and Signals Intelligence are left
+  // uncommanded rather than attributed on an inference, the same asymmetric-by-design pattern as
+  // Monte Cassino's single commander. Tovey is this choice's own advisor and so isn't repeated
+  // here as a commander pick, the same rule Bagration's and Arnhem's rosters already established.
+  // Verified 2026-09-25 (Wikipedia, Convoy PQ 17): Commander Jack Broome commanded the close
+  // escort as Senior Officer of the Escort; Rear-Admiral Louis Hamilton commanded the 1st
+  // Cruiser Squadron, the covering force screening against the Tirpitz threat.
+  pq17_1942: [
+    {
+      id: "broome",
+      name: "Commander Jack Broome",
+      role: "Senior Officer of the Escort",
+      category: "escorts",
+      note: "His destroyers and corvettes are the convoy's own close screen. Chits spent on Destroyer & Corvette Screen carry further under him.",
+      reportLine: "Broome brings his destroyers in tighter on his own order rather than wait for a threat to name itself.",
+    },
+    {
+      id: "hamilton",
+      name: "Rear-Admiral Louis Hamilton",
+      role: "Commanding, 1st Cruiser Squadron",
+      category: "coveringForce",
+      note: "His cruisers are the covering force standing off against the battleship threat. Chits spent on Distant Covering Force carry further under him.",
+      reportLine: "Hamilton holds his squadron ready to close the distance the moment the threat picture actually changes.",
+    },
+  ],
+  // Round 15, battle #10 (Pointblank / Second Schweinfurt). Three commanders, each verified to a
+  // documented rank and title as of the mission date (14 October 1943) rather than a later or
+  // earlier one — LeMay in particular is easy to get wrong here, since he is far better known at
+  // higher ranks later in the war. Spaatz, the choice's own advisor, isn't repeated here, the
+  // same rule Bagration's, Arnhem's, and PQ-17's rosters already established. No individually-
+  // named commander for the diversion force turned up in verification, so Diversionary Routing is
+  // left uncommanded rather than attributed on an inference — the same asymmetric-by-design
+  // pattern as PQ-17's Signals Intelligence. Verified 2026-09-25 (Wikipedia, Curtis LeMay /
+  // William Ellsworth Kepner / Ira C. Eaker): Brigadier General Curtis LeMay (promoted from
+  // Colonel on 28 September 1943) commanded the newly formed 3rd Air Division, one of the two
+  // divisions that flew this mission, and had developed the combat box formation himself while
+  // commanding the 305th Bombardment Group; Major General William Kepner commanded VIII Fighter
+  // Command, the escort's parent command, from September 1943; Lieutenant General Ira Eaker
+  // commanded Eighth Air Force throughout this period.
+  bomberDirective43: [
+    {
+      id: "lemay",
+      name: "Brigadier General Curtis LeMay",
+      role: "Commanding, 3rd Air Division",
+      category: "formation",
+      note: "The combat box is his own doctrine, drilled into his division before anyone else's. Chits spent on Combat Box Discipline carry further under him.",
+      reportLine: "LeMay orders the box tightened on his own standing doctrine rather than wait for a report to justify it.",
+    },
+    {
+      id: "kepner",
+      name: "Major General William Kepner",
+      role: "Commanding, VIII Fighter Command",
+      category: "escort",
+      note: "His Thunderbolt groups are the whole of the mission's fighter escort. Chits spent on Fighter Escort Coordination carry further under him.",
+      reportLine: "Kepner pushes another flight to the limit of its range on his own order rather than wait for the schedule to call for it.",
+    },
+    {
+      id: "eaker",
+      name: "Lieutenant General Ira Eaker",
+      role: "Commanding, Eighth Air Force",
+      category: "targeting",
+      note: "The target list — and the case that chokepoint industries are worth this cost — is his own command's doctrine. Chits spent on Precision Bomb-Run carry further under him.",
+      reportLine: "Eaker's own standing order to hold the run steady through flak is what the lead bombardiers are flying to.",
+    },
+  ],
+  // Round 8 (Craig: "if limit it to a max of 3 commanders"): cut from four names to three. The
+  // one dropped — Theodor Busse, Manstein's Chief of Staff — was always the odd one out of the
+  // four anyway: Hoth, Kempf, and Deßloch each held a field or air command, giving orders in
+  // their own right; Busse ran a headquarters staff, not a command. "Field Command" as a section
+  // label fits the remaining three more honestly than it did the four. Supply is left without a
+  // named commander tie as a result — consistent with the existing asymmetric-by-design pattern
+  // (this roster was never meant to cover every category, see KEY_BATTLE_COMMANDER_BONUS below).
+};
+// Flat effectiveness add-on for whichever single category a selected commander is tied to —
+// see BattleAllocationScreen's effectiveWeight(). Deliberately not scaled by jitter (a
+// commander's presence is a known, chosen fact going in, not a roll of the dice the way that
+// category's own readiness is) and sized to be felt without letting commander choice alone
+// dominate the allocation decision: at the current per-chit effectiveness range (1.8-3.0 before
+// jitter), +0.8 is a meaningful fraction of a chit's value in that category, not a second pool
+// of chits in disguise.
+const KEY_BATTLE_COMMANDER_BONUS = 0.8;
+
+// Round 4 follow-up (2026-09-20, Craig: "would there an ability to pick a tactical approach...
+// night battle, flank, paras, spearhead?"). Researched before building anything (Wikipedia's
+// Operation Citadel order-of-battle/planning content, cross-checked against Warfare History
+// Network's Manstein and Model retrospectives, 2026-09-20): of Craig's four suggested labels,
+// two don't survive verification for Kursk specifically — no airborne/paratroop component was
+// ever planned for Citadel, and "flank" isn't an alternative choice at all, it's what the whole
+// operation already does unconditionally (a double envelopment: Model's 9th Army from the
+// north, Hoth's 4th Panzer Army/Kempf from the south, meeting to cut off the salient). A "night
+// battle" is also overstated — the only documented night activity is engineers clearing mine
+// lanes on 4/5 July ahead of a dawn assault, prep work rather than a fighting doctrine. What DID
+// hold up, and is what actually shipped (Craig's call, given the choice directly): a genuine,
+// sourced tactical contrast between the battle's own two real pincers. Model's 9th Army
+// deliberately did not lead with armor — "he planned to use his infantry to batter their way
+// through the defenses," with the panzer reserve committed only after the three Soviet
+// defensive lines were breached (a subordinate later said holding those reserves back cost them
+// Kursk). Hoth's 4th Panzer Army led with the opposite: a concentrated armored wedge (Panzerkeil
+// — Tigers forward, Panzer IIIs/IVs and assault guns fanning to the flanks and rear). Modeled as
+// a tradeoff, not a pure buff, per-category: Spearhead pushes Mechanised Armour harder but
+// thins Supply (a fast armored thrust famously outruns its own logistics tail — the real risk
+// Hoth's own attack ran, worst at Prokhorovka); Infantry-Led Breach pushes Divisions harder but
+// holds Armour back (armor deliberately not leading, per Model's own plan above). Air
+// deliberately untouched by either — both pincers flew similar close air support, and this
+// isn't a lever either doctrine actually pulled. Un-jittered, same reasoning as the commander
+// bonus: which doctrine you picked is a known fact going into the battle, not a roll of the
+// dice. Unlike commander selection, there's no "no particular approach" default — Craig's own
+// framing ("choose between the two tactical choices") is a forced pick, matching how a real
+// commander can't run an attack according to neither doctrine.
+const KEY_BATTLE_APPROACHES = {
+  kursk: [
+    {
+      id: "spearhead",
+      name: "Concentrated Armored Spearhead",
+      subtitle: "Hoth's approach — the southern pincer",
+      note: "Lead with the tanks. A narrow armored wedge — Tigers forward, the rest fanning to the flanks and rear — punches through fast, the way 4th Panzer Army's own attack did. Speed outruns its own supply tail: Mechanised Armour chits carry further, Supply chits carry less.",
+      modifiers: { armour: 0.7, supply: -0.5 },
+      reportLine: "The attack goes in as a wedge: Tigers at the point, the lighter tanks fanning out behind.",
+    },
+    {
+      id: "infantryBreach",
+      name: "Methodical Infantry-Led Breach",
+      subtitle: "Model's approach — the northern pincer",
+      note: "Hold the tanks back. Infantry and artillery batter the line open first, the way 9th Army's own attack did, with the panzer reserve committed only once the defenses are actually breached. Divisions chits carry further; Mechanised Armour chits carry less, held back rather than leading. The methodical pace also keeps the supply columns closer behind the line: Supply chits carry a little further too.",
+      // Round 13, Craig's item #4: Supply had no commander tie and no positive approach modifier
+      // anywhere in Kursk's config — structurally a dead end, since check-battle-balance.js's own
+      // round-12 build surfaced that no plan can ever push Supply to the same ceiling every other
+      // category can reach. Not a 4th commander (Craig, round 8: "if limit it to a max of 3
+      // commanders") — a small +0.3 tacked onto the approach that already fits it. 9th Army's
+      // methodical, engineer-supported approach (verified below) is the honest place to hang a
+      // supply-side bonus; deliberately smaller than the 0.7 lead-lever bonuses so this approach
+      // doesn't become strictly stronger than spearhead's own two-lever tradeoff.
+      modifiers: { divisions: 0.7, armour: -0.5, supply: 0.3 },
+      // Verified: "Model chose to make his initial attacks using infantry divisions reinforced
+      // with assault guns and heavy tanks" (Wikipedia, Operation Citadel).
+      reportLine: "Infantry and assault guns go in first. The panzer divisions wait behind them, unspent.",
+    },
+  ],
+  // Omaha (round 9). Verified 2026-09-21 (Wikipedia, Omaha Beach): the plan was built around
+  // opening the beach's five draws — the only vehicle exits — which were also where the
+  // strongpoints were sited; what actually worked on the morning was troops who "made
+  // improvised assaults, scaling the bluffs between the most well-defended points," and "by
+  // 09:00, more than 600 American troops, in groups ranging from company sized to just a few
+  // men, had reached the top of the bluff opposite Dog White." Same tradeoff shape as Kursk's
+  // pair: each pushes one category and thins another; Naval Gunfire untouched, since both
+  // doctrines leaned on it equally.
+  omaha: [
+    {
+      id: "forceDraws",
+      name: "Force the Draws",
+      subtitle: "The V Corps plan — take the exits",
+      note: "Go straight at the five draws, where the vehicle exits and the strongpoints both are. Open them and the beach can drain inland. Engineers & Tanks chits carry further; Follow-on Waves chits carry less, fed into the fire at the draw mouths.",
+      modifiers: { engineers: 0.7, waves: -0.5 },
+      reportLine: "The assault goes straight at the draws, where the exits and the strongpoints both are.",
+    },
+    {
+      id: "climbBluffs",
+      name: "Climb Between the Draws",
+      subtitle: "Small groups, between the strongpoints",
+      note: "Send small groups up the bluffs between the strongpoints, away from the draws, and take the defenders from behind. Follow-on Waves chits carry further; Engineers & Tanks chits carry less, with the exits left shut for now.",
+      modifiers: { waves: 0.7, engineers: -0.5 },
+      reportLine: "Small groups start up the bluffs between the strongpoints, well away from the draws.",
+    },
+  ],
+  // Round 15, battle #3. No second officially-planned breakout axis is on the documentary record
+  // for Stalingrad the way Kursk had two real army groups' doctrines — this is a modeled tactical
+  // tradeoff (concentrate the mobile force vs. preserve the broader infantry mass), not two named
+  // historical plans, and is disclosed as such rather than attributed to a specific staff study.
+  stalingrad: [
+    {
+      id: "armoredThrust",
+      name: "Concentrated Armored Thrust",
+      subtitle: "Lead with what panzer strength survived Uranus",
+      note: "Put the tanks at the front of the column and drive for open ground before the ring hardens. Mechanised Armour chits carry further; every kilometer spends fuel nobody is flying in a second load of, so Supply chits carry less.",
+      modifiers: { armour: 0.7, supply: -0.5 },
+      reportLine: "The panzer screen forms up at the head of the column and pushes west first.",
+    },
+    {
+      id: "broadWithdrawal",
+      name: "Broad Infantry Withdrawal",
+      subtitle: "Preserve the mass, screen it rather than lead with it",
+      note: "March the infantry divisions out under their own power, tanks screening the flanks rather than leading. Divisions chits carry further; Mechanised Armour chits carry less, held to the column's edges instead of its point.",
+      modifiers: { divisions: 0.7, armour: -0.5 },
+      reportLine: "The infantry divisions form the column's main body, tanks screening its edges rather than leading it.",
+    },
+  ],
+  // Round 15, battle #4. Rommel's actual plan for Alam Halfa was a single scheme (night march
+  // south of the minefields, then north behind the ridge before daylight) — no second
+  // officially-planned axis exists the way Kursk had two real army groups' doctrines. Same
+  // disclosed-modeled-tradeoff pattern as Stalingrad's approaches above, grounded in the sourced
+  // fact that the actual attempt was delayed past first light by minefields deeper than expected
+  // and then caught in the open by the Desert Air Force (Wikipedia, Battle of Alam el Halfa).
+  elAlamein: [
+    {
+      id: "raceTheDawn",
+      name: "Race the Dawn",
+      subtitle: "Force the gap before first light",
+      note: "Push the panzer spearhead through the minefield lanes at speed rather than wait for them fully cleared — every hour saved is an hour less exposed to the Desert Air Force in daylight. Mechanised Armour chits carry further; the pace burns fuel nobody is shipping a second load of, so Supply chits carry less.",
+      modifiers: { armour: 0.7, supply: -0.5 },
+      reportLine: "The panzer spearhead probes the minefield's edge, looking for a lane already cleared.",
+    },
+    {
+      id: "clearTheMines",
+      name: "Clear the Mines Properly",
+      subtitle: "Let the engineers open the lanes first",
+      note: "Take the time to breach the minefields properly before committing the column, infantry and engineers leading rather than the tanks. Divisions chits carry further; Mechanised Armour chits carry less, held back until the lanes are actually open.",
+      modifiers: { divisions: 0.7, armour: -0.5 },
+      reportLine: "The infantry and engineers lead into the minefield, clearing the lanes ahead of the tanks.",
+    },
+  ],
+  // Round 15, battle #5. No second officially-planned axis exists for Monte Marrone specifically
+  // any more than one does for Stalingrad or Alam Halfa above — this is the same disclosed
+  // modeled tradeoff (which arm leads the plan), not two named historical doctrines. Balance note
+  // (tools/check-battle-balance.js): without any approach bonus available, Artillery's own
+  // effectiveness under a dampening posture couldn't clear the neglect penalty on the other three
+  // categories at pool=5 — Artillery needed its own synergy path the same way Assault already
+  // has one through its commander, which is what "Guns Forward" gives it.
+  monteCassino44: [
+    {
+      id: "gunsForward",
+      name: "Guns Forward",
+      subtitle: "Range the artillery in before the climb starts",
+      note: "Have the Anglo-Polish batteries register their fire plan before the assault battalions move, at the cost of some of the surprise a faster start would keep. Anglo-Polish Artillery chits carry further; Alpine & Bersaglieri Assault chits carry less, held to wait on the guns' own schedule.",
+      modifiers: { artillery: 0.7, assault: -0.5 },
+      reportLine: "The Anglo-Polish batteries range in their fire plan before the assault line moves.",
+    },
+    {
+      id: "assaultLeads",
+      name: "Assault Leads the Climb",
+      subtitle: "Move on the peak now, guns in overwatch",
+      note: "Send the assault battalions up the mountain on the original night-surprise schedule, artillery held in overwatch rather than leading the plan. Alpine & Bersaglieri Assault chits carry further; Anglo-Polish Artillery chits carry less, ranged in only after contact.",
+      modifiers: { assault: 0.7, artillery: -0.5 },
+      reportLine: "The assault line moves up the mountain on schedule, the guns held in overwatch behind it.",
+    },
+  ],
+  // Round 15, battle #6. Real operational tension, not an invented one — the Feste Plätze
+  // doctrine (see the outer choice's own sourcing note) only became a trap because the Soviet
+  // plan's actual character was to bypass strongpoints with deep armored thrusts rather than
+  // reduce them in place, which is what let the Minsk pocket close as fast and as completely as
+  // it did. No source found naming an internal Stavka debate between these two doctrines as
+  // live alternatives for this specific operation, so — same disclosure as Stalingrad's and Alam
+  // Halfa's approach pairs above — this is a modeled tradeoff built from what the historical
+  // doctrine actually was (bypass) and its plausible operational opposite (reduce in place), not
+  // two named historical plans.
+  bagrationSoviet44: [
+    {
+      id: "deepEncirclement",
+      name: "Bypass and Encircle",
+      subtitle: "Drive the tank armies deep, leave the strongpoints behind",
+      note: "Push the tank armies past the fortified towns rather than reduce them, closing the ring on the open country behind the line. Mechanised Armour chits carry further; every kilometer driven around a strongpoint is a kilometer the rear services haven't caught up to yet, so Supply chits carry less.",
+      modifiers: { armour: 0.7, supply: -0.5 },
+      reportLine: "The tank armies bypass the fortified towns and drive for open country behind the line.",
+    },
+    {
+      id: "reduceStrongpoints",
+      name: "Reduce the Strongpoints",
+      subtitle: "Clear the fortified towns before pushing on",
+      note: "Take the fortified towns methodically with the rifle armies before committing the tank strength past them. Divisions chits carry further; Mechanised Armour chits carry less, held back until the ground behind it is actually clear.",
+      modifiers: { divisions: 0.7, armour: -0.5 },
+      reportLine: "The rifle armies move to reduce the fortified towns before the tank strength is committed past them.",
+    },
+  ],
+  // Round 15, battle #7 (Anzio). This is the choice's own real historical tension, not an
+  // invented one — Lucas's actual order was to consolidate the beachhead first ("no military
+  // reason for Shingle," per his diary), while Truscott, first as division commander and later
+  // as Lucas's replacement, argued for pushing the exploitation column while the roads were
+  // still open. The outer choice already resolves the strategic question (launch Shingle at
+  // all); this is the tactical one underneath it — which of the corps's two real, documented
+  // instincts the landing force actually executes on the ground.
+  anzio44: [
+    {
+      id: "pushInland",
+      name: "Push the Column Inland Now",
+      subtitle: "Truscott's argument — commit the exploitation force while the roads are open",
+      note: "Send the armor and its screening infantry up the road toward the Alban Hills before the German response can organize. Armored Exploitation chits carry further; the beachhead's own infantry line, thinned to feed the column, carries less. Infantry Beachhead chits carry less.",
+      modifiers: { armor: 0.7, assault: -0.5 },
+      reportLine: "The exploitation column moves out on the road inland without waiting for the beachhead to fully consolidate.",
+    },
+    {
+      id: "securePerimeter",
+      name: "Secure the Perimeter First",
+      subtitle: "Lucas's actual order — entrench the beachhead against the counterattack he expects",
+      note: "Hold the armor back and dig the infantry line in before committing anything inland, the way the historical corps commander actually ordered it. Infantry Beachhead chits carry further; Armored Exploitation chits carry less, held in reserve rather than leading.",
+      modifiers: { assault: 0.7, armor: -0.5 },
+      reportLine: "The infantry digs in on the beachhead's own perimeter while the armor stays back in reserve.",
+    },
+  ],
+  // Round 15, battle #8 (Arnhem). A real, sourced tension, not an invented one: "Hell's
+  // Highway," the single road XXX Corps had to advance and resupply on, was cut by the Germans
+  // more than once and fatally near Koevering on 25 September — the moment that convinced
+  // Horrocks the relief could not succeed. Pushing the spearhead hard for the river and holding
+  // enough strength back to keep the road itself open were genuinely in tension the whole way
+  // north from Nijmegen.
+  arnhemPerimeter44: [
+    {
+      id: "directAssault",
+      name: "Push the Armor Straight at the River",
+      subtitle: "Send the spearhead for the crossing directly, corridor security secondary",
+      note: "Drive the column for the river without pausing to widen the road behind it. XXX Corps Armored Push chits carry further; the single road left thin behind the spearhead is exactly what let the Germans cut it near Koevering — Supply Drop chits carry less, the corridor's own security being what keeps any resupply moving at all.",
+      modifiers: { corpsPush: 0.7, resupply: -0.5 },
+      reportLine: "The column drives straight for the river, leaving the road behind it thinner than the plan called for.",
+    },
+    {
+      id: "securedAdvance",
+      name: "Clear and Hold the Corridor First",
+      subtitle: "Widen and secure the road north before committing the spearhead further",
+      note: "Spend the effort holding Hell's Highway open before pushing the spearhead any further. Supply Drop chits carry further; XXX Corps Armored Push chits carry less, held to the pace the secured road actually allows.",
+      modifiers: { resupply: 0.7, corpsPush: -0.5 },
+      reportLine: "The corps spends its effort holding the road open rather than pushing the spearhead further north.",
+    },
+  ],
+  // Round 15, battle #9 (PQ-17). A modeled tradeoff, not a named historical doctrine dispute —
+  // same disclosure as Stalingrad's and Bagration's approach pairs above — built from the real
+  // operational fact that a convoy escort this size (six destroyers, two AA auxiliaries) could
+  // not fight U-boats and torpedo bombers at full strength simultaneously; where the escort's
+  // attention goes is a genuine and disclosed-as-modeled tradeoff, not a documented order.
+  pq17_1942: [
+    {
+      id: "antiSubPriority",
+      name: "Screen Against the Wolfpacks",
+      subtitle: "Concentrate the escort's attention on the submarine threat",
+      note: "Keep the destroyers and corvettes hunting contacts rather than watching the sky. Destroyer & Corvette Screen chits carry further; Anti-Aircraft Auxiliaries chits carry less, left to fight the air threat alone.",
+      modifiers: { escorts: 0.7, aaShips: -0.5 },
+      reportLine: "The escort's attention goes to the water rather than the sky, hunting contacts before they can fire.",
+    },
+    {
+      id: "antiAirPriority",
+      name: "Mass Anti-Aircraft Fire",
+      subtitle: "Concentrate the escort's attention on the torpedo bomber threat",
+      note: "Bring every gun that can be spared onto the air picture rather than the water. Anti-Aircraft Auxiliaries chits carry further; Destroyer & Corvette Screen chits carry less, thinner on the U-boat threat as a result.",
+      modifiers: { aaShips: 0.7, escorts: -0.5 },
+      reportLine: "The escort's attention goes to the sky rather than the water, massing fire against the next low pass.",
+    },
+  ],
+  // Round 15, battle #10 (Pointblank / Second Schweinfurt). A modeled tradeoff, not a documented
+  // doctrine dispute — same disclosure as PQ-17's and Bagration's approach pairs above — built
+  // from the real operational fact that a group's own staff effort on mission day could go toward
+  // drilling combat-box discipline or toward the fighter-escort handoff, not fully both; where
+  // that effort goes is a genuine and disclosed-as-modeled tradeoff, not a documented order.
+  bomberDirective43: [
+    {
+      id: "holdTheBox",
+      name: "Hold the Box Together",
+      subtitle: "Drill formation discipline over the exact rendezvous timing",
+      note: "Put the effort into keeping the box tight end to end. Combat Box Discipline chits carry further; Fighter Escort Coordination chits carry less, left to work the handoff with whatever timing the escort already has.",
+      modifiers: { formation: 0.7, escort: -0.5 },
+      reportLine: "The effort goes into holding the box tight rather than perfecting the escort handoff.",
+    },
+    {
+      id: "exactRendezvous",
+      name: "Time the Rendezvous Exactly",
+      subtitle: "Drill the escort handoff over formation discipline",
+      note: "Put the effort into making the fighter handoff as precise as the range allows. Fighter Escort Coordination chits carry further; Combat Box Discipline chits carry less, left to hold together with whatever discipline the groups already have.",
+      modifiers: { escort: 0.7, formation: -0.5 },
+      reportLine: "The effort goes into the escort handoff rather than drilling the box's own discipline.",
+    },
+  ],
+};
+
+// Round 9, Craig's item #1 (the "one best play" problem: with fixed multipliers, Hoth +
+// Spearhead + Armour was the answer every time once learned). Each battle now secretly draws one
+// enemy posture at the moment the Order of Battle screen opens; it multiplies that category's
+// WHOLE per-chit weight, commander and approach bonuses included (the enemy blunts an arm no
+// matter who leads it — an earlier draft multiplied only the base effectiveness, and hand-
+// simulation showed the flat commander/approach adds then kept Hoth + Spearhead + Armour the
+// best plan under every posture, i.e. it didn't fix the problem it was built for). Tuned so each
+// posture has a different best plan in both battles (round-9 spec has the enumeration). It is
+// hinted at, never stated, by one line of intelligence on the planning screen. It's revealed as a "contact" beat
+// at the start of the battle report — before the mid-battle reserve decision, so the player can
+// respond to it with reserves. Every posture is a real option the defender historically had or
+// took, verified 2026-09-21:
+//  Kursk — Wikipedia, Operation Citadel / Battle of Prokhorovka / Pakfront: belts built around
+//   anti-tank ditches and gun emplacements (the Pakfront: mutually covering AT-gun groups); three
+//   Soviet air armies (2nd, 16th, 17th) committed, the 2nd and 17th on the southern face; the
+//   Steppe Front "held back east of the salient until the time was right for the Soviet
+//   counteroffensive."
+//  Omaha — Wikipedia, Omaha Beach: the 352nd Division, "believed to be 30 kilometers inland at
+//   Saint-Lô," was on the coast (the historical posture; its move was known to First Army by
+//   June 4 but "no plans were changed"); the bombers "overshot their targets and only three bombs
+//   fell near the beach area"; and the thin coastal line the planners actually expected ("a
+//   reinforced 716th Infantry Division battalion").
+// Field is `name`, not `label`, for the same ENDINGS_GALLERY-regex reason as the categories.
+const KEY_BATTLE_POSTURES = {
+  kursk: [
+    {
+      id: "antiTankFirst",
+      name: "Anti-tank belts first",
+      modifiers: { armour: 0.5, supply: 1.35 },
+      hints: [
+        "Air reconnaissance photographs fresh anti-tank ditches and gun pits across the first belt.",
+        "Deserters describe anti-tank guns sited in clusters, each group covering the next.",
+      ],
+      reveal: "Contact: the first belt is an anti-tank gun line in mutually covering groups. The tanks are driving into the teeth of it.",
+    },
+    {
+      id: "airForward",
+      name: "Air armies forward",
+      modifiers: { air: 0.5, armour: 0.8, divisions: 1.3 },
+      hints: [
+        "Signals intercepts show new air regiments arriving on the fields behind the southern face.",
+        "Luftwaffe crews report more Soviet fighters over the line every day this week.",
+      ],
+      reveal: "Contact: the Soviet air armies are up in strength over the southern face. The sky is not ours.",
+    },
+    {
+      id: "reservesDeep",
+      name: "Armour held deep",
+      modifiers: { armour: 1.3, divisions: 0.9, supply: 0.9 },
+      hints: [
+        "Agents report Soviet tank armies far back, east of the salient, not at the front.",
+        "The forward belts look light on armour. The tanks are somewhere else.",
+      ],
+      reveal: "Contact: the Soviet armour is held far back, east of the salient. The forward belts are thinner than feared, for now.",
+    },
+  ],
+  omaha: [
+    {
+      id: "fieldDivision",
+      name: "A field division on the bluffs",
+      // Round 10 (item 7): the historical posture is drawn twice as often as either alternative.
+      weight: 2,
+      modifiers: { waves: 0.6, naval: 0.8, engineers: 1.25 },
+      hints: [
+        "A report relayed through First Army two days ago: another German division may have moved up to this coast.",
+        "Prisoners taken at the shingle are not from the coastal division we were briefed on.",
+      ],
+      reveal: "Contact: the bluffs are held by a full field division, the 352nd, which the briefings placed inland at Saint-Lô.",
+    },
+    {
+      id: "strongpointsIntact",
+      name: "Strongpoints untouched",
+      modifiers: { engineers: 0.6, naval: 1.35, air: 0.8 },
+      hints: [
+        "Bomber crews report solid overcast over the target. Results unobserved.",
+        "The strongpoints at the mouths of the draws are firing as if the bombing never happened.",
+      ],
+      reveal: "Contact: the bombing missed. Every strongpoint at the draws is intact and firing.",
+    },
+    {
+      id: "thinGarrison",
+      name: "The thin coastal line",
+      modifiers: { waves: 1.4, naval: 0.85 },
+      hints: [
+        "Photo interpretation still shows only the coastal division's positions along these bluffs.",
+        "Fire from the bluffs is heavy at the draws and noticeably lighter between them.",
+      ],
+      reveal: "Contact: it's the thin coastal line the planners expected. The fire is concentrated at the draws.",
+    },
+  ],
+  // Round 15, battle #3. Grounded in the two well-established, uncontroversial facts about this
+  // encirclement rather than a fresh granular-numbers verification pass the way Kursk/Omaha's
+  // postures were: Operation Uranus's double envelopment left the Soviets building outward from
+  // two separate fronts — one facing the pocket, one facing away from it against exactly the kind
+  // of relief or breakout attempt this battle models — and the southern Russian steppe in late
+  // November was already deep into the harsh continental winter that later defined the whole
+  // campaign's popular memory. No specific unit numbers or named formations invented here, same
+  // "illustrative, not individually sourced" bar this file already holds its flashup text to.
+  stalingrad: [
+    {
+      id: "ringHardening",
+      name: "The outer ring is already forming",
+      weight: 2,
+      // armour at 1.0 (not dampened like the other categories): a hardening ring is a race against
+      // time, not a fortification the armoured spearhead has to grind through yet — it's still the
+      // one force fast enough to hit the ring before it's finished, which is exactly Hube's own
+      // argument in the flavor text above. Balance-tuned per tools/check-battle-balance.js (round
+      // 15): at pool=5 the original 0.85 left full concentration on armour and a one-chit hedge
+      // scoring within rounding of each other, since every category here is dampened and the
+      // absolute weight gap stayed too thin to survive Math.round — this keeps the "ring hardening
+      // hurts everyone" read for every other category while giving the actually-favored one enough
+      // separation to price a hedge correctly.
+      modifiers: { divisions: 0.6, supply: 0.7, armour: 1.0 },
+      hints: [
+        "Reconnaissance reports fresh Soviet formations digging in facing west, away from the pocket, not just around it.",
+        "A patrol that found open ground yesterday reports the same stretch entrenched this morning.",
+      ],
+      reveal: "Contact: the outer ring is forming faster than hoped — this isn't a cordon around a pocket anymore, it's a front facing both ways.",
+    },
+    {
+      id: "softSpot",
+      name: "A gap that hasn't closed yet",
+      modifiers: { armour: 1.3, divisions: 1.2, supply: 0.9 },
+      hints: [
+        "A returning patrol reports a stretch of the ring with no organized position at all, just outposts.",
+        "Prisoners taken west of the pocket describe units still arriving, not yet dug in.",
+      ],
+      reveal: "Contact: there's a real gap, for now — a stretch of the ring that's outposts and arriving units, not a finished line.",
+    },
+    {
+      id: "deepWinter",
+      name: "Winter takes both sides",
+      // divisions at 1.05 (fractionally above 1.0, everything else still dampened): infantry
+      // moving under their own power on foot are the one thing the cold doesn't stop cold the way
+      // it does aircraft, engines, and a fuel column — same balance-tuning note as ringHardening's
+      // armour above (round 15, tools/check-battle-balance.js) — the original 0.9 left the same
+      // rounding tie between full concentration and a one-chit hedge at pool=5.
+      modifiers: { air: 0.5, armour: 0.8, divisions: 1.05, supply: 1.0 },
+      hints: [
+        "The forecast the staff meteorologist won't put a number on, except to say it's worse than yesterday.",
+        "Vehicles that started this morning without trouble won't start again without being run all night.",
+      ],
+      reveal: "Contact: the cold is the enemy tonight as much as the Red Army is — aircraft grounded, engines failing to start, the column moving slower than the plan allowed for.",
+    },
+  ],
+  // Round 15, battle #4 (Alam Halfa). Three sourced facts about how the actual attempt broke
+  // down (Wikipedia, Battle of Alam el Halfa; historyofwar.org, Battle of Alam Halfa): the
+  // minefields were deeper than reconnaissance judged; the Desert Air Force flew hundreds of
+  // sorties against the exposed column once daylight caught it; and Montgomery had ordered his
+  // armour to stay in fixed, dug-in hull-down positions and let the panzers come to them, a
+  // deliberate break from the desert war's earlier maneuver doctrine. Balance-tuned the same way
+  // as Stalingrad's postures above (tools/check-battle-balance.js, round 15): the category each
+  // posture actually favors sits above 1.0 while the rest stay dampened, so a full concentration
+  // on it clears a one-chit hedge by more than Math.round's rounding tolerance at pool=5 — supply
+  // under hullDownLine needed a fuller 1.25 rather than a fractional bump, since it carries no
+  // commander and no approach bonus at all here, and so had less raw weight to spread that gap
+  // with than armour or divisions do under their own postures.
+  elAlamein: [
+    {
+      id: "deepMinefields",
+      name: "The belts run deeper than briefed",
+      weight: 2,
+      modifiers: { divisions: 0.65, armour: 0.9, supply: 0.75 },
+      hints: [
+        "Engineers report the first belt running deeper than the reconnaissance photos showed.",
+        "A cleared lane from last week's patrol reports fresh mines laid back into it overnight.",
+      ],
+      reveal: "Contact: the belts are deeper than briefed — what looked like a thin screen is a real minefield, and it's already past the hour the plan needed to be through it by.",
+    },
+    {
+      id: "airSuperiority",
+      name: "The sky never changed hands",
+      modifiers: { air: 0.4, supply: 0.75, divisions: 0.9 },
+      hints: [
+        "Reconnaissance reports the Desert Air Force flying at a tempo that hasn't let up since Gazala.",
+        "Forward units report aircraft finding them well before the column expected to be seen.",
+      ],
+      reveal: "Contact: the sky never changed hands — the Desert Air Force is over the column in daylight strength, and the plan's whole logic was not to still be moving when that happened.",
+    },
+    {
+      id: "hullDownLine",
+      name: "The ridge isn't maneuvering",
+      modifiers: { armour: 0.6, divisions: 0.75, supply: 1.25 },
+      hints: [
+        "Prisoners describe orders to hold fixed positions and let the attack come to them, not to counter-charge.",
+        "The armor on the ridge hasn't moved from its dug-in line since first contact was reported.",
+      ],
+      reveal: "Contact: the ridge isn't maneuvering — the tanks up there are dug in hull-down behind their own guns, waiting, the way this army usually makes the British wait.",
+    },
+  ],
+  // Round 15, battle #5 (Monte Marrone). Three sourced facts (Wikipedia, Battle of Monte
+  // Marrone): the peak's German garrison turned out to be reinforced by three Gebirgsjäger —
+  // German mountain-specialist — battalions on 10 April, a harder counterattack than the
+  // exploratory and dawn attacks of 2 and 3 April; the peak itself was taken by surprise on 31
+  // March, meaning the initial defense was thinner than a fully alerted position would have
+  // been; and the position sits at 1,805 meters in the Mainarde range, real high-altitude
+  // mountain terrain regardless of the exact weather on any given night. Balance-tuned the same
+  // way as the battles above (tools/check-battle-balance.js, round 15): Assault has its own
+  // +0.8 commander bonus under Dapino and Artillery has its own approach synergy through "Guns
+  // Forward" (see KEY_BATTLE_APPROACHES below), but Paratroops and Supply have neither — so a
+  // posture that favors either of those two has to lean on its own multiplier alone to clear the
+  // other categories' synergy advantage.
+  monteCassino44: [
+    {
+      id: "gebirgsjagerReserve",
+      name: "German mountain troops are moving up, not just garrison",
+      weight: 2,
+      modifiers: { assault: 0.7, paratroops: 0.75, artillery: 1.2, supply: 0.85 },
+      hints: [
+        "Prisoners describe fresh mountain-trained units moving into the sector, not the garrison troops briefed.",
+        "Reconnaissance reports a column with mule transport of its own moving toward the peak from the German rear.",
+      ],
+      reveal: "Contact: these aren't garrison troops — Gebirgsjäger, German mountain specialists, are moving up in strength, and the guns are what's going to have to answer them.",
+    },
+    {
+      id: "thinInitialLine",
+      name: "The peak isn't fully alerted yet",
+      modifiers: { assault: 1.2, paratroops: 0.85, artillery: 0.8, supply: 0.85 },
+      hints: [
+        "A returning patrol reports the peak's garrison keeping a routine night posture, not an alerted one.",
+        "No fresh wire or listening posts have gone in on the approach the plan actually uses.",
+      ],
+      reveal: "Contact: the peak isn't alerted — whatever's up there is holding a routine night line, not one that's expecting what's coming.",
+    },
+    {
+      id: "highAltitudeCold",
+      name: "The mountain is its own enemy tonight",
+      modifiers: { assault: 0.6, paratroops: 1.1, artillery: 0.65, supply: 0.55 },
+      hints: [
+        "The forecast for the peak itself is worse than the valley floor's, and nobody will put a number on how much worse.",
+        "A mule train already turned back once tonight, the trail too iced over past a certain height.",
+      ],
+      reveal: "Contact: the mountain is its own enemy tonight — the cold and the altitude are slowing everything that isn't a small unit moving light.",
+    },
+  ],
+  // Round 15, battle #6 (Minsk). Three sourced facts (Wikipedia, Operation Bagration; Minsk
+  // offensive): the double maskirovka held German reserves at Lvov while the real blow fell in
+  // Belorussia; Hitler's Feste Plätze order left strongpoints fighting on past the point they
+  // could actually be relieved, sometimes harder and longer than the bypass plan assumed; and
+  // the pocket east of Minsk, once it started to give, did so as a collapse rather than an
+  // orderly withdrawal — the 25th Panzergrenadier's breakout attempt itself dissolved into
+  // scattered fragments rather than a coherent fighting retreat. Balance-tuned the same way as
+  // the battles above (tools/check-battle-balance.js, round 15).
+  bagrationSoviet44: [
+    {
+      id: "deceptionHolding",
+      name: "The reserves are still watching Lvov",
+      weight: 2,
+      modifiers: { divisions: 1.15, armour: 0.85, air: 0.9, supply: 0.85 },
+      hints: [
+        "Signals intercepts still show the German reserve armies oriented south, toward Lvov.",
+        "No sign yet that Berlin has read this front's own buildup for what it actually is.",
+      ],
+      reveal: "Contact: the deception is holding — whatever reserves the Germans have left are still watching the wrong front, and this one is wide open in front of the rifle armies.",
+    },
+    {
+      id: "fortifiedResistance",
+      name: "The strongpoints are fighting on past sense",
+      modifiers: { divisions: 0.7, armour: 1.1, air: 0.85, supply: 0.75 },
+      hints: [
+        "Prisoners describe orders to hold their positions regardless of what happens on either flank.",
+        "A garrison the advance already passed is still fighting rather than surrendering to the follow-on troops.",
+      ],
+      reveal: "Contact: the fortified towns are fighting on past the point where holding makes any sense — Hitler's own order, and it's slowing the rifle armies more than the tanks that already bypassed it.",
+    },
+    {
+      id: "collapsingCenter",
+      name: "The whole front is coming apart at once",
+      modifiers: { divisions: 1.1, armour: 0.85, air: 0.9, supply: 0.8 },
+      hints: [
+        "Reports describe entire regiments surrendering without a fight along stretches of the line.",
+        "Radio discipline on the German side has broken down; whole units are transmitting in the clear.",
+      ],
+      reveal: "Contact: this isn't a defense giving ground anymore, it's a front coming apart — the rifle armies are the ones positioned to take advantage of it fastest.",
+    },
+  ],
+  // Round 15, battle #7 (Anzio). Three sourced facts (Wikipedia, Battle of Anzio): Kesselring's
+  // own Operation "Richard" order — Kampfgruppe elements of the 4th Parachute and Hermann Göring
+  // Divisions rushed to block the roads to Campoleone and Cisterna — went out at 0500 on landing
+  // day itself, hours after the first troops were ashore, which is why it's the weighted,
+  // historically-favored posture here; the roads themselves were genuinely open in the landing's
+  // first hours, with a patrol reportedly reaching the outskirts of Rome before turning back; and
+  // the blocking line the rushed German units formed was real but, by its own rushed nature,
+  // thinner than the eight-division ring it became within days. Balance-tuned the same way as the
+  // battles above (tools/check-battle-balance.js, round 15).
+  anzio44: [
+    {
+      id: "richardOrder",
+      name: "Kesselring's order is already moving",
+      weight: 2,
+      modifiers: { assault: 1.05, armor: 0.6, rangers: 0.8, naval: 1.0 },
+      hints: [
+        "Reconnaissance reports German armored cars already moving on the road to Campoleone.",
+        "Radio intercepts suggest a corps-level order went out from German headquarters before dawn was fully broken.",
+      ],
+      reveal: "Contact: Kesselring's own order went out at first light — Kampfgruppe elements of the Hermann Göring and 4th Parachute Divisions are already moving to block the roads to Campoleone and Cisterna, and every hour spent deciding is an hour closer to that order being finished.",
+    },
+    {
+      id: "windowStillOpen",
+      name: "The roads haven't closed yet",
+      modifiers: { armor: 1.3, assault: 0.85, rangers: 0.95, naval: 0.75 },
+      hints: [
+        "A jeep patrol reports the road to Campoleone clear for miles, no German positions found.",
+        "Forward observers see nothing moving on the approaches to the Alban Hills.",
+      ],
+      reveal: "Contact: the roads are still open — whatever Kesselring intends, it hasn't reached this stretch of ground yet, and the gap won't stay unwatched forever.",
+    },
+    {
+      id: "thinCordon",
+      name: "The blocking line isn't finished",
+      modifiers: { rangers: 1.25, assault: 0.9, armor: 0.85, naval: 0.85 },
+      hints: [
+        "A patrol finds a stretch of the German blocking line thinly held, more outpost than front.",
+        "Prisoners describe a scratch force, rushed forward without time to dig in properly.",
+      ],
+      reveal: "Contact: whatever line the Germans are forming, it isn't finished — a fast-moving element could still find the gap before it closes.",
+    },
+  ],
+  // Round 15, battle #8 (Arnhem). Three sourced facts (Wikipedia, Battle of Arnhem): the
+  // Germans cut XXX Corps's single supply road near Koevering on 25 September — the decisive
+  // blow, and why it's the weighted, historically-favored posture here; German troops holding
+  // the 22 September drop zone used captured British marker panels and flares to lure resupply
+  // aircraft to their own positions rather than the perimeter's; and fresh German armor,
+  // including Tiger tanks, reached the perimeter's line on 24 September, which is what Major
+  // Cain's own 6-pounder engagement that day was fought against. Balance-tuned the same way as
+  // the battles above (tools/check-battle-balance.js, round 15).
+  arnhemPerimeter44: [
+    {
+      id: "corridorCut",
+      name: "The road behind the column is cut",
+      weight: 2,
+      // Balance note (tools/check-battle-balance.js, round 15): Poles needed a fuller edge here
+      // than a fractional bump gave it — under this posture the corps push is nearly moot and
+      // the perimeter holds on largely unchanged, so the Polish crossing is the one lever still
+      // worth concentrating on, and its multiplier needed to say so clearly (1.15, not a near-tie
+      // with the perimeter's own score) to clear Math.round's rounding tolerance at pool=5.
+      modifiers: { corpsPush: 0.6, perimeter: 0.85, resupply: 0.8, poles: 1.15 },
+      hints: [
+        "Radio traffic from the rear of the column reports German infantry active near Koevering.",
+        "A supply convoy due up from Nijmegen hasn't arrived and isn't answering the radio.",
+      ],
+      reveal: "Contact: the road is cut behind the column — whatever reaches the river now is whatever's already forward of Koevering, and nothing else is getting through today.",
+    },
+    {
+      id: "dropZoneCompromised",
+      name: "The drop zone answers to captured markers",
+      modifiers: { resupply: 0.55, corpsPush: 0.95, perimeter: 0.9, poles: 1.0 },
+      hints: [
+        "A pilot reports marker panels on the old drop zone that don't match today's recognition signal.",
+        "Ground observers inside the perimeter report supply canisters landing well outside the horseshoe again.",
+      ],
+      reveal: "Contact: the drop zone answers to the wrong markers now — the Germans are flying our own panels and flares to pull the aircraft onto their own ground, not the perimeter's.",
+    },
+    {
+      id: "freshPanzerReserves",
+      name: "Fresh armor is reaching the ring",
+      modifiers: { perimeter: 0.65, corpsPush: 0.9, resupply: 0.95, poles: 0.95 },
+      hints: [
+        "Prisoners describe armor moving up that wasn't in the line yesterday.",
+        "A forward post reports the unmistakable sound of heavier tanks somewhere past the tree line.",
+      ],
+      reveal: "Contact: fresh armor is reaching the ring — heavier than what the perimeter has faced so far, and it's the wire itself that's going to have to answer it.",
+    },
+  ],
+  // Round 15, battle #9 (PQ-17). Three real, period-accurate threat pictures a convoy on this
+  // route genuinely faced, not invented ones: coordinated U-boat pack attacks (the Atlantic and
+  // Arctic war's defining tactic throughout 1942); Luftwaffe torpedo-bomber strikes from the
+  // Norwegian bases within range of this exact track; and a shadowing aircraft holding contact
+  // and reporting the convoy's position up the chain — which is, per the sourcing note on the
+  // subgame above, genuinely how German surface units (Tirpitz's own group included) would have
+  // been vectored onto a target in the first place. Wolfpack concentration is weighted as the
+  // single most persistent threat of the underlying tonnage war. Balance-tuned the same way as
+  // the battles above (tools/check-battle-balance.js, round 15); Signals Intelligence has
+  // neither a commander nor an approach bonus (see KEY_BATTLE_COMMANDERS/KEY_BATTLE_APPROACHES
+  // above), so none of these three postures makes it the best play — the same asymmetric-by-
+  // design choice as Kursk's Supply or Omaha's Air.
+  pq17_1942: [
+    {
+      id: "wolfpackConcentration",
+      name: "A coordinated pack is converging",
+      weight: 2,
+      modifiers: { escorts: 1.1, aaShips: 0.85, coveringForce: 0.9, intelligence: 0.85 },
+      hints: [
+        "Hydrophone contacts are being reported on multiple bearings around the convoy's track.",
+        "Direction-finding suggests more than one U-boat is shadowing the convoy tonight.",
+      ],
+      reveal: "Contact: this is a coordinated pack, not a single boat — multiple U-boats are converging on the convoy's track from more than one bearing.",
+    },
+    {
+      id: "luftwaffeStrike",
+      name: "Torpedo bombers are massing from Norway",
+      // Balance note (tools/check-battle-balance.js, round 15): escorts' own ceiling (a
+      // commander AND an approach bonus both) is high enough that AA Auxiliaries — no commander
+      // at all — needed escorts dampened hard here, not just below its own multiplier, or the
+      // screen stayed the best play under every posture regardless of what the contact was.
+      modifiers: { aaShips: 1.2, escorts: 0.6, coveringForce: 0.85, intelligence: 0.8 },
+      hints: [
+        "Reconnaissance reports torpedo bomber squadrons active from the Norwegian bases today.",
+        "A shadowing aircraft has held station longer than a single reconnaissance pass usually takes.",
+      ],
+      reveal: "Contact: the Luftwaffe is coming in strength — torpedo bombers are forming up from the Norwegian fields, and it's the sky the convoy has to answer first.",
+    },
+    {
+      id: "distantShadow",
+      name: "The convoy is fixed and reported",
+      // Same reasoning as luftwaffeStrike above: escorts' own ceiling needed matching dampening
+      // here too, or the screen stayed the best play regardless of contact.
+      modifiers: { coveringForce: 1.15, escorts: 0.6, aaShips: 0.8, intelligence: 0.9 },
+      hints: [
+        "A shadowing aircraft has held contact with the convoy for hours without breaking off.",
+        "Signals traffic suggests the convoy's position has been reported up the German chain of command.",
+      ],
+      reveal: "Contact: the convoy is fixed and reported — whatever responds to that report, surface or otherwise, now knows exactly where to look.",
+    },
+  ],
+  // Round 15, battle #10 (Pointblank / Second Schweinfurt). Three real, documented threat
+  // pictures this mission genuinely faced, not invented ones: single-engine fighters attacking
+  // head-on in abreast waves (the mission's most persistent and sustained threat throughout the
+  // route, weighted accordingly); twin-engine Ju 88s firing 21cm rockets from roughly 1,000
+  // yards, outside the bombers' own defensive gun range, answerable only by escort fighters
+  // reaching them first; and heavy, concentrated flak over the target itself, Schweinfurt being
+  // one of the most heavily air-defended cities in Germany, answerable only by a bomb run flown
+  // with real discipline rather than rushed to get clear of the barrage. Balance-tuned the same
+  // way as the battles above (tools/check-battle-balance.js, round 15); Diversionary Routing has
+  // neither a commander nor an approach bonus (see KEY_BATTLE_COMMANDERS/KEY_BATTLE_APPROACHES
+  // above), so none of these three postures makes it the best play — the same asymmetric-by-
+  // design choice as PQ-17's Signals Intelligence.
+  bomberDirective43: [
+    {
+      id: "headOnWaves",
+      name: "Fighters are massing for head-on passes",
+      weight: 2,
+      modifiers: { formation: 1.1, escort: 0.85, targeting: 0.9, diversion: 0.85 },
+      hints: [
+        "Reconnaissance reports single-engine fighter wings forming up ahead of the bomber stream's track.",
+        "The lead groups report fighters climbing to altitude well out in front of the formation.",
+      ],
+      reveal: "Contact: single-engine fighters are massing for head-on passes, abreast in waves, exactly where the box's own mutual fire has to answer them.",
+    },
+    {
+      id: "rocketStandoff",
+      name: "Twin-engine rocket-carriers are forming up",
+      // Balance note (tools/check-battle-balance.js, round 15): formation's own ceiling (a
+      // commander AND an approach bonus both) is high enough that Fighter Escort Coordination —
+      // commander only, no approach bonus of its own under this posture — needed formation
+      // dampened hard here, not just below its own multiplier, or the box stayed the best play
+      // under every posture regardless of what the contact was.
+      modifiers: { escort: 1.2, formation: 0.6, targeting: 0.85, diversion: 0.8 },
+      hints: [
+        "Signals traffic reports twin-engine aircraft orbiting well outside the bomber stream's own gun range.",
+        "A returning crew reports rocket contrails fired from a stand-off distance no defensive gun could reach.",
+      ],
+      reveal: "Contact: twin-engine Ju 88s are firing rockets from well outside the formation's own defensive range — only the escort can reach them before they fire.",
+    },
+    {
+      id: "flakOverTarget",
+      name: "The target itself is ringed with flak",
+      // Same reasoning as rocketStandoff above: formation's own ceiling needed matching
+      // dampening here too, or the box stayed the best play regardless of contact.
+      modifiers: { targeting: 1.15, formation: 0.6, escort: 0.8, diversion: 0.85 },
+      hints: [
+        "Prior missions to this target report flak concentrations denser than the fighter threat itself.",
+        "Intelligence flags the target's own defenses as the heavier risk on this run, not the fighter screen.",
+      ],
+      reveal: "Contact: the target itself is ringed with flak dense enough that only a disciplined run gets bombs through it — the fighters are not today's real defense.",
+    },
+  ],
+};
+
+// Shared battle math — one pure implementation used by the planning screen (staff assessment),
+// the battle report (beats, reserve decision) and chooseOption (plan costs), so the three can
+// never disagree about what a plan is worth. Round 9 adds reserves (Craig's item #2): chits left
+// unplaced at commit can be thrown into ONE category at the battle's decisive hour, after the
+// enemy posture has been revealed, at KEY_BATTLE_RESERVE_MULT of a planned chit's weight —
+// reserves arrive late and piecemeal, and that discount is also the price of the information.
+// Neglect is judged on the FINAL allocation (plan + committed reserve): a reserve thrown into an
+// empty category plugs that gap, but dumping the whole pool into one category via the reserve is
+// still a full concentration and pays for it — which is what stops "hold everything, wait for
+// the reveal, then go all-in" from beating actual planning (checked by hand-simulation, round 9).
+//
+// Round 12 (Craig's item #8, "graded neglect coverage"): round 8's rule was a hard cliff — ANY
+// category above literally zero chits paid nothing at all, no matter how thin. That gave a
+// "hedge" — one token chit parked in every off-category, the rest piled into the real pick —
+// a way to dodge the whole penalty while keeping nearly all the concentration payoff, which
+// round 8's own hand-simulation flagged as an unpatched loophole. tools/check-battle-balance.js
+// (round 12's item #3) turned that hand-simulation into a permanent, automated check and found
+// the hedge wasn't just "surviving for free" — swept across every posture and pool size, it
+// usually beat honest full concentration outright, by a wide margin. The fix: the penalty now
+// grades continuously against a category's FAIR SHARE of the pool (poolSize / category count)
+// rather than a zero/nonzero cliff. A category at or above its fair share pays nothing; a
+// category below it pays a penalty scaled by how far below — so a token chit still costs
+// something, and literal zero still pays the full penalty exactly as before.
+//
+// Round 16 (Craig's item #9): round 12's own curve was a 1/4-power ("shallow") curve, chosen so
+// a single token chit still cost nearly the full penalty. That shape has a second-order problem
+// its own check never measured: a CONCAVE curve stays near its maximum for almost the entire
+// shortfall range and only collapses right at the fair-share line, which means the one chit that
+// actually CROSSES a category into fair share is worth far more than its raw weight — it also
+// buys back nearly the whole remaining penalty in one stroke. A rational plan should therefore
+// top every category up to exactly its fair share first (cheap: clears that category's penalty
+// entirely) and only dump the leftover into the real pick — a "spread to fair share" hedge, not
+// the one-chit hedge the old check screened for. Exhaustively enumerating every possible
+// allocation (not just the two hand-picked shapes the old check compared) across all 10 battles,
+// every posture, and pool sizes 5-8 confirmed it: that spread hedge beat honest full
+// concentration in 67 of 120 real scenarios, by up to 4 clamped bonus points. A LINEAR penalty
+// (no crossing bonus — every missing chit costs the same fixed slice of the penalty, whether
+// it's the first or the last) closes this without reintroducing round 8's hard cliff: grading is
+// still continuous, a token chit still isn't free, but no single chit is worth more than its
+// share. The constant dropped from 4.5 to 1.5 alongside the shape change — swept empirically
+// (same discipline as round 12's own curve tuning) against both the original 250
+// check-battle-balance.js scenarios and the new exhaustive search: 1.5 is the largest value that
+// clears every one of the 120 exhaustively-enumerated scenarios while still passing all 250
+// original ones.
+const KEY_BATTLE_NEGLECT_PENALTY = 1.5;
+const KEY_BATTLE_RESERVE_MULT = 0.75;
+const KEY_BATTLE_BONUS_CLAMP = 30;
+
+// Round 10 (item 7): postures can carry a `weight` (default 1) — Omaha's historical posture is
+// drawn twice as often as either alternative.
+function pickKeyBattlePosture(battleId) {
+  const roster = KEY_BATTLE_POSTURES[battleId] || [];
+  if (!roster.length) return null;
+  const total = roster.reduce((a, p) => a + (p.weight || 1), 0);
+  let r = Math.random() * total;
+  for (const p of roster) {
+    r -= p.weight || 1;
+    if (r <= 0) return p;
+  }
+  return roster[roster.length - 1];
+}
+
+// Round 10, Craig's item #4: the staff assessment's reliability scales with Initiative at the
+// moment you ask — his own example, "9 initiative 90% accuracy." Floored at 10% so a staff
+// that is badly behind events still occasionally gets it right, capped at 95% so it never
+// becomes a guarantee. The free intelligence summary is wrong a flat 1 time in 4.
+const KEY_BATTLE_INTEL_ERROR_RATE = 0.25;
+// Round 13, Craig's item #3 ("intel as a spendable resource"): a second, PAID look at the same
+// hidden posture, priced the same way the staff assessment is (1 Initiative) and reusing that
+// same "spend a scarce meter for a materially better read, never a certainty" shape — sharper
+// than the free hint (1-in-10 wrong, not 1-in-4) but still not perfect, so a Recon Pass narrows
+// the odds of being fooled rather than removing the risk outright. See requestRecon.
+const KEY_BATTLE_RECON_ERROR_RATE = 0.1;
+function staffReliability(initiative) {
+  return Math.max(10, Math.min(95, (initiative || 0) * 10));
+}
+const STAFF_VERDICT_BANDS = ["strong", "sound", "thin", "a mistake"];
+
+// Round 10, Craig's item #8: how the battle was fought carries into the next node. chooseOption
+// writes `${battleId}Counter`, `${battleId}PlanNeglected` and `${battleId}PlanCommander` flags
+// (dev build only — the subgame is the only thing that sets them), and the next node's
+// situation text appends at most two of these lines: what happened with the counterattack, then
+// either the arm that was left uncovered or, if none was, the commander's lingering mark.
+// Past tense is right here: by the next node, this is the player's own history.
+const KEY_BATTLE_ECHOES = {
+  kursk: {
+    counter: {
+      repulsed: "The Soviet tank counterattack on the flank was beaten off, and it cost them.",
+      heldAtCost: "The flank held against the Soviet tank counterattack, but the infantry who held it are a shadow of what they were.",
+      broke: "The Soviet tank counterattack broke into the flank, and the shoulder of the breach is still not secure.",
+      gaveGround: "The flank gave ground to the Soviet tanks rather than fight it out. The ground is gone; the divisions are intact.",
+    },
+    neglected: {
+      divisions: "There was never enough infantry behind the tanks to hold what they took.",
+      armour: "The panzer divisions barely went in; what was won, the infantry won on foot.",
+      air: "Soviet aircraft have held the sky over the front since the first morning.",
+      supply: "Behind the front, the mine lanes the engineers never reached are still closed.",
+    },
+    commander: {
+      hoth: "Hoth has the SS panzer corps angled toward Prokhorovka, watching the east.",
+      kempf: "Kempf's corps is across the Donets and holding the right flank.",
+      richthofen: "Luftflotte 4 is flying from first light to dark over the front.",
+    },
+  },
+  omaha: {
+    counter: {
+      repulsed: "The German counterattack on the bluff top was stopped before dark.",
+      heldAtCost: "The bluff top held against the German counterattack, barely, and the companies up there are badly thinned.",
+      broke: "The German counterattack drove the forward companies back down toward the shingle.",
+      gaveGround: "The forward companies gave up the bluff top to the counterattack and are dug in at its edge.",
+    },
+    neglected: {
+      waves: "No more waves came in behind the first ones; the men ashore are what there is.",
+      naval: "The destroyers never came in close, and the strongpoints that held the beach all day are still manned.",
+      engineers: "Only a handful of lanes through the obstacles are open, and the tide will cover them again by morning.",
+      air: "Nothing flew over the bluffs today that the Germans needed to fear.",
+    },
+    commander: {
+      hall: "Hall's destroyers came in close all afternoon; without them there would be less beach than this.",
+      cota: "Cota is still up on the bluff with the men he got off the shingle.",
+      hoge: "Hoge's engineers are working on the exits through the night.",
+    },
+  },
+  // Weeks later (falaise44, after a won Omaha): only the commander's mark survives the summer.
+  omahaLater: {
+    counter: {},
+    neglected: {},
+    commander: {
+      hall: "V Corps still talks about the June morning the destroyers came in close enough to scrape bottom.",
+      cota: "V Corps still talks about the June morning Cota got them off the shingle.",
+      hoge: "V Corps still talks about the June morning Hoge's engineers opened the draws.",
+    },
+  },
+  stalingrad: {
+    counter: {
+      repulsed: "The Soviet cavalry probing the column's flank was thrown back, and the march never lost its order.",
+      heldAtCost: "The flank held against the attack on the march, at a real cost to the rearguard that held it.",
+      broke: "The attack on the march broke into the column's rear before it could be stopped.",
+      gaveGround: "The rearguard fell back into the column rather than fight it out, and the march lost its order doing it.",
+    },
+    neglected: {
+      divisions: "The column came out with its tanks intact and its infantry a fraction of what it started with.",
+      armour: "What made it out marched the whole way; there was no armor left to screen it.",
+      air: "Nothing flew over the column from the first day to the last. Whatever found it, found it alone.",
+      supply: "What's left of the army came out with its rifles and little else — the depots were never stripped before the order went out.",
+    },
+    commander: {
+      hube: "Hube's panzer corps, what's left of it, screened the column the whole way west.",
+      seydlitz: "Seydlitz's three divisions came out of the pocket the way they went in — as divisions.",
+      fiebig: "VIII Fliegerkorps flew over the column from the first light to the last.",
+    },
+  },
+  elAlamein: {
+    counter: {
+      repulsed: "The dug-in gun line on the ridge was answered and held off, and the panzer screen kept its ground.",
+      heldAtCost: "The panzer screen held its ground on the ridge, at a real cost to the tanks that held it.",
+      broke: "The dug-in guns on the ridge broke the panzer spearhead before it ever closed the range.",
+      gaveGround: "The armor pulled back off the ridge's open ground rather than fight the gun line at close range.",
+    },
+    neglected: {
+      divisions: "The panzers took the ridge alone; the infantry corps never caught up to hold what they took.",
+      armour: "What reached the ridge got there on foot; there was no armored spearhead left to lead it.",
+      air: "Nothing flew over the column from the first hour to the last. The Desert Air Force never had to share the sky.",
+      supply: "What's left of the army reached the ridge running on fumes — the reserve dump was never touched before the order went out.",
+    },
+    commander: {
+      vaerst: "Von Vaerst's Korps, what's left of it, is still screening the ground it took.",
+      navarini: "Navarini's corps held every yard the panzers cleared for it.",
+      seidemann: "Fliegerführer Afrika flew over the column from the morning Seidemann took command to the last.",
+    },
+  },
+  monteCassino44: {
+    counter: {
+      repulsed: "The Gebirgsjäger counterattack was thrown back whole, and the line on the peak never gave an inch.",
+      heldAtCost: "The line on the peak held against the Gebirgsjäger, at a real cost to the company that held it.",
+      broke: "The Gebirgsjäger broke into the line, and the peak was held afterward only by retaking ground hand to hand.",
+      gaveGround: "The line gave up its most exposed ground rather than fight the Gebirgsjäger out where they hit it.",
+    },
+    neglected: {
+      assault: "The peak was taken and held mostly by paratroopers and gunfire; the assault battalions were never the weight of it.",
+      paratroops: "The Nembo element barely went in; what was won on the peak, the assault battalions won alone.",
+      artillery: "No guns ever answered for this position. Whatever came up the mountain, the line met it with rifles alone.",
+      supply: "The mule trains never caught up to the line; what the men carried up with them was all there was.",
+    },
+    commander: {
+      dapino: "Dapino's group, what's left of it, is still holding the ground it climbed to take.",
+    },
+  },
+  bagrationSoviet44: {
+    counter: {
+      repulsed: "The breakout from the pocket was thrown back whole, and the ring never lost its shape.",
+      heldAtCost: "The ring held against the breakout, at a real cost to the rifle division that held it.",
+      broke: "The breakout punched through the ring, and the pocket cost more to finally seal than the plan allowed.",
+      gaveGround: "The line gave up a stretch of the ring rather than fight the breakout out where it landed.",
+    },
+    neglected: {
+      divisions: "The tanks closed the ring alone; the rifle armies were never the weight that sealed it shut.",
+      armour: "What sealed the ring did it on foot; there was no tank strength left to drive it closed faster.",
+      air: "Nothing flew over the pocket's roads from the first hour to the last. Whatever moved on them, moved unmolested.",
+      supply: "What reached Minsk got there running on what it started with — the rear services never caught up to the advance.",
+    },
+    commander: {
+      chernyakhovsky: "Chernyakhovsky's rifle armies are still holding every stretch of the ring they sealed.",
+      rotmistrov: "5th Guards Tank Army, what's left of it, is still screening the ground it drove to take.",
+    },
+  },
+  anzio44: {
+    counter: {
+      repulsed: "The German blocking force at the roads out of the beachhead was brushed aside, and the column that forced them stayed intact.",
+      heldAtCost: "The roads out of the beachhead stayed open, at a real cost to the column that forced them.",
+      broke: "The German blocking force sealed the roads before the column could force them, and the beachhead paid for the attempt anyway.",
+      gaveGround: "The column pulled back onto the beachhead rather than force roads that were no longer open.",
+    },
+    neglected: {
+      assault: "The beachhead's own perimeter was left thin to feed the push inland — what holds it now is mostly the ground itself.",
+      armor: "Nothing pushed past the beachhead's own edge; whatever window the roads offered, it closed unused.",
+      rangers: "No vanguard went out ahead of the main line, and nobody found out what was past it until the main line did.",
+      naval: "The buildup off the ships never caught up to what came ashore that first day — the beachhead is living on what it landed with.",
+    },
+    commander: {
+      truscott: "Truscott's own division still holds the ground its column pushed to take.",
+      penney: "Penney's division is still dug in on the perimeter it squared away that first day.",
+      darby: "Darby's Rangers are still the furthest element out from the beach, exactly where he put them.",
+    },
+  },
+  arnhemPerimeter44: {
+    counter: {
+      repulsed: "The assault on the perimeter's line was thrown back whole, PIATs and six-pounders both.",
+      heldAtCost: "The perimeter's line held against the assault, at a cost the sector that held it is still counting.",
+      broke: "The German assault broke into the perimeter, and the line was fought back inch by inch to close it again.",
+      gaveGround: "The perimeter pulled back to a tighter line rather than fight the assault out where it landed.",
+    },
+    neglected: {
+      corpsPush: "The column never reached past where it already was; whatever the road might have offered, nobody drove for it.",
+      perimeter: "The horseshoe held on what it already had — no one went forward to the wire who wasn't there already.",
+      resupply: "Nothing extra came down that day; the division ate whatever it already had on hand and no more.",
+      poles: "No boats went out; the brigade stayed on the south bank watching a crossing nobody attempted.",
+    },
+    commander: {
+      horrocks: "Horrocks still has his corps as close to the river as it ever got that day.",
+      urquhart: "Urquhart's division still holds the ground its own perimeter line was drawn on.",
+      sosabowski: "Sosabowski's brigade still holds the south bank position it crossed from.",
+    },
+  },
+  pq17_1942: {
+    counter: {
+      repulsed: "The pack attack on the convoy was broken up before it pressed home, and the column sailed on in company.",
+      heldAtCost: "The convoy held together, at the cost of ships the escort couldn't cover in time.",
+      broke: "The pack pressed home through the screen, and the convoy took losses it couldn't make good.",
+      gaveGround: "The escort pulled the column into a tighter, slower formation rather than fight the pack out where it struck.",
+    },
+    neglected: {
+      escorts: "The screen stayed exactly as thin as it started; the convoy's own perimeter never got the extra weight it needed.",
+      aaShips: "Nothing extra was done to thicken the flak; the auxiliaries fought the air threat with what they already had.",
+      coveringForce: "Hamilton's cruisers held their distant station, unchanged, the whole voyage through.",
+      intelligence: "The plot room's warnings stayed at their existing pace; the convoy sailed blind to more than it should have.",
+    },
+    commander: {
+      broome: "Broome's destroyers are still the tightest screen this convoy had the whole voyage.",
+      hamilton: "Hamilton's cruiser squadron is still standing exactly where he placed it against the threat that never came.",
+    },
+  },
+  bomberDirective43: {
+    counter: {
+      repulsed: "The fighter attack on the formation was broken up before it pressed home, and the box held its course intact.",
+      heldAtCost: "The formation held together, at a cost in aircraft the box couldn't cover in time.",
+      broke: "The attack pressed home through the box, and the formation took losses it couldn't make good.",
+      gaveGround: "The lead group pulled the formation into a tighter, slower box rather than fight the attack out where it struck.",
+    },
+    neglected: {
+      formation: "The box held whatever interval it already had; no extra effort went into keeping the wings tight.",
+      escort: "The fighter escort flew its briefed profile and nothing more; no extra minutes were bought at the turnback line.",
+      targeting: "The bomb run got no extra attention; the groups flew it exactly as briefed, nothing tightened.",
+      diversion: "The diversion flew its own track and nothing more elaborate was asked of it.",
+    },
+    commander: {
+      lemay: "LeMay's own combat box is still the tightest formation this mission flew, start to finish.",
+      kepner: "Kepner's Thunderbolts are still the reason the handoff near Aachen went as cleanly as it did.",
+      eaker: "Eaker's own target list is still what every lead bombardier on this mission flew to.",
+    },
+  },
+};
+function keyBattleEcho(echoId, flags, battleId) {
+  const E = KEY_BATTLE_ECHOES[echoId];
+  const id = battleId || echoId;
+  if (!E) return "";
+  const parts = [];
+  const counter = flags[`${id}Counter`];
+  if (counter && E.counter[counter]) parts.push(E.counter[counter]);
+  const neglected = flags[`${id}PlanNeglected`];
+  const commander = flags[`${id}PlanCommander`];
+  if (neglected && E.neglected[neglected]) parts.push(E.neglected[neglected]);
+  else if (commander && E.commander[commander]) parts.push(E.commander[commander]);
+  return parts.length ? " " + parts.join(" ") : "";
+}
+
+function keyBattleCategories(config) {
+  return (config && config.categories) || BATTLE_ALLOCATION_CATEGORIES;
+}
+
+function computeBattleContributions(categories, plan, weights, poolSize, reserve) {
+  const res = reserve || {};
+  const spent = categories.reduce((a, c) => a + (plan[c.id] || 0) + (res[c.id] || 0), 0);
+  // Round 12: fair share is what an even split of the pool would give each category. Below it,
+  // a category owes a penalty graded by the shortfall, linearly (Round 16 — see the comments
+  // above this function and on the penalty line below); at or above it, nothing.
+  const fairShare = poolSize / categories.length;
+  const out = {};
+  for (const c of categories) {
+    const p = plan[c.id] || 0;
+    const r = res[c.id] || 0;
+    const finalCount = p + r;
+    const value = finalCount > 0 ? (p + r * KEY_BATTLE_RESERVE_MULT) * (weights[c.id] || 0) : 0;
+    let penalty = 0;
+    if (spent >= poolSize / 2 && finalCount < fairShare) {
+      // Round 16 superseded the 1/4-power curve this comment used to describe — see the
+      // Round 16 comment above this function for why. Short version: that curve's own concavity
+      // made the LAST chit before fair share worth far more than its raw weight (it bought back
+      // almost the whole remaining penalty at once), which a "top everyone up to fair share, dump
+      // the leftover" plan could exploit for a bigger net gain than the one-chit hedge the old
+      // check screened for. Linear removes that: every missing chit costs the same fixed slice of
+      // KEY_BATTLE_NEGLECT_PENALTY, first or last, so there's no crossing point worth camping on.
+      // The earlier note that "linear lets the one-chit hedge win" was true at the OLD constant
+      // (4.5) — raising a linear penalty's constant to compensate for the shape change is what
+      // widened the hedge's margin back then. It was never linear-vs-power that mattered; it was
+      // never re-tuning the constant alongside the shape. 1.5 is the largest constant that clears
+      // both the original 250 check-battle-balance.js scenarios AND an exhaustive search over
+      // every possible allocation (not just the hand-picked hedge/concentration shapes) across
+      // every battle, posture, and pool size 5-8.
+      penalty = KEY_BATTLE_NEGLECT_PENALTY * ((fairShare - finalCount) / fairShare);
+    }
+    out[c.id] = value - penalty;
+  }
+  return out;
+}
+
+function sumBattleContributions(contributions) {
+  return Object.values(contributions).reduce((a, v) => a + v, 0);
+}
+
+function clampBattleBonus(raw) {
+  return Math.max(-KEY_BATTLE_BONUS_CLAMP, Math.min(KEY_BATTLE_BONUS_CLAMP, Math.round(raw)));
+}
+
+// Round 9, Craig's item #3 (consequences that depend on the plan, not just the odds). Small,
+// legible rules keyed off each category's own `meter`, so they generalize to any battle's
+// categories: a category holding at least half the pool costs its meter 1 (you spent that
+// resource hard); on a LOSS, every neglected category costs its meter 1 (the gap you left is
+// where it broke); a WIN with nothing neglected earns +1 Initiative (a coordinated plan leaves
+// the staff ahead of events); a reserve of 2+ chits held back and never committed returns +1
+// Manpower. Each meter's net plan cost is capped to [-2, +1] so the plan can sting but never
+// outweigh the battle's own historical outcome impact.
+function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contributions, won, reservesHeld, counter }) {
+  const lines = [];
+  // Round 10: the counterattack's own cost. Repulsing it is free; holding it at a cost, or
+  // being broken, costs the meter of the arm that met it; giving ground costs tempo.
+  if (counter && counter.result !== "repulsed") {
+    const cat = categories.find((c) => c.id === counter.category);
+    if (counter.result === "gaveGround") {
+      lines.push({ meter: "initiative", delta: -1, reason: "Gave ground to the counterattack" });
+    } else if (cat) {
+      lines.push({ meter: cat.meter, delta: -1, reason: `${cat.name} mauled by the counterattack` });
+      if (counter.result === "broke") lines.push({ meter: "initiative", delta: -1, reason: "The counterattack broke through" });
+    }
+  }
+  for (const c of categories) {
+    if ((finalAllocation[c.id] || 0) >= poolSize / 2) {
+      lines.push({ meter: c.meter, delta: -1, reason: `Heavy commitment to ${c.name}` });
+    }
+  }
+  const neglected = categories.filter((c) => (contributions[c.id] || 0) < 0);
+  if (!won) {
+    for (const c of neglected) lines.push({ meter: c.meter, delta: -1, reason: `${c.name} left uncovered` });
+  } else if (neglected.length === 0) {
+    lines.push({ meter: "initiative", delta: 1, reason: "A coordinated plan" });
+  }
+  if (reservesHeld >= 2) lines.push({ meter: "manpower", delta: 1, reason: "Reserve returned intact" });
+  const totals = { manpower: 0, fuel: 0, initiative: 0 };
+  for (const l of lines) totals[l.meter] = (totals[l.meter] || 0) + l.delta;
+  for (const m of Object.keys(totals)) totals[m] = Math.max(-2, Math.min(1, totals[m]));
+  // Round 13, Craig's item #1 ("graded outcomes, not strict binary win/lose"). Deliberately NOT a
+  // second dice roll or a change to the shared uncertain[] mechanic (that roll is game-wide, used
+  // for hundreds of choices — too risky to touch for one subsystem). Instead a quality axis
+  // layered on top of the same signals this function already computes for meter costs: a win with
+  // nothing neglected and no counterattack cost reads as "clean"; any win that neglected a
+  // category or paid for a counterattack reads as "costly" — same battle, different texture. A
+  // loss is graded the other way: "marginal" when the plan itself held up (0-1 neglected
+  // categories) and the roll simply went the other way — the plan wasn't the problem, the dice
+  // were — versus "total" when 2+ categories were left short or the counterattack broke through
+  // outright, i.e. the plan itself gave out, not just the roll.
+  const grade = won
+    ? neglected.length === 0 && (!counter || counter.result === "repulsed")
+      ? "clean"
+      : "costly"
+    : neglected.length >= 2 || (counter && counter.result === "broke")
+    ? "total"
+    : "marginal";
+  return { lines, totals, grade };
+}
 
 // One entry per transition (fixed order, so exactly 2 transitions for 3 campaigns — see the
 // spec's own reasoning for why fixed order was chosen over player-chosen). Each function reads
@@ -12623,21 +16195,44 @@ const DIVERGENCE_FORKS = {
     { id: "norwayHeld", flag: "forkNorwayHeld", revealNode: "norway40", endingCapable: false },
     { id: "moscowHolds", flag: "forkMoscowHolds", revealNode: "moscowRace41", endingCapable: true },
     { id: "torchShift", flag: "forkTorchShift", revealNode: "torch42", endingCapable: false },
+    // Round 20 (Craig: "more speculative and outlandish history... build a ton of extra
+    // content" for Historical Divergence Mode): both new German forks are picked to touch a
+    // node where the situation text already treats the outcome as genuinely uncertain rather
+    // than a fixed historical fact (kursk's own text says intelligence is compromised but
+    // doesn't force a result; caseBlue's own text already flags Soviet reserve estimates as a
+    // live unknown spanning "nearly two to one"). Every other node touched by an existing fork
+    // either has an internal uncertain roll to nudge (Round 20 reuses that pattern for allied's
+    // two new forks below) or two live, undetermined choices. Nodes where the situation text
+    // states a single outcome as certain regardless of choice (blackMay, matapan41, compass40's
+    // "hold" branch) are deliberately left alone — a fork claiming otherwise would contradict
+    // text already presented to the player as settled history, not genuine uncertainty.
+    { id: "panthersFixed", flag: "forkPanthersFixed", revealNode: "kursk", endingCapable: true },
+    { id: "caucasusReservesThin", flag: "forkCaucasusThin", revealNode: "caseBlue", endingCapable: true },
   ],
   soviet: [
     { id: "barbarossaDelay", flag: "forkBarbarossaDelay", revealNode: "border41", endingCapable: false },
     { id: "kievPush", flag: "forkKievPush", revealNode: "smolensk41", endingCapable: true },
     { id: "stalingradConsolidate", flag: "forkStalingradConsolidate", revealNode: "order227_42", endingCapable: false },
+    { id: "rzhevGarrisonThin", flag: "forkRzhevThin", revealNode: "rzhev42", endingCapable: true },
+    { id: "deceptionPartlySeen", flag: "forkDeceptionSeen", revealNode: "bagrationSoviet44", endingCapable: true },
   ],
   allied: [
     { id: "narvikHeld", flag: "forkNarvikHeld", revealNode: "narvik40", endingCapable: false },
     { id: "luftwaffeShift", flag: "forkLuftwaffeShift", revealNode: "battleOfBritain40", endingCapable: true },
     { id: "arnhemLucky", flag: "forkArnhemLucky", revealNode: "marketGarden44", endingCapable: false },
+    // Both new Allied forks reuse the existing uncertain-roll weight-nudge mechanic already
+    // established by forkEastAfricaSlow (italy) rather than inventing new outcome branches —
+    // anzio44 and dodecanese43 already resolve via modWeight() rolls, so a fork here is a
+    // circumstance (garrison strength) nudging odds already in play, not new content.
+    { id: "anzioGarrisonWeak", flag: "forkAnzioWeak", revealNode: "anzio44", endingCapable: false },
+    { id: "rhodesGarrisonWeak", flag: "forkRhodesWeak", revealNode: "dodecanese43", endingCapable: false },
   ],
   italy: [
     { id: "greeceResistance", flag: "forkGreeceResistance", revealNode: "greeceDecision40", endingCapable: false },
     { id: "eastAfricaSlow", flag: "forkEastAfricaSlow", revealNode: "eastAfrica41", endingCapable: true },
     { id: "maltaWeak", flag: "forkMaltaWeak", revealNode: "convoyWarMalta41", endingCapable: false },
+    { id: "fleetRepairedFast", flag: "forkFleetFast", revealNode: "tarantoDoctrine40", endingCapable: false },
+    { id: "desertGapNarrower", flag: "forkDesertGap", revealNode: "compass40", endingCapable: false },
   ],
 };
 
@@ -12660,6 +16255,15 @@ const DIVERGENCE_HEADLINES = {
   greeceResistance: { id: "greeceResistance", year: 1940, month: "OCTOBER", headline: "Greek Frontier Units Reported Standing Firmer Than Expected", dek: "Early contact reports describe organized resistance where Comando Supremo's planning assumed a rapid collapse. Albania command is said to be revising its timetable already." },
   eastAfricaSlow: { id: "eastAfricaSlow", year: 1941, month: "MAY", headline: "Commonwealth Advance on East Africa Reported Slowing", dek: "Supply difficulties across Kenya and Sudan are said to be delaying the converging columns. Whether this changes anything for the garrisons still holding out is not yet clear." },
   maltaWeak: { id: "maltaWeak", year: 1941, month: "AUGUST", headline: "Convoy Losses to Africa Reported Down This Month", dek: "Escort commanders describe unusually light interference from the island's air and submarine forces. Naval staff are not yet prepared to call the improvement durable." },
+  // Round 20 additions (8 new forks, 2 per campaign).
+  panthersFixed: { id: "panthersFixed", year: 1943, month: "MAY", headline: "Panther Reliability Reports Unusually Positive Ahead of Kursk", dek: "Maintenance units describe the engine-fire problem that plagued earlier trials as substantially addressed. Armor inspectors are, for once, not the ones raising objections at this planning stage." },
+  caucasusReservesThin: { id: "caucasusReservesThin", year: 1942, month: "JUNE", headline: "Southern Front Intelligence Revises Soviet Reserve Estimate Downward", dek: "Early prisoner interrogations along the Don bend suggest the cautious end of FHO's range, not the alarming one, may be the figure worth trusting this time." },
+  rzhevGarrisonThin: { id: "rzhevGarrisonThin", year: 1942, month: "NOVEMBER", headline: "Rzhev Garrison Reports Described as Under Strength", dek: "Reserves that should be backstopping the salient by the usual winter pattern are not where the order of battle says they should be. Front intelligence cannot yet explain the gap." },
+  deceptionPartlySeen: { id: "deceptionPartlySeen", year: 1944, month: "JUNE", headline: "Unusual German Reconnaissance Activity Reported Over Concentration Areas", dek: "Persistent flights over ground the deception plan was supposed to keep uninteresting to German air reconnaissance cannot yet be explained away as routine patrolling." },
+  anzioGarrisonWeak: { id: "anzioGarrisonWeak", year: 1944, month: "JANUARY", headline: "Anzio-Area Garrison Assessed Lighter Than Expected", dek: "Planners are treating the estimate with some caution rather than staking the landing's timing on it, but the coastal garrison opposite the chosen beaches may be thinner than the historical planning assumption." },
+  rhodesGarrisonWeak: { id: "rhodesGarrisonWeak", year: 1943, month: "SEPTEMBER", headline: "Rhodes Garrison Reported Below Full Strength", dek: "Aerial reconnaissance ahead of any Aegean move suggests the island's defenders may be fewer than the planning figures assumed. Confidence in the estimate is, so far, limited." },
+  fleetRepairedFast: { id: "fleetRepairedFast", year: 1940, month: "DECEMBER", headline: "Taranto-Damaged Battleships Reported Ahead of Repair Schedule", dek: "Naval yard officials describe work on the crippled battle line proceeding faster than the fleet's own engineers initially projected, though no return-to-service date is yet being made public." },
+  desertGapNarrower: { id: "desertGapNarrower", year: 1940, month: "DECEMBER", headline: "Western Desert Camps Reported Partially Linked Ahead of British Push", dek: "Engineers report some progress closing the gap between the fortified camps west of Sidi Barrani, though how much of the line is actually continuous remains unclear even to Comando Supremo." },
 };
 
 function rollDivergenceForks(campaignId) {
@@ -12677,7 +16281,7 @@ function rollDivergenceForks(campaignId) {
 // the save is treated as stale and discarded rather than crashing the resume flow.
 const SAVE_VERSION = 1;
 
-const NODE_TOTAL = 238; // 98 German + 47 Soviet + 51 Allied + 42 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added.
+const NODE_TOTAL = 250; // 99 German + 49 Soviet + 51 Allied + 51 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 const CAMPAIGN_WAR_CONTEXT = {
   german: "APRIL 1940 — Poland fell in weeks last September, divided between Berlin and Moscow under a pact neither side expects to last. The West has spent seven quiet months in what the newspapers call the Phoney War. That quiet ends with Norway.",
@@ -13118,17 +16722,11 @@ const CAMPAIGN_MAP_BBOX = {
 const MAP_OVERLAY_W = 800;
 const MAP_OVERLAY_H = 600;
 
-let regionGeometryPromise = null;
+// Bundled at build time (see the REGIONS_GEOMETRY import above) rather than fetched at
+// runtime — kept as a resolved Promise so CheckpointMapRegions's existing async-loading
+// effect (setGeometry once it resolves) doesn't need to change at all, just what feeds it.
 function loadRegionGeometry() {
-  if (!regionGeometryPromise) {
-    regionGeometryPromise = fetch("assets/maps/regions.json")
-      .then((r) => r.json())
-      .catch((e) => {
-        regionGeometryPromise = null; // let the next mount retry rather than sticking on a failed fetch
-        throw e;
-      });
-  }
-  return regionGeometryPromise;
+  return Promise.resolve(REGIONS_GEOMETRY);
 }
 
 // Spherical Web Mercator + the same fix_aspect=False linear stretch Basemap used to
@@ -13646,12 +17244,22 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   }, []);
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8"
+      // Round 12 (Craig's item #10, "phone-height UI fix"): this was `items-center`, which
+      // centers the card whether or not it fits the viewport. On a short phone — landscape
+      // above all, but a compact portrait phone too once the timeline slider or the region
+      // legend below the map adds height — the card can be taller than the screen, and
+      // centering an overflowing flex item pushes its TOP half above y=0 with nothing to
+      // scroll it back into view (confirmed with Playwright at 812x375: the Close button
+      // rendered at y=-31.75, genuinely off-screen and unreachable). `items-start` anchors the
+      // card's top edge — where Close and the year heading live — to a fixed, reachable
+      // position, and `overflow-y-auto` on this backdrop lets the rest of a too-tall card
+      // scroll under it instead of clipping past the bottom edge.
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto px-4 py-8"
       style={{ backgroundColor: "#000000cc" }}
       onClick={handleClose}
     >
       <div
-        className={`${paper} w-full max-w-md p-4`}
+        className={`${paper} w-full max-w-md p-4 my-auto`}
         style={{ ...campaignPaperStyle(campaign.id, campaign.accent), borderTop: `5px solid ${campaign.accent}` }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -13851,13 +17459,15 @@ function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
             className="flex items-start gap-3 mb-4 pb-4 border-b-2 text-[12px] leading-snug text-[#000000] cursor-pointer"
             style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
           >
-            <span className="relative shrink-0 mt-0.5" style={{ width: 18, height: 18 }}>
+            <span className="relative shrink-0" style={{ width: 68, height: 26 }}>
               <input
                 type="checkbox"
                 checked={historicallyAccurate}
                 onChange={(e) => setHistoricallyAccurate(e.target.checked)}
-                className="appearance-none m-0 block cursor-pointer"
+                className="appearance-none m-0 block cursor-pointer absolute"
                 style={{
+                  left: 25,
+                  top: 4,
                   width: 18,
                   height: 18,
                   border: "2px solid #000000",
@@ -13865,22 +17475,35 @@ function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
                   boxShadow: "inset 0 0 0 2px #f4efe3",
                 }}
               />
+              {/* Round 19 (Craig: "instead of a tick... make it a stamp, would look more
+                  authentic"): reuses this file's existing ink-stamp visual grammar (see the
+                  <Stamp> component and .briefing-stamp-* classes used for ending/report seals)
+                  rather than inventing a new treatment — a small canted bordered rectangle in the
+                  campaign's own accent color struck over the checkbox, not a handwritten check
+                  mark. Centered on the container (not left-anchored) so the rotated box can't
+                  spill into the label text that follows. */}
               {historicallyAccurate && (
                 <span
                   aria-hidden="true"
-                  className="absolute pointer-events-none select-none"
+                  className="absolute pointer-events-none select-none whitespace-nowrap"
                   style={{
                     left: "50%",
-                    top: "42%",
-                    transform: "translate(-50%, -50%) rotate(-6deg)",
-                    fontFamily: "'Caveat', cursive",
+                    top: "50%",
+                    transform: "translate(-50%, -50%) rotate(-9deg)",
+                    display: "inline-block",
+                    border: `2px solid ${campaign.accent}`,
+                    borderRadius: 2,
+                    padding: "2px 5px",
+                    fontFamily: "'IBM Plex Mono', monospace",
                     fontWeight: 700,
-                    fontSize: 24,
-                    lineHeight: 1,
+                    fontSize: 8,
+                    letterSpacing: "0.1em",
                     color: campaign.accent,
+                    opacity: 0.85,
+                    mixBlendMode: "multiply",
                   }}
                 >
-                  ✓
+                  VERIFIED
                 </span>
               )}
             </span>
@@ -13889,7 +17512,7 @@ function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
                 Historically Accurate Opponent
               </span>
               <br />
-              Untick this, and the war is more likely to run beyond the realms of historical accuracy.
+              Lift the stamp, and the war is more likely to run beyond the realms of historical accuracy.
             </span>
           </label>
         )}
@@ -14063,7 +17686,7 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                 {{ german: "20–35+ decisions", soviet: "25–30+ decisions", allied: "25–30+ decisions", italy: "~30 decisions" }[c.id] || "decisions"} · contested outcomes · multiple wars
               </div>
               <div className="flex gap-2 flex-wrap">
-                {(!DEMO_BUILD || DEMO_UNLOCKED_CAMPAIGNS.includes(c.id)) ? (
+                {(EASY_MODE_ENABLED && (!DEMO_BUILD || DEMO_UNLOCKED_CAMPAIGNS.includes(c.id))) ? (
                   <button
                     onClick={() => onPick(c.id, "easy")}
                     className="border-2 px-3 py-2 text-xs uppercase tracking-widest font-bold hover:text-[#ffffff] transition-colors duration-150"
@@ -14131,10 +17754,10 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                       className="border-2 px-3 py-2 text-xs uppercase tracking-widest font-bold hover:text-[#ffffff] transition-colors duration-150"
                       style={{
                         fontFamily: "'IBM Plex Mono', monospace",
-                        borderColor: "#1c2b3a",
-                        color: "#1c2b3a",
+                        borderColor: "#7a2e2e",
+                        color: "#7a2e2e",
                       }}
-                      onMouseOver={(e) => (e.currentTarget.style.background = "#1c2b3a")}
+                      onMouseOver={(e) => (e.currentTarget.style.background = "#7a2e2e")}
                       onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
                     >
                       ☭ NKVD Mode
@@ -14143,7 +17766,7 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                     <button
                       disabled
                       className="border-2 border-dashed px-3 py-2 text-xs uppercase tracking-widest font-bold opacity-40 cursor-not-allowed"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#1c2b3a", color: "#1c2b3a" }}
+                      style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#7a2e2e", color: "#7a2e2e" }}
                     >
                       ☭ NKVD Mode — full version
                     </button>
@@ -14156,10 +17779,10 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                       className="border-2 px-3 py-2 text-xs uppercase tracking-widest font-bold hover:text-[#ffffff] transition-colors duration-150"
                       style={{
                         fontFamily: "'IBM Plex Mono', monospace",
-                        borderColor: "#8a6d1f",
-                        color: "#8a6d1f",
+                        borderColor: "#7a2e2e",
+                        color: "#7a2e2e",
                       }}
-                      onMouseOver={(e) => (e.currentTarget.style.background = "#8a6d1f")}
+                      onMouseOver={(e) => (e.currentTarget.style.background = "#7a2e2e")}
                       onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
                     >
                       ★ Yalta Mode
@@ -14168,7 +17791,7 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                     <button
                       disabled
                       className="border-2 border-dashed px-3 py-2 text-xs uppercase tracking-widest font-bold opacity-40 cursor-not-allowed"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#8a6d1f", color: "#8a6d1f" }}
+                      style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#7a2e2e", color: "#7a2e2e" }}
                     >
                       ★ Yalta Mode — full version
                     </button>
@@ -14181,21 +17804,21 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                       className="border-2 px-3 py-2 text-xs uppercase tracking-widest font-bold hover:text-[#ffffff] transition-colors duration-150"
                       style={{
                         fontFamily: "'IBM Plex Mono', monospace",
-                        borderColor: "#8f3a2e",
-                        color: "#8f3a2e",
+                        borderColor: "#7a2e2e",
+                        color: "#7a2e2e",
                       }}
-                      onMouseOver={(e) => (e.currentTarget.style.background = "#8f3a2e")}
+                      onMouseOver={(e) => (e.currentTarget.style.background = "#7a2e2e")}
                       onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
                     >
-                      🔗 Axis Mode
+                      ⚖ Axis Mode
                     </button>
                   ) : (
                     <button
                       disabled
                       className="border-2 border-dashed px-3 py-2 text-xs uppercase tracking-widest font-bold opacity-40 cursor-not-allowed"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#8f3a2e", color: "#8f3a2e" }}
+                      style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#7a2e2e", color: "#7a2e2e" }}
                     >
-                      🔗 Axis Mode — full version
+                      ⚖ Axis Mode — full version
                     </button>
                   ))}
               </div>
@@ -14206,7 +17829,10 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                   pick can even be made — that the mode is locked in the demo build. */}
               {!HARD_MODES_ENABLED && (
                 <p className="text-[11px] italic text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                  {{ german: "Führer Mode", soviet: "NKVD Mode", allied: "Yalta Mode", italy: "Axis Mode" }[c.id]} included in the full downloadable version.
+                  {!EASY_MODE_ENABLED
+                    ? `${EASY_MODE_NAMES[c.id]} and ${{ german: "Führer Mode", soviet: "NKVD Mode", allied: "Yalta Mode", italy: "Axis Mode" }[c.id]}`
+                    : { german: "Führer Mode", soviet: "NKVD Mode", allied: "Yalta Mode", italy: "Axis Mode" }[c.id]}{" "}
+                  included in the full downloadable version.
                 </p>
               )}
               </div>
@@ -14313,7 +17939,7 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                 className="text-[12px] text-[#000000] border-l-4 pl-2 mb-1"
                 style={{ borderColor: "#7a2e2e", fontFamily: "'Courier Prime', monospace" }}
               >
-                {r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "coalition" ? "★ " : ""}{r.label || "War concluded"} — ended {r.endDate || "—"}
+                {r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "coalition" ? "★ " : r.mode === "axis" ? "⚖ " : ""}{r.label || "War concluded"} — ended {r.endDate || "—"}
               </div>
             ))}
           </div>
@@ -14936,7 +18562,7 @@ const THEATERS = [
   { label: "WESTERN EUROPE", lines: ["WESTERN EUROPE"], ids: ["france", "benelux", "switzerland"] },
   { label: "IBERIA", lines: ["IBERIA"], ids: ["iberia"] },
   { label: "CENTRAL EUROPE", lines: ["CENTRAL EUROPE"], ids: ["germany", "poland", "czechia", "austria", "hungary"] },
-  { label: "THE EAST", lines: ["THE EAST"], ids: ["baltics", "ussr", "romania"] },
+  { label: "THE EAST", lines: ["THE EAST"], ids: ["baltics", "ussrNorth", "ussrCenter", "ussrSouth", "romania"] },
   { label: "SOUTHERN EUROPE", lines: ["SOUTHERN EUROPE"], ids: ["italy", "yugoslavia", "greece", "albania", "bulgaria"] },
   { label: "MEDITERRANEAN", lines: ["MEDITERRANEAN", "& N. AFRICA"], ids: ["nwAfrica", "libya", "egypt", "turkey", "malta"] },
 ];
@@ -14962,7 +18588,13 @@ const MAP_REGIONS = [
   { id: "austria", name: "Austria", x: 486, y: 388 },
   { id: "hungary", name: "Hungary", x: 588, y: 376 },
   { id: "baltics", name: "Baltics", x: 664, y: 158 },
-  { id: "ussr", name: "USSR", x: 802, y: 226 },
+  // Round 14: "ussr" split into three army-group zones (path B of
+  // docs/specs/eastern-front-subdivision.md) — schematic positions arranged north to
+  // south in the same relative order as the real geography (North above Center above
+  // South), fanned out from the old single "ussr" node's position.
+  { id: "ussrNorth", name: "USSR (North)", x: 826, y: 130 },
+  { id: "ussrCenter", name: "USSR (Center)", x: 826, y: 234 },
+  { id: "ussrSouth", name: "USSR (South)", x: 826, y: 338 },
   { id: "romania", name: "Romania", x: 686, y: 396 },
   { id: "italy", name: "Italy", x: 436, y: 470 },
   { id: "yugoslavia", name: "Yugoslavia", x: 566, y: 452 },
@@ -14984,15 +18616,23 @@ const MAP_REGIONS = [
 // actual Weserübung invasion route, and without it the whole Scandinavian cluster
 // floats disconnected from the continent.
 const MAP_GRAPH_EDGES = [
-  ["norway", "sweden"], ["sweden", "finland"], ["finland", "ussr"],
+  ["norway", "sweden"], ["sweden", "finland"], ["finland", "ussrNorth"],
   ["norway", "denmark"], ["denmark", "germany"],
   ["france", "benelux"], ["france", "iberia"],
   ["france", "switzerland"], ["france", "italy"], ["benelux", "germany"],
   ["germany", "switzerland"], ["germany", "czechia"], ["germany", "poland"],
   ["germany", "austria"], ["czechia", "poland"], ["czechia", "austria"],
   ["austria", "hungary"], ["austria", "italy"], ["hungary", "romania"],
-  ["hungary", "yugoslavia"], ["poland", "baltics"], ["poland", "ussr"],
-  ["baltics", "ussr"], ["romania", "ussr"], ["romania", "yugoslavia"],
+  ["hungary", "yugoslavia"], ["poland", "baltics"],
+  // Round 14: Poland's Kresy (see POLAND_1938) bordered both Belarus (Center) and
+  // Ukraine (South); the Baltic states bordered both Russia proper toward Leningrad
+  // (North) and the Lithuania-Belarus approach toward Minsk (Center). ussrNorth/
+  // ussrCenter also get a direct edge — they weren't adjacent through any other node
+  // before the split, since they used to be the same single "ussr" node.
+  ["poland", "ussrCenter"], ["poland", "ussrSouth"],
+  ["baltics", "ussrNorth"], ["baltics", "ussrCenter"],
+  ["ussrNorth", "ussrCenter"], ["ussrCenter", "ussrSouth"],
+  ["romania", "ussrSouth"], ["romania", "yugoslavia"],
   ["yugoslavia", "greece"], ["yugoslavia", "italy"], ["nwAfrica", "libya"],
   ["libya", "egypt"], ["greece", "turkey"],
   ["bulgaria", "romania"], ["bulgaria", "yugoslavia"], ["bulgaria", "greece"], ["bulgaria", "turkey"],
@@ -15004,7 +18644,12 @@ const MAP_GRAPH_EDGES = [
 // not literal land area. Britain and the USSR read large; Switzerland and the
 // Baltics read small. Purely cosmetic: nothing else reads these values.
 const MAP_REGION_SIZE = {
-  ussr: "massive", germany: "massive",
+  germany: "massive",
+  // Round 14: the old single "massive" ussr tier doesn't cleanly divide three ways —
+  // each zone individually is closer to the weight of the other "large" combatant
+  // regions (population, industry, forces involved) than to Germany's own "massive"
+  // tier, so all three land at "large" rather than inventing a fourth tier.
+  ussrNorth: "large", ussrCenter: "large", ussrSouth: "large",
   france: "large", britain: "large", italy: "large", poland: "large",
   egypt: "medium", romania: "medium", yugoslavia: "medium", iberia: "medium",
   hungary: "medium", czechia: "medium", austria: "medium", norway: "medium",
@@ -15038,50 +18683,50 @@ const NODE_HIGHLIGHT_REGIONS = {
   crete41: ["greece"],
   bismarckBreakout41: ["britain"],
   sealionDisaster40: ["britain"],
-  barbarossa41: ["ussr"],
+  barbarossa41: ["ussrNorth", "ussrCenter", "ussrSouth"],
   suezFirst41: ["egypt"],
-  barbarossaAutumn41: ["ussr"],
-  moscowFalls41: ["ussr"],
-  volgaOverreach42: ["ussr"],
-  sovietFracture42: ["ussr"],
-  fractureResolution42: ["ussr"],
-  east42Launch: ["ussr"],
+  barbarossaAutumn41: ["ussrNorth", "ussrCenter", "ussrSouth"],
+  moscowFalls41: ["ussrCenter"],
+  volgaOverreach42: ["ussrSouth"],
+  sovietFracture42: ["ussrCenter"],
+  fractureResolution42: ["ussrCenter"],
+  east42Launch: ["ussrNorth", "ussrCenter", "ussrSouth"],
   armedTruce41: ["britain"],
   mediterranean41: ["libya", "egypt"],
   iberianQuestion42: ["iberia"],
   bomberWar43: ["germany"],
   easternQuestion44: ["poland"],
   atomicReckoning45: ["germany"],
-  moscowKiev: ["ussr"],
-  doubleEnvelopment: ["ussr"],
-  exposedFlank: ["ussr"],
-  typhoon: ["ussr"],
-  staticEast: ["ussr"],
+  moscowKiev: ["ussrCenter", "ussrSouth"],
+  doubleEnvelopment: ["ussrCenter", "ussrSouth"],
+  exposedFlank: ["ussrCenter", "ussrSouth"],
+  typhoon: ["ussrCenter"],
+  staticEast: ["ussrCenter", "ussrSouth"],
   atlanticWall43: ["france"],
   herkules42: ["malta", "libya", "egypt"],
   suezOpening42: ["egypt"],
-  caseBlue: ["ussr"],
+  caseBlue: ["ussrSouth"],
   torch42: ["nwAfrica"],
   maltaAftermath: ["libya", "egypt"],
   britishCrisis42: ["britain"],
   crisisResolution42: ["britain"],
   elAlamein: ["egypt"],
-  stalingradPocket: ["ussr"],
-  easternCollapse1943: ["ussr"],
+  stalingradPocket: ["ussrSouth"],
+  easternCollapse1943: ["ussrSouth"],
   blackMay: ["britain"],
   atlanticAttrition43: ["britain"],
   reconstituted: ["italy", "yugoslavia"],
-  kursk: ["ussr"],
-  kurskBreach43: ["ussr"],
-  kurskAftermath43: ["ussr"],
-  twoFires1943: ["italy", "ussr"],
+  kursk: ["ussrSouth"],
+  kurskBreach43: ["ussrSouth"],
+  kurskAftermath43: ["ussrSouth"],
+  twoFires1943: ["italy", "ussrSouth"],
   italyPartisans: ["italy"],
-  dnieperStabilized: ["ussr"],
-  firmestLine43: ["ussr"],
+  dnieperStabilized: ["ussrSouth"],
+  firmestLine43: ["ussrSouth"],
   normandy: ["france"],
-  bagration44: ["ussr", "poland"],
+  bagration44: ["ussrCenter", "ussrSouth", "poland"],
   eastStand44: ["poland"],
-  collapse1944: ["poland", "ussr"],
+  collapse1944: ["poland", "ussrCenter"],
   centerArmyPreserved44: ["poland"],
   july20Plot44: ["germany"],
   gestapoInquiry44: ["germany"],
@@ -15098,17 +18743,17 @@ const NODE_HIGHLIGHT_REGIONS = {
   flensburg45: ["germany", "denmark"],
   alpineRedoubt45: ["austria", "germany"],
   sealionAftermath40: ["britain"],
-  volgaAftermath42: ["ussr"],
+  volgaAftermath42: ["ussrSouth"],
   gibraltarStalled42: ["iberia"],
   suezHorizon42: ["egypt"],
   uranverein43: ["germany"],
   invasionQuestion44: ["france"],
   lodgmentReduction44: ["france"],
-  moscowRace41: ["ussr"],
+  moscowRace41: ["ussrCenter"],
   heydrichReprisals42: ["germany"],
   westArmisticeAftermath42: ["france"],
-  vlasov43: ["ussr"],
-  expandedOffensive43: ["ussr"],
+  vlasov43: ["ussrNorth"],
+  expandedOffensive43: ["ussrSouth"],
   mussoliniRescue43: ["italy"],
   italianLine43: ["italy"],
   vWeaponsProduction44: ["britain", "benelux"],
@@ -15123,39 +18768,39 @@ const NODE_HIGHLIGHT_REGIONS = {
   falaiseGerman: ["france"],
   },
   soviet: {
-  border41: ["baltics", "ussr"],
-  smolensk41: ["ussr"],
-  industrialShortfall42: ["ussr"],
-  leningrad41: ["ussr"],
-  evacuateIndustry41: ["ussr"],
-  moscowPanic41: ["ussr"],
-  specialSection41: ["ussr"],
-  lendLease42: ["ussr"],
-  order227_42: ["ussr"],
-  stalingradStreets42: ["ussr"],
-  escapedRemnants43: ["ussr"],
-  southernPursuit43: ["ussr"],
-  partisans43: ["ussr"],
+  border41: ["baltics", "ussrNorth", "ussrCenter", "ussrSouth"],
+  smolensk41: ["ussrCenter", "ussrSouth"],
+  industrialShortfall42: ["ussrCenter"],
+  leningrad41: ["ussrNorth"],
+  evacuateIndustry41: ["ussrCenter"],
+  moscowPanic41: ["ussrCenter"],
+  specialSection41: ["ussrCenter"],
+  lendLease42: ["ussrNorth", "ussrSouth"],
+  order227_42: ["ussrSouth"],
+  stalingradStreets42: ["ussrSouth"],
+  escapedRemnants43: ["ussrSouth"],
+  southernPursuit43: ["ussrSouth"],
+  partisans43: ["ussrCenter"],
   eastPrussia45: ["baltics", "poland"],
   berlinRivalryIncident45: ["germany"],
   berlinAssault45: ["germany"],
-  moscowDefense41: ["ussr"],
-  autumnWeight42: ["ussr"],
-  caucasusDefense42: ["ussr"],
-  rzhev42: ["ussr"],
-  stalingradCounter42: ["ussr"],
-  southernVacuum43: ["ussr"],
-  vacuumOverreach43: ["ussr"],
-  kharkov43: ["ussr"],
-  quietSector43: ["ussr"],
+  moscowDefense41: ["ussrCenter"],
+  autumnWeight42: ["ussrCenter", "ussrSouth"],
+  caucasusDefense42: ["ussrSouth"],
+  rzhev42: ["ussrCenter"],
+  stalingradCounter42: ["ussrSouth"],
+  southernVacuum43: ["ussrSouth"],
+  vacuumOverreach43: ["ussrSouth"],
+  kharkov43: ["ussrSouth"],
+  quietSector43: ["ussrCenter"],
   katynRevelation43: ["poland"],
-  kurskDefense43: ["ussr"],
-  preemptResult43: ["ussr"],
-  axis43: ["ussr"],
-  smolenskGates43: ["ussr"],
-  dnieperRace43: ["ussr"],
-  easternWallBreach43: ["ussr"],
-  bagrationSoviet44: ["poland", "ussr"],
+  kurskDefense43: ["ussrSouth"],
+  preemptResult43: ["ussrSouth"],
+  axis43: ["ussrCenter", "ussrSouth"],
+  smolenskGates43: ["ussrCenter"],
+  dnieperRace43: ["ussrSouth"],
+  easternWallBreach43: ["ussrSouth"],
+  bagrationSoviet44: ["poland", "ussrCenter"],
   warsawUprising44: ["poland"],
   warsawRelief44: ["poland"],
   balkans44: ["bulgaria", "yugoslavia", "romania"],
@@ -15165,8 +18810,8 @@ const NODE_HIGHLIGHT_REGIONS = {
   vistulaOder45: ["poland"],
   maskingForceQuestion45: ["baltics", "poland"],
   berlinRace45: ["germany"],
-  rostovAftermath43: ["ussr"],
-  katynBreak43: ["ussr", "poland"],
+  rostovAftermath43: ["ussrSouth"],
+  katynBreak43: ["ussrCenter", "poland"],
   berlinFeb45: ["germany"],
   finnishArmistice44: ["finland"],
   },
@@ -15221,6 +18866,12 @@ const NODE_HIGHLIGHT_REGIONS = {
   },
   italy: {
     nonBelligerence40: ["italy"],
+    extendedHoldout40: ["italy", "france"],
+    britainAloneQuestion40: ["italy", "britain"],
+    enduringNeutrality40: ["italy"],
+    germanPressure41: ["italy", "germany"],
+    neutralItalyOccupied42: ["italy", "germany"],
+    neutralItalyEnd45: ["italy"],
     alpsFront40: ["italy", "france"],
     medStrategy40: ["malta", "italy", "libya", "egypt"],
     gibraltarGambit40: ["iberia", "italy"],
@@ -15268,10 +18919,17 @@ const NODE_HIGHLIGHT_REGIONS = {
 };
 
 
+// Round: soviet was #8a2f1f, a dark brick-red-brown sitting only ~51 RGB-distance from axis's
+// #5c1a1a — close enough that the two read as the same color at a glance on the theater map
+// (Craig: "soviet controlled... looks the same as Germany"). Replaced with a brighter, more
+// saturated true red (~108 RGB-distance from axis, nearly double the old separation), checked
+// against every other status color too so the swap doesn't just trade one collision for
+// another — closest neighbor is axisAllied's orange-brown at ~55, which reads as a clearly
+// different hue (red vs. orange) even though the raw distance is similar in magnitude.
 const STATUS_COLORS = {
   axis: "#5c1a1a",
   axisAllied: "#a8562b",
-  soviet: "#8a2f1f",
+  soviet: "#c62828",
   allied: "#28497a",
   neutral: "#a8a08c",
   contested: "#c9a227",
@@ -15289,12 +18947,26 @@ const STATUS_LABELS = {
 };
 
 
+// Round 14: ussrNorth/ussrCenter/ussrSouth share the same value in every year below,
+// which is a researched finding, not a shortcut — checked zone by zone against each
+// year-end's real front line: 1939-40 all-Soviet (pre-Barbarossa); 1941-43 every zone
+// has real fighting astride it at year's end (North: Leningrad besieged but not
+// taken, with occupied territory around it; Center: front static short of Moscow in
+// '41-'42, pushed back through Smolensk by end of '43; South: deepest German
+// penetration but also the fastest reversal, from the Volga/Caucasus high-water mark
+// in '42 to Kiev retaken by November '43) — "contested" is accurate for all three,
+// not just inherited from the old undivided value; 1944-45 all fully Soviet-recaptured
+// (Bagration in Center, the Baltic offensive in North, Ukraine/Crimea cleared in South,
+// all complete well before each year's end). The real zone-by-zone distinction this
+// subdivision was built for shows up in mapOverrides() below instead, where a fork's
+// actual outcome (Moscow falling, Leningrad relieved early, a stalled Case Blue, etc.)
+// now moves only the zone it actually happened in, not the whole former blob.
 const MAP_YEAR_STATUS = {
   1939: {
     germany: "axis", poland: "contested", britain: "allied", ireland: "neutral", france: "allied",
     benelux: "neutral", denmark: "neutral", norway: "neutral", sweden: "neutral", switzerland: "neutral",
     italy: "neutral", czechia: "axis", austria: "axis", baltics: "neutral", hungary: "axisAllied",
-    romania: "neutral", yugoslavia: "neutral", greece: "neutral", finland: "contested", ussr: "soviet",
+    romania: "neutral", yugoslavia: "neutral", greece: "neutral", finland: "contested", ussrNorth: "soviet", ussrCenter: "soviet", ussrSouth: "soviet",
     iberia: "neutral", nwAfrica: "allied", libya: "axisAllied", egypt: "allied", turkey: "neutral",
     albania: "axisAllied", bulgaria: "neutral", malta: "allied",
   },
@@ -15302,7 +18974,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "axis", britain: "allied", ireland: "neutral", france: "axisAllied",
     benelux: "axis", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "axisAllied", czechia: "axis", austria: "axis", baltics: "soviet", hungary: "axisAllied",
-    romania: "axisAllied", yugoslavia: "neutral", greece: "contested", finland: "neutral", ussr: "soviet",
+    romania: "axisAllied", yugoslavia: "neutral", greece: "contested", finland: "neutral", ussrNorth: "soviet", ussrCenter: "soviet", ussrSouth: "soviet",
     iberia: "neutral", nwAfrica: "axisAllied", libya: "axisAllied", egypt: "contested", turkey: "neutral",
     albania: "axisAllied", bulgaria: "neutral", malta: "allied",
   },
@@ -15310,7 +18982,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "axis", britain: "allied", ireland: "neutral", france: "axisAllied",
     benelux: "axis", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "axisAllied", czechia: "axis", austria: "axis", baltics: "axis", hungary: "axisAllied",
-    romania: "axisAllied", yugoslavia: "axis", greece: "axis", finland: "axisAllied", ussr: "contested",
+    romania: "axisAllied", yugoslavia: "axis", greece: "axis", finland: "axisAllied", ussrNorth: "contested", ussrCenter: "contested", ussrSouth: "contested",
     iberia: "neutral", nwAfrica: "axisAllied", libya: "contested", egypt: "allied", turkey: "neutral",
     albania: "axisAllied", bulgaria: "axisAllied", malta: "allied",
   },
@@ -15318,7 +18990,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "axis", britain: "allied", ireland: "neutral", france: "axis",
     benelux: "axis", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "axisAllied", czechia: "axis", austria: "axis", baltics: "axis", hungary: "axisAllied",
-    romania: "axisAllied", yugoslavia: "contested", greece: "axis", finland: "axisAllied", ussr: "contested",
+    romania: "axisAllied", yugoslavia: "contested", greece: "axis", finland: "axisAllied", ussrNorth: "contested", ussrCenter: "contested", ussrSouth: "contested",
     iberia: "neutral", nwAfrica: "allied", libya: "contested", egypt: "allied", turkey: "neutral",
     albania: "contested", bulgaria: "axisAllied", malta: "allied",
   },
@@ -15326,7 +18998,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "axis", britain: "allied", ireland: "neutral", france: "axis",
     benelux: "axis", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "contested", czechia: "axis", austria: "axis", baltics: "axis", hungary: "axisAllied",
-    romania: "axisAllied", yugoslavia: "contested", greece: "axis", finland: "axisAllied", ussr: "contested",
+    romania: "axisAllied", yugoslavia: "contested", greece: "axis", finland: "axisAllied", ussrNorth: "contested", ussrCenter: "contested", ussrSouth: "contested",
     iberia: "neutral", nwAfrica: "allied", libya: "allied", egypt: "allied", turkey: "neutral",
     albania: "contested", bulgaria: "axisAllied", malta: "allied",
   },
@@ -15334,7 +19006,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "contested", britain: "allied", ireland: "neutral", france: "allied",
     benelux: "contested", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "contested", czechia: "axis", austria: "axis", baltics: "soviet", hungary: "contested",
-    romania: "soviet", yugoslavia: "contested", greece: "allied", finland: "contested", ussr: "soviet",
+    romania: "soviet", yugoslavia: "contested", greece: "allied", finland: "contested", ussrNorth: "soviet", ussrCenter: "soviet", ussrSouth: "soviet",
     iberia: "neutral", nwAfrica: "allied", libya: "allied", egypt: "allied", turkey: "neutral",
     albania: "allied", bulgaria: "soviet", malta: "allied",
   },
@@ -15342,7 +19014,7 @@ const MAP_YEAR_STATUS = {
     germany: "divided", poland: "soviet", britain: "allied", ireland: "neutral", france: "allied",
     benelux: "allied", denmark: "allied", norway: "allied", sweden: "neutral", switzerland: "neutral",
     italy: "allied", czechia: "soviet", austria: "divided", baltics: "soviet", hungary: "soviet",
-    romania: "soviet", yugoslavia: "allied", greece: "allied", finland: "neutral", ussr: "soviet",
+    romania: "soviet", yugoslavia: "allied", greece: "allied", finland: "neutral", ussrNorth: "soviet", ussrCenter: "soviet", ussrSouth: "soviet",
     iberia: "neutral", nwAfrica: "allied", libya: "allied", egypt: "allied", turkey: "allied",
     albania: "allied", bulgaria: "soviet", malta: "allied",
   },
@@ -15364,21 +19036,51 @@ function mapOverrides(year, flags, meters) {
   // ever moved when the coarse year-end baseline (MAP_YEAR_STATUS) happened to catch up — up to
   // a full calendar year after the decision that actually caused them. Flag-driven, so they
   // flip the moment the decision resolves regardless of what the baseline year says yet.
-  if (flags.italyEntry && year <= 1942) {
+  if (flags.italyEntry && flags.italyEntry !== "neutral" && year <= 1942) {
     // Bounded to 1942 deliberately — from 1943 the armistice/civil-war split (sicilyHusky43
     // onward) is real and already correctly reflected by the year-end baseline itself
     // (MAP_YEAR_STATUS has Italy "contested" in 1943/44, "allied" by 1945); an unconditional
-    // override here would paper back over that split.
+    // override here would paper back over that split. Excludes "neutral" — Round 19's extended
+    // non-belligerence branch never joins the Axis at all, handled in its own block below.
     o.italy = "axisAllied";
+  }
+  // Round 19: the extended non-belligerence branch. Runs AFTER the block above so its own
+  // assignment wins regardless of check order — kept as a separate, explicitly-commented block
+  // rather than folded into the exclusion above so each of the branch's three end states gets
+  // its own visible note.
+  if (flags.italyEntry === "neutral") {
+    o.italy = "neutral";
+    if (!flags.neutralItalyPressure) {
+      note("Rome never declared — the historical June 1940 entry window closed with Italy still non-belligerent (projection).", ["italy"]);
+    }
+  }
+  if (flags.neutralItalyPressure === "tolerated") {
+    o.italy = "neutral";
+    note("Berlin's pressure against a neutral Italy never escalated past complaint — the country sat out the entire war (projection).", ["italy"]);
+  }
+  if (flags.neutralItalyPressure === "coerced" && !flags.neutralItalyEnd) {
+    o.italy = "neutral";
+    note("Germany is moving to compel compliance from a neutral Italy that never fought for the Axis or against it — still unresolved (projection).", ["italy"]);
+  }
+  if (flags.neutralItalyEnd === "submit") {
+    o.italy = "axisAllied";
+    note("Faced with Berlin's ultimatum, Rome submitted rather than resist — occupied and compliant, without ever having fought a war on Germany's behalf (projection).", ["italy"]);
+  }
+  if (flags.neutralItalyEnd === "resist") {
+    o.italy = "contested";
+    note("Comando Supremo refused Berlin's ultimatum — a country that spent two years avoiding this war is fighting one now, against its former ally instead of beside it (projection).", ["italy"]);
   }
   if (flags.barbarossa === "launched" && year === 1941) {
     // The historical path (Halder's choice, June 22 1941) — no note, since this isn't a
     // divergence from the record and shouldn't earn a dashed "why is this diverged" border.
-    o.ussr = "contested";
+    // Whole-front invasion (Finland to Romania — see barbarossa41's own situation text),
+    // so all three zones move together, same as every fork below that's genuinely
+    // front-wide rather than one army group's own story.
+    o.ussrNorth = "contested"; o.ussrCenter = "contested"; o.ussrSouth = "contested";
   }
   if (flags.barbarossa === "medFirst" && year === 1941) {
-    o.ussr = "contested";
-    note("Barbarossa launched in autumn instead of June, after a summer Mediterranean campaign first — the invasion is underway, just months behind the historical schedule (projection).", ["ussr"]);
+    o.ussrNorth = "contested"; o.ussrCenter = "contested"; o.ussrSouth = "contested";
+    note("Barbarossa launched in autumn instead of June, after a summer Mediterranean campaign first — the invasion is underway, just months behind the historical schedule (projection).", ["ussrNorth", "ussrCenter", "ussrSouth"]);
   }
   if (flags.reichStand === "west" && year >= 1945) {
     // Austria's real 1945 split ran roughly east-west (Soviet zone east, the three Western
@@ -15413,12 +19115,12 @@ function mapOverrides(year, flags, meters) {
     );
   }
   if (flags.pathVariant === "noBarbarossa") {
-    o.ussr = "soviet";
+    o.ussrNorth = "soviet"; o.ussrCenter = "soviet"; o.ussrSouth = "soviet";
     if (year >= 1941 && year <= 1944) {
       o.france = "axis";
       o.benelux = "axis";
       if (year === 1944)
-        note("No eastern front on this path — the Soviet border stays quiet, and no cross-Channel invasion has been attempted against an undistracted Wehrmacht (projection).", ["ussr", "france", "benelux"]);
+        note("No eastern front on this path — the Soviet border stays quiet, and no cross-Channel invasion has been attempted against an undistracted Wehrmacht (projection).", ["ussrNorth", "ussrCenter", "ussrSouth", "france", "benelux"]);
     }
     if (year >= 1945) {
       o.germany = "allied"; o.austria = "allied"; o.czechia = "allied"; o.poland = "allied";
@@ -15427,8 +19129,35 @@ function mapOverrides(year, flags, meters) {
     }
   }
   if (flags.moscowCaptured && year >= 1941 && year <= 1944) {
-    o.ussr = "axis";
-    note("Moscow itself is under Axis occupation; the Soviet government continues from Kuibyshev (projection).", ["ussr"]);
+    // Round 14: Moscow itself sits in ussrCenter — the zone split means this can finally
+    // say so instead of tipping the whole former "ussr" blob axis over one city falling.
+    o.ussrCenter = "axis";
+    note("Moscow itself is under Axis occupation; the Soviet government continues from Kuibyshev (projection).", ["ussrCenter"]);
+  }
+  // Round 20 (Craig: "more map improvements — ensuring each country changes correctly"). Two
+  // real, choice-driven eastern-front divergences that predate any Historical Divergence fork
+  // and had no map reflection at all: kurskBreach43's "exploited" branch — the single best
+  // tactical eastern result this campaign reaches outside a fork or a rare diplomatic roll — and
+  // dnieperStabilized's sealed/conceded choice (the exact Kiev-area crossing Open Question #13
+  // flagged as having no dedicated region at the time; ussrSouth is now a direct, not just
+  // coarse, match for it — round 14's zone split, unlike forkEastAfricaSlow's Egypt proxy for
+  // East Africa below, which still has no dedicated region of its own).
+  if (flags.kurskBreach === "exploited" && year === 1943) {
+    // Kursk sits in ussrSouth (see the coordinate check in build_ussr_zones()) — round 14
+    // narrows this from the old whole-blob "ussr" to the zone the breach actually reaches.
+    o.ussrSouth = "axisAllied";
+    note("The early Kursk strike's breach was pushed rather than banked — a rare, genuine eastern gain the historical July offensive never had the room to attempt (projection).", ["ussrSouth"]);
+  }
+  if (flags.dnieper === "sealed" && year === 1943) {
+    o.ussrSouth = "axisAllied";
+    note("The last mobile reserve sealed the Dnieper crossing near Kiev — the firmest eastern line this campaign reaches, at the cost of what that reserve could have done in the west instead (projection).", ["ussrSouth"]);
+  }
+  // dnieper === "conceded" gets no status change: its own outcome text frames it as a real but
+  // local setback, not a country-level shift — ussrSouth is already "contested" by default in
+  // 1943, and forcing a drop to "soviet" here would overstate what a single crossing near Kiev
+  // cost. Note-only, same principle as forkLuftwaffeShift above.
+  if (flags.dnieper === "conceded" && year === 1943) {
+    note("The Dnieper crossing near Kiev was let through rather than sealed, to preserve the reserve for the west — a real, local eastern setback ahead of the historical timeline (projection).", ["ussrSouth"]);
   }
   if (flags.suez41 === "taken" && year >= 1941 && year <= 1942) {
     o.egypt = "axis";
@@ -15477,12 +19206,14 @@ function mapOverrides(year, flags, meters) {
     note("The supplied desert war runs on past its historical end date (projection).", ["malta", "libya", "egypt"]);
   }
   if (flags.pathVariant === "earlyCollapse" && year >= 1943) {
-    o.poland = "soviet"; o.germany = "contested"; o.czechia = "contested"; o.ussr = "soviet";
-    note("The eastern front has collapsed roughly two years ahead of the historical schedule (projection).", ["poland", "germany", "czechia", "ussr"]);
+    o.poland = "soviet"; o.germany = "contested"; o.czechia = "contested";
+    o.ussrNorth = "soviet"; o.ussrCenter = "soviet"; o.ussrSouth = "soviet";
+    note("The eastern front has collapsed roughly two years ahead of the historical schedule (projection).", ["poland", "germany", "czechia", "ussrNorth", "ussrCenter", "ussrSouth"]);
   }
   if (flags.pathVariant === "collapse44" && year >= 1944) {
-    o.poland = "soviet"; o.germany = "contested"; o.ussr = "soviet";
-    note("General collapse in the east, roughly nine months ahead of the historical schedule (projection).", ["poland", "germany", "ussr"]);
+    o.poland = "soviet"; o.germany = "contested";
+    o.ussrNorth = "soviet"; o.ussrCenter = "soviet"; o.ussrSouth = "soviet";
+    note("General collapse in the east, roughly nine months ahead of the historical schedule (projection).", ["poland", "germany", "ussrNorth", "ussrCenter", "ussrSouth"]);
   }
   if (flags.eastStand && year === 1944)
     note("Army Group Center retreats as an army — the eastern line anchors in better order than the historical rout (projection).", ["poland"]);
@@ -15505,33 +19236,46 @@ function mapOverrides(year, flags, meters) {
   // should win if it happens to touch the same region/year as a fork's smaller nudge.
   //
   // Two of a campaign's three forks CAN share both a year and a region (soviet's
-  // forkBarbarossaDelay and forkKievPush both touch "ussr" in 1941, in opposite directions) —
-  // they're rolled independently, so this is a real possible combination, not a bug. Last
-  // write wins, same as every other pair of conditions in this function; forkKievPush is
-  // ordered second so it prevails, since it's the more narratively decisive of the two.
+  // forkBarbarossaDelay and forkKievPush both touch the eastern zones in 1941, in opposite
+  // directions) — they're rolled independently, so this is a real possible combination, not
+  // a bug. Last write wins, same as every other pair of conditions in this function;
+  // forkKievPush is ordered second so it prevails, since it's the more narratively decisive
+  // of the two. Round 14: forkKievPush only touches ussrCenter (its own text is about the
+  // direct drive on Moscow reaching further, explicitly because the historical Kiev detour
+  // through the south didn't happen this time) — so it no longer actually collides with
+  // forkBarbarossaDelay's all-three-zone assignment the way the comment above used to
+  // describe; kept because the ordering guarantee is still real and still matters whenever a
+  // future fork's zone(s) do overlap.
   if (flags.forkNorwayHeld && year === 1940) {
     o.norway = "contested";
     note("Allied resistance around Narvik held on longer than history recorded — the occupation wasn't complete by year's end (projection).", ["norway"]);
   }
   if (flags.forkMoscowHolds && year === 1941 && !flags.moscowCaptured) {
-    o.ussr = "axis";
-    note("Weaker-than-historical Siberian reinforcement left the approach to Moscow more exposed this autumn (projection).", ["ussr"]);
+    o.ussrCenter = "axis";
+    note("Weaker-than-historical Siberian reinforcement left the approach to Moscow more exposed this autumn (projection).", ["ussrCenter"]);
   }
   if (flags.forkTorchShift && year === 1942) {
     o.nwAfrica = "contested";
     note("A weather-delayed landing fleet meant French North Africa wasn't secured by year's end the way the historical timeline had it (projection).", ["nwAfrica"]);
   }
   if (flags.forkBarbarossaDelay && year === 1941) {
-    o.ussr = "soviet";
-    note("A slower opening than the historical invasion gave the frontier armies more time to organize a defense (projection).", ["ussr"]);
+    // A slower opening across the whole invasion front — all three zones, same as
+    // barbarossa/medFirst above.
+    o.ussrNorth = "soviet"; o.ussrCenter = "soviet"; o.ussrSouth = "soviet";
+    note("A slower opening than the historical invasion gave the frontier armies more time to organize a defense (projection).", ["ussrNorth", "ussrCenter", "ussrSouth"]);
   }
   if (flags.forkKievPush && year === 1941) {
-    o.ussr = "axis";
-    note("No southern turn toward Kiev — the direct drive on the capital reached further than the historical detour allowed (projection).", ["ussr"]);
+    // Round 14: this fork's own text is specifically "no southern turn toward Kiev — the
+    // direct drive on the capital reached further" — the gain is Center's (Moscow's
+    // approach), and explicitly NOT South's, since the whole point is that Kiev wasn't
+    // taken this way. Only ussrCenter moves; ussrSouth stays at its 1941 baseline.
+    o.ussrCenter = "axis";
+    note("No southern turn toward Kiev — the direct drive on the capital reached further than the historical detour allowed (projection).", ["ussrCenter"]);
   }
   if (flags.forkStalingradConsolidate && year === 1942) {
-    o.ussr = "soviet";
-    note("The pause short of Stalingrad's outskirts gave the defense more time to consolidate than the historical record shows (projection).", ["ussr"]);
+    // Stalingrad sits in ussrSouth.
+    o.ussrSouth = "soviet";
+    note("The pause short of Stalingrad's outskirts gave the defense more time to consolidate than the historical record shows (projection).", ["ussrSouth"]);
   }
   if (flags.forkNarvikHeld && year === 1940) {
     o.norway = "contested";
@@ -15562,6 +19306,41 @@ function mapOverrides(year, flags, meters) {
     o.libya = "axisAllied";
     note("Lighter interference from Malta kept the African convoys running better than history recorded, leaving Libya more securely supplied (projection).", ["libya"]);
   }
+
+  // Round 20 (Craig: "build 2 new speculative forks on the alternative history mode per
+  // campaign") — same lighter-touch treatment as the block above, in each campaign's fork order.
+  if (flags.forkPanthersFixed && flags.kurskResult === "breach" && year === 1943) {
+    o.ussrSouth = "axisAllied";
+    note("Without the historical Panther engine-fire losses, the Kursk breakthrough pressed further east before the season turned (projection).", ["ussrSouth"]);
+  }
+  if (flags.forkCaucasusThin && flags.caseBlue === "both" && year === 1942) {
+    o.ussrSouth = "axisAllied";
+    note("A thinner-than-expected Soviet reserve let the southern front hold both the Stalingrad and Caucasus axes longer than the historical overextension allowed (projection).", ["ussrSouth"]);
+  }
+  // forkRzhevThin has no map effect: it doesn't change what Operation Mars achieves (the
+  // choice's own outcome text stays the historical failure regardless), only that the failure
+  // went unexplained rather than inevitable. Its stakes are the irony, not the territory — a
+  // legitimate note-only case, same as forkLuftwaffeShift above.
+  if (flags.forkDeceptionSeen && flags.bagration44soviet === "full" && year === 1944) {
+    o.poland = "contested";
+    note("German reconnaissance flagged the real concentration areas before Bagration launched — the advance to Warsaw's approaches drew a sharper, more contested response than the historical surprise allowed for (projection).", ["poland"]);
+  }
+  if (flags.forkAnzioWeak && year === 1944) {
+    o.italy = "contested";
+    note("A lighter-than-expected coastal garrison opposite the landing beaches left the Anzio bridgehead's opening weeks less precarious than the historical record shows (projection).", ["italy"]);
+  }
+  if (flags.forkRhodesWeak && year === 1943) {
+    o.greece = "contested";
+    note("A weaker Rhodes garrison than the planning estimates assumed left the wider Dodecanese improvisation on firmer footing than the historical record shows (projection).", ["greece"]);
+  }
+  if (flags.forkDesertGap && year === 1940) {
+    o.libya = "contested";
+    note("A more continuous line between the fortified camps west of Sidi Barrani slowed the opening British push further than the historical record shows (projection).", ["libya"]);
+  }
+  // forkFleetFast has no map effect: Taranto's battleships being repaired ahead of schedule is
+  // a naval readiness question, not a territorial one, and the theater it would matter most to
+  // (convoy escort strength) has no tracked region of its own beyond what forkMaltaWeak already
+  // covers. A legitimate note-only case, same as forkLuftwaffeShift above.
 
   // Round 18 (Craig: "Can you check for these errors on the other campaigns especially where
   // Germany would be winning or losing territories separately from the nodes shown to the
@@ -16618,7 +20397,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         {campaign.dynamic && purge && (
           <div
             className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4 border-2 px-3 py-2 text-[11px] sm:text-xs uppercase tracking-widest font-bold"
-            style={{ borderColor: "#1c2b3a", color: "#1c2b3a", fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ borderColor: "#7a2e2e", color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}
           >
             <span>NKVD Mode — no rewind</span>
             <span>
@@ -16630,7 +20409,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         {campaign.dynamic && coalition && (
           <div
             className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4 border-2 px-3 py-2 text-[11px] sm:text-xs uppercase tracking-widest font-bold"
-            style={{ borderColor: "#8a6d1f", color: "#8a6d1f", fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ borderColor: "#7a2e2e", color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}
           >
             <span>Yalta Mode — no rewind</span>
             <span>Coalition Cohesion: {cohesionLabel(flags.cohesion)}</span>
@@ -16639,7 +20418,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         {campaign.dynamic && axis && (
           <div
             className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4 border-2 px-3 py-2 text-[11px] sm:text-xs uppercase tracking-widest font-bold"
-            style={{ borderColor: "#8f3a2e", color: "#8f3a2e", fontFamily: "'IBM Plex Mono', monospace" }}
+            style={{ borderColor: "#7a2e2e", color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}
           >
             <span>Axis Mode — no rewind</span>
             <span>German Trust: {cohesionLabel(flags.trust)}</span>
@@ -16813,6 +20592,20 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   <span aria-hidden="true">✓ </span>{choice.checkLabel} check passed
                 </span>
               )}
+              {/* Round 4 (Craig: "we need a way when selecting the node that the choice will
+                  lead to battle planning"): the Order of Battle screen used to arrive with no
+                  warning — a player picking this choice had no way to know it wasn't a normal
+                  one-tap decision. Unconditional (not mode-gated like the Easy-mode preview
+                  badges above) since this is need-to-know regardless of difficulty: it changes
+                  what tapping the button actually does, not just what it previews. */}
+              {KEY_BATTLE_SUBGAME_ENABLED && !choice.disabledReason && choice.keyBattleSubgame && (
+                <span
+                  className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: campaign.accent, color: campaign.accent }}
+                >
+                  <span aria-hidden="true">⚑ </span>Leads to battle planning
+                </span>
+              )}
               {coalition && typeof choice.cohesionDelta === "number" && choice.cohesionDelta !== 0 && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
@@ -16898,7 +20691,992 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
   );
 }
 
-function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProceed, isLast, soundOn }) {
+// Key Battle Subgame prototype (KEY_BATTLE_SUBGAME_ENABLED only). Sits between choosing a
+// keyBattleSubgame-flagged option and that choice's uncertain[] roll actually being thrown.
+// Round 9 flow (Craig's items #1, #2, #7): this screen now only BUILDS the plan — allocation,
+// commander, approach, and any chits deliberately left unplaced as a reserve — and hands it to
+// BattleSimulationScreen. The roll itself no longer happens at commit; it happens at the end of
+// the battle report, after the mid-battle reserve decision, so that decision can actually change
+// the odds rather than decorate a result that was already decided. See chooseOption.
+function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, onSpendInitiative, easyMode }) {
+  const headingRef = useRef(null);
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+    if (headingRef.current) headingRef.current.focus();
+  }, []);
+
+  // Round 9: categories are per battle now (Omaha's are not Kursk's) — see keyBattleCategories.
+  const categories = keyBattleCategories(config);
+
+  // Round 4 (Craig: "could we have a commander selection option which had a modifier on one of
+  // the four categories"). Null = no selection ("no particular emphasis," the honest default).
+  // Keyed by config.id against KEY_BATTLE_COMMANDERS; battles without a roster render no
+  // commander section at all rather than an empty one.
+  const commanderRoster = KEY_BATTLE_COMMANDERS[config.id] || [];
+  const [commanderId, setCommanderId] = useState(null);
+  const selectedCommander = commanderRoster.find((c) => c.id === commanderId) || null;
+
+  // Round 4 follow-up (Craig: "let's make this one between the two tactical choices"). Forced
+  // pick, no default: the Commit button stays disabled until one is chosen for any battle with
+  // a roster entry.
+  const approachRoster = KEY_BATTLE_APPROACHES[config.id] || [];
+  const [approachId, setApproachId] = useState(null);
+  const selectedApproach = approachRoster.find((a) => a.id === approachId) || null;
+
+  // Round 9, item #1: the enemy's hidden posture for THIS attempt at this battle, drawn once per
+  // screen instance (lazy initializer) and never shown directly — only one line of intelligence
+  // hints at it (postureHint), and it's revealed as the "contact" beat of the battle report.
+  const [posture] = useState(() => pickKeyBattlePosture(config.id));
+  // Round 10, Craig's item #4: the intelligence summary is wrong one time in four — the hint is
+  // then drawn from a DIFFERENT posture than the real one, so a player who reads the intel
+  // perfectly still gets fooled sometimes, the way a general would. Whether it was right is
+  // told after the battle (the battle report's after-action notes), never before.
+  // Round 13, item #3: factored out to drawIntel() so the paid Reconnaissance Pass (requestRecon,
+  // below) can redraw the same hint at a lower error rate instead of duplicating this logic.
+  function drawIntel(errorRate) {
+    if (!posture) return null;
+    const roster = KEY_BATTLE_POSTURES[config.id] || [];
+    const others = roster.filter((p) => p.id !== posture.id);
+    const wrong = others.length > 0 && Math.random() < errorRate;
+    const source = wrong ? others[Math.floor(Math.random() * others.length)] : posture;
+    const hint = source.hints.length ? source.hints[Math.floor(Math.random() * source.hints.length)] : null;
+    return { hint, hintPostureId: source.id, correct: !wrong };
+  }
+  // Round 13, item #8 (minor difficulty tie-in): Easy Command's own text already promises "full
+  // [meter] visibility" as its whole training-wheels premise — extending that to the subgame's
+  // one piece of hidden information means the free hint is simply never wrong in Easy, at 0
+  // error rate rather than the usual 1-in-4. Standard and the hard modes are untouched.
+  const [intel, setIntel] = useState(() => drawIntel(easyMode ? 0 : KEY_BATTLE_INTEL_ERROR_RATE));
+  const postureHint = intel?.hint || null;
+  // Round 13, item #3: a Recon Pass is a one-shot, paid redraw of the same hint at
+  // KEY_BATTLE_RECON_ERROR_RATE instead of the free hint's rate. Gated the same way the staff
+  // assessment is gated below (needs Initiative to spend, one use per screen instance — buying
+  // a second look at the same ground has diminishing returns the design isn't trying to model).
+  const [reconUsed, setReconUsed] = useState(false);
+  function requestRecon() {
+    if (reconUsed || (meters.initiative || 0) <= 0 || !posture) return;
+    setIntel(drawIntel(KEY_BATTLE_RECON_ERROR_RATE));
+    setReconUsed(true);
+    if (onSpendInitiative) onSpendInitiative();
+    if (soundOn) playStamp();
+  }
+
+  // Pool size: a base of 5 effort chits, plus one bonus chit per meter (manpower/fuel/
+  // initiative) standing above +2 — "extra resources should directly help," as a bigger toolkit
+  // rather than a gate. Round 9: frozen at mount, because the staff assessment below spends
+  // Initiative on this very screen — without the freeze, buying an assessment at Initiative +3
+  // would drop the meter to +2, shrink the pool by one mid-plan, and could leave the player with
+  // more chits placed than the pool now allows.
+  const [bonusMeters] = useState(() => ["manpower", "fuel", "initiative"].filter((m) => (meters[m] || 0) > 2));
+  const poolSize = 5 + bonusMeters.length;
+
+  const [allocation, setAllocation] = useState(() => Object.fromEntries(categories.map((c) => [c.id, 0])));
+  const spent = Object.values(allocation).reduce((a, v) => a + v, 0);
+  const remaining = poolSize - spent;
+
+  function addChit(catId) {
+    if (remaining <= 0) return;
+    setAllocation((a) => ({ ...a, [catId]: a[catId] + 1 }));
+  }
+  function removeChit(catId) {
+    setAllocation((a) => (a[catId] > 0 ? { ...a, [catId]: a[catId] - 1 } : a));
+  }
+
+  // Round 3 (Craig): a battle isn't a spreadsheet — the same push doesn't land the same way
+  // twice. Rolled once per screen instance and applied as a +/-30% jitter on that category's
+  // base effectiveness, shown only as a banded readiness phrase (see readiness()).
+  const [jitter] = useState(() => Object.fromEntries(categories.map((c) => [c.id, 0.7 + Math.random() * 0.6])));
+  function approachModifier(catId) {
+    return selectedApproach?.modifiers?.[catId] ?? 0;
+  }
+  // Per-chit weight for a category: jittered base effectiveness, plus the commander's flat
+  // bonus and the approach's flat modifier (both known facts going in, so un-jittered) — then,
+  // round 9, the whole thing scaled by the hidden enemy posture, which blunts or opens an arm no
+  // matter who leads it (see KEY_BATTLE_POSTURES for why it has to scale the whole weight).
+  function effectiveWeight(catId) {
+    const base = (config.effectiveness[catId] ?? 1) * jitter[catId];
+    const commanderBonus = selectedCommander && selectedCommander.category === catId ? KEY_BATTLE_COMMANDER_BONUS : 0;
+    const postureMult = posture?.modifiers?.[catId] ?? 1;
+    // Round 13, item #6: a static, known ground-conditions multiplier — see terrainModifiers on
+    // the battle config. Defaults to 1 (no effect) for any battle/category that doesn't define one.
+    const terrainMult = config.terrainModifiers?.[catId] ?? 1;
+    return (base + commanderBonus + approachModifier(catId)) * postureMult * terrainMult;
+  }
+  function weightsMap() {
+    return Object.fromEntries(categories.map((c) => [c.id, effectiveWeight(c.id)]));
+  }
+  // Bottom/middle/top third of the jitter range — a coarse signal, not the number itself. Does
+  // NOT reflect the enemy posture: readiness is about your own formations, the posture is about
+  // the enemy's, and only the intelligence line (or a paid staff assessment) speaks to that.
+  function readiness(catId) {
+    const j = jitter[catId];
+    if (j < 0.9) return "reports uncertain";
+    if (j > 1.1) return "in good order";
+    return "holding to plan";
+  }
+
+  // Round 9, Craig's item #7: "a button... get staff assessment on plan but it costs one
+  // initiative." A verdict in words only — never a number or a percentage, since round 6
+  // removed the odds-range panel precisely because a spreadsheet readout made the screen feel
+  // wrong. What the Initiative actually buys is real information: the verdict is computed with
+  // the TRUE weights, hidden posture included, and the one specific pointer it adds can point at
+  // exactly the thing the player can't otherwise see (the enemy being strongest where they're
+  // heaviest, or an arm the posture favors that they've underused). Re-buyable; marked stale as
+  // soon as the plan changes after it was given.
+  const [assessment, setAssessment] = useState(null);
+  const planKey = JSON.stringify([allocation, commanderId, approachId]);
+  // Round 10, item #4: reliability is set by Initiative at the moment of asking (before paying
+  // for it) — see staffReliability. When the roll says the staff get it wrong, their verdict is
+  // shifted one or two bands from the truth and their specific pointer is replaced with a
+  // plausible but unfounded one. The player is only told which it was after the battle.
+  const reliability = staffReliability(meters.initiative);
+  const BAND_TEXT = [
+    "The staff think this plan is strong. They would send it as written.",
+    "Sound, the staff say, but not overwhelming.",
+    "The staff are uneasy. This plan will move the line, but not far.",
+    "The staff advise against this plan. As written, it leaves you worse off than doing nothing.",
+  ];
+  function requestAssessment() {
+    if (spent === 0) return;
+    const accurate = Math.random() * 100 < reliability;
+    if (onSpendInitiative) onSpendInitiative();
+    if (soundOn) playStamp();
+    const contributions = computeBattleContributions(categories, allocation, weightsMap(), poolSize);
+    const bonus = clampBattleBonus(sumBattleContributions(contributions));
+    const trueBand = bonus >= 20 ? 0 : bonus >= 10 ? 1 : bonus >= 0 ? 2 : 3;
+    let shownBand = trueBand;
+    if (!accurate) {
+      const step = Math.random() < 0.7 ? 1 : 2;
+      const dir = Math.random() < 0.5 ? -1 : 1;
+      shownBand = trueBand + dir * step;
+      if (shownBand < 0 || shownBand > 3) shownBand = trueBand - dir * step;
+      shownBand = Math.max(0, Math.min(3, shownBand));
+      if (shownBand === trueBand) shownBand = trueBand === 0 ? 1 : trueBand - 1;
+    }
+    const text = BAND_TEXT[shownBand];
+    const pm = (id) => posture?.modifiers?.[id] ?? 1;
+    const neglected = categories.filter((c) => contributions[c.id] < 0);
+    const heaviest = categories.reduce((m, c) => ((allocation[c.id] || 0) > (allocation[m.id] || 0) ? c : m), categories[0]);
+    const underused = categories
+      .filter((c) => pm(c.id) > 1 && (allocation[c.id] || 0) < poolSize / 4)
+      .sort((a, b) => pm(b.id) - pm(a.id))[0];
+    let detail = null;
+    if (neglected.length) {
+      detail = `They single out ${neglected.map((c) => c.name).join(" and ")}, left uncovered.`;
+    } else if ((allocation[heaviest.id] || 0) > 0 && pm(heaviest.id) < 1) {
+      detail = `Intelligence suggests the enemy is strongest exactly where you are heaviest: ${heaviest.name}.`;
+    } else if (underused) {
+      detail = `They think ${underused.name} deserves more than it's getting.`;
+    }
+    if (!accurate) {
+      // A wrong read points somewhere plausible but unfounded.
+      const decoy = categories[Math.floor(Math.random() * categories.length)];
+      detail = `They think ${decoy.name} deserves more than it's getting.`;
+    }
+    if (remaining > 0) {
+      detail = (detail ? detail + " " : "") + `${remaining} ${remaining === 1 ? "chit is" : "chits are"} being held back as a reserve.`;
+    }
+    setAssessment({ text, detail, key: planKey, accurate, shownBand, trueBand, reliability });
+  }
+
+  const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
+  const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
+
+  return (
+    <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
+      <div
+        className={`${paper} w-full max-w-2xl p-6 sm:p-8`}
+        style={campaignPaperStyle(campaign.id, campaign.accent)}
+      >
+        <div className="text-xs uppercase tracking-[0.25em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
+          Order of Battle — Before Committing
+        </div>
+        <h2
+          ref={headingRef}
+          tabIndex={-1}
+          className="text-2xl sm:text-3xl mb-3 text-[#000000] focus:outline-none"
+          style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600 }}
+        >
+          {config.title}
+        </h2>
+        <p className="text-sm mb-4 text-[#000000]">{config.flavor}</p>
+
+        {postureHint && (
+          <div className="mb-6 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+            <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
+              Intelligence Summary
+            </div>
+            <p className="text-[13px] leading-snug italic text-[#000000]" style={bodyStyle}>
+              {postureHint}
+            </p>
+            {/* Round 13, item #3: a paid second look, same shape as the staff assessment button
+                further down — spend Initiative for a materially sharper (not perfect) read. Not
+                offered in Easy Command (item #8) — the free hint there is already accurate, so a
+                Recon Pass would just be spending Initiative on nothing. */}
+            {!reconUsed && !easyMode && (
+              <button
+                onClick={requestRecon}
+                disabled={(meters.initiative || 0) <= 0}
+                className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000]"
+                style={labelStyle}
+              >
+                Call for a Reconnaissance Pass — costs 1 Initiative
+              </button>
+            )}
+            {reconUsed && (
+              <p className="mt-2 text-[11px] uppercase tracking-widest opacity-60 text-[#000000]" style={labelStyle}>
+                Reconnaissance pass called in.
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Round 8 (Craig, looking at the iOS picker sheet round 7's <select> produced): back
+            to the button/card grid; commander roster capped at 3. */}
+        {commanderRoster.length > 0 && (
+          <div className="mb-6">
+            <div className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
+              Field Command
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button
+                onClick={() => setCommanderId(null)}
+                aria-pressed={commanderId === null}
+                className="text-left border px-3 py-2 transition-colors duration-150"
+                style={
+                  commanderId === null
+                    ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
+                    : { borderColor: campaign.accent, color: "#000000" }
+                }
+              >
+                <div className="text-sm font-semibold">No particular emphasis</div>
+                <div className="text-[11px] opacity-80">Command as planned, no single lever favored.</div>
+              </button>
+              {commanderRoster.map((cmd) => {
+                const cat = categories.find((c) => c.id === cmd.category);
+                const selected = commanderId === cmd.id;
+                return (
+                  <button
+                    key={cmd.id}
+                    onClick={() => setCommanderId(cmd.id)}
+                    aria-pressed={selected}
+                    className="text-left border px-3 py-2 transition-colors duration-150"
+                    style={
+                      selected
+                        ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
+                        : { borderColor: campaign.accent, color: "#000000" }
+                    }
+                  >
+                    <div className="text-sm font-semibold">{cmd.name}</div>
+                    <div className="text-[11px] opacity-80">
+                      {cmd.role} — favors {cat ? `${cat.glyph} ${cat.name}` : cmd.category}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+            {selectedCommander && (
+              <p className="text-[13px] leading-snug italic mt-2 text-[#000000]" style={bodyStyle}>
+                {selectedCommander.note}
+              </p>
+            )}
+          </div>
+        )}
+
+        {approachRoster.length > 0 && (
+          <div className="mb-6">
+            <div className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
+              Tactical Approach — Choose One
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {approachRoster.map((appr) => {
+                const selected = approachId === appr.id;
+                return (
+                  <button
+                    key={appr.id}
+                    onClick={() => setApproachId(appr.id)}
+                    aria-pressed={selected}
+                    className="text-left border px-3 py-2 transition-colors duration-150"
+                    style={
+                      selected
+                        ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
+                        : { borderColor: campaign.accent, color: "#000000" }
+                    }
+                  >
+                    <div className="text-sm font-semibold">{appr.name}</div>
+                    <div className="text-[11px] opacity-80">{appr.subtitle}</div>
+                  </button>
+                );
+              })}
+            </div>
+            {selectedApproach ? (
+              <p className="text-[13px] leading-snug italic mt-2 text-[#000000]" style={bodyStyle}>
+                {selectedApproach.note}
+              </p>
+            ) : (
+              <p className="text-[13px] leading-snug mt-2 text-[#000000] opacity-70" style={bodyStyle}>
+                Pick one — the offensive can't run on both doctrines at once.
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
+          Effort chits in reserve: {remaining} of {poolSize}
+          {bonusMeters.length > 0 && (
+            <span className="normal-case font-normal"> — {bonusMeters.length} extra from the standing of your logistics</span>
+          )}
+        </div>
+        <p className="text-[12px] leading-snug mb-3 text-[#000000] opacity-80" style={bodyStyle}>
+          Chits you leave unplaced go in as a reserve you can commit once you see how the fighting goes. They arrive late and count for less than a planned chit.
+        </p>
+
+        <div className="flex flex-col gap-3 mb-6">
+          {categories.map((cat) => (
+            <div key={cat.id} className="border px-4 py-3" style={{ borderColor: campaign.accent }}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold text-[#000000]">
+                  {cat.glyph} {cat.name}
+                  {/* Round 13, item #6: a visible (not hidden, unlike posture) ground-conditions
+                      note — the flavor paragraph already told the player about the mud; this ties
+                      that text to the specific category it actually affects. */}
+                  {config.terrainNotes?.[cat.id] && (
+                    <span className="ml-1 text-[10px] font-normal italic opacity-60">({config.terrainNotes[cat.id]})</span>
+                  )}
+                </span>
+                {/* Round 8 (Craig: "'in good order' and 'reports uncertain' aren't clear in what
+                    they are doing"): the bare phrase read as ambiguous — readiness of what,
+                    exactly? A "Readiness:" label anchors it to the category it sits next to,
+                    without spelling out the hidden jitter roll it's actually a coarse signal
+                    for (see readiness() above — that's staying a band, not a number, on
+                    purpose). */}
+                <span className="text-xs text-[#000000] opacity-70 italic">Readiness: {readiness(cat.id)}</span>
+              </div>
+              {/* Round 4 (Craig, testing on mobile: "tap add and minus with the plus signing
+                  moving along the screen from left to right"): tapping a filled square to
+                  remove it worked on desktop but gave no visible affordance on a touch screen,
+                  and the "+" button's position shifted every time the row filled or wrapped.
+                  Fixed layout now: a minus button pinned left, a fill track (empty-to-filled,
+                  left to right) scaled to the actual pool size so the same track reads
+                  identically across all four categories, and a plus button pinned right —
+                  neither button moves regardless of how many chits are placed. */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => removeChit(cat.id)}
+                  disabled={allocation[cat.id] <= 0}
+                  aria-label={`Remove a chit from ${cat.name}`}
+                  className="w-9 h-9 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+                  style={{ borderColor: campaign.accent, color: campaign.accent }}
+                >
+                  −
+                </button>
+                <div className="flex-1 flex items-center gap-1 min-w-0" aria-hidden="true">
+                  {Array.from({ length: poolSize }).map((_, k) => (
+                    <span
+                      key={k}
+                      className="flex-1 h-5 border-2 min-w-[10px]"
+                      style={
+                        k < allocation[cat.id]
+                          ? { borderColor: campaign.accent, backgroundColor: campaign.accent }
+                          : { borderColor: campaign.accent, opacity: 0.35 }
+                      }
+                    />
+                  ))}
+                </div>
+                <span
+                  className="w-6 text-center text-sm font-bold flex-none"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  {allocation[cat.id]}
+                </span>
+                <button
+                  onClick={() => addChit(cat.id)}
+                  disabled={remaining <= 0}
+                  aria-label={`Add a chit to ${cat.name}`}
+                  className="w-9 h-9 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+                  style={{ borderColor: campaign.accent, color: campaign.accent }}
+                >
+                  +
+                </button>
+              </div>
+              {config.categoryContext?.[cat.id] && (
+                <details className="mt-2">
+                  <summary
+                    className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-70 cursor-pointer select-none"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    Staff situation report
+                  </summary>
+                  <p
+                    className="text-[13px] leading-snug text-[#000000] mt-1 italic"
+                    style={{ fontFamily: "'Courier Prime', monospace" }}
+                  >
+                    {config.categoryContext[cat.id]}
+                  </p>
+                </details>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="mb-4 border px-4 py-3" style={{ borderColor: campaign.accent }}>
+          <button
+            onClick={requestAssessment}
+            disabled={spent === 0}
+            className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
+            style={{ borderColor: campaign.accent, ...bodyStyle }}
+          >
+            Get Staff Assessment of the Plan — costs 1 Initiative
+          </button>
+          {assessment && (
+            <div className="mt-3">
+              <p className="text-[13px] leading-snug italic text-[#000000]" style={bodyStyle}>
+                {assessment.text}
+              </p>
+              {assessment.detail && (
+                <p className="text-[13px] leading-snug text-[#000000] mt-1" style={bodyStyle}>
+                  {assessment.detail}
+                </p>
+              )}
+              {assessment.key !== planKey && (
+                <p className="text-[11px] uppercase tracking-widest text-[#000000] opacity-70 mt-1" style={labelStyle}>
+                  Assessed before your latest changes
+                </p>
+              )}
+            </div>
+          )}
+          <p className="text-[11px] uppercase tracking-widest text-[#000000] opacity-70 mt-2" style={labelStyle}>
+            Initiative now: {meters.initiative > 0 ? "+" : ""}
+            {meters.initiative} · Staff reliability: {reliability}%
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            if (soundOn) playStamp();
+            onCommit({
+              allocation,
+              reserves: remaining,
+              poolSize,
+              weights: weightsMap(),
+              commanderId: selectedCommander?.id ?? null,
+              approachId: selectedApproach?.id ?? null,
+              postureId: posture?.id ?? null,
+              // Round 10: carried forward so the battle report can say, afterwards, whether the
+              // intelligence and the last staff assessment were right.
+              intel: intel ? { hintPostureId: intel.hintPostureId, correct: intel.correct } : null,
+              assessment: assessment
+                ? {
+                    accurate: assessment.accurate,
+                    shownBand: assessment.shownBand,
+                    trueBand: assessment.trueBand,
+                    reliability: assessment.reliability,
+                    stale: assessment.key !== planKey,
+                  }
+                : null,
+            });
+          }}
+          disabled={(approachRoster.length > 0 && !selectedApproach) || spent === 0}
+          className="w-full border-2 px-4 py-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
+          style={{ borderColor: campaign.accent, ...bodyStyle }}
+        >
+          {approachRoster.length > 0 && !selectedApproach
+            ? "Choose a Tactical Approach First"
+            : spent === 0
+            ? "Place at Least One Chit"
+            : remaining > 0
+            ? `Commit to Battle — ${remaining} held in reserve`
+            : "Commit to Battle"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// The battle report. Design history in brief: round 6 replaced a static result screen with an
+// animated reveal; round 7 made it one tug-of-war bar, click-through, with each beat a REAL
+// per-category contribution rather than decorative noise; round 8 kept every report line on
+// screen as a running log. Round 9 (Craig's items #1, #2, #4, #9):
+// - A "contact" beat reveals the hidden enemy posture before the category beats, so the player
+//   learns why their arms are landing the way they are.
+// - Commander and approach finally have a voice: the approach's report line opens the battle,
+//   and the chosen commander's line replaces the generic flashup on his own category's beat.
+// - The decisive hour: if chits were held back at commit, the report stops after the category
+//   beats and asks where to throw them (or whether to hold them — they come home intact, which
+//   feeds the plan costs). The ROLL HAPPENS AFTER THIS, via onResolve -> chooseOption, which is
+//   the whole reason the roll moved out of the commit step: a mid-battle choice made after the
+//   dice were already thrown would be theatre.
+// - Movement only, no new sound (Craig: "9 Movement only"): the bar's transition time and
+//   easing scale with the size of the swing, a marker on the boundary pulses on every beat, and
+//   a big swing against you shakes the bar. All CSS, so the app-wide reducedMotion override
+//   zeroes it with no separate check.
+// Positions before the verdict replay chooseOption's own nudge math against the base weights;
+// the verdict itself is forced to the resolved weights, so the bar can never disagree with
+// OutcomeScreen. uncertain[0] is the favorable break, uncertain[1] the unfavorable one.
+// Round 10 additions to the battle report (Craig's items 2, 3, 4, 5):
+// - Dispatches, not narration: every line is stamped with a time from config.reportTimes and,
+//   for category beats, the arm it concerns. Uncommitted arms read as what headquarters would
+//   actually see (config.idleLines), not "No chits went to X".
+// - The road not taken is never shown: no outcome titles, no percentages, and the headline is
+//   the battle's own verdict (config.verdicts), not "The Odds Broke Your Way". The bar still
+//   settles where the battle ended — a picture of the balance of forces, not a number.
+// - The enemy counterattack (config.counterattack): after the decisive hour, the enemy hits
+//   one arm, harder under some postures. Meet it head-on (it holds if that arm has at least
+//   2 + severity chits in it), give ground (a smaller, certain loss), or — only if the reserve
+//   was held — throw the held reserve at it. Its swing is added to the plan's total before the
+//   clamp, and its result is carried out for plan costs and the next node's text.
+// - After-action notes: whether the intelligence summary and the last staff assessment were
+//   right, told only now, after the battle, the way a general would find out.
+function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain, result, soundOn, onResolve, onContinue }) {
+  const headingRef = useRef(null);
+  const categories = keyBattleCategories(config);
+  const postures = KEY_BATTLE_POSTURES[config.id] || [];
+  const posture = postures.find((p) => p.id === plan.postureId) || null;
+  const commander = (KEY_BATTLE_COMMANDERS[config.id] || []).find((c) => c.id === plan.commanderId) || null;
+  const approach = (KEY_BATTLE_APPROACHES[config.id] || []).find((a) => a.id === plan.approachId) || null;
+  const hasReserve = (plan.reserves || 0) > 0;
+  const times = config.reportTimes || null;
+  const ca = config.counterattack || null;
+  const severity = ca ? ca.severity?.[plan.postureId] || 1 : 1;
+
+  const planContrib = computeBattleContributions(categories, plan.allocation, plan.weights, plan.poolSize);
+  const orderedCatIds = [...categories]
+    .sort((a, b) => Math.abs(planContrib[a.id] || 0) - Math.abs(planContrib[b.id] || 0))
+    .map((c) => c.id);
+
+  // Must mirror chooseOption's nudge exactly.
+  function pctFor(total) {
+    const b = Math.max(-KEY_BATTLE_BONUS_CLAMP, Math.min(KEY_BATTLE_BONUS_CLAMP, total));
+    const w0 = Math.max(2, Math.min(98, baseWeights[0] + b));
+    const w1 = Math.max(2, Math.min(98, baseWeights[1] - b));
+    return Math.round((w0 / (w0 + w1)) * 100);
+  }
+
+  const [reserveChoice, setReserveChoice] = useState(null); // null | "hold" | catId
+  const [counterChoice, setCounterChoice] = useState(null); // null | "head" | "give" | "reserve"
+  const reserveAlloc = reserveChoice && reserveChoice !== "hold" ? { [reserveChoice]: plan.reserves } : {};
+  const finalContrib = computeBattleContributions(categories, plan.allocation, plan.weights, plan.poolSize, reserveAlloc);
+  const reserveTotal = sumBattleContributions(finalContrib);
+  const counterStrengthBase = ca ? (plan.allocation[ca.category] || 0) + (reserveAlloc[ca.category] || 0) : 0;
+  const canThrowReserve = reserveChoice === "hold" && hasReserve;
+
+  function counterOutcome(choice) {
+    if (!ca || !choice) return null;
+    if (choice === "give") return { result: "gaveGround", swing: -2 * severity };
+    const strength = counterStrengthBase + (choice === "reserve" ? plan.reserves : 0);
+    if (strength >= 2 + severity) return { result: "repulsed", swing: 4 };
+    if (strength >= 1) return { result: "heldAtCost", swing: -3 * severity };
+    return { result: "broke", swing: -5 * severity };
+  }
+  const counter = counterOutcome(counterChoice);
+  const finalTotal = reserveTotal + (counter ? counter.swing : 0);
+
+  const beats = [{ kind: "open", position: 50 }];
+  if (posture) beats.push({ kind: "contact", position: 50 });
+  let cum = 0;
+  orderedCatIds.forEach((id, i) => {
+    cum += planContrib[id] || 0;
+    beats.push({ kind: "cat", catId: id, catOrder: i, position: pctFor(cum) });
+  });
+  const lastCatIndex = beats.length - 1;
+  if (reserveChoice) beats.push({ kind: "reserve", position: pctFor(reserveTotal) });
+  if (counterChoice) beats.push({ kind: "counter", position: pctFor(finalTotal) });
+  const lastBeat = beats.length - 1;
+
+  const [flashupLines] = useState(() => {
+    const pool = config?.flashups || {};
+    const lines = {};
+    for (const c of categories) {
+      const options = pool[c.id] || [];
+      lines[c.id] = options.length ? options[Math.floor(Math.random() * options.length)] : null;
+    }
+    return lines;
+  });
+  // Round 12 (Craig's item #5, "richer dispatch text"): idleLines used to be a single fixed
+  // string per category — every replay that left an arm uncommitted saw the exact same sentence.
+  // Now a small pool per category, same pattern as flashupLines above, picked once per screen
+  // instance so it doesn't flicker on re-render. Still accepts a bare string for any battle
+  // config that hasn't been converted to a pool, so nothing breaks if one is added later without
+  // the array wrapper.
+  const [idleLine] = useState(() => {
+    const pool = config?.idleLines || {};
+    const lines = {};
+    for (const c of categories) {
+      const options = pool[c.id];
+      if (Array.isArray(options)) lines[c.id] = options.length ? options[Math.floor(Math.random() * options.length)] : null;
+      else lines[c.id] = options || null;
+    }
+    return lines;
+  });
+
+  function timeFor(beat) {
+    if (!times) return null;
+    if (beat.kind === "cat") return times.cats?.[beat.catOrder] || null;
+    return times[beat.kind] || null;
+  }
+  function bodyFor(beat) {
+    if (beat.kind === "open") return approach?.reportLine || "The attack goes in.";
+    if (beat.kind === "contact") return posture.reveal;
+    if (beat.kind === "reserve") {
+      if (reserveChoice === "hold") return "The reserve stays back.";
+      const cat = categories.find((c) => c.id === reserveChoice);
+      const plugged = (plan.allocation[reserveChoice] || 0) === 0;
+      return `The reserve goes in behind ${cat?.name || reserveChoice}${plugged ? ", into the gap left there" : ""}.`;
+    }
+    if (beat.kind === "counter") {
+      const lead = counterChoice === "reserve" ? "The held reserve goes in against the counterattack. " : "";
+      return lead + (ca.results[counter.result] || "");
+    }
+    const cat = categories.find((c) => c.id === beat.catId);
+    if ((plan.allocation[beat.catId] || 0) === 0) {
+      return idleLine[beat.catId] || `${cat?.name || beat.catId}: nothing committed.`;
+    }
+    if (commander && commander.category === beat.catId && commander.reportLine) return commander.reportLine;
+    return flashupLines[beat.catId] || `${cat?.name || beat.catId} holds its ground.`;
+  }
+  function labelFor(beat) {
+    if (beat.kind !== "cat") return null;
+    return categories.find((c) => c.id === beat.catId)?.name || null;
+  }
+
+  const [beatIndex, setBeatIndex] = useState(0);
+  const [phase, setPhase] = useState("running"); // "running" | "reserve" | "counter" | "resolving"
+  const done = !!result;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+    if (headingRef.current) headingRef.current.focus();
+    if (soundOn) playDice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (result && soundOn) playStamp();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
+
+  const reserveDecided = !hasReserve || !!reserveChoice;
+  const counterDecided = !ca || !!counterChoice;
+
+  function afterNotes() {
+    const notes = [];
+    if (plan.intel && posture) {
+      const hinted = postures.find((p) => p.id === plan.intel.hintPostureId);
+      notes.push(
+        plan.intel.correct
+          ? "The intelligence summary was right."
+          : `The intelligence summary was wrong. It pointed to ${hinted ? hinted.name.toLowerCase() : "something else"}; the enemy's real setup was ${posture.name.toLowerCase()}.`
+      );
+    }
+    if (plan.assessment) {
+      const a = plan.assessment;
+      const shown = STAFF_VERDICT_BANDS[a.shownBand];
+      const truth = STAFF_VERDICT_BANDS[a.trueBand];
+      let line = a.accurate
+        ? `The staff assessment held up: they called the plan ${shown}, and it was.`
+        : `The staff assessment was wrong. They called the plan ${shown}; it was ${truth}.`;
+      line += ` (Staff reliability at the time: ${a.reliability}%.)`;
+      if (a.stale) line += " It was given on an earlier version of the plan.";
+      notes.push(line);
+    }
+    return notes;
+  }
+
+  function resolve() {
+    if (phase === "resolving" || done) return;
+    setPhase("resolving");
+    const finalAllocation = Object.fromEntries(
+      categories.map((c) => [c.id, (plan.allocation[c.id] || 0) + (reserveAlloc[c.id] || 0)])
+    );
+    // Round 13 fix: was categories.find() — the FIRST neglected category, in category-declaration
+    // order, regardless of how badly it was neglected. That's arbitrary text-picking (fine when
+    // only echo texture read it) but wrong once a grade needs to know severity. Now picks the
+    // WORST shortfall (most negative contribution), and neglectedAll is kept for the count.
+    const neglectedAll = categories.filter((c) => (finalContrib[c.id] || 0) < 0);
+    const neglected = neglectedAll.length
+      ? neglectedAll.reduce((worst, c) => ((finalContrib[c.id] || 0) < (finalContrib[worst.id] || 0) ? c : worst))
+      : null;
+    const flagsOut = {};
+    if (counter) flagsOut[`${config.id}Counter`] = counter.result;
+    if (neglected) flagsOut[`${config.id}PlanNeglected`] = neglected.id;
+    if (neglectedAll.length) flagsOut[`${config.id}NeglectedCount`] = neglectedAll.length;
+    if (plan.commanderId) flagsOut[`${config.id}PlanCommander`] = plan.commanderId;
+    onResolve({
+      bonus: clampBattleBonus(finalTotal),
+      finalAllocation,
+      contributions: finalContrib,
+      reservesHeld: reserveChoice === "hold" && counterChoice !== "reserve" ? plan.reserves : 0,
+      poolSize: plan.poolSize,
+      counter: counter ? { category: ca.category, result: counter.result } : null,
+      flagsOut,
+      notes: afterNotes(),
+    });
+  }
+  function advance() {
+    if (beatIndex < lastCatIndex) {
+      setBeatIndex((b) => b + 1);
+      if (soundOn) playDice();
+    } else if (!reserveDecided) {
+      setBeatIndex(lastCatIndex);
+      setPhase("reserve");
+    } else if (!counterDecided) {
+      setBeatIndex(lastBeat);
+      setPhase("counter");
+    } else {
+      setBeatIndex(lastBeat);
+      resolve();
+    }
+  }
+  function chooseReserve(choice) {
+    setReserveChoice(choice);
+    setBeatIndex(lastCatIndex + 1);
+    setPhase("running");
+    if (soundOn) playDice();
+  }
+  function chooseCounter(choice) {
+    setCounterChoice(choice);
+    setBeatIndex(lastCatIndex + (reserveChoice ? 2 : 1));
+    setPhase("running");
+    if (soundOn) playDice();
+  }
+  function skip() {
+    if (!reserveDecided) {
+      setBeatIndex(lastCatIndex);
+      setPhase("reserve");
+    } else if (!counterDecided) {
+      setBeatIndex(lastBeat);
+      setPhase("counter");
+    } else {
+      setBeatIndex(lastBeat);
+      resolve();
+    }
+  }
+
+  const total = result ? result.weights.reduce((a, v) => a + v, 0) : 1;
+  const finalPct = result ? result.weights.map((w) => Math.round((w / total) * 100)) : null;
+  const won = result ? result.ri === 0 : false;
+  const shownIndex = Math.min(beatIndex, lastBeat);
+  // Round 10: at the verdict the bar settles on what HAPPENED, not on the odds it was fought at.
+  // With odds hidden, a loss shown with the bar two-thirds toward your side read as a
+  // contradiction (caught in round-10 screenshots). A win pushes the boundary at least to 85, a
+  // loss back to at most 15, so the last movement is the decision itself.
+  const position = done ? (won ? Math.max(finalPct[0], 85) : Math.min(finalPct[0], 15)) : beats[shownIndex].position;
+  const visibleBeats = beats.slice(0, shownIndex + 1);
+  const verdicts = config.verdicts || ["The Attack Succeeds", "The Attack Fails"];
+
+  // Motion (round 9, item #9 — movement only).
+  const prevPosRef = useRef(50);
+  const delta = position - prevPosRef.current;
+  const [shaking, setShaking] = useState(false);
+  useEffect(() => {
+    const d = position - prevPosRef.current;
+    prevPosRef.current = position;
+    if (d <= -6) {
+      setShaking(true);
+      const t = setTimeout(() => setShaking(false), 450);
+      return () => clearTimeout(t);
+    }
+    return undefined;
+  }, [position]);
+  const moveMs = 400 + Math.min(Math.abs(delta), 25) * 32;
+  const moveEase = delta > 0 ? "cubic-bezier(0.34, 1.35, 0.64, 1)" : "cubic-bezier(0.55, 0, 0.35, 1)";
+  const barTransition = `width ${moveMs}ms ${moveEase}`;
+
+  const meterNames = { manpower: "Manpower", fuel: "Fuel", initiative: "Initiative" };
+  const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
+  const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
+  const caCat = ca ? categories.find((c) => c.id === ca.category) : null;
+  const choiceBtn = "text-left border px-3 py-2 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150";
+
+  return (
+    <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
+      <div className={`${paper} w-full max-w-2xl p-6 sm:p-8`} style={campaignPaperStyle(campaign.id, campaign.accent)}>
+        <div className="text-xs uppercase tracking-[0.25em] mb-1 opacity-70" style={labelStyle}>
+          Battle Report
+        </div>
+        <h2
+          ref={headingRef}
+          tabIndex={-1}
+          className={`text-2xl sm:text-3xl focus:outline-none ${done && config.verdictGrades && result.planCosts?.grade ? "mb-1" : "mb-4"}`}
+          style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600, color: done ? (won ? "#3a6b4f" : "#8a3a3a") : undefined }}
+        >
+          {done
+            ? verdicts[won ? 0 : 1]
+            : phase === "reserve"
+            ? "The Decisive Hour"
+            : phase === "counter"
+            ? "Enemy Counterattack"
+            : "The Battle Unfolds"}
+        </h2>
+        {/* Round 13, Craig's item #1 ("graded outcomes, not strict binary win/lose"): a second
+            line under the verdict heading, grading the SAME win/loss on plan quality — clean vs.
+            costly win, marginal vs. total loss — from computeBattlePlanCosts's grade (see its own
+            comment for the exact thresholds). Falls back to nothing (not a generic sentence) when
+            a battle config has no verdictGrades text yet, so this never half-renders for a future
+            battle that hasn't had its grade copy written. */}
+        {done && config.verdictGrades && result.planCosts?.grade && (
+          <p className="text-sm italic mb-4 opacity-80" style={bodyStyle}>
+            {config.verdictGrades[result.planCosts.grade]}
+          </p>
+        )}
+
+        <div className="mb-1 flex items-center justify-between text-xs uppercase tracking-[0.2em] font-semibold opacity-70" style={labelStyle}>
+          <span>Your Forces</span>
+          <span>Enemy Forces</span>
+        </div>
+        <div className={`relative mb-5 ${shaking ? "bar-shake" : ""}`}>
+          <div className="w-full h-8 border-2 overflow-hidden flex" style={{ borderColor: campaign.accent }}>
+            <div className="h-full" style={{ width: `${position}%`, backgroundColor: campaign.accent, transition: barTransition }} />
+            <div className="h-full" style={{ width: `${100 - position}%`, backgroundColor: "#5a2a2a", transition: barTransition }} />
+          </div>
+          <div
+            aria-hidden="true"
+            className="absolute"
+            style={{ top: -5, bottom: -5, width: 4, left: `calc(${position}% - 2px)`, transition: `left ${moveMs}ms ${moveEase}` }}
+          >
+            <span key={`${shownIndex}-${done ? 1 : 0}`} className="boundary-pulse block w-full h-full" style={{ backgroundColor: "#1a1a1a" }} />
+          </div>
+        </div>
+
+        <div className="mb-5 flex flex-col gap-2">
+          {visibleBeats.map((b, idx) => {
+            const t = timeFor(b);
+            const label = labelFor(b);
+            return (
+              <p
+                key={idx}
+                className={`dispatch-line text-sm ${idx === visibleBeats.length - 1 && !done ? "flashup-line" : "opacity-60"}`}
+                style={bodyStyle}
+              >
+                {t && (
+                  <span className="font-bold not-italic mr-1" style={labelStyle}>
+                    {t} —
+                  </span>
+                )}
+                {label && <span className="font-bold">{label}: </span>}
+                <span className="italic">{bodyFor(b)}</span>
+              </p>
+            );
+          })}
+        </div>
+
+        {done ? (
+          <>
+            {result.notes && result.notes.length > 0 && (
+              <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+                <div className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
+                  After-Action Notes
+                </div>
+                {result.notes.map((n, i) => (
+                  <p key={i} className="text-[13px] leading-snug mb-1" style={bodyStyle}>
+                    {n}
+                  </p>
+                ))}
+              </div>
+            )}
+            {result.planCosts && result.planCosts.lines.length > 0 && (
+              <div className="mb-5 border-2 px-3 py-2" style={{ borderColor: campaign.accent }}>
+                <div className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
+                  What the Plan Cost
+                </div>
+                {/* Every meter that has a reason is listed, even at a net of zero — otherwise a
+                    cost and a refund on the same meter would cancel into silence. */}
+                {Object.entries(result.planCosts.totals)
+                  .filter(([m]) => result.planCosts.lines.some((l) => l.meter === m))
+                  .map(([m, v]) => (
+                    <p key={m} className="text-[13px] leading-snug" style={bodyStyle}>
+                      <span className="font-bold">
+                        {meterNames[m]} {v > 0 ? "+" : v === 0 ? "±" : ""}
+                        {v}
+                      </span>{" "}
+                      — {result.planCosts.lines.filter((l) => l.meter === m).map((l) => l.reason).join("; ")}
+                    </p>
+                  ))}
+              </div>
+            )}
+            <button
+              onClick={onContinue}
+              className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold"
+              style={{ borderColor: campaign.accent, ...bodyStyle }}
+            >
+              See the Full Report →
+            </button>
+          </>
+        ) : phase === "reserve" ? (
+          <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
+            <p className="text-sm mb-3" style={bodyStyle}>
+              {plan.reserves} {plan.reserves === 1 ? "chit is" : "chits are"} waiting in reserve. Commit {plan.reserves === 1 ? "it" : "them"} now, or hold?
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {categories.map((c) => (
+                <button key={c.id} onClick={() => chooseReserve(c.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">Commit to {c.name}</div>
+                  {(plan.allocation[c.id] || 0) === 0 && <div className="text-[11px] opacity-80">Currently uncovered</div>}
+                </button>
+              ))}
+              <button onClick={() => chooseReserve("hold")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                <div className="text-sm font-semibold">Hold the reserve</div>
+                <div className="text-[11px] opacity-80">Keep it back for whatever comes next.</div>
+              </button>
+            </div>
+          </div>
+        ) : phase === "counter" ? (
+          <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
+            <p className="text-sm mb-1 italic" style={bodyStyle}>
+              {times?.counter ? <span className="font-bold not-italic mr-1" style={labelStyle}>{times.counter} —</span> : null}
+              {ca.warn[severity] || ca.warn[1]}
+            </p>
+            <p className="text-sm mb-3" style={bodyStyle}>
+              You have {counterStrengthBase} {counterStrengthBase === 1 ? "chit" : "chits"} of {caCat?.name || ca.category} to meet it.
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              <button onClick={() => chooseCounter("head")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                <div className="text-sm font-semibold">Meet it head-on</div>
+                <div className="text-[11px] opacity-80">Stand and fight with what's there.</div>
+              </button>
+              <button onClick={() => chooseCounter("give")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                <div className="text-sm font-semibold">Give ground and hold what you can</div>
+                <div className="text-[11px] opacity-80">A smaller loss, and a certain one.</div>
+              </button>
+              {canThrowReserve && (
+                <button onClick={() => chooseCounter("reserve")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">Throw the held reserve at it</div>
+                  <div className="text-[11px] opacity-80">
+                    {plan.reserves} more {plan.reserves === 1 ? "chit" : "chits"} alongside the {caCat?.name || ca.category} already there.
+                  </div>
+                </button>
+              )}
+            </div>
+          </div>
+        ) : phase === "resolving" ? (
+          <p className="text-sm italic opacity-70" style={bodyStyle}>
+            Waiting on the last reports…
+          </p>
+        ) : (
+          <>
+            <button
+              onClick={advance}
+              className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold"
+              style={{ borderColor: campaign.accent, ...bodyStyle }}
+            >
+              {beatIndex < lastCatIndex
+                ? "Next Report →"
+                : !reserveDecided
+                ? "The Decisive Hour →"
+                : !counterDecided
+                ? "Next Report →"
+                : "See the Verdict →"}
+            </button>
+            <button onClick={skip} className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-60 underline" style={labelStyle}>
+              Skip to Result
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProceed, isLast, soundOn, resolvedWeights, planCosts, battleNotes }) {
   const choice = stage.choices[choiceIndex];
   const eff = effectiveChoice(choice, rollIndex);
   const headingRef = useRef(null);
@@ -16976,7 +21754,11 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
           </div>
         )}
 
-        {eff.variantTitle && (
+        {/* Round 10 (Craig: a general wouldn't know the option he didn't get): after a Key
+            Battle Subgame battle (resolvedWeights set) this box is not shown at all — no odds,
+            no alternative outcome. The battle report already gave the verdict in the battle's
+            own words. Every ordinary concealRoll/contested choice elsewhere is unchanged. */}
+        {eff.variantTitle && !(choice.concealRoll && resolvedWeights) && (
           <div
             className="mb-4 border-2 border-black px-3 py-2 text-[13px] font-bold text-[#000000]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -16987,20 +21769,39 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
               // situation prose frames this as a genuine period intelligence gap, not ordinary
               // game-mechanical randomness. The reveal happens here, after the fact, once — the
               // "consistent post-hoc reveal" this choice type exists to formalize.
-              <>
-                <div className="uppercase tracking-widest text-[10px] opacity-60 mb-1">
-                  ⚄ Hidden at the time — the odds you couldn't see
-                </div>
+              //
+              // Round 8 (Craig, looking at this exact block after a Key Battle Subgame battle:
+              // "The two bits of grey text need to be removed - hidden at the time, and the is
+              // run"): scoped to resolvedWeights being set, i.e. only when this reveal follows a
+              // subgame battle. For those, BattleSimulationScreen already announced the odds and
+              // the verdict one screen ago — by the time the player reaches this screen "hidden
+              // at the time" is simply false (they've already seen it) and "This run: X" repeats
+              // what the simulation screen's own headline already said. For every OTHER
+              // concealRoll choice in the game (nine of them, none behind a subgame), this is
+              // still the first and only reveal, so both lines stay — removing them there would
+              // be a real loss, not decluttering.
+              resolvedWeights ? (
                 <div className="uppercase tracking-widest">
-                  {choice.uncertain
-                    .map((v) => {
-                      const total = choice.uncertain.reduce((a, x) => a + x.weight, 0);
-                      return `${Math.round((v.weight / total) * 100)}% ${v.title}`;
-                    })
-                    .join(" / ")}
+                  {(() => {
+                    const total = resolvedWeights.reduce((a, x) => a + x, 0);
+                    return choice.uncertain
+                      .map((v, vi) => `${Math.round((resolvedWeights[vi] / total) * 100)}% ${v.title}`)
+                      .join(" / ");
+                  })()}
                 </div>
-                <div className="uppercase tracking-widest text-[10px] opacity-60 mt-1">This run: {eff.variantTitle}</div>
-              </>
+              ) : (
+                <>
+                  <div className="uppercase tracking-widest text-[10px] opacity-60 mb-1">
+                    ⚄ Hidden at the time — the odds you couldn't see
+                  </div>
+                  <div className="uppercase tracking-widest">
+                    {choice.uncertain
+                      .map((v, vi) => `${Math.round((v.weight / choice.uncertain.reduce((a, x) => a + x.weight, 0)) * 100)}% ${v.title}`)
+                      .join(" / ")}
+                  </div>
+                  <div className="uppercase tracking-widest text-[10px] opacity-60 mt-1">This run: {eff.variantTitle}</div>
+                </>
+              )
             ) : (
               <div className="uppercase tracking-widest">⚄ Contested decision — resolved: {eff.variantTitle}</div>
             )}
@@ -17022,6 +21823,49 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
                 {v > 0 ? "▲" : "▼"} {label} {v > 0 ? "+" + v : v}
               </span>
             ))}
+          </div>
+        )}
+        {/* Round 9: a Key Battle Subgame plan's own cost (see computeBattlePlanCosts), applied
+            to the meters alongside the outcome's impact above — shown separately so the player
+            can tell the battle's historical consequence from the price of how they fought it. */}
+        {battleNotes && battleNotes.length > 0 && (
+          <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+            <div
+              className="text-[10px] uppercase tracking-widest font-bold opacity-70 mb-1"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              After-action notes
+            </div>
+            {battleNotes.map((n, i) => (
+              <p key={i} className="text-[13px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                {n}
+              </p>
+            ))}
+          </div>
+        )}
+        {planCosts && Object.values(planCosts.totals).some((v) => v !== 0) && (
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <span
+              className="text-[10px] uppercase tracking-widest font-bold opacity-70"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              The plan's own cost:
+            </span>
+            {Object.entries(planCosts.totals)
+              .filter(([, v]) => v !== 0)
+              .map(([m, v]) => (
+                <span
+                  key={m}
+                  className="inline-block border-2 px-2 py-1 text-xs uppercase tracking-widest font-bold"
+                  style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    borderColor: v > 0 ? "#2f4a3a" : "#7a2e2e",
+                    color: v > 0 ? "#2f4a3a" : "#7a2e2e",
+                  }}
+                >
+                  {v > 0 ? "▲" : "▼"} {m === "manpower" ? "Manpower" : m === "fuel" ? "Fuel" : "Initiative"} {v > 0 ? "+" + v : v}
+                </span>
+              ))}
           </div>
         )}
 
@@ -17926,6 +22770,20 @@ function WW2CommandInner() {
   const [position, setPosition] = useState(0);
   const [choiceIndex, setChoiceIndex] = useState(null);
   const [rollIndex, setRollIndex] = useState(null);
+  // Key Battle Subgame prototype: null outside one of these battles, otherwise
+  // { index, config } for the choice awaiting the Order of Battle allocation screen. See
+  // chooseOption and BattleAllocationScreen.
+  const [pendingBattle, setPendingBattle] = useState(null);
+  // Round 4 (Craig: "we need a battle simulation screen which after selecting them will show
+  // if we have won or lost", "the choices still don't feel linked to the outcome"). Set once a
+  // subgame-resolved choice's roll has actually happened — { weights, ri, uncertain } — and
+  // read by both BattleResultScreen (the new reveal-and-verdict beat) and OutcomeScreen (whose
+  // existing concealRoll "odds you couldn't see" reveal previously recomputed percentages from
+  // choice.uncertain[].weight directly, which is the PRE-subgame weight — a real accuracy gap
+  // this state also fixes, not just a UI addition: without it, a subgame-resolved battle's
+  // outcome screen showed the wrong odds). Cleared in proceed(), so it can never leak into a
+  // later, unrelated concealRoll choice's own reveal.
+  const [pendingBattleResult, setPendingBattleResult] = useState(null);
   const [rewinds, setRewinds] = useState(0);
   const [mode, setMode] = useState("open");
   // Grand Campaign prototype: null outside a Grand Campaign run, otherwise
@@ -17964,6 +22822,53 @@ function WW2CommandInner() {
   // briefing -> outcome -> next-briefing cycle, which would otherwise reset "last seen" on
   // every single decision and make every region flash as "changed" on every map open.
   const [lastSeenMapStatuses, setLastSeenMapStatuses] = useState(null);
+
+  // Key Battle Subgame prototype: dev-only quick-launch so a battle can be tested without
+  // playing through the whole campaign first (Craig, 2026-09-19: "a prototype to test without
+  // running through the whole campaign"). ?testBattle=<node id> on the dev build's URL (e.g.
+  // index.html?testBattle=kursk) jumps straight into that node in the German campaign's War
+  // Room, seeded with all three meters at +5 so the chit pool's meter-standing bonus chit is
+  // visible too, not just the mechanic at its bare minimum. Also reads window.__TEST_BATTLE__ —
+  // a plain global set by an inline <script> before this bundle loads — as an alternative to the
+  // query string, since a mobile-testing host (Craig: "give me a link to an artifact so I can
+  // test on mobile") may not reliably forward query params through to this page's own
+  // location.search. Gated by the same __KEY_BATTLE_SUBGAME__ flag as the subgame itself, so
+  // this can never fire in a shipped build regardless of what query string or global someone
+  // sets. Not wired to any menu — debug-only, and only meaningful on an unlisted dev build where
+  // the flag is true in the first place.
+  useEffect(() => {
+    if (!KEY_BATTLE_SUBGAME_ENABLED) return;
+    const testNode =
+      window.__TEST_BATTLE__ || new URLSearchParams(window.location.search).get("testBattle");
+    if (!testNode) return;
+    // Round 9: a second battle (Omaha) lives in the Allied campaign, so the launcher needs to
+    // know which campaign to open. window.__TEST_CAMPAIGN__ / ?testCampaign= override; otherwise
+    // inferred for the known battle nodes, defaulting to German (Kursk) as before.
+    const testCampaign =
+      window.__TEST_CAMPAIGN__ ||
+      new URLSearchParams(window.location.search).get("testCampaign") ||
+      (testNode === "omahaCrisis44" ? "allied" : "german");
+    clearActiveRun();
+    const seedMeters = { manpower: 5, fuel: 5, initiative: 5 };
+    setMode("open");
+    setFavor(5);
+    setDefiance(0);
+    setCampaignId(testCampaign);
+    setPosition(testNode);
+    setChoiceIndex(null);
+    setRollIndex(null);
+    setLog([]);
+    setFlags({});
+    setMeters(seedMeters);
+    setHistory([{ position: testNode, flags: {}, meters: seedMeters, log: [] }]);
+    setVisited([String(testNode)]);
+    setRewinds(0);
+    setSeenWireHeadlines([]);
+    setPendingWireHeadline(null);
+    setLastSeenMapStatuses(null);
+    setScreen("warroom");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const campaign = campaignId ? CAMPAIGNS[campaignId] : null;
   const stage = useMemo(() => {
@@ -18085,18 +22990,60 @@ function WW2CommandInner() {
     setScreen("briefing");
   }
 
-  function chooseOption(i) {
+  function chooseOption(i, subgamePayload) {
     const choice = stage.choices[i];
     if (mode === "iron" && choice.favor && choice.favor > favor) return;
+    // Key Battle Subgame prototype: intercept before anything else resolves (favor spend,
+    // impact, the roll itself) and hand off to the Order of Battle allocation screen. The
+    // second call — with subgamePayload defined — is the real resolution and falls through to
+    // the normal logic below, now with that screen's result folded into the roll.
+    if (KEY_BATTLE_SUBGAME_ENABLED && choice.keyBattleSubgame && subgamePayload === undefined) {
+      // Round 9: base weights captured here so the battle report can replay the nudge before the
+      // roll exists — the roll now happens at the END of the report (see onResolve), not at
+      // commit, so the mid-battle reserve decision can still change it.
+      setPendingBattle({
+        index: i,
+        config: choice.keyBattleSubgame,
+        baseWeights: (choice.uncertain || []).map((u) => u.weight),
+      });
+      setPendingBattleResult(null);
+      setScreen("battleAllocation");
+      return;
+    }
+    // Round 6: onCommit now hands back the full planning picture (bonus, allocation, commander,
+    // approach), not just a bare number — BattleSimulationScreen's animated reveal reads
+    // allocation to weight its flashups. `subgamePayload` is only undefined on the intercept
+    // call above; once defined (even with bonus: 0) this is the real resolution.
+    const isSubgameResolution = subgamePayload !== undefined;
+    const subgameBonus = subgamePayload?.bonus ?? 0;
     if (mode === "iron" && choice.favor) setFavor((f) => f - choice.favor);
     let ri = null;
+    let subgameResolvedWeights = null;
+    // Round 7: the pre-bonus weights, kept aside so BattleSimulationScreen can replay the same
+    // clamp math chooseOption itself uses for the real nudge below, one category's contribution
+    // at a time, instead of guessing at it from the final numbers alone. Declared out here (not
+    // inside the choice.uncertain block below) so it's still in scope down at
+    // setPendingBattleResult.
+    let baseWeights = null;
     if (choice.uncertain) {
       if (soundOn) playDice();
-      const totalWeight = choice.uncertain.reduce((a, v) => a + v.weight, 0);
+      let weights = choice.uncertain.map((u) => u.weight);
+      baseWeights = weights.slice();
+      if (isSubgameResolution && subgameBonus && weights.length === 2) {
+        // Order of Battle subgame result: nudges a two-outcome contested roll the same way a
+        // Historical Divergence fork nudges one (see forkPanthersFixed in the kursk node),
+        // clamped so the subgame can tilt hard but never guarantee or foreclose either side.
+        weights = [
+          Math.max(2, Math.min(98, weights[0] + subgameBonus)),
+          Math.max(2, Math.min(98, weights[1] - subgameBonus)),
+        ];
+      }
+      if (isSubgameResolution) subgameResolvedWeights = weights;
+      const totalWeight = weights.reduce((a, v) => a + v, 0);
       let roll = Math.random() * totalWeight;
       ri = 0;
-      for (let k = 0; k < choice.uncertain.length; k++) {
-        roll -= choice.uncertain[k].weight;
+      for (let k = 0; k < weights.length; k++) {
+        roll -= weights[k];
         if (roll <= 0) {
           ri = k;
           break;
@@ -18104,12 +23051,41 @@ function WW2CommandInner() {
       }
     }
     const eff = effectiveChoice(choice, ri);
+    // Round 9, Craig's item #3: a subgame battle's plan now has its own campaign cost on top of
+    // the outcome's historical impact — see computeBattlePlanCosts. Computed here, where the
+    // roll result is finally known, from the final allocation the battle report handed back.
+    // Moved up (round 13) from just before setFlags() to right here, so its `grade` (item #1) can
+    // be folded into mergedFlags in the same pass as everything else below, instead of needing a
+    // second setFlags call.
+    const planCosts =
+      subgameResolvedWeights && subgamePayload.finalAllocation
+        ? computeBattlePlanCosts({
+            categories: keyBattleCategories(choice.keyBattleSubgame),
+            finalAllocation: subgamePayload.finalAllocation,
+            poolSize: subgamePayload.poolSize,
+            contributions: subgamePayload.contributions || {},
+            won: ri === 0,
+            reservesHeld: subgamePayload.reservesHeld || 0,
+            counter: subgamePayload.counter || null,
+          })
+        : null;
     // Merge synchronously (not via the setFlags callback) so the hard-mode ceiling checks
     // below can see the true resulting state before it's committed.
     let mergedFlags = { ...flags };
     if (choice.setFlags) mergedFlags = { ...mergedFlags, ...choice.setFlags };
     if (choice.uncertain && ri != null && choice.uncertain[ri].setFlags) {
       mergedFlags = { ...mergedFlags, ...choice.uncertain[ri].setFlags };
+    }
+    // Round 10 (item 8): how a Key Battle Subgame battle was fought — counterattack result,
+    // the arm left uncovered, the commander — carried into the next node's text.
+    if (subgamePayload && subgamePayload.flagsOut) {
+      mergedFlags = { ...mergedFlags, ...subgamePayload.flagsOut };
+    }
+    // Round 13, item #1: the plan's quality grade (clean/costly/marginal/total), so item #9's
+    // downstream nodes can read HOW a battle went, not just whether — same flag family as
+    // Counter/PlanNeglected/PlanCommander above.
+    if (planCosts && planCosts.grade) {
+      mergedFlags = { ...mergedFlags, [`${choice.keyBattleSubgame.id}Grade`]: planCosts.grade };
     }
     // Hard-mode ceilings are a hard stop, not just a worse roll from here on. Hitting the cap
     // itself is the event — the apparatus (NKVD) or the alliance (coalition) acts on it directly,
@@ -18142,19 +23118,40 @@ function WW2CommandInner() {
       }
     }
     setFlags(mergedFlags);
-    if (eff.impact) {
+    const planTotals = planCosts ? planCosts.totals : { manpower: 0, fuel: 0, initiative: 0 };
+    if (eff.impact || planCosts) {
+      const imp = eff.impact || {};
       setMeters((prev) => ({
-        manpower: Math.max(-10, Math.min(10, prev.manpower + (eff.impact.manpower || 0))),
-        fuel: Math.max(-10, Math.min(10, prev.fuel + (eff.impact.fuel || 0))),
-        initiative: Math.max(-10, Math.min(10, prev.initiative + (eff.impact.initiative || 0))),
+        manpower: Math.max(-10, Math.min(10, prev.manpower + (imp.manpower || 0) + planTotals.manpower)),
+        fuel: Math.max(-10, Math.min(10, prev.fuel + (imp.fuel || 0) + planTotals.fuel)),
+        initiative: Math.max(-10, Math.min(10, prev.initiative + (imp.initiative || 0) + planTotals.initiative)),
       }));
     }
     setRollIndex(ri);
     setChoiceIndex(i);
-    setScreen("outcome");
+    // A subgame-resolved roll stays on the battle report, which is already showing (round 9:
+    // the report calls this at its own end via onResolve and then renders the verdict from
+    // pendingBattleResult). The real, post-allocation weights also go forward to OutcomeScreen's
+    // own reveal (round 4's stale-odds fix), and planCosts to its impact box.
+    if (subgameResolvedWeights) {
+      setPendingBattleResult({
+        weights: subgameResolvedWeights,
+        ri,
+        uncertain: choice.uncertain,
+        baseWeights,
+        planCosts,
+        notes: subgamePayload.notes || [],
+      });
+      setScreen("battleResult");
+    } else {
+      setScreen("outcome");
+    }
   }
 
   function proceed() {
+    // Leaving the outcome screen behind — clear any subgame result so it can never leak into a
+    // later, unrelated concealRoll choice's own "odds you couldn't see" reveal.
+    if (pendingBattleResult) setPendingBattleResult(null);
     const choice = stage.choices[choiceIndex];
     const eff = effectiveChoice(choice, rollIndex);
     const histChoice = stage.choices.find((c) => c.historical);
@@ -18464,6 +23461,31 @@ function WW2CommandInner() {
           transform-origin: center;
           animation: mapArrivalPulse 0.9s ease-out forwards;
         }
+        @keyframes flashupFade {
+          0% { opacity: 0; transform: translateY(4px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        /* Round 9 fix: this used to end at opacity 0 (a round-6 leftover, when a flashup was a
+           transient one-liner) with fill-mode both — so ever since round 8 made the report a
+           persistent log, the NEWEST line faded out 650ms after appearing. Now fades in and
+           stays. */
+        .flashup-line { animation: flashupFade 450ms ease-out both; }
+        /* Round 9 motion (Craig's item #9, movement only): boundary marker pulse on every beat,
+           and a short shake when a beat swings the bar hard against the player. Both CSS, so the
+           reducedMotion override below neutralizes them. */
+        @keyframes boundaryPulse {
+          0% { transform: scaleY(1.8); }
+          100% { transform: scaleY(1); }
+        }
+        .boundary-pulse { animation: boundaryPulse 600ms ease-out both; transform-origin: center; }
+        @keyframes barShake {
+          0%, 100% { transform: translateX(0); }
+          20% { transform: translateX(-5px); }
+          40% { transform: translateX(5px); }
+          60% { transform: translateX(-3px); }
+          80% { transform: translateX(2px); }
+        }
+        .bar-shake { animation: barShake 420ms ease-in-out; }
       `}</style>
       {reducedMotion && (
         <style>{`
@@ -18484,6 +23506,44 @@ function WW2CommandInner() {
             setSeenWireHeadlines((prev) => [...prev, pendingWireHeadline.id]);
             setPendingWireHeadline(null);
             setScreen("briefing");
+          }}
+        />
+      )}
+      {screen === "battleAllocation" && campaign && pendingBattle && (
+        <BattleAllocationScreen
+          campaign={campaign}
+          config={pendingBattle.config}
+          meters={meters}
+          soundOn={soundOn}
+          // Round 13, Craig's item #8 ("wire the subgame into difficulty — something minor is
+          // fine"). Deliberately small: doesn't touch allocation math, postures, or the roll —
+          // just extends Easy Command's existing "training wheels... full visibility" philosophy
+          // (warRoomModeInfo's own "easy" text) to the one piece of hidden information the
+          // subgame has, the free intelligence hint. See BattleAllocationScreen's drawIntel call.
+          easyMode={mode === "easy"}
+          onSpendInitiative={() =>
+            setMeters((m) => ({ ...m, initiative: Math.max(-10, Math.min(10, m.initiative - 1)) }))
+          }
+          onCommit={(plan) => {
+            setPendingBattle((pb) => ({ ...pb, plan }));
+            setPendingBattleResult(null);
+            setScreen("battleResult");
+          }}
+        />
+      )}
+      {screen === "battleResult" && campaign && stage && pendingBattle && pendingBattle.plan && (
+        <BattleSimulationScreen
+          campaign={campaign}
+          config={pendingBattle.config}
+          plan={pendingBattle.plan}
+          baseWeights={pendingBattle.baseWeights}
+          uncertain={stage.choices[pendingBattle.index].uncertain}
+          result={pendingBattleResult}
+          soundOn={soundOn}
+          onResolve={(payload) => chooseOption(pendingBattle.index, payload)}
+          onContinue={() => {
+            setPendingBattle(null);
+            setScreen("outcome");
           }}
         />
       )}
@@ -18521,6 +23581,9 @@ function WW2CommandInner() {
           onProceed={proceed}
           soundOn={soundOn}
           isLast={campaign.dynamic ? stage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
+          resolvedWeights={pendingBattleResult ? pendingBattleResult.weights : null}
+          planCosts={pendingBattleResult ? pendingBattleResult.planCosts : null}
+          battleNotes={pendingBattleResult ? pendingBattleResult.notes : null}
         />
       )}
       {screen === "end" && campaign && (

@@ -1,0 +1,17 @@
+node_modules/
+tools/campaigns_extracted.js
+tools/*.checktmp.js
+*.log
+dist/
+__pycache__/
+
+# Key Battle Subgame prototype (rounds 7-11): generated/regenerable test-rig
+# output, not authored source. artifact_publish/index.html (the hand-written
+# mobile picker page) is the one file in that folder worth tracking.
+artifact_publish/bundle.js
+artifact_publish/output.css
+artifact_publish/theme.mp3
+artifact_publish/assets/
+handoff/
+docs-out/
+scratch/

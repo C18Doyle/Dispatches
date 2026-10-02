@@ -8,5 +8,5 @@
     "module": "esnext",
     "moduleResolution": "bundler"
   },
-  "include": ["src/engine/**/*.ts"]
+  "include": ["src/**/*.ts"]
 }

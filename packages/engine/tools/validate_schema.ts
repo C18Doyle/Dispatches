@@ -7,7 +7,7 @@
  *   npx tsx scripts/validate_schema.ts <game>
  * Keep the field tables below in step with schema.ts.
  */
-import { loadDefinition } from "./lib/load_definition";
+import { loadDefinition } from "./load_definition";
 
 const game = process.argv[2] ?? "frankenstein";
 const def = loadDefinition(game);

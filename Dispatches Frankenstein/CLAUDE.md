@@ -1,15 +1,15 @@
 # Dispatches: Frankenstein
 
-Document-driven branching strategy game (React + TypeScript, built with esbuild + Tailwind into one HTML file). Part of the Dispatches series; the engine in `src/engine/` is game-agnostic and meant to be shared.
+Document-driven branching strategy game (React + TypeScript, built with esbuild + Tailwind into one HTML file). Part of the Dispatches series; the engine is the shared package `../packages/engine` (imported as `@dispatches/engine`). Read its CLAUDE.md before changing it: other games depend on it.
 
 ## Layout
-- `src/engine/` pure engine: `schema.ts` (the contract), `reducer.ts`, `rules.ts`, `conditions.ts`, `epilogue.ts`. Import it only via `src/engine/index`.
+- Engine: `../packages/engine/src/` (`schema.ts` is the contract). Import it only as `"@dispatches/engine"`, never by path.
 - `src/content/frankenstein/` game data: `config.json` (rules), `events.json` (nodes, interludes, endings), `flavor.json` (prologue, help, gossip, epilogues).
 - `src/game.ts` the only file that binds this game's JSON to the engine (`def`).
 - `src/App.tsx`, `main.tsx`, `sfx.ts`, `index.css` UI. `scripts/` validators and tests. `tests/fixtures/baseline.json` recorded behaviour.
 
 ## Hard rules
-1. `src/engine/` imports nothing outside `src/engine/`: no React, no DOM or browser globals, no storage, no JSON, no `Math.random`/`Date`. Randomness arrives in the action (`CONDUCT_EXPERIMENT.roll`).
+1. The engine imports nothing outside its own folder: no React, no DOM or browser globals, no storage, no JSON, no `Math.random`/`Date`. Randomness arrives in the action (`CONDUCT_EXPERIMENT.roll`).
 2. State changes only through `reduce(def, state, action)`. UI code never assigns into state or mutates its arrays; it dispatches actions. UI-only state (settings, overlays, panels, audio) lives in React `useState`, never in `GameState`.
 3. Every JSON file must conform to `schema.ts`. Change the schema first, then the JSON, then `scripts/validate_schema.ts` if a field table changed.
 4. Rules and numbers belong in `config.json`, not in code. Resource bounds, crisis/failure thresholds, difficulty behaviour, interlude triggers and Fritz's favor are config. Do not hardcode resource names or ranges in the engine or UI.
@@ -20,7 +20,7 @@ Document-driven branching strategy game (React + TypeScript, built with esbuild 
 
 ## Commands
 - `npm test` everything below, in order. Run before finishing any change.
-- `npm run typecheck` app (DOM) and engine (`tsconfig.engine.json`, no DOM lib).
+- `npm run typecheck` app (DOM) and engine (its own tsconfig, no DOM lib).
 - `npm run check:boundaries` enforces rules 1 and 2 by source scan.
 - `npm run validate:schema` enforces rule 3 (fields, types, cross-references).
 - `npm run verify:baseline` enforces rule 8.
@@ -29,12 +29,12 @@ Document-driven branching strategy game (React + TypeScript, built with esbuild 
 
 ## Working here cheaply
 - Story or balance edit: read only `events.json` or `config.json`, then run `npm run validate:schema` and `npm run validate`. Do not open `App.tsx`.
-- Engine edit: read `schema.ts` and the one module involved.
+- Engine edit: read the engine CLAUDE.md, `schema.ts` and the one module involved.
 - `events.json` is about 115 KB; use Grep or ranged Read, never a whole-file Read.
 - Option fields are in `schema.ts` (`Option`). Node ids are strings; ending ids must start with `ENDING_`.
 
 ## Gotchas
 - Saves from before the engine split are discarded: the run-save key is now `frankenstein_run_save_v2`. Change that key whenever `GameState` changes shape.
-- `src/engine.ts` was removed; `src/engine/` is the folder. Always import `./engine/index`.
+- The engine moved out to `../packages/engine`; the old `src/engine/` and `src/engine.ts` no longer exist. A schema or reducer change affects every game: follow the amend steps in the engine CLAUDE.md.
 - `build:audio` and the other scripts must stay cross-platform (Windows): no `mkdir -p`, `cp`.
 - This folder syncs to OneDrive. Exclude `node_modules/` from sync if it gets slow.

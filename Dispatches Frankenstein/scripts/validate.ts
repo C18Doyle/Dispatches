@@ -4,8 +4,8 @@
  * so this can't silently drift from what ships. Reports measured counts, per
  * Craig's own validation standard: never "looks good" without numbers.
  */
-import { clampTo, isOptionLocked, isOptionFlagLocked } from "../src/engine/index";
-import { loadDefinition } from "./lib/load_definition";
+import { clampTo, isOptionLocked, isOptionFlagLocked } from "@dispatches/engine";
+import { loadDefinition } from "../../packages/engine/tools/load_definition";
 
 const def = loadDefinition("frankenstein");
 const NODES = def.content.nodes;

@@ -10,8 +10,8 @@ import {
   isOptionLocked,
   isOptionFlagLocked,
   effectiveRollChance,
-} from "./engine/index";
-import type { Action, Difficulty, GameState, UiPrefs } from "./engine/index";
+} from "@dispatches/engine";
+import type { Action, Difficulty, GameState, UiPrefs } from "@dispatches/engine";
 import { def } from "./game";
 import * as sfx from "./sfx";
 

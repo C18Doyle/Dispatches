@@ -8,11 +8,11 @@ import { readFileSync } from "node:fs";
 import {
   reduce, createInitialState, resolveEnding, gossipPool, creatureReportPool,
   type Action, type GameDefinition, type GameState,
-} from "../src/engine/index";
-import { hashProjection, type Baseline, type Projection, type RecordedAction } from "./lib/projection";
-import { loadDefinition } from "./lib/load_definition";
+} from "../src/index";
+import { hashProjection, type Baseline, type Projection, type RecordedAction } from "./projection";
+import { loadDefinition } from "./load_definition";
 
-const def: GameDefinition = loadDefinition("frankenstein");
+const def: GameDefinition = loadDefinition(process.argv[2] ?? "frankenstein");
 const baseline: Baseline = JSON.parse(readFileSync("tests/fixtures/baseline.json", "utf8"));
 
 const distinctSorted = (lines: string[]) => [...new Set(lines)].sort();
