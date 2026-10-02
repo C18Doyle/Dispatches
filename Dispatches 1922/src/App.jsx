@@ -6106,6 +6106,7 @@ export { modWeight, meterPct, applyImpact, clampTriangle, resolveNode };
 // gambling," per your instruction — not revealed only after the fact.
 
 import React, { useState, useEffect } from "react";
+import { resolveChoice, afterOutcome } from "./logic";
 
 // Real Google Fonts, loaded once at the App root. This is a self-contained
 // convenience for previewing the file as-is — in the real production build,
@@ -8682,123 +8683,51 @@ export function App() {
     // silently apply an order the player wasn't actually shown as available.
     if (typeof choice.gate === "function" && !choice.gate(meters)) return;
     const c = CAMPAIGNS[campaignId];
-    let text = choice.outcome;
-    let impact = choice.impact || {};
-    let newFlags = { ...(choice.setFlags || {}) };
-    // A roll outcome may carry its own aftermath; if it does it supersedes
-    // the choice's, since what actually followed depends on how it landed.
-    let rolledAftermath = "";
-
-    if (choice.uncertain) {
-      const roll = Math.random() * 100;
-      let cumulative = 0;
-      let picked = choice.uncertain[choice.uncertain.length - 1];
-      for (const entry of choice.uncertain) {
-        cumulative += entry.weight;
-        if (roll <= cumulative) {
-          picked = entry;
-          break;
-        }
-      }
-      text = `${choice.outcome}\n\n[ROLL RESULT: ${picked.title}]\n${picked.outcome}`;
-      rolledAftermath = picked.aftermath || "";
-      // Uncertain-branch impacts stack on top of the choice's base impact —
-      // matches the schema, where `impact` is the deterministic part and each
-      // `uncertain` entry's `impact` is the additional roll-dependent delta.
-      impact = { ...impact };
-      for (const k of Object.keys(picked.impact || {})) {
-        impact[k] = (impact[k] || 0) + picked.impact[k];
-      }
-      // The rolled outcome's own setFlags take precedence over — and merge
-      // on top of — the base choice's flags, since the roll result is more
-      // specific information than "which choice was picked."
-      newFlags = { ...newFlags, ...(picked.setFlags || {}) };
-    }
-
-    const nextMeters = applyImpact(meters, impact);
-    const clamped = clampTriangle(
-      nextMeters,
-      c.triangleAxes.map((a) => a.key)
-    );
-    // Hard mode is deliberately NOT part of the logistical triangle, and no
-    // longer a fractional 0-5 meter accumulated from many scattered small
-    // deltas. It's now exactly what it looks like on screen: 5 discrete
-    // points of capital, spent one at a time on choices explicitly marked
-    // costsCapital: true — a curated set of 5 per campaign, each a real,
-    // significant moment of central authority overriding regional autonomy.
-    // Uncertain-roll outcomes never spend capital — capital is a decision
-    // the player makes by picking a labeled choice, not something a dice
-    // roll should silently take from them.
-    //
-    // Gated behind hardModeEnabled: capital does not move, and cannot
-    // trigger the collapse ending, unless the player explicitly opted into
-    // hard mode. A regular playthrough never touches it.
-    const spendsCapital = hardModeEnabled && choice.costsCapital === true;
-    const nextHardMode = spendsCapital ? Math.min(c.hardMode.maxCap, hardModeValue + 1) : hardModeValue;
-
-    // Real deltas, post-clamp — if a meter was already at +10 and this
-    // choice would push it further, the displayed delta reflects what
-    // actually happened (possibly 0), not what the raw impact number said.
-    const triangleDeltas = {};
-    for (const axis of c.triangleAxes.map((a) => a.key)) {
-      const d = clamped[axis] - meters[axis];
-      if (d !== 0) triangleDeltas[axis] = d;
-    }
-    setLastDeltas({ triangle: triangleDeltas });
-
-    setMeters(clamped);
-    setHardModeValue(nextHardMode);
-    setHardModeMaxed(hardModeEnabled && nextHardMode >= c.hardMode.maxCap);
-    setFlagsState((prev) => ({ ...prev, ...newFlags }));
-    // A choice may divert to a different destination when the POST-choice
-    // meter state is catastrophic — the mid-war collapse endings. Evaluated
-    // against `clamped`, not the pre-choice meters, so the diversion reflects
-    // what this decision actually cost. Returns null to fall through to the
-    // normal `next`.
-    let destination = choice.next;
-    if (typeof choice.nextIf === "function") {
-      const diverted = choice.nextIf(clamped);
-      if (diverted) destination = diverted;
-    }
+    // All the arithmetic (roll, impact, clamp, capital, destination) lives in logic.ts.
+    const res = resolveChoice({
+      choice,
+      meters,
+      campaign: c,
+      hardModeEnabled,
+      hardModeValue,
+      rand: Math.random,
+      helpers: { applyImpact, clampTriangle },
+    });
+    // Explicit deltas (post-clamp) so the Outcome screen can say plainly what changed.
+    setLastDeltas({ triangle: res.triangleDeltas });
+    setMeters(res.meters);
+    setHardModeValue(res.hardModeValue);
+    setHardModeMaxed(res.hardModeMaxed);
+    setFlagsState((prev) => ({ ...prev, ...res.newFlags }));
+    const destination = res.destination;
     if (destination && destination !== "END_STUB") {
       setVisitedNodes((prev) => (prev.includes(destination) ? prev : [...prev, destination]));
-      // Round 23: `destination` can itself be an ending id (a choice's
-      // `next` sometimes points straight at one) — classify against
-      // ENDING_CLASSIFICATION rather than assuming "not END_STUB" means
-      // "atlas node," so an ending reached this way still lands in the
-      // endings half of the discovery log, not the nodes half.
-      const kind = c.ENDING_CLASSIFICATION && c.ENDING_CLASSIFICATION[destination] ? "endings" : "nodes";
-      setDiscovery((prev) => addDiscovered(prev, campaignId, kind, destination));
+      // `destination` can itself be an ending id; res.discoveryKind classifies it so an ending
+      // reached this way still lands in the endings half of the discovery log.
+      setDiscovery((prev) => addDiscovered(prev, campaignId, res.discoveryKind, destination));
     }
-    setResolvedText(text);
-    setResolvedAftermath(rolledAftermath || choice.aftermath || "");
+    setResolvedText(res.text);
+    setResolvedAftermath(res.aftermath);
     setScreen("outcome");
     setNodeId(destination);
   }
 
   function handleContinueFromOutcome() {
     const c = CAMPAIGNS[campaignId];
-    if (hardModeMaxed) {
-      // Hard-mode collapse takes priority over whatever node was actually
-      // next — the run ends in mutiny/betrayal/political removal regardless
-      // of what the player would otherwise have seen next.
-      setNodeId(c.hardMode.maxEndingId);
+    const next = afterOutcome({ campaign: c, nodeId, flags, meters, hardModeMaxed });
+    if (next.screen === "ending") {
+      if (next.hardCollapse) {
+        // Hard-mode collapse takes priority over whatever node was actually next.
+        setNodeId(next.endingId);
+        setDiscovery((prev) => addDiscovered(prev, campaignId, "endings", next.endingId));
+      }
       setScreen("ending");
       clearSave(); // run is over — nothing left to resume
-      setDiscovery((prev) => addDiscovered(prev, campaignId, "endings", c.hardMode.maxEndingId));
-      return;
-    }
-    const nextNode = nodeId && nodeId !== "END_STUB" ? c.resolveNode(nodeId, flags, meters) : null;
-    if (nextNode && nextNode.isEnding) {
-      setScreen("ending");
-      clearSave(); // run is over — nothing left to resume
-    } else if (nodeId === "END_STUB") {
+    } else if (next.screen === "end") {
       setScreen("end");
       clearSave(); // demo chain ends here — same "run is over" case
-    } else if (nextNode && nextNode.bulletin) {
-      setScreen("bulletin");
     } else {
-      setScreen("briefing");
+      setScreen(next.screen);
     }
   }
 

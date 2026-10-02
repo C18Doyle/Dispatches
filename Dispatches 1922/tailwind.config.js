@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./dispatches-1917.jsx", "./entry.jsx"],
+  content: ["./src/**/*.jsx", "./src/**/*.ts"],
   darkMode: false,
   theme: {
     extend: {},

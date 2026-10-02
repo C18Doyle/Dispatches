@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./dispatches-1917.jsx";
+import App from "./App.jsx";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
