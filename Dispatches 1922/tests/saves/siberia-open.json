@@ -1,0 +1,14 @@
+{
+ "id": "siberia-open",
+ "seed": 1,
+ "storage": {
+  "dispatches1922_discovered_v1": "{\"schemaVersion\":1,\"nodes\":{\"siberia\":{\"omskCoup18\":true,\"springOffensive19\":true,\"ufaCounteroffensive19\":true,\"railPriority19\":true}},\"endings\":{}}",
+  "dispatches1922_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"siberia\",\"nodeId\":\"railPriority19\",\"meters\":{\"manpower\":0,\"materiel\":0,\"rail\":0},\"flags\":{\"omskCoupChoice\":\"accept\",\"offensiveDirection\":\"north\",\"uralsStand\":false},\"visitedNodes\":[\"omskCoup18\",\"springOffensive19\",\"ufaCounteroffensive19\",\"railPriority19\"],\"hardModeValue\":0,\"hardModeMaxed\":false,\"hardModeEnabled\":false,\"screen\":\"briefing\",\"savedAt\":1790962035857}"
+ },
+ "expect": {
+  "menuHash": "yO8GBQOi:529",
+  "resumeControl": "▶ RESUME COMMAND",
+  "afterResumeHash": "6uL8YGby:1723",
+  "errors": []
+ }
+}

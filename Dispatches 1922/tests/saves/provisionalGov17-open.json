@@ -1,0 +1,14 @@
+{
+ "id": "provisionalGov17-open",
+ "seed": 1,
+ "storage": {
+  "dispatches1922_discovered_v1": "{\"schemaVersion\":1,\"nodes\":{\"provisionalGov17\":{\"aprilCrisis17\":true,\"juneOffensive17\":true,\"julyDays17\":true,\"kornilovAffair17\":true}},\"endings\":{}}",
+  "dispatches1922_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"provisionalGov17\",\"nodeId\":\"kornilovAffair17\",\"meters\":{\"authority\":-2,\"frontDiscipline\":-3,\"sovietRelations\":-6},\"flags\":{\"aprilCrisisChoice\":\"standFirm\",\"offensiveChoice\":\"pressForward\",\"offensiveOutcome\":\"routed\",\"julyDaysChoice\":\"outrightBan\"},\"visitedNodes\":[\"aprilCrisis17\",\"juneOffensive17\",\"julyDays17\",\"kornilovAffair17\"],\"hardModeValue\":0,\"hardModeMaxed\":false,\"hardModeEnabled\":false,\"screen\":\"bulletin\",\"savedAt\":1790962028086}"
+ },
+ "expect": {
+  "menuHash": "_4F1z7m0:523",
+  "resumeControl": "▶ RESUME COMMAND",
+  "afterResumeHash": "HwBtI1ip:1669",
+  "errors": []
+ }
+}

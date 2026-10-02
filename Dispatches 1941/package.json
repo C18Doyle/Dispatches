@@ -12,8 +12,10 @@
     "assemble": "node ../packages/testkit/src/split.mjs assemble",
     "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip",
     "check:structure": "node tools/check-structure.mjs",
-    "test:fast": "npm run build && npm run typecheck && npm run check:structure && npm run roundtrip && npm run verify:baseline",
-    "release": "node ../packages/testkit/src/release.mjs"
+    "test:fast": "npm run build && npm run typecheck && npm run check:structure && npm run roundtrip && npm run verify:baseline && npm run test:saves",
+    "release": "node ../packages/testkit/src/release.mjs",
+    "test:saves": "node ../packages/testkit/src/cli.mjs saves-verify",
+    "baseline:accept": "node ../packages/testkit/src/cli.mjs accept"
   },
   "license": "UNLICENSED",
   "devDependencies": {

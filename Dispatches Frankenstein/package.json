@@ -9,13 +9,14 @@
     "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts frankenstein",
     "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts frankenstein",
     "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
-    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run verify:baseline && npm run validate",
+    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run verify:baseline && npm run validate && npm run test:saves",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
     "build:audio": "node scripts/copy_audio.mjs",
     "build": "npm run build:css && npm run build:js && npm run build:audio && node scripts/inline.mjs",
     "test:fast": "npm test",
-    "release": "node ../packages/testkit/src/release.mjs"
+    "release": "node ../packages/testkit/src/release.mjs",
+    "test:saves": "tsx scripts/test_saves.ts"
   },
   "dependencies": {
     "react": "^18.3.1",

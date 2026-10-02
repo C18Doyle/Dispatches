@@ -11,7 +11,8 @@
     "verify:baseline": "node ../packages/testkit/src/cli.mjs verify",
     "test": "npm run build && npm run smoke && npm run render && npm run roundtrip && npm run verify:baseline",
     "test:fast": "npm test",
-    "release": "node ../packages/testkit/src/release.mjs"
+    "release": "node ../packages/testkit/src/release.mjs",
+    "baseline:accept": "node ../packages/testkit/src/cli.mjs accept"
   },
   "license": "UNLICENSED",
   "dependencies": {

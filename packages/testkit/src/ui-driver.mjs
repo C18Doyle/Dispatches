@@ -8,8 +8,9 @@
 // the page text per click (`hashes`), and `compare` only trusts those hashes plus `crashed`/`error`.
 // Keep that stable, or every game's baseline has to be re-recorded.
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { recordSaves, verifySaves } from "./save-compat.mjs";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -25,7 +26,7 @@ export const mulberry = (seed) => {
 };
 
 /** Builds the page context handed to a game's hooks. */
-function makeContext(cfg, bundle, seed) {
+export function makeContext(cfg, bundle, seed, storage) {
   const dom = new cfg.JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', {
     runScripts: "outside-only",
     pretendToBeVisual: true,
@@ -119,6 +120,8 @@ function makeContext(cfg, bundle, seed) {
       w.close();
     },
   };
+  // A saved game from an earlier build: put it in localStorage before the page script runs.
+  if (storage) for (const [k, v] of Object.entries(storage)) w.localStorage.setItem(k, v);
   try {
     w.eval(bundle);
   } catch (e) {
@@ -283,6 +286,39 @@ export async function main(cfg, argv) {
     process.exit(compare(baseline, join(runs, "candidate")) ? 1 : 0);
   } else if (mode === "compare") {
     process.exit(compare(a ?? baseline, b ?? join(runs, "candidate")) ? 1 : 0);
+  } else if (mode === "accept") {
+    // Makes the last `verify` run (tests/ui-runs/candidate) the new baseline, after you have read the diff.
+    const cand = join(runs, "candidate");
+    if (!existsSync(cand)) {
+      console.error('no candidate runs: run "npm run verify:baseline" first (it fails when screens changed), read the differences, then accept');
+      process.exit(2);
+    }
+    const names = readdirSync(cand).filter((f) => f.endsWith(".json"));
+    let changed = 0;
+    let crashes = 0;
+    const toCopy = [];
+    for (const f of names) {
+      const c = JSON.parse(readFileSync(join(cand, f), "utf8"));
+      if (c.crashed || c.error) crashes++;
+      const old = existsSync(join(baseline, f)) ? JSON.parse(readFileSync(join(baseline, f), "utf8")) : null;
+      if (!old || old.hashes !== c.hashes || old.crashed !== c.crashed) {
+        changed++;
+        toCopy.push(f);
+      }
+    }
+    if (crashes && !process.argv.includes("--allow-crashes")) {
+      console.error(`${crashes} candidate run(s) crashed or errored: fix that first (or pass --allow-crashes if a crash is the intended new baseline)`);
+      process.exit(1);
+    }
+    // Only runs whose screens changed are rewritten (a minimal diff); runs no longer produced are removed.
+    mkdirSync(baseline, { recursive: true });
+    for (const f of toCopy) cpSync(join(cand, f), join(baseline, f));
+    for (const f of readdirSync(baseline).filter((x) => x.endsWith(".json") && !names.includes(x))) rmSync(join(baseline, f));
+    console.log(`baseline updated: ${changed} of ${names.length} runs changed. Review "git diff --stat ${baseline}" and commit it with the change and a CHANGELOG line.`);
+  } else if (mode === "saves-record") {
+    await recordSaves(cfg, a ?? bundleDefault, join("tests", "saves"));
+  } else if (mode === "saves-verify") {
+    process.exit((await verifySaves(cfg, a ?? bundleDefault, join("tests", "saves"))) ? 1 : 0);
   } else if (mode === "one") {
     const rc = cfg.cases.find((x) => cfg.meta(x).id === a);
     if (!rc) {
@@ -292,7 +328,7 @@ export async function main(cfg, argv) {
     const r = await playRun(cfg, readFileSync(process.env.BUNDLE || bundleDefault, "utf8"), rc, Number(b));
     console.log(r.n, r.stopped, r.crashed, r.error, r.errors);
   } else {
-    console.error("usage: record <tag> [bundle] | verify [bundle] | compare [baselineDir] [candidateDir] | one <case id> <seed>");
+    console.error("usage: record <tag> [bundle] | verify [bundle] | accept | saves-record [bundle] | saves-verify [bundle] | compare [baselineDir] [candidateDir] | one <case id> <seed>");
     process.exit(2);
   }
   void c;
