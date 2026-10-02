@@ -75,7 +75,9 @@ function makeContext(cfg, bundle, seed) {
       return root.textContent.replace(/\s+/g, " ").trim();
     },
     hash() {
-      const t = ctx.text();
+      // MASK=1 applies the game's cfg.maskText (used once to prove two builds differ only in fields that a
+      // deliberate change touched). Never used for the committed baseline.
+      const t = process.env.MASK && cfg.maskText ? cfg.maskText(ctx.text()) : ctx.text();
       return createHash("sha1").update(t).digest("base64url").slice(0, 8) + ":" + t.length;
     },
     async settle() {
@@ -167,6 +169,8 @@ export async function playRun(cfg, bundle, runCase, seed) {
     trail.push(ctx.lab(b).slice(0, 22));
     if (process.env.TRACE) console.log(`  [${meta.id} s${seed}] ${i}: ${ctx.lab(b).slice(0, 30)} | ${ctx.text().slice(0, 90)}`);
     await ctx.click(b);
+    // DUMP_STEP=<i> prints the full page text after click i (to diff two builds' screens).
+    if (process.env.DUMP_STEP !== undefined && Number(process.env.DUMP_STEP) === i) console.log("TEXT:" + ctx.text());
     const h = ctx.hash();
     stalled = h === hashes[hashes.length - 1] ? stalled + 1 : 0;
     hashes.push(h);

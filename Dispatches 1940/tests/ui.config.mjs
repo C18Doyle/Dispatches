@@ -23,6 +23,9 @@ export default {
   seeds: [1, 2, 3, 4],
   meta: ([id, , mode]) => ({ id: `${id}-${mode}`, campaignId: id, mode }),
   maxSteps: 500,
+  // Used only with MASK=1: hides the figures the 2026-10 log-odds fix changed (percentages and the
+  // parenthesised counts in "Passed over most often") to prove nothing else differs.
+  maskText: (t) => t.replace(/[0-9]+%/g, "N%").replace(/\([0-9]+\)/g, "(N)"),
   stallLimit: 8,
 
   async setup(ctx, [, prefix, mode]) {

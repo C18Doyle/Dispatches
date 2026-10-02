@@ -11,7 +11,8 @@
     "test:routing": "node tests/routing.test.mjs",
     "split": "node ../packages/testkit/src/split.mjs split",
     "assemble": "node ../packages/testkit/src/split.mjs assemble",
-    "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip"
+    "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip",
+    "check:structure": "node tools/check-structure.mjs"
   },
   "license": "UNLICENSED",
   "dependencies": {

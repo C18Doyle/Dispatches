@@ -2,11 +2,20 @@
   "compilerOptions": {
     "strict": true,
     "target": "es2022",
-    "lib": ["es2022"],
+    "lib": [
+      "es2022"
+    ],
     "types": [],
     "module": "esnext",
     "moduleResolution": "bundler",
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "@dispatches/engine": [
+        "../packages/engine/src/index.ts"
+      ]
+    }
   },
-  "include": ["src/logic.ts"]
+  "include": [
+    "src/logic.ts"
+  ]
 }

@@ -3,7 +3,13 @@
  * tested and later moved into the shared engine. No React, no DOM, no storage, no sound,
  * no Math.random (randomness is passed in as `rand`). Content (campaigns, divergence
  * forks, special events) is always passed in, never imported.
+ *
+ * The arithmetic (weighted roll, clamped impact, hard-mode ceilings, end flags) is the shared engine's
+ * campaign primitives (@dispatches/engine); this file holds only 1941's rules for them and its
+ * screen-flow glue.
  */
+import { applyCeilings, applyImpact as engineApplyImpact, endsRun, pickWeighted } from "@dispatches/engine";
+import type { AxisSpec, Ceiling, EndFlag, RollRule } from "@dispatches/engine";
 
 export interface Meters {
   readiness: number;
@@ -63,14 +69,21 @@ export const METER_MAX = 10;
 
 export const clampMeter = (n: number): number => Math.max(METER_MIN, Math.min(METER_MAX, n));
 
+// 1941's rules for the engine's campaign primitives.
+const AXES: AxisSpec[] = (["readiness", "pipeline", "initiative"] as const).map((key) => ({ key, min: METER_MIN, max: METER_MAX }));
+const ROLL: RollRule = { scale: "total", fallback: "first" };
+const CEILINGS: Ceiling[] = [
+  { mode: "fanatical", flag: "suspicion", op: "gte", threshold: 5, unless: "purged", set: { purged: true, purgedAt: "suspicionCeiling" } },
+  { mode: "coalition", flag: "cohesion", op: "lte", threshold: -6, unless: "relieved", set: { relieved: true } },
+];
+const END_FLAGS: EndFlag[] = [
+  { mode: "fanatical", flag: "purged" },
+  { mode: "coalition", flag: "relieved" },
+];
+
 /** Applies a choice's impact to the meters, clamping all three to [-10, 10]. */
 export function applyImpact(meters: Meters, impact: Impact | undefined): Meters {
-  if (!impact) return meters;
-  return {
-    readiness: clampMeter(meters.readiness + (impact.readiness || 0)),
-    pipeline: clampMeter(meters.pipeline + (impact.pipeline || 0)),
-    initiative: clampMeter(meters.initiative + (impact.initiative || 0)),
-  };
+  return engineApplyImpact(meters as unknown as Record<string, number>, impact as Record<string, number> | undefined, AXES) as unknown as Meters;
 }
 
 /** Doctrine selection clamps readiness/pipeline but (as shipped) not initiative. */
@@ -97,17 +110,7 @@ export function effectiveChoice(choice: Choice, rollIndex: number | null) {
 
 /** u is a uniform sample in [0, 1). Picks a variant index by weight. */
 export function pickRollIndex(uncertain: Variant[], u: number): number {
-  const totalWeight = uncertain.reduce((a, v) => a + v.weight, 0);
-  let roll = u * totalWeight;
-  let ri = 0;
-  for (let k = 0; k < uncertain.length; k++) {
-    roll -= uncertain[k].weight;
-    if (roll <= 0) {
-      ri = k;
-      break;
-    }
-  }
-  return ri;
+  return pickWeighted(uncertain.map((v) => v.weight), u, ROLL);
 }
 
 export function startFlags(mode: Mode): Flags {
@@ -183,12 +186,7 @@ export function resolveChoice(args: {
     flags = { ...flags, ...choice.uncertain[rollIndex].setFlags };
   }
   // Hard-mode ceilings are a hard stop: hitting the cap is itself the event.
-  if (mode === "fanatical" && ((flags.suspicion as number) || 0) >= 5 && !flags.purged) {
-    flags = { ...flags, purged: true, purgedAt: "suspicionCeiling" };
-  }
-  if (mode === "coalition" && ((flags.cohesion as number) || 0) <= -6 && !flags.relieved) {
-    flags = { ...flags, relieved: true };
-  }
+  flags = applyCeilings(mode, flags, CEILINGS);
   // Inert in the Pacific game (no mode sets choice.favor), inherited from the Europe file.
   let defiance = args.defiance;
   if (mode === "iron" && choice.favor) {
@@ -250,7 +248,7 @@ export function nextPosition(args: {
       (choice.uncertain && rollIndex != null && choice.uncertain[rollIndex].next) || (choice.next as string);
     let isEnd = nextPos === "END";
     // A hard-mode ceiling break ends the run immediately, wherever the choice would route.
-    if ((mode === "fanatical" && flags.purged) || (mode === "coalition" && flags.relieved)) {
+    if (endsRun(mode, flags, END_FLAGS)) {
       nextPos = "END";
       isEnd = true;
     }

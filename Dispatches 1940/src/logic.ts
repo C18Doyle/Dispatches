@@ -4,7 +4,13 @@
  * divergence forks, battle cost calculators) is passed in, never imported.
  *
  * Meter axes here are manpower / fuel / initiative, all clamped to [-10, 10].
+ *
+ * The arithmetic (weighted roll, clamped impact, hard-mode ceilings, end flags) is the shared engine's
+ * campaign primitives (@dispatches/engine); this file holds only 1940's rules for them, the battle
+ * subgame's roll nudge and the screen-flow glue.
  */
+import { applyCeilings, applyImpact as engineApplyImpact, endsRun, pickWeighted as enginePickWeighted } from "@dispatches/engine";
+import type { AxisSpec, Ceiling, EndFlag, RollRule } from "@dispatches/engine";
 
 export interface Meters {
   manpower: number;
@@ -73,6 +79,21 @@ export const METER_MIN = -10;
 export const METER_MAX = 10;
 const AXES: (keyof Meters)[] = ["manpower", "fuel", "initiative"];
 
+// 1940's rules for the engine's campaign primitives.
+const AXIS_SPECS: AxisSpec[] = AXES.map((key) => ({ key, min: METER_MIN, max: METER_MAX }));
+const ROLL: RollRule = { scale: "total", fallback: "first" };
+const CEILINGS: Ceiling[] = [
+  { mode: "purge", flag: "suspicion", op: "gte", threshold: 5, unless: "purged", set: { purged: true, purgedAt: "suspicionCeiling" } },
+  { mode: "coalition", flag: "cohesion", op: "lte", threshold: -6, unless: "relieved", set: { relieved: true } },
+  { mode: "axis", flag: "trust", op: "lte", threshold: -5, unless: "superseded", set: { superseded: true } },
+];
+const END_FLAGS: EndFlag[] = [
+  { mode: "purge", flag: "purged" },
+  { mode: "coalition", flag: "relieved" },
+  { mode: "iron", flag: "dismissed" },
+  { mode: "axis", flag: "superseded" },
+];
+
 export const clampMeter = (n: number): number => Math.max(METER_MIN, Math.min(METER_MAX, n));
 
 export function impactSum(impact: Impact | undefined): number {
@@ -131,17 +152,7 @@ export function subgameWeights(weights: number[], bonus: number): number[] {
 
 /** u is a uniform sample in [0, 1). Picks an outcome index by weight. */
 export function pickWeighted(weights: number[], u: number): number {
-  const total = weights.reduce((a, v) => a + v, 0);
-  let roll = u * total;
-  let ri = 0;
-  for (let k = 0; k < weights.length; k++) {
-    roll -= weights[k];
-    if (roll <= 0) {
-      ri = k;
-      break;
-    }
-  }
-  return ri;
+  return enginePickWeighted(weights, u, ROLL);
 }
 
 export interface ChoiceResult {
@@ -204,9 +215,7 @@ export function resolveChoice(args: {
   if (subgame && subgame.flagsOut) flags = { ...flags, ...subgame.flagsOut };
   if (planCosts && planCosts.grade && choice.keyBattleSubgame) flags = { ...flags, [`${choice.keyBattleSubgame.id}Grade`]: planCosts.grade };
   // Hard-mode ceilings are a hard stop: hitting the cap is itself the event.
-  if (mode === "purge" && ((flags.suspicion as number) || 0) >= 5 && !flags.purged) flags = { ...flags, purged: true, purgedAt: "suspicionCeiling" };
-  if (mode === "coalition" && ((flags.cohesion as number) || 0) <= -6 && !flags.relieved) flags = { ...flags, relieved: true };
-  if (mode === "axis" && ((flags.trust as number) || 0) <= -5 && !flags.superseded) flags = { ...flags, superseded: true };
+  flags = applyCeilings(mode, flags, CEILINGS);
   let defiance = args.defiance;
   if (mode === "iron" && choice.favor) {
     defiance = args.defiance + 1;
@@ -217,11 +226,13 @@ export function resolveChoice(args: {
   if (eff.impact || planCosts) {
     const imp = eff.impact || {};
     const plan = planCosts ? planCosts.totals : EMPTY_METERS;
-    meters = {
-      manpower: clampMeter(args.meters.manpower + (imp.manpower || 0) + plan.manpower),
-      fuel: clampMeter(args.meters.fuel + (imp.fuel || 0) + plan.fuel),
-      initiative: clampMeter(args.meters.initiative + (imp.initiative || 0) + plan.initiative),
+    // One clamp on the sum of the choice's impact and the battle plan's cost.
+    const total = {
+      manpower: (imp.manpower || 0) + plan.manpower,
+      fuel: (imp.fuel || 0) + plan.fuel,
+      initiative: (imp.initiative || 0) + plan.initiative,
     };
+    meters = engineApplyImpact(args.meters as unknown as Record<string, number>, total, AXIS_SPECS) as unknown as Meters;
   }
 
   return {
@@ -285,7 +296,7 @@ export function nextPosition(args: {
       (choice.uncertain && rollIndex != null && choice.uncertain[rollIndex].next) || (choice.next as string);
     let isEnd = nextPos === "END";
     // A hard-mode ceiling break ends the run immediately, wherever the choice would route.
-    if ((mode === "purge" && flags.purged) || (mode === "coalition" && flags.relieved) || (mode === "iron" && flags.dismissed) || (mode === "axis" && flags.superseded)) {
+    if (endsRun(mode, flags, END_FLAGS)) {
       nextPos = "END";
       isEnd = true;
     }
