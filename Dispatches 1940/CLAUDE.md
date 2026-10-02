@@ -35,3 +35,8 @@ React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 250 nodes, Easy / Sta
 - FIXED (tooling): `tools/extract_campaigns.js` had stopped working (`THEME_MUSIC_DATA_URL is not defined`) once the music import was added, so the audits that need it could not run. Stubbed in the extractor. All five audits give identical output on the old and new source.
 - FIXED (tooling): `build.mjs` ran the Tailwind `.bin` shim (fails on Windows) and required the `zip` CLI; it now runs Tailwind through node and accepts `--no-zip`.
 - The shipped `builds/*.zip` are older than this source and not reproducible byte-for-byte.
+
+## Changing behaviour (details: ../docs/WORKFLOW.md)
+- After any change run `npm run test:fast`. When `verify:baseline` fails: if it is a bug you introduced, fix the code; if the change is intended, read the reported differences, run `npm run baseline:accept`, and commit the new baseline together with the change and a line in `CHANGELOG.md`. A fix of a legacy bug that the old build got wrong goes in `tests/baseline/known-diffs.json` instead (first differing step plus a one-line reason).
+- This game keeps no saved state, so there is no save-compatibility test.
+- Real-browser check (from the repo root, after building): `npm run smoke:browser`. Known layout findings are listed in `tests/browser-allowlist.json`.

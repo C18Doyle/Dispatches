@@ -38,3 +38,8 @@ Document-driven branching strategy game (React + TypeScript, built with esbuild 
 - The engine moved out to `../packages/engine`; the old `src/engine/` and `src/engine.ts` no longer exist. A schema or reducer change affects every game: follow the amend steps in the engine CLAUDE.md.
 - `build:audio` and the other scripts must stay cross-platform (Windows): no `mkdir -p`, `cp`.
 - This folder syncs to OneDrive. Exclude `node_modules/` from sync if it gets slow.
+
+## Changing behaviour (details: ../docs/WORKFLOW.md)
+- After any change run `npm run test:fast`. When `verify:baseline` fails: if it is a bug you introduced, fix the code; if the change is intended, read the reported differences, run `npm run baseline:accept`, and commit the new baseline together with the change and a line in `CHANGELOG.md`. A fix of a legacy bug that the old build got wrong goes in `tests/baseline/known-diffs.json` instead (first differing step plus a one-line reason).
+- Frankenstein's behaviour baseline is engine-level (`tests/fixtures/baseline.json`, `npm run verify:baseline`), not a UI run; `baseline:accept` does not apply. Save compatibility: `npm run test:saves` replays the committed old saves in `tests/saves/` through `src/runSave.ts`; add new fixtures with `npm run test:saves -- record` only when a save-format change is intended and the old fixtures still load.
+- Real-browser check (from the repo root, after building): `npm run smoke:browser`. Known layout findings are listed in `tests/browser-allowlist.json`.

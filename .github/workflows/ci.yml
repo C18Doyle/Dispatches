@@ -5,36 +5,54 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
-  schedule:
-    - cron: "0 3 * * 1" # Mondays: also run the slow behaviour baselines
+
+# A newer push to the same branch or PR replaces the run still in progress.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   fast:
     # Every push and PR: each game's test:fast plus the engine equivalence test, on Linux and Windows
     # (the repo was built on Windows; most of the early breakage was path and shell differences).
+    # On Linux it also loads every built game in real Chromium (phone and desktop) as a smoke test.
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-24.04, windows-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
       - run: node tools/run-all.mjs --install
       - run: node tools/run-all.mjs --fast
 
-  slow:
-    # Manual runs and the weekly schedule only: the long behaviour baselines (1940's takes ~20 minutes).
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Build Frankenstein (its test:fast does not build)
+        if: matrix.os == 'ubuntu-24.04'
+        working-directory: Dispatches Frankenstein
+        run: npm run build
+      - name: Install Chromium
+        if: matrix.os == 'ubuntu-24.04'
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Real-browser smoke test
+        if: matrix.os == 'ubuntu-24.04'
+        run: node tools/smoke-browser.mjs
+      - name: Keep screenshots
+        if: always() && matrix.os == 'ubuntu-24.04'
+        uses: actions/upload-artifact@v7
         with:
-          node-version: 22
-      - run: node tools/run-all.mjs --install
-      - run: node tools/run-all.mjs --slow
+          name: browser-screenshots
+          path: tests/browser-shots/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # No slow tier at the moment: 1940's 48-run UI baseline (about 4 minutes on Linux) was the only slow test and
+  # now runs in its test:fast like every other game's baseline. tools/run-all.mjs --slow still works if a game
+  # defines a test:slow script again; add a `slow` job here when one does.

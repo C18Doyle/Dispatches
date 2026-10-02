@@ -14,3 +14,6 @@ Shared engine: `packages/engine/` (`@dispatches/engine`), imported by each game 
 
 ## Export prompt (paste into each game's original Cowork chat)
 "Write this game's complete unbundled source to Documents\Dispatches\<Game>: src/ (TypeScript/TSX, not the esbuild bundle), scripts/, audio/, assets/, package.json, tsconfig, tailwind and esbuild configs. Normal project folder, not a zip."
+
+## Working in the repo
+See `docs/WORKFLOW.md` (branches, baseline changes, checks, releasing), `docs/NEW_GAME_CHECKLIST.md`, `docs/DATA_MIGRATION.md` and `docs/ROADMAP.md`.

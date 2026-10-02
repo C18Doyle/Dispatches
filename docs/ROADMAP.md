@@ -12,8 +12,12 @@ Order is by dependency. Update the Status column as steps land (each step is its
 | 8 | Content rules as machine checks (shared structural checks; 1941 gets validators) | 9 | done: `npm run check:structure` in 1941, 1940, 1922 (0 problems found); 1914 keeps its own 13 validators |
 | 4 | Shared engine: campaign primitives (`packages/engine/src/campaign.ts`), games' `logic.ts` become thin adapters, equivalence test | 3c | done for 1941 and 1940 (baselines verified), equivalence test covers 1914, 1922, 1941, 1940; 1922 keeps its own pick/impact helpers because its validators evaluate the data section alone |
 | 1 | Root test runner: fast and slow tiers across all games | 4, 8 | done: `npm test`, `npm run test:slow`, `node tools/run-all.mjs` |
-| 2 | CI workflow (files only, you push) | 1 | done: `.github/workflows/ci.yml` (fast on Linux + Windows, slow weekly/manual); not pushed |
+| 2 | CI workflow (files only, you push) | 1 | done: `.github/workflows/ci.yml` (fast on Linux + Windows; browser smoke on Linux); pushed, green on both |
 | 10 | Release scripts, engine version + changelog | 1 | done: `npm run release` per game, engine 0.2.0 + CHANGELOG |
 | 5 | New-game checklist and root docs | all | done: `docs/NEW_GAME_CHECKLIST.md`, root CLAUDE.md |
 
 Rule for every step: all existing baselines stay green except where a step deliberately changes behaviour (3a, 3b), and those are re-recorded once and noted in the game's CLAUDE.md.
+
+## Pre-game setup round (2026-10)
+Done: shared browser smoke test (`tools/smoke-browser.mjs`, in CI on Linux); save-compatibility tests (Frankenstein, 1922, 1941; 1914 and 1940 keep no saves); release pipeline (`release.yml`, `tools/verify-release.mjs`, `tools/itch-push.mjs`, `itch.json`); `baseline:accept`; per-game CHANGELOGs; `docs/WORKFLOW.md`; Dependabot; actions bumped, npm cache, Ubuntu pinned; 1922 Monte Carlo rewritten on the real rules; data-readiness report.
+Open decisions: 1922 and 1940 are full-width on desktop (see `tests/browser-allowlist.json`); whether to start the JSON pilot (`docs/DATA_MIGRATION.md`); itch.io targets and `BUTLER_API_KEY`.
