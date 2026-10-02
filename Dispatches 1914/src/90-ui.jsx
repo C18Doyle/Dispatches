@@ -46,7 +46,7 @@ const css = `
     margin:26px 0 12px}
   .dg-card{position:relative;border:1.5px solid ${THEME.rule};background:${THEME.paperRaised};
     padding:20px 18px;margin-bottom:14px;cursor:pointer;width:100%;text-align:left;
-    font:inherit;color:inherit;display:block}
+    font:inherit;color:inherit;display:block;box-sizing:border-box}
   .dg-card:hover{background:${THEME.ink};color:${THEME.paper}}
   .dg-card h3{font-family:${THEME.serif};font-size:23px;font-weight:700;margin:0 0 6px;line-height:1.2}
   .dg-card p{margin:0;font-size:13px;color:${THEME.inkSoft}}
