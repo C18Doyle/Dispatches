@@ -7,6 +7,7 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased (2026-10)
 ### Added
+- Saved runs now carry `schemaVersion`; `NODE_ALIASES` and `SAVE_MIGRATIONS` in `src/runSave.ts` let an update upgrade old saves (docs/SAVES.md). Saves written before this have no version and still load.
 - Save-compatibility test (npm run test:saves): committed old saves must still resume and reach an ending.
 ### Changed
 - Resume-save parsing moved to src/runSave.ts (same rules as before; no player-visible change).

@@ -10,6 +10,8 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 - Layout is mobile-first: the whole app is a centred column at most 600px wide on desktop (it was full width). Phones are unchanged.
 - tools/monte-carlo.js replaced by tools/monte-carlo.mjs, which plays the real src/logic.ts (seeded). It reports gate-bite rate and which endings are reached. It no longer reproduces the old routing.
 ### Added
+- Save migrations and node aliases (`NODE_ALIASES`, `SAVE_MIGRATIONS`, `migrateSave`) so an update upgrades saves instead of wiping them (docs/SAVES.md).
+- `check:orphans`: every listed node and ending is reachable. Known content finding, accepted in `tests/orphans-allowlist.json`: the ending `endingHollowVictory21` (Bolsheviks) cannot be reached, because it needs `requisitionPolicy: intensified` and `congressChoice: press`, which are set on opposite branches of the campaign.
 - Save-compatibility test (npm run test:saves) with four committed old saves.
 
 ## 1.0.0-src (migration baseline)

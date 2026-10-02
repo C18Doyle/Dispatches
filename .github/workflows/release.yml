@@ -44,10 +44,10 @@ jobs:
       - name: Tests, build and zips
         working-directory: ${{ steps.tag.outputs.dir }}
         run: npm run release
-      - name: Install Chromium
+      - name: Install Chromium and WebKit
         run: |
           npm ci --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium webkit
       - name: Check the zips load like itch.io serves them
         run: node tools/verify-release.mjs "${{ steps.tag.outputs.game }}" "${{ steps.tag.outputs.version }}"
 

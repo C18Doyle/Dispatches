@@ -390,7 +390,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
       try {
         const active = await window.storage.get("ww2-command-active");
         if (active && active.value) {
-          const parsed = JSON.parse(active.value);
+          const parsed = migrateSave(JSON.parse(active.value));
           if (isValidSave(parsed)) {
             setActiveRun(parsed);
           } else {
@@ -3476,6 +3476,36 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
 // recover gracefully. Validate first; if it fails, clear the save quietly rather than
 // show the player a broken "Resume" button or an error screen.
 const SAVE_SCHEMA_VERSION = 1;
+
+// Old node id -> new node id. Add an entry whenever a node is renamed, so saves made before the rename still
+// resume (see docs/SAVES.md). Empty today: no node has been renamed since the schema version was introduced.
+const NODE_ALIASES = {};
+// SAVE_MIGRATIONS[n] upgrades a save from schema version n to n + 1. Add one whenever SAVE_SCHEMA_VERSION is
+// bumped, so an update upgrades players' saves instead of wiping them. A save with no way forward is discarded.
+const SAVE_MIGRATIONS = {};
+const aliasNode = (id) => (typeof id === "string" && Object.prototype.hasOwnProperty.call(NODE_ALIASES, id) ? NODE_ALIASES[id] : id);
+
+/** Upgrades a parsed save to the current schema and applies node aliases. Returns null if it cannot be used. */
+function migrateSave(saved) {
+  if (!saved || typeof saved !== "object") return null;
+  let version = saved.schemaVersion;
+  if (!Number.isInteger(version) || version < 1 || version > SAVE_SCHEMA_VERSION) return null; // unknown, or from a newer build
+  let s = saved;
+  while (version < SAVE_SCHEMA_VERSION) {
+    const step = SAVE_MIGRATIONS[version];
+    if (!step) return null;
+    s = step(s);
+    version += 1;
+    if (!s || typeof s !== "object") return null;
+    s.schemaVersion = version;
+  }
+  if (Object.keys(NODE_ALIASES).length) {
+    s = { ...s, position: aliasNode(s.position) };
+    if (Array.isArray(s.visited)) s.visited = s.visited.map(aliasNode);
+    if (Array.isArray(s.history)) s.history = s.history.map((h) => (h && typeof h === "object" ? { ...h, position: aliasNode(h.position) } : h));
+  }
+  return s;
+}
 
 function isValidSave(saved) {
   if (!saved || typeof saved !== "object") return false;

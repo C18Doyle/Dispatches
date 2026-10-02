@@ -12,7 +12,7 @@ import { join } from "node:path";
 import { reduce, createInitialState } from "@dispatches/engine";
 import type { Action, GameState } from "@dispatches/engine";
 import { def } from "../src/game";
-import { IN_RUN_SCREENS, parseRunSave } from "../src/runSave";
+import { IN_RUN_SCREENS, SAVE_SCHEMA_VERSION, parseRunSave, serializeRunSave } from "../src/runSave";
 
 const dir = join("tests", "saves");
 const NODES = def.content.nodes;
@@ -82,6 +82,37 @@ if (!existsSync(dir)) {
   process.exit(1);
 }
 let failures = 0;
+
+// Save-versioning rules (docs/SAVES.md), using injected migrations and aliases so nothing real has to change.
+{
+  const fail = (m: string) => {
+    console.error("FAIL (versioning): " + m);
+    failures++;
+  };
+  const files0 = readdirSync(dir).filter((f) => f.endsWith(".json")).sort();
+  const base = JSON.parse(readFileSync(join(dir, files0.find((f) => f.includes("node")) ?? files0[0]), "utf8")) as Record<string, unknown>;
+  const legacy = JSON.stringify(base); // no schemaVersion, as written before versioning
+  if (!parseRunSave(legacy, NODES)) fail("an unversioned (legacy) save must load as version 1");
+  const state = parseRunSave(legacy, NODES)!;
+  const round = parseRunSave(serializeRunSave(state), NODES);
+  if (!round || JSON.stringify(round) !== JSON.stringify(state)) fail("serialize then parse must give back the same state (and no schemaVersion in it)");
+  if (round && "schemaVersion" in round) fail("schemaVersion must be stripped before the state is hydrated");
+  if (parseRunSave(JSON.stringify({ ...base, schemaVersion: SAVE_SCHEMA_VERSION + 1 }), NODES)) fail("a save from a newer build must be refused");
+  const rules = {
+    current: 3,
+    migrations: {
+      1: (s: Record<string, unknown>) => ({ ...s, step1: true }),
+      2: (s: Record<string, unknown>) => ({ ...s, step2: true }),
+    },
+    aliases: { oldNodeId: String(base.currentNodeId) },
+  };
+  const up = parseRunSave(JSON.stringify({ ...base, currentNodeId: "oldNodeId", schemaVersion: 1 }), NODES, rules) as unknown as Record<string, unknown> | null;
+  if (!up || !up.step1 || !up.step2) fail("every migration step must run, in order");
+  if (!up || up.currentNodeId !== base.currentNodeId) fail("a renamed node must be rewritten through NODE_ALIASES");
+  if (parseRunSave(JSON.stringify({ ...base, schemaVersion: 1 }), NODES, { ...rules, migrations: { 2: (s) => s } })) fail("a save with a missing migration step must be refused");
+  if (!failures) console.log("ok versioning rules: legacy load, round trip, future version refused, migrations, aliases");
+}
+
 const files = readdirSync(dir).filter((f) => f.endsWith(".json")).sort();
 for (const f of files) {
   const raw = readFileSync(join(dir, f), "utf8");

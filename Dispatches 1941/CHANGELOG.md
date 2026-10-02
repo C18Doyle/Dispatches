@@ -7,6 +7,9 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased (2026-10)
 ### Added
+- Save migrations and node aliases (`NODE_ALIASES`, `SAVE_MIGRATIONS`, `migrateSave`): an update can now upgrade saves instead of wiping them (docs/SAVES.md).
+- Twenty Allied Pacific nodes now live in `src/data/alliedPacific.nodes.json`; text and choices are unchanged.
+- `check:orphans` (reachability of every listed node) in the fast tests.
 - Save-compatibility test (npm run test:saves) with committed old saves for both campaigns.
 
 ## 1.0.0 (migration baseline)
