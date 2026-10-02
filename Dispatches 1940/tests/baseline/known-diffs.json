@@ -1,0 +1,6 @@
+{
+  "allied-hard-2": {
+    "firstDiff": 85,
+    "reason": "the shipped build showed the outcome of a different choice than the one picked (the re-resolved stage's choice list had shifted); the refactor shows the choice actually picked"
+  }
+}

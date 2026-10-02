@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef, Component } from "react";
 import * as Tone from "tone";
+import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, buildLogEntry, nextPosition, nextVisited, arrivalFork } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
@@ -20152,11 +20153,6 @@ function Typewriter({ text, instant, soundOn }) {
   );
 }
 
-function impactSum(impact) {
-  if (!impact) return 0;
-  return (impact.manpower || 0) + (impact.fuel || 0) + (impact.initiative || 0);
-}
-
 // Easy Command's choice-impact preview. Only lists meters the choice actually moves — a choice
 // that's purely narrative (sets a flag, no impact object at all) reads as "No meter change"
 // rather than a row of zeroes, so it's visually distinct from a choice that costs exactly nothing
@@ -20176,14 +20172,6 @@ function cohesionLabel(c) {
   if (v >= 0) return "Workable";
   if (v >= -2) return "Strained";
   return "Fraying";
-}
-
-function effectiveChoice(choice, rollIndex) {
-  if (choice.uncertain && rollIndex != null && choice.uncertain[rollIndex]) {
-    const v = choice.uncertain[rollIndex];
-    return { impact: v.impact || choice.impact, outcome: v.outcome, variantTitle: v.title };
-  }
-  return { impact: choice.impact, outcome: choice.outcome, variantTitle: null };
 }
 
 function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history }) {
@@ -22392,7 +22380,6 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
   );
 }
 
-const EMPTY_METERS = { manpower: 0, fuel: 0, initiative: 0 };
 
 const ADVISOR_DOSSIERS = {
   Mikoyan: { role: "Politburo — Lend-Lease administration", bio: "Ran the Soviet side of Lend-Lease logistics, and later acknowledged more openly than most Soviet officials how much American trucks and aviation fuel in fact mattered to the war effort.", fate: "One of the few Old Bolsheviks to survive every purge and outlast Stalin himself, dying peacefully in 1978.", faction: "soviet", rank: 2 },
@@ -22813,6 +22800,8 @@ function WW2CommandInner() {
   const [flags, setFlags] = useState({});
   const [meters, setMeters] = useState(EMPTY_METERS);
   const [history, setHistory] = useState([]);
+  // Snapshot of the stage the player chose from (see seenStage below).
+  const [outcomeStage, setOutcomeStage] = useState(null);
   const [visited, setVisited] = useState([]);
   const [seenWireHeadlines, setSeenWireHeadlines] = useState([]);
   const [pendingWireHeadline, setPendingWireHeadline] = useState(null);
@@ -22873,42 +22862,21 @@ function WW2CommandInner() {
   const campaign = campaignId ? CAMPAIGNS[campaignId] : null;
   const stage = useMemo(() => {
     if (!campaign) return null;
-    const s = resolveStage(campaign, position, flags, meters);
-    // Führer Mode necessity rule: if EVERY choice is currently blocked — whether by
-    // capital cost, by a resource gate (disabledReason), or both at once — obeying
-    // necessity is no longer defiance. This must check true availability jointly,
-    // not just capital in isolation, or two independent gates can silently cover
-    // every option between them and dead-end the run.
-    if (s && mode === "iron" && s.choices && s.choices.length) {
-      const isBlocked = (c) => (c.favor && c.favor > favor) || !!c.disabledReason;
-      if (s.choices.every(isBlocked)) {
-        // Prefer a choice blocked ONLY by capital (no resource gate) — waive its cost.
-        const capitalOnly = s.choices.filter((c) => !c.disabledReason);
-        if (capitalOnly.length) {
-          const minFav = Math.min(...capitalOnly.map((c) => c.favor || 0));
-          let waived = false;
-          return {
-            ...s,
-            choices: s.choices.map((c) => {
-              if (!waived && !c.disabledReason && (c.favor || 0) === minFav) {
-                waived = true;
-                return { ...c, favor: undefined };
-              }
-              return c;
-            }),
-          };
-        }
-        // Every choice is resource-gated too — a genuine dead end no capital waiver
-        // fixes. Force the first choice open as an absolute safety net; the run must
-        // always have a move.
-        return {
-          ...s,
-          choices: s.choices.map((c, i) => (i === 0 ? { ...c, favor: undefined, disabledReason: undefined } : c)),
-        };
-      }
-    }
-    return s;
+    // Führer Mode necessity rule lives in logic.ts (playableStage).
+    return playableStage(resolveStage(campaign, position, flags, meters), mode, favor);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign, position, flags, meters, mode]);
+
+  // The stage the outcome/battle-result screens and proceed() read. Normally the live stage, exactly
+  // as before. But a dynamic stage re-resolves from flags and meters after the choice applies its
+  // impact, and that can drop (or shift) a meter-gated choice, so the live list may no longer hold
+  // the choice the player made. In that case use the snapshot taken at choice time instead.
+  const seenStage = (() => {
+    if (!outcomeStage) return stage;
+    const live = stage && stage.choices ? stage.choices[choiceIndex] : null;
+    const snap = outcomeStage.choices[choiceIndex];
+    return live && snap && live.label === snap.label ? stage : outcomeStage;
+  })();
 
   // `seed`, when provided (Grand Campaign only), is a { seedFlags, seedMeters } pair from
   // GRAND_CAMPAIGN_SEEDS — merged on top of the normal defaults rather than replacing them, so
@@ -22921,7 +22889,7 @@ function WW2CommandInner() {
     setDefiance(0);
     clearActiveRun();
     setCampaignId(id);
-    const baseSeedFlags = playMode === "purge" || playMode === "coalition" || playMode === "axis" ? { hardMode: true } : {};
+    const baseSeedFlags = startFlags(playMode);
     const seedFlags = seed ? { ...baseSeedFlags, ...seed.seedFlags } : baseSeedFlags;
     const rawSeedMeters = seed && seed.seedMeters ? { ...EMPTY_METERS, ...seed.seedMeters } : EMPTY_METERS;
     const seedMeters = {
@@ -23011,135 +22979,49 @@ function WW2CommandInner() {
       return;
     }
     // Round 6: onCommit now hands back the full planning picture (bonus, allocation, commander,
-    // approach), not just a bare number — BattleSimulationScreen's animated reveal reads
-    // allocation to weight its flashups. `subgamePayload` is only undefined on the intercept
-    // call above; once defined (even with bonus: 0) this is the real resolution.
-    const isSubgameResolution = subgamePayload !== undefined;
-    const subgameBonus = subgamePayload?.bonus ?? 0;
-    if (mode === "iron" && choice.favor) setFavor((f) => f - choice.favor);
-    let ri = null;
-    let subgameResolvedWeights = null;
-    // Round 7: the pre-bonus weights, kept aside so BattleSimulationScreen can replay the same
-    // clamp math chooseOption itself uses for the real nudge below, one category's contribution
-    // at a time, instead of guessing at it from the final numbers alone. Declared out here (not
-    // inside the choice.uncertain block below) so it's still in scope down at
-    // setPendingBattleResult.
-    let baseWeights = null;
-    if (choice.uncertain) {
-      if (soundOn) playDice();
-      let weights = choice.uncertain.map((u) => u.weight);
-      baseWeights = weights.slice();
-      if (isSubgameResolution && subgameBonus && weights.length === 2) {
-        // Order of Battle subgame result: nudges a two-outcome contested roll the same way a
-        // Historical Divergence fork nudges one (see forkPanthersFixed in the kursk node),
-        // clamped so the subgame can tilt hard but never guarantee or foreclose either side.
-        weights = [
-          Math.max(2, Math.min(98, weights[0] + subgameBonus)),
-          Math.max(2, Math.min(98, weights[1] - subgameBonus)),
-        ];
-      }
-      if (isSubgameResolution) subgameResolvedWeights = weights;
-      const totalWeight = weights.reduce((a, v) => a + v, 0);
-      let roll = Math.random() * totalWeight;
-      ri = 0;
-      for (let k = 0; k < weights.length; k++) {
-        roll -= weights[k];
-        if (roll <= 0) {
-          ri = k;
-          break;
-        }
-      }
-    }
-    const eff = effectiveChoice(choice, ri);
-    // Round 9, Craig's item #3: a subgame battle's plan now has its own campaign cost on top of
-    // the outcome's historical impact — see computeBattlePlanCosts. Computed here, where the
-    // roll result is finally known, from the final allocation the battle report handed back.
-    // Moved up (round 13) from just before setFlags() to right here, so its `grade` (item #1) can
-    // be folded into mergedFlags in the same pass as everything else below, instead of needing a
-    // second setFlags call.
-    const planCosts =
-      subgameResolvedWeights && subgamePayload.finalAllocation
-        ? computeBattlePlanCosts({
-            categories: keyBattleCategories(choice.keyBattleSubgame),
-            finalAllocation: subgamePayload.finalAllocation,
-            poolSize: subgamePayload.poolSize,
-            contributions: subgamePayload.contributions || {},
-            won: ri === 0,
-            reservesHeld: subgamePayload.reservesHeld || 0,
-            counter: subgamePayload.counter || null,
-          })
-        : null;
-    // Merge synchronously (not via the setFlags callback) so the hard-mode ceiling checks
-    // below can see the true resulting state before it's committed.
-    let mergedFlags = { ...flags };
-    if (choice.setFlags) mergedFlags = { ...mergedFlags, ...choice.setFlags };
-    if (choice.uncertain && ri != null && choice.uncertain[ri].setFlags) {
-      mergedFlags = { ...mergedFlags, ...choice.uncertain[ri].setFlags };
-    }
-    // Round 10 (item 8): how a Key Battle Subgame battle was fought — counterattack result,
-    // the arm left uncovered, the commander — carried into the next node's text.
-    if (subgamePayload && subgamePayload.flagsOut) {
-      mergedFlags = { ...mergedFlags, ...subgamePayload.flagsOut };
-    }
-    // Round 13, item #1: the plan's quality grade (clean/costly/marginal/total), so item #9's
-    // downstream nodes can read HOW a battle went, not just whether — same flag family as
-    // Counter/PlanNeglected/PlanCommander above.
-    if (planCosts && planCosts.grade) {
-      mergedFlags = { ...mergedFlags, [`${choice.keyBattleSubgame.id}Grade`]: planCosts.grade };
-    }
-    // Hard-mode ceilings are a hard stop, not just a worse roll from here on. Hitting the cap
-    // itself is the event — the apparatus (NKVD) or the alliance (coalition) acts on it directly,
-    // rather than merely making some future dice throw less forgiving.
-    if (mode === "purge" && (mergedFlags.suspicion || 0) >= 5 && !mergedFlags.purged) {
-      mergedFlags = { ...mergedFlags, purged: true, purgedAt: "suspicionCeiling" };
-    }
-    if (mode === "coalition" && (mergedFlags.cohesion || 0) <= -6 && !mergedFlags.relieved) {
-      mergedFlags = { ...mergedFlags, relieved: true };
-    }
-    // -5, not a round -6: there are exactly 5 trustDelta touches in the whole campaign
-    // (greeceDecision40, germanRescue41, yugoslaviaBalkans41, rommelAdvance41, mussoliniCoup43),
-    // each an always-available -1/+1 pair with no gate, so -5 is both the true floor a fully
-    // defiant run can reach and the only value every one of those five choices going the
-    // defiant way actually hits — verified by hand-tracing the fixed node order, since an
-    // earlier version gated one of these touches and that gate, having no neutral fallback,
-    // forced a rebound that made -6 (and then -4) mathematically unreachable in play.
-    if (mode === "axis" && (mergedFlags.trust || 0) <= -5 && !mergedFlags.superseded) {
-      mergedFlags = { ...mergedFlags, superseded: true };
-    }
-    // Führer Mode's own ceiling: not capital itself (spending it is the mechanic working as
-    // intended), but the pattern of repeated defiance a real regime would eventually notice
-    // and act on, tracked independently of whatever capital happens to remain.
-    let newDefiance = defiance;
-    if (mode === "iron" && choice.favor) {
-      newDefiance = defiance + 1;
-      setDefiance(newDefiance);
-      if (newDefiance >= 5 && !mergedFlags.dismissed) {
-        mergedFlags = { ...mergedFlags, dismissed: true };
-      }
-    }
-    setFlags(mergedFlags);
-    const planTotals = planCosts ? planCosts.totals : { manpower: 0, fuel: 0, initiative: 0 };
-    if (eff.impact || planCosts) {
-      const imp = eff.impact || {};
-      setMeters((prev) => ({
-        manpower: Math.max(-10, Math.min(10, prev.manpower + (imp.manpower || 0) + planTotals.manpower)),
-        fuel: Math.max(-10, Math.min(10, prev.fuel + (imp.fuel || 0) + planTotals.fuel)),
-        initiative: Math.max(-10, Math.min(10, prev.initiative + (imp.initiative || 0) + planTotals.initiative)),
-      }));
-    }
-    setRollIndex(ri);
+    // approach), not just a bare number. `subgamePayload` is only undefined on the intercept call
+    // above; once defined (even with bonus: 0) this is the real resolution. All the arithmetic
+    // (roll, subgame nudge, plan costs, flags, ceilings, meters) lives in logic.ts.
+    if (choice.uncertain && soundOn) playDice();
+    const res = resolveChoice({
+      stage,
+      index: i,
+      mode,
+      favor,
+      defiance,
+      flags,
+      meters,
+      rand: Math.random,
+      subgame: subgamePayload,
+      planCostsFor: (ri) =>
+        computeBattlePlanCosts({
+          categories: keyBattleCategories(choice.keyBattleSubgame),
+          finalAllocation: subgamePayload.finalAllocation,
+          poolSize: subgamePayload.poolSize,
+          contributions: subgamePayload.contributions || {},
+          won: ri === 0,
+          reservesHeld: subgamePayload.reservesHeld || 0,
+          counter: subgamePayload.counter || null,
+        }),
+    });
+    if (!res) return;
+    setFavor(res.favor);
+    setDefiance(res.defiance);
+    setFlags(res.flags);
+    setMeters(res.meters);
+    setRollIndex(res.rollIndex);
     setChoiceIndex(i);
-    // A subgame-resolved roll stays on the battle report, which is already showing (round 9:
-    // the report calls this at its own end via onResolve and then renders the verdict from
-    // pendingBattleResult). The real, post-allocation weights also go forward to OutcomeScreen's
-    // own reveal (round 4's stale-odds fix), and planCosts to its impact box.
-    if (subgameResolvedWeights) {
+    setOutcomeStage(stage);
+    // A subgame-resolved roll stays on the battle report, which is already showing. The real,
+    // post-allocation weights also go forward to OutcomeScreen's own reveal, and planCosts to its
+    // impact box.
+    if (res.battle) {
       setPendingBattleResult({
-        weights: subgameResolvedWeights,
-        ri,
+        weights: res.battle.weights,
+        ri: res.rollIndex,
         uncertain: choice.uncertain,
-        baseWeights,
-        planCosts,
+        baseWeights: res.battle.baseWeights,
+        planCosts: res.battle.planCosts,
         notes: subgamePayload.notes || [],
       });
       setScreen("battleResult");
@@ -23152,47 +23034,26 @@ function WW2CommandInner() {
     // Leaving the outcome screen behind — clear any subgame result so it can never leak into a
     // later, unrelated concealRoll choice's own "odds you couldn't see" reveal.
     if (pendingBattleResult) setPendingBattleResult(null);
-    const choice = stage.choices[choiceIndex];
-    const eff = effectiveChoice(choice, rollIndex);
-    const histChoice = stage.choices.find((c) => c.historical);
-    const newLog = [
-      ...log,
-      {
-        date: stage.date,
-        title: stage.title,
-        label: choice.label + (eff.variantTitle ? ` (${eff.variantTitle})` : ""),
-        sum: impactSum(eff.impact),
-        histSum: histChoice ? impactSum(histChoice.impact) : null,
-        histLabel: histChoice ? histChoice.label : null,
-        isHistorical: !!choice.historical,
-        advisor: choice.advisor ? choice.advisor.name : null,
-        rollP:
-          choice.uncertain && rollIndex != null
-            ? choice.uncertain[rollIndex].weight / choice.uncertain.reduce((a, v) => a + v.weight, 0)
-            : null,
-      },
-    ];
+    const seen = seenStage;
+    const choice = seen.choices[choiceIndex];
+    const newLog = [...log, buildLogEntry(seen, choiceIndex, rollIndex)];
     setLog(newLog);
 
-    let nextPos, isEnd;
-    if (campaign.dynamic) {
-      nextPos = (choice.uncertain && rollIndex != null && choice.uncertain[rollIndex].next) || choice.next;
-      isEnd = nextPos === "END";
-      // A hard-mode ceiling break ends the run immediately — hitting the cap is the event,
-      // regardless of where the choice itself would otherwise have routed.
-      if ((mode === "purge" && flags.purged) || (mode === "coalition" && flags.relieved) || (mode === "iron" && flags.dismissed) || (mode === "axis" && flags.superseded)) {
-        nextPos = "END";
-        isEnd = true;
-      }
-    } else {
-      nextPos = position + 1;
-      isEnd = nextPos >= campaign.length;
-    }
+    const { nextPos, isEnd } = nextPosition({
+      dynamic: !!campaign.dynamic,
+      length: campaign.length,
+      position,
+      choice,
+      rollIndex,
+      mode,
+      flags,
+    });
 
+    setOutcomeStage(null);
     if (!isEnd) {
       const newHistory = [...history, { position: nextPos, flags, meters, log: newLog }];
       setHistory(newHistory);
-      const newVisited = visited.includes(String(nextPos)) ? visited : [...visited, String(nextPos)];
+      const newVisited = nextVisited(visited, nextPos);
       setVisited(newVisited);
       setPosition(nextPos);
       setChoiceIndex(null);
@@ -23200,14 +23061,16 @@ function WW2CommandInner() {
       const nextStage = resolveStage(campaign, nextPos, flags, meters);
       // Historical Divergence Mode reveal check runs first and, when it matches, wins outright —
       // it's deterministic (this fork fired, this is its one reveal point) rather than the
-      // probabilistic ~1-in-7 real-news check below, so it should never lose to a coin flip that
-      // happens to also want this node. seenWireHeadlines is shared with the real Wire Bulletin
-      // list; onContinue below already pushes whichever id was shown into it either way.
-      const divergeFork = campaign.dynamic
-        ? (DIVERGENCE_FORKS[campaignId] || []).find(
-            (fk) => fk.revealNode === String(nextPos) && flags[fk.flag] && !seenWireHeadlines.includes(fk.id)
-          )
-        : null;
+      // probabilistic ~1-in-7 real-news check below. seenWireHeadlines is shared with the real
+      // Wire Bulletin list; onContinue below already pushes whichever id was shown into it.
+      const divergeFork = arrivalFork({
+        dynamic: !!campaign.dynamic,
+        campaignId,
+        nextPos,
+        flags,
+        forks: DIVERGENCE_FORKS,
+        seenWireIds: seenWireHeadlines,
+      });
       const wantsWire = !!divergeFork || (campaign.dynamic && nextStage && shouldShowWireBulletin(String(nextPos)));
       const headline = divergeFork
         ? DIVERGENCE_HEADLINES[divergeFork.id]
@@ -23228,7 +23091,7 @@ function WW2CommandInner() {
           version: SAVE_VERSION,
           campaignId,
           mode,
-          favor: mode === "iron" && stage.choices[choiceIndex].favor ? favor - stage.choices[choiceIndex].favor : favor,
+          favor: mode === "iron" && choice.favor ? favor - choice.favor : favor,
           defiance,
           position: nextPos,
           flags,
@@ -23411,6 +23274,7 @@ function WW2CommandInner() {
     setPosition(snap.position);
     setChoiceIndex(null);
     setRollIndex(null);
+    setOutcomeStage(null);
     setHistory(history.slice(0, k + 1));
     setScreen("briefing");
   }
@@ -23531,13 +23395,13 @@ function WW2CommandInner() {
           }}
         />
       )}
-      {screen === "battleResult" && campaign && stage && pendingBattle && pendingBattle.plan && (
+      {screen === "battleResult" && campaign && seenStage && pendingBattle && pendingBattle.plan && (
         <BattleSimulationScreen
           campaign={campaign}
           config={pendingBattle.config}
           plan={pendingBattle.plan}
           baseWeights={pendingBattle.baseWeights}
-          uncertain={stage.choices[pendingBattle.index].uncertain}
+          uncertain={seenStage.choices[pendingBattle.index].uncertain}
           result={pendingBattleResult}
           soundOn={soundOn}
           onResolve={(payload) => chooseOption(pendingBattle.index, payload)}
@@ -23571,16 +23435,16 @@ function WW2CommandInner() {
           history={history}
         />
       )}
-      {screen === "outcome" && campaign && stage && (
+      {screen === "outcome" && campaign && seenStage && (
         <OutcomeScreen
           campaign={campaign}
-          stage={stage}
+          stage={seenStage}
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
           onProceed={proceed}
           soundOn={soundOn}
-          isLast={campaign.dynamic ? stage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
+          isLast={campaign.dynamic ? seenStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
           resolvedWeights={pendingBattleResult ? pendingBattleResult.weights : null}
           planCosts={pendingBattleResult ? pendingBattleResult.planCosts : null}
           battleNotes={pendingBattleResult ? pendingBattleResult.notes : null}

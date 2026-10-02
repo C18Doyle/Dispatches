@@ -108,9 +108,10 @@ async function buildVariant(name, { isDemo = false, grandCampaign = false, keyBa
     logLevel: "info",
   });
 
+  // Run the CLI through node (not the .bin shim) so this works on Windows too.
   execFileSync(
-    path.join(ROOT, "node_modules/.bin/tailwindcss"),
-    ["-i", path.join(ROOT, "src/tailwind.css"), "-o", path.join(outDir, "output.css"), "--minify"],
+    process.execPath,
+    [path.join(ROOT, "node_modules/@tailwindcss/cli/dist/index.mjs"), "-i", path.join(ROOT, "src/tailwind.css"), "-o", path.join(outDir, "output.css"), "--minify"],
     { stdio: "inherit" }
   );
 
@@ -156,11 +157,17 @@ async function main() {
   console.log("Building demo variant...");
   await buildVariant("demo", { isDemo: true, keyBattleSubgame: true });
 
-  zipDir(path.join(DIST, "full"), path.join(BUILDS, "dispatches-1940-itch.zip"));
-  // Full build, re-zipped under the second itch.io listing's filename — see the note above
-  // on why this isn't a third build.
-  zipDir(path.join(DIST, "full"), path.join(BUILDS, "dispatches-1940-UNLISTED-browser-full.zip"));
-  zipDir(path.join(DIST, "demo"), path.join(BUILDS, "dispatches-1940-demo-itch.zip"));
+  // Zipping needs the `zip` CLI. Pass --no-zip (or run where zip is missing, e.g. stock Windows) to
+  // build dist/ only.
+  if (process.argv.includes("--no-zip")) {
+    console.log("--no-zip: skipping builds/*.zip");
+  } else {
+    zipDir(path.join(DIST, "full"), path.join(BUILDS, "dispatches-1940-itch.zip"));
+    // Full build, re-zipped under the second itch.io listing's filename — see the note above
+    // on why this isn't a third build.
+    zipDir(path.join(DIST, "full"), path.join(BUILDS, "dispatches-1940-UNLISTED-browser-full.zip"));
+    zipDir(path.join(DIST, "demo"), path.join(BUILDS, "dispatches-1940-demo-itch.zip"));
+  }
 
   if (process.argv.includes("--dev")) {
     console.log("Building dev variant (Grand Campaign + Key Battle Subgame prototypes, not distributed)...");

@@ -13,13 +13,18 @@
     "extract-claims": "node tools/extract-claims.js src/App.jsx > docs/claims.csv",
     "audit": "npm run check-reachability && npm run check-advisor-dates && npm run check-pace-text && npm run check-outcome-sign && npm run check-battle-balance && npm run extract-claims",
     "build": "node build.mjs",
-    "build:dev": "node build.mjs --dev"
+    "build:dev": "node build.mjs --dev",
+    "build:nozip": "node build.mjs --no-zip",
+    "typecheck": "tsc -p tsconfig.json",
+    "verify:baseline": "node tools/ui_differential.mjs verify dist/full/bundle.js"
   },
   "license": "UNLICENSED",
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
     "esbuild": "^0.28.2",
-    "tailwindcss": "^4.3.3"
+    "jsdom": "^30.1.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "react": "^19.2.8",
