@@ -14,7 +14,10 @@ const GAME = "dispatches-greatwar.jsx";
 if (fs.existsSync("src/MANIFEST.json")) {
   const gameTime = fs.statSync(GAME).mtimeMs;
   const srcTime = Math.max(...fs.readdirSync("src").map((f) => fs.statSync(path.join("src", f)).mtimeMs));
-  if (gameTime > srcTime + 1000) {
+  const manifest = JSON.parse(fs.readFileSync("src/MANIFEST.json", "utf8"));
+  const assembled = manifest.map((f) => fs.readFileSync(path.join("src", f), "utf8")).join(String.fromCharCode(10));
+  // Hand-edited only if the artifact differs from what src/ assembles to AND is newer than src/.
+  if (fs.readFileSync(GAME, "utf8") !== assembled && gameTime > srcTime) {
     console.error(`${GAME} is newer than src/. Either run "node split.mjs" to bring src/ up to date, or revert the direct edit. Not assembling.`);
     process.exit(1);
   }

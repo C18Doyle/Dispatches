@@ -22,7 +22,7 @@ const rows = [];
 function run(label, cmd, cmdArgs, cwd) {
   const t0 = Date.now();
   process.stdout.write(`\n>>> ${label}\n`);
-  const r = spawnSync(cmd, cmdArgs, { cwd, stdio: "inherit", shell: process.platform === "win32" });
+  const r = spawnSync(cmd, cmdArgs, { cwd, stdio: "inherit", shell: process.platform === "win32" && cmd.endsWith(".cmd") });
   const secs = ((Date.now() - t0) / 1000).toFixed(0);
   rows.push({ label, ok: r.status === 0, secs });
 }

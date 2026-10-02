@@ -69,11 +69,14 @@ if (cmd === "split") {
     process.exit(1);
   }
 } else if (cmd === "check") {
-  // Guard against editing the artifact directly: assembling would destroy that work.
+  // Guard against editing the artifact directly: assembling would destroy that work. The artifact is
+  // fine if it already equals what the parts assemble to; it is a hand edit only if it differs AND is
+  // newer than every part.
   if (!existsSync(partsDir)) process.exit(0);
+  if (readFileSync(artifact, "utf8") === assembleText()) process.exit(0);
   const newestPart = Math.max(...cfg.parts.map((p) => statSync(partFile(p)).mtimeMs));
-  if (statSync(artifact).mtimeMs > newestPart + 1000) {
-    console.error(`${cfg.artifact} is newer than every part in ${cfg.partsDir}. Run "split" to bring the parts up to date (or revert the direct edit). Not assembling.`);
+  if (statSync(artifact).mtimeMs > newestPart) {
+    console.error(`${cfg.artifact} differs from its parts and is newer than every part in ${cfg.partsDir}: it looks edited by hand. Run "split" to bring the parts up to date (or revert the direct edit). Not assembling.`);
     process.exit(1);
   }
 } else {
