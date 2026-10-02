@@ -12,9 +12,9 @@ One folder per game plus a shared engine. Read the folder's own `CLAUDE.md` befo
 | `Dispatches 1914/` | Cleanest layout: pure logic layer (src/50-57), campaign-per-file, headless UI baseline. Reference shape for the engine "node provider" mode. |
 
 ## Commands (repo root)
-- `npm run install:all` installs every game's dependencies. `npm test` runs each game's `test:fast` plus the engine equivalence test (a few minutes). `npm run test:slow` runs the long behaviour baselines (1940: ~20 min). `node tools/run-all.mjs --fast 1941` runs one game.
+- `npm run install:all` installs every game's dependencies. `npm test` runs each game's `test:fast` plus the engine equivalence test (a few minutes). `npm run test:slow` runs any game's `test:slow` script (none defines one at the moment: 1940's baseline, the only slow test, moved into its `test:fast`). `node tools/run-all.mjs --fast 1941` runs one game.
 - Per game: `npm run test:fast`, `npm run verify:baseline`, `npm run release` (tests, build, zips and `RELEASE.json` into `releases/<version>/`).
-- Shared tooling: `packages/engine` (engine + `CHANGELOG.md`), `packages/testkit` (headless UI-differential driver, split/assemble, content checks, release zipper). `docs/ROADMAP.md` is the status of the migration; `docs/NEW_GAME_CHECKLIST.md` is the recipe for a new game. CI is `.github/workflows/ci.yml` (not pushed anywhere yet).
+- Shared tooling: `packages/engine` (engine + `CHANGELOG.md`), `packages/testkit` (headless UI-differential driver, split/assemble, content checks, release zipper). `docs/ROADMAP.md` is the status of the migration; `docs/NEW_GAME_CHECKLIST.md` is the recipe for a new game. CI is `.github/workflows/ci.yml` (fast tier on Linux + Windows, browser smoke test on Linux, slow tier weekly); releases are `.github/workflows/release.yml` (tag `<game>-v<version>`). Day-to-day workflow, baseline changes and releasing: `docs/WORKFLOW.md`.
 
 ## Rules for the whole repo
 - Never read a whole large source file. Use Grep and ranged Read. `1940/src/App.jsx` alone is ~1.9 MB.

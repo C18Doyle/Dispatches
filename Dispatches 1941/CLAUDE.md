@@ -32,3 +32,8 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 - `src/logic.ts` calls the engine's campaign primitives (`packages/engine/src/campaign.ts`); `packages/engine/tests/campaign-equivalence.test.mjs` proves they match this game's own rules.
 - KEPT: iron mode (`favor`/`defiance`) is inherited dead code; no Pacific mode uses it.
 - The shipped itch.io zips are older than this source (different pipeline); do not diff against them.
+
+## Changing behaviour (details: ../docs/WORKFLOW.md)
+- After any change run `npm run test:fast`. When `verify:baseline` fails: if it is a bug you introduced, fix the code; if the change is intended, read the reported differences, run `npm run baseline:accept`, and commit the new baseline together with the change and a line in `CHANGELOG.md`. A fix of a legacy bug that the old build got wrong goes in `tests/baseline/known-diffs.json` instead (first differing step plus a one-line reason).
+- Saves: `npm run test:saves` loads the committed old saves in `tests/saves/` into the current build and resumes; they must restore the same screen. Never re-record them to make a failure pass: write a migration so old saves still load.
+- Real-browser check (from the repo root, after building): `npm run smoke:browser`. Known layout findings are listed in `tests/browser-allowlist.json`.

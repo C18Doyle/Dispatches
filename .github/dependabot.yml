@@ -1,0 +1,25 @@
+# Weekly dependency update pull requests. Each opens as a PR so CI (tests, baselines, browser smoke)
+# decides whether it is safe; nothing merges itself.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: npm
+    directory: /Dispatches Frankenstein
+    schedule: { interval: weekly }
+  - package-ecosystem: npm
+    directory: /Dispatches 1914
+    schedule: { interval: weekly }
+  - package-ecosystem: npm
+    directory: /Dispatches 1922
+    schedule: { interval: weekly }
+  - package-ecosystem: npm
+    directory: /Dispatches 1941
+    schedule: { interval: weekly }
+  - package-ecosystem: npm
+    directory: /Dispatches 1940
+    schedule: { interval: weekly }

@@ -19,7 +19,7 @@ is not itself playable in a browser.
 - `check-*.js`, `walk-historical.js` — the custom validators (gates,
   bulletins, continuity, flag values, advisor coverage, full historical
   playthroughs). Run each with `node <script>.js dispatches-1917.jsx`.
-- `monte-carlo.js` — 20k-run gate-bite-rate measurement.
+- `monte-carlo.mjs` — seeded random-play simulation on the real game logic: gate-bite rate and ending reachability (`node tools/monte-carlo.mjs 3000 [--hard]`).
 - `test-round23.js`, `test-round24.js`, `test-save-resume.js` — jsdom
   behavioral UI tests (require a built `bundle_test.js` — see Build below).
 - `HANDOVER.md`, `CIVILWAR_EXPANSION_PLAN.md`,

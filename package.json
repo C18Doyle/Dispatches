@@ -6,6 +6,10 @@
     "install:all": "node tools/run-all.mjs --install",
     "test": "node tools/run-all.mjs --fast",
     "test:slow": "node tools/run-all.mjs --slow",
-    "test:engine": "node packages/engine/tests/campaign-equivalence.test.mjs"
+    "test:engine": "node packages/engine/tests/campaign-equivalence.test.mjs",
+    "smoke:browser": "node tools/smoke-browser.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
   }
 }

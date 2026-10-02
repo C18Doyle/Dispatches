@@ -13,14 +13,13 @@ import {
 } from "@dispatches/engine";
 import type { Action, Difficulty, GameState, UiPrefs } from "@dispatches/engine";
 import { def } from "./game";
+import { IN_RUN_SCREENS, parseRunSave } from "./runSave";
 import * as sfx from "./sfx";
 
 type Resource = string;
 type FontSize = UiPrefs["fontSize"];
 
 const TOTAL_ENDINGS = Object.keys(def.content.endings).length;
-
-const IN_RUN_SCREENS = new Set(["PROLOGUE", "CHAPTER_CARD", "NODE", "OUTCOME", "ROLL", "INTERLUDE"]);
 
 const RESOURCE_IDS: Resource[] = def.config.resources.map((r) => r.id);
 const RESOURCE_LABELS: Record<Resource, string> = Object.fromEntries(def.config.resources.map((r) => [r.id, r.label]));
@@ -125,17 +124,9 @@ const RUN_SAVE_KEY = "frankenstein_run_save_v2";
 
 function loadRunSave(): GameState | null {
   try {
-    const raw = localStorage.getItem(RUN_SAVE_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as GameState;
-    // Guard against a save from an older content build naming a node that no
-    // longer exists — better to discard it than to hydrate into a crash.
-    if (!parsed || typeof parsed.phase !== "string" || !IN_RUN_SCREENS.has(parsed.phase)) return null;
-    if (typeof parsed.resources !== "object" || parsed.resources === null) return null;
-    if (parsed.phase !== "PROLOGUE" && parsed.phase !== "CHAPTER_CARD" && !def.content.nodes[parsed.currentNodeId]) return null;
-    return parsed;
+    return parseRunSave(localStorage.getItem(RUN_SAVE_KEY), def.content.nodes);
   } catch {
-    return null;
+    return null; // storage unavailable
   }
 }
 

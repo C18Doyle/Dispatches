@@ -1,0 +1,14 @@
+{
+ "id": "bolsheviks-open",
+ "seed": 1,
+ "storage": {
+  "dispatches1922_discovered_v1": "{\"schemaVersion\":1,\"nodes\":{\"bolsheviks\":{\"revvoensovietFormed18\":true,\"tsaritsynCrisis18\":true,\"grainRequisition18\":true,\"southernFrontPlan19\":true}},\"endings\":{}}",
+  "dispatches1922_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"bolsheviks\",\"nodeId\":\"southernFrontPlan19\",\"meters\":{\"mobilization\":2,\"warIndustry\":0,\"reliability\":0},\"flags\":{\"specialistPolicy\":\"voenspetsy\",\"tsaritsynOutcome\":\"recalled\",\"voroshilovCompliance\":\"smooth\",\"requisitionPolicy\":\"restructured\"},\"visitedNodes\":[\"revvoensovietFormed18\",\"tsaritsynCrisis18\",\"grainRequisition18\",\"southernFrontPlan19\"],\"hardModeValue\":0,\"hardModeMaxed\":false,\"hardModeEnabled\":false,\"screen\":\"briefing\",\"savedAt\":1790962040112}"
+ },
+ "expect": {
+  "menuHash": "GC42Bb8i:538",
+  "resumeControl": "▶ RESUME COMMAND",
+  "afterResumeHash": "vhey0EFg:2172",
+  "errors": []
+ }
+}

@@ -1,0 +1,8 @@
+{
+  "_comment": "itch.io pushes. Set target to your itch.io 'user/game-slug' for each game and add a repository secret named BUTLER_API_KEY (itch.io > Settings > API keys). Channels are chosen by release variant name. Entries left as REPLACE_ME are skipped.",
+  "frankenstein": { "target": "REPLACE_ME/frankenstein", "channels": { "web": "web" } },
+  "1914": { "target": "REPLACE_ME/dispatches-1914", "channels": { "web": "web" } },
+  "1922": { "target": "REPLACE_ME/dispatches-1922", "channels": { "web": "web" } },
+  "1941": { "target": "REPLACE_ME/dispatches-1941", "channels": { "full": "web-full", "demo": "web-demo" } },
+  "1940": { "target": "REPLACE_ME/dispatches-1940", "channels": { "full": "web-full", "demo": "web-demo" } }
+}

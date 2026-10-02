@@ -1,0 +1,14 @@
+{
+ "id": "southRussia-open",
+ "seed": 1,
+ "storage": {
+  "dispatches1922_discovered_v1": "{\"schemaVersion\":1,\"nodes\":{\"southRussia\":{\"kornilovsDeath18\":true,\"moscowDirective19\":true,\"kievConvergence19\":true,\"rearSecurity19\":true}},\"endings\":{}}",
+  "dispatches1922_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"southRussia\",\"nodeId\":\"rearSecurity19\",\"meters\":{\"manpower\":-4,\"materiel\":1,\"rail\":1},\"flags\":{\"ekaterinodarChoice\":\"withdraw\",\"directiveIssued\":\"broad\",\"kievApproach\":\"preempt\"},\"visitedNodes\":[\"kornilovsDeath18\",\"moscowDirective19\",\"kievConvergence19\",\"rearSecurity19\"],\"hardModeValue\":0,\"hardModeMaxed\":false,\"hardModeEnabled\":false,\"screen\":\"briefing\",\"savedAt\":1790962031014}"
+ },
+ "expect": {
+  "menuHash": "JHjRQglY:524",
+  "resumeControl": "▶ RESUME COMMAND",
+  "afterResumeHash": "7WWxrHaf:1545",
+  "errors": []
+ }
+}
