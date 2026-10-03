@@ -52,12 +52,19 @@ format change is intended, write the migration so the old fixtures still load; o
 - `docs/DATA_MIGRATION.md`: content in JSON (1941 Allied Pacific pilot) and what blocks the rest.
 
 ## Releasing a game
-1. Update the game's `CHANGELOG.md` and bump `version` in its `package.json` (the tag must match it).
-2. Locally, if you want to see it first: `npm run release` in the game folder, then
-   `node tools/verify-release.mjs <game>` from the root (checks the zip like itch.io would serve it: `index.html`
-   at the root, file limits, hashes, and loads the unzipped files in Chromium).
-3. Tag and push: `git tag 1941-v1.0.1` then `git push origin 1941-v1.0.1`. The release workflow runs the tests,
-   builds, verifies the zips, attaches them to a GitHub release and, if itch.io is set up, pushes them with butler.
+Versions are plain semver (`1.2.3`) and the **tag, the game's `package.json` version and a `## 1.2.3` heading in its
+`CHANGELOG.md` must agree**; the release workflow refuses otherwise. Current versions: Frankenstein 1.0.0, 1914 1.0.0, 1922 1.0.0,
+1941 1.0.0, 1940 6.0.0. These are labels for tags: if the version live on itch.io differs, set `package.json` to match before the first
+tag and bump from there.
+1. In `CHANGELOG.md` rename `## Unreleased (...)` to `## <new version> (<date>)` (the release notes are that section), bump
+   `version` in the game's `package.json` (and `package-lock.json`'s two version fields), commit, merge.
+2. Check it: `node tools/release-check.mjs 1941` (semver, changelog section, leftover Unreleased entries, itch.io target).
+3. Optional, locally: `npm run release` in the game folder, then `node tools/verify-release.mjs 1941` (checks the zip like itch.io would
+   serve it: `index.html` at the root, file limits, hashes, and loads the unzipped files in Chromium and WebKit).
+4. Tag the merged commit: `git tag 1941-v1.0.1` then `git push origin 1941-v1.0.1`. The workflow runs the check, the game's tests and
+   build, verifies the zips, creates a GitHub release with the changelog section as its notes and, if itch.io is set up, pushes with butler.
+5. **Rehearsal / release candidate:** a version with a suffix (`1.0.1-rc.1`, tag `1941-v1.0.1-rc.1`) runs the whole pipeline but creates
+   a GitHub *pre-release* and never touches itch.io. Delete it afterwards: `gh release delete 1941-v1.0.1-rc.1 --cleanup-tag --yes`.
 
 ### One-time itch.io setup
 - In `itch.json` replace each `REPLACE_ME/...` with your itch.io `user/game-slug`.

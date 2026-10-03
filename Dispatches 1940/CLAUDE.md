@@ -38,5 +38,5 @@ React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 250 nodes, Easy / Sta
 
 ## Changing behaviour (details: ../docs/WORKFLOW.md)
 - After any change run `npm run test:fast`. When `verify:baseline` fails: if it is a bug you introduced, fix the code; if the change is intended, read the reported differences, run `npm run baseline:accept`, and commit the new baseline together with the change and a line in `CHANGELOG.md`. A fix of a legacy bug that the old build got wrong goes in `tests/baseline/known-diffs.json` instead (first differing step plus a one-line reason).
-- This game keeps no saved state, so there is no save-compatibility test.
+- Saves: the code writes `ww2-command-active` and `ww2-command-record` through `window.storage` (Claude's artifact API) but this game never defines `window.storage`, so outside that environment (itch.io, Windows) nothing persists and `SAVE_VERSION` guards nothing. 1941's `src/parts/00-head.jsx` has the localStorage-backed shim that fixes it. Once that is added, give this game the 1941 save tests and migration helper (docs/SAVES.md).
 - Real-browser check (from the repo root, after building): `npm run smoke:browser`. Known layout findings are listed in `tests/browser-allowlist.json`.

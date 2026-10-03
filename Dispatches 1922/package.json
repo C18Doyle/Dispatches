@@ -1,6 +1,6 @@
 {
   "name": "dispatches-1922",
-  "version": "1.0.0-src",
+  "version": "1.0.0",
   "description": "Dispatches 1922: the Russian Civil War (South Russia, Siberia, Bolsheviks). Source reconstructed from the shipped single-file build.",
   "private": true,
   "scripts": {
