@@ -13,7 +13,7 @@ Auto-loads each session. Read before touching the file.
 
 ## State
 
-Engine scaffold only. **No content. No UI.** Node sets are empty by design.
+Three campaigns (OHL, GQG, Stavka) are written and playable through a menu UI; BEF, AOK and Ottoman are not started (see Content status below). The bullets in this State section were written when it was an engine scaffold and are partly out of date.
 
 - `dispatches-greatwar.jsx` — engine layer. UI layer is empty, blocked on art direction.
 - 13 validators + `smoke.js` + `_fixture.jsx` (deliberate faults, validator self-test)
