@@ -10,6 +10,7 @@ const result = checkOrphans(CAMPAIGNS, {
   axes: ["manpower","fuel","initiative"],
   resolveNode: (camp, id, flags, meters) => camp.resolveNode(id, flags, meters),
   startOf: (camp) => camp.start,
+  startFlags: [{}, { hardMode: true }], // hard mode sets flags.hardMode and unlocks nodes only it reaches
   gated: (c) => !!c.disabledReason,
   atlasOf: (camp, cid) => (NODE_ATLAS[cid] || []).map((n) => n.id),
   nodeTotal: NODE_TOTAL,

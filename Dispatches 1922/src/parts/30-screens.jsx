@@ -800,7 +800,7 @@ function RecordsListScreen({ onOpen, onOpenWarRecord, onOpenSettings, savedRun, 
             fontFamily: "'Courier Prime', monospace",
             fontSize: 9,
             letterSpacing: 2,
-            color: "#7a6f5c",
+            color: "#6b6150",
             marginBottom: 8,
           }}
         >
@@ -2001,7 +2001,7 @@ function WarRecordScreen({ onClose, onOpenSection, discovery }) {
       <TopBar title="dispatches-1922" onClose={onClose} />
 
       <div style={{ padding: "16px 16px 10px", borderBottom: `2px double ${ink}` }}>
-        <div style={{ display: "flex", justifyContent: "space-between", fontFamily: mono, fontSize: 9, letterSpacing: 2, color: "#7a6f5c", marginBottom: 8 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontFamily: mono, fontSize: 9, letterSpacing: 2, color: "#6b6150", marginBottom: 8 }}>
           <span>FILE NO. 1922</span>
           <span style={{ color: stampRed }}>WAR RECORD</span>
         </div>
@@ -2257,7 +2257,7 @@ function SettingsScreen({ textSize, setTextSize, reduceMotion, setReduceMotion, 
             fontFamily: mono,
             fontSize: 9,
             letterSpacing: 2,
-            color: "#7a6f5c",
+            color: "#6b6150",
             marginBottom: 8,
           }}
         >

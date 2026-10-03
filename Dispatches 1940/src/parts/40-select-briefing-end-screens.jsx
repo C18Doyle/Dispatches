@@ -13,7 +13,7 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
       try {
         const active = await window.storage.get("ww2-command-active");
         if (active && active.value) {
-          const parsed = JSON.parse(active.value);
+          const parsed = migrateSave(JSON.parse(active.value));
           if (isValidActiveRun(parsed)) {
             setActiveRun(parsed);
           } else {

@@ -14,6 +14,68 @@ import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, re
 import THEME_MUSIC_DATA_URL from "../assets/theme.mp3";
 import REGIONS_GEOMETRY from "../assets/maps/regions.json";
 
+// ---------- STORAGE POLYFILL (real-browser / Electron deployment) ----------
+// window.storage.get/set/delete is a Claude-artifact-environment-specific API and
+// does not exist in a real browser or in Electron — this file's save system (see
+// saveActiveRun/saveRunRecord/clearActiveRun below) calls it directly and would
+// silently fail every save on itch.io or the Windows build without this. Reproduces
+// the same async interface backed by localStorage so none of the call sites need
+// to change, with an in-memory Map fallback if localStorage itself throws (some
+// privacy modes, some restrictive webviews), so a save failure degrades to "no
+// persistence this session" rather than crashing the app on every autosave.
+if (typeof window !== "undefined" && !window.storage) {
+  const memoryFallback = new Map();
+  let localStorageAvailable = true;
+  try {
+    const testKey = "__dispatches_storage_test__";
+    window.localStorage.setItem(testKey, "1");
+    window.localStorage.removeItem(testKey);
+  } catch (e) {
+    localStorageAvailable = false;
+  }
+  // Failure contract: this file's own save architecture (saveActiveRun / clearActiveRun
+  // / withRetry, see below) detects failure ONLY via a thrown exception — it does not
+  // check this API's resolved return value for truthiness. An earlier version of this
+  // polyfill caught every internal error and returned null instead of throwing, which
+  // silently defeated that retry-and-report logic: saveActiveRun would report success
+  // even when a write genuinely failed (e.g. quota exceeded on a specific write, distinct
+  // from localStorage being unavailable at all), and withRetry would never actually retry
+  // since fn() never appeared to fail. get() is unaffected — its callers already handle
+  // both a thrown exception and a null/missing result, so either behavior is safe there.
+  window.storage = {
+    async get(key) {
+      try {
+        const value = localStorageAvailable ? window.localStorage.getItem(key) : memoryFallback.has(key) ? memoryFallback.get(key) : null;
+        if (value === null || value === undefined) return null;
+        return { key, value, shared: false };
+      } catch (e) {
+        return null;
+      }
+    },
+    async set(key, value) {
+      // localStorage being unavailable AT ALL (checked once, above) is a stable, known
+      // degraded mode — fall back to memory silently, matches the original design intent.
+      if (!localStorageAvailable) {
+        memoryFallback.set(key, value);
+        return { key, value, shared: false };
+      }
+      // localStorage being available in general but THIS specific write failing (quota
+      // exceeded, etc.) is the case that must throw, not silently degrade, so the
+      // existing retry/failure-reporting architecture actually sees it.
+      window.localStorage.setItem(key, value);
+      return { key, value, shared: false };
+    },
+    async delete(key) {
+      if (!localStorageAvailable) {
+        memoryFallback.delete(key);
+        return { key, deleted: true, shared: false };
+      }
+      window.localStorage.removeItem(key);
+      return { key, deleted: true, shared: false };
+    },
+  };
+}
+
 // ---------- SOUND ENGINE (default off; lazily initialized on user gesture) ----------
 let soundReady = false;
 let clackSynth = null;

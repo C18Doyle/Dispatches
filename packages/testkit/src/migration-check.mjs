@@ -1,6 +1,6 @@
 // Tests a game's save-migration helper (NODE_ALIASES / SAVE_MIGRATIONS / migrateSave, see docs/SAVES.md) without
 // running the game. The helper is cut out of the game's source part, its two tables are replaced with test ones and
-// SAVE_SCHEMA_VERSION is pretended to be 3, so what is tested is the real code that ships.
+// the version constant is pretended to be 3, so what is tested is the real code that ships.
 //
 //   import { checkMigrationHelper } from "../../packages/testkit/src/migration-check.mjs";
 //   checkMigrationHelper({ part: "src/parts/40-app.jsx", idField: "nodeId", listField: "visitedNodes" })
@@ -11,7 +11,7 @@
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 
-export function checkMigrationHelper({ part, idField, listField }) {
+export function checkMigrationHelper({ part, idField, listField, versionConst = "SAVE_SCHEMA_VERSION", versionField = "schemaVersion" }) {
   const src = readFileSync(part, "utf8").replace(/\r\n/g, "\n");
   const start = src.indexOf("const NODE_ALIASES = {};");
   const fn = src.indexOf("function migrateSave(");
@@ -22,7 +22,7 @@ export function checkMigrationHelper({ part, idField, listField }) {
 
   const run = (migrations) => {
     const code =
-      "const SAVE_SCHEMA_VERSION = 3;\n" +
+      `const ${versionConst} = 3;\n` +
       helper.replace("const NODE_ALIASES = {};", 'const NODE_ALIASES = { oldNode: "newNode" };').replace("const SAVE_MIGRATIONS = {};", `const SAVE_MIGRATIONS = ${migrations};`) +
       "\nmodule.exports = { migrateSave };";
     const sandbox = { module: { exports: {} } };
@@ -30,20 +30,20 @@ export function checkMigrationHelper({ part, idField, listField }) {
     return sandbox.module.exports.migrateSave;
   };
   const both = "{ 1: (s) => ({ ...s, flags: { ...s.flags, step1: true } }), 2: (s) => ({ ...s, flags: { ...s.flags, step2: true } }) }";
-  const save = (v) => ({ schemaVersion: v, flags: {}, [idField]: "oldNode", [listField]: ["a", "oldNode", "b"] });
+  const save = (v) => ({ [versionField]: v, flags: {}, [idField]: "oldNode", [listField]: ["a", "oldNode", "b"] });
   const problems = [];
   const expect = (cond, msg) => cond || problems.push(`${part}: ${msg}`);
 
   const migrate = run(both);
   const up = migrate(save(1));
-  expect(up && up.schemaVersion === 3, "a version-1 save should come out at the current version");
+  expect(up && up[versionField] === 3, "a version-1 save should come out at the current version");
   expect(up && up.flags.step1 && up.flags.step2, "every migration step should run, in order");
   expect(up && up[idField] === "newNode", `a renamed node should be rewritten in ${idField}`);
   expect(up && JSON.stringify(up[listField]) === JSON.stringify(["a", "newNode", "b"]), `a renamed node should be rewritten in ${listField}`);
   const current = migrate(save(3));
   expect(current && current[idField] === "newNode", "a current-version save should still get node aliases applied");
   expect(migrate(save(4)) === null, "a save from a newer build should be refused");
-  expect(migrate({ ...save(3), schemaVersion: undefined }) === null, "an unversioned save should be refused");
+  expect(migrate({ ...save(3), [versionField]: undefined }) === null, "an unversioned save should be refused");
   expect(migrate(null) === null && migrate("x") === null, "a non-object save should be refused");
   expect(run("{ 2: (s) => s }")(save(1)) === null, "a save with a missing migration step should be refused, not half-loaded");
   return problems;

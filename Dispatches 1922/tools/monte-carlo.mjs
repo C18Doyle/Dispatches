@@ -5,7 +5,7 @@
 //   gate-bite rate  share of runs that, at some node, saw a gated choice that was unavailable
 //   endings         which endings were reached, and any authored ending that no run reached
 //
-//   node tools/monte-carlo.mjs [runsPerCampaign=5000] [--hard] [--seed=N]
+//   node tools/monte-carlo.mjs [runsPerCampaign=5000] [--hard [--spend-capital]] [--seed=N]
 import { readFileSync, writeFileSync, mkdtempSync } from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
@@ -16,6 +16,7 @@ import { buildSync } from "esbuild";
 const args = process.argv.slice(2);
 const RUNS = parseInt(args.find((a) => /^\d+$/.test(a)) || "5000", 10);
 const HARD = args.includes("--hard");
+const GREEDY = args.includes("--spend-capital"); // with --hard: prefer capital-spending choices, to see whether the hard-mode ending can fire
 const seedArg = args.find((a) => a.startsWith("--seed="));
 let seed = seedArg ? parseInt(seedArg.slice(7), 10) >>> 0 : 20260101;
 const rand = () => {
@@ -52,13 +53,18 @@ function simulate(camp) {
     const open = choices.filter((c) => !(typeof c.gate === "function" && !c.gate(meters)));
     if (open.length < choices.length) bitGate = true;
     if (!open.length) return { bitGate, ending: "(softlock: every choice gated)" };
-    const choice = open[Math.floor(rand() * open.length)];
+    const spenders = HARD && GREEDY ? open.filter((c) => c.costsCapital === true) : [];
+    const pool = spenders.length ? spenders : open;
+    const choice = pool[Math.floor(rand() * pool.length)];
     const r = resolveChoice({ choice, meters, campaign: camp, hardModeEnabled: HARD, hardModeValue: hardValue, rand, helpers });
     meters = r.meters;
     flags = { ...flags, ...r.newFlags };
     hardValue = r.hardModeValue;
     const next = afterOutcome({ campaign: camp, nodeId: r.destination, flags, meters, hardModeMaxed: r.hardModeMaxed });
-    if (next.screen === "ending") return { bitGate, ending: next.endingId };
+    if (next.screen === "ending") {
+      const n = camp.resolveNode(next.endingId, flags, meters); // some ending nodes redirect to one of several endings
+      return { bitGate, ending: (n && n.title) || next.endingId };
+    }
     if (next.screen === "end") return { bitGate, ending: "(END_STUB)" };
     nodeId = r.destination;
   }
@@ -75,7 +81,7 @@ for (const [id, camp] of Object.entries(CAMPAIGNS)) {
     endings.set(ending, (endings.get(ending) || 0) + 1);
   }
   console.log(`${id}: gate-bite rate ${((bites / RUNS) * 100).toFixed(1)}% (${bites}/${RUNS})`);
-  const authored = Object.keys(camp.ENDING_CLASSIFICATION || {});
+  const authored = (camp.ENDINGS_GALLERY || []).map((e) => e.title).filter((t) => t);
   const sorted = [...endings.entries()].sort((a, b) => b[1] - a[1]);
   for (const [e, n] of sorted) console.log(`    ${String(n).padStart(6)}  ${e}`);
   const never = authored.filter((e) => !endings.has(e));

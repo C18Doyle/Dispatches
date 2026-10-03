@@ -9,9 +9,14 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 ### Changed
 - Layout is mobile-first: the whole app is a centred column at most 600px wide on desktop (it was full width). Phones are unchanged.
 - tools/monte-carlo.js replaced by tools/monte-carlo.mjs, which plays the real src/logic.ts (seeded). It reports gate-bite rate and which endings are reached. It no longer reproduces the old routing.
+### Fixed
+- The Bolsheviks ending "A Hollow Victory" could never be reached: it required `requisitionPolicy: intensified` and `congressChoice: press`, which are set on opposite branches of the campaign. It now follows an assault on Kronstadt after either intensified requisitioning or pressing the Eighth Congress (about 9% of random Bolsheviks runs). Five seeded baseline runs now end there instead of at The Ice Broken (recorded in tests/baseline/known-diffs.json).
+- A 9px muted header label ("FILE NO. 1922") was below the 4.5:1 contrast ratio; its colour is slightly darker.
+### Known
+- Hard-mode endings: capital is capped at 5, but one path can spend at most 4 capital-spending choices in South Russia and 3 in the Bolsheviks campaign, so their hard-mode endings (The Mutiny, The Central Committee Moves) cannot fire. Siberia's can. Needs a design decision (lower the cap or add capital-spending choices).
 ### Added
 - Save migrations and node aliases (`NODE_ALIASES`, `SAVE_MIGRATIONS`, `migrateSave`) so an update upgrades saves instead of wiping them (docs/SAVES.md).
-- `check:orphans`: every listed node and ending is reachable. Known content finding, accepted in `tests/orphans-allowlist.json`: the ending `endingHollowVictory21` (Bolsheviks) cannot be reached, because it needs `requisitionPolicy: intensified` and `congressChoice: press`, which are set on opposite branches of the campaign.
+- `check:orphans`: every listed node and ending is reachable (hard-mode endings excepted).
 - Save-compatibility test (npm run test:saves) with four committed old saves.
 
 ## 1.0.0-src (migration baseline)

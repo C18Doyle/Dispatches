@@ -14,6 +14,68 @@ import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, re
 import THEME_MUSIC_DATA_URL from "../assets/theme.mp3";
 import REGIONS_GEOMETRY from "../assets/maps/regions.json";
 
+// ---------- STORAGE POLYFILL (real-browser / Electron deployment) ----------
+// window.storage.get/set/delete is a Claude-artifact-environment-specific API and
+// does not exist in a real browser or in Electron — this file's save system (see
+// saveActiveRun/saveRunRecord/clearActiveRun below) calls it directly and would
+// silently fail every save on itch.io or the Windows build without this. Reproduces
+// the same async interface backed by localStorage so none of the call sites need
+// to change, with an in-memory Map fallback if localStorage itself throws (some
+// privacy modes, some restrictive webviews), so a save failure degrades to "no
+// persistence this session" rather than crashing the app on every autosave.
+if (typeof window !== "undefined" && !window.storage) {
+  const memoryFallback = new Map();
+  let localStorageAvailable = true;
+  try {
+    const testKey = "__dispatches_storage_test__";
+    window.localStorage.setItem(testKey, "1");
+    window.localStorage.removeItem(testKey);
+  } catch (e) {
+    localStorageAvailable = false;
+  }
+  // Failure contract: this file's own save architecture (saveActiveRun / clearActiveRun
+  // / withRetry, see below) detects failure ONLY via a thrown exception — it does not
+  // check this API's resolved return value for truthiness. An earlier version of this
+  // polyfill caught every internal error and returned null instead of throwing, which
+  // silently defeated that retry-and-report logic: saveActiveRun would report success
+  // even when a write genuinely failed (e.g. quota exceeded on a specific write, distinct
+  // from localStorage being unavailable at all), and withRetry would never actually retry
+  // since fn() never appeared to fail. get() is unaffected — its callers already handle
+  // both a thrown exception and a null/missing result, so either behavior is safe there.
+  window.storage = {
+    async get(key) {
+      try {
+        const value = localStorageAvailable ? window.localStorage.getItem(key) : memoryFallback.has(key) ? memoryFallback.get(key) : null;
+        if (value === null || value === undefined) return null;
+        return { key, value, shared: false };
+      } catch (e) {
+        return null;
+      }
+    },
+    async set(key, value) {
+      // localStorage being unavailable AT ALL (checked once, above) is a stable, known
+      // degraded mode — fall back to memory silently, matches the original design intent.
+      if (!localStorageAvailable) {
+        memoryFallback.set(key, value);
+        return { key, value, shared: false };
+      }
+      // localStorage being available in general but THIS specific write failing (quota
+      // exceeded, etc.) is the case that must throw, not silently degrade, so the
+      // existing retry/failure-reporting architecture actually sees it.
+      window.localStorage.setItem(key, value);
+      return { key, value, shared: false };
+    },
+    async delete(key) {
+      if (!localStorageAvailable) {
+        memoryFallback.delete(key);
+        return { key, deleted: true, shared: false };
+      }
+      window.localStorage.removeItem(key);
+      return { key, deleted: true, shared: false };
+    },
+  };
+}
+
 // ---------- SOUND ENGINE (default off; lazily initialized on user gesture) ----------
 let soundReady = false;
 let clackSynth = null;
@@ -14186,6 +14248,19 @@ const NODE_ATLAS = {
     { id: "finalWeek45", date: "LATE APRIL 1945", title: "The Final Week" },
     { id: "flensburg45", date: "MAY 1945", title: "The Flensburg Government" },
     { id: "alpineRedoubt45", date: "MAY 1945", title: "The Redoubt That Wasn't" },
+    { id: "caseYellowOriginal40", date: "JUNE 1940", title: "The Cost of Caution" },
+    { id: "compressedInvasionWindow40", date: "AUGUST 1940", title: "A Shorter Summer to Work With" },
+    { id: "tannenbaum40", date: "OCTOBER 1940", title: "The Tannenbaum Question" },
+    { id: "heydrichReprisals42", date: "JUNE 1942", title: "Lidice" },
+    { id: "vlasov43", date: "1943", title: "The Vlasov Question" },
+    { id: "uranverein43", date: "LATE 1943", title: "The Uranium Club" },
+    { id: "mussoliniRescue43", date: "SEPTEMBER 12, 1943", title: "Gran Sasso" },
+    { id: "stockholmFeelers43", date: "SEPTEMBER – DECEMBER 1943", title: "The Stockholm Channel" },
+    { id: "italianLine43", date: "OCTOBER – NOVEMBER 1943", title: "Where Italy Is Held" },
+    { id: "vWeaponsProduction44", date: "SPRING 1944", title: "The Vengeance Weapons" },
+    { id: "romaniaDefects44", date: "AUGUST 23, 1944", title: "The Coup in Bucharest" },
+    { id: "valkyrieGovernment44", date: "AUGUST 1944", title: "What the New Government Actually Does" },
+    { id: "rommelFate44", date: "OCTOBER 1944", title: "The Emissaries to Herrlingen" },
   ],
   soviet: [
     { id: "border41", date: "JUNE 1941", title: "The Border Collapses" },
@@ -14232,6 +14307,11 @@ const NODE_ATLAS = {
     { id: "vistulaOder45", date: "JANUARY – FEBRUARY 1945", title: "Berlin in February?" },
     { id: "maskingForceQuestion45", date: "FEBRUARY 1945", title: "The Watchers at the Gate" },
     { id: "berlinRace45", date: "APRIL 1945", title: "The Race for Berlin" },
+    { id: "moscowVyazma41", date: "OCTOBER 16, 1941", title: "The Reserve Kiev Bought" },
+    { id: "vacuumOverreach43", date: "FEBRUARY 1943", title: "The Salient Outruns Itself" },
+    { id: "finnishArmistice44", date: "SEPTEMBER 1944", title: "The Finnish Question" },
+    { id: "finlandOccupationCost44", date: "OCTOBER 1944", title: "What Holding a Hostile Population Actually Costs" },
+    { id: "berlinFeb45", date: "MARCH 1945", title: "Berlin, Early" },
   ],
   allied: [
     { id: "narvik40", date: "APRIL 1940", title: "Narvik" },
@@ -14277,6 +14357,14 @@ const NODE_ATLAS = {
     { id: "stalinTestsTheFront45", date: "MARCH 1945", title: "Stalin Tests the Front" },
     { id: "strategicBombing45", date: "FEBRUARY 1945", title: "The February Directives" },
     { id: "germanyOccupation45", date: "MAY – JUNE 1945", title: "What Germany Becomes" },
+    { id: "pq17_1942", date: "JULY 4, 1942", title: "Convoy PQ-17" },
+    { id: "omahaCrisis44", date: "JUNE 6, 1944 — MORNING", title: "Omaha" },
+    { id: "omahaIsolated44", date: "JUNE 6, 1944 — LATE AFTERNOON", title: "The Beach That Didn't Link Up" },
+    { id: "omahaToehold44", date: "JUNE 11, 1944", title: "The Toehold" },
+    { id: "omahaBreakthroughLate44", date: "JUNE 9, 1944", title: "The Beach Widens" },
+    { id: "gothicLineEarly44", date: "SPRING 1944", title: "The Gothic Line, Tested Early" },
+    { id: "turkishBelligerence44", date: "EARLY 1944", title: "What a Symbolic Declaration Is Actually Worth" },
+    { id: "westernCollapse45", date: "MARCH 1945", title: "The Surrender That Came Early" },
   ],
   italy: [
     { id: "nonBelligerence40", date: "JUNE 1940", title: "The Parallel War" },
@@ -14311,6 +14399,25 @@ const NODE_ATLAS = {
     { id: "civilWarPartisans44", date: "1944", title: "The War Behind the Front" },
     { id: "gothicLineRSI44", date: "AUGUST – DECEMBER 1944", title: "The Republic's Front" },
     { id: "rsiCollapse45", date: "APRIL 1945", title: "The Republic's Last Address" },
+    { id: "extendedHoldout40", date: "LATE JUNE 1940", title: "The Window Closes Without Rome" },
+    { id: "britainAloneQuestion40", date: "JULY 1940", title: "A War Only Half Joined" },
+    { id: "enduringNeutrality40", date: "AUTUMN 1940", title: "The Cost of Staying Out" },
+    { id: "gibraltarGambit40", date: "SEPTEMBER 1940", title: "A Third Claimant at the Table" },
+    { id: "gibraltarResolution40", date: "OCTOBER 23, 1940", title: "Hendaye, With Rome in the Room" },
+    { id: "germanPressure41", date: "1941", title: "Berlin's Patience, Tested" },
+    { id: "herculesExecution41", date: "FALL 1941", title: "The Plan Without the Parts It Needs" },
+    { id: "maltaRetake41", date: "WINTER 1941 – 1942", title: "The Island Britain Won't Write Off" },
+    { id: "neutralItalyOccupied42", date: "LATE 1942", title: "The Ultimatum" },
+    { id: "romeStandoff43", date: "JULY 26, 1943", title: "A Palace Under Two Claims" },
+    { id: "factionSplit43", date: "LATE JULY – AUGUST 1943", title: "An Army That No Longer Agrees With Itself" },
+    { id: "germanExploitation43", date: "AUGUST 1943", title: "Berlin Reads the Confusion" },
+    { id: "civilConflictEnd43", date: "SEPTEMBER 1943", title: "Rome, Spent on Itself" },
+    { id: "alpenvorlandQuestion43", date: "SEPTEMBER – OCTOBER 1943", title: "The Provinces Salò Never Actually Governed" },
+    { id: "imiCrisis43", date: "OCTOBER – DECEMBER 1943", title: "Six Hundred Thousand Men Germany Won't Call Prisoners" },
+    { id: "vaticanChannel44", date: "JANUARY 1944", title: "What Rome's Other Government Can Still Do" },
+    { id: "imiOutcome44", date: "SPRING 1944", title: "What Six Hundred Thousand Men Were Actually Offered" },
+    { id: "clnLiaison44", date: "JULY 1944", title: "The War the South Can Only Fund, Not Fight" },
+    { id: "neutralItalyEnd45", date: "1945", title: "The War That Passed Rome By" },
   ],
 };
 
@@ -16282,6 +16389,36 @@ function rollDivergenceForks(campaignId) {
 // the save is treated as stale and discarded rather than crashing the resume flow.
 const SAVE_VERSION = 1;
 
+// Old node id -> new node id. Add an entry whenever a node is renamed, so saves made before the rename still
+// resume (see docs/SAVES.md). Empty today: no node has been renamed since saving started working.
+const NODE_ALIASES = {};
+// SAVE_MIGRATIONS[n] upgrades a save from version n to n + 1. Add one whenever SAVE_VERSION is bumped, so an
+// update upgrades players' saves instead of wiping them. A save with no way forward is discarded.
+const SAVE_MIGRATIONS = {};
+const aliasNode = (id) => (typeof id === "string" && Object.prototype.hasOwnProperty.call(NODE_ALIASES, id) ? NODE_ALIASES[id] : id);
+
+/** Upgrades a parsed save to the current version and applies node aliases. Returns null if it cannot be used. */
+function migrateSave(saved) {
+  if (!saved || typeof saved !== "object") return null;
+  let version = saved.version;
+  if (!Number.isInteger(version) || version < 1 || version > SAVE_VERSION) return null; // unknown, or from a newer build
+  let s = saved;
+  while (version < SAVE_VERSION) {
+    const step = SAVE_MIGRATIONS[version];
+    if (!step) return null;
+    s = step(s);
+    version += 1;
+    if (!s || typeof s !== "object") return null;
+    s.version = version;
+  }
+  if (Object.keys(NODE_ALIASES).length) {
+    s = { ...s, position: aliasNode(s.position) };
+    if (Array.isArray(s.visited)) s.visited = s.visited.map(aliasNode);
+    if (Array.isArray(s.history)) s.history = s.history.map((h) => (h && typeof h === "object" ? { ...h, position: aliasNode(h.position) } : h));
+  }
+  return s;
+}
+
 const NODE_TOTAL = 250; // 99 German + 49 Soviet + 51 Allied + 51 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 const CAMPAIGN_WAR_CONTEXT = {
@@ -17553,7 +17690,7 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
       try {
         const active = await window.storage.get("ww2-command-active");
         if (active && active.value) {
-          const parsed = JSON.parse(active.value);
+          const parsed = migrateSave(JSON.parse(active.value));
           if (isValidActiveRun(parsed)) {
             setActiveRun(parsed);
           } else {
