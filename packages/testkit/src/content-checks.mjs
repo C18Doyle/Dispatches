@@ -99,11 +99,13 @@ export function report(name, result, allowlistPath) {
  *   - atlas size differs from the game's NODE_TOTAL                            -> problem
  *   - an authored ending (endingsOf: an id, or {id, title} for endings reached through a redirecting node,
  *     matched by the resolved title) that no state reaches                     -> problem
+ * `startFlags` lists the flag sets a run can begin with (default one empty set; 1940 passes {} and { hardMode: true }, because
+ * hard mode adds nodes only it reaches).
  * Not covered: endings that are labels computed from final state (1940's check-reachability.js plays runs for those).
  * If the exact search hits `maxStates` (many independent flags), that campaign falls back to `walks` seeded random
  * walks, and anything they never visit is reported as "never reached in N random walks" (strong evidence, not proof).
  */
-export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, endingsOf, nodeTotal, maxStates = 150000, counterClamp = 3, walks = 30000, gated }) {
+export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, endingsOf, nodeTotal, maxStates = 150000, counterClamp = 3, walks = 30000, gated, startFlags = [{}] }) {
   const problems = [];
   const info = { campaigns: 0, reached: 0, atlas: 0, states: 0, truncated: [], walked: [] };
   // Meter states tried at every node: all zero, all high, all low, alternating, and each axis alone at its extremes
@@ -135,8 +137,8 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
       const reached = new Set();
       const endIds = new Set();
       const endTitles = new Set();
-      const stack = [{ nid: start, flags: {} }];
-      seen.add(start + "|" + stable({}));
+      const stack = startFlags.map((f) => ({ nid: start, flags: project(f, keep) }));
+      for (const e of stack) seen.add(start + "|" + stable(e.flags));
       let truncated = false;
       while (stack.length) {
         if (seen.size > limit) {
@@ -201,7 +203,7 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
       const endTitles = new Set();
       for (let w = 0; w < walks; w++) {
         let nid = start;
-        let flags = {};
+        let flags = { ...startFlags[w % startFlags.length] };
         for (let step = 0; step < 250 && nid; step++) {
           const m = Object.fromEntries(keys.map((k) => [k, Math.floor(rnd() * 19) - 9]));
           let st;

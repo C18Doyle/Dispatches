@@ -47,6 +47,7 @@ format change is intended, write the migration so the old fixtures still load; o
 | `node tools/monte-carlo.mjs 3000` (in `Dispatches 1922`) | Seeded random play on the real rules: gate-bite rate and which endings are ever reached |
 
 ## Other guides
+- `docs/FIXES_AND_FINDINGS.md`: every bug found during the refactor, what was fixed, and what is still open.
 - `docs/CONTENT_GUIDE.md`: how to add a node, ending or campaign without tripping a check.
 - `docs/SAVES.md`: renaming nodes and changing save formats safely.
 - `docs/DATA_MIGRATION.md`: content in JSON (1941 Allied Pacific pilot) and what blocks the rest.

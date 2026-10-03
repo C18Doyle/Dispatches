@@ -1,8 +1,4 @@
 {
   "_comment": "Serious/critical axe-core findings accepted for now: game -> rule id -> most elements allowed. Lower these as you fix things; a new rule or a higher count fails tools/smoke-browser.mjs. Re-record only on purpose: node tools/smoke-browser.mjs --record-a11y",
-  "known": {
-    "1922": {
-      "color-contrast": 1
-    }
-  }
+  "known": {}
 }

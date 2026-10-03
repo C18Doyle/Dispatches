@@ -1534,14 +1534,18 @@ CAMPAIGNS.bolsheviks = {
       // the real historical "wins by force, concedes by policy" complexity
       // — a distinct ending, not a text variant. Gate was originally the
       // accumulated legitimacy meter (<= -6) alongside the assault flag;
-      // changed to two specific centralizing decisions in direct sequence,
-      // for the same reason as the other two campaigns' checkpoints — the
-      // triangle shouldn't be what decides which ending a run gets.
+      // changed to specific centralizing decisions, for the same reason as the
+      // other two campaigns' checkpoints — the triangle shouldn't be what
+      // decides which ending a run gets. Either decision is enough: the grain
+      // committees' intensified requisitioning (grainRequisition18) or pressing
+      // the Eighth Congress (militaryOppositionCongress19). They sit on opposite
+      // branches of this campaign, so a run can only ever make one of them; the
+      // original "both" condition made this ending unreachable.
       case "kronstadtReckoning21":
         if (flags.kronstadtChoice === "wait_for_thaw") {
           return this.resolveNode("endingTheIsland21");
         }
-        if (flags.kronstadtChoice === "assault" && flags.requisitionPolicy === "intensified" && flags.congressChoice === "press") {
+        if (flags.kronstadtChoice === "assault" && (flags.requisitionPolicy === "intensified" || flags.congressChoice === "press")) {
           return this.resolveNode("endingHollowVictory21");
         }
         return this.resolveNode(flags.kronstadtChoice === "assault" ? "endingIceBroken" : "endingUnlikelyPrecedent");

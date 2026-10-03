@@ -1676,6 +1676,36 @@ function rollDivergenceForks(campaignId) {
 // the save is treated as stale and discarded rather than crashing the resume flow.
 const SAVE_VERSION = 1;
 
+// Old node id -> new node id. Add an entry whenever a node is renamed, so saves made before the rename still
+// resume (see docs/SAVES.md). Empty today: no node has been renamed since saving started working.
+const NODE_ALIASES = {};
+// SAVE_MIGRATIONS[n] upgrades a save from version n to n + 1. Add one whenever SAVE_VERSION is bumped, so an
+// update upgrades players' saves instead of wiping them. A save with no way forward is discarded.
+const SAVE_MIGRATIONS = {};
+const aliasNode = (id) => (typeof id === "string" && Object.prototype.hasOwnProperty.call(NODE_ALIASES, id) ? NODE_ALIASES[id] : id);
+
+/** Upgrades a parsed save to the current version and applies node aliases. Returns null if it cannot be used. */
+function migrateSave(saved) {
+  if (!saved || typeof saved !== "object") return null;
+  let version = saved.version;
+  if (!Number.isInteger(version) || version < 1 || version > SAVE_VERSION) return null; // unknown, or from a newer build
+  let s = saved;
+  while (version < SAVE_VERSION) {
+    const step = SAVE_MIGRATIONS[version];
+    if (!step) return null;
+    s = step(s);
+    version += 1;
+    if (!s || typeof s !== "object") return null;
+    s.version = version;
+  }
+  if (Object.keys(NODE_ALIASES).length) {
+    s = { ...s, position: aliasNode(s.position) };
+    if (Array.isArray(s.visited)) s.visited = s.visited.map(aliasNode);
+    if (Array.isArray(s.history)) s.history = s.history.map((h) => (h && typeof h === "object" ? { ...h, position: aliasNode(h.position) } : h));
+  }
+  return s;
+}
+
 const NODE_TOTAL = 250; // 99 German + 49 Soviet + 51 Allied + 51 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 const CAMPAIGN_WAR_CONTEXT = {
