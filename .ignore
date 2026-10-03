@@ -1,0 +1,13 @@
+# Read by ripgrep (Claude Code's Grep, `rg`) in addition to .gitignore. These are generated or bulky files
+# that match almost any search and bury the real hit. Search the sources instead:
+#   1922/1940/1941: src/parts/*.jsx   1914: src/*.jsx   Frankenstein: src/content/frankenstein/*.json
+# To look inside one on purpose: `rg --no-ignore -n "text" "Dispatches 1941/src/App.jsx"`. Game save fixtures (tests/saves) are hidden too: open them directly..
+# Plain names, not paths: path patterns through the folders with spaces in their names did not match when tested.
+App.jsx
+dispatches-greatwar.jsx
+baseline.json
+baseline/
+ui-runs/
+saves/
+package-lock.json
+*.map

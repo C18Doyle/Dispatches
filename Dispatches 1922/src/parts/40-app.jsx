@@ -1,11 +1,40 @@
 const SAVE_KEY = "dispatches1922_save_v1";
 const SAVE_SCHEMA_VERSION = 1;
 
+// Old node id -> new node id. Add an entry whenever a node is renamed, so saves made before the rename still
+// resume (see docs/SAVES.md). Empty today: no node has been renamed since the schema version was introduced.
+const NODE_ALIASES = {};
+// SAVE_MIGRATIONS[n] upgrades a save from schema version n to n + 1. Add one whenever SAVE_SCHEMA_VERSION is
+// bumped, so an update upgrades players' saves instead of wiping them. A save with no way forward is discarded.
+const SAVE_MIGRATIONS = {};
+const aliasNode = (id) => (typeof id === "string" && Object.prototype.hasOwnProperty.call(NODE_ALIASES, id) ? NODE_ALIASES[id] : id);
+
+/** Upgrades a parsed save to the current schema and applies node aliases. Returns null if it cannot be used. */
+function migrateSave(saved) {
+  if (!saved || typeof saved !== "object") return null;
+  let version = saved.schemaVersion;
+  if (!Number.isInteger(version) || version < 1 || version > SAVE_SCHEMA_VERSION) return null; // unknown, or from a newer build
+  let s = saved;
+  while (version < SAVE_SCHEMA_VERSION) {
+    const step = SAVE_MIGRATIONS[version];
+    if (!step) return null;
+    s = step(s);
+    version += 1;
+    if (!s || typeof s !== "object") return null;
+    s.schemaVersion = version;
+  }
+  if (Object.keys(NODE_ALIASES).length) {
+    s = { ...s, nodeId: aliasNode(s.nodeId) };
+    if (Array.isArray(s.visitedNodes)) s.visitedNodes = s.visitedNodes.map(aliasNode);
+  }
+  return s;
+}
+
 function readSave() {
   try {
     const raw = window.localStorage.getItem(SAVE_KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw);
+    const parsed = migrateSave(JSON.parse(raw));
     if (!parsed || parsed.schemaVersion !== SAVE_SCHEMA_VERSION) return null;
     if (!parsed.campaignId || !CAMPAIGNS[parsed.campaignId]) return null;
     if (!parsed.nodeId || !parsed.meters || !parsed.flags || !Array.isArray(parsed.visitedNodes)) return null;

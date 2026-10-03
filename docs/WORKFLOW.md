@@ -40,9 +40,16 @@ format change is intended, write the migration so the old fixtures still load; o
 |---|---|
 | `npm test` (repo root) | Every game's `test:fast` plus the engine equivalence test (a few minutes) |
 | `npm run test:slow` (repo root) | Runs any game's `test:slow` script. None defines one now (1940's 48-run baseline, about 4 minutes on Linux, was the only one and now runs in its `test:fast`) |
-| `npm run smoke:browser` (repo root) | Loads each built game in Chromium at phone and desktop size: console errors, blank page, sideways scrolling. Known layout findings are in `tests/browser-allowlist.json` |
-| `node tools/data-readiness.mjs` | How much of each game's content is plain data (could move to JSON) and what blocks the rest |
+| `npm run smoke:browser` (repo root) | Loads each built game in Chromium and WebKit (the engine of iPhone Safari) at phone and desktop size: console errors, blank page, sideways scrolling, text column wider than 600px on desktop. On the phone it also runs axe-core: serious and critical accessibility findings are compared with `tests/a11y-allowlist.json` (a new rule or a higher count fails; `A11Y_LEVEL=minor` shows everything; `--record-a11y` accepts the current state on purpose). First run: `npx playwright install chromium webkit` |
+| `npm run check:orphans` (in a game folder) | Nodes in the discovery atlas that no path reaches, reachable nodes missing from it, `NODE_TOTAL` drift, authored endings no path reaches. Exact search over (node, flags) states; for campaigns with too many flags it falls back to 30000 seeded random walks and says so. Accepted findings live in `tests/orphans-allowlist.json` (`--record` rewrites it on purpose) |
+| `npm run test:saves` / `npm run test:migration` (1922, 1941; Frankenstein: `test:saves`) | Old saves still resume; the save-migration helper behaves (docs/SAVES.md) |
+| `node tools/data-readiness.mjs` | How much of each game's content is plain data (could move to JSON) and what blocks the rest (docs/DATA_MIGRATION.md) |
 | `node tools/monte-carlo.mjs 3000` (in `Dispatches 1922`) | Seeded random play on the real rules: gate-bite rate and which endings are ever reached |
+
+## Other guides
+- `docs/CONTENT_GUIDE.md`: how to add a node, ending or campaign without tripping a check.
+- `docs/SAVES.md`: renaming nodes and changing save formats safely.
+- `docs/DATA_MIGRATION.md`: content in JSON (1941 Allied Pacific pilot) and what blocks the rest.
 
 ## Releasing a game
 1. Update the game's `CHANGELOG.md` and bump `version` in its `package.json` (the tag must match it).

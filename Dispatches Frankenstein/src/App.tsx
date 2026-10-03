@@ -13,7 +13,7 @@ import {
 } from "@dispatches/engine";
 import type { Action, Difficulty, GameState, UiPrefs } from "@dispatches/engine";
 import { def } from "./game";
-import { IN_RUN_SCREENS, parseRunSave } from "./runSave";
+import { IN_RUN_SCREENS, parseRunSave, serializeRunSave } from "./runSave";
 import * as sfx from "./sfx";
 
 type Resource = string;
@@ -132,7 +132,7 @@ function loadRunSave(): GameState | null {
 
 function saveRunSave(state: GameState) {
   try {
-    localStorage.setItem(RUN_SAVE_KEY, JSON.stringify(state));
+    localStorage.setItem(RUN_SAVE_KEY, serializeRunSave(state));
   } catch {
     /* autosave is a convenience, not a guarantee — never block on it */
   }

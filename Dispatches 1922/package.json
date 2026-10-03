@@ -13,11 +13,13 @@
     "assemble": "node ../packages/testkit/src/split.mjs assemble",
     "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip",
     "check:structure": "node tools/check-structure.mjs",
-    "test:fast": "npm run build && npm run typecheck && npm run check && npm run check:structure && npm run test:routing && npm run roundtrip && npm run verify:baseline && npm run test:saves",
+    "test:fast": "npm run build && npm run typecheck && npm run check && npm run check:structure && npm run test:routing && npm run roundtrip && npm run verify:baseline && npm run test:migration && npm run test:saves && npm run check:orphans",
     "release": "node ../packages/testkit/src/release.mjs",
     "monte-carlo": "node tools/monte-carlo.mjs 3000",
     "test:saves": "node ../packages/testkit/src/cli.mjs saves-verify",
-    "baseline:accept": "node ../packages/testkit/src/cli.mjs accept"
+    "baseline:accept": "node ../packages/testkit/src/cli.mjs accept",
+    "check:orphans": "node tools/check-orphans.mjs",
+    "test:migration": "node tests/migration.test.mjs"
   },
   "license": "UNLICENSED",
   "dependencies": {

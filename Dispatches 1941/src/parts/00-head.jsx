@@ -772,4 +772,9 @@ const LEADER_QUOTES = {
   },
 };
 
+// A node stored as JSON: a fresh copy per call, as a getter returned a fresh object before.
+const dataNode = (data, id) => JSON.parse(JSON.stringify(data[id]));
+// alliedPacific: nodes that are plain data live in src/data/alliedPacific.nodes.json (inlined at assembly). Nodes that read flags or meters stay code in the campaign part.
+const ALLIED_PACIFIC_DATA = /*@inline-json src/data/alliedPacific.nodes.json*/null;
+
 const CAMPAIGNS = {

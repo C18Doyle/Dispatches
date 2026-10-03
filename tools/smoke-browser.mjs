@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Real-browser smoke test for every built game (Chromium via Playwright). jsdom, which the UI
+// Real-browser smoke test for every built game (Chromium and WebKit, the engine of iPhone Safari, via Playwright). jsdom, which the UI
 // baselines use, cannot see layout, CSS or a real console; this does.
 //
 //   node tools/smoke-browser.mjs            all games (each must already be built: npm run build in the game)
@@ -13,12 +13,19 @@
 //   - no horizontal scrolling (the mobile rule: container max-width 600px, overflow-x hidden)
 //   - on desktop the text sits in a column at most 600px wide (mobile-first: phones get the full width)
 //   - it can click through five buttons without an error, and the page keeps rendering
-// First run on a machine: npx playwright install chromium
+//   BROWSERS=chromium node tools/smoke-browser.mjs   only one engine (default: chromium,webkit)
+//   node tools/smoke-browser.mjs --record-a11y      accept the current accessibility findings as the new allowance
+//
+// Accessibility (axe-core, Chromium, phone viewport, on the opening screen and after clicking through): serious and
+// critical violations are compared with tests/a11y-allowlist.json (rule -> most elements allowed, per game). A rule
+// that is not listed, or more elements than listed, fails. Known debt is therefore visible and cannot grow silently.
+// First run on a machine: npx playwright install chromium webkit
 import { createServer } from "node:http";
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { chromium } from "playwright";
+import { chromium, webkit } from "playwright";
+import AxeBuilder from "@axe-core/playwright";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const dirArg = process.argv.find((a) => a.startsWith("--dir="));
@@ -34,6 +41,12 @@ const VIEWPORTS = [
   { label: "phone", width: 375, height: 812 },
   { label: "desktop", width: 1280, height: 800 },
 ];
+const A11Y_PATH = join(ROOT, "tests", "a11y-allowlist.json");
+const A11Y = existsSync(A11Y_PATH) ? JSON.parse(readFileSync(A11Y_PATH, "utf8")).known ?? {} : {};
+const LEVELS = ["minor", "moderate", "serious", "critical"];
+const MIN_IMPACT = process.env.A11Y_LEVEL ?? "serious"; // A11Y_LEVEL=minor to see everything axe reports
+const RECORD_A11Y = process.argv.includes("--record-a11y");
+const ENGINES = (process.env.BROWSERS ?? "chromium,webkit").split(",").map((x) => x.trim()).filter(Boolean);
 const ALLOW = JSON.parse(readFileSync(join(ROOT, "tests", "browser-allowlist.json"), "utf8")).known;
 const SHOTS = process.env.SHOTS !== "0";
 const shotsDir = join(ROOT, "tests", "browser-shots");
@@ -55,10 +68,22 @@ function serve(dir) {
 const IGNORED = [/AudioContext/i, /autoplay/i, /favicon/i, /Failed to load resource.*(404|favicon)/i, /download the React DevTools/i];
 const ignored = (t) => IGNORED.some((re) => re.test(t));
 
-async function checkGame(browser, game, vp) {
+/** Serious/critical axe violations on the current page, merged into `into` as rule -> { impact, help, nodes }. */
+async function axeScan(page, into) {
+  const res = await new AxeBuilder({ page }).analyze();
+  for (const v of res.violations) {
+    if (LEVELS.indexOf(v.impact) < LEVELS.indexOf(MIN_IMPACT)) continue;
+    const prev = into.get(v.id);
+    if (!prev || v.nodes.length > prev.nodes) into.set(v.id, { impact: v.impact, help: v.help, nodes: v.nodes.length });
+  }
+}
+
+async function checkGame(browser, engine, game, vp) {
   const dir = resolve(ROOT, game.dist);
   const problems = [];
-  if (!existsSync(join(dir, "index.html"))) return [`no ${game.dist}/index.html: build the game first`];
+  const a11y = new Map();
+  const wantA11y = engine === "chromium" && vp.label === "phone";
+  if (!existsSync(join(dir, "index.html"))) return { problems: [`no ${game.dist}/index.html: build the game first`], a11y };
   const { server, url } = await serve(dir);
   const context = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, deviceScaleFactor: 1 });
   const page = await context.newPage();
@@ -102,8 +127,9 @@ async function checkGame(browser, game, vp) {
 
     if (SHOTS) {
       mkdirSync(shotsDir, { recursive: true });
-      await page.screenshot({ path: join(shotsDir, `${game.name}-${vp.label}-0-open.png`) });
+      await page.screenshot({ path: join(shotsDir, `${game.name}-${engine}-${vp.label}-0-open.png`) });
     }
+    if (wantA11y) await axeScan(page, a11y);
     for (let i = 1; i <= 5; i++) {
       const buttons = page.locator("button:visible");
       const n = await buttons.count();
@@ -120,8 +146,9 @@ async function checkGame(browser, game, vp) {
       if (!target) break;
       await target.click({ timeout: 5000 }).catch((e) => problems.push(`click ${i} failed: ${e.message.split("\n")[0]}`));
       await page.waitForTimeout(250);
-      if (SHOTS && i === 3) await page.screenshot({ path: join(shotsDir, `${game.name}-${vp.label}-3-after-clicks.png`) });
+      if (SHOTS && i === 3) await page.screenshot({ path: join(shotsDir, `${game.name}-${engine}-${vp.label}-3-after-clicks.png`) });
     }
+    if (wantA11y) await axeScan(page, a11y);
     const after = (await page.evaluate(() => document.body.innerText)).trim();
     if (after.length < 40) problems.push("page went blank after clicking through");
     const overflow2 = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -133,26 +160,52 @@ async function checkGame(browser, game, vp) {
     await context.close();
     server.close();
   }
-  return problems;
+  return { problems, a11y };
 }
 
-const browser = await chromium.launch();
+const launchers = { chromium, webkit };
+const recorded = {};
 let failed = 0;
-for (const game of GAMES) {
-  for (const vp of VIEWPORTS) {
-    const all = await checkGame(browser, game, vp);
-    const isKnown = (p) => ALLOW.some((a) => a.game === game.name && a.viewport === vp.label && p.includes(a.contains));
-    const problems = all.filter((p) => !isKnown(p));
-    const known = all.filter(isKnown);
-    const tag = `${game.name.padEnd(12)} ${vp.label.padEnd(8)}`;
-    if (problems.length === 0) console.log(` ok   ${tag}${known.length ? `  (${known.length} known issue(s) in tests/browser-allowlist.json)` : ""}`);
-    else {
-      failed++;
-      console.log(`FAIL  ${tag}`);
-      for (const p of problems) console.log(`        - ${p}`);
+for (const engine of ENGINES) {
+  if (!launchers[engine]) {
+    console.error(`unknown browser "${engine}" (use chromium or webkit)`);
+    process.exit(2);
+  }
+  let browser;
+  try {
+    browser = await launchers[engine].launch();
+  } catch (e) {
+    console.error(`could not start ${engine}: ${e.message.split("\n")[0]}\n  run: npx playwright install ${engine}  (or BROWSERS=chromium to skip it)`);
+    process.exit(1);
+  }
+  for (const game of GAMES) {
+    for (const vp of VIEWPORTS) {
+      const { problems: all, a11y } = await checkGame(browser, engine, game, vp);
+      const isKnown = (p) => ALLOW.some((a) => a.game === game.name && a.viewport === vp.label && p.includes(a.contains));
+      const problems = all.filter((p) => !isKnown(p));
+      const known = all.filter(isKnown);
+      if (a11y.size) {
+        recorded[game.name] = Object.fromEntries([...a11y].map(([rule, v]) => [rule, v.nodes]));
+        for (const [rule, v] of a11y) {
+          const allowed = A11Y[game.name]?.[rule];
+          if (!RECORD_A11Y && (allowed === undefined || v.nodes > allowed)) problems.push(`accessibility (${v.impact}): ${rule} on ${v.nodes} element(s)${allowed === undefined ? "" : ` (allowed ${allowed})`}: ${v.help}`);
+        }
+      }
+      const tag = `${game.name.padEnd(12)} ${engine.padEnd(8)} ${vp.label.padEnd(8)}`;
+      if (problems.length === 0) console.log(` ok   ${tag}${known.length ? `  (${known.length} known issue(s) in tests/browser-allowlist.json)` : ""}${a11y.size ? `  (${a11y.size} known accessibility rule(s))` : ""}`);
+      else {
+        failed++;
+        console.log(`FAIL  ${tag}`);
+        for (const p of problems) console.log(`        - ${p}`);
+      }
     }
   }
+  await browser.close();
 }
-await browser.close();
+if (RECORD_A11Y) {
+  const file = { _comment: "Serious/critical axe-core findings accepted for now: game -> rule id -> most elements allowed. Lower these as you fix things; a new rule or a higher count fails tools/smoke-browser.mjs. Re-record only on purpose: node tools/smoke-browser.mjs --record-a11y", known: recorded };
+  writeFileSync(A11Y_PATH, JSON.stringify(file, null, 2) + "\n");
+  console.log(`recorded accessibility allowance for ${Object.keys(recorded).length} game(s) in tests/a11y-allowlist.json`);
+}
 console.log(failed ? `\n${failed} browser check(s) failed` : "\nall browser checks passed");
 process.exit(failed ? 1 : 0);

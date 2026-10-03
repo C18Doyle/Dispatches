@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(Dispatches */src/App.jsx)",
+      "Read(Dispatches 1914/dispatches-greatwar.jsx)",
+      "Read(Dispatches Frankenstein/tests/fixtures/baseline.json)",
+      "Read(**/tests/baseline/**)",
+      "Read(**/tests/ui-runs/**)",
+      "Read(**/dist/**)",
+      "Read(**/releases/**)",
+      "Read(**/package-lock.json)",
+      "Read(**/node_modules/**)"
+    ]
+  }
+}

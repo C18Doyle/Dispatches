@@ -10,6 +10,7 @@
     "smoke:browser": "node tools/smoke-browser.mjs"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "playwright": "^1.63.0"
   }
 }

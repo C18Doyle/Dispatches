@@ -44,12 +44,26 @@ function cut(text) {
   return cfg.parts.map((p, i) => ({ p, text: text.slice(starts[i], i + 1 < starts.length ? starts[i + 1] : text.length) }));
 }
 
+// A part may hold `/*@inline-json path/to/file.json*/null`: assembly replaces it with that file's JSON (compact), so
+// content can live in a JSON file while the assembled artifact stays plain JS that the validators read as before.
+// Paths are relative to the game folder. A game that uses this can no longer `split` (the artifact no longer holds
+// the directives), so split refuses.
+const INLINE_JSON = /\/\*@inline-json ([^*]+?)\*\/null/g;
+const hasDirectives = () => cfg.parts.some((p) => existsSync(partFile(p)) && readFileSync(partFile(p), "utf8").includes("/*@inline-json "));
+function inlineJson(text) {
+  return text.replace(INLINE_JSON, (_, path) => JSON.stringify(JSON.parse(readFileSync(resolve(path.trim()), "utf8"))));
+}
+
 function assembleText() {
-  return cfg.parts.map((p) => readFileSync(partFile(p), "utf8")).join("");
+  return inlineJson(cfg.parts.map((p) => readFileSync(partFile(p), "utf8")).join(""));
 }
 
 const cmd = process.argv[2];
 if (cmd === "split") {
+  if (hasDirectives()) {
+    console.error("A part contains /*@inline-json ...*/ directives: this game keeps content in JSON files, so the artifact cannot be split back into parts. Edit the parts and the JSON files, then run assemble.");
+    process.exit(1);
+  }
   const pieces = cut(readFileSync(artifact, "utf8"));
   mkdirSync(partsDir, { recursive: true });
   for (const f of readdirSync(partsDir)) rmSync(join(partsDir, f)); // drop parts a config change no longer lists
