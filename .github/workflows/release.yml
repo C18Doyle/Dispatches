@@ -3,7 +3,8 @@ name: release
 # Push a tag named <game>-v<version> to publish that game, for example:
 #   git tag 1941-v1.0.1 && git push origin 1941-v1.0.1
 # <game> is one of: frankenstein, 1914, 1922, 1941, 1940. <version> must equal "version" in that game's package.json.
-# The job runs the game's tests, builds, zips (npm run release), checks the zips load in Chromium exactly as itch.io
+# A version with a suffix (1.2.3-rc.1) is a pre-release: it is built and attached to a GitHub pre-release but never pushed to itch.io.
+# The job checks the release is ready (tools/release-check.mjs), runs the game's tests, builds, zips (npm run release), checks the zips load in Chromium exactly as itch.io
 # would serve them, attaches them to a GitHub release, and, if itch.io is configured, pushes them with butler.
 on:
   push:
@@ -37,7 +38,11 @@ jobs:
           echo "game=$GAME" >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "dir=$DIR" >> "$GITHUB_OUTPUT"
+          # 1.2.3-rc.1 style versions are rehearsals/release candidates: GitHub pre-release, never pushed to itch.io
+          case "$VERSION" in *-*) echo "pre=true" >> "$GITHUB_OUTPUT" ;; *) echo "pre=false" >> "$GITHUB_OUTPUT" ;; esac
 
+      - name: Check the release is ready (plain semver, changelog section)
+        run: node tools/release-check.mjs "${{ steps.tag.outputs.game }}" ${{ steps.tag.outputs.pre == 'true' && '--allow-prerelease' || '' }}
       - name: Install
         working-directory: ${{ steps.tag.outputs.dir }}
         run: npm ci --no-audit --no-fund
@@ -56,9 +61,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           DIR="${{ steps.tag.outputs.dir }}/releases/${{ steps.tag.outputs.version }}"
-          gh release create "${GITHUB_REF_NAME}" "$DIR"/*.zip "$DIR/RELEASE.json" --title "${GITHUB_REF_NAME}" --notes-file "${{ steps.tag.outputs.dir }}/CHANGELOG.md"
+          node tools/release-check.mjs "${{ steps.tag.outputs.game }}" --notes > release-notes.md
+          gh release create "${GITHUB_REF_NAME}" "$DIR"/*.zip "$DIR/RELEASE.json" --title "${GITHUB_REF_NAME}" --notes-file release-notes.md ${{ steps.tag.outputs.pre == 'true' && '--prerelease' || '' }}
 
-      - name: itch.io (skipped until itch.json and BUTLER_API_KEY are set)
+      - name: itch.io (skipped until itch.json and BUTLER_API_KEY are set; never for pre-releases)
+        if: steps.tag.outputs.pre != 'true'
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         run: |

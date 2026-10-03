@@ -9,7 +9,8 @@ silently strand or crash those runs. These rules keep updates safe.
 | Frankenstein | `frankenstein_run_save_v2` | the whole engine `GameState`, on every change |
 | 1922 | `dispatches1922_save_v1` | one run snapshot (campaign, node, meters, flags, visited nodes, hard-mode state) |
 | 1941 | `ww2-command-active` | one run (campaign, position, flags, meters, log, visited, history, rewinds) |
-| 1914, 1940 | none | nothing is written to localStorage during a run |
+| 1914 | none | nothing is written to localStorage during a run |
+| 1940 | `ww2-command-active`, `ww2-command-record` (written through `window.storage`) | **does not persist today**: the code saves through `window.storage` (Claude's artifact API) but 1940, unlike 1941, never defines it. Checked in Chromium on the built game: `window.storage` is `undefined` and localStorage stays empty, so on itch.io and Windows there is no Resume and no war record. The fix is the small shim 1941 has in `src/parts/00-head.jsx`; it changes what players experience, so it is waiting for your go-ahead |
 
 (Also stored per game, never as a run: settings, discovered nodes and endings, the war record. Those are bookkeeping;
 losing them costs a counter, not a run.)
@@ -35,7 +36,7 @@ losing them costs a counter, not a run.)
 - 1922 and 1941: `npm run test:saves` loads the committed saves into the built game in a headless browser, presses
   RESUME and requires the same screen as when they were recorded; `npm run test:migration` runs the real
   `migrateSave` helper with test tables (steps in order, aliases applied, newer/unversioned/missing-step refused).
-- If a game gains saves (1914 and 1940 have none), copy the 1922 pattern: version field, `NODE_ALIASES`,
+- If a game gains saves (1914 has none; 1940 will once it gets the storage shim), copy the 1922 pattern: version field, `NODE_ALIASES`,
   `SAVE_MIGRATIONS`, `migrateSave`, a `tests/saves` fixture and `tests/migration.test.mjs`.
 
 ## Worked example: renaming a node in 1941
