@@ -1,7 +1,1 @@
-{
-  "_comment": "Known real-browser findings that are accepted for now. Each entry silences one problem (substring match) for one game and viewport. Remove an entry when the game is fixed. A new problem not listed here fails CI.",
-  "known": [
-    { "game": "1922", "viewport": "desktop", "contains": "main container is", "why": "Shipped layout is full-width on desktop (built as a Claude artifact); the 600px container rule is not applied. Fixing it changes how the game looks on desktop, so it needs a decision." },
-    { "game": "1940", "viewport": "desktop", "contains": "main container is", "why": "Same as 1922: full-width on desktop in the shipped build." }
-  ]
-}
+{"_comment":"Known real-browser findings that are accepted for now. Each entry silences one problem (substring match) for one game and viewport. Remove an entry when the game is fixed. A new problem not listed here fails CI.","known":[]}

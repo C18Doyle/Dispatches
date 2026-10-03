@@ -7,6 +7,7 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased (2026-10)
 ### Changed
+- Layout is mobile-first: the whole app is a centred column at most 600px wide on desktop (it was full width). Phones are unchanged.
 - tools/monte-carlo.js replaced by tools/monte-carlo.mjs, which plays the real src/logic.ts (seeded). It reports gate-bite rate and which endings are reached. It no longer reproduces the old routing.
 ### Added
 - Save-compatibility test (npm run test:saves) with four committed old saves.

@@ -7,6 +7,7 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased (2026-10)
 ### Changed
+- Layout is mobile-first: the briefing, outcome and end-screen cards are capped at 600px (they were 672px). Phones are unchanged.
 - (none yet)
 
 ## 1.0.0 (migration baseline)
