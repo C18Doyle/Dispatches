@@ -1,5 +1,5 @@
 /**
- * Dispatches 1918 — The Great War
+ * Dispatches 1914 — The Great War
  * Single-file React/JSX branching-narrative strategy game.
  *
  * ENGINE LAYER. The UI layer is deliberately absent: art direction is undecided

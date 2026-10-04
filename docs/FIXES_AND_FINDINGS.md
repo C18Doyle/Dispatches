@@ -15,6 +15,7 @@ means the bug was in the game players had; "tooling" means it was in our own scr
 | 1940 | **The game saved through `window.storage`, which only exists in Claude's artifact environment, and never defined it** | On itch.io and Windows: no Resume, no war record | localStorage-backed `window.storage` added (as 1941 already had); save tests and a migration helper added |
 | 1940 | Discovery Atlas listed 205 of 250 situation reports | Atlas counts could never reach 250/250 | 45 missing nodes added |
 | 1914 | WAR RECORD card on the menu was wider than the screen (missing `box-sizing`) | 20px of sideways scrolling on phones | Fixed |
+| 1914 | Title screen and page title said "1918" while the game is Dispatches 1914 | Players saw a different name than the one the game ships under | Retitled Dispatches 1914 (File No. 1914) |
 | 1914, 1922, 1940 | Desktop layouts were 760px, full width, and 672px | Inconsistent; the 600px mobile-first column was not applied | 600px column on desktop for all three; phones unchanged |
 | 1922 | 9px header label "FILE NO. 1922" below the 4.5:1 contrast ratio | Hard to read for some players | Slightly darker colour |
 
@@ -34,7 +35,6 @@ means the bug was in the game players had; "tooling" means it was in our own scr
 | 1922 | Hard-mode endings for South Russia (`endingCossackMutiny`) and the Bolsheviks (`endingCentralCommitteeMoves`) cannot fire: capital is capped at 5 but one path can spend at most 4 (South Russia) or 3 (Bolsheviks). Siberia's fires | Balance decision: lower the cap per campaign or add capital-spending choices |
 | All | Moderate accessibility findings (no `main` landmark, no `h1`, some heading-order) | Markup changes across every game; none are serious |
 | 1914 | Its own CLAUDE.md lists an independent fact-check of every historical claim as the remaining gate before shipping | Your call before release (see docs/WORKFLOW.md) |
-| 1914 | In-game title and file number say "1918" while the folder and package are "1914" | Naming decision |
 | 1940 | Orphan check takes about 2 minutes (seeded random walks) | Slower CI; acceptable for now |
 
 ## False alarms (looked like bugs, were not)

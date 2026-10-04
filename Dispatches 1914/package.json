@@ -1,7 +1,7 @@
 {
   "name": "dispatches-1914",
   "version": "1.0.0",
-  "description": "Dispatches 1914 (internally titled 1918): the Great War from OHL, GQG and STAVKA.",
+  "description": "Dispatches 1914: the Great War from OHL, GQG and STAVKA.",
   "scripts": {
     "build": "node build.mjs",
     "validate": "bash validate.sh",

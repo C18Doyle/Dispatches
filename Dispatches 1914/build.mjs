@@ -34,7 +34,7 @@ const js = fs.readFileSync("dist/bundle.min.js", "utf8");
 fs.writeFileSync("dist/index.html",
 `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dispatches 1918</title>
+<title>Dispatches 1914</title>
 <style>html,body{margin:0;padding:0;background:#f4efe2;min-height:100%}#root{max-width:600px;margin:0 auto;overflow-x:hidden}</style>
 </head><body><div id="root"></div><script>${js}</script></body></html>`);
 console.log(`built dist/index.html (DEMO_BUILD=${DEMO_BUILD})`);

@@ -13,8 +13,9 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 ### Known
 - The game keeps no saved state: closing the page ends the run.
 - Hard mode exists in the rules (an erosion track with a forced ending per command) and is tested, but the menu has no switch for it yet.
-- The title screen and page title say "Dispatches 1918" (the game's working title); the repository and package call it 1914.
-- Independent fact-check of the historical claims is still outstanding (see the game's CLAUDE.md).
+- The historical claims have been checked by their author only; an independent fact-check is planned (see the game's CLAUDE.md).
+### Changed
+- The game is titled Dispatches 1914 on the title screen (File No. 1914) and in the page title; it used to say 1918.
 ### Quality
 - All 54 decisions and endings are reachable (`npm run check:orphans`); 24 seeded playthroughs replay identically (`npm run verify:baseline`); the build loads cleanly in Chromium and WebKit on a phone and a desktop viewport.
 - Fixed before release: the WAR RECORD card on the menu was wider than a phone screen (20px of sideways scrolling).
