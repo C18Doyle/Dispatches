@@ -7,6 +7,10 @@
 //                  game's resume control and record what the page shows. Commit the fixtures.
 //   saves-verify   for every committed fixture: load the OLD snapshot into the new build and check the
 //                  same things happen (a resume control appears, no error, same page after resume).
+//   saves-reexpect  after an INTENDED change to what the screen shows (a new panel, a reworded button): load every old
+//                  snapshot into the current build and rewrite only `expect` (what the page looked like after resume).
+//                  The snapshot itself (`storage`, `seed`, `id`) is never touched; the old save keeps loading. Review the
+//                  git diff: only `expect.afterResumeHash` lines may change.
 //
 // Re-record the fixtures only on purpose, when a save format change is intended and migrated, never to
 // make a failing verify pass. (A new save format must still load the old fixtures: add a migration.)
@@ -156,4 +160,26 @@ export async function verifySaves(cfg, bundlePath, dir) {
   }
   console.log(`\n${files.length} save fixture(s), ${failures} failure(s).`);
   return failures;
+}
+
+/** Rewrite only `expect` of every fixture from the current build; the old snapshot is left exactly as it is. */
+export async function reexpectSaves(cfg, bundlePath, dir) {
+  const bundle = readFileSync(bundlePath, "utf8");
+  let changed = 0;
+  for (const f of readdirSync(dir).filter((x) => x.endsWith(".json")).sort()) {
+    const fx = JSON.parse(readFileSync(join(dir, f), "utf8"));
+    const got = await loadAndResume(cfg, bundle, fx.storage, fx.seed);
+    if (got.error || !got.resumeControl) {
+      console.error(`REFUSED ${fx.id}: the old save does not resume (${got.error || "no resume control"}); that is a compatibility failure, not a screen change`);
+      return 1;
+    }
+    if (got.afterResumeHash !== fx.expect.afterResumeHash) {
+      fx.expect = got;
+      writeFileSync(join(dir, f), JSON.stringify(fx, null, 1));
+      changed++;
+      console.log(`${fx.id}: expected screen updated`);
+    }
+  }
+  console.log(`${changed} fixture(s) re-expected; snapshots untouched.`);
+  return 0;
 }

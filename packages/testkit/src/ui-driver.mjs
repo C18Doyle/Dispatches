@@ -10,7 +10,7 @@
 import { createHash } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { recordSaves, verifySaves } from "./save-compat.mjs";
+import { recordSaves, verifySaves, reexpectSaves } from "./save-compat.mjs";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -317,6 +317,8 @@ export async function main(cfg, argv) {
     console.log(`baseline updated: ${changed} of ${names.length} runs changed. Review "git diff --stat ${baseline}" and commit it with the change and a CHANGELOG line.`);
   } else if (mode === "saves-record") {
     await recordSaves(cfg, a ?? bundleDefault, join("tests", "saves"));
+  } else if (mode === "saves-reexpect") {
+    process.exit(await reexpectSaves(cfg, a ?? bundleDefault, join("tests", "saves")));
   } else if (mode === "saves-verify") {
     process.exit((await verifySaves(cfg, a ?? bundleDefault, join("tests", "saves"))) ? 1 : 0);
   } else if (mode === "one") {
@@ -328,7 +330,7 @@ export async function main(cfg, argv) {
     const r = await playRun(cfg, readFileSync(process.env.BUNDLE || bundleDefault, "utf8"), rc, Number(b));
     console.log(r.n, r.stopped, r.crashed, r.error, r.errors);
   } else {
-    console.error("usage: record <tag> [bundle] | verify [bundle] | accept | saves-record [bundle] | saves-verify [bundle] | compare [baselineDir] [candidateDir] | one <case id> <seed>");
+    console.error("usage: record <tag> [bundle] | verify [bundle] | accept | saves-record [bundle] | saves-verify [bundle] | saves-reexpect [bundle] | compare [baselineDir] [candidateDir] | one <case id> <seed>");
     process.exit(2);
   }
   void c;

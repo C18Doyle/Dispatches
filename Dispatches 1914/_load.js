@@ -33,7 +33,7 @@ function loadEngine(file) {
     "emptyHardState", "erosionMax", "erosionFromChoice", "applyErosion", "hardModeForcesEnding",
     "findNode", "resolveNode", "rollUncertain", "chooseNext",
     "historicalChoice", "walkSpine", "historicalNote",
-    "snapshotRun", "validateSave", "emptyRecord", "noteNodeSeen", "noteEnding", "noteEchoes", "echoSeed", "ECHOES", "sanitizeSettings", "defaultSettings", "SAVE_SCHEMA_VERSION",
+    "snapshotRun", "validateSave", "emptyRecord", "noteNodeSeen", "MAP_CITIES", "MAP_VIEW", "noteEnding", "noteEchoes", "echoSeed", "ECHOES", "sanitizeSettings", "defaultSettings", "SAVE_SCHEMA_VERSION",
     "NODE_ID_PATTERN", "ENDING_ID_PATTERN", "isValidNodeId",
   ];
 

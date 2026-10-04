@@ -74,6 +74,9 @@ const css = `
   .dg-choice:disabled{cursor:not-allowed;opacity:.45}
   .dg-choice .lab{font-size:15px;margin-bottom:8px}
   .dg-quote{font-style:italic;font-size:13px;color:${THEME.inkSoft}}
+  .dg-root summary{list-style:none}
+  .dg-root summary::-webkit-details-marker{display:none}
+  .dg-map{display:block;width:100%;height:auto;border:1.5px solid ${THEME.rule};background:${THEME.paper};margin:10px 0 18px}
   .dg-attested{font-size:13px;margin-top:8px;color:${THEME.inkSoft}}
   .dg-attested cite{font-style:normal;font-size:12px}
   .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
@@ -220,7 +223,50 @@ function Meters({ meters, labels }) {
   );
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, onChoose, onHome }) {
+/** Where the headquarters sits, on the campaign's own stretch of Europe, with the route taken so far. */
+function FrontMap({ campaignId, node, visited }) {
+  const camp = CAMPAIGNS[campaignId];
+  const cities = [...new Set(Object.values(camp.nodes).map((n) => n.city))].filter((c) => MAP_CITIES[c]);
+  if (!cities.length || !MAP_CITIES[node.city]) return null;
+  const trail = visited.map((id) => camp.nodes[id] && camp.nodes[id].city).filter((c, i, a) => MAP_CITIES[c] && c !== a[i - 1]);
+  // Frame the last few headquarters, not the whole campaign, so the western front is readable.
+  const focus = [...new Set([...trail.slice(-6), node.city])];
+  const xs = focus.map((c) => MAP_CITIES[c][0]);
+  const ys = focus.map((c) => MAP_CITIES[c][1]);
+  const pad = 26;
+  let x0 = Math.min(...xs) - pad, y0 = Math.min(...ys) - pad;
+  let w = Math.max(...xs) + pad - x0, h = Math.max(...ys) + pad - y0;
+  const aspect = MAP_VIEW.width / MAP_VIEW.height;
+  const minW = 150;
+  if (w < minW) { x0 -= (minW - w) / 2; w = minW; }
+  if (w / h < aspect) { const nw = h * aspect; x0 -= (nw - w) / 2; w = nw; } else { const nh = w / aspect; y0 -= (nh - h) / 2; h = nh; }
+  const s = w / MAP_VIEW.width;
+  // Only the places the file has been to: later headquarters are not given away.
+  const shown = [...new Set([...trail, node.city])];
+  const [hx, hy] = MAP_CITIES[node.city];
+  return (
+    <svg className="dg-map" viewBox={`${x0} ${y0} ${w} ${h}`} role="img" aria-label={`Map of the front. The headquarters is at ${node.city}.`}>
+      <path d={MAP_LAND_PATH} fill={THEME.paperRaised} stroke={THEME.inkSoft} strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
+      {trail.length > 1 && (
+        <polyline points={trail.map((c) => MAP_CITIES[c].join(",")).join(" ")} fill="none" stroke={THEME.accent}
+          strokeWidth="1.4" strokeDasharray="4 3" vectorEffect="non-scaling-stroke" />
+      )}
+      {shown.map((c) => (
+        <circle key={c} cx={MAP_CITIES[c][0]} cy={MAP_CITIES[c][1]} r={3.4 * s}
+          fill={trail.includes(c) ? THEME.accent : THEME.inkSoft} opacity={trail.includes(c) ? 1 : 0.55} />
+      ))}
+      {shown.filter((c) => c !== node.city && MAP_CITIES[c][0] > x0 && MAP_CITIES[c][0] < x0 + w && MAP_CITIES[c][1] > y0 && MAP_CITIES[c][1] < y0 + h).map((c) => (
+        <text key={"l" + c} x={MAP_CITIES[c][0] + 5 * s} y={MAP_CITIES[c][1] + 4 * s} fontSize={11 * s} fill={THEME.inkSoft} stroke={THEME.paperRaised}
+          strokeWidth={3 * s} paintOrder="stroke" fontFamily={THEME.mono}>{c}</text>
+      ))}
+      <circle cx={hx} cy={hy} r={7 * s} fill="none" stroke={THEME.ink} strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
+      <text x={hx + 10 * s} y={hy - 8 * s} fontSize={17 * s} fill={THEME.ink} stroke={THEME.paper} strokeWidth={4 * s}
+        paintOrder="stroke" fontFamily={THEME.mono}>{node.city}</text>
+    </svg>
+  );
+}
+
+function NodeScreen({ campaignId, node, meters, hardState, visited, onChoose, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   return (
@@ -265,6 +311,12 @@ function NodeScreen({ campaignId, node, meters, hardState, onChoose, onHome }) {
         <details>
           <summary>▶ SHOW BACKGROUND</summary>
           <div className="dg-prose">{node.context}</div>
+        </details>
+      )}
+      {node.city && MAP_CITIES[node.city] && (
+        <details>
+          <summary>▶ SHOW THE MAP</summary>
+          <FrontMap campaignId={campaignId} node={node} visited={visited || []} />
         </details>
       )}
 
@@ -544,7 +596,7 @@ export default function App() {
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
-          hardState={hardState} onChoose={choose} onHome={home} />
+          hardState={hardState} visited={visited} onChoose={choose} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">

@@ -32,6 +32,9 @@ losing them costs a counter, not a run.)
    no player holds that save, so a deliberate change that alters the page (1914's erosion track length, in 1.1.0) may
    re-record it. Say so in the CHANGELOG. From the first release that ships saves, the fixtures are frozen.
 
+## When the screen changes on purpose
+A fixture's `expect` records what the page looked like after Resume, so any intended change to a screen (a new panel, a map) changes it. Run `saves-reexpect` (`node ../packages/testkit/src/cli.mjs saves-reexpect` in the game folder): it loads every old snapshot into the new build and rewrites only `expect`, refusing if an old save no longer resumes. The snapshot (`storage`, `seed`, `id`) is never touched. Review the diff: only `menuHash` and `afterResumeHash` lines may change.
+
 ## Echoes in the war record (1914)
 The 1914 war record carries `xc: { flag: value }`, the `xc_` flags a run has set; they seed the next run's starting flags. A record without the field loads as before (the field defaults to empty), so no schema bump was needed. A new echo must be registered in `ECHOES` (src/58-persistence.jsx), written by a choice with its historical value, and read only for a departure from the record: `npm run smoke` checks all three.
 

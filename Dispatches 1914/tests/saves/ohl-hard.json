@@ -7,9 +7,9 @@
   "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"ohl\",\"nodeId\":\"ohl_1914_13_ypres\",\"flags\":{\"ohl_lorraine\":\"conceded\",\"ohl_twocorps\":\"sent\",\"ohl_marne\":\"delegated\",\"ohl_marneResult\":\"orderly\",\"ohl_theatre\":\"east\"},\"meters\":{\"manpower\":-2,\"munitions\":-2,\"will\":0},\"hardState\":{\"enabled\":true,\"erosion\":1},\"visited\":[\"ohl_1914_01_aufmarsch\",\"ohl_1914_12_twocorps\",\"ohl_1914_02_marne\",\"ohl_1914_03_succession\",\"ohl_1914_13_ypres\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791131254848}"
  },
  "expect": {
-  "menuHash": "gy6wb8Gy:902",
+  "menuHash": "XTGStjo3:891",
   "resumeControl": "Resume file",
-  "afterResumeHash": "8s_VeUr7:1307",
+  "afterResumeHash": "vatTB_3B:1343",
   "errors": []
  }
 }
