@@ -1185,7 +1185,7 @@ CAMPAIGNS.ohl.nodes = {
     advisors: ["hindenburg"],
     situation:
       "The front is still a front. The armies are on ground they hold and the enemy " +
-      "has not walked through them.\\n\\nWhat has stopped is behind it. Four winters of " +
+      "has not walked through them.\n\nWhat has stopped is behind it. Four winters of " +
       "the blockade, a food supply that has been arithmetic rather than diet for two " +
       "years, and a political authority that this headquarters spent and then needed. " +
       "There is no order that reaches this and no reserve that can be moved to it.",
@@ -1203,7 +1203,7 @@ CAMPAIGNS.ohl.nodes = {
       "This is the outcome the Supreme Command spent four years arranging not to have: " +
       "a break in the field, in daylight, with nothing behind it. The divisions asked " +
       "to close it are the divisions that were used up making and then holding the " +
-      "spring's ground.\\n\\nThere is no argument to be had afterwards about whether the " +
+      "spring's ground.\n\nThere is no argument to be had afterwards about whether the " +
       "army was beaten. Everyone can see where it happened.",
     ending: { family: "army-collapse-first", badge: BADGES.SPECULATIVE },
     epilogue: () =>
@@ -1219,7 +1219,7 @@ CAMPAIGNS.ohl.nodes = {
     situation:
       "No request goes forward. The armies come back to a short line, dig, and hold " +
       "it — and holding it works, in the narrow sense that the enemy does not come " +
-      "through.\\n\\nEverything else continues. The blockade continues. The Americans " +
+      "through.\n\nEverything else continues. The blockade continues. The Americans " +
       "continue to arrive. The winter is bought at the price of every division that " +
       "might have been rebuilt in it, and the terms available in the spring are the " +
       "terms available now, minus a winter.",
@@ -1237,7 +1237,7 @@ CAMPAIGNS.ohl.nodes = {
       "The approach is made while the front is unbroken and the maps still show ground " +
       "that was taken rather than ground that was lost. There is a difference between " +
       "negotiating from a position and negotiating after one, and it is the whole of " +
-      "the difference available here.\\n\\nWhether the other side is interested in the " +
+      "the difference available here.\n\nWhether the other side is interested in the " +
       "distinction is a separate matter, and not one this headquarters controls.",
     ending: { family: "earlier-negotiated-outcome", badge: BADGES.SPECULATIVE },
     epilogue: () =>
@@ -1254,7 +1254,7 @@ CAMPAIGNS.ohl.nodes = {
       "The approach was made from a headquarters with nothing left to bring to it. " +
       "There is a version of this negotiation in which Germany arrives with an " +
       "unbroken front, an intact reserve and a government that speaks for itself, and " +
-      "that version was available earlier at a price this command declined to pay.\\n\\n" +
+      "that version was available earlier at a price this command declined to pay.\n\n" +
       "What arrives instead is a delegation with a signature and no position.",
     ending: { family: "armistice-on-worse-terms", badge: BADGES.SPECULATIVE },
     epilogue: () =>
@@ -1271,7 +1271,7 @@ CAMPAIGNS.ohl.nodes = {
       "garrisoned came west. The salients were given up in July while giving them up " +
       "was still a decision rather than a consequence. The line is short, the reserve " +
       "is real, and the army that requests an armistice is an army rather than the " +
-      "memory of one.\\n\\nNone of it changes the answer. It changes what is left of " +
+      "memory of one.\n\nNone of it changes the answer. It changes what is left of " +
       "Germany when the answer arrives.",
     ending: { family: "armistice-from-strength", badge: BADGES.SPECULATIVE },
     epilogue: () =>
@@ -1287,7 +1287,7 @@ CAMPAIGNS.ohl.nodes = {
     situation:
       "The eastern territories are still garrisoned. The treaty that took them is " +
       "still in force, on paper, and the divisions administering it are still there, " +
-      "doing that, while the west is decided without them.\\n\\nThe Supreme Command " +
+      "doing that, while the west is decided without them.\n\nThe Supreme Command " +
       "took everything the east could be made to give and then spent the war holding " +
       "it down. Both halves of that were the same decision.",
     ending: { family: "east-held-west-lost", badge: BADGES.SPECULATIVE },
