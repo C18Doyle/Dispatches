@@ -241,7 +241,11 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
           let dest = (u && u.next) || ch.next;
           if (typeof ch.nextIf === "function") {
             try {
-              dest = ch.nextIf(m, flags) || dest;
+              // The engine evaluates nextIf on the meters AFTER the choice's impact, and the exact search tries every
+              // meter value there. Gate and nextIf meters are therefore drawn independently, otherwise a branch whose
+              // condition sits just beyond its own gate (1914's "seek terms early") can never be taken by a walk.
+              const after = Object.fromEntries(keys.map((k) => [k, Math.floor(rnd() * 19) - 9]));
+              dest = ch.nextIf(after, flags) || dest;
             } catch {
               /* keep the static destination */
             }

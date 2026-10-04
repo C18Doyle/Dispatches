@@ -130,7 +130,7 @@ file claims a real person said specific words unless the wording is attested.
 
 | campaign | nodes | endings | dossiers | bulletins | spine | rolls | gate-blocks | status |
 |---|---|---|---|---|---|---|---|---|
-| ohl | 20 | 9 | 10 | 8 | 12 | 3 | 2.56 | complete |
+| ohl | 23 | 9 | 11 | 10 | 24 | 3 | 3.64 | expanded (1.1.0), claims logged |
 | gqg | 20 | 9 | 10 | 8 | 11 | 3 | 3.22 | complete |
 | stavka | 17 | 9 | 10 | 8 | 9 | 3 | 2.37 | complete |
 | bef | 0 | - | - | - | - | - | - | not started |
@@ -202,6 +202,7 @@ is a change to that object, not to components.
 
 ## Changing behaviour (details: ../docs/WORKFLOW.md)
 - After any change run `npm run test:fast`. When `verify:baseline` fails: if it is a bug you introduced, fix the code; if the change is intended, read the reported differences, run `npm run baseline:accept`, and commit the new baseline together with the change and a line in `CHANGELOG.md`. A fix of a legacy bug that the old build got wrong goes in `tests/baseline/known-diffs.json` instead (first differing step plus a one-line reason).
+- Claims: `claims/<campaign>.json` logs the checkable claims in each node with kind, sources and status (drafted, web-checked, source-checked, independent, disputed); `claims/sources.json` holds the sources. `check-claims.js` (in `validate.sh`) requires every node of a campaign that has a register to have claims, and `claims/uncovered.json` can only shrink. New content arrives with its claims. `node claims-worksheet.js [campaign] [open]` writes `claims/WORKSHEET.md` for the independent fact-check. Positions attributed to advisers are logged as `position` claims with a note: they are characterizations, never quotations.
 - Saves: `src/58-persistence.jsx` holds the saved run, the war record and settings (localStorage, guarded; memory fallback). Rules for changing them: `../docs/SAVES.md` (`NODE_ALIASES`, `SAVE_MIGRATIONS`, `migrateSave`). `npm run test:saves` replays six committed saved files (every campaign, both modes); `npm run test:migration` tests the helper.
 - Real-browser check (from the repo root, after building): `npm run smoke:browser`. Known layout findings are listed in `tests/browser-allowlist.json`.
 

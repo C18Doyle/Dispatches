@@ -1,0 +1,668 @@
+[
+  {
+    "id": "ohl-twocorps-1",
+    "node": "ohl_1914_12_twocorps",
+    "kind": "fact",
+    "claim": "On 25 August 1914 the Guard Reserve Corps (from Second Army) and XI Corps (from Third Army) were ordered east by rail to reinforce Eighth Army.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the research pass; no source recorded. Check against Tuchman, Strachan or the Reichsarchiv volume."
+  },
+  {
+    "id": "ohl-twocorps-2",
+    "node": "ohl_1914_12_twocorps",
+    "kind": "fact",
+    "claim": "Both corps detrained after the battle of Tannenberg had been decided.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely stated; confirm dates of arrival."
+  },
+  {
+    "id": "ohl-twocorps-3",
+    "node": "ohl_1914_12_twocorps",
+    "kind": "fact",
+    "claim": "Eighth Army had a new commander (Hindenburg) and chief of staff (Ludendorff) for two days on 25 August; Namur had fallen.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Hindenburg and Ludendorff arrived 23 August; Namur fell 25 August."
+  },
+  {
+    "id": "ohl-twocorps-4",
+    "node": "ohl_1914_12_twocorps",
+    "kind": "position",
+    "claim": "Moltke's and Tappen's positions are characterized as: the east is a province under threat versus the plan counts on the right wing's weight.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of position, not a quotation. Choice text carries no quotation marks."
+  },
+  {
+    "id": "ohl-ypres-1",
+    "node": "ohl_1914_13_ypres",
+    "kind": "fact",
+    "claim": "Antwerp had fallen by early November 1914 and the race to the sea had ended without a decision.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Antwerp fell 10 October."
+  },
+  {
+    "id": "ohl-ypres-2",
+    "node": "ohl_1914_13_ypres",
+    "kind": "fact",
+    "claim": "Fourth Army's reserve corps, made up of recently raised units, attacked in mass near Langemarck and took heavy losses.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Attacks of 21-23 October and 10 November."
+  },
+  {
+    "id": "ohl-ypres-3",
+    "node": "ohl_1914_13_ypres",
+    "kind": "fact",
+    "claim": "A last concentrated German attack at Ypres was made in the second week of November and did not break through.",
+    "status": "drafted",
+    "sources": [],
+    "note": "10-11 November (Linsingen and Fabeck groups)."
+  },
+  {
+    "id": "ohl-ypres-4",
+    "node": "ohl_1914_13_ypres",
+    "kind": "fact",
+    "claim": "Hindenburg and Ludendorff, at Ober Ost from 1 November, were asking for reinforcements in the east.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-gorlice-1",
+    "node": "ohl_1915_14_gorlice",
+    "kind": "fact",
+    "claim": "Przemyśl fell with its garrison in March 1915 and Conrad told Berlin the Carpathian front could not be held without German help; Falkenhayn feared a separate peace.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Falkenhayn's fear is stated as his, not Conrad's threat."
+  },
+  {
+    "id": "ohl-gorlice-2",
+    "node": "ohl_1915_14_gorlice",
+    "kind": "fact",
+    "claim": "Hindenburg and Ludendorff proposed a wide envelopment of the Russian armies in Poland out of East Prussia and Courland; Falkenhayn rejected it.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-gorlice-3",
+    "node": "ohl_1915_14_gorlice",
+    "kind": "fact",
+    "claim": "Mackensen's Eleventh Army opened the Gorlice-Tarnow offensive on 2 May 1915.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-gorlice-4",
+    "node": "ohl_1915_14_gorlice",
+    "kind": "fact",
+    "claim": "By the end of the summer Russia had lost Poland and part of the Baltic provinces without its armies being destroyed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Great Retreat."
+  },
+  {
+    "id": "ohl-serbia-1",
+    "node": "ohl_1915_15_serbia",
+    "kind": "fact",
+    "claim": "Bulgaria signed a military convention with the Central Powers on 6 September 1915 putting German, Austro-Hungarian and Bulgarian armies under Mackensen against Serbia.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-serbia-2",
+    "node": "ohl_1915_15_serbia",
+    "kind": "fact",
+    "claim": "The attack opened in early October; Belgrade fell within days; the Serbian army retreated through Albania in winter; a rail link to Constantinople opened by about the new year.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Check the date the through rail link first carried German supplies (late 1915 to early 1916)."
+  },
+  {
+    "id": "ohl-serbia-3",
+    "node": "ohl_1915_15_serbia",
+    "kind": "fact",
+    "claim": "Serbia had turned back three Austro-Hungarian invasions in 1914.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-somme-1",
+    "node": "ohl_1916_14_somme",
+    "kind": "fact",
+    "claim": "The British and French attacked on the Somme on 1 July 1916; the line held at most points but not at the southern end.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-somme-2",
+    "node": "ohl_1916_14_somme",
+    "kind": "fact",
+    "claim": "Falkenhayn issued an order in early July that no ground was to be given up and lost ground was to be retaken by immediate counter-attack.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Confirm the exact date (2 July is cited) and the addressee (Second Army)."
+  },
+  {
+    "id": "ohl-somme-3",
+    "node": "ohl_1916_14_somme",
+    "kind": "characterization",
+    "claim": "The order led to piecemeal counter-attacks at heavy cost.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A common judgment; cite a source."
+  },
+  {
+    "id": "ohl-programme-1",
+    "node": "ohl_1916_15_programme",
+    "kind": "fact",
+    "claim": "The Hindenburg Programme was issued on 31 August 1916 and aimed to double munitions output and triple the supply of guns and machine guns by spring 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-programme-2",
+    "node": "ohl_1916_15_programme",
+    "kind": "fact",
+    "claim": "The Auxiliary Service Law passed the Reichstag in December 1916 with amendments the Supreme Command did not want.",
+    "status": "drafted",
+    "sources": [],
+    "note": "5 December."
+  },
+  {
+    "id": "ohl-programme-3",
+    "node": "ohl_1916_15_programme",
+    "kind": "fact",
+    "claim": "The winter of 1916-17 brought a failed potato harvest, a coal shortage and railway breakdown (the turnip winter).",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-alberich-1",
+    "node": "ohl_1917_12_alberich",
+    "kind": "fact",
+    "claim": "The Kaiser ordered the withdrawal to the Hindenburg (Siegfried) Line on 4 February 1917, with the intervening ground to be devastated; the retirement began on 9 February.",
+    "status": "web-checked",
+    "sources": [
+      "wp-alberich"
+    ],
+    "note": "Main movement 16-19 March."
+  },
+  {
+    "id": "ohl-alberich-2",
+    "node": "ohl_1917_12_alberich",
+    "kind": "figure",
+    "claim": "The new line was about 40-45 km shorter and needed 13-14 fewer divisions.",
+    "status": "web-checked",
+    "sources": [
+      "wp-alberich"
+    ],
+    "note": "Text says 'some forty kilometres' and 'thirteen or fourteen'."
+  },
+  {
+    "id": "ohl-alberich-3",
+    "node": "ohl_1917_12_alberich",
+    "kind": "fact",
+    "claim": "Rupprecht's army group asked for the withdrawal over the objections of the First and Second Army commanders, and Ludendorff accepted it reluctantly. Kuhl, Rupprecht's chief of staff, advocated it.",
+    "status": "web-checked",
+    "sources": [
+      "wp-alberich"
+    ],
+    "note": ""
+  },
+  {
+    "id": "ohl-alberich-4",
+    "node": "ohl_1917_12_alberich",
+    "kind": "fact",
+    "claim": "Roads were mined, wells fouled, villages burned, orchards cut and civilians removed; the destruction damaged German prestige in neutral countries.",
+    "status": "web-checked",
+    "sources": [
+      "wp-alberich"
+    ],
+    "note": "Check 'wells fouled' wording against a specialist source."
+  },
+  {
+    "id": "ohl-alberich-5",
+    "node": "ohl_1917_12_alberich",
+    "kind": "position",
+    "claim": "Rupprecht objected to the devastation as harming Germany's name abroad more than the enemy.",
+    "status": "drafted",
+    "sources": [],
+    "note": "From the research pass (Rupprecht's war diary). Source not recorded: verify before release."
+  },
+  {
+    "id": "ohl-caporetto-1",
+    "node": "ohl_1917_13_caporetto",
+    "kind": "fact",
+    "claim": "Austria-Hungary asked Germany for help after eleven Isonzo battles; Ludendorff judged six to eight divisions could be spared; a Fourteenth Army of German and Austro-Hungarian divisions under Otto von Below attacked on 24 October 1917.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": "Sources differ on the exact number of German divisions (six or seven); the text gives a range."
+  },
+  {
+    "id": "ohl-caporetto-2",
+    "node": "ohl_1917_13_caporetto",
+    "kind": "fact",
+    "claim": "The Italians retreated to the Piave and the Allies sent divisions to hold them.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "ohl-caporetto-3",
+    "node": "ohl_1917_13_caporetto",
+    "kind": "fact",
+    "claim": "The British had been attacking in Flanders since July 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Third Ypres began 31 July."
+  },
+  {
+    "id": "ohl-faust-1",
+    "node": "ohl_1918_12_faustschlag",
+    "kind": "fact",
+    "claim": "On 10 February 1918 the Russian delegation declared it would not sign and considered the war over; the armistice ran to 17 February.",
+    "status": "web-checked",
+    "sources": [
+      "wp-faustschlag"
+    ],
+    "note": "The Wikipedia page gives 28 January (Julian). Gregorian date used in the text."
+  },
+  {
+    "id": "ohl-faust-2",
+    "node": "ohl_1918_12_faustschlag",
+    "kind": "fact",
+    "claim": "A crown council at Bad Homburg on 13 February 1918, with the Kaiser, Hertling, Kühlmann, Hindenburg, Ludendorff and Hoffmann present, decided to resume the advance.",
+    "status": "web-checked",
+    "sources": [
+      "wp-homburg"
+    ],
+    "note": ""
+  },
+  {
+    "id": "ohl-faust-3",
+    "node": "ohl_1918_12_faustschlag",
+    "kind": "fact",
+    "claim": "The advance began on 18 February; Minsk fell on the 21st and Kiev on 2 March; Russia signed on 3 March.",
+    "status": "web-checked",
+    "sources": [
+      "wp-faustschlag"
+    ],
+    "note": ""
+  },
+  {
+    "id": "ohl-faust-4",
+    "node": "ohl_1918_12_faustschlag",
+    "kind": "position",
+    "claim": "Kühlmann doubted the military's eastern programme, and held that Russia would have to be part of a European settlement and that Brest-Litovsk was a temporary arrangement.",
+    "status": "web-checked",
+    "sources": [
+      "wp-homburg"
+    ],
+    "note": "Characterization; the node's wording is indirect speech."
+  },
+  {
+    "id": "ohl-aisne-1",
+    "node": "ohl_1918_13_aisne",
+    "kind": "fact",
+    "claim": "Blücher-Yorck was planned as a diversion to draw Allied reserves from Flanders, ahead of Hagen.",
+    "status": "web-checked",
+    "sources": [
+      "hn-blucher",
+      "wp-aisne3"
+    ],
+    "note": ""
+  },
+  {
+    "id": "ohl-aisne-2",
+    "node": "ohl_1918_13_aisne",
+    "kind": "fact",
+    "claim": "The attack began 27 May, crossed the Vesle (where the plan said to stop), took Soissons on 29 May and reached the Marne on 30 May.",
+    "status": "web-checked",
+    "sources": [
+      "wp-aisne3"
+    ],
+    "note": ""
+  },
+  {
+    "id": "ohl-aisne-3",
+    "node": "ohl_1918_13_aisne",
+    "kind": "fact",
+    "claim": "OHL drew divisions held for Hagen into the Blücher fight; Hagen was repeatedly put off and not carried out.",
+    "status": "web-checked",
+    "sources": [
+      "hn-blucher"
+    ],
+    "note": ""
+  },
+  {
+    "id": "ohl-blackday-1",
+    "node": "ohl_1918_14_blackday",
+    "kind": "fact",
+    "claim": "On 8 August 1918 British, Australian and Canadian troops attacked east of Amiens with tanks and aircraft; some German divisions did not fight; thousands were taken prisoner; Ludendorff called it the black day of the German army.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-blackday-2",
+    "node": "ohl_1918_14_blackday",
+    "kind": "fact",
+    "claim": "A council at Spa on 14 August with the Kaiser, Hintze, Hindenburg and Ludendorff accepted a strategic defensive and asked Hintze to sound out peace through neutral channels.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-blackday-3",
+    "node": "ohl_1918_14_blackday",
+    "kind": "position",
+    "claim": "Hintze's position is characterized as: a defensive must be joined to a diplomatic approach.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization, not a quotation."
+  },
+  {
+    "id": "ohl-wilson-1",
+    "node": "ohl_1918_15_wilson",
+    "kind": "fact",
+    "claim": "Prince Max of Baden became Chancellor on 3 October and the request went out in the first week of October; Wilson replied on 8, 14 and 23 October.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-wilson-2",
+    "node": "ohl_1918_15_wilson",
+    "kind": "fact",
+    "claim": "Ludendorff, who asked for an armistice on 29 September, came to oppose the terms after the later notes.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-wilson-3",
+    "node": "ohl_1918_15_wilson",
+    "kind": "fact",
+    "claim": "The army order of 24 (some accounts 25) October was sent without the Chancellor's knowledge; he demanded Ludendorff's dismissal; on 26 October the Kaiser accepted Ludendorff's resignation, kept Hindenburg and named Groener.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Date is disputed in the sources, and the node says so."
+  },
+  {
+    "id": "ohl-aufmarsch-1",
+    "node": "ohl_1914_01_aufmarsch",
+    "kind": "fact",
+    "claim": "The 1914 deployment rested on a decisive right wing swinging wide through Belgium, modified every year since Schlieffen.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-aufmarsch-2",
+    "node": "ohl_1914_01_aufmarsch",
+    "kind": "fact",
+    "claim": "Belgian neutrality was guaranteed by treaty, and the guarantee was British.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-aufmarsch-3",
+    "node": "ohl_1914_01_aufmarsch",
+    "kind": "fact",
+    "claim": "There was no army group headquarters between the Chief and seven army commanders, and wireless between OHL and the armies was unreliable.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-aufmarsch-4",
+    "node": "ohl_1914_01_aufmarsch",
+    "kind": "position",
+    "claim": "Moltke's and Tappen's positions on Lorraine versus the right wing.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of position, not a quotation."
+  },
+  {
+    "id": "ohl-marne-1",
+    "node": "ohl_1914_02_marne",
+    "kind": "fact",
+    "claim": "First and Second Armies opened a gap between them in early September 1914 and the French exploited it; OHL was about 150 miles away at Luxembourg without reliable wire.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-marne-2",
+    "node": "ohl_1914_02_marne",
+    "kind": "fact",
+    "claim": "Hentsch was sent forward with oral instructions and authority to act on what he found, and Second Army was already resolved to withdraw when he arrived.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-marne-3",
+    "node": "ohl_1914_02_marne",
+    "kind": "fact",
+    "claim": "First and Third Armies were obliged to conform and the armies withdrew to the Aisne and dug in.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-marne-4",
+    "node": "ohl_1914_02_marne",
+    "kind": "characterization",
+    "claim": "Historians divide on where responsibility for the Marne withdrawal lies (Moltke's loss of control, Kluck's loss of contact with Bülow, or Hentsch's intervention).",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dispute carried in the choice's dispute field."
+  },
+  {
+    "id": "ohl-succession-1",
+    "node": "ohl_1914_03_succession",
+    "kind": "fact",
+    "claim": "On 14 September 1914 the Military Cabinet told Moltke the Kaiser found it too painful for him to continue; Falkenhayn took the General Staff informally, formally in October, while holding the Ministry of War.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-succession-2",
+    "node": "ohl_1914_03_succession",
+    "kind": "fact",
+    "claim": "Tappen remained head of the Operations Division across the change.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-verdun-1",
+    "node": "ohl_1916_04_verdun",
+    "kind": "fact",
+    "claim": "The French had stripped the fortress belt at Verdun of heavy guns and men; more than a dozen railways could feed the sector.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-verdun-2",
+    "node": "ohl_1916_04_verdun",
+    "kind": "figure",
+    "claim": "About two and a half million shells were laid up and five divisions promised to Fifth Army.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-verdun-3",
+    "node": "ohl_1916_04_verdun",
+    "kind": "characterization",
+    "claim": "Falkenhayn's attrition aim rests on a Christmas 1915 memorandum that has never been found; Knobelsdorf, the Crown Prince and Plessen each recorded him using the language of exsanguination.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dispute carried in the choice's dispute field; Foley sets the memorandum aside."
+  },
+  {
+    "id": "ohl-verdun-4",
+    "node": "ohl_1916_04_verdun",
+    "kind": "fact",
+    "claim": "The Crown Prince's headquarters read the directive as an order to take the fortress.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-relief-1",
+    "node": "ohl_1916_05_relief",
+    "kind": "fact",
+    "claim": "Verdun had stalled, the Somme had opened, Brusilov's offensive broke the Austrian front and Romania entered the war; Falkenhayn was removed on 29 August 1916 and Hindenburg took the General Staff with Ludendorff as First Quartermaster General.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-relief-2",
+    "node": "ohl_1916_05_relief",
+    "kind": "fact",
+    "claim": "The army in the west went over to the defensive and shortened the line over the winter of 1916-17.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-pless-1",
+    "node": "ohl_1917_06_pless",
+    "kind": "fact",
+    "claim": "Holtzendorff's memorandum of 22 December 1916 argued that unrestricted submarine warfare at 600,000 tons a month would force Britain out within six months.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-pless-2",
+    "node": "ohl_1917_06_pless",
+    "kind": "fact",
+    "claim": "A Crown Council at Pless on 9 January 1917 decided on unrestricted submarine warfare from 1 February; the Kaiser had resisted until the Entente rejected the December peace offer.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-pless-3",
+    "node": "ohl_1917_06_pless",
+    "kind": "figure",
+    "claim": "April 1917 sinkings ran past 800,000 tons.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-pless-4",
+    "node": "ohl_1917_06_pless",
+    "kind": "position",
+    "claim": "Bethmann Hollweg's position that the decision belonged to the Kaiser and that the figures assumed everything ran as projected.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization, not a quotation."
+  },
+  {
+    "id": "ohl-chancellor-1",
+    "node": "ohl_1917_07_chancellor",
+    "kind": "fact",
+    "claim": "In July 1917 the Reichstag was drafting a peace resolution without annexations; Hindenburg and Ludendorff pressed for Bethmann Hollweg's removal under threat of resignation, and he left on 13 July.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-brest-1",
+    "node": "ohl_1918_08_brest",
+    "kind": "figure",
+    "claim": "About fifty divisions could be moved west if the eastern settlement was kept narrow; 192 divisions were on the Western Front by 21 March 1918 out of 241 in the army.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-brest-2",
+    "node": "ohl_1918_08_brest",
+    "kind": "fact",
+    "claim": "The treaty of Brest-Litovsk was signed on 3 March 1918 on severe terms.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-michael-1",
+    "node": "ohl_1918_09_michael",
+    "kind": "fact",
+    "claim": "The March 1918 offensive was prepared with Bruchmüller's artillery programme and infiltration tactics over a roughly forty-mile front, with more German than Allied divisions in France for the first time since 1914.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-michael-2",
+    "node": "ohl_1918_09_michael",
+    "kind": "fact",
+    "claim": "The advance took about 65 kilometres, threatened Amiens without taking it, and left an exposed salient.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-michael-3",
+    "node": "ohl_1918_09_michael",
+    "kind": "characterization",
+    "claim": "Ludendorff pursued tactical success at the expense of the operational aim; an Amiens-first plan's feasibility on the logistics available is not settled.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dispute carried in the choice's dispute field."
+  },
+  {
+    "id": "ohl-salient-1",
+    "node": "ohl_1918_10_salient",
+    "kind": "fact",
+    "claim": "By mid-July 1918 the German position in the west was the largest since 1914, with deep salients and long flanks, and American formations were arriving in numbers.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-request-1",
+    "node": "ohl_1918_11_request",
+    "kind": "fact",
+    "claim": "The armistice request of late September 1918 was made by the Supreme Command to be carried by a new civil government, and the army was retreating in order.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "ohl-request-2",
+    "node": "ohl_1918_11_request",
+    "kind": "characterization",
+    "claim": "After the war many in the Supreme Command said the army was never beaten and that the request came from elsewhere.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Interpretive statement about postwar claims; cite the stab-in-the-back literature."
+  }
+]

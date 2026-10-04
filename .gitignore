@@ -5,4 +5,5 @@ builds/
 .DS_Store
 .claude/settings.local.json
 tests/browser-shots/
-tools/_*.mjs
+tools/_*
+**/tools/_*

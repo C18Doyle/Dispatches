@@ -2,9 +2,8 @@
 // GERMAN OHL — HISTORICAL SPINE
 // =============================================================================
 //
-// Nodes 1914-1917 written and source-checked. 1917-18 interior nodes are NOT yet
-// written; ohl_end_armistice currently closes the spine so it stays walkable.
-// Remove that shortcut when the interior is filled in.
+// Twenty-three decision nodes, 1914 to the armistice, and nine endings. Facts and
+// the attested wording of each choice are logged in claims/ as they are written.
 //
 // SOURCING NOTE. Advisors carry `position`, not `quote`. Nothing in this file
 // puts words in quotation marks in a real person's mouth unless the wording is
@@ -60,6 +59,10 @@ CAMPAIGNS.ohl.advisors = [
     dossier: { role: "Imperial Chancellor",
       bio: "Argued through 1916 that unrestricted submarine warfare would bring the United States into the war and that the decision rested with the Kaiser rather than the Supreme Command.",
       fate: "Left the chancellorship in July 1917." } },
+  { id: "kuhl", name: "Kuhl", from: "1916-08-29", to: "1918-11-11",
+    dossier: { role: "Chief of Staff, Army Group Crown Prince Rupprecht",
+      bio: "Chief of staff to the army group on the British front from the autumn of 1916. Argued for giving up the Somme bulge and going back to the new position behind it, and planned the withdrawal that followed.",
+      fate: "Wrote extensively on the war and its operations after it. Died in 1958." } },
   { id: "tappen", name: "Tappen", from: "1914-08-01", to: "1916-08-29",
     dossier: { role: "Head of the Operations Division, OHL",
       bio: "Retained at the head of operations across the change of Chief in 1914, one of the few continuities through the transition.",
@@ -73,9 +76,10 @@ CAMPAIGNS.ohl.bulletinVoice = {
 };
 
 CAMPAIGNS.ohl.hardMode.forcedEndingId = "ohl_end_relieved";
-// Set from measured distribution: 8 of 23 choices are erosion-tagged and a run tops
-// out at 7. At 5 the forced ending fires for players who consistently spend standing.
-CAMPAIGNS.ohl.hardMode.erosionMax = 5;
+// Set from measured distribution (measure-erosion.js, montecarlo.js hard): 13 of 48
+// choices are erosion-tagged and the historical line carries five of them, so at 7
+// the historical run survives and a player who keeps spending standing is relieved.
+CAMPAIGNS.ohl.hardMode.erosionMax = 7;
 
 CAMPAIGNS.ohl.nodes = {
 
@@ -108,7 +112,7 @@ CAMPAIGNS.ohl.nodes = {
           "The plan has one idea in it. Anything that dilutes the right dilutes the only idea." },
         impact: { manpower: 0, munitions: -1, will: 0 },
         setFlags: { ohl_lorraine: "conceded" },
-        next: "ohl_1914_02_marne",
+        next: "ohl_1914_12_twocorps",
         outcome:
           "The right goes forward at weight. Lorraine gives ground it was always " +
           "expected to give, and the newspapers there will have to be managed.",
@@ -121,10 +125,64 @@ CAMPAIGNS.ohl.nodes = {
         impact: { manpower: -1, munitions: 0, will: 1 },
         setFlags: { ohl_lorraine: "reinforced" },
         erodes: "spend_will",
-        next: "ohl_1914_02_marne",
+        next: "ohl_1914_12_twocorps",
         outcome:
           "Corps go south. There is fighting in Lorraine that the plan did not ask " +
           "for, and the right wing goes forward lighter than the plan assumed.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-08
+  ohl_1914_12_twocorps: {
+    year: 1914, date: "1914-08-25", city: "Koblenz",
+    title: "Two Corps for the East",
+    advisors: ["moltke", "tappen"],
+    situation: (flags) =>
+      "The news from East Prussia comes in pieces and none of it is good. Eighth Army has " +
+      "had a new commander and a new chief of staff for two days. Russian armies are " +
+      "across the frontier in two places, and the province is emptying of people ahead " +
+      "of them.\n\n" +
+      "In the west the reports are of victory on every sheet. Namur has fallen. The " +
+      "French are falling back along the whole front, and the right wing is still " +
+      "advancing, at the end of what its men and horses can do.\n\n" +
+      (flags.ohl_lorraine === "reinforced"
+        ? "The corps sent to Lorraine are not on the right to be counted, so anything " +
+          "taken from it now is taken from a wing that was already lighter than the plan assumed."
+        : "The right went forward at the weight the plan asked for, so any corps taken " +
+          "from it now is a corps the plan counted on."),
+    context:
+      "The Supreme Command holds no reserve of its own. Anything sent east has to be " +
+      "taken from an army in the line and put on a train, and a corps on a train is " +
+      "fighting nowhere for as long as the journey lasts.",
+    choices: [
+      {
+        id: "send",
+        label: "Send the Guard Reserve Corps and XI Corps east by rail",
+        historical: true,
+        advisor: { name: "Moltke", position:
+          "The war in the west is as good as won, and a province of the Empire is being overrun. Two corps from the winning wing is not too much to ask." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { ohl_twocorps: "sent" },
+        next: "ohl_1914_02_marne",
+        outcome:
+          "The Guard Reserve Corps comes out of Second Army and XI Corps out of Third, and " +
+          "both are on the railways the same day. The battle in East Prussia is fought and " +
+          "won without them; they detrain after it is over. The right wing goes on in the " +
+          "west two corps lighter than it was on the morning the order was written.",
+      },
+      {
+        id: "keep",
+        label: "Keep both corps on the right wing and leave the east to the army already there",
+        advisor: { name: "Tappen", position:
+          "A corps taken off the right is a corps the plan counted on. The east can be held on the ground it has. The west can only be won at weight." },
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { ohl_twocorps: "kept" },
+        next: "ohl_1914_02_marne",
+        outcome:
+          "Speculative. Both corps stay where the plan put them. The new command in East " +
+          "Prussia fights with the army it has, and the right wing goes forward at a " +
+          "strength the plan could count on.",
       },
     ],
   },
@@ -151,6 +209,13 @@ CAMPAIGNS.ohl.nodes = {
           "was implicit in the corps sent to Lorraine six weeks ago."
         : "The right went forward at full weight and has arrived at the end of what " +
           "men and horses can do.") +
+      (flags.ohl_twocorps === "sent"
+        ? "\n\nTwo corps that would have stood on the right are in East Prussia, and the " +
+          "wing is thinner by that much."
+        : flags.ohl_twocorps === "kept"
+          ? "\n\nBoth corps the east asked for stayed on the right, and the wing is at " +
+            "the strength the plan asked for."
+          : "") +
       "\n\nWhat to order is not the difficulty. Knowing what to order is.",
     context:
       "An officer sent forward with oral instructions and the authority of the " +
@@ -243,7 +308,7 @@ CAMPAIGNS.ohl.nodes = {
           "Russia can be pushed back a very long way without ever being finished. Britain and France can be finished. That is where the war is." },
         impact: { manpower: 0, munitions: 0, will: 0 },
         setFlags: { ohl_theatre: "west" },
-        next: "ohl_1916_04_verdun",
+        next: "ohl_1914_13_ypres",
         outcome:
           "The Supreme Command's weight stays in the west. The eastern command will " +
           "argue against this for two years, and will eventually argue its way into " +
@@ -257,11 +322,177 @@ CAMPAIGNS.ohl.nodes = {
         impact: { manpower: -1, munitions: -1, will: 1 },
         setFlags: { ohl_theatre: "east" },
         erodes: "spend_will",
-        next: "ohl_1916_04_verdun",
+        next: "ohl_1914_13_ypres",
         outcome:
           "Speculative. Divisions go east that historically stayed west. The eastern " +
           "command gets the resources it spent two years demanding, and acquires the " +
           "responsibility that comes with them.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-11
+  ohl_1914_13_ypres: {
+    year: 1914, date: "1914-11-04", city: "Ypres",
+    title: "The Channel Ports",
+    advisors: ["falkenhayn", "tappen"],
+    situation:
+      "Antwerp has fallen and the race to the sea has ended without a result. What is " +
+      "left of the plan is the coast. If the line can be broken at Ypres, the Channel " +
+      "ports lie behind it, and so do the British army's communications with them.\n\n" +
+      "Fourth Army is made up largely of reserve corps raised since August, men with a " +
+      "few weeks' training behind them. Their first assaults near Langemarck went in in " +
+      "mass and lost very heavily for little ground.\n\n" +
+      "The east is asking for every corps that can be spared. Winter is close, and with " +
+      "it the end of the season for attacking anywhere.",
+    context:
+      "Falkenhayn took the General Staff to find a way of winning, and the coast is the " +
+      "last open place for it in the west. A Chief who stops here has to say what he " +
+      "will do instead.",
+    choices: [
+      {
+        id: "press",
+        label: "Make one more concentrated attack at Ypres before the winter",
+        historical: true,
+        advisor: { name: "Falkenhayn", position:
+          "The coast is the one place in the west where a result is still possible. If it is not taken now it will not be taken." },
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        setFlags: { ohl_flanders: "pressed" },
+        next: "ohl_1915_14_gorlice",
+        outcome:
+          "The last concentrated attack goes in in the second week of November, with fresh " +
+          "divisions and a heavy bombardment. It makes ground at several points and does " +
+          "not make the breakthrough, and the local fighting dies away by the end of the " +
+          "month. The front in Flanders has settled into lines that will move very little " +
+          "for years.",
+      },
+      {
+        id: "break",
+        label: "Break off in Flanders and send the fresh divisions east for the winter",
+        advisor: { name: "Hindenburg", position:
+          "The east is the front where Russia can still be hurt this year. A division in Flanders is a division the eastern armies do not have." },
+        impact: { manpower: 1, munitions: 1, will: 0 },
+        setFlags: { ohl_flanders: "broken" },
+        next: "ohl_1915_14_gorlice",
+        outcome:
+          "Speculative. The attack is cancelled with the Channel ports still behind the " +
+          "British line, and the fresh divisions go east by rail. The eastern armies go " +
+          "into the winter stronger than they were. The front in the west stays where " +
+          "the autumn left it.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-04
+  ohl_1915_14_gorlice: {
+    year: 1915, date: "1915-04-15", city: "Gorlice",
+    title: "Where the Ally Is Breaking",
+    advisors: ["falkenhayn", "tappen"],
+    situation: (flags) =>
+      "The Austro-Hungarian army fought through the winter in the Carpathians at heavy " +
+      "cost. Przemyśl has fallen with its whole garrison. Conrad has told Berlin that " +
+      "the army cannot hold the Carpathians without German help, and Falkenhayn fears " +
+      "that if it does not get it Vienna will look for a separate peace.\n\n" +
+      (flags.ohl_theatre === "east"
+        ? "The weight of the Supreme Command is already in the east, and the argument is " +
+          "about how it is to be used."
+        : "The weight of the Supreme Command is in the west, and anything sent east is " +
+          "taken from it.") +
+      "\n\nHindenburg and Ludendorff want an offensive out of East Prussia and Courland " +
+      "to cut off the Russian armies in Poland. Falkenhayn thinks it would take more " +
+      "divisions than he can spare and commit the army to the depths of Russia, where " +
+      "no end can be reached.",
+    context:
+      "A breakthrough pushes the enemy back. An envelopment, if it works, destroys him. " +
+      "The first costs a few corps and a few weeks. The second costs more of both, and " +
+      "needs the enemy to stay where he is while it is prepared.",
+    choices: [
+      {
+        id: "gorlice",
+        label: "Form a new army under Mackensen and break through at Gorlice and Tarnów",
+        historical: true,
+        advisor: { name: "Falkenhayn", position:
+          "An ally that collapses takes the whole eastern front with it. A breakthrough relieves it and costs a fraction of what a campaign in Russia would." },
+        impact: { manpower: 0, munitions: -1, will: 1 },
+        setFlags: { ohl_gorlice: "mackensen" },
+        next: "ohl_1915_15_serbia",
+        outcome:
+          "An Eleventh Army is made up under Mackensen and moved to Galicia by rail. The " +
+          "offensive opens on 2 May and the Russian front in western Galicia gives way. By " +
+          "the end of the summer Russia has lost Poland and part of the Baltic provinces, " +
+          "and its armies have been driven back some hundreds of miles without being " +
+          "destroyed. Hindenburg and Ludendorff count it as a victory that was not used " +
+          "for an encirclement; Falkenhayn counts it as the result the operation was " +
+          "designed to produce.",
+      },
+      {
+        id: "envelop",
+        label: "Back Hindenburg's plan: a wide envelopment out of East Prussia and Courland",
+        advisor: { name: "Hindenburg", position:
+          "Break the Russian front where it stands and the Russian army walks away. Go round it, and it does not." },
+        gate: (m) => m.manpower >= -1,
+        disabledReason: "There are not the divisions for both a relief of the ally and an envelopment",
+        impact: { manpower: -2, munitions: -1, will: 1 },
+        setFlags: { ohl_gorlice: "envelop" },
+        erodes: "spend_will",
+        next: "ohl_1915_15_serbia",
+        outcome:
+          "Speculative. Divisions are drawn east in larger numbers than the Galician plan " +
+          "needed, for an operation whose object is to encircle the Russian armies in " +
+          "Poland. The Austro-Hungarian front has to hold with what it has in the " +
+          "meantime, and the west is left with whatever is not needed elsewhere.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-09
+  ohl_1915_15_serbia: {
+    year: 1915, date: "1915-09-06", city: "Belgrade",
+    title: "A Road to Constantinople",
+    advisors: ["falkenhayn", "tappen"],
+    situation:
+      "Bulgaria has signed with the Central Powers. The military convention puts " +
+      "German, Austro-Hungarian and Bulgarian armies under Mackensen, with the task of " +
+      "defeating the Serbian army and opening a land connection between Hungary and " +
+      "Bulgaria.\n\n" +
+      "That connection is the only way to get German guns and shells to the Ottoman " +
+      "Empire, which has held the Dardanelles since the landings in April and is short " +
+      "of both.\n\n" +
+      "The price is divisions taken from other fronts in the season when the Allies " +
+      "attack in the west.",
+    context:
+      "The Serbian army has turned back three Austro-Hungarian invasions. A campaign " +
+      "against it has to be fast, and finished before the weather closes the mountain " +
+      "roads.",
+    choices: [
+      {
+        id: "serbia",
+        label: "Agree the campaign: attack Serbia under Mackensen in October",
+        historical: true,
+        advisor: { name: "Falkenhayn", position:
+          "A line open to Constantinople shuts the Balkans against the Entente and feeds the Turks. It takes a handful of divisions and a month." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { ohl_serbia: "attacked" },
+        next: "ohl_1916_04_verdun",
+        outcome:
+          "The attack opens in the first week of October, from the north and, with the " +
+          "Bulgarian armies, from the east. Belgrade falls within days. The Serbian army " +
+          "and a long column of civilians retreat west and south over the mountains of " +
+          "Albania in the winter. By the new year German supplies are moving to " +
+          "Constantinople by rail.",
+      },
+      {
+        id: "wait",
+        label: "Decline the Balkan commitment and keep every division in the west for the autumn",
+        advisor: { name: "Tappen", position:
+          "The Allies attack in the west in the autumn. A division sent to Serbia is a division the line will want in October." },
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { ohl_serbia: "declined" },
+        next: "ohl_1916_04_verdun",
+        outcome:
+          "Speculative. The Serbian army is left alone and the divisions stay in France " +
+          "and Belgium. The land route to Constantinople stays closed, and the Ottoman " +
+          "army goes on short of what Germany could have sent it.",
       },
     ],
   },
@@ -312,7 +543,7 @@ CAMPAIGNS.ohl.nodes = {
           { weight: 45, title: "Fifth Army executes the directive as written",
             impact: { manpower: 0 },
             setFlags: { ohl_verdunExec: "asdirected" },
-            next: "ohl_1916_05_relief",
+            next: "ohl_1916_14_somme",
             outcome:
               "The guns do the work and the infantry is not spent taking ground for its " +
               "own sake. The French come on to the artillery as expected. The ledger is " +
@@ -321,7 +552,7 @@ CAMPAIGNS.ohl.nodes = {
           { weight: 55, title: "Fifth Army reads the directive as an order to take the fortress", historicalBranch: true,
             impact: { manpower: -2, will: -1 },
             setFlags: { ohl_verdunExec: "fortress" },
-            next: "ohl_1916_05_relief",
+            next: "ohl_1916_14_somme",
             outcome:
               "The Crown Prince's headquarters takes the instruction to mean the city, " +
               "and the operation becomes what the directive was meant to avoid: German " +
@@ -340,12 +571,66 @@ CAMPAIGNS.ohl.nodes = {
         disabledReason: "A year without an offensive cannot be explained at home from here",
         setFlags: { ohl_verdun: "declined" },
         erodes: "spend_will",
-        next: "ohl_1916_05_relief",
+        next: "ohl_1916_14_somme",
         outcome:
           "Speculative. No offensive on the Meuse. The shells and the five divisions " +
           "stay in hand and the army in the west spends 1916 waiting — which is a " +
           "coherent strategy and an intolerable one to explain to a country that has " +
           "been told the war is being won.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-07
+  ohl_1916_14_somme: {
+    year: 1916, date: "1916-07-02", city: "Charleville",
+    title: "No Ground to Give",
+    advisors: ["falkenhayn", "tappen"],
+    situation: (flags) =>
+      "The British and French attacked on the Somme yesterday, after a week of " +
+      "bombardment. In most places the German line has held. At the southern end, " +
+      "where French and British lines meet, it has not, and Second Army has to say what " +
+      "it will do about ground it has already lost.\n\n" +
+      (flags.ohl_verdun === "declined"
+        ? "No German army is committed on the Meuse, so the reserves are in hand. They " +
+          "are also the only reserves there are."
+        : "The reserves are on the Meuse, where the offensive is still being fed. What " +
+          "can be spared for the Somme is what the Meuse does not need, which is very " +
+          "little.") +
+      "\n\nThe question put to the Chief is a rule rather than an operation. Either " +
+      "every yard lost is to be retaken at once, or the line may bend.",
+    context:
+      "A position that is retaken the day after it is lost is held at the price of the " +
+      "counter-attack. A position that is given up is held by fewer men, but only if " +
+      "the line behind it is ready.",
+    choices: [
+      {
+        id: "hold",
+        label: "Order that no ground is to be given up and any ground lost is to be retaken at once",
+        historical: true,
+        advisor: { name: "Falkenhayn", position:
+          "A line that gives way once will be asked to give way again. The rule has to be that it does not." },
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        setFlags: { ohl_somme: "held" },
+        next: "ohl_1916_05_relief",
+        outcome:
+          "The order goes to Second Army in the first days of July. Counter-attacks are " +
+          "made at once and, because they are made at once, most of them are made " +
+          "piecemeal, against ground the enemy has already begun to fortify. The line holds through the " +
+          "summer and the autumn. The cost, counted in the divisions that pass through " +
+          "it, is among the heaviest of the war.",
+      },
+      {
+        id: "elastic",
+        label: "Let Second Army give up ground where holding it costs more than it is worth",
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { ohl_somme: "elastic" },
+        next: "ohl_1916_05_relief",
+        outcome:
+          "Speculative. Ground is given where it cannot be held cheaply and a second " +
+          "line is built behind it. The front moves back by a few kilometres in places. " +
+          "Fewer men are lost in counter-attacks, and the retreat has to be explained " +
+          "at home as something other than a defeat.",
       },
     ],
   },
@@ -380,7 +665,7 @@ CAMPAIGNS.ohl.nodes = {
           "We cannot attack in the west next year. Everything follows from admitting that first." },
         impact: { manpower: 1, munitions: 0, will: -1 },
         setFlags: { ohl_1917posture: "defensive" },
-        next: "ohl_1917_06_pless",
+        next: "ohl_1916_15_programme",
         outcome:
           "The army in the west stops attacking and starts building. The line is " +
           "shortened and the ground given up is left useless behind it. Divisions are " +
@@ -397,11 +682,69 @@ CAMPAIGNS.ohl.nodes = {
         disabledReason: "The shell reserve will not carry a winter offensive",
         setFlags: { ohl_1917posture: "offensive" },
         erodes: "spend_will",
-        next: "ohl_1917_06_pless",
+        next: "ohl_1916_15_programme",
         outcome:
           "Speculative. The effort continues into weather and against a Somme front " +
           "that is being reinforced faster than it is being broken. The divisions that " +
           "would have been rebuilt are not rebuilt.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-09
+  ohl_1916_15_programme: {
+    year: 1916, date: "1916-08-31", city: "Pless",
+    title: "Twice the Guns by Spring",
+    advisors: ["hindenburg", "ludendorff"],
+    situation: (flags) =>
+      "The Third Supreme Command has looked at what the army fires and what the " +
+      "factories make, and has found them a long way apart. " +
+      (flags.ohl_somme === "held"
+        ? "The Somme is consuming shells faster than they are being filled."
+        : "The Somme is consuming shells at a rate no one had planned for.") +
+      "\n\nLudendorff's programme asks for munitions output to be doubled and the " +
+      "supply of guns and machine guns to be tripled by the spring of 1917. Doing it " +
+      "means skilled men taken from the front and put back in the factories, and every " +
+      "man and woman of working age put under an obligation to work, which only a " +
+      "law can do.\n\n" +
+      "The War Ministry and the industrialists say the targets cannot be met. The " +
+      "railways and the coal supply are already stretched.",
+    context:
+      "A programme this size will be tested not against what factories can make, but " +
+      "against the coal that heats them, the wagons that move the coal, and the food " +
+      "the workers eat. The Supreme Command has authority over none of the three.",
+    choices: [
+      {
+        id: "full",
+        label: "Adopt the programme at full size and ask the Reichstag for a labour service law",
+        historical: true,
+        advisor: { name: "Ludendorff", position:
+          "The war will be decided by what each side can put in the field next year. We have to produce more than the enemy, whatever it takes to do it." },
+        impact: { manpower: 0, munitions: 2, will: -1 },
+        setFlags: { ohl_programme: "full" },
+        next: "ohl_1917_06_pless",
+        outcome:
+          "The programme is issued on 31 August, and the Auxiliary Service " +
+          "Law passes the Reichstag in December, though with amendments that the " +
+          "Supreme Command did not want. Output rises, but nowhere near the targets. " +
+          "The winter of 1916 and 1917 brings a failed potato harvest, a coal famine " +
+          "and a railway system that cannot move what is made. It is remembered as the " +
+          "turnip winter.",
+      },
+      {
+        id: "moderate",
+        label: "Adopt a smaller programme that the railways and the coal supply can carry",
+        advisor: { name: "Tappen", position:
+          "A target that cannot be met is worse than a smaller one that can. The army needs the shells it is promised." },
+        impact: { manpower: 1, munitions: -1, will: 1 },
+        setFlags: { ohl_programme: "moderate" },
+        next: "ohl_1917_06_pless",
+        outcome:
+          "Speculative. The targets are set below what the Supreme Command asked for " +
+          "and nearer what the economy could deliver. Fewer skilled men are taken from " +
+          "the front, and less is demanded of the railways. The army has fewer guns in " +
+          "the spring than it would have had if the programme had been met, and it has " +
+          "fewer than it was told to expect.",
       },
     ],
   },
@@ -442,7 +785,7 @@ CAMPAIGNS.ohl.nodes = {
           "The tonnage figures are conservative and the timetable holds. Six months is not a hope, it is a calculation." },
         impact: { manpower: 0, munitions: 1, will: 2 },
         setFlags: { ohl_usw: "unrestricted", ohl_usEntry: "certain" },
-        next: "ohl_1917_07_chancellor",
+        next: "ohl_1917_12_alberich",
         outcome:
           "The order is signed on the evening of 9 January and the campaign opens on " +
           "1 February. The early months exceed the projection — April alone runs past " +
@@ -460,12 +803,93 @@ CAMPAIGNS.ohl.nodes = {
         disabledReason: "The Supreme Command no longer has the standing to overrule the naval staff",
         setFlags: { ohl_usw: "restricted", ohl_usEntry: "deferred" },
         erodes: "spend_will",
-        next: "ohl_end_armistice",
+        next: "ohl_1917_12_alberich",
         outcome:
           "Speculative. The U-boats stay under prize rules, American neutrality is not " +
           "forced, and the war in the west continues on the ground with no instrument " +
           "for changing it. The Supreme Command has declined the only decisive-looking " +
           "option it had and now has to find another.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-02
+  ohl_1917_12_alberich: {
+    year: 1917, date: "1917-02-04", city: "Pless",
+    title: "Back to the Siegfried Line",
+    advisors: ["kuhl", "ludendorff"],
+    bulletin: {
+      voice: "ohl", date: "1917-02-02", source: "Official communiqué",
+      text:
+        "The Supreme Command has taken every measure for the security of the western " +
+        "front through the coming spring. No change in the position is contemplated.",
+    },
+    situation: (flags) =>
+      "Behind the Somme front, since September, a new position has been under " +
+      "construction: concrete, wire and deep dugouts, on a line that cuts across the " +
+      "base of the great bulge the front now makes between Arras and the Aisne. It is " +
+      "shorter by some forty kilometres and needs thirteen or fourteen fewer divisions " +
+      "to hold it.\n\n" +
+      "Crown Prince Rupprecht's army group has asked for permission to go back to it. " +
+      "The army commanders in the bulge do not want to go. Ludendorff has resisted " +
+      "giving up ground that cost so much to hold.\n\n" +
+      (flags.ohl_usw === "unrestricted"
+        ? "The submarine campaign began on 1 February, and the army's part in it is to " +
+          "free divisions for the spring. A shortened line would do that."
+        : "The army has no new instrument for ending the war, and the next campaign has " +
+          "to be fought with what the line can spare.") +
+      "\n\nIf the army goes back, the ground it leaves will be of use to whoever " +
+      "follows it. The only argument is about whether it should be.",
+    context:
+      "The retirement would take about six weeks to prepare. What is left behind has " +
+      "to be decided before it begins, since the order will have to go out down to the " +
+      "pioneers who carry it out.",
+    choices: [
+      {
+        id: "devastate",
+        label: "Withdraw to the new line and destroy what the enemy could use in the ground left behind",
+        historical: true,
+        advisor: { name: "Kuhl", position:
+          "To go on holding the bulge is to wear out the divisions holding it. A shorter line gives them back." },
+        impact: { manpower: 3, munitions: 0, will: -1 },
+        setFlags: { ohl_alberich: "devastated" },
+        next: "ohl_1917_07_chancellor",
+        outcome:
+          "The Kaiser's order is signed on 4 February, and the army begins to go back " +
+          "in March. Roads are mined, wells fouled, villages burned, orchards cut and " +
+          "the civilian population sent away. The British and French follow into " +
+          "empty country and take weeks to bring up their railways. The destruction " +
+          "is reported across neutral countries, and it does the army's name no good.",
+      },
+      {
+        id: "spare",
+        label: "Withdraw to the new line, leaving the ground as it is",
+        advisor: { name: "Crown Prince Rupprecht", position:
+          "The ground can be given up without being destroyed. The destruction harms Germany's name abroad more than it harms the enemy." },
+        impact: { manpower: 2, munitions: 0, will: 0 },
+        setFlags: { ohl_alberich: "spared" },
+        next: "ohl_1917_07_chancellor",
+        outcome:
+          "Speculative. The army goes back to the new line, and the villages and roads " +
+          "behind it are left standing. The enemy moves up faster than he did. The " +
+          "retirement frees the divisions it was meant to free, and no report of " +
+          "burned villages goes to the neutral press.",
+      },
+      {
+        id: "stay",
+        label: "Refuse the withdrawal and hold the bulge through the summer",
+        advisor: { name: "Ludendorff", position:
+          "Ground that has been paid for in blood should not be given up without a battle." },
+        gate: (m) => m.manpower >= 0,
+        disabledReason: "The divisions that would hold the longer line are not there",
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        setFlags: { ohl_alberich: "held" },
+        erodes: "spend_will",
+        next: "ohl_1917_07_chancellor",
+        outcome:
+          "Speculative. The army stays in the bulge. The new line is finished and " +
+          "empty behind it. The enemy attacks the old line in the spring, with the " +
+          "divisions that would have been freed still in it.",
       },
     ],
   },
@@ -508,7 +932,7 @@ CAMPAIGNS.ohl.nodes = {
         impact: { manpower: 0, munitions: 0, will: -1 },
         setFlags: { ohl_chancellor: "removed" },
         erodes: "spend_will",
-        next: "ohl_1918_08_brest",
+        next: "ohl_1917_13_caporetto",
         outcome:
           "Bethmann Hollweg leaves the chancellorship in July. His successors govern " +
           "with the Supreme Command's approval and without much else. The military " +
@@ -522,11 +946,123 @@ CAMPAIGNS.ohl.nodes = {
           "A resolution the Reichstag has voted for is worth more to the country than one the army permits it to vote for." },
         impact: { manpower: 0, munitions: 0, will: 2 },
         setFlags: { ohl_chancellor: "kept" },
-        next: "ohl_1918_08_brest",
+        next: "ohl_1917_13_caporetto",
         outcome:
           "Speculative. The civil government survives the summer with its authority " +
           "intact, which means the Supreme Command has a colleague rather than a " +
           "subordinate, and an argument to lose every time it wants something.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-09
+  ohl_1917_13_caporetto: {
+    year: 1917, date: "1917-09-10", city: "Kreuznach",
+    title: "Help for Vienna",
+    advisors: ["ludendorff", "hindenburg"],
+    situation: (flags) =>
+      "Eleven battles on the Isonzo have brought the Austro-Hungarian army close to the " +
+      "end of what it can do, and another Italian attack is expected before the winter. " +
+      "The Emperor Charles has asked Berlin for help: heavy guns, and divisions to take " +
+      "over in the east so that Austrian ones can be moved to Italy.\n\n" +
+      "Ludendorff has judged that six to eight German divisions can be spared until " +
+      "the winter, now that the east has gone quiet. " +
+      (flags.ohl_chancellor === "removed"
+        ? "There is a new Chancellor, chosen with the Supreme Command's approval, and " +
+          "the Chancellery's view carries little weight in this room."
+        : "The Chancellor remains, and the Supreme Command has to take his government's " +
+          "view of the matter into account.") +
+      "\n\nDivisions sent to Italy are divisions not in reserve behind the line in " +
+      "Flanders, where the British have been attacking since July.",
+    context:
+      "An Italian collapse would not end the war. It might keep Austria-Hungary in it. " +
+      "The alternative is to leave Vienna to its own front and decide later what that " +
+      "costs.",
+    choices: [
+      {
+        id: "send",
+        label: "Send German divisions to the Isonzo and take command of the offensive",
+        historical: true,
+        advisor: { name: "Ludendorff", position:
+          "Austria-Hungary has to be kept in the war. A blow on the Isonzo is the cheapest way of doing it." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { ohl_caporetto: "sent" },
+        next: "ohl_1918_12_faustschlag",
+        outcome:
+          "A Fourteenth Army is made up of German and Austro-Hungarian divisions under " +
+          "Otto von Below. The offensive opens on 24 October and the Italian line at " +
+          "Caporetto breaks. The Italians retreat to the Piave, and the Allies send " +
+          "divisions to hold them. Austria-Hungary does not leave the war.",
+      },
+      {
+        id: "refuse",
+        label: "Send guns and staff officers but no divisions",
+        impact: { manpower: 1, munitions: -1, will: 0 },
+        setFlags: { ohl_caporetto: "refused" },
+        next: "ohl_1918_12_faustschlag",
+        outcome:
+          "Speculative. Vienna gets the artillery it asked for and not the divisions. " +
+          "The Isonzo line holds, or it does not, on the strength of an army that has " +
+          "been strained to the limit. Whatever happens there, the divisions stay in " +
+          "Flanders.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-02
+  ohl_1918_12_faustschlag: {
+    year: 1918, date: "1918-02-13", city: "Bad Homburg",
+    title: "Neither War nor Peace",
+    advisors: ["ludendorff", "hindenburg"],
+    situation: (flags) =>
+      "On 10 February the Russian delegation at Brest-Litovsk declared that Russia " +
+      "would not sign the treaty and considered the war over. It then went home. " +
+      "There is no treaty, and the armistice that covers the line will run out on " +
+      "the 17th.\n\n" +
+      "The Kaiser has called a council at Bad Homburg. The Foreign Secretary and the " +
+      "Chancellor are troubled by the size of what the military and the nationalists " +
+      "want to take in the east. The soldiers want to move at once, while the " +
+      "Russian army is dissolving and the Baltic provinces and Ukraine are open.\n\n" +
+      (flags.ohl_caporetto === "sent"
+        ? "The German divisions sent to Italy have come out of it, and the army has to " +
+          "decide where to use them."
+        : "The divisions that did not go to Italy are where they were, and the army has " +
+          "to decide where to use them.") +
+      " Every division that stays in the east is one that is not in France in March.",
+    context:
+      "The advance, if it is made, needs no plan. The Russian army is not resisting. " +
+      "What it needs is a decision about how much of the east the Empire will hold " +
+      "when it stops.",
+    choices: [
+      {
+        id: "advance",
+        label: "End the armistice and resume the advance on the 18th",
+        historical: true,
+        advisor: { name: "Ludendorff", position:
+          "The Russians have refused to sign. They will sign when they see what refusing costs them." },
+        impact: { manpower: 0, munitions: 1, will: 1 },
+        setFlags: { ohl_faust: "advanced" },
+        next: "ohl_1918_08_brest",
+        outcome:
+          "The advance begins on 18 February, along the whole front from the Baltic to " +
+          "Ukraine. German and Austro-Hungarian divisions go forward with almost no " +
+          "fighting. Minsk is taken on the 21st, and Kiev on 2 March. On 3 March the " +
+          "Russian government signs the treaty that it refused to sign on the 10th.",
+      },
+      {
+        id: "accept",
+        label: "Accept the declaration and let the armistice run out without advancing",
+        advisor: { name: "Kühlmann", position:
+          "Russia will have to be part of any settlement in Europe. A peace taken at the point of an advance is a peace that will have to be revised." },
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { ohl_faust: "declared" },
+        next: "ohl_1918_08_brest",
+        outcome:
+          "Speculative. The armies stay where they are. The Russian government has " +
+          "declared the war ended, and there is no treaty and no further advance. " +
+          "Divisions that would have been marching are free to be moved. The Baltic " +
+          "provinces and Ukraine stay open and uncertain, and the annexationists at " +
+          "home regard the opportunity as thrown away.",
       },
     ],
   },
@@ -542,8 +1078,12 @@ CAMPAIGNS.ohl.nodes = {
         "Negotiations in the east proceed. The Supreme Command is satisfied that the " +
         "security of the eastern territories will be established on a lasting footing.",
     },
-    situation:
-      "Russia is out. What follows is not a military question but it will be answered " +
+    situation: (flags) =>
+      (flags.ohl_faust === "declared"
+        ? "Russia has declared the war over and gone home. There is no treaty, and what " +
+          "the army holds in the east is what it held when the armistice ran out. "
+        : "Russia is out. ") +
+      "What follows is not a military question but it will be answered " +
       "in divisions: every square mile taken in the east has to be held, and every " +
       "garrison left behind is a division not on the Western Front in the spring.\n\n" +
       "The army has two hundred and forty-one divisions. The number that can be in " +
@@ -559,7 +1099,7 @@ CAMPAIGNS.ohl.nodes = {
         historical: true,
         advisor: { name: "Ludendorff", position:
           "We will not get a second chance at the east. Take it now and garrison it, and the west will still have enough." },
-        impact: { manpower: 0, munitions: 1, will: 1 },
+        impact: { manpower: 1, munitions: 1, will: 1 },
         setFlags: { ohl_brest: "maximal" },
         erodes: "spend_will",
         next: "ohl_1918_09_michael",
@@ -633,7 +1173,7 @@ CAMPAIGNS.ohl.nodes = {
           { weight: 60, title: "Tactical triumph, operational nothing", historicalBranch: true,
             impact: { manpower: -1, will: -1 },
             setFlags: { ohl_michaelResult: "salient" },
-            next: "ohl_1918_10_salient",
+            next: "ohl_1918_13_aisne",
             outcome:
               "Sixty-five kilometres of ground and the largest breakthrough since the " +
               "line stopped moving. Amiens is threatened and not taken. The armies on " +
@@ -643,7 +1183,7 @@ CAMPAIGNS.ohl.nodes = {
           { weight: 40, title: "The exploitation reaches the junction",
             impact: { manpower: -1, munitions: -1, will: 1 },
             setFlags: { ohl_michaelResult: "amiens" },
-            next: "ohl_1918_10_salient",
+            next: "ohl_1918_13_aisne",
             outcome:
               "Speculative. The adaptive method finds the seam and the exploitation " +
               "carries to the junction. The British and French are separated on the " +
@@ -660,11 +1200,69 @@ CAMPAIGNS.ohl.nodes = {
         disabledReason: "A single-objective offensive cannot be sustained on this reserve",
         impact: { manpower: -2, munitions: -3, will: 0 },
         setFlags: { ohl_michael: "amiensfirst" },
-        next: "ohl_1918_10_salient",
+        next: "ohl_1918_13_aisne",
         outcome:
           "Speculative. Effort is concentrated and diversions refused. Whether the " +
           "junction can be reached and held is a question the logistics may answer " +
           "before the enemy does.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-05
+  ohl_1918_13_aisne: {
+    year: 1918, date: "1918-05-29", city: "Avesnes",
+    title: "Past the Vesle",
+    advisors: ["ludendorff", "hindenburg"],
+    situation: (flags) =>
+      "The attack on the Aisne was meant to be a diversion. Its purpose was to draw " +
+      "Allied reserves south, away from Flanders, where the real blow against the " +
+      "British was to fall in July.\n\n" +
+      "It has gone far better than planned. The French line broke on the first day, " +
+      "and by the second the German armies were over the Vesle, which was where the " +
+      "plan said they should stop. Soissons fell today. The Marne is a day's march " +
+      "away, and beyond it, Paris.\n\n" +
+      (flags.ohl_michaelResult === "amiens"
+        ? "The junction at Amiens was reached in March, and the British are still in the " +
+          "war. What was won there did not end it."
+        : "The March offensive did not end the war, and this is the second time in " +
+          "ten weeks that the army has broken a line without being able to end the " +
+          "fight.") +
+      "\n\nDivisions held back for Flanders have already been sent south to feed the " +
+      "advance.",
+    context:
+      "A diversion that succeeds becomes a second main effort, and takes the divisions " +
+      "meant for the first. What is spent here cannot be used in Flanders.",
+    choices: [
+      {
+        id: "exploit",
+        label: "Exploit the breakthrough and send the army on to the Marne",
+        historical: true,
+        advisor: { name: "Ludendorff", position:
+          "The French line has gone. An opportunity like this does not come twice, and it would be a crime not to use it." },
+        impact: { manpower: -2, munitions: -1, will: 1 },
+        setFlags: { ohl_aisne: "exploited" },
+        erodes: "spend_will",
+        next: "ohl_1918_10_salient",
+        outcome:
+          "The advance goes on beyond the Vesle to the Ourcq and the Marne, which the " +
+          "leading units reach on 30 May. It makes a deep salient, with a long and " +
+          "narrow base, held by divisions that were being kept for the attack in " +
+          "Flanders. When the advance stops in early June, the Flanders attack is " +
+          "put off, and then put off again.",
+      },
+      {
+        id: "halt",
+        label: "Halt on the Vesle as planned and keep the reserves for Flanders",
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { ohl_aisne: "halted" },
+        next: "ohl_1918_10_salient",
+        outcome:
+          "Speculative. The army stops where the plan said it should, with a gain " +
+          "that was never in the plan, and the reserves go back to the north. The " +
+          "attack in Flanders goes ahead as designed, against a British army " +
+          "that has had time to prepare for it. Paris is not threatened, and the " +
+          "country is told so.",
       },
     ],
   },
@@ -687,6 +1285,10 @@ CAMPAIGNS.ohl.nodes = {
       (flags.ohl_michaelResult === "amiens"
         ? "The junction was reached; holding it has cost more than taking it."
         : "The offensives took ground in four directions and decided nothing in any of them.") +
+      (flags.ohl_aisne === "exploited"
+        ? "\n\nThe salient on the Marne has the longest flank of all, and the army that " +
+          "made it is the army holding it."
+        : "") +
       "\n\nThe salients are deep, the flanks are long, the divisions that made them " +
       "are the divisions that were supposed to hold them, and American formations are " +
       "now arriving faster than they can be counted.\n\n" +
@@ -703,7 +1305,7 @@ CAMPAIGNS.ohl.nodes = {
           "The ground was never the point. An army that still exists in September is the point." },
         impact: { manpower: 2, munitions: 1, will: -3 },
         setFlags: { ohl_salient: "shortened" },
-        next: "ohl_1918_11_request",
+        next: "ohl_1918_14_blackday",
         outcome:
           "Speculative. The armies come back to a line they can hold and a reserve " +
           "exists again. At home, the maps in the newspapers move backwards for the " +
@@ -718,11 +1320,67 @@ CAMPAIGNS.ohl.nodes = {
         impact: { manpower: -3, munitions: -1, will: 0 },
         setFlags: { ohl_salient: "held" },
         erodes: "spend_will",
-        next: "ohl_1918_11_request",
+        next: "ohl_1918_14_blackday",
         outcome:
           "The salients are held and the divisions holding them are consumed doing it. " +
           "The retreat, when it comes, comes at a time chosen by the enemy rather than " +
           "by this headquarters.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-08
+  ohl_1918_14_blackday: {
+    year: 1918, date: "1918-08-14", city: "Spa",
+    title: "The Black Day",
+    advisors: ["ludendorff", "hindenburg"],
+    situation: (flags) =>
+      "On 8 August British, Australian and Canadian troops attacked east of Amiens " +
+      "with tanks, aircraft and a short, sudden bombardment. The German line gave way " +
+      "on a wide front, and some divisions did not fight. Thousands of men were taken " +
+      "prisoner. Ludendorff called it the black day of the German army.\n\n" +
+      (flags.ohl_salient === "shortened"
+        ? "The line had been shortened in July and the reserve restored, which is why " +
+          "the break was closed. It is still a break."
+        : "The salients held in July are the ground the attack came through. Divisions " +
+          "that should have been resting were holding them.") +
+      "\n\nThe Kaiser is at Spa, and the council meets today. The Foreign Secretary is " +
+      "there, and so are the two soldiers who spent the spring promising a decision " +
+      "in the west.",
+    context:
+      "A command that declares the offensive over has to say what it will do instead. " +
+      "One answer is to stand on the defensive and let the country find out why. The " +
+      "other is to try again before the Americans arrive in strength.",
+    choices: [
+      {
+        id: "defensive",
+        label: "Go over to the strategic defensive and let the Foreign Secretary open an approach",
+        historical: true,
+        advisor: { name: "Hintze", position:
+          "A defensive in the west has to go with an approach to the enemy. The army alone cannot end this." },
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { ohl_blackday: "defensive" },
+        next: "ohl_1918_11_request",
+        outcome:
+          "The council agrees on a defensive in the west, with the aim of making the " +
+          "enemy tired of fighting. The Foreign Secretary is asked to find out, through " +
+          "neutral channels, what terms are possible. The army goes on giving ground in " +
+          "orderly stages through September. The decision is not announced.",
+      },
+      {
+        id: "offensive",
+        label: "Plan another offensive before the Americans arrive in strength",
+        impact: { manpower: -2, munitions: -1, will: 1 },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "There are not the divisions left for another offensive",
+        setFlags: { ohl_blackday: "offensive" },
+        erodes: "spend_will",
+        next: "ohl_1918_11_request",
+        outcome:
+          "Speculative. Another attack is prepared for September, with divisions " +
+          "taken from the quiet sectors. It is a smaller operation than any of the " +
+          "spring's, and it is aimed at a front that the enemy has had time to " +
+          "reinforce.",
       },
     ],
   },
@@ -768,7 +1426,7 @@ CAMPAIGNS.ohl.nodes = {
           : m.manpower <= -6 ? "ohl_end_armyfirst"
           : (flags.ohl_brest === "narrow" && flags.ohl_salient === "shortened") ? "ohl_end_intact"
           : null,
-        next: "ohl_end_armistice",
+        next: "ohl_1918_15_wilson",
         outcome:
           "The request goes forward. A government is assembled to carry it and does. " +
           "Within a few years a great many people who were in this building will explain " +
@@ -812,6 +1470,69 @@ CAMPAIGNS.ohl.nodes = {
     ],
   },
 
+  // ---------------------------------------------------------------- 1918-10
+  ohl_1918_15_wilson: {
+    year: 1918, date: "1918-10-24", city: "Spa",
+    title: "A Reply Wilson Will Not Take",
+    advisors: ["ludendorff", "hindenburg"],
+    situation:
+      "The request went out in the first week of October, over the signature of a new " +
+      "Chancellor, Prince Max of Baden. President Wilson has replied three times. The " +
+      "third reply, on 23 October, says that the United States will deal only with " +
+      "representatives of the German people, and will demand terms that make it " +
+      "impossible for Germany to renew the war.\n\n" +
+      "Ludendorff, who asked for an armistice on 29 September, has changed his mind. " +
+      "He reads the reply as a demand for surrender, and he believes the army can still " +
+      "hold a line through the winter.\n\n" +
+      "Prince Max holds the exchange of notes to be the government's business and not " +
+      "the army's.\n\n" +
+      "Telegrams to the armies go out over the Supreme Command's signature, and nobody " +
+      "else's.",
+    context:
+      "An order to the army that contradicts the government's course is a political " +
+      "act. It is also something the Supreme Command has the power to issue without " +
+      "anyone's agreement.",
+    choices: [
+      {
+        id: "order",
+        label: "Issue an order to the army rejecting the terms and calling for resistance",
+        historical: true,
+        advisor: { name: "Ludendorff", position:
+          "The army has to know that these terms are unacceptable, and that it is to go on fighting while it is still in a position to." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { ohl_wilson: "order" },
+        erodes: "spend_will",
+        dispute:
+          "The order is dated 24 October in most accounts and 25 October in some. " +
+          "Accounts also differ about its purpose. Ludendorff's position afterwards " +
+          "was that the third note had changed the situation and that the army had to " +
+          "be told so. The government read it as an attempt to wreck the negotiation " +
+          "by going over its head to the army, and the Chancellor demanded his " +
+          "dismissal.",
+        next: "ohl_end_armistice",
+        outcome:
+          "The order goes out to the armies without the Chancellor's knowledge. It " +
+          "reaches the press, and the Chancellor demands that Ludendorff be dismissed " +
+          "or he will go himself. On the 26th the Kaiser accepts Ludendorff's " +
+          "resignation and keeps Hindenburg. Ludendorff is replaced by Groener, and " +
+          "the armistice request stands.",
+      },
+      {
+        id: "accept",
+        label: "Leave the reply to the government and tell the army only what the Chancellor allows",
+        advisor: { name: "Hindenburg", position:
+          "The notes are a matter for the government. The army's business is to hold its ground while they are answered." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { ohl_wilson: "accepted" },
+        next: "ohl_end_armistice",
+        outcome:
+          "Speculative. No order is issued. The government answers the third note " +
+          "without a quarrel with the army, and Ludendorff stays in his post to the " +
+          "end. What the army is told about the negotiation is left to the Chancellor.",
+      },
+    ],
+  },
+
   // ---------------------------------------------------------------- endings
   ohl_end_armistice: {
     year: 1918, date: "1918-11-11", city: "Spa",
@@ -840,14 +1561,26 @@ CAMPAIGNS.ohl.nodes = {
       "eleventh of November.\n\n" +
       "Lorraine, August 1914: " + (flags.ohl_lorraine === "reinforced" ? "reinforced." : "conceded, as the plan required.") + "\n" +
       "The Marne: " + (flags.ohl_marne === "inperson" ? "judged in person at the front." : "delegated forward under plenipotentiary authority.") + "\n" +
+      "Two corps for the east: " + (flags.ohl_twocorps === "kept" ? "kept on the right." : "sent to East Prussia by rail.") + "\n" +
+      "Ypres, November 1914: " + (flags.ohl_flanders === "broken" ? "broken off." : "one more concentrated attack.") + "\n" +
+      "The eastern front, 1915: " + (flags.ohl_gorlice === "envelop" ? "a wide envelopment." : "a breakthrough at Gorlice.") + "\n" +
+      "Serbia: " + (flags.ohl_serbia === "declined" ? "declined." : "attacked in October 1915.") + "\n" +
       "The Meuse: " + (flags.ohl_verdun === "declined" ? "declined." : (flags.ohl_verdunExec === "fortress" ? "fought as a battle for the fortress." : "fought as the directive was written.")) + "\n" +
+      "The Somme: " + (flags.ohl_somme === "elastic" ? "ground given where it was dear." : "no ground to be given up.") + "\n" +
+      "The Hindenburg Programme: " + (flags.ohl_programme === "moderate" ? "a smaller programme." : "adopted at full size.") + "\n" +
       "The submarines: " + (flags.ohl_usw === "restricted" ? "held under prize rules." : "unrestricted from 1 February 1917.") + "\n" +
       "Weight of effort after the Marne: " + (flags.ohl_theatre === "east" ? "shifted east." : "held in the west.") + "\n" +
       "Posture for 1917: " + (flags.ohl_1917posture === "offensive" ? "continued offensive effort." : "defensive, rebuilding.") + "\n" +
       "American entry: " + (flags.ohl_usEntry === "deferred" ? "deferred." : "brought on by the decision of 9 January 1917.") + "\n" +
+      "The retirement to the Siegfried Line: " + (flags.ohl_alberich === "held" ? "refused." : flags.ohl_alberich === "spared" ? "made, with the ground left standing." : "made, with the ground destroyed.") + "\n" +
+      "Italy, autumn 1917: " + (flags.ohl_caporetto === "refused" ? "guns and staff officers, no divisions." : "German divisions and the offensive at Caporetto.") + "\n" +
+      "February 1918: " + (flags.ohl_faust === "declared" ? "the Russian declaration accepted." : "the advance resumed on the 18th.") + "\n" +
       "Brest-Litovsk: " + (flags.ohl_brest === "narrow" ? "narrow settlement, divisions released west." : "maximal settlement, divisions retained in garrison.") + "\n" +
       "Spring 1918: " + (flags.ohl_michael === "amiensfirst" ? "Amiens named as the objective." : "breakthrough taken as the objective.") + "\n" +
-      "September 1918: " + (flags.ohl_request === "refused" ? "the request was refused." : flags.ohl_request === "early" ? "terms were sought early." : "requested through a new civil government."),
+      "The Aisne, May 1918: " + (flags.ohl_aisne === "halted" ? "halted on the Vesle." : "exploited to the Marne.") + "\n" +
+      "After 8 August: " + (flags.ohl_blackday === "offensive" ? "another offensive planned." : "the strategic defensive.") + "\n" +
+      "September 1918: " + (flags.ohl_request === "refused" ? "the request was refused." : flags.ohl_request === "early" ? "terms were sought early." : "requested through a new civil government.") + "\n" +
+      "The third American note: " + (flags.ohl_wilson === "accepted" ? "left to the government." : "answered by an order to the army, and Ludendorff's resignation."),
   },
 
 

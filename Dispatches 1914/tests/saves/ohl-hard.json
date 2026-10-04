@@ -3,13 +3,13 @@
  "seed": 1,
  "storage": {
   "dispatches1914_settings_v1": "{\"schemaVersion\":1,\"textSize\":\"s\"}",
-  "dispatches1914_record_v1": "{\"schemaVersion\":1,\"nodes\":{\"ohl\":[\"ohl_1914_01_aufmarsch\",\"ohl_1914_02_marne\",\"ohl_1914_03_succession\",\"ohl_1916_04_verdun\",\"ohl_1916_05_relief\"]},\"advisers\":{\"ohl\":[\"moltke\",\"tappen\",\"hentsch\",\"falkenhayn\",\"knobelsdorf\",\"crownprince\",\"hindenburg\",\"ludendorff\"]},\"endings\":[],\"runs\":0,\"hardRuns\":0}",
-  "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"ohl\",\"nodeId\":\"ohl_1916_05_relief\",\"flags\":{\"ohl_lorraine\":\"conceded\",\"ohl_marne\":\"delegated\",\"ohl_marneResult\":\"orderly\",\"ohl_theatre\":\"east\",\"ohl_verdun\":\"attrition\",\"ohl_verdunExec\":\"fortress\"},\"meters\":{\"manpower\":-3,\"munitions\":-2,\"will\":-1},\"hardState\":{\"enabled\":true,\"erosion\":1},\"visited\":[\"ohl_1914_01_aufmarsch\",\"ohl_1914_02_marne\",\"ohl_1914_03_succession\",\"ohl_1916_04_verdun\",\"ohl_1916_05_relief\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791129056945}"
+  "dispatches1914_record_v1": "{\"schemaVersion\":1,\"nodes\":{\"ohl\":[\"ohl_1914_01_aufmarsch\",\"ohl_1914_12_twocorps\",\"ohl_1914_02_marne\",\"ohl_1914_03_succession\",\"ohl_1914_13_ypres\"]},\"advisers\":{\"ohl\":[\"moltke\",\"tappen\",\"hentsch\",\"falkenhayn\"]},\"endings\":[],\"runs\":0,\"hardRuns\":0}",
+  "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"ohl\",\"nodeId\":\"ohl_1914_13_ypres\",\"flags\":{\"ohl_lorraine\":\"conceded\",\"ohl_twocorps\":\"sent\",\"ohl_marne\":\"delegated\",\"ohl_marneResult\":\"orderly\",\"ohl_theatre\":\"east\"},\"meters\":{\"manpower\":-2,\"munitions\":-2,\"will\":0},\"hardState\":{\"enabled\":true,\"erosion\":1},\"visited\":[\"ohl_1914_01_aufmarsch\",\"ohl_1914_12_twocorps\",\"ohl_1914_02_marne\",\"ohl_1914_03_succession\",\"ohl_1914_13_ypres\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791131254848}"
  },
  "expect": {
-  "menuHash": "MJFY2WRg:906",
+  "menuHash": "gy6wb8Gy:902",
   "resumeControl": "Resume file",
-  "afterResumeHash": "bsRzZQ3P:1157",
+  "afterResumeHash": "8s_VeUr7:1307",
   "errors": []
  }
 }

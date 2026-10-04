@@ -1,0 +1,8 @@
+{
+  "wp-alberich": { "title": "Operation Alberich", "kind": "web (tertiary)", "url": "https://en.wikipedia.org/wiki/Operation_Alberich" },
+  "wp-faustschlag": { "title": "Operation Faustschlag", "kind": "web (tertiary)", "url": "https://en.wikipedia.org/wiki/Operation_Faustschlag" },
+  "wp-caporetto": { "title": "Battle of Caporetto", "kind": "web (tertiary)", "url": "https://en.wikipedia.org/wiki/Battle_of_Caporetto" },
+  "wp-aisne3": { "title": "Third Battle of the Aisne", "kind": "web (tertiary)", "url": "https://en.wikipedia.org/wiki/Third_Battle_of_the_Aisne" },
+  "wp-homburg": { "title": "Conférence de Hombourg (13 février 1918)", "kind": "web (tertiary)", "url": "https://fr.wikipedia.org/wiki/Conf%C3%A9rence_de_Hombourg_(13_f%C3%A9vrier_1918)" },
+  "hn-blucher": { "title": "Hope Is Not a Strategy: Germany's Last Best Shot at Victory (Blücher-Yorck and Hagen)", "kind": "web (popular history)", "url": "https://www.historynet.com/hope-not-strategy-germanys-last-best-shot-victory/" }
+}

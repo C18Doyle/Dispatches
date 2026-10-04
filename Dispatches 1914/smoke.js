@@ -21,9 +21,9 @@ t("erosion only fires on the campaign's own trigger",
   E.erosionFromChoice("ohl", { erodes: E.EROSION_TRIGGERS.OVEREXTEND }) === 0);
 t("hard mode off means no erosion",
   E.applyErosion({enabled:false,erosion:0}, "ohl", {erodes:"spend_will"}).erosion === 0);
-t("hard mode forces at the campaign cap", E.hardModeForcesEnding({enabled:true,erosion:5}, "ohl") === true);
-t("hard mode does not force below the cap", E.hardModeForcesEnding({enabled:true,erosion:4}, "ohl") === false);
-t("erosion cap is reachable", E.erosionMax("ohl") <= 7);
+t("hard mode forces at the campaign cap", E.hardModeForcesEnding({enabled:true,erosion:E.erosionMax("ohl")}, "ohl") === true);
+t("hard mode does not force below the cap", E.hardModeForcesEnding({enabled:true,erosion:E.erosionMax("ohl") - 1}, "ohl") === false);
+t("erosion cap is reachable", E.erosionMax("ohl") <= 10);
 t("registries derive from live data", E.nodeTotal() === Object.values(E.CAMPAIGNS).reduce((n,c)=>n+Object.keys(c.nodes).length,0));
 t("draft content is flagged as draft", E.allNodes().every(x => !x.node.draft || x.node.draft === true));
 t("atlas includes every node", Object.keys(E.buildNodeAtlas()).length === E.nodeTotal());
