@@ -1,0 +1,658 @@
+[
+  {
+    "id": "gqg-retreat-1",
+    "node": "gqg_1914_12_retreat",
+    "kind": "fact",
+    "claim": "On 25 August 1914 Joffre issued General Instruction No. 2: a withdrawal of the French and British armies to a defensible line, first the Somme and later the Marne, and the creation of a new Sixth Army assembled near Amiens.",
+    "status": "web-checked",
+    "sources": [
+      "wp-firstmarne"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-retreat-2",
+    "node": "gqg_1914_12_retreat",
+    "kind": "fact",
+    "claim": "The Fifth Army was beaten on the Sambre and the British at Mons, and Namur had fallen, by 25 August.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Namur fell 23-25 August; confirm."
+  },
+  {
+    "id": "gqg-retreat-3",
+    "node": "gqg_1914_12_retreat",
+    "kind": "position",
+    "claim": "Joffre's position is characterized as: a retreat in order only postpones the battle, a battle lost with the armies destroyed ends the war.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization, not a quotation."
+  },
+  {
+    "id": "gqg-retreat-4",
+    "node": "gqg_1914_12_retreat",
+    "kind": "fact",
+    "claim": "GQG was at Vitry-le-François from 5 to 31 August 1914.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dateline check; see wp-gqg."
+  },
+  {
+    "id": "gqg-sack-1",
+    "node": "gqg_1914_13_sack",
+    "kind": "fact",
+    "claim": "Joffre relieved Lanrezac of the Fifth Army on 3 September 1914 and replaced him with Franchet d'Espèrey.",
+    "status": "web-checked",
+    "sources": [
+      "wp-lanrezac",
+      "wp-joffre"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-sack-2",
+    "node": "gqg_1914_13_sack",
+    "kind": "figure",
+    "claim": "In the summer of 1914 Joffre dismissed three army commanders, ten corps commanders and thirty-eight divisional commanders, replacing them with more aggressive officers including Foch, Franchet d'Espèrey, Pétain and Nivelle.",
+    "status": "web-checked",
+    "sources": [
+      "wp-joffre"
+    ],
+    "note": "The source says 'summer of 1914'; the node says 'the first months of the war'."
+  },
+  {
+    "id": "gqg-sack-3",
+    "node": "gqg_1914_13_sack",
+    "kind": "fact",
+    "claim": "Lanrezac had argued with Joffre and with the British and criticized the plan.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely stated; cite Spears or Lanrezac's own account."
+  },
+  {
+    "id": "gqg-sack-4",
+    "node": "gqg_1914_13_sack",
+    "kind": "fact",
+    "claim": "GQG was at Bar-sur-Aube from 31 August 1914 (to 6 September).",
+    "status": "web-checked",
+    "sources": [
+      "wp-gqg"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-race-1",
+    "node": "gqg_1914_14_race",
+    "kind": "fact",
+    "claim": "Castelnau's Second Army formed south of Amiens and began to advance on 22 September 1914, supported by the Sixth Army from the 23rd.",
+    "status": "web-checked",
+    "sources": [
+      "wp-racesea"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-race-2",
+    "node": "gqg_1914_14_race",
+    "kind": "fact",
+    "claim": "Joffre detached Maud'huy's force from the Second Army as the Tenth Army and placed both under Foch; from 5 October Foch forbade retirement from Arras.",
+    "status": "web-checked",
+    "sources": [
+      "wp-racesea"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-race-3",
+    "node": "gqg_1914_14_race",
+    "kind": "fact",
+    "claim": "The Race to the Sea ran from 15 September to 14 October 1914; by mid-October the line ran to the sea.",
+    "status": "web-checked",
+    "sources": [
+      "wp-racesea"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-race-4",
+    "node": "gqg_1914_14_race",
+    "kind": "fact",
+    "claim": "GQG was at Châtillon-sur-Seine from 6 to 28 September 1914.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gqg"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-salonika-1",
+    "node": "gqg_1915_14_salonika",
+    "kind": "fact",
+    "claim": "The first Allied troops landed at Salonika on 5 October 1915; Sarrail arrived on 12 October.",
+    "status": "web-checked",
+    "sources": [
+      "wp-salonika",
+      "wp-sarrail"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-salonika-2",
+    "node": "gqg_1915_14_salonika",
+    "kind": "fact",
+    "claim": "Joffre dismissed Sarrail from the Third Army in July 1915 and Sarrail was given the Salonika command to appease his political supporters.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sarrail"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-salonika-3",
+    "node": "gqg_1915_14_salonika",
+    "kind": "position",
+    "claim": "Joffre regarded the Salonika expedition as a diversion of divisions from France, and was required to support it publicly.",
+    "status": "web-checked",
+    "sources": [
+      "wp-salonika"
+    ],
+    "note": "Characterization; the source speaks of the continuation of the front. Check that he held this view of the initial dispatch."
+  },
+  {
+    "id": "gqg-salonika-4",
+    "node": "gqg_1915_14_salonika",
+    "kind": "fact",
+    "claim": "The expedition was too late and too few to save Serbia, whose army and civilians withdrew through Albania in winter 1915-16.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely stated."
+  },
+  {
+    "id": "gqg-salonika-5",
+    "node": "gqg_1915_14_salonika",
+    "kind": "fact",
+    "claim": "Bulgaria signed the convention with the Central Powers on 6 September 1915 (entered the war in October).",
+    "status": "drafted",
+    "sources": [],
+    "note": "Check the entry date."
+  },
+  {
+    "id": "gqg-chantilly-1",
+    "node": "gqg_1915_15_chantilly",
+    "kind": "fact",
+    "claim": "The Second Inter-Allied Military Conference at Chantilly on 6-8 December 1915 unanimously supported Joffre's proposal for simultaneous large attacks by the French, British, Italian and Russian armies in 1916, the Franco-British share being the Somme.",
+    "status": "web-checked",
+    "sources": [
+      "wp-chantilly"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-chantilly-2",
+    "node": "gqg_1915_15_chantilly",
+    "kind": "fact",
+    "claim": "The purpose was to remove the German advantage of interior lines.",
+    "status": "web-checked",
+    "sources": [
+      "wp-chantilly"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-douaumont-1",
+    "node": "gqg_1916_14_douaumont",
+    "kind": "fact",
+    "claim": "The French offensive at Verdun began on 21 October 1916 with a bombardment; three divisions attacked behind a creeping barrage on 24 October; the operation was proposed by Mangin and approved by Nivelle.",
+    "status": "web-checked",
+    "sources": [
+      "brit-verdun"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-douaumont-2",
+    "node": "gqg_1916_14_douaumont",
+    "kind": "figure",
+    "claim": "By the evening of 24 October Douaumont was retaken with some 6,000 German prisoners; Vaux was French again by 2 November.",
+    "status": "web-checked",
+    "sources": [
+      "brit-verdun"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-douaumont-3",
+    "node": "gqg_1916_14_douaumont",
+    "kind": "figure",
+    "claim": "The attack of 15 December pushed the Germans back almost to their February start line; over 11,000 prisoners were taken by 18 December.",
+    "status": "web-checked",
+    "sources": [
+      "wp-verdun",
+      "brit-verdun"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-douaumont-4",
+    "node": "gqg_1916_14_douaumont",
+    "kind": "fact",
+    "claim": "Douaumont had been in German hands since 25 February 1916 and Vaux since early June.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Vaux fell 7 June."
+  },
+  {
+    "id": "gqg-calais-1",
+    "node": "gqg_1917_12_calais",
+    "kind": "fact",
+    "claim": "At Calais on 26 February 1917 Lloyd George, with the British war cabinet's approval and without warning Haig or Robertson, proposed to place the British army under French command for Nivelle's offensive.",
+    "status": "web-checked",
+    "sources": [
+      "wp-calais1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-calais-2",
+    "node": "gqg_1917_12_calais",
+    "kind": "fact",
+    "claim": "By the Calais agreement of 27 February Haig was formally subordinated to Nivelle for the duration of the offensive; the next day Haig and Robertson threatened to resign, and the arrangement was watered down.",
+    "status": "web-checked",
+    "sources": [
+      "wp-calais1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-calais-3",
+    "node": "gqg_1917_12_calais",
+    "kind": "fact",
+    "claim": "The conference caused mistrust between British civil and military chiefs and set back unified command until spring 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-calais1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-calais-4",
+    "node": "gqg_1917_12_calais",
+    "kind": "position",
+    "claim": "Nivelle's position is characterized as: two armies attacking the same line must act as one instrument.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of a documented aim, not a quotation."
+  },
+  {
+    "id": "gqg-directive-1",
+    "node": "gqg_1917_13_directive",
+    "kind": "fact",
+    "claim": "Pétain replaced Nivelle as Commander-in-Chief on 15 May 1917, with Foch as Chief of the General Staff; Pétain had been Chief of the General Staff from 29 April.",
+    "status": "web-checked",
+    "sources": [
+      "wp-nivelle"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-directive-2",
+    "node": "gqg_1917_13_directive",
+    "kind": "fact",
+    "claim": "Pétain's Directive No. 1 of 19 May 1917 set out limited-objective offensives; later directives dealt with tanks and aircraft.",
+    "status": "web-checked",
+    "sources": [
+      "wp-mutinies"
+    ],
+    "note": "Wording of the directive's contents should be checked against Pétain's text or Greenhalgh."
+  },
+  {
+    "id": "gqg-directive-3",
+    "node": "gqg_1917_13_directive",
+    "kind": "fact",
+    "claim": "Units were refusing orders to return to the line by mid-May 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Mutinies began about 29 April and peaked in late May and June."
+  },
+  {
+    "id": "gqg-link-1",
+    "node": "gqg_1918_12_link",
+    "kind": "fact",
+    "claim": "On the evening of 21 March and early 22 March Haig asked Pétain for three divisions and the French V Corps (Pelle) was sent; on 22 March Pétain sent the Third Army (Humbert).",
+    "status": "web-checked",
+    "sources": [
+      "wp-dury"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-link-2",
+    "node": "gqg_1918_12_link",
+    "kind": "fact",
+    "claim": "At Dury on 23 and 24 March Pétain placed two armies under Fayolle in reserve in the Somme valley and refused Haig's request for twenty divisions at Amiens, citing the risk of an attack in Champagne.",
+    "status": "web-checked",
+    "sources": [
+      "wp-dury",
+      "wp-doullens"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-link-3",
+    "node": "gqg_1918_12_link",
+    "kind": "characterization",
+    "claim": "Haig's diary records that Pétain, after a Cabinet meeting at which he was told to cover Paris, said he might have to break contact with the British. Whether he threatened it is disputed.",
+    "status": "web-checked",
+    "sources": [
+      "wp-dury",
+      "wp-haig1918"
+    ],
+    "note": "Dispute carried in the choice's dispute field."
+  },
+  {
+    "id": "gqg-aisne-1",
+    "node": "gqg_1918_13_aisne",
+    "kind": "fact",
+    "claim": "Duchêne, commanding the Sixth Army, rejected Pétain's order for defence in depth and consolidated his troops in the front line.",
+    "status": "web-checked",
+    "sources": [
+      "wp-duchene"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-aisne-2",
+    "node": "gqg_1918_13_aisne",
+    "kind": "figure",
+    "claim": "The German attack of 27 May 1918 broke the line, crossed the Aisne and took nineteen kilometres in three days.",
+    "status": "web-checked",
+    "sources": [
+      "wp-duchene"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-aisne-3",
+    "node": "gqg_1918_13_aisne",
+    "kind": "fact",
+    "claim": "Clemenceau relieved Duchêne on 9 June 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-duchene"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-aisne-4",
+    "node": "gqg_1918_13_aisne",
+    "kind": "fact",
+    "claim": "GQG was at Provins in May 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dateline check: GQG moved from Compiègne in spring 1918."
+  },
+  {
+    "id": "gqg-aisne-5",
+    "node": "gqg_1918_13_aisne",
+    "kind": "position",
+    "claim": "Pétain's position is characterized as: the order for defence in depth is clear and is for the army commander to answer for.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization."
+  },
+  {
+    "id": "gqg-americans-1",
+    "node": "gqg_1918_14_americans",
+    "kind": "fact",
+    "claim": "On 30 August 1918 Foch proposed that Pershing reduce the Saint-Mihiel attack to little more than a demonstration and give two thirds of the First Army's troops to Haig and the French generals.",
+    "status": "drafted",
+    "sources": [],
+    "note": "From a web-search summary; locate the page (warfarehistorynetwork 'Pershing's Hammer' or 'An American Army and St. Mihiel') and cite."
+  },
+  {
+    "id": "gqg-americans-2",
+    "node": "gqg_1918_14_americans",
+    "kind": "fact",
+    "claim": "On 2 September Pétain and Pershing met Foch; supported by Pétain, Pershing offered to take responsibility for the sector from Pont-à-Mousson through the Meuse valley to the Argonne, resolving the dispute.",
+    "status": "drafted",
+    "sources": [],
+    "note": "As above."
+  },
+  {
+    "id": "gqg-americans-3",
+    "node": "gqg_1918_14_americans",
+    "kind": "fact",
+    "claim": "The American First Army pinched out the Saint-Mihiel salient on 12 September and attacked in the Meuse-Argonne on 26 September.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Confirm with the Hundred Days page."
+  },
+  {
+    "id": "gqg-americans-4",
+    "node": "gqg_1918_14_americans",
+    "kind": "fact",
+    "claim": "Foch's headquarters were at Bombon from 5 June to 17 October 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "From a web-search summary."
+  },
+  {
+    "id": "gqg-grand-1",
+    "node": "gqg_1918_15_grand",
+    "kind": "fact",
+    "claim": "Foch planned a four-stage concentric offensive: the Americans in the Meuse-Argonne on 26 September, the British Third and First Armies toward Cambrai on the 27th, Flanders on the 28th, and the Hindenburg Line on the Saint-Quentin canal on the 29th by the British Fourth and French First Armies.",
+    "status": "web-checked",
+    "sources": [
+      "wp-hundreddays"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-grand-2",
+    "node": "gqg_1918_15_grand",
+    "kind": "characterization",
+    "claim": "The concentric attacks were designed to cut German lateral communications so that success at one would advance the whole line, and stretched German reserves to breaking point.",
+    "status": "web-checked",
+    "sources": [
+      "wp-hundreddays"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-senlis-1",
+    "node": "gqg_1918_16_senlis",
+    "kind": "fact",
+    "claim": "Foch held a conference at Senlis on 25 October 1918 and asked Pershing, Pétain and Haig for their opinions on armistice terms; with Clemenceau's agreement he then modified the list on his own authority.",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-senlis-2",
+    "node": "gqg_1918_16_senlis",
+    "kind": "fact",
+    "claim": "Haig had urged moderation on 19 October, saying the German army was far from beaten; Pétain took a harder line; Pershing the hardest.",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-senlis-3",
+    "node": "gqg_1918_16_senlis",
+    "kind": "fact",
+    "claim": "The final armistice terms included occupation of Rhine bridgeheads.",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": ""
+  },
+  {
+    "id": "gqg-senlis-4",
+    "node": "gqg_1918_16_senlis",
+    "kind": "fact",
+    "claim": "Foch's headquarters moved to Senlis on 18 October 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "From a web-search summary."
+  },
+  {
+    "id": "gqg-frontieres-1",
+    "node": "gqg_1914_01_frontieres",
+    "kind": "fact",
+    "claim": "Plan XVII was an attack into Lorraine and the Ardennes built on the conviction that the willingness to attack decided wars, assuming the German right would not be strong enough to matter.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-frontieres-2",
+    "node": "gqg_1914_01_frontieres",
+    "kind": "fact",
+    "claim": "The plan assumed the Germans would not put reserve corps in the front line.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-frontieres-3",
+    "node": "gqg_1914_01_frontieres",
+    "kind": "characterization",
+    "claim": "The Battle of the Frontiers cost the French army more men in three weeks than was budgeted for a year.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-marne-1",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "The German First Army turned inside Paris rather than around it, leaving its flank exposed to the Paris garrison and the Sixth Army, as the government left for Bordeaux.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-marne-2",
+    "node": "gqg_1914_02_marne",
+    "kind": "characterization",
+    "claim": "Responsibility for the German halt on the Marne is disputed: German command breakdown, the gap between First and Second Armies, or the French counterattack.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dispute carried in the choice's dispute field. Note: the node's dateline city is Paris; Joffre was at Châtillon-sur-Seine on 5 September 1914. Verify the intended meaning (the Military Government of Paris) or change the city."
+  },
+  {
+    "id": "gqg-grignotage-1",
+    "node": "gqg_1915_03_grignotage",
+    "kind": "fact",
+    "claim": "The French offensives of 1915 were fought in Artois in the spring and in Champagne in the autumn, taking the first position each time and not the second.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-grignotage-2",
+    "node": "gqg_1915_03_grignotage",
+    "kind": "fact",
+    "claim": "Ten departments were under German occupation.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-verdun-1",
+    "node": "gqg_1916_04_verdun",
+    "kind": "fact",
+    "claim": "The Verdun forts had been stripped of heavy guns and men; one road (the Voie Sacrée) supplied the sector.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-verdun-2",
+    "node": "gqg_1916_04_verdun",
+    "kind": "fact",
+    "claim": "Pétain's rotation system passed most of the French army through the Verdun sector in 1916.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-somme-1",
+    "node": "gqg_1916_05_somme",
+    "kind": "fact",
+    "claim": "The Somme offensive was agreed at Chantilly with the French contribution intended to be the larger; Verdun reduced it to a fraction of what was promised.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-nivelle-1",
+    "node": "gqg_1916_06_nivelle",
+    "kind": "fact",
+    "claim": "Nivelle offered a rupture of the German line in forty-eight hours at a cost of about ten thousand men; Joffre was made a Marshal and replaced in December 1916.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-chemin-1",
+    "node": "gqg_1917_07_chemin",
+    "kind": "fact",
+    "claim": "Painlevé extracted the promise that the offensive would stop if it had not broken through in forty-eight hours; Lyautey resigned rather than carry the plan.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-mutinies-1",
+    "node": "gqg_1917_08_mutinies",
+    "kind": "characterization",
+    "claim": "The mutinies were bargaining rather than breaking; the number of executions is disputed in the literature.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The design note in the file header says the repression is narrated, not dialled; check the stated figures in the choice text."
+  },
+  {
+    "id": "gqg-malmaison-1",
+    "node": "gqg_1917_09_malmaison",
+    "kind": "fact",
+    "claim": "The attack at La Malmaison on 23 October 1917 was a limited-objective attack that took its objective and stopped.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-doullens-1",
+    "node": "gqg_1918_10_doullens",
+    "kind": "fact",
+    "claim": "At Doullens on 26 March 1918 coordinating authority over the Allied armies went to Foch, which grew into general command.",
+    "status": "web-checked",
+    "sources": [
+      "wp-doullens"
+    ],
+    "note": "Coordinating authority; the page describes the appointment as Allied Commander-in-Chief with authority to coordinate operations."
+  },
+  {
+    "id": "gqg-counter-1",
+    "node": "gqg_1918_11_counteroffensive",
+    "kind": "fact",
+    "claim": "The counterattack of 18 July 1918 came out of the forest of Villers-Cotterêts against the flank of the Marne salient, led by Mangin.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+  },
+  {
+    "id": "gqg-counter-2",
+    "node": "gqg_1918_11_counteroffensive",
+    "kind": "characterization",
+    "claim": "Whether the July counterattack seized the initiative or arrived as the German offensives were exhausting themselves is disputed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dispute carried in the choice's dispute field."
+  }
+]

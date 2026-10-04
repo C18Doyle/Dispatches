@@ -131,7 +131,7 @@ file claims a real person said specific words unless the wording is attested.
 | campaign | nodes | endings | dossiers | bulletins | spine | rolls | gate-blocks | status |
 |---|---|---|---|---|---|---|---|---|
 | ohl | 23 | 9 | 11 | 10 | 24 | 3 | 3.64 | expanded (1.1.0), claims logged |
-| gqg | 20 | 9 | 10 | 8 | 11 | 3 | 3.22 | complete |
+| gqg | 24 | 9 | 10 | 10 | 25 | 3 | 6.83 | expanded (1.1.0), claims logged |
 | stavka | 17 | 9 | 10 | 8 | 9 | 3 | 2.37 | complete |
 | bef | 0 | - | - | - | - | - | - | not started |
 | aok | 0 | - | - | - | - | - | - | not started |
