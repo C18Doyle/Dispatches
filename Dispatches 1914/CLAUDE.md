@@ -7,7 +7,7 @@ Auto-loads each session. Read before touching the file.
 - This is the reference shape for the series: the logic layer is already pure and separate. `src/50-registries` to `57-nodeids` (registries, meters, succession, hard mode, `resolveNode`, `chooseNext`, `walkSpine`) have no React/DOM, take an injectable `rng`, and read content only from `CAMPAIGNS`. `chooseNext(campaignId, choice, flags, meters, hardState, rng)` already honours per-roll `next`, `nextIf` on post-choice meters, and the hard-mode forced ending. The shared engine's "function returns the node" mode should be modelled on it.
 - No logic extraction was needed. A headless UI baseline was added instead: `npm run verify:baseline` (jsdom, ~20 s) plays 24 seeded runs (3 campaigns x 8 seeds) through `dist/bundle.js` and compares every step's page hash to `tests/baseline/ui`. Build first (`npm run build`).
 - `npm test` = build, smoke, render-test, roundtrip, verify:baseline. `npm run validate` (= `bash validate.sh`) is separate because it exits 1 on the deliberate Ottoman research gate.
-- The UI has no hard-mode switch yet, so hard mode is covered by `smoke.js` and `montecarlo.js`, not by the UI baseline.
+- The menu has a Standard / Hard mode switch (1.1.0). The UI baseline has `-open` runs (the pre-refactor behaviour) and `-hard` runs (recorded when the switch was added); `smoke.js` and `montecarlo.js` still cover hard mode in the rules.
 - `roundtrip-test.mjs` now uses the OS temp dir (it hardcoded `/tmp`, which failed on Windows).
 - Moving a campaign's text into JSON is not planned: nodes use functions of `flags`/`meters` for prose and gates.
 
@@ -202,5 +202,5 @@ is a change to that object, not to components.
 
 ## Changing behaviour (details: ../docs/WORKFLOW.md)
 - After any change run `npm run test:fast`. When `verify:baseline` fails: if it is a bug you introduced, fix the code; if the change is intended, read the reported differences, run `npm run baseline:accept`, and commit the new baseline together with the change and a line in `CHANGELOG.md`. A fix of a legacy bug that the old build got wrong goes in `tests/baseline/known-diffs.json` instead (first differing step plus a one-line reason).
-- This game keeps no saved state, so there is no save-compatibility test.
+- Saves: `src/58-persistence.jsx` holds the saved run, the war record and settings (localStorage, guarded; memory fallback). Rules for changing them: `../docs/SAVES.md` (`NODE_ALIASES`, `SAVE_MIGRATIONS`, `migrateSave`). `npm run test:saves` replays six committed saved files (every campaign, both modes); `npm run test:migration` tests the helper.
 - Real-browser check (from the repo root, after building): `npm run smoke:browser`. Known layout findings are listed in `tests/browser-allowlist.json`.

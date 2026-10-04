@@ -33,6 +33,7 @@ const SECTIONS = [
   { title: "CHOICE RESOLUTION", file: "55-choose.jsx" },
   { title: "SPINE", file: "56-spine.jsx" },
   { title: "NODE ID CONVENTION — spec §13.7", file: "57-nodeids.jsx" },
+  { title: "SAVES, RECORD AND SETTINGS — docs/SAVES.md", file: "58-persistence.jsx" },
   { title: "UI_LAYER", file: "90-ui.jsx" },
 ];
 

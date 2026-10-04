@@ -5,6 +5,15 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## Unreleased
+### Added
+- Saved files: the run in progress is saved after every step and offered as "File in progress" on the menu, including a pending outcome screen. Starting a new file replaces it.
+- A Standard / Hard mode switch on the menu. Hard mode adds the erosion track already in the rules; each command's card says what pressure it represents, and at the limit a fixed ending follows.
+- The War Record is real: dossiers (opened by meeting each adviser in play), an atlas of decisions reached and an endings gallery, kept in the browser across runs.
+- Text size setting (Standard, Larger, Largest).
+- Accessibility: a main landmark and heading structure on every screen, focus outlines, button states announced.
+- Tests: six saved-file fixtures and a migration helper test (docs/SAVES.md), 24 recorded hard-mode playthroughs, and render checks for all of the above.
+
 ## 1.0.0 (2026-10-03): first public release
 ### Playable
 - Three commands, each a branching graph of dated decisions with advisor positions, dossiers and bulletins: the German Oberste Heeresleitung (20 decisions), the French Grand Quartier Général (20) and the Russian Stavka (17), with 9 endings each (one per command is the hard-mode ending, see Known).
