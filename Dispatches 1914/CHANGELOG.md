@@ -10,6 +10,7 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 - Saved files: the run in progress is saved after every step and offered as "File in progress" on the menu, including a pending outcome screen. Starting a new file replaces it.
 - A Standard / Hard mode switch on the menu. Hard mode adds the erosion track already in the rules; each command's card says what pressure it represents, and at the limit a fixed ending follows.
 - The War Record is real: dossiers (opened by meeting each adviser in play), an atlas of decisions reached and an endings gallery, kept in the browser across runs.
+- The historical record on every outcome screen: whether the order was the one the command gave (or what the historical command chose instead), and, where a roll stands for a real disagreement between historians, the dispute as written.
 - Text size setting (Standard, Larger, Largest).
 - Accessibility: a main landmark and heading structure on every screen, focus outlines, button states announced.
 - Tests: six saved-file fixtures and a migration helper test (docs/SAVES.md), 24 recorded hard-mode playthroughs, and render checks for all of the above.

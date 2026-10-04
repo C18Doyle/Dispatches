@@ -3419,6 +3419,28 @@ export function walkSpine(campaignId, startId) {
   return { path };
 }
 
+/**
+ * What the player is told, after an order, about the historical record. Pure data in, text out.
+ * - The order the command really gave is marked `historical: true` on the node (exactly one per node).
+ * - A choice whose roll represents a real disagreement carries a `dispute` (spec §13.6): it is shown as written.
+ * Returns null on an ending node. Used by the outcome screen and by smoke.js.
+ */
+export function historicalNote(node, choice) {
+  if (!node || !choice || node.ending) return null;
+  const hist = (node.choices ?? []).find((c) => c.historical);
+  if (!hist) return null;
+  const parts = [];
+  if (choice.historical) {
+    parts.push("The command gave this order.");
+  } else {
+    parts.push(`The command did not give this order. The historical command chose: ${hist.label.replace(/[.!?]+$/, "")}.`);
+  }
+  if (choice.dispute) {
+    parts.push(`Where the record divides.\n${choice.dispute}`);
+  }
+  return { historical: Boolean(choice.historical), historicalLabel: hist.label, dispute: choice.dispute ?? null, text: parts.join("\n\n") };
+}
+
 // =============================================================================
 // NODE ID CONVENTION — spec §13.7
 // =============================================================================
@@ -3532,8 +3554,8 @@ export function removeKey(key) {
 
 // ---------- the saved run ----------
 
-/** What is stored for a run in progress. `pendingOutcome` is set while the player is on an outcome screen. */
-export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null }) {
+/** What is stored for a run in progress. `pendingOutcome` (and `pendingRecord`, the historical note shown with it) are set while the player is on an outcome screen. */
+export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null }) {
   return {
     schemaVersion: SAVE_SCHEMA_VERSION,
     campaignId,
@@ -3544,6 +3566,7 @@ export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visi
     visited,
     pendingNextId,
     pendingOutcome,
+    pendingRecord,
     savedAt: Date.now(),
   };
 }
@@ -3944,7 +3967,7 @@ function NodeScreen({ campaignId, node, meters, hardState, onChoose, onHome }) {
   );
 }
 
-function OutcomeScreen({ campaignId, outcome, onContinue }) {
+function OutcomeScreen({ campaignId, outcome, record, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   return (
     <main className="dg-root">
@@ -3952,6 +3975,12 @@ function OutcomeScreen({ campaignId, outcome, onContinue }) {
       <h1 className="dg-docrow" style={{ margin: "18px 0 16px" }}><span>{c.docLabel} · OUTCOME</span></h1>
       <hr className="dg-rule" />
       <div className="dg-prose">{outcome}</div>
+      {record && (
+        <details>
+          <summary>▶ THE HISTORICAL RECORD</summary>
+          <div className="dg-prose">{record.text}</div>
+        </details>
+      )}
       <button className="dg-btn" onClick={onContinue}>Continue</button>
     </main>
   );
@@ -4095,6 +4124,7 @@ export default function App() {
       campaignId, nodeId, flags, meters, hardState, visited,
       pendingNextId: screen === "outcome" && pending ? pending.nextId ?? null : null,
       pendingOutcome: screen === "outcome" && pending ? pending.outcome ?? null : null,
+      pendingRecord: screen === "outcome" && pending ? pending.record ?? null : null,
     }));
   }, [screen, campaignId, nodeId, flags, meters, hardState, pending, visited]);
 
@@ -4118,7 +4148,7 @@ export default function App() {
     setMeters(s.meters);
     setHardState(s.hardState);
     setVisited(s.visited);
-    setPending(s.pendingOutcome ? { nextId: s.pendingNextId, outcome: s.pendingOutcome } : null);
+    setPending(s.pendingOutcome ? { nextId: s.pendingNextId, outcome: s.pendingOutcome, record: s.pendingRecord ?? null } : null);
     setRunKey((k) => k + 1);
     setNodeId(s.nodeId);
     setScreen(s.pendingOutcome ? "outcome" : "node");
@@ -4136,7 +4166,7 @@ export default function App() {
   const choose = (ch) => {
     const r = chooseNext(campaignId, ch, flags, meters, hardState);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
-    setPending(r);
+    setPending({ ...r, record: historicalNote(node, ch) });
     setScreen(r.outcome ? "outcome" : "node");
     if (!r.outcome) setNodeId(r.nextId);
   };
@@ -4157,7 +4187,7 @@ export default function App() {
       )}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
-        <OutcomeScreen campaignId={campaignId} outcome={pending.outcome} onContinue={cont} />
+        <OutcomeScreen campaignId={campaignId} outcome={pending.outcome} record={pending.record} onContinue={cont} />
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}

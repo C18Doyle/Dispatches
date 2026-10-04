@@ -100,8 +100,8 @@ export function removeKey(key) {
 
 // ---------- the saved run ----------
 
-/** What is stored for a run in progress. `pendingOutcome` is set while the player is on an outcome screen. */
-export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null }) {
+/** What is stored for a run in progress. `pendingOutcome` (and `pendingRecord`, the historical note shown with it) are set while the player is on an outcome screen. */
+export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null }) {
   return {
     schemaVersion: SAVE_SCHEMA_VERSION,
     campaignId,
@@ -112,6 +112,7 @@ export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visi
     visited,
     pendingNextId,
     pendingOutcome,
+    pendingRecord,
     savedAt: Date.now(),
   };
 }

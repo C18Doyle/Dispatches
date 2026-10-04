@@ -32,7 +32,8 @@ function loadEngine(file) {
     "commanderAt", "advisorsPresentAt", "isAdvisorPresent",
     "emptyHardState", "erosionMax", "erosionFromChoice", "applyErosion", "hardModeForcesEnding",
     "findNode", "resolveNode", "rollUncertain", "chooseNext",
-    "historicalChoice", "walkSpine",
+    "historicalChoice", "walkSpine", "historicalNote",
+    "snapshotRun", "validateSave", "emptyRecord", "noteNodeSeen", "noteEnding", "sanitizeSettings", "defaultSettings", "SAVE_SCHEMA_VERSION",
     "NODE_ID_PATTERN", "ENDING_ID_PATTERN", "isValidNodeId",
   ];
 

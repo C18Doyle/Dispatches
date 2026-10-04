@@ -293,7 +293,7 @@ function NodeScreen({ campaignId, node, meters, hardState, onChoose, onHome }) {
   );
 }
 
-function OutcomeScreen({ campaignId, outcome, onContinue }) {
+function OutcomeScreen({ campaignId, outcome, record, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   return (
     <main className="dg-root">
@@ -301,6 +301,12 @@ function OutcomeScreen({ campaignId, outcome, onContinue }) {
       <h1 className="dg-docrow" style={{ margin: "18px 0 16px" }}><span>{c.docLabel} · OUTCOME</span></h1>
       <hr className="dg-rule" />
       <div className="dg-prose">{outcome}</div>
+      {record && (
+        <details>
+          <summary>▶ THE HISTORICAL RECORD</summary>
+          <div className="dg-prose">{record.text}</div>
+        </details>
+      )}
       <button className="dg-btn" onClick={onContinue}>Continue</button>
     </main>
   );
@@ -444,6 +450,7 @@ export default function App() {
       campaignId, nodeId, flags, meters, hardState, visited,
       pendingNextId: screen === "outcome" && pending ? pending.nextId ?? null : null,
       pendingOutcome: screen === "outcome" && pending ? pending.outcome ?? null : null,
+      pendingRecord: screen === "outcome" && pending ? pending.record ?? null : null,
     }));
   }, [screen, campaignId, nodeId, flags, meters, hardState, pending, visited]);
 
@@ -467,7 +474,7 @@ export default function App() {
     setMeters(s.meters);
     setHardState(s.hardState);
     setVisited(s.visited);
-    setPending(s.pendingOutcome ? { nextId: s.pendingNextId, outcome: s.pendingOutcome } : null);
+    setPending(s.pendingOutcome ? { nextId: s.pendingNextId, outcome: s.pendingOutcome, record: s.pendingRecord ?? null } : null);
     setRunKey((k) => k + 1);
     setNodeId(s.nodeId);
     setScreen(s.pendingOutcome ? "outcome" : "node");
@@ -485,7 +492,7 @@ export default function App() {
   const choose = (ch) => {
     const r = chooseNext(campaignId, ch, flags, meters, hardState);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
-    setPending(r);
+    setPending({ ...r, record: historicalNote(node, ch) });
     setScreen(r.outcome ? "outcome" : "node");
     if (!r.outcome) setNodeId(r.nextId);
   };
@@ -506,7 +513,7 @@ export default function App() {
       )}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
-        <OutcomeScreen campaignId={campaignId} outcome={pending.outcome} onContinue={cont} />
+        <OutcomeScreen campaignId={campaignId} outcome={pending.outcome} record={pending.record} onContinue={cont} />
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}

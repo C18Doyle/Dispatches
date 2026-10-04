@@ -60,6 +60,9 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
 
   const c2 = btns().find(b => b.textContent.includes("Send Hentsch forward"));
   click(c2); await wait(60);
+  t("the outcome offers the historical record", txt().includes("THE HISTORICAL RECORD"));
+  t("a historical order is marked as such", txt().includes("The command gave this order."));
+  t("a contested roll shows where the record divides", txt().includes("Where the record divides.") && txt().includes("Historians divide on where responsibility for the Marne withdrawal lies"));
   const cont2 = btns().find(b => b.textContent.trim() === "Continue");
   click(cont2); await wait(60);
 
