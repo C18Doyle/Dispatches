@@ -442,8 +442,12 @@ CAMPAIGNS.ohl.nodes = {
         setFlags: { ohl_lorraine: "conceded" },
         next: "ohl_1914_12_twocorps",
         outcome:
-          "The right goes forward at weight. Lorraine gives ground it was always " +
-          "expected to give, and the newspapers there will have to be managed.",
+          "The right goes forward at the weight the plan requires. Lorraine gives " +
+          "ground it was always expected to give, and the newspapers there will have to " +
+          "be managed. The left wing's commanders, who wanted to meet the French and " +
+          "win something, are told to hold and wait, and they do not forget it. " +
+          "Everything now depends on the right wing reaching Paris before its men and " +
+          "horses reach the end of what they can do.",
       },
       {
         id: "lorraine",
@@ -455,8 +459,11 @@ CAMPAIGNS.ohl.nodes = {
         erodes: "spend_will",
         next: "ohl_1914_12_twocorps",
         outcome:
-          "Corps go south. There is fighting in Lorraine that the plan did not ask " +
-          "for, and the right wing goes forward lighter than the plan assumed.",
+          "Corps go south. There is fighting in Lorraine that the plan did not ask for, " +
+          "and a French attack is met and beaten there, which is reported at home as a " +
+          "victory. The right wing goes forward lighter than the plan assumed, by " +
+          "exactly the corps that went south. Nobody in this building can say yet what " +
+          "that will cost, and nobody will be able to say until September.",
       },
     ],
   },
@@ -508,9 +515,12 @@ CAMPAIGNS.ohl.nodes = {
         setFlags: { ohl_twocorps: "kept" },
         next: "ohl_1914_02_marne",
         outcome:
-          "Speculative. Both corps stay where the plan put them. The new command in East " +
-          "Prussia fights with the army it has, and the right wing goes forward at a " +
-          "strength the plan could count on.",
+          "Speculative. Both corps stay where the plan put them. The new command in " +
+          "East Prussia fights with the army it has, and the right wing goes forward at " +
+          "a strength the plan could count on. Whether the eastern army could have held " +
+          "without them is not something the record can settle. What is certain is that " +
+          "the province goes on being overrun while the matter is argued, and that " +
+          "the Chief has to answer for it.",
       },
     ],
   },
@@ -582,9 +592,11 @@ CAMPAIGNS.ohl.nodes = {
             next: "ohl_1914_03_succession",
             outcome:
               "The instruction reaches the armies unevenly and they break contact at " +
-              "different hours. The line on the Aisne is held, but the cost of getting to " +
-              "it is higher than it needed to be, and the recriminations start before the " +
-              "digging does." },
+              "different hours, some of them with the enemy close behind. The line on the " +
+              "Aisne is held, but the cost of getting to it is higher than it needed to be, " +
+              "and the recriminations start before the digging does. The officers who were " +
+              "not told in time say so, loudly. The Chief's authority over the armies, " +
+              "already thin, is thinner at the end of it." },
         ],
       },
       {
@@ -601,7 +613,9 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. Supreme Command leaves Luxembourg for the front. Whatever is " +
           "gained in judgment is lost in the days it takes to get there and the hours " +
           "in which no one at all is directing seven armies. The withdrawal to the " +
-          "Aisne happens regardless; only the authorship changes.",
+          "Aisne happens regardless, since the gap is there whoever sees it; only the " +
+          "authorship changes. The officers at headquarters are left to explain to the " +
+          "Kaiser where the Chief has gone.",
       },
     ],
   },
@@ -640,7 +654,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "The Supreme Command's weight stays in the west. The eastern command will " +
           "argue against this for two years, and will eventually argue its way into " +
-          "this building.",
+          "this building. In the meantime the divisions that might have gone east to " +
+          "finish a Russian army go into the line in France instead, and the war " +
+          "settles into the shape the new Chief expects: a long struggle for a decision " +
+          "on the one front where he believes one is possible.",
       },
       {
         id: "east",
@@ -654,7 +671,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. Divisions go east that historically stayed west. The eastern " +
           "command gets the resources it spent two years demanding, and acquires the " +
-          "responsibility that comes with them.",
+          "responsibility that comes with them. The west is held thinner than it was, " +
+          "by an army that has just been stopped on the Marne and is digging in. " +
+          "Whether Russia can be finished with the extra divisions is the whole bet, " +
+          "and the record gives no answer.",
       },
     ],
   },
@@ -688,11 +708,12 @@ CAMPAIGNS.ohl.nodes = {
         setFlags: { ohl_flanders: "pressed" },
         next: "ohl_1915_14_gorlice",
         outcome:
-          "The last concentrated attack goes in in the second week of November, with fresh " +
-          "divisions and a heavy bombardment. It makes ground at several points and does " +
-          "not make the breakthrough, and the local fighting dies away by the end of the " +
-          "month. The front in Flanders has settled into lines that will move very little " +
-          "for years.",
+          "The last concentrated attack goes in in the second week of November, with " +
+          "fresh divisions and a heavy bombardment. It makes ground at several points " +
+          "and does not make the breakthrough, and the local fighting dies away by the " +
+          "end of the month. The front in Flanders has settled into lines that will " +
+          "move very little for years. The reserve corps that made the attack are left " +
+          "to bury what remains of them.",
       },
       {
         id: "break",
@@ -706,7 +727,9 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The attack is cancelled with the Channel ports still behind the " +
           "British line, and the fresh divisions go east by rail. The eastern armies go " +
           "into the winter stronger than they were. The front in the west stays where " +
-          "the autumn left it.",
+          "the autumn left it, and the coast is never again as open as it is this week. " +
+          "The Chief who gave up the last chance of a decision in the west has to say " +
+          "what he will try instead.",
       },
     ],
   },
@@ -765,10 +788,12 @@ CAMPAIGNS.ohl.nodes = {
         erodes: "spend_will",
         next: "ohl_1915_15_serbia",
         outcome:
-          "Speculative. Divisions are drawn east in larger numbers than the Galician plan " +
-          "needed, for an operation whose object is to encircle the Russian armies in " +
-          "Poland. The Austro-Hungarian front has to hold with what it has in the " +
-          "meantime, and the west is left with whatever is not needed elsewhere.",
+          "Speculative. Divisions are drawn east in larger numbers than the Galician " +
+          "plan needed, for an operation whose object is to encircle the Russian armies " +
+          "in Poland. The Austro-Hungarian front has to hold with what it has in the " +
+          "meantime, and the west is left with whatever is not needed elsewhere. An " +
+          "envelopment needs the enemy to stay where he is until it closes, and that is " +
+          "the part nobody here can promise.",
       },
     ],
   },
@@ -804,10 +829,11 @@ CAMPAIGNS.ohl.nodes = {
         next: "ohl_1916_04_verdun",
         outcome:
           "The attack opens in the first week of October, from the north and, with the " +
-          "Bulgarian armies, from the east. Belgrade falls within days. The Serbian army " +
-          "and a long column of civilians retreat west and south over the mountains of " +
-          "Albania in the winter. By the new year German supplies are moving to " +
-          "Constantinople by rail.",
+          "Bulgarian armies, from the east. Belgrade falls within days. The Serbian " +
+          "army and a long column of civilians retreat west and south over the " +
+          "mountains of Albania in the winter. By the new year German supplies are " +
+          "moving to Constantinople by rail, and the Ottoman army has the guns it was " +
+          "short of. Serbia is gone as a front.",
       },
       {
         id: "wait",
@@ -820,7 +846,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. The Serbian army is left alone and the divisions stay in France " +
           "and Belgium. The land route to Constantinople stays closed, and the Ottoman " +
-          "army goes on short of what Germany could have sent it.",
+          "army goes on short of what Germany could have sent it, guns and shells above " +
+          "all. The Allies attack in the west in the autumn against a line that has all " +
+          "its divisions in it. Bulgaria, having signed, is left with nothing to do but " +
+          "wait.",
       },
     ],
   },
@@ -873,20 +902,23 @@ CAMPAIGNS.ohl.nodes = {
             setFlags: { ohl_verdunExec: "asdirected" },
             next: "ohl_1916_14_somme",
             outcome:
-              "The guns do the work and the infantry is not spent taking ground for its " +
-              "own sake. The French come on to the artillery as expected. The ledger is " +
-              "grim on both sides and the German column of it is smaller than it might " +
-              "have been." },
+              "The guns do the work and the infantry is not spent taking ground for its own " +
+              "sake. The French come on to the artillery as expected, in counter-attacks " +
+              "that cost them far more than the ground is worth. The ledger is grim on both " +
+              "sides and the German column of it is smaller than it might have been. The " +
+              "operation does what the memorandum said it would, which is the only thing " +
+              "that can be said for it." },
           { weight: 55, title: "Fifth Army reads the directive as an order to take the fortress", historicalBranch: true,
             impact: { manpower: -2, will: -1 },
             setFlags: { ohl_verdunExec: "fortress" },
             next: "ohl_1916_14_somme",
             outcome:
-              "The Crown Prince's headquarters takes the instruction to mean the city, " +
-              "and the operation becomes what the directive was meant to avoid: German " +
-              "infantry attacking prepared positions on ground that has no value except " +
-              "that the attack has already been made for it. The distinction between " +
-              "the two readings stops mattering somewhere in March." },
+              "The Crown Prince's headquarters takes the instruction to mean the city, and " +
+              "the operation becomes what the directive was meant to avoid: German infantry " +
+              "attacking prepared positions on ground that has no value except that the " +
+              "attack has already been made for it. The distinction between the two " +
+              "readings stops mattering somewhere in March, and by then the army that was " +
+              "meant to bleed the French is bleeding beside them." },
         ],
       },
       {
@@ -902,9 +934,11 @@ CAMPAIGNS.ohl.nodes = {
         next: "ohl_1916_14_somme",
         outcome:
           "Speculative. No offensive on the Meuse. The shells and the five divisions " +
-          "stay in hand and the army in the west spends 1916 waiting — which is a " +
+          "stay in hand and the army in the west spends 1916 waiting, which is a " +
           "coherent strategy and an intolerable one to explain to a country that has " +
-          "been told the war is being won.",
+          "been told the war is being won. When the British and French attack in the " +
+          "summer they find a line with its reserves behind it. The Chief has kept his " +
+          "army and has nothing to show for it.",
       },
     ],
   },
@@ -958,7 +992,9 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. Ground is given where it cannot be held cheaply and a second " +
           "line is built behind it. The front moves back by a few kilometres in places. " +
           "Fewer men are lost in counter-attacks, and the retreat has to be explained " +
-          "at home as something other than a defeat.",
+          "at home as something other than a defeat. The officers who hold that no yard " +
+          "may be given up say so, and the Chief has to decide whether he is willing to " +
+          "be overruled by his own caution.",
       },
     ],
   },
@@ -998,7 +1034,9 @@ CAMPAIGNS.ohl.nodes = {
           "The army in the west stops attacking and starts building. The line is " +
           "shortened and the ground given up is left useless behind it. Divisions are " +
           "freed. What they are to be used for is the next question and it is already " +
-          "being answered somewhere other than in this building.",
+          "being answered somewhere other than in this building, in the arithmetic of " +
+          "ships and tonnage. For the first time since 1914 this headquarters has a " +
+          "reserve and no plan to spend it on.",
       },
       {
         id: "press",
@@ -1014,7 +1052,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. The effort continues into weather and against a Somme front " +
           "that is being reinforced faster than it is being broken. The divisions that " +
-          "would have been rebuilt are not rebuilt.",
+          "would have been rebuilt are not rebuilt, and the shell reserve that was " +
+          "meant to last the winter goes into the mud in November. The new Chiefs have " +
+          "kept the old Chief's policy for the sake of consistency, and will be asked " +
+          "in the spring what it bought.",
       },
     ],
   },
@@ -1136,7 +1177,9 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The U-boats stay under prize rules, American neutrality is not " +
           "forced, and the war in the west continues on the ground with no instrument " +
           "for changing it. The Supreme Command has declined the only decisive-looking " +
-          "option it had and now has to find another.",
+          "option it had and now has to find another. The Chancellor has won the " +
+          "argument, and the soldiers who lost it will remember who won it when the " +
+          "next one comes round.",
       },
     ],
   },
@@ -1199,9 +1242,11 @@ CAMPAIGNS.ohl.nodes = {
         next: "ohl_1917_07_chancellor",
         outcome:
           "Speculative. The army goes back to the new line, and the villages and roads " +
-          "behind it are left standing. The enemy moves up faster than he did. The " +
-          "retirement frees the divisions it was meant to free, and no report of " +
-          "burned villages goes to the neutral press.",
+          "behind it are left standing. The enemy moves up faster than he did, over " +
+          "roads and through towns that are whole. The retirement frees the divisions " +
+          "it was meant to free, and no report of burned villages goes to the neutral " +
+          "press. What the army gains in good name it loses in the weeks it would have " +
+          "gained by delaying the pursuit.",
       },
       {
         id: "stay",
@@ -1215,9 +1260,12 @@ CAMPAIGNS.ohl.nodes = {
         erodes: "spend_will",
         next: "ohl_1917_07_chancellor",
         outcome:
-          "Speculative. The army stays in the bulge. The new line is finished and " +
-          "empty behind it. The enemy attacks the old line in the spring, with the " +
-          "divisions that would have been freed still in it.",
+          "Speculative. The army stays in the bulge. The new line is finished and empty " +
+          "behind it. The enemy attacks the old line in the spring, with the divisions " +
+          "that would have been freed still in it, and the army holds the ground it was " +
+          "told not to give up at a cost that the commanders who proposed the " +
+          "withdrawal had already put in writing. Ludendorff has kept his ground and " +
+          "spent his reserve.",
       },
     ],
   },
@@ -1265,7 +1313,9 @@ CAMPAIGNS.ohl.nodes = {
           "Bethmann Hollweg leaves the chancellorship in July. His successors govern " +
           "with the Supreme Command's approval and without much else. The military " +
           "direction of the war is now the direction of the war, and every domestic " +
-          "failure from here belongs to this headquarters whether it caused it or not.",
+          "failure from here belongs to this headquarters whether it caused it or not. " +
+          "The Reichstag passes its resolution anyway, and the Chancellor who might " +
+          "have answered it is gone.",
       },
       {
         id: "tolerate",
@@ -1278,7 +1328,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. The civil government survives the summer with its authority " +
           "intact, which means the Supreme Command has a colleague rather than a " +
-          "subordinate, and an argument to lose every time it wants something.",
+          "subordinate, and an argument to lose every time it wants something. The " +
+          "Reichstag resolution goes through, and the army is told by its own " +
+          "government what the war is for. Ludendorff and Hindenburg have to decide " +
+          "whether they will go on serving a government they tried to remove.",
       },
     ],
   },
@@ -1320,7 +1373,9 @@ CAMPAIGNS.ohl.nodes = {
           "A Fourteenth Army is made up of German and Austro-Hungarian divisions under " +
           "Otto von Below. The offensive opens on 24 October and the Italian line at " +
           "Caporetto breaks. The Italians retreat to the Piave, and the Allies send " +
-          "divisions to hold them. Austria-Hungary does not leave the war.",
+          "divisions to hold them. Austria-Hungary does not leave the war, and Germany " +
+          "has bought it a winter at the price of six or seven divisions and a good " +
+          "deal of its own attention.",
       },
       {
         id: "refuse",
@@ -1332,7 +1387,9 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. Vienna gets the artillery it asked for and not the divisions. " +
           "The Isonzo line holds, or it does not, on the strength of an army that has " +
           "been strained to the limit. Whatever happens there, the divisions stay in " +
-          "Flanders.",
+          "Flanders, where the British are still attacking. The Emperor has asked his " +
+          "ally for a great deal and been given a little, and he will remember the " +
+          "proportion when the question of peace comes up.",
       },
     ],
   },
@@ -1374,8 +1431,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "The advance begins on 18 February, along the whole front from the Baltic to " +
           "Ukraine. German and Austro-Hungarian divisions go forward with almost no " +
-          "fighting. Minsk is taken on the 21st, and Kiev on 2 March. On 3 March the " +
-          "Russian government signs the treaty that it refused to sign on the 10th.",
+          "fighting, by rail where the lines are whole. Minsk is taken on the 21st, and " +
+          "Kiev on 2 March. On 3 March the Russian government signs the treaty that it " +
+          "refused to sign on the 10th. The army has what it marched for, and has to " +
+          "garrison it.",
       },
       {
         id: "accept",
@@ -1390,7 +1449,9 @@ CAMPAIGNS.ohl.nodes = {
           "declared the war ended, and there is no treaty and no further advance. " +
           "Divisions that would have been marching are free to be moved. The Baltic " +
           "provinces and Ukraine stay open and uncertain, and the annexationists at " +
-          "home regard the opportunity as thrown away.",
+          "home regard the opportunity as thrown away. Whether the Russian declaration " +
+          "would have held, with a German army at the line, is a question of what the " +
+          "army was prepared to ignore.",
       },
     ],
   },
@@ -1435,7 +1496,9 @@ CAMPAIGNS.ohl.nodes = {
           "The terms are severe and the territory is enormous. Around fifty divisions " +
           "come west; by the twenty-first of March a hundred and ninety-two of the " +
           "army's divisions are on the Western Front. The rest are administering the " +
-          "prize, and they stay there.",
+          "prize, and they stay there. The Chief has what the annexationists wanted, " +
+          "and the divisions he would have wanted in France are in Ukraine and the " +
+          "Baltic, counting grain and signing receipts.",
       },
       {
         id: "narrow",
@@ -1449,7 +1512,9 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. Less is taken and less has to be held. More divisions reach " +
           "France than historically did, and a settlement the annexationists at home " +
           "regard as a betrayal has to be defended in the Reichstag by a government " +
-          "that did not want it.",
+          "that did not want it. The army has the weight it asked for in the spring. " +
+          "Whether it is enough to win, or only enough to lose more slowly, is not a " +
+          "question the figures settle.",
       },
     ],
   },
@@ -1503,20 +1568,23 @@ CAMPAIGNS.ohl.nodes = {
             setFlags: { ohl_michaelResult: "salient" },
             next: "ohl_1918_13_aisne",
             outcome:
-              "Sixty-five kilometres of ground and the largest breakthrough since the " +
-              "line stopped moving. Amiens is threatened and not taken. The armies on " +
-              "the flanks are too worn to widen the front, the direction of the advance " +
-              "no longer serves the envelopment it was meant to serve, and what has been " +
-              "gained is a salient exposed on every side." },
+              "Sixty-five kilometres of ground and the largest breakthrough since the line " +
+              "stopped moving. Amiens is threatened and not taken. The armies on the flanks " +
+              "are too worn to widen the front, the direction of the advance no longer " +
+              "serves the envelopment it was meant to serve, and what has been gained is a " +
+              "salient exposed on every side. Losses among the best divisions are far " +
+              "beyond what can be replaced." },
           { weight: 40, title: "The exploitation reaches the junction",
             impact: { manpower: -1, munitions: -1, will: 1 },
             setFlags: { ohl_michaelResult: "amiens" },
             next: "ohl_1918_13_aisne",
             outcome:
-              "Speculative. The adaptive method finds the seam and the exploitation " +
-              "carries to the junction. The British and French are separated on the " +
-              "ground. What that is worth depends entirely on what can be moved through " +
-              "the gap before it closes, and the answer to that is not encouraging." },
+              "Speculative. The adaptive method finds the seam and the exploitation carries " +
+              "to the junction. The British and French are separated on the ground. What " +
+              "that is worth depends entirely on what can be moved through the gap before " +
+              "it closes, and the answer to that is not encouraging: the railways behind " +
+              "the advance are broken, the horses are starving, and the divisions at the " +
+              "head of it have been marching for a week." },
         ],
       },
       {
@@ -1532,7 +1600,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. Effort is concentrated and diversions refused. Whether the " +
           "junction can be reached and held is a question the logistics may answer " +
-          "before the enemy does.",
+          "before the enemy does. The divisions that would have gone wherever the line " +
+          "gave way are held for the one objective, and the Chief has staked the whole " +
+          "offensive on a single railway junction, without any second plan if the road " +
+          "to it proves too long.",
       },
     ],
   },
@@ -1586,11 +1657,12 @@ CAMPAIGNS.ohl.nodes = {
         setFlags: { ohl_aisne: "halted" },
         next: "ohl_1918_10_salient",
         outcome:
-          "Speculative. The army stops where the plan said it should, with a gain " +
-          "that was never in the plan, and the reserves go back to the north. The " +
-          "attack in Flanders goes ahead as designed, against a British army " +
-          "that has had time to prepare for it. Paris is not threatened, and the " +
-          "country is told so.",
+          "Speculative. The army stops where the plan said it should, with a gain that " +
+          "was never in the plan, and the reserves go back to the north. The attack in " +
+          "Flanders goes ahead as designed, against a British army that has had time to " +
+          "prepare for it. Paris is not threatened, and the country is told so. Whether " +
+          "the Chief who passed up the Marne could have won a battle in Flanders is a " +
+          "question only the Flanders battle could have answered.",
       },
     ],
   },
@@ -1637,7 +1709,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. The armies come back to a line they can hold and a reserve " +
           "exists again. At home, the maps in the newspapers move backwards for the " +
-          "first time since March, and no communiqué makes that mean anything else.",
+          "first time since March, and no communiqué makes that mean anything else. The " +
+          "army has more men in September than it would otherwise have had, and the " +
+          "country has less faith. A retirement is easier to order than to explain, and " +
+          "the explaining falls to this headquarters.",
       },
       {
         id: "hold",
@@ -1652,7 +1727,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "The salients are held and the divisions holding them are consumed doing it. " +
           "The retreat, when it comes, comes at a time chosen by the enemy rather than " +
-          "by this headquarters.",
+          "by this headquarters. The ground taken in the spring is given up anyway, but " +
+          "at the cost of the divisions that held it through the summer, and the army " +
+          "that has to fall back in the autumn is a smaller one than the army that " +
+          "could have fallen back in July.",
       },
     ],
   },
@@ -1693,7 +1771,9 @@ CAMPAIGNS.ohl.nodes = {
           "The council agrees on a defensive in the west, with the aim of making the " +
           "enemy tired of fighting. The Foreign Secretary is asked to find out, through " +
           "neutral channels, what terms are possible. The army goes on giving ground in " +
-          "orderly stages through September. The decision is not announced.",
+          "orderly stages through September. The decision is not announced, and the " +
+          "country goes on reading communiqués that describe a different war from the " +
+          "one it is losing.",
       },
       {
         id: "offensive",
@@ -1705,10 +1785,12 @@ CAMPAIGNS.ohl.nodes = {
         erodes: "spend_will",
         next: "ohl_1918_11_request",
         outcome:
-          "Speculative. Another attack is prepared for September, with divisions " +
-          "taken from the quiet sectors. It is a smaller operation than any of the " +
-          "spring's, and it is aimed at a front that the enemy has had time to " +
-          "reinforce.",
+          "Speculative. Another attack is prepared for September, with divisions taken " +
+          "from the quiet sectors. It is a smaller operation than any of the spring's, " +
+          "and it is aimed at a front that the enemy has had time to reinforce. The " +
+          "divisions are drawn from sectors that were holding only because they were " +
+          "quiet, and the Chief has chosen to spend them on one more attempt rather " +
+          "than keep them to fall back on.",
       },
     ],
   },
@@ -1757,8 +1839,11 @@ CAMPAIGNS.ohl.nodes = {
         next: "ohl_1918_15_wilson",
         outcome:
           "The request goes forward. A government is assembled to carry it and does. " +
-          "Within a few years a great many people who were in this building will explain " +
-          "that the army was never beaten and that the request came from somewhere else.",
+          "Within a few years a great many people who were in this building will " +
+          "explain that the army was never beaten and that the request came from " +
+          "somewhere else. The army goes on retreating in order, and the country learns " +
+          "from a note to an American President what its own headquarters decided a " +
+          "week ago. It is the last decision that is entirely this headquarters' own.",
       },
       {
         id: "fight",
@@ -1778,7 +1863,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. No request is made. The army falls back on a line it intends to " +
           "hold through the winter, and the question becomes whether the country behind " +
-          "it lasts as long as the line does.",
+          "it lasts as long as the line does. The government that has not been asked to " +
+          "ask for anything goes on governing a population that is eating turnips. The " +
+          "Chief has kept the choice for himself, and the people behind him have not " +
+          "been consulted about the price.",
       },
       {
         id: "openterms",
@@ -1793,7 +1881,11 @@ CAMPAIGNS.ohl.nodes = {
         next: "ohl_end_negotiated",
         outcome:
           "Speculative. An approach is made while the line in the west is still " +
-          "unbroken, from a position that can still be described as strong.",
+          "unbroken, from a position that can still be described as strong. The enemy " +
+          "governments have to decide whether to treat with an army that has not been " +
+          "beaten in the field, and whether to believe an offer that comes from the " +
+          "Supreme Command rather than from a government. Nothing the record shows can " +
+          "say what they would have answered, and the ending does not pretend to.",
       },
     ],
   },
@@ -1842,8 +1934,9 @@ CAMPAIGNS.ohl.nodes = {
           "The order goes out to the armies without the Chancellor's knowledge. It " +
           "reaches the press, and the Chancellor demands that Ludendorff be dismissed " +
           "or he will go himself. On the 26th the Kaiser accepts Ludendorff's " +
-          "resignation and keeps Hindenburg. Ludendorff is replaced by Groener, and " +
-          "the armistice request stands.",
+          "resignation and keeps Hindenburg. Ludendorff is replaced by Groener, and the " +
+          "armistice request stands. The army is told one thing by its headquarters and " +
+          "another by its government, in the same week.",
       },
       {
         id: "accept",
@@ -1856,7 +1949,10 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. No order is issued. The government answers the third note " +
           "without a quarrel with the army, and Ludendorff stays in his post to the " +
-          "end. What the army is told about the negotiation is left to the Chancellor.",
+          "end. What the army is told about the negotiation is left to the Chancellor, " +
+          "who tells it what he thinks it can bear. The Supreme Command has given up " +
+          "the last instrument it had of independent action, and it has done so in the " +
+          "week when the army most needs to believe it has one.",
       },
     ],
   },
@@ -1908,7 +2004,13 @@ CAMPAIGNS.ohl.nodes = {
       "The Aisne, May 1918: " + (flags.ohl_aisne === "halted" ? "halted on the Vesle." : "exploited to the Marne.") + "\n" +
       "After 8 August: " + (flags.ohl_blackday === "offensive" ? "another offensive planned." : "the strategic defensive.") + "\n" +
       "September 1918: " + (flags.ohl_request === "refused" ? "the request was refused." : flags.ohl_request === "early" ? "terms were sought early." : "requested through a new civil government.") + "\n" +
-      "The third American note: " + (flags.ohl_wilson === "accepted" ? "left to the government." : "answered by an order to the army, and Ludendorff's resignation."),
+      "The third American note: " + (flags.ohl_wilson === "accepted" ? "left to the government." : "answered by an order to the army, and Ludendorff's resignation.") + "\n\n" +
+        "What actually happened: The request went to President Wilson on 3 and 4 " +
+        "October, the Kaiser's abdication was announced on 9 November, and the " +
+        "armistice was signed at Compiegne on the morning of 11 November. The peace " +
+        "was signed at Versailles on 28 June 1919. The Supreme Command's account, " +
+        "that an undefeated army had been betrayed at home, was in print within a " +
+        "year.",
   },
 
 
@@ -1925,7 +2027,16 @@ CAMPAIGNS.ohl.nodes = {
     ending: { family: "home-front-collapse-first", badge: BADGES.CONTESTED },
     epilogue: () =>
       "The army did not break in the field. It was never going to be able to hold a " +
-      "front for a country that had stopped being able to supply one.",
+      "front for a country that had stopped being able to supply one.\n\nWhat " +
+      "actually happened: The army retreated in order to the end. The collapse came " +
+      "from behind it: the sailors' mutiny at Kiel at the start of November, " +
+      "councils of workers and soldiers spreading through the cities, and the " +
+      "Kaiser's abdication on 9 November, when a republic was proclaimed in Berlin. " +
+      "The blockade had been felt in hunger since the turnip winter of 1916 and " +
+      "1917. The claim that an undefeated army had been stabbed in the back by its " +
+      "own home front grew out of exactly this. The Treaty of Versailles, signed on " +
+      "28 June 1919, was then presented in Germany as a peace imposed on a country " +
+      "that had never been beaten.",
   },
 
   ohl_end_armyfirst: {
@@ -1940,9 +2051,17 @@ CAMPAIGNS.ohl.nodes = {
       "army was beaten. Everyone can see where it happened.",
     ending: { family: "army-collapse-first", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. The historical German army retreated in order to the end and was " +
-      "never broken open in the field. Spending it harder than it was spent leaves " +
-      "nothing for anyone to reinterpret afterwards.",
+      "Speculative. The historical German army retreated in order to the end and " +
+      "was never broken open in the field. Spending it harder than it was spent " +
+      "leaves nothing for anyone to reinterpret afterwards.\n\nWhat actually " +
+      "happened: The army never broke open in the field. Between July and November " +
+      "it fell back from the Marne to the Meuse and the Scheldt, giving up ground " +
+      "and prisoners, but it kept a front, and its units marched home in order " +
+      "after the armistice. That the army could be said to have been undefeated, " +
+      "and that its leaders afterwards said so, depended on the front never having " +
+      "been breached in daylight, which this ending takes away. The officers who " +
+      "made that claim in the years after the war were describing a front that, in " +
+      "the days of the armistice, they still held.",
   },
 
   ohl_end_holdout: {
@@ -1959,7 +2078,15 @@ CAMPAIGNS.ohl.nodes = {
     ending: { family: "fight-on-into-1919", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The line held. What the line was for did not become clearer for " +
-      "having been held.",
+      "having been held.\n\nWhat actually happened: There was no winter line. The " +
+      "request went to President Wilson in the first week of October, his replies " +
+      "made the Allied terms plain by the end of the month, and the armistice was " +
+      "signed on 11 November. The Allies had a larger campaign in preparation for " +
+      "1919, with more tanks and a growing American army, and it was never needed. " +
+      "Whether the German front could have held through the winter was never " +
+      "tested. The terms of the armistice were severe, but they were the terms of " +
+      "an army that still had a front, which was one reason the war ended when it " +
+      "did.",
   },
 
   ohl_end_negotiated: {
@@ -1975,8 +2102,17 @@ CAMPAIGNS.ohl.nodes = {
     ending: { family: "earlier-negotiated-outcome", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. No German approach on these lines was made at this date. The " +
-      "Entente's willingness to treat with an unbeaten German army in September 1918 " +
-      "is not something the record can settle, and this ending does not pretend it can.",
+      "Entente's willingness to treat with an unbeaten German army in September " +
+      "1918 is not something the record can settle, and this ending does not " +
+      "pretend it can.\n\nWhat actually happened: No approach was made in " +
+      "September. The first request to Wilson went on 3 and 4 October, from a new " +
+      "government under Prince Max of Baden, after Ludendorff had told a council at " +
+      "Spa on 29 September that the army could not wait. Wilson replied three times " +
+      "and each reply set a harder condition. The Allies never had to answer an " +
+      "offer from an army that was still intact, because none was made. The Allies' " +
+      "public position throughout was that there could be no talk of peace with the " +
+      "old system of government in Germany, and that decided the order in which " +
+      "things happened.",
   },
 
   ohl_end_worseterms: {
@@ -1992,7 +2128,16 @@ CAMPAIGNS.ohl.nodes = {
     ending: { family: "armistice-on-worse-terms", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. Terms are not made only by armies. They are made by what the " +
-      "asking side still has when it asks.",
+      "asking side still has when it asks.\n\nWhat actually happened: The armistice " +
+      "was signed in the railway carriage at Compiegne at about five in the morning " +
+      "of 11 November, by a delegation led by the civilian politician Matthias " +
+      "Erzberger and not by a soldier, who had been given seventy-two hours to " +
+      "accept. The terms required the evacuation of occupied territory and of the " +
+      "left bank of the Rhine, the surrender of guns, aircraft, submarines and much " +
+      "of the fleet, and kept the blockade in force until the peace. The delegation " +
+      "had no authority to bargain and little to bargain with, and the one " +
+      "concession it did obtain, a small reduction in the numbers of guns and " +
+      "machine guns to be surrendered, did not change the character of the terms.",
   },
 
   ohl_end_intact: {
@@ -2010,7 +2155,15 @@ CAMPAIGNS.ohl.nodes = {
     epilogue: () =>
       "Speculative. Both decisions were available and neither was taken. The " +
       "counterfactual is not that Germany wins; it is that the same defeat costs a " +
-      "different amount.",
+      "different amount.\n\nWhat actually happened: Neither condition was met. The " +
+      "eastern settlement was the harsh one, and about fifty divisions came west " +
+      "from it, not all that might have. The salients were held through July and " +
+      "the army that asked for an armistice in the autumn was a worn army with few " +
+      "reserves. The armistice required it to leave France, Belgium and " +
+      "Alsace-Lorraine within fourteen days and to give up its heavy equipment, " +
+      "whatever state it was in. The army's condition was not the thing that made " +
+      "the terms, which were made by the Allies' own view of what they needed in " +
+      "order not to fight again.",
   },
 
   ohl_end_dictated: {
@@ -2025,8 +2178,17 @@ CAMPAIGNS.ohl.nodes = {
       "it down. Both halves of that were the same decision.",
     ending: { family: "east-held-west-lost", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. Territory is only an asset if it can be held with fewer men than " +
-      "it releases.",
+      "Speculative. Territory is only an asset if it can be held with fewer men " +
+      "than it releases.\n\nWhat actually happened: Germany did hold the east when " +
+      "the war ended, with Brest-Litovsk in force and its troops in the Baltic " +
+      "provinces and Ukraine. The armistice annulled the treaty and told the troops " +
+      "in the former Russian territories to withdraw when the Allies judged the " +
+      "moment suitable. Many stayed, in the Baltic, into 1919, where Freikorps " +
+      "units fought against the Bolsheviks and the new Baltic governments. The " +
+      "prize was held for a winter after the war that was meant to secure it. The " +
+      "eastern settlement that the Supreme Command spent the war trying to secure " +
+      "was undone in a single clause, and the armies that were to hold it were the " +
+      "same armies that went home.",
   },
 
   ohl_end_relieved: {
@@ -2046,7 +2208,17 @@ CAMPAIGNS.ohl.nodes = {
       hardModeOnly: true,
     },
     epilogue: () =>
-      "The office continues. The occupant does not.",
+      "The office continues. The occupant does not.\n\nWhat actually happened: " +
+      "Ludendorff was dismissed on 26 October 1918, after the order to the army " +
+      "that answered Wilson's third note, and Hindenburg stayed. Groener took his " +
+      "place as First Quartermaster General, and on 9 November he told the Kaiser " +
+      "at Spa that the army no longer stood behind him. The Kaiser left for the " +
+      "Netherlands the next day. The office went on after its occupants had gone, " +
+      "as the epilogue says. Ludendorff left for Sweden, in civilian clothes and " +
+      "dark glasses, a few days afterwards, and Hindenburg remained at his post " +
+      "until the army was home. The Supreme Command that had set out in 1916 to win " +
+      "the war by force of will ended it as the object of a quarrel among the " +
+      "people it had governed.",
   },
 };
 
@@ -2156,7 +2328,9 @@ CAMPAIGNS.gqg.nodes = {
           "The attacks go in and are stopped in front of positions the doctrine said " +
           "would give way. The Battle of the Frontiers costs the army more men in three " +
           "weeks than anyone in this building has budgeted for a year, and the German " +
-          "right comes on through Belgium regardless.",
+          "right comes on through Belgium regardless. The regiments that went forward " +
+          "in red trousers learn what machine guns and heavy howitzers do to a bayonet " +
+          "charge, and the lesson is paid for in full.",
       },
       {
         id: "shift",
@@ -2171,7 +2345,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. Formations move left earlier than they historically did. Fewer " +
           "men are spent on the frontier and more are in front of the sweep, at the " +
-          "price of an army told on its first day that its doctrine was mistaken.",
+          "price of an army told on its first day that its doctrine was mistaken. The " +
+          "officers who built their careers on the attack have to be persuaded that the " +
+          "plan they were taught is the wrong one, and some of them will not be, " +
+          "whatever the reports from Belgium say.",
       },
     ],
   },
@@ -2227,7 +2404,9 @@ CAMPAIGNS.gqg.nodes = {
           "Speculative. No withdrawal is ordered, and the armies fight another battle " +
           "where they stand while the German right wing goes round them. If the line " +
           "holds, the army has kept its ground. If it does not, there is nothing behind " +
-          "it to fall back on.",
+          "it to fall back on, and the Commander-in-Chief has lost the war's first " +
+          "month's armies in a single afternoon, with the capital open behind them and " +
+          "the government still in it.",
       },
     ],
   },
@@ -2280,8 +2459,11 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The commanders stay, with officers from General Headquarters " +
           "beside them to see that the orders are carried out. Nobody is publicly " +
-          "blamed, and the army keeps the leaders it has. The orders arrive at the armies " +
-          "through two channels, and in the first week of September both are needed.",
+          "blamed, and the army keeps the leaders it has. The orders arrive at the " +
+          "armies through two channels, and in the first week of September both are " +
+          "needed. The army does not learn that failure costs a command, and the " +
+          "officers who failed in August are still giving orders in the battle that " +
+          "comes.",
       },
     ],
   },
@@ -2341,15 +2523,20 @@ CAMPAIGNS.gqg.nodes = {
               "The armies turn. The gap between the German First and Second Armies opens " +
               "and is exploited, and the invasion stops short of the decision it needed. " +
               "The war that follows is a different war from the one everyone prepared for, " +
-              "and it will last four years." },
+              "and it will last four years. The French army that attacks on the Marne is " +
+              "exhausted, short of shells and not sure of its own success, and does not " +
+              "know until days afterwards that it has won." },
           { weight: 35, title: "The counterattack is contained and the line settles further south",
             impact: { manpower: -1, will: -1 },
             setFlags: { gqg_marneResult: "contained" },
             next: "gqg_1914_14_race",
             outcome:
-              "Speculative. The turn is made and does not achieve the separation it " +
-              "needed. The invasion is stopped, later and further south, and the line " +
-              "that congeals runs across more of France than it historically did." },
+              "Speculative. The turn is made and does not achieve the separation it needed. " +
+              "The invasion is stopped, later and further south, and the line that congeals " +
+              "runs across more of France than it historically did. The government is back " +
+              "in Bordeaux, and Paris is shelled. The army has fought a great battle and " +
+              "kept the capital, and has to explain to the country why it is still giving " +
+              "up villages." },
         ],
       },
       {
@@ -2365,7 +2552,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The withdrawal continues past the Marne and the flank closes. " +
           "The army is in better condition and the ground behind it is French, and " +
-          "there is markedly less of it.",
+          "there is markedly less of it. The Germans reach the Seine, and the capital " +
+          "is invested or abandoned. The Commander-in-Chief has kept his army in being " +
+          "and lost the chance the Military Governor of Paris was pressing on him, " +
+          "which does not come back.",
       },
     ],
   },
@@ -2415,9 +2605,11 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1915_03_grignotage",
         outcome:
           "Speculative. The Second Army stays in Lorraine and the left wing is not " +
-          "extended. The line is shorter, and the north is open to the German army " +
-          "for as long as it takes the Allies to close it. The Channel ports and the coalfields " +
-          "are within reach of an enemy that has just been stopped.",
+          "extended. The line is shorter, and the north is open to the German army for " +
+          "as long as it takes the Allies to close it. The Channel ports and the " +
+          "coalfields are within reach of an enemy that has just been stopped, and the " +
+          "British, who are moving north themselves, find the ground they meant to hold " +
+          "already contested, with no French army beside them to share it.",
       },
     ],
   },
@@ -2459,7 +2651,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Artois and Champagne are fought and the second position holds both times. " +
           "The line moves by yards. The cost is entered in a ledger that the Chamber " +
-          "will eventually read.",
+          "will eventually read, and the soldiers who go forward in the autumn go with " +
+          "no illusion left about what the first day will give them. The occupied " +
+          "departments are no nearer, and the Commander-in-Chief has no other policy to " +
+          "put in place of the one that has not worked.",
       },
       {
         id: "limited",
@@ -2473,8 +2668,11 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1915_14_salonika",
         outcome:
           "Speculative. The offensives are scaled to the artillery available. The army " +
-          "enters 1916 stronger and the government enters it having explained for twelve " +
-          "months why nothing was attempted.",
+          "enters 1916 stronger and the government enters it having explained for " +
+          "twelve months why nothing was attempted. The enemy fortifies the occupied " +
+          "departments undisturbed, and the British, who have begun raising their great " +
+          "army, are told that the French have decided to wait for them. Whether the " +
+          "alliance can bear a French year of waiting is the question.",
       },
     ],
   },
@@ -2527,7 +2725,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. No force is sent, or one too small to matter. The divisions " +
           "stay in France, and the government has been told by its general that he will " +
-          "not carry out what it decided. Serbia is left to the armies that invade it.",
+          "not carry out what it decided. Serbia is left to the armies that invade it. " +
+          "The ministry and the Chamber, which have been trying for months to bring the " +
+          "Commander-in-Chief under their authority, are given the best reason they " +
+          "have yet had for doing it.",
       },
     ],
   },
@@ -2579,8 +2780,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The conference ends without a fixed scheme for 1916. Each army " +
           "plans its own campaign, and the French army is free to choose its time and " +
-          "place. The Germans keep the advantage of interior lines, and the French " +
-          "keep the freedom to refuse a battle that has been fixed in advance.",
+          "place. The Germans keep the advantage of interior lines, and the French keep " +
+          "the freedom to refuse a battle that has been fixed in advance. The Russians " +
+          "and the Italians, who came to be told when to attack, go home without a " +
+          "date, and the British wonder what the French will do alone.",
       },
     ],
   },
@@ -2621,7 +2824,9 @@ CAMPAIGNS.gqg.nodes = {
           "Verdun is held, and held by rotation: divisions go in, are used, and come " +
           "out, and most of the French army passes through the sector before the year " +
           "is done. That rotation is why the army survives 1916 and why so much of it " +
-          "has personally been to Verdun by 1917.",
+          "has personally been to Verdun by 1917. The cost in men is terrible, and " +
+          "spread across the army rather than falling on a few divisions, so the army " +
+          "that comes out is not the army that went in.",
       },
       {
         id: "shorten",
@@ -2636,7 +2841,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The line is shortened and the battle the enemy wanted is " +
           "declined. The army is materially stronger for it and the government that " +
-          "authorised it does not last the spring.",
+          "authorised it does not last the spring. The fortress, which stood for the " +
+          "whole nation, is given up without the defence it expected, and the country " +
+          "learns of it from a communiqué. What the Germans take cheaply they hold, and " +
+          "the symbol they were seeking is theirs.",
       },
     ],
   },
@@ -2670,7 +2878,11 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1916_14_douaumont",
         outcome:
           "The French share of the Somme is smaller than promised and is made. Pressure " +
-          "comes off Verdun. The alliance holds, and the ledger grows.",
+          "comes off Verdun, where the Germans have to send their reserves north, and " +
+          "the alliance holds, with the British learning to attack at the cost of their " +
+          "volunteer army. The ledger grows. The French divisions on the Somme take " +
+          "ground on the southern flank and are not asked to do the impossible, but " +
+          "they are asked to do it a second time within the year.",
       },
       {
         id: "defer",
@@ -2683,7 +2895,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The British attack on the Somme substantially alone. Divisions " +
           "are preserved. What is spent instead is the assumption, on the other side of " +
-          "the Channel, that France will be there when the plan says so.",
+          "the Channel, that France will be there when the plan says so. The British " +
+          "army, which has raised its great force for this battle, takes the first " +
+          "day's losses without a French attack beside it, and the alliance is asked " +
+          "how the plan agreed at Chantilly came to be kept by one partner only.",
       },
     ],
   },
@@ -2745,7 +2960,9 @@ CAMPAIGNS.gqg.nodes = {
           "Speculative. No attack is made. The divisions are rested and the shells are " +
           "kept for the spring, and the forts stay where they are through the winter. " +
           "The Commander-in-Chief goes into December without the success that would " +
-          "have helped him to keep his command.",
+          "have helped him to keep his command, and the ministers who are looking for a " +
+          "reason to replace him are given an empty autumn to put in front of the " +
+          "Chamber. The soldiers at Verdun spend another winter looking at Douaumont.",
       },
     ],
   },
@@ -2784,7 +3001,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Nivelle takes the command in December. Lyautey leaves the war ministry " +
           "rather than sign the plan, and is replaced in March by Painleve, who is no " +
-          "more convinced but stays to argue.",
+          "more convinced but stays to argue. The army is told that the rupture will " +
+          "take forty-eight hours, and it believes what it is told, because it has been " +
+          "waiting two and a half years to be told it. The promise that is made is the " +
+          "one that will be broken, in front of the soldiers.",
       },
       {
         id: "petain",
@@ -2799,7 +3019,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The limited-objective doctrine takes the top command a year " +
           "early. There is no forty-eight hour promise to fail, and no government " +
-          "receives the victory it was told to expect.",
+          "receives the victory it was told to expect. The politicians who wanted a " +
+          "decisive result get a patient general, and a patient general is the one the " +
+          "Chamber has not been asking for. The army avoids the Aisne, and has to find " +
+          "out whether the waiting is bearable without a miracle in prospect.",
       },
     ],
   },
@@ -2849,8 +3072,10 @@ CAMPAIGNS.gqg.nodes = {
           "Speculative. No arrangement is made over the British commander's head. The " +
           "two armies coordinate by agreement between headquarters, as they have since " +
           "1914, and the offensive is fitted to what Haig will agree to. Nivelle goes " +
-          "into the spring with the plan he proposed and less control over the part that " +
-          "was to be British.",
+          "into the spring with the plan he proposed and less control over the part " +
+          "that was to be British. The generals keep their authority over their own " +
+          "armies, and the politicians who wanted to supervise them are left with " +
+          "nothing to supervise.",
       },
     ],
   },
@@ -2907,18 +3132,23 @@ CAMPAIGNS.gqg.nodes = {
             setFlags: { gqg_mutinyScale: "widespread" },
             next: "gqg_1917_13_directive",
             outcome:
-              "The offensive is halted on 9 May having taken ground and not the ridge, " +
-              "at a cost around a hundred and eighty-seven thousand French casualties. " +
-              "What follows is not a collapse of the front. Units refuse to move up to " +
-              "attack while continuing to hold the line they are in — and it spreads." },
+              "The offensive is halted on 9 May having taken ground and not the ridge, at a " +
+              "cost around a hundred and eighty-seven thousand French casualties. What " +
+              "follows is not a collapse of the front. Units refuse to move up to attack " +
+              "while continuing to hold the line they are in, and it spreads. The men are " +
+              "not deserting. They are bargaining, over leave, food and the promise that no " +
+              "one will be sent forward like that again." },
           { weight: 40, title: "Indiscipline stays local and is contained",
             impact: { will: -1 },
             setFlags: { gqg_mutinyScale: "contained" },
             next: "gqg_1917_13_directive",
             outcome:
               "Speculative. Refusals appear in the divisions worst used and do not " +
-              "propagate beyond them. The crisis is real, smaller, and survivable " +
-              "without a change of doctrine." },
+              "propagate beyond them. The crisis is real, smaller, and survivable without a " +
+              "change of doctrine. The command punishes a few units and moves on, and the " +
+              "lesson that the army cannot be asked for another rupture is learned in a few " +
+              "places rather than across the whole front. The Commander-in-Chief who made " +
+              "the promise is blamed for the failure and not for the army's condition." },
         ],
       },
       {
@@ -2931,8 +3161,11 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1917_13_directive",
         outcome:
           "Speculative. The attack is broken off on the undertaking that was given. The " +
-          "army is told the truth on the third day rather than the twenty-third, and the " +
-          "commander who made the promise has to survive having kept it.",
+          "army is told the truth on the third day rather than the twenty-third, and " +
+          "the commander who made the promise has to survive having kept it. The " +
+          "casualties are fewer, and the army that comes out of April is angry with its " +
+          "general and not yet with its government. Whether that difference is enough " +
+          "to prevent the refusals is something no one can say.",
       },
     ],
   },
@@ -2990,7 +3223,9 @@ CAMPAIGNS.gqg.nodes = {
           "Speculative. The army is told to prepare for another attempt in the summer. " +
           "Units that have refused to return to the line are asked to prepare to " +
           "attack, and the grievances that sent them there are still there when the " +
-          "order arrives.",
+          "order arrives. The new Commander-in-Chief has promised the soldiers that " +
+          "they will not be used as they were in April, and breaks the promise within a " +
+          "month. The army, which has been counting on him, decides what to make of it.",
       },
     ],
   },
@@ -3061,7 +3296,10 @@ CAMPAIGNS.gqg.nodes = {
           "Speculative. Discipline is applied without the leave rotation and the " +
           "promise. The historical evidence runs the other way on whether this works: " +
           "the restraint of the repression, and its pairing with real concession, is " +
-          "what most accounts credit with ending the crisis in six weeks.",
+          "what most accounts credit with ending the crisis in six weeks. A command " +
+          "that offers nothing and punishes everything has asked an army that is " +
+          "bargaining to choose between bargaining and breaking, and the army has not " +
+          "yet chosen.",
       },
       {
         id: "report",
@@ -3076,7 +3314,11 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The condition of the army is put in writing to the Ministry " +
           "rather than managed inside the command. What a government does with that " +
-          "information is no longer a military question.",
+          "information is no longer a military question. The ministers who read it have " +
+          "to decide whether to tell the Chamber, the Allies or the enemy, and each " +
+          "choice is a political risk. The Commander-in-Chief has declared that he " +
+          "cannot do what he was appointed to do, and has handed the decision to " +
+          "someone else.",
       },
     ],
   },
@@ -3119,7 +3361,9 @@ CAMPAIGNS.gqg.nodes = {
           "The fort and village are taken and the operation stops on its objective. The " +
           "Germans give up the remainder of the ridge and go back across the Ailette. " +
           "The cost is a fraction of April's and the ground is greater. The army " +
-          "notices, which is the point of it.",
+          "notices, which is the point of it. The soldiers who were promised battles " +
+          "they could win are given one, and a French attack does what the staff said " +
+          "it would.",
       },
       {
         id: "exploit",
@@ -3135,7 +3379,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The attack goes past the line it announced. Whatever ground " +
           "that gains, it costs the one thing the summer was spent rebuilding: the " +
-          "army's belief that when this command names a limit, the limit is real.",
+          "army's belief that when this command names a limit, the limit is real. The " +
+          "divisions that were told they would stop on the objective find themselves " +
+          "ordered to go on, and the officers who gave them the promise have to decide " +
+          "whether to carry out the order or to tell them the truth.",
       },
     ],
   },
@@ -3197,8 +3444,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. Every division that can be moved goes north, and the junction " +
           "with the British holds. Champagne and the road to Paris are left to what " +
-          "remains. If the main blow falls there, the French army has nothing to meet it " +
-          "with.",
+          "remains. If the main blow falls there, the French army has nothing to meet " +
+          "it with, and the government that told its general to cover the capital has " +
+          "to decide what it meant. If the blow does not fall there, the " +
+          "Commander-in-Chief has won, and no one will know how near he came to losing.",
       },
     ],
   },
@@ -3245,7 +3494,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Coordinating authority over the Allied armies goes to Foch, and grows into " +
           "general command. The two retreats become one defence. What has been given up " +
-          "is the independence of the French command, and it is not given back.",
+          "is the independence of the French command, and it is not given back. Petain " +
+          "goes on commanding the French armies, and Foch decides where they and the " +
+          "British will fight. Haig accepts the arrangement, because he is losing, and " +
+          "the arrangement lasts because it works.",
       },
       {
         id: "national",
@@ -3262,7 +3514,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. Command stays national and coordination stays a matter of " +
           "agreement between headquarters that disagree. The gap between the two armies " +
-          "is now a matter of goodwill under artillery fire.",
+          "is now a matter of goodwill under artillery fire. Each commander commits his " +
+          "reserves according to his own judgment of his own danger, and each is right " +
+          "to do so. The two retreats go on diverging, and the Germans, who have been " +
+          "looking for exactly that, are given the time to find it.",
       },
     ],
   },
@@ -3298,10 +3553,11 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1918_11_counteroffensive",
         outcome:
           "The bombardment on 27 May falls on a front line packed with men. The line " +
-          "breaks, and the Germans cross the Aisne and take nineteen kilometres in three " +
-          "days, with Paris within their reach. Duchene is relieved of his command by " +
-          "Clemenceau on 9 June. The order that would have prevented it had been given, " +
-          "and not obeyed.",
+          "breaks, and the Germans cross the Aisne and take nineteen kilometres in " +
+          "three days, with Paris within their reach. Duchene is relieved of his " +
+          "command by Clemenceau on 9 June. The order that would have prevented it had " +
+          "been given, and not obeyed. The army learns again what a bombardment does to " +
+          "a trench that is full, and the lesson costs it a great many men.",
       },
       {
         id: "depth",
@@ -3310,10 +3566,13 @@ CAMPAIGNS.gqg.nodes = {
         setFlags: { gqg_aisne: "depth" },
         next: "gqg_1918_11_counteroffensive",
         outcome:
-          "Speculative. The front line is cleared of all but a screen, and the divisions " +
-          "are moved back behind the ridge. The bombardment falls on little and the " +
-          "attack still comes and still gains ground, but it comes on into depth, and " +
-          "the army is not broken on the first morning.",
+          "Speculative. The front line is cleared of all but a screen, and the " +
+          "divisions are moved back behind the ridge. The bombardment falls on little " +
+          "and the attack still comes and still gains ground, but it comes on into " +
+          "depth, and the army is not broken on the first morning. Duchene is told to " +
+          "carry out an order he has publicly despised, and may do so unwillingly. " +
+          "Whether the battle behind the ridge would have held is something the record " +
+          "cannot show.",
       },
     ],
   },
@@ -3371,16 +3630,22 @@ CAMPAIGNS.gqg.nodes = {
             impact: { will: 1 },
             setFlags: { gqg_1918Result: "turned" },
             outcome:
-              "The counterattack goes in out of the forest and the salient begins to " +
-              "close. The initiative changes hands and does not change back. From here " +
-              "the fighting is continuous, and it is going one way." },
+              "The counterattack goes in out of the forest and the salient begins to close. " +
+              "The initiative changes hands and does not change back. From here the " +
+              "fighting is continuous, and it is going one way. The Germans, who have " +
+              "attacked five times since March, find themselves counting divisions they do " +
+              "not have, and the army that would not attack fourteen months ago goes " +
+              "forward behind its tanks and its guns with something close to confidence." },
           { weight: 30, title: "The blow lands on an enemy already withdrawing",
             impact: { manpower: -1 },
             setFlags: { gqg_1918Result: "coincided" },
             outcome:
-              "Speculative. The reserve is committed against a salient that was being " +
-              "given up regardless. The ground comes back and the last fresh divisions " +
-              "in France are spent taking what was going to be evacuated." },
+              "Speculative. The reserve is committed against a salient that was being given " +
+              "up regardless. The ground comes back and the last fresh divisions in France " +
+              "are spent taking what was going to be evacuated. The credit goes to the " +
+              "Commander who gave the order, and the cost is borne by the divisions that " +
+              "carried it out. The Allied armies will go on attacking, but they will do so " +
+              "with fewer fresh troops than they would have had if the blow had waited." },
         ],
       },
       {
@@ -3398,7 +3663,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The reserve stays in hand and the German offensives stop on " +
           "their own, as they were going to. The initiative is not taken, because " +
-          "taking it was the thing declined.",
+          "taking it was the thing declined. The army that has been rebuilt since 1917 " +
+          "is kept as a reserve rather than spent as an instrument, and the Germans are " +
+          "left to fall back on their own schedule, with their own divisions, and to " +
+          "find a new line, which they do.",
       },
     ],
   },
@@ -3434,7 +3702,8 @@ CAMPAIGNS.gqg.nodes = {
           "offers to take responsibility for the whole sector from Pont-a-Mousson, " +
           "through the valley of the Meuse, to the Argonne forest, and the dispute is " +
           "resolved on that basis. The American First Army pinches out the Saint-Mihiel " +
-          "salient on 12 September and moves to attack in the Meuse-Argonne.",
+          "salient on 12 September and moves to attack in the Meuse-Argonne. The tired " +
+          "armies of the Allies get a new ally that fights under its own flag.",
       },
       {
         id: "split",
@@ -3447,10 +3716,12 @@ CAMPAIGNS.gqg.nodes = {
         setFlags: { gqg_americans: "split" },
         next: "gqg_1918_15_grand",
         outcome:
-          "Speculative. The American divisions are put into the British and French armies. " +
-          "The tired armies are reinforced at once, and the Americans fight in other " +
-          "commanders' battles. The American government has said it will not allow this " +
-          "to be done, and it has to be told the answer.",
+          "Speculative. The American divisions are put into the British and French " +
+          "armies. The tired armies are reinforced at once, and the Americans fight in " +
+          "other commanders' battles. The American government has said it will not " +
+          "allow this to be done, and it has to be told the answer. The coalition has " +
+          "gained the divisions and lost the goodwill of the one partner it cannot do " +
+          "without, and the cost of that appears in the autumn.",
       },
     ],
   },
@@ -3505,7 +3776,10 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. The attacks go on as they have since August, each on its own " +
           "front and its own date. The Germans can move their reserves from one to " +
-          "another, and the winter comes with the line still on German ground.",
+          "another, and the winter comes with the line still on German ground. The " +
+          "armies are spared the heavy cost of a general offensive and the Allied " +
+          "governments are asked to explain a pause that the enemy does not take. The " +
+          "war goes into 1919, as it was always going to.",
       },
     ],
   },
@@ -3549,7 +3823,9 @@ CAMPAIGNS.gqg.nodes = {
           "on his own authority as Allied commander, makes his own list of terms. The " +
           "armistice conditions include the occupation of strategic positions, with the " +
           "bridgeheads over the Rhine, so that the Allies hold military superiority " +
-          "while the peace is made.",
+          "while the peace is made. The Germans, who asked for terms, are given " +
+          "conditions that would make a resumption of the war impossible, and they " +
+          "sign.",
       },
       {
         id: "moderate",
@@ -3565,10 +3841,12 @@ CAMPAIGNS.gqg.nodes = {
           : null,
         next: "gqg_end_victory",
         outcome:
-          "Speculative. The terms asked for are those that the British commander thought " +
-          "the German army could accept, with fewer demands for positions on the Rhine. " +
-          "The armistice is easier to sign and gives the Allies less to hold while the " +
-          "peace is made.",
+          "Speculative. The terms asked for are those that the British commander " +
+          "thought the German army could accept, with fewer demands for positions on " +
+          "the Rhine. The armistice is easier to sign and gives the Allies less to hold " +
+          "while the peace is made. The French, who want a frontier they can defend, " +
+          "find that the terms leave Germany with an army, a river and a case that it " +
+          "was never beaten in the field.",
       },
     ],
   },
@@ -3611,7 +3889,13 @@ CAMPAIGNS.gqg.nodes = {
       "The Americans: " + (flags.gqg_americans === "split" ? "divided among the Allied armies." : "an army with its own sector.") + "\n" +
       "The autumn offensives: " + (flags.gqg_grand === "limited" ? "limited attacks, front by front." : "four concentric offensives from 26 September.") + "\n" +
       "The armistice terms: " + (flags.gqg_senlis === "moderate" ? "the moderate terms Haig urged." : "the Rhine bridgeheads and heavy surrender of equipment.") + "\n" +
-      "1918 command: " + (flags.gqg_command1918 === "national" ? "national throughout." : "unified from March."),
+      "1918 command: " + (flags.gqg_command1918 === "national" ? "national throughout." : "unified from March.") + "\n\n" +
+        "What actually happened: The armistice came into force at eleven o'clock on " +
+        "the morning of 11 November 1918. France recovered Alsace-Lorraine and the " +
+        "occupied departments, and about 1.4 million French soldiers had been " +
+        "killed. Foch received his baton as Marshal of France and Petain his in " +
+        "December; Clemenceau, who had held the government together, lost the " +
+        "presidential election of January 1920 and left politics.",
   },
 
   gqg_end_armybreaks: {
@@ -3629,8 +3913,16 @@ CAMPAIGNS.gqg.nodes = {
     epilogue: () =>
       "Speculative. The historical army recovered inside six weeks. Most accounts " +
       "credit the pairing — leave, rest, and the promise, alongside a repression " +
-      "deliberately kept narrow. Removing half of that pairing is the counterfactual, " +
-      "and the evidence points where this ending points.",
+      "deliberately kept narrow. Removing half of that pairing is the " +
+      "counterfactual, and the evidence points where this ending points.\n\nWhat " +
+      "actually happened: The army recovered in weeks. Petain stopped the " +
+      "offensives, gave the men regular leave and better food, visited the " +
+      "divisions himself and listened to the grievances, and the courts-martial of " +
+      "the summer handed down several hundred death sentences, of which a few dozen " +
+      "were carried out. The exact count is still argued about. The army that " +
+      "returned to the line in the autumn of 1917 attacked at La Malmaison, and in " +
+      "1918 it counterattacked. Pétain's reputation, in the army and in France, was " +
+      "made in these weeks by what he refused to do as much as by what he did.",
   },
 
   gqg_end_coalitionfails: {
@@ -3647,7 +3939,15 @@ CAMPAIGNS.gqg.nodes = {
     epilogue: () =>
       "Speculative. Unified command was conceded historically, in this month, under " +
       "exactly this pressure. It is the counterfactual precisely because everyone " +
-      "involved could see what refusing it would cost.",
+      "involved could see what refusing it would cost.\n\nWhat actually happened: " +
+      "At Doullens on 26 March 1918 Foch was given the coordination of the Allied " +
+      "armies on the Western Front, and the front held in front of Amiens. His " +
+      "powers were widened in the weeks that followed, and in April he was given " +
+      "the title of Commander-in-Chief of the Allied armies. The British and French " +
+      "armies stayed joined, and the two retreats that this ending describes did " +
+      "not happen. Haig, who had been reluctant, accepted the arrangement, and " +
+      "Pershing, when the Americans were brought in, agreed to it with " +
+      "qualifications of his own.",
   },
 
   gqg_end_costlier: {
@@ -3664,7 +3964,16 @@ CAMPAIGNS.gqg.nodes = {
     ending: { family: "victory-at-higher-cost", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. Unity of command did not win the war. It shortened it, and the " +
-      "difference is measured in the only currency that has been counted here.",
+      "difference is measured in the only currency that has been counted " +
+      "here.\n\nWhat actually happened: The unified command moved reserves between " +
+      "the British and French sectors through the spring and summer, and the autumn " +
+      "offensives were planned as a single design, which the national commanders in " +
+      "this ending do not have. The war ended in November 1918, a year before the " +
+      "Allies' own planners expected it to. Some 1.4 million French soldiers had " +
+      "been killed by the end of it. Foch's authority was extended in stages and " +
+      "was never unlimited, but it was enough to make a single plan out of what had " +
+      "been two. It was the first time in the war that a single will directed the " +
+      "whole Allied front.",
   },
 
   gqg_end_intact: {
@@ -3680,7 +3989,16 @@ CAMPAIGNS.gqg.nodes = {
     ending: { family: "victory-with-the-army-preserved", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The outcome of the war was not in the gift of this headquarters " +
-      "by 1918. What the ledger looked like at the end of it was.",
+      "by 1918. What the ledger looked like at the end of it was.\n\nWhat actually " +
+      "happened: The French army that fought in 1918 had been rebuilt after the " +
+      "mutinies, but it was short of men, and its commanders husbanded it in the " +
+      "summer and spent it in the autumn. France ended the war with some 1.4 " +
+      "million dead, among the largest shares of its young men that any great power " +
+      "lost. An army kept intact is one that was not asked, in 1918, for what the " +
+      "autumn offensives asked of it, and this ending is built on that not having " +
+      "happened. The question of whether it was spent too freely in the last weeks, " +
+      "or not freely enough, was argued about by veterans and historians for " +
+      "decades afterwards.",
   },
 
   gqg_end_defensive: {
@@ -3697,7 +4015,15 @@ CAMPAIGNS.gqg.nodes = {
     ending: { family: "defensive-into-1919", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. Husbanding an army is a defensible doctrine and this is what it " +
-      "produces when nobody spends it.",
+      "produces when nobody spends it.\n\nWhat actually happened: The German " +
+      "offensives of 1918 did end, as this ending says, but the Allies did not wait " +
+      "for them to. The counterattack of 18 July, the British attack at Amiens on 8 " +
+      "August and the great offensives of late September brought the war to an end " +
+      "in November. The Allied staffs had been preparing a larger campaign for " +
+      "1919, with tanks and a growing American army, and it was never needed. Foch " +
+      "and the Allied governments did not accept the waiting that this ending " +
+      "describes, and the argument between caution and attack was settled by the " +
+      "German collapse before it could be settled by anyone else.",
   },
 
   gqg_end_negotiated: {
@@ -3713,8 +4039,18 @@ CAMPAIGNS.gqg.nodes = {
       "it.",
     ending: { family: "earlier-negotiated-outcome", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. No French government of 1917 could have signed terms leaving the " +
-      "occupied departments in German hands and survived the signing.",
+      "Speculative. No French government of 1917 could have signed terms leaving " +
+      "the occupied departments in German hands and survived the signing.\n\nWhat " +
+      "actually happened: No French government approached Germany in 1917. The " +
+      "spring brought the Sixtus affair, a private approach by the Austrian Emperor " +
+      "through his brother-in-law, Prince Sixtus of Bourbon-Parma, which came to " +
+      "nothing and was exposed in April 1918. Painleve's brief ministry in the " +
+      "autumn of 1917 gave way to Clemenceau's on 16 November, which was formed to " +
+      "make war to the end and did. A negotiated peace in 1917 would have left " +
+      "Germany in occupation of northern France and most of Belgium, and no French " +
+      "cabinet could have signed it and remained in office. The idea that peace " +
+      "might have been had in that year survived in French politics as an " +
+      "accusation for years.",
   },
 
   gqg_end_paris: {
@@ -3729,9 +4065,16 @@ CAMPAIGNS.gqg.nodes = {
       "what anyone in the country is looking at.",
     ending: { family: "german-1918-reaches-further", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. The historical German offensives came near enough to Paris to be " +
-      "shelled from range and no nearer. What kept them there was reserves committed " +
-      "at moments somebody chose.",
+      "Speculative. The historical German offensives came near enough to Paris to " +
+      "be shelled from range and no nearer. What kept them there was reserves " +
+      "committed at moments somebody chose.\n\nWhat actually happened: The German " +
+      "offensive of the spring reached the Marne at Chateau-Thierry at the end of " +
+      "May, within about sixty kilometres of Paris, and was stopped in early June " +
+      "by French and American divisions. Paris was shelled by a long-range gun from " +
+      "the end of March and bombed from the air, and many people left. The " +
+      "government did not leave. Clemenceau stayed in the capital, and the " +
+      "offensives were halted short of it. The Germans were stopped on the Marne, " +
+      "and in July the counterattack began that turned the year.",
   },
 
   gqg_end_relieved: {
@@ -3748,7 +4091,16 @@ CAMPAIGNS.gqg.nodes = {
       "now.",
     ending: { family: "hard-mode-relieved", badge: BADGES.CONTESTED, hardModeOnly: true },
     epilogue: () =>
-      "Command in a republic is held on terms. The terms were always the casualty list.",
+      "Command in a republic is held on terms. The terms were always the casualty " +
+      "list.\n\nWhat actually happened: Clemenceau removed General Duchene after " +
+      "the Aisne but kept Petain as Commander-in-Chief of the French armies to the " +
+      "end of the war, under Foch. The Chamber's committees went on supervising the " +
+      "command closely, and the Prime Minister visited the front. The fall that " +
+      "this ending describes did not happen. France went into the autumn of 1918 " +
+      "with the command and the government working, as they had to, in a mutual " +
+      "suspicion that neither side ever fully dropped. Clemenceau had said that the " +
+      "war was too serious to be left to the generals, and he acted on it, but he " +
+      "never removed the man whom the army trusted most.",
   },
 };
 
@@ -3872,7 +4224,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Both armies cross the frontier ahead of their supply. The First Army comes " +
           "on from the north-east and the Second from the south, and between them lie " +
-          "the lakes and a railway network the enemy can use and they cannot.",
+          "the lakes and a railway network the enemy can use and they cannot. The " +
+          "French are told that the promise has been kept, and it has, to the letter. " +
+          "The cost of keeping it will be counted in the first fortnight, by two armies " +
+          "that cannot reach each other.",
       },
       {
         id: "concentrate",
@@ -3887,7 +4242,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The advance waits for the armies to be ready to make it " +
           "together. The instrument is better and the alliance is worse, and the second " +
-          "of those will be raised at every conference for the rest of the war.",
+          "of those will be raised at every conference for the rest of the war. The " +
+          "French, who were promised an offensive in the first fortnight, fight the " +
+          "opening battles with the Germans' whole attention on them, and they are told " +
+          "by their ally that the army is not yet ready.",
       },
     ],
   },
@@ -3938,10 +4296,12 @@ CAMPAIGNS.stavka.nodes = {
         setFlags: { stavka_tannenberg: "halted" },
         next: "stavka_1914_02_galicia",
         outcome:
-          "Speculative. The Second Army stops where it is and the invasion loses " +
-          "a week. The German Eighth Army has that week to decide what to do about two " +
-          "Russian armies that have stopped, and the French have been told by their ally " +
-          "that the offensive they asked for is not coming at the pace promised.",
+          "Speculative. The Second Army stops where it is and the invasion loses a " +
+          "week. The German Eighth Army has that week to decide what to do about two " +
+          "Russian armies that have stopped, and the French have been told by their " +
+          "ally that the offensive they asked for is not coming at the pace promised. " +
+          "The army gets its bread and its wireless sorted out, and it pays for both " +
+          "with the time that was the whole purpose of the invasion.",
       },
     ],
   },
@@ -3986,7 +4346,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "The South-Western Front takes Lemberg and drives toward the passes. It is " +
           "the largest Russian success of the war so far and it is against the wrong " +
-          "empire, and everyone in this building knows it.",
+          "empire, and everyone in this building knows it. The Austrian army has been " +
+          "beaten and thrown back, and the prisoners and the captured guns are real. " +
+          "The Germans, who are the enemy that matters, are fighting in the north on a " +
+          "front that no one has reinforced.",
       },
       {
         id: "prussia",
@@ -4001,7 +4364,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. Divisions go north from a front that was winning to a front " +
           "that was not. The Austrians get the winter to recover in and the Germans get " +
-          "a second opportunity on ground they have already fought over.",
+          "a second opportunity on ground they have already fought over. The army that " +
+          "was driving toward the passes is told to stop, and the army that was beaten " +
+          "in East Prussia is given the divisions it asked for, with an enemy in front " +
+          "of it that has just destroyed one Russian army and is looking for another.",
       },
     ],
   },
@@ -4053,8 +4419,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The armies hold the passes they have and stop attacking. The " +
           "rifles and shells that would have been spent in the snow are kept, and the " +
-          "Austrians have the spring to recover. Przemysl has been taken and nothing more " +
-          "is asked of it.",
+          "Austrians have the spring to recover. Przemysl has been taken and nothing " +
+          "more is asked of it. The army is less tired when the German blow comes in " +
+          "May, and no one will be able to say whether it would have held, because the " +
+          "shells it saved would not have been enough.",
       },
     ],
   },
@@ -4097,7 +4465,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "The Great Retreat gives up Poland, Lithuania and much of the western " +
           "provinces and keeps the army in being. It is the correct decision and it " +
-          "looks, from Petrograd, exactly like losing the war.",
+          "looks, from Petrograd, exactly like losing the war. The armies fall back " +
+          "through the summer, burning what they cannot carry, with the population " +
+          "moving east in front of them. By the autumn the front has shortened and the " +
+          "army has survived, and the Emperor has found someone to blame for the loss.",
       },
       {
         id: "hold",
@@ -4113,7 +4484,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The salient is held for as long as it can be and the armies in " +
           "it are consumed doing it. The map in Petrograd looks better for some months " +
-          "and the army behind the map does not.",
+          "and the army behind the map does not. The shell shortage that a retreat " +
+          "would have escaped is met in front of the guns, and the divisions that are " +
+          "lost in the salient are the ones that would have been the army's reserve in " +
+          "the autumn. The Germans are left to choose their moment.",
       },
     ],
   },
@@ -4172,19 +4546,22 @@ CAMPAIGNS.stavka.nodes = {
             outcome:
               "Alekseyev takes charge of operations and the line stabilises through the " +
               "autumn. Four hundred miles away, competent ministers are dismissed and " +
-              "replaced by the Empress's nominees, and the belief that the court is " +
-              "working against the war spreads through people who are not " +
-              "revolutionaries and were not going to be." },
+              "replaced by the Empress's nominees, and the belief that the court is working " +
+              "against the war spreads through people who are not revolutionaries and were " +
+              "not going to be. The Emperor is now answerable for every defeat at the " +
+              "front, and the capital is run by people he cannot supervise." },
           { weight: 40, title: "The presence steadies both",
             impact: { will: 1 },
             setFlags: { stavka_commandResult: "steadied" },
             next: "stavka_1916_05_brusilov",
             outcome:
-              "Speculative. The Emperor at headquarters is visible to the army in a way " +
-              "he has not been, the operations are conducted by a professional, and the " +
-              "arrangements in the capital hold together better than they historically " +
-              "did. It requires the court to behave differently, which is the part of " +
-              "this that is speculation." },
+              "Speculative. The Emperor at headquarters is visible to the army in a way he " +
+              "has not been, the operations are conducted by a professional, and the " +
+              "arrangements in the capital hold together better than they historically did. " +
+              "It requires the court to behave differently, which is the part of this that " +
+              "is speculation. The ministers who warned him against going to the front have " +
+              "to be shown wrong, and the Empress, who has been left in charge, has to be " +
+              "content with her part." },
         ],
       },
       {
@@ -4200,7 +4577,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The Grand Duke stays and the Emperor stays in Petrograd. There " +
           "remains a commander who can be dismissed if 1916 goes badly, and a sovereign " +
-          "in his capital while the arrangements there are made.",
+          "in his capital while the arrangements there are made. The Grand Duke, whom " +
+          "the court distrusts, is left in command of an army that is retreating, and " +
+          "the blame for the retreat falls where it has been falling, on a man who is " +
+          "not the Emperor and cannot be replaced from outside.",
       },
     ],
   },
@@ -4240,7 +4620,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The supporting attacks are made and made seriously. The " +
           "Austrian front does not merely bend, and the German divisions sent to shore " +
-          "it up come from somewhere they were needed.",
+          "it up come from somewhere they were needed. The other front commanders, who " +
+          "have said they will not be ready, are overruled by Stavka and told to attack " +
+          "on the day, and whether they obey, and with what, is the whole of the risk. " +
+          "The offensive is no longer the work of one front.",
       },
       {
         id: "alone",
@@ -4265,20 +4648,23 @@ CAMPAIGNS.stavka.nodes = {
             setFlags: { stavka_brusilovResult: "costly" },
             next: "stavka_1916_12_kovel",
             outcome:
-              "The offensive succeeds beyond anything this army has managed and breaks " +
-              "the Austrian front, forcing German divisions east to hold it. The " +
-              "supporting attacks are not pressed. It is exploited as far as one front " +
-              "can exploit anything alone, and the divisions that did it are the " +
-              "divisions that will not be there next year." },
+              "The offensive succeeds beyond anything this army has managed and breaks the " +
+              "Austrian front, forcing German divisions east to hold it. The supporting " +
+              "attacks are not pressed. It is exploited as far as one front can exploit " +
+              "anything alone, and the divisions that did it are the divisions that will " +
+              "not be there next year. Brusilov has done what no one thought could be done " +
+              "with the army he had, and he has done it once." },
           { weight: 45, title: "The breakthrough is banked rather than pushed",
             impact: { munitions: -1, will: 1 },
             setFlags: { stavka_brusilovResult: "banked" },
             next: "stavka_1916_12_kovel",
             outcome:
               "Speculative. The front takes what the method wins and stops when the " +
-              "exploitation stops paying. The Austrian line is broken, the German " +
-              "divisions still come east, and the formations that did it are still " +
-              "formations at the end of it." },
+              "exploitation stops paying. The Austrian line is broken, the German divisions " +
+              "still come east, and the formations that did it are still formations at the " +
+              "end of it. The offensive is smaller than the historical one and costs less, " +
+              "and Brusilov is not the figure in the army that the historical one made him. " +
+              "Romania, watching, has less to go on, and may come in later or not at all." },
         ],
       },
     ],
@@ -4329,7 +4715,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The front holds the ground it has won and the Guards are kept " +
           "in reserve. Brusilov's offensive ends where it stood in July, without the " +
-          "attempt on the junction. The Germans use the pause to bring up more divisions.",
+          "attempt on the junction. The Germans use the pause to bring up more " +
+          "divisions, and the Guards, who would have been spent on the marshes, are " +
+          "still there in the winter when the army needs them. The Commander who has " +
+          "been asked for one more effort is told, instead, that the effort is over.",
       },
     ],
   },
@@ -4384,7 +4773,10 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. A Russian army is sent to Romania in the first weeks, and the " +
           "Galician line is shortened to pay for it. The Romanian front opens with " +
           "stronger support and the Galician front with less, and the army has to find " +
-          "the troops in the autumn that it historically found in the winter.",
+          "the troops in the autumn that it historically found in the winter. Stavka " +
+          "has chosen the ally over the front, and the Romanian general staff, who " +
+          "never saw the Russians as friends, have to decide whether to accept the " +
+          "help.",
       },
     ],
   },
@@ -4426,7 +4818,9 @@ CAMPAIGNS.stavka.nodes = {
           "The front commanders advise abdication and the abdication follows. The army " +
           "has participated in the removal of its sovereign and will spend what is left " +
           "of its existence being told so by people who wanted it done and by people " +
-          "who did not.",
+          "who did not. The generals have acted in the interest of the war, as they " +
+          "understood it, and the officers who took the oath to the Emperor are asked " +
+          "what it was worth, by their own men.",
       },
       {
         id: "refuse",
@@ -4446,7 +4840,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The high command declines to advise and the question goes back " +
           "to the capital unanswered. What follows depends on whether any formation " +
-          "will march on Petrograd, and on very little else.",
+          "will march on Petrograd, and on very little else. The generals have kept the " +
+          "army out of the question of who reigns, and have left the question to the " +
+          "people who were already settling it. No one at headquarters is ready to say " +
+          "what the army would do if the capital asked it to restore order.",
       },
     ],
   },
@@ -4500,18 +4897,22 @@ CAMPAIGNS.stavka.nodes = {
             next: "stavka_1917_12_deathpenalty",
             outcome:
               "The first days go well where the artillery is good and the units are " +
-              "willing. Then the willing units are used up, the rest decline to " +
-              "replace them, and the counterattack finds a front that is arguing with " +
-              "itself. What comes back is not an army that failed at an offensive. It " +
-              "is an army that has stopped." },
+              "willing. Then the willing units are used up, the rest decline to replace " +
+              "them, and the counterattack finds a front that is arguing with itself. What " +
+              "comes back is not an army that failed at an offensive. It is an army that " +
+              "has stopped. The Provisional Government, which ordered the attack, is left " +
+              "with a retreat that no committee will agree to halt." },
           { weight: 30, title: "The offensive achieves a limited gain and stops",
             impact: { manpower: -1, will: -1 },
             setFlags: { stavka_kerenskyResult: "limited" },
             next: "stavka_1917_12_deathpenalty",
             outcome:
-              "Speculative. The attack takes ground where the committees agreed to it " +
-              "and stops where they did not. The government has something to show the " +
-              "allies and the army has not been destroyed proving it." },
+              "Speculative. The attack takes ground where the committees agreed to it and " +
+              "stops where they did not. The government has something to show the allies " +
+              "and the army has not been destroyed proving it. The commanders who were told " +
+              "that an order is now a proposal discover how much of a proposal can be " +
+              "turned into an advance, and the answer is some, in some places, for a short " +
+              "time." },
         ],
       },
       {
@@ -4527,7 +4928,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The command puts in writing that the army is not capable of " +
           "offensive operations. The divisions are not spent. The government is left " +
-          "holding a war it cannot prosecute and cannot leave.",
+          "holding a war it cannot prosecute and cannot leave. The Allies, who lent the " +
+          "money for the offensive, are told in writing that it will not be made, and " +
+          "the commander who signed the paper has to wait for the government to decide " +
+          "whether it can afford to keep him.",
       },
     ],
   },
@@ -4566,7 +4970,8 @@ CAMPAIGNS.stavka.nodes = {
           "at the front, in response to the ultimatum. A few days later Kornilov, who " +
           "made the demand, is made Supreme Commander in place of Brusilov. The army's " +
           "committees are against the order, and it widens the distance between them " +
-          "and the command.",
+          "and the command. The officers, who wanted the penalty, now have it, and find " +
+          "that using it on a unit that has voted against it is a different thing.",
       },
       {
         id: "refuse",
@@ -4579,8 +4984,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The penalty is not restored. The retreat in Galicia is left to " +
           "the commissars and the committees, and the commander who made the ultimatum " +
-          "has to be answered. The Supreme Command stays with the officers who say " +
-          "that discipline can be built on consent.",
+          "has to be answered. The Supreme Command stays with the officers who say that " +
+          "discipline can be built on consent. The units that would have been steadied " +
+          "by the threat have to be steadied by argument, and the Galician front falls " +
+          "back, as it was going to, at its own pace.",
       },
     ],
   },
@@ -4638,8 +5045,11 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The dismissal is accepted and the corps is turned back before " +
           "it reaches the capital. There is no march and no collapse of one. The " +
-          "officers of the army have seen their commander dismissed by a telegram, " +
-          "and the soviets have not been called out to defend anything.",
+          "officers of the army have seen their commander dismissed by a telegram, and " +
+          "the soviets have not been called out to defend anything. The Provisional " +
+          "Government has been spared the test of what the army would have done, and " +
+          "the army has been spared learning that its generals could not be trusted " +
+          "with it.",
       },
     ],
   },
@@ -4697,7 +5107,9 @@ CAMPAIGNS.stavka.nodes = {
           "The headquarters holds what it can hold and takes no side, which turns out " +
           "not to be a position that exists. The front dissolves by desertion rather " +
           "than by defeat, and the officer corps disperses toward the places where the " +
-          "next war is being organised.",
+          "next war is being organised. The men go home with their rifles, and the " +
+          "Germans, who have no need to attack, are content to watch. The army is not " +
+          "defeated. It is demobilised without anyone having given the order.",
       },
       {
         id: "resist",
@@ -4714,7 +5126,9 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The headquarters declines to recognise the new authority. " +
           "Formations divide according to what their soldiers' committees decide, which " +
           "is the same thing as saying the war at the front has become the war behind " +
-          "it, several months earlier than it historically did.",
+          "it, several months earlier than it historically did. The officers who go to " +
+          "the Don with their men carry the German war with them as an afterthought, " +
+          "and the Germans, who see an army turn on itself, wait for it to finish.",
       },
     ],
   },
@@ -4761,9 +5175,11 @@ CAMPAIGNS.stavka.nodes = {
         next: "stavka_end_brest",
         outcome:
           "Speculative. The headquarters sends the proposal to the German command under " +
-          "its own name. The new government has what it asked for and the army " +
-          "has a commander it has not dismissed. The officers who would not have done it " +
-          "leave for the Don, where Alekseyev is already beginning to gather them.",
+          "its own name. The new government has what it asked for and the army has a " +
+          "commander it has not dismissed. The officers who would not have done it " +
+          "leave for the Don, where Alekseyev is already beginning to gather them. The " +
+          "headquarters has recognised an authority that it did not choose, and its " +
+          "Chief of Staff is alive at the end of the month.",
       },
     ],
   },
@@ -4799,7 +5215,13 @@ CAMPAIGNS.stavka.nodes = {
       "The order to open talks: " + (flags.stavka_armistice === "obeyed" ? "carried out." : "declined; Dukhonin dismissed and killed.") + "\n" +
       "October 1917: " + (flags.stavka_october === "resisted" ? "the new authority was refused recognition." : "the headquarters took no side.") + "\n\n" +
       "The officers of this headquarters disperse toward the Don, toward Siberia, and " +
-      "toward the new Republic's own army. What they do next is not this war.",
+      "toward the new Republic's own army. What they do next is not this war." +
+      "\n\n" +
+      "What actually happened: The treaty was signed on 3 March 1918 and ratified " +
+      "in the weeks after. It was annulled by the armistice of 11 November, and " +
+      "the Soviet government repudiated it on 13 November. Poland, Finland and " +
+      "the Baltic states became independent, and the rest of the lost territory " +
+      "was fought over in the civil war that was already under way."
   },
 
   stavka_end_disintegration: {
@@ -4813,7 +5235,15 @@ CAMPAIGNS.stavka.nodes = {
     ending: { family: "disintegration-without-defeat", badge: BADGES.CONTESTED },
     epilogue: () =>
       "An army is an agreement about who gives orders. Once that agreement lapses, " +
-      "nothing in the field replaces it.",
+      "nothing in the field replaces it.\n\nWhat actually happened: The front did " +
+      "dissolve. Desertion had been heavy since the summer, and after the " +
+      "revolution of October the armistice signed at Brest-Litovsk on 2 December " +
+      "(15 December in the west) only recognised what had occurred. The old army " +
+      "was demobilised by decree over the winter of 1917 and 1918, and the men went " +
+      "home. Nobody knows how many deserted, and the figures that are given are " +
+      "estimates made by people who had reasons to make them large or small. What " +
+      "remained of the front's formations was handed to the new government's " +
+      "commissars, and some of its officers took what they could and went south.",
   },
 
   stavka_end_dissolved: {
@@ -4825,8 +5255,18 @@ CAMPAIGNS.stavka.nodes = {
       "no instrument at all, and the terms reflect it.",
     ending: { family: "harsher-terms-at-brest", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. The historical terms were severe. They were signed by people who " +
-      "still had something, if only the ability to walk out of the room.",
+      "Speculative. The historical terms were severe. They were signed by people " +
+      "who still had something, if only the ability to walk out of the " +
+      "room.\n\nWhat actually happened: The Soviet delegation signed the treaty at " +
+      "Brest-Litovsk on 3 March 1918, after the German advance of 18 February had " +
+      "shown that nothing stood in its way. Russia gave up Poland, the Baltic " +
+      "provinces and Ukraine and recognised Finland. Lenin insisted on signing " +
+      "against the objections of the colleagues who wanted to go on with a " +
+      "revolutionary war, and the terms were as heavy as they were because the " +
+      "signatories had so little to bargain with. The treaty took away roughly a " +
+      "third of the Empire's population and a great part of its coal, iron and " +
+      "grain, and Russia was left with what was behind the line the Germans had " +
+      "reached.",
   },
 
   stavka_end_civilwar: {
@@ -4840,9 +5280,16 @@ CAMPAIGNS.stavka.nodes = {
       "that most of these men die fighting.",
     ending: { family: "civil-war-begins-early", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. The historical civil war began from the same material a few months " +
-      "later. Beginning it here means beginning it with the Germans still in the field " +
-      "and the front not yet settled by treaty.",
+      "Speculative. The historical civil war began from the same material a few " +
+      "months later. Beginning it here means beginning it with the Germans still in " +
+      "the field and the front not yet settled by treaty.\n\nWhat actually " +
+      "happened: Alekseyev went to Novocherkassk in November, after the October " +
+      "rising, and began to gather the officers who became the Volunteer Army. " +
+      "Kornilov escaped from the prison at Bykhov and made his way to the Don. The " +
+      "civil war began on the Don that winter, while the German front was left to " +
+      "the armistice. The war that most of these officers died in was the one that " +
+      "started early in the south, and not the one at the front. The generals' war " +
+      "was against the soviets, and in some regions it lasted until 1920 and later.",
   },
 
   stavka_end_holds: {
@@ -4858,7 +5305,14 @@ CAMPAIGNS.stavka.nodes = {
     epilogue: () =>
       "Speculative. No Russian army of March 1918 was in a condition to affect the " +
       "terms. This ending supposes one marginally less far gone, and claims nothing " +
-      "beyond the margin.",
+      "beyond the margin.\n\nWhat actually happened: No part of the front held. The " +
+      "Germans resumed the advance on 18 February 1918, when the armistice had run " +
+      "out, and the Russian formations that remained, with few officers and fewer " +
+      "men, did not resist. Minsk was taken on 21 February, and Kiev on 2 March, " +
+      "almost without fighting, and the treaty was signed on 3 March. The army of " +
+      "this ending is one that was still there when the Germans arrived, and it was " +
+      "not. The treaty that followed was the same treaty, with the same terms, and " +
+      "was signed by a government that had been left with the same options.",
   },
 
   stavka_end_separate: {
@@ -4874,7 +5328,15 @@ CAMPAIGNS.stavka.nodes = {
     epilogue: () =>
       "Speculative. Separate-peace soundings existed and none came to anything. The " +
       "obstacle was never arithmetic. It was that the dynasty could not sign such a " +
-      "thing and remain the dynasty.",
+      "thing and remain the dynasty.\n\nWhat actually happened: Russia did not " +
+      "leave the war on its own initiative in 1917. It was taken out of it by " +
+      "revolution, first in March, when the Provisional Government that replaced " +
+      "the monarchy pledged to continue the war with the Allies, and again in " +
+      "November, when the government that replaced that one did not. The Emperor, " +
+      "who in this ending makes a separate peace, did not do so, and the Allies' " +
+      "loans went on until the revolution. A separate peace was talked about in the " +
+      "Empire's last years, and the talk was one of the things that discredited the " +
+      "court.",
   },
 
   stavka_end_steadied: {
@@ -4889,8 +5351,16 @@ CAMPAIGNS.stavka.nodes = {
     ending: { family: "political-order-survives-the-war", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative, and the most speculative ending here. It requires the court to " +
-      "have behaved differently over eighteen months, which is a great deal to ask of " +
-      "a counterfactual.",
+      "have behaved differently over eighteen months, which is a great deal to ask " +
+      "of a counterfactual.\n\nWhat actually happened: The capital did not hold " +
+      "together. The strikes and the mutiny of the Petrograd garrison at the end of " +
+      "February, Old Style, brought down the monarchy within about a week, and the " +
+      "Emperor abdicated on 2 March (15 March in the west), while he was on his way " +
+      "from headquarters to the capital. The political order that this ending " +
+      "preserves did not survive the winter, and the army was told afterwards that " +
+      "its command had advised it. The army heard of the abdication from its own " +
+      "commanders, and its attitude to the Provisional Government that followed was " +
+      "formed in the weeks after.",
   },
 
   stavka_end_alliance: {
@@ -4907,7 +5377,15 @@ CAMPAIGNS.stavka.nodes = {
     ending: { family: "coalition-obligations-honoured", badge: BADGES.CONTESTED },
     epilogue: () =>
       "Whether Russia was spent for the alliance or by its own arrangements is the " +
-      "oldest argument about this front. It is not going to be settled here.",
+      "oldest argument about this front. It is not going to be settled " +
+      "here.\n\nWhat actually happened: Russia kept its obligations to the Allies " +
+      "through 1917. The Provisional Government pledged to fight on and ordered the " +
+      "offensive of June, whose failure left the army incapable of another, and the " +
+      "Allies continued to supply it and to lend to its government until the " +
+      "revolution of November. The army that honoured the promise made to the " +
+      "French in 1914 and again in 1917 was not left in a condition to honour " +
+      "another. That the Allies' own governments had not done more to equip the " +
+      "Russian army before 1917 was a complaint on the Russian side for years.",
   },
 
   stavka_end_relieved: {
@@ -4921,8 +5399,17 @@ CAMPAIGNS.stavka.nodes = {
       "the successor regime keeps.",
     ending: { family: "hard-mode-relieved", badge: BADGES.CONTESTED, hardModeOnly: true },
     epilogue: () =>
-      "The staff is dispersed to other duties. The war continues without them and does " +
-      "not go better.",
+      "The staff is dispersed to other duties. The war continues without them and " +
+      "does not go better.\n\nWhat actually happened: Alekseyev was Supreme " +
+      "Commander from 2 March to 22 May 1917, when Brusilov replaced him. Brusilov " +
+      "was replaced by Kornilov in July, and Kornilov was dismissed in August and " +
+      "arrested. The Supreme Command changed hands several times in six months, and " +
+      "each change was a political act. The reorganisations this ending describes " +
+      "came as the war's own course and did not depend on any one decision. The " +
+      "Provisional Government's difficulty in finding a Supreme Commander who both " +
+      "the army and the ministers trusted was one of the signs of its weakness. " +
+      "None of them held the post long enough to carry out a plan of his own, and " +
+      "the army noticed.",
   },
 };
 

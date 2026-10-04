@@ -21,6 +21,10 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 - Seven new decisions, dated Old Style with the Western date in parentheses: the Second Army marching away from its supply (8 Aug 1914), Przemysl and the Carpathians (9 Mar 1915), the road to Kovel (10 Jul 1916), a new ally in Romania (14 Aug 1916), the death penalty at the front (12 Jul 1917), the dismissal of Kornilov (27 Aug 1917) and the order to open armistice talks (9 Nov 1917).
 - The Kornilov decision carries a recorded dispute (what Kornilov meant to do). The campaign's October node now reads the Kornilov flag, and the Brest-Litovsk epilogue records all seven new decisions.
 - `claims/stavka.json`: 40 claims on the 15 decision nodes (19 read against a web page, the rest drafted). Logging them turned up one thing to check: the existing October node gives Dukhonin a position that he is on record as stating on 9 November.
+### Content: the writing pass
+- Every choice outcome on the three commands is now 60 to 85 words (110 were under 60): the consequence is followed through to what the command has to live with next, in the same register. Counterfactual outcomes still begin "Speculative." and add only consequences that follow from the change.
+- Every ending's epilogue now ends with a paragraph headed "What actually happened" (the real sequel: dates, signatories, what the armistice or treaty required), 100 to 200 words in all. The 27 paragraphs are logged as claims, marked drafted, for the fact-check.
+- `check-prose-length.js` (in `validate.sh`) keeps outcomes at 55 to 100 words and epilogues at 100 or more.
 ### Fixed
 - The Russian historical line, played with the real engine and the historical outcome of every roll, did not end at "Signed at Brest-Litovsk" in 1.0.0: it ended at "Nothing Left to Sign With", a speculative ending, because manpower sat exactly on the cut-off. It now ends at Brest-Litovsk in both modes. `check-historical-ending.js` (new, in `validate.sh`) plays the historical line in standard and hard mode and requires the settled ending, so this cannot come back unnoticed; the German and French lines were already correct.
 ### Changed
