@@ -28,6 +28,9 @@ losing them costs a counter, not a run.)
    player never sees a broken Resume button.
 5. **Never edit or re-record the committed old saves to make a test pass.** `tests/saves/*` are saves made by earlier
    builds; they must keep loading. Add new fixtures; do not replace old ones.
+   The one exception is a fixture recorded from a build that has not been released yet, in the same release cycle:
+   no player holds that save, so a deliberate change that alters the page (1914's erosion track length, in 1.1.0) may
+   re-record it. Say so in the CHANGELOG. From the first release that ships saves, the fixtures are frozen.
 
 ## The tests that enforce it
 - 1914: `npm run test:saves` (six saved files, every campaign in both modes) and `npm run test:migration`, same as 1922; the helper is in `src/58-persistence.jsx`.

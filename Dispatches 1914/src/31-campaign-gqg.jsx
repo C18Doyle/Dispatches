@@ -67,8 +67,8 @@ CAMPAIGNS.gqg.bulletinVoice = {
 };
 
 CAMPAIGNS.gqg.hardMode.forcedEndingId = "gqg_end_relieved";
-// Erosion cap set after measurement, same method as OHL. See measure-erosion.js.
-CAMPAIGNS.gqg.hardMode.erosionMax = 5;
+// Erosion cap set after measurement (measure-erosion.js, montecarlo.js hard): the historical line carries five of the 11 erosion-tagged choices, so at 6 the historical run survives and about one random run in ten is relieved.
+CAMPAIGNS.gqg.hardMode.erosionMax = 6;
 
 CAMPAIGNS.gqg.nodes = {
 
@@ -98,7 +98,7 @@ CAMPAIGNS.gqg.nodes = {
         impact: { manpower: -2, munitions: -1, will: 0 },
         setFlags: { gqg_opening: "asplanned" },
         erodes: "costly_offensive",
-        next: "gqg_1914_02_marne",
+        next: "gqg_1914_12_retreat",
         outcome:
           "The attacks go in and are stopped in front of positions the doctrine said " +
           "would give way. The Battle of the Frontiers costs the army more men in three " +
@@ -114,11 +114,121 @@ CAMPAIGNS.gqg.nodes = {
         disabledReason: "The plan cannot be abandoned before it has been tried without losing the army's confidence",
         impact: { manpower: 1, munitions: 0, will: -2 },
         setFlags: { gqg_opening: "shifted" },
-        next: "gqg_1914_02_marne",
+        next: "gqg_1914_12_retreat",
         outcome:
           "Speculative. Formations move left earlier than they historically did. Fewer " +
           "men are spent on the frontier and more are in front of the sweep, at the " +
           "price of an army told on its first day that its doctrine was mistaken.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-08
+  gqg_1914_12_retreat: {
+    year: 1914, date: "1914-08-25", city: "Vitry-le-Francois",
+    title: "The Order to Go Back",
+    advisors: ["joffre", "castelnau"],
+    situation: (flags) =>
+      "The attacks in Lorraine and the Ardennes have been stopped. On the left, the " +
+      "Fifth Army has been beaten on the Sambre and the British at Mons, and Namur has " +
+      "fallen. German columns are coming through Belgium on a front wider than anyone " +
+      "here allowed for.\n\n" +
+      (flags.gqg_opening === "shifted"
+        ? "Formations were moved left before the frontier battles, and the left is " +
+          "stronger than it would have been. It is still being outflanked."
+        : "The attacks on the frontier took the divisions that the left would have wanted.") +
+      "\n\nThe armies cannot be held where they stand, because the line is being turned. " +
+      "They can be taken back in order, to a line from which they can fight again, and " +
+      "a new army can be made from the divisions that Lorraine no longer needs.",
+    context:
+      "A retreat that is ordered keeps the army in one piece. One that is forced on " +
+      "it by the enemy does not. The difficulty is to say so in a country that has " +
+      "been told the frontier battles were going well.",
+    choices: [
+      {
+        id: "withdraw",
+        label: "Order the withdrawal of the armies and form a new army on the left",
+        historical: true,
+        advisor: { name: "Joffre", position:
+          "A battle lost with the armies destroyed ends the war. A retreat in order only postpones the battle." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { gqg_retreat: "ordered" },
+        next: "gqg_1914_13_sack",
+        outcome:
+          "General Instruction No. 2 goes out on 25 August. The armies are to fall back, " +
+          "first to the Somme and later to the Marne, and a new Sixth Army is to be made up " +
+          "by rail and assembled near Amiens. The withdrawal is long and hard, but the " +
+          "armies come out of it in a shape to fight, and the Germans have to follow them " +
+          "a long way from their railheads.",
+      },
+      {
+        id: "stand",
+        label: "Make a stand on the Sambre and the Meuse and fight where the armies are",
+        gate: (m) => m.manpower >= -1,
+        disabledReason: "The armies cannot take another battle on this line",
+        impact: { manpower: -2, munitions: -1, will: 1 },
+        setFlags: { gqg_retreat: "stand" },
+        erodes: "costly_offensive",
+        next: "gqg_1914_13_sack",
+        outcome:
+          "Speculative. No withdrawal is ordered, and the armies fight another battle " +
+          "where they stand while the German right wing goes round them. If the line " +
+          "holds, the army has kept its ground. If it does not, there is nothing behind " +
+          "it to fall back on.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-09
+  gqg_1914_13_sack: {
+    year: 1914, date: "1914-09-03", city: "Bar-sur-Aube",
+    title: "The Generals Who Failed",
+    advisors: ["joffre", "castelnau"],
+    situation: (flags) =>
+      "The retreat has gone on for ten days and several of the officers who were given " +
+      "armies and corps in August have not been equal to them. The Fifth Army's " +
+      "commander has argued with the Commander-in-Chief and with the British and has " +
+      "told anyone who would listen that the plan was wrong.\n\n" +
+      (flags.gqg_retreat === "stand"
+        ? "The armies fought a battle they might have avoided, and the officers who lost it are the ones " +
+          "now being asked to fight the next."
+        : "The armies have come back in order, and the officers who brought them back are " +
+          "among those the Commander-in-Chief is now weighing.") +
+      "\n\nThe army was built on the belief that the attack would win the war, and the " +
+      "officers promoted by that belief are the ones it failed. Removing them says that " +
+      "the doctrine failed too.",
+    context:
+      "A Commander-in-Chief who sacks a general during a retreat takes the " +
+      "responsibility for the replacement. The man who is put in may do no better, and " +
+      "the army will watch what happens to the next one.",
+    choices: [
+      {
+        id: "relieve",
+        label: "Relieve the commanders who have failed, by name and at once",
+        historical: true,
+        advisor: { name: "Joffre", position:
+          "An officer who cannot carry out the plan has to be replaced by one who can, and the army needs to see that it is done." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { gqg_sack: "relieved" },
+        next: "gqg_1914_02_marne",
+        outcome:
+          "Lanrezac is relieved of the Fifth Army on 3 September and replaced by Franchet " +
+          "d'Esperey. In the first months of the war three army commanders, ten corps " +
+          "commanders and thirty-eight division commanders are removed, and officers such " +
+          "as Foch, Petain and Nivelle rise to fill their places. The army learns that " +
+          "failure costs a command, and the officers who remain act as men who know it.",
+      },
+      {
+        id: "keep",
+        label: "Keep the commanders in place and send staff officers to correct them",
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { gqg_sack: "kept" },
+        next: "gqg_1914_02_marne",
+        outcome:
+          "Speculative. The commanders stay, with officers from General Headquarters " +
+          "beside them to see that the orders are carried out. Nobody is publicly " +
+          "blamed, and the army keeps the leaders it has. The orders arrive at the armies " +
+          "through two channels, and in the first week of September both are needed.",
       },
     ],
   },
@@ -142,7 +252,13 @@ CAMPAIGNS.gqg.nodes = {
         ? "The formations shifted left in August are in hand and rested. The " +
           "counterattack, if it is made, is made from strength."
         : "The armies have been retreating for two weeks and are being asked to turn " +
-          "and attack tomorrow. Whether they can is a question about men, not maps."),
+          "and attack tomorrow. Whether they can is a question about men, not maps.") +
+      (flags.gqg_sack === "relieved"
+        ? "\n\nThe commanders who were not equal to August are gone, and the men who " +
+          "replaced them were chosen for the moment that has come."
+        : flags.gqg_sack === "kept"
+          ? "\n\nThe commanders who were not equal to August are still in their commands."
+          : ""),
     context:
       "The Military Government of Paris has been arguing for the attack for two days. " +
       "The armies that would make it are the armies that have been walking backwards " +
@@ -167,7 +283,7 @@ CAMPAIGNS.gqg.nodes = {
           { weight: 65, title: "The gap opens and the invasion goes back", historicalBranch: true,
             impact: { will: 1 },
             setFlags: { gqg_marneResult: "exploited" },
-            next: "gqg_1915_03_grignotage",
+            next: "gqg_1914_14_race",
             outcome:
               "The armies turn. The gap between the German First and Second Armies opens " +
               "and is exploited, and the invasion stops short of the decision it needed. " +
@@ -176,7 +292,7 @@ CAMPAIGNS.gqg.nodes = {
           { weight: 35, title: "The counterattack is contained and the line settles further south",
             impact: { manpower: -1, will: -1 },
             setFlags: { gqg_marneResult: "contained" },
-            next: "gqg_1915_03_grignotage",
+            next: "gqg_1914_14_race",
             outcome:
               "Speculative. The turn is made and does not achieve the separation it " +
               "needed. The invasion is stopped, later and further south, and the line " +
@@ -192,11 +308,63 @@ CAMPAIGNS.gqg.nodes = {
         disabledReason: "There is no line further back that can be held with what is left",
         impact: { manpower: 1, munitions: 0, will: -3 },
         setFlags: { gqg_marne: "delayed" },
-        next: "gqg_1915_03_grignotage",
+        next: "gqg_1914_14_race",
         outcome:
           "Speculative. The withdrawal continues past the Marne and the flank closes. " +
           "The army is in better condition and the ground behind it is French, and " +
           "there is markedly less of it.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-09
+  gqg_1914_14_race: {
+    year: 1914, date: "1914-09-24", city: "Chatillon-sur-Seine",
+    title: "To the Sea",
+    advisors: ["joffre", "foch"],
+    situation: (flags) =>
+      "The Germans have been stopped on the Marne and have dug in on the Aisne, and " +
+      "the French attacks on the Aisne have not moved them. " +
+      (flags.gqg_marneResult === "contained"
+        ? "The line stopped further south than it might have, and there is less ground to work with."
+        : "The line is where the armies stopped them, and it is open at the north.") +
+      "\n\nNeither side has a flank it can turn except in the north, between the Oise and " +
+      "the sea. Whoever extends the line first with fresh troops can outflank the other " +
+      "on that side, and both headquarters have seen it. The French Second Army, under " +
+      "Castelnau, is being brought from Lorraine to do it.",
+    context:
+      "Each attempt to turn the flank is answered by an attempt to turn the new flank, and " +
+      "the line grows by the length of the extension. The ports and the coalfields lie " +
+      "at its end.",
+    choices: [
+      {
+        id: "extend",
+        label: "Bring the Second Army north and keep extending the left toward the sea",
+        historical: true,
+        advisor: { name: "Joffre", position:
+          "The north is open and the Channel ports and the mines lie in it. Whoever gets there first keeps them." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { gqg_race: "extended" },
+        next: "gqg_1915_03_grignotage",
+        outcome:
+          "Castelnau's Second Army forms south of Amiens and begins to advance on 22 " +
+          "September, with the Sixth Army alongside from the 23rd. When the Germans arrive " +
+          "at Arras, Joffre detaches the northern part of the Second Army as a new Tenth Army " +
+          "and puts both under Foch, who from 5 October forbids a retirement from the town. " +
+          "Neither side turns the other's flank. By the middle of October the line runs to " +
+          "the sea.",
+      },
+      {
+        id: "dig",
+        label: "Stop manoeuvring and dig in along the Aisne",
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { gqg_race: "dug" },
+        next: "gqg_1915_03_grignotage",
+        outcome:
+          "Speculative. The Second Army stays in Lorraine and the left wing is not " +
+          "extended. The line is shorter, and the north is open to the German army " +
+          "for as long as it takes the Allies to close it. The Channel ports and the coalfields " +
+          "are within reach of an enemy that has just been stopped.",
       },
     ],
   },
@@ -234,7 +402,7 @@ CAMPAIGNS.gqg.nodes = {
         impact: { manpower: -2, munitions: -2, will: 0 },
         setFlags: { gqg_1915: "offensive" },
         erodes: "costly_offensive",
-        next: "gqg_1916_04_verdun",
+        next: "gqg_1915_14_salonika",
         outcome:
           "Artois and Champagne are fought and the second position holds both times. " +
           "The line moves by yards. The cost is entered in a ledger that the Chamber " +
@@ -249,11 +417,117 @@ CAMPAIGNS.gqg.nodes = {
         disabledReason: "A year without an attempt to liberate the occupied departments cannot be defended in the Chamber",
         impact: { manpower: 2, munitions: -1, will: -2 },
         setFlags: { gqg_1915: "limited" },
-        next: "gqg_1916_04_verdun",
+        next: "gqg_1915_14_salonika",
         outcome:
           "Speculative. The offensives are scaled to the artillery available. The army " +
           "enters 1916 stronger and the government enters it having explained for twelve " +
           "months why nothing was attempted.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-10
+  gqg_1915_14_salonika: {
+    year: 1915, date: "1915-10-05", city: "Chantilly",
+    title: "Divisions for the Balkans",
+    advisors: ["joffre", "castelnau"],
+    situation: (flags) =>
+      "Bulgaria has signed with the Central Powers and German, Austro-Hungarian and " +
+      "Bulgarian armies are about to attack Serbia. The French government has decided " +
+      "to send troops to Salonika to support Serbia.\n\n" +
+      "General Joffre regards the expedition as a diversion of divisions from the " +
+      "front in France. " +
+      (flags.gqg_1915 === "limited"
+        ? "The army has been building its artillery rather than attacking, and divisions are available."
+        : "The divisions are being used in Champagne, where the autumn offensive is being fought.") +
+      "\n\nThe officer proposed to command the force is General Sarrail, whom Joffre " +
+      "dismissed from the Third Army in July. Sarrail has friends in the Chamber, and " +
+      "the government would rather not quarrel with them.",
+    context:
+      "The expedition is a political decision. The generals are being asked to carry out " +
+      "an operation they did not choose, from forces they were planning to use elsewhere.",
+    choices: [
+      {
+        id: "send",
+        label: "Carry out the government's decision and detach divisions for Salonika",
+        historical: true,
+        advisor: { name: "Joffre", position:
+          "A division in the Balkans is a division that is not in France. I have said so, and I will do what the government decides." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { gqg_salonika: "sent" },
+        next: "gqg_1915_15_chantilly",
+        outcome:
+          "The first Allied troops land at Salonika on 5 October, and Sarrail arrives on " +
+          "the 12th to command them. They are too late and too few to save Serbia, whose " +
+          "army and many civilians withdraw through the mountains of Albania in the winter. " +
+          "The force stays at Salonika as the Army of the Orient for the rest of the war, " +
+          "and for the rest of the war it is argued about.",
+      },
+      {
+        id: "refuse",
+        label: "Decline to detach divisions and keep every formation on the western front",
+        gate: (m) => m.will >= 0,
+        disabledReason: "The command cannot refuse a decision of the government and keep its place",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { gqg_salonika: "refused" },
+        next: "gqg_1915_15_chantilly",
+        outcome:
+          "Speculative. No force is sent, or one too small to matter. The divisions " +
+          "stay in France, and the government has been told by its general that he will " +
+          "not carry out what it decided. Serbia is left to the armies that invade it.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-12
+  gqg_1915_15_chantilly: {
+    year: 1915, date: "1915-12-06", city: "Chantilly",
+    title: "Everyone Attacks at Once",
+    advisors: ["joffre", "castelnau"],
+    situation: (flags) =>
+      "The Allies attacked separately in 1915, each when it could, and the Germans " +
+      "moved their reserves from one front to the other on interior lines and met each " +
+      "attack in turn. " +
+      (flags.gqg_1915 === "limited"
+        ? "The French army spent the year building its guns instead of attacking, so the " +
+          "argument is made from a position of less loss."
+        : "The French army attacked in Artois and Champagne at heavy cost.") +
+      "\n\nThe Commander-in-Chief has called a conference at General Headquarters of the " +
+      "military representatives of France, Britain, Russia, Italy and Serbia. His proposal " +
+      "is to attack on every front at about the same time in 1916, so that the Germans " +
+      "cannot move their reserves from one to the other.",
+    context:
+      "Coordination is easy to agree and hard to carry out. It binds the French army to " +
+      "a date set with allies who have their own difficulties, and the date will arrive " +
+      "whatever has happened to the French army by then.",
+    choices: [
+      {
+        id: "combined",
+        label: "Propose simultaneous offensives on every front in 1916",
+        historical: true,
+        advisor: { name: "Joffre", position:
+          "Separate attacks lose to interior lines. If every front pushes at once, the Germans cannot answer all of them." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { gqg_chantilly: "combined" },
+        next: "gqg_1916_04_verdun",
+        outcome:
+          "The conference of 6 to 8 December unanimously supports the proposal. The " +
+          "French, British, Russian and Italian armies are to attack together in 1916, " +
+          "and the Franco-British share is to be on the Somme. It is a plan that depends " +
+          "on all four armies being ready in the same summer, and it is made two months " +
+          "before the Germans attack at Verdun.",
+      },
+      {
+        id: "free",
+        label: "Keep French freedom of action and attack when and where the army chooses",
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { gqg_chantilly: "free" },
+        next: "gqg_1916_04_verdun",
+        outcome:
+          "Speculative. The conference ends without a fixed scheme for 1916. Each army " +
+          "plans its own campaign, and the French army is free to choose its time and " +
+          "place. The Germans keep the advantage of interior lines, and the French " +
+          "keep the freedom to refuse a battle that has been fixed in advance.",
       },
     ],
   },
@@ -340,7 +614,7 @@ CAMPAIGNS.gqg.nodes = {
         impact: { manpower: -2, munitions: -1, will: 1 },
         setFlags: { gqg_somme: "committed" },
         erodes: "costly_offensive",
-        next: "gqg_1916_06_nivelle",
+        next: "gqg_1916_14_douaumont",
         outcome:
           "The French share of the Somme is smaller than promised and is made. Pressure " +
           "comes off Verdun. The alliance holds, and the ledger grows.",
@@ -352,11 +626,73 @@ CAMPAIGNS.gqg.nodes = {
           "We cannot fight two battles of this size in one summer. One of them has to be someone else's." },
         impact: { manpower: 1, munitions: 1, will: -2 },
         setFlags: { gqg_somme: "deferred" },
-        next: "gqg_1916_06_nivelle",
+        next: "gqg_1916_14_douaumont",
         outcome:
           "Speculative. The British attack on the Somme substantially alone. Divisions " +
           "are preserved. What is spent instead is the assumption, on the other side of " +
           "the Channel, that France will be there when the plan says so.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-10
+  gqg_1916_14_douaumont: {
+    year: 1916, date: "1916-10-21", city: "Verdun",
+    title: "Taking Back the Fort",
+    advisors: ["petain", "mangin", "joffre"],
+    bulletin: {
+      voice: "gqg", date: "1916-10-20", source: "Communique officiel",
+      text:
+        "Artillery activity on the right bank of the Meuse is reported at the normal " +
+        "level for the season. The situation is unchanged.",
+    },
+    situation: (flags) =>
+      "Fort Douaumont has been in German hands since 25 February, and Fort Vaux since " +
+      "June. The German army has not been able to go on at Verdun since the summer, and " +
+      "the French army holds the line in front of both forts.\n\n" +
+      (flags.gqg_verdun === "shortened"
+        ? "The east bank was given up in February, and the forts lie in ground the army " +
+          "would have to retake before it could think of taking them."
+        : "Both banks were held, by rotation, and most of the army has been through the " +
+          "sector.") +
+      "\n\nGeneral Mangin, who commands the part of the line from Fleury to the Meuse, " +
+      "proposes to retake Douaumont with three divisions behind a creeping barrage after " +
+      "a bombardment of several days. It would be the first French attack at Verdun that " +
+      "was meant to win ground rather than to hold it.",
+    context:
+      "An attack that succeeds at Verdun would be worth more in the country than in " +
+      "the line. One that fails would cost divisions the army has been trying to rest.",
+    choices: [
+      {
+        id: "retake",
+        label: "Authorise Mangin's attack to retake Douaumont",
+        historical: true,
+        advisor: { name: "Mangin", position:
+          "The fort can be taken back if the guns do their work first and the infantry stays close behind the barrage." },
+        impact: { manpower: 0, munitions: 0, will: 2 },
+        setFlags: { gqg_douaumont: "retaken" },
+        next: "gqg_1916_06_nivelle",
+        outcome:
+          "The bombardment begins on 21 October and the infantry goes forward on the 24th. " +
+          "By the evening Douaumont is French again and some six thousand prisoners have " +
+          "been taken, and Vaux follows by 2 November. A second blow on 15 December pushes " +
+          "the line back almost to where it stood in February, with more than eleven " +
+          "thousand prisoners. The army that had been told to hold at Verdun now knows it can also " +
+          "take ground there.",
+      },
+      {
+        id: "wait",
+        label: "Stay on the defensive at Verdun and keep the divisions for the spring",
+        gate: (m) => m.will >= 0,
+        disabledReason: "Another winter with the forts in German hands cannot be explained to the country",
+        impact: { manpower: 1, munitions: 1, will: -2 },
+        setFlags: { gqg_douaumont: "waited" },
+        next: "gqg_1916_06_nivelle",
+        outcome:
+          "Speculative. No attack is made. The divisions are rested and the shells are " +
+          "kept for the spring, and the forts stay where they are through the winter. " +
+          "The Commander-in-Chief goes into December without the success that would " +
+          "have helped him to keep his command.",
       },
     ],
   },
@@ -391,7 +727,7 @@ CAMPAIGNS.gqg.nodes = {
           "The formula worked at Verdun on a small front. There is no reason of principle it cannot work on a large one." },
         impact: { manpower: 0, munitions: 0, will: 2 },
         setFlags: { gqg_command: "nivelle" },
-        next: "gqg_1917_07_chemin",
+        next: "gqg_1917_12_calais",
         outcome:
           "Nivelle takes the command in December. Lyautey leaves the war ministry " +
           "rather than sign the plan, and is replaced in March by Painleve, who is no " +
@@ -406,11 +742,62 @@ CAMPAIGNS.gqg.nodes = {
         disabledReason: "A commander offering only a long war cannot be sold to this Chamber",
         impact: { manpower: 1, munitions: 0, will: -2 },
         setFlags: { gqg_command: "petain" },
-        next: "gqg_1917_07_chemin",
+        next: "gqg_1917_12_calais",
         outcome:
           "Speculative. The limited-objective doctrine takes the top command a year " +
           "early. There is no forty-eight hour promise to fail, and no government " +
           "receives the victory it was told to expect.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-02
+  gqg_1917_12_calais: {
+    year: 1917, date: "1917-02-26", city: "Calais",
+    title: "The British Under a French General",
+    advisors: ["nivelle", "lyautey"],
+    situation:
+      "The conference at Calais is ostensibly about the railways that will carry the " +
+      "spring offensive. In practice it is about command. Lloyd George, with the " +
+      "approval of the British war cabinet, proposes that for the duration of the " +
+      "offensive the British army should be placed under Nivelle's direction. He has " +
+      "not told Haig or Robertson.\n\n" +
+      "Nivelle's plan depends on the British attack at Arras and on a single will " +
+      "directing both armies. He has argued for it since taking the command, and the " +
+      "British prime minister is offering it to him.",
+    context:
+      "A subordination that is carried out against the wishes of the commander subordinated " +
+      "does not stay carried out. Whatever is agreed here will be argued over the next day.",
+    choices: [
+      {
+        id: "accept",
+        label: "Accept the British army under Nivelle's direction for the offensive",
+        historical: true,
+        advisor: { name: "Nivelle", position:
+          "Two armies attacking the same line must be one instrument for as long as the attack lasts." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { gqg_calais: "subordinated" },
+        next: "gqg_1917_07_chemin",
+        outcome:
+          "By the Calais agreement of 27 February Haig is formally subordinated to Nivelle for " +
+          "the duration of the offensive. The next day Haig and Robertson tell Lloyd George " +
+          "they will resign rather than carry it out, and the arrangement is watered down " +
+          "with more freedom for the British commander. The conference leaves mistrust " +
+          "between the British government and its generals, and it sets back the case for " +
+          "unified command until the spring of 1918.",
+      },
+      {
+        id: "agreement",
+        label: "Decline the subordination and coordinate with Haig by agreement",
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { gqg_calais: "agreement" },
+        next: "gqg_1917_07_chemin",
+        outcome:
+          "Speculative. No arrangement is made over the British commander's head. The " +
+          "two armies coordinate by agreement between headquarters, as they have since " +
+          "1914, and the offensive is fitted to what Haig will agree to. Nivelle goes " +
+          "into the spring with the plan he proposed and less control over the part that " +
+          "was to be British.",
       },
     ],
   },
@@ -465,7 +852,7 @@ CAMPAIGNS.gqg.nodes = {
           { weight: 60, title: "The army stops obeying orders to attack", historicalBranch: true,
             impact: { will: -3 },
             setFlags: { gqg_mutinyScale: "widespread" },
-            next: "gqg_1917_08_mutinies",
+            next: "gqg_1917_13_directive",
             outcome:
               "The offensive is halted on 9 May having taken ground and not the ridge, " +
               "at a cost around a hundred and eighty-seven thousand French casualties. " +
@@ -474,7 +861,7 @@ CAMPAIGNS.gqg.nodes = {
           { weight: 40, title: "Indiscipline stays local and is contained",
             impact: { will: -1 },
             setFlags: { gqg_mutinyScale: "contained" },
-            next: "gqg_1917_08_mutinies",
+            next: "gqg_1917_13_directive",
             outcome:
               "Speculative. Refusals appear in the divisions worst used and do not " +
               "propagate beyond them. The crisis is real, smaller, and survivable " +
@@ -488,11 +875,69 @@ CAMPAIGNS.gqg.nodes = {
           "The promise was forty-eight hours. It is the third day. There is nothing further to discuss." },
         impact: { manpower: -1, munitions: -1, will: -1 },
         setFlags: { gqg_chemin: "halted", gqg_mutinyScale: "contained" },
-        next: "gqg_1917_08_mutinies",
+        next: "gqg_1917_13_directive",
         outcome:
           "Speculative. The attack is broken off on the undertaking that was given. The " +
           "army is told the truth on the third day rather than the twenty-third, and the " +
           "commander who made the promise has to survive having kept it.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-05
+  gqg_1917_13_directive: {
+    year: 1917, date: "1917-05-19", city: "Compiegne",
+    title: "Battles That Can Be Won",
+    advisors: ["petain", "painleve"],
+    situation: (flags) =>
+      "Petain has been Commander-in-Chief for four days. Nivelle has gone, and Foch is " +
+      "Chief of the General Staff. " +
+      (flags.gqg_chemin === "halted"
+        ? "The offensive was stopped at the undertaking the government had been given."
+        : "The offensive went on past the forty-eight hours it was supposed to run.") +
+      " Units have begun to refuse orders to go back to the line.\n\n" +
+      "What the army is to be asked to do this summer has to be decided before anything " +
+      "else, because every plan depends on it. One school wants a great offensive kept " +
+      "in view, so that the army and the Allies see that France still intends to attack. " +
+      "The other holds that the army can do no more than attacks with limited " +
+      "objectives, where the guns do the work and the infantry stops at what it has " +
+      "taken.",
+    context:
+      "The remedy for the army has several parts, and leave and the hearing of " +
+      "grievances are the part the soldiers will notice. The directive is the part the " +
+      "staff will read.",
+    choices: [
+      {
+        id: "limited",
+        label: "Issue the directive: limited objectives only, until the army has recovered",
+        historical: true,
+        advisor: { name: "Petain", position:
+          "The army must be given battles it can win, with the guns doing most of the work. It cannot be given another rupture to attempt." },
+        impact: { manpower: 1, munitions: 0, will: 1 },
+        setFlags: { gqg_directive: "limited" },
+        next: "gqg_1917_08_mutinies",
+        outcome:
+          "Directive No. 1 is dated 19 May. It sets out the method of limited-objective " +
+          "attacks, on narrow fronts and with the guns doing most of the work, and it " +
+          "ends the plan for a breakthrough. Other directives follow on the use of the " +
+          "tanks and aircraft that are reaching the front. It is the part of the remedy " +
+          "that the staff will read, and the army will judge it by whether the " +
+          "attacks it describes are made as described.",
+      },
+      {
+        id: "offensive",
+        label: "Keep a great offensive in preparation for the summer",
+        gate: (m) => m.will >= -2,
+        disabledReason: "An army in this condition cannot be ordered to prepare another great offensive",
+        impact: { manpower: -2, munitions: -1, will: -1 },
+        setFlags: { gqg_directive: "offensive" },
+        erodes: "costly_offensive",
+        next: "gqg_1917_08_mutinies",
+        outcome:
+          "Speculative. The army is told to prepare for another attempt in the summer. " +
+          "Units that have refused to return to the line are asked to prepare to " +
+          "attack, and the grievances that sent them there are still there when the " +
+          "order arrives.",
       },
     ],
   },
@@ -616,7 +1061,7 @@ CAMPAIGNS.gqg.nodes = {
           "The men will be told exactly where the attack stops, and then it will stop there. That is the whole of the method." },
         impact: { manpower: -1, munitions: -2, will: 3 },
         setFlags: { gqg_malmaison: "limited" },
-        next: "gqg_1918_10_doullens",
+        next: "gqg_1918_12_link",
         outcome:
           "The fort and village are taken and the operation stops on its objective. The " +
           "Germans give up the remainder of the ridge and go back across the Ailette. " +
@@ -633,11 +1078,74 @@ CAMPAIGNS.gqg.nodes = {
         impact: { manpower: -2, munitions: -1, will: -3 },
         setFlags: { gqg_malmaison: "exploited" },
         erodes: "costly_offensive",
-        next: "gqg_1918_10_doullens",
+        next: "gqg_1918_12_link",
         outcome:
           "Speculative. The attack goes past the line it announced. Whatever ground " +
           "that gains, it costs the one thing the summer was spent rebuilding: the " +
           "army's belief that when this command names a limit, the limit is real.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-03
+  gqg_1918_12_link: {
+    year: 1918, date: "1918-03-24", city: "Dury",
+    title: "Which Way to Fall Back",
+    advisors: ["petain", "clemenceau"],
+    situation:
+      "The German offensive opened on the British Fifth and Third Armies on 21 March, " +
+      "and the British are being driven back. Haig asked Petain on the first evening for " +
+      "three divisions, and the French Fifth Corps was sent. On the 22nd he asked for " +
+      "three more and Petain ordered the Third Army forward. Haig now asks for twenty " +
+      "divisions at Amiens.\n\n" +
+      "Petain is afraid that the attack on the British is a diversion and that the " +
+      "main blow will fall on the French in Champagne. By Haig's account, the " +
+      "government has told him to cover Paris. If the British keep falling back, the French will have to choose " +
+      "between staying in contact with them and covering the capital, and the two lie " +
+      "in different directions.",
+    context:
+      "Each army has a line of retreat that it cannot give up. They diverge, and the " +
+      "gap between them is where the Germans are going.",
+    choices: [
+      {
+        id: "reserve",
+        label: "Put two armies in reserve in the Somme valley and refuse the twenty divisions",
+        historical: true,
+        advisor: { name: "Petain", position:
+          "I can give what I can spare. I cannot strip Champagne and the road to Paris on the strength of one attack." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { gqg_link: "reserve" },
+        dispute:
+          "The account of the meeting at Dury on the evening of 24 March comes mainly " +
+          "from Haig's diary and reports, in which Petain, back from a Cabinet meeting " +
+          "at which he had been told to cover Paris, says he may have to break contact with " +
+          "the British. French accounts and later historians differ about whether he " +
+          "threatened it or only explained the limits that the government's order and " +
+          "the risk in Champagne put on him. What is not disputed is that he placed two " +
+          "armies under Fayolle in reserve in the Somme valley and that he refused the " +
+          "twenty divisions.",
+        next: "gqg_1918_10_doullens",
+        outcome:
+          "Two French armies under Fayolle are placed in reserve in the Somme valley, and " +
+          "Petain presses the British Fifth Army to keep in touch with the French Fifth " +
+          "Corps on its right. The twenty divisions are not sent. Haig comes away believing " +
+          "that the French may let the link go to cover Paris. The question of a single " +
+          "commander for both armies is put at Doullens two days later.",
+      },
+      {
+        id: "allin",
+        label: "Send the whole reserve north to keep contact with the British at once",
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "There is not the reserve to cover both the link and Paris",
+        impact: { manpower: -2, munitions: -1, will: 1 },
+        setFlags: { gqg_link: "allin" },
+        erodes: "costly_offensive",
+        next: "gqg_1918_10_doullens",
+        outcome:
+          "Speculative. Every division that can be moved goes north, and the junction " +
+          "with the British holds. Champagne and the road to Paris are left to what " +
+          "remains. If the main blow falls there, the French army has nothing to meet it " +
+          "with.",
       },
     ],
   },
@@ -653,7 +1161,7 @@ CAMPAIGNS.gqg.nodes = {
         "troops, in liaison with the British forces, are carrying out the movements " +
         "required by the situation.",
     },
-    situation:
+    situation: (flags) =>
       "The German offensive has opened a gap on the British front and the two armies " +
       "are being pushed apart. Each has a line of retreat, and the two lines diverge: " +
       "the British toward the Channel ports, the French toward Paris. Followed " +
@@ -661,7 +1169,13 @@ CAMPAIGNS.gqg.nodes = {
       "Holding them together requires one authority over both, which means a French " +
       "commander accepting that his armies can be committed by someone other than " +
       "himself, or a British one accepting the same. Nobody has been willing to concede " +
-      "this in three and a half years.",
+      "this in three and a half years." +
+      (flags.gqg_link === "reserve"
+        ? "\n\nTwo French armies are in reserve in the Somme valley, and Haig has been told " +
+          "that the French may not be able to keep the link."
+        : flags.gqg_link === "allin"
+          ? "\n\nThe French reserve has gone north to keep the link, and Champagne is open."
+          : ""),
     context:
       "The Americans are arriving and the question of who commands them is the same " +
       "question, deferred. Whatever is agreed here sets the shape of it.",
@@ -674,7 +1188,7 @@ CAMPAIGNS.gqg.nodes = {
           "The two armies must be one instrument or they will be two retreats. I do not need to command them. Somebody does." },
         impact: { manpower: 0, munitions: 0, will: -1 },
         setFlags: { gqg_command1918: "unified" },
-        next: "gqg_1918_11_counteroffensive",
+        next: "gqg_1918_13_aisne",
         outcome:
           "Coordinating authority over the Allied armies goes to Foch, and grows into " +
           "general command. The two retreats become one defence. What has been given up " +
@@ -691,11 +1205,62 @@ CAMPAIGNS.gqg.nodes = {
         setFlags: { gqg_command1918: "national" },
         erodes: "costly_offensive",
         nextIf: (m) => (m.manpower <= -6 ? "gqg_end_coalitionfails" : null),
-        next: "gqg_1918_11_counteroffensive",
+        next: "gqg_1918_13_aisne",
         outcome:
           "Speculative. Command stays national and coordination stays a matter of " +
           "agreement between headquarters that disagree. The gap between the two armies " +
           "is now a matter of goodwill under artillery fire.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-05
+  gqg_1918_13_aisne: {
+    year: 1918, date: "1918-05-26", city: "Provins",
+    title: "The Front Line Is Full",
+    advisors: ["petain", "foch"],
+    situation: (flags) =>
+      "A German attack is expected between Reims and Soissons, and the Chemin des Dames, " +
+      "where the offensive of 1917 was fought, is a sector likely to take it. " +
+      (flags.gqg_command1918 === "unified"
+        ? "There is a single Allied command now, and Foch is directing reserves from one end of the front to the other."
+        : "The two commands are coordinating, and the reserves are where each put them.") +
+      "\n\nPetain's order is defence in depth: a lightly held front line, and the battle " +
+      "fought behind it, out of reach of the guns. The commander of the Sixth Army, " +
+      "General Duchene, does not accept it. He has packed his divisions into the front " +
+      "line, because he is not willing to give up an inch of French ground without a " +
+      "fight.",
+    context:
+      "An army commander who disobeys his orders on the eve of the battle cannot easily " +
+      "be replaced before it begins. The man who replaces him will not know the ground.",
+    choices: [
+      {
+        id: "leave",
+        label: "Leave the Sixth Army's dispositions as its commander has made them",
+        historical: true,
+        advisor: { name: "Petain", position:
+          "The order is clear, and I have given it. Whether it is being carried out is for the army commander to answer for." },
+        impact: { manpower: -1, munitions: 0, will: -1 },
+        setFlags: { gqg_aisne: "forward" },
+        next: "gqg_1918_11_counteroffensive",
+        outcome:
+          "The bombardment on 27 May falls on a front line packed with men. The line " +
+          "breaks, and the Germans cross the Aisne and take nineteen kilometres in three " +
+          "days, with Paris within their reach. Duchene is relieved of his command by " +
+          "Clemenceau on 9 June. The order that would have prevented it had been given, " +
+          "and not obeyed.",
+      },
+      {
+        id: "depth",
+        label: "Enforce defence in depth and have the front line thinned before the attack",
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { gqg_aisne: "depth" },
+        next: "gqg_1918_11_counteroffensive",
+        outcome:
+          "Speculative. The front line is cleared of all but a screen, and the divisions " +
+          "are moved back behind the ridge. The bombardment falls on little and the " +
+          "attack still comes and still gains ground, but it comes on into depth, and " +
+          "the army is not broken on the first morning.",
       },
     ],
   },
@@ -721,7 +1286,14 @@ CAMPAIGNS.gqg.nodes = {
       "the last fresh divisions in France on a judgment about an enemy who has " +
       "attacked five times this year.\n\n" +
       "The army being asked to attack is the army that would not attack fourteen " +
-      "months ago.",
+      "months ago." +
+      (flags.gqg_aisne === "forward"
+        ? "\n\nThe Aisne broke on 27 May, and the salient this attack is aimed at is the one that " +
+          "came out of it."
+        : flags.gqg_aisne === "depth"
+          ? "\n\nThe German attack in May went in against a front held in depth, and it gained " +
+            "less ground than it might have."
+          : ""),
     choices: [
       {
         id: "strike",
@@ -739,12 +1311,8 @@ CAMPAIGNS.gqg.nodes = {
           "with no reserve, which would suggest the turn was coming regardless. The " +
           "counter-reading is that an unpressed enemy in a salient consolidates, and that " +
           "the timing of the blow is precisely what denied that.",
-        nextIf: (m, flags) =>
-          m.will <= -6 ? "gqg_end_armybreaks"
-          : (flags.gqg_command1918 === "national") ? "gqg_end_costlier"
-          : (flags.gqg_mutinyResponse === "both" && m.manpower >= -3) ? "gqg_end_intact"
-          : null,
-        next: "gqg_end_victory",
+        nextIf: (m) => (m.will <= -6 ? "gqg_end_armybreaks" : null),
+        next: "gqg_1918_14_americans",
         uncertain: [
           { weight: 70, title: "The initiative changes hands and does not change back", historicalBranch: true,
             impact: { will: 1 },
@@ -782,6 +1350,176 @@ CAMPAIGNS.gqg.nodes = {
     ],
   },
 
+  // ---------------------------------------------------------------- 1918-09
+  gqg_1918_14_americans: {
+    year: 1918, date: "1918-09-02", city: "Bombon",
+    title: "An American Army, or American Divisions",
+    advisors: ["foch", "petain"],
+    situation:
+      "The American First Army is preparing to attack the Saint-Mihiel salient. On 30 " +
+      "August Foch told Pershing that the attack should be reduced to little more than a " +
+      "demonstration, and that two thirds of the First Army's troops should be given to " +
+      "Haig and to the French generals to be used where the fighting is.\n\n" +
+      "Pershing will not accept it. He has said throughout that the Americans will fight " +
+      "as an army. The French and British armies are tired, and every American division " +
+      "that is put into their lines is a division they do not have to find.",
+    context:
+      "An army fights better under its own commander, in its own sector. A division " +
+      "that is lent can be used at once, and lent divisions go where they are needed.",
+    choices: [
+      {
+        id: "army",
+        label: "Back Pershing: an American army with its own sector in the Meuse and the Argonne",
+        historical: true,
+        advisor: { name: "Petain", position:
+          "The Americans will do more as an army with a front of their own than as battalions scattered through other armies." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { gqg_americans: "army" },
+        next: "gqg_1918_15_grand",
+        outcome:
+          "On 2 September Petain and Pershing meet Foch. Supported by Petain, Pershing " +
+          "offers to take responsibility for the whole sector from Pont-a-Mousson, " +
+          "through the valley of the Meuse, to the Argonne forest, and the dispute is " +
+          "resolved on that basis. The American First Army pinches out the Saint-Mihiel " +
+          "salient on 12 September and moves to attack in the Meuse-Argonne.",
+      },
+      {
+        id: "split",
+        label: "Hold to the plan: distribute the American divisions among the Allied armies",
+        advisor: { name: "Foch", position:
+          "The battle is where the fighting is, and the divisions should be used there. A demonstration at Saint-Mihiel is worth less than that." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The coalition cannot take another quarrel over the American army",
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { gqg_americans: "split" },
+        next: "gqg_1918_15_grand",
+        outcome:
+          "Speculative. The American divisions are put into the British and French armies. " +
+          "The tired armies are reinforced at once, and the Americans fight in other " +
+          "commanders' battles. The American government has said it will not allow this " +
+          "to be done, and it has to be told the answer.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-09
+  gqg_1918_15_grand: {
+    year: 1918, date: "1918-09-12", city: "Bombon",
+    title: "Everyone Into the Battle",
+    advisors: ["foch", "petain"],
+    situation: (flags) =>
+      "The Americans have pinched out the Saint-Mihiel salient today. " +
+      (flags.gqg_americans === "split"
+        ? "The American divisions are in the Allied armies, and the Allied armies are the stronger for them."
+        : "The American First Army stands on its own sector, and is about to attack on it.") +
+      "\n\nSince July the Germans have been going back, and since 8 August the " +
+      "British have been attacking at Amiens. Foch has a plan to put it all together: a " +
+      "series of great attacks along the whole front, each aimed at cutting the " +
+      "German lines of communication, so that the success of any one of them lets the " +
+      "whole line advance.\n\n" +
+      "The French army is asked to attack with the rest, and it is the army that was " +
+      "nursed through the summer of 1917 that has to do it.",
+    context:
+      "A general offensive uses every reserve at the same time. If it fails, there is " +
+      "nothing behind it, and the army has been told since May 1917 that it would not " +
+      "be asked for a rupture again.",
+    choices: [
+      {
+        id: "concentric",
+        label: "Order the concentric offensives: four attacks from 26 September",
+        historical: true,
+        advisor: { name: "Foch", position:
+          "A single attack the Germans can meet with their reserves. Four attacks on four fronts in four days they cannot meet at all." },
+        impact: { manpower: -1, munitions: -1, will: 2 },
+        setFlags: { gqg_grand: "concentric" },
+        erodes: "costly_offensive",
+        next: "gqg_1918_16_senlis",
+        outcome:
+          "The attacks open on 26 September with the Americans in the Meuse-Argonne, on " +
+          "the 27th with the British First and Third Armies toward Cambrai, on the 28th in " +
+          "Flanders, and on the 29th against the Hindenburg Line on the Saint-Quentin canal, " +
+          "by the British Fourth Army and the French First. German reserves are pulled " +
+          "across the whole front, and by the beginning of October it is giving way.",
+      },
+      {
+        id: "limited",
+        label: "Go on with limited attacks, one front at a time, and keep the army in hand",
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Allied governments will not accept an autumn without a general offensive",
+        impact: { manpower: 1, munitions: 1, will: -2 },
+        setFlags: { gqg_grand: "limited" },
+        next: "gqg_1918_16_senlis",
+        outcome:
+          "Speculative. The attacks go on as they have since August, each on its own " +
+          "front and its own date. The Germans can move their reserves from one to " +
+          "another, and the winter comes with the line still on German ground.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-10
+  gqg_1918_16_senlis: {
+    year: 1918, date: "1918-10-25", city: "Senlis",
+    title: "What to Ask For",
+    advisors: ["foch", "petain", "clemenceau"],
+    situation:
+      "The Germans have asked President Wilson for an armistice, and the Allied " +
+      "governments have asked their generals what terms the armies need. Foch has " +
+      "called a conference at Senlis and has put the question to each of the " +
+      "commanders in turn.\n\n" +
+      "Haig has urged moderation, telling the British government that the German army " +
+      "is far from beaten. Petain's view is harder than Haig's. Pershing's is harder " +
+      "than either: he would push the Germans back into Germany, so that the people at " +
+      "home understand that their army has been beaten in the field.\n\n" +
+      "The terms have to be strong enough that the Germans cannot go back to the war, " +
+      "and not so strong that they refuse them.",
+    context:
+      "An armistice that leaves the German army on French ground and in good order is " +
+      "an invitation to start again. One that is refused costs another winter.",
+    choices: [
+      {
+        id: "bridgeheads",
+        label: "Ask for the occupation of the Rhine bridgeheads and a heavy surrender of equipment",
+        historical: true,
+        advisor: { name: "Foch", position:
+          "An armistice has to leave the Germans unable to resume the war. A line on the Rhine does that, and nothing less does." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { gqg_senlis: "bridgeheads" },
+        nextIf: (m, flags) =>
+          m.will <= -6 ? "gqg_end_armybreaks"
+          : (flags.gqg_command1918 === "national") ? "gqg_end_costlier"
+          : (flags.gqg_mutinyResponse === "both" && m.manpower >= -3) ? "gqg_end_intact"
+          : null,
+        next: "gqg_end_victory",
+        outcome:
+          "With Clemenceau's agreement Foch takes the soldiers' views and then, acting " +
+          "on his own authority as Allied commander, makes his own list of terms. The " +
+          "armistice conditions include the occupation of strategic positions, with the " +
+          "bridgeheads over the Rhine, so that the Allies hold military superiority " +
+          "while the peace is made.",
+      },
+      {
+        id: "moderate",
+        label: "Ask for terms the German army can accept, as Haig urged",
+        advisor: { name: "Haig", position:
+          "The German army is far from beaten. Terms it cannot accept will be refused and the war will go on." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { gqg_senlis: "moderate" },
+        nextIf: (m, flags) =>
+          m.will <= -6 ? "gqg_end_armybreaks"
+          : (flags.gqg_command1918 === "national") ? "gqg_end_costlier"
+          : (flags.gqg_mutinyResponse === "both" && m.manpower >= -3) ? "gqg_end_intact"
+          : null,
+        next: "gqg_end_victory",
+        outcome:
+          "Speculative. The terms asked for are those that the British commander thought " +
+          "the German army could accept, with fewer demands for positions on the Rhine. " +
+          "The armistice is easier to sign and gives the Allies less to hold while the " +
+          "peace is made.",
+      },
+    ],
+  },
+
   // ---------------------------------------------------------------- endings
   gqg_end_victory: {
     year: 1918, date: "1918-11-11", city: "Compiegne",
@@ -807,6 +1545,19 @@ CAMPAIGNS.gqg.nodes = {
       "1915: " + (flags.gqg_1915 === "limited" ? "operations limited to the artillery available." : "offensives in Artois and Champagne.") + "\n" +
       "The Somme: " + (flags.gqg_somme === "deferred" ? "the French contribution was deferred." : "committed alongside the British.") + "\n" +
       "La Malmaison: " + (flags.gqg_malmaison === "exploited" ? "the announced limit was exceeded." : "stopped on its objective.") + "\n" +
+      "The order to go back: " + (flags.gqg_retreat === "stand" ? "a stand on the Sambre and the Meuse." : "the withdrawal ordered on 25 August.") + "\n" +
+      "The commanders: " + (flags.gqg_sack === "kept" ? "kept in place." : "the failures relieved.") + "\n" +
+      "The race to the sea: " + (flags.gqg_race === "dug" ? "stopped on the Aisne." : "the left extended to the sea.") + "\n" +
+      "Salonika: " + (flags.gqg_salonika === "refused" ? "no divisions sent." : "the Army of the Orient sent.") + "\n" +
+      "Chantilly: " + (flags.gqg_chantilly === "free" ? "French freedom of action kept." : "simultaneous offensives proposed for 1916.") + "\n" +
+      "Douaumont: " + (flags.gqg_douaumont === "waited" ? "left in German hands for the winter." : "retaken in October 1916.") + "\n" +
+      "Calais: " + (flags.gqg_calais === "agreement" ? "the British army left under its own commander." : "the British army placed under Nivelle for the offensive.") + "\n" +
+      "May 1917: " + (flags.gqg_directive === "offensive" ? "a great offensive kept in preparation." : "limited objectives, by Directive No. 1.") + "\n" +
+      "March 1918, the link: " + (flags.gqg_link === "allin" ? "the whole reserve sent north." : "two armies in reserve in the Somme valley, twenty divisions refused.") + "\n" +
+      "The Aisne, May 1918: " + (flags.gqg_aisne === "depth" ? "defence in depth enforced." : "the front line left full.") + "\n" +
+      "The Americans: " + (flags.gqg_americans === "split" ? "divided among the Allied armies." : "an army with its own sector.") + "\n" +
+      "The autumn offensives: " + (flags.gqg_grand === "limited" ? "limited attacks, front by front." : "four concentric offensives from 26 September.") + "\n" +
+      "The armistice terms: " + (flags.gqg_senlis === "moderate" ? "the moderate terms Haig urged." : "the Rhine bridgeheads and heavy surrender of equipment.") + "\n" +
       "1918 command: " + (flags.gqg_command1918 === "national" ? "national throughout." : "unified from March."),
   },
 

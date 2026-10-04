@@ -3,13 +3,13 @@
  "seed": 1,
  "storage": {
   "dispatches1914_settings_v1": "{\"schemaVersion\":1,\"textSize\":\"s\"}",
-  "dispatches1914_record_v1": "{\"schemaVersion\":1,\"nodes\":{\"gqg\":[\"gqg_1914_01_frontieres\",\"gqg_1914_02_marne\",\"gqg_1915_03_grignotage\",\"gqg_1916_04_verdun\",\"gqg_1916_05_somme\"]},\"advisers\":{\"gqg\":[\"joffre\",\"castelnau\",\"gallieni\",\"petain\",\"foch\"]},\"endings\":[],\"runs\":0,\"hardRuns\":0}",
-  "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"gqg\",\"nodeId\":\"gqg_1916_05_somme\",\"flags\":{\"gqg_opening\":\"asplanned\",\"gqg_marne\":\"attacked\",\"gqg_marneResult\":\"exploited\",\"gqg_1915\":\"limited\",\"gqg_verdun\":\"held\"},\"meters\":{\"manpower\":-3,\"munitions\":-4,\"will\":1},\"hardState\":{\"enabled\":true,\"erosion\":1},\"visited\":[\"gqg_1914_01_frontieres\",\"gqg_1914_02_marne\",\"gqg_1915_03_grignotage\",\"gqg_1916_04_verdun\",\"gqg_1916_05_somme\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791129061809}"
+  "dispatches1914_record_v1": "{\"schemaVersion\":1,\"nodes\":{\"gqg\":[\"gqg_1914_01_frontieres\",\"gqg_1914_12_retreat\",\"gqg_1914_13_sack\",\"gqg_1914_02_marne\",\"gqg_1914_14_race\"]},\"advisers\":{\"gqg\":[\"joffre\",\"castelnau\",\"gallieni\",\"foch\"]},\"endings\":[],\"runs\":0,\"hardRuns\":0}",
+  "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"gqg\",\"nodeId\":\"gqg_1914_14_race\",\"flags\":{\"gqg_opening\":\"asplanned\",\"gqg_retreat\":\"ordered\",\"gqg_sack\":\"kept\",\"gqg_marne\":\"delayed\"},\"meters\":{\"manpower\":0,\"munitions\":-1,\"will\":-5},\"hardState\":{\"enabled\":true,\"erosion\":1},\"visited\":[\"gqg_1914_01_frontieres\",\"gqg_1914_12_retreat\",\"gqg_1914_13_sack\",\"gqg_1914_02_marne\",\"gqg_1914_14_race\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791134128912}"
  },
  "expect": {
-  "menuHash": "3tThMj_T:912",
+  "menuHash": "qCp4xgfA:895",
   "resumeControl": "Resume file",
-  "afterResumeHash": "nFIADlkh:1073",
+  "afterResumeHash": "VgNqp2zj:1037",
   "errors": []
  }
 }

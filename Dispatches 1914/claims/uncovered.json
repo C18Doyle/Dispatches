@@ -1,0 +1,4 @@
+{
+  "note": "Nodes written before the claims register. Backfill: add their claims to the campaign file and remove the node from this list. Never add a node here.",
+  "nodes": []
+}

@@ -1,0 +1,402 @@
+[
+  {
+    "id": "stavka-tannenberg-1",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "The Russian Second Army under Samsonov advanced into East Prussia on 20-21 August 1914 (New Style), i.e. 7-8 August Old Style; Zhilinsky, commanding both armies, was anxious to press the German Eighth Army after Gumbinnen.",
+    "status": "web-checked",
+    "sources": [
+      "wp-tannenberg"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-tannenberg-2",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "Division and corps commanders complained of poor supply and the pace demanded by Zhilinsky; the two armies were too far apart to help each other; the Germans read intercepted radio messages.",
+    "status": "web-checked",
+    "sources": [
+      "wp-tannenberg"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-tannenberg-3",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "The battle was fought 26-30 August 1914 (New Style), the 13th to 17th Old Style; the Second Army was almost completely destroyed and Samsonov killed himself.",
+    "status": "web-checked",
+    "sources": [
+      "wp-tannenberg",
+      "wp-samsonov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-tannenberg-4",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "The First Army was turned back about a fortnight later (Masurian Lakes, 9-14 September New Style).",
+    "status": "drafted",
+    "sources": [],
+    "note": "Confirm."
+  },
+  {
+    "id": "stavka-tannenberg-5",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "position",
+    "claim": "Zhilinsky's position is characterized as: the enemy is going back and has to be kept going.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of a documented attitude, not a quotation."
+  },
+  {
+    "id": "stavka-carpathians-1",
+    "node": "stavka_1915_12_carpathians",
+    "kind": "fact",
+    "claim": "Przemyśl surrendered on 22 March 1915 (New Style), 9 March Old Style; the garrison of about 117,000 surrendered with nine generals.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-carpathians-2",
+    "node": "stavka_1915_12_carpathians",
+    "kind": "figure",
+    "claim": "Austro-Hungarian casualties January to April 1915 in the Carpathians were officially reported as 800,000, mostly from weather and disease; Russian casualties were nearly as high but easier to replace.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl"
+    ],
+    "note": "The source is a Wikipedia summary of the Austro-Hungarian figure; the Russian comparison needs a better source."
+  },
+  {
+    "id": "stavka-carpathians-3",
+    "node": "stavka_1915_12_carpathians",
+    "kind": "fact",
+    "claim": "The Russian armies were short of shells and rifles in the spring of 1915.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely stated; see also the existing retreat node (Brusilov's report)."
+  },
+  {
+    "id": "stavka-carpathians-4",
+    "node": "stavka_1915_12_carpathians",
+    "kind": "fact",
+    "claim": "The German attack at Gorlice in May turned the Carpathian positions.",
+    "status": "drafted",
+    "sources": [],
+    "note": "2 May New Style; the existing retreat node is dated 19 April Old Style."
+  },
+  {
+    "id": "stavka-kovel-1",
+    "node": "stavka_1916_12_kovel",
+    "kind": "fact",
+    "claim": "The South-Western Front attacked on 4 June 1916 (New Style), 22 May Old Style; Brusilov's request for supporting offensives was denied and Evert's Western Front did not attack until 18 June.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-kovel-2",
+    "node": "stavka_1916_12_kovel",
+    "kind": "figure",
+    "claim": "Evert's attack from 2 July took about five kilometres at a cost of about 80,000 men.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-kovel-3",
+    "node": "stavka_1916_12_kovel",
+    "kind": "fact",
+    "claim": "On 17 June Alekseyev transferred the Third Army to Brusilov; Bezobrazov's Guards Army was added, bringing the front to about 700,000 men against 421,000.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-kovel-4",
+    "node": "stavka_1916_12_kovel",
+    "kind": "fact",
+    "claim": "Artillery preparation for Kovel began on 24 July (New Style), the main assaults ran from 28 July, the advance was halted by 8 August and Brusilov suspended the operation on 9 August.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": "Converted to Old Style in the text: 11, 15, 26 and 27 July."
+  },
+  {
+    "id": "stavka-kovel-5",
+    "node": "stavka_1916_12_kovel",
+    "kind": "fact",
+    "claim": "Gurko's Special Army took part in the Stokhod fighting.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Check the order of battle."
+  },
+  {
+    "id": "stavka-kovel-6",
+    "node": "stavka_1916_12_kovel",
+    "kind": "position",
+    "claim": "Brusilov wanted to go on for Kovel.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of a documented aim."
+  },
+  {
+    "id": "stavka-romania-1",
+    "node": "stavka_1916_13_romania",
+    "kind": "fact",
+    "claim": "Romania entered the war on 27 August 1916 (New Style), 14 August Old Style, after the success of the Brusilov offensive.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov",
+      "wp-romania1916"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-romania-2",
+    "node": "stavka_1916_13_romania",
+    "kind": "fact",
+    "claim": "The Russians moved three divisions to help the Romanians, and they were not properly equipped.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romania1916"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-romania-3",
+    "node": "stavka_1916_13_romania",
+    "kind": "fact",
+    "claim": "Bucharest fell on 6 December 1916 (New Style), 23 November Old Style; Russia then had to send large reinforcements to the Romanian front to prevent a German advance into the south of Russia.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romania1916"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-romania-4",
+    "node": "stavka_1916_13_romania",
+    "kind": "position",
+    "claim": "Alekseyev's position is characterized as: the Romanian front must not be allowed to take the armies from the main one.",
+    "status": "drafted",
+    "sources": [],
+    "note": "From the research pass; not recorded. Alekseyev is reported to have regarded Romania's entry as a burden. Verify or remove."
+  },
+  {
+    "id": "stavka-deathpenalty-1",
+    "node": "stavka_1917_12_deathpenalty",
+    "kind": "fact",
+    "claim": "Kerensky sent telegraphic orders instituting the death penalty at the front on 12 July 1917 (Old Style), in response to an ultimatum from Kornilov.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kornilovaffair"
+    ],
+    "note": "From a web-search summary of this page; confirm on the page or in a source for the ultimatum."
+  },
+  {
+    "id": "stavka-deathpenalty-2",
+    "node": "stavka_1917_12_deathpenalty",
+    "kind": "fact",
+    "claim": "The Provisional Government abolished the death penalty in the army in March 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Confirm the date."
+  },
+  {
+    "id": "stavka-deathpenalty-3",
+    "node": "stavka_1917_12_deathpenalty",
+    "kind": "fact",
+    "claim": "Kornilov was appointed commander of the South-Western Front in July and Supreme Commander in place of Brusilov on 18 July Old Style (31 July New Style).",
+    "status": "web-checked",
+    "sources": [
+      "wp-kornilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-kornilov-1",
+    "node": "stavka_1917_13_kornilov",
+    "kind": "fact",
+    "claim": "Kerensky sent Kornilov a dismissal telegram on 27 August 1917 (Old Style); the march on Petrograd ran 28-31 August (10-13 September New Style) and collapsed through low morale and desertion; the affair ended bloodlessly on 30 August.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kornilovaffair"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-kornilov-2",
+    "node": "stavka_1917_13_kornilov",
+    "kind": "fact",
+    "claim": "The Petrograd Soviet created the Committee for the Struggle Against Counter-Revolution on 28 August.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kornilovaffair"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-kornilov-3",
+    "node": "stavka_1917_13_kornilov",
+    "kind": "fact",
+    "claim": "Kornilov ordered General Krymov's Third Cavalry Corps toward Petrograd following the German occupation of Riga.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kornilovaffair"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-kornilov-4",
+    "node": "stavka_1917_13_kornilov",
+    "kind": "fact",
+    "claim": "Kornilov was arrested and Alekseyev returned as Chief of Staff at the end of August.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The Alekseyev dossier says he returned briefly as Chief of Staff; check the date of the arrest (1 September)."
+  },
+  {
+    "id": "stavka-kornilov-5",
+    "node": "stavka_1917_13_kornilov",
+    "kind": "characterization",
+    "claim": "Whether Kornilov meant to take power or to carry out an arrangement agreed with the government is disputed; an intermediary (Lvov) carried messages the two men understood differently.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dispute carried in the choice's dispute field. Cite a source for the Lvov exchange."
+  },
+  {
+    "id": "stavka-armistice-1",
+    "node": "stavka_1917_14_armistice",
+    "kind": "fact",
+    "claim": "On 9 November 1917 (Old Style) the Council of People's Commissars ordered Dukhonin to begin armistice negotiations; he refused, saying such an order could come only from a government sustained by the army and the country, and was dismissed; Krylenko was named in his place.",
+    "status": "web-checked",
+    "sources": [
+      "wp-dukhonin"
+    ],
+    "note": "The page gives 22 November (New Style)."
+  },
+  {
+    "id": "stavka-armistice-2",
+    "node": "stavka_1917_14_armistice",
+    "kind": "fact",
+    "claim": "On 20 November (3 December New Style) Dukhonin surrendered to Krylenko at Mogilev and was killed by a mob at the railway station despite Krylenko's attempt to prevent it.",
+    "status": "web-checked",
+    "sources": [
+      "wp-dukhonin"
+    ],
+    "note": "Accounts vary on who ordered it."
+  },
+  {
+    "id": "stavka-prussia-1",
+    "node": "stavka_1914_01_prussia",
+    "kind": "fact",
+    "claim": "Russia gave the French an undertaking, as part of the alliance and the loans, to attack East Prussia early in the war; the invasion began on 4 August Old Style (17 August New Style).",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-prussia-2",
+    "node": "stavka_1914_01_prussia",
+    "kind": "fact",
+    "claim": "Two armies went in either side of the Masurian Lakes and could not support one another until they converged; wireless discipline between them was poor.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-galicia-1",
+    "node": "stavka_1914_02_galicia",
+    "kind": "fact",
+    "claim": "Russian forces in Galicia took Lvov in late August 1914 and pressed the Austrians; the node's dates are Old Style.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-retreat-1",
+    "node": "stavka_1915_03_retreat",
+    "kind": "figure",
+    "claim": "Brusilov reported in 1915 that a third of the men in some engagements went into action without rifles and waited for casualties to supply them.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-retreat-2",
+    "node": "stavka_1915_03_retreat",
+    "kind": "fact",
+    "claim": "The Gorlice breakthrough of May 1915 (19 April Old Style the node's date) forced the Russian armies out of the Polish salient.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-command-1",
+    "node": "stavka_1915_04_command",
+    "kind": "fact",
+    "claim": "On 23 August 1915 (Old Style) Nicholas II assumed the supreme command, with Alekseyev as Chief of Staff; the Grand Duke Nikolai Nikolaevich became Viceroy of the Caucasus.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-brusilov-1",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "fact",
+    "claim": "Brusilov planned the 1916 offensive on the South-Western Front without a concentration of other fronts.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-february-1",
+    "node": "stavka_1917_06_february",
+    "kind": "fact",
+    "claim": "On 2 March 1917 (Old Style) the front commanders were canvassed at Pskov on abdication, and most advised it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-kerensky-1",
+    "node": "stavka_1917_07_kerensky",
+    "kind": "fact",
+    "claim": "The offensive of June 1917 was ordered by the Provisional Government under Kerensky; the army had been told by decree that orders were subject to committees.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-october-1",
+    "node": "stavka_1917_08_october",
+    "kind": "fact",
+    "claim": "In October 1917 (Old Style) the Provisional Government was removed in Petrograd; the headquarters at Mogilev continued directing the front; officers began to disperse toward the Don and elsewhere.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+  },
+  {
+    "id": "stavka-october-2",
+    "node": "stavka_1917_08_october",
+    "kind": "position",
+    "claim": "Dukhonin's position that an order to open negotiations could come only from a government sustained by the army and the country.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Documented as his reply of 9 November Old Style; the node places the statement as an advisor's position on 25 October. Check the placement."
+  }
+]

@@ -53,7 +53,13 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   const cont = btns().find(b => b.textContent.trim() === "Continue");
   click(cont); await wait(60);
 
-  t("second node reached", txt().includes("A Gap No One"));
+  t("second node reached", txt().includes("Two Corps for the East"));
+  t("conditional prose on the new node", txt().includes("went forward at the weight the plan asked for"));
+  click(btns().find(b => b.textContent.includes("Send the Guard Reserve Corps"))); await wait(60);
+  t("the order the command gave is marked", txt().includes("The command gave this order."));
+  click(btns().find(b => b.textContent.trim() === "Continue")); await wait(60);
+
+  t("third node reached", txt().includes("A Gap No One"));
   t("conditional prose fired on flags", txt().includes("full weight"));
   t("advisor renders as position, not fabricated quote", txt().includes("argues:") && !txt().includes("\u201c"));
   t("bulletin renders", txt().includes("Official communiqué"));

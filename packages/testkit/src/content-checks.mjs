@@ -198,6 +198,9 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
         return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
       };
       const keys = Object.keys(meters[0]);
+      // One time in ten an axis is drawn at its extreme (-10 or 10), as the exact search does: a threshold on a clamped
+      // meter ("manpower <= -10") is otherwise never met.
+      const draw = () => (rnd() < 0.1 ? (rnd() < 0.5 ? -10 : 10) : Math.floor(rnd() * 19) - 9);
       const reached = new Set();
       const endIds = new Set();
       const endTitles = new Set();
@@ -205,7 +208,7 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
         let nid = start;
         let flags = { ...startFlags[w % startFlags.length] };
         for (let step = 0; step < 250 && nid; step++) {
-          const m = Object.fromEntries(keys.map((k) => [k, Math.floor(rnd() * 19) - 9]));
+          const m = Object.fromEntries(keys.map((k) => [k, draw()]));
           let st;
           try {
             st = resolveNode(camp, nid, flags, m);
@@ -241,7 +244,11 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
           let dest = (u && u.next) || ch.next;
           if (typeof ch.nextIf === "function") {
             try {
-              dest = ch.nextIf(m, flags) || dest;
+              // The engine evaluates nextIf on the meters AFTER the choice's impact, and the exact search tries every
+              // meter value there. Gate and nextIf meters are therefore drawn independently, otherwise a branch whose
+              // condition sits just beyond its own gate (1914's "seek terms early") can never be taken by a walk.
+              const after = Object.fromEntries(keys.map((k) => [k, draw()]));
+              dest = ch.nextIf(after, flags) || dest;
             } catch {
               /* keep the static destination */
             }
