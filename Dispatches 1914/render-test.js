@@ -32,7 +32,7 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
     ["Oberste","Grand Quartier","Stavka","British","Armeeoberkommando","Ottoman"]
       .every(n => txt().includes(n)));
   t("campaigns without content are disabled",
-    btns().filter(b => b.disabled).length === 3);
+    btns().filter(b => b.disabled).length === 2);
   t("GQG is enabled", btns().some(b => !b.disabled && b.textContent.includes("Grand Quartier")));
 
   const playable = btns().find(b => !b.disabled && b.textContent.includes("Oberste"));

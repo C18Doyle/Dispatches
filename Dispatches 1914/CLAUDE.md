@@ -133,7 +133,7 @@ file claims a real person said specific words unless the wording is attested.
 | ohl | 23 | 9 | 11 | 10 | 24 | 3 | 3.64 | expanded (1.1.0), claims logged |
 | gqg | 24 | 9 | 10 | 10 | 25 | 3 | 6.83 | expanded (1.1.0), claims logged |
 | stavka | 15 | 9 | 11 | 8 | 16 | 3 | 3.98 | expanded (1.1.0), claims logged |
-| bef | 0 | - | - | - | - | - | - | not started |
+| bef | 21 | 9 | 11 | 9 | 22 | 3 | 4.4 | first pass (1.1.0), claims logged |
 | aok | 0 | - | - | - | - | - | - | not started |
 | otto | 0 | - | - | - | - | - | - | blocked, spec §9 |
 
