@@ -118,8 +118,8 @@ function MenuScreen({ onPick }) {
   };
   return (
     <div className="dg-root">
-      <div className="dg-filerow"><span>File No. 1918</span><span className="r">Restricted</span></div>
-      <h1 className="dg-title">DISPATCHES<br />1918</h1>
+      <div className="dg-filerow"><span>File No. 1914</span><span className="r">Restricted</span></div>
+      <h1 className="dg-title">DISPATCHES<br />1914</h1>
       <hr className="dg-rule" />
       <div className="dg-sect">Major Commands</div>
       {majors.map(card)}
