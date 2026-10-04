@@ -1050,6 +1050,8 @@ CAMPAIGNS.stavka.nodes = {
         historical: true,
         advisor: { name: "Dukhonin", position:
           "An order to open negotiations has to come from a government that the army and the country stand behind, and this one has not shown that it does." },
+        attested: { by: "Dukhonin", text: "a government sustained by the army and the country",
+          source: "Reply to the Council of People's Commissars, 9 November 1917 (Old Style)" },
         impact: { manpower: -1, munitions: 0, will: -2 },
         setFlags: { stavka_armistice: "refused" },
         next: "stavka_end_brest",

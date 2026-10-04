@@ -126,6 +126,8 @@ This title uses `advisor: { name, position }` and renders it as
 "Falkenhayn argues: ..." — indirect speech, no quotation marks. Nothing in this
 file claims a real person said specific words unless the wording is attested.
 
+Where wording is attested, a choice may carry `attested: { by, text, source }`: a short fragment (25 words at most), shown under the choice as "On the record" with its source. `check-quotations.js` requires the source and a logged claim of kind `quotation`; the fact-check worksheet carries it.
+
 ## Content status
 
 | campaign | nodes | endings | dossiers | bulletins | spine | rolls | gate-blocks | status |

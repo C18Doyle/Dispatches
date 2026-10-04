@@ -87,5 +87,37 @@ t("ottoman blocked on spec §9", E.CAMPAIGNS.otto.blockingIssue.resolved === fal
   t("every advisor named on a node has a dossier entry", E.allNodes().every(({ campaignId, node }) => (node.advisors || []).every((id) => E.CAMPAIGNS[campaignId].advisors.some((a) => a.id === id && a.dossier))));
 }
 
+{
+  const withQuote = [];
+  for (const { nodeId, node } of E.allNodes()) {
+    const r = E.resolveNode(nodeId, {}, E.emptyMeters(), E.emptyHardState());
+    for (const ch of r.choices || []) if (ch.attested) withQuote.push(nodeId + "/" + ch.id);
+  }
+  t("attested quotations survive node resolution and every one is short and cited", withQuote.length >= 9 && E.allNodes().every(({ node }) => (node.choices || []).every((ch) => !ch.attested || (ch.attested.source && ch.attested.text.split(/s+/).length <= 25))));
+}
+
+{
+  // Echoes between commands (docs/SAVES.md: bookkeeping in the war record)
+  const r0 = E.emptyRecord();
+  t("a fresh record has no echoes and seeds no flags", Object.keys(r0.xc).length === 0 && Object.keys(E.echoSeed(r0)).length === 0);
+  const r1 = E.noteEchoes(r0, { ohl_usw: "restricted", xc_usw: "restricted" });
+  t("only xc_ flags are remembered", r1.xc.xc_usw === "restricted" && Object.keys(r1.xc).length === 1 && E.echoSeed(r1).xc_usw === "restricted");
+  t("noting the same echo twice returns the same record", E.noteEchoes(r1, { xc_usw: "restricted" }) === r1);
+  const written = new Set(), values = {};
+  for (const { node } of E.allNodes()) for (const ch of node.choices || []) for (const sf of [ch.setFlags, ...(ch.uncertain || []).map((b) => b.setFlags)])
+    for (const [k, v] of Object.entries(sf || {})) if (k.startsWith("xc_")) { written.add(k); (values[k] = values[k] || new Set()).add(v); }
+  t("every registered echo is written by a choice, with its historical value among them", Object.keys(E.ECHOES).every((k) => written.has(k) && values[k].has(E.ECHOES[k].historical)) && [...written].every((k) => E.ECHOES[k]));
+  // The historical value of an echo changes no text anywhere: a player who follows the record never sees one.
+  const same = E.allNodes().every(({ nodeId }) => Object.entries(E.ECHOES).every(([k, e]) => {
+    const a = E.resolveNode(nodeId, {}, E.emptyMeters(), E.emptyHardState());
+    const b = E.resolveNode(nodeId, { [k]: e.historical }, E.emptyMeters(), E.emptyHardState());
+    return JSON.stringify([a.situation, a.context, a.title]) === JSON.stringify([b.situation, b.context, b.title]);
+  }));
+  t("the historical value of every echo leaves every node's text unchanged", same);
+  const differs = Object.entries(E.ECHOES).every(([k, e]) => Object.keys(e.values).filter((v) => v !== e.historical).every((v) =>
+    E.allNodes().some(({ nodeId }) => { const a = E.resolveNode(nodeId, {}, E.emptyMeters(), E.emptyHardState()); const b = E.resolveNode(nodeId, { [k]: v }, E.emptyMeters(), E.emptyHardState()); return a.situation !== b.situation; })));
+  t("every departure from the record is read by some node", differs);
+}
+
 console.log(`smoke: ${fail} failure${fail===1?"":"s"}`);
 process.exit(fail ? 1 : 0);

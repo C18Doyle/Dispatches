@@ -172,6 +172,8 @@ CAMPAIGNS.bef.nodes = {
         historical: true,
         advisor: { name: "Lord Kitchener", position:
           "The army must stay in the line with the French. It can take care not to be outflanked, but it cannot leave." },
+        attested: { by: "Kitchener", text: "an instruction",
+          source: "Telegram to the Cabinet, 1 September 1914" },
         impact: { manpower: -1, munitions: 0, will: 0 },
         setFlags: { bef_seine: "stayed" },
         dispute:
@@ -881,7 +883,7 @@ CAMPAIGNS.bef.nodes = {
         advisor: { name: "Lloyd George", position:
           "The Allies have spent two years losing separately. Under a single direction for one campaign, the army will at least be used as part of a whole." },
         impact: { manpower: 0, munitions: 0, will: -1 },
-        setFlags: { bef_calais: "accepted" },
+        setFlags: { bef_calais: "accepted", xc_calais: "accepted" },
         erodes: "defy_authority",
         next: "bef_1917_14_convoy",
         outcome:
@@ -899,7 +901,7 @@ CAMPAIGNS.bef.nodes = {
         advisor: { name: "Robertson", position:
           "The army cannot be placed under the orders of a foreign general by a Prime Minister who has not consulted its own commander." },
         impact: { manpower: 0, munitions: 0, will: 1 },
-        setFlags: { bef_calais: "refused" },
+        setFlags: { bef_calais: "refused", xc_calais: "refused" },
         next: "bef_1917_14_convoy",
         outcome:
           "Speculative. The Cabinet is told that the army will not serve under Nivelle, " +
@@ -923,8 +925,10 @@ CAMPAIGNS.bef.nodes = {
         "United Kingdom shows that shipping continues to move in the usual volume.",
     },
     situation: (flags) =>
-      "April has been the worst month of the war at sea: 373 ships of 873,754 tons " +
-      "sunk, Allied and neutral, and the rate has not eased. " +
+      (flags.xc_usw === "restricted"
+        ? "The Germans are keeping to prize rules, and the losses at sea are a fraction of what the Admiralty feared, but they are as high as the country can bear, and the case for convoy is being argued on arithmetic and not on alarm. "
+        : "April has been the worst month of the war at sea: 373 ships of 873,754 tons " +
+          "sunk, Allied and neutral, and the rate has not eased. ") +
       (flags.bef_dardanelles === "navy"
         ? "The Navy's strength has not been drawn off to a second theatre, and the escorts exist in greater numbers."
         : "The Navy's destroyers are spread across several theatres.") +
@@ -1066,7 +1070,8 @@ CAMPAIGNS.bef.nodes = {
         : "The losses of the autumn in Flanders have not been made good.") +
       "\n\nPetain has asked the British to take over more of the French front, down " +
       "to Barisis, a line that would need six more divisions in the front. The French " +
-      "have been carrying the war for longer and are in worse condition.",
+      "have been carrying the war for longer and are in worse condition." +
+      (flags.xc_usw === "restricted" ? "\n\nThe Americans are not coming. The United States is not at war with Germany, and the Allies cannot count on a single division from her in 1918." : ""),
     context:
       "To take the front is to go into the spring with a longer line and fewer men to " +
       "hold it. To refuse is to tell the French that their ally is keeping its men " +
@@ -1200,7 +1205,7 @@ CAMPAIGNS.bef.nodes = {
         advisor: { name: "Milner", position:
           "There must be one man to direct the whole battle, and Foch is the man the Prime Minister and the French government will accept." },
         impact: { manpower: 0, munitions: 0, will: 1 },
-        setFlags: { bef_doullens: "foch" },
+        setFlags: { bef_doullens: "foch", xc_command1918: "unified" },
         next: "bef_1918_19_backs",
         outcome:
           "At the Hotel de Ville at Doullens on 26 March, Haig accepts the appointment of " +
@@ -1218,7 +1223,7 @@ CAMPAIGNS.bef.nodes = {
         gate: (m) => m.will >= -2,
         disabledReason: "The government has already sent Milner to settle the matter",
         impact: { manpower: -2, munitions: 0, will: 0 },
-        setFlags: { bef_doullens: "national" },
+        setFlags: { bef_doullens: "national", xc_command1918: "national" },
         erodes: "defy_authority",
         nextIf: (m) => (m.manpower <= -8 ? "bef_end_ports" : null),
         next: "bef_1918_19_backs",
@@ -1262,6 +1267,8 @@ CAMPAIGNS.bef.nodes = {
         historical: true,
         advisor: { name: "Haig", position:
           "The army has to be told that there is nowhere to go. A withdrawal now would not stop at one line." },
+        attested: { by: "Haig", text: "Every position must be held to the last man: there must be no retirement.",
+          source: "Special Order of the Day, 11 April 1918" },
         impact: { manpower: -1, munitions: 0, will: 1 },
         setFlags: { bef_backs: "order" },
         next: "bef_1918_20_hundreddays",
@@ -1325,6 +1332,8 @@ CAMPAIGNS.bef.nodes = {
         historical: true,
         advisor: { name: "Haig", position:
           "To stop now would cost more than to go on. The enemy has to be given no time to settle behind the Hindenburg Line." },
+        attested: { by: "Haig", text: "wretched lot",
+          source: "Haig on the War Cabinet, in reply to Wilson, 1 September 1918" },
         impact: { manpower: -1, munitions: -1, will: -1 },
         setFlags: { bef_hundreddays: "attacked" },
         erodes: "defy_authority",
@@ -1350,6 +1359,8 @@ CAMPAIGNS.bef.nodes = {
           "The Cabinet does not want the army to take heavy losses attacking the Hindenburg Line without success. A pause would give time to prepare." },
         gate: (m) => m.will >= -2,
         disabledReason: "Foch has ordered the attacks to go on",
+        attested: { by: "Wilson", text: "the war cabinet would become anxious",
+          source: "Telegram to Haig, 31 August 1918" },
         impact: { manpower: 1, munitions: 1, will: 1 },
         setFlags: { bef_hundreddays: "paused" },
         next: "bef_1918_21_armistice",

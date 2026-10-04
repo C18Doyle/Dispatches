@@ -340,7 +340,8 @@ CAMPAIGNS.aok.nodes = {
       "Chief of Staff, Falkenhayn, has concluded that Vienna may look for a separate " +
       "peace if it is not given some. Falkenhayn's plan is a concentrated German " +
       "offensive in western Galicia, at Gorlice and Tarnow, under a German commander. " +
-      "The Austro-Hungarian Fourth Army is to be placed under the new German army.",
+      "The Austro-Hungarian Fourth Army is to be placed under the new German army." +
+      (flags.xc_gorlice === "envelop" ? "\n\nBerlin has not accepted Falkenhayn's plan. The weight of the German effort is going north, to an envelopment out of East Prussia and Courland, and what is offered in Galicia is smaller." : ""),
     context:
       "The army that accepts a German commander is saved by him. It is also an army " +
       "that has been shown it cannot defend its own frontier, and the shadow of that does " +
@@ -649,6 +650,8 @@ CAMPAIGNS.aok.nodes = {
         historical: true,
         advisor: { name: "Czernin", position:
           "The monarchy cannot hold out another winter. The Emperor is right to try, and it cannot be done in front of Berlin." },
+        attested: { by: "Karl I", text: "the just claims of France relating to Alsace-Lorraine",
+          source: "Letter to Prince Sixtus of Bourbon-Parma, 24 March 1917 (in translation)" },
         impact: { manpower: 0, munitions: 0, will: 1 },
         setFlags: { aok_sixtus: "secret" },
         dispute:
@@ -691,14 +694,15 @@ CAMPAIGNS.aok.nodes = {
     year: 1917, date: "1917-09-01", city: "Baden",
     title: "Help on the Isonzo",
     advisors: ["arz", "boroevic", "karl"],
-    situation:
+    situation: (flags) =>
       "Eleven battles on the Isonzo have brought the army to the end of what it can do on " +
       "that front, and another Italian attack is expected before the winter. The " +
       "Emperor has written to the German Emperor and asked for help: heavy guns, and " +
       "divisions to take over in the east so that Austrian ones can be moved to Italy.\n\n" +
       "Ludendorff says that six to eight German divisions can be spared until the " +
       "winter. They would form a new army, under a German general, with Austro-Hungarian " +
-      "divisions in it, and attack at the northern end of the Isonzo front.",
+      "divisions in it, and attack at the northern end of the Isonzo front." +
+      (flags.xc_caporetto === "refused" ? "\n\nBerlin has already answered that it will send guns and staff officers and no divisions, so what is left to settle is whether the army can do anything on the Isonzo alone." : ""),
     context:
       "An army that asks for help on a front that it has held alone for two years " +
       "is asking the ally to take the front's best success from it.",

@@ -554,7 +554,8 @@ CAMPAIGNS.ohl.nodes = {
           ? "\n\nBoth corps the east asked for stayed on the right, and the wing is at " +
             "the strength the plan asked for."
           : "") +
-      "\n\nWhat to order is not the difficulty. Knowing what to order is.",
+      "\n\nWhat to order is not the difficulty. Knowing what to order is." +
+      (flags.xc_marne_french === "delayed" ? "\n\nThere is no French attack on the flank. The armies on the left are still withdrawing, and the only pressure on the gap is the one the German armies have made themselves." : ""),
     context:
       "An officer sent forward with oral instructions and the authority of the " +
       "Supreme Command can act on what he finds. He can also close the campaign " +
@@ -765,7 +766,7 @@ CAMPAIGNS.ohl.nodes = {
         advisor: { name: "Falkenhayn", position:
           "An ally that collapses takes the whole eastern front with it. A breakthrough relieves it and costs a fraction of what a campaign in Russia would." },
         impact: { manpower: 0, munitions: -1, will: 1 },
-        setFlags: { ohl_gorlice: "mackensen" },
+        setFlags: { ohl_gorlice: "mackensen", xc_gorlice: "mackensen" },
         next: "ohl_1915_15_serbia",
         outcome:
           "An Eleventh Army is made up under Mackensen and moved to Galicia by rail. The " +
@@ -784,7 +785,7 @@ CAMPAIGNS.ohl.nodes = {
         gate: (m) => m.manpower >= -1,
         disabledReason: "There are not the divisions for both a relief of the ally and an envelopment",
         impact: { manpower: -2, munitions: -1, will: 1 },
-        setFlags: { ohl_gorlice: "envelop" },
+        setFlags: { ohl_gorlice: "envelop", xc_gorlice: "envelop" },
         erodes: "spend_will",
         next: "ohl_1915_15_serbia",
         outcome:
@@ -1153,7 +1154,7 @@ CAMPAIGNS.ohl.nodes = {
         advisor: { name: "Holtzendorff", position:
           "The tonnage figures are conservative and the timetable holds. Six months is not a hope, it is a calculation." },
         impact: { manpower: 0, munitions: 1, will: 2 },
-        setFlags: { ohl_usw: "unrestricted", ohl_usEntry: "certain" },
+        setFlags: { ohl_usw: "unrestricted", ohl_usEntry: "certain", xc_usw: "unrestricted" },
         next: "ohl_1917_12_alberich",
         outcome:
           "The order is signed on the evening of 9 January and the campaign opens on " +
@@ -1170,7 +1171,7 @@ CAMPAIGNS.ohl.nodes = {
         impact: { manpower: 0, munitions: -1, will: -2 },
         gate: (m) => m.will >= -1,
         disabledReason: "The Supreme Command no longer has the standing to overrule the naval staff",
-        setFlags: { ohl_usw: "restricted", ohl_usEntry: "deferred" },
+        setFlags: { ohl_usw: "restricted", ohl_usEntry: "deferred", xc_usw: "restricted" },
         erodes: "spend_will",
         next: "ohl_1917_12_alberich",
         outcome:
@@ -1367,7 +1368,7 @@ CAMPAIGNS.ohl.nodes = {
         advisor: { name: "Ludendorff", position:
           "Austria-Hungary has to be kept in the war. A blow on the Isonzo is the cheapest way of doing it." },
         impact: { manpower: 0, munitions: 0, will: 1 },
-        setFlags: { ohl_caporetto: "sent" },
+        setFlags: { ohl_caporetto: "sent", xc_caporetto: "sent" },
         next: "ohl_1918_12_faustschlag",
         outcome:
           "A Fourteenth Army is made up of German and Austro-Hungarian divisions under " +
@@ -1381,7 +1382,7 @@ CAMPAIGNS.ohl.nodes = {
         id: "refuse",
         label: "Send guns and staff officers but no divisions",
         impact: { manpower: 1, munitions: -1, will: 0 },
-        setFlags: { ohl_caporetto: "refused" },
+        setFlags: { ohl_caporetto: "refused", xc_caporetto: "refused" },
         next: "ohl_1918_12_faustschlag",
         outcome:
           "Speculative. Vienna gets the artillery it asked for and not the divisions. " +
@@ -1628,7 +1629,8 @@ CAMPAIGNS.ohl.nodes = {
           "ten weeks that the army has broken a line without being able to end the " +
           "fight.") +
       "\n\nDivisions held back for Flanders have already been sent south to feed the " +
-      "advance.",
+      "advance." +
+      (flags.xc_command1918 === "national" ? "\n\nIntelligence from the other side shows two Allied commands still giving separate orders, and the reserves going where each thinks best, not where the whole front needs them." : ""),
     context:
       "A diversion that succeeds becomes a second main effort, and takes the divisions " +
       "meant for the first. What is spent here cannot be used in Flanders.",
@@ -1752,7 +1754,8 @@ CAMPAIGNS.ohl.nodes = {
           "that should have been resting were holding them.") +
       "\n\nThe Kaiser is at Spa, and the council meets today. The Foreign Secretary is " +
       "there, and so are the two soldiers who spent the spring promising a decision " +
-      "in the west.",
+      "in the west." +
+      (flags.xc_command1918 === "national" ? "\n\nThe attack at Amiens fell on a front where the British and French commands had not been put under one hand, and it shows in how slowly the French reserves came up." : ""),
     context:
       "A command that declares the offensive over has to say what it will do instead. " +
       "One answer is to stand on the defensive and let the country find out why. The " +
@@ -1764,6 +1767,8 @@ CAMPAIGNS.ohl.nodes = {
         historical: true,
         advisor: { name: "Hintze", position:
           "A defensive in the west has to go with an approach to the enemy. The army alone cannot end this." },
+        attested: { by: "Ludendorff", text: "the black day of the German Army",
+          source: "Ludendorff, My War Memories, on 8 August 1918" },
         impact: { manpower: 2, munitions: 0, will: -1 },
         setFlags: { ohl_blackday: "defensive" },
         next: "ohl_1918_11_request",
@@ -2506,7 +2511,7 @@ CAMPAIGNS.gqg.nodes = {
         advisor: { name: "Gallieni", position:
           "The flank is there now. It will not be there next week, and neither will the initiative." },
         impact: { manpower: -1, munitions: -1, will: 3 },
-        setFlags: { gqg_marne: "attacked" },
+        setFlags: { gqg_marne: "attacked", xc_marne_french: "attacked" },
         dispute:
           "Responsibility for the German halt on the Marne is contested from the other " +
           "side of the hill. One tradition holds that German command control had already " +
@@ -2547,7 +2552,7 @@ CAMPAIGNS.gqg.nodes = {
         gate: (m) => m.manpower >= -2,
         disabledReason: "There is no line further back that can be held with what is left",
         impact: { manpower: 1, munitions: 0, will: -3 },
-        setFlags: { gqg_marne: "delayed" },
+        setFlags: { gqg_marne: "delayed", xc_marne_french: "delayed" },
         next: "gqg_1914_14_race",
         outcome:
           "Speculative. The withdrawal continues past the Marne and the flank closes. " +
@@ -3032,7 +3037,7 @@ CAMPAIGNS.gqg.nodes = {
     year: 1917, date: "1917-02-26", city: "Calais",
     title: "The British Under a French General",
     advisors: ["nivelle", "lyautey"],
-    situation:
+    situation: (flags) =>
       "The conference at Calais is ostensibly about the railways that will carry the " +
       "spring offensive. In practice it is about command. Lloyd George, with the " +
       "approval of the British war cabinet, proposes that for the duration of the " +
@@ -3040,7 +3045,8 @@ CAMPAIGNS.gqg.nodes = {
       "not told Haig or Robertson.\n\n" +
       "Nivelle's plan depends on the British attack at Arras and on a single will " +
       "directing both armies. He has argued for it since taking the command, and the " +
-      "British prime minister is offering it to him.",
+      "British prime minister is offering it to him." +
+      (flags.xc_calais === "refused" ? "\n\nThe British Commander-in-Chief and the Chief of the Imperial General Staff have already told London that they will not serve under a French general, and Nivelle has to settle how far he can go without them." : ""),
     context:
       "A subordination that is carried out against the wishes of the commander subordinated " +
       "does not stay carried out. Whatever is agreed here will be argued over the next day.",
@@ -3187,7 +3193,8 @@ CAMPAIGNS.gqg.nodes = {
       "in view, so that the army and the Allies see that France still intends to attack. " +
       "The other holds that the army can do no more than attacks with limited " +
       "objectives, where the guns do the work and the infantry stops at what it has " +
-      "taken.",
+      "taken." +
+      (flags.xc_usw === "restricted" ? "\n\nThe Americans are not in the war and will not be, which leaves the recovery of the army to France's own resources alone." : ""),
     context:
       "The remedy for the army has several parts, and leave and the hearing of " +
       "grievances are the part the soldiers will notice. The directive is the part the " +
@@ -3488,8 +3495,10 @@ CAMPAIGNS.gqg.nodes = {
         historical: true,
         advisor: { name: "Foch", position:
           "The two armies must be one instrument or they will be two retreats. I do not need to command them. Somebody does." },
+        attested: { by: "Foch", text: "I would fight in front of Amiens. I would fight in Amiens.",
+          source: "At Doullens, 26 March 1918, as recorded" },
         impact: { manpower: 0, munitions: 0, will: -1 },
-        setFlags: { gqg_command1918: "unified" },
+        setFlags: { gqg_command1918: "unified", xc_command1918: "unified" },
         next: "gqg_1918_13_aisne",
         outcome:
           "Coordinating authority over the Allied armies goes to Foch, and grows into " +
@@ -3506,8 +3515,10 @@ CAMPAIGNS.gqg.nodes = {
           "I will not have French divisions committed to cover a British withdrawal by a man who does not answer to France." },
         gate: (m) => m.will >= -2,
         disabledReason: "The crisis is past the point where coordination by agreement can be defended",
+        attested: { by: "Clemenceau", text: "Je fais la guerre.",
+          source: "Speech to the Chamber, 8 March 1918" },
         impact: { manpower: -2, munitions: 0, will: 1 },
-        setFlags: { gqg_command1918: "national" },
+        setFlags: { gqg_command1918: "national", xc_command1918: "national" },
         erodes: "costly_offensive",
         nextIf: (m) => (m.manpower <= -6 ? "gqg_end_coalitionfails" : null),
         next: "gqg_1918_13_aisne",
@@ -5157,6 +5168,8 @@ CAMPAIGNS.stavka.nodes = {
         historical: true,
         advisor: { name: "Dukhonin", position:
           "An order to open negotiations has to come from a government that the army and the country stand behind, and this one has not shown that it does." },
+        attested: { by: "Dukhonin", text: "a government sustained by the army and the country",
+          source: "Reply to the Council of People's Commissars, 9 November 1917 (Old Style)" },
         impact: { manpower: -1, munitions: 0, will: -2 },
         setFlags: { stavka_armistice: "refused" },
         next: "stavka_end_brest",
@@ -5587,6 +5600,8 @@ CAMPAIGNS.bef.nodes = {
         historical: true,
         advisor: { name: "Lord Kitchener", position:
           "The army must stay in the line with the French. It can take care not to be outflanked, but it cannot leave." },
+        attested: { by: "Kitchener", text: "an instruction",
+          source: "Telegram to the Cabinet, 1 September 1914" },
         impact: { manpower: -1, munitions: 0, will: 0 },
         setFlags: { bef_seine: "stayed" },
         dispute:
@@ -6296,7 +6311,7 @@ CAMPAIGNS.bef.nodes = {
         advisor: { name: "Lloyd George", position:
           "The Allies have spent two years losing separately. Under a single direction for one campaign, the army will at least be used as part of a whole." },
         impact: { manpower: 0, munitions: 0, will: -1 },
-        setFlags: { bef_calais: "accepted" },
+        setFlags: { bef_calais: "accepted", xc_calais: "accepted" },
         erodes: "defy_authority",
         next: "bef_1917_14_convoy",
         outcome:
@@ -6314,7 +6329,7 @@ CAMPAIGNS.bef.nodes = {
         advisor: { name: "Robertson", position:
           "The army cannot be placed under the orders of a foreign general by a Prime Minister who has not consulted its own commander." },
         impact: { manpower: 0, munitions: 0, will: 1 },
-        setFlags: { bef_calais: "refused" },
+        setFlags: { bef_calais: "refused", xc_calais: "refused" },
         next: "bef_1917_14_convoy",
         outcome:
           "Speculative. The Cabinet is told that the army will not serve under Nivelle, " +
@@ -6338,8 +6353,10 @@ CAMPAIGNS.bef.nodes = {
         "United Kingdom shows that shipping continues to move in the usual volume.",
     },
     situation: (flags) =>
-      "April has been the worst month of the war at sea: 373 ships of 873,754 tons " +
-      "sunk, Allied and neutral, and the rate has not eased. " +
+      (flags.xc_usw === "restricted"
+        ? "The Germans are keeping to prize rules, and the losses at sea are a fraction of what the Admiralty feared, but they are as high as the country can bear, and the case for convoy is being argued on arithmetic and not on alarm. "
+        : "April has been the worst month of the war at sea: 373 ships of 873,754 tons " +
+          "sunk, Allied and neutral, and the rate has not eased. ") +
       (flags.bef_dardanelles === "navy"
         ? "The Navy's strength has not been drawn off to a second theatre, and the escorts exist in greater numbers."
         : "The Navy's destroyers are spread across several theatres.") +
@@ -6481,7 +6498,8 @@ CAMPAIGNS.bef.nodes = {
         : "The losses of the autumn in Flanders have not been made good.") +
       "\n\nPetain has asked the British to take over more of the French front, down " +
       "to Barisis, a line that would need six more divisions in the front. The French " +
-      "have been carrying the war for longer and are in worse condition.",
+      "have been carrying the war for longer and are in worse condition." +
+      (flags.xc_usw === "restricted" ? "\n\nThe Americans are not coming. The United States is not at war with Germany, and the Allies cannot count on a single division from her in 1918." : ""),
     context:
       "To take the front is to go into the spring with a longer line and fewer men to " +
       "hold it. To refuse is to tell the French that their ally is keeping its men " +
@@ -6615,7 +6633,7 @@ CAMPAIGNS.bef.nodes = {
         advisor: { name: "Milner", position:
           "There must be one man to direct the whole battle, and Foch is the man the Prime Minister and the French government will accept." },
         impact: { manpower: 0, munitions: 0, will: 1 },
-        setFlags: { bef_doullens: "foch" },
+        setFlags: { bef_doullens: "foch", xc_command1918: "unified" },
         next: "bef_1918_19_backs",
         outcome:
           "At the Hotel de Ville at Doullens on 26 March, Haig accepts the appointment of " +
@@ -6633,7 +6651,7 @@ CAMPAIGNS.bef.nodes = {
         gate: (m) => m.will >= -2,
         disabledReason: "The government has already sent Milner to settle the matter",
         impact: { manpower: -2, munitions: 0, will: 0 },
-        setFlags: { bef_doullens: "national" },
+        setFlags: { bef_doullens: "national", xc_command1918: "national" },
         erodes: "defy_authority",
         nextIf: (m) => (m.manpower <= -8 ? "bef_end_ports" : null),
         next: "bef_1918_19_backs",
@@ -6677,6 +6695,8 @@ CAMPAIGNS.bef.nodes = {
         historical: true,
         advisor: { name: "Haig", position:
           "The army has to be told that there is nowhere to go. A withdrawal now would not stop at one line." },
+        attested: { by: "Haig", text: "Every position must be held to the last man: there must be no retirement.",
+          source: "Special Order of the Day, 11 April 1918" },
         impact: { manpower: -1, munitions: 0, will: 1 },
         setFlags: { bef_backs: "order" },
         next: "bef_1918_20_hundreddays",
@@ -6740,6 +6760,8 @@ CAMPAIGNS.bef.nodes = {
         historical: true,
         advisor: { name: "Haig", position:
           "To stop now would cost more than to go on. The enemy has to be given no time to settle behind the Hindenburg Line." },
+        attested: { by: "Haig", text: "wretched lot",
+          source: "Haig on the War Cabinet, in reply to Wilson, 1 September 1918" },
         impact: { manpower: -1, munitions: -1, will: -1 },
         setFlags: { bef_hundreddays: "attacked" },
         erodes: "defy_authority",
@@ -6765,6 +6787,8 @@ CAMPAIGNS.bef.nodes = {
           "The Cabinet does not want the army to take heavy losses attacking the Hindenburg Line without success. A pause would give time to prepare." },
         gate: (m) => m.will >= -2,
         disabledReason: "Foch has ordered the attacks to go on",
+        attested: { by: "Wilson", text: "the war cabinet would become anxious",
+          source: "Telegram to Haig, 31 August 1918" },
         impact: { manpower: 1, munitions: 1, will: 1 },
         setFlags: { bef_hundreddays: "paused" },
         next: "bef_1918_21_armistice",
@@ -7431,7 +7455,8 @@ CAMPAIGNS.aok.nodes = {
       "Chief of Staff, Falkenhayn, has concluded that Vienna may look for a separate " +
       "peace if it is not given some. Falkenhayn's plan is a concentrated German " +
       "offensive in western Galicia, at Gorlice and Tarnow, under a German commander. " +
-      "The Austro-Hungarian Fourth Army is to be placed under the new German army.",
+      "The Austro-Hungarian Fourth Army is to be placed under the new German army." +
+      (flags.xc_gorlice === "envelop" ? "\n\nBerlin has not accepted Falkenhayn's plan. The weight of the German effort is going north, to an envelopment out of East Prussia and Courland, and what is offered in Galicia is smaller." : ""),
     context:
       "The army that accepts a German commander is saved by him. It is also an army " +
       "that has been shown it cannot defend its own frontier, and the shadow of that does " +
@@ -7740,6 +7765,8 @@ CAMPAIGNS.aok.nodes = {
         historical: true,
         advisor: { name: "Czernin", position:
           "The monarchy cannot hold out another winter. The Emperor is right to try, and it cannot be done in front of Berlin." },
+        attested: { by: "Karl I", text: "the just claims of France relating to Alsace-Lorraine",
+          source: "Letter to Prince Sixtus of Bourbon-Parma, 24 March 1917 (in translation)" },
         impact: { manpower: 0, munitions: 0, will: 1 },
         setFlags: { aok_sixtus: "secret" },
         dispute:
@@ -7782,14 +7809,15 @@ CAMPAIGNS.aok.nodes = {
     year: 1917, date: "1917-09-01", city: "Baden",
     title: "Help on the Isonzo",
     advisors: ["arz", "boroevic", "karl"],
-    situation:
+    situation: (flags) =>
       "Eleven battles on the Isonzo have brought the army to the end of what it can do on " +
       "that front, and another Italian attack is expected before the winter. The " +
       "Emperor has written to the German Emperor and asked for help: heavy guns, and " +
       "divisions to take over in the east so that Austrian ones can be moved to Italy.\n\n" +
       "Ludendorff says that six to eight German divisions can be spared until the " +
       "winter. They would form a new army, under a German general, with Austro-Hungarian " +
-      "divisions in it, and attack at the northern end of the Isonzo front.",
+      "divisions in it, and attack at the northern end of the Isonzo front." +
+      (flags.xc_caporetto === "refused" ? "\n\nBerlin has already answered that it will send guns and staff officers and no divisions, so what is left to settle is whether the army can do anything on the Isonzo alone." : ""),
     context:
       "An army that asks for help on a front that it has held alone for two years " +
       "is asking the ally to take the front's best success from it.",
@@ -8698,13 +8726,15 @@ export function clearSavedRun() {
 export const RECORD_SCHEMA_VERSION = 1;
 
 export function emptyRecord() {
-  return { schemaVersion: RECORD_SCHEMA_VERSION, nodes: {}, advisers: {}, endings: [], runs: 0, hardRuns: 0 };
+  return { schemaVersion: RECORD_SCHEMA_VERSION, nodes: {}, advisers: {}, endings: [], runs: 0, hardRuns: 0, xc: {} };
 }
 
 export function loadRecord() {
   const raw = readJson(RECORD_KEY);
   if (!raw || raw.schemaVersion !== RECORD_SCHEMA_VERSION) return emptyRecord();
-  return { ...emptyRecord(), ...raw };
+  const merged = { ...emptyRecord(), ...raw };
+  if (!merged.xc || typeof merged.xc !== "object" || Array.isArray(merged.xc)) merged.xc = {};
+  return merged;
 }
 
 export function saveRecord(record) {
@@ -8733,6 +8763,67 @@ export function noteEnding(record, endingId, hardMode) {
     runs: (record.runs || 0) + 1,
     hardRuns: (record.hardRuns || 0) + (hardMode ? 1 : 0),
   };
+}
+
+// ---------- echoes between commands ----------
+//
+// A choice in one command can leave a mark that another command reads. The marks are flags starting "xc_". They are
+// remembered in the war record and handed to the next run as its starting flags. Every reader paragraph is written
+// for the NON-historical value only, so a player who never departs from the record never sees an echo, and a fresh
+// record plays exactly as before.
+
+export const ECHOES = {
+  xc_command1918: {
+    label: "Allied command, spring 1918",
+    historical: "unified",
+    values: { unified: "Unified under Foch at Doullens, as it was.", national: "Left national: the Allied armies kept their separate commands." },
+    setBy: "French GQG, British Empire", readBy: "German OHL (May and August 1918)",
+  },
+  xc_usw: {
+    label: "Submarine warfare, 1917",
+    historical: "unrestricted",
+    values: { unrestricted: "Unrestricted from 1 February 1917, as it was.", restricted: "Held under prize rules: the United States stays out." },
+    setBy: "German OHL", readBy: "British Empire (convoy, 1918 manpower), French GQG (May 1917)",
+  },
+  xc_marne_french: {
+    label: "The French counterattack on the Marne",
+    historical: "attacked",
+    values: { attacked: "The flank was attacked, as it was.", delayed: "The withdrawal went on without a counterattack." },
+    setBy: "French GQG", readBy: "German OHL (September 1914)",
+  },
+  xc_calais: {
+    label: "The British under Nivelle, February 1917",
+    historical: "accepted",
+    values: { accepted: "Accepted under protest, as it was.", refused: "Refused: the British would not serve under a French general." },
+    setBy: "British Empire", readBy: "French GQG (February 1917)",
+  },
+  xc_gorlice: {
+    label: "The German plan for 1915 in the east",
+    historical: "mackensen",
+    values: { mackensen: "A breakthrough at Gorlice under Mackensen, as it was.", envelop: "A wide envelopment out of East Prussia and Courland." },
+    setBy: "German OHL", readBy: "Austro-Hungarian AOK (April 1915)",
+  },
+  xc_caporetto: {
+    label: "German help for Austria-Hungary, autumn 1917",
+    historical: "sent",
+    values: { sent: "German divisions sent to the Isonzo, as they were.", refused: "Guns and staff officers only." },
+    setBy: "German OHL", readBy: "Austro-Hungarian AOK (September 1917)",
+  },
+};
+
+/** Remember every xc_ flag a run has set. Returns the same record if nothing changed. */
+export function noteEchoes(record, flags) {
+  const xc = { ...(record.xc || {}) };
+  let changed = false;
+  for (const [k, v] of Object.entries(flags || {})) {
+    if (k.startsWith("xc_") && xc[k] !== v) { xc[k] = v; changed = true; }
+  }
+  return changed ? { ...record, xc } : record;
+}
+
+/** The starting flags of a new run: the echoes already in the record. */
+export function echoSeed(record) {
+  return { ...(record.xc || {}) };
 }
 
 // ---------- settings ----------
@@ -8834,7 +8925,10 @@ const css = `
   .dg-choice:disabled{cursor:not-allowed;opacity:.45}
   .dg-choice .lab{font-size:15px;margin-bottom:8px}
   .dg-quote{font-style:italic;font-size:13px;color:${THEME.inkSoft}}
-  .dg-choice:hover:not(:disabled) .dg-quote{color:${THEME.paperRaised}}
+  .dg-attested{font-size:13px;margin-top:8px;color:${THEME.inkSoft}}
+  .dg-attested cite{font-style:normal;font-size:12px}
+  .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
+  .dg-choice:hover:not(:disabled) .dg-quote,.dg-choice:hover:not(:disabled) .dg-attested{color:${THEME.paperRaised}}
   .dg-cost{display:inline-block;border:1px solid currentColor;font-size:10px;
     letter-spacing:.14em;padding:3px 7px;margin-bottom:8px}
   .dg-meters{display:flex;gap:14px;border:1.5px solid ${THEME.rule};padding:12px;
@@ -9045,6 +9139,12 @@ function NodeScreen({ campaignId, node, meters, hardState, onChoose, onHome }) {
                   {ch.advisor.name} argues: {ch.advisor.position}
                 </div>
               )}
+              {ch.attested && (
+                <div className="dg-attested">
+                  <span className="dg-attested-tag">On the record</span>{" "}
+                  {ch.attested.by}: “{ch.attested.text}” <cite>— {ch.attested.source}</cite>
+                </div>
+              )}
             </button>
           ))}
         </>
@@ -9093,12 +9193,29 @@ function RecordScreen({ record, onBack }) {
         {record.runs} {record.runs === 1 ? "file" : "files"} closed · {record.hardRuns} in hard mode. Entries open as you play; the record stays in this browser.
       </p>
       <div className="dg-tabs" role="group" aria-label="Record sections">
-        {[["dossiers", "Dossiers"], ["atlas", "Atlas"], ["endings", "Endings"]].map(([id, label]) => (
+        {[["dossiers", "Dossiers"], ["atlas", "Atlas"], ["endings", "Endings"], ["echoes", "Echoes"]].map(([id, label]) => (
           <button key={id} className="dg-btn" aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>
         ))}
       </div>
 
-      {playable.map((cid) => {
+      {tab === "echoes" && (
+        <section>
+          <p className="dg-note">A choice in one command can change what another command faces. Marks are kept here; nothing echoes unless you have departed from the record.</p>
+          {Object.entries(ECHOES).map(([flag, e]) => {
+            const v = (record.xc || {})[flag];
+            return v === undefined ? (
+              <div key={flag} className="dg-entry locked"><span className="meta">{e.label}</span> Not yet set.</div>
+            ) : (
+              <div key={flag} className="dg-entry">
+                <div className="meta">{e.label}</div>
+                <div className="t">{e.values[v] || v}</div>
+                <div className="meta">{v === e.historical ? "As in the record." : "Echoes in: " + e.readBy + ". Set in: " + e.setBy + "."}</div>
+              </div>
+            );
+          })}
+        </section>
+      )}
+      {tab !== "echoes" && playable.map((cid) => {
         const c = CAMPAIGNS[cid];
         if (tab === "dossiers") {
           const met = record.advisers[cid] || [];
@@ -9216,7 +9333,7 @@ export default function App() {
 
   const start = (cid) => {
     setCampaignId(cid);
-    setFlags({});
+    setFlags(echoSeed(record));
     setMeters(emptyMeters());
     setHardState({ ...emptyHardState(), enabled: hardOn });
     setVisited([]);
@@ -9252,6 +9369,7 @@ export default function App() {
   const choose = (ch) => {
     const r = chooseNext(campaignId, ch, flags, meters, hardState);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
+    setRecord((rec) => noteEchoes(rec, r.flags));
     setPending({ ...r, record: historicalNote(node, ch) });
     setScreen(r.outcome ? "outcome" : "node");
     if (!r.outcome) setNodeId(r.nextId);

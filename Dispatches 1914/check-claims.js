@@ -24,7 +24,7 @@ const E = loadEngine(fileArg());
 const dir = path.join(__dirname, "claims");
 const STATUSES = ["drafted", "web-checked", "source-checked", "independent", "disputed"];
 const NEEDS_SOURCE = new Set(["web-checked", "source-checked", "independent"]);
-const KINDS = ["fact", "figure", "position", "characterization"];
+const KINDS = ["fact", "figure", "position", "characterization", "quotation"];
 
 const readJson = (f, fallback) => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")); } catch { return fallback; } };
 const sources = readJson("sources.json", {});

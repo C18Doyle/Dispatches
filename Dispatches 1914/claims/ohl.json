@@ -745,5 +745,14 @@
     "status": "drafted",
     "sources": [],
     "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-quote-1",
+    "node": "ohl_1918_14_blackday",
+    "kind": "quotation",
+    "claim": "Ludendorff on the record: \"the black day of the German Army\" (Ludendorff, My War Memories, on 8 August 1918)",
+    "status": "drafted",
+    "sources": [],
+    "note": "Ludendorff's own wording in his memoirs (Meine Kriegserinnerungen); check the English translation's wording against the German."
   }
 ]

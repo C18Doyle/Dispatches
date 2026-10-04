@@ -281,7 +281,7 @@ CAMPAIGNS.gqg.nodes = {
         advisor: { name: "Gallieni", position:
           "The flank is there now. It will not be there next week, and neither will the initiative." },
         impact: { manpower: -1, munitions: -1, will: 3 },
-        setFlags: { gqg_marne: "attacked" },
+        setFlags: { gqg_marne: "attacked", xc_marne_french: "attacked" },
         dispute:
           "Responsibility for the German halt on the Marne is contested from the other " +
           "side of the hill. One tradition holds that German command control had already " +
@@ -322,7 +322,7 @@ CAMPAIGNS.gqg.nodes = {
         gate: (m) => m.manpower >= -2,
         disabledReason: "There is no line further back that can be held with what is left",
         impact: { manpower: 1, munitions: 0, will: -3 },
-        setFlags: { gqg_marne: "delayed" },
+        setFlags: { gqg_marne: "delayed", xc_marne_french: "delayed" },
         next: "gqg_1914_14_race",
         outcome:
           "Speculative. The withdrawal continues past the Marne and the flank closes. " +
@@ -807,7 +807,7 @@ CAMPAIGNS.gqg.nodes = {
     year: 1917, date: "1917-02-26", city: "Calais",
     title: "The British Under a French General",
     advisors: ["nivelle", "lyautey"],
-    situation:
+    situation: (flags) =>
       "The conference at Calais is ostensibly about the railways that will carry the " +
       "spring offensive. In practice it is about command. Lloyd George, with the " +
       "approval of the British war cabinet, proposes that for the duration of the " +
@@ -815,7 +815,8 @@ CAMPAIGNS.gqg.nodes = {
       "not told Haig or Robertson.\n\n" +
       "Nivelle's plan depends on the British attack at Arras and on a single will " +
       "directing both armies. He has argued for it since taking the command, and the " +
-      "British prime minister is offering it to him.",
+      "British prime minister is offering it to him." +
+      (flags.xc_calais === "refused" ? "\n\nThe British Commander-in-Chief and the Chief of the Imperial General Staff have already told London that they will not serve under a French general, and Nivelle has to settle how far he can go without them." : ""),
     context:
       "A subordination that is carried out against the wishes of the commander subordinated " +
       "does not stay carried out. Whatever is agreed here will be argued over the next day.",
@@ -962,7 +963,8 @@ CAMPAIGNS.gqg.nodes = {
       "in view, so that the army and the Allies see that France still intends to attack. " +
       "The other holds that the army can do no more than attacks with limited " +
       "objectives, where the guns do the work and the infantry stops at what it has " +
-      "taken.",
+      "taken." +
+      (flags.xc_usw === "restricted" ? "\n\nThe Americans are not in the war and will not be, which leaves the recovery of the army to France's own resources alone." : ""),
     context:
       "The remedy for the army has several parts, and leave and the hearing of " +
       "grievances are the part the soldiers will notice. The directive is the part the " +
@@ -1263,8 +1265,10 @@ CAMPAIGNS.gqg.nodes = {
         historical: true,
         advisor: { name: "Foch", position:
           "The two armies must be one instrument or they will be two retreats. I do not need to command them. Somebody does." },
+        attested: { by: "Foch", text: "I would fight in front of Amiens. I would fight in Amiens.",
+          source: "At Doullens, 26 March 1918, as recorded" },
         impact: { manpower: 0, munitions: 0, will: -1 },
-        setFlags: { gqg_command1918: "unified" },
+        setFlags: { gqg_command1918: "unified", xc_command1918: "unified" },
         next: "gqg_1918_13_aisne",
         outcome:
           "Coordinating authority over the Allied armies goes to Foch, and grows into " +
@@ -1281,8 +1285,10 @@ CAMPAIGNS.gqg.nodes = {
           "I will not have French divisions committed to cover a British withdrawal by a man who does not answer to France." },
         gate: (m) => m.will >= -2,
         disabledReason: "The crisis is past the point where coordination by agreement can be defended",
+        attested: { by: "Clemenceau", text: "Je fais la guerre.",
+          source: "Speech to the Chamber, 8 March 1918" },
         impact: { manpower: -2, munitions: 0, will: 1 },
-        setFlags: { gqg_command1918: "national" },
+        setFlags: { gqg_command1918: "national", xc_command1918: "national" },
         erodes: "costly_offensive",
         nextIf: (m) => (m.manpower <= -6 ? "gqg_end_coalitionfails" : null),
         next: "gqg_1918_13_aisne",

@@ -479,5 +479,16 @@
     "status": "drafted",
     "sources": [],
     "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-quote-1",
+    "node": "stavka_1917_14_armistice",
+    "kind": "quotation",
+    "claim": "Dukhonin on the record: \"a government sustained by the army and the country\" (Reply to the Council of People's Commissars, 9 November 1917 (Old Style))",
+    "status": "web-checked",
+    "sources": [
+      "wp-dukhonin"
+    ],
+    "note": "Short attested wording; verify the original text and date before release."
   }
 ]

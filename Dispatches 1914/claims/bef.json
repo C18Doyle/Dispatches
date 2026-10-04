@@ -507,5 +507,50 @@
     "status": "drafted",
     "sources": [],
     "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-quote-1",
+    "node": "bef_1914_02_seine",
+    "kind": "quotation",
+    "claim": "Kitchener on the record: \"an instruction\" (Telegram to the Cabinet, 1 September 1914)",
+    "status": "web-checked",
+    "sources": [
+      "wp-kitchener",
+      "rtgw-kitchener"
+    ],
+    "note": "The word is from Kitchener's telegram to the Cabinet as reported by the sources; check the exact text in the Kitchener papers."
+  },
+  {
+    "id": "bef-quote-2",
+    "node": "bef_1918_19_backs",
+    "kind": "quotation",
+    "claim": "Haig on the record: \"Every position must be held to the last man: there must be no retirement.\" (Special Order of the Day, 11 April 1918)",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": "Short attested wording; verify the original text and date before release."
+  },
+  {
+    "id": "bef-quote-3",
+    "node": "bef_1918_20_hundreddays",
+    "kind": "quotation",
+    "claim": "Haig on the record: \"wretched lot\" (Haig on the War Cabinet, in reply to Wilson, 1 September 1918)",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": "Haig's own words about the Cabinet, as reported by the Role of Haig page from his reply; check against Haig's diary and letters."
+  },
+  {
+    "id": "bef-quote-4",
+    "node": "bef_1918_20_hundreddays",
+    "kind": "quotation",
+    "claim": "Wilson on the record: \"the war cabinet would become anxious\" (Telegram to Haig, 31 August 1918)",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": "Wilson's telegram of 31 August 1918, as quoted by a History Press article; check the full text in the Wilson papers."
   }
 ]

@@ -226,7 +226,8 @@ CAMPAIGNS.ohl.nodes = {
           ? "\n\nBoth corps the east asked for stayed on the right, and the wing is at " +
             "the strength the plan asked for."
           : "") +
-      "\n\nWhat to order is not the difficulty. Knowing what to order is.",
+      "\n\nWhat to order is not the difficulty. Knowing what to order is." +
+      (flags.xc_marne_french === "delayed" ? "\n\nThere is no French attack on the flank. The armies on the left are still withdrawing, and the only pressure on the gap is the one the German armies have made themselves." : ""),
     context:
       "An officer sent forward with oral instructions and the authority of the " +
       "Supreme Command can act on what he finds. He can also close the campaign " +
@@ -437,7 +438,7 @@ CAMPAIGNS.ohl.nodes = {
         advisor: { name: "Falkenhayn", position:
           "An ally that collapses takes the whole eastern front with it. A breakthrough relieves it and costs a fraction of what a campaign in Russia would." },
         impact: { manpower: 0, munitions: -1, will: 1 },
-        setFlags: { ohl_gorlice: "mackensen" },
+        setFlags: { ohl_gorlice: "mackensen", xc_gorlice: "mackensen" },
         next: "ohl_1915_15_serbia",
         outcome:
           "An Eleventh Army is made up under Mackensen and moved to Galicia by rail. The " +
@@ -456,7 +457,7 @@ CAMPAIGNS.ohl.nodes = {
         gate: (m) => m.manpower >= -1,
         disabledReason: "There are not the divisions for both a relief of the ally and an envelopment",
         impact: { manpower: -2, munitions: -1, will: 1 },
-        setFlags: { ohl_gorlice: "envelop" },
+        setFlags: { ohl_gorlice: "envelop", xc_gorlice: "envelop" },
         erodes: "spend_will",
         next: "ohl_1915_15_serbia",
         outcome:
@@ -825,7 +826,7 @@ CAMPAIGNS.ohl.nodes = {
         advisor: { name: "Holtzendorff", position:
           "The tonnage figures are conservative and the timetable holds. Six months is not a hope, it is a calculation." },
         impact: { manpower: 0, munitions: 1, will: 2 },
-        setFlags: { ohl_usw: "unrestricted", ohl_usEntry: "certain" },
+        setFlags: { ohl_usw: "unrestricted", ohl_usEntry: "certain", xc_usw: "unrestricted" },
         next: "ohl_1917_12_alberich",
         outcome:
           "The order is signed on the evening of 9 January and the campaign opens on " +
@@ -842,7 +843,7 @@ CAMPAIGNS.ohl.nodes = {
         impact: { manpower: 0, munitions: -1, will: -2 },
         gate: (m) => m.will >= -1,
         disabledReason: "The Supreme Command no longer has the standing to overrule the naval staff",
-        setFlags: { ohl_usw: "restricted", ohl_usEntry: "deferred" },
+        setFlags: { ohl_usw: "restricted", ohl_usEntry: "deferred", xc_usw: "restricted" },
         erodes: "spend_will",
         next: "ohl_1917_12_alberich",
         outcome:
@@ -1039,7 +1040,7 @@ CAMPAIGNS.ohl.nodes = {
         advisor: { name: "Ludendorff", position:
           "Austria-Hungary has to be kept in the war. A blow on the Isonzo is the cheapest way of doing it." },
         impact: { manpower: 0, munitions: 0, will: 1 },
-        setFlags: { ohl_caporetto: "sent" },
+        setFlags: { ohl_caporetto: "sent", xc_caporetto: "sent" },
         next: "ohl_1918_12_faustschlag",
         outcome:
           "A Fourteenth Army is made up of German and Austro-Hungarian divisions under " +
@@ -1053,7 +1054,7 @@ CAMPAIGNS.ohl.nodes = {
         id: "refuse",
         label: "Send guns and staff officers but no divisions",
         impact: { manpower: 1, munitions: -1, will: 0 },
-        setFlags: { ohl_caporetto: "refused" },
+        setFlags: { ohl_caporetto: "refused", xc_caporetto: "refused" },
         next: "ohl_1918_12_faustschlag",
         outcome:
           "Speculative. Vienna gets the artillery it asked for and not the divisions. " +
@@ -1300,7 +1301,8 @@ CAMPAIGNS.ohl.nodes = {
           "ten weeks that the army has broken a line without being able to end the " +
           "fight.") +
       "\n\nDivisions held back for Flanders have already been sent south to feed the " +
-      "advance.",
+      "advance." +
+      (flags.xc_command1918 === "national" ? "\n\nIntelligence from the other side shows two Allied commands still giving separate orders, and the reserves going where each thinks best, not where the whole front needs them." : ""),
     context:
       "A diversion that succeeds becomes a second main effort, and takes the divisions " +
       "meant for the first. What is spent here cannot be used in Flanders.",
@@ -1424,7 +1426,8 @@ CAMPAIGNS.ohl.nodes = {
           "that should have been resting were holding them.") +
       "\n\nThe Kaiser is at Spa, and the council meets today. The Foreign Secretary is " +
       "there, and so are the two soldiers who spent the spring promising a decision " +
-      "in the west.",
+      "in the west." +
+      (flags.xc_command1918 === "national" ? "\n\nThe attack at Amiens fell on a front where the British and French commands had not been put under one hand, and it shows in how slowly the French reserves came up." : ""),
     context:
       "A command that declares the offensive over has to say what it will do instead. " +
       "One answer is to stand on the defensive and let the country find out why. The " +
@@ -1436,6 +1439,8 @@ CAMPAIGNS.ohl.nodes = {
         historical: true,
         advisor: { name: "Hintze", position:
           "A defensive in the west has to go with an approach to the enemy. The army alone cannot end this." },
+        attested: { by: "Ludendorff", text: "the black day of the German Army",
+          source: "Ludendorff, My War Memories, on 8 August 1918" },
         impact: { manpower: 2, munitions: 0, will: -1 },
         setFlags: { ohl_blackday: "defensive" },
         next: "ohl_1918_11_request",

@@ -303,5 +303,16 @@
     "status": "drafted",
     "sources": [],
     "note": "Written from the sources above and the author's knowledge; check each date and figure."
+  },
+  {
+    "id": "aok-quote-1",
+    "node": "aok_1917_10_sixtus",
+    "kind": "quotation",
+    "claim": "Karl I on the record: \"the just claims of France relating to Alsace-Lorraine\" (Letter to Prince Sixtus of Bourbon-Parma, 24 March 1917 (in translation))",
+    "status": "web-checked",
+    "sources": [
+      "wp-sixtus"
+    ],
+    "note": "Short attested wording; verify the original text and date before release."
   }
 ]

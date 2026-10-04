@@ -130,6 +130,8 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   t("atlas lists decisions reached and not yet reached", /decisions reached/.test(txt()) && txt().includes("Not yet reached."));
   click(byText("Endings")); await wait(40);
   t("endings gallery counts endings found", /\d+ of \d+ endings found/.test(txt()));
+  click(byText("Echoes")); await wait(40);
+  t("the echoes tab lists the marks between commands", txt().includes("Allied command, spring 1918") && txt().includes("Not yet set."));
   click(byText("Return to file")); await wait(60);
   t("the war record is kept in localStorage", !!window.localStorage.getItem("dispatches1914_record_v1"));
 

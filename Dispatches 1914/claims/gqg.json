@@ -735,5 +735,25 @@
     "status": "drafted",
     "sources": [],
     "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-quote-1",
+    "node": "gqg_1918_10_doullens",
+    "kind": "quotation",
+    "claim": "Foch on the record: \"I would fight in front of Amiens. I would fight in Amiens.\" (At Doullens, 26 March 1918, as recorded)",
+    "status": "web-checked",
+    "sources": [
+      "wp-doullens"
+    ],
+    "note": "Quoted in English on the Doullens page; the French original and its witnesses should be checked (Weygand's and Foch's accounts differ in detail)."
+  },
+  {
+    "id": "gqg-quote-2",
+    "node": "gqg_1918_10_doullens",
+    "kind": "quotation",
+    "claim": "Clemenceau on the record: \"Je fais la guerre.\" (Speech to the Chamber, 8 March 1918)",
+    "status": "drafted",
+    "sources": [],
+    "note": "Clemenceau's formula of 'je fais la guerre' is firmly attested; the exact occasion (the speech of 8 March 1918) should be confirmed against the Journal officiel."
   }
 ]

@@ -74,7 +74,10 @@ const css = `
   .dg-choice:disabled{cursor:not-allowed;opacity:.45}
   .dg-choice .lab{font-size:15px;margin-bottom:8px}
   .dg-quote{font-style:italic;font-size:13px;color:${THEME.inkSoft}}
-  .dg-choice:hover:not(:disabled) .dg-quote{color:${THEME.paperRaised}}
+  .dg-attested{font-size:13px;margin-top:8px;color:${THEME.inkSoft}}
+  .dg-attested cite{font-style:normal;font-size:12px}
+  .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
+  .dg-choice:hover:not(:disabled) .dg-quote,.dg-choice:hover:not(:disabled) .dg-attested{color:${THEME.paperRaised}}
   .dg-cost{display:inline-block;border:1px solid currentColor;font-size:10px;
     letter-spacing:.14em;padding:3px 7px;margin-bottom:8px}
   .dg-meters{display:flex;gap:14px;border:1.5px solid ${THEME.rule};padding:12px;
@@ -285,6 +288,12 @@ function NodeScreen({ campaignId, node, meters, hardState, onChoose, onHome }) {
                   {ch.advisor.name} argues: {ch.advisor.position}
                 </div>
               )}
+              {ch.attested && (
+                <div className="dg-attested">
+                  <span className="dg-attested-tag">On the record</span>{" "}
+                  {ch.attested.by}: “{ch.attested.text}” <cite>— {ch.attested.source}</cite>
+                </div>
+              )}
             </button>
           ))}
         </>
@@ -333,12 +342,29 @@ function RecordScreen({ record, onBack }) {
         {record.runs} {record.runs === 1 ? "file" : "files"} closed · {record.hardRuns} in hard mode. Entries open as you play; the record stays in this browser.
       </p>
       <div className="dg-tabs" role="group" aria-label="Record sections">
-        {[["dossiers", "Dossiers"], ["atlas", "Atlas"], ["endings", "Endings"]].map(([id, label]) => (
+        {[["dossiers", "Dossiers"], ["atlas", "Atlas"], ["endings", "Endings"], ["echoes", "Echoes"]].map(([id, label]) => (
           <button key={id} className="dg-btn" aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>
         ))}
       </div>
 
-      {playable.map((cid) => {
+      {tab === "echoes" && (
+        <section>
+          <p className="dg-note">A choice in one command can change what another command faces. Marks are kept here; nothing echoes unless you have departed from the record.</p>
+          {Object.entries(ECHOES).map(([flag, e]) => {
+            const v = (record.xc || {})[flag];
+            return v === undefined ? (
+              <div key={flag} className="dg-entry locked"><span className="meta">{e.label}</span> Not yet set.</div>
+            ) : (
+              <div key={flag} className="dg-entry">
+                <div className="meta">{e.label}</div>
+                <div className="t">{e.values[v] || v}</div>
+                <div className="meta">{v === e.historical ? "As in the record." : "Echoes in: " + e.readBy + ". Set in: " + e.setBy + "."}</div>
+              </div>
+            );
+          })}
+        </section>
+      )}
+      {tab !== "echoes" && playable.map((cid) => {
         const c = CAMPAIGNS[cid];
         if (tab === "dossiers") {
           const met = record.advisers[cid] || [];
@@ -456,7 +482,7 @@ export default function App() {
 
   const start = (cid) => {
     setCampaignId(cid);
-    setFlags({});
+    setFlags(echoSeed(record));
     setMeters(emptyMeters());
     setHardState({ ...emptyHardState(), enabled: hardOn });
     setVisited([]);
@@ -492,6 +518,7 @@ export default function App() {
   const choose = (ch) => {
     const r = chooseNext(campaignId, ch, flags, meters, hardState);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
+    setRecord((rec) => noteEchoes(rec, r.flags));
     setPending({ ...r, record: historicalNote(node, ch) });
     setScreen(r.outcome ? "outcome" : "node");
     if (!r.outcome) setNodeId(r.nextId);

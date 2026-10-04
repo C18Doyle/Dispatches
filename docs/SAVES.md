@@ -32,6 +32,9 @@ losing them costs a counter, not a run.)
    no player holds that save, so a deliberate change that alters the page (1914's erosion track length, in 1.1.0) may
    re-record it. Say so in the CHANGELOG. From the first release that ships saves, the fixtures are frozen.
 
+## Echoes in the war record (1914)
+The 1914 war record carries `xc: { flag: value }`, the `xc_` flags a run has set; they seed the next run's starting flags. A record without the field loads as before (the field defaults to empty), so no schema bump was needed. A new echo must be registered in `ECHOES` (src/58-persistence.jsx), written by a choice with its historical value, and read only for a departure from the record: `npm run smoke` checks all three.
+
 ## The tests that enforce it
 - 1914: `npm run test:saves` (six saved files, every campaign in both modes) and `npm run test:migration`, same as 1922; the helper is in `src/58-persistence.jsx`.
 - Frankenstein: `npm run test:saves` replays the committed saves through `parseRunSave` and plays each on to an
