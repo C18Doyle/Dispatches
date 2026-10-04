@@ -5,7 +5,7 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
-## Unreleased
+## 1.1.0 (2026-10-04)
 ### Content: the German Supreme Command, 1914-1918, from 11 decisions to 23
 - Twelve new decisions, each tied to a dated, sourced event: the two corps sent to East Prussia (25 Aug 1914), Ypres and the Channel ports (Nov 1914), Gorlice or a wide envelopment (Apr 1915), the Serbian campaign (Sep 1915), the Somme "no ground to give" order (Jul 1916), the Hindenburg Programme (Aug 1916), the retirement to the Siegfried Line and what to leave behind (Feb 1917), help for Vienna at Caporetto (Sep 1917), the Bad Homburg council and the Russian declaration (Feb 1918), the Aisne offensive past the Vesle (May 1918), the Black Day and the Spa council (Aug 1918) and the reply to Wilson's third note (Oct 1918).
 - Earlier choices now shape later scenes: the two corps and the Marne, the Russian declaration and the Brest-Litovsk settlement, the Aisne salient and July.
