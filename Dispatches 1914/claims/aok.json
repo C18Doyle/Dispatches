@@ -1,0 +1,307 @@
+[
+  {
+    "id": "aok-serbia-1",
+    "node": "aok_1914_01_serbia",
+    "kind": "fact",
+    "claim": "On 12 August 1914 Conrad sent 460,000 men into Serbia; the B-Staffel swing force was redeployed to the Russian front after ten days of inactivity; the invasions of Serbia failed.",
+    "status": "web-checked",
+    "sources": [
+      "wp-conrad"
+    ],
+    "note": "RESEARCH GATE: the spine's sourcing was checked on web sources on 2026-10-04 (this claim's sources); a specialist source (Herwig, Rothenberg, Tunstall) is still wanted for the independent fact-check."
+  },
+  {
+    "id": "aok-serbia-2",
+    "node": "aok_1914_01_serbia",
+    "kind": "fact",
+    "claim": "The deployment divided the army into a Minimal Balkan Group, a Galician group and the swing force (A- and B-Staffel); Russia began general mobilisation on 30 July 1914.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Standard account; cite Tunstall, Planning for War against Russia and Serbia."
+  },
+  {
+    "id": "aok-serbia-3",
+    "node": "aok_1914_01_serbia",
+    "kind": "position",
+    "claim": "Potiorek's and Tisza's positions are characterized as: Serbia must be finished quickly / the danger is Russia.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterizations, not quotations."
+  },
+  {
+    "id": "aok-recall-1",
+    "node": "aok_1914_02_recall",
+    "kind": "fact",
+    "claim": "The Second Army was recalled from Serbia to Galicia but arrived too late for the first battles.",
+    "status": "web-checked",
+    "sources": [
+      "wp-galicia"
+    ],
+    "note": "RESEARCH GATE: the spine's sourcing was checked on web sources on 2026-10-04 (this claim's sources); a specialist source (Herwig, Rothenberg, Tunstall) is still wanted for the independent fact-check."
+  },
+  {
+    "id": "aok-recall-2",
+    "node": "aok_1914_02_recall",
+    "kind": "fact",
+    "claim": "The recall order was given about 18 August 1914.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Date not given on the web sources used; confirm."
+  },
+  {
+    "id": "aok-recall-3",
+    "node": "aok_1914_02_recall",
+    "kind": "fact",
+    "claim": "AOK was at Przemyśl in August 1914.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dateline check."
+  },
+  {
+    "id": "aok-galicia-1",
+    "node": "aok_1914_03_galicia",
+    "kind": "fact",
+    "claim": "Conrad concentrated the First, Third and Fourth Armies in Galicia on a 280 km front with about 950,000 men; the Battle of Galicia ran 23 August to 11 September 1914; Austro-Hungarian wins at Krasnik (6,000 prisoners) and Komarow (20,000), then the defeat at Gnila Lipa and the loss of Lemberg; the army fell back toward the Carpathians.",
+    "status": "web-checked",
+    "sources": [
+      "wp-galicia"
+    ],
+    "note": "RESEARCH GATE: the spine's sourcing was checked on web sources on 2026-10-04 (this claim's sources); a specialist source (Herwig, Rothenberg, Tunstall) is still wanted for the independent fact-check."
+  },
+  {
+    "id": "aok-galicia-2",
+    "node": "aok_1914_03_galicia",
+    "kind": "figure",
+    "claim": "Casualty estimates differ: Herwig 100,000 dead, 220,000 wounded and 100,000 captured; Buttar 324,000 including 130,000 prisoners.",
+    "status": "web-checked",
+    "sources": [
+      "wp-galicia"
+    ],
+    "note": "The node's dispute text summarises these as 'about 420,000' and '324,000'."
+  },
+  {
+    "id": "aok-carpath-1",
+    "node": "aok_1915_04_carpathians",
+    "kind": "fact",
+    "claim": "Przemyśl was besieged from September 1914 with a garrison of about 127,000 soldiers and 18,000 civilians and surrendered on 22 March 1915 (about 117,000 men); Austro-Hungarian casualties in the Carpathians January to April 1915 were officially 800,000, mostly from weather and disease.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl-aok",
+      "wp-conrad"
+    ],
+    "note": "RESEARCH GATE: the spine's sourcing was checked on web sources on 2026-10-04 (this claim's sources); a specialist source (Herwig, Rothenberg, Tunstall) is still wanted for the independent fact-check."
+  },
+  {
+    "id": "aok-carpath-2",
+    "node": "aok_1915_04_carpathians",
+    "kind": "fact",
+    "claim": "AOK was at Teschen from the winter of 1914-15.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dateline check."
+  },
+  {
+    "id": "aok-gorlice-1",
+    "node": "aok_1915_05_gorlice",
+    "kind": "fact",
+    "claim": "Falkenhayn conceived the Gorlice-Tarnów offensive in April 1915 after Conrad threatened a separate peace unless relieved; Mackensen led the new German Eleventh Army and the Austro-Hungarian Fourth Army was subordinated to it; the offensive opened on 2 May; 60,000 prisoners by 6 May; Lemberg retaken 22 June.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gorlice"
+    ],
+    "note": "RESEARCH GATE: the spine's sourcing was checked on web sources on 2026-10-04 (this claim's sources); a specialist source (Herwig, Rothenberg, Tunstall) is still wanted for the independent fact-check."
+  },
+  {
+    "id": "aok-gorlice-2",
+    "node": "aok_1915_05_gorlice",
+    "kind": "fact",
+    "claim": "By spring 1915 half of the Austro-Hungarian army that entered the war had been casualties.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gorlice"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-isonzo-1",
+    "node": "aok_1915_06_isonzo",
+    "kind": "fact",
+    "claim": "Italy declared war on Austria-Hungary on 23 May 1915 after months of negotiation; Boroević commanded on the Isonzo; there were eleven Isonzo battles before the autumn of 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely stated; the Isonzo count appears in the OHL Caporetto claims; Boroević's command needs a source."
+  },
+  {
+    "id": "aok-isonzo-2",
+    "node": "aok_1915_06_isonzo",
+    "kind": "position",
+    "claim": "Conrad's long-held wish for a war with Italy.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely stated (Conrad advocated preventive war against Italy repeatedly before 1914); cite Herwig or Rothenberg."
+  },
+  {
+    "id": "aok-strafe-1",
+    "node": "aok_1916_07_strafe",
+    "kind": "fact",
+    "claim": "Conrad asked for German support for the Trentino offensive; Falkenhayn refused; the offensive opened on 15 May 1916 with 2,000 guns on a 50 km front; Conrad moved six to eight of his best divisions and mountain artillery from Galicia.",
+    "status": "web-checked",
+    "sources": [
+      "wp-asiago"
+    ],
+    "note": "From a web-search summary of this page and Mental Floss/Tunstall; Verdun context is Falkenhayn's attack of 21 February."
+  },
+  {
+    "id": "aok-brusilov-1",
+    "node": "aok_1916_08_brusilov",
+    "kind": "fact",
+    "claim": "The Russians attacked on 4 June 1916; in ten days they drove a wedge 90 km wide and 60 deep and took 133,600 prisoners; Conrad halted the Trentino offensive on 16 June and sent forces back to Galicia.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov",
+      "wp-asiago"
+    ],
+    "note": "From web-search summaries."
+  },
+  {
+    "id": "aok-supreme-1",
+    "node": "aok_1916_09_supreme",
+    "kind": "fact",
+    "claim": "Austria-Hungary agreed on 3 September 1916 to a Supreme War Command under the German Emperor; Bulgaria and the Ottoman Empire agreed on 6 September; it was established on 7 September at the request of Hindenburg and Ludendorff, who took the German command on 29 August.",
+    "status": "web-checked",
+    "sources": [
+      "wp-swc-central"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-sixtus-1",
+    "node": "aok_1917_10_sixtus",
+    "kind": "fact",
+    "claim": "Karl succeeded on 21 November 1916 and assumed the supreme command on 2 December; Conrad was dismissed on 1 March 1917 and Arz became Chief of the General Staff; Karl wrote to Poincaré on 24 March 1917 through Prince Sixtus of Bourbon-Parma supporting France's just claim to Alsace-Lorraine; Clemenceau published a letter in April 1918, Karl denied it and Czernin resigned.",
+    "status": "web-checked",
+    "sources": [
+      "wp-karl",
+      "wp-conrad",
+      "wp-arz",
+      "wp-sixtus"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-sixtus-2",
+    "node": "aok_1917_10_sixtus",
+    "kind": "fact",
+    "claim": "Czernin was Foreign Minister from 22 December 1916 to 14 April 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Confirm exact dates."
+  },
+  {
+    "id": "aok-sixtus-3",
+    "node": "aok_1917_10_sixtus",
+    "kind": "fact",
+    "claim": "AOK was at Baden from early 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dateline check."
+  },
+  {
+    "id": "aok-caporetto-1",
+    "node": "aok_1917_11_caporetto",
+    "kind": "fact",
+    "claim": "After eleven Isonzo battles the Emperor asked Berlin for help; Ludendorff judged six to eight divisions could be spared; a Fourteenth Army under Otto von Below attacked on 24 October 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See claims/ohl.json (ohl-caporetto-1), web-checked there."
+  },
+  {
+    "id": "aok-piave-1",
+    "node": "aok_1918_12_piave",
+    "kind": "fact",
+    "claim": "Karl approved the plan after a meeting at Bolzano in February 1918, with Ludendorff recommending it; Conrad's thrust (Asiago) and Boroević's (Piave) could not be reconciled, and Arz and Karl divided the forces equally; the offensive began at 3 a.m. on 15 June 1918; the Italian command bombarded at 2.30 a.m.; Austro-Hungarian losses 118,042 (11,643 dead), Italian 87,181; Karl ordered the retreat on 20 June; by 23 June the Italians had recovered all territory; Conrad was dismissed on 15 July.",
+    "status": "web-checked",
+    "sources": [
+      "wp-piave2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-piave-2",
+    "node": "aok_1918_12_piave",
+    "kind": "fact",
+    "claim": "Arz accepted responsibility for the failure and offered his resignation, which the Emperor refused.",
+    "status": "web-checked",
+    "sources": [
+      "wp-arz"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-vittorio-1",
+    "node": "aok_1918_13_vittorio",
+    "kind": "fact",
+    "claim": "The Emperor's proclamation of 16 October 1918 turned Austria into a federal union; the Italian attack began on 24 October; Boroević's counter-attack of 27 October failed because his troops refused orders; the high command ordered a general retreat on 28 October; the Armistice of Villa Giusti was signed on 3 November at 15:20, effective 24 hours later; Italy took 448,000 prisoners (about a third of the army), 24 generals, 5,600 guns; Arz resigned on 3 November.",
+    "status": "web-checked",
+    "sources": [
+      "wp-vittorio",
+      "wp-karl",
+      "wp-arz"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-epilogue-1",
+    "node": "aok_end_dissolution",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Armistice effective 4 November 1918; about 448,000 prisoners and 5,600 guns taken by Italy; Karl's proclamation of 11 November without the word abdication; successor states Austria, Hungary, Czechoslovakia and the Kingdom of Serbs, Croats and Slovenes.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the sources above and the author's knowledge; check each date and figure."
+  },
+  {
+    "id": "aok-epilogue-2",
+    "node": "aok_end_separate",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Karl's letter of 24 March 1917; negotiations through the spring stalled over concessions to Italy; the army fought until October 1918; Clemenceau published the letters in April 1918 and Czernin resigned.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the sources above and the author's knowledge; check each date and figure."
+  },
+  {
+    "id": "aok-epilogue-3",
+    "node": "aok_end_satellite",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Dependence on Germany grew from Gorlice (May 1915) through the Supreme War Command (September 1916) and the German-commanded Fourteenth Army at Caporetto (October 1917); the Germans had no reserve to give in October 1918 and sought an armistice in early November.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the sources above and the author's knowledge; check each date and figure."
+  },
+  {
+    "id": "aok-epilogue-4",
+    "node": "aok_end_galiciafirst",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': The Second Army went to Serbia and was recalled, reaching Galicia too late; heavy losses in the first six months; the dividing of the army between the two campaigns is commonly called the monarchy's original mistake.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the sources above and the author's knowledge; check each date and figure."
+  },
+  {
+    "id": "aok-epilogue-5",
+    "node": "aok_end_piave",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Offensive of June 1918: Italian bombardment at 2.30 a.m., 118,042 Austro-Hungarian and 87,181 Italian losses; retreat ordered 20 June; territory recovered by 23 June; the failure damaged morale and cohesion.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the sources above and the author's knowledge; check each date and figure."
+  },
+  {
+    "id": "aok-epilogue-6",
+    "node": "aok_end_relieved",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Arz stayed as Chief of the General Staff until 3 November 1918 after his offer of resignation was refused; Conrad dismissed 15 July 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the sources above and the author's knowledge; check each date and figure."
+  }
+]

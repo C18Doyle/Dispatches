@@ -238,5 +238,60 @@
     "title": "Tanks at Flers (The Tank Museum)",
     "kind": "web (museum)",
     "url": "https://tankmuseum.org/article/tanks-at-flers/"
+  },
+  "wp-conrad": {
+    "title": "Franz Conrad von Hötzendorf",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Franz_Conrad_von_H%C3%B6tzendorf"
+  },
+  "wp-galicia": {
+    "title": "Battle of Galicia",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Galicia"
+  },
+  "wp-karl": {
+    "title": "Charles I of Austria",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Karl_I_of_Austria"
+  },
+  "wp-vittorio": {
+    "title": "Battle of Vittorio Veneto",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Vittorio_Veneto"
+  },
+  "wp-piave2": {
+    "title": "Second Battle of the Piave River",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Second_Battle_of_the_Piave_River"
+  },
+  "wp-gorlice": {
+    "title": "Gorlice-Tarnów offensive",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Gorlice%E2%80%93Tarn%C3%B3w_offensive"
+  },
+  "wp-arz": {
+    "title": "Arthur Arz von Straußenburg",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Arthur_Arz_von_Straussenburg"
+  },
+  "wp-swc-central": {
+    "title": "Supreme War Command",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Supreme_War_Command"
+  },
+  "wp-sixtus": {
+    "title": "Sixtus Affair",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Sixtus_Affair"
+  },
+  "wp-asiago": {
+    "title": "Battle of Asiago",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Asiago"
+  },
+  "wp-przemysl-aok": {
+    "title": "Siege of Przemyśl",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Siege_of_Przemy%C5%9Bl"
   }
 }

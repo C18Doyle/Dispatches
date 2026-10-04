@@ -1,0 +1,15 @@
+{
+ "id": "aok-hard",
+ "seed": 1,
+ "storage": {
+  "dispatches1914_settings_v1": "{\"schemaVersion\":1,\"textSize\":\"s\"}",
+  "dispatches1914_record_v1": "{\"schemaVersion\":1,\"nodes\":{\"aok\":[\"aok_1914_01_serbia\",\"aok_1914_02_recall\",\"aok_1914_03_galicia\",\"aok_1915_04_carpathians\",\"aok_1915_05_gorlice\"]},\"advisers\":{\"aok\":[\"conrad\",\"potiorek\",\"tisza\",\"friedrich\"]},\"endings\":[],\"runs\":0,\"hardRuns\":0}",
+  "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"aok\",\"nodeId\":\"aok_1915_05_gorlice\",\"flags\":{\"aok_serbia\":\"first\",\"aok_recall\":\"recalled\",\"aok_galicia\":\"defensive\",\"aok_carpathians\":\"held\"},\"meters\":{\"manpower\":1,\"munitions\":1,\"will\":-4},\"hardState\":{\"enabled\":true,\"erosion\":0},\"visited\":[\"aok_1914_01_serbia\",\"aok_1914_02_recall\",\"aok_1914_03_galicia\",\"aok_1915_04_carpathians\",\"aok_1915_05_gorlice\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791149831623}"
+ },
+ "expect": {
+  "menuHash": "LhI82_dg:920",
+  "resumeControl": "Resume file",
+  "afterResumeHash": "7L-XPZNo:1444",
+  "errors": []
+ }
+}
