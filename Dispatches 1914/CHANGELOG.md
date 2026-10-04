@@ -24,7 +24,13 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 - Text size setting (Standard, Larger, Largest).
 - Accessibility: a main landmark and heading structure on every screen, focus outlines, button states announced.
 - `check-anachronisms.js`: titles, ranks, state names and terms checked against each node's date (a Marshal's baton before it was conferred, "Soviet" before 1917, a state before it existed). Part of `npm run validate`, which is now in `npm test`.
-- Tests: six saved-file fixtures and a migration helper test (docs/SAVES.md), 24 recorded hard-mode playthroughs, and render checks for all of the above.
+- Tests: six saved-file fixtures and a migration helper test (docs/SAVES.md), 24 recorded hard-mode playthroughs (four of them end on screens whose line-break fix, from 1.0.1, is listed in tests/baseline/known-diffs.json), and render checks for all of the above.
+
+## 1.0.1 (2026-10-04)
+### Fixed
+- Seven ending screens of the German OHL campaign (the home front collapsing first, the front giving way, fighting on into 1919, an early negotiation, worse terms, an army that still exists, the east held and the west lost) showed the characters "\\n\\n" in the middle of their text instead of a paragraph break. The text is now broken into paragraphs as written.
+### Added
+- `check-text-integrity.js`, part of the validator suite: finds literal escape sequences, "undefined" or "NaN" interpolated into prose, doubled spaces and unclosed quotes in every string of every node. Run against 1.0.0 it reports exactly the seven endings above.
 
 ## 1.0.0 (2026-10-03): first public release
 ### Playable
