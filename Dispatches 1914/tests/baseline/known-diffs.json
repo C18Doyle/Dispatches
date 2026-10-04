@@ -1,0 +1,38 @@
+{
+  "ohl-hard-1": {
+    "firstDiff": 22,
+    "reason": "Ending screen: seven OHL endings showed a literal backslash-n where a paragraph break was meant (1.0.0 bug); the text now breaks into paragraphs."
+  },
+  "ohl-hard-5": {
+    "firstDiff": 22,
+    "reason": "Ending screen: seven OHL endings showed a literal backslash-n where a paragraph break was meant (1.0.0 bug); the text now breaks into paragraphs."
+  },
+  "ohl-hard-6": {
+    "firstDiff": 22,
+    "reason": "Ending screen: seven OHL endings showed a literal backslash-n where a paragraph break was meant (1.0.0 bug); the text now breaks into paragraphs."
+  },
+  "ohl-hard-7": {
+    "firstDiff": 22,
+    "reason": "Ending screen: seven OHL endings showed a literal backslash-n where a paragraph break was meant (1.0.0 bug); the text now breaks into paragraphs."
+  },
+  "ohl-open-1": {
+    "firstDiff": 22,
+    "reason": "Ending screen: seven OHL endings showed a literal backslash-n where a paragraph break was meant (1.0.0 bug); the text now breaks into paragraphs."
+  },
+  "ohl-open-2": {
+    "firstDiff": 22,
+    "reason": "Ending screen: seven OHL endings showed a literal backslash-n where a paragraph break was meant (1.0.0 bug); the text now breaks into paragraphs."
+  },
+  "ohl-open-5": {
+    "firstDiff": 22,
+    "reason": "Ending screen: seven OHL endings showed a literal backslash-n where a paragraph break was meant (1.0.0 bug); the text now breaks into paragraphs."
+  },
+  "ohl-open-6": {
+    "firstDiff": 22,
+    "reason": "Ending screen: seven OHL endings showed a literal backslash-n where a paragraph break was meant (1.0.0 bug); the text now breaks into paragraphs."
+  },
+  "ohl-open-7": {
+    "firstDiff": 22,
+    "reason": "Ending screen: seven OHL endings showed a literal backslash-n where a paragraph break was meant (1.0.0 bug); the text now breaks into paragraphs."
+  }
+}
