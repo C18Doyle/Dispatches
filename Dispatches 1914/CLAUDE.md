@@ -204,3 +204,6 @@ is a change to that object, not to components.
 - After any change run `npm run test:fast`. When `verify:baseline` fails: if it is a bug you introduced, fix the code; if the change is intended, read the reported differences, run `npm run baseline:accept`, and commit the new baseline together with the change and a line in `CHANGELOG.md`. A fix of a legacy bug that the old build got wrong goes in `tests/baseline/known-diffs.json` instead (first differing step plus a one-line reason).
 - Saves: `src/58-persistence.jsx` holds the saved run, the war record and settings (localStorage, guarded; memory fallback). Rules for changing them: `../docs/SAVES.md` (`NODE_ALIASES`, `SAVE_MIGRATIONS`, `migrateSave`). `npm run test:saves` replays six committed saved files (every campaign, both modes); `npm run test:migration` tests the helper.
 - Real-browser check (from the repo root, after building): `npm run smoke:browser`. Known layout findings are listed in `tests/browser-allowlist.json`.
+
+## Validators
+`npm run validate` (= `bash validate.sh`) runs every validator and is part of `npm test`. `check-anachronisms.js` has a table of rules, each stating the fact it relies on (add a rule only for a fact you are certain of); ERROR findings fail, REVIEW findings are printed for a human. `check-dates.js` only fails on the Ottoman research gate once that campaign has nodes.

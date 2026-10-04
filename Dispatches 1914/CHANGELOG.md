@@ -13,6 +13,7 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 - The historical record on every outcome screen: whether the order was the one the command gave (or what the historical command chose instead), and, where a roll stands for a real disagreement between historians, the dispute as written.
 - Text size setting (Standard, Larger, Largest).
 - Accessibility: a main landmark and heading structure on every screen, focus outlines, button states announced.
+- `check-anachronisms.js`: titles, ranks, state names and terms checked against each node's date (a Marshal's baton before it was conferred, "Soviet" before 1917, a state before it existed). Part of `npm run validate`, which is now in `npm test`.
 - Tests: six saved-file fixtures and a migration helper test (docs/SAVES.md), 24 recorded hard-mode playthroughs, and render checks for all of the above.
 
 ## 1.0.0 (2026-10-03): first public release

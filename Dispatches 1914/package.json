@@ -9,7 +9,7 @@
     "render": "node render-test.js",
     "roundtrip": "node roundtrip-test.mjs",
     "verify:baseline": "node ../packages/testkit/src/cli.mjs verify",
-    "test": "npm run build && npm run smoke && npm run render && npm run roundtrip && npm run verify:baseline && npm run test:migration && npm run test:saves",
+    "test": "npm run build && npm run smoke && npm run render && npm run roundtrip && npm run validate && npm run verify:baseline && npm run test:migration && npm run test:saves",
     "test:fast": "npm test && npm run check:orphans",
     "release": "node ../packages/testkit/src/release.mjs",
     "baseline:accept": "node ../packages/testkit/src/cli.mjs accept",
