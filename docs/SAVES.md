@@ -9,7 +9,7 @@ silently strand or crash those runs. These rules keep updates safe.
 | Frankenstein | `frankenstein_run_save_v2` | the whole engine `GameState`, on every change |
 | 1922 | `dispatches1922_save_v1` | one run snapshot (campaign, node, meters, flags, visited nodes, hard-mode state) |
 | 1941 | `ww2-command-active` | one run (campaign, position, flags, meters, log, visited, history, rewinds) |
-| 1914 | none | nothing is written to localStorage during a run |
+| 1914 | `dispatches1914_save_v1` | one run (campaign, node, flags, meters, hard-mode state, visited nodes, a pending outcome screen); `dispatches1914_record_v1` is the war record (nodes, advisers, endings seen) and `dispatches1914_settings_v1` the text size |
 | 1940 | `ww2-command-active`, `ww2-command-record` | one run and the war record, through `window.storage` backed by localStorage (the shim was missing until 2026-10, so nothing persisted on itch.io or Windows) |
 
 (Also stored per game, never as a run: settings, discovered nodes and endings, the war record. Those are bookkeeping;
@@ -30,13 +30,14 @@ losing them costs a counter, not a run.)
    builds; they must keep loading. Add new fixtures; do not replace old ones.
 
 ## The tests that enforce it
+- 1914: `npm run test:saves` (six saved files, every campaign in both modes) and `npm run test:migration`, same as 1922; the helper is in `src/58-persistence.jsx`.
 - Frankenstein: `npm run test:saves` replays the committed saves through `parseRunSave` and plays each on to an
   ending, and tests the versioning rules (legacy load, round trip, newer version refused, migration chain, aliases,
   missing step refused).
 - 1922, 1940 and 1941: `npm run test:saves` loads the committed saves into the built game in a headless browser, presses
   RESUME and requires the same screen as when they were recorded; `npm run test:migration` runs the real
   `migrateSave` helper with test tables (steps in order, aliases applied, newer/unversioned/missing-step refused).
-- If a game gains saves (1914 has none), copy the 1922 pattern: version field, `NODE_ALIASES`,
+- If a game gains saves (1914 gained saves in 1.1.0), copy the 1922 pattern: version field, `NODE_ALIASES`,
   `SAVE_MIGRATIONS`, `migrateSave`, a `tests/saves` fixture and `tests/migration.test.mjs`.
 
 ## Worked example: renaming a node in 1941

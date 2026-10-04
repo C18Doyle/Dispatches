@@ -34,3 +34,25 @@ export function walkSpine(campaignId, startId) {
   }
   return { path };
 }
+
+/**
+ * What the player is told, after an order, about the historical record. Pure data in, text out.
+ * - The order the command really gave is marked `historical: true` on the node (exactly one per node).
+ * - A choice whose roll represents a real disagreement carries a `dispute` (spec §13.6): it is shown as written.
+ * Returns null on an ending node. Used by the outcome screen and by smoke.js.
+ */
+export function historicalNote(node, choice) {
+  if (!node || !choice || node.ending) return null;
+  const hist = (node.choices ?? []).find((c) => c.historical);
+  if (!hist) return null;
+  const parts = [];
+  if (choice.historical) {
+    parts.push("The command gave this order.");
+  } else {
+    parts.push(`The command did not give this order. The historical command chose: ${hist.label.replace(/[.!?]+$/, "")}.`);
+  }
+  if (choice.dispute) {
+    parts.push(`Where the record divides.\n${choice.dispute}`);
+  }
+  return { historical: Boolean(choice.historical), historicalLabel: hist.label, dispute: choice.dispute ?? null, text: parts.join("\n\n") };
+}

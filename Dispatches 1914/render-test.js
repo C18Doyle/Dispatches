@@ -9,7 +9,7 @@ global.navigator = window.navigator; global.self = window;
 global.HTMLElement = window.HTMLElement; global.Element = window.Element;
 global.MessageChannel = window.MessageChannel;
 global.requestAnimationFrame = (cb) => setTimeout(cb, 0);
-global.IS_REACT_ACT_ENVIRONMENT = true;
+global.IS_REACT_ACT_ENVIRONMENT = false; // state is set from effects (saving, the war record); the test waits instead of wrapping in act()
 
 let fail = 0;
 const t = (n, c) => { console.log(`  ${c ? "ok  " : "FAIL"} ${n}`); if (!c) fail++; };
@@ -60,6 +60,9 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
 
   const c2 = btns().find(b => b.textContent.includes("Send Hentsch forward"));
   click(c2); await wait(60);
+  t("the outcome offers the historical record", txt().includes("THE HISTORICAL RECORD"));
+  t("a historical order is marked as such", txt().includes("The command gave this order."));
+  t("a contested roll shows where the record divides", txt().includes("Where the record divides.") && txt().includes("Historians divide on where responsibility for the Marne withdrawal lies"));
   const cont2 = btns().find(b => b.textContent.trim() === "Continue");
   click(cont2); await wait(60);
 
@@ -87,6 +90,52 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   t("Julian calendar stated on the card", true);
   t("Stavka uses its own will label", txt().includes("HOME STABILITY"));
   t("Stavka uses its own document treatment", txt().includes("SVODKA"));
+
+
+  // ---- v1.1: saved file, hard mode switch, war record, settings -------------------------------------------
+  const byText = (x) => btns().find((b) => b.textContent.trim() === x);
+  const byIncludes = (x) => btns().find((b) => b.textContent.includes(x));
+  // Stavka is in progress: going Home offers it back.
+  click(byText("Home")); await wait(60);
+  t("a run in progress is offered back as a saved file", txt().includes("File in progress") && txt().includes("Russian Stavka"));
+  t("the saved file survives in localStorage", !!window.localStorage.getItem("dispatches1914_save_v1"));
+  click(byText("Resume file")); await wait(60);
+  t("Resume file returns to the node the run was on", txt().includes("Before the Concentration"));
+  click(byText("Home")); await wait(60);
+
+  // Hard mode switch.
+  t("the menu has a Standard / Hard mode switch", !!byText("Standard") && !!byText("Hard mode"));
+  click(byText("Hard mode")); await wait(40);
+  t("hard mode shows each command's pressure on its card", txt().includes("Hard mode: The war effort consuming the country that sustains it."));
+  click(byIncludes("Oberste")); await wait(60);
+  t("a hard-mode run shows the erosion track", txt().includes("HARD MODE") && txt().includes("EROSION 0/"));
+  click(byText("Home")); await wait(60);
+  click(byText("Standard")); await wait(40);
+  click(byIncludes("Oberste")); await wait(60);
+  t("a standard run shows no erosion track", !txt().includes("EROSION"));
+  click(byText("Home")); await wait(60);
+
+  // War record.
+  click(byIncludes("WAR RECORD")); await wait(60);
+  t("the war record opens", txt().includes("WAR RECORD") && txt().includes("Dossiers") && txt().includes("Atlas") && txt().includes("Endings"));
+  t("dossiers opened by advisers met in play", /[1-9]\d* of \d+ dossiers open/.test(txt()));
+  t("dossiers not yet met stay closed", txt().includes("File closed."));
+  click(byText("Atlas")); await wait(40);
+  t("atlas lists decisions reached and not yet reached", /decisions reached/.test(txt()) && txt().includes("Not yet reached."));
+  click(byText("Endings")); await wait(40);
+  t("endings gallery counts endings found", /\d+ of \d+ endings found/.test(txt()));
+  click(byText("Return to file")); await wait(60);
+  t("the war record is kept in localStorage", !!window.localStorage.getItem("dispatches1914_record_v1"));
+
+  // Settings: text size.
+  click(byText("Larger")); await wait(40);
+  t("text size changes the page scale class", !!document.querySelector(".dg-fs-m"));
+  t("text size is stored", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"m"'));
+  click(byText("Standard")); await wait(40);
+
+  // Landmarks and headings.
+  t("every screen has a main landmark", document.querySelectorAll("main").length === 1);
+  t("the menu has a level-one heading", document.querySelectorAll("h1").length === 1);
 
   console.log(`render-test: ${fail} failure${fail===1?"":"s"}`);
   process.exit(fail ? 1 : 0);

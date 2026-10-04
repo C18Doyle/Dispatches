@@ -1,0 +1,15 @@
+{
+ "id": "gqg-open",
+ "seed": 1,
+ "storage": {
+  "dispatches1914_settings_v1": "{\"schemaVersion\":1,\"textSize\":\"s\"}",
+  "dispatches1914_record_v1": "{\"schemaVersion\":1,\"nodes\":{\"gqg\":[\"gqg_1914_01_frontieres\",\"gqg_1914_02_marne\",\"gqg_1915_03_grignotage\",\"gqg_1916_04_verdun\",\"gqg_1916_05_somme\"]},\"advisers\":{\"gqg\":[\"joffre\",\"castelnau\",\"gallieni\",\"petain\",\"foch\"]},\"endings\":[],\"runs\":0,\"hardRuns\":0}",
+  "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"gqg\",\"nodeId\":\"gqg_1916_05_somme\",\"flags\":{\"gqg_opening\":\"asplanned\",\"gqg_marne\":\"attacked\",\"gqg_marneResult\":\"exploited\",\"gqg_1915\":\"limited\",\"gqg_verdun\":\"held\"},\"meters\":{\"manpower\":-3,\"munitions\":-4,\"will\":1},\"hardState\":{\"enabled\":false,\"erosion\":0},\"visited\":[\"gqg_1914_01_frontieres\",\"gqg_1914_02_marne\",\"gqg_1915_03_grignotage\",\"gqg_1916_04_verdun\",\"gqg_1916_05_somme\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791129059366}"
+ },
+ "expect": {
+  "menuHash": "UuxlPXHw:900",
+  "resumeControl": "Resume file",
+  "afterResumeHash": "B-4HoG14:1034",
+  "errors": []
+ }
+}

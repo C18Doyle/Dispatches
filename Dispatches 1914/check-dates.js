@@ -10,7 +10,9 @@ for (const cid of E.CAMPAIGN_IDS) {
   const c = E.CAMPAIGNS[cid];
   if (!E.CALENDARS[c.calendar]) {
     problems.push(`${cid}: unknown calendar "${c.calendar}"`);
-  } else if (E.CALENDARS[c.calendar].researchGate) {
+  } else if (E.CALENDARS[c.calendar].researchGate && Object.keys(c.nodes).length > 0) {
+    // The gate blocks writing content, so it only fails once a campaign behind it has nodes
+    // (smoke.js separately asserts the Ottoman campaign is still blocked on spec §9).
     problems.push(`${cid}: calendar "${c.calendar}" is behind an open RESEARCH GATE`);
   }
 
