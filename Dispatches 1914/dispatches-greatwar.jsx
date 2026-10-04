@@ -1427,7 +1427,7 @@ CAMPAIGNS.ohl.nodes = {
         historical: true,
         advisor: { name: "Ludendorff", position:
           "We will not get a second chance at the east. Take it now and garrison it, and the west will still have enough." },
-        impact: { manpower: 1, munitions: 1, will: 1 },
+        impact: { manpower: 2, munitions: 1, will: 1 },
         setFlags: { ohl_brest: "maximal" },
         erodes: "spend_will",
         next: "ohl_1918_09_michael",
@@ -1686,7 +1686,7 @@ CAMPAIGNS.ohl.nodes = {
         historical: true,
         advisor: { name: "Hintze", position:
           "A defensive in the west has to go with an approach to the enemy. The army alone cannot end this." },
-        impact: { manpower: 1, munitions: 0, will: -1 },
+        impact: { manpower: 2, munitions: 0, will: -1 },
         setFlags: { ohl_blackday: "defensive" },
         next: "ohl_1918_11_request",
         outcome:
@@ -3868,7 +3868,7 @@ CAMPAIGNS.stavka.nodes = {
           "The alliance is the reason this army has railways. We will keep the promise and take the consequences of keeping it." },
         impact: { manpower: -2, munitions: -1, will: 1 },
         setFlags: { stavka_prussia: "early" },
-        next: "stavka_1914_02_galicia",
+        next: "stavka_1914_12_tannenberg",
         outcome:
           "Both armies cross the frontier ahead of their supply. The First Army comes " +
           "on from the north-east and the Second from the south, and between them lie " +
@@ -3883,11 +3883,65 @@ CAMPAIGNS.stavka.nodes = {
         disabledReason: "The undertaking to the French cannot be broken in the first fortnight of the war",
         impact: { manpower: 2, munitions: 0, will: -3 },
         setFlags: { stavka_prussia: "concentrated" },
-        next: "stavka_1914_02_galicia",
+        next: "stavka_1914_12_tannenberg",
         outcome:
           "Speculative. The advance waits for the armies to be ready to make it " +
           "together. The instrument is better and the alliance is worse, and the second " +
           "of those will be raised at every conference for the rest of the war.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-08
+  stavka_1914_12_tannenberg: {
+    year: 1914, date: "1914-08-08", city: "Baranovichi",
+    title: "The Second Army Is Marching Away From Its Bread",
+    advisors: ["grandduke", "zhilinsky", "samsonov"],
+    situation: (flags) =>
+      "The First Army crossed the frontier on the 4th. The Second, coming up from the " +
+      "south, is going in today, 8 August (21 August in the west). " +
+      (flags.stavka_prussia === "concentrated"
+        ? "The concentration was finished before the advance, and the Second Army has more behind it than it would have had."
+        : "It went in before its concentration was finished and before its supply could follow.") +
+      "\n\nGeneral Zhilinsky, who commands both armies from the North-Western Front, wants " +
+      "the German Eighth Army pressed hard after the first battle at Gumbinnen and is " +
+      "not satisfied with the pace. The corps commanders of the Second Army complain " +
+      "that they are marching away from their railheads and their bread. The two armies " +
+      "are too far apart to help each other, and the wireless messages that pass between " +
+      "them are sent in clear.",
+    context:
+      "The question put to this headquarters is whether to let the orders of the front " +
+      "commander stand. Nothing in the situation will be clearer in a week than it is today.",
+    choices: [
+      {
+        id: "press",
+        label: "Leave Zhilinsky's orders in force: both armies press on",
+        historical: true,
+        advisor: { name: "Zhilinsky", position:
+          "The enemy is going back and has to be kept going. Stopping to bring up supply gives him time to turn." },
+        impact: { manpower: 0, munitions: -1, will: 0 },
+        setFlags: { stavka_tannenberg: "pressed" },
+        next: "stavka_1914_02_galicia",
+        outcome:
+          "The Second Army goes on north. Between 13 and 17 August (26 and 30 August in " +
+          "the west) the German Eighth Army surrounds it and almost destroys it, and " +
+          "General Samsonov shoots himself. The First Army, which could not help, is " +
+          "turned back a fortnight later. The invasion of East Prussia, begun to keep a " +
+          "promise to the French, ends with the Second Army gone.",
+      },
+      {
+        id: "halt",
+        label: "Halt the Second Army at the frontier until its supply and the First Army come up",
+        gate: (m) => m.will >= -1,
+        disabledReason: "A halt in the first week of the invasion cannot be explained to the French",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { stavka_tannenberg: "halted" },
+        next: "stavka_1914_02_galicia",
+        outcome:
+          "Speculative. The Second Army stops where it is and the invasion loses " +
+          "a week. The German Eighth Army has that week to decide what to do about two " +
+          "Russian armies that have stopped, and the French have been told by their ally " +
+          "that the offensive they asked for is not coming at the pace promised.",
       },
     ],
   },
@@ -3928,7 +3982,7 @@ CAMPAIGNS.stavka.nodes = {
           "The Austrians will break where the Germans will not. That is not a reason to stop pushing the Austrians." },
         impact: { manpower: -1, munitions: -2, will: 2 },
         setFlags: { stavka_1914theatre: "galicia" },
-        next: "stavka_1915_03_retreat",
+        next: "stavka_1915_12_carpathians",
         outcome:
           "The South-Western Front takes Lemberg and drives toward the passes. It is " +
           "the largest Russian success of the war so far and it is against the wrong " +
@@ -3943,11 +3997,64 @@ CAMPAIGNS.stavka.nodes = {
         disabledReason: "The northern armies cannot absorb reinforcement at this strength",
         impact: { manpower: -2, munitions: -2, will: 0 },
         setFlags: { stavka_1914theatre: "prussia" },
-        next: "stavka_1915_03_retreat",
+        next: "stavka_1915_12_carpathians",
         outcome:
           "Speculative. Divisions go north from a front that was winning to a front " +
           "that was not. The Austrians get the winter to recover in and the Germans get " +
           "a second opportunity on ground they have already fought over.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-03
+  stavka_1915_12_carpathians: {
+    year: 1915, date: "1915-03-09", city: "Baranovichi",
+    title: "Przemysl Has Fallen",
+    advisors: ["grandduke", "brusilov"],
+    situation: (flags) =>
+      "Przemysl has fallen today, 9 March (22 March in the west), after a siege that " +
+      "began in September. About 117,000 men and nine generals are taken. " +
+      (flags.stavka_1914theatre === "prussia"
+        ? "Divisions were taken from the south in the autumn for the northern effort, and the Carpathian armies are thinner than they would have been."
+        : "Galicia was reinforced in the autumn, and the Carpathian armies are as strong as they have been.") +
+      "\n\nThrough the winter the Austrian armies have been trying to relieve the fortress " +
+      "across the mountains, and the Russian armies have been fighting them in the " +
+      "Carpathian passes. The cost of it to the Austro-Hungarian army alone is put " +
+      "at about 800,000 men between January and April, and most of the loss is to " +
+      "weather and disease. The Russian armies' own losses are nearly as high, and " +
+      "easier to make good.\n\n" +
+      "The question for Stavka is what the armies in the mountains are to do now that " +
+      "the fortress they were covering is gone.",
+    context:
+      "A crossing of the Carpathians would put Russian armies on the Hungarian plain. " +
+      "It would also stretch a line that is short of shells and short of rifles, over " +
+      "passes that are blocked with snow.",
+    choices: [
+      {
+        id: "press",
+        label: "Press on over the Carpathians into Hungary",
+        historical: true,
+        impact: { manpower: 0, munitions: -1, will: 2 },
+        setFlags: { stavka_carpathians: "pressed" },
+        next: "stavka_1915_03_retreat",
+        outcome:
+          "The armies in the mountains go on through the spring, with the passes full of " +
+          "snow and the guns short of shells. The Austro-Hungarian army loses about " +
+          "800,000 men in the Carpathians between January and April, and Russian losses " +
+          "are nearly as high. The ground gained there is not held for long: the German " +
+          "attack in May turns the whole of it.",
+      },
+      {
+        id: "halt",
+        label: "Halt in the passes and use the spring to refit",
+        impact: { manpower: 1, munitions: 1, will: -1 },
+        setFlags: { stavka_carpathians: "halted" },
+        next: "stavka_1915_03_retreat",
+        outcome:
+          "Speculative. The armies hold the passes they have and stop attacking. The " +
+          "rifles and shells that would have been spent in the snow are kept, and the " +
+          "Austrians have the spring to recover. Przemysl has been taken and nothing more " +
+          "is asked of it.",
       },
     ],
   },
@@ -4129,7 +4236,7 @@ CAMPAIGNS.stavka.nodes = {
         disabledReason: "Stavka does not currently have the authority to compel front commanders who do not wish to attack",
         impact: { manpower: -3, munitions: -3, will: 2 },
         setFlags: { stavka_brusilov: "supported" },
-        next: "stavka_1917_06_february",
+        next: "stavka_1916_12_kovel",
         outcome:
           "Speculative. The supporting attacks are made and made seriously. The " +
           "Austrian front does not merely bend, and the German divisions sent to shore " +
@@ -4156,7 +4263,7 @@ CAMPAIGNS.stavka.nodes = {
           { weight: 55, title: "The Austrian front breaks and the cost is borne by the best divisions", historicalBranch: true,
             impact: { manpower: -1, will: 1 },
             setFlags: { stavka_brusilovResult: "costly" },
-            next: "stavka_1917_06_february",
+            next: "stavka_1916_12_kovel",
             outcome:
               "The offensive succeeds beyond anything this army has managed and breaks " +
               "the Austrian front, forcing German divisions east to hold it. The " +
@@ -4166,13 +4273,118 @@ CAMPAIGNS.stavka.nodes = {
           { weight: 45, title: "The breakthrough is banked rather than pushed",
             impact: { munitions: -1, will: 1 },
             setFlags: { stavka_brusilovResult: "banked" },
-            next: "stavka_1917_06_february",
+            next: "stavka_1916_12_kovel",
             outcome:
               "Speculative. The front takes what the method wins and stops when the " +
               "exploitation stops paying. The Austrian line is broken, the German " +
               "divisions still come east, and the formations that did it are still " +
               "formations at the end of it." },
         ],
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-07
+  stavka_1916_12_kovel: {
+    year: 1916, date: "1916-07-10", city: "Mogilev",
+    title: "The Road to Kovel",
+    advisors: ["alekseyev", "brusilov"],
+    situation: (flags) =>
+      "The South-Western Front attacked on 22 May (4 June in the west) and broke the " +
+      "Austrian line. " +
+      (flags.stavka_brusilov === "supported"
+        ? "The other fronts attacked in support, as the order said, and the Germans have had to find reserves for each of them."
+        : "The Western Front did not move until ten days later, and its own attack in July took five kilometres and about 80,000 men.") +
+      "\n\nAlekseyev has given Brusilov a third army and the Guards, and the front now " +
+      "holds some 700,000 men against about 421,000. Brusilov wants to go on for Kovel, " +
+      "the railway junction that would carry the front west toward Brest-Litovsk. The " +
+      "ground in front of it is marsh and river, and the Germans have been bringing " +
+      "divisions to hold it.",
+    context:
+      "The offensive has already done more than anyone expected of it. Going on costs " +
+      "the Guards, who are the best troops left in the army.",
+    choices: [
+      {
+        id: "kovel",
+        label: "Order the Guards and the Special Army to take Kovel",
+        historical: true,
+        advisor: { name: "Brusilov", position:
+          "The enemy is still off balance. The junction at Kovel would give the front a road to the west." },
+        impact: { manpower: 0, munitions: -1, will: 0 },
+        setFlags: { stavka_kovel: "attacked" },
+        next: "stavka_1916_13_romania",
+        outcome:
+          "The preparation begins on 11 July (24 July in the west) and the main attacks " +
+          "go in from the 15th (28 July), across the marshes of the Stokhod. By the 26th " +
+          "(8 August) the Germans and Austro-Hungarians have stopped them, and on the " +
+          "27th (9 August) Brusilov suspends the operation. Kovel is not taken, and the " +
+          "Guards, who were the army's best reserve, have been spent on the marsh.",
+      },
+      {
+        id: "hold",
+        label: "Stop offensive operations on the Kovel front and hold what has been taken",
+        impact: { manpower: 1, munitions: 1, will: -1 },
+        setFlags: { stavka_kovel: "held" },
+        next: "stavka_1916_13_romania",
+        outcome:
+          "Speculative. The front holds the ground it has won and the Guards are kept " +
+          "in reserve. Brusilov's offensive ends where it stood in July, without the " +
+          "attempt on the junction. The Germans use the pause to bring up more divisions.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-08
+  stavka_1916_13_romania: {
+    year: 1916, date: "1916-08-14", city: "Mogilev",
+    title: "A New Ally With a Long Frontier",
+    advisors: ["alekseyev", "brusilov"],
+    situation: (flags) =>
+      "Romania enters the war today, 14 August (27 August in the west), encouraged " +
+      "by the success of the offensive in Galicia. " +
+      (flags.stavka_kovel === "attacked"
+        ? "The Guards are on the Stokhod and the front's best reserve is spent."
+        : "The Guards are in reserve behind the front.") +
+      "\n\nThe Romanian army will attack into Transylvania, while German, Austro-" +
+      "Hungarian and Bulgarian forces gather to the north and the south of it. Romania " +
+      "has a long frontier and an army that is short of guns and of the experience of " +
+      "the war. Russia has promised to help, and the help has to come from the same " +
+      "armies that are fighting in Galicia.",
+    context:
+      "A force sent to Romania is a force taken from the front, where Brusilov has been " +
+      "told to stop. A force not sent is an ally left to its own frontier.",
+    choices: [
+      {
+        id: "small",
+        label: "Send a small force and promise more if it is needed",
+        historical: true,
+        advisor: { name: "Alekseyev", position:
+          "The Romanian front is a sideshow and cannot be allowed to take the armies from the main one." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { stavka_romania: "small" },
+        next: "stavka_1917_06_february",
+        outcome:
+          "Three Russian divisions are sent, and they are not properly equipped. The " +
+          "Romanian plans go wrong, and the Germans take Bucharest on 23 November (6 " +
+          "December in the west). Russia then has to send large reinforcements to keep " +
+          "the Germans from the south of the country, and in the weeks that follow the " +
+          "front settles in Moldavia, held by a great many Russian divisions that have " +
+          "been taken from somewhere else.",
+      },
+      {
+        id: "army",
+        label: "Send an army to Romania at once and shorten the line in Galicia to find it",
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The army cannot find a force for Romania without breaking the Galician front",
+        impact: { manpower: -3, munitions: -2, will: 1 },
+        setFlags: { stavka_romania: "army" },
+        erodes: "expose_regime",
+        next: "stavka_1917_06_february",
+        outcome:
+          "Speculative. A Russian army is sent to Romania in the first weeks, and the " +
+          "Galician line is shortened to pay for it. The Romanian front opens with " +
+          "stronger support and the Galician front with less, and the army has to find " +
+          "the troops in the autumn that it historically found in the winter.",
       },
     ],
   },
@@ -4285,7 +4497,7 @@ CAMPAIGNS.stavka.nodes = {
           { weight: 70, title: "Initial success, then the units stop", historicalBranch: true,
             impact: { manpower: -2, will: -3 },
             setFlags: { stavka_kerenskyResult: "collapsed" },
-            next: "stavka_1917_08_october",
+            next: "stavka_1917_12_deathpenalty",
             outcome:
               "The first days go well where the artillery is good and the units are " +
               "willing. Then the willing units are used up, the rest decline to " +
@@ -4295,7 +4507,7 @@ CAMPAIGNS.stavka.nodes = {
           { weight: 30, title: "The offensive achieves a limited gain and stops",
             impact: { manpower: -1, will: -1 },
             setFlags: { stavka_kerenskyResult: "limited" },
-            next: "stavka_1917_08_october",
+            next: "stavka_1917_12_deathpenalty",
             outcome:
               "Speculative. The attack takes ground where the committees agreed to it " +
               "and stops where they did not. The government has something to show the " +
@@ -4311,11 +4523,123 @@ CAMPAIGNS.stavka.nodes = {
         disabledReason: "The command has no standing left to refuse the government anything",
         impact: { manpower: 1, munitions: 0, will: -2 },
         setFlags: { stavka_kerensky: "refused" },
-        next: "stavka_1917_08_october",
+        next: "stavka_1917_12_deathpenalty",
         outcome:
           "Speculative. The command puts in writing that the army is not capable of " +
           "offensive operations. The divisions are not spent. The government is left " +
           "holding a war it cannot prosecute and cannot leave.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-07
+  stavka_1917_12_deathpenalty: {
+    year: 1917, date: "1917-07-12", city: "Mogilev",
+    title: "Shooting at the Front",
+    advisors: ["brusilov", "kerensky"],
+    situation: (flags) =>
+      "The offensive begun in June has turned into a retreat in Galicia, and units " +
+      "are leaving their positions without orders. " +
+      (flags.stavka_kerensky === "refused"
+        ? "The army had said it could not attack, and the government has not been able to make it do so."
+        : "The offensive that was made has ended as the commanders feared it would.") +
+      "\n\nThe commander of the South-Western Front has sent the government an " +
+      "ultimatum demanding that the death penalty be restored at the front, which " +
+      "the Provisional Government abolished in March. The army's committees are " +
+      "against it. The Minister of War is being asked whether the orders of the " +
+      "command can still be enforced, and the committees will take the answer as " +
+      "an answer to the question of who commands the army.",
+    context:
+      "A penalty that is ordered and not carried out is worse than none. A penalty " +
+      "that is carried out by an officer on a soldier who belongs to a committee has " +
+      "consequences that the order does not describe.",
+    choices: [
+      {
+        id: "restore",
+        label: "Restore the death penalty at the front and set up courts-martial",
+        historical: true,
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { stavka_deathpenalty: "restored" },
+        next: "stavka_1917_13_kornilov",
+        outcome:
+          "Kerensky sends telegraphic orders on 12 July instituting the death penalty " +
+          "at the front, in response to the ultimatum. A few days later Kornilov, who " +
+          "made the demand, is made Supreme Commander in place of Brusilov. The army's " +
+          "committees are against the order, and it widens the distance between them " +
+          "and the command.",
+      },
+      {
+        id: "refuse",
+        label: "Refuse to restore it and rely on the commissars and the committees",
+        gate: (m) => m.will >= -3,
+        disabledReason: "The command cannot hold the retreat together on persuasion alone",
+        impact: { manpower: -1, munitions: 0, will: 1 },
+        setFlags: { stavka_deathpenalty: "refused" },
+        next: "stavka_1917_13_kornilov",
+        outcome:
+          "Speculative. The penalty is not restored. The retreat in Galicia is left to " +
+          "the commissars and the committees, and the commander who made the ultimatum " +
+          "has to be answered. The Supreme Command stays with the officers who say " +
+          "that discipline can be built on consent.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-08
+  stavka_1917_13_kornilov: {
+    year: 1917, date: "1917-08-27", city: "Mogilev",
+    title: "The Supreme Commander Is Dismissed by Telegram",
+    advisors: ["alekseyev", "kerensky"],
+    situation: (flags) =>
+      "Riga has fallen. The Supreme Commander, General Kornilov, who has held the post " +
+      "since 18 July (31 July in the west), believes that a Bolshevik rising in " +
+      "Petrograd is near, and he has ordered General Krymov's Third Cavalry Corps to " +
+      "move toward the capital.\n\n" +
+      "This morning, 27 August (9 September in the west), Kerensky telegraphed " +
+      "Kornilov's dismissal, believing that the movement of the corps is the beginning of " +
+      "a coup. " +
+      (flags.stavka_deathpenalty === "restored"
+        ? "The Supreme Commander is the officer who made the demand on which the death penalty was restored."
+        : "The Supreme Commander is the officer whose demand was refused in July.") +
+      "\n\nKornilov is at this headquarters, and the corps is on the road. The order to " +
+      "stop it can come from one of two men, and they are not speaking to each other.",
+    context:
+      "Whether this is a coup or a misunderstanding is not clear from here, and is not " +
+      "going to be settled in the next three days. The corps will arrive at Petrograd " +
+      "or it will not.",
+    choices: [
+      {
+        id: "refuse",
+        label: "Refuse the dismissal and let the cavalry corps go on",
+        historical: true,
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { stavka_kornilov: "refused" },
+        dispute:
+          "Whether Kornilov meant to take power or to carry out an arrangement made " +
+          "with the government is disputed. Kerensky took the movement of the corps " +
+          "for a coup, after an exchange of messages through an intermediary that the " +
+          "two men understood differently, and Kornilov afterwards denied that he meant " +
+          "to overthrow the government.",
+        next: "stavka_1917_08_october",
+        outcome:
+          "The movement of 28 to 31 August (10 to 13 September in the west) collapses " +
+          "without a battle. The Petrograd Soviet sets up a Committee for the Struggle " +
+          "Against Counter-Revolution on the 28th, and the corps comes apart through low " +
+          "morale and desertion. By the 30th the affair is over, Kornilov is under " +
+          "arrest, and Alekseyev has come back as Chief of Staff. The Bolsheviks, who " +
+          "were being blamed for July, come out of it with far more prestige.",
+      },
+      {
+        id: "obey",
+        label: "Obey the dismissal and recall the cavalry",
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { stavka_kornilov: "obeyed" },
+        next: "stavka_1917_08_october",
+        outcome:
+          "Speculative. The dismissal is accepted and the corps is turned back before " +
+          "it reaches the capital. There is no march and no collapse of one. The " +
+          "officers of the army have seen their commander dismissed by a telegram, " +
+          "and the soviets have not been called out to defend anything.",
       },
     ],
   },
@@ -4338,6 +4662,13 @@ CAMPAIGNS.stavka.nodes = {
       (flags.stavka_kerenskyResult === "collapsed"
         ? "The June offensive used up the formations that would still obey and returned nothing."
         : "Such formations as will still obey are intact, which is a smaller number than it sounds.") +
+      (flags.stavka_kornilov === "refused"
+        ? "\n\nThe Supreme Commander of the summer was arrested after the August affair, and " +
+          "the army's officers have not forgotten it."
+        : flags.stavka_kornilov === "obeyed"
+          ? "\n\nThe Supreme Commander of the summer obeyed his dismissal in August, and the " +
+            "army's officers have not forgotten that either."
+          : "") +
       "\n\nWhat is left to decide is what this headquarters does with the fact that " +
       "it no longer has a government it recognises and still has an enemy in front of " +
       "it.",
@@ -4361,7 +4692,7 @@ CAMPAIGNS.stavka.nodes = {
           : (flags.stavka_kerensky === "refused" && m.manpower >= -6) ? "stavka_end_holds"
           : (flags.stavka_prussia === "early" && flags.stavka_brusilov === "supported") ? "stavka_end_alliance"
           : null,
-        next: "stavka_end_brest",
+        next: "stavka_1917_14_armistice",
         outcome:
           "The headquarters holds what it can hold and takes no side, which turns out " +
           "not to be a position that exists. The front dissolves by desertion rather " +
@@ -4388,6 +4719,55 @@ CAMPAIGNS.stavka.nodes = {
     ],
   },
 
+  // ---------------------------------------------------------------- 1917-11
+  stavka_1917_14_armistice: {
+    year: 1917, date: "1917-11-09", city: "Mogilev",
+    title: "The Order to Open Talks",
+    advisors: ["dukhonin"],
+    situation:
+      "The Council of People's Commissars has telephoned the Chief of Staff, who is now " +
+      "acting as Supreme Commander. The order is to approach the German command " +
+      "at once and propose an armistice on the whole front.\n\n" +
+      "The front is held by men who are mostly going home, and the headquarters " +
+      "commands them by the courtesy of their committees. The men who gave the order " +
+      "say they speak for the soldiers and the people, and the soldiers' committees " +
+      "have not said that they do not.",
+    context:
+      "To obey is to recognise the new authority and to open a negotiation the army " +
+      "cannot stop. To refuse is to be dismissed, and a headquarters that has been " +
+      "dismissed by wireless has nobody it can command.",
+    choices: [
+      {
+        id: "refuse",
+        label: "Decline the order: it can come only from a government the army and the country support",
+        historical: true,
+        advisor: { name: "Dukhonin", position:
+          "An order to open negotiations has to come from a government that the army and the country stand behind, and this one has not shown that it does." },
+        impact: { manpower: -1, munitions: 0, will: -2 },
+        setFlags: { stavka_armistice: "refused" },
+        next: "stavka_end_brest",
+        outcome:
+          "Dukhonin gives evasive answers and then a refusal, and is dismissed on the " +
+          "telephone line, and the commissars announce that Ensign Krylenko is " +
+          "Supreme Commander in his place. Krylenko comes to Mogilev with sailors. On " +
+          "20 November (3 December in the west) Dukhonin gives himself up and is " +
+          "killed by a mob at the railway station, despite Krylenko's attempt to stop it.",
+      },
+      {
+        id: "obey",
+        label: "Carry out the order and approach the German command",
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { stavka_armistice: "obeyed" },
+        next: "stavka_end_brest",
+        outcome:
+          "Speculative. The headquarters sends the proposal to the German command under " +
+          "its own name. The new government has what it asked for and the army " +
+          "has a commander it has not dismissed. The officers who would not have done it " +
+          "leave for the Don, where Alekseyev is already beginning to gather them.",
+      },
+    ],
+  },
+
   // ---------------------------------------------------------------- endings
   stavka_end_brest: {
     year: 1918, date: "1918-03-03", city: "Brest-Litovsk",
@@ -4410,6 +4790,13 @@ CAMPAIGNS.stavka.nodes = {
       "June 1917: " + (flags.stavka_kerensky === "refused" ? "the offensive was refused." : "the offensive was made.") + "\n" +
       "Autumn 1914: " + (flags.stavka_1914theatre === "prussia" ? "the northern effort was renewed." : "Galicia was reinforced.") + "\n" +
       "The Emperor at headquarters: " + (flags.stavka_commandResult === "steadied" ? "the capital held together in his absence." : flags.stavka_commandResult === "capitallost" ? "the capital did not hold together in his absence." : "the question did not arise.") + "\n" +
+      "The Second Army, August 1914: " + (flags.stavka_tannenberg === "halted" ? "halted at the frontier for its supply." : "left to press on.") + "\n" +
+      "The Carpathians, March 1915: " + (flags.stavka_carpathians === "halted" ? "halted in the passes to refit." : "pressed on into the mountains.") + "\n" +
+      "The Guards, summer 1916: " + (flags.stavka_kovel === "held" ? "kept in reserve." : "sent at the Stokhod for Kovel.") + "\n" +
+      "Romania: " + (flags.stavka_romania === "army" ? "an army sent at once." : "three divisions sent.") + "\n" +
+      "The death penalty: " + (flags.stavka_deathpenalty === "refused" ? "not restored." : "restored at the front on 12 July 1917.") + "\n" +
+      "The Kornilov affair: " + (flags.stavka_kornilov === "obeyed" ? "the dismissal obeyed." : "the dismissal refused, and the march collapsed.") + "\n" +
+      "The order to open talks: " + (flags.stavka_armistice === "obeyed" ? "carried out." : "declined; Dukhonin dismissed and killed.") + "\n" +
       "October 1917: " + (flags.stavka_october === "resisted" ? "the new authority was refused recognition." : "the headquarters took no side.") + "\n\n" +
       "The officers of this headquarters disperse toward the Don, toward Siberia, and " +
       "toward the new Republic's own army. What they do next is not this war.",

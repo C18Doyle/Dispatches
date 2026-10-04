@@ -118,5 +118,50 @@
     "title": "Role of Douglas Haig in 1918",
     "kind": "web (tertiary)",
     "url": "https://en.wikipedia.org/wiki/Role_of_Douglas_Haig_in_1918"
+  },
+  "wp-tannenberg": {
+    "title": "Battle of Tannenberg (1914)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Tannenberg"
+  },
+  "wp-samsonov": {
+    "title": "Alexander Samsonov",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Alexander_Samsonov"
+  },
+  "wp-przemysl": {
+    "title": "Siege of Przemyśl",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Siege_of_Przemy%C5%9Bl"
+  },
+  "wp-brusilov": {
+    "title": "Brusilov offensive",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Brusilov_offensive"
+  },
+  "wp-romania1916": {
+    "title": "Romanian campaign (1916)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Romanian_campaign_(1916)"
+  },
+  "wp-kornilov": {
+    "title": "Lavr Kornilov",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Lavr_Kornilov"
+  },
+  "wp-kornilovaffair": {
+    "title": "Kornilov affair",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Kornilov_affair"
+  },
+  "wp-dukhonin": {
+    "title": "Nikolai Dukhonin",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Nikolai_Dukhonin"
+  },
+  "wp-russianarmy1917": {
+    "title": "Russian Army (1917)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Russian_Army_(1917)"
   }
 }

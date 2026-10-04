@@ -1099,7 +1099,7 @@ CAMPAIGNS.ohl.nodes = {
         historical: true,
         advisor: { name: "Ludendorff", position:
           "We will not get a second chance at the east. Take it now and garrison it, and the west will still have enough." },
-        impact: { manpower: 1, munitions: 1, will: 1 },
+        impact: { manpower: 2, munitions: 1, will: 1 },
         setFlags: { ohl_brest: "maximal" },
         erodes: "spend_will",
         next: "ohl_1918_09_michael",
@@ -1358,7 +1358,7 @@ CAMPAIGNS.ohl.nodes = {
         historical: true,
         advisor: { name: "Hintze", position:
           "A defensive in the west has to go with an approach to the enemy. The army alone cannot end this." },
-        impact: { manpower: 1, munitions: 0, will: -1 },
+        impact: { manpower: 2, munitions: 0, will: -1 },
         setFlags: { ohl_blackday: "defensive" },
         next: "ohl_1918_11_request",
         outcome:
