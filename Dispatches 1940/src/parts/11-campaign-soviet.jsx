@@ -936,6 +936,56 @@
                 // fed the armies all winter, and the shortage is shells and clothing rather than
                 // men, which is a sharper limit than any one battle can lift.
                 effectiveness: { reserves: 2.5, exploitation: 2.2, air: 1.9, supply: 1.7 },
+                // Round 22. Ground and weather, verified 2026-10-05 (Wikipedia, Battle of Moscow): sources disagree
+                // on the December temperature (Soviet records -28.8 C at the lowest, German reports -36 to -45 C),
+                // and German frostbite cases passed 130,000, so the cold is a fact of the ground. The attrition rule
+                // charges the same cold to the columns that ride out in it.
+                conditions: "Deep cold, with the sources giving anything from -29 to -45 degrees, and deep snow on every road. It is the Germans' problem first, since they have no winter clothing, but it reaches the columns that go out in it too.",
+                terrainModifiers: { supply: 0.9, air: 0.9 },
+                terrainNotes: { supply: "locomotives and roads in deep cold", air: "frozen fields and short days" },
+                attrition: [
+                  { category: "exploitation", atLeast: 3, meter: "manpower", delta: -1, reason: "Frostbite among the columns left out in the open" },
+                ],
+                // Field decision: the second day. Facts (Wikipedia, Winter campaign of 1941-1942): the Red Army
+                // pushed the Germans back 150-300 km but "mostly failed to encircle the German units" at Klin and
+                // elsewhere. The three answers are the real options for running a pursuit with too few reserves;
+                // the payoff against each German posture is modeled.
+                decisions: [
+                  {
+                    id: "runningThePursuit",
+                    time: "1600",
+                    title: "The second day",
+                    prompt: "The first blows have gone in and the Germans are falling back, in some places in good order and in others hardly at all. Stavka wants the armies to pursue everywhere. Zhukov has to decide how the pursuit is run, with reserves that were never enough.",
+                    options: [
+                      {
+                        id: "pressHighways",
+                        label: "Press the pursuit down the main roads at once",
+                        note: "The fastest way, if the enemy is truly broken.",
+                        bonus: 0,
+                        bonusByPosture: { frozenLine: 4, mobileFlanks: -3, orderlyWithdrawal: -2 },
+                        reportLine: "The armies go down the main roads after the Germans without waiting to regroup.",
+                      },
+                      {
+                        id: "cutBehind",
+                        label: "Wheel the cavalry and ski columns around to cut the roads behind them",
+                        note: "The roads are the Germans' only way out, but the columns will be far from help.",
+                        bonus: 0,
+                        bonusByPosture: { frozenLine: 2, mobileFlanks: -4, orderlyWithdrawal: 4 },
+                        reportLine: "The cavalry and the ski columns ride around the flank and across the roads behind the retreating Germans.",
+                      },
+                      {
+                        id: "pauseAndFeed",
+                        label: "Pause a day to bring up the guns and the shells",
+                        note: "Costs Initiative, and the Germans get a day.",
+                        bonus: 0,
+                        bonusByPosture: { mobileFlanks: 4, orderlyWithdrawal: 1 },
+                        meters: { initiative: -1 },
+                        costReason: "A day's pause in the pursuit",
+                        reportLine: "The pursuit halts for a day while the guns and the shells come up the railway.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   reserves:
                     "The fresh armies are the weight of the blow, and they are all the reserve there is. Zhukov's argument is that they should go in together. Each commitment here puts more of them into the first morning's attack.",
@@ -1790,6 +1840,50 @@
                       flavor:
                         "The front is open, and the only real question left is how fast the ring closes east of Minsk before what's left of Army Group Center finds a way back through it. The maskirovka has done its work — the reserves that could have blunted this are watching Lvov instead — and what stands between the spearheads and a hundred thousand trapped Germans is a matter of pace: how much of the rifle mass keeps the pocket sealed, how much of the tank strength drives the encirclement shut, what the air armies can do to a road network already choked with retreating columns, and how much gets held back to keep the whole advance fed rather than stretched thin across four hundred miles of liberated Belorussia.",
                       effectiveness: { divisions: 2.0, armour: 2.6, air: 1.8, supply: 2.2 },
+                      // Round 22. Verified 2026-10-05 (Wikipedia, Operation Bagration): the Soviets left four tank armies
+                      // in the L'vov area and let the Germans know it, so that the reserves stayed in the south; the
+                      // fortified cities (Vitebsk, Orsha, Mogilev, Bobruisk, Minsk) became traps; the Soviet air armies
+                      // dominated the roads; Minsk fell on 3 or 4 July. The three answers are options of the day;
+                      // their payoffs against each German posture are modeled.
+                      conditions: "High summer, with marsh, forest and river crossings across the line of advance. The roads are choked with retreating columns, and the Soviet air armies are over them.",
+                      terrainModifiers: { armour: 0.9, air: 1.1 },
+                      terrainNotes: { armour: "marsh and forest keep the tanks to the roads", air: "the Soviet air armies own the sky" },
+                      decisions: [
+                        {
+                          id: "aimOfTheTanks",
+                          time: "2130",
+                          title: "Where the tanks are aimed",
+                          prompt: "The front is open and the tank armies are through. Minsk is the great prize, and the German Fourth Army is falling back across the Berezina toward it. The tanks cannot do everything. The front commanders have to decide what they are aimed at.",
+                          options: [
+                            {
+                              id: "straightAtMinsk",
+                              label: "Drive the tank armies straight at Minsk",
+                              note: "Take the city before a line can form, and leave the retreating army behind.",
+                              bonus: 0,
+                              bonusByPosture: {collapsingCenter: 4, fortifiedResistance: -3, deceptionHolding: 1},
+                              reportLine: "The tank armies drive straight at Minsk down the roads, leaving the retreating Germans to their rear.",
+                            },
+                            {
+                              id: "closeTheRing",
+                              label: "Hold the tanks to close the ring behind the German Fourth Army",
+                              note: "Trap the army rather than take the city first.",
+                              bonus: 0,
+                              bonusByPosture: {fortifiedResistance: 3, collapsingCenter: -2},
+                              reportLine: "The tank armies turn to close the ring around the German Fourth Army east of Minsk.",
+                            },
+                            {
+                              id: "keepTheFeint",
+                              label: "Keep the feint toward the south alive to pin the German reserves",
+                              note: "Costs Initiative to sustain, and keeps the reserves away from the fight.",
+                              bonus: 0,
+                              bonusByPosture: {deceptionHolding: 4, fortifiedResistance: 1},
+                              meters: {initiative: -1},
+                              costReason: "A deception sustained at the cost of the staff's attention",
+                              reportLine: "The southern feint is kept up, and the German reserves stay where they were, watching Lvov.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         divisions:
                           "The rifle armies seal the ring after the tanks cut it. Chernyakhovsky's front alone commits rifle strength in the hundreds of thousands. Without them pressing behind the armored spearheads, whatever gets encircled finds its way back out.",

@@ -227,6 +227,52 @@ const CAMPAIGNS = {
                 // keeps no one alive on the far bank, though every tank must wait for it, the same
                 // asymmetric-by-design choice as Kursk's Supply.
                 effectiveness: { assault: 2.4, air: 2.2, guns: 1.9, bridging: 1.7 },
+                // Round 22. Ground and weather as they were on 13 May 1940 (the air corps flew from 08:00 to 16:00;
+                // the French held the bunkers on the heights of the far bank, Wikipedia, Battle of Sedan (1940)).
+                conditions: "Fine, clear weather, so the air corps can fly from first light. The French hold bunkers on the steep, wooded heights of the far bank, and the river itself is the obstacle.",
+                terrainModifiers: { assault: 0.9, air: 1.1 },
+                terrainNotes: { assault: "a river under fire below steep, wooded heights", air: "clear skies" },
+                // Field decision: what the infantry on the far bank do on the evening of 13 May. Facts verified
+                // 2026-10-05 (Wikipedia, Battle of Sedan (1940)): Hill 247 was in German hands by 20:00, the
+                // "panic of Bulson" came at about 19:00, the first pontoon bridge stood at about 01:00 on 14 May,
+                // and a French armoured counterattack was ordered for 05:00. The three answers are the
+                // alternatives that evening offered; their payoff against each French posture is modeled.
+                decisions: [
+                  {
+                    id: "tonightOnTheHeights",
+                    time: "2000",
+                    title: "The infantry on the heights",
+                    prompt: "Evening on 13 May. The infantry hold Hill 247 and a shallow bridgehead, the first pontoon bridge is hours from standing, and the French behind the heights are either running or about to counterattack. No one can say which. The corps has to decide what the men on the far bank do tonight.",
+                    options: [
+                      {
+                        id: "pushOn",
+                        label: "Send the riflemen on through the night, past the heights",
+                        note: "Exploit the confusion before the French settle. They go with no tanks behind them.",
+                        bonus: 0,
+                        bonusByPosture: { reservistsShaken: 5, gapBetweenBunkers: 3, riverArtillery: -2, armourOnTheMove: -5 },
+                        reportLine: "The riflemen go on past the heights in the dark, with nothing behind them but the river.",
+                      },
+                      {
+                        id: "holdHeights",
+                        label: "Hold the heights and wait for the bridge",
+                        note: "A smaller risk, and a slower night.",
+                        bonus: 1,
+                        bonusByPosture: { armourOnTheMove: 3, riverArtillery: 1 },
+                        reportLine: "The riflemen dig in on the heights and wait for the engineers to finish the bridge.",
+                      },
+                      {
+                        id: "coverEngineers",
+                        label: "Turn the flak and field guns on the French batteries to cover the engineers",
+                        note: "Costs fuel and the day's ammunition.",
+                        bonus: 0,
+                        bonusByPosture: { riverArtillery: 4, armourOnTheMove: 2 },
+                        meters: { fuel: -1 },
+                        costReason: "Flak and guns turned to cover the bridging",
+                        reportLine: "Every gun and flak piece on the near bank turns on the French batteries to cover the bridge-builders.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   assault:
                     "The first men over are rifle companies and pioneers in rubber boats, and the bunkers on the far bank have to be taken one at a time. Each commitment here puts more men in the first boats and more pioneers with flamethrowers and charges in the first rush up the slope.",
@@ -2721,6 +2767,50 @@ const CAMPAIGNS = {
                       flavor:
                         "Sixty miles from Alexandria and this is the ground that decides it: sea on one flank, the Qattara Depression on the other, no room to maneuver around the British line the way every earlier battle in this desert allowed. The plan is a night march south around the minefields, then a hard turn north behind the Alam Halfa ridge before the sun comes up and the Desert Air Force owns the sky over open ground. Every vehicle in this army is already running on requisitioned and captured fuel that isn't being replaced at the rate it's being burned — what's decided here is how much of what's left drives, how much walks, what the Luftwaffe can put over the column, and how much gets held back rather than spent finding the gap.",
                       effectiveness: { divisions: 2.0, armour: 2.4, air: 1.4, supply: 2.8 },
+                      // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Alam el Halfa): the minefields proved deep, the
+                      // axis forces turned north earlier than planned because of delays, heavy consumption over bad
+                      // going and fuel, 22nd Armoured Brigade (Grants and light tanks) was dug in on the ridge, and the
+                      // Desert Air Force bombed the columns by night and by day. The three answers are the options at the
+                      // turn; their payoffs against each British posture are modeled.
+                      conditions: "Sixty miles from Alexandria, with the sea on one flank and the Qattara Depression on the other, soft going south of the British minefields, and the Desert Air Force overhead.",
+                      terrainModifiers: { supply: 0.85, armour: 0.9 },
+                      terrainNotes: { supply: "fuel burned on soft sand and detours", armour: "deep minefields and bad going" },
+                      decisions: [
+                        {
+                          id: "theTurnNorth",
+                          time: "1130",
+                          title: "The turn north",
+                          prompt: "The night march has cost more time and fuel than the plan allowed. The minefields were deep, the going is bad, and the British are hitting the column from the air. The wheel north toward the Alam Halfa ridge was to come further east. It has to be decided now where it comes.",
+                          options: [
+                            {
+                              id: "turnNow",
+                              label: "Turn north at once, toward the Alam Halfa ridge",
+                              note: "Save fuel and time, and meet whatever is on the ridge.",
+                              bonus: 0,
+                              bonusByPosture: {deepMinefields: 3, hullDownLine: -4},
+                              reportLine: "The column wheels north, short of the planned line, toward the Alam Halfa ridge.",
+                            },
+                            {
+                              id: "sweepWide",
+                              label: "Continue the wide sweep to the east before turning",
+                              note: "As planned, and with fuel that is running short.",
+                              bonus: 0,
+                              bonusByPosture: {hullDownLine: 3, deepMinefields: -4, airSuperiority: -2},
+                              reportLine: "The column holds its course east, further around the British line, before it turns.",
+                            },
+                            {
+                              id: "haltForFuel",
+                              label: "Halt, and call for fuel and fighters",
+                              note: "Costs fuel, and gives the British time.",
+                              bonus: 0,
+                              bonusByPosture: {airSuperiority: 3, hullDownLine: 1},
+                              meters: {fuel: -1},
+                              costReason: "A halt in the open for fuel and air cover",
+                              reportLine: "The column halts in the open, calling for fuel and for fighters over the desert.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         divisions:
                           "Six divisions against their four sounds like advantage — until you count the Italian infantry formations lacking transport for a night march this fast. Navarini's corps can hold whatever the armor takes, provided it arrives in time to hold it.",
@@ -2899,6 +2989,47 @@ const CAMPAIGNS = {
                       flavor:
                         "The ring has closed, but it hasn't set. Staff estimates of the trapped strength still range from 200,000 to well over that, the same uncertainty the airlift planners are about to build their own numbers on — but for a breakout ordered now, in these first days, the harder number is fuel: whatever isn't already inside the pocket isn't coming, and every kilometer west spends it. What's decided here is how the army moves while it still can — how much of the panzer reserve leads the way west, how much of the infantry mass comes with it, what the Luftwaffe can fly in over the column, and how much fuel and ammunition gets carried forward instead of destroyed in place before the retreat starts.",
                       effectiveness: { divisions: 2.0, armour: 2.2, air: 1.6, supply: 3.0 },
+                      // Round 22. Deep winter on the open steppe. Field decision about the equipment the column cannot
+                      // carry and still move; the payoffs against each Soviet posture are modeled.
+                      conditions: "Deep winter on the open steppe: snow, hard frost and short days, with fuel enough for only a short march.",
+                      terrainModifiers: { armour: 0.9 },
+                      terrainNotes: { armour: "tracked vehicles in deep snow" },
+                      decisions: [
+                        {
+                          id: "whatToCarry",
+                          time: "1300",
+                          title: "What the column carries",
+                          prompt: "The breakout has begun, and the column is slower than the plan allowed. The heavy guns and vehicles use the fuel that the whole army needs to march on. The commanders have to decide what goes and what stays, before the Soviet cordon can close around the column.",
+                          options: [
+                            {
+                              id: "marchLight",
+                              label: "Destroy the heavy equipment and march light",
+                              note: "A faster column, and an army without its guns.",
+                              bonus: 0,
+                              bonusByPosture: {deepWinter: 4, ringHardening: 1, softSpot: -1},
+                              meters: {fuel: -1},
+                              costReason: "Heavy equipment destroyed to speed the march",
+                              reportLine: "The heavy guns and the vehicles that cannot keep up are destroyed, and the column moves on light.",
+                            },
+                            {
+                              id: "carryGuns",
+                              label: "Carry the heavy guns, and move at their pace",
+                              note: "Slow, and able to fight its way through a hard ring.",
+                              bonus: 1,
+                              bonusByPosture: {ringHardening: 3, deepWinter: -3, softSpot: 1},
+                              reportLine: "The column keeps its heavy guns and moves at the pace they allow.",
+                            },
+                            {
+                              id: "tanksAhead",
+                              label: "Send the tanks ahead to hold the gap open",
+                              note: "Fast, if there is a gap, and a column without its screen if there is not.",
+                              bonus: 0,
+                              bonusByPosture: {softSpot: 4, ringHardening: -3, deepWinter: -2},
+                              reportLine: "The tanks go ahead of the column to hold open whatever gap they find.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         divisions:
                           "Most of the army's remaining infantry divisions could march out under their own power — if movement happens before the ring tightens completely. The transport shortage means a choice: what the men can carry comes, what they can't gets left on the ground they're standing on.",
@@ -3334,6 +3465,46 @@ const CAMPAIGNS = {
                 flavor:
                   "Early May, and the rasputitsa has only just loosened its grip. Weeks of thaw have turned this region's black chernozem into the kind of mud that swallows road wheels and tank treads alike — tanks are never at their best in the gap between winter's hard ground and summer's dry earth, and this order asks the panzer arm to move through exactly that gap. Before it goes out, the staff wants to know where the weight actually falls against ground and enemy both: which divisions lead, how much of the armored reserve commits while the mud still has a say in it, what the Luftwaffe can put over the breach point, and how much ammunition and engineering effort is set aside just to open a path through what's ahead.",
                 effectiveness: { divisions: 1.8, armour: 3, air: 2.2, supply: 2.6 },
+                // Round 22. Conditions (the mud is already a terrainModifier below). Field decision: the turn
+                // toward Prokhorovka, which Hoth had discussed with Manstein since early May (Wikipedia, Battle of
+                // Prokhorovka, as noted on the commander roster). The payoff against each Soviet posture is modeled.
+                conditions: "The spring thaw, the rasputitsa, has turned the roads to mud, and the Soviet defence has had months to dig in depth across the salient.",
+                decisions: [
+                  {
+                    id: "prokhorovkaTurn",
+                    time: "1200",
+                    title: "The turn east",
+                    prompt: "The southern pincer has fought its way through the first belts. Hoth has discussed with Manstein since early May whether the SS panzer corps should turn east, toward Prokhorovka, to meet the Soviet armour he expects from that direction, instead of pressing on north toward Oboyan and the link with the northern pincer. The decision cannot wait for a better map.",
+                    options: [
+                      {
+                        id: "turnEast",
+                        label: "Turn the SS panzer corps east toward Prokhorovka",
+                        note: "Meet the Soviet armour in open ground, away from the strongest belts.",
+                        bonus: 0,
+                        bonusByPosture: {antiTankFirst: 3, reservesDeep: -3, airForward: 0},
+                        reportLine: "The SS panzer corps swings east, toward Prokhorovka, with the Soviet armour somewhere ahead.",
+                      },
+                      {
+                        id: "pressNorth",
+                        label: "Keep pressing north on the original axis, through the belts",
+                        note: "The plan as written, and the link with the northern pincer.",
+                        bonus: 0,
+                        bonusByPosture: {reservesDeep: 4, antiTankFirst: -4, airForward: -1},
+                        reportLine: "The panzers keep their axis north, driving through the belts toward the link with the northern pincer.",
+                      },
+                      {
+                        id: "haltForAir",
+                        label: "Halt for a day to bring the flak and the fighters forward",
+                        note: "Costs fuel, and the Soviet reserves get a day.",
+                        bonus: 0,
+                        bonusByPosture: {airForward: 4, antiTankFirst: 1},
+                        meters: {fuel: -1},
+                        costReason: "A day's pause to bring up flak and fighters",
+                        reportLine: "The advance halts for a day while the flak and the fighters are brought forward over the front.",
+                      },
+                    ],
+                  },
+                ],
                 // Round 13, Craig's item #6 ("weather/terrain mechanically matters"). The opening
                 // flavor paragraph above already states this as fact, sourced (Wikipedia,
                 // Rasputitsa): the offensive lands in the tail end of the spring thaw, and tanks
@@ -6958,6 +7129,56 @@ const CAMPAIGNS = {
                 // fed the armies all winter, and the shortage is shells and clothing rather than
                 // men, which is a sharper limit than any one battle can lift.
                 effectiveness: { reserves: 2.5, exploitation: 2.2, air: 1.9, supply: 1.7 },
+                // Round 22. Ground and weather, verified 2026-10-05 (Wikipedia, Battle of Moscow): sources disagree
+                // on the December temperature (Soviet records -28.8 C at the lowest, German reports -36 to -45 C),
+                // and German frostbite cases passed 130,000, so the cold is a fact of the ground. The attrition rule
+                // charges the same cold to the columns that ride out in it.
+                conditions: "Deep cold, with the sources giving anything from -29 to -45 degrees, and deep snow on every road. It is the Germans' problem first, since they have no winter clothing, but it reaches the columns that go out in it too.",
+                terrainModifiers: { supply: 0.9, air: 0.9 },
+                terrainNotes: { supply: "locomotives and roads in deep cold", air: "frozen fields and short days" },
+                attrition: [
+                  { category: "exploitation", atLeast: 3, meter: "manpower", delta: -1, reason: "Frostbite among the columns left out in the open" },
+                ],
+                // Field decision: the second day. Facts (Wikipedia, Winter campaign of 1941-1942): the Red Army
+                // pushed the Germans back 150-300 km but "mostly failed to encircle the German units" at Klin and
+                // elsewhere. The three answers are the real options for running a pursuit with too few reserves;
+                // the payoff against each German posture is modeled.
+                decisions: [
+                  {
+                    id: "runningThePursuit",
+                    time: "1600",
+                    title: "The second day",
+                    prompt: "The first blows have gone in and the Germans are falling back, in some places in good order and in others hardly at all. Stavka wants the armies to pursue everywhere. Zhukov has to decide how the pursuit is run, with reserves that were never enough.",
+                    options: [
+                      {
+                        id: "pressHighways",
+                        label: "Press the pursuit down the main roads at once",
+                        note: "The fastest way, if the enemy is truly broken.",
+                        bonus: 0,
+                        bonusByPosture: { frozenLine: 4, mobileFlanks: -3, orderlyWithdrawal: -2 },
+                        reportLine: "The armies go down the main roads after the Germans without waiting to regroup.",
+                      },
+                      {
+                        id: "cutBehind",
+                        label: "Wheel the cavalry and ski columns around to cut the roads behind them",
+                        note: "The roads are the Germans' only way out, but the columns will be far from help.",
+                        bonus: 0,
+                        bonusByPosture: { frozenLine: 2, mobileFlanks: -4, orderlyWithdrawal: 4 },
+                        reportLine: "The cavalry and the ski columns ride around the flank and across the roads behind the retreating Germans.",
+                      },
+                      {
+                        id: "pauseAndFeed",
+                        label: "Pause a day to bring up the guns and the shells",
+                        note: "Costs Initiative, and the Germans get a day.",
+                        bonus: 0,
+                        bonusByPosture: { mobileFlanks: 4, orderlyWithdrawal: 1 },
+                        meters: { initiative: -1 },
+                        costReason: "A day's pause in the pursuit",
+                        reportLine: "The pursuit halts for a day while the guns and the shells come up the railway.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   reserves:
                     "The fresh armies are the weight of the blow, and they are all the reserve there is. Zhukov's argument is that they should go in together. Each commitment here puts more of them into the first morning's attack.",
@@ -7812,6 +8033,50 @@ const CAMPAIGNS = {
                       flavor:
                         "The front is open, and the only real question left is how fast the ring closes east of Minsk before what's left of Army Group Center finds a way back through it. The maskirovka has done its work — the reserves that could have blunted this are watching Lvov instead — and what stands between the spearheads and a hundred thousand trapped Germans is a matter of pace: how much of the rifle mass keeps the pocket sealed, how much of the tank strength drives the encirclement shut, what the air armies can do to a road network already choked with retreating columns, and how much gets held back to keep the whole advance fed rather than stretched thin across four hundred miles of liberated Belorussia.",
                       effectiveness: { divisions: 2.0, armour: 2.6, air: 1.8, supply: 2.2 },
+                      // Round 22. Verified 2026-10-05 (Wikipedia, Operation Bagration): the Soviets left four tank armies
+                      // in the L'vov area and let the Germans know it, so that the reserves stayed in the south; the
+                      // fortified cities (Vitebsk, Orsha, Mogilev, Bobruisk, Minsk) became traps; the Soviet air armies
+                      // dominated the roads; Minsk fell on 3 or 4 July. The three answers are options of the day;
+                      // their payoffs against each German posture are modeled.
+                      conditions: "High summer, with marsh, forest and river crossings across the line of advance. The roads are choked with retreating columns, and the Soviet air armies are over them.",
+                      terrainModifiers: { armour: 0.9, air: 1.1 },
+                      terrainNotes: { armour: "marsh and forest keep the tanks to the roads", air: "the Soviet air armies own the sky" },
+                      decisions: [
+                        {
+                          id: "aimOfTheTanks",
+                          time: "2130",
+                          title: "Where the tanks are aimed",
+                          prompt: "The front is open and the tank armies are through. Minsk is the great prize, and the German Fourth Army is falling back across the Berezina toward it. The tanks cannot do everything. The front commanders have to decide what they are aimed at.",
+                          options: [
+                            {
+                              id: "straightAtMinsk",
+                              label: "Drive the tank armies straight at Minsk",
+                              note: "Take the city before a line can form, and leave the retreating army behind.",
+                              bonus: 0,
+                              bonusByPosture: {collapsingCenter: 4, fortifiedResistance: -3, deceptionHolding: 1},
+                              reportLine: "The tank armies drive straight at Minsk down the roads, leaving the retreating Germans to their rear.",
+                            },
+                            {
+                              id: "closeTheRing",
+                              label: "Hold the tanks to close the ring behind the German Fourth Army",
+                              note: "Trap the army rather than take the city first.",
+                              bonus: 0,
+                              bonusByPosture: {fortifiedResistance: 3, collapsingCenter: -2},
+                              reportLine: "The tank armies turn to close the ring around the German Fourth Army east of Minsk.",
+                            },
+                            {
+                              id: "keepTheFeint",
+                              label: "Keep the feint toward the south alive to pin the German reserves",
+                              note: "Costs Initiative to sustain, and keeps the reserves away from the fight.",
+                              bonus: 0,
+                              bonusByPosture: {deceptionHolding: 4, fortifiedResistance: 1},
+                              meters: {initiative: -1},
+                              costReason: "A deception sustained at the cost of the staff's attention",
+                              reportLine: "The southern feint is kept up, and the German reserves stay where they were, watching Lvov.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         divisions:
                           "The rifle armies seal the ring after the tanks cut it. Chernyakhovsky's front alone commits rifle strength in the hundreds of thousands. Without them pressing behind the armored spearheads, whatever gets encircled finds its way back out.",
@@ -8916,6 +9181,52 @@ const CAMPAIGNS = {
                 // the Duxford Wing was real and arrived, but a wing of five squadrons takes time
                 // to form and this doctrine does not wait for it.
                 effectiveness: { squadrons: 2.5, control: 2.3, wing: 1.7, turnaround: 1.9 },
+                // Round 22. Two raids with a pause between them are the day itself (Wikipedia, Battle of Britain
+                // Day: the morning raid at about 11:00, the afternoon raid about three hours later), so this is a
+                // battle in two phases, and a defensive one: the enemy's blow is the whole of it.
+                conditions: "Cloud lies across Kent and the Thames estuary between two thousand and twelve thousand feet, enough to hide the targets from the German crews, and the Observer Corps struggles in poor weather.",
+                phases: ["The morning raid", "The afternoon raid"],
+                counterScale: 1.5,
+                // Field decision, in the pause between the raids. Facts verified 2026-10-05 (Wikipedia, Battle of
+                // Britain Day; Keith Park): the afternoon wave crossed the coast at about 14:15, five squadrons of
+                // 12 Group's Duxford Wing came south, and Park "put up all his aircraft, leaving no reserve". The
+                // three answers are the real choices of the hour; their payoff against each raid is modeled.
+                decisions: [
+                  {
+                    id: "theSecondPlot",
+                    time: "1410",
+                    title: "The second plot",
+                    prompt: "The squadrons that met the first raid have landed and are being refuelled and rearmed. A bigger plot is building over the Channel, and every squadron Park has is either in the air or on the ground, with nothing in reserve. He has to decide how to meet it.",
+                    options: [
+                      {
+                        id: "everythingUp",
+                        label: "Scramble every squadron at once and meet it over Kent",
+                        note: "Everything flies, as Park in fact ordered. Nothing is left in hand.",
+                        bonus: 0,
+                        bonusByPosture: { secondWave: 4, heavyEscort: -2, cloudCover: 1 },
+                        reportLine: "Park puts every squadron he has into the air and meets the second raid over Kent.",
+                      },
+                      {
+                        id: "holdHalf",
+                        label: "Hold half the squadrons until the raid's track is clear",
+                        note: "Safer if the plot is wrong, and slower if it is right.",
+                        bonus: 1,
+                        bonusByPosture: { cloudCover: 3, secondWave: -3, heavyEscort: 1 },
+                        reportLine: "Park holds half his squadrons at readiness until the plot shows where the raid is going.",
+                      },
+                      {
+                        id: "askTwelve",
+                        label: "Ask 12 Group to fly south and cover the sector stations",
+                        note: "The Duxford Wing flies, but costs fuel and an argument.",
+                        bonus: 0,
+                        bonusByPosture: { heavyEscort: 4, secondWave: 2 },
+                        meters: { fuel: -1 },
+                        costReason: "12 Group called south to cover 11 Group",
+                        reportLine: "Park asks 12 Group to cover his airfields, and the Duxford Wing climbs south toward London.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   squadrons:
                     "Park's squadrons are the fighters that meet the raids over Kent and London. His doctrine is to send them up fast, forward, and in squadron strength. Each commitment here puts more of them into the air at the first warning.",
@@ -8956,7 +9267,7 @@ const CAMPAIGNS = {
                     "The armourers run short of belts and a lorry is sent for more.",
                   ],
                 },
-                reportTimes: { open: "0900", contact: "1100", cats: ["1115", "1200", "1245", "1330"], reserve: "1435", counter: "1500" },
+                reportTimes: { open: "0900", contact: "1100", cats: ["1115", "1200", "1245", "1330"], contact2: "1345", reserve: "1435", counter: "1500" },
                 idleLines: {
                   squadrons: [
                     "No more squadrons are sent to meet the raid forward. They wait for the bombers over London.",
@@ -9191,6 +9502,48 @@ const CAMPAIGNS = {
                 // down a torpedo bomber by itself, the same design choice as Anzio's Naval or
                 // Arnhem's Supply Drop.
                 effectiveness: { escorts: 2.6, coveringForce: 2.2, aaShips: 2.0, intelligence: 1.6 },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Convoy PQ 17): the cruiser force under Hamilton was near
+                // Bear Island; German torpedo bombers from Norway struck on 4 July; at 21:11 the Admiralty
+                // ordered the cruisers to withdraw westward, and then the convoy to scatter (the premise of this
+                // battle is that it did not). The fight is in two phases, west and east of Bear Island.
+                conditions: "The Arctic summer: the sun does not set, so there is no night to hide in, and the German airfields in Norway are within reach of the whole route.",
+                phases: ["West of Bear Island", "East of Bear Island"],
+                decisions: [
+                  {
+                    id: "theCoveringForce",
+                    time: "2200",
+                    title: "The covering force",
+                    prompt: "The convoy is nearing Bear Island, and the cruiser force under Hamilton, which has been standing off, will have to turn back soon or go on with it. The Admiralty fears a sortie by the Tirpitz. Whether she is coming, no one can say. The senior officers afloat have to decide where the cruisers go.",
+                    options: [
+                      {
+                        id: "keepWithConvoy",
+                        label: "Keep the covering force with the convoy past Bear Island",
+                        note: "More guns against the air attacks, and in range of the Tirpitz.",
+                        bonus: 0,
+                        bonusByPosture: {luftwaffeStrike: 3, wolfpackConcentration: 1, distantShadow: -3},
+                        reportLine: "The cruisers stay with the convoy past Bear Island, their guns added to the screen.",
+                      },
+                      {
+                        id: "pullBackWest",
+                        label: "Pull the covering force back to the west, as the Admiralty fears",
+                        note: "Safe from the Tirpitz, and the convoy is left to the escort.",
+                        bonus: 0,
+                        bonusByPosture: {distantShadow: 3, luftwaffeStrike: -2, wolfpackConcentration: -1},
+                        reportLine: "The cruisers turn back to the west at high speed, and the convoy goes on with the close escort alone.",
+                      },
+                      {
+                        id: "destroyersAhead",
+                        label: "Detach two destroyers from the screen to sweep ahead for the pack",
+                        note: "Costs fuel, and thins the screen.",
+                        bonus: 0,
+                        bonusByPosture: {wolfpackConcentration: 4},
+                        meters: {fuel: -1},
+                        costReason: "Destroyers detached to sweep ahead",
+                        reportLine: "Two destroyers leave the screen to sweep ahead of the convoy for the submarines.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   escorts:
                     "Broome commands six destroyers and the corvette screen — the entire close protection between wolfpacks and thirty-five loaded ships. Every gun added here is a gun actually on the convoy's perimeter.",
@@ -9231,7 +9584,7 @@ const CAMPAIGNS = {
                     "A fix on a shadowing aircraft lets the escort work out roughly when it will report again.",
                   ],
                 },
-                reportTimes: { open: "0600", contact: "0900", cats: ["1200", "1500", "1800", "2100"], reserve: "2300", counter: "0100" },
+                reportTimes: { open: "0600", contact: "0900", cats: ["1200", "1500", "1800", "2100"], contact2: "2130", reserve: "2300", counter: "0100" },
                 idleLines: {
                   escorts: [
                     "The screen holds its stations and nothing more. No extra weight goes to the perimeter.",
@@ -9789,6 +10142,51 @@ const CAMPAIGNS = {
                 // count for the RAF rather than a lever that changes the siege, the same design
                 // choice as Omaha's Air or Anzio's Naval.
                 effectiveness: { corpsPush: 2.6, perimeter: 2.0, resupply: 1.6, poles: 2.2 },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Arnhem): the Polish brigade dropped at Driel
+                // on 21 September; the first night no rafts arrived for them, only 153 men crossed on the night of
+                // 22/23 September, and the crossing of the 24th/25th failed; DUKWs were captured or stuck in
+                // the mud; the Oosterbeek perimeter was about three miles round, held by about 3,600 men; the
+                // Germans cut the road near Koevering. The three answers are the options at the river; payoffs
+                // against each German posture are modeled.
+                conditions: "One raised road across flat, wet polder, cut by dykes and by the Rhine itself, with the Oosterbeek perimeter roughly three miles round.",
+                terrainModifiers: { corpsPush: 0.85 },
+                terrainNotes: { corpsPush: "a single raised road over low, wet ground" },
+                decisions: [
+                  {
+                    id: "crossingTheRhine",
+                    time: "0800",
+                    title: "The river and the boats",
+                    prompt: "There are few boats and a great many things that need to cross the Rhine. The Polish brigade is on the south bank and wants to join the perimeter, the perimeter is short of ammunition and rations, and the Germans are bringing up armour. The few boats can carry only one of these things at a time.",
+                    options: [
+                      {
+                        id: "sendThePoles",
+                        label: "Send the Polish brigade across the river tonight",
+                        note: "Reinforce the perimeter with fresh men, in the dark.",
+                        bonus: 0,
+                        bonusByPosture: {dropZoneCompromised: 3, corridorCut: -2, freshPanzerReserves: -3},
+                        reportLine: "The Polish paratroopers go down to the river bank and into the few boats there are.",
+                      },
+                      {
+                        id: "ferrySupplies",
+                        label: "Use the boats for the perimeter's ammunition and rations",
+                        note: "Keep the perimeter fed, with fewer men reaching it.",
+                        bonus: 0,
+                        bonusByPosture: {corridorCut: 3},
+                        meters: {fuel: -1},
+                        costReason: "Boats and engineers committed to the supply ferry",
+                        reportLine: "The few boats carry ammunition and rations across the river instead of men.",
+                      },
+                      {
+                        id: "tightenTheLine",
+                        label: "Pull the perimeter in to a tighter line at once",
+                        note: "A smaller front to hold against the armour.",
+                        bonus: 0,
+                        bonusByPosture: {freshPanzerReserves: 4, dropZoneCompromised: -1},
+                        reportLine: "The perimeter is pulled in to a tighter line around Oosterbeek, and the outer ground is given up.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   corpsPush:
                     "The relief column is stalled on one road between Nijmegen and Elst. Every mile forward means the Germans can cut behind that same road. Moving it forward brings relief closer. It also thins the position being held.",
@@ -10456,6 +10854,47 @@ const CAMPAIGNS = {
                 // historical diversion drew none off at all, the same asymmetric-by-design choice
                 // as PQ-17's Signals Intelligence or Kursk's Supply.
                 effectiveness: { formation: 2.6, escort: 2.3, targeting: 2.0, diversion: 1.6 },
+                // Round 22. This battle's own notes: the escort could cover only about 200 of the 400 miles and
+                // turned back near Aachen. So the mission is fought in two phases, the leg out with the escort and
+                // the leg after it, and its field decision is whether to press on.
+                conditions: "A deep daylight penetration of Germany. The escorts can cover only about half the way, and every mile after Aachen is flown without them.",
+                phases: ["The leg with the escort", "Beyond the escort's range"],
+                decisions: [
+                  {
+                    id: "pressOnBeyondAachen",
+                    time: "1530",
+                    title: "After Aachen",
+                    prompt: "The escort turned back at the limit of its range, and the formation has flown on without it. Ahead is the target and the German fighter wings; behind is the long way home with no escort either. The lead group has to decide whether to hold to the briefed bomb run.",
+                    options: [
+                      {
+                        id: "pressOn",
+                        label: "Hold to the briefed bomb run and press on to the target",
+                        note: "The mission as planned, with what that costs.",
+                        bonus: 0,
+                        bonusByPosture: {flakOverTarget: 3, headOnWaves: -2, rocketStandoff: -3},
+                        reportLine: "The formation presses on to the target without the escort, holding to the briefed run.",
+                      },
+                      {
+                        id: "turnHome",
+                        label: "Abort the mission and turn for home",
+                        note: "Fewer losses, and nothing to show for the day.",
+                        bonus: -1,
+                        bonusByPosture: {headOnWaves: 4, rocketStandoff: 4},
+                        meters: {initiative: -1},
+                        costReason: "A mission abandoned short of the target",
+                        reportLine: "The lead group turns the formation for home, and the bombs are brought back or dropped on a target of opportunity.",
+                      },
+                      {
+                        id: "rerouteTheBox",
+                        label: "Swing the formation onto the alternate approach to dodge the fighter belt",
+                        note: "Costs time over the target, and a longer run.",
+                        bonus: 0,
+                        bonusByPosture: {rocketStandoff: 4},
+                        reportLine: "The formation swings onto the alternate approach, away from the fighters waiting on the briefed one.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   formation:
                     "LeMay's combat box is the formation's entire defense once the escort turns back at Aachen. Box discipline means overlapping fire from every gun — stragglers get picked off alone. Each commitment here keeps the wings tight.",
@@ -10496,7 +10935,7 @@ const CAMPAIGNS = {
                     "The diversion holds together long enough to still look like the real raid.",
                   ],
                 },
-                reportTimes: { open: "0715", contact: "0910", cats: ["1005", "1140", "1315", "1450"], reserve: "1620", counter: "0940" },
+                reportTimes: { open: "0715", contact: "0910", cats: ["1005", "1140", "1315", "1450"], contact2: "1500", reserve: "1620", counter: "0940" },
                 idleLines: {
                   formation: [
                     "No extra effort goes into tightening the box. The formation holds whatever interval it already had.",
@@ -10814,6 +11253,50 @@ const CAMPAIGNS = {
                 // whether the door stays open, the same design choice as Omaha's Air or Monte
                 // Cassino's Supply.
                 effectiveness: { assault: 1.8, armor: 2.8, rangers: 2.4, naval: 1.6 },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Anzio): about 36,000 men and 3,200 vehicles
+                // landed on 22 January with total surprise and 13 killed; Lucas consolidated rather than exploit
+                // it; Kesselring activated Operation Richard at once, with over 40,000 German troops by 24 January;
+                // the beachhead was reclaimed marsh ringed by mountains. The three answers are the real options of
+                // the first day; their payoffs against each German posture are modeled.
+                conditions: "Flat, reclaimed marsh behind the beaches, ringed by mountains, with few roads off the beachhead.",
+                terrainModifiers: { armor: 0.9 },
+                terrainNotes: { armor: "marshy ground off the roads" },
+                decisions: [
+                  {
+                    id: "firstDayChoice",
+                    time: "1900",
+                    title: "The end of the first day",
+                    prompt: "The landing has met almost no one, and the road to the Alban Hills is open this evening. Behind the German lines the order for Operation Richard is already going out. The corps commander has to decide what the first day's surprise is spent on.",
+                    options: [
+                      {
+                        id: "armourUpTheRoad",
+                        label: "Send a strong armoured reconnaissance up the road toward the Alban Hills",
+                        note: "Use the open road before it closes.",
+                        bonus: 0,
+                        bonusByPosture: {windowStillOpen: 5, richardOrder: -4, thinCordon: 2},
+                        reportLine: "A strong armoured column goes up the road toward the Alban Hills in the last of the light.",
+                      },
+                      {
+                        id: "digIn",
+                        label: "Dig in on the perimeter of the beachhead first",
+                        note: "Safe, and what the corps commander did.",
+                        bonus: 1,
+                        bonusByPosture: {richardOrder: 3, windowStillOpen: -4, thinCordon: -2},
+                        reportLine: "The corps digs in on the perimeter it has landed, and the road inland is left alone.",
+                      },
+                      {
+                        id: "landStores",
+                        label: "Take a day to land the guns and stores off the ships",
+                        note: "Costs Initiative, and builds the beachhead's strength.",
+                        bonus: 0,
+                        bonusByPosture: {thinCordon: 4, richardOrder: 2},
+                        meters: {initiative: -1},
+                        costReason: "A day spent landing stores instead of pushing inland",
+                        reportLine: "The ships are unloaded through the night, and the beachhead's stocks grow while the road is left unused.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   assault:
                     "The 3rd Division and British 1st are ashore against minimal opposition. The question isn't how many men fit on the beach — it's how many stay to hold the line versus how many push forward with the rest.",
@@ -11158,6 +11641,47 @@ const CAMPAIGNS = {
                       // credits with breaking the strongpoints), engineers second (the exits are
                       // the only way off the beach), infantry baseline, air weakest (overcast).
                       effectiveness: { waves: 1.8, naval: 3, engineers: 2.6, air: 1.6 },
+                      // Round 22. Facts from this battle's own notes (Wikipedia, Omaha Beach): the bombers overshot, and
+                      // the destroyers were ordered in at 09:50. Field decision for the next hour; modeled payoffs.
+                      conditions: "A rough sea and a rising tide over the beach obstacles, and overcast over the bluffs that spoiled the bombers' aim.",
+                      terrainModifiers: { air: 0.85, engineers: 0.9 },
+                      terrainNotes: { air: "overcast over the bluffs", engineers: "the tide covering the obstacles" },
+                      decisions: [
+                        {
+                          id: "nextWaves",
+                          time: "1215",
+                          title: "The next waves",
+                          prompt: "The beach is still under fire, and the next waves are circling offshore. Some of the draws are beginning to open, and some of the strongpoints at their mouths are still firing. The commander afloat has to decide where the weight goes in the next hour.",
+                          options: [
+                            {
+                              id: "landAtDraws",
+                              label: "Land the next waves at the draws now being cleared",
+                              note: "Use the openings that exist, before the Germans can plug them.",
+                              bonus: 0,
+                              bonusByPosture: {thinGarrison: 4, strongpointsIntact: -3, fieldDivision: -1},
+                              reportLine: "The next waves are sent in at the draws that are opening, and the men go up them under fire.",
+                            },
+                            {
+                              id: "holdOffshore",
+                              label: "Hold the waves offshore until the exits are open",
+                              note: "Safer for the men, and costs time.",
+                              bonus: 0,
+                              bonusByPosture: {strongpointsIntact: 3, fieldDivision: 2, thinGarrison: -1},
+                              meters: {initiative: -1},
+                              costReason: "Waves held offshore while the exits stay shut",
+                              reportLine: "The next waves are held offshore, and the men on the beach wait for the exits to open.",
+                            },
+                            {
+                              id: "destroyersAgain",
+                              label: "Order the destroyers closer in to hit the strongpoints at the draws",
+                              note: "Another run in the shallows, with the risk of grounding.",
+                              bonus: 0,
+                              bonusByPosture: {strongpointsIntact: 4, fieldDivision: 1},
+                              reportLine: "The destroyers go in closer yet, firing straight at the strongpoints at the mouths of the draws.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         waves:
                           "The first waves are pinned against the shingle bank. The second came in at seven onto the same fire. Adding more men puts more on the sand. Whether it creates pressure on the bluffs depends on what's supporting them.",
@@ -12247,6 +12771,55 @@ const CAMPAIGNS = {
                 // handful of mule trails are this battle's own ceiling, the same design choice as
                 // Monte Marrone's mule trail.
                 effectiveness: { assault: 2.3, artillery: 1.8, air: 1.7, supply: 1.6 },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Italian invasion of France): the offensive cost the
+                // Italian army 2,151 frostbite casualties in four days, and the passes (the Little St Bernard is
+                // above 2,000 metres) were still under snow.
+                conditions: "The high passes are still under snow in late June, and the nights are cold enough that frostbite cost the Italian army 2,151 men in four days of fighting. The mountains and the weather make air support hard to direct.",
+                terrainModifiers: { supply: 0.85, air: 0.9 },
+                terrainNotes: { supply: "snow on the road and trails", air: "cloud over the passes" },
+                attrition: [
+                  { category: "assault", atLeast: 3, meter: "manpower", delta: -1, reason: "Frostbite on the heights" },
+                ],
+                // Field decision. Facts (Wikipedia, same article): the French blew the bridges on the Little St
+                // Bernard road, held the Redoute Ruinee and the post at Seloge, and had 86 platoons of ski scouts;
+                // on 21 June French 280-mm mortars silenced the Chaberton fort. The three answers are the real
+                // options of the day; their payoff against each French posture is modeled.
+                decisions: [
+                  {
+                    id: "roadOrHighGround",
+                    time: "1100",
+                    title: "The road or the high ground",
+                    prompt: "The French have blown the bridges on the road and hold the old posts above it. Fighting up the road means mending it under fire. The Alpini could go over the high cols instead, through the snow, and come down behind the posts.",
+                    options: [
+                      {
+                        id: "overCols",
+                        label: "Send the Alpini over the high cols, around the French posts",
+                        note: "Fast if no one is watching the cols, and costly if they are.",
+                        bonus: 0,
+                        bonusByPosture: { bridgesDown: 4, fortressGuns: 1, skiScreen: -3 },
+                        reportLine: "The Alpini leave the road and climb toward the high cols, in single file through the snow.",
+                      },
+                      {
+                        id: "mendRoad",
+                        label: "Mend the road and bring the guns up behind the infantry",
+                        note: "Slow, and it costs fuel, but the guns can answer the forts.",
+                        bonus: 0,
+                        bonusByPosture: { bridgesDown: 1, fortressGuns: 4, skiScreen: 1 },
+                        meters: { fuel: -1 },
+                        costReason: "Engineers and guns committed to the road",
+                        reportLine: "Engineers go to work on the broken bridges, and the guns wait on the road behind the infantry.",
+                      },
+                      {
+                        id: "standFast",
+                        label: "Stand on the ground already held and let the armistice talks decide the rest",
+                        note: "No further risk, and nothing more gained.",
+                        bonus: 0,
+                        bonusByPosture: { skiScreen: 3 },
+                        reportLine: "The army stops where it is and waits to hear what the armistice talks will give it.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   assault:
                     "The Alpini and the line infantry are the arm that climbs, and the passes are steep and still deep in snow. Each commitment here puts more men onto the slope in the first push.",
@@ -13819,6 +14392,48 @@ const CAMPAIGNS = {
                 // battle's own well-documented logistics ceiling, the same design choice as
                 // Kursk's mud or Alam Halfa's fuel arithmetic.
                 effectiveness: { assault: 2.2, paratroops: 2.6, artillery: 2.0, supply: 1.6 },
+                // Round 22. The cold and altitude are real (this battle's own notes: a 1,805 m peak held through
+                // German counterattacks on 2, 3 and 10 April); the attrition rule charges them to a heavy assault.
+                conditions: "Snow and bitter cold above 1,800 meters, with no road, only mule trails, against German mountain troops who know the ground.",
+                attrition: [
+                  { category: "assault", atLeast: 3, meter: "manpower", delta: -1, reason: "Exposure on the peak" },
+                ],
+                decisions: [
+                  {
+                    id: "holdTheSummit",
+                    time: "1230",
+                    title: "The summit under counterattack",
+                    prompt: "German mountain troops are forming up below the peak. The position taken by night is exposed on its forward slope, and the reverse slope is steep and open to the cold. The commander has to decide how the line meets what is coming.",
+                    options: [
+                      {
+                        id: "holdSummit",
+                        label: "Hold the summit where it stands",
+                        note: "Keeps the ground, and keeps every man exposed on it.",
+                        bonus: 0,
+                        bonusByPosture: {thinInitialLine: 2, gebirgsjagerReserve: -3},
+                        reportLine: "The line holds the summit where it is, with every man on the forward slope.",
+                      },
+                      {
+                        id: "reverseSlope",
+                        label: "Pull back to the reverse slope and let the guns work",
+                        note: "The Anglo-Polish guns can range the summit, if the men are off it.",
+                        bonus: 0,
+                        bonusByPosture: {gebirgsjagerReserve: 4, thinInitialLine: -2, highAltitudeCold: 2},
+                        reportLine: "The line falls back behind the crest, and the attached guns range on the summit it left.",
+                      },
+                      {
+                        id: "counterAtOnce",
+                        label: "Counterattack before the Germans finish forming up",
+                        note: "Costs men, and may catch them off balance.",
+                        bonus: 0,
+                        bonusByPosture: {thinInitialLine: 4, gebirgsjagerReserve: -2, highAltitudeCold: -2},
+                        meters: {manpower: -1},
+                        costReason: "A counterattack made on the exposed slope",
+                        reportLine: "The Italians go down at the Germans before they have formed up, in the snow.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   assault:
                     "The Piemonte battalion and both Bersaglieri battalions form the assault force — roughly five thousand men against perhaps three thousand Germans dug in on the peak. Dapino notes that surprise and night attack favor the numbers more than daylight calculations suggest.",
@@ -16522,6 +17137,7 @@ const KEY_BATTLE_POSTURES = {
     },
     {
       id: "distantShadow",
+      only: 1,
       name: "The convoy is fixed and reported",
       // Same reasoning as luftwaffeStrike above: escorts' own ceiling needed matching dampening
       // here too, or the screen stayed the best play regardless of contact.
@@ -16574,6 +17190,7 @@ const KEY_BATTLE_POSTURES = {
     },
     {
       id: "flakOverTarget",
+      only: 2,
       name: "The target itself is ringed with flak",
       // Same reasoning as rocketStandoff above: formation's own ceiling needed matching
       // dampening here too, or the box stayed the best play regardless of contact.
@@ -16700,6 +17317,7 @@ const KEY_BATTLE_POSTURES = {
     },
     {
       id: "secondWave",
+      only: 2,
       name: "A second wave behind the first",
       modifiers: { turnaround: 1.8, squadrons: 0.8, wing: 0.8, control: 0.9 },
       hints: [
@@ -16731,7 +17349,7 @@ const KEY_BATTLE_POSTURES = {
       id: "bridgesDown",
       name: "The bridges down, the old posts manned",
       weight: 2,
-      modifiers: { supply: 1.7, assault: 0.6, artillery: 0.9, air: 0.9 },
+      modifiers: { supply: 2.0, assault: 0.6, artillery: 0.9, air: 0.9 },
       hints: [
         "Engineers report the French have blown the bridges on the Little St Bernard road.",
         "Aerial photographs show machine-gun posts in the ruins of the old fort at the top of the pass.",
@@ -16811,8 +17429,14 @@ const KEY_BATTLE_BONUS_CLAMP = 30;
 
 // Round 10 (item 7): postures can carry a `weight` (default 1) — Omaha's historical posture is
 // drawn twice as often as either alternative.
-function pickKeyBattlePosture(battleId) {
-  const roster = KEY_BATTLE_POSTURES[battleId] || [];
+function pickKeyBattlePosture(battleId, excludeId, phase) {
+  // Round 22: a battle with phases (config.phases) draws a second posture for its second phase,
+  // never the same one twice. excludeId is undefined for every ordinary battle, so nothing about
+  // the first draw changes for them.
+  // A posture can be tied to one phase (only: 1 or 2): a second wave cannot open the day.
+  const roster = (KEY_BATTLE_POSTURES[battleId] || []).filter(
+    (p) => (!excludeId || p.id !== excludeId) && (!phase || !p.only || p.only === phase)
+  );
   if (!roster.length) return null;
   const total = roster.reduce((a, p) => a + (p.weight || 1), 0);
   let r = Math.random() * total;
@@ -17201,8 +17825,16 @@ function clampBattleBonus(raw) {
 // the staff ahead of events); a reserve of 2+ chits held back and never committed returns +1
 // Manpower. Each meter's net plan cost is capped to [-2, +1] so the plan can sting but never
 // outweigh the battle's own historical outcome impact.
-function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contributions, won, reservesHeld, counter }) {
+function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contributions, won, reservesHeld, counter, extraLines, attrition }) {
   const lines = [];
+  // Round 22: costs chosen at a mid-battle decision (extraLines: [{meter, delta, reason}]) and a
+  // battle's own attrition rules (attrition: [{category, atLeast, meter, delta, reason}], e.g. the
+  // frostbite on the Alps or the cold before Moscow) read exactly like the rules below. They go
+  // through the same [-2, +1] cap per meter, so a battle can sting but never outweigh its outcome.
+  for (const l of extraLines || []) lines.push({ meter: l.meter, delta: l.delta, reason: l.reason });
+  for (const a of attrition || []) {
+    if ((finalAllocation[a.category] || 0) >= a.atLeast) lines.push({ meter: a.meter, delta: a.delta, reason: a.reason });
+  }
   // Round 10: the counterattack's own cost. Repulsing it is free; holding it at a cost, or
   // being broken, costs the meter of the arm that met it; giving ground costs tempo.
   if (counter && counter.result !== "repulsed") {
@@ -17247,6 +17879,22 @@ function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contrib
     ? "total"
     : "marginal";
   return { lines, totals, grade };
+}
+
+// Round 22, field decisions (config.decisions). Mid-battle choices written for each battle from
+// the real alternatives its day offered. Each option has a flat `bonus` toward the roll, optionally
+// an extra `bonusByPosture` for the enemy posture in force when the decision is made (the later
+// of the battle's postures, when it has two phases), optional `meters` costs, and an optional
+// `severity` change to the counterattack that follows. Pure, so the balance check can run the same
+// code the screen does.
+function battleDecisionEffect(option, postureId) {
+  const byPosture = (option.bonusByPosture && postureId && option.bonusByPosture[postureId]) || 0;
+  const lines = Object.entries(option.meters || {}).map(([meter, delta]) => ({
+    meter,
+    delta,
+    reason: option.costReason || option.label,
+  }));
+  return { bonus: (option.bonus || 0) + byPosture, severity: option.severity || 0, lines };
 }
 
 // One entry per transition (fixed order, so exactly 2 transitions for 3 campaigns — see the
@@ -21856,7 +22504,35 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   // Round 9, item #1: the enemy's hidden posture for THIS attempt at this battle, drawn once per
   // screen instance (lazy initializer) and never shown directly — only one line of intelligence
   // hints at it (postureHint), and it's revealed as the "contact" beat of the battle report.
-  const [posture] = useState(() => pickKeyBattlePosture(config.id));
+  const [posture] = useState(() => pickKeyBattlePosture(config.id, undefined, config.phases ? 1 : undefined));
+  // Round 22 (twists): a battle fought in phases (config.phases, a list of phase names) draws a
+  // second hidden posture for its second phase. The plan is weighed against the average of the
+  // two, and the report reveals the second one half way through — so intelligence about the first
+  // phase is only part of the picture, which is exactly what fighting an outbound leg and a bomb
+  // run, or a morning raid and an afternoon raid, is like.
+  const phaseNames = config.phases || null;
+  const [posture2] = useState(() => (phaseNames && posture ? pickKeyBattlePosture(config.id, posture.id, 2) : null));
+  // Mean posture multiplier for a category: the first posture's alone for an ordinary battle.
+  function postureMultFor(catId) {
+    const m1 = posture?.modifiers?.[catId] ?? 1;
+    return posture2 ? (m1 + (posture2.modifiers?.[catId] ?? 1)) / 2 : m1;
+  }
+  // Round 22 (explainer): the first Order of Battle a player meets arrives after one or two
+  // decisions, so the first one opens with a short plain-language guide, shut on every later visit.
+  const [introOpen] = useState(() => {
+    try {
+      return !window.localStorage.getItem("dispatches1940_battle_intro_seen");
+    } catch {
+      return true;
+    }
+  });
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("dispatches1940_battle_intro_seen", "1");
+    } catch {
+      /* storage can be blocked; the guide then simply opens every time */
+    }
+  }, []);
   // Round 10, Craig's item #4: the intelligence summary is wrong one time in four — the hint is
   // then drawn from a DIFFERENT posture than the real one, so a player who reads the intel
   // perfectly still gets fooled sometimes, the way a general would. Whether it was right is
@@ -21866,7 +22542,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   function drawIntel(errorRate) {
     if (!posture) return null;
     const roster = KEY_BATTLE_POSTURES[config.id] || [];
-    const others = roster.filter((p) => p.id !== posture.id);
+    const others = roster.filter((p) => p.id !== posture.id && (!config.phases || p.only !== 2));
     const wrong = others.length > 0 && Math.random() < errorRate;
     const source = wrong ? others[Math.floor(Math.random() * others.length)] : posture;
     const hint = source.hints.length ? source.hints[Math.floor(Math.random() * source.hints.length)] : null;
@@ -21911,6 +22587,15 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   function removeChit(catId) {
     setAllocation((a) => (a[catId] > 0 ? { ...a, [catId]: a[catId] - 1 } : a));
   }
+  // Round 22 (quick placement): one tap for an even split, one for a clean slate. An even split of a
+  // pool that doesn't divide leaves the remainder unplaced, as the reserve.
+  function spreadEvenly() {
+    const each = Math.floor(poolSize / categories.length);
+    setAllocation(Object.fromEntries(categories.map((c) => [c.id, each])));
+  }
+  function clearAll() {
+    setAllocation(Object.fromEntries(categories.map((c) => [c.id, 0])));
+  }
 
   // Round 3 (Craig): a battle isn't a spreadsheet — the same push doesn't land the same way
   // twice. Rolled once per screen instance and applied as a +/-30% jitter on that category's
@@ -21926,7 +22611,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   function effectiveWeight(catId) {
     const base = (config.effectiveness[catId] ?? 1) * jitter[catId];
     const commanderBonus = selectedCommander && selectedCommander.category === catId ? KEY_BATTLE_COMMANDER_BONUS : 0;
-    const postureMult = posture?.modifiers?.[catId] ?? 1;
+    const postureMult = postureMultFor(catId);
     // Round 13, item #6: a static, known ground-conditions multiplier — see terrainModifiers on
     // the battle config. Defaults to 1 (no effect) for any battle/category that doesn't define one.
     const terrainMult = config.terrainModifiers?.[catId] ?? 1;
@@ -21984,7 +22669,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
       if (shownBand === trueBand) shownBand = trueBand === 0 ? 1 : trueBand - 1;
     }
     const text = BAND_TEXT[shownBand];
-    const pm = (id) => posture?.modifiers?.[id] ?? 1;
+    const pm = (id) => postureMultFor(id);
     const neglected = categories.filter((c) => contributions[c.id] < 0);
     const heaviest = categories.reduce((m, c) => ((allocation[c.id] || 0) > (allocation[m.id] || 0) ? c : m), categories[0]);
     const underused = categories
@@ -22009,6 +22694,20 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
     setAssessment({ text, detail, key: planKey, accurate, shownBand, trueBand, reliability });
   }
 
+  // Round 22 (item 3): the plan as one plain sentence. Names the weighted arms, the commander and
+  // approach if chosen, the reserve, and any arm left with nothing in it.
+  const planSummary = (() => {
+    if (spent === 0) return "No chits placed yet.";
+    const placed = categories.filter((c) => allocation[c.id] > 0).sort((a, b) => allocation[b.id] - allocation[a.id]);
+    const bare = categories.filter((c) => allocation[c.id] === 0);
+    const parts = [`Weight on ${placed.map((c) => `${c.name} (${allocation[c.id]})`).join(", ")}.`];
+    if (selectedCommander) parts.push(`${selectedCommander.name} in command.`);
+    if (selectedApproach) parts.push(`Approach: ${selectedApproach.name}.`);
+    if (remaining > 0) parts.push(`${remaining} ${remaining === 1 ? "chit" : "chits"} held in reserve.`);
+    if (bare.length) parts.push(`Nothing placed in ${bare.map((c) => c.name).join(", ")}.`);
+    return parts.join(" ");
+  })();
+
   const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
   const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
 
@@ -22031,10 +22730,67 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
         </h2>
         <p className="text-sm mb-4 text-[#000000]">{config.flavor}</p>
 
+        {/* Round 22: the day's known ground and weather (config.conditions), set out in words once;
+            the per-arm effect is the italic note on the category it touches. */}
+        {config.conditions && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              Ground and weather —
+            </span>
+            {config.conditions}
+          </p>
+        )}
+        {phaseNames && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              Fought in two phases —
+            </span>
+            {phaseNames[0]}, then {phaseNames[1]}. The enemy's setup can change between them, and the plan has to hold through both.
+          </p>
+        )}
+        {/* Round 22 (twists): a defensive battle's counterattack counts for more, and a battle's own
+            attrition rules (frostbite, exposure) are stated up front, so that no cost is a surprise. */}
+        {config.counterScale > 1 && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              A defensive battle —
+            </span>
+            the enemy's blow is the main event here, and the counterattack counts for half as much again.
+          </p>
+        )}
+        {config.attrition && config.attrition.length > 0 && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              Known hazards —
+            </span>
+            {config.attrition
+              .map((a) => `${a.atLeast} or more chits in ${categories.find((c) => c.id === a.category)?.name || a.category} will cost ${a.meter} (${a.reason.toLowerCase()})`)
+              .join("; ")}
+            .
+          </p>
+        )}
+
+        {/* Round 22 (item 1, a first-time guide): a short, plain account of the screen. Open the first
+            time anyone sees an Order of Battle, closed afterwards. */}
+        <details className="mb-5 border px-3 py-2" style={{ borderColor: campaign.accent }} open={introOpen}>
+          <summary className="text-[11px] uppercase tracking-widest font-bold text-[#000000] cursor-pointer select-none" style={labelStyle}>
+            How an Order of Battle works
+          </summary>
+          <ul className="mt-2 list-disc pl-5 text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
+            <li>You have a pool of effort chits: five, plus one for each of Manpower, Fuel and Initiative standing above +2. Each chit you place gives that arm more weight in the battle.</li>
+            <li>Weight on one arm helps, but leaving an arm bare costs you, because a battle punishes a gap.</li>
+            <li>You may name one field commander, who strengthens one arm, and you must pick one tactical approach, which strengthens one arm and weakens another.</li>
+            <li>The enemy's setup is hidden. One line of intelligence hints at it and is wrong about one time in four, and a reconnaissance pass or a staff assessment costs Initiative.</li>
+            <li>Chits left unplaced are a reserve. You can commit them at the decisive hour, once you have seen the enemy's hand, but they count for less than a chit planned from the start.</li>
+            <li>During the battle you may be asked to make a field decision. The best answer depends on what the enemy is really doing.</li>
+            <li>None of this decides the result. It moves the odds on the roll, and the roll can still go against a good plan.</li>
+          </ul>
+        </details>
+
         {postureHint && (
           <div className="mb-6 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
             <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
-              Intelligence Summary
+              Intelligence Summary{phaseNames ? ` — ${phaseNames[0]}` : ""}
             </div>
             <p className="text-[13px] leading-snug italic text-[#000000]" style={bodyStyle}>
               {postureHint}
@@ -22160,6 +22916,25 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
         <p className="text-[12px] leading-snug mb-3 text-[#000000] opacity-80" style={bodyStyle}>
           Chits you leave unplaced go in as a reserve you can commit once you see how the fighting goes. They arrive late and count for less than a planned chit.
         </p>
+        <div className="flex gap-2 mb-3">
+          <button
+            onClick={spreadEvenly}
+            aria-label="Spread chits evenly"
+            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000]"
+            style={{ borderColor: campaign.accent, ...labelStyle }}
+          >
+            Spread chits evenly
+          </button>
+          <button
+            onClick={clearAll}
+            disabled={spent === 0}
+            aria-label="Clear all chits"
+            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{ borderColor: campaign.accent, ...labelStyle }}
+          >
+            Clear all chits
+          </button>
+        </div>
 
         <div className="flex flex-col gap-3 mb-6">
           {categories.map((cat) => (
@@ -22281,6 +23056,17 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
           </p>
         </div>
 
+        {/* Round 22 (item 3, a plan summary): the plan in one plain sentence, so the player can read back
+            what they are about to commit to without decoding the bars. */}
+        <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+          <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
+            Your plan so far
+          </div>
+          <p className="text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
+            {planSummary}
+          </p>
+        </div>
+
         <button
           onClick={() => {
             if (soundOn) playStamp();
@@ -22292,6 +23078,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
               commanderId: selectedCommander?.id ?? null,
               approachId: selectedApproach?.id ?? null,
               postureId: posture?.id ?? null,
+              posture2Id: posture2?.id ?? null,
               // Round 10: carried forward so the battle report can say, afterwards, whether the
               // intelligence and the last staff assessment were right.
               intel: intel ? { hintPostureId: intel.hintPostureId, correct: intel.correct } : null,
@@ -22362,12 +23149,28 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   const categories = keyBattleCategories(config);
   const postures = KEY_BATTLE_POSTURES[config.id] || [];
   const posture = postures.find((p) => p.id === plan.postureId) || null;
+  // Round 22: a battle fought in phases has a second posture, revealed after the category beats.
+  const posture2 = postures.find((p) => p.id === plan.posture2Id) || null;
+  const phaseNames = config.phases || null;
+  const latestPosture = posture2 || posture;
   const commander = (KEY_BATTLE_COMMANDERS[config.id] || []).find((c) => c.id === plan.commanderId) || null;
   const approach = (KEY_BATTLE_APPROACHES[config.id] || []).find((a) => a.id === plan.approachId) || null;
   const hasReserve = (plan.reserves || 0) > 0;
   const times = config.reportTimes || null;
   const ca = config.counterattack || null;
-  const severity = ca ? ca.severity?.[plan.postureId] || 1 : 1;
+  const severityBase = ca ? ca.severity?.[latestPosture?.id] || 1 : 1;
+  // Round 22: field decisions (config.decisions) — see battleDecisionEffect. Made in order, after the
+  // category beats and before the decisive hour.
+  const decisions = config.decisions || [];
+  const [decisionChoices, setDecisionChoices] = useState({}); // { decisionId: optionId }
+  const decisionEffects = decisions
+    .filter((d) => decisionChoices[d.id])
+    .map((d) => ({ d, option: d.options.find((o) => o.id === decisionChoices[d.id]), eff: battleDecisionEffect(d.options.find((o) => o.id === decisionChoices[d.id]), latestPosture?.id) }));
+  const decisionBonus = decisionEffects.reduce((a, x) => a + x.eff.bonus, 0);
+  const severity = Math.max(1, Math.min(3, severityBase + decisionEffects.reduce((a, x) => a + x.eff.severity, 0)));
+  const decidedCount = decisionEffects.length;
+  const nextDecision = decisions.find((d) => !decisionChoices[d.id]) || null;
+  const counterScale = config.counterScale || 1;
 
   const planContrib = computeBattleContributions(categories, plan.allocation, plan.weights, plan.poolSize);
   const orderedCatIds = [...categories]
@@ -22390,16 +23193,18 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   const counterStrengthBase = ca ? (plan.allocation[ca.category] || 0) + (reserveAlloc[ca.category] || 0) : 0;
   const canThrowReserve = reserveChoice === "hold" && hasReserve;
 
+  // counterScale (default 1) is a defensive battle's way of saying the enemy's blow is the main
+  // event: every swing of the counterattack counts that many times.
   function counterOutcome(choice) {
     if (!ca || !choice) return null;
-    if (choice === "give") return { result: "gaveGround", swing: -2 * severity };
+    if (choice === "give") return { result: "gaveGround", swing: -2 * severity * counterScale };
     const strength = counterStrengthBase + (choice === "reserve" ? plan.reserves : 0);
-    if (strength >= 2 + severity) return { result: "repulsed", swing: 4 };
-    if (strength >= 1) return { result: "heldAtCost", swing: -3 * severity };
-    return { result: "broke", swing: -5 * severity };
+    if (strength >= 2 + severity) return { result: "repulsed", swing: 4 * counterScale };
+    if (strength >= 1) return { result: "heldAtCost", swing: -3 * severity * counterScale };
+    return { result: "broke", swing: -5 * severity * counterScale };
   }
   const counter = counterOutcome(counterChoice);
-  const finalTotal = reserveTotal + (counter ? counter.swing : 0);
+  const finalTotal = reserveTotal + decisionBonus + (counter ? counter.swing : 0);
 
   const beats = [{ kind: "open", position: 50 }];
   if (posture) beats.push({ kind: "contact", position: 50 });
@@ -22408,8 +23213,14 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     cum += planContrib[id] || 0;
     beats.push({ kind: "cat", catId: id, catOrder: i, position: pctFor(cum) });
   });
+  if (posture2) beats.push({ kind: "contact2", position: pctFor(cum) });
   const lastCatIndex = beats.length - 1;
-  if (reserveChoice) beats.push({ kind: "reserve", position: pctFor(reserveTotal) });
+  let decCum = cum;
+  decisionEffects.forEach((x) => {
+    decCum += x.eff.bonus;
+    beats.push({ kind: "decision", decId: x.d.id, position: pctFor(decCum) });
+  });
+  if (reserveChoice) beats.push({ kind: "reserve", position: pctFor(reserveTotal + decisionBonus) });
   if (counterChoice) beats.push({ kind: "counter", position: pctFor(finalTotal) });
   const lastBeat = beats.length - 1;
 
@@ -22440,6 +23251,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   });
 
   function timeFor(beat) {
+    if (beat.kind === "decision") return decisions.find((d) => d.id === beat.decId)?.time || null;
     if (!times) return null;
     if (beat.kind === "cat") return times.cats?.[beat.catOrder] || null;
     return times[beat.kind] || null;
@@ -22447,6 +23259,11 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   function bodyFor(beat) {
     if (beat.kind === "open") return approach?.reportLine || "The attack goes in.";
     if (beat.kind === "contact") return posture.reveal;
+    if (beat.kind === "contact2") return posture2.reveal;
+    if (beat.kind === "decision") {
+      const x = decisionEffects.find((e) => e.d.id === beat.decId);
+      return x?.option?.reportLine || x?.option?.label || "";
+    }
     if (beat.kind === "reserve") {
       if (reserveChoice === "hold") return "The reserve stays back.";
       const cat = categories.find((c) => c.id === reserveChoice);
@@ -22465,6 +23282,9 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     return flashupLines[beat.catId] || `${cat?.name || beat.catId} holds its ground.`;
   }
   function labelFor(beat) {
+    if (beat.kind === "contact" && phaseNames) return phaseNames[0];
+    if (beat.kind === "contact2") return phaseNames ? phaseNames[1] : null;
+    if (beat.kind === "decision") return decisions.find((d) => d.id === beat.decId)?.title || null;
     if (beat.kind !== "cat") return null;
     return categories.find((c) => c.id === beat.catId)?.name || null;
   }
@@ -22530,8 +23350,11 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (neglected) flagsOut[`${config.id}PlanNeglected`] = neglected.id;
     if (neglectedAll.length) flagsOut[`${config.id}NeglectedCount`] = neglectedAll.length;
     if (plan.commanderId) flagsOut[`${config.id}PlanCommander`] = plan.commanderId;
+    // Round 22: which way each field decision went, kept as a flag for later text.
+    for (const x of decisionEffects) flagsOut[`${config.id}Dec_${x.d.id}`] = x.option.id;
     onResolve({
       bonus: clampBattleBonus(finalTotal),
+      extraLines: decisionEffects.flatMap((x) => x.eff.lines),
       finalAllocation,
       contributions: finalContrib,
       reservesHeld: reserveChoice === "hold" && counterChoice !== "reserve" ? plan.reserves : 0,
@@ -22545,8 +23368,11 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (beatIndex < lastCatIndex) {
       setBeatIndex((b) => b + 1);
       if (soundOn) playDice();
+    } else if (nextDecision) {
+      setBeatIndex(lastCatIndex + decidedCount);
+      setPhase("decision");
     } else if (!reserveDecided) {
-      setBeatIndex(lastCatIndex);
+      setBeatIndex(lastCatIndex + decidedCount);
       setPhase("reserve");
     } else if (!counterDecided) {
       setBeatIndex(lastBeat);
@@ -22556,21 +23382,30 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
       resolve();
     }
   }
+  function chooseDecision(d, optionId) {
+    setDecisionChoices((c) => ({ ...c, [d.id]: optionId }));
+    setBeatIndex(lastCatIndex + decidedCount + 1);
+    setPhase("running");
+    if (soundOn) playDice();
+  }
   function chooseReserve(choice) {
     setReserveChoice(choice);
-    setBeatIndex(lastCatIndex + 1);
+    setBeatIndex(lastCatIndex + decidedCount + 1);
     setPhase("running");
     if (soundOn) playDice();
   }
   function chooseCounter(choice) {
     setCounterChoice(choice);
-    setBeatIndex(lastCatIndex + (reserveChoice ? 2 : 1));
+    setBeatIndex(lastCatIndex + decidedCount + (reserveChoice ? 2 : 1));
     setPhase("running");
     if (soundOn) playDice();
   }
   function skip() {
-    if (!reserveDecided) {
-      setBeatIndex(lastCatIndex);
+    if (nextDecision) {
+      setBeatIndex(lastCatIndex + decidedCount);
+      setPhase("decision");
+    } else if (!reserveDecided) {
+      setBeatIndex(lastCatIndex + decidedCount);
       setPhase("reserve");
     } else if (!counterDecided) {
       setBeatIndex(lastBeat);
@@ -22631,6 +23466,8 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
         >
           {done
             ? verdicts[won ? 0 : 1]
+            : phase === "decision"
+            ? "A Field Decision"
             : phase === "reserve"
             ? "The Decisive Hour"
             : phase === "counter"
@@ -22731,6 +23568,24 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
               See the Full Report →
             </button>
           </>
+        ) : phase === "decision" && nextDecision ? (
+          <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
+            <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
+              {nextDecision.time ? `${nextDecision.time} — ` : ""}
+              {nextDecision.title}
+            </p>
+            <p className="text-sm mb-3" style={bodyStyle}>
+              {nextDecision.prompt}
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              {nextDecision.options.map((o) => (
+                <button key={o.id} onClick={() => chooseDecision(nextDecision, o.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">{o.label}</div>
+                  {o.note && <div className="text-[11px] opacity-80">{o.note}</div>}
+                </button>
+              ))}
+            </div>
+          </div>
         ) : phase === "reserve" ? (
           <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
             <p className="text-sm mb-3" style={bodyStyle}>
@@ -22790,6 +23645,8 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
             >
               {beatIndex < lastCatIndex
                 ? "Next Report →"
+                : nextDecision
+                ? "Next Report — a Decision Is Needed →"
                 : !reserveDecided
                 ? "The Decisive Hour →"
                 : !counterDecided
@@ -24147,6 +25004,8 @@ function WW2CommandInner() {
           won: ri === 0,
           reservesHeld: subgamePayload.reservesHeld || 0,
           counter: subgamePayload.counter || null,
+          extraLines: subgamePayload.extraLines || [],
+          attrition: choice.keyBattleSubgame.attrition || null,
         }),
     });
     if (!res) return;

@@ -130,7 +130,9 @@ vm.createContext(sandbox);
 // top-level `const`/`let` create lexical bindings the host side can't see. The extracted source
 // uses `const` throughout (it's a straight slice of real App.jsx), so it's rewritten to `var`
 // here, only for this sandboxed copy — never touches the actual file.
-const evalSource = [catBlock, commBlock, `const KEY_BATTLE_COMMANDER_BONUS = ${commBonusMatch[1]};`, appBlock, postureBlock, mathBlock]
+// Round 22: the field-decision effect function, taken from source like the rest.
+const decisionFn = extractFunction(src, "battleDecisionEffect");
+const evalSource = [catBlock, commBlock, `const KEY_BATTLE_COMMANDER_BONUS = ${commBonusMatch[1]};`, appBlock, postureBlock, mathBlock, decisionFn]
   .join("\n\n")
   .replace(/\bconst\b/g, "var");
 vm.runInContext(evalSource, sandbox);
@@ -165,7 +167,17 @@ function extractBattleConfig(id) {
       if (terrainMatch) {
         terrainModifiers = vm.runInContext(`(${terrainMatch[0].replace(/^terrainModifiers:\s*/, "")})`, sandbox);
       }
-      return { id, effectiveness, categories, terrainModifiers };
+      // Round 22: phases (two postures averaged) and field decisions, both optional.
+      let phases = null;
+      const phasesMatch = block.match(/phases:s*[[^]]*]/);
+      if (phasesMatch) phases = vm.runInContext(`(${phasesMatch[0].replace(/^phases:s*/, "")})`, sandbox);
+      let decisions = [];
+      const decIdx = block.indexOf("decisions: [");
+      if (decIdx !== -1) {
+        const decSrc = extractBalanced(block, decIdx + "decisions: ".length, "[", "]");
+        decisions = vm.runInContext(`(${decSrc})`, sandbox);
+      }
+      return { id, effectiveness, categories, terrainModifiers, phases, decisions };
     }
   }
   throw new Error(`keyBattleSubgame with id "${id}" not found`);
@@ -187,6 +199,21 @@ const battles = [
   extractBattleConfig("britainDay40"),
   extractBattleConfig("alps40"),
 ];
+
+// Round 22: a battle fought in phases is weighed against the AVERAGE of its two postures, so the
+// invariants below are run over every ordered pair of distinct postures instead of single ones.
+function blendedPostures(roster, categories) {
+  const out = [];
+  for (const a of roster) {
+    for (const b of roster) {
+      if (a.id === b.id || a.only === 2 || b.only === 1) continue;
+      const modifiers = {};
+      for (const c of categories) modifiers[c.id] = ((a.modifiers?.[c.id] ?? 1) + (b.modifiers?.[c.id] ?? 1)) / 2;
+      out.push({ id: a.id + "+" + b.id, modifiers });
+    }
+  }
+  return out;
+}
 
 // ---- 3. Scenario runner ------------------------------------------------------------------------
 // No jitter (1.0) and no readiness variance in these checks — the invariants being tested are
@@ -303,7 +330,44 @@ let checks = 0;
 for (const battle of battles) {
   const commanderRoster = sandbox.KEY_BATTLE_COMMANDERS[battle.id] || [];
   const approachRoster = sandbox.KEY_BATTLE_APPROACHES[battle.id] || [];
-  const postureRoster = sandbox.KEY_BATTLE_POSTURES[battle.id] || [null]; // null = no posture drawn
+  const singleRoster = sandbox.KEY_BATTLE_POSTURES[battle.id] || [null]; // null = no posture drawn
+  const postureRoster = battle.phases && singleRoster[0] ? blendedPostures(singleRoster, battle.categories) : singleRoster;
+
+  // Round 22: field decisions must be well formed and worth reading the enemy for: no single option
+  // may be the best under every posture, because then the intelligence would not matter to it.
+  if (battle.decisions.length) {
+    const seenIds = new Set();
+    for (const d of battle.decisions) {
+      checks++;
+      const where = `${battle.id} / decision ${d.id}`;
+      if (seenIds.has(d.id)) failures.push(`${where}: duplicate decision id`);
+      seenIds.add(d.id);
+      if (!Array.isArray(d.options) || d.options.length < 2 || d.options.length > 3) failures.push(`${where}: needs 2 or 3 options`);
+      const postureIds = new Set(singleRoster.filter(Boolean).map((p) => p.id));
+      for (const o of d.options || []) {
+        if (!o.id || !o.label || !o.reportLine) failures.push(`${where}: option ${o.id || "?"} needs id, label and reportLine`);
+        if (Math.abs(o.bonus || 0) > 6) failures.push(`${where}/${o.id}: bonus above 6`);
+        for (const [pid, v] of Object.entries(o.bonusByPosture || {})) {
+          if (!postureIds.has(pid)) failures.push(`${where}/${o.id}: unknown posture "${pid}"`);
+          if (Math.abs(v) > 6) failures.push(`${where}/${o.id}: bonusByPosture above 6 for ${pid}`);
+        }
+        const costSum = Object.values(o.meters || {}).reduce((a, v) => a + v, 0);
+        if (costSum < -2) failures.push(`${where}/${o.id}: meter cost beyond -2`);
+        if (Math.abs(o.severity || 0) > 1) failures.push(`${where}/${o.id}: severity change beyond 1`);
+      }
+      const bestSet = new Set();
+      for (const p of singleRoster.filter(Boolean)) {
+        const scores = d.options.map((o) => {
+          const e = sandbox.battleDecisionEffect(o, p.id);
+          return e.bonus + e.lines.reduce((a, l) => a + l.delta, 0) - 2 * e.severity;
+        });
+        const top = Math.max(...scores);
+        const winners = scores.map((v, i) => (v === top ? i : -1)).filter((i) => i >= 0);
+        if (winners.length === 1) bestSet.add(winners[0]);
+      }
+      if (singleRoster[0] && bestSet.size < 2) failures.push(`${where}: one option (or a tie) is best under every posture, so the intelligence does not matter to it`);
+    }
+  }
 
   // Invariant: which category is the best single-category plan differs across postures — this
   // is round 9's whole point (a fixed "always concentrate here" plan should NOT be optimal under

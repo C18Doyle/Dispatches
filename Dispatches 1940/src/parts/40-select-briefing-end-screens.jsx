@@ -3174,7 +3174,35 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   // Round 9, item #1: the enemy's hidden posture for THIS attempt at this battle, drawn once per
   // screen instance (lazy initializer) and never shown directly — only one line of intelligence
   // hints at it (postureHint), and it's revealed as the "contact" beat of the battle report.
-  const [posture] = useState(() => pickKeyBattlePosture(config.id));
+  const [posture] = useState(() => pickKeyBattlePosture(config.id, undefined, config.phases ? 1 : undefined));
+  // Round 22 (twists): a battle fought in phases (config.phases, a list of phase names) draws a
+  // second hidden posture for its second phase. The plan is weighed against the average of the
+  // two, and the report reveals the second one half way through — so intelligence about the first
+  // phase is only part of the picture, which is exactly what fighting an outbound leg and a bomb
+  // run, or a morning raid and an afternoon raid, is like.
+  const phaseNames = config.phases || null;
+  const [posture2] = useState(() => (phaseNames && posture ? pickKeyBattlePosture(config.id, posture.id, 2) : null));
+  // Mean posture multiplier for a category: the first posture's alone for an ordinary battle.
+  function postureMultFor(catId) {
+    const m1 = posture?.modifiers?.[catId] ?? 1;
+    return posture2 ? (m1 + (posture2.modifiers?.[catId] ?? 1)) / 2 : m1;
+  }
+  // Round 22 (explainer): the first Order of Battle a player meets arrives after one or two
+  // decisions, so the first one opens with a short plain-language guide, shut on every later visit.
+  const [introOpen] = useState(() => {
+    try {
+      return !window.localStorage.getItem("dispatches1940_battle_intro_seen");
+    } catch {
+      return true;
+    }
+  });
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("dispatches1940_battle_intro_seen", "1");
+    } catch {
+      /* storage can be blocked; the guide then simply opens every time */
+    }
+  }, []);
   // Round 10, Craig's item #4: the intelligence summary is wrong one time in four — the hint is
   // then drawn from a DIFFERENT posture than the real one, so a player who reads the intel
   // perfectly still gets fooled sometimes, the way a general would. Whether it was right is
@@ -3184,7 +3212,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   function drawIntel(errorRate) {
     if (!posture) return null;
     const roster = KEY_BATTLE_POSTURES[config.id] || [];
-    const others = roster.filter((p) => p.id !== posture.id);
+    const others = roster.filter((p) => p.id !== posture.id && (!config.phases || p.only !== 2));
     const wrong = others.length > 0 && Math.random() < errorRate;
     const source = wrong ? others[Math.floor(Math.random() * others.length)] : posture;
     const hint = source.hints.length ? source.hints[Math.floor(Math.random() * source.hints.length)] : null;
@@ -3229,6 +3257,15 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   function removeChit(catId) {
     setAllocation((a) => (a[catId] > 0 ? { ...a, [catId]: a[catId] - 1 } : a));
   }
+  // Round 22 (quick placement): one tap for an even split, one for a clean slate. An even split of a
+  // pool that doesn't divide leaves the remainder unplaced, as the reserve.
+  function spreadEvenly() {
+    const each = Math.floor(poolSize / categories.length);
+    setAllocation(Object.fromEntries(categories.map((c) => [c.id, each])));
+  }
+  function clearAll() {
+    setAllocation(Object.fromEntries(categories.map((c) => [c.id, 0])));
+  }
 
   // Round 3 (Craig): a battle isn't a spreadsheet — the same push doesn't land the same way
   // twice. Rolled once per screen instance and applied as a +/-30% jitter on that category's
@@ -3244,7 +3281,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   function effectiveWeight(catId) {
     const base = (config.effectiveness[catId] ?? 1) * jitter[catId];
     const commanderBonus = selectedCommander && selectedCommander.category === catId ? KEY_BATTLE_COMMANDER_BONUS : 0;
-    const postureMult = posture?.modifiers?.[catId] ?? 1;
+    const postureMult = postureMultFor(catId);
     // Round 13, item #6: a static, known ground-conditions multiplier — see terrainModifiers on
     // the battle config. Defaults to 1 (no effect) for any battle/category that doesn't define one.
     const terrainMult = config.terrainModifiers?.[catId] ?? 1;
@@ -3302,7 +3339,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
       if (shownBand === trueBand) shownBand = trueBand === 0 ? 1 : trueBand - 1;
     }
     const text = BAND_TEXT[shownBand];
-    const pm = (id) => posture?.modifiers?.[id] ?? 1;
+    const pm = (id) => postureMultFor(id);
     const neglected = categories.filter((c) => contributions[c.id] < 0);
     const heaviest = categories.reduce((m, c) => ((allocation[c.id] || 0) > (allocation[m.id] || 0) ? c : m), categories[0]);
     const underused = categories
@@ -3327,6 +3364,20 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
     setAssessment({ text, detail, key: planKey, accurate, shownBand, trueBand, reliability });
   }
 
+  // Round 22 (item 3): the plan as one plain sentence. Names the weighted arms, the commander and
+  // approach if chosen, the reserve, and any arm left with nothing in it.
+  const planSummary = (() => {
+    if (spent === 0) return "No chits placed yet.";
+    const placed = categories.filter((c) => allocation[c.id] > 0).sort((a, b) => allocation[b.id] - allocation[a.id]);
+    const bare = categories.filter((c) => allocation[c.id] === 0);
+    const parts = [`Weight on ${placed.map((c) => `${c.name} (${allocation[c.id]})`).join(", ")}.`];
+    if (selectedCommander) parts.push(`${selectedCommander.name} in command.`);
+    if (selectedApproach) parts.push(`Approach: ${selectedApproach.name}.`);
+    if (remaining > 0) parts.push(`${remaining} ${remaining === 1 ? "chit" : "chits"} held in reserve.`);
+    if (bare.length) parts.push(`Nothing placed in ${bare.map((c) => c.name).join(", ")}.`);
+    return parts.join(" ");
+  })();
+
   const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
   const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
 
@@ -3349,10 +3400,67 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
         </h2>
         <p className="text-sm mb-4 text-[#000000]">{config.flavor}</p>
 
+        {/* Round 22: the day's known ground and weather (config.conditions), set out in words once;
+            the per-arm effect is the italic note on the category it touches. */}
+        {config.conditions && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              Ground and weather —
+            </span>
+            {config.conditions}
+          </p>
+        )}
+        {phaseNames && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              Fought in two phases —
+            </span>
+            {phaseNames[0]}, then {phaseNames[1]}. The enemy's setup can change between them, and the plan has to hold through both.
+          </p>
+        )}
+        {/* Round 22 (twists): a defensive battle's counterattack counts for more, and a battle's own
+            attrition rules (frostbite, exposure) are stated up front, so that no cost is a surprise. */}
+        {config.counterScale > 1 && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              A defensive battle —
+            </span>
+            the enemy's blow is the main event here, and the counterattack counts for half as much again.
+          </p>
+        )}
+        {config.attrition && config.attrition.length > 0 && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              Known hazards —
+            </span>
+            {config.attrition
+              .map((a) => `${a.atLeast} or more chits in ${categories.find((c) => c.id === a.category)?.name || a.category} will cost ${a.meter} (${a.reason.toLowerCase()})`)
+              .join("; ")}
+            .
+          </p>
+        )}
+
+        {/* Round 22 (item 1, a first-time guide): a short, plain account of the screen. Open the first
+            time anyone sees an Order of Battle, closed afterwards. */}
+        <details className="mb-5 border px-3 py-2" style={{ borderColor: campaign.accent }} open={introOpen}>
+          <summary className="text-[11px] uppercase tracking-widest font-bold text-[#000000] cursor-pointer select-none" style={labelStyle}>
+            How an Order of Battle works
+          </summary>
+          <ul className="mt-2 list-disc pl-5 text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
+            <li>You have a pool of effort chits: five, plus one for each of Manpower, Fuel and Initiative standing above +2. Each chit you place gives that arm more weight in the battle.</li>
+            <li>Weight on one arm helps, but leaving an arm bare costs you, because a battle punishes a gap.</li>
+            <li>You may name one field commander, who strengthens one arm, and you must pick one tactical approach, which strengthens one arm and weakens another.</li>
+            <li>The enemy's setup is hidden. One line of intelligence hints at it and is wrong about one time in four, and a reconnaissance pass or a staff assessment costs Initiative.</li>
+            <li>Chits left unplaced are a reserve. You can commit them at the decisive hour, once you have seen the enemy's hand, but they count for less than a chit planned from the start.</li>
+            <li>During the battle you may be asked to make a field decision. The best answer depends on what the enemy is really doing.</li>
+            <li>None of this decides the result. It moves the odds on the roll, and the roll can still go against a good plan.</li>
+          </ul>
+        </details>
+
         {postureHint && (
           <div className="mb-6 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
             <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
-              Intelligence Summary
+              Intelligence Summary{phaseNames ? ` — ${phaseNames[0]}` : ""}
             </div>
             <p className="text-[13px] leading-snug italic text-[#000000]" style={bodyStyle}>
               {postureHint}
@@ -3478,6 +3586,25 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
         <p className="text-[12px] leading-snug mb-3 text-[#000000] opacity-80" style={bodyStyle}>
           Chits you leave unplaced go in as a reserve you can commit once you see how the fighting goes. They arrive late and count for less than a planned chit.
         </p>
+        <div className="flex gap-2 mb-3">
+          <button
+            onClick={spreadEvenly}
+            aria-label="Spread chits evenly"
+            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000]"
+            style={{ borderColor: campaign.accent, ...labelStyle }}
+          >
+            Spread chits evenly
+          </button>
+          <button
+            onClick={clearAll}
+            disabled={spent === 0}
+            aria-label="Clear all chits"
+            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{ borderColor: campaign.accent, ...labelStyle }}
+          >
+            Clear all chits
+          </button>
+        </div>
 
         <div className="flex flex-col gap-3 mb-6">
           {categories.map((cat) => (
@@ -3599,6 +3726,17 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
           </p>
         </div>
 
+        {/* Round 22 (item 3, a plan summary): the plan in one plain sentence, so the player can read back
+            what they are about to commit to without decoding the bars. */}
+        <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+          <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
+            Your plan so far
+          </div>
+          <p className="text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
+            {planSummary}
+          </p>
+        </div>
+
         <button
           onClick={() => {
             if (soundOn) playStamp();
@@ -3610,6 +3748,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
               commanderId: selectedCommander?.id ?? null,
               approachId: selectedApproach?.id ?? null,
               postureId: posture?.id ?? null,
+              posture2Id: posture2?.id ?? null,
               // Round 10: carried forward so the battle report can say, afterwards, whether the
               // intelligence and the last staff assessment were right.
               intel: intel ? { hintPostureId: intel.hintPostureId, correct: intel.correct } : null,
@@ -3680,12 +3819,28 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   const categories = keyBattleCategories(config);
   const postures = KEY_BATTLE_POSTURES[config.id] || [];
   const posture = postures.find((p) => p.id === plan.postureId) || null;
+  // Round 22: a battle fought in phases has a second posture, revealed after the category beats.
+  const posture2 = postures.find((p) => p.id === plan.posture2Id) || null;
+  const phaseNames = config.phases || null;
+  const latestPosture = posture2 || posture;
   const commander = (KEY_BATTLE_COMMANDERS[config.id] || []).find((c) => c.id === plan.commanderId) || null;
   const approach = (KEY_BATTLE_APPROACHES[config.id] || []).find((a) => a.id === plan.approachId) || null;
   const hasReserve = (plan.reserves || 0) > 0;
   const times = config.reportTimes || null;
   const ca = config.counterattack || null;
-  const severity = ca ? ca.severity?.[plan.postureId] || 1 : 1;
+  const severityBase = ca ? ca.severity?.[latestPosture?.id] || 1 : 1;
+  // Round 22: field decisions (config.decisions) — see battleDecisionEffect. Made in order, after the
+  // category beats and before the decisive hour.
+  const decisions = config.decisions || [];
+  const [decisionChoices, setDecisionChoices] = useState({}); // { decisionId: optionId }
+  const decisionEffects = decisions
+    .filter((d) => decisionChoices[d.id])
+    .map((d) => ({ d, option: d.options.find((o) => o.id === decisionChoices[d.id]), eff: battleDecisionEffect(d.options.find((o) => o.id === decisionChoices[d.id]), latestPosture?.id) }));
+  const decisionBonus = decisionEffects.reduce((a, x) => a + x.eff.bonus, 0);
+  const severity = Math.max(1, Math.min(3, severityBase + decisionEffects.reduce((a, x) => a + x.eff.severity, 0)));
+  const decidedCount = decisionEffects.length;
+  const nextDecision = decisions.find((d) => !decisionChoices[d.id]) || null;
+  const counterScale = config.counterScale || 1;
 
   const planContrib = computeBattleContributions(categories, plan.allocation, plan.weights, plan.poolSize);
   const orderedCatIds = [...categories]
@@ -3708,16 +3863,18 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   const counterStrengthBase = ca ? (plan.allocation[ca.category] || 0) + (reserveAlloc[ca.category] || 0) : 0;
   const canThrowReserve = reserveChoice === "hold" && hasReserve;
 
+  // counterScale (default 1) is a defensive battle's way of saying the enemy's blow is the main
+  // event: every swing of the counterattack counts that many times.
   function counterOutcome(choice) {
     if (!ca || !choice) return null;
-    if (choice === "give") return { result: "gaveGround", swing: -2 * severity };
+    if (choice === "give") return { result: "gaveGround", swing: -2 * severity * counterScale };
     const strength = counterStrengthBase + (choice === "reserve" ? plan.reserves : 0);
-    if (strength >= 2 + severity) return { result: "repulsed", swing: 4 };
-    if (strength >= 1) return { result: "heldAtCost", swing: -3 * severity };
-    return { result: "broke", swing: -5 * severity };
+    if (strength >= 2 + severity) return { result: "repulsed", swing: 4 * counterScale };
+    if (strength >= 1) return { result: "heldAtCost", swing: -3 * severity * counterScale };
+    return { result: "broke", swing: -5 * severity * counterScale };
   }
   const counter = counterOutcome(counterChoice);
-  const finalTotal = reserveTotal + (counter ? counter.swing : 0);
+  const finalTotal = reserveTotal + decisionBonus + (counter ? counter.swing : 0);
 
   const beats = [{ kind: "open", position: 50 }];
   if (posture) beats.push({ kind: "contact", position: 50 });
@@ -3726,8 +3883,14 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     cum += planContrib[id] || 0;
     beats.push({ kind: "cat", catId: id, catOrder: i, position: pctFor(cum) });
   });
+  if (posture2) beats.push({ kind: "contact2", position: pctFor(cum) });
   const lastCatIndex = beats.length - 1;
-  if (reserveChoice) beats.push({ kind: "reserve", position: pctFor(reserveTotal) });
+  let decCum = cum;
+  decisionEffects.forEach((x) => {
+    decCum += x.eff.bonus;
+    beats.push({ kind: "decision", decId: x.d.id, position: pctFor(decCum) });
+  });
+  if (reserveChoice) beats.push({ kind: "reserve", position: pctFor(reserveTotal + decisionBonus) });
   if (counterChoice) beats.push({ kind: "counter", position: pctFor(finalTotal) });
   const lastBeat = beats.length - 1;
 
@@ -3758,6 +3921,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   });
 
   function timeFor(beat) {
+    if (beat.kind === "decision") return decisions.find((d) => d.id === beat.decId)?.time || null;
     if (!times) return null;
     if (beat.kind === "cat") return times.cats?.[beat.catOrder] || null;
     return times[beat.kind] || null;
@@ -3765,6 +3929,11 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   function bodyFor(beat) {
     if (beat.kind === "open") return approach?.reportLine || "The attack goes in.";
     if (beat.kind === "contact") return posture.reveal;
+    if (beat.kind === "contact2") return posture2.reveal;
+    if (beat.kind === "decision") {
+      const x = decisionEffects.find((e) => e.d.id === beat.decId);
+      return x?.option?.reportLine || x?.option?.label || "";
+    }
     if (beat.kind === "reserve") {
       if (reserveChoice === "hold") return "The reserve stays back.";
       const cat = categories.find((c) => c.id === reserveChoice);
@@ -3783,6 +3952,9 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     return flashupLines[beat.catId] || `${cat?.name || beat.catId} holds its ground.`;
   }
   function labelFor(beat) {
+    if (beat.kind === "contact" && phaseNames) return phaseNames[0];
+    if (beat.kind === "contact2") return phaseNames ? phaseNames[1] : null;
+    if (beat.kind === "decision") return decisions.find((d) => d.id === beat.decId)?.title || null;
     if (beat.kind !== "cat") return null;
     return categories.find((c) => c.id === beat.catId)?.name || null;
   }
@@ -3848,8 +4020,11 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (neglected) flagsOut[`${config.id}PlanNeglected`] = neglected.id;
     if (neglectedAll.length) flagsOut[`${config.id}NeglectedCount`] = neglectedAll.length;
     if (plan.commanderId) flagsOut[`${config.id}PlanCommander`] = plan.commanderId;
+    // Round 22: which way each field decision went, kept as a flag for later text.
+    for (const x of decisionEffects) flagsOut[`${config.id}Dec_${x.d.id}`] = x.option.id;
     onResolve({
       bonus: clampBattleBonus(finalTotal),
+      extraLines: decisionEffects.flatMap((x) => x.eff.lines),
       finalAllocation,
       contributions: finalContrib,
       reservesHeld: reserveChoice === "hold" && counterChoice !== "reserve" ? plan.reserves : 0,
@@ -3863,8 +4038,11 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (beatIndex < lastCatIndex) {
       setBeatIndex((b) => b + 1);
       if (soundOn) playDice();
+    } else if (nextDecision) {
+      setBeatIndex(lastCatIndex + decidedCount);
+      setPhase("decision");
     } else if (!reserveDecided) {
-      setBeatIndex(lastCatIndex);
+      setBeatIndex(lastCatIndex + decidedCount);
       setPhase("reserve");
     } else if (!counterDecided) {
       setBeatIndex(lastBeat);
@@ -3874,21 +4052,30 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
       resolve();
     }
   }
+  function chooseDecision(d, optionId) {
+    setDecisionChoices((c) => ({ ...c, [d.id]: optionId }));
+    setBeatIndex(lastCatIndex + decidedCount + 1);
+    setPhase("running");
+    if (soundOn) playDice();
+  }
   function chooseReserve(choice) {
     setReserveChoice(choice);
-    setBeatIndex(lastCatIndex + 1);
+    setBeatIndex(lastCatIndex + decidedCount + 1);
     setPhase("running");
     if (soundOn) playDice();
   }
   function chooseCounter(choice) {
     setCounterChoice(choice);
-    setBeatIndex(lastCatIndex + (reserveChoice ? 2 : 1));
+    setBeatIndex(lastCatIndex + decidedCount + (reserveChoice ? 2 : 1));
     setPhase("running");
     if (soundOn) playDice();
   }
   function skip() {
-    if (!reserveDecided) {
-      setBeatIndex(lastCatIndex);
+    if (nextDecision) {
+      setBeatIndex(lastCatIndex + decidedCount);
+      setPhase("decision");
+    } else if (!reserveDecided) {
+      setBeatIndex(lastCatIndex + decidedCount);
       setPhase("reserve");
     } else if (!counterDecided) {
       setBeatIndex(lastBeat);
@@ -3949,6 +4136,8 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
         >
           {done
             ? verdicts[won ? 0 : 1]
+            : phase === "decision"
+            ? "A Field Decision"
             : phase === "reserve"
             ? "The Decisive Hour"
             : phase === "counter"
@@ -4049,6 +4238,24 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
               See the Full Report →
             </button>
           </>
+        ) : phase === "decision" && nextDecision ? (
+          <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
+            <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
+              {nextDecision.time ? `${nextDecision.time} — ` : ""}
+              {nextDecision.title}
+            </p>
+            <p className="text-sm mb-3" style={bodyStyle}>
+              {nextDecision.prompt}
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              {nextDecision.options.map((o) => (
+                <button key={o.id} onClick={() => chooseDecision(nextDecision, o.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">{o.label}</div>
+                  {o.note && <div className="text-[11px] opacity-80">{o.note}</div>}
+                </button>
+              ))}
+            </div>
+          </div>
         ) : phase === "reserve" ? (
           <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
             <p className="text-sm mb-3" style={bodyStyle}>
@@ -4108,6 +4315,8 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
             >
               {beatIndex < lastCatIndex
                 ? "Next Report →"
+                : nextDecision
+                ? "Next Report — a Decision Is Needed →"
                 : !reserveDecided
                 ? "The Decisive Hour →"
                 : !counterDecided

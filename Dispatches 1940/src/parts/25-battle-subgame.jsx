@@ -1268,6 +1268,7 @@ const KEY_BATTLE_POSTURES = {
     },
     {
       id: "distantShadow",
+      only: 1,
       name: "The convoy is fixed and reported",
       // Same reasoning as luftwaffeStrike above: escorts' own ceiling needed matching dampening
       // here too, or the screen stayed the best play regardless of contact.
@@ -1320,6 +1321,7 @@ const KEY_BATTLE_POSTURES = {
     },
     {
       id: "flakOverTarget",
+      only: 2,
       name: "The target itself is ringed with flak",
       // Same reasoning as rocketStandoff above: formation's own ceiling needed matching
       // dampening here too, or the box stayed the best play regardless of contact.
@@ -1446,6 +1448,7 @@ const KEY_BATTLE_POSTURES = {
     },
     {
       id: "secondWave",
+      only: 2,
       name: "A second wave behind the first",
       modifiers: { turnaround: 1.8, squadrons: 0.8, wing: 0.8, control: 0.9 },
       hints: [
@@ -1477,7 +1480,7 @@ const KEY_BATTLE_POSTURES = {
       id: "bridgesDown",
       name: "The bridges down, the old posts manned",
       weight: 2,
-      modifiers: { supply: 1.7, assault: 0.6, artillery: 0.9, air: 0.9 },
+      modifiers: { supply: 2.0, assault: 0.6, artillery: 0.9, air: 0.9 },
       hints: [
         "Engineers report the French have blown the bridges on the Little St Bernard road.",
         "Aerial photographs show machine-gun posts in the ruins of the old fort at the top of the pass.",
@@ -1557,8 +1560,14 @@ const KEY_BATTLE_BONUS_CLAMP = 30;
 
 // Round 10 (item 7): postures can carry a `weight` (default 1) — Omaha's historical posture is
 // drawn twice as often as either alternative.
-function pickKeyBattlePosture(battleId) {
-  const roster = KEY_BATTLE_POSTURES[battleId] || [];
+function pickKeyBattlePosture(battleId, excludeId, phase) {
+  // Round 22: a battle with phases (config.phases) draws a second posture for its second phase,
+  // never the same one twice. excludeId is undefined for every ordinary battle, so nothing about
+  // the first draw changes for them.
+  // A posture can be tied to one phase (only: 1 or 2): a second wave cannot open the day.
+  const roster = (KEY_BATTLE_POSTURES[battleId] || []).filter(
+    (p) => (!excludeId || p.id !== excludeId) && (!phase || !p.only || p.only === phase)
+  );
   if (!roster.length) return null;
   const total = roster.reduce((a, p) => a + (p.weight || 1), 0);
   let r = Math.random() * total;
@@ -1947,8 +1956,16 @@ function clampBattleBonus(raw) {
 // the staff ahead of events); a reserve of 2+ chits held back and never committed returns +1
 // Manpower. Each meter's net plan cost is capped to [-2, +1] so the plan can sting but never
 // outweigh the battle's own historical outcome impact.
-function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contributions, won, reservesHeld, counter }) {
+function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contributions, won, reservesHeld, counter, extraLines, attrition }) {
   const lines = [];
+  // Round 22: costs chosen at a mid-battle decision (extraLines: [{meter, delta, reason}]) and a
+  // battle's own attrition rules (attrition: [{category, atLeast, meter, delta, reason}], e.g. the
+  // frostbite on the Alps or the cold before Moscow) read exactly like the rules below. They go
+  // through the same [-2, +1] cap per meter, so a battle can sting but never outweigh its outcome.
+  for (const l of extraLines || []) lines.push({ meter: l.meter, delta: l.delta, reason: l.reason });
+  for (const a of attrition || []) {
+    if ((finalAllocation[a.category] || 0) >= a.atLeast) lines.push({ meter: a.meter, delta: a.delta, reason: a.reason });
+  }
   // Round 10: the counterattack's own cost. Repulsing it is free; holding it at a cost, or
   // being broken, costs the meter of the arm that met it; giving ground costs tempo.
   if (counter && counter.result !== "repulsed") {
@@ -1993,6 +2010,22 @@ function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contrib
     ? "total"
     : "marginal";
   return { lines, totals, grade };
+}
+
+// Round 22, field decisions (config.decisions). Mid-battle choices written for each battle from
+// the real alternatives its day offered. Each option has a flat `bonus` toward the roll, optionally
+// an extra `bonusByPosture` for the enemy posture in force when the decision is made (the later
+// of the battle's postures, when it has two phases), optional `meters` costs, and an optional
+// `severity` change to the counterattack that follows. Pure, so the balance check can run the same
+// code the screen does.
+function battleDecisionEffect(option, postureId) {
+  const byPosture = (option.bonusByPosture && postureId && option.bonusByPosture[postureId]) || 0;
+  const lines = Object.entries(option.meters || {}).map(([meter, delta]) => ({
+    meter,
+    delta,
+    reason: option.costReason || option.label,
+  }));
+  return { bonus: (option.bonus || 0) + byPosture, severity: option.severity || 0, lines };
 }
 
 // One entry per transition (fixed order, so exactly 2 transitions for 3 campaigns — see the

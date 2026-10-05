@@ -188,6 +188,52 @@
                 // the Duxford Wing was real and arrived, but a wing of five squadrons takes time
                 // to form and this doctrine does not wait for it.
                 effectiveness: { squadrons: 2.5, control: 2.3, wing: 1.7, turnaround: 1.9 },
+                // Round 22. Two raids with a pause between them are the day itself (Wikipedia, Battle of Britain
+                // Day: the morning raid at about 11:00, the afternoon raid about three hours later), so this is a
+                // battle in two phases, and a defensive one: the enemy's blow is the whole of it.
+                conditions: "Cloud lies across Kent and the Thames estuary between two thousand and twelve thousand feet, enough to hide the targets from the German crews, and the Observer Corps struggles in poor weather.",
+                phases: ["The morning raid", "The afternoon raid"],
+                counterScale: 1.5,
+                // Field decision, in the pause between the raids. Facts verified 2026-10-05 (Wikipedia, Battle of
+                // Britain Day; Keith Park): the afternoon wave crossed the coast at about 14:15, five squadrons of
+                // 12 Group's Duxford Wing came south, and Park "put up all his aircraft, leaving no reserve". The
+                // three answers are the real choices of the hour; their payoff against each raid is modeled.
+                decisions: [
+                  {
+                    id: "theSecondPlot",
+                    time: "1410",
+                    title: "The second plot",
+                    prompt: "The squadrons that met the first raid have landed and are being refuelled and rearmed. A bigger plot is building over the Channel, and every squadron Park has is either in the air or on the ground, with nothing in reserve. He has to decide how to meet it.",
+                    options: [
+                      {
+                        id: "everythingUp",
+                        label: "Scramble every squadron at once and meet it over Kent",
+                        note: "Everything flies, as Park in fact ordered. Nothing is left in hand.",
+                        bonus: 0,
+                        bonusByPosture: { secondWave: 4, heavyEscort: -2, cloudCover: 1 },
+                        reportLine: "Park puts every squadron he has into the air and meets the second raid over Kent.",
+                      },
+                      {
+                        id: "holdHalf",
+                        label: "Hold half the squadrons until the raid's track is clear",
+                        note: "Safer if the plot is wrong, and slower if it is right.",
+                        bonus: 1,
+                        bonusByPosture: { cloudCover: 3, secondWave: -3, heavyEscort: 1 },
+                        reportLine: "Park holds half his squadrons at readiness until the plot shows where the raid is going.",
+                      },
+                      {
+                        id: "askTwelve",
+                        label: "Ask 12 Group to fly south and cover the sector stations",
+                        note: "The Duxford Wing flies, but costs fuel and an argument.",
+                        bonus: 0,
+                        bonusByPosture: { heavyEscort: 4, secondWave: 2 },
+                        meters: { fuel: -1 },
+                        costReason: "12 Group called south to cover 11 Group",
+                        reportLine: "Park asks 12 Group to cover his airfields, and the Duxford Wing climbs south toward London.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   squadrons:
                     "Park's squadrons are the fighters that meet the raids over Kent and London. His doctrine is to send them up fast, forward, and in squadron strength. Each commitment here puts more of them into the air at the first warning.",
@@ -228,7 +274,7 @@
                     "The armourers run short of belts and a lorry is sent for more.",
                   ],
                 },
-                reportTimes: { open: "0900", contact: "1100", cats: ["1115", "1200", "1245", "1330"], reserve: "1435", counter: "1500" },
+                reportTimes: { open: "0900", contact: "1100", cats: ["1115", "1200", "1245", "1330"], contact2: "1345", reserve: "1435", counter: "1500" },
                 idleLines: {
                   squadrons: [
                     "No more squadrons are sent to meet the raid forward. They wait for the bombers over London.",
@@ -463,6 +509,48 @@
                 // down a torpedo bomber by itself, the same design choice as Anzio's Naval or
                 // Arnhem's Supply Drop.
                 effectiveness: { escorts: 2.6, coveringForce: 2.2, aaShips: 2.0, intelligence: 1.6 },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Convoy PQ 17): the cruiser force under Hamilton was near
+                // Bear Island; German torpedo bombers from Norway struck on 4 July; at 21:11 the Admiralty
+                // ordered the cruisers to withdraw westward, and then the convoy to scatter (the premise of this
+                // battle is that it did not). The fight is in two phases, west and east of Bear Island.
+                conditions: "The Arctic summer: the sun does not set, so there is no night to hide in, and the German airfields in Norway are within reach of the whole route.",
+                phases: ["West of Bear Island", "East of Bear Island"],
+                decisions: [
+                  {
+                    id: "theCoveringForce",
+                    time: "2200",
+                    title: "The covering force",
+                    prompt: "The convoy is nearing Bear Island, and the cruiser force under Hamilton, which has been standing off, will have to turn back soon or go on with it. The Admiralty fears a sortie by the Tirpitz. Whether she is coming, no one can say. The senior officers afloat have to decide where the cruisers go.",
+                    options: [
+                      {
+                        id: "keepWithConvoy",
+                        label: "Keep the covering force with the convoy past Bear Island",
+                        note: "More guns against the air attacks, and in range of the Tirpitz.",
+                        bonus: 0,
+                        bonusByPosture: {luftwaffeStrike: 3, wolfpackConcentration: 1, distantShadow: -3},
+                        reportLine: "The cruisers stay with the convoy past Bear Island, their guns added to the screen.",
+                      },
+                      {
+                        id: "pullBackWest",
+                        label: "Pull the covering force back to the west, as the Admiralty fears",
+                        note: "Safe from the Tirpitz, and the convoy is left to the escort.",
+                        bonus: 0,
+                        bonusByPosture: {distantShadow: 3, luftwaffeStrike: -2, wolfpackConcentration: -1},
+                        reportLine: "The cruisers turn back to the west at high speed, and the convoy goes on with the close escort alone.",
+                      },
+                      {
+                        id: "destroyersAhead",
+                        label: "Detach two destroyers from the screen to sweep ahead for the pack",
+                        note: "Costs fuel, and thins the screen.",
+                        bonus: 0,
+                        bonusByPosture: {wolfpackConcentration: 4},
+                        meters: {fuel: -1},
+                        costReason: "Destroyers detached to sweep ahead",
+                        reportLine: "Two destroyers leave the screen to sweep ahead of the convoy for the submarines.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   escorts:
                     "Broome commands six destroyers and the corvette screen — the entire close protection between wolfpacks and thirty-five loaded ships. Every gun added here is a gun actually on the convoy's perimeter.",
@@ -503,7 +591,7 @@
                     "A fix on a shadowing aircraft lets the escort work out roughly when it will report again.",
                   ],
                 },
-                reportTimes: { open: "0600", contact: "0900", cats: ["1200", "1500", "1800", "2100"], reserve: "2300", counter: "0100" },
+                reportTimes: { open: "0600", contact: "0900", cats: ["1200", "1500", "1800", "2100"], contact2: "2130", reserve: "2300", counter: "0100" },
                 idleLines: {
                   escorts: [
                     "The screen holds its stations and nothing more. No extra weight goes to the perimeter.",
@@ -1061,6 +1149,51 @@
                 // count for the RAF rather than a lever that changes the siege, the same design
                 // choice as Omaha's Air or Anzio's Naval.
                 effectiveness: { corpsPush: 2.6, perimeter: 2.0, resupply: 1.6, poles: 2.2 },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Arnhem): the Polish brigade dropped at Driel
+                // on 21 September; the first night no rafts arrived for them, only 153 men crossed on the night of
+                // 22/23 September, and the crossing of the 24th/25th failed; DUKWs were captured or stuck in
+                // the mud; the Oosterbeek perimeter was about three miles round, held by about 3,600 men; the
+                // Germans cut the road near Koevering. The three answers are the options at the river; payoffs
+                // against each German posture are modeled.
+                conditions: "One raised road across flat, wet polder, cut by dykes and by the Rhine itself, with the Oosterbeek perimeter roughly three miles round.",
+                terrainModifiers: { corpsPush: 0.85 },
+                terrainNotes: { corpsPush: "a single raised road over low, wet ground" },
+                decisions: [
+                  {
+                    id: "crossingTheRhine",
+                    time: "0800",
+                    title: "The river and the boats",
+                    prompt: "There are few boats and a great many things that need to cross the Rhine. The Polish brigade is on the south bank and wants to join the perimeter, the perimeter is short of ammunition and rations, and the Germans are bringing up armour. The few boats can carry only one of these things at a time.",
+                    options: [
+                      {
+                        id: "sendThePoles",
+                        label: "Send the Polish brigade across the river tonight",
+                        note: "Reinforce the perimeter with fresh men, in the dark.",
+                        bonus: 0,
+                        bonusByPosture: {dropZoneCompromised: 3, corridorCut: -2, freshPanzerReserves: -3},
+                        reportLine: "The Polish paratroopers go down to the river bank and into the few boats there are.",
+                      },
+                      {
+                        id: "ferrySupplies",
+                        label: "Use the boats for the perimeter's ammunition and rations",
+                        note: "Keep the perimeter fed, with fewer men reaching it.",
+                        bonus: 0,
+                        bonusByPosture: {corridorCut: 3},
+                        meters: {fuel: -1},
+                        costReason: "Boats and engineers committed to the supply ferry",
+                        reportLine: "The few boats carry ammunition and rations across the river instead of men.",
+                      },
+                      {
+                        id: "tightenTheLine",
+                        label: "Pull the perimeter in to a tighter line at once",
+                        note: "A smaller front to hold against the armour.",
+                        bonus: 0,
+                        bonusByPosture: {freshPanzerReserves: 4, dropZoneCompromised: -1},
+                        reportLine: "The perimeter is pulled in to a tighter line around Oosterbeek, and the outer ground is given up.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   corpsPush:
                     "The relief column is stalled on one road between Nijmegen and Elst. Every mile forward means the Germans can cut behind that same road. Moving it forward brings relief closer. It also thins the position being held.",
@@ -1728,6 +1861,47 @@
                 // historical diversion drew none off at all, the same asymmetric-by-design choice
                 // as PQ-17's Signals Intelligence or Kursk's Supply.
                 effectiveness: { formation: 2.6, escort: 2.3, targeting: 2.0, diversion: 1.6 },
+                // Round 22. This battle's own notes: the escort could cover only about 200 of the 400 miles and
+                // turned back near Aachen. So the mission is fought in two phases, the leg out with the escort and
+                // the leg after it, and its field decision is whether to press on.
+                conditions: "A deep daylight penetration of Germany. The escorts can cover only about half the way, and every mile after Aachen is flown without them.",
+                phases: ["The leg with the escort", "Beyond the escort's range"],
+                decisions: [
+                  {
+                    id: "pressOnBeyondAachen",
+                    time: "1530",
+                    title: "After Aachen",
+                    prompt: "The escort turned back at the limit of its range, and the formation has flown on without it. Ahead is the target and the German fighter wings; behind is the long way home with no escort either. The lead group has to decide whether to hold to the briefed bomb run.",
+                    options: [
+                      {
+                        id: "pressOn",
+                        label: "Hold to the briefed bomb run and press on to the target",
+                        note: "The mission as planned, with what that costs.",
+                        bonus: 0,
+                        bonusByPosture: {flakOverTarget: 3, headOnWaves: -2, rocketStandoff: -3},
+                        reportLine: "The formation presses on to the target without the escort, holding to the briefed run.",
+                      },
+                      {
+                        id: "turnHome",
+                        label: "Abort the mission and turn for home",
+                        note: "Fewer losses, and nothing to show for the day.",
+                        bonus: -1,
+                        bonusByPosture: {headOnWaves: 4, rocketStandoff: 4},
+                        meters: {initiative: -1},
+                        costReason: "A mission abandoned short of the target",
+                        reportLine: "The lead group turns the formation for home, and the bombs are brought back or dropped on a target of opportunity.",
+                      },
+                      {
+                        id: "rerouteTheBox",
+                        label: "Swing the formation onto the alternate approach to dodge the fighter belt",
+                        note: "Costs time over the target, and a longer run.",
+                        bonus: 0,
+                        bonusByPosture: {rocketStandoff: 4},
+                        reportLine: "The formation swings onto the alternate approach, away from the fighters waiting on the briefed one.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   formation:
                     "LeMay's combat box is the formation's entire defense once the escort turns back at Aachen. Box discipline means overlapping fire from every gun — stragglers get picked off alone. Each commitment here keeps the wings tight.",
@@ -1768,7 +1942,7 @@
                     "The diversion holds together long enough to still look like the real raid.",
                   ],
                 },
-                reportTimes: { open: "0715", contact: "0910", cats: ["1005", "1140", "1315", "1450"], reserve: "1620", counter: "0940" },
+                reportTimes: { open: "0715", contact: "0910", cats: ["1005", "1140", "1315", "1450"], contact2: "1500", reserve: "1620", counter: "0940" },
                 idleLines: {
                   formation: [
                     "No extra effort goes into tightening the box. The formation holds whatever interval it already had.",
@@ -2086,6 +2260,50 @@
                 // whether the door stays open, the same design choice as Omaha's Air or Monte
                 // Cassino's Supply.
                 effectiveness: { assault: 1.8, armor: 2.8, rangers: 2.4, naval: 1.6 },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Anzio): about 36,000 men and 3,200 vehicles
+                // landed on 22 January with total surprise and 13 killed; Lucas consolidated rather than exploit
+                // it; Kesselring activated Operation Richard at once, with over 40,000 German troops by 24 January;
+                // the beachhead was reclaimed marsh ringed by mountains. The three answers are the real options of
+                // the first day; their payoffs against each German posture are modeled.
+                conditions: "Flat, reclaimed marsh behind the beaches, ringed by mountains, with few roads off the beachhead.",
+                terrainModifiers: { armor: 0.9 },
+                terrainNotes: { armor: "marshy ground off the roads" },
+                decisions: [
+                  {
+                    id: "firstDayChoice",
+                    time: "1900",
+                    title: "The end of the first day",
+                    prompt: "The landing has met almost no one, and the road to the Alban Hills is open this evening. Behind the German lines the order for Operation Richard is already going out. The corps commander has to decide what the first day's surprise is spent on.",
+                    options: [
+                      {
+                        id: "armourUpTheRoad",
+                        label: "Send a strong armoured reconnaissance up the road toward the Alban Hills",
+                        note: "Use the open road before it closes.",
+                        bonus: 0,
+                        bonusByPosture: {windowStillOpen: 5, richardOrder: -4, thinCordon: 2},
+                        reportLine: "A strong armoured column goes up the road toward the Alban Hills in the last of the light.",
+                      },
+                      {
+                        id: "digIn",
+                        label: "Dig in on the perimeter of the beachhead first",
+                        note: "Safe, and what the corps commander did.",
+                        bonus: 1,
+                        bonusByPosture: {richardOrder: 3, windowStillOpen: -4, thinCordon: -2},
+                        reportLine: "The corps digs in on the perimeter it has landed, and the road inland is left alone.",
+                      },
+                      {
+                        id: "landStores",
+                        label: "Take a day to land the guns and stores off the ships",
+                        note: "Costs Initiative, and builds the beachhead's strength.",
+                        bonus: 0,
+                        bonusByPosture: {thinCordon: 4, richardOrder: 2},
+                        meters: {initiative: -1},
+                        costReason: "A day spent landing stores instead of pushing inland",
+                        reportLine: "The ships are unloaded through the night, and the beachhead's stocks grow while the road is left unused.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   assault:
                     "The 3rd Division and British 1st are ashore against minimal opposition. The question isn't how many men fit on the beach — it's how many stay to hold the line versus how many push forward with the rest.",
@@ -2430,6 +2648,47 @@
                       // credits with breaking the strongpoints), engineers second (the exits are
                       // the only way off the beach), infantry baseline, air weakest (overcast).
                       effectiveness: { waves: 1.8, naval: 3, engineers: 2.6, air: 1.6 },
+                      // Round 22. Facts from this battle's own notes (Wikipedia, Omaha Beach): the bombers overshot, and
+                      // the destroyers were ordered in at 09:50. Field decision for the next hour; modeled payoffs.
+                      conditions: "A rough sea and a rising tide over the beach obstacles, and overcast over the bluffs that spoiled the bombers' aim.",
+                      terrainModifiers: { air: 0.85, engineers: 0.9 },
+                      terrainNotes: { air: "overcast over the bluffs", engineers: "the tide covering the obstacles" },
+                      decisions: [
+                        {
+                          id: "nextWaves",
+                          time: "1215",
+                          title: "The next waves",
+                          prompt: "The beach is still under fire, and the next waves are circling offshore. Some of the draws are beginning to open, and some of the strongpoints at their mouths are still firing. The commander afloat has to decide where the weight goes in the next hour.",
+                          options: [
+                            {
+                              id: "landAtDraws",
+                              label: "Land the next waves at the draws now being cleared",
+                              note: "Use the openings that exist, before the Germans can plug them.",
+                              bonus: 0,
+                              bonusByPosture: {thinGarrison: 4, strongpointsIntact: -3, fieldDivision: -1},
+                              reportLine: "The next waves are sent in at the draws that are opening, and the men go up them under fire.",
+                            },
+                            {
+                              id: "holdOffshore",
+                              label: "Hold the waves offshore until the exits are open",
+                              note: "Safer for the men, and costs time.",
+                              bonus: 0,
+                              bonusByPosture: {strongpointsIntact: 3, fieldDivision: 2, thinGarrison: -1},
+                              meters: {initiative: -1},
+                              costReason: "Waves held offshore while the exits stay shut",
+                              reportLine: "The next waves are held offshore, and the men on the beach wait for the exits to open.",
+                            },
+                            {
+                              id: "destroyersAgain",
+                              label: "Order the destroyers closer in to hit the strongpoints at the draws",
+                              note: "Another run in the shallows, with the risk of grounding.",
+                              bonus: 0,
+                              bonusByPosture: {strongpointsIntact: 4, fieldDivision: 1},
+                              reportLine: "The destroyers go in closer yet, firing straight at the strongpoints at the mouths of the draws.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         waves:
                           "The first waves are pinned against the shingle bank. The second came in at seven onto the same fire. Adding more men puts more on the sand. Whether it creates pressure on the bluffs depends on what's supporting them.",

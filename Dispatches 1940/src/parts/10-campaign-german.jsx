@@ -95,6 +95,52 @@
                 // keeps no one alive on the far bank, though every tank must wait for it, the same
                 // asymmetric-by-design choice as Kursk's Supply.
                 effectiveness: { assault: 2.4, air: 2.2, guns: 1.9, bridging: 1.7 },
+                // Round 22. Ground and weather as they were on 13 May 1940 (the air corps flew from 08:00 to 16:00;
+                // the French held the bunkers on the heights of the far bank, Wikipedia, Battle of Sedan (1940)).
+                conditions: "Fine, clear weather, so the air corps can fly from first light. The French hold bunkers on the steep, wooded heights of the far bank, and the river itself is the obstacle.",
+                terrainModifiers: { assault: 0.9, air: 1.1 },
+                terrainNotes: { assault: "a river under fire below steep, wooded heights", air: "clear skies" },
+                // Field decision: what the infantry on the far bank do on the evening of 13 May. Facts verified
+                // 2026-10-05 (Wikipedia, Battle of Sedan (1940)): Hill 247 was in German hands by 20:00, the
+                // "panic of Bulson" came at about 19:00, the first pontoon bridge stood at about 01:00 on 14 May,
+                // and a French armoured counterattack was ordered for 05:00. The three answers are the
+                // alternatives that evening offered; their payoff against each French posture is modeled.
+                decisions: [
+                  {
+                    id: "tonightOnTheHeights",
+                    time: "2000",
+                    title: "The infantry on the heights",
+                    prompt: "Evening on 13 May. The infantry hold Hill 247 and a shallow bridgehead, the first pontoon bridge is hours from standing, and the French behind the heights are either running or about to counterattack. No one can say which. The corps has to decide what the men on the far bank do tonight.",
+                    options: [
+                      {
+                        id: "pushOn",
+                        label: "Send the riflemen on through the night, past the heights",
+                        note: "Exploit the confusion before the French settle. They go with no tanks behind them.",
+                        bonus: 0,
+                        bonusByPosture: { reservistsShaken: 5, gapBetweenBunkers: 3, riverArtillery: -2, armourOnTheMove: -5 },
+                        reportLine: "The riflemen go on past the heights in the dark, with nothing behind them but the river.",
+                      },
+                      {
+                        id: "holdHeights",
+                        label: "Hold the heights and wait for the bridge",
+                        note: "A smaller risk, and a slower night.",
+                        bonus: 1,
+                        bonusByPosture: { armourOnTheMove: 3, riverArtillery: 1 },
+                        reportLine: "The riflemen dig in on the heights and wait for the engineers to finish the bridge.",
+                      },
+                      {
+                        id: "coverEngineers",
+                        label: "Turn the flak and field guns on the French batteries to cover the engineers",
+                        note: "Costs fuel and the day's ammunition.",
+                        bonus: 0,
+                        bonusByPosture: { riverArtillery: 4, armourOnTheMove: 2 },
+                        meters: { fuel: -1 },
+                        costReason: "Flak and guns turned to cover the bridging",
+                        reportLine: "Every gun and flak piece on the near bank turns on the French batteries to cover the bridge-builders.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   assault:
                     "The first men over are rifle companies and pioneers in rubber boats, and the bunkers on the far bank have to be taken one at a time. Each commitment here puts more men in the first boats and more pioneers with flamethrowers and charges in the first rush up the slope.",
@@ -2589,6 +2635,50 @@
                       flavor:
                         "Sixty miles from Alexandria and this is the ground that decides it: sea on one flank, the Qattara Depression on the other, no room to maneuver around the British line the way every earlier battle in this desert allowed. The plan is a night march south around the minefields, then a hard turn north behind the Alam Halfa ridge before the sun comes up and the Desert Air Force owns the sky over open ground. Every vehicle in this army is already running on requisitioned and captured fuel that isn't being replaced at the rate it's being burned — what's decided here is how much of what's left drives, how much walks, what the Luftwaffe can put over the column, and how much gets held back rather than spent finding the gap.",
                       effectiveness: { divisions: 2.0, armour: 2.4, air: 1.4, supply: 2.8 },
+                      // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Alam el Halfa): the minefields proved deep, the
+                      // axis forces turned north earlier than planned because of delays, heavy consumption over bad
+                      // going and fuel, 22nd Armoured Brigade (Grants and light tanks) was dug in on the ridge, and the
+                      // Desert Air Force bombed the columns by night and by day. The three answers are the options at the
+                      // turn; their payoffs against each British posture are modeled.
+                      conditions: "Sixty miles from Alexandria, with the sea on one flank and the Qattara Depression on the other, soft going south of the British minefields, and the Desert Air Force overhead.",
+                      terrainModifiers: { supply: 0.85, armour: 0.9 },
+                      terrainNotes: { supply: "fuel burned on soft sand and detours", armour: "deep minefields and bad going" },
+                      decisions: [
+                        {
+                          id: "theTurnNorth",
+                          time: "1130",
+                          title: "The turn north",
+                          prompt: "The night march has cost more time and fuel than the plan allowed. The minefields were deep, the going is bad, and the British are hitting the column from the air. The wheel north toward the Alam Halfa ridge was to come further east. It has to be decided now where it comes.",
+                          options: [
+                            {
+                              id: "turnNow",
+                              label: "Turn north at once, toward the Alam Halfa ridge",
+                              note: "Save fuel and time, and meet whatever is on the ridge.",
+                              bonus: 0,
+                              bonusByPosture: {deepMinefields: 3, hullDownLine: -4},
+                              reportLine: "The column wheels north, short of the planned line, toward the Alam Halfa ridge.",
+                            },
+                            {
+                              id: "sweepWide",
+                              label: "Continue the wide sweep to the east before turning",
+                              note: "As planned, and with fuel that is running short.",
+                              bonus: 0,
+                              bonusByPosture: {hullDownLine: 3, deepMinefields: -4, airSuperiority: -2},
+                              reportLine: "The column holds its course east, further around the British line, before it turns.",
+                            },
+                            {
+                              id: "haltForFuel",
+                              label: "Halt, and call for fuel and fighters",
+                              note: "Costs fuel, and gives the British time.",
+                              bonus: 0,
+                              bonusByPosture: {airSuperiority: 3, hullDownLine: 1},
+                              meters: {fuel: -1},
+                              costReason: "A halt in the open for fuel and air cover",
+                              reportLine: "The column halts in the open, calling for fuel and for fighters over the desert.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         divisions:
                           "Six divisions against their four sounds like advantage — until you count the Italian infantry formations lacking transport for a night march this fast. Navarini's corps can hold whatever the armor takes, provided it arrives in time to hold it.",
@@ -2767,6 +2857,47 @@
                       flavor:
                         "The ring has closed, but it hasn't set. Staff estimates of the trapped strength still range from 200,000 to well over that, the same uncertainty the airlift planners are about to build their own numbers on — but for a breakout ordered now, in these first days, the harder number is fuel: whatever isn't already inside the pocket isn't coming, and every kilometer west spends it. What's decided here is how the army moves while it still can — how much of the panzer reserve leads the way west, how much of the infantry mass comes with it, what the Luftwaffe can fly in over the column, and how much fuel and ammunition gets carried forward instead of destroyed in place before the retreat starts.",
                       effectiveness: { divisions: 2.0, armour: 2.2, air: 1.6, supply: 3.0 },
+                      // Round 22. Deep winter on the open steppe. Field decision about the equipment the column cannot
+                      // carry and still move; the payoffs against each Soviet posture are modeled.
+                      conditions: "Deep winter on the open steppe: snow, hard frost and short days, with fuel enough for only a short march.",
+                      terrainModifiers: { armour: 0.9 },
+                      terrainNotes: { armour: "tracked vehicles in deep snow" },
+                      decisions: [
+                        {
+                          id: "whatToCarry",
+                          time: "1300",
+                          title: "What the column carries",
+                          prompt: "The breakout has begun, and the column is slower than the plan allowed. The heavy guns and vehicles use the fuel that the whole army needs to march on. The commanders have to decide what goes and what stays, before the Soviet cordon can close around the column.",
+                          options: [
+                            {
+                              id: "marchLight",
+                              label: "Destroy the heavy equipment and march light",
+                              note: "A faster column, and an army without its guns.",
+                              bonus: 0,
+                              bonusByPosture: {deepWinter: 4, ringHardening: 1, softSpot: -1},
+                              meters: {fuel: -1},
+                              costReason: "Heavy equipment destroyed to speed the march",
+                              reportLine: "The heavy guns and the vehicles that cannot keep up are destroyed, and the column moves on light.",
+                            },
+                            {
+                              id: "carryGuns",
+                              label: "Carry the heavy guns, and move at their pace",
+                              note: "Slow, and able to fight its way through a hard ring.",
+                              bonus: 1,
+                              bonusByPosture: {ringHardening: 3, deepWinter: -3, softSpot: 1},
+                              reportLine: "The column keeps its heavy guns and moves at the pace they allow.",
+                            },
+                            {
+                              id: "tanksAhead",
+                              label: "Send the tanks ahead to hold the gap open",
+                              note: "Fast, if there is a gap, and a column without its screen if there is not.",
+                              bonus: 0,
+                              bonusByPosture: {softSpot: 4, ringHardening: -3, deepWinter: -2},
+                              reportLine: "The tanks go ahead of the column to hold open whatever gap they find.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         divisions:
                           "Most of the army's remaining infantry divisions could march out under their own power — if movement happens before the ring tightens completely. The transport shortage means a choice: what the men can carry comes, what they can't gets left on the ground they're standing on.",
@@ -3202,6 +3333,46 @@
                 flavor:
                   "Early May, and the rasputitsa has only just loosened its grip. Weeks of thaw have turned this region's black chernozem into the kind of mud that swallows road wheels and tank treads alike — tanks are never at their best in the gap between winter's hard ground and summer's dry earth, and this order asks the panzer arm to move through exactly that gap. Before it goes out, the staff wants to know where the weight actually falls against ground and enemy both: which divisions lead, how much of the armored reserve commits while the mud still has a say in it, what the Luftwaffe can put over the breach point, and how much ammunition and engineering effort is set aside just to open a path through what's ahead.",
                 effectiveness: { divisions: 1.8, armour: 3, air: 2.2, supply: 2.6 },
+                // Round 22. Conditions (the mud is already a terrainModifier below). Field decision: the turn
+                // toward Prokhorovka, which Hoth had discussed with Manstein since early May (Wikipedia, Battle of
+                // Prokhorovka, as noted on the commander roster). The payoff against each Soviet posture is modeled.
+                conditions: "The spring thaw, the rasputitsa, has turned the roads to mud, and the Soviet defence has had months to dig in depth across the salient.",
+                decisions: [
+                  {
+                    id: "prokhorovkaTurn",
+                    time: "1200",
+                    title: "The turn east",
+                    prompt: "The southern pincer has fought its way through the first belts. Hoth has discussed with Manstein since early May whether the SS panzer corps should turn east, toward Prokhorovka, to meet the Soviet armour he expects from that direction, instead of pressing on north toward Oboyan and the link with the northern pincer. The decision cannot wait for a better map.",
+                    options: [
+                      {
+                        id: "turnEast",
+                        label: "Turn the SS panzer corps east toward Prokhorovka",
+                        note: "Meet the Soviet armour in open ground, away from the strongest belts.",
+                        bonus: 0,
+                        bonusByPosture: {antiTankFirst: 3, reservesDeep: -3, airForward: 0},
+                        reportLine: "The SS panzer corps swings east, toward Prokhorovka, with the Soviet armour somewhere ahead.",
+                      },
+                      {
+                        id: "pressNorth",
+                        label: "Keep pressing north on the original axis, through the belts",
+                        note: "The plan as written, and the link with the northern pincer.",
+                        bonus: 0,
+                        bonusByPosture: {reservesDeep: 4, antiTankFirst: -4, airForward: -1},
+                        reportLine: "The panzers keep their axis north, driving through the belts toward the link with the northern pincer.",
+                      },
+                      {
+                        id: "haltForAir",
+                        label: "Halt for a day to bring the flak and the fighters forward",
+                        note: "Costs fuel, and the Soviet reserves get a day.",
+                        bonus: 0,
+                        bonusByPosture: {airForward: 4, antiTankFirst: 1},
+                        meters: {fuel: -1},
+                        costReason: "A day's pause to bring up flak and fighters",
+                        reportLine: "The advance halts for a day while the flak and the fighters are brought forward over the front.",
+                      },
+                    ],
+                  },
+                ],
                 // Round 13, Craig's item #6 ("weather/terrain mechanically matters"). The opening
                 // flavor paragraph above already states this as fact, sourced (Wikipedia,
                 // Rasputitsa): the offensive lands in the tail end of the spring thaw, and tanks

@@ -252,6 +252,8 @@ function WW2CommandInner() {
           won: ri === 0,
           reservesHeld: subgamePayload.reservesHeld || 0,
           counter: subgamePayload.counter || null,
+          extraLines: subgamePayload.extraLines || [],
+          attrition: choice.keyBattleSubgame.attrition || null,
         }),
     });
     if (!res) return;

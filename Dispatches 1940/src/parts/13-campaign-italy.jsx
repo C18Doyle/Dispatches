@@ -353,6 +353,55 @@
                 // handful of mule trails are this battle's own ceiling, the same design choice as
                 // Monte Marrone's mule trail.
                 effectiveness: { assault: 2.3, artillery: 1.8, air: 1.7, supply: 1.6 },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Italian invasion of France): the offensive cost the
+                // Italian army 2,151 frostbite casualties in four days, and the passes (the Little St Bernard is
+                // above 2,000 metres) were still under snow.
+                conditions: "The high passes are still under snow in late June, and the nights are cold enough that frostbite cost the Italian army 2,151 men in four days of fighting. The mountains and the weather make air support hard to direct.",
+                terrainModifiers: { supply: 0.85, air: 0.9 },
+                terrainNotes: { supply: "snow on the road and trails", air: "cloud over the passes" },
+                attrition: [
+                  { category: "assault", atLeast: 3, meter: "manpower", delta: -1, reason: "Frostbite on the heights" },
+                ],
+                // Field decision. Facts (Wikipedia, same article): the French blew the bridges on the Little St
+                // Bernard road, held the Redoute Ruinee and the post at Seloge, and had 86 platoons of ski scouts;
+                // on 21 June French 280-mm mortars silenced the Chaberton fort. The three answers are the real
+                // options of the day; their payoff against each French posture is modeled.
+                decisions: [
+                  {
+                    id: "roadOrHighGround",
+                    time: "1100",
+                    title: "The road or the high ground",
+                    prompt: "The French have blown the bridges on the road and hold the old posts above it. Fighting up the road means mending it under fire. The Alpini could go over the high cols instead, through the snow, and come down behind the posts.",
+                    options: [
+                      {
+                        id: "overCols",
+                        label: "Send the Alpini over the high cols, around the French posts",
+                        note: "Fast if no one is watching the cols, and costly if they are.",
+                        bonus: 0,
+                        bonusByPosture: { bridgesDown: 4, fortressGuns: 1, skiScreen: -3 },
+                        reportLine: "The Alpini leave the road and climb toward the high cols, in single file through the snow.",
+                      },
+                      {
+                        id: "mendRoad",
+                        label: "Mend the road and bring the guns up behind the infantry",
+                        note: "Slow, and it costs fuel, but the guns can answer the forts.",
+                        bonus: 0,
+                        bonusByPosture: { bridgesDown: 1, fortressGuns: 4, skiScreen: 1 },
+                        meters: { fuel: -1 },
+                        costReason: "Engineers and guns committed to the road",
+                        reportLine: "Engineers go to work on the broken bridges, and the guns wait on the road behind the infantry.",
+                      },
+                      {
+                        id: "standFast",
+                        label: "Stand on the ground already held and let the armistice talks decide the rest",
+                        note: "No further risk, and nothing more gained.",
+                        bonus: 0,
+                        bonusByPosture: { skiScreen: 3 },
+                        reportLine: "The army stops where it is and waits to hear what the armistice talks will give it.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   assault:
                     "The Alpini and the line infantry are the arm that climbs, and the passes are steep and still deep in snow. Each commitment here puts more men onto the slope in the first push.",
@@ -1925,6 +1974,48 @@
                 // battle's own well-documented logistics ceiling, the same design choice as
                 // Kursk's mud or Alam Halfa's fuel arithmetic.
                 effectiveness: { assault: 2.2, paratroops: 2.6, artillery: 2.0, supply: 1.6 },
+                // Round 22. The cold and altitude are real (this battle's own notes: a 1,805 m peak held through
+                // German counterattacks on 2, 3 and 10 April); the attrition rule charges them to a heavy assault.
+                conditions: "Snow and bitter cold above 1,800 meters, with no road, only mule trails, against German mountain troops who know the ground.",
+                attrition: [
+                  { category: "assault", atLeast: 3, meter: "manpower", delta: -1, reason: "Exposure on the peak" },
+                ],
+                decisions: [
+                  {
+                    id: "holdTheSummit",
+                    time: "1230",
+                    title: "The summit under counterattack",
+                    prompt: "German mountain troops are forming up below the peak. The position taken by night is exposed on its forward slope, and the reverse slope is steep and open to the cold. The commander has to decide how the line meets what is coming.",
+                    options: [
+                      {
+                        id: "holdSummit",
+                        label: "Hold the summit where it stands",
+                        note: "Keeps the ground, and keeps every man exposed on it.",
+                        bonus: 0,
+                        bonusByPosture: {thinInitialLine: 2, gebirgsjagerReserve: -3},
+                        reportLine: "The line holds the summit where it is, with every man on the forward slope.",
+                      },
+                      {
+                        id: "reverseSlope",
+                        label: "Pull back to the reverse slope and let the guns work",
+                        note: "The Anglo-Polish guns can range the summit, if the men are off it.",
+                        bonus: 0,
+                        bonusByPosture: {gebirgsjagerReserve: 4, thinInitialLine: -2, highAltitudeCold: 2},
+                        reportLine: "The line falls back behind the crest, and the attached guns range on the summit it left.",
+                      },
+                      {
+                        id: "counterAtOnce",
+                        label: "Counterattack before the Germans finish forming up",
+                        note: "Costs men, and may catch them off balance.",
+                        bonus: 0,
+                        bonusByPosture: {thinInitialLine: 4, gebirgsjagerReserve: -2, highAltitudeCold: -2},
+                        meters: {manpower: -1},
+                        costReason: "A counterattack made on the exposed slope",
+                        reportLine: "The Italians go down at the Germans before they have formed up, in the snow.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   assault:
                     "The Piemonte battalion and both Bersaglieri battalions form the assault force — roughly five thousand men against perhaps three thousand Germans dug in on the peak. Dapino notes that surprise and night attack favor the numbers more than daylight calculations suggest.",
