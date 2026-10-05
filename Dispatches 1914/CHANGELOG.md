@@ -5,7 +5,7 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
-## Unreleased
+## 1.2.0 (2026-10-05)
 ### New: the British Empire (BEF and War Cabinet), 1914-1918
 - A fourth playable command, 21 decisions and 9 endings: where the army lands (Aug 1914), behind the Seine (1 Sep), Ypres, the Dardanelles and the 29th Division, the shell shortage and the Times (May 1915), Loos and where the reserve stands, the evacuation of Gallipoli, the change of Commander-in-Chief (Dec 1915), conscription (Jan 1916), a breakthrough or a bite on the Somme, the tanks (Sep 1916), Calais and the British under Nivelle (Feb 1917), the convoy (Apr 1917), Flanders again (Jul 1917), the line and the men (Jan 1918), the general reserve (Mar 1918), Doullens, Haig's order of 11 April, the Cabinet's anxiety in September 1918 and the armistice terms.
 - The seat is the one the design specifies: the field commander (French, then Haig) with the Cabinet's decisions reaching it, and the first node says so. Will axis: Political Capital. Hard mode erodes on defying civil authority.
