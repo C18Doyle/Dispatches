@@ -1886,6 +1886,26 @@ const KEY_BATTLE_ECHOES = {
     },
   },
 };
+// Round 22: the War Record's Battle Record lists every battle by name, in campaign order, with the
+// campaign seal it belongs to. Fought battles show their record; the others show as blanks.
+const KEY_BATTLE_TITLES = [
+  { id: "sedan40", seal: "OKW", title: "The Crossing at Sedan" },
+  { id: "elAlamein", seal: "OKW", title: "The Push to Alam Halfa" },
+  { id: "stalingrad", seal: "OKW", title: "The Breakout West" },
+  { id: "kursk", seal: "OKW", title: "The Kursk Salient" },
+  { id: "moscow41", seal: "STAVKA", title: "The Blow Before Moscow" },
+  { id: "bagrationSoviet44", seal: "STAVKA", title: "The Drive on Minsk" },
+  { id: "britainDay40", seal: "SHAEF", title: "Battle of Britain Day" },
+  { id: "pq17_1942", seal: "SHAEF", title: "Holding the Convoy Together" },
+  { id: "bomberDirective43", seal: "SHAEF", title: "The Second Schweinfurt Mission" },
+  { id: "anzio44", seal: "SHAEF", title: "The Beachhead's First Hours" },
+  { id: "omaha", seal: "SHAEF", title: "Omaha, Mid-Morning" },
+  { id: "arnhemPerimeter44", seal: "SHAEF", title: "The Corridor and the Perimeter" },
+  { id: "alps40", seal: "COMANDO", title: "The Little St Bernard" },
+  { id: "monteCassino44", seal: "COMANDO", title: "Monte Marrone" },
+];
+const BATTLE_GRADE_ORDER = ["total", "marginal", "costly", "clean"]; // worst to best
+
 function keyBattleEcho(echoId, flags, battleId) {
   const E = KEY_BATTLE_ECHOES[echoId];
   const id = battleId || echoId;

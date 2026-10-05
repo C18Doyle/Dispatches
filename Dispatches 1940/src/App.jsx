@@ -17755,6 +17755,26 @@ const KEY_BATTLE_ECHOES = {
     },
   },
 };
+// Round 22: the War Record's Battle Record lists every battle by name, in campaign order, with the
+// campaign seal it belongs to. Fought battles show their record; the others show as blanks.
+const KEY_BATTLE_TITLES = [
+  { id: "sedan40", seal: "OKW", title: "The Crossing at Sedan" },
+  { id: "elAlamein", seal: "OKW", title: "The Push to Alam Halfa" },
+  { id: "stalingrad", seal: "OKW", title: "The Breakout West" },
+  { id: "kursk", seal: "OKW", title: "The Kursk Salient" },
+  { id: "moscow41", seal: "STAVKA", title: "The Blow Before Moscow" },
+  { id: "bagrationSoviet44", seal: "STAVKA", title: "The Drive on Minsk" },
+  { id: "britainDay40", seal: "SHAEF", title: "Battle of Britain Day" },
+  { id: "pq17_1942", seal: "SHAEF", title: "Holding the Convoy Together" },
+  { id: "bomberDirective43", seal: "SHAEF", title: "The Second Schweinfurt Mission" },
+  { id: "anzio44", seal: "SHAEF", title: "The Beachhead's First Hours" },
+  { id: "omaha", seal: "SHAEF", title: "Omaha, Mid-Morning" },
+  { id: "arnhemPerimeter44", seal: "SHAEF", title: "The Corridor and the Perimeter" },
+  { id: "alps40", seal: "COMANDO", title: "The Little St Bernard" },
+  { id: "monteCassino44", seal: "COMANDO", title: "Monte Marrone" },
+];
+const BATTLE_GRADE_ORDER = ["total", "marginal", "costly", "clean"]; // worst to best
+
 function keyBattleEcho(echoId, flags, battleId) {
   const E = KEY_BATTLE_ECHOES[echoId];
   const id = battleId || echoId;
@@ -19793,6 +19813,52 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                 {endings.filter((l) => !ENDINGS_GALLERY.some((e) => e.label === l)).length === 1 ? "conclusion" : "conclusions"} reached.
               </p>
             )}
+          </div>
+        </details>
+        {/* Round 22: the Battle Record — every Order of Battle fought, with the enemy setups met, the best
+            result, and what the player did last time (commander and field decisions). A log, not a
+            hint: the setups are drawn at random, so having met one says nothing about the next. */}
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Battle Record — {KEY_BATTLE_TITLES.filter((b) => record?.battles?.[b.id]).length} of {KEY_BATTLE_TITLES.length} battles fought
+          </summary>
+          <div className="mt-3">
+            {KEY_BATTLE_TITLES.map((b) => {
+              const r = record?.battles?.[b.id];
+              const roster = KEY_BATTLE_POSTURES[b.id] || [];
+              const commander = r?.last?.commander ? (KEY_BATTLE_COMMANDERS[b.id] || []).find((c) => c.id === r.last.commander) : null;
+              return (
+                <div key={b.id} className="border-l-4 pl-2 mb-3" style={{ borderColor: r ? "#b08d3f" : "#00000033", fontFamily: "'Courier Prime', monospace" }}>
+                  <div className="text-[13px] text-[#000000]">
+                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-50 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                      {b.seal}
+                    </span>
+                    {r ? <b>{b.title}</b> : <span className="opacity-40">████████████</span>}
+                  </div>
+                  {r && (
+                    <div className="text-[12px] text-[#000000] leading-snug">
+                      <div>
+                        Fought {r.fought} {r.fought === 1 ? "time" : "times"} · won {r.won} · best result: {r.best === "clean" ? "a clean win" : r.best === "costly" ? "a costly win" : r.best === "marginal" ? "a close loss" : "a heavy loss"}
+                      </div>
+                      <div>
+                        Enemy setups met: {r.setups.length} of {roster.length}
+                        {r.setups.length > 0 && <> — {r.setups.map((id) => roster.find((p) => p.id === id)?.name || id).join("; ")}</>}
+                      </div>
+                      {r.last && (
+                        <div className="opacity-80">
+                          Last time: {r.last.won ? "won" : "lost"}
+                          {commander ? `, under ${commander.name}` : ""}
+                          {r.last.decisions && r.last.decisions.length > 0 ? `. Field decision: ${r.last.decisions.join("; ")}` : ""}.
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </details>
         <details className={`${paper} p-5`}>
@@ -23309,6 +23375,18 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
 
   function afterNotes() {
     const notes = [];
+    // Round 22 (item 7): what the player's orders were worth, as military intelligence would put it —
+    // an estimate to the nearest five points, and of the change the plan made, never of the odds.
+    const basePct = Math.round((baseWeights[0] / (baseWeights[0] + baseWeights[1])) * 100);
+    const gain = pctFor(finalTotal) - basePct;
+    const gainRounded = Math.round(Math.abs(gain) / 5) * 5;
+    notes.push(
+      gainRounded === 0
+        ? "Military intelligence believes your orders made little difference to our chance of victory."
+        : gain > 0
+        ? `Military intelligence believes your orders improved our chance of victory by about ${gainRounded} points.`
+        : `Military intelligence believes your orders cost us about ${gainRounded} points of our chance of victory.`
+    );
     if (plan.intel && posture) {
       const hinted = postures.find((p) => p.id === plan.intel.hintPostureId);
       notes.push(
@@ -23351,7 +23429,13 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (neglectedAll.length) flagsOut[`${config.id}NeglectedCount`] = neglectedAll.length;
     if (plan.commanderId) flagsOut[`${config.id}PlanCommander`] = plan.commanderId;
     // Round 22: which way each field decision went, kept as a flag for later text.
-    for (const x of decisionEffects) flagsOut[`${config.id}Dec_${x.d.id}`] = x.option.id;
+    for (const x of decisionEffects) {
+      flagsOut[`${config.id}Dec_${x.d.id}`] = x.option.id;
+      flagsOut[`${config.id}DecNote_${x.d.id}`] = `${x.d.title}: ${x.option.label}`;
+    }
+    // The enemy setup(s) met, for the War Record's Battle Record.
+    if (plan.postureId) flagsOut[`${config.id}Posture`] = plan.postureId;
+    if (plan.posture2Id) flagsOut[`${config.id}Posture2`] = plan.posture2Id;
     onResolve({
       bonus: clampBattleBonus(finalTotal),
       extraLines: decisionEffects.flatMap((x) => x.eff.lines),
@@ -24671,6 +24755,29 @@ async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewind
       if (e.advisor) advisors[e.advisor] = (advisors[e.advisor] || 0) + 1;
     });
     record.advisors = advisors;
+    // Round 22: the Battle Record. Every Order of Battle fought this war leaves its grade, enemy
+    // setup(s), commander and field decisions in the run's flags; the record keeps a running tally per
+    // battle across wars. Written once, when a war ends, like the rest of the record.
+    const battles = record.battles || {};
+    for (const b of KEY_BATTLE_TITLES) {
+      const grade = flags[`${b.id}Grade`];
+      if (!grade) continue;
+      const prev = battles[b.id] || { fought: 0, won: 0, setups: [], best: null, last: null };
+      const won = grade === "clean" || grade === "costly";
+      const decisions = Object.keys(flags)
+        .filter((k) => k.startsWith(`${b.id}DecNote_`))
+        .map((k) => flags[k]);
+      const setups = [...new Set([...(prev.setups || []), flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean))];
+      const best = prev.best && BATTLE_GRADE_ORDER.indexOf(prev.best) > BATTLE_GRADE_ORDER.indexOf(grade) ? prev.best : grade;
+      battles[b.id] = {
+        fought: prev.fought + 1,
+        won: prev.won + (won ? 1 : 0),
+        setups,
+        best,
+        last: { grade, won, commander: flags[`${b.id}PlanCommander`] || null, setup: flags[`${b.id}Posture`] || null, decisions },
+      };
+    }
+    record.battles = battles;
     // Grand Campaign prototype: keep only the most recent completion per campaign — this isn't
     // a history, just "what's available to seed a Grand Campaign leg with right now" (per the
     // spec). Written unconditionally, regardless of GRAND_CAMPAIGN_ENABLED — cheap, and means

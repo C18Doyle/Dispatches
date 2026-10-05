@@ -465,6 +465,52 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
             )}
           </div>
         </details>
+        {/* Round 22: the Battle Record — every Order of Battle fought, with the enemy setups met, the best
+            result, and what the player did last time (commander and field decisions). A log, not a
+            hint: the setups are drawn at random, so having met one says nothing about the next. */}
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Battle Record — {KEY_BATTLE_TITLES.filter((b) => record?.battles?.[b.id]).length} of {KEY_BATTLE_TITLES.length} battles fought
+          </summary>
+          <div className="mt-3">
+            {KEY_BATTLE_TITLES.map((b) => {
+              const r = record?.battles?.[b.id];
+              const roster = KEY_BATTLE_POSTURES[b.id] || [];
+              const commander = r?.last?.commander ? (KEY_BATTLE_COMMANDERS[b.id] || []).find((c) => c.id === r.last.commander) : null;
+              return (
+                <div key={b.id} className="border-l-4 pl-2 mb-3" style={{ borderColor: r ? "#b08d3f" : "#00000033", fontFamily: "'Courier Prime', monospace" }}>
+                  <div className="text-[13px] text-[#000000]">
+                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-50 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                      {b.seal}
+                    </span>
+                    {r ? <b>{b.title}</b> : <span className="opacity-40">████████████</span>}
+                  </div>
+                  {r && (
+                    <div className="text-[12px] text-[#000000] leading-snug">
+                      <div>
+                        Fought {r.fought} {r.fought === 1 ? "time" : "times"} · won {r.won} · best result: {r.best === "clean" ? "a clean win" : r.best === "costly" ? "a costly win" : r.best === "marginal" ? "a close loss" : "a heavy loss"}
+                      </div>
+                      <div>
+                        Enemy setups met: {r.setups.length} of {roster.length}
+                        {r.setups.length > 0 && <> — {r.setups.map((id) => roster.find((p) => p.id === id)?.name || id).join("; ")}</>}
+                      </div>
+                      {r.last && (
+                        <div className="opacity-80">
+                          Last time: {r.last.won ? "won" : "lost"}
+                          {commander ? `, under ${commander.name}` : ""}
+                          {r.last.decisions && r.last.decisions.length > 0 ? `. Field decision: ${r.last.decisions.join("; ")}` : ""}.
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </details>
         <details className={`${paper} p-5`}>
           <summary
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
@@ -3979,6 +4025,18 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
 
   function afterNotes() {
     const notes = [];
+    // Round 22 (item 7): what the player's orders were worth, as military intelligence would put it —
+    // an estimate to the nearest five points, and of the change the plan made, never of the odds.
+    const basePct = Math.round((baseWeights[0] / (baseWeights[0] + baseWeights[1])) * 100);
+    const gain = pctFor(finalTotal) - basePct;
+    const gainRounded = Math.round(Math.abs(gain) / 5) * 5;
+    notes.push(
+      gainRounded === 0
+        ? "Military intelligence believes your orders made little difference to our chance of victory."
+        : gain > 0
+        ? `Military intelligence believes your orders improved our chance of victory by about ${gainRounded} points.`
+        : `Military intelligence believes your orders cost us about ${gainRounded} points of our chance of victory.`
+    );
     if (plan.intel && posture) {
       const hinted = postures.find((p) => p.id === plan.intel.hintPostureId);
       notes.push(
@@ -4021,7 +4079,13 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (neglectedAll.length) flagsOut[`${config.id}NeglectedCount`] = neglectedAll.length;
     if (plan.commanderId) flagsOut[`${config.id}PlanCommander`] = plan.commanderId;
     // Round 22: which way each field decision went, kept as a flag for later text.
-    for (const x of decisionEffects) flagsOut[`${config.id}Dec_${x.d.id}`] = x.option.id;
+    for (const x of decisionEffects) {
+      flagsOut[`${config.id}Dec_${x.d.id}`] = x.option.id;
+      flagsOut[`${config.id}DecNote_${x.d.id}`] = `${x.d.title}: ${x.option.label}`;
+    }
+    // The enemy setup(s) met, for the War Record's Battle Record.
+    if (plan.postureId) flagsOut[`${config.id}Posture`] = plan.postureId;
+    if (plan.posture2Id) flagsOut[`${config.id}Posture2`] = plan.posture2Id;
     onResolve({
       bonus: clampBattleBonus(finalTotal),
       extraLines: decisionEffects.flatMap((x) => x.eff.lines),
