@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef, Component } from "react";
 import * as Tone from "tone";
-import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, buildLogEntry, nextPosition, nextVisited, arrivalFork } from "./logic";
+import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, buildLogEntry, nextPosition, nextVisited, arrivalFork } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
@@ -263,7 +263,7 @@ const CAMPAIGNS = {
                       {
                         id: "coverEngineers",
                         label: "Turn the flak and field guns on the French batteries to cover the engineers",
-                        note: "Costs fuel and the day's ammunition.",
+                        note: "Costs Matériel: fuel and the day's ammunition.",
                         bonus: 0,
                         bonusByPosture: { riverArtillery: 4, armourOnTheMove: 2 },
                         meters: { fuel: -1 },
@@ -359,7 +359,7 @@ const CAMPAIGNS = {
                   weight: modWeight(70, meters.initiative),
                   title: "The bridgehead holds and the breakout runs",
                   setFlags: { sedan40Result: "crossed" },
-                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  impact: { manpower: 1, fuel: 0, initiative: 1 },
                   outcome:
                     "What happened, and it remains one of the most audacious operational gambles of the entire war: seven panzer divisions threaded through terrain the French general staff had assessed as unsuitable for a major armored thrust, crossed the Meuse at Sedan by May 13, and reached the Channel coast by May 20 — cutting off and encircling the very Allied armies that had advanced into Belgium to meet a northern attack that was, by then, revealed as the feint. France's defeat, six weeks after the campaign began, is substantially a consequence of this single operational decision.",
                 },
@@ -426,7 +426,7 @@ const CAMPAIGNS = {
             {
               label: "Compress the invasion timetable — rush what the shortened season still allows",
               advisor: { name: "Raeder", quote: "You are asking a fleet that didn't exist in June to exist by September because Paris took an extra six weeks to fall. I can produce barges on that timetable. I cannot produce the training and the weather to go with them." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel and shipping capacity left to rush an invasion fleet together on a compressed timetable" : undefined,
               setFlags: { compressedWindow40: "rushed" },
               impact: { manpower: -1, fuel: -2, initiative: 1 },
@@ -612,7 +612,7 @@ const CAMPAIGNS = {
             {
               label: "Execute Fall Tannenbaum — eleven divisions, three axes, before winter closes the passes",
               advisor: { name: "von Leeb", quote: "I have drawn the plan because I was ordered to draw it. I would not recommend executing it. The terrain does not care whose staff study was more thorough." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel and transport left to move eleven divisions across three Alpine axes before the passes close" : undefined,
               setFlags: { tannenbaum40: "invade" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -1810,7 +1810,7 @@ const CAMPAIGNS = {
           ].concat([
               {
                 label: "Contest the delivery — everything the fighter arm has, held at altitude, for the single aircraft nobody can afford to let through",
-                disabledReason: flags.bomber43 === "fighters" && (meters.fuel || 0) >= 2 ? undefined : "Requires a reserved fighter arm and Fuel +2 — jets held at altitude need fuel nobody else is getting",
+                disabledReason: flags.bomber43 === "fighters" && (meters.fuel || 0) >= 2 ? undefined : "Requires a reserved fighter arm and Matériel +2 — jets held at altitude need fuel nobody else is getting",
                 advisor: { name: "Galland", quote: "I have spent two years being told the jets were a bomber. Now you want them to be an interceptor at forty thousand feet against one aeroplane we cannot identify in advance, on a day we will not be told about. It is the only mission I have been given in this war that is worth attempting and cannot be planned for." },
                 setFlags: { atomic45: "contestDelivery" },
                 impact: { manpower: -1, fuel: -3, initiative: -2 },
@@ -1840,7 +1840,7 @@ const CAMPAIGNS = {
             ]).concat([
               {
                 label: "Disperse everything — evacuate the cities, bury the industry, make the fortress too diffuse for any single weapon to be decisive",
-                disabledReason: (meters.manpower || 0) >= 5 && (meters.fuel || 0) >= 3 ? undefined : "Requires Manpower +5, Fuel +3 — moving a country needs a country still able to move",
+                disabledReason: (meters.manpower || 0) >= 5 && (meters.fuel || 0) >= 3 ? undefined : "Requires Manpower +5, Matériel +3 — moving a country needs a country still able to move",
                 advisor: { name: "Speer", quote: "I moved aircraft production underground while it was being bombed daily, and I can move the rest. Understand precisely what I am offering: not a way to win, and not a way to survive. A way for this to take longer. If that is what is wanted it can be had, and it will be paid for by people nobody is going to consult." },
                 setFlags: { atomic45: "disperse", dispersedReich45: true },
                 favor: 2,
@@ -2409,7 +2409,7 @@ const CAMPAIGNS = {
             const twoAxisPossible = meters.fuel > -2;
             const base = [];
             base.push({
-                checkLabel: "Fuel",
+                checkLabel: "Matériel",
                 disabledReason: twoAxisPossible ? undefined : "insufficient fuel to supply two axes simultaneously",
                 label: "Pursue both objectives at once, as directed",
                 advisor: { name: "Hitler", quote: "If I do not get the oil of Maikop and Grozny, then I must end this war. So we will have the oil AND the city that bears his name." },
@@ -2801,7 +2801,7 @@ const CAMPAIGNS = {
                             {
                               id: "haltForFuel",
                               label: "Halt, and call for fuel and fighters",
-                              note: "Costs fuel, and gives the British time.",
+                              note: "Costs Matériel, and gives the British time.",
                               bonus: 0,
                               bonusByPosture: {airSuperiority: 3, hullDownLine: 1},
                               meters: {fuel: -1},
@@ -3420,7 +3420,7 @@ const CAMPAIGNS = {
             const offensivePossible = meters.fuel > -3;
             const base = [];
             base.push({
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: offensivePossible ? undefined : "insufficient fuel for a Citadel-scale armored offensive",
               label: "Strike now, in spring, with the tanks already on hand",
               advisor: { name: "Manstein", quote: "Every week we rehearse, they dig. Attack in May and we fight their defenses; attack in July and we fight their finished fortress." },
@@ -3495,7 +3495,7 @@ const CAMPAIGNS = {
                       {
                         id: "haltForAir",
                         label: "Halt for a day to bring the flak and the fighters forward",
-                        note: "Costs fuel, and the Soviet reserves get a day.",
+                        note: "Costs Matériel, and the Soviet reserves get a day.",
                         bonus: 0,
                         bonusByPosture: {airForward: 4, antiTankFirst: 1},
                         meters: {fuel: -1},
@@ -3671,7 +3671,7 @@ const CAMPAIGNS = {
               ],
             });
             base.push({
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: offensivePossible ? undefined : "insufficient fuel for a Citadel-scale armored offensive",
               label: "Wait for the Panthers, launch in July as planned",
               advisor: { name: "Hitler", quote: "The new weapons will decide it. This attack must not fail, therefore it must not go before the Panthers are ready." },
@@ -4278,7 +4278,7 @@ const CAMPAIGNS = {
                 {
                   label: "Drive for the beach at Sword — split the British lodgment before it links with the others",
                   advisor: { name: "Rommel", quote: "One armored spearhead, reaching salt water, ends the argument about whether this invasion succeeds. I have twelve hours, perhaps less, to make that argument in steel." },
-                  checkLabel: "Fuel",
+                  checkLabel: "Matériel",
                   disabledReason: meters.fuel <= -3 ? "insufficient fuel left to run an armored spearhead the length of the lodgment in a single push" : undefined,
                   setFlags: { normandyCounterattack: "drive" },
                   impact: { manpower: -2, fuel: -1, initiative: 0 },
@@ -5068,7 +5068,7 @@ const CAMPAIGNS = {
             const base = [];
             {
               base.push({
-                checkLabel: "Fuel",
+                checkLabel: "Matériel",
                 disabledReason: fuelExhausted ? "insufficient fuel to reach Antwerp or attempt any offensive" : undefined,
                 label: "Launch the Ardennes offensive",
                 advisor: { name: "Hitler", quote: "One blow through the Ardennes — as in 1940 — and the enemy coalition cracks along its seam. Wars are won by will." },
@@ -5711,7 +5711,7 @@ const CAMPAIGNS = {
       }
       const meterLine = `Final position — Manpower: ${
         meters.manpower > 0 ? "+" + meters.manpower : meters.manpower
-      } · Fuel: ${meters.fuel > 0 ? "+" + meters.fuel : meters.fuel} · Initiative: ${
+      } · Matériel: ${meters.fuel > 0 ? "+" + meters.fuel : meters.fuel} · Initiative: ${
         meters.initiative > 0 ? "+" + meters.initiative : meters.initiative
       }.`;
       const end = this.projectedEnd(flags, meters);
@@ -7058,7 +7058,7 @@ const CAMPAIGNS = {
           ].concat([
               {
                 label: "Don't take Seelow at all — release Koniev south and Rokossovsky north at full strength and let the heights hold an empty front",
-                disabledReason: (meters.manpower || 0) >= 4 && (meters.fuel || 0) >= 2 ? undefined : "Requires Manpower +4, Fuel +2 — two axes at full weight, or neither",
+                disabledReason: (meters.manpower || 0) >= 4 && (meters.fuel || 0) >= 2 ? undefined : "Requires Manpower +4, Matériel +2 — two axes at full weight, or neither",
                 advisor: { name: "Chuikov", quote: "Heinrici built his line where our maps said we had to come. We do not have to come. For the first time in this war we have enough army to go around a position instead of through it, and I would like to spend that on the last week rather than save it for a week that will not arrive." },
                 setFlags: { berlinAssault: "envelop", berlinEnveloped45: true },
                 impact: { manpower: -1, fuel: -2, initiative: 1 },
@@ -7265,7 +7265,7 @@ const CAMPAIGNS = {
                   weight: Math.min(95, modWeight(70, meters.initiative) + (flags.reserveCommitment41 === "hold" ? 10 : 0)),
                   title: "The counteroffensive throws Army Group Centre back",
                   setFlags: { moscow41Result: "thrown" },
-                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  impact: { manpower: 2, fuel: 0, initiative: flags.reserveCommitment41 === "hold" ? 2 : 1 },
                   outcome:
                     "What happened, launched December 5, 1941. Fresh Siberian divisions, and a German army with no winter equipment because the campaign was planned to be over by autumn, combined to drive Army Group Center back as much as 150 miles in places. It was the first major German reversal of the war, and it ended, permanently, any version of a quick victory in the east." +
                     (flags.reserveCommitment41 === "hold"
@@ -7457,7 +7457,7 @@ const CAMPAIGNS = {
               label: "Pour everything into the gap — the whole southern front is open, take Ukraine before it can be replugged",
               advisor: { name: "Vatutin", quote: "I have spent the entire war being told to consolidate before the enemy has a chance to recover. For once, there is no enemy left in front of us to recover. Move." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to press this deep into the vacuum" : undefined,
               setFlags: { southernVacuum43: "pour" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
@@ -7494,7 +7494,7 @@ const CAMPAIGNS = {
               label: "Keep reaching — push for the Dnieper crossings before Manstein can organize a response",
               advisor: { name: "Vatutin", quote: "Every additional kilometer we take now is a kilometer the counterstroke has to cross before it reaches anything that matters. I would rather be too far forward than early enough to be comfortable." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -4 ? "insufficient fuel left in the salient to run columns any further forward" : undefined,
               setFlags: { vacuumOverreach43: "reach" },
               impact: { manpower: -1, fuel: -2, initiative: 1 },
@@ -7941,7 +7941,7 @@ const CAMPAIGNS = {
               label: "Mass artillery for a deliberate breakthrough — spend the shells the wait bought time to bring up",
               advisor: { name: "Vatutin", quote: "We paid for this wall in time instead of blood at the river. I would rather spend shells on it now than spend the blood we saved, later, trying to go around it." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "not enough shells and fuel left to mass artillery for a deliberate set-piece breakthrough" : undefined,
               setFlags: { easternWallBreach43: "artillery" },
               impact: { manpower: 1, fuel: -2, initiative: 0 },
@@ -8191,7 +8191,7 @@ const CAMPAIGNS = {
           ].concat([
               {
                 label: "Delay the launch a fortnight — push forward supply echelons up behind the start line first, so the offensive doesn't culminate where the map says it must",
-                disabledReason: (meters.fuel || 0) >= 3 && (meters.manpower || 0) >= 2 ? undefined : "Requires Fuel +3, Manpower +2 — supply enough to dump forward and still launch",
+                disabledReason: (meters.fuel || 0) >= 3 && (meters.manpower || 0) >= 2 ? undefined : "Requires Matériel +3, Manpower +2 — supply enough to dump forward and still launch",
                 advisor: { name: "Khrulev", quote: "Every offensive this war has run until its trucks stopped, and then we have called the stopping place a decision. Give me two weeks and this one stops where you choose instead." },
                 setFlags: { bagration44soviet: "full", forwardSupply44: true },
                 impact: { manpower: 0, fuel: -3, initiative: -1 },
@@ -8226,7 +8226,7 @@ const CAMPAIGNS = {
             {
               label: "Push the advance to relieve the uprising, whatever the logistics say",
               advisor: { name: "Rokossovsky", quote: "I do not enjoy telling Warsaw to wait. I enjoy even less the idea of feeding tired divisions into fresh SS armor to prove a point about how much I don't enjoy it." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -4 ? "insufficient fuel to attempt a relief column at all, let alone one that might break through" : undefined,
               setFlags: { warsaw44: "relieve" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
@@ -8346,7 +8346,7 @@ const CAMPAIGNS = {
               label: "Push further south still — reach Athens before the British do",
               advisor: { name: "Tolbukhin", quote: "EAM already controls most of the Greek countryside. If our own forces are the ones who reach the capital, Moscow negotiates the peace from inside the city, not from a map in London." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to press an offensive this far south of the main axis" : undefined,
               setFlags: { balkans44soviet: "greece" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
@@ -9217,7 +9217,7 @@ const CAMPAIGNS = {
                       {
                         id: "askTwelve",
                         label: "Ask 12 Group to fly south and cover the sector stations",
-                        note: "The Duxford Wing flies, but costs fuel and an argument.",
+                        note: "The Duxford Wing flies, but costs Matériel and an argument.",
                         bonus: 0,
                         bonusByPosture: { heavyEscort: 4, secondWave: 2 },
                         meters: { fuel: -1 },
@@ -9313,7 +9313,7 @@ const CAMPAIGNS = {
                   weight: modWeight(70, meters.initiative) - (flags.forkLuftwaffeShift ? 10 : 0),
                   title: "Fighter Command holds the sky",
                   setFlags: { britainDay40Result: "held" },
-                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
                     "What happened, and what the Air Ministry's own postwar assessment substantially vindicated: Park's squadrons met incoming raids faster and further out, at a real cost in fighters lost piecemeal that the Big Wing's advocates never stopped citing against him. Dowding and Park won the battle. Within weeks of winning it, both were removed from their commands — a political result of the argument, not a military one, and one history has judged considerably less kindly than it judged the tactics.",
                 },
@@ -9446,7 +9446,7 @@ const CAMPAIGNS = {
             {
               label: "Hold the convoy together — keep tight formation and full escort, and accept the battleship risk",
               advisor: { name: "Tovey", quote: "We are proposing to strip these ships of every defense they have against the threat we can actually see, on the strength of a threat we cannot. I would rather escort them into a fight that might not come than abandon them to the one that certainly will." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel left to keep a full close escort sailing with the convoy rather than dispersing it" : undefined,
               setFlags: { pq17: "hold" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
@@ -9534,7 +9534,7 @@ const CAMPAIGNS = {
                       {
                         id: "destroyersAhead",
                         label: "Detach two destroyers from the screen to sweep ahead for the pack",
-                        note: "Costs fuel, and thins the screen.",
+                        note: "Costs Matériel, and thins the screen.",
                         bonus: 0,
                         bonusByPosture: {wolfpackConcentration: 4},
                         meters: {fuel: -1},
@@ -9691,7 +9691,7 @@ const CAMPAIGNS = {
             {
               label: "Marshall's plan — commit to the earliest possible cross-Channel invasion",
               advisor: { name: "Marshall", quote: "Every month we delay the real invasion is a month the Germans spend finishing the Atlantic Wall and a month the Russians spend wondering if this alliance means what it says." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -2 ? "insufficient landing craft and shipping assembled for a cross-Channel attempt this early" : undefined,
               setFlags: { secondFront42: "sledgehammer", cohesion: (flags.cohesion || 0) + (-2) },
               cohesionDelta: -2,
@@ -10353,7 +10353,7 @@ const CAMPAIGNS = {
             {
               label: "Drive for the Gap — Vienna before the Red Army, whatever the mountains cost",
               advisor: { name: "Churchill", quote: "Armies draw maps by standing on them. I would rather argue about supply through one mountain gap than about half of Europe for half a century." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel for a logistics case American planners already called fantasy" : undefined,
               setFlags: { ljubljana44: "drive", cohesion: (flags.cohesion || 0) + (-2) },
               cohesionDelta: -2,
@@ -11139,7 +11139,7 @@ const CAMPAIGNS = {
             {
               label: "Press further — formally request bomber basing rights near Adana for the Ploesti campaign",
               advisor: { name: "Eden", quote: "We have already spent the easy half of this relationship getting a signature that cost Ankara nothing. Basing rights cost them their neutrality's whole remaining value. I would not assume the second half is priced the same as the first." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel and construction capacity left to stand up a forward air base from nothing" : undefined,
               setFlags: { turkishBelligerence44: "pressBases" },
               impact: { manpower: 0, fuel: -2, initiative: 0 },
@@ -11516,7 +11516,7 @@ const CAMPAIGNS = {
             {
               label: "Commit to a full-weight breakthrough attempt while the season is still fully open",
               advisor: { name: "Alexander", quote: "I will not get this combination of intact divisions and a whole season still ahead of me twice in one war. If the line breaks this year, it breaks now, while there's a spring and a summer left to exploit it, not in the autumn mud the historical campaign was stuck fighting in." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to sustain a full-weight breakthrough attempt against defenses this deep" : undefined,
               setFlags: { gothicLineEarly44: "breakthrough" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
@@ -12066,7 +12066,7 @@ const CAMPAIGNS = {
           ].concat([
               {
                 label: "Open Antwerp in September and hold every other offensive until it is open — no Market Garden, no Rhine attempt, nothing until the ships are unloading",
-                disabledReason: (meters.fuel || 0) >= 2 && (meters.manpower || 0) >= 2 ? undefined : "Requires Fuel +2, Manpower +2 — the slack to subordinate every other offensive to one port",
+                disabledReason: (meters.fuel || 0) >= 2 && (meters.manpower || 0) >= 2 ? undefined : "Requires Matériel +2, Manpower +2 — the slack to subordinate every other offensive to one port",
                 advisor: { name: "Cunningham", quote: "You are asking me what the port is worth. It is worth every operation you are currently planning, and I would rather say that now than have a staff historian say it for me in ten years." },
                 setFlags: { scheldt44: "priority", antwerpSeptember: true, cohesion: (flags.cohesion || 0) + (1) },
                 cohesionDelta: 1,
@@ -12577,7 +12577,7 @@ const CAMPAIGNS = {
             {
               label: "Offer economic concessions short of alliance — raw materials, basing rights, transit access — to keep Berlin tolerant of the arrangement",
               advisor: { name: "Ciano", quote: "We do not have to give Berlin a war. We have to give Berlin enough of what a war would have provided that the difference stops mattering to them." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: (meters.fuel || 0) >= -2 ? undefined : "too little left in reserve to offer German transit and resource access without visibly straining the arrangement it's meant to protect",
               setFlags: { neutralItalyResponse41: "concede" },
               impact: { manpower: 0, fuel: -2, initiative: 0 },
@@ -12802,7 +12802,7 @@ const CAMPAIGNS = {
                       {
                         id: "mendRoad",
                         label: "Mend the road and bring the guns up behind the infantry",
-                        note: "Slow, and it costs fuel, but the guns can answer the forts.",
+                        note: "Slow, and it costs Matériel, but the guns can answer the forts.",
                         bonus: 0,
                         bonusByPosture: { bridgesDown: 1, fortressGuns: 4, skiScreen: 1 },
                         meters: { fuel: -1 },
@@ -12914,7 +12914,7 @@ const CAMPAIGNS = {
                   weight: 100 - modWeight(25, meters.initiative),
                   title: "The mountain holds",
                   setFlags: { alps40Result: "stalled" },
-                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
                     "The rushed offensive gains almost nothing — French fortified positions at Mont Cenis and along the frontier hold through the war's final week against an attack thrown together too fast to properly support, and casualties run into the low thousands for a few villages' worth of ground. Mussolini's own later verdict on this episode was blunter than any staff assessment: he called the campaign an embarrassment he'd rather not have run at all. The territory claimed at the armistice table comes from the negotiation, not from what the offensive actually seized.",
                 },
@@ -13034,7 +13034,7 @@ const CAMPAIGNS = {
             {
               label: "Commit real Italian grain and fuel shipments to Spain — make the price actually affordable, not just politically sweeter",
               advisor: { name: "Cavallero", quote: "Guarantees on paper cost this command nothing and bought nothing at Hendaye. Ships full of grain cost a great deal and might actually buy something. I would rather spend the fuel and find out than keep the promise cheap and watch it fail the same way." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "no fuel reserve left to commit to shipments Spain would actually need to move" : undefined,
               setFlags: { gibraltarCommitment: "shipments" },
               impact: { manpower: 0, fuel: -2, initiative: 1 },
@@ -13462,7 +13462,7 @@ const CAMPAIGNS = {
             {
               label: "Launch with Italian assets alone — a scaled-down assault rather than no assault at all",
               advisor: { name: "Cavallero", quote: "We asked for authorization and received it. I am not returning to the Palazzo Venezia to explain that authorization without German transport aircraft was never actually a plan. Scale it to what we have and go." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: (meters.fuel || 0) <= -3 ? "insufficient fuel and shipping left to mount an amphibious-airborne assault of any size this season" : undefined,
               setFlags: { herculesExecution41: "launch" },
               impact: { manpower: -3, fuel: -2, initiative: 0 },
@@ -13638,7 +13638,7 @@ const CAMPAIGNS = {
               label: "Press on toward Egypt immediately, using Tobruk's captured supplies to fuel the pursuit",
               advisor: { name: "Rommel", quote: "The gate to Egypt has never stood this open, and it will not stand open long. Every day we pause to plan is a day the British use to rebuild the line we've just broken." },
               historical: true,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient reserve fuel to stretch a pursuit past whatever Tobruk's captured stocks alone can cover" : undefined,
               setFlags: { tobrukAftermath: "pursue" },
               impact: { manpower: 0, fuel: 1, initiative: 1 },
@@ -13737,7 +13737,7 @@ const CAMPAIGNS = {
               label: "Rush every available reinforcement into Tunisia to build a defensible bridgehead before the Allies close the trap",
               advisor: { name: "Kesselring", quote: "Tunisia is the only ground left that terrain favors us on. Every division we can fly or ship in before the Allies consolidate is a division that buys the rest of this front more time." },
               historical: true,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient shipping and fuel left to run the Sicilian Strait crossing at the scale this buildup needs" : undefined,
               setFlags: { tunisiaBuildup: "reinforce" },
               impact: { manpower: 1, fuel: -1, initiative: 0 },
@@ -13829,7 +13829,7 @@ const CAMPAIGNS = {
             {
               label: "Prioritize air defense reinforcement for the home cities over further North African-adjacent commitments",
               advisor: { name: "Ambrosio", quote: "There is no colonial front left to defend. Every fighter squadron and anti-aircraft battery we can still field belongs over Naples and Palermo now, not somewhere the war has already moved past." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "not enough fuel left to keep a reinforced fighter screen flying over the home cities in strength" : undefined,
               setFlags: { homeFront43: "airDefense" },
               favor: 1,
@@ -14585,7 +14585,7 @@ const CAMPAIGNS = {
               label: "Commit arms shipments and gold to the CLNAI, whatever the front-line resources it costs",
               advisor: { name: "Ambrosio", quote: "Every rifle that reaches the mountains north of this line is a German soldier pinned down who is not, this week, facing the Allied advance instead. That trade is worth making even at real cost to what little matériel we can otherwise spare." },
               historical: true,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: (meters.fuel || 0) >= 1 && (meters.manpower || 0) >= 0 ? undefined : "insufficient matériel left to arm and supply partisan formations across an active front line",
               setFlags: { clnLiaison44: "arm" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
@@ -15906,7 +15906,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generaloberst Hermann Hoth",
       role: "Commanding, 4th Panzer Army",
       category: "armour",
-      note: "The offensive's main armored fist — roughly 700 tanks under his direct command. Chits spent on Mechanised Armour carry further with him running that push.",
+      note: "The offensive's main armored fist — roughly 700 tanks under his direct command. Effort put into Mechanised Armour carries further with him running that push.",
       // Round 9 report lines (Craig's item #4 — commander/approach voice in the battle report).
       // Each verified 2026-09-21: Hoth "had discussed [turning toward Prokhorovka] with
       // Manstein since early May, as he expected large Soviet armoured reserve forces to arrive
@@ -15919,7 +15919,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General der Panzertruppe Werner Kempf",
       role: "Commanding, Army Detachment Kempf",
       category: "divisions",
-      note: "His own command is built around two full infantry corps flanking its one panzer corps. Chits spent on Divisions carry further under him.",
+      note: "His own command is built around two full infantry corps flanking its one panzer corps. Effort put into Divisions carries further under him.",
       // Verified: Army Detachment Kempf's III Panzer Corps crossed the Northern Donets "to
       // protect the 4th Panzer Army's eastern flank" (Wikipedia, Operation Citadel).
       reportLine: "Kempf's corps fights its way across the Donets to cover Hoth's right flank.",
@@ -15935,7 +15935,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generalfeldmarschall Wolfram von Richthofen",
       role: "Commander-in-Chief, Luftflotte 4",
       category: "air",
-      note: "Commands the air fleet flying direct support for this front. Chits spent on Air Support carry further under him.",
+      note: "Commands the air fleet flying direct support for this front. Effort put into Air Support carries further under him.",
       // Verified: "The Hs 129 formations from SG 1 inflicted grievous losses on Soviet tanks"
       // with 30 mm anti-tank cannon, flying in support of the southern attack (Wikipedia,
       // Battle of Prokhorovka).
@@ -15960,7 +15960,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Rear Admiral John L. Hall Jr.",
       role: "Commanding, Naval Task Force O",
       category: "naval",
-      note: "The ships off this beach are his. Order his destroyers in close and they can fire straight into the strongpoints, shallows or not. Chits spent on Naval Gunfire carry further under him.",
+      note: "The ships off this beach are his. Order his destroyers in close and they can fire straight into the strongpoints, shallows or not. Effort put into Naval Gunfire carries further under him.",
       reportLine: "Hall's destroyers come in to a thousand yards, scraping bottom, firing into the bluffs.",
     },
     {
@@ -15968,7 +15968,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Brigadier General Norman Cota",
       role: "Assistant Commander, 29th Infantry Division",
       category: "waves",
-      note: "Already ashore with the men pinned at the shingle. Put him forward and he can get them moving. Chits spent on Follow-on Waves carry further with him on the beach.",
+      note: "Already ashore with the men pinned at the shingle. Put him forward and he can get them moving. Effort put into Follow-on Waves carries further with him on the beach.",
       reportLine: "Cota gets men off the shingle and through a gap blown in the wire, up the bluff.",
     },
     {
@@ -15976,7 +15976,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Brigadier General William M. Hoge",
       role: "Commanding, Provisional Engineer Special Brigade Group",
       category: "engineers",
-      note: "His brigade group exists to open this beach's exits and keep them open. Chits spent on Engineers & Tanks carry further under him.",
+      note: "His brigade group exists to open this beach's exits and keep them open. Effort put into Engineers & Tanks carries further under him.",
       reportLine: "Hoge's engineers go to work on the exits as each draw falls.",
     },
   ],
@@ -15990,7 +15990,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generalleutnant Hans-Valentin Hube",
       role: "Commanding, XIV Panzer Corps",
       category: "armour",
-      note: "His corps is what panzer strength survived Uranus inside the pocket. Chits spent on Mechanised Armour carry further under him.",
+      note: "His corps is what panzer strength survived Uranus inside the pocket. Effort put into Mechanised Armour carries further under him.",
       // Verified: Hube personally "argued strongly, but to no avail, for Hitler to allow the 6th
       // Army to attempt a breakout" (Wikipedia, Hans-Valentin Hube) — he wants this order, not
       // just executes it.
@@ -16001,7 +16001,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General der Artillerie Walther von Seydlitz-Kurzbach",
       role: "Commanding, LI Army Corps",
       category: "divisions",
-      note: "His corps is three infantry divisions, and he's one of the army's own generals already arguing for exactly this order. Chits spent on Divisions carry further under him.",
+      note: "His corps is three infantry divisions, and he's one of the army's own generals already arguing for exactly this order. Effort put into Divisions carries further under him.",
       // Verified: Seydlitz was "one of the generals who argued most forcefully in favour of a
       // breakout or a surrender, against Hitler's orders" (Wikipedia, Walther von
       // Seydlitz-Kurzbach) — his actual advocacy on record is documented from January 1943, after
@@ -16013,7 +16013,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generalleutnant Martin Fiebig",
       role: "Commanding, VIII Fliegerkorps",
       category: "air",
-      note: "His air corps has been flying support over this front for months. Chits spent on Air Support carry further under him.",
+      note: "His air corps has been flying support over this front for months. Effort put into Air Support carries further under him.",
       // Verified: Fiebig told Paulus directly that an airlift "was not feasible," then appealed to
       // Richthofen, who agreed and "urged senior commanders to authorize a breakout rather than an
       // airlift" (Wikipedia, Martin Fiebig) — the airlift order hasn't been given yet at this
@@ -16033,7 +16033,7 @@ const KEY_BATTLE_COMMANDERS = {
       category: "armour",
       // Verified: von Vaerst took over the Afrika Korps after Nehring was wounded in an air raid
       // on 31 August 1942, mid-battle (Wikipedia, Battle of Alam el Halfa).
-      note: "Takes over the Korps from a wounded Nehring in the middle of this fight. Chits spent on Mechanised Armour carry further under him.",
+      note: "Takes over the Korps from a wounded Nehring in the middle of this fight. Effort put into Mechanised Armour carries further under him.",
       reportLine: "Von Vaerst pushes the panzer spearhead forward himself, Korps command or not.",
     },
     {
@@ -16043,7 +16043,7 @@ const KEY_BATTLE_COMMANDERS = {
       category: "divisions",
       // Verified: Navarini commanded the Italian XXI Corps at Alam el Halfa (Wikipedia, Battle of
       // Alam el Halfa order of battle).
-      note: "His corps is the Italian infantry mass that has to keep pace with a night march built around the panzers' own schedule. Chits spent on Divisions carry further under him.",
+      note: "His corps is the Italian infantry mass that has to keep pace with a night march built around the panzers' own schedule. Effort put into Divisions carries further under him.",
       reportLine: "Navarini gets his corps moving on the night schedule, no argument needed this time.",
     },
     {
@@ -16053,7 +16053,7 @@ const KEY_BATTLE_COMMANDERS = {
       category: "air",
       // Verified: Seidemann took command of Fliegerführer Afrika on 30 August 1942 — the day this
       // attack opened — succeeding Hoffmann von Waldau (Wikipedia, Fliegerführer Afrika).
-      note: "Takes command of the air corps the same morning this attack goes in. Chits spent on Air Support carry further under him.",
+      note: "Takes command of the air corps the same morning this attack goes in. Effort put into Air Support carries further under him.",
       reportLine: "Seidemann has what's flyable over the column before the first report comes in.",
     },
   ],
@@ -16072,7 +16072,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Vincenzo Dapino",
       role: "Commanding, 1st Motorized Group",
       category: "assault",
-      note: "His group is the Piemonte and Bersaglieri battalions making the climb. Chits spent on Alpine & Bersaglieri Assault carry further under him.",
+      note: "His group is the Piemonte and Bersaglieri battalions making the climb. Effort put into Alpine & Bersaglieri Assault carries further under him.",
       reportLine: "Dapino pushes the assault line up the last stretch of trail himself.",
     },
   ],
@@ -16088,7 +16088,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Ivan Chernyakhovsky",
       role: "Commanding, 3rd Belorussian Front",
       category: "divisions",
-      note: "His front's rifle armies are doing much of the work sealing the ring shut. Chits spent on Divisions carry further under him.",
+      note: "His front's rifle armies are doing much of the work sealing the ring shut. Effort put into Divisions carries further under him.",
       reportLine: "Chernyakhovsky pushes his rifle armies forward to seal another stretch of the ring.",
     },
     {
@@ -16096,7 +16096,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Pavel Rotmistrov",
       role: "Commanding, 5th Guards Tank Army",
       category: "armour",
-      note: "His tank army is the offensive's own exploitation force, committed straight through the gap the breakthrough opened. Chits spent on Mechanised Armour carry further under him.",
+      note: "His tank army is the offensive's own exploitation force, committed straight through the gap the breakthrough opened. Effort put into Mechanised Armour carries further under him.",
       reportLine: "Rotmistrov drives his tank army forward through the gap without waiting for orders to confirm it.",
     },
   ],
@@ -16116,7 +16116,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Lucian K. Truscott Jr.",
       role: "Commanding, 3rd Infantry Division",
       category: "armor",
-      note: "His division leads the push toward the Alban Hills, armor included — the same thrust he will later argue should never have stopped short of Valmontone. Chits spent on Armored Exploitation carry further under him.",
+      note: "His division leads the push toward the Alban Hills, armor included — the same thrust he will later argue should never have stopped short of Valmontone. Effort put into Armored Exploitation carries further under him.",
       reportLine: "Truscott pushes his division's own column forward without waiting on the corps to confirm it.",
     },
     {
@@ -16124,7 +16124,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Ronald Penney",
       role: "Commanding, British 1st Infantry Division",
       category: "assault",
-      note: "His division holds the other half of the beachhead's own infantry line. Chits spent on Infantry Beachhead carry further under him.",
+      note: "His division holds the other half of the beachhead's own infantry line. Effort put into Infantry Beachhead carries further under him.",
       reportLine: "Penney gets his division's line squared away and pushing its own perimeter forward.",
     },
     {
@@ -16132,7 +16132,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Colonel William O. Darby",
       role: "Commanding, 6615th Ranger Force",
       category: "rangers",
-      note: "His Rangers took the port itself this morning without firing a shot. Chits spent on Ranger & Commando Vanguard carry further under him.",
+      note: "His Rangers took the port itself this morning without firing a shot. Effort put into Ranger & Commando Vanguard carries further under him.",
       reportLine: "Darby pushes his Rangers out ahead of the main line on his own authority.",
     },
   ],
@@ -16150,7 +16150,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Lieutenant General Brian Horrocks",
       role: "Commanding, XXX Corps",
       category: "corpsPush",
-      note: "His corps is the column stalled on the one road north of Nijmegen. Chits spent on XXX Corps Armored Push carry further under him.",
+      note: "His corps is the column stalled on the one road north of Nijmegen. Effort put into XXX Corps Armored Push carries further under him.",
       reportLine: "Horrocks pushes the column forward on his own authority rather than wait for the road to clear itself.",
     },
     {
@@ -16158,7 +16158,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Roy Urquhart",
       role: "Commanding, 1st Airborne Division",
       category: "perimeter",
-      note: "His division, what's left of it, is the horseshoe around Oosterbeek. Chits spent on Oosterbeek Perimeter carry further under him.",
+      note: "His division, what's left of it, is the horseshoe around Oosterbeek. Effort put into Oosterbeek Perimeter carries further under him.",
       reportLine: "Urquhart tightens the perimeter's own line rather than let it be pulled thinner.",
     },
     {
@@ -16166,7 +16166,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Stanisław Sosabowski",
       role: "Commanding, 1st Independent Parachute Brigade (Poland)",
       category: "poles",
-      note: "His brigade is the one making the crossing attempts from Driel. Chits spent on Polish Parachute Brigade carry further under him.",
+      note: "His brigade is the one making the crossing attempts from Driel. Effort put into Polish Parachute Brigade carries further under him.",
       reportLine: "Sosabowski sends another boat load across on his own order, ferry or no ferry.",
     },
   ],
@@ -16185,7 +16185,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Commander Jack Broome",
       role: "Senior Officer of the Escort",
       category: "escorts",
-      note: "His destroyers and corvettes are the convoy's own close screen. Chits spent on Destroyer & Corvette Screen carry further under him.",
+      note: "His destroyers and corvettes are the convoy's own close screen. Effort put into Destroyer & Corvette Screen carries further under him.",
       reportLine: "Broome brings his destroyers in tighter on his own order rather than wait for a threat to name itself.",
     },
     {
@@ -16193,7 +16193,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Rear-Admiral Louis Hamilton",
       role: "Commanding, 1st Cruiser Squadron",
       category: "coveringForce",
-      note: "His cruisers are the covering force standing off against the battleship threat. Chits spent on Distant Covering Force carry further under him.",
+      note: "His cruisers are the covering force standing off against the battleship threat. Effort put into Distant Covering Force carries further under him.",
       reportLine: "Hamilton holds his squadron ready to close the distance the moment the threat picture actually changes.",
     },
   ],
@@ -16217,7 +16217,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Brigadier General Curtis LeMay",
       role: "Commanding, 3rd Air Division",
       category: "formation",
-      note: "The combat box is his own doctrine, drilled into his division before anyone else's. Chits spent on Combat Box Discipline carry further under him.",
+      note: "The combat box is his own doctrine, drilled into his division before anyone else's. Effort put into Combat Box Discipline carries further under him.",
       reportLine: "LeMay orders the box tightened on his own standing doctrine rather than wait for a report to justify it.",
     },
     {
@@ -16225,7 +16225,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General William Kepner",
       role: "Commanding, VIII Fighter Command",
       category: "escort",
-      note: "His Thunderbolt groups are the whole of the mission's fighter escort. Chits spent on Fighter Escort Coordination carry further under him.",
+      note: "His Thunderbolt groups are the whole of the mission's fighter escort. Effort put into Fighter Escort Coordination carries further under him.",
       reportLine: "Kepner pushes another flight to the limit of its range on his own order rather than wait for the schedule to call for it.",
     },
     {
@@ -16233,7 +16233,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Lieutenant General Ira Eaker",
       role: "Commanding, Eighth Air Force",
       category: "targeting",
-      note: "The target list — and the case that chokepoint industries are worth this cost — is his own command's doctrine. Chits spent on Precision Bomb-Run carry further under him.",
+      note: "The target list — and the case that chokepoint industries are worth this cost — is his own command's doctrine. Effort put into Precision Bomb-Run carries further under him.",
       reportLine: "Eaker's own standing order to hold the run steady through flak is what the lead bombardiers are flying to.",
     },
   ],
@@ -16256,7 +16256,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General der Panzertruppe Heinz Guderian",
       role: "Commanding, XIX Panzer Corps",
       category: "bridging",
-      note: "All three of his panzer divisions cross at Sedan, and not one tank can follow the infantry until engineers put a bridge over the river. Chits spent on Bridging & Traffic carry further under him.",
+      note: "All three of his panzer divisions cross at Sedan, and not one tank can follow the infantry until engineers put a bridge over the river. Effort put into Bridging & Traffic carries further under him.",
       reportLine: "Guderian presses the engineers on the bridge and the traffic behind it, because every tank he has is waiting for them.",
     },
     {
@@ -16264,7 +16264,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Oberst Hermann Balck",
       role: "Commanding, 1st Rifle Regiment, 1st Panzer Division",
       category: "assault",
-      note: "His regiment is one of those that cross first and take the heights above the river. Chits spent on Assault Infantry & Pioneers carry further under him.",
+      note: "His regiment is one of those that cross first and take the heights above the river. Effort put into Assault Infantry & Pioneers carries further under him.",
       reportLine: "Balck's riflemen go over in the first boats and are up the far slope before the French can steady.",
     },
     {
@@ -16272,7 +16272,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generalleutnant Bruno Loerzer",
       role: "Commanding, II Fliegerkorps",
       category: "air",
-      note: "His air corps flies in the day's waves over the French positions. Chits spent on Air Attack carry further under him.",
+      note: "His air corps flies in the day's waves over the French positions. Effort put into Air Attack carries further under him.",
       reportLine: "Loerzer's bombers keep coming over the French line in small waves, hour after hour.",
     },
   ],
@@ -16290,7 +16290,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Georgy Zhukov",
       role: "Commanding, Western Front",
       category: "reserves",
-      note: "He is the front commander who argued that the new armies had to be gathered and thrown together, not fed in one at a time. Chits spent on Fresh Rifle Armies carry further under him.",
+      note: "He is the front commander who argued that the new armies had to be gathered and thrown together, not fed in one at a time. Effort put into Fresh Rifle Armies carries further under him.",
       reportLine: "Zhukov throws the fresh armies in together on the first morning rather than feed them in one by one.",
     },
     {
@@ -16298,7 +16298,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Pavel Belov",
       role: "Commanding, 1st Guards Cavalry Corps",
       category: "exploitation",
-      note: "His cavalry stopped Guderian's tanks near Kashira and is the one force on the line that can ride through the snow behind the German flank. Chits spent on Cavalry & Ski Columns carry further under him.",
+      note: "His cavalry stopped Guderian's tanks near Kashira and is the one force on the line that can ride through the snow behind the German flank. Effort put into Cavalry & Ski Columns carries further under him.",
       reportLine: "Belov's horsemen ride through the snow past the German strongpoints and into the rear.",
     },
   ],
@@ -16315,7 +16315,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Air Vice-Marshal Keith Park",
       role: "Commanding, No. 11 Group",
       category: "squadrons",
-      note: "The squadrons that meet the raids over Kent and London are his, flown from sector stations he knows by name. Chits spent on 11 Group Squadrons carry further under him.",
+      note: "The squadrons that meet the raids over Kent and London are his, flown from sector stations he knows by name. Effort put into 11 Group Squadrons carries further under him.",
       reportLine: "Park sends his squadrons up in ones and twos to meet each raid before it reaches the coast.",
     },
     {
@@ -16323,7 +16323,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Air Chief Marshal Hugh Dowding",
       role: "Commanding-in-Chief, Fighter Command",
       category: "control",
-      note: "The chain of radar, observers, plotting tables and radio control is his own design. Chits spent on Radar & Ground Control carry further under him.",
+      note: "The chain of radar, observers, plotting tables and radio control is his own design. Effort put into Radar & Ground Control carries further under him.",
       reportLine: "Dowding's system feeds the plot to Uxbridge, and the controllers put each squadron where the raid is going.",
     },
     {
@@ -16331,7 +16331,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Air Vice-Marshal Trafford Leigh-Mallory",
       role: "Commanding, No. 12 Group",
       category: "wing",
-      note: "He commands the group north of the Thames whose Duxford Wing flies as a mass of squadrons. Chits spent on the Duxford Wing carry further under him.",
+      note: "He commands the group north of the Thames whose Duxford Wing flies as a mass of squadrons. Effort put into the Duxford Wing carries further under him.",
       reportLine: "Leigh-Mallory's wing forms up over Duxford and heads south in a single mass of fighters.",
     },
   ],
@@ -16345,7 +16345,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Alfredo Guzzoni",
       role: "Commanding, Fourth Army",
       category: "assault",
-      note: "His army makes the main attack, through the Little St Bernard Pass. Chits spent on Alpini & Infantry Assault carry further under him.",
+      note: "His army makes the main attack, through the Little St Bernard Pass. Effort put into Alpini & Infantry Assault carries further under him.",
       reportLine: "Guzzoni drives the main attack up the Little St Bernard road and holds nothing back from it.",
     },
   ],
@@ -16399,7 +16399,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "spearhead",
       name: "Concentrated Armored Spearhead",
       subtitle: "Hoth's approach — the southern pincer",
-      note: "Lead with the tanks. A narrow armored wedge — Tigers forward, the rest fanning to the flanks and rear — punches through fast, the way 4th Panzer Army's own attack did. Speed outruns its own supply tail: Mechanised Armour chits carry further, Supply chits carry less.",
+      note: "Lead with the tanks. A narrow armored wedge — Tigers forward, the rest fanning to the flanks and rear — punches through fast, the way 4th Panzer Army's own attack did. Speed outruns its own supply tail: effort in Mechanised Armour carries further, effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The attack goes in as a wedge: Tigers at the point, the lighter tanks fanning out behind.",
     },
@@ -16407,7 +16407,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "infantryBreach",
       name: "Methodical Infantry-Led Breach",
       subtitle: "Model's approach — the northern pincer",
-      note: "Hold the tanks back. Infantry and artillery batter the line open first, the way 9th Army's own attack did, with the panzer reserve committed only once the defenses are actually breached. Divisions chits carry further; Mechanised Armour chits carry less, held back rather than leading. The methodical pace also keeps the supply columns closer behind the line: Supply chits carry a little further too.",
+      note: "Hold the tanks back. Infantry and artillery batter the line open first, the way 9th Army's own attack did, with the panzer reserve committed only once the defenses are actually breached. Effort in Divisions carries further; effort in Mechanised Armour carries less, held back rather than leading. The methodical pace also keeps the supply columns closer behind the line: effort in Supply carries a little further too.",
       // Round 13, Craig's item #4: Supply had no commander tie and no positive approach modifier
       // anywhere in Kursk's config — structurally a dead end, since check-battle-balance.js's own
       // round-12 build surfaced that no plan can ever push Supply to the same ceiling every other
@@ -16435,7 +16435,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "forceDraws",
       name: "Force the Draws",
       subtitle: "The V Corps plan — take the exits",
-      note: "Go straight at the five draws, where the vehicle exits and the strongpoints both are. Open them and the beach can drain inland. Engineers & Tanks chits carry further; Follow-on Waves chits carry less, fed into the fire at the draw mouths.",
+      note: "Go straight at the five draws, where the vehicle exits and the strongpoints both are. Open them and the beach can drain inland. Effort in Engineers & Tanks carries further; effort in Follow-on Waves carries less, fed into the fire at the draw mouths.",
       modifiers: { engineers: 0.7, waves: -0.5 },
       reportLine: "The assault goes straight at the draws, where the exits and the strongpoints both are.",
     },
@@ -16443,7 +16443,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "climbBluffs",
       name: "Climb Between the Draws",
       subtitle: "Small groups, between the strongpoints",
-      note: "Send small groups up the bluffs between the strongpoints, away from the draws, and take the defenders from behind. Follow-on Waves chits carry further; Engineers & Tanks chits carry less, with the exits left shut for now.",
+      note: "Send small groups up the bluffs between the strongpoints, away from the draws, and take the defenders from behind. Effort in Follow-on Waves carries further; effort in Engineers & Tanks carries less, with the exits left shut for now.",
       modifiers: { waves: 0.7, engineers: -0.5 },
       reportLine: "Small groups start up the bluffs between the strongpoints, well away from the draws.",
     },
@@ -16457,7 +16457,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "armoredThrust",
       name: "Concentrated Armored Thrust",
       subtitle: "Lead with what panzer strength survived Uranus",
-      note: "Put the tanks at the front of the column and drive for open ground before the ring hardens. Mechanised Armour chits carry further; every kilometer spends fuel nobody is flying in a second load of, so Supply chits carry less.",
+      note: "Put the tanks at the front of the column and drive for open ground before the ring hardens. Effort in Mechanised Armour carries further; every kilometer spends fuel nobody is flying in a second load of, so effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The panzer screen forms up at the head of the column and pushes west first.",
     },
@@ -16465,7 +16465,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "broadWithdrawal",
       name: "Broad Infantry Withdrawal",
       subtitle: "Preserve the mass, screen it rather than lead with it",
-      note: "March the infantry divisions out under their own power, tanks screening the flanks rather than leading. Divisions chits carry further; Mechanised Armour chits carry less, held to the column's edges instead of its point.",
+      note: "March the infantry divisions out under their own power, tanks screening the flanks rather than leading. Effort in Divisions carries further; effort in Mechanised Armour carries less, held to the column's edges instead of its point.",
       modifiers: { divisions: 0.7, armour: -0.5 },
       reportLine: "The infantry divisions form the column's main body, tanks screening its edges rather than leading it.",
     },
@@ -16481,7 +16481,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "raceTheDawn",
       name: "Race the Dawn",
       subtitle: "Force the gap before first light",
-      note: "Push the panzer spearhead through the minefield lanes at speed rather than wait for them fully cleared — every hour saved is an hour less exposed to the Desert Air Force in daylight. Mechanised Armour chits carry further; the pace burns fuel nobody is shipping a second load of, so Supply chits carry less.",
+      note: "Push the panzer spearhead through the minefield lanes at speed rather than wait for them fully cleared — every hour saved is an hour less exposed to the Desert Air Force in daylight. Effort in Mechanised Armour carries further; the pace burns fuel nobody is shipping a second load of, so effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The panzer spearhead probes the minefield's edge, looking for a lane already cleared.",
     },
@@ -16489,7 +16489,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "clearTheMines",
       name: "Clear the Mines Properly",
       subtitle: "Let the engineers open the lanes first",
-      note: "Take the time to breach the minefields properly before committing the column, infantry and engineers leading rather than the tanks. Divisions chits carry further; Mechanised Armour chits carry less, held back until the lanes are actually open.",
+      note: "Take the time to breach the minefields properly before committing the column, infantry and engineers leading rather than the tanks. Effort in Divisions carries further; effort in Mechanised Armour carries less, held back until the lanes are actually open.",
       modifiers: { divisions: 0.7, armour: -0.5 },
       reportLine: "The infantry and engineers lead into the minefield, clearing the lanes ahead of the tanks.",
     },
@@ -16506,7 +16506,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "gunsForward",
       name: "Guns Forward",
       subtitle: "Range the artillery in before the climb starts",
-      note: "Have the Anglo-Polish batteries register their fire plan before the assault battalions move, at the cost of some of the surprise a faster start would keep. Anglo-Polish Artillery chits carry further; Alpine & Bersaglieri Assault chits carry less, held to wait on the guns' own schedule.",
+      note: "Have the Anglo-Polish batteries register their fire plan before the assault battalions move, at the cost of some of the surprise a faster start would keep. Effort in Anglo-Polish Artillery carries further; effort in Alpine & Bersaglieri Assault carries less, held to wait on the guns' own schedule.",
       modifiers: { artillery: 0.7, assault: -0.5 },
       reportLine: "The Anglo-Polish batteries range in their fire plan before the assault line moves.",
     },
@@ -16514,7 +16514,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "assaultLeads",
       name: "Assault Leads the Climb",
       subtitle: "Move on the peak now, guns in overwatch",
-      note: "Send the assault battalions up the mountain on the original night-surprise schedule, artillery held in overwatch rather than leading the plan. Alpine & Bersaglieri Assault chits carry further; Anglo-Polish Artillery chits carry less, ranged in only after contact.",
+      note: "Send the assault battalions up the mountain on the original night-surprise schedule, artillery held in overwatch rather than leading the plan. Effort in Alpine & Bersaglieri Assault carries further; effort in Anglo-Polish Artillery carries less, ranged in only after contact.",
       modifiers: { assault: 0.7, artillery: -0.5 },
       reportLine: "The assault line moves up the mountain on schedule, the guns held in overwatch behind it.",
     },
@@ -16533,7 +16533,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "deepEncirclement",
       name: "Bypass and Encircle",
       subtitle: "Drive the tank armies deep, leave the strongpoints behind",
-      note: "Push the tank armies past the fortified towns rather than reduce them, closing the ring on the open country behind the line. Mechanised Armour chits carry further; every kilometer driven around a strongpoint is a kilometer the rear services haven't caught up to yet, so Supply chits carry less.",
+      note: "Push the tank armies past the fortified towns rather than reduce them, closing the ring on the open country behind the line. Effort in Mechanised Armour carries further; every kilometer driven around a strongpoint is a kilometer the rear services haven't caught up to yet, so effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The tank armies bypass the fortified towns and drive for open country behind the line.",
     },
@@ -16541,7 +16541,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "reduceStrongpoints",
       name: "Reduce the Strongpoints",
       subtitle: "Clear the fortified towns before pushing on",
-      note: "Take the fortified towns methodically with the rifle armies before committing the tank strength past them. Divisions chits carry further; Mechanised Armour chits carry less, held back until the ground behind it is actually clear.",
+      note: "Take the fortified towns methodically with the rifle armies before committing the tank strength past them. Effort in Divisions carries further; effort in Mechanised Armour carries less, held back until the ground behind it is actually clear.",
       modifiers: { divisions: 0.7, armour: -0.5 },
       reportLine: "The rifle armies move to reduce the fortified towns before the tank strength is committed past them.",
     },
@@ -16558,7 +16558,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "pushInland",
       name: "Push the Column Inland Now",
       subtitle: "Truscott's argument — commit the exploitation force while the roads are open",
-      note: "Send the armor and its screening infantry up the road toward the Alban Hills before the German response can organize. Armored Exploitation chits carry further; the beachhead's own infantry line, thinned to feed the column, carries less. Infantry Beachhead chits carry less.",
+      note: "Send the armor and its screening infantry up the road toward the Alban Hills before the German response can organize. Effort in Armored Exploitation carries further; the beachhead's own infantry line, thinned to feed the column, carries less. Effort in Infantry Beachhead carries less.",
       modifiers: { armor: 0.7, assault: -0.5 },
       reportLine: "The exploitation column moves out on the road inland without waiting for the beachhead to fully consolidate.",
     },
@@ -16566,7 +16566,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "securePerimeter",
       name: "Secure the Perimeter First",
       subtitle: "Lucas's actual order — entrench the beachhead against the counterattack he expects",
-      note: "Hold the armor back and dig the infantry line in before committing anything inland, the way the historical corps commander actually ordered it. Infantry Beachhead chits carry further; Armored Exploitation chits carry less, held in reserve rather than leading.",
+      note: "Hold the armor back and dig the infantry line in before committing anything inland, the way the historical corps commander actually ordered it. Effort in Infantry Beachhead carries further; effort in Armored Exploitation carries less, held in reserve rather than leading.",
       modifiers: { assault: 0.7, armor: -0.5 },
       reportLine: "The infantry digs in on the beachhead's own perimeter while the armor stays back in reserve.",
     },
@@ -16582,7 +16582,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "directAssault",
       name: "Push the Armor Straight at the River",
       subtitle: "Send the spearhead for the crossing directly, corridor security secondary",
-      note: "Drive the column for the river without pausing to widen the road behind it. XXX Corps Armored Push chits carry further; the single road left thin behind the spearhead is exactly what let the Germans cut it near Koevering — Supply Drop chits carry less, the corridor's own security being what keeps any resupply moving at all.",
+      note: "Drive the column for the river without pausing to widen the road behind it. Effort in XXX Corps Armored Push carries further; the single road left thin behind the spearhead is exactly what let the Germans cut it near Koevering — effort in Supply Drop carries less, the corridor's own security being what keeps any resupply moving at all.",
       modifiers: { corpsPush: 0.7, resupply: -0.5 },
       reportLine: "The column drives straight for the river, leaving the road behind it thinner than the plan called for.",
     },
@@ -16590,7 +16590,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "securedAdvance",
       name: "Clear and Hold the Corridor First",
       subtitle: "Widen and secure the road north before committing the spearhead further",
-      note: "Spend the effort holding Hell's Highway open before pushing the spearhead any further. Supply Drop chits carry further; XXX Corps Armored Push chits carry less, held to the pace the secured road actually allows.",
+      note: "Spend the effort holding Hell's Highway open before pushing the spearhead any further. Effort in Supply Drop carries further; effort in XXX Corps Armored Push carries less, held to the pace the secured road actually allows.",
       modifiers: { resupply: 0.7, corpsPush: -0.5 },
       reportLine: "The corps spends its effort holding the road open rather than pushing the spearhead further north.",
     },
@@ -16605,7 +16605,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "antiSubPriority",
       name: "Screen Against the Wolfpacks",
       subtitle: "Concentrate the escort's attention on the submarine threat",
-      note: "Keep the destroyers and corvettes hunting contacts rather than watching the sky. Destroyer & Corvette Screen chits carry further; Anti-Aircraft Auxiliaries chits carry less, left to fight the air threat alone.",
+      note: "Keep the destroyers and corvettes hunting contacts rather than watching the sky. Effort in Destroyer & Corvette Screen carries further; effort in Anti-Aircraft Auxiliaries carries less, left to fight the air threat alone.",
       modifiers: { escorts: 0.7, aaShips: -0.5 },
       reportLine: "The escort's attention goes to the water rather than the sky, hunting contacts before they can fire.",
     },
@@ -16613,7 +16613,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "antiAirPriority",
       name: "Mass Anti-Aircraft Fire",
       subtitle: "Concentrate the escort's attention on the torpedo bomber threat",
-      note: "Bring every gun that can be spared onto the air picture rather than the water. Anti-Aircraft Auxiliaries chits carry further; Destroyer & Corvette Screen chits carry less, thinner on the U-boat threat as a result.",
+      note: "Bring every gun that can be spared onto the air picture rather than the water. Effort in Anti-Aircraft Auxiliaries carries further; effort in Destroyer & Corvette Screen carries less, thinner on the U-boat threat as a result.",
       modifiers: { aaShips: 0.7, escorts: -0.5 },
       reportLine: "The escort's attention goes to the sky rather than the water, massing fire against the next low pass.",
     },
@@ -16628,7 +16628,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "holdTheBox",
       name: "Hold the Box Together",
       subtitle: "Drill formation discipline over the exact rendezvous timing",
-      note: "Put the effort into keeping the box tight end to end. Combat Box Discipline chits carry further; Fighter Escort Coordination chits carry less, left to work the handoff with whatever timing the escort already has.",
+      note: "Put the effort into keeping the box tight end to end. Effort in Combat Box Discipline carries further; effort in Fighter Escort Coordination carries less, left to work the handoff with whatever timing the escort already has.",
       modifiers: { formation: 0.7, escort: -0.5 },
       reportLine: "The effort goes into holding the box tight rather than perfecting the escort handoff.",
     },
@@ -16636,7 +16636,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "exactRendezvous",
       name: "Time the Rendezvous Exactly",
       subtitle: "Drill the escort handoff over formation discipline",
-      note: "Put the effort into making the fighter handoff as precise as the range allows. Fighter Escort Coordination chits carry further; Combat Box Discipline chits carry less, left to hold together with whatever discipline the groups already have.",
+      note: "Put the effort into making the fighter handoff as precise as the range allows. Effort in Fighter Escort Coordination carries further; effort in Combat Box Discipline carries less, left to hold together with whatever discipline the groups already have.",
       modifiers: { escort: 0.7, formation: -0.5 },
       reportLine: "The effort goes into the escort handoff rather than drilling the box's own discipline.",
     },
@@ -16651,7 +16651,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "rollingAttack",
       name: "Rolling Air Attack All Day",
       subtitle: "Small waves over the bunkers from first light, so the defenders never settle",
-      note: "Keep the bombers coming in small formations hour after hour, as the corps actually did. Air Attack chits carry further; Artillery Preparation chits carry less, the guns fighting for fire-control attention with the aircraft overhead.",
+      note: "Keep the bombers coming in small formations hour after hour, as the corps actually did. Effort in Air Attack carries further; effort in Artillery Preparation carries less, the guns fighting for fire-control attention with the aircraft overhead.",
       modifiers: { air: 0.7, guns: -0.5 },
       reportLine: "Small formations of bombers go over the bunkers hour after hour, and the French never get a quiet minute.",
     },
@@ -16659,7 +16659,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "singleBlow",
       name: "One Great Blow at H-Hour",
       subtitle: "Hold the weight back and hit the river line with everything in a short, heavy strike",
-      note: "Save the effort for a short, heavy preparation timed to the crossing, as the first air plan intended. Artillery Preparation chits carry further; Air Attack chits carry less, the aircraft idle for most of the day.",
+      note: "Save the effort for a short, heavy preparation timed to the crossing, as the first air plan intended. Effort in Artillery Preparation carries further; effort in Air Attack carries less, the aircraft idle for most of the day.",
       modifiers: { guns: 0.7, air: -0.5 },
       reportLine: "Nothing flies until the great strike goes in just before the boats go down to the water.",
     },
@@ -16673,7 +16673,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "twoBlows",
       name: "Two Great Blows at the Flanks",
       subtitle: "Mass the new armies at Klin in the north and Tula in the south",
-      note: "Put the weight of the fresh armies into two concentrated thrusts. Fresh Rifle Armies chits carry further; Air Cover chits carry less, thinned across the two sectors.",
+      note: "Put the weight of the fresh armies into two concentrated thrusts. Effort in Fresh Rifle Armies carries further; effort in Air Cover carries less, thinned across the two sectors.",
       modifiers: { reserves: 0.7, air: -0.5 },
       reportLine: "The new armies go in as two massed blows, one at each flank of the German salient.",
     },
@@ -16681,7 +16681,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "railPriority",
       name: "A Wide Front, Rail Priority",
       subtitle: "Spread the attack and give the railway's capacity first call on ammunition and clothing",
-      note: "Attack on a wider front and feed it. Rail & Winter Supply chits carry further; Fresh Rifle Armies chits carry less, spread over more ground.",
+      note: "Attack on a wider front and feed it. Effort in Rail & Winter Supply carries further; effort in Fresh Rifle Armies carries less, spread over more ground.",
       modifiers: { supply: 0.7, reserves: -0.5 },
       reportLine: "The attack goes in along a wide front, and the railway's trains are given over to shells and winter clothing first.",
     },
@@ -16696,7 +16696,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "smallSquadrons",
       name: "Meet Them in Squadron Strength",
       subtitle: "Park's practice — scramble fast, meet each raid forward, in small formations",
-      note: "Fight the raids with 11 Group's own squadrons, in the numbers each raid needs and no more. 11 Group Squadrons chits carry further; the Duxford Wing chits carry less, held off until it is wanted.",
+      note: "Fight the raids with 11 Group's own squadrons, in the numbers each raid needs and no more. Effort in 11 Group Squadrons carries further; effort in the Duxford Wing carries less, held off until it is wanted.",
       modifiers: { squadrons: 0.7, wing: -0.5 },
       reportLine: "11 Group's squadrons go up in pairs and sections to meet each raid well forward of London.",
     },
@@ -16704,7 +16704,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "callTheWing",
       name: "Call 12 Group In Early",
       subtitle: "Ask the Duxford Wing to cover the capital while 11 Group meets the first blow",
-      note: "Ask 12 Group to come south at the first warning, so there are more fighters over the capital. Duxford Wing chits carry further; 11 Group Squadrons chits carry less, held back to cover the sector stations.",
+      note: "Ask 12 Group to come south at the first warning, so there are more fighters over the capital. Effort in Duxford Wing carries further; effort in 11 Group Squadrons carries less, held back to cover the sector stations.",
       modifiers: { wing: 0.7, squadrons: -0.5 },
       reportLine: "Park calls on 12 Group at the first warning, and the Duxford Wing climbs south toward London.",
     },
@@ -16718,7 +16718,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "oneRoad",
       name: "Mass on the Little St Bernard",
       subtitle: "Put everything behind the main thrust the 4th Army is making",
-      note: "Keep to one road and make it count. Alpini & Infantry Assault chits carry further; Mules & Mountain Roads chits carry less, one road and one trail carrying everything.",
+      note: "Keep to one road and make it count. Effort in Alpini & Infantry Assault carries further; effort in Mules & Mountain Roads carries less, one road and one trail carrying everything.",
       modifiers: { assault: 0.7, supply: -0.5 },
       reportLine: "Everything goes up the Little St Bernard road behind the main thrust.",
     },
@@ -16726,7 +16726,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "wholeFront",
       name: "Press Every Valley at Once",
       subtitle: "Spread the guns and attack across the whole front, as the orders require",
-      note: "Attack at every pass and let the guns range across the whole front. Corps Artillery chits carry further; Alpini & Infantry Assault chits carry less, spread across more valleys.",
+      note: "Attack at every pass and let the guns range across the whole front. Effort in Corps Artillery carries further; effort in Alpini & Infantry Assault carries less, spread across more valleys.",
       modifiers: { artillery: 0.7, assault: -0.5 },
       reportLine: "The attack goes in at every pass at once and the guns range across the whole front.",
     },
@@ -20015,8 +20015,8 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
             style={{ fontFamily: "'Courier Prime', monospace" }}
           >
             <p className="mb-2">
-              <b>Meters.</b> Manpower, Fuel, and Initiative track your strategic position against the historical
-              baseline (zero). They gate collapses, foreclose options, and decide when your war ends.
+              <b>Meters.</b> Manpower, Matériel, and Initiative track your strategic position against the historical
+              baseline (zero). They gate collapses, foreclose options, and decide when your war ends. Matériel is the one number the rules use for fuel, ammunition, steel, shipping and rail together; the four small readings under it show which of them your decisions have been feeding or starving.
             </p>
             <p className="mb-2">
               <b>⚄ Contested.</b> A handful of decisions are honestly disputed by historians. These roll —
@@ -20158,6 +20158,24 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
 // range, zero-centered, for the running total. showBar=false is for the OutcomeScreen case,
 // where the value passed is a single choice's small delta (e.g. +1), not the running total —
 // a ±10-scaled bar would render that as a near-invisible sliver, so it stays plain text there.
+// Round 23: the four strands under the Matériel meter (see materielReadout in logic.ts). Words, not
+// numbers: Short, Strained, Adequate, Plentiful. They explain the headline and never replace it.
+function MaterielStrands({ flags, meters }) {
+  const colours = { Short: "#7a2e2e", Strained: "#8a5a1a", Adequate: "#000000", Plentiful: "#28497a" };
+  return (
+    <div className="grid grid-cols-2 gap-x-4 gap-y-[2px] pl-0 sm:pl-[5.5rem] -mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+      {materielReadout(flags || {}, meters).map((r) => (
+        <div key={r.id} className="flex items-baseline justify-between gap-2 text-[10px] uppercase tracking-wider">
+          <span className="opacity-70">{r.name}</span>
+          <span className="font-bold" style={{ color: colours[r.band] }}>
+            {r.band}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function MeterBar({ label, value, danger, showBar = true }) {
   const clamped = Math.max(-10, Math.min(10, value));
   const fillPct = (Math.abs(clamped) / 10) * 50;
@@ -21624,13 +21642,13 @@ const METER_NOTES = {
     },
     fuel: {
       bad: [
-        "Fuel allocations are being argued over by army groups that all need the same tanker cars.",
-        "The fuel ledger has crossed from tight into constrained.",
+        "Matériel allocations are being argued over by army groups that all need the same tanker cars.",
+        "The matériel ledger has crossed from tight into constrained.",
       ],
       critical: ["Panzer crews are siphoning tanks from disabled vehicles to keep the rest moving."],
       good: [
-        "Fuel stocks have, for the moment, stopped dictating what the staff can even propose.",
-        "The fuel picture is unusually generous for this stage of the war.",
+        "Matériel stocks have, for the moment, stopped dictating what the staff can even propose.",
+        "The matériel picture is unusually generous for this stage of the war.",
       ],
     },
     initiative: {
@@ -21659,13 +21677,13 @@ const METER_NOTES = {
     },
     fuel: {
       bad: [
-        "Fuel allocations are being fought over by fronts that all consider their own axis decisive.",
-        "The fuel ledger has moved from tight to truly short.",
+        "Matériel allocations are being fought over by fronts that all consider their own axis decisive.",
+        "The matériel ledger has moved from tight to truly short.",
       ],
       critical: ["Trucks are being pushed off the road and abandoned for lack of fuel to keep them moving."],
       good: [
-        "Fuel stocks are, unusually, not the limiting factor on what Stavka can order.",
-        "The fuel picture is better than the historical campaign generally had it.",
+        "Matériel stocks are, unusually, not the limiting factor on what Stavka can order.",
+        "The matériel picture is better than the historical campaign generally had it.",
       ],
     },
     initiative: {
@@ -21694,12 +21712,12 @@ const METER_NOTES = {
     },
     fuel: {
       bad: [
-        "Fuel and supply allocations are being argued over by armies that all consider their own axis decisive.",
+        "Matériel and supply allocations are being argued over by armies that all consider their own axis decisive.",
         "The supply picture has moved from tight to short.",
       ],
       critical: ["Quartermasters are rationing fuel by the truckload now, unit by unit, day by day."],
       good: [
-        "Fuel and supply stocks are, this time, not the limiting factor on what SHAEF can authorize.",
+        "Matériel and supply stocks are, this time, not the limiting factor on what SHAEF can authorize.",
         "The logistics picture is better than the historical campaign generally had it.",
       ],
     },
@@ -21730,11 +21748,11 @@ const METER_NOTES = {
     fuel: {
       bad: [
         "The convoy losses to Malta's aircraft and submarines are outrunning what any single month's shipping can replace.",
-        "Fuel and matériel allocations are being argued over by fronts that all consider their own theater decisive.",
+        "Matériel allocations are being argued over by fronts that all consider their own theater decisive.",
       ],
       critical: ["Tanks and trucks in the desert are being cannibalized for parts because no convoy has reached port in weeks."],
       good: [
-        "Fuel and supply stocks are, for the moment, not the limiting factor on what this command can actually order.",
+        "Matériel and supply stocks are, for the moment, not the limiting factor on what this command can actually order.",
         "The convoy picture is better than the historical campaign generally had it.",
       ],
     },
@@ -22017,7 +22035,7 @@ function formatImpactPreview(impact) {
   if (!impact) return "No meter change";
   const parts = [];
   if (impact.manpower) parts.push(`Manpower ${impact.manpower > 0 ? "+" : ""}${impact.manpower}`);
-  if (impact.fuel) parts.push(`Fuel ${impact.fuel > 0 ? "+" : ""}${impact.fuel}`);
+  if (impact.fuel) parts.push(`Matériel ${impact.fuel > 0 ? "+" : ""}${impact.fuel}`);
   if (impact.initiative) parts.push(`Initiative ${impact.initiative > 0 ? "+" : ""}${impact.initiative}`);
   return parts.length ? parts.join(", ") : "No meter change";
 }
@@ -22070,9 +22088,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
     else if (meters.manpower <= -3)
       warnings.push("STAFF NOTE — Manpower reserves are running dangerously thin.");
     if (meters.fuel <= -3)
-      warnings.push("STAFF NOTE — Fuel stocks are exhausted. Offensive operations are no longer possible.");
+      warnings.push("STAFF NOTE — Matériel stocks are exhausted. Offensive operations are no longer possible.");
     else if (meters.fuel <= -2)
-      warnings.push("STAFF NOTE — Fuel reserves critically low. Further offensive options may be foreclosed.");
+      warnings.push("STAFF NOTE — Matériel reserves critically low. Further offensive options may be foreclosed.");
     if (total >= 3)
       warnings.push("STAFF NOTE — The army remains coherent. A sustained final defense may yet be within reach.");
     if (meters.initiative >= 5)
@@ -22215,7 +22233,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
           <div className="mb-4">
             <div className="flex flex-col gap-2 border-2 border-black px-3 py-2">
               <MeterBar label="Manpower" value={meters.manpower} danger={meters.manpower <= -3} />
-              <MeterBar label="Fuel" value={meters.fuel} danger={meters.fuel <= -2} />
+              <MeterBar label="Matériel" value={meters.fuel} danger={meters.fuel <= -2} />
+              <MaterielStrands flags={flags} meters={meters} />
               <MeterBar label="Initiative" value={meters.initiative} danger={false} />
             </div>
             <div
@@ -22646,11 +22665,11 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   const spent = Object.values(allocation).reduce((a, v) => a + v, 0);
   const remaining = poolSize - spent;
 
-  function addChit(catId) {
+  function addEffort(catId) {
     if (remaining <= 0) return;
     setAllocation((a) => ({ ...a, [catId]: a[catId] + 1 }));
   }
-  function removeChit(catId) {
+  function removeEffort(catId) {
     setAllocation((a) => (a[catId] > 0 ? { ...a, [catId]: a[catId] - 1 } : a));
   }
   // Round 22 (quick placement): one tap for an even split, one for a clean slate. An even split of a
@@ -22755,7 +22774,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
       detail = `They think ${decoy.name} deserves more than it's getting.`;
     }
     if (remaining > 0) {
-      detail = (detail ? detail + " " : "") + `${remaining} ${remaining === 1 ? "chit is" : "chits are"} being held back as a reserve.`;
+      detail = (detail ? detail + " " : "") + `${remaining} ${remaining === 1 ? "point of effort is" : "points of effort are"} being held back as a reserve.`;
     }
     setAssessment({ text, detail, key: planKey, accurate, shownBand, trueBand, reliability });
   }
@@ -22763,13 +22782,13 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   // Round 22 (item 3): the plan as one plain sentence. Names the weighted arms, the commander and
   // approach if chosen, the reserve, and any arm left with nothing in it.
   const planSummary = (() => {
-    if (spent === 0) return "No chits placed yet.";
+    if (spent === 0) return "No effort committed yet.";
     const placed = categories.filter((c) => allocation[c.id] > 0).sort((a, b) => allocation[b.id] - allocation[a.id]);
     const bare = categories.filter((c) => allocation[c.id] === 0);
     const parts = [`Weight on ${placed.map((c) => `${c.name} (${allocation[c.id]})`).join(", ")}.`];
     if (selectedCommander) parts.push(`${selectedCommander.name} in command.`);
     if (selectedApproach) parts.push(`Approach: ${selectedApproach.name}.`);
-    if (remaining > 0) parts.push(`${remaining} ${remaining === 1 ? "chit" : "chits"} held in reserve.`);
+    if (remaining > 0) parts.push(`${remaining} ${remaining === 1 ? "point" : "points"} of effort held in reserve.`);
     if (bare.length) parts.push(`Nothing placed in ${bare.map((c) => c.name).join(", ")}.`);
     return parts.join(" ");
   })();
@@ -22830,7 +22849,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
               Known hazards —
             </span>
             {config.attrition
-              .map((a) => `${a.atLeast} or more chits in ${categories.find((c) => c.id === a.category)?.name || a.category} will cost ${a.meter} (${a.reason.toLowerCase()})`)
+              .map((a) => `${a.atLeast} or more points of effort in ${categories.find((c) => c.id === a.category)?.name || a.category} will cost ${a.meter} (${a.reason.toLowerCase()})`)
               .join("; ")}
             .
           </p>
@@ -22843,11 +22862,11 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
             How an Order of Battle works
           </summary>
           <ul className="mt-2 list-disc pl-5 text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
-            <li>You have a pool of effort chits: five, plus one for each of Manpower, Fuel and Initiative standing above +2. Each chit you place gives that arm more weight in the battle.</li>
+            <li>You have a pool of effort: five points, plus one for each of Manpower, Matériel and Initiative standing above +2. Each point you place gives that arm more weight in the battle.</li>
             <li>Weight on one arm helps, but leaving an arm bare costs you, because a battle punishes a gap.</li>
             <li>You may name one field commander, who strengthens one arm, and you must pick one tactical approach, which strengthens one arm and weakens another.</li>
             <li>The enemy's setup is hidden. One line of intelligence hints at it and is wrong about one time in four, and a reconnaissance pass or a staff assessment costs Initiative.</li>
-            <li>Chits left unplaced are a reserve. You can commit them at the decisive hour, once you have seen the enemy's hand, but they count for less than a chit planned from the start.</li>
+            <li>Effort left unplaced is a reserve. You can commit it at the decisive hour, once you have seen the enemy's hand, but it counts for less than effort planned from the start.</li>
             <li>During the battle you may be asked to make a field decision. The best answer depends on what the enemy is really doing.</li>
             <li>None of this decides the result. It moves the odds on the roll, and the roll can still go against a good plan.</li>
           </ul>
@@ -22974,31 +22993,31 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
         )}
 
         <div className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
-          Effort chits in reserve: {remaining} of {poolSize}
+          Effort in reserve: {remaining} of {poolSize}
           {bonusMeters.length > 0 && (
             <span className="normal-case font-normal"> — {bonusMeters.length} extra from the standing of your logistics</span>
           )}
         </div>
         <p className="text-[12px] leading-snug mb-3 text-[#000000] opacity-80" style={bodyStyle}>
-          Chits you leave unplaced go in as a reserve you can commit once you see how the fighting goes. They arrive late and count for less than a planned chit.
+          Effort you leave unplaced goes in as a reserve you can commit once you see how the fighting goes. It arrives late and counts for less than planned effort.
         </p>
         <div className="flex gap-2 mb-3">
           <button
             onClick={spreadEvenly}
-            aria-label="Spread chits evenly"
+            aria-label="Spread effort evenly"
             className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000]"
             style={{ borderColor: campaign.accent, ...labelStyle }}
           >
-            Spread chits evenly
+            Spread effort evenly
           </button>
           <button
             onClick={clearAll}
             disabled={spent === 0}
-            aria-label="Clear all chits"
+            aria-label="Clear all effort"
             className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] disabled:opacity-40 disabled:cursor-not-allowed"
             style={{ borderColor: campaign.accent, ...labelStyle }}
           >
-            Clear all chits
+            Clear all effort
           </button>
         </div>
 
@@ -23030,12 +23049,12 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   Fixed layout now: a minus button pinned left, a fill track (empty-to-filled,
                   left to right) scaled to the actual pool size so the same track reads
                   identically across all four categories, and a plus button pinned right —
-                  neither button moves regardless of how many chits are placed. */}
+                  neither button moves regardless of how much effort is placed. */}
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => removeChit(cat.id)}
+                  onClick={() => removeEffort(cat.id)}
                   disabled={allocation[cat.id] <= 0}
-                  aria-label={`Remove a chit from ${cat.name}`}
+                  aria-label={`Remove effort from ${cat.name}`}
                   className="w-9 h-9 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed"
                   style={{ borderColor: campaign.accent, color: campaign.accent }}
                 >
@@ -23061,9 +23080,9 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   {allocation[cat.id]}
                 </span>
                 <button
-                  onClick={() => addChit(cat.id)}
+                  onClick={() => addEffort(cat.id)}
                   disabled={remaining <= 0}
-                  aria-label={`Add a chit to ${cat.name}`}
+                  aria-label={`Add effort to ${cat.name}`}
                   className="w-9 h-9 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed"
                   style={{ borderColor: campaign.accent, color: campaign.accent }}
                 >
@@ -23166,7 +23185,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
           {approachRoster.length > 0 && !selectedApproach
             ? "Choose a Tactical Approach First"
             : spent === 0
-            ? "Place at Least One Chit"
+            ? "Commit Some Effort First"
             : remaining > 0
             ? `Commit to Battle — ${remaining} held in reserve`
             : "Commit to Battle"}
@@ -23530,7 +23549,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   const moveEase = delta > 0 ? "cubic-bezier(0.34, 1.35, 0.64, 1)" : "cubic-bezier(0.55, 0, 0.35, 1)";
   const barTransition = `width ${moveMs}ms ${moveEase}`;
 
-  const meterNames = { manpower: "Manpower", fuel: "Fuel", initiative: "Initiative" };
+  const meterNames = { manpower: "Manpower", fuel: "Matériel", initiative: "Initiative" };
   const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
   const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
   const caCat = ca ? categories.find((c) => c.id === ca.category) : null;
@@ -23673,7 +23692,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
         ) : phase === "reserve" ? (
           <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
             <p className="text-sm mb-3" style={bodyStyle}>
-              {plan.reserves} {plan.reserves === 1 ? "chit is" : "chits are"} waiting in reserve. Commit {plan.reserves === 1 ? "it" : "them"} now, or hold?
+              {plan.reserves} {plan.reserves === 1 ? "point of effort is" : "points of effort are"} waiting in reserve. Commit {plan.reserves === 1 ? "it" : "them"} now, or hold?
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {categories.map((c) => (
@@ -23695,7 +23714,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
               {ca.warn[severity] || ca.warn[1]}
             </p>
             <p className="text-sm mb-3" style={bodyStyle}>
-              You have {counterStrengthBase} {counterStrengthBase === 1 ? "chit" : "chits"} of {caCat?.name || ca.category} to meet it.
+              You have {counterStrengthBase} {counterStrengthBase === 1 ? "point" : "points"} of effort in {caCat?.name || ca.category} to meet it.
             </p>
             <div className="grid grid-cols-1 gap-2">
               <button onClick={() => chooseCounter("head")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
@@ -23710,7 +23729,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
                 <button onClick={() => chooseCounter("reserve")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
                   <div className="text-sm font-semibold">Throw the held reserve at it</div>
                   <div className="text-[11px] opacity-80">
-                    {plan.reserves} more {plan.reserves === 1 ? "chit" : "chits"} alongside the {caCat?.name || ca.category} already there.
+                    {plan.reserves} more {plan.reserves === 1 ? "point" : "points"} of effort alongside the {caCat?.name || ca.category} already there.
                   </div>
                 </button>
               )}
@@ -23768,7 +23787,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
   const deltas = eff.impact
     ? [
         ["Manpower", eff.impact.manpower || 0],
-        ["Fuel", eff.impact.fuel || 0],
+        ["Matériel", eff.impact.fuel || 0],
         ["Initiative", eff.impact.initiative || 0],
       ].filter(([, v]) => v !== 0)
     : [];
@@ -23934,7 +23953,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
                     color: v > 0 ? "#2f4a3a" : "#7a2e2e",
                   }}
                 >
-                  {v > 0 ? "▲" : "▼"} {m === "manpower" ? "Manpower" : m === "fuel" ? "Fuel" : "Initiative"} {v > 0 ? "+" + v : v}
+                  {v > 0 ? "▲" : "▼"} {m === "manpower" ? "Manpower" : m === "fuel" ? "Matériel" : "Initiative"} {v > 0 ? "+" + v : v}
                 </span>
               ))}
           </div>
@@ -23948,10 +23967,17 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
         </p>
 
         {eff.impact && (
-          <div className="flex flex-wrap gap-4 mb-8 border-2 border-black px-3 py-2">
-            <MeterBar label="Manpower" value={eff.impact.manpower} showBar={false} />
-            <MeterBar label="Fuel" value={eff.impact.fuel} showBar={false} />
-            <MeterBar label="Initiative" value={eff.impact.initiative} showBar={false} />
+          <div className="mb-8 border-2 border-black px-3 py-2">
+            <div className="flex flex-wrap gap-4">
+              <MeterBar label="Manpower" value={eff.impact.manpower} showBar={false} />
+              <MeterBar label="Matériel" value={eff.impact.fuel} showBar={false} />
+              <MeterBar label="Initiative" value={eff.impact.initiative} showBar={false} />
+            </div>
+            {eff.impact.fuel ? (
+              <div className="mt-1 text-[10px] uppercase tracking-wider opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                Matériel moved on: {MATERIEL_STRANDS.find((x) => x.id === materielStrandOf(choice, eff.outcome))?.name || "supplies in general"}
+              </div>
+            ) : null}
           </div>
         )}
 
@@ -24137,7 +24163,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           <div className="mb-4">
             <div className="flex flex-col gap-2 border-2 border-black px-3 py-2">
               <MeterBar label="Manpower" value={meters.manpower} />
-              <MeterBar label="Fuel" value={meters.fuel} />
+              <MeterBar label="Matériel" value={meters.fuel} />
               <MeterBar label="Initiative" value={meters.initiative} />
             </div>
             <div

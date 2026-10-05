@@ -55,12 +55,12 @@ export default {
     const lab = ctx.lab;
     const t = ctx.text();
     const bs = ctx.buttons().filter((b) => !SKIP.test(lab(b)) && !/rewind/i.test(lab(b)));
-    if (/Order of Battle/.test(t) && bs.some((x) => /^Add a chit/.test(lab(x)) || /Tactical Approach/.test(t))) {
+    if (/Order of Battle/.test(t) && bs.some((x) => /^Add effort/.test(lab(x)) || /Tactical Approach/.test(t))) {
       // Key Battle (Order of Battle) planning screen. Policy: commit if a commit-like button is live;
       // otherwise choose a tactical approach once, then spend chits at random, then commit.
-      const chits = bs.filter((x) => /^Add a chit/.test(lab(x)));
+      const chits = bs.filter((x) => /^Add effort/.test(lab(x)));
       // Commander buttons all say "— favors ..."; the approaches (what chits unlock) do not.
-      const others = bs.filter((x) => !/^Add a chit|favors|^No particular emphasis|Reconnaissance Pass|^Spread chits|^Clear all chits/.test(lab(x)));
+      const others = bs.filter((x) => !/^Add effort|favors|^No particular emphasis|Reconnaissance Pass|^Spread effort|^Clear all effort/.test(lab(x)));
       const commit = others.find((x) => PROCEED.test(lab(x)));
       if (commit) return commit;
       if (!policy.approachChosen && others.length) {

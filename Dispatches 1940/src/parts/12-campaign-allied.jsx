@@ -224,7 +224,7 @@
                       {
                         id: "askTwelve",
                         label: "Ask 12 Group to fly south and cover the sector stations",
-                        note: "The Duxford Wing flies, but costs fuel and an argument.",
+                        note: "The Duxford Wing flies, but costs Matériel and an argument.",
                         bonus: 0,
                         bonusByPosture: { heavyEscort: 4, secondWave: 2 },
                         meters: { fuel: -1 },
@@ -320,7 +320,7 @@
                   weight: modWeight(70, meters.initiative) - (flags.forkLuftwaffeShift ? 10 : 0),
                   title: "Fighter Command holds the sky",
                   setFlags: { britainDay40Result: "held" },
-                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
                     "What happened, and what the Air Ministry's own postwar assessment substantially vindicated: Park's squadrons met incoming raids faster and further out, at a real cost in fighters lost piecemeal that the Big Wing's advocates never stopped citing against him. Dowding and Park won the battle. Within weeks of winning it, both were removed from their commands — a political result of the argument, not a military one, and one history has judged considerably less kindly than it judged the tactics.",
                 },
@@ -453,7 +453,7 @@
             {
               label: "Hold the convoy together — keep tight formation and full escort, and accept the battleship risk",
               advisor: { name: "Tovey", quote: "We are proposing to strip these ships of every defense they have against the threat we can actually see, on the strength of a threat we cannot. I would rather escort them into a fight that might not come than abandon them to the one that certainly will." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel left to keep a full close escort sailing with the convoy rather than dispersing it" : undefined,
               setFlags: { pq17: "hold" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
@@ -541,7 +541,7 @@
                       {
                         id: "destroyersAhead",
                         label: "Detach two destroyers from the screen to sweep ahead for the pack",
-                        note: "Costs fuel, and thins the screen.",
+                        note: "Costs Matériel, and thins the screen.",
                         bonus: 0,
                         bonusByPosture: {wolfpackConcentration: 4},
                         meters: {fuel: -1},
@@ -698,7 +698,7 @@
             {
               label: "Marshall's plan — commit to the earliest possible cross-Channel invasion",
               advisor: { name: "Marshall", quote: "Every month we delay the real invasion is a month the Germans spend finishing the Atlantic Wall and a month the Russians spend wondering if this alliance means what it says." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -2 ? "insufficient landing craft and shipping assembled for a cross-Channel attempt this early" : undefined,
               setFlags: { secondFront42: "sledgehammer", cohesion: (flags.cohesion || 0) + (-2) },
               cohesionDelta: -2,
@@ -1360,7 +1360,7 @@
             {
               label: "Drive for the Gap — Vienna before the Red Army, whatever the mountains cost",
               advisor: { name: "Churchill", quote: "Armies draw maps by standing on them. I would rather argue about supply through one mountain gap than about half of Europe for half a century." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel for a logistics case American planners already called fantasy" : undefined,
               setFlags: { ljubljana44: "drive", cohesion: (flags.cohesion || 0) + (-2) },
               cohesionDelta: -2,
@@ -2146,7 +2146,7 @@
             {
               label: "Press further — formally request bomber basing rights near Adana for the Ploesti campaign",
               advisor: { name: "Eden", quote: "We have already spent the easy half of this relationship getting a signature that cost Ankara nothing. Basing rights cost them their neutrality's whole remaining value. I would not assume the second half is priced the same as the first." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel and construction capacity left to stand up a forward air base from nothing" : undefined,
               setFlags: { turkishBelligerence44: "pressBases" },
               impact: { manpower: 0, fuel: -2, initiative: 0 },
@@ -2523,7 +2523,7 @@
             {
               label: "Commit to a full-weight breakthrough attempt while the season is still fully open",
               advisor: { name: "Alexander", quote: "I will not get this combination of intact divisions and a whole season still ahead of me twice in one war. If the line breaks this year, it breaks now, while there's a spring and a summer left to exploit it, not in the autumn mud the historical campaign was stuck fighting in." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to sustain a full-weight breakthrough attempt against defenses this deep" : undefined,
               setFlags: { gothicLineEarly44: "breakthrough" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
@@ -3073,7 +3073,7 @@
           ].concat([
               {
                 label: "Open Antwerp in September and hold every other offensive until it is open — no Market Garden, no Rhine attempt, nothing until the ships are unloading",
-                disabledReason: (meters.fuel || 0) >= 2 && (meters.manpower || 0) >= 2 ? undefined : "Requires Fuel +2, Manpower +2 — the slack to subordinate every other offensive to one port",
+                disabledReason: (meters.fuel || 0) >= 2 && (meters.manpower || 0) >= 2 ? undefined : "Requires Matériel +2, Manpower +2 — the slack to subordinate every other offensive to one port",
                 advisor: { name: "Cunningham", quote: "You are asking me what the port is worth. It is worth every operation you are currently planning, and I would rather say that now than have a staff historian say it for me in ten years." },
                 setFlags: { scheldt44: "priority", antwerpSeptember: true, cohesion: (flags.cohesion || 0) + (1) },
                 cohesionDelta: 1,

@@ -131,7 +131,7 @@
                       {
                         id: "coverEngineers",
                         label: "Turn the flak and field guns on the French batteries to cover the engineers",
-                        note: "Costs fuel and the day's ammunition.",
+                        note: "Costs Matériel: fuel and the day's ammunition.",
                         bonus: 0,
                         bonusByPosture: { riverArtillery: 4, armourOnTheMove: 2 },
                         meters: { fuel: -1 },
@@ -227,7 +227,7 @@
                   weight: modWeight(70, meters.initiative),
                   title: "The bridgehead holds and the breakout runs",
                   setFlags: { sedan40Result: "crossed" },
-                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  impact: { manpower: 1, fuel: 0, initiative: 1 },
                   outcome:
                     "What happened, and it remains one of the most audacious operational gambles of the entire war: seven panzer divisions threaded through terrain the French general staff had assessed as unsuitable for a major armored thrust, crossed the Meuse at Sedan by May 13, and reached the Channel coast by May 20 — cutting off and encircling the very Allied armies that had advanced into Belgium to meet a northern attack that was, by then, revealed as the feint. France's defeat, six weeks after the campaign began, is substantially a consequence of this single operational decision.",
                 },
@@ -294,7 +294,7 @@
             {
               label: "Compress the invasion timetable — rush what the shortened season still allows",
               advisor: { name: "Raeder", quote: "You are asking a fleet that didn't exist in June to exist by September because Paris took an extra six weeks to fall. I can produce barges on that timetable. I cannot produce the training and the weather to go with them." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel and shipping capacity left to rush an invasion fleet together on a compressed timetable" : undefined,
               setFlags: { compressedWindow40: "rushed" },
               impact: { manpower: -1, fuel: -2, initiative: 1 },
@@ -480,7 +480,7 @@
             {
               label: "Execute Fall Tannenbaum — eleven divisions, three axes, before winter closes the passes",
               advisor: { name: "von Leeb", quote: "I have drawn the plan because I was ordered to draw it. I would not recommend executing it. The terrain does not care whose staff study was more thorough." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel and transport left to move eleven divisions across three Alpine axes before the passes close" : undefined,
               setFlags: { tannenbaum40: "invade" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -1678,7 +1678,7 @@
           ].concat([
               {
                 label: "Contest the delivery — everything the fighter arm has, held at altitude, for the single aircraft nobody can afford to let through",
-                disabledReason: flags.bomber43 === "fighters" && (meters.fuel || 0) >= 2 ? undefined : "Requires a reserved fighter arm and Fuel +2 — jets held at altitude need fuel nobody else is getting",
+                disabledReason: flags.bomber43 === "fighters" && (meters.fuel || 0) >= 2 ? undefined : "Requires a reserved fighter arm and Matériel +2 — jets held at altitude need fuel nobody else is getting",
                 advisor: { name: "Galland", quote: "I have spent two years being told the jets were a bomber. Now you want them to be an interceptor at forty thousand feet against one aeroplane we cannot identify in advance, on a day we will not be told about. It is the only mission I have been given in this war that is worth attempting and cannot be planned for." },
                 setFlags: { atomic45: "contestDelivery" },
                 impact: { manpower: -1, fuel: -3, initiative: -2 },
@@ -1708,7 +1708,7 @@
             ]).concat([
               {
                 label: "Disperse everything — evacuate the cities, bury the industry, make the fortress too diffuse for any single weapon to be decisive",
-                disabledReason: (meters.manpower || 0) >= 5 && (meters.fuel || 0) >= 3 ? undefined : "Requires Manpower +5, Fuel +3 — moving a country needs a country still able to move",
+                disabledReason: (meters.manpower || 0) >= 5 && (meters.fuel || 0) >= 3 ? undefined : "Requires Manpower +5, Matériel +3 — moving a country needs a country still able to move",
                 advisor: { name: "Speer", quote: "I moved aircraft production underground while it was being bombed daily, and I can move the rest. Understand precisely what I am offering: not a way to win, and not a way to survive. A way for this to take longer. If that is what is wanted it can be had, and it will be paid for by people nobody is going to consult." },
                 setFlags: { atomic45: "disperse", dispersedReich45: true },
                 favor: 2,
@@ -2277,7 +2277,7 @@
             const twoAxisPossible = meters.fuel > -2;
             const base = [];
             base.push({
-                checkLabel: "Fuel",
+                checkLabel: "Matériel",
                 disabledReason: twoAxisPossible ? undefined : "insufficient fuel to supply two axes simultaneously",
                 label: "Pursue both objectives at once, as directed",
                 advisor: { name: "Hitler", quote: "If I do not get the oil of Maikop and Grozny, then I must end this war. So we will have the oil AND the city that bears his name." },
@@ -2669,7 +2669,7 @@
                             {
                               id: "haltForFuel",
                               label: "Halt, and call for fuel and fighters",
-                              note: "Costs fuel, and gives the British time.",
+                              note: "Costs Matériel, and gives the British time.",
                               bonus: 0,
                               bonusByPosture: {airSuperiority: 3, hullDownLine: 1},
                               meters: {fuel: -1},
@@ -3288,7 +3288,7 @@
             const offensivePossible = meters.fuel > -3;
             const base = [];
             base.push({
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: offensivePossible ? undefined : "insufficient fuel for a Citadel-scale armored offensive",
               label: "Strike now, in spring, with the tanks already on hand",
               advisor: { name: "Manstein", quote: "Every week we rehearse, they dig. Attack in May and we fight their defenses; attack in July and we fight their finished fortress." },
@@ -3363,7 +3363,7 @@
                       {
                         id: "haltForAir",
                         label: "Halt for a day to bring the flak and the fighters forward",
-                        note: "Costs fuel, and the Soviet reserves get a day.",
+                        note: "Costs Matériel, and the Soviet reserves get a day.",
                         bonus: 0,
                         bonusByPosture: {airForward: 4, antiTankFirst: 1},
                         meters: {fuel: -1},
@@ -3539,7 +3539,7 @@
               ],
             });
             base.push({
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: offensivePossible ? undefined : "insufficient fuel for a Citadel-scale armored offensive",
               label: "Wait for the Panthers, launch in July as planned",
               advisor: { name: "Hitler", quote: "The new weapons will decide it. This attack must not fail, therefore it must not go before the Panthers are ready." },
@@ -4146,7 +4146,7 @@
                 {
                   label: "Drive for the beach at Sword — split the British lodgment before it links with the others",
                   advisor: { name: "Rommel", quote: "One armored spearhead, reaching salt water, ends the argument about whether this invasion succeeds. I have twelve hours, perhaps less, to make that argument in steel." },
-                  checkLabel: "Fuel",
+                  checkLabel: "Matériel",
                   disabledReason: meters.fuel <= -3 ? "insufficient fuel left to run an armored spearhead the length of the lodgment in a single push" : undefined,
                   setFlags: { normandyCounterattack: "drive" },
                   impact: { manpower: -2, fuel: -1, initiative: 0 },
@@ -4936,7 +4936,7 @@
             const base = [];
             {
               base.push({
-                checkLabel: "Fuel",
+                checkLabel: "Matériel",
                 disabledReason: fuelExhausted ? "insufficient fuel to reach Antwerp or attempt any offensive" : undefined,
                 label: "Launch the Ardennes offensive",
                 advisor: { name: "Hitler", quote: "One blow through the Ardennes — as in 1940 — and the enemy coalition cracks along its seam. Wars are won by will." },
@@ -5579,7 +5579,7 @@
       }
       const meterLine = `Final position — Manpower: ${
         meters.manpower > 0 ? "+" + meters.manpower : meters.manpower
-      } · Fuel: ${meters.fuel > 0 ? "+" + meters.fuel : meters.fuel} · Initiative: ${
+      } · Matériel: ${meters.fuel > 0 ? "+" + meters.fuel : meters.fuel} · Initiative: ${
         meters.initiative > 0 ? "+" + meters.initiative : meters.initiative
       }.`;
       const end = this.projectedEnd(flags, meters);

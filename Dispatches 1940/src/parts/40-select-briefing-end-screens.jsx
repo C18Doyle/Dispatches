@@ -665,8 +665,8 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
             style={{ fontFamily: "'Courier Prime', monospace" }}
           >
             <p className="mb-2">
-              <b>Meters.</b> Manpower, Fuel, and Initiative track your strategic position against the historical
-              baseline (zero). They gate collapses, foreclose options, and decide when your war ends.
+              <b>Meters.</b> Manpower, Matériel, and Initiative track your strategic position against the historical
+              baseline (zero). They gate collapses, foreclose options, and decide when your war ends. Matériel is the one number the rules use for fuel, ammunition, steel, shipping and rail together; the four small readings under it show which of them your decisions have been feeding or starving.
             </p>
             <p className="mb-2">
               <b>⚄ Contested.</b> A handful of decisions are honestly disputed by historians. These roll —
@@ -808,6 +808,24 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
 // range, zero-centered, for the running total. showBar=false is for the OutcomeScreen case,
 // where the value passed is a single choice's small delta (e.g. +1), not the running total —
 // a ±10-scaled bar would render that as a near-invisible sliver, so it stays plain text there.
+// Round 23: the four strands under the Matériel meter (see materielReadout in logic.ts). Words, not
+// numbers: Short, Strained, Adequate, Plentiful. They explain the headline and never replace it.
+function MaterielStrands({ flags, meters }) {
+  const colours = { Short: "#7a2e2e", Strained: "#8a5a1a", Adequate: "#000000", Plentiful: "#28497a" };
+  return (
+    <div className="grid grid-cols-2 gap-x-4 gap-y-[2px] pl-0 sm:pl-[5.5rem] -mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+      {materielReadout(flags || {}, meters).map((r) => (
+        <div key={r.id} className="flex items-baseline justify-between gap-2 text-[10px] uppercase tracking-wider">
+          <span className="opacity-70">{r.name}</span>
+          <span className="font-bold" style={{ color: colours[r.band] }}>
+            {r.band}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function MeterBar({ label, value, danger, showBar = true }) {
   const clamped = Math.max(-10, Math.min(10, value));
   const fillPct = (Math.abs(clamped) / 10) * 50;
@@ -2274,13 +2292,13 @@ const METER_NOTES = {
     },
     fuel: {
       bad: [
-        "Fuel allocations are being argued over by army groups that all need the same tanker cars.",
-        "The fuel ledger has crossed from tight into constrained.",
+        "Matériel allocations are being argued over by army groups that all need the same tanker cars.",
+        "The matériel ledger has crossed from tight into constrained.",
       ],
       critical: ["Panzer crews are siphoning tanks from disabled vehicles to keep the rest moving."],
       good: [
-        "Fuel stocks have, for the moment, stopped dictating what the staff can even propose.",
-        "The fuel picture is unusually generous for this stage of the war.",
+        "Matériel stocks have, for the moment, stopped dictating what the staff can even propose.",
+        "The matériel picture is unusually generous for this stage of the war.",
       ],
     },
     initiative: {
@@ -2309,13 +2327,13 @@ const METER_NOTES = {
     },
     fuel: {
       bad: [
-        "Fuel allocations are being fought over by fronts that all consider their own axis decisive.",
-        "The fuel ledger has moved from tight to truly short.",
+        "Matériel allocations are being fought over by fronts that all consider their own axis decisive.",
+        "The matériel ledger has moved from tight to truly short.",
       ],
       critical: ["Trucks are being pushed off the road and abandoned for lack of fuel to keep them moving."],
       good: [
-        "Fuel stocks are, unusually, not the limiting factor on what Stavka can order.",
-        "The fuel picture is better than the historical campaign generally had it.",
+        "Matériel stocks are, unusually, not the limiting factor on what Stavka can order.",
+        "The matériel picture is better than the historical campaign generally had it.",
       ],
     },
     initiative: {
@@ -2344,12 +2362,12 @@ const METER_NOTES = {
     },
     fuel: {
       bad: [
-        "Fuel and supply allocations are being argued over by armies that all consider their own axis decisive.",
+        "Matériel and supply allocations are being argued over by armies that all consider their own axis decisive.",
         "The supply picture has moved from tight to short.",
       ],
       critical: ["Quartermasters are rationing fuel by the truckload now, unit by unit, day by day."],
       good: [
-        "Fuel and supply stocks are, this time, not the limiting factor on what SHAEF can authorize.",
+        "Matériel and supply stocks are, this time, not the limiting factor on what SHAEF can authorize.",
         "The logistics picture is better than the historical campaign generally had it.",
       ],
     },
@@ -2380,11 +2398,11 @@ const METER_NOTES = {
     fuel: {
       bad: [
         "The convoy losses to Malta's aircraft and submarines are outrunning what any single month's shipping can replace.",
-        "Fuel and matériel allocations are being argued over by fronts that all consider their own theater decisive.",
+        "Matériel allocations are being argued over by fronts that all consider their own theater decisive.",
       ],
       critical: ["Tanks and trucks in the desert are being cannibalized for parts because no convoy has reached port in weeks."],
       good: [
-        "Fuel and supply stocks are, for the moment, not the limiting factor on what this command can actually order.",
+        "Matériel and supply stocks are, for the moment, not the limiting factor on what this command can actually order.",
         "The convoy picture is better than the historical campaign generally had it.",
       ],
     },
@@ -2667,7 +2685,7 @@ function formatImpactPreview(impact) {
   if (!impact) return "No meter change";
   const parts = [];
   if (impact.manpower) parts.push(`Manpower ${impact.manpower > 0 ? "+" : ""}${impact.manpower}`);
-  if (impact.fuel) parts.push(`Fuel ${impact.fuel > 0 ? "+" : ""}${impact.fuel}`);
+  if (impact.fuel) parts.push(`Matériel ${impact.fuel > 0 ? "+" : ""}${impact.fuel}`);
   if (impact.initiative) parts.push(`Initiative ${impact.initiative > 0 ? "+" : ""}${impact.initiative}`);
   return parts.length ? parts.join(", ") : "No meter change";
 }
@@ -2720,9 +2738,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
     else if (meters.manpower <= -3)
       warnings.push("STAFF NOTE — Manpower reserves are running dangerously thin.");
     if (meters.fuel <= -3)
-      warnings.push("STAFF NOTE — Fuel stocks are exhausted. Offensive operations are no longer possible.");
+      warnings.push("STAFF NOTE — Matériel stocks are exhausted. Offensive operations are no longer possible.");
     else if (meters.fuel <= -2)
-      warnings.push("STAFF NOTE — Fuel reserves critically low. Further offensive options may be foreclosed.");
+      warnings.push("STAFF NOTE — Matériel reserves critically low. Further offensive options may be foreclosed.");
     if (total >= 3)
       warnings.push("STAFF NOTE — The army remains coherent. A sustained final defense may yet be within reach.");
     if (meters.initiative >= 5)
@@ -2865,7 +2883,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
           <div className="mb-4">
             <div className="flex flex-col gap-2 border-2 border-black px-3 py-2">
               <MeterBar label="Manpower" value={meters.manpower} danger={meters.manpower <= -3} />
-              <MeterBar label="Fuel" value={meters.fuel} danger={meters.fuel <= -2} />
+              <MeterBar label="Matériel" value={meters.fuel} danger={meters.fuel <= -2} />
+              <MaterielStrands flags={flags} meters={meters} />
               <MeterBar label="Initiative" value={meters.initiative} danger={false} />
             </div>
             <div
@@ -3296,11 +3315,11 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   const spent = Object.values(allocation).reduce((a, v) => a + v, 0);
   const remaining = poolSize - spent;
 
-  function addChit(catId) {
+  function addEffort(catId) {
     if (remaining <= 0) return;
     setAllocation((a) => ({ ...a, [catId]: a[catId] + 1 }));
   }
-  function removeChit(catId) {
+  function removeEffort(catId) {
     setAllocation((a) => (a[catId] > 0 ? { ...a, [catId]: a[catId] - 1 } : a));
   }
   // Round 22 (quick placement): one tap for an even split, one for a clean slate. An even split of a
@@ -3405,7 +3424,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
       detail = `They think ${decoy.name} deserves more than it's getting.`;
     }
     if (remaining > 0) {
-      detail = (detail ? detail + " " : "") + `${remaining} ${remaining === 1 ? "chit is" : "chits are"} being held back as a reserve.`;
+      detail = (detail ? detail + " " : "") + `${remaining} ${remaining === 1 ? "point of effort is" : "points of effort are"} being held back as a reserve.`;
     }
     setAssessment({ text, detail, key: planKey, accurate, shownBand, trueBand, reliability });
   }
@@ -3413,13 +3432,13 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   // Round 22 (item 3): the plan as one plain sentence. Names the weighted arms, the commander and
   // approach if chosen, the reserve, and any arm left with nothing in it.
   const planSummary = (() => {
-    if (spent === 0) return "No chits placed yet.";
+    if (spent === 0) return "No effort committed yet.";
     const placed = categories.filter((c) => allocation[c.id] > 0).sort((a, b) => allocation[b.id] - allocation[a.id]);
     const bare = categories.filter((c) => allocation[c.id] === 0);
     const parts = [`Weight on ${placed.map((c) => `${c.name} (${allocation[c.id]})`).join(", ")}.`];
     if (selectedCommander) parts.push(`${selectedCommander.name} in command.`);
     if (selectedApproach) parts.push(`Approach: ${selectedApproach.name}.`);
-    if (remaining > 0) parts.push(`${remaining} ${remaining === 1 ? "chit" : "chits"} held in reserve.`);
+    if (remaining > 0) parts.push(`${remaining} ${remaining === 1 ? "point" : "points"} of effort held in reserve.`);
     if (bare.length) parts.push(`Nothing placed in ${bare.map((c) => c.name).join(", ")}.`);
     return parts.join(" ");
   })();
@@ -3480,7 +3499,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
               Known hazards —
             </span>
             {config.attrition
-              .map((a) => `${a.atLeast} or more chits in ${categories.find((c) => c.id === a.category)?.name || a.category} will cost ${a.meter} (${a.reason.toLowerCase()})`)
+              .map((a) => `${a.atLeast} or more points of effort in ${categories.find((c) => c.id === a.category)?.name || a.category} will cost ${a.meter} (${a.reason.toLowerCase()})`)
               .join("; ")}
             .
           </p>
@@ -3493,11 +3512,11 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
             How an Order of Battle works
           </summary>
           <ul className="mt-2 list-disc pl-5 text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
-            <li>You have a pool of effort chits: five, plus one for each of Manpower, Fuel and Initiative standing above +2. Each chit you place gives that arm more weight in the battle.</li>
+            <li>You have a pool of effort: five points, plus one for each of Manpower, Matériel and Initiative standing above +2. Each point you place gives that arm more weight in the battle.</li>
             <li>Weight on one arm helps, but leaving an arm bare costs you, because a battle punishes a gap.</li>
             <li>You may name one field commander, who strengthens one arm, and you must pick one tactical approach, which strengthens one arm and weakens another.</li>
             <li>The enemy's setup is hidden. One line of intelligence hints at it and is wrong about one time in four, and a reconnaissance pass or a staff assessment costs Initiative.</li>
-            <li>Chits left unplaced are a reserve. You can commit them at the decisive hour, once you have seen the enemy's hand, but they count for less than a chit planned from the start.</li>
+            <li>Effort left unplaced is a reserve. You can commit it at the decisive hour, once you have seen the enemy's hand, but it counts for less than effort planned from the start.</li>
             <li>During the battle you may be asked to make a field decision. The best answer depends on what the enemy is really doing.</li>
             <li>None of this decides the result. It moves the odds on the roll, and the roll can still go against a good plan.</li>
           </ul>
@@ -3624,31 +3643,31 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
         )}
 
         <div className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
-          Effort chits in reserve: {remaining} of {poolSize}
+          Effort in reserve: {remaining} of {poolSize}
           {bonusMeters.length > 0 && (
             <span className="normal-case font-normal"> — {bonusMeters.length} extra from the standing of your logistics</span>
           )}
         </div>
         <p className="text-[12px] leading-snug mb-3 text-[#000000] opacity-80" style={bodyStyle}>
-          Chits you leave unplaced go in as a reserve you can commit once you see how the fighting goes. They arrive late and count for less than a planned chit.
+          Effort you leave unplaced goes in as a reserve you can commit once you see how the fighting goes. It arrives late and counts for less than planned effort.
         </p>
         <div className="flex gap-2 mb-3">
           <button
             onClick={spreadEvenly}
-            aria-label="Spread chits evenly"
+            aria-label="Spread effort evenly"
             className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000]"
             style={{ borderColor: campaign.accent, ...labelStyle }}
           >
-            Spread chits evenly
+            Spread effort evenly
           </button>
           <button
             onClick={clearAll}
             disabled={spent === 0}
-            aria-label="Clear all chits"
+            aria-label="Clear all effort"
             className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] disabled:opacity-40 disabled:cursor-not-allowed"
             style={{ borderColor: campaign.accent, ...labelStyle }}
           >
-            Clear all chits
+            Clear all effort
           </button>
         </div>
 
@@ -3680,12 +3699,12 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   Fixed layout now: a minus button pinned left, a fill track (empty-to-filled,
                   left to right) scaled to the actual pool size so the same track reads
                   identically across all four categories, and a plus button pinned right —
-                  neither button moves regardless of how many chits are placed. */}
+                  neither button moves regardless of how much effort is placed. */}
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => removeChit(cat.id)}
+                  onClick={() => removeEffort(cat.id)}
                   disabled={allocation[cat.id] <= 0}
-                  aria-label={`Remove a chit from ${cat.name}`}
+                  aria-label={`Remove effort from ${cat.name}`}
                   className="w-9 h-9 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed"
                   style={{ borderColor: campaign.accent, color: campaign.accent }}
                 >
@@ -3711,9 +3730,9 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   {allocation[cat.id]}
                 </span>
                 <button
-                  onClick={() => addChit(cat.id)}
+                  onClick={() => addEffort(cat.id)}
                   disabled={remaining <= 0}
-                  aria-label={`Add a chit to ${cat.name}`}
+                  aria-label={`Add effort to ${cat.name}`}
                   className="w-9 h-9 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed"
                   style={{ borderColor: campaign.accent, color: campaign.accent }}
                 >
@@ -3816,7 +3835,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
           {approachRoster.length > 0 && !selectedApproach
             ? "Choose a Tactical Approach First"
             : spent === 0
-            ? "Place at Least One Chit"
+            ? "Commit Some Effort First"
             : remaining > 0
             ? `Commit to Battle — ${remaining} held in reserve`
             : "Commit to Battle"}
@@ -4180,7 +4199,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   const moveEase = delta > 0 ? "cubic-bezier(0.34, 1.35, 0.64, 1)" : "cubic-bezier(0.55, 0, 0.35, 1)";
   const barTransition = `width ${moveMs}ms ${moveEase}`;
 
-  const meterNames = { manpower: "Manpower", fuel: "Fuel", initiative: "Initiative" };
+  const meterNames = { manpower: "Manpower", fuel: "Matériel", initiative: "Initiative" };
   const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
   const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
   const caCat = ca ? categories.find((c) => c.id === ca.category) : null;
@@ -4323,7 +4342,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
         ) : phase === "reserve" ? (
           <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
             <p className="text-sm mb-3" style={bodyStyle}>
-              {plan.reserves} {plan.reserves === 1 ? "chit is" : "chits are"} waiting in reserve. Commit {plan.reserves === 1 ? "it" : "them"} now, or hold?
+              {plan.reserves} {plan.reserves === 1 ? "point of effort is" : "points of effort are"} waiting in reserve. Commit {plan.reserves === 1 ? "it" : "them"} now, or hold?
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {categories.map((c) => (
@@ -4345,7 +4364,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
               {ca.warn[severity] || ca.warn[1]}
             </p>
             <p className="text-sm mb-3" style={bodyStyle}>
-              You have {counterStrengthBase} {counterStrengthBase === 1 ? "chit" : "chits"} of {caCat?.name || ca.category} to meet it.
+              You have {counterStrengthBase} {counterStrengthBase === 1 ? "point" : "points"} of effort in {caCat?.name || ca.category} to meet it.
             </p>
             <div className="grid grid-cols-1 gap-2">
               <button onClick={() => chooseCounter("head")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
@@ -4360,7 +4379,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
                 <button onClick={() => chooseCounter("reserve")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
                   <div className="text-sm font-semibold">Throw the held reserve at it</div>
                   <div className="text-[11px] opacity-80">
-                    {plan.reserves} more {plan.reserves === 1 ? "chit" : "chits"} alongside the {caCat?.name || ca.category} already there.
+                    {plan.reserves} more {plan.reserves === 1 ? "point" : "points"} of effort alongside the {caCat?.name || ca.category} already there.
                   </div>
                 </button>
               )}
@@ -4418,7 +4437,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
   const deltas = eff.impact
     ? [
         ["Manpower", eff.impact.manpower || 0],
-        ["Fuel", eff.impact.fuel || 0],
+        ["Matériel", eff.impact.fuel || 0],
         ["Initiative", eff.impact.initiative || 0],
       ].filter(([, v]) => v !== 0)
     : [];
@@ -4584,7 +4603,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
                     color: v > 0 ? "#2f4a3a" : "#7a2e2e",
                   }}
                 >
-                  {v > 0 ? "▲" : "▼"} {m === "manpower" ? "Manpower" : m === "fuel" ? "Fuel" : "Initiative"} {v > 0 ? "+" + v : v}
+                  {v > 0 ? "▲" : "▼"} {m === "manpower" ? "Manpower" : m === "fuel" ? "Matériel" : "Initiative"} {v > 0 ? "+" + v : v}
                 </span>
               ))}
           </div>
@@ -4598,10 +4617,17 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
         </p>
 
         {eff.impact && (
-          <div className="flex flex-wrap gap-4 mb-8 border-2 border-black px-3 py-2">
-            <MeterBar label="Manpower" value={eff.impact.manpower} showBar={false} />
-            <MeterBar label="Fuel" value={eff.impact.fuel} showBar={false} />
-            <MeterBar label="Initiative" value={eff.impact.initiative} showBar={false} />
+          <div className="mb-8 border-2 border-black px-3 py-2">
+            <div className="flex flex-wrap gap-4">
+              <MeterBar label="Manpower" value={eff.impact.manpower} showBar={false} />
+              <MeterBar label="Matériel" value={eff.impact.fuel} showBar={false} />
+              <MeterBar label="Initiative" value={eff.impact.initiative} showBar={false} />
+            </div>
+            {eff.impact.fuel ? (
+              <div className="mt-1 text-[10px] uppercase tracking-wider opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                Matériel moved on: {MATERIEL_STRANDS.find((x) => x.id === materielStrandOf(choice, eff.outcome))?.name || "supplies in general"}
+              </div>
+            ) : null}
           </div>
         )}
 
@@ -4787,7 +4813,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           <div className="mb-4">
             <div className="flex flex-col gap-2 border-2 border-black px-3 py-2">
               <MeterBar label="Manpower" value={meters.manpower} />
-              <MeterBar label="Fuel" value={meters.fuel} />
+              <MeterBar label="Matériel" value={meters.fuel} />
               <MeterBar label="Initiative" value={meters.initiative} />
             </div>
             <div

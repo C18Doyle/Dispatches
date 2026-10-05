@@ -865,7 +865,7 @@
           ].concat([
               {
                 label: "Don't take Seelow at all — release Koniev south and Rokossovsky north at full strength and let the heights hold an empty front",
-                disabledReason: (meters.manpower || 0) >= 4 && (meters.fuel || 0) >= 2 ? undefined : "Requires Manpower +4, Fuel +2 — two axes at full weight, or neither",
+                disabledReason: (meters.manpower || 0) >= 4 && (meters.fuel || 0) >= 2 ? undefined : "Requires Manpower +4, Matériel +2 — two axes at full weight, or neither",
                 advisor: { name: "Chuikov", quote: "Heinrici built his line where our maps said we had to come. We do not have to come. For the first time in this war we have enough army to go around a position instead of through it, and I would like to spend that on the last week rather than save it for a week that will not arrive." },
                 setFlags: { berlinAssault: "envelop", berlinEnveloped45: true },
                 impact: { manpower: -1, fuel: -2, initiative: 1 },
@@ -1072,7 +1072,7 @@
                   weight: Math.min(95, modWeight(70, meters.initiative) + (flags.reserveCommitment41 === "hold" ? 10 : 0)),
                   title: "The counteroffensive throws Army Group Centre back",
                   setFlags: { moscow41Result: "thrown" },
-                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  impact: { manpower: 2, fuel: 0, initiative: flags.reserveCommitment41 === "hold" ? 2 : 1 },
                   outcome:
                     "What happened, launched December 5, 1941. Fresh Siberian divisions, and a German army with no winter equipment because the campaign was planned to be over by autumn, combined to drive Army Group Center back as much as 150 miles in places. It was the first major German reversal of the war, and it ended, permanently, any version of a quick victory in the east." +
                     (flags.reserveCommitment41 === "hold"
@@ -1264,7 +1264,7 @@
               label: "Pour everything into the gap — the whole southern front is open, take Ukraine before it can be replugged",
               advisor: { name: "Vatutin", quote: "I have spent the entire war being told to consolidate before the enemy has a chance to recover. For once, there is no enemy left in front of us to recover. Move." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to press this deep into the vacuum" : undefined,
               setFlags: { southernVacuum43: "pour" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
@@ -1301,7 +1301,7 @@
               label: "Keep reaching — push for the Dnieper crossings before Manstein can organize a response",
               advisor: { name: "Vatutin", quote: "Every additional kilometer we take now is a kilometer the counterstroke has to cross before it reaches anything that matters. I would rather be too far forward than early enough to be comfortable." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -4 ? "insufficient fuel left in the salient to run columns any further forward" : undefined,
               setFlags: { vacuumOverreach43: "reach" },
               impact: { manpower: -1, fuel: -2, initiative: 1 },
@@ -1748,7 +1748,7 @@
               label: "Mass artillery for a deliberate breakthrough — spend the shells the wait bought time to bring up",
               advisor: { name: "Vatutin", quote: "We paid for this wall in time instead of blood at the river. I would rather spend shells on it now than spend the blood we saved, later, trying to go around it." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "not enough shells and fuel left to mass artillery for a deliberate set-piece breakthrough" : undefined,
               setFlags: { easternWallBreach43: "artillery" },
               impact: { manpower: 1, fuel: -2, initiative: 0 },
@@ -1998,7 +1998,7 @@
           ].concat([
               {
                 label: "Delay the launch a fortnight — push forward supply echelons up behind the start line first, so the offensive doesn't culminate where the map says it must",
-                disabledReason: (meters.fuel || 0) >= 3 && (meters.manpower || 0) >= 2 ? undefined : "Requires Fuel +3, Manpower +2 — supply enough to dump forward and still launch",
+                disabledReason: (meters.fuel || 0) >= 3 && (meters.manpower || 0) >= 2 ? undefined : "Requires Matériel +3, Manpower +2 — supply enough to dump forward and still launch",
                 advisor: { name: "Khrulev", quote: "Every offensive this war has run until its trucks stopped, and then we have called the stopping place a decision. Give me two weeks and this one stops where you choose instead." },
                 setFlags: { bagration44soviet: "full", forwardSupply44: true },
                 impact: { manpower: 0, fuel: -3, initiative: -1 },
@@ -2033,7 +2033,7 @@
             {
               label: "Push the advance to relieve the uprising, whatever the logistics say",
               advisor: { name: "Rokossovsky", quote: "I do not enjoy telling Warsaw to wait. I enjoy even less the idea of feeding tired divisions into fresh SS armor to prove a point about how much I don't enjoy it." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -4 ? "insufficient fuel to attempt a relief column at all, let alone one that might break through" : undefined,
               setFlags: { warsaw44: "relieve" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
@@ -2153,7 +2153,7 @@
               label: "Push further south still — reach Athens before the British do",
               advisor: { name: "Tolbukhin", quote: "EAM already controls most of the Greek countryside. If our own forces are the ones who reach the capital, Moscow negotiates the peace from inside the city, not from a map in London." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to press an offensive this far south of the main axis" : undefined,
               setFlags: { balkans44soviet: "greece" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
