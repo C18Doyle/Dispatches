@@ -11,8 +11,10 @@ Not inside OneDrive. OneDrive locks files while it syncs (we hit `EBUSY` on `dis
 3. In the game folder: `npm run test:fast`. This builds, type-checks, runs the validators and compares the
    seeded UI run against the recorded baseline, and the save-compatibility test where the game keeps saves.
 4. Add a line to the game's `CHANGELOG.md` if a player or a balance check would notice the change.
-5. Commit, push the branch, open a pull request. CI runs the fast tier on Linux and Windows plus a real-browser
-   smoke test. Merge only when it is green. (GitHub only enforces this on private repos with a paid plan, so
+5. Commit, push the branch, open a pull request. CI runs the fast tier on Linux plus a real-browser smoke test
+   (Windows runs on pushes to main and on a manual run only: the private-repo allowance is 2,000 minutes a month and
+   Windows is billed at twice the Linux rate). **Every push to a PR branch starts a run, so work locally, run
+   `npm test` in the game folder, and push once.** Merge only when it is green. (GitHub only enforces this on private repos with a paid plan, so
    it is a habit: do not merge red.)
 6. Releases are separate (see below).
 

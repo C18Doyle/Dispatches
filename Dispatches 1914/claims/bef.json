@@ -1,0 +1,556 @@
+[
+  {
+    "id": "bef-council-1",
+    "node": "bef_1914_01_warcouncil",
+    "kind": "fact",
+    "claim": "At the War Council on 5 August 1914 Kitchener and Haig argued for deploying the BEF at Amiens; Wilson's plan sent it to Maubeuge; Kitchener decided at Cabinet on 6 August to send only four infantry divisions and the cavalry; after a three-hour meeting on 12 August Asquith overruled him and the BEF assembled at Maubeuge.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kitchener"
+    ],
+    "note": "From a web-search summary of this page and others; the 12 August meeting should be checked against a specialist source."
+  },
+  {
+    "id": "bef-council-2",
+    "node": "bef_1914_01_warcouncil",
+    "kind": "position",
+    "claim": "Wilson's position is characterized as: the plan was made with the French and the French built theirs on it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization."
+  },
+  {
+    "id": "bef-council-3",
+    "node": "bef_1914_01_warcouncil",
+    "kind": "fact",
+    "claim": "The BEF fought at Mons on 23 August and began the retreat that night.",
+    "status": "web-checked",
+    "sources": [
+      "wp-bef"
+    ],
+    "note": "Date from general knowledge; the page was consulted for strength figures only."
+  },
+  {
+    "id": "bef-seine-1",
+    "node": "bef_1914_02_seine",
+    "kind": "fact",
+    "claim": "After Le Cateau Sir John French considered withdrawing from the line; by 31 August Joffre, Poincaré (through the ambassador) and Kitchener urged him not to; Kitchener met him in Paris on 1 September in field marshal's uniform with Viviani and Millerand present, and telegraphed the Cabinet that the BEF would stay in the line, taking care not to be outflanked, telling French to regard it as an instruction.",
+    "status": "web-checked",
+    "sources": [
+      "rtgw-kitchener"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-seine-2",
+    "node": "bef_1914_02_seine",
+    "kind": "fact",
+    "claim": "No independent account of the one-to-one conversation exists.",
+    "status": "web-checked",
+    "sources": [
+      "rtgw-kitchener"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-seine-3",
+    "node": "bef_1914_02_seine",
+    "kind": "fact",
+    "claim": "The BEF turned with the French on 6 September.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Confirm."
+  },
+  {
+    "id": "bef-ypres-1",
+    "node": "bef_1914_03_ypres",
+    "kind": "fact",
+    "claim": "The First Battle of Ypres ran from 19 October to 22 November 1914; Foch was appointed commander of the northern group on 4 October and agreed with French on 10 October to combine forces north and east of Lille; German reserve corps attacked at Langemarck on 21-23 October with losses of up to seventy per cent.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ypres1"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-ypres-2",
+    "node": "bef_1914_03_ypres",
+    "kind": "figure",
+    "claim": "British losses 14 October to 30 November were 58,155; by 3 November 75 of 84 infantry battalions had under 300 men and 18 under 100.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ypres1"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-ypres-3",
+    "node": "bef_1914_03_ypres",
+    "kind": "fact",
+    "claim": "GHQ moved to Saint-Omer on 13 October 1914.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Source: lltrail-ghq (search summary)."
+  },
+  {
+    "id": "bef-dard-1",
+    "node": "bef_1915_04_dardanelles",
+    "kind": "fact",
+    "claim": "On 16 February 1915 Kitchener agreed to send the 29th Division as a back-up for the naval attack, delayed it four days later without informing the War Council, and it sailed on 10 March.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli"
+    ],
+    "note": "From a web-search summary of the Dardanelles Commission and related pages; the Wikipedia page itself does not give these details."
+  },
+  {
+    "id": "bef-dard-2",
+    "node": "bef_1915_04_dardanelles",
+    "kind": "fact",
+    "claim": "The main naval attack was on 18 March; Bouvet, Irresistible and Ocean were lost; the landings were on 25 April.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-shells-1",
+    "node": "bef_1915_05_shells",
+    "kind": "fact",
+    "claim": "French gave Repington information after Aubers Ridge (9 May); The Times printed it on 14 May; Fisher resigned 15 May; a coalition was formed after 17 May; Lloyd George became Minister of Munitions on 25 May; the Munitions of War Act followed.",
+    "status": "web-checked",
+    "sources": [
+      "wp-shells"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-shells-2",
+    "node": "bef_1915_05_shells",
+    "kind": "characterization",
+    "claim": "French's motives for giving Repington the information are argued (bringing the shortage before the country, or explaining the failure at Aubers Ridge).",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dispute carried in the choice's dispute field."
+  },
+  {
+    "id": "bef-loos-1",
+    "node": "bef_1915_06_loos",
+    "kind": "fact",
+    "claim": "Kitchener overruled French and Haig on 21 August 1915 and forced them to attack at Loos; both regarded the ground as unsuitable; Loos was fought 25 September to 8 October; gas was first used by the British on 25 September.",
+    "status": "web-checked",
+    "sources": [
+      "wp-loos"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-reserves-1",
+    "node": "bef_1915_07_reserves",
+    "kind": "fact",
+    "claim": "XI Corps (Guards, 21st and 24th Divisions) was the general reserve, kept about 4.5 miles from the line; Haig and Foch wanted it closer; it crossed its jumping-off line at about 6 p.m.",
+    "status": "web-checked",
+    "sources": [
+      "wp-loos"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-reserves-2",
+    "node": "bef_1915_07_reserves",
+    "kind": "figure",
+    "claim": "British casualties at Loos were 59,247.",
+    "status": "web-checked",
+    "sources": [
+      "wp-loos"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-reserves-3",
+    "node": "bef_1915_07_reserves",
+    "kind": "characterization",
+    "claim": "Responsibility for the late reserves is argued between French and Haig.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dispute carried in the choice's dispute field; cite French's 1914 and Haig's diary accounts."
+  },
+  {
+    "id": "bef-reserves-4",
+    "node": "bef_1915_07_reserves",
+    "kind": "fact",
+    "claim": "Haig wrote to the King's household criticising French's handling of the reserves.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely stated (Haig's letters to Stamfordham and others); cite."
+  },
+  {
+    "id": "bef-evac-1",
+    "node": "bef_1915_08_evacuate",
+    "kind": "fact",
+    "claim": "Monro replaced Hamilton in October 1915 and proposed evacuation; Kitchener visited and agreed; the Cabinet decided on 22 November to evacuate Anzac and Suvla; Anzac was evacuated 15-20 December, Helles on the night of 8 January 1916; about 93,000 men and 200 guns, with very small loss.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli"
+    ],
+    "note": "From a web-search summary of Anzac Portal and related pages."
+  },
+  {
+    "id": "bef-succ-1",
+    "node": "bef_1915_09_succession",
+    "kind": "fact",
+    "claim": "French was replaced by Haig in December 1915, the Loos page giving 15 December and another source 21 December as the date Haig took over.",
+    "status": "web-checked",
+    "sources": [
+      "wp-loos",
+      "lltrail-ghq"
+    ],
+    "note": "Dates differ between sources; the node says French resigns on the 15th and Haig takes over on the 21st."
+  },
+  {
+    "id": "bef-succ-2",
+    "node": "bef_1915_09_succession",
+    "kind": "fact",
+    "claim": "Robertson became CIGS on 23 December 1915 and French became Commander-in-Chief of the Home Forces.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Confirm."
+  },
+  {
+    "id": "bef-msa-1",
+    "node": "bef_1916_10_conscription",
+    "kind": "fact",
+    "claim": "The Military Service Act received the royal assent on 27 January 1916 and came into force on 17 February; 35 Liberals, 13 Labour members and the Irish Nationalists voted against; Home Secretary Simon resigned; a second Act in May 1916 extended liability to married men.",
+    "status": "web-checked",
+    "sources": [
+      "wp-msa1916"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-somme-1",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "Haig wanted a breakthrough and Rawlinson favoured 'bite-and-hold'; Rawlinson largely ignored his Commander-in-Chief; the plan was an uneasy compromise.",
+    "status": "web-checked",
+    "sources": [
+      "nam-somme"
+    ],
+    "note": "From a web-search summary of several pages."
+  },
+  {
+    "id": "bef-somme-2",
+    "node": "bef_1916_11_somme",
+    "kind": "figure",
+    "claim": "First-day casualties of 1 July 1916 were about 57,000, nearly 20,000 killed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely stated (57,470 and 19,240); cite."
+  },
+  {
+    "id": "bef-somme-3",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "GHQ moved to Montreuil-sur-Mer on 30 March 1916.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Source: lltrail-ghq (search summary)."
+  },
+  {
+    "id": "bef-tanks-1",
+    "node": "bef_1916_12_tanks",
+    "kind": "fact",
+    "claim": "Forty-nine tanks took part in the attack of 15 September 1916 at Flers-Courcelette; Swinton wanted to wait for a mass attack; Haig ordered the available tanks used as soon as possible; Lloyd George ordered 100 tanks on 12 February 1916.",
+    "status": "web-checked",
+    "sources": [
+      "tankmuseum-flers"
+    ],
+    "note": "From web-search summaries of several pages."
+  },
+  {
+    "id": "bef-tanks-2",
+    "node": "bef_1916_12_tanks",
+    "kind": "characterization",
+    "claim": "Whether the first use of the tank was premature is argued.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Dispute carried in the choice's dispute field."
+  },
+  {
+    "id": "bef-calais-1",
+    "node": "bef_1917_13_calais",
+    "kind": "fact",
+    "claim": "Lloyd George, with the Cabinet's approval and without warning Haig or Robertson, proposed at Calais on 26 February 1917 to place the British army under French command for Nivelle's offensive; the Calais agreement of 27 February formally subordinated Haig to Nivelle for the offensive; the next day Haig and Robertson threatened to resign and the plan was watered down.",
+    "status": "web-checked",
+    "sources": [
+      "wp-calais1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-convoy-1",
+    "node": "bef_1917_14_convoy",
+    "kind": "figure",
+    "claim": "April 1917 losses were 373 ships of 873,754 tons.",
+    "status": "web-checked",
+    "sources": [
+      "gwpda-convoy"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-convoy-2",
+    "node": "bef_1917_14_convoy",
+    "kind": "fact",
+    "claim": "On 26 April Duff presented Jellicoe with a report recommending convoy; Jellicoe approved on the 27th; Lloyd George visited the Admiralty on 30 April; the first convoy left Gibraltar on 10 May with seventeen ships and two escorts and arrived twelve days later.",
+    "status": "web-checked",
+    "sources": [
+      "gwpda-convoy"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-convoy-3",
+    "node": "bef_1917_14_convoy",
+    "kind": "characterization",
+    "claim": "Lloyd George's War Memoirs claim he forced convoy on an unwilling Admiralty; other accounts say the Admiralty had already accepted it.",
+    "status": "web-checked",
+    "sources": [
+      "gwpda-convoy"
+    ],
+    "note": "Dispute carried in the choice's dispute field."
+  },
+  {
+    "id": "bef-ypres3-1",
+    "node": "bef_1917_15_ypres3",
+    "kind": "fact",
+    "claim": "The Third Battle of Ypres ran from 31 July to 10 November 1917; Lloyd George tried to oppose the offensive, but Robertson backed Haig and the Prime Minister grudgingly withdrew his veto.",
+    "status": "web-checked",
+    "sources": [
+      "wp-passchendaele"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-manpower-1",
+    "node": "bef_1918_16_manpower",
+    "kind": "fact",
+    "claim": "On 9 January 1918 the War Cabinet allocated 100,000 Category A men to the Western Front against 615,000 demanded, and held 120,000 at home; the BEF was about 70,000 short; Pétain asked the British to take over the line to Barisis, needing six more divisions in the line.",
+    "status": "web-checked",
+    "sources": [
+      "lltrail-manpower"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-manpower-2",
+    "node": "bef_1918_16_manpower",
+    "kind": "figure",
+    "claim": "Between January and March the BEF received 174,379 men, including 32,384 Dominion troops.",
+    "status": "web-checked",
+    "sources": [
+      "lltrail-manpower"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-manpower-3",
+    "node": "bef_1918_16_manpower",
+    "kind": "figure",
+    "claim": "The Fifth Army held a front of about forty-two miles with fourteen infantry divisions.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely stated; cite Edmonds or the Official History."
+  },
+  {
+    "id": "bef-reserve-1",
+    "node": "bef_1918_17_reserve",
+    "kind": "fact",
+    "claim": "The Supreme War Council was set up at Rapallo on 5-7 November 1917; Robertson was forced to resign on 11 February 1918 and replaced by Wilson; in early March Haig, with Pétain and Clemenceau, refused to carry out the general reserve order and Lloyd George decided it was too late to replace him.",
+    "status": "web-checked",
+    "sources": [
+      "wp-swc"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-doullens-1",
+    "node": "bef_1918_18_doullens",
+    "kind": "fact",
+    "claim": "Haig asked on 25 March for Wilson and Milner to come to France and for Foch or another determined general to have supreme command; at Doullens on 26 March he accepted Foch's coordination of the reserves; Milner, sent by Lloyd George on 24 March, acted for the British government.",
+    "status": "web-checked",
+    "sources": [
+      "wp-doullens"
+    ],
+    "note": "From a web-search summary; check against Haig's diary."
+  },
+  {
+    "id": "bef-backs-1",
+    "node": "bef_1918_19_backs",
+    "kind": "fact",
+    "claim": "Haig issued his Special Order of the Day on 11 April 1918 during the Battle of the Lys; it said there must be no retirement and that the French Army was moving to support.",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": "From a web-search summary of IWM and NAM pages; the Lys attack began on 9 April."
+  },
+  {
+    "id": "bef-hundred-1",
+    "node": "bef_1918_20_hundreddays",
+    "kind": "fact",
+    "claim": "On 31 August 1918 Wilson sent Haig a personal telegram warning the War Cabinet would be anxious if heavy punishment were taken attacking the Hindenburg Line without success; Haig replied next day calling the Cabinet a 'wretched lot' and arguing attack would be cheaper than letting the Germans consolidate; Byng, Horne and Rawlinson supported him; Wilson mentioned worry about retaining troops because of a police strike.",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": "From a web-search summary of the Role of Haig page and a History Press article."
+  },
+  {
+    "id": "bef-hundred-2",
+    "node": "bef_1918_20_hundreddays",
+    "kind": "fact",
+    "claim": "On 29 September 1918 the British Fourth Army and French First Army attacked across the Saint-Quentin canal and broke the Hindenburg Line.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See the GQG node's claim (Hundred Days page)."
+  },
+  {
+    "id": "bef-armistice-1",
+    "node": "bef_1918_21_armistice",
+    "kind": "fact",
+    "claim": "Haig advised the War Cabinet on 19 October 1918 for moderation, saying the German army was far from beaten; Foch convened the Senlis conference on 25 October and then, with Clemenceau's agreement, modified the terms, including Rhine bridgeheads.",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bef-epilogue-1",
+    "node": "bef_end_victory",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Armistice at 11 a.m. 11 November 1918; British Army losses about 673,000 dead and missing and 1.6 million wounded (673,375 and 1,643,469 to 30 September 1919); Haig made an earl in 1919; Lloyd George won the December 1918 election.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-epilogue-2",
+    "node": "bef_end_ports",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Foch given coordination on 26 March 1918 and the title of Allied Commander-in-Chief in April; the Lys offensive was held short of the ports.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-epilogue-3",
+    "node": "bef_end_haigsacked",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Lloyd George replaced Robertson with Wilson and created the Supreme War Council but never dismissed Haig; Haig was granted a peerage and £100,000; the Maurice debate of May 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-epilogue-4",
+    "node": "bef_end_shipping",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': First convoy 10 May 1917; losses fell through the summer; food rationing in 1918 without starvation.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-epilogue-5",
+    "node": "bef_end_easterners",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Evacuation of Anzac and Suvla completed 20 December 1915 and of Helles 8-9 January 1916; about 250,000 casualties on each side.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-epilogue-6",
+    "node": "bef_end_bitehold",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': 1 July 1916 first-day casualties about 57,000 with about 20,000 killed; Third Ypres 31 July to 10 November 1917; Rawlinson's method at Amiens in August 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-epilogue-7",
+    "node": "bef_end_reserve",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Robertson forced out 11 February 1918; Haig refused the general reserve order in early March; Foch coordinated the reserves from Doullens.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-epilogue-8",
+    "node": "bef_end_volunteers",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Military Service Act assent 27 January 1916, in force 17 February; 35 Liberals voted against; Simon resigned; the 1918 Act raised the age to 51.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-epilogue-9",
+    "node": "bef_end_relieved",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Lloyd George removed Jellicoe in December 1917 and Robertson in February 1918 but kept Haig; Haig made an earl in 1919.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+  },
+  {
+    "id": "bef-quote-1",
+    "node": "bef_1914_02_seine",
+    "kind": "quotation",
+    "claim": "Kitchener on the record: \"an instruction\" (Telegram to the Cabinet, 1 September 1914)",
+    "status": "web-checked",
+    "sources": [
+      "wp-kitchener",
+      "rtgw-kitchener"
+    ],
+    "note": "The word is from Kitchener's telegram to the Cabinet as reported by the sources; check the exact text in the Kitchener papers."
+  },
+  {
+    "id": "bef-quote-2",
+    "node": "bef_1918_19_backs",
+    "kind": "quotation",
+    "claim": "Haig on the record: \"Every position must be held to the last man: there must be no retirement.\" (Special Order of the Day, 11 April 1918)",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": "Short attested wording; verify the original text and date before release."
+  },
+  {
+    "id": "bef-quote-3",
+    "node": "bef_1918_20_hundreddays",
+    "kind": "quotation",
+    "claim": "Haig on the record: \"wretched lot\" (Haig on the War Cabinet, in reply to Wilson, 1 September 1918)",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": "Haig's own words about the Cabinet, as reported by the Role of Haig page from his reply; check against Haig's diary and letters."
+  },
+  {
+    "id": "bef-quote-4",
+    "node": "bef_1918_20_hundreddays",
+    "kind": "quotation",
+    "claim": "Wilson on the record: \"the war cabinet would become anxious\" (Telegram to Haig, 31 August 1918)",
+    "status": "web-checked",
+    "sources": [
+      "wp-haig1918"
+    ],
+    "note": "Wilson's telegram of 31 August 1918, as quoted by a History Press article; check the full text in the Wilson papers."
+  }
+]

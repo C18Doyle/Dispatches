@@ -40,7 +40,7 @@ const RULES = [
 ];
 
 // Reviewed and accepted: "nodeId|text fragment". Add here only after reading the finding.
-const REVIEW_OK = new Set([]);
+const REVIEW_OK = new Set(["bef_1916_12_tanks|Tanks", "bef_1916_12_tanks|tanks", "bef_1916_12_tanks|tank"]); // the node is dated two days before the first action; the staff knew the machines and their code name was "tank"
 
 function collect(node) {
   const out = [];

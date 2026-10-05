@@ -664,5 +664,95 @@
     "status": "drafted",
     "sources": [],
     "note": "Interpretive statement about postwar claims; cite the stab-in-the-back literature."
+  },
+  {
+    "id": "ohl-epilogue-armistice",
+    "node": "ohl_end_armistice",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Request to Wilson 3-4 Oct 1918; abdication announced 9 Nov; armistice signed at Compiègne 11 Nov; Versailles 28 June 1919; the stab-in-the-back account in print within a year.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-epilogue-homefirst",
+    "node": "ohl_end_homefirst",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Kiel mutiny early November 1918; councils spreading; abdication and republic 9 November; blockade hunger since the 1916-17 turnip winter.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-epilogue-armyfirst",
+    "node": "ohl_end_armyfirst",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': The army fell back from the Marne to the Meuse and Scheldt between July and November, kept a front, and marched home in order.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-epilogue-holdout",
+    "node": "ohl_end_holdout",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Request to Wilson first week of October; Allied plans for a larger 1919 campaign with tanks and Americans were never needed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-epilogue-negotiated",
+    "node": "ohl_end_negotiated",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': First request to Wilson 3-4 October from Prince Max's government; Ludendorff told the Spa council on 29 September the army could not wait; Wilson replied three times, each setting a harder condition.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-epilogue-worseterms",
+    "node": "ohl_end_worseterms",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Armistice signed about 5 a.m. 11 November at Compiègne by a delegation led by Erzberger, given 72 hours; evacuation of occupied territory and left bank of the Rhine; surrender of guns, aircraft, submarines, much of the fleet; blockade kept; a small reduction in surrender numbers obtained.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-epilogue-intact",
+    "node": "ohl_end_intact",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': About fifty divisions came west from the east; armistice required evacuation of France, Belgium and Alsace-Lorraine within fourteen days (Article 2) and surrender of heavy equipment.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-epilogue-dictated",
+    "node": "ohl_end_dictated",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Armistice annulled Brest-Litovsk and told troops in former Russian territories to withdraw when the Allies judged the moment suitable; German troops stayed in the Baltic into 1919; Freikorps fought there.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-epilogue-relieved",
+    "node": "ohl_end_relieved",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Ludendorff dismissed 26 October 1918; Groener replaced him and told the Kaiser at Spa on 9 November the army no longer stood behind him; Kaiser left for the Netherlands 10 November; Ludendorff left for Sweden in disguise within days; Hindenburg stayed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "ohl-quote-1",
+    "node": "ohl_1918_14_blackday",
+    "kind": "quotation",
+    "claim": "Ludendorff on the record: \"the black day of the German Army\" (Ludendorff, My War Memories, on 8 August 1918)",
+    "status": "drafted",
+    "sources": [],
+    "note": "Ludendorff's own wording in his memoirs (Meine Kriegserinnerungen); check the English translation's wording against the German."
   }
 ]

@@ -158,13 +158,15 @@ export function clearSavedRun() {
 export const RECORD_SCHEMA_VERSION = 1;
 
 export function emptyRecord() {
-  return { schemaVersion: RECORD_SCHEMA_VERSION, nodes: {}, advisers: {}, endings: [], runs: 0, hardRuns: 0 };
+  return { schemaVersion: RECORD_SCHEMA_VERSION, nodes: {}, advisers: {}, endings: [], runs: 0, hardRuns: 0, xc: {} };
 }
 
 export function loadRecord() {
   const raw = readJson(RECORD_KEY);
   if (!raw || raw.schemaVersion !== RECORD_SCHEMA_VERSION) return emptyRecord();
-  return { ...emptyRecord(), ...raw };
+  const merged = { ...emptyRecord(), ...raw };
+  if (!merged.xc || typeof merged.xc !== "object" || Array.isArray(merged.xc)) merged.xc = {};
+  return merged;
 }
 
 export function saveRecord(record) {
@@ -195,18 +197,79 @@ export function noteEnding(record, endingId, hardMode) {
   };
 }
 
+// ---------- echoes between commands ----------
+//
+// A choice in one command can leave a mark that another command reads. The marks are flags starting "xc_". They are
+// remembered in the war record and handed to the next run as its starting flags. Every reader paragraph is written
+// for the NON-historical value only, so a player who never departs from the record never sees an echo, and a fresh
+// record plays exactly as before.
+
+export const ECHOES = {
+  xc_command1918: {
+    label: "Allied command, spring 1918",
+    historical: "unified",
+    values: { unified: "Unified under Foch at Doullens, as it was.", national: "Left national: the Allied armies kept their separate commands." },
+    setBy: "French GQG, British Empire", readBy: "German OHL (May and August 1918)",
+  },
+  xc_usw: {
+    label: "Submarine warfare, 1917",
+    historical: "unrestricted",
+    values: { unrestricted: "Unrestricted from 1 February 1917, as it was.", restricted: "Held under prize rules: the United States stays out." },
+    setBy: "German OHL", readBy: "British Empire (convoy, 1918 manpower), French GQG (May 1917)",
+  },
+  xc_marne_french: {
+    label: "The French counterattack on the Marne",
+    historical: "attacked",
+    values: { attacked: "The flank was attacked, as it was.", delayed: "The withdrawal went on without a counterattack." },
+    setBy: "French GQG", readBy: "German OHL (September 1914)",
+  },
+  xc_calais: {
+    label: "The British under Nivelle, February 1917",
+    historical: "accepted",
+    values: { accepted: "Accepted under protest, as it was.", refused: "Refused: the British would not serve under a French general." },
+    setBy: "British Empire", readBy: "French GQG (February 1917)",
+  },
+  xc_gorlice: {
+    label: "The German plan for 1915 in the east",
+    historical: "mackensen",
+    values: { mackensen: "A breakthrough at Gorlice under Mackensen, as it was.", envelop: "A wide envelopment out of East Prussia and Courland." },
+    setBy: "German OHL", readBy: "Austro-Hungarian AOK (April 1915)",
+  },
+  xc_caporetto: {
+    label: "German help for Austria-Hungary, autumn 1917",
+    historical: "sent",
+    values: { sent: "German divisions sent to the Isonzo, as they were.", refused: "Guns and staff officers only." },
+    setBy: "German OHL", readBy: "Austro-Hungarian AOK (September 1917)",
+  },
+};
+
+/** Remember every xc_ flag a run has set. Returns the same record if nothing changed. */
+export function noteEchoes(record, flags) {
+  const xc = { ...(record.xc || {}) };
+  let changed = false;
+  for (const [k, v] of Object.entries(flags || {})) {
+    if (k.startsWith("xc_") && xc[k] !== v) { xc[k] = v; changed = true; }
+  }
+  return changed ? { ...record, xc } : record;
+}
+
+/** The starting flags of a new run: the echoes already in the record. */
+export function echoSeed(record) {
+  return { ...(record.xc || {}) };
+}
+
 // ---------- settings ----------
 
 export const TEXT_SIZES = ["s", "m", "l"];
 
 export function defaultSettings() {
-  return { schemaVersion: 1, textSize: "s" };
+  return { schemaVersion: 1, textSize: "s", sound: false };
 }
 
 export function sanitizeSettings(raw) {
   const base = defaultSettings();
   if (!raw || typeof raw !== "object" || raw.schemaVersion !== 1) return base;
-  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize };
+  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true };
 }
 
 export function loadSettings() {

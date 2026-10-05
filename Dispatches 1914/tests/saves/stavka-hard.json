@@ -7,9 +7,9 @@
   "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"stavka\",\"nodeId\":\"stavka_1916_05_brusilov\",\"flags\":{\"stavka_prussia\":\"early\",\"stavka_1914theatre\":\"galicia\",\"stavka_1915\":\"withdrew\",\"stavka_command\":\"grandduke\"},\"meters\":{\"manpower\":-5,\"munitions\":-5,\"will\":2},\"hardState\":{\"enabled\":true,\"erosion\":0},\"visited\":[\"stavka_1914_01_prussia\",\"stavka_1914_02_galicia\",\"stavka_1915_03_retreat\",\"stavka_1915_04_command\",\"stavka_1916_05_brusilov\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791129066701}"
  },
  "expect": {
-  "menuHash": "rQxCnu7g:924",
+  "menuHash": "CHWN8Jok:913",
   "resumeControl": "Resume file",
-  "afterResumeHash": "PF5_8izL:1270",
+  "afterResumeHash": "YKVjJyRM:1322",
   "errors": []
  }
 }

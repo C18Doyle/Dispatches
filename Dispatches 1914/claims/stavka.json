@@ -398,5 +398,97 @@
     "status": "drafted",
     "sources": [],
     "note": "Documented as his reply of 9 November Old Style; the node places the statement as an advisor's position on 25 October. Check the placement."
+  },
+  {
+    "id": "stavka-epilogue-brest",
+    "node": "stavka_end_brest",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Treaty signed 3 March 1918, annulled by the armistice of 11 November and repudiated by the Soviet government on 13 November; Poland, Finland and the Baltic states became independent.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-epilogue-disintegration",
+    "node": "stavka_end_disintegration",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Desertion heavy since summer 1917; armistice signed at Brest-Litovsk on 2 December Old Style (15 December); the old army demobilised over winter 1917-18; the number of deserters is not known.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-epilogue-dissolved",
+    "node": "stavka_end_dissolved",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Treaty signed 3 March 1918 after the German advance of 18 February; Russia gave up Poland, the Baltic provinces and Ukraine and recognised Finland; Lenin insisted on signing; roughly a third of the Empire's population and much coal, iron and grain were lost.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-epilogue-civilwar",
+    "node": "stavka_end_civilwar",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Alekseyev went to Novocherkassk in November and began the Volunteer Army; Kornilov escaped from Bykhov and reached the Don; the civil war began on the Don that winter and lasted in places to 1920 and later.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-epilogue-holds",
+    "node": "stavka_end_holds",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': The Germans resumed the advance on 18 February 1918; Minsk fell 21 February and Kiev 2 March almost without fighting; the treaty was signed 3 March.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-epilogue-separate",
+    "node": "stavka_end_separate",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Russia did not leave the war on its own initiative in 1917; the Provisional Government pledged to continue; rumours of a separate peace discredited the court.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-epilogue-steadied",
+    "node": "stavka_end_steadied",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': The Petrograd garrison mutinied at the end of February Old Style; the Emperor abdicated on 2 March (15 March) while travelling from headquarters.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-epilogue-alliance",
+    "node": "stavka_end_alliance",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': The Provisional Government pledged to fight on and ordered the June 1917 offensive; Allied supply and loans continued until November; Russian complaint that the Allies had not equipped the army before 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-epilogue-relieved",
+    "node": "stavka_end_relieved",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Alekseyev was Supreme Commander 2 March to 22 May 1917, replaced by Brusilov, then Kornilov in July, dismissed and arrested in August.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "stavka-quote-1",
+    "node": "stavka_1917_14_armistice",
+    "kind": "quotation",
+    "claim": "Dukhonin on the record: \"a government sustained by the army and the country\" (Reply to the Council of People's Commissars, 9 November 1917 (Old Style))",
+    "status": "web-checked",
+    "sources": [
+      "wp-dukhonin"
+    ],
+    "note": "Short attested wording; verify the original text and date before release."
   }
 ]

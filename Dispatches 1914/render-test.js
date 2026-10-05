@@ -32,7 +32,7 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
     ["Oberste","Grand Quartier","Stavka","British","Armeeoberkommando","Ottoman"]
       .every(n => txt().includes(n)));
   t("campaigns without content are disabled",
-    btns().filter(b => b.disabled).length === 3);
+    btns().filter(b => b.disabled).length === 1);
   t("GQG is enabled", btns().some(b => !b.disabled && b.textContent.includes("Grand Quartier")));
 
   const playable = btns().find(b => !b.disabled && b.textContent.includes("Oberste"));
@@ -130,6 +130,8 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   t("atlas lists decisions reached and not yet reached", /decisions reached/.test(txt()) && txt().includes("Not yet reached."));
   click(byText("Endings")); await wait(40);
   t("endings gallery counts endings found", /\d+ of \d+ endings found/.test(txt()));
+  click(byText("Echoes")); await wait(40);
+  t("the echoes tab lists the marks between commands", txt().includes("Allied command, spring 1918") && txt().includes("Not yet set."));
   click(byText("Return to file")); await wait(60);
   t("the war record is kept in localStorage", !!window.localStorage.getItem("dispatches1914_record_v1"));
 
@@ -138,6 +140,11 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   t("text size changes the page scale class", !!document.querySelector(".dg-fs-m"));
   t("text size is stored", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"m"'));
   click(byText("Standard")); await wait(40);
+  click(byText("Typewriter")); await wait(40);
+  t("sound can be switched on and is stored", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"sound":true'));
+  click(byText("Off")); await wait(40);
+  t("sound can be switched off again", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"sound":false'));
+  t("the menu points to a feedback page", txt().includes("FEEDBACK") && !!document.querySelector('a[href*="dispatches.itch.io/dispatches-1914"]'));
 
   // Landmarks and headings.
   t("every screen has a main landmark", document.querySelectorAll("main").length === 1);

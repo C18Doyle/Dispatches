@@ -1,12 +1,14 @@
 // UI-differential config for Dispatches 1914 (see packages/testkit/README.md).
 import { JSDOM } from "jsdom";
 
-// [id, text on the menu card, hard mode?]. The BEF, AOK and Ottoman cards are disabled (no content yet).
+// [id, text on the menu card, hard mode?]. The Ottoman card is disabled (no content yet).
 const CASES = [];
 for (const [id, label] of [
   ["ohl", "Oberste"],
   ["gqg", "Grand Quartier"],
   ["stavka", "Stavka"],
+  ["bef", "British Expeditionary"],
+  ["aok", "Armeeoberkommando"],
 ])
   for (const hard of [false, true]) CASES.push([id, label, hard]);
 

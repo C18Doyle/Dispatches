@@ -16,10 +16,13 @@ jobs:
     # Every push and PR: each game's test:fast plus the engine equivalence test, on Linux and Windows
     # (the repo was built on Windows; most of the early breakage was path and shell differences).
     # On Linux it also loads every built game in real Chromium (phone and desktop) as a smoke test.
+    # Windows minutes are billed at twice the Linux rate and the private-repo allowance is 2,000 a month, so a pull
+    # request runs on Linux only. Windows still runs on every push to main (after a merge), on a manual run, and
+    # whenever someone dispatches it before a release.
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, windows-latest]
+        os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-24.04"]') || fromJSON('["ubuntu-24.04","windows-latest"]') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:

@@ -163,5 +163,135 @@
     "title": "Russian Army (1917)",
     "kind": "web (tertiary)",
     "url": "https://en.wikipedia.org/wiki/Russian_Army_(1917)"
+  },
+  "wp-bef": {
+    "title": "British Expeditionary Force (World War I)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/British_Expeditionary_Force_(World_War_I)"
+  },
+  "wp-shells": {
+    "title": "Shell Crisis of 1915",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Shell_Crisis_of_1915"
+  },
+  "wp-loos": {
+    "title": "Battle of Loos",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Loos"
+  },
+  "wp-msa1916": {
+    "title": "Military Service Act 1916",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Military_Service_Act_1916"
+  },
+  "wp-ypres1": {
+    "title": "First Battle of Ypres",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/First_Battle_of_Ypres"
+  },
+  "wp-gallipoli": {
+    "title": "Gallipoli campaign",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Gallipoli_campaign"
+  },
+  "rtgw-kitchener": {
+    "title": "The French-Kitchener Meeting of 1 September 1914 (Roads to the Great War)",
+    "kind": "web (popular history)",
+    "url": "http://roadstothegreatwar-ww1.blogspot.com/2019/05/the-french-kitchener-meeting-of-1.html"
+  },
+  "wp-kitchener": {
+    "title": "Herbert Kitchener, 1st Earl Kitchener",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Herbert_Kitchener,_1st_Earl_Kitchener"
+  },
+  "gwpda-convoy": {
+    "title": "Introduction of Convoys (Great War Primary Document Archive)",
+    "kind": "web (secondary)",
+    "url": "http://www.gwpda.org/naval/convoyds.htm"
+  },
+  "wp-passchendaele": {
+    "title": "Battle of Passchendaele",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Passchendaele"
+  },
+  "wp-swc": {
+    "title": "Supreme War Council",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Supreme_War_Council"
+  },
+  "lltrail-manpower": {
+    "title": "The British Army's manpower crisis of 1918 (The Long, Long Trail)",
+    "kind": "web (secondary)",
+    "url": "https://www.longlongtrail.co.uk/battles/the-british-armys-manpower-crisis-of-1918/"
+  },
+  "lltrail-ghq": {
+    "title": "British Expeditionary Force General Headquarters (The Long, Long Trail)",
+    "kind": "web (secondary)",
+    "url": "https://www.longlongtrail.co.uk/british-expeditionary-force-general-headquarters/"
+  },
+  "nam-somme": {
+    "title": "Battle of the Somme (National Army Museum)",
+    "kind": "web (museum)",
+    "url": "https://www.nam.ac.uk/explore/battle-somme"
+  },
+  "tankmuseum-flers": {
+    "title": "Tanks at Flers (The Tank Museum)",
+    "kind": "web (museum)",
+    "url": "https://tankmuseum.org/article/tanks-at-flers/"
+  },
+  "wp-conrad": {
+    "title": "Franz Conrad von Hötzendorf",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Franz_Conrad_von_H%C3%B6tzendorf"
+  },
+  "wp-galicia": {
+    "title": "Battle of Galicia",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Galicia"
+  },
+  "wp-karl": {
+    "title": "Charles I of Austria",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Karl_I_of_Austria"
+  },
+  "wp-vittorio": {
+    "title": "Battle of Vittorio Veneto",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Vittorio_Veneto"
+  },
+  "wp-piave2": {
+    "title": "Second Battle of the Piave River",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Second_Battle_of_the_Piave_River"
+  },
+  "wp-gorlice": {
+    "title": "Gorlice-Tarnów offensive",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Gorlice%E2%80%93Tarn%C3%B3w_offensive"
+  },
+  "wp-arz": {
+    "title": "Arthur Arz von Straußenburg",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Arthur_Arz_von_Straussenburg"
+  },
+  "wp-swc-central": {
+    "title": "Supreme War Command",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Supreme_War_Command"
+  },
+  "wp-sixtus": {
+    "title": "Sixtus Affair",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Sixtus_Affair"
+  },
+  "wp-asiago": {
+    "title": "Battle of Asiago",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Asiago"
+  },
+  "wp-przemysl-aok": {
+    "title": "Siege of Przemyśl",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Siege_of_Przemy%C5%9Bl"
   }
 }

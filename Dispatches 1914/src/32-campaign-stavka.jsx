@@ -117,7 +117,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Both armies cross the frontier ahead of their supply. The First Army comes " +
           "on from the north-east and the Second from the south, and between them lie " +
-          "the lakes and a railway network the enemy can use and they cannot.",
+          "the lakes and a railway network the enemy can use and they cannot. The " +
+          "French are told that the promise has been kept, and it has, to the letter. " +
+          "The cost of keeping it will be counted in the first fortnight, by two armies " +
+          "that cannot reach each other.",
       },
       {
         id: "concentrate",
@@ -132,7 +135,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The advance waits for the armies to be ready to make it " +
           "together. The instrument is better and the alliance is worse, and the second " +
-          "of those will be raised at every conference for the rest of the war.",
+          "of those will be raised at every conference for the rest of the war. The " +
+          "French, who were promised an offensive in the first fortnight, fight the " +
+          "opening battles with the Germans' whole attention on them, and they are told " +
+          "by their ally that the army is not yet ready.",
       },
     ],
   },
@@ -183,10 +189,12 @@ CAMPAIGNS.stavka.nodes = {
         setFlags: { stavka_tannenberg: "halted" },
         next: "stavka_1914_02_galicia",
         outcome:
-          "Speculative. The Second Army stops where it is and the invasion loses " +
-          "a week. The German Eighth Army has that week to decide what to do about two " +
-          "Russian armies that have stopped, and the French have been told by their ally " +
-          "that the offensive they asked for is not coming at the pace promised.",
+          "Speculative. The Second Army stops where it is and the invasion loses a " +
+          "week. The German Eighth Army has that week to decide what to do about two " +
+          "Russian armies that have stopped, and the French have been told by their " +
+          "ally that the offensive they asked for is not coming at the pace promised. " +
+          "The army gets its bread and its wireless sorted out, and it pays for both " +
+          "with the time that was the whole purpose of the invasion.",
       },
     ],
   },
@@ -231,7 +239,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "The South-Western Front takes Lemberg and drives toward the passes. It is " +
           "the largest Russian success of the war so far and it is against the wrong " +
-          "empire, and everyone in this building knows it.",
+          "empire, and everyone in this building knows it. The Austrian army has been " +
+          "beaten and thrown back, and the prisoners and the captured guns are real. " +
+          "The Germans, who are the enemy that matters, are fighting in the north on a " +
+          "front that no one has reinforced.",
       },
       {
         id: "prussia",
@@ -246,7 +257,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. Divisions go north from a front that was winning to a front " +
           "that was not. The Austrians get the winter to recover in and the Germans get " +
-          "a second opportunity on ground they have already fought over.",
+          "a second opportunity on ground they have already fought over. The army that " +
+          "was driving toward the passes is told to stop, and the army that was beaten " +
+          "in East Prussia is given the divisions it asked for, with an enemy in front " +
+          "of it that has just destroyed one Russian army and is looking for another.",
       },
     ],
   },
@@ -298,8 +312,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The armies hold the passes they have and stop attacking. The " +
           "rifles and shells that would have been spent in the snow are kept, and the " +
-          "Austrians have the spring to recover. Przemysl has been taken and nothing more " +
-          "is asked of it.",
+          "Austrians have the spring to recover. Przemysl has been taken and nothing " +
+          "more is asked of it. The army is less tired when the German blow comes in " +
+          "May, and no one will be able to say whether it would have held, because the " +
+          "shells it saved would not have been enough.",
       },
     ],
   },
@@ -342,7 +358,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "The Great Retreat gives up Poland, Lithuania and much of the western " +
           "provinces and keeps the army in being. It is the correct decision and it " +
-          "looks, from Petrograd, exactly like losing the war.",
+          "looks, from Petrograd, exactly like losing the war. The armies fall back " +
+          "through the summer, burning what they cannot carry, with the population " +
+          "moving east in front of them. By the autumn the front has shortened and the " +
+          "army has survived, and the Emperor has found someone to blame for the loss.",
       },
       {
         id: "hold",
@@ -358,7 +377,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The salient is held for as long as it can be and the armies in " +
           "it are consumed doing it. The map in Petrograd looks better for some months " +
-          "and the army behind the map does not.",
+          "and the army behind the map does not. The shell shortage that a retreat " +
+          "would have escaped is met in front of the guns, and the divisions that are " +
+          "lost in the salient are the ones that would have been the army's reserve in " +
+          "the autumn. The Germans are left to choose their moment.",
       },
     ],
   },
@@ -417,19 +439,22 @@ CAMPAIGNS.stavka.nodes = {
             outcome:
               "Alekseyev takes charge of operations and the line stabilises through the " +
               "autumn. Four hundred miles away, competent ministers are dismissed and " +
-              "replaced by the Empress's nominees, and the belief that the court is " +
-              "working against the war spreads through people who are not " +
-              "revolutionaries and were not going to be." },
+              "replaced by the Empress's nominees, and the belief that the court is working " +
+              "against the war spreads through people who are not revolutionaries and were " +
+              "not going to be. The Emperor is now answerable for every defeat at the " +
+              "front, and the capital is run by people he cannot supervise." },
           { weight: 40, title: "The presence steadies both",
             impact: { will: 1 },
             setFlags: { stavka_commandResult: "steadied" },
             next: "stavka_1916_05_brusilov",
             outcome:
-              "Speculative. The Emperor at headquarters is visible to the army in a way " +
-              "he has not been, the operations are conducted by a professional, and the " +
-              "arrangements in the capital hold together better than they historically " +
-              "did. It requires the court to behave differently, which is the part of " +
-              "this that is speculation." },
+              "Speculative. The Emperor at headquarters is visible to the army in a way he " +
+              "has not been, the operations are conducted by a professional, and the " +
+              "arrangements in the capital hold together better than they historically did. " +
+              "It requires the court to behave differently, which is the part of this that " +
+              "is speculation. The ministers who warned him against going to the front have " +
+              "to be shown wrong, and the Empress, who has been left in charge, has to be " +
+              "content with her part." },
         ],
       },
       {
@@ -445,7 +470,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The Grand Duke stays and the Emperor stays in Petrograd. There " +
           "remains a commander who can be dismissed if 1916 goes badly, and a sovereign " +
-          "in his capital while the arrangements there are made.",
+          "in his capital while the arrangements there are made. The Grand Duke, whom " +
+          "the court distrusts, is left in command of an army that is retreating, and " +
+          "the blame for the retreat falls where it has been falling, on a man who is " +
+          "not the Emperor and cannot be replaced from outside.",
       },
     ],
   },
@@ -485,7 +513,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The supporting attacks are made and made seriously. The " +
           "Austrian front does not merely bend, and the German divisions sent to shore " +
-          "it up come from somewhere they were needed.",
+          "it up come from somewhere they were needed. The other front commanders, who " +
+          "have said they will not be ready, are overruled by Stavka and told to attack " +
+          "on the day, and whether they obey, and with what, is the whole of the risk. " +
+          "The offensive is no longer the work of one front.",
       },
       {
         id: "alone",
@@ -510,20 +541,23 @@ CAMPAIGNS.stavka.nodes = {
             setFlags: { stavka_brusilovResult: "costly" },
             next: "stavka_1916_12_kovel",
             outcome:
-              "The offensive succeeds beyond anything this army has managed and breaks " +
-              "the Austrian front, forcing German divisions east to hold it. The " +
-              "supporting attacks are not pressed. It is exploited as far as one front " +
-              "can exploit anything alone, and the divisions that did it are the " +
-              "divisions that will not be there next year." },
+              "The offensive succeeds beyond anything this army has managed and breaks the " +
+              "Austrian front, forcing German divisions east to hold it. The supporting " +
+              "attacks are not pressed. It is exploited as far as one front can exploit " +
+              "anything alone, and the divisions that did it are the divisions that will " +
+              "not be there next year. Brusilov has done what no one thought could be done " +
+              "with the army he had, and he has done it once." },
           { weight: 45, title: "The breakthrough is banked rather than pushed",
             impact: { munitions: -1, will: 1 },
             setFlags: { stavka_brusilovResult: "banked" },
             next: "stavka_1916_12_kovel",
             outcome:
               "Speculative. The front takes what the method wins and stops when the " +
-              "exploitation stops paying. The Austrian line is broken, the German " +
-              "divisions still come east, and the formations that did it are still " +
-              "formations at the end of it." },
+              "exploitation stops paying. The Austrian line is broken, the German divisions " +
+              "still come east, and the formations that did it are still formations at the " +
+              "end of it. The offensive is smaller than the historical one and costs less, " +
+              "and Brusilov is not the figure in the army that the historical one made him. " +
+              "Romania, watching, has less to go on, and may come in later or not at all." },
         ],
       },
     ],
@@ -574,7 +608,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The front holds the ground it has won and the Guards are kept " +
           "in reserve. Brusilov's offensive ends where it stood in July, without the " +
-          "attempt on the junction. The Germans use the pause to bring up more divisions.",
+          "attempt on the junction. The Germans use the pause to bring up more " +
+          "divisions, and the Guards, who would have been spent on the marshes, are " +
+          "still there in the winter when the army needs them. The Commander who has " +
+          "been asked for one more effort is told, instead, that the effort is over.",
       },
     ],
   },
@@ -629,7 +666,10 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. A Russian army is sent to Romania in the first weeks, and the " +
           "Galician line is shortened to pay for it. The Romanian front opens with " +
           "stronger support and the Galician front with less, and the army has to find " +
-          "the troops in the autumn that it historically found in the winter.",
+          "the troops in the autumn that it historically found in the winter. Stavka " +
+          "has chosen the ally over the front, and the Romanian general staff, who " +
+          "never saw the Russians as friends, have to decide whether to accept the " +
+          "help.",
       },
     ],
   },
@@ -671,7 +711,9 @@ CAMPAIGNS.stavka.nodes = {
           "The front commanders advise abdication and the abdication follows. The army " +
           "has participated in the removal of its sovereign and will spend what is left " +
           "of its existence being told so by people who wanted it done and by people " +
-          "who did not.",
+          "who did not. The generals have acted in the interest of the war, as they " +
+          "understood it, and the officers who took the oath to the Emperor are asked " +
+          "what it was worth, by their own men.",
       },
       {
         id: "refuse",
@@ -691,7 +733,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The high command declines to advise and the question goes back " +
           "to the capital unanswered. What follows depends on whether any formation " +
-          "will march on Petrograd, and on very little else.",
+          "will march on Petrograd, and on very little else. The generals have kept the " +
+          "army out of the question of who reigns, and have left the question to the " +
+          "people who were already settling it. No one at headquarters is ready to say " +
+          "what the army would do if the capital asked it to restore order.",
       },
     ],
   },
@@ -745,18 +790,22 @@ CAMPAIGNS.stavka.nodes = {
             next: "stavka_1917_12_deathpenalty",
             outcome:
               "The first days go well where the artillery is good and the units are " +
-              "willing. Then the willing units are used up, the rest decline to " +
-              "replace them, and the counterattack finds a front that is arguing with " +
-              "itself. What comes back is not an army that failed at an offensive. It " +
-              "is an army that has stopped." },
+              "willing. Then the willing units are used up, the rest decline to replace " +
+              "them, and the counterattack finds a front that is arguing with itself. What " +
+              "comes back is not an army that failed at an offensive. It is an army that " +
+              "has stopped. The Provisional Government, which ordered the attack, is left " +
+              "with a retreat that no committee will agree to halt." },
           { weight: 30, title: "The offensive achieves a limited gain and stops",
             impact: { manpower: -1, will: -1 },
             setFlags: { stavka_kerenskyResult: "limited" },
             next: "stavka_1917_12_deathpenalty",
             outcome:
-              "Speculative. The attack takes ground where the committees agreed to it " +
-              "and stops where they did not. The government has something to show the " +
-              "allies and the army has not been destroyed proving it." },
+              "Speculative. The attack takes ground where the committees agreed to it and " +
+              "stops where they did not. The government has something to show the allies " +
+              "and the army has not been destroyed proving it. The commanders who were told " +
+              "that an order is now a proposal discover how much of a proposal can be " +
+              "turned into an advance, and the answer is some, in some places, for a short " +
+              "time." },
         ],
       },
       {
@@ -772,7 +821,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The command puts in writing that the army is not capable of " +
           "offensive operations. The divisions are not spent. The government is left " +
-          "holding a war it cannot prosecute and cannot leave.",
+          "holding a war it cannot prosecute and cannot leave. The Allies, who lent the " +
+          "money for the offensive, are told in writing that it will not be made, and " +
+          "the commander who signed the paper has to wait for the government to decide " +
+          "whether it can afford to keep him.",
       },
     ],
   },
@@ -811,7 +863,8 @@ CAMPAIGNS.stavka.nodes = {
           "at the front, in response to the ultimatum. A few days later Kornilov, who " +
           "made the demand, is made Supreme Commander in place of Brusilov. The army's " +
           "committees are against the order, and it widens the distance between them " +
-          "and the command.",
+          "and the command. The officers, who wanted the penalty, now have it, and find " +
+          "that using it on a unit that has voted against it is a different thing.",
       },
       {
         id: "refuse",
@@ -824,8 +877,10 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The penalty is not restored. The retreat in Galicia is left to " +
           "the commissars and the committees, and the commander who made the ultimatum " +
-          "has to be answered. The Supreme Command stays with the officers who say " +
-          "that discipline can be built on consent.",
+          "has to be answered. The Supreme Command stays with the officers who say that " +
+          "discipline can be built on consent. The units that would have been steadied " +
+          "by the threat have to be steadied by argument, and the Galician front falls " +
+          "back, as it was going to, at its own pace.",
       },
     ],
   },
@@ -883,8 +938,11 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The dismissal is accepted and the corps is turned back before " +
           "it reaches the capital. There is no march and no collapse of one. The " +
-          "officers of the army have seen their commander dismissed by a telegram, " +
-          "and the soviets have not been called out to defend anything.",
+          "officers of the army have seen their commander dismissed by a telegram, and " +
+          "the soviets have not been called out to defend anything. The Provisional " +
+          "Government has been spared the test of what the army would have done, and " +
+          "the army has been spared learning that its generals could not be trusted " +
+          "with it.",
       },
     ],
   },
@@ -942,7 +1000,9 @@ CAMPAIGNS.stavka.nodes = {
           "The headquarters holds what it can hold and takes no side, which turns out " +
           "not to be a position that exists. The front dissolves by desertion rather " +
           "than by defeat, and the officer corps disperses toward the places where the " +
-          "next war is being organised.",
+          "next war is being organised. The men go home with their rifles, and the " +
+          "Germans, who have no need to attack, are content to watch. The army is not " +
+          "defeated. It is demobilised without anyone having given the order.",
       },
       {
         id: "resist",
@@ -959,7 +1019,9 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The headquarters declines to recognise the new authority. " +
           "Formations divide according to what their soldiers' committees decide, which " +
           "is the same thing as saying the war at the front has become the war behind " +
-          "it, several months earlier than it historically did.",
+          "it, several months earlier than it historically did. The officers who go to " +
+          "the Don with their men carry the German war with them as an afterthought, " +
+          "and the Germans, who see an army turn on itself, wait for it to finish.",
       },
     ],
   },
@@ -988,6 +1050,8 @@ CAMPAIGNS.stavka.nodes = {
         historical: true,
         advisor: { name: "Dukhonin", position:
           "An order to open negotiations has to come from a government that the army and the country stand behind, and this one has not shown that it does." },
+        attested: { by: "Dukhonin", text: "a government sustained by the army and the country",
+          source: "Reply to the Council of People's Commissars, 9 November 1917 (Old Style)" },
         impact: { manpower: -1, munitions: 0, will: -2 },
         setFlags: { stavka_armistice: "refused" },
         next: "stavka_end_brest",
@@ -1006,9 +1070,11 @@ CAMPAIGNS.stavka.nodes = {
         next: "stavka_end_brest",
         outcome:
           "Speculative. The headquarters sends the proposal to the German command under " +
-          "its own name. The new government has what it asked for and the army " +
-          "has a commander it has not dismissed. The officers who would not have done it " +
-          "leave for the Don, where Alekseyev is already beginning to gather them.",
+          "its own name. The new government has what it asked for and the army has a " +
+          "commander it has not dismissed. The officers who would not have done it " +
+          "leave for the Don, where Alekseyev is already beginning to gather them. The " +
+          "headquarters has recognised an authority that it did not choose, and its " +
+          "Chief of Staff is alive at the end of the month.",
       },
     ],
   },
@@ -1044,7 +1110,13 @@ CAMPAIGNS.stavka.nodes = {
       "The order to open talks: " + (flags.stavka_armistice === "obeyed" ? "carried out." : "declined; Dukhonin dismissed and killed.") + "\n" +
       "October 1917: " + (flags.stavka_october === "resisted" ? "the new authority was refused recognition." : "the headquarters took no side.") + "\n\n" +
       "The officers of this headquarters disperse toward the Don, toward Siberia, and " +
-      "toward the new Republic's own army. What they do next is not this war.",
+      "toward the new Republic's own army. What they do next is not this war." +
+      "\n\n" +
+      "What actually happened: The treaty was signed on 3 March 1918 and ratified " +
+      "in the weeks after. It was annulled by the armistice of 11 November, and " +
+      "the Soviet government repudiated it on 13 November. Poland, Finland and " +
+      "the Baltic states became independent, and the rest of the lost territory " +
+      "was fought over in the civil war that was already under way."
   },
 
   stavka_end_disintegration: {
@@ -1058,7 +1130,15 @@ CAMPAIGNS.stavka.nodes = {
     ending: { family: "disintegration-without-defeat", badge: BADGES.CONTESTED },
     epilogue: () =>
       "An army is an agreement about who gives orders. Once that agreement lapses, " +
-      "nothing in the field replaces it.",
+      "nothing in the field replaces it.\n\nWhat actually happened: The front did " +
+      "dissolve. Desertion had been heavy since the summer, and after the " +
+      "revolution of October the armistice signed at Brest-Litovsk on 2 December " +
+      "(15 December in the west) only recognised what had occurred. The old army " +
+      "was demobilised by decree over the winter of 1917 and 1918, and the men went " +
+      "home. Nobody knows how many deserted, and the figures that are given are " +
+      "estimates made by people who had reasons to make them large or small. What " +
+      "remained of the front's formations was handed to the new government's " +
+      "commissars, and some of its officers took what they could and went south.",
   },
 
   stavka_end_dissolved: {
@@ -1070,8 +1150,18 @@ CAMPAIGNS.stavka.nodes = {
       "no instrument at all, and the terms reflect it.",
     ending: { family: "harsher-terms-at-brest", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. The historical terms were severe. They were signed by people who " +
-      "still had something, if only the ability to walk out of the room.",
+      "Speculative. The historical terms were severe. They were signed by people " +
+      "who still had something, if only the ability to walk out of the " +
+      "room.\n\nWhat actually happened: The Soviet delegation signed the treaty at " +
+      "Brest-Litovsk on 3 March 1918, after the German advance of 18 February had " +
+      "shown that nothing stood in its way. Russia gave up Poland, the Baltic " +
+      "provinces and Ukraine and recognised Finland. Lenin insisted on signing " +
+      "against the objections of the colleagues who wanted to go on with a " +
+      "revolutionary war, and the terms were as heavy as they were because the " +
+      "signatories had so little to bargain with. The treaty took away roughly a " +
+      "third of the Empire's population and a great part of its coal, iron and " +
+      "grain, and Russia was left with what was behind the line the Germans had " +
+      "reached.",
   },
 
   stavka_end_civilwar: {
@@ -1085,9 +1175,16 @@ CAMPAIGNS.stavka.nodes = {
       "that most of these men die fighting.",
     ending: { family: "civil-war-begins-early", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. The historical civil war began from the same material a few months " +
-      "later. Beginning it here means beginning it with the Germans still in the field " +
-      "and the front not yet settled by treaty.",
+      "Speculative. The historical civil war began from the same material a few " +
+      "months later. Beginning it here means beginning it with the Germans still in " +
+      "the field and the front not yet settled by treaty.\n\nWhat actually " +
+      "happened: Alekseyev went to Novocherkassk in November, after the October " +
+      "rising, and began to gather the officers who became the Volunteer Army. " +
+      "Kornilov escaped from the prison at Bykhov and made his way to the Don. The " +
+      "civil war began on the Don that winter, while the German front was left to " +
+      "the armistice. The war that most of these officers died in was the one that " +
+      "started early in the south, and not the one at the front. The generals' war " +
+      "was against the soviets, and in some regions it lasted until 1920 and later.",
   },
 
   stavka_end_holds: {
@@ -1103,7 +1200,14 @@ CAMPAIGNS.stavka.nodes = {
     epilogue: () =>
       "Speculative. No Russian army of March 1918 was in a condition to affect the " +
       "terms. This ending supposes one marginally less far gone, and claims nothing " +
-      "beyond the margin.",
+      "beyond the margin.\n\nWhat actually happened: No part of the front held. The " +
+      "Germans resumed the advance on 18 February 1918, when the armistice had run " +
+      "out, and the Russian formations that remained, with few officers and fewer " +
+      "men, did not resist. Minsk was taken on 21 February, and Kiev on 2 March, " +
+      "almost without fighting, and the treaty was signed on 3 March. The army of " +
+      "this ending is one that was still there when the Germans arrived, and it was " +
+      "not. The treaty that followed was the same treaty, with the same terms, and " +
+      "was signed by a government that had been left with the same options.",
   },
 
   stavka_end_separate: {
@@ -1119,7 +1223,15 @@ CAMPAIGNS.stavka.nodes = {
     epilogue: () =>
       "Speculative. Separate-peace soundings existed and none came to anything. The " +
       "obstacle was never arithmetic. It was that the dynasty could not sign such a " +
-      "thing and remain the dynasty.",
+      "thing and remain the dynasty.\n\nWhat actually happened: Russia did not " +
+      "leave the war on its own initiative in 1917. It was taken out of it by " +
+      "revolution, first in March, when the Provisional Government that replaced " +
+      "the monarchy pledged to continue the war with the Allies, and again in " +
+      "November, when the government that replaced that one did not. The Emperor, " +
+      "who in this ending makes a separate peace, did not do so, and the Allies' " +
+      "loans went on until the revolution. A separate peace was talked about in the " +
+      "Empire's last years, and the talk was one of the things that discredited the " +
+      "court.",
   },
 
   stavka_end_steadied: {
@@ -1134,8 +1246,16 @@ CAMPAIGNS.stavka.nodes = {
     ending: { family: "political-order-survives-the-war", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative, and the most speculative ending here. It requires the court to " +
-      "have behaved differently over eighteen months, which is a great deal to ask of " +
-      "a counterfactual.",
+      "have behaved differently over eighteen months, which is a great deal to ask " +
+      "of a counterfactual.\n\nWhat actually happened: The capital did not hold " +
+      "together. The strikes and the mutiny of the Petrograd garrison at the end of " +
+      "February, Old Style, brought down the monarchy within about a week, and the " +
+      "Emperor abdicated on 2 March (15 March in the west), while he was on his way " +
+      "from headquarters to the capital. The political order that this ending " +
+      "preserves did not survive the winter, and the army was told afterwards that " +
+      "its command had advised it. The army heard of the abdication from its own " +
+      "commanders, and its attitude to the Provisional Government that followed was " +
+      "formed in the weeks after.",
   },
 
   stavka_end_alliance: {
@@ -1152,7 +1272,15 @@ CAMPAIGNS.stavka.nodes = {
     ending: { family: "coalition-obligations-honoured", badge: BADGES.CONTESTED },
     epilogue: () =>
       "Whether Russia was spent for the alliance or by its own arrangements is the " +
-      "oldest argument about this front. It is not going to be settled here.",
+      "oldest argument about this front. It is not going to be settled " +
+      "here.\n\nWhat actually happened: Russia kept its obligations to the Allies " +
+      "through 1917. The Provisional Government pledged to fight on and ordered the " +
+      "offensive of June, whose failure left the army incapable of another, and the " +
+      "Allies continued to supply it and to lend to its government until the " +
+      "revolution of November. The army that honoured the promise made to the " +
+      "French in 1914 and again in 1917 was not left in a condition to honour " +
+      "another. That the Allies' own governments had not done more to equip the " +
+      "Russian army before 1917 was a complaint on the Russian side for years.",
   },
 
   stavka_end_relieved: {
@@ -1166,7 +1294,16 @@ CAMPAIGNS.stavka.nodes = {
       "the successor regime keeps.",
     ending: { family: "hard-mode-relieved", badge: BADGES.CONTESTED, hardModeOnly: true },
     epilogue: () =>
-      "The staff is dispersed to other duties. The war continues without them and does " +
-      "not go better.",
+      "The staff is dispersed to other duties. The war continues without them and " +
+      "does not go better.\n\nWhat actually happened: Alekseyev was Supreme " +
+      "Commander from 2 March to 22 May 1917, when Brusilov replaced him. Brusilov " +
+      "was replaced by Kornilov in July, and Kornilov was dismissed in August and " +
+      "arrested. The Supreme Command changed hands several times in six months, and " +
+      "each change was a political act. The reorganisations this ending describes " +
+      "came as the war's own course and did not depend on any one decision. The " +
+      "Provisional Government's difficulty in finding a Supreme Commander who both " +
+      "the army and the ministers trusted was one of the signs of its weakness. " +
+      "None of them held the post long enough to carry out a plan of his own, and " +
+      "the army noticed.",
   },
 };

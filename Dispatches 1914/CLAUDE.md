@@ -13,7 +13,7 @@ Auto-loads each session. Read before touching the file.
 
 ## State
 
-Three campaigns (OHL, GQG, Stavka) are written and playable through a menu UI; BEF, AOK and Ottoman are not started (see Content status below). The bullets in this State section were written when it was an engine scaffold and are partly out of date.
+Five campaigns (OHL, GQG, Stavka, BEF, AOK) are written and playable through a menu UI; Ottoman is not started and is blocked by the spec's research gate (see Content status below). The bullets in this State section were written when it was an engine scaffold and are partly out of date.
 
 - `dispatches-greatwar.jsx` — engine layer. UI layer is empty, blocked on art direction.
 - 13 validators + `smoke.js` + `_fixture.jsx` (deliberate faults, validator self-test)
@@ -126,6 +126,8 @@ This title uses `advisor: { name, position }` and renders it as
 "Falkenhayn argues: ..." — indirect speech, no quotation marks. Nothing in this
 file claims a real person said specific words unless the wording is attested.
 
+Where wording is attested, a choice may carry `attested: { by, text, source }`: a short fragment (25 words at most), shown under the choice as "On the record" with its source. `check-quotations.js` requires the source and a logged claim of kind `quotation`; the fact-check worksheet carries it.
+
 ## Content status
 
 | campaign | nodes | endings | dossiers | bulletins | spine | rolls | gate-blocks | status |
@@ -133,8 +135,8 @@ file claims a real person said specific words unless the wording is attested.
 | ohl | 23 | 9 | 11 | 10 | 24 | 3 | 3.64 | expanded (1.1.0), claims logged |
 | gqg | 24 | 9 | 10 | 10 | 25 | 3 | 6.83 | expanded (1.1.0), claims logged |
 | stavka | 15 | 9 | 11 | 8 | 16 | 3 | 3.98 | expanded (1.1.0), claims logged |
-| bef | 0 | - | - | - | - | - | - | not started |
-| aok | 0 | - | - | - | - | - | - | not started |
+| bef | 21 | 9 | 11 | 9 | 22 | 3 | 4.4 | first pass (unreleased), claims logged |
+| aok | 13 | 6 | 8 | 5 | 14 | 2 | 2.2 | first pass (unreleased), gate closed on web sources, claims logged |
 | otto | 0 | - | - | - | - | - | - | blocked, spec §9 |
 
 Both complete campaigns: 30,000 runs each, 0 dead ends, 0 softlocks, every

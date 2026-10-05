@@ -74,7 +74,13 @@ const css = `
   .dg-choice:disabled{cursor:not-allowed;opacity:.45}
   .dg-choice .lab{font-size:15px;margin-bottom:8px}
   .dg-quote{font-style:italic;font-size:13px;color:${THEME.inkSoft}}
-  .dg-choice:hover:not(:disabled) .dg-quote{color:${THEME.paperRaised}}
+  .dg-root summary{list-style:none}
+  .dg-root summary::-webkit-details-marker{display:none}
+  .dg-map{display:block;width:100%;height:auto;border:1.5px solid ${THEME.rule};background:${THEME.paper};margin:10px 0 18px}
+  .dg-attested{font-size:13px;margin-top:8px;color:${THEME.inkSoft}}
+  .dg-attested cite{font-style:normal;font-size:12px}
+  .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
+  .dg-choice:hover:not(:disabled) .dg-quote,.dg-choice:hover:not(:disabled) .dg-attested{color:${THEME.paperRaised}}
   .dg-cost{display:inline-block;border:1px solid currentColor;font-size:10px;
     letter-spacing:.14em;padding:3px 7px;margin-bottom:8px}
   .dg-meters{display:flex;gap:14px;border:1.5px solid ${THEME.rule};padding:12px;
@@ -85,8 +91,15 @@ const css = `
     font-size:12px;letter-spacing:.14em;margin-bottom:18px}
   .dg-draft{border:1.5px dashed ${THEME.accent};color:${THEME.accent};padding:10px;
     font-size:11px;letter-spacing:.12em;margin-bottom:18px}
-  .dg-badge{display:inline-block;border:1.5px solid ${THEME.accent};color:${THEME.accent};
-    font-size:10px;letter-spacing:.18em;padding:4px 8px;margin-bottom:14px}
+  .dg-badge{display:inline-block;border:2px solid ${THEME.accent};color:${THEME.accent};text-transform:uppercase;
+    font-size:10px;font-weight:700;letter-spacing:.2em;padding:5px 10px;margin-bottom:14px;transform:rotate(-1.5deg);
+    box-shadow:inset 0 0 0 2px ${THEME.paper},inset 0 0 0 3px ${THEME.accent}}
+  .dg-badge-contested{border-style:double;border-width:4px;box-shadow:none}
+  .dg-badge-speculative{border-style:dashed}
+  .dg-root h1:focus{outline:none}
+  .dg-note-box{border:1.5px solid ${THEME.rule};padding:12px;margin:14px 0}
+  .dg-note-box textarea{width:100%;box-sizing:border-box;font:inherit;font-size:12px;min-height:110px;background:${THEME.paperRaised};color:${THEME.ink};border:1px solid ${THEME.rule}}
+  .dg-note-box a{color:${THEME.accent}}
   .dg-bulletin{border-top:1px solid ${THEME.rule};border-bottom:1px solid ${THEME.rule};
     padding:12px 0;margin-bottom:18px;font-size:13px}
   .dg-bulletin .h{font-size:10px;letter-spacing:.2em;color:${THEME.accent};margin-bottom:6px}
@@ -119,6 +132,38 @@ function Stamp({ children }) {
 }
 
 const TEXT_SIZE_LABELS = { s: "Standard", m: "Larger", l: "Largest" };
+const FEEDBACK_URL = "https://dispatches.itch.io/dispatches-1914#comments";
+
+/** A short typewriter tick or a stamp thud, made with the browser's own audio. Off unless the player turned it on. */
+let audioCtx = null;
+function playSound(kind) {
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    audioCtx = audioCtx || new AC();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    const t = audioCtx.currentTime;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    const stamp = kind === "stamp";
+    o.type = stamp ? "sine" : "square";
+    o.frequency.setValueAtTime(stamp ? 80 : 1900, t);
+    g.gain.setValueAtTime(stamp ? 0.3 : 0.05, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + (stamp ? 0.25 : 0.035));
+    o.connect(g);
+    g.connect(audioCtx.destination);
+    o.start(t);
+    o.stop(t + (stamp ? 0.3 : 0.05));
+  } catch (e) { /* no audio: carry on silently */ }
+}
+
+/** The note a player can paste into a bug report or a playtest comment: the whole path, from the flags. */
+function runNote(campaignId, nodeId, flags, hardOn, visited) {
+  const c = CAMPAIGNS[campaignId];
+  const marks = Object.keys(flags).sort().map((k) => k + "=" + flags[k]).join(" ");
+  return ["Dispatches 1914", c.shortName, hardOn ? "hard mode" : "standard", "ending " + nodeId,
+    "decisions " + (visited.length - 1), "marks: " + marks].join(" | ");
+}
 
 function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, hardOn, onHard, settings, onSettings, record }) {
   const majors = CAMPAIGN_IDS.filter((c) => CAMPAIGNS[c].tier === TIERS.MAJOR);
@@ -199,6 +244,20 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, hardOn, o
             </button>
           ))}
         </div>
+        <div className="dg-count">Sound</div>
+        <div className="dg-seg" role="group" aria-label="Sound">
+          {[[false, "Off"], [true, "Typewriter"]].map(([v, label]) => (
+            <button key={label} aria-pressed={settings.sound === v} onClick={() => onSettings({ ...settings, sound: v })}>{label}</button>
+          ))}
+        </div>
+      </details>
+      <details>
+        <summary>▶ FEEDBACK</summary>
+        <p className="dg-note">
+          Found a mistake in the history, or want to say what the game was like to play? Say so on the{" "}
+          <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer" style={{ color: THEME.accent }}>game's page</a>.
+          When a file closes, a note with the path you took is ready to paste.
+        </p>
       </details>
     </main>
   );
@@ -217,7 +276,50 @@ function Meters({ meters, labels }) {
   );
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, onChoose, onHome }) {
+/** Where the headquarters sits, on the campaign's own stretch of Europe, with the route taken so far. */
+function FrontMap({ campaignId, node, visited }) {
+  const camp = CAMPAIGNS[campaignId];
+  const cities = [...new Set(Object.values(camp.nodes).map((n) => n.city))].filter((c) => MAP_CITIES[c]);
+  if (!cities.length || !MAP_CITIES[node.city]) return null;
+  const trail = visited.map((id) => camp.nodes[id] && camp.nodes[id].city).filter((c, i, a) => MAP_CITIES[c] && c !== a[i - 1]);
+  // Frame the last few headquarters, not the whole campaign, so the western front is readable.
+  const focus = [...new Set([...trail.slice(-6), node.city])];
+  const xs = focus.map((c) => MAP_CITIES[c][0]);
+  const ys = focus.map((c) => MAP_CITIES[c][1]);
+  const pad = 26;
+  let x0 = Math.min(...xs) - pad, y0 = Math.min(...ys) - pad;
+  let w = Math.max(...xs) + pad - x0, h = Math.max(...ys) + pad - y0;
+  const aspect = MAP_VIEW.width / MAP_VIEW.height;
+  const minW = 150;
+  if (w < minW) { x0 -= (minW - w) / 2; w = minW; }
+  if (w / h < aspect) { const nw = h * aspect; x0 -= (nw - w) / 2; w = nw; } else { const nh = w / aspect; y0 -= (nh - h) / 2; h = nh; }
+  const s = w / MAP_VIEW.width;
+  // Only the places the file has been to: later headquarters are not given away.
+  const shown = [...new Set([...trail, node.city])];
+  const [hx, hy] = MAP_CITIES[node.city];
+  return (
+    <svg className="dg-map" viewBox={`${x0} ${y0} ${w} ${h}`} role="img" aria-label={`Map of the front. The headquarters is at ${node.city}.`}>
+      <path d={MAP_LAND_PATH} fill={THEME.paperRaised} stroke={THEME.inkSoft} strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
+      {trail.length > 1 && (
+        <polyline points={trail.map((c) => MAP_CITIES[c].join(",")).join(" ")} fill="none" stroke={THEME.accent}
+          strokeWidth="1.4" strokeDasharray="4 3" vectorEffect="non-scaling-stroke" />
+      )}
+      {shown.map((c) => (
+        <circle key={c} cx={MAP_CITIES[c][0]} cy={MAP_CITIES[c][1]} r={3.4 * s}
+          fill={trail.includes(c) ? THEME.accent : THEME.inkSoft} opacity={trail.includes(c) ? 1 : 0.55} />
+      ))}
+      {shown.filter((c) => c !== node.city && MAP_CITIES[c][0] > x0 && MAP_CITIES[c][0] < x0 + w && MAP_CITIES[c][1] > y0 && MAP_CITIES[c][1] < y0 + h).map((c) => (
+        <text key={"l" + c} x={MAP_CITIES[c][0] + 5 * s} y={MAP_CITIES[c][1] + 4 * s} fontSize={11 * s} fill={THEME.inkSoft} stroke={THEME.paperRaised}
+          strokeWidth={3 * s} paintOrder="stroke" fontFamily={THEME.mono}>{c}</text>
+      ))}
+      <circle cx={hx} cy={hy} r={7 * s} fill="none" stroke={THEME.ink} strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
+      <text x={hx + 10 * s} y={hy - 8 * s} fontSize={17 * s} fill={THEME.ink} stroke={THEME.paper} strokeWidth={4 * s}
+        paintOrder="stroke" fontFamily={THEME.mono}>{node.city}</text>
+    </svg>
+  );
+}
+
+function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, onChoose, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   return (
@@ -264,11 +366,28 @@ function NodeScreen({ campaignId, node, meters, hardState, onChoose, onHome }) {
           <div className="dg-prose">{node.context}</div>
         </details>
       )}
+      {node.city && MAP_CITIES[node.city] && (
+        <details>
+          <summary>▶ SHOW THE MAP</summary>
+          <FrontMap campaignId={campaignId} node={node} visited={visited || []} />
+        </details>
+      )}
 
       {node.ending ? (
         <>
-          <div className="dg-badge">{BADGE_LABELS[node.ending.badge]}</div>
+          <div className={`dg-badge dg-badge-${node.ending.badge}`}>{BADGE_LABELS[node.ending.badge]}</div>
           {node.epilogue && <div className="dg-prose">{node.epilogue}</div>}
+          <details>
+            <summary>▶ A NOTE FOR THE AUTHOR</summary>
+            <div className="dg-note-box">
+              <p className="dg-note" style={{ marginTop: 0 }}>
+                A line that records the path you took. Paste it into a comment on the{" "}
+                <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer">game's page</a> with whatever you want to say.
+              </p>
+              <textarea readOnly aria-label="Note with the path taken" value={runNote(campaignId, nodeId || "", flags || {}, hardState.enabled, visited || [])}
+                onFocus={(e) => e.target.select()} />
+            </div>
+          </details>
           <button className="dg-btn" onClick={onHome}>Return to file</button>
         </>
       ) : (
@@ -283,6 +402,12 @@ function NodeScreen({ campaignId, node, meters, hardState, onChoose, onHome }) {
               {ch.advisor && (
                 <div className="dg-quote">
                   {ch.advisor.name} argues: {ch.advisor.position}
+                </div>
+              )}
+              {ch.attested && (
+                <div className="dg-attested">
+                  <span className="dg-attested-tag">On the record</span>{" "}
+                  {ch.attested.by}: “{ch.attested.text}” <cite>— {ch.attested.source}</cite>
                 </div>
               )}
             </button>
@@ -333,12 +458,29 @@ function RecordScreen({ record, onBack }) {
         {record.runs} {record.runs === 1 ? "file" : "files"} closed · {record.hardRuns} in hard mode. Entries open as you play; the record stays in this browser.
       </p>
       <div className="dg-tabs" role="group" aria-label="Record sections">
-        {[["dossiers", "Dossiers"], ["atlas", "Atlas"], ["endings", "Endings"]].map(([id, label]) => (
+        {[["dossiers", "Dossiers"], ["atlas", "Atlas"], ["endings", "Endings"], ["echoes", "Echoes"]].map(([id, label]) => (
           <button key={id} className="dg-btn" aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>
         ))}
       </div>
 
-      {playable.map((cid) => {
+      {tab === "echoes" && (
+        <section>
+          <p className="dg-note">A choice in one command can change what another command faces. Marks are kept here; nothing echoes unless you have departed from the record.</p>
+          {Object.entries(ECHOES).map(([flag, e]) => {
+            const v = (record.xc || {})[flag];
+            return v === undefined ? (
+              <div key={flag} className="dg-entry locked"><span className="meta">{e.label}</span> Not yet set.</div>
+            ) : (
+              <div key={flag} className="dg-entry">
+                <div className="meta">{e.label}</div>
+                <div className="t">{e.values[v] || v}</div>
+                <div className="meta">{v === e.historical ? "As in the record." : "Echoes in: " + e.readBy + ". Set in: " + e.setBy + "."}</div>
+              </div>
+            );
+          })}
+        </section>
+      )}
+      {tab !== "echoes" && playable.map((cid) => {
         const c = CAMPAIGNS[cid];
         if (tab === "dossiers") {
           const met = record.advisers[cid] || [];
@@ -425,6 +567,14 @@ export default function App() {
   );
 
   useEffect(() => { saveSettings(settings); }, [settings]);
+
+  // A new screen puts keyboard and screen-reader focus on its heading, so the change is announced.
+  const firstScreen = useRef(true);
+  useEffect(() => {
+    if (firstScreen.current) { firstScreen.current = false; return; }
+    const h = document.querySelector("main h1");
+    if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+  }, [screen, nodeId]);
   useEffect(() => { saveRecord(record); }, [record]);
 
   // A node on screen counts as seen, and so do the advisers present at it.
@@ -434,6 +584,7 @@ export default function App() {
     setRecord((r) => noteNodeSeen(r, campaignId, nodeId, node.advisors || []));
     if (node.ending && endedRun.current !== runKey) {
       endedRun.current = runKey;
+      if (settings.sound) playSound("stamp");
       setRecord((r) => noteEnding(r, nodeId, hardState.enabled));
     }
   }, [screen, campaignId, nodeId, runKey]);
@@ -456,7 +607,7 @@ export default function App() {
 
   const start = (cid) => {
     setCampaignId(cid);
-    setFlags({});
+    setFlags(echoSeed(record));
     setMeters(emptyMeters());
     setHardState({ ...emptyHardState(), enabled: hardOn });
     setVisited([]);
@@ -490,8 +641,10 @@ export default function App() {
   };
 
   const choose = (ch) => {
+    if (settings.sound) playSound("tick");
     const r = chooseNext(campaignId, ch, flags, meters, hardState);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
+    setRecord((rec) => noteEchoes(rec, r.flags));
     setPending({ ...r, record: historicalNote(node, ch) });
     setScreen(r.outcome ? "outcome" : "node");
     if (!r.outcome) setNodeId(r.nextId);
@@ -517,7 +670,7 @@ export default function App() {
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
-          hardState={hardState} onChoose={choose} onHome={home} />
+          hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} onChoose={choose} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">

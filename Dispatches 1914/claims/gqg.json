@@ -654,5 +654,106 @@
     "status": "drafted",
     "sources": [],
     "note": "Dispute carried in the choice's dispute field."
+  },
+  {
+    "id": "gqg-epilogue-victory",
+    "node": "gqg_end_victory",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Armistice in force at 11 a.m. 11 November 1918; about 1.4 million French dead; Foch Marshal of France (August 1918), Pétain's baton December 1918; Clemenceau lost the January 1920 presidential contest and left politics.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-epilogue-armybreaks",
+    "node": "gqg_end_armybreaks",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': The army recovered in weeks under Pétain (leave, food, visits, grievances heard); courts-martial handed down several hundred death sentences, a few dozen carried out (commonly cited 554 and 49; the count is disputed).",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-epilogue-coalitionfails",
+    "node": "gqg_end_coalitionfails",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Doullens 26 March 1918 gave Foch coordination; powers widened; title of Allied Commander-in-Chief in April.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-epilogue-costlier",
+    "node": "gqg_end_costlier",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Unified command moved reserves between sectors; the war ended in November 1918, a year before the Allied planners expected; about 1.4 million French dead.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-epilogue-intact",
+    "node": "gqg_end_intact",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': The army was rebuilt after the mutinies but short of men; France lost among the largest shares of its young men of any great power.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-epilogue-defensive",
+    "node": "gqg_end_defensive",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Counterattack 18 July, British attack at Amiens 8 August, offensives of late September; Allied staffs were preparing a larger 1919 campaign with tanks and Americans.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-epilogue-negotiated",
+    "node": "gqg_end_negotiated",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': The Sixtus affair (Emperor Charles through Prince Sixtus of Bourbon-Parma, spring 1917), exposed April 1918; Painlevé's ministry (Sep-Nov 1917) gave way to Clemenceau's on 16 November.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-epilogue-paris",
+    "node": "gqg_end_paris",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': The spring 1918 German offensive reached the Marne at Château-Thierry by the end of May, about sixty kilometres from Paris, and was stopped in early June by French and American divisions; the Paris gun shelled the city from late March; the government did not leave.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-epilogue-relieved",
+    "node": "gqg_end_relieved",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Clemenceau removed Duchêne after the Aisne but kept Pétain as Commander-in-Chief to the end under Foch.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+  },
+  {
+    "id": "gqg-quote-1",
+    "node": "gqg_1918_10_doullens",
+    "kind": "quotation",
+    "claim": "Foch on the record: \"I would fight in front of Amiens. I would fight in Amiens.\" (At Doullens, 26 March 1918, as recorded)",
+    "status": "web-checked",
+    "sources": [
+      "wp-doullens"
+    ],
+    "note": "Quoted in English on the Doullens page; the French original and its witnesses should be checked (Weygand's and Foch's accounts differ in detail)."
+  },
+  {
+    "id": "gqg-quote-2",
+    "node": "gqg_1918_10_doullens",
+    "kind": "quotation",
+    "claim": "Clemenceau on the record: \"Je fais la guerre.\" (Speech to the Chamber, 8 March 1918)",
+    "status": "drafted",
+    "sources": [],
+    "note": "Clemenceau's formula of 'je fais la guerre' is firmly attested; the exact occasion (the speech of 8 March 1918) should be confirmed against the Journal officiel."
   }
 ]
