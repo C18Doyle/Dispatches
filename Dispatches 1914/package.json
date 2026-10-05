@@ -1,6 +1,6 @@
 {
   "name": "dispatches-1914",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Dispatches 1914: the Great War from OHL, GQG and STAVKA.",
   "scripts": {
     "build": "node build.mjs",
