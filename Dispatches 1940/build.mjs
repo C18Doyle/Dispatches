@@ -12,13 +12,15 @@
 // Usage: node build.mjs
 //   Produces dist/<variant>/{index.html,bundle.js,output.css} and builds/*.zip for each.
 // Usage: node build.mjs --dev
-//   Also builds dist/dev/ — same as "full" but with Grand Campaign AND the Key Battle Subgame
-//   prototype enabled (__GRAND_CAMPAIGN__ = true, __KEY_BATTLE_SUBGAME__ = true; see
-//   GRAND_CAMPAIGN_ENABLED / KEY_BATTLE_SUBGAME_ENABLED in src/App.jsx). This is the prototype
+//   Also builds dist/dev/ — same as "full" but with the Grand Campaign prototype enabled
+//   (__GRAND_CAMPAIGN__ = true; see GRAND_CAMPAIGN_ENABLED in src/App.jsx). This is the prototype
 //   build: it is NEVER zipped into builds/ and never touches the itch.io outputs — it exists
 //   purely so in-progress features can be built and tested for real without ever being
 //   reachable from the shipped itch full/demo builds. Plain `node build.mjs` (no flag) is
 //   unaffected and remains exactly the itch release pipeline.
+//   The Key Battle (Order of Battle) subgame is NOT a prototype any more: __KEY_BATTLE_SUBGAME__ is
+//   true in full, demo and dev alike (it already shipped in the live itch builds). Older comments
+//   in src/ that call it "dev only" are out of date.
 
 import { build } from "esbuild";
 import { execFileSync } from "node:child_process";

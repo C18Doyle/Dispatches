@@ -316,8 +316,142 @@
               setFlags: { alpsFront40: "push" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "medStrategy40",
-              outcome:
-                "The rushed offensive gains almost nothing — French fortified positions at Mont Cenis and along the frontier hold through the war's final week against an attack thrown together too fast to properly support, and casualties run into the low thousands for a few villages' worth of ground. Mussolini's own later verdict on this episode was blunter than any staff assessment: he called the campaign an embarrassment he'd rather not have run at all. The territory claimed at the armistice table comes from the negotiation, not from what the offensive actually seized.",
+              // Round 21 (2026-10-05, Craig: the second Italian Order of Battle, the Alps
+              // offensive, picked over the Epirus winter). Unlike Sedan, Moscow and Battle of
+              // Britain Day, the historical result here is the unlucky one, so the minority
+              // outcome comes first and the text that used to be this choice's own outcome is the
+              // second: the player's plan can beat the odds the history gives it, not just match
+              // them. Facts verified 2026-10-05 (Wikipedia, Italian invasion of France; Alfredo
+              // Guzzoni): Army Group West under Crown Prince Umberto, with Graziani the de facto
+              // commander, about 300,000 men in 18 infantry and 4 Alpine divisions with some 3,000
+              // guns against about 85,000 French at the front; a directive of 7 June ordered an
+              // "absolute defensive behaviour" and the offensive began on 21 June; the main attack
+              // was by the 4th Army (Guzzoni) through the Little St Bernard Pass on a 34-40 km
+              // front, with a secondary advance along the coast; the French had blown the bridges
+              // on the Little St Bernard road and held the Redoute Ruinée with seventy men and the
+              // advance post at Seloge; many Italian guns were Austro-Hungarian pieces captured in
+              // 1918; the Italian fort on Mont Chaberton lost six of eight turrets to 57 shots from
+              // French 280-mm mortars; the offensive "penetrated a few kilometres into French
+              // territory" and Menton was the most significant conquest; Italian losses were
+              // about 640 killed, 2,631 wounded and 2,151 frostbitten, French about 40 killed.
+              keyBattleSubgame: {
+                id: "alps40",
+                title: "Order of Battle — The Little St Bernard",
+                flavor:
+                  "The directive of 7 June said to stay on the defensive; the order of the third week of June says attack. Army Group West has some three hundred thousand men facing perhaps eighty-five thousand French in prepared positions, on passes that are still snowed in near the top. The French have blown the bridges on the Little St Bernard road and hold the old Redoute Ruinée above it, and a good part of the Italian artillery is Austro-Hungarian, captured in 1918. What's decided here is the weight behind the Fourth Army's main thrust: how much goes to the Alpini and infantry who have to climb, to the guns that must range across the valleys, to the aircraft that Italian staffs cannot easily call on, and to the mule trails and the road that carry everything the army uses.",
+                categories: [
+                  { id: "assault", name: "Alpini & Infantry Assault", meter: "manpower", glyph: "▲▲▲" },
+                  { id: "artillery", name: "Corps Artillery", meter: "fuel", glyph: "✺" },
+                  { id: "air", name: "Regia Aeronautica", meter: "fuel", glyph: "✈" },
+                  { id: "supply", name: "Mules & Mountain Roads", meter: "fuel", glyph: "▤" },
+                ],
+                // Assault highest — the Alpini and the line infantry are the army's best arm, and
+                // the offensive turned on whether they could climb; Artillery second — a lot of
+                // guns, many of them old; Air third — a large bomber fleet that could hardly be
+                // directed from the ground, since orders forbade direct contact between the
+                // services; Supply lowest, deliberately — one road with its bridges down and a
+                // handful of mule trails are this battle's own ceiling, the same design choice as
+                // Monte Marrone's mule trail.
+                effectiveness: { assault: 2.3, artillery: 1.8, air: 1.7, supply: 1.6 },
+                categoryContext: {
+                  assault:
+                    "The Alpini and the line infantry are the arm that climbs, and the passes are steep and still deep in snow. Each commitment here puts more men onto the slope in the first push.",
+                  artillery:
+                    "Many of the guns are old, and the French forts have the passes ranged. Each commitment here puts more of the corps artillery onto the fortified posts that block the way.",
+                  air:
+                    "The Italian bomber fleet is large, but the orders forbid the services to speak to each other directly. Each commitment here asks for a mission over the French posts and hopes it can be coordinated with the ground.",
+                  supply:
+                    "The French have blown the bridges on the Little St Bernard road, and beyond them there are only mule trails. Each commitment here puts engineers on the road and more mules on the trails.",
+                },
+                flashups: {
+                  assault: [
+                    "An Alpini battalion starts up the pass in single file, ice axes in their hands.",
+                    "A line infantry company goes forward over the snow behind the Alpini.",
+                    "A platoon reaches the first French post and finds it empty.",
+                    "A company is pinned on an open slope by machine-gun fire from the ruins of the old fort.",
+                    "The Alpini reach a ridge above the road and dig in at four in the morning.",
+                  ],
+                  artillery: [
+                    "A battery of old Austro-Hungarian howitzers fires on a French post at the top of the pass.",
+                    "The corps artillery shifts fire to a fort that has been shelling the approaches.",
+                    "A French gun answers, and a shell lands among the mules.",
+                    "A forward observer reports the guns are firing short at the limit of their range.",
+                    "The guns fall silent for lack of shells on the right trail.",
+                  ],
+                  air: [
+                    "A formation of Italian bombers goes over the pass, high above the cloud.",
+                    "A bomber crew drops on a French post, and the observers on the ground cannot say where.",
+                    "A flight of fighters patrols the valley, with nothing to fight.",
+                    "A reconnaissance aircraft reports French guns moved to a new position above the road.",
+                    "The air attack is cancelled for weather, and the ground troops are told after they have started.",
+                  ],
+                  supply: [
+                    "Engineers begin to bridge the gap where the French blew the road.",
+                    "A mule train struggles up the trail through the snow with the next day's rations.",
+                    "A supply column halts behind a blown bridge and waits for the engineers.",
+                    "A company that came up without winter clothing reports its first cases of frostbite.",
+                    "Ammunition is carried the last miles to the front line on men's backs.",
+                  ],
+                },
+                reportTimes: { open: "0400", contact: "0700", cats: ["0830", "1100", "1400", "1700"], reserve: "1930", counter: "2100" },
+                idleLines: {
+                  assault: [
+                    "No extra men go up the slope. The attack goes in with what was on the start line.",
+                    "The Alpini hold at the foot of the pass, and the road stays closed.",
+                  ],
+                  artillery: [
+                    "No extra guns are brought to bear. The batteries fire on their plan and nothing more.",
+                    "The corps artillery is given no new targets. The French posts above the road are left alone.",
+                  ],
+                  air: [
+                    "No air mission is requested, and the bombers stay at their fields.",
+                    "Nothing is asked of the air force, and the ground troops fight without it.",
+                  ],
+                  supply: [
+                    "No extra effort goes into the road or the trails. The army carries what it has.",
+                    "The engineers are left to the bridge, and the mule trains go up when they can.",
+                  ],
+                },
+                verdicts: ["The Pass Is Forced", "The Mountain Holds"],
+                verdictGrades: {
+                  clean: "The Alpini climbed, the guns ranged on the posts, the road was mended, and the pass was forced before the French could make a stand.",
+                  costly: "The pass is forced, but the army that did it is worn down by the snow and the road, and each arm paid for it.",
+                  marginal: "The attack gets onto the pass but not through it. The French hold the high ground and the road stays closed.",
+                  total: "The attack comes to a stop in the snow, with the road behind it still cut and the French still on the heights.",
+                },
+                counterattack: {
+                  category: "assault",
+                  severity: { skiScreen: 2, fortressGuns: 1, bridgesDown: 1 },
+                  warn: {
+                    1: "French posts on the heights are counterattacking along the line.",
+                    2: "French ski patrols and mountain troops are massing for a counterattack on the flank of the advance.",
+                  },
+                  results: {
+                    repulsed: "The French counterattack is thrown back and the line stays where it is.",
+                    heldAtCost: "The line holds against the French, but the companies that held it are badly cut up.",
+                    broke: "The French break into the line, and the fight goes on at close range in the snow.",
+                    gaveGround: "The line falls back off the high ground rather than fight the French out where they struck.",
+                  },
+                },
+              },
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "The pass is forced before the armistice",
+                  setFlags: { alps40Result: "forced" },
+                  impact: { manpower: 0, fuel: 0, initiative: 1 },
+                  outcome:
+                    "The minority projection, which the plan on paper allowed for and the mountain gave almost no one: the road is mended, the Alpini climb above the French posts and the attack on the Little St Bernard gets over the pass before the armistice stops it. It is still a few valleys and a coastal town, nowhere near Nice or Savoy, but enough that Rome argues for its claims from a map and not from a wish.",
+                },
+                {
+                  weight: 100 - modWeight(25, meters.initiative),
+                  title: "The mountain holds",
+                  setFlags: { alps40Result: "stalled" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "The rushed offensive gains almost nothing — French fortified positions at Mont Cenis and along the frontier hold through the war's final week against an attack thrown together too fast to properly support, and casualties run into the low thousands for a few villages' worth of ground. Mussolini's own later verdict on this episode was blunter than any staff assessment: he called the campaign an embarrassment he'd rather not have run at all. The territory claimed at the armistice table comes from the negotiation, not from what the offensive actually seized.",
+                },
+              ],
             },
             {
               label: "Limited, symbolic advance only — hold the line, let diplomacy do the work",
@@ -338,7 +472,11 @@
           title: "The Mediterranean Question",
           historicalRecord: false,
           situation:
-            "With France out of the war, the Mediterranean question that Italian naval and colonial planners have argued for years is suddenly live rather than theoretical: Britain's presence in the sea Italian doctrine calls 'Mare Nostrum' now rests on exactly two pillars, Malta and Egypt, and taking either seriously would require committing resources the standing plans for both were never actually funded to the level their advocates wanted. Malta sits astride every convoy route to Libya, weakly garrisoned in the war's opening weeks and — by the fleet staff's own admission — genuinely vulnerable to a properly resourced invasion before British reinforcement catches up. Egypt and the Suez Canal are the larger prize, defended by a British force in Libya's neighboring desert that outnumbers nothing Italian in the theater except manpower on paper. Rome has never had to choose between these two objectives for real, because until this month there was always a war in France absorbing the argument instead.",
+            "With France out of the war, the Mediterranean question that Italian naval and colonial planners have argued for years is suddenly live rather than theoretical: Britain's presence in the sea Italian doctrine calls 'Mare Nostrum' now rests on exactly two pillars, Malta and Egypt, and taking either seriously would require committing resources the standing plans for both were never actually funded to the level their advocates wanted. Malta sits astride every convoy route to Libya, weakly garrisoned in the war's opening weeks and — by the fleet staff's own admission — genuinely vulnerable to a properly resourced invasion before British reinforcement catches up. Egypt and the Suez Canal are the larger prize, defended by a British force in Libya's neighboring desert that outnumbers nothing Italian in the theater except manpower on paper. Rome has never had to choose between these two objectives for real, because until this month there was always a war in France absorbing the argument instead." +
+            // Round 21 (Alps echo): only when the player ordered the push and fought the battle.
+            (flags.alpsFront40 === "push"
+              ? (flags.alps40Result === "forced" ? " The army that forced the Little St Bernard is in better spirits than the staff expected." : "") + keyBattleEcho("alps40", flags)
+              : ""),
           choices: [
             {
               label: "Move on Malta first — invade now, while the garrison is still weak",

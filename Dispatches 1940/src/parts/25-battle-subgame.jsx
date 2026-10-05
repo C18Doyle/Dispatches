@@ -368,6 +368,118 @@ const KEY_BATTLE_COMMANDERS = {
       reportLine: "Eaker's own standing order to hold the run steady through flak is what the lead bombardiers are flying to.",
     },
   ],
+  // Early-war battles (round 21, 2026-10-05: Craig picked Sedan, Moscow 1941, Battle of Britain
+  // Day and the Alps offensive as the first Order of Battle for each campaign). Every officer is
+  // tied to a category by what they verifiably commanded, never by an invented trait. Verified
+  // 2026-10-05 (Wikipedia: Battle of Sedan (1940), Hermann Balck, Bruno Loerzer):
+  //  - Guderian commanded XIX Panzer Corps, the three panzer divisions (1st, 2nd, 10th) that all
+  //    had to cross the same river, and whose tanks could only cross once a bridge stood.
+  //  - Balck, an Oberst, commanded Schützen-Regiment 1 of 1st Panzer Division; "Balck's regiment
+  //    spearheaded a crossing over the Meuse, and established a bridgehead on the far side"
+  //    (Knight's Cross 3 June 1940).
+  //  - Loerzer, Generalleutnant, commanded II Fliegerkorps from 11 October 1939 to 23 February
+  //    1943, one of the air corps flying the day's attacks. Artillery has no named tie: the
+  //    corps' guns arrived short (some of 2nd Panzer Division's heavy howitzers were still in the
+  //    Ardennes traffic), the same asymmetric-by-design pattern as Kursk's Supply.
+  sedan40: [
+    {
+      id: "guderian",
+      name: "General der Panzertruppe Heinz Guderian",
+      role: "Commanding, XIX Panzer Corps",
+      category: "bridging",
+      note: "All three of his panzer divisions cross at Sedan, and not one tank can follow the infantry until engineers put a bridge over the river. Chits spent on Bridging & Traffic carry further under him.",
+      reportLine: "Guderian presses the engineers on the bridge and the traffic behind it, because every tank he has is waiting for them.",
+    },
+    {
+      id: "balck",
+      name: "Oberst Hermann Balck",
+      role: "Commanding, 1st Rifle Regiment, 1st Panzer Division",
+      category: "assault",
+      note: "His regiment is one of those that cross first and take the heights above the river. Chits spent on Assault Infantry & Pioneers carry further under him.",
+      reportLine: "Balck's riflemen go over in the first boats and are up the far slope before the French can steady.",
+    },
+    {
+      id: "loerzer",
+      name: "Generalleutnant Bruno Loerzer",
+      role: "Commanding, II Fliegerkorps",
+      category: "air",
+      note: "His air corps flies in the day's waves over the French positions. Chits spent on Air Attack carry further under him.",
+      reportLine: "Loerzer's bombers keep coming over the French line in small waves, hour after hour.",
+    },
+  ],
+  // Moscow 1941. Verified 2026-10-05 (Wikipedia: Battle of Moscow, Pavel Belov, 1st Shock Army):
+  //  - Zhukov commanded the Western Front; accounts of the planning have him arguing that the
+  //    reserves were thin and had to be gathered and used together ("Zhukov replied that it was
+  //    possible, but reserves were urgently needed").
+  //  - Belov commanded the cavalry corps renamed 1st Guards Cavalry Corps on 26 November 1941,
+  //    "pivotal in stopping Guderian's Panzers... near the town of Kashira"; before the
+  //    counteroffensive he appealed, with Zhukov's backing, to Stalin for it to be re-equipped.
+  //  The other two arms (air, rail supply) have no named tie, the usual asymmetric pattern.
+  moscow41: [
+    {
+      id: "zhukov",
+      name: "General Georgy Zhukov",
+      role: "Commanding, Western Front",
+      category: "reserves",
+      note: "He is the front commander who argued that the new armies had to be gathered and thrown together, not fed in one at a time. Chits spent on Fresh Rifle Armies carry further under him.",
+      reportLine: "Zhukov throws the fresh armies in together on the first morning rather than feed them in one by one.",
+    },
+    {
+      id: "belov",
+      name: "Major General Pavel Belov",
+      role: "Commanding, 1st Guards Cavalry Corps",
+      category: "exploitation",
+      note: "His cavalry stopped Guderian's tanks near Kashira and is the one force on the line that can ride through the snow behind the German flank. Chits spent on Cavalry & Ski Columns carry further under him.",
+      reportLine: "Belov's horsemen ride through the snow past the German strongpoints and into the rear.",
+    },
+  ],
+  // Battle of Britain Day. Verified 2026-10-05 (Wikipedia: Keith Park, Dowding system, Hugh
+  // Dowding, Trafford Leigh-Mallory, Battle of Britain Day): Park commanded No. 11 Group from 20
+  // April 1940, controlling it from the Uxbridge operations room, and favoured squadron-sized
+  // interceptions; Dowding, Air Chief Marshal, built the radar, Observer Corps, filter room
+  // and radio-control system that bears his name; Leigh-Mallory, an Air Vice-Marshal, commanded No.
+  // 12 Group and its Duxford Wing and clashed with Park over cover for 11 Group's airfields.
+  // Turnaround has no named tie (asymmetric by design).
+  britainDay40: [
+    {
+      id: "park",
+      name: "Air Vice-Marshal Keith Park",
+      role: "Commanding, No. 11 Group",
+      category: "squadrons",
+      note: "The squadrons that meet the raids over Kent and London are his, flown from sector stations he knows by name. Chits spent on 11 Group Squadrons carry further under him.",
+      reportLine: "Park sends his squadrons up in ones and twos to meet each raid before it reaches the coast.",
+    },
+    {
+      id: "dowding",
+      name: "Air Chief Marshal Hugh Dowding",
+      role: "Commanding-in-Chief, Fighter Command",
+      category: "control",
+      note: "The chain of radar, observers, plotting tables and radio control is his own design. Chits spent on Radar & Ground Control carry further under him.",
+      reportLine: "Dowding's system feeds the plot to Uxbridge, and the controllers put each squadron where the raid is going.",
+    },
+    {
+      id: "leighMallory",
+      name: "Air Vice-Marshal Trafford Leigh-Mallory",
+      role: "Commanding, No. 12 Group",
+      category: "wing",
+      note: "He commands the group north of the Thames whose Duxford Wing flies as a mass of squadrons. Chits spent on the Duxford Wing carry further under him.",
+      reportLine: "Leigh-Mallory's wing forms up over Duxford and heads south in a single mass of fighters.",
+    },
+  ],
+  // The Alps, 21-24 June 1940. Verified 2026-10-05 (Wikipedia: Italian invasion of France,
+  // Alfredo Guzzoni): "the main Italian attack was by the 4th Army under General Alfredo Guzzoni",
+  // the Alpine Army Corps on its left flank, through the Little St Bernard Pass. Guzzoni's exact
+  // rank in June 1940 is not given there, so he is named as general and by command.
+  alps40: [
+    {
+      id: "guzzoni",
+      name: "General Alfredo Guzzoni",
+      role: "Commanding, Fourth Army",
+      category: "assault",
+      note: "His army makes the main attack, through the Little St Bernard Pass. Chits spent on Alpini & Infantry Assault carry further under him.",
+      reportLine: "Guzzoni drives the main attack up the Little St Bernard road and holds nothing back from it.",
+    },
+  ],
   // Round 8 (Craig: "if limit it to a max of 3 commanders"): cut from four names to three. The
   // one dropped — Theodor Busse, Manstein's Chief of Staff — was always the odd one out of the
   // four anyway: Hoth, Kempf, and Deßloch each held a field or air command, giving orders in
@@ -658,6 +770,96 @@ const KEY_BATTLE_APPROACHES = {
       note: "Put the effort into making the fighter handoff as precise as the range allows. Fighter Escort Coordination chits carry further; Combat Box Discipline chits carry less, left to hold together with whatever discipline the groups already have.",
       modifiers: { escort: 0.7, formation: -0.5 },
       reportLine: "The effort goes into the escort handoff rather than drilling the box's own discipline.",
+    },
+  ],
+  // Round 21, Sedan. The one real, documented alternative: the air plan was first a single
+  // concentrated bombardment of about twenty minutes before H-hour, then replaced by continuous
+  // attacks in small formations from 08:00 to 16:00 (Wikipedia, Battle of Sedan (1940), citing
+  // Hooton and Frieser). Modeled as a tradeoff, disclosed: the corps' limited fire-control effort
+  // went into one or the other.
+  sedan40: [
+    {
+      id: "rollingAttack",
+      name: "Rolling Air Attack All Day",
+      subtitle: "Small waves over the bunkers from first light, so the defenders never settle",
+      note: "Keep the bombers coming in small formations hour after hour, as the corps actually did. Air Attack chits carry further; Artillery Preparation chits carry less, the guns fighting for fire-control attention with the aircraft overhead.",
+      modifiers: { air: 0.7, guns: -0.5 },
+      reportLine: "Small formations of bombers go over the bunkers hour after hour, and the French never get a quiet minute.",
+    },
+    {
+      id: "singleBlow",
+      name: "One Great Blow at H-Hour",
+      subtitle: "Hold the weight back and hit the river line with everything in a short, heavy strike",
+      note: "Save the effort for a short, heavy preparation timed to the crossing, as the first air plan intended. Artillery Preparation chits carry further; Air Attack chits carry less, the aircraft idle for most of the day.",
+      modifiers: { guns: 0.7, air: -0.5 },
+      reportLine: "Nothing flies until the great strike goes in just before the boats go down to the water.",
+    },
+  ],
+  // Round 21, Moscow. A modeled tradeoff, disclosed like Bagration's and PQ-17's pairs: the real
+  // facts are the two main attack areas (the northern sector at Klin and Solnechnogorsk, the
+  // southern at Tula) and a railway net that could not feed every sector at once; where the
+  // weight went between them is a tradeoff, not a documented order.
+  moscow41: [
+    {
+      id: "twoBlows",
+      name: "Two Great Blows at the Flanks",
+      subtitle: "Mass the new armies at Klin in the north and Tula in the south",
+      note: "Put the weight of the fresh armies into two concentrated thrusts. Fresh Rifle Armies chits carry further; Air Cover chits carry less, thinned across the two sectors.",
+      modifiers: { reserves: 0.7, air: -0.5 },
+      reportLine: "The new armies go in as two massed blows, one at each flank of the German salient.",
+    },
+    {
+      id: "railPriority",
+      name: "A Wide Front, Rail Priority",
+      subtitle: "Spread the attack and give the railway's capacity first call on ammunition and clothing",
+      note: "Attack on a wider front and feed it. Rail & Winter Supply chits carry further; Fresh Rifle Armies chits carry less, spread over more ground.",
+      modifiers: { supply: 0.7, reserves: -0.5 },
+      reportLine: "The attack goes in along a wide front, and the railway's trains are given over to shells and winter clothing first.",
+    },
+  ],
+  // Round 21, Battle of Britain Day. The real tension, documented: Park favoured squadron-sized
+  // interceptions and complained that No. 12 Group was not covering 11 Group's airfields in
+  // time (Wikipedia, Keith Park; Trafford Leigh-Mallory); on 15 September he asked for 12 Group's
+  // help and the Duxford Wing was scrambled. Where the staff effort goes between them is the
+  // disclosed-as-modeled tradeoff.
+  britainDay40: [
+    {
+      id: "smallSquadrons",
+      name: "Meet Them in Squadron Strength",
+      subtitle: "Park's practice — scramble fast, meet each raid forward, in small formations",
+      note: "Fight the raids with 11 Group's own squadrons, in the numbers each raid needs and no more. 11 Group Squadrons chits carry further; the Duxford Wing chits carry less, held off until it is wanted.",
+      modifiers: { squadrons: 0.7, wing: -0.5 },
+      reportLine: "11 Group's squadrons go up in pairs and sections to meet each raid well forward of London.",
+    },
+    {
+      id: "callTheWing",
+      name: "Call 12 Group In Early",
+      subtitle: "Ask the Duxford Wing to cover the capital while 11 Group meets the first blow",
+      note: "Ask 12 Group to come south at the first warning, so there are more fighters over the capital. Duxford Wing chits carry further; 11 Group Squadrons chits carry less, held back to cover the sector stations.",
+      modifiers: { wing: 0.7, squadrons: -0.5 },
+      reportLine: "Park calls on 12 Group at the first warning, and the Duxford Wing climbs south toward London.",
+    },
+  ],
+  // Round 21, the Alps. Modeled tradeoff, disclosed: the documented fact is a main attack in the
+  // north (the Little St Bernard) with a secondary advance along the coast (Wikipedia, Italian
+  // invasion of France); the old Austro-Hungarian guns and the single road with its bridges down
+  // make the choice between massing on one road and spreading across the valleys a real one.
+  alps40: [
+    {
+      id: "oneRoad",
+      name: "Mass on the Little St Bernard",
+      subtitle: "Put everything behind the main thrust the 4th Army is making",
+      note: "Keep to one road and make it count. Alpini & Infantry Assault chits carry further; Mules & Mountain Roads chits carry less, one road and one trail carrying everything.",
+      modifiers: { assault: 0.7, supply: -0.5 },
+      reportLine: "Everything goes up the Little St Bernard road behind the main thrust.",
+    },
+    {
+      id: "wholeFront",
+      name: "Press Every Valley at Once",
+      subtitle: "Spread the guns and attack across the whole front, as the orders require",
+      note: "Attack at every pass and let the guns range across the whole front. Corps Artillery chits carry further; Alpini & Infantry Assault chits carry less, spread across more valleys.",
+      modifiers: { artillery: 0.7, assault: -0.5 },
+      reportLine: "The attack goes in at every pass at once and the guns range across the whole front.",
     },
   ],
 };
@@ -1129,6 +1331,180 @@ const KEY_BATTLE_POSTURES = {
       reveal: "Contact: the target itself is ringed with flak dense enough that only a disciplined run gets bombs through it — the fighters are not today's real defense.",
     },
   ],
+  // Round 21, Sedan. Three real conditions the crossing met, all verified 2026-10-05
+  // (Wikipedia, Battle of Sedan (1940)): the 55th Division's reservists broke under the
+  // continuous bombing though almost nobody was hit (56 French casualties, no bunker destroyed by
+  // a direct hit, the "panic of Bulson" at about 19:00); French artillery destroyed 81 of the 96
+  // assault boats at Wadelincourt; a two-kilometre gap lay between two bunkers at Glaire and
+  // Pont Neuf, and small assault parties (Großdeutschland, Feldwebel Rubarth's team of the 49th
+  // Engineer Battalion) cleared the bunkers around it; and X Corps' armour (3rd Armoured Division,
+  // Char B1 bis) was within reach for a dawn counterattack on 14 May. The reservist collapse is
+  // the historical posture, drawn twice as often (round 10, item 7).
+  sedan40: [
+    {
+      id: "reservistsShaken",
+      name: "Reservists breaking under the bombing",
+      weight: 2,
+      modifiers: { air: 1.1, assault: 0.95, guns: 0.85, bridging: 0.9 },
+      hints: [
+        "Prisoners from the last river crossing say the men in the bunkers have not slept and are ready to leave.",
+        "Telephone lines on the French side are down and the officers cannot be heard giving orders.",
+      ],
+      reveal: "Contact: the defenders on the far bank are reservists, and the bombing is wearing them down faster than any bunker is breached.",
+    },
+    {
+      id: "riverArtillery",
+      name: "French guns ranged on the river",
+      modifiers: { guns: 1.5, air: 0.7, assault: 0.85, bridging: 0.9 },
+      hints: [
+        "A forward observer reports French batteries firing at the approaches to the crossing places before any boat is in the water.",
+        "The far bank's bunkers are intact and the guns behind them have clearly registered the river.",
+      ],
+      reveal: "Contact: French artillery has the whole river ranged, and the first boats in the water are being hit.",
+    },
+    {
+      id: "gapBetweenBunkers",
+      name: "A gap between the bunkers",
+      modifiers: { assault: 1.25, air: 0.8, guns: 0.9, bridging: 0.95 },
+      hints: [
+        "Air photographs show a stretch of the line where the bunkers stand well apart with nothing between.",
+        "Patrols report the French line is thin between two strongpoints and that no one is watching the ground.",
+      ],
+      reveal: "Contact: there is a gap in the line, and small parties can get through it and take the bunkers from the flank.",
+    },
+    {
+      id: "armourOnTheMove",
+      name: "French tanks moving up",
+      modifiers: { bridging: 1.5, assault: 0.85, air: 0.7, guns: 0.8 },
+      hints: [
+        "Reconnaissance reports French armour on the roads south of Sedan, moving north.",
+        "Radio intercepts talk of a reserve division being brought forward to the heights above the town.",
+      ],
+      reveal: "Contact: French armour is moving up toward the bridgehead, and the tanks on this side of the river can do nothing until the bridge is built.",
+    },
+  ],
+  // Round 21, Moscow. Three conditions the German line actually offered, verified 2026-10-05
+  // (Wikipedia, Battle of Moscow; Winter campaign of 1941-1942): Army Group Centre had only a
+  // third of its motor vehicles working and infantry divisions at third to half strength, with no
+  // winter clothing (the frozen line, the historical posture, drawn twice as often); the northern
+  // and southern groups were still armoured, Third Panzer Army at Klin and Second Panzer Army at
+  // Tula (the flank counterattack case); and the Germans did withdraw, in many places in good
+  // order, so that "the Red Army mostly failed to encircle the German units" in December (the
+  // orderly withdrawal, which tests the pursuit and its supply).
+  moscow41: [
+    {
+      id: "frozenLine",
+      name: "A hollow, frozen line",
+      weight: 2,
+      modifiers: { exploitation: 1.4, reserves: 0.95, supply: 0.9, air: 0.9 },
+      hints: [
+        "Prisoners come over the line in summer boots and report their regiments down to a hundred and fifty rifles.",
+        "Scouts find stretches of the German line with no one in it at all.",
+      ],
+      reveal: "Contact: the German line is hollow and frozen, with whole sectors open to anyone who can get through the snow.",
+    },
+    {
+      id: "mobileFlanks",
+      name: "Tank groups still mobile on the flanks",
+      modifiers: { reserves: 1.05, exploitation: 0.7, air: 1.1, supply: 0.95 },
+      hints: [
+        "Air reconnaissance still finds German tanks and armoured cars at the roads leading out of Klin and Tula.",
+        "Signals show the panzer groups' headquarters have kept their reserves close to the main roads.",
+      ],
+      reveal: "Contact: German tank groups are still mobile at the flanks, and anyone riding through the gaps will be hit from the side.",
+    },
+    {
+      id: "orderlyWithdrawal",
+      name: "A German withdrawal in good order",
+      modifiers: { supply: 1.5, reserves: 0.85, exploitation: 0.8, air: 0.9 },
+      hints: [
+        "Villages along the main roads are burning, and the Germans are blowing the bridges behind them.",
+        "Rearguards are fighting from village to village and then pulling out before they can be surrounded.",
+      ],
+      reveal: "Contact: the Germans are pulling back in good order, and the whole attack will depend on how far its own supplies can keep up.",
+    },
+  ],
+  // Round 21, Battle of Britain Day. Three conditions of the day itself, verified 2026-10-05
+  // (Wikipedia, Battle of Britain Day): a heavy fighter escort rode with each raid (about 120
+  // Bf 109s with 25 Dorniers in the morning, about 350 fighters with 114 bombers in the
+  // afternoon: the historical posture, drawn twice as often); the afternoon raid was a second
+  // wave about three hours behind the first; and cloud between 2,000 and 12,000 feet hid the
+  // targets, which makes the Observer Corps' and ground controllers' job harder (the Dowding
+  // system's own limits, per Wikipedia, Dowding system: the Observer Corps "struggled in poor
+  // weather and darkness").
+  britainDay40: [
+    {
+      id: "heavyEscort",
+      name: "Fighters riding close with the bombers",
+      weight: 2,
+      modifiers: { wing: 1.2, squadrons: 0.85, control: 1.0, turnaround: 0.9 },
+      hints: [
+        "The plot shows a large number of fighters forming up over the Pas de Calais with the bombers.",
+        "The first plots are rather bigger than a bombing raid usually is.",
+      ],
+      reveal: "Contact: the raid has a heavy fighter escort, and the fight will be as much with the Messerschmitts as with the bombers.",
+    },
+    {
+      id: "secondWave",
+      name: "A second wave behind the first",
+      modifiers: { turnaround: 1.8, squadrons: 0.8, wing: 0.8, control: 0.9 },
+      hints: [
+        "Radar shows no break in the plots: the first raid is not alone.",
+        "The first raid has gone home, but the controllers say they can see more aircraft forming up behind it.",
+      ],
+      reveal: "Contact: a second, larger raid is coming within hours of the first, and the squadrons that met the first have to be back in the air.",
+    },
+    {
+      id: "cloudCover",
+      name: "Cloud hiding the raid",
+      modifiers: { squadrons: 1.1, control: 0.7, wing: 0.9, turnaround: 1.0 },
+      hints: [
+        "A solid layer of cloud lies across Kent at 2,000 feet and builds to twelve thousand.",
+        "The Observer Corps posts report the raid by sound and cannot see it.",
+      ],
+      reveal: "Contact: cloud is hiding the raid from the ground, and the plot is thin and late.",
+    },
+  ],
+  // Round 21, the Alps. Three conditions the offensive actually faced, verified 2026-10-05
+  // (Wikipedia, Italian invasion of France): the French blew the bridges on the Little St Bernard
+  // road and garrisoned the old Redoute Ruinée with seventy men and machine guns, with an advance
+  // post at Seloge (the historical posture, drawn twice as often); the French fortress artillery
+  // silenced six of the eight turrets of the Italian fort on Mont Chaberton with 57 shots from
+  // 280-mm mortars on 21 June and ranged the passes; and the French had 86 platoons of elite
+  // ski scouts (sections d'éclaireurs-skieurs) screening the approaches.
+  alps40: [
+    {
+      id: "bridgesDown",
+      name: "The bridges down, the old posts manned",
+      weight: 2,
+      modifiers: { supply: 1.7, assault: 0.6, artillery: 0.9, air: 0.9 },
+      hints: [
+        "Engineers report the French have blown the bridges on the Little St Bernard road.",
+        "Aerial photographs show machine-gun posts in the ruins of the old fort at the top of the pass.",
+      ],
+      reveal: "Contact: the bridges are down and the old posts above them are manned, so the road itself is the obstacle.",
+    },
+    {
+      id: "fortressGuns",
+      name: "Fortress guns ranged on the passes",
+      modifiers: { artillery: 1.2, assault: 0.6, air: 0.8, supply: 0.9 },
+      hints: [
+        "French heavy mortars have been moved up below the forts at the frontier.",
+        "The guns in the forts opposite are firing on the approaches before anyone has moved.",
+      ],
+      reveal: "Contact: the French fortress guns have the passes ranged, and whoever shows himself gets shelled.",
+    },
+    {
+      id: "skiScreen",
+      name: "Ski patrols on every approach",
+      modifiers: { assault: 1.0, artillery: 0.7, air: 0.8, supply: 0.9 },
+      hints: [
+        "Patrols are meeting French ski scouts well forward of the French line.",
+        "Every approach seems to have a few men on skis watching it, and they are good.",
+      ],
+      reveal: "Contact: French ski patrols are screening every approach, and the attack will be fought out in small mountain actions.",
+    },
+  ],
 };
 
 // Shared battle math — one pure implementation used by the planning screen (staff assessment),
@@ -1410,6 +1786,94 @@ const KEY_BATTLE_ECHOES = {
       lemay: "LeMay's own combat box is still the tightest formation this mission flew, start to finish.",
       kepner: "Kepner's Thunderbolts are still the reason the handoff near Aachen went as cleanly as it did.",
       eaker: "Eaker's own target list is still what every lead bombardier on this mission flew to.",
+    },
+  },
+  sedan40: {
+    counter: {
+      repulsed: "The French tanks that came at the bridgehead at first light were broken up on the heights above Sedan.",
+      heldAtCost: "The bridgehead held against the French tanks, at a cost the regiments on the heights still feel.",
+      broke: "The French tanks broke into the bridgehead at first light, and it took a day to seal the breach.",
+      gaveGround: "The bridgehead gave up the heights to the French tanks and fell back to the river bank to hold it.",
+    },
+    neglected: {
+      assault: "Too few riflemen and pioneers went over in the first boats, and the men on the far bank were counting rounds all night.",
+      air: "The bombers hardly flew, and the French behind the bunkers kept their nerve and their guns until the very end.",
+      guns: "The guns were never fired in earnest, and the bunkers were still firing when the boats went down to the water.",
+      bridging: "The bridge was late, and the panzers stood on the near bank through the night, watching the far one.",
+    },
+    commander: {
+      guderian: "Guderian is still on the river bank, hurrying the engineers and the traffic over the bridge.",
+      balck: "Balck's regiment is still holding the heights above the river that it took on the first afternoon.",
+      loerzer: "Loerzer's bombers are still flying over the French line in small waves, every few minutes.",
+    },
+  },
+  moscow41: {
+    counter: {
+      repulsed: "The German counterattack on the shoulder of the advance was beaten off and the advance went on.",
+      heldAtCost: "The shoulder of the advance held against the German counterattack, but the divisions that held it are badly worn.",
+      broke: "The Germans broke into the shoulder of the advance, and the armies on either side had to stop and fight for it.",
+      gaveGround: "The shoulder gave ground to the German counterattack, and the advance beside it slowed to stay in touch.",
+    },
+    neglected: {
+      reserves: "There were never enough fresh divisions to follow up, and the front stopped when the first wave ran out.",
+      exploitation: "The cavalry and ski columns stayed behind the line, and the Germans got out of the villages the horsemen might have cut off.",
+      air: "The sky over the advance belonged to nobody, and the columns on the roads were bombed as they moved.",
+      supply: "The railway brought up men and not the shells and the winter clothing, and the front paid for that in the cold.",
+    },
+    commander: {
+      zhukov: "Zhukov has the fresh armies in one hand and is already planning the next blow.",
+      belov: "Belov's horsemen are still out beyond the German strongpoints, in the snow.",
+    },
+  },
+  britainDay40: {
+    counter: {
+      repulsed: "The second raid was met by squadrons already back in the air and turned away from London's docks.",
+      heldAtCost: "The second raid was held off, at the price of squadrons going up with their tanks barely full.",
+      broke: "The second raid broke through to the docks while 11 Group's squadrons were still on the ground refuelling.",
+      gaveGround: "Park pulled his squadrons back to cover the sector stations, and the second raid reached the docks.",
+    },
+    neglected: {
+      squadrons: "11 Group's own squadrons were held back, and the raids reached London with fewer fighters in their way.",
+      control: "The plot was thin and late, and the controllers were putting squadrons where the raid had been.",
+      wing: "The Duxford Wing was never called, and the northern group's fighters stayed on the ground.",
+      turnaround: "The squadrons were not turned round in time, and the second raid found the sky nearly empty.",
+    },
+    commander: {
+      park: "Park's squadrons still go up to meet each raid in ones and twos, well forward of London.",
+      dowding: "Dowding's plot and controllers are still the thing that tells Fighter Command where to be.",
+      leighMallory: "Leigh-Mallory's wing is still flying south from Duxford in one mass, and the argument over it is still unsettled.",
+    },
+  },
+  // Fifteen months later (europeFirst42): only the commander's mark, and the neglected arm, survive.
+  britainDayLater: {
+    counter: {},
+    neglected: {
+      squadrons: "Fighter Command still remembers the day 11 Group's squadrons were held back.",
+      control: "Fighter Command still remembers the day the plot was thin and the controllers were behind it.",
+      wing: "Fighter Command still remembers the argument over the wing that was never called.",
+      turnaround: "Fighter Command still remembers the day the squadrons were not turned round in time.",
+    },
+    commander: {
+      park: "Fighter Command still talks about the September day Park put every squadron he had into the air.",
+      dowding: "Fighter Command still talks about the September day Dowding's system did what he had built it to do.",
+      leighMallory: "Fighter Command still argues about the September day the wing flew south from Duxford.",
+    },
+  },
+  alps40: {
+    counter: {
+      repulsed: "The French counterattack on the new line was thrown back and the line stayed where it was.",
+      heldAtCost: "The line held against the French counterattack, at a cost the mountain troops will remember.",
+      broke: "The French broke into the line, and the fight went on in the snow at close range for hours.",
+      gaveGround: "The line fell back off the high ground rather than fight the counterattack out where it struck.",
+    },
+    neglected: {
+      assault: "The Alpini barely climbed, and the guns and aircraft had nothing to cover while they stayed at the bottom.",
+      artillery: "The guns hardly fired, and whatever the infantry met in the passes it met without them.",
+      air: "The Regia Aeronautica never flew a mission that mattered to the men climbing, and no one on the ground missed it.",
+      supply: "The mules and the road were never fixed, and the front was short of everything but cold and snow.",
+    },
+    commander: {
+      guzzoni: "Guzzoni's army is still strung out along the Little St Bernard road, the main attack's weight behind it.",
     },
   },
 };

@@ -62,8 +62,138 @@
               setFlags: { caseYellow: "manstein" },
               impact: { manpower: 1, fuel: 0, initiative: 1 },
               next: "dunkirk",
-              outcome:
-                "What happened, and it remains one of the most audacious operational gambles of the entire war: seven panzer divisions threaded through terrain the French general staff had assessed as unsuitable for a major armored thrust, crossed the Meuse at Sedan by May 13, and reached the Channel coast by May 20 — cutting off and encircling the very Allied armies that had advanced into Belgium to meet a northern attack that was, by then, revealed as the feint. France's defeat, six weeks after the campaign began, is substantially a consequence of this single operational decision.",
+              // Round 21 (2026-10-05, Craig: the first Order of Battle for the German campaign,
+              // Sedan). Attached to this choice with a new uncertain[] whose first outcome is the
+              // historical text that used to be the choice's own outcome. All facts verified
+              // 2026-10-05 (Wikipedia, Battle of Sedan (1940); Hermann Balck; Bruno Loerzer):
+              // XIX Panzer Corps (Guderian) had the 1st (Kirchner), 2nd (Veiel) and 10th (Schaal)
+              // Panzer Divisions with Infantry Regiment Großdeutschland attached to 1st, in
+              // Panzergruppe von Kleist; the French 55th Infantry Division (Lafontaine), a reserve
+              // division, held about 20 km of the river under Second Army (Huntziger), with 103
+              // bunkers, most unfinished; the air attack was changed from a single twenty-minute
+              // strike to continuous attacks in small formations from 08:00 to 16:00; 81 of 96
+              // rubber boats were destroyed by French artillery at Wadelincourt; the first pontoon
+              // bridge stood at about 01:00 on 14 May and the first tanks crossed at 07:20; the
+              // "panic of Bulson" came at about 19:00 on 13 May; X Corps' counterattack was ordered
+              // for 05:00 on 14 May and reached the Bulson ridge minutes after the Germans.
+              keyBattleSubgame: {
+                id: "sedan40",
+                title: "Order of Battle — The Crossing at Sedan",
+                flavor:
+                  "The Manstein Plan is a single river on a single afternoon: XIX Panzer Corps must cross the Meuse at Sedan against reserve divisions dug into the far bank, and its three panzer divisions cannot cross at all until engineers have a bridge up. The air corps will bomb the French positions from first light in rolling waves rather than one great blow, some of the corps' guns are still in the Ardennes traffic, and the first men over will go in rubber boats under fire. What's decided here is where the corps' effort goes: how much to the assault companies and pioneers who cross first, how much to the air attack that has to unnerve the defenders rather than destroy them, how much to the artillery that arrived, and how much to the bridge and the roads that every tank in the corps is waiting on.",
+                categories: [
+                  { id: "assault", name: "Assault Infantry & Pioneers", meter: "manpower", glyph: "▮▮▮" },
+                  { id: "air", name: "Air Attack", meter: "fuel", glyph: "✈" },
+                  { id: "guns", name: "Artillery Preparation", meter: "fuel", glyph: "✺" },
+                  { id: "bridging", name: "Bridging & Traffic", meter: "initiative", glyph: "═" },
+                ],
+                // Assault highest — the first men over the river and up the slope are what the
+                // whole operation turns on; Air second — it did not destroy a single bunker but
+                // broke the nerve of the men inside them, which was worth more; Artillery third —
+                // the corps was short of guns and some of the heavy howitzers were still in the
+                // Ardennes traffic; Bridging lowest, deliberately, on its own terms — a bridge
+                // keeps no one alive on the far bank, though every tank must wait for it, the same
+                // asymmetric-by-design choice as Kursk's Supply.
+                effectiveness: { assault: 2.4, air: 2.2, guns: 1.9, bridging: 1.7 },
+                categoryContext: {
+                  assault:
+                    "The first men over are rifle companies and pioneers in rubber boats, and the bunkers on the far bank have to be taken one at a time. Each commitment here puts more men in the first boats and more pioneers with flamethrowers and charges in the first rush up the slope.",
+                  air:
+                    "The bombers will not break a bunker. What they can do is keep the men inside them under the noise for eight hours, until the nerve goes. Each commitment here keeps the waves coming a little more often.",
+                  guns:
+                    "There are fewer guns than the plan wanted, and no one is sure what the French artillery will do when the boats go into the water. Each commitment here puts more of what is on the river bank onto the bunkers and the French batteries behind them.",
+                  bridging:
+                    "No tank crosses the Meuse until engineers have a bridge up, and the road behind it is already jammed. Each commitment here gets the pontoons to the river sooner and keeps the traffic moving toward them.",
+                },
+                flashups: {
+                  assault: [
+                    "A rifle company reaches the far bank in its rubber boats while the French are still looking at the sky.",
+                    "A pioneer team works along the back of a bunker with satchel charges.",
+                    "Grossdeutschland's riflemen reach the foot of Hill 247 and start up it.",
+                    "A platoon finds a gap between two bunkers and goes through it unseen.",
+                    "A company digs in on the far slope with the river at its back.",
+                  ],
+                  air: [
+                    "Another small wave of bombers goes over the French line, and the men in the bunkers keep their heads down.",
+                    "Stukas dive on the far bank, their sirens carrying across the river.",
+                    "A bomber crew reports the French line quiet and no guns firing from it.",
+                    "The air attack goes on, hour after hour, and the French telephone lines are cut.",
+                    "A wave of bombers drops on a village behind the bunkers and the traffic on the road stops.",
+                  ],
+                  guns: [
+                    "A battery of 105s fires onto a bunker at the water's edge.",
+                    "The howitzers shift fire to the French guns behind the ridge.",
+                    "A French battery answers, and a shell lands among the boats.",
+                    "A forward observer corrects the fire onto the second line of bunkers.",
+                    "The guns fall silent for a quarter of an hour, saving what shells there are.",
+                  ],
+                  bridging: [
+                    "A column of pontoon trucks reaches the river bank behind schedule.",
+                    "A traffic officer clears a jam of lorries from the one road that leads to the crossing.",
+                    "The first pontoons go into the water under French fire.",
+                    "Engineers work through the night on the approaches to the bridge.",
+                    "A bridge section is lowered into place and the first planks are laid.",
+                  ],
+                },
+                reportTimes: { open: "0800", contact: "1500", cats: ["1600", "1730", "1930", "2130"], reserve: "2230", counter: "0500" },
+                idleLines: {
+                  assault: [
+                    "No extra men go into the first boats. The assault goes over with whatever is already on the river bank.",
+                    "The pioneers are given nothing more to carry, and the bunkers are left to the riflemen.",
+                  ],
+                  air: [
+                    "No extra bombers are sent. The air attack flies the number of waves it had been given.",
+                    "No more is asked of the air corps. The French get whatever quiet the schedule gives them.",
+                  ],
+                  guns: [
+                    "The guns are given no extra targets. They fire on the schedule and nothing more.",
+                    "Nothing more goes to the river bank. The howitzers fire what they already have.",
+                  ],
+                  bridging: [
+                    "No extra effort goes into the bridge. The engineers build it at the pace the plan gave them.",
+                    "The road to the river is left as it is, and the traffic goes through when it can.",
+                  ],
+                },
+                verdicts: ["The Bridgehead Holds and the Panzers Cross", "The Crossing Stalls on the Far Bank"],
+                verdictGrades: {
+                  clean: "The infantry took the heights, the air attack kept the French quiet, and the bridge was up for the tanks in the dark, with every part of the corps' plan working at once.",
+                  costly: "The bridgehead holds and the tanks cross, but every part of the corps paid more than the plan allowed for to get them there.",
+                  marginal: "The infantry hold the far bank and the bridge goes up, but the day does not go to plan, and the French have hours of warning they should not have had.",
+                  total: "The infantry cling to the far bank and the bridge is late, so the corps' plan runs a day behind, whatever it achieved in the end.",
+                },
+                counterattack: {
+                  category: "bridging",
+                  severity: { armourOnTheMove: 2, riverArtillery: 1, gapBetweenBunkers: 1, reservistsShaken: 1 },
+                  warn: {
+                    1: "French reserve units are probing toward the bridgehead from the south.",
+                    2: "French tanks, the heavy Char B1s of X Corps, are moving up toward the heights above Sedan for a counterattack at first light.",
+                  },
+                  results: {
+                    repulsed: "The French tanks are met at the heights and broken up before the bridgehead is in danger.",
+                    heldAtCost: "The bridgehead holds against the French tanks, but the units that held it have been badly mauled.",
+                    broke: "The French tanks break into the bridgehead, and the fight goes on at close quarters among the houses.",
+                    gaveGround: "The bridgehead gives up the high ground and holds the river bank, rather than fight the tanks out on the heights.",
+                  },
+                },
+              },
+              uncertain: [
+                {
+                  weight: modWeight(70, meters.initiative),
+                  title: "The bridgehead holds and the breakout runs",
+                  setFlags: { sedan40Result: "crossed" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "What happened, and it remains one of the most audacious operational gambles of the entire war: seven panzer divisions threaded through terrain the French general staff had assessed as unsuitable for a major armored thrust, crossed the Meuse at Sedan by May 13, and reached the Channel coast by May 20 — cutting off and encircling the very Allied armies that had advanced into Belgium to meet a northern attack that was, by then, revealed as the feint. France's defeat, six weeks after the campaign began, is substantially a consequence of this single operational decision.",
+                },
+                {
+                  weight: 100 - modWeight(70, meters.initiative),
+                  title: "The bridgehead is held but the crossing runs late",
+                  setFlags: { sedan40Result: "contained" },
+                  impact: { manpower: -1, fuel: -1, initiative: -1 },
+                  outcome:
+                    "The minority projection, which the day itself came closer to than the tidy version suggests: the infantry get over the Meuse and cling to the far bank, but the bridge comes up late, the tanks stand on the near bank for hours longer than planned, and the French counterattack arrives to find a bridgehead that is held and not yet secure. The breakout still comes, because French command hesitates in every version of this day, but it runs a day slower than it did in fact, and the armies in Belgium use the extra day to begin falling back on the Channel before the panzers can close behind them.",
+                },
+              ],
             },
             {
               label: "Hold to the original plan — the main weight advances through Belgium as OKH intended",
@@ -161,7 +291,12 @@
           title: "The Halt at Dunkirk",
           historicalRecord: true,
           situation:
-            "German panzers have driven the British Expeditionary Force and remnants of the French First Army into a shrinking pocket around Dunkirk. Tank serviceability in the lead divisions is reported anywhere between 50 and 70 percent, and the whole force is needed intact for the coming push south into France.\n\nIntelligence estimates of the pocket's strength vary widely: somewhere between 300,000 and 450,000 Allied troops, though nobody can say how many are still combat-effective or how fast the Royal Navy could in fact lift them off a beach under fire. No evacuation on that scale has ever been attempted.",
+            "German panzers have driven the British Expeditionary Force and remnants of the French First Army into a shrinking pocket around Dunkirk. Tank serviceability in the lead divisions is reported anywhere between 50 and 70 percent, and the whole force is needed intact for the coming push south into France.\n\nIntelligence estimates of the pocket's strength vary widely: somewhere between 300,000 and 450,000 Allied troops, though nobody can say how many are still combat-effective or how fast the Royal Navy could in fact lift them off a beach under fire. No evacuation on that scale has ever been attempted." +
+            // Round 21 (Sedan echo): the crossing's result and what the battle left behind.
+            (flags.sedan40Result === "contained"
+              ? " The Meuse crossing cost a day more than the plan allowed, and the armies in Belgium used it: the pocket closing around Dunkirk is looser than the staff expected."
+              : "") +
+            keyBattleEcho("sedan40", flags),
           choices: [
             {
               label: "Order the halt — let armor rest, let the Luftwaffe finish the pocket",
