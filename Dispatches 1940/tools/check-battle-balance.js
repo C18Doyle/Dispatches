@@ -182,6 +182,10 @@ const battles = [
   extractBattleConfig("arnhemPerimeter44"),
   extractBattleConfig("pq17_1942"),
   extractBattleConfig("bomberDirective43"),
+  extractBattleConfig("sedan40"),
+  extractBattleConfig("moscow41"),
+  extractBattleConfig("britainDay40"),
+  extractBattleConfig("alps40"),
 ];
 
 // ---- 3. Scenario runner ------------------------------------------------------------------------

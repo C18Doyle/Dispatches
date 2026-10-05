@@ -430,7 +430,11 @@
           title: "The Lifeline Routes",
           historicalRecord: true,
           situation:
-            "American and British aid — trucks, aviation fuel, rail stock, food, the unglamorous sinews the Soviet war economy is shortest of — flows along two main arteries: the Arctic convoys to Murmansk, fast but running a gauntlet of German aircraft and U-boats based in Norway, and the Persian Corridor through Iran, safe but slow and still being built out. Moscow's pressure on the Western Allies is constant: more, faster, whatever the losses. The question on the Soviet side of the ledger is which route to stake the year's planning on.",
+            "American and British aid — trucks, aviation fuel, rail stock, food, the unglamorous sinews the Soviet war economy is shortest of — flows along two main arteries: the Arctic convoys to Murmansk, fast but running a gauntlet of German aircraft and U-boats based in Norway, and the Persian Corridor through Iran, safe but slow and still being built out. Moscow's pressure on the Western Allies is constant: more, faster, whatever the losses. The question on the Soviet side of the ledger is which route to stake the year's planning on." +
+            // Round 21 (Moscow echo): only when the player actually fought the December battle.
+            (flags.moscow41 === "counteroffensive"
+              ? (flags.moscow41Result === "spent" ? " The winter's blow before Moscow gained ground and no more, and the army that fought it is short of everything the convoys bring." : "") + keyBattleEcho("moscow41", flags)
+              : ""),
           choices: [
             {
               label: "Press for maximum Arctic deliveries — accept the convoy losses for the speed",
@@ -900,11 +904,140 @@
               setFlags: { moscow41: "counteroffensive" },
               impact: { manpower: 2, fuel: 0, initiative: flags.reserveCommitment41 === "hold" ? 2 : 1 },
               next: flags.hardMode ? "specialSection41" : "lendLease42",
-              outcome:
-                "What happened, launched December 5, 1941. Fresh Siberian divisions, and a German army with no winter equipment because the campaign was planned to be over by autumn, combined to drive Army Group Center back as much as 150 miles in places. It was the first major German reversal of the war, and it ended, permanently, any version of a quick victory in the east." +
-                (flags.reserveCommitment41 === "hold"
-                  ? " This time the Siberian divisions aren't attacking alone — the Southwestern Front reserve banked in October goes in beside them, a counteroffensive with more actual weight behind it than the historical version ever had."
-                  : ""),
+              // Round 21 (2026-10-05, Craig: the first Order of Battle for the Soviet campaign,
+              // the Moscow counteroffensive). Same pattern as the German Sedan choice: a new
+              // uncertain[] whose first outcome is the text that used to be this choice's own.
+              // Facts verified 2026-10-05 (Wikipedia, Battle of Moscow; 1st Shock Army; Pavel
+              // Belov; Winter campaign of 1941-1942): Zhukov's Western Front, Konev's Kalinin
+              // Front and the right wing of Timoshenko's Southwestern Front took part, with the
+              // 1st Shock, 5th, 10th, 16th, 20th, 30th, 33rd, 43rd, 49th and 50th Armies; some 58
+              // reserve divisions had been gathered by early December; 1st Shock Army was formed in
+              // the Stavka reserve in November 1941; the offensive began on the Kalinin Front on 5
+              // December and took Klin on 7 December; German Army Group Centre had only a third
+              // of its vehicles running, infantry divisions at a third to a half of strength, and
+              // no winter clothing; the Soviets pushed the Germans back 150-300 km but mostly
+              // failed to encircle German units; Belov's corps had been renamed 1st Guards Cavalry
+              // Corps on 26 November and had stopped Guderian near Kashira.
+              keyBattleSubgame: {
+                id: "moscow41",
+                title: "Order of Battle — The Blow Before Moscow",
+                flavor:
+                  "The Germans have shot their bolt. Army Group Centre has barely a third of its vehicles running, its infantry regiments are down to a hundred and fifty or two hundred riflemen, and no one in the German line has winter clothing. Zhukov wants every fresh army that has come west — 1st Shock, the divisions released from the Far East, the rest of the reserve Stavka has been gathering since the autumn — to attack together, on the same morning, before the Germans can dig in. The reserve is large by the standards of this war and small by the standards of the front it has to cover, and Zhukov himself said so. What's decided here is how thinly it is spread: how much into the rifle armies' blow, how much into the cavalry and ski columns that have to get behind the German flank, how much of the air that came west covers them, and how much of the railway goes to ammunition and winter clothing in place of more men.",
+                categories: [
+                  { id: "reserves", name: "Fresh Rifle Armies", meter: "manpower", glyph: "▮▮▮" },
+                  { id: "exploitation", name: "Cavalry & Ski Columns", meter: "initiative", glyph: "⇉" },
+                  { id: "air", name: "Air Cover", meter: "fuel", glyph: "✈" },
+                  { id: "supply", name: "Rail & Winter Supply", meter: "fuel", glyph: "▤" },
+                ],
+                // Reserves highest — the new armies are the blow itself; Exploitation second —
+                // a hollow German line is a thing cavalry and skiers can get through, but only
+                // where someone holds the ground behind them; Air third — real, but German
+                // air strength was also much reduced; Supply lowest, deliberately — the railway
+                // fed the armies all winter, and the shortage is shells and clothing rather than
+                // men, which is a sharper limit than any one battle can lift.
+                effectiveness: { reserves: 2.5, exploitation: 2.2, air: 1.9, supply: 1.7 },
+                categoryContext: {
+                  reserves:
+                    "The fresh armies are the weight of the blow, and they are all the reserve there is. Zhukov's argument is that they should go in together. Each commitment here puts more of them into the first morning's attack.",
+                  exploitation:
+                    "Cavalry and skiers can go where tanks cannot, through the forest and the snow and around the strongpoints. Each commitment here sends another column out beyond the German line, if the line is thin enough to get through.",
+                  air:
+                    "Part of the air that came west covers the advance. The Germans' own airfields near the front are in poor shape, but any aircraft they have will hunt anything on the roads. Each commitment here puts more fighters over the columns.",
+                  supply:
+                    "The railway must now carry shells and winter clothing as well as men, and the roads beyond the railheads are snow. Each commitment here gives the supply trains first call on the rails.",
+                },
+                flashups: {
+                  reserves: [
+                    "A fresh rifle division goes forward in white snowsuits, a long line on the snow.",
+                    "1st Shock Army's regiments cross their start line at dawn in the cold.",
+                    "A reserve army's artillery opens fire on the German strongpoints for the first time.",
+                    "A division that came from the Far East takes a village in the first morning's attack.",
+                    "A battalion reaches the edge of a town the Germans held for three weeks.",
+                  ],
+                  exploitation: [
+                    "A cavalry regiment rides through a gap in the forest and into a village full of surprised Germans.",
+                    "A ski battalion goes past the German strongpoints on a forest track.",
+                    "The horsemen cut a road behind the German line and hold it for the night.",
+                    "A raiding column reports a German headquarters abandoned and its papers left behind.",
+                    "A cavalry division finds a bridge undefended and takes it.",
+                  ],
+                  air: [
+                    "Fighters from the Far East patrol over the columns on the road to Klin.",
+                    "A flight of ground-attack aircraft hits a German column stuck in the snow.",
+                    "German bombers turn back when a Soviet fighter flight comes in out of the cloud.",
+                    "A Soviet air regiment operates from a frozen field close behind the front.",
+                    "An air raid hits a rail station behind the Soviet line, and the trains stop for an hour.",
+                  ],
+                  supply: [
+                    "A long train of ammunition cars reaches the railhead on time.",
+                    "Felt boots and sheepskin coats are handed out to the front-line companies.",
+                    "A supply column bogs down in snow on the road beyond the railhead.",
+                    "Locomotives are kept running in the cold by crews working through the night.",
+                    "The artillery gets its shells at last and begins to fire at the rate it has wanted.",
+                  ],
+                },
+                reportTimes: { open: "0300", contact: "0700", cats: ["0900", "1200", "1500", "1800"], reserve: "2000", counter: "2200" },
+                idleLines: {
+                  reserves: [
+                    "No more of the fresh armies are committed to the first blow. The attack goes in with what was already on the start line.",
+                    "The reserve is held back and the line it might have strengthened moves forward alone.",
+                  ],
+                  exploitation: [
+                    "The cavalry and ski columns stay in their villages. No one goes around the strongpoints.",
+                    "No raiding columns go out. The front moves forward at the pace of the infantry on the road.",
+                  ],
+                  air: [
+                    "No extra fighters fly over the columns. They go forward under whatever cover the front already has.",
+                    "The air regiments stay on their frozen fields, and the roads are unguarded.",
+                  ],
+                  supply: [
+                    "No priority goes to the supply trains. Shells and clothing arrive when the railway can bring them.",
+                    "The railway is left as it is. The front gets what trickles through.",
+                  ],
+                },
+                verdicts: ["The Germans Are Thrown Back From Moscow", "The Blow Spends Itself Short of Its Goal"],
+                verdictGrades: {
+                  clean: "The fresh armies, the cavalry, the air and the railway all worked at once, and the German front went back in the cold with nothing to stop it.",
+                  costly: "The Germans are driven back, but every arm of the attack was worn thinner than the plan allowed for before it was done.",
+                  marginal: "The attack gains ground but not the breakthrough. The line moves back and holds, and the Germans get away with more than they should have.",
+                  total: "The attack drives the Germans back a few miles and then stops, its reserves spent and the front still in front of Moscow.",
+                },
+                counterattack: {
+                  category: "reserves",
+                  severity: { mobileFlanks: 2, orderlyWithdrawal: 1, frozenLine: 1 },
+                  warn: {
+                    1: "German rearguards are counterattacking along the flanks of the advance.",
+                    2: "The German tank groups at the flanks are turning on the shoulders of the advance, and the armies have to hold them off.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is beaten off at the shoulder, and the advance goes on past it.",
+                    heldAtCost: "The shoulder of the advance holds against the Germans, but the divisions that held it are badly worn.",
+                    broke: "The Germans break into the shoulder of the advance, and the armies on either side have to stop and fight for it.",
+                    gaveGround: "The shoulder gives ground, and the advance slows beside it to stay in touch with the armies that held.",
+                  },
+                },
+              },
+              uncertain: [
+                {
+                  weight: Math.min(95, modWeight(70, meters.initiative) + (flags.reserveCommitment41 === "hold" ? 10 : 0)),
+                  title: "The counteroffensive throws Army Group Centre back",
+                  setFlags: { moscow41Result: "thrown" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "What happened, launched December 5, 1941. Fresh Siberian divisions, and a German army with no winter equipment because the campaign was planned to be over by autumn, combined to drive Army Group Center back as much as 150 miles in places. It was the first major German reversal of the war, and it ended, permanently, any version of a quick victory in the east." +
+                    (flags.reserveCommitment41 === "hold"
+                      ? " This time the Siberian divisions aren't attacking alone — the Southwestern Front reserve banked in October goes in beside them, a counteroffensive with more actual weight behind it than the historical version ever had."
+                      : ""),
+                },
+                {
+                  weight: 100 - Math.min(95, modWeight(70, meters.initiative) + (flags.reserveCommitment41 === "hold" ? 10 : 0)),
+                  title: "The blow gains ground and no more",
+                  setFlags: { moscow41Result: "spent" },
+                  impact: { manpower: -2, fuel: -1, initiative: -1 },
+                  outcome:
+                    "The minority projection, closer to what Zhukov feared than to what happened: the armies drive the Germans from the immediate approaches to Moscow and then stop, their reserves spent and their ammunition short, against a line that has fallen back onto villages it can hold. The capital is safe and the front stays close to it. What was history's first great Soviet reversal becomes a costly relief of the siege, and the winter's other offensives, which never had enough reserve behind them, have even less.",
+                },
+              ],
             },
             {
               label: "Hold the Siberian divisions in reserve — defend the capital, do not yet counterattack",

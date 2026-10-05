@@ -156,8 +156,137 @@
               setFlags: { battleOfBritain40: "park" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "europeFirst42",
-              outcome:
-                "What happened, and what the Air Ministry's own postwar assessment substantially vindicated: Park's squadrons met incoming raids faster and further out, at a real cost in fighters lost piecemeal that the Big Wing's advocates never stopped citing against him. Dowding and Park won the battle. Within weeks of winning it, both were removed from their commands — a political result of the argument, not a military one, and one history has judged considerably less kindly than it judged the tactics.",
+              // Round 21 (2026-10-05, Craig: the Battle of Britain as the second Allied Order of
+              // Battle, chosen over Dunkirk). The day modeled is 15 September 1940, the one on
+              // which Park committed every squadron of 11 Group. Same pattern as Sedan and
+              // Moscow: a new uncertain[] whose first outcome is the text that used to be this
+              // choice's own. Facts verified 2026-10-05 (Wikipedia: Battle of Britain Day; Keith
+              // Park; Dowding system; Hugh Dowding; Trafford Leigh-Mallory): the morning raid was
+              // 25 Do 17s with about 120 Bf 109s; Park scrambled nine squadrons at about 11:15
+              // and the Duxford Wing (five squadrons from 12 Group) at 11:20; the afternoon raid
+              // was 114 bombers with about 350 fighters and came about three hours later; 276
+              // RAF fighters met 475 German aircraft, with 185 fighters in 19 squadrons ready;
+              // Churchill at Uxbridge asked at about 14:35 "What other reserves have we?" and
+              // Park answered "There are none"; cloud between 2,000 and 12,000 feet hid the
+              // targets; the British claimed 77 bombers and 29 fighters, far more than were lost;
+              // Dowding was replaced on 24 November 1940 and Park on 7 December 1940, with
+              // Leigh-Mallory taking over 11 Group.
+              keyBattleSubgame: {
+                id: "britainDay40",
+                title: "Order of Battle — Battle of Britain Day",
+                flavor:
+                  "15 September 1940. The Luftwaffe has been flying against Fighter Command for two months, and today it will come in two waves, with the biggest escort yet. Park runs No. 11 Group from the operations room at Uxbridge, on a plot that Chain Home radar and the Observer Corps feed through Bentley Priory, and Churchill is on the viewing gallery behind him. Every squadron is in a state of readiness and the whole of 11 Group will be needed. What's decided here is how the staff effort behind Park's doctrine is weighted: how much of the fight is left to 11 Group's own squadrons, how much to the plot and the controllers who place them, whether 12 Group's Duxford Wing is called in early, and how fast squadrons are turned round on the ground between the waves, for a second raid that is already forming.",
+                categories: [
+                  { id: "squadrons", name: "11 Group Squadrons", meter: "manpower", glyph: "✈✈" },
+                  { id: "control", name: "Radar & Ground Control", meter: "initiative", glyph: "◎" },
+                  { id: "wing", name: "The Duxford Wing", meter: "fuel", glyph: "≋" },
+                  { id: "turnaround", name: "Rearm & Refuel Turnaround", meter: "fuel", glyph: "↻" },
+                ],
+                // Squadrons highest — Park's doctrine is that the squadrons themselves do the
+                // fighting; Control second — the plot is what lets a few squadrons do the work of
+                // many; Turnaround third — essential but unglamorous; Wing lowest, deliberately —
+                // the Duxford Wing was real and arrived, but a wing of five squadrons takes time
+                // to form and this doctrine does not wait for it.
+                effectiveness: { squadrons: 2.5, control: 2.3, wing: 1.7, turnaround: 1.9 },
+                categoryContext: {
+                  squadrons:
+                    "Park's squadrons are the fighters that meet the raids over Kent and London. His doctrine is to send them up fast, forward, and in squadron strength. Each commitment here puts more of them into the air at the first warning.",
+                  control:
+                    "The plot at Uxbridge is built from radar, the Observer Corps and the filter room at Bentley Priory, and it tells the controllers where each raid is going. Each commitment here keeps that picture sharper and the squadrons better placed.",
+                  wing:
+                    "No. 12 Group's Duxford Wing, five squadrons strong, can fly south to cover London while 11 Group meets the first blow. Each commitment here gets it into the air sooner and over the capital in good time.",
+                  turnaround:
+                    "A squadron that has landed is worth nothing until it is refuelled and rearmed, and a second raid is coming. Each commitment here gets more of them back into the air before the second wave arrives.",
+                },
+                flashups: {
+                  squadrons: [
+                    "A pair of Hurricanes from a sector station climbs hard for altitude over the Kent coast.",
+                    "A squadron of Spitfires comes down out of the sun onto the rear of a bomber formation.",
+                    "Park's squadrons break up a formation of Dorniers before it reaches the capital.",
+                    "A section is scrambled the moment the plot shows a new raid forming.",
+                    "A squadron leader leads his men in head-on at a formation of bombers.",
+                  ],
+                  control: [
+                    "A controller at Uxbridge turns a squadron onto a raid that is still twenty miles away.",
+                    "The plot shows the raid turning north, and the squadrons are told before the pilots can see it.",
+                    "An Observer Corps post reports a formation by sound in the cloud.",
+                    "The filter room corrects a track and a squadron is put onto it at once.",
+                    "A sector controller gives a vector and a height, and the squadron finds the bombers where he said.",
+                  ],
+                  wing: [
+                    "The Duxford Wing forms up over its airfield, five squadrons in a long line.",
+                    "The wing flies south toward London at twenty thousand feet.",
+                    "A wing of Hurricanes and Spitfires comes down on a German formation over the Thames.",
+                    "The wing leader reports that the raid is bigger than the plot said.",
+                    "The wing turns for home, short of fuel, after a long chase.",
+                  ],
+                  turnaround: [
+                    "Ground crews swarm over a Hurricane as it taxis in, rearming and refuelling it in minutes.",
+                    "A squadron lands, and every pilot goes straight to his aircraft.",
+                    "A fuel bowser races across a sector airfield between two landings.",
+                    "A flight is airborne again forty minutes after it landed.",
+                    "The armourers run short of belts and a lorry is sent for more.",
+                  ],
+                },
+                reportTimes: { open: "0900", contact: "1100", cats: ["1115", "1200", "1245", "1330"], reserve: "1435", counter: "1500" },
+                idleLines: {
+                  squadrons: [
+                    "No more squadrons are sent to meet the raid forward. They wait for the bombers over London.",
+                    "11 Group's squadrons stay at readiness on the ground, and the first raid arrives unchallenged.",
+                  ],
+                  control: [
+                    "No extra effort goes into the plot, and the controllers work from the picture they have.",
+                    "The controllers are left to manage the plot alone, and the squadrons are sent where the raid was.",
+                  ],
+                  wing: [
+                    "The Duxford Wing is not called, and 12 Group's fighters stay on the ground.",
+                    "Nothing is asked of the wing, and it stays on its airfield.",
+                  ],
+                  turnaround: [
+                    "No special effort goes into turning squadrons round. They are refuelled in the usual time.",
+                    "The ground crews work at their normal pace, and the squadrons are not ready any sooner.",
+                  ],
+                },
+                verdicts: ["Fighter Command Holds the Sky", "The Day Costs More Than the System Can Spare"],
+                verdictGrades: {
+                  clean: "Squadrons, controllers, wing and ground crews all worked together, and the raids were turned back with the whole of Fighter Command intact.",
+                  costly: "The raids are turned back, but every part of the system was stretched further than it was built to go.",
+                  marginal: "The raids are held, but not cleanly. The losses run higher than the plan allowed for, and the squadrons that fought are very tired.",
+                  total: "The system holds the sky by the thinnest margin, with no reserve left and every squadron committed.",
+                },
+                counterattack: {
+                  category: "turnaround",
+                  severity: { secondWave: 2, heavyEscort: 1, cloudCover: 1 },
+                  warn: {
+                    1: "A second formation of German bombers is forming up over the Channel coast.",
+                    2: "A second, larger wave is forming up behind the first, and 11 Group's squadrons are still on the ground refuelling.",
+                  },
+                  results: {
+                    repulsed: "The second wave is met by squadrons already back in the air and turned away before it reaches the docks.",
+                    heldAtCost: "The second wave is held off, but squadrons go up with their tanks barely full and their ammunition half-loaded.",
+                    broke: "The second wave breaks through to the docks, while 11 Group's squadrons are still refuelling on the ground.",
+                    gaveGround: "Park pulls his squadrons back to cover the sector stations, and the second wave reaches the docks unchallenged.",
+                  },
+                },
+              },
+              uncertain: [
+                {
+                  weight: modWeight(70, meters.initiative) - (flags.forkLuftwaffeShift ? 10 : 0),
+                  title: "Fighter Command holds the sky",
+                  setFlags: { britainDay40Result: "held" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "What happened, and what the Air Ministry's own postwar assessment substantially vindicated: Park's squadrons met incoming raids faster and further out, at a real cost in fighters lost piecemeal that the Big Wing's advocates never stopped citing against him. Dowding and Park won the battle. Within weeks of winning it, both were removed from their commands — a political result of the argument, not a military one, and one history has judged considerably less kindly than it judged the tactics.",
+                },
+                {
+                  weight: 100 - (modWeight(70, meters.initiative) - (flags.forkLuftwaffeShift ? 10 : 0)),
+                  title: "The day costs more than the system can spare",
+                  setFlags: { britainDay40Result: "strained" },
+                  impact: { manpower: -2, fuel: -1, initiative: -1 },
+                  outcome:
+                    "The minority projection, closer than the legend admits: the raids are turned back, but the squadrons that did it are tired and the pilots who replace the losses are barely trained. Park's system still wins the sky, because no other German plan exists, but it wins it with nothing in reserve and a thin margin, and the weeks that follow ask more of Fighter Command than the victory on paper suggests. Dowding and Park still lose their commands within weeks of winning, a political result and not a military one, and the argument over the Big Wing goes on after them.",
+                },
+              ],
             },
             {
               label: "Authorize the Big Wing — mass the formations before engaging, even at the cost of response time",
@@ -181,6 +310,12 @@
             "Pearl Harbor has American public opinion leaning hard toward avenging Japan directly — but Roosevelt and Churchill agreed in principle back in 1941 that Germany, not Japan, is the more dangerous long-term threat: greater industrial capacity, closer to the resources that could make it nearly unbeatable if given time. Admiral King, commanding the US Navy, is not fully persuaded — the Pacific is a naval war, and the Navy is not eager to watch its ships and marines go begging while the Army builds up in Britain for a landing that won't happen for years." +
             (flags.forkLuftwaffeShift
               ? " Fighter Command's own losses from that summer are still being felt in the squadron rosters going into this planning — a quieter cost than history's version paid, but a real one, and the sort of thing that argues for Britain needing the American buildup sooner rather than later."
+              : "") +
+            // Round 21 (Battle of Britain Day echo): fifteen months on, so only the neglected arm
+            // or the commander's mark is written, never a line about the day's own events.
+            (flags.battleOfBritain40 === "park"
+              ? (flags.britainDay40Result === "strained" ? " Fighter Command came through that September with nothing in reserve, and the pilots it has now are still too few and too new." : "") +
+                keyBattleEcho("britainDayLater", flags, "britainDay40")
               : ""),
           choices: [
             {
