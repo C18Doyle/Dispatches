@@ -124,6 +124,11 @@ const engine = await compileTs(join(ROOT, "packages", "engine", "src", "campaign
 }
 
 // ───────────────────────── 1941 and 1940: logic.ts resolveChoice + nextPosition ─────────────────────────
+// 1940 keeps four running Matériel strand tallies in its flags (matOil, matAmmo, matSteel, matShip: where each
+// choice's Matériel impact fell, for the readings under the meter). They are a 1940 addition to the shared rules, so
+// they are set aside here and the rest of the flags must still match the engine exactly.
+const TALLY_FLAGS = new Set(["matOil", "matAmmo", "matSteel", "matShip"]);
+const withoutTallies = (flags) => Object.fromEntries(Object.entries(flags).filter(([k]) => !TALLY_FLAGS.has(k)));
 for (const [game, modes, ceilings, endFlags, axes] of [
   [
     "Dispatches 1941",
@@ -187,7 +192,7 @@ for (const [game, modes, ceilings, endFlags, axes] of [
               const got = engine.resolveChoice({ choice, meters, flags, mode, rules, rand: () => u });
               const gotNext = engine.endsRun(mode, got.flags, rules.endFlags) ? "END" : got.destination;
               checked++;
-              if (!eq(ref.meters, got.meters) || !eq(ref.flags, got.flags) || ref.rollIndex !== got.rollIndex || (refNext.nextPos ?? null) !== (gotNext ?? null))
+              if (!eq(ref.meters, got.meters) || !eq(withoutTallies(ref.flags), got.flags) || ref.rollIndex !== got.rollIndex || (refNext.nextPos ?? null) !== (gotNext ?? null))
                 fail(`${game} ${cid}/${nid}#${index} mode=${mode} u=${u}: ref ${JSON.stringify([ref.meters, refNext.nextPos])} vs engine ${JSON.stringify([got.meters, gotNext])}`);
             }
           }
