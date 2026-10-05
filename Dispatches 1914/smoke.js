@@ -84,6 +84,7 @@ t("ottoman blocked on spec §9", E.CAMPAIGNS.otto.blockingIssue.resolved === fal
   const r3 = E.noteEnding(r2, "ohl_end_armistice", true);
   t("the record counts endings and hard-mode runs", r3.endings.length === 1 && r3.runs === 1 && r3.hardRuns === 1);
   t("settings fall back to the default on junk", E.sanitizeSettings({ schemaVersion: 1, textSize: "huge" }).textSize === "s" && E.sanitizeSettings(null).textSize === "s");
+  t("sound is off by default and only a literal true turns it on", E.defaultSettings().sound === false && E.sanitizeSettings({ schemaVersion: 1, sound: "yes" }).sound === false && E.sanitizeSettings({ schemaVersion: 1, sound: true }).sound === true);
   t("every advisor named on a node has a dossier entry", E.allNodes().every(({ campaignId, node }) => (node.advisors || []).every((id) => E.CAMPAIGNS[campaignId].advisors.some((a) => a.id === id && a.dossier))));
 }
 

@@ -16,6 +16,12 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 - Will axis: Imperial Cohesion. Every acceptance of German direction is tagged for hard mode (surrendered sovereignty), and the historical line carries three of them.
 - Two contested rolls (the Galician offensive, the Piave plan), three recorded disputes, five bulletins in the General Staff communiqué voice, an eight-adviser roster, and `claims/aok.json` (30 claims, 14 read against a web page).
 - The spec's research gate for this campaign was worked through node by node on web sources and is recorded as closed in the campaign file; a specialist source (Herwig, Rothenberg, Tunstall) is still wanted for the independent fact-check. Only the Ottoman card remains greyed out, by the spec's gate.
+### Added: look, sound, access and feedback
+- Ending badges are stamped, and look different for the three kinds of ending (a plain frame for settled, a double frame for contested, a dashed frame for speculative), so the difference does not rely on colour.
+- A Sound setting (off by default): a typewriter tick on each order and a stamp when a file closes, made with the browser's own audio; nothing is downloaded.
+- Each new screen puts focus on its heading, so keyboard and screen-reader users hear the change.
+- A Feedback section on the menu and "A note for the author" on every ending: a line recording the path taken, ready to paste into a comment on the game's page. docs/PLAYTEST.md says how to run a playtest and, plainly, that none has been run.
+- `art/cover.html` and `art/cover.png`: the cover for the itch.io page (630 by 500), in the game's own palette.
 ### Added: the front map
 - Every decision has a map under "Show the map": the stretch of Europe where the file has been, with the route of the headquarters so far and the current place ringed. Only places already visited are shown. The outline is Natural Earth land data (public domain); every node's city has a coordinate (`check-maps.js`).
 - A stray double arrow on the "Show background" control is gone.
