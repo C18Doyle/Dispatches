@@ -3211,7 +3211,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
 // BattleSimulationScreen. The roll itself no longer happens at commit; it happens at the end of
 // the battle report, after the mid-battle reserve decision, so that decision can actually change
 // the odds rather than decorate a result that was already decided. See chooseOption.
-function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, onSpendInitiative, easyMode }) {
+function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn, onCommit, onSpendInitiative, easyMode }) {
   const headingRef = useRef(null);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
@@ -3220,20 +3220,34 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
 
   // Round 9: categories are per battle now (Omaha's are not Kursk's) — see keyBattleCategories.
   const categories = keyBattleCategories(config);
+  // Round 23 (strands bite): an arm that draws on a Matériel strand (category.strand) carries more or
+  // less weight as that strand reads Plentiful, Adequate, Strained or Short. Read once, as the pool is.
+  const [strandInfo] = useState(() => {
+    const byId = Object.fromEntries(materielReadout(flags || {}, meters).map((r) => [r.id, r]));
+    return Object.fromEntries(
+      categories.map((c) => [c.id, c.strand && byId[c.strand] ? { name: byId[c.strand].name, band: byId[c.strand].band, mult: STRAND_BAND_MULT[byId[c.strand].band] } : null])
+    );
+  });
+  const strandMults = Object.fromEntries(categories.map((c) => [c.id, strandInfo[c.id] ? strandInfo[c.id].mult : 1]));
 
   // Round 4 (Craig: "could we have a commander selection option which had a modifier on one of
   // the four categories"). Null = no selection ("no particular emphasis," the honest default).
   // Keyed by config.id against KEY_BATTLE_COMMANDERS; battles without a roster render no
   // commander section at all rather than an empty one.
   const commanderRoster = KEY_BATTLE_COMMANDERS[config.id] || [];
-  const [commanderId, setCommanderId] = useState(null);
+  // Round 23: in a campaign's hard mode a battle can carry orders from above (config.hardRule): a
+  // locked approach or commander, officers who are not available, or a ban on giving ground. The
+  // locks are applied here and the ban on giving ground in the report.
+  const hardRule = HARD_MODE_NAMES[mode] ? config.hardRule || null : null;
+  const commanderBarred = (id) => !!hardRule && ((hardRule.lockCommander && hardRule.lockCommander !== id) || (hardRule.forbidCommanders || []).includes(id));
+  const [commanderId, setCommanderId] = useState(hardRule?.lockCommander ?? null);
   const selectedCommander = commanderRoster.find((c) => c.id === commanderId) || null;
 
   // Round 4 follow-up (Craig: "let's make this one between the two tactical choices"). Forced
   // pick, no default: the Commit button stays disabled until one is chosen for any battle with
   // a roster entry.
   const approachRoster = KEY_BATTLE_APPROACHES[config.id] || [];
-  const [approachId, setApproachId] = useState(null);
+  const [approachId, setApproachId] = useState(hardRule?.lockApproach ?? null);
   const selectedApproach = approachRoster.find((a) => a.id === approachId) || null;
 
   // Round 9, item #1: the enemy's hidden posture for THIS attempt at this battle, drawn once per
@@ -3343,17 +3357,11 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   // bonus and the approach's flat modifier (both known facts going in, so un-jittered) — then,
   // round 9, the whole thing scaled by the hidden enemy posture, which blunts or opens an arm no
   // matter who leads it (see KEY_BATTLE_POSTURES for why it has to scale the whole weight).
-  function effectiveWeight(catId) {
-    const base = (config.effectiveness[catId] ?? 1) * jitter[catId];
-    const commanderBonus = selectedCommander && selectedCommander.category === catId ? KEY_BATTLE_COMMANDER_BONUS : 0;
-    const postureMult = postureMultFor(catId);
-    // Round 13, item #6: a static, known ground-conditions multiplier — see terrainModifiers on
-    // the battle config. Defaults to 1 (no effect) for any battle/category that doesn't define one.
-    const terrainMult = config.terrainModifiers?.[catId] ?? 1;
-    return (base + commanderBonus + approachModifier(catId)) * postureMult * terrainMult;
+  function effectiveWeight(catId, commander = selectedCommander, approach = selectedApproach) {
+    return battleArmWeight({ config, catId, jitter: jitter[catId], commander, approach, posture, posture2, strandMult: strandMults[catId] });
   }
-  function weightsMap() {
-    return Object.fromEntries(categories.map((c) => [c.id, effectiveWeight(c.id)]));
+  function weightsMap(commander = selectedCommander, approach = selectedApproach) {
+    return Object.fromEntries(categories.map((c) => [c.id, effectiveWeight(c.id, commander, approach)]));
   }
   // Bottom/middle/top third of the jitter range — a coarse signal, not the number itself. Does
   // NOT reflect the enemy posture: readiness is about your own formations, the posture is about
@@ -3375,6 +3383,98 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   // soon as the plan changes after it was given.
   const [assessment, setAssessment] = useState(null);
   const planKey = JSON.stringify([allocation, commanderId, approachId]);
+
+  // Round 23 (item 2, the map exercise): for one Initiative the staff war-game the plan on the map
+  // table against two enemy setups drawn at random from those the enemy might show, and say how it
+  // held against each. It cannot say which setup is real, so it tells the player how robust the plan
+  // is, where the Reconnaissance Pass tells them about the enemy and the Staff Assessment judges the
+  // plan against what the enemy really has.
+  const [exercise, setExercise] = useState(null);
+  function requestExercise() {
+    if (spent === 0 || (meters.initiative || 0) <= 0) return;
+    const scenarios = battleScenarios(config, KEY_BATTLE_POSTURES[config.id] || []);
+    if (!scenarios.length) return;
+    const first = Math.floor(Math.random() * scenarios.length);
+    let second = scenarios.length > 1 ? Math.floor(Math.random() * (scenarios.length - 1)) : first;
+    if (second >= first && scenarios.length > 1) second += 1;
+    const picks = first === second ? [scenarios[first]] : [scenarios[first], scenarios[second]];
+    const runs = picks.map((sc) => {
+      const weights = Object.fromEntries(
+        categories.map((c) => [
+          c.id,
+          battleArmWeight({ config, catId: c.id, jitter: jitter[c.id], commander: selectedCommander, approach: selectedApproach, posture: sc.posture, posture2: sc.posture2, strandMult: strandMults[c.id] }),
+        ])
+      );
+      const bonus = clampBattleBonus(sumBattleContributions(computeBattleContributions(categories, allocation, weights, poolSize)));
+      const label = sc.posture ? (sc.posture2 ? sc.posture.name + ", then " + sc.posture2.name : sc.posture.name) : "the enemy as briefed";
+      const verdict = bonus >= 20 ? "held firm" : bonus >= 10 ? "held, but with strain" : bonus >= 0 ? "barely moved the line" : "broke down";
+      return { label, verdict };
+    });
+    if (onSpendInitiative) onSpendInitiative();
+    if (soundOn) playStamp();
+    setExercise({ runs, key: planKey });
+  }
+
+  // Round 23 (item 7, "let your staff plan it"): the whole battle handed to the staff. Commander,
+  // approach and placement come from staffPlanFor; the report then runs itself (see autoplay in
+  // BattleSimulationScreen). A standing setting does it every time.
+  const STAFF_KEY = "dispatches1940_staff_plans";
+  const [staffAlways, setStaffAlways] = useState(() => {
+    try {
+      return window.localStorage.getItem(STAFF_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  function toggleStaffAlways() {
+    const next = !staffAlways;
+    setStaffAlways(next);
+    try {
+      if (next) window.localStorage.setItem(STAFF_KEY, "1");
+      else window.localStorage.removeItem(STAFF_KEY);
+    } catch {
+      /* storage can be blocked; the choice then lasts only for this screen */
+    }
+  }
+  function letStaffPlan() {
+    const allowedCommanders = commanderRoster.filter((c) => !commanderBarred(c.id) || c.id === hardRule?.lockCommander);
+    const allowedApproaches = hardRule?.lockApproach ? approachRoster.filter((a) => a.id === hardRule.lockApproach) : approachRoster;
+    const plan = staffPlanFor({
+      config,
+      categories,
+      poolSize,
+      strandMults,
+      commanders: hardRule?.lockCommander ? allowedCommanders.filter((c) => c.id === hardRule.lockCommander) : allowedCommanders,
+      approaches: allowedApproaches,
+      postures: KEY_BATTLE_POSTURES[config.id] || [],
+      commanderRequired: !!hardRule?.lockCommander,
+    });
+    if (!plan) return;
+    const commander = commanderRoster.find((c) => c.id === plan.commanderId) || null;
+    const approach = approachRoster.find((a) => a.id === plan.approachId) || null;
+    if (soundOn) playStamp();
+    onCommit({
+      allocation: plan.allocation,
+      reserves: 0,
+      poolSize,
+      weights: weightsMap(commander, approach),
+      commanderId: plan.commanderId,
+      approachId: plan.approachId,
+      postureId: posture?.id ?? null,
+      posture2Id: posture2?.id ?? null,
+      intel: null,
+      assessment: null,
+      autoplay: true,
+    });
+  }
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (staffAlways && !autoStarted.current) {
+      autoStarted.current = true;
+      letStaffPlan();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // Round 10, item #4: reliability is set by Initiative at the moment of asking (before paying
   // for it) — see staffReliability. When the roll says the staff get it wrong, their verdict is
   // shifted one or two bands from the truth and their specific pointer is replaced with a
@@ -3505,6 +3605,15 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
           </p>
         )}
 
+        {hardRule && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000] border-l-4 pl-3" style={{ ...bodyStyle, borderColor: "#7a2e2e" }}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ ...labelStyle, color: "#7a2e2e" }}>
+              {HARD_MODE_NAMES[mode]} — orders from above:
+            </span>
+            {hardRule.text}
+          </p>
+        )}
+
         {/* Round 22 (item 1, a first-time guide): a short, plain account of the screen. Open the first
             time anyone sees an Order of Battle, closed afterwards. */}
         <details className="mb-5 border px-3 py-2" style={{ borderColor: campaign.accent }} open={introOpen}>
@@ -3562,8 +3671,9 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <button
                 onClick={() => setCommanderId(null)}
+                disabled={!!hardRule?.lockCommander}
                 aria-pressed={commanderId === null}
-                className="text-left border px-3 py-2 transition-colors duration-150"
+                className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={
                   commanderId === null
                     ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
@@ -3580,8 +3690,9 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   <button
                     key={cmd.id}
                     onClick={() => setCommanderId(cmd.id)}
+                    disabled={commanderBarred(cmd.id)}
                     aria-pressed={selected}
-                    className="text-left border px-3 py-2 transition-colors duration-150"
+                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
                     style={
                       selected
                         ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
@@ -3616,8 +3727,9 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   <button
                     key={appr.id}
                     onClick={() => setApproachId(appr.id)}
+                    disabled={!!hardRule?.lockApproach && hardRule.lockApproach !== appr.id}
                     aria-pressed={selected}
-                    className="text-left border px-3 py-2 transition-colors duration-150"
+                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
                     style={
                       selected
                         ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
@@ -3682,6 +3794,11 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                       that text to the specific category it actually affects. */}
                   {config.terrainNotes?.[cat.id] && (
                     <span className="ml-1 text-[10px] font-normal italic opacity-60">({config.terrainNotes[cat.id]})</span>
+                  )}
+                  {strandInfo[cat.id] && strandInfo[cat.id].band !== "Adequate" && (
+                    <span className="ml-1 text-[10px] font-normal italic opacity-60">
+                      ({strandInfo[cat.id].name}: {strandInfo[cat.id].band})
+                    </span>
                   )}
                 </span>
                 {/* Round 8 (Craig: "'in good order' and 'reports uncertain' aren't clear in what
@@ -3755,11 +3872,58 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   </p>
                 </details>
               )}
+              {/* Round 23 (item 4): the real order of battle for this arm, and what the real commander
+                  actually did with it. History for the player to read, never advice on the plan. */}
+              {config.orderOfBattle?.[cat.id] && (
+                <details className="mt-2">
+                  <summary
+                    className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-70 cursor-pointer select-none"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    Order of battle
+                  </summary>
+                  <ul className="mt-1 list-disc pl-5 text-[13px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                    {config.orderOfBattle[cat.id].units.map((u, k) => (
+                      <li key={k}>{u}</li>
+                    ))}
+                  </ul>
+                  {config.orderOfBattle[cat.id].real && (
+                    <p className="mt-1 text-[12px] leading-snug italic text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                      <b className="not-italic">What actually happened.</b> {config.orderOfBattle[cat.id].real}
+                    </p>
+                  )}
+                </details>
+              )}
             </div>
           ))}
         </div>
 
         <div className="mb-4 border px-4 py-3" style={{ borderColor: campaign.accent }}>
+          <button
+            onClick={requestExercise}
+            disabled={spent === 0 || (meters.initiative || 0) <= 0}
+            className="w-full border-2 px-4 py-2 mb-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
+            style={{ borderColor: campaign.accent, ...bodyStyle }}
+          >
+            Hold a Map Exercise on the Plan — costs 1 Initiative
+          </button>
+          {exercise && (
+            <div className="mb-3">
+              {exercise.runs.map((r, i) => (
+                <p key={i} className="text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
+                  Against <i>{r.label}</i>, the plan {r.verdict}.
+                </p>
+              ))}
+              <p className="text-[12px] leading-snug italic opacity-70 text-[#000000]" style={bodyStyle}>
+                The exercise tries the plan against setups the enemy might show. It cannot say which one he has.
+              </p>
+              {exercise.key !== planKey && (
+                <p className="text-[11px] uppercase tracking-widest text-[#000000] opacity-70 mt-1" style={labelStyle}>
+                  Exercised before your latest changes
+                </p>
+              )}
+            </div>
+          )}
           <button
             onClick={requestAssessment}
             disabled={spent === 0}
@@ -3793,6 +3957,23 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
 
         {/* Round 22 (item 3, a plan summary): the plan in one plain sentence, so the player can read back
             what they are about to commit to without decoding the bars. */}
+        <div className="mb-4 border px-4 py-3" style={{ borderColor: campaign.accent }}>
+          <button
+            onClick={letStaffPlan}
+            className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold"
+            style={{ borderColor: campaign.accent, ...bodyStyle }}
+          >
+            Let Your Staff Plan It — skip the Order of Battle
+          </button>
+          <p className="text-[12px] leading-snug mt-2 text-[#000000] opacity-80" style={bodyStyle}>
+            The staff plan and fight the battle without you: a sound plan for an enemy they cannot see, with no field decisions for you to make. A player who reads the intelligence can do better. It costs nothing.
+          </p>
+          <label className="flex items-center gap-2 mt-2 text-[12px] text-[#000000] cursor-pointer" style={bodyStyle}>
+            <input type="checkbox" checked={staffAlways} onChange={toggleStaffAlways} />
+            Always let my staff plan battles
+          </label>
+        </div>
+
         <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
           <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
             Your plan so far
@@ -3879,7 +4060,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
 //   clamp, and its result is carried out for plan costs and the next node's text.
 // - After-action notes: whether the intelligence summary and the last staff assessment were
 //   right, told only now, after the battle, the way a general would find out.
-function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain, result, soundOn, onResolve, onContinue }) {
+function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, uncertain, result, soundOn, onResolve, onContinue }) {
   const headingRef = useRef(null);
   const categories = keyBattleCategories(config);
   const postures = KEY_BATTLE_POSTURES[config.id] || [];
@@ -3906,6 +4087,8 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   const decidedCount = decisionEffects.length;
   const nextDecision = decisions.find((d) => !decisionChoices[d.id]) || null;
   const counterScale = config.counterScale || 1;
+  // Round 23: under a hard mode's orders from above, the line may not give ground (Order No. 227).
+  const noGiveGround = !!(HARD_MODE_NAMES[mode] && config.hardRule && config.hardRule.noGiveGround);
 
   const planContrib = computeBattleContributions(categories, plan.allocation, plan.weights, plan.poolSize);
   const orderedCatIds = [...categories]
@@ -3997,7 +4180,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (beat.kind === "contact2") return posture2.reveal;
     if (beat.kind === "decision") {
       const x = decisionEffects.find((e) => e.d.id === beat.decId);
-      return x?.option?.reportLine || x?.option?.label || "";
+      return x?.option?.reportLine || x?.option?.name || "";
     }
     if (beat.kind === "reserve") {
       if (reserveChoice === "hold") return "The reserve stays back.";
@@ -4044,6 +4227,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
 
   function afterNotes() {
     const notes = [];
+    if (plan.autoplay) notes.push("Your staff planned and fought this battle without you.");
     // Round 22 (item 7): what the player's orders were worth, as military intelligence would put it —
     // an estimate to the nearest five points, and of the change the plan made, never of the odds.
     const basePct = Math.round((baseWeights[0] / (baseWeights[0] + baseWeights[1])) * 100);
@@ -4097,10 +4281,11 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (neglected) flagsOut[`${config.id}PlanNeglected`] = neglected.id;
     if (neglectedAll.length) flagsOut[`${config.id}NeglectedCount`] = neglectedAll.length;
     if (plan.commanderId) flagsOut[`${config.id}PlanCommander`] = plan.commanderId;
+    if (plan.autoplay) flagsOut[`${config.id}Staff`] = true;
     // Round 22: which way each field decision went, kept as a flag for later text.
     for (const x of decisionEffects) {
       flagsOut[`${config.id}Dec_${x.d.id}`] = x.option.id;
-      flagsOut[`${config.id}DecNote_${x.d.id}`] = `${x.d.title}: ${x.option.label}`;
+      flagsOut[`${config.id}DecNote_${x.d.id}`] = `${x.d.title}: ${x.option.name}`;
     }
     // The enemy setup(s) met, for the War Record's Battle Record.
     if (plan.postureId) flagsOut[`${config.id}Posture`] = plan.postureId;
@@ -4168,6 +4353,32 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
       resolve();
     }
   }
+
+  // Round 23 (item 7): a battle the staff plan runs itself. One step per pass, so each choice is made
+  // from the state the one before it left: the field decisions, the counterattack, then the verdict.
+  const autoResolved = useRef(false);
+  useEffect(() => {
+    if (!plan.autoplay || done || autoResolved.current) return;
+    if (nextDecision) {
+      setDecisionChoices((c) => ({ ...c, [nextDecision.id]: staffDecisionOption(nextDecision, postures, config).id }));
+      return;
+    }
+    if (!counterDecided) {
+      setCounterChoice(noGiveGround || counterStrengthBase >= 2 + severity ? "head" : "give");
+      return;
+    }
+    autoResolved.current = true;
+    setBeatIndex(lastBeat);
+    resolve();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plan.autoplay, decisionChoices, counterChoice, done]);
+  const [staffStillOn, setStaffStillOn] = useState(() => {
+    try {
+      return window.localStorage.getItem("dispatches1940_staff_plans") === "1";
+    } catch {
+      return false;
+    }
+  });
 
   const total = result ? result.weights.reduce((a, v) => a + v, 0) : 1;
   const finalPct = result ? result.weights.map((w) => Math.round((w / total) * 100)) : null;
@@ -4320,6 +4531,22 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
             >
               See the Full Report →
             </button>
+            {plan.autoplay && staffStillOn && (
+              <button
+                onClick={() => {
+                  try {
+                    window.localStorage.removeItem("dispatches1940_staff_plans");
+                  } catch {
+                    /* nothing to clear */
+                  }
+                  setStaffStillOn(false);
+                }}
+                className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-60 underline"
+                style={labelStyle}
+              >
+                Plan my own battles from now on
+              </button>
+            )}
           </>
         ) : phase === "decision" && nextDecision ? (
           <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
@@ -4333,7 +4560,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
             <div className="grid grid-cols-1 gap-2">
               {nextDecision.options.map((o) => (
                 <button key={o.id} onClick={() => chooseDecision(nextDecision, o.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                  <div className="text-sm font-semibold">{o.label}</div>
+                  <div className="text-sm font-semibold">{o.name}</div>
                   {o.note && <div className="text-[11px] opacity-80">{o.note}</div>}
                 </button>
               ))}
@@ -4371,10 +4598,17 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
                 <div className="text-sm font-semibold">Meet it head-on</div>
                 <div className="text-[11px] opacity-80">Stand and fight with what's there.</div>
               </button>
-              <button onClick={() => chooseCounter("give")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                <div className="text-sm font-semibold">Give ground and hold what you can</div>
-                <div className="text-[11px] opacity-80">A smaller loss, and a certain one.</div>
-              </button>
+              {!noGiveGround && (
+                <button onClick={() => chooseCounter("give")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">Give ground and hold what you can</div>
+                  <div className="text-[11px] opacity-80">A smaller loss, and a certain one.</div>
+                </button>
+              )}
+              {noGiveGround && (
+                <p className="text-[12px] leading-snug italic opacity-80" style={bodyStyle}>
+                  {HARD_MODE_NAMES[mode]}: the order is to hold. The line may not give ground.
+                </p>
+              )}
               {canThrowReserve && (
                 <button onClick={() => chooseCounter("reserve")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
                   <div className="text-sm font-semibold">Throw the held reserve at it</div>
@@ -4645,6 +4879,29 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
 
 function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, favor, onRestart, onSwitch, onRewind, grandChain, onContinueGrand }) {
   const [copied, setCopied] = useState(false);
+  const [noteCopied, setNoteCopied] = useState(false);
+  const playtestNote = (() => {
+    const lbl = campaign.positionLabel ? campaign.positionLabel(flags, meters) : "—";
+    const fought = KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) =>
+      [
+        b.id,
+        flags[`${b.id}Grade`],
+        [flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean).join("+") || "-",
+        flags[`${b.id}PlanCommander`] || "-",
+        Object.keys(flags).filter((k) => k.startsWith(`${b.id}Dec_`)).map((k) => flags[k]).join("/") || "-",
+        flags[`${b.id}Staff`] ? "staff" : "own",
+      ].join(":")
+    );
+    return [
+      "Dispatches 1940",
+      campaign.id,
+      mode || "open",
+      "ending " + lbl,
+      "decisions " + (log ? log.length : 0),
+      "manpower " + meters.manpower + ", materiel " + meters.fuel + ", initiative " + meters.initiative,
+      "battles " + (fought.length ? fought.join(" ; ") : "none"),
+    ].join(" | ");
+  })();
   const headingRef = useRef(null);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
@@ -5134,6 +5391,47 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             Choose Another Theater
           </button>
         </div>
+
+        {/* Round 23 (item 10, the playtest kit): one line a tester can paste into a comment on the game's
+            page. It says what was played and how, with every battle's grade, enemy setup(s), commander,
+            field decision(s) and whether the staff planned it. Nothing personal. */}
+        <details className="mt-6 border-t-2 pt-3" style={{ borderColor: campaign.accent }}>
+          <summary className="text-xs uppercase tracking-[0.25em] font-bold cursor-pointer select-none" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            A note for the author
+          </summary>
+          <p className="mt-2 text-[13px] leading-snug" style={{ fontFamily: "'Courier Prime', monospace" }}>
+            If you are helping to test the game, paste this line into a comment on the game's page, with anything you want to say: what confused you,
+            what read badly on your phone, a date or name that looks wrong, a battle that felt unfair. It holds nothing personal.
+          </p>
+          <textarea
+            readOnly
+            value={playtestNote}
+            rows={4}
+            className="w-full mt-2 border p-2 text-[12px]"
+            style={{ borderColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: "transparent" }}
+            onFocus={(e) => e.target.select()}
+            aria-label="The note for the author"
+          />
+          <button
+            onClick={() => {
+              try {
+                navigator.clipboard.writeText(playtestNote).then(
+                  () => {
+                    setNoteCopied(true);
+                    setTimeout(() => setNoteCopied(false), 2000);
+                  },
+                  () => setNoteCopied(false)
+                );
+              } catch (e) {
+                setNoteCopied(false);
+              }
+            }}
+            className="mt-2 border-2 px-4 py-1 uppercase tracking-widest text-xs hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
+            style={{ borderColor: campaign.accent, fontFamily: "Oswald, sans-serif" }}
+          >
+            {noteCopied ? "✓ Copied" : "Copy the note"}
+          </button>
+        </details>
       </div>
     </div>
   );

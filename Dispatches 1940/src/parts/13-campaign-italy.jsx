@@ -341,9 +341,9 @@
                   "The directive of 7 June said to stay on the defensive; the order of the third week of June says attack. Army Group West has some three hundred thousand men facing perhaps eighty-five thousand French in prepared positions, on passes that are still snowed in near the top. The French have blown the bridges on the Little St Bernard road and hold the old Redoute Ruinée above it, and a good part of the Italian artillery is Austro-Hungarian, captured in 1918. What's decided here is the weight behind the Fourth Army's main thrust: how much goes to the Alpini and infantry who have to climb, to the guns that must range across the valleys, to the aircraft that Italian staffs cannot easily call on, and to the mule trails and the road that carry everything the army uses.",
                 categories: [
                   { id: "assault", name: "Alpini & Infantry Assault", meter: "manpower", glyph: "▲▲▲" },
-                  { id: "artillery", name: "Corps Artillery", meter: "fuel", glyph: "✺" },
-                  { id: "air", name: "Regia Aeronautica", meter: "fuel", glyph: "✈" },
-                  { id: "supply", name: "Mules & Mountain Roads", meter: "fuel", glyph: "▤" },
+                  { id: "artillery", name: "Corps Artillery", meter: "fuel", strand: "ammo", glyph: "✺" },
+                  { id: "air", name: "Regia Aeronautica", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "supply", name: "Mules & Mountain Roads", meter: "fuel", strand: "ship", glyph: "▤" },
                 ],
                 // Assault highest — the Alpini and the line infantry are the army's best arm, and
                 // the offensive turned on whether they could climb; Artillery second — a lot of
@@ -353,6 +353,39 @@
                 // handful of mule trails are this battle's own ceiling, the same design choice as
                 // Monte Marrone's mule trail.
                 effectiveness: { assault: 2.3, artillery: 1.8, air: 1.7, supply: 1.6 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "Fourth Army (Guzzoni), whose Alpine Army Corps made the main attack through the Little St Bernard Pass",
+                      "First Army (Pintor) on the southern front",
+                      "About 300,000 men in all: 18 infantry divisions and 4 Alpine divisions",
+                    ],
+                    real: "The offensive of 21 June penetrated a few kilometres into France and stalled, with Menton its most significant conquest. Italian losses were about 640 killed, 2,631 wounded and 2,151 cases of frostbite.",
+                  },
+                  artillery: {
+                    units: [
+                      "About 3,000 guns in Army Group West, many of them Austro-Hungarian pieces captured in 1918",
+                      "The fortress guns of the Alpine Wall, including the fort on Mont Chaberton",
+                    ],
+                    real: "French 280-mm mortars silenced six of Chaberton's eight armoured turrets in 57 shots.",
+                  },
+                  air: {
+                    units: [
+                      "The 1a Squadra Aerea in northern Italy, with SM.79 and BR.20 bombers and CR.42 fighters",
+                      "Against about 70 French fighters, 40 bombers and 20 reconnaissance aircraft in the Alps zone",
+                    ],
+                    real: "The services were forbidden to communicate directly, which made co-operation between the air force and the army almost impossible.",
+                  },
+                  supply: {
+                    units: [
+                      "Five practicable roads over the passes: the Little St Bernard, Mont Cenis, Montgenèvre, the Maddalena and the Col de Tende",
+                      "Mule trains and the Alpini's own pack transport",
+                    ],
+                    real: "The French destroyed the bridges on the Little St Bernard road, which would have been the easiest route.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Mussolini's order stands: attack along the whole front at once.", lockApproach: "wholeFront" },
                 // Round 22. Verified 2026-10-05 (Wikipedia, Italian invasion of France): the offensive cost the
                 // Italian army 2,151 frostbite casualties in four days, and the passes (the Little St Bernard is
                 // above 2,000 metres) were still under snow.
@@ -375,7 +408,7 @@
                     options: [
                       {
                         id: "overCols",
-                        label: "Send the Alpini over the high cols, around the French posts",
+                        name: "Send the Alpini over the high cols, around the French posts",
                         note: "Fast if no one is watching the cols, and costly if they are.",
                         bonus: 0,
                         bonusByPosture: { bridgesDown: 4, fortressGuns: 1, skiScreen: -3 },
@@ -383,7 +416,7 @@
                       },
                       {
                         id: "mendRoad",
-                        label: "Mend the road and bring the guns up behind the infantry",
+                        name: "Mend the road and bring the guns up behind the infantry",
                         note: "Slow, and it costs Matériel, but the guns can answer the forts.",
                         bonus: 0,
                         bonusByPosture: { bridgesDown: 1, fortressGuns: 4, skiScreen: 1 },
@@ -393,7 +426,7 @@
                       },
                       {
                         id: "standFast",
-                        label: "Stand on the ground already held and let the armistice talks decide the rest",
+                        name: "Stand on the ground already held and let the armistice talks decide the rest",
                         note: "No further risk, and nothing more gained.",
                         bonus: 0,
                         bonusByPosture: { skiScreen: 3 },
@@ -753,6 +786,172 @@
               setFlags: { greeceWinter: "reserve" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "compass40",
+              keyBattleSubgame: {
+                id: "epirus40",
+                title: "Order of Battle — The Pindus Winter",
+                flavor: "The Greek army has crossed the frontier and taken Korçë, and Comando Supremo's answer is the reserve: every division that can be shipped across the Adriatic to Valona and Durazzo is to be thrown into a front that has almost no roads and a winter coming. Cavallero has taken personal command in Albania, the Alpini of the Julia Division are in the Pindus, and the ports behind them cannot land all that the front needs. What is decided here is where the reserve goes: how much to the divisions arriving from Italy, how much to the Alpini and mountain troops who know this ground, how much to the air force flying from Albanian fields, and how much to the ports and the mountain tracks that feed all of them.",
+                categories: [
+                  { id: "reserves", name: "Reserve Divisions from Italy", meter: "manpower", glyph: "▮▮▮" },
+                  { id: "alpini", name: "Alpini & Mountain Troops", meter: "manpower", glyph: "▲▲▲" },
+                  { id: "air", name: "Regia Aeronautica in Albania", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "ports", name: "Ports & Mountain Tracks", meter: "fuel", strand: "ship", glyph: "▤" },
+                ],
+                effectiveness: { reserves: 2.2, alpini: 2.5, air: 1.6, ports: 1.5 },
+                conditions: "Winter in the Pindus: snow, rain and mud on mountain tracks, with no roads in much of the front, and everything arriving through the two small ports of Valona and Durazzo.",
+                terrainModifiers: { ports: 0.85, air: 0.9 },
+                terrainNotes: { ports: "mud, snow and mountain tracks", air: "cloud and snow over the passes" },
+                attrition: [
+                  { category: "alpini", atLeast: 3, meter: "manpower", delta: -1, reason: "Exposure in the winter mountains" },
+                ],
+                categoryContext: {
+                  reserves: "Divisions are arriving from Italy by sea, and the Greek front needs every one of them. Each commitment here puts more of them into the line as soon as they land.",
+                  alpini: "The Alpini know the mountains and fight best in them, but their Julia Division has already been mauled in the first weeks. Each commitment here holds the heights with more of them.",
+                  air: "The Regia Aeronautica flies from fields in Albania, over mountains and cloud, against a Greek army that is hard to see. Each commitment here puts more missions over the passes.",
+                  ports: "Everything arrives through Valona and Durazzo and goes up the mountain tracks on mules and trucks, and the tracks are mud. Each commitment here puts more labour and transport on the ports and the tracks.",
+                },
+                flashups: {
+                  reserves: [
+                    "A division newly landed at Valona marches up toward the front.",
+                    "A reserve regiment goes into the line at night, with orders it has not had time to read.",
+                    "Fresh troops reach the front still in the uniforms they wore in Italy.",
+                    "A battalion is fed into a gap on the line and holds it for a day.",
+                    "A division arrives short of its guns, which are still on the quay.",
+                  ],
+                  alpini: [
+                    "An Alpini battalion holds a ridge above the road, in the snow.",
+                    "The Julia's survivors dig in on a spur they know.",
+                    "A mountain company moves along a track no one else is using.",
+                    "The Alpini pack their mules in the dark and move off.",
+                    "A mountain battalion takes a height back at dawn.",
+                  ],
+                  air: [
+                    "A bomber formation goes over the passes, high above the cloud.",
+                    "A flight of fighters patrols the front, with no enemy in sight.",
+                    "A reconnaissance aircraft reports Greek columns on the mountain track.",
+                    "The air attack is cancelled for weather, and the ground troops are told afterward.",
+                    "A bomber crew drops on a village, and no one on the ground can say what it hit.",
+                  ],
+                  ports: [
+                    "A transport unloads at Valona under a grey sky.",
+                    "A column of mules goes up the mountain track in the rain.",
+                    "A truck slides off the road into the mud and is left where it lies.",
+                    "The quays at Durazzo are crowded with stores that cannot be moved.",
+                    "Labourers carry ammunition the last miles on their backs.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0600",
+                  contact: "0800",
+                  cats: ["1000", "1200", "1400", "1600"],
+                  reserve: "1800",
+                  counter: "2000",
+                },
+                idleLines: {
+                  reserves: [
+                    "The reserve divisions stay at the ports. The line is held by what was already on it.",
+                    "No fresh troops are committed, and the line thins as the days go by.",
+                  ],
+                  alpini: [
+                    "The Alpini are left where they are. The heights above the road are held by no one.",
+                    "No mountain troops are sent to the high ground, and the tracks are left open.",
+                  ],
+                  air: [
+                    "No missions are flown over the passes. The Greeks move in daylight unmolested.",
+                    "The air force is held at its fields, and the front is left without it.",
+                  ],
+                  ports: [
+                    "No extra effort goes to the ports or the tracks. The front gets what trickles up.",
+                    "The quays are left to clog, and the stores stay where they were landed.",
+                  ],
+                },
+                verdicts: ["The Line Is Stabilised", "The Line Gives Way"],
+                verdictGrades: {
+                  clean: "The reserve, the Alpini, the air force and the ports all pulled together, and the front stopped moving.",
+                  costly: "The line is held, but every arm of the army paid more than the winter could spare.",
+                  marginal: "The front slows but does not stop, and the Greeks keep the ground they have taken.",
+                  total: "The reserve is fed in piecemeal and the line keeps going back, with nothing to show for what was spent.",
+                },
+                counterattack: {
+                  category: "alpini",
+                  severity: { greekCounteroffensive: 2, numbersInTheHills: 1, replacementsRunShort: 1 },
+                  warn: {
+                    "1": "Greek infantry are attacking the heights above the road, in small numbers.",
+                    "2": "The Greeks are attacking the Alpini positions in strength, at night, over the snow.",
+                  },
+                  results: {
+                    repulsed: "The Greek attack on the heights is thrown back, and the line stays where it was.",
+                    heldAtCost: "The Alpini hold the heights against the Greeks, but the battalions that held them are badly cut up.",
+                    broke: "The Greeks break onto the heights, and the fighting goes on for hours in the dark.",
+                    gaveGround: "The line falls back off the heights rather than fight the attack out where it struck.",
+                  },
+                },
+                orderOfBattle: {
+                  reserves: {
+                    units: [
+                      "25 or more divisions in Albania by January 1941, up from 6 at the start",
+                      "XXV Corps in Epirus and XXVI Corps around Korçë",
+                    ],
+                    real: "The Greek counteroffensive began on 14 November and Korçë fell on 22 November. Badoglio resigned on 4 December and Cavallero took command from December.",
+                  },
+                  alpini: {
+                    units: [
+                      "The 3rd Alpine Division Julia, in the Pindus",
+                      "The Centauro Armoured Division, with 163 light tanks that were of little use in the mountains",
+                    ],
+                    real: "Greek divisions, triangular and about half as large again as the Italian binary ones, took the initiative in the mountains.",
+                  },
+                  air: {
+                    units: ["Regia Aeronautica units based in Albania"],
+                    real: "The air force flew against Greek resistance, but could not turn the campaign.",
+                  },
+                  ports: {
+                    units: [
+                      "The ports of Valona and Durazzo",
+                      "The mountain tracks and the mule trains that carried supplies to the front",
+                    ],
+                    real: "The supply lines through Valona and Durazzo proved inadequate.",
+                  },
+                },
+                hardRule: { text: "Rome's order is that no more ground is to be given in Albania: the line may not fall back.", noGiveGround: true },
+                decisions: [
+                  {
+                    id: "theSpringOffensive",
+                    time: "1700",
+                    title: "The spring offensive",
+                    prompt: "It is March, and Mussolini has come to Albania to see a great offensive before the Germans arrive in the Balkans. The army is worn, the Greeks are worn too, and the question is how to use the day: a narrow attack behind a heavy bombardment, a patient defence of the line, or a withdrawal to the shorter line behind the passes.",
+                    options: [
+                      {
+                        id: "narrowAttack",
+                        name: "Attack on a narrow front behind a heavy bombardment",
+                        note: "The offensive Rome wants, and it fires a great deal of ammunition.",
+                        bonus: 0,
+                        bonusByPosture: { greekCounteroffensive: 4, numbersInTheHills: 0, replacementsRunShort: -3 },
+                        meters: { fuel: -1 },
+                        costReason: "Ammunition fired in the bombardment",
+                        reportLine: "A heavy bombardment opens on a narrow front, and the infantry go forward behind it.",
+                      },
+                      {
+                        id: "holdAndWait",
+                        name: "Hold the line and let the Greeks wear themselves out",
+                        note: "No offensive, and the Greeks have fewer men to replace their losses.",
+                        bonus: 0,
+                        bonusByPosture: { replacementsRunShort: 4, greekCounteroffensive: -3, numbersInTheHills: -1 },
+                        reportLine: "The line is held where it stands, and the army waits for the Greeks to come on.",
+                      },
+                      {
+                        id: "shorterLine",
+                        name: "Draw back to the shorter line behind the passes",
+                        note: "Costs Initiative, and gives up ground Rome will not want to give.",
+                        bonus: 0,
+                        bonusByPosture: { numbersInTheHills: 4, replacementsRunShort: -2 },
+                        meters: { initiative: -1 },
+                        costReason: "Ground given up in a withdrawal",
+                        reportLine: "The army draws back to the shorter line behind the passes.",
+                      },
+                    ],
+                  },
+                ],
+              },
               uncertain: [
                 {
                   weight: modWeight(50, meters.manpower),
@@ -794,7 +993,8 @@
             "While Albania absorbs every headline, a British Western Desert Force roughly a third the size of the Tenth Army it is about to attack launches what its own planners initially conceived as a five-day raid against the string of fortified camps Graziani's advance stopped at back in September. There has been no serious effort to link those camps into a continuous defensive line, and the gap between them is exactly wide enough for an armored force to drive through and roll the whole position up from behind rather than through the front anyone actually fortified." +
             (flags.forkDesertGap
               ? " Conflicting reports complicate the picture further: engineers attached to the western camps claim real, if incomplete, progress narrowing that gap, though Rome's own intelligence — already dismissing this as a five-day raid not worth the reserve — has no interest in revising its estimate on the strength of an engineer's unverified claim."
-              : ""),
+              : "") +
+            (flags.greeceWinter === "reserve" ? keyBattleEcho("epirus40", flags) : ""),
           choices: [
             {
               label: "Order an immediate general withdrawal to a shorter line before the flanking attack lands",
@@ -870,8 +1070,197 @@
               setFlags: { matapan41: "withdraw" },
               impact: { manpower: 0, fuel: -1, initiative: -1 },
               next: "yugoslaviaBalkans41",
-              outcome:
-                "What actually happened, and it was still a disaster despite the caution: three heavy cruisers and two destroyers, detached to escort the damaged Vittorio Veneto home, are caught by British ships using radar in the dark — a technology Italian doctrine hadn't trained against — and sunk in under an hour with the loss of over 2,300 sailors. The battle fleet itself survives to fight again, but Matapan effectively ends major Italian surface operations against the Royal Navy's battle line for the rest of the war.",
+              keyBattleSubgame: {
+                id: "matapan41",
+                title: "Order of Battle — Cape Matapan",
+                flavor: "The fleet is at sea without radar and with little help from the air, and the British are reading its signals. The first battle is fought from the air, by carrier aircraft that will attack through the day; the second will come in the dark, if the fleet can be brought home without it. What is decided here is how the sortie's strength is weighed: how much into the battle fleet and Vittorio Veneto, how much into the cruiser divisions that screen it, how much into the air cover and reconnaissance the fleet can get, and how much into the signals and night-fighting practice that a navy which never planned to fight in the dark has never had.",
+                categories: [
+                  { id: "battle", name: "The Battle Fleet", meter: "fuel", strand: "oil", glyph: "≋≋" },
+                  { id: "cruisers", name: "The Cruiser Divisions", meter: "manpower", glyph: "▲▲" },
+                  { id: "air", name: "Air Cover & Reconnaissance", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "signals", name: "Signals & Night Action", meter: "initiative", glyph: "◎" },
+                ],
+                effectiveness: { battle: 2.4, cruisers: 2.2, air: 1.7, signals: 1.6 },
+                phases: ["The air attacks of the day", "The night action"],
+                counterScale: 1.5,
+                conditions: "The fleet sails without radar, with little help from the air, and with a doctrine that did not plan for night action.",
+                terrainModifiers: { signals: 0.8, air: 0.9 },
+                terrainNotes: { signals: "no radar and no practice at night action", air: "little help from the air" },
+                categoryContext: {
+                  battle: "The battleship and her screen are the strength of the fleet, and they are short of fuel for a long chase. Each commitment here keeps more of the battle fleet concentrated and ready to fight.",
+                  cruisers: "The heavy cruiser divisions are fast and well armed, and they are the fleet's screen. Each commitment here puts more of them in the line and under better control.",
+                  air: "The fleet has little air cover and few reconnaissance aircraft, and the enemy has a carrier. Each commitment here asks for more of both and hopes they come.",
+                  signals: "The Regia Marina has no radar and has not practised night action, and its signals are being read. Each commitment here puts more effort into the signals and the practice of fighting in the dark.",
+                },
+                flashups: {
+                  battle: [
+                    "Vittorio Veneto steams at the head of the fleet, her guns trained to port.",
+                    "The battle fleet's destroyers take station on her screen.",
+                    "The fleet increases speed as the enemy aircraft are sighted.",
+                    "A damaged battleship slows and the fleet slows with her.",
+                    "Fuel gauges are watched as the fleet turns for home.",
+                  ],
+                  cruisers: [
+                    "The cruisers of the 1st Division steam in line ahead on the flank.",
+                    "A cruiser division is ordered to close on a ship that is signalling for help.",
+                    "The cruisers' main batteries are loaded with armour-piercing shell for a surface fight.",
+                    "A cruiser turns away from the enemy's shell splashes at long range.",
+                    "The 3rd Division keeps station on the battle fleet.",
+                  ],
+                  air: [
+                    "A reconnaissance aircraft reports the enemy battleships at sea.",
+                    "Italian fighters appear over the fleet and then go home, short of fuel.",
+                    "Carrier aircraft are sighted low on the horizon, and the fleet turns to meet them.",
+                    "No aircraft appears over the fleet all afternoon.",
+                    "A German reconnaissance plane reports the British carrier's position.",
+                  ],
+                  signals: [
+                    "A signal is passed to the cruisers, and they are slow to answer it.",
+                    "The watch on a cruiser sees ships ahead and reports them as friendly.",
+                    "A radio message is sent in clear, and the British monitor it.",
+                    "The gunnery officers of a heavy cruiser rehearse a night action they have never fired.",
+                    "A flag signal is mistaken for another across the dark water.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0800",
+                  contact: "0930",
+                  cats: ["1100", "1300", "1500", "1700"],
+                  contact2: "2000",
+                  reserve: "2130",
+                  counter: "2220",
+                },
+                idleLines: {
+                  battle: [
+                    "The battle fleet is left as it is, spread out and slow. No extra effort goes into its station.",
+                    "Nothing extra is done for the fleet, and the battleship steams on alone.",
+                  ],
+                  cruisers: [
+                    "The cruiser divisions are given no special orders. They steam on as they were.",
+                    "No extra effort goes into the cruisers, and they keep station as best they can.",
+                  ],
+                  air: [
+                    "No extra air cover is requested. The fleet has what it had.",
+                    "No reconnaissance is asked for, and the fleet steams on without it.",
+                  ],
+                  signals: [
+                    "No special attention goes to signals or night action. The fleet fights the way it was trained.",
+                    "The ships are given no drill for the dark, and the watch is as it was.",
+                  ],
+                },
+                verdicts: ["The Fleet Brings Its Cruisers Home", "The Night Costs the Fleet Its Cruisers"],
+                verdictGrades: {
+                  clean: "The battle fleet, the cruisers, the air cover and the signals all held together, and the fleet came home whole.",
+                  costly: "The fleet comes home, but every arm of it paid more than it could afford.",
+                  marginal: "The fleet is badly hurt, but its main force reaches port, and the loss could have been worse.",
+                  total: "The night action catches the fleet unready, and its cruisers are lost with their crews in minutes.",
+                },
+                counterattack: {
+                  category: "signals",
+                  severity: { britishClose: 2, mistakenForFriends: 1, britishFarAstern: 1, carrierStrikes: 1, cruisersInContact: 1 },
+                  warn: {
+                    "1": "British cruisers and destroyers are closing on the fleet from astern.",
+                    "2": "British battleships are closing at speed in the dark, with radar guiding every gun.",
+                  },
+                  results: {
+                    repulsed: "The ships act as one and the attack is driven off before it can do any harm.",
+                    heldAtCost: "The fleet gets away, but the ships that covered it are badly hit.",
+                    broke: "The British guns find the cruisers at point-blank range, and the ships are lost in minutes.",
+                    gaveGround: "The fleet turns away from the fight and leaves a part of itself behind.",
+                  },
+                },
+                orderOfBattle: {
+                  battle: {
+                    units: [
+                      "The battleship Vittorio Veneto, with her destroyers",
+                      "Admiral Angelo Iachino commanding the fleet",
+                    ],
+                    real: "A torpedo from an Albacore of HMS Formidable struck Vittorio Veneto's outer port propeller at about 15:09, and about 4,000 tons of water came in.",
+                  },
+                  cruisers: {
+                    units: [
+                      "The 1st Cruiser Division (Cattaneo): Zara, Fiume and Pola",
+                      "The 3rd Cruiser Division: Trento, Trieste and Bolzano",
+                      "Two light cruisers and thirteen destroyers in all",
+                    ],
+                    real: "Pola was crippled by a torpedo at about 19:30, and Iachino sent the 1st Cruiser Division back to help her. Zara, Fiume and Pola were sunk in the night action, and about 2,300 Italian sailors died.",
+                  },
+                  air: {
+                    units: [
+                      "Italian air units, which gave the fleet little cover",
+                      "Luftwaffe reconnaissance aircraft working with the Italians",
+                    ],
+                    real: "Albacores from Formidable made three attacks on 28 March: at 09:38, at about 15:09, and between 19:36 and 19:50.",
+                  },
+                  signals: {
+                    units: [
+                      "The Regia Marina's signals and code security, which British codebreakers had broken",
+                      "Night-action doctrine and gunnery practice, of which the fleet had little",
+                    ],
+                    real: "Cunningham staged a showy departure from Alexandria to hide that he knew the Italian plan. The Regia Marina had no radar, and its doctrine did not envisage night actions.",
+                  },
+                },
+                hardRule: {
+                  text: "The German naval liaison presses Supermarina to keep the fleet at sea and fighting: there is to be no breaking off for home.",
+                  noGiveGround: true,
+                },
+                decisions: [
+                  {
+                    id: "thePolaDecision",
+                    time: "2200",
+                    title: "The crippled Pola",
+                    prompt: "Pola has been torpedoed and cannot move, and the fleet is steaming west with the night coming on. Iachino can send the 1st Cruiser Division back to stand by her, run for home and leave her to the destroyers, or send only destroyers to take off her crew. No one knows where the British are.",
+                    options: [
+                      {
+                        id: "cruisersBack",
+                        name: "Send the 1st Cruiser Division back to stand by Pola",
+                        note: "Saves the ship if the sea is empty, and risks three cruisers if it is not.",
+                        bonus: 0,
+                        bonusByPosture: { britishClose: -5, britishFarAstern: 4, mistakenForFriends: -3 },
+                        reportLine: "The 1st Cruiser Division is turned back toward Pola, in the dark.",
+                      },
+                      {
+                        id: "runForHome",
+                        name: "Run for home and leave Pola to the destroyers",
+                        note: "Costs Initiative, and leaves a cruiser behind.",
+                        bonus: 0,
+                        bonusByPosture: { britishClose: 3, britishFarAstern: -2, mistakenForFriends: 1 },
+                        meters: { initiative: -1 },
+                        costReason: "A crippled cruiser left behind",
+                        reportLine: "The fleet holds its course for home and leaves Pola to the destroyers.",
+                      },
+                      {
+                        id: "destroyersOnly",
+                        name: "Send two destroyers only, to take off her crew",
+                        note: "Costs Matériel, and risks two destroyers instead of three cruisers.",
+                        bonus: 0,
+                        bonusByPosture: { mistakenForFriends: 3, britishClose: 1 },
+                        meters: { fuel: -1 },
+                        costReason: "Destroyers detached to rescue Pola's crew",
+                        reportLine: "Two destroyers are detached to take Pola's crew off.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "The cruisers get home",
+                  setFlags: { matapan41Result: "home" },
+                  impact: { manpower: 0, fuel: -1, initiative: 0 },
+                  outcome:
+                    "The minority projection, which the sea allowed more easily than the night did: Pola's crew is taken off and the cruisers are kept with the fleet, and the night passes without a gun being fired at the Italian ships. The fleet reaches Taranto with its damaged battleship and its cruisers whole, and Matapan becomes the story of a sortie that failed to find a convoy and cost nothing else.",
+                },
+                {
+                  weight: 100 - modWeight(25, meters.initiative),
+                  title: "The night finds the cruisers",
+                  setFlags: { matapan41Result: "night" },
+                  impact: { manpower: 0, fuel: -1, initiative: -1 },
+                  outcome:
+                    "What actually happened, and it was still a disaster despite the caution: three heavy cruisers and two destroyers, detached to escort the damaged Vittorio Veneto home, are caught by British ships using radar in the dark — a technology Italian doctrine hadn't trained against — and sunk in under an hour with the loss of over 2,300 sailors. The battle fleet itself survives to fight again, but Matapan effectively ends major Italian surface operations against the Royal Navy's battle line for the rest of the war.",
+                },
+              ],
             },
             {
               label: "Press the sortie's original objective — the convoy interception mission still stands",
@@ -891,7 +1280,10 @@
           title: "The Balkans, Divided",
           historicalRecord: true,
           situation:
-            "German mechanized divisions do in eleven days what the Italian army alone could not do to Greece in five months: Yugoslavia is overrun and Greece's mainland army surrenders by the end of April, and Italy's own contribution to a campaign it originally started is now a supporting role in someone else's rapid, overwhelming victory. What remains for Rome to decide is not whether the Balkans fall — that outcome is already settled by German timetables — but how large a piece of the resulting occupation and annexation map Italy actually claims for itself.",
+            "German mechanized divisions do in eleven days what the Italian army alone could not do to Greece in five months: Yugoslavia is overrun and Greece's mainland army surrenders by the end of April, and Italy's own contribution to a campaign it originally started is now a supporting role in someone else's rapid, overwhelming victory. What remains for Rome to decide is not whether the Balkans fall — that outcome is already settled by German timetables — but how large a piece of the resulting occupation and annexation map Italy actually claims for itself." +
+            (flags.matapan41 === "withdraw"
+              ? (flags.matapan41Result === "home" ? " The fleet's cruisers came home from Matapan, which is more than anyone in Rome had expected." : "") + keyBattleEcho("matapan41", flags)
+              : ""),
           choices: [
             {
               label: "Claim the maximum annexation — Dalmatia, Montenegro, and a large Greek occupation zone",
@@ -1964,8 +2356,8 @@
                 categories: [
                   { id: "assault", name: "Alpine & Bersaglieri Assault", meter: "manpower", glyph: "▲▲▲" },
                   { id: "paratroops", name: "Nembo Paratroops", meter: "manpower", glyph: "✦" },
-                  { id: "artillery", name: "Anglo-Polish Artillery", meter: "fuel", glyph: "✺" },
-                  { id: "supply", name: "Mule-Train Supply", meter: "fuel", glyph: "▤" },
+                  { id: "artillery", name: "Anglo-Polish Artillery", meter: "fuel", strand: "ammo", glyph: "✺" },
+                  { id: "supply", name: "Mule-Train Supply", meter: "fuel", strand: "ship", glyph: "▤" },
                 ],
                 // Paratroops highest (a small, elite, all-volunteer force); assault second
                 // (Piemonte + the two Bersaglieri battalions, the numerical bulk of the force);
@@ -1974,6 +2366,35 @@
                 // battle's own well-documented logistics ceiling, the same design choice as
                 // Kursk's mud or Alam Halfa's fuel arithmetic.
                 effectiveness: { assault: 2.2, paratroops: 2.6, artillery: 2.0, supply: 1.6 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "The Piemonte Alpine Battalion and two Bersaglieri battalions of the 1st Motorized Group",
+                      "About 4,933 Italians against roughly 3,000 Germans",
+                    ],
+                    real: "The Piemonte battalion took the 1,805-metre peak by a night surprise attack on 31 March 1944.",
+                  },
+                  paratroops: {
+                    units: [
+                      "The Nembo paratroopers, the 185th's Arditi paratroop element",
+                    ],
+                    real: "German counterattacks came on 2 April, 3 April and 10 April. On the 10th three Gebirgsjäger battalions broke in for hand-to-hand fighting before Italian reinforcements and artillery sealed it off.",
+                  },
+                  artillery: {
+                    units: [
+                      "The Anglo-Polish artillery attached to the Italian force",
+                    ],
+                    real: "The attached artillery helped seal off the German break-in of 10 April.",
+                  },
+                  supply: {
+                    units: [
+                      "Mule trains up the mountain's trails: no road reached the peak",
+                    ],
+                    real: "The advance reached Picinisco on 28 April.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "The Allied command orders the artillery fire plan registered first, as it does for every attack in its sector.", lockApproach: "gunsForward" },
                 // Round 22. The cold and altitude are real (this battle's own notes: a 1,805 m peak held through
                 // German counterattacks on 2, 3 and 10 April); the attrition rule charges them to a heavy assault.
                 conditions: "Snow and bitter cold above 1,800 meters, with no road, only mule trails, against German mountain troops who know the ground.",
@@ -1989,7 +2410,7 @@
                     options: [
                       {
                         id: "holdSummit",
-                        label: "Hold the summit where it stands",
+                        name: "Hold the summit where it stands",
                         note: "Keeps the ground, and keeps every man exposed on it.",
                         bonus: 0,
                         bonusByPosture: {thinInitialLine: 2, gebirgsjagerReserve: -3},
@@ -1997,7 +2418,7 @@
                       },
                       {
                         id: "reverseSlope",
-                        label: "Pull back to the reverse slope and let the guns work",
+                        name: "Pull back to the reverse slope and let the guns work",
                         note: "The Anglo-Polish guns can range the summit, if the men are off it.",
                         bonus: 0,
                         bonusByPosture: {gebirgsjagerReserve: 4, thinInitialLine: -2, highAltitudeCold: 2},
@@ -2005,7 +2426,7 @@
                       },
                       {
                         id: "counterAtOnce",
-                        label: "Counterattack before the Germans finish forming up",
+                        name: "Counterattack before the Germans finish forming up",
                         note: "Costs men, and may catch them off balance.",
                         bonus: 0,
                         bonusByPosture: {thinInitialLine: 4, gebirgsjagerReserve: -2, highAltitudeCold: -2},

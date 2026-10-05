@@ -215,9 +215,9 @@ const CAMPAIGNS = {
                   "The Manstein Plan is a single river on a single afternoon: XIX Panzer Corps must cross the Meuse at Sedan against reserve divisions dug into the far bank, and its three panzer divisions cannot cross at all until engineers have a bridge up. The air corps will bomb the French positions from first light in rolling waves rather than one great blow, some of the corps' guns are still in the Ardennes traffic, and the first men over will go in rubber boats under fire. What's decided here is where the corps' effort goes: how much to the assault companies and pioneers who cross first, how much to the air attack that has to unnerve the defenders rather than destroy them, how much to the artillery that arrived, and how much to the bridge and the roads that every tank in the corps is waiting on.",
                 categories: [
                   { id: "assault", name: "Assault Infantry & Pioneers", meter: "manpower", glyph: "▮▮▮" },
-                  { id: "air", name: "Air Attack", meter: "fuel", glyph: "✈" },
-                  { id: "guns", name: "Artillery Preparation", meter: "fuel", glyph: "✺" },
-                  { id: "bridging", name: "Bridging & Traffic", meter: "initiative", glyph: "═" },
+                  { id: "air", name: "Air Attack", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "guns", name: "Artillery Preparation", meter: "fuel", strand: "ammo", glyph: "✺" },
+                  { id: "bridging", name: "Bridging & Traffic", meter: "initiative", strand: "steel", glyph: "═" },
                 ],
                 // Assault highest — the first men over the river and up the slope are what the
                 // whole operation turns on; Air second — it did not destroy a single bunker but
@@ -227,6 +227,40 @@ const CAMPAIGNS = {
                 // keeps no one alive on the far bank, though every tank must wait for it, the same
                 // asymmetric-by-design choice as Kursk's Supply.
                 effectiveness: { assault: 2.4, air: 2.2, guns: 1.9, bridging: 1.7 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "1st Panzer Division's rifle regiments, with Infantry Regiment Großdeutschland attached",
+                      "2nd and 10th Panzer Divisions' rifle regiments, crossing at Donchery and Wadelincourt",
+                      "43rd Assault Engineer Battalion and 49th Panzer Engineer Battalion, with assault boats",
+                    ],
+                    real: "Großdeutschland and 1st Panzer had taken Hill 247 by 20:00. At Wadelincourt, French artillery destroyed 81 of the 96 assault boats, and Feldwebel Rubarth's team of the 49th Engineer Battalion cleared seven bunkers to give 10th Panzer a bridgehead.",
+                  },
+                  air: {
+                    units: [
+                      "II Fliegerkorps (Loerzer) among the air corps flying the day's attacks",
+                      "VIII Fliegerkorps (Richthofen), the close-support corps with the dive bombers",
+                      "About 1,470 aircraft in all: 600 medium bombers, 250 Ju 87 Stukas, 500 Bf 109s and 120 Bf 110s",
+                    ],
+                    real: "The plan for one twenty-minute strike gave way to continuous attacks in small formations from 08:00 to 16:00. Almost no one was hit, but the 55th Division's reservists abandoned their positions that evening in what became the 'panic of Bulson'. The Luftwaffe lost six aircraft.",
+                  },
+                  guns: {
+                    units: [
+                      "The divisional artillery of the three panzer divisions, about 141 pieces in all",
+                      "The flak battalions of the three divisions, 303 anti-aircraft guns in all",
+                    ],
+                    real: "The Germans were outgunned, about 141 pieces to about 174 French, and 2nd Panzer's heavy howitzers were held up in the Ardennes traffic, so the artillery did less than the plan expected.",
+                  },
+                  bridging: {
+                    units: [
+                      "The bridging columns of the divisional engineer battalions",
+                      "The corps' traffic control on the few roads out of the Ardennes",
+                    ],
+                    real: "The first pontoon bridge stood at Gaulier at about 01:00 on 14 May and the first tanks crossed at 07:20, about seven hours after the infantry. The Ardennes roads were jammed, and 2nd Panzer reached Donchery late.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Göring has promised the Führer one great blow from the air at H-hour, and that is the order.", lockApproach: "singleBlow" },
                 // Round 22. Ground and weather as they were on 13 May 1940 (the air corps flew from 08:00 to 16:00;
                 // the French held the bunkers on the heights of the far bank, Wikipedia, Battle of Sedan (1940)).
                 conditions: "Fine, clear weather, so the air corps can fly from first light. The French hold bunkers on the steep, wooded heights of the far bank, and the river itself is the obstacle.",
@@ -246,7 +280,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "pushOn",
-                        label: "Send the riflemen on through the night, past the heights",
+                        name: "Send the riflemen on through the night, past the heights",
                         note: "Exploit the confusion before the French settle. They go with no tanks behind them.",
                         bonus: 0,
                         bonusByPosture: { reservistsShaken: 5, gapBetweenBunkers: 3, riverArtillery: -2, armourOnTheMove: -5 },
@@ -254,7 +288,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "holdHeights",
-                        label: "Hold the heights and wait for the bridge",
+                        name: "Hold the heights and wait for the bridge",
                         note: "A smaller risk, and a slower night.",
                         bonus: 1,
                         bonusByPosture: { armourOnTheMove: 3, riverArtillery: 1 },
@@ -262,7 +296,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "coverEngineers",
-                        label: "Turn the flak and field guns on the French batteries to cover the engineers",
+                        name: "Turn the flak and field guns on the French batteries to cover the engineers",
                         note: "Costs Matériel: fuel and the day's ammunition.",
                         bonus: 0,
                         bonusByPosture: { riverArtillery: 4, armourOnTheMove: 2 },
@@ -703,7 +737,10 @@ const CAMPAIGNS = {
           title: "The Hess Flight",
           historicalRecord: true,
           situation:
-            "Rudolf Hess, Deputy Führer, has flown a Messerschmitt alone to Scotland, apparently to broker peace with Britain on his own initiative. Hitler is reportedly incandescent. Stopping him isn't the issue — he's already gone. Explaining it is.",
+            "Rudolf Hess, Deputy Führer, has flown a Messerschmitt alone to Scotland, apparently to broker peace with Britain on his own initiative. Hitler is reportedly incandescent. Stopping him isn't the issue — he's already gone. Explaining it is." +
+            (flags.crete41 === "assault"
+              ? (flags.crete41Result === "failed" ? " Crete was not taken, and the airborne arm is spent for nothing." : "") + keyBattleEcho("crete41", flags)
+              : ""),
           choices: [
             {
               label: "Declare him insane — a lone act, disowned entirely",
@@ -772,8 +809,190 @@ const CAMPAIGNS = {
               setFlags: { crete41: "assault" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "hessFlight41",
-              outcome:
-                "Crete fell in ten days — and the victory ended German large-scale airborne operations forever. The defenders, forewarned and far stronger than estimated, shot the first waves out of the sky and onto pre-registered drop zones; Maleme airfield was taken by a margin of one withdrawn hill. Fallschirmjäger casualties ran near a quarter of the force committed, and Hitler told Student the day of the paratrooper was over. The instrument won its greatest prize and was spent as a strategic weapon in the act — a fact a certain Mediterranean island question will remember next year.",
+              keyBattleSubgame: {
+                id: "crete41",
+                title: "Order of Battle — Operation Mercury",
+                flavor: "Student's XI Fliegerkorps has the whole airborne arm of the Reich committed to one island: paratroops and gliders on the airfields at Maleme, Rethymno and Heraklion on the morning of 20 May, mountain troops to follow by air as soon as a field is held, and a sea convoy of caiques behind them if the Royal Navy can be kept away. The garrison is stronger than the planners believe, and British decrypts have told it where the blows will fall. What is decided here is how the corps' strength is weighed: how much into the paratroops who go in first, how much into the Luftwaffe that has to break the defence from the air, how much into the sea convoys, and how much into the mountain troops who are to land once a field is taken.",
+                categories: [
+                  { id: "paratroops", name: "The Paratroop Drop", meter: "manpower", glyph: "✦" },
+                  { id: "air", name: "Luftwaffe Support", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "sea", name: "The Sea Convoys", meter: "fuel", strand: "ship", glyph: "≋" },
+                  { id: "mountain", name: "Mountain Troops by Air-Landing", meter: "manpower", glyph: "▲▲" },
+                ],
+                effectiveness: { paratroops: 2.7, air: 2.2, sea: 1.6, mountain: 2 },
+                phases: ["The airdrop of 20 May", "Maleme and the sea convoys"],
+                conditions: "An island with only a few airfields and ports, where everything depends on holding one of them, and where the Royal Navy controls the sea around it.",
+                terrainModifiers: { sea: 0.8 },
+                terrainNotes: { sea: "the Royal Navy controls the sea around the island" },
+                attrition: [
+                  { category: "paratroops", atLeast: 3, meter: "manpower", delta: -1, reason: "Heavy casualties among the first-wave paratroopers" },
+                ],
+                categoryContext: {
+                  paratroops: "The paratroops and the glider troops go in first, onto three airfields held by a garrison that has been warned. Each commitment here puts more of them into the first morning's drop.",
+                  air: "The Luftwaffe has 280 bombers, 150 dive-bombers and 180 fighters to break the defence and keep the Royal Navy off. Each commitment here puts more of it over the drop zones and the sea lanes.",
+                  sea: "A flotilla of caiques with Italian escorts is to carry the heavy equipment, and every ship in it can be sunk by the Royal Navy. Each commitment here makes the crossing stronger and better covered.",
+                  mountain: "The 5th Mountain Division is to land on an airfield as soon as one is held. Each commitment here puts more of it ready to fly in when the field is taken.",
+                },
+                flashups: {
+                  paratroops: [
+                    "A stick of paratroopers drops onto an olive grove full of New Zealanders.",
+                    "A glider lands on the edge of the airfield under fire.",
+                    "A company of the Assault Regiment fights its way across the dry riverbed at Maleme.",
+                    "A group of paratroopers digs in on the edge of a field and waits for a relief that does not come.",
+                    "A platoon takes a house on the road and holds it until dark.",
+                  ],
+                  air: [
+                    "Stukas dive on the defenders' positions along the coast road.",
+                    "Bombers attack the ships off the north coast.",
+                    "A fighter group strafes the drop zone as the paratroopers land.",
+                    "Dive bombers go after a cruiser steaming north in the afternoon.",
+                    "The bombers return to Greece to refuel for another wave.",
+                  ],
+                  sea: [
+                    "A flotilla of caiques leaves for Crete with a single torpedo boat as escort.",
+                    "A convoy turns back in the night when warships appear on the horizon.",
+                    "A caique loaded with mountain troops is sunk by a cruiser's guns.",
+                    "Italian torpedo boats lay smoke between the convoy and the cruisers.",
+                    "The convoy's remaining boats creep toward the coast under the cover of darkness.",
+                  ],
+                  mountain: [
+                    "Transports queue to land on the captured end of the airfield.",
+                    "A mountain battalion comes in under fire and fights its way off the field.",
+                    "The first of the mountain troops lands among the wrecks of the Ju 52s.",
+                    "A company of mountain troops moves inland along the hills.",
+                    "A mountain regiment is flown in as soon as the runway is clear.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0800",
+                  contact: "0830",
+                  cats: ["1000", "1215", "1630", "1730"],
+                  contact2: "2000",
+                  reserve: "2100",
+                  counter: "0600",
+                },
+                idleLines: {
+                  paratroops: [
+                    "The paratroops are not dropped on the three airfields. The defenders are left alone.",
+                    "No assault goes in on the first morning, and the island has time to prepare.",
+                  ],
+                  air: [
+                    "The Luftwaffe does not fly over the drop zones or the sea. The garrison moves freely.",
+                    "No bomber is committed to the defence, and the guns on the hills are untouched.",
+                  ],
+                  sea: [
+                    "No convoy sails. The heavy equipment stays on the mainland.",
+                    "The caiques stay in port, and nothing goes by sea.",
+                  ],
+                  mountain: [
+                    "The mountain troops wait on the mainland airfields. There is no one to reinforce.",
+                    "No air-landing is planned, and the mountain division stays in Greece.",
+                  ],
+                },
+                verdicts: ["Crete Falls to the Airborne", "The Assault Fails"],
+                verdictGrades: {
+                  clean: "The paratroops, the Luftwaffe, the convoy and the mountain troops worked together, and a field was held in time.",
+                  costly: "Crete falls, but the airborne arm spent far more than it could afford to take it.",
+                  marginal: "A foothold is held on the airfield, but by the narrowest of margins, and at a price the corps will not forget.",
+                  total: "The assault breaks up on the drop zones and the sea, with nothing held at nightfall.",
+                },
+                counterattack: {
+                  category: "paratroops",
+                  severity: { navyHunts: 2, malemeGap: 1, largerGarrison: 1, asBriefed: 1 },
+                  warn: {
+                    "1": "The defenders are counterattacking toward the edge of the airfield.",
+                    "2": "A strong counterattack is going in on the airfield, and the paratroopers there are short of ammunition.",
+                  },
+                  results: {
+                    repulsed: "The counterattack is beaten off, and the mountain troops go on landing.",
+                    heldAtCost: "The paratroopers hold the edge of the airfield, but the units that held it are almost gone.",
+                    broke: "The defenders break into the airfield, and the landings stop under fire.",
+                    gaveGround: "The paratroopers give up the edge of the airfield and fall back on the hill.",
+                  },
+                },
+                orderOfBattle: {
+                  paratroops: {
+                    units: [
+                      "The 7th Flieger Division",
+                      "Group West (Comet) under Meindl at Maleme, Group Centre (Mars) under Süssmann, and Group East (Orion) under Bräuer at Heraklion",
+                    ],
+                    real: "A company of III Battalion, 1st Assault Regiment lost 112 killed out of 126 men, and 400 of the 600 men in III Battalion were killed on the first day. No objective was secure by nightfall on 20 May.",
+                  },
+                  air: {
+                    units: ["VIII Fliegerkorps (Richthofen)", "About 280 bombers, 150 dive-bombers and 180 fighters"],
+                    real: "The Luftwaffe lost 284 aircraft in the battle, and its aircraft sank the cruisers Gloucester and Fiji and the destroyers Greyhound, Kelly and Kashmir.",
+                  },
+                  sea: {
+                    units: [
+                      "Two flotillas of about twenty caiques each, escorted by the Italian torpedo boats Lupo and Sagittario",
+                      "Opposed by Force D (Glennie) and Force C (King) of the Royal Navy",
+                    ],
+                    real: "On the night of 21/22 May Force D destroyed most of the first convoy. About 2,000 Germans were lost and only about 113 reached Crete.",
+                  },
+                  mountain: {
+                    units: [
+                      "The 5th Mountain Division (Ringel), brought in by air and sea",
+                      "Air-landed once the airfield at Maleme was in German hands",
+                    ],
+                    real: "On the night of 20/21 May the 22nd New Zealand Battalion withdrew from Hill 107 after a misunderstanding, leaving Maleme airfield open to German reinforcement.",
+                  },
+                },
+                hardRule: { text: "The Führer's directive fixes the plan: the assault goes in on all three objectives as laid down.", lockApproach: "spreadThree" },
+                decisions: [
+                  {
+                    id: "theWeightToMaleme",
+                    time: "2030",
+                    title: "Where the weight goes",
+                    prompt: "Night falls on 20 May with no objective secure. The paratroopers are scattered, the mountain troops have yet to land, and Maleme airfield is still under fire from the edge of the hill beside it. Student has to decide where the weight goes tomorrow.",
+                    options: [
+                      {
+                        id: "allToMaleme",
+                        name: "Put everything into Maleme and land the mountain troops on the airfield under fire",
+                        note: "The bold choice, and the one that depends on the hill being given up.",
+                        bonus: 0,
+                        bonusByPosture: { malemeGap: 5, navyHunts: 1 },
+                        reportLine: "Student orders everything to Maleme, and the transports are sent in under fire.",
+                      },
+                      {
+                        id: "holdThePlan",
+                        name: "Keep to the plan and reinforce all three drop zones",
+                        note: "A balanced effort, and a thin one everywhere.",
+                        bonus: 0,
+                        bonusByPosture: { malemeGap: -2, navyHunts: 1 },
+                        reportLine: "Student keeps to the plan, and each of the three drop zones is reinforced.",
+                      },
+                      {
+                        id: "airOnly",
+                        name: "Hold the sea convoys back and use only the air transports",
+                        note: "Costs Matériel, and keeps the convoys out of the navy's way.",
+                        bonus: 0,
+                        bonusByPosture: { navyHunts: 4 },
+                        meters: { fuel: -1 },
+                        costReason: "Extra sorties flown to replace the convoys",
+                        reportLine: "The convoys are held back, and the whole reinforcement is flown in.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(55, meters.initiative),
+                  title: "Crete falls to the airborne",
+                  setFlags: { crete41Result: "taken" },
+                  impact: { manpower: -1, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Crete fell in ten days — and the victory ended German large-scale airborne operations forever. The defenders, forewarned and far stronger than estimated, shot the first waves out of the sky and onto pre-registered drop zones; Maleme airfield was taken by a margin of one withdrawn hill. Fallschirmjäger casualties ran near a quarter of the force committed, and Hitler told Student the day of the paratrooper was over. The instrument won its greatest prize and was spent as a strategic weapon in the act — a fact a certain Mediterranean island question will remember next year.",
+                },
+                {
+                  weight: 100 - modWeight(55, meters.initiative),
+                  title: "The assault fails",
+                  setFlags: { crete41Result: "failed" },
+                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  outcome:
+                    "The minority projection, which the defenders were closer to than the legend admits: the airfield is never taken, the hill is held, and the second convoy goes down with the first. The mountain troops who were to land never do, and by the third day Mercury is called off, with the paratroopers' casualties spent for nothing. Student's corps survives, but as a warning and not as an instrument, and the airborne arm's reputation ends before the island does.",
+                },
+              ],
             },
             {
               label: "Pass on Crete — the Aegean flank can be watched, not owned",
@@ -2767,6 +2986,38 @@ const CAMPAIGNS = {
                       flavor:
                         "Sixty miles from Alexandria and this is the ground that decides it: sea on one flank, the Qattara Depression on the other, no room to maneuver around the British line the way every earlier battle in this desert allowed. The plan is a night march south around the minefields, then a hard turn north behind the Alam Halfa ridge before the sun comes up and the Desert Air Force owns the sky over open ground. Every vehicle in this army is already running on requisitioned and captured fuel that isn't being replaced at the rate it's being burned — what's decided here is how much of what's left drives, how much walks, what the Luftwaffe can put over the column, and how much gets held back rather than spent finding the gap.",
                       effectiveness: { divisions: 2.0, armour: 2.4, air: 1.4, supply: 2.8 },
+                      orderOfBattle: {
+                        divisions: {
+                          units: [
+                            "The Italian infantry corps under Navarini, holding the line the panzers cleared",
+                            "The German 90th Light Division and the 164th Infantry Division",
+                          ],
+                          real: "The infantry's task was to hold the northern line while the mobile forces made the southern sweep.",
+                        },
+                        armour: {
+                          units: [
+                            "The Afrika Korps: 15th and 21st Panzer Divisions",
+                            "The Italian XX Motorised Corps: the Ariete and Littorio armoured divisions",
+                          ],
+                          real: "The minefields proved deep: General von Bismarck of 21st Panzer was killed and General Nehring wounded, and the axis forces turned north earlier than planned because of delays, heavy fuel consumption over bad going, and the fuel shortage.",
+                        },
+                        air: {
+                          units: [
+                            "Fliegerführer Afrika (Seidemann) and Italian air units",
+                            "Against the Desert Air Force, which bombed the columns by day and by night",
+                          ],
+                          real: "Albacores and Wellingtons bombed the columns through the night of 31 August and 1 September.",
+                        },
+                        supply: {
+                          units: [
+                            "The tankers the Italian navy promised for the offensive",
+                            "Fuel captured and requisitioned in the desert",
+                          ],
+                          real: "More than half of the supply ships sank, and only 1,500 tons of fuel arrived of the 6,000 requested.",
+                        },
+                      },
+                      // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                      hardRule: { text: "Rome and OKW have promised fuel for one push only, so the fast approach is ordered.", lockApproach: "raceTheDawn" },
                       // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Alam el Halfa): the minefields proved deep, the
                       // axis forces turned north earlier than planned because of delays, heavy consumption over bad
                       // going and fuel, 22nd Armoured Brigade (Grants and light tanks) was dug in on the ridge, and the
@@ -2784,7 +3035,7 @@ const CAMPAIGNS = {
                           options: [
                             {
                               id: "turnNow",
-                              label: "Turn north at once, toward the Alam Halfa ridge",
+                              name: "Turn north at once, toward the Alam Halfa ridge",
                               note: "Save fuel and time, and meet whatever is on the ridge.",
                               bonus: 0,
                               bonusByPosture: {deepMinefields: 3, hullDownLine: -4},
@@ -2792,7 +3043,7 @@ const CAMPAIGNS = {
                             },
                             {
                               id: "sweepWide",
-                              label: "Continue the wide sweep to the east before turning",
+                              name: "Continue the wide sweep to the east before turning",
                               note: "As planned, and with fuel that is running short.",
                               bonus: 0,
                               bonusByPosture: {hullDownLine: 3, deepMinefields: -4, airSuperiority: -2},
@@ -2800,7 +3051,7 @@ const CAMPAIGNS = {
                             },
                             {
                               id: "haltForFuel",
-                              label: "Halt, and call for fuel and fighters",
+                              name: "Halt, and call for fuel and fighters",
                               note: "Costs Matériel, and gives the British time.",
                               bonus: 0,
                               bonusByPosture: {airSuperiority: 3, hullDownLine: 1},
@@ -2989,6 +3240,37 @@ const CAMPAIGNS = {
                       flavor:
                         "The ring has closed, but it hasn't set. Staff estimates of the trapped strength still range from 200,000 to well over that, the same uncertainty the airlift planners are about to build their own numbers on — but for a breakout ordered now, in these first days, the harder number is fuel: whatever isn't already inside the pocket isn't coming, and every kilometer west spends it. What's decided here is how the army moves while it still can — how much of the panzer reserve leads the way west, how much of the infantry mass comes with it, what the Luftwaffe can fly in over the column, and how much fuel and ammunition gets carried forward instead of destroyed in place before the retreat starts.",
                       effectiveness: { divisions: 2.0, armour: 2.2, air: 1.6, supply: 3.0 },
+                      orderOfBattle: {
+                        divisions: {
+                          units: [
+                            "LI Corps (Seydlitz-Kurzbach): three infantry divisions",
+                            "The rest of Sixth Army's infantry inside the pocket, 200,000 men or more by the staff's estimate",
+                          ],
+                          real: "Seydlitz was among the generals who argued for a breakout. No breakout was ordered: Hitler refused, and the army stayed in the pocket.",
+                        },
+                        armour: {
+                          units: [
+                            "XIV Panzer Corps (Hube): the panzer strength that survived Uranus inside the pocket",
+                          ],
+                          real: "The pocket's tanks had fuel for only a short march, which was at the heart of the case against attempting a breakout.",
+                        },
+                        air: {
+                          units: [
+                            "VIII Fliegerkorps (Fiebig)",
+                            "The transport groups of the airlift",
+                          ],
+                          real: "The airlift never delivered what the Luftwaffe had promised the pocket.",
+                        },
+                        supply: {
+                          units: [
+                            "The fuel and ammunition inside the pocket, with nothing more coming in",
+                            "Depots to be stripped or destroyed before a march",
+                          ],
+                          real: "The pocket's supplies were spent in place, and the airlift fell far short of what the army needed.",
+                        },
+                      },
+                      // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                      hardRule: { text: "Hitler's order is that the army holds what it holds: no ground is to be given on the march.", noGiveGround: true },
                       // Round 22. Deep winter on the open steppe. Field decision about the equipment the column cannot
                       // carry and still move; the payoffs against each Soviet posture are modeled.
                       conditions: "Deep winter on the open steppe: snow, hard frost and short days, with fuel enough for only a short march.",
@@ -3003,7 +3285,7 @@ const CAMPAIGNS = {
                           options: [
                             {
                               id: "marchLight",
-                              label: "Destroy the heavy equipment and march light",
+                              name: "Destroy the heavy equipment and march light",
                               note: "A faster column, and an army without its guns.",
                               bonus: 0,
                               bonusByPosture: {deepWinter: 4, ringHardening: 1, softSpot: -1},
@@ -3013,7 +3295,7 @@ const CAMPAIGNS = {
                             },
                             {
                               id: "carryGuns",
-                              label: "Carry the heavy guns, and move at their pace",
+                              name: "Carry the heavy guns, and move at their pace",
                               note: "Slow, and able to fight its way through a hard ring.",
                               bonus: 1,
                               bonusByPosture: {ringHardening: 3, deepWinter: -3, softSpot: 1},
@@ -3021,7 +3303,7 @@ const CAMPAIGNS = {
                             },
                             {
                               id: "tanksAhead",
-                              label: "Send the tanks ahead to hold the gap open",
+                              name: "Send the tanks ahead to hold the gap open",
                               note: "Fast, if there is a gap, and a column without its screen if there is not.",
                               bonus: 0,
                               bonusByPosture: {softSpot: 4, ringHardening: -3, deepWinter: -2},
@@ -3465,6 +3747,38 @@ const CAMPAIGNS = {
                 flavor:
                   "Early May, and the rasputitsa has only just loosened its grip. Weeks of thaw have turned this region's black chernozem into the kind of mud that swallows road wheels and tank treads alike — tanks are never at their best in the gap between winter's hard ground and summer's dry earth, and this order asks the panzer arm to move through exactly that gap. Before it goes out, the staff wants to know where the weight actually falls against ground and enemy both: which divisions lead, how much of the armored reserve commits while the mud still has a say in it, what the Luftwaffe can put over the breach point, and how much ammunition and engineering effort is set aside just to open a path through what's ahead.",
                 effectiveness: { divisions: 1.8, armour: 3, air: 2.2, supply: 2.6 },
+                orderOfBattle: {
+                  divisions: {
+                    units: [
+                      "Army Detachment Kempf: III Panzer Corps with two infantry corps, XI and XLII, six infantry divisions in all",
+                      "The infantry corps of 4th Panzer Army behind the panzers",
+                    ],
+                    real: "Kempf's III Panzer Corps crossed the Northern Donets to protect 4th Panzer Army's eastern flank.",
+                  },
+                  armour: {
+                    units: [
+                      "4th Panzer Army (Hoth), the main armoured spearhead, with roughly 700 tanks committed",
+                      "Panzerkeil formations: Tigers forward, Panzer IIIs, IVs and assault guns fanning to the flanks and rear",
+                    ],
+                    real: "Hoth had discussed with Manstein, since early May, turning toward Prokhorovka, because he expected large Soviet armoured reserves from the east.",
+                  },
+                  air: {
+                    units: [
+                      "Luftflotte 4, under Richthofen until later in 1943",
+                      "The Hs 129 tank-busters of Schlachtgeschwader 1",
+                    ],
+                    real: "Three Soviet air armies, the 2nd, 16th and 17th, were committed, the 2nd and 17th on the southern face, and the Hs 129s inflicted heavy losses on Soviet tanks.",
+                  },
+                  supply: {
+                    units: [
+                      "Army engineers clearing mine lanes ahead of the assault, the only documented night activity, on 4/5 July",
+                      "The railheads and the mud-bound roads behind the salient",
+                    ],
+                    real: "The Soviet belts were built around anti-tank ditches and gun emplacements, the Pakfront of mutually covering anti-tank groups, so the engineers' lanes led into prepared defences.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Hitler insists on a Panzer-led attack with the new Tigers and Panthers in front.", lockApproach: "spearhead" },
                 // Round 22. Conditions (the mud is already a terrainModifier below). Field decision: the turn
                 // toward Prokhorovka, which Hoth had discussed with Manstein since early May (Wikipedia, Battle of
                 // Prokhorovka, as noted on the commander roster). The payoff against each Soviet posture is modeled.
@@ -3478,7 +3792,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "turnEast",
-                        label: "Turn the SS panzer corps east toward Prokhorovka",
+                        name: "Turn the SS panzer corps east toward Prokhorovka",
                         note: "Meet the Soviet armour in open ground, away from the strongest belts.",
                         bonus: 0,
                         bonusByPosture: {antiTankFirst: 3, reservesDeep: -3, airForward: 0},
@@ -3486,7 +3800,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "pressNorth",
-                        label: "Keep pressing north on the original axis, through the belts",
+                        name: "Keep pressing north on the original axis, through the belts",
                         note: "The plan as written, and the link with the northern pincer.",
                         bonus: 0,
                         bonusByPosture: {reservesDeep: 4, antiTankFirst: -4, airForward: -1},
@@ -3494,7 +3808,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "haltForAir",
-                        label: "Halt for a day to bring the flak and the fighters forward",
+                        name: "Halt for a day to bring the flak and the fighters forward",
                         note: "Costs Matériel, and the Soviet reserves get a day.",
                         bonus: 0,
                         bonusByPosture: {airForward: 4, antiTankFirst: 1},
@@ -6871,7 +7185,8 @@ const CAMPAIGNS = {
               ? " The ring that closed around Sixth Army last month closed deep and clean — nothing of note slipped it — and the same divisions freed by that fuller envelopment are the ones this drive on Rostov would actually use."
               : flags.uranus42 === "shallow"
               ? " The looser ring Stavka chose to close around Stalingrad let a real slice of German strength escape west before the encirclement finished forming — strength that is, this month, exactly what a Rostov drive would run into first."
-              : ""),
+              : "") +
+            (flags.uranusResult === "deep" ? keyBattleEcho("uranus", flags) : ""),
           choices: [
             {
               label: "Drive hard for Rostov — trap Army Group A in the Caucasus entirely",
@@ -7119,8 +7434,8 @@ const CAMPAIGNS = {
                 categories: [
                   { id: "reserves", name: "Fresh Rifle Armies", meter: "manpower", glyph: "▮▮▮" },
                   { id: "exploitation", name: "Cavalry & Ski Columns", meter: "initiative", glyph: "⇉" },
-                  { id: "air", name: "Air Cover", meter: "fuel", glyph: "✈" },
-                  { id: "supply", name: "Rail & Winter Supply", meter: "fuel", glyph: "▤" },
+                  { id: "air", name: "Air Cover", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "supply", name: "Rail & Winter Supply", meter: "fuel", strand: "ship", glyph: "▤" },
                 ],
                 // Reserves highest — the new armies are the blow itself; Exploitation second —
                 // a hollow German line is a thing cavalry and skiers can get through, but only
@@ -7129,6 +7444,39 @@ const CAMPAIGNS = {
                 // fed the armies all winter, and the shortage is shells and clothing rather than
                 // men, which is a sharper limit than any one battle can lift.
                 effectiveness: { reserves: 2.5, exploitation: 2.2, air: 1.9, supply: 1.7 },
+                orderOfBattle: {
+                  reserves: {
+                    units: [
+                      "1st Shock Army, formed in the Stavka reserve in November 1941: the 133rd Rifle Division and eight rifle brigades, many of them naval infantry from the Pacific Fleet",
+                      "The armies committed to the counteroffensive: the 1st Shock, 5th, 10th, 16th, 20th, 30th, 33rd, 43rd, 49th and 50th",
+                      "About 58 reserve divisions gathered by early December",
+                    ],
+                    real: "The offensive began on the Kalinin Front on 5 December and reached Klin on 7 December. The Germans were pushed back 150 to 300 kilometres but mostly escaped encirclement, and Zhukov had argued that there were too few reserves.",
+                  },
+                  exploitation: {
+                    units: [
+                      "1st Guards Cavalry Corps (Belov), renamed on 26 November 1941 after stopping Guderian near Kashira",
+                      "Ski battalions and cavalry divisions attached to the armies",
+                    ],
+                    real: "Before the offensive Belov appealed to Stalin, with Zhukov's support, to re-arm a corps equipped mainly with rifles, and was promised 1,500 automatic weapons and two batteries of new 76 mm guns.",
+                  },
+                  air: {
+                    units: [
+                      "The air forces of the Western and Kalinin Fronts, with the fighters of Moscow's air defence",
+                      "Air units brought west from Siberia and the Far East, over 1,500 aircraft by the sources' account of the transfers",
+                    ],
+                    real: "German air strength was much reduced: Luftflotte 2 had only 549 serviceable aircraft when the offensive began.",
+                  },
+                  supply: {
+                    units: [
+                      "The railways into Moscow, running to railheads at the edge of the front",
+                      "Winter clothing and equipment for the fresh armies",
+                    ],
+                    real: "Army Group Centre had only a third of its vehicles running, no winter clothing, and more than 130,000 cases of frostbite, while the Soviet troops were better equipped for the cold.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Stalin's order is that Moscow stays in Soviet hands and no ground is to be given: the line may not fall back.", noGiveGround: true },
                 // Round 22. Ground and weather, verified 2026-10-05 (Wikipedia, Battle of Moscow): sources disagree
                 // on the December temperature (Soviet records -28.8 C at the lowest, German reports -36 to -45 C),
                 // and German frostbite cases passed 130,000, so the cold is a fact of the ground. The attrition rule
@@ -7152,7 +7500,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "pressHighways",
-                        label: "Press the pursuit down the main roads at once",
+                        name: "Press the pursuit down the main roads at once",
                         note: "The fastest way, if the enemy is truly broken.",
                         bonus: 0,
                         bonusByPosture: { frozenLine: 4, mobileFlanks: -3, orderlyWithdrawal: -2 },
@@ -7160,7 +7508,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "cutBehind",
-                        label: "Wheel the cavalry and ski columns around to cut the roads behind them",
+                        name: "Wheel the cavalry and ski columns around to cut the roads behind them",
                         note: "The roads are the Germans' only way out, but the columns will be far from help.",
                         bonus: 0,
                         bonusByPosture: { frozenLine: 2, mobileFlanks: -4, orderlyWithdrawal: 4 },
@@ -7168,7 +7516,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "pauseAndFeed",
-                        label: "Pause a day to bring up the guns and the shells",
+                        name: "Pause a day to bring up the guns and the shells",
                         note: "Costs Initiative, and the Germans get a day.",
                         bonus: 0,
                         bonusByPosture: { mobileFlanks: 4, orderlyWithdrawal: 1 },
@@ -7427,8 +7775,187 @@ const CAMPAIGNS = {
               setFlags: { uranus42: "deep" },
               impact: { manpower: 1, fuel: 0, initiative: 1 },
               next: "southernPursuit43",
-              outcome:
-                "What happened, November 19–23, 1942. The pincers closed roughly 100 kilometers west of Stalingrad, trapping the entire Sixth Army — some 250,000 men — far more completely than a shallower envelopment would have. Manstein's relief attempt in December came within roughly 30 miles and was stopped; the trapped army surrendered in February 1943, one of the war's genuine turning points.",
+              keyBattleSubgame: {
+                id: "uranus",
+                title: "Order of Battle — Operation Uranus",
+                flavor: "Three fronts stand on the flanks of Sixth Army, and the plan has been built in secret for a month: two pincers, one from the Don bridgeheads in the north-west and one from the lakes south of the city, to meet at Kalach on the Don. The ground in front of them is held by Romanian armies that Stavka knows to be thin and badly equipped, with a German panzer corps standing in reserve behind them. The railways have carried the build-up, the deception has hidden it, and fog may keep the aircraft on the ground on the first morning. What is decided here is how the weight is spread: how much goes to the rifle armies that must break the line, how much to the tank and cavalry corps that will race for the Don, how much to the air armies that fog may ground, and how much to the railways and dumps that every one of them depends on.",
+                categories: [
+                  { id: "breakthrough", name: "Breakthrough Armies", meter: "manpower", glyph: "▮▮▮" },
+                  { id: "armour", name: "Tank & Cavalry Corps", meter: "fuel", strand: "steel", glyph: "▶▶" },
+                  { id: "air", name: "Air Armies", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "supply", name: "Rail & Ammunition Dumps", meter: "fuel", strand: "ship", glyph: "▤" },
+                ],
+                effectiveness: { breakthrough: 2.3, armour: 2.7, air: 1.8, supply: 2 },
+                conditions: "Thick fog and blizzard on the opening day kept much of the air force on the ground. The build-up was hidden by a long deception, the maskirovka, and carried to the front by the railways.",
+                terrainModifiers: { air: 0.8 },
+                terrainNotes: { air: "thick fog and blizzard on the opening day" },
+                categoryContext: {
+                  breakthrough: "The rifle armies have to break the thin Romanian line before anything else can move. Each commitment here puts more infantry and guns behind the first assault.",
+                  armour: "The tank and cavalry corps are the pincers themselves, and their whole task is to reach the Don before the Germans can react. Each commitment here puts more of them through the gap on the first day.",
+                  air: "The air armies can strike the Romanian guns and the German reserves, but fog may keep them down on the first morning. Each commitment here has more aircraft ready to fly when it lifts.",
+                  supply: "Every corps depends on the railways and the ammunition stockpiled in secret behind the start lines, and the pincers will run far ahead of both. Each commitment here pushes the dumps and the railheads forward behind them.",
+                },
+                flashups: {
+                  breakthrough: [
+                    "A rifle division goes forward behind a short, heavy barrage.",
+                    "A Romanian regiment's line gives way and the riflemen go through it.",
+                    "The infantry of 21st Army take a village on the first morning.",
+                    "A battalion pins a Romanian strongpoint while the tanks go round it.",
+                    "A rifle corps widens the gap on its flank.",
+                  ],
+                  armour: [
+                    "A tank corps drives into the gap in the fog.",
+                    "A cavalry corps rides through the line behind the tanks.",
+                    "A mobile corps covers forty kilometres on the second day.",
+                    "The leading brigade reaches the Don and looks for the bridge.",
+                    "A tank column turns west to cover the ring's outer edge.",
+                  ],
+                  air: [
+                    "Ground-attack aircraft hit a Romanian battery when the fog thins.",
+                    "Fighters patrol over the pincers' flank.",
+                    "A bomber group attacks a German reserve column on the road.",
+                    "The air armies stay on the ground, waiting for the fog to lift.",
+                    "A flight reports German armour moving up toward the break.",
+                  ],
+                  supply: [
+                    "A train of ammunition cars reaches the railhead behind the start line.",
+                    "The dumps are moved forward behind the pincers.",
+                    "A column of fuel trucks follows the tank corps through the gap.",
+                    "The railway engineers lay track toward the Don.",
+                    "A tank corps halts for fuel on the second day.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0720",
+                  contact: "0900",
+                  cats: ["1000", "1230", "1500", "1730"],
+                  reserve: "1900",
+                  counter: "2100",
+                },
+                idleLines: {
+                  breakthrough: [
+                    "No more infantry goes in behind the first assault. The gap stays as narrow as the Romanian line allows.",
+                    "The rifle armies hold at the start line, and the line in front of them stays whole.",
+                  ],
+                  armour: [
+                    "The tank corps stay behind the start lines. Nothing races for the Don.",
+                    "No cavalry rides through the line. The pincers have no points.",
+                  ],
+                  air: [
+                    "The air armies do not fly. Fog and a lack of orders keep them on the ground.",
+                    "No aircraft is committed to the break, and the Romanian guns fire undisturbed.",
+                  ],
+                  supply: [
+                    "No extra weight goes to the railways. The corps will have to live on what they carry.",
+                    "The dumps stay where they are, far behind the front.",
+                  ],
+                },
+                verdicts: ["The Ring Closes West of the City", "The Ring Does Not Close"],
+                verdictGrades: {
+                  clean: "Rifle armies, tank corps, aircraft and railways worked together, and the ring closed on the Don before the Germans could react.",
+                  costly: "The ring closes, but every arm of the offensive spent more than the plan allowed to close it.",
+                  marginal: "The pincers advance but do not meet where they were meant to, and the Germans have time they should not have had.",
+                  total: "The offensive breaks into the Romanian line and stops there, short of the Don and of its purpose.",
+                },
+                counterattack: {
+                  category: "armour",
+                  severity: { panzerReserve: 2, thinRomanianLine: 1, strongpoints: 1 },
+                  warn: {
+                    "1": "Romanian and German units are counterattacking along the flank of the pincers.",
+                    "2": "The German 48th Panzer Corps, the reserve behind the Romanians, is turning on the head of the advance.",
+                  },
+                  results: {
+                    repulsed: "The counterattack is beaten off and the tank corps go on toward the Don.",
+                    heldAtCost: "The head of the advance holds, but the tank corps that held it are badly worn.",
+                    broke: "The Germans break into the flank of the tank corps, and the whole advance stops to deal with them.",
+                    gaveGround: "The head of the advance gives way and falls back on the infantry, and the race for the Don loses a day.",
+                  },
+                },
+                orderOfBattle: {
+                  breakthrough: {
+                    units: [
+                      "The 21st Army and the 65th Army, the infantry armies of the breakthrough",
+                      "The Southwestern, Don and Stalingrad Fronts, under Vatutin, Rokossovsky and Yeryomenko",
+                    ],
+                    real: "The offensive began on 19 November. The pincers met at Kalach on 22 November and the ring closed at Sovetsky on 23 November, trapping between 250,000 and 300,000 Axis soldiers.",
+                  },
+                  armour: {
+                    units: [
+                      "The 5th Tank Army (Romanenko)",
+                      "The 4th Mechanised Corps, the 13th Tank Corps and the 26th Tank Corps",
+                      "The 4th Cavalry Corps, the 3rd Guards Cavalry Corps and the 1st Tank Corps",
+                    ],
+                    real: "The Soviet side counted 894 tanks and 13,451 guns among about 1,143,500 personnel including reserves.",
+                  },
+                  air: {
+                    units: ["The 16th, 17th and 8th Air Armies"],
+                    real: "Fog and blizzard limited flying on the opening day, and the Axis had about 732 serviceable aircraft in the theatre.",
+                  },
+                  supply: {
+                    units: [
+                      "The railway lines to the Don and Volga fronts",
+                      "The ammunition stockpiled in secret behind the start lines",
+                    ],
+                    real: "The build-up was hidden by the maskirovka and carried by the railways.",
+                  },
+                },
+                hardRule: { text: "Order No. 227 is in force: not one step back, and the line may not give ground.", noGiveGround: true },
+                decisions: [
+                  {
+                    id: "kalachMeeting",
+                    time: "1900",
+                    title: "The meeting at Kalach",
+                    prompt: "The pincers have met, or are about to, on the Don. The mobile corps are tired and short of fuel, and two things need doing: sealing the inner ring around Sixth Army, and pushing an outer ring west to keep any relief force away. They cannot do both with the same tanks. The front commanders have to decide where the corps go.",
+                    options: [
+                      {
+                        id: "driveOuter",
+                        name: "Drive the mobile corps on west, to form the outer ring",
+                        note: "Keeps any relief away if the Germans are weak, and leaves the inner ring thin.",
+                        bonus: 0,
+                        bonusByPosture: { thinRomanianLine: 4, panzerReserve: -3, strongpoints: -1 },
+                        reportLine: "The mobile corps are sent on west of the Don, to hold the outer edge of the ring.",
+                      },
+                      {
+                        id: "sealInner",
+                        name: "Turn the corps inward to seal the ring around the city",
+                        note: "A tighter ring, and a thinner outer line.",
+                        bonus: 0,
+                        bonusByPosture: { strongpoints: 3, panzerReserve: 1, thinRomanianLine: -2 },
+                        reportLine: "The mobile corps turn inward and close the ring on Sixth Army.",
+                      },
+                      {
+                        id: "haltForFuel",
+                        name: "Halt a day to bring up fuel and ammunition",
+                        note: "Costs Initiative, and the Germans get a day.",
+                        bonus: 0,
+                        bonusByPosture: { panzerReserve: 4, strongpoints: 1 },
+                        meters: { initiative: -1 },
+                        costReason: "A day's halt to refuel the mobile corps",
+                        reportLine: "The corps halt for a day while the fuel and ammunition come up.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(75, meters.initiative),
+                  title: "The ring closes far out",
+                  setFlags: { uranusResult: "deep" },
+                  impact: { manpower: 1, fuel: 0, initiative: 1 },
+                  outcome:
+                    "What happened, November 19–23, 1942. The pincers closed roughly 100 kilometers west of Stalingrad, trapping the entire Sixth Army — some 250,000 men — far more completely than a shallower envelopment would have. Manstein's relief attempt in December came within roughly 30 miles and was stopped; the trapped army surrendered in February 1943, one of the war's genuine turning points.",
+                },
+                {
+                  weight: 100 - modWeight(75, meters.initiative),
+                  title: "The ring closes short and loose",
+                  setFlags: { uranusResult: "loose" },
+                  impact: { manpower: -1, fuel: 0, initiative: 0 },
+                  next: "escapedRemnants43",
+                  outcome:
+                    "The minority projection, which the fog and the Romanian resistance made possible on the day: the pincers meet, but later and closer to the city than the plan intended, and a part of Sixth Army and its reserves slips west before the ring shuts. Stalingrad still falls and the army is still lost as an army, but what escaped is a thing Manstein can use, and the prisoner count that shocked Berlin is smaller.",
+                },
+              ],
             },
             {
               label: "A shallower envelopment — trap the city's garrison, accept more will escape",
@@ -8033,6 +8560,38 @@ const CAMPAIGNS = {
                       flavor:
                         "The front is open, and the only real question left is how fast the ring closes east of Minsk before what's left of Army Group Center finds a way back through it. The maskirovka has done its work — the reserves that could have blunted this are watching Lvov instead — and what stands between the spearheads and a hundred thousand trapped Germans is a matter of pace: how much of the rifle mass keeps the pocket sealed, how much of the tank strength drives the encirclement shut, what the air armies can do to a road network already choked with retreating columns, and how much gets held back to keep the whole advance fed rather than stretched thin across four hundred miles of liberated Belorussia.",
                       effectiveness: { divisions: 2.0, armour: 2.6, air: 1.8, supply: 2.2 },
+                      orderOfBattle: {
+                        divisions: {
+                          units: [
+                            "The rifle armies of the 3rd Belorussian Front (Chernyakhovsky)",
+                            "The armies of the 1st Belorussian Front to the south",
+                          ],
+                          real: "The German Fourth Army was encircled east of Minsk by the 3rd and 1st Belorussian Fronts together, and Minsk was liberated on 3 or 4 July.",
+                        },
+                        armour: {
+                          units: [
+                            "Rotmistrov's 5th Guards Tank Army, the exploitation force of the 3rd Belorussian Front",
+                            "Tank corps committed through the gap the breakthrough opened",
+                          ],
+                          real: "The fortified cities of the German line, Vitebsk, Orsha, Mogilev, Bobruisk and Minsk, became traps once the Soviet mechanised forces passed them.",
+                        },
+                        air: {
+                          units: [
+                            "The Soviet air armies supporting the fronts",
+                            "Attack aircraft working over the roads behind the German line",
+                          ],
+                          real: "Soviet aircraft made daylight movement nearly impossible for the retreating German columns, especially toward the Berezina crossings.",
+                        },
+                        supply: {
+                          units: [
+                            "The rear services and railway troops carrying supplies forward",
+                            "Bridging at the Berezina and the other rivers",
+                          ],
+                          real: "The advance stretched supply across several hundred miles of liberated Belorussia.",
+                        },
+                      },
+                      // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                      hardRule: { text: "Stavka's order is that every gain is held: the line may not give ground.", noGiveGround: true },
                       // Round 22. Verified 2026-10-05 (Wikipedia, Operation Bagration): the Soviets left four tank armies
                       // in the L'vov area and let the Germans know it, so that the reserves stayed in the south; the
                       // fortified cities (Vitebsk, Orsha, Mogilev, Bobruisk, Minsk) became traps; the Soviet air armies
@@ -8050,7 +8609,7 @@ const CAMPAIGNS = {
                           options: [
                             {
                               id: "straightAtMinsk",
-                              label: "Drive the tank armies straight at Minsk",
+                              name: "Drive the tank armies straight at Minsk",
                               note: "Take the city before a line can form, and leave the retreating army behind.",
                               bonus: 0,
                               bonusByPosture: {collapsingCenter: 4, fortifiedResistance: -3, deceptionHolding: 1},
@@ -8058,7 +8617,7 @@ const CAMPAIGNS = {
                             },
                             {
                               id: "closeTheRing",
-                              label: "Hold the tanks to close the ring behind the German Fourth Army",
+                              name: "Hold the tanks to close the ring behind the German Fourth Army",
                               note: "Trap the army rather than take the city first.",
                               bonus: 0,
                               bonusByPosture: {fortifiedResistance: 3, collapsingCenter: -2},
@@ -8066,7 +8625,7 @@ const CAMPAIGNS = {
                             },
                             {
                               id: "keepTheFeint",
-                              label: "Keep the feint toward the south alive to pin the German reserves",
+                              name: "Keep the feint toward the south alive to pin the German reserves",
                               note: "Costs Initiative to sustain, and keeps the reserves away from the fight.",
                               bonus: 0,
                               bonusByPosture: {deceptionHolding: 4, fortifiedResistance: 1},
@@ -9063,8 +9622,193 @@ const CAMPAIGNS = {
               setFlags: { dunkirk40: "full" },
               impact: { manpower: 2, fuel: -1, initiative: 0 },
               next: "halifaxCrisis40",
-              outcome:
-                "Operation Dynamo lifts over 338,000 men off the beaches and mole in nine days — British and French alike — using everything from destroyers to requisitioned civilian pleasure boats, under sustained Luftwaffe attack the whole time. Almost none of the heavy equipment survives; the BEF that reaches England is an army with no tanks and precious little artillery. It is, by any strict military accounting, a catastrophe. Britain treats it as something closer to a founding myth, and has ever since.",
+              keyBattleSubgame: {
+                id: "dynamo40",
+                title: "Order of Battle — Operation Dynamo",
+                flavor: "The perimeter is held along the canals seven miles from the sea, and behind it the only way home is by water. Admiral Ramsay is running the lift from Dover Castle with every ship he can find, Captain Tennant is loading men from the east mole as fast as destroyers can come alongside, and hundreds of small boats are ferrying men off the open beaches to the larger ships. Göring has promised that the Luftwaffe will finish the pocket, and Park's 11 Group has to meet it from airfields across the Channel. What is decided here is where the weight goes: how much to the destroyers and the mole, how much to the small craft and the beaches, how much to the fighter cover, and how much to the perimeter and the rearguard that hold the door open.",
+                categories: [
+                  { id: "navy", name: "Destroyers & the Mole", meter: "fuel", strand: "oil", glyph: "≋" },
+                  { id: "smallCraft", name: "Small Craft & the Beaches", meter: "manpower", strand: "ship", glyph: "▲" },
+                  { id: "air", name: "Fighter Cover", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "perimeter", name: "The Perimeter & Rearguard", meter: "manpower", glyph: "◆◆◆" },
+                ],
+                effectiveness: { navy: 2.6, smallCraft: 2.2, air: 2, perimeter: 2.4 },
+                conditions: "Low cloud and smoke from the fires spoil the German bombers' aim, and the sea is calm, which helps the small boats. The beaches are wide and shallow, and the large ships cannot come close to them.",
+                terrainModifiers: { smallCraft: 1.1 },
+                terrainNotes: { smallCraft: "calm seas and a wide, shallow beach" },
+                counterScale: 1.5,
+                categoryContext: {
+                  navy: "The destroyers and larger ships can lift thousands of men at a time from the east mole, but each one that comes alongside is a target for the Luftwaffe. Each commitment here sends more of them in and keeps the mole working.",
+                  smallCraft: "Hundreds of small boats, many of them civilian, can work the open beaches where the big ships cannot, carrying men out to the ships waiting offshore. Each commitment here puts more of them to the beaches.",
+                  air: "Park's squadrons fly from southern England and cannot stay long over Dunkirk. Each commitment here keeps more fighters over the beaches and the ships at the hours the Luftwaffe comes.",
+                  perimeter: "The rearguard holds the canals, and every hour it holds is an hour for the lift. Each commitment here puts more men, guns and anti-tank weapons onto the line.",
+                },
+                flashups: {
+                  navy: [
+                    "A destroyer comes alongside the east mole and loads until the deck is full.",
+                    "A passenger steamer slips out of the harbour under a pall of smoke.",
+                    "A minesweeper takes a load of troops from the mole and turns for Dover.",
+                    "A destroyer is hit by a dive bomber near the harbour mouth.",
+                    "Ramsay's staff at Dover send another group of ships across the Channel.",
+                  ],
+                  smallCraft: [
+                    "A fishing boat ferries a load of soldiers out from the beach.",
+                    "A line of men waits waist-deep in the sea for the next boat.",
+                    "A pleasure steamer lies off the beach, filling from a dozen small craft.",
+                    "A boat's crew makes its tenth trip between the beach and the ships.",
+                    "A beachmaster waves another boat in along the sand.",
+                  ],
+                  air: [
+                    "A squadron of Spitfires breaks up a formation of bombers over the beaches.",
+                    "Hurricanes patrol off the harbour for twenty minutes before they must go home.",
+                    "A flight attacks a dive-bomber formation as it begins its run.",
+                    "The beaches are quiet for an hour, and the men look at the sky.",
+                    "A fighter pilot is shot down and picked up by a small boat.",
+                  ],
+                  perimeter: [
+                    "A rearguard battalion holds a canal bridge until the order to fall back.",
+                    "A French division beats off an attack in the marshes south of the town.",
+                    "A company of anti-tank guns knocks out a German armoured car on the road.",
+                    "The line falls back to the next canal and holds again.",
+                    "A battery fires its last rounds before spiking its guns.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0430",
+                  contact: "0700",
+                  cats: ["0900", "1200", "1500", "1800"],
+                  reserve: "2100",
+                  counter: "2300",
+                },
+                idleLines: {
+                  navy: [
+                    "No more destroyers are sent. The mole sits idle between ships.",
+                    "The big ships stay at Dover, and the east mole is left to what is already there.",
+                  ],
+                  smallCraft: [
+                    "No small craft are sent to the beaches. Men wait on the sand for ships that cannot come in.",
+                    "The beaches are left to themselves, and the boats stay in their harbours.",
+                  ],
+                  air: [
+                    "No extra fighters are sent. The beaches have only the cover they had.",
+                    "The squadrons fly their routine patrols and leave the rest to luck.",
+                  ],
+                  perimeter: [
+                    "No more men are sent to the line. The perimeter holds with what it has.",
+                    "The rearguard is given no reinforcement, and the canals are held thinly.",
+                  ],
+                },
+                verdicts: ["The Army Is Brought Home", "The Lift Falls Short"],
+                verdictGrades: {
+                  clean: "Ships, small craft, fighters and rearguard all held together, and the lift ran at the pace the army needed.",
+                  costly: "The army is brought off, but every part of the lift spent more than it could afford.",
+                  marginal: "A large part of the army gets away, but too many are left behind on the beaches and in the perimeter.",
+                  total: "The lift runs far behind the pressure on the perimeter, and the pocket closes on men still waiting for ships.",
+                },
+                counterattack: {
+                  category: "perimeter",
+                  severity: { perimeterPressed: 2, luftwaffeStrikes: 1, panzersHalted: 1 },
+                  warn: {
+                    "1": "German infantry are probing the canal line at several places.",
+                    "2": "A heavy German attack is going in on the perimeter, and the rearguard is in danger of being overrun.",
+                  },
+                  results: {
+                    repulsed: "The attack on the perimeter is beaten off, and the lift goes on behind it.",
+                    heldAtCost: "The perimeter holds against the attack, but the units that held it are nearly spent.",
+                    broke: "The Germans break through the canal line, and the beaches are in range of their guns.",
+                    gaveGround: "The rearguard falls back to a shorter line, and the lift loses a day's ground.",
+                  },
+                },
+                orderOfBattle: {
+                  navy: {
+                    units: [
+                      "Admiral Bertram Ramsay's Dover Command, directing the lift from Dover Castle",
+                      "Destroyers, passenger ships and minesweepers working from the east mole",
+                    ],
+                    real: "Six British destroyers were sunk (Grafton, Grenade, Wakeful, Basilisk, Havant and Keith) and three French ones, and over 200 British and Allied vessels were lost in all.",
+                  },
+                  smallCraft: {
+                    units: [
+                      "Between 800 and 900 vessels in all, among them the small boats and civilian craft",
+                      "Captain William Tennant, the beachmaster at Dunkirk",
+                    ],
+                    real: "The small boats ferried men from the wide sand beaches out to the larger ships, and calm seas helped them.",
+                  },
+                  air: {
+                    units: [
+                      "No. 11 Group under Air Vice-Marshal Park",
+                      "Spitfire and Hurricane squadrons flying from southern England",
+                    ],
+                    real: "The RAF lost 145 aircraft and the Luftwaffe 156 over the nine days, and low cloud and smoke over the beaches hampered the German bombers.",
+                  },
+                  perimeter: {
+                    units: [
+                      "The rearguard under General Alexander",
+                      "A French rearguard of about 40,000 men from the 2nd Light Mechanised and 68th Infantry Divisions",
+                      "A perimeter about seven miles from the coast, along the canals",
+                    ],
+                    real: "The French First Army's stand at Lille tied down seven German divisions until 31 May.",
+                  },
+                },
+                hardRule: {
+                  text: "The French insist that the lift be shared fairly with their troops, which the east mole alone cannot carry: the beaches must be worked.",
+                  lockApproach: "workTheBeaches",
+                },
+                decisions: [
+                  {
+                    id: "daylightLift",
+                    time: "1330",
+                    title: "The daylight lift",
+                    prompt: "Destroyers have been lost since the lift began, and the Luftwaffe is at its worst by day. Ramsay can keep every ship working through the daylight, lift only at night, or throw the small craft in by day under fighter cover. Whatever he decides, every slow hour is an hour the perimeter has to be held.",
+                    options: [
+                      {
+                        id: "shipsByDay",
+                        name: "Keep every ship working through the day, air attacks or not",
+                        note: "The fastest lift, with the risk of losing the big ships.",
+                        bonus: 0,
+                        bonusByPosture: { panzersHalted: 3, perimeterPressed: 2, luftwaffeStrikes: -4 },
+                        reportLine: "Every ship keeps working through the daylight, under the bombers.",
+                      },
+                      {
+                        id: "nightOnly",
+                        name: "Lift only by night and keep the big ships out of the daylight",
+                        note: "Saves the ships, and the lift is slower.",
+                        bonus: 0,
+                        bonusByPosture: { luftwaffeStrikes: 4, panzersHalted: -2, perimeterPressed: -3 },
+                        reportLine: "The big ships are kept out of the daylight and the lift is made by night.",
+                      },
+                      {
+                        id: "smallCraftByDay",
+                        name: "Throw the small craft in by day, under the fighter cover",
+                        note: "Costs Manpower in boat crews, and the perimeter gets its lift.",
+                        bonus: 0,
+                        bonusByPosture: { perimeterPressed: 4 },
+                        meters: { manpower: -1 },
+                        costReason: "Boat crews lost in the daylight lift",
+                        reportLine: "The small craft run in to the beaches by day, under the fighters.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(70, meters.initiative),
+                  title: "The lift runs at the pace the army needs",
+                  setFlags: { dynamo40Result: "brought" },
+                  impact: { manpower: 2, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Operation Dynamo lifts over 338,000 men off the beaches and mole in nine days — British and French alike — using everything from destroyers to requisitioned civilian pleasure boats, under sustained Luftwaffe attack the whole time. Almost none of the heavy equipment survives; the BEF that reaches England is an army with no tanks and precious little artillery. It is, by any strict military accounting, a catastrophe. Britain treats it as something closer to a founding myth, and has ever since.",
+                },
+                {
+                  weight: 100 - modWeight(70, meters.initiative),
+                  title: "The lift falls short",
+                  setFlags: { dynamo40Result: "short" },
+                  impact: { manpower: -1, fuel: -1, initiative: 0 },
+                  outcome:
+                    "The minority projection, closer than the legend admits: the Luftwaffe sinks more of the big ships, the small craft cannot make up the gap, and the perimeter is pressed before the lift can finish. A good part of the army still gets away, but well short of the historical total, and the men left on the beaches and in the perimeter are the cost.",
+                },
+              ],
             },
             {
               label: "Prioritize the professional core — save the trained divisions first, accept a smaller total lift",
@@ -9086,7 +9830,10 @@ const CAMPAIGNS = {
           title: "The War Cabinet Crisis",
           historicalRecord: true,
           situation:
-            "With the BEF still coming off the beaches and France's collapse only weeks away, the War Cabinet meets repeatedly over three days to argue about something that has never been put to the British public: whether to explore peace terms. Lord Halifax, the Foreign Secretary, argues that a approach through Mussolini — still nominally neutral — should at least be tested, while Britain still has an army and a fleet to negotiate with rather than nothing at all. Churchill, six days into the job as Prime Minister, argues the opposite: that any approach at all signals weakness Hitler will exploit, and that the only real choice is to fight on. Chamberlain's vote, still carrying real weight in the party, is the one neither man can predict.",
+            "With the BEF still coming off the beaches and France's collapse only weeks away, the War Cabinet meets repeatedly over three days to argue about something that has never been put to the British public: whether to explore peace terms. Lord Halifax, the Foreign Secretary, argues that a approach through Mussolini — still nominally neutral — should at least be tested, while Britain still has an army and a fleet to negotiate with rather than nothing at all. Churchill, six days into the job as Prime Minister, argues the opposite: that any approach at all signals weakness Hitler will exploit, and that the only real choice is to fight on. Chamberlain's vote, still carrying real weight in the party, is the one neither man can predict." +
+            (flags.dunkirk40 === "full"
+              ? (flags.dynamo40Result === "short" ? " The lift fell short of what the army needed, and the men left behind are counted in every report." : "") + keyBattleEcho("dynamo40", flags)
+              : ""),
           choices: [
             {
               label: "Reject any negotiation outright — Britain fights on, whatever the terms might have been",
@@ -9172,8 +9919,8 @@ const CAMPAIGNS = {
                 categories: [
                   { id: "squadrons", name: "11 Group Squadrons", meter: "manpower", glyph: "✈✈" },
                   { id: "control", name: "Radar & Ground Control", meter: "initiative", glyph: "◎" },
-                  { id: "wing", name: "The Duxford Wing", meter: "fuel", glyph: "≋" },
-                  { id: "turnaround", name: "Rearm & Refuel Turnaround", meter: "fuel", glyph: "↻" },
+                  { id: "wing", name: "The Duxford Wing", meter: "fuel", strand: "oil", glyph: "≋" },
+                  { id: "turnaround", name: "Rearm & Refuel Turnaround", meter: "fuel", strand: "oil", glyph: "↻" },
                 ],
                 // Squadrons highest — Park's doctrine is that the squadrons themselves do the
                 // fighting; Control second — the plot is what lets a few squadrons do the work of
@@ -9181,6 +9928,39 @@ const CAMPAIGNS = {
                 // the Duxford Wing was real and arrived, but a wing of five squadrons takes time
                 // to form and this doctrine does not wait for it.
                 effectiveness: { squadrons: 2.5, control: 2.3, wing: 1.7, turnaround: 1.9 },
+                orderOfBattle: {
+                  squadrons: {
+                    units: [
+                      "Nine of 11 Group's squadrons scrambled at about 11:15, among them Nos. 72 and 92 from Biggin Hill",
+                      "About 185 fighters in 19 squadrons ready for the afternoon battle",
+                    ],
+                    real: "Park committed every squadron he had. Asked by Churchill at about 14:35 what other reserves he had, he answered that there were none, though he meant none in 11 Group.",
+                  },
+                  control: {
+                    units: [
+                      "The Chain Home radar stations on the south-east coast",
+                      "The Royal Observer Corps posts and the filter room at Bentley Priory",
+                      "11 Group's operations room at Uxbridge and its sector controllers",
+                    ],
+                    real: "Radar saw the raids forming over France with about fifteen minutes' warning. Cloud between 2,000 and 12,000 feet hid the targets from the German crews.",
+                  },
+                  wing: {
+                    units: [
+                      "The Duxford Wing: 12 Group's Nos. 19, 242, 302, 310 and 611 Squadrons, 56 fighters on the morning of 15 September",
+                      "Led in the air by Squadron Leader Douglas Bader",
+                    ],
+                    real: "Park asked 12 Group for cover and the wing flew south. For weeks he had complained that 12 Group was too slow to cover his airfields.",
+                  },
+                  turnaround: {
+                    units: [
+                      "The ground crews and armourers of 11 Group's sector stations",
+                      "The fuel bowsers and ammunition lorries serving the dispersals",
+                    ],
+                    real: "The afternoon raid came about three hours after the morning one. 276 RAF fighters met 475 German aircraft, and across the day the RAF lost about 28 fighters against more than 40 German aircraft.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "The Air Ministry's staff, backing Leigh-Mallory, insists that 12 Group be called south early.", lockApproach: "callTheWing" },
                 // Round 22. Two raids with a pause between them are the day itself (Wikipedia, Battle of Britain
                 // Day: the morning raid at about 11:00, the afternoon raid about three hours later), so this is a
                 // battle in two phases, and a defensive one: the enemy's blow is the whole of it.
@@ -9200,7 +9980,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "everythingUp",
-                        label: "Scramble every squadron at once and meet it over Kent",
+                        name: "Scramble every squadron at once and meet it over Kent",
                         note: "Everything flies, as Park in fact ordered. Nothing is left in hand.",
                         bonus: 0,
                         bonusByPosture: { secondWave: 4, heavyEscort: -2, cloudCover: 1 },
@@ -9208,7 +9988,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "holdHalf",
-                        label: "Hold half the squadrons until the raid's track is clear",
+                        name: "Hold half the squadrons until the raid's track is clear",
                         note: "Safer if the plot is wrong, and slower if it is right.",
                         bonus: 1,
                         bonusByPosture: { cloudCover: 3, secondWave: -3, heavyEscort: 1 },
@@ -9216,7 +9996,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "askTwelve",
-                        label: "Ask 12 Group to fly south and cover the sector stations",
+                        name: "Ask 12 Group to fly south and cover the sector stations",
                         note: "The Duxford Wing flies, but costs Matériel and an argument.",
                         bonus: 0,
                         bonusByPosture: { heavyEscort: 4, secondWave: 2 },
@@ -9490,8 +10270,8 @@ const CAMPAIGNS = {
                   "Tight formation, full escort, the battleship risk accepted rather than scattering to face it in the open — the convoy holds together, which means Broome's destroyers and corvettes still have something worth defending as long as the ships stay in company. What's decided here is how the close escort, the anti-aircraft auxiliaries riding with the merchantmen, Hamilton's covering force standing off at a distance, and the signals effort tracking what's actually out there are weighed against each other before the wolfpacks and the torpedo bombers find the convoy's track.",
                 categories: [
                   { id: "escorts", name: "Destroyer & Corvette Screen", meter: "manpower", glyph: "▲" },
-                  { id: "aaShips", name: "Anti-Aircraft Auxiliaries", meter: "manpower", glyph: "✦" },
-                  { id: "coveringForce", name: "Distant Covering Force", meter: "fuel", glyph: "≋" },
+                  { id: "aaShips", name: "Anti-Aircraft Auxiliaries", meter: "manpower", strand: "ammo", glyph: "✦" },
+                  { id: "coveringForce", name: "Distant Covering Force", meter: "fuel", strand: "oil", glyph: "≋" },
                   { id: "intelligence", name: "Signals Intelligence", meter: "fuel", glyph: "✎" },
                 ],
                 // Escorts highest — the close screen is the convoy's own direct defense against
@@ -9502,6 +10282,36 @@ const CAMPAIGNS = {
                 // down a torpedo bomber by itself, the same design choice as Anzio's Naval or
                 // Arnhem's Supply Drop.
                 effectiveness: { escorts: 2.6, coveringForce: 2.2, aaShips: 2.0, intelligence: 1.6 },
+                orderOfBattle: {
+                  escorts: {
+                    units: [
+                      "Commander Jack Broome's close escort: six destroyers, with corvettes and minesweepers",
+                    ],
+                    real: "At 21:36 on 4 July the Admiralty ordered the convoy to scatter. In this battle it does not.",
+                  },
+                  aaShips: {
+                    units: [
+                      "Two anti-aircraft auxiliaries sailing with the merchantmen",
+                      "The merchant ships' own guns",
+                    ],
+                    real: "German torpedo bombers from Norway struck on 4 July. A force of 25 sank SS William Hooper.",
+                  },
+                  coveringForce: {
+                    units: [
+                      "Rear Admiral Louis Hamilton's cruiser force: the British cruisers London and Norfolk and the American cruisers Wichita and Tuscaloosa",
+                    ],
+                    real: "At 21:11 on 4 July the Admiralty ordered the cruisers to withdraw to the westward at high speed, believing the Tirpitz had sailed. She had not.",
+                  },
+                  intelligence: {
+                    units: [
+                      "The Admiralty's signals intelligence and direction-finding",
+                      "Reports of the Tirpitz's position, which proved wrong on 4 July",
+                    ],
+                    real: "Of 35 merchant ships, only 11 reached Soviet ports.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "The Admiralty has forbidden the cruiser force to go east of Bear Island: Hamilton is not available.", forbidCommanders: ["hamilton"] },
                 // Round 22. Verified 2026-10-05 (Wikipedia, Convoy PQ 17): the cruiser force under Hamilton was near
                 // Bear Island; German torpedo bombers from Norway struck on 4 July; at 21:11 the Admiralty
                 // ordered the cruisers to withdraw westward, and then the convoy to scatter (the premise of this
@@ -9517,7 +10327,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "keepWithConvoy",
-                        label: "Keep the covering force with the convoy past Bear Island",
+                        name: "Keep the covering force with the convoy past Bear Island",
                         note: "More guns against the air attacks, and in range of the Tirpitz.",
                         bonus: 0,
                         bonusByPosture: {luftwaffeStrike: 3, wolfpackConcentration: 1, distantShadow: -3},
@@ -9525,7 +10335,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "pullBackWest",
-                        label: "Pull the covering force back to the west, as the Admiralty fears",
+                        name: "Pull the covering force back to the west, as the Admiralty fears",
                         note: "Safe from the Tirpitz, and the convoy is left to the escort.",
                         bonus: 0,
                         bonusByPosture: {distantShadow: 3, luftwaffeStrike: -2, wolfpackConcentration: -1},
@@ -9533,7 +10343,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "destroyersAhead",
-                        label: "Detach two destroyers from the screen to sweep ahead for the pack",
+                        name: "Detach two destroyers from the screen to sweep ahead for the pack",
                         note: "Costs Matériel, and thins the screen.",
                         bonus: 0,
                         bonusByPosture: {wolfpackConcentration: 4},
@@ -10129,9 +10939,9 @@ const CAMPAIGNS = {
                 flavor:
                   "Four days in, and the bridge itself is gone — Frost's men overwhelmed, the crossing back in German hands. What's left of 1st Airborne has drawn into a shrinking horseshoe around Oosterbeek, holding on artillery support and whatever gets through the ring, while Sosabowski's Poles try to cross the Rhine from the south bank in the dark and Horrocks's own corps sits close enough at Nijmegen and Elst to hear the guns and no closer. What's decided here is how the armor, the perimeter's own defense, the air resupply, and the Polish crossing effort are weighed against each other before the corridor behind all of them closes for good.",
                 categories: [
-                  { id: "corpsPush", name: "XXX Corps Armored Push", meter: "fuel", glyph: "▲" },
+                  { id: "corpsPush", name: "XXX Corps Armored Push", meter: "fuel", strand: "steel", glyph: "▲" },
                   { id: "perimeter", name: "Oosterbeek Perimeter", meter: "manpower", glyph: "◆◆◆" },
-                  { id: "resupply", name: "Supply Drop", meter: "fuel", glyph: "✈" },
+                  { id: "resupply", name: "Supply Drop", meter: "fuel", strand: "ship", glyph: "✈" },
                   { id: "poles", name: "Polish Parachute Brigade", meter: "manpower", glyph: "✦" },
                 ],
                 // Corps Push highest — the relief column is the only thing that can actually end
@@ -10142,6 +10952,36 @@ const CAMPAIGNS = {
                 // count for the RAF rather than a lever that changes the siege, the same design
                 // choice as Omaha's Air or Anzio's Naval.
                 effectiveness: { corpsPush: 2.6, perimeter: 2.0, resupply: 1.6, poles: 2.2 },
+                orderOfBattle: {
+                  corpsPush: {
+                    units: [
+                      "XXX Corps (Horrocks), stalled on the single road north of Nijmegen",
+                      "The 43rd Wessex Division, with the 4th/7th Royal Dragoon Guards",
+                    ],
+                    real: "The Germans cut the road near Koevering, the moment that convinced Horrocks the relief could not succeed.",
+                  },
+                  perimeter: {
+                    units: [
+                      "The 1st Airborne Division (Urquhart) in the Oosterbeek perimeter, about three miles round and held by about 3,600 men",
+                    ],
+                    real: "The perimeter held until the withdrawal across the Rhine on the night of 25/26 September, Operation Berlin.",
+                  },
+                  resupply: {
+                    units: [
+                      "The Dakotas of the airborne supply drops",
+                      "The DUKWs of the attempted ground supply",
+                    ],
+                    real: "The DUKWs attempting to cross were largely captured or stuck in the mud.",
+                  },
+                  poles: {
+                    units: [
+                      "The 1st Polish Independent Parachute Brigade (Sosabowski), dropped at Driel on 21 September 1944",
+                    ],
+                    real: "No rafts reached the Poles the first night. 153 men crossed on the night of 22/23 September, and the crossing of 24/25 September mostly failed.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Montgomery's headquarters insists that the corps drive for the river, and the order is not to be softened.", lockApproach: "directAssault" },
                 // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Arnhem): the Polish brigade dropped at Driel
                 // on 21 September; the first night no rafts arrived for them, only 153 men crossed on the night of
                 // 22/23 September, and the crossing of the 24th/25th failed; DUKWs were captured or stuck in
@@ -10160,7 +11000,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "sendThePoles",
-                        label: "Send the Polish brigade across the river tonight",
+                        name: "Send the Polish brigade across the river tonight",
                         note: "Reinforce the perimeter with fresh men, in the dark.",
                         bonus: 0,
                         bonusByPosture: {dropZoneCompromised: 3, corridorCut: -2, freshPanzerReserves: -3},
@@ -10168,7 +11008,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "ferrySupplies",
-                        label: "Use the boats for the perimeter's ammunition and rations",
+                        name: "Use the boats for the perimeter's ammunition and rations",
                         note: "Keep the perimeter fed, with fewer men reaching it.",
                         bonus: 0,
                         bonusByPosture: {corridorCut: 3},
@@ -10178,7 +11018,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "tightenTheLine",
-                        label: "Pull the perimeter in to a tighter line at once",
+                        name: "Pull the perimeter in to a tighter line at once",
                         note: "A smaller front to hold against the armour.",
                         bonus: 0,
                         bonusByPosture: {freshPanzerReserves: 4, dropZoneCompromised: -1},
@@ -10481,8 +11321,193 @@ const CAMPAIGNS = {
               setFlags: { bulge44: "patton" },
               impact: { manpower: -2, fuel: -1, initiative: 2 },
               next: "yaltaFeb45",
-              outcome:
-                "What happened, and it remains one of the most admired operational feats of the Western war: Third Army turned ninety degrees and relieved Bastogne within days, an operation most German staff officers judged simply impossible on the timeline it was executed. It did not undo the German offensive's initial shock, but it broke the siege before the garrison's ammunition and supplies ran out.",
+              keyBattleSubgame: {
+                id: "bastogne44",
+                title: "Order of Battle — The Relief of Bastogne",
+                flavor: "Bastogne is surrounded by the Fifth Panzer Army, held by the 101st Airborne and the armour that came in with it, outnumbered by some five to one and short of ammunition, medical supplies and winter clothing. Patton told Eisenhower at Verdun that Third Army could attack north in forty-eight hours, and now the attack has to be made in the cold, on a few icy roads, against German divisions that are short of fuel but not of fight. What is decided here is how the relief is weighted: how much to the armoured spearhead that must reach the town, how much to the infantry divisions on its shoulders, how much to the aircraft that may fly if the fog lifts, and how much to the garrison's own ammunition and perimeter while it waits.",
+                categories: [
+                  { id: "armour", name: "The Armoured Spearhead", meter: "fuel", strand: "steel", glyph: "▶▶" },
+                  { id: "infantry", name: "Infantry Divisions on the Shoulders", meter: "manpower", glyph: "▮▮▮" },
+                  { id: "air", name: "Fighters & Supply Drops", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "garrison", name: "The Bastogne Garrison", meter: "manpower", strand: "ammo", glyph: "◆◆◆" },
+                ],
+                effectiveness: { armour: 2.7, infantry: 2, air: 2, garrison: 2.3 },
+                phases: ["The wheel north", "The last miles to the town"],
+                conditions: "Cold and snow on a few icy roads, with fog and overcast until 23 December, when the sky cleared and the aircraft could fly.",
+                terrainModifiers: { air: 0.8, armour: 0.9 },
+                terrainNotes: { air: "fog and overcast until the 23rd", armour: "icy roads and snow" },
+                attrition: [
+                  { category: "infantry", atLeast: 3, meter: "manpower", delta: -1, reason: "Frostbite and trench foot in the cold" },
+                ],
+                categoryContext: {
+                  armour: "The 4th Armored Division has to cut through to the town along a road the Germans can block. Each commitment here puts more tanks, guns and fuel behind the spearhead.",
+                  infantry: "The 26th and 80th Infantry Divisions have to clear the flanks of the road and hold what the tanks take. Each commitment here puts more infantry on the shoulders of the advance.",
+                  air: "Fighter-bombers and the transport aircraft of IX Troop Carrier Command can fly only when the fog lifts. Each commitment here has more aircraft ready for the first clear day.",
+                  garrison: "The garrison holds the town with what it has, and ammunition and medical supplies are running out. Each commitment here stretches the perimeter's supplies and strengthens the line.",
+                },
+                flashups: {
+                  armour: [
+                    "The leading tank battalion of the 4th Armored breaks out of a village and goes on.",
+                    "A column of Shermans moves up the icy road in the dusk.",
+                    "A tank company knocks out an anti-tank gun at a road junction.",
+                    "A bridge is repaired under fire and the tanks cross.",
+                    "The column halts for fuel, and the infantry catch up.",
+                  ],
+                  infantry: [
+                    "The infantry of the 80th Division clear a village on the road's flank.",
+                    "A rifle company of the 26th Division wades a frozen stream in the dark.",
+                    "An infantry battalion digs in on the flank of the advance and holds it.",
+                    "Men with frostbitten feet keep moving in single file through the snow.",
+                    "A platoon takes a hill that overlooks the road.",
+                  ],
+                  air: [
+                    "Fighter-bombers hit a German column on the road through the fog's edge.",
+                    "Transports drop supplies on the town, and the parachutes lie in the snow.",
+                    "A flight of P-47s strafes a German assembly area.",
+                    "The fog holds and nothing flies.",
+                    "The sky clears and the garrison hears the transport aircraft overhead.",
+                  ],
+                  garrison: [
+                    "The 101st's artillery fires its last rounds of the day at a German attack.",
+                    "A perimeter outpost is beaten back from a crossroads on the edge of town.",
+                    "The aid station reports that it has nothing left to treat the wounded.",
+                    "A Sherman crew holds a corner of the perimeter through the night.",
+                    "A company cuts a German attack to pieces at close range.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0600",
+                  contact: "0800",
+                  cats: ["1000", "1200", "1400", "1600"],
+                  contact2: "1700",
+                  reserve: "1900",
+                  counter: "2100",
+                },
+                idleLines: {
+                  armour: [
+                    "The tanks are not committed to the road. The advance is made on foot.",
+                    "No armoured spearhead goes forward, and the road stays closed.",
+                  ],
+                  infantry: [
+                    "No infantry clears the flanks. The road is open to attack from both sides.",
+                    "The infantry divisions stay in their assembly areas, and the advance has no shoulders.",
+                  ],
+                  air: [
+                    "No aircraft is committed. The fog stays, and the garrison gets nothing from the sky.",
+                    "The fighter-bombers stay on their fields, and the roads are open to the Germans by day.",
+                  ],
+                  garrison: [
+                    "Nothing extra is done for the garrison. The perimeter holds on what it has.",
+                    "No supplies are sent in, and the aid station stays empty.",
+                  ],
+                },
+                verdicts: ["The Siege Is Broken", "The Relief Falls Short"],
+                verdictGrades: {
+                  clean: "Armour, infantry, aircraft and garrison all did their part, and the road to Bastogne was open before the town ran out of ammunition.",
+                  costly: "The siege is broken, but every part of the relief spent more than it could afford.",
+                  marginal: "The advance reaches the edge of the town but the corridor is thin and narrow, and the garrison is nearly out of everything.",
+                  total: "The relief stops short of the town, and the garrison is left on its own.",
+                },
+                counterattack: {
+                  category: "infantry",
+                  severity: { panzersAtBastogne: 2, southernShoulder: 1, fuelRunsDry: 1 },
+                  warn: {
+                    "1": "German infantry and tanks are counterattacking the flank of the advance.",
+                    "2": "A strong German counterattack is going in on the shoulder of the corridor, and the road is in danger of being cut.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is beaten off, and the corridor stays open.",
+                    heldAtCost: "The shoulder holds against the counterattack, but the infantry that held it are worn out.",
+                    broke: "The Germans break into the corridor, and the road is cut until the break is sealed.",
+                    gaveGround: "The shoulder gives ground, and the corridor is narrowed to the width of the road.",
+                  },
+                },
+                orderOfBattle: {
+                  armour: {
+                    units: [
+                      "The 4th Armored Division, with the 37th Tank Battalion at its head",
+                      "Combat Command B of the 10th Armored Division and Combat Command R of the 9th Armored, already in the town",
+                    ],
+                    real: "The 37th Tank Battalion of the 4th Armored Division broke through to Bastogne on 26 December, ending the siege.",
+                  },
+                  infantry: {
+                    units: ["The 26th and 80th Infantry Divisions of III Corps", "XII Corps on the shoulder"],
+                    real: "Patton told Eisenhower at Verdun on 19 December that Third Army could attack within 48 hours, and III Corps began its attack on 22 December.",
+                  },
+                  air: {
+                    units: [
+                      "The transport aircraft of IX Troop Carrier Command",
+                      "The fighter-bombers of the Allied tactical air forces",
+                    ],
+                    real: "The weather cleared on 23 December, and supply drops and air attacks became possible for the first time.",
+                  },
+                  garrison: {
+                    units: [
+                      "The 101st Airborne Division under Brigadier General Anthony McAuliffe",
+                      "Combat Command B of the 10th Armored Division",
+                    ],
+                    real: "The garrison was outnumbered about five to one and short of ammunition, medical supplies and winter clothing. Asked to surrender on 22 December, McAuliffe answered 'Nuts!'",
+                  },
+                },
+                hardRule: {
+                  text: "Bradley's headquarters insists on caution: Third Army is not to attack until it has the weight of two corps.",
+                  lockApproach: "twoCorpsWeight",
+                },
+                decisions: [
+                  {
+                    id: "theArlonRoad",
+                    time: "1800",
+                    title: "The road north",
+                    prompt: "The corridor to Bastogne runs along a single road, and the Germans on either side of it are not beaten. Patton can drive the 4th Armored up it alone, wait for the infantry divisions to clear its flanks, or ask the air forces to carry the garrison until the road is open.",
+                    options: [
+                      {
+                        id: "armourAlone",
+                        name: "Drive the 4th Armored up the road alone",
+                        note: "The fastest way to the town, with the flanks left open behind it.",
+                        bonus: 0,
+                        bonusByPosture: { fuelRunsDry: 4, southernShoulder: -3, panzersAtBastogne: 0 },
+                        reportLine: "The 4th Armored drives up the road with nothing on its flanks.",
+                      },
+                      {
+                        id: "waitForInfantry",
+                        name: "Wait for the infantry to clear the flanks first",
+                        note: "Safer for the corridor, and the garrison waits a day longer.",
+                        bonus: 0,
+                        bonusByPosture: { southernShoulder: 4, fuelRunsDry: -2, panzersAtBastogne: 1 },
+                        reportLine: "The armour waits while the infantry clear the villages on either side of the road.",
+                      },
+                      {
+                        id: "airLift",
+                        name: "Ask for supply drops and fighter-bombers to carry the garrison until the road is open",
+                        note: "Costs Matériel in sorties, and keeps the town alive.",
+                        bonus: 0,
+                        bonusByPosture: { panzersAtBastogne: 4, southernShoulder: 1 },
+                        meters: { fuel: -1 },
+                        costReason: "Sorties flown to supply the garrison",
+                        reportLine: "Transports drop supplies on the town, and fighter-bombers work over the German lines.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(75, meters.initiative),
+                  title: "The siege is broken",
+                  setFlags: { bastogne44Result: "relieved" },
+                  impact: { manpower: -2, fuel: -1, initiative: 2 },
+                  outcome:
+                    "What happened, and it remains one of the most admired operational feats of the Western war: Third Army turned ninety degrees and relieved Bastogne within days, an operation most German staff officers judged simply impossible on the timeline it was executed. It did not undo the German offensive's initial shock, but it broke the siege before the garrison's ammunition and supplies ran out.",
+                },
+                {
+                  weight: 100 - modWeight(75, meters.initiative),
+                  title: "The relief arrives late",
+                  setFlags: { bastogne44Result: "late" },
+                  impact: { manpower: -3, fuel: -1, initiative: 1 },
+                  outcome:
+                    "The minority projection, closer than the legend suggests: the wheel north is made and the town is relieved, but days later than promised, along a corridor too narrow to be safe, and at a cost in infantry and armour that the first week of fighting did not foretell. The garrison's own stubbornness holds the town until the road opens, which is the only thing that spares the relief from being too late.",
+                },
+              ],
             },
             {
               label: "Take the more cautious, methodical relief approach — do not risk overextending Third Army",
@@ -10559,6 +11584,9 @@ const CAMPAIGNS = {
               ? " The reserve spent sealing the Bulge's tip a few weeks ago is a reserve this delegation doesn't have behind it as a bargaining fact, for whatever quiet difference that makes to how hard the American position can afford to push."
               : flags.bulge44 === "patton"
               ? " Bastogne relieved on Patton's own timetable rather than a slower one is, this month, mostly a settled fact rather than a live bargaining chip — the army that turned ninety degrees in December is intact and forward, and nobody at this table is asking what it cost."
+              : "") +
+            (flags.bulge44 === "patton"
+              ? (flags.bastogne44Result === "late" ? " The relief came days late, along a corridor that was narrow all the way." : "") + keyBattleEcho("bastogne44", flags)
               : ""),
           choices: (() => {
             const base = [];
@@ -10841,8 +11869,8 @@ const CAMPAIGNS = {
                   "The plan is exactly what the doctrine says it should be — tight combat-box formation for mutual defensive fire, fighter escort as far as the fuel actually allows, a disciplined bomb run held steady over the ball-bearing works, and enough of a diversionary threat elsewhere to keep German fighter controllers guessing about which formation is the real one. What's decided here is how the staff effort behind each of those pieces gets weighted before Kepner's Thunderbolts reach the limit of their range near Aachen and the Luftwaffe's fighter wings — relayed in waves, landing to refuel and rearm before coming up again — find the bomber stream on its own for the rest of the way to Schweinfurt and back.",
                 categories: [
                   { id: "formation", name: "Combat Box Discipline", meter: "manpower", glyph: "▣" },
-                  { id: "escort", name: "Fighter Escort Coordination", meter: "fuel", glyph: "✈" },
-                  { id: "targeting", name: "Precision Bomb-Run", meter: "initiative", glyph: "◎" },
+                  { id: "escort", name: "Fighter Escort Coordination", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "targeting", name: "Precision Bomb-Run", meter: "initiative", strand: "ammo", glyph: "◎" },
                   { id: "diversion", name: "Diversionary Routing", meter: "manpower", glyph: "↝" },
                 ],
                 // Formation highest — LeMay's own combat box is the mission's whole defense once
@@ -10854,6 +11882,36 @@ const CAMPAIGNS = {
                 // historical diversion drew none off at all, the same asymmetric-by-design choice
                 // as PQ-17's Signals Intelligence or Kursk's Supply.
                 effectiveness: { formation: 2.6, escort: 2.3, targeting: 2.0, diversion: 1.6 },
+                orderOfBattle: {
+                  formation: {
+                    units: [
+                      "The combat box formations of the 1st and 3rd Air Divisions",
+                      "Brigadier General Curtis LeMay, who developed the combat box and commanded the 3rd Air Division",
+                    ],
+                    real: "Nine bomb groups flew the mission. 60 B-17s were shot down of about 72 aircraft lost, with over 600 aircrew casualties.",
+                  },
+                  escort: {
+                    units: [
+                      "The P-47 Thunderbolts of VIII Fighter Command (Kepner)",
+                      "Aircraft without drop tanks of the range to go further",
+                    ],
+                    real: "The P-47s could cover only about the first 200 of the 400 miles and turned back near Aachen.",
+                  },
+                  targeting: {
+                    units: [
+                      "Lieutenant General Ira Eaker's Eighth Air Force and its target list, headed by the ball-bearing works at Schweinfurt",
+                    ],
+                    real: "Schweinfurt was one of the most heavily defended cities in Germany, and the second raid was flown on 14 October 1943.",
+                  },
+                  diversion: {
+                    units: [
+                      "A diversionary force of B-24s sent toward the North Sea",
+                    ],
+                    real: "The feint failed to draw the German fighter controllers off the real formation's track.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Eighth Air Force insists on its own target priority and its own doctrine: the American commander leads.", lockCommander: "eaker" },
                 // Round 22. This battle's own notes: the escort could cover only about 200 of the 400 miles and
                 // turned back near Aachen. So the mission is fought in two phases, the leg out with the escort and
                 // the leg after it, and its field decision is whether to press on.
@@ -10868,7 +11926,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "pressOn",
-                        label: "Hold to the briefed bomb run and press on to the target",
+                        name: "Hold to the briefed bomb run and press on to the target",
                         note: "The mission as planned, with what that costs.",
                         bonus: 0,
                         bonusByPosture: {flakOverTarget: 3, headOnWaves: -2, rocketStandoff: -3},
@@ -10876,7 +11934,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "turnHome",
-                        label: "Abort the mission and turn for home",
+                        name: "Abort the mission and turn for home",
                         note: "Fewer losses, and nothing to show for the day.",
                         bonus: -1,
                         bonusByPosture: {headOnWaves: 4, rocketStandoff: 4},
@@ -10886,7 +11944,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "rerouteTheBox",
-                        label: "Swing the formation onto the alternate approach to dodge the fighter belt",
+                        name: "Swing the formation onto the alternate approach to dodge the fighter belt",
                         note: "Costs time over the target, and a longer run.",
                         bonus: 0,
                         bonusByPosture: {rocketStandoff: 4},
@@ -11240,9 +12298,9 @@ const CAMPAIGNS = {
                   "Ashore before dawn against almost no opposition — the surprise is total, a forward patrol reportedly reaching the outskirts of Rome itself before turning back. What happens next is the entire question Shingle was built to answer: how much of this corps pushes inland now, while the roads to the Alban Hills are still open, and how much stays back to hold the beach it will need for however long this actually takes. Somewhere behind the German lines, an order is already moving to close that door. What's decided here is how the infantry, the tanks, Darby's Rangers, and the buildup off two hundred and forty ships are weighed against each other before it does.",
                 categories: [
                   { id: "assault", name: "Infantry Beachhead", meter: "manpower", glyph: "◆◆◆" },
-                  { id: "armor", name: "Armored Exploitation", meter: "fuel", glyph: "▲" },
+                  { id: "armor", name: "Armored Exploitation", meter: "fuel", strand: "steel", glyph: "▲" },
                   { id: "rangers", name: "Ranger & Commando Vanguard", meter: "manpower", glyph: "✦" },
-                  { id: "naval", name: "Naval Gunfire & Buildup", meter: "fuel", glyph: "≋" },
+                  { id: "naval", name: "Naval Gunfire & Buildup", meter: "fuel", strand: "ship", glyph: "≋" },
                 ],
                 // Armor highest — the exploitation column is what could actually unhinge the
                 // Gustav Line's rear before the roads close; Rangers second — a small, aggressive
@@ -11253,6 +12311,38 @@ const CAMPAIGNS = {
                 // whether the door stays open, the same design choice as Omaha's Air or Monte
                 // Cassino's Supply.
                 effectiveness: { assault: 1.8, armor: 2.8, rangers: 2.4, naval: 1.6 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "The US 3rd Infantry Division (Truscott) and the British 1st Infantry Division (Penney), holding the beachhead's infantry line",
+                      "About 36,000 men and 3,200 vehicles landed on the first day",
+                    ],
+                    real: "Lucas consolidated the beachhead rather than pushing inland. Churchill complained that he had hoped to hurl a wildcat ashore and got a stranded whale.",
+                  },
+                  armor: {
+                    units: [
+                      "The armoured units of VI Corps, landed with the assault",
+                      "The road to the Alban Hills, open on the first day",
+                    ],
+                    real: "No strong armoured thrust went inland on 22 January.",
+                  },
+                  rangers: {
+                    units: [
+                      "Colonel William Darby's Ranger battalions, who took the port of Anzio",
+                      "British commandos landed alongside",
+                    ],
+                    real: "Darby's Rangers took the port without firing a shot.",
+                  },
+                  naval: {
+                    units: [
+                      "The ships off the beachhead, about 240 in the buildup",
+                      "Naval gunfire support from cruisers and destroyers",
+                    ],
+                    real: "The landing met almost no opposition: Allied losses on the first day were 13 killed and 97 wounded, and about 200 Germans were captured.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Fifth Army's orders to VI Corps are to secure the beachhead before anything else.", lockApproach: "securePerimeter" },
                 // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Anzio): about 36,000 men and 3,200 vehicles
                 // landed on 22 January with total surprise and 13 killed; Lucas consolidated rather than exploit
                 // it; Kesselring activated Operation Richard at once, with over 40,000 German troops by 24 January;
@@ -11270,7 +12360,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "armourUpTheRoad",
-                        label: "Send a strong armoured reconnaissance up the road toward the Alban Hills",
+                        name: "Send a strong armoured reconnaissance up the road toward the Alban Hills",
                         note: "Use the open road before it closes.",
                         bonus: 0,
                         bonusByPosture: {windowStillOpen: 5, richardOrder: -4, thinCordon: 2},
@@ -11278,7 +12368,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "digIn",
-                        label: "Dig in on the perimeter of the beachhead first",
+                        name: "Dig in on the perimeter of the beachhead first",
                         note: "Safe, and what the corps commander did.",
                         bonus: 1,
                         bonusByPosture: {richardOrder: 3, windowStillOpen: -4, thinCordon: -2},
@@ -11286,7 +12376,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "landStores",
-                        label: "Take a day to land the guns and stores off the ships",
+                        name: "Take a day to land the guns and stores off the ships",
                         note: "Costs Initiative, and builds the beachhead's strength.",
                         bonus: 0,
                         bonusByPosture: {thinCordon: 4, richardOrder: 2},
@@ -11633,14 +12723,46 @@ const CAMPAIGNS = {
                         "Mid-morning, and the tide is coming in over the obstacles the engineers never cleared. The bombers dropped their loads inland through the overcast, most of one battalion's swimming tanks went down on the way in, and fire from the bluffs is sweeping a beach with nowhere to hide. The decision to keep the waves coming is made. What's left is how the weight behind them lands: how many more go at the sand, how close the destroyers are sent in, how much goes to the engineers and tanks trying to open the exits, and what the aircraft overhead can do through the cloud.",
                       categories: [
                         { id: "waves", name: "Follow-on Waves", meter: "manpower", glyph: "▮▮▮" },
-                        { id: "naval", name: "Naval Gunfire", meter: "fuel", glyph: "≋" },
-                        { id: "engineers", name: "Engineers & Tanks", meter: "fuel", glyph: "▨" },
-                        { id: "air", name: "Air Support", meter: "fuel", glyph: "✈" },
+                        { id: "naval", name: "Naval Gunfire", meter: "fuel", strand: "ammo", glyph: "≋" },
+                        { id: "engineers", name: "Engineers & Tanks", meter: "fuel", strand: "steel", glyph: "▨" },
+                        { id: "air", name: "Air Support", meter: "fuel", strand: "oil", glyph: "✈" },
                       ],
                       // Naval gunfire strongest (the destroyers closing in is what the record
                       // credits with breaking the strongpoints), engineers second (the exits are
                       // the only way off the beach), infantry baseline, air weakest (overcast).
                       effectiveness: { waves: 1.8, naval: 3, engineers: 2.6, air: 1.6 },
+                      orderOfBattle: {
+                        waves: {
+                          units: [
+                            "The follow-on waves of V Corps: the 1st and 29th Infantry Divisions",
+                            "Brigadier General Norman Cota, assistant commander of the 29th Division, ashore with the men at the shingle",
+                          ],
+                          real: "Cota led the charge off Dog White, between strongpoints WN-68 and WN-70, forcing gaps in the wire with a Bangalore torpedo.",
+                        },
+                        naval: {
+                          units: [
+                            "Naval Task Force O, under Rear Admiral John Hall",
+                            "Destroyers ordered close in at 09:50, some within about 900 metres of the beach",
+                          ],
+                          real: "The destroyers came in so close that some scraped bottom, and fired straight into the strongpoints.",
+                        },
+                        engineers: {
+                          units: [
+                            "The Provisional Engineer Special Brigade Group, under Brigadier General William Hoge",
+                            "The swimming tanks of the assault, most of one battalion's lost on the way in",
+                          ],
+                          real: "Hoge's engineers went to work on the exits through the draws as each fell, under fire.",
+                        },
+                        air: {
+                          units: [
+                            "Heavy bombers that dropped before the landing through overcast",
+                            "Tactical aircraft over the bluffs",
+                          ],
+                          real: "The bombers overshot their targets and only three bombs fell near the beach area.",
+                        },
+                      },
+                      // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                      hardRule: { text: "First Army's orders are that the waves keep coming at the draws: the plan is not to be changed on the beach.", lockApproach: "forceDraws" },
                       // Round 22. Facts from this battle's own notes (Wikipedia, Omaha Beach): the bombers overshot, and
                       // the destroyers were ordered in at 09:50. Field decision for the next hour; modeled payoffs.
                       conditions: "A rough sea and a rising tide over the beach obstacles, and overcast over the bluffs that spoiled the bombers' aim.",
@@ -11655,7 +12777,7 @@ const CAMPAIGNS = {
                           options: [
                             {
                               id: "landAtDraws",
-                              label: "Land the next waves at the draws now being cleared",
+                              name: "Land the next waves at the draws now being cleared",
                               note: "Use the openings that exist, before the Germans can plug them.",
                               bonus: 0,
                               bonusByPosture: {thinGarrison: 4, strongpointsIntact: -3, fieldDivision: -1},
@@ -11663,7 +12785,7 @@ const CAMPAIGNS = {
                             },
                             {
                               id: "holdOffshore",
-                              label: "Hold the waves offshore until the exits are open",
+                              name: "Hold the waves offshore until the exits are open",
                               note: "Safer for the men, and costs time.",
                               bonus: 0,
                               bonusByPosture: {strongpointsIntact: 3, fieldDivision: 2, thinGarrison: -1},
@@ -11673,7 +12795,7 @@ const CAMPAIGNS = {
                             },
                             {
                               id: "destroyersAgain",
-                              label: "Order the destroyers closer in to hit the strongpoints at the draws",
+                              name: "Order the destroyers closer in to hit the strongpoints at the draws",
                               note: "Another run in the shallows, with the risk of grounding.",
                               bonus: 0,
                               bonusByPosture: {strongpointsIntact: 4, fieldDivision: 1},
@@ -12759,9 +13881,9 @@ const CAMPAIGNS = {
                   "The directive of 7 June said to stay on the defensive; the order of the third week of June says attack. Army Group West has some three hundred thousand men facing perhaps eighty-five thousand French in prepared positions, on passes that are still snowed in near the top. The French have blown the bridges on the Little St Bernard road and hold the old Redoute Ruinée above it, and a good part of the Italian artillery is Austro-Hungarian, captured in 1918. What's decided here is the weight behind the Fourth Army's main thrust: how much goes to the Alpini and infantry who have to climb, to the guns that must range across the valleys, to the aircraft that Italian staffs cannot easily call on, and to the mule trails and the road that carry everything the army uses.",
                 categories: [
                   { id: "assault", name: "Alpini & Infantry Assault", meter: "manpower", glyph: "▲▲▲" },
-                  { id: "artillery", name: "Corps Artillery", meter: "fuel", glyph: "✺" },
-                  { id: "air", name: "Regia Aeronautica", meter: "fuel", glyph: "✈" },
-                  { id: "supply", name: "Mules & Mountain Roads", meter: "fuel", glyph: "▤" },
+                  { id: "artillery", name: "Corps Artillery", meter: "fuel", strand: "ammo", glyph: "✺" },
+                  { id: "air", name: "Regia Aeronautica", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "supply", name: "Mules & Mountain Roads", meter: "fuel", strand: "ship", glyph: "▤" },
                 ],
                 // Assault highest — the Alpini and the line infantry are the army's best arm, and
                 // the offensive turned on whether they could climb; Artillery second — a lot of
@@ -12771,6 +13893,39 @@ const CAMPAIGNS = {
                 // handful of mule trails are this battle's own ceiling, the same design choice as
                 // Monte Marrone's mule trail.
                 effectiveness: { assault: 2.3, artillery: 1.8, air: 1.7, supply: 1.6 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "Fourth Army (Guzzoni), whose Alpine Army Corps made the main attack through the Little St Bernard Pass",
+                      "First Army (Pintor) on the southern front",
+                      "About 300,000 men in all: 18 infantry divisions and 4 Alpine divisions",
+                    ],
+                    real: "The offensive of 21 June penetrated a few kilometres into France and stalled, with Menton its most significant conquest. Italian losses were about 640 killed, 2,631 wounded and 2,151 cases of frostbite.",
+                  },
+                  artillery: {
+                    units: [
+                      "About 3,000 guns in Army Group West, many of them Austro-Hungarian pieces captured in 1918",
+                      "The fortress guns of the Alpine Wall, including the fort on Mont Chaberton",
+                    ],
+                    real: "French 280-mm mortars silenced six of Chaberton's eight armoured turrets in 57 shots.",
+                  },
+                  air: {
+                    units: [
+                      "The 1a Squadra Aerea in northern Italy, with SM.79 and BR.20 bombers and CR.42 fighters",
+                      "Against about 70 French fighters, 40 bombers and 20 reconnaissance aircraft in the Alps zone",
+                    ],
+                    real: "The services were forbidden to communicate directly, which made co-operation between the air force and the army almost impossible.",
+                  },
+                  supply: {
+                    units: [
+                      "Five practicable roads over the passes: the Little St Bernard, Mont Cenis, Montgenèvre, the Maddalena and the Col de Tende",
+                      "Mule trains and the Alpini's own pack transport",
+                    ],
+                    real: "The French destroyed the bridges on the Little St Bernard road, which would have been the easiest route.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Mussolini's order stands: attack along the whole front at once.", lockApproach: "wholeFront" },
                 // Round 22. Verified 2026-10-05 (Wikipedia, Italian invasion of France): the offensive cost the
                 // Italian army 2,151 frostbite casualties in four days, and the passes (the Little St Bernard is
                 // above 2,000 metres) were still under snow.
@@ -12793,7 +13948,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "overCols",
-                        label: "Send the Alpini over the high cols, around the French posts",
+                        name: "Send the Alpini over the high cols, around the French posts",
                         note: "Fast if no one is watching the cols, and costly if they are.",
                         bonus: 0,
                         bonusByPosture: { bridgesDown: 4, fortressGuns: 1, skiScreen: -3 },
@@ -12801,7 +13956,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "mendRoad",
-                        label: "Mend the road and bring the guns up behind the infantry",
+                        name: "Mend the road and bring the guns up behind the infantry",
                         note: "Slow, and it costs Matériel, but the guns can answer the forts.",
                         bonus: 0,
                         bonusByPosture: { bridgesDown: 1, fortressGuns: 4, skiScreen: 1 },
@@ -12811,7 +13966,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "standFast",
-                        label: "Stand on the ground already held and let the armistice talks decide the rest",
+                        name: "Stand on the ground already held and let the armistice talks decide the rest",
                         note: "No further risk, and nothing more gained.",
                         bonus: 0,
                         bonusByPosture: { skiScreen: 3 },
@@ -13171,6 +14326,172 @@ const CAMPAIGNS = {
               setFlags: { greeceWinter: "reserve" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "compass40",
+              keyBattleSubgame: {
+                id: "epirus40",
+                title: "Order of Battle — The Pindus Winter",
+                flavor: "The Greek army has crossed the frontier and taken Korçë, and Comando Supremo's answer is the reserve: every division that can be shipped across the Adriatic to Valona and Durazzo is to be thrown into a front that has almost no roads and a winter coming. Cavallero has taken personal command in Albania, the Alpini of the Julia Division are in the Pindus, and the ports behind them cannot land all that the front needs. What is decided here is where the reserve goes: how much to the divisions arriving from Italy, how much to the Alpini and mountain troops who know this ground, how much to the air force flying from Albanian fields, and how much to the ports and the mountain tracks that feed all of them.",
+                categories: [
+                  { id: "reserves", name: "Reserve Divisions from Italy", meter: "manpower", glyph: "▮▮▮" },
+                  { id: "alpini", name: "Alpini & Mountain Troops", meter: "manpower", glyph: "▲▲▲" },
+                  { id: "air", name: "Regia Aeronautica in Albania", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "ports", name: "Ports & Mountain Tracks", meter: "fuel", strand: "ship", glyph: "▤" },
+                ],
+                effectiveness: { reserves: 2.2, alpini: 2.5, air: 1.6, ports: 1.5 },
+                conditions: "Winter in the Pindus: snow, rain and mud on mountain tracks, with no roads in much of the front, and everything arriving through the two small ports of Valona and Durazzo.",
+                terrainModifiers: { ports: 0.85, air: 0.9 },
+                terrainNotes: { ports: "mud, snow and mountain tracks", air: "cloud and snow over the passes" },
+                attrition: [
+                  { category: "alpini", atLeast: 3, meter: "manpower", delta: -1, reason: "Exposure in the winter mountains" },
+                ],
+                categoryContext: {
+                  reserves: "Divisions are arriving from Italy by sea, and the Greek front needs every one of them. Each commitment here puts more of them into the line as soon as they land.",
+                  alpini: "The Alpini know the mountains and fight best in them, but their Julia Division has already been mauled in the first weeks. Each commitment here holds the heights with more of them.",
+                  air: "The Regia Aeronautica flies from fields in Albania, over mountains and cloud, against a Greek army that is hard to see. Each commitment here puts more missions over the passes.",
+                  ports: "Everything arrives through Valona and Durazzo and goes up the mountain tracks on mules and trucks, and the tracks are mud. Each commitment here puts more labour and transport on the ports and the tracks.",
+                },
+                flashups: {
+                  reserves: [
+                    "A division newly landed at Valona marches up toward the front.",
+                    "A reserve regiment goes into the line at night, with orders it has not had time to read.",
+                    "Fresh troops reach the front still in the uniforms they wore in Italy.",
+                    "A battalion is fed into a gap on the line and holds it for a day.",
+                    "A division arrives short of its guns, which are still on the quay.",
+                  ],
+                  alpini: [
+                    "An Alpini battalion holds a ridge above the road, in the snow.",
+                    "The Julia's survivors dig in on a spur they know.",
+                    "A mountain company moves along a track no one else is using.",
+                    "The Alpini pack their mules in the dark and move off.",
+                    "A mountain battalion takes a height back at dawn.",
+                  ],
+                  air: [
+                    "A bomber formation goes over the passes, high above the cloud.",
+                    "A flight of fighters patrols the front, with no enemy in sight.",
+                    "A reconnaissance aircraft reports Greek columns on the mountain track.",
+                    "The air attack is cancelled for weather, and the ground troops are told afterward.",
+                    "A bomber crew drops on a village, and no one on the ground can say what it hit.",
+                  ],
+                  ports: [
+                    "A transport unloads at Valona under a grey sky.",
+                    "A column of mules goes up the mountain track in the rain.",
+                    "A truck slides off the road into the mud and is left where it lies.",
+                    "The quays at Durazzo are crowded with stores that cannot be moved.",
+                    "Labourers carry ammunition the last miles on their backs.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0600",
+                  contact: "0800",
+                  cats: ["1000", "1200", "1400", "1600"],
+                  reserve: "1800",
+                  counter: "2000",
+                },
+                idleLines: {
+                  reserves: [
+                    "The reserve divisions stay at the ports. The line is held by what was already on it.",
+                    "No fresh troops are committed, and the line thins as the days go by.",
+                  ],
+                  alpini: [
+                    "The Alpini are left where they are. The heights above the road are held by no one.",
+                    "No mountain troops are sent to the high ground, and the tracks are left open.",
+                  ],
+                  air: [
+                    "No missions are flown over the passes. The Greeks move in daylight unmolested.",
+                    "The air force is held at its fields, and the front is left without it.",
+                  ],
+                  ports: [
+                    "No extra effort goes to the ports or the tracks. The front gets what trickles up.",
+                    "The quays are left to clog, and the stores stay where they were landed.",
+                  ],
+                },
+                verdicts: ["The Line Is Stabilised", "The Line Gives Way"],
+                verdictGrades: {
+                  clean: "The reserve, the Alpini, the air force and the ports all pulled together, and the front stopped moving.",
+                  costly: "The line is held, but every arm of the army paid more than the winter could spare.",
+                  marginal: "The front slows but does not stop, and the Greeks keep the ground they have taken.",
+                  total: "The reserve is fed in piecemeal and the line keeps going back, with nothing to show for what was spent.",
+                },
+                counterattack: {
+                  category: "alpini",
+                  severity: { greekCounteroffensive: 2, numbersInTheHills: 1, replacementsRunShort: 1 },
+                  warn: {
+                    "1": "Greek infantry are attacking the heights above the road, in small numbers.",
+                    "2": "The Greeks are attacking the Alpini positions in strength, at night, over the snow.",
+                  },
+                  results: {
+                    repulsed: "The Greek attack on the heights is thrown back, and the line stays where it was.",
+                    heldAtCost: "The Alpini hold the heights against the Greeks, but the battalions that held them are badly cut up.",
+                    broke: "The Greeks break onto the heights, and the fighting goes on for hours in the dark.",
+                    gaveGround: "The line falls back off the heights rather than fight the attack out where it struck.",
+                  },
+                },
+                orderOfBattle: {
+                  reserves: {
+                    units: [
+                      "25 or more divisions in Albania by January 1941, up from 6 at the start",
+                      "XXV Corps in Epirus and XXVI Corps around Korçë",
+                    ],
+                    real: "The Greek counteroffensive began on 14 November and Korçë fell on 22 November. Badoglio resigned on 4 December and Cavallero took command from December.",
+                  },
+                  alpini: {
+                    units: [
+                      "The 3rd Alpine Division Julia, in the Pindus",
+                      "The Centauro Armoured Division, with 163 light tanks that were of little use in the mountains",
+                    ],
+                    real: "Greek divisions, triangular and about half as large again as the Italian binary ones, took the initiative in the mountains.",
+                  },
+                  air: {
+                    units: ["Regia Aeronautica units based in Albania"],
+                    real: "The air force flew against Greek resistance, but could not turn the campaign.",
+                  },
+                  ports: {
+                    units: [
+                      "The ports of Valona and Durazzo",
+                      "The mountain tracks and the mule trains that carried supplies to the front",
+                    ],
+                    real: "The supply lines through Valona and Durazzo proved inadequate.",
+                  },
+                },
+                hardRule: { text: "Rome's order is that no more ground is to be given in Albania: the line may not fall back.", noGiveGround: true },
+                decisions: [
+                  {
+                    id: "theSpringOffensive",
+                    time: "1700",
+                    title: "The spring offensive",
+                    prompt: "It is March, and Mussolini has come to Albania to see a great offensive before the Germans arrive in the Balkans. The army is worn, the Greeks are worn too, and the question is how to use the day: a narrow attack behind a heavy bombardment, a patient defence of the line, or a withdrawal to the shorter line behind the passes.",
+                    options: [
+                      {
+                        id: "narrowAttack",
+                        name: "Attack on a narrow front behind a heavy bombardment",
+                        note: "The offensive Rome wants, and it fires a great deal of ammunition.",
+                        bonus: 0,
+                        bonusByPosture: { greekCounteroffensive: 4, numbersInTheHills: 0, replacementsRunShort: -3 },
+                        meters: { fuel: -1 },
+                        costReason: "Ammunition fired in the bombardment",
+                        reportLine: "A heavy bombardment opens on a narrow front, and the infantry go forward behind it.",
+                      },
+                      {
+                        id: "holdAndWait",
+                        name: "Hold the line and let the Greeks wear themselves out",
+                        note: "No offensive, and the Greeks have fewer men to replace their losses.",
+                        bonus: 0,
+                        bonusByPosture: { replacementsRunShort: 4, greekCounteroffensive: -3, numbersInTheHills: -1 },
+                        reportLine: "The line is held where it stands, and the army waits for the Greeks to come on.",
+                      },
+                      {
+                        id: "shorterLine",
+                        name: "Draw back to the shorter line behind the passes",
+                        note: "Costs Initiative, and gives up ground Rome will not want to give.",
+                        bonus: 0,
+                        bonusByPosture: { numbersInTheHills: 4, replacementsRunShort: -2 },
+                        meters: { initiative: -1 },
+                        costReason: "Ground given up in a withdrawal",
+                        reportLine: "The army draws back to the shorter line behind the passes.",
+                      },
+                    ],
+                  },
+                ],
+              },
               uncertain: [
                 {
                   weight: modWeight(50, meters.manpower),
@@ -13212,7 +14533,8 @@ const CAMPAIGNS = {
             "While Albania absorbs every headline, a British Western Desert Force roughly a third the size of the Tenth Army it is about to attack launches what its own planners initially conceived as a five-day raid against the string of fortified camps Graziani's advance stopped at back in September. There has been no serious effort to link those camps into a continuous defensive line, and the gap between them is exactly wide enough for an armored force to drive through and roll the whole position up from behind rather than through the front anyone actually fortified." +
             (flags.forkDesertGap
               ? " Conflicting reports complicate the picture further: engineers attached to the western camps claim real, if incomplete, progress narrowing that gap, though Rome's own intelligence — already dismissing this as a five-day raid not worth the reserve — has no interest in revising its estimate on the strength of an engineer's unverified claim."
-              : ""),
+              : "") +
+            (flags.greeceWinter === "reserve" ? keyBattleEcho("epirus40", flags) : ""),
           choices: [
             {
               label: "Order an immediate general withdrawal to a shorter line before the flanking attack lands",
@@ -13288,8 +14610,197 @@ const CAMPAIGNS = {
               setFlags: { matapan41: "withdraw" },
               impact: { manpower: 0, fuel: -1, initiative: -1 },
               next: "yugoslaviaBalkans41",
-              outcome:
-                "What actually happened, and it was still a disaster despite the caution: three heavy cruisers and two destroyers, detached to escort the damaged Vittorio Veneto home, are caught by British ships using radar in the dark — a technology Italian doctrine hadn't trained against — and sunk in under an hour with the loss of over 2,300 sailors. The battle fleet itself survives to fight again, but Matapan effectively ends major Italian surface operations against the Royal Navy's battle line for the rest of the war.",
+              keyBattleSubgame: {
+                id: "matapan41",
+                title: "Order of Battle — Cape Matapan",
+                flavor: "The fleet is at sea without radar and with little help from the air, and the British are reading its signals. The first battle is fought from the air, by carrier aircraft that will attack through the day; the second will come in the dark, if the fleet can be brought home without it. What is decided here is how the sortie's strength is weighed: how much into the battle fleet and Vittorio Veneto, how much into the cruiser divisions that screen it, how much into the air cover and reconnaissance the fleet can get, and how much into the signals and night-fighting practice that a navy which never planned to fight in the dark has never had.",
+                categories: [
+                  { id: "battle", name: "The Battle Fleet", meter: "fuel", strand: "oil", glyph: "≋≋" },
+                  { id: "cruisers", name: "The Cruiser Divisions", meter: "manpower", glyph: "▲▲" },
+                  { id: "air", name: "Air Cover & Reconnaissance", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "signals", name: "Signals & Night Action", meter: "initiative", glyph: "◎" },
+                ],
+                effectiveness: { battle: 2.4, cruisers: 2.2, air: 1.7, signals: 1.6 },
+                phases: ["The air attacks of the day", "The night action"],
+                counterScale: 1.5,
+                conditions: "The fleet sails without radar, with little help from the air, and with a doctrine that did not plan for night action.",
+                terrainModifiers: { signals: 0.8, air: 0.9 },
+                terrainNotes: { signals: "no radar and no practice at night action", air: "little help from the air" },
+                categoryContext: {
+                  battle: "The battleship and her screen are the strength of the fleet, and they are short of fuel for a long chase. Each commitment here keeps more of the battle fleet concentrated and ready to fight.",
+                  cruisers: "The heavy cruiser divisions are fast and well armed, and they are the fleet's screen. Each commitment here puts more of them in the line and under better control.",
+                  air: "The fleet has little air cover and few reconnaissance aircraft, and the enemy has a carrier. Each commitment here asks for more of both and hopes they come.",
+                  signals: "The Regia Marina has no radar and has not practised night action, and its signals are being read. Each commitment here puts more effort into the signals and the practice of fighting in the dark.",
+                },
+                flashups: {
+                  battle: [
+                    "Vittorio Veneto steams at the head of the fleet, her guns trained to port.",
+                    "The battle fleet's destroyers take station on her screen.",
+                    "The fleet increases speed as the enemy aircraft are sighted.",
+                    "A damaged battleship slows and the fleet slows with her.",
+                    "Fuel gauges are watched as the fleet turns for home.",
+                  ],
+                  cruisers: [
+                    "The cruisers of the 1st Division steam in line ahead on the flank.",
+                    "A cruiser division is ordered to close on a ship that is signalling for help.",
+                    "The cruisers' main batteries are loaded with armour-piercing shell for a surface fight.",
+                    "A cruiser turns away from the enemy's shell splashes at long range.",
+                    "The 3rd Division keeps station on the battle fleet.",
+                  ],
+                  air: [
+                    "A reconnaissance aircraft reports the enemy battleships at sea.",
+                    "Italian fighters appear over the fleet and then go home, short of fuel.",
+                    "Carrier aircraft are sighted low on the horizon, and the fleet turns to meet them.",
+                    "No aircraft appears over the fleet all afternoon.",
+                    "A German reconnaissance plane reports the British carrier's position.",
+                  ],
+                  signals: [
+                    "A signal is passed to the cruisers, and they are slow to answer it.",
+                    "The watch on a cruiser sees ships ahead and reports them as friendly.",
+                    "A radio message is sent in clear, and the British monitor it.",
+                    "The gunnery officers of a heavy cruiser rehearse a night action they have never fired.",
+                    "A flag signal is mistaken for another across the dark water.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0800",
+                  contact: "0930",
+                  cats: ["1100", "1300", "1500", "1700"],
+                  contact2: "2000",
+                  reserve: "2130",
+                  counter: "2220",
+                },
+                idleLines: {
+                  battle: [
+                    "The battle fleet is left as it is, spread out and slow. No extra effort goes into its station.",
+                    "Nothing extra is done for the fleet, and the battleship steams on alone.",
+                  ],
+                  cruisers: [
+                    "The cruiser divisions are given no special orders. They steam on as they were.",
+                    "No extra effort goes into the cruisers, and they keep station as best they can.",
+                  ],
+                  air: [
+                    "No extra air cover is requested. The fleet has what it had.",
+                    "No reconnaissance is asked for, and the fleet steams on without it.",
+                  ],
+                  signals: [
+                    "No special attention goes to signals or night action. The fleet fights the way it was trained.",
+                    "The ships are given no drill for the dark, and the watch is as it was.",
+                  ],
+                },
+                verdicts: ["The Fleet Brings Its Cruisers Home", "The Night Costs the Fleet Its Cruisers"],
+                verdictGrades: {
+                  clean: "The battle fleet, the cruisers, the air cover and the signals all held together, and the fleet came home whole.",
+                  costly: "The fleet comes home, but every arm of it paid more than it could afford.",
+                  marginal: "The fleet is badly hurt, but its main force reaches port, and the loss could have been worse.",
+                  total: "The night action catches the fleet unready, and its cruisers are lost with their crews in minutes.",
+                },
+                counterattack: {
+                  category: "signals",
+                  severity: { britishClose: 2, mistakenForFriends: 1, britishFarAstern: 1, carrierStrikes: 1, cruisersInContact: 1 },
+                  warn: {
+                    "1": "British cruisers and destroyers are closing on the fleet from astern.",
+                    "2": "British battleships are closing at speed in the dark, with radar guiding every gun.",
+                  },
+                  results: {
+                    repulsed: "The ships act as one and the attack is driven off before it can do any harm.",
+                    heldAtCost: "The fleet gets away, but the ships that covered it are badly hit.",
+                    broke: "The British guns find the cruisers at point-blank range, and the ships are lost in minutes.",
+                    gaveGround: "The fleet turns away from the fight and leaves a part of itself behind.",
+                  },
+                },
+                orderOfBattle: {
+                  battle: {
+                    units: [
+                      "The battleship Vittorio Veneto, with her destroyers",
+                      "Admiral Angelo Iachino commanding the fleet",
+                    ],
+                    real: "A torpedo from an Albacore of HMS Formidable struck Vittorio Veneto's outer port propeller at about 15:09, and about 4,000 tons of water came in.",
+                  },
+                  cruisers: {
+                    units: [
+                      "The 1st Cruiser Division (Cattaneo): Zara, Fiume and Pola",
+                      "The 3rd Cruiser Division: Trento, Trieste and Bolzano",
+                      "Two light cruisers and thirteen destroyers in all",
+                    ],
+                    real: "Pola was crippled by a torpedo at about 19:30, and Iachino sent the 1st Cruiser Division back to help her. Zara, Fiume and Pola were sunk in the night action, and about 2,300 Italian sailors died.",
+                  },
+                  air: {
+                    units: [
+                      "Italian air units, which gave the fleet little cover",
+                      "Luftwaffe reconnaissance aircraft working with the Italians",
+                    ],
+                    real: "Albacores from Formidable made three attacks on 28 March: at 09:38, at about 15:09, and between 19:36 and 19:50.",
+                  },
+                  signals: {
+                    units: [
+                      "The Regia Marina's signals and code security, which British codebreakers had broken",
+                      "Night-action doctrine and gunnery practice, of which the fleet had little",
+                    ],
+                    real: "Cunningham staged a showy departure from Alexandria to hide that he knew the Italian plan. The Regia Marina had no radar, and its doctrine did not envisage night actions.",
+                  },
+                },
+                hardRule: {
+                  text: "The German naval liaison presses Supermarina to keep the fleet at sea and fighting: there is to be no breaking off for home.",
+                  noGiveGround: true,
+                },
+                decisions: [
+                  {
+                    id: "thePolaDecision",
+                    time: "2200",
+                    title: "The crippled Pola",
+                    prompt: "Pola has been torpedoed and cannot move, and the fleet is steaming west with the night coming on. Iachino can send the 1st Cruiser Division back to stand by her, run for home and leave her to the destroyers, or send only destroyers to take off her crew. No one knows where the British are.",
+                    options: [
+                      {
+                        id: "cruisersBack",
+                        name: "Send the 1st Cruiser Division back to stand by Pola",
+                        note: "Saves the ship if the sea is empty, and risks three cruisers if it is not.",
+                        bonus: 0,
+                        bonusByPosture: { britishClose: -5, britishFarAstern: 4, mistakenForFriends: -3 },
+                        reportLine: "The 1st Cruiser Division is turned back toward Pola, in the dark.",
+                      },
+                      {
+                        id: "runForHome",
+                        name: "Run for home and leave Pola to the destroyers",
+                        note: "Costs Initiative, and leaves a cruiser behind.",
+                        bonus: 0,
+                        bonusByPosture: { britishClose: 3, britishFarAstern: -2, mistakenForFriends: 1 },
+                        meters: { initiative: -1 },
+                        costReason: "A crippled cruiser left behind",
+                        reportLine: "The fleet holds its course for home and leaves Pola to the destroyers.",
+                      },
+                      {
+                        id: "destroyersOnly",
+                        name: "Send two destroyers only, to take off her crew",
+                        note: "Costs Matériel, and risks two destroyers instead of three cruisers.",
+                        bonus: 0,
+                        bonusByPosture: { mistakenForFriends: 3, britishClose: 1 },
+                        meters: { fuel: -1 },
+                        costReason: "Destroyers detached to rescue Pola's crew",
+                        reportLine: "Two destroyers are detached to take Pola's crew off.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "The cruisers get home",
+                  setFlags: { matapan41Result: "home" },
+                  impact: { manpower: 0, fuel: -1, initiative: 0 },
+                  outcome:
+                    "The minority projection, which the sea allowed more easily than the night did: Pola's crew is taken off and the cruisers are kept with the fleet, and the night passes without a gun being fired at the Italian ships. The fleet reaches Taranto with its damaged battleship and its cruisers whole, and Matapan becomes the story of a sortie that failed to find a convoy and cost nothing else.",
+                },
+                {
+                  weight: 100 - modWeight(25, meters.initiative),
+                  title: "The night finds the cruisers",
+                  setFlags: { matapan41Result: "night" },
+                  impact: { manpower: 0, fuel: -1, initiative: -1 },
+                  outcome:
+                    "What actually happened, and it was still a disaster despite the caution: three heavy cruisers and two destroyers, detached to escort the damaged Vittorio Veneto home, are caught by British ships using radar in the dark — a technology Italian doctrine hadn't trained against — and sunk in under an hour with the loss of over 2,300 sailors. The battle fleet itself survives to fight again, but Matapan effectively ends major Italian surface operations against the Royal Navy's battle line for the rest of the war.",
+                },
+              ],
             },
             {
               label: "Press the sortie's original objective — the convoy interception mission still stands",
@@ -13309,7 +14820,10 @@ const CAMPAIGNS = {
           title: "The Balkans, Divided",
           historicalRecord: true,
           situation:
-            "German mechanized divisions do in eleven days what the Italian army alone could not do to Greece in five months: Yugoslavia is overrun and Greece's mainland army surrenders by the end of April, and Italy's own contribution to a campaign it originally started is now a supporting role in someone else's rapid, overwhelming victory. What remains for Rome to decide is not whether the Balkans fall — that outcome is already settled by German timetables — but how large a piece of the resulting occupation and annexation map Italy actually claims for itself.",
+            "German mechanized divisions do in eleven days what the Italian army alone could not do to Greece in five months: Yugoslavia is overrun and Greece's mainland army surrenders by the end of April, and Italy's own contribution to a campaign it originally started is now a supporting role in someone else's rapid, overwhelming victory. What remains for Rome to decide is not whether the Balkans fall — that outcome is already settled by German timetables — but how large a piece of the resulting occupation and annexation map Italy actually claims for itself." +
+            (flags.matapan41 === "withdraw"
+              ? (flags.matapan41Result === "home" ? " The fleet's cruisers came home from Matapan, which is more than anyone in Rome had expected." : "") + keyBattleEcho("matapan41", flags)
+              : ""),
           choices: [
             {
               label: "Claim the maximum annexation — Dalmatia, Montenegro, and a large Greek occupation zone",
@@ -14382,8 +15896,8 @@ const CAMPAIGNS = {
                 categories: [
                   { id: "assault", name: "Alpine & Bersaglieri Assault", meter: "manpower", glyph: "▲▲▲" },
                   { id: "paratroops", name: "Nembo Paratroops", meter: "manpower", glyph: "✦" },
-                  { id: "artillery", name: "Anglo-Polish Artillery", meter: "fuel", glyph: "✺" },
-                  { id: "supply", name: "Mule-Train Supply", meter: "fuel", glyph: "▤" },
+                  { id: "artillery", name: "Anglo-Polish Artillery", meter: "fuel", strand: "ammo", glyph: "✺" },
+                  { id: "supply", name: "Mule-Train Supply", meter: "fuel", strand: "ship", glyph: "▤" },
                 ],
                 // Paratroops highest (a small, elite, all-volunteer force); assault second
                 // (Piemonte + the two Bersaglieri battalions, the numerical bulk of the force);
@@ -14392,6 +15906,35 @@ const CAMPAIGNS = {
                 // battle's own well-documented logistics ceiling, the same design choice as
                 // Kursk's mud or Alam Halfa's fuel arithmetic.
                 effectiveness: { assault: 2.2, paratroops: 2.6, artillery: 2.0, supply: 1.6 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "The Piemonte Alpine Battalion and two Bersaglieri battalions of the 1st Motorized Group",
+                      "About 4,933 Italians against roughly 3,000 Germans",
+                    ],
+                    real: "The Piemonte battalion took the 1,805-metre peak by a night surprise attack on 31 March 1944.",
+                  },
+                  paratroops: {
+                    units: [
+                      "The Nembo paratroopers, the 185th's Arditi paratroop element",
+                    ],
+                    real: "German counterattacks came on 2 April, 3 April and 10 April. On the 10th three Gebirgsjäger battalions broke in for hand-to-hand fighting before Italian reinforcements and artillery sealed it off.",
+                  },
+                  artillery: {
+                    units: [
+                      "The Anglo-Polish artillery attached to the Italian force",
+                    ],
+                    real: "The attached artillery helped seal off the German break-in of 10 April.",
+                  },
+                  supply: {
+                    units: [
+                      "Mule trains up the mountain's trails: no road reached the peak",
+                    ],
+                    real: "The advance reached Picinisco on 28 April.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "The Allied command orders the artillery fire plan registered first, as it does for every attack in its sector.", lockApproach: "gunsForward" },
                 // Round 22. The cold and altitude are real (this battle's own notes: a 1,805 m peak held through
                 // German counterattacks on 2, 3 and 10 April); the attrition rule charges them to a heavy assault.
                 conditions: "Snow and bitter cold above 1,800 meters, with no road, only mule trails, against German mountain troops who know the ground.",
@@ -14407,7 +15950,7 @@ const CAMPAIGNS = {
                     options: [
                       {
                         id: "holdSummit",
-                        label: "Hold the summit where it stands",
+                        name: "Hold the summit where it stands",
                         note: "Keeps the ground, and keeps every man exposed on it.",
                         bonus: 0,
                         bonusByPosture: {thinInitialLine: 2, gebirgsjagerReserve: -3},
@@ -14415,7 +15958,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "reverseSlope",
-                        label: "Pull back to the reverse slope and let the guns work",
+                        name: "Pull back to the reverse slope and let the guns work",
                         note: "The Anglo-Polish guns can range the summit, if the men are off it.",
                         bonus: 0,
                         bonusByPosture: {gebirgsjagerReserve: 4, thinInitialLine: -2, highAltitudeCold: 2},
@@ -14423,7 +15966,7 @@ const CAMPAIGNS = {
                       },
                       {
                         id: "counterAtOnce",
-                        label: "Counterattack before the Germans finish forming up",
+                        name: "Counterattack before the Germans finish forming up",
                         note: "Costs men, and may catch them off balance.",
                         bonus: 0,
                         bonusByPosture: {thinInitialLine: 4, gebirgsjagerReserve: -2, highAltitudeCold: -2},
@@ -15869,9 +17412,9 @@ const KEY_BATTLE_SUBGAME_ENABLED = typeof __KEY_BATTLE_SUBGAME__ === "undefined"
 // actually looked like, sourced the same way every other claim in this game is.
 const BATTLE_ALLOCATION_CATEGORIES = [
   { id: "divisions", name: "Divisions", meter: "manpower", glyph: "▮▮▮" },
-  { id: "armour", name: "Mechanised Armour", meter: "fuel", glyph: "▶▶" },
-  { id: "air", name: "Air Support", meter: "fuel", glyph: "✈" },
-  { id: "supply", name: "Supply", meter: "fuel", glyph: "▤" },
+  { id: "armour", name: "Mechanised Armour", meter: "fuel", strand: "steel", glyph: "▶▶" },
+  { id: "air", name: "Air Support", meter: "fuel", strand: "oil", glyph: "✈" },
+  { id: "supply", name: "Supply", meter: "fuel", strand: "ship", glyph: "▤" },
 ];
 
 // Round 4 (Craig, mobile playtest: "could we have a commander selection option which had a
@@ -16349,6 +17892,132 @@ const KEY_BATTLE_COMMANDERS = {
       reportLine: "Guzzoni drives the main attack up the Little St Bernard road and holds nothing back from it.",
     },
   ],
+  // Round 23: the six battles added in the second ring (Uranus, Dunkirk, the Pindus winter, Crete, the
+  // relief of Bastogne, Cape Matapan). Facts verified 2026-10-05 against Wikipedia and noted on each host node.
+  uranus: [
+    {
+      id: "vatutin",
+      name: "Nikolai Vatutin",
+      role: "Commanding, Southwestern Front",
+      category: "breakthrough",
+      note: "His front makes the northern pincer and breaks the Romanian Third Army's line. Effort put into Breakthrough Armies carries further under him.",
+      reportLine: "Vatutin's armies break the Romanian line on the first morning.",
+    },
+    {
+      id: "romanenko",
+      name: "Pavel Romanenko",
+      role: "Commanding, 5th Tank Army",
+      category: "armour",
+      note: "His army is the mobile heart of the northern pincer. Effort put into Tank & Cavalry Corps carries further under him.",
+      reportLine: "Romanenko's tank army drives for the Don behind the break.",
+    },
+  ],
+  dynamo40: [
+    {
+      id: "ramsay",
+      name: "Admiral Bertram Ramsay",
+      role: "Commanding, Dover Command",
+      category: "navy",
+      note: "He runs the whole lift from Dover Castle. Effort put into Destroyers & the Mole carries further under him.",
+      reportLine: "Ramsay's staff at Dover send ship after ship across the Channel.",
+    },
+    {
+      id: "park",
+      name: "Air Vice-Marshal Keith Park",
+      role: "Commanding, No. 11 Group",
+      category: "air",
+      note: "His squadrons provide the fighter cover over the beaches. Effort put into Fighter Cover carries further under him.",
+      reportLine: "Park's squadrons fly patrol after patrol over the beaches.",
+    },
+    {
+      id: "alexander",
+      name: "General Harold Alexander",
+      role: "Commanding the rearguard",
+      category: "perimeter",
+      note: "He commands the rearguard holding the perimeter. Effort put into The Perimeter & Rearguard carries further under him.",
+      reportLine: "Alexander holds the line, fighting at every canal.",
+    },
+  ],
+  epirus40: [
+    {
+      id: "cavallero",
+      name: "General Ugo Cavallero",
+      role: "Commanding in Albania from December 1940",
+      category: "reserves",
+      note: "He has taken personal command in Albania, and the reserve divisions are his to feed into the line. Effort put into Reserve Divisions from Italy carries further under him.",
+      reportLine: "Cavallero feeds the reserve divisions into the line as they land.",
+    },
+  ],
+  crete41: [
+    {
+      id: "student",
+      name: "Generalleutnant Kurt Student",
+      role: "Commanding, XI Fliegerkorps",
+      category: "paratroops",
+      note: "The whole airborne arm is his, and the plan is his. Effort put into The Paratroop Drop carries further under him.",
+      reportLine: "Student sends in every paratrooper he has, from the first light.",
+    },
+    {
+      id: "richthofen",
+      name: "General der Flieger Wolfram von Richthofen",
+      role: "Commanding, VIII Fliegerkorps",
+      category: "air",
+      note: "His close-support air corps works with the paratroops and drives the Royal Navy off. Effort put into Luftwaffe Support carries further under him.",
+      reportLine: "Richthofen's bombers and dive bombers work over the island and the sea from first light.",
+    },
+    {
+      id: "ringel",
+      name: "Julius Ringel",
+      role: "Commanding, 5th Mountain Division",
+      category: "mountain",
+      note: "His division is the reinforcement that must land as soon as an airfield is held. Effort put into Mountain Troops by Air-Landing carries further under him.",
+      reportLine: "Ringel's mountain troops land on the airfield as soon as the runway can be used.",
+    },
+  ],
+  bastogne44: [
+    {
+      id: "patton",
+      name: "Lieutenant General George S. Patton Jr.",
+      role: "Commanding, Third Army",
+      category: "armour",
+      note: "He told Eisenhower that Third Army could attack in forty-eight hours, and his armour leads the relief. Effort put into The Armoured Spearhead carries further under him.",
+      reportLine: "Patton drives the armour up the road with everything he has.",
+    },
+    {
+      id: "millikin",
+      name: "Major General John Millikin",
+      role: "Commanding, III Corps",
+      category: "infantry",
+      note: "His corps makes the attack, and the 26th and 80th Infantry Divisions are on the shoulders of the advance. Effort put into Infantry Divisions on the Shoulders carries further under him.",
+      reportLine: "Millikin's infantry clear the road's flanks and hold the shoulders of the advance.",
+    },
+    {
+      id: "mcauliffe",
+      name: "Brigadier General Anthony McAuliffe",
+      role: "Commanding, 101st Airborne Division at Bastogne",
+      category: "garrison",
+      note: "The town and the perimeter are his, and the surrender demand has already been refused. Effort put into The Bastogne Garrison carries further under him.",
+      reportLine: "McAuliffe holds the perimeter with what he has and refuses to give up the town.",
+    },
+  ],
+  matapan41: [
+    {
+      id: "iachino",
+      name: "Admiral Angelo Iachino",
+      role: "Commander-in-Chief, Italian Fleet",
+      category: "battle",
+      note: "The whole fleet is his, and the battleship flies his flag. Effort put into The Battle Fleet carries further under him.",
+      reportLine: "Iachino holds the battle fleet together and turns it for home.",
+    },
+    {
+      id: "cattaneo",
+      name: "Admiral Carlo Cattaneo",
+      role: "Commanding, 1st Cruiser Division",
+      category: "cruisers",
+      note: "His three heavy cruisers are the fleet's screen. Effort put into The Cruiser Divisions carries further under him.",
+      reportLine: "Cattaneo keeps his cruisers in line and ready to fight.",
+    },
+  ],
   // Round 8 (Craig: "if limit it to a max of 3 commanders"): cut from four names to three. The
   // one dropped — Theodor Busse, Manstein's Chief of Staff — was always the odd one out of the
   // four anyway: Hoth, Kempf, and Deßloch each held a field or air command, giving orders in
@@ -16731,6 +18400,115 @@ const KEY_BATTLE_APPROACHES = {
       reportLine: "The attack goes in at every pass at once and the guns range across the whole front.",
     },
   ],
+  // Round 23: the second ring's approach pairs, modeled tradeoffs between the arms.
+  uranus: [
+    {
+      id: "deepRing",
+      name: "Seal the Ring Far Out",
+      subtitle: "Send the mobile corps deep, to the Don and beyond",
+      note: "Push the tank and cavalry corps as deep as they will go, to trap the whole army. Effort in Tank & Cavalry Corps carries further; effort in Rail & Ammunition Dumps carries less, the corps running far ahead of the railheads.",
+      modifiers: { armour: 0.7, supply: -0.5 },
+      reportLine: "The mobile corps run far ahead of the railheads, for the Don.",
+    },
+    {
+      id: "nearRing",
+      name: "Seal the Ring Near the City",
+      subtitle: "Keep the pincers close and trap the garrison",
+      note: "Keep the pincers shorter and tighter. Effort in Breakthrough Armies carries further; effort in Tank & Cavalry Corps carries less, held to a shorter reach.",
+      modifiers: { breakthrough: 0.7, armour: -0.5 },
+      reportLine: "The pincers are kept short and close to the city.",
+    },
+  ],
+  dynamo40: [
+    {
+      id: "useTheMole",
+      name: "Work the Mole and the Harbour",
+      subtitle: "Load the big ships alongside the east mole",
+      note: "Put the weight of the lift into the destroyers and passenger ships at the mole. Effort in Destroyers & the Mole carries further; effort in Small Craft & the Beaches carries less, the boats left to work alone.",
+      modifiers: { navy: 0.7, smallCraft: -0.5 },
+      reportLine: "The big ships load alongside the east mole, one after another.",
+    },
+    {
+      id: "workTheBeaches",
+      name: "Work the Open Beaches",
+      subtitle: "Put the small craft to the sand",
+      note: "Spread the lift along the beaches, with boats ferrying men out to the waiting ships. Effort in Small Craft & the Beaches carries further; effort in Destroyers & the Mole carries less, the big ships waiting offshore.",
+      modifiers: { smallCraft: 0.7, navy: -0.5 },
+      reportLine: "The small boats run in to the beaches and ferry men out to the waiting ships.",
+    },
+  ],
+  epirus40: [
+    {
+      id: "feedTheReserve",
+      name: "Feed the Reserve in at Once",
+      subtitle: "Put every division across the Adriatic into the line",
+      note: "Throw every division into the line as it lands. Effort in Reserve Divisions from Italy carries further; effort in Ports & Mountain Tracks carries less, the tracks choked by the divisions arriving.",
+      modifiers: { reserves: 0.7, ports: -0.5 },
+      reportLine: "Every division that lands goes straight into the line.",
+    },
+    {
+      id: "mountainLine",
+      name: "Hold the Mountain Line with the Alpini",
+      subtitle: "Let the mountain troops hold the heights",
+      note: "Hold the heights with the mountain troops and keep the new divisions behind them. Effort in Alpini & Mountain Troops carries further; effort in Reserve Divisions from Italy carries less, held back behind the line.",
+      modifiers: { alpini: 0.7, reserves: -0.5 },
+      reportLine: "The Alpini hold the heights while the reserve divisions wait behind them.",
+    },
+  ],
+  crete41: [
+    {
+      id: "concentrateMaleme",
+      name: "Concentrate on Maleme",
+      subtitle: "Make the western airfield the main effort",
+      note: "Put the weight into the drop at Maleme, and win the airfield first. Effort in The Paratroop Drop carries further; effort in The Sea Convoys carries less, left to sail without the air effort.",
+      modifiers: { paratroops: 0.7, sea: -0.5 },
+      reportLine: "The weight of the drop goes to Maleme and its airfield.",
+    },
+    {
+      id: "spreadThree",
+      name: "Strike All Three Objectives at Once",
+      subtitle: "Drop at Maleme, Rethymno and Heraklion together",
+      note: "Strike every airfield at once, so that the garrison cannot reinforce one from another. Effort in Mountain Troops by Air-Landing carries further, with more fields to land on; effort in The Paratroop Drop carries less, thinned across three drop zones.",
+      modifiers: { mountain: 0.7, paratroops: -0.5 },
+      reportLine: "The paratroopers drop on all three airfields together.",
+    },
+  ],
+  bastogne44: [
+    {
+      id: "rapidWheel",
+      name: "The Rapid Wheel",
+      subtitle: "Attack at once with what is to hand",
+      note: "Strike north in forty-eight hours, as Patton promised. Effort in The Armoured Spearhead carries further; effort in Infantry Divisions on the Shoulders carries less, the infantry left to catch up.",
+      modifiers: { armour: 0.7, infantry: -0.5 },
+      reportLine: "Third Army swings north at once, with the armour in front.",
+    },
+    {
+      id: "twoCorpsWeight",
+      name: "Two Corps in Strength",
+      subtitle: "Wait to bring two corps into line",
+      note: "Take the time to bring up the weight of two corps. Effort in Infantry Divisions on the Shoulders carries further; effort in The Armoured Spearhead carries less, held to the infantry's pace.",
+      modifiers: { infantry: 0.7, armour: -0.5 },
+      reportLine: "Third Army waits to bring two corps into line before it moves.",
+    },
+  ],
+  matapan41: [
+    {
+      id: "keepConcentrated",
+      name: "Keep the Fleet Together",
+      subtitle: "Run for home with the fleet concentrated",
+      note: "Keep every ship in company and make for port. Effort in The Battle Fleet carries further; effort in The Cruiser Divisions carries less, tied to the fleet's pace.",
+      modifiers: { battle: 0.7, cruisers: -0.5 },
+      reportLine: "The fleet holds together and makes for home.",
+    },
+    {
+      id: "detachTheCruisers",
+      name: "Detach the Cruisers to Help",
+      subtitle: "Send the cruiser divisions to help whatever is crippled",
+      note: "Let the cruisers go back to help a damaged ship. Effort in The Cruiser Divisions carries further; effort in The Battle Fleet carries less, left with fewer ships around it.",
+      modifiers: { cruisers: 0.7, battle: -0.5 },
+      reportLine: "The cruiser divisions are detached to help the damaged ship.",
+    },
+  ],
 };
 
 // Round 9, Craig's item #1 (the "one best play" problem: with fixed multipliers, Hoth +
@@ -16915,7 +18693,7 @@ const KEY_BATTLE_POSTURES = {
     {
       id: "hullDownLine",
       name: "The ridge isn't maneuvering",
-      modifiers: { armour: 0.6, divisions: 0.75, supply: 1.25 },
+      modifiers: { armour: 0.6, divisions: 0.75, supply: 1.35 },
       hints: [
         "Prisoners describe orders to hold fixed positions and let the attack come to them, not to counter-charge.",
         "The armor on the ridge hasn't moved from its dug-in line since first contact was reported.",
@@ -17377,6 +19155,247 @@ const KEY_BATTLE_POSTURES = {
       reveal: "Contact: French ski patrols are screening every approach, and the attack will be fought out in small mountain actions.",
     },
   ],
+  // Round 23: the second ring's enemy setups, each tied to a documented condition of its battle.
+  uranus: [
+    {
+      id: "thinRomanianLine",
+      name: "A thin Romanian line, thinly supported",
+      weight: 2,
+      modifiers: { breakthrough: 1.1, armour: 1.1, air: 0.9, supply: 0.85 },
+      hints: [
+        "Prisoners say their regiments have few anti-tank guns and no reserves behind them.",
+        "Reconnaissance finds long stretches of the Romanian line held by outposts.",
+      ],
+      reveal: "Contact: the Romanian line is thin and thinly supported, and it begins to give on the first morning.",
+    },
+    {
+      id: "panzerReserve",
+      name: "German armour behind the Romanians",
+      modifiers: { armour: 0.65, breakthrough: 1.15, air: 1.25, supply: 0.9 },
+      hints: [
+        "Air reconnaissance reports German tanks assembled behind the Romanian front.",
+        "Intercepted signals mention a panzer corps held in reserve behind the Don bend.",
+      ],
+      reveal: "Contact: a German panzer corps stands in reserve behind the Romanians, and it is moving to meet the pincers.",
+    },
+    {
+      id: "strongpoints",
+      name: "Strongpoints held to the last",
+      modifiers: { breakthrough: 0.7, armour: 1.2, air: 0.9, supply: 1.1 },
+      hints: [
+        "Prisoners describe orders to hold the villages whatever happens.",
+        "Reconnaissance finds the Romanian line anchored on fortified villages.",
+      ],
+      reveal: "Contact: the Romanian divisions hold their villages and hills to the last, and the infantry have to take them one at a time.",
+    },
+  ],
+  dynamo40: [
+    {
+      id: "luftwaffeStrikes",
+      name: "The Luftwaffe over the beaches",
+      weight: 2,
+      modifiers: { air: 1.5, navy: 0.8, smallCraft: 0.9, perimeter: 1 },
+      hints: [
+        "Reconnaissance reports bomber groups massing on the airfields behind the pocket.",
+        "The sky over the beaches is already busy with German aircraft.",
+      ],
+      reveal: "Contact: the Luftwaffe is over the beaches and the mole in force, and the ships are its first target.",
+    },
+    {
+      id: "perimeterPressed",
+      name: "A heavy ground attack on the perimeter",
+      modifiers: { perimeter: 1.3, navy: 0.85, smallCraft: 0.9, air: 0.9 },
+      hints: [
+        "The French at Lille report heavy attacks on the south of the perimeter.",
+        "German infantry columns are moving up toward the canal line.",
+      ],
+      reveal: "Contact: a heavy German ground attack is going in on the perimeter, and every hour the rearguard holds is an hour of lift.",
+    },
+    {
+      id: "panzersHalted",
+      name: "The panzers held at the canals",
+      modifiers: { smallCraft: 1.3, navy: 0.8, perimeter: 0.9, air: 0.9 },
+      hints: [
+        "The German armour has not moved from the canal line for two days.",
+        "The marshes in front of the perimeter are quiet of tanks.",
+      ],
+      reveal: "Contact: the panzers are held back at the canals, and the pressure on the perimeter is only infantry.",
+    },
+  ],
+  epirus40: [
+    {
+      id: "greekCounteroffensive",
+      name: "The Greeks on the offensive",
+      weight: 2,
+      modifiers: { reserves: 1, alpini: 0.8, air: 1.1, ports: 0.9 },
+      hints: [
+        "Prisoners say the Greek divisions have orders to keep attacking.",
+        "Greek columns are moving forward along the mountain tracks.",
+      ],
+      reveal: "Contact: the Greeks are on the offensive along the whole front, and the line is being pushed.",
+    },
+    {
+      id: "numbersInTheHills",
+      name: "Greek divisions larger than the Italians'",
+      modifiers: { reserves: 1.3, alpini: 0.9, air: 0.9, ports: 0.8 },
+      hints: [
+        "Prisoners come from three different Greek divisions in one small sector.",
+        "The Greek line is held in depth, with more men than the Italian staff expected.",
+      ],
+      reveal: "Contact: the Greek divisions are larger and stronger than the Italian ones in front of them, and they are everywhere on the heights.",
+    },
+    {
+      id: "replacementsRunShort",
+      name: "Greek replacements running short",
+      modifiers: { alpini: 1.25, reserves: 0.85, air: 0.8, ports: 0.9 },
+      hints: [
+        "Prisoners say the Greek units are well below strength and that replacements are slow.",
+        "The Greek attacks are being made by tired men with little behind them.",
+      ],
+      reveal: "Contact: the Greek army is short of replacements, and its attacks are costing it more than it can afford.",
+    },
+  ],
+  crete41: [
+    {
+      id: "largerGarrison",
+      name: "A garrison larger than briefed",
+      weight: 2,
+      only: 1,
+      modifiers: { paratroops: 0.65, air: 0.9, sea: 1, mountain: 1.15 },
+      hints: [
+        "A report from the mainland suggests the island holds more troops than the staff believed.",
+        "Aerial photographs show dug-in positions around every airfield.",
+      ],
+      reveal: "Contact: the garrison is larger than briefed, and it was waiting. The paratroopers are landing among the defenders.",
+    },
+    {
+      id: "asBriefed",
+      name: "A garrison as briefed",
+      only: 1,
+      modifiers: { paratroops: 1.2, air: 1, sea: 0.9, mountain: 0.8 },
+      hints: [
+        "Reconnaissance suggests the defence is thin around the airfields.",
+        "No heavy guns have been seen on the hills above the drop zones.",
+      ],
+      reveal: "Contact: the garrison is about as strong as the planners believed, and the first wave gets a foothold.",
+    },
+    {
+      id: "navyHunts",
+      name: "The Royal Navy hunting the convoys",
+      only: 2,
+      modifiers: { sea: 0.5, air: 1.2, paratroops: 0.9, mountain: 0.9 },
+      hints: [
+        "Air reconnaissance reports British cruisers and destroyers steaming north of the island.",
+        "The Navy's ships are at sea in strength, and the convoys are slow.",
+      ],
+      reveal: "Contact: the Royal Navy is hunting the convoys, and the ships in them are being sunk one after another.",
+    },
+    {
+      id: "malemeGap",
+      name: "A gap at Maleme",
+      only: 2,
+      modifiers: { mountain: 1.4, paratroops: 1.2, sea: 0.9, air: 0.9 },
+      hints: [
+        "A paratroop patrol reports that the hill beside the airfield is quiet.",
+        "The defenders on the hill appear to have pulled back in the night.",
+      ],
+      reveal: "Contact: the defenders have left the hill beside Maleme airfield, and the runway can be used.",
+    },
+  ],
+  bastogne44: [
+    {
+      id: "southernShoulder",
+      name: "The German shoulder in the south",
+      weight: 2,
+      only: 1,
+      modifiers: { armour: 0.8, infantry: 1.3, air: 1.1, garrison: 1 },
+      hints: [
+        "Intercepts show German infantry divisions dug in along the southern edge of the salient.",
+        "Reports describe villages on the road held in strength.",
+      ],
+      reveal: "Contact: the southern shoulder of the salient is held in strength, and the road north is lined with villages that must be taken.",
+    },
+    {
+      id: "panzersAtBastogne",
+      name: "Panzers still pressing the town",
+      modifiers: { garrison: 1.3, armour: 0.85, infantry: 0.9, air: 1.1 },
+      hints: [
+        "German tanks are reported massing for a fresh attack on the town.",
+        "The garrison reports tank fire on three sides of the perimeter at once.",
+      ],
+      reveal: "Contact: German panzers are still pressing the town hard, and the garrison is in danger.",
+    },
+    {
+      id: "fuelRunsDry",
+      name: "German fuel running out",
+      only: 2,
+      modifiers: { armour: 1.35, infantry: 0.85, air: 0.9, garrison: 0.9 },
+      hints: [
+        "German vehicles are being abandoned along the roads for lack of fuel.",
+        "Prisoners say their tanks have not been refuelled in two days.",
+      ],
+      reveal: "Contact: the German advance has run out of fuel, and its tanks are standing where they stopped.",
+    },
+  ],
+  matapan41: [
+    {
+      id: "carrierStrikes",
+      name: "Carrier aircraft striking in waves",
+      weight: 2,
+      only: 1,
+      modifiers: { air: 1.5, battle: 0.8, cruisers: 0.9, signals: 1 },
+      hints: [
+        "A shadowing aircraft has been over the fleet since morning.",
+        "Signals traffic suggests a carrier is within range.",
+      ],
+      reveal: "Contact: carrier aircraft are attacking the fleet in waves through the day, and the sky above it is empty of friends.",
+    },
+    {
+      id: "cruisersInContact",
+      name: "British cruisers in contact",
+      only: 1,
+      modifiers: { cruisers: 1.3, battle: 0.9, air: 0.9, signals: 0.85 },
+      hints: [
+        "A report from the morning describes British cruisers on the horizon.",
+        "The cruisers on the flank report ships in sight to the south-east.",
+      ],
+      reveal: "Contact: British cruisers are in sight and in touch with the fleet, and they will not go away.",
+    },
+    {
+      id: "britishClose",
+      name: "British battleships close behind, with radar",
+      weight: 2,
+      only: 2,
+      modifiers: { signals: 0.5, cruisers: 0.8, battle: 1.1, air: 0.9 },
+      hints: [
+        "A report suggests the British battle fleet is steaming west at speed.",
+        "A shadowing aircraft reports heavy ships on the fleet's track.",
+      ],
+      reveal: "Contact: the British battle fleet is close behind, and its radar finds the ships long before the ships find it.",
+    },
+    {
+      id: "britishFarAstern",
+      name: "The British far astern",
+      only: 2,
+      modifiers: { cruisers: 1.3, signals: 1, battle: 0.9, air: 0.9 },
+      hints: [
+        "No ship has been reported east of the fleet in hours.",
+        "The last report puts the British battle fleet a long way behind.",
+      ],
+      reveal: "Contact: the British are far astern, and the sea around the fleet is empty.",
+    },
+    {
+      id: "mistakenForFriends",
+      name: "British ships mistaken for friends",
+      only: 2,
+      modifiers: { signals: 1.4, cruisers: 0.9, battle: 0.9, air: 0.9 },
+      hints: [
+        "Ships have been sighted ahead and not challenged.",
+        "The watch reports a force in the dark and cannot say whose it is.",
+      ],
+      reveal: "Contact: a force is sighted in the dark and taken for Italian ships, and the signal that would settle it is not made.",
+    },
+  ],
 };
 
 // Shared battle math — one pure implementation used by the planning screen (staff assessment),
@@ -17754,23 +19773,137 @@ const KEY_BATTLE_ECHOES = {
       guzzoni: "Guzzoni's army is still strung out along the Little St Bernard road, the main attack's weight behind it.",
     },
   },
+  uranus: {
+    counter: {
+      repulsed: "The German counterattack on the flank of the pincers was beaten off, and the ring closed behind it.",
+      heldAtCost: "The flank of the pincers held against the German counterattack, but the corps that held it are worn.",
+      broke: "The Germans broke into the flank of the pincers, and it took days to seal the break.",
+      gaveGround: "The head of the advance gave ground to the German counterattack, and the ring closed a day late.",
+    },
+    neglected: {
+      breakthrough: "There were too few infantry behind the first assault, and the line in front of the mobile corps was never properly broken.",
+      armour: "The mobile corps never raced for the Don, and the ring closed late and thin.",
+      air: "The air armies never flew, and the Romanian guns and the German reserve moved freely.",
+      supply: "The railways were not pushed forward, and the corps ran dry short of the Don.",
+    },
+    commander: {
+      vatutin: "Vatutin's armies hold the line they broke on the first morning.",
+      romanenko: "Romanenko's tank army is still the point of the northern pincer.",
+    },
+  },
+  dynamo40: {
+    counter: {
+      repulsed: "The German attack on the perimeter was beaten off, and the lift went on behind the line.",
+      heldAtCost: "The perimeter held against the attack, but the units that held it came home as remnants.",
+      broke: "The Germans broke through the canal line, and the beaches were in range of their guns for a day.",
+      gaveGround: "The rearguard fell back to a shorter line, and the last of the lift was crowded into less ground.",
+    },
+    neglected: {
+      navy: "The big ships were never sent in, and the mole stood idle while men waited on the sand.",
+      smallCraft: "The small boats never worked the beaches, and the men on the sand waited for ships that could not come close.",
+      air: "The sky over the beaches belonged to the Luftwaffe, and the ships were bombed as they loaded.",
+      perimeter: "The perimeter was held thinly, and it nearly gave way before the lift was done.",
+    },
+    commander: {
+      ramsay: "Ramsay's staff at Dover are still sending ships across the Channel.",
+      park: "Park's squadrons are still flying their patrols over the beaches.",
+      alexander: "Alexander's rearguard is still holding the canal line.",
+    },
+  },
+  epirus40: {
+    counter: {
+      repulsed: "The Greek attack on the heights was thrown back, and the line stayed where it was.",
+      heldAtCost: "The Alpini held the heights against the Greeks, but the battalions that held them were badly cut up.",
+      broke: "The Greeks broke onto the heights, and the fighting went on for hours in the dark.",
+      gaveGround: "The line fell back off the heights rather than fight the Greek attack out where it struck.",
+    },
+    neglected: {
+      reserves: "The reserve divisions stayed at the ports, and the line was held by what was already on it.",
+      alpini: "The high ground was never properly held, and the Greeks used it.",
+      air: "The air force barely flew over the passes, and the Greeks moved in daylight.",
+      ports: "The ports and the tracks were left to clog, and the front was short of everything but mud.",
+    },
+    commander: { cavallero: "Cavallero is still feeding the divisions into the line as they land." },
+  },
+  crete41: {
+    counter: {
+      repulsed: "The counterattack on the airfield was beaten off, and the mountain troops went on landing.",
+      heldAtCost: "The paratroopers held the edge of the airfield, but the units that held it were almost gone.",
+      broke: "The defenders broke into the airfield, and the landings stopped for hours under fire.",
+      gaveGround: "The paratroopers gave up the edge of the airfield and fell back on the hill.",
+    },
+    neglected: {
+      paratroops: "Too few paratroopers dropped, and the airfields were never properly threatened.",
+      air: "The Luftwaffe was thin over the island, and the Royal Navy went where it liked.",
+      sea: "The convoys were never properly covered, and the heavy equipment never arrived.",
+      mountain: "The mountain troops waited on the mainland, and there was no reinforcement to land.",
+    },
+    commander: {
+      student: "Student is still sending every paratrooper he has into the island.",
+      richthofen: "Richthofen's bombers are still working over the island and the sea.",
+      ringel: "Ringel's mountain troops are still being flown in as fast as the runway allows.",
+    },
+  },
+  bastogne44: {
+    counter: {
+      repulsed: "The German counterattack on the corridor was beaten off, and the road stayed open.",
+      heldAtCost: "The shoulder of the corridor held, but the infantry that held it were worn out.",
+      broke: "The Germans broke into the corridor, and the road was cut until the break was sealed.",
+      gaveGround: "The shoulder gave ground, and the corridor was narrowed to the width of the road.",
+    },
+    neglected: {
+      armour: "No armoured spearhead led the relief, and the road was forced on foot.",
+      infantry: "The flanks of the road were left open, and every convoy was attacked from the side.",
+      air: "The aircraft never flew for the garrison, and the town went on without them.",
+      garrison: "The garrison was left to hold the town on what it had, and its ammunition ran short.",
+    },
+    commander: {
+      patton: "Patton has the armour on the road to Bastogne and is already looking beyond the town.",
+      millikin: "Millikin's infantry are still holding the shoulders of the corridor.",
+      mcauliffe: "McAuliffe's garrison is still holding the town it refused to surrender.",
+    },
+  },
+  matapan41: {
+    counter: {
+      repulsed: "The ships acted as one, and the British attack was driven off before it did any harm.",
+      heldAtCost: "The fleet got away, but the ships that covered it were badly hit.",
+      broke: "The British guns found the cruisers at point-blank range, and the ships were lost in minutes.",
+      gaveGround: "The fleet turned away from the fight and left a part of itself behind.",
+    },
+    neglected: {
+      battle: "The battle fleet was left slow and spread out, and its screen was never properly formed.",
+      cruisers: "The cruiser divisions were left to look after themselves, and they paid for it in the dark.",
+      air: "No cover and no reconnaissance came, and the fleet fought blind.",
+      signals: "No one rehearsed the night action, and the fleet met it with the drills of a day battle.",
+    },
+    commander: {
+      iachino: "Iachino has brought the battle fleet home and is already writing his report.",
+      cattaneo: "Cattaneo's cruisers are still the screen of the fleet.",
+    },
+  },
 };
 // Round 22: the War Record's Battle Record lists every battle by name, in campaign order, with the
 // campaign seal it belongs to. Fought battles show their record; the others show as blanks.
 const KEY_BATTLE_TITLES = [
   { id: "sedan40", seal: "OKW", title: "The Crossing at Sedan" },
+  { id: "crete41", seal: "OKW", title: "Operation Mercury" },
   { id: "elAlamein", seal: "OKW", title: "The Push to Alam Halfa" },
   { id: "stalingrad", seal: "OKW", title: "The Breakout West" },
   { id: "kursk", seal: "OKW", title: "The Kursk Salient" },
   { id: "moscow41", seal: "STAVKA", title: "The Blow Before Moscow" },
+  { id: "uranus", seal: "STAVKA", title: "Operation Uranus" },
   { id: "bagrationSoviet44", seal: "STAVKA", title: "The Drive on Minsk" },
+  { id: "dynamo40", seal: "SHAEF", title: "Operation Dynamo" },
   { id: "britainDay40", seal: "SHAEF", title: "Battle of Britain Day" },
   { id: "pq17_1942", seal: "SHAEF", title: "Holding the Convoy Together" },
   { id: "bomberDirective43", seal: "SHAEF", title: "The Second Schweinfurt Mission" },
   { id: "anzio44", seal: "SHAEF", title: "The Beachhead's First Hours" },
   { id: "omaha", seal: "SHAEF", title: "Omaha, Mid-Morning" },
   { id: "arnhemPerimeter44", seal: "SHAEF", title: "The Corridor and the Perimeter" },
+  { id: "bastogne44", seal: "SHAEF", title: "The Relief of Bastogne" },
   { id: "alps40", seal: "COMANDO", title: "The Little St Bernard" },
+  { id: "epirus40", seal: "COMANDO", title: "The Pindus Winter" },
+  { id: "matapan41", seal: "COMANDO", title: "Cape Matapan" },
   { id: "monteCassino44", seal: "COMANDO", title: "Monte Marrone" },
 ];
 const BATTLE_GRADE_ORDER = ["total", "marginal", "costly", "clean"]; // worst to best
@@ -17912,9 +20045,115 @@ function battleDecisionEffect(option, postureId) {
   const lines = Object.entries(option.meters || {}).map(([meter, delta]) => ({
     meter,
     delta,
-    reason: option.costReason || option.label,
+    reason: option.costReason || option.name,
   }));
   return { bonus: (option.bonus || 0) + byPosture, severity: option.severity || 0, lines };
+}
+
+// Round 23: the campaign hard modes that can put orders from above on a battle (config.hardRule).
+const HARD_MODE_NAMES = { iron: "Führer Mode", purge: "NKVD Mode", coalition: "Coalition Mode", axis: "Axis Mode" };
+
+// Round 23: how a Matériel strand's reading (see materielReadout in logic.ts) changes the weight an
+// arm can bring. Each category may name the strand it draws on (category.strand: "oil", "ammo",
+// "steel" or "ship"): artillery draws on ammunition, armour on steel, aircraft on fuel and oil, supply
+// on shipping and rail. Read once, when the battle screen opens, like the pool size.
+const STRAND_BAND_MULT = { Short: 0.85, Strained: 0.93, Adequate: 1, Plentiful: 1.06 };
+
+// Weight per effort point for one arm. Pure, so the planning screen, the staff plan and the balance
+// check all use the same arithmetic: (jittered base + commander bonus + approach modifier) times the
+// enemy posture (the average of the two when a battle has two phases), the ground, and the strand.
+function battleArmWeight({ config, catId, jitter, commander, approach, posture, posture2, strandMult }) {
+  const base = (config.effectiveness[catId] ?? 1) * (jitter ?? 1);
+  const commanderBonus = commander && commander.category === catId ? KEY_BATTLE_COMMANDER_BONUS : 0;
+  const approachMod = approach?.modifiers?.[catId] ?? 0;
+  const m1 = posture?.modifiers?.[catId] ?? 1;
+  const postureMult = posture2 ? (m1 + (posture2.modifiers?.[catId] ?? 1)) / 2 : m1;
+  const terrain = config.terrainModifiers?.[catId] ?? 1;
+  return (base + commanderBonus + approachMod) * postureMult * terrain * (strandMult ?? 1);
+}
+
+// Every way to place exactly `pool` points of effort across the arms.
+function allBattleAllocations(categories, pool) {
+  const out = [];
+  const rec = (i, left, cur) => {
+    if (i === categories.length - 1) {
+      out.push({ ...cur, [categories[i].id]: left });
+      return;
+    }
+    for (let v = 0; v <= left; v++) rec(i + 1, left - v, { ...cur, [categories[i].id]: v });
+  };
+  rec(0, pool, {});
+  return out;
+}
+
+// The enemy setups a battle can be fought against, as scenarios: one posture each, or an ordered
+// pair when the battle has two phases (a second-phase-only posture never opens the day).
+function battleScenarios(config, postures) {
+  if (!postures.length) return [{ posture: null, posture2: null, weight: 1 }];
+  if (!config.phases) return postures.map((p) => ({ posture: p, posture2: null, weight: p.weight || 1 }));
+  const out = [];
+  for (const a of postures) {
+    for (const b of postures) {
+      if (a.id === b.id || a.only === 2 || b.only === 1) continue;
+      out.push({ posture: a, posture2: b, weight: (a.weight || 1) * (b.weight || 1) });
+    }
+  }
+  return out;
+}
+
+// "Let your staff plan it". The plan a competent staff would send without knowing what the enemy has
+// drawn: the commander, approach and placement of all the effort that does best on average across
+// the setups the enemy might show (the historical one counting double where the battle says so). It
+// is robust and not clever: it never reads the intelligence, so a player who does can beat it.
+function staffPlanFor({ config, categories, poolSize, strandMults, commanders, approaches, postures, commanderRequired }) {
+  const scenarios = battleScenarios(config, postures);
+  const totalWeight = scenarios.reduce((a, s) => a + s.weight, 0);
+  const allocations = allBattleAllocations(categories, poolSize);
+  let best = null;
+  // The staff name no favourite: no commander unless the orders require one, and no more than half the
+  // effort (rounded up) in any one arm, so their plan is balanced rather than clever.
+  const cap = Math.ceil(poolSize / 2);
+  for (const commander of commanderRequired ? commanders : [null]) {
+    for (const approach of approaches.length ? approaches : [null]) {
+      const weightSets = scenarios.map((s) =>
+        Object.fromEntries(
+          categories.map((c) => [
+            c.id,
+            battleArmWeight({ config, catId: c.id, jitter: 1, commander, approach, posture: s.posture, posture2: s.posture2, strandMult: strandMults?.[c.id] }),
+          ])
+        )
+      );
+      for (const allocation of allocations) {
+        if (Object.values(allocation).some((v) => v > cap)) continue;
+        let expected = 0;
+        scenarios.forEach((s, i) => {
+          const raw = sumBattleContributions(computeBattleContributions(categories, allocation, weightSets[i], poolSize));
+          expected += (s.weight / totalWeight) * clampBattleBonus(raw);
+        });
+        if (!best || expected > best.expected + 1e-9) {
+          best = { commanderId: commander ? commander.id : null, approachId: approach ? approach.id : null, allocation, expected };
+        }
+      }
+    }
+  }
+  return best;
+}
+
+// The field-decision answer a staff gives without knowing the enemy: best on average across setups.
+function staffDecisionOption(decision, postures, config) {
+  const scenarios = battleScenarios(config || {}, postures);
+  const totalWeight = scenarios.reduce((a, s) => a + s.weight, 0);
+  let best = null;
+  for (const option of decision.options) {
+    let score = 0;
+    for (const s of scenarios) {
+      const latest = s.posture2 || s.posture;
+      const e = battleDecisionEffect(option, latest ? latest.id : null);
+      score += (s.weight / totalWeight) * (e.bonus + e.lines.reduce((a, l) => a + l.delta, 0) - 2 * e.severity);
+    }
+    if (!best || score > best.score + 1e-9) best = { option, score };
+  }
+  return best.option;
 }
 
 // One entry per transition (fixed order, so exactly 2 transitions for 3 campaigns — see the
@@ -22561,7 +24800,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
 // BattleSimulationScreen. The roll itself no longer happens at commit; it happens at the end of
 // the battle report, after the mid-battle reserve decision, so that decision can actually change
 // the odds rather than decorate a result that was already decided. See chooseOption.
-function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, onSpendInitiative, easyMode }) {
+function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn, onCommit, onSpendInitiative, easyMode }) {
   const headingRef = useRef(null);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
@@ -22570,20 +24809,34 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
 
   // Round 9: categories are per battle now (Omaha's are not Kursk's) — see keyBattleCategories.
   const categories = keyBattleCategories(config);
+  // Round 23 (strands bite): an arm that draws on a Matériel strand (category.strand) carries more or
+  // less weight as that strand reads Plentiful, Adequate, Strained or Short. Read once, as the pool is.
+  const [strandInfo] = useState(() => {
+    const byId = Object.fromEntries(materielReadout(flags || {}, meters).map((r) => [r.id, r]));
+    return Object.fromEntries(
+      categories.map((c) => [c.id, c.strand && byId[c.strand] ? { name: byId[c.strand].name, band: byId[c.strand].band, mult: STRAND_BAND_MULT[byId[c.strand].band] } : null])
+    );
+  });
+  const strandMults = Object.fromEntries(categories.map((c) => [c.id, strandInfo[c.id] ? strandInfo[c.id].mult : 1]));
 
   // Round 4 (Craig: "could we have a commander selection option which had a modifier on one of
   // the four categories"). Null = no selection ("no particular emphasis," the honest default).
   // Keyed by config.id against KEY_BATTLE_COMMANDERS; battles without a roster render no
   // commander section at all rather than an empty one.
   const commanderRoster = KEY_BATTLE_COMMANDERS[config.id] || [];
-  const [commanderId, setCommanderId] = useState(null);
+  // Round 23: in a campaign's hard mode a battle can carry orders from above (config.hardRule): a
+  // locked approach or commander, officers who are not available, or a ban on giving ground. The
+  // locks are applied here and the ban on giving ground in the report.
+  const hardRule = HARD_MODE_NAMES[mode] ? config.hardRule || null : null;
+  const commanderBarred = (id) => !!hardRule && ((hardRule.lockCommander && hardRule.lockCommander !== id) || (hardRule.forbidCommanders || []).includes(id));
+  const [commanderId, setCommanderId] = useState(hardRule?.lockCommander ?? null);
   const selectedCommander = commanderRoster.find((c) => c.id === commanderId) || null;
 
   // Round 4 follow-up (Craig: "let's make this one between the two tactical choices"). Forced
   // pick, no default: the Commit button stays disabled until one is chosen for any battle with
   // a roster entry.
   const approachRoster = KEY_BATTLE_APPROACHES[config.id] || [];
-  const [approachId, setApproachId] = useState(null);
+  const [approachId, setApproachId] = useState(hardRule?.lockApproach ?? null);
   const selectedApproach = approachRoster.find((a) => a.id === approachId) || null;
 
   // Round 9, item #1: the enemy's hidden posture for THIS attempt at this battle, drawn once per
@@ -22693,17 +24946,11 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   // bonus and the approach's flat modifier (both known facts going in, so un-jittered) — then,
   // round 9, the whole thing scaled by the hidden enemy posture, which blunts or opens an arm no
   // matter who leads it (see KEY_BATTLE_POSTURES for why it has to scale the whole weight).
-  function effectiveWeight(catId) {
-    const base = (config.effectiveness[catId] ?? 1) * jitter[catId];
-    const commanderBonus = selectedCommander && selectedCommander.category === catId ? KEY_BATTLE_COMMANDER_BONUS : 0;
-    const postureMult = postureMultFor(catId);
-    // Round 13, item #6: a static, known ground-conditions multiplier — see terrainModifiers on
-    // the battle config. Defaults to 1 (no effect) for any battle/category that doesn't define one.
-    const terrainMult = config.terrainModifiers?.[catId] ?? 1;
-    return (base + commanderBonus + approachModifier(catId)) * postureMult * terrainMult;
+  function effectiveWeight(catId, commander = selectedCommander, approach = selectedApproach) {
+    return battleArmWeight({ config, catId, jitter: jitter[catId], commander, approach, posture, posture2, strandMult: strandMults[catId] });
   }
-  function weightsMap() {
-    return Object.fromEntries(categories.map((c) => [c.id, effectiveWeight(c.id)]));
+  function weightsMap(commander = selectedCommander, approach = selectedApproach) {
+    return Object.fromEntries(categories.map((c) => [c.id, effectiveWeight(c.id, commander, approach)]));
   }
   // Bottom/middle/top third of the jitter range — a coarse signal, not the number itself. Does
   // NOT reflect the enemy posture: readiness is about your own formations, the posture is about
@@ -22725,6 +24972,98 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
   // soon as the plan changes after it was given.
   const [assessment, setAssessment] = useState(null);
   const planKey = JSON.stringify([allocation, commanderId, approachId]);
+
+  // Round 23 (item 2, the map exercise): for one Initiative the staff war-game the plan on the map
+  // table against two enemy setups drawn at random from those the enemy might show, and say how it
+  // held against each. It cannot say which setup is real, so it tells the player how robust the plan
+  // is, where the Reconnaissance Pass tells them about the enemy and the Staff Assessment judges the
+  // plan against what the enemy really has.
+  const [exercise, setExercise] = useState(null);
+  function requestExercise() {
+    if (spent === 0 || (meters.initiative || 0) <= 0) return;
+    const scenarios = battleScenarios(config, KEY_BATTLE_POSTURES[config.id] || []);
+    if (!scenarios.length) return;
+    const first = Math.floor(Math.random() * scenarios.length);
+    let second = scenarios.length > 1 ? Math.floor(Math.random() * (scenarios.length - 1)) : first;
+    if (second >= first && scenarios.length > 1) second += 1;
+    const picks = first === second ? [scenarios[first]] : [scenarios[first], scenarios[second]];
+    const runs = picks.map((sc) => {
+      const weights = Object.fromEntries(
+        categories.map((c) => [
+          c.id,
+          battleArmWeight({ config, catId: c.id, jitter: jitter[c.id], commander: selectedCommander, approach: selectedApproach, posture: sc.posture, posture2: sc.posture2, strandMult: strandMults[c.id] }),
+        ])
+      );
+      const bonus = clampBattleBonus(sumBattleContributions(computeBattleContributions(categories, allocation, weights, poolSize)));
+      const label = sc.posture ? (sc.posture2 ? sc.posture.name + ", then " + sc.posture2.name : sc.posture.name) : "the enemy as briefed";
+      const verdict = bonus >= 20 ? "held firm" : bonus >= 10 ? "held, but with strain" : bonus >= 0 ? "barely moved the line" : "broke down";
+      return { label, verdict };
+    });
+    if (onSpendInitiative) onSpendInitiative();
+    if (soundOn) playStamp();
+    setExercise({ runs, key: planKey });
+  }
+
+  // Round 23 (item 7, "let your staff plan it"): the whole battle handed to the staff. Commander,
+  // approach and placement come from staffPlanFor; the report then runs itself (see autoplay in
+  // BattleSimulationScreen). A standing setting does it every time.
+  const STAFF_KEY = "dispatches1940_staff_plans";
+  const [staffAlways, setStaffAlways] = useState(() => {
+    try {
+      return window.localStorage.getItem(STAFF_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  function toggleStaffAlways() {
+    const next = !staffAlways;
+    setStaffAlways(next);
+    try {
+      if (next) window.localStorage.setItem(STAFF_KEY, "1");
+      else window.localStorage.removeItem(STAFF_KEY);
+    } catch {
+      /* storage can be blocked; the choice then lasts only for this screen */
+    }
+  }
+  function letStaffPlan() {
+    const allowedCommanders = commanderRoster.filter((c) => !commanderBarred(c.id) || c.id === hardRule?.lockCommander);
+    const allowedApproaches = hardRule?.lockApproach ? approachRoster.filter((a) => a.id === hardRule.lockApproach) : approachRoster;
+    const plan = staffPlanFor({
+      config,
+      categories,
+      poolSize,
+      strandMults,
+      commanders: hardRule?.lockCommander ? allowedCommanders.filter((c) => c.id === hardRule.lockCommander) : allowedCommanders,
+      approaches: allowedApproaches,
+      postures: KEY_BATTLE_POSTURES[config.id] || [],
+      commanderRequired: !!hardRule?.lockCommander,
+    });
+    if (!plan) return;
+    const commander = commanderRoster.find((c) => c.id === plan.commanderId) || null;
+    const approach = approachRoster.find((a) => a.id === plan.approachId) || null;
+    if (soundOn) playStamp();
+    onCommit({
+      allocation: plan.allocation,
+      reserves: 0,
+      poolSize,
+      weights: weightsMap(commander, approach),
+      commanderId: plan.commanderId,
+      approachId: plan.approachId,
+      postureId: posture?.id ?? null,
+      posture2Id: posture2?.id ?? null,
+      intel: null,
+      assessment: null,
+      autoplay: true,
+    });
+  }
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (staffAlways && !autoStarted.current) {
+      autoStarted.current = true;
+      letStaffPlan();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // Round 10, item #4: reliability is set by Initiative at the moment of asking (before paying
   // for it) — see staffReliability. When the roll says the staff get it wrong, their verdict is
   // shifted one or two bands from the truth and their specific pointer is replaced with a
@@ -22855,6 +25194,15 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
           </p>
         )}
 
+        {hardRule && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000] border-l-4 pl-3" style={{ ...bodyStyle, borderColor: "#7a2e2e" }}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ ...labelStyle, color: "#7a2e2e" }}>
+              {HARD_MODE_NAMES[mode]} — orders from above:
+            </span>
+            {hardRule.text}
+          </p>
+        )}
+
         {/* Round 22 (item 1, a first-time guide): a short, plain account of the screen. Open the first
             time anyone sees an Order of Battle, closed afterwards. */}
         <details className="mb-5 border px-3 py-2" style={{ borderColor: campaign.accent }} open={introOpen}>
@@ -22912,8 +25260,9 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <button
                 onClick={() => setCommanderId(null)}
+                disabled={!!hardRule?.lockCommander}
                 aria-pressed={commanderId === null}
-                className="text-left border px-3 py-2 transition-colors duration-150"
+                className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={
                   commanderId === null
                     ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
@@ -22930,8 +25279,9 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   <button
                     key={cmd.id}
                     onClick={() => setCommanderId(cmd.id)}
+                    disabled={commanderBarred(cmd.id)}
                     aria-pressed={selected}
-                    className="text-left border px-3 py-2 transition-colors duration-150"
+                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
                     style={
                       selected
                         ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
@@ -22966,8 +25316,9 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   <button
                     key={appr.id}
                     onClick={() => setApproachId(appr.id)}
+                    disabled={!!hardRule?.lockApproach && hardRule.lockApproach !== appr.id}
                     aria-pressed={selected}
-                    className="text-left border px-3 py-2 transition-colors duration-150"
+                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
                     style={
                       selected
                         ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
@@ -23032,6 +25383,11 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                       that text to the specific category it actually affects. */}
                   {config.terrainNotes?.[cat.id] && (
                     <span className="ml-1 text-[10px] font-normal italic opacity-60">({config.terrainNotes[cat.id]})</span>
+                  )}
+                  {strandInfo[cat.id] && strandInfo[cat.id].band !== "Adequate" && (
+                    <span className="ml-1 text-[10px] font-normal italic opacity-60">
+                      ({strandInfo[cat.id].name}: {strandInfo[cat.id].band})
+                    </span>
                   )}
                 </span>
                 {/* Round 8 (Craig: "'in good order' and 'reports uncertain' aren't clear in what
@@ -23105,11 +25461,58 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
                   </p>
                 </details>
               )}
+              {/* Round 23 (item 4): the real order of battle for this arm, and what the real commander
+                  actually did with it. History for the player to read, never advice on the plan. */}
+              {config.orderOfBattle?.[cat.id] && (
+                <details className="mt-2">
+                  <summary
+                    className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-70 cursor-pointer select-none"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    Order of battle
+                  </summary>
+                  <ul className="mt-1 list-disc pl-5 text-[13px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                    {config.orderOfBattle[cat.id].units.map((u, k) => (
+                      <li key={k}>{u}</li>
+                    ))}
+                  </ul>
+                  {config.orderOfBattle[cat.id].real && (
+                    <p className="mt-1 text-[12px] leading-snug italic text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                      <b className="not-italic">What actually happened.</b> {config.orderOfBattle[cat.id].real}
+                    </p>
+                  )}
+                </details>
+              )}
             </div>
           ))}
         </div>
 
         <div className="mb-4 border px-4 py-3" style={{ borderColor: campaign.accent }}>
+          <button
+            onClick={requestExercise}
+            disabled={spent === 0 || (meters.initiative || 0) <= 0}
+            className="w-full border-2 px-4 py-2 mb-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
+            style={{ borderColor: campaign.accent, ...bodyStyle }}
+          >
+            Hold a Map Exercise on the Plan — costs 1 Initiative
+          </button>
+          {exercise && (
+            <div className="mb-3">
+              {exercise.runs.map((r, i) => (
+                <p key={i} className="text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
+                  Against <i>{r.label}</i>, the plan {r.verdict}.
+                </p>
+              ))}
+              <p className="text-[12px] leading-snug italic opacity-70 text-[#000000]" style={bodyStyle}>
+                The exercise tries the plan against setups the enemy might show. It cannot say which one he has.
+              </p>
+              {exercise.key !== planKey && (
+                <p className="text-[11px] uppercase tracking-widest text-[#000000] opacity-70 mt-1" style={labelStyle}>
+                  Exercised before your latest changes
+                </p>
+              )}
+            </div>
+          )}
           <button
             onClick={requestAssessment}
             disabled={spent === 0}
@@ -23143,6 +25546,23 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
 
         {/* Round 22 (item 3, a plan summary): the plan in one plain sentence, so the player can read back
             what they are about to commit to without decoding the bars. */}
+        <div className="mb-4 border px-4 py-3" style={{ borderColor: campaign.accent }}>
+          <button
+            onClick={letStaffPlan}
+            className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold"
+            style={{ borderColor: campaign.accent, ...bodyStyle }}
+          >
+            Let Your Staff Plan It — skip the Order of Battle
+          </button>
+          <p className="text-[12px] leading-snug mt-2 text-[#000000] opacity-80" style={bodyStyle}>
+            The staff plan and fight the battle without you: a sound plan for an enemy they cannot see, with no field decisions for you to make. A player who reads the intelligence can do better. It costs nothing.
+          </p>
+          <label className="flex items-center gap-2 mt-2 text-[12px] text-[#000000] cursor-pointer" style={bodyStyle}>
+            <input type="checkbox" checked={staffAlways} onChange={toggleStaffAlways} />
+            Always let my staff plan battles
+          </label>
+        </div>
+
         <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
           <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
             Your plan so far
@@ -23229,7 +25649,7 @@ function BattleAllocationScreen({ campaign, config, meters, soundOn, onCommit, o
 //   clamp, and its result is carried out for plan costs and the next node's text.
 // - After-action notes: whether the intelligence summary and the last staff assessment were
 //   right, told only now, after the battle, the way a general would find out.
-function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain, result, soundOn, onResolve, onContinue }) {
+function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, uncertain, result, soundOn, onResolve, onContinue }) {
   const headingRef = useRef(null);
   const categories = keyBattleCategories(config);
   const postures = KEY_BATTLE_POSTURES[config.id] || [];
@@ -23256,6 +25676,8 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
   const decidedCount = decisionEffects.length;
   const nextDecision = decisions.find((d) => !decisionChoices[d.id]) || null;
   const counterScale = config.counterScale || 1;
+  // Round 23: under a hard mode's orders from above, the line may not give ground (Order No. 227).
+  const noGiveGround = !!(HARD_MODE_NAMES[mode] && config.hardRule && config.hardRule.noGiveGround);
 
   const planContrib = computeBattleContributions(categories, plan.allocation, plan.weights, plan.poolSize);
   const orderedCatIds = [...categories]
@@ -23347,7 +25769,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (beat.kind === "contact2") return posture2.reveal;
     if (beat.kind === "decision") {
       const x = decisionEffects.find((e) => e.d.id === beat.decId);
-      return x?.option?.reportLine || x?.option?.label || "";
+      return x?.option?.reportLine || x?.option?.name || "";
     }
     if (beat.kind === "reserve") {
       if (reserveChoice === "hold") return "The reserve stays back.";
@@ -23394,6 +25816,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
 
   function afterNotes() {
     const notes = [];
+    if (plan.autoplay) notes.push("Your staff planned and fought this battle without you.");
     // Round 22 (item 7): what the player's orders were worth, as military intelligence would put it —
     // an estimate to the nearest five points, and of the change the plan made, never of the odds.
     const basePct = Math.round((baseWeights[0] / (baseWeights[0] + baseWeights[1])) * 100);
@@ -23447,10 +25870,11 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
     if (neglected) flagsOut[`${config.id}PlanNeglected`] = neglected.id;
     if (neglectedAll.length) flagsOut[`${config.id}NeglectedCount`] = neglectedAll.length;
     if (plan.commanderId) flagsOut[`${config.id}PlanCommander`] = plan.commanderId;
+    if (plan.autoplay) flagsOut[`${config.id}Staff`] = true;
     // Round 22: which way each field decision went, kept as a flag for later text.
     for (const x of decisionEffects) {
       flagsOut[`${config.id}Dec_${x.d.id}`] = x.option.id;
-      flagsOut[`${config.id}DecNote_${x.d.id}`] = `${x.d.title}: ${x.option.label}`;
+      flagsOut[`${config.id}DecNote_${x.d.id}`] = `${x.d.title}: ${x.option.name}`;
     }
     // The enemy setup(s) met, for the War Record's Battle Record.
     if (plan.postureId) flagsOut[`${config.id}Posture`] = plan.postureId;
@@ -23518,6 +25942,32 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
       resolve();
     }
   }
+
+  // Round 23 (item 7): a battle the staff plan runs itself. One step per pass, so each choice is made
+  // from the state the one before it left: the field decisions, the counterattack, then the verdict.
+  const autoResolved = useRef(false);
+  useEffect(() => {
+    if (!plan.autoplay || done || autoResolved.current) return;
+    if (nextDecision) {
+      setDecisionChoices((c) => ({ ...c, [nextDecision.id]: staffDecisionOption(nextDecision, postures, config).id }));
+      return;
+    }
+    if (!counterDecided) {
+      setCounterChoice(noGiveGround || counterStrengthBase >= 2 + severity ? "head" : "give");
+      return;
+    }
+    autoResolved.current = true;
+    setBeatIndex(lastBeat);
+    resolve();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plan.autoplay, decisionChoices, counterChoice, done]);
+  const [staffStillOn, setStaffStillOn] = useState(() => {
+    try {
+      return window.localStorage.getItem("dispatches1940_staff_plans") === "1";
+    } catch {
+      return false;
+    }
+  });
 
   const total = result ? result.weights.reduce((a, v) => a + v, 0) : 1;
   const finalPct = result ? result.weights.map((w) => Math.round((w / total) * 100)) : null;
@@ -23670,6 +26120,22 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
             >
               See the Full Report →
             </button>
+            {plan.autoplay && staffStillOn && (
+              <button
+                onClick={() => {
+                  try {
+                    window.localStorage.removeItem("dispatches1940_staff_plans");
+                  } catch {
+                    /* nothing to clear */
+                  }
+                  setStaffStillOn(false);
+                }}
+                className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-60 underline"
+                style={labelStyle}
+              >
+                Plan my own battles from now on
+              </button>
+            )}
           </>
         ) : phase === "decision" && nextDecision ? (
           <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
@@ -23683,7 +26149,7 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
             <div className="grid grid-cols-1 gap-2">
               {nextDecision.options.map((o) => (
                 <button key={o.id} onClick={() => chooseDecision(nextDecision, o.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                  <div className="text-sm font-semibold">{o.label}</div>
+                  <div className="text-sm font-semibold">{o.name}</div>
                   {o.note && <div className="text-[11px] opacity-80">{o.note}</div>}
                 </button>
               ))}
@@ -23721,10 +26187,17 @@ function BattleSimulationScreen({ campaign, config, plan, baseWeights, uncertain
                 <div className="text-sm font-semibold">Meet it head-on</div>
                 <div className="text-[11px] opacity-80">Stand and fight with what's there.</div>
               </button>
-              <button onClick={() => chooseCounter("give")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                <div className="text-sm font-semibold">Give ground and hold what you can</div>
-                <div className="text-[11px] opacity-80">A smaller loss, and a certain one.</div>
-              </button>
+              {!noGiveGround && (
+                <button onClick={() => chooseCounter("give")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">Give ground and hold what you can</div>
+                  <div className="text-[11px] opacity-80">A smaller loss, and a certain one.</div>
+                </button>
+              )}
+              {noGiveGround && (
+                <p className="text-[12px] leading-snug italic opacity-80" style={bodyStyle}>
+                  {HARD_MODE_NAMES[mode]}: the order is to hold. The line may not give ground.
+                </p>
+              )}
               {canThrowReserve && (
                 <button onClick={() => chooseCounter("reserve")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
                   <div className="text-sm font-semibold">Throw the held reserve at it</div>
@@ -23995,6 +26468,29 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
 
 function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, favor, onRestart, onSwitch, onRewind, grandChain, onContinueGrand }) {
   const [copied, setCopied] = useState(false);
+  const [noteCopied, setNoteCopied] = useState(false);
+  const playtestNote = (() => {
+    const lbl = campaign.positionLabel ? campaign.positionLabel(flags, meters) : "—";
+    const fought = KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) =>
+      [
+        b.id,
+        flags[`${b.id}Grade`],
+        [flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean).join("+") || "-",
+        flags[`${b.id}PlanCommander`] || "-",
+        Object.keys(flags).filter((k) => k.startsWith(`${b.id}Dec_`)).map((k) => flags[k]).join("/") || "-",
+        flags[`${b.id}Staff`] ? "staff" : "own",
+      ].join(":")
+    );
+    return [
+      "Dispatches 1940",
+      campaign.id,
+      mode || "open",
+      "ending " + lbl,
+      "decisions " + (log ? log.length : 0),
+      "manpower " + meters.manpower + ", materiel " + meters.fuel + ", initiative " + meters.initiative,
+      "battles " + (fought.length ? fought.join(" ; ") : "none"),
+    ].join(" | ");
+  })();
   const headingRef = useRef(null);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
@@ -24484,6 +26980,47 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             Choose Another Theater
           </button>
         </div>
+
+        {/* Round 23 (item 10, the playtest kit): one line a tester can paste into a comment on the game's
+            page. It says what was played and how, with every battle's grade, enemy setup(s), commander,
+            field decision(s) and whether the staff planned it. Nothing personal. */}
+        <details className="mt-6 border-t-2 pt-3" style={{ borderColor: campaign.accent }}>
+          <summary className="text-xs uppercase tracking-[0.25em] font-bold cursor-pointer select-none" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            A note for the author
+          </summary>
+          <p className="mt-2 text-[13px] leading-snug" style={{ fontFamily: "'Courier Prime', monospace" }}>
+            If you are helping to test the game, paste this line into a comment on the game's page, with anything you want to say: what confused you,
+            what read badly on your phone, a date or name that looks wrong, a battle that felt unfair. It holds nothing personal.
+          </p>
+          <textarea
+            readOnly
+            value={playtestNote}
+            rows={4}
+            className="w-full mt-2 border p-2 text-[12px]"
+            style={{ borderColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: "transparent" }}
+            onFocus={(e) => e.target.select()}
+            aria-label="The note for the author"
+          />
+          <button
+            onClick={() => {
+              try {
+                navigator.clipboard.writeText(playtestNote).then(
+                  () => {
+                    setNoteCopied(true);
+                    setTimeout(() => setNoteCopied(false), 2000);
+                  },
+                  () => setNoteCopied(false)
+                );
+              } catch (e) {
+                setNoteCopied(false);
+              }
+            }}
+            className="mt-2 border-2 px-4 py-1 uppercase tracking-widest text-xs hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
+            style={{ borderColor: campaign.accent, fontFamily: "Oswald, sans-serif" }}
+          >
+            {noteCopied ? "✓ Copied" : "Copy the note"}
+          </button>
+        </details>
       </div>
     </div>
   );
@@ -25515,6 +28052,8 @@ function WW2CommandInner() {
           campaign={campaign}
           config={pendingBattle.config}
           meters={meters}
+          flags={flags}
+          mode={mode}
           soundOn={soundOn}
           // Round 13, Craig's item #8 ("wire the subgame into difficulty — something minor is
           // fine"). Deliberately small: doesn't touch allocation math, postures, or the roll —
@@ -25535,6 +28074,7 @@ function WW2CommandInner() {
       {screen === "battleResult" && campaign && displayStage && pendingBattle && pendingBattle.plan && (
         <BattleSimulationScreen
           campaign={campaign}
+          mode={mode}
           config={pendingBattle.config}
           plan={pendingBattle.plan}
           baseWeights={pendingBattle.baseWeights}

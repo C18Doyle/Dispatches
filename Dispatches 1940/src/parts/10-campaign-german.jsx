@@ -83,9 +83,9 @@
                   "The Manstein Plan is a single river on a single afternoon: XIX Panzer Corps must cross the Meuse at Sedan against reserve divisions dug into the far bank, and its three panzer divisions cannot cross at all until engineers have a bridge up. The air corps will bomb the French positions from first light in rolling waves rather than one great blow, some of the corps' guns are still in the Ardennes traffic, and the first men over will go in rubber boats under fire. What's decided here is where the corps' effort goes: how much to the assault companies and pioneers who cross first, how much to the air attack that has to unnerve the defenders rather than destroy them, how much to the artillery that arrived, and how much to the bridge and the roads that every tank in the corps is waiting on.",
                 categories: [
                   { id: "assault", name: "Assault Infantry & Pioneers", meter: "manpower", glyph: "▮▮▮" },
-                  { id: "air", name: "Air Attack", meter: "fuel", glyph: "✈" },
-                  { id: "guns", name: "Artillery Preparation", meter: "fuel", glyph: "✺" },
-                  { id: "bridging", name: "Bridging & Traffic", meter: "initiative", glyph: "═" },
+                  { id: "air", name: "Air Attack", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "guns", name: "Artillery Preparation", meter: "fuel", strand: "ammo", glyph: "✺" },
+                  { id: "bridging", name: "Bridging & Traffic", meter: "initiative", strand: "steel", glyph: "═" },
                 ],
                 // Assault highest — the first men over the river and up the slope are what the
                 // whole operation turns on; Air second — it did not destroy a single bunker but
@@ -95,6 +95,40 @@
                 // keeps no one alive on the far bank, though every tank must wait for it, the same
                 // asymmetric-by-design choice as Kursk's Supply.
                 effectiveness: { assault: 2.4, air: 2.2, guns: 1.9, bridging: 1.7 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "1st Panzer Division's rifle regiments, with Infantry Regiment Großdeutschland attached",
+                      "2nd and 10th Panzer Divisions' rifle regiments, crossing at Donchery and Wadelincourt",
+                      "43rd Assault Engineer Battalion and 49th Panzer Engineer Battalion, with assault boats",
+                    ],
+                    real: "Großdeutschland and 1st Panzer had taken Hill 247 by 20:00. At Wadelincourt, French artillery destroyed 81 of the 96 assault boats, and Feldwebel Rubarth's team of the 49th Engineer Battalion cleared seven bunkers to give 10th Panzer a bridgehead.",
+                  },
+                  air: {
+                    units: [
+                      "II Fliegerkorps (Loerzer) among the air corps flying the day's attacks",
+                      "VIII Fliegerkorps (Richthofen), the close-support corps with the dive bombers",
+                      "About 1,470 aircraft in all: 600 medium bombers, 250 Ju 87 Stukas, 500 Bf 109s and 120 Bf 110s",
+                    ],
+                    real: "The plan for one twenty-minute strike gave way to continuous attacks in small formations from 08:00 to 16:00. Almost no one was hit, but the 55th Division's reservists abandoned their positions that evening in what became the 'panic of Bulson'. The Luftwaffe lost six aircraft.",
+                  },
+                  guns: {
+                    units: [
+                      "The divisional artillery of the three panzer divisions, about 141 pieces in all",
+                      "The flak battalions of the three divisions, 303 anti-aircraft guns in all",
+                    ],
+                    real: "The Germans were outgunned, about 141 pieces to about 174 French, and 2nd Panzer's heavy howitzers were held up in the Ardennes traffic, so the artillery did less than the plan expected.",
+                  },
+                  bridging: {
+                    units: [
+                      "The bridging columns of the divisional engineer battalions",
+                      "The corps' traffic control on the few roads out of the Ardennes",
+                    ],
+                    real: "The first pontoon bridge stood at Gaulier at about 01:00 on 14 May and the first tanks crossed at 07:20, about seven hours after the infantry. The Ardennes roads were jammed, and 2nd Panzer reached Donchery late.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Göring has promised the Führer one great blow from the air at H-hour, and that is the order.", lockApproach: "singleBlow" },
                 // Round 22. Ground and weather as they were on 13 May 1940 (the air corps flew from 08:00 to 16:00;
                 // the French held the bunkers on the heights of the far bank, Wikipedia, Battle of Sedan (1940)).
                 conditions: "Fine, clear weather, so the air corps can fly from first light. The French hold bunkers on the steep, wooded heights of the far bank, and the river itself is the obstacle.",
@@ -114,7 +148,7 @@
                     options: [
                       {
                         id: "pushOn",
-                        label: "Send the riflemen on through the night, past the heights",
+                        name: "Send the riflemen on through the night, past the heights",
                         note: "Exploit the confusion before the French settle. They go with no tanks behind them.",
                         bonus: 0,
                         bonusByPosture: { reservistsShaken: 5, gapBetweenBunkers: 3, riverArtillery: -2, armourOnTheMove: -5 },
@@ -122,7 +156,7 @@
                       },
                       {
                         id: "holdHeights",
-                        label: "Hold the heights and wait for the bridge",
+                        name: "Hold the heights and wait for the bridge",
                         note: "A smaller risk, and a slower night.",
                         bonus: 1,
                         bonusByPosture: { armourOnTheMove: 3, riverArtillery: 1 },
@@ -130,7 +164,7 @@
                       },
                       {
                         id: "coverEngineers",
-                        label: "Turn the flak and field guns on the French batteries to cover the engineers",
+                        name: "Turn the flak and field guns on the French batteries to cover the engineers",
                         note: "Costs Matériel: fuel and the day's ammunition.",
                         bonus: 0,
                         bonusByPosture: { riverArtillery: 4, armourOnTheMove: 2 },
@@ -571,7 +605,10 @@
           title: "The Hess Flight",
           historicalRecord: true,
           situation:
-            "Rudolf Hess, Deputy Führer, has flown a Messerschmitt alone to Scotland, apparently to broker peace with Britain on his own initiative. Hitler is reportedly incandescent. Stopping him isn't the issue — he's already gone. Explaining it is.",
+            "Rudolf Hess, Deputy Führer, has flown a Messerschmitt alone to Scotland, apparently to broker peace with Britain on his own initiative. Hitler is reportedly incandescent. Stopping him isn't the issue — he's already gone. Explaining it is." +
+            (flags.crete41 === "assault"
+              ? (flags.crete41Result === "failed" ? " Crete was not taken, and the airborne arm is spent for nothing." : "") + keyBattleEcho("crete41", flags)
+              : ""),
           choices: [
             {
               label: "Declare him insane — a lone act, disowned entirely",
@@ -640,8 +677,190 @@
               setFlags: { crete41: "assault" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "hessFlight41",
-              outcome:
-                "Crete fell in ten days — and the victory ended German large-scale airborne operations forever. The defenders, forewarned and far stronger than estimated, shot the first waves out of the sky and onto pre-registered drop zones; Maleme airfield was taken by a margin of one withdrawn hill. Fallschirmjäger casualties ran near a quarter of the force committed, and Hitler told Student the day of the paratrooper was over. The instrument won its greatest prize and was spent as a strategic weapon in the act — a fact a certain Mediterranean island question will remember next year.",
+              keyBattleSubgame: {
+                id: "crete41",
+                title: "Order of Battle — Operation Mercury",
+                flavor: "Student's XI Fliegerkorps has the whole airborne arm of the Reich committed to one island: paratroops and gliders on the airfields at Maleme, Rethymno and Heraklion on the morning of 20 May, mountain troops to follow by air as soon as a field is held, and a sea convoy of caiques behind them if the Royal Navy can be kept away. The garrison is stronger than the planners believe, and British decrypts have told it where the blows will fall. What is decided here is how the corps' strength is weighed: how much into the paratroops who go in first, how much into the Luftwaffe that has to break the defence from the air, how much into the sea convoys, and how much into the mountain troops who are to land once a field is taken.",
+                categories: [
+                  { id: "paratroops", name: "The Paratroop Drop", meter: "manpower", glyph: "✦" },
+                  { id: "air", name: "Luftwaffe Support", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "sea", name: "The Sea Convoys", meter: "fuel", strand: "ship", glyph: "≋" },
+                  { id: "mountain", name: "Mountain Troops by Air-Landing", meter: "manpower", glyph: "▲▲" },
+                ],
+                effectiveness: { paratroops: 2.7, air: 2.2, sea: 1.6, mountain: 2 },
+                phases: ["The airdrop of 20 May", "Maleme and the sea convoys"],
+                conditions: "An island with only a few airfields and ports, where everything depends on holding one of them, and where the Royal Navy controls the sea around it.",
+                terrainModifiers: { sea: 0.8 },
+                terrainNotes: { sea: "the Royal Navy controls the sea around the island" },
+                attrition: [
+                  { category: "paratroops", atLeast: 3, meter: "manpower", delta: -1, reason: "Heavy casualties among the first-wave paratroopers" },
+                ],
+                categoryContext: {
+                  paratroops: "The paratroops and the glider troops go in first, onto three airfields held by a garrison that has been warned. Each commitment here puts more of them into the first morning's drop.",
+                  air: "The Luftwaffe has 280 bombers, 150 dive-bombers and 180 fighters to break the defence and keep the Royal Navy off. Each commitment here puts more of it over the drop zones and the sea lanes.",
+                  sea: "A flotilla of caiques with Italian escorts is to carry the heavy equipment, and every ship in it can be sunk by the Royal Navy. Each commitment here makes the crossing stronger and better covered.",
+                  mountain: "The 5th Mountain Division is to land on an airfield as soon as one is held. Each commitment here puts more of it ready to fly in when the field is taken.",
+                },
+                flashups: {
+                  paratroops: [
+                    "A stick of paratroopers drops onto an olive grove full of New Zealanders.",
+                    "A glider lands on the edge of the airfield under fire.",
+                    "A company of the Assault Regiment fights its way across the dry riverbed at Maleme.",
+                    "A group of paratroopers digs in on the edge of a field and waits for a relief that does not come.",
+                    "A platoon takes a house on the road and holds it until dark.",
+                  ],
+                  air: [
+                    "Stukas dive on the defenders' positions along the coast road.",
+                    "Bombers attack the ships off the north coast.",
+                    "A fighter group strafes the drop zone as the paratroopers land.",
+                    "Dive bombers go after a cruiser steaming north in the afternoon.",
+                    "The bombers return to Greece to refuel for another wave.",
+                  ],
+                  sea: [
+                    "A flotilla of caiques leaves for Crete with a single torpedo boat as escort.",
+                    "A convoy turns back in the night when warships appear on the horizon.",
+                    "A caique loaded with mountain troops is sunk by a cruiser's guns.",
+                    "Italian torpedo boats lay smoke between the convoy and the cruisers.",
+                    "The convoy's remaining boats creep toward the coast under the cover of darkness.",
+                  ],
+                  mountain: [
+                    "Transports queue to land on the captured end of the airfield.",
+                    "A mountain battalion comes in under fire and fights its way off the field.",
+                    "The first of the mountain troops lands among the wrecks of the Ju 52s.",
+                    "A company of mountain troops moves inland along the hills.",
+                    "A mountain regiment is flown in as soon as the runway is clear.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0800",
+                  contact: "0830",
+                  cats: ["1000", "1215", "1630", "1730"],
+                  contact2: "2000",
+                  reserve: "2100",
+                  counter: "0600",
+                },
+                idleLines: {
+                  paratroops: [
+                    "The paratroops are not dropped on the three airfields. The defenders are left alone.",
+                    "No assault goes in on the first morning, and the island has time to prepare.",
+                  ],
+                  air: [
+                    "The Luftwaffe does not fly over the drop zones or the sea. The garrison moves freely.",
+                    "No bomber is committed to the defence, and the guns on the hills are untouched.",
+                  ],
+                  sea: [
+                    "No convoy sails. The heavy equipment stays on the mainland.",
+                    "The caiques stay in port, and nothing goes by sea.",
+                  ],
+                  mountain: [
+                    "The mountain troops wait on the mainland airfields. There is no one to reinforce.",
+                    "No air-landing is planned, and the mountain division stays in Greece.",
+                  ],
+                },
+                verdicts: ["Crete Falls to the Airborne", "The Assault Fails"],
+                verdictGrades: {
+                  clean: "The paratroops, the Luftwaffe, the convoy and the mountain troops worked together, and a field was held in time.",
+                  costly: "Crete falls, but the airborne arm spent far more than it could afford to take it.",
+                  marginal: "A foothold is held on the airfield, but by the narrowest of margins, and at a price the corps will not forget.",
+                  total: "The assault breaks up on the drop zones and the sea, with nothing held at nightfall.",
+                },
+                counterattack: {
+                  category: "paratroops",
+                  severity: { navyHunts: 2, malemeGap: 1, largerGarrison: 1, asBriefed: 1 },
+                  warn: {
+                    "1": "The defenders are counterattacking toward the edge of the airfield.",
+                    "2": "A strong counterattack is going in on the airfield, and the paratroopers there are short of ammunition.",
+                  },
+                  results: {
+                    repulsed: "The counterattack is beaten off, and the mountain troops go on landing.",
+                    heldAtCost: "The paratroopers hold the edge of the airfield, but the units that held it are almost gone.",
+                    broke: "The defenders break into the airfield, and the landings stop under fire.",
+                    gaveGround: "The paratroopers give up the edge of the airfield and fall back on the hill.",
+                  },
+                },
+                orderOfBattle: {
+                  paratroops: {
+                    units: [
+                      "The 7th Flieger Division",
+                      "Group West (Comet) under Meindl at Maleme, Group Centre (Mars) under Süssmann, and Group East (Orion) under Bräuer at Heraklion",
+                    ],
+                    real: "A company of III Battalion, 1st Assault Regiment lost 112 killed out of 126 men, and 400 of the 600 men in III Battalion were killed on the first day. No objective was secure by nightfall on 20 May.",
+                  },
+                  air: {
+                    units: ["VIII Fliegerkorps (Richthofen)", "About 280 bombers, 150 dive-bombers and 180 fighters"],
+                    real: "The Luftwaffe lost 284 aircraft in the battle, and its aircraft sank the cruisers Gloucester and Fiji and the destroyers Greyhound, Kelly and Kashmir.",
+                  },
+                  sea: {
+                    units: [
+                      "Two flotillas of about twenty caiques each, escorted by the Italian torpedo boats Lupo and Sagittario",
+                      "Opposed by Force D (Glennie) and Force C (King) of the Royal Navy",
+                    ],
+                    real: "On the night of 21/22 May Force D destroyed most of the first convoy. About 2,000 Germans were lost and only about 113 reached Crete.",
+                  },
+                  mountain: {
+                    units: [
+                      "The 5th Mountain Division (Ringel), brought in by air and sea",
+                      "Air-landed once the airfield at Maleme was in German hands",
+                    ],
+                    real: "On the night of 20/21 May the 22nd New Zealand Battalion withdrew from Hill 107 after a misunderstanding, leaving Maleme airfield open to German reinforcement.",
+                  },
+                },
+                hardRule: { text: "The Führer's directive fixes the plan: the assault goes in on all three objectives as laid down.", lockApproach: "spreadThree" },
+                decisions: [
+                  {
+                    id: "theWeightToMaleme",
+                    time: "2030",
+                    title: "Where the weight goes",
+                    prompt: "Night falls on 20 May with no objective secure. The paratroopers are scattered, the mountain troops have yet to land, and Maleme airfield is still under fire from the edge of the hill beside it. Student has to decide where the weight goes tomorrow.",
+                    options: [
+                      {
+                        id: "allToMaleme",
+                        name: "Put everything into Maleme and land the mountain troops on the airfield under fire",
+                        note: "The bold choice, and the one that depends on the hill being given up.",
+                        bonus: 0,
+                        bonusByPosture: { malemeGap: 5, navyHunts: 1 },
+                        reportLine: "Student orders everything to Maleme, and the transports are sent in under fire.",
+                      },
+                      {
+                        id: "holdThePlan",
+                        name: "Keep to the plan and reinforce all three drop zones",
+                        note: "A balanced effort, and a thin one everywhere.",
+                        bonus: 0,
+                        bonusByPosture: { malemeGap: -2, navyHunts: 1 },
+                        reportLine: "Student keeps to the plan, and each of the three drop zones is reinforced.",
+                      },
+                      {
+                        id: "airOnly",
+                        name: "Hold the sea convoys back and use only the air transports",
+                        note: "Costs Matériel, and keeps the convoys out of the navy's way.",
+                        bonus: 0,
+                        bonusByPosture: { navyHunts: 4 },
+                        meters: { fuel: -1 },
+                        costReason: "Extra sorties flown to replace the convoys",
+                        reportLine: "The convoys are held back, and the whole reinforcement is flown in.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(55, meters.initiative),
+                  title: "Crete falls to the airborne",
+                  setFlags: { crete41Result: "taken" },
+                  impact: { manpower: -1, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Crete fell in ten days — and the victory ended German large-scale airborne operations forever. The defenders, forewarned and far stronger than estimated, shot the first waves out of the sky and onto pre-registered drop zones; Maleme airfield was taken by a margin of one withdrawn hill. Fallschirmjäger casualties ran near a quarter of the force committed, and Hitler told Student the day of the paratrooper was over. The instrument won its greatest prize and was spent as a strategic weapon in the act — a fact a certain Mediterranean island question will remember next year.",
+                },
+                {
+                  weight: 100 - modWeight(55, meters.initiative),
+                  title: "The assault fails",
+                  setFlags: { crete41Result: "failed" },
+                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  outcome:
+                    "The minority projection, which the defenders were closer to than the legend admits: the airfield is never taken, the hill is held, and the second convoy goes down with the first. The mountain troops who were to land never do, and by the third day Mercury is called off, with the paratroopers' casualties spent for nothing. Student's corps survives, but as a warning and not as an instrument, and the airborne arm's reputation ends before the island does.",
+                },
+              ],
             },
             {
               label: "Pass on Crete — the Aegean flank can be watched, not owned",
@@ -2635,6 +2854,38 @@
                       flavor:
                         "Sixty miles from Alexandria and this is the ground that decides it: sea on one flank, the Qattara Depression on the other, no room to maneuver around the British line the way every earlier battle in this desert allowed. The plan is a night march south around the minefields, then a hard turn north behind the Alam Halfa ridge before the sun comes up and the Desert Air Force owns the sky over open ground. Every vehicle in this army is already running on requisitioned and captured fuel that isn't being replaced at the rate it's being burned — what's decided here is how much of what's left drives, how much walks, what the Luftwaffe can put over the column, and how much gets held back rather than spent finding the gap.",
                       effectiveness: { divisions: 2.0, armour: 2.4, air: 1.4, supply: 2.8 },
+                      orderOfBattle: {
+                        divisions: {
+                          units: [
+                            "The Italian infantry corps under Navarini, holding the line the panzers cleared",
+                            "The German 90th Light Division and the 164th Infantry Division",
+                          ],
+                          real: "The infantry's task was to hold the northern line while the mobile forces made the southern sweep.",
+                        },
+                        armour: {
+                          units: [
+                            "The Afrika Korps: 15th and 21st Panzer Divisions",
+                            "The Italian XX Motorised Corps: the Ariete and Littorio armoured divisions",
+                          ],
+                          real: "The minefields proved deep: General von Bismarck of 21st Panzer was killed and General Nehring wounded, and the axis forces turned north earlier than planned because of delays, heavy fuel consumption over bad going, and the fuel shortage.",
+                        },
+                        air: {
+                          units: [
+                            "Fliegerführer Afrika (Seidemann) and Italian air units",
+                            "Against the Desert Air Force, which bombed the columns by day and by night",
+                          ],
+                          real: "Albacores and Wellingtons bombed the columns through the night of 31 August and 1 September.",
+                        },
+                        supply: {
+                          units: [
+                            "The tankers the Italian navy promised for the offensive",
+                            "Fuel captured and requisitioned in the desert",
+                          ],
+                          real: "More than half of the supply ships sank, and only 1,500 tons of fuel arrived of the 6,000 requested.",
+                        },
+                      },
+                      // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                      hardRule: { text: "Rome and OKW have promised fuel for one push only, so the fast approach is ordered.", lockApproach: "raceTheDawn" },
                       // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Alam el Halfa): the minefields proved deep, the
                       // axis forces turned north earlier than planned because of delays, heavy consumption over bad
                       // going and fuel, 22nd Armoured Brigade (Grants and light tanks) was dug in on the ridge, and the
@@ -2652,7 +2903,7 @@
                           options: [
                             {
                               id: "turnNow",
-                              label: "Turn north at once, toward the Alam Halfa ridge",
+                              name: "Turn north at once, toward the Alam Halfa ridge",
                               note: "Save fuel and time, and meet whatever is on the ridge.",
                               bonus: 0,
                               bonusByPosture: {deepMinefields: 3, hullDownLine: -4},
@@ -2660,7 +2911,7 @@
                             },
                             {
                               id: "sweepWide",
-                              label: "Continue the wide sweep to the east before turning",
+                              name: "Continue the wide sweep to the east before turning",
                               note: "As planned, and with fuel that is running short.",
                               bonus: 0,
                               bonusByPosture: {hullDownLine: 3, deepMinefields: -4, airSuperiority: -2},
@@ -2668,7 +2919,7 @@
                             },
                             {
                               id: "haltForFuel",
-                              label: "Halt, and call for fuel and fighters",
+                              name: "Halt, and call for fuel and fighters",
                               note: "Costs Matériel, and gives the British time.",
                               bonus: 0,
                               bonusByPosture: {airSuperiority: 3, hullDownLine: 1},
@@ -2857,6 +3108,37 @@
                       flavor:
                         "The ring has closed, but it hasn't set. Staff estimates of the trapped strength still range from 200,000 to well over that, the same uncertainty the airlift planners are about to build their own numbers on — but for a breakout ordered now, in these first days, the harder number is fuel: whatever isn't already inside the pocket isn't coming, and every kilometer west spends it. What's decided here is how the army moves while it still can — how much of the panzer reserve leads the way west, how much of the infantry mass comes with it, what the Luftwaffe can fly in over the column, and how much fuel and ammunition gets carried forward instead of destroyed in place before the retreat starts.",
                       effectiveness: { divisions: 2.0, armour: 2.2, air: 1.6, supply: 3.0 },
+                      orderOfBattle: {
+                        divisions: {
+                          units: [
+                            "LI Corps (Seydlitz-Kurzbach): three infantry divisions",
+                            "The rest of Sixth Army's infantry inside the pocket, 200,000 men or more by the staff's estimate",
+                          ],
+                          real: "Seydlitz was among the generals who argued for a breakout. No breakout was ordered: Hitler refused, and the army stayed in the pocket.",
+                        },
+                        armour: {
+                          units: [
+                            "XIV Panzer Corps (Hube): the panzer strength that survived Uranus inside the pocket",
+                          ],
+                          real: "The pocket's tanks had fuel for only a short march, which was at the heart of the case against attempting a breakout.",
+                        },
+                        air: {
+                          units: [
+                            "VIII Fliegerkorps (Fiebig)",
+                            "The transport groups of the airlift",
+                          ],
+                          real: "The airlift never delivered what the Luftwaffe had promised the pocket.",
+                        },
+                        supply: {
+                          units: [
+                            "The fuel and ammunition inside the pocket, with nothing more coming in",
+                            "Depots to be stripped or destroyed before a march",
+                          ],
+                          real: "The pocket's supplies were spent in place, and the airlift fell far short of what the army needed.",
+                        },
+                      },
+                      // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                      hardRule: { text: "Hitler's order is that the army holds what it holds: no ground is to be given on the march.", noGiveGround: true },
                       // Round 22. Deep winter on the open steppe. Field decision about the equipment the column cannot
                       // carry and still move; the payoffs against each Soviet posture are modeled.
                       conditions: "Deep winter on the open steppe: snow, hard frost and short days, with fuel enough for only a short march.",
@@ -2871,7 +3153,7 @@
                           options: [
                             {
                               id: "marchLight",
-                              label: "Destroy the heavy equipment and march light",
+                              name: "Destroy the heavy equipment and march light",
                               note: "A faster column, and an army without its guns.",
                               bonus: 0,
                               bonusByPosture: {deepWinter: 4, ringHardening: 1, softSpot: -1},
@@ -2881,7 +3163,7 @@
                             },
                             {
                               id: "carryGuns",
-                              label: "Carry the heavy guns, and move at their pace",
+                              name: "Carry the heavy guns, and move at their pace",
                               note: "Slow, and able to fight its way through a hard ring.",
                               bonus: 1,
                               bonusByPosture: {ringHardening: 3, deepWinter: -3, softSpot: 1},
@@ -2889,7 +3171,7 @@
                             },
                             {
                               id: "tanksAhead",
-                              label: "Send the tanks ahead to hold the gap open",
+                              name: "Send the tanks ahead to hold the gap open",
                               note: "Fast, if there is a gap, and a column without its screen if there is not.",
                               bonus: 0,
                               bonusByPosture: {softSpot: 4, ringHardening: -3, deepWinter: -2},
@@ -3333,6 +3615,38 @@
                 flavor:
                   "Early May, and the rasputitsa has only just loosened its grip. Weeks of thaw have turned this region's black chernozem into the kind of mud that swallows road wheels and tank treads alike — tanks are never at their best in the gap between winter's hard ground and summer's dry earth, and this order asks the panzer arm to move through exactly that gap. Before it goes out, the staff wants to know where the weight actually falls against ground and enemy both: which divisions lead, how much of the armored reserve commits while the mud still has a say in it, what the Luftwaffe can put over the breach point, and how much ammunition and engineering effort is set aside just to open a path through what's ahead.",
                 effectiveness: { divisions: 1.8, armour: 3, air: 2.2, supply: 2.6 },
+                orderOfBattle: {
+                  divisions: {
+                    units: [
+                      "Army Detachment Kempf: III Panzer Corps with two infantry corps, XI and XLII, six infantry divisions in all",
+                      "The infantry corps of 4th Panzer Army behind the panzers",
+                    ],
+                    real: "Kempf's III Panzer Corps crossed the Northern Donets to protect 4th Panzer Army's eastern flank.",
+                  },
+                  armour: {
+                    units: [
+                      "4th Panzer Army (Hoth), the main armoured spearhead, with roughly 700 tanks committed",
+                      "Panzerkeil formations: Tigers forward, Panzer IIIs, IVs and assault guns fanning to the flanks and rear",
+                    ],
+                    real: "Hoth had discussed with Manstein, since early May, turning toward Prokhorovka, because he expected large Soviet armoured reserves from the east.",
+                  },
+                  air: {
+                    units: [
+                      "Luftflotte 4, under Richthofen until later in 1943",
+                      "The Hs 129 tank-busters of Schlachtgeschwader 1",
+                    ],
+                    real: "Three Soviet air armies, the 2nd, 16th and 17th, were committed, the 2nd and 17th on the southern face, and the Hs 129s inflicted heavy losses on Soviet tanks.",
+                  },
+                  supply: {
+                    units: [
+                      "Army engineers clearing mine lanes ahead of the assault, the only documented night activity, on 4/5 July",
+                      "The railheads and the mud-bound roads behind the salient",
+                    ],
+                    real: "The Soviet belts were built around anti-tank ditches and gun emplacements, the Pakfront of mutually covering anti-tank groups, so the engineers' lanes led into prepared defences.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Hitler insists on a Panzer-led attack with the new Tigers and Panthers in front.", lockApproach: "spearhead" },
                 // Round 22. Conditions (the mud is already a terrainModifier below). Field decision: the turn
                 // toward Prokhorovka, which Hoth had discussed with Manstein since early May (Wikipedia, Battle of
                 // Prokhorovka, as noted on the commander roster). The payoff against each Soviet posture is modeled.
@@ -3346,7 +3660,7 @@
                     options: [
                       {
                         id: "turnEast",
-                        label: "Turn the SS panzer corps east toward Prokhorovka",
+                        name: "Turn the SS panzer corps east toward Prokhorovka",
                         note: "Meet the Soviet armour in open ground, away from the strongest belts.",
                         bonus: 0,
                         bonusByPosture: {antiTankFirst: 3, reservesDeep: -3, airForward: 0},
@@ -3354,7 +3668,7 @@
                       },
                       {
                         id: "pressNorth",
-                        label: "Keep pressing north on the original axis, through the belts",
+                        name: "Keep pressing north on the original axis, through the belts",
                         note: "The plan as written, and the link with the northern pincer.",
                         bonus: 0,
                         bonusByPosture: {reservesDeep: 4, antiTankFirst: -4, airForward: -1},
@@ -3362,7 +3676,7 @@
                       },
                       {
                         id: "haltForAir",
-                        label: "Halt for a day to bring the flak and the fighters forward",
+                        name: "Halt for a day to bring the flak and the fighters forward",
                         note: "Costs Matériel, and the Soviet reserves get a day.",
                         bonus: 0,
                         bonusByPosture: {airForward: 4, antiTankFirst: 1},
