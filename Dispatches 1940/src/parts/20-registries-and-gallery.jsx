@@ -342,6 +342,12 @@ const NODE_ATLAS = {
     { id: "romeLiberation44", date: "JUNE 1944", title: "Rome, Open and Then Free" },
     { id: "gothicLine44", date: "AUGUST – DECEMBER 1944", title: "The Gothic Line" },
     { id: "coBelligerentEnding45", date: "APRIL – MAY 1945", title: "The War's End, From the South" },
+    { id: "monteLungo43", date: "DECEMBER 1943", title: "The First Italian Attack" },
+    { id: "adriaticRoad44", date: "JUNE – JULY 1944", title: "The Adriatic Road" },
+    { id: "combatGroups44", date: "SEPTEMBER – NOVEMBER 1944", title: "Six Groups, and Everyone Else" },
+    { id: "partisanWinter44", date: "NOVEMBER – DECEMBER 1944", title: "The Stand-Down" },
+    { id: "groupsCommand45", date: "JANUARY – MARCH 1945", title: "Who Commands the Groups" },
+    { id: "springOffensive45", date: "APRIL 1945", title: "The Last Offensive" },
     { id: "saloRepublic43", date: "SEPTEMBER – OCTOBER 1943", title: "Founding the Republic" },
     { id: "civilWarPartisans44", date: "1944", title: "The War Behind the Front" },
     { id: "gothicLineRSI44", date: "AUGUST – DECEMBER 1944", title: "The Republic's Front" },
@@ -539,6 +545,10 @@ const ENDINGS_GALLERY = [
   // "Twenty Months at Salò" and "Two Italies, One File" were both deleted here, Round 19 —
   // positionLabel's own comments (next to the checks that replaced them) trace exactly why each
   // was permanently unreachable rather than merely rare.
+  { campaign: "COMANDO SUPREMO", label: "A Corps With Its Own Flag", hint: "The Combat Groups under one Italian headquarters, and the last offensive won.", tier: "Contested Outcome" },
+  { campaign: "COMANDO SUPREMO", label: "Eight Groups Where Six Were Offered", hint: "A larger combat army, on a lighter scale, led in the spring.", tier: "Contested Outcome" },
+  { campaign: "COMANDO SUPREMO", label: "The Winter Nobody Stood Down", hint: "The partisans kept supplied, against the proclamation.", tier: "Contested Outcome" },
+  { campaign: "COMANDO SUPREMO", label: "The Price of Leading", hint: "The last offensive's assault roles, asked for and paid for in full.", tier: "Minor Defeat" },
   { campaign: "COMANDO SUPREMO", label: "A Record Argued For, Not Assumed", hint: "The Co-Belligerent Army's case, pressed at the peace table.", tier: "Minor Defeat" },
   { campaign: "COMANDO SUPREMO", label: "The Line Held on Its Own Front", hint: "The Gothic Line, fully committed to.", tier: "Minor Defeat" },
   { campaign: "COMANDO SUPREMO", label: "The Co-Belligerent's Uncertain Honor", hint: "The historical ending — a junior partner's war, quietly closed.", tier: "Minor Defeat" },
