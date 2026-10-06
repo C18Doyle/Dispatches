@@ -130,7 +130,13 @@ vm.createContext(sandbox);
 // top-level `const`/`let` create lexical bindings the host side can't see. The extracted source
 // uses `const` throughout (it's a straight slice of real App.jsx), so it's rewritten to `var`
 // here, only for this sandboxed copy — never touches the actual file.
-const evalSource = [catBlock, commBlock, `const KEY_BATTLE_COMMANDER_BONUS = ${commBonusMatch[1]};`, appBlock, postureBlock, mathBlock]
+// Round 22: the field-decision effect function, taken from source like the rest.
+const decisionFn = extractFunction(src, "battleDecisionEffect");
+// Round 23: the shared arm-weight arithmetic, the staff plan and the strand multipliers.
+const staffFns = ["battleArmWeight", "allBattleAllocations", "battleScenarios", "staffPlanFor", "staffDecisionOption"].map((n) => extractFunction(src, n));
+const strandMultBlock = extractFromMarker(src, "const STRAND_BAND_MULT = {", "{", "}") + ";";
+const hardModeBlock = extractFromMarker(src, "const HARD_MODE_NAMES = {", "{", "}") + ";";
+const evalSource = [catBlock, commBlock, `const KEY_BATTLE_COMMANDER_BONUS = ${commBonusMatch[1]};`, appBlock, postureBlock, mathBlock, decisionFn, ...staffFns, strandMultBlock, hardModeBlock]
   .join("\n\n")
   .replace(/\bconst\b/g, "var");
 vm.runInContext(evalSource, sandbox);
@@ -165,7 +171,23 @@ function extractBattleConfig(id) {
       if (terrainMatch) {
         terrainModifiers = vm.runInContext(`(${terrainMatch[0].replace(/^terrainModifiers:\s*/, "")})`, sandbox);
       }
-      return { id, effectiveness, categories, terrainModifiers };
+      // Round 22: phases (two postures averaged) and field decisions, both optional.
+      let phases = null;
+      const phasesMatch = block.match(/phases:s*[[^]]*]/);
+      if (phasesMatch) phases = vm.runInContext(`(${phasesMatch[0].replace(/^phases:s*/, "")})`, sandbox);
+      let decisions = [];
+      const decIdx = block.indexOf("decisions: [");
+      if (decIdx !== -1) {
+        const decSrc = extractBalanced(block, decIdx + "decisions: ".length, "[", "]");
+        decisions = vm.runInContext(`(${decSrc})`, sandbox);
+      }
+      let orderOfBattle = null;
+      const oobIdx = block.indexOf("orderOfBattle: {");
+      if (oobIdx !== -1) orderOfBattle = vm.runInContext(`(${extractBalanced(block, oobIdx + "orderOfBattle: ".length, "{", "}")})`, sandbox);
+      let hardRule = null;
+      const hrIdx = block.indexOf("hardRule: {");
+      if (hrIdx !== -1) hardRule = vm.runInContext(`(${extractBalanced(block, hrIdx + "hardRule: ".length, "{", "}")})`, sandbox);
+      return { id, effectiveness, categories, terrainModifiers, phases, decisions, orderOfBattle, hardRule };
     }
   }
   throw new Error(`keyBattleSubgame with id "${id}" not found`);
@@ -186,7 +208,51 @@ const battles = [
   extractBattleConfig("moscow41"),
   extractBattleConfig("britainDay40"),
   extractBattleConfig("alps40"),
+  extractBattleConfig("uranus"),
+  extractBattleConfig("dynamo40"),
+  extractBattleConfig("epirus40"),
+  extractBattleConfig("crete41"),
+  extractBattleConfig("bastogne44"),
+  extractBattleConfig("matapan41"),
 ];
+
+// Round 23: a Matériel strand can read Short, Strained, Adequate or Plentiful, which scales an arm that
+// draws on it (STRAND_BAND_MULT). The invariants below must hold whatever the readings, so each battle
+// is run as itself and under three profiles: every strand-fed arm Short, every one Plentiful, and
+// alternating. A profile is a variant of the battle with the multiplier folded into its ground.
+const PROFILES = [
+  { tag: "", mult: () => 1 },
+  { tag: "allShort", mult: (c) => (c.strand ? sandbox.STRAND_BAND_MULT.Short : 1) },
+  { tag: "allPlentiful", mult: (c) => (c.strand ? sandbox.STRAND_BAND_MULT.Plentiful : 1) },
+  { tag: "mixed", mult: (c, i) => (c.strand ? (i % 2 ? sandbox.STRAND_BAND_MULT.Short : sandbox.STRAND_BAND_MULT.Plentiful) : 1) },
+];
+const variants = [];
+for (const b of battles) {
+  for (const prof of PROFILES) {
+    variants.push({
+      ...b,
+      baseId: b.id,
+      id: prof.tag ? `${b.id}[${prof.tag}]` : b.id,
+      profileTag: prof.tag,
+      terrainModifiers: Object.fromEntries(b.categories.map((c, i) => [c.id, (b.terrainModifiers?.[c.id] ?? 1) * prof.mult(c, i)])),
+    });
+  }
+}
+
+// Round 22: a battle fought in phases is weighed against the AVERAGE of its two postures, so the
+// invariants below are run over every ordered pair of distinct postures instead of single ones.
+function blendedPostures(roster, categories) {
+  const out = [];
+  for (const a of roster) {
+    for (const b of roster) {
+      if (a.id === b.id || a.only === 2 || b.only === 1) continue;
+      const modifiers = {};
+      for (const c of categories) modifiers[c.id] = ((a.modifiers?.[c.id] ?? 1) + (b.modifiers?.[c.id] ?? 1)) / 2;
+      out.push({ id: a.id + "+" + b.id, modifiers });
+    }
+  }
+  return out;
+}
 
 // ---- 3. Scenario runner ------------------------------------------------------------------------
 // No jitter (1.0) and no readiness variance in these checks — the invariants being tested are
@@ -298,19 +364,112 @@ function bestBlindCategory(battle) {
 }
 
 let failures = [];
+const staffReport = [];
 let checks = 0;
 
-for (const battle of battles) {
-  const commanderRoster = sandbox.KEY_BATTLE_COMMANDERS[battle.id] || [];
-  const approachRoster = sandbox.KEY_BATTLE_APPROACHES[battle.id] || [];
-  const postureRoster = sandbox.KEY_BATTLE_POSTURES[battle.id] || [null]; // null = no posture drawn
+for (const battle of variants) {
+  const commanderRoster = sandbox.KEY_BATTLE_COMMANDERS[battle.baseId] || [];
+  const approachRoster = sandbox.KEY_BATTLE_APPROACHES[battle.baseId] || [];
+  const singleRoster = sandbox.KEY_BATTLE_POSTURES[battle.baseId] || [null]; // null = no posture drawn
+  const postureRoster = battle.phases && singleRoster[0] ? blendedPostures(singleRoster, battle.categories) : singleRoster;
+
+  // Round 23: every arm needs an order-of-battle sheet; a hard-mode rule must name things that exist;
+  // and the staff plan must be sound but beatable by a player who reads the enemy.
+  if (!battle.profileTag) {
+    const who = battle.id;
+    checks++;
+    for (const c of battle.categories) {
+      const sheet = battle.orderOfBattle && battle.orderOfBattle[c.id];
+      if (!sheet || !Array.isArray(sheet.units) || sheet.units.length < 1 || !sheet.real) failures.push(`${who}: arm "${c.id}" has no order-of-battle sheet (units and what actually happened)`);
+      if (c.strand && !["oil", "ammo", "steel", "ship"].includes(c.strand)) failures.push(`${who}: arm "${c.id}" names an unknown strand "${c.strand}"`);
+    }
+    if (battle.orderOfBattle) for (const k of Object.keys(battle.orderOfBattle)) if (!battle.categories.some((c) => c.id === k)) failures.push(`${who}: order-of-battle sheet for unknown arm "${k}"`);
+    checks++;
+    const hr = battle.hardRule;
+    if (!hr || !hr.text) failures.push(`${who}: no hardRule (orders from above in the campaign's hard mode)`);
+    else {
+      if (hr.lockApproach && !approachRoster.some((a) => a.id === hr.lockApproach)) failures.push(`${who}: hardRule locks unknown approach "${hr.lockApproach}"`);
+      if (hr.lockCommander && !commanderRoster.some((c) => c.id === hr.lockCommander)) failures.push(`${who}: hardRule locks unknown commander "${hr.lockCommander}"`);
+      for (const id of hr.forbidCommanders || []) if (!commanderRoster.some((c) => c.id === id)) failures.push(`${who}: hardRule forbids unknown commander "${id}"`);
+      if (!(hr.lockApproach || hr.lockCommander || (hr.forbidCommanders || []).length || hr.noGiveGround)) failures.push(`${who}: hardRule does nothing`);
+      if ((hr.forbidCommanders || []).length >= commanderRoster.length && commanderRoster.length) failures.push(`${who}: hardRule forbids every commander`);
+    }
+    // The staff plan: expected bonus across the enemy's possible setups, against what a player who knew
+    // the setup could reach, and against a careless pile of effort.
+    const realPostures = singleRoster.filter(Boolean);
+    const scenarios = sandbox.battleScenarios(battle, realPostures);
+    const blend = (sc) => {
+      if (!sc.posture) return null;
+      if (!sc.posture2) return sc.posture;
+      const modifiers = {};
+      for (const c of battle.categories) modifiers[c.id] = ((sc.posture.modifiers?.[c.id] ?? 1) + (sc.posture2.modifiers?.[c.id] ?? 1)) / 2;
+      return { id: sc.posture.id + "+" + sc.posture2.id, modifiers };
+    };
+    const totalW = scenarios.reduce((a, sc) => a + sc.weight, 0);
+    let staffSum = 0, informedSum = 0, naiveSum = 0, n = 0;
+    for (let poolSize = 5; poolSize <= 8; poolSize++) {
+      checks++;
+      const plan = sandbox.staffPlanFor({ config: battle, categories: battle.categories, poolSize, strandMults: {}, commanders: commanderRoster, approaches: approachRoster, postures: realPostures });
+      if (!plan) { failures.push(`${who}: staff plan came back empty at pool=${poolSize}`); continue; }
+      let informed = 0, naive = 0;
+      for (const sc of scenarios) {
+        const post = blend(sc);
+        let top = -Infinity;
+        for (const c of [null, ...commanderRoster]) for (const a of approachRoster.length ? approachRoster : [null]) top = Math.max(top, sandbox.clampBattleBonus(bestAllocationRaw(battle, c, a, post, poolSize)));
+        informed += (sc.weight / totalW) * top;
+        naive += (sc.weight / totalW) * scoreAllocation(battle, fullConcentration(battle, bestBlindCategory(battle), poolSize), null, null, post, poolSize);
+      }
+      staffSum += plan.expected; informedSum += informed; naiveSum += naive; n++;
+      if (plan.expected < naive) failures.push(`${who} / pool=${poolSize}: the staff plan (${plan.expected.toFixed(1)}) is worse than a careless pile of effort (${naive.toFixed(1)})`);
+      if (informed - plan.expected < 2) failures.push(`${who} / pool=${poolSize}: a player who knows the enemy gains under 2 points over the staff plan (${informed.toFixed(1)} against ${plan.expected.toFixed(1)}), so reading the enemy is not worth it`);
+    }
+    if (n) staffReport.push(`  ${battle.id.padEnd(20)} careless ${(naiveSum / n).toFixed(1).padStart(5)}  staff ${(staffSum / n).toFixed(1).padStart(5)}  informed ${(informedSum / n).toFixed(1).padStart(5)}`);
+  }
+
+  // Round 22: field decisions must be well formed and worth reading the enemy for: no single option
+  // may be the best under every posture, because then the intelligence would not matter to it.
+  if (battle.decisions.length && !battle.profileTag) {
+    const seenIds = new Set();
+    for (const d of battle.decisions) {
+      checks++;
+      const where = `${battle.id} / decision ${d.id}`;
+      if (seenIds.has(d.id)) failures.push(`${where}: duplicate decision id`);
+      seenIds.add(d.id);
+      if (!Array.isArray(d.options) || d.options.length < 2 || d.options.length > 3) failures.push(`${where}: needs 2 or 3 options`);
+      const postureIds = new Set(singleRoster.filter(Boolean).map((p) => p.id));
+      for (const o of d.options || []) {
+        if (!o.id || !o.name || !o.reportLine) failures.push(`${where}: option ${o.id || "?"} needs id, label and reportLine`);
+        if (Math.abs(o.bonus || 0) > 6) failures.push(`${where}/${o.id}: bonus above 6`);
+        for (const [pid, v] of Object.entries(o.bonusByPosture || {})) {
+          if (!postureIds.has(pid)) failures.push(`${where}/${o.id}: unknown posture "${pid}"`);
+          if (Math.abs(v) > 6) failures.push(`${where}/${o.id}: bonusByPosture above 6 for ${pid}`);
+        }
+        const costSum = Object.values(o.meters || {}).reduce((a, v) => a + v, 0);
+        if (costSum < -2) failures.push(`${where}/${o.id}: meter cost beyond -2`);
+        if (Math.abs(o.severity || 0) > 1) failures.push(`${where}/${o.id}: severity change beyond 1`);
+      }
+      const bestSet = new Set();
+      for (const p of singleRoster.filter(Boolean)) {
+        const scores = d.options.map((o) => {
+          const e = sandbox.battleDecisionEffect(o, p.id);
+          return e.bonus + e.lines.reduce((a, l) => a + l.delta, 0) - 2 * e.severity;
+        });
+        const top = Math.max(...scores);
+        const winners = scores.map((v, i) => (v === top ? i : -1)).filter((i) => i >= 0);
+        if (winners.length === 1) bestSet.add(winners[0]);
+      }
+      if (singleRoster[0] && bestSet.size < 2) failures.push(`${where}: one option (or a tie) is best under every posture, so the intelligence does not matter to it`);
+    }
+  }
 
   // Invariant: which category is the best single-category plan differs across postures — this
   // is round 9's whole point (a fixed "always concentrate here" plan should NOT be optimal under
   // every posture). Pool-size-independent, so checked once per battle, not per pool size.
   const informedCatsByPosture = new Set(postureRoster.map((p) => bestInformedCategory(battle, commanderRoster, approachRoster, p)));
   checks++;
-  if (postureRoster.length > 1 && informedCatsByPosture.size < 2) {
+  // Round 23: under an extreme strand profile an arm can be so crippled that the enemy's setup stops mattering to
+  // the best single plan; that is only required of the battle as it stands.
+  if (!battle.profileTag && postureRoster.length > 1 && informedCatsByPosture.size < 2) {
     failures.push(`${battle.id}: the best single-category plan is the same (${[...informedCatsByPosture][0]}) under every posture — posture isn't changing the optimal plan`);
   }
 
@@ -345,7 +504,10 @@ for (const battle of battles) {
       // math differs by a fraction of a point (Round 16 — anzio44/windowStillOpen/pool=8 ties this
       // way: synergized 40.22 vs. hedge 30.29 raw, both clamp to the same +30 ceiling; a strict
       // "<" flagged that as a failure even though no player ever sees a different outcome).
-      if (!(hedge <= synergized)) {
+      // Round 23: a strand profile is a known condition like the ground, and moves two plans a point either
+      // way by rounding alone; one point of tolerance there, none for the battle as it stands.
+      const tol = battle.profileTag ? 1 : 0;
+      if (!(hedge <= synergized + tol)) {
         failures.push(`${tag}: one-chit hedge (${hedge}) beats synergized full concentration (${synergized}) — hedge should not come out ahead`);
       }
       checks++;
@@ -357,7 +519,7 @@ for (const battle of battles) {
       // category, on the same clamped/displayed basis (and for the same reason) as the hedge
       // check above — ties permitted, an actual displayed win is not.
       const bestClamped = sandbox.clampBattleBonus(bestAllocationRaw(battle, commander, approach, posture, poolSize));
-      if (bestClamped > synergized) {
+      if (bestClamped > synergized + tol) {
         failures.push(`${tag}: some allocation (clamped ${bestClamped}) beats honest full concentration (${synergized}) — a spread hedge is still winning`);
       }
     }
@@ -365,6 +527,8 @@ for (const battle of battles) {
 }
 
 console.log(`battles checked: ${battles.map((b) => b.id).join(", ")}`);
+console.log("average bonus on the roll, in points (careless / staff plan / informed player):");
+for (const l of staffReport) console.log(l);
 console.log(`scenario checks run: ${checks}`);
 if (failures.length) {
   console.log(`\n!! ${failures.length} balance invariant failure(s):`);

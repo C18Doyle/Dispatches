@@ -70,8 +70,193 @@
               setFlags: { dunkirk40: "full" },
               impact: { manpower: 2, fuel: -1, initiative: 0 },
               next: "halifaxCrisis40",
-              outcome:
-                "Operation Dynamo lifts over 338,000 men off the beaches and mole in nine days — British and French alike — using everything from destroyers to requisitioned civilian pleasure boats, under sustained Luftwaffe attack the whole time. Almost none of the heavy equipment survives; the BEF that reaches England is an army with no tanks and precious little artillery. It is, by any strict military accounting, a catastrophe. Britain treats it as something closer to a founding myth, and has ever since.",
+              keyBattleSubgame: {
+                id: "dynamo40",
+                title: "Order of Battle — Operation Dynamo",
+                flavor: "The perimeter is held along the canals seven miles from the sea, and behind it the only way home is by water. Admiral Ramsay is running the lift from Dover Castle with every ship he can find, Captain Tennant is loading men from the east mole as fast as destroyers can come alongside, and hundreds of small boats are ferrying men off the open beaches to the larger ships. Göring has promised that the Luftwaffe will finish the pocket, and Park's 11 Group has to meet it from airfields across the Channel. What is decided here is where the weight goes: how much to the destroyers and the mole, how much to the small craft and the beaches, how much to the fighter cover, and how much to the perimeter and the rearguard that hold the door open.",
+                categories: [
+                  { id: "navy", name: "Destroyers & the Mole", meter: "fuel", strand: "oil", glyph: "≋" },
+                  { id: "smallCraft", name: "Small Craft & the Beaches", meter: "manpower", strand: "ship", glyph: "▲" },
+                  { id: "air", name: "Fighter Cover", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "perimeter", name: "The Perimeter & Rearguard", meter: "manpower", glyph: "◆◆◆" },
+                ],
+                effectiveness: { navy: 2.6, smallCraft: 2.2, air: 2, perimeter: 2.4 },
+                conditions: "Low cloud and smoke from the fires spoil the German bombers' aim, and the sea is calm, which helps the small boats. The beaches are wide and shallow, and the large ships cannot come close to them.",
+                terrainModifiers: { smallCraft: 1.1 },
+                terrainNotes: { smallCraft: "calm seas and a wide, shallow beach" },
+                counterScale: 1.5,
+                categoryContext: {
+                  navy: "The destroyers and larger ships can lift thousands of men at a time from the east mole, but each one that comes alongside is a target for the Luftwaffe. Each commitment here sends more of them in and keeps the mole working.",
+                  smallCraft: "Hundreds of small boats, many of them civilian, can work the open beaches where the big ships cannot, carrying men out to the ships waiting offshore. Each commitment here puts more of them to the beaches.",
+                  air: "Park's squadrons fly from southern England and cannot stay long over Dunkirk. Each commitment here keeps more fighters over the beaches and the ships at the hours the Luftwaffe comes.",
+                  perimeter: "The rearguard holds the canals, and every hour it holds is an hour for the lift. Each commitment here puts more men, guns and anti-tank weapons onto the line.",
+                },
+                flashups: {
+                  navy: [
+                    "A destroyer comes alongside the east mole and loads until the deck is full.",
+                    "A passenger steamer slips out of the harbour under a pall of smoke.",
+                    "A minesweeper takes a load of troops from the mole and turns for Dover.",
+                    "A destroyer is hit by a dive bomber near the harbour mouth.",
+                    "Ramsay's staff at Dover send another group of ships across the Channel.",
+                  ],
+                  smallCraft: [
+                    "A fishing boat ferries a load of soldiers out from the beach.",
+                    "A line of men waits waist-deep in the sea for the next boat.",
+                    "A pleasure steamer lies off the beach, filling from a dozen small craft.",
+                    "A boat's crew makes its tenth trip between the beach and the ships.",
+                    "A beachmaster waves another boat in along the sand.",
+                  ],
+                  air: [
+                    "A squadron of Spitfires breaks up a formation of bombers over the beaches.",
+                    "Hurricanes patrol off the harbour for twenty minutes before they must go home.",
+                    "A flight attacks a dive-bomber formation as it begins its run.",
+                    "The beaches are quiet for an hour, and the men look at the sky.",
+                    "A fighter pilot is shot down and picked up by a small boat.",
+                  ],
+                  perimeter: [
+                    "A rearguard battalion holds a canal bridge until the order to fall back.",
+                    "A French division beats off an attack in the marshes south of the town.",
+                    "A company of anti-tank guns knocks out a German armoured car on the road.",
+                    "The line falls back to the next canal and holds again.",
+                    "A battery fires its last rounds before spiking its guns.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0430",
+                  contact: "0700",
+                  cats: ["0900", "1200", "1500", "1800"],
+                  reserve: "2100",
+                  counter: "2300",
+                },
+                idleLines: {
+                  navy: [
+                    "No more destroyers are sent. The mole sits idle between ships.",
+                    "The big ships stay at Dover, and the east mole is left to what is already there.",
+                  ],
+                  smallCraft: [
+                    "No small craft are sent to the beaches. Men wait on the sand for ships that cannot come in.",
+                    "The beaches are left to themselves, and the boats stay in their harbours.",
+                  ],
+                  air: [
+                    "No extra fighters are sent. The beaches have only the cover they had.",
+                    "The squadrons fly their routine patrols and leave the rest to luck.",
+                  ],
+                  perimeter: [
+                    "No more men are sent to the line. The perimeter holds with what it has.",
+                    "The rearguard is given no reinforcement, and the canals are held thinly.",
+                  ],
+                },
+                verdicts: ["The Army Is Brought Home", "The Lift Falls Short"],
+                verdictGrades: {
+                  clean: "Ships, small craft, fighters and rearguard all held together, and the lift ran at the pace the army needed.",
+                  costly: "The army is brought off, but every part of the lift spent more than it could afford.",
+                  marginal: "A large part of the army gets away, but too many are left behind on the beaches and in the perimeter.",
+                  total: "The lift runs far behind the pressure on the perimeter, and the pocket closes on men still waiting for ships.",
+                },
+                counterattack: {
+                  category: "perimeter",
+                  severity: { perimeterPressed: 2, luftwaffeStrikes: 1, panzersHalted: 1 },
+                  warn: {
+                    "1": "German infantry are probing the canal line at several places.",
+                    "2": "A heavy German attack is going in on the perimeter, and the rearguard is in danger of being overrun.",
+                  },
+                  results: {
+                    repulsed: "The attack on the perimeter is beaten off, and the lift goes on behind it.",
+                    heldAtCost: "The perimeter holds against the attack, but the units that held it are nearly spent.",
+                    broke: "The Germans break through the canal line, and the beaches are in range of their guns.",
+                    gaveGround: "The rearguard falls back to a shorter line, and the lift loses a day's ground.",
+                  },
+                },
+                orderOfBattle: {
+                  navy: {
+                    units: [
+                      "Admiral Bertram Ramsay's Dover Command, directing the lift from Dover Castle",
+                      "Destroyers, passenger ships and minesweepers working from the east mole",
+                    ],
+                    real: "Six British destroyers were sunk (Grafton, Grenade, Wakeful, Basilisk, Havant and Keith) and three French ones, and over 200 British and Allied vessels were lost in all.",
+                  },
+                  smallCraft: {
+                    units: [
+                      "Between 800 and 900 vessels in all, among them the small boats and civilian craft",
+                      "Captain William Tennant, the beachmaster at Dunkirk",
+                    ],
+                    real: "The small boats ferried men from the wide sand beaches out to the larger ships, and calm seas helped them.",
+                  },
+                  air: {
+                    units: [
+                      "No. 11 Group under Air Vice-Marshal Park",
+                      "Spitfire and Hurricane squadrons flying from southern England",
+                    ],
+                    real: "The RAF lost 145 aircraft and the Luftwaffe 156 over the nine days, and low cloud and smoke over the beaches hampered the German bombers.",
+                  },
+                  perimeter: {
+                    units: [
+                      "The rearguard under General Alexander",
+                      "A French rearguard of about 40,000 men from the 2nd Light Mechanised and 68th Infantry Divisions",
+                      "A perimeter about seven miles from the coast, along the canals",
+                    ],
+                    real: "The French First Army's stand at Lille tied down seven German divisions until 31 May.",
+                  },
+                },
+                hardRule: {
+                  text: "The French insist that the lift be shared fairly with their troops, which the east mole alone cannot carry: the beaches must be worked.",
+                  lockApproach: "workTheBeaches",
+                },
+                decisions: [
+                  {
+                    id: "daylightLift",
+                    time: "1330",
+                    title: "The daylight lift",
+                    prompt: "Destroyers have been lost since the lift began, and the Luftwaffe is at its worst by day. Ramsay can keep every ship working through the daylight, lift only at night, or throw the small craft in by day under fighter cover. Whatever he decides, every slow hour is an hour the perimeter has to be held.",
+                    options: [
+                      {
+                        id: "shipsByDay",
+                        name: "Keep every ship working through the day, air attacks or not",
+                        note: "The fastest lift, with the risk of losing the big ships.",
+                        bonus: 0,
+                        bonusByPosture: { panzersHalted: 3, perimeterPressed: 2, luftwaffeStrikes: -4 },
+                        reportLine: "Every ship keeps working through the daylight, under the bombers.",
+                      },
+                      {
+                        id: "nightOnly",
+                        name: "Lift only by night and keep the big ships out of the daylight",
+                        note: "Saves the ships, and the lift is slower.",
+                        bonus: 0,
+                        bonusByPosture: { luftwaffeStrikes: 4, panzersHalted: -2, perimeterPressed: -3 },
+                        reportLine: "The big ships are kept out of the daylight and the lift is made by night.",
+                      },
+                      {
+                        id: "smallCraftByDay",
+                        name: "Throw the small craft in by day, under the fighter cover",
+                        note: "Costs Manpower in boat crews, and the perimeter gets its lift.",
+                        bonus: 0,
+                        bonusByPosture: { perimeterPressed: 4 },
+                        meters: { manpower: -1 },
+                        costReason: "Boat crews lost in the daylight lift",
+                        reportLine: "The small craft run in to the beaches by day, under the fighters.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(70, meters.initiative),
+                  title: "The lift runs at the pace the army needs",
+                  setFlags: { dynamo40Result: "brought" },
+                  impact: { manpower: 2, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Operation Dynamo lifts over 338,000 men off the beaches and mole in nine days — British and French alike — using everything from destroyers to requisitioned civilian pleasure boats, under sustained Luftwaffe attack the whole time. Almost none of the heavy equipment survives; the BEF that reaches England is an army with no tanks and precious little artillery. It is, by any strict military accounting, a catastrophe. Britain treats it as something closer to a founding myth, and has ever since.",
+                },
+                {
+                  weight: 100 - modWeight(70, meters.initiative),
+                  title: "The lift falls short",
+                  setFlags: { dynamo40Result: "short" },
+                  impact: { manpower: -1, fuel: -1, initiative: 0 },
+                  outcome:
+                    "The minority projection, closer than the legend admits: the Luftwaffe sinks more of the big ships, the small craft cannot make up the gap, and the perimeter is pressed before the lift can finish. A good part of the army still gets away, but well short of the historical total, and the men left on the beaches and in the perimeter are the cost.",
+                },
+              ],
             },
             {
               label: "Prioritize the professional core — save the trained divisions first, accept a smaller total lift",
@@ -93,7 +278,10 @@
           title: "The War Cabinet Crisis",
           historicalRecord: true,
           situation:
-            "With the BEF still coming off the beaches and France's collapse only weeks away, the War Cabinet meets repeatedly over three days to argue about something that has never been put to the British public: whether to explore peace terms. Lord Halifax, the Foreign Secretary, argues that a approach through Mussolini — still nominally neutral — should at least be tested, while Britain still has an army and a fleet to negotiate with rather than nothing at all. Churchill, six days into the job as Prime Minister, argues the opposite: that any approach at all signals weakness Hitler will exploit, and that the only real choice is to fight on. Chamberlain's vote, still carrying real weight in the party, is the one neither man can predict.",
+            "With the BEF still coming off the beaches and France's collapse only weeks away, the War Cabinet meets repeatedly over three days to argue about something that has never been put to the British public: whether to explore peace terms. Lord Halifax, the Foreign Secretary, argues that a approach through Mussolini — still nominally neutral — should at least be tested, while Britain still has an army and a fleet to negotiate with rather than nothing at all. Churchill, six days into the job as Prime Minister, argues the opposite: that any approach at all signals weakness Hitler will exploit, and that the only real choice is to fight on. Chamberlain's vote, still carrying real weight in the party, is the one neither man can predict." +
+            (flags.dunkirk40 === "full"
+              ? (flags.dynamo40Result === "short" ? " The lift fell short of what the army needed, and the men left behind are counted in every report." : "") + keyBattleEcho("dynamo40", flags)
+              : ""),
           choices: [
             {
               label: "Reject any negotiation outright — Britain fights on, whatever the terms might have been",
@@ -179,8 +367,8 @@
                 categories: [
                   { id: "squadrons", name: "11 Group Squadrons", meter: "manpower", glyph: "✈✈" },
                   { id: "control", name: "Radar & Ground Control", meter: "initiative", glyph: "◎" },
-                  { id: "wing", name: "The Duxford Wing", meter: "fuel", glyph: "≋" },
-                  { id: "turnaround", name: "Rearm & Refuel Turnaround", meter: "fuel", glyph: "↻" },
+                  { id: "wing", name: "The Duxford Wing", meter: "fuel", strand: "oil", glyph: "≋" },
+                  { id: "turnaround", name: "Rearm & Refuel Turnaround", meter: "fuel", strand: "oil", glyph: "↻" },
                 ],
                 // Squadrons highest — Park's doctrine is that the squadrons themselves do the
                 // fighting; Control second — the plot is what lets a few squadrons do the work of
@@ -188,6 +376,85 @@
                 // the Duxford Wing was real and arrived, but a wing of five squadrons takes time
                 // to form and this doctrine does not wait for it.
                 effectiveness: { squadrons: 2.5, control: 2.3, wing: 1.7, turnaround: 1.9 },
+                orderOfBattle: {
+                  squadrons: {
+                    units: [
+                      "Nine of 11 Group's squadrons scrambled at about 11:15, among them Nos. 72 and 92 from Biggin Hill",
+                      "About 185 fighters in 19 squadrons ready for the afternoon battle",
+                    ],
+                    real: "Park committed every squadron he had. Asked by Churchill at about 14:35 what other reserves he had, he answered that there were none, though he meant none in 11 Group.",
+                  },
+                  control: {
+                    units: [
+                      "The Chain Home radar stations on the south-east coast",
+                      "The Royal Observer Corps posts and the filter room at Bentley Priory",
+                      "11 Group's operations room at Uxbridge and its sector controllers",
+                    ],
+                    real: "Radar saw the raids forming over France with about fifteen minutes' warning. Cloud between 2,000 and 12,000 feet hid the targets from the German crews.",
+                  },
+                  wing: {
+                    units: [
+                      "The Duxford Wing: 12 Group's Nos. 19, 242, 302, 310 and 611 Squadrons, 56 fighters on the morning of 15 September",
+                      "Led in the air by Squadron Leader Douglas Bader",
+                    ],
+                    real: "Park asked 12 Group for cover and the wing flew south. For weeks he had complained that 12 Group was too slow to cover his airfields.",
+                  },
+                  turnaround: {
+                    units: [
+                      "The ground crews and armourers of 11 Group's sector stations",
+                      "The fuel bowsers and ammunition lorries serving the dispersals",
+                    ],
+                    real: "The afternoon raid came about three hours after the morning one. 276 RAF fighters met 475 German aircraft, and across the day the RAF lost about 28 fighters against more than 40 German aircraft.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "The Air Ministry's staff, backing Leigh-Mallory, insists that 12 Group be called south early.", lockApproach: "callTheWing" },
+                // Round 22. Two raids with a pause between them are the day itself (Wikipedia, Battle of Britain
+                // Day: the morning raid at about 11:00, the afternoon raid about three hours later), so this is a
+                // battle in two phases, and a defensive one: the enemy's blow is the whole of it.
+                conditions: "Cloud lies across Kent and the Thames estuary between two thousand and twelve thousand feet, enough to hide the targets from the German crews, and the Observer Corps struggles in poor weather.",
+                phases: ["The morning raid", "The afternoon raid"],
+                counterScale: 1.5,
+                // Field decision, in the pause between the raids. Facts verified 2026-10-05 (Wikipedia, Battle of
+                // Britain Day; Keith Park): the afternoon wave crossed the coast at about 14:15, five squadrons of
+                // 12 Group's Duxford Wing came south, and Park "put up all his aircraft, leaving no reserve". The
+                // three answers are the real choices of the hour; their payoff against each raid is modeled.
+                decisions: [
+                  {
+                    id: "theSecondPlot",
+                    time: "1410",
+                    title: "The second plot",
+                    prompt: "The squadrons that met the first raid have landed and are being refuelled and rearmed. A bigger plot is building over the Channel, and every squadron Park has is either in the air or on the ground, with nothing in reserve. He has to decide how to meet it.",
+                    options: [
+                      {
+                        id: "everythingUp",
+                        name: "Scramble every squadron at once and meet it over Kent",
+                        note: "Everything flies, as Park in fact ordered. Nothing is left in hand.",
+                        bonus: 0,
+                        bonusByPosture: { secondWave: 4, heavyEscort: -2, cloudCover: 1 },
+                        reportLine: "Park puts every squadron he has into the air and meets the second raid over Kent.",
+                      },
+                      {
+                        id: "holdHalf",
+                        name: "Hold half the squadrons until the raid's track is clear",
+                        note: "Safer if the plot is wrong, and slower if it is right.",
+                        bonus: 1,
+                        bonusByPosture: { cloudCover: 3, secondWave: -3, heavyEscort: 1 },
+                        reportLine: "Park holds half his squadrons at readiness until the plot shows where the raid is going.",
+                      },
+                      {
+                        id: "askTwelve",
+                        name: "Ask 12 Group to fly south and cover the sector stations",
+                        note: "The Duxford Wing flies, but costs Matériel and an argument.",
+                        bonus: 0,
+                        bonusByPosture: { heavyEscort: 4, secondWave: 2 },
+                        meters: { fuel: -1 },
+                        costReason: "12 Group called south to cover 11 Group",
+                        reportLine: "Park asks 12 Group to cover his airfields, and the Duxford Wing climbs south toward London.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   squadrons:
                     "Park's squadrons are the fighters that meet the raids over Kent and London. His doctrine is to send them up fast, forward, and in squadron strength. Each commitment here puts more of them into the air at the first warning.",
@@ -228,7 +495,7 @@
                     "The armourers run short of belts and a lorry is sent for more.",
                   ],
                 },
-                reportTimes: { open: "0900", contact: "1100", cats: ["1115", "1200", "1245", "1330"], reserve: "1435", counter: "1500" },
+                reportTimes: { open: "0900", contact: "1100", cats: ["1115", "1200", "1245", "1330"], contact2: "1345", reserve: "1435", counter: "1500" },
                 idleLines: {
                   squadrons: [
                     "No more squadrons are sent to meet the raid forward. They wait for the bombers over London.",
@@ -274,7 +541,7 @@
                   weight: modWeight(70, meters.initiative) - (flags.forkLuftwaffeShift ? 10 : 0),
                   title: "Fighter Command holds the sky",
                   setFlags: { britainDay40Result: "held" },
-                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
                     "What happened, and what the Air Ministry's own postwar assessment substantially vindicated: Park's squadrons met incoming raids faster and further out, at a real cost in fighters lost piecemeal that the Big Wing's advocates never stopped citing against him. Dowding and Park won the battle. Within weeks of winning it, both were removed from their commands — a political result of the argument, not a military one, and one history has judged considerably less kindly than it judged the tactics.",
                 },
@@ -407,7 +674,7 @@
             {
               label: "Hold the convoy together — keep tight formation and full escort, and accept the battleship risk",
               advisor: { name: "Tovey", quote: "We are proposing to strip these ships of every defense they have against the threat we can actually see, on the strength of a threat we cannot. I would rather escort them into a fight that might not come than abandon them to the one that certainly will." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel left to keep a full close escort sailing with the convoy rather than dispersing it" : undefined,
               setFlags: { pq17: "hold" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
@@ -451,8 +718,8 @@
                   "Tight formation, full escort, the battleship risk accepted rather than scattering to face it in the open — the convoy holds together, which means Broome's destroyers and corvettes still have something worth defending as long as the ships stay in company. What's decided here is how the close escort, the anti-aircraft auxiliaries riding with the merchantmen, Hamilton's covering force standing off at a distance, and the signals effort tracking what's actually out there are weighed against each other before the wolfpacks and the torpedo bombers find the convoy's track.",
                 categories: [
                   { id: "escorts", name: "Destroyer & Corvette Screen", meter: "manpower", glyph: "▲" },
-                  { id: "aaShips", name: "Anti-Aircraft Auxiliaries", meter: "manpower", glyph: "✦" },
-                  { id: "coveringForce", name: "Distant Covering Force", meter: "fuel", glyph: "≋" },
+                  { id: "aaShips", name: "Anti-Aircraft Auxiliaries", meter: "manpower", strand: "ammo", glyph: "✦" },
+                  { id: "coveringForce", name: "Distant Covering Force", meter: "fuel", strand: "oil", glyph: "≋" },
                   { id: "intelligence", name: "Signals Intelligence", meter: "fuel", glyph: "✎" },
                 ],
                 // Escorts highest — the close screen is the convoy's own direct defense against
@@ -463,6 +730,78 @@
                 // down a torpedo bomber by itself, the same design choice as Anzio's Naval or
                 // Arnhem's Supply Drop.
                 effectiveness: { escorts: 2.6, coveringForce: 2.2, aaShips: 2.0, intelligence: 1.6 },
+                orderOfBattle: {
+                  escorts: {
+                    units: [
+                      "Commander Jack Broome's close escort: six destroyers, with corvettes and minesweepers",
+                    ],
+                    real: "At 21:36 on 4 July the Admiralty ordered the convoy to scatter. In this battle it does not.",
+                  },
+                  aaShips: {
+                    units: [
+                      "Two anti-aircraft auxiliaries sailing with the merchantmen",
+                      "The merchant ships' own guns",
+                    ],
+                    real: "German torpedo bombers from Norway struck on 4 July. A force of 25 sank SS William Hooper.",
+                  },
+                  coveringForce: {
+                    units: [
+                      "Rear Admiral Louis Hamilton's cruiser force: the British cruisers London and Norfolk and the American cruisers Wichita and Tuscaloosa",
+                    ],
+                    real: "At 21:11 on 4 July the Admiralty ordered the cruisers to withdraw to the westward at high speed, believing the Tirpitz had sailed. She had not.",
+                  },
+                  intelligence: {
+                    units: [
+                      "The Admiralty's signals intelligence and direction-finding",
+                      "Reports of the Tirpitz's position, which proved wrong on 4 July",
+                    ],
+                    real: "Of 35 merchant ships, only 11 reached Soviet ports.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "The Admiralty has forbidden the cruiser force to go east of Bear Island: Hamilton is not available.", forbidCommanders: ["hamilton"] },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Convoy PQ 17): the cruiser force under Hamilton was near
+                // Bear Island; German torpedo bombers from Norway struck on 4 July; at 21:11 the Admiralty
+                // ordered the cruisers to withdraw westward, and then the convoy to scatter (the premise of this
+                // battle is that it did not). The fight is in two phases, west and east of Bear Island.
+                conditions: "The Arctic summer: the sun does not set, so there is no night to hide in, and the German airfields in Norway are within reach of the whole route.",
+                phases: ["West of Bear Island", "East of Bear Island"],
+                decisions: [
+                  {
+                    id: "theCoveringForce",
+                    time: "2200",
+                    title: "The covering force",
+                    prompt: "The convoy is nearing Bear Island, and the cruiser force under Hamilton, which has been standing off, will have to turn back soon or go on with it. The Admiralty fears a sortie by the Tirpitz. Whether she is coming, no one can say. The senior officers afloat have to decide where the cruisers go.",
+                    options: [
+                      {
+                        id: "keepWithConvoy",
+                        name: "Keep the covering force with the convoy past Bear Island",
+                        note: "More guns against the air attacks, and in range of the Tirpitz.",
+                        bonus: 0,
+                        bonusByPosture: {luftwaffeStrike: 3, wolfpackConcentration: 1, distantShadow: -3},
+                        reportLine: "The cruisers stay with the convoy past Bear Island, their guns added to the screen.",
+                      },
+                      {
+                        id: "pullBackWest",
+                        name: "Pull the covering force back to the west, as the Admiralty fears",
+                        note: "Safe from the Tirpitz, and the convoy is left to the escort.",
+                        bonus: 0,
+                        bonusByPosture: {distantShadow: 3, luftwaffeStrike: -2, wolfpackConcentration: -1},
+                        reportLine: "The cruisers turn back to the west at high speed, and the convoy goes on with the close escort alone.",
+                      },
+                      {
+                        id: "destroyersAhead",
+                        name: "Detach two destroyers from the screen to sweep ahead for the pack",
+                        note: "Costs Matériel, and thins the screen.",
+                        bonus: 0,
+                        bonusByPosture: {wolfpackConcentration: 4},
+                        meters: {fuel: -1},
+                        costReason: "Destroyers detached to sweep ahead",
+                        reportLine: "Two destroyers leave the screen to sweep ahead of the convoy for the submarines.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   escorts:
                     "Broome commands six destroyers and the corvette screen — the entire close protection between wolfpacks and thirty-five loaded ships. Every gun added here is a gun actually on the convoy's perimeter.",
@@ -503,7 +842,7 @@
                     "A fix on a shadowing aircraft lets the escort work out roughly when it will report again.",
                   ],
                 },
-                reportTimes: { open: "0600", contact: "0900", cats: ["1200", "1500", "1800", "2100"], reserve: "2300", counter: "0100" },
+                reportTimes: { open: "0600", contact: "0900", cats: ["1200", "1500", "1800", "2100"], contact2: "2130", reserve: "2300", counter: "0100" },
                 idleLines: {
                   escorts: [
                     "The screen holds its stations and nothing more. No extra weight goes to the perimeter.",
@@ -610,7 +949,7 @@
             {
               label: "Marshall's plan — commit to the earliest possible cross-Channel invasion",
               advisor: { name: "Marshall", quote: "Every month we delay the real invasion is a month the Germans spend finishing the Atlantic Wall and a month the Russians spend wondering if this alliance means what it says." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -2 ? "insufficient landing craft and shipping assembled for a cross-Channel attempt this early" : undefined,
               setFlags: { secondFront42: "sledgehammer", cohesion: (flags.cohesion || 0) + (-2) },
               cohesionDelta: -2,
@@ -1048,9 +1387,9 @@
                 flavor:
                   "Four days in, and the bridge itself is gone — Frost's men overwhelmed, the crossing back in German hands. What's left of 1st Airborne has drawn into a shrinking horseshoe around Oosterbeek, holding on artillery support and whatever gets through the ring, while Sosabowski's Poles try to cross the Rhine from the south bank in the dark and Horrocks's own corps sits close enough at Nijmegen and Elst to hear the guns and no closer. What's decided here is how the armor, the perimeter's own defense, the air resupply, and the Polish crossing effort are weighed against each other before the corridor behind all of them closes for good.",
                 categories: [
-                  { id: "corpsPush", name: "XXX Corps Armored Push", meter: "fuel", glyph: "▲" },
+                  { id: "corpsPush", name: "XXX Corps Armored Push", meter: "fuel", strand: "steel", glyph: "▲" },
                   { id: "perimeter", name: "Oosterbeek Perimeter", meter: "manpower", glyph: "◆◆◆" },
-                  { id: "resupply", name: "Supply Drop", meter: "fuel", glyph: "✈" },
+                  { id: "resupply", name: "Supply Drop", meter: "fuel", strand: "ship", glyph: "✈" },
                   { id: "poles", name: "Polish Parachute Brigade", meter: "manpower", glyph: "✦" },
                 ],
                 // Corps Push highest — the relief column is the only thing that can actually end
@@ -1061,6 +1400,81 @@
                 // count for the RAF rather than a lever that changes the siege, the same design
                 // choice as Omaha's Air or Anzio's Naval.
                 effectiveness: { corpsPush: 2.6, perimeter: 2.0, resupply: 1.6, poles: 2.2 },
+                orderOfBattle: {
+                  corpsPush: {
+                    units: [
+                      "XXX Corps (Horrocks), stalled on the single road north of Nijmegen",
+                      "The 43rd Wessex Division, with the 4th/7th Royal Dragoon Guards",
+                    ],
+                    real: "The Germans cut the road near Koevering, the moment that convinced Horrocks the relief could not succeed.",
+                  },
+                  perimeter: {
+                    units: [
+                      "The 1st Airborne Division (Urquhart) in the Oosterbeek perimeter, about three miles round and held by about 3,600 men",
+                    ],
+                    real: "The perimeter held until the withdrawal across the Rhine on the night of 25/26 September, Operation Berlin.",
+                  },
+                  resupply: {
+                    units: [
+                      "The Dakotas of the airborne supply drops",
+                      "The DUKWs of the attempted ground supply",
+                    ],
+                    real: "The DUKWs attempting to cross were largely captured or stuck in the mud.",
+                  },
+                  poles: {
+                    units: [
+                      "The 1st Polish Independent Parachute Brigade (Sosabowski), dropped at Driel on 21 September 1944",
+                    ],
+                    real: "No rafts reached the Poles the first night. 153 men crossed on the night of 22/23 September, and the crossing of 24/25 September mostly failed.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Montgomery's headquarters insists that the corps drive for the river, and the order is not to be softened.", lockApproach: "directAssault" },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Arnhem): the Polish brigade dropped at Driel
+                // on 21 September; the first night no rafts arrived for them, only 153 men crossed on the night of
+                // 22/23 September, and the crossing of the 24th/25th failed; DUKWs were captured or stuck in
+                // the mud; the Oosterbeek perimeter was about three miles round, held by about 3,600 men; the
+                // Germans cut the road near Koevering. The three answers are the options at the river; payoffs
+                // against each German posture are modeled.
+                conditions: "One raised road across flat, wet polder, cut by dykes and by the Rhine itself, with the Oosterbeek perimeter roughly three miles round.",
+                terrainModifiers: { corpsPush: 0.85 },
+                terrainNotes: { corpsPush: "a single raised road over low, wet ground" },
+                decisions: [
+                  {
+                    id: "crossingTheRhine",
+                    time: "0800",
+                    title: "The river and the boats",
+                    prompt: "There are few boats and a great many things that need to cross the Rhine. The Polish brigade is on the south bank and wants to join the perimeter, the perimeter is short of ammunition and rations, and the Germans are bringing up armour. The few boats can carry only one of these things at a time.",
+                    options: [
+                      {
+                        id: "sendThePoles",
+                        name: "Send the Polish brigade across the river tonight",
+                        note: "Reinforce the perimeter with fresh men, in the dark.",
+                        bonus: 0,
+                        bonusByPosture: {dropZoneCompromised: 3, corridorCut: -2, freshPanzerReserves: -3},
+                        reportLine: "The Polish paratroopers go down to the river bank and into the few boats there are.",
+                      },
+                      {
+                        id: "ferrySupplies",
+                        name: "Use the boats for the perimeter's ammunition and rations",
+                        note: "Keep the perimeter fed, with fewer men reaching it.",
+                        bonus: 0,
+                        bonusByPosture: {corridorCut: 3},
+                        meters: {fuel: -1},
+                        costReason: "Boats and engineers committed to the supply ferry",
+                        reportLine: "The few boats carry ammunition and rations across the river instead of men.",
+                      },
+                      {
+                        id: "tightenTheLine",
+                        name: "Pull the perimeter in to a tighter line at once",
+                        note: "A smaller front to hold against the armour.",
+                        bonus: 0,
+                        bonusByPosture: {freshPanzerReserves: 4, dropZoneCompromised: -1},
+                        reportLine: "The perimeter is pulled in to a tighter line around Oosterbeek, and the outer ground is given up.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   corpsPush:
                     "The relief column is stalled on one road between Nijmegen and Elst. Every mile forward means the Germans can cut behind that same road. Moving it forward brings relief closer. It also thins the position being held.",
@@ -1227,7 +1641,7 @@
             {
               label: "Drive for the Gap — Vienna before the Red Army, whatever the mountains cost",
               advisor: { name: "Churchill", quote: "Armies draw maps by standing on them. I would rather argue about supply through one mountain gap than about half of Europe for half a century." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel for a logistics case American planners already called fantasy" : undefined,
               setFlags: { ljubljana44: "drive", cohesion: (flags.cohesion || 0) + (-2) },
               cohesionDelta: -2,
@@ -1355,8 +1769,193 @@
               setFlags: { bulge44: "patton" },
               impact: { manpower: -2, fuel: -1, initiative: 2 },
               next: "yaltaFeb45",
-              outcome:
-                "What happened, and it remains one of the most admired operational feats of the Western war: Third Army turned ninety degrees and relieved Bastogne within days, an operation most German staff officers judged simply impossible on the timeline it was executed. It did not undo the German offensive's initial shock, but it broke the siege before the garrison's ammunition and supplies ran out.",
+              keyBattleSubgame: {
+                id: "bastogne44",
+                title: "Order of Battle — The Relief of Bastogne",
+                flavor: "Bastogne is surrounded by the Fifth Panzer Army, held by the 101st Airborne and the armour that came in with it, outnumbered by some five to one and short of ammunition, medical supplies and winter clothing. Patton told Eisenhower at Verdun that Third Army could attack north in forty-eight hours, and now the attack has to be made in the cold, on a few icy roads, against German divisions that are short of fuel but not of fight. What is decided here is how the relief is weighted: how much to the armoured spearhead that must reach the town, how much to the infantry divisions on its shoulders, how much to the aircraft that may fly if the fog lifts, and how much to the garrison's own ammunition and perimeter while it waits.",
+                categories: [
+                  { id: "armour", name: "The Armoured Spearhead", meter: "fuel", strand: "steel", glyph: "▶▶" },
+                  { id: "infantry", name: "Infantry Divisions on the Shoulders", meter: "manpower", glyph: "▮▮▮" },
+                  { id: "air", name: "Fighters & Supply Drops", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "garrison", name: "The Bastogne Garrison", meter: "manpower", strand: "ammo", glyph: "◆◆◆" },
+                ],
+                effectiveness: { armour: 2.7, infantry: 2, air: 2, garrison: 2.3 },
+                phases: ["The wheel north", "The last miles to the town"],
+                conditions: "Cold and snow on a few icy roads, with fog and overcast until 23 December, when the sky cleared and the aircraft could fly.",
+                terrainModifiers: { air: 0.8, armour: 0.9 },
+                terrainNotes: { air: "fog and overcast until the 23rd", armour: "icy roads and snow" },
+                attrition: [
+                  { category: "infantry", atLeast: 3, meter: "manpower", delta: -1, reason: "Frostbite and trench foot in the cold" },
+                ],
+                categoryContext: {
+                  armour: "The 4th Armored Division has to cut through to the town along a road the Germans can block. Each commitment here puts more tanks, guns and fuel behind the spearhead.",
+                  infantry: "The 26th and 80th Infantry Divisions have to clear the flanks of the road and hold what the tanks take. Each commitment here puts more infantry on the shoulders of the advance.",
+                  air: "Fighter-bombers and the transport aircraft of IX Troop Carrier Command can fly only when the fog lifts. Each commitment here has more aircraft ready for the first clear day.",
+                  garrison: "The garrison holds the town with what it has, and ammunition and medical supplies are running out. Each commitment here stretches the perimeter's supplies and strengthens the line.",
+                },
+                flashups: {
+                  armour: [
+                    "The leading tank battalion of the 4th Armored breaks out of a village and goes on.",
+                    "A column of Shermans moves up the icy road in the dusk.",
+                    "A tank company knocks out an anti-tank gun at a road junction.",
+                    "A bridge is repaired under fire and the tanks cross.",
+                    "The column halts for fuel, and the infantry catch up.",
+                  ],
+                  infantry: [
+                    "The infantry of the 80th Division clear a village on the road's flank.",
+                    "A rifle company of the 26th Division wades a frozen stream in the dark.",
+                    "An infantry battalion digs in on the flank of the advance and holds it.",
+                    "Men with frostbitten feet keep moving in single file through the snow.",
+                    "A platoon takes a hill that overlooks the road.",
+                  ],
+                  air: [
+                    "Fighter-bombers hit a German column on the road through the fog's edge.",
+                    "Transports drop supplies on the town, and the parachutes lie in the snow.",
+                    "A flight of P-47s strafes a German assembly area.",
+                    "The fog holds and nothing flies.",
+                    "The sky clears and the garrison hears the transport aircraft overhead.",
+                  ],
+                  garrison: [
+                    "The 101st's artillery fires its last rounds of the day at a German attack.",
+                    "A perimeter outpost is beaten back from a crossroads on the edge of town.",
+                    "The aid station reports that it has nothing left to treat the wounded.",
+                    "A Sherman crew holds a corner of the perimeter through the night.",
+                    "A company cuts a German attack to pieces at close range.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0600",
+                  contact: "0800",
+                  cats: ["1000", "1200", "1400", "1600"],
+                  contact2: "1700",
+                  reserve: "1900",
+                  counter: "2100",
+                },
+                idleLines: {
+                  armour: [
+                    "The tanks are not committed to the road. The advance is made on foot.",
+                    "No armoured spearhead goes forward, and the road stays closed.",
+                  ],
+                  infantry: [
+                    "No infantry clears the flanks. The road is open to attack from both sides.",
+                    "The infantry divisions stay in their assembly areas, and the advance has no shoulders.",
+                  ],
+                  air: [
+                    "No aircraft is committed. The fog stays, and the garrison gets nothing from the sky.",
+                    "The fighter-bombers stay on their fields, and the roads are open to the Germans by day.",
+                  ],
+                  garrison: [
+                    "Nothing extra is done for the garrison. The perimeter holds on what it has.",
+                    "No supplies are sent in, and the aid station stays empty.",
+                  ],
+                },
+                verdicts: ["The Siege Is Broken", "The Relief Falls Short"],
+                verdictGrades: {
+                  clean: "Armour, infantry, aircraft and garrison all did their part, and the road to Bastogne was open before the town ran out of ammunition.",
+                  costly: "The siege is broken, but every part of the relief spent more than it could afford.",
+                  marginal: "The advance reaches the edge of the town but the corridor is thin and narrow, and the garrison is nearly out of everything.",
+                  total: "The relief stops short of the town, and the garrison is left on its own.",
+                },
+                counterattack: {
+                  category: "infantry",
+                  severity: { panzersAtBastogne: 2, southernShoulder: 1, fuelRunsDry: 1 },
+                  warn: {
+                    "1": "German infantry and tanks are counterattacking the flank of the advance.",
+                    "2": "A strong German counterattack is going in on the shoulder of the corridor, and the road is in danger of being cut.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is beaten off, and the corridor stays open.",
+                    heldAtCost: "The shoulder holds against the counterattack, but the infantry that held it are worn out.",
+                    broke: "The Germans break into the corridor, and the road is cut until the break is sealed.",
+                    gaveGround: "The shoulder gives ground, and the corridor is narrowed to the width of the road.",
+                  },
+                },
+                orderOfBattle: {
+                  armour: {
+                    units: [
+                      "The 4th Armored Division, with the 37th Tank Battalion at its head",
+                      "Combat Command B of the 10th Armored Division and Combat Command R of the 9th Armored, already in the town",
+                    ],
+                    real: "The 37th Tank Battalion of the 4th Armored Division broke through to Bastogne on 26 December, ending the siege.",
+                  },
+                  infantry: {
+                    units: ["The 26th and 80th Infantry Divisions of III Corps", "XII Corps on the shoulder"],
+                    real: "Patton told Eisenhower at Verdun on 19 December that Third Army could attack within 48 hours, and III Corps began its attack on 22 December.",
+                  },
+                  air: {
+                    units: [
+                      "The transport aircraft of IX Troop Carrier Command",
+                      "The fighter-bombers of the Allied tactical air forces",
+                    ],
+                    real: "The weather cleared on 23 December, and supply drops and air attacks became possible for the first time.",
+                  },
+                  garrison: {
+                    units: [
+                      "The 101st Airborne Division under Brigadier General Anthony McAuliffe",
+                      "Combat Command B of the 10th Armored Division",
+                    ],
+                    real: "The garrison was outnumbered about five to one and short of ammunition, medical supplies and winter clothing. Asked to surrender on 22 December, McAuliffe answered 'Nuts!'",
+                  },
+                },
+                hardRule: {
+                  text: "Bradley's headquarters insists on caution: Third Army is not to attack until it has the weight of two corps.",
+                  lockApproach: "twoCorpsWeight",
+                },
+                decisions: [
+                  {
+                    id: "theArlonRoad",
+                    time: "1800",
+                    title: "The road north",
+                    prompt: "The corridor to Bastogne runs along a single road, and the Germans on either side of it are not beaten. Patton can drive the 4th Armored up it alone, wait for the infantry divisions to clear its flanks, or ask the air forces to carry the garrison until the road is open.",
+                    options: [
+                      {
+                        id: "armourAlone",
+                        name: "Drive the 4th Armored up the road alone",
+                        note: "The fastest way to the town, with the flanks left open behind it.",
+                        bonus: 0,
+                        bonusByPosture: { fuelRunsDry: 4, southernShoulder: -3, panzersAtBastogne: 0 },
+                        reportLine: "The 4th Armored drives up the road with nothing on its flanks.",
+                      },
+                      {
+                        id: "waitForInfantry",
+                        name: "Wait for the infantry to clear the flanks first",
+                        note: "Safer for the corridor, and the garrison waits a day longer.",
+                        bonus: 0,
+                        bonusByPosture: { southernShoulder: 4, fuelRunsDry: -2, panzersAtBastogne: 1 },
+                        reportLine: "The armour waits while the infantry clear the villages on either side of the road.",
+                      },
+                      {
+                        id: "airLift",
+                        name: "Ask for supply drops and fighter-bombers to carry the garrison until the road is open",
+                        note: "Costs Matériel in sorties, and keeps the town alive.",
+                        bonus: 0,
+                        bonusByPosture: { panzersAtBastogne: 4, southernShoulder: 1 },
+                        meters: { fuel: -1 },
+                        costReason: "Sorties flown to supply the garrison",
+                        reportLine: "Transports drop supplies on the town, and fighter-bombers work over the German lines.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(75, meters.initiative),
+                  title: "The siege is broken",
+                  setFlags: { bastogne44Result: "relieved" },
+                  impact: { manpower: -2, fuel: -1, initiative: 2 },
+                  outcome:
+                    "What happened, and it remains one of the most admired operational feats of the Western war: Third Army turned ninety degrees and relieved Bastogne within days, an operation most German staff officers judged simply impossible on the timeline it was executed. It did not undo the German offensive's initial shock, but it broke the siege before the garrison's ammunition and supplies ran out.",
+                },
+                {
+                  weight: 100 - modWeight(75, meters.initiative),
+                  title: "The relief arrives late",
+                  setFlags: { bastogne44Result: "late" },
+                  impact: { manpower: -3, fuel: -1, initiative: 1 },
+                  outcome:
+                    "The minority projection, closer than the legend suggests: the wheel north is made and the town is relieved, but days later than promised, along a corridor too narrow to be safe, and at a cost in infantry and armour that the first week of fighting did not foretell. The garrison's own stubbornness holds the town until the road opens, which is the only thing that spares the relief from being too late.",
+                },
+              ],
             },
             {
               label: "Take the more cautious, methodical relief approach — do not risk overextending Third Army",
@@ -1433,6 +2032,9 @@
               ? " The reserve spent sealing the Bulge's tip a few weeks ago is a reserve this delegation doesn't have behind it as a bargaining fact, for whatever quiet difference that makes to how hard the American position can afford to push."
               : flags.bulge44 === "patton"
               ? " Bastogne relieved on Patton's own timetable rather than a slower one is, this month, mostly a settled fact rather than a live bargaining chip — the army that turned ninety degrees in December is intact and forward, and nobody at this table is asking what it cost."
+              : "") +
+            (flags.bulge44 === "patton"
+              ? (flags.bastogne44Result === "late" ? " The relief came days late, along a corridor that was narrow all the way." : "") + keyBattleEcho("bastogne44", flags)
               : ""),
           choices: (() => {
             const base = [];
@@ -1715,8 +2317,8 @@
                   "The plan is exactly what the doctrine says it should be — tight combat-box formation for mutual defensive fire, fighter escort as far as the fuel actually allows, a disciplined bomb run held steady over the ball-bearing works, and enough of a diversionary threat elsewhere to keep German fighter controllers guessing about which formation is the real one. What's decided here is how the staff effort behind each of those pieces gets weighted before Kepner's Thunderbolts reach the limit of their range near Aachen and the Luftwaffe's fighter wings — relayed in waves, landing to refuel and rearm before coming up again — find the bomber stream on its own for the rest of the way to Schweinfurt and back.",
                 categories: [
                   { id: "formation", name: "Combat Box Discipline", meter: "manpower", glyph: "▣" },
-                  { id: "escort", name: "Fighter Escort Coordination", meter: "fuel", glyph: "✈" },
-                  { id: "targeting", name: "Precision Bomb-Run", meter: "initiative", glyph: "◎" },
+                  { id: "escort", name: "Fighter Escort Coordination", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "targeting", name: "Precision Bomb-Run", meter: "initiative", strand: "ammo", glyph: "◎" },
                   { id: "diversion", name: "Diversionary Routing", meter: "manpower", glyph: "↝" },
                 ],
                 // Formation highest — LeMay's own combat box is the mission's whole defense once
@@ -1728,6 +2330,77 @@
                 // historical diversion drew none off at all, the same asymmetric-by-design choice
                 // as PQ-17's Signals Intelligence or Kursk's Supply.
                 effectiveness: { formation: 2.6, escort: 2.3, targeting: 2.0, diversion: 1.6 },
+                orderOfBattle: {
+                  formation: {
+                    units: [
+                      "The combat box formations of the 1st and 3rd Air Divisions",
+                      "Brigadier General Curtis LeMay, who developed the combat box and commanded the 3rd Air Division",
+                    ],
+                    real: "Nine bomb groups flew the mission. 60 B-17s were shot down of about 72 aircraft lost, with over 600 aircrew casualties.",
+                  },
+                  escort: {
+                    units: [
+                      "The P-47 Thunderbolts of VIII Fighter Command (Kepner)",
+                      "Aircraft without drop tanks of the range to go further",
+                    ],
+                    real: "The P-47s could cover only about the first 200 of the 400 miles and turned back near Aachen.",
+                  },
+                  targeting: {
+                    units: [
+                      "Lieutenant General Ira Eaker's Eighth Air Force and its target list, headed by the ball-bearing works at Schweinfurt",
+                    ],
+                    real: "Schweinfurt was one of the most heavily defended cities in Germany, and the second raid was flown on 14 October 1943.",
+                  },
+                  diversion: {
+                    units: [
+                      "A diversionary force of B-24s sent toward the North Sea",
+                    ],
+                    real: "The feint failed to draw the German fighter controllers off the real formation's track.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Eighth Air Force insists on its own target priority and its own doctrine: the American commander leads.", lockCommander: "eaker" },
+                // Round 22. This battle's own notes: the escort could cover only about 200 of the 400 miles and
+                // turned back near Aachen. So the mission is fought in two phases, the leg out with the escort and
+                // the leg after it, and its field decision is whether to press on.
+                conditions: "A deep daylight penetration of Germany. The escorts can cover only about half the way, and every mile after Aachen is flown without them.",
+                phases: ["The leg with the escort", "Beyond the escort's range"],
+                decisions: [
+                  {
+                    id: "pressOnBeyondAachen",
+                    time: "1530",
+                    title: "After Aachen",
+                    prompt: "The escort turned back at the limit of its range, and the formation has flown on without it. Ahead is the target and the German fighter wings; behind is the long way home with no escort either. The lead group has to decide whether to hold to the briefed bomb run.",
+                    options: [
+                      {
+                        id: "pressOn",
+                        name: "Hold to the briefed bomb run and press on to the target",
+                        note: "The mission as planned, with what that costs.",
+                        bonus: 0,
+                        bonusByPosture: {flakOverTarget: 3, headOnWaves: -2, rocketStandoff: -3},
+                        reportLine: "The formation presses on to the target without the escort, holding to the briefed run.",
+                      },
+                      {
+                        id: "turnHome",
+                        name: "Abort the mission and turn for home",
+                        note: "Fewer losses, and nothing to show for the day.",
+                        bonus: -1,
+                        bonusByPosture: {headOnWaves: 4, rocketStandoff: 4},
+                        meters: {initiative: -1},
+                        costReason: "A mission abandoned short of the target",
+                        reportLine: "The lead group turns the formation for home, and the bombs are brought back or dropped on a target of opportunity.",
+                      },
+                      {
+                        id: "rerouteTheBox",
+                        name: "Swing the formation onto the alternate approach to dodge the fighter belt",
+                        note: "Costs time over the target, and a longer run.",
+                        bonus: 0,
+                        bonusByPosture: {rocketStandoff: 4},
+                        reportLine: "The formation swings onto the alternate approach, away from the fighters waiting on the briefed one.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   formation:
                     "LeMay's combat box is the formation's entire defense once the escort turns back at Aachen. Box discipline means overlapping fire from every gun — stragglers get picked off alone. Each commitment here keeps the wings tight.",
@@ -1768,7 +2441,7 @@
                     "The diversion holds together long enough to still look like the real raid.",
                   ],
                 },
-                reportTimes: { open: "0715", contact: "0910", cats: ["1005", "1140", "1315", "1450"], reserve: "1620", counter: "0940" },
+                reportTimes: { open: "0715", contact: "0910", cats: ["1005", "1140", "1315", "1450"], contact2: "1500", reserve: "1620", counter: "0940" },
                 idleLines: {
                   formation: [
                     "No extra effort goes into tightening the box. The formation holds whatever interval it already had.",
@@ -1972,7 +2645,7 @@
             {
               label: "Press further — formally request bomber basing rights near Adana for the Ploesti campaign",
               advisor: { name: "Eden", quote: "We have already spent the easy half of this relationship getting a signature that cost Ankara nothing. Basing rights cost them their neutrality's whole remaining value. I would not assume the second half is priced the same as the first." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel and construction capacity left to stand up a forward air base from nothing" : undefined,
               setFlags: { turkishBelligerence44: "pressBases" },
               impact: { manpower: 0, fuel: -2, initiative: 0 },
@@ -2073,9 +2746,9 @@
                   "Ashore before dawn against almost no opposition — the surprise is total, a forward patrol reportedly reaching the outskirts of Rome itself before turning back. What happens next is the entire question Shingle was built to answer: how much of this corps pushes inland now, while the roads to the Alban Hills are still open, and how much stays back to hold the beach it will need for however long this actually takes. Somewhere behind the German lines, an order is already moving to close that door. What's decided here is how the infantry, the tanks, Darby's Rangers, and the buildup off two hundred and forty ships are weighed against each other before it does.",
                 categories: [
                   { id: "assault", name: "Infantry Beachhead", meter: "manpower", glyph: "◆◆◆" },
-                  { id: "armor", name: "Armored Exploitation", meter: "fuel", glyph: "▲" },
+                  { id: "armor", name: "Armored Exploitation", meter: "fuel", strand: "steel", glyph: "▲" },
                   { id: "rangers", name: "Ranger & Commando Vanguard", meter: "manpower", glyph: "✦" },
-                  { id: "naval", name: "Naval Gunfire & Buildup", meter: "fuel", glyph: "≋" },
+                  { id: "naval", name: "Naval Gunfire & Buildup", meter: "fuel", strand: "ship", glyph: "≋" },
                 ],
                 // Armor highest — the exploitation column is what could actually unhinge the
                 // Gustav Line's rear before the roads close; Rangers second — a small, aggressive
@@ -2086,6 +2759,82 @@
                 // whether the door stays open, the same design choice as Omaha's Air or Monte
                 // Cassino's Supply.
                 effectiveness: { assault: 1.8, armor: 2.8, rangers: 2.4, naval: 1.6 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "The US 3rd Infantry Division (Truscott) and the British 1st Infantry Division (Penney), holding the beachhead's infantry line",
+                      "About 36,000 men and 3,200 vehicles landed on the first day",
+                    ],
+                    real: "Lucas consolidated the beachhead rather than pushing inland. Churchill complained that he had hoped to hurl a wildcat ashore and got a stranded whale.",
+                  },
+                  armor: {
+                    units: [
+                      "The armoured units of VI Corps, landed with the assault",
+                      "The road to the Alban Hills, open on the first day",
+                    ],
+                    real: "No strong armoured thrust went inland on 22 January.",
+                  },
+                  rangers: {
+                    units: [
+                      "Colonel William Darby's Ranger battalions, who took the port of Anzio",
+                      "British commandos landed alongside",
+                    ],
+                    real: "Darby's Rangers took the port without firing a shot.",
+                  },
+                  naval: {
+                    units: [
+                      "The ships off the beachhead, about 240 in the buildup",
+                      "Naval gunfire support from cruisers and destroyers",
+                    ],
+                    real: "The landing met almost no opposition: Allied losses on the first day were 13 killed and 97 wounded, and about 200 Germans were captured.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Fifth Army's orders to VI Corps are to secure the beachhead before anything else.", lockApproach: "securePerimeter" },
+                // Round 22. Verified 2026-10-05 (Wikipedia, Battle of Anzio): about 36,000 men and 3,200 vehicles
+                // landed on 22 January with total surprise and 13 killed; Lucas consolidated rather than exploit
+                // it; Kesselring activated Operation Richard at once, with over 40,000 German troops by 24 January;
+                // the beachhead was reclaimed marsh ringed by mountains. The three answers are the real options of
+                // the first day; their payoffs against each German posture are modeled.
+                conditions: "Flat, reclaimed marsh behind the beaches, ringed by mountains, with few roads off the beachhead.",
+                terrainModifiers: { armor: 0.9 },
+                terrainNotes: { armor: "marshy ground off the roads" },
+                decisions: [
+                  {
+                    id: "firstDayChoice",
+                    time: "1900",
+                    title: "The end of the first day",
+                    prompt: "The landing has met almost no one, and the road to the Alban Hills is open this evening. Behind the German lines the order for Operation Richard is already going out. The corps commander has to decide what the first day's surprise is spent on.",
+                    options: [
+                      {
+                        id: "armourUpTheRoad",
+                        name: "Send a strong armoured reconnaissance up the road toward the Alban Hills",
+                        note: "Use the open road before it closes.",
+                        bonus: 0,
+                        bonusByPosture: {windowStillOpen: 5, richardOrder: -4, thinCordon: 2},
+                        reportLine: "A strong armoured column goes up the road toward the Alban Hills in the last of the light.",
+                      },
+                      {
+                        id: "digIn",
+                        name: "Dig in on the perimeter of the beachhead first",
+                        note: "Safe, and what the corps commander did.",
+                        bonus: 1,
+                        bonusByPosture: {richardOrder: 3, windowStillOpen: -4, thinCordon: -2},
+                        reportLine: "The corps digs in on the perimeter it has landed, and the road inland is left alone.",
+                      },
+                      {
+                        id: "landStores",
+                        name: "Take a day to land the guns and stores off the ships",
+                        note: "Costs Initiative, and builds the beachhead's strength.",
+                        bonus: 0,
+                        bonusByPosture: {thinCordon: 4, richardOrder: 2},
+                        meters: {initiative: -1},
+                        costReason: "A day spent landing stores instead of pushing inland",
+                        reportLine: "The ships are unloaded through the night, and the beachhead's stocks grow while the road is left unused.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   assault:
                     "The 3rd Division and British 1st are ashore against minimal opposition. The question isn't how many men fit on the beach — it's how many stay to hold the line versus how many push forward with the rest.",
@@ -2305,7 +3054,7 @@
             {
               label: "Commit to a full-weight breakthrough attempt while the season is still fully open",
               advisor: { name: "Alexander", quote: "I will not get this combination of intact divisions and a whole season still ahead of me twice in one war. If the line breaks this year, it breaks now, while there's a spring and a summer left to exploit it, not in the autumn mud the historical campaign was stuck fighting in." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to sustain a full-weight breakthrough attempt against defenses this deep" : undefined,
               setFlags: { gothicLineEarly44: "breakthrough" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
@@ -2422,14 +3171,87 @@
                         "Mid-morning, and the tide is coming in over the obstacles the engineers never cleared. The bombers dropped their loads inland through the overcast, most of one battalion's swimming tanks went down on the way in, and fire from the bluffs is sweeping a beach with nowhere to hide. The decision to keep the waves coming is made. What's left is how the weight behind them lands: how many more go at the sand, how close the destroyers are sent in, how much goes to the engineers and tanks trying to open the exits, and what the aircraft overhead can do through the cloud.",
                       categories: [
                         { id: "waves", name: "Follow-on Waves", meter: "manpower", glyph: "▮▮▮" },
-                        { id: "naval", name: "Naval Gunfire", meter: "fuel", glyph: "≋" },
-                        { id: "engineers", name: "Engineers & Tanks", meter: "fuel", glyph: "▨" },
-                        { id: "air", name: "Air Support", meter: "fuel", glyph: "✈" },
+                        { id: "naval", name: "Naval Gunfire", meter: "fuel", strand: "ammo", glyph: "≋" },
+                        { id: "engineers", name: "Engineers & Tanks", meter: "fuel", strand: "steel", glyph: "▨" },
+                        { id: "air", name: "Air Support", meter: "fuel", strand: "oil", glyph: "✈" },
                       ],
                       // Naval gunfire strongest (the destroyers closing in is what the record
                       // credits with breaking the strongpoints), engineers second (the exits are
                       // the only way off the beach), infantry baseline, air weakest (overcast).
                       effectiveness: { waves: 1.8, naval: 3, engineers: 2.6, air: 1.6 },
+                      orderOfBattle: {
+                        waves: {
+                          units: [
+                            "The follow-on waves of V Corps: the 1st and 29th Infantry Divisions",
+                            "Brigadier General Norman Cota, assistant commander of the 29th Division, ashore with the men at the shingle",
+                          ],
+                          real: "Cota led the charge off Dog White, between strongpoints WN-68 and WN-70, forcing gaps in the wire with a Bangalore torpedo.",
+                        },
+                        naval: {
+                          units: [
+                            "Naval Task Force O, under Rear Admiral John Hall",
+                            "Destroyers ordered close in at 09:50, some within about 900 metres of the beach",
+                          ],
+                          real: "The destroyers came in so close that some scraped bottom, and fired straight into the strongpoints.",
+                        },
+                        engineers: {
+                          units: [
+                            "The Provisional Engineer Special Brigade Group, under Brigadier General William Hoge",
+                            "The swimming tanks of the assault, most of one battalion's lost on the way in",
+                          ],
+                          real: "Hoge's engineers went to work on the exits through the draws as each fell, under fire.",
+                        },
+                        air: {
+                          units: [
+                            "Heavy bombers that dropped before the landing through overcast",
+                            "Tactical aircraft over the bluffs",
+                          ],
+                          real: "The bombers overshot their targets and only three bombs fell near the beach area.",
+                        },
+                      },
+                      // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                      hardRule: { text: "First Army's orders are that the waves keep coming at the draws: the plan is not to be changed on the beach.", lockApproach: "forceDraws" },
+                      // Round 22. Facts from this battle's own notes (Wikipedia, Omaha Beach): the bombers overshot, and
+                      // the destroyers were ordered in at 09:50. Field decision for the next hour; modeled payoffs.
+                      conditions: "A rough sea and a rising tide over the beach obstacles, and overcast over the bluffs that spoiled the bombers' aim.",
+                      terrainModifiers: { air: 0.85, engineers: 0.9 },
+                      terrainNotes: { air: "overcast over the bluffs", engineers: "the tide covering the obstacles" },
+                      decisions: [
+                        {
+                          id: "nextWaves",
+                          time: "1215",
+                          title: "The next waves",
+                          prompt: "The beach is still under fire, and the next waves are circling offshore. Some of the draws are beginning to open, and some of the strongpoints at their mouths are still firing. The commander afloat has to decide where the weight goes in the next hour.",
+                          options: [
+                            {
+                              id: "landAtDraws",
+                              name: "Land the next waves at the draws now being cleared",
+                              note: "Use the openings that exist, before the Germans can plug them.",
+                              bonus: 0,
+                              bonusByPosture: {thinGarrison: 4, strongpointsIntact: -3, fieldDivision: -1},
+                              reportLine: "The next waves are sent in at the draws that are opening, and the men go up them under fire.",
+                            },
+                            {
+                              id: "holdOffshore",
+                              name: "Hold the waves offshore until the exits are open",
+                              note: "Safer for the men, and costs time.",
+                              bonus: 0,
+                              bonusByPosture: {strongpointsIntact: 3, fieldDivision: 2, thinGarrison: -1},
+                              meters: {initiative: -1},
+                              costReason: "Waves held offshore while the exits stay shut",
+                              reportLine: "The next waves are held offshore, and the men on the beach wait for the exits to open.",
+                            },
+                            {
+                              id: "destroyersAgain",
+                              name: "Order the destroyers closer in to hit the strongpoints at the draws",
+                              note: "Another run in the shallows, with the risk of grounding.",
+                              bonus: 0,
+                              bonusByPosture: {strongpointsIntact: 4, fieldDivision: 1},
+                              reportLine: "The destroyers go in closer yet, firing straight at the strongpoints at the mouths of the draws.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         waves:
                           "The first waves are pinned against the shingle bank. The second came in at seven onto the same fire. Adding more men puts more on the sand. Whether it creates pressure on the bluffs depends on what's supporting them.",
@@ -2814,7 +3636,7 @@
           ].concat([
               {
                 label: "Open Antwerp in September and hold every other offensive until it is open — no Market Garden, no Rhine attempt, nothing until the ships are unloading",
-                disabledReason: (meters.fuel || 0) >= 2 && (meters.manpower || 0) >= 2 ? undefined : "Requires Fuel +2, Manpower +2 — the slack to subordinate every other offensive to one port",
+                disabledReason: (meters.fuel || 0) >= 2 && (meters.manpower || 0) >= 2 ? undefined : "Requires Matériel +2, Manpower +2 — the slack to subordinate every other offensive to one port",
                 advisor: { name: "Cunningham", quote: "You are asking me what the port is worth. It is worth every operation you are currently planning, and I would rather say that now than have a staff historian say it for me in ten years." },
                 setFlags: { scheldt44: "priority", antwerpSeptember: true, cohesion: (flags.cohesion || 0) + (1) },
                 cohesionDelta: 1,

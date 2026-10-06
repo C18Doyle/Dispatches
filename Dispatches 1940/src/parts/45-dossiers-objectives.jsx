@@ -289,6 +289,29 @@ async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewind
       if (e.advisor) advisors[e.advisor] = (advisors[e.advisor] || 0) + 1;
     });
     record.advisors = advisors;
+    // Round 22: the Battle Record. Every Order of Battle fought this war leaves its grade, enemy
+    // setup(s), commander and field decisions in the run's flags; the record keeps a running tally per
+    // battle across wars. Written once, when a war ends, like the rest of the record.
+    const battles = record.battles || {};
+    for (const b of KEY_BATTLE_TITLES) {
+      const grade = flags[`${b.id}Grade`];
+      if (!grade) continue;
+      const prev = battles[b.id] || { fought: 0, won: 0, setups: [], best: null, last: null };
+      const won = grade === "clean" || grade === "costly";
+      const decisions = Object.keys(flags)
+        .filter((k) => k.startsWith(`${b.id}DecNote_`))
+        .map((k) => flags[k]);
+      const setups = [...new Set([...(prev.setups || []), flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean))];
+      const best = prev.best && BATTLE_GRADE_ORDER.indexOf(prev.best) > BATTLE_GRADE_ORDER.indexOf(grade) ? prev.best : grade;
+      battles[b.id] = {
+        fought: prev.fought + 1,
+        won: prev.won + (won ? 1 : 0),
+        setups,
+        best,
+        last: { grade, won, commander: flags[`${b.id}PlanCommander`] || null, setup: flags[`${b.id}Posture`] || null, decisions },
+      };
+    }
+    record.battles = battles;
     // Grand Campaign prototype: keep only the most recent completion per campaign — this isn't
     // a history, just "what's available to seed a Grand Campaign leg with right now" (per the
     // spec). Written unconditionally, regardless of GRAND_CAMPAIGN_ENABLED — cheap, and means

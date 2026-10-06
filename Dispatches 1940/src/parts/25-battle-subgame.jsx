@@ -1,8 +1,8 @@
 const BATTLE_ALLOCATION_CATEGORIES = [
   { id: "divisions", name: "Divisions", meter: "manpower", glyph: "▮▮▮" },
-  { id: "armour", name: "Mechanised Armour", meter: "fuel", glyph: "▶▶" },
-  { id: "air", name: "Air Support", meter: "fuel", glyph: "✈" },
-  { id: "supply", name: "Supply", meter: "fuel", glyph: "▤" },
+  { id: "armour", name: "Mechanised Armour", meter: "fuel", strand: "steel", glyph: "▶▶" },
+  { id: "air", name: "Air Support", meter: "fuel", strand: "oil", glyph: "✈" },
+  { id: "supply", name: "Supply", meter: "fuel", strand: "ship", glyph: "▤" },
 ];
 
 // Round 4 (Craig, mobile playtest: "could we have a commander selection option which had a
@@ -37,7 +37,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generaloberst Hermann Hoth",
       role: "Commanding, 4th Panzer Army",
       category: "armour",
-      note: "The offensive's main armored fist — roughly 700 tanks under his direct command. Chits spent on Mechanised Armour carry further with him running that push.",
+      note: "The offensive's main armored fist — roughly 700 tanks under his direct command. Effort put into Mechanised Armour carries further with him running that push.",
       // Round 9 report lines (Craig's item #4 — commander/approach voice in the battle report).
       // Each verified 2026-09-21: Hoth "had discussed [turning toward Prokhorovka] with
       // Manstein since early May, as he expected large Soviet armoured reserve forces to arrive
@@ -50,7 +50,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General der Panzertruppe Werner Kempf",
       role: "Commanding, Army Detachment Kempf",
       category: "divisions",
-      note: "His own command is built around two full infantry corps flanking its one panzer corps. Chits spent on Divisions carry further under him.",
+      note: "His own command is built around two full infantry corps flanking its one panzer corps. Effort put into Divisions carries further under him.",
       // Verified: Army Detachment Kempf's III Panzer Corps crossed the Northern Donets "to
       // protect the 4th Panzer Army's eastern flank" (Wikipedia, Operation Citadel).
       reportLine: "Kempf's corps fights its way across the Donets to cover Hoth's right flank.",
@@ -66,7 +66,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generalfeldmarschall Wolfram von Richthofen",
       role: "Commander-in-Chief, Luftflotte 4",
       category: "air",
-      note: "Commands the air fleet flying direct support for this front. Chits spent on Air Support carry further under him.",
+      note: "Commands the air fleet flying direct support for this front. Effort put into Air Support carries further under him.",
       // Verified: "The Hs 129 formations from SG 1 inflicted grievous losses on Soviet tanks"
       // with 30 mm anti-tank cannon, flying in support of the southern attack (Wikipedia,
       // Battle of Prokhorovka).
@@ -91,7 +91,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Rear Admiral John L. Hall Jr.",
       role: "Commanding, Naval Task Force O",
       category: "naval",
-      note: "The ships off this beach are his. Order his destroyers in close and they can fire straight into the strongpoints, shallows or not. Chits spent on Naval Gunfire carry further under him.",
+      note: "The ships off this beach are his. Order his destroyers in close and they can fire straight into the strongpoints, shallows or not. Effort put into Naval Gunfire carries further under him.",
       reportLine: "Hall's destroyers come in to a thousand yards, scraping bottom, firing into the bluffs.",
     },
     {
@@ -99,7 +99,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Brigadier General Norman Cota",
       role: "Assistant Commander, 29th Infantry Division",
       category: "waves",
-      note: "Already ashore with the men pinned at the shingle. Put him forward and he can get them moving. Chits spent on Follow-on Waves carry further with him on the beach.",
+      note: "Already ashore with the men pinned at the shingle. Put him forward and he can get them moving. Effort put into Follow-on Waves carries further with him on the beach.",
       reportLine: "Cota gets men off the shingle and through a gap blown in the wire, up the bluff.",
     },
     {
@@ -107,7 +107,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Brigadier General William M. Hoge",
       role: "Commanding, Provisional Engineer Special Brigade Group",
       category: "engineers",
-      note: "His brigade group exists to open this beach's exits and keep them open. Chits spent on Engineers & Tanks carry further under him.",
+      note: "His brigade group exists to open this beach's exits and keep them open. Effort put into Engineers & Tanks carries further under him.",
       reportLine: "Hoge's engineers go to work on the exits as each draw falls.",
     },
   ],
@@ -121,7 +121,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generalleutnant Hans-Valentin Hube",
       role: "Commanding, XIV Panzer Corps",
       category: "armour",
-      note: "His corps is what panzer strength survived Uranus inside the pocket. Chits spent on Mechanised Armour carry further under him.",
+      note: "His corps is what panzer strength survived Uranus inside the pocket. Effort put into Mechanised Armour carries further under him.",
       // Verified: Hube personally "argued strongly, but to no avail, for Hitler to allow the 6th
       // Army to attempt a breakout" (Wikipedia, Hans-Valentin Hube) — he wants this order, not
       // just executes it.
@@ -132,7 +132,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General der Artillerie Walther von Seydlitz-Kurzbach",
       role: "Commanding, LI Army Corps",
       category: "divisions",
-      note: "His corps is three infantry divisions, and he's one of the army's own generals already arguing for exactly this order. Chits spent on Divisions carry further under him.",
+      note: "His corps is three infantry divisions, and he's one of the army's own generals already arguing for exactly this order. Effort put into Divisions carries further under him.",
       // Verified: Seydlitz was "one of the generals who argued most forcefully in favour of a
       // breakout or a surrender, against Hitler's orders" (Wikipedia, Walther von
       // Seydlitz-Kurzbach) — his actual advocacy on record is documented from January 1943, after
@@ -144,7 +144,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generalleutnant Martin Fiebig",
       role: "Commanding, VIII Fliegerkorps",
       category: "air",
-      note: "His air corps has been flying support over this front for months. Chits spent on Air Support carry further under him.",
+      note: "His air corps has been flying support over this front for months. Effort put into Air Support carries further under him.",
       // Verified: Fiebig told Paulus directly that an airlift "was not feasible," then appealed to
       // Richthofen, who agreed and "urged senior commanders to authorize a breakout rather than an
       // airlift" (Wikipedia, Martin Fiebig) — the airlift order hasn't been given yet at this
@@ -164,7 +164,7 @@ const KEY_BATTLE_COMMANDERS = {
       category: "armour",
       // Verified: von Vaerst took over the Afrika Korps after Nehring was wounded in an air raid
       // on 31 August 1942, mid-battle (Wikipedia, Battle of Alam el Halfa).
-      note: "Takes over the Korps from a wounded Nehring in the middle of this fight. Chits spent on Mechanised Armour carry further under him.",
+      note: "Takes over the Korps from a wounded Nehring in the middle of this fight. Effort put into Mechanised Armour carries further under him.",
       reportLine: "Von Vaerst pushes the panzer spearhead forward himself, Korps command or not.",
     },
     {
@@ -174,7 +174,7 @@ const KEY_BATTLE_COMMANDERS = {
       category: "divisions",
       // Verified: Navarini commanded the Italian XXI Corps at Alam el Halfa (Wikipedia, Battle of
       // Alam el Halfa order of battle).
-      note: "His corps is the Italian infantry mass that has to keep pace with a night march built around the panzers' own schedule. Chits spent on Divisions carry further under him.",
+      note: "His corps is the Italian infantry mass that has to keep pace with a night march built around the panzers' own schedule. Effort put into Divisions carries further under him.",
       reportLine: "Navarini gets his corps moving on the night schedule, no argument needed this time.",
     },
     {
@@ -184,7 +184,7 @@ const KEY_BATTLE_COMMANDERS = {
       category: "air",
       // Verified: Seidemann took command of Fliegerführer Afrika on 30 August 1942 — the day this
       // attack opened — succeeding Hoffmann von Waldau (Wikipedia, Fliegerführer Afrika).
-      note: "Takes command of the air corps the same morning this attack goes in. Chits spent on Air Support carry further under him.",
+      note: "Takes command of the air corps the same morning this attack goes in. Effort put into Air Support carries further under him.",
       reportLine: "Seidemann has what's flyable over the column before the first report comes in.",
     },
   ],
@@ -203,7 +203,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Vincenzo Dapino",
       role: "Commanding, 1st Motorized Group",
       category: "assault",
-      note: "His group is the Piemonte and Bersaglieri battalions making the climb. Chits spent on Alpine & Bersaglieri Assault carry further under him.",
+      note: "His group is the Piemonte and Bersaglieri battalions making the climb. Effort put into Alpine & Bersaglieri Assault carries further under him.",
       reportLine: "Dapino pushes the assault line up the last stretch of trail himself.",
     },
   ],
@@ -219,7 +219,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Ivan Chernyakhovsky",
       role: "Commanding, 3rd Belorussian Front",
       category: "divisions",
-      note: "His front's rifle armies are doing much of the work sealing the ring shut. Chits spent on Divisions carry further under him.",
+      note: "His front's rifle armies are doing much of the work sealing the ring shut. Effort put into Divisions carries further under him.",
       reportLine: "Chernyakhovsky pushes his rifle armies forward to seal another stretch of the ring.",
     },
     {
@@ -227,7 +227,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Pavel Rotmistrov",
       role: "Commanding, 5th Guards Tank Army",
       category: "armour",
-      note: "His tank army is the offensive's own exploitation force, committed straight through the gap the breakthrough opened. Chits spent on Mechanised Armour carry further under him.",
+      note: "His tank army is the offensive's own exploitation force, committed straight through the gap the breakthrough opened. Effort put into Mechanised Armour carries further under him.",
       reportLine: "Rotmistrov drives his tank army forward through the gap without waiting for orders to confirm it.",
     },
   ],
@@ -247,7 +247,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Lucian K. Truscott Jr.",
       role: "Commanding, 3rd Infantry Division",
       category: "armor",
-      note: "His division leads the push toward the Alban Hills, armor included — the same thrust he will later argue should never have stopped short of Valmontone. Chits spent on Armored Exploitation carry further under him.",
+      note: "His division leads the push toward the Alban Hills, armor included — the same thrust he will later argue should never have stopped short of Valmontone. Effort put into Armored Exploitation carries further under him.",
       reportLine: "Truscott pushes his division's own column forward without waiting on the corps to confirm it.",
     },
     {
@@ -255,7 +255,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Ronald Penney",
       role: "Commanding, British 1st Infantry Division",
       category: "assault",
-      note: "His division holds the other half of the beachhead's own infantry line. Chits spent on Infantry Beachhead carry further under him.",
+      note: "His division holds the other half of the beachhead's own infantry line. Effort put into Infantry Beachhead carries further under him.",
       reportLine: "Penney gets his division's line squared away and pushing its own perimeter forward.",
     },
     {
@@ -263,7 +263,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Colonel William O. Darby",
       role: "Commanding, 6615th Ranger Force",
       category: "rangers",
-      note: "His Rangers took the port itself this morning without firing a shot. Chits spent on Ranger & Commando Vanguard carry further under him.",
+      note: "His Rangers took the port itself this morning without firing a shot. Effort put into Ranger & Commando Vanguard carries further under him.",
       reportLine: "Darby pushes his Rangers out ahead of the main line on his own authority.",
     },
   ],
@@ -281,7 +281,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Lieutenant General Brian Horrocks",
       role: "Commanding, XXX Corps",
       category: "corpsPush",
-      note: "His corps is the column stalled on the one road north of Nijmegen. Chits spent on XXX Corps Armored Push carry further under him.",
+      note: "His corps is the column stalled on the one road north of Nijmegen. Effort put into XXX Corps Armored Push carries further under him.",
       reportLine: "Horrocks pushes the column forward on his own authority rather than wait for the road to clear itself.",
     },
     {
@@ -289,7 +289,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Roy Urquhart",
       role: "Commanding, 1st Airborne Division",
       category: "perimeter",
-      note: "His division, what's left of it, is the horseshoe around Oosterbeek. Chits spent on Oosterbeek Perimeter carry further under him.",
+      note: "His division, what's left of it, is the horseshoe around Oosterbeek. Effort put into Oosterbeek Perimeter carries further under him.",
       reportLine: "Urquhart tightens the perimeter's own line rather than let it be pulled thinner.",
     },
     {
@@ -297,7 +297,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Stanisław Sosabowski",
       role: "Commanding, 1st Independent Parachute Brigade (Poland)",
       category: "poles",
-      note: "His brigade is the one making the crossing attempts from Driel. Chits spent on Polish Parachute Brigade carry further under him.",
+      note: "His brigade is the one making the crossing attempts from Driel. Effort put into Polish Parachute Brigade carries further under him.",
       reportLine: "Sosabowski sends another boat load across on his own order, ferry or no ferry.",
     },
   ],
@@ -316,7 +316,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Commander Jack Broome",
       role: "Senior Officer of the Escort",
       category: "escorts",
-      note: "His destroyers and corvettes are the convoy's own close screen. Chits spent on Destroyer & Corvette Screen carry further under him.",
+      note: "His destroyers and corvettes are the convoy's own close screen. Effort put into Destroyer & Corvette Screen carries further under him.",
       reportLine: "Broome brings his destroyers in tighter on his own order rather than wait for a threat to name itself.",
     },
     {
@@ -324,7 +324,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Rear-Admiral Louis Hamilton",
       role: "Commanding, 1st Cruiser Squadron",
       category: "coveringForce",
-      note: "His cruisers are the covering force standing off against the battleship threat. Chits spent on Distant Covering Force carry further under him.",
+      note: "His cruisers are the covering force standing off against the battleship threat. Effort put into Distant Covering Force carries further under him.",
       reportLine: "Hamilton holds his squadron ready to close the distance the moment the threat picture actually changes.",
     },
   ],
@@ -348,7 +348,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Brigadier General Curtis LeMay",
       role: "Commanding, 3rd Air Division",
       category: "formation",
-      note: "The combat box is his own doctrine, drilled into his division before anyone else's. Chits spent on Combat Box Discipline carry further under him.",
+      note: "The combat box is his own doctrine, drilled into his division before anyone else's. Effort put into Combat Box Discipline carries further under him.",
       reportLine: "LeMay orders the box tightened on his own standing doctrine rather than wait for a report to justify it.",
     },
     {
@@ -356,7 +356,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General William Kepner",
       role: "Commanding, VIII Fighter Command",
       category: "escort",
-      note: "His Thunderbolt groups are the whole of the mission's fighter escort. Chits spent on Fighter Escort Coordination carry further under him.",
+      note: "His Thunderbolt groups are the whole of the mission's fighter escort. Effort put into Fighter Escort Coordination carries further under him.",
       reportLine: "Kepner pushes another flight to the limit of its range on his own order rather than wait for the schedule to call for it.",
     },
     {
@@ -364,7 +364,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Lieutenant General Ira Eaker",
       role: "Commanding, Eighth Air Force",
       category: "targeting",
-      note: "The target list — and the case that chokepoint industries are worth this cost — is his own command's doctrine. Chits spent on Precision Bomb-Run carry further under him.",
+      note: "The target list — and the case that chokepoint industries are worth this cost — is his own command's doctrine. Effort put into Precision Bomb-Run carries further under him.",
       reportLine: "Eaker's own standing order to hold the run steady through flak is what the lead bombardiers are flying to.",
     },
   ],
@@ -387,7 +387,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General der Panzertruppe Heinz Guderian",
       role: "Commanding, XIX Panzer Corps",
       category: "bridging",
-      note: "All three of his panzer divisions cross at Sedan, and not one tank can follow the infantry until engineers put a bridge over the river. Chits spent on Bridging & Traffic carry further under him.",
+      note: "All three of his panzer divisions cross at Sedan, and not one tank can follow the infantry until engineers put a bridge over the river. Effort put into Bridging & Traffic carries further under him.",
       reportLine: "Guderian presses the engineers on the bridge and the traffic behind it, because every tank he has is waiting for them.",
     },
     {
@@ -395,7 +395,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Oberst Hermann Balck",
       role: "Commanding, 1st Rifle Regiment, 1st Panzer Division",
       category: "assault",
-      note: "His regiment is one of those that cross first and take the heights above the river. Chits spent on Assault Infantry & Pioneers carry further under him.",
+      note: "His regiment is one of those that cross first and take the heights above the river. Effort put into Assault Infantry & Pioneers carries further under him.",
       reportLine: "Balck's riflemen go over in the first boats and are up the far slope before the French can steady.",
     },
     {
@@ -403,7 +403,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generalleutnant Bruno Loerzer",
       role: "Commanding, II Fliegerkorps",
       category: "air",
-      note: "His air corps flies in the day's waves over the French positions. Chits spent on Air Attack carry further under him.",
+      note: "His air corps flies in the day's waves over the French positions. Effort put into Air Attack carries further under him.",
       reportLine: "Loerzer's bombers keep coming over the French line in small waves, hour after hour.",
     },
   ],
@@ -421,7 +421,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Georgy Zhukov",
       role: "Commanding, Western Front",
       category: "reserves",
-      note: "He is the front commander who argued that the new armies had to be gathered and thrown together, not fed in one at a time. Chits spent on Fresh Rifle Armies carry further under him.",
+      note: "He is the front commander who argued that the new armies had to be gathered and thrown together, not fed in one at a time. Effort put into Fresh Rifle Armies carries further under him.",
       reportLine: "Zhukov throws the fresh armies in together on the first morning rather than feed them in one by one.",
     },
     {
@@ -429,7 +429,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Pavel Belov",
       role: "Commanding, 1st Guards Cavalry Corps",
       category: "exploitation",
-      note: "His cavalry stopped Guderian's tanks near Kashira and is the one force on the line that can ride through the snow behind the German flank. Chits spent on Cavalry & Ski Columns carry further under him.",
+      note: "His cavalry stopped Guderian's tanks near Kashira and is the one force on the line that can ride through the snow behind the German flank. Effort put into Cavalry & Ski Columns carries further under him.",
       reportLine: "Belov's horsemen ride through the snow past the German strongpoints and into the rear.",
     },
   ],
@@ -446,7 +446,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Air Vice-Marshal Keith Park",
       role: "Commanding, No. 11 Group",
       category: "squadrons",
-      note: "The squadrons that meet the raids over Kent and London are his, flown from sector stations he knows by name. Chits spent on 11 Group Squadrons carry further under him.",
+      note: "The squadrons that meet the raids over Kent and London are his, flown from sector stations he knows by name. Effort put into 11 Group Squadrons carries further under him.",
       reportLine: "Park sends his squadrons up in ones and twos to meet each raid before it reaches the coast.",
     },
     {
@@ -454,7 +454,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Air Chief Marshal Hugh Dowding",
       role: "Commanding-in-Chief, Fighter Command",
       category: "control",
-      note: "The chain of radar, observers, plotting tables and radio control is his own design. Chits spent on Radar & Ground Control carry further under him.",
+      note: "The chain of radar, observers, plotting tables and radio control is his own design. Effort put into Radar & Ground Control carries further under him.",
       reportLine: "Dowding's system feeds the plot to Uxbridge, and the controllers put each squadron where the raid is going.",
     },
     {
@@ -462,7 +462,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Air Vice-Marshal Trafford Leigh-Mallory",
       role: "Commanding, No. 12 Group",
       category: "wing",
-      note: "He commands the group north of the Thames whose Duxford Wing flies as a mass of squadrons. Chits spent on the Duxford Wing carry further under him.",
+      note: "He commands the group north of the Thames whose Duxford Wing flies as a mass of squadrons. Effort put into the Duxford Wing carries further under him.",
       reportLine: "Leigh-Mallory's wing forms up over Duxford and heads south in a single mass of fighters.",
     },
   ],
@@ -476,8 +476,134 @@ const KEY_BATTLE_COMMANDERS = {
       name: "General Alfredo Guzzoni",
       role: "Commanding, Fourth Army",
       category: "assault",
-      note: "His army makes the main attack, through the Little St Bernard Pass. Chits spent on Alpini & Infantry Assault carry further under him.",
+      note: "His army makes the main attack, through the Little St Bernard Pass. Effort put into Alpini & Infantry Assault carries further under him.",
       reportLine: "Guzzoni drives the main attack up the Little St Bernard road and holds nothing back from it.",
+    },
+  ],
+  // Round 23: the six battles added in the second ring (Uranus, Dunkirk, the Pindus winter, Crete, the
+  // relief of Bastogne, Cape Matapan). Facts verified 2026-10-05 against Wikipedia and noted on each host node.
+  uranus: [
+    {
+      id: "vatutin",
+      name: "Nikolai Vatutin",
+      role: "Commanding, Southwestern Front",
+      category: "breakthrough",
+      note: "His front makes the northern pincer and breaks the Romanian Third Army's line. Effort put into Breakthrough Armies carries further under him.",
+      reportLine: "Vatutin's armies break the Romanian line on the first morning.",
+    },
+    {
+      id: "romanenko",
+      name: "Pavel Romanenko",
+      role: "Commanding, 5th Tank Army",
+      category: "armour",
+      note: "His army is the mobile heart of the northern pincer. Effort put into Tank & Cavalry Corps carries further under him.",
+      reportLine: "Romanenko's tank army drives for the Don behind the break.",
+    },
+  ],
+  dynamo40: [
+    {
+      id: "ramsay",
+      name: "Admiral Bertram Ramsay",
+      role: "Commanding, Dover Command",
+      category: "navy",
+      note: "He runs the whole lift from Dover Castle. Effort put into Destroyers & the Mole carries further under him.",
+      reportLine: "Ramsay's staff at Dover send ship after ship across the Channel.",
+    },
+    {
+      id: "park",
+      name: "Air Vice-Marshal Keith Park",
+      role: "Commanding, No. 11 Group",
+      category: "air",
+      note: "His squadrons provide the fighter cover over the beaches. Effort put into Fighter Cover carries further under him.",
+      reportLine: "Park's squadrons fly patrol after patrol over the beaches.",
+    },
+    {
+      id: "alexander",
+      name: "General Harold Alexander",
+      role: "Commanding the rearguard",
+      category: "perimeter",
+      note: "He commands the rearguard holding the perimeter. Effort put into The Perimeter & Rearguard carries further under him.",
+      reportLine: "Alexander holds the line, fighting at every canal.",
+    },
+  ],
+  epirus40: [
+    {
+      id: "cavallero",
+      name: "General Ugo Cavallero",
+      role: "Commanding in Albania from December 1940",
+      category: "reserves",
+      note: "He has taken personal command in Albania, and the reserve divisions are his to feed into the line. Effort put into Reserve Divisions from Italy carries further under him.",
+      reportLine: "Cavallero feeds the reserve divisions into the line as they land.",
+    },
+  ],
+  crete41: [
+    {
+      id: "student",
+      name: "Generalleutnant Kurt Student",
+      role: "Commanding, XI Fliegerkorps",
+      category: "paratroops",
+      note: "The whole airborne arm is his, and the plan is his. Effort put into The Paratroop Drop carries further under him.",
+      reportLine: "Student sends in every paratrooper he has, from the first light.",
+    },
+    {
+      id: "richthofen",
+      name: "General der Flieger Wolfram von Richthofen",
+      role: "Commanding, VIII Fliegerkorps",
+      category: "air",
+      note: "His close-support air corps works with the paratroops and drives the Royal Navy off. Effort put into Luftwaffe Support carries further under him.",
+      reportLine: "Richthofen's bombers and dive bombers work over the island and the sea from first light.",
+    },
+    {
+      id: "ringel",
+      name: "Julius Ringel",
+      role: "Commanding, 5th Mountain Division",
+      category: "mountain",
+      note: "His division is the reinforcement that must land as soon as an airfield is held. Effort put into Mountain Troops by Air-Landing carries further under him.",
+      reportLine: "Ringel's mountain troops land on the airfield as soon as the runway can be used.",
+    },
+  ],
+  bastogne44: [
+    {
+      id: "patton",
+      name: "Lieutenant General George S. Patton Jr.",
+      role: "Commanding, Third Army",
+      category: "armour",
+      note: "He told Eisenhower that Third Army could attack in forty-eight hours, and his armour leads the relief. Effort put into The Armoured Spearhead carries further under him.",
+      reportLine: "Patton drives the armour up the road with everything he has.",
+    },
+    {
+      id: "millikin",
+      name: "Major General John Millikin",
+      role: "Commanding, III Corps",
+      category: "infantry",
+      note: "His corps makes the attack, and the 26th and 80th Infantry Divisions are on the shoulders of the advance. Effort put into Infantry Divisions on the Shoulders carries further under him.",
+      reportLine: "Millikin's infantry clear the road's flanks and hold the shoulders of the advance.",
+    },
+    {
+      id: "mcauliffe",
+      name: "Brigadier General Anthony McAuliffe",
+      role: "Commanding, 101st Airborne Division at Bastogne",
+      category: "garrison",
+      note: "The town and the perimeter are his, and the surrender demand has already been refused. Effort put into The Bastogne Garrison carries further under him.",
+      reportLine: "McAuliffe holds the perimeter with what he has and refuses to give up the town.",
+    },
+  ],
+  matapan41: [
+    {
+      id: "iachino",
+      name: "Admiral Angelo Iachino",
+      role: "Commander-in-Chief, Italian Fleet",
+      category: "battle",
+      note: "The whole fleet is his, and the battleship flies his flag. Effort put into The Battle Fleet carries further under him.",
+      reportLine: "Iachino holds the battle fleet together and turns it for home.",
+    },
+    {
+      id: "cattaneo",
+      name: "Admiral Carlo Cattaneo",
+      role: "Commanding, 1st Cruiser Division",
+      category: "cruisers",
+      note: "His three heavy cruisers are the fleet's screen. Effort put into The Cruiser Divisions carries further under him.",
+      reportLine: "Cattaneo keeps his cruisers in line and ready to fight.",
     },
   ],
   // Round 8 (Craig: "if limit it to a max of 3 commanders"): cut from four names to three. The
@@ -530,7 +656,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "spearhead",
       name: "Concentrated Armored Spearhead",
       subtitle: "Hoth's approach — the southern pincer",
-      note: "Lead with the tanks. A narrow armored wedge — Tigers forward, the rest fanning to the flanks and rear — punches through fast, the way 4th Panzer Army's own attack did. Speed outruns its own supply tail: Mechanised Armour chits carry further, Supply chits carry less.",
+      note: "Lead with the tanks. A narrow armored wedge — Tigers forward, the rest fanning to the flanks and rear — punches through fast, the way 4th Panzer Army's own attack did. Speed outruns its own supply tail: effort in Mechanised Armour carries further, effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The attack goes in as a wedge: Tigers at the point, the lighter tanks fanning out behind.",
     },
@@ -538,7 +664,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "infantryBreach",
       name: "Methodical Infantry-Led Breach",
       subtitle: "Model's approach — the northern pincer",
-      note: "Hold the tanks back. Infantry and artillery batter the line open first, the way 9th Army's own attack did, with the panzer reserve committed only once the defenses are actually breached. Divisions chits carry further; Mechanised Armour chits carry less, held back rather than leading. The methodical pace also keeps the supply columns closer behind the line: Supply chits carry a little further too.",
+      note: "Hold the tanks back. Infantry and artillery batter the line open first, the way 9th Army's own attack did, with the panzer reserve committed only once the defenses are actually breached. Effort in Divisions carries further; effort in Mechanised Armour carries less, held back rather than leading. The methodical pace also keeps the supply columns closer behind the line: effort in Supply carries a little further too.",
       // Round 13, Craig's item #4: Supply had no commander tie and no positive approach modifier
       // anywhere in Kursk's config — structurally a dead end, since check-battle-balance.js's own
       // round-12 build surfaced that no plan can ever push Supply to the same ceiling every other
@@ -566,7 +692,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "forceDraws",
       name: "Force the Draws",
       subtitle: "The V Corps plan — take the exits",
-      note: "Go straight at the five draws, where the vehicle exits and the strongpoints both are. Open them and the beach can drain inland. Engineers & Tanks chits carry further; Follow-on Waves chits carry less, fed into the fire at the draw mouths.",
+      note: "Go straight at the five draws, where the vehicle exits and the strongpoints both are. Open them and the beach can drain inland. Effort in Engineers & Tanks carries further; effort in Follow-on Waves carries less, fed into the fire at the draw mouths.",
       modifiers: { engineers: 0.7, waves: -0.5 },
       reportLine: "The assault goes straight at the draws, where the exits and the strongpoints both are.",
     },
@@ -574,7 +700,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "climbBluffs",
       name: "Climb Between the Draws",
       subtitle: "Small groups, between the strongpoints",
-      note: "Send small groups up the bluffs between the strongpoints, away from the draws, and take the defenders from behind. Follow-on Waves chits carry further; Engineers & Tanks chits carry less, with the exits left shut for now.",
+      note: "Send small groups up the bluffs between the strongpoints, away from the draws, and take the defenders from behind. Effort in Follow-on Waves carries further; effort in Engineers & Tanks carries less, with the exits left shut for now.",
       modifiers: { waves: 0.7, engineers: -0.5 },
       reportLine: "Small groups start up the bluffs between the strongpoints, well away from the draws.",
     },
@@ -588,7 +714,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "armoredThrust",
       name: "Concentrated Armored Thrust",
       subtitle: "Lead with what panzer strength survived Uranus",
-      note: "Put the tanks at the front of the column and drive for open ground before the ring hardens. Mechanised Armour chits carry further; every kilometer spends fuel nobody is flying in a second load of, so Supply chits carry less.",
+      note: "Put the tanks at the front of the column and drive for open ground before the ring hardens. Effort in Mechanised Armour carries further; every kilometer spends fuel nobody is flying in a second load of, so effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The panzer screen forms up at the head of the column and pushes west first.",
     },
@@ -596,7 +722,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "broadWithdrawal",
       name: "Broad Infantry Withdrawal",
       subtitle: "Preserve the mass, screen it rather than lead with it",
-      note: "March the infantry divisions out under their own power, tanks screening the flanks rather than leading. Divisions chits carry further; Mechanised Armour chits carry less, held to the column's edges instead of its point.",
+      note: "March the infantry divisions out under their own power, tanks screening the flanks rather than leading. Effort in Divisions carries further; effort in Mechanised Armour carries less, held to the column's edges instead of its point.",
       modifiers: { divisions: 0.7, armour: -0.5 },
       reportLine: "The infantry divisions form the column's main body, tanks screening its edges rather than leading it.",
     },
@@ -612,7 +738,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "raceTheDawn",
       name: "Race the Dawn",
       subtitle: "Force the gap before first light",
-      note: "Push the panzer spearhead through the minefield lanes at speed rather than wait for them fully cleared — every hour saved is an hour less exposed to the Desert Air Force in daylight. Mechanised Armour chits carry further; the pace burns fuel nobody is shipping a second load of, so Supply chits carry less.",
+      note: "Push the panzer spearhead through the minefield lanes at speed rather than wait for them fully cleared — every hour saved is an hour less exposed to the Desert Air Force in daylight. Effort in Mechanised Armour carries further; the pace burns fuel nobody is shipping a second load of, so effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The panzer spearhead probes the minefield's edge, looking for a lane already cleared.",
     },
@@ -620,7 +746,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "clearTheMines",
       name: "Clear the Mines Properly",
       subtitle: "Let the engineers open the lanes first",
-      note: "Take the time to breach the minefields properly before committing the column, infantry and engineers leading rather than the tanks. Divisions chits carry further; Mechanised Armour chits carry less, held back until the lanes are actually open.",
+      note: "Take the time to breach the minefields properly before committing the column, infantry and engineers leading rather than the tanks. Effort in Divisions carries further; effort in Mechanised Armour carries less, held back until the lanes are actually open.",
       modifiers: { divisions: 0.7, armour: -0.5 },
       reportLine: "The infantry and engineers lead into the minefield, clearing the lanes ahead of the tanks.",
     },
@@ -637,7 +763,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "gunsForward",
       name: "Guns Forward",
       subtitle: "Range the artillery in before the climb starts",
-      note: "Have the Anglo-Polish batteries register their fire plan before the assault battalions move, at the cost of some of the surprise a faster start would keep. Anglo-Polish Artillery chits carry further; Alpine & Bersaglieri Assault chits carry less, held to wait on the guns' own schedule.",
+      note: "Have the Anglo-Polish batteries register their fire plan before the assault battalions move, at the cost of some of the surprise a faster start would keep. Effort in Anglo-Polish Artillery carries further; effort in Alpine & Bersaglieri Assault carries less, held to wait on the guns' own schedule.",
       modifiers: { artillery: 0.7, assault: -0.5 },
       reportLine: "The Anglo-Polish batteries range in their fire plan before the assault line moves.",
     },
@@ -645,7 +771,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "assaultLeads",
       name: "Assault Leads the Climb",
       subtitle: "Move on the peak now, guns in overwatch",
-      note: "Send the assault battalions up the mountain on the original night-surprise schedule, artillery held in overwatch rather than leading the plan. Alpine & Bersaglieri Assault chits carry further; Anglo-Polish Artillery chits carry less, ranged in only after contact.",
+      note: "Send the assault battalions up the mountain on the original night-surprise schedule, artillery held in overwatch rather than leading the plan. Effort in Alpine & Bersaglieri Assault carries further; effort in Anglo-Polish Artillery carries less, ranged in only after contact.",
       modifiers: { assault: 0.7, artillery: -0.5 },
       reportLine: "The assault line moves up the mountain on schedule, the guns held in overwatch behind it.",
     },
@@ -664,7 +790,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "deepEncirclement",
       name: "Bypass and Encircle",
       subtitle: "Drive the tank armies deep, leave the strongpoints behind",
-      note: "Push the tank armies past the fortified towns rather than reduce them, closing the ring on the open country behind the line. Mechanised Armour chits carry further; every kilometer driven around a strongpoint is a kilometer the rear services haven't caught up to yet, so Supply chits carry less.",
+      note: "Push the tank armies past the fortified towns rather than reduce them, closing the ring on the open country behind the line. Effort in Mechanised Armour carries further; every kilometer driven around a strongpoint is a kilometer the rear services haven't caught up to yet, so effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The tank armies bypass the fortified towns and drive for open country behind the line.",
     },
@@ -672,7 +798,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "reduceStrongpoints",
       name: "Reduce the Strongpoints",
       subtitle: "Clear the fortified towns before pushing on",
-      note: "Take the fortified towns methodically with the rifle armies before committing the tank strength past them. Divisions chits carry further; Mechanised Armour chits carry less, held back until the ground behind it is actually clear.",
+      note: "Take the fortified towns methodically with the rifle armies before committing the tank strength past them. Effort in Divisions carries further; effort in Mechanised Armour carries less, held back until the ground behind it is actually clear.",
       modifiers: { divisions: 0.7, armour: -0.5 },
       reportLine: "The rifle armies move to reduce the fortified towns before the tank strength is committed past them.",
     },
@@ -689,7 +815,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "pushInland",
       name: "Push the Column Inland Now",
       subtitle: "Truscott's argument — commit the exploitation force while the roads are open",
-      note: "Send the armor and its screening infantry up the road toward the Alban Hills before the German response can organize. Armored Exploitation chits carry further; the beachhead's own infantry line, thinned to feed the column, carries less. Infantry Beachhead chits carry less.",
+      note: "Send the armor and its screening infantry up the road toward the Alban Hills before the German response can organize. Effort in Armored Exploitation carries further; the beachhead's own infantry line, thinned to feed the column, carries less. Effort in Infantry Beachhead carries less.",
       modifiers: { armor: 0.7, assault: -0.5 },
       reportLine: "The exploitation column moves out on the road inland without waiting for the beachhead to fully consolidate.",
     },
@@ -697,7 +823,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "securePerimeter",
       name: "Secure the Perimeter First",
       subtitle: "Lucas's actual order — entrench the beachhead against the counterattack he expects",
-      note: "Hold the armor back and dig the infantry line in before committing anything inland, the way the historical corps commander actually ordered it. Infantry Beachhead chits carry further; Armored Exploitation chits carry less, held in reserve rather than leading.",
+      note: "Hold the armor back and dig the infantry line in before committing anything inland, the way the historical corps commander actually ordered it. Effort in Infantry Beachhead carries further; effort in Armored Exploitation carries less, held in reserve rather than leading.",
       modifiers: { assault: 0.7, armor: -0.5 },
       reportLine: "The infantry digs in on the beachhead's own perimeter while the armor stays back in reserve.",
     },
@@ -713,7 +839,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "directAssault",
       name: "Push the Armor Straight at the River",
       subtitle: "Send the spearhead for the crossing directly, corridor security secondary",
-      note: "Drive the column for the river without pausing to widen the road behind it. XXX Corps Armored Push chits carry further; the single road left thin behind the spearhead is exactly what let the Germans cut it near Koevering — Supply Drop chits carry less, the corridor's own security being what keeps any resupply moving at all.",
+      note: "Drive the column for the river without pausing to widen the road behind it. Effort in XXX Corps Armored Push carries further; the single road left thin behind the spearhead is exactly what let the Germans cut it near Koevering — effort in Supply Drop carries less, the corridor's own security being what keeps any resupply moving at all.",
       modifiers: { corpsPush: 0.7, resupply: -0.5 },
       reportLine: "The column drives straight for the river, leaving the road behind it thinner than the plan called for.",
     },
@@ -721,7 +847,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "securedAdvance",
       name: "Clear and Hold the Corridor First",
       subtitle: "Widen and secure the road north before committing the spearhead further",
-      note: "Spend the effort holding Hell's Highway open before pushing the spearhead any further. Supply Drop chits carry further; XXX Corps Armored Push chits carry less, held to the pace the secured road actually allows.",
+      note: "Spend the effort holding Hell's Highway open before pushing the spearhead any further. Effort in Supply Drop carries further; effort in XXX Corps Armored Push carries less, held to the pace the secured road actually allows.",
       modifiers: { resupply: 0.7, corpsPush: -0.5 },
       reportLine: "The corps spends its effort holding the road open rather than pushing the spearhead further north.",
     },
@@ -736,7 +862,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "antiSubPriority",
       name: "Screen Against the Wolfpacks",
       subtitle: "Concentrate the escort's attention on the submarine threat",
-      note: "Keep the destroyers and corvettes hunting contacts rather than watching the sky. Destroyer & Corvette Screen chits carry further; Anti-Aircraft Auxiliaries chits carry less, left to fight the air threat alone.",
+      note: "Keep the destroyers and corvettes hunting contacts rather than watching the sky. Effort in Destroyer & Corvette Screen carries further; effort in Anti-Aircraft Auxiliaries carries less, left to fight the air threat alone.",
       modifiers: { escorts: 0.7, aaShips: -0.5 },
       reportLine: "The escort's attention goes to the water rather than the sky, hunting contacts before they can fire.",
     },
@@ -744,7 +870,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "antiAirPriority",
       name: "Mass Anti-Aircraft Fire",
       subtitle: "Concentrate the escort's attention on the torpedo bomber threat",
-      note: "Bring every gun that can be spared onto the air picture rather than the water. Anti-Aircraft Auxiliaries chits carry further; Destroyer & Corvette Screen chits carry less, thinner on the U-boat threat as a result.",
+      note: "Bring every gun that can be spared onto the air picture rather than the water. Effort in Anti-Aircraft Auxiliaries carries further; effort in Destroyer & Corvette Screen carries less, thinner on the U-boat threat as a result.",
       modifiers: { aaShips: 0.7, escorts: -0.5 },
       reportLine: "The escort's attention goes to the sky rather than the water, massing fire against the next low pass.",
     },
@@ -759,7 +885,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "holdTheBox",
       name: "Hold the Box Together",
       subtitle: "Drill formation discipline over the exact rendezvous timing",
-      note: "Put the effort into keeping the box tight end to end. Combat Box Discipline chits carry further; Fighter Escort Coordination chits carry less, left to work the handoff with whatever timing the escort already has.",
+      note: "Put the effort into keeping the box tight end to end. Effort in Combat Box Discipline carries further; effort in Fighter Escort Coordination carries less, left to work the handoff with whatever timing the escort already has.",
       modifiers: { formation: 0.7, escort: -0.5 },
       reportLine: "The effort goes into holding the box tight rather than perfecting the escort handoff.",
     },
@@ -767,7 +893,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "exactRendezvous",
       name: "Time the Rendezvous Exactly",
       subtitle: "Drill the escort handoff over formation discipline",
-      note: "Put the effort into making the fighter handoff as precise as the range allows. Fighter Escort Coordination chits carry further; Combat Box Discipline chits carry less, left to hold together with whatever discipline the groups already have.",
+      note: "Put the effort into making the fighter handoff as precise as the range allows. Effort in Fighter Escort Coordination carries further; effort in Combat Box Discipline carries less, left to hold together with whatever discipline the groups already have.",
       modifiers: { escort: 0.7, formation: -0.5 },
       reportLine: "The effort goes into the escort handoff rather than drilling the box's own discipline.",
     },
@@ -782,7 +908,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "rollingAttack",
       name: "Rolling Air Attack All Day",
       subtitle: "Small waves over the bunkers from first light, so the defenders never settle",
-      note: "Keep the bombers coming in small formations hour after hour, as the corps actually did. Air Attack chits carry further; Artillery Preparation chits carry less, the guns fighting for fire-control attention with the aircraft overhead.",
+      note: "Keep the bombers coming in small formations hour after hour, as the corps actually did. Effort in Air Attack carries further; effort in Artillery Preparation carries less, the guns fighting for fire-control attention with the aircraft overhead.",
       modifiers: { air: 0.7, guns: -0.5 },
       reportLine: "Small formations of bombers go over the bunkers hour after hour, and the French never get a quiet minute.",
     },
@@ -790,7 +916,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "singleBlow",
       name: "One Great Blow at H-Hour",
       subtitle: "Hold the weight back and hit the river line with everything in a short, heavy strike",
-      note: "Save the effort for a short, heavy preparation timed to the crossing, as the first air plan intended. Artillery Preparation chits carry further; Air Attack chits carry less, the aircraft idle for most of the day.",
+      note: "Save the effort for a short, heavy preparation timed to the crossing, as the first air plan intended. Effort in Artillery Preparation carries further; effort in Air Attack carries less, the aircraft idle for most of the day.",
       modifiers: { guns: 0.7, air: -0.5 },
       reportLine: "Nothing flies until the great strike goes in just before the boats go down to the water.",
     },
@@ -804,7 +930,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "twoBlows",
       name: "Two Great Blows at the Flanks",
       subtitle: "Mass the new armies at Klin in the north and Tula in the south",
-      note: "Put the weight of the fresh armies into two concentrated thrusts. Fresh Rifle Armies chits carry further; Air Cover chits carry less, thinned across the two sectors.",
+      note: "Put the weight of the fresh armies into two concentrated thrusts. Effort in Fresh Rifle Armies carries further; effort in Air Cover carries less, thinned across the two sectors.",
       modifiers: { reserves: 0.7, air: -0.5 },
       reportLine: "The new armies go in as two massed blows, one at each flank of the German salient.",
     },
@@ -812,7 +938,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "railPriority",
       name: "A Wide Front, Rail Priority",
       subtitle: "Spread the attack and give the railway's capacity first call on ammunition and clothing",
-      note: "Attack on a wider front and feed it. Rail & Winter Supply chits carry further; Fresh Rifle Armies chits carry less, spread over more ground.",
+      note: "Attack on a wider front and feed it. Effort in Rail & Winter Supply carries further; effort in Fresh Rifle Armies carries less, spread over more ground.",
       modifiers: { supply: 0.7, reserves: -0.5 },
       reportLine: "The attack goes in along a wide front, and the railway's trains are given over to shells and winter clothing first.",
     },
@@ -827,7 +953,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "smallSquadrons",
       name: "Meet Them in Squadron Strength",
       subtitle: "Park's practice — scramble fast, meet each raid forward, in small formations",
-      note: "Fight the raids with 11 Group's own squadrons, in the numbers each raid needs and no more. 11 Group Squadrons chits carry further; the Duxford Wing chits carry less, held off until it is wanted.",
+      note: "Fight the raids with 11 Group's own squadrons, in the numbers each raid needs and no more. Effort in 11 Group Squadrons carries further; effort in the Duxford Wing carries less, held off until it is wanted.",
       modifiers: { squadrons: 0.7, wing: -0.5 },
       reportLine: "11 Group's squadrons go up in pairs and sections to meet each raid well forward of London.",
     },
@@ -835,7 +961,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "callTheWing",
       name: "Call 12 Group In Early",
       subtitle: "Ask the Duxford Wing to cover the capital while 11 Group meets the first blow",
-      note: "Ask 12 Group to come south at the first warning, so there are more fighters over the capital. Duxford Wing chits carry further; 11 Group Squadrons chits carry less, held back to cover the sector stations.",
+      note: "Ask 12 Group to come south at the first warning, so there are more fighters over the capital. Effort in Duxford Wing carries further; effort in 11 Group Squadrons carries less, held back to cover the sector stations.",
       modifiers: { wing: 0.7, squadrons: -0.5 },
       reportLine: "Park calls on 12 Group at the first warning, and the Duxford Wing climbs south toward London.",
     },
@@ -849,7 +975,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "oneRoad",
       name: "Mass on the Little St Bernard",
       subtitle: "Put everything behind the main thrust the 4th Army is making",
-      note: "Keep to one road and make it count. Alpini & Infantry Assault chits carry further; Mules & Mountain Roads chits carry less, one road and one trail carrying everything.",
+      note: "Keep to one road and make it count. Effort in Alpini & Infantry Assault carries further; effort in Mules & Mountain Roads carries less, one road and one trail carrying everything.",
       modifiers: { assault: 0.7, supply: -0.5 },
       reportLine: "Everything goes up the Little St Bernard road behind the main thrust.",
     },
@@ -857,9 +983,118 @@ const KEY_BATTLE_APPROACHES = {
       id: "wholeFront",
       name: "Press Every Valley at Once",
       subtitle: "Spread the guns and attack across the whole front, as the orders require",
-      note: "Attack at every pass and let the guns range across the whole front. Corps Artillery chits carry further; Alpini & Infantry Assault chits carry less, spread across more valleys.",
+      note: "Attack at every pass and let the guns range across the whole front. Effort in Corps Artillery carries further; effort in Alpini & Infantry Assault carries less, spread across more valleys.",
       modifiers: { artillery: 0.7, assault: -0.5 },
       reportLine: "The attack goes in at every pass at once and the guns range across the whole front.",
+    },
+  ],
+  // Round 23: the second ring's approach pairs, modeled tradeoffs between the arms.
+  uranus: [
+    {
+      id: "deepRing",
+      name: "Seal the Ring Far Out",
+      subtitle: "Send the mobile corps deep, to the Don and beyond",
+      note: "Push the tank and cavalry corps as deep as they will go, to trap the whole army. Effort in Tank & Cavalry Corps carries further; effort in Rail & Ammunition Dumps carries less, the corps running far ahead of the railheads.",
+      modifiers: { armour: 0.7, supply: -0.5 },
+      reportLine: "The mobile corps run far ahead of the railheads, for the Don.",
+    },
+    {
+      id: "nearRing",
+      name: "Seal the Ring Near the City",
+      subtitle: "Keep the pincers close and trap the garrison",
+      note: "Keep the pincers shorter and tighter. Effort in Breakthrough Armies carries further; effort in Tank & Cavalry Corps carries less, held to a shorter reach.",
+      modifiers: { breakthrough: 0.7, armour: -0.5 },
+      reportLine: "The pincers are kept short and close to the city.",
+    },
+  ],
+  dynamo40: [
+    {
+      id: "useTheMole",
+      name: "Work the Mole and the Harbour",
+      subtitle: "Load the big ships alongside the east mole",
+      note: "Put the weight of the lift into the destroyers and passenger ships at the mole. Effort in Destroyers & the Mole carries further; effort in Small Craft & the Beaches carries less, the boats left to work alone.",
+      modifiers: { navy: 0.7, smallCraft: -0.5 },
+      reportLine: "The big ships load alongside the east mole, one after another.",
+    },
+    {
+      id: "workTheBeaches",
+      name: "Work the Open Beaches",
+      subtitle: "Put the small craft to the sand",
+      note: "Spread the lift along the beaches, with boats ferrying men out to the waiting ships. Effort in Small Craft & the Beaches carries further; effort in Destroyers & the Mole carries less, the big ships waiting offshore.",
+      modifiers: { smallCraft: 0.7, navy: -0.5 },
+      reportLine: "The small boats run in to the beaches and ferry men out to the waiting ships.",
+    },
+  ],
+  epirus40: [
+    {
+      id: "feedTheReserve",
+      name: "Feed the Reserve in at Once",
+      subtitle: "Put every division across the Adriatic into the line",
+      note: "Throw every division into the line as it lands. Effort in Reserve Divisions from Italy carries further; effort in Ports & Mountain Tracks carries less, the tracks choked by the divisions arriving.",
+      modifiers: { reserves: 0.7, ports: -0.5 },
+      reportLine: "Every division that lands goes straight into the line.",
+    },
+    {
+      id: "mountainLine",
+      name: "Hold the Mountain Line with the Alpini",
+      subtitle: "Let the mountain troops hold the heights",
+      note: "Hold the heights with the mountain troops and keep the new divisions behind them. Effort in Alpini & Mountain Troops carries further; effort in Reserve Divisions from Italy carries less, held back behind the line.",
+      modifiers: { alpini: 0.7, reserves: -0.5 },
+      reportLine: "The Alpini hold the heights while the reserve divisions wait behind them.",
+    },
+  ],
+  crete41: [
+    {
+      id: "concentrateMaleme",
+      name: "Concentrate on Maleme",
+      subtitle: "Make the western airfield the main effort",
+      note: "Put the weight into the drop at Maleme, and win the airfield first. Effort in The Paratroop Drop carries further; effort in The Sea Convoys carries less, left to sail without the air effort.",
+      modifiers: { paratroops: 0.7, sea: -0.5 },
+      reportLine: "The weight of the drop goes to Maleme and its airfield.",
+    },
+    {
+      id: "spreadThree",
+      name: "Strike All Three Objectives at Once",
+      subtitle: "Drop at Maleme, Rethymno and Heraklion together",
+      note: "Strike every airfield at once, so that the garrison cannot reinforce one from another. Effort in Mountain Troops by Air-Landing carries further, with more fields to land on; effort in The Paratroop Drop carries less, thinned across three drop zones.",
+      modifiers: { mountain: 0.7, paratroops: -0.5 },
+      reportLine: "The paratroopers drop on all three airfields together.",
+    },
+  ],
+  bastogne44: [
+    {
+      id: "rapidWheel",
+      name: "The Rapid Wheel",
+      subtitle: "Attack at once with what is to hand",
+      note: "Strike north in forty-eight hours, as Patton promised. Effort in The Armoured Spearhead carries further; effort in Infantry Divisions on the Shoulders carries less, the infantry left to catch up.",
+      modifiers: { armour: 0.7, infantry: -0.5 },
+      reportLine: "Third Army swings north at once, with the armour in front.",
+    },
+    {
+      id: "twoCorpsWeight",
+      name: "Two Corps in Strength",
+      subtitle: "Wait to bring two corps into line",
+      note: "Take the time to bring up the weight of two corps. Effort in Infantry Divisions on the Shoulders carries further; effort in The Armoured Spearhead carries less, held to the infantry's pace.",
+      modifiers: { infantry: 0.7, armour: -0.5 },
+      reportLine: "Third Army waits to bring two corps into line before it moves.",
+    },
+  ],
+  matapan41: [
+    {
+      id: "keepConcentrated",
+      name: "Keep the Fleet Together",
+      subtitle: "Run for home with the fleet concentrated",
+      note: "Keep every ship in company and make for port. Effort in The Battle Fleet carries further; effort in The Cruiser Divisions carries less, tied to the fleet's pace.",
+      modifiers: { battle: 0.7, cruisers: -0.5 },
+      reportLine: "The fleet holds together and makes for home.",
+    },
+    {
+      id: "detachTheCruisers",
+      name: "Detach the Cruisers to Help",
+      subtitle: "Send the cruiser divisions to help whatever is crippled",
+      note: "Let the cruisers go back to help a damaged ship. Effort in The Cruiser Divisions carries further; effort in The Battle Fleet carries less, left with fewer ships around it.",
+      modifiers: { cruisers: 0.7, battle: -0.5 },
+      reportLine: "The cruiser divisions are detached to help the damaged ship.",
     },
   ],
 };
@@ -1046,7 +1281,7 @@ const KEY_BATTLE_POSTURES = {
     {
       id: "hullDownLine",
       name: "The ridge isn't maneuvering",
-      modifiers: { armour: 0.6, divisions: 0.75, supply: 1.25 },
+      modifiers: { armour: 0.6, divisions: 0.75, supply: 1.35 },
       hints: [
         "Prisoners describe orders to hold fixed positions and let the attack come to them, not to counter-charge.",
         "The armor on the ridge hasn't moved from its dug-in line since first contact was reported.",
@@ -1268,6 +1503,7 @@ const KEY_BATTLE_POSTURES = {
     },
     {
       id: "distantShadow",
+      only: 1,
       name: "The convoy is fixed and reported",
       // Same reasoning as luftwaffeStrike above: escorts' own ceiling needed matching dampening
       // here too, or the screen stayed the best play regardless of contact.
@@ -1320,6 +1556,7 @@ const KEY_BATTLE_POSTURES = {
     },
     {
       id: "flakOverTarget",
+      only: 2,
       name: "The target itself is ringed with flak",
       // Same reasoning as rocketStandoff above: formation's own ceiling needed matching
       // dampening here too, or the box stayed the best play regardless of contact.
@@ -1446,6 +1683,7 @@ const KEY_BATTLE_POSTURES = {
     },
     {
       id: "secondWave",
+      only: 2,
       name: "A second wave behind the first",
       modifiers: { turnaround: 1.8, squadrons: 0.8, wing: 0.8, control: 0.9 },
       hints: [
@@ -1477,7 +1715,7 @@ const KEY_BATTLE_POSTURES = {
       id: "bridgesDown",
       name: "The bridges down, the old posts manned",
       weight: 2,
-      modifiers: { supply: 1.7, assault: 0.6, artillery: 0.9, air: 0.9 },
+      modifiers: { supply: 2.0, assault: 0.6, artillery: 0.9, air: 0.9 },
       hints: [
         "Engineers report the French have blown the bridges on the Little St Bernard road.",
         "Aerial photographs show machine-gun posts in the ruins of the old fort at the top of the pass.",
@@ -1503,6 +1741,247 @@ const KEY_BATTLE_POSTURES = {
         "Every approach seems to have a few men on skis watching it, and they are good.",
       ],
       reveal: "Contact: French ski patrols are screening every approach, and the attack will be fought out in small mountain actions.",
+    },
+  ],
+  // Round 23: the second ring's enemy setups, each tied to a documented condition of its battle.
+  uranus: [
+    {
+      id: "thinRomanianLine",
+      name: "A thin Romanian line, thinly supported",
+      weight: 2,
+      modifiers: { breakthrough: 1.1, armour: 1.1, air: 0.9, supply: 0.85 },
+      hints: [
+        "Prisoners say their regiments have few anti-tank guns and no reserves behind them.",
+        "Reconnaissance finds long stretches of the Romanian line held by outposts.",
+      ],
+      reveal: "Contact: the Romanian line is thin and thinly supported, and it begins to give on the first morning.",
+    },
+    {
+      id: "panzerReserve",
+      name: "German armour behind the Romanians",
+      modifiers: { armour: 0.65, breakthrough: 1.15, air: 1.25, supply: 0.9 },
+      hints: [
+        "Air reconnaissance reports German tanks assembled behind the Romanian front.",
+        "Intercepted signals mention a panzer corps held in reserve behind the Don bend.",
+      ],
+      reveal: "Contact: a German panzer corps stands in reserve behind the Romanians, and it is moving to meet the pincers.",
+    },
+    {
+      id: "strongpoints",
+      name: "Strongpoints held to the last",
+      modifiers: { breakthrough: 0.7, armour: 1.2, air: 0.9, supply: 1.1 },
+      hints: [
+        "Prisoners describe orders to hold the villages whatever happens.",
+        "Reconnaissance finds the Romanian line anchored on fortified villages.",
+      ],
+      reveal: "Contact: the Romanian divisions hold their villages and hills to the last, and the infantry have to take them one at a time.",
+    },
+  ],
+  dynamo40: [
+    {
+      id: "luftwaffeStrikes",
+      name: "The Luftwaffe over the beaches",
+      weight: 2,
+      modifiers: { air: 1.5, navy: 0.8, smallCraft: 0.9, perimeter: 1 },
+      hints: [
+        "Reconnaissance reports bomber groups massing on the airfields behind the pocket.",
+        "The sky over the beaches is already busy with German aircraft.",
+      ],
+      reveal: "Contact: the Luftwaffe is over the beaches and the mole in force, and the ships are its first target.",
+    },
+    {
+      id: "perimeterPressed",
+      name: "A heavy ground attack on the perimeter",
+      modifiers: { perimeter: 1.3, navy: 0.85, smallCraft: 0.9, air: 0.9 },
+      hints: [
+        "The French at Lille report heavy attacks on the south of the perimeter.",
+        "German infantry columns are moving up toward the canal line.",
+      ],
+      reveal: "Contact: a heavy German ground attack is going in on the perimeter, and every hour the rearguard holds is an hour of lift.",
+    },
+    {
+      id: "panzersHalted",
+      name: "The panzers held at the canals",
+      modifiers: { smallCraft: 1.3, navy: 0.8, perimeter: 0.9, air: 0.9 },
+      hints: [
+        "The German armour has not moved from the canal line for two days.",
+        "The marshes in front of the perimeter are quiet of tanks.",
+      ],
+      reveal: "Contact: the panzers are held back at the canals, and the pressure on the perimeter is only infantry.",
+    },
+  ],
+  epirus40: [
+    {
+      id: "greekCounteroffensive",
+      name: "The Greeks on the offensive",
+      weight: 2,
+      modifiers: { reserves: 1, alpini: 0.8, air: 1.1, ports: 0.9 },
+      hints: [
+        "Prisoners say the Greek divisions have orders to keep attacking.",
+        "Greek columns are moving forward along the mountain tracks.",
+      ],
+      reveal: "Contact: the Greeks are on the offensive along the whole front, and the line is being pushed.",
+    },
+    {
+      id: "numbersInTheHills",
+      name: "Greek divisions larger than the Italians'",
+      modifiers: { reserves: 1.3, alpini: 0.9, air: 0.9, ports: 0.8 },
+      hints: [
+        "Prisoners come from three different Greek divisions in one small sector.",
+        "The Greek line is held in depth, with more men than the Italian staff expected.",
+      ],
+      reveal: "Contact: the Greek divisions are larger and stronger than the Italian ones in front of them, and they are everywhere on the heights.",
+    },
+    {
+      id: "replacementsRunShort",
+      name: "Greek replacements running short",
+      modifiers: { alpini: 1.25, reserves: 0.85, air: 0.8, ports: 0.9 },
+      hints: [
+        "Prisoners say the Greek units are well below strength and that replacements are slow.",
+        "The Greek attacks are being made by tired men with little behind them.",
+      ],
+      reveal: "Contact: the Greek army is short of replacements, and its attacks are costing it more than it can afford.",
+    },
+  ],
+  crete41: [
+    {
+      id: "largerGarrison",
+      name: "A garrison larger than briefed",
+      weight: 2,
+      only: 1,
+      modifiers: { paratroops: 0.65, air: 0.9, sea: 1, mountain: 1.15 },
+      hints: [
+        "A report from the mainland suggests the island holds more troops than the staff believed.",
+        "Aerial photographs show dug-in positions around every airfield.",
+      ],
+      reveal: "Contact: the garrison is larger than briefed, and it was waiting. The paratroopers are landing among the defenders.",
+    },
+    {
+      id: "asBriefed",
+      name: "A garrison as briefed",
+      only: 1,
+      modifiers: { paratroops: 1.2, air: 1, sea: 0.9, mountain: 0.8 },
+      hints: [
+        "Reconnaissance suggests the defence is thin around the airfields.",
+        "No heavy guns have been seen on the hills above the drop zones.",
+      ],
+      reveal: "Contact: the garrison is about as strong as the planners believed, and the first wave gets a foothold.",
+    },
+    {
+      id: "navyHunts",
+      name: "The Royal Navy hunting the convoys",
+      only: 2,
+      modifiers: { sea: 0.5, air: 1.2, paratroops: 0.9, mountain: 0.9 },
+      hints: [
+        "Air reconnaissance reports British cruisers and destroyers steaming north of the island.",
+        "The Navy's ships are at sea in strength, and the convoys are slow.",
+      ],
+      reveal: "Contact: the Royal Navy is hunting the convoys, and the ships in them are being sunk one after another.",
+    },
+    {
+      id: "malemeGap",
+      name: "A gap at Maleme",
+      only: 2,
+      modifiers: { mountain: 1.4, paratroops: 1.2, sea: 0.9, air: 0.9 },
+      hints: [
+        "A paratroop patrol reports that the hill beside the airfield is quiet.",
+        "The defenders on the hill appear to have pulled back in the night.",
+      ],
+      reveal: "Contact: the defenders have left the hill beside Maleme airfield, and the runway can be used.",
+    },
+  ],
+  bastogne44: [
+    {
+      id: "southernShoulder",
+      name: "The German shoulder in the south",
+      weight: 2,
+      only: 1,
+      modifiers: { armour: 0.8, infantry: 1.3, air: 1.1, garrison: 1 },
+      hints: [
+        "Intercepts show German infantry divisions dug in along the southern edge of the salient.",
+        "Reports describe villages on the road held in strength.",
+      ],
+      reveal: "Contact: the southern shoulder of the salient is held in strength, and the road north is lined with villages that must be taken.",
+    },
+    {
+      id: "panzersAtBastogne",
+      name: "Panzers still pressing the town",
+      modifiers: { garrison: 1.3, armour: 0.85, infantry: 0.9, air: 1.1 },
+      hints: [
+        "German tanks are reported massing for a fresh attack on the town.",
+        "The garrison reports tank fire on three sides of the perimeter at once.",
+      ],
+      reveal: "Contact: German panzers are still pressing the town hard, and the garrison is in danger.",
+    },
+    {
+      id: "fuelRunsDry",
+      name: "German fuel running out",
+      only: 2,
+      modifiers: { armour: 1.35, infantry: 0.85, air: 0.9, garrison: 0.9 },
+      hints: [
+        "German vehicles are being abandoned along the roads for lack of fuel.",
+        "Prisoners say their tanks have not been refuelled in two days.",
+      ],
+      reveal: "Contact: the German advance has run out of fuel, and its tanks are standing where they stopped.",
+    },
+  ],
+  matapan41: [
+    {
+      id: "carrierStrikes",
+      name: "Carrier aircraft striking in waves",
+      weight: 2,
+      only: 1,
+      modifiers: { air: 1.5, battle: 0.8, cruisers: 0.9, signals: 1 },
+      hints: [
+        "A shadowing aircraft has been over the fleet since morning.",
+        "Signals traffic suggests a carrier is within range.",
+      ],
+      reveal: "Contact: carrier aircraft are attacking the fleet in waves through the day, and the sky above it is empty of friends.",
+    },
+    {
+      id: "cruisersInContact",
+      name: "British cruisers in contact",
+      only: 1,
+      modifiers: { cruisers: 1.3, battle: 0.9, air: 0.9, signals: 0.85 },
+      hints: [
+        "A report from the morning describes British cruisers on the horizon.",
+        "The cruisers on the flank report ships in sight to the south-east.",
+      ],
+      reveal: "Contact: British cruisers are in sight and in touch with the fleet, and they will not go away.",
+    },
+    {
+      id: "britishClose",
+      name: "British battleships close behind, with radar",
+      weight: 2,
+      only: 2,
+      modifiers: { signals: 0.5, cruisers: 0.8, battle: 1.1, air: 0.9 },
+      hints: [
+        "A report suggests the British battle fleet is steaming west at speed.",
+        "A shadowing aircraft reports heavy ships on the fleet's track.",
+      ],
+      reveal: "Contact: the British battle fleet is close behind, and its radar finds the ships long before the ships find it.",
+    },
+    {
+      id: "britishFarAstern",
+      name: "The British far astern",
+      only: 2,
+      modifiers: { cruisers: 1.3, signals: 1, battle: 0.9, air: 0.9 },
+      hints: [
+        "No ship has been reported east of the fleet in hours.",
+        "The last report puts the British battle fleet a long way behind.",
+      ],
+      reveal: "Contact: the British are far astern, and the sea around the fleet is empty.",
+    },
+    {
+      id: "mistakenForFriends",
+      name: "British ships mistaken for friends",
+      only: 2,
+      modifiers: { signals: 1.4, cruisers: 0.9, battle: 0.9, air: 0.9 },
+      hints: [
+        "Ships have been sighted ahead and not challenged.",
+        "The watch reports a force in the dark and cannot say whose it is.",
+      ],
+      reveal: "Contact: a force is sighted in the dark and taken for Italian ships, and the signal that would settle it is not made.",
     },
   ],
 };
@@ -1557,8 +2036,14 @@ const KEY_BATTLE_BONUS_CLAMP = 30;
 
 // Round 10 (item 7): postures can carry a `weight` (default 1) — Omaha's historical posture is
 // drawn twice as often as either alternative.
-function pickKeyBattlePosture(battleId) {
-  const roster = KEY_BATTLE_POSTURES[battleId] || [];
+function pickKeyBattlePosture(battleId, excludeId, phase) {
+  // Round 22: a battle with phases (config.phases) draws a second posture for its second phase,
+  // never the same one twice. excludeId is undefined for every ordinary battle, so nothing about
+  // the first draw changes for them.
+  // A posture can be tied to one phase (only: 1 or 2): a second wave cannot open the day.
+  const roster = (KEY_BATTLE_POSTURES[battleId] || []).filter(
+    (p) => (!excludeId || p.id !== excludeId) && (!phase || !p.only || p.only === phase)
+  );
   if (!roster.length) return null;
   const total = roster.reduce((a, p) => a + (p.weight || 1), 0);
   let r = Math.random() * total;
@@ -1876,7 +2361,141 @@ const KEY_BATTLE_ECHOES = {
       guzzoni: "Guzzoni's army is still strung out along the Little St Bernard road, the main attack's weight behind it.",
     },
   },
+  uranus: {
+    counter: {
+      repulsed: "The German counterattack on the flank of the pincers was beaten off, and the ring closed behind it.",
+      heldAtCost: "The flank of the pincers held against the German counterattack, but the corps that held it are worn.",
+      broke: "The Germans broke into the flank of the pincers, and it took days to seal the break.",
+      gaveGround: "The head of the advance gave ground to the German counterattack, and the ring closed a day late.",
+    },
+    neglected: {
+      breakthrough: "There were too few infantry behind the first assault, and the line in front of the mobile corps was never properly broken.",
+      armour: "The mobile corps never raced for the Don, and the ring closed late and thin.",
+      air: "The air armies never flew, and the Romanian guns and the German reserve moved freely.",
+      supply: "The railways were not pushed forward, and the corps ran dry short of the Don.",
+    },
+    commander: {
+      vatutin: "Vatutin's armies hold the line they broke on the first morning.",
+      romanenko: "Romanenko's tank army is still the point of the northern pincer.",
+    },
+  },
+  dynamo40: {
+    counter: {
+      repulsed: "The German attack on the perimeter was beaten off, and the lift went on behind the line.",
+      heldAtCost: "The perimeter held against the attack, but the units that held it came home as remnants.",
+      broke: "The Germans broke through the canal line, and the beaches were in range of their guns for a day.",
+      gaveGround: "The rearguard fell back to a shorter line, and the last of the lift was crowded into less ground.",
+    },
+    neglected: {
+      navy: "The big ships were never sent in, and the mole stood idle while men waited on the sand.",
+      smallCraft: "The small boats never worked the beaches, and the men on the sand waited for ships that could not come close.",
+      air: "The sky over the beaches belonged to the Luftwaffe, and the ships were bombed as they loaded.",
+      perimeter: "The perimeter was held thinly, and it nearly gave way before the lift was done.",
+    },
+    commander: {
+      ramsay: "Ramsay's staff at Dover are still sending ships across the Channel.",
+      park: "Park's squadrons are still flying their patrols over the beaches.",
+      alexander: "Alexander's rearguard is still holding the canal line.",
+    },
+  },
+  epirus40: {
+    counter: {
+      repulsed: "The Greek attack on the heights was thrown back, and the line stayed where it was.",
+      heldAtCost: "The Alpini held the heights against the Greeks, but the battalions that held them were badly cut up.",
+      broke: "The Greeks broke onto the heights, and the fighting went on for hours in the dark.",
+      gaveGround: "The line fell back off the heights rather than fight the Greek attack out where it struck.",
+    },
+    neglected: {
+      reserves: "The reserve divisions stayed at the ports, and the line was held by what was already on it.",
+      alpini: "The high ground was never properly held, and the Greeks used it.",
+      air: "The air force barely flew over the passes, and the Greeks moved in daylight.",
+      ports: "The ports and the tracks were left to clog, and the front was short of everything but mud.",
+    },
+    commander: { cavallero: "Cavallero is still feeding the divisions into the line as they land." },
+  },
+  crete41: {
+    counter: {
+      repulsed: "The counterattack on the airfield was beaten off, and the mountain troops went on landing.",
+      heldAtCost: "The paratroopers held the edge of the airfield, but the units that held it were almost gone.",
+      broke: "The defenders broke into the airfield, and the landings stopped for hours under fire.",
+      gaveGround: "The paratroopers gave up the edge of the airfield and fell back on the hill.",
+    },
+    neglected: {
+      paratroops: "Too few paratroopers dropped, and the airfields were never properly threatened.",
+      air: "The Luftwaffe was thin over the island, and the Royal Navy went where it liked.",
+      sea: "The convoys were never properly covered, and the heavy equipment never arrived.",
+      mountain: "The mountain troops waited on the mainland, and there was no reinforcement to land.",
+    },
+    commander: {
+      student: "Student is still sending every paratrooper he has into the island.",
+      richthofen: "Richthofen's bombers are still working over the island and the sea.",
+      ringel: "Ringel's mountain troops are still being flown in as fast as the runway allows.",
+    },
+  },
+  bastogne44: {
+    counter: {
+      repulsed: "The German counterattack on the corridor was beaten off, and the road stayed open.",
+      heldAtCost: "The shoulder of the corridor held, but the infantry that held it were worn out.",
+      broke: "The Germans broke into the corridor, and the road was cut until the break was sealed.",
+      gaveGround: "The shoulder gave ground, and the corridor was narrowed to the width of the road.",
+    },
+    neglected: {
+      armour: "No armoured spearhead led the relief, and the road was forced on foot.",
+      infantry: "The flanks of the road were left open, and every convoy was attacked from the side.",
+      air: "The aircraft never flew for the garrison, and the town went on without them.",
+      garrison: "The garrison was left to hold the town on what it had, and its ammunition ran short.",
+    },
+    commander: {
+      patton: "Patton has the armour on the road to Bastogne and is already looking beyond the town.",
+      millikin: "Millikin's infantry are still holding the shoulders of the corridor.",
+      mcauliffe: "McAuliffe's garrison is still holding the town it refused to surrender.",
+    },
+  },
+  matapan41: {
+    counter: {
+      repulsed: "The ships acted as one, and the British attack was driven off before it did any harm.",
+      heldAtCost: "The fleet got away, but the ships that covered it were badly hit.",
+      broke: "The British guns found the cruisers at point-blank range, and the ships were lost in minutes.",
+      gaveGround: "The fleet turned away from the fight and left a part of itself behind.",
+    },
+    neglected: {
+      battle: "The battle fleet was left slow and spread out, and its screen was never properly formed.",
+      cruisers: "The cruiser divisions were left to look after themselves, and they paid for it in the dark.",
+      air: "No cover and no reconnaissance came, and the fleet fought blind.",
+      signals: "No one rehearsed the night action, and the fleet met it with the drills of a day battle.",
+    },
+    commander: {
+      iachino: "Iachino has brought the battle fleet home and is already writing his report.",
+      cattaneo: "Cattaneo's cruisers are still the screen of the fleet.",
+    },
+  },
 };
+// Round 22: the War Record's Battle Record lists every battle by name, in campaign order, with the
+// campaign seal it belongs to. Fought battles show their record; the others show as blanks.
+const KEY_BATTLE_TITLES = [
+  { id: "sedan40", seal: "OKW", title: "The Crossing at Sedan" },
+  { id: "crete41", seal: "OKW", title: "Operation Mercury" },
+  { id: "elAlamein", seal: "OKW", title: "The Push to Alam Halfa" },
+  { id: "stalingrad", seal: "OKW", title: "The Breakout West" },
+  { id: "kursk", seal: "OKW", title: "The Kursk Salient" },
+  { id: "moscow41", seal: "STAVKA", title: "The Blow Before Moscow" },
+  { id: "uranus", seal: "STAVKA", title: "Operation Uranus" },
+  { id: "bagrationSoviet44", seal: "STAVKA", title: "The Drive on Minsk" },
+  { id: "dynamo40", seal: "SHAEF", title: "Operation Dynamo" },
+  { id: "britainDay40", seal: "SHAEF", title: "Battle of Britain Day" },
+  { id: "pq17_1942", seal: "SHAEF", title: "Holding the Convoy Together" },
+  { id: "bomberDirective43", seal: "SHAEF", title: "The Second Schweinfurt Mission" },
+  { id: "anzio44", seal: "SHAEF", title: "The Beachhead's First Hours" },
+  { id: "omaha", seal: "SHAEF", title: "Omaha, Mid-Morning" },
+  { id: "arnhemPerimeter44", seal: "SHAEF", title: "The Corridor and the Perimeter" },
+  { id: "bastogne44", seal: "SHAEF", title: "The Relief of Bastogne" },
+  { id: "alps40", seal: "COMANDO", title: "The Little St Bernard" },
+  { id: "epirus40", seal: "COMANDO", title: "The Pindus Winter" },
+  { id: "matapan41", seal: "COMANDO", title: "Cape Matapan" },
+  { id: "monteCassino44", seal: "COMANDO", title: "Monte Marrone" },
+];
+const BATTLE_GRADE_ORDER = ["total", "marginal", "costly", "clean"]; // worst to best
+
 function keyBattleEcho(echoId, flags, battleId) {
   const E = KEY_BATTLE_ECHOES[echoId];
   const id = battleId || echoId;
@@ -1947,8 +2566,16 @@ function clampBattleBonus(raw) {
 // the staff ahead of events); a reserve of 2+ chits held back and never committed returns +1
 // Manpower. Each meter's net plan cost is capped to [-2, +1] so the plan can sting but never
 // outweigh the battle's own historical outcome impact.
-function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contributions, won, reservesHeld, counter }) {
+function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contributions, won, reservesHeld, counter, extraLines, attrition }) {
   const lines = [];
+  // Round 22: costs chosen at a mid-battle decision (extraLines: [{meter, delta, reason}]) and a
+  // battle's own attrition rules (attrition: [{category, atLeast, meter, delta, reason}], e.g. the
+  // frostbite on the Alps or the cold before Moscow) read exactly like the rules below. They go
+  // through the same [-2, +1] cap per meter, so a battle can sting but never outweigh its outcome.
+  for (const l of extraLines || []) lines.push({ meter: l.meter, delta: l.delta, reason: l.reason });
+  for (const a of attrition || []) {
+    if ((finalAllocation[a.category] || 0) >= a.atLeast) lines.push({ meter: a.meter, delta: a.delta, reason: a.reason });
+  }
   // Round 10: the counterattack's own cost. Repulsing it is free; holding it at a cost, or
   // being broken, costs the meter of the arm that met it; giving ground costs tempo.
   if (counter && counter.result !== "repulsed") {
@@ -1993,6 +2620,128 @@ function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contrib
     ? "total"
     : "marginal";
   return { lines, totals, grade };
+}
+
+// Round 22, field decisions (config.decisions). Mid-battle choices written for each battle from
+// the real alternatives its day offered. Each option has a flat `bonus` toward the roll, optionally
+// an extra `bonusByPosture` for the enemy posture in force when the decision is made (the later
+// of the battle's postures, when it has two phases), optional `meters` costs, and an optional
+// `severity` change to the counterattack that follows. Pure, so the balance check can run the same
+// code the screen does.
+function battleDecisionEffect(option, postureId) {
+  const byPosture = (option.bonusByPosture && postureId && option.bonusByPosture[postureId]) || 0;
+  const lines = Object.entries(option.meters || {}).map(([meter, delta]) => ({
+    meter,
+    delta,
+    reason: option.costReason || option.name,
+  }));
+  return { bonus: (option.bonus || 0) + byPosture, severity: option.severity || 0, lines };
+}
+
+// Round 23: the campaign hard modes that can put orders from above on a battle (config.hardRule).
+const HARD_MODE_NAMES = { iron: "Führer Mode", purge: "NKVD Mode", coalition: "Coalition Mode", axis: "Axis Mode" };
+
+// Round 23: how a Matériel strand's reading (see materielReadout in logic.ts) changes the weight an
+// arm can bring. Each category may name the strand it draws on (category.strand: "oil", "ammo",
+// "steel" or "ship"): artillery draws on ammunition, armour on steel, aircraft on fuel and oil, supply
+// on shipping and rail. Read once, when the battle screen opens, like the pool size.
+const STRAND_BAND_MULT = { Short: 0.85, Strained: 0.93, Adequate: 1, Plentiful: 1.06 };
+
+// Weight per effort point for one arm. Pure, so the planning screen, the staff plan and the balance
+// check all use the same arithmetic: (jittered base + commander bonus + approach modifier) times the
+// enemy posture (the average of the two when a battle has two phases), the ground, and the strand.
+function battleArmWeight({ config, catId, jitter, commander, approach, posture, posture2, strandMult }) {
+  const base = (config.effectiveness[catId] ?? 1) * (jitter ?? 1);
+  const commanderBonus = commander && commander.category === catId ? KEY_BATTLE_COMMANDER_BONUS : 0;
+  const approachMod = approach?.modifiers?.[catId] ?? 0;
+  const m1 = posture?.modifiers?.[catId] ?? 1;
+  const postureMult = posture2 ? (m1 + (posture2.modifiers?.[catId] ?? 1)) / 2 : m1;
+  const terrain = config.terrainModifiers?.[catId] ?? 1;
+  return (base + commanderBonus + approachMod) * postureMult * terrain * (strandMult ?? 1);
+}
+
+// Every way to place exactly `pool` points of effort across the arms.
+function allBattleAllocations(categories, pool) {
+  const out = [];
+  const rec = (i, left, cur) => {
+    if (i === categories.length - 1) {
+      out.push({ ...cur, [categories[i].id]: left });
+      return;
+    }
+    for (let v = 0; v <= left; v++) rec(i + 1, left - v, { ...cur, [categories[i].id]: v });
+  };
+  rec(0, pool, {});
+  return out;
+}
+
+// The enemy setups a battle can be fought against, as scenarios: one posture each, or an ordered
+// pair when the battle has two phases (a second-phase-only posture never opens the day).
+function battleScenarios(config, postures) {
+  if (!postures.length) return [{ posture: null, posture2: null, weight: 1 }];
+  if (!config.phases) return postures.map((p) => ({ posture: p, posture2: null, weight: p.weight || 1 }));
+  const out = [];
+  for (const a of postures) {
+    for (const b of postures) {
+      if (a.id === b.id || a.only === 2 || b.only === 1) continue;
+      out.push({ posture: a, posture2: b, weight: (a.weight || 1) * (b.weight || 1) });
+    }
+  }
+  return out;
+}
+
+// "Let your staff plan it". The plan a competent staff would send without knowing what the enemy has
+// drawn: the commander, approach and placement of all the effort that does best on average across
+// the setups the enemy might show (the historical one counting double where the battle says so). It
+// is robust and not clever: it never reads the intelligence, so a player who does can beat it.
+function staffPlanFor({ config, categories, poolSize, strandMults, commanders, approaches, postures, commanderRequired }) {
+  const scenarios = battleScenarios(config, postures);
+  const totalWeight = scenarios.reduce((a, s) => a + s.weight, 0);
+  const allocations = allBattleAllocations(categories, poolSize);
+  let best = null;
+  // The staff name no favourite: no commander unless the orders require one, and no more than half the
+  // effort (rounded up) in any one arm, so their plan is balanced rather than clever.
+  const cap = Math.ceil(poolSize / 2);
+  for (const commander of commanderRequired ? commanders : [null]) {
+    for (const approach of approaches.length ? approaches : [null]) {
+      const weightSets = scenarios.map((s) =>
+        Object.fromEntries(
+          categories.map((c) => [
+            c.id,
+            battleArmWeight({ config, catId: c.id, jitter: 1, commander, approach, posture: s.posture, posture2: s.posture2, strandMult: strandMults?.[c.id] }),
+          ])
+        )
+      );
+      for (const allocation of allocations) {
+        if (Object.values(allocation).some((v) => v > cap)) continue;
+        let expected = 0;
+        scenarios.forEach((s, i) => {
+          const raw = sumBattleContributions(computeBattleContributions(categories, allocation, weightSets[i], poolSize));
+          expected += (s.weight / totalWeight) * clampBattleBonus(raw);
+        });
+        if (!best || expected > best.expected + 1e-9) {
+          best = { commanderId: commander ? commander.id : null, approachId: approach ? approach.id : null, allocation, expected };
+        }
+      }
+    }
+  }
+  return best;
+}
+
+// The field-decision answer a staff gives without knowing the enemy: best on average across setups.
+function staffDecisionOption(decision, postures, config) {
+  const scenarios = battleScenarios(config || {}, postures);
+  const totalWeight = scenarios.reduce((a, s) => a + s.weight, 0);
+  let best = null;
+  for (const option of decision.options) {
+    let score = 0;
+    for (const s of scenarios) {
+      const latest = s.posture2 || s.posture;
+      const e = battleDecisionEffect(option, latest ? latest.id : null);
+      score += (s.weight / totalWeight) * (e.bonus + e.lines.reduce((a, l) => a + l.delta, 0) - 2 * e.severity);
+    }
+    if (!best || score > best.score + 1e-9) best = { option, score };
+  }
+  return best.option;
 }
 
 // One entry per transition (fixed order, so exactly 2 transitions for 3 campaigns — see the

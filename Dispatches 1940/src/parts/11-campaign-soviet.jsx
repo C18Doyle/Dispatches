@@ -678,7 +678,8 @@
               ? " The ring that closed around Sixth Army last month closed deep and clean — nothing of note slipped it — and the same divisions freed by that fuller envelopment are the ones this drive on Rostov would actually use."
               : flags.uranus42 === "shallow"
               ? " The looser ring Stavka chose to close around Stalingrad let a real slice of German strength escape west before the encirclement finished forming — strength that is, this month, exactly what a Rostov drive would run into first."
-              : ""),
+              : "") +
+            (flags.uranusResult === "deep" ? keyBattleEcho("uranus", flags) : ""),
           choices: [
             {
               label: "Drive hard for Rostov — trap Army Group A in the Caucasus entirely",
@@ -865,7 +866,7 @@
           ].concat([
               {
                 label: "Don't take Seelow at all — release Koniev south and Rokossovsky north at full strength and let the heights hold an empty front",
-                disabledReason: (meters.manpower || 0) >= 4 && (meters.fuel || 0) >= 2 ? undefined : "Requires Manpower +4, Fuel +2 — two axes at full weight, or neither",
+                disabledReason: (meters.manpower || 0) >= 4 && (meters.fuel || 0) >= 2 ? undefined : "Requires Manpower +4, Matériel +2 — two axes at full weight, or neither",
                 advisor: { name: "Chuikov", quote: "Heinrici built his line where our maps said we had to come. We do not have to come. For the first time in this war we have enough army to go around a position instead of through it, and I would like to spend that on the last week rather than save it for a week that will not arrive." },
                 setFlags: { berlinAssault: "envelop", berlinEnveloped45: true },
                 impact: { manpower: -1, fuel: -2, initiative: 1 },
@@ -926,8 +927,8 @@
                 categories: [
                   { id: "reserves", name: "Fresh Rifle Armies", meter: "manpower", glyph: "▮▮▮" },
                   { id: "exploitation", name: "Cavalry & Ski Columns", meter: "initiative", glyph: "⇉" },
-                  { id: "air", name: "Air Cover", meter: "fuel", glyph: "✈" },
-                  { id: "supply", name: "Rail & Winter Supply", meter: "fuel", glyph: "▤" },
+                  { id: "air", name: "Air Cover", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "supply", name: "Rail & Winter Supply", meter: "fuel", strand: "ship", glyph: "▤" },
                 ],
                 // Reserves highest — the new armies are the blow itself; Exploitation second —
                 // a hollow German line is a thing cavalry and skiers can get through, but only
@@ -936,6 +937,89 @@
                 // fed the armies all winter, and the shortage is shells and clothing rather than
                 // men, which is a sharper limit than any one battle can lift.
                 effectiveness: { reserves: 2.5, exploitation: 2.2, air: 1.9, supply: 1.7 },
+                orderOfBattle: {
+                  reserves: {
+                    units: [
+                      "1st Shock Army, formed in the Stavka reserve in November 1941: the 133rd Rifle Division and eight rifle brigades, many of them naval infantry from the Pacific Fleet",
+                      "The armies committed to the counteroffensive: the 1st Shock, 5th, 10th, 16th, 20th, 30th, 33rd, 43rd, 49th and 50th",
+                      "About 58 reserve divisions gathered by early December",
+                    ],
+                    real: "The offensive began on the Kalinin Front on 5 December and reached Klin on 7 December. The Germans were pushed back 150 to 300 kilometres but mostly escaped encirclement, and Zhukov had argued that there were too few reserves.",
+                  },
+                  exploitation: {
+                    units: [
+                      "1st Guards Cavalry Corps (Belov), renamed on 26 November 1941 after stopping Guderian near Kashira",
+                      "Ski battalions and cavalry divisions attached to the armies",
+                    ],
+                    real: "Before the offensive Belov appealed to Stalin, with Zhukov's support, to re-arm a corps equipped mainly with rifles, and was promised 1,500 automatic weapons and two batteries of new 76 mm guns.",
+                  },
+                  air: {
+                    units: [
+                      "The air forces of the Western and Kalinin Fronts, with the fighters of Moscow's air defence",
+                      "Air units brought west from Siberia and the Far East, over 1,500 aircraft by the sources' account of the transfers",
+                    ],
+                    real: "German air strength was much reduced: Luftflotte 2 had only 549 serviceable aircraft when the offensive began.",
+                  },
+                  supply: {
+                    units: [
+                      "The railways into Moscow, running to railheads at the edge of the front",
+                      "Winter clothing and equipment for the fresh armies",
+                    ],
+                    real: "Army Group Centre had only a third of its vehicles running, no winter clothing, and more than 130,000 cases of frostbite, while the Soviet troops were better equipped for the cold.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Stalin's order is that Moscow stays in Soviet hands and no ground is to be given: the line may not fall back.", noGiveGround: true },
+                // Round 22. Ground and weather, verified 2026-10-05 (Wikipedia, Battle of Moscow): sources disagree
+                // on the December temperature (Soviet records -28.8 C at the lowest, German reports -36 to -45 C),
+                // and German frostbite cases passed 130,000, so the cold is a fact of the ground. The attrition rule
+                // charges the same cold to the columns that ride out in it.
+                conditions: "Deep cold, with the sources giving anything from -29 to -45 degrees, and deep snow on every road. It is the Germans' problem first, since they have no winter clothing, but it reaches the columns that go out in it too.",
+                terrainModifiers: { supply: 0.9, air: 0.9 },
+                terrainNotes: { supply: "locomotives and roads in deep cold", air: "frozen fields and short days" },
+                attrition: [
+                  { category: "exploitation", atLeast: 3, meter: "manpower", delta: -1, reason: "Frostbite among the columns left out in the open" },
+                ],
+                // Field decision: the second day. Facts (Wikipedia, Winter campaign of 1941-1942): the Red Army
+                // pushed the Germans back 150-300 km but "mostly failed to encircle the German units" at Klin and
+                // elsewhere. The three answers are the real options for running a pursuit with too few reserves;
+                // the payoff against each German posture is modeled.
+                decisions: [
+                  {
+                    id: "runningThePursuit",
+                    time: "1600",
+                    title: "The second day",
+                    prompt: "The first blows have gone in and the Germans are falling back, in some places in good order and in others hardly at all. Stavka wants the armies to pursue everywhere. Zhukov has to decide how the pursuit is run, with reserves that were never enough.",
+                    options: [
+                      {
+                        id: "pressHighways",
+                        name: "Press the pursuit down the main roads at once",
+                        note: "The fastest way, if the enemy is truly broken.",
+                        bonus: 0,
+                        bonusByPosture: { frozenLine: 4, mobileFlanks: -3, orderlyWithdrawal: -2 },
+                        reportLine: "The armies go down the main roads after the Germans without waiting to regroup.",
+                      },
+                      {
+                        id: "cutBehind",
+                        name: "Wheel the cavalry and ski columns around to cut the roads behind them",
+                        note: "The roads are the Germans' only way out, but the columns will be far from help.",
+                        bonus: 0,
+                        bonusByPosture: { frozenLine: 2, mobileFlanks: -4, orderlyWithdrawal: 4 },
+                        reportLine: "The cavalry and the ski columns ride around the flank and across the roads behind the retreating Germans.",
+                      },
+                      {
+                        id: "pauseAndFeed",
+                        name: "Pause a day to bring up the guns and the shells",
+                        note: "Costs Initiative, and the Germans get a day.",
+                        bonus: 0,
+                        bonusByPosture: { mobileFlanks: 4, orderlyWithdrawal: 1 },
+                        meters: { initiative: -1 },
+                        costReason: "A day's pause in the pursuit",
+                        reportLine: "The pursuit halts for a day while the guns and the shells come up the railway.",
+                      },
+                    ],
+                  },
+                ],
                 categoryContext: {
                   reserves:
                     "The fresh armies are the weight of the blow, and they are all the reserve there is. Zhukov's argument is that they should go in together. Each commitment here puts more of them into the first morning's attack.",
@@ -1022,7 +1106,7 @@
                   weight: Math.min(95, modWeight(70, meters.initiative) + (flags.reserveCommitment41 === "hold" ? 10 : 0)),
                   title: "The counteroffensive throws Army Group Centre back",
                   setFlags: { moscow41Result: "thrown" },
-                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  impact: { manpower: 2, fuel: 0, initiative: flags.reserveCommitment41 === "hold" ? 2 : 1 },
                   outcome:
                     "What happened, launched December 5, 1941. Fresh Siberian divisions, and a German army with no winter equipment because the campaign was planned to be over by autumn, combined to drive Army Group Center back as much as 150 miles in places. It was the first major German reversal of the war, and it ended, permanently, any version of a quick victory in the east." +
                     (flags.reserveCommitment41 === "hold"
@@ -1184,8 +1268,187 @@
               setFlags: { uranus42: "deep" },
               impact: { manpower: 1, fuel: 0, initiative: 1 },
               next: "southernPursuit43",
-              outcome:
-                "What happened, November 19–23, 1942. The pincers closed roughly 100 kilometers west of Stalingrad, trapping the entire Sixth Army — some 250,000 men — far more completely than a shallower envelopment would have. Manstein's relief attempt in December came within roughly 30 miles and was stopped; the trapped army surrendered in February 1943, one of the war's genuine turning points.",
+              keyBattleSubgame: {
+                id: "uranus",
+                title: "Order of Battle — Operation Uranus",
+                flavor: "Three fronts stand on the flanks of Sixth Army, and the plan has been built in secret for a month: two pincers, one from the Don bridgeheads in the north-west and one from the lakes south of the city, to meet at Kalach on the Don. The ground in front of them is held by Romanian armies that Stavka knows to be thin and badly equipped, with a German panzer corps standing in reserve behind them. The railways have carried the build-up, the deception has hidden it, and fog may keep the aircraft on the ground on the first morning. What is decided here is how the weight is spread: how much goes to the rifle armies that must break the line, how much to the tank and cavalry corps that will race for the Don, how much to the air armies that fog may ground, and how much to the railways and dumps that every one of them depends on.",
+                categories: [
+                  { id: "breakthrough", name: "Breakthrough Armies", meter: "manpower", glyph: "▮▮▮" },
+                  { id: "armour", name: "Tank & Cavalry Corps", meter: "fuel", strand: "steel", glyph: "▶▶" },
+                  { id: "air", name: "Air Armies", meter: "fuel", strand: "oil", glyph: "✈" },
+                  { id: "supply", name: "Rail & Ammunition Dumps", meter: "fuel", strand: "ship", glyph: "▤" },
+                ],
+                effectiveness: { breakthrough: 2.3, armour: 2.7, air: 1.8, supply: 2 },
+                conditions: "Thick fog and blizzard on the opening day kept much of the air force on the ground. The build-up was hidden by a long deception, the maskirovka, and carried to the front by the railways.",
+                terrainModifiers: { air: 0.8 },
+                terrainNotes: { air: "thick fog and blizzard on the opening day" },
+                categoryContext: {
+                  breakthrough: "The rifle armies have to break the thin Romanian line before anything else can move. Each commitment here puts more infantry and guns behind the first assault.",
+                  armour: "The tank and cavalry corps are the pincers themselves, and their whole task is to reach the Don before the Germans can react. Each commitment here puts more of them through the gap on the first day.",
+                  air: "The air armies can strike the Romanian guns and the German reserves, but fog may keep them down on the first morning. Each commitment here has more aircraft ready to fly when it lifts.",
+                  supply: "Every corps depends on the railways and the ammunition stockpiled in secret behind the start lines, and the pincers will run far ahead of both. Each commitment here pushes the dumps and the railheads forward behind them.",
+                },
+                flashups: {
+                  breakthrough: [
+                    "A rifle division goes forward behind a short, heavy barrage.",
+                    "A Romanian regiment's line gives way and the riflemen go through it.",
+                    "The infantry of 21st Army take a village on the first morning.",
+                    "A battalion pins a Romanian strongpoint while the tanks go round it.",
+                    "A rifle corps widens the gap on its flank.",
+                  ],
+                  armour: [
+                    "A tank corps drives into the gap in the fog.",
+                    "A cavalry corps rides through the line behind the tanks.",
+                    "A mobile corps covers forty kilometres on the second day.",
+                    "The leading brigade reaches the Don and looks for the bridge.",
+                    "A tank column turns west to cover the ring's outer edge.",
+                  ],
+                  air: [
+                    "Ground-attack aircraft hit a Romanian battery when the fog thins.",
+                    "Fighters patrol over the pincers' flank.",
+                    "A bomber group attacks a German reserve column on the road.",
+                    "The air armies stay on the ground, waiting for the fog to lift.",
+                    "A flight reports German armour moving up toward the break.",
+                  ],
+                  supply: [
+                    "A train of ammunition cars reaches the railhead behind the start line.",
+                    "The dumps are moved forward behind the pincers.",
+                    "A column of fuel trucks follows the tank corps through the gap.",
+                    "The railway engineers lay track toward the Don.",
+                    "A tank corps halts for fuel on the second day.",
+                  ],
+                },
+                reportTimes: {
+                  open: "0720",
+                  contact: "0900",
+                  cats: ["1000", "1230", "1500", "1730"],
+                  reserve: "1900",
+                  counter: "2100",
+                },
+                idleLines: {
+                  breakthrough: [
+                    "No more infantry goes in behind the first assault. The gap stays as narrow as the Romanian line allows.",
+                    "The rifle armies hold at the start line, and the line in front of them stays whole.",
+                  ],
+                  armour: [
+                    "The tank corps stay behind the start lines. Nothing races for the Don.",
+                    "No cavalry rides through the line. The pincers have no points.",
+                  ],
+                  air: [
+                    "The air armies do not fly. Fog and a lack of orders keep them on the ground.",
+                    "No aircraft is committed to the break, and the Romanian guns fire undisturbed.",
+                  ],
+                  supply: [
+                    "No extra weight goes to the railways. The corps will have to live on what they carry.",
+                    "The dumps stay where they are, far behind the front.",
+                  ],
+                },
+                verdicts: ["The Ring Closes West of the City", "The Ring Does Not Close"],
+                verdictGrades: {
+                  clean: "Rifle armies, tank corps, aircraft and railways worked together, and the ring closed on the Don before the Germans could react.",
+                  costly: "The ring closes, but every arm of the offensive spent more than the plan allowed to close it.",
+                  marginal: "The pincers advance but do not meet where they were meant to, and the Germans have time they should not have had.",
+                  total: "The offensive breaks into the Romanian line and stops there, short of the Don and of its purpose.",
+                },
+                counterattack: {
+                  category: "armour",
+                  severity: { panzerReserve: 2, thinRomanianLine: 1, strongpoints: 1 },
+                  warn: {
+                    "1": "Romanian and German units are counterattacking along the flank of the pincers.",
+                    "2": "The German 48th Panzer Corps, the reserve behind the Romanians, is turning on the head of the advance.",
+                  },
+                  results: {
+                    repulsed: "The counterattack is beaten off and the tank corps go on toward the Don.",
+                    heldAtCost: "The head of the advance holds, but the tank corps that held it are badly worn.",
+                    broke: "The Germans break into the flank of the tank corps, and the whole advance stops to deal with them.",
+                    gaveGround: "The head of the advance gives way and falls back on the infantry, and the race for the Don loses a day.",
+                  },
+                },
+                orderOfBattle: {
+                  breakthrough: {
+                    units: [
+                      "The 21st Army and the 65th Army, the infantry armies of the breakthrough",
+                      "The Southwestern, Don and Stalingrad Fronts, under Vatutin, Rokossovsky and Yeryomenko",
+                    ],
+                    real: "The offensive began on 19 November. The pincers met at Kalach on 22 November and the ring closed at Sovetsky on 23 November, trapping between 250,000 and 300,000 Axis soldiers.",
+                  },
+                  armour: {
+                    units: [
+                      "The 5th Tank Army (Romanenko)",
+                      "The 4th Mechanised Corps, the 13th Tank Corps and the 26th Tank Corps",
+                      "The 4th Cavalry Corps, the 3rd Guards Cavalry Corps and the 1st Tank Corps",
+                    ],
+                    real: "The Soviet side counted 894 tanks and 13,451 guns among about 1,143,500 personnel including reserves.",
+                  },
+                  air: {
+                    units: ["The 16th, 17th and 8th Air Armies"],
+                    real: "Fog and blizzard limited flying on the opening day, and the Axis had about 732 serviceable aircraft in the theatre.",
+                  },
+                  supply: {
+                    units: [
+                      "The railway lines to the Don and Volga fronts",
+                      "The ammunition stockpiled in secret behind the start lines",
+                    ],
+                    real: "The build-up was hidden by the maskirovka and carried by the railways.",
+                  },
+                },
+                hardRule: { text: "Order No. 227 is in force: not one step back, and the line may not give ground.", noGiveGround: true },
+                decisions: [
+                  {
+                    id: "kalachMeeting",
+                    time: "1900",
+                    title: "The meeting at Kalach",
+                    prompt: "The pincers have met, or are about to, on the Don. The mobile corps are tired and short of fuel, and two things need doing: sealing the inner ring around Sixth Army, and pushing an outer ring west to keep any relief force away. They cannot do both with the same tanks. The front commanders have to decide where the corps go.",
+                    options: [
+                      {
+                        id: "driveOuter",
+                        name: "Drive the mobile corps on west, to form the outer ring",
+                        note: "Keeps any relief away if the Germans are weak, and leaves the inner ring thin.",
+                        bonus: 0,
+                        bonusByPosture: { thinRomanianLine: 4, panzerReserve: -3, strongpoints: -1 },
+                        reportLine: "The mobile corps are sent on west of the Don, to hold the outer edge of the ring.",
+                      },
+                      {
+                        id: "sealInner",
+                        name: "Turn the corps inward to seal the ring around the city",
+                        note: "A tighter ring, and a thinner outer line.",
+                        bonus: 0,
+                        bonusByPosture: { strongpoints: 3, panzerReserve: 1, thinRomanianLine: -2 },
+                        reportLine: "The mobile corps turn inward and close the ring on Sixth Army.",
+                      },
+                      {
+                        id: "haltForFuel",
+                        name: "Halt a day to bring up fuel and ammunition",
+                        note: "Costs Initiative, and the Germans get a day.",
+                        bonus: 0,
+                        bonusByPosture: { panzerReserve: 4, strongpoints: 1 },
+                        meters: { initiative: -1 },
+                        costReason: "A day's halt to refuel the mobile corps",
+                        reportLine: "The corps halt for a day while the fuel and ammunition come up.",
+                      },
+                    ],
+                  },
+                ],
+              },
+              uncertain: [
+                {
+                  weight: modWeight(75, meters.initiative),
+                  title: "The ring closes far out",
+                  setFlags: { uranusResult: "deep" },
+                  impact: { manpower: 1, fuel: 0, initiative: 1 },
+                  outcome:
+                    "What happened, November 19–23, 1942. The pincers closed roughly 100 kilometers west of Stalingrad, trapping the entire Sixth Army — some 250,000 men — far more completely than a shallower envelopment would have. Manstein's relief attempt in December came within roughly 30 miles and was stopped; the trapped army surrendered in February 1943, one of the war's genuine turning points.",
+                },
+                {
+                  weight: 100 - modWeight(75, meters.initiative),
+                  title: "The ring closes short and loose",
+                  setFlags: { uranusResult: "loose" },
+                  impact: { manpower: -1, fuel: 0, initiative: 0 },
+                  next: "escapedRemnants43",
+                  outcome:
+                    "The minority projection, which the fog and the Romanian resistance made possible on the day: the pincers meet, but later and closer to the city than the plan intended, and a part of Sixth Army and its reserves slips west before the ring shuts. Stalingrad still falls and the army is still lost as an army, but what escaped is a thing Manstein can use, and the prisoner count that shocked Berlin is smaller.",
+                },
+              ],
             },
             {
               label: "A shallower envelopment — trap the city's garrison, accept more will escape",
@@ -1214,7 +1477,7 @@
               label: "Pour everything into the gap — the whole southern front is open, take Ukraine before it can be replugged",
               advisor: { name: "Vatutin", quote: "I have spent the entire war being told to consolidate before the enemy has a chance to recover. For once, there is no enemy left in front of us to recover. Move." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to press this deep into the vacuum" : undefined,
               setFlags: { southernVacuum43: "pour" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
@@ -1251,7 +1514,7 @@
               label: "Keep reaching — push for the Dnieper crossings before Manstein can organize a response",
               advisor: { name: "Vatutin", quote: "Every additional kilometer we take now is a kilometer the counterstroke has to cross before it reaches anything that matters. I would rather be too far forward than early enough to be comfortable." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -4 ? "insufficient fuel left in the salient to run columns any further forward" : undefined,
               setFlags: { vacuumOverreach43: "reach" },
               impact: { manpower: -1, fuel: -2, initiative: 1 },
@@ -1698,7 +1961,7 @@
               label: "Mass artillery for a deliberate breakthrough — spend the shells the wait bought time to bring up",
               advisor: { name: "Vatutin", quote: "We paid for this wall in time instead of blood at the river. I would rather spend shells on it now than spend the blood we saved, later, trying to go around it." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "not enough shells and fuel left to mass artillery for a deliberate set-piece breakthrough" : undefined,
               setFlags: { easternWallBreach43: "artillery" },
               impact: { manpower: 1, fuel: -2, initiative: 0 },
@@ -1790,6 +2053,82 @@
                       flavor:
                         "The front is open, and the only real question left is how fast the ring closes east of Minsk before what's left of Army Group Center finds a way back through it. The maskirovka has done its work — the reserves that could have blunted this are watching Lvov instead — and what stands between the spearheads and a hundred thousand trapped Germans is a matter of pace: how much of the rifle mass keeps the pocket sealed, how much of the tank strength drives the encirclement shut, what the air armies can do to a road network already choked with retreating columns, and how much gets held back to keep the whole advance fed rather than stretched thin across four hundred miles of liberated Belorussia.",
                       effectiveness: { divisions: 2.0, armour: 2.6, air: 1.8, supply: 2.2 },
+                      orderOfBattle: {
+                        divisions: {
+                          units: [
+                            "The rifle armies of the 3rd Belorussian Front (Chernyakhovsky)",
+                            "The armies of the 1st Belorussian Front to the south",
+                          ],
+                          real: "The German Fourth Army was encircled east of Minsk by the 3rd and 1st Belorussian Fronts together, and Minsk was liberated on 3 or 4 July.",
+                        },
+                        armour: {
+                          units: [
+                            "Rotmistrov's 5th Guards Tank Army, the exploitation force of the 3rd Belorussian Front",
+                            "Tank corps committed through the gap the breakthrough opened",
+                          ],
+                          real: "The fortified cities of the German line, Vitebsk, Orsha, Mogilev, Bobruisk and Minsk, became traps once the Soviet mechanised forces passed them.",
+                        },
+                        air: {
+                          units: [
+                            "The Soviet air armies supporting the fronts",
+                            "Attack aircraft working over the roads behind the German line",
+                          ],
+                          real: "Soviet aircraft made daylight movement nearly impossible for the retreating German columns, especially toward the Berezina crossings.",
+                        },
+                        supply: {
+                          units: [
+                            "The rear services and railway troops carrying supplies forward",
+                            "Bridging at the Berezina and the other rivers",
+                          ],
+                          real: "The advance stretched supply across several hundred miles of liberated Belorussia.",
+                        },
+                      },
+                      // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                      hardRule: { text: "Stavka's order is that every gain is held: the line may not give ground.", noGiveGround: true },
+                      // Round 22. Verified 2026-10-05 (Wikipedia, Operation Bagration): the Soviets left four tank armies
+                      // in the L'vov area and let the Germans know it, so that the reserves stayed in the south; the
+                      // fortified cities (Vitebsk, Orsha, Mogilev, Bobruisk, Minsk) became traps; the Soviet air armies
+                      // dominated the roads; Minsk fell on 3 or 4 July. The three answers are options of the day;
+                      // their payoffs against each German posture are modeled.
+                      conditions: "High summer, with marsh, forest and river crossings across the line of advance. The roads are choked with retreating columns, and the Soviet air armies are over them.",
+                      terrainModifiers: { armour: 0.9, air: 1.1 },
+                      terrainNotes: { armour: "marsh and forest keep the tanks to the roads", air: "the Soviet air armies own the sky" },
+                      decisions: [
+                        {
+                          id: "aimOfTheTanks",
+                          time: "2130",
+                          title: "Where the tanks are aimed",
+                          prompt: "The front is open and the tank armies are through. Minsk is the great prize, and the German Fourth Army is falling back across the Berezina toward it. The tanks cannot do everything. The front commanders have to decide what they are aimed at.",
+                          options: [
+                            {
+                              id: "straightAtMinsk",
+                              name: "Drive the tank armies straight at Minsk",
+                              note: "Take the city before a line can form, and leave the retreating army behind.",
+                              bonus: 0,
+                              bonusByPosture: {collapsingCenter: 4, fortifiedResistance: -3, deceptionHolding: 1},
+                              reportLine: "The tank armies drive straight at Minsk down the roads, leaving the retreating Germans to their rear.",
+                            },
+                            {
+                              id: "closeTheRing",
+                              name: "Hold the tanks to close the ring behind the German Fourth Army",
+                              note: "Trap the army rather than take the city first.",
+                              bonus: 0,
+                              bonusByPosture: {fortifiedResistance: 3, collapsingCenter: -2},
+                              reportLine: "The tank armies turn to close the ring around the German Fourth Army east of Minsk.",
+                            },
+                            {
+                              id: "keepTheFeint",
+                              name: "Keep the feint toward the south alive to pin the German reserves",
+                              note: "Costs Initiative to sustain, and keeps the reserves away from the fight.",
+                              bonus: 0,
+                              bonusByPosture: {deceptionHolding: 4, fortifiedResistance: 1},
+                              meters: {initiative: -1},
+                              costReason: "A deception sustained at the cost of the staff's attention",
+                              reportLine: "The southern feint is kept up, and the German reserves stay where they were, watching Lvov.",
+                            },
+                          ],
+                        },
+                      ],
                       categoryContext: {
                         divisions:
                           "The rifle armies seal the ring after the tanks cut it. Chernyakhovsky's front alone commits rifle strength in the hundreds of thousands. Without them pressing behind the armored spearheads, whatever gets encircled finds its way back out.",
@@ -1904,7 +2243,7 @@
           ].concat([
               {
                 label: "Delay the launch a fortnight — push forward supply echelons up behind the start line first, so the offensive doesn't culminate where the map says it must",
-                disabledReason: (meters.fuel || 0) >= 3 && (meters.manpower || 0) >= 2 ? undefined : "Requires Fuel +3, Manpower +2 — supply enough to dump forward and still launch",
+                disabledReason: (meters.fuel || 0) >= 3 && (meters.manpower || 0) >= 2 ? undefined : "Requires Matériel +3, Manpower +2 — supply enough to dump forward and still launch",
                 advisor: { name: "Khrulev", quote: "Every offensive this war has run until its trucks stopped, and then we have called the stopping place a decision. Give me two weeks and this one stops where you choose instead." },
                 setFlags: { bagration44soviet: "full", forwardSupply44: true },
                 impact: { manpower: 0, fuel: -3, initiative: -1 },
@@ -1939,7 +2278,7 @@
             {
               label: "Push the advance to relieve the uprising, whatever the logistics say",
               advisor: { name: "Rokossovsky", quote: "I do not enjoy telling Warsaw to wait. I enjoy even less the idea of feeding tired divisions into fresh SS armor to prove a point about how much I don't enjoy it." },
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -4 ? "insufficient fuel to attempt a relief column at all, let alone one that might break through" : undefined,
               setFlags: { warsaw44: "relieve" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
@@ -2059,7 +2398,7 @@
               label: "Push further south still — reach Athens before the British do",
               advisor: { name: "Tolbukhin", quote: "EAM already controls most of the Greek countryside. If our own forces are the ones who reach the capital, Moscow negotiates the peace from inside the city, not from a map in London." },
               historical: false,
-              checkLabel: "Fuel",
+              checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to press an offensive this far south of the main axis" : undefined,
               setFlags: { balkans44soviet: "greece" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },

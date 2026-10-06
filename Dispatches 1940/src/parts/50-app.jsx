@@ -252,6 +252,8 @@ function WW2CommandInner() {
           won: ri === 0,
           reservesHeld: subgamePayload.reservesHeld || 0,
           counter: subgamePayload.counter || null,
+          extraLines: subgamePayload.extraLines || [],
+          attrition: choice.keyBattleSubgame.attrition || null,
         }),
     });
     if (!res) return;
@@ -628,6 +630,8 @@ function WW2CommandInner() {
           campaign={campaign}
           config={pendingBattle.config}
           meters={meters}
+          flags={flags}
+          mode={mode}
           soundOn={soundOn}
           // Round 13, Craig's item #8 ("wire the subgame into difficulty — something minor is
           // fine"). Deliberately small: doesn't touch allocation math, postures, or the roll —
@@ -648,6 +652,7 @@ function WW2CommandInner() {
       {screen === "battleResult" && campaign && displayStage && pendingBattle && pendingBattle.plan && (
         <BattleSimulationScreen
           campaign={campaign}
+          mode={mode}
           config={pendingBattle.config}
           plan={pendingBattle.plan}
           baseWeights={pendingBattle.baseWeights}

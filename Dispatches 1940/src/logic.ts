@@ -32,6 +32,8 @@ export interface Variant {
 
 export interface Choice {
   label: string;
+  /** Optional explicit strand of Matériel this choice's impact falls on; otherwise read from the text. */
+  matStrand?: string;
   impact?: Impact;
   outcome?: string;
   next?: string;
@@ -99,6 +101,52 @@ export const clampMeter = (n: number): number => Math.max(METER_MIN, Math.min(ME
 export function impactSum(impact: Impact | undefined): number {
   if (!impact) return 0;
   return (impact.manpower || 0) + (impact.fuel || 0) + (impact.initiative || 0);
+}
+
+// Matériel (the meter whose key is still `fuel`, so old saves keep working) is one number that
+// the rules use. Under it sit four strands the player can read: where the choices they made put
+// the weight. A strand's band is the headline score plus how far its own running tally has drifted
+// from the average of the four. The tally is kept in flags (so saves and rewinds carry it) and is
+// fed by each choice's Matériel impact, filed to a strand by matStrand or by what the text is about.
+export const MATERIEL_STRANDS = [
+  { id: "oil", flag: "matOil", name: "Fuel & Oil", words: /\b(fuel|oil|oilfields?|petrol|gasoline|tankers?|refiner(?:y|ies)|synthetic|aviation spirit|ploesti|baku|maikop|coal)\b/gi },
+  { id: "ammo", flag: "matAmmo", name: "Ammunition", words: /\b(ammunition|shells?|munitions|artillery|ordnance|rounds|bombs?|torpedoes)\b/gi },
+  { id: "steel", flag: "matSteel", name: "Armour & Steel", words: /\b(steel|tanks?|panzers?|armou?r(?:ed)?|production|factor(?:y|ies)|industr(?:y|ial)|armaments?|arms|weapons?|output|tungsten|wolfram|rearmw*|equipment|aircraft)\b/gi },
+  { id: "ship", flag: "matShip", name: "Shipping & Rail", words: /\b(shipping|convoys?|rail(?:way|ways|road)?|ports?|tonnage|transport|lend-lease|logistics?|supplies|supply|merchant|trains?|locomotives?|lifeline|ships?)\b/gi },
+] as const;
+
+/** Which strand a choice's Matériel impact falls on, or null when the text does not say. */
+export function materielStrandOf(choice: Choice, outcomeText?: string): string | null {
+  if (choice.matStrand) return choice.matStrand;
+  const text = [choice.label, outcomeText ?? choice.outcome ?? ""].join(" ");
+  let best: string | null = null;
+  let bestN = 0;
+  for (const s of MATERIEL_STRANDS) {
+    const n = (text.match(s.words) || []).length;
+    if (n > bestN) {
+      bestN = n;
+      best = s.id;
+    }
+  }
+  return best;
+}
+
+export interface MaterielReading {
+  id: string;
+  name: string;
+  band: "Short" | "Strained" | "Adequate" | "Plentiful";
+  score: number;
+}
+
+/** The four strands as the staff would put them, from the headline score and the tallies in `flags`. */
+export function materielReadout(flags: Flags, meters: Meters): MaterielReading[] {
+  const tallies = MATERIEL_STRANDS.map((s) => Number(flags[s.flag]) || 0);
+  const mean = tallies.reduce((a, v) => a + v, 0) / MATERIEL_STRANDS.length;
+  return MATERIEL_STRANDS.map((s, i) => {
+    const score = Math.max(METER_MIN, Math.min(METER_MAX, Math.round(meters.fuel + (tallies[i] - mean))));
+    const band = score <= -4 ? "Short" : score <= -1 ? "Strained" : score <= 3 ? "Adequate" : "Plentiful";
+    return { id: s.id, name: s.name, band, score };
+  });
 }
 
 export function effectiveChoice(choice: Choice, rollIndex: number | null) {
@@ -214,6 +262,13 @@ export function resolveChoice(args: {
   // How a battle was fought, and how well (the plan's grade), carry into later node text.
   if (subgame && subgame.flagsOut) flags = { ...flags, ...subgame.flagsOut };
   if (planCosts && planCosts.grade && choice.keyBattleSubgame) flags = { ...flags, [`${choice.keyBattleSubgame.id}Grade`]: planCosts.grade };
+  // The Matériel strand this choice's impact fell on (see MATERIEL_STRANDS).
+  const materielDelta = eff.impact ? eff.impact.fuel || 0 : 0;
+  if (materielDelta) {
+    const strandId = materielStrandOf(choice, eff.outcome);
+    const strand = MATERIEL_STRANDS.find((s) => s.id === strandId);
+    if (strand) flags = { ...flags, [strand.flag]: (Number(flags[strand.flag]) || 0) + materielDelta };
+  }
   // Hard-mode ceilings are a hard stop: hitting the cap is itself the event.
   flags = applyCeilings(mode, flags, CEILINGS);
   let defiance = args.defiance;
