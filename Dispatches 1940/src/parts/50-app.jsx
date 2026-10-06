@@ -24,6 +24,9 @@ function WW2CommandInner() {
   const battleDraftRef = useRef(null);
   const [battleResume, setBattleResume] = useState(null);
   const [rewinds, setRewinds] = useState(0);
+  // The flags and meters as they stood before the decision on the outcome screen, so that screen can show the
+  // meters and the Matériel strands moving. Display only: never saved, never read by the rules.
+  const [outcomeBefore, setOutcomeBefore] = useState(null);
   const [mode, setMode] = useState("open");
   // Grand Campaign prototype: null outside a Grand Campaign run, otherwise
   // { order: GRAND_CAMPAIGN_ORDER, index }. See pickCampaign/startGrandCampaign/
@@ -265,6 +268,7 @@ function WW2CommandInner() {
         }),
     });
     if (!res) return;
+    setOutcomeBefore({ flags, meters });
     setFavor(res.favor);
     setDefiance(res.defiance);
     setFlags(res.flags);
@@ -662,6 +666,17 @@ function WW2CommandInner() {
           80% { transform: translateX(2px); }
         }
         .bar-shake { animation: barShake 420ms ease-in-out; }
+        /* Round 24: a Matériel strand that changed band is lit for a moment and settles. CSS only. */
+        @keyframes readingShift {
+          0% { background-color: rgba(176, 141, 63, 0.55); }
+          100% { background-color: rgba(176, 141, 63, 0); }
+        }
+        .reading-shift { animation: readingShift 1800ms ease-out 1 both; }
+        /* Round 24: motion also follows the system setting, not only the in-game one. */
+        @media (prefers-reduced-motion: reduce) {
+          .stamp-in { animation: none !important; }
+          *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+        }
       `}</style>
       {reducedMotion && (
         <style>{`
@@ -782,6 +797,8 @@ function WW2CommandInner() {
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
+          flags={flags}
+          before={outcomeBefore}
           onProceed={proceed}
           soundOn={soundOn}
           isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}

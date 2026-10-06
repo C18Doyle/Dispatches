@@ -1,6 +1,6 @@
 # Playtesting Dispatches 1940
 
-**Status, stated plainly: no human playtest of the Order of Battle changes has been run.** Everything below is how to run
+**Status, stated plainly: no human playtest of the Order of Battle changes, the adviser lines, the save-in-battle or the outcome feedback has been run.** Everything below is how to run
 one. What has been done instead is automated: 64 seeded playthroughs replay identically (`npm run verify:baseline`; sixteen
 of them run with the staff planning every battle), every battle is checked for balance against every enemy setup, every
 Matériel strand reading and every field decision (`npm run check-battle-balance`), and every node and ending is reachable
@@ -16,7 +16,10 @@ Matériel strand reading and every field decision (`npm run check-battle-balance
 6. Play a command in its hard mode (Führer, NKVD, Coalition or Axis). Were the orders from above clear, and did they feel fair?
 7. Look at the four readings under Matériel (Fuel & Oil, Ammunition, Armour & Steel, Shipping & Rail). Did they mean anything to you?
 8. Open the War Record and its Battle Record.
-9. At the end open "A note for the author" and paste the line into a comment on the game's page, with whatever you want to say.
+9. Part way through a battle press "Save and leave the field", close the page, come back and resume. Was it clear where you were and what had been kept? Did the planning screen or the report come back as you left it?
+10. Read the advice on the choice buttons ("Halder argues: ..."). Did it read as people arguing, and did the "On the record" quotations (six of them) feel different from the rest?
+11. After a decision look at "Where you stand now": did the bars moving, and a Matériel reading changing band, tell you what you had done? Try it once with the Sound setting on and say whether the battle sounds helped or grated.
+12. At the end open "A note for the author" and paste the line into a comment on the game's page, with whatever you want to say.
 
 ## What the note contains
 `Dispatches 1940 | <command> | <mode> | ending <title> | decisions <n> | manpower m, materiel m, initiative m | battles <battle>:<grade>:<enemy setup(s)>:<commander>:<field decision(s)>:<own or staff> ; ...`
@@ -31,7 +34,8 @@ mix of enemy setups and decisions lets a run be reconstructed and replayed.
 - A battle that felt unfair, or one where nothing you did seemed to matter. Say which.
 - An arm whose order-of-battle sheet contradicted what you know of the history.
 - A screen where the text was too long for a phone, or a button you could not tell was disabled and why.
-- Anything a screen reader read badly. Each new screen puts focus on its heading.
+- Anything a screen reader read badly. Each new screen puts focus on its heading, the battle report is announced line by line, and focus moves to a decision when one comes up.
+- A quotation or an adviser's position you know to be wrong. Five of the six quotations are logged as secondary (see `claims/quotations.json`) and want their primary source opened.
 
 ## Before trusting the results
 Five or six testers is enough to find the big problems and too few to find the balance ones. Balance is measured by simulation

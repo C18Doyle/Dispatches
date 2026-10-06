@@ -60,7 +60,9 @@ if (!reached) process.exit(1);
 
 // Build a plan and buy some information so there is state worth keeping.
 for (let k = 0; k < 3; k++) await ctx1.click(ctx1.buttons().filter((b) => /^Add effort/.test(ctx1.lab(b)))[k % 2]);
-const approach = ctx1.buttons().find((b) => b.getAttribute("aria-pressed") === "false" && !/favors|No particular/.test(b.textContent) && b.closest("div")?.parentElement?.previousElementSibling?.textContent?.includes("Tactical Approach"));
+const approachHead = [...ctx1.d.querySelectorAll("[role=heading]")].find((h) => /Tactical Approach/.test(h.textContent));
+const approach = approachHead ? [...approachHead.parentElement.querySelectorAll("button")].find((b) => !b.disabled && b.getAttribute("aria-pressed") === "false") : null;
+check(!!approach, "the planning screen offers a tactical approach to choose");
 if (approach) await ctx1.click(approach);
 const recon = find(ctx1, /Reconnaissance Pass/);
 if (recon) await ctx1.click(recon);

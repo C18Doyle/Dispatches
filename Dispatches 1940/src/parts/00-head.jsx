@@ -81,6 +81,13 @@ let soundReady = false;
 let clackSynth = null;
 let stampSynth = null;
 let diceSynth = null;
+// Round 24 (battle sounds). Quiet by design and only ever heard with the Sound setting on, which is off until
+// asked for. None of them carries information the screen does not also give in words.
+let tickSynth = null;
+let radioSynth = null;
+let rumbleSynth = null;
+let paperSynth = null;
+let chimeSynth = null;
 
 function ensureSound() {
   if (soundReady) return;
@@ -88,6 +95,11 @@ function ensureSound() {
     clackSynth = new Tone.MembraneSynth({ pitchDecay: 0.006, octaves: 1, envelope: { attack: 0.001, decay: 0.03, sustain: 0 }, volume: -26 }).toDestination();
     stampSynth = new Tone.MembraneSynth({ pitchDecay: 0.06, octaves: 3, envelope: { attack: 0.001, decay: 0.4, sustain: 0 }, volume: -6 }).toDestination();
     diceSynth = new Tone.NoiseSynth({ noise: { type: "white" }, envelope: { attack: 0.001, decay: 0.18, sustain: 0 }, volume: -16 }).toDestination();
+    tickSynth = new Tone.MembraneSynth({ pitchDecay: 0.004, octaves: 1.5, envelope: { attack: 0.001, decay: 0.05, sustain: 0 }, volume: -24 }).toDestination();
+    radioSynth = new Tone.NoiseSynth({ noise: { type: "pink" }, envelope: { attack: 0.001, decay: 0.09, sustain: 0 }, volume: -22 }).connect(new Tone.Filter(2400, "bandpass").toDestination());
+    rumbleSynth = new Tone.NoiseSynth({ noise: { type: "brown" }, envelope: { attack: 0.03, decay: 0.8, sustain: 0 }, volume: -16 }).connect(new Tone.Filter(180, "lowpass").toDestination());
+    paperSynth = new Tone.NoiseSynth({ noise: { type: "white" }, envelope: { attack: 0.005, decay: 0.14, sustain: 0 }, volume: -28 }).connect(new Tone.Filter(3200, "highpass").toDestination());
+    chimeSynth = new Tone.Synth({ oscillator: { type: "triangle" }, envelope: { attack: 0.005, decay: 0.32, sustain: 0, release: 0.2 }, volume: -22 }).toDestination();
     soundReady = true;
   } catch (e) {
     soundReady = false;
@@ -125,6 +137,59 @@ function playDice() {
         diceSynth.triggerAttackRelease("32n");
       } catch (e) {}
     }, 90);
+  } catch (e) {}
+}
+
+// Effort placed or taken back on the planning screen: a soft click, higher going in, lower coming out.
+function playTick(up) {
+  if (!soundReady || !tickSynth) return;
+  try {
+    tickSynth.triggerAttackRelease(up ? "E4" : "A3", "64n");
+  } catch (e) {}
+}
+// A report coming in over the radio: two short bursts of band-limited noise.
+function playRadio() {
+  if (!soundReady || !radioSynth) return;
+  try {
+    radioSynth.triggerAttackRelease("32n");
+    setTimeout(() => {
+      try {
+        radioSynth.triggerAttackRelease("64n");
+      } catch (e) {}
+    }, 110);
+  } catch (e) {}
+}
+// Guns a long way off: the battle opening, and a beat that swings hard against you.
+function playRumble() {
+  if (!soundReady || !rumbleSynth) return;
+  try {
+    rumbleSynth.triggerAttackRelease("4n");
+  } catch (e) {}
+}
+// Paper on a map table, for the staff exercise.
+function playPaper() {
+  if (!soundReady || !paperSynth) return;
+  try {
+    paperSynth.triggerAttackRelease("16n");
+  } catch (e) {}
+}
+// The verdict: two notes rising on a win, two sinking on a loss.
+function playVerdict(won) {
+  if (!soundReady || !chimeSynth) return;
+  try {
+    chimeSynth.triggerAttackRelease(won ? "G4" : "D4", "8n");
+    setTimeout(() => {
+      try {
+        chimeSynth.triggerAttackRelease(won ? "D5" : "Ab3", "8n");
+      } catch (e) {}
+    }, 220);
+  } catch (e) {}
+}
+// A meter moving on the outcome screen, in step with its bar.
+function playMeter(up) {
+  if (!soundReady || !chimeSynth) return;
+  try {
+    chimeSynth.triggerAttackRelease(up ? "C5" : "F4", "16n");
   } catch (e) {}
 }
 

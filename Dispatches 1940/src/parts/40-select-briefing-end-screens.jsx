@@ -712,7 +712,7 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
           <span id="setting-sound-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Sound (typewriter, stamps, dice)
+            Sound (typewriter, stamps, dice, battle reports)
           </span>
           <button
             onClick={onToggleSound}
@@ -827,10 +827,27 @@ function MaterielStrands({ flags, meters }) {
   );
 }
 
-function MeterBar({ label, value, danger, showBar = true }) {
-  const clamped = Math.max(-10, Math.min(10, value));
-  const fillPct = (Math.abs(clamped) / 10) * 50;
-  const isPositive = clamped >= 0;
+// Round 24 (consequence feedback): a bar is one positioned block, so a change in the value moves it. With `from`
+// (the value before the decision) it opens at the old reading, marks it with a thin tick, and slides to the new
+// one. Only the bar moves; the figures in the text never change, so the words on the page are the same at every
+// moment. The app's reduced-motion setting and the system one both shorten the slide to nothing.
+function MeterBar({ label, value, danger, showBar = true, from }) {
+  const clamp = (n) => Math.max(-10, Math.min(10, n));
+  const clamped = clamp(value);
+  const hasFrom = typeof from === "number";
+  const moved = hasFrom && from !== value;
+  const [arrived, setArrived] = useState(!hasFrom);
+  useEffect(() => {
+    if (arrived) return undefined;
+    if (typeof requestAnimationFrame !== "function") {
+      setArrived(true);
+      return undefined;
+    }
+    const id = requestAnimationFrame(() => setArrived(true));
+    return () => cancelAnimationFrame(id);
+  }, [arrived]);
+  const shown = hasFrom && !arrived ? clamp(from) : clamped;
+  const fmt = (n) => (n > 0 ? "+" + n : String(n));
   return (
     <div className="flex items-center gap-2 text-xs" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
       <span className="w-20 uppercase tracking-wider text-[#000000] font-semibold shrink-0">{label}</span>
@@ -838,26 +855,78 @@ function MeterBar({ label, value, danger, showBar = true }) {
         <div
           className="relative flex-1 h-3 border border-black bg-[#e3d5ae] overflow-hidden"
           role="img"
-          aria-label={`${label}: ${value > 0 ? "+" + value : value} out of a possible range from -10 to +10${danger ? ", critical" : ""}`}
+          aria-label={`${label}: ${fmt(value)} out of a possible range from -10 to +10${moved ? `, ${value > from ? "up" : "down"} from ${fmt(from)}` : ""}${danger ? ", critical" : ""}`}
         >
           <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black opacity-40" />
-          {isPositive ? (
-            <div
-              className="absolute top-0 bottom-0 left-1/2"
-              style={{ width: `${fillPct}%`, backgroundColor: danger ? "#7a2e2e" : "#28497a" }}
-            />
-          ) : (
-            <div
-              className="absolute top-0 bottom-0"
-              style={{ right: "50%", width: `${fillPct}%`, backgroundColor: danger ? "#7a2e2e" : "#5c4a2a" }}
-            />
-          )}
+          <div
+            className="absolute top-0 bottom-0"
+            style={{
+              left: `${50 + Math.min(0, shown) * 5}%`,
+              width: `${Math.abs(shown) * 5}%`,
+              backgroundColor: danger ? "#7a2e2e" : shown >= 0 ? "#28497a" : "#5c4a2a",
+              transition: "left 800ms cubic-bezier(0.2, 0.8, 0.2, 1), width 800ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 800ms",
+            }}
+          />
+          {moved && <div aria-hidden="true" className="absolute top-0 bottom-0 w-[2px] bg-black opacity-70" style={{ left: `calc(${50 + clamp(from) * 5}% - 1px)` }} />}
         </div>
       )}
-      <span className="font-bold w-10 text-right shrink-0" style={{ color: danger ? "#7a2e2e" : "#000000" }}>
-        {value > 0 ? `+${value}` : value}
+      <span className={`font-bold text-right shrink-0 ${moved ? "w-28" : "w-10"}`} style={{ color: danger ? "#7a2e2e" : "#000000" }}>
+        {fmt(value)}
         {danger ? " ⚠" : ""}
+        {moved && <span className="font-normal opacity-70 text-[11px]"> was {fmt(from)}</span>}
       </span>
+    </div>
+  );
+}
+
+// Round 24: what the decision did to where you stand. The three meters slide from their old reading to the
+// new one, and the four Matériel strands show any change of band as "was -> now" with an arrow and a short
+// highlight. Nothing here relies on colour alone: a changed strand says so in words and with an arrow.
+function StandingPanel({ before, flags, meters, movedOn }) {
+  const prior = before && before.meters ? before : null;
+  const bandRank = { Short: 0, Strained: 1, Adequate: 2, Plentiful: 3 };
+  const colours = { Short: "#7a2e2e", Strained: "#8a5a1a", Adequate: "#000000", Plentiful: "#28497a" };
+  const nowRows = materielReadout(flags || {}, meters);
+  const wasRows = prior ? materielReadout(prior.flags || {}, prior.meters) : null;
+  return (
+    <div className="mb-8 border-2 border-black px-3 py-2" role="group" aria-label="Where you stand now">
+      <div className="text-[11px] uppercase tracking-widest font-bold opacity-70 mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+        Where you stand now
+      </div>
+      <div className="flex flex-col gap-1">
+        <MeterBar label="Manpower" value={meters.manpower} from={prior ? prior.meters.manpower : undefined} danger={meters.manpower <= -3} />
+        <MeterBar label="Matériel" value={meters.fuel} from={prior ? prior.meters.fuel : undefined} danger={meters.fuel <= -2} />
+        <MeterBar label="Initiative" value={meters.initiative} from={prior ? prior.meters.initiative : undefined} danger={false} />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-[2px] mt-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+        {nowRows.map((r, k) => {
+          const was = wasRows ? wasRows[k] : null;
+          const changed = was && was.band !== r.band;
+          const better = changed && bandRank[r.band] > bandRank[was.band];
+          return (
+            <div key={r.id} className={`flex items-baseline justify-between gap-2 text-[11px] uppercase tracking-wider px-1 ${changed ? "reading-shift font-bold" : ""}`}>
+              <span className="opacity-80">{r.name}</span>
+              <span style={{ color: colours[r.band] }}>
+                {changed ? (
+                  <>
+                    <span className="opacity-70 font-normal">{was.band}</span>
+                    <span aria-hidden="true"> {better ? "▲" : "▼"} </span>
+                    <span className="sr-only"> {better ? "improved to" : "fell to"} </span>
+                    {r.band}
+                  </>
+                ) : (
+                  r.band
+                )}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      {movedOn ? (
+        <div className="mt-2 text-[11px] uppercase tracking-wider opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          Matériel moved on: {movedOn}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -2889,7 +2958,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               <MeterBar label="Initiative" value={meters.initiative} danger={false} />
             </div>
             <div
-              className="text-[10px] uppercase tracking-wider opacity-50 mt-1"
+              className="text-[10px] uppercase tracking-wider opacity-70 mt-1"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Positive is better supplied and ahead of the historical pace. Negative is the opposite.
@@ -3328,7 +3397,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
     setIntel(drawIntel(KEY_BATTLE_RECON_ERROR_RATE));
     setReconUsed(true);
     if (onSpendInitiative) onSpendInitiative();
-    if (soundOn) playStamp();
+    if (soundOn) playRadio();
   }
 
   // Pool size: a base of 5 effort chits, plus one bonus chit per meter (manpower/fuel/
@@ -3346,9 +3415,11 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
 
   function addEffort(catId) {
     if (remaining <= 0) return;
+    if (soundOn) playTick(true);
     setAllocation((a) => ({ ...a, [catId]: a[catId] + 1 }));
   }
   function removeEffort(catId) {
+    if (allocation[catId] > 0 && soundOn) playTick(false);
     setAllocation((a) => (a[catId] > 0 ? { ...a, [catId]: a[catId] - 1 } : a));
   }
   // Round 22 (quick placement): one tap for an even split, one for a clean slate. An even split of a
@@ -3426,7 +3497,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
       return { label, verdict };
     });
     if (onSpendInitiative) onSpendInitiative();
-    if (soundOn) playStamp();
+    if (soundOn) playPaper();
     setExercise({ runs, key: planKey });
   }
 
@@ -3505,7 +3576,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
     if (spent === 0) return;
     const accurate = Math.random() * 100 < reliability;
     if (onSpendInitiative) onSpendInitiative();
-    if (soundOn) playStamp();
+    if (soundOn) playRadio();
     const contributions = computeBattleContributions(categories, allocation, weightsMap(), poolSize);
     const bonus = clampBattleBonus(sumBattleContributions(contributions));
     const trueBand = bonus >= 20 ? 0 : bonus >= 10 ? 1 : bonus >= 0 ? 2 : 3;
@@ -3677,7 +3748,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
               <button
                 onClick={requestRecon}
                 disabled={(meters.initiative || 0) <= 0}
-                className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000]"
+                className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={labelStyle}
               >
                 Call for a Reconnaissance Pass — costs 1 Initiative
@@ -3695,22 +3766,24 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             to the button/card grid; commander roster capped at 3. */}
         {commanderRoster.length > 0 && (
           <div className="mb-6">
-            <div className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
+            <div role="heading" aria-level="3" className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
               Field Command
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div role="group" aria-label="Field commander" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <button
                 onClick={() => setCommanderId(null)}
                 disabled={!!hardRule?.lockCommander}
                 aria-pressed={commanderId === null}
-                className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={
                   commanderId === null
                     ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
                     : { borderColor: campaign.accent, color: "#000000" }
                 }
               >
-                <div className="text-sm font-semibold">No particular emphasis</div>
+                <div className="text-sm font-semibold">
+                  {commanderId === null && <span aria-hidden="true">✓ </span>}No particular emphasis
+                </div>
                 <div className="text-[11px] opacity-80">Command as planned, no single lever favored.</div>
               </button>
               {commanderRoster.map((cmd) => {
@@ -3722,14 +3795,17 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                     onClick={() => setCommanderId(cmd.id)}
                     disabled={commanderBarred(cmd.id)}
                     aria-pressed={selected}
-                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                     style={
                       selected
                         ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
                         : { borderColor: campaign.accent, color: "#000000" }
                     }
                   >
-                    <div className="text-sm font-semibold">{cmd.name}</div>
+                    <div className="text-sm font-semibold">
+                      {selected && <span aria-hidden="true">✓ </span>}
+                      {cmd.name}
+                    </div>
                     <div className="text-[11px] opacity-80">
                       {cmd.role} — favors {cat ? `${cat.glyph} ${cat.name}` : cmd.category}
                     </div>
@@ -3747,10 +3823,10 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
 
         {approachRoster.length > 0 && (
           <div className="mb-6">
-            <div className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
+            <div role="heading" aria-level="3" className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
               Tactical Approach — Choose One
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div role="group" aria-label="Tactical approach" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {approachRoster.map((appr) => {
                 const selected = approachId === appr.id;
                 return (
@@ -3759,14 +3835,17 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                     onClick={() => setApproachId(appr.id)}
                     disabled={!!hardRule?.lockApproach && hardRule.lockApproach !== appr.id}
                     aria-pressed={selected}
-                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                     style={
                       selected
                         ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
                         : { borderColor: campaign.accent, color: "#000000" }
                     }
                   >
-                    <div className="text-sm font-semibold">{appr.name}</div>
+                    <div className="text-sm font-semibold">
+                      {selected && <span aria-hidden="true">✓ </span>}
+                      {appr.name}
+                    </div>
                     <div className="text-[11px] opacity-80">{appr.subtitle}</div>
                   </button>
                 );
@@ -3784,7 +3863,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           </div>
         )}
 
-        <div className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
+        <div role="heading" aria-level="3" aria-live="polite" className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
           Effort in reserve: {remaining} of {poolSize}
           {bonusMeters.length > 0 && (
             <span className="normal-case font-normal"> — {bonusMeters.length} extra from the standing of your logistics</span>
@@ -3797,7 +3876,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           <button
             onClick={spreadEvenly}
             aria-label="Spread effort evenly"
-            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000]"
+            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
             style={{ borderColor: campaign.accent, ...labelStyle }}
           >
             Spread effort evenly
@@ -3806,7 +3885,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             onClick={clearAll}
             disabled={spent === 0}
             aria-label="Clear all effort"
-            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
             style={{ borderColor: campaign.accent, ...labelStyle }}
           >
             Clear all effort
@@ -3823,10 +3902,10 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                       note — the flavor paragraph already told the player about the mud; this ties
                       that text to the specific category it actually affects. */}
                   {config.terrainNotes?.[cat.id] && (
-                    <span className="ml-1 text-[10px] font-normal italic opacity-60">({config.terrainNotes[cat.id]})</span>
+                    <span className="ml-1 text-[11px] font-normal italic opacity-60">({config.terrainNotes[cat.id]})</span>
                   )}
                   {strandInfo[cat.id] && strandInfo[cat.id].band !== "Adequate" && (
-                    <span className="ml-1 text-[10px] font-normal italic opacity-60">
+                    <span className="ml-1 text-[11px] font-normal italic opacity-60">
                       ({strandInfo[cat.id].name}: {strandInfo[cat.id].band})
                     </span>
                   )}
@@ -3852,8 +3931,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                   onClick={() => removeEffort(cat.id)}
                   disabled={allocation[cat.id] <= 0}
                   aria-label={`Remove effort from ${cat.name}`}
-                  className="w-9 h-9 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="w-11 h-11 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                   style={{ borderColor: campaign.accent, color: campaign.accent }}
+                  title={allocation[cat.id] <= 0 ? "Nothing placed here to take back" : undefined}
                 >
                   −
                 </button>
@@ -3871,6 +3951,8 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                   ))}
                 </div>
                 <span
+                  role="status"
+                  aria-label={`${cat.name}: ${allocation[cat.id]} of effort placed`}
                   className="w-6 text-center text-sm font-bold flex-none"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
@@ -3880,8 +3962,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                   onClick={() => addEffort(cat.id)}
                   disabled={remaining <= 0}
                   aria-label={`Add effort to ${cat.name}`}
-                  className="w-9 h-9 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="w-11 h-11 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                   style={{ borderColor: campaign.accent, color: campaign.accent }}
+                  title={remaining <= 0 ? "No effort left to place: take some back from another arm first" : undefined}
                 >
                   +
                 </button>
@@ -3931,8 +4014,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         <div className="mb-4 border px-4 py-3" style={{ borderColor: campaign.accent }}>
           <button
             onClick={requestExercise}
+            aria-describedby="staff-work-why"
             disabled={spent === 0 || (meters.initiative || 0) <= 0}
-            className="w-full border-2 px-4 py-2 mb-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
+            className="w-full border-2 px-4 py-2 mb-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
             style={{ borderColor: campaign.accent, ...bodyStyle }}
           >
             Hold a Map Exercise on the Plan — costs 1 Initiative
@@ -3956,8 +4040,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           )}
           <button
             onClick={requestAssessment}
+            aria-describedby="staff-work-why"
             disabled={spent === 0}
-            className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
+            className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
             style={{ borderColor: campaign.accent, ...bodyStyle }}
           >
             Get Staff Assessment of the Plan — costs 1 Initiative
@@ -3979,6 +4064,11 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
               )}
             </div>
           )}
+          {(spent === 0 || (meters.initiative || 0) <= 0) && (
+            <p id="staff-work-why" className="text-[12px] leading-snug mt-2 text-[#000000]" style={bodyStyle}>
+              {spent === 0 ? "Place some effort first: the staff need a plan to look at." : "No Initiative is left to spend on staff work."}
+            </p>
+          )}
           <p className="text-[11px] uppercase tracking-widest text-[#000000] opacity-70 mt-2" style={labelStyle}>
             Initiative now: {meters.initiative > 0 ? "+" : ""}
             {meters.initiative} · Staff reliability: {reliability}%
@@ -3990,7 +4080,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         <div className="mb-4 border px-4 py-3" style={{ borderColor: campaign.accent }}>
           <button
             onClick={letStaffPlan}
-            className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold"
+            className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
             style={{ borderColor: campaign.accent, ...bodyStyle }}
           >
             Let Your Staff Plan It — skip the Order of Battle
@@ -4053,7 +4143,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         </button>
         {onSaveLeave && (
           <>
-            <button onClick={saveAndLeave} className="w-full mt-3 text-center text-xs uppercase tracking-widest opacity-70 underline text-[#000000]" style={labelStyle}>
+            <button onClick={saveAndLeave} className="w-full mt-3 text-center text-xs uppercase tracking-widest opacity-70 underline text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px" style={labelStyle}>
               Save and leave the field — pick this battle up later
             </button>
             <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
@@ -4254,11 +4344,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
     if (headingRef.current) headingRef.current.focus();
-    if (soundOn) playDice();
+    if (soundOn) playRumble();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if (result && soundOn) playStamp();
+    if (result && soundOn) playVerdict(result.ri === 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result]);
 
@@ -4345,7 +4435,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   function advance() {
     if (beatIndex < lastCatIndex) {
       setBeatIndex((b) => b + 1);
-      if (soundOn) playDice();
+      if (soundOn) playRadio();
     } else if (nextDecision) {
       setBeatIndex(lastCatIndex + decidedCount);
       setPhase("decision");
@@ -4441,6 +4531,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
     prevPosRef.current = position;
     if (d <= -6) {
       setShaking(true);
+      if (soundOn) playRumble();
       const t = setTimeout(() => setShaking(false), 450);
       return () => clearTimeout(t);
     }
@@ -4454,13 +4545,29 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
   const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
   const caCat = ca ? categories.find((c) => c.id === ca.category) : null;
-  const choiceBtn = "text-left border px-3 py-2 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150";
+  const choiceBtn = "text-left border px-3 py-2 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150" + " focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px";
   const [saveNote, setSaveNote] = useState("");
   async function saveAndLeave() {
     setSaveNote("");
     const ok = await onSaveLeave();
     if (ok === false) setSaveNote("The save did not go through, so you have not left the field. Your orders are unchanged.");
   }
+  // When a decision, the decisive hour or the counterattack comes up, focus goes to it, so a keyboard or a
+  // screen reader lands on the question and not on a button that has just gone. After the verdict it goes to the
+  // heading, which now reads the verdict.
+  const panelRef = useRef(null);
+  const sawPanel = useRef(false);
+  useEffect(() => {
+    if (done) {
+      if (headingRef.current) headingRef.current.focus();
+    } else if (phase === "decision" || phase === "reserve" || phase === "counter") {
+      sawPanel.current = true;
+      if (panelRef.current) panelRef.current.focus();
+    } else if (sawPanel.current && headingRef.current) {
+      headingRef.current.focus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, done]);
   // The roll has not been made until the verdict, so a battle can be put down at any point before it.
   const canSaveHere = !!onSaveLeave && !done && phase !== "resolving" && !plan.autoplay;
 
@@ -4508,7 +4615,12 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
           <span>Enemy Forces</span>
         </div>
         <div className={`relative mb-5 ${shaking ? "bar-shake" : ""}`}>
-          <div className="w-full h-8 border-2 overflow-hidden flex" style={{ borderColor: campaign.accent }}>
+          <div
+            className="w-full h-8 border-2 overflow-hidden flex"
+            style={{ borderColor: campaign.accent }}
+            role="img"
+            aria-label={`Balance of the battle: ${position >= 65 ? "strongly in your favour" : position >= 55 ? "leaning your way" : position > 45 ? "evenly balanced" : position > 35 ? "leaning against you" : "strongly against you"}`}
+          >
             <div className="h-full" style={{ width: `${position}%`, backgroundColor: campaign.accent, transition: barTransition }} />
             <div className="h-full" style={{ width: `${100 - position}%`, backgroundColor: "#5a2a2a", transition: barTransition }} />
           </div>
@@ -4521,7 +4633,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
           </div>
         </div>
 
-        <div className="mb-5 flex flex-col gap-2">
+        <div role="log" aria-live="polite" aria-relevant="additions" aria-label="Battle report" className="mb-5 flex flex-col gap-2">
           {visibleBeats.map((b, idx) => {
             const t = timeFor(b);
             const label = labelFor(b);
@@ -4579,7 +4691,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             )}
             <button
               onClick={onContinue}
-              className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold"
+              className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
               style={{ borderColor: campaign.accent, ...bodyStyle }}
             >
               See the Full Report →
@@ -4594,7 +4706,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                   }
                   setStaffStillOn(false);
                 }}
-                className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-60 underline"
+                className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-60 underline focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={labelStyle}
               >
                 Plan my own battles from now on
@@ -4602,7 +4714,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             )}
           </>
         ) : phase === "decision" && nextDecision ? (
-          <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
+          <div ref={panelRef} tabIndex={-1} role="group" aria-label="A field decision" className="border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
             <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
               {nextDecision.time ? `${nextDecision.time} — ` : ""}
               {nextDecision.title}
@@ -4613,32 +4725,32 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             <div className="grid grid-cols-1 gap-2">
               {nextDecision.options.map((o) => (
                 <button key={o.id} onClick={() => chooseDecision(nextDecision, o.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                  <div className="text-sm font-semibold">{o.name}</div>
+                  <div className="text-sm font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px">{o.name}</div>
                   {o.note && <div className="text-[11px] opacity-80">{o.note}</div>}
                 </button>
               ))}
             </div>
           </div>
         ) : phase === "reserve" ? (
-          <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
+          <div ref={panelRef} tabIndex={-1} role="group" aria-label="The decisive hour" className="border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
             <p className="text-sm mb-3" style={bodyStyle}>
               {plan.reserves} {plan.reserves === 1 ? "point of effort is" : "points of effort are"} waiting in reserve. Commit {plan.reserves === 1 ? "it" : "them"} now, or hold?
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {categories.map((c) => (
                 <button key={c.id} onClick={() => chooseReserve(c.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                  <div className="text-sm font-semibold">Commit to {c.name}</div>
+                  <div className="text-sm font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px">Commit to {c.name}</div>
                   {(plan.allocation[c.id] || 0) === 0 && <div className="text-[11px] opacity-80">Currently uncovered</div>}
                 </button>
               ))}
               <button onClick={() => chooseReserve("hold")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                <div className="text-sm font-semibold">Hold the reserve</div>
+                <div className="text-sm font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px">Hold the reserve</div>
                 <div className="text-[11px] opacity-80">Keep it back for whatever comes next.</div>
               </button>
             </div>
           </div>
         ) : phase === "counter" ? (
-          <div className="border-2 p-4" style={{ borderColor: campaign.accent }}>
+          <div ref={panelRef} tabIndex={-1} role="group" aria-label="Enemy counterattack" className="border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
             <p className="text-sm mb-1 italic" style={bodyStyle}>
               {times?.counter ? <span className="font-bold not-italic mr-1" style={labelStyle}>{times.counter} —</span> : null}
               {ca.warn[severity] || ca.warn[1]}
@@ -4648,12 +4760,12 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             </p>
             <div className="grid grid-cols-1 gap-2">
               <button onClick={() => chooseCounter("head")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                <div className="text-sm font-semibold">Meet it head-on</div>
+                <div className="text-sm font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px">Meet it head-on</div>
                 <div className="text-[11px] opacity-80">Stand and fight with what's there.</div>
               </button>
               {!noGiveGround && (
                 <button onClick={() => chooseCounter("give")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                  <div className="text-sm font-semibold">Give ground and hold what you can</div>
+                  <div className="text-sm font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px">Give ground and hold what you can</div>
                   <div className="text-[11px] opacity-80">A smaller loss, and a certain one.</div>
                 </button>
               )}
@@ -4664,7 +4776,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
               )}
               {canThrowReserve && (
                 <button onClick={() => chooseCounter("reserve")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                  <div className="text-sm font-semibold">Throw the held reserve at it</div>
+                  <div className="text-sm font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px">Throw the held reserve at it</div>
                   <div className="text-[11px] opacity-80">
                     {plan.reserves} more {plan.reserves === 1 ? "point" : "points"} of effort alongside the {caCat?.name || ca.category} already there.
                   </div>
@@ -4680,7 +4792,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
           <>
             <button
               onClick={advance}
-              className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold"
+              className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
               style={{ borderColor: campaign.accent, ...bodyStyle }}
             >
               {beatIndex < lastCatIndex
@@ -4693,14 +4805,14 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                 ? "Next Report →"
                 : "See the Verdict →"}
             </button>
-            <button onClick={skip} className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-60 underline" style={labelStyle}>
+            <button onClick={skip} className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-60 underline focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px" style={labelStyle}>
               Skip to Result
             </button>
           </>
         )}
         {canSaveHere && (
           <>
-            <button onClick={saveAndLeave} className="w-full mt-4 text-center text-xs uppercase tracking-widest opacity-70 underline" style={labelStyle}>
+            <button onClick={saveAndLeave} className="w-full mt-4 text-center text-xs uppercase tracking-widest opacity-70 underline focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px" style={labelStyle}>
               Save and leave the field — the report starts again from its first line
             </button>
             <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
@@ -4713,7 +4825,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   );
 }
 
-function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProceed, isLast, soundOn, resolvedWeights, planCosts, battleNotes }) {
+function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags, before, onProceed, isLast, soundOn, resolvedWeights, planCosts, battleNotes }) {
   const choice = stage.choices[choiceIndex];
   const eff = effectiveChoice(choice, rollIndex);
   const headingRef = useRef(null);
@@ -4731,6 +4843,16 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
   useEffect(() => {
     if (soundOn) playStamp();
   }, []);
+  // The meters slide as the screen opens; with sound on, a soft note goes with each direction they moved.
+  useEffect(() => {
+    if (!soundOn || !before || !before.meters) return undefined;
+    const diffs = ["manpower", "fuel", "initiative"].map((k) => (meters[k] || 0) - (before.meters[k] || 0));
+    const timers = [];
+    if (diffs.some((d) => d > 0)) timers.push(setTimeout(() => playMeter(true), 350));
+    if (diffs.some((d) => d < 0)) timers.push(setTimeout(() => playMeter(false), diffs.some((d) => d > 0) ? 550 : 350));
+    return () => timers.forEach(clearTimeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const deltas = eff.impact
     ? [
         ["Manpower", eff.impact.manpower || 0],
@@ -4746,7 +4868,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
         <Stamp text={campaignReportLabel(campaign.id, "outcome")} color={campaign.accent} campaignId={campaign.id} />
         {(campaign.id === "german" || campaign.id === "soviet") && (
           <div
-            className="text-[9px] uppercase tracking-widest opacity-50 mt-1"
+            className="text-[10px] uppercase tracking-widest opacity-70 mt-1"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {campaign.id === "german" ? "Combat / After-Action Report" : "Report / Dispatch"}
@@ -4913,20 +5035,12 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
           {outcomeWithNote}
         </p>
 
-        {eff.impact && (
-          <div className="mb-8 border-2 border-black px-3 py-2">
-            <div className="flex flex-wrap gap-4">
-              <MeterBar label="Manpower" value={eff.impact.manpower} showBar={false} />
-              <MeterBar label="Matériel" value={eff.impact.fuel} showBar={false} />
-              <MeterBar label="Initiative" value={eff.impact.initiative} showBar={false} />
-            </div>
-            {eff.impact.fuel ? (
-              <div className="mt-1 text-[10px] uppercase tracking-wider opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                Matériel moved on: {MATERIEL_STRANDS.find((x) => x.id === materielStrandOf(choice, eff.outcome))?.name || "supplies in general"}
-              </div>
-            ) : null}
-          </div>
-        )}
+        <StandingPanel
+          before={before}
+          flags={flags}
+          meters={meters}
+          movedOn={eff.impact && eff.impact.fuel ? MATERIEL_STRANDS.find((x) => x.id === materielStrandOf(choice, eff.outcome))?.name || "supplies in general" : null}
+        />
 
         <button
           onClick={onProceed}
@@ -5137,7 +5251,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
               <MeterBar label="Initiative" value={meters.initiative} />
             </div>
             <div
-              className="text-[10px] uppercase tracking-wider opacity-50 mt-1"
+              className="text-[10px] uppercase tracking-wider opacity-70 mt-1"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Positive is better supplied and ahead of the historical pace. Negative is the opposite.

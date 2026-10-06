@@ -15,10 +15,13 @@ React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 250 nodes, Easy / Sta
 
 ## Commands
 - `npm run build:nozip` writes `dist/full` and `dist/demo`. `npm run build` also zips into `builds/` and needs the `zip` CLI (absent on stock Windows).
-- `npm run audit` all data audits (reachability, advisor dates, pace text, outcome sign, battle balance, claims). Run before and after content changes.
+- `npm run audit` all data audits (reachability, advisor dates, pace text, outcome sign, battle balance, Matériel strands, quotations, claims). Run before and after content changes.
 - `npm run typecheck` checks `src/logic.ts` (App.jsx is untyped).
 - `npm run verify:baseline` plays 48 seeded runs (4 campaigns x easy/standard/hard x 4 seeds) headlessly in jsdom through `dist/full/bundle.js`, hashes the page after every click and compares with `tests/baseline/ui`. Roughly 4 minutes on Linux, 8 on Windows (every run loads the 7 MB bundle). Build first. Must report 0 failures.
 - `TRACE=1 node ../packages/testkit/src/cli.mjs one <german|soviet|allied|italy>-<easy|open|hard> <seed>` prints one run step by step; `DUMP_STEP=<i>` prints the full page text after click i (diff two builds with `BUNDLE=<path>`).
+
+- Advisers carry `position` (what the named person argued, in the third person), never invented speech. A real quotation goes in `attested: { by, text, source }` on the same choice and in `claims/quotations.json`; `npm run check-quotations` enforces it.
+- `npm run test:battle-resume` plays to a battle, saves from the planning screen and the report, resumes in fresh pages and checks the screens come back identical (run after a build).
 
 ## Rules
 - Game decisions go through `src/logic.ts`, not inline in the component.
