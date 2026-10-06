@@ -64,7 +64,7 @@ export default {
       // otherwise choose a tactical approach once, then spend chits at random, then commit.
       const chits = bs.filter((x) => /^Add effort/.test(lab(x)));
       // Commander buttons all say "— favors ..."; the approaches (what chits unlock) do not.
-      const others = bs.filter((x) => !/^Add effort|favors|^No particular emphasis|Reconnaissance Pass|^Spread effort|^Clear all effort|^Hold a Map Exercise|^Let Your Staff Plan It/.test(lab(x)));
+      const others = bs.filter((x) => !/^Add effort|favors|^(✓ )?No particular emphasis|Reconnaissance Pass|^Spread effort|^Clear all effort|^Hold a Map Exercise|^Let Your Staff Plan It/.test(lab(x)));
       const commit = others.find((x) => PROCEED.test(lab(x)));
       if (commit) return commit;
       if (!policy.approachChosen && others.length) {

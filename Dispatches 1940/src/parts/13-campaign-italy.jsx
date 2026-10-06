@@ -19,7 +19,7 @@
           choices: [
             {
               label: "Declare war now — France is already beaten, and the peace table seats only belligerents",
-              advisor: { name: "Mussolini", quote: "I need a few thousand dead to sit at the peace table as a belligerent. It costs little now and would cost everything to arrive after the terms are already written." },
+              advisor: { name: "Mussolini", position: "A few thousand dead are needed to sit at the peace table as a belligerent, which costs little now and would cost everything to arrive after the terms are written." },
               historical: true,
               setFlags: { italyEntry: "declare" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -29,7 +29,7 @@
             },
             {
               label: "Hold non-belligerence a while longer — rebuild stocks before committing to a shooting war",
-              advisor: { name: "Badoglio", quote: "An army with a third of its rifle stocks unfilled does not become ready by being told the war has started. It becomes ready by having the rifles. I would rather arrive late to a war we can fight than on time to one we can't." },
+              advisor: { name: "Badoglio", position: "An army with a third of its rifle stocks unfilled does not become ready by being told the war has started but by having the rifles, and arriving late to a war that can be fought is better than on time to one that cannot." },
               setFlags: { italyEntry: "wait" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -59,7 +59,7 @@
           choices: [
             {
               label: "Declare now, even at the eleventh hour — a late entry is still an entry",
-              advisor: { name: "Mussolini", quote: "Late is not the same as absent. I would rather be recorded as the belligerent who arrived at the last possible hour than the one who never arrived at all." },
+              advisor: { name: "Mussolini", position: "Late is not absent, and it is better to be recorded as the belligerent who arrived at the last possible hour than the one who never arrived at all." },
               historical: false,
               setFlags: { italyEntry: "lateDeclare" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -69,7 +69,7 @@
             },
             {
               label: "Let the window close — France settles its own armistice without Italy ever entering against it",
-              advisor: { name: "Badoglio", quote: "There is no dishonor in an army that waited to be ready. There may be real dishonor in a war entered a week before the enemy stops fighting anyone at all. Let the window close." },
+              advisor: { name: "Badoglio", position: "There is no dishonor in an army that waited to be ready, and there may be real dishonor in entering a war a week before the enemy stops fighting anyone at all, so let the window close." },
               setFlags: { italyEntry: "missedFrance" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -90,7 +90,7 @@
           choices: [
             {
               label: "Declare war on Britain alone — the Mediterranean fight was always a British one, not a French one",
-              advisor: { name: "Ciano", quote: "Malta and Suez were never France's to contest. If this government still wants Mare Nostrum, it can want it without a peace table that no longer exists to seat us at." },
+              advisor: { name: "Ciano", position: "Malta and Suez were never France's to contest, and if the government still wants Mare Nostrum it can want it without a peace table that no longer exists." },
               historical: false,
               setFlags: { italyEntry: "britainOnly" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
@@ -100,7 +100,7 @@
             },
             {
               label: "Hold non-belligerence indefinitely — Rome stays out of the wider war entirely",
-              advisor: { name: "Badoglio", quote: "There is no doctrine that requires this country to fight. There is only a decade of one man's rhetoric that assumed it always would. I am recommending the rhetoric be proven wrong." },
+              advisor: { name: "Badoglio", position: "No doctrine requires this country to fight, only a decade of one man's rhetoric that assumed it always would, and he recommends the rhetoric be proven wrong." },
               setFlags: { italyEntry: "neutral" },
               favor: 1,
               impact: { manpower: 1, fuel: 1, initiative: -2 },
@@ -122,7 +122,7 @@
           choices: [
             {
               label: "Hold firm publicly — declare non-belligerence a settled, permanent state policy",
-              advisor: { name: "Mussolini", quote: "I would rather stake this government's legitimacy on having judged the war correctly than on having joined it. History rewards the second far less often than my generals seem to assume." },
+              advisor: { name: "Mussolini", position: "He would rather stake the government's legitimacy on having judged the war correctly than on having joined it, though history rewards the second far less often than his generals assume." },
               checkLabel: "Initiative",
               disabledReason: (meters.initiative || 0) >= -3 ? undefined : "too little standing left in the regime's own propaganda apparatus to sell indefinite non-belligerence as strength rather than weakness",
               setFlags: { neutralItaly40: "declared" },
@@ -133,7 +133,7 @@
             },
             {
               label: "Stay non-belligerent but quietly hedge — maintain contingency plans in case Berlin's patience runs out",
-              advisor: { name: "Badoglio", quote: "Say what the propaganda ministry needs said. I am not staking the army's readiness on Berlin's goodwill lasting indefinitely, whatever gets announced on the radio." },
+              advisor: { name: "Badoglio", position: "Say what the propaganda ministry needs said, but the army's readiness is not staked on Berlin's goodwill lasting indefinitely, whatever gets announced on the radio." },
               setFlags: { neutralItaly40: "hedge" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -158,7 +158,7 @@
           choices: [
             {
               label: "Offer economic concessions short of alliance — raw materials, basing rights, transit access — to keep Berlin tolerant of the arrangement",
-              advisor: { name: "Ciano", quote: "We do not have to give Berlin a war. We have to give Berlin enough of what a war would have provided that the difference stops mattering to them." },
+              advisor: { name: "Ciano", position: "Berlin does not have to be given a war, only enough of what a war would have provided that the difference stops mattering to them." },
               checkLabel: "Matériel",
               disabledReason: (meters.fuel || 0) >= -2 ? undefined : "too little left in reserve to offer German transit and resource access without visibly straining the arrangement it's meant to protect",
               setFlags: { neutralItalyResponse41: "concede" },
@@ -186,7 +186,7 @@
             },
             {
               label: "Refuse all concessions — stake this government's remaining legitimacy on genuine, unconditional independence",
-              advisor: { name: "Mussolini", quote: "A neutrality that pays tribute to be tolerated is not neutrality. I would rather find out directly what this alliance was actually worth to Berlin than spend it slowly, concession by concession, finding out the same thing." },
+              advisor: { name: "Mussolini", position: "A neutrality that pays tribute to be tolerated is not neutrality, and he would rather find out directly what the alliance was worth to Berlin than spend it slowly, concession by concession, finding out the same thing." },
               setFlags: { neutralItalyResponse41: "refuse" },
               impact: { manpower: 0, fuel: 1, initiative: 1 },
               next: "neutralItalyEnd45",
@@ -224,7 +224,7 @@
           choices: [
             {
               label: "Submit — accept German terms rather than resist a war this command spent two years avoiding",
-              advisor: { name: "Cavallero", quote: "We built an entire policy around not fighting this war. I am not spending the men that policy saved us proving a point about sovereignty at the last possible moment." },
+              advisor: { name: "Cavallero", position: "An entire policy was built around not fighting this war, and the men it saved will not be spent proving a point about sovereignty at the last possible moment." },
               historical: false,
               setFlags: { neutralItalyEnd: "submit" },
               impact: { manpower: 0, fuel: -1, initiative: -1 },
@@ -234,7 +234,7 @@
             },
             {
               label: "Resist — refuse the ultimatum and find out what a German response to an ally's defiance actually costs",
-              advisor: { name: "Ciano", quote: "We refused to fight for Berlin for two years. I would at least like this government's last act to be refusing to fight for Berlin, rather than simply being absorbed by it without a shot fired either way." },
+              advisor: { name: "Ciano", position: "Italy refused to fight for Berlin for two years, and he would like the government's last act to be refusing again, and not simply being absorbed without a shot fired either way." },
               checkLabel: "Manpower",
               disabledReason: (meters.manpower || 0) >= -3 ? undefined : "too depleted a standing army left to make a refusal credible rather than merely symbolic",
               setFlags: { neutralItalyEnd: "resist" },
@@ -273,7 +273,7 @@
           choices: [
             {
               label: "Treat the outcome as vindication — the regime judged the war correctly, and history should say so",
-              advisor: { name: "Mussolini", quote: "Let the history books record what they will about courage. I would rather be remembered as the government that judged a catastrophe correctly than the one that shared in it heroically." },
+              advisor: { name: "Mussolini", position: "Let the history books record what they will about courage, since he would rather be remembered as the government that judged a catastrophe correctly than the one that shared in it heroically." },
               setFlags: { neutralItalyRetrospect: "vindicated" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "END",
@@ -282,7 +282,7 @@
             },
             {
               label: "Acknowledge the cost plainly — surviving a catastrophe is not the same as having answered for it",
-              advisor: { name: "Badoglio", quote: "We are alive, and the army is intact, and I will not pretend either of those facts is a small thing after what this continent has spent the last six years doing to itself. But we did not answer for anything. We only avoided being asked." },
+              advisor: { name: "Badoglio", position: "Italy is alive and the army intact, which is not a small thing after what the continent has done to itself in six years, but the country did not answer for anything, it only avoided being asked." },
               favor: 1,
               setFlags: { neutralItalyRetrospect: "unresolved" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -311,7 +311,7 @@
           choices: [
             {
               label: "Push hard for maximum territorial gains before the armistice closes the window",
-              advisor: { name: "Graziani", quote: "Whatever we hold when the guns stop is what we hold. I would rather spend this week's casualties buying ground than spend the peace conference explaining why we have none to show." },
+              advisor: { name: "Graziani", position: "Whatever is held when the guns stop is what is held, and this week's casualties are better spent buying ground than the peace conference spent explaining why there is none to show." },
               historical: true,
               setFlags: { alpsFront40: "push" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
@@ -537,7 +537,7 @@
             },
             {
               label: "Limited, symbolic advance only — hold the line, let diplomacy do the work",
-              advisor: { name: "Badoglio", quote: "The negotiators in Munich will decide what Italy gets. An offensive this rushed spends men to influence a decision that is not actually being made on this front." },
+              advisor: { name: "Badoglio", position: "The negotiators in Munich will decide what Italy gets, and an offensive this rushed spends men to influence a decision that is not being made on this front." },
               setFlags: { alpsFront40: "limited" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -562,7 +562,7 @@
           choices: [
             {
               label: "Move on Malta first — invade now, while the garrison is still weak",
-              advisor: { name: "Cavagnari", quote: "Every ship we lose to Malta's air and submarines this year is a ship the Libya campaign needed and will not have. Take the island now, while it still can be taken, or spend the whole war paying its toll." },
+              advisor: { name: "Cavagnari", position: "Every ship lost to Malta's air and submarines this year is one the Libya campaign needed and will not have, so take the island now while it can be taken, or spend the whole war paying its toll." },
               setFlags: { medStrategy: "malta" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
               next: "greeceDecision40",
@@ -589,7 +589,7 @@
             },
             {
               label: "Push into Egypt immediately — Suez is the prize that actually decides the theater",
-              advisor: { name: "Mussolini", quote: "I did not enter this war to besiege an island. Egypt is where the empire is decided, and the Tenth Army outnumbers Wavell's whole command on paper. Send them forward." },
+              advisor: { name: "Mussolini", position: "The war was not entered to besiege an island. Egypt is where the empire is decided, and the Tenth Army outnumbers Wavell's whole command on paper, so send them forward." },
               historical: true,
               setFlags: { medStrategy: "egypt" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -599,7 +599,7 @@
             },
             {
               label: "Reach past both — press Berlin and Madrid for an Italian seat in closing Gibraltar",
-              advisor: { name: "Ciano", quote: "Malta and Egypt are our sea's own doors. Gibraltar is the lock on the whole house, and if it is opened without us in the room, we will spend the rest of this war being handed the Mediterranean's small change while Berlin and Madrid divide the estate." },
+              advisor: { name: "Ciano", position: "Malta and Egypt are the sea's own doors and Gibraltar is the lock on the whole house, and if it is opened without Rome in the room the rest of the war is spent being handed small change while Berlin and Madrid divide the estate." },
               setFlags: { medStrategy: "gibraltar" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "gibraltarGambit40",
@@ -619,7 +619,7 @@
           choices: [
             {
               label: "Back Franco's price in full, in exchange for German guarantees on Italy's own claims elsewhere",
-              advisor: { name: "Ciano", quote: "Let Madrid have Oran, if Oran is what unlocks Gibraltar for good. I would rather trade away a French department we were never going to hold ourselves for a written guarantee on Tunisia and Nice — a debt Berlin can be made to remember is owed." },
+              advisor: { name: "Ciano", position: "Let Madrid have Oran if Oran unlocks Gibraltar for good, since a French department never going to be held is a fair trade for a written guarantee on Tunisia and Nice, a debt Berlin can be made to remember." },
               setFlags: { gibraltarGambit: "backFranco" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "gibraltarResolution40",
@@ -628,7 +628,7 @@
             },
             {
               label: "Hold back — let Madrid name its price to Berlin alone, and keep Rome's own claims out of the bargaining",
-              advisor: { name: "Ciano", quote: "There is a version of this where Rome is remembered as the government that helped open Gibraltar, and a version where Rome is remembered as the government that gave away Tunisia's borders to buy a door Franco was never going to open regardless. I know which one I am not willing to risk my name on." },
+              advisor: { name: "Ciano", position: "There is a version in which Rome is remembered as the government that helped open Gibraltar and a version in which it gave away Tunisia's borders to buy a door Franco was never going to open, and he knows which one he will not risk his name on." },
               setFlags: { gibraltarGambit: "abstain" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "greeceDecision40",
@@ -648,7 +648,7 @@
           choices: [
             {
               label: "Commit real Italian grain and fuel shipments to Spain — make the price actually affordable, not just politically sweeter",
-              advisor: { name: "Cavallero", quote: "Guarantees on paper cost this command nothing and bought nothing at Hendaye. Ships full of grain cost a great deal and might actually buy something. I would rather spend the fuel and find out than keep the promise cheap and watch it fail the same way." },
+              advisor: { name: "Cavallero", position: "Guarantees on paper cost this command nothing and bought nothing at Hendaye, while ships full of grain cost a great deal and might buy something, so spend the fuel and find out rather than keep the promise cheap and watch it fail the same way." },
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "no fuel reserve left to commit to shipments Spain would actually need to move" : undefined,
               setFlags: { gibraltarCommitment: "shipments" },
@@ -677,7 +677,7 @@
             },
             {
               label: "Guarantees only — Rome's claims are worth putting in writing, but not worth spending its own fuel reserve on Spain's war",
-              advisor: { name: "Ciano", quote: "I did not come to Hendaye to hand Franco our own fuel reserve on the strength of a wager. Let Berlin spend what Berlin is willing to spend. My signature costs this command nothing it cannot afford to lose." },
+              advisor: { name: "Ciano", position: "He did not come to Hendaye to hand Franco Italy's fuel reserve on the strength of a wager, and Berlin can spend what Berlin is willing to spend, since his signature costs nothing the command cannot afford to lose." },
               setFlags: { gibraltarCommitment: "guaranteesOnly" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "greeceDecision40",
@@ -710,7 +710,8 @@
           choices: [
             {
               label: "Proceed on the planned date — the political timing matters more than the readiness gap",
-              advisor: { name: "Mussolini", quote: "Hitler will find out from the newspapers that I have occupied Greece. This time the balance will be re-established." },
+              advisor: { name: "Mussolini", position: "Hitler will find out from the papers that Italy has occupied Greece, and this time the balance will be re-established." },
+              attested: { by: "Mussolini", text: "He will find out from the papers that I have occupied Greece.", source: "Mussolini to Ciano, 12 October 1940, in Ciano's Diary 1939-1943" },
               historical: true,
               setFlags: { greeceDecision: "proceed", trust: (flags.trust || 0) + (-1) },
               trustDelta: -1,
@@ -721,7 +722,7 @@
             },
             {
               label: "Argue for delay — build the Albania force properly before committing to an invasion",
-              advisor: { name: "Badoglio", quote: "Two weeks is not a plan, it is a date with a plan's shape drawn around it. Give the Albania command the spring and the roads it needs, and this campaign might actually work the way it's being described to the Duce." },
+              advisor: { name: "Badoglio", position: "Two weeks is not a plan but a date with a plan's shape drawn around it, and given the spring and the roads it needs the Albania command might make this campaign work the way it is being described to the Duce." },
               setFlags: { greeceDecision: "delay", trust: (flags.trust || 0) + (1) },
               trustDelta: 1,
               favor: 1,
@@ -746,7 +747,7 @@
           choices: [
             {
               label: "Preserve the fleet — a 'fleet in being' doctrine, risked only when the odds are clearly favorable",
-              advisor: { name: "Cavagnari", quote: "I am not in a position to argue for boldness after tonight. What is left of this fleet is worth more sitting where the British have to plan around it than sunk somewhere proving a point." },
+              advisor: { name: "Cavagnari", position: "No argument for boldness can be made after tonight, and what is left of the fleet is worth more sitting where the British have to plan around it than sunk proving a point." },
               historical: true,
               setFlags: { tarantoDoctrine: "preserve" },
               impact: { manpower: 0, fuel: 1, initiative: -1 },
@@ -756,7 +757,7 @@
             },
             {
               label: "Commit to aggressive convoy escort — the Libya supply line needs the fleet exposed, not preserved",
-              advisor: { name: "Iachino", quote: "Every convoy the fleet does not escort to Libya is a convoy the submarines and the RAF get uncontested. Caution over the harbor is a lesson about harbors. It is not a lesson about convoys." },
+              advisor: { name: "Iachino", position: "Every convoy the fleet does not escort to Libya is one the submarines and the RAF get uncontested, and caution over the harbor is a lesson about harbors and not about convoys." },
               setFlags: { tarantoDoctrine: "escort" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "greeceWinter40",
@@ -779,7 +780,7 @@
           choices: [
             {
               label: "Commit the strategic reserve immediately — stabilize the line at any cost before it collapses further",
-              advisor: { name: "Cavallero", quote: "I am taking personal command in Albania because there is no one left to blame this on from Rome. Every division we hold back now is a division that answers for the front we lose without it." },
+              advisor: { name: "Cavallero", position: "He takes personal command in Albania because no one is left in Rome to blame this on, and every division held back now answers for the front lost without it." },
               historical: true,
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -3 ? "no strategic reserve left to commit — it has already been spent shoring up another front" : undefined,
@@ -973,7 +974,7 @@
             },
             {
               label: "Trade space for time — fall back to a shorter, more defensible line rather than feed the front piecemeal",
-              advisor: { name: "Badoglio", quote: "I resigned rather than keep defending a plan that was broken before it launched. Whoever holds this command now should at least stop paying for that plan's mistakes one division at a time." },
+              advisor: { name: "Badoglio", position: "He resigned rather than keep defending a plan that was broken before it launched, and whoever holds this command now should at least stop paying for that plan's mistakes one division at a time." },
               setFlags: { greeceWinter: "withdraw" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -998,7 +999,7 @@
           choices: [
             {
               label: "Order an immediate general withdrawal to a shorter line before the flanking attack lands",
-              advisor: { name: "Graziani", quote: "Every hour we hold these camps as they're arranged is an hour we're daring an armored force to do exactly what an armored force is built to do. I would rather give up ground on my own terms than lose the army defending a line that was never actually a line." },
+              advisor: { name: "Graziani", position: "Every hour the camps are held as arranged is an hour daring an armored force to do exactly what it is built to do, and it is better to give up ground on his own terms than lose the army defending a line that was never a line." },
               setFlags: { compass40: "withdraw" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -1008,7 +1009,7 @@
             },
             {
               label: "Hold the fortified camps and trust the line to absorb what is assumed to be a limited raid",
-              advisor: { name: "Cavallero", quote: "Rome's own intelligence calls this a reconnaissance in force, not an offensive. I am not moving the reserve for a five-day raid the estimates say will exhaust itself against our wire." },
+              advisor: { name: "Cavallero", position: "Rome's own intelligence calls this a reconnaissance in force and not an offensive, so the reserve will not be moved for a five-day raid the estimates say will exhaust itself against the wire." },
               historical: true,
               setFlags: { compass40: "hold" },
               impact: { manpower: -3, fuel: -1, initiative: -2 },
@@ -1032,7 +1033,7 @@
           choices: [
             {
               label: "Request German intervention in both theaters — Libya and Greece, whatever the political cost",
-              advisor: { name: "Mussolini", quote: "I would rather owe Hitler an army than owe history the loss of Libya. Send the request. Pride is a luxury item, and this month I cannot afford it." },
+              advisor: { name: "Mussolini", position: "He would rather owe Hitler an army than owe history the loss of Libya, so the request goes, since pride is a luxury item he cannot afford this month." },
               historical: true,
               setFlags: { germanRescue: "both", trust: (flags.trust || 0) + (1) },
               trustDelta: 1,
@@ -1043,7 +1044,7 @@
             },
             {
               label: "Request Libya rescue only — hold Greece with what remains of the Italian reserve alone",
-              advisor: { name: "Cavallero", quote: "Ask for everything and we get German terms attached to everything. Ask for Libya only, and Greece stays a campaign we can still say we finished ourselves — assuming the line I'm holding actually finishes it." },
+              advisor: { name: "Cavallero", position: "Asking for everything brings German terms attached to everything, while asking for Libya only leaves Greece a campaign Italy can still say it finished itself, if the line he is holding actually finishes it." },
               setFlags: { germanRescue: "libyaOnly", trust: (flags.trust || 0) + (-1) },
               trustDelta: -1,
               favor: 1,
@@ -1065,7 +1066,7 @@
           choices: [
             {
               label: "Break off and run for home the moment Vittorio Veneto is hit — preserve what's left of the sortie force",
-              advisor: { name: "Iachino", quote: "The flagship is damaged and the enemy has a night-fighting advantage our own doctrine was never built to match. I am not spending the rest of this fleet finding that out in the dark." },
+              advisor: { name: "Iachino", position: "The flagship is damaged and the enemy has a night-fighting advantage the doctrine was never built to match, and the rest of the fleet will not be spent finding that out in the dark." },
               historical: true,
               setFlags: { matapan41: "withdraw" },
               impact: { manpower: 0, fuel: -1, initiative: -1 },
@@ -1264,7 +1265,7 @@
             },
             {
               label: "Press the sortie's original objective — the convoy interception mission still stands",
-              advisor: { name: "Iachino", quote: "We came out to find that convoy, not to nurse a damaged battleship home at the first setback. Abandoning the mission now wastes the exposure we've already accepted for nothing." },
+              advisor: { name: "Iachino", position: "The fleet came out to find that convoy and not to nurse a damaged battleship home at the first setback, and abandoning the mission now wastes the exposure already accepted for nothing." },
               setFlags: { matapan41: "press" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "yugoslaviaBalkans41",
@@ -1287,7 +1288,7 @@
           choices: [
             {
               label: "Claim the maximum annexation — Dalmatia, Montenegro, and a large Greek occupation zone",
-              advisor: { name: "Ciano", quote: "Berlin is drawing this map quickly, and whatever we don't claim this month, we will not be offered again. Ask for everything defensible and let the argument happen at the table, not after it." },
+              advisor: { name: "Ciano", position: "Berlin is drawing this map quickly, and whatever is not claimed this month will not be offered again, so ask for everything defensible and let the argument happen at the table and not after it." },
               historical: true,
               setFlags: { balkansAnnex: "maximum", trust: (flags.trust || 0) + (-1) },
               trustDelta: -1,
@@ -1298,7 +1299,7 @@
             },
             {
               label: "Claim a smaller, more defensible zone — fewer garrison obligations, less occupied territory to hold",
-              advisor: { name: "Bastico", quote: "Every kilometer of occupied coastline is a kilometer of coastline that needs a garrison the North African front does not have spare. I would rather hold less and actually hold it." },
+              advisor: { name: "Bastico", position: "Every kilometer of occupied coastline needs a garrison the North African front does not have spare, and it is better to hold less and actually hold it." },
               setFlags: { balkansAnnex: "limited", trust: (flags.trust || 0) + (1) },
               trustDelta: 1,
               favor: 1,
@@ -1323,7 +1324,7 @@
           choices: [
             {
               label: "Surrender Amba Alagi on honorable terms once the position is untenable",
-              advisor: { name: "Cavallero", quote: "The Duke of Aosta has held longer than anyone in Rome had a right to expect from a garrison this cut off. There is no dishonor left to spend holding out further, only men." },
+              advisor: { name: "Cavallero", position: "The Duke of Aosta has held longer than anyone in Rome had a right to expect from a garrison this cut off, and there is no dishonor left to spend holding out further, only men." },
               historical: true,
               setFlags: { eastAfrica: "surrender" },
               impact: { manpower: -1, fuel: 0, initiative: -1 },
@@ -1333,7 +1334,7 @@
             },
             {
               label: "Order remaining forces to scatter and fight on as guerrillas rather than surrender the position",
-              advisor: { name: "Graziani", quote: "A garrison that surrenders is a garrison the enemy accounts for and moves past. A garrison that scatters into the highlands is a problem the enemy has to keep solving for years." },
+              advisor: { name: "Graziani", position: "A garrison that surrenders is accounted for by the enemy and moved past, while one that scatters into the highlands is a problem the enemy must keep solving for years." },
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -3 ? "too few men left in the theater to disperse into a sustained highland campaign rather than simply be hunted down piecemeal" : undefined,
               setFlags: { eastAfrica: "guerrilla" },
@@ -1395,8 +1396,8 @@
                 ? "Route the freed-up escort resources into the Libya convoys directly — press the advantage"
                 : "Commit air and naval resources to direct convoy escort rather than the Malta invasion",
               advisor: flags.malta40 === "fell"
-                ? { name: "Iachino", quote: "We spent a fleet taking that island. Spending nothing on what it bought us would be the stranger decision." }
-                : { name: "Iachino", quote: "Hercules is a plan on paper that has needed German paratroopers and landing craft we do not fully control for over a year now. The convoys are a problem I can actually do something about this month." },
+                ? { name: "Iachino", position: "A fleet was spent taking that island, and spending nothing on what it bought would be the stranger decision." }
+                : { name: "Iachino", position: "Hercules is a plan on paper that has needed German paratroopers and landing craft not fully under Italian control for over a year, while the convoys are a problem that can be dealt with this month." },
               historical: flags.malta40 !== "fell",
               setFlags: { maltaQuestion: "escort" },
               impact: { manpower: 0, fuel: 1, initiative: -1 },
@@ -1410,8 +1411,8 @@
                 ? "Garrison and fortify Malta against a British attempt to retake it, rather than banking on the convoy gains alone"
                 : "Push to finally execute the Malta invasion — remove the base rather than keep escorting around it",
               advisor: flags.malta40 === "fell"
-                ? { name: "Cavallero", quote: "We hold Malta because we took it when it was weak. The Royal Navy has spent a year deciding whether taking it back is worth the fleet action. I would rather not be the side that isn't ready when it decides." }
-                : { name: "Cavallero", quote: "We have planned Hercules for a year and executed nothing. Every month we delay is a month the island's air defenses get stronger and the operation gets more expensive. If it is ever going to work, it has to be now." },
+                ? { name: "Cavallero", position: "Malta is held because it was taken when weak, the Royal Navy has spent a year deciding whether taking it back is worth the fleet action, and it is better not to be unready when it decides." }
+                : { name: "Cavallero", position: "Hercules has been planned for a year and nothing executed, every month of delay strengthens the island's air defenses and raises the cost, and if it is ever to work it must be now." },
               setFlags: { maltaQuestion: flags.malta40 === "fell" ? "garrison" : "invade" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
               next: flags.malta40 === "fell" ? "maltaRetake41" : "herculesExecution41",
@@ -1435,7 +1436,7 @@
           choices: [
             {
               label: "Launch with Italian assets alone — a scaled-down assault rather than no assault at all",
-              advisor: { name: "Cavallero", quote: "We asked for authorization and received it. I am not returning to the Palazzo Venezia to explain that authorization without German transport aircraft was never actually a plan. Scale it to what we have and go." },
+              advisor: { name: "Cavallero", position: "Authorization was asked for and received, and he will not return to the Palazzo Venezia to explain that authorization without German transport aircraft was never a plan, so scale it to what exists and go." },
               checkLabel: "Matériel",
               disabledReason: (meters.fuel || 0) <= -3 ? "insufficient fuel and shipping left to mount an amphibious-airborne assault of any size this season" : undefined,
               setFlags: { herculesExecution41: "launch" },
@@ -1465,7 +1466,7 @@
             },
             {
               label: "Stand the operation down again — wait on German assets that Barbarossa's winter may never release",
-              advisor: { name: "Bastico", quote: "An authorization from Rome does not conjure transport aircraft that are, this month, needed at a front the whole war may actually turn on. I would rather admit the operation isn't real yet than spend men proving that it isn't." },
+              advisor: { name: "Bastico", position: "An authorization from Rome does not conjure transport aircraft needed this month at a front the whole war may turn on, and he would rather admit the operation is not yet real than spend men proving it." },
               setFlags: { herculesExecution41: "stand down" },
               favor: 1,
               impact: { manpower: 0, fuel: 1, initiative: -1 },
@@ -1492,7 +1493,7 @@
           choices: [
             {
               label: "Reinforce the garrison and air defenses now, at the fleet's continued expense — hold what was taken",
-              advisor: { name: "Iachino", quote: "We spent a fleet taking that island once already. Spending less than everything to keep it would make the first expenditure the pointless one." },
+              advisor: { name: "Iachino", position: "A fleet was spent taking that island once already, and spending less than everything to keep it would make the first expenditure the pointless one." },
               setFlags: { maltaDefense41: "reinforce" },
               impact: { manpower: -1, fuel: -2, initiative: 1 },
               next: "rommelAdvance41",
@@ -1525,7 +1526,7 @@
             },
             {
               label: "Hold the line with what's already there — the desert war needs the fleet and air assets more than Malta does",
-              advisor: { name: "Bastico", quote: "Every squadron kept over Malta is a squadron not covering Rommel's convoys. I would rather risk the island than guarantee the desert front starves waiting for a British attack that may not even come this season." },
+              advisor: { name: "Bastico", position: "Every squadron kept over Malta is one not covering Rommel's convoys, and he would rather risk the island than guarantee the desert front starves waiting for a British attack that may not come this season." },
               setFlags: { maltaDefense41: "minimal" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "rommelAdvance41",
@@ -1572,7 +1573,7 @@
           choices: [
             {
               label: "Assert Italian operational authority — require Rommel to clear major offensives through Comando Supremo first",
-              advisor: { name: "Bastico", quote: "I am the theater commander of record, and I have learned about this counterattack's exact date from Rommel's own dispatches, not from being consulted. That arrangement ends, or my command here is a formality." },
+              advisor: { name: "Bastico", position: "He is the theater commander of record and learned of this counterattack's exact date from Rommel's dispatches and not by being consulted, and that arrangement ends or his command here is a formality." },
               setFlags: { desertCommand: "assert", trust: (flags.trust || 0) + (-1) },
               trustDelta: -1,
               favor: 1,
@@ -1583,7 +1584,7 @@
             },
             {
               label: "Accept the de facto arrangement — Rommel's operational initiative has produced results Italian command alone hadn't",
-              advisor: { name: "Cavallero", quote: "However irregular the arrangement looks on paper, Rommel has retaken Cyrenaica twice as fast as our own staff planning ever projected. I am not interrupting a working method to enforce a formality." },
+              advisor: { name: "Cavallero", position: "However irregular the arrangement looks on paper, Rommel has retaken Cyrenaica twice as fast as the staff planning projected, and a working method will not be interrupted to enforce a formality." },
               historical: true,
               setFlags: { desertCommand: "defer", trust: (flags.trust || 0) + (1) },
               trustDelta: 1,
@@ -1610,7 +1611,7 @@
           choices: [
             {
               label: "Press on toward Egypt immediately, using Tobruk's captured supplies to fuel the pursuit",
-              advisor: { name: "Rommel", quote: "The gate to Egypt has never stood this open, and it will not stand open long. Every day we pause to plan is a day the British use to rebuild the line we've just broken." },
+              advisor: { name: "Rommel", position: "The gate to Egypt has never stood this open and will not stand open long, and every day paused to plan is a day the British use to rebuild the line just broken." },
               historical: true,
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient reserve fuel to stretch a pursuit past whatever Tobruk's captured stocks alone can cover" : undefined,
@@ -1638,7 +1639,7 @@
             },
             {
               label: "Halt at the Libya-Egypt frontier and consolidate before any further advance",
-              advisor: { name: "Bastico", quote: "The plan we agreed to called this the stopping point for a reason that hasn't changed just because Tobruk fell faster than expected. Consolidate the supply line before spending the momentum on a deeper gamble." },
+              advisor: { name: "Bastico", position: "The plan agreed called this the stopping point for a reason that has not changed just because Tobruk fell faster than expected, so consolidate the supply line before spending the momentum on a deeper gamble." },
               setFlags: { tobrukAftermath: "consolidate" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -1666,7 +1667,7 @@
           choices: [
             {
               label: "Fight the defensive battle as planned — trust the Alamein line's fortifications to absorb the assault",
-              advisor: { name: "Rommel", quote: "I do not have the fuel to maneuver this battle the way I would prefer to fight it. We hold the line we have and make Montgomery pay by the yard for what he takes." },
+              advisor: { name: "Rommel", position: "There is not the fuel to fight this battle the way he would prefer, so the line held is the line held, and Montgomery will pay by the yard for what he takes." },
               historical: true,
               setFlags: { alamein42: "hold" },
               impact: { manpower: -2, fuel: -1, initiative: -1 },
@@ -1676,7 +1677,7 @@
             },
             {
               label: "Order a fighting withdrawal before the line is fully committed — preserve the army rather than the ground",
-              advisor: { name: "Bastico", quote: "Rommel would rather lose this army defending a line than retreat and be blamed for giving up Egypt's approaches. I would rather have an army left to defend Tunisia with." },
+              advisor: { name: "Bastico", position: "Rommel would rather lose this army defending a line than retreat and be blamed for giving up Egypt's approaches, while he would rather have an army left to defend Tunisia with." },
               setFlags: { alamein42: "withdraw" },
               favor: 1,
               impact: { manpower: -1, fuel: 0, initiative: -1 },
@@ -1709,7 +1710,7 @@
           choices: [
             {
               label: "Rush every available reinforcement into Tunisia to build a defensible bridgehead before the Allies close the trap",
-              advisor: { name: "Kesselring", quote: "Tunisia is the only ground left that terrain favors us on. Every division we can fly or ship in before the Allies consolidate is a division that buys the rest of this front more time." },
+              advisor: { name: "Kesselring", position: "Tunisia is the only ground left where terrain favors the Axis, and every division flown or shipped in before the Allies consolidate buys the rest of the front more time." },
               historical: true,
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient shipping and fuel left to run the Sicilian Strait crossing at the scale this buildup needs" : undefined,
@@ -1739,7 +1740,7 @@
             },
             {
               label: "Limit the Tunisia commitment and prioritize evacuating experienced units back to Italy instead",
-              advisor: { name: "Messe", quote: "We are building a defense in a pocket with the sea at our backs and no realistic relief coming. I would rather save the veteran cadres this army still has than spend them on a delay whose ending is not actually in doubt." },
+              advisor: { name: "Messe", position: "A defense is being built in a pocket with the sea at its back and no realistic relief, and he would rather save the veteran cadres than spend them on a delay whose ending is not in doubt." },
               setFlags: { tunisiaBuildup: "evacuate" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -1761,7 +1762,7 @@
           choices: [
             {
               label: "Order a fighting surrender only after every position is actually untenable",
-              advisor: { name: "Messe", quote: "I will not order this army to lay down its arms while it can still fight for a single more hour of dignity, however little that hour changes the outcome." },
+              advisor: { name: "Messe", position: "He will not order the army to lay down its arms while it can still fight for one more hour of dignity, however little that hour changes the outcome." },
               historical: true,
               setFlags: { tunisiaCollapse: "fight" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
@@ -1771,7 +1772,7 @@
             },
             {
               label: "Negotiate surrender terms as soon as the position is clearly hopeless, to reduce further casualties",
-              advisor: { name: "Ambrosio", quote: "There is no version of the next week that keeps this army in the field. Every additional day of resistance before terms are settled is a day's casualties spent confirming a conclusion that is not actually in question." },
+              advisor: { name: "Ambrosio", position: "No version of the next week keeps this army in the field, and every additional day of resistance before terms are settled is a day's casualties spent confirming a conclusion not in question." },
               setFlags: { tunisiaCollapse: "negotiate" },
               favor: 1,
               impact: { manpower: -1, fuel: 0, initiative: -1 },
@@ -1802,7 +1803,7 @@
           choices: [
             {
               label: "Prioritize air defense reinforcement for the home cities over further North African-adjacent commitments",
-              advisor: { name: "Ambrosio", quote: "There is no colonial front left to defend. Every fighter squadron and anti-aircraft battery we can still field belongs over Naples and Palermo now, not somewhere the war has already moved past." },
+              advisor: { name: "Ambrosio", position: "No colonial front is left to defend, and every fighter squadron and anti-aircraft battery that can still be fielded belongs over Naples and Palermo now, not where the war has already moved past." },
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "not enough fuel left to keep a reinforced fighter screen flying over the home cities in strength" : undefined,
               setFlags: { homeFront43: "airDefense" },
@@ -1832,7 +1833,7 @@
             },
             {
               label: "Maintain the existing dispersal of forces and let civil defense authorities manage morale as best they can",
-              advisor: { name: "Mussolini", quote: "Panic over a bombing campaign is a domestic problem, and the regime has instruments for domestic problems. The war is decided at the front, not in how bravely Naples takes an air raid." },
+              advisor: { name: "Mussolini", position: "Panic over a bombing campaign is a domestic problem and the regime has instruments for domestic problems, since the war is decided at the front and not in how bravely Naples takes an air raid." },
               historical: true,
               setFlags: { homeFront43: "maintain" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -1856,7 +1857,7 @@
           choices: [
             {
               label: "Concentrate the defense on denying the Strait of Messina — a fighting withdrawal off the island, not a last stand on it",
-              advisor: { name: "Ambrosio", quote: "Sicily cannot be held with what we have left to hold it. What can be saved is the army evacuating across the Strait rather than being captured on the beaches defending ground we've already lost the ability to hold." },
+              advisor: { name: "Ambrosio", position: "Sicily cannot be held with what is left, and what can be saved is the army evacuating across the Strait and not captured on the beaches defending ground already lost." },
               historical: true,
               setFlags: { sicily43: "withdraw" },
               favor: 1,
@@ -1867,7 +1868,7 @@
             },
             {
               label: "Order the garrison to hold Sicily as long as possible — a defense-in-place rather than an early withdrawal",
-              advisor: { name: "Mussolini", quote: "I will not authorize what reads, in every newspaper in the world, as abandoning Italian soil in a matter of days. Hold the island." },
+              advisor: { name: "Mussolini", position: "He will not authorize what reads in every newspaper in the world as abandoning Italian soil in a matter of days, so hold the island." },
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -3 ? "too depleted a garrison left on the island to sustain an extended defense-in-place" : undefined,
               setFlags: { sicily43: "hold" },
@@ -1906,7 +1907,7 @@
           choices: [
             {
               label: "Comando Supremo recognizes the King's constitutional authority once he acts",
-              advisor: { name: "Victor Emmanuel III", quote: "You are the last man in Italy I can send to lead this government, Marshal. The war continues, but I am not leaving it in the hands that brought us here." },
+              advisor: { name: "Victor Emmanuel III", position: "Marshal Badoglio is the last man in Italy who can be sent to lead the government, and the war continues but it will not be left in the hands that brought the country here." },
               historical: true,
               setFlags: { coupResponse: "recognizeKing", trust: (flags.trust || 0) + (-1) },
               trustDelta: -1,
@@ -1917,7 +1918,7 @@
             },
             {
               label: "Comando Supremo's officer corps rallies to Mussolini against the King's move — a speculative counterfactual",
-              advisor: { name: "Graziani", quote: "The Grand Council's vote is advisory. The King's constitutional authority over the armed forces has never actually been tested against a Duce who refuses to accept it — until, perhaps, now." },
+              advisor: { name: "Graziani", position: "The Grand Council's vote is advisory, and the King's constitutional authority over the armed forces has never been tested against a Duce who refuses to accept it, until perhaps now." },
               setFlags: { coupResponse: "backMussolini", trust: (flags.trust || 0) + (1) },
               trustDelta: 1,
               impact: { manpower: -1, fuel: 0, initiative: 1 },
@@ -1939,7 +1940,7 @@
           choices: [
             {
               label: "Order loyalist divisions to move on the Quirinale and secure the ministries outright",
-              advisor: { name: "Graziani", quote: "The King's authority over this army was never tested because no one ever tested it. I am proposing we test it, this afternoon, before Badoglio's government has a chance to become a fact rather than a rumor." },
+              advisor: { name: "Graziani", position: "The King's authority over this army was never tested because no one tested it, and he proposes testing it this afternoon, before Badoglio's government has a chance to become a fact and not a rumor." },
               checkLabel: "Initiative",
               disabledReason: (meters.initiative || 0) >= 1 ? undefined : "insufficient momentum among loyalist units to attempt seizing the capital's institutions outright",
               setFlags: { romeStandoff43: "seize" },
@@ -1950,7 +1951,7 @@
             },
             {
               label: "Seek a negotiated, face-saving arrangement rather than open confrontation in the capital",
-              advisor: { name: "Cavallero", quote: "I say this as a man with no command left to order anyone into anything: whatever loyalty is owed the Duce personally, it is not worth Italian soldiers firing on other Italian soldiers outside the palace gates. Find a formula that avoids that, even an ugly one." },
+              advisor: { name: "Cavallero", position: "With no command left to order anyone into anything, he says that whatever loyalty is owed the Duce personally is not worth Italian soldiers firing on other Italian soldiers outside the palace gates, so find a formula that avoids it, even an ugly one." },
               setFlags: { romeStandoff43: "negotiate" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -1972,7 +1973,7 @@
           choices: [
             {
               label: "Move against wavering and defecting commanders — treat the split as a discipline problem to be enforced",
-              advisor: { name: "Graziani", quote: "Every commander who declares for the King today is a commander this movement cannot afford to lose tomorrow. I would rather arrest the wavering ones now than watch the army dissolve out from under us by the end of the week." },
+              advisor: { name: "Graziani", position: "Every commander who declares for the King today is one the movement cannot afford to lose tomorrow, and he would rather arrest the wavering ones now than watch the army dissolve by the end of the week." },
               setFlags: { factionSplit43: "enforce" },
               impact: { manpower: -2, fuel: 0, initiative: 1 },
               next: "germanExploitation43",
@@ -1981,7 +1982,7 @@
             },
             {
               label: "Accept the fracture rather than force it — avoid a Fascist-on-Fascist civil war inside the army itself",
-              advisor: { name: "Cavallero", quote: "An army that arrests its own wavering commanders is an army spending its last cohesion on itself rather than on anyone actually opposing it. Let the ones who want to leave, leave. What's left will at least still answer to someone." },
+              advisor: { name: "Cavallero", position: "An army that arrests its own wavering commanders spends its last cohesion on itself and not on anyone opposing it, so let those who want to leave, leave, and what is left will at least answer to someone." },
               favor: 1,
               setFlags: { factionSplit43: "tolerate" },
               impact: { manpower: -1, fuel: 0, initiative: -1 },
@@ -2003,7 +2004,7 @@
           choices: [
             {
               label: "Refuse German reinforcement of Rome — insist this remains an internal Italian question",
-              advisor: { name: "Graziani", quote: "The day this movement needs German divisions to hold the capital against other Italians is the day it has already lost whatever it thought it was fighting for. I will not send that invitation." },
+              advisor: { name: "Graziani", position: "The day the movement needs German divisions to hold the capital against other Italians is the day it has lost whatever it thought it was fighting for, and he will not send that invitation." },
               checkLabel: "Manpower",
               disabledReason: (meters.manpower || 0) >= -2 && (meters.fuel || 0) >= -1 ? undefined : "insufficient independent strength left to refuse German 'assistance' and still hold the capital",
               setFlags: { germanExploitation43: "refuse" },
@@ -2014,7 +2015,7 @@
             },
             {
               label: "Accept German troops into Rome to help suppress the King's loyalists",
-              advisor: { name: "Kesselring", quote: "I can have formations at the capital within days, and I am not asking what this costs your movement's independence. I am telling you what it costs the alternative, which is losing the capital to the King's Carabinieri by the end of the week." },
+              advisor: { name: "Kesselring", position: "Formations can be at the capital within days, and he does not ask what this costs the movement's independence but tells what it costs the alternative, which is losing the capital to the King's Carabinieri by the end of the week." },
               historical: false,
               setFlags: { germanExploitation43: "accept" },
               favor: 1,
@@ -2037,7 +2038,7 @@
           choices: [
             {
               label: "Let the loyalist movement dissolve rather than spend more of the army proving a point already lost",
-              advisor: { name: "Graziani", quote: "I did not spend a career in this army to end it arguing with the rest of the army over a Duce the war itself has already defeated. Whatever comes next, it is not worth one more Italian division spent on this specific argument." },
+              advisor: { name: "Graziani", position: "A career in this army was not spent to end it arguing with the rest of the army over a Duce the war has already defeated, and whatever comes next is not worth one more Italian division spent on this argument." },
               setFlags: { loyalistEnd: "collapse" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "END",
@@ -2046,7 +2047,7 @@
             },
             {
               label: "Formalize the arrangement with Berlin — a client relationship, however this movement chooses to describe it",
-              advisor: { name: "Kesselring", quote: "Call it whatever your propaganda ministry prefers. What it actually is, is settled: Rome answers to German command now, a month earlier and considerably more openly than the arrangement your own history books describe two governments down the road from here." },
+              advisor: { name: "Kesselring", position: "Call it whatever the propaganda ministry prefers, since what it is is settled: Rome answers to German command now, a month earlier and more openly than the arrangement later histories describe." },
               setFlags: { loyalistEnd: "absorbed" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: "END",
@@ -2066,7 +2067,7 @@
           choices: [
             {
               label: "Press for firm Allied guarantees on defending Rome before agreeing to any armistice terms",
-              advisor: { name: "Castellano", quote: "An armistice announced without a plan to hold Rome is not a surrender, it is an invitation for the German garrison already here to simply take the city instead. I will not sign until Rome's defense is part of the terms." },
+              advisor: { name: "Castellano", position: "An armistice announced without a plan to hold Rome is not a surrender but an invitation for the German garrison already there to take the city, and he will not sign until Rome's defense is part of the terms." },
               historical: true,
               setFlags: { armisticeTerms: "pressRome" },
               favor: 1,
@@ -2077,7 +2078,7 @@
             },
             {
               label: "Accept the Allied terms without conditions, to avoid losing the diplomatic opening entirely",
-              advisor: { name: "Ambrosio", quote: "Every week we spend negotiating the fine print is a week the German garrison in Rome spends getting stronger. I would rather have an armistice with imperfect guarantees than no armistice at all." },
+              advisor: { name: "Ambrosio", position: "Every week spent negotiating the fine print is a week the German garrison in Rome spends getting stronger, and an armistice with imperfect guarantees is better than none at all." },
               setFlags: { armisticeTerms: "acceptUnconditional" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "armisticeAnnounce43",
@@ -2097,7 +2098,7 @@
           choices: [
             {
               label: "Execute the armistice as planned — evacuate the government south, leave garrison orders to local commanders",
-              advisor: { name: "Badoglio", quote: "We do not have a coherent order ready to send. What we have is a government that must survive to represent Italy at all past tonight — that comes first, whatever it costs the units we cannot reach in time." },
+              advisor: { name: "Badoglio", position: "There is no coherent order ready to send, only a government that must survive to represent Italy past tonight, and that comes first, whatever it costs the units that cannot be reached in time." },
               historical: true,
               setFlags: { armisticeExecution: "evacuate" },
               impact: { manpower: -2, fuel: 0, initiative: -1 },
@@ -2107,7 +2108,7 @@
             },
             {
               label: "Delay the public announcement and attempt to concentrate scattered units around Rome first",
-              advisor: { name: "Ambrosio", quote: "If we can hold the announcement even two more days and pull the divisions ringing Rome into a coordinated defense, the German garrison here does not have the strength to simply walk in unopposed." },
+              advisor: { name: "Ambrosio", position: "If the announcement can be held two more days and the divisions ringing Rome pulled into a coordinated defense, the German garrison does not have the strength to walk in unopposed." },
               setFlags: { armisticeExecution: "delay" },
               favor: 1,
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -2148,7 +2149,7 @@
           choices: [
             {
               label: "Follow the King south — recognize Badoglio's government and fight on as an Allied co-belligerent",
-              advisor: { name: "Victor Emmanuel III", quote: "The crown's legitimacy did not go north with the men who freed a prisoner from a mountain. It is here, with the government that broke from Berlin honestly, in the open, and answered for it." },
+              advisor: { name: "Victor Emmanuel III", position: "The crown's legitimacy did not go north with the men who freed a prisoner from a mountain, but is here, with the government that broke from Berlin honestly, in the open, and answered for it." },
               historical: true,
               setFlags: { italyPath: "coBelligerent" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -2158,7 +2159,7 @@
             },
             {
               label: "Answer Mussolini's recall — serve the Italian Social Republic in the German-occupied north",
-              advisor: { name: "Pavolini", quote: "The King fled. The Duce did not. Whatever this republic is short on, it is not short on knowing which of the two governments actually stayed and fought." },
+              advisor: { name: "Pavolini", position: "The King fled and the Duce did not, and whatever this republic is short on, it is not short on knowing which of the two governments stayed and fought." },
               setFlags: { italyPath: "rsi" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: "saloRepublic43",
@@ -2178,7 +2179,7 @@
           choices: [
             {
               label: "Push hard for an expanded combat role — offer whatever intact formations remain for the front line",
-              advisor: { name: "Ambrosio", quote: "We will not be trusted with a larger role by asking politely from the rear. Put the divisions we still have in front of Allied command and let them see what's left is worth using." },
+              advisor: { name: "Ambrosio", position: "A larger role will not be won by asking politely from the rear, so put the divisions that remain in front of Allied command and let them see what is left is worth using." },
               setFlags: { coBelligerentRole: "expand" },
               favor: 1,
               impact: { manpower: -1, fuel: 0, initiative: 1 },
@@ -2188,7 +2189,7 @@
             },
             {
               label: "Accept the auxiliary role for now — rebuild strength and credibility gradually",
-              advisor: { name: "Badoglio", quote: "An army that was fighting for the other side three weeks ago does not earn a front-line role by asking for one. It earns it by being visibly, patiently reliable in whatever role it is given first." },
+              advisor: { name: "Badoglio", position: "An army that was fighting for the other side three weeks ago does not earn a front-line role by asking for one but by being visibly, patiently reliable in whatever role it is given first." },
               historical: true,
               setFlags: { coBelligerentRole: "gradual" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -2209,7 +2210,7 @@
           choices: [
             {
               label: "Press the Allies to raise IMI treatment directly with Germany through neutral channels",
-              advisor: { name: "Badoglio", quote: "We have no seat at any table Berlin still recognizes. What we have is an Allied government that does, and a moral claim on six hundred thousand men that costs us nothing further to keep making, loudly, until someone with actual leverage listens." },
+              advisor: { name: "Badoglio", position: "There is no seat at any table Berlin still recognizes, but there is an Allied government that does, and a moral claim on six hundred thousand men that costs nothing further to keep making, loudly, until someone with leverage listens." },
               historical: true,
               setFlags: { imiCrisis43: "press" },
               favor: 1,
@@ -2220,7 +2221,7 @@
             },
             {
               label: "Concentrate the government's limited diplomatic capital on the war effort instead — the IMI question has no near-term leverage regardless",
-              advisor: { name: "Ambrosio", quote: "I do not say this without cost, but I say it plainly: we have almost nothing Berlin wants from us on this question, and spending what little standing we have chasing it is standing we do not then have for anything the war itself still requires." },
+              advisor: { name: "Ambrosio", position: "He says it plainly though not without cost: Italy has almost nothing Berlin wants on this question, and spending what little standing it has chasing it leaves none for anything the war still requires." },
               setFlags: { imiCrisis43: "deprioritize" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "vaticanChannel44",
@@ -2240,7 +2241,7 @@
           choices: [
             {
               label: "Formally request the Vatican's intercession and back it with whatever documentation on individual cases can be gathered",
-              advisor: { name: "Badoglio", quote: "The Holy See can open doors this government cannot. I would rather hand it every name and camp location our own intelligence can still produce than assume the request alone is enough." },
+              advisor: { name: "Badoglio", position: "The Holy See can open doors this government cannot, and he would rather hand it every name and camp location the intelligence service can still produce than assume the request alone is enough." },
               historical: true,
               setFlags: { vaticanChannel44: "request" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -2250,7 +2251,7 @@
             },
             {
               label: "Rely on informal contacts rather than a formal request that German authorities might read as provocation",
-              advisor: { name: "Ambrosio", quote: "A formal request through Vatican channels is also a public one, and I am not confident a public request improves conditions for men Berlin has already decided sit outside every protection that would normally apply." },
+              advisor: { name: "Ambrosio", position: "A formal request through Vatican channels is also a public one, and it is doubtful a public request improves conditions for men Berlin has already decided sit outside every protection that would normally apply." },
               setFlags: { vaticanChannel44: "informal" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -2271,7 +2272,7 @@
           choices: [
             {
               label: "Publicly honor the men who refused the offer, regardless of the cost that refusal is still costing them",
-              advisor: { name: "Badoglio", quote: "Six hundred thousand men were offered an easier war in exchange for the uniform this government asked them not to wear, and the overwhelming majority said no without anyone here able to promise them anything for saying it. That refusal deserves to be named, whatever else this government can or cannot do about their conditions." },
+              advisor: { name: "Badoglio", position: "Six hundred thousand men were offered an easier war in exchange for the uniform they were asked not to wear, and the overwhelming majority said no without anyone able to promise them anything for it, and that refusal deserves to be named, whatever else this government can do about their conditions." },
               historical: true,
               setFlags: { imiOutcome44: "honor" },
               favor: 1,
@@ -2282,7 +2283,7 @@
             },
             {
               label: "Keep the government's public messaging focused on the war effort rather than a story it cannot yet resolve",
-              advisor: { name: "Ambrosio", quote: "A government that publicizes a hardship it is powerless to end risks looking like it is trading on other men's suffering for its own legitimacy. I would rather stay quiet until there is something concrete to say." },
+              advisor: { name: "Ambrosio", position: "A government that publicizes a hardship it is powerless to end risks looking like it trades on other men's suffering for its own legitimacy, and he would rather stay quiet until there is something concrete to say." },
               setFlags: { imiOutcome44: "quiet" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "monteCassino44",
@@ -2302,7 +2303,7 @@
           choices: [
             {
               label: "Accept the supporting role and use it to build a combat record methodically",
-              advisor: { name: "Ambrosio", quote: "A supporting role executed well is still a combat record. We do not need the abbey assault itself to prove this army can be relied on — we need to be reliable in whatever role we're actually given." },
+              advisor: { name: "Ambrosio", position: "A supporting role executed well is still a combat record, and the abbey assault itself is not needed to prove this army can be relied on, only reliability in whatever role it is given." },
               historical: true,
               setFlags: { cassino44: "support" },
               favor: 1,
@@ -2313,7 +2314,7 @@
             },
             {
               label: "Push for direct participation in the main assault, whatever the cost, to force the trust question",
-              advisor: { name: "Utili", quote: "The Poles who finally take that hill will be remembered for it for a hundred years. I would rather this army earn a share of that record now than a safer, smaller one nobody remembers by name." },
+              advisor: { name: "Utili", position: "The Poles who finally take that hill will be remembered for it for a hundred years, and he would rather this army earn a share of that record now than a safer, smaller one nobody remembers by name." },
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -3 ? "too few reserves left in the Co-Belligerent Army's ranks to commit to an assault this costly" : undefined,
               setFlags: { cassino44: "direct" },
@@ -2555,7 +2556,7 @@
           choices: [
             {
               label: "Move quickly to a broader, more representative government beyond the monarchy's own circle",
-              advisor: { name: "Badoglio", quote: "I have been a wartime administrator, not a peacetime government. Rome deserves a government the resistance parties who fought the Germans in the city itself can actually recognize as theirs." },
+              advisor: { name: "Badoglio", position: "He has been a wartime administrator and not a peacetime government, and Rome deserves a government that the resistance parties who fought the Germans in the city itself can recognize as theirs." },
               historical: true,
               setFlags: { romeGovernment: "broaden" },
               favor: 1,
@@ -2566,7 +2567,7 @@
             },
             {
               label: "Maintain continuity under the existing wartime government rather than reorganize during an active campaign",
-              advisor: { name: "Victor Emmanuel III", quote: "There will be time to rebuild the government's politics once the Germans are out of Italy entirely. I would rather not change commanders in the middle of the only battle that actually matters right now." },
+              advisor: { name: "Victor Emmanuel III", position: "There will be time to rebuild the government's politics once the Germans are out of Italy entirely, and he would rather not change commanders in the middle of the only battle that matters now." },
               setFlags: { romeGovernment: "maintain" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "clnLiaison44",
@@ -2586,7 +2587,7 @@
           choices: [
             {
               label: "Commit arms shipments and gold to the CLNAI, whatever the front-line resources it costs",
-              advisor: { name: "Ambrosio", quote: "Every rifle that reaches the mountains north of this line is a German soldier pinned down who is not, this week, facing the Allied advance instead. That trade is worth making even at real cost to what little matériel we can otherwise spare." },
+              advisor: { name: "Ambrosio", position: "Every rifle that reaches the mountains north of this line pins down a German soldier who is not facing the Allied advance this week, and that trade is worth making even at real cost to the little matériel that can be spared." },
               historical: true,
               checkLabel: "Matériel",
               disabledReason: (meters.fuel || 0) >= 1 && (meters.manpower || 0) >= 0 ? undefined : "insufficient matériel left to arm and supply partisan formations across an active front line",
@@ -2598,7 +2599,7 @@
             },
             {
               label: "Offer political recognition without significant material commitment — the front line's own supply needs come first",
-              advisor: { name: "Badoglio", quote: "I do not doubt what the partisans are accomplishing. I doubt this government's standing to spend scarce matériel on a front it cannot see or coordinate, when the front it can see still needs everything we have." },
+              advisor: { name: "Badoglio", position: "He does not doubt what the partisans are accomplishing, but doubts this government's standing to spend scarce matériel on a front it cannot see or coordinate while the front it can see still needs everything." },
               favor: 1,
               setFlags: { clnLiaison44: "recognize" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -2619,7 +2620,7 @@
           choices: [
             {
               label: "Commit the Co-Belligerent Army's combat groups to the main Gothic Line offensive in full",
-              advisor: { name: "Utili", quote: "This is the sector where the answer to what this army is finally gets written down, not argued about. Commit everything we have that can fight." },
+              advisor: { name: "Utili", position: "This is the sector where the answer to what this army is gets written down and not argued about, so commit everything that can fight." },
               historical: true,
               setFlags: { gothicLine44: "commit" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
@@ -2629,7 +2630,7 @@
             },
             {
               label: "Commit more cautiously — preserve the army's strength for the final spring offensive rather than the winter grind",
-              advisor: { name: "Ambrosio", quote: "The line is going to stall for the winter regardless of what any single division does about it. I would rather have this army intact and rested for whatever comes in the spring than spent proving a point in a season everyone already expects to end in a stalemate." },
+              advisor: { name: "Ambrosio", position: "The line will stall for the winter regardless of what any single division does, and he would rather have this army intact and rested for spring than spent proving a point in a season everyone expects to end in stalemate." },
               setFlags: { gothicLine44: "conserve" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -2650,7 +2651,7 @@
           choices: [
             {
               label: "Press for full recognition of the Co-Belligerent Army's contribution in the postwar settlement",
-              advisor: { name: "Ambrosio", quote: "We fought nineteen months on the correct side of this war's final chapter. That record deserves to be argued for at whatever table decides what Italy's postwar status actually is, not simply assumed." },
+              advisor: { name: "Ambrosio", position: "Nineteen months were fought on the correct side of the war's final chapter, and that record deserves to be argued for at whatever table decides Italy's postwar status and not simply assumed." },
               setFlags: { postwarRecognition: "press" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "END",
@@ -2659,7 +2660,7 @@
             },
             {
               label: "Accept the settlement quietly and focus on the republic's own reconstruction instead",
-              advisor: { name: "Badoglio", quote: "Arguing over how the war is remembered is a project for the peacetime that is starting now. What this country actually needs is to be rebuilt, and that argument does not feed anyone." },
+              advisor: { name: "Badoglio", position: "Arguing over how the war is remembered is a project for the peacetime now starting, while what the country needs is to be rebuilt, and that argument feeds no one." },
               historical: true,
               setFlags: { postwarRecognition: "accept" },
               favor: 1,
@@ -2681,7 +2682,7 @@
           choices: [
             {
               label: "Build a genuine RSI military, conscripted and organized, to hold a real front line alongside the Wehrmacht",
-              advisor: { name: "Graziani", quote: "A republic without an army is a German administrative zone with an Italian flag on it. I am not interested in being that. Give me the conscription authority and I will give this government something resembling a real force." },
+              advisor: { name: "Graziani", position: "A republic without an army is a German administrative zone with an Italian flag on it, and he is not interested in that, so give him the conscription authority and he will give the government something resembling a real force." },
               historical: true,
               setFlags: { rsiMilitary: "build" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
@@ -2691,7 +2692,7 @@
             },
             {
               label: "Keep the RSI's military footprint deliberately small — rely on German forces for the front, Italian units for internal order only",
-              advisor: { name: "Ambrosio", quote: "I say this from the government you did not choose, but I will say it plainly to anyone still listening in the north: a smaller army conscripted from a population that increasingly does not want this war is a smaller number of Italians spent on a cause already lost." },
+              advisor: { name: "Ambrosio", position: "Speaking from the government that was not chosen, he says plainly to anyone listening in the north that a smaller army conscripted from a population that increasingly does not want this war is a smaller number of Italians spent on a cause already lost." },
               setFlags: { rsiMilitary: "minimal" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -2712,7 +2713,7 @@
           choices: [
             {
               label: "Formally protest the annexation to Berlin — insist the operational zones are provisional, not permanent",
-              advisor: { name: "Graziani", quote: "We are asking men to fight and die for a Republic whose own government cannot say with a straight face where its northern border actually is this month. I would rather lodge the protest and be told no than let the question go unasked." },
+              advisor: { name: "Graziani", position: "Men are asked to fight and die for a Republic whose own government cannot say with a straight face where its northern border is this month, and he would rather lodge the protest and be told no than let the question go unasked." },
               checkLabel: "Initiative",
               disabledReason: (meters.initiative || 0) >= 1 ? undefined : "insufficient standing left to contest a German administrative decision inside the Republic's own claimed territory",
               setFlags: { alpenvorlandQuestion43: "protest" },
@@ -2723,7 +2724,7 @@
             },
             {
               label: "Accept the arrangement quietly — preserve the relationship with Berlin rather than contest a decision already made",
-              advisor: { name: "Pavolini", quote: "The Republic exists because Berlin decided it should. I am not spending what little goodwill that decision bought us arguing over provinces the Reich has already made its own mind up about." },
+              advisor: { name: "Pavolini", position: "The Republic exists because Berlin decided it should, and the little goodwill that decision bought will not be spent arguing over provinces the Reich has already made up its mind about." },
               historical: true,
               setFlags: { alpenvorlandQuestion43: "accept" },
               favor: 1,
@@ -2745,7 +2746,7 @@
           choices: [
             {
               label: "Commit RSI forces fully to anti-partisan operations, including the reprisal tactics German command favors",
-              advisor: { name: "Pavolini", quote: "Every village that shelters partisans is a village that has chosen a side. The Black Brigades will treat that choice with the seriousness it deserves." },
+              advisor: { name: "Pavolini", position: "Every village that shelters partisans has chosen a side, and the Black Brigades will treat that choice with the seriousness it deserves." },
               historical: true,
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -4 ? "too few Black Brigade units left standing to run reprisal operations at the scale German command is asking for" : undefined,
@@ -2775,7 +2776,7 @@
             },
             {
               label: "Limit RSI forces to defensive garrison duty and leave the harshest anti-partisan operations to German units alone",
-              advisor: { name: "Graziani", quote: "I did not build this army to spend it burning villages. Whatever this government's survival requires from someone, it does not require that specifically from the men I command." },
+              advisor: { name: "Graziani", position: "He did not build this army to spend it burning villages, and whatever the government's survival requires from someone, it does not require that from the men he commands." },
               setFlags: { partisanWar44: "limited" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -2801,7 +2802,7 @@
           choices: [
             {
               label: "Hold the line with full commitment — the republic's legitimacy depends on being seen to fight, not merely exist",
-              advisor: { name: "Graziani", quote: "Whatever this government ultimately becomes in the history books, it will not be recorded as one that didn't fight. That distinction is the only thing left that is still entirely in our own hands." },
+              advisor: { name: "Graziani", position: "Whatever this government becomes in the history books, it will not be recorded as one that did not fight, and that distinction is the only thing left entirely in its own hands." },
               historical: true,
               setFlags: { gothicLineRSI: "commit" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -2811,7 +2812,7 @@
             },
             {
               label: "Preserve forces where possible, quietly deprioritizing the hardest-held sectors",
-              advisor: { name: "Ambrosio", quote: "I say this to whoever in that chain of command is still listening to reason rather than to Salò: an army preserved is an army that can still choose, later, what its surrender actually looks like. An army spent proving a point to history has no such choice left." },
+              advisor: { name: "Ambrosio", position: "An army preserved can still choose, later, what its surrender looks like, while an army spent proving a point to history has no such choice left, and this is said to whoever in that chain of command is still listening to reason and not to Salò." },
               setFlags: { gothicLineRSI: "preserve" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -2832,7 +2833,7 @@
           choices: [
             {
               label: "Attempt to negotiate surrender terms through Cardinal Schuster's mediation before the city falls",
-              advisor: { name: "Graziani", quote: "There is no version of this week that ends with the Republic intact. Whatever terms Schuster can broker for an orderly transfer are terms this government should take, for the sake of the men still under arms who did not choose to be here at the end." },
+              advisor: { name: "Graziani", position: "No version of this week ends with the Republic intact, and whatever terms Schuster can broker for an orderly transfer should be taken, for the sake of the men under arms who did not choose to be here at the end." },
               setFlags: { rsiEnd: "negotiate" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "END",
@@ -2841,7 +2842,7 @@
             },
             {
               label: "Attempt to flee toward Switzerland with the government's remaining officials",
-              advisor: { name: "Mussolini", quote: "There is nothing left to negotiate and no one left who would honor terms given to me personally. Whatever is left of this government moves north tonight, or it does not move at all." },
+              advisor: { name: "Mussolini", position: "There is nothing left to negotiate and no one left who would honor terms given to him personally, and whatever is left of this government moves north tonight, or it does not move at all." },
               historical: true,
               setFlags: { rsiEnd: "flee" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },

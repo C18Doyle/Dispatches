@@ -350,6 +350,41 @@ function isValidActiveRun(saved) {
   return true;
 }
 
+// Put a battle back from a save. A save made on the planning screen or the battle report carries the battle
+// with it (saved.battle). The choice that opened it is found again by its label on the node the save points at,
+// because the choice list can shift as Initiative is spent on the planning screen, and everything the save
+// holds is checked before it is trusted. Anything that does not check out returns null, and the game then
+// resumes at the briefing as it always did.
+function restoreBattleSave(saved) {
+  const b = saved && saved.battle;
+  if (!b || typeof b !== "object" || (b.stage !== "allocation" && b.stage !== "report")) return null;
+  const campaign = CAMPAIGNS[saved.campaignId];
+  if (!campaign || !saved.position) return null;
+  let stage;
+  try {
+    stage = resolveStage(campaign, saved.position, saved.flags || {}, saved.meters || EMPTY_METERS);
+  } catch (e) {
+    return null;
+  }
+  if (!stage || !stage.choices) return null;
+  const index = stage.choices.findIndex((c) => c.label === b.label && c.keyBattleSubgame && c.keyBattleSubgame.id === b.configId);
+  if (index < 0) return null;
+  const choice = stage.choices[index];
+  const config = choice.keyBattleSubgame;
+  const ids = keyBattleCategories(config).map((c) => c.id);
+  const allocOk = (a) => !!a && typeof a === "object" && ids.every((id) => Number.isInteger(a[id]) && a[id] >= 0);
+  const baseWeights = Array.isArray(b.baseWeights) && b.baseWeights.every((w) => typeof w === "number") ? b.baseWeights : (choice.uncertain || []).map((u) => u.weight);
+  if (b.stage === "allocation") {
+    const d = b.draft;
+    if (!d || typeof d !== "object" || !allocOk(d.allocation) || !Array.isArray(d.bonusMeters) || !d.jitter || typeof d.jitter !== "object") return null;
+    if (ids.reduce((n, id) => n + d.allocation[id], 0) > 5 + d.bonusMeters.length) return null;
+    return { stage: "allocation", draft: d, pending: { index, label: b.label, config, baseWeights } };
+  }
+  const p = b.plan;
+  if (!p || typeof p !== "object" || !allocOk(p.allocation) || !Number.isInteger(p.poolSize) || !Number.isInteger(p.reserves) || !p.weights || typeof p.weights !== "object") return null;
+  return { stage: "report", draft: null, pending: { index, label: b.label, config, baseWeights, plan: p } };
+}
+
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);

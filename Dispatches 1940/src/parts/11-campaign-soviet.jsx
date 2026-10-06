@@ -26,7 +26,7 @@
           choices: [
             {
               label: "Hold every position — no retreat without Moscow's explicit order",
-              advisor: { name: "Stalin", quote: "Not one step back. An army that retreats without orders is an army that has decided its own defeat." },
+              advisor: { name: "Stalin", position: "Not one step back, because an army that retreats without orders has decided its own defeat." },
               historical: true,
               setFlags: { border41: "hold" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
@@ -36,7 +36,7 @@
             },
             {
               label: "Order a fighting withdrawal — trade ground for the army's survival",
-              advisor: { name: "Zhukov", quote: "Territory can be recovered. An army encircled in the first week cannot be. Let them advance into space; space is the one thing we are not short of." },
+              advisor: { name: "Zhukov", position: "Territory can be recovered and an army encircled in the first week cannot, so let them advance into space, the one thing that is not short." },
               setFlags: { border41: "withdraw", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -94,7 +94,7 @@
           choices: [
             {
               label: "Hold Kiev — the city does not fall without a fight",
-              advisor: { name: "Stalin", quote: "Kiev is not a line on a map. Abandon it and you abandon the idea that any Soviet city can be defended." },
+              advisor: { name: "Stalin", position: "Kiev is not a line on a map, and abandoning it abandons the idea that any Soviet city can be defended." },
               historical: true,
               setFlags: { kiev41: "hold" },
               impact: { manpower: -3, fuel: 0, initiative: 0 },
@@ -125,7 +125,7 @@
             },
             {
               label: "Withdraw the Southwestern Front now, before the encirclement closes",
-              advisor: { name: "Zhukov", quote: "I have already said this once and been removed from my post for saying it. I am saying it again because it is still true." },
+              advisor: { name: "Zhukov", position: "This has been said once already, at the cost of his post, and is being said again because it is still true." },
               setFlags: { kiev41: "withdraw", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
               impact: { manpower: 2, fuel: 0, initiative: 0 },
@@ -167,7 +167,7 @@
           choices: [
             {
               label: "Spread what's available thin — every front gets something rather than some fronts getting enough",
-              advisor: { name: "Voznesensky", quote: "A rifle division with half its guns is still a rifle division. One with none is a rumor. Spread it." },
+              advisor: { name: "Voznesensky", position: "A rifle division with half its guns is still a rifle division, and one with none is a rumor, so spread it." },
               historical: false,
               setFlags: { industrialShortfall42: "spread" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -177,7 +177,7 @@
             },
             {
               label: "Concentrate what's available — fully equip fewer divisions rather than under-equip many",
-              advisor: { name: "Zhukov", quote: "I would rather have three divisions that can really attack than nine that can only apologize for existing. Give me the full ones." },
+              advisor: { name: "Zhukov", position: "Three divisions that can really attack are worth more than nine that can only apologize for existing, so give him the full ones." },
               setFlags: { industrialShortfall42: "concentrate" },
               impact: { manpower: -1, fuel: 1, initiative: 0 },
               next: "leningrad41",
@@ -204,7 +204,7 @@
           choices: [
             {
               label: "Hold the city at all costs — no evacuation, no surrender",
-              advisor: { name: "Zhdanov", quote: "Leningrad does not surrender. Whatever the winter costs us, it costs the enemy an army that is not in front of Moscow." },
+              advisor: { name: "Zhdanov", position: "Leningrad does not surrender, and whatever the winter costs, it costs the enemy an army that is not in front of Moscow." },
               historical: true,
               setFlags: { leningrad41: "hold" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
@@ -235,7 +235,7 @@
             },
             {
               label: "Prioritize evacuation across Lake Ladoga even before the ice road is reliable",
-              advisor: { name: "Vasilevsky", quote: "The lake will not freeze on our schedule. If we wait for a safe crossing, we are choosing how many more die waiting for it." },
+              advisor: { name: "Vasilevsky", position: "The lake will not freeze on schedule, and waiting for a safe crossing is choosing how many more die waiting for it." },
               setFlags: { leningrad41: "evacuate", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -277,7 +277,7 @@
           choices: [
             {
               label: "Full priority to the evacuation — strip rail capacity from the front to move industry east",
-              advisor: { name: "Voznesensky", quote: "The front is losing a battle. If the factories stay west of the Volga, we lose the arithmetic of the entire war. Trains for the machines." },
+              advisor: { name: "Voznesensky", position: "The front is losing a battle, but if the factories stay west of the Volga the arithmetic of the entire war is lost, so trains are needed for the machines." },
               historical: true,
               setFlags: { evacIndustry: "full" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -287,7 +287,7 @@
             },
             {
               label: "The front comes first — evacuate only what the fighting can spare",
-              advisor: { name: "Timoshenko", quote: "There will be no 1943 arithmetic if the 1941 front dissolves for want of shells. Factories can be rebuilt. A collapsed front cannot." },
+              advisor: { name: "Timoshenko", position: "There will be no 1943 arithmetic if the 1941 front dissolves for want of shells, since factories can be rebuilt and a collapsed front cannot." },
               setFlags: { evacIndustry: "partial" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
               next: "industrialShortfall42",
@@ -325,7 +325,7 @@
           choices: [
             {
               label: "Commit the Southwestern survivors now — close the Vyazma gap before it widens further",
-              advisor: { name: "Konev", quote: "The gap does not wait for a better week to close it. Every hour it stays open is ground the historical defense had to buy back later, in blood it didn't have to spend." },
+              advisor: { name: "Konev", position: "The gap does not wait for a better week to close, and every hour it stays open is ground that will have to be bought back later in blood that need not have been spent." },
               setFlags: { moscowPanic: "stay", reserveCommitment41: "now" },
               impact: { manpower: 1, fuel: 0, initiative: 1 },
               next: "moscowDefense41",
@@ -334,7 +334,7 @@
             },
             {
               label: "Hold them back — bank the reserve for a winter counteroffensive with more behind it than history's version had",
-              advisor: { name: "Zhukov", quote: "Vyazma will cost us ground either way. Spend this reserve closing the gap and it is spent. Hold it, and in six weeks it is the difference between driving them back and merely stopping them." },
+              advisor: { name: "Zhukov", position: "Vyazma will cost ground either way. Spend this reserve closing the gap and it is gone, while holding it makes the difference in six weeks between driving them back and merely stopping them." },
               setFlags: { moscowPanic: "stay", reserveCommitment41: "hold" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "moscowDefense41",
@@ -373,7 +373,7 @@
           choices: [
             {
               label: "Stalin stays in Moscow — the announcement itself is the weapon",
-              advisor: { name: "Stalin", quote: "If I board that train, Moscow is already German. I will be at the parade on November 7, in this city, and the radio will say so." },
+              advisor: { name: "Stalin", position: "Boarding that train means Moscow is already German, so he will be at the parade on November 7 in this city, and the radio will say so." },
               historical: true,
               setFlags: { moscowPanic: "stay" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -383,7 +383,7 @@
             },
             {
               label: "The government evacuates in full, Stalin included — continuity of command over symbolism",
-              advisor: { name: "Molotov", quote: "Governments that are captured do not get credit for their symbolism. Kuibyshev exists precisely for this moment." },
+              advisor: { name: "Molotov", position: "Governments that are captured get no credit for symbolism, and Kuibyshev exists precisely for this moment." },
               setFlags: { moscowPanic: "left" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
               next: "moscowDefense41",
@@ -403,7 +403,7 @@
           choices: [
             {
               label: "Give them what the file needs — the commander's war is over, yours continues",
-              advisor: { name: "The Special Section", quote: "No one is asking you to invent anything. Only to confirm what is already written. It is a small signature." },
+              advisor: { name: "The Special Section", position: "No one is being asked to invent anything, only to confirm what is already written, and it is a small signature." },
               setFlags: { specialSection41: "comply", suspicion: Math.max(0, (flags.suspicion || 0) - 1) },
               suspicionDelta: -1,
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -413,7 +413,7 @@
             },
             {
               label: "Defend him on the record — the retreat saved the division and your assessment says so",
-              advisor: { name: "Rokossovsky", quote: "I have been in the building they would send him to. Write the truth. It is the only thing worth the paper in that entire file." },
+              advisor: { name: "Rokossovsky", position: "He has been in the building they would send him to, and says to write the truth, the only thing in that file worth the paper." },
               setFlags: { specialSection41: "protect", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -438,7 +438,7 @@
           choices: [
             {
               label: "Press for maximum Arctic deliveries — accept the convoy losses for the speed",
-              advisor: { name: "Mikoyan", quote: "The trucks we receive in November fight in December. The trucks that go through Persia fight next spring. The front does not run on next spring." },
+              advisor: { name: "Mikoyan", position: "The trucks received in November fight in December while the trucks through Persia fight next spring, and the front does not run on next spring." },
               historical: true,
               setFlags: { lendLease: "arctic" },
               impact: { manpower: 0, fuel: 1, initiative: 0 },
@@ -462,7 +462,7 @@
             },
             {
               label: "Shift the weight to the Persian Corridor — slower, but nothing sinks in the desert",
-              advisor: { name: "Kaganovich", quote: "A supply route is a railway timetable, not an adventure story. Build the boring road and let it carry the war." },
+              advisor: { name: "Kaganovich", position: "A supply route is a railway timetable and not an adventure story, so build the boring road and let it carry the war." },
               setFlags: { lendLease: "persian" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "order227_42",
@@ -496,7 +496,7 @@
           choices: [
             {
               label: "Press the assault to its historical limit — Karmanovo or the last man",
-              advisor: { name: "Zhukov", quote: "The salient does not open by itself. It opens because I spend what it costs, until it costs less than staying closed." },
+              advisor: { name: "Zhukov", position: "The salient does not open by itself but because the cost is paid, until it costs less than staying closed." },
               historical: true,
               setFlags: { rzhevSummer42: "pressed" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
@@ -506,7 +506,7 @@
             },
             {
               label: "Scale the offensive back to holding pressure — preserve the armies for autumn",
-              advisor: { name: "Konev", quote: "I inherit this front from Georgy Konstantinovich at the end of the month regardless. I would rather inherit armies than a casualty report." },
+              advisor: { name: "Konev", position: "He inherits this front from Zhukov at the end of the month regardless, and would rather inherit armies than a casualty report." },
               setFlags: { rzhevSummer42: "limited" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "autumnWeight42",
@@ -537,7 +537,7 @@
           choices: [
             {
               label: "Enforce the order in full — blocking detachments, penal units, the entire apparatus",
-              advisor: { name: "Shcherbakov", quote: "The order does not ask to be admired. It asks to be obeyed, visibly, until the front believes it." },
+              advisor: { name: "Shcherbakov", position: "The order does not ask to be admired, but obeyed, visibly, until the front believes it." },
               historical: true,
               setFlags: { order227: "enforce" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -568,7 +568,7 @@
             },
             {
               label: "Transmit the order, but leave enforcement to commanders' discretion at the front",
-              advisor: { name: "Vasilevsky", quote: "The words will do their work read aloud once. The blocking detachments standing behind men already fighting for their lives are rifles pointed the wrong way." },
+              advisor: { name: "Vasilevsky", position: "The words will do their work read aloud once, while blocking detachments standing behind men already fighting for their lives are rifles pointed the wrong way." },
               setFlags: { order227: "discretion", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
                             impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -615,7 +615,7 @@
           choices: [
             {
               label: "Chuikov's way — hug them, bleed them, hold the rubble at grenade range",
-              advisor: { name: "Chuikov", quote: "Every German who wants a building must come inside it and meet us on the stairs. Their bombers cannot tell our staircase from theirs. That is the whole doctrine." },
+              advisor: { name: "Chuikov", position: "Every German who wants a building must come inside and meet the defenders on the stairs, and their bombers cannot tell one staircase from the other. That is the whole doctrine." },
               historical: true,
               setFlags: { stalingradStreets: "hug" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
@@ -625,7 +625,7 @@
             },
             {
               label: "A conventional defense — proper lines and reliefs, spare the 62nd the meat-grinder method",
-              advisor: { name: "Yeryomenko", quote: "Doctrine written in a burning cellar is desperation with good publicity. Give the army a real defensive framework and it will hold longer than mystique will." },
+              advisor: { name: "Yeryomenko", position: "Doctrine written in a burning cellar is desperation with good publicity, and an army given a real defensive framework will hold longer than mystique will." },
               setFlags: { stalingradStreets: "conventional" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "stalingradCounter42",
@@ -645,7 +645,7 @@
           choices: [
             {
               label: "Detach mobile forces to hunt the remnants down before they can regroup",
-              advisor: { name: "Rotmistrov", quote: "Every day they are loose is a day they use to become a line instead of a rumor. Tanks can still catch them. Infantry cannot." },
+              advisor: { name: "Rotmistrov", position: "Every day they are loose is a day they use to become a line instead of a rumor, and tanks can still catch them where infantry cannot." },
               historical: false,
               setFlags: { escapedRemnants43: "hunt" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -655,7 +655,7 @@
             },
             {
               label: "Let them go — the main offensive's momentum matters more than a clean count",
-              advisor: { name: "Vasilevsky", quote: "We are not in the business of accounting. We are in the business of not stopping. Let the remnants be someone else's problem, later and smaller." },
+              advisor: { name: "Vasilevsky", position: "This is not the business of accounting but of not stopping, so let the remnants be someone else's problem, later and smaller." },
               historical: false,
               setFlags: { escapedRemnants43: "letGo" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -683,7 +683,7 @@
           choices: [
             {
               label: "Drive hard for Rostov — trap Army Group A in the Caucasus entirely",
-              advisor: { name: "Vatutin", quote: "Stalingrad is already won; it merely hasn't finished happening. Rostov is the door to a bigger room, and the door is closing on its own schedule, not ours." },
+              advisor: { name: "Vatutin", position: "Stalingrad is already won but has not finished happening, and Rostov is the door to a bigger room, closing on its own schedule and not ours." },
               historical: true,
               setFlags: { pursuit43: "rostov" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -709,7 +709,7 @@
             },
             {
               label: "Consolidate around Stalingrad — reduce the pocket first, secure what's already won",
-              advisor: { name: "Rokossovsky", quote: "A quarter-million Germans are in a ring my army is holding shut. I would like to finish one historic victory before we go shopping for a second." },
+              advisor: { name: "Rokossovsky", position: "A quarter-million Germans are in a ring held shut by his army, and one historic victory should be finished before shopping for a second." },
               setFlags: { pursuit43: "consolidate" },
               impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "kharkov43",
@@ -729,7 +729,7 @@
           choices: [
             {
               label: "Launch the Rail War — coordinated mass sabotage of the German supply network",
-              advisor: { name: "Ponomarenko", quote: "Twenty thousand rails cut in one month is not sabotage. It is a second front made of track beds, and it costs us no divisions." },
+              advisor: { name: "Ponomarenko", position: "Twenty thousand rails cut in one month is not sabotage but a second front made of track beds, and it costs no divisions." },
               historical: true,
               setFlags: { partisans43: "railWar" },
               impact: { manpower: 0, fuel: 1, initiative: 0 },
@@ -753,7 +753,7 @@
             },
             {
               label: "Keep them dark — intelligence and preservation over visible sabotage",
-              advisor: { name: "Sudoplatov", quote: "A partisan who cuts a rail is spent in one night. A partisan who reads the timetable feeds the front forever — and brings no burned village down on the people hiding him." },
+              advisor: { name: "Sudoplatov", position: "A partisan who cuts a rail is spent in one night, while one who reads the timetable feeds the front forever, and brings no burned village down on the people hiding him." },
               setFlags: { partisans43: "intelligence" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "kurskDefense43",
@@ -778,7 +778,7 @@
           choices: [
             {
               label: "Storm East Prussia and Königsberg — no intact German army group stays in the rear",
-              advisor: { name: "Vasilevsky", quote: "I have read the arguments for leaving it. I have also read the fortress's artillery inventory. It sits astride the Baltic flank of everything we do next; it comes down." },
+              advisor: { name: "Vasilevsky", position: "The arguments for leaving it have been read, and so has the fortress's artillery inventory. It sits astride the Baltic flank of everything that comes next, so it comes down." },
               historical: true,
               setFlags: { eastPrussia45: "storm" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
@@ -788,7 +788,7 @@
             },
             {
               label: "Seal it and starve it — screen the fortress, keep the weight on Berlin",
-              advisor: { name: "Rokossovsky", quote: "A garrison with no fuel, no relief, and no war left to affect is not a threat. It is a prisoner-of-war camp that hasn't finished the paperwork." },
+              advisor: { name: "Rokossovsky", position: "A garrison with no fuel, no relief and no war left to affect is not a threat but a prisoner-of-war camp that has not finished the paperwork." },
               setFlags: { eastPrussia45: "sealed" },
               impact: { manpower: 2, fuel: 0, initiative: 0 },
               next: "maskingForceQuestion45",
@@ -808,7 +808,7 @@
           choices: [
             {
               label: "File it honestly — the incident goes into the record, consequences where they're due",
-              advisor: { name: "Antonov", quote: "We are days from Berlin's fall. I would rather this cost someone a reprimand now than cost this army its honesty about itself for the next fifty years." },
+              advisor: { name: "Antonov", position: "Berlin's fall is days away, and it is better for this to cost someone a reprimand now than to cost the army its honesty about itself for the next fifty years." },
               setFlags: { berlinRivalryIncident45: "honest" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "berlinAssault45",
@@ -817,7 +817,7 @@
             },
             {
               label: "Absorb it quietly — the victory's story doesn't need this chapter",
-              advisor: { name: "Zhukov", quote: "The city falls in days. I am not spending any of them explaining a tragedy neither front intended to a Stavka that engineered the conditions for it." },
+              advisor: { name: "Zhukov", position: "The city falls in days, and none of them will be spent explaining a tragedy neither front intended to a Stavka that engineered the conditions for it." },
               historical: false,
               setFlags: { berlinRivalryIncident45: "quiet" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -846,7 +846,7 @@
           choices: [
             {
               label: "The searchlight assault — hit them tonight, blind them, take the heights by shock",
-              advisor: { name: "Zhukov", quote: "Every day Berlin stands is a day Koniev's tanks get closer to it from the south. The lights go on tonight." },
+              advisor: { name: "Zhukov", position: "Every day Berlin stands is a day Konev's tanks get closer from the south, so the lights go on tonight." },
               historical: true,
               setFlags: { berlinAssault: "seelow" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
@@ -856,7 +856,7 @@
             },
             {
               label: "Suppress first, assault second — give the heights a full preparatory day",
-              advisor: { name: "Chuikov", quote: "I took one city the patient way, house by house, and it is why I am alive to take this one. The heights will still be there tomorrow. So will more of my men." },
+              advisor: { name: "Chuikov", position: "One city was taken the patient way, house by house, and that is why he is alive to take this one, since the heights will still be there tomorrow and so will more of his men." },
               setFlags: { berlinAssault: "methodical" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "END",
@@ -867,7 +867,7 @@
               {
                 label: "Don't take Seelow at all — release Koniev south and Rokossovsky north at full strength and let the heights hold an empty front",
                 disabledReason: (meters.manpower || 0) >= 4 && (meters.fuel || 0) >= 2 ? undefined : "Requires Manpower +4, Matériel +2 — two axes at full weight, or neither",
-                advisor: { name: "Chuikov", quote: "Heinrici built his line where our maps said we had to come. We do not have to come. For the first time in this war we have enough army to go around a position instead of through it, and I would like to spend that on the last week rather than save it for a week that will not arrive." },
+                advisor: { name: "Chuikov", position: "Heinrici built his line where the maps said the army had to come, and it does not have to. For the first time there is enough army to go around a position instead of through it, and that should be spent on the last week and not saved for one that will not arrive." },
                 setFlags: { berlinAssault: "envelop", berlinEnveloped45: true },
                 impact: { manpower: -1, fuel: -2, initiative: 1 },
                 next: "END",
@@ -900,7 +900,7 @@
           choices: [
             {
               label: "Commit the Siberian divisions to a full winter counteroffensive",
-              advisor: { name: "Zhukov", quote: "They have no winter clothing and no reserves left. We have both. This is the only week of the war where that will be entirely true." },
+              advisor: { name: "Zhukov", position: "They have no winter clothing and no reserves left, while the Red Army has both, and this is the only week of the war when that is entirely true." },
               historical: true,
               setFlags: { moscow41: "counteroffensive" },
               impact: { manpower: 2, fuel: 0, initiative: flags.reserveCommitment41 === "hold" ? 2 : 1 },
@@ -1125,7 +1125,7 @@
             },
             {
               label: "Hold the Siberian divisions in reserve — defend the capital, do not yet counterattack",
-              advisor: { name: "Stalin", quote: "We will not know if the line holds until it is tested. Do not spend the only reserve we have on a battle we might not need to fight." },
+              advisor: { name: "Stalin", position: "It will not be known whether the line holds until it is tested, so the only reserve should not be spent on a battle that may not need fighting." },
               setFlags: { moscow41: "defend" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: flags.hardMode ? "specialSection41" : "lendLease42",
@@ -1146,7 +1146,7 @@
           choices: [
             {
               label: "Weight the center — the reserve backs Mars against the Rzhev salient",
-              advisor: { name: "Zhukov", quote: "Two offensives, launched together, and the enemy must fail somewhere. The salient is a loaded weapon and I intend to take it away." },
+              advisor: { name: "Zhukov", position: "Two offensives launched together mean the enemy must fail somewhere, and the salient is a loaded weapon that he intends to take away." },
               historical: true,
               setFlags: { autumnWeight: "center" },
               impact: { manpower: -3, fuel: 0, initiative: 0 },
@@ -1156,7 +1156,7 @@
             },
             {
               label: "Weight the south — everything behind the Volga and the Caucasus line",
-              advisor: { name: "Vasilevsky", quote: "Rzhev threatens Moscow. The south threatens the war. The reserve goes where the verdict is being written." },
+              advisor: { name: "Vasilevsky", position: "Rzhev threatens Moscow while the south threatens the war, so the reserve goes where the verdict is being written." },
               setFlags: { autumnWeight: "south" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "caucasusDefense42",
@@ -1176,7 +1176,7 @@
           choices: [
             {
               label: "Hold the Terek line rigid — not a barrel of Grozny's oil within their reach",
-              advisor: { name: "Tyulenev", quote: "The oil is the war. The line holds at the river because there is nothing behind the river worth trading." },
+              advisor: { name: "Tyulenev", position: "The oil is the war, and the line holds at the river because there is nothing behind the river worth trading." },
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -4 ? "not enough reserve infantry left to hold the Terek rigidly rather than trading ground for time" : undefined,
               setFlags: { caucasus42: "terek" },
@@ -1187,7 +1187,7 @@
             },
             {
               label: "Elastic defense — trade the last valleys, let the mountains finish what they started",
-              advisor: { name: "Vasilevsky", quote: "Their supply line is our best general in that theater. Give it two more valleys to work with." },
+              advisor: { name: "Vasilevsky", position: "Their supply line is the best general in that theater, and it should be given two more valleys to work with." },
               setFlags: { caucasus42: "elastic" },
               impact: { manpower: 1, fuel: -1, initiative: 0 },
               next: "stalingradStreets42",
@@ -1227,7 +1227,7 @@
           choices: [
             {
               label: "Launch Operation Mars against Rzhev in full strength, alongside the southern offensive",
-              advisor: { name: "Zhukov", quote: "Rzhev is a pistol aimed at Moscow's head. I do not intend to let it stay loaded while we fight elsewhere." },
+              advisor: { name: "Zhukov", position: "Rzhev is a pistol aimed at Moscow's head, and it will not be left loaded while the fighting is elsewhere." },
               historical: true,
               setFlags: { rzhev42: "mars" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
@@ -1237,7 +1237,7 @@
             },
             {
               label: "Scale Rzhev back to holding pressure only — commit the freed reserves to the south",
-              advisor: { name: "Vasilevsky", quote: "Uranus is working. Mars is a wager that Rzhev's German garrison would otherwise reinforce the Volga. I do not believe that wager, and I would rather spend the men where the plan is already succeeding." },
+              advisor: { name: "Vasilevsky", position: "Uranus is working, while Mars is a wager that Rzhev's German garrison would otherwise reinforce the Volga. That wager is not believed, and the men are better spent where the plan is already succeeding." },
               setFlags: { rzhev42: "holding" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "stalingradStreets42",
@@ -1263,7 +1263,7 @@
           choices: [
             {
               label: "The full envelopment — strike deep, trap Sixth Army entirely",
-              advisor: { name: "Zhukov", quote: "Do not merely push them back from the city. Close the ring far enough out that nothing can reopen it before winter finishes what the ring starts." },
+              advisor: { name: "Zhukov", position: "Do not merely push them back from the city, but close the ring far enough out that nothing can reopen it before winter finishes what the ring starts." },
               historical: true,
               setFlags: { uranus42: "deep" },
               impact: { manpower: 1, fuel: 0, initiative: 1 },
@@ -1452,7 +1452,7 @@
             },
             {
               label: "A shallower envelopment — trap the city's garrison, accept more will escape",
-              advisor: { name: "Vasilevsky", quote: "A tighter ring risks less if German armor moves faster than we project. A looser one guarantees less if it moves exactly as slowly as we hope." },
+              advisor: { name: "Vasilevsky", position: "A tighter ring risks less if German armor moves faster than projected, while a looser one guarantees less if it moves exactly as slowly as hoped." },
               setFlags: { uranus42: "shallow" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "escapedRemnants43",
@@ -1475,7 +1475,7 @@
           choices: [
             {
               label: "Pour everything into the gap — the whole southern front is open, take Ukraine before it can be replugged",
-              advisor: { name: "Vatutin", quote: "I have spent the entire war being told to consolidate before the enemy has a chance to recover. For once, there is no enemy left in front of us to recover. Move." },
+              advisor: { name: "Vatutin", position: "The whole war has been spent hearing consolidate before the enemy can recover, but for once no enemy is left in front to recover, so move." },
               historical: false,
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to press this deep into the vacuum" : undefined,
@@ -1487,7 +1487,7 @@
             },
             {
               label: "Fill the gap methodically — advance only as far as supply lines can properly support",
-              advisor: { name: "Vasilevsky", quote: "A vacuum this size is not going anywhere by itself. Filling it badly and losing it back is a worse outcome than filling it slowly and keeping it." },
+              advisor: { name: "Vasilevsky", position: "A vacuum this size will not go anywhere by itself, and filling it badly and losing it back is worse than filling it slowly and keeping it." },
               historical: false,
               setFlags: { southernVacuum43: "methodical" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -1512,7 +1512,7 @@
           choices: [
             {
               label: "Keep reaching — push for the Dnieper crossings before Manstein can organize a response",
-              advisor: { name: "Vatutin", quote: "Every additional kilometer we take now is a kilometer the counterstroke has to cross before it reaches anything that matters. I would rather be too far forward than early enough to be comfortable." },
+              advisor: { name: "Vatutin", position: "Every additional kilometer taken now is one the counterstroke must cross before reaching anything that matters, and being too far forward is preferred to being early enough to be comfortable." },
               historical: false,
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -4 ? "insufficient fuel left in the salient to run columns any further forward" : undefined,
@@ -1540,7 +1540,7 @@
             },
             {
               label: "Dig in — trade some of the gained ground for a shape Manstein's counterstroke can't easily unhinge",
-              advisor: { name: "Vasilevsky", quote: "A salient this narrow is an invitation, not an achievement. I would rather hold a shorter line I can actually supply than a longer one I am explaining the loss of by March." },
+              advisor: { name: "Vasilevsky", position: "A salient this narrow is an invitation and not an achievement, and a shorter line that can be supplied is better than a longer one whose loss is explained by March." },
               favor: 1,
               setFlags: { vacuumOverreach43: "consolidate" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -1567,7 +1567,7 @@
           choices: [
             {
               label: "Press the pursuit into the mountains — the withdrawal isn't finished being punished",
-              advisor: { name: "Vatutin", quote: "They are still on the road. A column on a road is not an army that has escaped — it is an army that is still being caught, one rear guard at a time." },
+              advisor: { name: "Vatutin", position: "They are still on the road, and a column on a road is not an army that has escaped but one that is still being caught, one rear guard at a time." },
               historical: false,
               setFlags: { rostovAftermath43: "press" },
               favor: -1,
@@ -1578,7 +1578,7 @@
             },
             {
               label: "Let the withdrawal finish — pivot the freed-up strength toward exploiting Stalingrad instead",
-              advisor: { name: "Rokossovsky", quote: "I have a quarter-million prisoners to process and an army to rebuild from a battle already won. Chasing stragglers through mountains is someone else's war to fight, not mine." },
+              advisor: { name: "Rokossovsky", position: "A quarter-million prisoners need processing and an army needs rebuilding from a battle already won, and chasing stragglers through mountains is someone else's war." },
               historical: true,
               setFlags: { rostovAftermath43: "pivot" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -1611,7 +1611,7 @@
           choices: [
             {
               label: "Continue the pursuit at full speed — the German army is broken, press the advantage",
-              advisor: { name: "Golikov", quote: "We have not stopped moving since Stalingrad. I do not intend to be the front commander who stopped first." },
+              advisor: { name: "Golikov", position: "The army has not stopped moving since Stalingrad, and he does not intend to be the front commander who stopped first." },
               historical: true,
               setFlags: { kharkov43: "press" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -1640,7 +1640,7 @@
             },
             {
               label: "Halt and consolidate before the supply lines catch up",
-              advisor: { name: "Vasilevsky", quote: "An army that has outrun its own artillery is not an army in pursuit. It is a target with good morale." },
+              advisor: { name: "Vasilevsky", position: "An army that has outrun its own artillery is not in pursuit but is a target with good morale." },
               setFlags: { kharkov43: "halt" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
               next: "katynRevelation43",
@@ -1651,7 +1651,7 @@
               {
                 label: "Skip Kharkov's recapture entirely — press the reserve straight past it toward the Dnieper crossings",
                 disabledReason: (meters.manpower || 0) >= 3 && (meters.initiative || 0) >= 3 ? undefined : "Requires Manpower +3, Initiative +3 — the reserve to go around Kharkov rather than through it",
-                advisor: { name: "Vatutin", quote: "Manstein needs the salient we would hand him at Kharkov. Don't hand it to him. Go around it entirely." },
+                advisor: { name: "Vatutin", position: "Manstein needs the salient that would be handed to him at Kharkov, so do not hand it over, and go around it entirely." },
                 setFlags: { kharkov43: "dnieperPress", earlyDnieper43: true, speculativePath: true },
                 impact: { manpower: -2, fuel: -1, initiative: 1 },
                 next: "katynRevelation43",
@@ -1663,7 +1663,7 @@
               ? [
                   {
                     label: "Request reassignment to a quieter sector — let a less-watched name carry the next decision",
-                    advisor: { name: "Antonov", quote: "Nobody will call it cowardice on paper. A command change during an active offensive never is. Whether anyone believes the paper is a separate question." },
+                    advisor: { name: "Antonov", position: "Nobody will call it cowardice on paper, because a command change during an active offensive never is, and whether anyone believes the paper is a separate question." },
                     setFlags: { kharkov43: "step back" },
                     suspicionDelta: -1,
                     impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -1686,7 +1686,7 @@
           choices: [
             {
               label: "Run the sector by the book — no initiative, no risk, no further attention",
-              advisor: { name: "Antonov", quote: "The safest career in this army right now is the most boring one. I recommend it without embarrassment." },
+              advisor: { name: "Antonov", position: "The safest career in this army right now is the most boring one, and he recommends it without embarrassment." },
               setFlags: { quietSector43: "byBook" },
               suspicionDelta: -1,
               impact: { manpower: 0, fuel: 1, initiative: 0 },
@@ -1696,7 +1696,7 @@
             },
             {
               label: "Use the quieter posting to really fix something the front-line commands never had time for",
-              advisor: { name: "Vasilevsky", quote: "A quiet sector is not a wasted one, whatever Moscow currently thinks of you. Fix the supply discipline nobody upstream had the time to fix." },
+              advisor: { name: "Vasilevsky", position: "A quiet sector is not a wasted one, whatever Moscow currently thinks, and the supply discipline nobody upstream had time to fix should be fixed." },
               setFlags: { quietSector43: "useful" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
               next: "katynRevelation43",
@@ -1716,7 +1716,7 @@
           choices: [
             {
               label: "Deny everything — blame German atrocity propaganda",
-              advisor: { name: "Molotov", quote: "The Germans murder millions and accuse us of thousands. The answer is the same either way: it is a lie." },
+              advisor: { name: "Molotov", position: "The Germans murder millions and accuse the Soviet side of thousands, and the answer is the same either way, that it is a lie." },
               historical: true,
               setFlags: { katyn43: "deny" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -1726,7 +1726,7 @@
             },
             {
               label: "Offer a limited, quiet acknowledgment to London alone",
-              advisor: { name: "Molotov", quote: "You want me to hand the Poles a confession they will publish tomorrow. I decline to arm a government I already distrust." },
+              advisor: { name: "Molotov", position: "To hand the Poles a confession they will publish tomorrow would be to arm a government already distrusted, and he declines." },
               historical: false,
               setFlags: { katyn43: "acknowledge" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -1747,7 +1747,7 @@
           choices: [
             {
               label: "Begin cultivating an alternative Polish political body — one that will actually work with Moscow",
-              advisor: { name: "Molotov", quote: "If London will not speak to us, Poland will need a voice that does. I do not intend to leave that vacancy unfilled for two years." },
+              advisor: { name: "Molotov", position: "If London will not speak to the Soviet side, Poland will need a voice that does, and that vacancy will not be left unfilled for two years." },
               historical: true,
               setFlags: { katynBreak43: "cultivate" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -1757,7 +1757,7 @@
             },
             {
               label: "Leave the Polish question open for now — a political problem for later, not this spring",
-              advisor: { name: "Stalin", quote: "The front is a thousand kilometers from Warsaw. There will be time to decide who speaks for Poland when Poland is somewhere we can actually reach." },
+              advisor: { name: "Stalin", position: "The front is a thousand kilometers from Warsaw, and there will be time to decide who speaks for Poland when Poland is somewhere that can actually be reached." },
               historical: false,
               setFlags: { katynBreak43: "defer" },
               favor: 1,
@@ -1787,7 +1787,7 @@
           choices: [
             {
               label: "Defense in depth — let the offensive break itself on prepared minefields and anti-tank belts",
-              advisor: { name: "Zhukov", quote: "We know where they are coming and roughly when. Spend that knowledge on the deepest, densest defensive system this army has ever built, not on trying to be clever about it." },
+              advisor: { name: "Zhukov", position: "It is known where they are coming and roughly when, so spend that knowledge on the deepest, densest defensive system this army has ever built, and not on trying to be clever about it." },
               historical: true,
               setFlags: { kursk43soviet: "defense" },
               impact: { manpower: -1, fuel: 0, initiative: -1 },
@@ -1797,7 +1797,7 @@
             },
             {
               label: "Preempt — strike the assembling German forces before they can launch",
-              advisor: { name: "Vatutin", quote: "We know where they are massing. Why wait to be attacked when we could attack the assembly areas first?" },
+              advisor: { name: "Vatutin", position: "It is known where they are massing, so why wait to be attacked when the assembly areas could be attacked first?" },
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -3 ? "insufficient reserves left to strike first with any real force" : undefined,
               setFlags: { kursk43soviet: "preempt" },
@@ -1819,7 +1819,7 @@
           choices: [
             {
               label: "Press the advantage where the strike actually landed — reinforce the disrupted sectors immediately",
-              advisor: { name: "Vatutin", quote: "Half a success spent immediately is worth more than a whole success admired from a safe distance. Push where it worked." },
+              advisor: { name: "Vatutin", position: "Half a success spent immediately is worth more than a whole success admired from a safe distance, so push where it worked." },
               historical: false,
               setFlags: { preemptResult43: "press" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -1829,7 +1829,7 @@
             },
             {
               label: "Fall back on the prepared defensive lines regardless — the strike bought what it bought, don't chase more",
-              advisor: { name: "Zhukov", quote: "We built the deepest defensive system this army has ever fielded. I am not abandoning it to chase a result the strike only half-delivered." },
+              advisor: { name: "Zhukov", position: "The deepest defensive system the army has ever fielded was built, and it will not be abandoned to chase a result the strike only half-delivered." },
               setFlags: { preemptResult43: "fallback" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "axis43",
@@ -1851,7 +1851,7 @@
           choices: [
             {
               label: "South — the Dnieper, the Donbas, and Kiev before winter",
-              advisor: { name: "Vatutin", quote: "Ukraine is grain, coal, iron, and forty million people. The war's ledger is written in the south and the pursuit belongs where the ledger is." },
+              advisor: { name: "Vatutin", position: "Ukraine is grain, coal, iron and forty million people, so the war's ledger is written in the south and the pursuit belongs where the ledger is." },
               historical: true,
               setFlags: { axis43: "dnieper" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -1861,7 +1861,7 @@
             },
             {
               label: "West — the Smolensk axis, the shortest line pointed at Germany itself",
-              advisor: { name: "Sokolovsky", quote: "Every kilometer west is a kilometer of the war's actual distance. The south is rich; the west is the way home — theirs and ours." },
+              advisor: { name: "Sokolovsky", position: "Every kilometer west is a kilometer of the war's actual distance, and the south is rich while the west is the way home, theirs and ours." },
               setFlags: { axis43: "west" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "smolenskGates43",
@@ -1884,7 +1884,7 @@
           choices: [
             {
               label: "Press the gateway — Orsha and Vitebsk before the year ends",
-              advisor: { name: "Sokolovsky", quote: "The gateway is fortified because it matters. Every month it stands is a month their engineers improve it." },
+              advisor: { name: "Sokolovsky", position: "The gateway is fortified because it matters, and every month it stands is a month their engineers improve it." },
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -3 ? "insufficient strength left to press a fortified gateway" : undefined,
               setFlags: { smolenskGates: "press" },
@@ -1909,7 +1909,7 @@
             },
             {
               label: "Consolidate the season — winter positions now, the decisive blow from here in 1944",
-              advisor: { name: "Antonov", quote: "We have moved the start line two hundred kilometers west. That is the season's victory; do not spend the winter buying its decimal places." },
+              advisor: { name: "Antonov", position: "The start line has moved two hundred kilometers west, which is the season's victory, and the winter should not be spent buying its decimal places." },
               setFlags: { smolenskGates: "consolidate" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "bagrationSoviet44",
@@ -1929,7 +1929,7 @@
           choices: [
             {
               label: "Force the river now, wherever a crossing presents itself — improvise the means",
-              advisor: { name: "Konev", quote: "Give them one week and the Eastern Wall is real concrete. Give me tonight and a raft, and it is a river with soldiers already on the far bank." },
+              advisor: { name: "Konev", position: "Give them one week and the Eastern Wall is real concrete, but give him tonight and a raft and it is a river with soldiers already on the far bank." },
               historical: true,
               setFlags: { dnieper43: "forced" },
               impact: { manpower: -2, fuel: 0, initiative: 1 },
@@ -1939,7 +1939,7 @@
             },
             {
               label: "Slow down — mass artillery and proper bridging equipment before attempting a crossing",
-              advisor: { name: "Vatutin", quote: "A bridgehead held by a company that drowned getting there is not a bridgehead. Give me three days and it holds because it is actually supplied." },
+              advisor: { name: "Vatutin", position: "A bridgehead held by a company that drowned getting there is not a bridgehead, and given three days it holds because it is actually supplied." },
               setFlags: { dnieper43: "prepared" },
               impact: { manpower: 1, fuel: -1, initiative: -1 },
               next: "easternWallBreach43",
@@ -1959,7 +1959,7 @@
           choices: [
             {
               label: "Mass artillery for a deliberate breakthrough — spend the shells the wait bought time to bring up",
-              advisor: { name: "Vatutin", quote: "We paid for this wall in time instead of blood at the river. I would rather spend shells on it now than spend the blood we saved, later, trying to go around it." },
+              advisor: { name: "Vatutin", position: "This wall was paid for in time and not blood at the river, so spend shells on it now rather than the blood saved, later, going around it." },
               historical: false,
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "not enough shells and fuel left to mass artillery for a deliberate set-piece breakthrough" : undefined,
@@ -1987,7 +1987,7 @@
             },
             {
               label: "Probe for the weak sector rather than force the whole line — patience over weight",
-              advisor: { name: "Konev", quote: "A wall this fresh has seams. Find one before you spend a winter's worth of shells proving the strong sections are strong." },
+              advisor: { name: "Konev", position: "A wall this fresh has seams, so find one before spending a winter's shells proving the strong sections are strong." },
               historical: false,
               setFlags: { easternWallBreach43: "probe" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -2021,7 +2021,7 @@
           choices: [
             {
               label: "Press the offensive to its logical operational limit — destroy Army Group Center completely",
-              advisor: { name: "Rokossovsky", quote: "We have broken the front open. The only question left is how much of the enemy's army we destroy before our own supply lines tell us to stop." },
+              advisor: { name: "Rokossovsky", position: "The front has been broken open, and the only question left is how much of the enemy's army is destroyed before the army's own supply lines say stop." },
               historical: true,
               setFlags: { bagration44soviet: "full" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -2233,7 +2233,7 @@
             },
             {
               label: "Halt at Warsaw's approaches — consolidate the gains, let supply lines catch up first",
-              advisor: { name: "Vasilevsky", quote: "An army that has advanced this far this fast is an army running on momentum, not fuel. Let the rear catch up before we ask it to do more." },
+              advisor: { name: "Vasilevsky", position: "An army that has advanced this far this fast is running on momentum and not fuel, so let the rear catch up before asking it to do more." },
               setFlags: { bagration44soviet: "halt" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
               next: "balkans44",
@@ -2244,7 +2244,7 @@
               {
                 label: "Delay the launch a fortnight — push forward supply echelons up behind the start line first, so the offensive doesn't culminate where the map says it must",
                 disabledReason: (meters.fuel || 0) >= 3 && (meters.manpower || 0) >= 2 ? undefined : "Requires Matériel +3, Manpower +2 — supply enough to dump forward and still launch",
-                advisor: { name: "Khrulev", quote: "Every offensive this war has run until its trucks stopped, and then we have called the stopping place a decision. Give me two weeks and this one stops where you choose instead." },
+                advisor: { name: "Khrulev", position: "Every offensive this war has run until its trucks stopped, and then the stopping place was called a decision, so give two weeks and this one stops where the command chooses." },
                 setFlags: { bagration44soviet: "full", forwardSupply44: true },
                 impact: { manpower: 0, fuel: -3, initiative: -1 },
                 next: "warsawUprising44",
@@ -2277,7 +2277,7 @@
           choices: [
             {
               label: "Push the advance to relieve the uprising, whatever the logistics say",
-              advisor: { name: "Rokossovsky", quote: "I do not enjoy telling Warsaw to wait. I enjoy even less the idea of feeding tired divisions into fresh SS armor to prove a point about how much I don't enjoy it." },
+              advisor: { name: "Rokossovsky", position: "He does not enjoy telling Warsaw to wait, and enjoys even less feeding tired divisions into fresh SS armor to prove a point about that." },
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -4 ? "insufficient fuel to attempt a relief column at all, let alone one that might break through" : undefined,
               setFlags: { warsaw44: "relieve" },
@@ -2307,8 +2307,8 @@
             {
               label: "Halt at the Vistula — consolidate the exhausted advance, resupply before any further push",
               advisor: flags.forwardSupply44
-                ? { name: "Bulganin", quote: "The order will say supply. Everyone who signs it will know the tanks have fuel. I would rather you heard that from me here than read it in someone's memoir in thirty years." }
-                : { name: "Zhukov", quote: "I have looked at what is left of these divisions. I do not have an honest order that sends them further this week." },
+                ? { name: "Bulganin", position: "The order will say supply, and everyone who signs it will know the tanks have fuel, which is better heard here than read in someone's memoir in thirty years." }
+                : { name: "Zhukov", position: "There is no honest order that sends these divisions further this week, after a look at what is left of them." },
               historical: true,
               setFlags: flags.forwardSupply44 ? { warsaw44: "halt", warsawHaltUnexcused: true } : { warsaw44: "halt" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
@@ -2330,7 +2330,7 @@
           choices: [
             {
               label: "Arm and reinforce the Home Army directly — treat it as an allied force, not a problem",
-              advisor: { name: "Rokossovsky", quote: "They fought for two months on captured rifles and belief. Whatever London or Lublin thinks of each other, the men across that river earned resupply." },
+              advisor: { name: "Rokossovsky", position: "They fought two months on captured rifles and belief, and whatever London or Lublin thinks of each other, the men across that river earned resupply." },
               setFlags: { warsawRelief44: "arm" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "polishQuestion45",
@@ -2339,7 +2339,7 @@
             },
             {
               label: "Hold the corridor, but keep the Home Army at arm's length — the city, not its garrison, was the objective",
-              advisor: { name: "Bulganin", quote: "We relieved a city. We are not obligated to arm a rival government's soldiers while we do it." },
+              advisor: { name: "Bulganin", position: "A city was relieved, and there is no obligation to arm a rival government's soldiers while doing it." },
               historical: false,
               setFlags: { warsawRelief44: "distance" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -2363,7 +2363,7 @@
           choices: [
             {
               label: "Press deep into the Balkans — take Belgrade, then push toward Austria",
-              advisor: { name: "Tolbukhin", quote: "Romania fell in days once its own government turned. Bulgaria may do the same. I would rather move while that door is open than find it closed later." },
+              advisor: { name: "Tolbukhin", position: "Romania fell in days once its own government turned and Bulgaria may do the same, so move while that door is open and not find it closed later." },
               setFlags: { balkans44soviet: "deep" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "finnishArmistice44",
@@ -2386,7 +2386,7 @@
             },
             {
               label: "Limit the Balkan commitment — support Tito and Bulgaria's switch, keep the main weight aimed at Germany",
-              advisor: { name: "Antonov", quote: "Tito's partisans are doing most of the work in Yugoslavia without us. Let them. Our weight belongs on the road to Berlin." },
+              advisor: { name: "Antonov", position: "Tito's partisans are doing most of the work in Yugoslavia without help, so let them, since the Soviet weight belongs on the road to Berlin." },
               historical: true,
               setFlags: { balkans44soviet: "limited" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -2396,7 +2396,7 @@
             },
             {
               label: "Push further south still — reach Athens before the British do",
-              advisor: { name: "Tolbukhin", quote: "EAM already controls most of the Greek countryside. If our own forces are the ones who reach the capital, Moscow negotiates the peace from inside the city, not from a map in London." },
+              advisor: { name: "Tolbukhin", position: "EAM already controls most of the Greek countryside, and if Soviet forces are the ones to reach the capital, Moscow negotiates the peace from inside the city and not from a map in London." },
               historical: false,
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel to press an offensive this far south of the main axis" : undefined,
@@ -2419,7 +2419,7 @@
           choices: [
             {
               label: "Push the column through the mountains, whatever the cost — Athens before the British ships arrive",
-              advisor: { name: "Tolbukhin", quote: "The ships are still at sea. The mountains are not. We have the only advantage that really matters here, and it is a short one." },
+              advisor: { name: "Tolbukhin", position: "The ships are still at sea and the mountains are not, so the only advantage that matters is held here, and it is a short one." },
               historical: false,
               setFlags: { athensRace44: "push" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -2444,7 +2444,7 @@
             },
             {
               label: "Halt at the Greek border — Athens was never actually the objective, only testing whether the road was open",
-              advisor: { name: "Antonov", quote: "We have learned what we needed to learn: the road is open, and we chose not to take it. That is worth more to Moscow's next negotiation than the city itself would have been." },
+              advisor: { name: "Antonov", position: "What was needed has been learned: the road is open and the choice was made not to take it, which is worth more to Moscow's next negotiation than the city would have been." },
               historical: true,
               setFlags: { athensRace44: "halt" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
@@ -2466,7 +2466,7 @@
           choices: [
             {
               label: "Hold the position and let Moscow's diplomats argue from strength — the ground is already won",
-              advisor: { name: "Molotov", quote: "We do not hand back a city we hold to make a negotiation easier. Let London explain to its public why British ships are anchored outside a port they cannot land in." },
+              advisor: { name: "Molotov", position: "A city held is not handed back to make a negotiation easier, and London can explain to its public why British ships are anchored outside a port they cannot land in." },
               historical: false,
               setFlags: { athensStandoff44: "hold" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -2476,7 +2476,7 @@
             },
             {
               label: "Withdraw voluntarily — an accident of timing shouldn't become a permanent crisis between allies",
-              advisor: { name: "Stalin", quote: "We were faster, not entitled. Withdraw before this becomes a reason for Churchill to remember it at every table for the rest of the war." },
+              advisor: { name: "Stalin", position: "The Soviet side was faster and not entitled, so withdraw before this gives Churchill a reason to remember it at every table for the rest of the war." },
               historical: true,
               setFlags: { athensStandoff44: "withdraw" },
               cohesionDelta: 0,
@@ -2505,7 +2505,7 @@
           choices: [
             {
               label: "Absorb them into the Soviet-backed Polish forces — one army, one command, no ambiguity",
-              advisor: { name: "Bulganin", quote: "An armed force with a rival loyalty does not get to simply continue existing at the front. It joins the army we recognize, or it stops being an army." },
+              advisor: { name: "Bulganin", position: "An armed force with a rival loyalty does not simply go on existing at the front, and either joins the army that is recognized or stops being an army." },
               historical: false,
               setFlags: { polishQuestion45: "absorb" },
               suspicionDelta: 1,
@@ -2516,7 +2516,7 @@
             },
             {
               label: "Let them stand apart — a second Polish army exists, and the postwar argument arrives early",
-              advisor: { name: "Rokossovsky", quote: "I did not fight two months to save that army so it could be dissolved by paperwork the moment the shooting stopped elsewhere. Let it stand. Let Yalta argue about what standing means." },
+              advisor: { name: "Rokossovsky", position: "He did not fight two months to save that army so it could be dissolved by paperwork the moment the shooting stopped elsewhere, so let it stand and let Yalta argue about what standing means." },
               historical: false,
               setFlags: { polishQuestion45: "standApart" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -2538,7 +2538,7 @@
           choices: [
             {
               label: "Grant a limited armistice — territory, reparations, and expulsion of German forces, but Finnish sovereignty intact",
-              advisor: { name: "Zhdanov", quote: "A Finland that governs itself but owes us its borders and its reparations is a settled question. A Finland we occupy is an open one, indefinitely, with a population that has shown twice now what it costs to conquer." },
+              advisor: { name: "Zhdanov", position: "A Finland that governs itself but owes its borders and reparations is a settled question, while a Finland occupied is an open one indefinitely, with a population that has shown twice what it costs to conquer." },
               historical: true,
               setFlags: { finlandOutcome: "armistice" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -2548,7 +2548,7 @@
             },
             {
               label: "Press for full capitulation and occupation — bring Finland into the Soviet sphere directly, as the Baltics were",
-              advisor: { name: "Vasilevsky", quote: "We are extending exactly the mercy Berlin never extended anyone. I am not certain this staff has fully priced in what holding a hostile population this far north, through winters like these, would actually cost us." },
+              advisor: { name: "Vasilevsky", position: "The Soviet side is extending exactly the mercy Berlin never extended anyone, though it is not certain the staff has fully priced in what holding a hostile population this far north, through such winters, would cost." },
               setFlags: { finlandOutcome: "occupation" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
               next: "finlandOccupationCost44",
@@ -2568,7 +2568,7 @@
           choices: [
             {
               label: "Answer hard — collective reprisals, broad internment, treat any resistance as a population problem",
-              advisor: { name: "Zhdanov", quote: "A population that has fought twice does not stop testing an occupation because the testing is gently answered. Answer it in a way that ends the testing, or plan on answering it again every winter." },
+              advisor: { name: "Zhdanov", position: "A population that has fought twice does not stop testing an occupation because the testing is gently answered, so answer it in a way that ends the testing or plan to answer it every winter." },
               favor: -1,
               setFlags: { finlandOccupationCost44: "harsh" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
@@ -2578,7 +2578,7 @@
             },
             {
               label: "Answer narrow — garrison strategic points only, leave the countryside its own affairs",
-              advisor: { name: "Vasilevsky", quote: "We cannot afford to occupy every farmhouse in this country and still finish the war against the army that actually matters. Hold what we need. Let the rest of it go on being Finland." },
+              advisor: { name: "Vasilevsky", position: "Every farmhouse in the country cannot be occupied while the war against the army that matters is finished, so hold what is needed and let the rest go on being Finland." },
               favor: 1,
               setFlags: { finlandOccupationCost44: "narrow" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -2609,7 +2609,7 @@
           choices: [
             {
               label: "Press straight for Berlin now, while the shock of the offensive is still working",
-              advisor: { name: "Chuikov", quote: "We had the momentum and the distance was nothing to what we had already crossed. I have never stopped believing we let it go for reasons that were not purely military." },
+              advisor: { name: "Chuikov", position: "The momentum was there and the distance was nothing against what had already been crossed, and it has never stopped being believed that it was let go for reasons that were not purely military." },
               setFlags: { vistulaOder45: "pushed" },
               impact: { manpower: -1, fuel: -1, initiative: 2 },
               next: "eastPrussia45",
@@ -2634,7 +2634,7 @@
             },
             {
               label: "Halt on the Oder — clear Pomerania and East Prussia first, as really ordered",
-              advisor: { name: "Zhukov", quote: "Chuikov sees the map in front of him. I am required to see the map behind him as well." },
+              advisor: { name: "Zhukov", position: "Chuikov sees the map in front of him, and he is required to see the map behind him as well." },
               historical: true,
               setFlags: { vistulaOder45: "halted" },
               impact: { manpower: 1, fuel: 1, initiative: -1 },
@@ -2656,7 +2656,7 @@
           choices: [
             {
               label: "Push into the city immediately — deny the garrison time to organize the block-by-block defense the historical assault actually faced",
-              advisor: { name: "Chuikov", quote: "Every week we give this garrison is a week it spends turning cellars into strongpoints. I have fought that arithmetic once already in this war, at Stalingrad, from the other side of it." },
+              advisor: { name: "Chuikov", position: "Every week given to this garrison is a week spent turning cellars into strongpoints, and he has fought that arithmetic once already, at Stalingrad, from the other side of it." },
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -4 ? "not enough strength left in the spearhead to take the city by immediate assault rather than a properly closed siege" : undefined,
               setFlags: { berlinFeb45: "immediate" },
@@ -2667,7 +2667,7 @@
             },
             {
               label: "Pause three days to bring the follow-up armies level — close the ring properly before committing to the streets",
-              advisor: { name: "Zhukov", quote: "Three days is not April. I have already spent this war learning what a city costs when it is entered before it is surrounded. I am not paying that lesson twice." },
+              advisor: { name: "Zhukov", position: "Three days is not April, and the war has already taught what a city costs when it is entered before it is surrounded, a lesson not to be paid for twice." },
               historical: false,
               setFlags: { berlinFeb45: "consolidate" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -2688,7 +2688,7 @@
           choices: [
             {
               label: "Mask it lean — minimum force to hold the seal, everything else goes to Berlin",
-              advisor: { name: "Rokossovsky", quote: "A garrison that cannot attack does not need an army watching it. It needs a fence and patience. Send the rest west." },
+              advisor: { name: "Rokossovsky", position: "A garrison that cannot attack does not need an army watching it but a fence and patience, so send the rest west." },
               historical: false,
               setFlags: { maskingForceQuestion45: "lean" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -2698,7 +2698,7 @@
             },
             {
               label: "Mask it heavy — a real containment force, insurance against a fortress with nothing left to lose",
-              advisor: { name: "Vasilevsky", quote: "A trapped garrison with artillery and nothing left to lose is not a bookkeeping entry. I would rather over-insure a fortress than explain a breakout to Moscow." },
+              advisor: { name: "Vasilevsky", position: "A trapped garrison with artillery and nothing left to lose is not a bookkeeping entry, and it is better to over-insure a fortress than explain a breakout to Moscow." },
               setFlags: { maskingForceQuestion45: "heavy" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "berlinRace45",
@@ -2719,7 +2719,7 @@
           choices: [
             {
               label: "A single concentrated thrust under one commander — minimize the political cost of a divided assault",
-              advisor: { name: "Stalin", quote: "Two marshals racing each other into the same city is not strategy. Choose the axis, choose the commander, and let the rivalry stay in the reports rather than the streets." },
+              advisor: { name: "Stalin", position: "Two marshals racing each other into the same city is not strategy, so choose the axis and the commander and let the rivalry stay in the reports and out of the streets." },
               setFlags: { berlin45soviet: "concentrated" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "berlinAssault45",
@@ -2728,7 +2728,7 @@
             },
             {
               label: "Let both fronts race for the city — Zhukov from the east, Konev from the south",
-              advisor: { name: "Zhukov", quote: "Let Konev try to beat me to it. An army that knows it is being watched by a rival moves faster than one that thinks the outcome is already decided." },
+              advisor: { name: "Zhukov", position: "Let Konev try to beat him to it, because an army that knows it is watched by a rival moves faster than one that thinks the outcome is decided." },
               historical: true,
               setFlags: { berlin45soviet: "race" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },

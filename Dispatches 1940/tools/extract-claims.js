@@ -59,7 +59,7 @@ function contextAt(idx) {
 
 // Prose-bearing fields worth checking. Labels and titles are excluded: they are framing,
 // not assertion.
-const FIELD = /(situation|outcome|bio|fate|quote):\s*\n?\s*"((?:[^"\\]|\\.)*)"/g;
+const FIELD = /(situation|outcome|bio|fate|quote|position):\s*\n?\s*"((?:[^"\\]|\\.)*)"/g;
 
 const NUMBER = /\b\d{1,3}(?:,\d{3})+\b|\b\d+(?:\.\d+)?\s?(?:million|billion|thousand|tons?|tonnes?|per cent|percent|%)\b|\b\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\b|\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+\d{4}\b/;
 const OPERATION = /\bOperation\s+[A-Z][a-z]+|\b(?:Barbarossa|Overlord|Bagration|Uranus|Citadel|Market Garden|Torch|Husky|Sea Lion|Valkyrie|Achse|Anton|Herkules|Shingle|Dynamo|Thunderclap|Silverplate|Manhattan)\b/;
