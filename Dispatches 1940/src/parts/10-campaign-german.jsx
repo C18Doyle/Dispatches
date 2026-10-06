@@ -1772,7 +1772,7 @@
           choices: [
             {
               label: "Press the reduction to unconditional surrender — no evacuation permitted",
-              advisor: { name: "The OKW staff", position: "A negotiated withdrawal becomes the story Britain tells about this attempt, and an unconditional end becomes the story Germany tells." },
+              advisor: { name: "the OKW staff", position: "A negotiated withdrawal becomes the story Britain tells about this attempt, and an unconditional end becomes the story Germany tells." },
               setFlags: { lodgmentReduction44: "total" },
               favor: -1,
               impact: { manpower: -1, fuel: 0, initiative: 1 },

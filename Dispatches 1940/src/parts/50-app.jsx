@@ -18,6 +18,11 @@ function WW2CommandInner() {
   // outcome screen showed the wrong odds). Cleared in proceed(), so it can never leak into a
   // later, unrelated concealRoll choice's own reveal.
   const [pendingBattleResult, setPendingBattleResult] = useState(null);
+  // Saving inside a battle. battleDraftRef holds the planning screen's plan as it stands (the screen reports
+  // every change), and battleResume carries a battle put back from a save: { stage, draft } or null. See
+  // battleSnapshot, restoreBattleSave and the two battle screens' resume props.
+  const battleDraftRef = useRef(null);
+  const [battleResume, setBattleResume] = useState(null);
   const [rewinds, setRewinds] = useState(0);
   const [mode, setMode] = useState("open");
   // Grand Campaign prototype: null outside a Grand Campaign run, otherwise
@@ -221,9 +226,12 @@ function WW2CommandInner() {
       // commit, so the mid-battle reserve decision can still change it.
       setPendingBattle({
         index: i,
+        label: choice.label,
         config: choice.keyBattleSubgame,
         baseWeights: (choice.uncertain || []).map((u) => u.weight),
       });
+      battleDraftRef.current = null;
+      setBattleResume(null);
       setPendingBattleResult(null);
       setScreen("battleAllocation");
       return;
@@ -361,8 +369,19 @@ function WW2CommandInner() {
     }
   }
 
+  // The battle in hand, if there is one that can be put down: the planning screen, or the report before its
+  // verdict. After the verdict the roll is made and its effects applied, so a save there would count them twice.
+  function battleSnapshot() {
+    if (!pendingBattle) return null;
+    const head = { label: pendingBattle.label, configId: pendingBattle.config.id, baseWeights: pendingBattle.baseWeights };
+    if (screen === "battleAllocation" && battleDraftRef.current) return { stage: "allocation", ...head, draft: battleDraftRef.current };
+    if (screen === "battleResult" && !pendingBattleResult && pendingBattle.plan) return { stage: "report", ...head, plan: pendingBattle.plan };
+    return null;
+  }
+
   async function manualSave() {
     return await saveActiveRun({
+      battle: battleSnapshot() || undefined,
       version: SAVE_VERSION,
       campaignId,
       mode,
@@ -383,6 +402,37 @@ function WW2CommandInner() {
     setScreen("select");
     return ok;
   }
+
+  // "Save and leave the field": the battle goes into the save, and the player leaves for the menu only once
+  // the save has gone through.
+  async function leaveBattleSaved() {
+    const ok = await manualSave();
+    if (!ok) return false;
+    setPendingBattle(null);
+    setPendingBattleResult(null);
+    setBattleResume(null);
+    setScreen("select");
+    return true;
+  }
+
+  // Closing the tab or switching away mid-battle writes the same save, so the plan and the enemy's setup
+  // are not lost to the last autosave. Reads the latest render through a ref.
+  const battleExitSave = useRef(null);
+  battleExitSave.current = () => {
+    if (battleSnapshot()) manualSave();
+  };
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") battleExitSave.current();
+    };
+    const onHide = () => battleExitSave.current();
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", onHide);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", onHide);
+    };
+  }, []);
 
   async function toggleSound() {
     if (!soundOn) {
@@ -513,6 +563,16 @@ function WW2CommandInner() {
     setHistory(saved.history || [{ position: saved.position, flags: saved.flags, meters: saved.meters, log: saved.log }]);
     setChoiceIndex(null);
     setRollIndex(null);
+    const battle = restoreBattleSave(saved);
+    if (battle) {
+      battleDraftRef.current = battle.draft;
+      setBattleResume({ stage: battle.stage, draft: battle.draft });
+      setPendingBattleResult(null);
+      setOutcomeStage(null);
+      setPendingBattle(battle.pending);
+      setScreen(battle.stage === "report" ? "battleResult" : "battleAllocation");
+      return;
+    }
     setScreen("briefing");
   }
 
@@ -642,10 +702,33 @@ function WW2CommandInner() {
           onSpendInitiative={() =>
             setMeters((m) => ({ ...m, initiative: Math.max(-10, Math.min(10, m.initiative - 1)) }))
           }
+          resume={battleResume && battleResume.stage === "allocation" ? battleResume.draft : null}
+          onDraft={(d) => {
+            battleDraftRef.current = d;
+          }}
+          onSaveLeave={leaveBattleSaved}
           onCommit={(plan) => {
             setPendingBattle((pb) => ({ ...pb, plan }));
             setPendingBattleResult(null);
+            setBattleResume(null);
             setScreen("battleResult");
+            // The plan is as good as made once committed: save it, so closing the page mid-report does not
+            // send the player back to an earlier autosave.
+            saveActiveRun({
+              battle: { stage: "report", label: pendingBattle.label, configId: pendingBattle.config.id, baseWeights: pendingBattle.baseWeights, plan },
+              version: SAVE_VERSION,
+              campaignId,
+              mode,
+              favor,
+              defiance,
+              position,
+              flags,
+              meters,
+              log,
+              visited,
+              rewinds,
+              history,
+            });
           }}
         />
       )}
@@ -659,6 +742,8 @@ function WW2CommandInner() {
           uncertain={displayStage.choices[pendingBattle.index].uncertain}
           result={pendingBattleResult}
           soundOn={soundOn}
+          resumed={!!(battleResume && battleResume.stage === "report")}
+          onSaveLeave={leaveBattleSaved}
           onResolve={(payload) => chooseOption(pendingBattle.index, payload)}
           onContinue={() => {
             setPendingBattle(null);

@@ -1904,7 +1904,7 @@ const CAMPAIGNS = {
           choices: [
             {
               label: "Press the reduction to unconditional surrender — no evacuation permitted",
-              advisor: { name: "The OKW staff", position: "A negotiated withdrawal becomes the story Britain tells about this attempt, and an unconditional end becomes the story Germany tells." },
+              advisor: { name: "the OKW staff", position: "A negotiated withdrawal becomes the story Britain tells about this attempt, and an unconditional end becomes the story Germany tells." },
               setFlags: { lodgmentReduction44: "total" },
               favor: -1,
               impact: { manpower: -1, fuel: 0, initiative: 1 },
@@ -21681,6 +21681,7 @@ function SelectScreen({ onPick, onResume, onStartGrand, instantText, onToggleIns
                 : ""}{" "}
               ·{" "}
               {(activeRun.log || []).length} decisions on file — resume where you left off.
+              {activeRun.battle && (() => { const t = KEY_BATTLE_TITLES.find((x) => x.id === activeRun.battle.configId); return t ? ` You were part way through ${t.title}.` : ""; })()}
             </p>
           </button>
         )}
@@ -24743,7 +24744,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               )}
               {choice.advisor && (
                 <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
-                  {choice.advisor.name} argues: {choice.advisor.position}
+                  {choice.advisor.name.charAt(0).toUpperCase() + choice.advisor.name.slice(1)} argues: {choice.advisor.position}
                 </span>
               )}
               {choice.attested && (
@@ -24817,7 +24818,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
 // BattleSimulationScreen. The roll itself no longer happens at commit; it happens at the end of
 // the battle report, after the mid-battle reserve decision, so that decision can actually change
 // the odds rather than decorate a result that was already decided. See chooseOption.
-function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn, onCommit, onSpendInitiative, easyMode }) {
+function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn, onCommit, onSpendInitiative, easyMode, resume, onDraft, onSaveLeave }) {
   const headingRef = useRef(null);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
@@ -24829,6 +24830,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // Round 23 (strands bite): an arm that draws on a Matériel strand (category.strand) carries more or
   // less weight as that strand reads Plentiful, Adequate, Strained or Short. Read once, as the pool is.
   const [strandInfo] = useState(() => {
+    if (resume && resume.strandInfo) return resume.strandInfo;
     const byId = Object.fromEntries(materielReadout(flags || {}, meters).map((r) => [r.id, r]));
     return Object.fromEntries(
       categories.map((c) => [c.id, c.strand && byId[c.strand] ? { name: byId[c.strand].name, band: byId[c.strand].band, mult: STRAND_BAND_MULT[byId[c.strand].band] } : null])
@@ -24846,27 +24848,29 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // locks are applied here and the ban on giving ground in the report.
   const hardRule = HARD_MODE_NAMES[mode] ? config.hardRule || null : null;
   const commanderBarred = (id) => !!hardRule && ((hardRule.lockCommander && hardRule.lockCommander !== id) || (hardRule.forbidCommanders || []).includes(id));
-  const [commanderId, setCommanderId] = useState(hardRule?.lockCommander ?? null);
+  const [commanderId, setCommanderId] = useState(resume ? resume.commanderId ?? null : hardRule?.lockCommander ?? null);
   const selectedCommander = commanderRoster.find((c) => c.id === commanderId) || null;
 
   // Round 4 follow-up (Craig: "let's make this one between the two tactical choices"). Forced
   // pick, no default: the Commit button stays disabled until one is chosen for any battle with
   // a roster entry.
   const approachRoster = KEY_BATTLE_APPROACHES[config.id] || [];
-  const [approachId, setApproachId] = useState(hardRule?.lockApproach ?? null);
+  const [approachId, setApproachId] = useState(resume ? resume.approachId ?? null : hardRule?.lockApproach ?? null);
   const selectedApproach = approachRoster.find((a) => a.id === approachId) || null;
 
   // Round 9, item #1: the enemy's hidden posture for THIS attempt at this battle, drawn once per
   // screen instance (lazy initializer) and never shown directly — only one line of intelligence
   // hints at it (postureHint), and it's revealed as the "contact" beat of the battle report.
-  const [posture] = useState(() => pickKeyBattlePosture(config.id, undefined, config.phases ? 1 : undefined));
+  // A resumed battle keeps the enemy setup it was saved with, so saving and loading cannot be used to redraw it.
+  const restorePosture = (id) => (KEY_BATTLE_POSTURES[config.id] || []).find((p) => p.id === id) || null;
+  const [posture] = useState(() => (resume && resume.postureId && restorePosture(resume.postureId)) || pickKeyBattlePosture(config.id, undefined, config.phases ? 1 : undefined));
   // Round 22 (twists): a battle fought in phases (config.phases, a list of phase names) draws a
   // second hidden posture for its second phase. The plan is weighed against the average of the
   // two, and the report reveals the second one half way through — so intelligence about the first
   // phase is only part of the picture, which is exactly what fighting an outbound leg and a bomb
   // run, or a morning raid and an afternoon raid, is like.
   const phaseNames = config.phases || null;
-  const [posture2] = useState(() => (phaseNames && posture ? pickKeyBattlePosture(config.id, posture.id, 2) : null));
+  const [posture2] = useState(() => (resume && resume.posture2Id && restorePosture(resume.posture2Id)) || (phaseNames && posture ? pickKeyBattlePosture(config.id, posture.id, 2) : null));
   // Mean posture multiplier for a category: the first posture's alone for an ordinary battle.
   function postureMultFor(catId) {
     const m1 = posture?.modifiers?.[catId] ?? 1;
@@ -24907,13 +24911,13 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // [meter] visibility" as its whole training-wheels premise — extending that to the subgame's
   // one piece of hidden information means the free hint is simply never wrong in Easy, at 0
   // error rate rather than the usual 1-in-4. Standard and the hard modes are untouched.
-  const [intel, setIntel] = useState(() => drawIntel(easyMode ? 0 : KEY_BATTLE_INTEL_ERROR_RATE));
+  const [intel, setIntel] = useState(() => (resume && resume.intel !== undefined ? resume.intel : drawIntel(easyMode ? 0 : KEY_BATTLE_INTEL_ERROR_RATE)));
   const postureHint = intel?.hint || null;
   // Round 13, item #3: a Recon Pass is a one-shot, paid redraw of the same hint at
   // KEY_BATTLE_RECON_ERROR_RATE instead of the free hint's rate. Gated the same way the staff
   // assessment is gated below (needs Initiative to spend, one use per screen instance — buying
   // a second look at the same ground has diminishing returns the design isn't trying to model).
-  const [reconUsed, setReconUsed] = useState(false);
+  const [reconUsed, setReconUsed] = useState(!!(resume && resume.reconUsed));
   function requestRecon() {
     if (reconUsed || (meters.initiative || 0) <= 0 || !posture) return;
     setIntel(drawIntel(KEY_BATTLE_RECON_ERROR_RATE));
@@ -24928,10 +24932,10 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // Initiative on this very screen — without the freeze, buying an assessment at Initiative +3
   // would drop the meter to +2, shrink the pool by one mid-plan, and could leave the player with
   // more chits placed than the pool now allows.
-  const [bonusMeters] = useState(() => ["manpower", "fuel", "initiative"].filter((m) => (meters[m] || 0) > 2));
+  const [bonusMeters] = useState(() => (resume && Array.isArray(resume.bonusMeters) ? resume.bonusMeters : ["manpower", "fuel", "initiative"].filter((m) => (meters[m] || 0) > 2)));
   const poolSize = 5 + bonusMeters.length;
 
-  const [allocation, setAllocation] = useState(() => Object.fromEntries(categories.map((c) => [c.id, 0])));
+  const [allocation, setAllocation] = useState(() => Object.fromEntries(categories.map((c) => [c.id, (resume && resume.allocation && resume.allocation[c.id]) || 0])));
   const spent = Object.values(allocation).reduce((a, v) => a + v, 0);
   const remaining = poolSize - spent;
 
@@ -24955,7 +24959,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // Round 3 (Craig): a battle isn't a spreadsheet — the same push doesn't land the same way
   // twice. Rolled once per screen instance and applied as a +/-30% jitter on that category's
   // base effectiveness, shown only as a banded readiness phrase (see readiness()).
-  const [jitter] = useState(() => Object.fromEntries(categories.map((c) => [c.id, 0.7 + Math.random() * 0.6])));
+  const [jitter] = useState(() => Object.fromEntries(categories.map((c) => [c.id, resume && resume.jitter && resume.jitter[c.id] ? resume.jitter[c.id] : 0.7 + Math.random() * 0.6])));
   function approachModifier(catId) {
     return selectedApproach?.modifiers?.[catId] ?? 0;
   }
@@ -24987,7 +24991,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // exactly the thing the player can't otherwise see (the enemy being strongest where they're
   // heaviest, or an arm the posture favors that they've underused). Re-buyable; marked stale as
   // soon as the plan changes after it was given.
-  const [assessment, setAssessment] = useState(null);
+  const [assessment, setAssessment] = useState(resume ? resume.assessment || null : null);
   const planKey = JSON.stringify([allocation, commanderId, approachId]);
 
   // Round 23 (item 2, the map exercise): for one Initiative the staff war-game the plan on the map
@@ -24995,7 +24999,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // held against each. It cannot say which setup is real, so it tells the player how robust the plan
   // is, where the Reconnaissance Pass tells them about the enemy and the Staff Assessment judges the
   // plan against what the enemy really has.
-  const [exercise, setExercise] = useState(null);
+  const [exercise, setExercise] = useState(resume ? resume.exercise || null : null);
   function requestExercise() {
     if (spent === 0 || (meters.initiative || 0) <= 0) return;
     const scenarios = battleScenarios(config, KEY_BATTLE_POSTURES[config.id] || []);
@@ -25075,7 +25079,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   }
   const autoStarted = useRef(false);
   useEffect(() => {
-    if (staffAlways && !autoStarted.current) {
+    if (staffAlways && !autoStarted.current && !resume) {
       autoStarted.current = true;
       letStaffPlan();
     }
@@ -25148,6 +25152,21 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
     if (bare.length) parts.push(`Nothing placed in ${bare.map((c) => c.name).join(", ")}.`);
     return parts.join(" ");
   })();
+
+  // Everything a saved game needs to put this screen back exactly as it stands: the plan so far, the
+  // hidden setup the enemy was dealt, the intelligence already bought and the readings already given.
+  const draft = { commanderId, approachId, postureId: posture?.id ?? null, posture2Id: posture2?.id ?? null, intel, reconUsed, bonusMeters, allocation, jitter, strandInfo, assessment, exercise };
+  const draftKey = JSON.stringify(draft);
+  useEffect(() => {
+    if (onDraft) onDraft(draft);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draftKey]);
+  const [saveNote, setSaveNote] = useState("");
+  async function saveAndLeave() {
+    setSaveNote("");
+    const ok = await onSaveLeave();
+    if (ok === false) setSaveNote("The save did not go through, so you have not left the field. Your orders are unchanged.");
+  }
 
   const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
   const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
@@ -25627,6 +25646,16 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             ? `Commit to Battle — ${remaining} held in reserve`
             : "Commit to Battle"}
         </button>
+        {onSaveLeave && (
+          <>
+            <button onClick={saveAndLeave} className="w-full mt-3 text-center text-xs uppercase tracking-widest opacity-70 underline text-[#000000]" style={labelStyle}>
+              Save and leave the field — pick this battle up later
+            </button>
+            <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
+              {saveNote}
+            </p>
+          </>
+        )}
       </div>
     </div>
   );
@@ -25666,7 +25695,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
 //   clamp, and its result is carried out for plan costs and the next node's text.
 // - After-action notes: whether the intelligence summary and the last staff assessment were
 //   right, told only now, after the battle, the way a general would find out.
-function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, uncertain, result, soundOn, onResolve, onContinue }) {
+function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, uncertain, result, soundOn, onResolve, onContinue, onSaveLeave, resumed }) {
   const headingRef = useRef(null);
   const categories = keyBattleCategories(config);
   const postures = KEY_BATTLE_POSTURES[config.id] || [];
@@ -26021,6 +26050,14 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
   const caCat = ca ? categories.find((c) => c.id === ca.category) : null;
   const choiceBtn = "text-left border px-3 py-2 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150";
+  const [saveNote, setSaveNote] = useState("");
+  async function saveAndLeave() {
+    setSaveNote("");
+    const ok = await onSaveLeave();
+    if (ok === false) setSaveNote("The save did not go through, so you have not left the field. Your orders are unchanged.");
+  }
+  // The roll has not been made until the verdict, so a battle can be put down at any point before it.
+  const canSaveHere = !!onSaveLeave && !done && phase !== "resolving" && !plan.autoplay;
 
   return (
     <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
@@ -26028,6 +26065,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
         <div className="text-xs uppercase tracking-[0.25em] mb-1 opacity-70" style={labelStyle}>
           Battle Report
         </div>
+        {resumed && !done && beatIndex === 0 && (
+          <p className="text-[12px] leading-snug mb-3 italic opacity-80" style={bodyStyle}>
+            You are back at the front. Your orders stand as you gave them, and the report begins again from its first line.
+          </p>
+        )}
         <h2
           ref={headingRef}
           tabIndex={-1}
@@ -26249,6 +26291,16 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             <button onClick={skip} className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-60 underline" style={labelStyle}>
               Skip to Result
             </button>
+          </>
+        )}
+        {canSaveHere && (
+          <>
+            <button onClick={saveAndLeave} className="w-full mt-4 text-center text-xs uppercase tracking-widest opacity-70 underline" style={labelStyle}>
+              Save and leave the field — the report starts again from its first line
+            </button>
+            <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
+              {saveNote}
+            </p>
           </>
         )}
       </div>
@@ -27396,6 +27448,41 @@ function isValidActiveRun(saved) {
   return true;
 }
 
+// Put a battle back from a save. A save made on the planning screen or the battle report carries the battle
+// with it (saved.battle). The choice that opened it is found again by its label on the node the save points at,
+// because the choice list can shift as Initiative is spent on the planning screen, and everything the save
+// holds is checked before it is trusted. Anything that does not check out returns null, and the game then
+// resumes at the briefing as it always did.
+function restoreBattleSave(saved) {
+  const b = saved && saved.battle;
+  if (!b || typeof b !== "object" || (b.stage !== "allocation" && b.stage !== "report")) return null;
+  const campaign = CAMPAIGNS[saved.campaignId];
+  if (!campaign || !saved.position) return null;
+  let stage;
+  try {
+    stage = resolveStage(campaign, saved.position, saved.flags || {}, saved.meters || EMPTY_METERS);
+  } catch (e) {
+    return null;
+  }
+  if (!stage || !stage.choices) return null;
+  const index = stage.choices.findIndex((c) => c.label === b.label && c.keyBattleSubgame && c.keyBattleSubgame.id === b.configId);
+  if (index < 0) return null;
+  const choice = stage.choices[index];
+  const config = choice.keyBattleSubgame;
+  const ids = keyBattleCategories(config).map((c) => c.id);
+  const allocOk = (a) => !!a && typeof a === "object" && ids.every((id) => Number.isInteger(a[id]) && a[id] >= 0);
+  const baseWeights = Array.isArray(b.baseWeights) && b.baseWeights.every((w) => typeof w === "number") ? b.baseWeights : (choice.uncertain || []).map((u) => u.weight);
+  if (b.stage === "allocation") {
+    const d = b.draft;
+    if (!d || typeof d !== "object" || !allocOk(d.allocation) || !Array.isArray(d.bonusMeters) || !d.jitter || typeof d.jitter !== "object") return null;
+    if (ids.reduce((n, id) => n + d.allocation[id], 0) > 5 + d.bonusMeters.length) return null;
+    return { stage: "allocation", draft: d, pending: { index, label: b.label, config, baseWeights } };
+  }
+  const p = b.plan;
+  if (!p || typeof p !== "object" || !allocOk(p.allocation) || !Number.isInteger(p.poolSize) || !Number.isInteger(p.reserves) || !p.weights || typeof p.weights !== "object") return null;
+  return { stage: "report", draft: null, pending: { index, label: b.label, config, baseWeights, plan: p } };
+}
+
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -27457,6 +27544,11 @@ function WW2CommandInner() {
   // outcome screen showed the wrong odds). Cleared in proceed(), so it can never leak into a
   // later, unrelated concealRoll choice's own reveal.
   const [pendingBattleResult, setPendingBattleResult] = useState(null);
+  // Saving inside a battle. battleDraftRef holds the planning screen's plan as it stands (the screen reports
+  // every change), and battleResume carries a battle put back from a save: { stage, draft } or null. See
+  // battleSnapshot, restoreBattleSave and the two battle screens' resume props.
+  const battleDraftRef = useRef(null);
+  const [battleResume, setBattleResume] = useState(null);
   const [rewinds, setRewinds] = useState(0);
   const [mode, setMode] = useState("open");
   // Grand Campaign prototype: null outside a Grand Campaign run, otherwise
@@ -27660,9 +27752,12 @@ function WW2CommandInner() {
       // commit, so the mid-battle reserve decision can still change it.
       setPendingBattle({
         index: i,
+        label: choice.label,
         config: choice.keyBattleSubgame,
         baseWeights: (choice.uncertain || []).map((u) => u.weight),
       });
+      battleDraftRef.current = null;
+      setBattleResume(null);
       setPendingBattleResult(null);
       setScreen("battleAllocation");
       return;
@@ -27800,8 +27895,19 @@ function WW2CommandInner() {
     }
   }
 
+  // The battle in hand, if there is one that can be put down: the planning screen, or the report before its
+  // verdict. After the verdict the roll is made and its effects applied, so a save there would count them twice.
+  function battleSnapshot() {
+    if (!pendingBattle) return null;
+    const head = { label: pendingBattle.label, configId: pendingBattle.config.id, baseWeights: pendingBattle.baseWeights };
+    if (screen === "battleAllocation" && battleDraftRef.current) return { stage: "allocation", ...head, draft: battleDraftRef.current };
+    if (screen === "battleResult" && !pendingBattleResult && pendingBattle.plan) return { stage: "report", ...head, plan: pendingBattle.plan };
+    return null;
+  }
+
   async function manualSave() {
     return await saveActiveRun({
+      battle: battleSnapshot() || undefined,
       version: SAVE_VERSION,
       campaignId,
       mode,
@@ -27822,6 +27928,37 @@ function WW2CommandInner() {
     setScreen("select");
     return ok;
   }
+
+  // "Save and leave the field": the battle goes into the save, and the player leaves for the menu only once
+  // the save has gone through.
+  async function leaveBattleSaved() {
+    const ok = await manualSave();
+    if (!ok) return false;
+    setPendingBattle(null);
+    setPendingBattleResult(null);
+    setBattleResume(null);
+    setScreen("select");
+    return true;
+  }
+
+  // Closing the tab or switching away mid-battle writes the same save, so the plan and the enemy's setup
+  // are not lost to the last autosave. Reads the latest render through a ref.
+  const battleExitSave = useRef(null);
+  battleExitSave.current = () => {
+    if (battleSnapshot()) manualSave();
+  };
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") battleExitSave.current();
+    };
+    const onHide = () => battleExitSave.current();
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", onHide);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", onHide);
+    };
+  }, []);
 
   async function toggleSound() {
     if (!soundOn) {
@@ -27952,6 +28089,16 @@ function WW2CommandInner() {
     setHistory(saved.history || [{ position: saved.position, flags: saved.flags, meters: saved.meters, log: saved.log }]);
     setChoiceIndex(null);
     setRollIndex(null);
+    const battle = restoreBattleSave(saved);
+    if (battle) {
+      battleDraftRef.current = battle.draft;
+      setBattleResume({ stage: battle.stage, draft: battle.draft });
+      setPendingBattleResult(null);
+      setOutcomeStage(null);
+      setPendingBattle(battle.pending);
+      setScreen(battle.stage === "report" ? "battleResult" : "battleAllocation");
+      return;
+    }
     setScreen("briefing");
   }
 
@@ -28081,10 +28228,33 @@ function WW2CommandInner() {
           onSpendInitiative={() =>
             setMeters((m) => ({ ...m, initiative: Math.max(-10, Math.min(10, m.initiative - 1)) }))
           }
+          resume={battleResume && battleResume.stage === "allocation" ? battleResume.draft : null}
+          onDraft={(d) => {
+            battleDraftRef.current = d;
+          }}
+          onSaveLeave={leaveBattleSaved}
           onCommit={(plan) => {
             setPendingBattle((pb) => ({ ...pb, plan }));
             setPendingBattleResult(null);
+            setBattleResume(null);
             setScreen("battleResult");
+            // The plan is as good as made once committed: save it, so closing the page mid-report does not
+            // send the player back to an earlier autosave.
+            saveActiveRun({
+              battle: { stage: "report", label: pendingBattle.label, configId: pendingBattle.config.id, baseWeights: pendingBattle.baseWeights, plan },
+              version: SAVE_VERSION,
+              campaignId,
+              mode,
+              favor,
+              defiance,
+              position,
+              flags,
+              meters,
+              log,
+              visited,
+              rewinds,
+              history,
+            });
           }}
         />
       )}
@@ -28098,6 +28268,8 @@ function WW2CommandInner() {
           uncertain={displayStage.choices[pendingBattle.index].uncertain}
           result={pendingBattleResult}
           soundOn={soundOn}
+          resumed={!!(battleResume && battleResume.stage === "report")}
+          onSaveLeave={leaveBattleSaved}
           onResolve={(payload) => chooseOption(pendingBattle.index, payload)}
           onContinue={() => {
             setPendingBattle(null);
