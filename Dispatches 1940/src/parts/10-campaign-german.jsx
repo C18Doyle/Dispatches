@@ -23,7 +23,7 @@
           choices: [
             {
               label: "Commit the surface fleet fully — seize every port from Narvik to Oslo at once",
-              advisor: { name: "Raeder", quote: "I am about to spend the fleet I have spent twenty years rebuilding. I do not do this lightly, and I do not see another way to do it at all." },
+              advisor: { name: "Raeder", position: "Twenty years of rebuilding the fleet are about to be spent, and no other way to do the job can be seen." },
               historical: true,
               setFlags: { norway: "full", navyStrength: "gutted" },
               impact: { manpower: 0, fuel: 1, initiative: 0 },
@@ -33,7 +33,7 @@
             },
             {
               label: "Limited landings — secure the ore ports, decline to contest Narvik directly",
-              advisor: { name: "Dönitz", quote: "Take the ore. Leave the harbor that will cost us the navy to hold. We will need that navy for the war after this one." },
+              advisor: { name: "Dönitz", position: "Take the ore and leave the harbor whose defense would cost the navy, because the navy will be needed for the war after this one." },
               setFlags: { norway: "limited", navyStrength: "preserved" },
               favor: 1,
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -57,7 +57,7 @@
           choices: [
             {
               label: "Adopt the Manstein Plan — the armored main effort goes through the Ardennes",
-              advisor: { name: "Manstein", quote: "They are watching Belgium because Belgium is where they expect us. I am not interested in meeting their expectations. I am interested in being behind their army before they notice which war they are actually fighting." },
+              advisor: { name: "Manstein", position: "The enemy watches Belgium because Belgium is where the attack is expected, and the aim is to be behind his army before he notices which war he is fighting." },
               historical: true,
               setFlags: { caseYellow: "manstein" },
               impact: { manpower: 1, fuel: 0, initiative: 1 },
@@ -277,7 +277,7 @@
             },
             {
               label: "Hold to the original plan — the main weight advances through Belgium as OKH intended",
-              advisor: { name: "Halder", quote: "Manstein's plan is either the boldest stroke in modern military history or the way we lose the panzer arm in the Ardennes traffic jam of the century. I am not yet certain which, and I do not enjoy staking France on the answer." },
+              advisor: { name: "Halder", position: "Manstein's plan is either the boldest stroke in modern military history or the way the panzer arm is lost in the Ardennes traffic jam of the century, and staking France on the answer is uncomfortable until it is known which." },
               setFlags: { caseYellow: "original" },
               favor: 1,
               impact: { manpower: -1, fuel: 0, initiative: -1 },
@@ -298,7 +298,7 @@
           choices: [
             {
               label: "Press everywhere — trade casualties for tempo, and make up in force what the plan no longer has in surprise",
-              advisor: { name: "Bock", quote: "There is no elegant answer left to us. Fight them where they expect us, in the strength they expect, and make the difference in guns and will rather than geography." },
+              advisor: { name: "Bock", position: "There is no elegant answer left: fight them where they expect the attack, in the strength they expect, and make the difference in guns and will rather than geography." },
               setFlags: { caseYellowOriginal40: "press" },
               impact: { manpower: -2, fuel: -1, initiative: 1 },
               next: "compressedInvasionWindow40",
@@ -307,7 +307,7 @@
             },
             {
               label: "Consolidate and regroup — accept a two-phase campaign, autumn's decision rather than summer's",
-              advisor: { name: "Halder", quote: "I would rather win this in October with the army still intact than win it in June and discover next year, in Russia, exactly what June cost us." },
+              advisor: { name: "Halder", position: "It is better to win in October with the army intact than in June, and to find out next year in Russia exactly what June cost." },
               setFlags: { caseYellowOriginal40: "consolidate" },
               impact: { manpower: 0, fuel: 0, initiative: -2 },
               next: "channel",
@@ -327,7 +327,7 @@
           choices: [
             {
               label: "Compress the invasion timetable — rush what the shortened season still allows",
-              advisor: { name: "Raeder", quote: "You are asking a fleet that didn't exist in June to exist by September because Paris took an extra six weeks to fall. I can produce barges on that timetable. I cannot produce the training and the weather to go with them." },
+              advisor: { name: "Raeder", position: "A fleet that did not exist in June cannot exist by September just because Paris took six extra weeks to fall. Barges can be produced on that timetable, but not the training and the weather to go with them." },
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel and shipping capacity left to rush an invasion fleet together on a compressed timetable" : undefined,
               setFlags: { compressedWindow40: "rushed" },
@@ -354,7 +354,7 @@
             },
             {
               label: "Write off any 1940 invasion outright — the season was always this tight, six weeks or not",
-              advisor: { name: "Halder", quote: "I would rather tell Berlin plainly that the season is gone than spend a fleet's worth of effort discovering it in September, with the Channel already turning." },
+              advisor: { name: "Halder", position: "It is better to tell Berlin plainly that the season is gone than to spend a fleet's worth of effort discovering it in September, with the Channel already turning." },
               favor: 1,
               setFlags: { compressedWindow40: "writeOff" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -380,7 +380,7 @@
           choices: [
             {
               label: "Order the halt — let armor rest, let the Luftwaffe finish the pocket",
-              advisor: { name: "Göring", quote: "Leave it to my Luftwaffe — the panzers need not bleed for a beach we can bomb into the sea." },
+              advisor: { name: "Göring", position: "Leave it to the Luftwaffe: the panzers need not bleed for a beach that can be bombed into the sea." },
               historical: true,
               setFlags: { dunkirk: "halt" },
               impact: { manpower: 0, fuel: 1, initiative: -1 },
@@ -390,7 +390,7 @@
             },
             {
               label: "Press the attack — push armor into the pocket immediately",
-              advisor: { name: "Guderian", quote: "The enemy is beaten and boarding ships. Every hour we rest, England's next army sails home." },
+              advisor: { name: "Guderian", position: "The enemy is beaten and boarding ships, and every hour of rest sends England's next army home." },
               setFlags: { dunkirk: "push" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -447,7 +447,7 @@
           choices: [
             {
               label: "Commit fully to Sea Lion — press Göring, build the invasion fleet",
-              advisor: { name: "Jodl", quote: "England must be made to feel the war is lost before America and Russia can make it otherwise." },
+              advisor: { name: "Jodl", position: "England must be made to feel that the war is lost before America and Russia can make it otherwise." },
               setFlags: { sealion: "commit" },
               impact: { manpower: flags.dunkirk === "push" ? 0 : -1, fuel: 0, initiative: 0 },
               next: "tannenbaum40",
@@ -458,7 +458,7 @@
             },
             {
               label: "Shift to attrition — Blitz and U-boats, quietly begin planning east",
-              advisor: { name: "Raeder", quote: "I cannot land an army across a sea I do not control. Strangle their convoys instead — that war we can actually fight." },
+              advisor: { name: "Raeder", position: "An army cannot be landed across a sea that is not controlled. The convoys should be strangled instead, the one war that can actually be fought." },
               historical: true,
               setFlags: { sealion: "attrition" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -468,7 +468,7 @@
             },
             {
               label: "Begin Barbarossa planning now — treat Britain as contained",
-              advisor: { name: "Halder", quote: "England's hope is Russia. Remove Russia, and the island is a spectator to its own defeat." },
+              advisor: { name: "Halder", position: "England's hope is Russia. Remove Russia, and the island is a spectator to its own defeat." },
               setFlags: { sealion: "east" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "tannenbaum40",
@@ -477,7 +477,7 @@
             },
             {
               label: "Launch Sea Lion in September regardless — order the crossing over every objection",
-              advisor: { name: "Göring", quote: "The RAF is finished — my reports confirm it weekly. The army need only ferry across a Channel my Luftwaffe already owns." },
+              advisor: { name: "Göring", position: "The RAF is finished, as the weekly reports confirm, and the army need only ferry across a Channel the Luftwaffe already owns." },
               setFlags: { sealion: "launched" },
               impact: { manpower: -3, fuel: -2, initiative: 1 },
               next: "sealionDisaster40",
@@ -503,7 +503,7 @@
           choices: [
             {
               label: "Leave Fall Tannenbaum in the drawer — Switzerland stays neutral",
-              advisor: { name: "Ribbentrop", quote: "A neutral is not a rival. It is a door that stays open no matter who else has stopped speaking to us. Close it and we lose more than we gain." },
+              advisor: { name: "Ribbentrop", position: "A neutral is not a rival but a door that stays open whoever else has stopped speaking to Germany, and closing it loses more than it gains." },
               historical: true,
               setFlags: { tannenbaum40: "shelved" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -513,7 +513,7 @@
             },
             {
               label: "Execute Fall Tannenbaum — eleven divisions, three axes, before winter closes the passes",
-              advisor: { name: "von Leeb", quote: "I have drawn the plan because I was ordered to draw it. I would not recommend executing it. The terrain does not care whose staff study was more thorough." },
+              advisor: { name: "von Leeb", position: "The plan was drawn because orders required it, and executing it is not recommended. The terrain does not care whose staff study was more thorough." },
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "insufficient fuel and transport left to move eleven divisions across three Alpine axes before the passes close" : undefined,
               setFlags: { tannenbaum40: "invade" },
@@ -540,7 +540,7 @@
             },
             {
               label: "Coerce without invading — demand transit rights and economic concessions under threat",
-              advisor: { name: "Göring", quote: "Why occupy a bank when you can simply insist it does business your way? Threaten them properly and Bern will find the paperwork for whatever we need." },
+              advisor: { name: "Göring", position: "Why occupy a bank when it can be made to do business on German terms? Threaten it properly and Bern will find the paperwork for whatever is needed." },
               setFlags: { tannenbaum40: "coerce" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "balkans",
@@ -570,7 +570,7 @@
           choices: [
             {
               label: "Full intervention — invade Yugoslavia and Greece before Barbarossa",
-              advisor: { name: "List", quote: "Give me the mountain corps and five weeks, and there will be no southern flank to worry about." },
+              advisor: { name: "List", position: "Given the mountain corps and five weeks, there will be no southern flank left to worry about." },
               historical: true,
               setFlags: { balkans: "full" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -580,7 +580,7 @@
             },
             {
               label: "Ignore the Balkans — launch Barbarossa on the original schedule",
-              advisor: { name: "Halder", quote: "The calendar is the enemy that never retreats. Every division we send south, winter sends two against us in December." },
+              advisor: { name: "Halder", position: "The calendar is the enemy that never retreats, and every division sent south is two that winter sends back in December." },
               setFlags: { balkans: "skip" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: "hessFlight41",
@@ -589,7 +589,7 @@
             },
             {
               label: "Limited intervention — commit minimal force to the Balkans",
-              advisor: { name: "Jodl", quote: "A reinforced corps can stiffen the Italians without unhinging the eastern timetable. Surely we can do both by halves." },
+              advisor: { name: "Jodl", position: "A reinforced corps can stiffen the Italians without unhinging the eastern timetable, so both can surely be done by halves." },
               setFlags: { balkans: "minimal" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "hessFlight41",
@@ -612,7 +612,7 @@
           choices: [
             {
               label: "Declare him insane — a lone act, disowned entirely",
-              advisor: { name: "Goebbels", quote: "A madman flew a plane. That is the whole statement, and it is the only one we give." },
+              advisor: { name: "Goebbels", position: "A madman flew a plane. That is the whole statement, and the only one to be given." },
               historical: true,
               setFlags: { hess41: "insane" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -622,7 +622,7 @@
             },
             {
               label: "Say nothing officially — let the silence do the work",
-              advisor: { name: "Ribbentrop", quote: "Every explanation we offer is a question we've admitted exists. Offer none." },
+              advisor: { name: "Ribbentrop", position: "Every explanation offered is a question admitted to exist, so none should be offered." },
               historical: false,
               setFlags: { hess41: "silent" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -632,7 +632,7 @@
             },
             {
               label: "Own it — publicly frame the flight as a sanctioned peace overture, not a rogue act",
-              advisor: { name: "Bormann", quote: "The Führer's fury is real and it is also beside the point. If we call it madness, it was madness. If we call it policy, the British have to answer a policy. Which costs them more sleep?" },
+              advisor: { name: "Bormann", position: "The Führer's fury is real and also beside the point. Call it madness and it was madness; call it policy and the British must answer a policy. The question is which costs them more sleep." },
               historical: false,
               setFlags: { hess41: "embraced" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -672,7 +672,7 @@
           choices: [
             {
               label: "Launch Mercury — take Crete from the air",
-              advisor: { name: "Student", quote: "No one has ever taken an island by air alone. That is precisely the argument for doing it — the defense cannot rehearse what has never happened." },
+              advisor: { name: "Student", position: "No one has ever taken an island by air alone, which is the very argument for doing it, because the defense cannot rehearse what has never happened." },
               historical: true,
               setFlags: { crete41: "assault" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -864,7 +864,7 @@
             },
             {
               label: "Pass on Crete — the Aegean flank can be watched, not owned",
-              advisor: { name: "Halder", quote: "An island garrison we bypass costs us reconnaissance flights. An airborne corps spent taking it costs us the only one we have." },
+              advisor: { name: "Halder", position: "An island garrison that is bypassed costs reconnaissance flights, while an airborne corps spent taking it costs the only one there is." },
               setFlags: { crete41: "pass" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "hessFlight41",
@@ -893,7 +893,7 @@
           choices: [
             {
               label: "Launch the breakout — send Bismarck and Prinz Eugen into the Atlantic",
-              advisor: { name: "Raeder", quote: "One ship, correctly used, ties down a fleet. That arithmetic has been true since the age of sail, and I do not see why it should stop being true now." },
+              advisor: { name: "Raeder", position: "One ship, correctly used, ties down a fleet. That arithmetic has been true since the age of sail and is no less true now." },
               historical: true,
               setFlags: { bismarck41: "launched" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
@@ -917,7 +917,7 @@
             },
             {
               label: "Hold Bismarck in port — the risk of losing the fleet's newest capital ship outweighs the diversion it buys",
-              advisor: { name: "Dönitz", quote: "A battleship sunk in the Atlantic ties down nothing after it sinks. I would rather have the U-boats doing quietly what one visible ship is about to try loudly and briefly." },
+              advisor: { name: "Dönitz", position: "A battleship sunk in the Atlantic ties down nothing once it sinks, and the U-boats can quietly do what one visible ship is about to try loudly and briefly." },
               setFlags: { bismarck41: "held" },
               impact: { manpower: 0, fuel: 1, initiative: 0 },
               next: "barbarossa41",
@@ -938,7 +938,7 @@
           choices: [
             {
               label: "Press the landings home — establish the beachhead whatever the cost",
-              advisor: { name: "Raeder", quote: "I have put my objection in writing so history knows the navy's opinion. Now I will lose the navy proving it." },
+              advisor: { name: "Raeder", position: "The objection is in writing so that history knows the navy's opinion, and the navy will now be lost proving it." },
               impact: { manpower: -3, fuel: 0, initiative: 1 },
               next: "sealionAftermath40",
               uncertain: [
@@ -962,7 +962,7 @@
             },
             {
               label: "Abort at sea — recall the fleet mid-crossing",
-              advisor: { name: "Halder", quote: "There is no dignity left in this operation, only arithmetic. Recall them while the arithmetic still counts living men." },
+              advisor: { name: "Halder", position: "No dignity is left in this operation, only arithmetic, and the men should be recalled while the arithmetic still counts the living." },
               setFlags: { sealionSeverity: "aborted" },
               impact: { manpower: -1, fuel: 0, initiative: -1 },
               next: "sealionAftermath40",
@@ -986,7 +986,7 @@
           choices: [
             {
               label: "Name it plainly — a failed operation, reported with the losses attached",
-              advisor: { name: "Goebbels", quote: "I can sell resolve. I cannot sell a lie this size to a public that will count the empty barracks themselves within the month. Tell them enough of the truth that the rest of it holds." },
+              advisor: { name: "Goebbels", position: "Resolve can be sold, but not a lie this size, to a public that will count the empty barracks within the month. Tell them enough of the truth that the rest of it holds." },
               setFlags: { sealionAftermath: "honest" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -996,7 +996,7 @@
             },
             {
               label: "Bury it — reassign the survivors quietly, control the story completely",
-              advisor: { name: "Hitler", quote: "This did not happen the way the navy's memoranda say it happened. See that the newspapers understand the difference." },
+              advisor: { name: "Hitler", position: "This did not happen the way the navy's memoranda say it happened, and the newspapers must understand the difference." },
               setFlags: { sealionAftermath: "buried" },
               favor: -1,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -1006,7 +1006,7 @@
             },
             {
               label: "Make Raeder the story — the Kriegsmarine's objections become the official explanation",
-              advisor: { name: "Raeder", quote: "I wrote the objection. I did not write the order. If a name is needed for this, I would ask that it at least be an honest one." },
+              advisor: { name: "Raeder", position: "The objection was written but the order was not, and if a name is needed for this it should at least be an honest one." },
               setFlags: { sealionAftermath: "scapegoat", raederStanding: "damaged" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "tannenbaum40",
@@ -1029,7 +1029,7 @@
           choices: [
             {
               label: "Launch Barbarossa as planned",
-              advisor: { name: "Halder", quote: "The Wehrmacht is at its peak and the Red Army at its nadir. History does not hold doors open — it slams them." },
+              advisor: { name: "Halder", position: "The Wehrmacht is at its peak and the Red Army at its nadir, and history does not hold doors open but slams them." },
               historical: true,
               setFlags: { barbarossa: "launched" },
               impact: { manpower: -3, fuel: 0, initiative: 0 },
@@ -1039,7 +1039,7 @@
             },
             {
               label: "Postpone one year — invade in May 1942 with deeper preparation",
-              advisor: { name: "Jodl", quote: "A year buys us trucks, winter equipment, and trained replacements. What it buys them, the assessments say, is less." },
+              advisor: { name: "Jodl", position: "A year buys trucks, winter equipment and trained replacements, and the assessments say it buys the enemy less." },
               setFlags: { barbarossa: "postponed" },
               favor: 1,
               impact: { manpower: 1, fuel: -2, initiative: -1 },
@@ -1049,7 +1049,7 @@
             },
             {
               label: "Cancel Barbarossa outright — there will be no eastern war",
-              advisor: { name: "Raeder", quote: "The enemy is in London, not Moscow. Strangle the island, take the Mediterranean, and let Stalin sell us the oil to do it." },
+              advisor: { name: "Raeder", position: "The enemy is in London, not Moscow. Strangle the island, take the Mediterranean, and let Stalin sell the oil to do it." },
               setFlags: { barbarossa: "cancelled", pathVariant: "noBarbarossa" },
               favor: 2,
               impact: { manpower: 3, fuel: 2, initiative: -1 },
@@ -1059,7 +1059,7 @@
             },
             {
               label: "Delay Barbarossa — resource a full Mediterranean campaign this summer, launch east in autumn",
-              advisor: { name: "Raeder", quote: "Not cancellation — sequence. Take Suez while the desert is thin, then turn east with the season's spoils and the Mediterranean closed behind you." },
+              advisor: { name: "Raeder", position: "The case is for sequence, not cancellation: take Suez while the desert is thin, then turn east with the season's spoils and the Mediterranean closed behind." },
               setFlags: { barbarossa: "medFirst" },
               favor: 2,
               impact: { manpower: 0, fuel: -1, initiative: 1 },
@@ -1080,7 +1080,7 @@
           choices: [
             {
               label: "Commit fully — take Suez this summer, whatever it costs the autumn campaign east",
-              advisor: { name: "Rommel", quote: "Give me the whole summer and the fuel that was going to Russia, and I will hand you the Canal before the leaves turn." },
+              advisor: { name: "Rommel", position: "Given the whole summer and the fuel that was going to Russia, the Canal can be delivered before the leaves turn." },
               setFlags: { suez41: "taken" },
               impact: { manpower: -1, fuel: 1, initiative: 0 },
               next: "barbarossaAutumn41",
@@ -1089,7 +1089,7 @@
             },
             {
               label: "Partial effort — improve the desert position without full commitment",
-              advisor: { name: "Halder", quote: "Take what the desert gives easily. Do not trade the whole eastern calendar for a canal, however tempting the canal." },
+              advisor: { name: "Halder", position: "Take what the desert gives easily, and do not trade the whole eastern calendar for a canal, however tempting." },
               setFlags: { suez41: "partial" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "barbarossaAutumn41",
@@ -1109,7 +1109,7 @@
           choices: [
             {
               label: "Launch anyway — the ideological commitment cannot be delayed further",
-              advisor: { name: "Halder", quote: "I have run every version of this calendar. None of them are good. This is the one we have left." },
+              advisor: { name: "Halder", position: "Every version of this calendar has been run, none is good, and this is the one that is left." },
               setFlags: { eastFront: "lateAutumn" },
               impact: { manpower: -2, fuel: -1, initiative: 2 },
               next: "rostov41",
@@ -1118,7 +1118,7 @@
             },
             {
               label: "Stand down for this year — hold the Mediterranean gains, revisit next spring",
-              advisor: { name: "Raeder", quote: "The season is gone and pretending otherwise will not bring it back. Take what the desert gave us and wait for a calendar that doesn't guarantee failure." },
+              advisor: { name: "Raeder", position: "The season is gone and pretending otherwise will not bring it back. Take what the desert gave and wait for a calendar that does not guarantee failure." },
               setFlags: { barbarossa: "delayed2", pathVariant: "noBarbarossa" },
               favor: 2,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -1139,7 +1139,7 @@
           choices: [
             {
               label: "Press Tokyo hard for Kantokuen — a northern strike against Siberia",
-              advisor: { name: "Ribbentrop", quote: "Every division Japan pins in Manchuria is a division that does not detrain in front of Moscow in December. I have told them this. I will tell them again." },
+              advisor: { name: "Ribbentrop", position: "Every division Japan pins in Manchuria is one that does not detrain in front of Moscow in December. Tokyo has been told so and will be told again." },
               setFlags: { japan: "pressNorth" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "moscowKiev",
@@ -1163,7 +1163,7 @@
             },
             {
               label: "Let Tokyo choose freely — spend no diplomatic capital pressuring an ally's strategy",
-              advisor: { name: "Weizsäcker", quote: "We cannot order Tokyo's general staff any more than they can order ours. Save the favors we're owed for a request they can in fact grant." },
+              advisor: { name: "Weizsäcker", position: "Tokyo's general staff can no more be ordered than Berlin's can, so the favors owed should be saved for a request Japan can actually grant." },
               setFlags: { japan: "noPress" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "moscowKiev",
@@ -1186,7 +1186,7 @@
           choices: [
             {
               label: "Press on toward the Volga — pursue the relocated government",
-              advisor: { name: "Guderian", quote: "We have taken the head. I do not trust a war that keeps growing a new one every time we do." },
+              advisor: { name: "Guderian", position: "The head has been taken, but a war that grows a new one each time one is taken cannot be trusted." },
               setFlags: { moscowCaptured: true, pursuit: "volga" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
               next: "sovietFracture42",
@@ -1211,7 +1211,7 @@
             },
             {
               label: "Consolidate — hold Moscow, declare the symbolic victory, let winter set the pace",
-              advisor: { name: "Bock", quote: "We have won the headline. Let us not lose the army proving the headline was true." },
+              advisor: { name: "Bock", position: "The headline has been won, and the army should not be lost proving the headline true." },
               setFlags: { moscowCaptured: true, pursuit: "consolidate" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "sovietFracture42",
@@ -1231,7 +1231,7 @@
           choices: [
             {
               label: "Order an immediate withdrawal to defensible winter lines — cut losses now",
-              advisor: { name: "Guderian", quote: "I asked for pursuit. I did not ask for Napoleon's weather to also agree with the plan. Pull them back before the choice is made for us." },
+              advisor: { name: "Guderian", position: "Pursuit was what was asked for, not Napoleon's weather as well. The army should be pulled back before the choice is made for it." },
               historical: false,
               setFlags: { volgaOverreach42: "withdraw" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -1241,7 +1241,7 @@
             },
             {
               label: "Press on regardless — the government is close enough to be worth the risk",
-              advisor: { name: "Hitler", quote: "Halt now and the whole advance since June was theater. Finish what the pursuit started." },
+              advisor: { name: "Hitler", position: "Halting now would make the whole advance since June theater, so what the pursuit began must be finished." },
               historical: false,
               setFlags: { volgaOverreach42: "press" },
               impact: { manpower: -3, fuel: -1, initiative: 0 },
@@ -1269,7 +1269,7 @@
           choices: [
             {
               label: "Press the political collapse — demand capitulation in the east while the shock is total",
-              advisor: { name: "Ribbentrop", quote: "States are ideas held together by belief. Their capital is gone, their leader governs from a river town, and belief is exactly what winters like this one are for breaking." },
+              advisor: { name: "Ribbentrop", position: "States are ideas held together by belief. With the capital gone and the leader governing from a river town, belief is exactly what winters like this one are for breaking." },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "fractureResolution42",
               uncertain: [
@@ -1293,7 +1293,7 @@
             },
             {
               label: "No demands — consolidate the winter line and let the capture speak militarily",
-              advisor: { name: "Bock", quote: "We have taken their capital. Asking them to notice it louder will not improve the road conditions or the temperature." },
+              advisor: { name: "Bock", position: "The capital has been taken, and asking the enemy to notice louder will not improve the road conditions or the temperature." },
               setFlags: { sovietState: "holds" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "pearlHarbor",
@@ -1318,7 +1318,7 @@
               ? [
                   {
                     label: "Accept the Volga armistice — the eastern war ends on the line where it stands",
-                    advisor: { name: "Halder", quote: "I have spent a year watching this army bleed toward a decision. If a decision is truly on this table, take it before winter or arithmetic withdraws the offer." },
+                    advisor: { name: "Halder", position: "A year has been spent watching this army bleed toward a decision. If one is really on the table, it should be taken before winter, or arithmetic withdraws the offer." },
                     setFlags: { pathVariant: "eastArmistice" },
                     impact: { manpower: 2, fuel: 1, initiative: 0 },
                     next: "volgaAftermath42",
@@ -1327,7 +1327,7 @@
                   },
                   {
                     label: "Reject the terms — press beyond the Volga for total collapse",
-                    advisor: { name: "Jodl", quote: "A fractured state is a state that can re-set. Half a decision in the east is how this war began needing one." },
+                    advisor: { name: "Jodl", position: "A fractured state can re-set, and half a decision in the east is how this war came to need one." },
                     setFlags: { pathVariant: "eastOverreach" },
                     impact: { manpower: -2, fuel: -2, initiative: 0 },
                     next: "pearlHarbor",
@@ -1338,7 +1338,7 @@
               : [
                   {
                     label: "Hold the forward line at Moscow through the winter",
-                    advisor: { name: "Kluge", quote: "We took it. We hold it. An army that captures a capital and then leaves it has explained something to both sides." },
+                    advisor: { name: "Kluge", position: "It was taken and it is held, and an army that captures a capital and then leaves it has explained something to both sides." },
                     setFlags: { winterCrisis: "holdMoscow" },
                     impact: { manpower: -1, fuel: 0, initiative: 0 },
                     next: "pearlHarbor",
@@ -1347,7 +1347,7 @@
                   },
                   {
                     label: "Pull back to a prepared winter line west of the city",
-                    advisor: { name: "Rundstedt", quote: "The city was the prize of 1941. It does not have to be the graveyard of 1942." },
+                    advisor: { name: "Rundstedt", position: "The city was the prize of 1941 and need not be the graveyard of 1942." },
                     setFlags: { winterCrisis: "withdrawMoscow" },
               favor: 1,
                     impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -1369,7 +1369,7 @@
           choices: [
             {
               label: "Turn the freed divisions west — concentrate everything against Britain and the coming American buildup",
-              advisor: { name: "Jodl", quote: "We have spent this entire war fighting two enemies with strength meant for one. For the first time, we can fight one enemy with strength meant for two. I would like to find out what that actually does before the Americans finish arming." },
+              advisor: { name: "Jodl", position: "The whole war has been fought against two enemies with strength meant for one. For the first time one enemy can be fought with strength meant for two, and what that does should be found out before the Americans finish arming." },
               historical: false,
               setFlags: { volgaAftermath42: "west" },
               favor: -1,
@@ -1380,7 +1380,7 @@
             },
             {
               label: "Hold everything in place — consolidate the diminished war rather than escalate a different one",
-              advisor: { name: "Weizsäcker", quote: "We have an armistice, not a victory, and an armistice this speculative survives exactly as long as nobody tests what it's actually worth. I would rather administer what we have than gamble it finding out." },
+              advisor: { name: "Weizsäcker", position: "An armistice is not a victory, and one this speculative survives exactly as long as nobody tests what it is worth. It is better to administer what exists than to gamble it finding out." },
               historical: false,
               setFlags: { volgaAftermath42: "hold" },
               favor: 1,
@@ -1402,7 +1402,7 @@
           choices: [
             {
               label: "Launch the 1942 invasion",
-              advisor: { name: "Halder", quote: "We are stronger than we were. I have stopped being certain that is the correct comparison." },
+              advisor: { name: "Halder", position: "Germany is stronger than it was, though it is no longer certain that this is the right comparison." },
               setFlags: { east42: "launched" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
               next: "blackMay",
@@ -1425,7 +1425,7 @@
             },
             {
               label: "Refuse the throw — stand the invasion down permanently",
-              advisor: { name: "Raeder", quote: "A year ago this was a gamble. Today it is a donation. Keep the army and let the truce keep us." },
+              advisor: { name: "Raeder", position: "A year ago this was a gamble and today it is a donation. Keep the army and let the truce keep Germany." },
               setFlags: { east42: "cancelled", pathVariant: "noBarbarossa" },
               favor: 2,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -1446,7 +1446,7 @@
           choices: [
             {
               label: "Commit to the siege of Britain — U-boats, air pressure, and time",
-              advisor: { name: "Dönitz", quote: "Give me the boats Barbarossa's steel would have eaten, and I will show you what the tonnage war looks like when it is actually funded." },
+              advisor: { name: "Dönitz", position: "Given the boats that Barbarossa's steel would have eaten, the tonnage war can be shown as it looks when it is actually funded." },
               setFlags: { truce41: "siege" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "pearlHarbor",
@@ -1455,7 +1455,7 @@
             },
             {
               label: "Prepare the Mediterranean strategy — the periphery is now the war",
-              advisor: { name: "Raeder", quote: "Gibraltar, Malta, Suez. Close the sea at both ends and the British Empire becomes two empires, neither of which can reach us." },
+              advisor: { name: "Raeder", position: "Gibraltar, Malta and Suez: close the sea at both ends and the British Empire becomes two empires, neither able to reach Germany." },
               setFlags: { truce41: "mediterranean" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: "pearlHarbor",
@@ -1480,7 +1480,7 @@
           choices: [
             {
               label: "Operation Felix — bring Spain in and take Gibraltar",
-              advisor: { name: "Jodl", quote: "The Rock falls to siege artillery and mountain corps in a month — every study agrees. The only fortification that matters is Franco's signature." },
+              advisor: { name: "Jodl", position: "The Rock falls to siege artillery and mountain corps in a month, as every study agrees, and the only fortification that matters is Franco's signature." },
               setFlags: { med41: "gibraltar" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
               next: "bomberWar43",
@@ -1505,7 +1505,7 @@
             },
             {
               label: "The Suez axis — an army, not a corps, into North Africa",
-              advisor: { name: "Rommel", quote: "Every battle I have fought here was won or lost by a supply column. Send me a real army with a real fleet behind it, and Cairo is a staging area, not a dream." },
+              advisor: { name: "Rommel", position: "Every battle fought here was won or lost by a supply column. Give a real army with a real fleet behind it, and Cairo becomes a staging area, not a dream." },
               setFlags: { med41: "suez" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
               next: "suezHorizon42",
@@ -1514,7 +1514,7 @@
             },
             {
               label: "Neither — hold the truce lines everywhere and dare the Allies to come to you",
-              advisor: { name: "Rundstedt", quote: "We hold Europe from the Pyrenees to the Bug. Let them study the problem of assaulting it. I have studied it; I would not enjoy the assignment." },
+              advisor: { name: "Rundstedt", position: "Europe is held from the Pyrenees to the Bug, and the enemy can study the problem of assaulting it. The study has been made, and the assignment would not be enjoyed." },
               setFlags: { med41: "fortress" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
               next: "bomberWar43",
@@ -1534,7 +1534,7 @@
           choices: [
             {
               label: "Redirect the staged weight south — feed it into the Suez axis instead",
-              advisor: { name: "Rommel", quote: "Spain's door is closed. Egypt's is not. Send me what was waiting on the wrong side of the Pyrenees and I will find a use for every division of it." },
+              advisor: { name: "Rommel", position: "Spain's door is closed and Egypt's is not. Send what waited on the wrong side of the Pyrenees and every division of it will find a use." },
               historical: false,
               setFlags: { gibraltarStalled42: "redirect" },
               favor: 1,
@@ -1545,7 +1545,7 @@
             },
             {
               label: "Keep the pressure staged — Franco's calculation can still change",
-              advisor: { name: "Ribbentrop", quote: "He has not said no. He has said not yet. A staged corps at his border is the most persuasive diplomatic instrument this office has ever been given, and I intend to keep using it." },
+              advisor: { name: "Ribbentrop", position: "Franco has not said no but not yet, and a staged corps on his border is the most persuasive diplomatic instrument this office has ever been given, one it intends to keep using." },
               historical: true,
               setFlags: { gibraltarStalled42: "wait" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
@@ -1566,7 +1566,7 @@
           choices: [
             {
               label: "Pay Franco's full price — Morocco, and a real alliance, not a favor owed",
-              advisor: { name: "Ribbentrop", quote: "He wants an empire, not a thank-you note. Give it to him, and Spain stops being a neutral we bribe and starts being an ally we can actually plan around." },
+              advisor: { name: "Ribbentrop", position: "He wants an empire, not a thank-you note. Give it, and Spain stops being a neutral to be bribed and becomes an ally to plan around." },
               historical: false,
               setFlags: { iberianQuestion42: "payFull" },
               impact: { manpower: -1, fuel: 1, initiative: 0 },
@@ -1576,7 +1576,7 @@
             },
             {
               label: "Pay the minimum — grain and oil as promised, decline the territorial ask",
-              advisor: { name: "Jodl", quote: "We paid for a fortress, not an empire. Handing him Morocco makes an enemy of every French colonial administrator who might otherwise have stayed quiet." },
+              advisor: { name: "Jodl", position: "A fortress was paid for, not an empire, and handing over Morocco makes an enemy of every French colonial administrator who might otherwise have stayed quiet." },
               setFlags: { iberianQuestion42: "payMinimum" },
               impact: { manpower: 1, fuel: -1, initiative: 0 },
               next: "bomberWar43",
@@ -1597,7 +1597,7 @@
           choices: [
             {
               label: "Push for Basra and the Persian oil fields — spend the momentum while it exists",
-              advisor: { name: "Rommel", quote: "I have taken more with less my entire career. Give me the fuel this theater has finally earned, and I will show you what a supply line can do when it is not being fed to another front." },
+              advisor: { name: "Rommel", position: "More has been taken with less all along. Give the fuel this theater has finally earned, and the result will show what a supply line does when it is not fed to another front." },
               setFlags: { suezHorizon42: "push" },
               impact: { manpower: -2, fuel: -2, initiative: 0 },
               next: "bomberWar43",
@@ -1620,7 +1620,7 @@
             },
             {
               label: "Consolidate at the Canal — Egypt is the prize, and it's a real one without Persia",
-              advisor: { name: "Kesselring", quote: "We hold the Suez Canal. I would like to enjoy that fact for one full season before we ask it to also be the start of a second desert war further from home than the first." },
+              advisor: { name: "Kesselring", position: "The Suez Canal is held, and the fact deserves one full season of enjoyment before it is asked to be the start of a second desert war further from home than the first." },
               setFlags: { suezHorizon42: "consolidate" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -1645,7 +1645,7 @@
           choices: [
             {
               label: "Fighter-first — turn the Luftwaffe into a defensive weapon and make the sky unaffordable",
-              advisor: { name: "Galland", quote: "Give me the fighters and the fuel, and daylight over the Reich becomes a place American crews write home about with dread." },
+              advisor: { name: "Galland", position: "Given the fighters and the fuel, daylight over the Reich becomes a place American crews write home about with dread." },
               setFlags: { bomber43: "fighters" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -1655,7 +1655,7 @@
             },
             {
               label: "Retaliate — vengeance weapons and a renewed Blitz against British cities",
-              advisor: { name: "Göring", quote: "They will stop burning our cities when theirs burn brighter. Terror is a currency; let us not be the only ones paying it." },
+              advisor: { name: "Göring", position: "They will stop burning German cities when theirs burn brighter. Terror is a currency, and Germany should not be the only one paying it." },
               setFlags: { bomber43: "retaliation" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: "uranverein43",
@@ -1664,7 +1664,7 @@
             },
             {
               label: "Go underground — disperse and harden industry against a bombing war measured in years",
-              advisor: { name: "Speer", quote: "The factories they can see, they will destroy. I am proposing factories they cannot see." },
+              advisor: { name: "Speer", position: "The factories the enemy can see, he will destroy. The proposal is factories he cannot see." },
               setFlags: { bomber43: "dispersal" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "uranverein43",
@@ -1687,7 +1687,7 @@
           choices: [
             {
               label: "Fund it at scale — a German Manhattan, whatever it costs the rest of the budget",
-              advisor: { name: "Heisenberg", quote: "I will tell you what I told the Council in 'forty-two, and I would rather you heard it before signing than after. The physics permits this. The calendar does not. If you want a reactor, I can give you a reactor. If you want a weapon, ask someone willing to promise you a year he cannot deliver." },
+              advisor: { name: "Heisenberg", position: "The physics permits a reactor, but the calendar does not permit a weapon. Whoever wants a reactor can have one, and whoever wants a weapon should ask someone willing to promise a year that cannot be delivered." },
               setFlags: { uranverein43: "committed" },
               favor: -1,
               impact: { manpower: -2, fuel: -2, initiative: 1 },
@@ -1697,7 +1697,7 @@
             },
             {
               label: "Fund the reactor work only — keep the physics alive, spend nothing on a weapon that isn't coming",
-              advisor: { name: "Speer", quote: "I asked Heisenberg in June what he needed and how long. His answer told me everything: a man who wants a weapons program does not answer a question about deadlines that carefully. We will fund the science and we will arm with what exists." },
+              advisor: { name: "Speer", position: "Heisenberg was asked in June what he needed and how long, and the care of his answer on deadlines said everything, because a man who wants a weapons program does not answer that carefully. Fund the science and arm with what exists." },
               historical: true,
               setFlags: { uranverein43: "reactorOnly" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -1707,7 +1707,7 @@
             },
             {
               label: "Shut it down entirely — release every physicist and every gram of heavy water to conventional work",
-              advisor: { name: "Speer", quote: "Half a program is a way of paying for a thing twice. Either it wins the war or it is a laboratory, and if it is a laboratory it can wait for a peace." },
+              advisor: { name: "Speer", position: "Half a program pays twice for a thing. Either it wins the war or it is a laboratory, and a laboratory can wait for peace." },
               setFlags: { uranverein43: "shutDown" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
               next: "invasionQuestion44",
@@ -1727,7 +1727,7 @@
           choices: [
             {
               label: "Meet it at the water — full Atlantic Wall doctrine, the intact army forward on every likely beach",
-              advisor: { name: "Rommel", quote: "For once I am not asking to gamble everything on the first day. I am asking to use an army large enough that the first day was never going to be the only one that mattered." },
+              advisor: { name: "Rommel", position: "For once the request is not to gamble everything on the first day, but to use an army large enough that the first day was never going to be the only one that mattered." },
               setFlags: { invasionQuestion44: "waterline" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: "easternQuestion44",
@@ -1751,7 +1751,7 @@
             },
             {
               label: "Hold the intact army as a mobile reserve — let any lodgment happen, then destroy it inland",
-              advisor: { name: "Guderian", quote: "Let them spend their navy putting men on a beach we were never going to hold at the waterline regardless. I would rather destroy an army than a landing craft." },
+              advisor: { name: "Guderian", position: "Let them spend their navy putting men on a beach that was never going to be held at the waterline anyway. It is better to destroy an army than a landing craft." },
               setFlags: { invasionQuestion44: "reserve" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -1772,7 +1772,7 @@
           choices: [
             {
               label: "Press the reduction to unconditional surrender — no evacuation permitted",
-              advisor: { name: "the OKW staff", quote: "A negotiated withdrawal here becomes the story Britain tells about this attempt. An unconditional end to it becomes the story we tell." },
+              advisor: { name: "The OKW staff", position: "A negotiated withdrawal becomes the story Britain tells about this attempt, and an unconditional end becomes the story Germany tells." },
               setFlags: { lodgmentReduction44: "total" },
               favor: -1,
               impact: { manpower: -1, fuel: 0, initiative: 1 },
@@ -1782,7 +1782,7 @@
             },
             {
               label: "Allow a negotiated evacuation — let the Royal Navy pull what's left off the beach",
-              advisor: { name: "Rommel", quote: "They will remember that we let them leave. I am not certain that costs us anything the historical record didn't already decide, and I am certain it costs fewer of my own men to find out." },
+              advisor: { name: "Rommel", position: "They will remember that the landing force was let leave. It is doubtful that this costs anything the historical record had not already decided, and it certainly costs fewer German men to find out." },
               setFlags: { lodgmentReduction44: "evacuation" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -1803,7 +1803,7 @@
           choices: [
             {
               label: "Strike first — launch the eastern war now, before the imbalance grows worse",
-              advisor: { name: "Jodl", quote: "Every year we waited, the assessments worsened. There is no version of 1946 in this folder that is better than 1944. That is the entire argument." },
+              advisor: { name: "Jodl", position: "The assessments worsened with every year of waiting, and no version of 1946 in the folder is better than 1944. That is the entire argument." },
               setFlags: { eastern44: "preempt" },
               impact: { manpower: -3, fuel: -2, initiative: 1 },
               next: "atomicReckoning45",
@@ -1812,7 +1812,7 @@
             },
             {
               label: "Fortify and deter — build the eastern wall and hold the truce at gunpoint",
-              advisor: { name: "Heinrici", quote: "I cannot tell you what Stalin intends. I can make his general staff's estimate of the cost so large that intentions stop mattering." },
+              advisor: { name: "Heinrici", position: "What Stalin intends cannot be known, but his general staff's estimate of the cost can be made so large that intentions stop mattering." },
               setFlags: { eastern44: "deter" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "atomicReckoning45",
@@ -1840,7 +1840,7 @@
             },
             {
               label: "Pay the price — deepen the economic settlement and buy the truce outright",
-              advisor: { name: "Ribbentrop", quote: "Moscow sells us the means to survive and we sell Moscow time. It is an ugly arrangement between honest enemies — the most stable kind." },
+              advisor: { name: "Ribbentrop", position: "Moscow sells the means to survive and Berlin sells Moscow time, an ugly arrangement between honest enemies and the most stable kind." },
               setFlags: { eastern44: "appease" },
               favor: 2,
               impact: { manpower: 0, fuel: 1, initiative: 0 },
@@ -1868,7 +1868,7 @@
           choices: [
             {
               label: "Seek terms now — end the war before the new weapon speaks",
-              advisor: { name: "Speer", quote: "I have read every report on our own atomic program, which is how I know to fear theirs. A war we cannot win at any speed should end at the fastest one." },
+              advisor: { name: "Speer", position: "Every report on the German atomic program has been read, which is how the fear of the enemy's came. A war that cannot be won at any speed should end at the fastest one." },
               setFlags: { atomic45: "terms" },
               favor: 2,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -1878,7 +1878,7 @@
             },
             {
               label: "Fight on — the fortress has withstood everything else",
-              advisor: { name: "Keitel", quote: "The fortress holds. Whatever new bomb they have built, cities have burned before and the Reich stands. We do not surrender to a rumor." },
+              advisor: { name: "Keitel", position: "The fortress holds. Whatever new bomb they have built, cities have burned before and the Reich stands, and Germany does not surrender to a rumor." },
               setFlags: { atomic45: "fightOn" },
               impact: { manpower: -2, fuel: 0, initiative: -1 },
               next: "END",
@@ -1887,7 +1887,7 @@
             },
             {
               label: "Race for parity — everything into the German atomic program, and hold out for a balance of terror",
-              advisor: { name: "Heisenberg", quote: "You are asking me for years, and offering me months. I will take the funding. I will not take responsibility for the calendar." },
+              advisor: { name: "Heisenberg", position: "Years are being asked for and months offered. The funding will be taken, but not responsibility for the calendar." },
               setFlags: { atomic45: "race" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: "END",
@@ -1898,7 +1898,7 @@
               {
                 label: "Contest the delivery — everything the fighter arm has, held at altitude, for the single aircraft nobody can afford to let through",
                 disabledReason: flags.bomber43 === "fighters" && (meters.fuel || 0) >= 2 ? undefined : "Requires a reserved fighter arm and Matériel +2 — jets held at altitude need fuel nobody else is getting",
-                advisor: { name: "Galland", quote: "I have spent two years being told the jets were a bomber. Now you want them to be an interceptor at forty thousand feet against one aeroplane we cannot identify in advance, on a day we will not be told about. It is the only mission I have been given in this war that is worth attempting and cannot be planned for." },
+                advisor: { name: "Galland", position: "Two years of being told the jets were bombers have given way to a request that they intercept, at forty thousand feet, one aircraft that cannot be identified in advance, on a day that will not be announced. It is the only mission of the war worth attempting, and one that cannot be planned for." },
                 setFlags: { atomic45: "contestDelivery" },
                 impact: { manpower: -1, fuel: -3, initiative: -2 },
                 next: "END",
@@ -1928,7 +1928,7 @@
               {
                 label: "Disperse everything — evacuate the cities, bury the industry, make the fortress too diffuse for any single weapon to be decisive",
                 disabledReason: (meters.manpower || 0) >= 5 && (meters.fuel || 0) >= 3 ? undefined : "Requires Manpower +5, Matériel +3 — moving a country needs a country still able to move",
-                advisor: { name: "Speer", quote: "I moved aircraft production underground while it was being bombed daily, and I can move the rest. Understand precisely what I am offering: not a way to win, and not a way to survive. A way for this to take longer. If that is what is wanted it can be had, and it will be paid for by people nobody is going to consult." },
+                advisor: { name: "Speer", position: "Aircraft production was moved underground while it was being bombed daily, and the rest can be moved too. What is offered is not a way to win or a way to survive but a way for this to take longer, paid for by people nobody will consult." },
                 setFlags: { atomic45: "disperse", dispersedReich45: true },
                 favor: 2,
                 impact: { manpower: -2, fuel: -3, initiative: -3 },
@@ -1955,7 +1955,7 @@
             const base = [
               {
                 label: "Press directly for Moscow — exploit the momentum now",
-                advisor: { name: "Guderian", quote: "Moscow is the head and the heart and the railway junction of everything. Kiev is a detour dressed as a victory." },
+                advisor: { name: "Guderian", position: "Moscow is the head, the heart and the railway junction of everything, and Kiev is a detour dressed as a victory." },
                 setFlags: { eastFront: "moscow" },
               favor: 1,
                 impact: { manpower: -3, fuel: -1, initiative: -1 },
@@ -1965,7 +1965,7 @@
               },
               {
                 label: "Divert south — encircle and destroy the Kiev pocket first",
-                advisor: { name: "Hitler", quote: "My generals understand nothing of the economics of war. The grain of Ukraine, the industry of the Donets — that is what we are here for." },
+                advisor: { name: "Hitler", position: "The generals understand nothing of the economics of war. The grain of Ukraine and the industry of the Donets are what the war is for." },
                 historical: true,
                 setFlags: { eastFront: "kiev" },
                 impact: { manpower: 3, fuel: 0, initiative: -1 },
@@ -1986,7 +1986,7 @@
               },
               {
                 label: "Split forces — partial support south, partial momentum toward Moscow",
-                advisor: { name: "Bock", quote: "If we must have both, let neither be starved entirely — though I confess I have never seen half a spearhead pierce anything." },
+                advisor: { name: "Bock", position: "If both objectives must be had, neither should be starved entirely, though half a spearhead has never been seen to pierce anything." },
                 setFlags: { eastFront: "split" },
                 impact: { manpower: -2, fuel: 0, initiative: -1 },
                 next: "rostov41",
@@ -1997,7 +1997,7 @@
             if (flags.sealion === "east" && flags.balkans === "skip") {
               base.push({
                 label: "Attempt both — encircle Kiev while sustaining a real secondary thrust on Moscow",
-                advisor: { name: "Halder", quote: "For once the calendar owes US weeks. Spend the debt now, while it exists — it will not survive the winter." },
+                advisor: { name: "Halder", position: "For once the calendar owes Germany weeks. The debt should be spent now while it exists, because it will not survive the winter." },
                 setFlags: { eastFront: "doubleEnvelopment" },
                 impact: { manpower: -1, fuel: -2, initiative: 0 },
                 next: "doubleEnvelopment",
@@ -2019,7 +2019,7 @@
           choices: [
             {
               label: "Commit fully to both objectives at once",
-              advisor: { name: "Guderian", quote: "You have handed me the impossible with the fuel to attempt it. I will not pretend I am not tempted." },
+              advisor: { name: "Guderian", position: "The impossible has been handed over together with the fuel to attempt it, and the temptation is not denied." },
               setFlags: { doubleEnvelopment: "committed" },
               impact: { manpower: 1, fuel: 0, initiative: 1 },
               next: "rostov41",
@@ -2028,7 +2028,7 @@
             },
             {
               label: "Hedge — secure Kiev properly, accept a thinner secondary push",
-              advisor: { name: "Bock", quote: "Prudence, gentlemen. The advantage will keep." },
+              advisor: { name: "Bock", position: "Prudence is called for, because the advantage will keep." },
               setFlags: { doubleEnvelopment: "hedged" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "rostov41",
@@ -2048,7 +2048,7 @@
           choices: [
             {
               label: "Keep pushing for Moscow regardless — treat the flank as a secondary problem",
-              advisor: { name: "Guderian", quote: "Flank attacks are the price of every deep advance in history. Moscow pays for them all." },
+              advisor: { name: "Guderian", position: "Flank attacks are the price of every deep advance in history, and Moscow pays for them all." },
               setFlags: { winterCrisis: "pushed" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: "moscowRace41",
@@ -2057,7 +2057,7 @@
             },
             {
               label: "Halt the Moscow drive to deal with the flank threat now",
-              advisor: { name: "Halder", quote: "We are conducting the Kiev battle after all — merely later, under fire, and on the enemy's terms." },
+              advisor: { name: "Halder", position: "The Kiev battle is being conducted after all, merely later, under fire, and on the enemy's terms." },
               setFlags: { winterCrisis: "divertedLate" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "pearlHarbor",
@@ -2066,7 +2066,7 @@
             },
             {
               label: "Order a full withdrawal to consolidate a defensible line — abandon the offensive entirely",
-              advisor: { name: "Rundstedt", quote: "The only sound strategy left this year is the one no one in Rastenburg will say aloud: stop." },
+              advisor: { name: "Rundstedt", position: "The only sound strategy left this year is the one no one at Rastenburg will say aloud: stop." },
               setFlags: { winterCrisis: "withdrew", pathVariant: "staticEast" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "pearlHarbor",
@@ -2089,7 +2089,7 @@
           choices: [
             {
               label: "Commit everything forward — armor, fuel, and air support, all of it, now",
-              advisor: { name: "Guderian", quote: "I have spent this campaign asking for exactly this and being told to wait for a better moment. There will not be a better moment. Spend it." },
+              advisor: { name: "Guderian", position: "This is exactly what was asked for throughout the campaign and refused until a better moment. There will be no better moment, so spend it." },
               setFlags: { moscowRace41: "committed" },
               favor: -1,
               impact: { manpower: -2, fuel: -2, initiative: 1 },
@@ -2119,7 +2119,7 @@
             },
             {
               label: "Shore up the flank first, accept the delay — press for Moscow once it's secure",
-              advisor: { name: "Halder", quote: "An advance that outruns its own security is not an advance. It is an appointment with the counterattack that hasn't happened yet." },
+              advisor: { name: "Halder", position: "An advance that outruns its own security is not an advance but an appointment with the counterattack that has not happened yet." },
               setFlags: { moscowRace41: "secured" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -2152,7 +2152,7 @@
           choices: [
             {
               label: "Authorize the withdrawal — trade Rostov for the army",
-              advisor: { name: "Kleist", quote: "The city was never the objective that mattered. The army I have left inside it is." },
+              advisor: { name: "Kleist", position: "The city was never the objective that mattered. The army left inside it is." },
               setFlags: { rostov41: "authorized" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "typhoon",
@@ -2161,7 +2161,7 @@
             },
             {
               label: "Refuse — Rostov holds, no retreat authorized",
-              advisor: { name: "Hitler", quote: "Ground taken is ground defended. I did not send an army to the Don to hand the city back on the strength of one bad week." },
+              advisor: { name: "Hitler", position: "Ground taken is ground defended, and an army was not sent to the Don to hand the city back on the strength of one bad week." },
               historical: true,
               setFlags: { rostov41: "refused", rundstedtRelieved41: true },
               impact: { manpower: -1, fuel: 0, initiative: -1 },
@@ -2187,7 +2187,7 @@
           choices: [
             {
               label: "Order an all-out final push for Moscow regardless of season",
-              advisor: { name: "Bock", quote: "The last battalion will decide it — theirs or ours. We are too close to stop being told we were close." },
+              advisor: { name: "Bock", position: "The last battalion will decide it, theirs or ours, and the army is too close to stop being told it was close." },
               historical: true,
               setFlags: { winterCrisis: "push41" },
               impact: { manpower: flags.eastFront === "split" ? -1 : 0, fuel: 0, initiative: 0 },
@@ -2199,7 +2199,7 @@
             },
             {
               label: "Halt and consolidate defensive lines for winter",
-              advisor: { name: "Guderian", quote: "My tanks are frozen, my men are in summer coats, and the enemy has a new army. I request permission to fight the war that exists." },
+              advisor: { name: "Guderian", position: "The tanks are frozen, the men are in summer coats and the enemy has a new army, and permission is requested to fight the war that exists." },
               setFlags: { winterCrisis: "halt41" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -2209,7 +2209,7 @@
             },
             {
               label: "Order a full withdrawal to a shorter, defensible line",
-              advisor: { name: "Kluge", quote: "A winter withdrawal under pressure is how Grand Armies become memoirs. I will execute it if ordered, and I advise against ordering it." },
+              advisor: { name: "Kluge", position: "A winter withdrawal under pressure is how Grand Armies become memoirs. It will be carried out if ordered, and ordering it is advised against." },
               setFlags: { winterCrisis: "retreat41" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "pearlHarbor",
@@ -2229,7 +2229,7 @@
           choices: [
             {
               label: "Declare war on the United States — unleash the U-boats now",
-              advisor: { name: "Ribbentrop", quote: "America is already at war with us in everything but ink. Declare, and Dönitz's boats feast on an unguarded coast." },
+              advisor: { name: "Ribbentrop", position: "America is already at war with Germany in everything but ink, and a declaration lets Dönitz's boats feast on an unguarded coast." },
               historical: true,
               setFlags: { usWar: "declared" },
               impact: { manpower: 0, fuel: -2, initiative: 2 },
@@ -2239,7 +2239,7 @@
             },
             {
               label: "Withhold the declaration — let Washington choose its own war",
-              advisor: { name: "Weizsäcker", quote: "Why relieve Roosevelt of his hardest argument? Let him spend a year convincing Ohio that Berlin, not Tokyo, bombed Hawaii." },
+              advisor: { name: "Weizsäcker", position: "Why relieve Roosevelt of his hardest argument? Let him spend a year convincing Ohio that Berlin, not Tokyo, bombed Hawaii." },
               setFlags: { usWar: "withheld" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -2249,7 +2249,7 @@
             },
             {
               label: "No declaration — but quietly authorize unrestricted U-boat attacks on American shipping anyway",
-              advisor: { name: "Dönitz", quote: "Give me the operational order and spare me the diplomacy. Tonnage does not read newspapers." },
+              advisor: { name: "Dönitz", position: "Give the operational order and spare the diplomacy, because tonnage does not read newspapers." },
               setFlags: { usWar: "defacto" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: flags.pathVariant === "staticEast" ? "staticEast" : flags.pathVariant === "noBarbarossa" ? "mediterranean41" : flags.barbarossa === "postponed" ? "east42Launch" : "herkules42",
@@ -2269,7 +2269,7 @@
           choices: [
             {
               label: "Hold the static line — husband all reserves for the coming second front in the west",
-              advisor: { name: "Rundstedt", quote: "The war will be decided where the Americans land, not where the steppes end. Build me a west worth defending." },
+              advisor: { name: "Rundstedt", position: "The war will be decided where the Americans land, not where the steppes end, so a west worth defending must be built." },
               setFlags: { preservedReserve: true },
               impact: { manpower: 3, fuel: 2, initiative: 0 },
               next: "atlanticWall43",
@@ -2278,7 +2278,7 @@
             },
             {
               label: "Use the quiet years to rebuild for a renewed eastern offensive in 1943",
-              advisor: { name: "Manstein", quote: "A static front is a loan against the future, and the Soviets are the ones collecting interest. We must strike again or admit we never will." },
+              advisor: { name: "Manstein", position: "A static front is a loan against the future, with the Soviets collecting the interest, and the choice is to strike again or admit that it never will." },
               setFlags: {},
               impact: { manpower: 0, fuel: -1, initiative: -1 },
               next: "blackMay",
@@ -2304,7 +2304,8 @@
           choices: [
             {
               label: "Rommel's way — everything forward, defeat the landing on the sand",
-              advisor: { name: "Rommel", quote: "The first twenty-four hours will be decisive — for the Allies and for us. When the battle starts it will be too late to move anything under their air." },
+              advisor: { name: "Rommel", position: "The reserves must be committed at the water line from the first hour, because nothing can be moved by day once the Allied air forces are overhead." },
+              attested: { by: "Rommel", text: "The first 24 hours of the invasion will be decisive ... for the Allies, as well as Germany, it will be the longest day.", source: "Rommel to Captain Hellmuth Lang, 22 April 1944, as recorded in Cornelius Ryan, The Longest Day (1959)" },
               setFlags: { westDoctrine: "forward" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: "vWeaponsProduction44",
@@ -2313,7 +2314,7 @@
             },
             {
               label: "Rundstedt's way — a powerful central mobile reserve, destroy the beachhead after it forms",
-              advisor: { name: "Rundstedt", quote: "Concrete does not counterattack. Let them land, let them show us where the war is, and then destroy it with everything at once." },
+              advisor: { name: "Rundstedt", position: "Concrete does not counterattack. Let them land, let them show where the war is, and destroy it with everything at once." },
               setFlags: { westDoctrine: "reserve" },
               impact: { manpower: 1, fuel: flags.sealion === "commit" ? 1 : 0, initiative: 0 },
               next: "vWeaponsProduction44",
@@ -2348,7 +2349,7 @@
               checkLabel: "Manpower",
               disabledReason: assaultPossible ? undefined : "insufficient manpower for the airborne and assault-shipping lift",
               label: "Launch Herkules — take Malta, secure the convoy routes first",
-              advisor: { name: "Kesselring", quote: "Every ton Rommel will ever burn crosses a sea Malta commands. Take the island and the desert war becomes arithmetic we can win." },
+              advisor: { name: "Kesselring", position: "Every ton Rommel will ever burn crosses a sea that Malta commands, and taking the island turns the desert war into arithmetic that can be won." },
               setFlags: { med42: "malta" },
               favor: 1,
               impact: { manpower: -1, fuel: 1, initiative: 0 },
@@ -2373,7 +2374,7 @@
             });
             base.push({
               label: "Cancel Herkules — back Rommel's dash for Egypt while the British are broken",
-              advisor: { name: "Rommel", quote: "The enemy is running. Give me the fuel earmarked for this island adventure and I will be drinking the Nile in four weeks." },
+              advisor: { name: "Rommel", position: "The enemy is running. Give the fuel earmarked for this island adventure and the Nile can be reached in four weeks." },
               historical: true,
               setFlags: { med42: "egypt" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -2383,7 +2384,7 @@
             });
             base.push({
               label: "Neither — adopt a defensive Mediterranean posture, feed everything to the East",
-              advisor: { name: "Halder", quote: "The Mediterranean is a theater for people who have forgotten where the war is. It is in Russia. It was always in Russia." },
+              advisor: { name: "Halder", position: "The Mediterranean is a theater for people who have forgotten where the war is: in Russia, as it always was." },
               setFlags: { med42: "defensive" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "heydrichReprisals42",
@@ -2404,7 +2405,7 @@
           choices: [
             {
               label: "Drive for Suez immediately — the fuel is here, the British are still reeling from Tobruk",
-              advisor: { name: "Rommel", quote: "I have spent two years asking for exactly this much fuel. I am not spending this month finding a reason to wait for more." },
+              advisor: { name: "Rommel", position: "Two years have been spent asking for exactly this much fuel, and this month will not be spent finding a reason to wait for more." },
               historical: false,
               setFlags: { suezOpening42: "drive" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -2428,7 +2429,7 @@
             },
             {
               label: "Consolidate first — rebuild Panzerarmee's strength properly before spending this fuel on an offensive",
-              advisor: { name: "Kesselring", quote: "We have never once had this much fuel and this little urgency to spend it badly. Use the patience the convoys just bought us." },
+              advisor: { name: "Kesselring", position: "Never before has there been this much fuel and this little urgency to spend it badly, so the patience the convoys just bought should be used." },
               historical: false,
               setFlags: { suezOpening42: "consolidate" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -2450,7 +2451,7 @@
           choices: [
             {
               label: "Continue the doctrine of maximum collective terror — any resistance act answered with indiscriminate reprisal",
-              advisor: { name: "K.H. Frank", quote: "Lidice was not proportionate to what one man did. That was the entire point. A population that fears total collective punishment does not need to individually agree to inform — it only needs to be afraid enough to stop protecting anyone." },
+              advisor: { name: "K.H. Frank", position: "Lidice was not proportionate to what one man did, and that was the entire point. A population that fears total collective punishment need not agree to inform, only be afraid enough to stop protecting anyone." },
               historical: true,
               setFlags: { protectorate42: "terror" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -2460,7 +2461,7 @@
             },
             {
               label: "Narrow the standing policy — future reprisal targets confirmed networks rather than entire populations",
-              advisor: { name: "Daluege", quote: "I do not argue this from mercy. I argue it because a population with nothing left to lose stops being useful as an intelligence source and starts being nothing but a liability we still have to feed and guard." },
+              advisor: { name: "Daluege", position: "The argument is not made from mercy. It is made because a population with nothing left to lose stops being useful as an intelligence source and becomes a liability that still has to be fed and guarded." },
               setFlags: { protectorate42: "targeted" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "caseBlue",
@@ -2499,7 +2500,8 @@
                 checkLabel: "Matériel",
                 disabledReason: twoAxisPossible ? undefined : "insufficient fuel to supply two axes simultaneously",
                 label: "Pursue both objectives at once, as directed",
-                advisor: { name: "Hitler", quote: "If I do not get the oil of Maikop and Grozny, then I must end this war. So we will have the oil AND the city that bears his name." },
+                advisor: { name: "Hitler", position: "Without the oil of Maikop and Grozny the war must end, so Germany will have the oil and the city that bears Stalin's name." },
+              attested: { by: "Hitler", text: "If I do not get the oil of Maikop and Grozny, then I must end this war.", source: "Hitler to Army Group South staff, Poltava, 1 June 1942, per Joel Hayward, Hitler's Quest for Oil (1995)" },
                 historical: true,
                 setFlags: { caseBlue: "both" },
                 impact: flags.eastFront === "moscow" ? { manpower: -1, fuel: -1, initiative: 0 } : { manpower: 0, fuel: 0, initiative: 0 },
@@ -2511,7 +2513,7 @@
               });
             base.push({
                 label: "Concentrate fully on the Caucasus oil fields; hold Stalingrad's flank defensively",
-                advisor: { name: "List", quote: "The oil is the war. The city is a name on a river. I know which one my army can burn in its tanks." },
+                advisor: { name: "List", position: "The oil is the war and the city is a name on a river, and the army knows which of the two it can burn in its tanks." },
                 setFlags: { caseBlue: "caucasus" },
               favor: 1,
                 impact: flags.eastFront === "moscow" ? { manpower: -2, fuel: 1, initiative: 0 } : { manpower: 0, fuel: 1, initiative: 0 },
@@ -2521,7 +2523,7 @@
               });
             base.push({
                 label: "Concentrate fully on Stalingrad; hold the Caucasus defensively",
-                advisor: { name: "Paulus", quote: "Cut the Volga and the Caucasus oil cannot move north whether we hold the wells or not. One objective, taken properly." },
+                advisor: { name: "Paulus", position: "Cut the Volga and the Caucasus oil cannot move north whether the wells are held or not. One objective, taken properly." },
                 setFlags: { caseBlue: "stalingrad" },
               favor: 1,
                 impact: flags.eastFront === "moscow" ? { manpower: -1, fuel: 0, initiative: 0 } : { manpower: 0, fuel: 0, initiative: 0 },
@@ -2532,7 +2534,7 @@
             if (meters.fuel >= 2)
               base.push({
                 label: "A sequenced offensive — the Caucasus first, then the Volga with the oil already secured",
-                advisor: { name: "Manstein", quote: "The directive's error is not its ambition — it is asking one summer to do two things at once. Fuel like this buys us the luxury the historical plan never had: order of operations." },
+                advisor: { name: "Manstein", position: "The directive's error is not its ambition but asking one summer to do two things at once. Fuel like this buys what the historical plan never had, an order of operations." },
                 setFlags: { caseBlue: "sequenced" },
               favor: 1,
                 impact: { manpower: 0, fuel: 1, initiative: 1 },
@@ -2543,7 +2545,7 @@
             if (flags.eastFront === "moscow" || meters.manpower <= -3) {
               base.push({
                 label: "Cancel major offensive operations — hold a defensive line and conserve what's left",
-                advisor: { name: "Halder", quote: "We no longer have the army for the plans on this table. Someone in this room should say so before the maps do." },
+                advisor: { name: "Halder", position: "The army for the plans on this table no longer exists, and someone in the room should say so before the maps do." },
                 setFlags: { caseBlue: "defensive", preservedReserve: true },
               favor: 2,
                 impact: { manpower: 1, fuel: 1, initiative: 0 },
@@ -2572,7 +2574,7 @@
           choices: [
             {
               label: "Occupy all of Vichy France immediately — Case Anton, as planned",
-              advisor: { name: "Keitel", quote: "The Free Zone served its purpose as a fiction. The fiction has ended itself." },
+              advisor: { name: "Keitel", position: "The Free Zone served its purpose as a fiction, and the fiction has ended itself." },
               historical: true,
               setFlags: { vichy: "occupied" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
@@ -2582,7 +2584,7 @@
             },
             {
               label: "Race for Toulon first — seize the fleet before it can be scuttled",
-              advisor: { name: "Rundstedt", quote: "Two hundred thousand tons of warships are deciding themselves right now whether to exist tomorrow. Every hour of hesitation is their argument for scuttling." },
+              advisor: { name: "Rundstedt", position: "Two hundred thousand tons of warships are deciding for themselves whether to exist tomorrow, and every hour of hesitation is their argument for scuttling." },
               setFlags: { vichy: "toulonRace" },
               impact: { manpower: 0, fuel: 1, initiative: 0 },
               next: flags.med42 === "egypt" ? "elAlamein" : flags.med42 === "malta" ? "maltaAftermath" : "stalingradPocket",
@@ -2605,7 +2607,7 @@
             },
             {
               label: "Leave the Free Zone nominally Vichy — hold only strategic points, avoid forcing Darlan's hand",
-              advisor: { name: "Weizsäcker", quote: "Occupy the whole zone and we hand Darlan no choice but to burn the fleet. Restraint costs us the ore and grain of the south — it may still cost less than the ships." },
+              advisor: { name: "Weizsäcker", position: "Occupying the whole zone leaves Darlan no choice but to burn the fleet, while restraint costs the ore and grain of the south, which may still cost less than the ships." },
               setFlags: { vichy: "restrained" },
               favor: 1,
               impact: { manpower: 1, fuel: -1, initiative: 0 },
@@ -2626,7 +2628,7 @@
           choices: [
             {
               label: "The supplied offensive — break the Alamein position before Montgomery's buildup completes",
-              advisor: { name: "Rommel", quote: "For two years I have fought this war on captured petrol and promises. Give me one battle with full tanks and watch what it was always supposed to look like." },
+              advisor: { name: "Rommel", position: "Two years of this war have been fought on captured petrol and promises. Give one battle with full tanks and see what it was always supposed to look like." },
               setFlags: { maltaPath: "offensive" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
               next: flags.dunkirkResult === "shattered" && flags.usWar !== "declared" ? "britishCrisis42" : "stalingradPocket",
@@ -2635,7 +2637,7 @@
             },
             {
               label: "Hold at Alamein supplied and fortified — make the desert a fortress, not a racetrack",
-              advisor: { name: "Kesselring", quote: "We took the island so this army could stop gambling. A supplied defense here costs the British two years and costs us almost nothing." },
+              advisor: { name: "Kesselring", position: "The island was taken so this army could stop gambling, and a supplied defense here costs the British two years and costs Germany almost nothing." },
               setFlags: { maltaPath: "fortress" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: flags.dunkirkResult === "shattered" && flags.usWar !== "declared" ? "britishCrisis42" : "stalingradPocket",
@@ -2659,7 +2661,7 @@
           choices: [
             {
               label: "Extend discreet feelers through Stockholm — offer an armistice while the strangle bites",
-              advisor: { name: "Weizsäcker", quote: "We are not offering them defeat. We are offering them the word 'pause' at the moment their newspapers have run out of other words. Diplomacy has been built on less." },
+              advisor: { name: "Weizsäcker", position: "The offer is not defeat but the word pause, at the moment their newspapers have run out of other words, and diplomacy has been built on less." },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "crisisResolution42",
               uncertain: [
@@ -2683,7 +2685,7 @@
             },
             {
               label: "No feelers — let military pressure alone do whatever talking gets done",
-              advisor: { name: "Jodl", quote: "Feelers that get refused are called weakness in every capital that hears of them. Let the tonnage charts make the argument or nothing will." },
+              advisor: { name: "Jodl", position: "Feelers that are refused are called weakness in every capital that hears of them, so the tonnage charts must make the argument or nothing will." },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "stalingradPocket",
               uncertain: [
@@ -2724,7 +2726,7 @@
               ? [
                   {
                     label: "Sign the armistice — the western war stops on the line where it stands",
-                    advisor: { name: "Weizsäcker", quote: "Sign it before someone in either capital thinks a week longer about what it doesn't say." },
+                    advisor: { name: "Weizsäcker", position: "Sign it before someone in either capital thinks a week longer about what it does not say." },
                     setFlags: { pathVariant: "armisticeWest" },
                     impact: { manpower: 1, fuel: 1, initiative: 0 },
                     next: "westArmisticeAftermath42",
@@ -2733,7 +2735,7 @@
                   },
                   {
                     label: "Escalate the terms — demand naval limits and colonial concessions while London is weak",
-                    advisor: { name: "Ribbentrop", quote: "They came to the table. Tables are where you take things." },
+                    advisor: { name: "Ribbentrop", position: "They came to the table, and tables are where things are taken." },
                     setFlags: { ukTerms: "overreached" },
                     impact: { manpower: 0, fuel: -1, initiative: 0 },
                     next: "stalingradPocket",
@@ -2744,7 +2746,7 @@
               : [
                   {
                     label: "Return to the war in silence — no comment, no attempt to spin the leak",
-                    advisor: { name: "Halder", quote: "The east did not pause while we asked. It never does. Say nothing further and let the silence be the only dignity left in it." },
+                    advisor: { name: "Halder", position: "The east did not pause while the question was asked, and it never does. Say nothing further and let the silence be the only dignity left in it." },
                     setFlags: { feelers42Outcome: "silent" },
                     impact: { manpower: 0, fuel: 0, initiative: -1 },
                     next: "stalingradPocket",
@@ -2767,7 +2769,7 @@
                   },
                   {
                     label: "Turn the refusal into propaganda — frame London's answer as proof the enemy wants annihilation, not peace",
-                    advisor: { name: "Goebbels", quote: "They were offered an end and chose more war. Every home front needs to hear exactly that, in exactly those words, before winter." },
+                    advisor: { name: "Goebbels", position: "They were offered an end and chose more war, and every home front needs to hear exactly that, in exactly those words, before winter." },
                     setFlags: { feelers42Outcome: "propaganda" },
                     favor: 1,
                     impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -2788,7 +2790,7 @@
           choices: [
             {
               label: "Turn the freed divisions east — commit fully to finishing the eastern war outright",
-              advisor: { name: "Halder", quote: "We have spent this entire war fighting two fronts with strength meant for one and a half. For the first time, we have strength meant for two aimed at a war we are still only fighting with one. I would like to find out what that changes before the answer expires." },
+              advisor: { name: "Halder", position: "The whole war has been fought on two fronts with strength meant for one and a half. For the first time there is strength meant for two aimed at a war still fought with one, and what that changes should be found out before the answer expires." },
               historical: false,
               setFlags: { westArmisticeAftermath42: "east" },
               favor: -1,
@@ -2799,7 +2801,7 @@
             },
             {
               label: "Hold the freed strength in reserve — consolidate the western peace rather than gamble it on the east",
-              advisor: { name: "Weizsäcker", quote: "We have an armistice, not a victory, and one this speculative survives exactly as long as nobody spends the peace testing what else it can buy. I would rather administer what we have than wager it on a front it was never signed to help." },
+              advisor: { name: "Weizsäcker", position: "An armistice is not a victory, and one this speculative survives exactly as long as nobody spends the peace testing what else it can buy. It is better to administer what exists than to wager it on a front it was never signed to help." },
               historical: false,
               setFlags: { westArmisticeAftermath42: "hold" },
               favor: 1,
@@ -2824,7 +2826,7 @@
           choices: [
             {
               label: "One more push — break through to Alexandria before the British rebuild",
-              advisor: { name: "Rommel", quote: "We are sixty miles from ending the desert war forever. Armies this close to Alexandria do not turn around and call it wisdom." },
+              advisor: { name: "Rommel", position: "The army is sixty miles from ending the desert war forever, and armies this close to Alexandria do not turn around and call it wisdom." },
               historical: true,
               setFlags: { alamein: "push" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -3039,7 +3041,7 @@
             },
             {
               label: "Halt and dig in at El Alamein — make the British come to you",
-              advisor: { name: "Bayerlein", quote: "The position is the best in Africa and the army is the worst-supplied in Africa. Let those two facts fight each other while we still choose the ground." },
+              advisor: { name: "Bayerlein", position: "The position is the best in Africa and the army the worst supplied in Africa, and those two facts should be left to fight each other while the ground can still be chosen." },
               setFlags: { alamein: "hold" },
               impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "stalingradPocket",
@@ -3048,7 +3050,7 @@
             },
             {
               label: "Withdraw to a supportable line in Libya — trade the conquest for the army",
-              advisor: { name: "Westphal", quote: "Every map in this headquarters shows how far we came. Not one of them shows how we are to be fed. I recommend the retreat everyone will hate." },
+              advisor: { name: "Westphal", position: "Every map in this headquarters shows how far the army came, and none shows how it is to be fed. That argues for the retreat everyone will hate." },
               setFlags: { alamein: "withdraw" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -3080,7 +3082,7 @@
           choices: [
             {
               label: "Order an immediate breakout attempt",
-              advisor: { name: "Paulus", quote: "Request freedom of action. The army can still fight its way west as an army. In two weeks it will only be able to starve as one." },
+              advisor: { name: "Paulus", position: "Freedom of action is requested. The army can still fight its way west as an army, but in two weeks it will only be able to starve as one." },
               setFlags: { stalingrad: "breakout" },
               favor: 2,
               impact: { manpower: 3, fuel: 1, initiative: 0 },
@@ -3289,7 +3291,7 @@
             meters.manpower <= -4
               ? {
                   label: "Resupply by air; hold in place",
-                  advisor: { name: "Göring", quote: "My Luftwaffe will supply the fortress. I have given the Führer my word." },
+                  advisor: { name: "Göring", position: "The Luftwaffe will supply the fortress, and the Führer has been given his word." },
                   historical: true,
                   setFlags: { stalingrad: "airlift", pathVariant: "earlyCollapse" },
                   impact: { manpower: -3, fuel: -2, initiative: -1 },
@@ -3299,7 +3301,7 @@
                 }
               : {
                   label: "Resupply by air; hold in place",
-                  advisor: { name: "Göring", quote: "My Luftwaffe will supply the fortress. I have given the Führer my word." },
+                  advisor: { name: "Göring", position: "The Luftwaffe will supply the fortress, and the Führer has been given his word." },
                   historical: true,
                   setFlags: { stalingrad: "airlift" },
                   impact: { manpower: -3, fuel: -2, initiative: -1 },
@@ -3309,7 +3311,7 @@
                 },
             {
               label: "Order an early withdrawal before the pocket forms",
-              advisor: { name: "Manstein", quote: "The Volga is not worth an army. Nothing on this map is worth an army. Withdraw it while the word still means something." },
+              advisor: { name: "Manstein", position: "The Volga is not worth an army, nor is anything else on this map, and the army should be withdrawn while the word still means something." },
               setFlags: { stalingrad: "early" },
               favor: 2,
               impact: { manpower: 4, fuel: 1, initiative: -1 },
@@ -3331,7 +3333,7 @@
           choices: [
             {
               label: "Order a fighting withdrawal — try to shorten the line and save what's left",
-              advisor: { name: "Manstein", quote: "We can no longer decide where this ends. We can still decide whether an army or a mob arrives there." },
+              advisor: { name: "Manstein", position: "Where this ends can no longer be chosen, only whether an army or a mob arrives there." },
               setFlags: { finalStand: "withdraw" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "END",
@@ -3354,7 +3356,7 @@
             },
             {
               label: "Hold in place as ordered — no withdrawal",
-              advisor: { name: "Keitel", quote: "The Führer's order is unambiguous. Every position holds." },
+              advisor: { name: "Keitel", position: "The Führer's order is unambiguous: every position holds." },
               setFlags: { finalStand: "hold" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "END",
@@ -3379,7 +3381,7 @@
           choices: [
             {
               label: "Withdraw from the North Atlantic — concede the convoy routes, preserve the crews",
-              advisor: { name: "Dönitz", quote: "We have lost the Battle of the Atlantic. I will not say it in public and I will not pretend otherwise in this room." },
+              advisor: { name: "Dönitz", position: "The Battle of the Atlantic has been lost, and that will not be said in public or denied in this room." },
               historical: true,
               setFlags: { atlantic: "withdraw" },
               favor: 1,
@@ -3390,7 +3392,7 @@
             },
             {
               label: "Continue wolfpack operations — the tonnage war must be won or the West is lost",
-              advisor: { name: "Godt", quote: "Every month we concede the convoys, a million tons of war crosses unopposed. The boats exist to sink it or they exist for nothing." },
+              advisor: { name: "Godt", position: "Every month the convoys are conceded, a million tons of war crosses unopposed. The boats exist to sink it or they exist for nothing." },
               setFlags: { atlantic: "continue" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
               next: "atlanticAttrition43",
@@ -3399,7 +3401,7 @@
             },
             {
               label: "Withdraw AND redirect the U-boat program — everything into the new Type XXI boats",
-              advisor: { name: "Dönitz", quote: "The old boats are coffins in this new Atlantic. If we must leave the ocean, let us at least return to it in something that can live there." },
+              advisor: { name: "Dönitz", position: "The old boats are coffins in this new Atlantic. If the ocean must be left, the return should be in something that can live there." },
               setFlags: { atlantic: "typeXXI" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -3423,7 +3425,7 @@
           choices: [
             {
               label: "Finally order the withdrawal — months later, and months more expensive",
-              advisor: { name: "Dönitz", quote: "I should have said this in May. I am saying it now, and I am not interested in an accounting of what the delay cost. I already know." },
+              advisor: { name: "Dönitz", position: "This should have been said in May. It is being said now, without interest in an accounting of what the delay cost, which is already known." },
               historical: false,
               setFlags: { atlanticAttrition43: "withdrawLate" },
               favor: 1,
@@ -3434,7 +3436,7 @@
             },
             {
               label: "Hold course to the bitter end — the arm is spent trying to prove the doctrine right",
-              advisor: { name: "Godt", quote: "We do not abandon the doctrine because one month was catastrophic. We abandon the doctrine when it stops being the war's answer, and I am not yet convinced it has." },
+              advisor: { name: "Godt", position: "One catastrophic month is no reason to abandon the doctrine. It should be abandoned when it stops being the war's answer, and that has not yet been shown." },
               setFlags: { atlanticAttrition43: "holdCourse" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
               next: "kursk",
@@ -3456,7 +3458,7 @@
           choices: [
             {
               label: "Reinforce Kursk — launch a larger Operation Citadel with the extra divisions",
-              advisor: { name: "Zeitzler", quote: "The salient is an invitation. With the divisions we saved from the Volga, it becomes one we can finally afford to accept." },
+              advisor: { name: "Zeitzler", position: "The salient is an invitation, and with the divisions saved from the Volga it becomes one that can finally be afforded." },
               setFlags: { southernFront1943: "reinforceKursk" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: "vWeaponsProduction44",
@@ -3465,7 +3467,7 @@
             },
             {
               label: "Skip Kursk entirely — hold the extra divisions in elastic defense",
-              advisor: { name: "Manstein", quote: "We saved that army from one fortress. I decline to feed it into a minefield with better publicity." },
+              advisor: { name: "Manstein", position: "One army was saved from one fortress, and it should not be fed into a minefield with better publicity." },
               setFlags: { southernFront1943: "elasticDefense", preservedReserve: true },
               impact: { manpower: 2, fuel: 1, initiative: 0 },
               next: "vWeaponsProduction44",
@@ -3474,7 +3476,7 @@
             },
             {
               label: "Redirect the divisions to pre-emptively secure Italy ahead of its expected armistice",
-              advisor: { name: "Kesselring", quote: "Italy will change sides — the only estimate in dispute is the date. Divisions positioned before the announcement are worth three sent after it." },
+              advisor: { name: "Kesselring", position: "Italy will change sides and only the date is in dispute. Divisions positioned before the announcement are worth three sent after it." },
               setFlags: { southernFront1943: "italyRedirect" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "vWeaponsProduction44",
@@ -3500,7 +3502,7 @@
           choices: [
             {
               label: "Keep Vlasov as propaganda only — a name and a newspaper, no real command of troops",
-              advisor: { name: "Himmler", quote: "We are not so desperate that we hand rifles to the very people this war was fought to subordinate. His face on a leaflet costs us nothing. His face at the head of a division costs us the point of fighting at all." },
+              advisor: { name: "Himmler", position: "Germany is not so desperate as to arm the very people the war was fought to subordinate. His face on a leaflet costs nothing, but at the head of a division it costs the point of fighting at all." },
               historical: true,
               setFlags: { vlasov43: "propaganda" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -3510,7 +3512,7 @@
             },
             {
               label: "Commit to Vlasov's army in earnest — real divisions, real equipment, real command authority",
-              advisor: { name: "Vlasov", quote: "Give me the men already sitting in your camps and already deserting at your front line, and I will give you formations that fight Stalin for reasons your own troops have stopped believing in. Give me nothing, and you have simply wasted a resource neither of us can afford to waste." },
+              advisor: { name: "Vlasov", position: "Give the men already in the camps and deserting at the front, and they become formations that fight Stalin for reasons German troops have stopped believing in. Give nothing, and a resource neither side can afford to waste is wasted." },
               checkLabel: "Initiative",
               disabledReason: meters.initiative <= -3 ? "not enough political standing left to force a departure from doctrine this radical past Himmler's own security services" : undefined,
               setFlags: { vlasov43: "committed" },
@@ -3573,7 +3575,7 @@
               checkLabel: "Matériel",
               disabledReason: offensivePossible ? undefined : "insufficient fuel for a Citadel-scale armored offensive",
               label: "Strike now, in spring, with the tanks already on hand",
-              advisor: { name: "Manstein", quote: "Every week we rehearse, they dig. Attack in May and we fight their defenses; attack in July and we fight their finished fortress." },
+              advisor: { name: "Manstein", position: "Every week spent rehearsing is a week they dig. Attack in May and the defenses are fought, attack in July and the finished fortress is." },
               setFlags: { kursk: "earlyStrike" },
               favor: 1,
               impact: { manpower: -2, fuel: -1, initiative: 1 },
@@ -3856,7 +3858,7 @@
               checkLabel: "Matériel",
               disabledReason: offensivePossible ? undefined : "insufficient fuel for a Citadel-scale armored offensive",
               label: "Wait for the Panthers, launch in July as planned",
-              advisor: { name: "Hitler", quote: "The new weapons will decide it. This attack must not fail, therefore it must not go before the Panthers are ready." },
+              advisor: { name: "Hitler", position: "The new weapons will decide it, so the attack must not fail and therefore must not go before the Panthers are ready." },
               historical: true,
               setFlags: { kursk: "attack" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -3866,7 +3868,8 @@
             });
             base.push({
               label: "Cancel the offensive entirely; shift to elastic defense",
-              advisor: { name: "Guderian", quote: "Is it really so important that we attack Kursk this year? How many people even know where Kursk is? The world will not care whether we hold it or not." },
+              advisor: { name: "Guderian", position: "Whether Kursk is worth attacking at all this year is open to doubt, and he puts that to Hitler directly." },
+              attested: { by: "Guderian", text: "Do you think anyone even knows where Kursk is? The entire world doesn't care if we capture Kursk or not.", source: "Guderian, Panzer Leader (1952), p. 308, on his objection to Hitler in May 1943" },
               setFlags: { kursk: "cancelDefend", preservedReserve: true },
               favor: 1,
               impact: { manpower: 2, fuel: 1, initiative: 0 },
@@ -3898,7 +3901,7 @@
               ? [
                   {
                     label: "Push through the gap — commit the reserve before it closes",
-                    advisor: { name: "Manstein", quote: "This is the entire argument for striking early, made physical. If we do not spend the opening now, we spent the early strike for nothing." },
+                    advisor: { name: "Manstein", position: "This is the entire argument for striking early, made physical. Not spending the opening now means the early strike was spent for nothing." },
                     setFlags: { kurskBreach: "exploited" },
                     impact: { manpower: -1, fuel: -1, initiative: 1 },
                     next: "twoFires1943",
@@ -3922,7 +3925,7 @@
                   },
                   {
                     label: "Consolidate — bank the win, withdraw before the reserves close the gap",
-                    advisor: { name: "Model", quote: "We were given a window, not a door. Take the prisoners and the guns already in hand and be satisfied we chose the moment at all." },
+                    advisor: { name: "Model", position: "A window was given, not a door. Take the prisoners and the guns already in hand and be satisfied that the moment was chosen at all." },
                     setFlags: { kurskBreach: "banked" },
                     impact: { manpower: 1, fuel: 0, initiative: 0 },
                     next: "twoFires1943",
@@ -3933,7 +3936,7 @@
               : [
                   {
                     label: "Withdraw in good order — take the time to bring out the wounded and the salvageable equipment",
-                    advisor: { name: "Manstein", quote: "The attempt failed. That is not the same as failing to learn from it — get the survivors out cleanly, and get everything worth keeping out with them." },
+                    advisor: { name: "Manstein", position: "The attempt failed, which is not the same as failing to learn from it. Get the survivors out cleanly and everything worth keeping with them." },
                     setFlags: { kurskWithdrawal43: "clean" },
                     impact: { manpower: 1, fuel: -1, initiative: -1 },
                     next: "twoFires1943",
@@ -3942,7 +3945,7 @@
                   },
                   {
                     label: "Break contact fast — leave the slower vehicles and the wounded transport behind",
-                    advisor: { name: "Model", quote: "A clean retreat and a fast one are not the same order. I know which one this army can actually afford this month." },
+                    advisor: { name: "Model", position: "A clean retreat and a fast one are different orders, and only one of them is affordable this month." },
                     setFlags: { kurskWithdrawal43: "fast" },
                     impact: { manpower: -1, fuel: 1, initiative: -1 },
                     next: "twoFires1943",
@@ -3962,7 +3965,7 @@
           choices: [
             {
               label: "Press the advantage — commit toward a wider summer offensive while morale actually favors it",
-              advisor: { name: "Manstein", quote: "I have spent two years being told the war cannot be won and one week being shown a genuine local victory. Let me at least test what the second fact is worth before the first one reasserts itself." },
+              advisor: { name: "Manstein", position: "Two years of hearing the war cannot be won, and one week of a genuine local victory. Test what the second fact is worth before the first reasserts itself." },
               historical: false,
               setFlags: { kurskAftermath43: "press" },
               favor: 1,
@@ -3973,7 +3976,7 @@
             },
             {
               label: "Bank it and hold — treat the win as what it is, a good week rather than a turning point",
-              advisor: { name: "Model", quote: "We have had exactly one good week in two years. I recommend treating it as one good week." },
+              advisor: { name: "Model", position: "Two years have produced one good week, and it should be treated as one good week." },
               setFlags: { kurskAftermath43: "hold" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "twoFires1943",
@@ -3994,7 +3997,7 @@
           choices: [
             {
               label: "Drive on Kursk's railhub approaches — turn a tactical win into an operational one",
-              advisor: { name: "Manstein", quote: "We are arguing about whether to spend an advantage that will not exist next week regardless. Spend it now, while the arithmetic still permits the question." },
+              advisor: { name: "Manstein", position: "The argument is over spending an advantage that will not exist next week regardless, so spend it now while the arithmetic still permits the question." },
               setFlags: { expandedOffensive43: "drive" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
               next: "twoFires1943",
@@ -4017,7 +4020,7 @@
             },
             {
               label: "Take the salient's shoulders and stop — a bounded gain, not an open-ended push",
-              advisor: { name: "Model", quote: "I did not ask for the whole summer. I asked for the ground immediately in front of us, taken cleanly, and then a line I can actually hold through the winter that follows." },
+              advisor: { name: "Model", position: "The whole summer was never asked for, only the ground immediately in front, taken cleanly, and then a line that can be held through the winter." },
               setFlags: { expandedOffensive43: "bounded" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "twoFires1943",
@@ -4054,7 +4057,7 @@
           choices: [
             {
               label: "Prioritize Italy first — secure the peninsula before reinforcing the east",
-              advisor: { name: "Kesselring", quote: "An unsecured Italy is an Allied highway pointed at the Reich's soft border. The Dnieper is a river; the Alps are a wall — but only if we hold what's in front of them." },
+              advisor: { name: "Kesselring", position: "An unsecured Italy is an Allied highway pointed at the Reich's soft border. The Dnieper is a river and the Alps are a wall, but only if what stands in front of them is held." },
               historical: true,
               setFlags: { priority1943: "italyFirst" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -4064,7 +4067,7 @@
             },
             {
               label: "Prioritize the East first — stabilize the Dnieper, manage Italy with what's left",
-              advisor: { name: "Manstein", quote: "Italy defects with or without our divisions. The Dnieper holds only WITH them. This is not a difficult ranking." },
+              advisor: { name: "Manstein", position: "Italy defects with or without German divisions, while the Dnieper holds only with them, so the ranking is not difficult." },
               setFlags: { priority1943: "eastFirst" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "dnieperStabilized",
@@ -4073,7 +4076,7 @@
             },
             {
               label: "Split reserves evenly between both fronts",
-              advisor: { name: "Jodl", quote: "Both fires are real. Half a fire brigade to each — what other arithmetic is available to us?" },
+              advisor: { name: "Jodl", position: "Both fires are real, so half a fire brigade goes to each, and no other arithmetic is available." },
               setFlags: { priority1943: "split" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "vWeaponsProduction44",
@@ -4093,7 +4096,7 @@
           choices: [
             {
               label: "Authorize the Gran Sasso raid — rescue Mussolini and install him as head of a reconstituted Fascist state",
-              advisor: { name: "Skorzeny", quote: "Give me the gliders and I will have him in Vienna by morning. Give me a division instead and I will still only need the gliders." },
+              advisor: { name: "Skorzeny", position: "Give the gliders and he will be in Vienna by morning. Give a division instead and the gliders will still be needed." },
               historical: true,
               setFlags: { mussolini43: "rescued" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -4103,7 +4106,7 @@
             },
             {
               label: "Let him be — don't spend the operation, administer northern Italy directly instead",
-              advisor: { name: "Rommel", quote: "We do not need his signature on our occupation orders. We need the divisions this raid isn't actually going to free up either way. Skip the theater." },
+              advisor: { name: "Rommel", position: "His signature is not needed on occupation orders, and the divisions this raid claims to free up will not be freed either way, so the theater can be skipped." },
               setFlags: { mussolini43: "abandoned" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "italyPartisans",
@@ -4128,7 +4131,7 @@
           choices: [
             {
               label: "Commit dedicated security divisions to suppress it now",
-              advisor: { name: "Kesselring", quote: "Behind my front line there must be quiet, or there is no front line. The mountains must be dealt with." },
+              advisor: { name: "Kesselring", position: "Behind the front line there must be quiet or there is no front line, and the mountains must be dealt with." },
               historical: true,
               setFlags: { italyOutcome: "suppressed" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -4138,7 +4141,7 @@
             },
             {
               label: "Rely on a minimal garrison; accept ongoing instability instead",
-              advisor: { name: "Westphal", quote: "Chasing bands through the Apennines is how divisions disappear without a battle to show for it. Garrison the roads and save the rest for a front that votes." },
+              advisor: { name: "Westphal", position: "Chasing bands through the Apennines is how divisions disappear without a battle to show for it. Garrison the roads and save the rest for a front that counts." },
               setFlags: { italyOutcome: "unstable" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "italianLine43",
@@ -4163,7 +4166,7 @@
           choices: [
             {
               label: "Commit the last mobile reserve to seal the Dnieper crossing",
-              advisor: { name: "Manstein", quote: "A river line with a hole in it is not a line. Seal it now with everything, or start drawing next year's maps further west." },
+              advisor: { name: "Manstein", position: "A river line with a hole in it is not a line. Seal it now with everything, or begin drawing next year's maps further west." },
               setFlags: { dnieper: "sealed" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "firmestLine43",
@@ -4172,7 +4175,7 @@
             },
             {
               label: "Let the local crossing succeed; preserve the reserve for the west instead",
-              advisor: { name: "Rundstedt", quote: "The east is a wound we manage. The west is the verdict. Bank the reserve and spend it where the war is decided." },
+              advisor: { name: "Rundstedt", position: "The east is a wound being managed and the west is the verdict. Bank the reserve and spend it where the war is decided." },
               setFlags: { dnieper: "conceded", preservedReserve: true },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "vWeaponsProduction44",
@@ -4193,7 +4196,7 @@
           choices: [
             {
               label: "Kesselring's line — forward defense south of Rome, and make them pay for every ridge",
-              advisor: { name: "Kesselring", quote: "This country was built for defense and I intend to present the bill. Give me the divisions and I will sell them ground by the yard at a price no attacker has budgeted for." },
+              advisor: { name: "Kesselring", position: "The country was built for defense and Kesselring intends to present the bill. Give him the divisions and he will sell ground by the yard at a price no attacker has budgeted for." },
               historical: true,
               setFlags: { italianLine43: "forward" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -4203,7 +4206,7 @@
             },
             {
               label: "Rommel's line — abandon the south, hold the northern Apennines, send the difference where the war is decided",
-              advisor: { name: "Rommel", quote: "Kesselring proposes to sell them Italy slowly. I am asking what we intend to buy with the proceeds. There is a front in the east losing this war while we discuss ridges outside Naples." },
+              advisor: { name: "Rommel", position: "Kesselring proposes to sell Italy slowly, and the question is what is to be bought with the proceeds when the east is losing the war while ridges outside Naples are discussed." },
               setFlags: { italianLine43: "apennines", rommelLine43: true },
               impact: { manpower: 2, fuel: 1, initiative: -1 },
               next: "stockholmFeelers43",
@@ -4227,7 +4230,7 @@
           choices: [
             {
               label: "Authorize the channel — explore an eastern armistice seriously, whatever Berlin has to be told afterwards",
-              advisor: { name: "Kleist", quote: "I have been careful to describe these meetings as accidental. They are not accidental. The man across the table has a legation behind him, and he is asking questions that only matter if somebody intends to answer them." },
+              advisor: { name: "Kleist", position: "These meetings have been described as accidental and they are not. The man across the table has a legation behind him, and he asks questions that only matter if someone intends to answer them." },
               setFlags: { stockholm43: "pursued" },
               favor: -2,
               impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -4255,7 +4258,7 @@
             },
             {
               label: "Shut the channel down and report it — Casablanca demands unconditional surrender, and Berlin will hear of this regardless",
-              advisor: { name: "Ribbentrop", quote: "I have permitted this to run rather longer than my own position can bear. It stops now, and it stops with a paper trail showing that I stopped it." },
+              advisor: { name: "Ribbentrop", position: "This has been allowed to run longer than the speaker's own position can bear. It stops now, with a paper trail showing who stopped it." },
               historical: true,
               setFlags: { stockholm43: "closed" },
               favor: 1,
@@ -4277,7 +4280,7 @@
           choices: [
             {
               label: "Treat it as a genuine opportunity — probe for a local counterstroke while the line holds",
-              advisor: { name: "Manstein", quote: "A firm line is not a gift to be admired. It is a base to strike from, and I did not spend the reserve sealing it just to stand behind it politely." },
+              advisor: { name: "Manstein", position: "A firm line is a base to strike from and not a gift to be admired, and the reserve was not spent sealing it just to stand politely behind it." },
               historical: false,
               setFlags: { firmestLine43: "probe" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -4287,7 +4290,7 @@
             },
             {
               label: "Bank it purely as a defensive asset — the stability itself is the win, don't spend it chasing more",
-              advisor: { name: "Rundstedt", quote: "You spent the reserve to stop arguing about this front. Do not immediately start a new argument about it." },
+              advisor: { name: "Rundstedt", position: "The reserve was spent to stop the argument about this front, so a new argument about it should not start at once." },
               setFlags: { firmestLine43: "bank" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "vWeaponsProduction44",
@@ -4308,7 +4311,7 @@
           choices: [
             {
               label: "Commit to maximum V-weapon production — the retaliation program as planned, resources found regardless",
-              advisor: { name: "Hitler", quote: "The German people have absorbed the bombing without an answer for too long. They will have one. Find the workers and the material wherever they are." },
+              advisor: { name: "Hitler", position: "The German people have absorbed the bombing without an answer for too long, and will now have one. The workers and material must be found wherever they are." },
               historical: true,
               setFlags: { vWeapons44: "maximum" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -4318,7 +4321,7 @@
             },
             {
               label: "Cap the program — fund V-weapon development but redirect the bulk of the resources to fighter production",
-              advisor: { name: "Speer", quote: "I am not arguing against the weapon. I am arguing against what it costs us to build it at the scale being asked for. Every ministry has a number it doesn't want read aloud. This is mine." },
+              advisor: { name: "Speer", position: "The weapon itself is not opposed, only what it costs to build at the scale demanded. Every ministry has a number it would rather not have read aloud, and this is his." },
               setFlags: { vWeapons44: "capped" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "normandy",
@@ -4362,7 +4365,7 @@
             const base = [
               {
                 label: "Release Panzer reserves toward Normandy immediately",
-                advisor: { name: "Rommel", quote: "If this is the invasion, the war is decided today, on those beaches, before dark. Release everything. Now. Wake him." },
+                advisor: { name: "Rommel", position: "If this is the invasion, the war is decided today on those beaches before dark. Release everything, and wake him." },
                 setFlags: { normandy: "release" },
               favor: 1,
                 impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -4392,7 +4395,7 @@
               },
               {
                 label: "Hold reserves — wait for confirmation this isn't a feint toward Calais",
-                advisor: { name: "Jodl", quote: "Every assessment we possess says the main blow comes at Calais. We do not spend the strategic reserve on the diversion." },
+                advisor: { name: "Jodl", position: "Every assessment points to the main blow at Calais, so the strategic reserve is not spent on the diversion." },
                 historical: true,
                 setFlags: { normandy: "hold" },
                 impact: { manpower: 0, fuel: 0, initiative: -2 },
@@ -4404,7 +4407,7 @@
             if (flags.westDoctrine === "forward") {
               base.unshift({
                 label: "The doctrine's moment — fight the landing at the waterline with the forward-deployed divisions",
-                advisor: { name: "Rommel", quote: "This is the twenty-four hours I built the whole coast for. Whatever is on those beaches by dark decides the war." },
+                advisor: { name: "Rommel", position: "This is the twenty-four hours the whole coast was built for, and whatever stands on those beaches by dark decides the war." },
                 setFlags: { normandy: "waterline" },
                 impact: { manpower: -1, fuel: 0, initiative: 0 },
                 next: "normandyConsolidation44",
@@ -4433,8 +4436,8 @@
                   ? "The doctrine's moment — commit the massed central reserve against the beachhead as one blow"
                   : "Launch an immediate, fully-resourced counter-attack against the beachhead",
                 advisor: massed
-                  ? { name: "Rundstedt", quote: "They have shown us where the war is. Now — everything, at once, before the beachhead becomes a front." }
-                  : { name: "Rommel", quote: "You gave me the reserve I begged history for. There is exactly one morning on which it purchases anything. This is the morning." },
+                  ? { name: "Rundstedt", position: "The war has now been shown where it is, so everything goes in at once before the beachhead becomes a front." }
+                  : { name: "Rommel", position: "The reserve begged of history has been given, there is exactly one morning on which it purchases anything, and this is the morning." },
                 setFlags: { normandy: "counterattack" },
                 impact: massed ? { manpower: -1, fuel: -1, initiative: 1 } : { manpower: -1, fuel: -1, initiative: 0 },
                 next: "bagration44",
@@ -4459,7 +4462,7 @@
             ? [
                 {
                   label: "Drive for the beach at Sword — split the British lodgment before it links with the others",
-                  advisor: { name: "Rommel", quote: "One armored spearhead, reaching salt water, ends the argument about whether this invasion succeeds. I have twelve hours, perhaps less, to make that argument in steel." },
+                  advisor: { name: "Rommel", position: "One armored spearhead reaching salt water ends the argument about whether the invasion succeeds, and there are twelve hours, perhaps fewer, to make that argument in steel." },
                   checkLabel: "Matériel",
                   disabledReason: meters.fuel <= -3 ? "insufficient fuel left to run an armored spearhead the length of the lodgment in a single push" : undefined,
                   setFlags: { normandyCounterattack: "drive" },
@@ -4484,7 +4487,7 @@
                 },
                 {
                   label: "Hold the counterattack for dusk — attack under cover of darkness instead",
-                  advisor: { name: "Guderian's doctrine, invoked by staff", quote: "Armor in daylight against that much naval gunfire is not audacity. It is arithmetic, and the arithmetic is published. Wait for dark." },
+                  advisor: { name: "Guderian's doctrine, invoked by staff", position: "Armor in daylight against that much naval gunfire is arithmetic, not audacity, and the arithmetic is published. Wait for dark." },
                   setFlags: { normandyCounterattack: "dusk" },
                   favor: 1,
                   impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -4496,7 +4499,7 @@
             : [
                 {
                   label: "Commit the reserve anyway — better late than not tried at all",
-                  advisor: { name: "Rommel", quote: "I asked for this reserve at dawn and I am being handed it at dusk. I will use it regardless, because the alternative is explaining why I asked for something I then declined to use." },
+                  advisor: { name: "Rommel", position: "The reserve was asked for at dawn and handed over at dusk. It will be used regardless, since the alternative is explaining why it was requested and then left alone." },
                   setFlags: { normandyCounterattack: "lateCommit" },
                   impact: { manpower: -2, fuel: -1, initiative: 0 },
                   next: "bagration44",
@@ -4505,7 +4508,7 @@
                 },
                 {
                   label: "Stand the reserve down — the window that mattered is already gone",
-                  advisor: { name: "Rundstedt", quote: "There is no version of this order that arrives in time now. Save the divisions for the battle we can still actually fight." },
+                  advisor: { name: "Rundstedt", position: "No version of this order arrives in time now, so the divisions should be saved for the battle that can still be fought." },
                   setFlags: { normandyCounterattack: "stoodDown" },
                   favor: 1,
                   impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -4529,7 +4532,7 @@
           choices: [
             {
               label: "Commit everything still mobile to one decisive counter-stroke, now, before the window closes",
-              advisor: { name: "Rommel", quote: "I have one week, perhaps less, before this stops being a battle we can still lose or win and becomes a siege we can only manage. Spend everything mobile while the word 'decisive' still means something." },
+              advisor: { name: "Rommel", position: "There is one week, perhaps fewer, before this stops being a battle that can be won or lost and becomes a siege that can only be managed. Spend everything mobile while the word decisive still means something." },
               historical: false,
               setFlags: { normandyConsolidation44: "strike" },
               favor: -1,
@@ -4540,7 +4543,7 @@
             },
             {
               label: "Begin the deliberate fighting withdrawal to a shorter, more defensible interior line",
-              advisor: { name: "Rundstedt", quote: "There is a version of this campaign where we spend the army finding out the window is already closed. I would rather spend it holding a line we chose than one the beachhead's own growth chose for us." },
+              advisor: { name: "Rundstedt", position: "There is a version of this campaign in which the army is spent finding out the window has already closed. Better to hold a line chosen than one the beachhead's own growth chose." },
               historical: true,
               setFlags: { normandyConsolidation44: "withdraw" },
               favor: 1,
@@ -4578,7 +4581,7 @@
             const base = [
             {
               label: "Weight the reserves south, behind Army Group North Ukraine, as FHO assesses",
-              advisor: { name: "Gehlen", quote: "Every indicator we possess converges on the south. I have never signed an assessment with more corroboration behind it." },
+              advisor: { name: "Gehlen", position: "Every indicator points to the south, and no assessment has ever been signed with more corroboration behind it." },
               historical: true,
               setFlags: { bagration: "south" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
@@ -4588,7 +4591,7 @@
             },
             {
               label: "Hedge — distribute the reserves evenly across both army groups",
-              advisor: { name: "Model", quote: "When every indicator agrees this perfectly, I hear an author, not an enemy. Split the reserve and insult both possibilities equally." },
+              advisor: { name: "Model", position: "When every indicator agrees this perfectly it suggests an author, not an enemy, so split the reserve and insult both possibilities equally." },
               setFlags: { bagration: "hedge" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
               next: meters.manpower <= -5 ? "collapse1944" : "july20Plot44",
@@ -4617,7 +4620,7 @@
             },
             {
               label: "Reject the assessment — weight Center, and abandon the fortified-places doctrine for elastic defense",
-              advisor: { name: "Busch", quote: "My front is 'quiet' the way a held breath is quiet. Something is out there, whatever the assessments say — and my fortress orders will make graves of my divisions if it comes." },
+              advisor: { name: "Busch", position: "The front is quiet the way a held breath is quiet. Something is out there whatever the assessments say, and the fortress orders will make graves of the divisions if it comes." },
               setFlags: { bagration: "center" },
               favor: 1,
               impact: { manpower: -1, fuel: -1, initiative: 2 },
@@ -4629,7 +4632,7 @@
             if (meters.manpower >= 3 && meters.initiative >= 3) {
               base.push({
                 label: "Spend the banked strength directly — reinforce Center now, on top of rejecting FHO's assessment",
-                advisor: { name: "Guderian", quote: "Three years of husbanded divisions were for exactly this morning. If we cannot spend them here, name the morning that was worth more." },
+                advisor: { name: "Guderian", position: "Three years of husbanded divisions were saved for exactly this morning, and if they cannot be spent here the morning worth more should be named." },
                 setFlags: { bagration: "center", bagrationReinforced: true },
                 favor: 2,
                 impact: { manpower: 1, fuel: -1, initiative: 1 },
@@ -4652,7 +4655,7 @@
           choices: [
             {
               label: "Anchor on the Vistula river line — dig in behind the last great river before the Reich",
-              advisor: { name: "Model", quote: "Rivers do not run away and do not need fuel. Put the army behind the Vistula and make Ivan solve a problem with no maneuver answer." },
+              advisor: { name: "Model", position: "Rivers neither run away nor need fuel. Put the army behind the Vistula and make Ivan solve a problem with no maneuver answer." },
               setFlags: { eastStand: "vistula" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "romaniaDefects44",
@@ -4661,7 +4664,7 @@
             },
             {
               label: "The backhand blow — counterattack the overextended Soviet spearheads Manstein-style",
-              advisor: { name: "Manstein", quote: "Kharkov, gentlemen, on a grander scale: let the flood overreach, then cut it at the wrist. Their spearheads are further from home than mine ever were." },
+              advisor: { name: "Manstein", position: "Kharkov on a grander scale: let the flood overreach, then cut it at the wrist, since their spearheads are further from home than any ever were." },
               setFlags: { eastStand: "backhand" },
               favor: 1,
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -4671,7 +4674,7 @@
             },
             {
               label: "Trade Poland entirely — pull all the way back to the Reich's own border fortifications now",
-              advisor: { name: "Guderian", quote: "Every kilometer we hold out here is a kilometer of Germany we cannot fortify. The war is coming home; let it find the door locked." },
+              advisor: { name: "Guderian", position: "Every kilometer held out here is a kilometer of Germany that cannot be fortified. The war is coming home, and it should find the door locked." },
               setFlags: { eastStand: "reichLine" },
               favor: 2,
               impact: { manpower: 1, fuel: 1, initiative: -1 },
@@ -4692,7 +4695,7 @@
           choices: [
             {
               label: "Fight a general withdrawal — trade all of Poland for a line on the Oder",
-              advisor: { name: "Model", quote: "I have been called the Führer's fireman. There is no putting this out — but a fire brigade can still choose what it carries from the building." },
+              advisor: { name: "Model", position: "He has been called the Führer's fireman. There is no putting this out, but a fire brigade can still choose what it carries from the building." },
               setFlags: { finalStand: "oderLine", pathVariant: "collapse44" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "END",
@@ -4715,7 +4718,7 @@
             },
             {
               label: "Declare fortress cities across Poland — hold everywhere, yield nothing",
-              advisor: { name: "Keitel", quote: "The Führer has designated the fortress places. They will hold, as ordered, to the last." },
+              advisor: { name: "Keitel", position: "The Führer has designated the fortress places, and they will hold to the last as ordered." },
               setFlags: { finalStand: "fortresses", pathVariant: "collapse44" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "END",
@@ -4735,7 +4738,7 @@
           choices: [
             {
               label: "Hold it in the east — the front that just nearly collapsed needs it more than the one that's merely losing",
-              advisor: { name: "Model", quote: "The west is losing a campaign. The east nearly lost the war outright three weeks ago. I know which fire needs the fire brigade more." },
+              advisor: { name: "Model", position: "The west is losing a campaign while the east nearly lost the war outright three weeks ago, and it is clear which fire needs the fire brigade more." },
               historical: false,
               setFlags: { centerArmyPreserved44: "holdEast" },
               impact: { manpower: 1, fuel: -1, initiative: 0 },
@@ -4745,7 +4748,7 @@
             },
             {
               label: "Transfer west — Normandy is the front that can still be argued about; the east is already decided",
-              advisor: { name: "Rundstedt", quote: "The east is arithmetic now, whatever we send it. The west, for a few more weeks, might still be argued." },
+              advisor: { name: "Rundstedt", position: "The east is arithmetic now whatever is sent to it, while the west, for a few more weeks, might still be argued." },
               historical: false,
               setFlags: { centerArmyPreserved44: "transferWest" },
               favor: 1,
@@ -4768,7 +4771,7 @@
           choices: [
             {
               label: "Order the Bucharest garrison to fight its way out — extract what can be saved",
-              advisor: { name: "Friessner", quote: "I have men in that city with no line back to us and a government that was allied to us yesterday now shooting at them. I would like permission to bring out who I can before that stops being possible." },
+              advisor: { name: "Friessner", position: "There are men in that city with no line back and a government that was an ally yesterday now shooting at them. Permission is asked to bring out whom can be brought before that stops being possible." },
               historical: true,
               setFlags: { romania44: "extract" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -4778,7 +4781,7 @@
             },
             {
               label: "Order the garrison to hold Bucharest and await relief — treat the coup as reversible",
-              advisor: { name: "Guderian", quote: "There is no relief column I can send that arrives before the men we're discussing are already dead or captured. Ordering them to hold is ordering them to die for a position I cannot actually reinforce." },
+              advisor: { name: "Guderian", position: "No relief column can arrive before the men in question are dead or captured, and ordering them to hold is ordering them to die for a position that cannot be reinforced." },
               setFlags: { romania44: "hold" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
               next: "july20Plot44",
@@ -4803,7 +4806,7 @@
           choices: [
             {
               label: "Hold to the chain of command — await Berlin's confirmation before acting on anything",
-              advisor: { name: "Jodl", quote: "We do not know what happened an hour ago in a briefing hut four hundred kilometers from here. We will act on confirmation, not on rumor, whatever the rumor eventually turns out to be." },
+              advisor: { name: "Jodl", position: "What happened an hour ago in a briefing hut four hundred kilometers away is not known. Act on confirmation, not rumor, whatever the rumor turns out to be." },
               historical: true,
               setFlags: { wolfsLair44: "wait" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -4829,7 +4832,7 @@
             },
             {
               label: "Move to secure this headquarters' own position regardless of what Berlin confirms",
-              advisor: { name: "a staff officer, unnamed in the record", quote: "Whatever the truth turns out to be, I would rather this command control its own perimeter than be told an hour from now that it should have." },
+              advisor: { name: "a staff officer, unnamed in the record", position: "Whatever the truth, this command should control its own perimeter, rather than be told in an hour that it should have." },
               setFlags: { wolfsLair44: "secure" },
               favor: -1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -4866,7 +4869,7 @@
           choices: [
             {
               label: "Support the purge in full, as ordered — every implicated officer, however senior",
-              advisor: { name: "Keitel", quote: "The Führer's order is unambiguous, as it was after Stalingrad, as it was after every retreat this campaign has recorded. Loyalty is tested precisely when it is inconvenient." },
+              advisor: { name: "Keitel", position: "The Führer's order is unambiguous, as after Stalingrad and after every retreat this campaign has recorded, and loyalty is tested precisely when it is inconvenient." },
               historical: true,
               setFlags: { july20: "purge" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -4876,7 +4879,7 @@
             },
             {
               label: "Quietly shield essential commanders from the worst of the purge where possible",
-              advisor: { name: "Model", quote: "I did not sign the plot and I will not sign every name they hand me either. Some of these officers I need for the war I am actually still fighting." },
+              advisor: { name: "Model", position: "He did not sign the plot and will not sign every name handed to him either, since some of these officers are needed for the war that is still being fought." },
               setFlags: { july20: "shield" },
               favor: 2,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -4897,7 +4900,7 @@
           choices: [
             {
               label: "Offer Rommel a private arrangement — quiet suicide framed as natural death, his family protected",
-              advisor: { name: "Burgdorf", quote: "I am not proposing mercy. I am proposing that this regime cannot afford what a public trial of this particular name would cost it, and Rommel understands that arithmetic as well as anyone in this room." },
+              advisor: { name: "Burgdorf", position: "Mercy is not proposed. What is proposed is that the regime cannot afford what a public trial of this name would cost it, and Rommel understands that arithmetic as well as anyone in the room." },
               historical: true,
               setFlags: { rommelFate44: "quiet" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -4907,7 +4910,7 @@
             },
             {
               label: "Treat Rommel identically to every other implicated officer — public inquiry, no private exception",
-              advisor: { name: "Himmler", quote: "Every exception we grant to a famous name is a lesson to every officer watching that reputation is its own kind of immunity. I would rather lose the propaganda value than teach that lesson twice." },
+              advisor: { name: "Himmler", position: "Every exception for a famous name teaches every officer watching that reputation is its own kind of immunity, and losing the propaganda value is better than teaching that lesson twice." },
               setFlags: { rommelFate44: "trial" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "caenAttrition",
@@ -4927,7 +4930,7 @@
           choices: [
             {
               label: "Recognize the Replacement Army's authority — back the government seeking to end the war",
-              advisor: { name: "Stauffenberg's own proclamation, relayed", quote: "The Führer is dead. A new German government, under military authority, now acts to save what can still be saved of this country — starting with ending a war that arithmetic like yours has been describing as lost for two years." },
+              advisor: { name: "Stauffenberg's own proclamation, relayed", position: "The proclamation declares the Führer dead and a new German government, under military authority, acting to save what can be saved, beginning with an end to a war that arithmetic like yours has called lost for two years." },
               historical: false,
               setFlags: { hitlerDead44: "backValkyrie" },
               favor: 2,
@@ -4956,7 +4959,7 @@
             },
             {
               label: "Refuse Valkyrie's authority — this headquarters answers to whoever the Party confirms, not a radio proclamation",
-              advisor: { name: "a loyalist colonel, unnamed in the record", quote: "I took an oath to a man, and until someone shows me a body or a successor the Party itself confirms, I do not intend to hand this command to whoever spoke first on the radio." },
+              advisor: { name: "a loyalist colonel, unnamed in the record", position: "An oath was taken to a man, and until a body or a Party-confirmed successor is shown, this command will not be handed to whoever spoke first on the radio." },
               historical: false,
               setFlags: { hitlerDead44: "loyalist" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
@@ -4978,7 +4981,7 @@
           choices: [
             {
               label: "Pursue Goerdeler's actual plan — hold the East, seek terms with the West alone",
-              advisor: { name: "Goerdeler's own circle, relayed", quote: "We removed the one man no Allied government would ever negotiate with. We did not do it to then ask three governments for terms when two of them were never going to answer." },
+              advisor: { name: "Goerdeler's own circle, relayed", position: "The one man no Allied government would negotiate with has been removed, and that was not done in order to ask three governments for terms when two of them were never going to answer." },
               historical: false,
               setFlags: { valkyrieGovernment44: "westOnly" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
@@ -5005,7 +5008,7 @@
             },
             {
               label: "Seek terms on every front, East included, and accept that Moscow likely says nothing back",
-              advisor: { name: "a Kreisau Circle voice, relayed", quote: "A peace offered to two of three enemies is not principle, it is arithmetic that happens to exclude the enemy nearest our own border. Ask everyone. Let the answer, or the silence, be honest." },
+              advisor: { name: "a Kreisau Circle voice, relayed", position: "A peace offered to two of three enemies is arithmetic, not principle, because it excludes the enemy nearest the border. Ask everyone, and let the answer, or the silence, be honest." },
               historical: false,
               favor: 2,
               setFlags: { valkyrieGovernment44: "allFronts" },
@@ -5032,7 +5035,7 @@
           choices: [
             {
               label: "Protect them again — spend whatever standing is left to close the file a second time",
-              advisor: { name: "Model", quote: "I did not shield him once to abandon the account the second time it comes due. Whatever this costs, it costs less than losing him now." },
+              advisor: { name: "Model", position: "He was not shielded once only to be abandoned when the account comes due again, and whatever this costs, it costs less than losing him now." },
               historical: false,
               setFlags: { gestapoInquiry44: "protectAgain" },
               favor: 2,
@@ -5043,7 +5046,7 @@
             },
             {
               label: "Let the inquiry run its course — the risk of protecting them twice is no longer worth it",
-              advisor: { name: "Keitel", quote: "You were permitted one mercy under the circumstances of July. A second is not mercy. It is complicity, and the file will eventually say so regardless of what you intend by it." },
+              advisor: { name: "Keitel", position: "One mercy was permitted under the circumstances of July, and a second is not mercy but complicity, which the file will eventually say whatever the intention." },
               historical: false,
               setFlags: { gestapoInquiry44: "letRun" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -5071,7 +5074,7 @@
           choices: [
             {
               label: "Commit everything to holding Caen — the city is the fight, and Montgomery must be made to pay for every street of it",
-              advisor: { name: "Kluge", quote: "I inherited this argument, not this army's choices before it. Hold Caen and we hold the war's attention where we can still afford it — whatever my predecessor would have ordered, the arithmetic hasn't changed with the command." },
+              advisor: { name: "Kluge", position: "He inherited this argument and not the army's choices before him. Hold Caen and the war's attention is held where it can still be afforded, since the arithmetic has not changed with the command." },
               historical: true,
               setFlags: { caen: "holdFull" },
               impact: { manpower: -2, fuel: -1, initiative: 1 },
@@ -5081,7 +5084,7 @@
             },
             {
               label: "Thin Caen deliberately — shift armor west to where the real breakout risk sits",
-              advisor: { name: "Rundstedt's staff", quote: "Every division watching the British is a division not watching the road to Avranches. Montgomery is not the one who ends this campaign quickly. Bradley is." },
+              advisor: { name: "Rundstedt's staff", position: "Every division watching the British is one not watching the road to Avranches, and the man who ends this campaign quickly is Bradley, not Montgomery." },
               setFlags: { caen: "thinned" },
               favor: 1,
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -5091,7 +5094,7 @@
             },
             {
               label: "Fighting withdrawal from Caen's ruins — trade the city for a shorter line behind the Orne",
-              advisor: { name: "Speidel", quote: "A city is stone. An army is not replaceable on the same schedule. I would rather explain why Caen fell than why the army defending it did not survive to defend anything after — and I have grown considerably less patient with orders that don't distinguish between the two." },
+              advisor: { name: "Speidel", position: "A city is stone, and an army cannot be replaced on the same schedule. Better to explain why Caen fell than why the army defending it did not survive, and patience with orders that do not distinguish between the two is wearing thin." },
               setFlags: { caen: "withdraw" },
               favor: 2,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -5118,7 +5121,7 @@
           choices: [
             {
               label: "Order an immediate breakout — every formation for itself, east, now",
-              advisor: { name: "Hausser", quote: "There is no version of holding here that ends with an army still existing tomorrow. I would rather have three divisions that can really attack than nine that can only apologize for not being ordered to." },
+              advisor: { name: "Hausser", position: "No version of holding here ends with an army still existing tomorrow, and three divisions that can really attack are worth more than nine that can only apologize for not being ordered to." },
               historical: true,
               setFlags: { falaiseGerman: "breakout" },
               impact: { manpower: 1, fuel: -1, initiative: 0 },
@@ -5128,7 +5131,7 @@
             },
             {
               label: "Hold and counterattack toward Avranches, exactly as ordered",
-              advisor: { name: "Hitler", quote: "The pocket is not a trap. It is a staging area for the counterattack that reopens this entire front. Transmit the order again, in full, to every command that has failed to acknowledge it." },
+              advisor: { name: "Hitler", position: "The pocket is not a trap but a staging area for the counterattack that reopens the whole front, so transmit the order again in full to every command that has failed to acknowledge it." },
               setFlags: { falaiseGerman: "holdOrdered" },
               impact: { manpower: -3, fuel: -1, initiative: 0 },
               next: "arnhem44",
@@ -5137,7 +5140,7 @@
             },
             {
               label: "Staggered withdrawal — hold the shoulders open as long as possible, funnel formations through in sequence",
-              advisor: { name: "Model", quote: "Not everyone at once, and not no one. A funnel, not a stampede — the shoulders hold while the center empties, corps by corps, in the order I name." },
+              advisor: { name: "Model", position: "Not everyone at once and not no one, but a funnel and not a stampede: the shoulders hold while the center empties, corps by corps, in the order named." },
               favor: 2,
               setFlags: { falaiseGerman: "staggered" },
               impact: { manpower: 2, fuel: -1, initiative: 1 },
@@ -5175,7 +5178,7 @@
           choices: [
             {
               label: "Throw everything at the corridor — crush the airborne carpet and hold Arnhem",
-              advisor: { name: "Model", quote: "They have landed an army on top of my headquarters and strung it along one road. Very well — a road is a thing I know how to cut." },
+              advisor: { name: "Model", position: "An army has been landed on top of the headquarters and strung along one road, and a road is a thing he knows how to cut." },
               historical: true,
               setFlags: { arnhem: "corridor" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -5185,7 +5188,7 @@
             },
             {
               label: "Contain the corridor economically — put the real weight into the Scheldt estuary garrisons",
-              advisor: { name: "Student", quote: "The bridge is dramatic; the estuary is decisive. An Allied army that cannot be supplied does not need to be defeated." },
+              advisor: { name: "Student", position: "The bridge is dramatic, but the estuary is decisive, and an Allied army that cannot be supplied does not need to be defeated." },
               setFlags: { arnhem: "scheldt" },
               impact: { manpower: 0, fuel: 1, initiative: -1 },
               next: "ardennes",
@@ -5208,7 +5211,7 @@
             },
             {
               label: "Split between both — hold the corridor and the estuary with divided forces",
-              advisor: { name: "Rundstedt", quote: "Two vital points, one reserve. We will defend both adequately, which is to say, neither sufficiently." },
+              advisor: { name: "Rundstedt", position: "Two vital points and one reserve means both will be defended adequately, which is to say neither sufficiently." },
               setFlags: { arnhem: "split" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "ardennes",
@@ -5253,7 +5256,7 @@
                 checkLabel: "Matériel",
                 disabledReason: fuelExhausted ? "insufficient fuel to reach Antwerp or attempt any offensive" : undefined,
                 label: "Launch the Ardennes offensive",
-                advisor: { name: "Hitler", quote: "One blow through the Ardennes — as in 1940 — and the enemy coalition cracks along its seam. Wars are won by will." },
+                advisor: { name: "Hitler", position: "One blow through the Ardennes, as in 1940, will crack the enemy coalition along its seam, because wars are won by will." },
                 historical: true,
                 setFlags: { ardennes: "launch" },
                 impact: { manpower: -3, fuel: -2, initiative: 1 },
@@ -5264,7 +5267,7 @@
             }
             base.push({
               label: "Hold remaining reserves for defense of the Rhine",
-              advisor: { name: "Model", quote: "This plan does not have a leg to stand on — and I say that as the man ordered to make it march to Antwerp." },
+              advisor: { name: "Model", position: "The plan does not have a leg to stand on, and that is said by the man ordered to make it march to Antwerp." },
               setFlags: { ardennes: "hold" },
               favor: 1,
               impact: { manpower: 1, fuel: 1, initiative: 0 },
@@ -5276,7 +5279,7 @@
             if (preservedReserve && !fuelExhausted) {
               base.push({
                 label: "A reinforced combined-arms offensive, using the divisions preserved earlier in the war",
-                advisor: { name: "Manteuffel", quote: "With real strength behind it, the plan's first hundred kilometers are achievable. It is the second hundred I cannot promise anyone." },
+                advisor: { name: "Manteuffel", position: "With real strength behind it, the plan's first hundred kilometers are achievable, but nobody can be promised the second hundred." },
                 setFlags: { ardennes: "reinforced" },
                 impact: { manpower: -1, fuel: -2, initiative: 0 },
                 next: "hungaryGamble45",
@@ -5302,7 +5305,7 @@
           choices: [
             {
               label: "Send Sixth SS Panzer Army to Hungary — hold the last oil, as ordered",
-              advisor: { name: "Hitler", quote: "Without the Hungarian oil there is no war to lose. The army goes to Balaton. The discussion is over." },
+              advisor: { name: "Hitler", position: "Without the Hungarian oil there is no war to lose, so the army goes to Balaton and the discussion is over." },
               historical: true,
               setFlags: { lastReserve: "hungary" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -5312,7 +5315,7 @@
             },
             {
               label: "Hold Sixth SS Panzer on the Oder — defend Berlin, concede the oil",
-              advisor: { name: "Guderian", quote: "The Eastern Front is a house of cards and the enemy is sixty kilometers from this room. The oil you are defending cannot even be refined anymore. The army belongs HERE." },
+              advisor: { name: "Guderian", position: "The Eastern Front is a house of cards with the enemy sixty kilometers from this room. The oil being defended cannot even be refined anymore, and the army belongs here." },
               setFlags: { lastReserve: "oder" },
               favor: 2,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -5322,7 +5325,7 @@
             },
             {
               label: "Split the army — a corps to Hungary, the balance to the Oder",
-              advisor: { name: "Jodl", quote: "Perhaps a compromise formation to Hungary would satisfy the Führer while the mass remains east. It has the virtue of being approvable." },
+              advisor: { name: "Jodl", position: "A compromise formation sent to Hungary might satisfy the Führer while the mass remains in the east, and it has the virtue of being approvable." },
               setFlags: { lastReserve: "split" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: flags.ardennes === "hold" ? "rhineDefense45" : (meters.manpower || 0) >= -1 ? "reichStand45" : "END",
@@ -5349,7 +5352,7 @@
               checkLabel: "Reserve",
               disabledReason: reserveExists ? undefined : "the preserved reserve has been spent down elsewhere",
               label: "Strike the Remagen bridgehead now with the preserved reserve — throw it back across the Rhine",
-              advisor: { name: "Model", quote: "A bridgehead is an infant — kill it in the cradle or raise it as your enemy. We have perhaps four days of cradle left." },
+              advisor: { name: "Model", position: "A bridgehead is an infant to be killed in the cradle or raised as an enemy, and perhaps four days of cradle remain." },
               setFlags: { rhine45: "remagen" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: (meters.manpower || 0) >= -1 ? "reichStand45" : "END",
@@ -5372,7 +5375,7 @@
             });
             base.push({
               label: "Concede Remagen — build the defense in depth behind the Ruhr's approaches instead",
-              advisor: { name: "Heinrici", quote: "The river is lost the moment a single bridge stands. Fight them in the country beyond it, where their navy cannot follow and their engineers cannot help." },
+              advisor: { name: "Heinrici", position: "The river is lost the moment a single bridge stands, so fight them in the country beyond it, where their navy cannot follow and their engineers cannot help." },
               setFlags: { rhine45: "depth" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -5382,7 +5385,7 @@
             });
             base.push({
               label: "Stand in the Ruhr itself — the arsenal of the Reich must be held, whatever surrounds it",
-              advisor: { name: "Keitel", quote: "The Führer has declared the Ruhr a fortress. Its industry is the war; its loss is the end. The army stays with the factories." },
+              advisor: { name: "Keitel", position: "The Führer has declared the Ruhr a fortress. Its industry is the war and its loss is the end, so the army stays with the factories." },
               setFlags: { rhine45: "ruhrPocket" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
               next: (meters.manpower || 0) >= -1 ? "reichStand45" : "END",
@@ -5403,7 +5406,7 @@
           choices: [
             {
               label: "Weight the defense east — hold the Oder, let the western front thin",
-              advisor: { name: "Heinrici", quote: "Every soldier fights the enemy in front of him. But if you are asking me where Germany's women and children need the line to hold longest, the answer is not the Rhine." },
+              advisor: { name: "Heinrici", position: "Every soldier fights the enemy in front of him, but if the question is where Germany's women and children need the line to hold longest, the answer is not the Rhine." },
               setFlags: { reichStand: "east" },
               impact: { manpower: -1, fuel: 0, initiative: -1 },
               next: "oderDefense45",
@@ -5414,7 +5417,7 @@
               ? [
                   {
                     label: "Weight the defense west — hold the Rhine hard, accept the Oder cannot be held long",
-                    advisor: { name: "Model", quote: "The western armies are the ones we can still maneuver against. I can make the Rhine expensive. Nobody in this room can make the Oder anything but brief." },
+                    advisor: { name: "Model", position: "The western armies are the ones that can still be maneuvered against. The Rhine can be made expensive, but nobody in the room can make the Oder anything but brief." },
                     setFlags: { reichStand: "west" },
               favor: 2,
                     impact: { manpower: 0, fuel: -1, initiative: 0 },
@@ -5426,7 +5429,7 @@
               : []),
             {
               label: "Activate Festung Norwegen — evacuate what can move to the northern fortress and stand there",
-              advisor: { name: "Böhme", quote: "I command a third of a million men who have fired barely a shot since 1940. If the Reich intends to keep an army intact past the end, it already has one — it is simply in Norway." },
+              advisor: { name: "Böhme", position: "A third of a million men have fired barely a shot since 1940. If the Reich intends to keep an army intact past the end, it already has one, in Norway." },
               setFlags: { reichStand: "north" },
               favor: 2,
               impact: { manpower: 1, fuel: -1, initiative: 0 },
@@ -5438,7 +5441,7 @@
               ? [
                   {
                     label: "Contest both — the reserve this path banked is real enough to hold pieces of each front at once",
-                    advisor: { name: "Heinrici", quote: "Nobody in this war has been able to say that sentence and mean it. I can say it now, because of what wasn't spent to get here." },
+                    advisor: { name: "Heinrici", position: "Nobody in this war has been able to say that sentence and mean it, and it can be said now only because of what was not spent to get here." },
                     setFlags: { reichStand: "both" },
                     favor: 3,
                     impact: { manpower: -2, fuel: -1, initiative: 1 },
@@ -5461,7 +5464,7 @@
           choices: [
             {
               label: "Elastic defense of the Rhine — trade river lines for time, keep the army intact",
-              advisor: { name: "Model", quote: "I have fought delaying actions since Rzhev. Give me leave to fight this one properly — by giving ground where ground is all it costs." },
+              advisor: { name: "Model", position: "Delaying actions have been fought since Rzhev, and leave is asked to fight this one properly, by giving ground where ground is all it costs." },
               setFlags: { westStand: "elastic" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -5471,7 +5474,7 @@
             },
             {
               label: "Stand on the Rhine itself — no withdrawal from the river line",
-              advisor: { name: "Kesselring", quote: "The Rhine is the last terrain feature in Germany worth the word 'barrier.' Behind it there is only geography, and geography has never stopped anyone." },
+              advisor: { name: "Kesselring", position: "The Rhine is the last terrain feature in Germany worth the word barrier. Behind it there is only geography, which has never stopped anyone." },
               setFlags: { westStand: "rigid" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
               next: "flensburg45",
@@ -5491,7 +5494,7 @@
           choices: [
             {
               label: "Hold the fortress past the continental surrender — the army capitulates last, intact, on its own terms",
-              advisor: { name: "Böhme", quote: "We will surrender when ordered by a government that exists, to an enemy that has actually arrived. Until one of those conditions is met, this command stands." },
+              advisor: { name: "Böhme", position: "Surrender will come when ordered by a government that exists, to an enemy that has actually arrived, and until one of those conditions is met this command stands." },
               setFlags: { northStand: "held" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "END",
@@ -5500,7 +5503,7 @@
             },
             {
               label: "Open surrender talks early — hand the intact army over cleanly before the continental collapse completes",
-              advisor: { name: "Terboven's staff officer", quote: "Every week we wait, we surrender to a harder peace as a smaller footnote. Surrender now, intact and orderly, and the men are home by autumn." },
+              advisor: { name: "Terboven's staff officer", position: "Every week of waiting is a surrender to a harder peace as a smaller footnote, while surrender now, intact and orderly, has the men home by autumn." },
               setFlags: { northStand: "early" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "END",
@@ -5520,7 +5523,7 @@
           choices: [
             {
               label: "Approve Heinrici's withdrawal trick — let the bombardment hit empty trenches",
-              advisor: { name: "Heinrici", quote: "Zhukov will spend a million shells killing empty dirt. I intend to let him." },
+              advisor: { name: "Heinrici", position: "Zhukov will spend a million shells killing empty dirt, and he will be allowed to." },
               historical: true,
               setFlags: { seelow: "heinrici" },
               favor: 1,
@@ -5531,7 +5534,7 @@
             },
             {
               label: "Hold the forward line as doctrine demands — meet the bombardment in place",
-              advisor: { name: "Krebs", quote: "The Führer's standing order admits no withdrawals, anticipatory or otherwise. The first line holds the first line." },
+              advisor: { name: "Krebs", position: "The Führer's standing order admits no withdrawals, anticipatory or otherwise, and the first line holds the first line." },
               setFlags: { seelow: "forward" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: (meters.manpower || 0) >= 1 && (meters.fuel || 0) >= 0 ? "berlinDefense45" : "finalWeek45",
@@ -5540,7 +5543,7 @@
             },
             {
               label: "Skip the Heights — pull everything back to Berlin's outer defense ring now",
-              advisor: { name: "Weidling", quote: "The Heights buy days; the city could bleed them for weeks. Give me the divisions inside the ring while they are still divisions." },
+              advisor: { name: "Weidling", position: "The Heights buy days, while the city could bleed them for weeks. Give him the divisions inside the ring while they are still divisions." },
               setFlags: { seelow: "berlinRing" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: (meters.manpower || 0) >= 1 && (meters.fuel || 0) >= 0 ? "berlinDefense45" : "finalWeek45",
@@ -5560,7 +5563,7 @@
           choices: [
             {
               label: "Commit the Volkssturm and Hitler Youth units to the perimeter alongside regular forces",
-              advisor: { name: "Goebbels", quote: "The Führer has asked Berlin to defend itself. Every rifle in the city answers that question, whoever is holding it." },
+              advisor: { name: "Goebbels", position: "The Führer has asked Berlin to defend itself, and every rifle in the city answers that question, whoever is holding it." },
               historical: true,
               setFlags: { berlinDefense45: "volkssturm" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
@@ -5570,7 +5573,7 @@
             },
             {
               label: "Limit the defense to trained regular forces — stand down the Volkssturm and Hitler Youth units",
-              advisor: { name: "Weidling", quote: "I command soldiers. I did not become the commander of Berlin's defense to spend children buying days the war no longer has any use for." },
+              advisor: { name: "Weidling", position: "He commands soldiers, and did not become Berlin's defense commander to spend children buying days the war no longer has any use for." },
               setFlags: { berlinDefense45: "regulars" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -5591,7 +5594,7 @@
           choices: [
             {
               label: "Order Twelfth Army to fight into Berlin — the relief attempt, as commanded",
-              advisor: { name: "Keitel", quote: "The Führer expects Twelfth Army in Berlin. History is watching what German soldiers do with their capital." },
+              advisor: { name: "Keitel", position: "The Führer expects Twelfth Army in Berlin, and history is watching what German soldiers do with their capital." },
               setFlags: { finalWeek: "relief" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "flensburg45",
@@ -5600,7 +5603,7 @@
             },
             {
               label: "Hold the Elbe corridor open — cover the flight west for as long as the line lasts",
-              advisor: { name: "Wenck", quote: "We can no longer save the city. We can still save the people walking out of it. That is the army's last mission, whatever the last order says." },
+              advisor: { name: "Wenck", position: "The city can no longer be saved, but the people walking out of it still can, and that is the army's last mission whatever the last order says." },
               historical: true,
               setFlags: { finalWeek: "elbe" },
               favor: 1,
@@ -5622,7 +5625,7 @@
           choices: [
             {
               label: "Attempt a surrender to the Western Allies only — keep fighting the Soviets to buy time in the east",
-              advisor: { name: "Dönitz", quote: "Every day I can hold this open in the west is a day more of our people walk out of the east instead of being caught in it. I will spend what little authority I have left on exactly that." },
+              advisor: { name: "Dönitz", position: "Every day this can be held open in the west is a day more of the people walk out of the east instead of being caught in it, and the little authority left will be spent on exactly that." },
               historical: true,
               setFlags: { surrenderPath: "westOnly" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
@@ -5632,7 +5635,7 @@
             },
             {
               label: "Sign a full, simultaneous surrender on all fronts immediately",
-              advisor: { name: "Jodl", quote: "The partial surrender was always going to be refused. Sign the whole thing now and stop pretending we have leverage we do not have." },
+              advisor: { name: "Jodl", position: "The partial surrender was always going to be refused, so sign the whole thing now and stop pretending to leverage that does not exist." },
               setFlags: { surrenderPath: "full" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "END",
@@ -5641,7 +5644,7 @@
             },
             {
               label: "Order the government and remaining forces into the Alpine Redoubt — continue resistance from the mountains",
-              advisor: { name: "Kesselring", quote: "Bavaria and the Tyrol have mountains, tunnels, supply dumps we've been stocking for a year. The propaganda has been calling it a fortress. Let us find out if it is one." },
+              advisor: { name: "Kesselring", position: "Bavaria and the Tyrol have mountains, tunnels and supply dumps stocked for a year, and the propaganda has called it a fortress. Let it be found out whether it is one." },
               setFlags: { surrenderPath: "redoubt" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
               next: "alpineRedoubt45",
@@ -5661,7 +5664,7 @@
           choices: [
             {
               label: "Order the last resistance anyway, as the propaganda promised",
-              advisor: { name: "Kesselring", quote: "I gave the order. I will not pretend, in this room, that I expect it to be obeyed the way an order once was." },
+              advisor: { name: "Kesselring", position: "The order was given, and there is no pretending in this room that it will be obeyed the way an order once was." },
               setFlags: { redoubtOutcome: "attempted" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "END",
@@ -5670,7 +5673,7 @@
             },
             {
               label: "Abandon the plan quietly — surrender with everyone else",
-              advisor: { name: "Kesselring", quote: "The mountains were always a better story than a fortress. There is no shame in admitting that before more men die finding it out themselves." },
+              advisor: { name: "Kesselring", position: "The mountains were always a better story than a fortress, and there is no shame in admitting it before more men die finding it out." },
               setFlags: { redoubtOutcome: "abandoned" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "END",
