@@ -17,7 +17,7 @@ Matériel strand reading and every field decision (`npm run check-battle-balance
 7. Look at the four readings under Matériel (Fuel & Oil, Ammunition, Armour & Steel, Shipping & Rail). Did they mean anything to you?
 8. Open the War Record and its Battle Record.
 9. Part way through a battle press "Save and leave the field", close the page, come back and resume. Was it clear where you were and what had been kept? Did the planning screen or the report come back as you left it?
-10. Read the advice on the choice buttons ("Halder argues: ..."). Did it read as people arguing, and did the "On the record" quotations (six of them) feel different from the rest?
+10. Read the advice on the choice buttons ("Halder argues: ..."). Did it read as people arguing, and did the six real quotations, which are in speech marks, feel different from the rest?
 11. After a decision look at "Where you stand now": did the bars moving, and a Matériel reading changing band, tell you what you had done? Try it once with the Sound setting on and say whether the battle sounds helped or grated.
 12. At the end open "A note for the author" and paste the line into a comment on the game's page, with whatever you want to say.
 

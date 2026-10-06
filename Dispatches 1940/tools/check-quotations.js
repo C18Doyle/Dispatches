@@ -4,8 +4,8 @@
  *
  * Advisers on a choice carry `position`: what the named person argued, in the third person. They never
  * carry invented speech, so there is no `quote` field. A choice may also carry one `attested` line,
- * words a named person is on record as having said or written, shown on screen as "On the record" with
- * its source. Rules this check enforces on the campaign parts in src/parts:
+ * words a named person is on record as having said or written, shown on screen in speech marks in place of the adviser's position (the source lives in the register,
+ * not on the button). Rules this check enforces on the campaign parts in src/parts:
  *
  *   1. No `{ name, quote }` adviser anywhere (a regression to invented speech).
  *   2. Every adviser has a non-empty `position`.

@@ -24876,21 +24876,16 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   {choice.trustDelta} German Trust
                 </span>
               )}
-              {choice.advisor && (
+              {choice.attested ? (
                 <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
-                  {choice.advisor.name.charAt(0).toUpperCase() + choice.advisor.name.slice(1)} argues: {choice.advisor.position}
+                  “{choice.attested.text}” — {choice.attested.by}
                 </span>
-              )}
-              {choice.attested && (
-                <span className="block text-[13px] mt-1 opacity-90 group-hover:opacity-100">
-                  <span
-                    className="inline-block mr-2 text-[10px] uppercase tracking-widest font-bold border border-current px-1"
-                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                  >
-                    On the record
+              ) : (
+                choice.advisor && (
+                  <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
+                    {choice.advisor.name.charAt(0).toUpperCase() + choice.advisor.name.slice(1)} argues: {choice.advisor.position}
                   </span>
-                  {choice.attested.by}: “{choice.attested.text}” <cite className="opacity-80">— {choice.attested.source}</cite>
-                </span>
+                )
               )}
               {choice.uncertain && !choice.concealRoll && (
                 <span
