@@ -82,10 +82,10 @@
                 flavor:
                   "The Manstein Plan is a single river on a single afternoon: XIX Panzer Corps must cross the Meuse at Sedan against reserve divisions dug into the far bank, and its three panzer divisions cannot cross at all until engineers have a bridge up. The air corps will bomb the French positions from first light in rolling waves rather than one great blow, some of the corps' guns are still in the Ardennes traffic, and the first men over will go in rubber boats under fire. What's decided here is where the corps' effort goes: how much to the assault companies and pioneers who cross first, how much to the air attack that has to unnerve the defenders rather than destroy them, how much to the artillery that arrived, and how much to the bridge and the roads that every tank in the corps is waiting on.",
                 categories: [
-                  { id: "assault", name: "Assault Infantry & Pioneers", meter: "manpower", glyph: "▮▮▮" },
-                  { id: "air", name: "Air Attack", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "guns", name: "Artillery Preparation", meter: "fuel", strand: "ammo", glyph: "✺" },
-                  { id: "bridging", name: "Bridging & Traffic", meter: "initiative", strand: "steel", glyph: "═" },
+                  { id: "assault", name: "Assault Infantry & Pioneers", meter: "manpower" },
+                  { id: "air", name: "Air Attack", meter: "fuel", strand: "oil" },
+                  { id: "guns", name: "Artillery Preparation", meter: "fuel", strand: "ammo" },
+                  { id: "bridging", name: "Bridging & Traffic", meter: "initiative", strand: "steel" },
                 ],
                 // Assault highest — the first men over the river and up the slope are what the
                 // whole operation turns on; Air second — it did not destroy a single bunker but
@@ -682,10 +682,10 @@
                 title: "Order of Battle — Operation Mercury",
                 flavor: "Student's XI Fliegerkorps has the whole airborne arm of the Reich committed to one island: paratroops and gliders on the airfields at Maleme, Rethymno and Heraklion on the morning of 20 May, mountain troops to follow by air as soon as a field is held, and a sea convoy of caiques behind them if the Royal Navy can be kept away. The garrison is stronger than the planners believe, and British decrypts have told it where the blows will fall. What is decided here is how the corps' strength is weighed: how much into the paratroops who go in first, how much into the Luftwaffe that has to break the defence from the air, how much into the sea convoys, and how much into the mountain troops who are to land once a field is taken.",
                 categories: [
-                  { id: "paratroops", name: "The Paratroop Drop", meter: "manpower", glyph: "✦" },
-                  { id: "air", name: "Luftwaffe Support", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "sea", name: "The Sea Convoys", meter: "fuel", strand: "ship", glyph: "≋" },
-                  { id: "mountain", name: "Mountain Troops by Air-Landing", meter: "manpower", glyph: "▲▲" },
+                  { id: "paratroops", name: "The Paratroop Drop", meter: "manpower" },
+                  { id: "air", name: "Luftwaffe Support", meter: "fuel", strand: "oil" },
+                  { id: "sea", name: "The Sea Convoys", meter: "fuel", strand: "ship" },
+                  { id: "mountain", name: "Mountain Troops by Air-Landing", meter: "manpower" },
                 ],
                 effectiveness: { paratroops: 2.7, air: 2.2, sea: 1.6, mountain: 2 },
                 phases: ["The airdrop of 20 May", "Maleme and the sea convoys"],

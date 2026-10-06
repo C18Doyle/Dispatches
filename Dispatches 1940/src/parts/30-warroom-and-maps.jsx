@@ -495,12 +495,112 @@ function cappedStatusYear(year, resolved) {
   const rawMax = Math.max(1939, Math.min(1945, year || 1945));
   return resolved ? rawMax : Math.max(1939, rawMax - 1);
 }
-function currentRegionStatuses(statusYear, flags, meters) {
-  const base = MAP_YEAR_STATUS[statusYear] || MAP_YEAR_STATUS[1940];
-  const { o } = mapOverrides(statusYear, flags, meters);
+// Round 24 (map accuracy): the checkpoint map's baseline now follows the calendar instead of year-end snapshots.
+// Each region has a list of [date, status] entries, the date being the day the status began. A node's map shows the
+// state on the day its report opens (a date like "APRIL 1940" counts as the first of the month, "LATE MAY 1940" as the
+// 21st, "SEPTEMBER 21-25, 1944" as the 21st, a season as the day it begins), so nothing is shown that the report is
+// about to decide and nothing is left out that had already happened. Run-specific changes still come from
+// mapOverrides. The year-end table (MAP_YEAR_STATUS) stays for the Continental Situation panel; check-map.mjs keeps
+// the two in step.
+const MAP_TIMELINE = {
+  germany: [["1939-01-01", "axis"], ["1945-01-20", "contested"], ["1945-05-08", "divided"]],
+  poland: [["1939-01-01", "neutral"], ["1939-09-01", "contested"], ["1939-10-06", "axis"], ["1944-07-22", "contested"], ["1945-02-01", "soviet"]],
+  britain: [["1939-01-01", "allied"]],
+  ireland: [["1939-01-01", "neutral"]],
+  france: [["1939-01-01", "allied"], ["1940-05-13", "contested"], ["1940-06-22", "axisAllied"], ["1942-11-11", "axis"], ["1944-06-06", "contested"], ["1944-08-25", "allied"]],
+  benelux: [["1939-01-01", "neutral"], ["1940-05-10", "contested"], ["1940-05-28", "axis"], ["1944-09-03", "contested"], ["1945-05-05", "allied"]],
+  denmark: [["1939-01-01", "neutral"], ["1940-04-09", "axis"], ["1945-05-05", "allied"]],
+  norway: [["1939-01-01", "neutral"], ["1940-04-09", "contested"], ["1940-06-10", "axis"], ["1945-05-08", "allied"]],
+  sweden: [["1939-01-01", "neutral"]],
+  switzerland: [["1939-01-01", "neutral"]],
+  iberia: [["1939-01-01", "neutral"]],
+  czechia: [["1939-01-01", "axis"], ["1945-05-09", "soviet"]],
+  austria: [["1939-01-01", "axis"], ["1945-03-29", "contested"], ["1945-05-08", "divided"]],
+  hungary: [["1939-01-01", "axisAllied"], ["1944-10-06", "contested"], ["1945-04-04", "soviet"]],
+  baltics: [["1939-01-01", "neutral"], ["1940-06-15", "soviet"], ["1941-07-01", "axis"], ["1944-07-10", "contested"], ["1944-10-13", "soviet"]],
+  ussrNorth: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1944-07-01", "soviet"]],
+  ussrCenter: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1944-07-03", "soviet"]],
+  ussrSouth: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1944-05-12", "soviet"]],
+  romania: [["1939-01-01", "neutral"], ["1940-11-23", "axisAllied"], ["1944-08-20", "contested"], ["1944-09-12", "soviet"]],
+  italy: [["1939-01-01", "neutral"], ["1940-06-10", "axisAllied"], ["1943-07-10", "contested"], ["1945-05-02", "allied"]],
+  yugoslavia: [["1939-01-01", "neutral"], ["1941-04-06", "contested"], ["1941-04-17", "axis"], ["1942-01-01", "contested"], ["1945-05-08", "allied"]],
+  greece: [["1939-01-01", "neutral"], ["1940-10-28", "contested"], ["1941-04-27", "axis"], ["1944-10-14", "allied"]],
+  albania: [["1939-01-01", "axisAllied"], ["1942-09-16", "contested"], ["1944-11-29", "allied"]],
+  bulgaria: [["1939-01-01", "neutral"], ["1941-03-01", "axisAllied"], ["1944-09-09", "soviet"]],
+  finland: [["1939-01-01", "neutral"], ["1939-11-30", "contested"], ["1940-03-13", "neutral"], ["1941-06-25", "axisAllied"], ["1944-06-09", "contested"], ["1945-04-27", "neutral"]],
+  nwAfrica: [["1939-01-01", "allied"], ["1940-06-25", "axisAllied"], ["1942-11-12", "allied"]],
+  libya: [["1939-01-01", "axisAllied"], ["1941-01-05", "contested"], ["1943-01-23", "allied"]],
+  egypt: [["1939-01-01", "allied"], ["1940-09-13", "contested"], ["1940-12-11", "allied"], ["1942-06-26", "contested"], ["1942-11-04", "allied"]],
+  turkey: [["1939-01-01", "neutral"], ["1945-02-23", "allied"]],
+  malta: [["1939-01-01", "allied"]],
+};
+
+const MAP_MONTH_NUMBERS = { JANUARY: 1, FEBRUARY: 2, MARCH: 3, APRIL: 4, MAY: 5, JUNE: 6, JULY: 7, AUGUST: 8, SEPTEMBER: 9, OCTOBER: 10, NOVEMBER: 11, DECEMBER: 12 };
+const MAP_SEASON_STARTS = { SPRING: [3, 21], SUMMER: [6, 21], AUTUMN: [9, 22], FALL: [9, 22], WINTER: [12, 21] };
+
+// A node date as a sortable day number (YYYYMMDD), or null when it holds no year.
+function nodeDayKey(date) {
+  const up = String(date || "").toUpperCase();
+  const ym = up.match(/\b(19[34]\d)\b/);
+  if (!ym) return null;
+  const year = Number(ym[1]);
+  let month = null;
+  let at = Infinity;
+  for (const [name, n] of Object.entries(MAP_MONTH_NUMBERS)) {
+    const i = up.indexOf(name);
+    if (i >= 0 && i < at) {
+      month = n;
+      at = i;
+    }
+  }
+  let day = 1;
+  if (month) {
+    const dm = up.slice(at).match(/^[A-Z]+\s+(\d{1,2})(?!\d)/);
+    if (dm && Number(dm[1]) >= 1 && Number(dm[1]) <= 31) day = Number(dm[1]);
+    else if (/\bLATE\b/.test(up.slice(0, at))) day = 21;
+    else if (/\bMID\b/.test(up.slice(0, at))) day = 15;
+  } else {
+    let sAt = Infinity;
+    for (const [name, [m, d]] of Object.entries(MAP_SEASON_STARTS)) {
+      const i = up.indexOf(name);
+      if (i >= 0 && i < sAt) {
+        sAt = i;
+        month = m;
+        day = d;
+      }
+    }
+    if (!month) {
+      if (/\bLATE\b/.test(up)) month = 10;
+      else if (/\bMID\b/.test(up)) {
+        month = 6;
+        day = 15;
+      } else month = 1;
+    }
+  }
+  return year * 10000 + month * 100 + day;
+}
+
+// Every region's status on the day just before dayKey (a node's own events are never in its own map).
+function baselineStatuses(dayKey) {
+  const out = {};
+  for (const [id, entries] of Object.entries(MAP_TIMELINE)) {
+    let status = entries[0][1];
+    for (const [d, s] of entries) {
+      if (Number(d.replace(/-/g, "")) < dayKey) status = s;
+      else break;
+    }
+    out[id] = status;
+  }
+  return out;
+}
+
+// `dayKey` (from nodeDayKey) puts the baseline on the node's own date; without it the year-end table is used.
+function currentRegionStatuses(statusYear, flags, meters, dayKey) {
+  const base = dayKey != null ? baselineStatuses(dayKey) : MAP_YEAR_STATUS[statusYear] || MAP_YEAR_STATUS[1940];
+  const { o } = mapOverrides(statusYear, flags, meters, dayKey);
   return { ...base, ...o };
 }
-function CheckpointMapRegions({ campaignId, statusYear, flags, meters, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions }) {
+function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses: givenStatuses, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions }) {
   const [geometry, setGeometry] = useState(null);
   useEffect(() => {
     let cancelled = false;
@@ -515,7 +615,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, divergedR
   }, []);
   const bbox = CAMPAIGN_MAP_BBOX[campaignId];
   if (!geometry || !bbox) return null;
-  const statuses = currentRegionStatuses(statusYear, flags, meters);
+  const statuses = givenStatuses || currentRegionStatuses(statusYear, flags, meters);
   // STATUS_COLORS.divided is "url(#divideGradient)", resolved against TheaterGraph's own
   // <defs> for the schematic map. This SVG can be mounted at the same time as that one
   // (the briefing's "Show Continental Situation" panel and this checkpoint map modal can
@@ -819,11 +919,18 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   // run-specific divergence.
   const runTimeline = useMemo(() => {
     const historySrc = history && history.length ? history : [{ position: nodeId, flags, meters }];
+    // Reports are not always filed in date order (a node dated "1944" can come before one dated "1943"), but a map
+    // never goes back in time: each stop takes the latest date, and the latest year, seen so far.
+    let latestKey = 0;
+    let latestYear = 0;
     const raw = historySrc.map((snap, i) => {
       const isLast = i === historySrc.length - 1;
       const s = resolveStage(campaign, snap.position, snap.flags || flags, snap.meters || meters);
-      const rawYear = yearFrom(s.date, 1940);
+      latestYear = Math.max(latestYear, yearFrom(s.date, 1940));
+      const rawYear = latestYear;
       const statusYear = cappedStatusYear(rawYear, false);
+      const dayKey = nodeDayKey(s.date);
+      if (dayKey != null) latestKey = Math.max(latestKey, dayKey);
       const snapFlags = snap.flags || flags;
       const snapMeters = snap.meters || meters || {};
       return {
@@ -832,7 +939,8 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         year: statusYear,
         flags: snapFlags,
         meters: snapMeters,
-        statuses: currentRegionStatuses(statusYear, snapFlags, snapMeters),
+        dayKey: latestKey || null,
+        statuses: currentRegionStatuses(statusYear, snapFlags, snapMeters, latestKey || null),
         isLast,
       };
     });
@@ -866,7 +974,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   // text EuropeMap already surfaces for its own theater board. Reads the SELECTED timeline
   // entry's own flags, not the live ones, so the "why" text matches what's on screen at
   // whatever point in the run is being viewed.
-  const { notes } = mapOverrides(statusYear, current.flags, current.meters);
+  const { notes } = mapOverrides(statusYear, current.flags, current.meters, current.dayKey);
   const divergedRegions = new Set(notes.flatMap((n) => n.regions || []));
   const notesForRegion = (id) => notes.filter((n) => (n.regions || []).includes(id));
   const nameOf = (id) => (MAP_REGIONS.find((r) => r.id === id) || {}).name || id;
@@ -990,8 +1098,9 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
           <CheckpointMapRegions
             campaignId={campaign.id}
             statusYear={statusYear}
-            flags={flags}
-            meters={meters || {}}
+            flags={current.flags}
+            meters={current.meters || {}}
+            statuses={statuses}
             divergedRegions={divergedRegions}
             selectedRegion={selectedRegion}
             setSelectedRegion={setSelectedRegion}
@@ -1105,6 +1214,18 @@ function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
           {campaign.name} — War Room
         </h1>
         <Doc campaign={campaign} modeInfo={modeInfo} easy={mode === "easy"} />
+        {modeInfo.rules && modeInfo.rules.length > 0 && (
+          <div className="mb-4 pb-4 border-b-2 text-[12px] leading-snug text-[#000000]" style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}>
+            <div className="font-bold uppercase tracking-widest text-[11px] mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              What this command changes
+            </div>
+            <ul className="list-disc pl-5">
+              {modeInfo.rules.map((r, i) => (
+                <li key={i}>{r}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         {hasForks && (
           <label
             className="flex items-start gap-3 mb-4 pb-4 border-b-2 text-[12px] leading-snug text-[#000000] cursor-pointer"

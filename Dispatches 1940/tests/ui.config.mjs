@@ -16,8 +16,8 @@ for (const [id, prefix] of CAMPAIGNS) for (const mode of MODES) CASES.push([id, 
 // automatic plan and an automatic battle report) is covered by the same recorded playthroughs.
 for (const [id, prefix] of CAMPAIGNS) CASES.push([id, prefix, "open", "staff"]);
 
-const SKIP = /^(save|home|back|show|hide|rewind|text size|restart|switch|new campaign|copy|share|download|settings|map|close)/i;
-const PROCEED = /^(continue|proceed|acknowledge|next|file|report|commit|confirm|begin|issue|resolve|reveal|end|enter|deploy|execute|launch|submit|accept|read)/i;
+const SKIP = /^(save|home|back|show|hide|rewind|text size|restart|switch|new campaign|copy|share|download|settings|map|close|pause|resume|skip to|how it works)/i;
+const PROCEED = /^(continue|proceed|acknowledge|next|file|report|commit|confirm|begin|start|issue|resolve|reveal|end|enter|deploy|execute|launch|submit|accept|read)/i;
 
 export default {
   JSDOM,
@@ -37,13 +37,11 @@ export default {
     // Instant text on, so the typewriter cannot race the hash.
     const instant = ctx.buttons().find((b) => lab(b) === "Off" && /instant/i.test(b.parentElement?.parentElement?.textContent || ""));
     if (instant) await ctx.click(instant);
-    // Campaign card, then one of the three mode buttons that appear right after it.
+    // Campaign card, then the difficulty screen: its three "Take command" buttons, in the order easy, standard, hard.
     const card = ctx.buttons().find((b) => lab(b).startsWith(prefix));
     if (!card) return "campaign card missing: " + prefix;
     await ctx.click(card);
-    const all = ctx.buttons();
-    const at = all.indexOf(ctx.buttons().find((b) => lab(b).startsWith(prefix)));
-    const modeBtn = all[at + 1 + MODES.indexOf(mode)];
+    const modeBtn = ctx.buttons().filter((b) => /^Take command/.test(lab(b)))[MODES.indexOf(mode)];
     if (!modeBtn) return "mode button missing: " + mode;
     await ctx.click(modeBtn);
     const enter = ctx.buttons().find((b) => /^Enter the War Room/i.test(lab(b)));
@@ -64,7 +62,7 @@ export default {
       // otherwise choose a tactical approach once, then spend chits at random, then commit.
       const chits = bs.filter((x) => /^Add effort/.test(lab(x)));
       // Commander buttons all say "— favors ..."; the approaches (what chits unlock) do not.
-      const others = bs.filter((x) => !/^Add effort|favors|^(✓ )?No particular emphasis|Reconnaissance Pass|^Spread effort|^Clear all effort|^Hold a Map Exercise|^Let Your Staff Plan It/.test(lab(x)));
+      const others = bs.filter((x) => !/^Add effort|favors|^(✓ )?No particular emphasis|Reconnaissance Pass|^Spread effort|^Clear all effort|^Ask the staff|^Let Your Staff Plan It/.test(lab(x)));
       const commit = others.find((x) => PROCEED.test(lab(x)));
       if (commit) return commit;
       if (!policy.approachChosen && others.length) {

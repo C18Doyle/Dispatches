@@ -51,7 +51,8 @@ for (let i = 0; i < 200 && !reached; i++) {
     reached = true;
     break;
   }
-  const b = cfg.choose(ctx1, policy);
+  // The first choice that leads to battle planning, so the test does not depend on which way a random walk goes.
+  const b = ctx1.buttons().find((x) => /Leads to battle planning/.test(ctx1.lab(x))) || cfg.choose(ctx1, policy);
   if (!b) break;
   await ctx1.click(b);
 }
@@ -66,6 +67,9 @@ check(!!approach, "the planning screen offers a tactical approach to choose");
 if (approach) await ctx1.click(approach);
 const recon = find(ctx1, /Reconnaissance Pass/);
 if (recon) await ctx1.click(recon);
+// The first-time guide opens by itself the first time, and a resumed page has seen it; close it so the two screens can be compared.
+const guide = find(ctx1, /^How it works/);
+if (guide && guide.getAttribute("aria-expanded") === "true") await ctx1.click(guide);
 const before = ctx1.text();
 check(/Initiative now:/.test(before), "planning screen shows Initiative");
 
@@ -105,8 +109,9 @@ check(report, "committing the resumed plan opens the battle report");
 const commitSave = JSON.parse(snapshot(ctx2)["ww2-command-active"]);
 check(commitSave.battle && commitSave.battle.stage === "report" && commitSave.battle.plan, "committing the plan saves it at once");
 const first = ctx2.text();
-const next = find(ctx2, /^Next Report/);
-if (next) await ctx2.click(next);
+check(!!find(ctx2, /^Start battle/), "the report opens with a Start battle button at the top");
+await ctx2.click(find(ctx2, /^Start battle/));
+check(!!find(ctx2, /^Pause/) && /The attack goes in|Contact|came|dawn|moves|advance|go/i.test(ctx2.text()), "starting the battle shows the first dispatch and a Pause button");
 const leave2 = find(ctx2, /^Save and leave the field/);
 check(!!leave2, "the battle report offers Save and leave the field");
 await ctx2.click(leave2);
@@ -114,6 +119,9 @@ const saved2 = snapshot(ctx2);
 ctx2.restore();
 
 const ctx3 = await boot(saved2);
+// Instant text on, so the report does not wait between dispatches while the test plays it through.
+const instant = ctx3.buttons().find((b) => ctx3.lab(b) === "Off" && /instant/i.test(b.parentElement?.parentElement?.textContent || ""));
+if (instant) await ctx3.click(instant);
 await ctx3.click(find(ctx3, /War in Progress/));
 const back = ctx3.text();
 check(/Battle Report/.test(back) && /back at the front/.test(back), "resume lands on the battle report with a note that it starts again");
@@ -126,7 +134,7 @@ for (let i = 0; i < 40 && !verdict; i++) {
     verdict = true;
     break;
   }
-  const b = ctx3.buttons().find((x) => /^(Next Report|See the Verdict|The Decisive Hour|Meet it head-on|Hold the reserve)/.test(ctx3.lab(x))) || cfg.choose(ctx3, { approachChosen: true });
+  const b = ctx3.buttons().find((x) => /^Start battle/.test(ctx3.lab(x))) || cfg.choose(ctx3, { approachChosen: true });
   if (!b || /^Save/.test(ctx3.lab(b))) break;
   await ctx3.click(b);
 }

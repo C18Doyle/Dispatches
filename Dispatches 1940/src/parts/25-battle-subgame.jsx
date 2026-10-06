@@ -1,8 +1,8 @@
 const BATTLE_ALLOCATION_CATEGORIES = [
-  { id: "divisions", name: "Divisions", meter: "manpower", glyph: "▮▮▮" },
-  { id: "armour", name: "Mechanised Armour", meter: "fuel", strand: "steel", glyph: "▶▶" },
-  { id: "air", name: "Air Support", meter: "fuel", strand: "oil", glyph: "✈" },
-  { id: "supply", name: "Supply", meter: "fuel", strand: "ship", glyph: "▤" },
+  { id: "divisions", name: "Divisions", meter: "manpower" },
+  { id: "armour", name: "Mechanised Armour", meter: "fuel", strand: "steel" },
+  { id: "air", name: "Air Support", meter: "fuel", strand: "oil" },
+  { id: "supply", name: "Supply", meter: "fuel", strand: "ship" },
 ];
 
 // Round 4 (Craig, mobile playtest: "could we have a commander selection option which had a
@@ -2561,8 +2561,7 @@ function clampBattleBonus(raw) {
 // Round 9, Craig's item #3 (consequences that depend on the plan, not just the odds). Small,
 // legible rules keyed off each category's own `meter`, so they generalize to any battle's
 // categories: a category holding at least half the pool costs its meter 1 (you spent that
-// resource hard); on a LOSS, every neglected category costs its meter 1 (the gap you left is
-// where it broke); a WIN with nothing neglected earns +1 Initiative (a coordinated plan leaves
+// resource hard); a WIN with nothing neglected earns +1 Initiative (a coordinated plan leaves
 // the staff ahead of events); a reserve of 2+ chits held back and never committed returns +1
 // Manpower. Each meter's net plan cost is capped to [-2, +1] so the plan can sting but never
 // outweigh the battle's own historical outcome impact.
@@ -2592,10 +2591,11 @@ function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contrib
       lines.push({ meter: c.meter, delta: -1, reason: `Heavy commitment to ${c.name}` });
     }
   }
+  // Round 24 (double jeopardy): an arm left uncovered used to cost its meter a point on a loss as well. The gap has
+  // already cost the plan its odds (the neglect penalty) and set the grade, and a loss carries its own impact, so
+  // charging it again was charging the same fault three times. A win with nothing neglected still earns the point.
   const neglected = categories.filter((c) => (contributions[c.id] || 0) < 0);
-  if (!won) {
-    for (const c of neglected) lines.push({ meter: c.meter, delta: -1, reason: `${c.name} left uncovered` });
-  } else if (neglected.length === 0) {
+  if (won && neglected.length === 0) {
     lines.push({ meter: "initiative", delta: 1, reason: "A coordinated plan" });
   }
   if (reservesHeld >= 2) lines.push({ meter: "manpower", delta: 1, reason: "Reserve returned intact" });
@@ -2644,8 +2644,10 @@ const HARD_MODE_NAMES = { iron: "Führer Mode", purge: "NKVD Mode", coalition: "
 // Round 23: how a Matériel strand's reading (see materielReadout in logic.ts) changes the weight an
 // arm can bring. Each category may name the strand it draws on (category.strand: "oil", "ammo",
 // "steel" or "ship"): artillery draws on ammunition, armour on steel, aircraft on fuel and oil, supply
-// on shipping and rail. Read once, when the battle screen opens, like the pool size.
-const STRAND_BAND_MULT = { Short: 0.85, Strained: 0.93, Adequate: 1, Plentiful: 1.06 };
+// on shipping and rail. Read once, when the battle screen opens, like the pool size. A strand that reads
+// Exhausted (a meter at -8 or below) is shown as worse than Short but weighs the same: the balance check
+// holds at 0.85 and fails below it, so the extra danger is in the reading, not in the arithmetic.
+const STRAND_BAND_MULT = { Exhausted: 0.85, Short: 0.85, Strained: 0.93, Adequate: 1, Plentiful: 1.06 };
 
 // Weight per effort point for one arm. Pure, so the planning screen, the staff plan and the balance
 // check all use the same arithmetic: (jittered base + commander bonus + approach modifier) times the
@@ -2973,15 +2975,61 @@ function warRoomModeInfo(mode, campaignId) {
     coalition: "Yalta Mode",
     axis: "Axis Mode",
   };
-  const notes = {
-    easy:
-      "Training wheels for the whole engagement: every order previews the meter impact of each option before you commit, and the choice the real historical record made — where the record left one — is marked. Full meter visibility, rewind available.",
-    open: "Standard play. Full meter visibility, rewind available.",
-    iron: "Führer Mode: no rewind, decisions final, no meter dashboard — only staff reports — and five points of political capital to spend on defying the historical command structure.",
-    purge: "NKVD Mode: no rewind, decisions final. Suspicion tracks how the political apparatus reads your defiance, out of 5 — let it max out and the run ends in a recall, not a defeat.",
-    coalition: "Yalta Mode: no rewind, decisions final. Tracks Coalition Cohesion — every choice that overrides a partner's strong objection costs something, and a badly frayed alliance can no longer greenlight its boldest unilateral gambles.",
-    axis: "Axis Mode: no rewind, decisions final. Tracks German Trust — every act of independent Italian judgment Berlin notices costs something, and a command Berlin has stopped trusting doesn't get asked before it's superseded.",
+  const hard = !!HARD_MODE_NAMES[mode];
+  const summaries = {
+    easy: "Training wheels: see what each order will cost before you give it, and which one the record chose.",
+    open: "The war as designed. Judge each order on what you know.",
+    iron: "The Führer's command, with no dashboard and no way back. Five points of political capital to spend on defying him.",
+    purge: "Stalin's apparatus is watching. Suspicion is counted out of five, and a full count ends in a recall.",
+    coalition: "Every order that overrides a partner's strong objection costs Coalition Cohesion, and a broken alliance relieves you.",
+    axis: "Berlin watches every act of independent Italian judgment. Lose its trust and the command is superseded.",
   };
-  return { label: names[mode] || mode, note: notes[mode] || "" };
+  const trackerRules = {
+    iron: "Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed.",
+    purge: "Suspicion rises as you defy the apparatus, counted out of 5. At 5 you are recalled.",
+    coalition: "Coalition Cohesion falls when you override a partner's strong objection. At -6 the alliance relieves you of command.",
+    axis: "German Trust falls when Berlin notices independent Italian judgment. At -5 you are superseded.",
+  };
+  const rules = hard
+    ? [
+        "Decisions are final: there is no rewind.",
+        mode === "iron" ? "There is no meter dashboard. Only the staff's notes say how you stand." : null,
+        trackerRules[mode],
+        "Each battle can carry orders from above: a fixed approach or commander, or an order not to give ground.",
+        "Reports are partly censored as Manpower falls.",
+      ].filter(Boolean)
+    : mode === "easy"
+    ? ["Each option shows its meter impact before you choose.", "The choice the historical record made is marked, where the record left one.", "In battle the intelligence summary is never wrong.", "Rewind is available."]
+    : ["Full meter dashboard.", "Rewind is available."];
+  return { label: names[mode] || mode, note: summaries[mode] || "", summary: summaries[mode] || "", rules };
+}
+
+// The hard mode of each campaign.
+const HARD_MODE_OF = { german: "iron", soviet: "purge", allied: "coalition", italy: "axis" };
+
+// What each mode changes, as rows the difficulty screen sets side by side. modeFeatures gives each mode's value for every row.
+const MODE_FEATURES = [
+  { id: "preview", label: "Meter impact shown before you choose" },
+  { id: "history", label: "The historical choice marked" },
+  { id: "rewind", label: "Rewind to an earlier decision" },
+  { id: "dashboard", label: "Meter dashboard" },
+  { id: "intel", label: "Intelligence in battle" },
+  { id: "tracker", label: "Extra tracker" },
+  { id: "orders", label: "Orders from above in battle" },
+  { id: "censor", label: "Reports censored as Manpower falls" },
+];
+function modeFeatures(mode) {
+  const hard = !!HARD_MODE_NAMES[mode];
+  const trackers = { iron: "Political capital, 5", purge: "Suspicion, out of 5", coalition: "Coalition Cohesion", axis: "German Trust" };
+  return {
+    preview: mode === "easy" ? "Yes" : "No",
+    history: mode === "easy" ? "Yes" : "No",
+    rewind: hard ? "No" : "Yes",
+    dashboard: mode === "iron" ? "Staff notes only" : "Full",
+    intel: mode === "easy" ? "Always right" : "Wrong one time in four",
+    tracker: trackers[mode] || "None",
+    orders: hard ? "Yes" : "No",
+    censor: hard ? "Yes" : "No",
+  };
 }
 

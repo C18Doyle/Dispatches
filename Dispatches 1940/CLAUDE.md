@@ -15,7 +15,7 @@ React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 250 nodes, Easy / Sta
 
 ## Commands
 - `npm run build:nozip` writes `dist/full` and `dist/demo`. `npm run build` also zips into `builds/` and needs the `zip` CLI (absent on stock Windows).
-- `npm run audit` all data audits (reachability, advisor dates, pace text, outcome sign, battle balance, Matériel strands, quotations, claims). Run before and after content changes.
+- `npm run audit` all data audits (reachability, advisor dates, pace text, outcome sign, battle balance, micro-state filing, quotations, map, claims). Run before and after content changes.
 - `npm run typecheck` checks `src/logic.ts` (App.jsx is untyped).
 - `npm run verify:baseline` plays 48 seeded runs (4 campaigns x easy/standard/hard x 4 seeds) headlessly in jsdom through `dist/full/bundle.js`, hashes the page after every click and compares with `tests/baseline/ui`. Roughly 4 minutes on Linux, 8 on Windows (every run loads the 7 MB bundle). Build first. Must report 0 failures.
 - `TRACE=1 node ../packages/testkit/src/cli.mjs one <german|soviet|allied|italy>-<easy|open|hard> <seed>` prints one run step by step; `DUMP_STEP=<i>` prints the full page text after click i (diff two builds with `BUNDLE=<path>`).
@@ -24,6 +24,10 @@ React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 250 nodes, Easy / Sta
 - `npm run test:battle-resume` plays to a battle, saves from the planning screen and the report, resumes in fresh pages and checks the screens come back identical (run after a build).
 
 ## Rules
+- Each meter has micro-states (`METER_STRANDS` in `src/logic.ts`: Manpower Organisation/Experience/Readiness, Matériel four strands, Initiative Intelligence/Command/Tempo), filed by what the choice's text is about and tallied in flags (`man*`, `mat*`, `ini*`). A meter at -8 or below reads Exhausted. What a cost takes below -10 is owed (`arrears*` flags, cap 6) and gains pay it first. `strainStage` worsens the odds of contested choices when a meter is short, and the stage the player sees is the stage that is rolled. A new tally or arrears flag must be added to `TALLY_FLAGS` in `packages/engine/tests/campaign-equivalence.test.mjs`.
+- A battle's plan charges are held to one point on a meter its outcome already cost two or more (`resolveChoice`); `computeBattlePlanCosts` no longer charges an uncovered arm on a loss.
+- The checkpoint map's baseline is the dated `MAP_TIMELINE` (30 regions) in `30-warroom-and-maps.jsx`, read at the node's own date (`nodeDayKey`, `baselineStatuses`); run-specific changes are `mapOverrides(year, flags, meters, dayKey)` in `40-...`. `npm run check-map` keeps the timeline in step with `MAP_YEAR_STATUS` and tests that decisions move the map. A decision that decides a country's fate needs an override, or the map will not show it.
+- The main screen picks a command; `DifficultyScreen` picks the difficulty (`modeFeatures`, `warRoomModeInfo` in `25-...`). The battle report runs on its own once started (`BATTLE_BEAT_MS`), newest line first, and stops for decisions; with instant text, reduced motion or a staff plan it does not wait. `npm run test:logic` covers arrears, strain, the stack cap, the bands and the command rank.
 - Game decisions go through `src/logic.ts`, not inline in the component.
 - `modWeight` and the other helpers CAMPAIGNS calls stay defined in App.jsx above the screens; `tools/extract_campaigns.js` transpiles the whole file with stubs. Imports in App.jsx must stay single-line (the extractor strips single-line imports only), and any new asset import needs a stub in the extractor's prelude (the music data URL and map JSON are stubbed there).
 - `Math.random` call sites: the roll in `chooseOption`, `rollDivergenceForks`, battle simulation. Call order is part of the recorded behaviour.
