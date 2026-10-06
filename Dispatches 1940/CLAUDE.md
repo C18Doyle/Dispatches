@@ -1,6 +1,6 @@
 # Dispatches 1940 (WWII: OKW, STAVKA, SHAEF, Comando Supremo)
 
-React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 250 nodes, Easy / Standard / hard modes (Führer, Purge, Coalition, Axis), region map, wire bulletins, Historical Divergence forks, and the Key Battle (Order of Battle) subgame. Two build variants: `full` and `demo`. Assets: `assets/theme.mp3` (inlined into the bundle as a data URL), `assets/maps/` (region geometry JSON plus placeholder PNGs).
+React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 257 nodes, Easy / Standard / hard modes (Führer, Purge, Coalition, Axis), region map, wire bulletins, Historical Divergence forks, and the Key Battle (Order of Battle) subgame. Two build variants: `full` and `demo`. Assets: `assets/theme.mp3` (inlined into the bundle as a data URL), `assets/maps/` (region geometry JSON plus placeholder PNGs).
 
 ## Layout
 - `src/App.jsx` (~23.6k lines, 1.9 MB): `CAMPAIGNS` (lines ~70-14000, node getters that read `flags`/`meters`), then maps, screens, the battle subgame, and `WW2CommandInner` (the run state machine near the end). **Never read it whole.** Grep and ranged Read only.
