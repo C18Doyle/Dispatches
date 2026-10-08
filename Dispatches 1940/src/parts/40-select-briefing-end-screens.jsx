@@ -1483,6 +1483,11 @@ const NODE_HIGHLIGHT_REGIONS = {
   omahaIsolated44: ["france"],
   omahaBreakthroughLate44: ["france"],
   omahaToehold44: ["france"],
+  compassGreece41: ["libya", "greece"],
+  greeceFalls41: ["greece"],
+  crete41: ["greece"],
+  aidRussia41: ["ussrNorth"],
+  crusader41: ["libya", "egypt"],
   },
   italy: {
     nonBelligerence40: ["italy"],
@@ -1934,6 +1939,10 @@ function mapOverrides(year, flags, meters, dayKey) {
   if (flags.turkishQuestion44 === "press" && since(1944, 6, 1)) {
     o.turkey = "allied";
     note("Ankara was pressed into belligerence months before its historical February 1945 declaration, mostly symbolic even then (projection).", ["turkey"]);
+  }
+  if (flags.tripoli41 === "taken" && since(1941, 3, 15) && before(1943, 1, 23)) {
+    o.libya = "allied";
+    note("Tripoli was reached in March 1941, before the Afrika Korps could hold it, so Libya was cleared of the Axis almost two years ahead of the historical January 1943 (projection).", ["libya"]);
   }
   if (flags.earlyDnieper43 && since(1943, 8, 31)) {
     o.ussrSouth = "soviet";
