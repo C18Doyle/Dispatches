@@ -97,8 +97,213 @@
               setFlags: { brody41: "counterattack" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
               next: "smolensk41",
-              outcome:
-                "What happened. The corps went in from June 24, a few at a time as each arrived, short of fuel and ammunition, without air cover and with commanders who could not reach one another. The German tank groups took them one after another: the 19th Mechanized Corps was down to 32 of its 453 tanks by the 29th, and by July 7 the 15th had 9 per cent of its tanks and the 8th 5 per cent. One group did reach the rear of the German 11th Panzer Division and took Dubno on June 27, and had nothing left to exploit it with. The counterattack delayed Kleist only briefly, and the Southwestern Front lost most of the armour it would have needed in September.",
+              // Round 25 (Craig's item 9). Dubno-Lutsk-Brody, 23-30 June 1941. Facts checked 2026-10-08 (Wikipedia, Battle
+              // of Brody (1941), copied from its tables): the Southwestern Front (Kirponos; chief of staff Purkayev) had six
+              // mechanized corps, the 4th (Vlasov; only its 8th Tank Division took part, with about 300 tanks), 8th
+              // (Ryabyshev, 899 tanks), 9th (Rokossovsky, 316 tanks and no T-34s or KVs), 15th (Karpezo, 749), 19th
+              // (Feklenko, 453) and 22nd (Kondrusev, 712), 3,429 tanks in all and 443 of them T-34s and KVs, against the
+              // 728 tanks of Kleist's First Panzer Group (III Panzer Corps, XXXXVIII Panzer Corps, XIV Panzer Corps);
+              // Directive No. 3 ordered the 5th and 6th Armies to strike concentrically toward Lublin with at least five
+              // mechanized corps and the front's aviation; Zhukov arrived on 22 June to see it done; the start was put
+              // back six hours to 04:00 on 24 June; the corps went in piecemeal, short of fuel, ammunition and trucks,
+              // many divisions "motorized in name only", with orders passing over the civilian telephone and telegraph
+              // network, which German sappers and aircraft cut; Rokossovsky commandeered 200 trucks and put much of his
+              // infantry on his tanks; the Southwestern Front's aircraft flew 523 sorties on 22-24 June, while the
+              // Luftwaffe shot down 24 SB bombers on the first day and was credited with destroying some 201 Soviet tanks
+              // in the area; the 11th Panzer Division had advanced 40 miles by 23 June; Popel's group of the 8th
+              // Mechanized Corps took Dubno on 27 June, "the most successful Soviet action of the battle"; Kirponos
+              // ordered a halt and a retreat and Zhukov had the order countermanded; the 19th Mechanized Corps was down to
+              // 32 of its 453 tanks by 29 June, and by 7 July the 15th had 9 per cent of its tanks and the 8th 5 per cent.
+              keyBattleSubgame: {
+                id: "brodyCounterstroke41",
+                title: "Order of Battle — Dubno, Lutsk, Brody",
+                flavor:
+                  "Directive No. 3 orders the Southwestern Front to counterattack on the second day of the war. On paper the front has six mechanized corps and about 3,400 tanks against some 750 in Kleist's group, and in the field almost none of them is where it is wanted. They are strung out across the rear, short of trucks, fuel and shells, and each has a long march under German aircraft to a battle that is already moving past it. Zhukov has come from Moscow to see the order carried out. Kirponos, who commands the front, has the order in his hand and doubts it can be done. What's decided here is how thinly the blow is spread: how much into the tanks of the mechanized corps, how much into the infantry that has to go in beside them, how much into the few aircraft the front has left, and how much into getting orders to the corps over a telephone network the Germans are cutting.",
+                categories: [
+                  { id: "armour", name: "Mechanized Corps", meter: "fuel", strand: "steel" },
+                  { id: "infantry", name: "Infantry & Rifle Corps", meter: "manpower" },
+                  { id: "air", name: "Frontal Aviation", meter: "fuel", strand: "oil" },
+                  { id: "signals", name: "Orders & Signals", meter: "initiative" },
+                ],
+                // The tanks are the weight of the blow, though few are modern; the infantry and the orders come next,
+                // the second equal to the first in importance; aviation lowest, most of it destroyed on the ground.
+                effectiveness: { armour: 2.6, infantry: 2.0, air: 1.7, signals: 2.0 },
+                orderOfBattle: {
+                  armour: {
+                    units: [
+                      "Six mechanized corps: the 4th (Vlasov), 8th (Ryabyshev), 9th (Rokossovsky), 15th (Karpezo), 19th (Feklenko) and 22nd (Kondrusev)",
+                      "3,429 tanks on paper, 443 of them T-34s and KVs; the 9th Corps had none. Kleist's First Panzer Group had 728 tanks",
+                    ],
+                    real: "The corps went in from 24 June, a few at a time, short of fuel and ammunition. The 19th Corps was down to 32 of its 453 tanks by the 29th, and by 7 July the 15th had 9 per cent of its tanks and the 8th 5 per cent.",
+                  },
+                  infantry: {
+                    units: [
+                      "The infantry of the 5th Army in the north and the 6th Army in the south, who were to strike with the mechanized corps",
+                      "The motorized infantry of the corps' own divisions, \"motorized in name only\" with only part of their transport",
+                    ],
+                    real: "Many infantry walked to the fight. Rokossovsky commandeered 200 trucks and put much of his infantry on his tanks.",
+                  },
+                  air: {
+                    units: [
+                      "The air forces of the Southwestern Front, most of them caught on the ground on 22 June",
+                      "Against them the Luftwaffe's Fliegerkorps IV and its fighter wing JG 3",
+                    ],
+                    real: "The front's aircraft flew 523 sorties between 22 and 24 June. The Luftwaffe shot down 24 SB bombers on the first day and was credited with destroying some 201 Soviet tanks in the area.",
+                  },
+                  signals: {
+                    units: [
+                      "The front staff under General Kirponos, with General Purkayev as chief of staff",
+                      "Zhukov, sent from Moscow on 22 June to see Directive No. 3 carried out",
+                    ],
+                    real: "Orders passed over the civilian telephone and telegraph network, which German sappers and aircraft cut. The start was put back six hours to 04:00 on 24 June, and the 15th Corps spent the battle moving chaotically on inconsistent orders. On 27 June Zhukov had Kirponos's order to halt and retreat countermanded.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Directive No. 3 stands as written: the corps are to strike for Lublin, and the front commander's request to concentrate them first has been overruled in Moscow.", lockApproach: "strikeForLublin" },
+                conditions: "High summer on the plains of western Ukraine, with dust, thin cover and German aircraft over every road, and marches of many hours to reach the battle.",
+                terrainModifiers: { air: 0.9 },
+                terrainNotes: { air: "German fighters over every airfield and road" },
+                attrition: [
+                  { category: "armour", atLeast: 3, meter: "fuel", delta: -1, reason: "Tanks run dry far from their depots" },
+                ],
+                // Field decision: the day Kirponos ordered a halt. Facts: on 27 June, after Popel's group took Dubno,
+                // Kirponos feared the German attack would outflank the southern group and ordered a halt and a
+                // retreat; Zhukov had the order countermanded. The three answers are the real options before the
+                // front on that day; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theFourthDay",
+                    time: "1830",
+                    title: "The fourth day",
+                    prompt: "One group has taken Dubno and cut the German spearhead's supply line, and the Germans are bringing up the infantry divisions behind their tanks. Kirponos fears that the same German thrust will outflank the southern group, and wants to halt and fall back. Zhukov wants the attack renewed.",
+                    options: [
+                      {
+                        id: "renewTheAttack",
+                        name: "Renew the attack at once",
+                        note: "Presses a thin German screen, and spends tanks that have little fuel left.",
+                        bonus: 0,
+                        bonusByPosture: { antiTankScreen: 4, panzersPastLine: -2, luftwaffeOverhead: -4 },
+                        reportLine: "The order to renew the attack goes to the corps, and the tanks that can move go forward again.",
+                      },
+                      {
+                        id: "haltAndRegroup",
+                        name: "Halt and pull the corps together",
+                        note: "Saves what is left of the armour, and costs Initiative while the Germans move on.",
+                        bonus: 0,
+                        bonusByPosture: { luftwaffeOverhead: 2, panzersPastLine: 2, antiTankScreen: -3 },
+                        meters: { initiative: -1 },
+                        costReason: "A halt while the Germans keep moving",
+                        reportLine: "The corps halt where they stand and begin to draw back toward each other.",
+                      },
+                      {
+                        id: "infantryFirst",
+                        name: "Put the rifle corps in ahead of the tanks",
+                        note: "Slow, and keeps the armour out of the German guns, but the infantry are far from the fight.",
+                        bonus: 0,
+                        bonusByPosture: { luftwaffeOverhead: 1, antiTankScreen: 0, panzersPastLine: -3 },
+                        reportLine: "The rifle divisions are ordered forward on foot to take the lead.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  armour:
+                    "The mechanized corps are the blow the directive was written for. Most of the tanks are old, a few are the new T-34s and KVs that the Germans have no answer to, and all of them need fuel they may not have. Each commitment here puts more of the armoured strength into the first attack.",
+                  infantry:
+                    "The rifle divisions and the infantry of the corps are the other half of the blow, and they have to walk. Each commitment here puts more of them in beside the tanks, to hold what the tanks take and to cover their flanks.",
+                  air:
+                    "The front's aircraft were caught on the ground on the first morning, and what is left flies in small numbers against fighters that are everywhere. Each commitment here puts more of them over the corps' line of march.",
+                  signals:
+                    "The corps are scattered, and the front's orders reach them over a telephone network the Germans are cutting. Each commitment here puts more staff officers and liaison cars on the roads to the corps, to get them to the right place at the right time.",
+                },
+                flashups: {
+                  armour: [
+                    "A column of BT tanks halts on the road, its tanks dry, and waits for fuel that does not come.",
+                    "A T-34 comes out of the corn with its hull covered in dust and fires on a German column.",
+                    "A regiment of tanks attacks across open fields in extended order.",
+                    "A tank crew destroys its tank when the last of the fuel is gone.",
+                    "The KVs of a corps move forward through a village, and a German anti-tank gun fires at them without effect.",
+                  ],
+                  infantry: [
+                    "A rifle regiment marches along the road toward the sound of the guns.",
+                    "Infantry ride forward on the decks of the tanks.",
+                    "A battalion digs in on a rise beside the road, and the tanks pass through it.",
+                    "A column of trucks, commandeered on the road, unloads a rifle company.",
+                    "A division arrives at the start line half an hour after the tanks have gone.",
+                  ],
+                  air: [
+                    "A flight of SB bombers goes over low and drops its bombs on a German column.",
+                    "German fighters dive on a Soviet airfield and the aircraft on it burn.",
+                    "A Soviet fighter regiment lands on a field beside the road.",
+                    "Bombers fly north to attack the bridges, and not all come back.",
+                    "A Soviet fighter pilot reports no German aircraft in the sky for an hour.",
+                  ],
+                  signals: [
+                    "A staff car drives down a road full of tanks with an order for a corps commander.",
+                    "A telephone line is cut, and a corps commander is without orders for hours.",
+                    "A new order reaches a corps while it is already on the road toward a different objective.",
+                    "A liaison officer on a motorcycle finds a division headquarters in a wood.",
+                    "The staff plot the German thrust on the map and find it is ten miles further than the last report.",
+                  ],
+                },
+                reportTimes: { open: "0300", contact: "0600", cats: ["0800", "1100", "1400", "1700"], reserve: "1900", counter: "2100" },
+                idleLines: {
+                  armour: [
+                    "The tank corps are not committed. They stay in their assembly areas while others march.",
+                    "No more armour goes forward, and the attack goes in with what was already on the road.",
+                  ],
+                  infantry: [
+                    "The infantry are left behind on the line of the border, and the tanks go forward without them.",
+                    "No rifle division is ordered forward to the fight, and the tanks are on their own in the open.",
+                  ],
+                  air: [
+                    "No aircraft are sent over the corps' line of march. The tanks go forward under whatever cover the sky gives them.",
+                    "The front's aviation is held on the ground, and the roads are open to the Germans.",
+                  ],
+                  signals: [
+                    "No extra staff officers go to the corps. The orders reach them when the telephones allow.",
+                    "The front's staff sends the directive and waits for reports, and the corps move as their commanders see fit.",
+                  ],
+                },
+                verdicts: ["The Panzers Are Stopped at Dubno", "Six Corps, Beaten One by One"],
+                verdictGrades: {
+                  clean: "The corps, the infantry, the aircraft and the orders worked together, and the German spearhead was cut off and held at the Styr.",
+                  costly: "The counterattack stops the German spearhead, but the corps that did it are worn down to a fraction of their strength.",
+                  marginal: "The counterattack takes some ground and no more. The corps are not destroyed, and the Germans lose a few days.",
+                  total: "The corps arrive piecemeal and are destroyed one after another, and the Germans lose hardly any time.",
+                },
+                counterattack: {
+                  category: "armour",
+                  severity: { panzersPastLine: 2, luftwaffeOverhead: 1, antiTankScreen: 0 },
+                  warn: {
+                    1: "German panzers are turning on the flank of the leading corps.",
+                    2: "The German panzer divisions are swinging round in strength to meet the Soviet tanks on the open plain.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack on the flank is beaten off, and the corps keep their line.",
+                    heldAtCost: "The flank holds against the German tanks, at a heavy cost in tanks and men.",
+                    broke: "The German tanks break into the flank of the leading corps, and the Soviet tanks have to turn and fight in the open.",
+                    gaveGround: "The leading corps pulls back from the flank rather than meet the German tanks on open ground.",
+                  },
+                },
+              },
+              uncertain: [
+                {
+                  weight: modWeight(20, meters.initiative),
+                  title: "The panzers are stopped at Dubno",
+                  setFlags: { brodyResult: "blow" },
+                  impact: { manpower: -2, fuel: -2, initiative: 2 },
+                  outcome:
+                    "Speculative. For once the corps arrive near enough together to count. The group that took Dubno in the real battle is joined there by the corps on either side of it, the panzer division it cut off is made to turn about, and the German advance toward Kiev is held on the Styr for some days. It is the biggest tank battle of the war's first week fought as a battle and not as a series of ambushes, and it ends as the real one did, in the wreck of the corps that fought it: an obsolete tank park has no answer to a modern one for long. But it buys what the real counterattack could not, which is days, and the officers who fought it now know how to run a mechanized corps.",
+                },
+                {
+                  weight: 100 - modWeight(20, meters.initiative),
+                  title: "Six corps, beaten one by one",
+                  impact: { manpower: -2, fuel: -2, initiative: 1 },
+                  outcome:
+                    "What happened. The corps went in from June 24, a few at a time as each arrived, short of fuel and ammunition, without air cover and with commanders who could not reach one another. The German tank groups took them one after another: the 19th Mechanized Corps was down to 32 of its 453 tanks by the 29th, and by July 7 the 15th had 9 per cent of its tanks and the 8th 5 per cent. One group did reach the rear of the German 11th Panzer Division and took Dubno on June 27, and had nothing left to exploit it with. The counterattack delayed Kleist only briefly, and the Southwestern Front lost most of the armour it would have needed in September.",
+                },
+              ],
             },
             {
               label: "Wait two days, bring the corps together with their fuel and shells, and strike on one axis at Rovno",
@@ -218,7 +423,9 @@
               : "") +
             (flags.hardMode && (flags.suspicion || 0) >= 1
               ? " Something else is different this time, and it has nothing to do with Kiev: the special section's interest in this headquarters did not end with the border. Obedience was once its own protection. It no longer reads as a guarantee of anything."
-              : ""),
+              : "") +
+            // Round 25 (Brody echo): only when the corps were actually thrown in together.
+            (flags.brody41 === "counterattack" ? keyBattleEcho("brodyCounterstroke41", flags) : ""),
           choices: [
             {
               label: "Hold Kiev — the city does not fall without a fight",
@@ -562,7 +769,9 @@
             // Round 21 (Moscow echo): only when the player actually fought the December battle.
             (flags.moscow41 === "counteroffensive"
               ? (flags.moscow41Result === "spent" ? " The winter's blow before Moscow gained ground and no more, and the army that fought it is short of everything the convoys bring." : "") + keyBattleEcho("moscow41", flags)
-              : ""),
+              : "") +
+            // Round 25 (Vyazma echo, after a ring that did not close).
+            (flags.rzhevVyazma42 === "deep" && flags.centerBroken42 === "failed" ? keyBattleEcho("rzhevVyazma42", flags) : ""),
           choices: [
             {
               label: "Press for maximum Arctic deliveries — accept the convoy losses for the speed",
@@ -634,7 +843,7 @@
               impact: { manpower: -2, fuel: -1, initiative: 1 },
               next: "lendLease42",
               outcome:
-                "What happened. Offensives opened from the Volkhov to the Crimea. In the centre the Kalinin and Western Fronts drove 110 kilometres into the German line by the end of January and could not supply what they had won; Soviet formations were cut off behind it, the 33rd Army, Belov's Guards cavalry and an airborne corps among them, and when the Germans cleared them in July the Rzhev salient was still there. The Rzhev–Vyazma operation alone cost about 153,000 killed, missing or captured and 446,000 wounded or sick between January and April. No single offensive of the winter was a catastrophe. It was a winter of operations on every front, none of which was given the weight to finish.",
+                "What happened. Offensives opened from the Volkhov to the Crimea. In the centre the Kalinin and Western Fronts broke into the German line, their cavalry riding 110 kilometres into the German flank by the end of January, and could not supply what they had won; Soviet formations were cut off behind it, the 33rd Army, Belov's Guards cavalry and an airborne corps among them, and when the Germans cleared them in July the Rzhev salient was still there. The Rzhev–Vyazma operation alone cost about 153,000 killed, missing or captured and 446,000 wounded or sick between January and April. No single offensive of the winter was a catastrophe. It was a winter of operations on every front, none of which was given the weight to finish.",
             },
             {
               label: "Concentrate everything on the Western axis — one blow, aimed at destroying Army Group Centre",
@@ -680,7 +889,7 @@
           title: "The Pincers at Vyazma",
           historicalRecord: false,
           situation:
-            "With the general offensive cancelled, the Western and Kalinin Fronts have what no front had in the real winter: nearly the whole of Stavka's reserve, the heavy guns, the airborne corps and the first call on the railways. The plan is the one that was drawn: the Kalinin Front's armies break through from the north, the Western Front's from the south, and the two meet at Vyazma, well behind the German front, cutting off the Ninth Army and the rest of Army Group Centre's forces in the bulge. By the end of January the 22nd, 29th and 39th Armies have gone 110 kilometres into the German line, as they did in the real winter, and the question is how to close the ring behind them. Belov's Guards cavalry corps, the 33rd Army and an airborne corps are already in the German rear, or can be sent there." +
+            "With the general offensive cancelled, the Western and Kalinin Fronts have what no front had in the real winter: nearly the whole of Stavka's reserve, the heavy guns, the airborne corps and the first call on the railways. The plan is the one that was drawn: the Kalinin Front's armies break through from the north, the Western Front's from the south, and the two meet at Vyazma, well behind the German front, cutting off the Ninth Army and the rest of Army Group Centre's forces in the bulge. By the end of January the cavalry riding with the 22nd, 29th and 39th Armies has gone 110 kilometres into the German flank, as it did in the real winter, and the question is how to close the ring behind it. Belov's Guards cavalry corps, the 33rd Army and an airborne corps are already in the German rear, or can be sent there." +
             (bonus >= 14
               ? " What was banked in the summer and autumn is on the table now, and it shows: there are tanks, reserves and a front that is not already spent."
               : bonus >= 6
@@ -693,6 +902,194 @@
               setFlags: { rzhevVyazma42: "deep" },
               impact: { manpower: -2, fuel: -1, initiative: 1 },
               next: "smolenskThaw42",
+              // Round 25 (Craig's item 9). The pincers at Vyazma, January-February 1942, on the speculative branch where the
+              // general offensive is cancelled and the reserve is concentrated on the Western axis. The units and events are
+              // the real winter's; the question is only whether the ring closes. Facts checked 2026-10-08 (Wikipedia,
+              // Rzhev-Vyazma strategic offensive operation, Vyazma airborne operation, Mikhail Yefremov, Pavel Belov): the
+              // initial Soviet forces were the 22nd, 29th, 30th, 31st and 39th Armies of the Kalinin Front (Konev) and the
+              // 1st Shock, 5th, 10th, 16th, 20th, 33rd, 43rd, 49th and 50th Armies of the Western Front (Zhukov), with three
+              // cavalry corps; by the end of January the cavalry corps, riding with the 22nd, 29th and 39th Armies, was 110
+              // km into the German flank; the 4th Airborne Corps (Major General Alexei Levashev, killed on 23 February when
+              // his transport was shot down) was dropped from 27 January, with 2,100 men of the 8th Brigade down by 1
+              // February and 1,525 more dropped between 16 and 24 February, of whom only 1,320 could be formed into
+              // coherent units, the transports having very little fighter cover; the paratroopers joined Belov's 1st
+              // Guards Cavalry Corps by 6 February; Yefremov's 33rd Army was cut off in early February and supplied by air
+              // until April, and when it tried a shorter route to break out the Germans detected it and the army was
+              // destroyed; Yefremov shot himself on 19 April; most of Belov's corps reached the 10th Army; the German
+              // side was Army Group Centre under Kluge, with the Ninth Army under Model; the operation cost 152,943
+              // irrecoverable and 446,248 sanitary casualties between January and April.
+              keyBattleSubgame: {
+                id: "rzhevVyazma42",
+                title: "Order of Battle — The Pincers at Vyazma",
+                flavor:
+                  "The general offensive has been cancelled, and the Kalinin and Western Fronts have what no front had in the real winter: nearly all of the reserve, the heavy guns, the airborne corps and the first call on the railways. The plan is two pincers meeting at Vyazma, well behind the German front. What it needs, and has never had, is the weight to keep the corridor open behind the horsemen for as long as it takes the pincers to close. What's decided here is where that weight goes: how much into the armies that must break the line and widen the gap, how much into the cavalry riding ahead, how much into the airborne corps that has to hold the highway and the railway, and how much into keeping all of them supplied by road, rail and air through a Russian January.",
+                categories: [
+                  { id: "armies", name: "Pincer Armies", meter: "manpower" },
+                  { id: "cavalry", name: "Cavalry Corps", meter: "initiative" },
+                  { id: "airborne", name: "Airborne Corps", meter: "fuel", strand: "oil" },
+                  { id: "supply", name: "Rail, Road & Air Supply", meter: "fuel", strand: "ship" },
+                ],
+                // The armies are the ring's two arms and the weight of the blow; the cavalry are the way through the
+                // line and are second; the airborne corps are a small, fragile force and third; supply lowest, the
+                // limit that stopped the real winter.
+                effectiveness: { armies: 2.4, cavalry: 2.3, airborne: 1.9, supply: 1.7 },
+                orderOfBattle: {
+                  armies: {
+                    units: [
+                      "Kalinin Front (Konev): the 22nd, 29th, 30th, 31st and 39th Armies",
+                      "Western Front (Zhukov): the 33rd, 43rd, 49th and 50th Armies, with the 1st Shock, 5th, 10th, 16th and 20th",
+                    ],
+                    real: "From January to April the two fronts lost about 153,000 killed, missing or captured and 446,000 wounded or sick. The ring did not close at Vyazma, and in July the Germans closed on what was left of the 39th Army and the 11th Cavalry Corps in Operation Seydlitz.",
+                  },
+                  cavalry: {
+                    units: [
+                      "The 1st Guards Cavalry Corps (Major General Pavel Belov)",
+                      "The 11th Cavalry Corps, riding with the 22nd, 29th and 39th Armies",
+                    ],
+                    real: "By the end of January the cavalry had ridden 110 kilometres into the German flank. Belov's corps was supplied by air until April, and most of it reached the 10th Army.",
+                  },
+                  airborne: {
+                    units: [
+                      "The 4th Airborne Corps under Major General Alexei Levashev, dropped behind the German line from 27 January",
+                      "Transport aircraft with very little fighter cover",
+                    ],
+                    real: "About 2,100 men of the 8th Brigade were down by 1 February, and 1,525 more were dropped between 16 and 24 February, but only 1,320 could be formed into coherent units. Levashev was killed on 23 February when his transport was shot down.",
+                  },
+                  supply: {
+                    units: [
+                      "The railways behind the two fronts, and the forest roads beyond the railheads",
+                      "Air supply by transport aircraft to the cavalry, the paratroopers and the 33rd Army",
+                    ],
+                    real: "The 33rd Army (Lieutenant General Mikhail Yefremov) was cut off in early February and supplied by air until April. When it tried a shorter route out, the Germans detected it and the army was destroyed. Yefremov shot himself on 19 April.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Stavka's order is that no ground won behind the German line is to be given up: nothing falls back, whatever the corridor looks like.", noGiveGround: true },
+                conditions: "Deep winter in the forests and marshes between Rzhev and Vyazma, with few roads and none good, and the thaw still two months off.",
+                terrainModifiers: { supply: 0.9, airborne: 0.9 },
+                terrainNotes: { supply: "forest tracks under snow", airborne: "drop zones in deep forest and cold" },
+                attrition: [
+                  { category: "cavalry", atLeast: 3, meter: "manpower", delta: -1, reason: "Horsemen left far from help in the German rear" },
+                ],
+                // Field decision: the corridor. The three answers are the real options of a front commander who has
+                // a cavalry corps ahead and a narrow gap behind it; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theCorridor",
+                    time: "1730",
+                    title: "The corridor",
+                    prompt: "The cavalry are deep in the German rear and the corridor behind them is a few kilometres wide. German reserves are moving to close it. Zhukov has to decide what the front does with the gap.",
+                    options: [
+                      {
+                        id: "ridesDeeper",
+                        name: "Push the cavalry deeper toward Vyazma",
+                        note: "Threatens the whole German rear, and leaves the corridor to hold itself.",
+                        bonus: 0,
+                        bonusByPosture: { strongpointLine: 4, reservesByRail: -3, luftwaffeCorridor: -2 },
+                        reportLine: "The cavalry ride on toward Vyazma while the corridor behind them narrows.",
+                      },
+                      {
+                        id: "holdCorridor",
+                        name: "Halt and widen the corridor with the armies",
+                        note: "Keeps the supply line open, and costs Initiative while the Germans bring up their reserves.",
+                        bonus: 0,
+                        bonusByPosture: { reservesByRail: 4, luftwaffeCorridor: 2, strongpointLine: -2 },
+                        meters: { initiative: -1 },
+                        costReason: "A halt while the Germans bring up their reserves",
+                        reportLine: "The armies turn to widen the gap, and the horsemen wait where they are.",
+                      },
+                      {
+                        id: "dropTheAirborne",
+                        name: "Drop the airborne corps on the highway now",
+                        note: "Puts a force on the road behind the Germans, and puts it far beyond any help.",
+                        bonus: 0,
+                        bonusByPosture: { strongpointLine: 3, reservesByRail: 0, luftwaffeCorridor: -4 },
+                        reportLine: "The transports go out over the lines with the paratroopers for the Vyazma highway.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  armies:
+                    "The two fronts' armies are the arms of the pincer, and they have to break the line, widen the gap and then hold it. Each commitment here puts more of them into the breach and the shoulders on either side.",
+                  cavalry:
+                    "Horsemen can go where tanks cannot, through forest and snow and between the strongpoints. Each commitment here sends more of them into the German rear, far from anyone who could help them.",
+                  airborne:
+                    "The airborne corps are a few thousand men who can be put on the highway behind the Germans, if the transports can get them there. Each commitment here puts more of them into the drop.",
+                  supply:
+                    "Everything the pincers need comes over a railway that ends at the old front line, and then forest roads, and for the force in the German rear, the air. Each commitment here gives the supply columns and the transport aircraft first call.",
+                },
+                flashups: {
+                  armies: [
+                    "A rifle division advances through the snow in white snowsuits, a long line.",
+                    "The 33rd Army's regiments cross a frozen river at dawn.",
+                    "A division reaches a village the Germans held for a month, and finds it empty.",
+                    "Guns are dragged forward through the forest by hand when the horses fall.",
+                    "A battalion digs in on the shoulder of the gap and waits for the Germans.",
+                  ],
+                  cavalry: [
+                    "A cavalry regiment rides through a gap in the forest and into a village full of surprised Germans.",
+                    "Belov's horsemen cut a road behind a German strongpoint and hold it for the night.",
+                    "A squadron fords a frozen river where the ice has not yet set, and loses horses.",
+                    "A cavalry division finds a German supply dump and burns it.",
+                    "The horses are short of fodder, and the men are short of food.",
+                  ],
+                  airborne: [
+                    "A transport aircraft banks over the forest, and men go out of the door into the cold.",
+                    "A group of paratroopers lands miles from its drop zone and begins to march.",
+                    "A TB-3 goes down in flames over the German lines.",
+                    "Paratroopers gather on a frozen lake and are counted: fewer than the manifest said.",
+                    "A paratroop company reaches the Vyazma highway and mines the road.",
+                  ],
+                  supply: [
+                    "A train of ammunition cars halts at the railhead and the cargo is shifted onto sledges.",
+                    "A transport aircraft drops bundles of ammunition to the cut-off army, and half of them fall behind the German line.",
+                    "A convoy of sledges crosses the frozen marsh at night.",
+                    "A fuel dump is left behind when the front moves.",
+                    "A lorry column halts in the snow for want of a bridge.",
+                  ],
+                },
+                reportTimes: { open: "0400", contact: "0800", cats: ["1000", "1200", "1400", "1700"], reserve: "1900", counter: "2100" },
+                idleLines: {
+                  armies: [
+                    "The armies are not pushed into the breach. The gap stays as narrow as the first attack left it.",
+                    "No more divisions go into the line, and the shoulders of the gap are held by what is already there.",
+                  ],
+                  cavalry: [
+                    "The cavalry stay behind the line. Nobody rides through the gaps between the strongpoints.",
+                    "No horsemen go out, and the German rear is left alone.",
+                  ],
+                  airborne: [
+                    "The paratroopers stay on their airfields. No transport takes off for the highway.",
+                    "The airborne corps is held in reserve, and the highway behind the Germans stays open to them.",
+                  ],
+                  supply: [
+                    "No extra priority goes to the supply columns. The railway carries what it can carry.",
+                    "The transport aircraft are used for other things, and the force in the German rear lives on what it has.",
+                  ],
+                },
+                verdicts: ["The Ring Closes at Vyazma", "The Pincers Do Not Meet"],
+                verdictGrades: {
+                  clean: "The armies, the cavalry, the paratroopers and the supply lines all worked together, and the ring closed behind the German line.",
+                  costly: "The ring closes, but the cavalry and the airborne corps are very far from help, and many of them will not come back.",
+                  marginal: "The pincers come within a few kilometres of each other and stop. The plan held together, and the gap was never quite closed.",
+                  total: "The corridor closes behind the horsemen, and the force in the German rear is cut off from every other.",
+                },
+                counterattack: {
+                  category: "armies",
+                  severity: { reservesByRail: 2, strongpointLine: 1, luftwaffeCorridor: 0 },
+                  warn: {
+                    1: "German reserves are attacking the shoulders of the gap.",
+                    2: "A German counterattack in strength is coming in against the neck of the corridor.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack on the shoulder of the gap is beaten off, and the corridor stays open.",
+                    heldAtCost: "The shoulder of the gap holds against the Germans, at a heavy cost to the division that held it.",
+                    broke: "The Germans break into the neck of the corridor, and the armies on either side have to fight to reopen it.",
+                    gaveGround: "The shoulder of the gap gives ground, and the corridor is narrowed to the width of a single road.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: wholePocket,
@@ -760,7 +1157,9 @@
           title: "Smolensk, Before the Thaw",
           historicalRecord: false,
           situation:
-            "The pocket at Vyazma has done what the real winter's offensive could not. The German Ninth Army is destroyed in the bulge or is breaking out in pieces, the railway and highway through Vyazma are Soviet, and Army Group Centre is falling back toward Smolensk and the upper Dnieper on a line nobody in Berlin ordered. In three weeks the thaw will turn every road in the theatre into a river of mud, and the armies, now at the end of two hundred kilometres of their own railway, will stay where they are when it comes. Smolensk, the city whose fall in July 1941 opened the road to Moscow, lies about 150 kilometres ahead.",
+            "The pocket at Vyazma has done what the real winter's offensive could not. The German Ninth Army is destroyed in the bulge or is breaking out in pieces, the railway and highway through Vyazma are Soviet, and Army Group Centre is falling back toward Smolensk and the upper Dnieper on a line nobody in Berlin ordered. In three weeks the thaw will turn every road in the theatre into a river of mud, and the armies, now at the end of two hundred kilometres of their own railway, will stay where they are when it comes. Smolensk, the city whose fall in July 1941 opened the road to Moscow, lies about 150 kilometres ahead." +
+            // Round 25 (Vyazma echo).
+            keyBattleEcho("rzhevVyazma42", flags),
           choices: [
             {
               label: "Drive on Smolensk before the thaw closes the roads",
@@ -3528,8 +3927,10 @@
         add(7, "The mechanized corps were pulled back from the Brody road in June 1941 and the armour kept, against a directive from Moscow, and the ground it cost was the price of having a tank park in the winter.");
       if (flags.brody41 === "concentrate")
         add(6, "The mechanized corps were held two days in June 1941 and thrown in together, the argument Kirponos made at the front against the one that Zhukov brought from Moscow.");
-      if (flags.brody41 === "counterattack")
+      if (flags.brody41 === "counterattack" && flags.brodyResult !== "blow")
         add(4, "The mechanized corps went into the June 1941 counterattack as Directive No. 3 ordered, a few at a time, and by July they were a fraction of their strength.");
+      if (flags.brody41 === "counterattack" && flags.brodyResult === "blow")
+        add(6, "The mechanized corps went into the June 1941 counterattack together, as Directive No. 3 ordered, and stopped the panzers on the Styr for some days: by July they were a fraction of their strength, and had bought the days.");
       if (flags.yelnya41 === "strike")
         add(5, "The Yelnya salient was cleared in September 1941 and the first Guards divisions were made out of the men who fought there.");
       if (flags.yelnya41 === "hold")

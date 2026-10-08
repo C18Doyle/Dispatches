@@ -6672,8 +6672,213 @@ const CAMPAIGNS = {
               setFlags: { brody41: "counterattack" },
               impact: { manpower: -2, fuel: -2, initiative: 1 },
               next: "smolensk41",
-              outcome:
-                "What happened. The corps went in from June 24, a few at a time as each arrived, short of fuel and ammunition, without air cover and with commanders who could not reach one another. The German tank groups took them one after another: the 19th Mechanized Corps was down to 32 of its 453 tanks by the 29th, and by July 7 the 15th had 9 per cent of its tanks and the 8th 5 per cent. One group did reach the rear of the German 11th Panzer Division and took Dubno on June 27, and had nothing left to exploit it with. The counterattack delayed Kleist only briefly, and the Southwestern Front lost most of the armour it would have needed in September.",
+              // Round 25 (Craig's item 9). Dubno-Lutsk-Brody, 23-30 June 1941. Facts checked 2026-10-08 (Wikipedia, Battle
+              // of Brody (1941), copied from its tables): the Southwestern Front (Kirponos; chief of staff Purkayev) had six
+              // mechanized corps, the 4th (Vlasov; only its 8th Tank Division took part, with about 300 tanks), 8th
+              // (Ryabyshev, 899 tanks), 9th (Rokossovsky, 316 tanks and no T-34s or KVs), 15th (Karpezo, 749), 19th
+              // (Feklenko, 453) and 22nd (Kondrusev, 712), 3,429 tanks in all and 443 of them T-34s and KVs, against the
+              // 728 tanks of Kleist's First Panzer Group (III Panzer Corps, XXXXVIII Panzer Corps, XIV Panzer Corps);
+              // Directive No. 3 ordered the 5th and 6th Armies to strike concentrically toward Lublin with at least five
+              // mechanized corps and the front's aviation; Zhukov arrived on 22 June to see it done; the start was put
+              // back six hours to 04:00 on 24 June; the corps went in piecemeal, short of fuel, ammunition and trucks,
+              // many divisions "motorized in name only", with orders passing over the civilian telephone and telegraph
+              // network, which German sappers and aircraft cut; Rokossovsky commandeered 200 trucks and put much of his
+              // infantry on his tanks; the Southwestern Front's aircraft flew 523 sorties on 22-24 June, while the
+              // Luftwaffe shot down 24 SB bombers on the first day and was credited with destroying some 201 Soviet tanks
+              // in the area; the 11th Panzer Division had advanced 40 miles by 23 June; Popel's group of the 8th
+              // Mechanized Corps took Dubno on 27 June, "the most successful Soviet action of the battle"; Kirponos
+              // ordered a halt and a retreat and Zhukov had the order countermanded; the 19th Mechanized Corps was down to
+              // 32 of its 453 tanks by 29 June, and by 7 July the 15th had 9 per cent of its tanks and the 8th 5 per cent.
+              keyBattleSubgame: {
+                id: "brodyCounterstroke41",
+                title: "Order of Battle — Dubno, Lutsk, Brody",
+                flavor:
+                  "Directive No. 3 orders the Southwestern Front to counterattack on the second day of the war. On paper the front has six mechanized corps and about 3,400 tanks against some 750 in Kleist's group, and in the field almost none of them is where it is wanted. They are strung out across the rear, short of trucks, fuel and shells, and each has a long march under German aircraft to a battle that is already moving past it. Zhukov has come from Moscow to see the order carried out. Kirponos, who commands the front, has the order in his hand and doubts it can be done. What's decided here is how thinly the blow is spread: how much into the tanks of the mechanized corps, how much into the infantry that has to go in beside them, how much into the few aircraft the front has left, and how much into getting orders to the corps over a telephone network the Germans are cutting.",
+                categories: [
+                  { id: "armour", name: "Mechanized Corps", meter: "fuel", strand: "steel" },
+                  { id: "infantry", name: "Infantry & Rifle Corps", meter: "manpower" },
+                  { id: "air", name: "Frontal Aviation", meter: "fuel", strand: "oil" },
+                  { id: "signals", name: "Orders & Signals", meter: "initiative" },
+                ],
+                // The tanks are the weight of the blow, though few are modern; the infantry and the orders come next,
+                // the second equal to the first in importance; aviation lowest, most of it destroyed on the ground.
+                effectiveness: { armour: 2.6, infantry: 2.0, air: 1.7, signals: 2.0 },
+                orderOfBattle: {
+                  armour: {
+                    units: [
+                      "Six mechanized corps: the 4th (Vlasov), 8th (Ryabyshev), 9th (Rokossovsky), 15th (Karpezo), 19th (Feklenko) and 22nd (Kondrusev)",
+                      "3,429 tanks on paper, 443 of them T-34s and KVs; the 9th Corps had none. Kleist's First Panzer Group had 728 tanks",
+                    ],
+                    real: "The corps went in from 24 June, a few at a time, short of fuel and ammunition. The 19th Corps was down to 32 of its 453 tanks by the 29th, and by 7 July the 15th had 9 per cent of its tanks and the 8th 5 per cent.",
+                  },
+                  infantry: {
+                    units: [
+                      "The infantry of the 5th Army in the north and the 6th Army in the south, who were to strike with the mechanized corps",
+                      "The motorized infantry of the corps' own divisions, \"motorized in name only\" with only part of their transport",
+                    ],
+                    real: "Many infantry walked to the fight. Rokossovsky commandeered 200 trucks and put much of his infantry on his tanks.",
+                  },
+                  air: {
+                    units: [
+                      "The air forces of the Southwestern Front, most of them caught on the ground on 22 June",
+                      "Against them the Luftwaffe's Fliegerkorps IV and its fighter wing JG 3",
+                    ],
+                    real: "The front's aircraft flew 523 sorties between 22 and 24 June. The Luftwaffe shot down 24 SB bombers on the first day and was credited with destroying some 201 Soviet tanks in the area.",
+                  },
+                  signals: {
+                    units: [
+                      "The front staff under General Kirponos, with General Purkayev as chief of staff",
+                      "Zhukov, sent from Moscow on 22 June to see Directive No. 3 carried out",
+                    ],
+                    real: "Orders passed over the civilian telephone and telegraph network, which German sappers and aircraft cut. The start was put back six hours to 04:00 on 24 June, and the 15th Corps spent the battle moving chaotically on inconsistent orders. On 27 June Zhukov had Kirponos's order to halt and retreat countermanded.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Directive No. 3 stands as written: the corps are to strike for Lublin, and the front commander's request to concentrate them first has been overruled in Moscow.", lockApproach: "strikeForLublin" },
+                conditions: "High summer on the plains of western Ukraine, with dust, thin cover and German aircraft over every road, and marches of many hours to reach the battle.",
+                terrainModifiers: { air: 0.9 },
+                terrainNotes: { air: "German fighters over every airfield and road" },
+                attrition: [
+                  { category: "armour", atLeast: 3, meter: "fuel", delta: -1, reason: "Tanks run dry far from their depots" },
+                ],
+                // Field decision: the day Kirponos ordered a halt. Facts: on 27 June, after Popel's group took Dubno,
+                // Kirponos feared the German attack would outflank the southern group and ordered a halt and a
+                // retreat; Zhukov had the order countermanded. The three answers are the real options before the
+                // front on that day; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theFourthDay",
+                    time: "1830",
+                    title: "The fourth day",
+                    prompt: "One group has taken Dubno and cut the German spearhead's supply line, and the Germans are bringing up the infantry divisions behind their tanks. Kirponos fears that the same German thrust will outflank the southern group, and wants to halt and fall back. Zhukov wants the attack renewed.",
+                    options: [
+                      {
+                        id: "renewTheAttack",
+                        name: "Renew the attack at once",
+                        note: "Presses a thin German screen, and spends tanks that have little fuel left.",
+                        bonus: 0,
+                        bonusByPosture: { antiTankScreen: 4, panzersPastLine: -2, luftwaffeOverhead: -4 },
+                        reportLine: "The order to renew the attack goes to the corps, and the tanks that can move go forward again.",
+                      },
+                      {
+                        id: "haltAndRegroup",
+                        name: "Halt and pull the corps together",
+                        note: "Saves what is left of the armour, and costs Initiative while the Germans move on.",
+                        bonus: 0,
+                        bonusByPosture: { luftwaffeOverhead: 2, panzersPastLine: 2, antiTankScreen: -3 },
+                        meters: { initiative: -1 },
+                        costReason: "A halt while the Germans keep moving",
+                        reportLine: "The corps halt where they stand and begin to draw back toward each other.",
+                      },
+                      {
+                        id: "infantryFirst",
+                        name: "Put the rifle corps in ahead of the tanks",
+                        note: "Slow, and keeps the armour out of the German guns, but the infantry are far from the fight.",
+                        bonus: 0,
+                        bonusByPosture: { luftwaffeOverhead: 1, antiTankScreen: 0, panzersPastLine: -3 },
+                        reportLine: "The rifle divisions are ordered forward on foot to take the lead.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  armour:
+                    "The mechanized corps are the blow the directive was written for. Most of the tanks are old, a few are the new T-34s and KVs that the Germans have no answer to, and all of them need fuel they may not have. Each commitment here puts more of the armoured strength into the first attack.",
+                  infantry:
+                    "The rifle divisions and the infantry of the corps are the other half of the blow, and they have to walk. Each commitment here puts more of them in beside the tanks, to hold what the tanks take and to cover their flanks.",
+                  air:
+                    "The front's aircraft were caught on the ground on the first morning, and what is left flies in small numbers against fighters that are everywhere. Each commitment here puts more of them over the corps' line of march.",
+                  signals:
+                    "The corps are scattered, and the front's orders reach them over a telephone network the Germans are cutting. Each commitment here puts more staff officers and liaison cars on the roads to the corps, to get them to the right place at the right time.",
+                },
+                flashups: {
+                  armour: [
+                    "A column of BT tanks halts on the road, its tanks dry, and waits for fuel that does not come.",
+                    "A T-34 comes out of the corn with its hull covered in dust and fires on a German column.",
+                    "A regiment of tanks attacks across open fields in extended order.",
+                    "A tank crew destroys its tank when the last of the fuel is gone.",
+                    "The KVs of a corps move forward through a village, and a German anti-tank gun fires at them without effect.",
+                  ],
+                  infantry: [
+                    "A rifle regiment marches along the road toward the sound of the guns.",
+                    "Infantry ride forward on the decks of the tanks.",
+                    "A battalion digs in on a rise beside the road, and the tanks pass through it.",
+                    "A column of trucks, commandeered on the road, unloads a rifle company.",
+                    "A division arrives at the start line half an hour after the tanks have gone.",
+                  ],
+                  air: [
+                    "A flight of SB bombers goes over low and drops its bombs on a German column.",
+                    "German fighters dive on a Soviet airfield and the aircraft on it burn.",
+                    "A Soviet fighter regiment lands on a field beside the road.",
+                    "Bombers fly north to attack the bridges, and not all come back.",
+                    "A Soviet fighter pilot reports no German aircraft in the sky for an hour.",
+                  ],
+                  signals: [
+                    "A staff car drives down a road full of tanks with an order for a corps commander.",
+                    "A telephone line is cut, and a corps commander is without orders for hours.",
+                    "A new order reaches a corps while it is already on the road toward a different objective.",
+                    "A liaison officer on a motorcycle finds a division headquarters in a wood.",
+                    "The staff plot the German thrust on the map and find it is ten miles further than the last report.",
+                  ],
+                },
+                reportTimes: { open: "0300", contact: "0600", cats: ["0800", "1100", "1400", "1700"], reserve: "1900", counter: "2100" },
+                idleLines: {
+                  armour: [
+                    "The tank corps are not committed. They stay in their assembly areas while others march.",
+                    "No more armour goes forward, and the attack goes in with what was already on the road.",
+                  ],
+                  infantry: [
+                    "The infantry are left behind on the line of the border, and the tanks go forward without them.",
+                    "No rifle division is ordered forward to the fight, and the tanks are on their own in the open.",
+                  ],
+                  air: [
+                    "No aircraft are sent over the corps' line of march. The tanks go forward under whatever cover the sky gives them.",
+                    "The front's aviation is held on the ground, and the roads are open to the Germans.",
+                  ],
+                  signals: [
+                    "No extra staff officers go to the corps. The orders reach them when the telephones allow.",
+                    "The front's staff sends the directive and waits for reports, and the corps move as their commanders see fit.",
+                  ],
+                },
+                verdicts: ["The Panzers Are Stopped at Dubno", "Six Corps, Beaten One by One"],
+                verdictGrades: {
+                  clean: "The corps, the infantry, the aircraft and the orders worked together, and the German spearhead was cut off and held at the Styr.",
+                  costly: "The counterattack stops the German spearhead, but the corps that did it are worn down to a fraction of their strength.",
+                  marginal: "The counterattack takes some ground and no more. The corps are not destroyed, and the Germans lose a few days.",
+                  total: "The corps arrive piecemeal and are destroyed one after another, and the Germans lose hardly any time.",
+                },
+                counterattack: {
+                  category: "armour",
+                  severity: { panzersPastLine: 2, luftwaffeOverhead: 1, antiTankScreen: 0 },
+                  warn: {
+                    1: "German panzers are turning on the flank of the leading corps.",
+                    2: "The German panzer divisions are swinging round in strength to meet the Soviet tanks on the open plain.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack on the flank is beaten off, and the corps keep their line.",
+                    heldAtCost: "The flank holds against the German tanks, at a heavy cost in tanks and men.",
+                    broke: "The German tanks break into the flank of the leading corps, and the Soviet tanks have to turn and fight in the open.",
+                    gaveGround: "The leading corps pulls back from the flank rather than meet the German tanks on open ground.",
+                  },
+                },
+              },
+              uncertain: [
+                {
+                  weight: modWeight(20, meters.initiative),
+                  title: "The panzers are stopped at Dubno",
+                  setFlags: { brodyResult: "blow" },
+                  impact: { manpower: -2, fuel: -2, initiative: 2 },
+                  outcome:
+                    "Speculative. For once the corps arrive near enough together to count. The group that took Dubno in the real battle is joined there by the corps on either side of it, the panzer division it cut off is made to turn about, and the German advance toward Kiev is held on the Styr for some days. It is the biggest tank battle of the war's first week fought as a battle and not as a series of ambushes, and it ends as the real one did, in the wreck of the corps that fought it: an obsolete tank park has no answer to a modern one for long. But it buys what the real counterattack could not, which is days, and the officers who fought it now know how to run a mechanized corps.",
+                },
+                {
+                  weight: 100 - modWeight(20, meters.initiative),
+                  title: "Six corps, beaten one by one",
+                  impact: { manpower: -2, fuel: -2, initiative: 1 },
+                  outcome:
+                    "What happened. The corps went in from June 24, a few at a time as each arrived, short of fuel and ammunition, without air cover and with commanders who could not reach one another. The German tank groups took them one after another: the 19th Mechanized Corps was down to 32 of its 453 tanks by the 29th, and by July 7 the 15th had 9 per cent of its tanks and the 8th 5 per cent. One group did reach the rear of the German 11th Panzer Division and took Dubno on June 27, and had nothing left to exploit it with. The counterattack delayed Kleist only briefly, and the Southwestern Front lost most of the armour it would have needed in September.",
+                },
+              ],
             },
             {
               label: "Wait two days, bring the corps together with their fuel and shells, and strike on one axis at Rovno",
@@ -6793,7 +6998,9 @@ const CAMPAIGNS = {
               : "") +
             (flags.hardMode && (flags.suspicion || 0) >= 1
               ? " Something else is different this time, and it has nothing to do with Kiev: the special section's interest in this headquarters did not end with the border. Obedience was once its own protection. It no longer reads as a guarantee of anything."
-              : ""),
+              : "") +
+            // Round 25 (Brody echo): only when the corps were actually thrown in together.
+            (flags.brody41 === "counterattack" ? keyBattleEcho("brodyCounterstroke41", flags) : ""),
           choices: [
             {
               label: "Hold Kiev — the city does not fall without a fight",
@@ -7137,7 +7344,9 @@ const CAMPAIGNS = {
             // Round 21 (Moscow echo): only when the player actually fought the December battle.
             (flags.moscow41 === "counteroffensive"
               ? (flags.moscow41Result === "spent" ? " The winter's blow before Moscow gained ground and no more, and the army that fought it is short of everything the convoys bring." : "") + keyBattleEcho("moscow41", flags)
-              : ""),
+              : "") +
+            // Round 25 (Vyazma echo, after a ring that did not close).
+            (flags.rzhevVyazma42 === "deep" && flags.centerBroken42 === "failed" ? keyBattleEcho("rzhevVyazma42", flags) : ""),
           choices: [
             {
               label: "Press for maximum Arctic deliveries — accept the convoy losses for the speed",
@@ -7209,7 +7418,7 @@ const CAMPAIGNS = {
               impact: { manpower: -2, fuel: -1, initiative: 1 },
               next: "lendLease42",
               outcome:
-                "What happened. Offensives opened from the Volkhov to the Crimea. In the centre the Kalinin and Western Fronts drove 110 kilometres into the German line by the end of January and could not supply what they had won; Soviet formations were cut off behind it, the 33rd Army, Belov's Guards cavalry and an airborne corps among them, and when the Germans cleared them in July the Rzhev salient was still there. The Rzhev–Vyazma operation alone cost about 153,000 killed, missing or captured and 446,000 wounded or sick between January and April. No single offensive of the winter was a catastrophe. It was a winter of operations on every front, none of which was given the weight to finish.",
+                "What happened. Offensives opened from the Volkhov to the Crimea. In the centre the Kalinin and Western Fronts broke into the German line, their cavalry riding 110 kilometres into the German flank by the end of January, and could not supply what they had won; Soviet formations were cut off behind it, the 33rd Army, Belov's Guards cavalry and an airborne corps among them, and when the Germans cleared them in July the Rzhev salient was still there. The Rzhev–Vyazma operation alone cost about 153,000 killed, missing or captured and 446,000 wounded or sick between January and April. No single offensive of the winter was a catastrophe. It was a winter of operations on every front, none of which was given the weight to finish.",
             },
             {
               label: "Concentrate everything on the Western axis — one blow, aimed at destroying Army Group Centre",
@@ -7255,7 +7464,7 @@ const CAMPAIGNS = {
           title: "The Pincers at Vyazma",
           historicalRecord: false,
           situation:
-            "With the general offensive cancelled, the Western and Kalinin Fronts have what no front had in the real winter: nearly the whole of Stavka's reserve, the heavy guns, the airborne corps and the first call on the railways. The plan is the one that was drawn: the Kalinin Front's armies break through from the north, the Western Front's from the south, and the two meet at Vyazma, well behind the German front, cutting off the Ninth Army and the rest of Army Group Centre's forces in the bulge. By the end of January the 22nd, 29th and 39th Armies have gone 110 kilometres into the German line, as they did in the real winter, and the question is how to close the ring behind them. Belov's Guards cavalry corps, the 33rd Army and an airborne corps are already in the German rear, or can be sent there." +
+            "With the general offensive cancelled, the Western and Kalinin Fronts have what no front had in the real winter: nearly the whole of Stavka's reserve, the heavy guns, the airborne corps and the first call on the railways. The plan is the one that was drawn: the Kalinin Front's armies break through from the north, the Western Front's from the south, and the two meet at Vyazma, well behind the German front, cutting off the Ninth Army and the rest of Army Group Centre's forces in the bulge. By the end of January the cavalry riding with the 22nd, 29th and 39th Armies has gone 110 kilometres into the German flank, as it did in the real winter, and the question is how to close the ring behind it. Belov's Guards cavalry corps, the 33rd Army and an airborne corps are already in the German rear, or can be sent there." +
             (bonus >= 14
               ? " What was banked in the summer and autumn is on the table now, and it shows: there are tanks, reserves and a front that is not already spent."
               : bonus >= 6
@@ -7268,6 +7477,194 @@ const CAMPAIGNS = {
               setFlags: { rzhevVyazma42: "deep" },
               impact: { manpower: -2, fuel: -1, initiative: 1 },
               next: "smolenskThaw42",
+              // Round 25 (Craig's item 9). The pincers at Vyazma, January-February 1942, on the speculative branch where the
+              // general offensive is cancelled and the reserve is concentrated on the Western axis. The units and events are
+              // the real winter's; the question is only whether the ring closes. Facts checked 2026-10-08 (Wikipedia,
+              // Rzhev-Vyazma strategic offensive operation, Vyazma airborne operation, Mikhail Yefremov, Pavel Belov): the
+              // initial Soviet forces were the 22nd, 29th, 30th, 31st and 39th Armies of the Kalinin Front (Konev) and the
+              // 1st Shock, 5th, 10th, 16th, 20th, 33rd, 43rd, 49th and 50th Armies of the Western Front (Zhukov), with three
+              // cavalry corps; by the end of January the cavalry corps, riding with the 22nd, 29th and 39th Armies, was 110
+              // km into the German flank; the 4th Airborne Corps (Major General Alexei Levashev, killed on 23 February when
+              // his transport was shot down) was dropped from 27 January, with 2,100 men of the 8th Brigade down by 1
+              // February and 1,525 more dropped between 16 and 24 February, of whom only 1,320 could be formed into
+              // coherent units, the transports having very little fighter cover; the paratroopers joined Belov's 1st
+              // Guards Cavalry Corps by 6 February; Yefremov's 33rd Army was cut off in early February and supplied by air
+              // until April, and when it tried a shorter route to break out the Germans detected it and the army was
+              // destroyed; Yefremov shot himself on 19 April; most of Belov's corps reached the 10th Army; the German
+              // side was Army Group Centre under Kluge, with the Ninth Army under Model; the operation cost 152,943
+              // irrecoverable and 446,248 sanitary casualties between January and April.
+              keyBattleSubgame: {
+                id: "rzhevVyazma42",
+                title: "Order of Battle — The Pincers at Vyazma",
+                flavor:
+                  "The general offensive has been cancelled, and the Kalinin and Western Fronts have what no front had in the real winter: nearly all of the reserve, the heavy guns, the airborne corps and the first call on the railways. The plan is two pincers meeting at Vyazma, well behind the German front. What it needs, and has never had, is the weight to keep the corridor open behind the horsemen for as long as it takes the pincers to close. What's decided here is where that weight goes: how much into the armies that must break the line and widen the gap, how much into the cavalry riding ahead, how much into the airborne corps that has to hold the highway and the railway, and how much into keeping all of them supplied by road, rail and air through a Russian January.",
+                categories: [
+                  { id: "armies", name: "Pincer Armies", meter: "manpower" },
+                  { id: "cavalry", name: "Cavalry Corps", meter: "initiative" },
+                  { id: "airborne", name: "Airborne Corps", meter: "fuel", strand: "oil" },
+                  { id: "supply", name: "Rail, Road & Air Supply", meter: "fuel", strand: "ship" },
+                ],
+                // The armies are the ring's two arms and the weight of the blow; the cavalry are the way through the
+                // line and are second; the airborne corps are a small, fragile force and third; supply lowest, the
+                // limit that stopped the real winter.
+                effectiveness: { armies: 2.4, cavalry: 2.3, airborne: 1.9, supply: 1.7 },
+                orderOfBattle: {
+                  armies: {
+                    units: [
+                      "Kalinin Front (Konev): the 22nd, 29th, 30th, 31st and 39th Armies",
+                      "Western Front (Zhukov): the 33rd, 43rd, 49th and 50th Armies, with the 1st Shock, 5th, 10th, 16th and 20th",
+                    ],
+                    real: "From January to April the two fronts lost about 153,000 killed, missing or captured and 446,000 wounded or sick. The ring did not close at Vyazma, and in July the Germans closed on what was left of the 39th Army and the 11th Cavalry Corps in Operation Seydlitz.",
+                  },
+                  cavalry: {
+                    units: [
+                      "The 1st Guards Cavalry Corps (Major General Pavel Belov)",
+                      "The 11th Cavalry Corps, riding with the 22nd, 29th and 39th Armies",
+                    ],
+                    real: "By the end of January the cavalry had ridden 110 kilometres into the German flank. Belov's corps was supplied by air until April, and most of it reached the 10th Army.",
+                  },
+                  airborne: {
+                    units: [
+                      "The 4th Airborne Corps under Major General Alexei Levashev, dropped behind the German line from 27 January",
+                      "Transport aircraft with very little fighter cover",
+                    ],
+                    real: "About 2,100 men of the 8th Brigade were down by 1 February, and 1,525 more were dropped between 16 and 24 February, but only 1,320 could be formed into coherent units. Levashev was killed on 23 February when his transport was shot down.",
+                  },
+                  supply: {
+                    units: [
+                      "The railways behind the two fronts, and the forest roads beyond the railheads",
+                      "Air supply by transport aircraft to the cavalry, the paratroopers and the 33rd Army",
+                    ],
+                    real: "The 33rd Army (Lieutenant General Mikhail Yefremov) was cut off in early February and supplied by air until April. When it tried a shorter route out, the Germans detected it and the army was destroyed. Yefremov shot himself on 19 April.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "Stavka's order is that no ground won behind the German line is to be given up: nothing falls back, whatever the corridor looks like.", noGiveGround: true },
+                conditions: "Deep winter in the forests and marshes between Rzhev and Vyazma, with few roads and none good, and the thaw still two months off.",
+                terrainModifiers: { supply: 0.9, airborne: 0.9 },
+                terrainNotes: { supply: "forest tracks under snow", airborne: "drop zones in deep forest and cold" },
+                attrition: [
+                  { category: "cavalry", atLeast: 3, meter: "manpower", delta: -1, reason: "Horsemen left far from help in the German rear" },
+                ],
+                // Field decision: the corridor. The three answers are the real options of a front commander who has
+                // a cavalry corps ahead and a narrow gap behind it; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theCorridor",
+                    time: "1730",
+                    title: "The corridor",
+                    prompt: "The cavalry are deep in the German rear and the corridor behind them is a few kilometres wide. German reserves are moving to close it. Zhukov has to decide what the front does with the gap.",
+                    options: [
+                      {
+                        id: "ridesDeeper",
+                        name: "Push the cavalry deeper toward Vyazma",
+                        note: "Threatens the whole German rear, and leaves the corridor to hold itself.",
+                        bonus: 0,
+                        bonusByPosture: { strongpointLine: 4, reservesByRail: -3, luftwaffeCorridor: -2 },
+                        reportLine: "The cavalry ride on toward Vyazma while the corridor behind them narrows.",
+                      },
+                      {
+                        id: "holdCorridor",
+                        name: "Halt and widen the corridor with the armies",
+                        note: "Keeps the supply line open, and costs Initiative while the Germans bring up their reserves.",
+                        bonus: 0,
+                        bonusByPosture: { reservesByRail: 4, luftwaffeCorridor: 2, strongpointLine: -2 },
+                        meters: { initiative: -1 },
+                        costReason: "A halt while the Germans bring up their reserves",
+                        reportLine: "The armies turn to widen the gap, and the horsemen wait where they are.",
+                      },
+                      {
+                        id: "dropTheAirborne",
+                        name: "Drop the airborne corps on the highway now",
+                        note: "Puts a force on the road behind the Germans, and puts it far beyond any help.",
+                        bonus: 0,
+                        bonusByPosture: { strongpointLine: 3, reservesByRail: 0, luftwaffeCorridor: -4 },
+                        reportLine: "The transports go out over the lines with the paratroopers for the Vyazma highway.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  armies:
+                    "The two fronts' armies are the arms of the pincer, and they have to break the line, widen the gap and then hold it. Each commitment here puts more of them into the breach and the shoulders on either side.",
+                  cavalry:
+                    "Horsemen can go where tanks cannot, through forest and snow and between the strongpoints. Each commitment here sends more of them into the German rear, far from anyone who could help them.",
+                  airborne:
+                    "The airborne corps are a few thousand men who can be put on the highway behind the Germans, if the transports can get them there. Each commitment here puts more of them into the drop.",
+                  supply:
+                    "Everything the pincers need comes over a railway that ends at the old front line, and then forest roads, and for the force in the German rear, the air. Each commitment here gives the supply columns and the transport aircraft first call.",
+                },
+                flashups: {
+                  armies: [
+                    "A rifle division advances through the snow in white snowsuits, a long line.",
+                    "The 33rd Army's regiments cross a frozen river at dawn.",
+                    "A division reaches a village the Germans held for a month, and finds it empty.",
+                    "Guns are dragged forward through the forest by hand when the horses fall.",
+                    "A battalion digs in on the shoulder of the gap and waits for the Germans.",
+                  ],
+                  cavalry: [
+                    "A cavalry regiment rides through a gap in the forest and into a village full of surprised Germans.",
+                    "Belov's horsemen cut a road behind a German strongpoint and hold it for the night.",
+                    "A squadron fords a frozen river where the ice has not yet set, and loses horses.",
+                    "A cavalry division finds a German supply dump and burns it.",
+                    "The horses are short of fodder, and the men are short of food.",
+                  ],
+                  airborne: [
+                    "A transport aircraft banks over the forest, and men go out of the door into the cold.",
+                    "A group of paratroopers lands miles from its drop zone and begins to march.",
+                    "A TB-3 goes down in flames over the German lines.",
+                    "Paratroopers gather on a frozen lake and are counted: fewer than the manifest said.",
+                    "A paratroop company reaches the Vyazma highway and mines the road.",
+                  ],
+                  supply: [
+                    "A train of ammunition cars halts at the railhead and the cargo is shifted onto sledges.",
+                    "A transport aircraft drops bundles of ammunition to the cut-off army, and half of them fall behind the German line.",
+                    "A convoy of sledges crosses the frozen marsh at night.",
+                    "A fuel dump is left behind when the front moves.",
+                    "A lorry column halts in the snow for want of a bridge.",
+                  ],
+                },
+                reportTimes: { open: "0400", contact: "0800", cats: ["1000", "1200", "1400", "1700"], reserve: "1900", counter: "2100" },
+                idleLines: {
+                  armies: [
+                    "The armies are not pushed into the breach. The gap stays as narrow as the first attack left it.",
+                    "No more divisions go into the line, and the shoulders of the gap are held by what is already there.",
+                  ],
+                  cavalry: [
+                    "The cavalry stay behind the line. Nobody rides through the gaps between the strongpoints.",
+                    "No horsemen go out, and the German rear is left alone.",
+                  ],
+                  airborne: [
+                    "The paratroopers stay on their airfields. No transport takes off for the highway.",
+                    "The airborne corps is held in reserve, and the highway behind the Germans stays open to them.",
+                  ],
+                  supply: [
+                    "No extra priority goes to the supply columns. The railway carries what it can carry.",
+                    "The transport aircraft are used for other things, and the force in the German rear lives on what it has.",
+                  ],
+                },
+                verdicts: ["The Ring Closes at Vyazma", "The Pincers Do Not Meet"],
+                verdictGrades: {
+                  clean: "The armies, the cavalry, the paratroopers and the supply lines all worked together, and the ring closed behind the German line.",
+                  costly: "The ring closes, but the cavalry and the airborne corps are very far from help, and many of them will not come back.",
+                  marginal: "The pincers come within a few kilometres of each other and stop. The plan held together, and the gap was never quite closed.",
+                  total: "The corridor closes behind the horsemen, and the force in the German rear is cut off from every other.",
+                },
+                counterattack: {
+                  category: "armies",
+                  severity: { reservesByRail: 2, strongpointLine: 1, luftwaffeCorridor: 0 },
+                  warn: {
+                    1: "German reserves are attacking the shoulders of the gap.",
+                    2: "A German counterattack in strength is coming in against the neck of the corridor.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack on the shoulder of the gap is beaten off, and the corridor stays open.",
+                    heldAtCost: "The shoulder of the gap holds against the Germans, at a heavy cost to the division that held it.",
+                    broke: "The Germans break into the neck of the corridor, and the armies on either side have to fight to reopen it.",
+                    gaveGround: "The shoulder of the gap gives ground, and the corridor is narrowed to the width of a single road.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: wholePocket,
@@ -7335,7 +7732,9 @@ const CAMPAIGNS = {
           title: "Smolensk, Before the Thaw",
           historicalRecord: false,
           situation:
-            "The pocket at Vyazma has done what the real winter's offensive could not. The German Ninth Army is destroyed in the bulge or is breaking out in pieces, the railway and highway through Vyazma are Soviet, and Army Group Centre is falling back toward Smolensk and the upper Dnieper on a line nobody in Berlin ordered. In three weeks the thaw will turn every road in the theatre into a river of mud, and the armies, now at the end of two hundred kilometres of their own railway, will stay where they are when it comes. Smolensk, the city whose fall in July 1941 opened the road to Moscow, lies about 150 kilometres ahead.",
+            "The pocket at Vyazma has done what the real winter's offensive could not. The German Ninth Army is destroyed in the bulge or is breaking out in pieces, the railway and highway through Vyazma are Soviet, and Army Group Centre is falling back toward Smolensk and the upper Dnieper on a line nobody in Berlin ordered. In three weeks the thaw will turn every road in the theatre into a river of mud, and the armies, now at the end of two hundred kilometres of their own railway, will stay where they are when it comes. Smolensk, the city whose fall in July 1941 opened the road to Moscow, lies about 150 kilometres ahead." +
+            // Round 25 (Vyazma echo).
+            keyBattleEcho("rzhevVyazma42", flags),
           choices: [
             {
               label: "Drive on Smolensk before the thaw closes the roads",
@@ -10103,8 +10502,10 @@ const CAMPAIGNS = {
         add(7, "The mechanized corps were pulled back from the Brody road in June 1941 and the armour kept, against a directive from Moscow, and the ground it cost was the price of having a tank park in the winter.");
       if (flags.brody41 === "concentrate")
         add(6, "The mechanized corps were held two days in June 1941 and thrown in together, the argument Kirponos made at the front against the one that Zhukov brought from Moscow.");
-      if (flags.brody41 === "counterattack")
+      if (flags.brody41 === "counterattack" && flags.brodyResult !== "blow")
         add(4, "The mechanized corps went into the June 1941 counterattack as Directive No. 3 ordered, a few at a time, and by July they were a fraction of their strength.");
+      if (flags.brody41 === "counterattack" && flags.brodyResult === "blow")
+        add(6, "The mechanized corps went into the June 1941 counterattack together, as Directive No. 3 ordered, and stopped the panzers on the Styr for some days: by July they were a fraction of their strength, and had bought the days.");
       if (flags.yelnya41 === "strike")
         add(5, "The Yelnya salient was cleared in September 1941 and the first Guards divisions were made out of the men who fought there.");
       if (flags.yelnya41 === "hold")
@@ -16828,7 +17229,9 @@ const CAMPAIGNS = {
           historicalRecord: true,
           situation:
             "The Allied advance up the peninsula has stalled for months against the Gustav Line's anchor position at Monte Cassino, a medieval abbey on commanding high ground that four successive Allied offensives — American, British, New Zealand and Indian, Polish — will eventually need to break, at a combined cost that will run past 50,000 Allied casualties before the position finally falls in May. The Co-Belligerent Army's own combat formations, still small and still building the trust Salerno's aftermath left an open question, are offered a role in the supporting operations around the main assault rather than the abbey assault itself — a decision partly about combat readiness and partly, still, about how much Allied command trusts a very recently former enemy with a battle this costly." +
-            (flags.monteLungo43 === "attack"
+            (flags.monteLungoResult === "firstTry"
+              ? " The Group that took Monte Lungo on the first morning in December, without needing a second attempt, is the one being offered the supporting role."
+              : flags.monteLungo43 === "attack"
               ? " The Group that went up Monte Lungo twice in December, failing the first time and not the second, is the one being offered the supporting role."
               : flags.monteLungoResult === "prepared"
               ? " The Group that took Monte Lungo in December on its second attempt, with a week's rehearsal behind it, is the one being offered the supporting role."
@@ -16836,7 +17239,9 @@ const CAMPAIGNS = {
               ? " The Group that was put in reserve at Monte Lungo in December, and has been trying to earn its place back since, is being offered the supporting role."
               : flags.monteLungo43 === "decline"
               ? " The Group that was kept out of Monte Lungo in December has not yet fought a German in a prepared position, which is why a supporting role is what it is offered."
-              : ""),
+              : "") +
+            // Round 25 (Monte Lungo echo): only when the Group actually fought the first attack.
+            (flags.monteLungo43 === "attack" ? keyBattleEcho("monteLungo43", flags) : ""),
           choices: [
             {
               label: "Accept the supporting role and use it to build a combat record methodically",
@@ -17120,7 +17525,9 @@ const CAMPAIGNS = {
           title: "The War the South Can Only Fund, Not Fight",
           historicalRecord: true,
           situation:
-            "North of the Gothic Line, the Committee of National Liberation for Northern Italy — CLNAI, drawing together Communist, Socialist, Catholic, Liberal, and Action Party resistance formations that agree on almost nothing except opposing the German occupation and the Salò Republic both — has grown from scattered bands into a genuine irregular army tying down German and RSI garrison forces across the mountains and industrial cities alike. What the government now reconstituted in Rome can offer this movement is not soldiers — the Gothic Line stalemate has none to spare crossing it — but money, arms shipments run by clandestine channels, and formal political recognition of a resistance the south had no hand in organizing and only limited ability to actually direct.",
+            "North of the Gothic Line, the Committee of National Liberation for Northern Italy — CLNAI, drawing together Communist, Socialist, Catholic, Liberal, and Action Party resistance formations that agree on almost nothing except opposing the German occupation and the Salò Republic both — has grown from scattered bands into a genuine irregular army tying down German and RSI garrison forces across the mountains and industrial cities alike. What the government now reconstituted in Rome can offer this movement is not soldiers — the Gothic Line stalemate has none to spare crossing it — but money, arms shipments run by clandestine channels, and formal political recognition of a resistance the south had no hand in organizing and only limited ability to actually direct." +
+            // Round 25 (Filottrano echo): only when the Corps actually fought for the town.
+            (flags.adriaticRoad44 === "lead" ? keyBattleEcho("adriaticRoad44", flags) : ""),
           choices: [
             {
               label: "Commit arms shipments and gold to the CLNAI, whatever the front-line resources it costs",
@@ -17208,8 +17615,209 @@ const CAMPAIGNS = {
               setFlags: { monteLungo43: "attack" },
               impact: { manpower: -2, fuel: 0, initiative: 1 },
               next: "vaticanChannel44",
-              outcome:
-                "What happened. On December 8 the Group went up Monte Lungo beside American infantry under the morning mist. When the mist lifted the Italians were on open slopes under fire from German positions the hurried plan had not found, and the attack failed, with about fifty dead and more than a hundred wounded. It was the first action of the Royal Army on the Allied side. It was repeated on December 16 with a heavy artillery preparation and American infantry beside it, and this time the hill was taken. General Clark wrote to congratulate the Group on its determination to free Italy from German domination: the Allies had watched the Italian army fight twice, and win the second time.",
+              // Round 25 (Craig's item 9: Orders of Battle for the actions added in rounds 24-25). The first Italian
+              // attack on Monte Lungo, 8 December 1943. Facts checked 2026-10-08 (Italian Wikipedia, Battaglia di
+              // Montelungo; Liberation Route Europe, Battle of Monte Lungo; Wikipedia, 15th Panzergrenadier Division,
+              // Battle of San Pietro Infine, Italian Co-belligerent Army): the 1st Motorized Group, General Vincenzo
+              // Dapino, about 5,000 men built around the 67th Infantry Regiment "Legnano", the 51st Bersaglieri
+              // Battalion of officer cadets and the 11th Artillery Regiment; it attacked beside U.S. II Corps (General
+              // Geoffrey Keyes) on 8 December "under cover of the morning mist", and as soon as the mist cleared the
+              // advancing soldiers were exposed; the attack failed with 47 dead and 102 wounded. Italian accounts give
+              // as causes the German positions being stronger than expected, the failure of the 143rd Infantry
+              // Regiment's attack on San Pietro Infine the same day, artillery less effective than planned, and
+              // co-ordination lost with the visibility. Two battalions of the 15th Panzergrenadier Division held San
+              // Pietro Infine and Monte Lungo on 7 December (other accounts name the 29th Panzergrenadier Division in
+              // the gap), under XIV Panzer Corps. On 16 December, after a careful bombardment with 81 mm mortars and a
+              // 75/18 artillery group, the Group took the hill with 6 dead and 30 wounded.
+              keyBattleSubgame: {
+                id: "monteLungo43",
+                title: "Order of Battle — Monte Lungo",
+                flavor:
+                  "The first hill the army has been asked to take. Monte Lungo is the low ridge beside San Pietro Infine in the Mignano gap, held by German Panzergrenadiers on the Bernhardt Line, and II Corps wants it taken on the morning its own 36th Division attacks the village. The Group goes up in the mist at first light, on a plan made in haste, behind guns it has not trained with and against an enemy none of its men has fought in a prepared position. What's decided here is how the Group's effort is placed: how much into the infantry of the 67th Regiment, how much into the Bersaglieri cadets, how much to the guns and mortars that have to suppress a line nobody has seen, and how much to the patrols and observers who have until the mist lifts to find it.",
+                categories: [
+                  { id: "infantry", name: "67th Infantry Regiment", meter: "manpower" },
+                  { id: "bersaglieri", name: "Bersaglieri Cadets", meter: "manpower" },
+                  { id: "guns", name: "Guns & Mortars", meter: "fuel", strand: "ammo" },
+                  { id: "recon", name: "Patrols & Observers", meter: "initiative" },
+                ],
+                // The infantry regiment is the weight of the Group; the guns come next, since the second attack
+                // was won by fire; the cadets are a single battalion; patrol work is lowest, a thin arm in a
+                // Group that had been put together that autumn.
+                effectiveness: { infantry: 2.4, bersaglieri: 2.1, guns: 2.3, recon: 1.8 },
+                orderOfBattle: {
+                  infantry: {
+                    units: [
+                      "The 67th Infantry Regiment \"Legnano\", the main body of the 1st Motorized Group",
+                      "The Group as a whole: about 5,000 men under General Vincenzo Dapino, put together in Puglia that autumn from units that survived the armistice",
+                    ],
+                    real: "The regiment went up the hill on 8 December under the morning mist. When the mist lifted it was on open ground under fire, and the attack was thrown back.",
+                  },
+                  bersaglieri: {
+                    units: [
+                      "The 51st Bersaglieri Battalion, made up of officer cadets",
+                    ],
+                    real: "The cadets attacked with the infantry. The Italians lost 47 dead and 102 wounded on 8 December.",
+                  },
+                  guns: {
+                    units: [
+                      "The 11th Artillery Regiment, with the Group's mortars",
+                      "The guns of the American II Corps, which the Group had not trained with",
+                    ],
+                    real: "The artillery proved less effective than expected on the 8th. Before the second attack, on 16 December, a careful bombardment by 81 mm mortars and a 75/18 artillery group went in first.",
+                  },
+                  recon: {
+                    units: [
+                      "The Group's patrols and artillery observers",
+                      "The 36th Infantry Division beside it, attacking San Pietro Infine the same morning",
+                    ],
+                    real: "The German positions proved stronger than the plan had assumed, and the 143rd Infantry Regiment's attack on San Pietro Infine, beside the Italians, failed the same day.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "II Corps has fixed the plan: the Group goes in at first light, in the mist, beside the American attack on San Pietro, and the Italian staff may not delay it.", lockApproach: "underTheMist" },
+                conditions: "Mist on the slopes at first light, thinning with the sun, over open ground that gives no cover once it lifts, in front of a Bernhardt Line position the Germans have had weeks to prepare.",
+                terrainModifiers: { guns: 0.9, recon: 0.9 },
+                terrainNotes: { guns: "fire called blind in the mist", recon: "no view of the slopes until the mist lifts" },
+                attrition: [
+                  { category: "infantry", atLeast: 3, meter: "manpower", delta: -1, reason: "An assault up open slopes under fire" },
+                ],
+                // Field decision: the moment the mist lifts. The three answers are the real options of a
+                // company commander on an open slope; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "whenTheMistLifts",
+                    time: "0830",
+                    title: "When the mist lifts",
+                    prompt: "The mist is thinning and the first companies are on the slope. Above them a German line is opening fire as it clears, and the American attack on San Pietro beside the Group has not gone as planned. Dapino has to decide what the Group does with the open ground in front of it.",
+                    options: [
+                      {
+                        id: "pressOn",
+                        name: "Press on up the slope",
+                        note: "Keeps the momentum if the line is thin, and leaves the men exposed if it is not.",
+                        bonus: 0,
+                        bonusByPosture: { thinLine: 4, mistHolds: 3, strongPositions: -4 },
+                        reportLine: "The companies keep climbing as the mist thins, with the whole slope open behind them.",
+                      },
+                      {
+                        id: "goToGround",
+                        name: "Go to ground and call down the guns",
+                        note: "Costs time and Initiative, and puts the weight on the artillery.",
+                        bonus: 0,
+                        bonusByPosture: { strongPositions: 4, thinLine: -2 },
+                        meters: { initiative: -1 },
+                        costReason: "A halt on open ground under fire",
+                        reportLine: "The companies go to ground on the slope, and the observers call for fire on what has opened up on them.",
+                      },
+                      {
+                        id: "backToStart",
+                        name: "Fall back to the start line",
+                        note: "Saves men if the position is strong, and gives the hill away if it is not.",
+                        bonus: 0,
+                        bonusByPosture: { strongPositions: 2, thinLine: -4, mistHolds: -2 },
+                        reportLine: "The Group falls back across the ground it has just covered to the start line.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  infantry:
+                    "The 67th Regiment is the weight of the Group and the men who will climb the hill. Nobody in it has seen a prepared German position. Each commitment here puts more of the regiment onto the slope at first light.",
+                  bersaglieri:
+                    "The cadets of the 51st Battalion are young, fit and quick on a hillside. Each commitment here puts more of them in beside the infantry, to carry the climb faster than the line above can be sighted.",
+                  guns:
+                    "The regiment's guns and mortars, and the American artillery the Group has not rehearsed with, are what can suppress a line nobody has located. Each commitment here asks more of them, and uses more of the shells there are.",
+                  recon:
+                    "Patrols and observers are the only way to learn where the German line is before the mist lifts. Each commitment here sends more of them out ahead of the infantry, and makes the guns better aimed when they fire.",
+                },
+                flashups: {
+                  infantry: [
+                    "The leading platoons start up the slope in file, in the mist.",
+                    "A company of the 67th reaches the lower slope without a shot fired at it.",
+                    "Machine guns open from somewhere up the hill, and a platoon goes to ground.",
+                    "The regiment's second battalion moves up behind the first.",
+                    "A section crosses a stretch of open ground at a run, and the mist is thinning behind it.",
+                  ],
+                  bersaglieri: [
+                    "The cadets of the 51st Battalion move up the hillside in extended order.",
+                    "A cadet company reaches a stone wall on the lower slope and halts behind it.",
+                    "The young officers shout the order forward over the noise of the mortars.",
+                    "A platoon of cadets works round a shoulder of the hill, out of sight of the road.",
+                    "The battalion's second company comes up to join the first.",
+                  ],
+                  guns: [
+                    "The guns of the 11th Regiment fire the first rounds of the preparation into the mist.",
+                    "An American battery answers the Italian observers' call, and the shells land on the crest.",
+                    "The mortar crews carry bombs forward over the broken ground.",
+                    "A fire mission is delayed while two sets of observers work out whose map is right.",
+                    "The artillery falls silent for an hour while it waits for a target.",
+                  ],
+                  recon: [
+                    "A patrol returns and reports a wire fence across the lower slope.",
+                    "An observer lies in a ditch with a map and tries to place the sound of a machine gun.",
+                    "The two staffs, Italian and American, compare their maps of the hill.",
+                    "A scout comes back and says the ground ahead is clear as far as he went.",
+                    "The mist hides the crest, and the patrols can say only what the ground feels like.",
+                  ],
+                },
+                reportTimes: { open: "0430", contact: "0600", cats: ["0630", "0700", "0730", "0800"], reserve: "0930", counter: "1100" },
+                idleLines: {
+                  infantry: [
+                    "The regiment stays at the foot of the hill. Nobody is climbing yet.",
+                    "No companies go up. The slope in front of the Group is exactly as the mist found it.",
+                  ],
+                  bersaglieri: [
+                    "The cadets are kept back in reserve, and the climb goes on without them.",
+                    "The 51st Battalion waits at the start line with its packs on.",
+                  ],
+                  guns: [
+                    "The guns stay laid on their registered points, unfired. Nothing is asked of them yet.",
+                    "No fire mission goes up, and whatever is on the hill is not touched.",
+                  ],
+                  recon: [
+                    "No patrols go out ahead of the infantry. The Group moves on its map alone.",
+                    "The observers stay at the start line, and the hill is not looked at until the companies reach it.",
+                  ],
+                },
+                verdicts: ["Monte Lungo Falls on the First Morning", "Back Down the Hill Under Fire"],
+                verdictGrades: {
+                  clean: "Every arm worked together, and the hill was taken before the Germans could settle their fire on the slopes.",
+                  costly: "The hill is taken, but the open slopes cost the Group more than the plan allowed for.",
+                  marginal: "The attack reaches the lower slope and stops there. The plan held together, and the hill stayed German.",
+                  total: "The attack does not stall so much as come apart on the open ground below the German line.",
+                },
+                counterattack: {
+                  category: "infantry",
+                  severity: { strongPositions: 2, thinLine: 1, mistHolds: 0 },
+                  warn: {
+                    1: "German mortars are finding the slope as the mist thins.",
+                    2: "German Panzergrenadiers are coming forward off the hill to meet the leading companies.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is beaten back up the slope, and the leading companies keep their ground.",
+                    heldAtCost: "The leading companies hold against the Germans, at a heavy cost in killed and wounded.",
+                    broke: "The Germans drive into the leading companies on the open slope, and they are thrown back in confusion.",
+                    gaveGround: "The leading companies fall back from the exposed slope rather than meet the counterattack on it.",
+                  },
+                },
+              },
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "The hill falls on the first morning",
+                  setFlags: { monteLungoResult: "firstTry" },
+                  impact: { manpower: -1, fuel: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. The mist holds a little longer, the patrols have found enough of the German line for the guns to keep it down, and the Group is on the crest of Monte Lungo before the Germans have settled their fire on the slope. It is the Royal Army's first battle on the Allied side, and it is won on the first morning, with fewer dead than the real attack cost on December 8. The Allied staffs that had wondered whether the Italians would fight are told the same afternoon that they will. What is lost is nothing the Group would have wanted to keep: the story of an attack that failed and went back up a week later.",
+                },
+                {
+                  weight: 100 - modWeight(30, meters.initiative),
+                  title: "Thrown back in the mist, and up again on the 16th",
+                  setFlags: { monteLungoResult: "retaken" },
+                  impact: { manpower: -2, fuel: 0, initiative: 1 },
+                  outcome:
+                    "What happened. On December 8 the Group went up Monte Lungo beside American infantry under the morning mist. When the mist lifted the Italians were on open slopes under fire from German positions the hurried plan had not found, and the attack failed, with about fifty dead and more than a hundred wounded. It was the first action of the Royal Army on the Allied side. It was repeated on December 16 with a heavy artillery preparation and American infantry beside it, and this time the hill was taken. General Clark wrote to congratulate the Group on its determination to free Italy from German domination: the Allies had watched the Italian army fight twice, and win the second time.",
+                },
+              ],
             },
             {
               label: "Ask II Corps for another week — rehearse the attack with the guns and the American infantry that will support it",
@@ -17256,7 +17864,9 @@ const CAMPAIGNS = {
           historicalRecord: true,
           situation:
             "From the middle of June the Eighth Army's weight is on the Adriatic side, and its objective is Ancona, a seaport closer to the fighting that will shorten supply lines which still run back to Pescara and Anzio. The task is given to General Anders's Polish II Corps, about 50,000 men, and under its command since May 27 is the Italian Liberation Corps that Utili has led since April: the old 1st Motorized Group, now some 16,000 men, joined on May 26 by the paratroopers of the Nembo Division from Sardinia, about 6,000 more. The Germans, elements of the 71st Infantry Division and the 1st Parachute Division among them, are falling back by stages toward the Gothic Line, and the hill town of Filottrano, inland from Ancona, commands the road. What Comando Supremo has to settle is what part its best formation should play in a battle whose command, language and supplies are all someone else's." +
-            (flags.monteLungoResult === "prepared"
+            (flags.monteLungoResult === "firstTry"
+              ? " The Group that took Monte Lungo on the first morning has been believed since, and the Polish staff know the name."
+              : flags.monteLungoResult === "prepared"
               ? " The Group that took Monte Lungo on its second attempt and lost fewer men doing it has been believed since, and the Polish staff know the name."
               : flags.monteLungoResult === "sidelined"
               ? " The Group that was put in reserve at Monte Lungo has had to earn its place twice since then, and the Poles have been told so."
@@ -17276,6 +17886,190 @@ const CAMPAIGNS = {
               setFlags: { adriaticRoad44: "lead" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "clnLiaison44",
+              // Round 25 (Craig's item 9). Filottrano, 1-9 July 1944, as part of the Battle of Ancona. Facts checked
+              // 2026-10-08 (Italian Wikipedia, Battaglia di Filottrano; the Filottrano memorial museum's account
+              // (all4shooters); Wikipedia, Italian Liberation Corps and Battle of Ancona): the battle lasted nine days,
+              // from 1 to 9 July 1944, against a German line "from Cingoli, Filottrano, Osimo and Castelfidardo" held by
+              // the 278th and 71st Infantry Divisions; the Italian Liberation Corps under General Umberto Utili
+              // (two incomplete infantry divisions and two artillery regiments, including the Nembo with its 183rd and
+              // 184th Regiments) was assigned to the Polish II Corps on 27 May; the Polish corps under General
+              // Wladyslaw Anders had the 3rd Carpathian Rifle Division, the 5th Kresowa Infantry Division, the 2nd
+              // Armoured Brigade (at least 200 tanks), three Uhlan regiments and five artillery regiments; Filottrano
+              // was bombarded on 8 July, the Germans were ordered to withdraw at 22:30, and on the morning of 9 July
+              // the Nembo entered the town; the 184th Nembo Regiment was given a War Cross for 8-9 July. The corps was
+              // short of vehicles and made the advance on foot. The whole Battle of Ancona (16 June to 18 July) cost the
+              // Allies 496 killed, 1,789 wounded and 139 missing, and the Germans about 800 killed and 2,500 captured.
+              keyBattleSubgame: {
+                id: "adriaticRoad44",
+                title: "Order of Battle — Filottrano",
+                flavor:
+                  "The Germans have chosen to hold the road to Ancona along the ridges from Cingoli through Filottrano and Osimo to Castelfidardo, and the Polish corps wants the road open. The Italian Liberation Corps has come north behind the advance with fewer trucks than the Poles have tanks, and has been offered the town. The paratroopers of the Nembo are the best infantry the army has. The armour, the guns and most of the trucks are someone else's. What's decided here is how the Corps' effort is placed: how much into the Nembo's assault on the hills, how much into the Polish tanks that follow it, how much to the corps artillery, and how much to the trucks and pack trains that have to keep the paratroopers fed and supplied with ammunition on the way.",
+                categories: [
+                  { id: "nembo", name: "Nembo Paratroops", meter: "manpower" },
+                  { id: "armour", name: "Polish Armour", meter: "fuel", strand: "steel" },
+                  { id: "artillery", name: "Corps Artillery", meter: "fuel", strand: "ammo" },
+                  { id: "supply", name: "Trucks & Pack Trains", meter: "fuel", strand: "ship" },
+                ],
+                // The paratroops are the best the Corps has and the reason it was offered the town; the Polish tanks
+                // come second, the artillery third; supply lowest, a Corps without its own trucks.
+                effectiveness: { nembo: 2.6, armour: 2.3, artillery: 2.1, supply: 1.6 },
+                orderOfBattle: {
+                  nembo: {
+                    units: [
+                      "The 184th Infantry Division \"Nembo\" of the Italian Liberation Corps: the 183rd and 184th \"Nembo\" Regiments",
+                      "The Corps as a whole: two incomplete infantry divisions and two artillery regiments under General Umberto Utili, attached to the Polish II Corps since 27 May",
+                    ],
+                    real: "The Nembo fought for Filottrano from 1 to 9 July 1944. On the morning of 9 July, after the Germans had been ordered out in the night, it entered the town. The 184th Regiment was given a War Cross for the action of 8 and 9 July.",
+                  },
+                  armour: {
+                    units: [
+                      "The 2nd Armoured Brigade of the Polish II Corps, with at least 200 tanks in the corps",
+                      "Three Polish Uhlan regiments, armoured and motorized",
+                    ],
+                    real: "The Poles fought on the same road, under General Anders. The Polish corps entered Ancona on 18 July.",
+                  },
+                  artillery: {
+                    units: [
+                      "Five Polish artillery regiments of every calibre",
+                      "The Italian Liberation Corps' own two artillery regiments",
+                    ],
+                    real: "Filottrano was bombarded on 8 July. That night the Germans, from the 278th and 71st Infantry Divisions, were ordered to withdraw.",
+                  },
+                  supply: {
+                    units: [
+                      "The Italian Corps' own transport: few trucks, with the infantry marching",
+                      "The Eighth Army's supply line, which still ran back to Pescara and Anzio",
+                    ],
+                    real: "The Corps was short of vehicles and went forward on foot. Ancona was wanted as a port to shorten the supply line.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "The Polish corps staff has fixed the order of the advance: the armour is held on the road until the hills are cleared, and the Italians go in first.", lockApproach: "nemboLeads" },
+                conditions: "Hill country in high summer, with a German line running along the ridges from Cingoli to Castelfidardo and the road to Ancona below it.",
+                terrainModifiers: { armour: 0.85 },
+                terrainNotes: { armour: "tanks held to the roads between the ridges" },
+                attrition: [
+                  { category: "nembo", atLeast: 3, meter: "manpower", delta: -1, reason: "A town fought for hill by hill" },
+                ],
+                // Field decision: the town itself. The three answers are the real options of a division commander
+                // facing a town on a ridge; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theTownItself",
+                    time: "1700",
+                    title: "The town on the ridge",
+                    prompt: "The paratroopers are on the slopes below Filottrano and the town is held. The Polish guns can bombard it, the tanks cannot get up to it yet, and the Nembo's commander has to decide how his battalions take it.",
+                    options: [
+                      {
+                        id: "assaultNow",
+                        name: "Assault the town now",
+                        note: "Quick, if the Germans are already leaving. Costly if they are not.",
+                        bonus: 0,
+                        bonusByPosture: { rearguardGiving: 4, roadsBlown: 2, hillsDugIn: -4 },
+                        reportLine: "The battalions go into the first streets of the town without waiting for the bombardment.",
+                      },
+                      {
+                        id: "waitForGuns",
+                        name: "Wait for the corps artillery to bombard it",
+                        note: "Costs Initiative and a day, and puts the weight on the guns.",
+                        bonus: 0,
+                        bonusByPosture: { hillsDugIn: 4, roadsBlown: 1, rearguardGiving: -2 },
+                        meters: { initiative: -1 },
+                        costReason: "A day's pause before the town",
+                        reportLine: "The battalions wait on the slopes while the corps artillery bombards the town.",
+                      },
+                      {
+                        id: "goRound",
+                        name: "Go round the town and cut its road",
+                        note: "Threatens to trap the garrison, and leaves the flank open to anyone behind it.",
+                        bonus: 0,
+                        bonusByPosture: { rearguardGiving: 3, hillsDugIn: 1, roadsBlown: -3 },
+                        reportLine: "A battalion works round the ridge to cut the road behind the town.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  nembo:
+                    "The Nembo's battalions are paratroops on foot, and the best infantry the army has. Each commitment here puts more of them into the hills in front of the town, where the Germans are holding the ridges.",
+                  armour:
+                    "The Polish tanks belong to Anders's corps and are lent to the attack along the roads. In hill country they cannot go where the paratroopers can. Each commitment here puts more of them behind the Nembo, and more of the corps' attention on the road.",
+                  artillery:
+                    "The Polish artillery and the Corps' own guns are the heaviest weight on the hill. Each commitment here asks more of them, and uses more of the shells that can be brought up.",
+                  supply:
+                    "The Italian Corps has few trucks, and the road is shared with a Polish corps of fifty thousand men. Each commitment here puts more of what there is into getting ammunition, water and rations up to the paratroopers.",
+                },
+                flashups: {
+                  nembo: [
+                    "A battalion of the Nembo climbs the ridge in extended order in the heat.",
+                    "A paratroop company works along a sunken lane towards the first houses of the town.",
+                    "Machine guns open from a farmhouse on the slope, and the leading platoon goes to ground.",
+                    "A patrol of the Nembo comes back with prisoners from the German outposts.",
+                    "The regiment's second battalion moves up on the road behind the first.",
+                  ],
+                  armour: [
+                    "Polish tanks wait on the road below the ridge for the hills to be cleared.",
+                    "A squadron of Uhlans waits behind the paratroopers in a farmyard.",
+                    "A Polish tank commander studies the ridge through his glasses and says nothing.",
+                    "The tanks move up a few hundred yards on the only road and stop again.",
+                    "A tank crew helps to pull a paratroop company's mortars up the hill.",
+                  ],
+                  artillery: [
+                    "A Polish medium battery fires on the ridge above the town.",
+                    "The Italian artillery fires its first rounds on the German outposts.",
+                    "A fire mission is called off when the observers see their own men on the slope.",
+                    "Gun crews carry shells to the guns by hand when the lorries cannot get up.",
+                    "A pall of dust hangs over the ridge after the barrage.",
+                  ],
+                  supply: [
+                    "A column of mules climbs the track behind the leading battalion.",
+                    "A lorry halts at a blown culvert and the load is carried forward on men's backs.",
+                    "The paratroopers share a water cart with a Polish battery.",
+                    "A supply officer counts the rounds that have reached the battalion since the morning.",
+                    "A string of pack animals waits at the foot of the hill for dark.",
+                  ],
+                },
+                reportTimes: { open: "0500", contact: "0700", cats: ["0900", "1100", "1300", "1600"], reserve: "1800", counter: "2000" },
+                idleLines: {
+                  nembo: [
+                    "The paratroopers stay on the road. Nobody goes into the hills.",
+                    "No battalion of the Nembo goes forward, and the town is as the Germans left it.",
+                  ],
+                  armour: [
+                    "The Polish tanks stay where they are, and the Nembo goes forward without them.",
+                    "No armour is asked for, and the road behind the paratroopers is empty.",
+                  ],
+                  artillery: [
+                    "The guns stay silent. Whatever holds the town is not touched before the infantry reach it.",
+                    "No fire mission goes up, and the ridge above the town is as quiet as it was the night before.",
+                  ],
+                  supply: [
+                    "Nothing extra is sent up the road. The paratroopers carry what they brought.",
+                    "The mule trains stay at the foot of the hill, and the battalions ration what they have.",
+                  ],
+                },
+                verdicts: ["Filottrano Is Taken", "Stopped Below the Town"],
+                verdictGrades: {
+                  clean: "The paratroopers, the Polish tanks and the guns all worked together, and the town fell with the road to Ancona open behind it.",
+                  costly: "The town is taken, but the hills cost the Nembo more than the plan allowed for.",
+                  marginal: "The attack takes the slopes and stops below the town. The plan held, and the Germans kept Filottrano a day more.",
+                  total: "The attack fails on the slopes below the town, and the Poles have to bring up their own guns and tanks to take it.",
+                },
+                counterattack: {
+                  category: "nembo",
+                  severity: { hillsDugIn: 2, rearguardGiving: 1, roadsBlown: 0 },
+                  warn: {
+                    1: "German infantry are probing the flank of the leading battalion.",
+                    2: "German grenadiers are forming up behind the ridge to retake the slope.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is beaten back, and the paratroopers keep the slope they took.",
+                    heldAtCost: "The paratroopers hold the slope against the grenadiers, at a heavy cost to the battalion that held it.",
+                    broke: "The Germans break into the battalion on the slope, and it comes to hand-to-hand fighting in the olive groves.",
+                    gaveGround: "The battalion gives up the slope rather than meet the counterattack on it.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: Math.min(90, modWeight(72, meters.initiative)),
@@ -17469,7 +18263,7 @@ const CAMPAIGNS = {
               (flags.combatGroups44 === "six" ? 6 : 0) +
               (flags.combatGroupsExtra44 ? 4 : 0) +
               (flags.groupsCorps45 ? 8 : 0) +
-              (flags.monteLungoResult === "prepared" ? 3 : 0) +
+              (flags.monteLungoResult === "prepared" || flags.monteLungoResult === "firstTry" ? 3 : 0) +
               (flags.partisanResult44 === "supplied" ? 4 : 0)
           );
           return {
@@ -17493,6 +18287,192 @@ const CAMPAIGNS = {
               setFlags: { springOffensive45: "lead" },
               impact: { manpower: -2, fuel: 0, initiative: 1 },
               next: "coBelligerentEnding45",
+              // Round 25 (Craig's item 9). The Senio at Alfonsine, 9-10 April 1945. Facts checked 2026-10-08
+              // (Wikipedia, Italian Co-belligerent Army and Spring 1945 offensive in Italy; the 2nd New Zealand Division's
+              // official history for the German posts in the flood banks and the flame-throwers; Operation Buckland,
+              // historyofwar.org; the Bassa Romagna local-history account of 10 April): the Cremona Combat Group
+              // (Major General Clemente Primieri) was the 21st and 22nd Infantry Regiments, the 7th Artillery Regiment
+              // and the CXLIV Engineer Battalion, equipped with British weapons and attached to British V Corps
+              // (General Keightley); a Combat Group's established strength was 432 officers and 8,578 other ranks with
+              // 116 field guns and 170 mortars; on 9 April 825 heavy bombers dropped fragmentation bombs behind the
+              // Senio, five half-hour barrages were fired between 15:20 and 19:10, and 28 Churchill Crocodiles and 127
+              // Wasp flame-throwers were deployed along the Eighth Army front; the German posts were dug into the
+              // inner face of the stopbank, with tunnels through it; the flame-throwers were only partly effective
+              // because the bombardment had wrecked the ramps prepared for them, but they broke the defenders' will;
+              // the Cremona crossed at dawn on 10 April between Fusignano and Alfonsine, the 3rd Battalion of the 22nd
+              // Regiment freed Fusignano around midday and the 21st and 22nd Regiments reached Alfonsine; by dawn on 11
+              // April the Eighth Army had reached the Santerno, 5.6 km beyond.
+              keyBattleSubgame: {
+                id: "springOffensive45",
+                title: "Order of Battle — The Senio at Alfonsine",
+                flavor:
+                  "The Senio is a small river between two high earth banks, and the Germans have spent the winter living in the one on their side. After four months of stalemate the Eighth Army is to cross it on the evening of the ninth behind a fire plan of heavy bombers and massed guns, and the Cremona Group, which has sat in the line since January with British guns and British uniforms, has asked to cross with it. The Group is about nine thousand men. The fire, the flame-throwers and the bridging stores belong to V Corps, and so do the hours. What's decided here is how the Group's effort is placed: how much into its own infantry, how much into the flame-throwers and tanks V Corps will lend, how much into the bombers and guns that go ahead of it, and how much into the engineers who have to put a bridge across for the men who follow.",
+                categories: [
+                  { id: "assault", name: "Cremona Infantry", meter: "manpower" },
+                  { id: "flame", name: "Flame-throwers & Tanks", meter: "fuel", strand: "steel" },
+                  { id: "fire", name: "Bombers & Guns", meter: "fuel", strand: "ammo" },
+                  { id: "bridging", name: "Engineers & Bridging", meter: "initiative", strand: "steel" },
+                ],
+                // The fire plan is what made the crossing possible, so the guns and bombers are the strongest
+                // arm; the infantry come second, the flame-throwers third, the engineers last, a single battalion.
+                effectiveness: { assault: 2.3, flame: 2.1, fire: 2.5, bridging: 1.8 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "The 21st and 22nd Infantry Regiments of the Cremona Combat Group, attached to British V Corps (General Keightley)",
+                      "A Combat Group's established strength: about 9,000 men, 116 field guns and 170 mortars, in British uniforms with British weapons",
+                    ],
+                    real: "The Cremona crossed the Senio at dawn on 10 April between Fusignano and Alfonsine. The 3rd Battalion of the 22nd Regiment freed Fusignano around midday, and the 21st and 22nd Regiments reached Alfonsine.",
+                  },
+                  flame: {
+                    units: [
+                      "The Churchill Crocodile and Wasp flame-throwers of the Eighth Army: 28 Crocodiles and 127 Wasps along the front",
+                      "The tanks of V Corps, whose crossings the 8th Indian and 2nd New Zealand Divisions led",
+                    ],
+                    real: "The flame-throwers burned the German posts in the banks. They were only partly effective, since the bombardment had wrecked the ramps prepared for them, but the flames broke many of the defenders' will to resist.",
+                  },
+                  fire: {
+                    units: [
+                      "The Cremona's 7th Artillery Regiment, with British 25-pounders",
+                      "V Corps' artillery and the Eighth Army's heavy and medium bombers",
+                    ],
+                    real: "On 9 April 825 heavy bombers dropped fragmentation bombs behind the Senio. Five half-hour barrages were fired between 15:20 and 19:10, with fighter-bombers between them.",
+                  },
+                  bridging: {
+                    units: [
+                      "The CXLIV Engineer Battalion of the Cremona Group",
+                      "The engineers of V Corps, who bridged the Senio for the Indians and the New Zealanders",
+                    ],
+                    real: "By dawn on 11 April the Eighth Army had reached the Santerno, 5.6 km beyond the Senio.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "V Corps has fixed the fire plan: the Cremona crosses when the barrage lifts and not before, and its staff may not change the hour.", lockApproach: "barrageFirst" },
+                conditions: "Dry spring weather over flat, ploughed country cut by flood banks. The Senio runs between two high earth banks, and the Germans hold the inner face of theirs in dug-in posts.",
+                terrainModifiers: { assault: 0.9 },
+                terrainNotes: { assault: "men crossing a river between high banks under fire" },
+                attrition: [
+                  { category: "assault", atLeast: 3, meter: "manpower", delta: -1, reason: "A river crossing under fire" },
+                ],
+                // Field decision: the far bank. The three answers are the real options of a battalion commander
+                // on the near bank; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theFarBank",
+                    time: "1000",
+                    title: "The far bank",
+                    prompt: "The leading companies are over the river and into the far bank. Some of the German posts in it have not been silenced, and the second wave is waiting on the near side. The Group's commander has to decide how the rest cross.",
+                    options: [
+                      {
+                        id: "rushTheBank",
+                        name: "Rush the bank behind the barrage",
+                        note: "Quick, if the posts have been broken. Costly if they have not.",
+                        bonus: 0,
+                        bonusByPosture: { thinGarrison: 4, floodedMined: -2, bankDugouts: -4 },
+                        reportLine: "The leading companies go over the near bank and down to the water while the shells are still falling beyond it.",
+                      },
+                      {
+                        id: "flameFirst",
+                        name: "Wait for the flame-throwers to burn out the posts",
+                        note: "Costs Initiative and an hour, and puts the weight on the flame-throwers.",
+                        bonus: 0,
+                        bonusByPosture: { bankDugouts: 4, thinGarrison: -1 },
+                        meters: { initiative: -1 },
+                        costReason: "An hour on the near bank",
+                        reportLine: "The companies lie under the near bank while the flame-throwers go forward along the water's edge.",
+                      },
+                      {
+                        id: "waitForBridge",
+                        name: "Hold on the near bank until the engineers have bridged it",
+                        note: "Safe on the far side, and gives the Germans time on this one.",
+                        bonus: 0,
+                        bonusByPosture: { floodedMined: 4, thinGarrison: -3, bankDugouts: 1 },
+                        reportLine: "The infantry wait while the engineers sweep the approaches and lay a bridge.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  assault:
+                    "The Cremona's two regiments are the Group's own weight, and they are green: the Group has been in the line since January and has not yet attacked. Each commitment here puts more of them into the crossing at first light.",
+                  flame:
+                    "The Crocodiles and Wasps belong to the British, and a few are lent to the Group's front. They burn the dug-in posts that fire cannot reach. Each commitment here asks V Corps for more of them, and for tanks to go over behind the infantry.",
+                  fire:
+                    "The fire plan is the reason the Eighth Army thinks it can cross the Senio at all. Each commitment here puts more of the Group's request into the bombers' and the guns' targets, and into the rounds they will fire.",
+                  bridging:
+                    "The Senio is a small river, and the banks and mines, not the water, are the obstacle. Each commitment here puts more engineers to work on the approaches and the bridge, so that the men on the far side are not left alone.",
+                },
+                flashups: {
+                  assault: [
+                    "A company of the 21st climbs the near bank in the first light.",
+                    "The leading platoons of the 22nd go down the bank to the water in file.",
+                    "A machine gun opens from the far bank, and a platoon goes to ground.",
+                    "Prisoners come across the river with their hands up and are marched to the rear.",
+                    "A battalion of the 22nd wades the river and climbs the far bank.",
+                  ],
+                  flame: [
+                    "A Crocodile goes forward along the foot of the bank, and a long tongue of flame reaches the posts.",
+                    "A Wasp carrier burns a stretch of the bank, and the smoke drifts across the river.",
+                    "The flame-throwers halt while the infantry catch up.",
+                    "A tank commander reports the ramp he was told to use is a heap of broken earth.",
+                    "The crews refuel their carriers behind the near bank in the half-light.",
+                  ],
+                  fire: [
+                    "A battery of the 7th Regiment fires on the far bank at the order of its observers.",
+                    "Aircraft go over high, and the bombs fall far behind the river.",
+                    "The barrage lifts to the second line, and the infantry move.",
+                    "A gun crew changes a barrel that has overheated.",
+                    "The artillery switches to the road behind the river, where the Germans are bringing up reserves.",
+                  ],
+                  bridging: [
+                    "Engineers clear the approach to the bank with detectors and probes.",
+                    "A bridging lorry backs down to the water under the bank.",
+                    "A bulldozer cuts a ramp through the near bank.",
+                    "Sappers lay a tape across a minefield, and the first platoon follows it.",
+                    "A bridge section is lowered into place at the crossing.",
+                  ],
+                },
+                reportTimes: { open: "0200", contact: "0500", cats: ["0600", "0700", "0800", "0900"], reserve: "1200", counter: "1400" },
+                idleLines: {
+                  assault: [
+                    "The Group's infantry stay on the near bank and wait for others to cross.",
+                    "No battalion of the Cremona goes forward, and the Group watches the crossing from the bank.",
+                  ],
+                  flame: [
+                    "No flame-throwers are asked for on the Group's front. The posts in the bank are left for the infantry to deal with.",
+                    "The Crocodiles stay behind the line, and the bank in front of the Group is untouched.",
+                  ],
+                  fire: [
+                    "The Group asks for no special fire. It goes over under the plan V Corps made for everyone.",
+                    "The guns of the 7th Regiment fire only on their registered targets, and the rest of the front fires without the Group.",
+                  ],
+                  bridging: [
+                    "No engineers go forward ahead of the infantry. The approaches are cleared as the men walk over them.",
+                    "The bridging stores stay in their lorries, and the Group crosses on foot.",
+                  ],
+                },
+                verdicts: ["Alfonsine Falls on the First Day", "Held at the Far Bank"],
+                verdictGrades: {
+                  clean: "The infantry, the fire, the flame-throwers and the engineers all worked together, and the Senio was crossed and the town taken in a day.",
+                  costly: "The river is crossed and the town is taken, but the crossing cost the Group more than a small army could easily spare.",
+                  marginal: "The Group gets a foothold across the river and no further. The plan held, and the Germans kept the town a day more.",
+                  total: "The crossing fails at the far bank, and the Group is left behind the advance, following up what the other divisions have won.",
+                },
+                counterattack: {
+                  category: "assault",
+                  severity: { bankDugouts: 2, floodedMined: 1, thinGarrison: 0 },
+                  warn: {
+                    1: "German machine guns are firing along the river from the next bend.",
+                    2: "German reserves are coming up to attack the bridgehead from the north.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is beaten back, and the bridgehead keeps its ground.",
+                    heldAtCost: "The bridgehead holds against the Germans, at a heavy cost to the battalion that held it.",
+                    broke: "The Germans break into the bridgehead, and it comes to hand-to-hand fighting at the water's edge.",
+                    gaveGround: "The bridgehead gives up its furthest ground rather than meet the counterattack on it.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: lead,
@@ -17538,7 +18518,9 @@ const CAMPAIGNS = {
               ? " The Combat Groups spent the last weeks of the war at the head of the Allied offensive, and paid for it."
               : flags.springOffensive45 === "support"
               ? " The Combat Groups spent the last weeks of the war behind the advance, whole, with little to show for it that anyone outside the army will remember."
-              : ""),
+              : "") +
+            // Round 25 (Senio echo): only when the Cremona actually crossed the river.
+            (flags.springOffensive45 === "lead" ? keyBattleEcho("springOffensive45", flags) : ""),
           choices: [
             {
               label: "Press for full recognition of the Co-Belligerent Army's contribution in the postwar settlement",
@@ -18057,8 +19039,10 @@ const CAMPAIGNS = {
       if (flags.italyPath === "rsi" && flags.partisanWar44 === "limited")
         add(7, "RSI forces were kept to defensive garrison duty rather than committed to the reprisal operations German command favored — a real distinction some officers drew historically, sparing this command's forces the direct authorship of the north's worst chapter, without changing what German-led units still visited on the same villages regardless.");
       // Round 24: what the co-belligerent army's own war left behind.
-      if (flags.italyPath === "coBelligerent" && flags.monteLungo43 === "attack")
+      if (flags.italyPath === "coBelligerent" && flags.monteLungo43 === "attack" && flags.monteLungoResult !== "firstTry")
         add(6, "The first Italian attack on Monte Lungo went in on December 8, 1943, as the Americans had planned it, and failed; the second, on the 16th, did not. The Allies had watched the Italian army fight twice.");
+      if (flags.italyPath === "coBelligerent" && flags.monteLungoResult === "firstTry")
+        add(7, "Monte Lungo was taken on the first morning, December 8, 1943: the Royal Army's first battle on the Allied side, won at the first attempt, without the story of an attack that failed and went back up a week later.");
       if (flags.italyPath === "coBelligerent" && flags.monteLungoResult === "prepared")
         add(6, "Monte Lungo was taken on the second date, the 16th, after a week of rehearsal with the guns, and without the first attack's dead: a first battle won, and without the story of the one that had been lost.");
       if (flags.italyPath === "coBelligerent" && flags.monteLungoResult === "sidelined")
@@ -19457,6 +20441,117 @@ const KEY_BATTLE_COMMANDERS = {
       reportLine: "Cattaneo keeps his cruisers in line and ready to fight.",
     },
   ],
+  // Round 25 (Craig's item 9): the five battles added with the actions of rounds 24 and 25. Each commander is tied to
+  // the arm of his own documented command, verified 2026-10-08; an arm with no documented named commander is left
+  // without one, the asymmetric-by-design pattern used throughout.
+  //  - Dapino commanded the 1st Motorized Group at Monte Lungo (Italian Wikipedia, Battaglia di Montelungo).
+  //  - Utili commanded the Italian Liberation Corps and Anders the Polish II Corps it was attached to (Wikipedia,
+  //    Italian Liberation Corps; Battle of Ancona).
+  //  - Primieri commanded the Cremona Combat Group, attached to British V Corps under Keightley (Wikipedia, Italian
+  //    Co-belligerent Army; historyofwar.org, Operation Buckland).
+  //  - Ryabyshev (8th Mechanized Corps), Rokossovsky (9th, no T-34s or KVs; he put his infantry on his tanks and
+  //    commandeered 200 trucks) and Zhukov (sent from Moscow to see Directive No. 3 carried out) from Wikipedia,
+  //    Battle of Brody (1941).
+  //  - Belov (1st Guards Cavalry Corps), Yefremov (33rd Army) and Levashev (4th Airborne Corps) from Wikipedia,
+  //    Rzhev-Vyazma strategic offensive operation, Mikhail Yefremov and Vyazma airborne operation.
+  monteLungo43: [
+    {
+      id: "dapino",
+      name: "General Vincenzo Dapino",
+      role: "Commanding, 1st Motorized Group",
+      category: "infantry",
+      note: "The Group is his, and its main body is the 67th Regiment that will climb the hill. Effort put into the 67th Infantry Regiment carries further under him.",
+      reportLine: "Dapino keeps the regiment moving up the slope as the mist thins.",
+    },
+  ],
+  adriaticRoad44: [
+    {
+      id: "utili",
+      name: "General Umberto Utili",
+      role: "Commanding, Italian Liberation Corps",
+      category: "nembo",
+      note: "The Nembo is the best division in his corps and the reason the corps was offered the town. Effort put into Nembo Paratroops carries further under him.",
+      reportLine: "Utili sends the Nembo's battalions up into the hills in front of the town.",
+    },
+    {
+      id: "anders",
+      name: "General Władysław Anders",
+      role: "Commanding, Polish II Corps",
+      category: "armour",
+      note: "The Italian Corps is attached to his, and the tanks and the roads are the Poles'. Effort put into Polish Armour carries further under him.",
+      reportLine: "Anders keeps his tanks on the road below the ridges, close behind the Italians.",
+    },
+  ],
+  springOffensive45: [
+    {
+      id: "primieri",
+      name: "Major General Clemente Primieri",
+      role: "Commanding, Cremona Combat Group",
+      category: "assault",
+      note: "The Group's two infantry regiments are his, and this is the first attack they have made. Effort put into Cremona Infantry carries further under him.",
+      reportLine: "Primieri keeps the Cremona's regiments moving over the bank.",
+    },
+    {
+      id: "keightley",
+      name: "Charles Keightley",
+      role: "Commanding, British V Corps",
+      category: "fire",
+      note: "The fire plan, the bombers and the flame-throwing tanks the Group is lent are his corps'. Effort put into Bombers & Guns carries further under him.",
+      reportLine: "Keightley's corps fires its barrages on the timetable it set.",
+    },
+  ],
+  brodyCounterstroke41: [
+    {
+      id: "ryabyshev",
+      name: "Dmitry Ryabyshev",
+      role: "Commanding, 8th Mechanized Corps",
+      category: "armour",
+      note: "His corps has 899 tanks on paper, and one of its groups takes Dubno in the middle of the battle. Effort put into Mechanized Corps carries further under him.",
+      reportLine: "Ryabyshev drives his tank divisions on toward Brody.",
+    },
+    {
+      id: "rokossovsky",
+      name: "Konstantin Rokossovsky",
+      role: "Commanding, 9th Mechanized Corps",
+      category: "infantry",
+      note: "His corps has no T-34s. He commandeers trucks and puts his infantry on the tanks to get them to the fight. Effort put into Infantry & Rifle Corps carries further under him.",
+      reportLine: "Rokossovsky mounts his infantry on the tanks and sends them forward.",
+    },
+    {
+      id: "zhukov",
+      name: "Georgy Zhukov",
+      role: "Representing Stavka at the Southwestern Front",
+      category: "signals",
+      note: "He has come from Moscow to see Directive No. 3 carried out, and he will overrule the front commander on the fourth day. Effort put into Orders & Signals carries further under him.",
+      reportLine: "Zhukov presses the front's staff to get the orders to the corps.",
+    },
+  ],
+  rzhevVyazma42: [
+    {
+      id: "belov",
+      name: "Major General Pavel Belov",
+      role: "Commanding, 1st Guards Cavalry Corps",
+      category: "cavalry",
+      note: "His corps is the one force that can ride through the forest and the snow into the German rear, as it did that winter. Effort put into Cavalry Corps carries further under him.",
+      reportLine: "Belov's horsemen ride on through the gaps between the strongpoints.",
+    },
+    {
+      id: "yefremov",
+      name: "Lieutenant General Mikhail Yefremov",
+      role: "Commanding, 33rd Army",
+      category: "armies",
+      note: "His army is the southern arm of the pincer, and he leads its striking force himself. Effort put into Pincer Armies carries further under him.",
+      reportLine: "Yefremov leads the 33rd Army's striking force toward Vyazma.",
+    },
+    {
+      id: "levashev",
+      name: "Major General Alexei Levashev",
+      role: "Commanding, 4th Airborne Corps",
+      category: "airborne",
+      note: "His corps is dropped behind the German line to hold the highway and the railway. Effort put into Airborne Corps carries further under him.",
+      reportLine: "Levashev's paratroopers are dropped on the Vyazma highway.",
+    },
+  ],
   // Round 8 (Craig: "if limit it to a max of 3 commanders"): cut from four names to three. The
   // one dropped — Theodor Busse, Manstein's Chief of Staff — was always the odd one out of the
   // four anyway: Hoth, Kempf, and Deßloch each held a field or air command, giving orders in
@@ -19946,6 +21041,106 @@ const KEY_BATTLE_APPROACHES = {
       note: "Let the cruisers go back to help a damaged ship. Effort in The Cruiser Divisions carries further; effort in The Battle Fleet carries less, left with fewer ships around it.",
       modifiers: { cruisers: 0.7, battle: -0.5 },
       reportLine: "The cruiser divisions are detached to help the damaged ship.",
+    },
+  ],
+  // Round 25 (Craig's item 9). Each pair is a modeled tradeoff between two arms, disclosed like the pairs above: the
+  // documented fact is the tension, not two named historical plans.
+  //  - Monte Lungo: the American plan was an attack in the morning mist; the second attack, on 16 December, went in
+  //    behind a careful bombardment (Italian Wikipedia, Battaglia di Montelungo).
+  //  - Filottrano: the Italian Corps had few vehicles and the Polish corps the tanks and guns (Italian Wikipedia,
+  //    Battaglia di Filottrano).
+  //  - The Senio: V Corps' fire plan against the speed of the infantry's crossing (Wikipedia, Spring 1945 offensive in Italy).
+  //  - Brody: Directive No. 3's deep concentric strike toward Lublin against a blow at the German spearhead where it
+  //    stood, which is what Kirponos is recorded as having wanted (Wikipedia, Battle of Brody (1941)).
+  //  - Vyazma: horsemen and paratroopers sent deep, or the armies breaking the line wide first.
+  monteLungo43: [
+    {
+      id: "underTheMist",
+      name: "Go In Under the Mist",
+      subtitle: "The American plan: the infantry up the hill at first light",
+      note: "Send the infantry up the hill while the mist hides them, as II Corps' plan required. Effort in the 67th Infantry Regiment carries further; effort in Guns & Mortars carries less, the batteries asked to fire blind through the mist.",
+      modifiers: { infantry: 0.7, guns: -0.5 },
+      reportLine: "The infantry go up the hill in the mist, with the guns held back for whatever they find.",
+    },
+    {
+      id: "gunsFirst",
+      name: "Let the Guns Work First",
+      subtitle: "Wait for the mist to lift and fire the hill in",
+      note: "Hold the infantry at the start line and let the guns and mortars range the slope as the mist lifts. Effort in Guns & Mortars carries further; effort in the 67th Infantry Regiment carries less, kept waiting at the foot of the hill.",
+      modifiers: { guns: 0.7, infantry: -0.5 },
+      reportLine: "The infantry wait at the foot of the hill while the guns and mortars range the slope.",
+    },
+  ],
+  adriaticRoad44: [
+    {
+      id: "nemboLeads",
+      name: "The Nembo Leads",
+      subtitle: "Paratroopers up the hills first, the tanks behind them",
+      note: "Send the Nembo up the ridges first and keep the Polish tanks on the road behind. Effort in Nembo Paratroops carries further; effort in Polish Armour carries less, held to the roads until the hills are cleared.",
+      modifiers: { nembo: 0.7, armour: -0.5 },
+      reportLine: "The Nembo goes up into the hills first, with the Polish tanks waiting on the road behind it.",
+    },
+    {
+      id: "gunsFirst",
+      name: "The Guns Clear the Ridges First",
+      subtitle: "Bombard the line, as the town was bombarded on 8 July, before the paratroopers move",
+      note: "Let the Polish and Italian artillery bombard the ridges first and hold the paratroopers until the shells have done their work. Effort in Corps Artillery carries further; effort in Nembo Paratroops carries less, held back until the bombardment is over.",
+      modifiers: { artillery: 0.7, nembo: -0.5 },
+      reportLine: "The corps artillery bombards the ridges first, and the Nembo waits for the shells to stop.",
+    },
+  ],
+  springOffensive45: [
+    {
+      id: "barrageFirst",
+      name: "The Barrage Goes First",
+      subtitle: "The fire plan clears the bank before the infantry cross",
+      note: "Hold the infantry on the near bank until the barrage has lifted, and let the fire plan do the clearing. Effort in Bombers & Guns carries further; effort in Cremona Infantry carries less, kept back until the shells have stopped.",
+      modifiers: { fire: 0.7, assault: -0.5 },
+      reportLine: "The bombers and guns go first, and the infantry wait for the barrage to lift.",
+    },
+    {
+      id: "infantryLeads",
+      name: "The Infantry Cross on the Barrage's Heels",
+      subtitle: "Go over close behind the last shells, before the Germans are out of their dugouts",
+      note: "Send the infantry over the moment the barrage lifts, close behind the last shells. Effort in Cremona Infantry carries further; effort in Bombers & Guns carries less, the fire plan spent before the men are across.",
+      modifiers: { assault: 0.7, fire: -0.5 },
+      reportLine: "The infantry go over the bank on the heels of the last shells.",
+    },
+  ],
+  brodyCounterstroke41: [
+    {
+      id: "strikeForLublin",
+      name: "Strike for Lublin",
+      subtitle: "Directive No. 3: deep concentric blows by the 5th and 6th Armies",
+      note: "Carry out the directive as written: the tank corps drive deep toward Lublin and the rest follow. Effort in Mechanized Corps carries further; effort in Orders & Signals carries less, the corps running far ahead of the front's staff and its telephone lines.",
+      modifiers: { armour: 0.7, signals: -0.5 },
+      reportLine: "The tank corps drive deep toward Lublin, outrunning the front's staff.",
+    },
+    {
+      id: "hitTheSalient",
+      name: "Hit the Spearhead Near Dubno",
+      subtitle: "Kirponos's way: strike the German thrust where it is, not where Lublin is",
+      note: "Use the corps against the German spearhead near Dubno, Lutsk and Brody, and keep the staff's grip on them. Effort in Orders & Signals carries further; effort in Mechanized Corps carries less, held to a shorter reach.",
+      modifiers: { signals: 0.7, armour: -0.5 },
+      reportLine: "The corps are turned on the German spearhead near Dubno, on a shorter reach and a tighter rein.",
+    },
+  ],
+  rzhevVyazma42: [
+    {
+      id: "rideDeep",
+      name: "Ride Deep, Close the Ring Behind",
+      subtitle: "Cavalry and paratroopers first, the armies following",
+      note: "Send the cavalry and the airborne corps on ahead as the plan says, and let the armies follow through the gap. Effort in Cavalry Corps carries further; effort in Pincer Armies carries less, spread behind the horsemen along the corridor.",
+      modifiers: { cavalry: 0.7, armies: -0.5 },
+      reportLine: "The cavalry ride on ahead, and the armies follow along the corridor behind them.",
+    },
+    {
+      id: "widenFirst",
+      name: "Widen the Gap First",
+      subtitle: "The armies break the line wide before anyone rides through",
+      note: "Hold the cavalry until the armies have widened the gap and secured its shoulders. Effort in Pincer Armies carries further; effort in Cavalry Corps carries less, kept waiting behind the line.",
+      modifiers: { armies: 0.7, cavalry: -0.5 },
+      reportLine: "The armies break the line wide first, and the cavalry wait behind them for the gap.",
     },
   ],
 };
@@ -20835,6 +22030,195 @@ const KEY_BATTLE_POSTURES = {
       reveal: "Contact: a force is sighted in the dark and taken for Italian ships, and the signal that would settle it is not made.",
     },
   ],
+  // Round 25 (Craig's item 9): the enemy setups of the five new battles. Each is tied to a documented condition of its
+  // battle where one was found (verified 2026-10-08), and the weights are tuned by tools/check-battle-balance.js like
+  // the postures above. The first posture of each battle is the historical one and is drawn twice as often; a posture
+  // with no documented basis is marked as modeled.
+  //  Monte Lungo - Italian Wikipedia, Battaglia di Montelungo, and Wikipedia, 15th Panzergrenadier Division: the
+  //   German positions were stronger than the plan assumed (the historical posture); two battalions held both San
+  //   Pietro Infine and Monte Lungo, a thin line; the mist is documented, though how long it lasted is modeled.
+  monteLungo43: [
+    {
+      id: "strongPositions",
+      name: "Stronger positions than the plan assumed",
+      weight: 2,
+      modifiers: { infantry: 0.65, bersaglieri: 0.75, guns: 1.25, recon: 1.3 },
+      hints: [
+        "A patrol that went out in the night cannot say where the German line begins.",
+        "Prisoners from the valley speak of machine-gun posts and mortar pits on the hill that no map shows.",
+      ],
+      reveal: "Contact: the mist lifts on German positions the plan never found, with mortars and machine guns laid on the open slopes.",
+    },
+    {
+      id: "thinLine",
+      name: "Two battalions to hold two hills",
+      modifiers: { infantry: 1.25, bersaglieri: 1.15, guns: 0.8, recon: 0.85 },
+      hints: [
+        "The Germans seem to be holding the whole gap with very few men, and the posts on the hill are far apart.",
+        "No fresh troops have been seen moving up toward Monte Lungo in the last day.",
+      ],
+      reveal: "Contact: the hill is thinly held, and whoever gets up the slope quickly will find gaps in the line.",
+    },
+    {
+      id: "mistHolds",
+      name: "The mist stays on the hill",
+      modifiers: { infantry: 1.0, bersaglieri: 1.3, guns: 0.7, recon: 0.7 },
+      hints: [
+        "The valley lies under a thick mist, and nobody can say when it will lift.",
+        "Sound carries oddly in the fog, and the sentries on the hill are listening more than they are watching.",
+      ],
+      reveal: "Contact: the mist stays thick on the slope past dawn, and neither side can see a hundred yards.",
+    },
+  ],
+  //  Filottrano - Italian Wikipedia, Battaglia di Filottrano, and the Filottrano memorial museum's account: the Germans
+  //   (278th and 71st Infantry Divisions) held a line from Cingoli through Filottrano and Osimo to Castelfidardo and
+  //   withdrew by night once the town had been bombarded; the blown bridges and mines are modeled, a normal part of
+  //   such a retreat.
+  adriaticRoad44: [
+    {
+      id: "hillsDugIn",
+      name: "A line held along the ridges",
+      weight: 2,
+      modifiers: { nembo: 0.75, armour: 0.7, artillery: 1.3, supply: 0.95 },
+      hints: [
+        "Air photographs show the ridge line from Cingoli to Castelfidardo freshly dug.",
+        "Prisoners say the order is to hold the line to cover Ancona.",
+      ],
+      reveal: "Contact: the Germans are holding the ridge line in prepared positions, and every approach to Filottrano is covered.",
+    },
+    {
+      id: "rearguardGiving",
+      name: "A rearguard falling back by stages",
+      modifiers: { nembo: 1.2, armour: 1.15, artillery: 0.8, supply: 0.9 },
+      hints: [
+        "Outposts are found empty at dawn that were manned the night before.",
+        "Villages along the road are left in the night, with the culverts mined behind them.",
+      ],
+      reveal: "Contact: the Germans are falling back by stages, fighting from one ridge to the next, and leaving mines behind.",
+    },
+    {
+      id: "roadsBlown",
+      name: "The bridges down and the verges mined",
+      modifiers: { nembo: 1.1, armour: 0.75, artillery: 0.9, supply: 1.5 },
+      hints: [
+        "Engineers report demolitions on the road behind the German outposts.",
+        "A lorry has gone up on a mine at a culvert, and the road is blocked behind it.",
+      ],
+      reveal: "Contact: the bridges are down and the verges mined, and everything that does not walk is held up behind the demolitions.",
+    },
+  ],
+  //  The Senio - the 2nd New Zealand Division's official history: German posts were dug into the inner face of the
+  //   stopbank, with tunnels through it, and dominated both sides of the river (the historical posture); the
+  //   Eighth Army faced a garrison "much weaker" than the winter before (Wikipedia, Spring 1945 offensive in Italy);
+  //   mines and flooded ground are modeled, the usual condition of such a river line.
+  springOffensive45: [
+    {
+      id: "bankDugouts",
+      name: "Posts dug into the flood bank",
+      weight: 2,
+      modifiers: { assault: 0.7, flame: 1.3, fire: 1.2, bridging: 0.9 },
+      hints: [
+        "Air photographs show the far bank dotted with dug-in posts, and tunnels running through it.",
+        "Prisoners say the garrison lives in the bank itself, with the guns behind.",
+      ],
+      reveal: "Contact: the Germans are dug into the far bank in tunnels and dugouts, and nothing but fire reaches them.",
+    },
+    {
+      id: "thinGarrison",
+      name: "A garrison short of everything",
+      modifiers: { assault: 1.25, flame: 0.9, fire: 0.8, bridging: 1.0 },
+      hints: [
+        "The posts in the bank are far apart, and some look empty.",
+        "Prisoners say the companies are at half strength, with little ammunition for the machine guns.",
+      ],
+      reveal: "Contact: the bank is thinly held by men who have been told not to give ground and have little to hold it with.",
+    },
+    {
+      id: "floodedMined",
+      name: "Mines on the banks and water behind",
+      modifiers: { assault: 0.9, flame: 0.8, fire: 0.9, bridging: 1.6 },
+      hints: [
+        "Sappers report fresh mines on both banks, and trip wires across the paths down to the water.",
+        "Patrols find the fields behind the river flooded and the farm tracks cut.",
+      ],
+      reveal: "Contact: the approaches to the bank are mined and the ground behind the river is flooded, and the crossing depends on the engineers.",
+    },
+  ],
+  //  Brody - Wikipedia, Battle of Brody (1941): the 11th Panzer Division had already advanced 40 miles by 23 June
+  //   and the 13th and 14th were on the road to Lutsk (the historical posture); the Luftwaffe shot down 24 SB
+  //   bombers on the first day, was credited with 201 Soviet tanks, and the front's aircraft were mostly destroyed on
+  //   the ground; the anti-tank positions manned by motorcycle troops of XXXXVIII Panzer Corps were swept aside by
+  //   Popel's group.
+  brodyCounterstroke41: [
+    {
+      id: "panzersPastLine",
+      name: "The panzers are already far in",
+      weight: 2,
+      modifiers: { armour: 1.0, infantry: 0.65, air: 0.85, signals: 1.3 },
+      hints: [
+        "The first reports put German tanks far beyond the border posts, and nobody can say where the head of the column is.",
+        "Railway reports from Dubno speak of panzers passing through, not stopping.",
+      ],
+      reveal: "Contact: the German spearheads are already far inside the country, and the corps are meeting a moving column, not a line.",
+    },
+    {
+      id: "luftwaffeOverhead",
+      name: "The sky belongs to the Luftwaffe",
+      modifiers: { armour: 0.7, infantry: 1.3, air: 0.5, signals: 0.8 },
+      hints: [
+        "Soviet fighters have not been seen over the front since the first morning.",
+        "Columns on the road report German aircraft over them every hour of daylight.",
+      ],
+      reveal: "Contact: the Luftwaffe has the sky, and every column on the road is being bombed as it moves.",
+    },
+    {
+      id: "antiTankScreen",
+      name: "A thin screen of anti-tank guns",
+      modifiers: { armour: 1.35, infantry: 0.9, air: 1.0, signals: 0.85 },
+      hints: [
+        "Scouts find only a few anti-tank guns and motorcyclists on the German flank.",
+        "The German columns seem to have run ahead of their own infantry.",
+      ],
+      reveal: "Contact: the German flank is covered only by a hasty screen of anti-tank guns and motorcycle troops, and tanks can sweep it aside.",
+    },
+  ],
+  //  Vyazma - Wikipedia, Rzhev-Vyazma strategic offensive operation and Vyazma airborne operation: the German line was
+  //   a line of strongpoints held under Hitler's order not to retreat, with the country between them open to cavalry
+  //   (the historical posture); the transports dropping the airborne corps had very little fighter cover and seven
+  //   TB-3s were lost; German reserves arriving by rail is modeled, the usual German answer to a penetration.
+  rzhevVyazma42: [
+    {
+      id: "strongpointLine",
+      name: "A line of strongpoints with gaps between",
+      weight: 2,
+      modifiers: { armies: 0.8, cavalry: 1.3, airborne: 1.0, supply: 0.9 },
+      hints: [
+        "Cavalry patrols find villages held as strongpoints, with the ground between them open.",
+        "Prisoners say the order is to hold every village to the last man.",
+      ],
+      reveal: "Contact: the Germans hold the villages as strongpoints under orders not to retreat, and the country between them is open to anyone who can ride through it.",
+    },
+    {
+      id: "reservesByRail",
+      name: "German reserves arriving by rail",
+      modifiers: { armies: 1.1, cavalry: 0.7, airborne: 0.8, supply: 1.1 },
+      hints: [
+        "Railway reports show troop trains arriving at Vyazma every night.",
+        "Intercepts speak of divisions brought up from other parts of the front.",
+      ],
+      reveal: "Contact: German reserves are arriving by rail behind the salient, and the corridor will be contested by fresh divisions.",
+    },
+    {
+      id: "luftwaffeCorridor",
+      name: "German aircraft over the corridor",
+      modifiers: { armies: 1.0, cavalry: 1.0, airborne: 0.55, supply: 0.7 },
+      hints: [
+        "German fighters have been seen over the forest tracks behind the front all week.",
+        "The transports flew out last night with no fighter cover and not all of them came back.",
+      ],
+      reveal: "Contact: German aircraft are over the corridor and the drop zones, and the transports are going in without fighter cover.",
+    },
+  ],
 };
 
 // Shared battle math — one pure implementation used by the planning screen (staff assessment),
@@ -21320,6 +22704,97 @@ const KEY_BATTLE_ECHOES = {
       cattaneo: "Cattaneo's cruisers are still the screen of the fleet.",
     },
   },
+  monteLungo43: {
+    counter: {
+      repulsed: "On the hill in December the German counterattack was thrown back up the slope, and the Group kept the ground it had won.",
+      heldAtCost: "On the hill in December the Group held against the Germans, but the companies that held were badly cut up.",
+      broke: "On the hill in December the Germans broke into the leading companies and threw them back down the slope.",
+      gaveGround: "On the hill in December the Group gave up the exposed slope rather than meet the Germans on it.",
+    },
+    neglected: {
+      infantry: "On Monte Lungo the regiment hardly went up the hill, and what was done there was done by the guns.",
+      bersaglieri: "The cadets were left at the foot of the hill in December and took no part in the first attack.",
+      guns: "The guns on Monte Lungo never fired in earnest, and the infantry went up the hill without them.",
+      recon: "The Group went up Monte Lungo without finding the German line first, and the line found the Group.",
+    },
+    commander: {
+      dapino: "Dapino's Group is still talking about the hill in the mist.",
+    },
+  },
+  adriaticRoad44: {
+    counter: {
+      repulsed: "At Filottrano the German counterattack on the slope was beaten back, and the paratroopers kept their ground.",
+      heldAtCost: "At Filottrano the paratroopers held the slope against the Germans, at a heavy cost to the battalion that held it.",
+      broke: "At Filottrano the Germans broke into the battalion on the slope, and it came to hand-to-hand fighting in the olive groves.",
+      gaveGround: "At Filottrano the battalion gave up the slope rather than meet the counterattack on it.",
+    },
+    neglected: {
+      nembo: "At Filottrano the Nembo hardly went up the hills; the town was taken by the guns and the Polish tanks.",
+      armour: "The Polish tanks were hardly asked for at Filottrano, and the paratroopers went up the hills without them.",
+      artillery: "The guns were kept back at Filottrano, and the paratroopers went up the hills without them.",
+      supply: "The Corps went up to Filottrano on what it could carry, and the trucks never caught up.",
+    },
+    commander: {
+      utili: "Utili's Corps has the town it was offered, and the Poles have noticed.",
+      anders: "Anders's armour stood close behind the Italians all the way to Ancona.",
+    },
+  },
+  springOffensive45: {
+    counter: {
+      repulsed: "At the Senio the German counterattack on the bridgehead was beaten back, and the Group kept the far bank.",
+      heldAtCost: "At the Senio the bridgehead held against the Germans, at a heavy cost to the battalion that held it.",
+      broke: "At the Senio the Germans broke into the bridgehead, and it came to hand-to-hand fighting at the water's edge.",
+      gaveGround: "At the Senio the Group gave up its furthest ground on the far bank rather than meet the counterattack on it.",
+    },
+    neglected: {
+      assault: "At the Senio the Group's own infantry hardly crossed, and the town was taken by others.",
+      flame: "The Group asked for no flame-throwers at the Senio, and the posts in the bank were left to the infantry.",
+      fire: "The Group asked for no special fire at the Senio, and went over under the plan V Corps made for everyone.",
+      bridging: "The Group crossed the Senio before the engineers had made the way, and the men on the far bank were left alone.",
+    },
+    commander: {
+      primieri: "Primieri's regiments are the first the Group has put across a river.",
+      keightley: "Keightley's corps fired its barrages on the timetable it set, and the Group crossed behind them.",
+    },
+  },
+  brodyCounterstroke41: {
+    counter: {
+      repulsed: "The German tanks that turned on the flank were beaten off, and the corps kept their line.",
+      heldAtCost: "The flank held against the German tanks, but at a heavy cost in tanks and men.",
+      broke: "The German tanks broke into the flank of the leading corps, and the Soviet tanks had to turn and fight in the open.",
+      gaveGround: "The leading corps pulled back from the flank rather than meet the German tanks on open ground.",
+    },
+    neglected: {
+      armour: "The tank corps were hardly committed, and the infantry took the weight of the fight alone.",
+      infantry: "The infantry were left behind on the border, and the tanks went forward without them.",
+      air: "No aircraft covered the corps' march, and the roads were open to the Germans.",
+      signals: "The corps moved as their commanders saw fit, since no orders reached them over the cut lines.",
+    },
+    commander: {
+      ryabyshev: "Ryabyshev's corps is what is left of it, after the road to Brody.",
+      rokossovsky: "Rokossovsky's infantry rode the tanks to the fight and are still with them.",
+      zhukov: "Zhukov has gone back to Moscow, and the front's staff have kept to the order he gave.",
+    },
+  },
+  rzhevVyazma42: {
+    counter: {
+      repulsed: "The German counterattack on the shoulder of the gap was beaten off, and the corridor stayed open.",
+      heldAtCost: "The shoulder of the gap held against the Germans, at a heavy cost to the division that held it.",
+      broke: "The Germans broke into the neck of the corridor, and the armies on either side had to fight to reopen it.",
+      gaveGround: "The shoulder of the gap gave ground, and the corridor was narrowed to the width of a single road.",
+    },
+    neglected: {
+      armies: "The armies were hardly pushed into the breach, and the gap stayed as narrow as the first attack left it.",
+      cavalry: "No horsemen rode into the German rear, and the pincers had nothing ahead of them.",
+      airborne: "The paratroopers stayed on their airfields, and the highway behind the Germans was left open to them.",
+      supply: "The forces in the German rear lived on what they had, and the railway never reached them.",
+    },
+    commander: {
+      belov: "Belov's horsemen are still somewhere in the German rear.",
+      yefremov: "Yefremov's army is out at the end of the gap, and his men are counting what they have left.",
+      levashev: "Levashev's paratroopers are down in the forest behind the Germans, fewer than were counted.",
+    },
+  },
 };
 // Round 22: the War Record's Battle Record lists every battle by name, in campaign order, with the
 // campaign seal it belongs to. Fought battles show their record; the others show as blanks.
@@ -21329,7 +22804,9 @@ const KEY_BATTLE_TITLES = [
   { id: "elAlamein", seal: "OKW", title: "The Push to Alam Halfa" },
   { id: "stalingrad", seal: "OKW", title: "The Breakout West" },
   { id: "kursk", seal: "OKW", title: "The Kursk Salient" },
+  { id: "brodyCounterstroke41", seal: "STAVKA", title: "Dubno, Lutsk, Brody" },
   { id: "moscow41", seal: "STAVKA", title: "The Blow Before Moscow" },
+  { id: "rzhevVyazma42", seal: "STAVKA", title: "The Pincers at Vyazma" },
   { id: "uranus", seal: "STAVKA", title: "Operation Uranus" },
   { id: "bagrationSoviet44", seal: "STAVKA", title: "The Drive on Minsk" },
   { id: "dynamo40", seal: "SHAEF", title: "Operation Dynamo" },
@@ -21343,7 +22820,10 @@ const KEY_BATTLE_TITLES = [
   { id: "alps40", seal: "COMANDO", title: "The Little St Bernard" },
   { id: "epirus40", seal: "COMANDO", title: "The Pindus Winter" },
   { id: "matapan41", seal: "COMANDO", title: "Cape Matapan" },
+  { id: "monteLungo43", seal: "COMANDO", title: "Monte Lungo, First Attack" },
   { id: "monteCassino44", seal: "COMANDO", title: "Monte Marrone" },
+  { id: "adriaticRoad44", seal: "COMANDO", title: "Filottrano" },
+  { id: "springOffensive45", seal: "COMANDO", title: "The Senio at Alfonsine" },
 ];
 const BATTLE_GRADE_ORDER = ["total", "marginal", "costly", "clean"]; // worst to best
 
