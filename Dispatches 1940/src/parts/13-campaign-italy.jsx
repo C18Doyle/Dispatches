@@ -2215,7 +2215,7 @@
               setFlags: { imiCrisis43: "press" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: 0 },
-              next: "vaticanChannel44",
+              next: "monteLungo43",
               outcome:
                 "Roughly what the Badoglio government actually attempted — repeated appeals routed through the Allies and neutral intermediaries, none of which Berlin had any real obligation to answer and few of which it did. The IMI status itself was never rescinded for the great majority of the men held under it; what these appeals mostly accomplished was keeping the issue visible rather than solving it, which the historical record suggests was, given the actual leverage available, close to the ceiling of what was achievable at all.",
             },
@@ -2224,7 +2224,7 @@
               advisor: { name: "Ambrosio", position: "He says it plainly though not without cost: Italy has almost nothing Berlin wants on this question, and spending what little standing it has chasing it leaves none for anything the war still requires." },
               setFlags: { imiCrisis43: "deprioritize" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
-              next: "vaticanChannel44",
+              next: "monteLungo43",
               outcome:
                 "A colder accounting of a plainly weak hand — this government's actual leverage over how Germany treats the men it is holding was, in fact, close to nothing, and this choice simply says so out loud rather than spending effort on appeals unlikely to move Berlin regardless. What it does not change is what those men are living through in the meantime, which this choice does nothing to improve and does not claim to.",
             },
@@ -2299,7 +2299,16 @@
           title: "The Gustav Line",
           historicalRecord: true,
           situation:
-            "The Allied advance up the peninsula has stalled for months against the Gustav Line's anchor position at Monte Cassino, a medieval abbey on commanding high ground that four successive Allied offensives — American, British, New Zealand and Indian, Polish — will eventually need to break, at a combined cost that will run past 50,000 Allied casualties before the position finally falls in May. The Co-Belligerent Army's own combat formations, still small and still building the trust Salerno's aftermath left an open question, are offered a role in the supporting operations around the main assault rather than the abbey assault itself — a decision partly about combat readiness and partly, still, about how much Allied command trusts a very recently former enemy with a battle this costly.",
+            "The Allied advance up the peninsula has stalled for months against the Gustav Line's anchor position at Monte Cassino, a medieval abbey on commanding high ground that four successive Allied offensives — American, British, New Zealand and Indian, Polish — will eventually need to break, at a combined cost that will run past 50,000 Allied casualties before the position finally falls in May. The Co-Belligerent Army's own combat formations, still small and still building the trust Salerno's aftermath left an open question, are offered a role in the supporting operations around the main assault rather than the abbey assault itself — a decision partly about combat readiness and partly, still, about how much Allied command trusts a very recently former enemy with a battle this costly." +
+            (flags.monteLungo43 === "attack"
+              ? " The Group that went up Monte Lungo twice in December, failing the first time and not the second, is the one being offered the supporting role."
+              : flags.monteLungoResult === "prepared"
+              ? " The Group that took Monte Lungo in December on its second attempt, with a week's rehearsal behind it, is the one being offered the supporting role."
+              : flags.monteLungoResult === "sidelined"
+              ? " The Group that was put in reserve at Monte Lungo in December, and has been trying to earn its place back since, is being offered the supporting role."
+              : flags.monteLungo43 === "decline"
+              ? " The Group that was kept out of Monte Lungo in December has not yet fought a German in a prepared position, which is why a supporting role is what it is offered."
+              : ""),
           choices: [
             {
               label: "Accept the supporting role and use it to build a combat record methodically",
@@ -2561,7 +2570,7 @@
               setFlags: { romeGovernment: "broaden" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: 0 },
-              next: "clnLiaison44",
+              next: "adriaticRoad44",
               outcome:
                 "What actually happened: Badoglio resigns as prime minister within days of Rome's liberation, and a new government under Ivanoe Bonomi, drawing on the anti-Fascist parties that organized the Committee of National Liberation, takes office — a genuine broadening of the government's political base beyond the monarchy's own wartime circle, and a step that helps establish the political legitimacy the eventual postwar republic will build on.",
             },
@@ -2570,7 +2579,7 @@
               advisor: { name: "Victor Emmanuel III", position: "There will be time to rebuild the government's politics once the Germans are out of Italy entirely, and he would rather not change commanders in the middle of the only battle that matters now." },
               setFlags: { romeGovernment: "maintain" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
-              next: "clnLiaison44",
+              next: "adriaticRoad44",
               outcome:
                 "Continuity keeps the wartime administrative machinery running without the disruption a government reorganization brings during an active campaign — at the cost of a broader political legitimacy question left unresolved for longer, one the eventual peace and the 1946 referendum on the monarchy's own future will still have to answer regardless of how long this path defers it.",
             },
@@ -2624,7 +2633,7 @@
               historical: true,
               setFlags: { gothicLine44: "commit" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
-              next: "coBelligerentEnding45",
+              next: "combatGroups44",
               outcome:
                 "The fuller commitment this path represents mirrors the actual expansion of Italian combat groups into the Gothic Line fighting through late 1944 — formations that by the campaign's final phase are integrated into Allied corps structure as genuine front-line units rather than auxiliary support. The offensive still stalls for the winter regardless of how committed any single army's sector is, since the halt is a resourcing and weather problem the whole Allied front shares, not a question any one formation's effort could individually solve.",
             },
@@ -2634,9 +2643,355 @@
               setFlags: { gothicLine44: "conserve" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
-              next: "coBelligerentEnding45",
+              next: "combatGroups44",
               outcome:
                 "A more conservative commitment through the winter's stalemate preserves the Co-Belligerent Army's strength for the spring 1945 offensive that will finally break the Gothic Line and end the Italian campaign — at the cost of a slightly less complete combat record built up through 1944's fighting, a trade between what this army demonstrably did and what it demonstrably still has left when the decisive push finally comes.",
+            },
+          ],
+        };
+        },
+        // Round 24 (Craig: "the Italian campaign should be expanded to fight the Germans if you choose that
+        // path"). The co-belligerent path had one battle and a great deal of diplomacy, and the army that
+        // fought the Germans from October 1943 had almost no decisions of its own. monteLungo43,
+        // adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45 put its
+        // own war on the page, in order, and what is chosen in them is read later (the odds of the spring
+        // offensive, the ending). Facts checked 2026-10-06 against Wikipedia (Italian Co-belligerent Army,
+        // Italian Liberation Corps, Battle of Ancona, Battle of Montecarotto, 184th Infantry Division
+        // "Nembo", Umberto Utili, Giovanni Messe, Raffaele Cadorna, Spring 1945 offensive in Italy,
+        // Motorized Brigade "Cremona", 15th Panzergrenadier Division) and liberationroute.com for Monte
+        // Lungo's first attack (47 dead, 102 wounded; written here as "about fifty dead and more than a
+        // hundred wounded", since Italian sources give higher figures). The Rome Protocols and Alexander's
+        // proclamation are from the National WWII Museum timeline and the CLNAI article.
+        get monteLungo43() {
+          return {
+          date: "DECEMBER 1943",
+          title: "The First Italian Attack",
+          historicalRecord: true,
+          situation:
+            "Eight weeks after the declaration of war on Germany, the Co-Belligerent Army has one formation it can put in the line: the 1st Motorized Group, about 5,000 men under General Dapino, built around the 67th Infantry Regiment, a battalion of Bersaglieri cadets and the 11th Artillery Regiment, and put together in Puglia that autumn from what survived the armistice. General Clark's Fifth Army is working up the Mignano gap toward the Gustav Line through the German Bernhardt Line, whose anchors are the hills of Monte Lungo and Monte Sammucro, held by the 15th Panzergrenadier Division. II Corps offers the Group a place in its attack on Monte Lungo on December 8, in the morning mist, beside American infantry. For Brindisi it is the first chance to show the Allies, and the Italian army itself, that a unit that wore the other uniform in September will fight in this one. The Group has not trained with the guns that will support it, and none of its men has seen a German prepared position." +
+            (flags.coBelligerentRole === "expand"
+              ? " The larger combat role pressed for after Salerno is being tested here, on the first hill it is offered."
+              : " The auxiliary role accepted after Salerno has bought the Group a quiet autumn, and the first hill it is offered is not a quiet one."),
+          choices: [
+            {
+              label: "Accept the American plan — attack on December 8, in the morning mist, beside II Corps",
+              advisor: { name: "Messe", position: "An army that is never seen fighting is never equipped to fight, and the Group goes in on the day it is asked to, with the guns it is given." },
+              historical: true,
+              setFlags: { monteLungo43: "attack" },
+              impact: { manpower: -2, fuel: 0, initiative: 1 },
+              next: "vaticanChannel44",
+              outcome:
+                "What happened. On December 8 the Group went up Monte Lungo beside American infantry under the morning mist. When the mist lifted the Italians were on open slopes under fire from German positions the hurried plan had not found, and the attack failed, with about fifty dead and more than a hundred wounded. It was the first action of the Royal Army on the Allied side. It was repeated on December 16 with a heavy artillery preparation and American infantry beside it, and this time the hill was taken. General Clark wrote to congratulate the Group on its determination to free Italy from German domination: the Allies had watched the Italian army fight twice, and win the second time.",
+            },
+            {
+              label: "Ask II Corps for another week — rehearse the attack with the guns and the American infantry that will support it",
+              advisor: { name: "Dapino", position: "A group that has been together a few weeks knows neither the guns beside it nor the hill in front of it, and a week to learn both is cheaper than the first attack." },
+              setFlags: { monteLungo43: "delay" },
+              impact: { manpower: -1, fuel: 0, initiative: 0 },
+              next: "vaticanChannel44",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(60, meters.initiative),
+                  title: "II Corps gives the week",
+                  setFlags: { monteLungoResult: "prepared" },
+                  impact: { manpower: -1, fuel: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. Clark's staff agrees, and the Group spends a week in the valley rehearsing with the guns that will fire for it and the American infantry that will go up beside it. It attacks on December 16 with a full artillery preparation, as the real second attack did, and takes the hill without having paid for the first. The Italian army's first battle against the Germans is won with fewer dead than the real one cost it. What is lost is the story the Allies remembered: a Group that failed on the 8th and went back up on the 16th.",
+                },
+                {
+                  weight: 100 - modWeight(60, meters.initiative),
+                  title: "II Corps will not wait",
+                  setFlags: { monteLungoResult: "sidelined" },
+                  impact: { manpower: 0, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The offensive has a timetable, and the Americans cannot hold an assault on a mountain for a week for a Group that has not yet fought. The Group is dropped from the attack of the 8th and put in reserve, takes part in the second attack only on the margin, and comes out of the battle with the status Allied planners had already given it: an Italian unit that is not yet ready. Asking for a week to prepare for a battle that was already being fought is remembered at II Corps longer than the week would have been.",
+                },
+              ],
+            },
+            {
+              label: "Keep the Group out of the line until it is trained and equipped as a division",
+              advisor: { name: "Ambrosio", position: "An army that has not fought can still be presumed reliable, while one that fails its first battle before an Allied audience cannot, so it is kept for a battle it can win." },
+              setFlags: { monteLungo43: "decline" },
+              impact: { manpower: 1, fuel: 0, initiative: -2 },
+              next: "vaticanChannel44",
+              outcome:
+                "Speculative. The Group stays in the rear, drilling and guarding the lines of communication, and the Americans take Monte Lungo without it in the second half of December. No Italian blood is spilt on the hill and no Italian flag is planted on it. The army's first test is put off to the spring, and the Allied staff officers who had wondered whether the Italians would fight at all go on wondering, with more evidence.",
+            },
+          ],
+        };
+        },
+        get adriaticRoad44() {
+          return {
+          date: "JUNE – JULY 1944",
+          title: "The Adriatic Road",
+          historicalRecord: true,
+          situation:
+            "From the middle of June the Eighth Army's weight is on the Adriatic side, and its objective is Ancona, a seaport closer to the fighting that will shorten supply lines which still run back to Pescara and Anzio. The task is given to General Anders's Polish II Corps, about 50,000 men, and under its command since May 27 is the Italian Liberation Corps that Utili has led since April: the old 1st Motorized Group, now some 16,000 men, joined on May 26 by the paratroopers of the Nembo Division from Sardinia, about 6,000 more. The Germans, elements of the 71st Infantry Division and the 1st Parachute Division among them, are falling back by stages toward the Gothic Line, and the hill town of Filottrano, inland from Ancona, commands the road. What Comando Supremo has to settle is what part its best formation should play in a battle whose command, language and supplies are all someone else's." +
+            (flags.monteLungoResult === "prepared"
+              ? " The Group that took Monte Lungo on its second attempt and lost fewer men doing it has been believed since, and the Polish staff know the name."
+              : flags.monteLungoResult === "sidelined"
+              ? " The Group that was put in reserve at Monte Lungo has had to earn its place twice since then, and the Poles have been told so."
+              : flags.monteLungo43 === "attack"
+              ? " The Group's veterans have been up Monte Lungo twice, once failing and once not, and the Poles have heard both halves of that."
+              : flags.monteLungo43 === "decline"
+              ? " The Group kept out of Monte Lungo has still not fought a German in a prepared position, and everyone in the Polish corps staff has noticed."
+              : "") +
+            (flags.cassino44 === "direct"
+              ? " The corps also carries Monte Marrone, which the Eighth Army has not forgotten."
+              : ""),
+          choices: [
+            {
+              label: "Let the Nembo lead the hill fighting — Filottrano, with the Polish armour behind them",
+              advisor: { name: "Utili", position: "The paratroopers were made for this ground, and a corps that leads at Ancona is a corps that is asked to lead afterwards." },
+              historical: true,
+              setFlags: { adriaticRoad44: "lead" },
+              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              next: "clnLiaison44",
+              uncertain: [
+                {
+                  weight: Math.min(90, modWeight(72, meters.initiative)),
+                  title: "Filottrano falls to the Nembo",
+                  setFlags: { adriaticResult44: "taken" },
+                  impact: { manpower: -1, fuel: 0, initiative: 1 },
+                  outcome:
+                    "What happened. The Nembo's paratroopers fought for Filottrano through the first days of July and the town was liberated on July 9, opening the road to Ancona; two of the division's regiments were decorated for it. The Poles entered Ancona on July 18 at half past two in the afternoon, and the Eighth Army had its port. Allied losses across the whole battle, which began on June 16, were about 500 killed, 1,800 wounded and 140 missing, against some 800 Germans killed and 2,500 taken. The Italian Liberation Corps came out of Ancona with a battle honour of its own, won on ground that was never going to be easy for anyone.",
+                },
+                {
+                  weight: 100 - Math.min(90, modWeight(72, meters.initiative)),
+                  title: "The first assault is thrown back",
+                  setFlags: { adriaticResult44: "stopped" },
+                  impact: { manpower: -2, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The first assault on Filottrano is stopped on the olive terraces at the edge of the town by paratroopers who are as good as the Italians are and have the better ground, and the Polish armour and guns have to be brought up before the place falls, some days later than the Polish plan had allowed. The Nembo's casualties are heavy, and the Polish staff, who had been told the Italians were the best formation on the Adriatic side, note in their reports that the paratroopers are brave and are not yet a corps.",
+                },
+              ],
+            },
+            {
+              label: "Keep the Corps on the flank — screening and follow-up under the Poles, while their tanks and guns take the town",
+              advisor: { name: "Messe", position: "The Corps is the one real formation the army has, and he would rather see it screen a flank than be spent on a hilltop that Polish guns can take." },
+              setFlags: { adriaticRoad44: "flank" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "clnLiaison44",
+              outcome:
+                "Speculative. The Poles take Filottrano with their own armour and artillery, a day or two later than they might have with the Italian paratroopers in front, and Ancona falls on July 18 as it did. The Corps screens the flank and moves up behind the advance, losing few men and earning few lines in the communiqués. It comes out of the Adriatic summer intact, and as what it already was: a formation the Allies have used where it was convenient, and not yet one they have asked for.",
+            },
+          ],
+        };
+        },
+        get combatGroups44() {
+          return {
+          date: "SEPTEMBER – NOVEMBER 1944",
+          title: "Six Groups, and Everyone Else",
+          historicalRecord: true,
+          situation:
+            "On September 24 the Italian Liberation Corps is disbanded, and its men are used to raise the first of the Combat Groups. The Allied offer is specific. The Italian General Staff may set up two Groups at once, named for the Cremona and Friuli divisions, and four more a few weeks later: Folgore, Legnano, Piceno and Mantova. Each will have some 9,000 men, in British battledress and with British weapons — 116 field guns, 170 mortars, over 500 light machine guns, nearly 1,300 vehicles — and will be attached to an Allied corps. Every other Italian formation south of the front, between 150,000 and 190,000 men, stays as auxiliary troops: labour, guards, supply, the men who keep the Allied armies moving. The case for a larger army is the obvious one: an army of six divisions is a token army, in a war the Italian army has spent a year trying to enter. The British position is that there is no equipment for more, and that Italian formations must prove themselves before they get it." +
+            (flags.adriaticRoad44 === "lead" && flags.adriaticResult44 === "taken"
+              ? " The Corps that has just been broken up to make the first Groups is the one that took Filottrano, and no one at Allied headquarters needs to be reminded of it."
+              : flags.adriaticRoad44 === "lead"
+              ? " The Corps that has just been broken up to make the first Groups went to Ancona to lead and was stopped at Filottrano, and Allied headquarters remembers that, too."
+              : flags.adriaticRoad44 === "flank"
+              ? " The Corps that has just been broken up to make the first Groups spent the Adriatic summer screening a flank, and Allied headquarters has drawn its own conclusion."
+              : ""),
+          choices: [
+            {
+              label: "Accept six fully equipped Groups — and keep the rest of the army working behind the line",
+              advisor: { name: "Utili", position: "A division that is fully armed and fed is worth three that are not, and the six that exist will do more for the army's name than twenty that reach the line without guns." },
+              historical: true,
+              setFlags: { combatGroups44: "six" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "partisanWinter44",
+              outcome:
+                "What happened. Six Combat Groups were raised between the autumn of 1944 and the winter of 1945, equipped by the British, while the great mass of the army worked behind the line; by the war's end there were some 50,000 Italians in the combat formations, against 150,000 to 190,000 auxiliary troops and another 66,000 on traffic control and the defence of installations. The Groups were small beside the Allied armies and what they were given came from British stocks, but they were real: at the end the Co-Belligerent Army made up about an eighth of the fighting force of the Allied 15th Army Group, and with its auxiliaries a quarter of its whole force.",
+            },
+            {
+              label: "Press the Allies for a larger combat army — more Groups on a lighter scale, Italian rifles and mules, British guns only",
+              advisor: { name: "Messe", position: "An army of twenty divisions on paper and six in the line is a labour corps with a flag, and he would rather field twice the infantry on half the guns." },
+              setFlags: { combatGroups44: "wide" },
+              impact: { manpower: -1, fuel: -1, initiative: 0 },
+              next: "partisanWinter44",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "Two more Groups, on a lighter scale",
+                  setFlags: { combatGroupsExtra44: true },
+                  impact: { manpower: 0, fuel: -1, initiative: 1 },
+                  outcome:
+                    "Speculative. The British agree to equip two more Groups beyond the six, on a lighter scale: Italian small arms, mules for the heavy weapons and British artillery only. The Co-Belligerent Army puts more infantry in the line than it did historically, and spends part of the winter explaining to the Allied supply officers why its Groups do not fit their tables. The Allies' doubts about reliability do not go away; they are answered, for the moment, by numbers.",
+                },
+                {
+                  weight: 100 - modWeight(35, meters.initiative),
+                  title: "The Allies refuse",
+                  impact: { manpower: -1, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The answer from the Allied staff is that British equipment is committed elsewhere, in the Far East and in northwest Europe, and that the case for six Groups has been made once and need not be made again. The six are raised as they were. The request is remembered as an army asking for a third more than it had been offered, in the week its first Group was still learning to use what it had.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get partisanWinter44() {
+          return {
+          date: "NOVEMBER – DECEMBER 1944",
+          title: "The Stand-Down",
+          historicalRecord: true,
+          situation:
+            "On November 13 General Alexander broadcasts to the partisans of the north over Radio Italia Combatte. The summer offensive is over; they are to lay down their arms, save their ammunition and wait for further orders. They had been told in the summer to rise and fight, and most accounts say the proclamation reached them with despair, with the winter coming and the German and Fascist sweeps of the autumn behind them. In Rome the Bonomi government, drawn from the same anti-Fascist parties as the committee in the north, wants the northern resistance under its authority, and since August General Raffaele Cadorna has been in Milan, sent north to command the Corps of Volunteers of Freedom. A CLNAI delegation is now in Rome to bargain with the Allied command: recognition and money in exchange for obedience. The Italian High Command has to say where it stands." +
+            (flags.clnLiaison44 === "arm"
+              ? " The arms and gold sent in the summer are in the mountains, and those who carry them will want to know whether they were sent for the winter or for the spring."
+              : " What was sent in the summer was recognition, not rifles, and the men in the mountains are aware of the difference."),
+          choices: [
+            {
+              label: "Follow the Allied line — tell the partisans to disperse and wait out the winter, and sign the Rome Protocols",
+              advisor: { name: "Ambrosio", position: "A movement that takes Allied orders and Allied pay is a movement the Allies must arm in the spring, and the front is better served by a quiet north until then." },
+              historical: true,
+              setFlags: { partisanWinter44: "standDown" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "groupsCommand45",
+              outcome:
+                "What happened. The Rome Protocols were signed on December 7: the CLNAI agreed to take its orders from the Allied command, to recognise the Bonomi government and to keep order in the north until an Allied occupation could be organised, and the Allies agreed to pay it 160 million lire a month. Alexander's proclamation had already told the partisans to wait; the winter that followed was the hardest the movement faced. By April the movement that rose in the northern cities was the one that had been recognised in December, and it did not need to be told when.",
+            },
+            {
+              label: "Refuse to endorse the stand-down — press the Allies to keep arming and supplying the partisans through the winter",
+              advisor: { name: "Cadorna", position: "A volunteer corps that is told to go home for the winter does not come back in the spring, so the drops and the pay must keep coming." },
+              setFlags: { partisanWinter44: "keepFighting" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "groupsCommand45",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "The drops keep coming",
+                  setFlags: { partisanResult44: "supplied" },
+                  impact: { manpower: 0, fuel: -1, initiative: 2 },
+                  outcome:
+                    "Speculative. Allied command, which had meant the proclamation as an economy of ammunition and not as a verdict on the partisans, accepts that the north cannot be left to the winter: the air drops continue through December and January, at a cost in aircraft the Allied air forces have other uses for. The bands that would have scattered stay in the hills and keep tying down garrisons that might otherwise have been sent to the front. The movement that rises in April is bigger and better armed than the one the proclamation would have left, and it knows who kept it supplied.",
+                },
+                {
+                  weight: 100 - modWeight(30, meters.initiative),
+                  title: "The Allies hold to the proclamation",
+                  setFlags: { partisanResult44: "refused" },
+                  impact: { manpower: -1, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. A decision made at the level of the theatre is not changed by a request from Rome, and the signing of the protocols is delayed while the Italian side argues. The recognition and the money are held up; the CLNAI is split between the bands that follow the proclamation and the ones that follow Cadorna; and the winter, which was always going to be hard, is harder for a movement that has spent part of it arguing with its only source of supply.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get groupsCommand45() {
+          return {
+          date: "JANUARY – MARCH 1945",
+          title: "Who Commands the Groups",
+          historicalRecord: true,
+          situation:
+            "By January the first Combat Groups are ready, and where they fight is a political question as much as a military one. Cremona is the first into the line, on January 12, with the British V Corps, on the stretch between the Ravenna–Alfonsine railway and the sea; each of the others will be attached to a different Allied corps, Friuli to X Corps and Folgore to XIII Corps. The Italian staff would rather they fought together under an Italian corps headquarters, as the army of a nation instead of as spare divisions of other men's corps. The Allies, who have the supplies, the artillery and the corps staffs, see no reason to build a new headquarters for four small divisions in the middle of a winter." +
+            (flags.combatGroupsExtra44
+              ? " Eight Groups are on the books on this timeline, not six, the last two on a lighter scale than the British will give the first, and an argument for a headquarters of their own is, for once, an argument about a corps."
+              : "") +
+            (flags.partisanWinter44 === "keepFighting" && flags.partisanResult44 === "supplied"
+              ? " In the north, partisan bands that were kept supplied through the winter are asking Rome how the regular army means to meet them in the spring."
+              : ""),
+          choices: [
+            {
+              label: "Accept attachment to the Allied corps — each Group fights where the Eighth and Fifth Armies need it",
+              advisor: { name: "Messe", position: "The guns, the shells and the trucks are with the Allied corps, and a Group that fights under one has them behind it, which is what wins a battle." },
+              historical: true,
+              setFlags: { groupsCommand45: "attached" },
+              impact: { manpower: 0, fuel: 1, initiative: 0 },
+              next: "springOffensive45",
+              outcome:
+                "What happened. Cremona entered the line on January 12 with the British V Corps, Friuli went to X Corps and Folgore to XIII Corps, and each fought where it was sent. Each was one more division in someone else's corps, supplied from someone else's stocks. It was not a national army, and it never had the chance to look like one. It did have the shells.",
+            },
+            {
+              label: "Press for an Italian corps headquarters to command the Groups together — one army, one flag, one sector",
+              advisor: { name: "Utili", position: "An army that fights as one body is remembered as an army, while a handful of divisions spread across other men's corps is remembered as reinforcements, so the Groups fight under their own headquarters." },
+              setFlags: { groupsCommand45: "corps" },
+              impact: { manpower: 0, fuel: -1, initiative: 0 },
+              next: "springOffensive45",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "The Allies accept a corps headquarters",
+                  setFlags: { groupsCorps45: true },
+                  impact: { manpower: 0, fuel: -1, initiative: 2 },
+                  outcome:
+                    "Speculative. Allied command, which has no great objection to a headquarters that will run the supplies it is given, agrees to an Italian corps for the spring. The staff is cobbled together from the Corps that was broken up in September and from the General Staff in the south, and it spends February working out how to do what the British corps staffs have done for years. By April it can put the Groups into the offensive as one body under Italian command, in a sector of its own.",
+                },
+                {
+                  weight: 100 - modWeight(30, meters.initiative),
+                  title: "The Allies decline",
+                  impact: { manpower: 0, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The Allied answer is courteous and short: there are no headquarters to spare, and no time to train one before the spring. The Groups go to the corps they were always going to go to. What the request costs is a little goodwill at the corps staffs, which are asked to take on divisions whose own command would rather they were somewhere else.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get springOffensive45() {
+          const lead = Math.min(
+            90,
+            modWeight(58, meters.manpower) +
+              (flags.combatGroups44 === "six" ? 6 : 0) +
+              (flags.combatGroupsExtra44 ? 4 : 0) +
+              (flags.groupsCorps45 ? 8 : 0) +
+              (flags.monteLungoResult === "prepared" ? 3 : 0) +
+              (flags.partisanResult44 === "supplied" ? 4 : 0)
+          );
+          return {
+          date: "APRIL 1945",
+          title: "The Last Offensive",
+          historicalRecord: true,
+          situation:
+            "On April 6 the Allied offensive in Italy opens. The Eighth Army attacks across the Senio on the 9th, the Fifth Army's Apennine attack follows, and the German armies in Italy, short of everything and told to hold, are about to be cut in two. Behind the German line the CLNAI has been told to prepare an insurrection in the northern cities, and the signal will come on April 25. The Combat Groups are in the line: Cremona with V Corps in front of the Senio at Alfonsine, Friuli and Folgore in the hills in front of Bologna. What the Italian command has to decide is how much to ask for, and how much of its small army to spend on the last month of a war that is already decided." +
+            (flags.partisanWinter44 === "standDown"
+              ? " The partisans who were told to wait through the winter are ready, and have been told when."
+              : flags.partisanWinter44 === "keepFighting" && flags.partisanResult44 === "supplied"
+              ? " The partisans who were kept supplied through the winter are not waiting to be told."
+              : flags.partisanWinter44 === "keepFighting"
+              ? " The partisans, split by the winter's argument, rise less as one body than the Allies had planned for."
+              : ""),
+          choices: [
+            {
+              label: "Ask for the assault roles — Cremona across the Senio at Alfonsine, Friuli and Folgore on the road to Bologna",
+              advisor: { name: "Utili", position: "A national army is remembered for the river it crossed and the city it entered, not for the line it held, so the Groups ask to be where the offensive will be won." },
+              historical: true,
+              setFlags: { springOffensive45: "lead" },
+              impact: { manpower: -2, fuel: 0, initiative: 1 },
+              next: "coBelligerentEnding45",
+              uncertain: [
+                {
+                  weight: lead,
+                  title: "The Groups take what they asked for",
+                  setFlags: { springResult45: "decisive" },
+                  impact: { manpower: -1, fuel: 0, initiative: 2 },
+                  outcome:
+                    "What happened. At dawn on April 10 Cremona crossed the Senio at Alfonsine and took the town that day, crossed the Santerno, and went north through Cavarzere, Chioggia and Mestre to Venice, which it reached at the end of the month. In the hills, Friuli and Folgore took Case Grizzano and Casalecchio de' Conti on April 19, where the Nembo's second battalion drove off the German 1st Parachute Division five times in hand-to-hand fighting, and on the morning of April 21 Friuli entered Bologna beside the Polish 3rd Carpathian Division. The German armies in Italy surrendered at Caserta on April 29, effective on May 2. The Italian divisions had been in the line for three months, and for the last three weeks of the war some of them were at the front of it.",
+                },
+                {
+                  weight: 100 - lead,
+                  title: "The assault is paid for in full",
+                  setFlags: { springResult45: "costly" },
+                  impact: { manpower: -3, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The Groups' first assault against a prepared river line is stopped on the first day by an enemy who is short of everything and has been told not to give ground, and what the Italian divisions take, they take two days late and at a price a small army can ill afford. The offensive goes on around them: the Allied armies break through on other sectors, and the Groups follow up in the pursuit. They are in the line for the German collapse, and they have paid more than their share of the cost of it.",
+                },
+              ],
+            },
+            {
+              label: "Keep the Groups to supporting roles — flanks, follow-up and the occupation — and hold them whole for the peace",
+              advisor: { name: "Messe", position: "An army that comes out of the last month whole has something to put on the table at the peace, while one that has bled for a river crossing has a casualty list." },
+              setFlags: { springOffensive45: "support" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "coBelligerentEnding45",
+              outcome:
+                "Speculative. The Groups cover flanks, take over ground the Allied armies have passed, and move up behind the breakthrough, entering Bologna and Venice as part of an occupation and not at the head of an attack. They come out of the war with few of their men lost and a good many of the Allied commanders who might have written about them unable to say what they did in April. The Co-Belligerent Army arrives at the end intact, as what it was in the beginning: an army that the Allies used and did not rely on.",
             },
           ],
         };
@@ -2647,7 +3002,15 @@
           title: "The War's End, From the South",
           historicalRecord: true,
           situation:
-            "The final Allied offensive breaks the Gothic Line in April 1945, and what remains of German Army Group C in Italy surrenders unconditionally on May 2 — five days before the wider European war ends, and the culmination of nineteen months in which what used to be a single Comando Supremo fought its final act as a junior partner in someone else's coalition, on its own soil, against other Italians wearing the same uniforms a year and a half earlier wore alongside it. The reckoning this ending leaves behind is not primarily military: it is the question of what Italy's own war record, split as it was between two governments and an army that fought on both sides of the final line, actually amounts to when the guns finally stop.",
+            "The final Allied offensive breaks the Gothic Line in April 1945, and what remains of German Army Group C in Italy surrenders unconditionally on May 2 — five days before the wider European war ends, and the culmination of nineteen months in which what used to be a single Comando Supremo fought its final act as a junior partner in someone else's coalition, on its own soil, against other Italians wearing the same uniforms a year and a half earlier wore alongside it. The reckoning this ending leaves behind is not primarily military: it is the question of what Italy's own war record, split as it was between two governments and an army that fought on both sides of the final line, actually amounts to when the guns finally stop." +
+            " The army that fought on the Allied side put some 50,000 combat troops in the line by the end; the navy that sailed to Allied ports in September 1943 brought nine cruisers and thirty-three destroyers, and the air force flew more than 4,000 missions between September 1943 and May 1945." +
+            (flags.springOffensive45 === "lead" && flags.springResult45 === "decisive"
+              ? " The Combat Groups spent the last weeks of the war at the head of the Allied offensive, from the Senio to Bologna and Venice, and that is a fact the peace table will find easier to ignore than to dispute."
+              : flags.springOffensive45 === "lead"
+              ? " The Combat Groups spent the last weeks of the war at the head of the Allied offensive, and paid for it."
+              : flags.springOffensive45 === "support"
+              ? " The Combat Groups spent the last weeks of the war behind the advance, whole, with little to show for it that anyone outside the army will remember."
+              : ""),
           choices: [
             {
               label: "Press for full recognition of the Co-Belligerent Army's contribution in the postwar settlement",
@@ -2890,6 +3253,12 @@
         romeGovernment: "broaden",
         clnLiaison44: "arm",
         gothicLine44: "commit",
+        monteLungo43: "attack",
+        adriaticRoad44: "lead",
+        combatGroups44: "six",
+        partisanWinter44: "standDown",
+        groupsCommand45: "attached",
+        springOffensive45: "lead",
         postwarRecognition: "accept",
         rsiMilitary: "build",
         alpenvorlandQuestion43: "accept",
@@ -2972,6 +3341,11 @@
       // own header comment says has already been found and fixed at least four times elsewhere
       // in this file (20 Soviet ending titles, atomic45/finalStand nesting, iberianQuestion42
       // promoted twice, the darlanDeal42/battleOfBritain40 nesting fix).
+      // Round 24: the co-belligerent path's own war. Narrow combinations only.
+      if (flags.italyPath === "coBelligerent" && flags.groupsCorps45 && flags.springResult45 === "decisive") return "A Corps With Its Own Flag";
+      if (flags.italyPath === "coBelligerent" && flags.combatGroupsExtra44 && flags.springOffensive45 === "lead") return "Eight Groups Where Six Were Offered";
+      if (flags.italyPath === "coBelligerent" && flags.partisanWinter44 === "keepFighting" && flags.partisanResult44 === "supplied") return "The Winter Nobody Stood Down";
+      if (flags.italyPath === "coBelligerent" && flags.springOffensive45 === "lead" && flags.springResult45 === "costly") return "The Price of Leading";
       if (flags.italyPath === "coBelligerent" && flags.postwarRecognition === "press") return "A Record Argued For, Not Assumed";
       if (flags.italyPath === "coBelligerent" && flags.gothicLine44 === "commit") return "The Line Held on Its Own Front";
       if (flags.italyPath === "coBelligerent") return "The Co-Belligerent's Uncertain Honor";
@@ -3150,6 +3524,45 @@
         add(6, "The Republic's conscription was kept deliberately small — sparing a real number of young men the draft-evasion pipeline that historically fed conscripts straight into partisan ranks, at the cost of any claim to being more than an administered zone defended by someone else's army.");
       if (flags.italyPath === "rsi" && flags.partisanWar44 === "limited")
         add(7, "RSI forces were kept to defensive garrison duty rather than committed to the reprisal operations German command favored — a real distinction some officers drew historically, sparing this command's forces the direct authorship of the north's worst chapter, without changing what German-led units still visited on the same villages regardless.");
+      // Round 24: what the co-belligerent army's own war left behind.
+      if (flags.italyPath === "coBelligerent" && flags.monteLungo43 === "attack")
+        add(6, "The first Italian attack on Monte Lungo went in on December 8, 1943, as the Americans had planned it, and failed; the second, on the 16th, did not. The Allies had watched the Italian army fight twice.");
+      if (flags.italyPath === "coBelligerent" && flags.monteLungoResult === "prepared")
+        add(6, "Monte Lungo was taken on the second date, the 16th, after a week of rehearsal with the guns, and without the first attack's dead: a first battle won, and without the story of the one that had been lost.");
+      if (flags.italyPath === "coBelligerent" && flags.monteLungoResult === "sidelined")
+        add(5, "The request for a week to prepare for Monte Lungo was refused and the Group was put in reserve for the first battle the Italian army was offered, a lost opportunity that took the rest of the year to recover.");
+      if (flags.italyPath === "coBelligerent" && flags.monteLungo43 === "decline")
+        add(5, "The 1st Motorized Group was kept out of Monte Lungo and its first test put off to the spring, and the Allied staffs that had wondered whether Italians would fight were given more time to wonder.");
+      if (flags.italyPath === "coBelligerent" && flags.adriaticRoad44 === "lead" && flags.adriaticResult44 === "taken")
+        add(7, "The Nembo paratroopers led at Filottrano, which fell on July 9, 1944, and two of the division's regiments were decorated for it: the battle honour the Italian Liberation Corps wanted, won under Polish command.");
+      if (flags.italyPath === "coBelligerent" && flags.adriaticResult44 === "stopped")
+        add(6, "The first assault on Filottrano was stopped, and the Polish armour had to be brought up to take the town: the best formation the army had, found to be brave and not yet a corps.");
+      if (flags.italyPath === "coBelligerent" && flags.adriaticRoad44 === "flank")
+        add(5, "The Italian Liberation Corps screened a flank under the Poles at Ancona rather than leading at Filottrano, and came out of the Adriatic summer intact and unnoticed.");
+      if (flags.italyPath === "coBelligerent" && flags.combatGroups44 === "six")
+        add(5, "The Allied offer of six fully equipped Combat Groups was accepted and the rest of the army left behind the line, the choice the British would have made for it in any case.");
+      if (flags.italyPath === "coBelligerent" && flags.combatGroups44 === "wide" && flags.combatGroupsExtra44)
+        add(7, "The Allies agreed to equip two Groups beyond the six on a lighter scale, a larger combat army than the one the real record gave Italy, and a supply problem that went with it.");
+      if (flags.italyPath === "coBelligerent" && flags.combatGroups44 === "wide" && !flags.combatGroupsExtra44)
+        add(5, "A larger combat army was asked for on a lighter scale of equipment and refused: six Groups were raised as offered, and the request was remembered.");
+      if (flags.italyPath === "coBelligerent" && flags.partisanWinter44 === "standDown")
+        add(6, "Alexander's proclamation of November 13, 1944 was backed and the Rome Protocols signed on December 7: the partisans waited out the winter on Allied orders, paid 160 million lire a month, and rose in April on the signal.");
+      if (flags.italyPath === "coBelligerent" && flags.partisanResult44 === "supplied")
+        add(8, "The air drops to the northern partisans were kept up through the winter of 1944 against the proclamation's advice, and the movement that rose in April was larger and better armed for it.");
+      if (flags.italyPath === "coBelligerent" && flags.partisanResult44 === "refused")
+        add(6, "The refusal to endorse the winter stand-down was overruled at theatre level, and the northern resistance spent part of the winter divided over whom to obey.");
+      if (flags.italyPath === "coBelligerent" && flags.groupsCommand45 === "attached")
+        add(5, "The Combat Groups fought under Allied corps, as they did, each one more division in someone else's corps: supplied from someone else's stocks, and with the shells.");
+      if (flags.italyPath === "coBelligerent" && flags.groupsCorps45)
+        add(8, "An Italian corps headquarters was allowed to command the Combat Groups together in the spring of 1945, which the Allies in the real record never allowed: an army that fought, for once, as one.");
+      if (flags.italyPath === "coBelligerent" && flags.groupsCommand45 === "corps" && !flags.groupsCorps45)
+        add(5, "A request for an Italian corps headquarters to command the Combat Groups was made and declined, and the Groups went to the corps they were always going to go to.");
+      if (flags.italyPath === "coBelligerent" && flags.springOffensive45 === "lead" && flags.springResult45 === "decisive")
+        add(8, "Cremona crossed the Senio at Alfonsine on April 10, 1945 and went on to Venice; Friuli entered Bologna on the 21st beside the Poles; the Nembo's second battalion drove off the German 1st Parachute Division five times at Case Grizzano.");
+      if (flags.italyPath === "coBelligerent" && flags.springResult45 === "costly")
+        add(7, "The Combat Groups asked for the assault roles in April 1945 and paid more than their share of the cost: a small army, in at the German collapse, with its casualties to show for it.");
+      if (flags.italyPath === "coBelligerent" && flags.springOffensive45 === "support")
+        add(6, "The Combat Groups were held to supporting roles in the last offensive and came out of the war whole, as an army the Allies had used and not relied on.");
       notes.sort((a, b) => b.w - a.w);
       const threadText = notes
         .slice(0, 3)
