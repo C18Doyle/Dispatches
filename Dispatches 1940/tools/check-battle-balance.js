@@ -214,6 +214,11 @@ const battles = [
   extractBattleConfig("crete41"),
   extractBattleConfig("bastogne44"),
   extractBattleConfig("matapan41"),
+  extractBattleConfig("brodyCounterstroke41"),
+  extractBattleConfig("rzhevVyazma42"),
+  extractBattleConfig("monteLungo43"),
+  extractBattleConfig("adriaticRoad44"),
+  extractBattleConfig("springOffensive45"),
 ];
 
 // Round 23: a Matériel strand can read Exhausted, Short, Strained, Adequate or Plentiful, which scales an arm that

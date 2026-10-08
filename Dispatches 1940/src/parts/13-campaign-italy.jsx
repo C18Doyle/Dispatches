@@ -2300,7 +2300,9 @@
           historicalRecord: true,
           situation:
             "The Allied advance up the peninsula has stalled for months against the Gustav Line's anchor position at Monte Cassino, a medieval abbey on commanding high ground that four successive Allied offensives — American, British, New Zealand and Indian, Polish — will eventually need to break, at a combined cost that will run past 50,000 Allied casualties before the position finally falls in May. The Co-Belligerent Army's own combat formations, still small and still building the trust Salerno's aftermath left an open question, are offered a role in the supporting operations around the main assault rather than the abbey assault itself — a decision partly about combat readiness and partly, still, about how much Allied command trusts a very recently former enemy with a battle this costly." +
-            (flags.monteLungo43 === "attack"
+            (flags.monteLungoResult === "firstTry"
+              ? " The Group that took Monte Lungo on the first morning in December, without needing a second attempt, is the one being offered the supporting role."
+              : flags.monteLungo43 === "attack"
               ? " The Group that went up Monte Lungo twice in December, failing the first time and not the second, is the one being offered the supporting role."
               : flags.monteLungoResult === "prepared"
               ? " The Group that took Monte Lungo in December on its second attempt, with a week's rehearsal behind it, is the one being offered the supporting role."
@@ -2308,7 +2310,9 @@
               ? " The Group that was put in reserve at Monte Lungo in December, and has been trying to earn its place back since, is being offered the supporting role."
               : flags.monteLungo43 === "decline"
               ? " The Group that was kept out of Monte Lungo in December has not yet fought a German in a prepared position, which is why a supporting role is what it is offered."
-              : ""),
+              : "") +
+            // Round 25 (Monte Lungo echo): only when the Group actually fought the first attack.
+            (flags.monteLungo43 === "attack" ? keyBattleEcho("monteLungo43", flags) : ""),
           choices: [
             {
               label: "Accept the supporting role and use it to build a combat record methodically",
@@ -2592,7 +2596,9 @@
           title: "The War the South Can Only Fund, Not Fight",
           historicalRecord: true,
           situation:
-            "North of the Gothic Line, the Committee of National Liberation for Northern Italy — CLNAI, drawing together Communist, Socialist, Catholic, Liberal, and Action Party resistance formations that agree on almost nothing except opposing the German occupation and the Salò Republic both — has grown from scattered bands into a genuine irregular army tying down German and RSI garrison forces across the mountains and industrial cities alike. What the government now reconstituted in Rome can offer this movement is not soldiers — the Gothic Line stalemate has none to spare crossing it — but money, arms shipments run by clandestine channels, and formal political recognition of a resistance the south had no hand in organizing and only limited ability to actually direct.",
+            "North of the Gothic Line, the Committee of National Liberation for Northern Italy — CLNAI, drawing together Communist, Socialist, Catholic, Liberal, and Action Party resistance formations that agree on almost nothing except opposing the German occupation and the Salò Republic both — has grown from scattered bands into a genuine irregular army tying down German and RSI garrison forces across the mountains and industrial cities alike. What the government now reconstituted in Rome can offer this movement is not soldiers — the Gothic Line stalemate has none to spare crossing it — but money, arms shipments run by clandestine channels, and formal political recognition of a resistance the south had no hand in organizing and only limited ability to actually direct." +
+            // Round 25 (Filottrano echo): only when the Corps actually fought for the town.
+            (flags.adriaticRoad44 === "lead" ? keyBattleEcho("adriaticRoad44", flags) : ""),
           choices: [
             {
               label: "Commit arms shipments and gold to the CLNAI, whatever the front-line resources it costs",
@@ -2680,8 +2686,209 @@
               setFlags: { monteLungo43: "attack" },
               impact: { manpower: -2, fuel: 0, initiative: 1 },
               next: "vaticanChannel44",
-              outcome:
-                "What happened. On December 8 the Group went up Monte Lungo beside American infantry under the morning mist. When the mist lifted the Italians were on open slopes under fire from German positions the hurried plan had not found, and the attack failed, with about fifty dead and more than a hundred wounded. It was the first action of the Royal Army on the Allied side. It was repeated on December 16 with a heavy artillery preparation and American infantry beside it, and this time the hill was taken. General Clark wrote to congratulate the Group on its determination to free Italy from German domination: the Allies had watched the Italian army fight twice, and win the second time.",
+              // Round 25 (Craig's item 9: Orders of Battle for the actions added in rounds 24-25). The first Italian
+              // attack on Monte Lungo, 8 December 1943. Facts checked 2026-10-08 (Italian Wikipedia, Battaglia di
+              // Montelungo; Liberation Route Europe, Battle of Monte Lungo; Wikipedia, 15th Panzergrenadier Division,
+              // Battle of San Pietro Infine, Italian Co-belligerent Army): the 1st Motorized Group, General Vincenzo
+              // Dapino, about 5,000 men built around the 67th Infantry Regiment "Legnano", the 51st Bersaglieri
+              // Battalion of officer cadets and the 11th Artillery Regiment; it attacked beside U.S. II Corps (General
+              // Geoffrey Keyes) on 8 December "under cover of the morning mist", and as soon as the mist cleared the
+              // advancing soldiers were exposed; the attack failed with 47 dead and 102 wounded. Italian accounts give
+              // as causes the German positions being stronger than expected, the failure of the 143rd Infantry
+              // Regiment's attack on San Pietro Infine the same day, artillery less effective than planned, and
+              // co-ordination lost with the visibility. Two battalions of the 15th Panzergrenadier Division held San
+              // Pietro Infine and Monte Lungo on 7 December (other accounts name the 29th Panzergrenadier Division in
+              // the gap), under XIV Panzer Corps. On 16 December, after a careful bombardment with 81 mm mortars and a
+              // 75/18 artillery group, the Group took the hill with 6 dead and 30 wounded.
+              keyBattleSubgame: {
+                id: "monteLungo43",
+                title: "Order of Battle — Monte Lungo",
+                flavor:
+                  "The first hill the army has been asked to take. Monte Lungo is the low ridge beside San Pietro Infine in the Mignano gap, held by German Panzergrenadiers on the Bernhardt Line, and II Corps wants it taken on the morning its own 36th Division attacks the village. The Group goes up in the mist at first light, on a plan made in haste, behind guns it has not trained with and against an enemy none of its men has fought in a prepared position. What's decided here is how the Group's effort is placed: how much into the infantry of the 67th Regiment, how much into the Bersaglieri cadets, how much to the guns and mortars that have to suppress a line nobody has seen, and how much to the patrols and observers who have until the mist lifts to find it.",
+                categories: [
+                  { id: "infantry", name: "67th Infantry Regiment", meter: "manpower" },
+                  { id: "bersaglieri", name: "Bersaglieri Cadets", meter: "manpower" },
+                  { id: "guns", name: "Guns & Mortars", meter: "fuel", strand: "ammo" },
+                  { id: "recon", name: "Patrols & Observers", meter: "initiative" },
+                ],
+                // The infantry regiment is the weight of the Group; the guns come next, since the second attack
+                // was won by fire; the cadets are a single battalion; patrol work is lowest, a thin arm in a
+                // Group that had been put together that autumn.
+                effectiveness: { infantry: 2.4, bersaglieri: 2.1, guns: 2.3, recon: 1.8 },
+                orderOfBattle: {
+                  infantry: {
+                    units: [
+                      "The 67th Infantry Regiment \"Legnano\", the main body of the 1st Motorized Group",
+                      "The Group as a whole: about 5,000 men under General Vincenzo Dapino, put together in Puglia that autumn from units that survived the armistice",
+                    ],
+                    real: "The regiment went up the hill on 8 December under the morning mist. When the mist lifted it was on open ground under fire, and the attack was thrown back.",
+                  },
+                  bersaglieri: {
+                    units: [
+                      "The 51st Bersaglieri Battalion, made up of officer cadets",
+                    ],
+                    real: "The cadets attacked with the infantry. The Italians lost 47 dead and 102 wounded on 8 December.",
+                  },
+                  guns: {
+                    units: [
+                      "The 11th Artillery Regiment, with the Group's mortars",
+                      "The guns of the American II Corps, which the Group had not trained with",
+                    ],
+                    real: "The artillery proved less effective than expected on the 8th. Before the second attack, on 16 December, a careful bombardment by 81 mm mortars and a 75/18 artillery group went in first.",
+                  },
+                  recon: {
+                    units: [
+                      "The Group's patrols and artillery observers",
+                      "The 36th Infantry Division beside it, attacking San Pietro Infine the same morning",
+                    ],
+                    real: "The German positions proved stronger than the plan had assumed, and the 143rd Infantry Regiment's attack on San Pietro Infine, beside the Italians, failed the same day.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "II Corps has fixed the plan: the Group goes in at first light, in the mist, beside the American attack on San Pietro, and the Italian staff may not delay it.", lockApproach: "underTheMist" },
+                conditions: "Mist on the slopes at first light, thinning with the sun, over open ground that gives no cover once it lifts, in front of a Bernhardt Line position the Germans have had weeks to prepare.",
+                terrainModifiers: { guns: 0.9, recon: 0.9 },
+                terrainNotes: { guns: "fire called blind in the mist", recon: "no view of the slopes until the mist lifts" },
+                attrition: [
+                  { category: "infantry", atLeast: 3, meter: "manpower", delta: -1, reason: "An assault up open slopes under fire" },
+                ],
+                // Field decision: the moment the mist lifts. The three answers are the real options of a
+                // company commander on an open slope; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "whenTheMistLifts",
+                    time: "0830",
+                    title: "When the mist lifts",
+                    prompt: "The mist is thinning and the first companies are on the slope. Above them a German line is opening fire as it clears, and the American attack on San Pietro beside the Group has not gone as planned. Dapino has to decide what the Group does with the open ground in front of it.",
+                    options: [
+                      {
+                        id: "pressOn",
+                        name: "Press on up the slope",
+                        note: "Keeps the momentum if the line is thin, and leaves the men exposed if it is not.",
+                        bonus: 0,
+                        bonusByPosture: { thinLine: 4, mistHolds: 3, strongPositions: -4 },
+                        reportLine: "The companies keep climbing as the mist thins, with the whole slope open behind them.",
+                      },
+                      {
+                        id: "goToGround",
+                        name: "Go to ground and call down the guns",
+                        note: "Costs time and Initiative, and puts the weight on the artillery.",
+                        bonus: 0,
+                        bonusByPosture: { strongPositions: 4, thinLine: -2 },
+                        meters: { initiative: -1 },
+                        costReason: "A halt on open ground under fire",
+                        reportLine: "The companies go to ground on the slope, and the observers call for fire on what has opened up on them.",
+                      },
+                      {
+                        id: "backToStart",
+                        name: "Fall back to the start line",
+                        note: "Saves men if the position is strong, and gives the hill away if it is not.",
+                        bonus: 0,
+                        bonusByPosture: { strongPositions: 2, thinLine: -4, mistHolds: -2 },
+                        reportLine: "The Group falls back across the ground it has just covered to the start line.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  infantry:
+                    "The 67th Regiment is the weight of the Group and the men who will climb the hill. Nobody in it has seen a prepared German position. Each commitment here puts more of the regiment onto the slope at first light.",
+                  bersaglieri:
+                    "The cadets of the 51st Battalion are young, fit and quick on a hillside. Each commitment here puts more of them in beside the infantry, to carry the climb faster than the line above can be sighted.",
+                  guns:
+                    "The regiment's guns and mortars, and the American artillery the Group has not rehearsed with, are what can suppress a line nobody has located. Each commitment here asks more of them, and uses more of the shells there are.",
+                  recon:
+                    "Patrols and observers are the only way to learn where the German line is before the mist lifts. Each commitment here sends more of them out ahead of the infantry, and makes the guns better aimed when they fire.",
+                },
+                flashups: {
+                  infantry: [
+                    "The leading platoons start up the slope in file, in the mist.",
+                    "A company of the 67th reaches the lower slope without a shot fired at it.",
+                    "Machine guns open from somewhere up the hill, and a platoon goes to ground.",
+                    "The regiment's second battalion moves up behind the first.",
+                    "A section crosses a stretch of open ground at a run, and the mist is thinning behind it.",
+                  ],
+                  bersaglieri: [
+                    "The cadets of the 51st Battalion move up the hillside in extended order.",
+                    "A cadet company reaches a stone wall on the lower slope and halts behind it.",
+                    "The young officers shout the order forward over the noise of the mortars.",
+                    "A platoon of cadets works round a shoulder of the hill, out of sight of the road.",
+                    "The battalion's second company comes up to join the first.",
+                  ],
+                  guns: [
+                    "The guns of the 11th Regiment fire the first rounds of the preparation into the mist.",
+                    "An American battery answers the Italian observers' call, and the shells land on the crest.",
+                    "The mortar crews carry bombs forward over the broken ground.",
+                    "A fire mission is delayed while two sets of observers work out whose map is right.",
+                    "The artillery falls silent for an hour while it waits for a target.",
+                  ],
+                  recon: [
+                    "A patrol returns and reports a wire fence across the lower slope.",
+                    "An observer lies in a ditch with a map and tries to place the sound of a machine gun.",
+                    "The two staffs, Italian and American, compare their maps of the hill.",
+                    "A scout comes back and says the ground ahead is clear as far as he went.",
+                    "The mist hides the crest, and the patrols can say only what the ground feels like.",
+                  ],
+                },
+                reportTimes: { open: "0430", contact: "0600", cats: ["0630", "0700", "0730", "0800"], reserve: "0930", counter: "1100" },
+                idleLines: {
+                  infantry: [
+                    "The regiment stays at the foot of the hill. Nobody is climbing yet.",
+                    "No companies go up. The slope in front of the Group is exactly as the mist found it.",
+                  ],
+                  bersaglieri: [
+                    "The cadets are kept back in reserve, and the climb goes on without them.",
+                    "The 51st Battalion waits at the start line with its packs on.",
+                  ],
+                  guns: [
+                    "The guns stay laid on their registered points, unfired. Nothing is asked of them yet.",
+                    "No fire mission goes up, and whatever is on the hill is not touched.",
+                  ],
+                  recon: [
+                    "No patrols go out ahead of the infantry. The Group moves on its map alone.",
+                    "The observers stay at the start line, and the hill is not looked at until the companies reach it.",
+                  ],
+                },
+                verdicts: ["Monte Lungo Falls on the First Morning", "Back Down the Hill Under Fire"],
+                verdictGrades: {
+                  clean: "Every arm worked together, and the hill was taken before the Germans could settle their fire on the slopes.",
+                  costly: "The hill is taken, but the open slopes cost the Group more than the plan allowed for.",
+                  marginal: "The attack reaches the lower slope and stops there. The plan held together, and the hill stayed German.",
+                  total: "The attack does not stall so much as come apart on the open ground below the German line.",
+                },
+                counterattack: {
+                  category: "infantry",
+                  severity: { strongPositions: 2, thinLine: 1, mistHolds: 0 },
+                  warn: {
+                    1: "German mortars are finding the slope as the mist thins.",
+                    2: "German Panzergrenadiers are coming forward off the hill to meet the leading companies.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is beaten back up the slope, and the leading companies keep their ground.",
+                    heldAtCost: "The leading companies hold against the Germans, at a heavy cost in killed and wounded.",
+                    broke: "The Germans drive into the leading companies on the open slope, and they are thrown back in confusion.",
+                    gaveGround: "The leading companies fall back from the exposed slope rather than meet the counterattack on it.",
+                  },
+                },
+              },
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "The hill falls on the first morning",
+                  setFlags: { monteLungoResult: "firstTry" },
+                  impact: { manpower: -1, fuel: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. The mist holds a little longer, the patrols have found enough of the German line for the guns to keep it down, and the Group is on the crest of Monte Lungo before the Germans have settled their fire on the slope. It is the Royal Army's first battle on the Allied side, and it is won on the first morning, with fewer dead than the real attack cost on December 8. The Allied staffs that had wondered whether the Italians would fight are told the same afternoon that they will. What is lost is nothing the Group would have wanted to keep: the story of an attack that failed and went back up a week later.",
+                },
+                {
+                  weight: 100 - modWeight(30, meters.initiative),
+                  title: "Thrown back in the mist, and up again on the 16th",
+                  setFlags: { monteLungoResult: "retaken" },
+                  impact: { manpower: -2, fuel: 0, initiative: 1 },
+                  outcome:
+                    "What happened. On December 8 the Group went up Monte Lungo beside American infantry under the morning mist. When the mist lifted the Italians were on open slopes under fire from German positions the hurried plan had not found, and the attack failed, with about fifty dead and more than a hundred wounded. It was the first action of the Royal Army on the Allied side. It was repeated on December 16 with a heavy artillery preparation and American infantry beside it, and this time the hill was taken. General Clark wrote to congratulate the Group on its determination to free Italy from German domination: the Allies had watched the Italian army fight twice, and win the second time.",
+                },
+              ],
             },
             {
               label: "Ask II Corps for another week — rehearse the attack with the guns and the American infantry that will support it",
@@ -2728,7 +2935,9 @@
           historicalRecord: true,
           situation:
             "From the middle of June the Eighth Army's weight is on the Adriatic side, and its objective is Ancona, a seaport closer to the fighting that will shorten supply lines which still run back to Pescara and Anzio. The task is given to General Anders's Polish II Corps, about 50,000 men, and under its command since May 27 is the Italian Liberation Corps that Utili has led since April: the old 1st Motorized Group, now some 16,000 men, joined on May 26 by the paratroopers of the Nembo Division from Sardinia, about 6,000 more. The Germans, elements of the 71st Infantry Division and the 1st Parachute Division among them, are falling back by stages toward the Gothic Line, and the hill town of Filottrano, inland from Ancona, commands the road. What Comando Supremo has to settle is what part its best formation should play in a battle whose command, language and supplies are all someone else's." +
-            (flags.monteLungoResult === "prepared"
+            (flags.monteLungoResult === "firstTry"
+              ? " The Group that took Monte Lungo on the first morning has been believed since, and the Polish staff know the name."
+              : flags.monteLungoResult === "prepared"
               ? " The Group that took Monte Lungo on its second attempt and lost fewer men doing it has been believed since, and the Polish staff know the name."
               : flags.monteLungoResult === "sidelined"
               ? " The Group that was put in reserve at Monte Lungo has had to earn its place twice since then, and the Poles have been told so."
@@ -2748,6 +2957,190 @@
               setFlags: { adriaticRoad44: "lead" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "clnLiaison44",
+              // Round 25 (Craig's item 9). Filottrano, 1-9 July 1944, as part of the Battle of Ancona. Facts checked
+              // 2026-10-08 (Italian Wikipedia, Battaglia di Filottrano; the Filottrano memorial museum's account
+              // (all4shooters); Wikipedia, Italian Liberation Corps and Battle of Ancona): the battle lasted nine days,
+              // from 1 to 9 July 1944, against a German line "from Cingoli, Filottrano, Osimo and Castelfidardo" held by
+              // the 278th and 71st Infantry Divisions; the Italian Liberation Corps under General Umberto Utili
+              // (two incomplete infantry divisions and two artillery regiments, including the Nembo with its 183rd and
+              // 184th Regiments) was assigned to the Polish II Corps on 27 May; the Polish corps under General
+              // Wladyslaw Anders had the 3rd Carpathian Rifle Division, the 5th Kresowa Infantry Division, the 2nd
+              // Armoured Brigade (at least 200 tanks), three Uhlan regiments and five artillery regiments; Filottrano
+              // was bombarded on 8 July, the Germans were ordered to withdraw at 22:30, and on the morning of 9 July
+              // the Nembo entered the town; the 184th Nembo Regiment was given a War Cross for 8-9 July. The corps was
+              // short of vehicles and made the advance on foot. The whole Battle of Ancona (16 June to 18 July) cost the
+              // Allies 496 killed, 1,789 wounded and 139 missing, and the Germans about 800 killed and 2,500 captured.
+              keyBattleSubgame: {
+                id: "adriaticRoad44",
+                title: "Order of Battle — Filottrano",
+                flavor:
+                  "The Germans have chosen to hold the road to Ancona along the ridges from Cingoli through Filottrano and Osimo to Castelfidardo, and the Polish corps wants the road open. The Italian Liberation Corps has come north behind the advance with fewer trucks than the Poles have tanks, and has been offered the town. The paratroopers of the Nembo are the best infantry the army has. The armour, the guns and most of the trucks are someone else's. What's decided here is how the Corps' effort is placed: how much into the Nembo's assault on the hills, how much into the Polish tanks that follow it, how much to the corps artillery, and how much to the trucks and pack trains that have to keep the paratroopers fed and supplied with ammunition on the way.",
+                categories: [
+                  { id: "nembo", name: "Nembo Paratroops", meter: "manpower" },
+                  { id: "armour", name: "Polish Armour", meter: "fuel", strand: "steel" },
+                  { id: "artillery", name: "Corps Artillery", meter: "fuel", strand: "ammo" },
+                  { id: "supply", name: "Trucks & Pack Trains", meter: "fuel", strand: "ship" },
+                ],
+                // The paratroops are the best the Corps has and the reason it was offered the town; the Polish tanks
+                // come second, the artillery third; supply lowest, a Corps without its own trucks.
+                effectiveness: { nembo: 2.6, armour: 2.3, artillery: 2.1, supply: 1.6 },
+                orderOfBattle: {
+                  nembo: {
+                    units: [
+                      "The 184th Infantry Division \"Nembo\" of the Italian Liberation Corps: the 183rd and 184th \"Nembo\" Regiments",
+                      "The Corps as a whole: two incomplete infantry divisions and two artillery regiments under General Umberto Utili, attached to the Polish II Corps since 27 May",
+                    ],
+                    real: "The Nembo fought for Filottrano from 1 to 9 July 1944. On the morning of 9 July, after the Germans had been ordered out in the night, it entered the town. The 184th Regiment was given a War Cross for the action of 8 and 9 July.",
+                  },
+                  armour: {
+                    units: [
+                      "The 2nd Armoured Brigade of the Polish II Corps, with at least 200 tanks in the corps",
+                      "Three Polish Uhlan regiments, armoured and motorized",
+                    ],
+                    real: "The Poles fought on the same road, under General Anders. The Polish corps entered Ancona on 18 July.",
+                  },
+                  artillery: {
+                    units: [
+                      "Five Polish artillery regiments of every calibre",
+                      "The Italian Liberation Corps' own two artillery regiments",
+                    ],
+                    real: "Filottrano was bombarded on 8 July. That night the Germans, from the 278th and 71st Infantry Divisions, were ordered to withdraw.",
+                  },
+                  supply: {
+                    units: [
+                      "The Italian Corps' own transport: few trucks, with the infantry marching",
+                      "The Eighth Army's supply line, which still ran back to Pescara and Anzio",
+                    ],
+                    real: "The Corps was short of vehicles and went forward on foot. Ancona was wanted as a port to shorten the supply line.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "The Polish corps staff has fixed the order of the advance: the armour is held on the road until the hills are cleared, and the Italians go in first.", lockApproach: "nemboLeads" },
+                conditions: "Hill country in high summer, with a German line running along the ridges from Cingoli to Castelfidardo and the road to Ancona below it.",
+                terrainModifiers: { armour: 0.85 },
+                terrainNotes: { armour: "tanks held to the roads between the ridges" },
+                attrition: [
+                  { category: "nembo", atLeast: 3, meter: "manpower", delta: -1, reason: "A town fought for hill by hill" },
+                ],
+                // Field decision: the town itself. The three answers are the real options of a division commander
+                // facing a town on a ridge; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theTownItself",
+                    time: "1700",
+                    title: "The town on the ridge",
+                    prompt: "The paratroopers are on the slopes below Filottrano and the town is held. The Polish guns can bombard it, the tanks cannot get up to it yet, and the Nembo's commander has to decide how his battalions take it.",
+                    options: [
+                      {
+                        id: "assaultNow",
+                        name: "Assault the town now",
+                        note: "Quick, if the Germans are already leaving. Costly if they are not.",
+                        bonus: 0,
+                        bonusByPosture: { rearguardGiving: 4, roadsBlown: 2, hillsDugIn: -4 },
+                        reportLine: "The battalions go into the first streets of the town without waiting for the bombardment.",
+                      },
+                      {
+                        id: "waitForGuns",
+                        name: "Wait for the corps artillery to bombard it",
+                        note: "Costs Initiative and a day, and puts the weight on the guns.",
+                        bonus: 0,
+                        bonusByPosture: { hillsDugIn: 4, roadsBlown: 1, rearguardGiving: -2 },
+                        meters: { initiative: -1 },
+                        costReason: "A day's pause before the town",
+                        reportLine: "The battalions wait on the slopes while the corps artillery bombards the town.",
+                      },
+                      {
+                        id: "goRound",
+                        name: "Go round the town and cut its road",
+                        note: "Threatens to trap the garrison, and leaves the flank open to anyone behind it.",
+                        bonus: 0,
+                        bonusByPosture: { rearguardGiving: 3, hillsDugIn: 1, roadsBlown: -3 },
+                        reportLine: "A battalion works round the ridge to cut the road behind the town.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  nembo:
+                    "The Nembo's battalions are paratroops on foot, and the best infantry the army has. Each commitment here puts more of them into the hills in front of the town, where the Germans are holding the ridges.",
+                  armour:
+                    "The Polish tanks belong to Anders's corps and are lent to the attack along the roads. In hill country they cannot go where the paratroopers can. Each commitment here puts more of them behind the Nembo, and more of the corps' attention on the road.",
+                  artillery:
+                    "The Polish artillery and the Corps' own guns are the heaviest weight on the hill. Each commitment here asks more of them, and uses more of the shells that can be brought up.",
+                  supply:
+                    "The Italian Corps has few trucks, and the road is shared with a Polish corps of fifty thousand men. Each commitment here puts more of what there is into getting ammunition, water and rations up to the paratroopers.",
+                },
+                flashups: {
+                  nembo: [
+                    "A battalion of the Nembo climbs the ridge in extended order in the heat.",
+                    "A paratroop company works along a sunken lane towards the first houses of the town.",
+                    "Machine guns open from a farmhouse on the slope, and the leading platoon goes to ground.",
+                    "A patrol of the Nembo comes back with prisoners from the German outposts.",
+                    "The regiment's second battalion moves up on the road behind the first.",
+                  ],
+                  armour: [
+                    "Polish tanks wait on the road below the ridge for the hills to be cleared.",
+                    "A squadron of Uhlans waits behind the paratroopers in a farmyard.",
+                    "A Polish tank commander studies the ridge through his glasses and says nothing.",
+                    "The tanks move up a few hundred yards on the only road and stop again.",
+                    "A tank crew helps to pull a paratroop company's mortars up the hill.",
+                  ],
+                  artillery: [
+                    "A Polish medium battery fires on the ridge above the town.",
+                    "The Italian artillery fires its first rounds on the German outposts.",
+                    "A fire mission is called off when the observers see their own men on the slope.",
+                    "Gun crews carry shells to the guns by hand when the lorries cannot get up.",
+                    "A pall of dust hangs over the ridge after the barrage.",
+                  ],
+                  supply: [
+                    "A column of mules climbs the track behind the leading battalion.",
+                    "A lorry halts at a blown culvert and the load is carried forward on men's backs.",
+                    "The paratroopers share a water cart with a Polish battery.",
+                    "A supply officer counts the rounds that have reached the battalion since the morning.",
+                    "A string of pack animals waits at the foot of the hill for dark.",
+                  ],
+                },
+                reportTimes: { open: "0500", contact: "0700", cats: ["0900", "1100", "1300", "1600"], reserve: "1800", counter: "2000" },
+                idleLines: {
+                  nembo: [
+                    "The paratroopers stay on the road. Nobody goes into the hills.",
+                    "No battalion of the Nembo goes forward, and the town is as the Germans left it.",
+                  ],
+                  armour: [
+                    "The Polish tanks stay where they are, and the Nembo goes forward without them.",
+                    "No armour is asked for, and the road behind the paratroopers is empty.",
+                  ],
+                  artillery: [
+                    "The guns stay silent. Whatever holds the town is not touched before the infantry reach it.",
+                    "No fire mission goes up, and the ridge above the town is as quiet as it was the night before.",
+                  ],
+                  supply: [
+                    "Nothing extra is sent up the road. The paratroopers carry what they brought.",
+                    "The mule trains stay at the foot of the hill, and the battalions ration what they have.",
+                  ],
+                },
+                verdicts: ["Filottrano Is Taken", "Stopped Below the Town"],
+                verdictGrades: {
+                  clean: "The paratroopers, the Polish tanks and the guns all worked together, and the town fell with the road to Ancona open behind it.",
+                  costly: "The town is taken, but the hills cost the Nembo more than the plan allowed for.",
+                  marginal: "The attack takes the slopes and stops below the town. The plan held, and the Germans kept Filottrano a day more.",
+                  total: "The attack fails on the slopes below the town, and the Poles have to bring up their own guns and tanks to take it.",
+                },
+                counterattack: {
+                  category: "nembo",
+                  severity: { hillsDugIn: 2, rearguardGiving: 1, roadsBlown: 0 },
+                  warn: {
+                    1: "German infantry are probing the flank of the leading battalion.",
+                    2: "German grenadiers are forming up behind the ridge to retake the slope.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is beaten back, and the paratroopers keep the slope they took.",
+                    heldAtCost: "The paratroopers hold the slope against the grenadiers, at a heavy cost to the battalion that held it.",
+                    broke: "The Germans break into the battalion on the slope, and it comes to hand-to-hand fighting in the olive groves.",
+                    gaveGround: "The battalion gives up the slope rather than meet the counterattack on it.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: Math.min(90, modWeight(72, meters.initiative)),
@@ -2941,7 +3334,7 @@
               (flags.combatGroups44 === "six" ? 6 : 0) +
               (flags.combatGroupsExtra44 ? 4 : 0) +
               (flags.groupsCorps45 ? 8 : 0) +
-              (flags.monteLungoResult === "prepared" ? 3 : 0) +
+              (flags.monteLungoResult === "prepared" || flags.monteLungoResult === "firstTry" ? 3 : 0) +
               (flags.partisanResult44 === "supplied" ? 4 : 0)
           );
           return {
@@ -2965,6 +3358,192 @@
               setFlags: { springOffensive45: "lead" },
               impact: { manpower: -2, fuel: 0, initiative: 1 },
               next: "coBelligerentEnding45",
+              // Round 25 (Craig's item 9). The Senio at Alfonsine, 9-10 April 1945. Facts checked 2026-10-08
+              // (Wikipedia, Italian Co-belligerent Army and Spring 1945 offensive in Italy; the 2nd New Zealand Division's
+              // official history for the German posts in the flood banks and the flame-throwers; Operation Buckland,
+              // historyofwar.org; the Bassa Romagna local-history account of 10 April): the Cremona Combat Group
+              // (Major General Clemente Primieri) was the 21st and 22nd Infantry Regiments, the 7th Artillery Regiment
+              // and the CXLIV Engineer Battalion, equipped with British weapons and attached to British V Corps
+              // (General Keightley); a Combat Group's established strength was 432 officers and 8,578 other ranks with
+              // 116 field guns and 170 mortars; on 9 April 825 heavy bombers dropped fragmentation bombs behind the
+              // Senio, five half-hour barrages were fired between 15:20 and 19:10, and 28 Churchill Crocodiles and 127
+              // Wasp flame-throwers were deployed along the Eighth Army front; the German posts were dug into the
+              // inner face of the stopbank, with tunnels through it; the flame-throwers were only partly effective
+              // because the bombardment had wrecked the ramps prepared for them, but they broke the defenders' will;
+              // the Cremona crossed at dawn on 10 April between Fusignano and Alfonsine, the 3rd Battalion of the 22nd
+              // Regiment freed Fusignano around midday and the 21st and 22nd Regiments reached Alfonsine; by dawn on 11
+              // April the Eighth Army had reached the Santerno, 5.6 km beyond.
+              keyBattleSubgame: {
+                id: "springOffensive45",
+                title: "Order of Battle — The Senio at Alfonsine",
+                flavor:
+                  "The Senio is a small river between two high earth banks, and the Germans have spent the winter living in the one on their side. After four months of stalemate the Eighth Army is to cross it on the evening of the ninth behind a fire plan of heavy bombers and massed guns, and the Cremona Group, which has sat in the line since January with British guns and British uniforms, has asked to cross with it. The Group is about nine thousand men. The fire, the flame-throwers and the bridging stores belong to V Corps, and so do the hours. What's decided here is how the Group's effort is placed: how much into its own infantry, how much into the flame-throwers and tanks V Corps will lend, how much into the bombers and guns that go ahead of it, and how much into the engineers who have to put a bridge across for the men who follow.",
+                categories: [
+                  { id: "assault", name: "Cremona Infantry", meter: "manpower" },
+                  { id: "flame", name: "Flame-throwers & Tanks", meter: "fuel", strand: "steel" },
+                  { id: "fire", name: "Bombers & Guns", meter: "fuel", strand: "ammo" },
+                  { id: "bridging", name: "Engineers & Bridging", meter: "initiative", strand: "steel" },
+                ],
+                // The fire plan is what made the crossing possible, so the guns and bombers are the strongest
+                // arm; the infantry come second, the flame-throwers third, the engineers last, a single battalion.
+                effectiveness: { assault: 2.3, flame: 2.1, fire: 2.5, bridging: 1.8 },
+                orderOfBattle: {
+                  assault: {
+                    units: [
+                      "The 21st and 22nd Infantry Regiments of the Cremona Combat Group, attached to British V Corps (General Keightley)",
+                      "A Combat Group's established strength: about 9,000 men, 116 field guns and 170 mortars, in British uniforms with British weapons",
+                    ],
+                    real: "The Cremona crossed the Senio at dawn on 10 April between Fusignano and Alfonsine. The 3rd Battalion of the 22nd Regiment freed Fusignano around midday, and the 21st and 22nd Regiments reached Alfonsine.",
+                  },
+                  flame: {
+                    units: [
+                      "The Churchill Crocodile and Wasp flame-throwers of the Eighth Army: 28 Crocodiles and 127 Wasps along the front",
+                      "The tanks of V Corps, whose crossings the 8th Indian and 2nd New Zealand Divisions led",
+                    ],
+                    real: "The flame-throwers burned the German posts in the banks. They were only partly effective, since the bombardment had wrecked the ramps prepared for them, but the flames broke many of the defenders' will to resist.",
+                  },
+                  fire: {
+                    units: [
+                      "The Cremona's 7th Artillery Regiment, with British 25-pounders",
+                      "V Corps' artillery and the Eighth Army's heavy and medium bombers",
+                    ],
+                    real: "On 9 April 825 heavy bombers dropped fragmentation bombs behind the Senio. Five half-hour barrages were fired between 15:20 and 19:10, with fighter-bombers between them.",
+                  },
+                  bridging: {
+                    units: [
+                      "The CXLIV Engineer Battalion of the Cremona Group",
+                      "The engineers of V Corps, who bridged the Senio for the Indians and the New Zealanders",
+                    ],
+                    real: "By dawn on 11 April the Eighth Army had reached the Santerno, 5.6 km beyond the Senio.",
+                  },
+                },
+                // Round 23: orders from above in the campaign's hard mode (modeled, not documented).
+                hardRule: { text: "V Corps has fixed the fire plan: the Cremona crosses when the barrage lifts and not before, and its staff may not change the hour.", lockApproach: "barrageFirst" },
+                conditions: "Dry spring weather over flat, ploughed country cut by flood banks. The Senio runs between two high earth banks, and the Germans hold the inner face of theirs in dug-in posts.",
+                terrainModifiers: { assault: 0.9 },
+                terrainNotes: { assault: "men crossing a river between high banks under fire" },
+                attrition: [
+                  { category: "assault", atLeast: 3, meter: "manpower", delta: -1, reason: "A river crossing under fire" },
+                ],
+                // Field decision: the far bank. The three answers are the real options of a battalion commander
+                // on the near bank; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theFarBank",
+                    time: "1000",
+                    title: "The far bank",
+                    prompt: "The leading companies are over the river and into the far bank. Some of the German posts in it have not been silenced, and the second wave is waiting on the near side. The Group's commander has to decide how the rest cross.",
+                    options: [
+                      {
+                        id: "rushTheBank",
+                        name: "Rush the bank behind the barrage",
+                        note: "Quick, if the posts have been broken. Costly if they have not.",
+                        bonus: 0,
+                        bonusByPosture: { thinGarrison: 4, floodedMined: -2, bankDugouts: -4 },
+                        reportLine: "The leading companies go over the near bank and down to the water while the shells are still falling beyond it.",
+                      },
+                      {
+                        id: "flameFirst",
+                        name: "Wait for the flame-throwers to burn out the posts",
+                        note: "Costs Initiative and an hour, and puts the weight on the flame-throwers.",
+                        bonus: 0,
+                        bonusByPosture: { bankDugouts: 4, thinGarrison: -1 },
+                        meters: { initiative: -1 },
+                        costReason: "An hour on the near bank",
+                        reportLine: "The companies lie under the near bank while the flame-throwers go forward along the water's edge.",
+                      },
+                      {
+                        id: "waitForBridge",
+                        name: "Hold on the near bank until the engineers have bridged it",
+                        note: "Safe on the far side, and gives the Germans time on this one.",
+                        bonus: 0,
+                        bonusByPosture: { floodedMined: 4, thinGarrison: -3, bankDugouts: 1 },
+                        reportLine: "The infantry wait while the engineers sweep the approaches and lay a bridge.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  assault:
+                    "The Cremona's two regiments are the Group's own weight, and they are green: the Group has been in the line since January and has not yet attacked. Each commitment here puts more of them into the crossing at first light.",
+                  flame:
+                    "The Crocodiles and Wasps belong to the British, and a few are lent to the Group's front. They burn the dug-in posts that fire cannot reach. Each commitment here asks V Corps for more of them, and for tanks to go over behind the infantry.",
+                  fire:
+                    "The fire plan is the reason the Eighth Army thinks it can cross the Senio at all. Each commitment here puts more of the Group's request into the bombers' and the guns' targets, and into the rounds they will fire.",
+                  bridging:
+                    "The Senio is a small river, and the banks and mines, not the water, are the obstacle. Each commitment here puts more engineers to work on the approaches and the bridge, so that the men on the far side are not left alone.",
+                },
+                flashups: {
+                  assault: [
+                    "A company of the 21st climbs the near bank in the first light.",
+                    "The leading platoons of the 22nd go down the bank to the water in file.",
+                    "A machine gun opens from the far bank, and a platoon goes to ground.",
+                    "Prisoners come across the river with their hands up and are marched to the rear.",
+                    "A battalion of the 22nd wades the river and climbs the far bank.",
+                  ],
+                  flame: [
+                    "A Crocodile goes forward along the foot of the bank, and a long tongue of flame reaches the posts.",
+                    "A Wasp carrier burns a stretch of the bank, and the smoke drifts across the river.",
+                    "The flame-throwers halt while the infantry catch up.",
+                    "A tank commander reports the ramp he was told to use is a heap of broken earth.",
+                    "The crews refuel their carriers behind the near bank in the half-light.",
+                  ],
+                  fire: [
+                    "A battery of the 7th Regiment fires on the far bank at the order of its observers.",
+                    "Aircraft go over high, and the bombs fall far behind the river.",
+                    "The barrage lifts to the second line, and the infantry move.",
+                    "A gun crew changes a barrel that has overheated.",
+                    "The artillery switches to the road behind the river, where the Germans are bringing up reserves.",
+                  ],
+                  bridging: [
+                    "Engineers clear the approach to the bank with detectors and probes.",
+                    "A bridging lorry backs down to the water under the bank.",
+                    "A bulldozer cuts a ramp through the near bank.",
+                    "Sappers lay a tape across a minefield, and the first platoon follows it.",
+                    "A bridge section is lowered into place at the crossing.",
+                  ],
+                },
+                reportTimes: { open: "0200", contact: "0500", cats: ["0600", "0700", "0800", "0900"], reserve: "1200", counter: "1400" },
+                idleLines: {
+                  assault: [
+                    "The Group's infantry stay on the near bank and wait for others to cross.",
+                    "No battalion of the Cremona goes forward, and the Group watches the crossing from the bank.",
+                  ],
+                  flame: [
+                    "No flame-throwers are asked for on the Group's front. The posts in the bank are left for the infantry to deal with.",
+                    "The Crocodiles stay behind the line, and the bank in front of the Group is untouched.",
+                  ],
+                  fire: [
+                    "The Group asks for no special fire. It goes over under the plan V Corps made for everyone.",
+                    "The guns of the 7th Regiment fire only on their registered targets, and the rest of the front fires without the Group.",
+                  ],
+                  bridging: [
+                    "No engineers go forward ahead of the infantry. The approaches are cleared as the men walk over them.",
+                    "The bridging stores stay in their lorries, and the Group crosses on foot.",
+                  ],
+                },
+                verdicts: ["Alfonsine Falls on the First Day", "Held at the Far Bank"],
+                verdictGrades: {
+                  clean: "The infantry, the fire, the flame-throwers and the engineers all worked together, and the Senio was crossed and the town taken in a day.",
+                  costly: "The river is crossed and the town is taken, but the crossing cost the Group more than a small army could easily spare.",
+                  marginal: "The Group gets a foothold across the river and no further. The plan held, and the Germans kept the town a day more.",
+                  total: "The crossing fails at the far bank, and the Group is left behind the advance, following up what the other divisions have won.",
+                },
+                counterattack: {
+                  category: "assault",
+                  severity: { bankDugouts: 2, floodedMined: 1, thinGarrison: 0 },
+                  warn: {
+                    1: "German machine guns are firing along the river from the next bend.",
+                    2: "German reserves are coming up to attack the bridgehead from the north.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is beaten back, and the bridgehead keeps its ground.",
+                    heldAtCost: "The bridgehead holds against the Germans, at a heavy cost to the battalion that held it.",
+                    broke: "The Germans break into the bridgehead, and it comes to hand-to-hand fighting at the water's edge.",
+                    gaveGround: "The bridgehead gives up its furthest ground rather than meet the counterattack on it.",
+                  },
+                },
+              },
               uncertain: [
                 {
                   weight: lead,
@@ -3010,7 +3589,9 @@
               ? " The Combat Groups spent the last weeks of the war at the head of the Allied offensive, and paid for it."
               : flags.springOffensive45 === "support"
               ? " The Combat Groups spent the last weeks of the war behind the advance, whole, with little to show for it that anyone outside the army will remember."
-              : ""),
+              : "") +
+            // Round 25 (Senio echo): only when the Cremona actually crossed the river.
+            (flags.springOffensive45 === "lead" ? keyBattleEcho("springOffensive45", flags) : ""),
           choices: [
             {
               label: "Press for full recognition of the Co-Belligerent Army's contribution in the postwar settlement",
@@ -3529,8 +4110,10 @@
       if (flags.italyPath === "rsi" && flags.partisanWar44 === "limited")
         add(7, "RSI forces were kept to defensive garrison duty rather than committed to the reprisal operations German command favored — a real distinction some officers drew historically, sparing this command's forces the direct authorship of the north's worst chapter, without changing what German-led units still visited on the same villages regardless.");
       // Round 24: what the co-belligerent army's own war left behind.
-      if (flags.italyPath === "coBelligerent" && flags.monteLungo43 === "attack")
+      if (flags.italyPath === "coBelligerent" && flags.monteLungo43 === "attack" && flags.monteLungoResult !== "firstTry")
         add(6, "The first Italian attack on Monte Lungo went in on December 8, 1943, as the Americans had planned it, and failed; the second, on the 16th, did not. The Allies had watched the Italian army fight twice.");
+      if (flags.italyPath === "coBelligerent" && flags.monteLungoResult === "firstTry")
+        add(7, "Monte Lungo was taken on the first morning, December 8, 1943: the Royal Army's first battle on the Allied side, won at the first attempt, without the story of an attack that failed and went back up a week later.");
       if (flags.italyPath === "coBelligerent" && flags.monteLungoResult === "prepared")
         add(6, "Monte Lungo was taken on the second date, the 16th, after a week of rehearsal with the guns, and without the first attack's dead: a first battle won, and without the story of the one that had been lost.");
       if (flags.italyPath === "coBelligerent" && flags.monteLungoResult === "sidelined")
