@@ -340,10 +340,10 @@
                 flavor:
                   "The directive of 7 June said to stay on the defensive; the order of the third week of June says attack. Army Group West has some three hundred thousand men facing perhaps eighty-five thousand French in prepared positions, on passes that are still snowed in near the top. The French have blown the bridges on the Little St Bernard road and hold the old Redoute Ruinée above it, and a good part of the Italian artillery is Austro-Hungarian, captured in 1918. What's decided here is the weight behind the Fourth Army's main thrust: how much goes to the Alpini and infantry who have to climb, to the guns that must range across the valleys, to the aircraft that Italian staffs cannot easily call on, and to the mule trails and the road that carry everything the army uses.",
                 categories: [
-                  { id: "assault", name: "Alpini & Infantry Assault", meter: "manpower", glyph: "▲▲▲" },
-                  { id: "artillery", name: "Corps Artillery", meter: "fuel", strand: "ammo", glyph: "✺" },
-                  { id: "air", name: "Regia Aeronautica", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "supply", name: "Mules & Mountain Roads", meter: "fuel", strand: "ship", glyph: "▤" },
+                  { id: "assault", name: "Alpini & Infantry Assault", meter: "manpower" },
+                  { id: "artillery", name: "Corps Artillery", meter: "fuel", strand: "ammo" },
+                  { id: "air", name: "Regia Aeronautica", meter: "fuel", strand: "oil" },
+                  { id: "supply", name: "Mules & Mountain Roads", meter: "fuel", strand: "ship" },
                 ],
                 // Assault highest — the Alpini and the line infantry are the army's best arm, and
                 // the offensive turned on whether they could climb; Artillery second — a lot of
@@ -792,10 +792,10 @@
                 title: "Order of Battle — The Pindus Winter",
                 flavor: "The Greek army has crossed the frontier and taken Korçë, and Comando Supremo's answer is the reserve: every division that can be shipped across the Adriatic to Valona and Durazzo is to be thrown into a front that has almost no roads and a winter coming. Cavallero has taken personal command in Albania, the Alpini of the Julia Division are in the Pindus, and the ports behind them cannot land all that the front needs. What is decided here is where the reserve goes: how much to the divisions arriving from Italy, how much to the Alpini and mountain troops who know this ground, how much to the air force flying from Albanian fields, and how much to the ports and the mountain tracks that feed all of them.",
                 categories: [
-                  { id: "reserves", name: "Reserve Divisions from Italy", meter: "manpower", glyph: "▮▮▮" },
-                  { id: "alpini", name: "Alpini & Mountain Troops", meter: "manpower", glyph: "▲▲▲" },
-                  { id: "air", name: "Regia Aeronautica in Albania", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "ports", name: "Ports & Mountain Tracks", meter: "fuel", strand: "ship", glyph: "▤" },
+                  { id: "reserves", name: "Reserve Divisions from Italy", meter: "manpower" },
+                  { id: "alpini", name: "Alpini & Mountain Troops", meter: "manpower" },
+                  { id: "air", name: "Regia Aeronautica in Albania", meter: "fuel", strand: "oil" },
+                  { id: "ports", name: "Ports & Mountain Tracks", meter: "fuel", strand: "ship" },
                 ],
                 effectiveness: { reserves: 2.2, alpini: 2.5, air: 1.6, ports: 1.5 },
                 conditions: "Winter in the Pindus: snow, rain and mud on mountain tracks, with no roads in much of the front, and everything arriving through the two small ports of Valona and Durazzo.",
@@ -1076,10 +1076,10 @@
                 title: "Order of Battle — Cape Matapan",
                 flavor: "The fleet is at sea without radar and with little help from the air, and the British are reading its signals. The first battle is fought from the air, by carrier aircraft that will attack through the day; the second will come in the dark, if the fleet can be brought home without it. What is decided here is how the sortie's strength is weighed: how much into the battle fleet and Vittorio Veneto, how much into the cruiser divisions that screen it, how much into the air cover and reconnaissance the fleet can get, and how much into the signals and night-fighting practice that a navy which never planned to fight in the dark has never had.",
                 categories: [
-                  { id: "battle", name: "The Battle Fleet", meter: "fuel", strand: "oil", glyph: "≋≋" },
-                  { id: "cruisers", name: "The Cruiser Divisions", meter: "manpower", glyph: "▲▲" },
-                  { id: "air", name: "Air Cover & Reconnaissance", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "signals", name: "Signals & Night Action", meter: "initiative", glyph: "◎" },
+                  { id: "battle", name: "The Battle Fleet", meter: "fuel", strand: "oil" },
+                  { id: "cruisers", name: "The Cruiser Divisions", meter: "manpower" },
+                  { id: "air", name: "Air Cover & Reconnaissance", meter: "fuel", strand: "oil" },
+                  { id: "signals", name: "Signals & Night Action", meter: "initiative" },
                 ],
                 effectiveness: { battle: 2.4, cruisers: 2.2, air: 1.7, signals: 1.6 },
                 phases: ["The air attacks of the day", "The night action"],
@@ -2355,10 +2355,10 @@
                 flavor:
                   "Not the abbey — this army's own share of the Cassino winter is a mountain fifteen miles east of it, 1,805 meters up in the Mainarde range, held by German troops who don't yet know an attack is coming. Taking it by surprise, at night, on foot, is the plan; holding it against whatever comes up the mountain afterward, with Anglo-Polish guns as the only support that can actually reach this ground, is the part that will decide whether anyone outside this army's own ranks remembers it did either. What's decided here is how much of the assault force leads the climb, how much of the elite Nembo paratroop element goes in beside it, what the attached artillery is asked to range in on, and how much gets held back on the mule trails that are this mountain's only supply line.",
                 categories: [
-                  { id: "assault", name: "Alpine & Bersaglieri Assault", meter: "manpower", glyph: "▲▲▲" },
-                  { id: "paratroops", name: "Nembo Paratroops", meter: "manpower", glyph: "✦" },
-                  { id: "artillery", name: "Anglo-Polish Artillery", meter: "fuel", strand: "ammo", glyph: "✺" },
-                  { id: "supply", name: "Mule-Train Supply", meter: "fuel", strand: "ship", glyph: "▤" },
+                  { id: "assault", name: "Alpine & Bersaglieri Assault", meter: "manpower" },
+                  { id: "paratroops", name: "Nembo Paratroops", meter: "manpower" },
+                  { id: "artillery", name: "Anglo-Polish Artillery", meter: "fuel", strand: "ammo" },
+                  { id: "supply", name: "Mule-Train Supply", meter: "fuel", strand: "ship" },
                 ],
                 // Paratroops highest (a small, elite, all-volunteer force); assault second
                 // (Piemonte + the two Bersaglieri battalions, the numerical bulk of the force);

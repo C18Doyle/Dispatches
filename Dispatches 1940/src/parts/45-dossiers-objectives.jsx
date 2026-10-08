@@ -232,6 +232,38 @@ function evaluateObjectives(ctx) {
   return earned;
 }
 
+// The command rank for a finished war (see commandRating in logic.ts), from what the end screen and the war
+// record both have to hand.
+function buildRating(campaign, flags, meters, log, mode, rewinds, favor) {
+  const label = campaign.positionLabel ? campaign.positionLabel(flags, meters) : null;
+  const entry = label ? ENDINGS_GALLERY.find((e) => e.label === label) : null;
+  return commandRating({
+    tier: entry ? entry.tier : null,
+    removed: !!(flags.purged || flags.relieved || flags.dismissed || flags.superseded),
+    total: campaign.dynamic ? meters.manpower + meters.fuel + meters.initiative : 0,
+    battles: KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => ({ grade: flags[`${b.id}Grade`], staff: !!flags[`${b.id}Staff`] })),
+    judged: (log || []).filter((e) => e.histSum != null).map((e) => ({ sum: e.sum, histSum: e.histSum })),
+    objectives: campaign.dynamic ? evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor }).length : 0,
+    mode: mode || "open",
+  });
+}
+
+// One readable line per battle fought, for the after-action summary.
+const BATTLE_GRADE_WORDS = { clean: "clean win", costly: "costly win", marginal: "close loss", total: "heavy loss" };
+function battleSummaryLines(flags) {
+  return KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => {
+    const roster = KEY_BATTLE_POSTURES[b.id] || [];
+    const setups = [flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean).map((id) => (roster.find((p) => p.id === id) || {}).name || id);
+    const cmdId = flags[`${b.id}PlanCommander`];
+    const cmd = cmdId ? ((KEY_BATTLE_COMMANDERS[b.id] || []).find((c) => c.id === cmdId) || {}).name : null;
+    const decisions = Object.keys(flags)
+      .filter((k) => k.startsWith(`${b.id}DecNote_`))
+      .map((k) => flags[k]);
+    const bits = [setups.length ? "against " + setups.join(", then ") : null, cmd ? "under " + cmd : null, flags[`${b.id}Staff`] ? "staff plan" : "own plan", ...decisions].filter(Boolean);
+    return `${b.title}: ${BATTLE_GRADE_WORDS[flags[`${b.id}Grade`]] || flags[`${b.id}Grade`]}${bits.length ? ` (${bits.join("; ")})` : ""}`;
+  });
+}
+
 async function withRetry(fn, attempts = 3, delayMs = 250) {
   let lastErr;
   for (let i = 0; i < attempts; i++) {
@@ -277,6 +309,7 @@ async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewind
       label: campaign.positionLabel ? campaign.positionLabel(flags, meters) : null,
       endDate: campaign.projectedEnd ? campaign.projectedEnd(flags, meters).stamp : null,
       mode: mode || "open",
+      rank: buildRating(campaign, flags, meters, log, mode, rewinds, favor).rank,
     });
     record.nodes = [...new Set([...(record.nodes || []), ...visited])];
     const earned = evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor });

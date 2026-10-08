@@ -76,10 +76,10 @@
                 title: "Order of Battle — Operation Dynamo",
                 flavor: "The perimeter is held along the canals seven miles from the sea, and behind it the only way home is by water. Admiral Ramsay is running the lift from Dover Castle with every ship he can find, Captain Tennant is loading men from the east mole as fast as destroyers can come alongside, and hundreds of small boats are ferrying men off the open beaches to the larger ships. Göring has promised that the Luftwaffe will finish the pocket, and Park's 11 Group has to meet it from airfields across the Channel. What is decided here is where the weight goes: how much to the destroyers and the mole, how much to the small craft and the beaches, how much to the fighter cover, and how much to the perimeter and the rearguard that hold the door open.",
                 categories: [
-                  { id: "navy", name: "Destroyers & the Mole", meter: "fuel", strand: "oil", glyph: "≋" },
-                  { id: "smallCraft", name: "Small Craft & the Beaches", meter: "manpower", strand: "ship", glyph: "▲" },
-                  { id: "air", name: "Fighter Cover", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "perimeter", name: "The Perimeter & Rearguard", meter: "manpower", glyph: "◆◆◆" },
+                  { id: "navy", name: "Destroyers & the Mole", meter: "fuel", strand: "oil" },
+                  { id: "smallCraft", name: "Small Craft & the Beaches", meter: "manpower", strand: "ship" },
+                  { id: "air", name: "Fighter Cover", meter: "fuel", strand: "oil" },
+                  { id: "perimeter", name: "The Perimeter & Rearguard", meter: "manpower" },
                 ],
                 effectiveness: { navy: 2.6, smallCraft: 2.2, air: 2, perimeter: 2.4 },
                 conditions: "Low cloud and smoke from the fires spoil the German bombers' aim, and the sea is calm, which helps the small boats. The beaches are wide and shallow, and the large ships cannot come close to them.",
@@ -367,10 +367,10 @@
                 flavor:
                   "15 September 1940. The Luftwaffe has been flying against Fighter Command for two months, and today it will come in two waves, with the biggest escort yet. Park runs No. 11 Group from the operations room at Uxbridge, on a plot that Chain Home radar and the Observer Corps feed through Bentley Priory, and Churchill is on the viewing gallery behind him. Every squadron is in a state of readiness and the whole of 11 Group will be needed. What's decided here is how the staff effort behind Park's doctrine is weighted: how much of the fight is left to 11 Group's own squadrons, how much to the plot and the controllers who place them, whether 12 Group's Duxford Wing is called in early, and how fast squadrons are turned round on the ground between the waves, for a second raid that is already forming.",
                 categories: [
-                  { id: "squadrons", name: "11 Group Squadrons", meter: "manpower", glyph: "✈✈" },
-                  { id: "control", name: "Radar & Ground Control", meter: "initiative", glyph: "◎" },
-                  { id: "wing", name: "The Duxford Wing", meter: "fuel", strand: "oil", glyph: "≋" },
-                  { id: "turnaround", name: "Rearm & Refuel Turnaround", meter: "fuel", strand: "oil", glyph: "↻" },
+                  { id: "squadrons", name: "11 Group Squadrons", meter: "manpower" },
+                  { id: "control", name: "Radar & Ground Control", meter: "initiative" },
+                  { id: "wing", name: "The Duxford Wing", meter: "fuel", strand: "oil" },
+                  { id: "turnaround", name: "Rearm & Refuel Turnaround", meter: "fuel", strand: "oil" },
                 ],
                 // Squadrons highest — Park's doctrine is that the squadrons themselves do the
                 // fighting; Control second — the plot is what lets a few squadrons do the work of
@@ -719,10 +719,10 @@
                 flavor:
                   "Tight formation, full escort, the battleship risk accepted rather than scattering to face it in the open — the convoy holds together, which means Broome's destroyers and corvettes still have something worth defending as long as the ships stay in company. What's decided here is how the close escort, the anti-aircraft auxiliaries riding with the merchantmen, Hamilton's covering force standing off at a distance, and the signals effort tracking what's actually out there are weighed against each other before the wolfpacks and the torpedo bombers find the convoy's track.",
                 categories: [
-                  { id: "escorts", name: "Destroyer & Corvette Screen", meter: "manpower", glyph: "▲" },
-                  { id: "aaShips", name: "Anti-Aircraft Auxiliaries", meter: "manpower", strand: "ammo", glyph: "✦" },
-                  { id: "coveringForce", name: "Distant Covering Force", meter: "fuel", strand: "oil", glyph: "≋" },
-                  { id: "intelligence", name: "Signals Intelligence", meter: "fuel", glyph: "✎" },
+                  { id: "escorts", name: "Destroyer & Corvette Screen", meter: "manpower" },
+                  { id: "aaShips", name: "Anti-Aircraft Auxiliaries", meter: "manpower", strand: "ammo" },
+                  { id: "coveringForce", name: "Distant Covering Force", meter: "fuel", strand: "oil" },
+                  { id: "intelligence", name: "Signals Intelligence", meter: "fuel" },
                 ],
                 // Escorts highest — the close screen is the convoy's own direct defense against
                 // U-boats; Covering Force second — real deterrent weight, but held back rather
@@ -1389,10 +1389,10 @@
                 flavor:
                   "Four days in, and the bridge itself is gone — Frost's men overwhelmed, the crossing back in German hands. What's left of 1st Airborne has drawn into a shrinking horseshoe around Oosterbeek, holding on artillery support and whatever gets through the ring, while Sosabowski's Poles try to cross the Rhine from the south bank in the dark and Horrocks's own corps sits close enough at Nijmegen and Elst to hear the guns and no closer. What's decided here is how the armor, the perimeter's own defense, the air resupply, and the Polish crossing effort are weighed against each other before the corridor behind all of them closes for good.",
                 categories: [
-                  { id: "corpsPush", name: "XXX Corps Armored Push", meter: "fuel", strand: "steel", glyph: "▲" },
-                  { id: "perimeter", name: "Oosterbeek Perimeter", meter: "manpower", glyph: "◆◆◆" },
-                  { id: "resupply", name: "Supply Drop", meter: "fuel", strand: "ship", glyph: "✈" },
-                  { id: "poles", name: "Polish Parachute Brigade", meter: "manpower", glyph: "✦" },
+                  { id: "corpsPush", name: "XXX Corps Armored Push", meter: "fuel", strand: "steel" },
+                  { id: "perimeter", name: "Oosterbeek Perimeter", meter: "manpower" },
+                  { id: "resupply", name: "Supply Drop", meter: "fuel", strand: "ship" },
+                  { id: "poles", name: "Polish Parachute Brigade", meter: "manpower" },
                 ],
                 // Corps Push highest — the relief column is the only thing that can actually end
                 // the siege; Poles second — a small, determined reinforcement effort, the same
@@ -1776,10 +1776,10 @@
                 title: "Order of Battle — The Relief of Bastogne",
                 flavor: "Bastogne is surrounded by the Fifth Panzer Army, held by the 101st Airborne and the armour that came in with it, outnumbered by some five to one and short of ammunition, medical supplies and winter clothing. Patton told Eisenhower at Verdun that Third Army could attack north in forty-eight hours, and now the attack has to be made in the cold, on a few icy roads, against German divisions that are short of fuel but not of fight. What is decided here is how the relief is weighted: how much to the armoured spearhead that must reach the town, how much to the infantry divisions on its shoulders, how much to the aircraft that may fly if the fog lifts, and how much to the garrison's own ammunition and perimeter while it waits.",
                 categories: [
-                  { id: "armour", name: "The Armoured Spearhead", meter: "fuel", strand: "steel", glyph: "▶▶" },
-                  { id: "infantry", name: "Infantry Divisions on the Shoulders", meter: "manpower", glyph: "▮▮▮" },
-                  { id: "air", name: "Fighters & Supply Drops", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "garrison", name: "The Bastogne Garrison", meter: "manpower", strand: "ammo", glyph: "◆◆◆" },
+                  { id: "armour", name: "The Armoured Spearhead", meter: "fuel", strand: "steel" },
+                  { id: "infantry", name: "Infantry Divisions on the Shoulders", meter: "manpower" },
+                  { id: "air", name: "Fighters & Supply Drops", meter: "fuel", strand: "oil" },
+                  { id: "garrison", name: "The Bastogne Garrison", meter: "manpower", strand: "ammo" },
                 ],
                 effectiveness: { armour: 2.7, infantry: 2, air: 2, garrison: 2.3 },
                 phases: ["The wheel north", "The last miles to the town"],
@@ -2318,10 +2318,10 @@
                 flavor:
                   "The plan is exactly what the doctrine says it should be — tight combat-box formation for mutual defensive fire, fighter escort as far as the fuel actually allows, a disciplined bomb run held steady over the ball-bearing works, and enough of a diversionary threat elsewhere to keep German fighter controllers guessing about which formation is the real one. What's decided here is how the staff effort behind each of those pieces gets weighted before Kepner's Thunderbolts reach the limit of their range near Aachen and the Luftwaffe's fighter wings — relayed in waves, landing to refuel and rearm before coming up again — find the bomber stream on its own for the rest of the way to Schweinfurt and back.",
                 categories: [
-                  { id: "formation", name: "Combat Box Discipline", meter: "manpower", glyph: "▣" },
-                  { id: "escort", name: "Fighter Escort Coordination", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "targeting", name: "Precision Bomb-Run", meter: "initiative", strand: "ammo", glyph: "◎" },
-                  { id: "diversion", name: "Diversionary Routing", meter: "manpower", glyph: "↝" },
+                  { id: "formation", name: "Combat Box Discipline", meter: "manpower" },
+                  { id: "escort", name: "Fighter Escort Coordination", meter: "fuel", strand: "oil" },
+                  { id: "targeting", name: "Precision Bomb-Run", meter: "initiative", strand: "ammo" },
+                  { id: "diversion", name: "Diversionary Routing", meter: "manpower" },
                 ],
                 // Formation highest — LeMay's own combat box is the mission's whole defense once
                 // the escort turns back, the single largest determinant of the loss rate; Escort
@@ -2747,10 +2747,10 @@
                 flavor:
                   "Ashore before dawn against almost no opposition — the surprise is total, a forward patrol reportedly reaching the outskirts of Rome itself before turning back. What happens next is the entire question Shingle was built to answer: how much of this corps pushes inland now, while the roads to the Alban Hills are still open, and how much stays back to hold the beach it will need for however long this actually takes. Somewhere behind the German lines, an order is already moving to close that door. What's decided here is how the infantry, the tanks, Darby's Rangers, and the buildup off two hundred and forty ships are weighed against each other before it does.",
                 categories: [
-                  { id: "assault", name: "Infantry Beachhead", meter: "manpower", glyph: "◆◆◆" },
-                  { id: "armor", name: "Armored Exploitation", meter: "fuel", strand: "steel", glyph: "▲" },
-                  { id: "rangers", name: "Ranger & Commando Vanguard", meter: "manpower", glyph: "✦" },
-                  { id: "naval", name: "Naval Gunfire & Buildup", meter: "fuel", strand: "ship", glyph: "≋" },
+                  { id: "assault", name: "Infantry Beachhead", meter: "manpower" },
+                  { id: "armor", name: "Armored Exploitation", meter: "fuel", strand: "steel" },
+                  { id: "rangers", name: "Ranger & Commando Vanguard", meter: "manpower" },
+                  { id: "naval", name: "Naval Gunfire & Buildup", meter: "fuel", strand: "ship" },
                 ],
                 // Armor highest — the exploitation column is what could actually unhinge the
                 // Gustav Line's rear before the roads close; Rangers second — a small, aggressive
@@ -3172,10 +3172,10 @@
                       flavor:
                         "Mid-morning, and the tide is coming in over the obstacles the engineers never cleared. The bombers dropped their loads inland through the overcast, most of one battalion's swimming tanks went down on the way in, and fire from the bluffs is sweeping a beach with nowhere to hide. The decision to keep the waves coming is made. What's left is how the weight behind them lands: how many more go at the sand, how close the destroyers are sent in, how much goes to the engineers and tanks trying to open the exits, and what the aircraft overhead can do through the cloud.",
                       categories: [
-                        { id: "waves", name: "Follow-on Waves", meter: "manpower", glyph: "▮▮▮" },
-                        { id: "naval", name: "Naval Gunfire", meter: "fuel", strand: "ammo", glyph: "≋" },
-                        { id: "engineers", name: "Engineers & Tanks", meter: "fuel", strand: "steel", glyph: "▨" },
-                        { id: "air", name: "Air Support", meter: "fuel", strand: "oil", glyph: "✈" },
+                        { id: "waves", name: "Follow-on Waves", meter: "manpower" },
+                        { id: "naval", name: "Naval Gunfire", meter: "fuel", strand: "ammo" },
+                        { id: "engineers", name: "Engineers & Tanks", meter: "fuel", strand: "steel" },
+                        { id: "air", name: "Air Support", meter: "fuel", strand: "oil" },
                       ],
                       // Naval gunfire strongest (the destroyers closing in is what the record
                       // credits with breaking the strongpoints), engineers second (the exits are

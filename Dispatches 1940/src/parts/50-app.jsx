@@ -1,6 +1,8 @@
 function WW2CommandInner() {
   const [screen, setScreen] = useState("select");
   const [campaignId, setCampaignId] = useState(null);
+  // The command chosen on the main screen, while its difficulty is being chosen.
+  const [pendingCampaignId, setPendingCampaignId] = useState(null);
   const [position, setPosition] = useState(0);
   const [choiceIndex, setChoiceIndex] = useState(null);
   const [rollIndex, setRollIndex] = useState(null);
@@ -24,9 +26,6 @@ function WW2CommandInner() {
   const battleDraftRef = useRef(null);
   const [battleResume, setBattleResume] = useState(null);
   const [rewinds, setRewinds] = useState(0);
-  // The flags and meters as they stood before the decision on the outcome screen, so that screen can show the
-  // meters and the Matériel strands moving. Display only: never saved, never read by the rules.
-  const [outcomeBefore, setOutcomeBefore] = useState(null);
   const [mode, setMode] = useState("open");
   // Grand Campaign prototype: null outside a Grand Campaign run, otherwise
   // { order: GRAND_CAMPAIGN_ORDER, index }. See pickCampaign/startGrandCampaign/
@@ -118,7 +117,7 @@ function WW2CommandInner() {
   const stage = useMemo(() => {
     if (!campaign) return null;
     // Führer Mode necessity rule lives in logic.ts (playableStage).
-    return playableStage(resolveStage(campaign, position, flags, meters), mode, favor);
+    return strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign, position, flags, meters, mode]);
 
@@ -268,7 +267,6 @@ function WW2CommandInner() {
         }),
     });
     if (!res) return;
-    setOutcomeBefore({ flags, meters });
     setFavor(res.favor);
     setDefiance(res.defiance);
     setFlags(res.flags);
@@ -685,9 +683,12 @@ function WW2CommandInner() {
         `}</style>
       )}
       <audio ref={musicRef} src={MUSIC_TRACK_SRC} loop preload="none" />
-      {screen === "select" && <SelectScreen onPick={pickCampaign} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
+      {screen === "select" && <SelectScreen onChooseCampaign={(id) => { setPendingCampaignId(id); setScreen("difficulty"); }} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
+      {screen === "difficulty" && pendingCampaignId && CAMPAIGNS[pendingCampaignId] && (
+        <DifficultyScreen campaign={CAMPAIGNS[pendingCampaignId]} onPick={(m) => pickCampaign(pendingCampaignId, m)} onBack={() => setScreen("select")} />
+      )}
       {screen === "warroom" && campaign && (
-        <WarRoomScreen campaign={campaign} mode={mode} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
+        <WarRoomScreen campaign={campaign} mode={mode} onEnter={enterWarRoom} onBack={() => { setPendingCampaignId(campaignId); setScreen("difficulty"); }} />
       )}
       {screen === "wire" && campaign && pendingWireHeadline && (
         <WireBulletin
@@ -757,6 +758,8 @@ function WW2CommandInner() {
           uncertain={displayStage.choices[pendingBattle.index].uncertain}
           result={pendingBattleResult}
           soundOn={soundOn}
+          instantText={instantText}
+          reducedMotion={reducedMotion}
           resumed={!!(battleResume && battleResume.stage === "report")}
           onSaveLeave={leaveBattleSaved}
           onResolve={(payload) => chooseOption(pendingBattle.index, payload)}
@@ -797,8 +800,6 @@ function WW2CommandInner() {
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
-          flags={flags}
-          before={outcomeBefore}
           onProceed={proceed}
           soundOn={soundOn}
           isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}

@@ -925,10 +925,10 @@
                 flavor:
                   "The Germans have shot their bolt. Army Group Centre has barely a third of its vehicles running, its infantry regiments are down to a hundred and fifty or two hundred riflemen, and no one in the German line has winter clothing. Zhukov wants every fresh army that has come west — 1st Shock, the divisions released from the Far East, the rest of the reserve Stavka has been gathering since the autumn — to attack together, on the same morning, before the Germans can dig in. The reserve is large by the standards of this war and small by the standards of the front it has to cover, and Zhukov himself said so. What's decided here is how thinly it is spread: how much into the rifle armies' blow, how much into the cavalry and ski columns that have to get behind the German flank, how much of the air that came west covers them, and how much of the railway goes to ammunition and winter clothing in place of more men.",
                 categories: [
-                  { id: "reserves", name: "Fresh Rifle Armies", meter: "manpower", glyph: "▮▮▮" },
-                  { id: "exploitation", name: "Cavalry & Ski Columns", meter: "initiative", glyph: "⇉" },
-                  { id: "air", name: "Air Cover", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "supply", name: "Rail & Winter Supply", meter: "fuel", strand: "ship", glyph: "▤" },
+                  { id: "reserves", name: "Fresh Rifle Armies", meter: "manpower" },
+                  { id: "exploitation", name: "Cavalry & Ski Columns", meter: "initiative" },
+                  { id: "air", name: "Air Cover", meter: "fuel", strand: "oil" },
+                  { id: "supply", name: "Rail & Winter Supply", meter: "fuel", strand: "ship" },
                 ],
                 // Reserves highest — the new armies are the blow itself; Exploitation second —
                 // a hollow German line is a thing cavalry and skiers can get through, but only
@@ -1273,10 +1273,10 @@
                 title: "Order of Battle — Operation Uranus",
                 flavor: "Three fronts stand on the flanks of Sixth Army, and the plan has been built in secret for a month: two pincers, one from the Don bridgeheads in the north-west and one from the lakes south of the city, to meet at Kalach on the Don. The ground in front of them is held by Romanian armies that Stavka knows to be thin and badly equipped, with a German panzer corps standing in reserve behind them. The railways have carried the build-up, the deception has hidden it, and fog may keep the aircraft on the ground on the first morning. What is decided here is how the weight is spread: how much goes to the rifle armies that must break the line, how much to the tank and cavalry corps that will race for the Don, how much to the air armies that fog may ground, and how much to the railways and dumps that every one of them depends on.",
                 categories: [
-                  { id: "breakthrough", name: "Breakthrough Armies", meter: "manpower", glyph: "▮▮▮" },
-                  { id: "armour", name: "Tank & Cavalry Corps", meter: "fuel", strand: "steel", glyph: "▶▶" },
-                  { id: "air", name: "Air Armies", meter: "fuel", strand: "oil", glyph: "✈" },
-                  { id: "supply", name: "Rail & Ammunition Dumps", meter: "fuel", strand: "ship", glyph: "▤" },
+                  { id: "breakthrough", name: "Breakthrough Armies", meter: "manpower" },
+                  { id: "armour", name: "Tank & Cavalry Corps", meter: "fuel", strand: "steel" },
+                  { id: "air", name: "Air Armies", meter: "fuel", strand: "oil" },
+                  { id: "supply", name: "Rail & Ammunition Dumps", meter: "fuel", strand: "ship" },
                 ],
                 effectiveness: { breakthrough: 2.3, armour: 2.7, air: 1.8, supply: 2 },
                 conditions: "Thick fog and blizzard on the opening day kept much of the air force on the ground. The build-up was hidden by a long deception, the maskirovka, and carried to the front by the railways.",

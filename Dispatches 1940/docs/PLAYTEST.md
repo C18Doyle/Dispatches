@@ -18,19 +18,18 @@ Matériel strand reading and every field decision (`npm run check-battle-balance
 8. Open the War Record and its Battle Record.
 9. Part way through a battle press "Save and leave the field", close the page, come back and resume. Was it clear where you were and what had been kept? Did the planning screen or the report come back as you left it?
 10. Read the advice on the choice buttons ("Halder argues: ..."). Did it read as people arguing, and did the six real quotations, which are in speech marks, feel different from the rest?
-11. After a decision look at "Where you stand now": did the bars moving, and a Matériel reading changing band, tell you what you had done? Try it once with the Sound setting on and say whether the battle sounds helped or grated.
-12. At the end open "A note for the author" and paste the line into a comment on the game's page, with whatever you want to say.
+11. Open the three meters on the decision page (the buttons beside them). After a decision, did the green and red arrows tell you what you had done? Take one meter well below zero and say whether it felt dangerous, and whether the "Strain" note on a contested decision made sense.
+12. Start a battle with "Start battle" and watch it run. Was the pace right? Did the decision stop it where you expected, and did the decisive hour and the counterattack tell you enough to choose?
+13. At the end read the command rank and the reasons under it. Did it feel fair? Open "The decisions, in order". Press "Copy After-Action Summary" and paste it into a comment on the game's page, with whatever you want to say.
 
-## What the note contains
-`Dispatches 1940 | <command> | <mode> | ending <title> | decisions <n> | manpower m, materiel m, initiative m | battles <battle>:<grade>:<enemy setup(s)>:<commander>:<field decision(s)>:<own or staff> ; ...`
+## What the After-Action Summary contains
+Plain lines: the command and difficulty, the rank, the ending and its tier, the standing at the end, how the decisions compared with the historical ones, then one line per battle (its result, the enemy setup, the commander, the field decisions, and whether you or the staff planned it), the contested outcomes, the advisers you heeded most and the objectives.
 
-Each battle is one entry: its id, the grade (clean, costly, marginal or total), the enemy setup or setups met, the commander named,
-the field decision taken, and whether you planned it yourself or the staff did. It carries nothing personal, and the
-mix of enemy setups and decisions lets a run be reconstructed and replayed.
+It carries nothing personal, and the enemy setups and decisions let a run be reconstructed and replayed.
 
 ## What to look for
 - A choice whose consequence was not what its label suggested.
-- A date, name, place or number that looks wrong (the battle's id in the note tells us where to look).
+- A date, name, place or number that looks wrong (the battle or ending named in the summary tells us where to look).
 - A battle that felt unfair, or one where nothing you did seemed to matter. Say which.
 - An arm whose order-of-battle sheet contradicted what you know of the history.
 - A screen where the text was too long for a phone, or a button you could not tell was disabled and why.

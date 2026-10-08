@@ -216,13 +216,14 @@ const battles = [
   extractBattleConfig("matapan41"),
 ];
 
-// Round 23: a Matériel strand can read Short, Strained, Adequate or Plentiful, which scales an arm that
+// Round 23: a Matériel strand can read Exhausted, Short, Strained, Adequate or Plentiful, which scales an arm that
 // draws on it (STRAND_BAND_MULT). The invariants below must hold whatever the readings, so each battle
-// is run as itself and under three profiles: every strand-fed arm Short, every one Plentiful, and
+// is run as itself and under four profiles: every strand-fed arm Exhausted, every one Short, every one Plentiful, and
 // alternating. A profile is a variant of the battle with the multiplier folded into its ground.
 const PROFILES = [
   { tag: "", mult: () => 1 },
   { tag: "allShort", mult: (c) => (c.strand ? sandbox.STRAND_BAND_MULT.Short : 1) },
+  { tag: "allExhausted", mult: (c) => (c.strand ? sandbox.STRAND_BAND_MULT.Exhausted : 1) },
   { tag: "allPlentiful", mult: (c) => (c.strand ? sandbox.STRAND_BAND_MULT.Plentiful : 1) },
   { tag: "mixed", mult: (c, i) => (c.strand ? (i % 2 ? sandbox.STRAND_BAND_MULT.Short : sandbox.STRAND_BAND_MULT.Plentiful) : 1) },
 ];

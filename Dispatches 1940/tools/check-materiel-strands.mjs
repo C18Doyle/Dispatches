@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// check-materiel-strands.mjs
+// check-materiel-strands.mjs  (it covers all three meters)
 //
-// The Matériel meter has four readable strands under it (Fuel & Oil, Ammunition, Armour & Steel,
-// Shipping & Rail). A choice's Matériel impact is filed to a strand by `matStrand` if the choice
-// names one, and otherwise by what its text is about (materielStrandOf in src/logic.ts). That is a
-// text-reading rule, so this audit shows how it files the choices a player can actually reach and
-// fails if it drifts into uselessness: too many impacts that fit no strand, or a strand nothing
-// feeds. It samples seeded random walks over the extracted campaigns (run `npm run
-// extract-campaigns` first, or run it through `npm run audit`, which does).
+// Each meter has readable micro-states under it: Matériel has four strands (Fuel & Oil, Ammunition, Armour &
+// Steel, Shipping & Rail), Manpower has Organisation, Experience and Readiness, Initiative has Intelligence,
+// Command and Tempo. A choice's impact on a meter is filed to one of them by `matStrand` (Matériel only) or by
+// what its text is about (strandOf in src/logic.ts). That is a text-reading rule, so this audit shows how it
+// files the choices a player can actually reach and fails if it drifts into uselessness: too many impacts that
+// fit no micro-state, or a micro-state nothing feeds. It samples seeded random walks over the extracted
+// campaigns (run `npm run extract-campaigns` first, or run it through `npm run audit`, which does).
 //
 // Usage: node tools/check-materiel-strands.mjs [--list]   (--list prints every filed choice)
 import { buildSync } from "esbuild";
@@ -24,6 +24,12 @@ const require = createRequire(import.meta.url);
 const L = require(out);
 const C = require(path.join(ROOT, "tools/campaigns_extracted.js"));
 const camps = C.CAMPAIGNS || C;
+
+const METERS = [
+  { key: "fuel", name: "Matériel", maxNone: 0.5 },
+  { key: "manpower", name: "Manpower", maxNone: 0.1 },
+  { key: "initiative", name: "Initiative", maxNone: 0.1 },
+];
 
 let seed = 12345;
 const rnd = () => ((seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296);
@@ -47,15 +53,16 @@ for (const [cid, c] of Object.entries(camps)) {
         const u = ch.uncertain[Math.floor(rnd() * ch.uncertain.length)];
         eff = { impact: u.impact || ch.impact, outcome: u.outcome, setFlags: u.setFlags, next: u.next || ch.next };
       }
-      const fuel = (eff.impact && eff.impact.fuel) || 0;
-      if (fuel) {
-        const key = `${cid}|${pos}|${ch.label.slice(0, 40)}`;
-        if (!seen.has(key)) seen.set(key, { cid, pos, label: ch.label, fuel, strand: L.materielStrandOf(ch, eff.outcome) });
+      for (const m of METERS) {
+        const delta = (eff.impact && eff.impact[m.key]) || 0;
+        if (!delta) continue;
+        const key = `${m.key}|${cid}|${pos}|${ch.label.slice(0, 40)}`;
+        if (!seen.has(key)) seen.set(key, { meter: m.key, cid, pos, label: ch.label, delta, strand: L.strandOf(m.key, ch, eff.outcome) });
       }
       flags = { ...flags, ...(ch.setFlags || {}), ...(eff.setFlags || {}) };
       meters = {
         manpower: meters.manpower + ((eff.impact && eff.impact.manpower) || 0),
-        fuel: meters.fuel + fuel,
+        fuel: meters.fuel + ((eff.impact && eff.impact.fuel) || 0),
         initiative: meters.initiative + ((eff.impact && eff.impact.initiative) || 0),
       };
       pos = eff.next && eff.next !== "END" ? eff.next : null;
@@ -63,22 +70,24 @@ for (const [cid, c] of Object.entries(camps)) {
   }
 }
 
-const counts = { none: 0 };
-for (const s of L.MATERIEL_STRANDS) counts[s.id] = 0;
-for (const v of seen.values()) counts[v.strand || "none"]++;
-const total = seen.size;
-const filed = total - counts.none;
-console.log(`choices with a Matériel impact reached: ${total}`);
-for (const s of L.MATERIEL_STRANDS) console.log(`  ${s.name.padEnd(16)} ${counts[s.id]}`);
-console.log(`  (fits no strand)  ${counts.none}`);
-if (process.argv.includes("--list")) for (const v of seen.values()) console.log(`${String(v.strand).padEnd(6)} ${String(v.fuel).padStart(2)} ${v.cid.padEnd(7)} ${v.pos.padEnd(22)} ${v.label.slice(0, 80)}`);
-
 const problems = [];
-if (total < 100) problems.push(`only ${total} choices reached; the walk or the extractor is broken`);
-if (counts.none / total > 0.5) problems.push(`${Math.round((100 * counts.none) / total)}% of Matériel impacts fit no strand (limit 50%)`);
-for (const s of L.MATERIEL_STRANDS) if (filed && counts[s.id] / filed < 0.04) problems.push(`strand "${s.name}" is fed by under 4% of filed impacts`);
+for (const m of METERS) {
+  const rows = [...seen.values()].filter((v) => v.meter === m.key);
+  const counts = { none: 0 };
+  for (const s of L.METER_STRANDS[m.key]) counts[s.id] = 0;
+  for (const v of rows) counts[v.strand || "none"]++;
+  const total = rows.length;
+  const filed = total - counts.none;
+  console.log(`${m.name}: choices with an impact reached: ${total}`);
+  for (const s of L.METER_STRANDS[m.key]) console.log(`  ${s.name.padEnd(16)} ${counts[s.id]}`);
+  console.log(`  (fits none)      ${counts.none}`);
+  if (process.argv.includes("--list")) for (const v of rows) console.log(`${String(v.strand).padEnd(6)} ${String(v.delta).padStart(2)} ${v.cid.padEnd(7)} ${v.pos.padEnd(22)} ${v.label.slice(0, 80)}`);
+  if (total < 100) problems.push(`${m.name}: only ${total} choices reached; the walk or the extractor is broken`);
+  if (total && counts.none / total > m.maxNone) problems.push(`${m.name}: ${Math.round((100 * counts.none) / total)}% of impacts fit no micro-state (limit ${Math.round(m.maxNone * 100)}%)`);
+  for (const s of L.METER_STRANDS[m.key]) if (filed && counts[s.id] / filed < 0.04) problems.push(`${m.name}: "${s.name}" is fed by under 4% of filed impacts`);
+}
 if (problems.length) {
   console.log("\n!! " + problems.join("\n!! "));
   process.exit(1);
 }
-console.log("\nStrand filing looks sound.");
+console.log("\nMicro-state filing looks sound.");
