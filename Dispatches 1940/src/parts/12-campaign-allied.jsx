@@ -287,7 +287,7 @@
             {
               label: "Reject any negotiation outright — Britain fights on, whatever the terms might have been",
               advisor: { name: "Churchill", position: "Nations that go down fighting rise again and those that surrender tamely are finished, so the country goes on to the end." },
-              attested: { by: "Churchill", text: "The nations which went down fighting rose again, but those which surrendered tamely were finished.", source: "War Cabinet, 28 May 1940, as minuted" },
+              attested: { by: "Churchill", text: "The nations which went down fighting rose again, but those which surrendered tamely were finished.", source: "War Cabinet, 28 May 1940 (4 p.m. meeting), as minuted" },
               historical: true,
               setFlags: { halifaxCrisis40: "reject" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },

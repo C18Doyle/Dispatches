@@ -387,7 +387,7 @@ for (const battle of variants) {
     for (const c of battle.categories) {
       const sheet = battle.orderOfBattle && battle.orderOfBattle[c.id];
       if (!sheet || !Array.isArray(sheet.units) || sheet.units.length < 1 || !sheet.real) failures.push(`${who}: arm "${c.id}" has no order-of-battle sheet (units and what actually happened)`);
-      if (c.strand && !["oil", "ammo", "steel", "ship"].includes(c.strand)) failures.push(`${who}: arm "${c.id}" names an unknown strand "${c.strand}"`);
+      if (c.strand && !["oil", "ammo", "steel", "arms", "ship"].includes(c.strand)) failures.push(`${who}: arm "${c.id}" names an unknown strand "${c.strand}"`);
     }
     if (battle.orderOfBattle) for (const k of Object.keys(battle.orderOfBattle)) if (!battle.categories.some((c) => c.id === k)) failures.push(`${who}: order-of-battle sheet for unknown arm "${k}"`);
     checks++;

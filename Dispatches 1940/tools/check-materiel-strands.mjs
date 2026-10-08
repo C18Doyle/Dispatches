@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // check-materiel-strands.mjs  (it covers all three meters)
 //
-// Each meter has readable micro-states under it: Matériel has four strands (Fuel & Oil, Ammunition, Armour &
-// Steel, Shipping & Rail), Manpower has Organisation, Experience and Readiness, Initiative has Intelligence,
+// Each meter has readable micro-states under it: Matériel has three strands (Fuel & Oil, Arms & Ammunition,
+// Shipping & Rail), Manpower has Organisation, Experience and Readiness, Initiative has Intelligence,
 // Command and Tempo. A choice's impact on a meter is filed to one of them by `matStrand` (Matériel only) or by
 // what its text is about (strandOf in src/logic.ts). That is a text-reading rule, so this audit shows how it
 // files the choices a player can actually reach and fails if it drifts into uselessness: too many impacts that

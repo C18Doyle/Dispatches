@@ -469,3 +469,153 @@ class ErrorBoundary extends Component {
   }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Glossary. Terms a reader who is not a wargamer may not know. In a situation report the first mention of each term is
+// underlined with dots (tap or click it for a note); the whole list is under "Glossary" on the title screen. Terms are
+// matched exactly as written (capital letters count, so "axis of advance" is not the Axis); a term whose entry has
+// `plural: true` also matches with a trailing "s"; a lower-case term also matches with a capital letter, for a
+// sentence's first word. Facts are checked in claims/glossary-and-map.json.
+// ---------------------------------------------------------------------------------------------------------------------
+const GLOSSARY_GROUPS = [
+  { id: "formations", label: "Formations" },
+  { id: "commands", label: "Commands, services and forces" },
+  { id: "operations", label: "Operations and events" },
+  { id: "weapons", label: "Weapons, machines and intelligence" },
+  { id: "ideas", label: "Ideas and terms" },
+  { id: "game", label: "In this game" },
+];
+const GLOSSARY = [
+  // Formations
+  { group: "formations", term: "corps", plural: false, text: "A formation of two or more divisions, tens of thousands of men, under one headquarters. Armies were built from corps." },
+  { group: "formations", term: "division", plural: true, text: "The basic self-contained fighting formation: infantry, guns and support under one command, usually 10,000 to 20,000 men in this war. Several divisions make a corps." },
+  { group: "formations", term: "brigade", plural: true, text: "A formation smaller than a division, a few thousand men, often attached to a larger force for a particular job." },
+  { group: "formations", term: "Army Group", also: ["army group"], plural: true, text: "The largest field command of the war: several armies under one commander on a stretch of front, such as Army Group Centre in Russia." },
+  { group: "formations", term: "Panzer", plural: true, text: "German for armour: a tank, or an armoured division. A Panzer division combined tanks, motorised infantry and guns for fast offensives." },
+  { group: "formations", term: "Combat Group", also: ["Combat Groups"], text: "The Italian co-belligerent army's Gruppi di Combattimento of 1944-45: formations the size of a weak division (some 9,000 men), equipped and supplied by the Allies, with British weapons." },
+  // Commands, services and forces
+  { group: "commands", term: "Stavka", text: "The Soviet Supreme High Command, the headquarters through which Stalin directed the war from June 1941." },
+  { group: "commands", term: "OKW", text: "Oberkommando der Wehrmacht, the High Command of the German armed forces: Hitler's personal military staff." },
+  { group: "commands", term: "OKH", text: "Oberkommando des Heeres, the German Army High Command, which ran the war on the Eastern Front." },
+  { group: "commands", term: "SHAEF", text: "Supreme Headquarters Allied Expeditionary Force, the combined American and British command under General Eisenhower for the liberation of north-west Europe." },
+  { group: "commands", term: "Comando Supremo", text: "The Italian armed forces' supreme headquarters in Rome, the staff through which Mussolini, and after July 1943 the king and Badoglio, directed the war." },
+  { group: "commands", term: "Wehrmacht", text: "The German armed forces as a whole from 1935 to 1945: army, navy and air force." },
+  { group: "commands", term: "Luftwaffe", text: "The German air force." },
+  { group: "commands", term: "Kriegsmarine", text: "The German navy." },
+  { group: "commands", term: "Regia Marina", text: "The Royal Italian Navy." },
+  { group: "commands", term: "Regia Aeronautica", text: "The Royal Italian Air Force." },
+  { group: "commands", term: "SS", also: ["Waffen-SS"], text: "The Nazi Party's armed and police organisation. The Waffen-SS were its field divisions, which fought alongside the army." },
+  { group: "commands", term: "NKVD", text: "The Soviet interior ministry, which ran the secret police, the labour camps and the internal and border troops." },
+  { group: "commands", term: "Volkssturm", text: "The German \"people's storm\": a militia of older men and boys raised from late 1944 for the last defence of the Reich." },
+  { group: "commands", term: "Home Army", text: "The main Polish resistance force (Armia Krajowa), loyal to the Polish government in exile in London." },
+  { group: "commands", term: "Free French", text: "The French forces that carried on the war under General de Gaulle after the armistice of June 1940." },
+  { group: "commands", term: "Vichy", text: "The French government under Marshal Pétain, based at Vichy from 1940 to 1944, which governed unoccupied France and the empire under the armistice with Germany." },
+  { group: "commands", term: "Axis", text: "The alliance of Germany, Italy and Japan, with the smaller states that joined it." },
+  { group: "commands", term: "partisan", plural: true, text: "An irregular fighter operating behind enemy lines: in this game the Soviet, Yugoslav, Polish and Italian resistance fighters." },
+  { group: "commands", term: "Duce", text: "\"Leader\": the title Mussolini took as head of the Fascist government of Italy." },
+  { group: "commands", term: "Führer", text: "\"Leader\": Hitler's title as head of the German state and, after 1938, commander of its armed forces." },
+  { group: "commands", term: "Reich", text: "The German state: here the Third Reich, Nazi Germany from 1933 to 1945." },
+  { group: "commands", term: "Fascist Grand Council", text: "The Fascist Party's highest body. On 24-25 July 1943 it voted against Mussolini, and the king then dismissed him." },
+  // Operations and events
+  { group: "operations", term: "Barbarossa", text: "The German invasion of the Soviet Union, launched on 22 June 1941." },
+  { group: "operations", term: "Sea Lion", text: "The German plan of summer 1940 to invade Britain. It was never launched." },
+  { group: "operations", term: "Typhoon", text: "The German offensive against Moscow, begun on 30 September 1941." },
+  { group: "operations", term: "Uranus", text: "The Soviet counteroffensive that encircled the German Sixth Army at Stalingrad, begun on 19 November 1942." },
+  { group: "operations", term: "Citadel", text: "The German offensive at Kursk in July 1943, the last big German offensive in the East." },
+  { group: "operations", term: "Bagration", text: "The Soviet summer offensive of 1944 that destroyed German Army Group Centre in Belorussia, begun on 22 June." },
+  { group: "operations", term: "Overlord", text: "The Allied operation to invade north-west Europe through Normandy, begun on D-Day, 6 June 1944." },
+  { group: "operations", term: "Torch", text: "The Anglo-American landings in French North Africa on 8 November 1942." },
+  { group: "operations", term: "Market Garden", text: "The Allied operation of September 1944 to seize the bridges over the Dutch rivers and outflank the German defences; it ended at Arnhem." },
+  { group: "operations", term: "Operation Dragoon", also: ["Dragoon"], text: "The Allied landing in the south of France on 15 August 1944." },
+  { group: "operations", term: "Husky", text: "The Allied invasion of Sicily in July 1943." },
+  { group: "operations", term: "Weserübung", text: "The German invasion of Denmark and Norway in April 1940." },
+  { group: "operations", term: "Crusader", text: "The British offensive in the Western Desert in November 1941 that relieved the besieged port of Tobruk." },
+  { group: "operations", term: "Dunkirk", text: "The port on the French coast from which more than 300,000 British, French and other Allied soldiers were taken off between 26 May and 4 June 1940." },
+  { group: "operations", term: "Blitz", text: "The German bombing of British cities from September 1940 to May 1941." },
+  { group: "operations", term: "Atlantic Wall", text: "The German coastal fortifications along the Channel and Atlantic coasts of western Europe, built mostly from 1942." },
+  { group: "operations", term: "Rome Protocols", text: "The agreements signed in Rome on 7 December 1944 between the Allied command in the Mediterranean and the leadership of the northern Italian resistance (the CLNAI), which settled how the partisans were to be supplied and who commanded them." },
+  // Weapons, machines and intelligence
+  { group: "weapons", term: "flak", text: "German Flugabwehrkanone, \"aircraft defence gun\": anti-aircraft guns, and by extension anti-aircraft fire." },
+  { group: "weapons", term: "radar", text: "Detecting aircraft or ships at a distance by radio echo. Britain had a chain of radar stations before the war began." },
+  { group: "weapons", term: "U-boat", plural: true, text: "A German submarine." },
+  { group: "weapons", term: "wolfpack", plural: true, text: "A group of U-boats working together against a convoy." },
+  { group: "weapons", term: "convoy", plural: true, text: "Merchant ships sailing together under naval escort, to protect them from submarines." },
+  { group: "weapons", term: "Enigma", text: "The cipher machine used by the German armed forces. British codebreakers at Bletchley Park read many of its messages." },
+  { group: "weapons", term: "Ultra", text: "The British name for the intelligence taken from decrypted Enigma and other high-grade German messages." },
+  { group: "weapons", term: "Panther", plural: true, text: "The German medium tank brought in during 1943 as an answer to the T-34." },
+  // Ideas and terms
+  { group: "ideas", term: "pocket", also: ["Kessel"], plural: true, text: "A force cut off and surrounded. The Germans called it a Kessel, a cauldron." },
+  { group: "ideas", term: "salient", plural: true, text: "A bulge in the front line, which can be attacked from both sides." },
+  { group: "ideas", term: "bridgehead", plural: true, text: "A foothold across a river or on a beach from which the attack can go on." },
+  { group: "ideas", term: "encirclement", plural: true, text: "Surrounding an enemy force so that it is cut off from supply and from retreat." },
+  { group: "ideas", term: "armistice", plural: true, text: "An agreement to stop fighting that falls short of a peace treaty. France signed one with Germany on 22 June 1940; Italy signed one with the Allies on 3 September 1943." },
+  { group: "ideas", term: "co-belligerent", text: "The status of Italy from October 1943: no longer an ally of Germany and fighting beside the Allies, but not formally one of them." },
+  { group: "ideas", term: "rasputitsa", text: "The Russian \"time without roads\": the mud of spring and autumn that stopped wheels and tracks on the Eastern Front." },
+  { group: "ideas", term: "Lend-Lease", text: "The American programme, begun in March 1941, of supplying Britain, the Soviet Union and others with war material without immediate payment." },
+  // In this game
+  { group: "game", term: "Manpower", text: "The first meter: the men available and the shape they are in. Under it are Organisation, Experience and Readiness." },
+  { group: "game", term: "Matériel", text: "The second meter: fuel, arms and ammunition, shipping and rail. Under it are Fuel & Oil, Arms & Ammunition and Shipping & Rail." },
+  { group: "game", term: "Initiative", text: "The third meter: how far you are ahead of, or behind, the historical pace. Under it are Intelligence, Command and Tempo." },
+  { group: "game", term: "Order of Battle", text: "The screen on which you commit your forces to a major battle: which arms get effort, under which commander and with which approach." },
+];
+
+const GLOSSARY_MATCH = (() => {
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const byWord = {};
+  const forms = [];
+  GLOSSARY.forEach((e, idx) => {
+    for (const f of [e.term, ...(e.also || [])]) {
+      const variants = new Set([f]);
+      if (/^[a-z]/.test(f)) variants.add(f[0].toUpperCase() + f.slice(1));
+      for (const v of variants) {
+        byWord[v] = idx;
+        if (e.plural) byWord[v + "s"] = idx;
+        forms.push({ form: v, src: esc(v) + (e.plural ? "s?" : "") });
+      }
+    }
+  });
+  forms.sort((x, y) => y.form.length - x.form.length);
+  return { source: "\\b(?:" + forms.map((x) => x.src).join("|") + ")\\b", byWord };
+})();
+
+// Where the first mention of each glossary term falls in `text`: [{ start, end, idx }], in reading order.
+function glossarySpans(text) {
+  const out = [];
+  const seen = new Set();
+  const re = new RegExp(GLOSSARY_MATCH.source, "g");
+  let m;
+  while ((m = re.exec(text))) {
+    const idx = GLOSSARY_MATCH.byWord[m[0]];
+    if (idx === undefined || seen.has(idx)) continue;
+    seen.add(idx);
+    out.push({ start: m.index, end: m.index + m[0].length, idx });
+  }
+  return out;
+}
+
+// The whole list, for the title screen.
+function GlossaryList() {
+  return (
+    <div className="mt-3">
+      <p className="text-[12px] italic mb-3 text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
+        In a situation report, the first mention of each of these is underlined with dots. Tap or click it for the note.
+      </p>
+      {GLOSSARY_GROUPS.map((g) => (
+        <details key={g.id} className="mb-2 border-l-4 pl-2" style={{ borderColor: "#00000033" }}>
+          <summary className="text-[12px] uppercase tracking-widest font-bold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {g.label}
+          </summary>
+          <div className="mt-1">
+            {GLOSSARY.filter((e) => e.group === g.id)
+              .slice()
+              .sort((a, b) => a.term.localeCompare(b.term))
+              .map((e) => (
+                <p key={e.term} className="text-[13px] leading-snug text-[#000000] mb-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  <b>{e.term}</b> — {e.text}
+                </p>
+              ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  );
+}

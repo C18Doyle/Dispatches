@@ -1,0 +1,58 @@
+[
+  {
+    "id": "g-combat-groups",
+    "where": "glossary: Combat Group",
+    "claim": "Six Combat Groups (Legnano, Folgore, Cremona, Friuli, Mantova, Piceno), each equal to a weak division, about 8,578 other ranks and 432 officers, British weapons.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Italian Co-belligerent Army (strength table); first groups formed after 24 September 1944 per the same page"
+  },
+  {
+    "id": "g-rome-protocols",
+    "where": "glossary: Rome Protocols",
+    "claim": "Agreements between SACMED and the CLNAI signed in Rome on 7 December 1944.",
+    "status": "date-confirmed-terms-not-checked",
+    "source": "Search results summarising the Italian resistance histories (date); the terms were not read from a source in this round, so the glossary says only that they settled supply and command."
+  },
+  {
+    "id": "g-fascist-grand-council",
+    "where": "glossary: Fascist Grand Council",
+    "claim": "Voted against Mussolini on 24-25 July 1943; the king dismissed him.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard accounts; already used in the Italian campaign text."
+  },
+  {
+    "id": "g-dunkirk",
+    "where": "glossary: Dunkirk",
+    "claim": "More than 300,000 Allied soldiers taken off between 26 May and 4 June 1940.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard accounts (Operation Dynamo 26 May-4 June 1940; about 338,000)."
+  },
+  {
+    "id": "g-operations",
+    "where": "glossary: operation dates",
+    "claim": "Barbarossa 22 Jun 1941; Typhoon 30 Sep 1941; Uranus 19 Nov 1942; Citadel Jul 1943; Bagration 22 Jun 1944; Torch 8 Nov 1942; Dragoon 15 Aug 1944; Husky Jul 1943; Crusader Nov 1941; Weserübung Apr 1940.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard accounts."
+  },
+  {
+    "id": "m-minsk",
+    "where": "map timeline: ussrBelarus soviet from 1944-07-12",
+    "claim": "Minsk liberated 3-4 July 1944; the pocket east of it was cleared by about 11-12 July (49th Army still reducing it into mid-July).",
+    "status": "approximate",
+    "source": "Wikipedia, Operation Bagration / Minsk offensive (search summary 2026-10-08). The date is a convention, not a single event."
+  },
+  {
+    "id": "m-kharkov41",
+    "where": "map timeline: ussrUkraine / ussrDon from 24 Oct 1941",
+    "claim": "Kharkov taken by the German 57th Infantry Division on 24 October 1941.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, First Battle of Kharkov"
+  },
+  {
+    "id": "m-kursk41",
+    "where": "map timeline: ussrDon",
+    "claim": "German troops entered Kursk on 2 November 1941 (some sources say 3 November).",
+    "status": "confirmed-secondary",
+    "source": "Search results 2026-10-08 (regional histories and Papers Past)."
+  }
+]

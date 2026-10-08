@@ -105,8 +105,9 @@ export function impactSum(impact: Impact | undefined): number {
 
 // Each of the three meters is one number that the rules use. Under each sit micro-states the player can read:
 // where the choices they made put the weight. Matériel (whose key is still `fuel`, so old saves keep working)
-// has four strands; Manpower has Organisation, Experience and Readiness; Initiative has Intelligence, Command
-// and Tempo. A micro-state's band is the headline score plus how far its own running tally has drifted from the
+// has three strands (Fuel & Oil, Arms & Ammunition, Shipping & Rail); Manpower has Organisation, Experience and
+// Readiness; Initiative has Intelligence, Command and Tempo. Every meter has exactly three, so the panel is the same
+// shape under each. A micro-state's band is the headline score plus how far its own running tally has drifted from the
 // average of its meter's tallies. The tally is kept in flags (so saves and rewinds carry it) and is fed by each
 // choice's impact on that meter, filed to a micro-state by what the choice's text is about (or by `matStrand`
 // for Matériel). Five bands, worst first; the worst is reserved for a meter at -8 or below.
@@ -117,14 +118,15 @@ export interface StrandDef {
   flag: string;
   name: string;
   words: RegExp;
+  /** Older save flags whose tallies count toward this strand (a strand that absorbed two earlier ones). */
+  legacy?: readonly string[];
   /** Band words, worst first: [critical, short, strained, adequate, plentiful]. */
   bands: readonly [string, string, string, string, string];
 }
 
 export const MATERIEL_STRANDS: readonly StrandDef[] = [
   { id: "oil", flag: "matOil", name: "Fuel & Oil", bands: ["Exhausted", "Short", "Strained", "Adequate", "Plentiful"], words: /\b(fuel|oil|oilfields?|petrol|gasoline|tankers?|refiner(?:y|ies)|synthetic|aviation spirit|ploesti|baku|maikop|coal)\b/gi },
-  { id: "ammo", flag: "matAmmo", name: "Ammunition", bands: ["Exhausted", "Short", "Strained", "Adequate", "Plentiful"], words: /\b(ammunition|shells?|munitions|artillery|ordnance|rounds|bombs?|torpedoes)\b/gi },
-  { id: "steel", flag: "matSteel", name: "Armour & Steel", bands: ["Exhausted", "Short", "Strained", "Adequate", "Plentiful"], words: /\b(steel|tanks?|panzers?|armou?r(?:ed)?|production|factor(?:y|ies)|industr(?:y|ial)|armaments?|arms|weapons?|output|tungsten|wolfram|rearmw*|equipment|aircraft)\b/gi },
+  { id: "arms", flag: "matArms", legacy: ["matAmmo", "matSteel"], name: "Arms & Ammunition", bands: ["Exhausted", "Short", "Strained", "Adequate", "Plentiful"], words: /\b(ammunition|shells?|munitions|artillery|ordnance|rounds|bombs?|torpedoes|steel|tanks?|panzers?|armou?r(?:ed)?|production|factor(?:y|ies)|industr(?:y|ial)|armaments?|arms|weapons?|output|tungsten|wolfram|rearmw*|equipment|aircraft)\b/gi },
   { id: "ship", flag: "matShip", name: "Shipping & Rail", bands: ["Exhausted", "Short", "Strained", "Adequate", "Plentiful"], words: /\b(shipping|convoys?|rail(?:way|ways|road)?|ports?|tonnage|transport|lend-lease|logistics?|supplies|supply|merchant|trains?|locomotives?|lifeline|ships?)\b/gi },
 ];
 
@@ -146,12 +148,15 @@ export const METER_STRANDS: Record<MeterKey, readonly StrandDef[]> = {
   initiative: INITIATIVE_STRANDS,
 };
 
+/** The two Matériel strands that became one: battle arms still name "ammo" or "steel"; both read the Arms & Ammunition strand. */
+export const STRAND_ALIAS: Record<string, string> = { ammo: "arms", steel: "arms" };
+
 /** Where an impact on a meter lands when its text names none of the meter's micro-states. Matériel has none: it moves them all. */
 const STRAND_FALLBACK: Partial<Record<MeterKey, string>> = { manpower: "rdy", initiative: "tmp" };
 
 /** Which micro-state of `meter` a choice's impact falls on, or null when the text does not say. */
 export function strandOf(meter: MeterKey, choice: Choice, outcomeText?: string): string | null {
-  if (meter === "fuel" && choice.matStrand) return choice.matStrand;
+  if (meter === "fuel" && choice.matStrand) return STRAND_ALIAS[choice.matStrand] || choice.matStrand;
   const text = [choice.label, outcomeText ?? choice.outcome ?? ""].join(" ");
   let best: string | null = null;
   let bestN = 0;
@@ -184,7 +189,7 @@ export type MaterielReading = StrandReading;
 /** The micro-states of one meter as the staff would put them, from the headline score and the tallies in `flags`. */
 export function strandReadout(meter: MeterKey, flags: Flags, meters: Meters): StrandReading[] {
   const defs = METER_STRANDS[meter];
-  const tallies = defs.map((s) => Number(flags[s.flag]) || 0);
+  const tallies = defs.map((s) => (Number(flags[s.flag]) || 0) + (s.legacy || []).reduce((a, k) => a + (Number(flags[k]) || 0), 0));
   const mean = tallies.reduce((a, v) => a + v, 0) / defs.length;
   return defs.map((s, i) => {
     const score = Math.max(METER_MIN, Math.min(METER_MAX, Math.round(meters[meter] + (tallies[i] - mean))));

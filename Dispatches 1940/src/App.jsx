@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef, Component } from "react";
 import * as Tone from "tone";
-import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork } from "./logic";
+import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
@@ -4066,7 +4066,7 @@ const CAMPAIGNS = {
             base.push({
               label: "Cancel the offensive entirely; shift to elastic defense",
               advisor: { name: "Guderian", position: "Whether Kursk is worth attacking at all this year is open to doubt, and he puts that to Hitler directly." },
-              attested: { by: "Guderian", text: "Do you think anyone even knows where Kursk is? The entire world doesn't care if we capture Kursk or not.", source: "Guderian, Panzer Leader (1952), p. 308, on his objection to Hitler in May 1943" },
+              attested: { by: "Guderian", text: "How many people do you think even know where Kursk is?", source: "Guderian, Panzer Leader (1952), his account of the conference with Hitler in early May 1943" },
               setFlags: { kursk: "cancelDefend", preservedReserve: true },
               favor: 1,
               impact: { manpower: 2, fuel: 1, initiative: 0 },
@@ -10835,7 +10835,7 @@ const CAMPAIGNS = {
             {
               label: "Reject any negotiation outright — Britain fights on, whatever the terms might have been",
               advisor: { name: "Churchill", position: "Nations that go down fighting rise again and those that surrender tamely are finished, so the country goes on to the end." },
-              attested: { by: "Churchill", text: "The nations which went down fighting rose again, but those which surrendered tamely were finished.", source: "War Cabinet, 28 May 1940, as minuted" },
+              attested: { by: "Churchill", text: "The nations which went down fighting rose again, but those which surrendered tamely were finished.", source: "War Cabinet, 28 May 1940 (4 p.m. meeting), as minuted" },
               historical: true,
               setFlags: { halifaxCrisis40: "reject" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
@@ -25212,6 +25212,16 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
+            Glossary — {GLOSSARY.length} terms
+          </summary>
+          <GlossaryList />
+        </details>
+
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
             How to Read the Reports
           </summary>
           <div
@@ -25220,7 +25230,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           >
             <p className="mb-2">
               <b>Meters.</b> Manpower, Matériel, and Initiative track your strategic position against the historical
-              baseline (zero). They gate collapses, foreclose options, and decide when your war ends. Matériel is the one number the rules use for fuel, ammunition, steel, shipping and rail together; the four small readings under it show which of them your decisions have been feeding or starving.
+              baseline (zero). They gate collapses, foreclose options, and decide when your war ends. Matériel is the one number the rules use for fuel, ammunition, steel, shipping and rail together; the three small readings under each meter (open one with its ▸ button) show where your decisions have been putting the weight.
             </p>
             <p className="mb-2">
               <b>⚄ Contested.</b> A handful of decisions are honestly disputed by historians. These roll —
@@ -25463,7 +25473,7 @@ function DifficultyScreen({ campaign, onPick, onBack }) {
 // one. Only the bar moves; the figures in the text never change, so the words on the page are the same at every
 // moment. The app's reduced-motion setting and the system one both shorten the slide to nothing. `min` and `max`
 // (kept symmetrical about zero) let the same bar draw a tracker with its own scale (Coalition Cohesion, German Trust).
-function MeterBar({ label, value, danger, showBar = true, from, min = -10, max = 10, tag, valueLabel }) {
+function MeterBar({ label, value, danger, showBar = true, from, min = -10, max = 10, tag, valueLabel, reserveTag = false }) {
   const clamp = (n) => Math.max(min, Math.min(max, n));
   const clamped = clamp(value);
   const hasFrom = typeof from === "number";
@@ -25504,16 +25514,19 @@ function MeterBar({ label, value, danger, showBar = true, from, min = -10, max =
           {moved && <div aria-hidden="true" className="absolute top-0 bottom-0 w-[2px] bg-black opacity-70" style={{ left: `calc(${50 + clamp(from) * unit}% - 1px)` }} />}
         </div>
       )}
-      <span className={`font-bold text-right shrink-0 ${valueLabel ? "w-32" : moved ? "w-28" : "w-10"}`} style={{ color: danger ? "#7a2e2e" : "#000000" }}>
+      <span className={`font-bold text-right shrink-0 whitespace-nowrap ${valueLabel ? "w-32" : "w-10"}`} style={{ color: danger ? "#7a2e2e" : "#000000" }}>
         {valueLabel || fmt(value)}
         {danger && !tag ? " ⚠" : ""}
-        {moved && !valueLabel ? <span className="font-normal opacity-70 text-[11px]"> was {fmt(from)}</span> : null}
       </span>
     </div>
-    {tag ? (
-      <div className="text-[10px] uppercase tracking-wider font-bold mt-[2px]" style={{ paddingLeft: 88, color: /critical|dangerous|owed/i.test(tag) ? "#7a2e2e" : "#8a5a1a" }}>
-        {/critical|dangerous/i.test(tag) ? <span aria-hidden="true">⚠ </span> : null}
-        {tag}
+    {/* The figures column is one width whatever it holds, so the bar is always the same size; what a decision just changed and any warning go on a line of their own, which the briefing meters (reserveTag) keep even when it is empty. */}
+    {tag || reserveTag || (moved && !valueLabel) ? (
+      <div className="flex justify-between gap-2 text-[10px] uppercase tracking-wider font-bold mt-[2px] min-h-[14px]" style={{ paddingLeft: 88 }}>
+        <span style={{ color: /critical|dangerous|owed/i.test(tag || "") ? "#7a2e2e" : "#8a5a1a" }}>
+          {tag && /critical|dangerous/i.test(tag) ? <span aria-hidden="true">⚠ </span> : null}
+          {tag}
+        </span>
+        {moved && !valueLabel ? <span className="font-normal opacity-70 normal-case tracking-normal text-[11px] whitespace-nowrap">was {fmt(from)}</span> : null}
       </div>
     ) : null}
     </div>
@@ -25603,7 +25616,7 @@ function MeterPanel({ meters, flags, prev }) {
             <div key={key}>
               <div className="flex items-center gap-1">
                 <div className="flex-1 min-w-0">
-                  <MeterBar label={label} value={v} from={prev && prev.meters ? prev.meters[key] : undefined} danger={dangerAt != null && v <= dangerAt} tag={owed > 0 ? `${meterDangerTag(v) || ""} · ${owed} owed`.trim() : meterDangerTag(v)} />
+                  <MeterBar label={label} value={v} from={prev && prev.meters ? prev.meters[key] : undefined} danger={dangerAt != null && v <= dangerAt} tag={owed > 0 ? `${meterDangerTag(v) || ""} · ${owed} owed`.trim() : meterDangerTag(v)} reserveTag />
                 </div>
                 <button
                   onClick={() => toggle(key)}
@@ -25645,9 +25658,6 @@ function MeterPanel({ meters, flags, prev }) {
             </div>
           );
         })}
-      </div>
-      <div className="text-[10px] uppercase tracking-wider opacity-70 mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-        Positive is better supplied and ahead of the historical pace. Negative is the opposite. Open a meter (▸) to see what is behind it.
       </div>
     </div>
   );
@@ -27424,6 +27434,39 @@ function Typewriter({ text, instant, soundOn }) {
     return () => clearInterval(id);
   }, [text, effectiveInstant]);
   const done = shown >= text.length;
+  // Glossary terms: once the text has finished, the first mention of each is underlined with dots and opens a note.
+  // The words on the page do not change; the same paragraph is read aloud as before (the status line above), and the
+  // full list is under "Glossary" on the title screen.
+  const spans = useMemo(() => glossarySpans(text), [text]);
+  const [openTerm, setOpenTerm] = useState(null);
+  useEffect(() => setOpenTerm(null), [text]);
+  const pieces = [];
+  if (done && spans.length) {
+    let at = 0;
+    for (const sp of spans) {
+      if (sp.start > at) pieces.push(text.slice(at, sp.start));
+      const word = text.slice(sp.start, sp.end);
+      pieces.push(
+        <button
+          key={sp.start}
+          type="button"
+          tabIndex={-1}
+          aria-label={`Show meaning of ${GLOSSARY[sp.idx].term}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpenTerm((o) => (o === sp.idx ? null : sp.idx));
+          }}
+          className="inline p-0 m-0 bg-transparent text-inherit border-b border-dotted border-[#000000] cursor-help"
+          style={{ font: "inherit", textAlign: "inherit" }}
+        >
+          {word}
+        </button>
+      );
+      at = sp.end;
+    }
+    if (at < text.length) pieces.push(text.slice(at));
+  }
+  const note = openTerm != null ? GLOSSARY[openTerm] : null;
   return (
     <>
       <p className="sr-only" role="status">
@@ -27432,13 +27475,27 @@ function Typewriter({ text, instant, soundOn }) {
       <p
         aria-hidden="true"
         onClick={() => setShown(text.length)}
-        className="leading-relaxed mb-6 text-[16px] text-[#000000] cursor-pointer"
+        className={`leading-relaxed text-[16px] text-[#000000] cursor-pointer ${note ? "mb-2" : "mb-6"}`}
         style={{ fontFamily: "'Courier Prime', monospace", whiteSpace: "pre-line" }}
         title={done ? undefined : "Click to reveal instantly"}
       >
-        {text.slice(0, shown)}
+        {done && spans.length ? pieces : text.slice(0, shown)}
         {!done && <span className="opacity-70">▌</span>}
       </p>
+      {note && (
+        <div role="note" className="mb-6 border-l-4 pl-3 py-1 text-[13px] leading-snug text-[#000000]" style={{ borderColor: "#b08d3f", fontFamily: "'Courier Prime', monospace" }}>
+          <b>{note.term}</b> — {note.text}
+          <button
+            type="button"
+            onClick={() => setOpenTerm(null)}
+            aria-label={`Close the note on ${note.term}`}
+            className="ml-2 px-1 border border-black text-[11px] uppercase tracking-wider hover:bg-[#000000] hover:text-[#ffffff]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Close
+          </button>
+        </div>
+      )}
     </>
   );
 }
@@ -27975,8 +28032,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   const [strandInfo] = useState(() => {
     if (resume && resume.strandInfo) return resume.strandInfo;
     const byId = Object.fromEntries(materielReadout(flags || {}, meters).map((r) => [r.id, r]));
+    const strandFor = (c) => (c.strand ? byId[STRAND_ALIAS[c.strand] || c.strand] : null);
     return Object.fromEntries(
-      categories.map((c) => [c.id, c.strand && byId[c.strand] ? { name: byId[c.strand].name, band: byId[c.strand].band, mult: STRAND_BAND_MULT[byId[c.strand].band] } : null])
+      categories.map((c) => [c.id, strandFor(c) ? { name: strandFor(c).name, band: strandFor(c).band, mult: STRAND_BAND_MULT[strandFor(c).band] } : null])
     );
   });
   const strandMults = Object.fromEntries(categories.map((c) => [c.id, strandInfo[c.id] ? strandInfo[c.id].mult : 1]));
@@ -30576,6 +30634,156 @@ class ErrorBoundary extends Component {
   }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Glossary. Terms a reader who is not a wargamer may not know. In a situation report the first mention of each term is
+// underlined with dots (tap or click it for a note); the whole list is under "Glossary" on the title screen. Terms are
+// matched exactly as written (capital letters count, so "axis of advance" is not the Axis); a term whose entry has
+// `plural: true` also matches with a trailing "s"; a lower-case term also matches with a capital letter, for a
+// sentence's first word. Facts are checked in claims/glossary-and-map.json.
+// ---------------------------------------------------------------------------------------------------------------------
+const GLOSSARY_GROUPS = [
+  { id: "formations", label: "Formations" },
+  { id: "commands", label: "Commands, services and forces" },
+  { id: "operations", label: "Operations and events" },
+  { id: "weapons", label: "Weapons, machines and intelligence" },
+  { id: "ideas", label: "Ideas and terms" },
+  { id: "game", label: "In this game" },
+];
+const GLOSSARY = [
+  // Formations
+  { group: "formations", term: "corps", plural: false, text: "A formation of two or more divisions, tens of thousands of men, under one headquarters. Armies were built from corps." },
+  { group: "formations", term: "division", plural: true, text: "The basic self-contained fighting formation: infantry, guns and support under one command, usually 10,000 to 20,000 men in this war. Several divisions make a corps." },
+  { group: "formations", term: "brigade", plural: true, text: "A formation smaller than a division, a few thousand men, often attached to a larger force for a particular job." },
+  { group: "formations", term: "Army Group", also: ["army group"], plural: true, text: "The largest field command of the war: several armies under one commander on a stretch of front, such as Army Group Centre in Russia." },
+  { group: "formations", term: "Panzer", plural: true, text: "German for armour: a tank, or an armoured division. A Panzer division combined tanks, motorised infantry and guns for fast offensives." },
+  { group: "formations", term: "Combat Group", also: ["Combat Groups"], text: "The Italian co-belligerent army's Gruppi di Combattimento of 1944-45: formations the size of a weak division (some 9,000 men), equipped and supplied by the Allies, with British weapons." },
+  // Commands, services and forces
+  { group: "commands", term: "Stavka", text: "The Soviet Supreme High Command, the headquarters through which Stalin directed the war from June 1941." },
+  { group: "commands", term: "OKW", text: "Oberkommando der Wehrmacht, the High Command of the German armed forces: Hitler's personal military staff." },
+  { group: "commands", term: "OKH", text: "Oberkommando des Heeres, the German Army High Command, which ran the war on the Eastern Front." },
+  { group: "commands", term: "SHAEF", text: "Supreme Headquarters Allied Expeditionary Force, the combined American and British command under General Eisenhower for the liberation of north-west Europe." },
+  { group: "commands", term: "Comando Supremo", text: "The Italian armed forces' supreme headquarters in Rome, the staff through which Mussolini, and after July 1943 the king and Badoglio, directed the war." },
+  { group: "commands", term: "Wehrmacht", text: "The German armed forces as a whole from 1935 to 1945: army, navy and air force." },
+  { group: "commands", term: "Luftwaffe", text: "The German air force." },
+  { group: "commands", term: "Kriegsmarine", text: "The German navy." },
+  { group: "commands", term: "Regia Marina", text: "The Royal Italian Navy." },
+  { group: "commands", term: "Regia Aeronautica", text: "The Royal Italian Air Force." },
+  { group: "commands", term: "SS", also: ["Waffen-SS"], text: "The Nazi Party's armed and police organisation. The Waffen-SS were its field divisions, which fought alongside the army." },
+  { group: "commands", term: "NKVD", text: "The Soviet interior ministry, which ran the secret police, the labour camps and the internal and border troops." },
+  { group: "commands", term: "Volkssturm", text: "The German \"people's storm\": a militia of older men and boys raised from late 1944 for the last defence of the Reich." },
+  { group: "commands", term: "Home Army", text: "The main Polish resistance force (Armia Krajowa), loyal to the Polish government in exile in London." },
+  { group: "commands", term: "Free French", text: "The French forces that carried on the war under General de Gaulle after the armistice of June 1940." },
+  { group: "commands", term: "Vichy", text: "The French government under Marshal Pétain, based at Vichy from 1940 to 1944, which governed unoccupied France and the empire under the armistice with Germany." },
+  { group: "commands", term: "Axis", text: "The alliance of Germany, Italy and Japan, with the smaller states that joined it." },
+  { group: "commands", term: "partisan", plural: true, text: "An irregular fighter operating behind enemy lines: in this game the Soviet, Yugoslav, Polish and Italian resistance fighters." },
+  { group: "commands", term: "Duce", text: "\"Leader\": the title Mussolini took as head of the Fascist government of Italy." },
+  { group: "commands", term: "Führer", text: "\"Leader\": Hitler's title as head of the German state and, after 1938, commander of its armed forces." },
+  { group: "commands", term: "Reich", text: "The German state: here the Third Reich, Nazi Germany from 1933 to 1945." },
+  { group: "commands", term: "Fascist Grand Council", text: "The Fascist Party's highest body. On 24-25 July 1943 it voted against Mussolini, and the king then dismissed him." },
+  // Operations and events
+  { group: "operations", term: "Barbarossa", text: "The German invasion of the Soviet Union, launched on 22 June 1941." },
+  { group: "operations", term: "Sea Lion", text: "The German plan of summer 1940 to invade Britain. It was never launched." },
+  { group: "operations", term: "Typhoon", text: "The German offensive against Moscow, begun on 30 September 1941." },
+  { group: "operations", term: "Uranus", text: "The Soviet counteroffensive that encircled the German Sixth Army at Stalingrad, begun on 19 November 1942." },
+  { group: "operations", term: "Citadel", text: "The German offensive at Kursk in July 1943, the last big German offensive in the East." },
+  { group: "operations", term: "Bagration", text: "The Soviet summer offensive of 1944 that destroyed German Army Group Centre in Belorussia, begun on 22 June." },
+  { group: "operations", term: "Overlord", text: "The Allied operation to invade north-west Europe through Normandy, begun on D-Day, 6 June 1944." },
+  { group: "operations", term: "Torch", text: "The Anglo-American landings in French North Africa on 8 November 1942." },
+  { group: "operations", term: "Market Garden", text: "The Allied operation of September 1944 to seize the bridges over the Dutch rivers and outflank the German defences; it ended at Arnhem." },
+  { group: "operations", term: "Operation Dragoon", also: ["Dragoon"], text: "The Allied landing in the south of France on 15 August 1944." },
+  { group: "operations", term: "Husky", text: "The Allied invasion of Sicily in July 1943." },
+  { group: "operations", term: "Weserübung", text: "The German invasion of Denmark and Norway in April 1940." },
+  { group: "operations", term: "Crusader", text: "The British offensive in the Western Desert in November 1941 that relieved the besieged port of Tobruk." },
+  { group: "operations", term: "Dunkirk", text: "The port on the French coast from which more than 300,000 British, French and other Allied soldiers were taken off between 26 May and 4 June 1940." },
+  { group: "operations", term: "Blitz", text: "The German bombing of British cities from September 1940 to May 1941." },
+  { group: "operations", term: "Atlantic Wall", text: "The German coastal fortifications along the Channel and Atlantic coasts of western Europe, built mostly from 1942." },
+  { group: "operations", term: "Rome Protocols", text: "The agreements signed in Rome on 7 December 1944 between the Allied command in the Mediterranean and the leadership of the northern Italian resistance (the CLNAI), which settled how the partisans were to be supplied and who commanded them." },
+  // Weapons, machines and intelligence
+  { group: "weapons", term: "flak", text: "German Flugabwehrkanone, \"aircraft defence gun\": anti-aircraft guns, and by extension anti-aircraft fire." },
+  { group: "weapons", term: "radar", text: "Detecting aircraft or ships at a distance by radio echo. Britain had a chain of radar stations before the war began." },
+  { group: "weapons", term: "U-boat", plural: true, text: "A German submarine." },
+  { group: "weapons", term: "wolfpack", plural: true, text: "A group of U-boats working together against a convoy." },
+  { group: "weapons", term: "convoy", plural: true, text: "Merchant ships sailing together under naval escort, to protect them from submarines." },
+  { group: "weapons", term: "Enigma", text: "The cipher machine used by the German armed forces. British codebreakers at Bletchley Park read many of its messages." },
+  { group: "weapons", term: "Ultra", text: "The British name for the intelligence taken from decrypted Enigma and other high-grade German messages." },
+  { group: "weapons", term: "Panther", plural: true, text: "The German medium tank brought in during 1943 as an answer to the T-34." },
+  // Ideas and terms
+  { group: "ideas", term: "pocket", also: ["Kessel"], plural: true, text: "A force cut off and surrounded. The Germans called it a Kessel, a cauldron." },
+  { group: "ideas", term: "salient", plural: true, text: "A bulge in the front line, which can be attacked from both sides." },
+  { group: "ideas", term: "bridgehead", plural: true, text: "A foothold across a river or on a beach from which the attack can go on." },
+  { group: "ideas", term: "encirclement", plural: true, text: "Surrounding an enemy force so that it is cut off from supply and from retreat." },
+  { group: "ideas", term: "armistice", plural: true, text: "An agreement to stop fighting that falls short of a peace treaty. France signed one with Germany on 22 June 1940; Italy signed one with the Allies on 3 September 1943." },
+  { group: "ideas", term: "co-belligerent", text: "The status of Italy from October 1943: no longer an ally of Germany and fighting beside the Allies, but not formally one of them." },
+  { group: "ideas", term: "rasputitsa", text: "The Russian \"time without roads\": the mud of spring and autumn that stopped wheels and tracks on the Eastern Front." },
+  { group: "ideas", term: "Lend-Lease", text: "The American programme, begun in March 1941, of supplying Britain, the Soviet Union and others with war material without immediate payment." },
+  // In this game
+  { group: "game", term: "Manpower", text: "The first meter: the men available and the shape they are in. Under it are Organisation, Experience and Readiness." },
+  { group: "game", term: "Matériel", text: "The second meter: fuel, arms and ammunition, shipping and rail. Under it are Fuel & Oil, Arms & Ammunition and Shipping & Rail." },
+  { group: "game", term: "Initiative", text: "The third meter: how far you are ahead of, or behind, the historical pace. Under it are Intelligence, Command and Tempo." },
+  { group: "game", term: "Order of Battle", text: "The screen on which you commit your forces to a major battle: which arms get effort, under which commander and with which approach." },
+];
+
+const GLOSSARY_MATCH = (() => {
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const byWord = {};
+  const forms = [];
+  GLOSSARY.forEach((e, idx) => {
+    for (const f of [e.term, ...(e.also || [])]) {
+      const variants = new Set([f]);
+      if (/^[a-z]/.test(f)) variants.add(f[0].toUpperCase() + f.slice(1));
+      for (const v of variants) {
+        byWord[v] = idx;
+        if (e.plural) byWord[v + "s"] = idx;
+        forms.push({ form: v, src: esc(v) + (e.plural ? "s?" : "") });
+      }
+    }
+  });
+  forms.sort((x, y) => y.form.length - x.form.length);
+  return { source: "\\b(?:" + forms.map((x) => x.src).join("|") + ")\\b", byWord };
+})();
+
+// Where the first mention of each glossary term falls in `text`: [{ start, end, idx }], in reading order.
+function glossarySpans(text) {
+  const out = [];
+  const seen = new Set();
+  const re = new RegExp(GLOSSARY_MATCH.source, "g");
+  let m;
+  while ((m = re.exec(text))) {
+    const idx = GLOSSARY_MATCH.byWord[m[0]];
+    if (idx === undefined || seen.has(idx)) continue;
+    seen.add(idx);
+    out.push({ start: m.index, end: m.index + m[0].length, idx });
+  }
+  return out;
+}
+
+// The whole list, for the title screen.
+function GlossaryList() {
+  return (
+    <div className="mt-3">
+      <p className="text-[12px] italic mb-3 text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
+        In a situation report, the first mention of each of these is underlined with dots. Tap or click it for the note.
+      </p>
+      {GLOSSARY_GROUPS.map((g) => (
+        <details key={g.id} className="mb-2 border-l-4 pl-2" style={{ borderColor: "#00000033" }}>
+          <summary className="text-[12px] uppercase tracking-widest font-bold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {g.label}
+          </summary>
+          <div className="mt-1">
+            {GLOSSARY.filter((e) => e.group === g.id)
+              .slice()
+              .sort((a, b) => a.term.localeCompare(b.term))
+              .map((e) => (
+                <p key={e.term} className="text-[13px] leading-snug text-[#000000] mb-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  <b>{e.term}</b> — {e.text}
+                </p>
+              ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  );
+}
 function WW2CommandInner() {
   const [screen, setScreen] = useState("select");
   const [campaignId, setCampaignId] = useState(null);
