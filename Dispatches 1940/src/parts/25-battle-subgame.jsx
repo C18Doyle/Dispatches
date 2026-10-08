@@ -717,6 +717,140 @@ const KEY_BATTLE_COMMANDERS = {
       reportLine: "Levashev's paratroopers are dropped on the Vyazma highway.",
     },
   ],
+  // Round 26 (item 1): the six battles added with the German and Soviet rounds. Each commander is tied to the arm of his
+  // own documented command, verified 2026-10-08; an arm with no documented named commander is left without one.
+  //  - Guderian (Panzer Group 2) and Kleist (Panzer Group 1) from Wikipedia, Battle of Kiev (1941).
+  //  - Hausser (II SS Panzer Corps) and Hoth (4th Panzer Army) from Wikipedia, Third Battle of Kharkov.
+  //  - Dietrich (Sixth SS Panzer Army) and Manteuffel (Fifth Panzer Army) from Wikipedia, Battle of the Bulge.
+  //  - Rokossovsky (Central Front), Vatutin (Voronezh Front) and Rotmistrov (5th Guards Tank Army) from Wikipedia,
+  //    Battle of Kursk.
+  //  - Rodimtsev (13th Guards Rifle Division) and Chuikov (62nd Army) from Wikipedia, Battle of Stalingrad.
+  //  - Chuikov (8th Guards Army), Katukov (1st Guards Tank Army) and Zhukov (1st Belorussian Front) from Wikipedia,
+  //    Battle of the Seelow Heights.
+  kievPocket41: [
+    {
+      id: "guderian",
+      name: "General Heinz Guderian",
+      role: "Commanding, Panzer Group 2",
+      category: "northPincer",
+      note: "The northern jaw is his, and he has argued against being sent south at all. Effort put into Panzer Group 2 carries further under him.",
+      reportLine: "Guderian drives his group south from the Desna as fast as its fuel allows.",
+    },
+    {
+      id: "kleist",
+      name: "General Ewald von Kleist",
+      role: "Commanding, Panzer Group 1",
+      category: "southPincer",
+      note: "The southern jaw is his, out of the bridgehead on the Dnieper. Effort put into Panzer Group 1 carries further under him.",
+      reportLine: "Kleist's tanks come up out of the bridgehead and drive north to meet the other group.",
+    },
+  ],
+  kharkovBackhand43: [
+    {
+      id: "hausser",
+      name: "General Paul Hausser",
+      role: "Commanding, II SS Panzer Corps",
+      category: "ssCorps",
+      note: "The SS divisions are his, and he has already left Kharkov once against orders. Effort put into the SS Panzer Corps carries further under him.",
+      reportLine: "Hausser turns his three divisions back toward Kharkov.",
+    },
+    {
+      id: "hoth",
+      name: "General Hermann Hoth",
+      role: "Commanding, 4th Panzer Army",
+      category: "panzerArmy",
+      note: "The flank blow is his, from the south. Effort put into the Panzer Armies carries further under him.",
+      reportLine: "Hoth sends XLVIII Panzer Corps north into the flank of the Soviet spearheads.",
+    },
+  ],
+  ardennesWacht44: [
+    {
+      id: "dietrich",
+      name: "SS-Oberstgruppenführer Sepp Dietrich",
+      role: "Commanding, Sixth SS Panzer Army",
+      category: "sixthSS",
+      note: "The main effort is his, on the northern shoulder, with Peiper's group at its head. Effort put into the Sixth SS Panzer Army carries further under him.",
+      reportLine: "Dietrich's divisions go forward along the northern roads in the fog.",
+    },
+    {
+      id: "manteuffel",
+      name: "General Hasso von Manteuffel",
+      role: "Commanding, Fifth Panzer Army",
+      category: "fifthPanzer",
+      note: "The centre is his, where the roads are better and the Americans thinner. Effort put into the Fifth Panzer Army carries further under him.",
+      reportLine: "Manteuffel's panzer divisions slip through the gaps in the American line.",
+    },
+  ],
+  kurskSoviet43: [
+    {
+      id: "rokossovsky",
+      name: "General Konstantin Rokossovsky",
+      role: "Commanding, Central Front",
+      category: "antiTank",
+      note: "The northern face is his, and it was dug in six belts deep. Effort put into the anti-tank guns and minefields carries further under him.",
+      reportLine: "Rokossovsky's guns open on the German assembly areas and the belts wait.",
+    },
+    {
+      id: "vatutin",
+      name: "General Nikolai Vatutin",
+      role: "Commanding, Voronezh Front",
+      category: "infantry",
+      note: "The southern face is his, where the German blow was heaviest, and his rifle armies took it. Effort put into the rifle armies carries further under him.",
+      reportLine: "Vatutin's rifle divisions stand in the belts on the southern face and wait for the blow.",
+    },
+    {
+      id: "rotmistrov",
+      name: "General Pavel Rotmistrov",
+      role: "Commanding, 5th Guards Tank Army",
+      category: "tanks",
+      note: "The tank reserve is his, moved up from the Steppe Front. Effort put into the tank reserve carries further under him.",
+      reportLine: "Rotmistrov's tank corps move up behind the second belt.",
+    },
+  ],
+  stalingradCity42: [
+    {
+      id: "rodimtsev",
+      name: "General Alexander Rodimtsev",
+      role: "Commanding, 13th Guards Rifle Division",
+      category: "rifle",
+      note: "His division crossed the Volga on 14 and 15 September and was in the centre of the city within a day. Effort put into the rifle divisions carries further under him.",
+      reportLine: "Rodimtsev's guardsmen cross the river in the dark and go straight into the line.",
+    },
+    {
+      id: "chuikov",
+      name: "General Vasily Chuikov",
+      role: "Commanding, 62nd Army",
+      category: "groups",
+      note: "The close-quarters fighting is his doctrine. Effort put into the assault groups carries further under him.",
+      reportLine: "Chuikov moves his assault groups into the ruins as close to the Germans as they can get.",
+    },
+  ],
+  seelow45: [
+    {
+      id: "zhukov",
+      name: "Marshal Georgy Zhukov",
+      role: "Commanding, 1st Belorussian Front",
+      category: "barrage",
+      note: "The barrage is his plan, and so are the searchlights. Effort put into the opening barrage carries further under him.",
+      reportLine: "Zhukov gives the order for the barrage to open.",
+    },
+    {
+      id: "chuikov",
+      name: "General Vasily Chuikov",
+      role: "Commanding, 8th Guards Army",
+      category: "rifle",
+      note: "His army is in the centre of the attack, below the heights, and he has taken a city before. Effort put into the rifle armies carries further under him.",
+      reportLine: "Chuikov's army goes forward into the flooded fields below the heights.",
+    },
+    {
+      id: "katukov",
+      name: "General Mikhail Katukov",
+      role: "Commanding, 1st Guards Tank Army",
+      category: "tanks",
+      note: "His tank army is the weight behind the first assault, and the road is narrow. Effort put into the tank armies carries further under him.",
+      reportLine: "Katukov's tanks move up the one dry road toward the heights.",
+    },
+  ],
   // Round 8 (Craig: "if limit it to a max of 3 commanders"): cut from four names to three. The
   // one dropped — Theodor Busse, Manstein's Chief of Staff — was always the odd one out of the
   // four anyway: Hoth, Kempf, and Deßloch each held a field or air command, giving orders in
@@ -1306,6 +1440,127 @@ const KEY_BATTLE_APPROACHES = {
       note: "Hold the cavalry until the armies have widened the gap and secured its shoulders. Effort in Pincer Armies carries further; effort in Cavalry Corps carries less, kept waiting behind the line.",
       modifiers: { armies: 0.7, cavalry: -0.5 },
       reportLine: "The armies break the line wide first, and the cavalry wait behind them for the gap.",
+    },
+  ],
+  // Round 26 (item 1). Each pair is a modeled tradeoff between two arms, disclosed like the pairs above: the documented
+  // fact is the tension, not two named historical plans.
+  //  - Kiev: the two panzer groups closing the ring on their own, or the infantry armies squeezing it from every side
+  //    (the ring was closed by the tanks on 16 September, and held by the infantry; Wikipedia, Battle of Kiev (1941)).
+  //  - Kharkov: the flank blow by the panzer armies, or the SS divisions going for the city (Wikipedia, Third Battle of
+  //    Kharkov).
+  //  - The Ardennes: the northern route by the Sixth SS Panzer Army, which was the plan, or the centre, where the Fifth
+  //    Panzer Army found the thinnest line (Wikipedia, Battle of the Bulge).
+  //  - Kursk: the belts held as laid out, or the tank reserve held ready for a counterstroke (Wikipedia, Battle of Kursk).
+  //  - Stalingrad: the close-quarters doctrine, or the guns on the east bank doing the work (Wikipedia, Battle of
+  //    Stalingrad).
+  //  - Seelow: the tank armies on the first day, as Zhukov had them, or the rifle armies breaking in first
+  //    (Wikipedia, Battle of the Seelow Heights).
+  kievPocket41: [
+    {
+      id: "closeTheRing",
+      name: "Close the Ring Early",
+      subtitle: "Both panzer groups drive to the meeting-point",
+      note: "Send both panzer groups at the gap between them as fast as they can go, as the directive wanted. Effort in the two panzer groups carries further; effort in the Infantry Armies carries less, left to follow on foot.",
+      modifiers: { northPincer: 0.7, southPincer: 0.7, infantry: -0.5 },
+      reportLine: "Both panzer groups drive for the meeting-point, and the infantry follow as best they can.",
+    },
+    {
+      id: "squeezeFromAllSides",
+      name: "Squeeze It From Every Side",
+      subtitle: "The infantry armies close in while the panzers hold the outer ring",
+      note: "Let the infantry armies press the Soviet front while the panzer groups close more slowly behind. Effort in the Infantry Armies and the Luftwaffe carries further; effort in the two panzer groups carries less, held on the outer ring.",
+      modifiers: { infantry: 0.7, air: 0.4, northPincer: -0.5, southPincer: -0.4 },
+      reportLine: "The infantry armies press in from the west while the panzer groups close the outer ring.",
+    },
+  ],
+  kharkovBackhand43: [
+    {
+      id: "flankFirst",
+      name: "Strike the Flank First",
+      subtitle: "The panzer armies cut off the spearheads before the city",
+      note: "Send the 4th and 1st Panzer Armies into the flank of the Soviet spearheads first, as Manstein planned. Effort in the Panzer Armies and the Fourth Air Fleet carries further; effort in the SS Panzer Corps carries less, held back from the city.",
+      modifiers: { panzerArmy: 0.7, ssCorps: -0.4, air: 0.5 },
+      reportLine: "The panzer armies go into the flank of the Soviet spearheads, and the SS divisions wait at the edge of the city.",
+    },
+    {
+      id: "cityFirst",
+      name: "Retake the City First",
+      subtitle: "The SS divisions go for Kharkov at once",
+      note: "Send the SS Panzer Corps into Kharkov at once, because the city is what Hitler wants back. Effort in the SS Panzer Corps and the Infantry Holding the Line carries further; effort in the Panzer Armies carries less, kept to the flank.",
+      modifiers: { ssCorps: 0.7, panzerArmy: -0.5, infantry: 0.5 },
+      reportLine: "The SS divisions are sent into Kharkov while the panzer armies hold the flank.",
+    },
+  ],
+  ardennesWacht44: [
+    {
+      id: "northernWeight",
+      name: "The Northern Route",
+      subtitle: "The main weight on the Sixth SS Panzer Army, as the plan had it",
+      note: "Put the main weight on the Sixth SS Panzer Army on the northern shoulder, as Hitler's plan required. Effort in the Sixth SS Panzer Army carries further; effort in the Fifth Panzer Army carries less, kept as the second effort.",
+      modifiers: { sixthSS: 0.7, fifthPanzer: -0.5, seventhArmy: 0 },
+      reportLine: "The main weight goes to the Sixth SS Panzer Army on the northern shoulder.",
+    },
+    {
+      id: "centreWeight",
+      name: "The Centre",
+      subtitle: "The weight where the line is thinnest",
+      note: "Put the main weight on the Fifth Panzer Army in the centre, where the American line is thinnest. Effort in the Fifth Panzer Army and the Seventh Army carries further; effort in the Sixth SS Panzer Army carries less, held as the second effort.",
+      modifiers: { fifthPanzer: 0.7, seventhArmy: 0.3, sixthSS: -0.5 },
+      reportLine: "The main weight goes to the Fifth Panzer Army in the centre, where the American line is thinnest.",
+    },
+  ],
+  kurskSoviet43: [
+    {
+      id: "holdTheBelts",
+      name: "Hold the Belts",
+      subtitle: "Fight the whole defence in the belts, as Zhukov planned",
+      note: "Fight the battle in the belts as they were laid out, and keep the tank reserve back. Effort in the Anti-Tank Guns and Minefields and the Rifle Armies carries further; effort in the Tank Reserve carries less, held behind the second belt.",
+      modifiers: { antiTank: 0.7, infantry: 0.3, tanks: -0.6 },
+      reportLine: "The defence is fought in the belts, and the tank reserve is held behind the second one.",
+    },
+    {
+      id: "counterstrokeReady",
+      name: "Keep the Counterstroke Ready",
+      subtitle: "The tank reserve forward, close behind the belts",
+      note: "Bring the tank reserve right up behind the belts and keep it ready to move. Effort in the Tank Reserve and the Air Armies carries further; effort in the Anti-Tank Guns and Minefields carries less, because the guns that are not there to hold the belts must be made up by the tanks.",
+      modifiers: { tanks: 0.7, air: 0.3, antiTank: -0.5 },
+      reportLine: "The tank reserve is brought up close behind the belts, ready to move.",
+    },
+  ],
+  stalingradCity42: [
+    {
+      id: "huggingThem",
+      name: "Hug Them",
+      subtitle: "Fight at grenade range, so that their aircraft and guns cannot be used",
+      note: "Hold the ruins as close to the Germans as possible so that the Luftwaffe and the German guns cannot fire without hitting their own men. Effort in the Assault Groups carries further; effort in the East-Bank Artillery carries less, because the guns cannot fire where the fronts are touching.",
+      modifiers: { groups: 0.7, guns: -0.5 },
+      reportLine: "The assault groups are put in among the Germans, so close that the guns cannot fire on them without hitting their own.",
+    },
+    {
+      id: "gunsFromTheBank",
+      name: "Let the Guns Do It",
+      subtitle: "The east-bank artillery fires the Germans out of the ruins",
+      note: "Hold a line a little back from the Germans and let the artillery on the east bank range the ruins in front of it. Effort in the East-Bank Artillery and the Ferries carries further; effort in the Assault Groups carries less, kept out of the ruins in front of the line.",
+      modifiers: { guns: 0.7, ferries: 0.2, groups: -0.5 },
+      reportLine: "The line is held a little back, and the guns on the east bank range the ruins in front of it.",
+    },
+  ],
+  seelow45: [
+    {
+      id: "tanksOnTheFirstDay",
+      name: "Tanks on the First Day",
+      subtitle: "The tank armies go in behind the barrage, as Zhukov ordered",
+      note: "Send the tank armies in behind the barrage on the first day, as Zhukov's plan ordered. Effort in the Tank Armies carries further; effort in the Rifle Armies carries less, left to share the roads with the tanks.",
+      modifiers: { tanks: 0.7, rifle: -0.5 },
+      reportLine: "The tank armies go forward behind the barrage on the first day, and the infantry share the roads with them.",
+    },
+    {
+      id: "infantryBreaksIn",
+      name: "The Infantry Break In First",
+      subtitle: "The rifle armies take the heights, and the tanks wait",
+      note: "Let the rifle armies break into the line first, with the barrage in front of them, and hold the tank armies back until the heights are taken. Effort in the Rifle Armies and the Opening Barrage carries further; effort in the Tank Armies carries less, held back on the roads.",
+      modifiers: { rifle: 0.6, barrage: 0.6, tanks: -0.6 },
+      reportLine: "The rifle armies break into the line behind the barrage, and the tank armies are held back.",
     },
   ],
 };
@@ -2384,6 +2639,221 @@ const KEY_BATTLE_POSTURES = {
       reveal: "Contact: German aircraft are over the corridor and the drop zones, and the transports are going in without fighter cover.",
     },
   ],
+  // Round 26 (item 1): the enemy setups of the six new battles. Each is tied to a documented condition of its battle
+  // where one was found (verified 2026-10-08), and the weights are tuned by tools/check-battle-balance.js like the
+  // postures above. The first posture of each battle is the historical one and is drawn twice as often; a posture with
+  // no documented basis is marked as modeled.
+  //  Kiev - Wikipedia, Battle of Kiev (1941): Stalin refused to let the Southwestern Front withdraw (the historical
+  //   posture); a line along the rivers and a reserve held back on the Psel are modeled.
+  kievPocket41: [
+    {
+      id: "orderToHold",
+      name: "The armies told not to move",
+      weight: 2,
+      modifiers: { northPincer: 1.1, southPincer: 1.1, infantry: 0.85, air: 1.0 },
+      hints: [
+        "Intercepts say that the Southwestern Front has been ordered to hold Kiev and the line of the Dnieper.",
+        "Air reconnaissance finds the Soviet armies still on the ground they held a week ago.",
+      ],
+      reveal: "Contact: the Soviet armies are where they were told to stay, with nothing behind them to fall back on.",
+    },
+    {
+      id: "riverLine",
+      name: "A strong line on the rivers",
+      modifiers: { northPincer: 0.75, southPincer: 0.75, infantry: 1.3, air: 1.0 },
+      hints: [
+        "The crossings of the Desna are held by dug-in infantry with guns behind them.",
+        "Prisoners from the river line speak of fresh divisions that have only just come up.",
+      ],
+      reveal: "Contact: the rivers are held in strength, and every crossing is covered by guns on the far bank.",
+    },
+    {
+      id: "reserveOnPsel",
+      name: "A reserve held back on the Psel",
+      modifiers: { northPincer: 1.2, southPincer: 0.75, infantry: 1.0, air: 0.9 },
+      hints: [
+        "Reports from the south speak of a Soviet army moving into position behind the Dnieper bridgehead.",
+        "A prisoner says there are tanks in the woods east of Kremenchug waiting for orders.",
+      ],
+      reveal: "Contact: a Soviet reserve is waiting on the Psel and goes straight in against the southern jaw.",
+    },
+  ],
+  //  Kharkov - Wikipedia, Third Battle of Kharkov: the Soviet spearheads were weak and short of fuel (the historical
+  //   posture); Rokossovsky's Central Front joined on 25 February; the scattering of the Soviet forces is modeled.
+  kharkovBackhand43: [
+    {
+      id: "spearheadsSpent",
+      name: "Spearheads out of fuel and men",
+      weight: 2,
+      modifiers: { ssCorps: 1.0, panzerArmy: 1.3, infantry: 0.9, air: 1.0 },
+      hints: [
+        "Captured Soviet tanks are found abandoned on the roads with their tanks empty.",
+        "Prisoners say their divisions have not had a resupply for ten days.",
+      ],
+      reveal: "Contact: the Soviet spearheads are out of fuel and short of men, and they have little left to meet a blow in the flank.",
+    },
+    {
+      id: "reservesComing",
+      name: "Fresh reserves arriving",
+      modifiers: { ssCorps: 0.7, panzerArmy: 0.8, infantry: 1.5, air: 1.0 },
+      hints: [
+        "Aircraft report long columns on the roads east of the Donets.",
+        "A prisoner says a whole army has been ordered to the sector.",
+      ],
+      reveal: "Contact: fresh Soviet divisions are coming up from the east and go straight into the line.",
+    },
+    {
+      id: "moppingUp",
+      name: "The Soviet forces scattered across the steppe",
+      modifiers: { ssCorps: 1.25, panzerArmy: 0.7, infantry: 1.0, air: 1.1 },
+      hints: [
+        "The Soviet columns seem to have no common plan and many are heading in different directions.",
+        "Wireless messages from the Soviet side are being sent in the clear.",
+      ],
+      reveal: "Contact: the Soviet forces are scattered in small groups across the steppe, and every group has to be found and dealt with.",
+    },
+  ],
+  //  The Ardennes - Wikipedia, Battle of the Bulge: the American line was thin and held by some tired and some green
+  //   divisions (the historical posture); reserves near the front and a warning that came in time are modeled.
+  ardennesWacht44: [
+    {
+      id: "thinAndGreen",
+      name: "A thin line, tired and green",
+      weight: 2,
+      modifiers: { sixthSS: 1.0, fifthPanzer: 1.25, seventhArmy: 1.1, fuelColumns: 0.9 },
+      hints: [
+        "The sector in front of the Eifel has been quiet for weeks, and the Americans there are not expecting anything.",
+        "Prisoners say that two of the divisions on the line are new to the front and two are resting.",
+      ],
+      reveal: "Contact: the American line is thinly held by divisions that were not expecting an attack.",
+    },
+    {
+      id: "reserveNearby",
+      name: "A reserve close behind the line",
+      modifiers: { sixthSS: 0.5, fifthPanzer: 0.55, seventhArmy: 0.8, fuelColumns: 1.6 },
+      hints: [
+        "An American armoured division is reported resting a day's march behind the line.",
+        "Radio traffic from the northern sector suggests that reinforcements are already on the move.",
+      ],
+      reveal: "Contact: an American armoured reserve is close behind the line and goes into the fight on the first day.",
+    },
+    {
+      id: "warnedInTime",
+      name: "A warning that came in time",
+      modifiers: { sixthSS: 1.2, fifthPanzer: 0.7, seventhArmy: 1.2, fuelColumns: 0.85 },
+      hints: [
+        "The units in the forward positions have been told to be on the alert at dawn.",
+        "A report says that the Americans have laid mines across the roads leading west.",
+      ],
+      reveal: "Contact: the Americans were warned and the forward positions are manned, with the roads mined behind them.",
+    },
+  ],
+  //  Kursk - Wikipedia, Battle of Kursk: the heaviest German weight was on the southern face (the historical
+  //   posture); a heavier northern thrust and the German heavy tanks used in a wedge are modeled.
+  kurskSoviet43: [
+    {
+      id: "southWeight",
+      name: "The weight on the southern face",
+      weight: 2,
+      modifiers: { infantry: 0.8, antiTank: 1.0, tanks: 1.25, air: 1.0 },
+      hints: [
+        "Intelligence reports that the II SS Panzer Corps is assembling in the south, with Kempf's group beside it.",
+        "Air reconnaissance finds more armoured vehicles in the south than in the north.",
+      ],
+      reveal: "Contact: the heaviest German blow falls on the southern face, with the SS Panzer Corps at its head.",
+    },
+    {
+      id: "northWeight",
+      name: "The weight on the northern face",
+      modifiers: { infantry: 1.1, antiTank: 1.25, tanks: 0.8, air: 1.0 },
+      hints: [
+        "Prisoners from the north speak of a very large artillery park behind Model's army.",
+        "Rail traffic in the north has doubled in the last week.",
+      ],
+      reveal: "Contact: the German weight is in the north, against the Central Front, under a massive artillery preparation.",
+    },
+    {
+      id: "tigerWedge",
+      name: "The heavy tanks in a wedge",
+      modifiers: { infantry: 1.0, antiTank: 0.8, tanks: 1.0, air: 1.3 },
+      hints: [
+        "Prisoners say the heavy Tigers are to lead the attack in a single armoured wedge.",
+        "Photographs show a new kind of tank formation assembling behind the German front.",
+      ],
+      reveal: "Contact: the German heavy tanks come on in a wedge, straight at one point in the line.",
+    },
+  ],
+  //  Stalingrad - Wikipedia, Battle of Stalingrad: the Germans reached the Volga in the centre in September (the
+  //   historical posture); the weight on the factory district in October is documented, the sappers and flamethrowers
+  //   in the ruins are modeled.
+  stalingradCity42: [
+    {
+      id: "landingStage",
+      name: "The weight on the central landing stage",
+      weight: 2,
+      modifiers: { rifle: 1.2, guns: 0.85, groups: 1.0, ferries: 0.8 },
+      hints: [
+        "German infantry are massing in the ruins near the railway station.",
+        "Aircraft are bombing the central landing stage and the ferry crossing heavily.",
+      ],
+      reveal: "Contact: the Germans attack toward the central landing stage in force, to reach the river and cut the army in two.",
+    },
+    {
+      id: "factoryWeight",
+      name: "The weight on the factories",
+      modifiers: { rifle: 0.8, guns: 1.25, groups: 1.1, ferries: 1.0 },
+      hints: [
+        "Tanks and assault guns are being brought up behind the northern suburbs.",
+        "Prisoners speak of a big attack on the tractor works.",
+      ],
+      reveal: "Contact: the Germans attack the factory district with everything, with tanks and aircraft over the factory yards.",
+    },
+    {
+      id: "flameAndSappers",
+      name: "Sappers and flamethrowers in the ruins",
+      modifiers: { rifle: 1.0, guns: 0.8, groups: 0.75, ferries: 1.2 },
+      hints: [
+        "German assault engineers are working their way through a row of ruined houses with explosives.",
+        "Flamethrowers are heard in the ruins at night.",
+      ],
+      reveal: "Contact: the Germans come on in small groups of sappers and flamethrower teams, taking the buildings one at a time.",
+    },
+  ],
+  //  Seelow - Wikipedia, Battle of the Seelow Heights: Heinrici pulled his front-line troops back to the second line
+  //   before the barrage (the historical posture); the strength of the first line and the flooded plain are modeled.
+  seelow45: [
+    {
+      id: "secondLineHeld",
+      name: "The front pulled back to the second line",
+      weight: 2,
+      modifiers: { barrage: 0.7, rifle: 1.0, tanks: 0.8, engineers: 1.15 },
+      hints: [
+        "Prisoners from the Oder say that the trenches on the river bank have been left lightly held.",
+        "Air photographs show new positions dug on the slopes of the heights behind them.",
+      ],
+      reveal: "Contact: the first line is nearly empty, and the second line on the heights is manned in strength.",
+    },
+    {
+      id: "firstLineStrong",
+      name: "The first line held in strength",
+      modifiers: { barrage: 1.35, rifle: 1.1, tanks: 0.95, engineers: 0.9 },
+      hints: [
+        "The riverbank positions seem to be fully manned, and the German artillery has not moved.",
+        "Prisoners say the order is to hold the river line at all costs.",
+      ],
+      reveal: "Contact: the Germans hold the river line in strength, and the barrage falls on men who are still in their trenches.",
+    },
+    {
+      id: "floodedPlain",
+      name: "The plain flooded at the foot of the heights",
+      modifiers: { barrage: 0.8, rifle: 1.0, tanks: 0.6, engineers: 1.3 },
+      hints: [
+        "The Oderbruch is under water in places where the maps show dry fields.",
+        "Sappers report that the dykes have been opened and the ground is soft.",
+      ],
+      reveal: "Contact: the plain below the heights is flooded, and only a few roads and dykes carry the weight of a tank.",
+    },
+  ],
 };
 
 // Shared battle math — one pure implementation used by the planning screen (staff assessment),
@@ -2960,20 +3430,136 @@ const KEY_BATTLE_ECHOES = {
       levashev: "Levashev's paratroopers are down in the forest behind the Germans, fewer than were counted.",
     },
   },
+  kievPocket41: {
+    counter: {
+      repulsed: "At Kiev the Soviet breakout was beaten back along the whole of the ring, and the pocket stayed shut.",
+      heldAtCost: "At Kiev the ring held against the breakout, at a heavy cost to the infantry divisions that held it.",
+      broke: "At Kiev the Soviet armies broke through the ring at one point, and the road behind the panzers was cut for a day.",
+      gaveGround: "At Kiev the ring gave way at its thinnest point, and thousands of men went through it.",
+    },
+    neglected: {
+      northPincer: "At Kiev Guderian's group was hardly pushed, and the northern jaw closed slowly.",
+      southPincer: "At Kiev Kleist's group stayed in its bridgehead too long, and the southern jaw was late.",
+      infantry: "At Kiev the infantry armies were left to follow on foot, and the ring was thin when the panzers had closed it.",
+      air: "At Kiev the Luftwaffe was thin over the gap, and the Soviet columns moved on the roads by day.",
+    },
+    commander: {
+      guderian: "Guderian is still arguing that the panzers should have been sent to Moscow.",
+      kleist: "Kleist's panzers are across the Dnieper and not turning back.",
+    },
+  },
+  kharkovBackhand43: {
+    counter: {
+      repulsed: "At Kharkov the Soviet counterattack on the flank of the counterblow was beaten off, and the panzers went on.",
+      heldAtCost: "At Kharkov the flank held against the Soviet attack, at a heavy cost to the infantry that held it.",
+      broke: "At Kharkov the Soviet tanks broke into the flank of the counterblow, and the panzers had to turn and fight.",
+      gaveGround: "At Kharkov the line on the flank gave ground, and the counterblow had to be narrowed to protect it.",
+    },
+    neglected: {
+      ssCorps: "At Kharkov the SS divisions were held at the edge of the city, and the city was taken late.",
+      panzerArmy: "At Kharkov the panzer armies were hardly sent into the flank, and the Soviet spearheads got away.",
+      infantry: "At Kharkov the infantry were left to hold the line alone, and it bent more than once.",
+      air: "At Kharkov the Fourth Air Fleet flew no more than it had, and the panzers fought without cover on the roads.",
+    },
+    commander: {
+      hausser: "Hausser has his city back, and he took it after leaving it once against orders.",
+      hoth: "Hoth's panzer army is strung out along the Donets, a long way from where it began.",
+    },
+  },
+  ardennesWacht44: {
+    counter: {
+      repulsed: "In the Ardennes the American attack on the southern flank was thrown back, and the shoulder held.",
+      heldAtCost: "In the Ardennes the southern flank held against the Americans, at a heavy cost to the divisions that held it.",
+      broke: "In the Ardennes the Americans broke through the southern flank, and the Fifth Panzer Army had to turn to meet them.",
+      gaveGround: "In the Ardennes the southern flank gave ground, and the whole offensive had to be narrowed to protect it.",
+    },
+    neglected: {
+      sixthSS: "In the Ardennes the Sixth SS Panzer Army was hardly pushed, and it moved at the pace of its supply.",
+      fifthPanzer: "In the Ardennes the Fifth Panzer Army was given no more, and its divisions moved slowly through the forest.",
+      seventhArmy: "In the Ardennes the Seventh Army was left thin on the southern shoulder, and covered it badly.",
+      fuelColumns: "In the Ardennes no more fuel was brought up, and the spearheads drove on what they carried.",
+    },
+    commander: {
+      dietrich: "Dietrich's army is still on the northern roads, and nobody can say how far Peiper got.",
+      manteuffel: "Manteuffel's panzers are in the forest, and he knows exactly how much fuel they have.",
+    },
+  },
+  kurskSoviet43: {
+    counter: {
+      repulsed: "At Kursk the German wedge was stopped in the minefield, and the reserve was not needed.",
+      heldAtCost: "At Kursk the line held against the German tanks, at a heavy cost in guns and men.",
+      broke: "At Kursk the German tanks broke through the first belt, and the reserve had to be thrown in to close the gap.",
+      gaveGround: "At Kursk the forward position was given up rather than meet the wedge on open ground.",
+    },
+    neglected: {
+      infantry: "At Kursk the forward belts were thinly held, and the attack met only the outposts.",
+      antiTank: "At Kursk the strongpoints were left as they were, and few more guns and mines were put into them.",
+      tanks: "At Kursk the tank reserve was held back, and the belts held alone.",
+      air: "At Kursk the air armies flew what they already had, and the German columns moved without much hindrance.",
+    },
+    commander: {
+      rokossovsky: "Rokossovsky's guns opened before the Germans did, and his belts are intact.",
+      vatutin: "Vatutin's rifle armies took the blow in the south, and they are still counting.",
+      rotmistrov: "Rotmistrov's tank army is what the reserve was for, and he knows what it cost.",
+    },
+  },
+  stalingradCity42: {
+    counter: {
+      repulsed: "In the city the German assault was stopped in the ruins before it reached the river, and the strip held.",
+      heldAtCost: "In the city the strip held against the German attack, at a heavy cost in the assault groups.",
+      broke: "In the city the Germans broke through to the river, and the strip was divided in two.",
+      gaveGround: "In the city the defenders gave up a block of ruins rather than be cut off in them.",
+    },
+    neglected: {
+      rifle: "In the city no more divisions were sent across the river, and the strip was held by what was in it.",
+      guns: "In the city the guns on the east bank were not asked for more, and fired what they had.",
+      groups: "In the city no more assault groups were put into the ruins, and the Germans moved more freely through them.",
+      ferries: "In the city no more boats were put on the river, and what crossed was what the ferries could carry.",
+    },
+    commander: {
+      rodimtsev: "Rodimtsev's guardsmen are still in the centre of the city, and there are fewer of them.",
+      chuikov: "Chuikov's army has not given up its strip, and he does not mean to.",
+    },
+  },
+  seelow45: {
+    counter: {
+      repulsed: "At Seelow the German counterattack at the foot of the heights was thrown back, and the infantry kept their ground.",
+      heldAtCost: "At Seelow the line held against the Germans, at a heavy cost in the battalions that held it.",
+      broke: "At Seelow the Germans broke into the flank of the penetration, and the infantry had to fall back to the road.",
+      gaveGround: "At Seelow the foremost battalions gave up the slope rather than be cut off on it.",
+    },
+    neglected: {
+      barrage: "At Seelow the barrage was thin, and the German trenches were barely touched.",
+      rifle: "At Seelow the rifle armies were held back, and the first wave went forward alone.",
+      tanks: "At Seelow the tank armies were held in their assembly areas, and the infantry fought for the heights without them.",
+      engineers: "At Seelow no more engineers went to the plain, and the crossings were made on what already stood.",
+    },
+    commander: {
+      zhukov: "Zhukov has his barrage, and Stalin has his answer from Konev.",
+      chuikov: "Chuikov's army is below the heights, and he has taken a city before.",
+      katukov: "Katukov's tanks are on the one dry road, and nobody can pass them.",
+    },
+  },
 };
 // Round 22: the War Record's Battle Record lists every battle by name, in campaign order, with the
 // campaign seal it belongs to. Fought battles show their record; the others show as blanks.
 const KEY_BATTLE_TITLES = [
   { id: "sedan40", seal: "OKW", title: "The Crossing at Sedan" },
   { id: "crete41", seal: "OKW", title: "Operation Mercury" },
+  { id: "kievPocket41", seal: "OKW", title: "The Kiev Pocket" },
   { id: "elAlamein", seal: "OKW", title: "The Push to Alam Halfa" },
   { id: "stalingrad", seal: "OKW", title: "The Breakout West" },
+  { id: "kharkovBackhand43", seal: "OKW", title: "Manstein's Backhand Blow" },
   { id: "kursk", seal: "OKW", title: "The Kursk Salient" },
+  { id: "ardennesWacht44", seal: "OKW", title: "Watch on the Rhine" },
   { id: "brodyCounterstroke41", seal: "STAVKA", title: "Dubno, Lutsk, Brody" },
   { id: "moscow41", seal: "STAVKA", title: "The Blow Before Moscow" },
   { id: "rzhevVyazma42", seal: "STAVKA", title: "The Pincers at Vyazma" },
+  { id: "stalingradCity42", seal: "STAVKA", title: "The Strip on the Volga" },
   { id: "uranus", seal: "STAVKA", title: "Operation Uranus" },
+  { id: "kurskSoviet43", seal: "STAVKA", title: "The Kursk Belts" },
   { id: "bagrationSoviet44", seal: "STAVKA", title: "The Drive on Minsk" },
+  { id: "seelow45", seal: "STAVKA", title: "The Seelow Heights" },
   { id: "dynamo40", seal: "SHAEF", title: "Operation Dynamo" },
   { id: "britainDay40", seal: "SHAEF", title: "Battle of Britain Day" },
   { id: "pq17_1942", seal: "SHAEF", title: "Holding the Convoy Together" },
@@ -3417,7 +4003,7 @@ function migrateSave(saved) {
   return s;
 }
 
-const NODE_TOTAL = 270; // 99 German + 56 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
+const NODE_TOTAL = 278; // 100 German + 63 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 const CAMPAIGN_WAR_CONTEXT = {
   german: "APRIL 1940 — Poland fell in weeks last September, divided between Berlin and Moscow under a pact neither side expects to last. The West has spent seven quiet months in what the newspapers call the Phoney War. That quiet ends with Norway.",

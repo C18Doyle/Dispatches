@@ -201,6 +201,7 @@ const NODE_ATLAS = {
     { id: "romaniaDefects44", date: "AUGUST 23, 1944", title: "The Coup in Bucharest" },
     { id: "valkyrieGovernment44", date: "AUGUST 1944", title: "What the New Government Actually Does" },
     { id: "rommelFate44", date: "OCTOBER 1944", title: "The Emissaries to Herrlingen" },
+    { id: "backhandBlow43", date: "FEBRUARY – MARCH 1943", title: "The Backhand Blow" },
   ],
   soviet: [
     { id: "border41", date: "JUNE 1941", title: "The Border Collapses" },
@@ -259,6 +260,13 @@ const NODE_ATLAS = {
     { id: "smolenskThaw42", date: "MARCH – APRIL 1942", title: "Smolensk, Before the Thaw" },
     { id: "kharkov42", date: "MAY 1942", title: "The Barvenkovo Salient" },
     { id: "westernOffensive42", date: "NOVEMBER – DECEMBER 1942", title: "Mars, Without the Salient" },
+    { id: "leningrad44", date: "JANUARY 1944", title: "The Ring Is Lifted" },
+    { id: "rightBank44", date: "JANUARY – FEBRUARY 1944", title: "The Cauldron at Korsun" },
+    { id: "crimea44", date: "APRIL – MAY 1944", title: "The Crimea" },
+    { id: "iasiKishinev44", date: "AUGUST 1944", title: "The Cannae in Romania" },
+    { id: "budapest44", date: "DECEMBER 1944 – FEBRUARY 1945", title: "The Siege of Budapest" },
+    { id: "balatonVienna45", date: "MARCH – APRIL 1945", title: "The Last German Offensive" },
+    { id: "prague45", date: "MAY 1945", title: "The Last Operation" },
   ],
   allied: [
     { id: "narvik40", date: "APRIL 1940", title: "Narvik" },
