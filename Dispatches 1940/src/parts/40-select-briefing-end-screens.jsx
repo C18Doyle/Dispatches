@@ -1427,6 +1427,13 @@ const NODE_HIGHLIGHT_REGIONS = {
   katynBreak43: ["ussrCenter", "poland"],
   berlinFeb45: ["germany"],
   finnishArmistice44: ["finland"],
+  brodyCounterstroke41: ["ussrSouth"],
+  yelnya41: ["ussrCenter"],
+  winterGeneral42: ["ussrCenter", "ussrNorth", "ussrSouth"],
+  rzhevVyazma42: ["ussrCenter"],
+  smolenskThaw42: ["ussrCenter"],
+  kharkov42: ["ussrSouth"],
+  westernOffensive42: ["ussrCenter"],
   },
   allied: {
   narvik40: ["norway"],
@@ -1925,6 +1932,10 @@ function mapOverrides(year, flags, meters, dayKey) {
   if (flags.earlyDnieper43 && since(1943, 8, 31)) {
     o.ussrSouth = "soviet";
     note("The reserve pressed straight past Kharkov to the Dnieper crossings, so the south was cleared months ahead of the historical schedule (projection).", ["ussrSouth"]);
+  }
+  if (flags.fastWest42 && since(1942, 12, 31)) {
+    o.ussrCenter = "soviet";
+    note("The centre was broken a second time in the winter of 1942, so the front left the Moscow and Smolensk country for good, a year and a half ahead of Bagration (projection).", ["ussrCenter"]);
   }
   // forkLuftwaffeShift (raids stay concentrated on airfields rather than shifting to cities) has
   // no map effect: Britain has no lower state than "allied" to fall to and no higher one to

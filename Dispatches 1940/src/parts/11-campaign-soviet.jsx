@@ -30,7 +30,7 @@
               historical: true,
               setFlags: { border41: "hold" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
-              next: "smolensk41",
+              next: "brodyCounterstroke41",
               outcome:
                 "Order No. 227 was still a year away, but its spirit governed June 1941 already: forward armies held rigid lines and were encircled wholesale — Białystok–Minsk alone cost some 300,000 men in the war's first ten days. The doctrine that caused this catastrophe was itself a product of the purges: officers who might have argued for elastic defense had, disproportionately, already been shot.",
             },
@@ -40,7 +40,7 @@
               setFlags: { border41: "withdraw", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
-              next: "smolensk41",
+              next: "brodyCounterstroke41",
                             outcome:
                 "Not the historical choice — Stalin's early instinct ran the opposite direction, and few commanders survived arguing for it in June 1941. An earlier, more disciplined withdrawal preserves meaningfully more of the pre-war army, at the direct cost of ceding territory and industrial capacity faster than the historical retreat did. The trade this campaign will keep returning to — men against ground — opens here at its most extreme.",
               uncertain: flags.hardMode
@@ -49,7 +49,7 @@
                       weight: 94,
                       title: "The order stands unquestioned",
                       impact: { manpower: 1, fuel: 0, initiative: -1 },
-                      next: "smolensk41",
+                      next: "brodyCounterstroke41",
                       outcome:
                         "Not the historical choice — Stalin's early instinct ran the opposite direction, and few commanders survived arguing for it in June 1941. An earlier, more disciplined withdrawal preserves meaningfully more of the pre-war army, at the direct cost of ceding territory and industrial capacity faster than the historical retreat did. The trade this campaign will keep returning to — men against ground — opens here at its most extreme.",
                     },
@@ -58,12 +58,140 @@
                       title: "Reprimanded",
                       favor: -1,
                       impact: { manpower: 0, fuel: 0, initiative: -1 },
-                      next: "smolensk41",
+                      next: "brodyCounterstroke41",
                       outcome:
                         "A car is waiting outside headquarters before the order has even finished being transmitted down the line — but the war's first week buys a rare mercy an identical order later would not: there is no established record yet to weigh it against. The reprimand is formal and written, not fatal. Ordering a withdrawal in June 1941 reads, to the men who report on this sort of thing, as exactly the defeatism the standing order exists to punish — and it will be remembered, the next time this decision comes up again.",
                     },
                   ]
                 : undefined,
+            },
+          ],
+        };
+        },
+        // Round 24 (Craig: "more branching early on in the Soviet campaign ... a better counterattack
+        // against Germany, driving them further back much quicker"). The first year of this campaign used
+        // to be one line: every early choice rejoined the next node at once. brodyCounterstroke41, yelnya41,
+        // winterGeneral42 and kharkov42 are the real decisions of June 1941 to May 1942 that the campaign
+        // left out, and what the player chooses in them is read later: as the odds of the Vyazma pocket
+        // (rzhevVyazma42), and in the situation reports, so nothing is a hidden bonus. Facts checked
+        // 2026-10-06 against Wikipedia (Battle of Brody (1941), Yelnya offensive, Rzhev-Vyazma strategic
+        // offensive operation, Second Battle of Kharkov); the figures quoted are theirs.
+        get brodyCounterstroke41() {
+          return {
+          date: "JUNE 23–30, 1941",
+          title: "Six Mechanized Corps",
+          historicalRecord: true,
+          situation:
+            "Directive No. 3, sent on the night of June 22, orders the Southwestern Front to stop being surprised and counterattack: the 5th and 6th Armies are to strike concentrically toward Lublin with at least five mechanized corps and the front's aircraft, destroy the German group advancing from Vladimir-Volynsky, and take the Lublin area by the end of June 24. On paper the means exist — six mechanized corps, the 4th, 8th, 9th, 15th, 19th and 22nd, with some 3,500 tanks between them, 443 of them the new T-34s and KVs, against about 750 in Kleist's First Panzer Group. On the ground the corps are scattered across the front's rear, short of trucks, fuel and shells, and will have to march to the fight under German aircraft while orders pass over the civilian telephone network. Zhukov has arrived from Moscow and wants every corps in at once. Kirponos, who commands the front, wants them pulled together before they fight." +
+            (flags.border41 === "withdraw"
+              ? " The army that withdrew from the frontier rather than hold it is in better order than the one the directive was written for, and the directive does not know it."
+              : "") +
+            (flags.hardMode && (flags.suspicion || 0) >= 1
+              ? " The special section's man at the front's headquarters is watching how the argument between the two generals goes, and which of them is later said to have been right."
+              : ""),
+          choices: [
+            {
+              label: "Throw all six corps in at once, as the directive orders — converge on the German salient",
+              advisor: { name: "Zhukov", position: "Every day the panzers are left alone they take another hundred kilometres of the country, so the blow goes in tomorrow with whatever has arrived." },
+              historical: true,
+              setFlags: { brody41: "counterattack" },
+              impact: { manpower: -2, fuel: -2, initiative: 1 },
+              next: "smolensk41",
+              outcome:
+                "What happened. The corps went in from June 24, a few at a time as each arrived, short of fuel and ammunition, without air cover and with commanders who could not reach one another. The German tank groups took them one after another: the 19th Mechanized Corps was down to 32 of its 453 tanks by the 29th, and by July 7 the 15th had 9 per cent of its tanks and the 8th 5 per cent. One group did reach the rear of the German 11th Panzer Division and took Dubno on June 27, and had nothing left to exploit it with. The counterattack delayed Kleist only briefly, and the Southwestern Front lost most of the armour it would have needed in September.",
+            },
+            {
+              label: "Wait two days, bring the corps together with their fuel and shells, and strike on one axis at Rovno",
+              advisor: { name: "Kirponos", position: "Six corps thrown in over a week are six corps beaten one at a time, while two days to concentrate them with their fuel is the price of one blow that does reach the other side." },
+              setFlags: { brody41: "concentrate", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: -1, fuel: -1, initiative: 0 },
+              next: "smolensk41",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "The blow lands as one",
+                  setFlags: { brodyResult: "blow" },
+                  impact: { manpower: -1, fuel: -1, initiative: 2 },
+                  outcome:
+                    "Speculative. Held back for two days and thrown in together, the corps that reach the start line arrive with their fuel and most of their shells and hit the flank of Kleist's column in one weight. It is the biggest tank battle of the war's first week fought as a battle instead of a series of ambushes: German columns are cut, a panzer division is made to turn about, and the advance toward Kiev is held for some days. The corps are still wrecked by the end of it — an obsolete tank park does not survive contact with a modern one — but they have bought something worth the price, and the officers who fought it know how to run a mechanized corps now.",
+                },
+                {
+                  weight: 100 - modWeight(40, meters.initiative),
+                  title: "The Germans move first",
+                  setFlags: { brodyResult: "caught" },
+                  impact: { manpower: -2, fuel: -2, initiative: -1 },
+                  outcome:
+                    "Speculative. The two days are the two days the Luftwaffe needed. The corps, assembling in the open with their trucks and fuel columns, are found from the air and hit before they can strike, and Kleist's panzers advance past the start line while the blow is still being gathered. What follows is the historical battle without even the delay it bought: the same corps, caught in worse order, on worse ground. Waiting was the argument for a stronger blow; it was not an argument against an enemy who did not wait.",
+                },
+              ],
+            },
+            {
+              label: "Break contact — pull the corps back to the old frontier fortifications and keep the armour",
+              advisor: { name: "Rokossovsky", position: "A mechanized corps that marches two hundred kilometres under German aircraft arrives a corps in name only, and he would rather keep it whole behind a line it can hold." },
+              setFlags: { brody41: "withdraw", armourBanked41: true, suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: 1, fuel: 1, initiative: -2 },
+              next: "smolensk41",
+              outcome:
+                "Speculative, and an order that disobeys a directive from Moscow in its first week. The corps are pulled back to the fortified regions on the old frontier, at Novograd-Volynsky and Korosten, and to the line of the Dnieper behind them, giving up Brody, Lutsk and Rovno without a fight and with them any claim that the front tried to stop the panzers at the border. What is kept is most of an armoured force the real front lost in a week: tanks that are mostly obsolete, but a great many of them, with their crews and their repair parks. What is given is ground and the initiative. Kleist advances faster than he did, and the Southwestern Front spends the summer fighting on a line that is already behind the one it started from.",
+              uncertain: flags.hardMode
+                ? [
+                    {
+                      weight: 88,
+                      title: "The order stands unquestioned",
+                      impact: { manpower: 1, fuel: 1, initiative: -2 },
+                      next: "smolensk41",
+                      outcome:
+                        "Speculative, and an order that disobeys a directive from Moscow in its first week. The corps are pulled back to the fortified regions on the old frontier and the line of the Dnieper, giving up Brody, Lutsk and Rovno without a fight. What is kept is most of an armoured force the real front lost in a week, and what is given is ground and the initiative. The war is a week old, and nobody has yet had the time to write the report that would make this a crime.",
+                    },
+                    {
+                      weight: 12,
+                      title: "Reprimanded",
+                      favor: -1,
+                      impact: { manpower: 0, fuel: 0, initiative: -2 },
+                      next: "smolensk41",
+                      outcome:
+                        "The report reaches Moscow before the corps have finished moving. A withdrawal ordered in the teeth of Directive No. 3 reads, to the men who read such reports, as exactly the defeatism the standing order exists to punish, and Pavlov, whose Western Front has already collapsed, is a warning no one needs to be told about. The reprimand is written, not fatal: the war is a week old and the armour is still where you put it. It will be remembered the next time this decision comes up.",
+                    },
+                  ]
+                : undefined,
+            },
+          ],
+        };
+        },
+        get yelnya41() {
+          return {
+          date: "AUGUST 30 – SEPTEMBER 8, 1941",
+          title: "The Salient at Yelnya",
+          historicalRecord: true,
+          situation:
+            "Since July the Germans have held a salient at Yelnya, a rail and road junction on the Smolensk–Moscow road some three hundred kilometres from the capital, the farthest east they have pushed on the Moscow road. Hitler has sent Guderian's panzers south toward Kiev and told Army Group Centre to hold where it stands, so the salient is held by one corps, XX Corps, with the 10th Panzer Division and the SS Das Reich beside it. Zhukov, relieved as Chief of the General Staff for saying that Kiev should be given up, now commands the Reserve Front, and proposes to use it to clear the salient: the 24th and 43rd Armies, with every gun Stavka can find, attacking on August 30. The argument against is that the Reserve Front is the last army Moscow has, and it is meant to dig in on the Vyazma line, not to fight a week's battle for a railway junction." +
+            (flags.brody41 === "withdraw"
+              ? " The armour kept back in June is, for the first time, an argument for striking: there is something to strike with."
+              : flags.brody41 === "counterattack"
+              ? " The armour that went into the June counterattack is gone, and the Reserve Front would have to do it with infantry and guns."
+              : ""),
+          choices: [
+            {
+              label: "Clear the salient — Zhukov's Reserve Front attacks on August 30",
+              advisor: { name: "Zhukov", position: "A German corps that is made to give up ground once learns that it can be made to, and so does the army that did it, which is worth more than the junction." },
+              historical: true,
+              setFlags: { yelnya41: "strike" },
+              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              next: "evacuateIndustry41",
+              outcome:
+                "What happened. The attack began on August 30 and ran for nine days against XX Corps; by the end of it the Germans had given up the salient. It was the first substantial reverse the Wehrmacht suffered in Barbarossa, and it cost 31,853 Soviet casualties, 10,701 of them killed or missing, against some 23,000 for XX Corps over the month to September 8. The divisions that fought it, the 100th and 127th Rifle Divisions among them, were renamed the 1st and 2nd Guards later that month: the Red Army's first Guards units. The Reserve Front came out of the battle smaller and more confident, and was still in the open when the October offensive broke over it.",
+            },
+            {
+              label: "Leave the salient — keep the Reserve Front's armies back and build the Vyazma line",
+              advisor: { name: "Shaposhnikov", position: "The Reserve Front is the one force Moscow has left, and it belongs on the line behind it, not in a month's fighting for a salient." },
+              setFlags: { yelnya41: "hold" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "evacuateIndustry41",
+              outcome:
+                "Speculative. The Reserve Front is left to dig, and the salient is left where it is: XX Corps keeps its forward base on the Moscow road, and the Reserve Front keeps the thirty thousand men the real battle cost it. What the Red Army does not get is its first victory of the war, the one that proved to its own soldiers that a German corps could be made to give up ground, and the Guards designation that came out of it has no battle to come out of. Shaposhnikov's line is a better line for the work, and the October offensive will test it all the same.",
             },
           ],
         };
@@ -98,7 +226,7 @@
               historical: true,
               setFlags: { kiev41: "hold" },
               impact: { manpower: -3, fuel: 0, initiative: 0 },
-              next: "evacuateIndustry41",
+              next: "yelnya41",
                             outcome:
                 "What happened, and among the costliest single decisions of the entire war on either side: over 600,000 Soviet troops were killed or captured when the Kiev pocket closed in September — the largest encirclement in military history. Zhukov's warning was exact and was overruled anyway. The southern front effectively ceases to exist as an organized force for months.",
               uncertain: flags.hardMode && (flags.suspicion || 0) >= 1
@@ -107,7 +235,7 @@
                       weight: 100 - 6 * (flags.suspicion || 0),
                       title: "The order obeyed, the disaster survived",
                       impact: { manpower: -3, fuel: 0, initiative: 0 },
-                      next: "evacuateIndustry41",
+                      next: "yelnya41",
                       outcome:
                         "What happened, and among the costliest single decisions of the entire war on either side: over 600,000 Soviet troops were killed or captured when the Kiev pocket closed in September — the largest encirclement in military history. Zhukov's warning was exact and was overruled anyway. This time, obedience is enough to survive being right about nothing.",
                     },
@@ -129,7 +257,7 @@
               setFlags: { kiev41: "withdraw", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
               impact: { manpower: 2, fuel: 0, initiative: 0 },
-              next: "evacuateIndustry41",
+              next: "yelnya41",
                             outcome:
                 "The option Zhukov actually proposed and was fired for proposing. An early withdrawal saves the bulk of the Southwestern Front's men and equipment, at the cost of Kiev itself and the political admission that Soviet territory can be voluntarily surrendered. It is, by most postwar assessments, the single clearest 'if only' of the entire eastern war's first year.",
               uncertain: flags.hardMode
@@ -138,7 +266,7 @@
                       weight: 100 - (18 + 5 * (flags.suspicion || 0)),
                       title: "Overruled, not removed",
                       impact: { manpower: 2, fuel: 0, initiative: 0 },
-                      next: "evacuateIndustry41",
+                      next: "yelnya41",
                       outcome:
                         "The option Zhukov actually proposed and was fired for proposing — and this time, being right lands you only in Zhukov's actual chair rather than somewhere worse: relieved of authority over this decision, overruled, but still standing in the room. An early withdrawal saves the bulk of the Southwestern Front's men and equipment, at the cost of Kiev itself and the political admission that Soviet territory can be voluntarily surrendered.",
                     },
@@ -407,7 +535,7 @@
               setFlags: { specialSection41: "comply", suspicion: Math.max(0, (flags.suspicion || 0) - 1) },
               suspicionDelta: -1,
               impact: { manpower: -1, fuel: 0, initiative: 0 },
-              next: "lendLease42",
+              next: flags.moscow41 === "counteroffensive" ? "winterGeneral42" : "lendLease42",
               outcome:
                 "The signature is small, as promised. The commander is recalled within the week and your own file grows correspondingly thinner — the apparatus remembers cooperation, and forgets it exactly as fast as it stops being offered. The division fights on under a replacement who has learned the only lesson this transaction teaches: eleven kilometers of survivable retreat is worth less than one page of political reliability. Your line is politically secure and militarily dumber, in precisely that order.",
             },
@@ -417,7 +545,7 @@
               setFlags: { specialSection41: "protect", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
-              next: "lendLease42",
+              next: flags.moscow41 === "counteroffensive" ? "winterGeneral42" : "lendLease42",
               outcome:
                 "The assessment goes in as written: the retreat was militarily correct and the commander is among the front's best. The special section officer thanks you without warmth and closes the file without comment — his file. Somewhere, yours acquires a page. The commander keeps his division, the division keeps its judgment, and the front is stronger for a decision whose full price, if there is one, will be presented later, without an itemized bill.",
             },
@@ -442,7 +570,7 @@
               historical: true,
               setFlags: { lendLease: "arctic" },
               impact: { manpower: 0, fuel: 1, initiative: 0 },
-              next: "order227_42",
+              next: "kharkov42",
               uncertain: [
                 {
                   weight: 70,
@@ -465,9 +593,319 @@
               advisor: { name: "Kaganovich", position: "A supply route is a railway timetable and not an adventure story, so build the boring road and let it carry the war." },
               setFlags: { lendLease: "persian" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
-              next: "order227_42",
+              next: "kharkov42",
               outcome:
                 "One considered account of the rebalancing that history performed gradually anyway — by 1943 the Persian Corridor carried more tonnage than the Arctic ever had. Doing it a year early trades 1942 deliveries for 1943 reliability: safer, larger, later. The front's hardest year feels the difference in every quartermaster's ledger before the compensation arrives.",
+            },
+          ],
+        };
+        },
+        // Round 24: the winter of 1941-42, and the spring and autumn that follow it. winterGeneral42 is
+        // reached only after the December counteroffensive. The general offensive of January 1942 is what
+        // happened (Wikipedia, Rzhev-Vyazma strategic offensive operation: Stalin's 5 January Stavka meeting,
+        // Zhukov's case for concentrating on the Western axis, Voznesensky's warning that supplies would
+        // not stretch, the front commanders already holding their directives). Concentrating is the
+        // alternative those two argued; rzhevVyazma42, smolenskThaw42 and westernOffensive42 are what a
+        // concentrated blow could plausibly have done, labelled as speculation, with odds that rise with
+        // what the player banked earlier (the armour kept back in June, the Southwestern Front's survivors
+        // held in October, a December blow that landed, Yelnya) and fall with what was spent.
+        get winterGeneral42() {
+          return {
+          date: "JANUARY 1942",
+          title: "Everywhere at Once",
+          historicalRecord: true,
+          directive: true,
+          situation:
+            "The December counteroffensive has thrown Army Group Centre back from Moscow by as much as 300 kilometres in places, and the Germans have stopped retreating mainly because Hitler has forbidden it. On January 5 Stalin tells a Stavka meeting what he wants next: a general offensive from Lake Ladoga to the Black Sea, every front attacking at once so the Germans have no time to dig in. Zhukov argues for the opposite: the Western axis is where conditions are most favourable and the Soviet reserves are strongest, so put everything there. Voznesensky, who runs the war economy, warns that the supplies do not exist to feed offensives everywhere at once. Stalin answers that Voznesensky is always finding difficulties; the front commanders, in fact, already have their directives. What is left to decide is whether the order goes out as written." +
+            (flags.moscow41Result === "spent"
+              ? " The December blow gained ground and no more, and what it left is thin: a concentration of the whole reserve in one place is a plan for an army that has a reserve."
+              : flags.reserveCommitment41 === "hold" || flags.armourBanked41
+              ? " This time there is a reserve to argue about: the force banked in the autumn is still intact, and it is the one thing in the room that Zhukov's plan and Stalin's both want."
+              : "") +
+            (flags.hardMode && (flags.suspicion || 0) >= 2
+              ? " Your file is thicker than it was in June, and the room knows it: Zhukov's argument will be heard, and so will the way you vote on it."
+              : ""),
+          choices: [
+            {
+              label: "Attack on every front, as Stalin proposes — give the Germans no time to dig in",
+              advisor: { name: "Stalin", position: "The Germans are off balance, and an army allowed to rest in January is rested by May, so every front attacks while every front can." },
+              historical: true,
+              setFlags: { winter42: "general" },
+              impact: { manpower: -2, fuel: -1, initiative: 1 },
+              next: "lendLease42",
+              outcome:
+                "What happened. Offensives opened from the Volkhov to the Crimea. In the centre the Kalinin and Western Fronts drove 110 kilometres into the German line by the end of January and could not supply what they had won; Soviet formations were cut off behind it, the 33rd Army, Belov's Guards cavalry and an airborne corps among them, and when the Germans cleared them in July the Rzhev salient was still there. The Rzhev–Vyazma operation alone cost about 153,000 killed, missing or captured and 446,000 wounded or sick between January and April. No single offensive of the winter was a catastrophe. It was a winter of operations on every front, none of which was given the weight to finish.",
+            },
+            {
+              label: "Concentrate everything on the Western axis — one blow, aimed at destroying Army Group Centre",
+              advisor: { name: "Zhukov", position: "The only place the German line can be broken this winter is the place where the reserves are, so the reserves go there and nowhere else." },
+              checkLabel: "Manpower",
+              disabledReason:
+                flags.moscow41Result === "spent"
+                  ? "the December blow spent the reserve this plan needs"
+                  : meters.manpower <= -3
+                  ? "too few armies left to concentrate into one blow"
+                  : undefined,
+              setFlags: { winter42: "concentrate", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "rzhevVyazma42",
+              outcome:
+                "Speculative. The plan Stalin proposed is not given up easily, and the version that goes out is Zhukov's: the Kalinin and Western Fronts get the reserve armies, the heavy guns, the airborne corps and the first call on the railways, and the other fronts are told to hold what they have. The offensives on the Volkhov and in the Crimea are cancelled before most of them are acted on. What this gives the centre is what no front had in the real winter, a weight behind the blow. What it takes is the other operations, and with them the argument that Stalin was right about all of them.",
+            },
+            {
+              label: "Stop where the line stands — rebuild the armies and keep the reserve for the spring",
+              advisor: { name: "Voznesensky", position: "The shells, fuel and rolling stock for an offensive everywhere do not exist this winter, so the offensive that is not launched is the one that does not eat the spring." },
+              setFlags: { winter42: "pause", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
+              next: "lendLease42",
+              outcome:
+                "Speculative. The line is held where the December blow left it, and the front commanders' directives are recalled before most have been acted on. The armies keep the casualties the winter would have cost them: the Rzhev–Vyazma operation alone cost about 600,000 men in the real January to April. What is given up is the ground the offensive would have taken, which in the centre was ground the Germans took back, and the one thing Stalin feared the pause would give the enemy, time. Hitler's order to hold has kept Army Group Centre together, and a German army left to dig in through January and February builds the Rzhev salient into a fortress.",
+            },
+          ],
+        };
+        },
+        get rzhevVyazma42() {
+          const bonus =
+            (flags.armourBanked41 ? 8 : 0) +
+            (flags.brodyResult === "blow" ? 6 : 0) +
+            (flags.reserveCommitment41 === "hold" ? 6 : 0) +
+            (flags.moscow41Result === "thrown" ? 6 : 0) +
+            (flags.yelnya41 === "strike" ? 4 : 0);
+          const wholePocket = Math.min(90, modWeight(35, meters.initiative) + bonus);
+          const slowPocket = Math.min(40, modWeight(18, meters.initiative) + Math.round(bonus / 2));
+          return {
+          date: "JANUARY – FEBRUARY 1942",
+          title: "The Pincers at Vyazma",
+          historicalRecord: false,
+          situation:
+            "With the general offensive cancelled, the Western and Kalinin Fronts have what no front had in the real winter: nearly the whole of Stavka's reserve, the heavy guns, the airborne corps and the first call on the railways. The plan is the one that was drawn: the Kalinin Front's armies break through from the north, the Western Front's from the south, and the two meet at Vyazma, well behind the German front, cutting off the Ninth Army and the rest of Army Group Centre's forces in the bulge. By the end of January the 22nd, 29th and 39th Armies have gone 110 kilometres into the German line, as they did in the real winter, and the question is how to close the ring behind them. Belov's Guards cavalry corps, the 33rd Army and an airborne corps are already in the German rear, or can be sent there." +
+            (bonus >= 14
+              ? " What was banked in the summer and autumn is on the table now, and it shows: there are tanks, reserves and a front that is not already spent."
+              : bonus >= 6
+              ? " Some of what was banked earlier is still in hand, which the real winter's armies would have given a good deal for."
+              : " Little was banked earlier, and it shows in the rear: this is a blow made with what the winter left, and the winter did not leave much."),
+          choices: [
+            {
+              label: "Send the cavalry and the airborne corps ahead to hold the Vyazma highway, and close the ring behind them",
+              advisor: { name: "Zhukov", position: "A ring closed in the German rear is a ring, and one closed at the German front is only a push, so the horsemen and the paratroopers go to the one place the Germans cannot afford to lose." },
+              setFlags: { rzhevVyazma42: "deep" },
+              impact: { manpower: -2, fuel: -1, initiative: 1 },
+              next: "smolenskThaw42",
+              uncertain: [
+                {
+                  weight: wholePocket,
+                  title: "The ring closes at Vyazma",
+                  setFlags: { centerBroken42: "pocket" },
+                  impact: { manpower: -1, fuel: -1, initiative: 3 },
+                  next: "smolenskThaw42",
+                  outcome:
+                    "Speculative. The cavalry hold the highway, the airborne corps hold the railway, and the 33rd Army, with more behind it than in the real winter, keeps its supply line open long enough for the Kalinin Front's armies to come down from the north and meet it near Vyazma. The German Ninth Army and part of the Fourth are cut off in the Rzhev–Vyazma bulge with Hitler's order that no one retreats still in force. It is the winter the Red Army was always imagined to have had: the Germans no longer hold a salient pointed at Moscow, because its base has been cut. What it costs is the usual price of a deep operation in January. The cavalry and the airborne corps are very far from help, and some of them will not come back.",
+                },
+                {
+                  weight: 100 - wholePocket,
+                  title: "The pincers do not meet",
+                  setFlags: { centerBroken42: "failed" },
+                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  next: "lendLease42",
+                  outcome:
+                    "Speculative, and close to the real winter. The cavalry and the airborne corps hold the highway for as long as they can and the ring does not close behind them: the Germans' shorter lines bring up the divisions to keep the corridor open, supplies for the 33rd Army fail, and the units sent ahead are cut off themselves, as the real ones were. Model's counterattack comes in the summer and finishes what the winter started. The reserve was concentrated, and it was still not enough for what the plan asked of it.",
+                },
+              ],
+            },
+            {
+              label: "Seal the ring methodically — take the railway at the base of the salient first and keep the cavalry in hand",
+              advisor: { name: "Konev", position: "A ring closed at the base of the salient with its supply line intact is a smaller ring than the one at Vyazma, and he would rather cut the railway at Rzhev than hang cavalry on a highway." },
+              setFlags: { rzhevVyazma42: "methodical" },
+              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              next: "lendLease42",
+              uncertain: [
+                {
+                  weight: slowPocket,
+                  title: "The railway falls, and the ring with it",
+                  setFlags: { centerBroken42: "pocket" },
+                  impact: { manpower: -1, fuel: -1, initiative: 2 },
+                  next: "smolenskThaw42",
+                  outcome:
+                    "Speculative, and the better end of a cautious plan. The railway at the base of the salient is cut in the second week, the cavalry are still in hand when the Germans' corridor closes behind them, and the Ninth Army, with no railway and no road, is cut off in the bulge instead of being outflanked from far away. It is a smaller pocket than the deep plan would have made and a surer one, and the Germans cannot relieve it before the spring.",
+                },
+                {
+                  weight: Math.max(5, 55 - Math.round(bonus / 4)),
+                  title: "The salient is flattened, not cut",
+                  setFlags: { centerBroken42: "reduced" },
+                  impact: { manpower: -1, fuel: 0, initiative: 1 },
+                  next: "lendLease42",
+                  outcome:
+                    "Speculative. The railway is cut and the salient is pushed back toward Rzhev instead of being cut off at its base. The Germans give up the western edge of it in good order; the Ninth Army keeps its shape, and a smaller salient stays on the road to Moscow. It is the winter's result the real Stavka would have taken: ground gained, an army intact on both sides, and nothing decided.",
+                },
+                {
+                  weight: Math.max(5, 100 - slowPocket - Math.max(5, 55 - Math.round(bonus / 4))),
+                  title: "The Germans hold the base",
+                  setFlags: { centerBroken42: "failed" },
+                  impact: { manpower: -2, fuel: -1, initiative: -1 },
+                  next: "lendLease42",
+                  outcome:
+                    "Speculative. The railway at the base of the salient is the one thing the German command had expected to be attacked and the one thing it had reinforced, and the methodical attack, which is slow because the plan is, is stopped in front of it while the front's own railway falls behind. A winter's offensive ends where the real one did, on the same line, with fewer men.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get smolenskThaw42() {
+          const press = Math.min(85, modWeight(35, meters.fuel) + (flags.armourBanked41 ? 6 : 0) + (flags.brodyResult === "blow" ? 4 : 0));
+          return {
+          date: "MARCH – APRIL 1942",
+          title: "Smolensk, Before the Thaw",
+          historicalRecord: false,
+          situation:
+            "The pocket at Vyazma has done what the real winter's offensive could not. The German Ninth Army is destroyed in the bulge or is breaking out in pieces, the railway and highway through Vyazma are Soviet, and Army Group Centre is falling back toward Smolensk and the upper Dnieper on a line nobody in Berlin ordered. In three weeks the thaw will turn every road in the theatre into a river of mud, and the armies, now at the end of two hundred kilometres of their own railway, will stay where they are when it comes. Smolensk, the city whose fall in July 1941 opened the road to Moscow, lies about 150 kilometres ahead.",
+          choices: [
+            {
+              label: "Drive on Smolensk before the thaw closes the roads",
+              advisor: { name: "Zhukov", position: "A line that has just lost its base does not hold twice, and the thaw gives it the one week it needs, so the armies go now or not at all." },
+              checkLabel: "Matériel",
+              disabledReason: meters.fuel <= -5 ? "not enough fuel and shells left to drive on a city the thaw is about to cut off" : undefined,
+              setFlags: { smolenskThaw42: "press" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "lendLease42",
+              uncertain: [
+                {
+                  weight: press,
+                  title: "Smolensk, in April",
+                  setFlags: { smolenskTaken42: true },
+                  impact: { manpower: -1, fuel: -1, initiative: 2 },
+                  outcome:
+                    "Speculative. The Western Front reaches Smolensk in the last week of the frost, with the German garrison still falling back through it, and the city is retaken in April 1942, seventeen months before it was retaken in real history. The thaw closes the roads the day after the last Soviet regiment enters the city, and the front stops where it has arrived, on ground it will have to supply through a spring and a summer from railway lines the Germans destroyed on their way out.",
+                },
+                {
+                  weight: 100 - press,
+                  title: "A week short, in the mud",
+                  setFlags: { smolenskStalled42: true },
+                  impact: { manpower: -1, fuel: -2, initiative: 0 },
+                  outcome:
+                    "Speculative. The armies are a week short. The thaw catches the spearheads some sixty kilometres from Smolensk, with their fuel columns behind them in the mud, while the Germans, who have a railway, bring up the divisions that were due elsewhere. The gains of the winter hold; the city does not fall. It is the best winter the Red Army has had in this war, and it ends on a mud road with the city in sight.",
+                },
+              ],
+            },
+            {
+              label: "Halt on the line the pocket won — relay the railways and let the thaw pass",
+              advisor: { name: "Vasilevsky", position: "An advance that stops at the end of its railway is an advance, and one that stops in the mud beyond it is a hostage, so the railways are relaid before the thaw and the guns come up behind them." },
+              setFlags: { smolenskThaw42: "consolidate" },
+              impact: { manpower: 1, fuel: 1, initiative: 0 },
+              next: "lendLease42",
+              outcome:
+                "Speculative. The front stops at Vyazma and the upper Dnieper, the railways are relaid before the thaw closes the roads, and the armies spend April and May getting their guns, fuel and replacements forward. Smolensk is left to the Germans for the time being, with a stronger line than they had before but no longer a salient pointed at Moscow. What the pause costs is time: Army Group Centre has a spring to rebuild in, and the German summer offensive will not be aimed at a front that has not been broken.",
+            },
+          ],
+        };
+        },
+        get kharkov42() {
+          return {
+          date: "MAY 1942",
+          title: "The Barvenkovo Salient",
+          historicalRecord: true,
+          situation:
+            "South of Kharkov, the winter fighting left the Southwestern Front holding a long salient around Izyum and Barvenkovo. Timoshenko, with Khrushchev as his political commissar and Bagramyan as his chief of staff, proposes to use it as the springboard for a spring offensive: retake Kharkov and drive on toward Poltava, Pavlograd and Sinelnikovo. Stalin has approved it. What the front's planners know is that the Germans are concentrating around the salient. What they do not know is that the German plan, Operation Fredericus, is to cut it off at the neck, with Kleist's First Panzer Army from the south and Paulus's Sixth Army from the north, and that its date is within days of the Soviet start." +
+            (flags.winter42 === "general"
+              ? " The winter's general offensive has left the front's reserves thinner than the plan for this one assumes."
+              : flags.winter42 === "pause"
+              ? " The winter's pause has left the front a reserve the real Timoshenko did not have, and an argument for using it."
+              : flags.centerBroken42 === "pocket"
+              ? " In the centre the winter's pocket has made the south the only front where the Germans can still choose the time and place of a summer offensive, and Stavka's attention is on it."
+              : ""),
+          choices: [
+            {
+              label: "Launch the offensive on May 12, as Timoshenko proposes",
+              advisor: { name: "Timoshenko", position: "The salient is the best springboard on the southern front, and an army that waits inside it lets the Germans choose the day, so he would strike first and take Kharkov." },
+              historical: true,
+              setFlags: { kharkov42: "attack" },
+              impact: { manpower: -3, fuel: -2, initiative: -1 },
+              next: "order227_42",
+              outcome:
+                "What happened. The Southwestern Front attacked on May 12 and made ground toward Kharkov for five days. On the 17th Kleist's First Panzer Army struck the southern shoulder of the salient. On the 18th Vasilevsky, speaking for the General Staff, urged Stalin to halt the offensive and pull back, and Stalin refused. By May 28 the front had lost 277,190 men, 170,958 of them killed, missing or captured, along with some 1,250 tanks and about 2,000 guns and howitzers, against German losses of perhaps 20,000 to 30,000 men and 108 tanks. Case Blue began on June 28 against a southern front without its reserves.",
+            },
+            {
+              label: "Cancel the offensive and pull the armies out of the salient before the Germans close it",
+              advisor: { name: "Vasilevsky", position: "A salient that is worth holding when the enemy can be seen is a trap when he cannot, so he told Stalin on May 18 to stop, and would say it a week earlier if he were asked." },
+              setFlags: { kharkov42: "withdraw", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: 2, fuel: 1, initiative: -1 },
+              next: "order227_42",
+              outcome:
+                "Speculative. The offensive Stalin approved is cancelled in the week it was due, and the armies in the salient are pulled back behind the Donets before the Germans can close their pincers. The Southwestern Front goes into the summer with the 277,000 men, 1,250 tanks and some 2,000 guns that the real offensive lost in a fortnight, and without the salient that was to be its springboard. Fredericus meets an empty neck. Case Blue, when it comes on June 28, meets a southern front thinner than it was in April and a good deal stronger than it was in June.",
+              uncertain: flags.hardMode
+                ? [
+                    {
+                      weight: 100 - (10 + 5 * (flags.suspicion || 0)),
+                      title: "The cancellation stands",
+                      impact: { manpower: 2, fuel: 1, initiative: -1 },
+                      next: "order227_42",
+                      outcome:
+                        "Speculative. The offensive Stalin approved is cancelled in the week it was due, and the armies in the salient are pulled back behind the Donets before the Germans can close their pincers. The Southwestern Front goes into the summer with the men, tanks and guns that the real offensive lost in a fortnight. Fredericus meets an empty neck, and the order that cancelled an offensive its leader had approved is filed with a note about the officer who gave it.",
+                    },
+                    {
+                      weight: 10 + 5 * (flags.suspicion || 0),
+                      title: "Recalled",
+                      setFlags: { purged: true, purgedAt: "kharkov42" },
+                      impact: { manpower: 0, fuel: 0, initiative: 0 },
+                      next: "END",
+                      outcome:
+                        "Stalin approved the offensive, and an order cancelling it is, in the year the apparatus has learned the word, a vote of no confidence in him. Vasilevsky was heard on May 18 with the offensive already under way; a headquarters that tries to prevent it before it starts is not heard, it is reported. The car is waiting before the troops in the salient have finished turning round.",
+                    },
+                  ]
+                : undefined,
+            },
+          ],
+        };
+        },
+        get westernOffensive42() {
+          const full = Math.min(85, modWeight(40, meters.initiative) + (flags.smolenskTaken42 ? 10 : 0) + (flags.armourBanked41 ? 4 : 0));
+          return {
+          date: "NOVEMBER – DECEMBER 1942",
+          title: "Mars, Without the Salient",
+          historicalRecord: false,
+          situation:
+            "On this map there is no Rzhev salient. The winter's pocket at Vyazma took its base, and Army Group Centre has spent the year behind the upper Dnieper with the Western and Kalinin Fronts facing it " +
+            (flags.smolenskTaken42 ? "from Smolensk itself" : "from the Vyazma line, within sight of Smolensk") +
+            ". The autumn reserve has been given to the centre, as Zhukov wanted, and the plan he proposes is the one he drew in the real autumn as Operation Mars with its target moved: Orsha, Vitebsk and the road to Minsk, to open alongside Uranus so that Army Group Centre cannot send its reserves south. The question is how hard to hit." +
+            (flags.centerBroken42 === "pocket" && !flags.smolenskTaken42
+              ? " The thaw that stopped the armies short of Smolensk in April has long since dried, and the German line in front of the city is not the one that was there before the pocket: it is shorter, and it has had eight months to dig."
+              : ""),
+          choices: [
+            {
+              label: "Launch it in full, alongside Uranus — Orsha, Vitebsk and the road to Minsk",
+              advisor: { name: "Zhukov", position: "Two blows launched together mean the enemy must fail somewhere, and a centre that has already been broken once is where he is likeliest to." },
+              setFlags: { westernOffensive42: "full" },
+              impact: { manpower: -2, fuel: -1, initiative: 1 },
+              next: "stalingradStreets42",
+              uncertain: [
+                {
+                  weight: full,
+                  title: "The centre breaks a second time",
+                  setFlags: { fastWest42: true },
+                  impact: { manpower: -1, fuel: -1, initiative: 2 },
+                  outcome:
+                    "Speculative. The blow lands on a centre that has not had a year to recover from the last one. Orsha falls in the first week of December and Vitebsk is outflanked from the south, and Army Group Centre falls back toward the Berezina to avoid being cut off from Minsk. Nothing like it happened in the real winter. The German reserves that history sent south are kept in the centre to meet it, and Uranus meets less than it did.",
+                },
+                {
+                  weight: 100 - full,
+                  title: "The gateway holds",
+                  impact: { manpower: -3, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. The Germans, who have had a year to turn the Orsha–Vitebsk gateway into the kind of line this war has already taught them to build, stop the attack after eight days on the second belt of their defences. The front moves a little, and the losses are ones that cannot be spared with Uranus about to begin: the centre has bought no relief for the south, and has spent men the south could have used.",
+                },
+              ],
+            },
+            {
+              label: "Keep the centre to a limited attack — pin Army Group Centre and send the freed reserves south",
+              advisor: { name: "Vasilevsky", position: "A blow that pins costs a fraction of one that breaks, and the south is where the reserve decides the winter." },
+              setFlags: { westernOffensive42: "holding", southReserve42: true },
+              impact: { manpower: 1, fuel: 0, initiative: 0 },
+              next: "stalingradStreets42",
+              outcome:
+                "Speculative. The attack in the centre is held to what the Western Front already has, a pinning blow to keep Army Group Centre where it is, and the reserve that would have gone to the centre goes south and is on the Don by the time Uranus begins. A front that was broken once is left as it is, with the means to break it again the following year, if the south is won first.",
             },
           ],
         };
@@ -528,6 +966,14 @@
               : flags.border41 === "hold"
               ? " This command never had to make the case for trading ground that Order 227 now forecloses outright — the border was held, not withdrawn, and the question the order answers was never really this desk's own open question."
               : "") +
+            (flags.kharkov42 === "withdraw"
+              ? " The southern front that was not spent in the Izyum salient in May is the one thing about this summer that the real Stavka never had: it is retreating, but it is retreating with its armies, and the order that was written for a front that had lost them reads, here, more like a standing instruction than a reaction."
+              : flags.kharkov42 === "attack"
+              ? " The front that lost 277,000 men in the Izyum salient in May is the front this order is being written for, and everyone in this room knows which decision it follows."
+              : "") +
+            (flags.centerBroken42 === "pocket"
+              ? " In the centre, for once, there is nothing to hold: the winter's pocket at Vyazma has put the Germans a long way from Moscow, and the order's blocking detachments belong to the other front."
+              : "") +
             (flags.forkStalingradConsolidate
               ? " One thing about the southern front doesn't fit the pattern Order 227 was written to answer: forward units approaching the city are reportedly consolidating short of it rather than pressing directly into the outskirts — an uncharacteristic pause nobody in this room ordered or expected."
               : "") +
@@ -541,7 +987,7 @@
               historical: true,
               setFlags: { order227: "enforce" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
-              next: "rzhevSummer42",
+              next: flags.centerBroken42 === "pocket" ? "autumnWeight42" : "rzhevSummer42",
                             outcome:
                 "The order was read aloud to every unit in the Red Army; penal battalions and blocking detachments became institutional facts, and hundreds of thousands of men eventually passed through the penal system, used for the war's most lethal tasks. Whether the terror or the honesty did more of the work remains a real dispute — soldiers' memoirs cite both — but the southern front's collapse slowed, and this campaign will not pretend the human cost of the method was incidental to it.",
               uncertain: flags.hardMode && (flags.suspicion || 0) >= 2
@@ -550,7 +996,7 @@
                       weight: 100 - 5 * (flags.suspicion || 0),
                       title: "Enforced, and enough",
                       impact: { manpower: -1, fuel: 0, initiative: 0 },
-                      next: "rzhevSummer42",
+                      next: flags.centerBroken42 === "pocket" ? "autumnWeight42" : "rzhevSummer42",
                       outcome:
                         "The order was enforced to the letter — penal battalions, blocking detachments, the full apparatus — and this time full compliance is exactly what the file wanted to see. The southern front's collapse slows. Nothing further is asked of this headquarters this month.",
                     },
@@ -572,7 +1018,7 @@
               setFlags: { order227: "discretion", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
                             impact: { manpower: 1, fuel: 0, initiative: 0 },
-              next: "rzhevSummer42",
+              next: flags.centerBroken42 === "pocket" ? "autumnWeight42" : "rzhevSummer42",
               outcome:
                 "A speculative reading of the argument some front commanders quietly made and some quietly practiced: the order's admission of crisis travels army-wide either way, while its cruelest instruments are applied sparingly. Most of the historical order's disciplinary architecture was, in practice, softened within months as the crisis passed — this path simply starts there.",
               uncertain: flags.hardMode
@@ -581,7 +1027,7 @@
                       weight: 100 - (5 + 5 * (flags.suspicion || 0)),
                       title: "The discretion holds",
                       impact: { manpower: 1, fuel: 0, initiative: 0 },
-                      next: "rzhevSummer42",
+                      next: flags.centerBroken42 === "pocket" ? "autumnWeight42" : "rzhevSummer42",
                       outcome:
                         "The likely shape of the argument some front commanders quietly made and some quietly practiced: the order's admission of crisis travels army-wide either way, while its cruelest instruments are applied sparingly. The paperwork records full compliance. The paperwork is not closely audited this month; the front is too busy surviving.",
                     },
@@ -904,7 +1350,7 @@
               historical: true,
               setFlags: { moscow41: "counteroffensive" },
               impact: { manpower: 2, fuel: 0, initiative: flags.reserveCommitment41 === "hold" ? 2 : 1 },
-              next: flags.hardMode ? "specialSection41" : "lendLease42",
+              next: flags.hardMode ? "specialSection41" : "winterGeneral42",
               // Round 21 (2026-10-05, Craig: the first Order of Battle for the Soviet campaign,
               // the Moscow counteroffensive). Same pattern as the German Sedan choice: a new
               // uncertain[] whose first outcome is the text that used to be this choice's own.
@@ -1136,32 +1582,40 @@
         };
         },
         get autumnWeight42() {
+          const noSalient = flags.centerBroken42 === "pocket";
           return {
           date: "AUTUMN 1942",
           title: "Where the Reserve Goes",
           historicalRecord: true,
           directive: true,
-          situation:
-            "The autumn's strategic reserve — fresh armies forming behind the Volga — can weight one of two theaters, and Stavka's internal argument over which is genuine. The center: the Rzhev salient still points at Moscow, and Zhukov wants the reserve for a matched pair of offensives, Mars against Rzhev alongside Uranus in the south. The south: everything — the city fight on the Volga, the Caucasus oil line where German spearheads have reached the high passes — argues the war's decision is being made there and the reserve belongs behind it.",
+          situation: noSalient
+            ? "The autumn's strategic reserve — fresh armies forming behind the Volga — can weight one of two theaters, and Stavka's internal argument over which is genuine. The center: there is no Rzhev salient on this map to take away, because the winter's pocket at Vyazma took its base, and Zhukov wants the reserve for a drive west from the line the winter won, timed to open beside Uranus in the south. The south: everything — the city fight on the Volga, the Caucasus oil line where German spearheads have reached the high passes — argues the war's decision is being made there and the reserve belongs behind it."
+            : "The autumn's strategic reserve — fresh armies forming behind the Volga — can weight one of two theaters, and Stavka's internal argument over which is genuine. The center: the Rzhev salient still points at Moscow, and Zhukov wants the reserve for a matched pair of offensives, Mars against Rzhev alongside Uranus in the south. The south: everything — the city fight on the Volga, the Caucasus oil line where German spearheads have reached the high passes — argues the war's decision is being made there and the reserve belongs behind it.",
           choices: [
             {
-              label: "Weight the center — the reserve backs Mars against the Rzhev salient",
-              advisor: { name: "Zhukov", position: "Two offensives launched together mean the enemy must fail somewhere, and the salient is a loaded weapon that he intends to take away." },
-              historical: true,
+              label: noSalient
+                ? "Weight the center — the reserve backs the drive west from the line the winter won"
+                : "Weight the center — the reserve backs Mars against the Rzhev salient",
+              advisor: noSalient
+                ? { name: "Zhukov", position: "A centre that was broken once and has had a year to mend is the place to hit a second time, and the reserve is wanted for exactly that." }
+                : { name: "Zhukov", position: "Two offensives launched together mean the enemy must fail somewhere, and the salient is a loaded weapon that he intends to take away." },
+              historical: !noSalient,
               setFlags: { autumnWeight: "center" },
-              impact: { manpower: -3, fuel: 0, initiative: 0 },
-              next: "rzhev42",
-              outcome:
-                "What happened — the reserve fed both Mars and Uranus, and the center's share was about to be spent against Model's prepared defense at Rzhev. The twin-offensive concept was sound arithmetic and, in the center, terrible geology; this campaign's next chapter is the one Soviet histories stayed silent about for fifty years.",
+              impact: noSalient ? { manpower: -2, fuel: 0, initiative: 0 } : { manpower: -3, fuel: 0, initiative: 0 },
+              next: noSalient ? "westernOffensive42" : "rzhev42",
+              outcome: noSalient
+                ? "The reserve goes to the centre, to the army group that was beaten there in the winter and has been rebuilding ever since. The offensive that follows is not the one in the histories: it is the one the spring's pocket made possible, and what it is worth depends on how hard it is hit and how much of the south it is allowed to cost."
+                : "What happened — the reserve fed both Mars and Uranus, and the center's share was about to be spent against Model's prepared defense at Rzhev. The twin-offensive concept was sound arithmetic and, in the center, terrible geology; this campaign's next chapter is the one Soviet histories stayed silent about for fifty years.",
             },
             {
               label: "Weight the south — everything behind the Volga and the Caucasus line",
-              advisor: { name: "Vasilevsky", position: "Rzhev threatens Moscow while the south threatens the war, so the reserve goes where the verdict is being written." },
+              advisor: { name: "Vasilevsky", position: noSalient ? "The centre is quiet because it was broken, while the south threatens the war, so the reserve goes where the verdict is being written." : "Rzhev threatens Moscow while the south threatens the war, so the reserve goes where the verdict is being written." },
               setFlags: { autumnWeight: "south" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "caucasusDefense42",
-              outcome:
-                "A speculative reading of the single-theater concentration: the center holds Rzhev with pressure rather than assault — sparing Mars's historical six-figure cost — and the reserve's full weight goes behind the Volga and the mountain passes. What the concentration buys in the south, the next chapter tests directly; what it forgoes is the pinning effect Mars's defenders always claimed for it, which German reserves are now free to disprove.",
+              outcome: noSalient
+                ? "A speculative reading of the single-theater concentration: the centre is held where the winter left it, and the reserve's full weight goes behind the Volga and the mountain passes. What the concentration buys in the south, the next chapter tests directly; what it forgoes is a second blow at an army group that has had a year to mend, which German reserves are now free to use."
+                : "A speculative reading of the single-theater concentration: the center holds Rzhev with pressure rather than assault — sparing Mars's historical six-figure cost — and the reserve's full weight goes behind the Volga and the mountain passes. What the concentration buys in the south, the next chapter tests directly; what it forgoes is the pinning effect Mars's defenders always claimed for it, which German reserves are now free to disprove.",
             },
           ],
         };
@@ -1248,6 +1702,8 @@
         };
         },
         get stalingradCounter42() {
+          // Round 24: what was kept back in the spring and the autumn is read here, in the odds and in the text.
+          const uranusBonus = (flags.kharkov42 === "withdraw" ? 5 : 0) + (flags.southReserve42 ? 4 : 0) + (flags.fastWest42 ? 3 : 0);
           return {
           date: "NOVEMBER 1942",
           title: "Operation Uranus",
@@ -1256,6 +1712,12 @@
             "German Sixth Army is committed, street by street, to the ruins of Stalingrad — exactly the kind of static, grinding fight Soviet planners have learned to feed rather than resist directly. Its flanks, north and south of the city, are held by Romanian and Italian armies: weaker, more thinly equipped, and now the target of the largest counteroffensive Stavka has assembled. How large to make the encirclement, and how far to trust that German reserves cannot reach it in time, is what's actually undecided." +
             (flags.forkStalingradConsolidate
               ? " Sixth Army's own earlier hesitation to press fully into the city has left it somewhat better organized on the flanks than the historical, fully-committed version ever was — Uranus is closing on a defense that had a little more time to prepare for it."
+              : "") +
+            (flags.kharkov42 === "withdraw"
+              ? " The Southwestern Front that was not spent in the Izyum salient in May is on the Don this November with the armies, tanks and guns the real front lost at Kharkov, and Stavka is planning Uranus with more behind it than history's planners had."
+              : "") +
+            (flags.southReserve42
+              ? " The reserve that the limited attack in the centre freed is behind the Don as well."
               : "") +
             (flags.forkRzhevThin && flags.rzhev42 === "mars"
               ? " Whatever thinned Model's garrison at Rzhev never got explained, and it hasn't mattered enough on its own to change anything here — Mars still spent itself against the salient at full historical cost, and Uranus was assembled and launched without reference to it."
@@ -1432,7 +1894,7 @@
               },
               uncertain: [
                 {
-                  weight: modWeight(75, meters.initiative),
+                  weight: Math.min(95, modWeight(75, meters.initiative) + uranusBonus),
                   title: "The ring closes far out",
                   setFlags: { uranusResult: "deep" },
                   impact: { manpower: 1, fuel: 0, initiative: 1 },
@@ -1440,7 +1902,7 @@
                     "What happened, November 19–23, 1942. The pincers closed roughly 100 kilometers west of Stalingrad, trapping the entire Sixth Army — some 250,000 men — far more completely than a shallower envelopment would have. Manstein's relief attempt in December came within roughly 30 miles and was stopped; the trapped army surrendered in February 1943, one of the war's genuine turning points.",
                 },
                 {
-                  weight: 100 - modWeight(75, meters.initiative),
+                  weight: 100 - Math.min(95, modWeight(75, meters.initiative) + uranusBonus),
                   title: "The ring closes short and loose",
                   setFlags: { uranusResult: "loose" },
                   impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -1857,7 +2319,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "dnieperRace43",
               outcome:
-                "The southern weighting drove the pursuit to the Dnieper and across it before the year ended — the fastest strategic advance the Soviet war had yet produced, into the theater where the economic and political stakes ran highest. The western axis advanced too, took Smolensk, and stalled exactly where its skeptics predicted: in the forests and field fortifications that would wait for Bagration to solve them properly.",
+                "The southern weighting drove the pursuit to the Dnieper and across it before the year ended — the fastest strategic advance the Soviet war had yet produced, into the theater where the economic and political stakes ran highest. The western axis advanced too, " + (flags.smolenskTaken42 ? "out of the Smolensk it had held for a year" : "took Smolensk") + ", and stalled exactly where its skeptics predicted: in the forests and field fortifications that would wait for Bagration to solve them properly.",
             },
             {
               label: "West — the Smolensk axis, the shortest line pointed at Germany itself",
@@ -1877,7 +2339,7 @@
           title: "The Gates of Smolensk",
           historicalRecord: false,
           situation:
-            "The reinforced western axis grinds forward through terrain that explains, kilometer by kilometer, why the historical Stavka weighted south: forest, marsh, and German field fortifications in successive belts — the same ground that will make Bagration's 1944 deception necessary. Smolensk falls, as it did historically; what the reinforcement buys beyond it is the real matter. The staff's argument now is between pressing into the fortified Orsha–Vitebsk gateway before winter, or converting the season's gains into forward positioning and letting 1944's blow start from here." +
+            "The reinforced western axis grinds forward through terrain that explains, kilometer by kilometer, why the historical Stavka weighted south: forest, marsh, and German field fortifications in successive belts — the same ground that will make Bagration's 1944 deception necessary. " + (flags.smolenskTaken42 ? "Smolensk has been Soviet since the spring of 1942, so the reinforcement is aimed past it, and what it buys there is the real matter." : "Smolensk falls, as it did historically; what the reinforcement buys beyond it is the real matter.") + " The staff's argument now is between pressing into the fortified Orsha–Vitebsk gateway before winter, or converting the season's gains into forward positioning and letting 1944's blow start from here." +
             (meters.manpower <= -3
               ? " The more aggressive answer isn't seriously on the table this month — there isn't strength left to press a fortified gateway this deep. Whatever 1944 starts from, it starts from wherever this season's more modest gains leave it."
               : ""),
@@ -2008,6 +2470,9 @@
             "Stavka's deception effort — maskirovka — for the summer offensive is the largest of the war: false radio traffic, dummy armor concentrations, and leaked plans all point German intelligence toward a strike in the south, against Army Group North Ukraine. The real blow, some 2.3 million men with overwhelming armor and air support, is massing in secret against Army Group Center. How far to press it once German lines break is what's actually unresolved — whether Bagration remains a destruction of Army Group Center, or becomes a race for Warsaw and the war's political map." +
             (meters.manpower <= -5
               ? " One question the staff maps don't need to settle: three years of costly choices have left this front with nothing left to press with. Whatever Bagration destroys, it will not be chasing the wreckage to Warsaw's gates afterward — there is no reserve behind the breakthrough to do the chasing."
+              : "") +
+            (flags.fastWest42
+              ? " The line this offensive has to break is not the one history found: Army Group Center has been behind the Berezina since the winter of 1942, and the blow starts well west of where the real one did."
               : "") +
             (flags.smolenskGates === "press"
               ? " The habit of pressing past the safe stopping point is an old one on this front by now — Smolensk's gates were the first place this command chose momentum over caution, and Bagration is only the largest version of a decision already made once before."
@@ -2786,6 +3251,10 @@
         balkans44soviet: "limited",
         vistulaOder45: "halted",
         berlin45soviet: "race",
+        brody41: "counterattack",
+        yelnya41: "strike",
+        winter42: "general",
+        kharkov42: "attack",
       };
       let matched = 0,
         considered = 0;
@@ -2813,6 +3282,8 @@
           specialSection41: "DECEMBER 1941",
           order227_42: "AUGUST 1942",
           suspicionCeiling: "1942",
+          brodyCounterstroke41: "JULY 1941",
+          kharkov42: "MAY 1942",
         };
         const d = dateByNode[flags.purgedAt] || "1941";
         return { stamp: d + " (RECALLED)", prose: d, exact: false };
@@ -2821,12 +3292,23 @@
       // earlier finish — hence the minus. OKW's identical formula runs the other way on purpose;
       // see the comment there.
       let idx = 64 - Math.round((meters.initiative || 0) * 1.2);
+      // Round 24: a centre broken in the winter of 1942 brings the end forward by itself.
+      if (flags.fastWest42) idx -= 2;
+      else if (flags.smolenskTaken42) idx -= 1;
       idx = Math.max(58, Math.min(70, idx));
       const M = MONTH_NAMES;
       const exact = idx === 64 && this.historicity(flags).ratio >= 0.75;
       if (exact) return { stamp: "MAY 8, 1945", prose: "May 8, 1945", exact: true };
       const p = `${M[idx % 12]} ${1940 + Math.floor(idx / 12)}`;
-      return { stamp: p.toUpperCase() + " (PROJECTED)", prose: p, exact: false };
+      return { stamp: p.toUpperCase() + " (PROJECTED)", prose: p, exact: false, idx };
+    },
+    // Round 24: whether the projected end is early, late or on the historical schedule, read from the
+    // projected month itself, so a centre broken in 1942 and a high Initiative both say "earlier".
+    paceOf(flags, meters) {
+      const end = this.projectedEnd(flags, meters);
+      if (end.exact) return "onTime";
+      if (end.idx !== undefined) return end.idx <= 62 ? "early" : end.idx >= 66 ? "late" : "onTime";
+      return (meters.initiative || 0) >= 2 ? "early" : (meters.initiative || 0) <= -2 ? "late" : "onTime";
     },
     positionLabel(flags, meters) {
       // First match wins, so this chain runs rarest-condition-first: a run's title should name the
@@ -2850,6 +3332,11 @@
       // that never got acted on in time) that makes the historical surprise look narrower in
       // hindsight than it felt to Stavka's own planners at the time.
       if (flags.forkDeceptionSeen && flags.bagration44soviet === "full") return "The Warning That Went Nowhere";
+      // Round 24: the early-branching paths. These flags are rarer than the broad ones further down, so they
+      // sit above the chain's meter extremes; the broad ones (Kharkov, the banked armour) sit with the others.
+      if (flags.fastWest42) return "The Centre That Broke Twice";
+      if (flags.smolenskTaken42) return "Smolensk, in April";
+      if (flags.centerBroken42 === "pocket") return "The Pocket at Vyazma";
       // Extreme meter states outrank the flag chain below. An army that finished essentially
       // intact, or one that stopped existing as an army, is the defining fact of a run — a
       // bigger truth about it than any single mid-war decision. Only the extremes qualify;
@@ -2886,6 +3373,9 @@
       if (flags.maskingForceQuestion45 === "heavy") return "The Insurance Premium";
       if (flags.autumnWeight === "south") return "The Reserve That Never Bled at Rzhev";
       if (flags.axis43 === "west") return "Berlin by the Longer Road";
+      if (flags.winter42 === "concentrate" && flags.centerBroken42 && flags.centerBroken42 !== "pocket") return "One Blow, Not Ten";
+      if (flags.kharkov42 === "withdraw") return "The Salient Nobody Held";
+      if (flags.armourBanked41) return "The Armour That Was Kept";
       // "The Fortress Left to Starve" (eastPrussia45==="sealed") sat here and never fired: sampled
       // across 20,000 runs, all 9,896 that reached the East Prussia siege sealed were ALSO already
       // caught by one of the twenty-odd flags above (varied ones — no single blocker, just a chain
@@ -2923,9 +3413,9 @@
       if (end.exact) {
         dateClause =
           "Berlin falls in late April 1945, and Germany surrenders unconditionally on May 8 — essentially the historical timeline.";
-      } else if ((meters.initiative || 0) >= 2) {
+      } else if (this.paceOf(flags, meters) === "early") {
         dateClause = `Victory in Europe arrives around ${end.prose} — earlier than the historical May 1945, bought with a faster, costlier advance.`;
-      } else if ((meters.initiative || 0) <= -2) {
+      } else if (this.paceOf(flags, meters) === "late") {
         dateClause = `Victory in Europe arrives around ${end.prose} — later than the historical May 1945, the price of choices that spent time to save men.`;
       } else {
         dateClause = `Victory in Europe arrives close to the historical schedule, around ${end.prose}.`;
@@ -3007,6 +3497,43 @@
         add(5, "Striking first at Kursk traded a prepared defensive advantage for surprise — a road Soviet planners considered and rejected for good reason.");
       if (flags.berlin45soviet === "concentrated")
         add(4, "A single concentrated thrust on Berlin avoided the coordination costs the historical Zhukov–Konev rivalry accepted in exchange for speed.");
+      // Round 24: what the early branches left behind.
+      if (flags.fastWest42)
+        add(10, "The Western Front was thrown at Orsha and Vitebsk beside Uranus in the winter of 1942, and the centre broke a second time: an army group that had been broken in the spring and left a year to mend, hit again before it had.");
+      if (flags.smolenskTaken42)
+        add(10, "Smolensk was retaken in April 1942, seventeen months before the real September 1943, by armies that reached it in the last week of the frost and were stopped by the thaw the day after.");
+      if (flags.centerBroken42 === "pocket")
+        add(9, "The pincers met at Vyazma in the winter of 1942, the encirclement the real January offensive was designed to make and could not supply, and the Rzhev salient never existed.");
+      if (flags.winter42 === "concentrate" && flags.centerBroken42 && flags.centerBroken42 !== "pocket")
+        add(8, "The offensive of January 1942 was concentrated on the Western axis, as Zhukov argued, instead of launched on every front at once, and the whole reserve thrown at one place was still not enough there.");
+      if (flags.rzhevVyazma42 === "deep" && flags.centerBroken42 === "failed")
+        add(7, "The cavalry and the airborne corps were sent ahead to hold the Vyazma highway and the ring did not close behind them: the real winter's gamble, taken again with more behind it.");
+      if (flags.rzhevVyazma42 === "methodical" && flags.centerBroken42 === "reduced")
+        add(6, "The Vyazma ring was closed methodically, the railway at the base of the salient first, and the salient was flattened without being cut: the caution that gives up the great blow for the sure one.");
+      if (flags.winter42 === "pause")
+        add(7, "The general offensive of January 1942 was not launched. The armies kept their winter casualties, and the Germans kept the time to turn the Rzhev salient into a fortress.");
+      if (flags.winter42 === "general")
+        add(5, "Stalin's general offensive of January 1942 went out on every front at once, as it did, and its ten operations still had to share the same reserve.");
+      if (flags.smolenskStalled42)
+        add(7, "The drive on Smolensk was stopped by the thaw sixty kilometres short, the best winter of the war ending on a mud road with the city in sight.");
+      if (flags.smolenskThaw42 === "consolidate")
+        add(6, "The pocket at Vyazma was consolidated before the thaw rather than pressed to Smolensk, the railways relaid and the guns brought up behind a front that was already further west than the real one.");
+      if (flags.westernOffensive42 === "holding")
+        add(6, "The autumn offensive in the centre was held to a pinning attack and the freed reserve sent south, to the Don, in time for Uranus.");
+      if (flags.kharkov42 === "withdraw")
+        add(8, "The Izyum salient was given up before the Germans could close it. The armies, tanks and guns the real offensive lost in May 1942 went into the summer instead, and Case Blue met a southern front that had them.");
+      if (flags.kharkov42 === "attack")
+        add(6, "The Kharkov offensive went ahead in May 1942 and the Southwestern Front lost 277,000 men in the Izyum salient: the decision Vasilevsky asked Stalin to reverse on the 18th.");
+      if (flags.brody41 === "withdraw")
+        add(7, "The mechanized corps were pulled back from the Brody road in June 1941 and the armour kept, against a directive from Moscow, and the ground it cost was the price of having a tank park in the winter.");
+      if (flags.brody41 === "concentrate")
+        add(6, "The mechanized corps were held two days in June 1941 and thrown in together, the argument Kirponos made at the front against the one that Zhukov brought from Moscow.");
+      if (flags.brody41 === "counterattack")
+        add(4, "The mechanized corps went into the June 1941 counterattack as Directive No. 3 ordered, a few at a time, and by July they were a fraction of their strength.");
+      if (flags.yelnya41 === "strike")
+        add(5, "The Yelnya salient was cleared in September 1941 and the first Guards divisions were made out of the men who fought there.");
+      if (flags.yelnya41 === "hold")
+        add(5, "The Yelnya salient was left alone and the Reserve Front kept back to dig, and the first Guards divisions were never formed from the battle that would have made them.");
       notes.sort((a, b) => b.w - a.w);
       const threadText = notes
         .slice(0, 3)
@@ -3034,9 +3561,9 @@
       }
       const end = this.projectedEnd(flags, meters);
       const timing =
-        (meters.initiative || 0) >= 2
+        this.paceOf(flags, meters) === "early"
           ? "Victory arrived ahead of the historical May 1945, which means the occupation of eastern and central Europe has had that much longer to harden by the time this account picks back up a year later."
-          : (meters.initiative || 0) <= -2
+          : this.paceOf(flags, meters) === "late"
           ? "Victory arrived behind the historical May 1945, which means Soviet forces are still consolidating a front the historical record had a year's head start settling by this point."
           : "Victory arrived close to the historical May 8, 1945, and the year that follows tracks the historical one closely: the Red Army's occupation zone, the machinery of a new political order installed behind it, and a wartime alliance already audibly disagreeing about what Europe's map is supposed to mean now that the shooting has stopped.";
       return `${timing} Within the year, the governments this front's advance put in place across Eastern Europe are consolidating along lines this campaign's own choices shaped only at the margins — the deeper political outcome was set well before any of this command's decisions, by where the armies actually stood when Germany surrendered. What Stavka spent this whole campaign managing was never whether that map got drawn. It was how many of the men who drew it lived to see it.`;
