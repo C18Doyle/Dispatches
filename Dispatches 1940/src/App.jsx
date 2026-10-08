@@ -10492,7 +10492,7 @@ const CAMPAIGNS = {
               historical: true,
               setFlags: { battleOfBritain40: "park" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
-              next: "europeFirst42",
+              next: "compassGreece41",
               // Round 21 (2026-10-05, Craig: the Battle of Britain as the second Allied Order of
               // Battle, chosen over Dunkirk). The day modeled is 15 September 1940, the one on
               // which Park committed every squadron of 11 Group. Same pattern as Sedan and
@@ -10709,7 +10709,7 @@ const CAMPAIGNS = {
               advisor: { name: "Leigh-Mallory", position: "One formation of sixty aircraft breaks a raid apart, while six squadrons trickling in one at a time simply feed the enemy targets." },
               setFlags: { battleOfBritain40: "bigWing" },
               impact: { manpower: 1, fuel: -1, initiative: -1 },
-              next: "europeFirst42",
+              next: "compassGreece41",
               outcome:
                 "A fair account of the alternative doctrine, tested in earnest and judged unfavorably by most of the historical evidence gathered since: massed interceptions did claim higher kill totals per engagement when they actually arrived in time, but 12 Group's wings were frequently still forming when 11 Group's sector airfields were already being hit — the assembly time the doctrine required was time the raids didn't wait for. Bader's own claimed kill counts were later found significantly inflated, a detail that complicated the doctrine's reputation for decades after the battle it was meant to win.",
             },
@@ -10717,6 +10717,335 @@ const CAMPAIGNS = {
           };
         },
 
+        // Round 24 (the Allied campaign branches early, as the Soviet one now does). Between the Battle of Britain and
+        // Europe First the campaign had nothing at all: no Mediterranean, no Far East, no Russia. These seven decisions
+        // fill 1941 and give it forks: Tripoli or Greece (two different roads), a battleship for Singapore, and the
+        // tanks promised to Moscow against the tanks wanted at Tobruk. What is chosen is read later, in the odds of
+        // Crusader and in the situation reports, not as a hidden bonus. Facts checked 2026-10-07 (Wikipedia:
+        // Operation Compass, Operation Lustre, Battle of Greece, Battle of Crete, Moscow Conference (1941),
+        // Operation Crusader, Force Z; the Demon evacuation figure and the Royal Navy's losses off Crete from the
+        // Greece and Crete summaries).
+        get compassGreece41() {
+          return {
+          date: "FEBRUARY 1941",
+          title: "Tripoli or Athens",
+          historicalRecord: true,
+          situation:
+            "Operation Compass is over, and nothing the British Army has done in this war compares with it: at Beda Fomm, on February 5–7, the last Italian column in Cyrenaica was cut off and surrendered, and the two months' campaign has cost Mussolini 133,298 prisoners, 420 tanks and 845 guns against 500 British dead. Tripoli, the Axis's last port in Libya, is some six hundred miles beyond the Western Desert Force, and its commander, O'Connor, believes he can reach it. London is looking the other way. Eden has come back from Athens with the Greek government's acceptance of a British force, a German army is gathering in Bulgaria, and the Defence Committee wants Cyrenaica held with the minimum and the best divisions sent across the Mediterranean. Reports say German troops are beginning to land at Tripoli.",
+          choices: [
+            {
+              label: "Halt at El Agheila and send the best divisions to Greece, as the Defence Committee proposes",
+              advisor: { name: "Churchill", position: "Britain's only effective ally in Europe is about to be attacked, and a country that watches its ally fall without sparing a division has no allies left to lose." },
+              historical: true,
+              setFlags: { mediterranean41: "greece" },
+              impact: { manpower: -1, fuel: 0, initiative: 0 },
+              next: "greeceFalls41",
+              outcome:
+                "What happened. The decision went through, and the best-equipped formations, the 6th Australian and 2nd New Zealand Divisions and the 1st Armoured Brigade, were taken out of the desert for Operation Lustre: some 58,000 men by the plan. Cyrenaica was left to a thin force of unseasoned troops, and when Rommel attacked at the end of March it was lost, except for Tobruk, within weeks. Historians have mostly judged Greece a strategic mistake: the expedition could not have stopped the German attack, and it weakened the one front on which the British had been winning.",
+            },
+            {
+              label: "Push on to Tripoli with the Western Desert Force and send Greece only a token force",
+              advisor: { name: "O'Connor", position: "The Italian army in Africa has ceased to exist and Tripoli is open to anyone who goes now, before the Germans have a division ashore to hold it." },
+              checkLabel: "Matériel",
+              disabledReason: meters.fuel <= -5 ? "not enough fuel and shipping left to push the Western Desert Force six hundred miles to Tripoli" : undefined,
+              setFlags: { mediterranean41: "tripoli" },
+              impact: { manpower: -1, fuel: -2, initiative: 1 },
+              next: "aidRussia41",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.fuel),
+                  title: "Tripoli, before the Germans are ready",
+                  setFlags: { tripoli41: "taken" },
+                  impact: { manpower: -1, fuel: -2, initiative: 3 },
+                  outcome:
+                    "Speculative. The Western Desert Force goes on, its trucks and what shipping can reach Benghazi stretched to the limit, and its leading units reach Tripoli in March, before the first German division is ashore in strength to hold it. The Italian army in North Africa is gone and the German force that was to be landed there has no port in Libya to land in. The one theatre in which the British had been beating the Axis is cleared, with Greece defended by a token force that falls on the real April timetable all the same.",
+                },
+                {
+                  weight: 100 - modWeight(35, meters.fuel),
+                  title: "The advance outruns its supply",
+                  setFlags: { tripoli41: "stalled" },
+                  impact: { manpower: -1, fuel: -2, initiative: -1 },
+                  outcome:
+                    "Speculative, and what the Defence Committee feared. The advance outruns its supply six hundred miles from Egypt, short of fuel, with the Luftwaffe bombing Benghazi from Sicily, and the first German units landing at Tripoli halt it short of the city. The best divisions are spent in Libya instead of Greece, and a stretched desert army meets Rommel's counterattack with nothing in reserve at the end of a line it cannot supply.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get greeceFalls41() {
+          return {
+          date: "APRIL 1941",
+          title: "The Line at Thermopylae",
+          historicalRecord: true,
+          situation:
+            "The German attack on Greece began on April 6 and has overrun the north at a speed no one in Athens expected: Thessaloniki fell on the 9th, and some 60,000 Greek soldiers had surrendered within three days. W Force, about 62,000 men under General Wilson, has fallen back to Thermopylae and fought delaying actions at Olympus, Servia and the Tempe Gorge. The Germans are still coming, and the Royal Navy can bring ships to the southern beaches only at night. What is left to decide is whether to take W Force off while the ports are open, or to stand longer in the south and make the Germans pay for every week.",
+          choices: [
+            {
+              label: "Evacuate from the southern beaches now — Operation Demon, with the rearguard taken off last",
+              advisor: { name: "Wavell", position: "A force that cannot stop the German army can still be saved to fight it somewhere else, and every week it spends on a line it cannot hold is a week it does not have to give." },
+              historical: true,
+              setFlags: { greeceFalls41: "evacuate" },
+              impact: { manpower: -1, fuel: -1, initiative: -1 },
+              next: "crete41",
+              outcome:
+                "What happened. From April 24 to May 1, 50,732 men were taken off the beaches of the Peloponnese and Attica to Crete and Alexandria, and every heavy weapon and vehicle was left behind. The campaign cost 903 killed, 1,250 wounded and 13,958 prisoners, most of them men who could not be reached in time. The troops that were saved were put into Crete, an island with almost no aircraft, three weeks before the German airborne assault.",
+            },
+            {
+              label: "Make a stand on the Isthmus of Corinth and in the Peloponnese — evacuate only if the line is forced",
+              advisor: { name: "Churchill", position: "A force that is withdrawn from Greece in a fortnight has been sent there for nothing, so it should at least make the Germans spend the second fortnight too." },
+              setFlags: { greeceFalls41: "stand" },
+              impact: { manpower: -2, fuel: -1, initiative: 0 },
+              next: "crete41",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "The line holds long enough",
+                  setFlags: { greeceStand41: "held" },
+                  impact: { manpower: -1, fuel: -1, initiative: 1 },
+                  outcome:
+                    "Speculative. The rearguards hold the passes of the Peloponnese for the best part of another week, the German columns are slowed on mountain roads they have no way round, and the Navy lifts more men than the real evacuation did, with some of the heavy equipment. The Germans arrive at the sea a week later than they did, and the troops that have been saved are in better order for what comes next.",
+                },
+                {
+                  weight: 100 - modWeight(30, meters.initiative),
+                  title: "The line breaks, and the beaches are lost",
+                  setFlags: { greeceStand41: "broken" },
+                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The line is outflanked by the German airborne troops that took the Corinth canal bridges in the real campaign, the road to the southern beaches is cut, and a large part of W Force cannot be reached. The evacuation lifts far fewer men than the real one did, and what the Germans take at the end of April is not 14,000 prisoners but a division or more.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get crete41() {
+          return {
+          date: "MAY 1941",
+          title: "The Island Without Aircraft",
+          historicalRecord: true,
+          situation:
+            "British decrypts of Luftwaffe signals have told Freyberg and Cunningham since late March that the Germans mean to take Crete from the air, and by May 1 they are certain of it: the date is about May 20, with a seaborne force to follow. The garrison, some 15,000 British, 7,750 New Zealanders, 6,500 Australians and 10,200 Greeks, is mostly the men who came off the Greek beaches, with no heavy equipment, and the RAF has withdrawn its last fighters. What the island does have is the Mediterranean Fleet, which is short of destroyers and has no fighter cover of its own, and which can reach the northern approaches only by crossing waters the Luftwaffe commands by day. The question for the Combined Chiefs is whether to send it there." +
+            (flags.greeceFalls41 === "stand" && flags.greeceStand41 === "held"
+              ? " The troops on the island are in better order than anyone had expected: more of them came out of Greece with some of their weapons."
+              : flags.greeceFalls41 === "stand" && flags.greeceStand41 === "broken"
+              ? " The garrison is smaller than it would have been: a good part of W Force was lost on the Greek beaches."
+              : ""),
+          choices: [
+            {
+              label: "Send the fleet into the northern approaches to stop the seaborne landings, whatever the Luftwaffe does",
+              advisor: { name: "Cunningham", position: "The Navy must not let the Army down, and a fleet that stays in port while an island is lost has already lost something it will take a generation to recover." },
+              historical: true,
+              setFlags: { crete41: "fleet" },
+              impact: { manpower: -2, fuel: -2, initiative: 1 },
+              next: "aidRussia41",
+              outcome:
+                "What happened. The fleet turned back two German convoys on the nights of May 21–22 and 22–23, and the seaborne invasion failed. But Maleme airfield had already been lost on the 21st, when the 22nd New Zealand Battalion withdrew from Hill 107, and the Germans reinforced it by air. The price was three cruisers and six destroyers sunk and some twenty other ships damaged, the costliest engagement of the Royal Navy's war. The island was lost by June 1, and more than half of its garrison was taken off.",
+            },
+            {
+              label: "Keep the fleet at Alexandria and defend the island without it",
+              advisor: { name: "Pound", position: "A fleet sunk off Crete cannot defend Alexandria or the Canal, and an island without fighters is not going to be held by ships alone." },
+              setFlags: { crete41: "withdraw" },
+              impact: { manpower: -3, fuel: 1, initiative: -1 },
+              next: "aidRussia41",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: 35,
+                  title: "The airborne force cannot hold the island alone",
+                  setFlags: { creteResult41: "contained" },
+                  impact: { manpower: -2, fuel: 1, initiative: 0 },
+                  outcome:
+                    "Speculative. Without the fleet to stop it, the seaborne convoy lands at the end of May, but Freyberg's men, who held Maleme and Heraklion in the real fight until a misunderstanding gave up Hill 107, are better placed for a longer fight, and the garrison holds out for another week before it is taken off in the dark by the destroyers that were not sunk. The cruisers are afloat and the island is lost anyway.",
+                },
+                {
+                  weight: 65,
+                  title: "The island falls in days",
+                  setFlags: { creteResult41: "fell" },
+                  impact: { manpower: -4, fuel: 1, initiative: -1 },
+                  outcome:
+                    "Speculative. Nothing stands between the German convoys and the beaches, and with the airfield taken and reinforced the island falls in days. The garrison is not taken off in the dark: a large part of it is taken prisoner. The Mediterranean Fleet has its ships and has not used them, and the Army, which had counted on them, remembers it.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get aidRussia41() {
+          return {
+          date: "SEPTEMBER – OCTOBER 1941",
+          title: "Four Hundred Tanks a Month",
+          historicalRecord: true,
+          situation:
+            "Germany's armies are deep inside the Soviet Union and Stalin is asking Britain for everything it has. At the Moscow Conference of September 29 to October 1, Beaverbrook and Harriman are to settle how much. What Moscow wants is far beyond Britain's means, and the First Protocol, when it is signed, will promise the Soviet Union 400 aircraft, 500 tanks and 10,000 trucks a month. The tanks Britain would send are the Matildas and Valentines that General Auchinleck, who has been in command in Egypt since July, is counting on for an offensive in the Western Desert this autumn to relieve Tobruk. He has already refused to launch it before it is ready." +
+            (flags.mediterranean41 === "greece"
+              ? " The army in Egypt is still short of everything it lost in Greece and Crete."
+              : flags.tripoli41 === "taken"
+              ? " With Libya cleared, there is no desert offensive to wait for, and the question is only how much the tanks are worth in Egypt at all."
+              : ""),
+          choices: [
+            {
+              label: "Meet the Soviet programme in full from British production, desert or no desert",
+              advisor: { name: "Churchill", position: "The Russian armies are the only force in the world that is killing Germans in large numbers, and a promise made to them has to be kept from the stocks that actually exist." },
+              historical: true,
+              setFlags: { aidRussia41: "full" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "malaya41",
+              outcome:
+                "What happened. The First Protocol was signed on October 1: 400 aircraft, 500 tanks and 10,000 trucks a month, to run until June 1942. Britain's own tank production was small, and much of what it supplied to the Soviet Union in 1941 and 1942 was armour the Middle East also wanted. Auchinleck's offensive went in on November 18 with the armour that was in Egypt, and the Soviet armies, which Churchill judged to matter more than the desert, had the rest. Deliveries began at once, by the Arctic route.",
+            },
+            {
+              label: "Promise Moscow less and keep the tanks for Auchinleck's offensive",
+              advisor: { name: "Auchinleck", position: "An army that is told to relieve Tobruk this autumn needs every cruiser tank in Egypt more than it needs a promise whose delivery depends on ships the Arctic can still sink." },
+              setFlags: { aidRussia41: "limited" },
+              impact: { manpower: 0, fuel: 1, initiative: -1 },
+              next: "malaya41",
+              outcome:
+                "Speculative. Moscow is told that Britain will deliver what it can and that the rest will follow when the desert has been won. Stalin, whose suspicion of Western motives is already deep, reads it as what he expected, and Soviet pressure for a second front grows sharper through the winter. The Western Desert Force goes into its autumn offensive with the tanks it asked for.",
+            },
+          ],
+        };
+        },
+        get malaya41() {
+          return {
+          date: "OCTOBER 1941",
+          title: "A Battleship for Singapore",
+          historicalRecord: true,
+          situation:
+            "Japan's occupation of southern Indochina in July has put Malaya within range of its aircraft, and Singapore, whose guns face the sea, has too few modern aircraft and no fleet. Churchill wants to send a modern battleship to the Far East as a deterrent, something to make Tokyo stop and count; the Admiralty would rather gather the older ships in the Indian Ocean. The ship in question is HMS Prince of Wales, with the battlecruiser Repulse and four destroyers, and the aircraft carrier that was to sail with them, HMS Indomitable, is still being fitted out. Whether the ships go is for the Combined Chiefs to decide, and Washington, which is not yet at war, is watching what Britain does with its fleet." +
+            (flags.crete41 === "fleet"
+              ? " The Mediterranean Fleet that went to Crete has no ships to spare."
+              : ""),
+          choices: [
+            {
+              label: "Send the Prince of Wales and Repulse to Singapore as a deterrent",
+              advisor: { name: "Churchill", position: "A modern capital ship at Singapore makes the Japanese stop and count, which is what a deterrent is for, and one kept at home in case it is needed is one that has deterred nothing." },
+              historical: true,
+              setFlags: { malaya41: "forceZ" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "forceZ41",
+              outcome:
+                "What happened. The ships left in October and reached Singapore on December 2, with four destroyers. The carrier that was to go with them had run aground off Jamaica on November 2 and never came, so the squadron arrived with no aircraft of its own and only the Buffaloes of the Singapore air force, outclassed by the Japanese fighters, to cover it. The deterrent had two days before the war began.",
+            },
+            {
+              label: "Keep the capital ships in the Indian Ocean, out of Japanese air range, and put the aircraft Malaya needs into Malaya",
+              advisor: { name: "Pound", position: "A modern ship with no carrier and no fighters is a target, not a deterrent, and a fleet that cannot be sunk by aircraft it cannot see is worth more at Ceylon than at the bottom of the South China Sea." },
+              setFlags: { malaya41: "hold" },
+              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              next: flags.tripoli41 === "taken" ? "europeFirst42" : "crusader41",
+              outcome:
+                "Speculative. The ships stay at Ceylon, and what Malaya gets in their place is a few more squadrons of fighters from the Middle East and India, which is all there is. Japan attacks on December 8 and meets the army and the air force, and the invasion of Malaya goes on as it did. Singapore falls in February either way, but the Eastern Fleet's capital ships are afloat when it does, and Washington has seen that Britain does not throw away its battleships on a gesture.",
+            },
+          ],
+        };
+        },
+        get forceZ41() {
+          return {
+          date: "DECEMBER 8–10, 1941",
+          title: "Without Air Cover",
+          historicalRecord: true,
+          situation:
+            "Japan struck Pearl Harbor and landed in Malaya on December 7–8, and Force Z, as the squadron is now called, is at Singapore. Japanese troops are going ashore at Kota Bharu, and the invasion convoys lie in the Gulf of Thailand within a day's steaming. Admiral Phillips wants to sail that evening and attack the landing ships by surprise before dawn, which means going beyond the range of the few fighters at Singapore, and the RAF can promise no cover over the Gulf. The ships can be kept at Singapore instead, within reach of what fighters there are and under the guns of the base, to act as a threat to any convoy that comes south.",
+          choices: [
+            {
+              label: "Sail that evening to strike the landing ships in the Gulf of Thailand, without fighter cover",
+              advisor: { name: "Phillips", position: "A fleet that stays in harbour has not deterred the landings, and speed and surprise are worth more to it than fighters whose cover it cannot afford to wait for." },
+              historical: true,
+              setFlags: { forceZ41: "sortie" },
+              impact: { manpower: -2, fuel: -1, initiative: -1 },
+              next: flags.tripoli41 === "taken" ? "europeFirst42" : "crusader41",
+              outcome:
+                "What happened. Force Z sailed on the evening of December 8, found its surprise gone and no invasion fleet to attack, turned toward a report of a landing at Kuantan, and was found by Japanese naval aircraft on the 10th. Prince of Wales and Repulse were sunk within hours, with the loss of some 840 men, the first capital ships at sea to be sunk by air attack alone. Churchill called it the most direct shock of the war. Phillips went down with his flagship.",
+            },
+            {
+              label: "Keep Force Z at Singapore, as a threat to any convoy that comes south, under what fighters the base has",
+              advisor: { name: "Pound", position: "Two capital ships kept within reach of fighters and guns are a force that can be reinforced, while the same ships at sea with no cover are a force that has already been lost." },
+              setFlags: { forceZ41: "hold" },
+              impact: { manpower: 0, fuel: -1, initiative: -1 },
+              next: flags.tripoli41 === "taken" ? "europeFirst42" : "crusader41",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: 40,
+                  title: "The ships survive the first weeks",
+                  setFlags: { forceZSurvives41: true },
+                  impact: { manpower: -1, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. The Japanese find the ships at Singapore, but over the base there are fighters and guns, and the naval bombers that sank them at sea in the real campaign lose too many aircraft to repeat it. The ships are damaged and not lost, and when Singapore falls they are taken to the Indian Ocean with the fleet they were meant to anchor.",
+                },
+                {
+                  weight: 60,
+                  title: "Found in harbour",
+                  setFlags: { forceZSurvives41: false },
+                  impact: { manpower: -2, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The bombers that came for the ships at sea come for them in harbour, and Singapore has no more fighters than it had. Both ships are lost at their moorings within a week or two, and the Japanese have the same victory at a smaller risk. The crews are saved, more of them than the 840 who died at sea, and there is no Admiral Phillips to blame for it.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get crusader41() {
+          const press = Math.min(
+            90,
+            modWeight(62, meters.initiative) + (flags.aidRussia41 === "limited" ? 10 : 0) + (flags.crete41 === "fleet" ? -4 : flags.crete41 === "withdraw" ? 3 : 0) + (flags.greeceFalls41 === "stand" && flags.greeceStand41 === "held" ? 3 : 0)
+          );
+          return {
+          date: "NOVEMBER – DECEMBER 1941",
+          title: "The Relief of Tobruk",
+          historicalRecord: true,
+          situation:
+            "Auchinleck's offensive, Operation Crusader, opened on November 18: General Alan Cunningham's Eighth Army, 118,000 men and 738 tanks, against Rommel's Panzer Group Africa, about 119,000 men and perhaps 500 tanks, with Tobruk still holding out behind the Axis lines. The first four days went wrong for the British: the tanks, spread out and attacking in separate groups, lost some 530 of their number, against about 100 of Rommel's. On November 23 Cunningham, who has lost more than half his armour, asks whether to break off. Auchinleck, who has come up to the front, has to decide what the army does next." +
+            (flags.aidRussia41 === "full"
+              ? " The tanks that went to Russia are the tanks the army is short of this week."
+              : flags.aidRussia41 === "limited"
+              ? " The tanks Auchinleck kept back from the Soviet programme are on the field, and they have not been enough to avoid the first week's losses."
+              : "") +
+            (flags.crete41 === "fleet"
+              ? " The ships that would have carried Tobruk's supplies by sea are fewer than they would have been: the Navy paid heavily off Crete."
+              : ""),
+          choices: [
+            {
+              label: "Order the Eighth Army to press on regardless of loss",
+              advisor: { name: "Auchinleck", position: "A battle in which both sides have lost most of their tanks is won by the one that goes on, and the army that stops now will not get another chance to relieve Tobruk." },
+              historical: true,
+              setFlags: { crusader41: "press" },
+              impact: { manpower: -2, fuel: -1, initiative: 1 },
+              next: "europeFirst42",
+              uncertain: [
+                {
+                  weight: press,
+                  title: "Tobruk is relieved",
+                  setFlags: { crusaderResult41: "relief" },
+                  impact: { manpower: -2, fuel: -1, initiative: 2 },
+                  outcome:
+                    "What happened. Auchinleck replaced Cunningham with Ritchie on November 26 and ordered the battle on; the New Zealanders linked up with the Tobruk garrison on the 27th, Rommel fell back to Gazala on December 7 and began his retreat to El Agheila on the 15th, and Cyrenaica was recovered. The Allies lost 17,700 men and about 320 tanks, the Axis 52,100 men and some 340 tanks. The siege of Tobruk was over and the Eighth Army could be said to have won, at a price in armour that Rommel would exploit in the spring.",
+                },
+                {
+                  weight: 100 - press,
+                  title: "The tanks run out first",
+                  setFlags: { crusaderResult41: "failed" },
+                  impact: { manpower: -3, fuel: -2, initiative: -1 },
+                  outcome:
+                    "Speculative. Auchinleck's order is obeyed, and the Eighth Army has fewer tanks than Rommel's panzers can destroy: the second week of the battle ends with the British armour gone and the Afrika Korps between the army and Tobruk. Auchinleck breaks off in December, with the garrison still besieged and the army's losses heavier than the real ones, and Rommel's pause to refit is shorter than his counterstroke will be.",
+                },
+              ],
+            },
+            {
+              label: "Break off and regroup, as the army commander proposes — keep what armour is left",
+              advisor: { name: "Alan Cunningham", position: "An army that has lost more than half its tanks in four days has told its commander what it can still do, and he would rather refit it than destroy it." },
+              setFlags: { crusader41: "regroup" },
+              impact: { manpower: 1, fuel: 0, initiative: -2 },
+              next: "europeFirst42",
+              outcome:
+                "Speculative. The offensive is stopped on the 23rd, the remaining armour pulled back to the frontier to be refitted, and Cunningham, who asked to stop, keeps his command. Tobruk is not relieved in 1941: Rommel's siege goes on through the winter and the army that was to have raised it spends the winter refitting. The heavy loss of men and tanks of the real battle is avoided, and so is its victory.",
+            },
+          ],
+        };
+        },
         get europeFirst42() {
           return {
           date: "JANUARY 1942",
@@ -10732,6 +11061,23 @@ const CAMPAIGNS = {
             (flags.battleOfBritain40 === "park"
               ? (flags.britainDay40Result === "strained" ? " Fighter Command came through that September with nothing in reserve, and the pilots it has now are still too few and too new." : "") +
                 keyBattleEcho("britainDayLater", flags, "britainDay40")
+              : "") +
+            // Round 24: the seven decisions of 1941.
+            (flags.forceZ41 === "sortie"
+              ? " Prince of Wales and Repulse are at the bottom of the South China Sea, and the Royal Navy's strength in the Far East is gone with them."
+              : flags.forceZ41 === "hold" && flags.forceZSurvives41
+              ? " The two capital ships kept at Singapore have survived the first weeks of the Pacific war, which is more than anyone expected of them."
+              : flags.forceZ41 === "hold"
+              ? " The two capital ships kept at Singapore were found in harbour and lost, and nothing was saved by keeping them there."
+              : flags.malaya41 === "hold"
+              ? " The capital ships that were kept in the Indian Ocean are afloat, and the Far East has fewer of them than Tokyo feared."
+              : "") +
+            (flags.tripoli41 === "taken"
+              ? " Libya has been clear of the Axis since the spring of 1941, and the army that cleared it is free for other work."
+              : flags.crusaderResult41 === "relief"
+              ? " Tobruk was relieved in December and Rommel is back at El Agheila, with the Eighth Army paying for it in tanks."
+              : flags.crusaderResult41 === "failed" || flags.crusader41 === "regroup"
+              ? " Tobruk is still besieged, and the Eighth Army is refitting behind the frontier."
               : ""),
           choices: [
             {
@@ -12365,7 +12711,10 @@ const CAMPAIGNS = {
           title: "The Navy's Bill Comes Due",
           historicalRecord: true,
           situation:
-            "Europe First is confirmed policy — and Admiral King has never stopped treating it as a guideline with exceptions. Japanese forces are building an airfield on Guadalcanal that would threaten the entire line to Australia, and King wants an offensive to take it now, with marines, carriers, and shipping that the European buildup has already claimed on paper. The request is technically consistent with holding the line in the Pacific and practically a raid on the Atlantic ledger — and refusing the Navy outright carries its own price inside a coalition that runs on inter-service consent as much as inter-Allied.",
+            "Europe First is confirmed policy — and Admiral King has never stopped treating it as a guideline with exceptions. Japanese forces are building an airfield on Guadalcanal that would threaten the entire line to Australia, and King wants an offensive to take it now, with marines, carriers, and shipping that the European buildup has already claimed on paper. The request is technically consistent with holding the line in the Pacific and practically a raid on the Atlantic ledger — and refusing the Navy outright carries its own price inside a coalition that runs on inter-service consent as much as inter-Allied." +
+            (flags.malaya41
+              ? " Singapore fell in February with " + (flags.forceZ41 === "sortie" || flags.forceZSurvives41 === false ? "the capital ships lost" : "the capital ships afloat") + ", and the Australian government, which had counted on it, has not forgotten what was sent and what was not."
+              : ""),
           choices: [
             {
               label: "Grant King his Guadalcanal offensive — Europe First bends but doesn't break",
@@ -13923,6 +14272,13 @@ const CAMPAIGNS = {
         yalta45: "accept",
         berlin45allied: "halt",
         occupation45: "rebuild",
+        mediterranean41: "greece",
+        greeceFalls41: "evacuate",
+        crete41: "fleet",
+        aidRussia41: "full",
+        malaya41: "forceZ",
+        forceZ41: "sortie",
+        crusader41: "press",
       };
       let matched = 0,
         considered = 0;
@@ -13963,6 +14319,10 @@ const CAMPAIGNS = {
       // costlier Big Wing doctrine was chosen at battleOfBritain40 — the harder exogenous
       // pressure meeting the slower-forming defense. Placed high as the rarest combination here.
       if (flags.forkLuftwaffeShift && flags.battleOfBritain40 === "bigWing") return "Fighter Command, Nearly Spent";
+      // Round 24: the early-branching paths of 1941. Rare combinations, so the broad titles below keep their share.
+      if (flags.tripoli41 === "taken") return "Tripoli Before Rommel";
+      if (flags.forceZSurvives41) return "The Fleet That Stayed Afloat";
+      if (flags.aidRussia41 === "limited" && flags.crusaderResult41 === "failed") return "Tanks Kept for Egypt, and Not Enough";
       // Extreme meter states outrank the flag chain below — see the Soviet chain for the
       // reasoning. Moderate tiers stay at the bottom as fallbacks by design.
       if ((meters.manpower || 0) + (meters.fuel || 0) + (meters.initiative || 0) >= 12)
@@ -14101,6 +14461,37 @@ const CAMPAIGNS = {
         add(5, "Unconditional surrender was softened at Casablanca — leaving diplomatic room for a negotiated exit that most historians doubt would have changed much, given the regime's grip on the military's loyalty.");
       if (flags.berlin45allied === "push")
         add(5, "Berlin was contested rather than conceded — a symbolic prize pursued despite an occupation agreement that was always going to hand the city back regardless of who reached it first.");
+      // Round 24: 1941.
+      if (flags.tripoli41 === "taken")
+        add(10, "Tripoli fell in March 1941, before the first German division was ashore to hold it: Libya cleared two years ahead of the real January 1943, and a Western Desert Force that was never taken out of the desert for Greece.");
+      if (flags.tripoli41 === "stalled")
+        add(7, "The push for Tripoli was tried and ran out of supply short of the city, the Defence Committee's fear made real, with the best divisions spent in Libya instead of Greece.");
+      if (flags.mediterranean41 === "greece")
+        add(6, "The best divisions were taken out of the desert for Greece in March 1941, as the Defence Committee ordered, and Cyrenaica was lost within weeks to a counterattack nobody had the strength to meet.");
+      if (flags.greeceFalls41 === "stand" && flags.greeceStand41 === "held")
+        add(7, "The stand in the Peloponnese held longer than the real withdrawal did, and the Navy lifted more men than the 50,732 that Operation Demon took off.");
+      if (flags.greeceFalls41 === "stand" && flags.greeceStand41 === "broken")
+        add(7, "The stand in the Peloponnese broke and the beaches were lost, and what the Germans took in Greece was a division or more instead of the real 14,000.");
+      if (flags.crete41 === "fleet")
+        add(7, "The Mediterranean Fleet was sent against the German convoys off Crete, as it was, and paid three cruisers and six destroyers for an island that was lost anyway.");
+      if (flags.crete41 === "withdraw")
+        add(7, "The fleet was kept at Alexandria while Crete fell, the cruisers saved and the Army left to remember it" + (flags.creteResult41 === "contained" ? ": the garrison held out a week longer and was taken off in the dark by the destroyers that had not been sunk." : ": the island fell in days, with a large part of the garrison taken prisoner."));
+      if (flags.aidRussia41 === "full")
+        add(5, "The First Protocol of October 1941 was met in full, 400 aircraft and 500 tanks a month, from armour the desert also wanted.");
+      if (flags.aidRussia41 === "limited")
+        add(7, "Moscow was promised less in October 1941 and the tanks were kept for Auchinleck, and Stalin read it as he had expected to.");
+      if (flags.malaya41 === "forceZ" && flags.forceZ41 === "sortie")
+        add(8, "Force Z sailed against the Japanese landings without fighter cover and was sunk on December 10, 1941, with some 840 men: the first capital ships sunk at sea by aircraft alone.");
+      if (flags.forceZ41 === "hold")
+        add(6, "Force Z was kept at Singapore rather than sailed against the landings, and " + (flags.forceZSurvives41 ? "survived the first weeks" : "was found in harbour and lost") + ".");
+      if (flags.malaya41 === "hold")
+        add(6, "The capital ships were kept in the Indian Ocean instead of sent to Singapore, out of the Japanese air radius and out of the deterrent's reach.");
+      if (flags.crusader41 === "press" && flags.crusaderResult41 === "relief")
+        add(6, "Crusader was pressed regardless of loss and Tobruk was relieved on November 27, 1941, for 17,700 casualties and some 320 tanks.");
+      if (flags.crusaderResult41 === "failed")
+        add(7, "Crusader's order to press on was obeyed and the tanks ran out first: Tobruk stayed besieged through the winter of 1941.");
+      if (flags.crusader41 === "regroup")
+        add(6, "Crusader was broken off on November 23, 1941, to save what armour was left, and Tobruk was not relieved that year.");
       notes.sort((a, b) => b.w - a.w);
       const threadText = notes
         .slice(0, 3)
@@ -18086,6 +18477,13 @@ const NODE_ATLAS = {
     { id: "gothicLineEarly44", date: "SPRING 1944", title: "The Gothic Line, Tested Early" },
     { id: "turkishBelligerence44", date: "EARLY 1944", title: "What a Symbolic Declaration Is Actually Worth" },
     { id: "westernCollapse45", date: "MARCH 1945", title: "The Surrender That Came Early" },
+    { id: "compassGreece41", date: "FEBRUARY 1941", title: "Tripoli or Athens" },
+    { id: "greeceFalls41", date: "APRIL 1941", title: "The Line at Thermopylae" },
+    { id: "crete41", date: "MAY 1941", title: "The Island Without Aircraft" },
+    { id: "aidRussia41", date: "SEPTEMBER – OCTOBER 1941", title: "Four Hundred Tanks a Month" },
+    { id: "malaya41", date: "OCTOBER 1941", title: "A Battleship for Singapore" },
+    { id: "forceZ41", date: "DECEMBER 8–10, 1941", title: "Without Air Cover" },
+    { id: "crusader41", date: "NOVEMBER – DECEMBER 1941", title: "The Relief of Tobruk" },
   ],
   italy: [
     { id: "nonBelligerence40", date: "JUNE 1940", title: "The Parallel War" },
@@ -18222,6 +18620,9 @@ const ENDINGS_GALLERY = [
   { campaign: "SHAEF", label: "March 1945 — And Still Signed Together", hint: "Casablanca, tested where bending it was worth something.", tier: "Major Victory" },
   { campaign: "SHAEF", label: "The War Ended Early, The Peace Started Colder", hint: "The fastest end available, and its bill.", tier: "Contested Outcome" },
   { campaign: "SHAEF", label: "The Port That Stopped Being the Constraint", hint: "One port, put above every offensive.", tier: "Minor Victory" },
+  { campaign: "SHAEF", label: "Tripoli Before Rommel", hint: "The Western Desert Force went on, and Libya was cleared in 1941.", tier: "Minor Victory" },
+  { campaign: "SHAEF", label: "The Fleet That Stayed Afloat", hint: "Force Z kept at Singapore, and still there after the first weeks.", tier: "Contested Outcome" },
+  { campaign: "SHAEF", label: "Tanks Kept for Egypt, and Not Enough", hint: "Moscow promised less, and Crusader failed anyway.", tier: "Contested Outcome" },
   { campaign: "SHAEF", label: "A Victory That Cost Less Than the Planning Assumed", hint: "Every estimate beaten at once.", tier: "Major Victory" },
   { campaign: "SHAEF", label: "Fighter Command, Nearly Spent", hint: "Historical Divergence Mode: a Luftwaffe that never made the historical switch off the airfields, met by the slower-forming doctrine, pushes Fighter Command closer to its actual breaking point than history ever recorded.", tier: "Contested Outcome" },
   { campaign: "STAVKA", label: "The Reserve That Never Bled at Rzhev", hint: "The autumn of 1942, weighted south.", tier: "Minor Victory" },
@@ -21371,7 +21772,7 @@ function migrateSave(saved) {
   return s;
 }
 
-const NODE_TOTAL = 263; // 99 German + 56 Soviet + 51 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
+const NODE_TOTAL = 270; // 99 German + 56 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 const CAMPAIGN_WAR_CONTEXT = {
   german: "APRIL 1940 — Poland fell in weeks last September, divided between Berlin and Moscow under a pact neither side expects to last. The West has spent seven quiet months in what the newspapers call the Phoney War. That quiet ends with Norway.",
@@ -24279,6 +24680,11 @@ const NODE_HIGHLIGHT_REGIONS = {
   omahaIsolated44: ["france"],
   omahaBreakthroughLate44: ["france"],
   omahaToehold44: ["france"],
+  compassGreece41: ["libya", "greece"],
+  greeceFalls41: ["greece"],
+  crete41: ["greece"],
+  aidRussia41: ["ussrNorth"],
+  crusader41: ["libya", "egypt"],
   },
   italy: {
     nonBelligerence40: ["italy"],
@@ -24730,6 +25136,10 @@ function mapOverrides(year, flags, meters, dayKey) {
   if (flags.turkishQuestion44 === "press" && since(1944, 6, 1)) {
     o.turkey = "allied";
     note("Ankara was pressed into belligerence months before its historical February 1945 declaration, mostly symbolic even then (projection).", ["turkey"]);
+  }
+  if (flags.tripoli41 === "taken" && since(1941, 3, 15) && before(1943, 1, 23)) {
+    o.libya = "allied";
+    note("Tripoli was reached in March 1941, before the Afrika Korps could hold it, so Libya was cleared of the Axis almost two years ahead of the historical January 1943 (projection).", ["libya"]);
   }
   if (flags.earlyDnieper43 && since(1943, 8, 31)) {
     o.ussrSouth = "soviet";
@@ -28278,6 +28688,11 @@ const ADVISOR_DOSSIERS = {
   Truscott: { role: "Major General — VI Corps commander at Anzio", bio: "Took over the Anzio beachhead's stalled corps in the winter siege of early 1944 and led the eventual breakout that spring.", fate: "Later commanded Fifth Army and, briefly, Third Army; died in 1965.", faction: "allied", rank: 3 },
   Kirk: { role: "Rear Admiral — commander, Western Naval Task Force", bio: "Ran the naval side of the Omaha Beach landings on the morning of June 6, 1944, as the assault stalled on the sand below the bluffs.", fate: "Later a career diplomat, serving as ambassador to Belgium, the Soviet Union, and Taiwan; died in 1963.", faction: "allied", rank: 3 },
   Gerow: { role: "Major General — V Corps commander at Omaha", bio: "Commanded the corps fighting for a foothold above Omaha Beach on June 11, 1944, days after the landing's costliest hours.", fate: "Later commanded Fifteenth Army; died in 1972.", faction: "allied", rank: 3 },
+  Wavell: { role: "Field Marshal — Commander-in-Chief, Middle East (1939–41)", bio: "Commanded the British forces that destroyed the Italian army in Libya and was then ordered to send the best of them to Greece.", fate: "Relieved as Commander-in-Chief Middle East in July 1941 and sent to India; Viceroy of India from 1943 to 1947; died in 1950.", faction: "allied", rank: 2 },
+  "O'Connor": { role: "General — commander, Western Desert Force (1940–41)", bio: "Planned and led Operation Compass, the British Army's first great victory of the war, and believed Tripoli could have been reached.", fate: "Captured on April 6, 1941, in Cyrenaica; escaped from Italian captivity in December 1943 and commanded VIII Corps in Normandy; died in 1981.", faction: "allied", rank: 3 },
+  Auchinleck: { role: "General — Commander-in-Chief, Middle East (July 1941 – August 1942)", bio: "Took over from Wavell in July 1941, would not launch an offensive in the Western Desert before it was ready, and launched Operation Crusader in November.", fate: "Relieved as Commander-in-Chief Middle East in August 1942 after the retreat to Alamein; commanded the Indian Army until Partition; died in 1981.", faction: "allied", rank: 2 },
+  Phillips: { role: "Admiral — Commander-in-Chief, Eastern Fleet (1941)", bio: "Vice-Chief of the Naval Staff before he was given the Eastern Fleet; took Force Z, Prince of Wales and Repulse, to Singapore.", fate: "Killed on December 10, 1941, when HMS Prince of Wales was sunk off Kuantan.", faction: "allied", rank: 3 },
+  "Alan Cunningham": { role: "General — commander, Eighth Army (1941)", bio: "Commanded the Eighth Army through the first days of Operation Crusader, in which his tanks lost more than half their number, and asked whether to break off.", fate: "Relieved of command of the Eighth Army on November 26, 1941, in the middle of the battle; later High Commissioner for Palestine; died in 1983.", faction: "allied", rank: 3 },
 
   Mussolini: { role: "Duce — head of government (to July 1943); RSI head of state (Sept 1943–Apr 1945)", bio: "Took Italy into the 'parallel war' on Germany's coattails in 1940, convinced a fast, cheap victory was there to be claimed; presided instead over a series of unforced disasters in Greece and North Africa that made the dependence he'd hoped to avoid unavoidable.", fate: "Captured by Communist partisans fleeing toward Switzerland on April 27, 1945; shot the next day and displayed hanging in a Milan piazza.", faction: "italy", rank: 1 },
   Badoglio: { role: "Marshal — Chief of Comando Supremo (1925–Dec 1940); Prime Minister (July 1943–June 1944)", bio: "Ran Italy's armed forces through the war's opening disasters and resigned after Greece; recalled by the King in 1943 to negotiate the armistice he had no part in causing.", fate: "Retired after the war; died in 1956.", faction: "italy", rank: 2 },
