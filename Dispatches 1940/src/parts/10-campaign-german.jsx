@@ -3869,7 +3869,7 @@
             base.push({
               label: "Cancel the offensive entirely; shift to elastic defense",
               advisor: { name: "Guderian", position: "Whether Kursk is worth attacking at all this year is open to doubt, and he puts that to Hitler directly." },
-              attested: { by: "Guderian", text: "Do you think anyone even knows where Kursk is? The entire world doesn't care if we capture Kursk or not.", source: "Guderian, Panzer Leader (1952), p. 308, on his objection to Hitler in May 1943" },
+              attested: { by: "Guderian", text: "How many people do you think even know where Kursk is?", source: "Guderian, Panzer Leader (1952), his account of the conference with Hitler in early May 1943" },
               setFlags: { kursk: "cancelDefend", preservedReserve: true },
               favor: 1,
               impact: { manpower: 2, fuel: 1, initiative: 0 },

@@ -6,7 +6,7 @@
     "text": "The first 24 hours of the invasion will be decisive ... for the Allies, as well as Germany, it will be the longest day.",
     "source": "Rommel to Captain Hellmuth Lang, 22 April 1944, as recorded in Cornelius Ryan, The Longest Day (1959)",
     "status": "secondary",
-    "note": "Ryan's wording from interviews with Lang. Widely reproduced; a fact-checker should open Ryan (1959), ch. 1, and Lang's own account (Hellmuth Lang, Rommel's aide) for the exact English."
+    "note": "Round 26 fact-check (2026-10-08): date (22 April 1944), the aide and the sense are confirmed by several sources. The wording is Ryan's and is rendered slightly differently by different sites ('24 hours' or 'twenty-four hours'; some give a longer run: 'Believe me, Lang, the first 24 hours of the invasion will be decisive ... the fate of Germany depends on the outcome'). Open Ryan (1959), ch. 1, for the exact English."
   },
   {
     "campaign": "german",
@@ -15,16 +15,16 @@
     "text": "If I do not get the oil of Maikop and Grozny, then I must end this war.",
     "source": "Hitler to Army Group South staff, Poltava, 1 June 1942, per Joel Hayward, Hitler's Quest for Oil (1995)",
     "status": "secondary",
-    "note": "Hayward cites the Army Group South record of the 1 June 1942 conference. Open Hayward (1995), Journal of Strategic Studies 18:4, for the footnote to the primary record."
+    "note": "Round 26 fact-check (2026-10-08): the date and place (Army Group South conference, Poltava, 1 June 1942) and the sense are confirmed by several secondary sources; the English varies ('I must end this war', 'put an end to this war', 'finish (liquidieren) this war'; the German verb is liquidieren). Hayward's footnote to the primary record could not be opened: open Hayward (1995), Journal of Strategic Studies 18:4, for it."
   },
   {
     "campaign": "german",
     "node": "kursk",
     "by": "Guderian",
-    "text": "Do you think anyone even knows where Kursk is? The entire world doesn't care if we capture Kursk or not.",
-    "source": "Guderian, Panzer Leader (1952), p. 308, on his objection to Hitler in May 1943",
+    "text": "How many people do you think even know where Kursk is?",
+    "source": "Guderian, Panzer Leader (1952), his account of the conference with Hitler in early May 1943",
     "status": "secondary",
-    "note": "Wording as commonly quoted from the English Panzer Leader. Check the page against the Costello translation before treating the English as exact."
+    "note": "Round 26 fact-check (2026-10-08): the earlier wording of this entry ('Do you think anyone even knows where Kursk is? The entire world doesn't care...') and its page number (p. 308) could not be confirmed and were dropped. The sentence kept is the one Wikipedia (Operation Citadel) gives from Guderian 1952, with Hitler's reply 'You're quite right. Whenever I think of this attack my stomach turns over.' Other websites render the exchange differently, so the English is still not verified against the Costello translation: open Panzer Leader, the chapter on 1943, before treating the wording as exact."
   },
   {
     "campaign": "allied",
@@ -40,9 +40,9 @@
     "node": "halifaxCrisis40",
     "by": "Churchill",
     "text": "The nations which went down fighting rose again, but those which surrendered tamely were finished.",
-    "source": "War Cabinet, 28 May 1940, as minuted",
+    "source": "War Cabinet, 28 May 1940 (4 p.m. meeting), as minuted",
     "status": "secondary",
-    "note": "From the War Cabinet minutes of 28 May 1940 as reproduced in histories of the May 1940 crisis. Open the National Archives file CAB 65/13 for the minute text; the line is the minute-taker's paraphrase, not a transcript."
+    "note": "Round 26 fact-check (2026-10-08): the wording matches the War Cabinet minute as quoted on Wikipedia (May 1940 War Cabinet Crisis) and the Churchill Centre's page for 28 May 1940. The earlier file reference CAB 65/13 was wrong: the National Archives catalogue puts the 28 May 1940 conclusions at CAB 65/7/39 (WM (40) 144). I could not open the minute itself, so open it before treating the words as exact. The line is the minute-taker's paraphrase, not a transcript."
   },
   {
     "campaign": "italy",
@@ -51,6 +51,6 @@
     "text": "He will find out from the papers that I have occupied Greece.",
     "source": "Mussolini to Ciano, 12 October 1940, in Ciano's Diary 1939-1943",
     "status": "secondary",
-    "note": "Ciano's diary entry for 12 October 1940 ('Hitler always presents me with a fait accompli ... He will find out from the papers that I have occupied Greece'). Check the translation edition before treating the English as exact."
+    "note": "Round 26 fact-check (2026-10-08): the remark is placed on 12 October 1940 by several histories (Mussolini, angry that the Germans had gone into Romania without telling him). English editions differ: 'faces me with' or 'presents me with' a fait accompli, 'find out from the papers' or 'in the papers' or 'learn from the newspapers'. Check the Ciano's Diary translation before treating the English as exact."
   }
 ]

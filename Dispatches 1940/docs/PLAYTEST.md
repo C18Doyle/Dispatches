@@ -14,7 +14,7 @@ Matériel strand reading and every field decision (`npm run check-battle-balance
 4. Make the field decision in the middle of a battle. Did the options read as real alternatives of that day?
 5. In another battle press "Let Your Staff Plan It". Was it clear what you had given up?
 6. Play a command in its hard mode (Führer, NKVD, Coalition or Axis). Were the orders from above clear, and did they feel fair?
-7. Look at the four readings under Matériel (Fuel & Oil, Ammunition, Armour & Steel, Shipping & Rail). Did they mean anything to you?
+7. Look at the three readings under each meter, Matériel's among them (Fuel & Oil, Arms & Ammunition, Shipping & Rail). Did they mean anything to you? Did the three bars stay the same size as the figures changed?
 8. Open the War Record and its Battle Record.
 9. Part way through a battle press "Save and leave the field", close the page, come back and resume. Was it clear where you were and what had been kept? Did the planning screen or the report come back as you left it?
 10. Read the advice on the choice buttons ("Halder argues: ..."). Did it read as people arguing, and did the six real quotations, which are in speech marks, feel different from the rest?

@@ -508,6 +508,16 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
+            Glossary — {GLOSSARY.length} terms
+          </summary>
+          <GlossaryList />
+        </details>
+
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
             How to Read the Reports
           </summary>
           <div
@@ -516,7 +526,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           >
             <p className="mb-2">
               <b>Meters.</b> Manpower, Matériel, and Initiative track your strategic position against the historical
-              baseline (zero). They gate collapses, foreclose options, and decide when your war ends. Matériel is the one number the rules use for fuel, ammunition, steel, shipping and rail together; the four small readings under it show which of them your decisions have been feeding or starving.
+              baseline (zero). They gate collapses, foreclose options, and decide when your war ends. Matériel is the one number the rules use for fuel, ammunition, steel, shipping and rail together; the three small readings under each meter (open one with its ▸ button) show where your decisions have been putting the weight.
             </p>
             <p className="mb-2">
               <b>⚄ Contested.</b> A handful of decisions are honestly disputed by historians. These roll —
@@ -759,7 +769,7 @@ function DifficultyScreen({ campaign, onPick, onBack }) {
 // one. Only the bar moves; the figures in the text never change, so the words on the page are the same at every
 // moment. The app's reduced-motion setting and the system one both shorten the slide to nothing. `min` and `max`
 // (kept symmetrical about zero) let the same bar draw a tracker with its own scale (Coalition Cohesion, German Trust).
-function MeterBar({ label, value, danger, showBar = true, from, min = -10, max = 10, tag, valueLabel }) {
+function MeterBar({ label, value, danger, showBar = true, from, min = -10, max = 10, tag, valueLabel, reserveTag = false }) {
   const clamp = (n) => Math.max(min, Math.min(max, n));
   const clamped = clamp(value);
   const hasFrom = typeof from === "number";
@@ -800,16 +810,19 @@ function MeterBar({ label, value, danger, showBar = true, from, min = -10, max =
           {moved && <div aria-hidden="true" className="absolute top-0 bottom-0 w-[2px] bg-black opacity-70" style={{ left: `calc(${50 + clamp(from) * unit}% - 1px)` }} />}
         </div>
       )}
-      <span className={`font-bold text-right shrink-0 ${valueLabel ? "w-32" : moved ? "w-28" : "w-10"}`} style={{ color: danger ? "#7a2e2e" : "#000000" }}>
+      <span className={`font-bold text-right shrink-0 whitespace-nowrap ${valueLabel ? "w-32" : "w-10"}`} style={{ color: danger ? "#7a2e2e" : "#000000" }}>
         {valueLabel || fmt(value)}
         {danger && !tag ? " ⚠" : ""}
-        {moved && !valueLabel ? <span className="font-normal opacity-70 text-[11px]"> was {fmt(from)}</span> : null}
       </span>
     </div>
-    {tag ? (
-      <div className="text-[10px] uppercase tracking-wider font-bold mt-[2px]" style={{ paddingLeft: 88, color: /critical|dangerous|owed/i.test(tag) ? "#7a2e2e" : "#8a5a1a" }}>
-        {/critical|dangerous/i.test(tag) ? <span aria-hidden="true">⚠ </span> : null}
-        {tag}
+    {/* The figures column is one width whatever it holds, so the bar is always the same size; what a decision just changed and any warning go on a line of their own, which the briefing meters (reserveTag) keep even when it is empty. */}
+    {tag || reserveTag || (moved && !valueLabel) ? (
+      <div className="flex justify-between gap-2 text-[10px] uppercase tracking-wider font-bold mt-[2px] min-h-[14px]" style={{ paddingLeft: 88 }}>
+        <span style={{ color: /critical|dangerous|owed/i.test(tag || "") ? "#7a2e2e" : "#8a5a1a" }}>
+          {tag && /critical|dangerous/i.test(tag) ? <span aria-hidden="true">⚠ </span> : null}
+          {tag}
+        </span>
+        {moved && !valueLabel ? <span className="font-normal opacity-70 normal-case tracking-normal text-[11px] whitespace-nowrap">was {fmt(from)}</span> : null}
       </div>
     ) : null}
     </div>
@@ -899,7 +912,7 @@ function MeterPanel({ meters, flags, prev }) {
             <div key={key}>
               <div className="flex items-center gap-1">
                 <div className="flex-1 min-w-0">
-                  <MeterBar label={label} value={v} from={prev && prev.meters ? prev.meters[key] : undefined} danger={dangerAt != null && v <= dangerAt} tag={owed > 0 ? `${meterDangerTag(v) || ""} · ${owed} owed`.trim() : meterDangerTag(v)} />
+                  <MeterBar label={label} value={v} from={prev && prev.meters ? prev.meters[key] : undefined} danger={dangerAt != null && v <= dangerAt} tag={owed > 0 ? `${meterDangerTag(v) || ""} · ${owed} owed`.trim() : meterDangerTag(v)} reserveTag />
                 </div>
                 <button
                   onClick={() => toggle(key)}
@@ -941,9 +954,6 @@ function MeterPanel({ meters, flags, prev }) {
             </div>
           );
         })}
-      </div>
-      <div className="text-[10px] uppercase tracking-wider opacity-70 mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-        Positive is better supplied and ahead of the historical pace. Negative is the opposite. Open a meter (▸) to see what is behind it.
       </div>
     </div>
   );
@@ -2720,6 +2730,39 @@ function Typewriter({ text, instant, soundOn }) {
     return () => clearInterval(id);
   }, [text, effectiveInstant]);
   const done = shown >= text.length;
+  // Glossary terms: once the text has finished, the first mention of each is underlined with dots and opens a note.
+  // The words on the page do not change; the same paragraph is read aloud as before (the status line above), and the
+  // full list is under "Glossary" on the title screen.
+  const spans = useMemo(() => glossarySpans(text), [text]);
+  const [openTerm, setOpenTerm] = useState(null);
+  useEffect(() => setOpenTerm(null), [text]);
+  const pieces = [];
+  if (done && spans.length) {
+    let at = 0;
+    for (const sp of spans) {
+      if (sp.start > at) pieces.push(text.slice(at, sp.start));
+      const word = text.slice(sp.start, sp.end);
+      pieces.push(
+        <button
+          key={sp.start}
+          type="button"
+          tabIndex={-1}
+          aria-label={`Show meaning of ${GLOSSARY[sp.idx].term}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpenTerm((o) => (o === sp.idx ? null : sp.idx));
+          }}
+          className="inline p-0 m-0 bg-transparent text-inherit border-b border-dotted border-[#000000] cursor-help"
+          style={{ font: "inherit", textAlign: "inherit" }}
+        >
+          {word}
+        </button>
+      );
+      at = sp.end;
+    }
+    if (at < text.length) pieces.push(text.slice(at));
+  }
+  const note = openTerm != null ? GLOSSARY[openTerm] : null;
   return (
     <>
       <p className="sr-only" role="status">
@@ -2728,13 +2771,27 @@ function Typewriter({ text, instant, soundOn }) {
       <p
         aria-hidden="true"
         onClick={() => setShown(text.length)}
-        className="leading-relaxed mb-6 text-[16px] text-[#000000] cursor-pointer"
+        className={`leading-relaxed text-[16px] text-[#000000] cursor-pointer ${note ? "mb-2" : "mb-6"}`}
         style={{ fontFamily: "'Courier Prime', monospace", whiteSpace: "pre-line" }}
         title={done ? undefined : "Click to reveal instantly"}
       >
-        {text.slice(0, shown)}
+        {done && spans.length ? pieces : text.slice(0, shown)}
         {!done && <span className="opacity-70">▌</span>}
       </p>
+      {note && (
+        <div role="note" className="mb-6 border-l-4 pl-3 py-1 text-[13px] leading-snug text-[#000000]" style={{ borderColor: "#b08d3f", fontFamily: "'Courier Prime', monospace" }}>
+          <b>{note.term}</b> — {note.text}
+          <button
+            type="button"
+            onClick={() => setOpenTerm(null)}
+            aria-label={`Close the note on ${note.term}`}
+            className="ml-2 px-1 border border-black text-[11px] uppercase tracking-wider hover:bg-[#000000] hover:text-[#ffffff]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Close
+          </button>
+        </div>
+      )}
     </>
   );
 }
@@ -3271,8 +3328,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   const [strandInfo] = useState(() => {
     if (resume && resume.strandInfo) return resume.strandInfo;
     const byId = Object.fromEntries(materielReadout(flags || {}, meters).map((r) => [r.id, r]));
+    const strandFor = (c) => (c.strand ? byId[STRAND_ALIAS[c.strand] || c.strand] : null);
     return Object.fromEntries(
-      categories.map((c) => [c.id, c.strand && byId[c.strand] ? { name: byId[c.strand].name, band: byId[c.strand].band, mult: STRAND_BAND_MULT[byId[c.strand].band] } : null])
+      categories.map((c) => [c.id, strandFor(c) ? { name: strandFor(c).name, band: strandFor(c).band, mult: STRAND_BAND_MULT[strandFor(c).band] } : null])
     );
   });
   const strandMults = Object.fromEntries(categories.map((c) => [c.id, strandInfo[c.id] ? strandInfo[c.id].mult : 1]));
