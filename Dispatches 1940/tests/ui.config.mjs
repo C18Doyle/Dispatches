@@ -33,6 +33,19 @@ export default {
 
   async setup(ctx, [, prefix, mode, staff]) {
     const lab = ctx.lab;
+    // A battle report plays itself line by line on timers and shows nothing to press between lines. The shared
+    // settle() returns after 24 ms of unchanged text, which can fall in one of those gaps: on a fast machine one
+    // recorded run (italy-open-staff-1) stopped there with "no-button" one time in three, and ran on to the end
+    // the other two. Where the page is that report with nothing to press, keep waiting for the next line.
+    const baseSettle = ctx.settle;
+    const pressable = () => ctx.buttons().some((b) => !SKIP.test(ctx.lab(b)) && !/rewind/i.test(ctx.lab(b)));
+    ctx.settle = async () => {
+      await baseSettle();
+      for (let i = 0; i < 240 && /The Battle Unfolds/.test(ctx.text()) && !pressable(); i++) {
+        await new Promise((r) => setTimeout(r, 25));
+        await baseSettle();
+      }
+    };
     if (staff) ctx.w.localStorage.setItem("dispatches1940_staff_plans", "1");
     // Instant text on, so the typewriter cannot race the hash.
     const instant = ctx.buttons().find((b) => lab(b) === "Off" && /instant/i.test(b.parentElement?.parentElement?.textContent || ""));

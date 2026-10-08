@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef, Component } from "react";
 import * as Tone from "tone";
-import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, strandOf, strandReadout, commandRating, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork } from "./logic";
+import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
@@ -14240,7 +14240,7 @@ const CAMPAIGNS = {
               advisor: { name: "Badoglio", position: "No doctrine requires this country to fight, only a decade of one man's rhetoric that assumed it always would, and he recommends the rhetoric be proven wrong." },
               setFlags: { italyEntry: "neutral" },
               favor: 1,
-              impact: { manpower: 1, fuel: 1, initiative: -2 },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "enduringNeutrality40",
               outcome:
                 "This is a road essentially no Italian government under Mussolini ever seriously entertained past the planning-document stage, marked plainly for what it is: a genuine counterfactual, run forward on its own terms rather than folded back into the war that actually happened. Rome stays out — not neutral in the legal sense the regime always insisted was different from non-belligerence, but functionally the same thing the word was invented to avoid admitting.",
@@ -14364,7 +14364,7 @@ const CAMPAIGNS = {
               advisor: { name: "Cavallero", position: "An entire policy was built around not fighting this war, and the men it saved will not be spent proving a point about sovereignty at the last possible moment." },
               historical: false,
               setFlags: { neutralItalyEnd: "submit" },
-              impact: { manpower: 0, fuel: -1, initiative: -1 },
+              impact: { manpower: 1, fuel: -1, initiative: -1 },
               next: "END",
               outcome:
                 "The arrangement Mussolini's regime spent two years and considerable domestic credibility avoiding arrives anyway, just later and by a quieter road than the war it sidestepped would have taken: German garrisons at the ports and passes, an occupied-in-practice status dressed in whatever language the propaganda ministry can still manage, and a country that never fired a shot in this war ending up dominated by the same power its non-belligerence was supposed to keep at arm's length.",
@@ -14390,7 +14390,7 @@ const CAMPAIGNS = {
                   weight: 100 - modWeight(30, meters.initiative),
                   title: "Berlin presses the point directly",
                   setFlags: { neutralItalyResistResult: "fought" },
-                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  impact: { manpower: -2, fuel: -1, initiative: -1 },
                   outcome:
                     "The country that spent two years engineering a way to avoid fighting this war ends up fighting a version of it after all — not alongside Germany and not, in any organized sense, against the Allies either, but directly against the ally its entire policy was built to placate. A stranger, smaller war than the one it avoided, against an opponent this army was never built or postured to face.",
                 },
@@ -14677,7 +14677,7 @@ const CAMPAIGNS = {
               advisor: { name: "Badoglio", position: "The negotiators in Munich will decide what Italy gets, and an offensive this rushed spends men to influence a decision that is not being made on this front." },
               setFlags: { alpsFront40: "limited" },
               favor: 1,
-              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "medStrategy40",
               outcome:
                 "The historical judgment on the offensive that was launched applies here too, just without the casualties spent proving it: this front was never going to decide anything the armistice terms didn't already decide first. Restraint costs nothing tangible and saves several thousand men a rushed, under-prepared assault would otherwise have spent on fortified ground for symbolic returns — but it also leaves nothing on the record for the propaganda ministry to point to, in a war whose entire premise was arriving at the table with something to show.",
@@ -14729,7 +14729,7 @@ const CAMPAIGNS = {
               advisor: { name: "Mussolini", position: "The war was not entered to besiege an island. Egypt is where the empire is decided, and the Tenth Army outnumbers Wavell's whole command on paper, so send them forward." },
               historical: true,
               setFlags: { medStrategy: "egypt" },
-              impact: { manpower: 0, fuel: 0, initiative: 0 },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "greeceDecision40",
               outcome:
                 "What actually happened, eventually and hesitantly: the Tenth Army's advance into Egypt didn't begin until September, and even then stopped at Sidi Barrani, sixty miles short of the nearest serious British position, digging in rather than pressing on. The paper numbers Mussolini cites were real; what they didn't capture was a logistics train built for colonial policing, not a mechanized desert offensive, and a British Western Desert Force that would spend the intervening months training for exactly the counterattack this hesitation buys it time to prepare.",
@@ -14863,7 +14863,7 @@ const CAMPAIGNS = {
               setFlags: { greeceDecision: "delay", trust: (flags.trust || 0) + (1) },
               trustDelta: 1,
               favor: 1,
-              impact: { manpower: 1, fuel: 0, initiative: -2 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "tarantoDoctrine40",
               outcome:
                 "The argument every honest postwar account of this campaign says should have won, and in the actual October 1940 meeting did not: a properly resourced Albania force, given road-building time and a dry-season start, addresses most of what made the historical invasion a rolling catastrophe. What it doesn't address is the political motive driving the date in the first place — Mussolini's need to answer Romania quickly rather than well — which this path spends outright rather than satisfies.",
@@ -14887,7 +14887,7 @@ const CAMPAIGNS = {
               advisor: { name: "Cavagnari", position: "No argument for boldness can be made after tonight, and what is left of the fleet is worth more sitting where the British have to plan around it than sunk proving a point." },
               historical: true,
               setFlags: { tarantoDoctrine: "preserve" },
-              impact: { manpower: 0, fuel: 1, initiative: -1 },
+              impact: { manpower: 0, fuel: 1, initiative: 0 },
               next: "greeceWinter40",
               outcome:
                 "The doctrine that actually governed the surviving fleet for most of the war: after Taranto, the battle line puts to sea rarely and cautiously, tying down a Royal Navy Mediterranean squadron that has to plan around it without the fleet itself risking the encounters that could settle anything. Critics, then and since, call this a navy that spent the war as a threat rather than a weapon — its defenders point out that a threat the enemy has to respect to is not nothing, and that Taranto had just demonstrated exactly what happens when the fleet is caught unprepared.",
@@ -15114,7 +15114,7 @@ const CAMPAIGNS = {
               advisor: { name: "Badoglio", position: "He resigned rather than keep defending a plan that was broken before it launched, and whoever holds this command now should at least stop paying for that plan's mistakes one division at a time." },
               setFlags: { greeceWinter: "withdraw" },
               favor: 1,
-              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "compass40",
               outcome:
                 "The historical Badoglio resigned on December 4, 1940 rather than preside over this front any further — a real act, even if it changed nothing about the men still fighting in it. A deliberate, organized withdrawal to shorter interior lines costs less blood per mile given up than the historical reserve-feeding approach did, and produces a more defensible position by the time winter fully sets in — at the price of ceding ground a propaganda ministry already struggling to explain this campaign has no good way to spin as anything but retreat.",
@@ -15139,7 +15139,7 @@ const CAMPAIGNS = {
               advisor: { name: "Graziani", position: "Every hour the camps are held as arranged is an hour daring an armored force to do exactly what it is built to do, and it is better to give up ground on his own terms than lose the army defending a line that was never a line." },
               setFlags: { compass40: "withdraw" },
               favor: 1,
-              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "germanRescue41",
               outcome:
                 "The retreat Graziani never actually ordered in time, historically — his real hesitation, waiting on a clearer picture before committing to the humiliation of giving up ground just claimed in September, is a documented part of why the historical collapse was as total as it was. An earlier, deliberate withdrawal here costs less in prisoners and equipment than the historical rout, though it still concedes essentially everything Compass was launched to take, since the operation's actual scale caught every Italian assumption about British strength equally wrong.",
@@ -15149,7 +15149,7 @@ const CAMPAIGNS = {
               advisor: { name: "Cavallero", position: "Rome's own intelligence calls this a reconnaissance in force and not an offensive, so the reserve will not be moved for a five-day raid the estimates say will exhaust itself against the wire." },
               historical: true,
               setFlags: { compass40: "hold" },
-              impact: { manpower: -3, fuel: -1, initiative: -2 },
+              impact: { manpower: -2, fuel: -1, initiative: -1 },
               next: "germanRescue41",
               outcome:
                 "What actually happened, and it is the single worst reversal any command in this game presides over: the 'five-day raid' becomes a two-month rout that destroys the Tenth Army as a fighting force, takes some 130,000 Italian prisoners against a few hundred British casualties, and advances 500 miles into Libya before finally outrunning its own supply line near El Agheila. Nothing about the intelligence estimate that called this a limited raid survives contact with what it actually was.",
@@ -15185,7 +15185,7 @@ const CAMPAIGNS = {
               setFlags: { germanRescue: "libyaOnly", trust: (flags.trust || 0) + (-1) },
               trustDelta: -1,
               favor: 1,
-              impact: { manpower: -1, fuel: 0, initiative: 0 },
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "matapan41",
               outcome:
                 "A narrower request preserves more of the fiction that this is still Italy's own war in at least one theater, but it bets the Epirus front's continued stability entirely on a reserve already stretched thin holding the line described in the winter's fighting. Libya recovers on roughly the same German timetable either way; what changes is whether Greece is still an Italian-run campaign when Yugoslavia's own collapse in April makes the question moot regardless of which choice was made here.",
@@ -15206,7 +15206,7 @@ const CAMPAIGNS = {
               advisor: { name: "Iachino", position: "The flagship is damaged and the enemy has a night-fighting advantage the doctrine was never built to match, and the rest of the fleet will not be spent finding that out in the dark." },
               historical: true,
               setFlags: { matapan41: "withdraw" },
-              impact: { manpower: 0, fuel: -1, initiative: -1 },
+              impact: { manpower: 1, fuel: -1, initiative: -1 },
               next: "yugoslaviaBalkans41",
               keyBattleSubgame: {
                 id: "matapan41",
@@ -15464,7 +15464,7 @@ const CAMPAIGNS = {
               advisor: { name: "Cavallero", position: "The Duke of Aosta has held longer than anyone in Rome had a right to expect from a garrison this cut off, and there is no dishonor left to spend holding out further, only men." },
               historical: true,
               setFlags: { eastAfrica: "surrender" },
-              impact: { manpower: -1, fuel: 0, initiative: -1 },
+              impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "convoyWarMalta41",
               outcome:
                 "What happened: Amba Alagi surrenders on May 19, 1941, after a defense the British commander accepting it publicly praised, and the Duke of Aosta is granted the formal honors of war — allowed to keep his sword — in recognition of a stand that outlasted every reasonable estimate of how long it could hold. Italy's colonial empire, conquered in 1936, is entirely gone within a year of the wider war reaching it, and the Duke himself dies in British captivity in Kenya the following March, of tuberculosis and exhaustion.",
@@ -15494,7 +15494,7 @@ const CAMPAIGNS = {
                   weight: 100 - (modWeight(35, meters.initiative) + (flags.forkEastAfricaSlow ? 20 : 0)),
                   title: "Scattered rather than organized — the highlands absorb men, not divisions",
                   setFlags: { eastAfricaGuerrilla: "fizzle" },
-                  impact: { manpower: -3, fuel: 0, initiative: 0 },
+                  impact: { manpower: -2, fuel: 0, initiative: 0 },
                   outcome:
                     "What the order actually produces without the coordination a real guerrilla campaign needs: isolated bands hunted down piecemeal over the following months, at a cost in men the formal surrender this path was meant to avoid ends up paying anyway, in smaller installments and without even the honors of war Amba Alagi's actual garrison received. The theater Britain would need to reinforce to answer a real threat here is one it can spare troops in far more easily than North Africa or Europe regardless of how this played out.",
                 },
@@ -15537,7 +15537,7 @@ const CAMPAIGNS = {
                 : { name: "Iachino", position: "Hercules is a plan on paper that has needed German paratroopers and landing craft not fully under Italian control for over a year, while the convoys are a problem that can be dealt with this month." },
               historical: flags.malta40 !== "fell",
               setFlags: { maltaQuestion: "escort" },
-              impact: { manpower: 0, fuel: 1, initiative: -1 },
+              impact: { manpower: 0, fuel: 1, initiative: 0 },
               next: flags.malta40 === "fell" ? "maltaRetake41" : "rommelAdvance41",
               outcome: flags.malta40 === "fell"
                 ? "With Malta already Italian, this is simply the dividend of the 1940 gamble collected in full: escort losses that a year ago ran as high as a third of everything shipped are, with the island's air and submarine forces no longer contesting the route, a fraction of that — Rommel's army fights this season better supplied than at any point in the historical campaign."
@@ -15577,7 +15577,7 @@ const CAMPAIGNS = {
               checkLabel: "Matériel",
               disabledReason: (meters.fuel || 0) <= -3 ? "insufficient fuel and shipping left to mount an amphibious-airborne assault of any size this season" : undefined,
               setFlags: { herculesExecution41: "launch" },
-              impact: { manpower: -3, fuel: -2, initiative: 0 },
+              impact: { manpower: -2, fuel: -2, initiative: 0 },
               next: "rommelAdvance41",
               outcome:
                 "A scaled-down Hercules, run without the German lift the original plan assumed, is close to the worst version of the wargame's own pessimistic branch — an undersized airborne element against a garrison hardened for exactly this scenario, and a naval escort exposed to a Royal Navy and RAF Malta hasn't stopped resupplying all year. What was attempted here at real cost in men and shipping was, in the actual historical planning record, precisely the version Italian staff officers themselves argued against. This run gets to find out firsthand rather than read the postwar verdict.",
@@ -15586,7 +15586,7 @@ const CAMPAIGNS = {
                   weight: modWeight(25, meters.fuel),
                   title: "Against every reasonable estimate, the island falls",
                   setFlags: { herculesResult: "fell" },
-                  impact: { manpower: -3, fuel: 1, initiative: 1 },
+                  impact: { manpower: -2, fuel: 1, initiative: 1 },
                   next: "maltaRetake41",
                   outcome:
                     "The wargame's own pessimistic consensus turns out not to be destiny: the undersized lift and a garrison spread thinner than the year's hardening suggested combine into a result the postwar analysts who studied this exact scenario mostly didn't credit — Malta falls to an assault fully half the historical Herkules plan's own minimum requirement. The convoy war to Libya transforms overnight, at a paratrooper and landing-craft cost this scaled-down force feels considerably more than the joint German-Italian version would have.",
@@ -15595,7 +15595,7 @@ const CAMPAIGNS = {
                   weight: 100 - modWeight(25, meters.fuel),
                   title: "The estimate holds — the island doesn't fall",
                   setFlags: { herculesResult: "held" },
-                  impact: { manpower: -3, fuel: -2, initiative: -1 },
+                  impact: { manpower: -2, fuel: -2, initiative: -1 },
                   outcome:
                     "The likelier and, on the numbers alone, always the more probable outcome: an undersized airborne element with no realistic prospect of overwhelming a garrison hardened for exactly this scenario, thrown back at a cost in men and shipping that buys nothing strategically. Malta's garrison spends the aftermath exactly as it spent every other reprieve this war offered it — hardening further, and continuing to cost the Africa-bound convoys everything the escort-first choice was always going to cost them regardless.",
                 },
@@ -15606,7 +15606,7 @@ const CAMPAIGNS = {
               advisor: { name: "Bastico", position: "An authorization from Rome does not conjure transport aircraft needed this month at a front the whole war may turn on, and he would rather admit the operation is not yet real than spend men proving it." },
               setFlags: { herculesExecution41: "stand down" },
               favor: 1,
-              impact: { manpower: 0, fuel: 1, initiative: -1 },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "rommelAdvance41",
               outcome:
                 "The honest, if deflating, answer: Hercules stands down for a second time, for the same reason it stood down the first — the plan was never actually Italy's to execute alone, and the ally whose assets it depends on has its own, larger war absorbing every spare transport aircraft and glider this particular autumn. Malta's garrison spends the reprieve exactly as it spent every other one this war offered it: hardening further, and continuing to cost the Africa-bound convoys everything the escort-first choice was ever going to cost them regardless.",
@@ -15665,7 +15665,7 @@ const CAMPAIGNS = {
               label: "Hold the line with what's already there — the desert war needs the fleet and air assets more than Malta does",
               advisor: { name: "Bastico", position: "Every squadron kept over Malta is one not covering Rommel's convoys, and he would rather risk the island than guarantee the desert front starves waiting for a British attack that may not come this season." },
               setFlags: { maltaDefense41: "minimal" },
-              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "rommelAdvance41",
               outcome:
                 "The cheaper bet, and the more exposed one: whatever garrison and air strength is already on the island is what answers a British effort, with nothing further diverted from the desert war to reinforce it. What this saves Rommel's own supply picture this season, it risks on the island itself.",
@@ -15779,7 +15779,7 @@ const CAMPAIGNS = {
               advisor: { name: "Bastico", position: "The plan agreed called this the stopping point for a reason that has not changed just because Tobruk fell faster than expected, so consolidate the supply line before spending the momentum on a deeper gamble." },
               setFlags: { tobrukAftermath: "consolidate" },
               favor: 1,
-              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "alamein42",
               outcome:
                 "The cautious option Rommel's own superiors argued for and were overruled on, historically. A consolidated position at the original planned line preserves more of Tobruk's captured supplies for an eventual offensive rather than burning them on an immediate pursuit — at the cost of the operational momentum that, however unsustainably, carried the historical advance to within seventy miles of Alexandria before it finally stalled on its own exhausted logistics anyway.",
@@ -15817,7 +15817,7 @@ const CAMPAIGNS = {
               advisor: { name: "Bastico", position: "Rommel would rather lose this army defending a line than retreat and be blamed for giving up Egypt's approaches, while he would rather have an army left to defend Tunisia with." },
               setFlags: { alamein42: "withdraw" },
               favor: 1,
-              impact: { manpower: -1, fuel: 0, initiative: -1 },
+              impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "torchTunisia42",
               outcome:
                 "A deliberate early withdrawal concedes the same ground the historical battle eventually lost anyway, without first spending twelve days of attritional casualties defending a line the fuel arithmetic never gave it a real chance to hold. What it preserves is a somewhat more intact force reaching Tunisia — the same eventual destination the historical retreat also reached, just with fewer of the men and less of the equipment burned proving the line couldn't be held.",
@@ -15880,7 +15880,7 @@ const CAMPAIGNS = {
               advisor: { name: "Messe", position: "A defense is being built in a pocket with the sea at its back and no realistic relief, and he would rather save the veteran cadres than spend them on a delay whose ending is not in doubt." },
               setFlags: { tunisiaBuildup: "evacuate" },
               favor: 1,
-              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "tunisiaCollapse43",
               outcome:
                 "A colder, more clear-eyed read of a position the historical buildup never fully escaped: reinforcing Tunisia bought roughly six months of delay at the cost of the men and equipment doing the buying, all of which was still eventually lost when the position collapsed regardless. Limiting the commitment and prioritizing evacuation trades some of that delay for veteran units preserved to defend Italy itself, when the war's geography turns to face it directly within the year.",
@@ -15912,7 +15912,7 @@ const CAMPAIGNS = {
               advisor: { name: "Ambrosio", position: "No version of the next week keeps this army in the field, and every additional day of resistance before terms are settled is a day's casualties spent confirming a conclusion not in question." },
               setFlags: { tunisiaCollapse: "negotiate" },
               favor: 1,
-              impact: { manpower: -1, fuel: 0, initiative: -1 },
+              impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "homeFrontBombing43",
               outcome:
                 "An earlier surrender spares some of the final week's casualties without changing the campaign's outcome in any respect that matters strategically — the same roughly 275,000 men go into Allied captivity either way, on a timeline that differs by days rather than weeks. What it does preserve, marginally, is a slightly larger share of those men returning home able-bodied whenever their captivity eventually ends.",
@@ -15998,7 +15998,7 @@ const CAMPAIGNS = {
               historical: true,
               setFlags: { sicily43: "withdraw" },
               favor: 1,
-              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "mussoliniCoup43",
               outcome:
                 "Close to what actually happened: roughly 100,000 Axis troops and their heavy equipment are evacuated across the Strait of Messina over several weeks in August, largely unmolested by an Allied pursuit more focused on racing to Messina than sealing the strait — one of the more consequential missed opportunities of the Mediterranean campaign, from the Allied side, and a real if modest mercy from the Italian one.",
@@ -16024,7 +16024,7 @@ const CAMPAIGNS = {
                   weight: 100 - modWeight(30, meters.initiative),
                   title: "The delay is real on the calendar and worth nothing on the map",
                   setFlags: { sicilyHoldResult: "wasted" },
-                  impact: { manpower: -3, fuel: 0, initiative: 0 },
+                  impact: { manpower: -2, fuel: 0, initiative: 0 },
                   outcome:
                     "Holding in place longer costs more men and equipment against an Allied force with total air and naval superiority over the island — the same eventual loss of Sicily happens regardless, just with fewer veteran troops surviving to defend the mainland afterward, and a political cost of its own: a defeat that arrives visibly slower does not read, to a Grand Council already assembling its case, as a defeat that arrives any less certainly.",
                 },
@@ -16208,7 +16208,7 @@ const CAMPAIGNS = {
               historical: true,
               setFlags: { armisticeTerms: "pressRome" },
               favor: 1,
-              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "armisticeAnnounce43",
               outcome:
                 "Historically, Castellano's negotiating position did push for exactly this, and the Allies did tentatively agree to an airborne operation — Giant II — to help secure Rome's airfields ahead of the announcement. What the negotiating table could promise and what actually arrived turned out to be two different things: the operation was cancelled at the last moment once Allied planners concluded German strength around Rome had grown too great for a lightly-armed airborne force to secure the city regardless of what the terms said on paper.",
@@ -17462,8 +17462,12 @@ const CAMPAIGNS = {
       if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "resist") return "The War Rome Refused, Then Fought Anyway";
       if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "submit") return "Occupied Without Ever Having Fought";
       if (flags.italyEntry === "neutral" && flags.neutralItalyPressure === "tolerated") return "The War That Passed Rome By";
-      if ((meters.manpower || 0) <= -6) return "An Army Spent Twice, on Both Sides of the Line";
-      if ((meters.manpower || 0) >= 6) return "The Command That Lost the Least";
+      // Round 24: the thresholds were -6 and +6, and the Italian meters sat at the floor in nine runs in ten (random play
+      // reached Salerno at -9), so one title took 97% of the co-belligerent endings and the rest could not be reached.
+      // The pre-armistice costs are now rebalanced, "spent" is the meter's own Exhausted line (-8), and "lost the least"
+      // starts at +3, which a careful command can reach. `npm run check-endings` prints how often each title occurs.
+      if ((meters.manpower || 0) <= -8) return "An Army Spent Twice, on Both Sides of the Line";
+      if ((meters.manpower || 0) >= 3) return "The Command That Lost the Least";
       if (flags.coupResponse === "backMussolini" && flags.loyalistEnd === "absorbed") return "A Republic Founded a Month Early";
       if (flags.coupResponse === "backMussolini") return "The Coup That Didn't Take";
       if (flags.italyPath === "rsi" && flags.rsiEnd === "negotiate") return "The Uniform Handed Over, Not Torn Off";
@@ -28403,6 +28407,7 @@ function buildRating(campaign, flags, meters, log, mode, rewinds, favor) {
   const entry = label ? ENDINGS_GALLERY.find((e) => e.label === label) : null;
   return commandRating({
     tier: entry ? entry.tier : null,
+    ceiling: campaign.id ? endingCeiling(campaign.id, flags) : null,
     removed: !!(flags.purged || flags.relieved || flags.dismissed || flags.superseded),
     total: campaign.dynamic ? meters.manpower + meters.fuel + meters.initiative : 0,
     battles: KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => ({ grade: flags[`${b.id}Grade`], staff: !!flags[`${b.id}Staff`] })),

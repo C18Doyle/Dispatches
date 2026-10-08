@@ -243,6 +243,7 @@ function buildRating(campaign, flags, meters, log, mode, rewinds, favor) {
   const entry = label ? ENDINGS_GALLERY.find((e) => e.label === label) : null;
   return commandRating({
     tier: entry ? entry.tier : null,
+    ceiling: campaign.id ? endingCeiling(campaign.id, flags) : null,
     removed: !!(flags.purged || flags.relieved || flags.dismissed || flags.superseded),
     total: campaign.dynamic ? meters.manpower + meters.fuel + meters.initiative : 0,
     battles: KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => ({ grade: flags[`${b.id}Grade`], staff: !!flags[`${b.id}Staff`] })),

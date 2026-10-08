@@ -95,6 +95,19 @@ check(rate({ ...same, mode: "iron" }).score > rate({ ...same, mode: "open" }).sc
 check(rate({ battles: [{ grade: "clean", staff: true }] }).parts.find((p) => p.id === "battles").points < rate({ battles: [{ grade: "clean", staff: false }] }).parts.find((p) => p.id === "battles").points, "a battle the staff planned scores a little less than one the player planned");
 check(rate({}).parts.length === 5 && rate({}).score >= 0 && rate({}).score <= 100, "five parts, and a score between 0 and 100");
 
+// --- the ending is scored against the best ending open to the command's path --------------------------------------------------
+const perfect = { total: 8, battles: [{ grade: "clean", staff: false }, { grade: "clean", staff: false }], judged: [{ sum: 2, histSum: 0 }, { sum: 1, histSum: 0 }], objectives: 4, mode: "open" };
+const endingPoints = (o) => rate(o).parts.find((p) => p.id === "ending").points;
+check(endingPoints({ ...perfect, tier: "Contested Outcome", ceiling: "Contested Outcome" }) === 30, "the best ending open to a path earns the full 30 points");
+check(rate({ ...perfect, tier: "Contested Outcome", ceiling: "Contested Outcome" }).rank === "General", "a flawless command on a path whose best ending is a contested outcome can be a General");
+check(rate({ ...perfect, tier: "Minor Defeat", ceiling: "Minor Defeat" }).rank === "General", "so can one whose best ending is a minor defeat (the Salò Republic's best)");
+check(rate({ ...perfect, tier: "Minor Defeat" }).rank !== "General", "without a ceiling the same ending cannot (the old scale: 76 at best)");
+check(rate({ ...perfect, tier: "Major Defeat", ceiling: "Contested Outcome" }).rank !== "General", "a spent army on the same path still cannot");
+check(endingPoints({ tier: "Minor Victory", ceiling: "Major Victory" }) === 24, "a path that can win outright is scored as before");
+check(rate({ tier: "Minor Defeat", ceiling: "Contested Outcome" }).parts.find((p) => p.id === "ending").fact.includes("the best ending open to this command is a contested outcome"), "the rank panel says what the best open ending was");
+check(L.endingCeilingKey("italy", { italyPath: "coBelligerent" }) === "italy:coBelligerent" && L.endingCeilingKey("italy", { italyPath: "rsi" }) === "italy:rsi" && L.endingCeilingKey("italy", { italyEntry: "neutral" }) === "italy:neutral" && L.endingCeilingKey("italy", {}) === "italy:other" && L.endingCeilingKey("soviet", {}) === "soviet", "the ceiling key follows Italy's split at the armistice");
+check(L.endingCeiling("soviet", {}) === "Major Victory" && L.endingCeiling("italy", { italyPath: "rsi" }) === "Minor Defeat", "ceilings are read from the table");
+
 if (fails.length) {
   console.log(`\n${fails.length} check(s) failed`);
   process.exit(1);

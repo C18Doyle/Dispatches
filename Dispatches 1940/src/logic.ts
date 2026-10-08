@@ -463,6 +463,8 @@ const RANK_FROM = [0, 20, 32, 44, 55, 65, 74, 83];
 export interface RatingInput {
   /** The ending's tier ("Major Victory" ... "Major Defeat"), or null when it has none. */
   tier: string | null;
+  /** The best tier any ending on this run's path can award (see endingCeiling). The ending is scored against it. */
+  ceiling?: string | null;
   removed: boolean;
   /** Manpower + Matériel + Initiative at the end. */
   total: number;
@@ -496,20 +498,54 @@ const TIER_FACT: Record<string, string> = {
   "Minor Defeat": "A minor defeat",
   "Major Defeat": "A major defeat",
 };
+// The best tier any ending on a command's path can award. The ending is worth 30 of the 100 points, and it is scored
+// against this ceiling, so a command whose war could not be won (the Italian co-belligerent path, the Salò Republic,
+// a German command) is not held below General by the outcome alone: its best ending earns the full 30. Soviet and
+// Allied commands can win outright, so theirs are scored as they stand. `npm run check-endings` fails if any
+// ending on a path outranks its ceiling, so the table cannot drift when an ending is added.
+export const ENDING_CEILING: Record<string, string> = {
+  german: "Minor Victory",
+  soviet: "Major Victory",
+  allied: "Major Victory",
+  "italy:coBelligerent": "Contested Outcome",
+  "italy:rsi": "Minor Defeat",
+  "italy:neutral": "Minor Victory",
+  "italy:coup": "Contested Outcome",
+  "italy:other": "Contested Outcome",
+};
+/** Which path a run is on, for the ceiling: Italy splits at the armistice, the other commands are one path each. */
+export function endingCeilingKey(campaignId: string, flags: Record<string, unknown>): string {
+  if (campaignId !== "italy") return campaignId;
+  if (flags.italyPath === "coBelligerent") return "italy:coBelligerent";
+  if (flags.italyPath === "rsi") return "italy:rsi";
+  if (flags.italyEntry === "neutral") return "italy:neutral";
+  if (flags.coupResponse === "backMussolini") return "italy:coup";
+  return "italy:other";
+}
+export function endingCeiling(campaignId: string, flags: Record<string, unknown>): string {
+  return ENDING_CEILING[endingCeilingKey(campaignId, flags)] ?? "Major Victory";
+}
 const GRADE_POINTS: Record<string, number> = { clean: 1, costly: 0.75, marginal: 0.35, total: 0 };
 
 export function commandRating(i: RatingInput): Rating {
   const word = (p: number, max: number): "Strong" | "Fair" | "Weak" => (p / max >= 0.65 ? "Strong" : p / max < 0.35 ? "Weak" : "Fair");
   const parts: RatingPart[] = [];
 
-  const endingPts = i.removed ? 0 : i.tier && TIER_POINTS[i.tier] != null ? TIER_POINTS[i.tier] : 15;
+  const rawEnding = i.tier && TIER_POINTS[i.tier] != null ? TIER_POINTS[i.tier] : 15;
+  const ceilingPts = i.ceiling && TIER_POINTS[i.ceiling] ? TIER_POINTS[i.ceiling] : 30;
+  const endingPts = i.removed ? 0 : Math.round(Math.min(30, (30 * rawEnding) / ceilingPts) * 10) / 10;
+  let endingFact = i.tier && TIER_FACT[i.tier] ? TIER_FACT[i.tier] : "An ending with no verdict of its own";
+  if (ceilingPts < 30 && i.ceiling && i.tier && TIER_FACT[i.tier] && TIER_FACT[i.ceiling]) {
+    const best = TIER_FACT[i.ceiling].charAt(0).toLowerCase() + TIER_FACT[i.ceiling].slice(1);
+    endingFact = i.tier === i.ceiling ? `${endingFact}, the best ending open to this command` : `${endingFact} (the best ending open to this command is ${best})`;
+  }
   parts.push({
     id: "ending",
     label: "How the war ended",
     points: endingPts,
     max: 30,
     word: word(endingPts, 30),
-    fact: i.removed ? "Removed from command before the war was over" : i.tier && TIER_FACT[i.tier] ? TIER_FACT[i.tier] : "An ending with no verdict of its own",
+    fact: i.removed ? "Removed from command before the war was over" : endingFact,
   });
 
   const posPts = Math.max(0, Math.min(20, 10 + i.total));
