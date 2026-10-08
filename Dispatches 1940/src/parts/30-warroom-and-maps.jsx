@@ -518,9 +518,36 @@ const MAP_TIMELINE = {
   austria: [["1939-01-01", "axis"], ["1945-03-29", "contested"], ["1945-05-08", "divided"]],
   hungary: [["1939-01-01", "axisAllied"], ["1944-10-06", "contested"], ["1945-04-04", "soviet"]],
   baltics: [["1939-01-01", "neutral"], ["1940-06-15", "soviet"], ["1941-07-01", "axis"], ["1944-07-10", "contested"], ["1944-10-13", "soviet"]],
-  ussrNorth: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1944-07-01", "soviet"]],
-  ussrCenter: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1944-07-03", "soviet"]],
-  ussrSouth: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1944-05-12", "soviet"]],
+  // Round 25: the three army-group zones are now nine (docs/specs/eastern-front-subdivision.md, tools/split-ussr-zones.mjs),
+  // so that each front changes on its own day and the Soviet rear never reads "contested". Dates from the standard
+  // accounts (Wikipedia and the articles it links); those of Pskov, Gomel, Smolensk, Kharkov, Rostov, Belgorod, Krasnodar
+  // and Operation Edelweiss were checked on 2026-10-08, the rest (the Minsk pocket, the autumn 1941 falls of Kharkov and
+  // Kursk) are from the standard accounts and are the first to check. A zone is "contested" while a front runs through it
+  // and "axis" once the Germans hold nearly all of it.
+  //  - Leningrad & Karelia: Pskov falls on 9 July 1941 and the Finns attack in Karelia on the 10th; the zone is clear when
+  //    Pskov is retaken on 23 July 1944 (the siege itself was lifted on 27 January 1944).
+  //  - Belorussia: invaded on 22 June 1941, and "axis" once Gomel falls on 21 August; Gomel is retaken on 26 November 1943
+  //    and the Minsk pocket is cleared by 12 July 1944 (Minsk itself fell on 3 July).
+  //  - Central Russia (Smolensk, Bryansk, Orel, Moscow, Kalinin, Voronezh): the Smolensk battle opens on 10 July 1941 and the
+  //    zone stays contested, the front never more than a few hundred kilometres from Moscow, until Smolensk is retaken on
+  //    25 September 1943.
+  //  - Ukraine & Crimea: invaded on 22 June 1941; Kharkov falls on 24 October and most of the zone is Axis-held; the final
+  //    liberation of Kharkov on 23 August 1943 puts the front inside it again, and Crimea is cleared on 12 May 1944.
+  //  - Don & Volga (Kursk, Belgorod, Rostov, Stalingrad): Belgorod falls on 24-25 October 1941 and Kursk on 3 November,
+  //    so the zone is contested until Rostov is retaken on 14 February 1943 (Kursk and Belgorod were retaken on 8 and 9
+  //    February); Belgorod is lost again on 18 March and retaken on 5 August 1943, when the Kursk salient was fought over.
+  //  - Caucasus: Operation Edelweiss opens on 25 July 1942 (Army Group A crosses the Don; Krasnodar falls on 9-12 August);
+  //    Krasnodar is retaken on 12 February 1943 (the Taman bridgehead held out until October, a small part of the zone).
+  //  - Northern Russia, Volga & Urals and Kazakhstan & Central Asia are the Soviet rear and never change.
+  ussrLeningrad: [["1939-01-01", "soviet"], ["1941-07-10", "contested"], ["1944-07-23", "soviet"]],
+  ussrNorthRear: [["1939-01-01", "soviet"]],
+  ussrBelarus: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1941-08-21", "axis"], ["1943-11-26", "contested"], ["1944-07-12", "soviet"]],
+  ussrMoscow: [["1939-01-01", "soviet"], ["1941-07-10", "contested"], ["1943-09-25", "soviet"]],
+  ussrUrals: [["1939-01-01", "soviet"]],
+  ussrUkraine: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1941-10-24", "axis"], ["1943-08-23", "contested"], ["1944-05-12", "soviet"]],
+  ussrDon: [["1939-01-01", "soviet"], ["1941-10-24", "contested"], ["1943-02-14", "soviet"], ["1943-03-18", "contested"], ["1943-08-05", "soviet"]],
+  ussrCaucasus: [["1939-01-01", "soviet"], ["1942-07-25", "contested"], ["1943-02-12", "soviet"]],
+  ussrAsia: [["1939-01-01", "soviet"]],
   romania: [["1939-01-01", "neutral"], ["1940-11-23", "axisAllied"], ["1944-08-20", "contested"], ["1944-09-12", "soviet"]],
   italy: [["1939-01-01", "neutral"], ["1940-06-10", "axisAllied"], ["1943-07-10", "contested"], ["1945-05-02", "allied"]],
   yugoslavia: [["1939-01-01", "neutral"], ["1941-04-06", "contested"], ["1941-04-17", "axis"], ["1942-01-01", "contested"], ["1945-05-08", "allied"]],

@@ -25,3 +25,20 @@ or version is needed for this.)
 
 Not part of the game build — this directory and `build_region_geometry.py` only
 produce `assets/maps/regions.json`, which IS shipped.
+
+## The Eastern Front zones
+
+`build_region_geometry.py` writes the Soviet Union as three army-group zones (`ussrNorth`, `ussrCenter`,
+`ussrSouth`). The game uses nine finer ones (Leningrad & Karelia, Northern Russia, Belorussia, Central Russia, Volga &
+Urals, Ukraine & Crimea, Don & Volga, Caucasus, Central Asia), made from those three by a second step that needs no
+Python libraries:
+
+```
+python tools/build_region_geometry.py
+node tools/split-ussr-zones.mjs
+```
+
+The second script refuses to run if the file already holds the nine. It splits each old zone by straight lines and by the
+Belarus-Russia and Ukraine-Russia borders (the chains of vertices those two outlines share in `countries.geojson`), keeps
+the outer outline of each old zone vertex for vertex, checks 56 named places against the zone each belongs to, and adds
+the new border lines to `__interiorBorders__`. See its header for the method and the reasons for each line.

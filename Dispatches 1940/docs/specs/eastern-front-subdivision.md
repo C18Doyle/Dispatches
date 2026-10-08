@@ -1,10 +1,12 @@
 # Spec: Eastern Front Region Subdivision
 
-Status: SPEC ONLY — not implemented. Scoped at Craig's request after relaying a player review's
-complaint that the USSR renders as a single undifferentiated region on the Checkpoint Map, with
-no way to distinguish Leningrad from Stalingrad from Kursk from the Volga. Craig confirmed the
-complaint himself before asking for this to be scoped rather than built directly, given a real
-precedent (below) of a similar change going wrong when it skipped the scoping step.
+Status: IMPLEMENTED — path B (army-group zones) in round 14, as three zones, and extended in round 25
+to nine (see "What was built" at the end; the text below is the original scoping and is kept as the
+record of why). Scoped at Craig's request after relaying a player review's complaint that the USSR
+renders as a single undifferentiated region on the Checkpoint Map, with no way to distinguish
+Leningrad from Stalingrad from Kursk from the Volga. Craig confirmed the complaint himself before
+asking for this to be scoped rather than built directly, given a real precedent (below) of a
+similar change going wrong when it skipped the scoping step.
 
 ## The complaint, verified
 
@@ -110,3 +112,46 @@ against — a wrong 3-way split is a smaller, more visible error to catch and fi
    South) be handled — pick one, or allow a node to highlight more than one region at once (the
    data model already supports a node pointing at multiple regions, e.g. `twoFires1943: ["italy",
    "ussr"]`, so this is a curation-bar question, not an engineering one)?
+
+## What was built
+
+**Round 14** built path B: `ussr` became three zones, `ussrNorth`, `ussrCenter` and `ussrSouth`, cut by two
+hand-drawn lines (NC_LINE, CS_LINE) in `tools/build_region_geometry.py`. The complaint that remained was that three
+coarse zones cannot say where the front is: "contested" ran from 22 June 1941 to 1944 over the whole width of each zone,
+all the way to the Urals and Siberia, and a decision about one city, such as Smolensk retaken in April 1942, could only
+flip the whole centre.
+
+**Round 25** cut each of the three into finer zones, a middle way between paths A and B, on this reasoning: the old lines
+stay (they were checked against named places in round 14), each old zone is cut by lines that are either a real border
+(Belarus-Russia, Ukraine-Russia, taken from the vertices the two outlines share in `countries.geojson`) or a
+straight line with a reason, and the Soviet rear is cut off so that it never reads "contested". The nine:
+
+| Zone | In old zone | Cut by | What it holds |
+|---|---|---|---|
+| Leningrad & Karelia (`ussrLeningrad`) | North | 38°E | Leningrad, Karelia, Kola, Pskov, Novgorod |
+| Northern Russia (`ussrNorthRear`) | North | 38°E | Arkhangelsk, Vologda, Komi, the northern Urals; always Soviet |
+| Belorussia (`ussrBelarus`) | Center | the Belarus-Russia border | Minsk, Vitebsk, Gomel |
+| Central Russia (`ussrMoscow`) | Center | the Belarus border and 46°E | Smolensk, Bryansk, Orel, Moscow, Kalinin, Voronezh |
+| Volga & Urals (`ussrUrals`) | Center | 46°E | Gorky's east bank, Kazan, Kuibyshev, Saratov, the southern Urals; always Soviet |
+| Ukraine & Crimea (`ussrUkraine`) | South | the Ukraine-Russia border and the Kerch strait | Kiev, Kharkov, Odessa, the Donbas, Crimea |
+| Don & Volga (`ussrDon`) | South | the Ukraine border, 46.3°N and 46.5°E | Kursk, Belgorod, Rostov, Stalingrad |
+| Caucasus (`ussrCaucasus`) | South | 46.3°N, the Kerch strait and 50.8°E | the Kuban, Stavropol, Grozny, Transcaucasia |
+| Central Asia (`ussrAsia`) | South | 46.5°E and 50.8°E | Kazakhstan, Uzbekistan, Turkmenistan; always Soviet |
+
+The cuts are made by `tools/split-ussr-zones.mjs` on the finished `assets/maps/regions.json` (no Python library is
+needed, and the outer outline of each old zone is kept vertex for vertex, so nothing opens up against Poland, the Baltics,
+Romania or Finland). It checks 56 named places against their zone and that no area is lost. The dates each zone changes
+status are in the comment above `MAP_TIMELINE` in `30-warroom-and-maps.jsx`, each from a dated event (Pskov, Gomel, Kharkov,
+Kursk, Rostov, Smolensk and so on), and `npm run check-map` keeps the year-end table, the timeline, the geometry and the
+rear honest.
+
+The four open questions: (1) neither A nor B outright, as above; (2) Belarus and Ukraine use their real borders where they
+meet Russia, but the zones are not the countries (Belorussia stops where Poland's 1938 Kresy begin, and Crimea, which the
+outlines give to Russia, is put with Ukraine); (3) no pilot on a subset: all 66 node references to the old zones were
+re-read and retagged one by one in the same change; (4) a node that spans two zones highlights both, as the data model
+already allowed.
+
+Zone shapes are still coarse. Central Russia is bounded by a straight line at 46°E and Belorussia at its Polish edge by
+the 1938 outline, and anyone who knows the ground will find places on the wrong side. They are zones, not borders; where
+one is wrong, move the line in `split-ussr-zones.mjs` and rerun it on a fresh three-zone file (`python
+tools/build_region_geometry.py` first, since the script refuses to split a file that is already split).

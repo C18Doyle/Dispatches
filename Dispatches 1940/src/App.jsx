@@ -23884,9 +23884,36 @@ const MAP_TIMELINE = {
   austria: [["1939-01-01", "axis"], ["1945-03-29", "contested"], ["1945-05-08", "divided"]],
   hungary: [["1939-01-01", "axisAllied"], ["1944-10-06", "contested"], ["1945-04-04", "soviet"]],
   baltics: [["1939-01-01", "neutral"], ["1940-06-15", "soviet"], ["1941-07-01", "axis"], ["1944-07-10", "contested"], ["1944-10-13", "soviet"]],
-  ussrNorth: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1944-07-01", "soviet"]],
-  ussrCenter: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1944-07-03", "soviet"]],
-  ussrSouth: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1944-05-12", "soviet"]],
+  // Round 25: the three army-group zones are now nine (docs/specs/eastern-front-subdivision.md, tools/split-ussr-zones.mjs),
+  // so that each front changes on its own day and the Soviet rear never reads "contested". Dates from the standard
+  // accounts (Wikipedia and the articles it links); those of Pskov, Gomel, Smolensk, Kharkov, Rostov, Belgorod, Krasnodar
+  // and Operation Edelweiss were checked on 2026-10-08, the rest (the Minsk pocket, the autumn 1941 falls of Kharkov and
+  // Kursk) are from the standard accounts and are the first to check. A zone is "contested" while a front runs through it
+  // and "axis" once the Germans hold nearly all of it.
+  //  - Leningrad & Karelia: Pskov falls on 9 July 1941 and the Finns attack in Karelia on the 10th; the zone is clear when
+  //    Pskov is retaken on 23 July 1944 (the siege itself was lifted on 27 January 1944).
+  //  - Belorussia: invaded on 22 June 1941, and "axis" once Gomel falls on 21 August; Gomel is retaken on 26 November 1943
+  //    and the Minsk pocket is cleared by 12 July 1944 (Minsk itself fell on 3 July).
+  //  - Central Russia (Smolensk, Bryansk, Orel, Moscow, Kalinin, Voronezh): the Smolensk battle opens on 10 July 1941 and the
+  //    zone stays contested, the front never more than a few hundred kilometres from Moscow, until Smolensk is retaken on
+  //    25 September 1943.
+  //  - Ukraine & Crimea: invaded on 22 June 1941; Kharkov falls on 24 October and most of the zone is Axis-held; the final
+  //    liberation of Kharkov on 23 August 1943 puts the front inside it again, and Crimea is cleared on 12 May 1944.
+  //  - Don & Volga (Kursk, Belgorod, Rostov, Stalingrad): Belgorod falls on 24-25 October 1941 and Kursk on 3 November,
+  //    so the zone is contested until Rostov is retaken on 14 February 1943 (Kursk and Belgorod were retaken on 8 and 9
+  //    February); Belgorod is lost again on 18 March and retaken on 5 August 1943, when the Kursk salient was fought over.
+  //  - Caucasus: Operation Edelweiss opens on 25 July 1942 (Army Group A crosses the Don; Krasnodar falls on 9-12 August);
+  //    Krasnodar is retaken on 12 February 1943 (the Taman bridgehead held out until October, a small part of the zone).
+  //  - Northern Russia, Volga & Urals and Kazakhstan & Central Asia are the Soviet rear and never change.
+  ussrLeningrad: [["1939-01-01", "soviet"], ["1941-07-10", "contested"], ["1944-07-23", "soviet"]],
+  ussrNorthRear: [["1939-01-01", "soviet"]],
+  ussrBelarus: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1941-08-21", "axis"], ["1943-11-26", "contested"], ["1944-07-12", "soviet"]],
+  ussrMoscow: [["1939-01-01", "soviet"], ["1941-07-10", "contested"], ["1943-09-25", "soviet"]],
+  ussrUrals: [["1939-01-01", "soviet"]],
+  ussrUkraine: [["1939-01-01", "soviet"], ["1941-06-22", "contested"], ["1941-10-24", "axis"], ["1943-08-23", "contested"], ["1944-05-12", "soviet"]],
+  ussrDon: [["1939-01-01", "soviet"], ["1941-10-24", "contested"], ["1943-02-14", "soviet"], ["1943-03-18", "contested"], ["1943-08-05", "soviet"]],
+  ussrCaucasus: [["1939-01-01", "soviet"], ["1942-07-25", "contested"], ["1943-02-12", "soviet"]],
+  ussrAsia: [["1939-01-01", "soviet"]],
   romania: [["1939-01-01", "neutral"], ["1940-11-23", "axisAllied"], ["1944-08-20", "contested"], ["1944-09-12", "soviet"]],
   italy: [["1939-01-01", "neutral"], ["1940-06-10", "axisAllied"], ["1943-07-10", "contested"], ["1945-05-02", "allied"]],
   yugoslavia: [["1939-01-01", "neutral"], ["1941-04-06", "contested"], ["1941-04-17", "axis"], ["1942-01-01", "contested"], ["1945-05-08", "allied"]],
@@ -25852,7 +25879,7 @@ const THEATERS = [
   { label: "WESTERN EUROPE", lines: ["WESTERN EUROPE"], ids: ["france", "benelux", "switzerland"] },
   { label: "IBERIA", lines: ["IBERIA"], ids: ["iberia"] },
   { label: "CENTRAL EUROPE", lines: ["CENTRAL EUROPE"], ids: ["germany", "poland", "czechia", "austria", "hungary"] },
-  { label: "THE EAST", lines: ["THE EAST"], ids: ["baltics", "ussrNorth", "ussrCenter", "ussrSouth", "romania"] },
+  { label: "THE EAST", lines: ["THE EAST"], ids: ["baltics", "ussrLeningrad", "ussrBelarus", "ussrMoscow", "ussrUkraine", "ussrDon", "ussrCaucasus", "ussrNorthRear", "ussrUrals", "ussrAsia", "romania"] },
   { label: "SOUTHERN EUROPE", lines: ["SOUTHERN EUROPE"], ids: ["italy", "yugoslavia", "greece", "albania", "bulgaria"] },
   { label: "MEDITERRANEAN", lines: ["MEDITERRANEAN", "& N. AFRICA"], ids: ["nwAfrica", "libya", "egypt", "turkey", "malta"] },
 ];
@@ -25879,12 +25906,20 @@ const MAP_REGIONS = [
   { id: "hungary", name: "Hungary", x: 588, y: 376 },
   { id: "baltics", name: "Baltics", x: 664, y: 158 },
   // Round 14: "ussr" split into three army-group zones (path B of
-  // docs/specs/eastern-front-subdivision.md) — schematic positions arranged north to
-  // south in the same relative order as the real geography (North above Center above
-  // South), fanned out from the old single "ussr" node's position.
-  { id: "ussrNorth", name: "USSR (North)", x: 826, y: 130 },
-  { id: "ussrCenter", name: "USSR (Center)", x: 826, y: 234 },
-  { id: "ussrSouth", name: "USSR (South)", x: 826, y: 338 },
+  // docs/specs/eastern-front-subdivision.md); round 25 split those into nine (see
+  // tools/split-ussr-zones.mjs and the MAP_TIMELINE comment). Schematic positions keep the real
+  // geography's order, north above south and west left of east: Leningrad & Karelia above
+  // Belorussia and Central Russia, Ukraine, the Don and the Caucasus below them, and the three
+  // Soviet rear zones (Northern Russia, Volga & Urals, Central Asia) on the far right.
+  { id: "ussrLeningrad", name: "Leningrad", x: 750, y: 84 },
+  { id: "ussrNorthRear", name: "N. Russia", x: 850, y: 60 },
+  { id: "ussrBelarus", name: "Belorussia", x: 722, y: 200 },
+  { id: "ussrMoscow", name: "Central Russia", x: 812, y: 190 },
+  { id: "ussrUrals", name: "Volga-Urals", x: 852, y: 268 },
+  { id: "ussrUkraine", name: "Ukraine", x: 738, y: 312 },
+  { id: "ussrDon", name: "Don & Volga", x: 822, y: 330 },
+  { id: "ussrCaucasus", name: "Caucasus", x: 800, y: 410 },
+  { id: "ussrAsia", name: "Central Asia", x: 858, y: 400 },
   { id: "romania", name: "Romania", x: 686, y: 396 },
   { id: "italy", name: "Italy", x: 436, y: 470 },
   { id: "yugoslavia", name: "Yugoslavia", x: 566, y: 452 },
@@ -25906,7 +25941,7 @@ const MAP_REGIONS = [
 // actual Weserübung invasion route, and without it the whole Scandinavian cluster
 // floats disconnected from the continent.
 const MAP_GRAPH_EDGES = [
-  ["norway", "sweden"], ["sweden", "finland"], ["finland", "ussrNorth"],
+  ["norway", "sweden"], ["sweden", "finland"], ["finland", "ussrLeningrad"],
   ["norway", "denmark"], ["denmark", "germany"],
   ["france", "benelux"], ["france", "iberia"],
   ["france", "switzerland"], ["france", "italy"], ["benelux", "germany"],
@@ -25914,15 +25949,19 @@ const MAP_GRAPH_EDGES = [
   ["germany", "austria"], ["czechia", "poland"], ["czechia", "austria"],
   ["austria", "hungary"], ["austria", "italy"], ["hungary", "romania"],
   ["hungary", "yugoslavia"], ["poland", "baltics"],
-  // Round 14: Poland's Kresy (see POLAND_1938) bordered both Belarus (Center) and
-  // Ukraine (South); the Baltic states bordered both Russia proper toward Leningrad
-  // (North) and the Lithuania-Belarus approach toward Minsk (Center). ussrNorth/
-  // ussrCenter also get a direct edge — they weren't adjacent through any other node
-  // before the split, since they used to be the same single "ussr" node.
-  ["poland", "ussrCenter"], ["poland", "ussrSouth"],
-  ["baltics", "ussrNorth"], ["baltics", "ussrCenter"],
-  ["ussrNorth", "ussrCenter"], ["ussrCenter", "ussrSouth"],
-  ["romania", "ussrSouth"], ["romania", "yugoslavia"],
+  // Round 14: Poland's Kresy (see POLAND_1938) bordered both Belarus and Ukraine; the
+  // Baltic states bordered Russia toward Leningrad and the Lithuania-Belarus approach toward
+  // Minsk. Round 25: the same borders for the nine zones, plus the land borders between the
+  // zones themselves (the Caucasus touches Turkey; Ukraine and the Caucasus meet only across
+  // the Kerch strait, and sea lanes are left out).
+  ["poland", "ussrBelarus"], ["poland", "ussrUkraine"],
+  ["baltics", "ussrLeningrad"], ["baltics", "ussrBelarus"], ["baltics", "ussrMoscow"],
+  ["ussrLeningrad", "ussrMoscow"], ["ussrLeningrad", "ussrNorthRear"],
+  ["ussrBelarus", "ussrMoscow"], ["ussrBelarus", "ussrUkraine"],
+  ["ussrMoscow", "ussrUkraine"], ["ussrMoscow", "ussrDon"], ["ussrMoscow", "ussrUrals"], ["ussrMoscow", "ussrNorthRear"],
+  ["ussrNorthRear", "ussrUrals"], ["ussrUkraine", "ussrDon"], ["ussrDon", "ussrCaucasus"], ["ussrDon", "ussrUrals"],
+  ["ussrDon", "ussrAsia"], ["ussrUrals", "ussrAsia"], ["turkey", "ussrCaucasus"],
+  ["romania", "ussrUkraine"], ["romania", "yugoslavia"],
   ["yugoslavia", "greece"], ["yugoslavia", "italy"], ["nwAfrica", "libya"],
   ["libya", "egypt"], ["greece", "turkey"],
   ["bulgaria", "romania"], ["bulgaria", "yugoslavia"], ["bulgaria", "greece"], ["bulgaria", "turkey"],
@@ -25938,8 +25977,12 @@ const MAP_REGION_SIZE = {
   // Round 14: the old single "massive" ussr tier doesn't cleanly divide three ways —
   // each zone individually is closer to the weight of the other "large" combatant
   // regions (population, industry, forces involved) than to Germany's own "massive"
-  // tier, so all three land at "large" rather than inventing a fourth tier.
-  ussrNorth: "large", ussrCenter: "large", ussrSouth: "large",
+  // tier. Round 25: of the nine zones the two that carried the most of the war, Central
+  // Russia and Ukraine, stay "large"; the other fronts and the Soviet rear are "medium" (the
+  // "small" tier also draws a status dot beside the label, which only a tiny island needs).
+  ussrMoscow: "large", ussrUkraine: "large",
+  ussrLeningrad: "medium", ussrBelarus: "medium", ussrDon: "medium", ussrCaucasus: "medium",
+  ussrNorthRear: "medium", ussrUrals: "medium", ussrAsia: "medium",
   france: "large", britain: "large", italy: "large", poland: "large",
   egypt: "medium", romania: "medium", yugoslavia: "medium", iberia: "medium",
   hungary: "medium", czechia: "medium", austria: "medium", norway: "medium",
@@ -25973,50 +26016,50 @@ const NODE_HIGHLIGHT_REGIONS = {
   crete41: ["greece"],
   bismarckBreakout41: ["britain"],
   sealionDisaster40: ["britain"],
-  barbarossa41: ["ussrNorth", "ussrCenter", "ussrSouth"],
+  barbarossa41: ["ussrLeningrad", "ussrBelarus", "ussrMoscow", "ussrUkraine"],
   suezFirst41: ["egypt"],
-  barbarossaAutumn41: ["ussrNorth", "ussrCenter", "ussrSouth"],
-  moscowFalls41: ["ussrCenter"],
-  volgaOverreach42: ["ussrSouth"],
-  sovietFracture42: ["ussrCenter"],
-  fractureResolution42: ["ussrCenter"],
-  east42Launch: ["ussrNorth", "ussrCenter", "ussrSouth"],
+  barbarossaAutumn41: ["ussrLeningrad", "ussrBelarus", "ussrMoscow", "ussrUkraine"],
+  moscowFalls41: ["ussrMoscow"],
+  volgaOverreach42: ["ussrMoscow", "ussrUrals"],
+  sovietFracture42: ["ussrMoscow", "ussrUrals"],
+  fractureResolution42: ["ussrMoscow"],
+  east42Launch: ["ussrLeningrad", "ussrBelarus", "ussrMoscow", "ussrUkraine"],
   armedTruce41: ["britain"],
   mediterranean41: ["libya", "egypt"],
   iberianQuestion42: ["iberia"],
   bomberWar43: ["germany"],
   easternQuestion44: ["poland"],
   atomicReckoning45: ["germany"],
-  moscowKiev: ["ussrCenter", "ussrSouth"],
-  doubleEnvelopment: ["ussrCenter", "ussrSouth"],
-  exposedFlank: ["ussrCenter", "ussrSouth"],
-  typhoon: ["ussrCenter"],
-  staticEast: ["ussrCenter", "ussrSouth"],
+  moscowKiev: ["ussrMoscow", "ussrUkraine"],
+  doubleEnvelopment: ["ussrBelarus", "ussrUkraine"],
+  exposedFlank: ["ussrBelarus", "ussrMoscow", "ussrUkraine"],
+  typhoon: ["ussrMoscow"],
+  staticEast: ["ussrMoscow", "ussrUkraine"],
   atlanticWall43: ["france"],
   herkules42: ["malta", "libya", "egypt"],
   suezOpening42: ["egypt"],
-  caseBlue: ["ussrSouth"],
+  caseBlue: ["ussrDon", "ussrCaucasus"],
   torch42: ["nwAfrica"],
   maltaAftermath: ["libya", "egypt"],
   britishCrisis42: ["britain"],
   crisisResolution42: ["britain"],
   elAlamein: ["egypt"],
-  stalingradPocket: ["ussrSouth"],
-  easternCollapse1943: ["ussrSouth"],
+  stalingradPocket: ["ussrDon"],
+  easternCollapse1943: ["ussrDon", "ussrUkraine"],
   blackMay: ["britain"],
   atlanticAttrition43: ["britain"],
   reconstituted: ["italy", "yugoslavia"],
-  kursk: ["ussrSouth"],
-  kurskBreach43: ["ussrSouth"],
-  kurskAftermath43: ["ussrSouth"],
-  twoFires1943: ["italy", "ussrSouth"],
+  kursk: ["ussrDon", "ussrMoscow"],
+  kurskBreach43: ["ussrDon"],
+  kurskAftermath43: ["ussrDon"],
+  twoFires1943: ["italy", "ussrUkraine"],
   italyPartisans: ["italy"],
-  dnieperStabilized: ["ussrSouth"],
-  firmestLine43: ["ussrSouth"],
+  dnieperStabilized: ["ussrUkraine"],
+  firmestLine43: ["ussrUkraine"],
   normandy: ["france"],
-  bagration44: ["ussrCenter", "ussrSouth", "poland"],
+  bagration44: ["ussrBelarus", "ussrUkraine", "poland"],
   eastStand44: ["poland"],
-  collapse1944: ["poland", "ussrCenter"],
+  collapse1944: ["poland", "ussrBelarus"],
   centerArmyPreserved44: ["poland"],
   july20Plot44: ["germany"],
   gestapoInquiry44: ["germany"],
@@ -26033,17 +26076,17 @@ const NODE_HIGHLIGHT_REGIONS = {
   flensburg45: ["germany", "denmark"],
   alpineRedoubt45: ["austria", "germany"],
   sealionAftermath40: ["britain"],
-  volgaAftermath42: ["ussrSouth"],
+  volgaAftermath42: ["ussrMoscow", "ussrUrals"],
   gibraltarStalled42: ["iberia"],
   suezHorizon42: ["egypt"],
   uranverein43: ["germany"],
   invasionQuestion44: ["france"],
   lodgmentReduction44: ["france"],
-  moscowRace41: ["ussrCenter"],
+  moscowRace41: ["ussrMoscow"],
   heydrichReprisals42: ["germany"],
   westArmisticeAftermath42: ["france"],
-  vlasov43: ["ussrNorth"],
-  expandedOffensive43: ["ussrSouth"],
+  vlasov43: ["ussrLeningrad"],
+  expandedOffensive43: ["ussrDon", "ussrUkraine"],
   mussoliniRescue43: ["italy"],
   italianLine43: ["italy"],
   vWeaponsProduction44: ["britain", "benelux"],
@@ -26058,39 +26101,39 @@ const NODE_HIGHLIGHT_REGIONS = {
   falaiseGerman: ["france"],
   },
   soviet: {
-  border41: ["baltics", "ussrNorth", "ussrCenter", "ussrSouth"],
-  smolensk41: ["ussrCenter", "ussrSouth"],
-  industrialShortfall42: ["ussrCenter"],
-  leningrad41: ["ussrNorth"],
-  evacuateIndustry41: ["ussrCenter"],
-  moscowPanic41: ["ussrCenter"],
-  specialSection41: ["ussrCenter"],
-  lendLease42: ["ussrNorth", "ussrSouth"],
-  order227_42: ["ussrSouth"],
-  stalingradStreets42: ["ussrSouth"],
-  escapedRemnants43: ["ussrSouth"],
-  southernPursuit43: ["ussrSouth"],
-  partisans43: ["ussrCenter"],
+  border41: ["baltics", "ussrLeningrad", "ussrBelarus", "ussrUkraine"],
+  smolensk41: ["ussrMoscow", "ussrUkraine"],
+  industrialShortfall42: ["ussrMoscow", "ussrUrals"],
+  leningrad41: ["ussrLeningrad"],
+  evacuateIndustry41: ["ussrMoscow", "ussrUrals"],
+  moscowPanic41: ["ussrMoscow"],
+  specialSection41: ["ussrMoscow"],
+  lendLease42: ["ussrLeningrad", "ussrNorthRear", "ussrCaucasus"],
+  order227_42: ["ussrDon"],
+  stalingradStreets42: ["ussrDon"],
+  escapedRemnants43: ["ussrDon"],
+  southernPursuit43: ["ussrDon", "ussrUkraine"],
+  partisans43: ["ussrBelarus", "ussrMoscow"],
   eastPrussia45: ["baltics", "poland"],
   berlinRivalryIncident45: ["germany"],
   berlinAssault45: ["germany"],
-  moscowDefense41: ["ussrCenter"],
-  autumnWeight42: ["ussrCenter", "ussrSouth"],
-  caucasusDefense42: ["ussrSouth"],
-  rzhev42: ["ussrCenter"],
-  stalingradCounter42: ["ussrSouth"],
-  southernVacuum43: ["ussrSouth"],
-  vacuumOverreach43: ["ussrSouth"],
-  kharkov43: ["ussrSouth"],
-  quietSector43: ["ussrCenter"],
+  moscowDefense41: ["ussrMoscow"],
+  autumnWeight42: ["ussrMoscow", "ussrDon"],
+  caucasusDefense42: ["ussrCaucasus"],
+  rzhev42: ["ussrMoscow"],
+  stalingradCounter42: ["ussrDon"],
+  southernVacuum43: ["ussrDon", "ussrUkraine"],
+  vacuumOverreach43: ["ussrUkraine", "ussrDon"],
+  kharkov43: ["ussrUkraine"],
+  quietSector43: ["ussrMoscow"],
   katynRevelation43: ["poland"],
-  kurskDefense43: ["ussrSouth"],
-  preemptResult43: ["ussrSouth"],
-  axis43: ["ussrCenter", "ussrSouth"],
-  smolenskGates43: ["ussrCenter"],
-  dnieperRace43: ["ussrSouth"],
-  easternWallBreach43: ["ussrSouth"],
-  bagrationSoviet44: ["poland", "ussrCenter"],
+  kurskDefense43: ["ussrDon", "ussrMoscow"],
+  preemptResult43: ["ussrDon"],
+  axis43: ["ussrMoscow", "ussrUkraine"],
+  smolenskGates43: ["ussrMoscow", "ussrBelarus"],
+  dnieperRace43: ["ussrUkraine"],
+  easternWallBreach43: ["ussrUkraine"],
+  bagrationSoviet44: ["poland", "ussrBelarus"],
   warsawUprising44: ["poland"],
   warsawRelief44: ["poland"],
   balkans44: ["bulgaria", "yugoslavia", "romania"],
@@ -26100,17 +26143,17 @@ const NODE_HIGHLIGHT_REGIONS = {
   vistulaOder45: ["poland"],
   maskingForceQuestion45: ["baltics", "poland"],
   berlinRace45: ["germany"],
-  rostovAftermath43: ["ussrSouth"],
-  katynBreak43: ["ussrCenter", "poland"],
+  rostovAftermath43: ["ussrDon", "ussrCaucasus"],
+  katynBreak43: ["ussrMoscow", "poland"],
   berlinFeb45: ["germany"],
   finnishArmistice44: ["finland"],
-  brodyCounterstroke41: ["ussrSouth"],
-  yelnya41: ["ussrCenter"],
-  winterGeneral42: ["ussrCenter", "ussrNorth", "ussrSouth"],
-  rzhevVyazma42: ["ussrCenter"],
-  smolenskThaw42: ["ussrCenter"],
-  kharkov42: ["ussrSouth"],
-  westernOffensive42: ["ussrCenter"],
+  brodyCounterstroke41: ["ussrUkraine"],
+  yelnya41: ["ussrMoscow"],
+  winterGeneral42: ["ussrMoscow", "ussrLeningrad", "ussrUkraine"],
+  rzhevVyazma42: ["ussrMoscow"],
+  smolenskThaw42: ["ussrMoscow"],
+  kharkov42: ["ussrUkraine"],
+  westernOffensive42: ["ussrMoscow", "ussrBelarus"],
   },
   allied: {
   narvik40: ["norway"],
@@ -26163,7 +26206,7 @@ const NODE_HIGHLIGHT_REGIONS = {
   compassGreece41: ["libya", "greece"],
   greeceFalls41: ["greece"],
   crete41: ["greece"],
-  aidRussia41: ["ussrNorth"],
+  aidRussia41: ["ussrLeningrad", "ussrNorthRear"],
   crusader41: ["libya", "egypt"],
   },
   italy: {
@@ -26255,26 +26298,20 @@ const STATUS_LABELS = {
 };
 
 
-// Round 14: ussrNorth/ussrCenter/ussrSouth share the same value in every year below,
-// which is a researched finding, not a shortcut — checked zone by zone against each
-// year-end's real front line: 1939-40 all-Soviet (pre-Barbarossa); 1941-43 every zone
-// has real fighting astride it at year's end (North: Leningrad besieged but not
-// taken, with occupied territory around it; Center: front static short of Moscow in
-// '41-'42, pushed back through Smolensk by end of '43; South: deepest German
-// penetration but also the fastest reversal, from the Volga/Caucasus high-water mark
-// in '42 to Kiev retaken by November '43) — "contested" is accurate for all three,
-// not just inherited from the old undivided value; 1944-45 all fully Soviet-recaptured
-// (Bagration in Center, the Baltic offensive in North, Ukraine/Crimea cleared in South,
-// all complete well before each year's end). The real zone-by-zone distinction this
-// subdivision was built for shows up in mapOverrides() below instead, where a fork's
-// actual outcome (Moscow falling, Leningrad relieved early, a stalled Case Blue, etc.)
-// now moves only the zone it actually happened in, not the whole former blob.
+// Round 25: the nine Eastern Front zones (see MAP_TIMELINE in 30-warroom-and-maps.jsx, which holds the dates and
+// the reasons) no longer share one value, as the three army-group zones of round 14 did. At each year-end: 1939-40 all
+// Soviet; 1941 and 1942 Belorussia and Ukraine in German hands, Leningrad, Central Russia and the Don contested (and the
+// Caucasus too from July 1942); 1943 Central Russia and the Don cleared, Belorussia and Ukraine contested with the front
+// inside them, Leningrad still contested; 1944-45 all Soviet. The rear (Northern Russia, Volga & Urals, Central Asia) is
+// Soviet in every year. What a fork changes, such as Moscow falling, a stalled Case Blue or an early Dnieper, still comes
+// from mapOverrides() below and now moves only the zone it happened in. check-map.mjs keeps this table and the timeline
+// in step.
 const MAP_YEAR_STATUS = {
   1939: {
     germany: "axis", poland: "contested", britain: "allied", ireland: "neutral", france: "allied",
     benelux: "neutral", denmark: "neutral", norway: "neutral", sweden: "neutral", switzerland: "neutral",
     italy: "neutral", czechia: "axis", austria: "axis", baltics: "neutral", hungary: "axisAllied",
-    romania: "neutral", yugoslavia: "neutral", greece: "neutral", finland: "contested", ussrNorth: "soviet", ussrCenter: "soviet", ussrSouth: "soviet",
+    romania: "neutral", yugoslavia: "neutral", greece: "neutral", finland: "contested", ussrLeningrad: "soviet", ussrNorthRear: "soviet", ussrBelarus: "soviet", ussrMoscow: "soviet", ussrUrals: "soviet", ussrUkraine: "soviet", ussrDon: "soviet", ussrCaucasus: "soviet", ussrAsia: "soviet",
     iberia: "neutral", nwAfrica: "allied", libya: "axisAllied", egypt: "allied", turkey: "neutral",
     albania: "axisAllied", bulgaria: "neutral", malta: "allied",
   },
@@ -26282,7 +26319,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "axis", britain: "allied", ireland: "neutral", france: "axisAllied",
     benelux: "axis", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "axisAllied", czechia: "axis", austria: "axis", baltics: "soviet", hungary: "axisAllied",
-    romania: "axisAllied", yugoslavia: "neutral", greece: "contested", finland: "neutral", ussrNorth: "soviet", ussrCenter: "soviet", ussrSouth: "soviet",
+    romania: "axisAllied", yugoslavia: "neutral", greece: "contested", finland: "neutral", ussrLeningrad: "soviet", ussrNorthRear: "soviet", ussrBelarus: "soviet", ussrMoscow: "soviet", ussrUrals: "soviet", ussrUkraine: "soviet", ussrDon: "soviet", ussrCaucasus: "soviet", ussrAsia: "soviet",
     iberia: "neutral", nwAfrica: "axisAllied", libya: "axisAllied", egypt: "contested", turkey: "neutral",
     albania: "axisAllied", bulgaria: "neutral", malta: "allied",
   },
@@ -26290,7 +26327,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "axis", britain: "allied", ireland: "neutral", france: "axisAllied",
     benelux: "axis", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "axisAllied", czechia: "axis", austria: "axis", baltics: "axis", hungary: "axisAllied",
-    romania: "axisAllied", yugoslavia: "axis", greece: "axis", finland: "axisAllied", ussrNorth: "contested", ussrCenter: "contested", ussrSouth: "contested",
+    romania: "axisAllied", yugoslavia: "axis", greece: "axis", finland: "axisAllied", ussrLeningrad: "contested", ussrNorthRear: "soviet", ussrBelarus: "axis", ussrMoscow: "contested", ussrUrals: "soviet", ussrUkraine: "axis", ussrDon: "contested", ussrCaucasus: "soviet", ussrAsia: "soviet",
     iberia: "neutral", nwAfrica: "axisAllied", libya: "contested", egypt: "allied", turkey: "neutral",
     albania: "axisAllied", bulgaria: "axisAllied", malta: "allied",
   },
@@ -26298,7 +26335,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "axis", britain: "allied", ireland: "neutral", france: "axis",
     benelux: "axis", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "axisAllied", czechia: "axis", austria: "axis", baltics: "axis", hungary: "axisAllied",
-    romania: "axisAllied", yugoslavia: "contested", greece: "axis", finland: "axisAllied", ussrNorth: "contested", ussrCenter: "contested", ussrSouth: "contested",
+    romania: "axisAllied", yugoslavia: "contested", greece: "axis", finland: "axisAllied", ussrLeningrad: "contested", ussrNorthRear: "soviet", ussrBelarus: "axis", ussrMoscow: "contested", ussrUrals: "soviet", ussrUkraine: "axis", ussrDon: "contested", ussrCaucasus: "contested", ussrAsia: "soviet",
     iberia: "neutral", nwAfrica: "allied", libya: "contested", egypt: "allied", turkey: "neutral",
     albania: "contested", bulgaria: "axisAllied", malta: "allied",
   },
@@ -26306,7 +26343,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "axis", britain: "allied", ireland: "neutral", france: "axis",
     benelux: "axis", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "contested", czechia: "axis", austria: "axis", baltics: "axis", hungary: "axisAllied",
-    romania: "axisAllied", yugoslavia: "contested", greece: "axis", finland: "axisAllied", ussrNorth: "contested", ussrCenter: "contested", ussrSouth: "contested",
+    romania: "axisAllied", yugoslavia: "contested", greece: "axis", finland: "axisAllied", ussrLeningrad: "contested", ussrNorthRear: "soviet", ussrBelarus: "contested", ussrMoscow: "soviet", ussrUrals: "soviet", ussrUkraine: "contested", ussrDon: "soviet", ussrCaucasus: "soviet", ussrAsia: "soviet",
     iberia: "neutral", nwAfrica: "allied", libya: "allied", egypt: "allied", turkey: "neutral",
     albania: "contested", bulgaria: "axisAllied", malta: "allied",
   },
@@ -26314,7 +26351,7 @@ const MAP_YEAR_STATUS = {
     germany: "axis", poland: "contested", britain: "allied", ireland: "neutral", france: "allied",
     benelux: "contested", denmark: "axis", norway: "axis", sweden: "neutral", switzerland: "neutral",
     italy: "contested", czechia: "axis", austria: "axis", baltics: "soviet", hungary: "contested",
-    romania: "soviet", yugoslavia: "contested", greece: "allied", finland: "contested", ussrNorth: "soviet", ussrCenter: "soviet", ussrSouth: "soviet",
+    romania: "soviet", yugoslavia: "contested", greece: "allied", finland: "contested", ussrLeningrad: "soviet", ussrNorthRear: "soviet", ussrBelarus: "soviet", ussrMoscow: "soviet", ussrUrals: "soviet", ussrUkraine: "soviet", ussrDon: "soviet", ussrCaucasus: "soviet", ussrAsia: "soviet",
     iberia: "neutral", nwAfrica: "allied", libya: "allied", egypt: "allied", turkey: "neutral",
     albania: "allied", bulgaria: "soviet", malta: "allied",
   },
@@ -26322,7 +26359,7 @@ const MAP_YEAR_STATUS = {
     germany: "divided", poland: "soviet", britain: "allied", ireland: "neutral", france: "allied",
     benelux: "allied", denmark: "allied", norway: "allied", sweden: "neutral", switzerland: "neutral",
     italy: "allied", czechia: "soviet", austria: "divided", baltics: "soviet", hungary: "soviet",
-    romania: "soviet", yugoslavia: "allied", greece: "allied", finland: "neutral", ussrNorth: "soviet", ussrCenter: "soviet", ussrSouth: "soviet",
+    romania: "soviet", yugoslavia: "allied", greece: "allied", finland: "neutral", ussrLeningrad: "soviet", ussrNorthRear: "soviet", ussrBelarus: "soviet", ussrMoscow: "soviet", ussrUrals: "soviet", ussrUkraine: "soviet", ussrDon: "soviet", ussrCaucasus: "soviet", ussrAsia: "soviet",
     iberia: "neutral", nwAfrica: "allied", libya: "allied", egypt: "allied", turkey: "allied",
     albania: "allied", bulgaria: "soviet", malta: "allied",
   },
@@ -26339,6 +26376,11 @@ function mapOverrides(year, flags, meters, dayKey) {
   const since = (y, m, d) => (dayKey != null ? dayKey > y * 10000 + m * 100 + d : year >= y);
   const before = (y, m, d) => !since(y, m, d);
   const note = (text, regions) => notes.push({ text, regions });
+  // Round 25: the Eastern Front is nine zones, not three. EAST_FRONT are the five that the German invasion crossed in 1941,
+  // EAST_ALL adds the Caucasus, which only the 1942 offensive reached; the Soviet rear never changes.
+  const EAST_FRONT = ["ussrLeningrad", "ussrBelarus", "ussrMoscow", "ussrUkraine", "ussrDon"];
+  const EAST_ALL = [...EAST_FRONT, "ussrCaucasus"];
+  const setZones = (ids, status) => ids.forEach((z) => { o[z] = status; });
   // Round 17 (Craig, after scrubbing the new map timeline: "France doesn't start blue," "Russia
   // seems to turn after the Balkans question," "Italy should start neutral then join"). The
   // France/Balkans symptoms were the year-capping bug fixed in CheckpointMap itself (every
@@ -26385,14 +26427,14 @@ function mapOverrides(year, flags, meters, dayKey) {
   if (flags.barbarossa === "launched" && year === 1941) {
     // The historical path (Halder's choice, June 22 1941) — no note, since this isn't a
     // divergence from the record and shouldn't earn a dashed "why is this diverged" border.
-    // Whole-front invasion (Finland to Romania — see barbarossa41's own situation text),
-    // so all three zones move together, same as every fork below that's genuinely
-    // front-wide rather than one army group's own story.
-    o.ussrNorth = "contested"; o.ussrCenter = "contested"; o.ussrSouth = "contested";
+    // Whole-front invasion (Finland to Romania — see barbarossa41's own situation text). Round 25:
+    // the dated timeline of the nine zones already says exactly what happened, zone by zone, so
+    // the historical path needs no override (the old all-zones "contested" would have hidden that
+    // Belorussia and Ukraine were German-held by the autumn).
   }
   if (flags.barbarossa === "medFirst" && year === 1941) {
-    o.ussrNorth = "contested"; o.ussrCenter = "contested"; o.ussrSouth = "contested";
-    note("Barbarossa launched in autumn instead of June, after a summer Mediterranean campaign first — the invasion is underway, just months behind the historical schedule (projection).", ["ussrNorth", "ussrCenter", "ussrSouth"]);
+    setZones(EAST_FRONT, "contested");
+    note("Barbarossa launched in autumn instead of June, after a summer Mediterranean campaign first — the invasion is underway, just months behind the historical schedule (projection).", EAST_FRONT);
   }
   if (flags.reichStand === "west" && year >= 1945) {
     // Austria's real 1945 split ran roughly east-west (Soviet zone east, the three Western
@@ -26427,12 +26469,12 @@ function mapOverrides(year, flags, meters, dayKey) {
     );
   }
   if (flags.pathVariant === "noBarbarossa") {
-    o.ussrNorth = "soviet"; o.ussrCenter = "soviet"; o.ussrSouth = "soviet";
+    setZones(EAST_ALL, "soviet");
     if (year >= 1941 && year <= 1944) {
       o.france = "axis";
       o.benelux = "axis";
       if (year === 1944)
-        note("No eastern front on this path — the Soviet border stays quiet, and no cross-Channel invasion has been attempted against an undistracted Wehrmacht (projection).", ["ussrNorth", "ussrCenter", "ussrSouth", "france", "benelux"]);
+        note("No eastern front on this path — the Soviet border stays quiet, and no cross-Channel invasion has been attempted against an undistracted Wehrmacht (projection).", [...EAST_ALL, "france", "benelux"]);
     }
     if (year >= 1945) {
       o.germany = "allied"; o.austria = "allied"; o.czechia = "allied"; o.poland = "allied";
@@ -26441,35 +26483,36 @@ function mapOverrides(year, flags, meters, dayKey) {
     }
   }
   if (flags.moscowCaptured && year >= 1941 && year <= 1944) {
-    // Round 14: Moscow itself sits in ussrCenter — the zone split means this can finally
-    // say so instead of tipping the whole former "ussr" blob axis over one city falling.
-    o.ussrCenter = "axis";
-    note("Moscow itself is under Axis occupation; the Soviet government continues from Kuibyshev (projection).", ["ussrCenter"]);
+    // Round 14: Moscow itself sits in the Central Russia zone (ussrMoscow) — the zone split means this can finally
+    // say so instead of tipping the whole former "ussr" blob axis over one city falling. Kuibyshev, where the
+    // government goes, is in the Volga & Urals zone and stays Soviet.
+    o.ussrMoscow = "axis";
+    note("Moscow itself is under Axis occupation; the Soviet government continues from Kuibyshev (projection).", ["ussrMoscow"]);
   }
   // Round 20 (Craig: "more map improvements — ensuring each country changes correctly"). Two
   // real, choice-driven eastern-front divergences that predate any Historical Divergence fork
   // and had no map reflection at all: kurskBreach43's "exploited" branch — the single best
   // tactical eastern result this campaign reaches outside a fork or a rare diplomatic roll — and
   // dnieperStabilized's sealed/conceded choice (the exact Kiev-area crossing Open Question #13
-  // flagged as having no dedicated region at the time; ussrSouth is now a direct, not just
+  // flagged as having no dedicated region at the time; ussrUkraine is now a direct, not just
   // coarse, match for it — round 14's zone split, unlike forkEastAfricaSlow's Egypt proxy for
   // East Africa below, which still has no dedicated region of its own).
   if (flags.kurskBreach === "exploited" && year === 1943) {
-    // Kursk sits in ussrSouth (see the coordinate check in build_ussr_zones()) — round 14
-    // narrows this from the old whole-blob "ussr" to the zone the breach actually reaches.
-    o.ussrSouth = "axisAllied";
-    note("The early Kursk strike's breach was pushed rather than banked — a rare, genuine eastern gain the historical July offensive never had the room to attempt (projection).", ["ussrSouth"]);
+    // Kursk sits in the Don & Volga zone (ussrDon; tools/split-ussr-zones.mjs checks it against a list of named
+    // places) — round 14 narrowed this from the old whole-blob "ussr", round 25 from the old South zone.
+    o.ussrDon = "axisAllied";
+    note("The early Kursk strike's breach was pushed rather than banked — a rare, genuine eastern gain the historical July offensive never had the room to attempt (projection).", ["ussrDon"]);
   }
   if (flags.dnieper === "sealed" && year === 1943) {
-    o.ussrSouth = "axisAllied";
-    note("The last mobile reserve sealed the Dnieper crossing near Kiev — the firmest eastern line this campaign reaches, at the cost of what that reserve could have done in the west instead (projection).", ["ussrSouth"]);
+    o.ussrUkraine = "axisAllied";
+    note("The last mobile reserve sealed the Dnieper crossing near Kiev — the firmest eastern line this campaign reaches, at the cost of what that reserve could have done in the west instead (projection).", ["ussrUkraine"]);
   }
   // dnieper === "conceded" gets no status change: its own outcome text frames it as a real but
-  // local setback, not a country-level shift — ussrSouth is already "contested" by default in
-  // 1943, and forcing a drop to "soviet" here would overstate what a single crossing near Kiev
+  // local setback, not a country-level shift — the Ukraine zone is already "contested" by default from August 1943,
+  // and forcing a drop to "soviet" here would overstate what a single crossing near Kiev
   // cost. Note-only, same principle as forkLuftwaffeShift above.
   if (flags.dnieper === "conceded" && year === 1943) {
-    note("The Dnieper crossing near Kiev was let through rather than sealed, to preserve the reserve for the west — a real, local eastern setback ahead of the historical timeline (projection).", ["ussrSouth"]);
+    note("The Dnieper crossing near Kiev was let through rather than sealed, to preserve the reserve for the west — a real, local eastern setback ahead of the historical timeline (projection).", ["ussrUkraine"]);
   }
   if (flags.suez41 === "taken" && year >= 1941 && year <= 1942) {
     o.egypt = "axis";
@@ -26519,13 +26562,13 @@ function mapOverrides(year, flags, meters, dayKey) {
   }
   if (flags.pathVariant === "earlyCollapse" && year >= 1943) {
     o.poland = "soviet"; o.germany = "contested"; o.czechia = "contested";
-    o.ussrNorth = "soviet"; o.ussrCenter = "soviet"; o.ussrSouth = "soviet";
-    note("The eastern front has collapsed roughly two years ahead of the historical schedule (projection).", ["poland", "germany", "czechia", "ussrNorth", "ussrCenter", "ussrSouth"]);
+    setZones(EAST_ALL, "soviet");
+    note("The eastern front has collapsed roughly two years ahead of the historical schedule (projection).", ["poland", "germany", "czechia", ...EAST_ALL]);
   }
   if (flags.pathVariant === "collapse44" && year >= 1944) {
     o.poland = "soviet"; o.germany = "contested";
-    o.ussrNorth = "soviet"; o.ussrCenter = "soviet"; o.ussrSouth = "soviet";
-    note("General collapse in the east, roughly nine months ahead of the historical schedule (projection).", ["poland", "germany", "ussrNorth", "ussrCenter", "ussrSouth"]);
+    setZones(EAST_ALL, "soviet");
+    note("General collapse in the east, roughly nine months ahead of the historical schedule (projection).", ["poland", "germany", ...EAST_ALL]);
   }
   if (flags.eastStand && year === 1944)
     note("Army Group Center retreats as an army — the eastern line anchors in better order than the historical rout (projection).", ["poland"]);
@@ -26552,7 +26595,7 @@ function mapOverrides(year, flags, meters, dayKey) {
   // directions) — they're rolled independently, so this is a real possible combination, not
   // a bug. Last write wins, same as every other pair of conditions in this function;
   // forkKievPush is ordered second so it prevails, since it's the more narratively decisive
-  // of the two. Round 14: forkKievPush only touches ussrCenter (its own text is about the
+  // of the two. Round 14: forkKievPush only touches ussrMoscow (its own text is about the
   // direct drive on Moscow reaching further, explicitly because the historical Kiev detour
   // through the south didn't happen this time) — so it no longer actually collides with
   // forkBarbarossaDelay's all-three-zone assignment the way the comment above used to
@@ -26563,31 +26606,31 @@ function mapOverrides(year, flags, meters, dayKey) {
     note("Allied resistance around Narvik held on longer than history recorded — the occupation wasn't complete by year's end (projection).", ["norway"]);
   }
   if (flags.forkMoscowHolds && year === 1941 && !flags.moscowCaptured) {
-    o.ussrCenter = "axis";
-    note("Weaker-than-historical Siberian reinforcement left the approach to Moscow more exposed this autumn (projection).", ["ussrCenter"]);
+    o.ussrMoscow = "axis";
+    note("Weaker-than-historical Siberian reinforcement left the approach to Moscow more exposed this autumn (projection).", ["ussrMoscow"]);
   }
   if (flags.forkTorchShift && year === 1942) {
     o.nwAfrica = "contested";
     note("A weather-delayed landing fleet meant French North Africa wasn't secured by year's end the way the historical timeline had it (projection).", ["nwAfrica"]);
   }
   if (flags.forkBarbarossaDelay && year === 1941) {
-    // A slower opening across the whole invasion front — all three zones, same as
+    // A slower opening across the whole invasion front — every front zone, same as
     // barbarossa/medFirst above.
-    o.ussrNorth = "soviet"; o.ussrCenter = "soviet"; o.ussrSouth = "soviet";
-    note("A slower opening than the historical invasion gave the frontier armies more time to organize a defense (projection).", ["ussrNorth", "ussrCenter", "ussrSouth"]);
+    setZones(EAST_FRONT, "soviet");
+    note("A slower opening than the historical invasion gave the frontier armies more time to organize a defense (projection).", EAST_FRONT);
   }
   if (flags.forkKievPush && year === 1941) {
     // Round 14: this fork's own text is specifically "no southern turn toward Kiev — the
-    // direct drive on the capital reached further" — the gain is Center's (Moscow's
-    // approach), and explicitly NOT South's, since the whole point is that Kiev wasn't
-    // taken this way. Only ussrCenter moves; ussrSouth stays at its 1941 baseline.
-    o.ussrCenter = "axis";
-    note("No southern turn toward Kiev — the direct drive on the capital reached further than the historical detour allowed (projection).", ["ussrCenter"]);
+    // direct drive on the capital reached further" — the gain is Central Russia's (Moscow's
+    // approach), and explicitly NOT Ukraine's, since the whole point is that Kiev wasn't
+    // taken this way. Only ussrMoscow moves; ussrUkraine stays at its 1941 baseline.
+    o.ussrMoscow = "axis";
+    note("No southern turn toward Kiev — the direct drive on the capital reached further than the historical detour allowed (projection).", ["ussrMoscow"]);
   }
   if (flags.forkStalingradConsolidate && year === 1942) {
-    // Stalingrad sits in ussrSouth.
-    o.ussrSouth = "soviet";
-    note("The pause short of Stalingrad's outskirts gave the defense more time to consolidate than the historical record shows (projection).", ["ussrSouth"]);
+    // Stalingrad sits in the Don & Volga zone.
+    o.ussrDon = "soviet";
+    note("The pause short of Stalingrad's outskirts gave the defense more time to consolidate than the historical record shows (projection).", ["ussrDon"]);
   }
   if (flags.forkNarvikHeld && year === 1940) {
     o.norway = "contested";
@@ -26622,12 +26665,21 @@ function mapOverrides(year, flags, meters, dayKey) {
     note("Tripoli was reached in March 1941, before the Afrika Korps could hold it, so Libya was cleared of the Axis almost two years ahead of the historical January 1943 (projection).", ["libya"]);
   }
   if (flags.earlyDnieper43 && since(1943, 8, 31)) {
-    o.ussrSouth = "soviet";
-    note("The reserve pressed straight past Kharkov to the Dnieper crossings, so the south was cleared months ahead of the historical schedule (projection).", ["ussrSouth"]);
+    o.ussrUkraine = "soviet";
+    note("The reserve pressed straight past Kharkov to the Dnieper crossings, so Ukraine was cleared months ahead of the historical schedule (projection).", ["ussrUkraine"]);
+  }
+  // Round 25: with Central Russia and Belorussia now separate zones, the speculative first-year branch of the Soviet
+  // campaign can show where the front is. Smolensk retaken in April 1942 clears Central Russia, 17 months before the real
+  // Smolensk operation; the second break in the centre in the winter of 1942 then carries the front into Belorussia,
+  // a year and a half ahead of Bagration.
+  if (flags.smolenskTaken42 && since(1942, 4, 15)) {
+    o.ussrMoscow = "soviet";
+    note("Smolensk was retaken in April 1942, seventeen months before it was in the real war, and the front left Central Russia for the Belorussian border (projection).", ["ussrMoscow"]);
   }
   if (flags.fastWest42 && since(1942, 12, 31)) {
-    o.ussrCenter = "soviet";
-    note("The centre was broken a second time in the winter of 1942, so the front left the Moscow and Smolensk country for good, a year and a half ahead of Bagration (projection).", ["ussrCenter"]);
+    o.ussrMoscow = "soviet";
+    o.ussrBelarus = "contested";
+    note("The centre was broken a second time in the winter of 1942, so the front left the Moscow and Smolensk country for good and stood in Belorussia a year and a half ahead of Bagration (projection).", ["ussrMoscow", "ussrBelarus"]);
   }
   // forkLuftwaffeShift (raids stay concentrated on airfields rather than shifting to cities) has
   // no map effect: Britain has no lower state than "allied" to fall to and no higher one to
@@ -26658,12 +26710,13 @@ function mapOverrides(year, flags, meters, dayKey) {
   // Round 20 (Craig: "build 2 new speculative forks on the alternative history mode per
   // campaign") — same lighter-touch treatment as the block above, in each campaign's fork order.
   if (flags.forkPanthersFixed && flags.kurskResult === "breach" && year === 1943) {
-    o.ussrSouth = "axisAllied";
-    note("Without the historical Panther engine-fire losses, the Kursk breakthrough pressed further east before the season turned (projection).", ["ussrSouth"]);
+    o.ussrDon = "axisAllied";
+    note("Without the historical Panther engine-fire losses, the Kursk breakthrough pressed further east before the season turned (projection).", ["ussrDon"]);
   }
   if (flags.forkCaucasusThin && flags.caseBlue === "both" && year === 1942) {
-    o.ussrSouth = "axisAllied";
-    note("A thinner-than-expected Soviet reserve let the southern front hold both the Stalingrad and Caucasus axes longer than the historical overextension allowed (projection).", ["ussrSouth"]);
+    o.ussrDon = "axisAllied";
+    o.ussrCaucasus = "axisAllied";
+    note("A thinner-than-expected Soviet reserve let the southern front hold both the Stalingrad and Caucasus axes longer than the historical overextension allowed (projection).", ["ussrDon", "ussrCaucasus"]);
   }
   // forkRzhevThin has no map effect: it doesn't change what Operation Mars achieves (the
   // choice's own outcome text stays the historical failure regardless), only that the failure

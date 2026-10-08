@@ -9,7 +9,9 @@
 //      allowed to be more exact than a snapshot, never to contradict it silently);
 //   3. every node date in all four campaigns parses to a day;
 //   4. on a walk of each campaign the map moves: the regions a campaign's decisions are about change status
-//      between nodes (Norway in the German and Allied campaigns in particular).
+//      between nodes (Norway in the German and Allied campaigns in particular);
+//   5. every region has a shape in assets/maps/regions.json (and every shape a region), and the Soviet rear (Northern
+//      Russia, Volga & Urals, Kazakhstan & Central Asia) never leaves Soviet control.
 //
 // `--report` prints, per campaign, every status change between consecutive nodes on the historical path, to read
 // against what you know of the war.
@@ -109,7 +111,6 @@ for (const id of Object.keys(sb.MAP_TIMELINE)) if (!sb.MAP_REGIONS.some((r) => r
 const REFINED = new Set([
   "1939:poland", // the table has Poland "contested" at the end of 1939; the occupation was complete by 6 October
   "1940:egypt", // the Italian invasion of September 1940 was thrown back in December; the table keeps the whole year "contested"
-  "1944:ussrNorth", "1944:ussrCenter", "1944:ussrSouth", // dated to the month each front was cleared
 ]);
 let compared = 0;
 for (let year = 1939; year <= 1945; year++) {
@@ -132,13 +133,33 @@ const REACTS = [
   ["Case Anton declined: France stays Vichy in 1943", { vichy: "restrained" }, [1943, 3, 1], "france", "axisAllied", "axis"],
   ["Darlan refused: French North Africa still fighting in December 1942", { darlanDeal42: "refuse" }, [1942, 12, 1], "nwAfrica", "contested", "allied"],
   ["Turkey pressed: allied by autumn 1944", { turkishQuestion44: "press" }, [1944, 9, 1], "turkey", "allied", "neutral"],
-  ["Early Dnieper: the south cleared by late 1943", { earlyDnieper43: true }, [1943, 12, 1], "ussrSouth", "soviet", "contested"],
+  ["Early Dnieper: Ukraine cleared by late 1943", { earlyDnieper43: true }, [1943, 12, 1], "ussrUkraine", "soviet", "contested"],
+  ["Smolensk retaken in April 1942: Central Russia cleared by the summer", { smolenskTaken42: true }, [1942, 6, 1], "ussrMoscow", "soviet", "contested"],
+  ["The centre broken twice: the front in Belorussia by March 1943", { fastWest42: true }, [1943, 3, 1], "ussrBelarus", "contested", "axis"],
+  ["Moscow captured: Central Russia Axis-held in 1942", { moscowCaptured: true }, [1942, 6, 1], "ussrMoscow", "axis", "contested"],
+  ["Case Blue stalled short of Stalingrad (a fork): the Don zone Soviet in January 1943", { forkStalingradConsolidate: true }, [1943, 1, 15], "ussrDon", "soviet", "contested"],
 ];
 for (const [what, flags, [y, m, d], region, want, normally] of REACTS) {
   if (at(flags, y, m, d)[region] !== want) problems.push(`${what}: ${region} reads "${at(flags, y, m, d)[region]}", wanted "${want}"`);
   if (at({}, y, m, d)[region] !== normally) problems.push(`${what}: with no decision made ${region} reads "${at({}, y, m, d)[region]}", expected "${normally}"`);
 }
 if (at({ norway: "limited" }, 1942, 6, 1).norway !== "axis") problems.push("limited landings: Norway should be occupied again by mid-1942");
+
+// 2c. the Soviet rear never changes, on any date
+const REAR = ["ussrNorthRear", "ussrUrals", "ussrAsia"];
+for (let y = 1939; y <= 1945; y++) for (let m = 1; m <= 12; m += 3) {
+  const st = sb.baselineStatuses(y * 10000 + m * 100 + 15);
+  for (const id of REAR) if (st[id] !== "soviet") problems.push(`${id} reads "${st[id]}" in ${y}-${m}: the rear never changes hands`);
+}
+
+// 2d. every region has a shape and every shape a region
+const geometry = JSON.parse(readFileSync(path.join(ROOT, "assets/maps/regions.json"), "utf8"));
+for (const r of sb.MAP_REGIONS) {
+  const g = geometry[r.id];
+  if (!g || !g.rings || !g.rings.length) problems.push(`region ${r.id} has no shape in assets/maps/regions.json`);
+  else if (!g.label) problems.push(`region ${r.id} has no label point in assets/maps/regions.json`);
+}
+for (const id of Object.keys(geometry)) if (id !== "__interiorBorders__" && !sb.MAP_REGIONS.some((r) => r.id === id)) problems.push(`assets/maps/regions.json has a shape for unknown region ${id}`);
 
 // 3. every node date parses
 const dates = new Map();

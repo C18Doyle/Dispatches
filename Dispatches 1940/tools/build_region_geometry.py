@@ -594,6 +594,9 @@ CS_LINE = [
 ]
 
 
+# Round 25: the three zones this function writes are cut into nine by tools/split-ussr-zones.mjs, which is run on the
+# finished assets/maps/regions.json (python tools/build_region_geometry.py && node tools/split-ussr-zones.mjs). The
+# Python pipeline itself is unchanged: it still writes ussrNorth / ussrCenter / ussrSouth.
 def build_ussr_zones(countries):
     """Split the old single "ussr" mechanical union into three army-group zones —
     ussrNorth / ussrCenter / ussrSouth — using NC_LINE/CS_LINE above as cutting lines.
