@@ -20,6 +20,10 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 - Flags a battle writes: `<id>Grade`, `<id>Counter`, `<id>PlanNeglected`, `<id>PlanCommander`, `<id>Staff`, `<id>Posture`, `<id>Dec_*`. A save made inside a battle carries a `battle` field (`restoreBattleSave`).
 - `npm run check-undefined` is the guard for names shared between parts.
 
+## The map
+- `assets/maps/pacific-regions.json` is written by `tools/build_pacific_map_geometry.py` (Python, needs shapely; this machine has none) and then split by `node tools/split-pacific-zones.mjs` (China into 8 zones, the Indies into 5, the Philippines into 3; the Manchuria pin becomes a polygon). The split refuses to run twice (`meta.zonesSplit`); `--check` prints the area and landmark report (every city in `LANDMARKS` must fall in its zone). Zone borders are straight lines, listed with their reasons in the tool's ZONES table.
+- `MAP_TIMELINE` (30-screens) holds each region's [date, status] entries; `baselineStatuses(dayKey)` gives the state the day before a report opens; `MAP_YEAR_STATUS` is derived. `mapOverrides` (run-specific changes) is still year-level. A new region needs geometry, a MAP_REGIONS entry, a timeline, MAP_EDGES, hints, and both command tables in 20-registries; `npm run check-map` fails on any that is missing.
+
 ## Content in JSON (pilot)
 - 20 Allied Pacific nodes that are plain data live in `src/data/alliedPacific.nodes.json`; their getters in `src/parts/11-campaign-alliedpacific.jsx` are stubs (`return dataNode(ALLIED_PACIFIC_DATA, "id");`). Edit those nodes in the JSON, then `npm run build` (assembly inlines the JSON via `/*@inline-json ...*/`). All other nodes stay code in the part.
 - `npm run split` refuses in this game (the artifact no longer holds the directives). `npm run test:json` keeps JSON and stubs consistent. `npm run extract:json -- alliedPacific --dry-run` shows what else is plain. See `../docs/DATA_MIGRATION.md`.

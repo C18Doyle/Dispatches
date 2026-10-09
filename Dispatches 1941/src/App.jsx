@@ -7169,16 +7169,28 @@ function codeGroupStrip(seed) {
 const IGHQ_COMMAND_BY_REGION = {
   japan: "Imperial General Headquarters",
   manchuria: "Kwantung Army",
+  northChina: "North China Area Army",
+  eastChina: "China Expeditionary Army",
+  southChina: "Twenty-third Army",
+  hunanGuangxi: "Eleventh Army",
+  freeChina: "China Expeditionary Army",
+  yanan: "North China Area Army",
+  farWest: "Imperial General Headquarters",
   formosa: "Formosa Army",
   okinawa: "32nd Army",
-  china: "China Expeditionary Army",
   indochina: "Southern Expeditionary Army Group",
   thailand: "15th Army",
   burma: "Burma Area Army",
   india: "Burma Area Army",
   malaya: "25th Army",
-  indies: "16th Army",
-  philippines: "14th Army",
+  sumatra: "25th Army",
+  java: "16th Army",
+  borneo: "Borneo Garrison Army",
+  celebes: "2nd Southern Expeditionary Fleet",
+  eastIndies: "19th Army",
+  luzon: "14th Army",
+  visayas: "35th Army",
+  mindanao: "35th Army",
   newGuinea: "18th Army",
   solomons: "8th Fleet, Rabaul",
   australia: "Combined Fleet",
@@ -7195,16 +7207,28 @@ const IGHQ_COMMAND_BY_REGION = {
 const CINCPAC_COMMAND_BY_REGION = {
   japan: "COMINCH, Navy Department",
   manchuria: "Joint Chiefs of Staff",
+  northChina: "China-Burma-India Theater",
+  eastChina: "China-Burma-India Theater",
+  southChina: "China-Burma-India Theater",
+  hunanGuangxi: "China-Burma-India Theater",
+  freeChina: "China-Burma-India Theater",
+  yanan: "China-Burma-India Theater",
+  farWest: "China-Burma-India Theater",
   formosa: "Fifth Fleet",
   okinawa: "Tenth Army",
-  china: "China-Burma-India Theater",
   indochina: "China-Burma-India Theater",
   thailand: "China-Burma-India Theater",
   burma: "China-Burma-India Theater",
   india: "China-Burma-India Theater",
   malaya: "South East Asia Command",
-  indies: "South West Pacific Area",
-  philippines: "South West Pacific Area",
+  sumatra: "South East Asia Command",
+  java: "South West Pacific Area",
+  borneo: "South West Pacific Area",
+  celebes: "South West Pacific Area",
+  eastIndies: "South West Pacific Area",
+  luzon: "South West Pacific Area",
+  visayas: "South West Pacific Area",
+  mindanao: "South West Pacific Area",
   newGuinea: "South West Pacific Area",
   solomons: "COMSOPAC",
   australia: "South West Pacific Area",
@@ -8698,7 +8722,7 @@ KEY_BATTLE_CONFIGS.guadalcanalNaval42 = {
     },
     air: {
       units: [
-        "Aircraft of the Southeast Area Fleet at Rabaul, some 560 miles away",
+        "Aircraft of the 11th Air Fleet at Rabaul, some 650 miles away",
         "Carrier air groups that had lost most of their veteran pilots in the Solomons",
       ],
       real:
@@ -8840,7 +8864,7 @@ KEY_BATTLE_COMMANDERS.guadalcanalNaval42 = [
   { id: "abe", name: "Vice Admiral Hiroaki Abe", role: "Commanding the bombardment force", category: "battleline", note: "He led Hiei and Kirishima down the Slot on the night of 12 November. Effort in Bombardment Battleships carries further under him.", reportLine: "Abe takes the battleships down the Slot toward Savo Island." },
   { id: "mikawa", name: "Vice Admiral Gunichi Mikawa", role: "Commanding the Eighth Fleet's cruisers", category: "screen", note: "His cruisers shelled Henderson Field on the night of 13 November. Effort in Cruisers and Night Destroyers carries further under him.", reportLine: "Mikawa's cruisers close the island and open fire on the airfield." },
   { id: "tanaka", name: "Rear Admiral Raizo Tanaka", role: "Commanding the reinforcement convoy", category: "convoy", note: "He ran the destroyer supply runs down the Slot all autumn. Effort in Tanaka's Transports carries further under him.", reportLine: "Tanaka keeps the transports in formation and holds course for Tassafaronga." },
-  { id: "kusaka", name: "Vice Admiral Jinichi Kusaka", role: "Commanding the Southeast Area Fleet, Rabaul", category: "air", note: "The aircraft at Rabaul are his to send. Effort in Air Cover from Rabaul carries further under him.", reportLine: "Kusaka sends every aircraft at Rabaul that has the range to reach the convoy." },
+  { id: "kusaka", name: "Vice Admiral Jinichi Kusaka", role: "Commanding the 11th Air Fleet, Rabaul", category: "air", note: "The aircraft at Rabaul are his to send. Effort in Air Cover from Rabaul carries further under him.", reportLine: "Kusaka sends every aircraft at Rabaul that has the range to reach the convoy." },
 ];
 
 KEY_BATTLE_APPROACHES.guadalcanalNaval42 = [
@@ -10896,13 +10920,18 @@ function Timeline({ date, accent }) {
 // elsewhere in this file (see the iron-mode notes).
 const THEATERS = [
   { label: "HOME WATERS", lines: ["HOME WATERS"], ids: ["japan", "formosa", "okinawa"] },
-  { label: "NORTHEAST ASIA", lines: ["NORTHEAST ASIA"], ids: ["china", "manchuria"] },
+  { label: "NORTHEAST ASIA", lines: ["NORTHEAST ASIA"], ids: ["northChina", "eastChina", "southChina", "hunanGuangxi", "freeChina", "yanan", "farWest", "manchuria"] },
   { label: "SOUTHEAST ASIA & CBI", lines: ["SOUTHEAST ASIA", "& CBI"], ids: ["indochina", "thailand", "burma", "india"] },
-  { label: "MARITIME SOUTHEAST ASIA", lines: ["MARITIME S.E. ASIA"], ids: ["malaya", "indies", "philippines"] },
+  { label: "MARITIME SOUTHEAST ASIA", lines: ["MARITIME S.E. ASIA"], ids: ["malaya", "sumatra", "java", "borneo", "celebes", "eastIndies", "luzon", "visayas", "mindanao"] },
   { label: "SOUTHWEST PACIFIC", lines: ["SOUTHWEST PACIFIC"], ids: ["newGuinea", "solomons", "australia"] },
   { label: "CENTRAL PACIFIC", lines: ["CENTRAL PACIFIC"], ids: ["gilberts", "marshalls", "marianas", "iwoJima"] },
 ];
 
+// China, the Dutch East Indies and the Philippines are not one region each but zones (tools/split-pacific-zones.mjs cuts them from the
+// country outlines along straight lines, so the borders are schematic): Manchukuo, North, East, South and Free China, Hunan-Guangxi (the ground of
+// Ichi-Go), Yan'an (the Communist base area) and the far west; Sumatra, Java, Borneo, Celebes and the Moluccas and Timor; Luzon, the Visayas and
+// Mindanao. The Manchuria pin became the Manchukuo polygon under the same id.
+//
 // Used to be x/y too (real equirectangular-projection positions, not schematic
 // guesses — same projection: scaleX≈7.15, scaleY≈7.19, origin 79°E/53°N). Superseded by
 // PacificMap's real coastline/border geometry (assets/maps/pacific-regions.json, built
@@ -10919,15 +10948,27 @@ const MAP_REGIONS = [
   { id: "japan", name: "Japan", kind: "polygon" },
   { id: "formosa", name: "Formosa", kind: "polygon" },
   { id: "okinawa", name: "Okinawa", kind: "pin" },
-  { id: "china", name: "China", kind: "polygon" },
-  { id: "manchuria", name: "Manchuria", kind: "pin" },
+  { id: "manchuria", name: "Manchukuo", kind: "polygon" },
+  { id: "northChina", name: "North China", kind: "polygon" },
+  { id: "eastChina", name: "East China", kind: "polygon" },
+  { id: "southChina", name: "Guangdong", kind: "polygon" },
+  { id: "hunanGuangxi", name: "Hunan-Guangxi", kind: "polygon" },
+  { id: "freeChina", name: "Free China", kind: "polygon" },
+  { id: "yanan", name: "Yan'an", kind: "polygon" },
+  { id: "farWest", name: "Tibet & Xinjiang", kind: "polygon" },
   { id: "indochina", name: "Indochina", kind: "polygon" },
   { id: "thailand", name: "Thailand", kind: "polygon" },
   { id: "burma", name: "Burma", kind: "polygon" },
   { id: "india", name: "India", kind: "polygon" },
   { id: "malaya", name: "Malaya", kind: "polygon" },
-  { id: "indies", name: "Dutch E. Indies", kind: "polygon" },
-  { id: "philippines", name: "Philippines", kind: "polygon" },
+  { id: "sumatra", name: "Sumatra", kind: "polygon" },
+  { id: "java", name: "Java", kind: "polygon" },
+  { id: "borneo", name: "Borneo", kind: "polygon" },
+  { id: "celebes", name: "Celebes", kind: "polygon" },
+  { id: "eastIndies", name: "Moluccas & Timor", kind: "polygon" },
+  { id: "luzon", name: "Luzon", kind: "polygon" },
+  { id: "visayas", name: "Visayas", kind: "polygon" },
+  { id: "mindanao", name: "Mindanao", kind: "polygon" },
   { id: "newGuinea", name: "New Guinea", kind: "polygon" },
   { id: "solomons", name: "Solomons", kind: "polygon" },
   { id: "australia", name: "Australia", kind: "polygon" },
@@ -10981,15 +11022,20 @@ function mapRadiusFor(tier) { return tier === "massive" ? 38 : tier === "large" 
 // network, classified land vs. sea by whether the two regions actually share a land
 // border. sovietFarEast's two edges tie directly to the five Kantokuen/Soviet nodes.
 const MAP_EDGES = [
-  ["manchuria", "china", "land"], ["china", "japan", "water"], ["japan", "formosa", "water"], ["formosa", "china", "water"],
-  ["formosa", "okinawa", "water"], ["okinawa", "japan", "water"], ["china", "indochina", "land"], ["indochina", "thailand", "land"],
-  ["thailand", "burma", "land"], ["burma", "india", "land"], ["indochina", "malaya", "land"], ["malaya", "indies", "water"],
-  ["indies", "philippines", "water"], ["philippines", "formosa", "water"], ["philippines", "newGuinea", "water"],
+  ["manchuria", "northChina", "land"], ["northChina", "japan", "water"], ["eastChina", "japan", "water"], ["japan", "formosa", "water"],
+  ["formosa", "eastChina", "water"], ["formosa", "southChina", "water"], ["northChina", "eastChina", "land"], ["eastChina", "southChina", "land"],
+  ["eastChina", "hunanGuangxi", "land"], ["hunanGuangxi", "southChina", "land"], ["hunanGuangxi", "freeChina", "land"], ["freeChina", "yanan", "land"],
+  ["yanan", "northChina", "land"], ["freeChina", "indochina", "land"], ["hunanGuangxi", "indochina", "land"], ["freeChina", "burma", "land"],
+  ["formosa", "okinawa", "water"], ["okinawa", "japan", "water"], ["indochina", "thailand", "land"],
+  ["thailand", "burma", "land"], ["burma", "india", "land"], ["indochina", "malaya", "land"], ["malaya", "sumatra", "water"],
+  ["sumatra", "java", "water"], ["java", "borneo", "water"], ["borneo", "celebes", "water"], ["celebes", "eastIndies", "water"],
+  ["borneo", "mindanao", "water"], ["mindanao", "visayas", "water"], ["visayas", "luzon", "water"], ["luzon", "formosa", "water"],
+  ["eastIndies", "newGuinea", "land"],
   ["newGuinea", "solomons", "water"], ["solomons", "australia", "water"], ["japan", "iwoJima", "water"], ["iwoJima", "marianas", "water"],
-  ["marianas", "marshalls", "water"], ["marshalls", "gilberts", "water"], ["gilberts", "solomons", "water"], ["marianas", "philippines", "water"],
+  ["marianas", "marshalls", "water"], ["marshalls", "gilberts", "water"], ["gilberts", "solomons", "water"], ["marianas", "luzon", "water"],
   ["japan", "attu", "water"], ["pearlHarbor", "midway", "water"], ["midway", "marianas", "water"], ["pearlHarbor", "solomons", "water"],
   ["sovietFarEast", "manchuria", "land"], ["sovietFarEast", "japan", "water"],
-  ["philippines", "palau", "water"], ["palau", "newGuinea", "water"],
+  ["mindanao", "palau", "water"], ["palau", "newGuinea", "water"],
 ];
 
 // A route only functions for a side if both ends are actually held (or safely
@@ -11018,64 +11064,121 @@ const STATUS_LABELS = {
   contested: "Contested",
 };
 
-const MAP_YEAR_STATUS = {
-  1940: {
-    japan: "axis", formosa: "axis", okinawa: "axis", manchuria: "axis",
-    china: "contested", indochina: "neutral", thailand: "neutral", burma: "neutral", india: "allied",
-    malaya: "neutral", indies: "neutral", philippines: "neutral",
-    newGuinea: "neutral", solomons: "neutral", australia: "allied",
-    gilberts: "neutral", marshalls: "axis", marianas: "axis", iwoJima: "axis", palau: "axis",
-    pearlHarbor: "allied", midway: "allied", attu: "neutral", sovietFarEast: "neutral",
-  },
-  1941: {
-    japan: "axis", formosa: "axis", okinawa: "axis", manchuria: "axis",
-    china: "contested", indochina: "axis", thailand: "axisAllied", burma: "neutral", india: "allied",
-    malaya: "contested", indies: "neutral", philippines: "contested",
-    newGuinea: "neutral", solomons: "neutral", australia: "allied",
-    gilberts: "contested", marshalls: "axis", marianas: "axis", iwoJima: "axis", palau: "axis",
-    pearlHarbor: "allied", midway: "allied", attu: "neutral", sovietFarEast: "neutral",
-  },
-  1942: {
-    japan: "axis", formosa: "axis", okinawa: "axis", manchuria: "axis",
-    china: "contested", indochina: "axis", thailand: "axisAllied", burma: "axis", india: "allied",
-    malaya: "axis", indies: "axis", philippines: "axis",
-    newGuinea: "contested", solomons: "contested", australia: "allied",
-    gilberts: "axis", marshalls: "axis", marianas: "axis", iwoJima: "axis", palau: "axis",
-    pearlHarbor: "allied", midway: "allied", attu: "axis", sovietFarEast: "neutral",
-  },
-  1943: {
-    japan: "axis", formosa: "axis", okinawa: "axis", manchuria: "axis",
-    china: "contested", indochina: "axis", thailand: "axisAllied", burma: "contested", india: "allied",
-    malaya: "axis", indies: "axis", philippines: "axis",
-    newGuinea: "contested", solomons: "contested", australia: "allied",
-    gilberts: "contested", marshalls: "axis", marianas: "axis", iwoJima: "axis", palau: "axis",
-    pearlHarbor: "allied", midway: "allied", attu: "allied", sovietFarEast: "neutral",
-  },
-  1944: {
-    japan: "axis", formosa: "axis", okinawa: "axis", manchuria: "axis",
-    china: "contested", indochina: "axis", thailand: "axisAllied", burma: "contested", india: "allied",
-    malaya: "axis", indies: "axis", philippines: "contested",
-    newGuinea: "allied", solomons: "allied", australia: "allied",
-    // Palau: the real Peleliu/Angaur landings (Operation Stalemate II) happened
-    // September–November 1944 — "contested" here reflects the actual historical
-    // battle taking place within this year, not a clean axis/allied flip.
-    gilberts: "allied", marshalls: "allied", marianas: "allied", iwoJima: "axis", palau: "contested",
-    pearlHarbor: "allied", midway: "allied", attu: "allied", sovietFarEast: "neutral",
-  },
-  1945: {
-    japan: "contested", formosa: "contested", okinawa: "allied", manchuria: "contested",
-    china: "contested", indochina: "contested", thailand: "contested", burma: "allied", india: "allied",
-    malaya: "contested", indies: "contested", philippines: "allied",
-    newGuinea: "allied", solomons: "allied", australia: "allied",
-    // Palau stays "contested" rather than flipping to "allied" even in the baseline —
-    // a real, checked historical fact, not a simplification: Peleliu and Angaur were
-    // captured, but the main island Babeldaob and the mandate capital at Koror, where
-    // most of the population and the wider Japanese garrison actually was, were
-    // bypassed and left isolated for the rest of the war, never formally retaken.
-    gilberts: "allied", marshalls: "allied", marianas: "allied", iwoJima: "allied", palau: "contested",
-    pearlHarbor: "allied", midway: "allied", attu: "allied", sovietFarEast: "allied",
-  },
+// The baseline map follows the calendar. Each region has a list of [date, status] entries, the date being the day the status began; a report's
+// map shows the state on the day the report opens (see nodeDayKey), so nothing is shown that the report is about to decide and nothing is left out
+// that had already happened. Run-specific changes come from mapOverrides. Sources and what is still unchecked: claims/map-dates-round1.json.
+// The year-end table below (MAP_YEAR_STATUS) is derived from this one. 'axisAllied' is a Japanese puppet or an occupied ally, 'contested' a front
+// running through the region. China is eight zones, and the dates are those of the standard accounts:
+//  - Manchukuo is a Japanese puppet throughout; the Soviet offensive opens on 9 August 1945.
+//  - North and East China and Guangdong are Japanese-held throughout (the Nanjing and North China puppet governments were not independent); they
+//    become 'contested' on 15 August 1945, when the race to accept the surrender begins.
+//  - Hunan-Guangxi: Nanning had fallen in November 1939 and the Japanese left it on 28 October 1940; Ichi-Go's Henan phase opens on 17 April 1944,
+//    Guilin and Liuzhou fall on 10 November 1944, Nanning is retaken on 26 May 1945.
+//  - Free China (Chongqing's) and the Yan'an base area are never Japanese-held; Tibet and Xinjiang are outside the war.
+const MAP_TIMELINE = {
+  japan: [["1940-01-01", "axis"], ["1945-04-01", "contested"]],
+  formosa: [["1940-01-01", "axis"], ["1945-01-03", "contested"]],
+  okinawa: [["1940-01-01", "axis"], ["1945-04-01", "contested"], ["1945-06-22", "allied"]],
+  manchuria: [["1940-01-01", "axisAllied"], ["1945-08-09", "contested"]],
+  northChina: [["1940-01-01", "axis"], ["1945-08-15", "contested"]],
+  eastChina: [["1940-01-01", "axis"], ["1945-08-15", "contested"]],
+  southChina: [["1940-01-01", "axis"], ["1945-08-15", "contested"]],
+  hunanGuangxi: [["1940-01-01", "contested"], ["1940-10-28", "allied"], ["1944-04-17", "contested"], ["1944-11-10", "axis"], ["1945-05-26", "contested"], ["1945-08-15", "allied"]],
+  freeChina: [["1940-01-01", "allied"]],
+  yanan: [["1940-01-01", "allied"]],
+  farWest: [["1940-01-01", "neutral"]],
+  indochina: [["1940-01-01", "neutral"], ["1940-09-22", "axisAllied"], ["1941-07-28", "axis"], ["1945-03-09", "contested"]],
+  thailand: [["1940-01-01", "neutral"], ["1941-12-08", "axisAllied"], ["1944-07-24", "contested"]],
+  burma: [["1940-01-01", "neutral"], ["1942-01-20", "contested"], ["1942-05-20", "axis"], ["1942-12-21", "contested"], ["1945-05-03", "allied"]],
+  india: [["1940-01-01", "allied"]],
+  malaya: [["1940-01-01", "neutral"], ["1941-12-08", "contested"], ["1942-02-15", "axis"], ["1945-08-15", "contested"]],
+  sumatra: [["1940-01-01", "neutral"], ["1942-02-14", "contested"], ["1942-03-28", "axis"], ["1945-08-17", "contested"]],
+  java: [["1940-01-01", "neutral"], ["1942-02-27", "contested"], ["1942-03-09", "axis"], ["1945-08-17", "contested"]],
+  borneo: [["1940-01-01", "neutral"], ["1942-01-11", "contested"], ["1942-03-01", "axis"], ["1945-05-01", "contested"]],
+  celebes: [["1940-01-01", "neutral"], ["1942-01-11", "contested"], ["1942-02-09", "axis"], ["1945-08-17", "contested"]],
+  eastIndies: [["1940-01-01", "neutral"], ["1942-01-31", "contested"], ["1942-04-19", "axis"], ["1944-04-22", "contested"]],
+  luzon: [["1940-01-01", "neutral"], ["1941-12-08", "contested"], ["1942-05-06", "axis"], ["1945-01-09", "contested"], ["1945-07-05", "allied"]],
+  visayas: [["1940-01-01", "neutral"], ["1942-04-10", "contested"], ["1942-05-10", "axis"], ["1944-10-20", "contested"], ["1945-04-20", "allied"]],
+  mindanao: [["1940-01-01", "neutral"], ["1941-12-20", "contested"], ["1942-05-10", "axis"], ["1945-03-10", "contested"], ["1945-07-05", "allied"]],
+  newGuinea: [["1940-01-01", "neutral"], ["1942-01-23", "contested"], ["1944-04-22", "allied"]],
+  solomons: [["1940-01-01", "neutral"], ["1942-03-30", "contested"], ["1944-03-25", "allied"]],
+  australia: [["1940-01-01", "allied"]],
+  gilberts: [["1940-01-01", "neutral"], ["1941-12-10", "contested"], ["1942-01-01", "axis"], ["1943-11-20", "contested"], ["1943-11-28", "allied"]],
+  marshalls: [["1940-01-01", "axis"], ["1944-01-31", "contested"], ["1944-02-23", "allied"]],
+  marianas: [["1940-01-01", "axis"], ["1944-06-15", "contested"], ["1944-08-10", "allied"]],
+  // Palau: the Peleliu and Angaur landings (Operation Stalemate II) began on 15 September 1944; it stays "contested" to the end rather than flipping
+  // to "allied", because Babeldaob and the mandate capital at Koror, where most of the garrison was, were bypassed and never formally retaken.
+  palau: [["1940-01-01", "axis"], ["1944-09-15", "contested"]],
+  iwoJima: [["1940-01-01", "axis"], ["1945-02-19", "contested"], ["1945-03-26", "allied"]],
+  pearlHarbor: [["1940-01-01", "allied"]],
+  midway: [["1940-01-01", "allied"]],
+  attu: [["1940-01-01", "neutral"], ["1942-06-07", "axis"], ["1943-05-11", "contested"], ["1943-05-30", "allied"]],
+  sovietFarEast: [["1940-01-01", "neutral"], ["1945-08-09", "allied"]],
 };
+
+const MAP_MONTH_NUMBERS = { JANUARY: 1, FEBRUARY: 2, MARCH: 3, APRIL: 4, MAY: 5, JUNE: 6, JULY: 7, AUGUST: 8, SEPTEMBER: 9, OCTOBER: 10, NOVEMBER: 11, DECEMBER: 12 };
+const MAP_SEASON_STARTS = { SPRING: [3, 21], SUMMER: [6, 21], AUTUMN: [9, 22], FALL: [9, 22], WINTER: [12, 21] };
+const MAP_MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+// A node date as a sortable day number (YYYYMMDD), or null when it holds no year. "APRIL 1942" counts as the first of the month, "LATE MAY 1940"
+// as the 21st, "AUGUST 6, 1945" as the 6th, a season as the day it begins, a bare year as 1 January.
+function nodeDayKey(date) {
+  const up = String(date || "").toUpperCase();
+  const ym = up.match(/\b(19[34]\d)\b/);
+  if (!ym) return null;
+  const year = Number(ym[1]);
+  let month = null;
+  let at = Infinity;
+  for (const [name, n] of Object.entries(MAP_MONTH_NUMBERS)) {
+    const i = up.indexOf(name);
+    if (i >= 0 && i < at) {
+      month = n;
+      at = i;
+    }
+  }
+  let day = 1;
+  if (month) {
+    const dm = up.slice(at).match(/^[A-Z]+\s+(\d{1,2})(?!\d)/);
+    if (dm && Number(dm[1]) >= 1 && Number(dm[1]) <= 31) day = Number(dm[1]);
+    else if (/\bLATE\b/.test(up.slice(0, at))) day = 21;
+    else if (/\bMID\b/.test(up.slice(0, at))) day = 15;
+  } else {
+    let sAt = Infinity;
+    for (const [name, [m, d]] of Object.entries(MAP_SEASON_STARTS)) {
+      const i = up.indexOf(name);
+      if (i >= 0 && i < sAt) {
+        sAt = i;
+        month = m;
+        day = d;
+      }
+    }
+    if (!month) {
+      if (/\bLATE\b/.test(up)) month = 10;
+      else if (/\bMID\b/.test(up)) {
+        month = 6;
+        day = 15;
+      } else month = 1;
+    }
+  }
+  return year * 10000 + month * 100 + day;
+}
+
+// Every region's status on the day just before dayKey (a report's own events are never in its own map).
+function baselineStatuses(dayKey) {
+  const out = {};
+  for (const [id, entries] of Object.entries(MAP_TIMELINE)) {
+    let status = entries[0][1];
+    for (const [d, s] of entries) {
+      if (Number(d.replace(/-/g, "")) < dayKey) status = s;
+      else break;
+    }
+    out[id] = status;
+  }
+  return out;
+}
+
+// Year-end snapshots, derived from the timeline.
+const MAP_YEAR_STATUS = Object.fromEntries([1940, 1941, 1942, 1943, 1944, 1945].map((y) => [y, baselineStatuses((y + 1) * 10000 + 101)]));
 
 // Tier 2 — the map reads the run's own divergences. First-slice coverage: the major
 // named forks this build currently has content for. Extend as more nodes are added.
@@ -11085,6 +11188,13 @@ function mapOverrides(year, flags, meters) {
   const o = {};
   const notes = [];
   const regionNotes = {}; // region id -> explanation text, for tap-to-explain on individual chits
+  function setAll(regions, status, note) {
+    for (const r of regions) o[r] = status;
+    if (note) {
+      notes.push(note);
+      for (const r of regions) regionNotes[r] = note;
+    }
+  }
   function set(region, status, note) {
     o[region] = status;
     if (note) {
@@ -11093,7 +11203,7 @@ function mapOverrides(year, flags, meters) {
     }
   }
   if (flags.openingVector === "southBlitz" && year === 1941) {
-    set("philippines", "contested", "No Pearl Harbor strike on this path: the Pacific Fleet's battleships and carriers remain intact at Hawaii (projection).");
+    set("luzon", "contested", "No Pearl Harbor strike on this path: the Pacific Fleet's battleships and carriers remain intact at Hawaii (projection).");
   }
   if (flags.midwayResult === "disaster" && year >= 1942) {
     if (year >= 1943) set("solomons", "allied", "Four Japanese fleet carriers and their veteran air crews were lost in a single morning at Midway: a loss the carrier air training pipeline never fully replaces.");
@@ -11110,11 +11220,11 @@ function mapOverrides(year, flags, meters) {
     notes.push("The Midway ambush was declined: Japan's carrier fleet sails home undefeated (projection).");
   }
   if (flags.leytePath === "abandonPhilippines" && year >= 1944) {
-    set("philippines", "axis", "The Philippines were conceded without a fleet action at Leyte: the oil route from the Indies is cut months ahead of the historical timetable (projection).");
-    set("indies", "contested", "The Philippines were conceded without a fleet action at Leyte: the oil route from the Indies is cut months ahead of the historical timetable (projection).");
+    setAll(["luzon", "visayas", "mindanao"], "axis", "The Philippines were conceded without a fleet action at Leyte: the oil route from the Indies is cut months ahead of the historical timetable (projection).");
+    setAll(["sumatra", "borneo"], "contested", "The Philippines were conceded without a fleet action at Leyte: the oil route from the Indies is cut months ahead of the historical timetable (projection).");
   }
   if (flags.philippinesPath === "bypassFormosa" && year >= 1944) {
-    set("philippines", "contested", "Formosa was seized in place of the Philippines: Filipino civilians remain under occupation through the war's final year (projection).");
+    setAll(["luzon", "visayas", "mindanao"], "contested", "Formosa was seized in place of the Philippines: Filipino civilians remain under occupation through the war's final year (projection).");
     set("formosa", "contested", "Formosa was seized in place of the Philippines: Filipino civilians remain under occupation through the war's final year (projection).");
   }
   if (flags.endgamePath === "surrenderInquiry" && year === 1945)
@@ -11178,15 +11288,15 @@ function mapOverrides(year, flags, meters) {
   // bothResourced) achieve this same stronger-than-historical Ichi-Go — the difference
   // between them is what happens to the Burma front (U-Go), not to China itself.
   if (flags.mainlandPath && year >= 1944) {
-    set("china", "axis", "A fully-resourced Ichi-Go offensive creates the largest contiguous Japanese-held territory of the entire war: an overland corridor from Manchuria to French Indochina, larger than the historical partial version (projection).");
+    setAll(["hunanGuangxi"], "axis", "A fully-resourced Ichi-Go offensive creates the largest contiguous Japanese-held territory of the entire war: an overland corridor from Manchuria to French Indochina, larger than the historical partial version (projection).");
   }
   // Allied-side China: chinaCrisisResult reflects whether material support to
   // Communist forces actually blunted Ichi-Go's advance or arrived too late to matter.
   if (flags.chinaCrisisResult === "blunted" && year >= 1944) {
-    set("china", "contested", "Material support reaching Communist forces in the north blunts, though doesn't stop, Ichi-Go's advance: real pressure on Japanese supply lines that slows the offensive below its historical scale (projection).");
+    setAll(["hunanGuangxi"], "contested", "Material support reaching Communist forces in the north blunts, though doesn't stop, Ichi-Go's advance: real pressure on Japanese supply lines that slows the offensive below its historical scale (projection).");
   }
   if (flags.chinaCrisisResult === "tooLittle" && year >= 1944) {
-    set("china", "axis", "Material support to Communist forces arrives too late and too thin to meaningfully change a five-hundred-thousand-man offensive's trajectory: Ichi-Go succeeds largely as it did historically (projection).");
+    setAll(["hunanGuangxi"], "axis", "Material support to Communist forces arrives too late and too thin to meaningfully change a five-hundred-thousand-man offensive's trajectory: Ichi-Go succeeds largely as it did historically (projection).");
   }
   // Burma: rangoonAlliedPath/rangoonDefendResult and overlandPath are deliberately
   // notes-only, not status overrides — both nodes' own situation text says the
@@ -11255,23 +11365,23 @@ const NODE_REGION_HINTS = {
   // Note, Casablanca, Tehran, internment, Pacific-First doctrine debates) are left
   // unhinted on purpose — forcing a region onto a node that isn't about one would be
   // the same dishonesty flagged earlier about inventing addressee data.
-  chinaPeaceQuestion40: ["china"],
+  chinaPeaceQuestion40: ["eastChina", "freeChina"],
   hokushinDebate41: ["manchuria", "sovietFarEast"],
-  doolittleAirmen42: ["china"], // verified: captured crews came down in Zhejiang/Jiangxi
+  doolittleAirmen42: ["eastChina"], // verified: captured crews came down in Zhejiang/Jiangxi
   coralSea42: ["newGuinea"], // Port Moresby is the actual objective in this node
   keGoWithdrawal43: ["solomons"], // Ke-Go was the Guadalcanal evacuation
   yamamotoDeath43: ["solomons"], // shot down over Bougainville
-  ichiGoTriumph44: ["china"], // verified: fought across Henan/Hunan/Guangxi
+  ichiGoTriumph44: ["hunanGuangxi", "northChina", "southChina"], // verified: fought across Henan/Hunan/Guangxi
   kantokuenFinalWord46: ["manchuria", "sovietFarEast"],
   curtinsTurn42: ["australia"], // Curtin was Australia's wartime PM
   coralSeaMidwayAllied42: ["midway"], // despite the id, this node's title and content are about Midway itself (Station HYPO, Yorktown's 72-hour repair), not Coral Sea/Port Moresby — the prior hint here ("newGuinea") and the comment claiming "Midway itself has no MAP_REGIONS entry" were both stale; midway has had its own MAP_REGIONS entry all along
   bismarckSea43: ["newGuinea"], // convoy destroyed en route to Lae
-  halseyTyphoon44: ["philippines"], // verified: 300mi east of the Philippines, supporting the Leyte invasion
-  halseyAftermath44: ["philippines"],
+  halseyTyphoon44: ["visayas"], // verified: 300mi east of the Philippines, supporting the Leyte invasion
+  halseyAftermath44: ["visayas"],
   yamamotoIntercept43: ["solomons"], // intercepted near Bougainville
   yamamotoSurvives43: ["pearlHarbor"], // CINCPAC staff-level policy question, not tied to a battle location
-  stilwellUltimatum44: ["china"],
-  stilwellPreserved44: ["china"],
+  stilwellUltimatum44: ["freeChina"],
+  stilwellPreserved44: ["freeChina"],
   hiroshima45: ["japan"],
   kyotoTargetDebate45: ["japan"],
   kyotoStruck45: ["japan"],
@@ -11293,25 +11403,25 @@ const NODE_REGION_HINTS = {
   burmaRangoon42: ["burma"],
   rangoonRetreatAllied42: ["burma"],
   burmaReconquest45: ["burma"],
-  theMainlandCrisis44: ["china", "burma", "india"], // Ichi-Go and U-Go (this hint was keyed to a node id that does not exist)
-  chinaCrisisAllied44: ["china"],
-  chinasWarAlone43: ["china"],
+  theMainlandCrisis44: ["hunanGuangxi", "burma", "india"], // Ichi-Go and U-Go (this hint was keyed to a node id that does not exist)
+  chinaCrisisAllied44: ["hunanGuangxi", "freeChina"],
+  chinasWarAlone43: ["freeChina", "eastChina"],
   britainsCalculus43: ["india", "burma"],
   japanUnopposed43: ["japan"],
-  chinaCivilWarShadow43: ["china"],
-  dutchExileCalculus44: ["indies"],
+  chinaCivilWarShadow43: ["yanan", "freeChina"],
+  dutchExileCalculus44: ["java", "sumatra", "borneo", "celebes", "eastIndies"],
   warWithoutAmerica45: ["manchuria"],
   philippineSea44: ["marianas"],
   philippineSeaAllied44: ["marianas"],
-  onishiKamikaze44: ["philippines"],
-  leyteGulf44: ["philippines"],
-  kuritaAtLeyte44: ["philippines"],
-  leyteBeachheadAftermath44: ["philippines"],
-  philippinesFormosaAllied44: ["philippines", "formosa"],
-  quezonsSuccessor44: ["philippines"],
-  corregidorEvacuation42: ["philippines"],
-  macArthurTension44: ["philippines"],
-  macArthurAftermath44: ["philippines"],
+  onishiKamikaze44: ["luzon"],
+  leyteGulf44: ["visayas"],
+  kuritaAtLeyte44: ["visayas"],
+  leyteBeachheadAftermath44: ["visayas"],
+  philippinesFormosaAllied44: ["luzon", "formosa"],
+  quezonsSuccessor44: ["visayas"],
+  corregidorEvacuation42: ["luzon"],
+  macArthurTension44: ["luzon", "visayas"],
+  macArthurAftermath44: ["luzon", "visayas"],
   iwoJima45: ["iwoJima"],
   iwoJimaAllied45: ["iwoJima"],
   okinawa45: ["okinawa"],
@@ -11324,12 +11434,12 @@ const NODE_REGION_HINTS = {
   savoIslandReckoning42: ["solomons"],
   operationFsCulmination42: ["australia"],
   severSupplyLine42: ["australia"],
-  unhinderedSouth42: ["indies", "malaya"],
-  japanStrikesAgain42: ["indies", "malaya"],
+  unhinderedSouth42: ["java", "sumatra", "borneo", "malaya"],
+  japanStrikesAgain42: ["java", "sumatra", "borneo", "malaya"],
   sovietHokkaido45: ["japan", "sovietFarEast"],
   newWorldOrder45: ["japan"],
   coldWarOpening48: ["japan"],
-  aQuietEmpire45: ["indies", "malaya"],
+  aQuietEmpire45: ["java", "sumatra", "borneo", "malaya"],
 };
 
 // Real coastline/border/region geometry for PacificMap, fetched once and cached —
@@ -11364,10 +11474,18 @@ function ringsPathD(rings) {
     .join(" ");
 }
 
-function PacificMap({ year, accent, flags, meters, nodeId }) {
-  const maxYear = Math.max(1939, Math.min(1945, year));
-  const [scrubYear, setScrubYear] = useState(maxYear);
-  const clampedYear = Math.max(1939, Math.min(maxYear, scrubYear));
+// `date` is the report's own date (the map shows the state on the day it opens); `atEnd` shows the war as it ended; `year` is the fallback for a
+// caller with only a year. The slider steps back month by month to January 1940.
+function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
+  const MIN_MONTH = 1940 * 12;
+  const maxKey = atEnd ? 19451231 : nodeDayKey(date) || (year ? Math.max(1940, Math.min(1945, year)) * 10000 + 101 : 19450101);
+  const monthOf = (key) => Math.floor(key / 10000) * 12 + (Math.floor(key / 100) % 100) - 1;
+  const maxMonth = Math.max(MIN_MONTH, monthOf(maxKey));
+  const [scrubMonth, setScrubMonth] = useState(maxMonth);
+  const month = Math.max(MIN_MONTH, Math.min(maxMonth, scrubMonth));
+  const dayKey = month === maxMonth ? maxKey : Math.floor(month / 12) * 10000 + ((month % 12) + 1) * 100 + 1;
+  const monthLabel = atEnd && month === maxMonth ? "The war as it ended" : `${MAP_MONTH_NAMES[month % 12]} ${Math.floor(month / 12)}`;
+  const clampedYear = Math.floor(dayKey / 10000);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [geometry, setGeometry] = useState(null);
   const [geometryFailed, setGeometryFailed] = useState(false);
@@ -11378,7 +11496,7 @@ function PacificMap({ year, accent, flags, meters, nodeId }) {
       .catch(() => { if (!cancelled) setGeometryFailed(true); });
     return () => { cancelled = true; };
   }, []);
-  const base = MAP_YEAR_STATUS[clampedYear] || MAP_YEAR_STATUS[1940];
+  const base = baselineStatuses(dayKey);
   const { o, notes, regionNotes } = mapOverrides(clampedYear, flags, meters);
   const statuses = { ...base, ...o };
   const usedStatuses = [...new Set(Object.values(statuses))];
@@ -11397,26 +11515,27 @@ function PacificMap({ year, accent, flags, meters, nodeId }) {
       className="text-[11px] uppercase tracking-widest text-[#000000] font-semibold mb-1 flex items-center justify-between flex-wrap gap-2"
       style={{ fontFamily: "'IBM Plex Mono', monospace" }}
     >
-      <span>Pacific Situation · End of {clampedYear} · Theater Map</span>
-      {maxYear > 1939 && (
+      <span>Pacific Situation · {monthLabel} · Theater Map</span>
+      {maxMonth > MIN_MONTH && (
         <span className="flex items-center gap-2 normal-case tracking-normal font-normal">
           <input
             type="range"
-            min={1939}
-            max={maxYear}
-            value={clampedYear}
-            onChange={(e) => { setScrubYear(Number(e.target.value)); setSelectedRegion(null); }}
-            aria-label={`View year: ${clampedYear}`}
+            min={MIN_MONTH}
+            max={maxMonth}
+            value={month}
+            onChange={(e) => { setScrubMonth(Number(e.target.value)); setSelectedRegion(null); }}
+            aria-label={`View month: ${monthLabel}`}
+            aria-valuetext={monthLabel}
             className="w-28 sm:w-40 accent-current"
             style={{ accentColor: accent }}
           />
-          {clampedYear !== maxYear && (
+          {month !== maxMonth && (
             <button
-              onClick={() => setScrubYear(maxYear)}
+              onClick={() => setScrubMonth(maxMonth)}
               className="text-[10px] uppercase tracking-widest border px-2 py-[2px]"
               style={{ borderColor: accent, color: accent, fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Back to {maxYear}
+              Back to {atEnd ? "the end" : `${MAP_MONTH_NAMES[maxMonth % 12]} ${Math.floor(maxMonth / 12)}`}
             </button>
           )}
         </span>
@@ -12011,6 +12130,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
             </summary>
             <div className="mt-3">
               <PacificMap
+                date={stage.date}
                 year={yearFrom(stage.date, 1941)}
                 flags={flags}
                 meters={meters}
@@ -12684,7 +12804,8 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                 Pacific Situation: the war actually fought
               </summary>
               <PacificMap
-                year={yearFrom(lastLogDate, 1945)}
+                date={lastLogDate}
+                atEnd
                 flags={flags}
                 meters={meters}
                 accent={campaign.accent}
@@ -12978,7 +13099,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                   {reviewStep >= snaps.length ? "The war as it ended." : `Before the report ${reviewStep + 1} of ${snaps.length}: ${reviewView.title || ""}${reviewView.date ? " (" + reviewView.date + ")" : ""}.`}
                 </p>
               )}
-              <PacificMap key={reviewStep} year={reviewView.year} flags={reviewView.flags} meters={reviewView.meters} accent={campaign.accent} nodeId={reviewView.nodeId} />
+              <PacificMap key={reviewStep} date={reviewView.date} year={reviewView.year} atEnd={reviewStep >= snaps.length} flags={reviewView.flags} meters={reviewView.meters} accent={campaign.accent} nodeId={reviewView.nodeId} />
             </div>
           </details>
         )}

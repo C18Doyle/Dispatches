@@ -4,6 +4,7 @@
 // missing import or a mistyped registry name is a ReferenceError only when that screen is reached (a battle's, say). This type-checks the
 // assembled file as plain JavaScript and fails on any "Cannot find name" (TS2304 / TS2552). Every other diagnostic is ignored: the file
 // is not typed, and most of them are about that.
+process.noDeprecation = true; // spawning npx through a shell on Windows prints a deprecation notice that is not about this script
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
