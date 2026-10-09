@@ -99,7 +99,7 @@ export function report(name, result, allowlistPath) {
  *   - atlas size differs from the game's NODE_TOTAL                            -> problem
  *   - an authored ending (endingsOf: an id, or {id, title} for endings reached through a redirecting node,
  *     matched by the resolved title) that no state reaches                     -> problem
- * `labelOf(camp, flags, meters)` (optional) names the ending of a run that stops at the given state, as a campaign's positionLabel does;
+ * `labelOf(camp, flags, meters)` (optional) names the ending of a run that stops at the given state, as a campaign's positionLabel does (a list when hard-mode flags can change it);
  *   with it the search records every label a run can end with at the meter samples, returned in info.labels[campaign], and `labelsOf(camp, cid)`
  *   (the labels the game promises) turns a promised label no state produces into a problem.
  * `startFlags` lists the flag sets a run can begin with (default one empty set; 1940 passes {} and { hardMode: true }, because
@@ -181,8 +181,7 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
                 if (typeof d === "string" && END.has(d) && labelOf) {
                   for (const mm of meters) {
                     try {
-                      const lab = labelOf(camp, reads ? watched(nf, reads) : nf, mm);
-                      if (lab) labels.add(lab);
+                      for (const lab of [].concat(labelOf(camp, reads ? watched(nf, reads) : nf, mm))) if (lab) labels.add(lab);
                     } catch {
                       /* a label that needs state we do not model */
                     }
@@ -270,8 +269,7 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
           }
           if (labelOf && (typeof dest !== "string" || END.has(dest))) {
             try {
-              const lab = labelOf(camp, flags, Object.fromEntries(keys.map((k) => [k, draw()])));
-              if (lab) labels.add(lab);
+              for (const lab of [].concat(labelOf(camp, flags, Object.fromEntries(keys.map((k) => [k, draw()]))))) if (lab) labels.add(lab);
             } catch {
               /* ignore */
             }

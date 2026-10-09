@@ -3755,7 +3755,6 @@ const CAMPAIGNS = {
       if (flags.peaceShapeResult === "held") return "The War That Ended in 1942, On Japan's Terms";
       if (flags.peaceShapeResult === "collapsed") return "The Peace That Asked for Too Much";
       if (flags.strongerHandResult === "exploited") return "Strength Read as Weakness";
-      if (flags.strongerHandPath === "holdLine") return "The Line Not Moved";
       if (flags.termsPath === "throne") return "The One Term That Held";
       if (flags.termsPath === "broader") return "Terms Worth Having";
       if (flags.beachheadPath === "fullBombardment") return "The Beach Kurita Reached";
@@ -3766,7 +3765,6 @@ const CAMPAIGNS = {
       if (flags.kantokuenFinalPath === "wrongGamble") return "The Lesson Nomonhan Taught Twice";
       if (flags.rommelPath === "pressAnyway") return "A Coordination That Arrived Too Late";
       if (flags.rommelPath === "recall") return "The Fleet That Turned for Home";
-      if (flags.pacificWonPath === "indianOcean") return "Two Empires, Two Different Wars";
       if (flags.pacificWonPath === "harden") return "The Gift Yamamoto Asked For";
       if (flags.quietEmpirePath === "standDown" && flags.coldWarPath === "align") return "A Quiet Empire, Quietly Courted";
       if (flags.quietEmpirePath === "standDown" && flags.coldWarPath === "holdLine") return "The War That Waited, Still Waiting";
@@ -3777,20 +3775,13 @@ const CAMPAIGNS = {
       if (flags.quietEmpirePath === "armedNeutrality" && flags.coldWarPath === "align") return "A Militia Empire, Courted Anyway";
       if (flags.quietEmpirePath === "armedNeutrality" && flags.coldWarPath === "holdLine") return "Cheap Deterrence, Held on Principle";
       if (flags.quietEmpirePath === "armedNeutrality" && flags.coldWarPath === "formalProposal") return "The Swiss Model, Offered as Leverage";
-      if (flags.quietEmpirePath === "standDown") return "The War That Waited";
       if (flags.quietEmpirePath === "permanentReadiness") return "Armed Against a Ghost";
-      if (flags.quietEmpirePath === "armedNeutrality") return "A Different Kind of Ready";
       if (flags.moscowResult === "neutralityHolds") return "The War Moscow Sat Out";
       if (flags.moscowPath === "concessions") return "A Price Already Paid to Someone Else";
       if (flags.endgamePath === "surrenderInquiry") return "The Peace Nobody Was Ready For";
-      if (flags.endgamePath === "purgePeaceFaction") return "The Check Removed Before It Was Needed";
-      if (flags.endgamePath === "ketsuGo") return "One Hundred Million, Together";
-      if (flags.endgamePath === "pineRootDiversion") return "Two Hundred Roots, One Hour";
-      if (flags.endgamePath === "totalMobilization") return "The Line Nobody Had to Cross";
       if (flags.finalPath === "lastStand") return "The Fleet's Last Sortie";
       if (flags.finalPath === "leverage") return "A Navy Held Hostage to Its Own Survival";
       if (flags.longWarPath === "terms") return "Peace Bought With What Remained";
-      if (flags.longWarPath === "ketsuGoRegardless") return "Spent Regardless of the Reason";
       return "A Different Command";
     },
     epilogue(flags, meters) {
@@ -6867,10 +6858,6 @@ const CAMPAIGNS = {
       if (flags.yamamotoInterceptPath === "declined") return "The Admiral Who Wasn't Removed";
       if (flags.peleliuPath === "cancelled") return "The Landing That Never Happened";
       if (flags.stilwellFatePath === "preserved") return "The General Who Stayed";
-      if (flags.chinaAloneAidResult === "shifted") return "The Stalemate That Finally Moved";
-      if (flags.chinaAloneAidPath === "materiel") return "Everything But the Declaration";
-      if (flags.chinaAloneAidPath === "none") return "Europe First, Meant Literally";
-      if (flags.chinaAloneAidPath === "volunteers") return "Mercenaries in Everything But Name";
       if (flags.halseyAftermathPath === "singleDoctrine") return "One Doctrine, No Second Chair";
       if (flags.halseyAftermathPath === "restoredAlternation") return "A Less Famous Hand on the Wheel";
       if (flags.occupationPath === "singleAuthority") return "Command Without Its Commander";
@@ -6881,7 +6868,6 @@ const CAMPAIGNS = {
       if (flags.hokkaidoPath === "refused" && flags.emperorPath === "prosecute") return "One Occupation, No Exceptions";
       if (flags.differentPacificFinalPath === "acceptTrade") return "The Cost of the Other Road";
       if (flags.differentPacificFinalPath === "acceptUncertainty") return "An Honest Silence at the End";
-      if (flags.philippinesPath === "bypassFormosa") return "Manila, Left Behind";
       return "A Different Command";
     },
     epilogue(flags, meters) {
@@ -7743,24 +7729,19 @@ const ENDINGS_GALLERY = [
   { campaign: "IGHQ", label: "The Fleet's Last Sortie", hint: "Philippines abandoned at Leyte; the preserved fleet spent in home waters." },
   { campaign: "IGHQ", label: "A Navy Held Hostage to Its Own Survival", hint: "Philippines abandoned at Leyte; the preserved fleet held for the negotiating table." },
   { campaign: "IGHQ", label: "Peace Bought With What Remained", hint: "A carrier-preserved 1945; terms sought from real remaining strength." },
-  { campaign: "IGHQ", label: "Spent Regardless of the Reason", hint: "A carrier-preserved 1945; committed to Ketsu-Go regardless." },
   { campaign: "IGHQ", label: "The Gift Yamamoto Asked For", hint: "A decisive Midway win, spent hardening the resource empire instead." },
   { campaign: "IGHQ", label: "A Coordination That Arrived Too Late", hint: "A decisive Midway win, pressed into the Indian Ocean: Rommel already beaten by the time the fleet arrives." },
   { campaign: "IGHQ", label: "The Fleet That Turned for Home", hint: "A decisive Midway win, recalled from the Indian Ocean rather than spent on a losing partner." },
   { campaign: "IGHQ", label: "A Quiet Empire, Quietly Courted", hint: "Pearl Harbor bypassed, war footing stood down; the Cold War eventually offers recognition, and it's accepted." },
   { campaign: "IGHQ", label: "An Unoccupied Japan Names Its Own Price", hint: "Pearl Harbor bypassed, war footing stood down; a formal Cold War proposal is made outright rather than just accepted." },
   { campaign: "IGHQ", label: "The War That Waited, Still Waiting", hint: "Pearl Harbor bypassed, war footing stood down; the Cold War's opening is declined." },
-  { campaign: "IGHQ", label: "A Different Kind of Ready", hint: "Pearl Harbor bypassed; a Swiss-model armed neutrality chosen over full demobilization or permanent war footing." },
   { campaign: "IGHQ", label: "A Militia Empire, Courted Anyway", hint: "Pearl Harbor bypassed, armed neutrality kept modest; the Cold War eventually offers alignment, and it's accepted." },
   { campaign: "IGHQ", label: "Cheap Deterrence, Held on Principle", hint: "Pearl Harbor bypassed, armed neutrality kept modest; the Cold War's opening is declined on principle." },
   { campaign: "IGHQ", label: "The Swiss Model, Offered as Leverage", hint: "Pearl Harbor bypassed, armed neutrality kept modest; a formal Cold War proposal is made outright." },
   { campaign: "IGHQ", label: "Armed for a War That Became an Alliance", hint: "Pearl Harbor bypassed, permanent war footing kept; the Cold War eventually offers alignment, and it's accepted." },
   { campaign: "IGHQ", label: "Two Decades of Readiness, Finally Spent on Paper", hint: "Pearl Harbor bypassed, permanent war footing kept; a formal Cold War proposal made from that same readiness." },
   { campaign: "IGHQ", label: "Armed Against a Ghost", hint: "Pearl Harbor bypassed, permanent war footing kept; the Cold War's opening is declined too." },
-  { campaign: "IGHQ", label: "The War That Waited", hint: "Pearl Harbor bypassed, war footing stood down entirely: the Cold War's opening never actually resolves." },
   { campaign: "IGHQ", label: "A Price Already Paid to Someone Else", hint: "The southern Kurils offered directly to Moscow: already promised those same islands for free at Yalta months earlier." },
-  { campaign: "IGHQ", label: "The Line Nobody Had to Cross", hint: "Ketsu-Go's final chapter: total mobilization past the historical conscription law's own exemptions." },
-  { campaign: "IGHQ", label: "Two Hundred Roots, One Hour", hint: "Ketsu-Go's final chapter: the navy's last fuel policy, pine-root oil and total clarity about what's left." },
   { campaign: "IGHQ", label: "Held to the Last Man, Lost to the Ledger", hint: "Kantokuen, fought to its bitter end and defended anyway." },
   { campaign: "IGHQ", label: "The Lesson Nomonhan Taught Twice", hint: "Kantokuen's final chapter: a direct admission the gamble was wrong." },
   { campaign: "IGHQ", label: "Deposed by Their Own Hardliners", hint: "Fanatical Resolve Mode: insubordination maxed out before the war reached its final phase." },
@@ -7768,7 +7749,6 @@ const ENDINGS_GALLERY = [
   { campaign: "IGHQ", label: "The War That Ended in 1942, On Japan's Terms", hint: "The 1942 peace holds a broader Japanese sphere through a harder, successful negotiation." },
   { campaign: "IGHQ", label: "The Peace That Asked for Too Much", hint: "The 1942 peace bid collapses when the negotiation asks for more than Washington will grant." },
   { campaign: "IGHQ", label: "Strength Read as Weakness", hint: "Negotiated from genuine strength; Washington reads the strong offer as an opening to press harder." },
-  { campaign: "IGHQ", label: "The Line Not Moved", hint: "Negotiated from genuine strength; held the territorial line rather than concede China." },
   { campaign: "IGHQ", label: "The One Term That Held", hint: "Negotiated from genuine strength at readiness/pipeline surplus; the throne held as the sole term." },
   { campaign: "IGHQ", label: "Terms Worth Having", hint: "Negotiated from genuine strength at readiness/pipeline surplus; broader terms pressed and asked for." },
   { campaign: "IGHQ", label: "The Beach Kurita Reached", hint: "Kurita presses through at Leyte instead of withdrawing; full bombardment of the beachhead." },
@@ -7782,10 +7762,6 @@ const ENDINGS_GALLERY = [
   { campaign: "CINCPAC", label: "The Fleet the Act Built Anyway", hint: "The slower declaration's own first contact: a less urgently trained force wins on matériel and numbers regardless." },
   { campaign: "CINCPAC", label: "What Urgency Was Actually Worth", hint: "The slower declaration's own first contact: the training gap costs more than the fleet's equipment advantage covers." },
   { campaign: "CINCPAC", label: "First Contact, Held", hint: "The slower declaration's own first contact: reconnaissance chosen over a decisive engagement neither side is ready to risk." },
-  { campaign: "CINCPAC", label: "The Stalemate That Finally Moved", hint: "Pearl Harbor never happened; matériel-only aid to China, and the rarer roll, it actually works." },
-  { campaign: "CINCPAC", label: "Everything But the Declaration", hint: "Pearl Harbor never happened; Europe First held, with matériel-only aid sent to China." },
-  { campaign: "CINCPAC", label: "Europe First, Meant Literally", hint: "Pearl Harbor never happened; Europe First held completely, with no aid sent to China." },
-  { campaign: "CINCPAC", label: "Mercenaries in Everything But Name", hint: "Pearl Harbor never happened; American pilots resign their commissions to fly for China as technical mercenaries." },
   { campaign: "CINCPAC", label: "Manchuria, Not Hiroshima", hint: "Pearl Harbor never happened; the war ends on the Soviet Union's own timetable, no atomic bomb ever built." },
   { campaign: "CINCPAC", label: "A Seat Bought Late", hint: "Pearl Harbor never happened; Washington reenters the conversation only at the very end." },
   { campaign: "CINCPAC", label: "Stimson's Warning, Answered", hint: "Kyoto, not Hiroshima, took the first weapon: occupation policy responds with real cultural preservation commitment." },
@@ -7795,7 +7771,6 @@ const ENDINGS_GALLERY = [
   { campaign: "CINCPAC", label: "The General Who Stayed", hint: "Stilwell stays in China on a narrower mandate: Ichi-Go succeeds regardless." },
   { campaign: "CINCPAC", label: "The Cost of the Other Road", hint: "A divergent mid-war; the historical ending reasserts itself, cost acknowledged." },
   { campaign: "CINCPAC", label: "An Honest Silence at the End", hint: "A divergent mid-war; honest uncertainty about Washington's actual calculus." },
-  { campaign: "CINCPAC", label: "Manila, Left Behind", hint: "The Philippines, bypassed for Formosa." },
   { campaign: "CINCPAC", label: "Japan, Kept Whole", hint: "Stalin's Hokkaido request refused; the Emperor's throne preserved. What actually happened." },
   { campaign: "CINCPAC", label: "One Occupation, No Exceptions", hint: "Stalin's Hokkaido request refused; the Emperor prosecuted alongside his war cabinet." },
   { campaign: "CINCPAC", label: "A Second Korea, A Kept Throne", hint: "Stalin's Hokkaido request granted; the Emperor's throne preserved regardless." },
