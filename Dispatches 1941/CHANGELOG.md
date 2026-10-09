@@ -7,6 +7,8 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased (2026-10)
 ### Changed
+- **Shortages change the odds.** A meter below -4 takes points of probability off the best outcome of the contested decisions that put that meter at stake (not battles, which weigh their own shortages), and each point owed adds half a point more, up to 12. The decision says so in red before you choose ("Strain: Pipeline short, so the odds are 7 points worse for it"), and the roll uses the same weights. A decision is about the meter its check names, else the one its outcomes move most.
+- **A meter at the floor keeps its debt.** What a cost takes below -10 is owed (up to 3 points, kept in the save), and later gains pay it before they raise the meter, so ten points of debt and one good decision no longer reads -9.
 - **The end screen shows a command rank** (Private to General, out of 100) built from five things the player can see: how the war ended, the condition the command was left in, the battles (graded by how the plan held up), the decisions against the historical ones, and the objectives. Being removed from command holds it at Lieutenant, and Easy cannot reach General. The older style label ("The Fireman") stays beside it.
 - **The end screen carries the theater map** with a slider to review the war report by report.
 - **Five contested rolls that ignored the state of the war now respond to a meter** (the Moscow channel, the embargo, the early vote, the looser intelligence standard, the Tarawa hearing), as the other 36 already did. Data nodes can name a `rollMeter`.

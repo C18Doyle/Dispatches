@@ -41,6 +41,10 @@ export interface Choice {
   historical?: boolean;
   advisor?: { name: string; quote?: string };
   keyBattleSubgame?: { id: string } & Record<string, unknown>;
+  gateCheck?: { meter?: string; threshold?: number; label?: string };
+  checkLabel?: string;
+  concealRoll?: boolean;
+  strain?: Strain;
 }
 
 export interface Stage {
@@ -117,6 +121,75 @@ export function applyDoctrineImpact(meters: Meters, impact: Impact): Meters {
     pipeline: clampMeter(meters.pipeline + (impact.pipeline || 0)),
     initiative: meters.initiative + (impact.initiative || 0),
   };
+}
+
+// ---------- Arrears and strain ----------
+// A meter stops at -10, so a long run of costs once the meter is already there used to vanish: the player could pile up ten points of debt, make
+// one good decision and see the meter read -9. Arrears keep the debt. Whatever a decision takes from a meter below -10 is owed (up to ARREARS_CAP),
+// and the next gains on that meter pay the debt before they raise it. They live in the flags, so saves and rewinds carry them.
+export const ARREARS_CAP = 3;
+export const ARREARS_FLAGS: Record<keyof Meters, string> = { readiness: "arrearsReadiness", pipeline: "arrearsPipeline", initiative: "arrearsInitiative" };
+export function arrearsOf(flags: Flags, meter: keyof Meters): number {
+  return Math.max(0, Number(flags[ARREARS_FLAGS[meter]]) || 0);
+}
+
+// Strain: shortages change the odds. A meter below -4 takes points of probability off the best outcome of the contested decisions that put that
+// meter at stake (not battles, which weigh their own shortages), and each point owed on it adds half a point more. Shown on the decision itself, so
+// the player sees what the shortage is costing before choosing.
+export interface Strain {
+  points: number;
+  causes: string[];
+}
+const STRAIN_MAX = 12;
+const METER_LABELS: Record<keyof Meters, string> = { readiness: "Readiness", pipeline: "Pipeline", initiative: "Initiative" };
+const CHECK_LABEL_METER: Record<string, keyof Meters> = { Readiness: "readiness", Pipeline: "pipeline", Initiative: "initiative" };
+const METER_KEYS: (keyof Meters)[] = ["readiness", "pipeline", "initiative"];
+
+/** The meter a contested choice puts at stake: the one its check names, else the one its outcomes move most. */
+export function strainMeterOf(choice: Choice): keyof Meters | null {
+  const label = (choice.gateCheck && choice.gateCheck.label) || choice.checkLabel;
+  const named = label ? CHECK_LABEL_METER[label] : undefined;
+  if (named) return named;
+  const impacts = choice.uncertain && choice.uncertain.length ? choice.uncertain.map((u) => u.impact || choice.impact) : [choice.impact];
+  const moved: Record<keyof Meters, number> = { readiness: 0, pipeline: 0, initiative: 0 };
+  for (const imp of impacts) for (const k of METER_KEYS) moved[k] += Math.abs((imp && imp[k]) || 0);
+  const best = METER_KEYS.reduce((a, k) => (moved[k] > moved[a] ? k : a));
+  return moved[best] > 0 ? best : null;
+}
+
+/** The strain on a decision. With `meter` it is the shortage of that meter alone (and what is owed on it); without, of all three. */
+export function strainOf(flags: Flags, meters: Meters, meter?: keyof Meters | null): Strain {
+  const lack = (v: number) => Math.max(0, -v - 4);
+  const keys: (keyof Meters)[] = meter ? [meter] : METER_KEYS;
+  const owed = keys.reduce((a, k) => a + arrearsOf(flags, k), 0);
+  const raw = keys.reduce((a, k) => a + lack(meters[k]) * (k === "initiative" ? 0.6 : 1.2), 0) + owed * 0.5;
+  const causes = keys.filter((k) => meters[k] <= -5 || arrearsOf(flags, k) > 0).map((k) => METER_LABELS[k]);
+  return { points: Math.min(STRAIN_MAX, Math.round(raw)), causes };
+}
+
+/**
+ * The stage with the odds of its contested choices worsened by strain: probability moves from the choice's best outcome (by the sum of its meter
+ * impact) to its worst. Choices that open an Order of Battle keep their own arithmetic, and a choice whose outcomes cost the same is left alone.
+ * The result is what the player is shown and what is rolled, so the two can never disagree.
+ */
+export function strainStage<T extends Stage | null | undefined>(stage: T, flags: Flags, meters: Meters): T {
+  if (!stage || !stage.choices) return stage;
+  const choices = stage.choices.map((choice): Choice => {
+    const u = choice.uncertain;
+    if (!u || u.length < 2 || choice.keyBattleSubgame) return choice;
+    const strain = strainOf(flags, meters, strainMeterOf(choice));
+    if (!strain.points) return choice;
+    const sums = u.map((v) => impactSum(v.impact || choice.impact));
+    const best = sums.indexOf(Math.max(...sums));
+    const worst = sums.indexOf(Math.min(...sums));
+    if (best === worst || sums[best] === sums[worst]) return choice;
+    const total = u.reduce((a, v) => a + v.weight, 0);
+    const moved = Math.min(u[best].weight - total * 0.05, (total * strain.points) / 100);
+    if (moved <= 0) return choice;
+    const uncertain = u.map((v, i) => (i === best ? { ...v, weight: v.weight - moved } : i === worst ? { ...v, weight: v.weight + moved } : v));
+    return { ...choice, uncertain, strain };
+  });
+  return { ...stage, choices } as T;
 }
 
 // Each of the three meters is one number that the rules use. Under each sit three readings the player can see: where the
@@ -476,11 +549,30 @@ export function resolveChoice(args: {
       initiative: (imp.initiative || 0) + stacked(imp.initiative || 0, plan.initiative || 0),
     };
   }
+  // Arrears: gains pay what is owed on a meter before they raise it, and what a cost takes below the floor is owed.
+  let meters = args.meters;
+  if (impact) {
+    const settled: Meters = { readiness: impact.readiness || 0, pipeline: impact.pipeline || 0, initiative: impact.initiative || 0 };
+    for (const mk of METER_KEYS) {
+      const key = ARREARS_FLAGS[mk];
+      const owedBefore = arrearsOf(flags, mk);
+      let owed = owedBefore;
+      if (settled[mk] > 0 && owed > 0) {
+        const pay = Math.min(owed, settled[mk]);
+        settled[mk] -= pay;
+        owed -= pay;
+      }
+      const raw = args.meters[mk] + settled[mk];
+      if (raw < METER_MIN) owed = Math.min(ARREARS_CAP, owed + (METER_MIN - raw));
+      if (owed !== owedBefore) flags = { ...flags, [key]: owed };
+    }
+    meters = applyImpact(args.meters, settled);
+  }
   return {
     favor,
     defiance,
     flags,
-    meters: applyImpact(args.meters, impact),
+    meters,
     rollIndex,
     choiceIndex: index,
     battle: resolvedWeights ? { weights: resolvedWeights, baseWeights: baseWeights as number[], planCosts } : null,

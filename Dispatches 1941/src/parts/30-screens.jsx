@@ -3202,6 +3202,13 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
                   </span>
                 )
               )}
+              {choice.strain && choice.strain.points > 0 && (
+                <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <span aria-hidden="true">▼ </span>
+                  Strain: {choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : "supplies short"}
+                  {choice.concealRoll ? ", and the odds are worse for it" : `, so the odds are ${choice.strain.points} points worse for it`}
+                </span>
+              )}
               {choice.uncertain && !choice.concealRoll && (
                 <span
                   className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
