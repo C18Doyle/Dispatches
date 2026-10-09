@@ -75,7 +75,7 @@ export function playWar(game, campaignId, mode, rnd, { onChoice, uniformRolls = 
   while (pos && pos !== "END" && steps++ < 400) {
     let stage = camp.resolveNode(pos, flags, meters);
     if (!stage) throw new Error(`${campaignId}: node ${pos} does not resolve`);
-    stage = logic.playableStage(stage, mode, 5);
+    stage = logic.strainStage(logic.playableStage(stage, mode, 5), flags, meters);
     const open = stage.choices.map((c, i) => [c, i]).filter(([c]) => !c.disabledReason);
     // greedy > 0: with that probability take the choice that helps the meters most (reaches the branches gated on strong meters)
     const worth = (c) => (c.uncertain && c.uncertain.length ? c.uncertain.reduce((a, v) => a + logic.impactSum(v.impact || c.impact), 0) / c.uncertain.length : logic.impactSum(c.impact));

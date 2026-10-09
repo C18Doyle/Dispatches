@@ -36,7 +36,7 @@ function historicalWar(cid) {
   let meters = { ...logic.EMPTY_METERS };
   let pos = camp.start;
   for (let steps = 0; pos && pos !== "END" && steps < 400; steps++) {
-    const stage = logic.playableStage(camp.resolveNode(pos, flags, meters), "open", 5);
+    const stage = logic.strainStage(logic.playableStage(camp.resolveNode(pos, flags, meters), "open", 5), flags, meters);
     const open = stage.choices.map((c, i) => [c, i]).filter(([c]) => !c.disabledReason);
     const [, index] = open.find(([c]) => c.historical) || open[0];
     const res = logic.resolveChoice({ stage, index, mode: "open", favor: 5, defiance: 0, flags, meters, rand: rnd });

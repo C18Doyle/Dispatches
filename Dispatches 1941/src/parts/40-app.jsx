@@ -74,7 +74,8 @@ function WW2CommandInner() {
   const stage = useMemo(() => {
     if (!campaign) return null;
     // Necessity rule lives in logic.ts (playableStage): a node can never dead-end.
-    return playableStage(resolveStage(campaign, position, flags, meters), mode, favor);
+    // The odds of a contested decision are worsened by shortages (strainStage), here and so in what is rolled.
+    return strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters);
   }, [campaign, position, flags, meters, mode, favor]);
 
   // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as the

@@ -16,6 +16,9 @@ import {
   commandRating,
   endingCeiling,
   COMMAND_RANKS,
+  arrearsOf,
+  strainStage,
+  strainOf,
 } from "./logic";
 
 // ---------- STORAGE POLYFILL (real-browser / Electron deployment) ----------

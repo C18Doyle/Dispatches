@@ -20,6 +20,9 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 - Flags a battle writes: `<id>Grade`, `<id>Counter`, `<id>PlanNeglected`, `<id>PlanCommander`, `<id>Staff`, `<id>Posture`, `<id>Dec_*`. A save made inside a battle carries a `battle` field (`restoreBattleSave`).
 - `npm run check-undefined` is the guard for names shared between parts.
 
+## Strain and arrears
+- `strainStage` (logic.ts) worsens the odds of a contested choice by the shortage of the meter it is about (`strainMeterOf`: its `gateCheck` label, else the meter its outcomes move most); the app and the audits (`audit-lib.mjs`, `check-endings.mjs`) run every stage through it, so what is shown is what is rolled. `resolveChoice` keeps arrears (`arrearsReadiness`, `arrearsPipeline`, `arrearsInitiative`, capped at 3) for what a cost takes below -10. The flags are set aside in the engine equivalence test (`TALLY_FLAGS`) and in `check-reachability`.
+
 ## The map
 - `assets/maps/pacific-regions.json` is written by `tools/build_pacific_map_geometry.py` (Python, needs shapely; this machine has none) and then split by `node tools/split-pacific-zones.mjs` (China into 8 zones, the Indies into 5, the Philippines into 3; the Manchuria pin becomes a polygon). The split refuses to run twice (`meta.zonesSplit`); `--check` prints the area and landmark report (every city in `LANDMARKS` must fall in its zone). Zone borders are straight lines, listed with their reasons in the tool's ZONES table.
 - `MAP_TIMELINE` (30-screens) holds each region's [date, status] entries; `baselineStatuses(dayKey)` gives the state the day before a report opens; `MAP_YEAR_STATUS` is derived. `mapOverrides` (run-specific changes) is still year-level. A new region needs geometry, a MAP_REGIONS entry, a timeline, MAP_EDGES, hints, and both command tables in 20-registries; `npm run check-map` fails on any that is missing.

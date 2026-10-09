@@ -16,6 +16,9 @@ import {
   commandRating,
   endingCeiling,
   COMMAND_RANKS,
+  arrearsOf,
+  strainStage,
+  strainOf,
 } from "./logic";
 
 // ---------- STORAGE POLYFILL (real-browser / Electron deployment) ----------
@@ -12412,6 +12415,13 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
                   </span>
                 )
               )}
+              {choice.strain && choice.strain.points > 0 && (
+                <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <span aria-hidden="true">▼ </span>
+                  Strain: {choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : "supplies short"}
+                  {choice.concealRoll ? ", and the odds are worse for it" : `, so the odds are ${choice.strain.points} points worse for it`}
+                </span>
+              )}
               {choice.uncertain && !choice.concealRoll && (
                 <span
                   className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
@@ -15304,7 +15314,8 @@ function WW2CommandInner() {
   const stage = useMemo(() => {
     if (!campaign) return null;
     // Necessity rule lives in logic.ts (playableStage): a node can never dead-end.
-    return playableStage(resolveStage(campaign, position, flags, meters), mode, favor);
+    // The odds of a contested decision are worsened by shortages (strainStage), here and so in what is rolled.
+    return strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters);
   }, [campaign, position, flags, meters, mode, favor]);
 
   // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as the
