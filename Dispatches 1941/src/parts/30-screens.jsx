@@ -1069,7 +1069,7 @@ const ADVISOR_TITLE = {
   MacArthur: "Gen.", Marshall: "Gen.", Stilwell: "Gen.",
   Yamamoto: "Adm.", Nagano: "Adm.", Ugaki: "Adm.", Toyoda: "Adm.", Yonai: "Adm.",
   Tojo: "Gen.", Sugiyama: "Gen.", Umezu: "Gen.",
-  Togo: "F.M.", // Shigenori Togo, Foreign Minister
+  Togo: "F.M.", // Shigenori Togo, Foreign Minister (see ADVISOR_TITLE_BY_DATE)
   // Extended this session — the same 62 advisors quoted throughout the file had no
   // title mapping at all, rendering as bare surnames while these 15 got proper rank
   // prefixes, an inconsistency of omission rather than editorial choice. Same standard
@@ -1089,13 +1089,38 @@ const ADVISOR_TITLE = {
   Roosevelt: "Pres.", Truman: "Pres.", Churchill: "P.M.", Attlee: "P.M.",
   Curtin: "P.M.", Osmeña: "Pres.",
   Stimson: "Sec.", Hull: "Sec.", Knox: "Sec.", McCloy: "Sec.", Biddle: "A.G.",
-  Acheson: "Mr.", Davies: "Mr.", Hurley: "Amb.", Grew: "Amb.", Yoshida: "Amb.",
-  Kistiakowsky: "Dr.", Compton: "Dr.",
+  Acheson: "Mr.", Davies: "Mr.", Hurley: "Amb.", Grew: "Amb.",
+  Kistiakowsky: "Dr.", Franck: "Dr.", Compton: "Dr.",
   Webb: "Justice", // Sir William Webb, president of the Tokyo Tribunal
   Slim: "Gen.", Blamey: "Gen.",
 };
-function advisorAttribution(name) {
-  const title = ADVISOR_TITLE[name];
+// Titles that depend on the month: [from, until, title], year-month. An empty title means the person held no post worth naming then.
+const ADVISOR_TITLE_BY_DATE = {
+  Togo: [["1941-10", "1942-09", "F.M."], ["1942-10", "1945-03", ""], ["1945-04", "1945-08", "F.M."], ["1945-09", "1950-12", ""]], // Foreign Minister, twice
+  Terauchi: [["1900-01", "1943-05", "Gen."], ["1943-06", "1946-12", "F.M."]], // Field Marshal from June 1943
+  Hull: [["1933-03", "1944-11", "Sec."], ["1944-12", "1950-12", ""]], // resigned as Secretary of State in November 1944
+  Hurley: [["1940-01", "1944-10", "Gen."], ["1944-11", "1945-11", "Amb."]], // Ambassador to China from November 1944
+  Grew: [["1932-06", "1941-12", "Amb."], ["1942-01", "1944-11", ""], ["1944-12", "1945-08", "Under Sec."]], // Under Secretary of State from December 1944
+};
+const ADVISOR_MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+/** A node date ("SEPTEMBER 1940", "JUNE – JULY 1942", "1943 – 1944", "1945") as months since year 0: { start, end }, or null. */
+function advisorDateRange(date) {
+  if (typeof date !== "string") return null;
+  const years = [...date.matchAll(/(19\d{2})/g)].map((m) => parseInt(m[1], 10));
+  if (!years.length) return null;
+  const months = [...date.toUpperCase().matchAll(/JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC/g)].map((m) => ADVISOR_MONTHS.indexOf(m[0]));
+  const start = years[0] * 12 + (months.length ? months[0] : 0);
+  return { start, end: Math.max(start, years[years.length - 1] * 12 + (months.length ? months[months.length - 1] : 11)) };
+}
+const advisorYm = (s) => parseInt(s.slice(0, 4), 10) * 12 + parseInt(s.slice(5), 10) - 1;
+function advisorAttribution(name, date) {
+  let title = ADVISOR_TITLE[name];
+  const dated = ADVISOR_TITLE_BY_DATE[name];
+  const r = dated && advisorDateRange(date);
+  if (r) {
+    const hit = dated.find(([from, until]) => r.start <= advisorYm(until) && r.end >= advisorYm(from));
+    if (hit) title = hit[2];
+  }
   return title ? `${title} ${name}` : name;
 }
 
@@ -2729,7 +2754,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100"
                   style={{ borderLeft: "2px solid currentColor" }}
                 >
-                  “{choice.attested.text}”: {advisorAttribution(choice.attested.by)}
+                  “{choice.attested.text}”: {advisorAttribution(choice.attested.by, stage.date)}
                 </span>
               ) : (
                 choice.advisor && (
@@ -2737,7 +2762,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                     className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100"
                     style={{ borderLeft: "2px solid currentColor" }}
                   >
-                    {advisorAttribution(choice.advisor.name)} argues: {choice.advisor.position}
+                    {advisorAttribution(choice.advisor.name, stage.date)} argues: {choice.advisor.position}
                   </span>
                 )
               )}
@@ -3577,7 +3602,8 @@ const ADVISOR_DOSSIERS = {
   Doolittle: { role: "Lieutenant Colonel: commander, Tokyo Raid", summary: "Led the sixteen-bomber raid on Tokyo that carried his name, personally flying the lead aircraft despite holding a rank that made the mission's actual risk to him a matter of real internal debate beforehand. Promoted to Brigadier General immediately after the raid and awarded the Medal of Honor; later commanded the Eighth Air Force; died in 1993.", faction: "alliedPacific", rank: 2 },
   Stimson: { role: "Secretary of War", summary: "Oversaw the Manhattan Project's military administration and personally removed Kyoto from the atomic target list over the objections of officers who considered it operationally ideal, on cultural and historical grounds he was unwilling to compromise on even under wartime pressure. Retired shortly after the war's end; died in 1950.", faction: "alliedPacific", rank: 1 },
   Groves: { role: "Major General: director, Manhattan Project", summary: "Ran the Manhattan Project's military side with a famously singular focus on the mission's success, favoring target selection criteria that preserved the bomb's effects as a clean, measurable baseline over cities already damaged by conventional bombing. Left the Army in 1948; died in 1970.", faction: "alliedPacific", rank: 2 },
-  Compton: { role: "Physicist: Manhattan Project, National Defense Research Committee", summary: "A Nobel laureate who signed the Franck Report advocating a demonstration of the atomic bomb before any use on a populated city, a minority position among the scientists and officials the Interim Committee consulted. Later chancellor of Washington University in St. Louis; died in 1962.", faction: "alliedPacific", rank: 3 },
+  Compton: { role: "Physicist: Manhattan Project, National Defense Research Committee", summary: "A Nobel laureate and member of the Scientific Panel that advised the Interim Committee in June 1945 and recommended using the bomb on Japan without a prior demonstration. Later chancellor of Washington University in St. Louis; died in 1962.", faction: "alliedPacific", rank: 3 },
+  Franck: { role: "Physicist: chairman of the committee that wrote the Franck Report", summary: "A Nobel laureate who chaired the Manhattan Project scientists whose June 1945 report urged a demonstration of the atomic bomb before any use on a populated city, a minority position among the scientists and officials the Interim Committee consulted. Died in 1964.", faction: "alliedPacific", rank: 3 },
   Blamey: { role: "General: Commander, Allied Land Forces, Australia", summary: "Backed his commanders' fighting-withdrawal strategy on the Kokoda Track against considerable pressure from MacArthur, who read the retreat as a failure of Australian fighting quality rather than the sound tactical choice historians now generally consider it. Australia's only field marshal; died in 1951.", faction: "alliedPacific", rank: 2 },
   Mitscher: { role: "Vice Admiral: Task Force 58 carrier commander", summary: "Argued for an aggressive pursuit of Ozawa's fleet at the Philippine Sea over Spruance's more protective posture, a disagreement about carrier doctrine that recurred in various forms for the rest of the war. Later commanded fast carrier task forces through the war's end; died in 1947.", faction: "alliedPacific", rank: 2 },
   Roosevelt: { role: "President of the United States", summary: "Set Allied war aims at the Casablanca Conference in January 1943, announcing unconditional surrender as declared policy against Germany, Italy, and Japan alike, citing the perceived mistake of the 1918 armistice that let German militarists later claim they were never truly defeated. Committed the United States to Europe First at Arcadia weeks after Pearl Harbor, a priority the Pacific command spent the whole war arguing hadn't been given enough of the resources it was owed. Died in office in April 1945, four months before Japan's surrender; did not live to see the war he'd shaped end.", faction: "alliedPacific", rank: 0 },

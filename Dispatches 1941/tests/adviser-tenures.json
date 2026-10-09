@@ -35,6 +35,10 @@
         [
           "1932-06",
           "1941-12"
+        ],
+        [
+          "1944-12",
+          "1945-08"
         ]
       ],
       "note": "Ambassador to Japan until Pearl Harbor; Under Secretary of State from December 1944"
@@ -53,11 +57,11 @@
     "Hurley": {
       "titlePeriods": [
         [
-          "1944-11",
+          "1940-01",
           "1945-11"
         ]
       ],
-      "note": "Ambassador to China from November 1944"
+      "note": "General, then Ambassador to China from November 1944"
     },
     "Iida": {},
     "Imamura": {},
@@ -67,6 +71,7 @@
     "Kido": {},
     "King": {},
     "Kistiakowsky": {},
+    "Franck": {},
     "Krueger": {},
     "Kurita": {},
     "Kusaka": {},
@@ -115,13 +120,7 @@
     },
     "Tanaka": {},
     "Terauchi": {
-      "titlePeriods": [
-        [
-          "1943-06",
-          "1945-09"
-        ]
-      ],
-      "note": "Field Marshal from June 1943"
+      "note": "General, Field Marshal from June 1943 (dated title in the game)"
     },
     "Toyoda": {},
     "Truman": {
@@ -135,13 +134,7 @@
     "Webb": {},
     "Yonai": {},
     "Yoshida": {
-      "titlePeriods": [
-        [
-          "1936-04",
-          "1938-12"
-        ]
-      ],
-      "note": "Ambassador to Britain 1936 to 1938; Prime Minister from 1946"
+      "note": "Ambassador to Britain 1936 to 1938; Prime Minister from 1946; no title is shown"
     },
     "Kawane": {
       "note": "identity to confirm in the fact-check pass"

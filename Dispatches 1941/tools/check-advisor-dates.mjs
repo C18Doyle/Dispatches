@@ -49,7 +49,8 @@ for (const [cid, camp] of Object.entries(game.CAMPAIGNS)) {
             }
             if (t.until && r.start > ym(t.until)) found.push(`SPEAKS_AFTER_FATE ${who}: ${where} is after ${monthName(ym(t.until))} (${t.note || ""})`);
             if (t.from && r.end < ym(t.from)) found.push(`SPEAKS_BEFORE_POST ${who}: ${where} is before ${monthName(ym(t.from))}`);
-            const title = game.ADVISOR_TITLE[who];
+            const shown = game.advisorAttribution(who, st.date);
+            const title = shown === who ? "" : shown.slice(0, -(who.length + 1));
             if (title && t.titlePeriods && t.titlePeriods.length) {
               const ok = t.titlePeriods.some(([f, u]) => r.start <= ym(u) && r.end >= ym(f));
               if (!ok) found.push(`TITLE ${who}: shown as "${title}" in ${where}, but the post was held ${t.titlePeriods.map((p) => p.join(" to ")).join("; ")}${t.note ? " (" + t.note + ")" : ""}`);

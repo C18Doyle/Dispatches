@@ -85,7 +85,7 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "Roughly a year of unopposed administration is a real, specific kind of time, and this resource area has had it: no historical raiding, no submarine interdiction worth the name, no Doolittle-style shock to answer for, just the accumulated ordinary business of running an occupied territory with nobody contesting the sea lanes around it. The Two-Ocean Navy Act's own eighteen fleet carriers and seven battleships are still maturing on a schedule this occupation's own success or failure never had the power to interrupt, the same production math that governed the delayed-strike thread's own fleet. What this year has actually bought, on the ground, in Java's oil fields and Malaya's rubber plantations, is the open question. The Dutch administration's own demolition planning, the real historical precedent that cut Japan's actual wartime oil output to a fraction of capacity, has had a full extra year either to be reinforced against exactly this scenario, or to lapse the way undisturbed wartime readiness always tends to when the attack it was built for never comes.",
+            "Speculative. Japan's resource area has had about a year of unopposed administration: no raiding, no submarine interdiction worth the name and no Doolittle-style shock, only the ordinary business of running occupied territory with nobody contesting the sea lanes. The Two-Ocean Navy Act's eighteen fleet carriers and seven battleships are still being built on a schedule that this occupation cannot interrupt. What the year has bought in Java's oil fields and Malaya's rubber plantations is open.",
           choices: [
             {
               label: "Spend the year on defense: fortify the perimeter, harden the approaches, assume whatever American force eventually arrives will come looking for a fight",
@@ -94,7 +94,7 @@
               impact: { readiness: 2, pipeline: 1, initiative: -1 },
               next: "twoForcesNeitherTested43",
               outcome:
-                "A real, if unglamorous, use of unopposed time: coastal defenses, garrison strength, and air-base construction across the resource area's own perimeter, built to a standard the historical occupation, constantly managing active threats elsewhere, never had the uninterrupted year to fully complete. Whether fortification this thorough matters against a force that hasn't been specified yet is a question this choice defers rather than answers.",
+                "Speculative. Coastal defenses, garrisons and airbases across the resource area's perimeter are built to a standard the real occupation, always managing active threats elsewhere, never had an uninterrupted year to complete. Whether fortification this thorough matters against a force not yet specified is deferred.",
             },
             {
               label: "Spend the year expanding: push the perimeter further out while nothing is actively contesting it, on the theory that unopposed time is a resource that stops being available the moment a war actually starts",
@@ -105,7 +105,7 @@
               gateCheck: { meter: "pipeline", threshold: -4, label: "Pipeline" },
               next: "twoForcesNeitherTested43",
               outcome:
-                "A real bet that unopposed time is a depreciating asset best spent rather than banked: further outposts, a wider perimeter, more territory nominally held, at the direct cost of the fuel and readiness a defense-first year would have kept in reserve. Whether a wider perimeter is worth more than a harder one to crack is a trade this specific counterfactual, absent any historical case to check it against, has no real precedent to settle either way.",
+                "Speculative. A bet that unopposed time is an asset best spent: further outposts, a wider perimeter and more territory nominally held, at the cost of the fuel and readiness that a defensive year would have kept in reserve. Whether a wider perimeter is worth more than a harder one has no precedent to settle it.",
             },
           ],
         };
@@ -117,7 +117,7 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "What finally arrives to contest the resource area is a strange match, the CINCPAC mirror of a problem this whole counterfactual has run into before: neither side has fought the other. The Two-Ocean Navy Act's hulls exist on schedule regardless of anything Japan did or didn't do, so the ships are real and roughly where the historical 1943 Pacific Fleet would have been. What isn't the same is the crews, and the doctrine, and the urgency: a force built by a nation walked to war by hearings and atrocity reports rather than shocked into it by a single morning trains on a correspondingly less urgent timeline, conscription and flight training both running the peacetime-adjacent pace an unshocked Congress funded rather than the all-hands wartime pace Pearl Harbor actually produced. Across the water, a Japanese garrison that has had a full year to either fortify or expand, depending on what this staff chose to do with it, and just as little combat experience against this specific opponent as the opponent has against it." +
+            "Speculative. What finally arrives to contest the resource area is a match neither side has fought before. The Two-Ocean Navy Act's ships exist on schedule, roughly where the real 1943 Pacific Fleet was. The crews, the doctrine and the urgency differ: a nation walked to war by hearings trains at the pace an unshocked Congress funded, not the all-hands pace Pearl Harbor produced. Across the water, a Japanese garrison has had a year to fortify or expand, depending on what this staff chose, and has as little combat experience against this opponent as the opponent has against it." +
             (flags.consolidationPath === "fortify"
               ? " What's waiting for this force is a resource area hardened rather than widened, built on the assumption that whoever eventually arrived would be arriving to fight for it."
               : flags.consolidationPath === "expand"
@@ -136,7 +136,7 @@
                   setFlags: { neitherTestedResult: "americanWin" },
                   impact: { readiness: 2, pipeline: 0, initiative: 2 },
                   outcome:
-                    "The rarer, more consequential reading: a less urgently trained force, but a larger and better-equipped one, proves the Two-Ocean Navy Act's own hulls and aircraft mattered more than the training pipeline's peacetime pace cost them. The resource area's own fortification or expansion, whichever this staff chose, isn't enough to offset a materially larger fleet meeting it for the first time.",
+                    "Speculative. A less urgently trained force that is larger and better equipped proves that the Two-Ocean Navy Act's ships and aircraft mattered more than the slower training pace cost. The resource area's defenses, fortified or expanded, cannot offset a materially larger fleet meeting them for the first time.",
                 },
                 {
                   weight: (() => { const w = modWeight(35, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -144,12 +144,12 @@
                   setFlags: { neitherTestedResult: "costlyDraw" },
                   impact: { readiness: -2, pipeline: -1, initiative: -1 },
                   outcome:
-                    "The likelier reading: a peacetime-paced training pipeline, however well-equipped the force it produced, meets a garrison that has spent its own unopposed year preparing specifically for this, and the engagement costs considerably more than either side's own planners projected going in. Neither force's inexperience against this specific opponent resolves cleanly in either direction; both walk away having learned something the hard way that Pearl Harbor's real urgency taught the historical Navy months or years earlier.",
+                    "Speculative. A force trained at peacetime pace, however well equipped, meets a garrison that has spent an unopposed year preparing for exactly this, and the engagement costs far more than either side's planners expected. Neither side's inexperience resolves cleanly; both learn the hard way what Pearl Harbor taught the real Navy months or years earlier.",
                 },
               ],
               next: "END",
               outcome:
-                "A real bet with no historical case to check it against: whether an unshocked nation's own slower, less urgent mobilization produces a force that wins on matériel despite it, or loses ground it should have held because urgency, not just equipment, was doing real work in the historical Navy's own wartime training pipeline.",
+                "Speculative. Whether an unshocked nation's slower mobilization produces a force that wins on matériel anyway, or loses ground because urgency, and not only equipment, did real work in the real Navy's training, has no historical case to check it against.",
             },
             {
               label: "Hold back: use this first contact to gather real intelligence on what this specific Japanese position has actually become, rather than commit blind to a decisive engagement",
@@ -158,7 +158,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: -2 },
               next: "END",
               outcome:
-                "The more cautious wager, and the one with no clean historical analogue to weigh it against: real reconnaissance on a position and a garrison this force has never contested before, at the cost of whatever advantage a first-contact engagement might otherwise have offered. What this intelligence is actually worth, against an opponent just as untested and just as uncertain what it's facing, is a question this counterfactual closes without fully answering, honestly, because the real war it diverges from never had to ask it.",
+                "Speculative. The cautious wager: reconnaissance on a position and garrison this force has never contested, at the cost of whatever advantage a first-contact engagement might offer. What the intelligence is worth against an equally untested opponent is not answered here, because the real war never had to ask.",
             },
           ],
         };
@@ -169,7 +169,7 @@
           title: "The War Nobody Came to Help Finish",
           historicalRecord: false,
           situation:
-            "Two years into an American war that only exists in Europe, China's war against Japan is in its sixth year, fought without the American matériel, air support, and eventual troop commitment the historical alliance actually provided. Chiang Kai-shek's government, publicly still an American partner in principle, privately understands that principle has produced no divisions and no bombers. Meanwhile the occupied Philippines, Malaya, and the Indies remain occupied, their populations governed by an empire no outside power is contesting militarily. Whether this is a stable equilibrium or a war deferred rather than a war avoided is the question Washington has to decide how to treat.",
+            "Speculative. Two years into an American war that exists only in Europe, China's war against Japan is in its sixth year, fought without the American matériel, air support and troop commitment that the real alliance provided. Chiang Kai-shek's government, still an American partner in principle, understands privately that the principle has produced no divisions and no bombers. The occupied Philippines, Malaya and the Indies stay occupied, and no outside power contests the empire that governs them. Washington has to decide how to treat the standoff.",
           choices: [
             {
               label: "Extend material support to China without a declaration of war: matériel, not divisions",
@@ -184,7 +184,7 @@
                   setFlags: { chinaAloneAidResult: "shifted" },
                   impact: { readiness: 0, pipeline: 0, initiative: 2 },
                   outcome:
-                    "The rarer, more consequential branch: matériel without a declared alliance turns out to be enough. Chinese forces, better armed for the first time in years, push back against Japanese positions in ways the historical stalemate never allowed for, not a war won, but a war that finally starts moving after six years of not.",
+                    "Speculative. Matériel without a declared alliance turns out to be enough. Better armed for the first time in years, Chinese forces push Japanese positions in ways the real stalemate never allowed. It is not a war won, but it begins to move after six years of not moving.",
                 },
                 {
                   weight: (() => { const w = modWeight(30, meters.pipeline); return Math.max(5, 100 - w); })(),
@@ -192,11 +192,11 @@
                   setFlags: { chinaAloneAidResult: "unchanged" },
                   impact: { readiness: 0, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The likelier outcome: trucks and small arms without the air support, advisors, and troop commitment the historical alliance eventually provided aren't enough to break a stalemate six years in the making. The war grinds on exactly as it was, better supplied but no closer to moving.",
+                    "The likelier outcome. Trucks and small arms, without the air support, advisers and troops that the real alliance eventually provided, are not enough to break a stalemate six years old. The war grinds on, better supplied and no closer to moving.",
                 },
               ],
               outcome:
-                "A middle position between full alliance and full abandonment: American aircraft, trucks, and small arms reach China through the same difficult supply lines the historical alliance struggled with, without the American combat presence that historically came alongside it. It's more than China had before and considerably less than an actual declared ally would have provided. China's war isn't the only one still being fought without American help, though.",
+                "Speculative. A middle position between alliance and abandonment: American aircraft, trucks and small arms reach China by the same difficult supply routes the real alliance used, without the American combat presence that came with it. It is more than China had before and far less than a declared ally would provide.",
             },
             {
               label: "Hold to strict non-engagement: no material support, no complications with the war being fought in Europe",
@@ -205,7 +205,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: -2 },
               next: "britainsCalculus43",
               outcome:
-                "An uncomfortable doctrine, held to consistently rather than abandoned under pressure: the European war gets everything, the Pacific gets nothing, and China's war against Japan continues exactly as unsupported as it would have been had the historical alliance never existed at all. Whatever the moral weight of that choice, it isn't softened here by a partial gesture that wouldn't have changed much regardless. China isn't the only Allied power fighting Japan without an American partner, though.",
+                "Speculative. Europe First, held consistently and not abandoned under pressure: the European war gets everything, the Pacific gets nothing, and China fights as unsupported as if the real alliance had never existed.",
             },
             ...(meters.initiative >= 6
               ? [
@@ -229,7 +229,7 @@
           title: "No Asiatic Possession Worth the Cost",
           historicalRecord: false,
           situation:
-            "Without an American Pacific commitment splitting the war's resources, every dollar of Lend-Lease Congress ever approved has gone to Britain and the Soviet Union undiluted for two years running, and London's own assessment of what that buys is more candid than anything the historical alliance's diplomacy ever let London say to Washington directly: General Wavell's staff in India has concluded that no Asian possession is currently worth the cost of retaking it, and would rather hold India than spend a rebuilt army fighting back into Burma for a colony London hasn't decided it can actually afford to keep. Churchill's own position is less settled. He has called Singapore's fall the worst capitulation in British history and has said, more than once and not quietly, that he has no intention of presiding over the empire's dissolution. Whether that's a war aim London can resource on its own, without the American matériel and manpower that historically underwrote it, is the actual question in front of the War Cabinet, one Washington is reading about secondhand rather than negotiating directly.",
+            "Speculative. With no American Pacific commitment to split the war's resources, every dollar of Lend-Lease has gone undiluted to Britain and the Soviet Union for two years, and London's assessment is blunter than it could be in the real alliance. General Wavell's staff in India has concluded that no Asian possession is worth the cost of retaking, and would rather hold India than spend a rebuilt army fighting back into Burma for a colony London has not decided it can afford to keep. Churchill is less settled. He has called the fall of Singapore the worst capitulation in British history and has said he has no intention of presiding over the liquidation of the empire. Whether that is a war aim London can supply without the American matériel and manpower that underwrote it in the real war is the question before the War Cabinet, which Washington reads about secondhand.",
           choices: [
             {
               label: "Note London's caution without comment: this is a British decision to make, not an American one to weigh in on from outside the alliance",
@@ -239,7 +239,7 @@
               impact: { readiness: 0, pipeline: 0, initiative: -1 },
               next: "japanUnopposed43",
               outcome:
-                "Wavell's own real historical caution, resourced here by two years of undiluted Lend-Lease rather than the split allocation the historical campaign fought under, but deferred rather than attempted: Burma, Malaya, and Singapore stay occupied, not from American pressure to hold back or press forward, since there's no American voice in the room to press either way, but from London's own honest arithmetic about what an empire not currently at war with the country holding these colonies can actually afford to retake.",
+                "Speculative. Wavell's real caution, here backed by two years of undiluted Lend-Lease, is acted on and not overcome: Burma, Malaya and Singapore stay occupied, not because of American pressure either way, since there is no American voice in the room, but because of London's own arithmetic about what an empire can afford to retake.",
             },
             {
               label: "Signal quiet support for Churchill's more aggressive position: an unopposed Japan consolidating its gains is a problem for later, worth discouraging now",
@@ -248,7 +248,7 @@
               impact: { readiness: -1, pipeline: -1, initiative: 1 },
               next: "japanUnopposed43",
               outcome:
-                "A quiet nudge rather than a demand, since there's no formal alliance obligation behind it: informal encouragement toward the more aggressive Churchill position, that empire's restoration is worth contesting now rather than deferring, backed by nothing more binding than Washington's own preference for Japan not being left entirely uncontested. Whether Churchill needed the encouragement or would have reached the same conclusion regardless isn't something this signal can determine on its own.",
+                "Speculative. A quiet nudge and not a demand, with no alliance obligation behind it: informal encouragement of Churchill's more aggressive position, that the empire's restoration is worth contesting now. Whether Churchill needed the encouragement is not something the signal can show.",
             },
             ...(meters.readiness >= 6
               ? [
@@ -275,7 +275,7 @@
           title: "Five Hundred Thousand Men Not Fighting Japan",
           historicalRecord: false,
           situation:
-            "What thin, secondhand intelligence reaches Washington from a China with no American observers in it at all suggests something at least as bad as the historical record's own accounting: Chiang's government, free of even the minimal restraint an American alliance historically applied, appears to be holding several hundred thousand of its own troops in place to contain the Communist-held territories around Yan'an rather than commit them against Japan. Nothing is pushing him to do otherwise, no Lend-Lease to withhold, no Stilwell to trade for access, no Dixie Mission possible without an American war effort in the theater to justify sending one. Meanwhile Yan'an, equally unmonitored, continues building the kind of local governance and popular support that, in the historical record, made it the stronger of the two Chinese factions by the time anyone in Washington was paying close attention. There is almost nothing the United States can actually do about any of this from outside a war it isn't fighting. Whether there's anything worth attempting anyway is the real question.",
+            "Speculative. Thin, secondhand intelligence from a China with no American observers suggests something at least as bad as in the real war: Chiang's government, free of the restraint an American alliance imposed, appears to be holding several hundred thousand troops in place to contain the Communist-held areas around Yan'an instead of committing them against Japan. Nothing pushes him to do otherwise: no Lend-Lease to withhold, no Stilwell to trade for access, no Dixie Mission without an American war effort to justify one. Yan'an, equally unobserved, continues building local government and popular support. There is almost nothing the United States can do about any of this from outside a war it is not fighting. Whether anything is worth attempting is the question.",
           choices: [
             {
               label: "Attempt an unofficial, non-binding channel to both Chungking and Yan'an: not aid, just contact, so China's civil war isn't decided in total American blindness",
@@ -285,7 +285,7 @@
               impact: { readiness: 0, pipeline: 0, initiative: 0 },
               next: "dutchExileCalculus44",
               outcome:
-                "A minimal, deniable presence rather than a real policy: an informal channel that gathers information without offering aid, influence, or any actual leverage over how either side treats the other. It's not nothing, since it means China's civil war isn't being decided in total American blindness the way an entirely hands-off posture would guarantee. It's also not close to what the historical alliance's aid relationship, however compromised, actually gave Washington some ability to shape.",
+                "Speculative. A minimal, deniable presence and not a real policy: an informal channel that gathers information and offers no aid or leverage. It means China's civil war is not decided in complete American blindness. It is far less than the real aid relationship, however compromised, gave Washington the ability to shape.",
             },
             {
               label: "Stay entirely hands-off: this isn't America's war to referee, and any contact at all risks looking like exactly the kind of meddling the standoff was meant to avoid",
@@ -294,7 +294,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "dutchExileCalculus44",
               outcome:
-                "A consistent position, at least: having chosen not to fight Japan alongside China, Washington also declines to weigh in on who China fights itself over afterward. Whatever shape China's internal conflict takes from here is settled entirely without American knowledge, aid, or influence, the most complete version of non-engagement this whole standoff has produced, and the one with the least visibility into what it actually produces.",
+                "Speculative. A consistent position: having chosen not to fight Japan alongside China, Washington also declines to weigh in on who China fights over afterward. China's internal conflict is settled without American knowledge, aid or influence, the most complete non-engagement this standoff has produced and the one with the least visibility.",
             },
             ...(meters.initiative >= 6
               ? [
@@ -318,7 +318,7 @@
           title: "Recolonization Without the Means to Enforce It",
           historicalRecord: false,
           situation:
-            "The Netherlands East Indies Government-in-Exile, headquartered now in Australia after fleeing Java's fall in 1942, faces a gap between its stated goal and its actual capacity that even its closest remaining partner can't close: Australia has no significant military industry of its own, historically dependent on American resources to properly supply anyone, resources that in this history were never redirected toward a Pacific war the United States isn't fighting. What the Dutch government-in-exile does have is a real, unresolved argument inside its own colonial apparatus. Hubertus van Mook and other administrators who spent years actually governing the Indies favor real dialogue with the nationalist movement Japan's occupation has, whatever else it's done, also energized. The government in London wants what it has always wanted: full recolonization, administered on the same terms as before the war, and is keeping the more accommodating voices in Australia on a tight rein rather than a free hand. Neither position currently has the resources behind it to actually retake the territory it's arguing over.",
+            "Speculative. The Netherlands East Indies government in exile, based in Australia since the fall of Java in 1942, has a gap between its aim and its means that even its closest partner cannot close: Australia has little military industry and depended on American resources to supply anyone, and those resources were never directed at a Pacific war the United States is not fighting. The government also has an unresolved argument inside its own colonial apparatus. Hubertus van Mook and other administrators who governed the Indies favor dialogue with the nationalist movement that the Japanese occupation has energized. The government in London wants full recolonization on the prewar terms and keeps the more accommodating voices in Australia on a tight rein. Neither position has the resources to retake the territory it argues over.",
           choices: [
             {
               label: "Quietly signal diplomatic sympathy for Van Mook's accommodating position, consistent with this administration's own instincts about colonial rule, even with no aid to attach to that preference",
@@ -328,7 +328,7 @@
               impact: { readiness: 0, pipeline: 0, initiative: 0 },
               next: "warWithoutAmerica45",
               outcome:
-                "A diplomatic preference with nothing material behind it: Washington's real, documented discomfort with restored European empire, held since well before this specific war, expressed here with no aid, no fleet, and no actual leverage over a Dutch internal argument this country has no material standing in. Whether a preference with nothing behind it changes anything London decides is exactly the kind of question this choice can't answer on its own.",
+                "Speculative. A preference with nothing material behind it: Washington's documented discomfort with restored European empire, expressed without aid, fleet or leverage over a Dutch argument in which it has no standing. Whether that changes anything London decides is not something the choice can show.",
             },
             {
               label: "Stay entirely neutral on the Dutch government's internal colonial question: even less American standing here than in China's civil war",
@@ -337,7 +337,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "warWithoutAmerica45",
               outcome:
-                "The most consistent version of this whole standoff's logic: having chosen not to fight this war, Washington also declines to referee an argument between a government-in-exile and its own colonial administrators about a territory neither has the resources to actually retake. Van Mook's accommodating instincts and London's recolonization demand are left to resolve themselves entirely without an American voice in the room, for better or worse.",
+                "Speculative. Having chosen not to fight, Washington also declines to referee an argument between a government in exile and its colonial administrators about a territory neither can retake. Van Mook's accommodating instincts and London's demand for recolonization are left to settle themselves with no American voice in the room.",
             },
             ...(meters.pipeline >= 6
               ? [
@@ -364,7 +364,7 @@
           title: "The Relief Force",
           historicalRecord: true,
           situation:
-            "Wake Island's garrison, a few hundred Marines and civilian contractors, has already done what nobody expected: repelled the first Japanese invasion attempt outright, sinking two destroyers with shore batteries built for a much larger defense than the atoll has. A second, larger invasion force is now approaching, and Task Force 14, built around the carrier Saratoga, is at sea carrying reinforcements and supplies, still several days out. Pearl Harbor is twelve days gone, the Pacific Fleet's confidence and its actual carrier strength both still raw, and the officers now commanding it have to decide whether to press the relief force on toward an island that may already be lost by the time it arrives.",
+            "Wake Island's garrison, a few hundred Marines and civilian contractors, has already done what nobody expected: repelled the first Japanese invasion attempt outright, sinking two destroyers with its few guns and aircraft. A second, larger invasion force is now approaching, and Task Force 14, built around the carrier Saratoga, is at sea carrying reinforcements and supplies, still several days out. Pearl Harbor is twelve days gone, the Pacific Fleet's confidence and its actual carrier strength both still raw, and the officers now commanding it have to decide whether to press the relief force on toward an island that may already be lost by the time it arrives.",
           choices: [
             {
               label: "Recall the relief force: preserve Saratoga and her escort rather than risk them against a force already converging on the island",
@@ -389,7 +389,7 @@
                   setFlags: { wakeReliefResult: "reachedInTime" },
                   impact: { readiness: 1, pipeline: 0, initiative: 1 },
                   outcome:
-                    "Saratoga's air group reaches Wake ahead of the second landing, and the garrison holds. It's a real, if costly, vindication of the task force commanders who reportedly wanted this chance and weren't given it. Whether the fleet's raw, untested carrier strength twelve days after Pearl Harbor was ever really equal to what Pye feared risking it against is a question this outcome answers only for this one battle, not for the ones still to come.",
+                    "Speculative. Saratoga's air group reaches Wake ahead of the second landing, and the garrison holds. It is a costly vindication of the officers who wanted the chance. Whether the fleet's raw carrier strength was equal to the risk is answered only for this one battle.",
                 },
                 {
                   weight: (() => { const w = modWeight(40, meters.initiative); return Math.max(5, 100 - w); })(),
@@ -397,11 +397,11 @@
                   setFlags: { wakeReliefResult: "tooLate" },
                   impact: { readiness: -2, pipeline: -1, initiative: -1 },
                   outcome:
-                    "The likelier outcome, and the one Pye's own caution was built around: the second landing overwhelms Wake before Saratoga is close enough to intervene, and the relief force arrives to find nothing left to relieve, the carrier risked for a rescue that was already too late to attempt by the time it was ordered.",
+                    "The likelier outcome, and the one Pye's caution was built around. The second landing overwhelms Wake before Saratoga is close enough to intervene, and the relief force arrives to find nothing left to relieve.",
                 },
               ],
               outcome:
-                "A plausible extension of the argument the task force's own commanders reportedly wanted to make and weren't given the chance to. Whether Saratoga's air group could have actually turned back a second, larger invasion force, or whether pressing on simply risks the Pacific Fleet's only available carrier for a garrison already likely to fall regardless, is a dispute historians of the decision still haven't settled.",
+                "A modeled alternative. Some of the task force's officers reportedly wanted to press on. Whether Saratoga's air group could have turned back a second, larger invasion force, or would only have risked the Pacific Fleet's only available carrier for a garrison likely to fall anyway, is still disputed by historians.",
             },
           ],
         };
@@ -412,7 +412,7 @@
           title: "Arcadia: Europe First, Confirmed",
           historicalRecord: true,
           situation:
-            "Pearl Harbor is eight days old and Churchill is already in Washington. The question Arcadia has to settle isn't whether America fights, that's decided, but where its still-mobilizing production goes first. The standing prewar plan, ABC-1, already assumes Germany is the more dangerous enemy and commits the bulk of resources there once America enters. Admiral King, newly installed as Commander in Chief of the fleet, is making the case hard in private that a Pacific war started by a Japanese attack on American soil deserves more than a defensive holding action while Europe gets the war's main weight." +
+            "Pearl Harbor is two weeks old and Churchill is in Washington for the Arcadia conference. America is at war, and the question is where its still-mobilizing production goes first. The standing prewar plan, ABC-1, already assumes Germany is the more dangerous enemy and commits the bulk of resources there once America enters. Admiral King, newly installed as Commander in Chief of the fleet, is making the case hard in private that a Pacific war started by a Japanese attack on American soil deserves more than a defensive holding action while Europe gets the war's main weight." +
             (flags.embargoPath === "calibrated"
               ? " Whatever room the calibrated embargo left for a different 1941 didn't survive Pearl Harbor regardless. The attack itself, not the oil policy that preceded it, is what actually settled the question of whether this war happens."
               : "") +
@@ -429,7 +429,7 @@
               setFlags: { arcadiaPath: "europeFirst", cohesion: (flags.cohesion || 0) + 1 },
               next: "internmentQuestion42",
               outcome:
-                "Roosevelt and Churchill confirm Germany as the priority enemy, and the Pacific is left to hold what it can with whatever King can pry loose from a production pipeline aimed mostly east across the Atlantic. King never stops arguing the point for the rest of the war, and never quite loses the argument either. The Pacific ends up with more than 'defensive minimum' ever technically promised, extracted a fight at a time from a doctrine that never fully changed on paper.",
+                "Roosevelt and Churchill confirm Germany as the priority enemy, and the Pacific is left to hold what it can with whatever King can pry loose from a production pipeline aimed mostly east across the Atlantic. King argues the point for the rest of the war and never quite loses it. The Pacific ends up with more than the defensive minimum promised, gained one fight at a time under a doctrine that never changed on paper.",
             },
             {
               label: "Back King's case: argue for near-parity Pacific resourcing given Japan struck first",
@@ -440,7 +440,7 @@
               gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
               next: "internmentQuestion42",
               outcome:
-                "A reasoned projection of the argument King actually made and lost. Winning it here means the Atlantic convoy escort and the buildup for a future European invasion both run thinner through 1942 and 1943 than the historical timetable allowed. Britain's own planners, already anxious about the shipping math, would have grounds to object hard. What a faster, better-resourced Pacific war buys against what a slower Atlantic one costs is exactly the trade this path now has to answer for.",
+                "A modeled alternative: the argument King made and lost. Winning it means the Atlantic convoy escort and the buildup for a European invasion run thinner through 1942 and 1943 than in the real timetable, and Britain's planners, already anxious about shipping, would object hard. A faster Pacific war is bought with a slower Atlantic one.",
             },
             {
               label: "Confirm Europe First in principle, but attach a formal review trigger if Pacific losses cross a set threshold",
@@ -449,7 +449,7 @@
               impact: { readiness: 0, pipeline: -1, initiative: 0 },
               next: "internmentQuestion42",
               outcome:
-                "A structural compromise the actual Arcadia conference never produced on paper, though something like it operated in practice as King kept extracting Pacific resources a crisis at a time regardless of the doctrine. Formalizing the trigger doesn't change the underlying allocation much, Europe still gets the weight, the Pacific still gets what it can argue for, but it changes the shape of the argument: a doctrine with a written escape hatch is a different kind of commitment than one King has to fight to bend every single time.",
+                "A modeled alternative: a compromise the conference never wrote down, though something like it operated in practice as King extracted Pacific resources one crisis at a time. A written trigger does not change the allocation much, since Europe still gets the weight, but a doctrine with an escape hatch is a different commitment from one King has to fight to bend each time.",
             },
           ],
         };
@@ -463,7 +463,7 @@
           title: "The Fall of Rangoon",
           historicalRecord: true,
           situation:
-            "General Slim's Burma Corps and the Chinese Expeditionary Force divisions Chiang Kai-shek sent across the border at his own initiative, to defend the road that supplies his own government, are both being outpaced by Iida's faster-than-expected advance on Rangoon. The question facing this command isn't whether Rangoon holds; British planning has already concluded it can't. The question is what happens to the armies still trying to defend it." +
+            "British, Indian and Burmese forces in Burma, soon to be reorganized as Slim's Burma Corps, and the divisions of the Chinese Expeditionary Force that Chiang sent across the border, after months of British hesitation, to defend the road that supplies his government, are being outpaced by Iida's advance on Rangoon. The question is not whether Rangoon holds, because British planning has already concluded that it cannot. It is what happens to the armies still trying to defend it." +
             (flags.arcadiaPath === "pacificParity"
               ? " Whatever Washington decided at Arcadia about Pacific resourcing, it hasn't reached Burma yet. This theater runs on British and Indian divisions King's argument was never going to reallocate regardless of how it came out."
               : ""),
@@ -476,7 +476,7 @@
               impact: { readiness: 1, pipeline: -2, initiative: -2 },
               next: flags.arcadiaPath === "pacificParity" ? "pacificFirstGamble42" : "curtinsTurn42",
               outcome:
-                "Burma Corps conducts what's still called, without much exaggeration, the longest retreat in British military history, nearly a thousand miles to the Indian frontier, fought the whole way, but an army that arrives intact rather than an army that's destroyed. The Burma Road closes regardless; China's supply becomes entirely dependent on the Hump airlift for the rest of the war. What's preserved here is the force Slim rebuilds into Fourteenth Army, the one that eventually breaks Japan at Imphal and Kohima two years later.",
+                "Burma Corps makes the longest retreat in British military history, nearly a thousand miles to the Indian frontier, fought the whole way, and arrives intact. The Burma Road closes regardless, and China's supply depends on the Hump airlift for the rest of the war. What is preserved is the force Slim rebuilds into Fourteenth Army, which turns the Japanese back at Imphal and Kohima two years later.",
             },
             {
               label: "Commit the Chinese divisions to an absolute defense of Rangoon",
@@ -491,7 +491,7 @@
                   setFlags: { rangoonDefendResult: "worthIt" },
                   impact: { readiness: -1, pipeline: 1, initiative: 1 },
                   outcome:
-                    "The gamble pays off more than the historical retreat ever could have: the Chinese divisions buy real weeks before Rangoon finally falls, weeks that let more equipment and more of the wider Burma garrison reach India intact than the historical timeline managed. It costs the Chinese Expeditionary Force badly, nearly encircled at Toungoo exactly as it was historically, but this time the cost bought something concrete.",
+                    "Speculative. The Chinese divisions buy real weeks before Rangoon falls, and more equipment and more of the wider Burma garrison reach India intact than in the real retreat. It costs the Chinese Expeditionary Force badly, nearly encircled at Toungoo as it was in the real campaign, but this time the cost buys something.",
                 },
                 {
                   weight: (() => { const w = modWeight(30, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -499,7 +499,7 @@
                   setFlags: { rangoonDefendResult: "wasted" },
                   impact: { readiness: -2, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The likelier result. Rangoon falls anyway, on very nearly the historical timetable, and the Chinese divisions that might have retreated intact are mauled holding a city British staff planning had already written off. The Burma Road closes on schedule regardless of the extra fighting, and Stilwell's alliance-signaling costs considerably more than it bought.",
+                    "The likelier outcome. Rangoon falls anyway, on nearly the real timetable, and the Chinese divisions that might have retreated intact are mauled holding a city British planning had written off. The Burma Road closes on schedule, and Stilwell's signal to Chiang costs more than it buys.",
                 },
               ],
             },
@@ -528,7 +528,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: 0 },
               next: "corregidorEvacuation42",
               outcome:
-                "The division comes home over Churchill's strong objections, and Curtin's public statement, Australia looking to America rather than Britain, becomes the moment historians point to as the real rupture in Australian-British defense relations. It costs real friction with London at a moment the alliance can least afford it, and it sets the tone for an Australian-American defense relationship that outlasts the war by decades.",
+                "The division comes home over Churchill's strong objections. Curtin's refusal, following his December 1941 statement that Australia looks to America, is the moment historians point to as the rupture in Australian-British defense relations. It costs real friction with London at a moment the alliance can least afford it, and it sets the tone for an Australian-American defense relationship that outlasts the war by decades.",
             },
             {
               label: "Accept Churchill's redirection: keep the division in the fight for Burma rather than break with London",
@@ -537,7 +537,7 @@
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
               next: "corregidorEvacuation42",
               outcome:
-                "A defensible extension of the position Churchill really pushed for and, this time, gets. The division fights in Burma rather than defending Australian soil directly, preserving Commonwealth unity at a moment London badly needed it, at real political cost to Curtin domestically and a home defense Australia has to build without its own most experienced division for the war's most dangerous early stretch.",
+                "A modeled alternative: the position Churchill pushed in the real war, here granted. The division fights in Burma rather than defending Australian soil directly, preserving Commonwealth unity at a moment London badly needed it, at real political cost to Curtin domestically and a home defense Australia has to build without its own most experienced division for the war's most dangerous early stretch.",
             },
           ],
         };
@@ -559,16 +559,16 @@
               impact: { readiness: 0, pipeline: 0, initiative: 1 },
               next: "doolittleRaidAllied42",
               outcome:
-                "MacArthur reaches Australia by PT boat and submarine relay in one of the war's more harrowing evacuations, and 'I shall return' becomes the promise that shapes Pacific strategy for the next two and a half years. The men left on Bataan and Corregidor surrender within weeks, beginning the death march and the years of captivity MacArthur's own return doesn't reach in time to prevent.",
+                "MacArthur leaves Corregidor by PT boat on March 11, flies on from Mindanao in a B-17 and reaches Australia on March 17. The promise 'I shall return' shapes Pacific strategy for the next two and a half years. The men left on Bataan and Corregidor surrender within weeks, and the death march and years of captivity begin before MacArthur's return can reach them.",
             },
             {
               label: "Defy the order: remain on Corregidor with the garrison rather than leave them behind",
-              advisor: { name: "Wainwright", position: "The general's leaving does not look like cowardice to the men on the island, whatever the newspapers make of it elsewhere, though he does not want to hear that from his successor." },
+              advisor: { name: "Wainwright", position: "Leaving does not look like cowardice to the men on the island, whatever the newspapers make of it, and Wainwright, who takes over from MacArthur, says so." },
               setFlags: { corregidorPath: "remained", cohesion: (flags.cohesion || 0) - 1 },
               impact: { readiness: -2, pipeline: 0, initiative: -2 },
               next: "doolittleRaidAllied42",
               outcome:
-                "An honest projection of the choice MacArthur reportedly considered and, under direct presidential order, ultimately didn't make. Remaining costs the Pacific war its most politically valuable commander at the exact moment Washington needs a rallying figure for a theater that has produced almost nothing but defeats, and risks his capture or death alongside a garrison already understood to be lost regardless of who commands it. What it doesn't cost is the promise 'I shall return' was built to answer for, since there's no departure left to redeem.",
+                "A modeled alternative: the choice MacArthur reportedly considered and did not make against a direct presidential order. Staying would cost the Pacific war its most politically valuable commander when Washington needs a rallying figure in a theater that has produced only defeats, and would risk his capture or death with a garrison already understood to be lost. It also removes the promise to return, since there is no departure to redeem.",
             },
           ],
         };
@@ -601,7 +601,7 @@
                   setFlags: { midwayAlliedResult: "decisive" },
                   impact: { readiness: 1, pipeline: 0, initiative: 2 },
                   outcome:
-                    "Dauntless dive bombers from Enterprise and Yorktown arrive in the single window when all four Japanese carriers have exposed, fully armed aircraft on their flight decks mid-changeover. Akagi, Kaga, and Soryu burn within six minutes of each other; Hiryu is sunk that evening after crippling Yorktown in return. Four Japanese fleet carriers and their veteran air crews are destroyed for one American carrier, the single most consequential naval battle of the Pacific war, decided as much by minutes of timing as by any strategic advantage.",
+                    "Dauntless dive bombers from Enterprise and Yorktown arrive while all four Japanese carriers have armed aircraft on their decks. Akagi, Kaga and Soryu burn within minutes of each other, and Hiryu is sunk that evening after crippling Yorktown. Four Japanese fleet carriers and many of their veteran aircrew are destroyed for one American carrier, the most consequential naval battle of the Pacific war.",
                 },
                 {
                   weight: 100 - modWeight(60, meters.initiative),
@@ -609,7 +609,7 @@
                   setFlags: { midwayAlliedResult: "costly" },
                   impact: { readiness: -3, pipeline: 0, initiative: 0 },
                   outcome:
-                    "The dice of this contested morning break the other way: the dive bombers arrive after the Japanese carriers have already launched, catching a fleet with fighters aloft and decks clear rather than the loaded, vulnerable ones history's timing exposed. Two Japanese carriers go down in a costlier, less decisive exchange, and Yorktown is lost outright. The Pacific Fleet holds the line but doesn't break Japan's carrier arm the way the historical morning did. The initiative changes hands more slowly, and at a higher price.",
+                    "Speculative. The dive bombers arrive after the Japanese carriers have launched, finding fighters aloft and decks clear. Two Japanese carriers go down in a costlier, less decisive exchange, and Yorktown is lost outright. The Pacific Fleet holds the line but does not break Japan's carrier arm. The initiative changes hands more slowly and at a higher price.",
                 },
               ],
             },
@@ -620,7 +620,7 @@
               impact: { readiness: 2, pipeline: -1, initiative: -3 },
               next: "conservativePacific42",
               outcome:
-                "A reasoned projection of the caution that a less confident reading of the codebreaking intelligence might have justified. Declining the ambush preserves the fleet against the very real risk that the intercepts were wrong or the Japanese force stronger than estimated, but it also means Japan's four fleet carriers sail home intact, undefeated, free to choose the Pacific's next major operation on their own schedule rather than America's.",
+                "A modeled alternative: the caution that a less confident reading of the codebreaking might have justified. Declining the ambush guards against intercepts that were wrong or a Japanese force stronger than estimated, but Japan's four fleet carriers sail home intact and free to choose the next operation on their own schedule.",
             },
             ...(meters.pipeline >= 3
               ? [
@@ -662,7 +662,7 @@
           title: "The Kokoda Track",
           historicalRecord: true,
           situation:
-            "Australian militia, mostly young, poorly equipped conscripts not yet reinforced by the veteran AIF divisions still returning from the Middle East, are conducting a fighting withdrawal down the Kokoda Track as Horii's South Seas Detachment pushes toward Port Moresby. MacArthur, running the campaign from Australia with limited visibility into history's own terrain and supply conditions on the track itself, is reading the retreat as a failure of will rather than the skillfully executed delaying action Australian commanders on the ground understand it to be, and is pressing hard for an immediate stand.",
+            "Australian militia, mostly young, poorly equipped conscripts not yet reinforced by the veteran AIF divisions still returning from the Middle East, are conducting a fighting withdrawal down the Kokoda Track as Horii's South Seas Detachment pushes toward Port Moresby. MacArthur, running the campaign from Australia with little visibility into the terrain and supply conditions on the track, is reading the retreat as a failure of will rather than the skillfully executed delaying action Australian commanders on the ground understand it to be, and is pressing hard for an immediate stand.",
           choices: [
             {
               label: "Back Blamey and the Australian commanders' fighting-withdrawal strategy: trade ground for time until reinforcements arrive",
@@ -672,7 +672,7 @@
               impact: { readiness: 1, pipeline: -1, initiative: -1 },
               next: "guadalcanalAllied42",
               outcome:
-                "What happened, broadly, though not without real friction at the top. The fighting withdrawal holds the Japanese advance to a crawl exactly as Australian commanders intended, buying time for veteran AIF divisions to arrive and eventually reverse the advance entirely by November. MacArthur's public criticism of Australian fighting quality during the retreat, delivered without having visited the track himself, becomes one of the more bitter command controversies of the entire Pacific war, souring a relationship between American and Australian commands that never fully recovers.",
+                "What happened, broadly, though not without real friction at the top. The fighting withdrawal holds the Japanese advance to a crawl exactly as Australian commanders intended, buying time for veteran AIF divisions to arrive and eventually reverse the advance entirely by November. MacArthur's criticism of the Australian militia, made without his having visited the track, becomes one of the bitterest command disputes of the Pacific war and sours relations between the American and Australian commands.",
             },
             {
               label: "Demand an immediate stand: overrule the fighting withdrawal MacArthur reads as a failure of nerve",
@@ -685,7 +685,7 @@
               gateCheck: { meter: "pipeline", threshold: -4, label: "Pipeline" },
               next: "guadalcanalAllied42",
               outcome:
-                "A grounded projection of the pressure MacArthur applied, taken to its logical operational conclusion: forcing a stand before reinforcements arrive risks the encirclement and destruction of the militia battalions actually conducting the withdrawal, on terrain serious historians of the campaign agree offered no defensible line short of the one Australian commanders had already chosen. This is one of the more direct rebukes of a command decision anywhere here: the historical criticism of the Kokoda withdrawal is now generally regarded by military historians as unfair to troops executing a sound tactical choice under impossible conditions, and this path plays that unfairness out to something closer to its actual cost.",
+                "A modeled alternative: MacArthur's pressure taken to its conclusion. Forcing a stand before reinforcements arrive risks the encirclement and destruction of the militia battalions conducting the withdrawal, on ground that historians of the campaign agree offered no defensible line short of the one the Australian commanders had chosen. Military historians now generally regard the criticism of the withdrawal as unfair to troops carrying out a sound plan in impossible conditions.",
             },
           ],
         };
@@ -727,7 +727,7 @@
               impact: { readiness: 2, pipeline: -2, initiative: -3 },
               next: "unconditionalSurrender43",
               outcome:
-                "A better-supplied landing, three months later, against an airfield the delay gives Japanese engineers time to finish and fortify. The historical campaign's razor-thin margins, Henderson Field held by aircraft flying on fumes, Marines fighting on captured rations, don't repeat here, but neither does the historical timeline: Japan gets a longer, freer hand in the Solomons before the American offensive that eventually came arrives. What that costs the wider 1943 campaign is a question the rest of the war gets to answer, not one this landing settles by itself.",
+                "A modeled alternative. The landing is better supplied and three months later, against an airfield that the delay gives Japanese engineers time to finish and fortify. The thin margins of the real campaign do not repeat, Henderson Field held by aircraft flying on fumes and Marines living on captured rice, but neither does the real timeline: Japan gets a longer, freer hand in the Solomons before any American offensive arrives.",
             },
             ...(meters.readiness <= -4
               ? [
@@ -751,7 +751,7 @@
           title: "Savo Island",
           historicalRecord: true,
           situation:
-            "Four days after the landing, a Japanese cruiser squadron under Mikawa slips past Allied picket destroyers at night and catches the covering force completely by surprise off Savo Island. Four Allied heavy cruisers, Astoria, Quincy, Vincennes, and the Australian cruiser Canberra, are sunk in under an hour, in what becomes one of the worst single defeats in U.S. Navy history. Mikawa withdraws without pressing the attack against the transports themselves, a decision that saves the landing but does nothing to soften what just happened to the covering force meant to protect it. Over a thousand Allied sailors are dead by morning, and Nimitz's command has to decide how this gets handled, immediately, while the Guadalcanal campaign is still very much underway.",
+            "On the night of August 8–9, two days after the landing, a Japanese cruiser squadron under Mikawa slips past Allied picket destroyers at night and catches the covering force completely by surprise off Savo Island. Four Allied heavy cruisers, Astoria, Quincy, Vincennes, and the Australian cruiser Canberra, are sunk in under an hour, in what becomes one of the worst single defeats in U.S. Navy history. Mikawa withdraws without attacking the transports, which saves the landing and does nothing for the covering force. More than a thousand Allied sailors are dead by morning, and Nimitz's command has to decide how the defeat is handled while the Guadalcanal campaign is under way.",
           choices: [
             {
               label: "Order a full court of inquiry and make the findings public: accountability now, whatever it costs morale mid-campaign",
@@ -767,7 +767,7 @@
                   setFlags: { savoInquiryResult: "actedOn" },
                   impact: { readiness: 1, pipeline: 0, initiative: 0 },
                   outcome:
-                    "What happened, roughly. The Navy's own inquiry finds real, specific failures, inadequate night-scouting doctrine, a covering force spread too thin, no unified command able to react fast enough once contact was made, and the findings reach the fleet fast enough to change doctrine before a second squadron makes the same mistake in the dark.",
+                    "What happened, roughly. The Navy's inquiry finds specific failures: inadequate night-scouting doctrine, a covering force spread too thin, and no unified command able to react once contact was made. The findings reach the fleet in time to change doctrine before a second squadron repeats the mistake in the dark.",
                 },
                 {
                   weight: (() => { const w = modWeight(55, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -775,7 +775,7 @@
                   setFlags: { savoInquiryResult: "tooSlow" },
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The inquiry is thorough and the findings are real, but the bureaucratic distance between a published report and a destroyer captain's actual night-scouting drills turns out to be wider than Nimitz hoped. The lesson is on the record. Whether it reaches the right wardroom before the next dark night off an unfamiliar island is a separate question left standing here.",
+                    "The inquiry is thorough, but the distance between a published report and a destroyer captain's night-scouting drills is wider than Nimitz hoped. The lesson is on the record. Whether it reaches the right wardroom before the next dark night off an unfamiliar island is not settled.",
                 },
               ],
             },
@@ -786,7 +786,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: 1 },
               next: "unconditionalSurrender43",
               outcome:
-                "The findings stay internal, doctrine changes quietly rather than publicly, and the campaign's morale is spared a blow the Navy's own leadership judged it couldn't currently afford. What it costs is exactly what Nimitz's real historical inquiry was built to avoid: a lesson learned in private rather than one the whole fleet gets to learn from immediately, at the cost of whichever future squadron makes a version of the same mistake before word quietly gets around.",
+                "The findings stay internal and doctrine changes quietly, sparing the campaign a blow to morale that the Navy's leadership judged it could not afford. The price is a lesson learned in private, and some future squadron may repeat the mistake before word gets around.",
             },
             ...(meters.initiative <= -6
               ? [
@@ -810,7 +810,7 @@
           title: "The Casablanca Declaration",
           historicalRecord: true,
           situation:
-            "Roosevelt and Churchill are meeting at Casablanca to set Allied war aims for the years ahead, and Roosevelt is preparing to announce a policy that will define exactly how this war ends: unconditional surrender, for Germany, Italy, and Japan alike, with no negotiated terms available to any Axis government at any point. Some of his own military advisors have quietly raised the same concern historians still argue about: that removing any negotiated off-ramp might harden resistance in a Japanese war ministry already inclined to fight rather than yield, extending a war a more flexible policy might have shortened." +
+            "Roosevelt and Churchill are meeting at Casablanca to set Allied war aims for the years ahead, and Roosevelt is preparing to announce a policy that will define exactly how this war ends: unconditional surrender, for Germany, Italy, and Japan alike, with no negotiated terms available to any Axis government at any point. Some of his own advisers have raised a concern that historians still argue about: that removing any negotiated way out might harden a Japanese war ministry already inclined to fight, and prolong a war that a more flexible policy could have shortened." +
             (flags.savoInquiryResult === "actedOn"
               ? " The Navy's own recent reckoning with Savo Island, acted on before it cost a second disaster, is the kind of institutional self-correction that makes Roosevelt's own case, that this war is best fought by an alliance willing to look honestly at its own failures, considerably easier to make in this room."
               : flags.savoInquiryResult === "tooSlow"
@@ -825,7 +825,7 @@
               impact: { readiness: 0, pipeline: 0, initiative: 1 },
               next: "torpedoCrisis43",
               outcome:
-                "The doctrine holds for the rest of the war, shaping every subsequent decision about how to end it, including, covered later, the debate over whether the Emperor's position could be preserved under a surrender otherwise unconditional. Historians remain divided on whether the policy prolonged Japanese resistance by removing incentive to negotiate, or whether Japan's war ministry was never going to accept negotiated terms regardless of what Washington offered.",
+                "The policy holds for the rest of the war and shapes every later decision about how to end it, including the debate over whether the Emperor's position could be kept under a surrender that was otherwise unconditional. Historians remain divided on whether it prolonged Japanese resistance by removing the incentive to negotiate, or whether Japan's war ministry would never have accepted negotiated terms.",
             },
             {
               label: "Leave room for negotiated terms: decline to foreclose a settlement short of unconditional surrender",
@@ -840,7 +840,7 @@
                   setFlags: { surrenderDoctrineResult: "peaceFactionRoom" },
                   impact: { readiness: 0, pipeline: 0, initiative: 1 },
                   outcome:
-                    "The bet pays off more than the historical record's own debate suggests it might have: a declared willingness to consider terms gives Japan's peace faction a genuine argument to make against the war ministry's hardliners, years before history's version of that same argument finally broke through in 1945. It doesn't end the war by itself. It changes what the internal argument inside Tokyo sounds like from here on.",
+                    "Speculative. A declared willingness to consider terms gives Japan's peace faction a real argument against the war ministry's hardliners, years before the same argument broke through in 1945. It does not end the war by itself. It changes what the argument inside Tokyo sounds like.",
                 },
                 {
                   weight: (() => { const w = modWeight(35, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -848,11 +848,11 @@
                   setFlags: { surrenderDoctrineResult: "readAsWeakness" },
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The likelier outcome, and the one Roosevelt's own real reasoning at Casablanca was built to avoid: Japan's war ministry reads any declared openness to terms as evidence the Allies are losing their nerve, not as an offer worth exploring, and holds out harder rather than softer. The negotiated-terms door stays open. Nobody on the other side of it is interested in walking through.",
+                    "The likelier outcome, and the one Roosevelt's reasoning at Casablanca was meant to avoid. Japan's war ministry reads any openness to terms as a sign that the Allies are losing their nerve, and holds out harder. The door to negotiation stays open and nobody on the other side wants to walk through it.",
                 },
               ],
               outcome:
-                "A defensible extension of the concern real historians of the period have raised: that a declared willingness to consider terms short of unconditional surrender might have given Japan's peace faction more room to argue for an earlier end to the war. Whether Japan's war ministry, which held out even after two atomic bombs in the history, would have taken a negotiated opening seriously at any point before 1945 is disputed among historians, and no resolution is offered here, declining to invent a Japanese response there's no way to know with confidence.",
+                "A modeled alternative, on the concern historians have raised: that a declared willingness to consider terms short of unconditional surrender might have given Japan's peace faction more room to argue for an earlier end. Whether the war ministry, which held out even after two atomic bombs, would have taken an opening seriously before 1945 is disputed, and the game does not invent a Japanese answer.",
             },
           ],
         };
@@ -863,7 +863,7 @@
           title: "The Torpedo That Won't Explode",
           historicalRecord: true,
           situation:
-            "Submarine patrol reports from the past year describe the same failure over and over: a perfect firing solution, a clean hit, and no explosion. The Bureau of Ordnance's official position is that the Mark 14 is sound and the fault lies with approach technique and crew error. Newly appointed COMSUBPAC Charles Lockwood has just run his own field tests, firing torpedoes through a fishing net to measure actual running depth against the set depth, and the results contradict BuOrd's position directly: the torpedoes are running roughly ten feet deeper than commanded, missing under targets that should have been hit clean." +
+            "Submarine patrol reports from the past year describe the same failure over and over: a perfect firing solution, a clean hit, and no explosion. The Bureau of Ordnance's official position is that the Mark 14 is sound and the fault lies with approach technique and crew error. Rear Admiral Charles Lockwood, who commanded the submarines in Australia until this month and has just been named COMSUBPAC, ran his own field tests there in 1942, firing torpedoes through a fishing net to measure the actual running depth against the set depth. The results contradict the Bureau of Ordnance directly: the torpedoes run about ten feet deeper than set and pass under targets that should have been hit." +
             (flags.surrenderDoctrineResult === "peaceFactionRoom"
               ? " Washington's unconditional-surrender declaration, just made, is landing this same month against reports suggesting it may have left Japan's peace faction real room to argue back home, an early, uncomfortable data point about how much a single declared policy actually controls in a war this large, not unlike Lockwood's own fight against a bureau that's been declaring a torpedo sound for a year despite what the field keeps showing."
               : flags.surrenderDoctrineResult === "readAsWeakness"
@@ -878,7 +878,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: 1 },
               next: "theBatBombQuestion43",
               outcome:
-                "What actually happened: Lockwood's field tests, run without BuOrd's cooperation and initially dismissed by it, are eventually confirmed once BuOrd is finally pressured into running its own tests in August 1942, exactly a year into the war for a defect that should have been caught before it started. The depth fix helps immediately. It takes until mid-1943 and two more independently discovered defects, a magnetic exploder triggered by nothing at all and a contact firing pin too delicate to survive the hit it's meant to detonate on, before the Mark 14 becomes the weapon it was supposed to be from the start.",
+                "What happened. Lockwood's tests, run without the Bureau's cooperation and at first dismissed by it, are confirmed when the Bureau is pressed into running its own tests in August 1942, eight months into the war. The depth fix helps at once. Two more defects remain, a magnetic exploder that fires early or not at all and a contact firing pin that crumples on a square hit, and it is not until September 1943 that the Mark 14 works as intended.",
             },
             {
               label: "Defer to BuOrd's official assessment: maintain standard procedure while the Bureau's own review continues",
@@ -887,7 +887,7 @@
               impact: { readiness: -1, pipeline: -1, initiative: -1 },
               next: "theBatBombQuestion43",
               outcome:
-                "The more institutionally cautious path, and the one that costs the most in ships not sunk: without a theater commander's field tests forcing the issue early, the depth defect goes uncorrected for longer, and 1942's own submarine force keeps firing spreads that hit clean and detonate late, or not at all, against a Bureau of Ordnance still confident the fault lies everywhere but the torpedo itself.",
+                "The institutionally cautious path, and the one that costs the most in ships not sunk. Without a theater commander's tests forcing the issue, the depth defect goes uncorrected for longer, and the submarine force goes on firing spreads that run under their targets or fail to detonate, against a Bureau that still blames everything but the torpedo.",
             },
           ],
         };
@@ -904,7 +904,7 @@
           title: "Operation Vengeance: The Yamamoto Intercept",
           historicalRecord: true,
           situation:
-            "Fleet intelligence has decrypted a JN-25 message giving Admiral Yamamoto's precise inspection itinerary: his aircraft will pass within fighter range of Guadalcanal in roughly three days. Killing the officer who planned Pearl Harbor is suddenly possible. It is also, several people in this room point out plainly, a strike specific enough to raise an uncomfortable question afterward: if the Japanese ever ask themselves how the Americans knew exactly which aircraft, in exactly which twenty-minute window, over exactly which stretch of water, there may be only one answer that actually fits, and it isn't luck." +
+            "Fleet intelligence has decrypted a JN-25 message giving Admiral Yamamoto's inspection itinerary: his aircraft will pass within fighter range of Guadalcanal in a few days. Killing the officer who planned Pearl Harbor is suddenly possible. Several people in the room point out that a strike this specific, on one aircraft in one twenty-minute window over one stretch of water, may lead the Japanese to ask how the Americans knew, and the only answer that fits is a broken code." +
             (flags.bismarckSeaPath === "fullCommit"
               ? " The full-commitment doctrine that just cost a Japanese convoy dearly off New Guinea is barely a month old. Whether the same appetite for a coordinated, all-in strike extends to a target this specific and this consequential is exactly what this room is about to find out."
               : flags.bismarckSeaPath === "reserved"
@@ -919,7 +919,7 @@
               impact: { readiness: 0, pipeline: 0, initiative: 3 },
               next: "tehransPromise43",
               outcome:
-                "Sixteen P-38s meet Yamamoto's flight on schedule near Bougainville; Halsey's own order back to the squadron leaves no doubt where he stood on the question: get the bastard. Japan's subsequent inquiry concludes the encounter was coincidence, a routine patrol in the wrong place at the worst possible time for Yamamoto, not proof the code was broken. The gamble on secrecy holds, this time, and JN-25 stays readable for the rest of the war.",
+                "P-38 fighters meet Yamamoto's flight on schedule near Bougainville on April 18. Japan's inquiry concludes that the interception was coincidence, a patrol in the wrong place at the worst time for Yamamoto, and not proof that the code was broken. The secret holds, and JN-25 stays readable for the rest of the war.",
             },
             {
               label: "Decline the strike, or let the window close: the intelligence source is worth more than one admiral",
@@ -944,7 +944,7 @@
           situation:
             "At Tehran, Stalin tells Roosevelt privately that the Soviet Union will enter the Pacific war once Germany is defeated, an informal commitment later formalized at Yalta and honored, on schedule, in August 1945. The Eastern Front is still consuming the overwhelming majority of Soviet manpower and industrial output, and any Soviet division redirected east now is a division not fighting Germany. Washington's planners have to decide whether to accept the deferred commitment as offered, or press Stalin for something more concrete: an earlier date, or a diversion of forces before Germany really falls." +
             (flags.magicDisciplinePath === "conservative"
-              ? " This delegation negotiates from a Pacific intelligence picture built on real discipline: MAGIC kept reserved for exactly the kind of strategic warning a promise like Stalin's needs verified against, not spent on tactical targets that would have told this room less about Soviet timing and more about one dead admiral."
+              ? " This delegation negotiates from a Pacific intelligence picture built on real discipline: the decrypts kept reserved for exactly the kind of strategic warning a promise like Stalin's needs verified against, not spent on tactical targets that would have told this room less about Soviet timing and more about one dead admiral."
               : flags.magicDisciplinePath === "willing" && flags.magicResult === "clean"
               ? " This delegation negotiates from a Pacific intelligence picture that's stayed intact despite looser use, a source proven resilient enough that Washington's read on Japan's actual position, weighed against Stalin's promise, is built on current signals rather than a year-old snapshot."
               : flags.magicDisciplinePath === "willing" && flags.magicResult === "closeCall"
@@ -959,7 +959,7 @@
               impact: { readiness: 0, pipeline: 0, initiative: 0 },
               next: "centralPacificDrive43",
               outcome:
-                "What happened, in substance if not in every diplomatic detail. Stalin's commitment stands as made, informally at Tehran and formally at Yalta fourteen months later, honored to the letter in August 1945: Soviet entry roughly three months after Germany's surrender, redeployment from the European front already underway well before the formal declaration. The Eastern Front loses nothing to an early Pacific diversion it was never actually asked to make.",
+                "What happened, in substance. Stalin's commitment stands as made, informally at Tehran and formally at Yalta fourteen months later, and it is honored in August 1945: Soviet entry roughly three months after Germany's surrender, with redeployment from Europe under way well before the declaration. The Eastern Front loses nothing to an early diversion it was never asked to make.",
             },
             {
               label: "Press for an earlier date: request a diversion of Soviet forces to the Far East before Germany falls",
@@ -970,7 +970,7 @@
               gateCheck: { meter: "pipeline", threshold: -6, label: "Pipeline" },
               next: "centralPacificDrive43",
               outcome:
-                "An honest projection of the argument King and other Pacific-focused planners found frustrating: every month the Kwantung Army in Manchuria sits uncommitted to any active front is a month the Pacific war fights Japan's full remaining strength alone. Whether Stalin, mid-war against Germany and in no position to weaken the front actually breaking the Wehrmacht, would have entertained an earlier date at any price is a request scholars of the period of Soviet wartime strategy consider close to a non-starter: the Eastern Front's manpower needs weren't negotiable at any point before Germany's actual collapse, regardless of what Washington offered or asked.",
+                "A modeled alternative, on the argument Pacific-minded planners found frustrating: every month that the Kwantung Army in Manchuria sits uncommitted is a month that the Pacific war faces Japan's full remaining strength alone. Historians of Soviet wartime strategy consider an earlier date close to a non-starter, because the Eastern Front's needs for manpower were not negotiable before Germany's collapse.",
             },
           ],
         };
@@ -981,7 +981,7 @@
           title: "Leapfrogging the Strong Points",
           historicalRecord: true,
           situation:
-            "With Guadalcanal held and Japan's carrier arm broken since Midway, the strategic question shifts to how to close the distance to the home islands. Nimitz's staff favors island-hopping: seizing lightly-held atolls that matter for airfields and bypassing heavily fortified ones like Truk entirely, starving them of supply rather than assaulting them. The Joint Chiefs, and MacArthur especially, want a more direct reduction of Japanese strongpoints, arguing bypassed garrisons remain a threat to the flanks of any advance." +
+            "With Guadalcanal held and Japan's carrier arm broken at Midway, the question is how to close the distance to the home islands. Nimitz's staff favors a drive through the Central Pacific by island-hopping: taking lightly held atolls that matter for airfields and bypassing heavily fortified ones such as Truk, starving them of supply instead of assaulting them. Marine commanders such as Holland Smith argue that bypassed garrisons remain a threat to the flanks of any advance." +
             (flags.guadalcanalAlliedPath === "delay"
               ? " The three-month delay before Guadalcanal's landing is still being felt in the timetable. Command starts from a position roughly a season behind where the historical record had it."
               : ""),
@@ -993,7 +993,7 @@
               setFlags: { centralPacificPath: "leapfrog" },
               next: "macArthurTension44",
               outcome:
-                "Truk, once considered the 'Gibraltar of the Pacific,' is neutralized by carrier air strikes and submarine blockade without ever being invaded, tens of thousands of Japanese troops left to starve on bypassed islands for the rest of the war while the American advance moves past them at a pace direct assault could never have matched.",
+                "Truk, once called the 'Gibraltar of the Pacific,' is neutralized by carrier air strikes and a submarine blockade without being invaded, and tens of thousands of Japanese troops are left to starve on bypassed islands while the American advance moves past them at a pace direct assault could not have matched.",
             },
             {
               label: "Direct assault: reduce the Gilberts, Marshalls, and Marianas strongpoint by strongpoint",
@@ -1004,7 +1004,7 @@
               gateCheck: { meter: "readiness", threshold: -3, label: "Readiness" },
               next: "theTarawaQuestion43",
               outcome:
-                "A costlier, more direct campaign that removes bypassed-garrison risk entirely but pays for it in casualties the historical leapfrogging strategy was specifically designed to avoid. Tarawa's brutal three-day fight, fought historically as a cautionary lesson in fortified-atoll assault, becomes this path's template rather than its exception. The advance moves faster in a straight line and slower in aggregate, and the mainland front's own 1944 crisis is arriving regardless of which strategy got the fleet there.",
+                "A modeled alternative. Direct assault removes the risk of bypassed garrisons and pays for it in casualties that leapfrogging was designed to avoid. Tarawa, a cautionary fight in the real war, becomes this path's template. The advance moves faster in a straight line and slower overall.",
             },
             ...(meters.pipeline >= 5
               ? [
@@ -1041,7 +1041,7 @@
           historicalRecord: !midwayDeclined,
           situation: midwayDeclined
             ? "Every carrier-strength estimate Nimitz's staff has built for Ozawa's Mobile Fleet since 1942 rests on a fixed premise: four fleet carriers gone at Midway, a subtraction baked into two years of planning assumptions that never had to be revisited. It never happened here. Three more years of the Solomons campaign, Rabaul's slow isolation, and a training pipeline stretched thinner every month have still worn this fleet down, but Layton's own section has no clean way to say by how much a fleet that was never supposed to still exist has actually degraded, and every naval-threat assumption Downfall's planners lean on a year from now traces back to what gets decided about that gap this month. Ozawa is somewhere west of Saipan with more hulls than the historical battle ever had to account for. Mitscher wants to go find him regardless of the uncertainty. Spruance's orders still say protect the landing above all else, and protecting it against a fleet nobody can confidently size is a different order than the one his historical counterpart had to follow."
-            : "Ozawa's Mobile Fleet is somewhere west of Saipan, and Task Force 58's carrier commander, Mitscher, wants to go find it and finish it, the same instinct that made Halsey aggressive at Leyte later this year. Spruance, commanding the covering force, has a different priority written into his orders: protect the Saipan landing above all else. If the Japanese fleet slips past Task Force 58 while it's off hunting Ozawa, transports and Marines already ashore have nothing between them and a bombardment force. The question is whether to release the carriers for an aggressive pursuit or hold them close to the landing regardless of what that costs in Japanese ships that get away.",
+            : "Ozawa's Mobile Fleet is somewhere west of Saipan, and Mitscher, commanding Task Force 58's carriers, wants to find it and finish it. Spruance, commanding the covering force, has a different priority in his orders: protect the Saipan landing above all else. If the Japanese fleet slips past while Task Force 58 is hunting Ozawa, the transports and the Marines ashore have nothing between them and a bombardment force. The question is whether to release the carriers for a pursuit or hold them close to the landing, whatever that costs in Japanese ships that get away.",
           choices: midwayDeclined
             ? [
                 {
@@ -1151,7 +1151,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: -2 },
               next: "chinaCrisisAllied44",
               outcome:
-                "The Marianas Turkey Shoot destroys Japanese naval aviation as a serious fighting force regardless of Spruance's caution, but Ozawa's remaining carrier hulls, stripped of aircrews but not sunk, escape the battle intact, a fact naval aviators like Mitscher argued for years afterward represented a missed opportunity to end Japanese carrier aviation as a hull-count threat, not just a trained-pilot one. Spruance's defenders, then and since, point out that a landing force left uncovered while the carriers went hunting was a risk with no acceptable failure mode.",
+                "The Marianas Turkey Shoot destroys Japanese naval aviation as a serious force regardless of Spruance's caution, but Ozawa's remaining carriers, stripped of aircrews and not sunk, escape. Mitscher and other naval aviators argued for years afterward that this was a missed chance to end Japanese carrier aviation as a threat in ships and not only in pilots. Spruance's defenders point out that a landing force left uncovered while the carriers went hunting was a risk with no acceptable way to fail.",
             },
             {
               label: "Release the carriers for an aggressive pursuit: prioritize destroying Ozawa's fleet over the landing's immediate cover",
@@ -1168,7 +1168,7 @@
                   setFlags: { philippineSeaAlliedResult: "caughtFleet" },
                   impact: { readiness: 0, pipeline: 0, initiative: 2 },
                   outcome:
-                    "Mitscher's bet pays off. Task Force 58 runs down Ozawa's remaining carrier hulls before they can clear the range of American strike aircraft, finishing as hull losses what the Turkey Shoot already finished as a trained-pilot force. Japanese carrier aviation stops being a threat in any sense the historical battle left unresolved. The landing force went briefly uncovered to buy it, and this time the gamble that Spruance's orders were written to prevent simply didn't get tested by anything worse showing up.",
+                    "Speculative. Mitscher's bet pays off. Task Force 58 runs down Ozawa's remaining carriers before they clear the range of American strike aircraft, finishing in ships what the Turkey Shoot finished in pilots. The landing force is briefly uncovered, and nothing worse turns up to test it.",
                 },
                 {
                   weight: (() => { const w = modWeight(40, meters.initiative); return Math.max(5, 100 - w); })(),
@@ -1176,11 +1176,11 @@
                   setFlags: { philippineSeaAlliedResult: "missedFleet" },
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The likelier outcome, and the one Spruance's defenders always argued was the real risk: Ozawa's remaining hulls have too much of a head start, and Task Force 58 spends fuel and time chasing a fleet already most of the way home. The landing force sat briefly uncovered for a pursuit that caught nothing, exactly the failure mode Spruance's original orders were written to rule out.",
+                    "The likelier outcome, and the one Spruance's defenders always feared. Ozawa's remaining ships have too much of a head start, and Task Force 58 spends fuel and time chasing a fleet already most of the way home. The landing force sat briefly uncovered for a pursuit that caught nothing.",
                 },
               ],
               outcome:
-                "A plausible extension of the aggressive pursuit doctrine Halsey would apply at Leyte a few months later, with famously mixed results there too. Committing to the chase here risks exactly the scenario Spruance's orders were written to prevent, a landing force temporarily uncovered while the fleet hunts a retreating enemy, in exchange for a chance at destroying more of Ozawa's carrier hulls than the historical battle managed. Whether that trade was worth making is a dispute serious naval historians still haven't fully settled, split between Spruance's defenders and Mitscher's.",
+                "A modeled alternative. Committing to the chase risks the thing Spruance's orders were written to prevent, a landing force uncovered while the fleet hunts a retreating enemy, in exchange for a chance to destroy more of Ozawa's carriers than the real battle did. Naval historians remain split between Spruance's defenders and Mitscher's.",
             },
             ...(meters.readiness >= 6
               ? [
@@ -1205,7 +1205,7 @@
           title: "Deliver It Now, or Not At All",
           historicalRecord: true,
           situation:
-            "Marshall has the President's approval for an ultimatum to Chiang: put Stilwell in unrestricted command of every Chinese force in the field, or lose American aid entirely. Stilwell is standing by to deliver it in person, and by every account of the man he is eager to. Patrick Hurley, the President's own envoy already in Chungking, is asking for something different: hold the message a few days, let him work Chiang toward a version of the same demand Chiang can actually survive delivering to his own generals. Chiang provisionally agreed to something close to this arrangement in August. Whether that agreement holds depends heavily on how the next message arrives.",
+            "Marshall has the President's approval for an ultimatum to Chiang: put Stilwell in unrestricted command of every Chinese force in the field, or lose American aid entirely. Stilwell stands ready to deliver it in person and, by every account, is eager to. Patrick Hurley, the President's envoy in Chungking, asks for something different: hold the message a few days, and let him work Chiang toward a version of the same demand that Chiang can survive delivering to his own generals. Chiang agreed in principle to something close to this in August. Whether that agreement holds depends on how the next message arrives.",
           choices: [
             {
               label: "Send Stilwell in immediately, full ultimatum, no softening",
@@ -1215,7 +1215,7 @@
               impact: { readiness: -1, pipeline: -1, initiative: 1 },
               next: divergentPath ? "aDifferentPacific45" : "portChicago44",
               outcome:
-                "Stilwell delivers the ultimatum in person, by most accounts openly satisfied to finally be doing it. Chiang's patience breaks entirely: rather than accept command being handed to an American officer at gunpoint, he demands Stilwell's outright recall, aid or no aid. Washington backs down rather than lose China's cooperation altogether, and Stilwell is ordered home on October 19th. The command authority the ultimatum was built to win is never actually exercised by the man it was written for.",
+                "Stilwell delivers the ultimatum in person on September 19, by most accounts openly satisfied to be doing it. Chiang refuses to accept command handed to an American general at gunpoint and demands Stilwell's recall, aid or no aid. Washington backs down rather than lose China's cooperation, and Stilwell is ordered home on October 19. The command authority the ultimatum was meant to win is never exercised by the man it was written for.",
             },
             {
               label: "Hold the message: let Hurley negotiate a version of the same demand Chiang can survive delivering to his own government",
@@ -1235,7 +1235,7 @@
           title: "Halsey's Recommendation",
           historicalRecord: true,
           situation:
-            "Preliminary carrier strikes against Peleliu and the southern Philippines have revealed something planning assumed away: Japanese air power in the Palaus is far weaker than expected, and the airfield threat the whole Peleliu landing was built to remove barely exists anymore. Halsey has sent Carney to Nimitz's headquarters with a blunt recommendation: cancel Operation Stalemate II entirely, and use the assigned divisions somewhere the war can still use them. The invasion force is already at sea, three days from the beaches.",
+            "Carrier strikes against the Palaus and the southern Philippines have shown that Japanese air power there is far weaker than expected, and the airfield threat that the Peleliu landing was meant to remove barely exists. Halsey has sent his chief of staff, Carney, to Nimitz with a blunt recommendation: cancel Operation Stalemate II and use the assigned divisions somewhere the war can use them. The invasion force is already at sea, three days from the beaches.",
           choices: [
             {
               label: "Proceed with the landing as planned: the force is committed, and Peleliu's airfield still matters",
@@ -1245,7 +1245,7 @@
               impact: { readiness: -3, pipeline: -1, initiative: -1 },
               next: "portChicago44",
               outcome:
-                "The 1st Marine Division lands on September 15th into defenses that turn out to be dug in, disciplined, and nothing like the weakened garrison the preliminary strikes suggested from the air. What staff estimates call a three-day operation runs past two months, at a cost, over 9,500 American casualties against roughly 10,900 Japanese defenders, that becomes one of the most argued-over price tags of the entire Pacific War for an airfield the campaign that justified it barely ends up needing.",
+                "The 1st Marine Division lands on September 15 into defenses that are dug in, disciplined and nothing like the weakened garrison the air strikes suggested. What staff estimates called a three-day operation runs past two months and costs over 9,500 American casualties against roughly 10,900 Japanese defenders, a price argued over for decades, for an airfield the campaign barely needs.",
             },
             {
               label: "Cancel Stalemate II on Halsey's recommendation: recall the invasion force before it lands",
@@ -1254,7 +1254,7 @@
               impact: { readiness: 2, pipeline: 0, initiative: -1 },
               next: "peleliuForcesRedirected44",
               outcome:
-                "The order goes out with the fleet still three days from the beach. No landing happens; the Palaus garrison, real and substantial, roughly 10,900 men, stays exactly where it is, bypassed and left to wither without the supply or reinforcement to matter strategically again. What Nimitz's staff actually does with two divisions suddenly freed of an assignment isn't decided by this message. It's decided by the next one.",
+                "Speculative. The order goes out with the fleet still three days from the beach. There is no landing, and the Palau garrison of roughly 10,900 men is bypassed and left to wither. What Nimitz's staff does with two freed divisions is decided by the next message.",
             },
             ...(meters.initiative >= 7
               ? [
@@ -1278,7 +1278,7 @@
           title: "Peleliu's Redirected Divisions",
           historicalRecord: false,
           situation:
-            "The 1st Marine Division and the Army's 81st Infantry, packed and briefed for Peleliu, are sitting on transports with no landing to make. Nimitz's own planning staff has one real candidate for where they'd matter most: pulling the Iwo Jima timetable forward, months ahead of the historical February 1945 date planning otherwise assumed. The case for it is genuine. So are the reasons the historical timetable waited: naval gunfire ships committed elsewhere, a landing season this early nobody has actually war-gamed, and an island whose defenses, unlike Peleliu's, nobody currently believes are weaker than expected." +
+            "Speculative. The 1st Marine Division and the Army's 81st Infantry Division, packed and briefed for Peleliu, sit on transports with no landing to make. Nimitz's planners have one candidate for where they would matter most: pulling the Iwo Jima date forward from February 1945. The case is real, and so are the reasons the real timetable waited: naval gunfire ships committed elsewhere, a landing season nobody has war-gamed, and an island whose defenses, unlike Peleliu's, nobody believes are weaker than expected." +
             (flags.leyteAccelerationPath === "pushedFurther"
               ? " The same argument that just pushed Washington past its own historical appetite for accelerating Leyte is sitting in this room already. Whether it's still sound advice the second time it's made in one week, or a momentum this staff has simply stopped questioning, is not a distinction anyone here has fully worked out yet."
               : ""),
@@ -1295,7 +1295,7 @@
                   setFlags: { ironBottomResult: "success" },
                   impact: { readiness: 1, pipeline: 0, initiative: 2 },
                   outcome:
-                    "The gamble on timing pays off: naval gunfire support gets reassigned fast enough to matter, and Iwo Jima's garrison, still finishing the tunnel network that made the historical February assault so costly, hasn't finished it yet. This is the version of Iwo Jima the freed Peleliu divisions were spent to buy, months earlier and meaningfully cheaper than the historical assault ever was.",
+                    "Speculative. The gamble pays off. Naval gunfire support is reassigned in time, and Iwo Jima's garrison, still finishing the tunnel network that made the real February assault so costly, has not finished it. The landing comes months earlier and is much cheaper than the real one.",
                 },
                 {
                   weight: (() => { const w = modWeight(40, meters.pipeline); return Math.max(5, 100 - w); })(),
@@ -1303,12 +1303,12 @@
                   setFlags: { ironBottomResult: "costly" },
                   impact: { readiness: -3, pipeline: -2, initiative: -1 },
                   outcome:
-                    "The reasons the historical timetable waited turn out to have been real reasons, not just caution for its own sake: naval gunfire support arrives thinner than the plan needed, and an accelerated landing against defenses nobody actually reconnoitered in advance costs close to what the historical assault did anyway, just months earlier and with less time to prepare for it. The freed divisions get spent regardless. What's uncertain is whether they were spent better here than they would have been at Peleliu.",
+                    "Speculative. The reasons the real timetable waited were real. Naval gunfire support is thinner than the plan needed, and a landing against defenses nobody has reconnoitered costs close to what the real assault did, months earlier and with less preparation. The freed divisions are spent regardless.",
                 },
               ],
               next: "portChicago44",
               outcome:
-                "Two divisions with no orders, an island everyone already knew needed taking eventually, and a window nobody's sure is actually as open as it looks from a transport deck three days after a canceled landing.",
+                "Speculative. Two divisions with no orders, an island everyone knew would need taking, and a window nobody is sure is as open as it looks from a transport deck.",
             },
             {
               label: "Hold the divisions in theater reserve instead: don't spend an opportunity on an unplanned assault",
@@ -1318,7 +1318,7 @@
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "portChicago44",
               outcome:
-                "The safer read, and an honest one: two divisions held in reserve rather than committed to a landing this staff hasn't actually planned. Whether that caution preserves men who would otherwise have been spent on a rushed Iwo Jima assault, or simply delays a fight that was always coming on worse terms later, isn't something held-in-reserve divisions can answer by sitting on transports.",
+                "Speculative. Two divisions are held in reserve instead of committed to a landing that has not been planned. Whether that saves men who would have been spent on a rushed assault, or only delays a fight that was always coming, is not something divisions sitting on transports can answer.",
             },
           ],
         };
@@ -1376,7 +1376,7 @@
                   setFlags: { chinaCrisisResult: "blunted" },
                   impact: { readiness: 1, pipeline: 0, initiative: 1 },
                   outcome:
-                    "Davies's case holds up. Material support reaching Communist forces in the north translates into real pressure on Japanese supply lines feeding Ichi-Go, enough to slow, though not stop, the offensive's advance. Whether it was worth what it costs the alliance with Chiang's government is a different question. On the narrow military question, it did what its advocates said it would.",
+                    "Speculative. Davies's case holds. Support reaching Communist forces in the north puts pressure on the supply lines feeding Ichi-Go, enough to slow the offensive and not to stop it. Whether that was worth the cost to the alliance with Chiang's government is another question. On the narrow military point, it did what its advocates said.",
                 },
                 {
                   weight: (() => { const w = modWeight(40, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -1384,11 +1384,11 @@
                   setFlags: { chinaCrisisResult: "tooLittle" },
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The likelier outcome, and the one skeptics of the policy always argued for: whatever reaches Yan'an arrives too late and too thin to meaningfully change a five-hundred-thousand-man offensive's trajectory, while still costing everything it cost with Chiang's government. Ichi-Go succeeds regardless, and the alliance damage from arming Chiang's rivals turns out to have bought considerably less than its advocates hoped.",
+                    "The likelier outcome. Whatever reaches Yan'an arrives too late and too thin to change an offensive of that size, and still costs what it costs with Chiang's government. Ichi-Go succeeds regardless, and arming Chiang's rivals buys less than its advocates hoped.",
                 },
               ],
               outcome:
-                "A path the real war flirted with, the Dixie Mission's observers at Yan'an made close to this exact case in 1944, but never adopted at any real scale, for reasons that were as much about the alliance's postwar politics as about the war still being fought. Whether meaningful material support meaningfully blunts Ichi-Go, or simply arrives too late and too thin to matter against a five-hundred-thousand-man offensive, is contested among historians of the period; what's not contested is that this choice reshapes the postwar Nationalist-Communist balance in ways beyond what happens here to follow through to their 1949 conclusion.",
+                "A modeled alternative. The Dixie Mission's observers at Yan'an made close to this case in 1944, and it was never adopted at any scale, for reasons that had as much to do with the alliance's postwar politics as with the war. Whether material support would have blunted Ichi-Go, or arrived too late and too thin against an offensive of some 500,000 men, is disputed. It would have changed the balance of the Chinese civil war that ended in 1949.",
             },
           ],
         };
@@ -1399,7 +1399,7 @@
           title: "Port Chicago: The Order Back to the Pier",
           historicalRecord: true,
           situation:
-            "Three weeks ago, on the night of July 17th, two ammunition ships being loaded at the Port Chicago Naval Magazine outside San Francisco exploded, killing 320 sailors and civilians and injuring 390 more. Nearly all of the dead were Black enlisted men, assigned to munitions loading because the Navy's segregated personnel policy routed Black sailors into the most dangerous shore duty available and gave them no specialized training for it, no hazard pay, and white officers who timed the loading crews against each other for speed. The Bureau of Ordnance's own investigation found no fault with procedures. What sits in front of this command now is a straightforward order: the surviving sailors, transferred to Mare Island, are to resume loading ammunition under the identical conditions, the same untrained crews, the same competitive timing, the same absence of any safety change traceable to an explosion that just killed a third of their division.",
+            "Three weeks ago, on the night of July 17, two ammunition ships being loaded at the Port Chicago Naval Magazine outside San Francisco exploded, killing 320 sailors and civilians and injuring 390. Most of the dead, 202, were Black enlisted men. The Navy's segregated personnel policy assigned Black sailors to loading ammunition, with no specialized training, no hazard pay, and white officers who timed the loading crews against each other for speed. The Bureau of Ordnance's investigation found no fault with procedures. The order now before the command is to return the surviving sailors, transferred to Mare Island, to loading ammunition under the same conditions: the same untrained crews, the same competitive timing, and no safety change.",
           choices: [
             {
               label: "Issue the order as planned: identical conditions, no changes, return to loading immediately",
@@ -1409,7 +1409,7 @@
               impact: { readiness: 0, pipeline: 0, initiative: 0 },
               next: "philippinesFormosaAllied44",
               outcome:
-                "What actually happened. Two hundred and fifty-eight sailors refuse the order on August 9th. Under threat of the death penalty for mutiny in wartime, 208 relent and are convicted in summary courts-martial of the lesser charge of disobeying orders, receiving bad conduct discharges that cost them veterans' benefits for the rest of their lives. Fifty hold their refusal and are charged with mutiny outright, a capital wartime offense. Their trial, watched from the gallery for twelve days by NAACP counsel Thurgood Marshall, ends in October with all fifty convicted, sentenced to eight to fifteen years of hard labor. The men who died on July 17th are already dead by the time this order reaches anyone; what this decision actually determines is what happens to the men who lived, and it treats their refusal to return to the identical conditions that killed their friends as a capital crime rather than as evidence the conditions needed to change.",
+                "What happened. On August 9, 258 sailors refuse the order. Under threat of a mutiny charge, 208 relent and are tried in summary courts-martial for disobeying orders. Fifty hold out and are charged with mutiny, a capital offense in wartime. Their trial, watched by NAACP counsel Thurgood Marshall, ends in October with all fifty convicted and sentenced to eight to fifteen years of hard labor. The order treated their refusal to return to the conditions that killed their shipmates as a crime, and not as evidence that the conditions needed to change.",
             },
             {
               label: "Halt loading operations fleet-wide pending an actual safety and training review before ordering anyone back",
@@ -1424,7 +1424,7 @@
                   setFlags: { portChicagoResult: "reformHeld" },
                   impact: { readiness: 1, pipeline: -1, initiative: 0 },
                   outcome:
-                    "The review that never happened historically gets a real hearing here: proper training, hazard pay, integrated crews, and loading rates no longer timed as a competition between divisions. It costs real weeks of ammunition flow to the Pacific at a moment the war can least easily spare them, and it means the fifty men whose historical refusal became a mutiny trial never have to make that choice at all, because the order they'd have refused never gets issued in its original form.",
+                    "Speculative. The review that never happened in the real war gets a hearing: proper training, hazard pay, integrated crews, and loading rates no longer timed as a contest between divisions. It costs weeks of ammunition flow at a moment the war can least spare them, and the fifty men whose refusal became a mutiny trial never have to make it, because the order is not issued in its original form.",
                 },
                 {
                   weight: (() => { const w = modWeight(45, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -1432,11 +1432,11 @@
                   setFlags: { portChicagoResult: "reformStalled" },
                   impact: { readiness: -1, pipeline: -2, initiative: -1 },
                   outcome:
-                    "The historical Bureau of Ordnance investigation found no fault in procedure at all; an order to review doesn't automatically overcome an institution that had already concluded, on paper, that nothing needed changing. The review runs long, produces real but modest changes, mostly training, none of the deeper integration or hazard-pay questions the sailors themselves actually raised, and the delay this command absorbed buys less than it was meant to.",
+                    "Speculative. The real Bureau of Ordnance investigation found no fault in procedure, and an order to review does not by itself overcome an institution that had already concluded that nothing needed changing. The review runs long and produces modest changes, mostly in training, and none of the integration or hazard-pay questions the sailors raised. The delay buys less than it was meant to.",
                 },
               ],
               outcome:
-                "A position that treats the explosion itself as the evidence requiring a response, rather than treating the survivors' refusal to return unchanged as the thing this command actually has to answer. What it costs is weeks of ammunition flow the Pacific war doesn't have much slack to absorb; what it avoids is a mutiny trial for fifty men whose actual crime, in the historical record, was refusing to go back to the conditions that just killed 320 of their own.",
+                "A modeled alternative that treats the explosion as the evidence requiring a response. It costs weeks of ammunition flow that the Pacific war has little slack to absorb, and it avoids a mutiny trial of fifty men whose crime, in the real record, was refusing to return to the conditions that had just killed 320 of their own.",
             },
           ],
         };
@@ -1480,7 +1480,7 @@
               gateCheck: { meter: "readiness", threshold: -4, label: "Readiness" },
               next: "quezonsSuccessor44",
               outcome:
-                "The Leyte landing draws the Imperial Navy's remaining surface strength into the war's largest naval battle, fought and won even after Kurita's battleships broke through to the invasion beaches and then, controversially, withdrew. Luzon's liberation runs through the month-long battle for Manila itself, the single most destructive urban fighting of the entire Pacific War. Yamashita's own order was to abandon the city rather than defend it; Rear Admiral Sanji Iwabuchi, commanding the naval garrison and carrying the disgrace of a warship lost at Guadalcanal two years earlier, refused and chose to fight regardless. What follows over the next month is a civilian death toll estimated at a minimum of 100,000, credible estimates running considerably higher, split between American artillery once fire restrictions were lifted and systematic killing by Japanese forces as the city fell around them. Manila's liberation delivers forward air bases the final approach to Japan uses directly, and a reckoning, at the postwar tribunals, over how much responsibility a commanding general bears for atrocities carried out by a subordinate who disobeyed his direct order to withdraw.",
+                "The Leyte landing draws the Imperial Navy's remaining surface strength into the largest naval battle of the war, which the Americans win even after Kurita's battleships break through to the invasion beaches and then withdraw. Luzon's liberation runs through the month-long battle for Manila, the most destructive urban fighting of the Pacific War. Yamashita ordered the city abandoned. Rear Admiral Sanji Iwabuchi, commanding the naval garrison, refused and fought on. The civilian dead are estimated at no fewer than 100,000, some of them killed by American artillery once fire restrictions were lifted and many by systematic killing by Japanese forces as the city fell. Manila gives the final approach to Japan its forward air bases, and the postwar tribunals later weigh how much responsibility a general bears for atrocities committed by a subordinate who disobeyed his order to withdraw.",
             },
             {
               label: "Bypass the Philippines: seize Formosa instead",
@@ -1489,7 +1489,7 @@
               impact: { readiness: -4, pipeline: 0, initiative: 4 },
               next: "halseyTyphoon44",
               outcome:
-                "A faster, more direct approach that the actual Joint Chiefs debate seriously considered and set aside, partly on the logistics of supporting a Formosa landing without Philippine bases first, partly on the political and moral weight of MacArthur's argument. This path takes the road not taken: a shorter geographic route bought with harder fighting against a more concentrated Japanese defense, and Philippine civilians left under occupation for a war's final year this path never liberates them from. The rest of the war, the fleet's own reckonings, the islands still ahead, the war's actual conclusion still to be decided, continues regardless of which approach reached Formosa.",
+                "A modeled alternative that the Joint Chiefs seriously considered and set aside, partly on the logistics of supporting a Formosa landing without Philippine bases, partly on the political and moral weight of MacArthur's argument. The route is shorter and the fighting harder, against a more concentrated defense, and Philippine civilians stay under occupation for the last year of the war.",
             },
           ],
         };
@@ -1500,7 +1500,7 @@
           title: "A President Who Didn't Live to See the Beach",
           historicalRecord: true,
           situation:
-            "President Manuel Quezon, who led the Philippine government-in-exile from Washington for the length of the occupation, died of tuberculosis in August, weeks before the Leyte landing he'd spent years pressing for finally happened. Sergio Osmeña, his vice president, is the one who really wades ashore beside MacArthur, an image the newsreels will use for the rest of the war, representing a president who isn't there to see it. Quezon's own real, well-documented position, pressed on Washington for years, was independence on the existing 1946 schedule with no reduction in American commitment. What Osmeña presses for now, with the war's actual cost freshly visible on the beach behind him, is an open question.",
+            "President Manuel Quezon, who led the Philippine government in exile from Washington, died of tuberculosis on August 1, weeks before the Leyte landing he had spent years pressing for. Sergio Osmeña, his vice president, is the one who wades ashore beside MacArthur, in an image the newsreels will use for the rest of the war. Quezon's position, pressed on Washington for years, was independence on the existing 1946 schedule with no reduction in American commitment. What Osmeña asks for now is open.",
           choices: [
             {
               label: "Confirm the existing 1946 independence timeline unchanged: no acceleration, no extended conditions",
@@ -1510,7 +1510,7 @@
               impact: { readiness: 0, pipeline: 0, initiative: 1 },
               next: "halseyTyphoon44",
               outcome:
-                "The Tydings-McDuffie timetable holds exactly as set a decade earlier, and the Philippines become independent on July 4, 1946, within a year of the war's own end. What doesn't stay simple is everything negotiated alongside it: history's own postwar Military Bases Agreement grants the United States access to Clark Field, Subic Bay, and other installations on terms that remain contentious for decades, an arrangement this decision doesn't resolve one way or the other, just declines to complicate further with a changed date.",
+                "The Tydings-McDuffie timetable holds as set a decade earlier, and the Philippines become independent on July 4, 1946. What is negotiated alongside it stays contentious: in the real war the Military Bases Agreement of 1947 gave the United States Clark Field, Subic Bay and other installations on terms disputed for decades, and this decision does not resolve that, only declines to complicate it with a changed date.",
             },
             {
               label: "Press for extensive, long-term American basing rights as the price of continued full support through liberation",
@@ -1519,7 +1519,7 @@
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
               next: "halseyTyphoon44",
               outcome:
-                "A harder bargain than Quezon's own real position ever pushed for, using the liberation campaign's urgency as leverage while Manila is still occupied and the alliance's asymmetry is at its most visible. It gets Washington more durable, more explicitly negotiated access than the historical 1947 agreement's own contested terms ultimately provided, at a cost to Filipino goodwill, not a free one: an independence granted with strings attached reads differently than one granted cleanly, whatever the strategic logic behind the strings.",
+                "A modeled alternative: a harder bargain than Quezon ever pushed for, using the urgency of the liberation campaign as leverage while Manila is still occupied. It gets Washington more durable and more explicitly negotiated access than the 1947 agreement provided, at a cost in Filipino goodwill, since independence with strings attached reads differently from independence granted cleanly.",
             },
           ],
         };
@@ -1560,7 +1560,7 @@
               " Nimitz's staff has to decide whether to trust that three more years of losses closed the gap, or plan the invasion screen as if it didn't."
             : assaultDoctrine
             ? "Three years of reducing the Gilberts, Marshalls, and Marianas strongpoint by strongpoint instead of bypassing them has put a real, higher casualty count into American newspapers every few months since Tarawa, a steady public exposure to the war's cost the historical leapfrogging campaign mostly spared. What isn't clear from here is which way that cuts: whether a public already accustomed to costly island fighting has more patience left for Downfall's own casualty estimate, or less."
-            : "Pressing King's case at Arcadia for near-parity Pacific resourcing, against the standing Europe First doctrine, has meant three years of a materially better-supplied Pacific Fleet than the historical one, extracted a fight at a time from a production pipeline that never fully changed its priorities on paper. By 1945 that accumulated advantage is real and measurable. Whether it's enough to change how the war ends, or simply enough to have fought a bigger war at the same ending, is what the Joint Chiefs have to decide now.") +
+            : "Speculative. King won the argument at Arcadia for near-parity Pacific resourcing, and three years of a better-supplied Pacific Fleet than the real one have followed, taken from a production system that never changed its priorities on paper. By 1945 the advantage is real. Whether it is enough to change how the war ends, or only to fight a bigger war to the same end, is what the Joint Chiefs have to decide.") +
             (flags.chinaCrisisResult === "blunted"
               ? " China's own front, at least, isn't a drag on this year's planning: the material support that reached Communist forces during Ichi-Go's advance slowed it, one theater the Joint Chiefs don't have to spend fresh attention rescuing while they work through everything else 1945 is asking of them."
               : flags.chinaCrisisResult === "tooLittle"
@@ -1645,7 +1645,7 @@
                   impact: { readiness: 1, pipeline: -1, initiative: 2 },
                   next: "aDifferentPacificFinalWord45",
                   outcome:
-                    "The resourcing argument King made at Arcadia, and kept making for three years afterward, finally cashed in on the one decision it was always aimed at: a materially larger invasion force, assembled faster than the historically resourced Pacific Fleet ever could have managed, betting that three years of incremental production advantage adds up to real time saved at the war's most expensive remaining moment.",
+                    "Speculative. King's resourcing argument, kept up for three years, is cashed in on the decision it was always aimed at: a larger invasion force, assembled faster than the real Pacific Fleet could have managed, on the bet that three years of extra production add up to real time saved at the most expensive moment of the war.",
                 },
                 {
                   label: "Treat the extra resourcing as a bigger war fought at the same pace, not a faster one: proceed on the historical timeline",
@@ -1655,7 +1655,7 @@
                   impact: { readiness: 0, pipeline: 1, initiative: -1 },
                   next: "aDifferentPacificFinalWord45",
                   outcome:
-                    "A more skeptical read of what three years of near-parity resourcing actually bought: a bigger, better-supplied fleet, proceeding on essentially the historical schedule regardless, because more material was never the same thing as a fundamentally different war. The advantage isn't wasted, exactly. It's banked, in a margin for error the historical fleet never had, rather than spent on speed.",
+                    "Speculative. A bigger, better supplied fleet proceeds on essentially the real schedule, because more material is not the same as a different war. The advantage is not wasted. It is banked as a margin for error the real fleet never had, and not spent on speed.",
                 },
               ],
         };
@@ -1692,7 +1692,7 @@
                 : flags.publicTolerancePath === "exhausted"
                 ? " Washington chose the more cautious reading instead, treating three years of high casualties as proof of exhaustion rather than tolerance, and planned toward blockade rather than invasion on that basis."
                 : "")
-            : "The bomb, the Soviet declaration, and Japan's cabinet deadlock aren't pushed off schedule by how the Pacific Fleet was resourced getting here. What's provably different is the fleet itself, and the price the European theater quietly paid in production priority for three years, so that this fleet could be larger than the historical one without the war's broad ending ever actually depending on it being so." +
+            : "Speculative. The bomb, the Soviet declaration and the deadlock in Japan's cabinet do not move because of how the Pacific Fleet was resourced. What is different is the fleet, and the price the European theater paid in production priority for three years so that this fleet could be larger than the real one, without the broad ending of the war depending on it." +
               (flags.resourcingUsePath === "accelerate"
                 ? " King's own resourcing argument from Arcadia got spent, in the end, on trying to buy real time at the war's most expensive remaining moment, not just on a larger margin for error."
                 : flags.resourcingUsePath === "unchanged"
@@ -1701,7 +1701,7 @@
           choices: [
             {
               label: "Put a documented comparison on the record: state plainly how this fleet's own toll measures against the war's real historical cost",
-              advisor: { name: "King", position: "The war's documented cost in the theater is over a hundred and eleven thousand American dead, and what the fleet's own divergence added to or spared from that number should be on the record where others can read it." },
+              advisor: { name: "King", position: "The war's cost in the Pacific theater was well over a hundred thousand American dead, and what this fleet's divergence added or spared should be on the record where others can read it." },
               setFlags: { differentPacificFinalPath: "acceptTrade" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "END",
@@ -1709,16 +1709,16 @@
                 ? "The documented total for this theater, a little over 111,000 American dead, is the real number this fleet's own account now sits beside on the record rather than apart from it. Three additional years of an Imperial Navy the historical record never had to account for meant three additional years of resources spent managing it, a real, countable addition to that total rather than a rounding error, even if the war's broad shape and its final year land almost exactly where the historical record says they should."
                 : assaultDoctrine
                 ? "The documented total for this theater, a little over 111,000 American dead, is the real number a strongpoint-by-strongpoint doctrine's own higher toll now sits beside on the record rather than apart from it. The historical leapfrogging campaign bypassed exactly the kind of costly direct assaults this path chose to fight instead, and the difference between those two approaches is a real, countable addition to the documented total, not a rounding error, even where the war's broad shape and its final year land almost exactly on schedule regardless."
-                : "The documented total for this theater, a little over 111,000 American dead, is the real number this fleet's own account now sits beside on the record rather than apart from it. Whatever three years of King's own resourcing argument from Arcadia bought this fleet in size and readiness, it was bought at a real, countable cost to the European theater's own production priorities, now weighed openly against the same documented total the historical fleet's cost is measured against, rather than left as something only this command quietly knows.",
+                : "Speculative. This fleet's account is set beside the documented toll of the theater, more than a hundred thousand American dead. Whatever three years of King's resourcing bought in size and readiness was bought at a countable cost to the European theater's production priorities, now weighed openly and not left as something only this command knows.",
             },
             {
               label: "Decline to reduce it to a single number: state plainly that an honest accounting of this fleet's own divergence isn't the same thing as a precise one",
-              advisor: { name: "Nimitz", position: "The official casualty accounting after the war had real disputes between good sources that never fully reconciled, and the command's own less-audited count should not be given more confidence than the official record could claim." },
+              advisor: { name: "Nimitz", position: "The postwar casualty accounting had real disputes between good sources that never fully reconciled, and this command's own count should not be given more confidence than the official record could claim." },
               setFlags: { differentPacificFinalPath: "acceptUncertainty" },
               impact: { readiness: -1, pipeline: 1, initiative: 0 },
               next: "END",
               outcome:
-                "A real, documented precedent, not a rhetorical dodge: the National Archives' own postwar compilation of American casualties across every theater openly acknowledges the same problem this command is running into now, categories of missing, captured, and declared-dead that never fully reconciled even with a dedicated postwar accounting effort behind them, and good sources that still differ from each other in places. Handing this fleet's own considerably rougher internal count a precision the official record's own numbers couldn't fully claim for themselves would be the actual dishonesty here. What this divergence changed about the fleet's condition and the war's real cost stays real regardless of whether it gets reduced to a number this command was never actually positioned to defend to the last digit.",
+                "Speculative. The official postwar casualty counts have categories of missing, captured and declared-dead that never fully reconciled, and good sources that differ. Giving this fleet's rougher internal count a precision that the official record cannot claim would be the real dishonesty. What the divergence changed about the fleet and the war's cost stays real whether or not it is reduced to a number this command cannot defend to the last digit.",
             },
           ],
         };
@@ -1729,17 +1729,17 @@
           title: "Typhoon Cobra",
           historicalRecord: true,
           situation:
-            "Halsey's Third Fleet, refueling destroyers at sea to support the Luzon landings, sails directly into a typhoon whose position his own staff misjudged, against warnings from ships in company that read the deteriorating weather correctly and said so. Three destroyers, Hull, Monaghan, and Spence, capsize and sink. Nearly 800 sailors are dead, more than some actual naval battles cost, and a court of inquiry is convening to determine whether this was unavoidable weather or a command failure with a name attached to it.",
+            "Halsey's Third Fleet, refueling destroyers at sea to support the Luzon landings, sails into a typhoon whose position his staff misjudged, against warnings from ships in company that read the weather correctly and said so. Three destroyers, Hull, Monaghan and Spence, capsize and sink on December 18. Nearly 800 sailors are dead, more than some naval battles cost, and a court of inquiry convenes to decide whether this was unavoidable weather or a command failure with a name attached.",
           choices: [
             {
               label: "Find questionable judgment but retain Halsey in command: his record and standing outweigh one weather error",
-              advisor: { name: "Nimitz", position: "The court's findings have been read in full, and the officer who won the Philippine Sea and Leyte Gulf should not be relieved over a typhoon his staff misjudged, when several other flag officers could have made the same mistake." },
+              advisor: { name: "Nimitz", position: "The court's findings have been read in full, and the officer who commanded at Leyte Gulf and in the Solomons should not be relieved over a typhoon his staff misjudged, when several other flag officers could have made the same mistake." },
               historical: true,
               setFlags: { halseyTyphoonPath: "retained" },
               impact: { readiness: 0, pipeline: -1, initiative: 0 },
               next: "burmaReconquest45",
               outcome:
-                "The court of inquiry finds Halsey exercised questionable judgment and recommends no punitive action. He retains command of the fleet, and eight months later sails it directly into a second typhoon under startlingly similar circumstances, a second, smaller round of losses that becomes its own smaller footnote to this one. Popularity and a strong combat record bought him a second chance the court's own findings didn't clearly justify on the facts alone.",
+                "The court of inquiry finds that Halsey exercised questionable judgment and recommends no punishment. He keeps command of the fleet and, six months later, takes it into a second typhoon in similar circumstances, with smaller losses. His record bought him a second chance that the court's findings did not clearly justify.",
             },
             {
               label: "Relieve Halsey of fleet command: the court's findings on judgment stand regardless of reputation",
@@ -1748,7 +1748,7 @@
               impact: { readiness: -1, pipeline: 0, initiative: -2 },
               next: "halseyAftermath44",
               outcome:
-                "A relief the actual court of inquiry's findings could have supported but didn't recommend. Halsey's public standing, built on real victories at the Philippine Sea and Leyte Gulf, made this a costly call to make, and the fleet loses a commander whose aggression, for all its real costs, also produced real results.",
+                "A modeled alternative that the court's findings could have supported and did not recommend. Halsey's public standing, built on real victories in the Solomons and at Leyte Gulf, made relieving him costly, and the fleet loses a commander whose aggression also produced results.",
             },
           ],
         };
@@ -1759,7 +1759,7 @@
           title: "One Command, Not Two",
           historicalRecord: false,
           situation:
-            "The historical Pacific Fleet ran on an unusual system: the same ships, alternately called Third Fleet under Halsey and Fifth Fleet under Spruance, depending on who currently held the wheel, an arrangement that let one staff plan the next operation while the other executed the current one. With Halsey relieved, that alternating structure has no second commander to alternate with. Spruance, methodical where Halsey was aggressive, inherits sole command of the fast carrier fleet for the war's final stretch.",
+            "Speculative. The real Pacific Fleet ran on an unusual system: the same ships were called Third Fleet under Halsey and Fifth Fleet under Spruance, depending on who held command, so that one staff could plan the next operation while the other carried out the current one. With Halsey relieved, there is no second commander to alternate with, and Spruance, methodical where Halsey was aggressive, inherits sole command of the fast carrier fleet for the last stretch of the war.",
           choices: [
             {
               label: "Keep Spruance's cautious doctrine as the fleet's only operating style for the rest of the war",
@@ -1768,7 +1768,7 @@
               impact: { readiness: 2, pipeline: 0, initiative: -2 },
               next: flags.philippinesPath === "liberate" ? "cabanatuanRaid45" : "iwoJimaAllied45",
               outcome:
-                "A fleet that fights its entire final year under a single, consistent doctrine rather than alternating between two commanders' really different instincts. What's lost is the aggressive pursuit Halsey's style occasionally bought at Leyte's own cost; what's gained is a fleet that never again sails into a typhoon it should have seen coming, and a command structure with one clear answer instead of two competing ones.",
+                "Speculative. The fleet fights its final year under one doctrine and not two commanders' different instincts. The aggressive pursuit that Halsey's style sometimes bought, at its own cost, is lost, and the fleet never again sails into a typhoon it should have seen coming. The command structure has one answer and not two.",
             },
             {
               label: "Promote a second carrier commander to restore the alternating structure, even without Halsey",
@@ -1779,7 +1779,7 @@
               gateCheck: { meter: "readiness", threshold: -4, label: "Readiness" },
               next: flags.philippinesPath === "liberate" ? "cabanatuanRaid45" : "iwoJimaAllied45",
               outcome:
-                "The alternating structure survives Halsey's relief, restored under a less famous name history never had reason to record. The planning advantage the system was actually built for continues into the war's final year, at the cost of the specific aggressive instinct Halsey personally brought to it, replaced by a competent but less recognizable hand on the wheel.",
+                "Speculative. The alternating structure survives Halsey's relief under a less famous name, and the planning advantage it was built for continues into the last year of the war, at the cost of the aggressive instinct Halsey brought to it.",
             },
           ],
         };
@@ -1790,7 +1790,7 @@
           title: "Reopening the Overland Route",
           historicalRecord: true,
           situation:
-            "Slim's Fourteenth Army, rebuilt from the longest retreat in British military history three years earlier, has retaken Burma, closing the loop on a theater that opened the mainland thread back in 1942. The question left standing is almost administrative by comparison to the fighting that got here: whether to force construction of the Ledo Road, an overland supply route through the reconquered territory into China, or rely permanently on the Hump airlift and put the engineering effort somewhere the Pacific advance can use it directly." +
+            "Slim's Fourteenth Army, rebuilt from the retreat of 1942, is retaking Burma. The question left standing is almost administrative by comparison to the fighting that got here: whether to force construction of the Ledo Road, an overland supply route through the reconquered territory into China, or rely permanently on the Hump airlift and put the engineering effort somewhere the Pacific advance can use it directly." +
             (flags.rangoonAlliedPath === "defend"
               ? " The Chinese divisions committed to the costlier defense of Rangoon back in 1942 are, on this path, part of the army that just finished retaking the ground they were nearly lost holding three years ago."
               : ""),
@@ -1814,7 +1814,7 @@
               impact: { readiness: 1, pipeline: -1, initiative: 2 },
               next: flags.philippinesPath === "liberate" ? "cabanatuanRaid45" : "iwoJimaAllied45",
               outcome:
-                "A reasoned projection built on an argument that has real hindsight behind it: the historical Ledo Road's strategic payoff was marginal given how late it opened, and engineers freed for Pacific basing and airfield construction have an unambiguous, immediate use closer to the war's actual decisive theater. What's given up is symbolic as much as material: the road that proved the CBI theater's logistics could be solved by more than air power alone, on a path that never bothers proving it.",
+                "A modeled alternative. The real Ledo Road's strategic payoff was marginal because it opened so late, and engineers freed for airfield and base construction in the Pacific have an immediate use closer to the decisive theater. What is given up is symbolic as much as material: the road that proved the China-Burma-India theater's logistics could be solved by more than air power.",
             },
           ],
         };
@@ -1825,7 +1825,7 @@
           title: "Cabanatuan: Thirty Miles Behind the Lines",
           historicalRecord: true,
           situation:
-            "Intelligence reaching Sixth Army's headquarters carries a specific fear, not a general one: on Palawan, last month, Japanese guards herded roughly 150 American POWs into air raid shelters and burned them alive as the Allied advance approached, a kill-all policy rather than an improvised atrocity. More than 500 American and Allied prisoners, most of them Bataan and Corregidor survivors who've already spent nearly three years in captivity, are held at a camp near Cabanatuan City, thirty miles behind the current front line and directly in the path of the same advance that triggered Palawan. Lieutenant General Krueger has a rescue plan in front of him: the 6th Ranger Battalion, ten Alamo Scouts, and several hundred Filipino guerrillas under Captain Juan Pajota, moving on foot through Japanese-held territory to reach the camp before the regular advance does, or before the guards decide the regular advance is close enough to matter.",
+            "Intelligence reaching Sixth Army's headquarters carries a specific fear. On Palawan in December, Japanese guards herded about 150 American prisoners into air raid shelters and burned them alive as the Allied advance approached. More than 500 American and Allied prisoners, most of them Bataan and Corregidor survivors with nearly three years in captivity, are held at a camp near Cabanatuan City, thirty miles behind the front line and in the path of the same advance. Lieutenant General Krueger has a rescue plan: the 6th Ranger Battalion, ten Alamo Scouts and several hundred Filipino guerrillas under Captain Juan Pajota would go in on foot through Japanese-held territory to reach the camp before the regular advance does, or before the guards decide that the advance is close enough to matter.",
           choices: [
             {
               label: "Authorize the raid: send the Rangers, Scouts, and guerrillas in on foot, thirty miles behind enemy lines",
@@ -1841,7 +1841,7 @@
                   setFlags: { cabanatuanResult: "success" },
                   impact: { readiness: 1, pipeline: 0, initiative: 2 },
                   outcome:
-                    "What actually happened, and one of the cleanest special-operations successes of the entire war: more than 500 prisoners liberated in a raid lasting under half an hour, at a cost of two Rangers killed against several hundred Japanese casualties. Malnourished men too weak to walk are carried out on the backs of the same Rangers who broke them out, and on Filipino carabao carts requisitioned from villages along the thirty-mile route back to American lines. The camp's entire garrison and the reinforcement column that arrived mid-raid are wiped out before either can carry out whatever order Palawan's guards already had.",
+                    "What happened, and one of the cleanest special-operations successes of the war. More than 500 prisoners are freed in a raid lasting under half an hour, for the loss of two Americans, against several hundred Japanese killed. Prisoners too weak to walk are carried out on the Rangers' backs and on carabao carts requisitioned from villages along the thirty-mile route back. The camp's garrison and the reinforcement column that arrives mid-raid are destroyed before either can carry out any order like Palawan's.",
                 },
                 {
                   weight: (() => { const w = modWeight(75, meters.initiative); return Math.max(5, 100 - w); })(),
@@ -1849,11 +1849,11 @@
                   setFlags: { cabanatuanResult: "costly" },
                   impact: { readiness: -3, pipeline: -1, initiative: -1 },
                   outcome:
-                    "Thirty miles on foot through enemy-held territory to reach a fortified camp was always a genuine operational risk, not a formality on the way to a foregone success; the historical raid's near-bloodless outcome depended on timing and reconnaissance that don't hold as cleanly here. The camp is still taken and the prisoners still freed, but at a real cost in Rangers and guerrillas the historical operation, remarkably, never had to pay.",
+                    "Speculative. The real raid's near-bloodless result depended on timing and reconnaissance that do not hold as cleanly here. The camp is taken and the prisoners freed, but at a cost in Rangers and guerrillas that the real operation never had to pay.",
                 },
               ],
               outcome:
-                "A genuine gamble made against a real, specific, recently-demonstrated risk: Palawan's guards received and executed a kill-all order against their own prisoners within the last month, and nothing about Cabanatuan's guards makes that order less possible here. Thirty miles on foot behind enemy lines to preempt it is a real operational risk, not a safe bet dressed up as one.",
+                "A gamble against a real and recent risk: the guards on Palawan carried out a kill-all order against their prisoners a month ago, and nothing about Cabanatuan's guards makes that less possible here. Thirty miles on foot behind enemy lines to get ahead of it is a real operational risk.",
             },
             {
               label: "Decline the raid: let the regular Sixth Army advance reach the camp on its own timetable instead",
@@ -1862,7 +1862,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: -2 },
               next: "iwoJimaAllied45",
               outcome:
-                "The cautious reading, and the one that treats Palawan as an isolated atrocity rather than a demonstrated policy this command has direct evidence of. Whether that reading is right is a bet made with roughly 500 men's lives as the stake, against guards who, a month ago and thirty miles from a camp very much like this one, proved they were both willing and ordered to kill their prisoners rather than let them be liberated. The regular advance does reach Cabanatuan eventually. What condition it finds the camp in when it arrives is the actual, unresolved question this choice leaves open.",
+                "A modeled alternative that treats Palawan as an isolated atrocity and not as a policy. It is a bet on the lives of roughly 500 men, against guards who a month earlier, not far away, showed that they were ready to kill their prisoners rather than see them liberated. The regular advance does reach Cabanatuan eventually. What condition it finds the camp in is the question this choice leaves open.",
             },
           ],
         };
@@ -1904,7 +1904,7 @@
               gateCheck: { meter: "pipeline", threshold: -5, label: "Pipeline" },
               next: "okinawaAllied45",
               outcome:
-                "A reasoned projection of the argument Marine planners actually lost: a longer bombardment that pulls carrier support away from strikes against Japanese airfields elsewhere, on the historically contested premise that naval gunfire could meaningfully crack a tunnel network built specifically to survive it. Whether ten days saves the casualties the compressed schedule cost, or simply delays the same battle against a defense that had already gone to ground regardless of how long the shelling ran, is a dispute serious historians of the battle still haven't fully settled.",
+                "A modeled alternative: the argument Marine planners lost. A longer bombardment pulls carrier support away from strikes on Japanese airfields elsewhere, on the contested premise that naval gunfire could crack a tunnel network built to survive it. Whether ten days would have saved the casualties the short schedule cost, or only delayed the same battle against a defense that had already gone to ground, is still disputed.",
             },
             ...(meters.pipeline >= 7
               ? [
@@ -1986,7 +1986,7 @@
               impact: { readiness: -3, pipeline: -1, initiative: 1 },
               next: "strategicBombingAllied45Delayed",
               outcome:
-                "The picket destroyers absorb a disproportionate share of the kamikaze campaign's cost, several are sunk outright, dozens more damaged, casualties among picket crews running severe enough that surviving sailors describe station assignment there as effectively a death sentence with better odds than the alternative. The early warning they provide is real and saves ships further in; it does not change what standing that watch costs the destroyers doing it.",
+                "The picket destroyers absorb a disproportionate share of the kamikaze campaign's cost: several are sunk and dozens more damaged, with casualties among picket crews severe enough that the sailors on those stations speak of them as death sentences. The early warning they give is real and saves ships further in. It does not change what the watch costs the destroyers that keep it.",
             },
             {
               label: "Pull the picket line back further offshore, accepting slower warning for reduced picket exposure",
@@ -2001,7 +2001,7 @@
                   setFlags: { okinawaPickResult: "warningHeld" },
                   impact: { readiness: 1, pipeline: 0, initiative: 0 },
                   outcome:
-                    "King's bet holds. Fighter direction and radar coverage compensate for the pulled-back line closely enough that the carriers still get their combat air patrol up before the mass waves arrive, and the destroyer losses this doctrine was built to reduce come down without the fleet paying for it in ships hit deeper in the formation.",
+                    "Speculative. King's bet holds. Fighter direction and radar coverage compensate for the pulled-back line closely enough that the carriers still get their combat air patrol up before the mass waves arrive, and destroyer losses come down without more ships being hit deeper in the formation.",
                 },
                 {
                   weight: (() => { const w = modWeight(40, meters.initiative); return Math.max(5, 100 - w); })(),
@@ -2009,11 +2009,11 @@
                   setFlags: { okinawaPickResult: "warningLost" },
                   impact: { readiness: -1, pipeline: -1, initiative: -1 },
                   outcome:
-                    "The trade King worried about materializes. Fewer picket destroyers are lost, but the waves that do get through arrive with less warning, and ships further back in the formation, carriers and transports the whole doctrine existed to protect, take hits the historical forward-picket arrangement was specifically built to prevent.",
+                    "Speculative. The trade King worried about materializes. Fewer picket destroyers are lost, but the waves that get through arrive with less warning, and ships further back, carriers and transports among them, take hits that the forward picket line was built to prevent.",
                 },
               ],
               outcome:
-                "A reasoned projection built on an internal Navy debate about picket doctrine's cost: pulling the line back plausibly reduces destroyer losses, at an uncertain cost in warning time for the carriers and transports the pickets exist to protect in the first place. Whether this trade nets out better for the fleet as a whole, given how effective the kamikaze threat proves against ships of every size at Okinawa regardless of formation, is a tactical question that doesn't resolve with full confidence here; the historical doctrine was itself revised repeatedly during the battle for exactly this reason.",
+                "A modeled alternative, on a debate inside the Navy about what picket doctrine cost. Pulling the line back plausibly reduces destroyer losses, at an uncertain cost in warning for the carriers and transports the pickets protect. The kamikaze threat proved effective against ships of every size, and the real doctrine was revised repeatedly during the battle.",
             },
             ...(meters.pipeline >= 4
               ? [
@@ -2037,7 +2037,7 @@
           title: "The Incendiary Campaign, Already Underway",
           historicalRecord: true,
           situation:
-            "The night of March 9th–10th, before this staff's own attention was consumed by the picket-line argument off Okinawa, roughly 300 B-29s already firebombed Tokyo at low altitude, killing an estimated 100,000 people in a single night, the deadliest single bombing raid in human history, on schedule regardless of what this specific command was occupied with at the time. LeMay's doctrine shift wasn't a decision this staff was in the room for; it's a fact already on the record by the time Okinawa's own argument is finally settled. What's actually in front of this staff now is narrower: whether the incendiary campaign LeMay already started continues expanding to the sixty-odd cities it eventually reached, or whether the results reaching this desk months late are grounds to press for reconsidering a doctrine that's been running without this command's own sign-off." +
+            "On the night of March 9–10, roughly 300 B-29s firebombed Tokyo at low altitude and killed an estimated 100,000 people, the deadliest air raid in history. LeMay's change of doctrine was not a decision this staff was in the room for. What is in front of the staff now is narrower: whether the incendiary campaign continues to the sixty-odd cities it eventually reached, or whether the results reaching this desk months late are grounds to press for a reconsideration of a doctrine that has been running without this command's sign-off." +
             (flags.okinawaPickResult === "warningHeld"
               ? " The picket doctrine argument off Okinawa, pulled back and vindicated by radar and fighter direction closing the gap, is the kind of recent institutional success that makes trusting LeMay's own already-running judgment an easier case to accept without relitigating it from scratch."
               : flags.okinawaPickResult === "warningLost"
@@ -2052,7 +2052,7 @@
               impact: { readiness: 1, pipeline: 0, initiative: 2 },
               next: "atomicDemonstration45",
               outcome:
-                "What already happened, ratified rather than decided: the incendiary campaign that began over Tokyo in March continues expanding through the spring exactly as the historical record shows, sixty-odd Japanese cities firebombed by war's end, this staff's late endorsement changing nothing about a doctrine that was never actually waiting on it.",
+                "What happened, ratified and not decided. The incendiary campaign that began over Tokyo in March continues through the spring, and sixty-odd Japanese cities are firebombed by the end of the war. The staff's late endorsement changes nothing in a doctrine that never waited on it.",
             },
             {
               label: "Press for a reconsideration despite the months already spent: raise the moral cost of continuing now, even this late",
@@ -2061,7 +2061,7 @@
               impact: { readiness: -1, pipeline: -1, initiative: -1 },
               next: "atomicDemonstration45",
               outcome:
-                "A late objection to an early decision, and an honest one: this staff can't undo March, only argue about April onward. The campaign's remaining scope narrows somewhat under the reconsideration, at real cost to the industrial-target case LeMay's doctrine was built on, without changing anything about the deadliest raid already on the record before this argument even started.",
+                "A modeled alternative: a late objection to an early decision. The staff cannot undo March, only argue about April onward. The campaign's remaining scope narrows somewhat, at a cost to the industrial-target case LeMay's doctrine was built on, and the deadliest raid is already on the record.",
             },
           ],
         };
@@ -2072,7 +2072,7 @@
           title: "The Interim Committee's Question",
           historicalRecord: true,
           situation:
-            "The bomb works, or will within weeks, Trinity's test is imminent, and the Interim Committee convened to advise on its use has a genuine, seriously argued alternative on the table. A group of Manhattan Project scientists, in what became known as the Franck Report, has proposed a demonstration: detonate the weapon on an uninhabited island or a stretch of open desert, with Japanese observers invited, before ever considering its use on a populated city. The counter-argument inside the Committee is blunt: there are only two bombs ready, a demonstration that failed to impress or that simply failed to detonate would hand Japan's war ministry exactly the propaganda victory the peace faction can least afford, and no one has satisfactorily explained how to guarantee an invited observer party's safety or credibility as witnesses in the first place." +
+            "The bomb works, or will within weeks, and the Trinity test is near. The Interim Committee, convened to advise on its use, has a seriously argued alternative before it. A group of Manhattan Project scientists, in what became known as the Franck Report, proposes a demonstration: detonate the weapon on an uninhabited island or open desert, with Japanese observers invited, before considering use on a populated city. The counter-argument in the Committee is blunt: only two bombs are ready, a demonstration that failed to impress or failed to detonate would hand Japan's war ministry a propaganda victory that the peace faction can least afford, and no one has explained how to guarantee the safety or credibility of invited observers." +
             (flags.surrenderDoctrinePath === "negotiated"
               ? " Casablanca's declared willingness to consider terms short of unconditional surrender is still, in this history, the standing policy. Whatever the bomb does here, it lands on a Japanese war ministry that has had two years longer to weigh a negotiated exit than the historical record ever gave it."
               : ""),
@@ -2085,16 +2085,16 @@
               impact: { readiness: 1, pipeline: 0, initiative: 2 },
               next: "kyotoTargetDebate45",
               outcome:
-                "What happened, up to this point. The Franck Report's demonstration proposal is set aside for the reasons the Interim Committee gave: too few bombs to risk one on a demonstration whose failure would cost more than its success could buy, and no confident answer for how a demonstration compels a surrender that the real bombings only narrowly did, alongside the Soviet declaration of war the same week. One question about which city still isn't settled.",
+                "What happened. The Franck Report's proposal is set aside for the reasons the Interim Committee gave: too few bombs to risk one on a demonstration whose failure would cost more than its success could gain, and no confident answer on how a demonstration would compel a surrender that the real bombings, together with the Soviet declaration of war, achieved only narrowly. Which city is still undecided.",
             },
             {
               label: "Attempt the demonstration first: detonate on an uninhabited site, invite Japanese observers, withhold direct city use pending the result",
-              advisor: { name: "Compton", position: "A demonstration that fails to move Japan's war ministry still costs less than a first use on a city that can never be taken back, and the argument is a minority position, as its author knows." },
+              advisor: { name: "Franck", position: "A demonstration that fails to move Japan's war ministry still costs less than a first use on a city that can never be taken back, and the Franck Report's authors know theirs is the minority position." },
               setFlags: { demonstrationPath: "attempt" },
               impact: { readiness: -1, pipeline: 1, initiative: -2 },
               next: "downfallOrBlockade45",
               outcome:
-                "A defensible extension of the position the Franck Report's own signatories held and lost. Whether a demonstration moves a war ministry that has, by this point in the record, treated two firebombed cities and a hundred thousand nightly deaths as an acceptable cost of continued resistance is honestly uncertain. The same faction that dismissed Hiroshima's destruction for several critical days before Nagasaki, in history's own historical record, may treat a demonstration on an empty island as easier still to discount. What this path spares, if it works, is the immediate civilian death toll of a first city strike; what it risks, if it doesn't, is losing the shock value that, combined with the Soviet declaration a few days later, is what really broke the cabinet deadlock in the historical record.",
+                "A modeled alternative, the position the Franck Report's signatories held and lost. Whether a demonstration would move a war ministry that had treated two firebombed cities and a hundred thousand dead in a night as an acceptable cost is uncertain, and the same faction that dismissed Hiroshima for several days might discount a demonstration on an empty island still more easily. If it works, it spares the civilian dead of a first city strike. If it fails, it loses the shock that, with the Soviet declaration days later, broke the cabinet deadlock in the real war.",
             },
           ],
         };
@@ -2116,11 +2116,11 @@
         },
         get radiationDisclosure45() {
           return {
-          date: "SEPTEMBER 1945",
+          date: "SEPTEMBER – NOVEMBER 1945",
           title: "A Very Pleasant Way to Die",
           historicalRecord: true,
           situation:
-            "Reports are reaching Washington from Japanese doctors, and from the first American personnel on the ground, that people who survived both blasts uninjured are sickening and dying in the weeks afterward: radiation sickness, a mechanism of harm the weapon's own designers understood in secret memoranda but that has not been said plainly to the public. General Groves has already told a reporter the Japanese reports are almost certainly exaggerated. What he says next, to Congress and in public, is still his to decide." +
+            "Reports are reaching Washington from Japanese doctors, and from the first American personnel on the ground, that people who survived both blasts uninjured are sickening and dying in the weeks afterward. The cause is radiation sickness, which the weapon's designers understood from secret memoranda and which has not been said plainly to the public. General Groves has already told a reporter that the Japanese reports are almost certainly exaggerated. What he says next, to Congress and in public, is his to decide." +
             (flags.nagasakiAnnouncePath === "minimal"
               ? " Truman's own decision to say nothing further after Nagasaki set the tone this administration has kept ever since: minimal statement, minimal follow-up, and a public posture that leaves Groves plenty of room to characterize what comes next however he judges best."
               : flags.nagasakiAnnouncePath === "direct"
@@ -2136,11 +2136,11 @@
               impact: { readiness: 0, pipeline: 0, initiative: 1 },
               next: "downfallOrBlockade45",
               outcome:
-                "Groves tells Congress in November there was no radioactive residue of consequence and that radiation exposure causes no undue suffering, a claim contradicted by secret memoranda his own project had already produced by September. The gap between the classified record and the public one isn't closed for years, closed eventually by outside reporting rather than an official account correcting its own.",
+                "Groves tells Congress in November that there was no radioactive residue of consequence and that radiation caused no undue suffering, a claim contradicted by secret memoranda his own project had produced by September. The gap between the classified record and the public one is not closed for years, and then by outside reporting and not by an official account correcting itself.",
             },
             {
               label: "Report the secret findings honestly: radiation sickness is real, already documented internally, and worth saying so",
-              advisor: { name: "Kistiakowsky", position: "A memorandum in the building, dated the first of September, already answers the question General Groves tells reporters is unanswered, and nothing is served by pretending otherwise." },
+              advisor: { name: "Kistiakowsky", position: "Memoranda inside the project already answer the question General Groves tells reporters is unanswered, and nothing is served by pretending otherwise." },
               setFlags: { radiationDisclosurePath: "honest" },
               impact: { readiness: -1, pipeline: 0, initiative: -1 },
               next: "downfallOrBlockade45",
@@ -2156,7 +2156,7 @@
           title: "The Extra Days",
           historicalRecord: false,
           situation:
-            "The second weapon is paused, not canceled: ready, but withheld pending a decision nobody in Washington has actually made yet. Japan's Big Six war council still has only Hiroshima and the advancing Soviet declaration to weigh, not a second city. Whether that changes anything is a real, unresolved historical question, not a settled one: some historians argue the council was never going to move without both shocks arriving close together; others argue a second bomb specifically, not just the passage of time, was what actually broke the deadlock the historical record shows persisting even after Nagasaki.",
+            "Speculative. The second weapon is paused and not canceled: ready, but withheld pending a decision nobody in Washington has made. Japan's Big Six has only Hiroshima and the Soviet declaration to weigh, not a second city. Historians differ on whether the council would have moved without both shocks close together, or whether a second bomb specifically broke a deadlock that persisted even after Nagasaki.",
           choices: [
             {
               label: "Hold the pause and see whether Hiroshima alone, given time, moves the council",
@@ -2171,7 +2171,7 @@
                   setFlags: { nagasakiDelayResult: "surrender" },
                   impact: { readiness: 1, pipeline: 0, initiative: 1 },
                   outcome:
-                    "The rarer reading of a contested question: given days rather than hours, and without a second city added to the first, the peace faction's argument gains real ground within the council for the first time. It isn't a surrender yet, only a shifted balance inside a body that was deadlocked three to three; the Joint Chiefs keep planning for the war's final campaign regardless, because a shifted argument in Tokyo isn't a signed instrument in Washington, and won't be treated as one.",
+                    "Speculative, and the rarer outcome. Given days and not hours, and without a second city, the peace faction's argument gains ground in the council for the first time. It is not a surrender, only a shifted balance in a body deadlocked three to three, and the Joint Chiefs keep planning for the final campaign, because a shifted argument in Tokyo is not a signed instrument in Washington.",
                 },
                 {
                   weight: (() => { const w = modWeight(35, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2179,15 +2179,15 @@
                   setFlags: { nagasakiDelayResult: "deadlock" },
                   impact: { readiness: -1, pipeline: -1, initiative: -2 },
                   outcome:
-                    "The more likely reading, and the one the historical record's own three-three deadlock after both bombs and the Soviet declaration together tends to support: the war ministry's hardliners hold their position regardless of how much time passes, because the deadlock was never really about how many cities had been hit. Eventually, with no resolution and a weapon sitting ready, the order gets carried out anyway, later and on worse terms than the historical timeline, having spent the intervening days on a pause that didn't change the outcome it was meant to test.",
+                    "The likelier outcome. The war ministry's hardliners hold their position however much time passes, because the deadlock was never about how many cities had been hit; in the real war it survived two bombs and the Soviet declaration. With no resolution and a weapon ready, the order is carried out anyway, later and on worse terms, after days spent on a pause that changed nothing.",
                 },
               ],
               next: "downfallOrBlockade45",
               outcome:
-                "Whether Japan's leadership needed two cities or would have moved with time and one is a question serious historians still argue, and this path answers it once, not the debate itself.",
+                "Whether Japan's leadership needed two cities or would have moved with time and one is still argued by historians. This path answers it once, and does not settle the debate.",
             },
             {
-              label: "Use the extra days for something more than waiting: send an explicit guarantee on the Emperor's status through the Swiss legation, rather than leave Byrnes' own deliberate ambiguity to work on its own",
+              label: "Use the extra days: send an explicit guarantee on the Emperor's status through the Swiss legation, instead of leaving the deliberate ambiguity of Byrnes's reply to work on its own",
               advisor: { name: "Grew", position: "The ambassador argued for exactly this clarity before the Potsdam Declaration and was overruled by people who wanted to leave the hardliners no ambiguity to negotiate inside, and the caution may have bought only time now being spent on a second bomb." },
               historical: false,
               setFlags: { nagasakiDelayPath: "clarified" },
@@ -2199,7 +2199,7 @@
                   setFlags: { nagasakiDelayResult: "surrender" },
                   impact: { readiness: 1, pipeline: 0, initiative: 1 },
                   outcome:
-                    "The rarer, more consequential reading: an explicit guarantee on the throne, rather than the historical Byrnes note's deliberately preserved ambiguity, gives Togo's own faction something concrete to argue with inside the council rather than a promise they have to interpret favorably on faith. It still isn't a surrender, only a shifted argument, but a shifted argument built on a real, stated term rather than an inference the peace faction had to construct for itself.",
+                    "Speculative, and the rarer outcome. An explicit guarantee on the throne, in place of the deliberate vagueness of Byrnes's reply, gives Togo's faction something concrete to argue with inside the council, a stated term instead of a promise to be read favorably on faith. It is not a surrender, only a shifted argument.",
                 },
                 {
                   weight: (() => { const w = modWeight(40, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2207,12 +2207,12 @@
                   setFlags: { nagasakiDelayResult: "deadlock" },
                   impact: { readiness: -1, pipeline: -1, initiative: -2 },
                   outcome:
-                    "The reading Byrnes' own real advisors warned about, and the reason the historical note stayed deliberately vague: an explicit American guarantee, offered before a second weapon forces the issue, reads to the war ministry's hardliners as proof that Washington wants this war over badly enough to bargain, not as reassurance worth conceding for. The deadlock holds, now with a concrete promise already spent for nothing, on the table for a war ministry that reads its unforced offering as leverage rather than generosity.",
+                    "The likelier outcome, and the reading Byrnes's advisers warned of. An explicit American guarantee, offered before a second weapon forces the issue, reads to the hardliners as proof that Washington wants the war over badly enough to bargain. The deadlock holds, with a concrete promise spent for nothing and now treated as leverage.",
                 },
               ],
               next: "downfallOrBlockade45",
               outcome:
-                "Whether explicit clarity on the Emperor's status would have shortened the real deadlock, or simply been read as weakness by a war ministry already convinced it was winning the argument by attrition, is a genuine dispute among historians of the surrender's final days, not a settled question this path resolves for the debate itself.",
+                "Whether explicit clarity on the Emperor's status would have shortened the real deadlock, or been read as weakness by a war ministry that believed it was winning by attrition, is disputed among historians of the surrender's last days.",
             },
           ],
         };
@@ -2226,7 +2226,7 @@
           title: "The Indianapolis Findings",
           historicalRecord: false,
           situation:
-            "The review confirms what was already suspected: no single failure sank nine hundred men into open water for four days, a chain of them did, spread across enough separate desks that the historical Navy's instinct to find one captain to blame was, whatever else it was, also simpler than the truth. Whether fixing the chain this late in the war changes anything for the ships still at sea in the war's final weeks is the real test.",
+            "Speculative. The review confirms what was suspected: no single failure left nine hundred men in the water for four days. A chain of them did, across enough separate desks that the Navy's instinct to find one captain to blame was simpler than the truth. Whether fixing the chain this late changes anything for ships still at sea is the test.",
           choices: [
             {
               label: "Implement the reform fleet-wide immediately, war footing or not",
@@ -2241,7 +2241,7 @@
                   setFlags: { indianapolisReviewResult: "held" },
                   impact: { readiness: 1, pipeline: 0, initiative: 0 },
                   outcome:
-                    "The new procedure catches a routing gap on another ship within weeks, quietly, before it becomes anyone's tragedy. No headline attaches to a failure that gets caught in time, which is exactly the point and exactly why the historical Navy's version of this reform took as long as it did to arrive.",
+                    "Speculative. The new procedure catches a routing gap on another ship within weeks, quietly, before it becomes anyone's tragedy. No headline attaches to a failure that is caught in time.",
                 },
                 {
                   weight: (() => { const w = modWeight(55, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2249,7 +2249,7 @@
                   setFlags: { indianapolisReviewResult: "untested" },
                   impact: { readiness: 0, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The reform is real, but the war ends within weeks of its adoption, too soon for it to be tested against the kind of failure it was built to catch. Whether it would have worked is a question this timeline, like the historical one, never gets a clean answer to.",
+                    "Speculative. The reform is real, but the war ends within weeks of its adoption, too soon to test it against the failure it was built to catch.",
                 },
               ],
             },
@@ -2260,7 +2260,7 @@
               impact: { readiness: 0, pipeline: 1, initiative: -1 },
               next: "hiroshima45",
               outcome:
-                "A more careful reform, still being worked out as the war's final weeks play out around it. It's a better piece of procedure than the rushed version might have been, built at a pace that means it isn't ready to protect anyone still at sea while the war's remaining big decisions, the ones still ahead, get made without it.",
+                "Speculative. A more careful reform, still being worked out as the last weeks of the war pass. It is better procedure than a rushed one would have been, and it is not ready to protect anyone still at sea.",
             },
           ],
         };
@@ -2317,7 +2317,7 @@
               gateCheck: { meter: "pipeline", threshold: -5, label: "Pipeline" },
               next: "gasWarfareQuestion45",
               outcome:
-                "What happened: Downfall was prepared in full. Kyushu's invasion planned for November 1945, Honshu's for the following spring, at casualty estimates that shaped the decision to use the atomic bombs rather than execute the plan at all. Two bombs in August, combined with the Soviet declaration of war, forced a surrender before a single soldier of this invasion ever left a landing craft. The plan that was never executed still shaped the war's actual ending more than almost anything that was.",
+                "What happened. Downfall was prepared in full: the invasion of Kyushu planned for November 1945 and of Honshu for the following spring, at casualty estimates that bore on the decision to use the atomic bombs. Two bombs in August and the Soviet declaration of war brought a surrender before a soldier of the invasion left a landing craft.",
             },
             {
               label: "Pursue Operation Starvation: naval encirclement and complete air blockade, no invasion",
@@ -2332,7 +2332,7 @@
                   setFlags: { blockadeResult: "sufficientAlone" },
                   impact: { readiness: 1, pipeline: 0, initiative: 1 },
                   outcome:
-                    "LeMay's bet pays off. A hard winter without invasion, without the bombs, breaks the war ministry's deadlock on starvation and exhaustion alone, a disputed but real possibility historians of the blockade's real effectiveness argue for. No American soldier lands on the home islands, and no atomic bomb is needed to force the surrender this path reaches by other means.",
+                    "Speculative. LeMay's bet pays off. A hard winter, without invasion and without the bombs, breaks the war ministry's deadlock through starvation and exhaustion alone, a disputed but real possibility. No American soldier lands on the home islands and no atomic bomb is needed.",
                 },
                 {
                   weight: (() => { const w = modWeight(35, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2340,11 +2340,11 @@
                   setFlags: { blockadeResult: "insufficientAlone" },
                   impact: { readiness: -1, pipeline: -1, initiative: -1 },
                   outcome:
-                    "The likelier outcome. Starvation and exhaustion erode Japan's capacity to fight without breaking the war ministry's actual political deadlock over surrender terms, the same deadlock the historical bombs and Soviet declaration needed both together to finally crack. The winter grinds on, and whatever forces the surrender eventually, it isn't the blockade working alone.",
+                    "The likelier outcome. Starvation and exhaustion erode Japan's capacity to fight without breaking the political deadlock over surrender terms, the deadlock that in the real war took the bombs and the Soviet declaration together to crack. The winter grinds on.",
                 },
               ],
               outcome:
-                "An honest projection of the argument LeMay and blockade advocates made: mining and submarine warfare had already reduced Japan's import tonnage to a fraction of its 1941 level, and a hard winter without invasion might have forced capitulation without American ground casualties at all. What it doesn't resolve any faster is the war ministry's internal deadlock over surrender terms, a blockade starves a country; it doesn't, by itself, break a cabinet split between honor and survival.",
+                "A modeled alternative, on the argument LeMay and the blockade's advocates made: mining and submarine warfare had already cut Japan's imports to a fraction of the 1941 level, and a hard winter without invasion might have forced a surrender without American ground casualties. A blockade starves a country. It does not by itself break a cabinet split between honor and survival.",
             },
             {
               label: "Accelerate Downfall's timetable regardless of buildup readiness: land before the force is prepared",
@@ -2355,7 +2355,7 @@
               gateCheck: { meter: "readiness", threshold: -8, label: "Readiness" },
               next: "gasWarfareQuestion45",
               outcome:
-                "This is the clearest example of a reckless decision on the Allied side, not a defensible alternative in different clothes. Landing craft, naval gunfire support, and the follow-on divisions Kyushu's invasion plan assumed were never really optional line items, they were the plan's whole basis for the casualty estimates it was built on. Compressing the timetable without them doesn't make the invasion faster. It makes the historical casualty estimates, already the grimmest figures anyone in this room has had to plan around, into a floor rather than a ceiling.",
+                "Speculative. Landing craft, naval gunfire support and the follow-on divisions that the Kyushu plan assumed were the basis of its casualty estimates. Compressing the timetable without them does not make the invasion faster. It turns estimates that were already the grimmest anyone in the room had planned around into a floor and not a ceiling.",
             },
             ...(meters.pipeline >= 6
               ? [
@@ -2385,7 +2385,7 @@
           title: "The Argument for Gas",
           historicalRecord: true,
           situation:
-            "Marshall's proposal reaches this room close to the way it actually reached Washington: not a plan for gas warfare against Japanese cities, but a narrower one, aimed specifically at the caves and fortified bunkers that have cost more American lives per yard of ground than almost anything else this war has fought. His stated scope is limited to positions that refuse a formal surrender demand, sparing both close assault by riflemen and any wider bombardment. Stilwell made the same case in writing weeks earlier, arguing the stigma of gas warfare stays attached to its use against civilian populations, not to individual bunkers. Roosevelt's own standing policy said the United States would use gas only in retaliation for its first use by an enemy, never first, a pledge Marshall's proposal asks this room to set aside for a use its own author insists is narrow enough to justify the exception. A separate, more expansive study is also sitting on file, prepared in the Chemical Warfare Service, area gas attacks against troop concentrations near invasion objectives rather than individual bunkers, a scope its own authors' numbers say would kill far more than soldiers refusing to surrender.",
+            "Marshall's proposal reaches this room much as it reached Washington in May 1945: not a plan for gas warfare against Japanese cities but a narrower one, aimed at the caves and fortified bunkers that have cost more American lives per yard of ground than almost anything else in the war. He limits it to positions that refuse a formal surrender demand, sparing both close assault and any wider bombardment. Roosevelt's policy said that the United States would use gas only in retaliation for its first use by an enemy, a pledge Marshall's proposal asks the room to set aside for a use its author calls narrow enough to justify the exception. A broader study from the Army's Chemical Warfare Service is also on file, considering area gas attacks on troop concentrations near invasion objectives, a scope that would kill far more than soldiers refusing to surrender.",
           choices: [
             {
               label: "Uphold Roosevelt's no-first-use pledge: decline the proposal, prepare Downfall without gas",
@@ -2395,7 +2395,7 @@
               impact: { readiness: 0, pipeline: 0, initiative: -1 },
               next: nextTarget,
               outcome:
-                "What actually happened: the proposal reached Truman in June, and he refused it, holding to Roosevelt's retaliation-only pledge over the tactical case Marshall built for an exception. Downfall's own casualty estimates, the ones that would shape the decision to use the atomic bombs rather than execute the invasion at all, are built without gas as a factor anywhere in the arithmetic.",
+                "What happened. The proposal reached Truman in June, and he refused it, holding to Roosevelt's retaliation-only pledge over the tactical case Marshall made for an exception. Downfall's casualty estimates are built without gas.",
             },
             {
               label: "Authorize Marshall's proposal as written: gas restricted to caves and bunkers that refuse a surrender demand",
@@ -2410,7 +2410,7 @@
                   setFlags: { gasWarfareResult: "containedEffective" },
                   impact: { readiness: 2, pipeline: 0, initiative: 1 },
                   outcome:
-                    "Marshall's own stated limits hold in practice, not just on paper: gas is used only against positions that already refused a surrender demand, and the tactical case behind the proposal largely bears out, fewer riflemen spent taking ground that used to cost several times as many. The precedent this sets, a pledge from 1943 quietly set aside once, stays exactly as narrow as its author promised, at least this once.",
+                    "Speculative. Marshall's limits hold in practice as well as on paper: gas is used only against positions that have refused a surrender demand, and the tactical case largely bears out, with fewer riflemen spent on ground that used to cost several times as many. The precedent, a pledge from 1943 set aside once, stays as narrow as promised, at least this once.",
                 },
                 {
                   weight: (() => { const w = modWeight(45, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2418,11 +2418,11 @@
                   setFlags: { gasWarfareResult: "creepIneffective" },
                   impact: { readiness: -2, pipeline: -1, initiative: -1 },
                   outcome:
-                    "The likelier failure mode, and the one built into any policy exception that depends on staying exactly as narrow as its first use: cave ventilation and gas masks blunt more of the tactical benefit than Marshall's proposal accounted for, and the same commanders who found the exception easy to justify once find it easier to ask for again against positions that don't quite meet the original 'refused a surrender demand' standard. A pledge that held since 1943 doesn't survive its first exception as cleanly as its author intended.",
+                    "The likelier outcome. Cave ventilation and gas masks blunt more of the tactical benefit than the proposal allowed for, and the commanders who found the exception easy to justify once find it easier to ask again, for positions that do not quite meet the standard of having refused a surrender demand. A pledge that held since 1943 does not survive its first exception as cleanly as its author intended.",
                 },
               ],
               outcome:
-                "The proposal exactly as Marshall wrote it and exactly as Truman actually refused it: a narrow military exception to a three-year-old pledge, made in writing, reaching the President's desk in June 1945. Authorizing it here tests the case Marshall believed, that a policy line drawn against city bombardment doesn't have to be a policy line drawn against a bunker that already refused to surrender.",
+                "A modeled alternative: the proposal as Marshall wrote it and as Truman refused it, a narrow military exception to a pledge made in 1943 and put in writing in May 1945. Authorizing it tests Marshall's belief that a line drawn against bombarding cities need not be drawn against a bunker that has refused to surrender.",
             },
             {
               label: "Authorize gas warfare at the Chemical Warfare Service's own broader scale: area attacks on troop concentrations near the invasion objectives",
@@ -2431,7 +2431,7 @@
               impact: { readiness: 3, pipeline: -2, initiative: 2 },
               next: nextTarget,
               outcome:
-                "This is the clearest example of an indefensible decision available anywhere in this war's planning, not Marshall's narrower proposal dressed up in harsher language. The Chemical Warfare Service's own June 1945 study proposed exactly this, area gas attacks on troop concentrations near Kagoshima rather than individual bunkers, and its own authors' numbers already accounted for large casualties among the unprotected civilian population living in the target area, not as an unfortunate side effect discovered later but as a cost calculated into the plan from the start. Choosing this over Marshall's stated limits isn't a harder version of the same argument. It's a different argument, one the historical record shows senior planners studied in real, specific detail and one Truman's actual refusal of even Marshall's narrower version never had to directly confront, because it was never the proposal that reached his desk.",
+                "Speculative. The Chemical Warfare Service's own June 1945 study considered area gas attacks on troop concentrations near the invasion objectives and not individual bunkers, a scope that would also fall on civilians in the target area. Choosing this over Marshall's limits is a different argument from his, and one that Truman's refusal of the narrower proposal never had to confront, because it never reached his desk.",
             },
           ],
         };
@@ -2442,7 +2442,7 @@
           title: "Two Strategies, One Question",
           historicalRecord: false,
           situation:
-            "The bombs and the Soviet declaration land on their historical schedule regardless of what this staff prepared alongside them, they were never contingent on Downfall or Starvation's own buildup. What's different is what happens in the days immediately after: a war ministry facing not just the shock of August, but a blockade already visibly tightening and an invasion fleet visibly ready to sail the moment the political deadlock breaks. Whether that combined, visible readiness shortens the argument inside Tokyo, or simply arrives at the same surrender by the same argument regardless, is the real question worth asking.",
+            "Speculative. The bombs and the Soviet declaration come on their real schedule, because neither depended on Downfall or Starvation. What differs is the days after: a war ministry facing the shock of August, a blockade visibly tightening and an invasion fleet visibly ready to sail the moment the deadlock breaks. Whether that readiness shortens the argument in Tokyo, or the surrender comes by the same argument regardless, is the question.",
           choices: [
             {
               label: "Let the combined pressure speak for itself: make no separate demand, let Tokyo draw its own conclusion from what it's actually facing",
@@ -2458,7 +2458,7 @@
                   next: "END",
                   impact: { readiness: 1, pipeline: 0, initiative: 1 },
                   outcome:
-                    "The rarer, more consequential branch: facing a blockade already visibly working and an invasion force visibly ready to sail rather than either threat in the abstract, the war ministry's deadlock breaks days faster than the historical argument took, a shorter final act with a lower cost in the closing week's fighting than the historical record's own more drawn-out final days carried. Whether a few days saved more lives than the resources spent running both strategies at once is a trade stated plainly here rather than resolves it one way or the other.",
+                    "Speculative, and the rarer outcome. Facing a blockade already working and an invasion force visibly ready to sail, the war ministry's deadlock breaks days sooner than in the real war, with a shorter final act and lower cost in the last week of fighting. Whether a few days saved more lives than the resources spent on both strategies is left open.",
                 },
                 {
                   weight: (() => { const w = modWeight(40, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2467,14 +2467,14 @@
                   next: "sovietHokkaido45",
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The likelier outcome: the war ministry's deadlock was never primarily a matter of how much force was visibly arrayed against it, and collapses in almost the same week it actually did, regardless of whether one strategy or two sat behind the bombs and the Soviet declaration that did the work.",
+                    "The likelier outcome. The war ministry's deadlock was not mainly a matter of how much force was visibly arrayed against it, and it collapses in nearly the same week it did in the real war.",
                 },
               ],
               outcome:
-                "A reasoned projection built on a genuine uncertainty: whether the war ministry's actual deadlock, which historically took the shock of two bombs and a Soviet declaration together to break, would have broken any faster facing a combined, visible threat rather than either strategy in isolation. Serious historians of the surrender debate are honestly divided on how much the specific military pressure mattered against how much the political shock of the bombs themselves did the work regardless of what sat behind them.",
+                "A modeled alternative. Historians of the surrender are divided on how much the military pressure mattered, against how much the political shock of the bombs did the work whatever sat behind them.",
             },
             {
-              label: "Make the combined pressure explicit: a formal statement naming the blockade and the invasion fleet together, the same kind of direct warning Potsdam's own 'prompt and utter destruction' language already set precedent for",
+              label: "Make the combined pressure explicit: a formal statement naming the blockade and the invasion fleet together, in the direct register of the Potsdam Declaration's warning of 'prompt and utter destruction'",
               advisor: { name: "Truman", position: "Japan was told plainly in July what continuing the war would cost, and there is no case for going quiet now with more to point to." },
               setFlags: { combinedPressurePath: "explicit" },
               impact: { readiness: 0, pipeline: 1, initiative: 1 },
@@ -2487,7 +2487,7 @@
                   next: "END",
                   impact: { readiness: 1, pipeline: 0, initiative: 1 },
                   outcome:
-                    "The rarer, more consequential branch: naming the blockade and the invasion fleet together, in the same direct register Potsdam's own warning used in July, gives Togo's faction a specific American statement to invoke inside the council rather than a threat they have to infer and argue for on their own authority. The deadlock breaks days faster than the historical argument took, a shorter final act than the record's own more drawn-out final days.",
+                    "Speculative, and the rarer outcome. Naming the blockade and the invasion fleet together gives Togo's faction a specific American statement to cite in the council, and the deadlock breaks days sooner than in the real war.",
                 },
                 {
                   weight: (() => { const w = modWeight(40, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2496,11 +2496,11 @@
                   next: "sovietHokkaido45",
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The likelier outcome: a war ministry already watching a blockade tighten and an invasion fleet assemble does not need Washington to say so out loud to understand its own position, and the deadlock collapses in almost the same week it actually did, an explicit statement adding confirmation rather than new pressure to an argument the hardliners were already losing or already immune to.",
+                    "The likelier outcome. A war ministry watching a blockade tighten and an invasion fleet assemble does not need Washington to say so, and the deadlock collapses in nearly the same week it did in the real war.",
                 },
               ],
               outcome:
-                "A reasoned projection built on the same genuine uncertainty as the quieter approach, tested from the opposite direction: whether naming the combined threat explicitly moves a deadlock that silence alone might not, or whether a war ministry already facing both pressures in plain sight gets nothing new from hearing them stated formally. Historians of the surrender debate divide on this the same way they divide on the silent approach, for the same underlying reason: nobody can fully separate what the bombs' shock did from what the surrounding strategy, stated or not, contributed.",
+                "A modeled alternative, tested from the other side: whether naming the combined threat moves a deadlock that silence would not, or gives a war ministry that already sees both pressures nothing new. Historians divide on this as they do on the quiet approach, because nobody can separate what the bombs' shock did from what the surrounding strategy contributed.",
             },
           ],
         };
@@ -2511,7 +2511,7 @@
           title: "Stalin's Request",
           historicalRecord: true,
           situation:
-            "Japan's surrender is imminent, and Stalin has made a request Truman did not expect to have to answer this quickly: a Soviet occupation zone on Hokkaido, the northernmost home island, mirroring the occupation-zone arrangement already dividing Germany. The Red Army's Far East offensive against Japanese forces in Manchuria has moved with startling speed in its first week alone, and Soviet troops are realistically capable of reaching northern Hokkaido before any American force could contest the landing. There is no existing agreement that settles this the way Yalta settled Germany's division in advance, this is being decided now, in the days immediately around the surrender itself, largely on the question of who gets there first and how hard Washington is willing to push back." +
+            "Japan's surrender is imminent, and Stalin has made a request Truman did not expect so soon: a Soviet occupation zone on Hokkaido, the northernmost home island, like the zones dividing Germany. The Red Army's offensive in Manchuria has moved with great speed in its first week, and Soviet troops could reach northern Hokkaido before any American force could contest a landing. No agreement settles this as Yalta settled Germany's division in advance. It is being decided in the days around the surrender, on the question of who gets there first and how hard Washington will push back." +
             (flags.curtinPath === "defied"
               ? " Curtin's Australia, having turned decisively toward Washington rather than London back in 1942, has its own strong opinion about how this occupation question gets settled, and expects to be consulted as something closer to a partner than a spectator."
               : "") +
@@ -2570,7 +2570,7 @@
               gateCheck: { meter: "readiness", threshold: -4, label: "Readiness" },
               next: "theEmperorQuestion45",
               outcome:
-                "Truman declines Stalin's request outright, and American forces move to secure Hokkaido before any serious Soviet landing can be mounted, helped by the fact that Soviet naval lift capacity for a Hokkaido operation was limited compared to what taking Manchuria and the Kuril Islands already required. Japan is occupied as a single administrative unit under MacArthur, a decision with enormous consequences for the country's postwar reconstruction, political stability, and eventual alliance alignment that go untracked here, reaching decades afterward.",
+                "Truman declines Stalin's request outright, and the Soviet landing planned for Hokkaido is abandoned, helped by the limits on Soviet sealift, which Manchuria and the Kurils had already stretched. Japan is occupied as a single unit under MacArthur, a decision with large consequences for its postwar reconstruction, political stability and alignment.",
             },
             {
               label: "Grant a limited Soviet occupation zone on northern Hokkaido, mirroring the German precedent",
@@ -2579,7 +2579,7 @@
               impact: { readiness: -1, pipeline: 0, initiative: -2 },
               next: "theEmperorQuestion45",
               outcome:
-                "A plausible extension of the precedent Germany's own division had just set weeks earlier, and one serious historians of the period consider a live possibility rather than pure invention: Stalin's actual request was taken seriously enough in Washington to require an explicit refusal, not simply ignored. A divided Japan, split along roughly the same logic as divided Germany and later divided Korea, is the most consequential Allied-side counterfactual here: a Soviet-administered northern zone would have reshaped Japan's Cold War alignment, its constitutional settlement, and arguably the shape of East Asian politics for the rest of the twentieth century in ways this Pacific War scope explicitly does not have the standing to project forward.",
+                "Speculative. Stalin's request was taken seriously enough in Washington to need an explicit refusal, and some historians treat a divided Japan as a live possibility. A Soviet-administered northern zone, like divided Germany and later divided Korea, would have changed Japan's Cold War alignment and constitutional settlement, and perhaps the shape of East Asian politics for the rest of the century. The game does not try to project that.",
             },
           ],
         };
@@ -2590,17 +2590,17 @@
           title: "The Emperor Question",
           historicalRecord: true,
           situation:
-            "With the surrender signed aboard Missouri, the occupation's actual shape depends on one decision more consequential than any single battle in these final weeks: what happens to Hirohito. Some voices in Washington and among Allied governments want him tried as a war criminal, the same standard being applied to Tojo's cabinet. MacArthur's own read, from the ground, is that prosecuting the Emperor risks an occupation-ending uprising in a country whose entire social order still runs through the throne. The decision has to be made now, before the occupation's first administrative order goes out.",
+            "With the surrender signed aboard Missouri on September 2, the shape of the occupation depends on one decision: what happens to Hirohito. Some voices in Washington and in Allied governments want him tried as a war criminal, as Tojo's cabinet will be. MacArthur's own view from the ground is that prosecuting the Emperor risks an uprising in a country whose social order runs through the throne. The decision has to be made before the occupation's first administrative order goes out.",
           choices: [
             {
               label: "Preserve the imperial institution: retain Hirohito as a symbolic figurehead, prosecute the war cabinet instead",
-              advisor: { name: "MacArthur", position: "If the Emperor is tried, the occupation will need several hundred thousand more troops than it has, and if he keeps the throne it can be governed with the force already there." },
+              advisor: { name: "MacArthur", position: "If the Emperor is tried, the occupation will need up to a million more troops than it has, and if he keeps the throne it can be governed with the force already there." },
               historical: true,
               setFlags: { emperorPath: "preserve" },
               impact: { readiness: 1, pipeline: 0, initiative: 1 },
               next: "occupationAuthority45",
               outcome:
-                "Hirohito retains the throne, stripped of the divine-status doctrine but not the position itself, while Tojo and the war cabinet face trial and, in several cases, execution. The occupation proceeds with a degree of order MacArthur's own read on Japanese social structure predicted, and a constitutional monarchy under American oversight becomes history's own postwar settlement, a decision whose full decades-long consequences go untracked herece but that shaped nearly everything about Japan's reconstruction that came after.",
+                "Hirohito keeps the throne, stripped of the doctrine of divinity, while Tojo and the war cabinet are tried and, in several cases, executed. The occupation proceeds with the order MacArthur predicted, and a constitutional monarchy under American oversight becomes the postwar settlement of the real war.",
             },
             {
               label: "Include the Emperor among those tried for the war: apply the same standard used against his cabinet",
@@ -2609,7 +2609,7 @@
               impact: { readiness: -3, pipeline: -1, initiative: -2 },
               next: "occupationAuthority45",
               outcome:
-                "A path some Allied governments, and some of MacArthur's own harshest domestic critics, argued for. Whether it produces the occupation-collapsing resistance MacArthur predicted or a harder but ultimately survivable transition is a counterfactual scholars of the occupation are honestly split on; what's certain is that the smoother postwar settlement the historical decision bought was never free; it was purchased specifically by not testing this question at all.",
+                "A modeled alternative that some Allied governments and some of MacArthur's critics at home argued for. Whether it would have produced the resistance MacArthur predicted, or a harder but survivable transition, is disputed among historians of the occupation. The smoother settlement of the real war was bought by not testing the question.",
             },
           ],
         };
@@ -2636,7 +2636,7 @@
             ? "There is no MacArthur to hand the occupation to. Whatever became of him after Corregidor's fall, three years ago now, the man who historically administered Japan single-handedly for the next six years simply isn't available, and Washington has to decide who does the job instead, and how much personal authority to vest in whoever it is."
             : macArthurRelieved
             ? "MacArthur's relief earlier in the war left him without the standing the historical record gave him at this exact moment: sole occupation authority over Japan, granted with a degree of personal latitude Washington rarely extended to any single general. Whoever administers the occupation now inherits a version of that job without MacArthur's particular combination of theatrical authority and genuine administrative skill behind it."
-            : "MacArthur is handed something close to personal sovereignty over occupied Japan, an authority historically extraordinary even by the standards of military government: minimal oversight from Washington, direct command of policy from land reform to constitutional drafting, exercised for six years with almost no real check on his judgment.") + kyotoNote,
+            : "MacArthur is given something close to personal sovereignty over occupied Japan, an authority extraordinary even for military government: little oversight from Washington, direct control of policy from land reform to constitutional drafting, held for almost six years with little real check on his judgment.") + kyotoNote,
           choices: macArthurAbsent || macArthurRelieved
             ? [
                 {
@@ -2667,7 +2667,7 @@
                   impact: { readiness: 1, pipeline: 0, initiative: 1 },
                   next: "END",
                   outcome:
-                    "MacArthur administers occupied Japan for the next six years with a degree of personal authority historically extraordinary for any American general, overseeing land reform, a new constitution, and the country's basic postwar political shape largely on his own judgment, before Truman relieves him of an entirely different command in Korea in 1951 in one of the more consequential civil-military confrontations in American history.",
+                    "MacArthur administers occupied Japan for the next six years with extraordinary personal authority, overseeing land reform, a new constitution and the country's postwar political shape largely on his own judgment, until Truman relieves him of his Korean command in 1951 in one of the most consequential civil-military confrontations in American history.",
                 },
                 {
                   label: "Constrain the occupation authority with a genuine Allied oversight council from the start",
@@ -2676,7 +2676,7 @@
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
                   next: "END",
                   outcome:
-                    "Real Allied oversight from the occupation's first year rather than the largely nominal Far Eastern Commission the historical MacArthur mostly outmaneuvered or ignored. Land reform and constitutional drafting still happen, but slower, and subject to a genuine check the historical occupation's central, unusual feature was precisely the absence of.",
+                    "A modeled alternative: real Allied oversight from the first year, in place of the largely nominal Far Eastern Commission that MacArthur mostly outmaneuvered or ignored. Land reform and constitutional drafting still happen, but more slowly and under a check that the real occupation conspicuously lacked.",
                 },
               ],
         };
@@ -2687,7 +2687,7 @@
           title: "The Atlantic, Thinner",
           historicalRecord: false,
           situation:
-            "Winning the argument for near-parity Pacific resourcing at Arcadia means King gets more of the fleet, more landing craft, more escort vessels than the historical Europe-first doctrine ever released to him this early. It also means the Atlantic convoy escort runs thinner through 1942's worst months of the U-boat war, and the buildup for any future cross-Channel invasion slips against a timetable Churchill's planners were already anxious about." +
+            "Speculative. Winning the argument for near-parity Pacific resourcing at Arcadia gives King more of the fleet, more landing craft and more escort vessels than Europe First released to him this early. The Atlantic convoy escort runs thinner through the worst months of 1942's U-boat war, and the buildup for a cross-Channel invasion slips against a timetable Churchill's planners were already anxious about." +
             (flags.rangoonDefendResult === "worthIt"
               ? " Burma's own front, at least, isn't one of the places that extra resourcing had to be spent propping up: the Chinese divisions committed there actually bought real weeks before Rangoon fell, a rare piece of good news from a theater King's own Pacific-first case never had to account for."
               : flags.rangoonDefendResult === "wasted"
@@ -2703,7 +2703,7 @@
               gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
               next: "chinaCrisisAllied44",
               outcome:
-                "A Pacific war run measurably ahead of its historical schedule: more hulls, more landing craft, momentum banked while the political win from Arcadia still holds. What it costs the Atlantic is the harder question: convoy losses through 1942's U-boat 'Happy Time' were already severe on the historical resourcing level, and this path's thinner escort commitment is an uncomfortable trade a full Battle of the Atlantic model would need to resolve on its own terms, not settled here, though the Pacific war's own later chapters still play out regardless.",
+                "Speculative. A Pacific war run ahead of its real schedule, with more ships and landing craft and momentum banked while the Arcadia win holds. The cost to the Atlantic is the harder question: convoy losses in the U-boat 'Happy Time' of 1942 were already severe, and a thinner escort commitment makes them worse.",
             },
             {
               label: "Bank the resourcing win cautiously: use it to shore up defenses rather than accelerate offense",
@@ -2712,7 +2712,7 @@
               impact: { readiness: 2, pipeline: 1, initiative: -1 },
               next: "chinaCrisisAllied44",
               outcome:
-                "A more conservative use of the Arcadia win: reinforced defenses at Hawaii and Australia rather than an accelerated offensive timetable, and correspondingly less strain on the Atlantic escort commitment than the aggressive path would have caused. This is a more cautious path, and confidence in it is correspondingly narrower, but the Pacific war still has a mainland front waiting on the other side of it regardless of how cautiously the fleet was spent.",
+                "Speculative. A more conservative use of the Arcadia win: stronger defenses at Hawaii and Australia in place of an accelerated offensive, and less strain on the Atlantic escort commitment than the aggressive path.",
             },
           ],
         };
@@ -2723,7 +2723,7 @@
           title: "The Fleet That Didn't Gamble",
           historicalRecord: false,
           situation:
-            "Declining the Midway ambush preserves three American carriers against the very real risk the codebreaking intelligence was wrong or incomplete, but it also means Japan's four fleet carriers, undefeated, remain free to choose the Pacific's next move on their own schedule. Hawaii and the Australia route are more heavily fortified than history's timeline required them to be this early, at the cost of the initiative history's actual gamble seized in a single June morning.",
+            "Speculative. Declining the Midway ambush keeps three American carriers safe from the risk that the codebreaking was wrong or incomplete, but Japan's four fleet carriers, undefeated, remain free to choose the Pacific's next move. Hawaii and the Australia route are more heavily fortified than the real timeline required this early, at the cost of the initiative that the real gamble seized in one June morning.",
           choices: [
             {
               label: "Use the defensive posture to rebuild carrier strength before seeking battle on better terms",
@@ -2732,7 +2732,7 @@
               impact: { readiness: 2, pipeline: 0, initiative: -1 },
               next: "japanStrikesAgain42",
               outcome:
-                "A patient rebuilding strategy, banking new fleet carrier construction, Essex-class hulls already working through the yards, against an undefeated Japanese carrier force that has, on this path, a freer hand through the second half of 1942 than history ever gave it. Nimitz's staff know that freer hand won't sit idle for long.",
+                "Speculative. A patient rebuilding strategy, banking new carrier construction, with Essex-class ships already working through the yards, against an undefeated Japanese carrier force that has a freer hand through the second half of 1942 than it had in the real war. Nimitz's staff know that hand will not sit idle.",
             },
             {
               label: "Accept a smaller-scale engagement to test the fleet without risking the full commitment Midway would have required",
@@ -2747,7 +2747,7 @@
                   setFlags: { conservativeProbeResult: "productive" },
                   impact: { readiness: 1, pipeline: 0, initiative: 1 },
                   outcome:
-                    "The limited engagement pays off better than its modest ambitions suggested it might: real damage inflicted on a Japanese screening force without the full carrier commitment Midway would have required, a genuine lesson bought at a limited price.",
+                    "Speculative. The limited engagement does damage to a Japanese screening force without the full carrier commitment Midway would have needed, a real lesson bought at a limited price.",
                 },
                 {
                   weight: (() => { const w = modWeight(45, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2755,11 +2755,11 @@
                   setFlags: { conservativeProbeResult: "costly" },
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
                   outcome:
-                    "The likelier outcome: a limited engagement that costs real ships and aircrew without producing the clean tactical lesson the smaller stakes were supposed to guarantee. Combined Fleet remains fundamentally undefeated, and this fleet has less to show for the probe than the caution behind it was meant to buy.",
+                    "The likelier outcome. The limited engagement costs ships and aircrew without producing the clean lesson the smaller stakes were meant to guarantee. Combined Fleet remains undefeated, and this fleet has less to show for the probe than the caution behind it was meant to buy.",
                 },
               ],
               outcome:
-                "A limited engagement: smaller stakes, smaller lessons, and a Japanese carrier fleet that remains fundamentally undefeated regardless of the outcome. The next move belongs to Combined Fleet, not to this staff, and it's coming.",
+                "Speculative. A limited engagement: smaller stakes, smaller lessons, and a Japanese carrier fleet that remains undefeated whatever the outcome. The next move belongs to Combined Fleet.",
             },
             ...(meters.readiness >= 3
               ? [
@@ -2783,7 +2783,7 @@
           title: "The Fleet That Wasn't Beaten",
           historicalRecord: false,
           situation:
-            "Declining Midway left Japan's four fleet carriers undamaged, and Combined Fleet staff, with none of the losses Coral Sea and a decisive battle would have cost them, are reported turning toward Operation FS, the actual historical plan to seize Fiji and New Caledonia and cut Australia off entirely, shelved in the real war for lack of exactly the carrier strength this fleet still has. Nimitz has three carriers against four undamaged ones, and no Midway-sized ambush left to even the odds." +
+            "Speculative. Declining Midway leaves Japan's four fleet carriers undamaged, and Combined Fleet staff, with none of the losses a decisive battle would have cost them, are reported turning toward Operation FS, the plan to seize Fiji and New Caledonia and cut Australia off, which was shelved in the real war for lack of the carrier strength this fleet still has. Nimitz has three carriers against four undamaged ones and no Midway-sized ambush left to even the odds." +
             (flags.conservativePath === "rebuild"
               ? " The decision to spend the time since Midway rebuilding rather than probing for an opening is exactly why three carriers, not fewer, are what's actually available to answer this with."
               : flags.conservativePath === "probe"
@@ -2810,7 +2810,7 @@
                   setFlags: { fsAlliedResult: "costlyWin" },
                   impact: { readiness: 1, pipeline: 0, initiative: 2 },
                   outcome:
-                    "The rarer, harder-earned branch: outnumbered four-to-three with no surprise and no codebreaking edge, the fleet still manages to damage the invasion force badly enough to force a withdrawal, at a cost in ships and aircrew this navy has no surplus of to spend on it.",
+                    "Speculative, and the rarer outcome. Outnumbered four to three, with no surprise and no codebreaking edge, the fleet still damages the invasion force badly enough to force a withdrawal, at a cost in ships and aircrew that it has no surplus to spend.",
                 },
                 {
                   weight: (() => { const w = modWeight(30, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2818,11 +2818,11 @@
                   setFlags: { fsAlliedResult: "forcedWithdrawal" },
                   impact: { readiness: -2, pipeline: -1, initiative: -1 },
                   outcome:
-                    "The likelier outcome, and the one the raw numbers always favored: four undamaged carriers against three is not a fight this fleet can win outright, and the engagement costs real ships to buy time rather than a victory, a forced withdrawal that at least keeps the fleet in being for whatever comes next.",
+                    "The likelier outcome. Four undamaged carriers against three is not a fight this fleet can win, and the engagement costs ships to buy time and not a victory. The forced withdrawal keeps the fleet in being.",
                 },
               ],
               outcome:
-                "A long-odds engagement, fought without the intelligence advantage or the numerical parity Midway actually offered. There's no historical anchor for how a three-carrier fleet fares against four undamaged ones with the element of surprise gone. What's not in question is the stakes: Australia's supply line and the war's entire Southwest Pacific timetable ride on a fight the historical Pacific Fleet never had to have on these terms.",
+                "Speculative. A long-odds engagement, without the intelligence advantage or the rough parity Midway offered. There is no anchor in the record for how three carriers fare against four undamaged ones with surprise gone. The stakes are plain: Australia's supply line and the Southwest Pacific timetable ride on a fight the real Pacific Fleet never had to fight on these terms.",
             },
             {
               label: "Withdraw further: trade New Caledonia and Fiji for time, bank on Essex-class carriers reaching the fleet by 1943",
@@ -2831,7 +2831,7 @@
               impact: { readiness: 2, pipeline: -3, initiative: -2 },
               next: "chinaCrisisAllied44",
               outcome:
-                "A patient trade: the South Pacific's forward positions conceded to a Japanese fleet still undefeated, banked against the production advantage the historical war eventually made decisive regardless of any single battle's outcome. Whether Australia's supply situation survives the wait is one open question; the mainland front's own crisis is arriving on schedule regardless, and this fleet's Pacific War is fought from a materially worse starting position than history's from here on.",
+                "Speculative. A patient trade: the South Pacific's forward positions are conceded to a Japanese fleet still undefeated, against the production advantage that made the real war's outcome certain whatever any single battle did. Whether Australia's supply survives the wait is open, and this fleet fights the rest of the Pacific war from a worse starting position than the real one.",
             },
           ],
         };
