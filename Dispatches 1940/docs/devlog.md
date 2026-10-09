@@ -1,4 +1,58 @@
-# Dispatches 1940 — Devlog (pre-V6 baseline)
+# Dispatches 1940: devlog
+
+## October 2026
+
+Dispatches 1940 is the European war from four chairs: OKW (`german`), STAVKA (`soviet`), SHAEF (`allied`) and Comando Supremo (`italy`). This section covers the month of work after the project moved into the monorepo, in the order it landed. Pull request numbers are the repository's (C18Doyle/Dispatches). The older devlog, from before the V6 baseline, is below it.
+
+### Where it stands
+
+- 278 reports and 31 Orders of Battle across the four commands. A 65-term glossary. A command rank on the end screen. A dated map with nine Eastern Front zones.
+- The UI baseline is 64 headless playthroughs, sixteen of them with "always let my staff plan battles" switched on.
+- Advisers argue third-person positions (570 lines); six real quotations are marked and logged.
+
+### What was done, in order
+
+**Early battles and battle features (#25, #26).** Four early battles (Sedan, Moscow in December 1941, the Battle of Britain day, the Alps), then field decisions mid-battle, the Effort and Matériel renames with four Matériel readings, six more battles (twenty in all), staff plans, a map exercise, order-of-battle sheets for every arm, hard-mode orders from above, and a playtest note. The first CI run of #26 failed only on the root engine equivalence test, because 1940's `resolveChoice` now tallies the readings' flags; the test strips them. Before pushing logic changes, run `node packages/engine/tests/campaign-equivalence.test.mjs` from the repository root.
+
+**Advisers and quotations.** Advisers are third-person positions, not invented speech (570 lines). Six real quotations are marked in speech marks and logged in `claims/quotations.json` (one primary, five secondary, still wanting their primary source); `tools/check-quotations.js` enforces it. Save and resume inside a battle (`restoreBattleSave`, `tests/battle-resume.test.mjs`), battle sounds (silent unless Sound is on), and a battle-screen accessibility pass.
+
+**The 23-item feedback round (#28, #29, #30).**
+- #28: meter micro-states with an expand panel, the Exhausted band, arrears and strain, the difficulty screen after choosing a command, battle planning and the report rebuilt with an auto-run report, wear effects removed, a dated map timeline with `check-map`, the end screen with a command rank, and the double-jeopardy fix (a battle may not charge the same fault twice).
+- #29: Soviet early branching, seven reports (Brody, Yelnya, the winter of 1942, Rzhev-Vyazma, the Smolensk thaw, Kharkov, the western offensive), with a fast path through the Soviet victories.
+- #30: the Italian co-belligerent path (Monte Lungo, the Adriatic road, the Combat Groups, the partisans' winter, who commands the Groups, the last offensive).
+
+**Round 25 (#31 to #34).**
+- #31: the rank ceiling per command (`ENDING_CEILING`), the Italian meter rebalance, `tools/check-endings.js`.
+- #32: seven Allied reports for 1941, with the choice at "Tripoli or Athens" leading to different nodes (the report count reached 270).
+- #33: five new battles (Monte Lungo, Adriatic Road, the 1945 spring offensive, Brody, Rzhev-Vyazma), 25 in all.
+- #34: the Eastern Front map split into nine zones (Leningrad, Belarus, Moscow, Urals, Ukraine, Don, Caucasus, Asia, the northern rear) by `tools/split-ussr-zones.mjs`, a dated `MAP_TIMELINE`, 66 reports retagged, and `check-map` extended. The Python geometry pipeline cannot run on this machine, so the split is a Node post-process.
+- Merged on the author's word ("merge them all"): #28 to #34 in order.
+
+**Round 26 (#35 and the battles PR).** Matériel got three readings (Fuel & Oil, Arms & Ammunition, Shipping & Rail), the meter figures column became fixed width, a 65-term glossary (first mention per report, dotted underline), the quotations were fact-checked (a Guderian line replaced, a Churchill file reference fixed). Then six more battles (Kiev, the Ardennes, Kursk and Stalingrad city for the Soviets, Seelow, Kharkov) and seven Soviet reports for 1944 and 1945 (Leningrad, the Right Bank, Crimea, Iasi-Kishinev, Budapest, Balaton and Vienna, Prague), bringing the report count to 278. Facts are in `claims/battles-round26.json`.
+
+**Round 27 (#37 and after).** The 14-item feedback list: a shorter menu and war room, the difficulty picker on the war room page, green and red meters, the strategic review inside the map, the theater map on the end screen, what is owed no longer shown, cheaper battle plans (random play had fallen to -8 or worse within five decisions on two commands), per-meter strain (a decision is strained by the meter it is about), Norway, no em dashes in on-screen text (`tools/check-writing.mjs`, `docs/WRITING.md`), and a more careful Holocaust section naming Yad Vashem as its only source. The meters came back to the outcome page and the planning page, and the easy modes got their names back (Elefant, T-35, Defiant, Breda Command).
+
+**The hover bug (#46).** Found while playing 1941: a hovered choice went black with black text. The fallback stylesheet for arbitrary-value classes was injected unlayered, so it beat Tailwind v4's layered utilities whatever their specificity. It now sits in the `utilities` layer.
+
+### What went wrong, and what it taught
+
+- **A flaky baseline run.** `italy-open-staff-1` plays a battle report that runs on timers; the shared `settle()` could stop in a gap, and a wrong 16-step version was accepted into #31, so #31's CI failed. The fix wraps `ctx.settle` in `tests/ui.config.mjs` (it waits up to six seconds while the page is "The Battle Unfolds" with nothing to press). Check any `stopped: no-button` run before accepting a baseline.
+- **Text sweeps break regex tests.** `check-pace-text` and `battle-resume` match on-screen punctuation, so a text sweep must run them.
+- **Content-node checklist.** A new report needs an atlas entry, a node-to-regions entry, `NODE_TOTAL`, an ending gallery entry per new ending title, a dossier per new adviser (whose `fate` starts with the year of the terminal event), every flag read somewhere, and rolls through `modWeight(base, meter)`.
+- **The balance checker** needs each arm to have a commander or an approach modifier above about 0.5 to compete, and an arm with no strand if its posture must win under every strand profile.
+- **A "small" size tier** in `MAP_REGION_SIZE` draws a status dot beside the label (meant for Malta); big zones must not use it.
+
+### Open
+
+- Playtest items 16 to 18 in `docs/PLAYTEST.md` have not been played by anyone.
+- Nobody who knows the ground has read the Eastern Front zone lines.
+- Five of the six quotations want their primary source.
+- Nothing is released to itch.io; 1940 has no release pipeline or `itch.json` target yet (version 6.0.0).
+
+---
+
+## Before the V6 baseline
+
 
 Dispatches 1940
 *Devlog — Initiative, and a bug a player found*
