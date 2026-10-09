@@ -2,11 +2,41 @@
   "artifact": "src/App.jsx",
   "partsDir": "src/parts",
   "parts": [
-    { "name": "00-head" },
-    { "name": "10-campaign-japan", "start": "^  japan: \\{", "after": "^const CAMPAIGNS = \\{" },
-    { "name": "11-campaign-alliedpacific", "start": "^  alliedPacific: \\{" },
-    { "name": "20-registries-and-gallery", "start": "^const ARBITRARY_CSS = " },
-    { "name": "30-screens", "start": "^function WarRoomScreen\\(" },
-    { "name": "40-app", "start": "^function WW2CommandInner\\(" }
+    {
+      "name": "00-head"
+    },
+    {
+      "name": "10-campaign-japan",
+      "start": "^  japan: \\{",
+      "after": "^const CAMPAIGNS = \\{"
+    },
+    {
+      "name": "11-campaign-alliedpacific",
+      "start": "^  alliedPacific: \\{"
+    },
+    {
+      "name": "20-registries-and-gallery",
+      "start": "^const ARBITRARY_CSS = "
+    },
+    {
+      "name": "25-battle-subgame",
+      "start": "^const BATTLE_ALLOCATION_CATEGORIES = "
+    },
+    {
+      "name": "26-battles-pacific",
+      "start": "^const KEY_BATTLE_CONFIGS = "
+    },
+    {
+      "name": "30-screens",
+      "start": "^function WarRoomScreen\\("
+    },
+    {
+      "name": "35-battle-screens",
+      "start": "^function BattleAllocationScreen\\("
+    },
+    {
+      "name": "40-app",
+      "start": "^function WW2CommandInner\\("
+    }
   ]
 }

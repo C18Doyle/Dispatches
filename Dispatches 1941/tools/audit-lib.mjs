@@ -36,7 +36,7 @@ export function seeded(seed) {
 
 /** Reads of a flag anywhere in the game's source, for the write-only-flag check. */
 export function sourceText() {
-  const parts = ["00-head", "10-campaign-japan", "11-campaign-alliedpacific", "20-registries-and-gallery", "30-screens", "40-app"];
+  const parts = ["00-head", "10-campaign-japan", "11-campaign-alliedpacific", "20-registries-and-gallery", "25-battle-subgame", "26-battles-pacific", "30-screens", "35-battle-screens", "40-app"];
   let t = parts.map((p) => readFileSync(`src/parts/${p}.jsx`, "utf8")).join("\n");
   t += "\n" + readFileSync("src/data/alliedPacific.nodes.json", "utf8");
   return t;

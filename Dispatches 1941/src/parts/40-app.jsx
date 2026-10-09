@@ -6,6 +6,15 @@ function WW2CommandInner() {
   // content was added and had already missed one whole branch once (Kantokuen). A count
   // is structurally immune to that failure mode: it doesn't care which nodes exist.
   const [demoChoiceCount, setDemoChoiceCount] = useState(0);
+  // The Order of Battle: null outside a battle, otherwise { index, label, config, baseWeights, plan } for the choice that hosts it.
+  const [pendingBattle, setPendingBattle] = useState(null);
+  // What the battle's roll produced, once it has happened: { weights, ri, uncertain, baseWeights, planCosts, notes }. The report and the
+  // outcome page both read it, so the odds shown are the odds rolled.
+  const [pendingBattleResult, setPendingBattleResult] = useState(null);
+  // Saving inside a battle. battleDraftRef holds the planning screen's plan as it stands (the screen reports every change), and
+  // battleResume carries a battle put back from a save: { stage, draft } or null. See battleSnapshot and restoreBattleSave.
+  const battleDraftRef = useRef(null);
+  const [battleResume, setBattleResume] = useState(null);
   const [pendingPressEvent, setPendingPressEvent] = useState(null);
   const [pendingDivergenceReveal, setPendingDivergenceReveal] = useState(null);
   // Ids of divergence forks already shown to the player this run — a fork has exactly one
@@ -143,10 +152,49 @@ function WW2CommandInner() {
     setScreen("briefing");
   }
 
-  function chooseOption(i) {
+  function chooseOption(i, subgamePayload) {
     const picked = stage.choices[i];
+    // A choice that hosts a battle opens the Order of Battle before anything resolves. The second call, with the battle's payload,
+    // is the real resolution: the plan's bonus is folded into the roll and its cost into the meters (all in logic.ts).
+    if (picked.keyBattleSubgame && subgamePayload === undefined) {
+      setPendingBattle({
+        index: i,
+        label: picked.label,
+        config: picked.keyBattleSubgame,
+        baseWeights: (picked.uncertain || []).map((u) => u.weight),
+      });
+      battleDraftRef.current = null;
+      setBattleResume(null);
+      setPendingBattleResult(null);
+      setScreen("battleAllocation");
+      return;
+    }
     if (picked.uncertain && soundOn) playDice();
-    const res = resolveChoice({ stage, index: i, mode, favor, defiance, flags, meters, rand: Math.random });
+    const res = resolveChoice({
+      stage,
+      index: i,
+      mode,
+      favor,
+      defiance,
+      flags,
+      meters,
+      rand: Math.random,
+      subgame: subgamePayload,
+      planCostsFor: subgamePayload
+        ? (ri) =>
+            computeBattlePlanCosts({
+              categories: keyBattleCategories(picked.keyBattleSubgame),
+              finalAllocation: subgamePayload.finalAllocation,
+              poolSize: subgamePayload.poolSize,
+              contributions: subgamePayload.contributions || {},
+              won: ri === 0,
+              reservesHeld: subgamePayload.reservesHeld || 0,
+              counter: subgamePayload.counter || null,
+              extraLines: subgamePayload.extraLines || [],
+              attrition: picked.keyBattleSubgame.attrition || null,
+            })
+        : undefined,
+    });
     if (!res) return;
     setFavor(res.favor);
     setDefiance(res.defiance);
@@ -156,10 +204,26 @@ function WW2CommandInner() {
     setChoiceIndex(i);
     setOutcomeStage(stage);
     if (DEMO_BUILD && campaignId === "japan") setDemoChoiceCount((n) => n + 1);
-    setScreen("outcome");
+    // A battle's roll stays on the battle report, which is already showing; the real, post-allocation weights also go forward to the
+    // outcome page, and the plan's cost to its impact box.
+    if (res.battle) {
+      setPendingBattleResult({
+        weights: res.battle.weights,
+        ri: res.rollIndex,
+        uncertain: picked.uncertain,
+        baseWeights: res.battle.baseWeights,
+        planCosts: res.battle.planCosts,
+        notes: subgamePayload.notes || [],
+      });
+      setScreen("battleResult");
+    } else {
+      setScreen("outcome");
+    }
   }
 
   function proceed() {
+    // Leaving the outcome page behind: clear the battle's result so it cannot leak into a later choice.
+    if (pendingBattleResult) setPendingBattleResult(null);
     const seen = seenStage;
     const choice = seen.choices[choiceIndex];
     const newLog = [...log, buildLogEntry(seen, choiceIndex, rollIndex)];
@@ -239,8 +303,19 @@ function WW2CommandInner() {
     }
   }
 
+  // The battle in hand, if there is one that can be put down: the planning screen, or the report before its verdict. After the
+  // verdict the roll is made and its effects applied, so a save there would count them twice.
+  function battleSnapshot() {
+    if (!pendingBattle) return null;
+    const head = { label: pendingBattle.label, configId: pendingBattle.config.id, baseWeights: pendingBattle.baseWeights };
+    if (screen === "battleAllocation" && battleDraftRef.current) return { stage: "allocation", ...head, draft: battleDraftRef.current };
+    if (screen === "battleResult" && !pendingBattleResult && pendingBattle.plan) return { stage: "report", ...head, plan: pendingBattle.plan };
+    return null;
+  }
+
   async function manualSave() {
     return await saveActiveRun({
+      battle: battleSnapshot() || undefined,
       schemaVersion: SAVE_SCHEMA_VERSION,
       campaignId,
       mode,
@@ -256,6 +331,37 @@ function WW2CommandInner() {
       demoChoiceCount,
     });
   }
+
+  // "Save and leave the field": the battle goes into the save, and the player leaves for the menu only once the save has gone through.
+  async function leaveBattleSaved() {
+    const ok = await manualSave();
+    if (!ok) return false;
+    setPendingBattle(null);
+    setPendingBattleResult(null);
+    setBattleResume(null);
+    setScreen("select");
+    if (soundOn) switchMusic("menu");
+    return true;
+  }
+
+  // Closing the tab or switching away mid-battle writes the same save, so the plan and the enemy's setup are not lost to the last
+  // autosave. Reads the latest render through a ref.
+  const battleExitSave = useRef(null);
+  battleExitSave.current = () => {
+    if (battleSnapshot()) manualSave();
+  };
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") battleExitSave.current();
+    };
+    const onHide = () => battleExitSave.current();
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", onHide);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", onHide);
+    };
+  }, []);
 
   async function goHome() {
     const ok = await manualSave();
@@ -291,6 +397,16 @@ function WW2CommandInner() {
     setHistory(saved.history || [{ position: saved.position, flags: saved.flags, meters: saved.meters, log: saved.log }]);
     setChoiceIndex(null);
     setRollIndex(null);
+    const battle = restoreBattleSave(saved);
+    if (battle) {
+      battleDraftRef.current = battle.draft;
+      setBattleResume({ stage: battle.stage, draft: battle.draft });
+      setPendingBattleResult(null);
+      setOutcomeStage(null);
+      setPendingBattle(battle.pending);
+      setScreen(battle.stage === "report" ? "battleResult" : "battleAllocation");
+      return;
+    }
     setScreen("briefing");
   }
 
@@ -373,6 +489,69 @@ function WW2CommandInner() {
       {screen === "divergence" && campaign && pendingDivergenceReveal && (
         <DivergenceRevealScreen campaign={campaign} headline={pendingDivergenceReveal} onContinue={dismissDivergence} />
       )}
+      {screen === "battleAllocation" && campaign && pendingBattle && (
+        <BattleAllocationScreen
+          campaign={campaign}
+          config={pendingBattle.config}
+          meters={meters}
+          flags={flags}
+          mode={mode}
+          soundOn={soundOn}
+          // Easy mode: the free intelligence hint is never wrong.
+          easyMode={mode === "easy"}
+          onSpendInitiative={() => setMeters((m) => ({ ...m, initiative: Math.max(-10, Math.min(10, m.initiative - 1)) }))}
+          resume={battleResume && battleResume.stage === "allocation" ? battleResume.draft : null}
+          onDraft={(d) => {
+            battleDraftRef.current = d;
+          }}
+          onSaveLeave={leaveBattleSaved}
+          onCommit={(plan) => {
+            setPendingBattle((pb) => ({ ...pb, plan }));
+            setPendingBattleResult(null);
+            setBattleResume(null);
+            setScreen("battleResult");
+            // The plan is as good as made once committed: save it, so closing the page mid-report does not send the player back to an
+            // earlier autosave.
+            saveActiveRun({
+              battle: { stage: "report", label: pendingBattle.label, configId: pendingBattle.config.id, baseWeights: pendingBattle.baseWeights, plan },
+              schemaVersion: SAVE_SCHEMA_VERSION,
+              campaignId,
+              mode,
+              favor,
+              defiance,
+              position,
+              flags,
+              meters,
+              log,
+              visited,
+              rewinds,
+              history,
+              demoChoiceCount,
+            });
+          }}
+        />
+      )}
+      {screen === "battleResult" && campaign && displayStage && pendingBattle && pendingBattle.plan && (
+        <BattleSimulationScreen
+          campaign={campaign}
+          mode={mode}
+          config={pendingBattle.config}
+          plan={pendingBattle.plan}
+          baseWeights={pendingBattle.baseWeights}
+          uncertain={displayStage.choices[pendingBattle.index].uncertain}
+          result={pendingBattleResult}
+          soundOn={soundOn}
+          instantText={instantText}
+          reducedMotion={reducedMotion}
+          resumed={!!(battleResume && battleResume.stage === "report")}
+          onSaveLeave={leaveBattleSaved}
+          onResolve={(payload) => chooseOption(pendingBattle.index, payload)}
+          onContinue={() => {
+            setPendingBattle(null);
+            setScreen("outcome");
+          }}
+        />
+      )}
       {screen === "briefing" && campaign && stage && (
         <BriefingScreen
           campaign={campaign}
@@ -404,6 +583,9 @@ function WW2CommandInner() {
           meters={meters}
           flags={flags}
           prevSnap={history.length ? history[history.length - 1] : null}
+          resolvedWeights={pendingBattleResult ? pendingBattleResult.weights : null}
+          planCosts={pendingBattleResult ? pendingBattleResult.planCosts : null}
+          battleNotes={pendingBattleResult ? pendingBattleResult.notes : null}
           onProceed={proceed}
           soundOn={soundOn}
           isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}

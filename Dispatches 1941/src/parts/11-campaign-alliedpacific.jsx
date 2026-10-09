@@ -594,6 +594,7 @@
               setFlags: { midwayAlliedPath: "ambush" },
               impact: { readiness: -2, pipeline: 0, initiative: 3 },
               next: "kokodaTrailAllied42",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.midwayAllied42,
               uncertain: [
                 {
                   weight: modWeight(60 + (flags.forkToneOnTime ? 5 : 0), meters.initiative),
@@ -662,7 +663,7 @@
           title: "The Kokoda Track",
           historicalRecord: true,
           situation:
-            "Australian militia, mostly young, poorly equipped conscripts not yet reinforced by the veteran AIF divisions still returning from the Middle East, are conducting a fighting withdrawal down the Kokoda Track as Horii's South Seas Detachment pushes toward Port Moresby. MacArthur, running the campaign from Australia with little visibility into the terrain and supply conditions on the track, is reading the retreat as a failure of will rather than the skillfully executed delaying action Australian commanders on the ground understand it to be, and is pressing hard for an immediate stand.",
+            "Australian militia, mostly young, poorly equipped conscripts not yet reinforced by the veteran AIF divisions still returning from the Middle East, are conducting a fighting withdrawal down the Kokoda Track as Horii's South Seas Detachment pushes toward Port Moresby. MacArthur, running the campaign from Australia with little visibility into the terrain and supply conditions on the track, is reading the retreat as a failure of will rather than the skillfully executed delaying action Australian commanders on the ground understand it to be, and is pressing hard for an immediate stand." + (flags.midwayAlliedPath === "ambush" ? keyBattleEcho("midwayAllied42", flags) : ""),
           choices: [
             {
               label: "Back Blamey and the Australian commanders' fighting-withdrawal strategy: trade ground for time until reinforcements arrive",
@@ -1161,6 +1162,7 @@
               disabledReason: meters.readiness <= -4 ? "The carrier air groups don't have the strength left to leave the landing force uncovered and still win a pursuit. The fleet can protect the beach or gamble, not both, at this readiness level." : undefined,
               gateCheck: { meter: "readiness", threshold: -4, label: "Readiness" },
               next: "chinaCrisisAllied44",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.philippineSea44,
               uncertain: [
                 {
                   weight: modWeight(40, meters.initiative),
@@ -1333,7 +1335,7 @@
           title: "Two Fronts, One Air Bridge",
           historicalRecord: true,
           situation:
-            "Ichi-Go's offensive is overrunning the Fourteenth Air Force's forward airbases faster than Chennault's command can evacuate them, and Chiang's Nationalist divisions, chronically under-supplied, chronically riven by the rivalry between Chiang and Stilwell that's about to cost Stilwell his command entirely, are giving ground across southern China. In the north, Communist forces under Mao have spent the war largely intact, fighting a guerrilla campaign against Japanese occupation that American observers newly arrived at Yan'an report is considerably more effective than anything the Nationalist front is currently managing." +
+            ("Ichi-Go's offensive is overrunning the Fourteenth Air Force's forward airbases faster than Chennault's command can evacuate them, and Chiang's Nationalist divisions, chronically under-supplied, chronically riven by the rivalry between Chiang and Stilwell that's about to cost Stilwell his command entirely, are giving ground across southern China. In the north, Communist forces under Mao have spent the war largely intact, fighting a guerrilla campaign against Japanese occupation that American observers newly arrived at Yan'an report is considerably more effective than anything the Nationalist front is currently managing." +
             (divergentPath
               ? " None of that changes for how the naval war went: China's crisis runs on Chennault's airbases and Chiang's divisions, not on which islands the fleet has taken."
               : "") +
@@ -1351,7 +1353,7 @@
               ? " This theater is still absorbing the cost of a hard-fought, long-odds win over an undamaged Japanese carrier fleet at FS, a victory but not a cheap one, and China's own crisis is landing on a Pacific command that has less spare capacity than the historical 1944 war ever had to work with at this point."
               : flags.fsAlliedResult === "forcedWithdrawal"
               ? " This theater is still recovering from a forced withdrawal against an undamaged Japanese carrier fleet at FS, and China's own crisis is landing on a Pacific command working from a materially weaker position than the historical 1944 war ever had to answer from."
-              : ""),
+              : "")) + (flags.philippineSeaAlliedPath === "pursue" ? keyBattleEcho("philippineSea44", flags) : ""),
           choices: [
             {
               label: "Maintain support solely to Chiang's Nationalist government: hold the alliance's official line even as Ichi-Go costs airbases",

@@ -476,6 +476,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               {CAMPAIGNS[activeRun.campaignId].name}
               {activeRun.mode === "easy" ? " · Easy" : activeRun.mode === "fanatical" ? " · ⚔ Fanatical Resolve" : activeRun.mode === "coalition" ? " · ★ Coalition Resolve" : ""} · {(activeRun.log || []).length} decisions on
               file: resume where you left off.
+              {activeRun.battle && (() => { const t = KEY_BATTLE_TITLES.find((x) => x.id === activeRun.battle.configId); return t ? ` You were part way through ${t.title}.` : ""; })()}
             </p>
           </button>
         )}
@@ -707,6 +708,52 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                 {endings.filter((l) => !ENDINGS_GALLERY.some((e) => e.label === l)).length === 1 ? "conclusion" : "conclusions"} reached.
               </p>
             )}
+          </div>
+        </details>
+        {/* The Battle Record: every Order of Battle fought, with the enemy setups met, the best
+            result, and what the player did last time (commander and field decisions). A log, not a
+            hint: the setups are drawn at random, so having met one says nothing about the next. */}
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Battle Record: {KEY_BATTLE_TITLES.filter((b) => record?.battles?.[b.id]).length} of {KEY_BATTLE_TITLES.length} battles fought
+          </summary>
+          <div className="mt-3">
+            {KEY_BATTLE_TITLES.map((b) => {
+              const r = record?.battles?.[b.id];
+              const roster = KEY_BATTLE_POSTURES[b.id] || [];
+              const commander = r?.last?.commander ? (KEY_BATTLE_COMMANDERS[b.id] || []).find((c) => c.id === r.last.commander) : null;
+              return (
+                <div key={b.id} className="border-l-4 pl-2 mb-3" style={{ borderColor: r ? "#b08d3f" : "#00000033", fontFamily: "'Courier Prime', monospace" }}>
+                  <div className="text-[13px] text-[#000000]">
+                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-50 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                      {b.seal}
+                    </span>
+                    {r ? <b>{b.title}</b> : <span className="opacity-40">████████████</span>}
+                  </div>
+                  {r && (
+                    <div className="text-[12px] text-[#000000] leading-snug">
+                      <div>
+                        Fought {r.fought} {r.fought === 1 ? "time" : "times"} · won {r.won} · best result: {r.best === "clean" ? "a clean win" : r.best === "costly" ? "a costly win" : r.best === "marginal" ? "a close loss" : "a heavy loss"}
+                      </div>
+                      <div>
+                        Enemy setups met: {r.setups.length} of {roster.length}
+                        {r.setups.length > 0 && <> ({r.setups.map((id) => roster.find((p) => p.id === id)?.name || id).join("; ")})</>}
+                      </div>
+                      {r.last && (
+                        <div className="opacity-80">
+                          Last time: {r.last.won ? "won" : "lost"}
+                          {commander ? `, under ${commander.name}` : ""}
+                          {r.last.decisions && r.last.decisions.length > 0 ? `. Field decision: ${r.last.decisions.join("; ")}` : ""}.
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </details>
         <details className={`${paper} p-5`}>
@@ -3006,6 +3053,15 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
                   ⛔ Unavailable: {choice.disabledReason}
                 </span>
               )}
+              {/* Unconditional, not Easy-only: it changes what tapping the button does (the choice opens the Order of Battle). */}
+              {!choice.disabledReason && choice.keyBattleSubgame && (
+                <span
+                  className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: campaign.accent, color: campaign.accent }}
+                >
+                  <span aria-hidden="true">⚑ </span>Leads to battle planning
+                </span>
+              )}
               {choice.gateCheck && !choice.disabledReason && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-60"
@@ -3110,7 +3166,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
   );
 }
 
-function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags, prevSnap, onProceed, isLast, soundOn }) {
+function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags, prevSnap, onProceed, isLast, soundOn, resolvedWeights, planCosts, battleNotes }) {
   const choice = stage.choices[choiceIndex];
   const eff = effectiveChoice(choice, rollIndex);
   const screenRef = useRef(null);
@@ -3163,7 +3219,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
           "{choice.label}"
         </p>
 
-        {eff.variantTitle && (
+        {eff.variantTitle && !resolvedWeights && (
           <div
             className="mb-4 border-2 border-black px-3 py-2 text-[13px] uppercase tracking-widest font-bold text-[#000000]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -3187,6 +3243,39 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
                 {v > 0 ? "▲" : "▼"} {label} {v > 0 ? "+" + v : v}
               </span>
             ))}
+          </div>
+        )}
+
+        {/* A battle's own cost (see computeBattlePlanCosts), applied to the meters alongside the outcome's impact above, is shown
+            separately so the player can tell the battle's consequence from the price of how they fought it. */}
+        {battleNotes && battleNotes.length > 0 && (
+          <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-70 mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              After-action notes
+            </div>
+            {battleNotes.map((n, i) => (
+              <p key={i} className="text-[13px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                {n}
+              </p>
+            ))}
+          </div>
+        )}
+        {planCosts && Object.values(planCosts.totals).some((v) => v !== 0) && (
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <span className="text-[10px] uppercase tracking-widest font-bold opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              The plan's own cost:
+            </span>
+            {Object.entries(planCosts.totals)
+              .filter(([, v]) => v !== 0)
+              .map(([m, v]) => (
+                <span
+                  key={m}
+                  className="inline-block border-2 px-2 py-1 text-xs uppercase tracking-widest font-bold"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: v > 0 ? "#2f4a3a" : "#7a2e2e", color: v > 0 ? "#2f4a3a" : "#7a2e2e" }}
+                >
+                  {v > 0 ? "▲" : "▼"} {m === "readiness" ? "Readiness" : m === "pipeline" ? "Pipeline" : "Initiative"} {v > 0 ? "+" + v : v}
+                </span>
+              ))}
           </div>
         )}
 
@@ -3306,7 +3395,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         ceiling: endingCeiling(campaign.id),
         removed: !!removedFromCommand,
         total,
-        battles: [],
+        battles: KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => ({ grade: flags[`${b.id}Grade`], staff: !!flags[`${b.id}Staff`] })),
         judged: (log || []).filter((e) => e.histSum != null).map((e) => ({ sum: e.sum, histSum: e.histSum })),
         objectives: evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor }).length,
         mode: mode || "open",
@@ -3490,6 +3579,15 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
               <p className="mt-2 text-[12px] italic text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
                 {rating.capped}
               </p>
+            )}
+            {battleSummaryLines(flags).length > 0 && (
+              <ul className="mt-2 flex flex-col gap-1" style={{ fontFamily: "'Courier Prime', monospace" }} aria-label="Battles fought">
+                {battleSummaryLines(flags).map((l) => (
+                  <li key={l} className="text-[12px] leading-snug text-[#000000] opacity-80">
+                    {l}
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         )}
@@ -3760,6 +3858,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                 rolls.length > 0
                   ? "Dice: " + rolls.length + " contested outcomes, path likelihood ~" + compoundPct + (rewinds > 0 ? " across " + rewinds + " rewinds" : ", no rewinds")
                   : null,
+                ...battleSummaryLines(flags),
                 topAdvisors.length > 0 ? "Most trusted advisor: " + topAdvisors[0][0] + " (" + topAdvisors[0][1] + ")" : null,
                 earnedObjectives.length > 0
                   ? "Objectives: " + earnedObjectives.map((id) => (OBJECTIVES.find((x) => x.id === id) || {}).title).filter(Boolean).join(", ")
@@ -3900,6 +3999,41 @@ function migrateSave(saved) {
     if (Array.isArray(s.history)) s.history = s.history.map((h) => (h && typeof h === "object" ? { ...h, position: aliasNode(h.position) } : h));
   }
   return s;
+}
+
+// Put a battle back from a save. A save made on the planning screen or the battle report carries the battle
+// with it (saved.battle). The choice that opened it is found again by its label on the node the save points at,
+// because the choice list can shift as Initiative is spent on the planning screen, and everything the save
+// holds is checked before it is trusted. Anything that does not check out returns null, and the game then
+// resumes at the briefing as it always did.
+function restoreBattleSave(saved) {
+  const b = saved && saved.battle;
+  if (!b || typeof b !== "object" || (b.stage !== "allocation" && b.stage !== "report")) return null;
+  const campaign = CAMPAIGNS[saved.campaignId];
+  if (!campaign || !saved.position) return null;
+  let stage;
+  try {
+    stage = resolveStage(campaign, saved.position, saved.flags || {}, saved.meters || EMPTY_METERS);
+  } catch (e) {
+    return null;
+  }
+  if (!stage || !stage.choices) return null;
+  const index = stage.choices.findIndex((c) => c.label === b.label && c.keyBattleSubgame && c.keyBattleSubgame.id === b.configId);
+  if (index < 0) return null;
+  const choice = stage.choices[index];
+  const config = choice.keyBattleSubgame;
+  const ids = keyBattleCategories(config).map((c) => c.id);
+  const allocOk = (a) => !!a && typeof a === "object" && ids.every((id) => Number.isInteger(a[id]) && a[id] >= 0);
+  const baseWeights = Array.isArray(b.baseWeights) && b.baseWeights.every((w) => typeof w === "number") ? b.baseWeights : (choice.uncertain || []).map((u) => u.weight);
+  if (b.stage === "allocation") {
+    const d = b.draft;
+    if (!d || typeof d !== "object" || !allocOk(d.allocation) || !Array.isArray(d.bonusMeters) || !d.jitter || typeof d.jitter !== "object") return null;
+    if (ids.reduce((n, id) => n + d.allocation[id], 0) > 5 + d.bonusMeters.length) return null;
+    return { stage: "allocation", draft: d, pending: { index, label: b.label, config, baseWeights } };
+  }
+  const p = b.plan;
+  if (!p || typeof p !== "object" || !allocOk(p.allocation) || !Number.isInteger(p.poolSize) || !Number.isInteger(p.reserves) || !p.weights || typeof p.weights !== "object") return null;
+  return { stage: "report", draft: null, pending: { index, label: b.label, config, baseWeights, plan: p } };
 }
 
 function isValidSave(saved) {
@@ -4059,6 +4193,22 @@ function evaluateObjectives(ctx) {
 }
 
 
+// One readable line per battle fought, for the after-action summary.
+const BATTLE_GRADE_WORDS = { clean: "clean win", costly: "costly win", marginal: "close loss", total: "heavy loss" };
+function battleSummaryLines(flags) {
+  return KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => {
+    const roster = KEY_BATTLE_POSTURES[b.id] || [];
+    const setups = [flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean).map((id) => (roster.find((p) => p.id === id) || {}).name || id);
+    const cmdId = flags[`${b.id}PlanCommander`];
+    const cmd = cmdId ? ((KEY_BATTLE_COMMANDERS[b.id] || []).find((c) => c.id === cmdId) || {}).name : null;
+    const decisions = Object.keys(flags)
+      .filter((k) => k.startsWith(`${b.id}DecNote_`))
+      .map((k) => flags[k]);
+    const bits = [setups.length ? "against " + setups.join(", then ") : null, cmd ? "under " + cmd : null, flags[`${b.id}Staff`] ? "staff plan" : "own plan", ...decisions].filter(Boolean);
+    return `${b.title}: ${BATTLE_GRADE_WORDS[flags[`${b.id}Grade`]] || flags[`${b.id}Grade`]}${bits.length ? ` (${bits.join("; ")})` : ""}`;
+  });
+}
+
 async function withRetry(fn, attempts = 3, delayMs = 250) {
   let lastErr;
   for (let i = 0; i < attempts; i++) {
@@ -4124,6 +4274,28 @@ async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewind
       if (e.advisor) advisors[e.advisor] = (advisors[e.advisor] || 0) + 1;
     });
     record.advisors = advisors;
+    // The Battle Record: every Order of Battle fought this war leaves its grade, enemy setup(s), commander and field decisions in the
+    // run's flags; the record keeps a running tally per battle across wars. Written once, when a war ends, like the rest of the record.
+    const battles = record.battles || {};
+    for (const b of KEY_BATTLE_TITLES) {
+      const grade = flags[`${b.id}Grade`];
+      if (!grade) continue;
+      const prev = battles[b.id] || { fought: 0, won: 0, setups: [], best: null, last: null };
+      const won = grade === "clean" || grade === "costly";
+      const decisions = Object.keys(flags)
+        .filter((k) => k.startsWith(`${b.id}DecNote_`))
+        .map((k) => flags[k]);
+      const setups = [...new Set([...(prev.setups || []), flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean))];
+      const best = prev.best && BATTLE_GRADE_ORDER.indexOf(prev.best) > BATTLE_GRADE_ORDER.indexOf(grade) ? prev.best : grade;
+      battles[b.id] = {
+        fought: prev.fought + 1,
+        won: prev.won + (won ? 1 : 0),
+        setups,
+        best,
+        last: { grade, won, commander: flags[`${b.id}PlanCommander`] || null, setup: flags[`${b.id}Posture`] || null, decisions },
+      };
+    }
+    record.battles = battles;
     await withRetry(() => window.storage.set("ww2-command-record", JSON.stringify(record)), 5, 400);
     const newlyEarned = (record.objectives || []).filter((id) => !objectivesBefore.has(id));
     return newlyEarned;

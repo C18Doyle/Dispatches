@@ -1,4 +1,8 @@
+// Fallback utilities for class names with arbitrary values. They sit in the `utilities` layer, the layer Tailwind uses: as unlayered rules
+// they beat every Tailwind utility whatever its specificity, so `hover:text-[#ffffff]` lost to `text-[#000000]` (a hovered choice went black on
+// black) and `sm:text-[..]` lost to `text-[..]`.
 const ARBITRARY_CSS = `
+@layer utilities {
 .bg-\\[\\#000000\\] { background-color: #000000; }
 .bg-\\[\\#ffffff\\] { background-color: #ffffff; }
 .border-\\[\\#000000\\] { border-color: #000000; }
@@ -24,6 +28,7 @@ const ARBITRARY_CSS = `
 .tracking-\\[0\\.25em\\] { letter-spacing: 0.25em; }
 .tracking-\\[0\\.35em\\] { letter-spacing: 0.35em; }
 .shadow-\\[0_8px_30px_rgba\\(0\\,0\\,0\\,0\\.5\\)\\] { box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+}
 `;
 
 const paper =
