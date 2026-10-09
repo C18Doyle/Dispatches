@@ -2861,10 +2861,6 @@
       if (flags.yamamotoInterceptPath === "declined") return "The Admiral Who Wasn't Removed";
       if (flags.peleliuPath === "cancelled") return "The Landing That Never Happened";
       if (flags.stilwellFatePath === "preserved") return "The General Who Stayed";
-      if (flags.chinaAloneAidResult === "shifted") return "The Stalemate That Finally Moved";
-      if (flags.chinaAloneAidPath === "materiel") return "Everything But the Declaration";
-      if (flags.chinaAloneAidPath === "none") return "Europe First, Meant Literally";
-      if (flags.chinaAloneAidPath === "volunteers") return "Mercenaries in Everything But Name";
       if (flags.halseyAftermathPath === "singleDoctrine") return "One Doctrine, No Second Chair";
       if (flags.halseyAftermathPath === "restoredAlternation") return "A Less Famous Hand on the Wheel";
       if (flags.occupationPath === "singleAuthority") return "Command Without Its Commander";
@@ -2875,7 +2871,6 @@
       if (flags.hokkaidoPath === "refused" && flags.emperorPath === "prosecute") return "One Occupation, No Exceptions";
       if (flags.differentPacificFinalPath === "acceptTrade") return "The Cost of the Other Road";
       if (flags.differentPacificFinalPath === "acceptUncertainty") return "An Honest Silence at the End";
-      if (flags.philippinesPath === "bypassFormosa") return "Manila, Left Behind";
       return "A Different Command";
     },
     epilogue(flags, meters) {

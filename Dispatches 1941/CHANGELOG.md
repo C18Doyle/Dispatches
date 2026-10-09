@@ -11,7 +11,11 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 - **The briefs and introductions are one plain sentence or two**, with the editorialising removed.
 - **No em dashes in the on-screen text.** `npm run check-writing` fails on a new one (see `../docs/WRITING.md`).
 
+### Fixed
+- **Fourteen ending titles that no war could produce are gone** from the endings list (11 of them were listed in the gallery as endings to find): the war always went on to a later decision whose own title came first. Removed: The Line Not Moved, Two Empires Two Different Wars, The War That Waited, A Different Kind of Ready, The Check Removed Before It Was Needed, One Hundred Million Together, Two Hundred Roots One Hour, The Line Nobody Had to Cross, Spent Regardless of the Reason, The Stalemate That Finally Moved, Everything But the Declaration, Europe First Meant Literally, Mercenaries in Everything But Name, Manila Left Behind.
+
 ### Added
+- **Audit suite** (`npm run audit`, mostly in `test:fast`), ported from 1940 and built on the game's own rules (`tools/audit-lib.mjs`): `check:orphans` now also proves every ending title can be produced; `check-reachability` (gallery entries that no campaign can return, flags written but never read, choices blocked at every meter state); `check-advisor-dates` (an adviser shown after death, removal or capture, before taking a post, or under a title that was not true that month, against the reviewed table `tests/adviser-tenures.json`); `check-outcome-sign` (unhedged triumph or disaster prose beside an impact that points the other way); `check-endings` (no ending takes more than 85% of random wars). Findings that are understood and not yet fixed are listed in `tests/audit-allowlist.json`: 8 adviser date or title errors and 15 flags that are written and never read, to be fixed in the fact-check pass.
 - Save migrations and node aliases (`NODE_ALIASES`, `SAVE_MIGRATIONS`, `migrateSave`): an update can now upgrade saves instead of wiping them (docs/SAVES.md).
 - Twenty Allied Pacific nodes now live in `src/data/alliedPacific.nodes.json`; text and choices are unchanged.
 - `check:orphans` (reachability of every listed node) in the fast tests.

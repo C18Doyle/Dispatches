@@ -2975,7 +2975,6 @@
       if (flags.peaceShapeResult === "held") return "The War That Ended in 1942, On Japan's Terms";
       if (flags.peaceShapeResult === "collapsed") return "The Peace That Asked for Too Much";
       if (flags.strongerHandResult === "exploited") return "Strength Read as Weakness";
-      if (flags.strongerHandPath === "holdLine") return "The Line Not Moved";
       if (flags.termsPath === "throne") return "The One Term That Held";
       if (flags.termsPath === "broader") return "Terms Worth Having";
       if (flags.beachheadPath === "fullBombardment") return "The Beach Kurita Reached";
@@ -2986,7 +2985,6 @@
       if (flags.kantokuenFinalPath === "wrongGamble") return "The Lesson Nomonhan Taught Twice";
       if (flags.rommelPath === "pressAnyway") return "A Coordination That Arrived Too Late";
       if (flags.rommelPath === "recall") return "The Fleet That Turned for Home";
-      if (flags.pacificWonPath === "indianOcean") return "Two Empires, Two Different Wars";
       if (flags.pacificWonPath === "harden") return "The Gift Yamamoto Asked For";
       if (flags.quietEmpirePath === "standDown" && flags.coldWarPath === "align") return "A Quiet Empire, Quietly Courted";
       if (flags.quietEmpirePath === "standDown" && flags.coldWarPath === "holdLine") return "The War That Waited, Still Waiting";
@@ -2997,20 +2995,13 @@
       if (flags.quietEmpirePath === "armedNeutrality" && flags.coldWarPath === "align") return "A Militia Empire, Courted Anyway";
       if (flags.quietEmpirePath === "armedNeutrality" && flags.coldWarPath === "holdLine") return "Cheap Deterrence, Held on Principle";
       if (flags.quietEmpirePath === "armedNeutrality" && flags.coldWarPath === "formalProposal") return "The Swiss Model, Offered as Leverage";
-      if (flags.quietEmpirePath === "standDown") return "The War That Waited";
       if (flags.quietEmpirePath === "permanentReadiness") return "Armed Against a Ghost";
-      if (flags.quietEmpirePath === "armedNeutrality") return "A Different Kind of Ready";
       if (flags.moscowResult === "neutralityHolds") return "The War Moscow Sat Out";
       if (flags.moscowPath === "concessions") return "A Price Already Paid to Someone Else";
       if (flags.endgamePath === "surrenderInquiry") return "The Peace Nobody Was Ready For";
-      if (flags.endgamePath === "purgePeaceFaction") return "The Check Removed Before It Was Needed";
-      if (flags.endgamePath === "ketsuGo") return "One Hundred Million, Together";
-      if (flags.endgamePath === "pineRootDiversion") return "Two Hundred Roots, One Hour";
-      if (flags.endgamePath === "totalMobilization") return "The Line Nobody Had to Cross";
       if (flags.finalPath === "lastStand") return "The Fleet's Last Sortie";
       if (flags.finalPath === "leverage") return "A Navy Held Hostage to Its Own Survival";
       if (flags.longWarPath === "terms") return "Peace Bought With What Remained";
-      if (flags.longWarPath === "ketsuGoRegardless") return "Spent Regardless of the Reason";
       return "A Different Command";
     },
     epilogue(flags, meters) {
