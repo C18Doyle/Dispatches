@@ -795,6 +795,9 @@ function WW2CommandInner() {
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
+          flags={flags}
+          history={history}
+          mode={mode}
           onProceed={proceed}
           soundOn={soundOn}
           isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}

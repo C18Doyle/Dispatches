@@ -26672,8 +26672,8 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const modeInfo = warRoomModeInfo(mode, campaign.id);
   const hardId = HARD_MODE_OF[campaign.id];
   const modeChoices = [
-    { id: "easy", name: "Easy", available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
-    { id: "open", name: "Normal", available: true, colour: "#000000" },
+    { id: "easy", name: `Easy: ${warRoomModeInfo("easy", campaign.id).label}`, available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
+    { id: "open", name: `Normal: ${warRoomModeInfo("open", campaign.id).label}`, available: true, colour: "#000000" },
     { id: hardId, name: `Hard: ${warRoomModeInfo(hardId, campaign.id).label}`, available: HARD_MODES_ENABLED, colour: "#7a2e2e" },
   ];
   const headingRef = useRef(null);
@@ -27285,25 +27285,6 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            The Holocaust
-          </summary>
-          <div className="mt-3">
-            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              The Holocaust is not a decision in this game, and that is deliberate. The murder of millions of people was not a problem for a high command to weigh, and turning it into a choice, a meter or a score would make a game of it. It was left out of the decisions so that it could not be gamified. It was not a side event of the war, and it must not be forgotten.
-            </p>
-            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              From 1933 the Nazi state persecuted the Jews of Germany and took away their rights, property and livelihoods. The Nuremberg Laws followed in 1935 and the November pogrom in 1938. After the invasion of Poland in 1939 Jews were forced into ghettos. From June 1941, behind the armies that invaded the Soviet Union, mobile killing units, helped by police and army units, shot Jewish men, women and children in great numbers. In January 1942 officials met at Wannsee to coordinate the deportation and murder of the Jews of Europe, and killing centres such as Chełmno, Bełżec, Sobibór, Treblinka and Auschwitz-Birkenau were put to work. About six million Jews were murdered, around two thirds of the Jews of Europe.
-            </p>
-            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              The Nazis and their collaborators also murdered Roma and Sinti, disabled people, Soviet prisoners of war, Polish and other civilians, and many more. Soviet and Western Allied armies reached the camps between 1944 and 1945. Italy took its part: Jews were persecuted under the racial laws from 1938 and, after the German occupation of 1943, deported. For more, see the United States Holocaust Memorial Museum and Yad Vashem.
-            </p>
-          </div>
-        </details>
-        <details className={`${paper} p-5`}>
-          <summary
-            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
             Context: Key Events of the War
           </summary>
           <div className="mt-3">
@@ -27370,6 +27351,28 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
               into territory the scholarly consensus argues against. These carry a distinct amber warning,
               exist only through chains of low-probability rolls, and this campaign computes and shows you exactly
               how unlikely the path you walked was.
+            </p>
+          </div>
+        </details>
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            The Holocaust
+          </summary>
+          <div className="mt-3">
+            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              This game is about the decisions of high commands. The Holocaust is not one of them, and that is deliberate. The murder of millions of people must never become a choice, a meter or a score, or something to be won or lost, so it has been kept out of the game's decisions. It is set apart here so that it is remembered for what it was: not a side event of the war, but a crime committed against real people, each with a name, a family and a life.
+            </p>
+            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              From 1933 the Nazi state persecuted the Jews of Germany and took away their rights, property and livelihoods. The Nuremberg Laws followed in 1935 and the November pogrom in 1938. After the invasion of Poland in 1939, Jews were forced into ghettos. From June 1941, behind the armies that invaded the Soviet Union, mobile killing units, helped by police and army units, murdered Jewish men, women and children by shooting. In January 1942 officials met at Wannsee to coordinate the deportation and murder of the Jews of Europe, and killing centres such as Chełmno, Bełżec, Sobibór, Treblinka and Auschwitz-Birkenau were built and used for that purpose. About six million Jews were murdered, around two thirds of the Jews of Europe.
+            </p>
+            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              The Nazis and their collaborators also murdered Roma and Sinti, disabled people, Soviet prisoners of war, Polish and other civilians, and many others. Soviet and Western Allied armies reached the camps between 1944 and 1945 and found the survivors and the dead. Italy took part too: Jews were persecuted under the racial laws from 1938 and, after the German occupation in 1943, deported.
+            </p>
+            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              To learn more, and to read the names of those who were murdered, see Yad Vashem, the World Holocaust Remembrance Center (yadvashem.org).
             </p>
           </div>
         </details>
@@ -30415,6 +30418,8 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         </h2>
         <p className="text-sm mb-4 text-[#000000]">{config.flavor}</p>
 
+        {campaign.dynamic && mode !== "iron" && <MeterPanel meters={meters} flags={flags} prev={null} />}
+
         {/* Round 24: the two things a player may want before anything else sit together at the top: the short guide,
             and the way to skip the planning altogether. */}
         <div className="mb-4 grid grid-cols-2 gap-2">
@@ -31619,8 +31624,10 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   );
 }
 
-function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProceed, isLast, soundOn, resolvedWeights, planCosts, battleNotes }) {
+function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags, history, mode, onProceed, isLast, soundOn, resolvedWeights, planCosts, battleNotes }) {
   const choice = stage.choices[choiceIndex];
+  // The state before this decision is the last entry of the history (it is added to when the player goes on).
+  const priorSnap = history && history.length ? history[history.length - 1] : null;
   const eff = effectiveChoice(choice, rollIndex);
   const headingRef = useRef(null);
   useEffect(() => {
@@ -31818,6 +31825,15 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
         >
           {outcomeWithNote}
         </p>
+
+        {campaign.dynamic && mode !== "iron" && flags && (
+          <div className="mb-2">
+            <div className="text-[11px] uppercase tracking-widest font-bold opacity-70 mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              Where you stand now
+            </div>
+            <MeterPanel meters={meters} flags={flags} prev={priorSnap} />
+          </div>
+        )}
 
         <button
           onClick={onProceed}
@@ -33633,6 +33649,9 @@ function WW2CommandInner() {
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
+          flags={flags}
+          history={history}
+          mode={mode}
           onProceed={proceed}
           soundOn={soundOn}
           isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}

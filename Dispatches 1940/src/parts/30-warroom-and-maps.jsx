@@ -1170,8 +1170,8 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const modeInfo = warRoomModeInfo(mode, campaign.id);
   const hardId = HARD_MODE_OF[campaign.id];
   const modeChoices = [
-    { id: "easy", name: "Easy", available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
-    { id: "open", name: "Normal", available: true, colour: "#000000" },
+    { id: "easy", name: `Easy: ${warRoomModeInfo("easy", campaign.id).label}`, available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
+    { id: "open", name: `Normal: ${warRoomModeInfo("open", campaign.id).label}`, available: true, colour: "#000000" },
     { id: hardId, name: `Hard: ${warRoomModeInfo(hardId, campaign.id).label}`, available: HARD_MODES_ENABLED, colour: "#7a2e2e" },
   ];
   const headingRef = useRef(null);

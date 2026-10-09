@@ -16,7 +16,7 @@ for (const [id, prefix] of CAMPAIGNS) for (const mode of MODES) CASES.push([id, 
 // automatic plan and an automatic battle report) is covered by the same recorded playthroughs.
 for (const [id, prefix] of CAMPAIGNS) CASES.push([id, prefix, "open", "staff"]);
 
-const SKIP = /^(save|home|back|show|hide|rewind|text size|restart|switch|new campaign|copy|share|download|settings|map|close|pause|resume|skip to|how it works)/i;
+const SKIP = /^(\W?show|\W?hide|save|home|back|rewind|text size|restart|switch|new campaign|copy|share|download|settings|map|close|pause|resume|skip to|how it works)/i;
 const PROCEED = /^(continue|proceed|acknowledge|next|file|report|commit|confirm|begin|start|issue|resolve|reveal|end|enter|deploy|execute|launch|submit|accept|read)/i;
 
 export default {
