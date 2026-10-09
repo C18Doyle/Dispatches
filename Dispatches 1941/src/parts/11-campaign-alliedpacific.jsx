@@ -37,7 +37,7 @@
               next: "wakeIslandRelief41",
               uncertain: [
                 {
-                  weight: 30,
+                  weight: modWeight(30, meters.initiative),
                   title: "Grew's warning holds: the war faction loses its strongest argument",
                   setFlags: { embargoResult: "avoided" },
                   impact: { readiness: 1, pipeline: 0, initiative: 0 },
@@ -46,7 +46,7 @@
                     "The rarer, more speculative branch: a calibrated embargo denies Tokyo's war faction the deadline argument that historically carried the room, and the collision Grew's cables warned about doesn't arrive on the historical schedule. Whether it's avoided or merely delayed is a question that doesn't get answered here.",
                 },
                 {
-                  weight: 70,
+                  weight: (() => { const w = modWeight(30, meters.initiative); return Math.max(5, 100 - w); })(),
                   title: "The path to war holds regardless",
                   setFlags: { embargoResult: "insufficient" },
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
@@ -70,13 +70,13 @@
         };
         },
         get aStandoffInsteadOfAWar41() {
-          return dataNode(ALLIED_PACIFIC_DATA, "aStandoffInsteadOfAWar41");
+          return dataNode(ALLIED_PACIFIC_DATA, "aStandoffInsteadOfAWar41", meters);
         },
         get theSlowerDeclaration42() {
-          return dataNode(ALLIED_PACIFIC_DATA, "theSlowerDeclaration42");
+          return dataNode(ALLIED_PACIFIC_DATA, "theSlowerDeclaration42", meters);
         },
         get warBeginsLate42() {
-          return dataNode(ALLIED_PACIFIC_DATA, "warBeginsLate42");
+          return dataNode(ALLIED_PACIFIC_DATA, "warBeginsLate42", meters);
         },
         get theUnopposedConsolidation42() {
           return {
@@ -267,7 +267,7 @@
         };
         },
         get japanUnopposed43() {
-          return dataNode(ALLIED_PACIFIC_DATA, "japanUnopposed43");
+          return dataNode(ALLIED_PACIFIC_DATA, "japanUnopposed43", meters);
         },
         get chinaCivilWarShadow43() {
           return {
@@ -356,7 +356,7 @@
         };
         },
         get warWithoutAmerica45() {
-          return dataNode(ALLIED_PACIFIC_DATA, "warWithoutAmerica45");
+          return dataNode(ALLIED_PACIFIC_DATA, "warWithoutAmerica45", meters);
         },
         get wakeIslandRelief41() {
           return {
@@ -455,7 +455,7 @@
         };
         },
         get internmentQuestion42() {
-          return dataNode(ALLIED_PACIFIC_DATA, "internmentQuestion42");
+          return dataNode(ALLIED_PACIFIC_DATA, "internmentQuestion42", meters);
         },
         get rangoonRetreatAllied42() {
           return {
@@ -574,7 +574,7 @@
         };
         },
         get doolittleRaidAllied42() {
-          return dataNode(ALLIED_PACIFIC_DATA, "doolittleRaidAllied42");
+          return dataNode(ALLIED_PACIFIC_DATA, "doolittleRaidAllied42", meters);
         },
         get coralSeaMidwayAllied42() {
           return {
@@ -893,10 +893,10 @@
         };
         },
         get theBatBombQuestion43() {
-          return dataNode(ALLIED_PACIFIC_DATA, "theBatBombQuestion43");
+          return dataNode(ALLIED_PACIFIC_DATA, "theBatBombQuestion43", meters);
         },
         get bismarckSea43() {
-          return dataNode(ALLIED_PACIFIC_DATA, "bismarckSea43");
+          return dataNode(ALLIED_PACIFIC_DATA, "bismarckSea43", meters);
         },
         get yamamotoIntercept43() {
           return {
@@ -934,7 +934,7 @@
         };
         },
         get yamamotoSurvives43() {
-          return dataNode(ALLIED_PACIFIC_DATA, "yamamotoSurvives43");
+          return dataNode(ALLIED_PACIFIC_DATA, "yamamotoSurvives43", meters);
         },
         get tehransPromise43() {
           return {
@@ -1023,13 +1023,13 @@
         };
         },
         get theTarawaQuestion43() {
-          return dataNode(ALLIED_PACIFIC_DATA, "theTarawaQuestion43");
+          return dataNode(ALLIED_PACIFIC_DATA, "theTarawaQuestion43", meters);
         },
         get macArthurTension44() {
-          return dataNode(ALLIED_PACIFIC_DATA, "macArthurTension44");
+          return dataNode(ALLIED_PACIFIC_DATA, "macArthurTension44", meters);
         },
         get macArthurAftermath44() {
-          return dataNode(ALLIED_PACIFIC_DATA, "macArthurAftermath44");
+          return dataNode(ALLIED_PACIFIC_DATA, "macArthurAftermath44", meters);
         },
         get philippineSeaAllied44() {
           const midwayDeclined = flags.midwayAlliedPath === "conservative";
@@ -1324,7 +1324,7 @@
         };
         },
         get stilwellPreserved44() {
-          return dataNode(ALLIED_PACIFIC_DATA, "stilwellPreserved44");
+          return dataNode(ALLIED_PACIFIC_DATA, "stilwellPreserved44", meters);
         },
         get chinaCrisisAllied44() {
           const divergentPath = flags.arcadiaPath === "pacificParity" || flags.midwayAlliedPath === "conservative" || flags.centralPacificPath === "assault";
@@ -2100,19 +2100,19 @@
         };
         },
         get kyotoTargetDebate45() {
-          return dataNode(ALLIED_PACIFIC_DATA, "kyotoTargetDebate45");
+          return dataNode(ALLIED_PACIFIC_DATA, "kyotoTargetDebate45", meters);
         },
         get kyotoStruck45() {
-          return dataNode(ALLIED_PACIFIC_DATA, "kyotoStruck45");
+          return dataNode(ALLIED_PACIFIC_DATA, "kyotoStruck45", meters);
         },
         get targetSelection45() {
-          return dataNode(ALLIED_PACIFIC_DATA, "targetSelection45");
+          return dataNode(ALLIED_PACIFIC_DATA, "targetSelection45", meters);
         },
         get hiroshima45() {
-          return dataNode(ALLIED_PACIFIC_DATA, "hiroshima45");
+          return dataNode(ALLIED_PACIFIC_DATA, "hiroshima45", meters);
         },
         get nagasaki45() {
-          return dataNode(ALLIED_PACIFIC_DATA, "nagasaki45");
+          return dataNode(ALLIED_PACIFIC_DATA, "nagasaki45", meters);
         },
         get radiationDisclosure45() {
           return {
@@ -2218,7 +2218,7 @@
         };
         },
         get indianapolisSinking45() {
-          return dataNode(ALLIED_PACIFIC_DATA, "indianapolisSinking45");
+          return dataNode(ALLIED_PACIFIC_DATA, "indianapolisSinking45", meters);
         },
         get indianapolisReview45() {
           return {

@@ -422,6 +422,7 @@ function WW2CommandInner() {
           rewinds={rewinds}
           mode={mode}
           favor={favor}
+          history={history}
           newlyEarnedObjectives={newlyEarnedObjectives}
           onRestart={restart}
           onSwitch={switchCampaign}

@@ -6,7 +6,7 @@
 // A node is plain data when its source never mentions flags or meters, contains no function, and resolving it gives
 // the same result under every flag and meter state tried. For each such node the converter
 //   - writes it to src/data/<campaign>.nodes.json (id -> node), and
-//   - replaces its getter in the campaign part with `return dataNode(<DATA>, "<id>");`.
+//   - replaces its getter in the campaign part with `return dataNode(<DATA>, "<id>", meters);`.
 // The head part gets `const <DATA> = /*@inline-json src/data/<campaign>.nodes.json*/null;`; assembly inlines the JSON
 // (packages/testkit/src/split.mjs), so the assembled artifact is plain JS and every validator reads it as before.
 // Nodes that read flags or meters stay as code. Equivalence is proved by tests/json-nodes.test.mjs.
@@ -109,7 +109,7 @@ writeFileSync(CONFIG.file, JSON.stringify(data, null, 2) + "\n");
 const out = partLines.slice();
 for (const g of getters.slice().reverse()) {
   if (!pure.includes(g.id)) continue;
-  out.splice(g.from, g.to - g.from + 1, `        get ${g.id}() {`, `          return dataNode(${CONFIG.data}, "${g.id}");`, "        },");
+  out.splice(g.from, g.to - g.from + 1, `        get ${g.id}() {`, `          return dataNode(${CONFIG.data}, "${g.id}", meters);`, "        },");
 }
 writeFileSync(CONFIG.part, out.join("\n"));
 

@@ -2882,7 +2882,7 @@
               next: "END",
               uncertain: [
                 {
-                  weight: 15,
+                  weight: modWeight(15, meters.initiative),
                   title: "Moscow's neutrality holds",
                   setFlags: { moscowResult: "neutralityHolds" },
                   impact: { readiness: 1, pipeline: 1, initiative: 0 },
@@ -2890,7 +2890,7 @@
                     "Speculative, and the rarest outcome. For reasons no account can reconstruct, Stalin's commitment at Yalta does not hold, and the Soviet declaration of war never comes. Japan fights on against the Western Allies alone, without the two-front shock that broke the war ministry's last argument. Whether that changes how the war ends, or only removes one of two shocks that arrived in the same week, has no historical answer.",
                 },
                 {
-                  weight: 85,
+                  weight: (() => { const w = modWeight(15, meters.initiative); return Math.max(5, 100 - w); })(),
                   title: "The declaration arrives regardless",
                   setFlags: { moscowResult: "declarationArrives" },
                   impact: { readiness: -1, pipeline: 0, initiative: -1 },
