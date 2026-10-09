@@ -127,12 +127,12 @@ const engine = await compileTs(join(ROOT, "packages", "engine", "src", "campaign
 // 1940 keeps running micro-state tallies in its flags (matOil, matArms, matShip for Matériel, with matAmmo and matSteel kept from older saves; manOrg, manExp, manRdy for
 // Manpower; iniInt, iniCmd, iniTmp for Initiative: where each choice's impact fell, for the readings under each meter) and the arrears flags (what a cost took below the floor). They are a 1940 addition to the shared rules, so
 // they are set aside here and the rest of the flags must still match the engine exactly.
-const TALLY_FLAGS = new Set(["matOil", "matArms", "matAmmo", "matSteel", "matShip", "manOrg", "manExp", "manRdy", "iniInt", "iniCmd", "iniTmp", "arrearsManpower", "arrearsFuel", "arrearsInitiative"]);
+const TALLY_FLAGS = new Set(["matOil", "matArms", "matAmmo", "matSteel", "matShip", "manOrg", "manExp", "manRdy", "iniInt", "iniCmd", "iniTmp", "rdyTrn", "rdyFlt", "rdyMor", "pipOil", "pipShp", "pipInd", "arrearsManpower", "arrearsFuel", "arrearsInitiative"]);
 const withoutTallies = (flags) => Object.fromEntries(Object.entries(flags).filter(([k]) => !TALLY_FLAGS.has(k)));
 for (const [game, modes, ceilings, endFlags, axes] of [
   [
     "Dispatches 1941",
-    ["open", "fanatical", "coalition"],
+    ["easy", "open", "fanatical", "coalition"],
     [
       { mode: "fanatical", flag: "suspicion", op: "gte", threshold: 5, unless: "purged", set: { purged: true, purgedAt: "suspicionCeiling" } },
       { mode: "coalition", flag: "cohesion", op: "lte", threshold: -6, unless: "relieved", set: { relieved: true } },

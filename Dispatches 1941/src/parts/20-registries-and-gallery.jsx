@@ -798,6 +798,11 @@ const DEMO_BUILD = process.env.DEMO_BUILD === true;
 // a separate hardcoded toggle from before DEMO_BUILD existed; now derived from the same
 // single source of truth so the two can't drift out of sync with each other.
 const HARD_MODES_ENABLED = !DEMO_BUILD;
+const EASY_MODE_ENABLED = !DEMO_BUILD;
+// The hard mode of each campaign.
+const HARD_MODE_OF = { japan: "fanatical", alliedPacific: "coalition" };
+// Named for a famous failure of each side: the Shinano, the carrier sunk on her maiden voyage; the Mark 14 torpedo, which ran too deep and often did not explode.
+const EASY_MODE_NAMES = { japan: "Shinano Command", alliedPacific: "Mark 14 Command" };
 
 const NODE_TOTAL = 139; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
 // or seriously built programs (Project X-Ray's bat bombs, the I-400 submarine carriers'
@@ -824,13 +829,19 @@ const NODE_TOTAL = 139; // Corrected from 136 to 139: bataanPOWQuestion42 (japan
 // same static method as prior corrections: every atlas entry has a real node definition and
 // is referenced as a next: target or is a legitimate campaign start node.
 
-function warRoomModeInfo(mode) {
-  const names = { open: "Open Command", fanatical: "Fanatical Resolve Mode", coalition: "Coalition Resolve Mode" };
-  const notes = {
-    open: "Standard play. Full meter visibility, rewind available.",
-    fanatical: "No rewind. IGHQ's tolerance for non-dogmatic choices is tracked: some choices draw more than others.",
-    coalition: "No rewind. Coalition Resolve tracked between Washington, London, Chongqing, and Canberra.",
+function warRoomModeInfo(mode, campaignId) {
+  const names = {
+    easy: EASY_MODE_NAMES[campaignId] || "Easy Command",
+    open: "Standard Issue Command",
+    fanatical: "Fanatical Resolve Mode",
+    coalition: "Coalition Resolve Mode",
   };
-  return { label: names[mode] || mode, note: notes[mode] || "" };
+  const summaries = {
+    easy: "Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind.",
+    open: "The full dashboard and the rewind. You judge each order on what you know.",
+    fanatical: "No rewind. IGHQ's tolerance for non-dogmatic choices is counted out of 5: pragmatic choices draw insubordination, and at 5 the run ends in a coup.",
+    coalition: "No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a badly frayed coalition cannot greenlight its boldest gambles.",
+  };
+  return { label: names[mode] || mode, note: summaries[mode] || "", summary: summaries[mode] || "" };
 }
 

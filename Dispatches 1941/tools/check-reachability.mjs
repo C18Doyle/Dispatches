@@ -49,7 +49,9 @@ const allTitles = new Set([...sourceLabels.japan, ...sourceLabels.alliedPacific]
 for (const g of game.ENDINGS_GALLERY) if (!allTitles.has(g.label)) note("staleGallery", g.label, `gallery entry that no campaign can return: "${g.label}"`);
 // 2. write-only flags
 const reads = (k) => new RegExp(`(\\.|\\?\\.)${k}\\b|\\[["']${k}["']\\]|["']${k}["']\\s*in\\s`).test(src);
-for (const k of writtenFlags) if (!reads(k)) note("writeOnlyFlag", k, `flag written but never read: ${k}`);
+// the tallies behind the readings under each meter are read by name from logic.ts (flags[def.flag]), so a text search cannot see them
+const tallyFlags = new Set(Object.values(game.logic.METER_STRANDS).flat().map((d) => d.flag));
+for (const k of writtenFlags) if (!tallyFlags.has(k) && !reads(k)) note("writeOnlyFlag", k, `flag written but never read: ${k}`);
 // 3. dead gates: a choice that exists at some meter state but is blocked (disabledReason) at every meter state tried.
 // Each node is re-resolved with the flags of up to 10 distinct wars, at every combination of meters on a coarse grid (64 states).
 {

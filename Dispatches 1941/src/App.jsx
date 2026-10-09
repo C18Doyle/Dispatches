@@ -12,6 +12,7 @@ import {
   nextVisited,
   arrivalScreen,
   startFlags,
+  strandReadout,
 } from "./logic";
 
 // ---------- STORAGE POLYFILL (real-browser / Electron deployment) ----------
@@ -7799,6 +7800,11 @@ const DEMO_BUILD = process.env.DEMO_BUILD === true;
 // a separate hardcoded toggle from before DEMO_BUILD existed; now derived from the same
 // single source of truth so the two can't drift out of sync with each other.
 const HARD_MODES_ENABLED = !DEMO_BUILD;
+const EASY_MODE_ENABLED = !DEMO_BUILD;
+// The hard mode of each campaign.
+const HARD_MODE_OF = { japan: "fanatical", alliedPacific: "coalition" };
+// Named for a famous failure of each side: the Shinano, the carrier sunk on her maiden voyage; the Mark 14 torpedo, which ran too deep and often did not explode.
+const EASY_MODE_NAMES = { japan: "Shinano Command", alliedPacific: "Mark 14 Command" };
 
 const NODE_TOTAL = 139; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
 // or seriously built programs (Project X-Ray's bat bombs, the I-400 submarine carriers'
@@ -7825,18 +7831,30 @@ const NODE_TOTAL = 139; // Corrected from 136 to 139: bataanPOWQuestion42 (japan
 // same static method as prior corrections: every atlas entry has a real node definition and
 // is referenced as a next: target or is a legitimate campaign start node.
 
-function warRoomModeInfo(mode) {
-  const names = { open: "Open Command", fanatical: "Fanatical Resolve Mode", coalition: "Coalition Resolve Mode" };
-  const notes = {
-    open: "Standard play. Full meter visibility, rewind available.",
-    fanatical: "No rewind. IGHQ's tolerance for non-dogmatic choices is tracked: some choices draw more than others.",
-    coalition: "No rewind. Coalition Resolve tracked between Washington, London, Chongqing, and Canberra.",
+function warRoomModeInfo(mode, campaignId) {
+  const names = {
+    easy: EASY_MODE_NAMES[campaignId] || "Easy Command",
+    open: "Standard Issue Command",
+    fanatical: "Fanatical Resolve Mode",
+    coalition: "Coalition Resolve Mode",
   };
-  return { label: names[mode] || mode, note: notes[mode] || "" };
+  const summaries = {
+    easy: "Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind.",
+    open: "The full dashboard and the rewind. You judge each order on what you know.",
+    fanatical: "No rewind. IGHQ's tolerance for non-dogmatic choices is counted out of 5: pragmatic choices draw insubordination, and at 5 the run ends in a coup.",
+    coalition: "No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a badly frayed coalition cannot greenlight its boldest gambles.",
+  };
+  return { label: names[mode] || mode, note: summaries[mode] || "", summary: summaries[mode] || "" };
 }
 
-function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
-  const modeInfo = warRoomModeInfo(mode);
+function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
+  const modeInfo = warRoomModeInfo(mode, campaign.id);
+  const hardId = HARD_MODE_OF[campaign.id];
+  const modeChoices = [
+    { id: "easy", name: `Easy: ${warRoomModeInfo("easy", campaign.id).label}`, available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
+    { id: "open", name: `Normal: ${warRoomModeInfo("open", campaign.id).label}`, available: true, colour: "#000000" },
+    { id: hardId, name: `Hard: ${warRoomModeInfo(hardId, campaign.id).label}`, available: HARD_MODES_ENABLED, colour: "#7a2e2e" },
+  ];
   const screenRef = useRef(null);
   const [historicallyAccurate, setHistoricallyAccurate] = useState(true);
   const hasForks = (DIVERGENCE_FORKS[campaign.id] || []).length > 0;
@@ -7866,12 +7884,33 @@ function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
         >
           {modeInfo.label}
         </div>
-        <p
-          className="text-[14px] leading-relaxed mb-8 text-[#000000] opacity-80"
-          style={{ fontFamily: "'Courier Prime', monospace" }}
-        >
-          {modeInfo.note}
-        </p>
+        <div role="radiogroup" aria-label="Difficulty" className="mb-6 text-left">
+          <div className="font-bold uppercase tracking-widest text-[11px] mb-2 text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Difficulty
+          </div>
+          <div className="flex flex-col gap-2">
+            {modeChoices.map((c) => {
+              const on = mode === c.id;
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  disabled={!c.available}
+                  onClick={() => (on ? null : onModeChange(c.id))}
+                  className="text-left border-2 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                  style={{ borderColor: c.colour, backgroundColor: on ? c.colour : "transparent", color: on ? "#ffffff" : "#000000", fontFamily: "'Courier Prime', monospace" }}
+                >
+                  <span className="block text-[12px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    {c.name}{c.available ? "" : " (full version)"}
+                  </span>
+                  <span className="block text-[13px] leading-snug mt-1">{warRoomModeInfo(c.id, campaign.id).summary}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
         {campaign.intro && (
           <div
             className="mb-8 border-t-2 pt-5 text-left"
@@ -7920,9 +7959,8 @@ function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
               aria-label="Historically accurate opponent"
             />
             <span>
-              Historically accurate opponent. Unchecked, a small number of genuinely contested
-              moments this campaign touches may play out differently than they did historically
-              discovered in play, never announced in advance.
+              Historically accurate opponent. Unchecked, a few contested moments may play out
+              differently than they did in the real war. They are found in play and never announced in advance.
             </span>
           </label>
         )}
@@ -8285,7 +8323,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
             </div>
             <p className="text-[14px] text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
               {CAMPAIGNS[activeRun.campaignId].name}
-              {activeRun.mode === "fanatical" ? " · ⚔ Fanatical Resolve" : activeRun.mode === "coalition" ? " · ★ Coalition Resolve" : ""} · {(activeRun.log || []).length} decisions on
+              {activeRun.mode === "easy" ? " · Easy" : activeRun.mode === "fanatical" ? " · ⚔ Fanatical Resolve" : activeRun.mode === "coalition" ? " · ★ Coalition Resolve" : ""} · {(activeRun.log || []).length} decisions on
               file: resume where you left off.
             </p>
           </button>
@@ -8367,78 +8405,16 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                 ) : (
                   <button
                     onClick={() => onPick(c.id, "open")}
-                    className="border-2 border-black px-3 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
+                    className="border-2 border-black px-3 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
                     style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
-                    Open Command
+                    Take Command
                   </button>
                 )}
-                {c.id === "japan" &&
-                  (HARD_MODES_ENABLED ? (
-                    <button
-                      onClick={() => onPick(c.id, "fanatical")}
-                      className="border-2 px-3 py-2 text-xs uppercase tracking-widest font-bold hover:text-[#ffffff] transition-colors duration-150"
-                      style={{
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        borderColor: "#5c1a1a",
-                        color: "#5c1a1a",
-                      }}
-                      onMouseOver={(e) => (e.currentTarget.style.background = "#5c1a1a")}
-                      onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
-                    >
-                      ⚔ Fanatical Resolve Mode
-                    </button>
-                  ) : (
-                    <button
-                      disabled
-                      className="border-2 border-dashed px-3 py-2 text-xs uppercase tracking-widest font-bold opacity-40 cursor-not-allowed"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#5c1a1a", color: "#5c1a1a" }}
-                    >
-                      ⚔ Fanatical Resolve Mode: 🔒 full version
-                    </button>
-                  ))}
-                {c.id === "alliedPacific" &&
-                  (HARD_MODES_ENABLED ? (
-                    <button
-                      onClick={() => onPick(c.id, "coalition")}
-                      className="border-2 px-3 py-2 text-xs uppercase tracking-widest font-bold hover:text-[#ffffff] transition-colors duration-150"
-                      style={{
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        borderColor: "#28497a",
-                        color: "#28497a",
-                      }}
-                      onMouseOver={(e) => (e.currentTarget.style.background = "#28497a")}
-                      onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
-                    >
-                      ★ Coalition Resolve Mode
-                    </button>
-                  ) : (
-                    <button
-                      disabled
-                      className="border-2 border-dashed px-3 py-2 text-xs uppercase tracking-widest font-bold opacity-40 cursor-not-allowed"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#28497a", color: "#28497a" }}
-                    >
-                      ★ Coalition Resolve Mode: 🔒 full version
-                    </button>
-                  ))}
               </div>
-              {c.id === "japan" && (
-                <p className="text-[11px] italic text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                  Fanatical Resolve Mode: no rewind, decisions final, no meter dashboard, only staff reports.
-                  Pragmatic, non-dogmatic choices draw insubordination out of 5: let it max out and the run
-                  ends in a coup, not a defeat.
-                  {!HARD_MODES_ENABLED && " Included in the full downloadable version."}
-                </p>
-              )}
-              {c.id === "alliedPacific" && (
-                <p className="text-[11px] italic text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                  Coalition Resolve Mode: no rewind, decisions final. Tracks Coalition Resolve between
-                  Washington, London, Chongqing, and Canberra: every choice that overrides a partner's
-                  strong objection costs something, and a badly frayed coalition can no longer greenlight
-                  its boldest unilateral gambles.
-                  {!HARD_MODES_ENABLED && " Included in the full downloadable version."}
-                </p>
-              )}
+              <p className="text-[11px] italic text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                You choose the difficulty in the war room.
+              </p>
               </div>
               )}
             </div>
@@ -8520,7 +8496,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                 className="text-[12px] text-[#000000] border-l-4 pl-2 mb-1"
                 style={{ borderColor: "#7a2e2e", fontFamily: "'Courier Prime', monospace" }}
               >
-                {r.mode === "fanatical" ? "⚔ " : r.mode === "coalition" ? "★ " : ""}{r.label || "War concluded"}: ended {r.endDate || "—"}
+                {r.mode === "easy" ? "◇ " : r.mode === "fanatical" ? "⚔ " : r.mode === "coalition" ? "★ " : ""}{r.label || "War concluded"}: ended {r.endDate || "—"}
               </div>
             ))}
           </div>
@@ -8961,37 +8937,195 @@ function advisorAttribution(name, date) {
   return title ? `${title} ${name}` : name;
 }
 
-function MeterBar({ label, value, danger }) {
-  // Zero-centered diverging bar on the real -10..+10 clamp used throughout the
-  // campaign logic. Rebuilt after the first version used <span> elements for the bar
-  // track and fill — spans are display:inline by default, and inline elements ignore
-  // explicit height entirely (plain CSS, not a Tailwind issue), which is why every
-  // bar rendered as an undifferentiated black rectangle regardless of value. Using
-  // <div> elements (block-level, height applies correctly) and two half-width flex
-  // containers instead of absolute-position percentage math, which is more robust.
-  const clamped = Math.max(-10, Math.min(10, value));
-  const magnitude = Math.min(100, (Math.abs(clamped) / 10) * 100); // 0-100%, distance from zero
-  const fillColor = danger ? "#7a2e2e" : "#000000";
+// The three meters (readiness, pipeline, initiative) are clamped to [-10, 10] wherever they are updated. A bar is one
+// positioned block, so a change in the value moves it. With `from` (the value before the last decision) it opens at the old
+// reading, marks it with a thin tick, and slides to the new one. Only the bar moves; the figures in the text never change.
+// The app's reduced-motion setting and the system one both shorten the slide to nothing.
+function formatImpactPreview(impact) {
+  if (!impact) return "No meter change";
+  const parts = [];
+  if (impact.readiness) parts.push(`Readiness ${impact.readiness > 0 ? "+" : ""}${impact.readiness}`);
+  if (impact.pipeline) parts.push(`Pipeline ${impact.pipeline > 0 ? "+" : ""}${impact.pipeline}`);
+  if (impact.initiative) parts.push(`Initiative ${impact.initiative > 0 ? "+" : ""}${impact.initiative}`);
+  return parts.length ? parts.join(", ") : "No meter change";
+}
+
+function MeterBar({ label, value, danger, showBar = true, from, min = -10, max = 10, tag, valueLabel }) {
+  const clamp = (n) => Math.max(min, Math.min(max, n));
+  const clamped = clamp(value);
+  const hasFrom = typeof from === "number";
+  const moved = hasFrom && from !== value;
+  const [arrived, setArrived] = useState(!hasFrom);
+  useEffect(() => {
+    if (arrived) return undefined;
+    if (typeof requestAnimationFrame !== "function") {
+      setArrived(true);
+      return undefined;
+    }
+    const id = requestAnimationFrame(() => setArrived(true));
+    return () => cancelAnimationFrame(id);
+  }, [arrived]);
+  const shown = hasFrom && !arrived ? clamp(from) : clamped;
+  const unit = 50 / Math.max(-min, max);
+  const fmt = (n) => (n > 0 ? "+" + n : String(n));
   return (
-    <div
-      className="flex items-center gap-3 text-xs w-full"
-      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-      role="group"
-      aria-label={`${label}: ${value > 0 ? `+${value}` : value}${danger ? ", warning threshold" : ""}`}
-    >
-      <div className="w-24 shrink-0 uppercase tracking-wider text-[#000000] font-semibold" aria-hidden="true">{label}</div>
-      <div className="relative flex-1 h-4 border-2 border-black flex" aria-hidden="true">
-        <div className="w-1/2 h-full flex justify-end overflow-hidden">
-          {clamped < 0 && <div style={{ width: `${magnitude}%`, height: "100%", backgroundColor: fillColor }} />}
-        </div>
-        <div className="w-1/2 h-full flex justify-start overflow-hidden">
-          {clamped > 0 && <div style={{ width: `${magnitude}%`, height: "100%", backgroundColor: fillColor }} />}
-        </div>
-        <div className="absolute top-0 bottom-0 left-1/2 bg-black" style={{ width: "2px", marginLeft: "-1px" }} />
+    <div style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+      <div className="flex items-center gap-2 text-xs">
+        <span className="w-20 uppercase tracking-wider text-[#000000] font-semibold shrink-0">{label}</span>
+        {showBar && (
+          <div
+            className="relative flex-1 h-3 border border-black bg-[#e3d5ae] overflow-hidden"
+            role="img"
+            aria-label={`${label}: ${valueLabel || fmt(value)} on a scale from ${fmt(min)} to ${fmt(max)}${moved ? `, ${value > from ? "up" : "down"} from ${fmt(from)}` : ""}${danger ? ", critical" : ""}`}
+          >
+            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black opacity-40" />
+            <div
+              className="absolute top-0 bottom-0"
+              style={{
+                left: `${50 + Math.min(0, shown) * unit}%`,
+                width: `${Math.abs(shown) * unit}%`,
+                backgroundColor: shown >= 0 ? "#2f6b3f" : "#7a2e2e",
+                transition: "left 800ms cubic-bezier(0.2, 0.8, 0.2, 1), width 800ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 800ms",
+              }}
+            />
+            {moved && <div aria-hidden="true" className="absolute top-0 bottom-0 w-[2px] bg-black opacity-70" style={{ left: `calc(${50 + clamp(from) * unit}% - 1px)` }} />}
+          </div>
+        )}
+        <span className={`font-bold text-right shrink-0 whitespace-nowrap ${valueLabel ? "w-32" : "w-10"}`} style={{ color: danger ? "#7a2e2e" : "#000000" }}>
+          {valueLabel || fmt(value)}
+          {danger && !tag ? " ⚠" : ""}
+        </span>
       </div>
-      <div className="w-9 shrink-0 text-right font-bold" style={{ color: danger ? "#7a2e2e" : "#000000" }} aria-hidden="true">
-        {value > 0 ? `+${value}` : value}
-        {danger ? " ⚠" : ""}
+      {/* The figures column is one width whatever it holds, so the bar is always the same size. A warning, when there is one, goes on a line of its own. */}
+      {tag ? (
+        <div className="text-[10px] uppercase tracking-wider font-bold mt-[2px]" style={{ paddingLeft: 88, color: /critical|dangerous/i.test(tag) ? "#7a2e2e" : "#8a5a1a" }}>
+          {/critical|dangerous/i.test(tag) ? <span aria-hidden="true">⚠ </span> : null}
+          {tag}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+// A small up or down marker, green for better and red for worse, that also says so in words.
+function ChangePill({ up }) {
+  const colour = up ? "#2f6b3f" : "#7a2e2e";
+  return (
+    <>
+      <span aria-hidden="true" className="inline-block border px-1 text-[10px] leading-tight font-bold" style={{ borderColor: colour, color: colour }}>
+        {up ? "▲" : "▼"}
+      </span>
+      <span className="sr-only">{up ? " improved" : " worsened"}</span>
+    </>
+  );
+}
+
+const METER_ROWS = [
+  { key: "readiness", label: "Readiness", dangerAt: -3 },
+  { key: "pipeline", label: "Pipeline", dangerAt: -2 },
+  { key: "initiative", label: "Initiative", dangerAt: null },
+];
+const BAND_COLOURS = ["#7a2e2e", "#7a2e2e", "#8a5a1a", "#000000", "#28497a"];
+const METER_OPEN_KEY = "dispatches1941_meters_open";
+
+// A word for a meter that has fallen far enough to matter, shown beside the bar even when it is closed.
+function meterDangerTag(v) {
+  return v <= -8 ? "Critical" : v <= -5 ? "Dangerous" : v <= -2 ? "Low" : null;
+}
+
+// What the staff say about a meter, shown inside its panel. { text, grave }: grave notes are drawn in red.
+function meterStaffNotes(key, meters) {
+  const out = [];
+  if (key === "readiness") {
+    if (meters.readiness <= -8) out.push({ grave: true, text: "STAFF NOTE: The fleet and the air arm are spent. Whatever is ordered, there is little left to carry it out." });
+    else if (meters.readiness <= -4) out.push({ grave: true, text: "STAFF NOTE: Readiness is at breaking point. The command cannot absorb another major loss." });
+  }
+  if (key === "pipeline") {
+    if (meters.pipeline <= -8) out.push({ grave: true, text: "STAFF NOTE: The supply pipeline has failed. Formations are fighting on what they carry." });
+    else if (meters.pipeline <= -3) out.push({ grave: true, text: "STAFF NOTE: Supply is running short. Offensive options may be closed." });
+  }
+  if (key === "initiative" && meters.initiative >= 5) out.push({ grave: false, text: "STAFF NOTE: The war is running well ahead of its historical schedule. Whatever comes next arrives early." });
+  return out;
+}
+
+// The three meters on the report page. Each has a button that opens the three readings behind it (see METER_STRANDS in
+// logic.ts) with a status word, a green or red marker on any that moved since the last decision (`prev` is the state before
+// it), and the staff's notes on that meter. Which are open is remembered.
+function MeterPanel({ meters, flags, prev }) {
+  const [open, setOpen] = useState(() => {
+    try {
+      return JSON.parse(window.localStorage.getItem(METER_OPEN_KEY) || "{}") || {};
+    } catch (e) {
+      return {};
+    }
+  });
+  function toggle(key) {
+    setOpen((o) => {
+      const next = { ...o, [key]: !o[key] };
+      try {
+        window.localStorage.setItem(METER_OPEN_KEY, JSON.stringify(next));
+      } catch (e) {
+        /* storage can be blocked; the panel then simply starts closed each time */
+      }
+      return next;
+    });
+  }
+  return (
+    <div className="mb-4">
+      <div className="flex flex-col gap-2 border-2 border-black px-3 py-2">
+        {METER_ROWS.map(({ key, label, dangerAt }) => {
+          const v = meters[key];
+          const isOpen = !!open[key];
+          const rows = strandReadout(key, flags || {}, meters);
+          const before = prev && prev.meters ? strandReadout(key, prev.flags || {}, prev.meters) : null;
+          const notes = meterStaffNotes(key, meters);
+          const panelId = `meter-panel-${key}`;
+          return (
+            <div key={key}>
+              <div className="flex items-center gap-1">
+                <div className="flex-1 min-w-0">
+                  <MeterBar label={label} value={v} from={prev && prev.meters ? prev.meters[key] : undefined} danger={dangerAt != null && v <= dangerAt} tag={meterDangerTag(v)} />
+                </div>
+                <button
+                  onClick={() => toggle(key)}
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  className="shrink-0 w-8 h-8 flex items-center justify-center border border-black text-[11px] font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  <span aria-hidden="true">{isOpen ? "▾" : "▸"}</span>
+                  <span className="sr-only">{isOpen ? `Hide what is behind ${label}` : `Show what is behind ${label}`}</span>
+                </button>
+              </div>
+              {isOpen && (
+                <div id={panelId} role="group" aria-label={`${label}: what is behind it`} className="mt-1 mb-1 pl-0 sm:pl-[5.5rem]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <ul className="flex flex-col gap-[3px]">
+                    {rows.map((r, i) => {
+                      // An arrow only where the band word changed or the reading moved by two or more, so it says something specific.
+                      const dRaw = before ? r.score - before[i].score : 0;
+                      const d = before && (before[i].level !== r.level || Math.abs(dRaw) >= 2) ? dRaw || r.level - before[i].level : 0;
+                      return (
+                        <li key={r.id} className="flex items-center justify-between gap-2 text-[11px] uppercase tracking-wider">
+                          <span className="opacity-80">{r.name}</span>
+                          <span className="flex items-center gap-1 font-bold" style={{ color: BAND_COLOURS[r.level] }}>
+                            {r.level === 0 ? <span aria-hidden="true">⚠ </span> : null}
+                            {r.band}
+                            {d !== 0 ? <ChangePill up={d > 0} /> : null}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  {notes.map((n, i) => (
+                    <p key={i} className="mt-2 text-[11px] leading-snug border-l-4 pl-2 font-bold uppercase tracking-wide" style={{ borderColor: n.grave ? "#7a2e2e" : "#000000" }}>
+                      {n.text}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -10153,9 +10287,10 @@ function cohesionLabel(c) {
   return "Fraying";
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome }) {
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const iron = mode === "iron";
+  const easy = mode === "easy";
   const purge = mode === "fanatical";
   const coalition = mode === "coalition";
   const noRewind = iron || purge || coalition;
@@ -10352,27 +10487,13 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
           </details>
         )}
 
-        {campaign.dynamic && !iron && (
-          <div className="mb-3">
-            <div className="flex flex-col gap-1.5 border-2 border-black px-3 py-2">
-              <MeterBar label="Readiness" value={meters.readiness} danger={meters.readiness <= -3} />
-              <MeterBar label="Pipeline" value={meters.pipeline} danger={meters.pipeline <= -2} />
-              <MeterBar label="Initiative" value={meters.initiative} danger={false} />
-            </div>
-            <div
-              className="text-[10px] uppercase tracking-wider opacity-50 mt-1"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              A plus reading means better supplied and running ahead of schedule. A minus reading means the reverse.
-            </div>
-          </div>
-        )}
+        {campaign.dynamic && !iron && <MeterPanel meters={meters} flags={flags} prev={prevSnap} />}
         {campaign.dynamic && purge && (
           <div
             className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4 border-2 px-3 py-2 text-[11px] sm:text-xs uppercase tracking-widest font-bold"
             style={{ borderColor: "#5c1a1a", color: "#5c1a1a", fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            <span>Fanatical Resolve Mode: no dashboard, no rewind</span>
+            <span>Fanatical Resolve Mode: no rewind</span>
             <span>
               Insubordination: {"●".repeat(Math.min(5, flags.suspicion || 0))}
               {"○".repeat(Math.max(0, 5 - (flags.suspicion || 0)))} ({flags.suspicion || 0}/5)
@@ -10551,6 +10672,31 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   </span>
                 );
               })()}
+              {easy && choice.historical && (
+                <span
+                  className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#3a6b4f", color: "#3a6b4f" }}
+                >
+                  <span aria-hidden="true">◆ </span>What the record shows happened
+                </span>
+              )}
+              {easy && !choice.uncertain && (
+                <span
+                  className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-70"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  <span aria-hidden="true">Δ </span>{formatImpactPreview(choice.impact)}
+                </span>
+              )}
+              {easy && choice.uncertain && (
+                <span
+                  className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-70"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  <span aria-hidden="true">Δ </span>
+                  {choice.uncertain.map((v) => `${v.title}: ${formatImpactPreview(v.impact || choice.impact)}`).join(" · ")}
+                </span>
+              )}
               {choice.disabledReason && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
@@ -10663,7 +10809,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
   );
 }
 
-function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProceed, isLast, soundOn }) {
+function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags, prevSnap, onProceed, isLast, soundOn }) {
   const choice = stage.choices[choiceIndex];
   const eff = effectiveChoice(choice, rollIndex);
   const screenRef = useRef(null);
@@ -10758,11 +10904,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
             >
               Current Standing
             </div>
-            <div className="flex flex-wrap gap-4 border-2 border-black px-3 py-2">
-              <MeterBar label="Readiness" value={meters.readiness} danger={meters.readiness <= -4} />
-              <MeterBar label="Pipeline" value={meters.pipeline} danger={meters.pipeline <= -4} />
-              <MeterBar label="Initiative" value={meters.initiative} />
-            </div>
+            <MeterPanel meters={meters} flags={flags} prev={prevSnap} />
           </div>
         )}
 
@@ -10987,21 +11129,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             </>
           );
         })()}
-        {campaign.dynamic && (
-          <div className="mb-4">
-            <div className="flex flex-col gap-1.5 border-2 border-black px-3 py-2">
-              <MeterBar label="Readiness" value={meters.readiness} />
-              <MeterBar label="Pipeline" value={meters.pipeline} />
-              <MeterBar label="Initiative" value={meters.initiative} />
-            </div>
-            <div
-              className="text-[10px] uppercase tracking-wider opacity-50 mt-1"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              A plus reading means better supplied and running ahead of schedule. A minus reading means the reverse.
-            </div>
-          </div>
-        )}
+        {campaign.dynamic && <MeterPanel meters={meters} flags={flags} prev={null} />}
         <p
           className="leading-relaxed mb-6 text-[16px] text-[#000000]"
           style={{ fontFamily: "'Courier Prime', monospace" }}
@@ -11222,7 +11350,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         <div className="flex flex-wrap gap-3">
           <button
             onClick={() => {
-              const modeLabel = mode === "fanatical" ? " · ⚔ Fanatical Resolve Mode" : mode === "coalition" ? " · ⚔ Coalition Resolve Mode" : "";
+              const modeLabel = mode === "easy" ? " · Easy" : mode === "fanatical" ? " · ⚔ Fanatical Resolve Mode" : mode === "coalition" ? " · ⚔ Coalition Resolve Mode" : "";
               const endingLabelForShare = campaign.positionLabel ? campaign.positionLabel(flags, meters) : "Unknown";
               const shareText = [
                 "DISPATCHES 1941: After-Action Report",
@@ -12023,7 +12151,7 @@ function WW2CommandInner() {
       `}</style>
       {screen === "select" && <SelectScreen onPick={pickCampaign} onResume={resumeRun} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onSetFontScale={setFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} sfxVolume={sfxVolume} onSetSfxVolume={changeSfxVolume} musicVolume={musicVolume} onSetMusicVolume={changeMusicVolume} />}
       {screen === "warroom" && campaign && (
-        <WarRoomScreen campaign={campaign} mode={mode} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
+        <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaign.id, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
       )}
       {screen === "doctrine" && campaign && (
         <DoctrineScreen campaign={campaign} onSelect={selectDoctrine} />
@@ -12042,6 +12170,7 @@ function WW2CommandInner() {
           meters={meters}
           flags={flags}
           reportNumber={history.length}
+          prevSnap={history.length > 1 ? history[history.length - 2] : null}
           pastStages={pastStages}
           hasSeenProjectedBadge={hasSeenProjectedBadge}
           log={log}
@@ -12062,6 +12191,8 @@ function WW2CommandInner() {
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
+          flags={flags}
+          prevSnap={history.length ? history[history.length - 1] : null}
           onProceed={proceed}
           soundOn={soundOn}
           isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}

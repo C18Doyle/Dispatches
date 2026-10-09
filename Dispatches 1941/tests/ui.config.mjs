@@ -4,12 +4,12 @@ import { JSDOM } from "jsdom";
 // [campaign id, text in the card's aria-label, mode]
 const CASES = [];
 for (const [id, card, modes] of [
-  ["japan", "Imperial General Headquarters", ["open", "fanatical"]],
-  ["alliedPacific", "Allied Pacific Command", ["open", "coalition"]],
+  ["japan", "Imperial General Headquarters", ["open", "easy", "fanatical"]],
+  ["alliedPacific", "Allied Pacific Command", ["open", "easy", "coalition"]],
 ])
   for (const mode of modes) CASES.push([id, card, mode]);
 
-const SKIP = /^(save|home|dossiers|records|settings|rewind|sound|menu|text size|reduced|instant|share|download)/i;
+const SKIP = /^(\W?show|\W?hide|easy:|normal:|hard:|save|home|dossiers|records|settings|rewind|sound|menu|text size|reduced|instant|share|download)/i;
 const PROCEED = /^(proceed|continue|acknowledge|file|issue|begin|enter|next|open|sign|accept|brief|read|resume)/i;
 
 export default {
@@ -31,14 +31,20 @@ export default {
     const instant = vis().find((b) => /instant text: off/i.test(lab(b)));
     if (!instant) return "no instant-text toggle";
     await ctx.click(instant);
-    // Expand the campaign card, then pick the mode button.
+    // Expand the campaign card, take command, then pick the difficulty in the war room.
     const cardBtn = vis().find((b) => lab(b).includes(card) && /expand/i.test(lab(b)));
     if (!cardBtn) return "campaign card missing: " + card;
     await ctx.click(cardBtn);
-    const re = mode === "fanatical" ? /fanatical/i : mode === "coalition" ? /coalition/i : /^open command/i;
-    const modeBtn = vis().find((b) => re.test(lab(b)));
-    if (!modeBtn) return "mode button missing: " + mode;
-    await ctx.click(modeBtn);
+    const takeBtn = vis().find((b) => /^take command/i.test(lab(b)));
+    if (!takeBtn) return "take-command button missing";
+    await ctx.click(takeBtn);
+    // The difficulty is chosen in the war room; Normal is the default.
+    if (mode !== "open") {
+      const re = mode === "easy" ? /^easy:/i : /^hard:/i;
+      const modeBtn = vis().find((b) => re.test(lab(b)));
+      if (!modeBtn) return "difficulty button missing: " + mode;
+      await ctx.click(modeBtn);
+    }
     return null;
   },
 

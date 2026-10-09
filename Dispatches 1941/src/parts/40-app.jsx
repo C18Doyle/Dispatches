@@ -362,7 +362,7 @@ function WW2CommandInner() {
       `}</style>
       {screen === "select" && <SelectScreen onPick={pickCampaign} onResume={resumeRun} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onSetFontScale={setFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} sfxVolume={sfxVolume} onSetSfxVolume={changeSfxVolume} musicVolume={musicVolume} onSetMusicVolume={changeMusicVolume} />}
       {screen === "warroom" && campaign && (
-        <WarRoomScreen campaign={campaign} mode={mode} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
+        <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaign.id, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
       )}
       {screen === "doctrine" && campaign && (
         <DoctrineScreen campaign={campaign} onSelect={selectDoctrine} />
@@ -381,6 +381,7 @@ function WW2CommandInner() {
           meters={meters}
           flags={flags}
           reportNumber={history.length}
+          prevSnap={history.length > 1 ? history[history.length - 2] : null}
           pastStages={pastStages}
           hasSeenProjectedBadge={hasSeenProjectedBadge}
           log={log}
@@ -401,6 +402,8 @@ function WW2CommandInner() {
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}
           meters={meters}
+          flags={flags}
+          prevSnap={history.length ? history[history.length - 1] : null}
           onProceed={proceed}
           soundOn={soundOn}
           isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}
