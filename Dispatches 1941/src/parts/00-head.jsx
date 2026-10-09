@@ -12,6 +12,7 @@ import {
   nextVisited,
   arrivalScreen,
   startFlags,
+  strandReadout,
 } from "./logic";
 
 // ---------- STORAGE POLYFILL (real-browser / Electron deployment) ----------
