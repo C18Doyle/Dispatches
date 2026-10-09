@@ -2,8 +2,8 @@
     id: "italy",
     seal: "COMANDO SUPREMO",
     name: "Italian High Command",
-    dates: "1940 — 1945",
-    brief: "Direct Italy's war from Mussolini's 'parallel war' entry to the armistice split. No other command in this game reaches a fork like that one.",
+    dates: "1940–1945",
+    brief: "Direct Italy's war from Mussolini's 'parallel war' entry to the armistice split.",
     accent: "#2e4a6b",
     dynamic: true,
     start: "nonBelligerence40",
@@ -15,27 +15,27 @@
           title: "The Parallel War",
           historicalRecord: true,
           situation:
-            "France is collapsing faster than anyone in Rome expected, and Mussolini has a decision that was supposed to have more time attached to it. Italy declared 'non-belligerence' — not neutrality, a deliberately temporary word — in September 1939, and the standing plan always assumed a longer war would eventually force a choice. It hasn't come to that. Germany looks likely to win outright within weeks, and the fear driving every argument in the Palazzo Venezia today is not that Italy might lose a war it joins now, but that it might win nothing at all from a war it sat out entirely. Badoglio, running the armed forces day to day, has a blunter number for the room: the army is short something like a third of the rifles and most of the reserve artillery its own mobilization tables call for, and none of that gets fixed by a declaration of war.",
+            "France is collapsing faster than anyone in Rome expected, and Mussolini has a decision that was supposed to have more time attached to it. Italy declared 'non-belligerence' (not neutrality, a deliberately temporary word) in September 1939, and the standing plan always assumed a longer war would eventually force a choice. It hasn't come to that. Germany looks likely to win outright within weeks, and the fear driving every argument in the Palazzo Venezia today is not that Italy might lose a war it joins now, but that it might win nothing at all from a war it sat out entirely. Badoglio, running the armed forces day to day, has a blunter number for the room: the army is short something like a third of the rifles and most of the reserve artillery its own mobilization tables call for, and none of that gets fixed by a declaration of war.",
           choices: [
             {
-              label: "Declare war now — France is already beaten, and the peace table seats only belligerents",
+              label: "Declare war now: France is already beaten, and the peace table seats only belligerents",
               advisor: { name: "Mussolini", position: "A few thousand dead are needed to sit at the peace table as a belligerent, which costs little now and would cost everything to arrive after the terms are written." },
               historical: true,
               setFlags: { italyEntry: "declare" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "alpsFront40",
               outcome:
-                "What actually happened: Italy declared war on France and Britain on June 10, 1940, four days before Paris fell. The peace table access it bought turned out to be worth less than advertised — France's armistice terms were dictated overwhelmingly by Berlin, and Italy's own war, launched to share in a victory already mostly won, still had to be fought from where the army's own readiness actually stood, not where the timing suggested it might.",
+                "What actually happened: Italy declared war on France and Britain on June 10, 1940, four days before Paris fell. The peace table access it bought turned out to be worth less than advertised: France's armistice terms were dictated overwhelmingly by Berlin, and Italy's own war, launched to share in a victory already mostly won, still had to be fought from where the army's own readiness actually stood, not where the timing suggested it might.",
             },
             {
-              label: "Hold non-belligerence a while longer — rebuild stocks before committing to a shooting war",
+              label: "Hold non-belligerence a while longer: rebuild stocks before committing to a shooting war",
               advisor: { name: "Badoglio", position: "An army with a third of its rifle stocks unfilled does not become ready by being told the war has started but by having the rifles, and arriving late to a war that can be fought is better than on time to one that cannot." },
               setFlags: { italyEntry: "wait" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "extendedHoldout40",
               outcome:
-                "The road Mussolini himself never seriously entertained, whatever his generals privately wished for: France's collapse is happening regardless of Rome's timetable, and the peace conference forming in its wake will seat whoever is a belligerent when it convenes. Holding out a few more weeks costs the one asset the 'parallel war' concept was built on — being present at the finish — in exchange for readiness numbers the standing mobilization plan says the army still needs.",
+                "The road Mussolini himself never seriously entertained, whatever his generals privately wished for: France's collapse is happening regardless of Rome's timetable, and the peace conference forming in its wake will seat whoever is a belligerent when it convenes. Holding out a few more weeks costs the one asset the 'parallel war' concept was built on, being present at the finish, in exchange for readiness numbers the standing mobilization plan says the army still needs.",
             },
           ],
         };
@@ -55,20 +55,20 @@
           title: "The Window Closes Without Rome",
           historicalRecord: false,
           situation:
-            "The extra weeks this command argued for have arrived at their actual cost: Germany and France are finalizing armistice terms this week at Compiègne, a negotiation Italy has no seat at because Italy has not yet declared war on anyone. The 'parallel war' doctrine's entire premise — being present as a belligerent when the peace table forms — is about to expire with France still fighting nobody but Germany. Badoglio's readiness numbers have improved only marginally in a month; Mussolini's patience for improving them further has not.",
+            "The extra weeks this command argued for have arrived at their actual cost: Germany and France are finalizing armistice terms this week at Compiègne, a negotiation Italy has no seat at because Italy has not yet declared war on anyone. The 'parallel war' doctrine's entire premise, being present as a belligerent when the peace table forms, is about to expire with France still fighting nobody but Germany. Badoglio's readiness numbers have improved only marginally in a month; Mussolini's patience for improving them further has not.",
           choices: [
             {
-              label: "Declare now, even at the eleventh hour — a late entry is still an entry",
+              label: "Declare now, even at the eleventh hour: a late entry is still an entry",
               advisor: { name: "Mussolini", position: "Late is not absent, and it is better to be recorded as the belligerent who arrived at the last possible hour than the one who never arrived at all." },
               historical: false,
               setFlags: { italyEntry: "lateDeclare" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "alpsFront40",
               outcome:
-                "Rome declares days before Compiègne closes the question — technically still a belligerent when France's armistice is signed, though with even less of a war fought to justify the claim than the historical June 10 declaration managed. The peace-table logic the whole doctrine was built on survives in name only: presence without participation.",
+                "Rome declares days before Compiègne closes the question: technically still a belligerent when France's armistice is signed, though with even less of a war fought to justify the claim than the historical June 10 declaration managed. The peace-table logic the whole doctrine was built on survives in name only: presence without participation.",
             },
             {
-              label: "Let the window close — France settles its own armistice without Italy ever entering against it",
+              label: "Let the window close: France settles its own armistice without Italy ever entering against it",
               advisor: { name: "Badoglio", position: "There is no dishonor in an army that waited to be ready, and there may be real dishonor in entering a war a week before the enemy stops fighting anyone at all, so let the window close." },
               setFlags: { italyEntry: "missedFrance" },
               favor: 1,
@@ -86,27 +86,27 @@
           title: "A War Only Half Joined",
           historicalRecord: false,
           situation:
-            "France is out, and Italy sat out its fall — a fact no amount of after-the-event diplomacy can undo, whatever the peace conference in Paris ultimately looks like. Britain, alone now among the major powers still fighting Germany, has refused every overture toward a negotiated peace and is bracing for whatever comes out of the air campaign already building over the Channel. The Mediterranean ambitions this staff has argued over for years — Malta, Egypt, Suez — were never actually contingent on France; they are a British problem, not a French one. What is different this month is that entering the war now would mean entering it against Britain alone, for reasons that would have to stand on their own rather than ride the peace-table logic that justified the historical June declaration.",
+            "France is out, and Italy sat out its fall: a fact no amount of after-the-event diplomacy can undo, whatever the peace conference in Paris ultimately looks like. Britain, alone now among the major powers still fighting Germany, has refused every overture toward a negotiated peace and is bracing for whatever comes out of the air campaign already building over the Channel. The Mediterranean ambitions this staff has argued over for years (Malta, Egypt, Suez) were never actually contingent on France; they are a British problem, not a French one. What is different this month is that entering the war now would mean entering it against Britain alone, for reasons that would have to stand on their own rather than ride the peace-table logic that justified the historical June declaration.",
           choices: [
             {
-              label: "Declare war on Britain alone — the Mediterranean fight was always a British one, not a French one",
+              label: "Declare war on Britain alone: the Mediterranean fight was always a British one, not a French one",
               advisor: { name: "Ciano", position: "Malta and Suez were never France's to contest, and if the government still wants Mare Nostrum it can want it without a peace table that no longer exists." },
               historical: false,
               setFlags: { italyEntry: "britainOnly" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "medStrategy40",
               outcome:
-                "A declaration built on a different premise than the historical one — not a rush to claim a seat at a peace conference that no longer needs seating, but a direct wager on the Mediterranean prize itself. Italy enters a war it never fought in the Alps and never fought against France at all, funneling straight into the Malta and Egypt argument that was always the more consequential theater regardless of how the war started.",
+                "A declaration built on a different premise than the historical one, not a rush to claim a seat at a peace conference that no longer needs seating, but a direct wager on the Mediterranean prize itself. Italy enters a war it never fought in the Alps and never fought against France at all, funneling straight into the Malta and Egypt argument that was always the more consequential theater regardless of how the war started.",
             },
             {
-              label: "Hold non-belligerence indefinitely — Rome stays out of the wider war entirely",
+              label: "Hold non-belligerence indefinitely: Rome stays out of the wider war entirely",
               advisor: { name: "Badoglio", position: "No doctrine requires this country to fight, only a decade of one man's rhetoric that assumed it always would, and he recommends the rhetoric be proven wrong." },
               setFlags: { italyEntry: "neutral" },
               favor: 1,
               impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "enduringNeutrality40",
               outcome:
-                "This is a road essentially no Italian government under Mussolini ever seriously entertained past the planning-document stage, marked plainly for what it is: a genuine counterfactual, run forward on its own terms rather than folded back into the war that actually happened. Rome stays out — not neutral in the legal sense the regime always insisted was different from non-belligerence, but functionally the same thing the word was invented to avoid admitting.",
+                "This is a road essentially no Italian government under Mussolini ever seriously entertained past the planning-document stage, marked plainly for what it is: a genuine counterfactual, run forward on its own terms rather than folded back into the war that actually happened. Rome stays out, not neutral in the legal sense the regime always insisted was different from non-belligerence, but functionally the same thing the word was invented to avoid admitting.",
             },
           ],
         };
@@ -118,10 +118,10 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "Marked plainly, up front: nothing from here reflects a policy any Italian government under Mussolini's regime actually pursued past a planning document's margin notes — it is a counterfactual, run forward on its own terms rather than folded quietly back into the history that actually happened. Sustained non-belligerence is a stranger position for this regime to hold than it sounds: the entire domestic case for Fascism rested on martial prestige, and a country that sits out a war Germany appears to be winning is a government handing its own opposition — what little of it survives — the one argument it never had before. Berlin, meanwhile, has said nothing formal yet. Hitler's attention this autumn is elsewhere, but an Axis partnership that exists on paper without an Italian war to show for it is not a position anyone in this room expects Berlin to leave unexamined indefinitely.",
+            "Marked plainly, up front: nothing from here reflects a policy any Italian government under Mussolini's regime actually pursued past a planning document's margin notes: it is a counterfactual, run forward on its own terms rather than folded quietly back into the history that actually happened. Sustained non-belligerence is a stranger position for this regime to hold than it sounds: the entire domestic case for Fascism rested on martial prestige, and a country that sits out a war Germany appears to be winning is a government handing its own opposition, what little of it survives, the one argument it never had before. Berlin, meanwhile, has said nothing formal yet. Hitler's attention this autumn is elsewhere, but an Axis partnership that exists on paper without an Italian war to show for it is not a position anyone in this room expects Berlin to leave unexamined indefinitely.",
           choices: [
             {
-              label: "Hold firm publicly — declare non-belligerence a settled, permanent state policy",
+              label: "Hold firm publicly: declare non-belligerence a settled, permanent state policy",
               advisor: { name: "Mussolini", position: "He would rather stake the government's legitimacy on having judged the war correctly than on having joined it, though history rewards the second far less often than his generals assume." },
               checkLabel: "Initiative",
               disabledReason: (meters.initiative || 0) >= -3 ? undefined : "too little standing left in the regime's own propaganda apparatus to sell indefinite non-belligerence as strength rather than weakness",
@@ -129,17 +129,17 @@
               impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "germanPressure41",
               outcome:
-                "A public, formal commitment — non-belligerence recast in the regime's own propaganda as judgment rather than absence, a harder sell domestically than a declaration of war would have been, but a real one. What it does not settle, and cannot settle unilaterally, is what Berlin eventually decides to do about an ally that never actually fought.",
+                "A public, formal commitment: non-belligerence recast in the regime's own propaganda as judgment rather than absence, a harder sell domestically than a declaration of war would have been, but a real one. What it does not settle, and cannot settle unilaterally, is what Berlin eventually decides to do about an ally that never actually fought.",
             },
             {
-              label: "Stay non-belligerent but quietly hedge — maintain contingency plans in case Berlin's patience runs out",
+              label: "Stay non-belligerent but quietly hedge: maintain contingency plans in case Berlin's patience runs out",
               advisor: { name: "Badoglio", position: "Say what the propaganda ministry needs said, but the army's readiness is not staked on Berlin's goodwill lasting indefinitely, whatever gets announced on the radio." },
               setFlags: { neutralItaly40: "hedge" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "germanPressure41",
               outcome:
-                "A quieter posture — non-belligerence in public, contingency planning in private, in case the regime's wager on Berlin's patience turns out to be wrong. It costs nothing today and buys, at most, a head start on a crisis this command hopes never arrives.",
+                "A quieter posture: non-belligerence in public, contingency planning in private, in case the regime's wager on Berlin's patience turns out to be wrong. It costs nothing today and buys, at most, a head start on a crisis this command hopes never arrives.",
             },
           ],
         };
@@ -151,13 +151,13 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "A year into a European war Italy has still not entered on either side, Berlin's attention through most of 1941 is consumed by a campaign in the Soviet Union that dwarfs anything the Mediterranean could offer — which has, so far, worked in Rome's favor more than any Italian diplomacy has. But an ally that contributes nothing militarily while occupying strategically significant territory on Germany's southern flank is not a standing arrangement Berlin's own planners are likely to leave unexamined forever, particularly once the Eastern campaign's own demands make every spare division and every secure supply route worth having elsewhere. What this command controls is not whether the question gets asked, only how it answers when it does." +
+            "A year into a European war Italy has still not entered on either side, Berlin's attention through most of 1941 is consumed by a campaign in the Soviet Union that dwarfs anything the Mediterranean could offer, which has, so far, worked in Rome's favor more than any Italian diplomacy has. But an ally that contributes nothing militarily while occupying strategically significant territory on Germany's southern flank is not a standing arrangement Berlin's own planners are likely to leave unexamined forever, particularly once the Eastern campaign's own demands make every spare division and every secure supply route worth having elsewhere. What this command controls is not whether the question gets asked, only how it answers when it does." +
             (flags.neutralItaly40 === "hedge"
-              ? " The contingency planning kept quiet since last autumn has not gone entirely unnoticed — German liaison officers have asked more questions about Italian mobilization readiness than a purely neutral posture would explain."
+              ? " The contingency planning kept quiet since last autumn has not gone entirely unnoticed: German liaison officers have asked more questions about Italian mobilization readiness than a purely neutral posture would explain."
               : ""),
           choices: [
             {
-              label: "Offer economic concessions short of alliance — raw materials, basing rights, transit access — to keep Berlin tolerant of the arrangement",
+              label: "Offer economic concessions short of alliance (raw materials, basing rights, transit access) to keep Berlin tolerant of the arrangement",
               advisor: { name: "Ciano", position: "Berlin does not have to be given a war, only enough of what a war would have provided that the difference stops mattering to them." },
               checkLabel: "Matériel",
               disabledReason: (meters.fuel || 0) >= -2 ? undefined : "too little left in reserve to offer German transit and resource access without visibly straining the arrangement it's meant to protect",
@@ -167,11 +167,11 @@
               uncertain: [
                 {
                   weight: modWeight(55, meters.initiative),
-                  title: "The concessions hold Berlin's patience — for the duration",
+                  title: "The concessions hold Berlin's patience, for the duration",
                   setFlags: { neutralItalyPressure: "tolerated" },
                   impact: { manpower: 1, fuel: 0, initiative: 1 },
                   outcome:
-                    "Eastern-front demands keep absorbing everything Berlin has to spare for the rest of the war, and a non-belligerent Italy quietly paying its way in raw materials and transit access turns out to cost Germany less attention than actually compelling compliance would. The arrangement holds, uneasily but completely, for the duration — a country that spends the entire European war neither fighting nor fully sovereign, and never once fires a shot in it.",
+                    "Eastern-front demands keep absorbing everything Berlin has to spare for the rest of the war, and a non-belligerent Italy quietly paying its way in raw materials and transit access turns out to cost Germany less attention than actually compelling compliance would. The arrangement holds, uneasily but completely, for the duration: a country that spends the entire European war neither fighting nor fully sovereign, and never once fires a shot in it.",
                 },
                 {
                   weight: 100 - modWeight(55, meters.initiative),
@@ -180,12 +180,12 @@
                   impact: { manpower: -1, fuel: -1, initiative: -1 },
                   next: "neutralItalyOccupied42",
                   outcome:
-                    "What the concessions actually bought turns out to be measured in months, not years — useful cover while Berlin was occupied elsewhere, not a durable settlement. By late 1942, with the strategic picture shifting and Rome's usefulness as a compliant-but-uncommitted neighbor no longer outweighing the risk of leaving it that way, Berlin moves.",
+                    "What the concessions actually bought turns out to be measured in months, not years: useful cover while Berlin was occupied elsewhere, not a durable settlement. By late 1942, with the strategic picture shifting and Rome's usefulness as a compliant-but-uncommitted neighbor no longer outweighing the risk of leaving it that way, Berlin moves.",
                 },
               ],
             },
             {
-              label: "Refuse all concessions — stake this government's remaining legitimacy on genuine, unconditional independence",
+              label: "Refuse all concessions: stake this government's remaining legitimacy on genuine, unconditional independence",
               advisor: { name: "Mussolini", position: "A neutrality that pays tribute to be tolerated is not neutrality, and he would rather find out directly what the alliance was worth to Berlin than spend it slowly, concession by concession, finding out the same thing." },
               setFlags: { neutralItalyResponse41: "refuse" },
               impact: { manpower: 0, fuel: 1, initiative: 1 },
@@ -193,11 +193,11 @@
               uncertain: [
                 {
                   weight: modWeight(35, meters.initiative),
-                  title: "Berlin lets it stand — the Eastern campaign has no attention left to spare",
+                  title: "Berlin lets it stand: the Eastern campaign has no attention left to spare",
                   setFlags: { neutralItalyPressure: "tolerated" },
                   impact: { manpower: 1, fuel: 1, initiative: 2 },
                   outcome:
-                    "The gamble pays off, against odds this staff's own assessment gave it: whatever irritation Rome's refusal generates in Berlin, it never translates into action, because the resources compelling it would require are resources the Eastern Front will not release for the rest of the war. Italy holds an independent, unconditional non-belligerence through to the end of a European war it never once entered — the wager Mussolini staked his government's legitimacy on, vindicated in full.",
+                    "The gamble pays off, against odds this staff's own assessment gave it: whatever irritation Rome's refusal generates in Berlin, it never translates into action, because the resources compelling it would require are resources the Eastern Front will not release for the rest of the war. Italy holds an independent, unconditional non-belligerence through to the end of a European war it never once entered: the wager Mussolini staked his government's legitimacy on, vindicated in full.",
                 },
                 {
                   weight: 100 - modWeight(35, meters.initiative),
@@ -206,7 +206,7 @@
                   impact: { manpower: -2, fuel: -1, initiative: -1 },
                   next: "neutralItalyOccupied42",
                   outcome:
-                    "The refusal is answered, not ignored — German formations already stationed in southern France and the Balkans begin repositioning toward the Italian frontier within weeks, a pressure campaign considerably blunter than the concessions path's slower squeeze. Whatever independence this wager was staked on is about to be tested directly rather than merely asserted.",
+                    "The refusal is answered, not ignored: German formations already stationed in southern France and the Balkans begin repositioning toward the Italian frontier within weeks, a pressure campaign considerably blunter than the concessions path's slower squeeze. Whatever independence this wager was staked on is about to be tested directly rather than merely asserted.",
                 },
               ],
             },
@@ -220,10 +220,10 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "What arrives is not an invasion in the conventional sense — Berlin has neither the spare divisions nor, this deep into the Eastern campaign, the appetite for conquering a nominal ally outright. What arrives instead is closer to the arrangement Germany actually imposed on Vichy France's unoccupied zone the same season, when Allied landings in North Africa made a fully neutral southern France an intolerable risk: German formations moving to occupy strategic points — ports, airfields, the Alpine passes — while offering Rome a choice dressed as a formality. Accept German 'protection' and effective occupation without further resistance, or refuse it and find out directly what a German military response to an ally's refusal actually looks like.",
+            "What arrives is not an invasion in the conventional sense: Berlin has neither the spare divisions nor, this deep into the Eastern campaign, the appetite for conquering a nominal ally outright. What arrives instead is closer to the arrangement Germany actually imposed on Vichy France's unoccupied zone the same season, when Allied landings in North Africa made a fully neutral southern France an intolerable risk: German formations moving to occupy strategic points (ports, airfields, the Alpine passes) while offering Rome a choice dressed as a formality. Accept German 'protection' and effective occupation without further resistance, or refuse it and find out directly what a German military response to an ally's refusal actually looks like.",
           choices: [
             {
-              label: "Submit — accept German terms rather than resist a war this command spent two years avoiding",
+              label: "Submit: accept German terms rather than resist a war this command spent two years avoiding",
               advisor: { name: "Cavallero", position: "An entire policy was built around not fighting this war, and the men it saved will not be spent proving a point about sovereignty at the last possible moment." },
               historical: false,
               setFlags: { neutralItalyEnd: "submit" },
@@ -233,7 +233,7 @@
                 "The arrangement Mussolini's regime spent two years and considerable domestic credibility avoiding arrives anyway, just later and by a quieter road than the war it sidestepped would have taken: German garrisons at the ports and passes, an occupied-in-practice status dressed in whatever language the propaganda ministry can still manage, and a country that never fired a shot in this war ending up dominated by the same power its non-belligerence was supposed to keep at arm's length.",
             },
             {
-              label: "Resist — refuse the ultimatum and find out what a German response to an ally's defiance actually costs",
+              label: "Resist: refuse the ultimatum and find out what a German response to an ally's defiance actually costs",
               advisor: { name: "Ciano", position: "Italy refused to fight for Berlin for two years, and he would like the government's last act to be refusing again, and not simply being absorbed without a shot fired either way." },
               checkLabel: "Manpower",
               disabledReason: (meters.manpower || 0) >= -3 ? undefined : "too depleted a standing army left to make a refusal credible rather than merely symbolic",
@@ -243,11 +243,11 @@
               uncertain: [
                 {
                   weight: modWeight(30, meters.initiative),
-                  title: "The refusal holds — Berlin doesn't press further",
+                  title: "The refusal holds: Berlin doesn't press further",
                   setFlags: { neutralItalyResistResult: "held" },
                   impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
-                    "Against most of this staff's own private assessment, the refusal is not immediately tested further — an occupation Berlin cannot fully resource on top of the Eastern Front's own demands turns out to be a threat with less follow-through behind it than the ultimatum implied. Italy ends the year still formally independent, at a cost measured in reserves spent readying for a fight that, for now, doesn't come.",
+                    "Against most of this staff's own private assessment, the refusal is not immediately tested further: an occupation Berlin cannot fully resource on top of the Eastern Front's own demands turns out to be a threat with less follow-through behind it than the ultimatum implied. Italy ends the year still formally independent, at a cost measured in reserves spent readying for a fight that, for now, doesn't come.",
                 },
                 {
                   weight: 100 - modWeight(30, meters.initiative),
@@ -255,7 +255,7 @@
                   setFlags: { neutralItalyResistResult: "fought" },
                   impact: { manpower: -2, fuel: -1, initiative: -1 },
                   outcome:
-                    "The country that spent two years engineering a way to avoid fighting this war ends up fighting a version of it after all — not alongside Germany and not, in any organized sense, against the Allies either, but directly against the ally its entire policy was built to placate. A stranger, smaller war than the one it avoided, against an opponent this army was never built or postured to face.",
+                    "The country that spent two years engineering a way to avoid fighting this war ends up fighting a version of it after all, not alongside Germany and not, in any organized sense, against the Allies either, but directly against the ally its entire policy was built to placate. A stranger, smaller war than the one it avoided, against an opponent this army was never built or postured to face.",
                 },
               ],
             },
@@ -269,26 +269,26 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "The war in Europe ends without this command ever having fought it — no declaration against France, no desert campaign, no Greek winter, no armistice split into two rival governments. What the documented record's own Italy paid in casualties, occupied territory, and a fractured postwar reckoning between north and south, this Italy simply never billed. What it also never has is a place at whichever peace conference now assembles: a non-belligerent for six years running is not a power anyone at that table is likely to consult about how Europe gets redrawn.",
+            "The war in Europe ends without this command ever having fought it: no declaration against France, no desert campaign, no Greek winter, no armistice split into two rival governments. What the documented record's own Italy paid in casualties, occupied territory, and a fractured postwar reckoning between north and south, this Italy simply never billed. What it also never has is a place at whichever peace conference now assembles: a non-belligerent for six years running is not a power anyone at that table is likely to consult about how Europe gets redrawn.",
           choices: [
             {
-              label: "Treat the outcome as vindication — the regime judged the war correctly, and history should say so",
+              label: "Treat the outcome as vindication: the regime judged the war correctly, and history should say so",
               advisor: { name: "Mussolini", position: "Let the history books record what they will about courage, since he would rather be remembered as the government that judged a catastrophe correctly than the one that shared in it heroically." },
               setFlags: { neutralItalyRetrospect: "vindicated" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "END",
               outcome:
-                "A verdict this command is, in fairness, better positioned to argue than almost any other in this war: the army is intact, the cities are unbombed, and the casualty lists that define every other version of this campaign simply don't exist here. What it costs is harder to put a number on — a seat at the table where the postwar order actually gets decided, forfeited the moment this government chose not to be a belligerent on either side of it.",
+                "A verdict this command is, in fairness, better positioned to argue than almost any other in this war: the army is intact, the cities are unbombed, and the casualty lists that define every other version of this campaign simply don't exist here. What it costs is harder to put a number on: a seat at the table where the postwar order actually gets decided, forfeited the moment this government chose not to be a belligerent on either side of it.",
             },
             {
-              label: "Acknowledge the cost plainly — surviving a catastrophe is not the same as having answered for it",
+              label: "Acknowledge the cost plainly: surviving a catastrophe is not the same as having answered for it",
               advisor: { name: "Badoglio", position: "Italy is alive and the army intact, which is not a small thing after what the continent has done to itself in six years, but the country did not answer for anything, it only avoided being asked." },
               favor: 1,
               setFlags: { neutralItalyRetrospect: "unresolved" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "END",
               outcome:
-                "The more honest closing note available to this command: a country that spent six years neither fighting fascism's war nor answering for having built the regime that might have joined one, left to decide for itself — in a Europe it had no hand in remaking — what, if anything, that avoidance actually cost it.",
+                "The more honest closing note available to this command: a country that spent six years neither fighting fascism's war nor answering for having built the regime that might have joined one, left to decide for itself, in a Europe it had no hand in remaking, what, if anything, that avoidance actually cost it.",
             },
           ],
         };
@@ -301,13 +301,13 @@
           situation:
             "France's collapse in the north leaves a strange, almost beside-the-point front open in the Alps: a French Army of the Alps, heavily outnumbered and already ordered to prepare a withdrawal, dug into permanent fortifications the Italian army's own prewar planning never seriously expected to have to assault this soon, against this little preparation time. Army Group West's staff work was rushed together in days, not the months a mountain offensive against fortified positions would normally get." +
             (flags.italyEntry === "declare"
-              ? " This is exactly the readiness gap Badoglio warned the declaration itself would produce — a rifle shortage and a rushed staff plan, arriving on schedule."
+              ? " This is exactly the readiness gap Badoglio warned the declaration itself would produce: a rifle shortage and a rushed staff plan, arriving on schedule."
               : flags.italyEntry === "wait"
               ? " The extra weeks this command spent arguing for before declaring bought a marginally less threadbare mobilization than the historical timetable had, though not enough to turn a rushed mountain offensive into a properly planned one."
               : flags.italyEntry === "lateDeclare"
-              ? " This command held out nearly to the armistice itself before declaring — the readiness gap Badoglio warned about is smaller than the historical one, but the window to actually use it against a French army already collapsing is smaller still."
+              ? " This command held out nearly to the armistice itself before declaring: the readiness gap Badoglio warned about is smaller than the historical one, but the window to actually use it against a French army already collapsing is smaller still."
               : "") +
-            " The armistice clock is also running — France and Germany are already talking terms — which means whatever ground gets taken has to get taken fast to count for anything at the table at all.",
+            " The armistice clock is also running, France and Germany are already talking terms, which means whatever ground gets taken has to get taken fast to count for anything at the table at all.",
           choices: [
             {
               label: "Push hard for maximum territorial gains before the armistice closes the window",
@@ -336,7 +336,7 @@
               // about 640 killed, 2,631 wounded and 2,151 frostbitten, French about 40 killed.
               keyBattleSubgame: {
                 id: "alps40",
-                title: "Order of Battle — The Little St Bernard",
+                title: "Order of Battle: The Little St Bernard",
                 flavor:
                   "The directive of 7 June said to stay on the defensive; the order of the third week of June says attack. Army Group West has some three hundred thousand men facing perhaps eighty-five thousand French in prepared positions, on passes that are still snowed in near the top. The French have blown the bridges on the Little St Bernard road and hold the old Redoute Ruinée above it, and a good part of the Italian artillery is Austro-Hungarian, captured in 1918. What's decided here is the weight behind the Fourth Army's main thrust: how much goes to the Alpini and infantry who have to climb, to the guns that must range across the valleys, to the aircraft that Italian staffs cannot easily call on, and to the mule trails and the road that carry everything the army uses.",
                 categories: [
@@ -531,19 +531,19 @@
                   setFlags: { alps40Result: "stalled" },
                   impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
-                    "The rushed offensive gains almost nothing — French fortified positions at Mont Cenis and along the frontier hold through the war's final week against an attack thrown together too fast to properly support, and casualties run into the low thousands for a few villages' worth of ground. Mussolini's own later verdict on this episode was blunter than any staff assessment: he called the campaign an embarrassment he'd rather not have run at all. The territory claimed at the armistice table comes from the negotiation, not from what the offensive actually seized.",
+                    "The rushed offensive gains almost nothing: French fortified positions at Mont Cenis and along the frontier hold through the war's final week against an attack thrown together too fast to properly support, and casualties run into the low thousands for a few villages' worth of ground. Mussolini's own later verdict on this episode was blunter than any staff assessment: he called the campaign an embarrassment he'd rather not have run at all. The territory claimed at the armistice table comes from the negotiation, not from what the offensive actually seized.",
                 },
               ],
             },
             {
-              label: "Limited, symbolic advance only — hold the line, let diplomacy do the work",
+              label: "Limited, symbolic advance only: hold the line, let diplomacy do the work",
               advisor: { name: "Badoglio", position: "The negotiators in Munich will decide what Italy gets, and an offensive this rushed spends men to influence a decision that is not being made on this front." },
               setFlags: { alpsFront40: "limited" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "medStrategy40",
               outcome:
-                "The historical judgment on the offensive that was launched applies here too, just without the casualties spent proving it: this front was never going to decide anything the armistice terms didn't already decide first. Restraint costs nothing tangible and saves several thousand men a rushed, under-prepared assault would otherwise have spent on fortified ground for symbolic returns — but it also leaves nothing on the record for the propaganda ministry to point to, in a war whose entire premise was arriving at the table with something to show.",
+                "The historical judgment on the offensive that was launched applies here too, just without the casualties spent proving it: this front was never going to decide anything the armistice terms didn't already decide first. Restraint costs nothing tangible and saves several thousand men a rushed, under-prepared assault would otherwise have spent on fortified ground for symbolic returns, but it also leaves nothing on the record for the propaganda ministry to point to, in a war whose entire premise was arriving at the table with something to show.",
             },
           ],
         };
@@ -554,28 +554,28 @@
           title: "The Mediterranean Question",
           historicalRecord: false,
           situation:
-            "With France out of the war, the Mediterranean question that Italian naval and colonial planners have argued for years is suddenly live rather than theoretical: Britain's presence in the sea Italian doctrine calls 'Mare Nostrum' now rests on exactly two pillars, Malta and Egypt, and taking either seriously would require committing resources the standing plans for both were never actually funded to the level their advocates wanted. Malta sits astride every convoy route to Libya, weakly garrisoned in the war's opening weeks and — by the fleet staff's own admission — genuinely vulnerable to a properly resourced invasion before British reinforcement catches up. Egypt and the Suez Canal are the larger prize, defended by a British force in Libya's neighboring desert that outnumbers nothing Italian in the theater except manpower on paper. Rome has never had to choose between these two objectives for real, because until this month there was always a war in France absorbing the argument instead." +
+            "With France out of the war, the Mediterranean question that Italian naval and colonial planners have argued for years is suddenly live rather than theoretical: Britain's presence in the sea Italian doctrine calls 'Mare Nostrum' now rests on exactly two pillars, Malta and Egypt, and taking either seriously would require committing resources the standing plans for both were never actually funded to the level their advocates wanted. Malta sits astride every convoy route to Libya, weakly garrisoned in the war's opening weeks and, by the fleet staff's own admission, genuinely vulnerable to a properly resourced invasion before British reinforcement catches up. Egypt and the Suez Canal are the larger prize, defended by a British force in Libya's neighboring desert that outnumbers nothing Italian in the theater except manpower on paper. Rome has never had to choose between these two objectives for real, because until this month there was always a war in France absorbing the argument instead." +
             // Round 21 (Alps echo): only when the player ordered the push and fought the battle.
             (flags.alpsFront40 === "push"
               ? (flags.alps40Result === "forced" ? " The army that forced the Little St Bernard is in better spirits than the staff expected." : "") + keyBattleEcho("alps40", flags)
               : ""),
           choices: [
             {
-              label: "Move on Malta first — invade now, while the garrison is still weak",
+              label: "Move on Malta first: invade now, while the garrison is still weak",
               advisor: { name: "Cavagnari", position: "Every ship lost to Malta's air and submarines this year is one the Libya campaign needed and will not have, so take the island now while it can be taken, or spend the whole war paying its toll." },
               setFlags: { medStrategy: "malta" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
               next: "greeceDecision40",
               outcome:
-                "The invasion the fleet staff argued for and the historical Comando Supremo never actually ordered — attempted here in earnest, this early, against a garrison still reinforcing and defenses still being built rather than the hardened position a later assault would face. It is a real gamble on a real window: every assessment this staff has says Malta will not stay this vulnerable for long.",
+                "The invasion the fleet staff argued for and the historical Comando Supremo never actually ordered: attempted here in earnest, this early, against a garrison still reinforcing and defenses still being built rather than the hardened position a later assault would face. It is a real gamble on a real window: every assessment this staff has says Malta will not stay this vulnerable for long.",
               uncertain: [
                 {
                   weight: modWeight(45, meters.initiative),
-                  title: "The window holds — Malta falls",
+                  title: "The window holds: Malta falls",
                   setFlags: { malta40: "fell", herculesResult: "fell" },
                   impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
-                    "The gamble the historical Comando Supremo never actually took pays off: an amphibious and airborne assault mounted while Malta's garrison is still a fraction of what British reinforcement will eventually make it takes the island within days, not the extended siege a later, hardened assault would need. The convoy war to Libya is rewritten from this point forward — there is no year-long argument left to have about an Operation Hercules, because there is no island left across the shipping lanes to invade. What this early a commitment costs is Egypt's own timetable, spent on a target the record says really was there for the taking.",
+                    "The gamble the historical Comando Supremo never actually took pays off: an amphibious and airborne assault mounted while Malta's garrison is still a fraction of what British reinforcement will eventually make it takes the island within days, not the extended siege a later, hardened assault would need. The convoy war to Libya is rewritten from this point forward: there is no year-long argument left to have about an Operation Hercules, because there is no island left across the shipping lanes to invade. What this early a commitment costs is Egypt's own timetable, spent on a target the record says really was there for the taking.",
                 },
                 {
                   weight: 100 - modWeight(45, meters.initiative),
@@ -588,7 +588,7 @@
               ],
             },
             {
-              label: "Push into Egypt immediately — Suez is the prize that actually decides the theater",
+              label: "Push into Egypt immediately: Suez is the prize that actually decides the theater",
               advisor: { name: "Mussolini", position: "The war was not entered to besiege an island. Egypt is where the empire is decided, and the Tenth Army outnumbers Wavell's whole command on paper, so send them forward." },
               historical: true,
               setFlags: { medStrategy: "egypt" },
@@ -598,13 +598,13 @@
                 "What actually happened, eventually and hesitantly: the Tenth Army's advance into Egypt didn't begin until September, and even then stopped at Sidi Barrani, sixty miles short of the nearest serious British position, digging in rather than pressing on. The paper numbers Mussolini cites were real; what they didn't capture was a logistics train built for colonial policing, not a mechanized desert offensive, and a British Western Desert Force that would spend the intervening months training for exactly the counterattack this hesitation buys it time to prepare.",
             },
             {
-              label: "Reach past both — press Berlin and Madrid for an Italian seat in closing Gibraltar",
+              label: "Reach past both: press Berlin and Madrid for an Italian seat in closing Gibraltar",
               advisor: { name: "Ciano", position: "Malta and Egypt are the sea's own doors and Gibraltar is the lock on the whole house, and if it is opened without Rome in the room the rest of the war is spent being handed small change while Berlin and Madrid divide the estate." },
               setFlags: { medStrategy: "gibraltar" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "gibraltarGambit40",
               outcome:
-                "The boldest reading of the Mediterranean question, and the one the actual Ciano — vain, ambitious, and privately contemptuous of how little Rome was consulted on anything Berlin considered its own diplomacy — would plausibly have argued for, given the chance: rather than contest the sea's two internal doors, press for a role in closing its western mouth entirely. Rome has never had a real seat at this particular table; whether pulling one up changes anything is a question this command is now committed to finding out.",
+                "The boldest reading of the Mediterranean question, and the one the actual Ciano (vain, ambitious, and privately contemptuous of how little Rome was consulted on anything Berlin considered its own diplomacy) would plausibly have argued for, given the chance: rather than contest the sea's two internal doors, press for a role in closing its western mouth entirely. Rome has never had a real seat at this particular table; whether pulling one up changes anything is a question this command is now committed to finding out.",
             },
           ],
         };
@@ -615,7 +615,7 @@
           title: "A Third Claimant at the Table",
           historicalRecord: false,
           situation:
-            "Ciano's overture to Madrid runs immediately into the arithmetic that will, in the war's actual record, sink Franco and Hitler's own Hendaye meeting in October without Rome's help: Franco's price for entering the war is not applause, it is territory — French Morocco, the Oran district, weapons and grain Spain cannot feed itself without — and every acre of French North Africa promised to Madrid is an acre a rival claimant government in Rome has its own long-standing designs on. Italian colonial planning has eyed Tunisia, bordering Spanish-administered Morocco, for years; a Spain rewarded generously enough to actually move against Gibraltar is a Spain whose new North African border sits closer to Italian ambitions than Comando Supremo has ever had to plan around. The choice in front of Ciano is not whether Franco's price is real — the historical record already answers that — it is whether Rome is willing to grease that price with its own claims to get a result Berlin alone never quite bought.",
+            "Ciano's overture to Madrid runs immediately into the arithmetic that will, in the war's actual record, sink Franco and Hitler's own Hendaye meeting in October without Rome's help: Franco's price for entering the war is not applause, it is territory (French Morocco, the Oran district, weapons and grain Spain cannot feed itself without) and every acre of French North Africa promised to Madrid is an acre a rival claimant government in Rome has its own long-standing designs on. Italian colonial planning has eyed Tunisia, bordering Spanish-administered Morocco, for years; a Spain rewarded generously enough to actually move against Gibraltar is a Spain whose new North African border sits closer to Italian ambitions than Comando Supremo has ever had to plan around. The choice in front of Ciano is not whether Franco's price is real, the historical record already answers that, it is whether Rome is willing to grease that price with its own claims to get a result Berlin alone never quite bought.",
           choices: [
             {
               label: "Back Franco's price in full, in exchange for German guarantees on Italy's own claims elsewhere",
@@ -624,16 +624,16 @@
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "gibraltarResolution40",
               outcome:
-                "A real diplomatic wager, and an uncomfortable one for a government that has its own list of French territory it wants at the eventual peace table: sweetening Franco's price with Italian consent, rather than Italian silence, is the one lever the historical Hendaye meeting never actually had available to it. What it buys, if it buys anything, is untested — nothing in the documented record says Franco's caution was only ever about the price on offer.",
+                "A real diplomatic wager, and an uncomfortable one for a government that has its own list of French territory it wants at the eventual peace table: sweetening Franco's price with Italian consent, rather than Italian silence, is the one lever the historical Hendaye meeting never actually had available to it. What it buys, if it buys anything, is untested: nothing in the documented record says Franco's caution was only ever about the price on offer.",
             },
             {
-              label: "Hold back — let Madrid name its price to Berlin alone, and keep Rome's own claims out of the bargaining",
+              label: "Hold back: let Madrid name its price to Berlin alone, and keep Rome's own claims out of the bargaining",
               advisor: { name: "Ciano", position: "There is a version in which Rome is remembered as the government that helped open Gibraltar and a version in which it gave away Tunisia's borders to buy a door Franco was never going to open, and he knows which one he will not risk his name on." },
               setFlags: { gibraltarGambit: "abstain" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "greeceDecision40",
               outcome:
-                "The cautious reading, and very much in character for the real Ciano's own private assessment of overreaching Spanish and German diplomacy he had no confidence in: Rome steps back from a negotiation it never controlled the terms of, at the cost of whatever this attempt might have won. Hendaye happens, or doesn't, entirely without an Italian hand on it — and does so exactly as the documented history already records, for exactly the reasons that history already gives.",
+                "The cautious reading, and very much in character for the real Ciano's own private assessment of overreaching Spanish and German diplomacy he had no confidence in: Rome steps back from a negotiation it never controlled the terms of, at the cost of whatever this attempt might have won. Hendaye happens, or doesn't, entirely without an Italian hand on it, and does so exactly as the documented history already records, for exactly the reasons that history already gives.",
             },
           ],
         };
@@ -644,10 +644,10 @@
           title: "Hendaye, With Rome in the Room",
           historicalRecord: false,
           situation:
-            "The meeting the documented history actually records — Hitler's train halted at the French-Spanish border town of Hendaye, nine hours of negotiation that end with Franco's price unmet and Spain still out of the war — runs this time with an Italian delegation present and Rome's guarantees on the table alongside Berlin's. It changes the shape of the argument without changing its hardest constraint: Franco's Spain, three years out of its own civil war, cannot feed itself without grain shipments only Germany and Italy can realistically promise, and cannot fight without weapons neither power can spare from fronts already open. Rome's guarantees on Tunisia and Nice sweeten what Franco is offered without touching the actual bottleneck — food and matériel this command's own fuel and manpower ledger will have to answer for, on top of everything already committed to Libya and Greece.",
+            "The meeting the documented history actually records (Hitler's train halted at the French-Spanish border town of Hendaye, nine hours of negotiation that end with Franco's price unmet and Spain still out of the war) runs this time with an Italian delegation present and Rome's guarantees on the table alongside Berlin's. It changes the shape of the argument without changing its hardest constraint: Franco's Spain, three years out of its own civil war, cannot feed itself without grain shipments only Germany and Italy can realistically promise, and cannot fight without weapons neither power can spare from fronts already open. Rome's guarantees on Tunisia and Nice sweeten what Franco is offered without touching the actual bottleneck: food and matériel this command's own fuel and manpower ledger will have to answer for, on top of everything already committed to Libya and Greece.",
           choices: [
             {
-              label: "Commit real Italian grain and fuel shipments to Spain — make the price actually affordable, not just politically sweeter",
+              label: "Commit real Italian grain and fuel shipments to Spain: make the price actually affordable, not just politically sweeter",
               advisor: { name: "Cavallero", position: "Guarantees on paper cost this command nothing and bought nothing at Hendaye, while ships full of grain cost a great deal and might buy something, so spend the fuel and find out rather than keep the promise cheap and watch it fail the same way." },
               checkLabel: "Matériel",
               disabledReason: meters.fuel <= -3 ? "no fuel reserve left to commit to shipments Spain would actually need to move" : undefined,
@@ -655,7 +655,7 @@
               impact: { manpower: 0, fuel: -2, initiative: 1 },
               next: "greeceDecision40",
               outcome:
-                "The one variable the historical Hendaye meeting never actually tested: real matériel, not just guarantees, against Franco's stated price. Whether it was ever enough is the honest uncertainty every serious postwar account of this negotiation still argues over — Franco's caution ran deeper than any single shipment, rooted in a Spain that had just spent three years destroying itself and had no illusions left about what a second war would cost a country that hadn't finished burying the first one.",
+                "The one variable the historical Hendaye meeting never actually tested: real matériel, not just guarantees, against Franco's stated price. Whether it was ever enough is the honest uncertainty every serious postwar account of this negotiation still argues over: Franco's caution ran deeper than any single shipment, rooted in a Spain that had just spent three years destroying itself and had no illusions left about what a second war would cost a country that hadn't finished burying the first one.",
               uncertain: [
                 {
                   weight: modWeight(30, meters.initiative),
@@ -663,7 +663,7 @@
                   setFlags: { gibraltarTaken: "success" },
                   impact: { manpower: -1, fuel: -1, initiative: 2 },
                   outcome:
-                    "The documented failure of Hendaye turns out not to have been inevitable after all: a properly resourced offer, backed by Italian shipments Berlin alone never put forward, gives Franco's own war cabinet the material argument its more cautious members were missing. Spanish and German forces move on Gibraltar in early 1941, and the Mediterranean's western mouth closes — Force H, the Gibraltar-based squadron that has spent a year raiding Italian convoys and escorting everything bound for Malta, no longer has a home port to sail from. Every convoy calculation this command has made since June 1940 is due for revision.",
+                    "The documented failure of Hendaye turns out not to have been inevitable after all: a properly resourced offer, backed by Italian shipments Berlin alone never put forward, gives Franco's own war cabinet the material argument its more cautious members were missing. Spanish and German forces move on Gibraltar in early 1941, and the Mediterranean's western mouth closes: Force H, the Gibraltar-based squadron that has spent a year raiding Italian convoys and escorting everything bound for Malta, no longer has a home port to sail from. Every convoy calculation this command has made since June 1940 is due for revision.",
                 },
                 {
                   weight: 100 - modWeight(30, meters.initiative),
@@ -671,18 +671,18 @@
                   setFlags: { gibraltarTaken: "failed" },
                   impact: { manpower: 0, fuel: -1, initiative: -1 },
                   outcome:
-                    "The costlier and, on the weight of the actual historical evidence, likelier answer: Franco's reluctance was never only a price to be met, and a Spain still counting its own civil war's dead declines a second one regardless of what Rome adds to Berlin's offer. The shipments are spent, the guarantees on Tunisia and Nice stand unused for now, and Gibraltar remains exactly the British fortress it has always been — the documented history reasserting itself despite a materially different attempt to bend it.",
+                    "The costlier and, on the weight of the actual historical evidence, likelier answer: Franco's reluctance was never only a price to be met, and a Spain still counting its own civil war's dead declines a second one regardless of what Rome adds to Berlin's offer. The shipments are spent, the guarantees on Tunisia and Nice stand unused for now, and Gibraltar remains exactly the British fortress it has always been: the documented history reasserting itself despite a materially different attempt to bend it.",
                 },
               ],
             },
             {
-              label: "Guarantees only — Rome's claims are worth putting in writing, but not worth spending its own fuel reserve on Spain's war",
+              label: "Guarantees only: Rome's claims are worth putting in writing, but not worth spending its own fuel reserve on Spain's war",
               advisor: { name: "Ciano", position: "He did not come to Hendaye to hand Franco Italy's fuel reserve on the strength of a wager, and Berlin can spend what Berlin is willing to spend, since his signature costs nothing the command cannot afford to lose." },
               setFlags: { gibraltarCommitment: "guaranteesOnly" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "greeceDecision40",
               outcome:
-                "The lower-risk reading of the same table: Rome's territorial guarantees are offered but nothing material backs them, which is close enough to what actually happened at the real Hendaye meeting that the result tracks the documented record — Franco stays out, Gibraltar stays British, and the only difference from history is a promise on Tunisia and Nice that Berlin has now made twice, to two different governments, and will eventually have to reconcile.",
+                "The lower-risk reading of the same table: Rome's territorial guarantees are offered but nothing material backs them, which is close enough to what actually happened at the real Hendaye meeting that the result tracks the documented record: Franco stays out, Gibraltar stays British, and the only difference from history is a promise on Tunisia and Nice that Berlin has now made twice, to two different governments, and will eventually have to reconcile.",
             },
           ],
         };
@@ -693,15 +693,15 @@
           title: "The Greek Question",
           historicalRecord: true,
           situation:
-            "Hitler's unannounced occupation of Romania's oilfields in early October — a move made without so much as a courtesy cable to Rome — has left Mussolini furious about being treated as a junior partner informed after the fact rather than consulted before it. His answer, forming now, is to hand Berlin the same treatment in return: invade Greece, on Italy's own initiative, on a timeline nobody outside a small circle has been told about. The plan itself is thin — barely two weeks of preparation, an army in Albania sized for a defensive garrison rather than an invasion force, and a rainy-season timetable the general staff's own Albania commander has quietly warned is close to the worst possible month to attack across mountain terrain with no road network built to support it." +
+            "Hitler's unannounced occupation of Romania's oilfields in early October, a move made without so much as a courtesy cable to Rome, has left Mussolini furious about being treated as a junior partner informed after the fact rather than consulted before it. His answer, forming now, is to hand Berlin the same treatment in return: invade Greece, on Italy's own initiative, on a timeline nobody outside a small circle has been told about. The plan itself is thin: barely two weeks of preparation, an army in Albania sized for a defensive garrison rather than an invasion force, and a rainy-season timetable the general staff's own Albania commander has quietly warned is close to the worst possible month to attack across mountain terrain with no road network built to support it." +
             (flags.italyEntry === "declare"
-              ? " Four months into a war entered on a peace-table deadline rather than a readiness one, the rifle and artillery shortfall Badoglio warned about in June has never actually closed — it has simply moved theaters, from the Alps to Albania."
+              ? " Four months into a war entered on a peace-table deadline rather than a readiness one, the rifle and artillery shortfall Badoglio warned about in June has never actually closed: it has simply moved theaters, from the Alps to Albania."
               : flags.italyEntry === "wait"
-              ? " Whatever the extra weeks bought back in June, they bought nothing here — Albania's own garrison-scale army was never going to be an invasion force on two weeks' notice regardless of how the war started."
+              ? " Whatever the extra weeks bought back in June, they bought nothing here: Albania's own garrison-scale army was never going to be an invasion force on two weeks' notice regardless of how the war started."
               : flags.italyEntry === "lateDeclare"
-              ? " A declaration made days before France's own armistice closed the question is, four months on, still finding out what it actually bought — Albania's garrison-scale army was never an invasion force on short notice, whenever the war it belongs to happened to start."
+              ? " A declaration made days before France's own armistice closed the question is, four months on, still finding out what it actually bought: Albania's garrison-scale army was never an invasion force on short notice, whenever the war it belongs to happened to start."
               : flags.italyEntry === "britainOnly"
-              ? " This command entered a war against Britain alone, never against France — Albania's own thin garrison inherits an invasion timetable set by Berlin's Balkans anger regardless, on an army built for defense rather than offense in either version of this war."
+              ? " This command entered a war against Britain alone, never against France: Albania's own thin garrison inherits an invasion timetable set by Berlin's Balkans anger regardless, on an army built for defense rather than offense in either version of this war."
               : "") +
             (flags.forkGreeceResistance
               ? " One report complicates the timetable further: frontier units along the Greek side are said to be standing firmer than any prewar assessment expected, well before the invasion has even crossed the border in strength."
@@ -709,7 +709,7 @@
             " The case for delay is entirely military. The case against delay is that Mussolini has already decided, and has said so to people who are not in this room.",
           choices: [
             {
-              label: "Proceed on the planned date — the political timing matters more than the readiness gap",
+              label: "Proceed on the planned date: the political timing matters more than the readiness gap",
               advisor: { name: "Mussolini", position: "Hitler will find out from the papers that Italy has occupied Greece, and this time the balance will be re-established." },
               attested: { by: "Mussolini", text: "He will find out from the papers that I have occupied Greece.", source: "Mussolini to Ciano, 12 October 1940, in Ciano's Diary 1939-1943" },
               historical: true,
@@ -718,10 +718,10 @@
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "tarantoDoctrine40",
               outcome:
-                "What happened: the invasion launched from Albania on October 28, 1940, into weather every planning assumption had bet against, with an army roughly a third the size later staff studies concluded the terrain and Greek resistance actually required. It would be Comando Supremo's clearest unforced disaster of the war's early years, and everything that follows this decision — the winter reversal, the humiliating request for German rescue, Badoglio's resignation — traces back to this single date being chosen for reasons that had nothing to do with military readiness.",
+                "What happened: the invasion launched from Albania on October 28, 1940, into weather every planning assumption had bet against, with an army roughly a third the size later staff studies concluded the terrain and Greek resistance actually required. It would be Comando Supremo's clearest unforced disaster of the war's early years, and everything that follows this decision (the winter reversal, the humiliating request for German rescue, Badoglio's resignation) traces back to this single date being chosen for reasons that had nothing to do with military readiness.",
             },
             {
-              label: "Argue for delay — build the Albania force properly before committing to an invasion",
+              label: "Argue for delay: build the Albania force properly before committing to an invasion",
               advisor: { name: "Badoglio", position: "Two weeks is not a plan but a date with a plan's shape drawn around it, and given the spring and the roads it needs the Albania command might make this campaign work the way it is being described to the Duce." },
               setFlags: { greeceDecision: "delay", trust: (flags.trust || 0) + (1) },
               trustDelta: 1,
@@ -729,7 +729,7 @@
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "tarantoDoctrine40",
               outcome:
-                "The argument every honest postwar account of this campaign says should have won, and in the actual October 1940 meeting did not: a properly resourced Albania force, given road-building time and a dry-season start, addresses most of what made the historical invasion a rolling catastrophe. What it doesn't address is the political motive driving the date in the first place — Mussolini's need to answer Romania quickly rather than well — which this path spends outright rather than satisfies.",
+                "The argument every honest postwar account of this campaign says should have won, and in the actual October 1940 meeting did not: a properly resourced Albania force, given road-building time and a dry-season start, addresses most of what made the historical invasion a rolling catastrophe. What it doesn't address is the political motive driving the date in the first place, Mussolini's need to answer Romania quickly rather than well, which this path spends outright rather than satisfies.",
             },
           ],
         };
@@ -746,23 +746,23 @@
               : ""),
           choices: [
             {
-              label: "Preserve the fleet — a 'fleet in being' doctrine, risked only when the odds are clearly favorable",
+              label: "Preserve the fleet: a 'fleet in being' doctrine, risked only when the odds are clearly favorable",
               advisor: { name: "Cavagnari", position: "No argument for boldness can be made after tonight, and what is left of the fleet is worth more sitting where the British have to plan around it than sunk proving a point." },
               historical: true,
               setFlags: { tarantoDoctrine: "preserve" },
               impact: { manpower: 0, fuel: 1, initiative: 0 },
               next: "greeceWinter40",
               outcome:
-                "The doctrine that actually governed the surviving fleet for most of the war: after Taranto, the battle line puts to sea rarely and cautiously, tying down a Royal Navy Mediterranean squadron that has to plan around it without the fleet itself risking the encounters that could settle anything. Critics, then and since, call this a navy that spent the war as a threat rather than a weapon — its defenders point out that a threat the enemy has to respect to is not nothing, and that Taranto had just demonstrated exactly what happens when the fleet is caught unprepared.",
+                "The doctrine that actually governed the surviving fleet for most of the war: after Taranto, the battle line puts to sea rarely and cautiously, tying down a Royal Navy Mediterranean squadron that has to plan around it without the fleet itself risking the encounters that could settle anything. Critics, then and since, call this a navy that spent the war as a threat rather than a weapon: its defenders point out that a threat the enemy has to respect to is not nothing, and that Taranto had just demonstrated exactly what happens when the fleet is caught unprepared.",
             },
             {
-              label: "Commit to aggressive convoy escort — the Libya supply line needs the fleet exposed, not preserved",
+              label: "Commit to aggressive convoy escort: the Libya supply line needs the fleet exposed, not preserved",
               advisor: { name: "Iachino", position: "Every convoy the fleet does not escort to Libya is one the submarines and the RAF get uncontested, and caution over the harbor is a lesson about harbors and not about convoys." },
               setFlags: { tarantoDoctrine: "escort" },
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "greeceWinter40",
               outcome:
-                "The road not taken at scale: committing the diminished battle line to active convoy protection rather than harbor caution means more African-bound supply gets through, at the cost of surface actions the weakened fleet — still short exactly the ships Taranto took — is not favored to win outright. What this buys North Africa in fuel and equipment, it risks against a Royal Navy Mediterranean squadron that outnumbers what Taranto left standing, in exactly the kind of open-water encounter the preservation doctrine was built to avoid.",
+                "The road not taken at scale: committing the diminished battle line to active convoy protection rather than harbor caution means more African-bound supply gets through, at the cost of surface actions the weakened fleet, still short exactly the ships Taranto took, is not favored to win outright. What this buys North Africa in fuel and equipment, it risks against a Royal Navy Mediterranean squadron that outnumbers what Taranto left standing, in exactly the kind of open-water encounter the preservation doctrine was built to avoid.",
             },
           ],
         };
@@ -773,23 +773,23 @@
           title: "The Epirus Front",
           historicalRecord: true,
           situation:
-            "The invasion that was supposed to be finished before Athens noticed has instead produced the opposite of every planning assumption: a Greek army mobilized faster and fought harder than any prewar estimate credited, and within two weeks it is the Italian force retreating back across the Albanian frontier it started from, not the other way around. Winter in the Pindus mountains is arriving on schedule regardless of what the general staff wanted, and the choice in front of Comando Supremo now is not really about winning — that window closed in November — but about how much further the line is allowed to give before reinforcement and a defensible position stop the bleeding." +
+            "The invasion that was supposed to be finished before Athens noticed has instead produced the opposite of every planning assumption: a Greek army mobilized faster and fought harder than any prewar estimate credited, and within two weeks it is the Italian force retreating back across the Albanian frontier it started from, not the other way around. Winter in the Pindus mountains is arriving on schedule regardless of what the general staff wanted, and the choice in front of Comando Supremo now is not really about winning, that window closed in November, but about how much further the line is allowed to give before reinforcement and a defensible position stop the bleeding." +
             (flags.forkGreeceResistance
-              ? " The frontier report from October wasn't noise after all — the same firmness Albania's command flagged before a shot was fired has held for four straight months now, longer and more completely than this general staff's worst prewar case ever modeled."
+              ? " The frontier report from October wasn't noise after all: the same firmness Albania's command flagged before a shot was fired has held for four straight months now, longer and more completely than this general staff's worst prewar case ever modeled."
               : ""),
           choices: [
             {
-              label: "Commit the strategic reserve immediately — stabilize the line at any cost before it collapses further",
+              label: "Commit the strategic reserve immediately: stabilize the line at any cost before it collapses further",
               advisor: { name: "Cavallero", position: "He takes personal command in Albania because no one is left in Rome to blame this on, and every division held back now answers for the front lost without it." },
               historical: true,
               checkLabel: "Manpower",
-              disabledReason: meters.manpower <= -3 ? "no strategic reserve left to commit — it has already been spent shoring up another front" : undefined,
+              disabledReason: meters.manpower <= -3 ? "no strategic reserve left to commit: it has already been spent shoring up another front" : undefined,
               setFlags: { greeceWinter: "reserve" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "compass40",
               keyBattleSubgame: {
                 id: "epirus40",
-                title: "Order of Battle — The Pindus Winter",
+                title: "Order of Battle: The Pindus Winter",
                 flavor: "The Greek army has crossed the frontier and taken Korçë, and Comando Supremo's answer is the reserve: every division that can be shipped across the Adriatic to Valona and Durazzo is to be thrown into a front that has almost no roads and a winter coming. Cavallero has taken personal command in Albania, the Alpini of the Julia Division are in the Pindus, and the ports behind them cannot land all that the front needs. What is decided here is where the reserve goes: how much to the divisions arriving from Italy, how much to the Alpini and mountain troops who know this ground, how much to the air force flying from Albanian fields, and how much to the ports and the mountain tracks that feed all of them.",
                 categories: [
                   { id: "reserves", name: "Reserve Divisions from Italy", meter: "manpower" },
@@ -973,14 +973,14 @@
               ],
             },
             {
-              label: "Trade space for time — fall back to a shorter, more defensible line rather than feed the front piecemeal",
+              label: "Trade space for time: fall back to a shorter, more defensible line rather than feed the front piecemeal",
               advisor: { name: "Badoglio", position: "He resigned rather than keep defending a plan that was broken before it launched, and whoever holds this command now should at least stop paying for that plan's mistakes one division at a time." },
               setFlags: { greeceWinter: "withdraw" },
               favor: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "compass40",
               outcome:
-                "The historical Badoglio resigned on December 4, 1940 rather than preside over this front any further — a real act, even if it changed nothing about the men still fighting in it. A deliberate, organized withdrawal to shorter interior lines costs less blood per mile given up than the historical reserve-feeding approach did, and produces a more defensible position by the time winter fully sets in — at the price of ceding ground a propaganda ministry already struggling to explain this campaign has no good way to spin as anything but retreat.",
+                "The historical Badoglio resigned on December 4, 1940 rather than preside over this front any further: a real act, even if it changed nothing about the men still fighting in it. A deliberate, organized withdrawal to shorter interior lines costs less blood per mile given up than the historical reserve-feeding approach did, and produces a more defensible position by the time winter fully sets in: at the price of ceding ground a propaganda ministry already struggling to explain this campaign has no good way to spin as anything but retreat.",
             },
           ],
         };
@@ -993,7 +993,7 @@
           situation:
             "While Albania absorbs every headline, a British Western Desert Force roughly a third the size of the Tenth Army it is about to attack launches what its own planners initially conceived as a five-day raid against the string of fortified camps Graziani's advance stopped at back in September. There has been no serious effort to link those camps into a continuous defensive line, and the gap between them is exactly wide enough for an armored force to drive through and roll the whole position up from behind rather than through the front anyone actually fortified." +
             (flags.forkDesertGap
-              ? " Conflicting reports complicate the picture further: engineers attached to the western camps claim real, if incomplete, progress narrowing that gap, though Rome's own intelligence — already dismissing this as a five-day raid not worth the reserve — has no interest in revising its estimate on the strength of an engineer's unverified claim."
+              ? " Conflicting reports complicate the picture further: engineers attached to the western camps claim real, if incomplete, progress narrowing that gap, though Rome's own intelligence, already dismissing this as a five-day raid not worth the reserve, has no interest in revising its estimate on the strength of an engineer's unverified claim."
               : "") +
             (flags.greeceWinter === "reserve" ? keyBattleEcho("epirus40", flags) : ""),
           choices: [
@@ -1005,7 +1005,7 @@
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "germanRescue41",
               outcome:
-                "The retreat Graziani never actually ordered in time, historically — his real hesitation, waiting on a clearer picture before committing to the humiliation of giving up ground just claimed in September, is a documented part of why the historical collapse was as total as it was. An earlier, deliberate withdrawal here costs less in prisoners and equipment than the historical rout, though it still concedes essentially everything Compass was launched to take, since the operation's actual scale caught every Italian assumption about British strength equally wrong.",
+                "The retreat Graziani never actually ordered in time, historically: his real hesitation, waiting on a clearer picture before committing to the humiliation of giving up ground just claimed in September, is a documented part of why the historical collapse was as total as it was. An earlier, deliberate withdrawal here costs less in prisoners and equipment than the historical rout, though it still concedes essentially everything Compass was launched to take, since the operation's actual scale caught every Italian assumption about British strength equally wrong.",
             },
             {
               label: "Hold the fortified camps and trust the line to absorb what is assumed to be a limited raid",
@@ -1026,13 +1026,13 @@
           title: "Asking Berlin",
           historicalRecord: true,
           situation:
-            "Two fronts are collapsing at once, and neither collapse can be solved with what Comando Supremo has left to send. Greece has stabilized, barely, but only by pulling in everything the reserve could spare; Libya's western desert has no reserve left at all after Compass, and the road to Tripoli itself is now fully open if the British pursuit doesn't stop on its own. The request Rome has spent months avoiding — asking the ally it went to war partly to avoid looking dependent on for direct military rescue — is now the only option left that isn't losing both colonies and the Balkans campaign inside the same winter." +
+            "Two fronts are collapsing at once, and neither collapse can be solved with what Comando Supremo has left to send. Greece has stabilized, barely, but only by pulling in everything the reserve could spare; Libya's western desert has no reserve left at all after Compass, and the road to Tripoli itself is now fully open if the British pursuit doesn't stop on its own. The request Rome has spent months avoiding, asking the ally it went to war partly to avoid looking dependent on for direct military rescue, is now the only option left that isn't losing both colonies and the Balkans campaign inside the same winter." +
             (flags.forkDesertGap
-              ? " The engineers' claim about the gap west of Sidi Barrani, whatever it was actually worth, is academic now — the position it described is gone along with the army that held it, and no amount of partial linkage would have mattered against a defeat this total."
+              ? " The engineers' claim about the gap west of Sidi Barrani, whatever it was actually worth, is academic now: the position it described is gone along with the army that held it, and no amount of partial linkage would have mattered against a defeat this total."
               : ""),
           choices: [
             {
-              label: "Request German intervention in both theaters — Libya and Greece, whatever the political cost",
+              label: "Request German intervention in both theaters: Libya and Greece, whatever the political cost",
               advisor: { name: "Mussolini", position: "He would rather owe Hitler an army than owe history the loss of Libya, so the request goes, since pride is a luxury item he cannot afford this month." },
               historical: true,
               setFlags: { germanRescue: "both", trust: (flags.trust || 0) + (1) },
@@ -1040,10 +1040,10 @@
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "matapan41",
               outcome:
-                "What happened: a German expeditionary force under Erwin Rommel begins landing at Tripoli in February 1941, and the Twelfth Army moves into Greece and Yugoslavia in April to finish what the Italian invasion couldn't. Both interventions work, militarily — Rommel's Afrika Korps recaptures most of Cyrenaica within weeks, and the Balkans campaign is over in three weeks flat once German mechanized forces are actually committed. What they cost is any pretense that this remains an independent Italian war rather than a theater increasingly run at Berlin's convenience, on Berlin's timetable, with Italian formations answering to it.",
+                "What happened: a German expeditionary force under Erwin Rommel begins landing at Tripoli in February 1941, and the Twelfth Army moves into Greece and Yugoslavia in April to finish what the Italian invasion couldn't. Both interventions work, militarily: Rommel's Afrika Korps recaptures most of Cyrenaica within weeks, and the Balkans campaign is over in three weeks flat once German mechanized forces are actually committed. What they cost is any pretense that this remains an independent Italian war rather than a theater increasingly run at Berlin's convenience, on Berlin's timetable, with Italian formations answering to it.",
             },
             {
-              label: "Request Libya rescue only — hold Greece with what remains of the Italian reserve alone",
+              label: "Request Libya rescue only: hold Greece with what remains of the Italian reserve alone",
               advisor: { name: "Cavallero", position: "Asking for everything brings German terms attached to everything, while asking for Libya only leaves Greece a campaign Italy can still say it finished itself, if the line he is holding actually finishes it." },
               setFlags: { germanRescue: "libyaOnly", trust: (flags.trust || 0) + (-1) },
               trustDelta: -1,
@@ -1062,10 +1062,10 @@
           title: "Cape Matapan",
           historicalRecord: true,
           situation:
-            "A sortie meant to intercept British convoys running troops to Greece has instead run straight into a Royal Navy force that, unknown to the fleet staff, is reading Italian naval codes and knows the sortie's course before it sails. By the time contact is made, the battleship Vittorio Veneto has already taken a torpedo hit from carrier aircraft and the fleet is turning for home — but not before a night action neither side's surface radar and gunnery doctrine are evenly matched to fight decides the rest of it in minutes rather than hours.",
+            "A sortie meant to intercept British convoys running troops to Greece has instead run straight into a Royal Navy force that, unknown to the fleet staff, is reading Italian naval codes and knows the sortie's course before it sails. By the time contact is made, the battleship Vittorio Veneto has already taken a torpedo hit from carrier aircraft and the fleet is turning for home, but not before a night action neither side's surface radar and gunnery doctrine are evenly matched to fight decides the rest of it in minutes rather than hours.",
           choices: [
             {
-              label: "Break off and run for home the moment Vittorio Veneto is hit — preserve what's left of the sortie force",
+              label: "Break off and run for home the moment Vittorio Veneto is hit: preserve what's left of the sortie force",
               advisor: { name: "Iachino", position: "The flagship is damaged and the enemy has a night-fighting advantage the doctrine was never built to match, and the rest of the fleet will not be spent finding that out in the dark." },
               historical: true,
               setFlags: { matapan41: "withdraw" },
@@ -1073,7 +1073,7 @@
               next: "yugoslaviaBalkans41",
               keyBattleSubgame: {
                 id: "matapan41",
-                title: "Order of Battle — Cape Matapan",
+                title: "Order of Battle: Cape Matapan",
                 flavor: "The fleet is at sea without radar and with little help from the air, and the British are reading its signals. The first battle is fought from the air, by carrier aircraft that will attack through the day; the second will come in the dark, if the fleet can be brought home without it. What is decided here is how the sortie's strength is weighed: how much into the battle fleet and Vittorio Veneto, how much into the cruiser divisions that screen it, how much into the air cover and reconnaissance the fleet can get, and how much into the signals and night-fighting practice that a navy which never planned to fight in the dark has never had.",
                 categories: [
                   { id: "battle", name: "The Battle Fleet", meter: "fuel", strand: "oil" },
@@ -1259,18 +1259,18 @@
                   setFlags: { matapan41Result: "night" },
                   impact: { manpower: 0, fuel: -1, initiative: -1 },
                   outcome:
-                    "What actually happened, and it was still a disaster despite the caution: three heavy cruisers and two destroyers, detached to escort the damaged Vittorio Veneto home, are caught by British ships using radar in the dark — a technology Italian doctrine hadn't trained against — and sunk in under an hour with the loss of over 2,300 sailors. The battle fleet itself survives to fight again, but Matapan effectively ends major Italian surface operations against the Royal Navy's battle line for the rest of the war.",
+                    "What actually happened, and it was still a disaster despite the caution: three heavy cruisers and two destroyers, detached to escort the damaged Vittorio Veneto home, are caught by British ships using radar in the dark, a technology Italian doctrine hadn't trained against, and sunk in under an hour with the loss of over 2,300 sailors. The battle fleet itself survives to fight again, but Matapan effectively ends major Italian surface operations against the Royal Navy's battle line for the rest of the war.",
                 },
               ],
             },
             {
-              label: "Press the sortie's original objective — the convoy interception mission still stands",
+              label: "Press the sortie's original objective: the convoy interception mission still stands",
               advisor: { name: "Iachino", position: "The fleet came out to find that convoy and not to nurse a damaged battleship home at the first setback, and abandoning the mission now wastes the exposure already accepted for nothing." },
               setFlags: { matapan41: "press" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "yugoslaviaBalkans41",
               outcome:
-                "Pressing on with a damaged flagship and a night-fighting deficiency the fleet doesn't yet know it has invites a worse version of the same night action — the cruiser force that historically detached to escort Vittorio Veneto home is, on this path, still screening an active sortie when the British radar-equipped force finds it, and the losses run higher than the historical night's already severe toll. The convoy the sortie was launched to intercept is never found either way.",
+                "Pressing on with a damaged flagship and a night-fighting deficiency the fleet doesn't yet know it has invites a worse version of the same night action: the cruiser force that historically detached to escort Vittorio Veneto home is, on this path, still screening an active sortie when the British radar-equipped force finds it, and the losses run higher than the historical night's already severe toll. The convoy the sortie was launched to intercept is never found either way.",
             },
           ],
         };
@@ -1281,13 +1281,13 @@
           title: "The Balkans, Divided",
           historicalRecord: true,
           situation:
-            "German mechanized divisions do in eleven days what the Italian army alone could not do to Greece in five months: Yugoslavia is overrun and Greece's mainland army surrenders by the end of April, and Italy's own contribution to a campaign it originally started is now a supporting role in someone else's rapid, overwhelming victory. What remains for Rome to decide is not whether the Balkans fall — that outcome is already settled by German timetables — but how large a piece of the resulting occupation and annexation map Italy actually claims for itself." +
+            "German mechanized divisions do in eleven days what the Italian army alone could not do to Greece in five months: Yugoslavia is overrun and Greece's mainland army surrenders by the end of April, and Italy's own contribution to a campaign it originally started is now a supporting role in someone else's rapid, overwhelming victory. What remains for Rome to decide is not whether the Balkans fall, that outcome is already settled by German timetables, but how large a piece of the resulting occupation and annexation map Italy actually claims for itself." +
             (flags.matapan41 === "withdraw"
               ? (flags.matapan41Result === "home" ? " The fleet's cruisers came home from Matapan, which is more than anyone in Rome had expected." : "") + keyBattleEcho("matapan41", flags)
               : ""),
           choices: [
             {
-              label: "Claim the maximum annexation — Dalmatia, Montenegro, and a large Greek occupation zone",
+              label: "Claim the maximum annexation: Dalmatia, Montenegro, and a large Greek occupation zone",
               advisor: { name: "Ciano", position: "Berlin is drawing this map quickly, and whatever is not claimed this month will not be offered again, so ask for everything defensible and let the argument happen at the table and not after it." },
               historical: true,
               setFlags: { balkansAnnex: "maximum", trust: (flags.trust || 0) + (-1) },
@@ -1295,10 +1295,10 @@
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "eastAfrica41",
               outcome:
-                "Roughly what actually happened: Italy annexes Dalmatia outright, installs a protectorate over Montenegro, and takes occupation responsibility for a substantial share of mainland Greece and the Ionian Islands. The territory looks impressive on the map the propaganda ministry prints — what it actually is, within months, is a garrison commitment against a Yugoslav resistance movement that will tie down more divisions than the annexation was ever worth, in a foretaste of exactly the occupation-versus-partisan arithmetic the whole war keeps returning to.",
+                "Roughly what actually happened: Italy annexes Dalmatia outright, installs a protectorate over Montenegro, and takes occupation responsibility for a substantial share of mainland Greece and the Ionian Islands. The territory looks impressive on the map the propaganda ministry prints: what it actually is, within months, is a garrison commitment against a Yugoslav resistance movement that will tie down more divisions than the annexation was ever worth, in a foretaste of exactly the occupation-versus-partisan arithmetic the whole war keeps returning to.",
             },
             {
-              label: "Claim a smaller, more defensible zone — fewer garrison obligations, less occupied territory to hold",
+              label: "Claim a smaller, more defensible zone: fewer garrison obligations, less occupied territory to hold",
               advisor: { name: "Bastico", position: "Every kilometer of occupied coastline needs a garrison the North African front does not have spare, and it is better to hold less and actually hold it." },
               setFlags: { balkansAnnex: "limited", trust: (flags.trust || 0) + (1) },
               trustDelta: 1,
@@ -1306,7 +1306,7 @@
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "eastAfrica41",
               outcome:
-                "A smaller occupation footprint costs Rome standing at the table — Ciano's read on how these things get divided when Berlin is setting the pace turns out to be correct, and a share of the annexation goes to German or Ustaše administration instead. What it buys is fewer divisions tied down chasing an insurgency across mountainous coastline over the following two years, freeing at least some of that manpower for the theater that will actually need it.",
+                "A smaller occupation footprint costs Rome standing at the table: Ciano's read on how these things get divided when Berlin is setting the pace turns out to be correct, and a share of the annexation goes to German or Ustaše administration instead. What it buys is fewer divisions tied down chasing an insurgency across mountainous coastline over the following two years, freeing at least some of that manpower for the theater that will actually need it.",
             },
           ],
         };
@@ -1317,9 +1317,9 @@
           title: "The Fall of Italian East Africa",
           historicalRecord: true,
           situation:
-            "Cut off from resupply since Italy entered the war, outnumbered several times over by Commonwealth forces advancing from Kenya, Sudan, and British Somaliland at once, Italian East Africa's colonial empire — Ethiopia, Eritrea, Italian Somaliland, five years after the conquest that made Mussolini's imperial reputation — has been shrinking for months toward its last defensible position: Amba Alagi, a mountain fortress the Duke of Aosta's remaining garrison has held past the point any relief could plausibly reach it. The question left is not whether the empire falls — every supply line to it has been severed since June 1940 — but on what terms the men holding out at Amba Alagi surrender, and what, if anything, is worth doing with the guerrilla option some officers are proposing instead." +
+            "Cut off from resupply since Italy entered the war, outnumbered several times over by Commonwealth forces advancing from Kenya, Sudan, and British Somaliland at once, Italian East Africa's colonial empire (Ethiopia, Eritrea, Italian Somaliland, five years after the conquest that made Mussolini's imperial reputation) has been shrinking for months toward its last defensible position: Amba Alagi, a mountain fortress the Duke of Aosta's remaining garrison has held past the point any relief could plausibly reach it. The question left is not whether the empire falls, every supply line to it has been severed since June 1940, but on what terms the men holding out at Amba Alagi surrender, and what, if anything, is worth doing with the guerrilla option some officers are proposing instead." +
             (flags.forkEastAfricaSlow
-              ? " The converging Commonwealth columns are, by every report reaching this desk, behind their own schedule — supply trouble across Kenya and Sudan, apparently, though nobody here can confirm why. Amba Alagi's position hasn't changed. What might be worth doing with the extra time is a genuinely open question."
+              ? " The converging Commonwealth columns are, by every report reaching this desk, behind their own schedule: supply trouble across Kenya and Sudan, apparently, though nobody here can confirm why. Amba Alagi's position hasn't changed. What might be worth doing with the extra time is a genuinely open question."
               : ""),
           choices: [
             {
@@ -1330,7 +1330,7 @@
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "convoyWarMalta41",
               outcome:
-                "What happened: Amba Alagi surrenders on May 19, 1941, after a defense the British commander accepting it publicly praised, and the Duke of Aosta is granted the formal honors of war — allowed to keep his sword — in recognition of a stand that outlasted every reasonable estimate of how long it could hold. Italy's colonial empire, conquered in 1936, is entirely gone within a year of the wider war reaching it, and the Duke himself dies in British captivity in Kenya the following March, of tuberculosis and exhaustion.",
+                "What happened: Amba Alagi surrenders on May 19, 1941, after a defense the British commander accepting it publicly praised, and the Duke of Aosta is granted the formal honors of war, allowed to keep his sword, in recognition of a stand that outlasted every reasonable estimate of how long it could hold. Italy's colonial empire, conquered in 1936, is entirely gone within a year of the wider war reaching it, and the Duke himself dies in British captivity in Kenya the following March, of tuberculosis and exhaustion.",
             },
             {
               label: "Order remaining forces to scatter and fight on as guerrillas rather than surrender the position",
@@ -1355,7 +1355,7 @@
                 },
                 {
                   weight: 100 - (modWeight(35, meters.initiative) + (flags.forkEastAfricaSlow ? 20 : 0)),
-                  title: "Scattered rather than organized — the highlands absorb men, not divisions",
+                  title: "Scattered rather than organized: the highlands absorb men, not divisions",
                   setFlags: { eastAfricaGuerrilla: "fizzle" },
                   impact: { manpower: -2, fuel: 0, initiative: 0 },
                   outcome:
@@ -1373,16 +1373,16 @@
           historicalRecord: true,
           situation:
             (flags.malta40 === "fell"
-              ? "Malta itself is not this planning season's question — the island fell to the 1940 invasion and has been an Italian garrison and forward base for a year now. Every division Rommel and the Italian formations alongside him need in Libya crosses a sea that base, not a hostile one, now sits astride, and the convoy losses that once ran as high as a third of everything shipped have fallen with it. What is still live is what a year of holding a captured island, rather than merely reducing one, is actually for."
-              : "Every division Rommel and the Italian formations alongside him need in Libya has to cross a sea Malta sits in the middle of, within easy range of British air and submarine forces the island keeps supplied and rearmed specifically to interdict that traffic. The convoy losses are already running high enough that fuel and equipment reaching North Africa some months amounts to barely half of what was actually shipped — the question facing Comando Supremo's planning staff is where the finite escort and air resources available get spent: protecting the convoys directly, or finally committing to the Malta invasion — Operation Hercules, on the planning table since 1940 and never yet ordered — that would remove the problem at its source.") +
+              ? "Malta itself is not this planning season's question: the island fell to the 1940 invasion and has been an Italian garrison and forward base for a year now. Every division Rommel and the Italian formations alongside him need in Libya crosses a sea that base, not a hostile one, now sits astride, and the convoy losses that once ran as high as a third of everything shipped have fallen with it. What is still live is what a year of holding a captured island, rather than merely reducing one, is actually for."
+              : "Every division Rommel and the Italian formations alongside him need in Libya has to cross a sea Malta sits in the middle of, within easy range of British air and submarine forces the island keeps supplied and rearmed specifically to interdict that traffic. The convoy losses are already running high enough that fuel and equipment reaching North Africa some months amounts to barely half of what was actually shipped: the question facing Comando Supremo's planning staff is where the finite escort and air resources available get spent: protecting the convoys directly, or finally committing to the Malta invasion (Operation Hercules, on the planning table since 1940 and never yet ordered) that would remove the problem at its source.") +
             (flags.malta40 === "held"
-              ? " This is the same argument this staff already had in 1940 — the attempted invasion that autumn was thrown back, and a year of hardening on the island since is the cost of a gamble that didn't pay off."
+              ? " This is the same argument this staff already had in 1940: the attempted invasion that autumn was thrown back, and a year of hardening on the island since is the cost of a gamble that didn't pay off."
               : flags.medStrategy === "egypt"
-              ? " Egypt was named the priority back in 1940, over this exact island — a choice this month's convoy losses are the running bill for."
+              ? " Egypt was named the priority back in 1940, over this exact island: a choice this month's convoy losses are the running bill for."
               : "") +
             (flags.eastAfrica === "guerrilla" ? (flags.eastAfricaGuerrilla === "traction" ? " Italian East Africa's last defenders are still tying down a Commonwealth garrison commitment in the highlands, a fact this planning has to account for even if only at the margins." : " Italian East Africa's last defenders scattered into the highlands rather than surrender outright, a decision this planning doesn't need to account for one way or the other.") : " Italian East Africa's last defenders have already surrendered on terms, the empire entirely gone before this season's Mediterranean planning even begins.") +
             (flags.forkMaltaWeak
-              ? " Convoy losses this month are, unusually, running below every recent estimate — escort commanders report unusually light interference from the island's air and submarine forces, though naval staff aren't yet prepared to call it durable."
+              ? " Convoy losses this month are, unusually, running below every recent estimate: escort commanders report unusually light interference from the island's air and submarine forces, though naval staff aren't yet prepared to call it durable."
               : "") +
             (flags.forkFleetFast
               ? " The battle line Taranto crippled is back in service faster than the historical repair schedule ever managed, and the extra hulls available for escort duty are one more reason this quarter's convoy numbers look better than the historical record."
@@ -1393,7 +1393,7 @@
           choices: [
             {
               label: flags.malta40 === "fell"
-                ? "Route the freed-up escort resources into the Libya convoys directly — press the advantage"
+                ? "Route the freed-up escort resources into the Libya convoys directly: press the advantage"
                 : "Commit air and naval resources to direct convoy escort rather than the Malta invasion",
               advisor: flags.malta40 === "fell"
                 ? { name: "Iachino", position: "A fleet was spent taking that island, and spending nothing on what it bought would be the stranger decision." }
@@ -1403,13 +1403,13 @@
               impact: { manpower: 0, fuel: 1, initiative: 0 },
               next: flags.malta40 === "fell" ? "maltaRetake41" : "rommelAdvance41",
               outcome: flags.malta40 === "fell"
-                ? "With Malta already Italian, this is simply the dividend of the 1940 gamble collected in full: escort losses that a year ago ran as high as a third of everything shipped are, with the island's air and submarine forces no longer contesting the route, a fraction of that — Rommel's army fights this season better supplied than at any point in the historical campaign."
-                : "The choice that was, in effect, made by default historically — Hercules was planned, argued over, and repeatedly deferred until the strategic moment for it had passed, while escort commitments absorbed whatever resources were actually available. Convoy losses stay severe but Libya-bound tonnage improves somewhat over the campaign's worst months, at the cost of Malta remaining exactly the persistent, self-renewing problem this choice was meant to manage rather than solve.",
+                ? "With Malta already Italian, this is simply the dividend of the 1940 gamble collected in full: escort losses that a year ago ran as high as a third of everything shipped are, with the island's air and submarine forces no longer contesting the route, a fraction of that: Rommel's army fights this season better supplied than at any point in the historical campaign."
+                : "The choice that was, in effect, made by default historically: Hercules was planned, argued over, and repeatedly deferred until the strategic moment for it had passed, while escort commitments absorbed whatever resources were actually available. Convoy losses stay severe but Libya-bound tonnage improves somewhat over the campaign's worst months, at the cost of Malta remaining exactly the persistent, self-renewing problem this choice was meant to manage rather than solve.",
             },
             {
               label: flags.malta40 === "fell"
                 ? "Garrison and fortify Malta against a British attempt to retake it, rather than banking on the convoy gains alone"
-                : "Push to finally execute the Malta invasion — remove the base rather than keep escorting around it",
+                : "Push to finally execute the Malta invasion: remove the base rather than keep escorting around it",
               advisor: flags.malta40 === "fell"
                 ? { name: "Cavallero", position: "Malta is held because it was taken when weak, the Royal Navy has spent a year deciding whether taking it back is worth the fleet action, and it is better not to be unready when it decides." }
                 : { name: "Cavallero", position: "Hercules has been planned for a year and nothing executed, every month of delay strengthens the island's air defenses and raises the cost, and if it is ever to work it must be now." },
@@ -1418,7 +1418,7 @@
               next: flags.malta40 === "fell" ? "maltaRetake41" : "herculesExecution41",
               outcome: flags.malta40 === "fell"
                 ? "A real commitment of manpower and material to a garrison and fortification effort the historical war never had reason to build, because the historical war never held the island this long. What it buys is insurance against the one thing that could undo 1940's gamble a year later: a Royal Navy and RAF effort to take the island back outright, rather than merely raid around it."
-                : "The operation historians have argued about ever since — Hercules required German airborne forces, landing craft, and air cover Italy could not generate alone, and every serious postwar wargame of the plan splits on whether it would have succeeded even fully resourced, given Malta's defenses and the British fleet still able to contest the crossing. Attempting it here draws resources directly away from Rommel's own offensive timetable in the same season, a trade the North African front will notice regardless of how the invasion itself turns out.",
+                : "The operation historians have argued about ever since: Hercules required German airborne forces, landing craft, and air cover Italy could not generate alone, and every serious postwar wargame of the plan splits on whether it would have succeeded even fully resourced, given Malta's defenses and the British fleet still able to contest the crossing. Attempting it here draws resources directly away from Rommel's own offensive timetable in the same season, a trade the North African front will notice regardless of how the invasion itself turns out.",
             },
           ],
         };
@@ -1429,13 +1429,13 @@
           title: "The Plan Without the Parts It Needs",
           historicalRecord: false,
           situation:
-            "Authorization is not the same thing as an army. Comando Supremo's own planning staff, ordered to turn Hercules from a paper option into a landing date, runs immediately into the arithmetic the operation has never actually solved: a Malta assault needs a parachute and glider lift considerably larger than anything the Regia Aeronautica can generate on its own, landing craft the navy has never built in the numbers required, and air cover to suppress an island garrison that has spent a year hardening exactly against this. Berlin's own airborne assets and transport aircraft — the pieces that make the plan theoretically workable — are, this autumn, entirely committed to an eastern campaign that has just reached the gates of Moscow, with nothing to spare for a Mediterranean island regardless of what Rome has authorized on its own initiative." +
+            "Authorization is not the same thing as an army. Comando Supremo's own planning staff, ordered to turn Hercules from a paper option into a landing date, runs immediately into the arithmetic the operation has never actually solved: a Malta assault needs a parachute and glider lift considerably larger than anything the Regia Aeronautica can generate on its own, landing craft the navy has never built in the numbers required, and air cover to suppress an island garrison that has spent a year hardening exactly against this. Berlin's own airborne assets and transport aircraft, the pieces that make the plan theoretically workable, are, this autumn, entirely committed to an eastern campaign that has just reached the gates of Moscow, with nothing to spare for a Mediterranean island regardless of what Rome has authorized on its own initiative." +
             (flags.forkMaltaWeak
-              ? " Whatever eased the convoy losses a season ago hasn't changed this arithmetic in the slightest — Hercules still needs an army it doesn't have, regardless of how the shipping numbers looked at the time."
+              ? " Whatever eased the convoy losses a season ago hasn't changed this arithmetic in the slightest: Hercules still needs an army it doesn't have, regardless of how the shipping numbers looked at the time."
               : ""),
           choices: [
             {
-              label: "Launch with Italian assets alone — a scaled-down assault rather than no assault at all",
+              label: "Launch with Italian assets alone: a scaled-down assault rather than no assault at all",
               advisor: { name: "Cavallero", position: "Authorization was asked for and received, and he will not return to the Palazzo Venezia to explain that authorization without German transport aircraft was never a plan, so scale it to what exists and go." },
               checkLabel: "Matériel",
               disabledReason: (meters.fuel || 0) <= -3 ? "insufficient fuel and shipping left to mount an amphibious-airborne assault of any size this season" : undefined,
@@ -1443,7 +1443,7 @@
               impact: { manpower: -2, fuel: -2, initiative: 0 },
               next: "rommelAdvance41",
               outcome:
-                "A scaled-down Hercules, run without the German lift the original plan assumed, is close to the worst version of the wargame's own pessimistic branch — an undersized airborne element against a garrison hardened for exactly this scenario, and a naval escort exposed to a Royal Navy and RAF Malta hasn't stopped resupplying all year. What was attempted here at real cost in men and shipping was, in the actual historical planning record, precisely the version Italian staff officers themselves argued against. This run gets to find out firsthand rather than read the postwar verdict.",
+                "A scaled-down Hercules, run without the German lift the original plan assumed, is close to the worst version of the wargame's own pessimistic branch: an undersized airborne element against a garrison hardened for exactly this scenario, and a naval escort exposed to a Royal Navy and RAF Malta hasn't stopped resupplying all year. What was attempted here at real cost in men and shipping was, in the actual historical planning record, precisely the version Italian staff officers themselves argued against. This run gets to find out firsthand rather than read the postwar verdict.",
               uncertain: [
                 {
                   weight: modWeight(25, meters.fuel),
@@ -1452,27 +1452,27 @@
                   impact: { manpower: -2, fuel: 1, initiative: 1 },
                   next: "maltaRetake41",
                   outcome:
-                    "The wargame's own pessimistic consensus turns out not to be destiny: the undersized lift and a garrison spread thinner than the year's hardening suggested combine into a result the postwar analysts who studied this exact scenario mostly didn't credit — Malta falls to an assault fully half the historical Herkules plan's own minimum requirement. The convoy war to Libya transforms overnight, at a paratrooper and landing-craft cost this scaled-down force feels considerably more than the joint German-Italian version would have.",
+                    "The wargame's own pessimistic consensus turns out not to be destiny: the undersized lift and a garrison spread thinner than the year's hardening suggested combine into a result the postwar analysts who studied this exact scenario mostly didn't credit: Malta falls to an assault fully half the historical Herkules plan's own minimum requirement. The convoy war to Libya transforms overnight, at a paratrooper and landing-craft cost this scaled-down force feels considerably more than the joint German-Italian version would have.",
                 },
                 {
                   weight: 100 - modWeight(25, meters.fuel),
-                  title: "The estimate holds — the island doesn't fall",
+                  title: "The estimate holds: the island doesn't fall",
                   setFlags: { herculesResult: "held" },
                   impact: { manpower: -2, fuel: -2, initiative: -1 },
                   outcome:
-                    "The likelier and, on the numbers alone, always the more probable outcome: an undersized airborne element with no realistic prospect of overwhelming a garrison hardened for exactly this scenario, thrown back at a cost in men and shipping that buys nothing strategically. Malta's garrison spends the aftermath exactly as it spent every other reprieve this war offered it — hardening further, and continuing to cost the Africa-bound convoys everything the escort-first choice was always going to cost them regardless.",
+                    "The likelier and, on the numbers alone, always the more probable outcome: an undersized airborne element with no realistic prospect of overwhelming a garrison hardened for exactly this scenario, thrown back at a cost in men and shipping that buys nothing strategically. Malta's garrison spends the aftermath exactly as it spent every other reprieve this war offered it: hardening further, and continuing to cost the Africa-bound convoys everything the escort-first choice was always going to cost them regardless.",
                 },
               ],
             },
             {
-              label: "Stand the operation down again — wait on German assets that Barbarossa's winter may never release",
+              label: "Stand the operation down again: wait on German assets that Barbarossa's winter may never release",
               advisor: { name: "Bastico", position: "An authorization from Rome does not conjure transport aircraft needed this month at a front the whole war may turn on, and he would rather admit the operation is not yet real than spend men proving it." },
               setFlags: { herculesExecution41: "stand down" },
               favor: 1,
               impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "rommelAdvance41",
               outcome:
-                "The honest, if deflating, answer: Hercules stands down for a second time, for the same reason it stood down the first — the plan was never actually Italy's to execute alone, and the ally whose assets it depends on has its own, larger war absorbing every spare transport aircraft and glider this particular autumn. Malta's garrison spends the reprieve exactly as it spent every other one this war offered it: hardening further, and continuing to cost the Africa-bound convoys everything the escort-first choice was ever going to cost them regardless.",
+                "The honest, if deflating, answer: Hercules stands down for a second time, for the same reason it stood down the first: the plan was never actually Italy's to execute alone, and the ally whose assets it depends on has its own, larger war absorbing every spare transport aircraft and glider this particular autumn. Malta's garrison spends the reprieve exactly as it spent every other one this war offered it: hardening further, and continuing to cost the Africa-bound convoys everything the escort-first choice was ever going to cost them regardless.",
             },
           ],
         };
@@ -1483,16 +1483,16 @@
           title: "The Island Britain Won't Write Off",
           historicalRecord: false,
           situation:
-            "The scale of what the documented war record shows Britain actually spending to keep Malta merely supplied — never mind holding it outright — is the baseline this command's own intelligence staff keeps returning to: Pedestal-scale relief convoys run at appalling cost, entire submarine flotillas and fighter squadrons committed to one island, a George Cross awarded to its population for enduring a siege the Admiralty never seriously considered simply conceding. That was the response to a Malta merely being starved. A Malta actually lost is, by every reading this staff can produce, a different order of British problem entirely — and Force H, the Mediterranean Fleet, and whatever carrier air power London can free up are the obvious instruments of getting it back." +
+            "The scale of what the documented war record shows Britain actually spending to keep Malta merely supplied, never mind holding it outright, is the baseline this command's own intelligence staff keeps returning to: Pedestal-scale relief convoys run at appalling cost, entire submarine flotillas and fighter squadrons committed to one island, a George Cross awarded to its population for enduring a siege the Admiralty never seriously considered simply conceding. That was the response to a Malta merely being starved. A Malta actually lost is, by every reading this staff can produce, a different order of British problem entirely, and Force H, the Mediterranean Fleet, and whatever carrier air power London can free up are the obvious instruments of getting it back." +
             (flags.maltaQuestion === "garrison"
-              ? " A year of deliberate fortification — the choice made when this staff first took the island — means the defenses being tested now are not the ones Britain's own planners would have assumed when they last held it."
+              ? " A year of deliberate fortification, the choice made when this staff first took the island, means the defenses being tested now are not the ones Britain's own planners would have assumed when they last held it."
               : flags.maltaQuestion === "escort"
-              ? " The defenses now being tested are close to whatever was captured intact in 1940 — this command spent the intervening year on the convoy war instead of the garrison, and that choice is about to be billed."
+              ? " The defenses now being tested are close to whatever was captured intact in 1940: this command spent the intervening year on the convoy war instead of the garrison, and that choice is about to be billed."
               : "") +
             " The question is not whether Britain tries. It is how much of this command's own fleet and air strength gets committed to making sure the attempt fails.",
           choices: [
             {
-              label: "Reinforce the garrison and air defenses now, at the fleet's continued expense — hold what was taken",
+              label: "Reinforce the garrison and air defenses now, at the fleet's continued expense: hold what was taken",
               advisor: { name: "Iachino", position: "A fleet was spent taking that island once already, and spending less than everything to keep it would make the first expenditure the pointless one." },
               setFlags: { maltaDefense41: "reinforce" },
               impact: { manpower: -1, fuel: -2, initiative: 1 },
@@ -1505,11 +1505,11 @@
                     68 + (flags.maltaQuestion === "garrison" ? 10 : flags.maltaQuestion === "escort" ? -10 : 0) + (flags.malta40 === "fell" ? 5 : 0),
                     meters.initiative
                   ),
-                  title: "The defense holds — Malta stays Italian",
+                  title: "The defense holds: Malta stays Italian",
                   setFlags: { maltaRetaken: false },
                   impact: { manpower: -1, fuel: -1, initiative: 1 },
                   outcome:
-                    "Whatever Britain commits to this — and the documented pattern of effort spent on a Malta it never even lost suggests it is substantial — the reinforced defenses hold. The convoy war to Libya stays rewritten in Rome's favor, and this command has now twice done what the historical war never once required of it: taken the island, and then kept it.",
+                    "Whatever Britain commits to this, and the documented pattern of effort spent on a Malta it never even lost suggests it is substantial, the reinforced defenses hold. The convoy war to Libya stays rewritten in Rome's favor, and this command has now twice done what the historical war never once required of it: taken the island, and then kept it.",
                 },
                 {
                   weight: 100 - modWeight(
@@ -1520,12 +1520,12 @@
                   setFlags: { maltaRetaken: true },
                   impact: { manpower: -2, fuel: -2, initiative: -1 },
                   outcome:
-                    "The documented war's own verdict on how much Britain will spend to control this particular island reasserts itself: a combined Force H and Mediterranean Fleet operation, backed by carrier air power this command's own reinforcements can't match, retakes Malta in a hard-fought amphibious and naval campaign. Everything the 1940 gamble bought is spent retrieving it back for Britain — the convoy war to Libya reverts to the same submarine- and air-harassed arithmetic the historical campaign never escaped, on a supply line now additionally strained by whatever this defense cost outright.",
+                    "The documented war's own verdict on how much Britain will spend to control this particular island reasserts itself: a combined Force H and Mediterranean Fleet operation, backed by carrier air power this command's own reinforcements can't match, retakes Malta in a hard-fought amphibious and naval campaign. Everything the 1940 gamble bought is spent retrieving it back for Britain: the convoy war to Libya reverts to the same submarine- and air-harassed arithmetic the historical campaign never escaped, on a supply line now additionally strained by whatever this defense cost outright.",
                 },
               ],
             },
             {
-              label: "Hold the line with what's already there — the desert war needs the fleet and air assets more than Malta does",
+              label: "Hold the line with what's already there: the desert war needs the fleet and air assets more than Malta does",
               advisor: { name: "Bastico", position: "Every squadron kept over Malta is one not covering Rommel's convoys, and he would rather risk the island than guarantee the desert front starves waiting for a British attack that may not come this season." },
               setFlags: { maltaDefense41: "minimal" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -1542,7 +1542,7 @@
                   setFlags: { maltaRetaken: false },
                   impact: { manpower: -1, fuel: 0, initiative: 0 },
                   outcome:
-                    "The minimal-investment bet pays off, against a real risk this staff knew it was running: whatever was already on the island in 1940 or 1941 proves enough, this time, to see off a British effort that — by every reading of how much London historically spent chasing far smaller Mediterranean objectives — was unlikely to be a token one.",
+                    "The minimal-investment bet pays off, against a real risk this staff knew it was running: whatever was already on the island in 1940 or 1941 proves enough, this time, to see off a British effort that, by every reading of how much London historically spent chasing far smaller Mediterranean objectives, was unlikely to be a token one.",
                 },
                 {
                   weight: 100 - modWeight(
@@ -1553,7 +1553,7 @@
                   setFlags: { maltaRetaken: true },
                   impact: { manpower: -1, fuel: -1, initiative: -1 },
                   outcome:
-                    "The cheaper bet fails the way the odds always said it might: a garrison never reinforced past what 1940 or 1941 originally left there gives a determined Force H and Mediterranean Fleet operation exactly the opening the documented British commitment to this island suggests it would take. Malta reverts to Britain, and the desert war's convoy arithmetic reverts with it — the fleet and fuel saved by not reinforcing the island are, in the event, saved for nothing this command can still spend.",
+                    "The cheaper bet fails the way the odds always said it might: a garrison never reinforced past what 1940 or 1941 originally left there gives a determined Force H and Mediterranean Fleet operation exactly the opening the documented British commitment to this island suggests it would take. Malta reverts to Britain, and the desert war's convoy arithmetic reverts with it: the fleet and fuel saved by not reinforcing the island are, in the event, saved for nothing this command can still spend.",
                 },
               ],
             },
@@ -1566,13 +1566,13 @@
           title: "Command in the Desert",
           historicalRecord: true,
           situation:
-            "The British Crusader offensive in November has pushed Rommel's combined German-Italian force back out of Cyrenaica just as decisively as Compass did a year earlier — and just as quickly, a resupplied and reorganized Axis force under Rommel counterattacks in January and retakes most of the same ground again, a seesaw that has now happened twice in thirteen months. What sits underneath the territorial back-and-forth is a command relationship that has never been cleanly settled: Rommel, technically subordinate to Italian theater command under Bastico, in practice makes operational decisions on his own initiative and informs Rome or Bastico's headquarters after the fact more often than before it." +
+            "The British Crusader offensive in November has pushed Rommel's combined German-Italian force back out of Cyrenaica just as decisively as Compass did a year earlier, and just as quickly, a resupplied and reorganized Axis force under Rommel counterattacks in January and retakes most of the same ground again, a seesaw that has now happened twice in thirteen months. What sits underneath the territorial back-and-forth is a command relationship that has never been cleanly settled: Rommel, technically subordinate to Italian theater command under Bastico, in practice makes operational decisions on his own initiative and informs Rome or Bastico's headquarters after the fact more often than before it." +
             (flags.forkEastAfricaSlow
-              ? " One quiet side effect of East Africa's longer holdout is on this desk too — the Commonwealth divisions it kept occupied through the autumn are, by every order-of-battle estimate Comando Supremo can get its hands on, still not among the reinforcements this front has had to face this round."
+              ? " One quiet side effect of East Africa's longer holdout is on this desk too: the Commonwealth divisions it kept occupied through the autumn are, by every order-of-battle estimate Comando Supremo can get its hands on, still not among the reinforcements this front has had to face this round."
               : ""),
           choices: [
             {
-              label: "Assert Italian operational authority — require Rommel to clear major offensives through Comando Supremo first",
+              label: "Assert Italian operational authority: require Rommel to clear major offensives through Comando Supremo first",
               advisor: { name: "Bastico", position: "He is the theater commander of record and learned of this counterattack's exact date from Rommel's dispatches and not by being consulted, and that arrangement ends or his command here is a formality." },
               setFlags: { desertCommand: "assert", trust: (flags.trust || 0) + (-1) },
               trustDelta: -1,
@@ -1580,10 +1580,10 @@
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "tobruk42",
               outcome:
-                "A genuine assertion of the nominal chain of command slows Rommel's characteristic speed of decision — the trait that produced both his biggest gains and his worst overextensions — in exchange for operations that at least nominally answer to Rome rather than to a German field marshal's own read of the map. Whether this produces a more sustainable campaign or simply a slower one that still runs out of fuel at the same rate is a question this front's supply arithmetic, not its chain of command, will ultimately answer.",
+                "A genuine assertion of the nominal chain of command slows Rommel's characteristic speed of decision, the trait that produced both his biggest gains and his worst overextensions, in exchange for operations that at least nominally answer to Rome rather than to a German field marshal's own read of the map. Whether this produces a more sustainable campaign or simply a slower one that still runs out of fuel at the same rate is a question this front's supply arithmetic, not its chain of command, will ultimately answer.",
             },
             {
-              label: "Accept the de facto arrangement — Rommel's operational initiative has produced results Italian command alone hadn't",
+              label: "Accept the de facto arrangement: Rommel's operational initiative has produced results Italian command alone hadn't",
               advisor: { name: "Cavallero", position: "However irregular the arrangement looks on paper, Rommel has retaken Cyrenaica twice as fast as the staff planning projected, and a working method will not be interrupted to enforce a formality." },
               historical: true,
               setFlags: { desertCommand: "defer", trust: (flags.trust || 0) + (1) },
@@ -1591,7 +1591,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "tobruk42",
               outcome:
-                "What actually happened, more or less — Bastico's nominal authority over Rommel was real on paper and only intermittently exercised in practice, a friction historians of the campaign return to repeatedly as an example of an alliance winning battles while never quite resolving who was actually in charge of winning them. The desert campaign's tempo stays fast; the cost of that tempo, in fuel this theater's supply line can never quite deliver enough of, keeps compounding underneath every gain either army books on the map.",
+                "What actually happened, more or less: Bastico's nominal authority over Rommel was real on paper and only intermittently exercised in practice, a friction historians of the campaign return to repeatedly as an example of an alliance winning battles while never quite resolving who was actually in charge of winning them. The desert campaign's tempo stays fast; the cost of that tempo, in fuel this theater's supply line can never quite deliver enough of, keeps compounding underneath every gain either army books on the map.",
             },
           ],
         };
@@ -1602,11 +1602,11 @@
           title: "The Fall of Tobruk",
           historicalRecord: true,
           situation:
-            "Tobruk withstood an eight-month siege in 1941 and became, in the process, something close to a symbol of Commonwealth resistance in the desert war. This time the garrison — mostly South African, reinforced hastily — falls in a single day's assault, June 21, 1942, yielding over 30,000 prisoners and, more consequentially for the Axis supply picture, enormous captured stocks of fuel and vehicles the desert campaign has never once had enough of. Rommel, newly promoted to Field Marshal on the strength of this single battle, wants to press the advantage immediately into Egypt rather than pause at the Libyan frontier the original campaign plan called a stopping point." +
+            "Tobruk withstood an eight-month siege in 1941 and became, in the process, something close to a symbol of Commonwealth resistance in the desert war. This time the garrison (mostly South African, reinforced hastily) falls in a single day's assault, June 21, 1942, yielding over 30,000 prisoners and, more consequentially for the Axis supply picture, enormous captured stocks of fuel and vehicles the desert campaign has never once had enough of. Rommel, newly promoted to Field Marshal on the strength of this single battle, wants to press the advantage immediately into Egypt rather than pause at the Libyan frontier the original campaign plan called a stopping point." +
             (flags.herculesResult === "fell" && !flags.maltaRetaken
-              ? " Whatever this pursuit spends, it spends against a supply line no longer bled by Malta — the convoys behind Tobruk are the fullest this desert war has seen."
+              ? " Whatever this pursuit spends, it spends against a supply line no longer bled by Malta: the convoys behind Tobruk are the fullest this desert war has seen."
               : flags.maltaRetaken
-              ? " Whatever this pursuit spends, it spends against a supply line bled by Malta all over again — the island Rome once held and then lost back to Britain is exactly as much of a problem for this desert war as it was before 1940's gamble was ever attempted, on top of everything spent taking and then losing it."
+              ? " Whatever this pursuit spends, it spends against a supply line bled by Malta all over again: the island Rome once held and then lost back to Britain is exactly as much of a problem for this desert war as it was before 1940's gamble was ever attempted, on top of everything spent taking and then losing it."
               : ""),
           choices: [
             {
@@ -1625,7 +1625,7 @@
                   setFlags: { tobrukPursuitResult: "reached" },
                   impact: { manpower: 0, fuel: 1, initiative: 1 },
                   outcome:
-                    "What actually happened: Rommel presses on past the planned stopping point straight to the Egyptian frontier, reaching El Alamein by early July — the deepest Axis penetration of the entire North African campaign, and also the point at which the advance's own logistics, stretched a thousand miles from the nearest working port, finally run out of the margin Tobruk's captured stocks had briefly disguised.",
+                    "What actually happened: Rommel presses on past the planned stopping point straight to the Egyptian frontier, reaching El Alamein by early July: the deepest Axis penetration of the entire North African campaign, and also the point at which the advance's own logistics, stretched a thousand miles from the nearest working port, finally run out of the margin Tobruk's captured stocks had briefly disguised.",
                 },
                 {
                   weight: 100 - modWeight(55, meters.fuel),
@@ -1645,7 +1645,7 @@
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "alamein42",
               outcome:
-                "The cautious option Rommel's own superiors argued for and were overruled on, historically. A consolidated position at the original planned line preserves more of Tobruk's captured supplies for an eventual offensive rather than burning them on an immediate pursuit — at the cost of the operational momentum that, however unsustainably, carried the historical advance to within seventy miles of Alexandria before it finally stalled on its own exhausted logistics anyway.",
+                "The cautious option Rommel's own superiors argued for and were overruled on, historically. A consolidated position at the original planned line preserves more of Tobruk's captured supplies for an eventual offensive rather than burning them on an immediate pursuit: at the cost of the operational momentum that, however unsustainably, carried the historical advance to within seventy miles of Alexandria before it finally stalled on its own exhausted logistics anyway.",
             },
           ],
         };
@@ -1656,34 +1656,34 @@
           title: "El Alamein",
           historicalRecord: true,
           situation:
-            "The Axis advance stopped for good in July at a narrow, sixty-kilometer gap between the Mediterranean coast and the impassable Qattara Depression — the one stretch of desert too narrow for the usual open-flank maneuver either side has relied on for two years of seesaw campaigning. Montgomery's Eighth Army has spent three months building a materiel advantage in tanks, aircraft, and above all fuel that Rommel's own supply line" +
+            "The Axis advance stopped for good in July at a narrow, sixty-kilometer gap between the Mediterranean coast and the impassable Qattara Depression: the one stretch of desert too narrow for the usual open-flank maneuver either side has relied on for two years of seesaw campaigning. Montgomery's Eighth Army has spent three months building a materiel advantage in tanks, aircraft, and above all fuel that Rommel's own supply line" +
             (flags.herculesResult === "fell" && !flags.maltaRetaken
               ? ", running a thousand miles from the nearest working port but no longer bled by a Malta this command actually neutralized a year ago,"
               : flags.maltaRetaken
-              ? ", running a thousand miles from the nearest working port and bled by a Malta Britain fought hard to take back — the 1940 gamble's dividend spent almost as soon as it was collected,"
+              ? ", running a thousand miles from the nearest working port and bled by a Malta Britain fought hard to take back: the 1940 gamble's dividend spent almost as soon as it was collected,"
               : ", still running the same thousand-mile gauntlet past Malta's aircraft and submarines,") +
             " has no way to match. The battle about to be fought here is not one either theater command has much room left to shape tactically; it is a battle the two sides' respective supply arithmetic has already substantially decided in advance." +
-            (flags.tobrukAftermath === "pursue" ? (flags.tobrukPursuitResult === "stalled" ? " This is the army whose pursuit past Tobruk ran out of captured fuel before reaching this line — it arrives here already thinner for it." : " This is the same army that spent Tobruk's captured fuel chasing this frontier back in June.") : " This is the army that chose to consolidate rather than chase Tobruk's momentum back in June."),
+            (flags.tobrukAftermath === "pursue" ? (flags.tobrukPursuitResult === "stalled" ? " This is the army whose pursuit past Tobruk ran out of captured fuel before reaching this line: it arrives here already thinner for it." : " This is the same army that spent Tobruk's captured fuel chasing this frontier back in June.") : " This is the army that chose to consolidate rather than chase Tobruk's momentum back in June."),
           choices: [
             {
-              label: "Fight the defensive battle as planned — trust the Alamein line's fortifications to absorb the assault",
+              label: "Fight the defensive battle as planned: trust the Alamein line's fortifications to absorb the assault",
               advisor: { name: "Rommel", position: "There is not the fuel to fight this battle the way he would prefer, so the line held is the line held, and Montgomery will pay by the yard for what he takes." },
               historical: true,
               setFlags: { alamein42: "hold" },
               impact: { manpower: -2, fuel: -1, initiative: -1 },
               next: "torchTunisia42",
               outcome:
-                "What happened: twelve days of attritional fighting break the Axis line by early November, and what follows is not an orderly withdrawal but a headlong 1,500-mile retreat across Libya that doesn't stop until Tunisia — the beginning of the end for the entire North African campaign, decided as much by the fuel convoys that never arrived as by anything that happened on the battlefield itself.",
+                "What happened: twelve days of attritional fighting break the Axis line by early November, and what follows is not an orderly withdrawal but a headlong 1,500-mile retreat across Libya that doesn't stop until Tunisia: the beginning of the end for the entire North African campaign, decided as much by the fuel convoys that never arrived as by anything that happened on the battlefield itself.",
             },
             {
-              label: "Order a fighting withdrawal before the line is fully committed — preserve the army rather than the ground",
+              label: "Order a fighting withdrawal before the line is fully committed: preserve the army rather than the ground",
               advisor: { name: "Bastico", position: "Rommel would rather lose this army defending a line than retreat and be blamed for giving up Egypt's approaches, while he would rather have an army left to defend Tunisia with." },
               setFlags: { alamein42: "withdraw" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "torchTunisia42",
               outcome:
-                "A deliberate early withdrawal concedes the same ground the historical battle eventually lost anyway, without first spending twelve days of attritional casualties defending a line the fuel arithmetic never gave it a real chance to hold. What it preserves is a somewhat more intact force reaching Tunisia — the same eventual destination the historical retreat also reached, just with fewer of the men and less of the equipment burned proving the line couldn't be held.",
+                "A deliberate early withdrawal concedes the same ground the historical battle eventually lost anyway, without first spending twelve days of attritional casualties defending a line the fuel arithmetic never gave it a real chance to hold. What it preserves is a somewhat more intact force reaching Tunisia: the same eventual destination the historical retreat also reached, just with fewer of the men and less of the equipment burned proving the line couldn't be held.",
             },
           ],
         };
@@ -1694,11 +1694,11 @@
           title: "Torch and the Race for Tunisia",
           historicalRecord: true,
           situation:
-            "Anglo-American landings across French North Africa on November 8 have opened an entirely new front behind the retreating Axis army at exactly the moment it can least afford one — Vichy French forces in Algeria and Morocco largely stop resisting within days, and the strategic picture in the Mediterranean has inverted: instead of Rommel's army retreating toward safety, it is now being squeezed between Montgomery's pursuit from the east and a fresh Allied army landing to the west, with only Tunisia's mountainous terrain offering any prospect of a defensible pocket to fall back into." +
+            "Anglo-American landings across French North Africa on November 8 have opened an entirely new front behind the retreating Axis army at exactly the moment it can least afford one: Vichy French forces in Algeria and Morocco largely stop resisting within days, and the strategic picture in the Mediterranean has inverted: instead of Rommel's army retreating toward safety, it is now being squeezed between Montgomery's pursuit from the east and a fresh Allied army landing to the west, with only Tunisia's mountainous terrain offering any prospect of a defensible pocket to fall back into." +
             (flags.herculesResult === "fell" && !flags.maltaRetaken
-              ? " One thing this crossing has that the historical Sicilian Strait run never did: Malta, sitting directly across the shortest route to Tunisia, is this command's own base rather than a British one — every convoy runs it without the air and submarine interdiction that historically made this exact crossing as costly as it was."
+              ? " One thing this crossing has that the historical Sicilian Strait run never did: Malta, sitting directly across the shortest route to Tunisia, is this command's own base rather than a British one: every convoy runs it without the air and submarine interdiction that historically made this exact crossing as costly as it was."
               : flags.maltaRetaken
-              ? " The Sicilian Strait crossing runs past a Malta this command once held and then lost back to Britain — interdiction from the island is, if anything, sharper than the historical baseline, the garrison there fighting a war it has personal cause to make expensive."
+              ? " The Sicilian Strait crossing runs past a Malta this command once held and then lost back to Britain: interdiction from the island is, if anything, sharper than the historical baseline, the garrison there fighting a war it has personal cause to make expensive."
               : "") +
             // Round 15 (battle #4 echo): the Alam Halfa key battle's own detail, not a fork —
             // this node's own framing (a retreating army squeezed from both sides) is the fixed
@@ -1720,12 +1720,12 @@
               uncertain: [
                 {
                   weight: modWeight(flags.herculesResult === "fell" && !flags.maltaRetaken ? 80 : 60, meters.fuel),
-                  title: "The crossing holds up — reinforcement arrives close to intact",
+                  title: "The crossing holds up: reinforcement arrives close to intact",
                   setFlags: { tunisiaCrossing: "held" },
                   impact: { manpower: 1, fuel: -1, initiative: 0 },
                   outcome: flags.herculesResult === "fell" && !flags.maltaRetaken
-                    ? "An Italian-held Malta makes the difference the historical crossing never had: without the island's air and submarine forces contesting the Strait, reinforcement — including Messe's newly formed First Italian Army — arrives close to complete, building a defensive position in Tunisia's mountains considerably stronger than the historical buildup managed on a route it never controlled at both ends."
-                    : "What happened: a substantial Axis reinforcement — including Messe's newly formed First Italian Army — does establish a real defensive position in Tunisia's mountains through the winter, holding out considerably longer than the immediate post-Torch panic in Rome and Berlin expected. What this buildup does not do is change where the campaign ends, since every reinforced division shipped into Tunisia is a division that will also be captured there when the position finally, inevitably, collapses.",
+                    ? "An Italian-held Malta makes the difference the historical crossing never had: without the island's air and submarine forces contesting the Strait, reinforcement, including Messe's newly formed First Italian Army, arrives close to complete, building a defensive position in Tunisia's mountains considerably stronger than the historical buildup managed on a route it never controlled at both ends."
+                    : "What happened: a substantial Axis reinforcement, including Messe's newly formed First Italian Army, does establish a real defensive position in Tunisia's mountains through the winter, holding out considerably longer than the immediate post-Torch panic in Rome and Berlin expected. What this buildup does not do is change where the campaign ends, since every reinforced division shipped into Tunisia is a division that will also be captured there when the position finally, inevitably, collapses.",
                 },
                 {
                   weight: 100 - modWeight(flags.herculesResult === "fell" && !flags.maltaRetaken ? 80 : 60, meters.fuel),
@@ -1733,8 +1733,8 @@
                   setFlags: { tunisiaCrossing: "mauled" },
                   impact: { manpower: -1, fuel: -1, initiative: -1 },
                   outcome: flags.maltaRetaken
-                    ? "Even an Italian-held Malta once, and a bitterly recaptured British one now, doesn't spare this crossing — if anything a garrison that fought to retake the island interdicts this convoy run harder than the historical baseline ever did, and the bridgehead gets built at a heavier toll than the historical buildup paid for it."
-                    : "The bridgehead gets built, but at a heavier toll than the historical buildup paid: convoys running the narrow Sicilian Strait lose a larger share of the men and matériel committed to interdiction that has only gotten more effective as the campaign wears on, and the mountain position this reinforcement was meant to make properly defensible holds for a shorter, thinner winter than the actual six-month defense managed — the same eventual collapse, reached with less to show for the men spent reaching it.",
+                    ? "Even an Italian-held Malta once, and a bitterly recaptured British one now, doesn't spare this crossing, if anything a garrison that fought to retake the island interdicts this convoy run harder than the historical baseline ever did, and the bridgehead gets built at a heavier toll than the historical buildup paid for it."
+                    : "The bridgehead gets built, but at a heavier toll than the historical buildup paid: convoys running the narrow Sicilian Strait lose a larger share of the men and matériel committed to interdiction that has only gotten more effective as the campaign wears on, and the mountain position this reinforcement was meant to make properly defensible holds for a shorter, thinner winter than the actual six-month defense managed: the same eventual collapse, reached with less to show for the men spent reaching it.",
                 },
               ],
             },
@@ -1757,7 +1757,7 @@
           title: "Surrender in Tunisia",
           historicalRecord: true,
           situation:
-            "Six months of defense in Tunisia's mountains — genuinely longer than Berlin or Rome expected the position to hold after Torch — ends in a collapse as total, in its own way, as Tunis and Bizerte fall within days of each other and the pocket's remaining defenders, cut off from any further evacuation across a strait the Allied navies and air forces now fully control, are left with nothing but the terms of surrender to decide." +
+            "Six months of defense in Tunisia's mountains, genuinely longer than Berlin or Rome expected the position to hold after Torch, ends in a collapse as total, in its own way, as Tunis and Bizerte fall within days of each other and the pocket's remaining defenders, cut off from any further evacuation across a strait the Allied navies and air forces now fully control, are left with nothing but the terms of surrender to decide." +
             (flags.tunisiaBuildup === "reinforce" ? (flags.tunisiaCrossing === "mauled" ? " These are the men left after a reinforcement convoy that took heavy losses crossing the Strait, spent now on a defense that was always going to end here." : " These are the six months the fuller winter buildup bought, spent now on a defense that was always going to end here.") : " This is the leaner defense the evacuation-first choice after Torch left holding the pocket."),
           choices: [
             {
@@ -1768,7 +1768,7 @@
               impact: { manpower: -2, fuel: 0, initiative: 0 },
               next: "homeFrontBombing43",
               outcome:
-                "What happened: the last organized Axis resistance in Tunisia surrenders on May 13, 1943, after Messe — the last Axis commander still fighting — is promoted to Field Marshal by radio message hours before the surrender, largely so he would not have to surrender at a rank junior to the German commander alongside him. Some 275,000 Axis troops go into captivity, a loss in prisoners alone that rivals Stalingrad's, and North Africa is entirely lost.",
+                "What happened: the last organized Axis resistance in Tunisia surrenders on May 13, 1943, after Messe, the last Axis commander still fighting, is promoted to Field Marshal by radio message hours before the surrender, largely so he would not have to surrender at a rank junior to the German commander alongside him. Some 275,000 Axis troops go into captivity, a loss in prisoners alone that rivals Stalingrad's, and North Africa is entirely lost.",
             },
             {
               label: "Negotiate surrender terms as soon as the position is clearly hopeless, to reduce further casualties",
@@ -1778,7 +1778,7 @@
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "homeFrontBombing43",
               outcome:
-                "An earlier surrender spares some of the final week's casualties without changing the campaign's outcome in any respect that matters strategically — the same roughly 275,000 men go into Allied captivity either way, on a timeline that differs by days rather than weeks. What it does preserve, marginally, is a slightly larger share of those men returning home able-bodied whenever their captivity eventually ends.",
+                "An earlier surrender spares some of the final week's casualties without changing the campaign's outcome in any respect that matters strategically: the same roughly 275,000 men go into Allied captivity either way, on a timeline that differs by days rather than weeks. What it does preserve, marginally, is a slightly larger share of those men returning home able-bodied whenever their captivity eventually ends.",
             },
           ],
         };
@@ -1789,15 +1789,15 @@
           title: "The Home Front Under the Bombs",
           historicalRecord: true,
           situation:
-            "With North Africa lost and an Allied invasion of Sicily or the mainland clearly the next move, Allied strategic bombing of Italian cities has escalated sharply — Naples, Palermo, and industrial centers in the north are being hit with a regularity and weight the Italian air defense network, thin from three years of war and stretched further defending convoy routes, cannot meaningfully contest. Public morale, already strained by years of rationing and casualty lists, is fraying in ways the propaganda ministry's usual instruments — controlled news, patriotic radio programming — are visibly struggling to manage." +
+            "With North Africa lost and an Allied invasion of Sicily or the mainland clearly the next move, Allied strategic bombing of Italian cities has escalated sharply: Naples, Palermo, and industrial centers in the north are being hit with a regularity and weight the Italian air defense network, thin from three years of war and stretched further defending convoy routes, cannot meaningfully contest. Public morale, already strained by years of rationing and casualty lists, is fraying in ways the propaganda ministry's usual instruments (controlled news, patriotic radio programming) are visibly struggling to manage." +
             (flags.italyEntry === "declare"
-              ? " Three years ago this war was sold as a few thousand dead bought against a peace table already mostly decided — the gap between that promise and what the home front is living through under these raids is exactly the gap this ministry's controlled news has to keep papering over."
+              ? " Three years ago this war was sold as a few thousand dead bought against a peace table already mostly decided: the gap between that promise and what the home front is living through under these raids is exactly the gap this ministry's controlled news has to keep papering over."
               : flags.italyEntry === "wait"
-              ? " Even the more reluctant version of this war's opening — a declaration argued for on readiness rather than opportunity — bought nothing the propaganda ministry can point to now; three years on, the bombs don't distinguish why the war started."
+              ? " Even the more reluctant version of this war's opening, a declaration argued for on readiness rather than opportunity, bought nothing the propaganda ministry can point to now; three years on, the bombs don't distinguish why the war started."
               : flags.italyEntry === "lateDeclare"
-              ? " A declaration made in the war's last days before France's armistice bought this command no readiness advantage worth mentioning by now — three years on, the bombs don't distinguish a late entry from an early one."
+              ? " A declaration made in the war's last days before France's armistice bought this command no readiness advantage worth mentioning by now: three years on, the bombs don't distinguish a late entry from an early one."
               : flags.italyEntry === "britainOnly"
-              ? " This war was never sold on a peace-table deadline at all — it was fought for Malta and Egypt from its first declared day — and three years of raids have made that distinction no easier to explain to a home front under the same bombs regardless."
+              ? " This war was never sold on a peace-table deadline at all, it was fought for Malta and Egypt from its first declared day, and three years of raids have made that distinction no easier to explain to a home front under the same bombs regardless."
               : "") +
             " The question in front of Comando Supremo is less military than it is political: what, if anything, changes about how the war is presented and resourced at home, with an invasion of Italian soil now a matter of when rather than if.",
           choices: [
@@ -1811,7 +1811,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "sicilyHusky43",
               outcome:
-                "Concentrating the depleted air defense network over the home cities reduces bombing losses somewhat in the weeks before the invasion actually lands — a real, if partial, mercy for the civilians under the raids — without changing the strategic picture in any respect that matters: the fighters and guns pulled home are also fighters and guns not defending whatever beach the Allies choose next, and that choice is coming regardless of where air defense is currently concentrated.",
+                "Concentrating the depleted air defense network over the home cities reduces bombing losses somewhat in the weeks before the invasion actually lands (a real, if partial, mercy for the civilians under the raids) without changing the strategic picture in any respect that matters: the fighters and guns pulled home are also fighters and guns not defending whatever beach the Allies choose next, and that choice is coming regardless of where air defense is currently concentrated.",
               uncertain: [
                 {
                   weight: modWeight(55, meters.fuel),
@@ -1819,7 +1819,7 @@
                   setFlags: { homeFront43Result: "held" },
                   impact: { manpower: 0, fuel: 0, initiative: 0 },
                   outcome:
-                    "The concentrated squadrons manage, a handful of times, what the thin dispersed network never could — turning a raid back short of its target rather than merely counting the damage afterward. It's a small mercy, and Rome notices it exists at all.",
+                    "The concentrated squadrons manage, a handful of times, what the thin dispersed network never could: turning a raid back short of its target rather than merely counting the damage afterward. It's a small mercy, and Rome notices it exists at all.",
                 },
                 {
                   weight: 100 - modWeight(55, meters.fuel),
@@ -1827,7 +1827,7 @@
                   setFlags: { homeFront43Result: "overwhelmed" },
                   impact: { manpower: 0, fuel: -1, initiative: 0 },
                   outcome:
-                    "Concentration helps at the margins and not where it counts — the raids keep arriving in a weight three years of attrition left no real Italian air defense able to contest, wherever the remaining squadrons happen to be standing.",
+                    "Concentration helps at the margins and not where it counts: the raids keep arriving in a weight three years of attrition left no real Italian air defense able to contest, wherever the remaining squadrons happen to be standing.",
                 },
               ],
             },
@@ -1839,7 +1839,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "sicilyHusky43",
               outcome:
-                "Roughly what actually happened — home air defense stayed thin and dispersed through the summer of 1943, and the civilian toll from Allied bombing kept climbing largely unanswered. What the regime's propaganda instruments could not actually manage, whatever Mussolini's own read of the problem, was the accumulating gap between what the war's official narrative promised and what people watching their own cities burn could plainly see for themselves — a gap that would matter directly within weeks.",
+                "Roughly what actually happened: home air defense stayed thin and dispersed through the summer of 1943, and the civilian toll from Allied bombing kept climbing largely unanswered. What the regime's propaganda instruments could not actually manage, whatever Mussolini's own read of the problem, was the accumulating gap between what the war's official narrative promised and what people watching their own cities burn could plainly see for themselves: a gap that would matter directly within weeks.",
             },
           ],
         };
@@ -1850,13 +1850,13 @@
           title: "The Invasion of Sicily",
           historicalRecord: true,
           situation:
-            "The largest amphibious invasion of the war to date lands on Sicily's southern coast on July 9-10, and the island's defense — a mix of static Italian coastal divisions of uneven quality and two mobile German divisions held in reserve — is overwhelmed within days rather than weeks. This is, for the first time since the war began, an Allied army fighting on Italian home soil, and the political shockwave in Rome is arriving faster than the military one: the Fascist Grand Council, dormant since 1939, is about to be convened for the first time in years, and everyone in Comando Supremo can read what that convening probably means." +
+            "The largest amphibious invasion of the war to date lands on Sicily's southern coast on July 9-10, and the island's defense, a mix of static Italian coastal divisions of uneven quality and two mobile German divisions held in reserve, is overwhelmed within days rather than weeks. This is, for the first time since the war began, an Allied army fighting on Italian home soil, and the political shockwave in Rome is arriving faster than the military one: the Fascist Grand Council, dormant since 1939, is about to be convened for the first time in years, and everyone in Comando Supremo can read what that convening probably means." +
             (flags.homeFront43Result === "held"
-              ? " Whatever mercy the reinforced air defense bought the home cities last month, it bought nothing here — Sicily's own defenses were never the beneficiary of squadrons kept over Naples and Palermo."
+              ? " Whatever mercy the reinforced air defense bought the home cities last month, it bought nothing here: Sicily's own defenses were never the beneficiary of squadrons kept over Naples and Palermo."
               : ""),
           choices: [
             {
-              label: "Concentrate the defense on denying the Strait of Messina — a fighting withdrawal off the island, not a last stand on it",
+              label: "Concentrate the defense on denying the Strait of Messina: a fighting withdrawal off the island, not a last stand on it",
               advisor: { name: "Ambrosio", position: "Sicily cannot be held with what is left, and what can be saved is the army evacuating across the Strait and not captured on the beaches defending ground already lost." },
               historical: true,
               setFlags: { sicily43: "withdraw" },
@@ -1864,10 +1864,10 @@
               impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "mussoliniCoup43",
               outcome:
-                "Close to what actually happened: roughly 100,000 Axis troops and their heavy equipment are evacuated across the Strait of Messina over several weeks in August, largely unmolested by an Allied pursuit more focused on racing to Messina than sealing the strait — one of the more consequential missed opportunities of the Mediterranean campaign, from the Allied side, and a real if modest mercy from the Italian one.",
+                "Close to what actually happened: roughly 100,000 Axis troops and their heavy equipment are evacuated across the Strait of Messina over several weeks in August, largely unmolested by an Allied pursuit more focused on racing to Messina than sealing the strait: one of the more consequential missed opportunities of the Mediterranean campaign, from the Allied side, and a real if modest mercy from the Italian one.",
             },
             {
-              label: "Order the garrison to hold Sicily as long as possible — a defense-in-place rather than an early withdrawal",
+              label: "Order the garrison to hold Sicily as long as possible: a defense-in-place rather than an early withdrawal",
               advisor: { name: "Mussolini", position: "He will not authorize what reads in every newspaper in the world as abandoning Italian soil in a matter of days, so hold the island." },
               checkLabel: "Manpower",
               disabledReason: meters.manpower <= -3 ? "too depleted a garrison left on the island to sustain an extended defense-in-place" : undefined,
@@ -1889,7 +1889,7 @@
                   setFlags: { sicilyHoldResult: "wasted" },
                   impact: { manpower: -2, fuel: 0, initiative: 0 },
                   outcome:
-                    "Holding in place longer costs more men and equipment against an Allied force with total air and naval superiority over the island — the same eventual loss of Sicily happens regardless, just with fewer veteran troops surviving to defend the mainland afterward, and a political cost of its own: a defeat that arrives visibly slower does not read, to a Grand Council already assembling its case, as a defeat that arrives any less certainly.",
+                    "Holding in place longer costs more men and equipment against an Allied force with total air and naval superiority over the island: the same eventual loss of Sicily happens regardless, just with fewer veteran troops surviving to defend the mainland afterward, and a political cost of its own: a defeat that arrives visibly slower does not read, to a Grand Council already assembling its case, as a defeat that arrives any less certainly.",
                 },
               ],
             },
@@ -1902,7 +1902,7 @@
           title: "The Grand Council",
           historicalRecord: true,
           situation:
-            "The Fascist Grand Council meets for the first time since the war began, summoned by Mussolini himself in an attempt to reassert his authority by having the regime's own institutions formally endorse it — a gamble that misreads how far confidence in his leadership has actually collapsed among the very men he convened. After a session running past two in the morning, the Council votes 19 to 7 to restore full constitutional authority to King Victor Emmanuel III, effectively a vote of no confidence dressed in procedural language. Mussolini treats the vote as advisory, not binding, and goes to the Palazzo the next afternoon expecting to continue governing regardless. He is wrong about that, in a way nothing in the Council's own vote actually determines: the King, not the Council, holds the only power that matters here, and has already decided independently to act." +
+            "The Fascist Grand Council meets for the first time since the war began, summoned by Mussolini himself in an attempt to reassert his authority by having the regime's own institutions formally endorse it: a gamble that misreads how far confidence in his leadership has actually collapsed among the very men he convened. After a session running past two in the morning, the Council votes 19 to 7 to restore full constitutional authority to King Victor Emmanuel III, effectively a vote of no confidence dressed in procedural language. Mussolini treats the vote as advisory, not binding, and goes to the Palazzo the next afternoon expecting to continue governing regardless. He is wrong about that, in a way nothing in the Council's own vote actually determines: the King, not the Council, holds the only power that matters here, and has already decided independently to act." +
             (flags.sicily43 === "hold" ? (flags.sicilyHoldResult === "delay" ? " The officer corps gathering for this vote just finished an island defense that, unusually, bought real time for the mainland rather than nothing at all." : " The officer corps gathering for this vote just finished bleeding for an island defended in place rather than evacuated.") : " The officer corps gathering for this vote just finished pulling Sicily's garrison back across the Strait rather than losing it on the beaches."),
           choices: [
             {
@@ -1914,17 +1914,17 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "armisticeNegotiation43",
               outcome:
-                "What happened: the King informs Mussolini after their audience on July 25 that he is dismissed and Badoglio will form a new government; Mussolini is arrested by Carabinieri in the palace courtyard on the way to his car, and the news is announced by radio that evening to a country that reacts with more relief than shock. Comando Supremo's institutional continuity survives the transition essentially intact — the same officer corps, reporting now to Badoglio instead of Mussolini, with the actual question of what to do about the war itself still entirely unresolved.",
+                "What happened: the King informs Mussolini after their audience on July 25 that he is dismissed and Badoglio will form a new government; Mussolini is arrested by Carabinieri in the palace courtyard on the way to his car, and the news is announced by radio that evening to a country that reacts with more relief than shock. Comando Supremo's institutional continuity survives the transition essentially intact: the same officer corps, reporting now to Badoglio instead of Mussolini, with the actual question of what to do about the war itself still entirely unresolved.",
             },
             {
-              label: "Comando Supremo's officer corps rallies to Mussolini against the King's move — a speculative counterfactual",
+              label: "Comando Supremo's officer corps rallies to Mussolini against the King's move: a speculative counterfactual",
               advisor: { name: "Graziani", position: "The Grand Council's vote is advisory, and the King's constitutional authority over the armed forces has never been tested against a Duce who refuses to accept it, until perhaps now." },
               setFlags: { coupResponse: "backMussolini", trust: (flags.trust || 0) + (1) },
               trustDelta: 1,
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "romeStandoff43",
               outcome:
-                "The road essentially no one actually took: in the real July 1943, the officer corps' loyalty to the constitutional monarchy proved deeper than its loyalty to Mussolini personally, and the transition happened with no meaningful resistance from the military. What this file now follows instead is marked plainly for what it is — a minority, counterfactual branch with almost no footing in the documented record, run forward on its own terms rather than folded quietly back into the history that actually happened.",
+                "The road essentially no one actually took: in the real July 1943, the officer corps' loyalty to the constitutional monarchy proved deeper than its loyalty to Mussolini personally, and the transition happened with no meaningful resistance from the military. What this file now follows instead is marked plainly for what it is: a minority, counterfactual branch with almost no footing in the documented record, run forward on its own terms rather than folded quietly back into the history that actually happened.",
             },
           ],
         };
@@ -1936,7 +1936,7 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "Marked plainly, up front: everything from here follows a road essentially no one in the real July 1943 actually took, and it is labelled as such rather than folded quietly back into the historical record. In the hours after Mussolini's audience with the King, word reaches the small circle of officers who consider their loyalty personal rather than constitutional — and rather than accept the dismissal as settled, they move. Carabinieri units already positioned around the Quirinale and key ministries answer to the Crown by training and by oath; whatever 'loyalist' divisions exist here answer to a Duce whose actual authority to command them, this afternoon, is a question the Italian constitution has never had to answer, because in the documented history it was never asked.",
+            "Marked plainly, up front: everything from here follows a road essentially no one in the real July 1943 actually took, and it is labelled as such rather than folded quietly back into the historical record. In the hours after Mussolini's audience with the King, word reaches the small circle of officers who consider their loyalty personal rather than constitutional, and rather than accept the dismissal as settled, they move. Carabinieri units already positioned around the Quirinale and key ministries answer to the Crown by training and by oath; whatever 'loyalist' divisions exist here answer to a Duce whose actual authority to command them, this afternoon, is a question the Italian constitution has never had to answer, because in the documented history it was never asked.",
           choices: [
             {
               label: "Order loyalist divisions to move on the Quirinale and secure the ministries outright",
@@ -1947,7 +1947,7 @@
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "factionSplit43",
               outcome:
-                "A direct move on the Quirinale is the boldest version of a scenario the documented history never came close to producing — the Carabinieri units actually posted around the palace that afternoon were there specifically because the King and Badoglio expected exactly this possibility and prepared for it, which this speculative branch's own loyalist officers now discover the hard way, in a standoff that is more confusion and shouted orders than the clean coup the plan assumed.",
+                "A direct move on the Quirinale is the boldest version of a scenario the documented history never came close to producing: the Carabinieri units actually posted around the palace that afternoon were there specifically because the King and Badoglio expected exactly this possibility and prepared for it, which this speculative branch's own loyalist officers now discover the hard way, in a standoff that is more confusion and shouted orders than the clean coup the plan assumed.",
             },
             {
               label: "Seek a negotiated, face-saving arrangement rather than open confrontation in the capital",
@@ -1957,7 +1957,7 @@
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "factionSplit43",
               outcome:
-                "A quieter opening move — an attempt to extract some formal concession from the King's new government (a delayed transition, a role preserved for Mussolini, anything short of the clean dismissal that actually happened) without first forcing the question at gunpoint. It buys a few days of ambiguity rather than an immediate crisis, at the cost of the momentum a direct move might have carried, however briefly, into the vacuum left the moment the King's own intentions became public.",
+                "A quieter opening move: an attempt to extract some formal concession from the King's new government (a delayed transition, a role preserved for Mussolini, anything short of the clean dismissal that actually happened) without first forcing the question at gunpoint. It buys a few days of ambiguity rather than an immediate crisis, at the cost of the momentum a direct move might have carried, however briefly, into the vacuum left the moment the King's own intentions became public.",
             },
           ],
         };
@@ -1969,26 +1969,26 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "This is still speculation beyond anything the documented record supports, and the honest scholarly baseline governs the odds here as much as it did at the palace gates: the officer corps' loyalty to the constitutional monarchy, in the war that actually happened, ran deep enough that no meaningful military faction ever rallied behind Mussolini against it. What this file is testing is the minority argument — that a determined, well-placed push in the crisis's first hours could have found enough personal loyalists to fracture that unity rather than simply fail against it. The answer this branch is finding is not encouraging for the loyalists: most garrison and field commands, reached by radio and rumor rather than clear orders from either side, are declaring for the King within days, leaving Mussolini's remaining backers a shrinking island of committed units rather than the army the coup's own premise required.",
+            "This is still speculation beyond anything the documented record supports, and the honest scholarly baseline governs the odds here as much as it did at the palace gates: the officer corps' loyalty to the constitutional monarchy, in the war that actually happened, ran deep enough that no meaningful military faction ever rallied behind Mussolini against it. What this file is testing is the minority argument: that a determined, well-placed push in the crisis's first hours could have found enough personal loyalists to fracture that unity rather than simply fail against it. The answer this branch is finding is not encouraging for the loyalists: most garrison and field commands, reached by radio and rumor rather than clear orders from either side, are declaring for the King within days, leaving Mussolini's remaining backers a shrinking island of committed units rather than the army the coup's own premise required.",
           choices: [
             {
-              label: "Move against wavering and defecting commanders — treat the split as a discipline problem to be enforced",
+              label: "Move against wavering and defecting commanders: treat the split as a discipline problem to be enforced",
               advisor: { name: "Graziani", position: "Every commander who declares for the King today is one the movement cannot afford to lose tomorrow, and he would rather arrest the wavering ones now than watch the army dissolve by the end of the week." },
               setFlags: { factionSplit43: "enforce" },
               impact: { manpower: -2, fuel: 0, initiative: 1 },
               next: "germanExploitation43",
               outcome:
-                "Enforcing loyalty at gunpoint against an officer corps whose actual, documented sympathies ran overwhelmingly the other way produces exactly the kind of internal violence the real transition of July 1943 — bloodless, and by most accounts almost anticlimactic — never had to absorb. What it buys the loyalist faction is a smaller, more tightly committed core; what it costs is any remaining claim that this movement represents more than a fraction of an army that has, in the documented history this branch has now fully departed from, already decided where its loyalty actually lies.",
+                "Enforcing loyalty at gunpoint against an officer corps whose actual, documented sympathies ran overwhelmingly the other way produces exactly the kind of internal violence the real transition of July 1943 (bloodless, and by most accounts almost anticlimactic) never had to absorb. What it buys the loyalist faction is a smaller, more tightly committed core; what it costs is any remaining claim that this movement represents more than a fraction of an army that has, in the documented history this branch has now fully departed from, already decided where its loyalty actually lies.",
             },
             {
-              label: "Accept the fracture rather than force it — avoid a Fascist-on-Fascist civil war inside the army itself",
+              label: "Accept the fracture rather than force it: avoid a Fascist-on-Fascist civil war inside the army itself",
               advisor: { name: "Cavallero", position: "An army that arrests its own wavering commanders spends its last cohesion on itself and not on anyone opposing it, so let those who want to leave, leave, and what is left will at least answer to someone." },
               favor: 1,
               setFlags: { factionSplit43: "tolerate" },
               impact: { manpower: -1, fuel: 0, initiative: -1 },
               next: "germanExploitation43",
               outcome:
-                "Tolerating the split rather than punishing it costs the loyalist faction most of the army within weeks — the same underlying loyalty to the Crown that made the historical transition bloodless simply reasserts itself once nobody is being arrested for declaring it openly — but it spares this counterfactual branch the specific horror of Italian units fighting each other in the capital over a question the documented history never had to force.",
+                "Tolerating the split rather than punishing it costs the loyalist faction most of the army within weeks, the same underlying loyalty to the Crown that made the historical transition bloodless simply reasserts itself once nobody is being arrested for declaring it openly, but it spares this counterfactual branch the specific horror of Italian units fighting each other in the capital over a question the documented history never had to force.",
             },
           ],
         };
@@ -2000,10 +2000,10 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "One fact does carry over intact from the documented record into this speculative branch: Hitler's own headquarters, distrustful of Rome's intentions from the moment the Grand Council's vote became known, had contingency plans for occupying Italy drawn up well before the historical armistice ever made them necessary. In the war that actually happened, those plans — Achse, Alarich — activated in September against a government that had already, quietly, negotiated terms with the Allies. Here, they activate a month earlier, against a country visibly fighting itself, and German formations already moving south through the Brenner Pass arrive with a pretext the historical timeline never handed them this early: not liberation, not alliance, but 'stabilization' of an ally that can no longer stabilize itself.",
+            "One fact does carry over intact from the documented record into this speculative branch: Hitler's own headquarters, distrustful of Rome's intentions from the moment the Grand Council's vote became known, had contingency plans for occupying Italy drawn up well before the historical armistice ever made them necessary. In the war that actually happened, those plans (Achse, Alarich) activated in September against a government that had already, quietly, negotiated terms with the Allies. Here, they activate a month earlier, against a country visibly fighting itself, and German formations already moving south through the Brenner Pass arrive with a pretext the historical timeline never handed them this early: not liberation, not alliance, but 'stabilization' of an ally that can no longer stabilize itself.",
           choices: [
             {
-              label: "Refuse German reinforcement of Rome — insist this remains an internal Italian question",
+              label: "Refuse German reinforcement of Rome: insist this remains an internal Italian question",
               advisor: { name: "Graziani", position: "The day the movement needs German divisions to hold the capital against other Italians is the day it has lost whatever it thought it was fighting for, and he will not send that invitation." },
               checkLabel: "Manpower",
               disabledReason: (meters.manpower || 0) >= -2 && (meters.fuel || 0) >= -1 ? undefined : "insufficient independent strength left to refuse German 'assistance' and still hold the capital",
@@ -2011,7 +2011,7 @@
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "civilConflictEnd43",
               outcome:
-                "Refusing the German offer preserves, for whatever it is still worth, the claim that this remains an Italian argument rather than a German occupation dressed as one — a distinction that matters considerably more to the men making it than to Berlin, which has wanted direct control of the peninsula's defense since Sicily fell regardless of which Italian faction happens to be nominally in charge of Rome this particular month.",
+                "Refusing the German offer preserves, for whatever it is still worth, the claim that this remains an Italian argument rather than a German occupation dressed as one: a distinction that matters considerably more to the men making it than to Berlin, which has wanted direct control of the peninsula's defense since Sicily fell regardless of which Italian faction happens to be nominally in charge of Rome this particular month.",
             },
             {
               label: "Accept German troops into Rome to help suppress the King's loyalists",
@@ -2034,7 +2034,7 @@
           historicalRecord: false,
           speculative: true,
           situation:
-            "This is the last page of a road essentially no one in the real July and August of 1943 actually took, and the honest verdict this branch has to render is the same one the original choice's own outcome text warned about from the start: the deeper problem underneath every hour of this counterfactual crisis — a losing war, a country that has wanted out of it since Compass, an army whose actual documented loyalty never wavered from the Crown — was never a question this internal Italian conflict could resolve, whichever faction happened to hold the Quirinale by the calendar's end. Six weeks that the historical transition of power settled in an afternoon have instead been spent fighting a question the war's own arithmetic had already answered.",
+            "This is the last page of a road essentially no one in the real July and August of 1943 actually took, and the honest verdict this branch has to render is the same one the original choice's own outcome text warned about from the start: the deeper problem underneath every hour of this counterfactual crisis (a losing war, a country that has wanted out of it since Compass, an army whose actual documented loyalty never wavered from the Crown) was never a question this internal Italian conflict could resolve, whichever faction happened to hold the Quirinale by the calendar's end. Six weeks that the historical transition of power settled in an afternoon have instead been spent fighting a question the war's own arithmetic had already answered.",
           choices: [
             {
               label: "Let the loyalist movement dissolve rather than spend more of the army proving a point already lost",
@@ -2043,16 +2043,16 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "END",
               outcome:
-                "The loyalist faction dissolves not through defeat in the field but through the same exhaustion that eventually governs every branch of this campaign — a losing war does not become winnable because the argument over who runs it changes shape. What remains, by the counterfactual autumn this branch closes on, looks less like a restored Fascist state than like the King's government arrived at anyway, six bloodier weeks and several thousand more Italian casualties later, having spent an army the historical transition never had to spend at all.",
+                "The loyalist faction dissolves not through defeat in the field but through the same exhaustion that eventually governs every branch of this campaign: a losing war does not become winnable because the argument over who runs it changes shape. What remains, by the counterfactual autumn this branch closes on, looks less like a restored Fascist state than like the King's government arrived at anyway, six bloodier weeks and several thousand more Italian casualties later, having spent an army the historical transition never had to spend at all.",
             },
             {
-              label: "Formalize the arrangement with Berlin — a client relationship, however this movement chooses to describe it",
+              label: "Formalize the arrangement with Berlin: a client relationship, however this movement chooses to describe it",
               advisor: { name: "Kesselring", position: "Call it whatever the propaganda ministry prefers, since what it is is settled: Rome answers to German command now, a month earlier and more openly than the arrangement later histories describe." },
               setFlags: { loyalistEnd: "absorbed" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: "END",
               outcome:
-                "What this counterfactual actually arrives at, stripped of whichever banner it started under, is recognizably the same client-state arrangement the documented history's Republic of Salò settled into two months later and considerably more visibly — a government that exists in the capital because a German garrison allows it to, fighting a war it was never going to win under a flag that was never actually the question this branch's own internal argument was fought over.",
+                "What this counterfactual actually arrives at, stripped of whichever banner it started under, is recognizably the same client-state arrangement the documented history's Republic of Salò settled into two months later and considerably more visibly: a government that exists in the capital because a German garrison allows it to, fighting a war it was never going to win under a flag that was never actually the question this branch's own internal argument was fought over.",
             },
           ],
         };
@@ -2063,7 +2063,7 @@
           title: "Secret Talks",
           historicalRecord: true,
           situation:
-            "Badoglio's new government — installed on the strength of Comando Supremo recognizing the King's own constitutional authority, three weeks ago, rather than contesting it — has publicly declared 'the war continues alongside our German ally,' a line almost nobody in Comando Supremo's own senior ranks actually believes, while General Castellano is dispatched to Lisbon and then Sicily under deep cover to negotiate surrender terms with the Allies. The talks are genuinely fraught on both sides: the Allies want unconditional surrender and are suspicious, not without reason, that Rome is stalling for time to prepare its own defenses; Rome wants Allied airborne forces to help secure the capital against the German garrison already reinforcing in and around it before any armistice is announced publicly, a request the Allies — burned by how little military value they now place on Italian cooperation — are unwilling to fully commit to.",
+            "Badoglio's new government (installed on the strength of Comando Supremo recognizing the King's own constitutional authority, three weeks ago, rather than contesting it) has publicly declared 'the war continues alongside our German ally,' a line almost nobody in Comando Supremo's own senior ranks actually believes, while General Castellano is dispatched to Lisbon and then Sicily under deep cover to negotiate surrender terms with the Allies. The talks are genuinely fraught on both sides: the Allies want unconditional surrender and are suspicious, not without reason, that Rome is stalling for time to prepare its own defenses; Rome wants Allied airborne forces to help secure the capital against the German garrison already reinforcing in and around it before any armistice is announced publicly, a request the Allies, burned by how little military value they now place on Italian cooperation, are unwilling to fully commit to.",
           choices: [
             {
               label: "Press for firm Allied guarantees on defending Rome before agreeing to any armistice terms",
@@ -2074,7 +2074,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "armisticeAnnounce43",
               outcome:
-                "Historically, Castellano's negotiating position did push for exactly this, and the Allies did tentatively agree to an airborne operation — Giant II — to help secure Rome's airfields ahead of the announcement. What the negotiating table could promise and what actually arrived turned out to be two different things: the operation was cancelled at the last moment once Allied planners concluded German strength around Rome had grown too great for a lightly-armed airborne force to secure the city regardless of what the terms said on paper.",
+                "Historically, Castellano's negotiating position did push for exactly this, and the Allies did tentatively agree to an airborne operation, Giant II, to help secure Rome's airfields ahead of the announcement. What the negotiating table could promise and what actually arrived turned out to be two different things: the operation was cancelled at the last moment once Allied planners concluded German strength around Rome had grown too great for a lightly-armed airborne force to secure the city regardless of what the terms said on paper.",
             },
             {
               label: "Accept the Allied terms without conditions, to avoid losing the diplomatic opening entirely",
@@ -2083,7 +2083,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "armisticeAnnounce43",
               outcome:
-                "Accepting terms faster secures the armistice agreement itself with less risk of the whole opening collapsing under Allied suspicion of stalling — but it also means Rome's defense arrangements, whatever they turn out to be, are settled with even less specific Allied commitment behind them than the historical negotiation managed to extract, for whatever that commitment proved worth in the event.",
+                "Accepting terms faster secures the armistice agreement itself with less risk of the whole opening collapsing under Allied suspicion of stalling, but it also means Rome's defense arrangements, whatever they turn out to be, are settled with even less specific Allied commitment behind them than the historical negotiation managed to extract, for whatever that commitment proved worth in the event.",
             },
           ],
         };
@@ -2094,17 +2094,17 @@
           title: "The Announcement",
           historicalRecord: true,
           situation:
-            "Eisenhower announces the armistice on Allied radio at 6:30 PM, forcing Badoglio's government to confirm it that same evening — earlier than Rome had wanted, before its own military had been given clear, prepared instructions for what happens next. What follows in the following seventy-two hours is chaos by design failure rather than by German initiative alone: Comando Supremo issues no coherent general order to the roughly 1.5 million Italian troops now scattered across Italy, the Balkans, and France, leaving individual unit commanders to decide for themselves, with no guidance, whether to resist German forces that begin disarming them within hours under a prepared contingency plan — Operation Achse — that Berlin, unlike Rome, had actually finished writing.",
+            "Eisenhower announces the armistice on Allied radio at 6:30 PM, forcing Badoglio's government to confirm it that same evening: earlier than Rome had wanted, before its own military had been given clear, prepared instructions for what happens next. What follows in the following seventy-two hours is chaos by design failure rather than by German initiative alone: Comando Supremo issues no coherent general order to the roughly 1.5 million Italian troops now scattered across Italy, the Balkans, and France, leaving individual unit commanders to decide for themselves, with no guidance, whether to resist German forces that begin disarming them within hours under a prepared contingency plan, Operation Achse, that Berlin, unlike Rome, had actually finished writing.",
           choices: [
             {
-              label: "Execute the armistice as planned — evacuate the government south, leave garrison orders to local commanders",
+              label: "Execute the armistice as planned: evacuate the government south, leave garrison orders to local commanders",
               advisor: { name: "Badoglio", position: "There is no coherent order ready to send, only a government that must survive to represent Italy past tonight, and that comes first, whatever it costs the units that cannot be reached in time." },
               historical: true,
               setFlags: { armisticeExecution: "evacuate" },
               impact: { manpower: -2, fuel: 0, initiative: -1 },
               next: "twoItalies43",
               outcome:
-                "What happened: the King and Badoglio's government flee Rome for Allied-held Brindisi in the early hours of September 9, most of the fleet escapes to Allied ports per the armistice terms, and the army — without orders — disintegrates almost everywhere at once. Some units resist Operation Achse's disarmament attempts (the garrison on Cephalonia fights for days before its survivors are massacred after surrendering); most simply hand over their weapons; roughly 600,000 Italian soldiers are deported to Germany as forced labor in the weeks that follow. Rome itself is left essentially undefended and falls under German control within days.",
+                "What happened: the King and Badoglio's government flee Rome for Allied-held Brindisi in the early hours of September 9, most of the fleet escapes to Allied ports per the armistice terms, and the army, without orders, disintegrates almost everywhere at once. Some units resist Operation Achse's disarmament attempts (the garrison on Cephalonia fights for days before its survivors are massacred after surrendering); most simply hand over their weapons; roughly 600,000 Italian soldiers are deported to Germany as forced labor in the weeks that follow. Rome itself is left essentially undefended and falls under German control within days.",
             },
             {
               label: "Delay the public announcement and attempt to concentrate scattered units around Rome first",
@@ -2124,7 +2124,7 @@
                   setFlags: { romeDefenseResult: "stood" },
                   impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
-                    "The gamble pays off in the narrow military sense: Italian divisions around Rome, given two additional days to concentrate and coordinate, mount a genuine defense of the city's approaches before German reinforcements arrive in overwhelming strength — a stand the historical, unplanned scattering never managed. Eisenhower's own broadcast schedule cannot be held back on Rome's account for long, and the city falls within the week regardless, but not without a fight this timeline's chaos denied the historical defenders any chance to mount.",
+                    "The gamble pays off in the narrow military sense: Italian divisions around Rome, given two additional days to concentrate and coordinate, mount a genuine defense of the city's approaches before German reinforcements arrive in overwhelming strength: a stand the historical, unplanned scattering never managed. Eisenhower's own broadcast schedule cannot be held back on Rome's account for long, and the city falls within the week regardless, but not without a fight this timeline's chaos denied the historical defenders any chance to mount.",
                 },
                 {
                   weight: 100 - modWeight(40, meters.manpower),
@@ -2132,7 +2132,7 @@
                   setFlags: { romeDefenseResult: "worse" },
                   impact: { manpower: -2, fuel: 0, initiative: -1 },
                   outcome:
-                    "The dice on this one land against the gamble: German intelligence, already suspicious of the negotiating silence, uses the extra days to reinforce the Rome garrison faster than Italian units can concentrate, and Operation Achse executes even more completely than its historical version — the delay bought nothing except two additional days under a German occupation that arrives, in the end, just as total.",
+                    "The dice on this one land against the gamble: German intelligence, already suspicious of the negotiating silence, uses the extra days to reinforce the Rome garrison faster than Italian units can concentrate, and Operation Achse executes even more completely than its historical version: the delay bought nothing except two additional days under a German occupation that arrives, in the end, just as total.",
                 },
               ],
             },
@@ -2145,26 +2145,26 @@
           title: "Two Italies",
           historicalRecord: true,
           situation:
-            "Within weeks of the armistice, Italy is no longer one country fighting one war — it is two, each claiming to be the legitimate Italian state, each commanding a fraction of the officer corps and army that existed a month earlier. German commandos free Mussolini from his mountaintop prison at Gran Sasso on September 12 and install him as head of a new Italian Social Republic — the Republic of Salò — governing the German-occupied north as a client state in every respect but name. In the south, the King and Badoglio's government, protected by Allied lines, declares war on Germany on October 13 and is recognized by the Allies as a 'co-belligerent,' a status short of full alliance but a formal break with the Axis all the same. Every officer, every unit, every remaining piece of what used to be Comando Supremo's single chain of command now has to decide, individually, which of the two Italys it answers to — and this campaign's remaining chapters follow that choice all the way to the war's end. The government in the south exists to be followed at all only because this desk recognized the King's authority over Mussolini's back in July; that choice didn't decide which Italy wins this argument, but it decided which one gets to make the case.",
+            "Within weeks of the armistice, Italy is no longer one country fighting one war: it is two, each claiming to be the legitimate Italian state, each commanding a fraction of the officer corps and army that existed a month earlier. German commandos free Mussolini from his mountaintop prison at Gran Sasso on September 12 and install him as head of a new Italian Social Republic, the Republic of Salò, governing the German-occupied north as a client state in every respect but name. In the south, the King and Badoglio's government, protected by Allied lines, declares war on Germany on October 13 and is recognized by the Allies as a 'co-belligerent,' a status short of full alliance but a formal break with the Axis all the same. Every officer, every unit, every remaining piece of what used to be Comando Supremo's single chain of command now has to decide, individually, which of the two Italys it answers to, and this campaign's remaining chapters follow that choice all the way to the war's end. The government in the south exists to be followed at all only because this desk recognized the King's authority over Mussolini's back in July; that choice didn't decide which Italy wins this argument, but it decided which one gets to make the case.",
           choices: [
             {
-              label: "Follow the King south — recognize Badoglio's government and fight on as an Allied co-belligerent",
+              label: "Follow the King south: recognize Badoglio's government and fight on as an Allied co-belligerent",
               advisor: { name: "Victor Emmanuel III", position: "The crown's legitimacy did not go north with the men who freed a prisoner from a mountain, but is here, with the government that broke from Berlin honestly, in the open, and answered for it." },
               historical: true,
               setFlags: { italyPath: "coBelligerent" },
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "salernoAvalanche43",
               outcome:
-                "The choice roughly three-quarters of the surviving regular officer corps made, in fact — the constitutional monarchy's continuity, however compromised by three years of losing war and the King's own long silence about Fascism's excesses, still commanded more institutional loyalty than a republic installed by German paratroopers around a leader everyone in the room had just watched be deposed by the very system he built. What follows is a war fought as a junior partner in someone else's coalition, on Italian soil, against other Italians.",
+                "The choice roughly three-quarters of the surviving regular officer corps made, in fact: the constitutional monarchy's continuity, however compromised by three years of losing war and the King's own long silence about Fascism's excesses, still commanded more institutional loyalty than a republic installed by German paratroopers around a leader everyone in the room had just watched be deposed by the very system he built. What follows is a war fought as a junior partner in someone else's coalition, on Italian soil, against other Italians.",
             },
             {
-              label: "Answer Mussolini's recall — serve the Italian Social Republic in the German-occupied north",
+              label: "Answer Mussolini's recall: serve the Italian Social Republic in the German-occupied north",
               advisor: { name: "Pavolini", position: "The King fled and the Duce did not, and whatever this republic is short on, it is not short on knowing which of the two governments stayed and fought." },
               setFlags: { italyPath: "rsi" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: "saloRepublic43",
               outcome:
-                "The choice a real minority did make — some 25 divisions' worth of RSI military manpower over the war's remaining nineteen months, drawn from genuine Fascist conviction, from units simply caught in the north when the armistice broke, and from conscription the Republic enforced with a brutality the historical record documents in detail. This path answers to a government that is, by any honest accounting, a German client state fighting the war's final phase on the losing side of it — a fact no amount of the Republic's own propaganda ever successfully obscured from the people living under it.",
+                "The choice a real minority did make: some 25 divisions' worth of RSI military manpower over the war's remaining nineteen months, drawn from genuine Fascist conviction, from units simply caught in the north when the armistice broke, and from conscription the Republic enforced with a brutality the historical record documents in detail. This path answers to a government that is, by any honest accounting, a German client state fighting the war's final phase on the losing side of it: a fact no amount of the Republic's own propaganda ever successfully obscured from the people living under it.",
             },
           ],
         };
@@ -2175,10 +2175,10 @@
           title: "Salerno, and What the Co-Belligerent Army Actually Is",
           historicalRecord: true,
           situation:
-            "Allied forces land at Salerno the same week the armistice is announced, opening the mainland invasion into a German defense that very nearly throws the landing back into the sea before reinforcement stabilizes the beachhead. What remains of the Italian regular army under Badoglio's government — the piece of the old Comando Supremo that chose the co-belligerent path over Salò when the two Italys split — is, in these first weeks, mostly a question mark to Allied planners rather than an asset — disarmed by the armistice's own chaos in many sectors, distrusted after three years as an enemy, and offered, for now, a status considerably smaller than full co-belligerent partnership: labor units, garrison duties, a first small combat formation being assembled from what didn't scatter. The choice facing what remains of Comando Supremo's southern rump is how hard to push for a larger, meaningfully combat-capable role rather than accept the auxiliary status the Allies' initial caution has assigned it.",
+            "Allied forces land at Salerno the same week the armistice is announced, opening the mainland invasion into a German defense that very nearly throws the landing back into the sea before reinforcement stabilizes the beachhead. What remains of the Italian regular army under Badoglio's government, the piece of the old Comando Supremo that chose the co-belligerent path over Salò when the two Italys split, is, in these first weeks, mostly a question mark to Allied planners rather than an asset: disarmed by the armistice's own chaos in many sectors, distrusted after three years as an enemy, and offered, for now, a status considerably smaller than full co-belligerent partnership: labor units, garrison duties, a first small combat formation being assembled from what didn't scatter. The choice facing what remains of Comando Supremo's southern rump is how hard to push for a larger, meaningfully combat-capable role rather than accept the auxiliary status the Allies' initial caution has assigned it.",
           choices: [
             {
-              label: "Push hard for an expanded combat role — offer whatever intact formations remain for the front line",
+              label: "Push hard for an expanded combat role: offer whatever intact formations remain for the front line",
               advisor: { name: "Ambrosio", position: "A larger role will not be won by asking politely from the rear, so put the divisions that remain in front of Allied command and let them see what is left is worth using." },
               setFlags: { coBelligerentRole: "expand" },
               favor: 1,
@@ -2188,7 +2188,7 @@
                 "Closer to the more ambitious end of what actually happened: an Italian Co-Belligerent Army does grow over the following months from a handful of scratch units into a force of several divisions serving alongside Allied formations, though Allied command remains cautious about committing it to the heaviest fighting for most of the campaign. Pressing the case early accelerates that trust-building process, at the cost of committing scarce, still-reorganizing formations to combat sooner than a more patient approach would.",
             },
             {
-              label: "Accept the auxiliary role for now — rebuild strength and credibility gradually",
+              label: "Accept the auxiliary role for now: rebuild strength and credibility gradually",
               advisor: { name: "Badoglio", position: "An army that was fighting for the other side three weeks ago does not earn a front-line role by asking for one but by being visibly, patiently reliable in whatever role it is given first." },
               historical: true,
               setFlags: { coBelligerentRole: "gradual" },
@@ -2206,7 +2206,7 @@
           title: "Six Hundred Thousand Men Germany Won't Call Prisoners",
           historicalRecord: true,
           situation:
-            "Of the roughly 600,000 Italian soldiers disarmed across Italy, the Balkans, and France in the days after the armistice and shipped to Germany, almost none are treated as prisoners of war — not because Berlin disputes that they were soldiers, but because Hitler has personally ordered otherwise. A new classification, invented for exactly this purpose, calls them 'Italian Military Internees': a status with no standing under the Geneva Convention, which means no guaranteed Red Cross inspection rights, no protected correspondence, and no legal floor under how they can be worked or fed. Most are put to forced labor in German factories, mines, and farms. The new government in Brindisi, recognized by the Allies but without real standing to negotiate with Berlin at all, has almost no leverage over any of it — the co-belligerent path chosen when the two Italys split bought Allied recognition, not a seat Berlin will hear anything from — and the question in front of Comando Supremo's diplomatic staff is not whether they can free these men, which nobody credibly believes is on the table, but whether there is anything at all worth attempting on their behalf.",
+            "Of the roughly 600,000 Italian soldiers disarmed across Italy, the Balkans, and France in the days after the armistice and shipped to Germany, almost none are treated as prisoners of war, not because Berlin disputes that they were soldiers, but because Hitler has personally ordered otherwise. A new classification, invented for exactly this purpose, calls them 'Italian Military Internees': a status with no standing under the Geneva Convention, which means no guaranteed Red Cross inspection rights, no protected correspondence, and no legal floor under how they can be worked or fed. Most are put to forced labor in German factories, mines, and farms. The new government in Brindisi, recognized by the Allies but without real standing to negotiate with Berlin at all, has almost no leverage over any of it (the co-belligerent path chosen when the two Italys split bought Allied recognition, not a seat Berlin will hear anything from) and the question in front of Comando Supremo's diplomatic staff is not whether they can free these men, which nobody credibly believes is on the table, but whether there is anything at all worth attempting on their behalf.",
           choices: [
             {
               label: "Press the Allies to raise IMI treatment directly with Germany through neutral channels",
@@ -2217,16 +2217,16 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "monteLungo43",
               outcome:
-                "Roughly what the Badoglio government actually attempted — repeated appeals routed through the Allies and neutral intermediaries, none of which Berlin had any real obligation to answer and few of which it did. The IMI status itself was never rescinded for the great majority of the men held under it; what these appeals mostly accomplished was keeping the issue visible rather than solving it, which the historical record suggests was, given the actual leverage available, close to the ceiling of what was achievable at all.",
+                "Roughly what the Badoglio government actually attempted: repeated appeals routed through the Allies and neutral intermediaries, none of which Berlin had any real obligation to answer and few of which it did. The IMI status itself was never rescinded for the great majority of the men held under it; what these appeals mostly accomplished was keeping the issue visible rather than solving it, which the historical record suggests was, given the actual leverage available, close to the ceiling of what was achievable at all.",
             },
             {
-              label: "Concentrate the government's limited diplomatic capital on the war effort instead — the IMI question has no near-term leverage regardless",
+              label: "Concentrate the government's limited diplomatic capital on the war effort instead: the IMI question has no near-term leverage regardless",
               advisor: { name: "Ambrosio", position: "He says it plainly though not without cost: Italy has almost nothing Berlin wants on this question, and spending what little standing it has chasing it leaves none for anything the war still requires." },
               setFlags: { imiCrisis43: "deprioritize" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "monteLungo43",
               outcome:
-                "A colder accounting of a plainly weak hand — this government's actual leverage over how Germany treats the men it is holding was, in fact, close to nothing, and this choice simply says so out loud rather than spending effort on appeals unlikely to move Berlin regardless. What it does not change is what those men are living through in the meantime, which this choice does nothing to improve and does not claim to.",
+                "A colder accounting of a plainly weak hand: this government's actual leverage over how Germany treats the men it is holding was, in fact, close to nothing, and this choice simply says so out loud rather than spending effort on appeals unlikely to move Berlin regardless. What it does not change is what those men are living through in the meantime, which this choice does nothing to improve and does not claim to.",
             },
           ],
         };
@@ -2237,7 +2237,7 @@
           title: "What Rome's Other Government Can Still Do",
           historicalRecord: true,
           situation:
-            "The Vatican, formally neutral and sitting inside German-occupied Rome, is one of vanishingly few channels still capable of reaching German-run camps at all — and even it is hobbled by the same legal invention that hobbles everyone else: the International Red Cross's inspection mandate covers prisoners of war, and Berlin's 'Military Internee' classification was constructed specifically to sit outside that mandate. What limited relief does reach the IMI camps — some food parcels, some correspondence, a handful of documented interventions on behalf of individual men — moves through informal Vatican and Red Cross channels willing to work around, rather than through, the legal gap Germany built for exactly this purpose.",
+            "The Vatican, formally neutral and sitting inside German-occupied Rome, is one of vanishingly few channels still capable of reaching German-run camps at all, and even it is hobbled by the same legal invention that hobbles everyone else: the International Red Cross's inspection mandate covers prisoners of war, and Berlin's 'Military Internee' classification was constructed specifically to sit outside that mandate. What limited relief does reach the IMI camps (some food parcels, some correspondence, a handful of documented interventions on behalf of individual men) moves through informal Vatican and Red Cross channels willing to work around, rather than through, the legal gap Germany built for exactly this purpose.",
           choices: [
             {
               label: "Formally request the Vatican's intercession and back it with whatever documentation on individual cases can be gathered",
@@ -2247,7 +2247,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "imiOutcome44",
               outcome:
-                "Close to the documented pattern: Vatican channels, operating from inside German-occupied Rome, did manage some informal relief work on individual internees' behalf — outside any recognized inspection mandate, since Germany's 'Military Internee' classification was constructed specifically to keep the International Red Cross's normal prisoner-of-war access rights from ever applying. What that channel could not do, however hard it worked, is change the underlying legal status keeping roughly six hundred thousand men outside Geneva's protection — that status was a deliberate German policy choice, and no amount of Vatican diplomacy was ever positioned to reverse a decision Berlin had no intention of revisiting.",
+                "Close to the documented pattern: Vatican channels, operating from inside German-occupied Rome, did manage some informal relief work on individual internees' behalf: outside any recognized inspection mandate, since Germany's 'Military Internee' classification was constructed specifically to keep the International Red Cross's normal prisoner-of-war access rights from ever applying. What that channel could not do, however hard it worked, is change the underlying legal status keeping roughly six hundred thousand men outside Geneva's protection: that status was a deliberate German policy choice, and no amount of Vatican diplomacy was ever positioned to reverse a decision Berlin had no intention of revisiting.",
             },
             {
               label: "Rely on informal contacts rather than a formal request that German authorities might read as provocation",
@@ -2257,7 +2257,7 @@
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "imiOutcome44",
               outcome:
-                "A quieter approach avoids handing German authorities a public grievance to react against, at the cost of the modest additional pressure a formal request might have applied — in practice, a difference more of method than of outcome, since informal Vatican channels were, by most accounts, already operating near the limits of what Berlin's own policy allowed regardless of how loudly Rome asked.",
+                "A quieter approach avoids handing German authorities a public grievance to react against, at the cost of the modest additional pressure a formal request might have applied: in practice, a difference more of method than of outcome, since informal Vatican channels were, by most accounts, already operating near the limits of what Berlin's own policy allowed regardless of how loudly Rome asked.",
             },
           ],
         };
@@ -2268,7 +2268,7 @@
           title: "What Six Hundred Thousand Men Were Actually Offered",
           historicalRecord: true,
           situation:
-            "Germany's own answer to the IMI question, when one finally comes, is not clemency — it is an offer. Men willing to renounce their internee status and either join the Republic of Salò's rebuilding military or 'volunteer' for German war industry as free civilian labor are promised better food, better pay, and an end to the legal limbo built specifically to deny them those things in the first place. A significant majority — the documented estimate runs above eighty percent — refuse, choosing to remain classified as internees under objectively worse material conditions rather than put on a German or RSI uniform, or its civilian-labor equivalent, in exchange for relief the Reich itself is dangling as leverage rather than offering unconditionally.",
+            "Germany's own answer to the IMI question, when one finally comes, is not clemency: it is an offer. Men willing to renounce their internee status and either join the Republic of Salò's rebuilding military or 'volunteer' for German war industry as free civilian labor are promised better food, better pay, and an end to the legal limbo built specifically to deny them those things in the first place. A significant majority, the documented estimate runs above eighty percent, refuse, choosing to remain classified as internees under objectively worse material conditions rather than put on a German or RSI uniform, or its civilian-labor equivalent, in exchange for relief the Reich itself is dangling as leverage rather than offering unconditionally.",
           choices: [
             {
               label: "Publicly honor the men who refused the offer, regardless of the cost that refusal is still costing them",
@@ -2279,7 +2279,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "monteCassino44",
               outcome:
-                "What the postwar Italian state did eventually do, if considerably later than this choice attempts it: formal recognition of the IMIs' collective refusal as a quiet, widely distributed act of resistance — men with no weapons, no chain of command, and no promise of rescue choosing worse material conditions over collaboration, roughly eight times out of ten, entirely on their own judgment. The men still in the camps themselves see none of the practical benefit of that recognition before the war actually ends.",
+                "What the postwar Italian state did eventually do, if considerably later than this choice attempts it: formal recognition of the IMIs' collective refusal as a quiet, widely distributed act of resistance: men with no weapons, no chain of command, and no promise of rescue choosing worse material conditions over collaboration, roughly eight times out of ten, entirely on their own judgment. The men still in the camps themselves see none of the practical benefit of that recognition before the war actually ends.",
             },
             {
               label: "Keep the government's public messaging focused on the war effort rather than a story it cannot yet resolve",
@@ -2288,7 +2288,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "monteCassino44",
               outcome:
-                "A more cautious read of the same facts — the refusal happened regardless of whether Rome publicized it, and staying quiet costs the men who made that choice a measure of the recognition the more vocal path offers, without changing anything material about the camps they are refusing to leave under better terms.",
+                "A more cautious read of the same facts: the refusal happened regardless of whether Rome publicized it, and staying quiet costs the men who made that choice a measure of the recognition the more vocal path offers, without changing anything material about the camps they are refusing to leave under better terms.",
             },
           ],
         };
@@ -2299,7 +2299,7 @@
           title: "The Gustav Line",
           historicalRecord: true,
           situation:
-            "The Allied advance up the peninsula has stalled for months against the Gustav Line's anchor position at Monte Cassino, a medieval abbey on commanding high ground that four successive Allied offensives — American, British, New Zealand and Indian, Polish — will eventually need to break, at a combined cost that will run past 50,000 Allied casualties before the position finally falls in May. The Co-Belligerent Army's own combat formations, still small and still building the trust Salerno's aftermath left an open question, are offered a role in the supporting operations around the main assault rather than the abbey assault itself — a decision partly about combat readiness and partly, still, about how much Allied command trusts a very recently former enemy with a battle this costly." +
+            "The Allied advance up the peninsula has stalled for months against the Gustav Line's anchor position at Monte Cassino, a medieval abbey on commanding high ground that four successive Allied offensives (American, British, New Zealand and Indian, Polish) will eventually need to break, at a combined cost that will run past 50,000 Allied casualties before the position finally falls in May. The Co-Belligerent Army's own combat formations, still small and still building the trust Salerno's aftermath left an open question, are offered a role in the supporting operations around the main assault rather than the abbey assault itself: a decision partly about combat readiness and partly, still, about how much Allied command trusts a very recently former enemy with a battle this costly." +
             (flags.monteLungoResult === "firstTry"
               ? " The Group that took Monte Lungo on the first morning in December, without needing a second attempt, is the one being offered the supporting role."
               : flags.monteLungo43 === "attack"
@@ -2323,7 +2323,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "romeLiberation44",
               outcome:
-                "Roughly what happened: Italian Co-Belligerent formations serve in supporting and flank operations around the Gustav Line's collapse rather than in the abbey assault's main effort, a role that costs fewer casualties than the direct assaults absorbed but also builds trust more slowly than a larger role would have. By the time Rome falls, the army's combat record is real but modest — the kind of foundation later, larger commitments in the northern campaign can be built on rather than a dramatic single moment that changes Allied minds outright.",
+                "Roughly what happened: Italian Co-Belligerent formations serve in supporting and flank operations around the Gustav Line's collapse rather than in the abbey assault's main effort, a role that costs fewer casualties than the direct assaults absorbed but also builds trust more slowly than a larger role would have. By the time Rome falls, the army's combat record is real but modest: the kind of foundation later, larger commitments in the northern campaign can be built on rather than a dramatic single moment that changes Allied minds outright.",
             },
             {
               label: "Push for direct participation in the main assault, whatever the cost, to force the trust question",
@@ -2364,9 +2364,9 @@
               concealRoll: true,
               keyBattleSubgame: {
                 id: "monteCassino44",
-                title: "Order of Battle — Monte Marrone",
+                title: "Order of Battle: Monte Marrone",
                 flavor:
-                  "Not the abbey — this army's own share of the Cassino winter is a mountain fifteen miles east of it, 1,805 meters up in the Mainarde range, held by German troops who don't yet know an attack is coming. Taking it by surprise, at night, on foot, is the plan; holding it against whatever comes up the mountain afterward, with Anglo-Polish guns as the only support that can actually reach this ground, is the part that will decide whether anyone outside this army's own ranks remembers it did either. What's decided here is how much of the assault force leads the climb, how much of the elite Nembo paratroop element goes in beside it, what the attached artillery is asked to range in on, and how much gets held back on the mule trails that are this mountain's only supply line.",
+                  "Not the abbey: this army's own share of the Cassino winter is a mountain fifteen miles east of it, 1,805 meters up in the Mainarde range, held by German troops who don't yet know an attack is coming. Taking it by surprise, at night, on foot, is the plan; holding it against whatever comes up the mountain afterward, with Anglo-Polish guns as the only support that can actually reach this ground, is the part that will decide whether anyone outside this army's own ranks remembers it did either. What's decided here is how much of the assault force leads the climb, how much of the elite Nembo paratroop element goes in beside it, what the attached artillery is asked to range in on, and how much gets held back on the mule trails that are this mountain's only supply line.",
                 categories: [
                   { id: "assault", name: "Alpine & Bersaglieri Assault", meter: "manpower" },
                   { id: "paratroops", name: "Nembo Paratroops", meter: "manpower" },
@@ -2453,13 +2453,13 @@
                 ],
                 categoryContext: {
                   assault:
-                    "The Piemonte battalion and both Bersaglieri battalions form the assault force — roughly five thousand men against perhaps three thousand Germans dug in on the peak. Dapino notes that surprise and night attack favor the numbers more than daylight calculations suggest.",
+                    "The Piemonte battalion and both Bersaglieri battalions form the assault force: roughly five thousand men against perhaps three thousand Germans dug in on the peak. Dapino notes that surprise and night attack favor the numbers more than daylight calculations suggest.",
                   paratroops:
                     "The 185th's Arditi paratroopers are smaller in number but the most aggressive troops in the force. Placed beside the assault battalions instead of held in reserve, they're the difference between taking a position and taking it quickly.",
                   artillery:
                     "The Anglo-Polish guns are the only heavy support this force brings with it. Everything else is carried up the mountain on foot. Ranged in ahead of time, they're what stops a German counterattack before it reaches the line.",
                   supply:
-                    "There is no road to that peak — only mule trails. Every round and ration this force uses has to go up them. What isn't stockpiled before the attack becomes a shortage discovered during it.",
+                    "There is no road to that peak, only mule trails. Every round and ration this force uses has to go up them. What isn't stockpiled before the attack becomes a shortage discovered during it.",
                 },
                 flashups: {
                   assault: [
@@ -2513,7 +2513,7 @@
                 verdicts: ["Monte Marrone Falls by Surprise", "The Peak Costs More Than It's Worth"],
                 verdictGrades: {
                   clean: "Every arm moved together, and the peak fell before its garrison could make the fight even.",
-                  costly: "The peak falls — but holding it after cost more than the plan allowed for.",
+                  costly: "The peak falls, but holding it after cost more than the plan allowed for.",
                   marginal: "The assault stalls short of the summit. The plan held together; the mountain didn't give it up.",
                   total: "The assault doesn't stall so much as come apart on the mountain's own ground.",
                 },
@@ -2522,7 +2522,7 @@
                   severity: { gebirgsjagerReserve: 2, thinInitialLine: 1, highAltitudeCold: 1 },
                   warn: {
                     1: "German mountain troops are probing the new line's flank.",
-                    2: "German Gebirgsjäger — mountain specialists, not the garrison troops expected — are massing for a real counterattack on the line.",
+                    2: "German Gebirgsjäger (mountain specialists, not the garrison troops expected) are massing for a real counterattack on the line.",
                   },
                   results: {
                     repulsed: "The Gebirgsjäger attack is thrown back and the line holds without giving an inch.",
@@ -2535,7 +2535,7 @@
               uncertain: [
                 {
                   weight: modWeight(45, meters.initiative),
-                  title: "The gambit lands — the record this army wanted is a record it gets",
+                  title: "The gambit lands: the record this army wanted is a record it gets",
                   setFlags: { cassinoDirectResult: "recognized" },
                   favor: 1,
                   impact: { manpower: -2, fuel: 0, initiative: 1 },
@@ -2548,7 +2548,7 @@
                   setFlags: { cassinoDirectResult: "unrecognized" },
                   impact: { manpower: -3, fuel: 0, initiative: 0 },
                   outcome:
-                    "The casualties this gambit risked arrive in full, and the trust question it was meant to force stays open regardless: a mountain taken and held at real cost, fifteen miles from a battle already being fought by Polish, British, American, Indian, and New Zealand formations at a scale hard to distinguish from the outside, doesn't reach the ears it needed to reach — the discrete, rememberable moment Utili was actually betting on.",
+                    "The casualties this gambit risked arrive in full, and the trust question it was meant to force stays open regardless: a mountain taken and held at real cost, fifteen miles from a battle already being fought by Polish, British, American, Indian, and New Zealand formations at a scale hard to distinguish from the outside, doesn't reach the ears it needed to reach: the discrete, rememberable moment Utili was actually betting on.",
                 },
               ],
             },
@@ -2561,8 +2561,8 @@
           title: "Rome, Open and Then Free",
           historicalRecord: true,
           situation:
-            "Rome falls to advancing Allied forces on June 4, 1944, two days before Overlord's landings in Normandy make the moment a footnote in most of the world's newspapers within seventy-two hours — a piece of timing that has genuinely irritated Clark's Fifth Army command, whose costly Anzio and Gustav Line campaigns to reach the capital are about to be overshadowed almost entirely by an invasion elsewhere. For the government now moving north from Brindisi to reoccupy the capital — the same institutional line that dates back to a Comando Supremo choosing the King's authority over Mussolini's, nearly a year ago — the question is less about the military moment than the political one: what kind of state gets reconstituted in the city the war has just returned to Italian civil administration." +
-            (flags.cassino44 === "direct" ? (flags.cassinoDirectResult === "recognized" ? " The army marching in with this government spent the Gustav Line proving a point at the abbey's foothills — and this time, the point landed." : " The army marching in with this government spent the Gustav Line proving a point at the abbey's foothills that mostly went unnoticed.") : " The army marching in with this government built its Gustav Line record the patient way, in the supporting line rather than the headline assault.") +
+            "Rome falls to advancing Allied forces on June 4, 1944, two days before Overlord's landings in Normandy make the moment a footnote in most of the world's newspapers within seventy-two hours: a piece of timing that has genuinely irritated Clark's Fifth Army command, whose costly Anzio and Gustav Line campaigns to reach the capital are about to be overshadowed almost entirely by an invasion elsewhere. For the government now moving north from Brindisi to reoccupy the capital (the same institutional line that dates back to a Comando Supremo choosing the King's authority over Mussolini's, nearly a year ago) the question is less about the military moment than the political one: what kind of state gets reconstituted in the city the war has just returned to Italian civil administration." +
+            (flags.cassino44 === "direct" ? (flags.cassinoDirectResult === "recognized" ? " The army marching in with this government spent the Gustav Line proving a point at the abbey's foothills, and this time, the point landed." : " The army marching in with this government spent the Gustav Line proving a point at the abbey's foothills that mostly went unnoticed.") : " The army marching in with this government built its Gustav Line record the patient way, in the supporting line rather than the headline assault.") +
             // Round 15 (battle #5 echo): Monte Marrone's own detail, not a fork — the recognized/
             // unrecognized split above already carries the branch this node's text turns on.
             (flags.cassino44 === "direct" ? keyBattleEcho("monteCassino44", flags) : ""),
@@ -2576,7 +2576,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "adriaticRoad44",
               outcome:
-                "What actually happened: Badoglio resigns as prime minister within days of Rome's liberation, and a new government under Ivanoe Bonomi, drawing on the anti-Fascist parties that organized the Committee of National Liberation, takes office — a genuine broadening of the government's political base beyond the monarchy's own wartime circle, and a step that helps establish the political legitimacy the eventual postwar republic will build on.",
+                "What actually happened: Badoglio resigns as prime minister within days of Rome's liberation, and a new government under Ivanoe Bonomi, drawing on the anti-Fascist parties that organized the Committee of National Liberation, takes office: a genuine broadening of the government's political base beyond the monarchy's own wartime circle, and a step that helps establish the political legitimacy the eventual postwar republic will build on.",
             },
             {
               label: "Maintain continuity under the existing wartime government rather than reorganize during an active campaign",
@@ -2585,7 +2585,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "adriaticRoad44",
               outcome:
-                "Continuity keeps the wartime administrative machinery running without the disruption a government reorganization brings during an active campaign — at the cost of a broader political legitimacy question left unresolved for longer, one the eventual peace and the 1946 referendum on the monarchy's own future will still have to answer regardless of how long this path defers it.",
+                "Continuity keeps the wartime administrative machinery running without the disruption a government reorganization brings during an active campaign: at the cost of a broader political legitimacy question left unresolved for longer, one the eventual peace and the 1946 referendum on the monarchy's own future will still have to answer regardless of how long this path defers it.",
             },
           ],
         };
@@ -2596,7 +2596,7 @@
           title: "The War the South Can Only Fund, Not Fight",
           historicalRecord: true,
           situation:
-            "North of the Gothic Line, the Committee of National Liberation for Northern Italy — CLNAI, drawing together Communist, Socialist, Catholic, Liberal, and Action Party resistance formations that agree on almost nothing except opposing the German occupation and the Salò Republic both — has grown from scattered bands into a genuine irregular army tying down German and RSI garrison forces across the mountains and industrial cities alike. What the government now reconstituted in Rome can offer this movement is not soldiers — the Gothic Line stalemate has none to spare crossing it — but money, arms shipments run by clandestine channels, and formal political recognition of a resistance the south had no hand in organizing and only limited ability to actually direct." +
+            "North of the Gothic Line, the Committee of National Liberation for Northern Italy: CLNAI, drawing together Communist, Socialist, Catholic, Liberal, and Action Party resistance formations that agree on almost nothing except opposing the German occupation and the Salò Republic both: has grown from scattered bands into a genuine irregular army tying down German and RSI garrison forces across the mountains and industrial cities alike. What the government now reconstituted in Rome can offer this movement is not soldiers, the Gothic Line stalemate has none to spare crossing it, but money, arms shipments run by clandestine channels, and formal political recognition of a resistance the south had no hand in organizing and only limited ability to actually direct." +
             // Round 25 (Filottrano echo): only when the Corps actually fought for the town.
             (flags.adriaticRoad44 === "lead" ? keyBattleEcho("adriaticRoad44", flags) : ""),
           choices: [
@@ -2610,17 +2610,17 @@
               impact: { manpower: 0, fuel: -1, initiative: 1 },
               next: "gothicLine44",
               outcome:
-                "Closer to the more assertive end of what Allied and Italian channels actually managed through 1944 — clandestine arms drops and gold shipments did reach CLNAI formations in meaningful, if never sufficient, quantities, a material commitment that helped the northern resistance grow into the force that would eventually help liberate Milan and Turin largely on its own initiative in April 1945.",
+                "Closer to the more assertive end of what Allied and Italian channels actually managed through 1944: clandestine arms drops and gold shipments did reach CLNAI formations in meaningful, if never sufficient, quantities, a material commitment that helped the northern resistance grow into the force that would eventually help liberate Milan and Turin largely on its own initiative in April 1945.",
             },
             {
-              label: "Offer political recognition without significant material commitment — the front line's own supply needs come first",
+              label: "Offer political recognition without significant material commitment: the front line's own supply needs come first",
               advisor: { name: "Badoglio", position: "He does not doubt what the partisans are accomplishing, but doubts this government's standing to spend scarce matériel on a front it cannot see or coordinate while the front it can see still needs everything." },
               favor: 1,
               setFlags: { clnLiaison44: "recognize" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "gothicLine44",
               outcome:
-                "A more conservative accounting of a thin supply picture — formal recognition costs the government nothing it doesn't already have to give, while material support is left mostly to Allied channels operating independently of Rome's own priorities. The CLNAI grows and fights regardless, largely on its own organizational strength, with or without this government's own gold behind it.",
+                "A more conservative accounting of a thin supply picture: formal recognition costs the government nothing it doesn't already have to give, while material support is left mostly to Allied channels operating independently of Rome's own priorities. The CLNAI grows and fights regardless, largely on its own organizational strength, with or without this government's own gold behind it.",
             },
           ],
         };
@@ -2631,7 +2631,7 @@
           title: "The Gothic Line",
           historicalRecord: true,
           situation:
-            "Kesselring's last major defensive position in Italy runs along the northern Apennines, and the Allied offensive against it through the autumn of 1944 — resourced well below what an earlier, faster campaign might have had, since divisions and landing craft have been steadily withdrawn for the southern France landings and other theaters judged higher priority — grinds to a halt short of the Po valley as winter closes the mountain passes. The Co-Belligerent Army, considerably larger and more combat-proven than it was at Salerno fourteen months earlier, is offered a genuine front-line sector for the first time — the campaign's clearest test yet of whether the trust-building since 1943 has actually produced a force Allied command is willing to rely on rather than merely tolerate.",
+            "Kesselring's last major defensive position in Italy runs along the northern Apennines, and the Allied offensive against it through the autumn of 1944: resourced well below what an earlier, faster campaign might have had, since divisions and landing craft have been steadily withdrawn for the southern France landings and other theaters judged higher priority: grinds to a halt short of the Po valley as winter closes the mountain passes. The Co-Belligerent Army, considerably larger and more combat-proven than it was at Salerno fourteen months earlier, is offered a genuine front-line sector for the first time: the campaign's clearest test yet of whether the trust-building since 1943 has actually produced a force Allied command is willing to rely on rather than merely tolerate.",
           choices: [
             {
               label: "Commit the Co-Belligerent Army's combat groups to the main Gothic Line offensive in full",
@@ -2641,17 +2641,17 @@
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "combatGroups44",
               outcome:
-                "The fuller commitment this path represents mirrors the actual expansion of Italian combat groups into the Gothic Line fighting through late 1944 — formations that by the campaign's final phase are integrated into Allied corps structure as genuine front-line units rather than auxiliary support. The offensive still stalls for the winter regardless of how committed any single army's sector is, since the halt is a resourcing and weather problem the whole Allied front shares, not a question any one formation's effort could individually solve.",
+                "The fuller commitment this path represents mirrors the actual expansion of Italian combat groups into the Gothic Line fighting through late 1944: formations that by the campaign's final phase are integrated into Allied corps structure as genuine front-line units rather than auxiliary support. The offensive still stalls for the winter regardless of how committed any single army's sector is, since the halt is a resourcing and weather problem the whole Allied front shares, not a question any one formation's effort could individually solve.",
             },
             {
-              label: "Commit more cautiously — preserve the army's strength for the final spring offensive rather than the winter grind",
+              label: "Commit more cautiously: preserve the army's strength for the final spring offensive rather than the winter grind",
               advisor: { name: "Ambrosio", position: "The line will stall for the winter regardless of what any single division does, and he would rather have this army intact and rested for spring than spent proving a point in a season everyone expects to end in stalemate." },
               setFlags: { gothicLine44: "conserve" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "combatGroups44",
               outcome:
-                "A more conservative commitment through the winter's stalemate preserves the Co-Belligerent Army's strength for the spring 1945 offensive that will finally break the Gothic Line and end the Italian campaign — at the cost of a slightly less complete combat record built up through 1944's fighting, a trade between what this army demonstrably did and what it demonstrably still has left when the decisive push finally comes.",
+                "A more conservative commitment through the winter's stalemate preserves the Co-Belligerent Army's strength for the spring 1945 offensive that will finally break the Gothic Line and end the Italian campaign: at the cost of a slightly less complete combat record built up through 1944's fighting, a trade between what this army demonstrably did and what it demonstrably still has left when the decisive push finally comes.",
             },
           ],
         };
@@ -2680,7 +2680,7 @@
               : " The auxiliary role accepted after Salerno has bought the Group a quiet autumn, and the first hill it is offered is not a quiet one."),
           choices: [
             {
-              label: "Accept the American plan — attack on December 8, in the morning mist, beside II Corps",
+              label: "Accept the American plan: attack on December 8, in the morning mist, beside II Corps",
               advisor: { name: "Messe", position: "An army that is never seen fighting is never equipped to fight, and the Group goes in on the day it is asked to, with the guns it is given." },
               historical: true,
               setFlags: { monteLungo43: "attack" },
@@ -2702,7 +2702,7 @@
               // 75/18 artillery group, the Group took the hill with 6 dead and 30 wounded.
               keyBattleSubgame: {
                 id: "monteLungo43",
-                title: "Order of Battle — Monte Lungo",
+                title: "Order of Battle: Monte Lungo",
                 flavor:
                   "The first hill the army has been asked to take. Monte Lungo is the low ridge beside San Pietro Infine in the Mignano gap, held by German Panzergrenadiers on the Bernhardt Line, and II Corps wants it taken on the morning its own 36th Division attacks the village. The Group goes up in the mist at first light, on a plan made in haste, behind guns it has not trained with and against an enemy none of its men has fought in a prepared position. What's decided here is how the Group's effort is placed: how much into the infantry of the 67th Regiment, how much into the Bersaglieri cadets, how much to the guns and mortars that have to suppress a line nobody has seen, and how much to the patrols and observers who have until the mist lifts to find it.",
                 categories: [
@@ -2891,7 +2891,7 @@
               ],
             },
             {
-              label: "Ask II Corps for another week — rehearse the attack with the guns and the American infantry that will support it",
+              label: "Ask II Corps for another week: rehearse the attack with the guns and the American infantry that will support it",
               advisor: { name: "Dapino", position: "A group that has been together a few weeks knows neither the guns beside it nor the hill in front of it, and a week to learn both is cheaper than the first attack." },
               setFlags: { monteLungo43: "delay" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
@@ -2951,7 +2951,7 @@
               : ""),
           choices: [
             {
-              label: "Let the Nembo lead the hill fighting — Filottrano, with the Polish armour behind them",
+              label: "Let the Nembo lead the hill fighting: Filottrano, with the Polish armour behind them",
               advisor: { name: "Utili", position: "The paratroopers were made for this ground, and a corps that leads at Ancona is a corps that is asked to lead afterwards." },
               historical: true,
               setFlags: { adriaticRoad44: "lead" },
@@ -2972,7 +2972,7 @@
               // Allies 496 killed, 1,789 wounded and 139 missing, and the Germans about 800 killed and 2,500 captured.
               keyBattleSubgame: {
                 id: "adriaticRoad44",
-                title: "Order of Battle — Filottrano",
+                title: "Order of Battle: Filottrano",
                 flavor:
                   "The Germans have chosen to hold the road to Ancona along the ridges from Cingoli through Filottrano and Osimo to Castelfidardo, and the Polish corps wants the road open. The Italian Liberation Corps has come north behind the advance with fewer trucks than the Poles have tanks, and has been offered the town. The paratroopers of the Nembo are the best infantry the army has. The armour, the guns and most of the trucks are someone else's. What's decided here is how the Corps' effort is placed: how much into the Nembo's assault on the hills, how much into the Polish tanks that follow it, how much to the corps artillery, and how much to the trucks and pack trains that have to keep the paratroopers fed and supplied with ammunition on the way.",
                 categories: [
@@ -3161,7 +3161,7 @@
               ],
             },
             {
-              label: "Keep the Corps on the flank — screening and follow-up under the Poles, while their tanks and guns take the town",
+              label: "Keep the Corps on the flank: screening and follow-up under the Poles, while their tanks and guns take the town",
               advisor: { name: "Messe", position: "The Corps is the one real formation the army has, and he would rather see it screen a flank than be spent on a hilltop that Polish guns can take." },
               setFlags: { adriaticRoad44: "flank" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -3178,7 +3178,7 @@
           title: "Six Groups, and Everyone Else",
           historicalRecord: true,
           situation:
-            "On September 24 the Italian Liberation Corps is disbanded, and its men are used to raise the first of the Combat Groups. The Allied offer is specific. The Italian General Staff may set up two Groups at once, named for the Cremona and Friuli divisions, and four more a few weeks later: Folgore, Legnano, Piceno and Mantova. Each will have some 9,000 men, in British battledress and with British weapons — 116 field guns, 170 mortars, over 500 light machine guns, nearly 1,300 vehicles — and will be attached to an Allied corps. Every other Italian formation south of the front, between 150,000 and 190,000 men, stays as auxiliary troops: labour, guards, supply, the men who keep the Allied armies moving. The case for a larger army is the obvious one: an army of six divisions is a token army, in a war the Italian army has spent a year trying to enter. The British position is that there is no equipment for more, and that Italian formations must prove themselves before they get it." +
+            "On September 24 the Italian Liberation Corps is disbanded, and its men are used to raise the first of the Combat Groups. The Allied offer is specific. The Italian General Staff may set up two Groups at once, named for the Cremona and Friuli divisions, and four more a few weeks later: Folgore, Legnano, Piceno and Mantova. Each will have some 9,000 men, in British battledress and with British weapons (116 field guns, 170 mortars, over 500 light machine guns, nearly 1,300 vehicles) and will be attached to an Allied corps. Every other Italian formation south of the front, between 150,000 and 190,000 men, stays as auxiliary troops: labour, guards, supply, the men who keep the Allied armies moving. The case for a larger army is the obvious one: an army of six divisions is a token army, in a war the Italian army has spent a year trying to enter. The British position is that there is no equipment for more, and that Italian formations must prove themselves before they get it." +
             (flags.adriaticRoad44 === "lead" && flags.adriaticResult44 === "taken"
               ? " The Corps that has just been broken up to make the first Groups is the one that took Filottrano, and no one at Allied headquarters needs to be reminded of it."
               : flags.adriaticRoad44 === "lead"
@@ -3188,7 +3188,7 @@
               : ""),
           choices: [
             {
-              label: "Accept six fully equipped Groups — and keep the rest of the army working behind the line",
+              label: "Accept six fully equipped Groups, and keep the rest of the army working behind the line",
               advisor: { name: "Utili", position: "A division that is fully armed and fed is worth three that are not, and the six that exist will do more for the army's name than twenty that reach the line without guns." },
               historical: true,
               setFlags: { combatGroups44: "six" },
@@ -3198,7 +3198,7 @@
                 "What happened. Six Combat Groups were raised between the autumn of 1944 and the winter of 1945, equipped by the British, while the great mass of the army worked behind the line; by the war's end there were some 50,000 Italians in the combat formations, against 150,000 to 190,000 auxiliary troops and another 66,000 on traffic control and the defence of installations. The Groups were small beside the Allied armies and what they were given came from British stocks, but they were real: at the end the Co-Belligerent Army made up about an eighth of the fighting force of the Allied 15th Army Group, and with its auxiliaries a quarter of its whole force.",
             },
             {
-              label: "Press the Allies for a larger combat army — more Groups on a lighter scale, Italian rifles and mules, British guns only",
+              label: "Press the Allies for a larger combat army: more Groups on a lighter scale, Italian rifles and mules, British guns only",
               advisor: { name: "Messe", position: "An army of twenty divisions on paper and six in the line is a labour corps with a flag, and he would rather field twice the infantry on half the guns." },
               setFlags: { combatGroups44: "wide" },
               impact: { manpower: -1, fuel: -1, initiative: 0 },
@@ -3237,7 +3237,7 @@
               : " What was sent in the summer was recognition, not rifles, and the men in the mountains are aware of the difference."),
           choices: [
             {
-              label: "Follow the Allied line — tell the partisans to disperse and wait out the winter, and sign the Rome Protocols",
+              label: "Follow the Allied line: tell the partisans to disperse and wait out the winter, and sign the Rome Protocols",
               advisor: { name: "Ambrosio", position: "A movement that takes Allied orders and Allied pay is a movement the Allies must arm in the spring, and the front is better served by a quiet north until then." },
               historical: true,
               setFlags: { partisanWinter44: "standDown" },
@@ -3247,7 +3247,7 @@
                 "What happened. The Rome Protocols were signed on December 7: the CLNAI agreed to take its orders from the Allied command, to recognise the Bonomi government and to keep order in the north until an Allied occupation could be organised, and the Allies agreed to pay it 160 million lire a month. Alexander's proclamation had already told the partisans to wait; the winter that followed was the hardest the movement faced. By April the movement that rose in the northern cities was the one that had been recognised in December, and it did not need to be told when.",
             },
             {
-              label: "Refuse to endorse the stand-down — press the Allies to keep arming and supplying the partisans through the winter",
+              label: "Refuse to endorse the stand-down: press the Allies to keep arming and supplying the partisans through the winter",
               advisor: { name: "Cadorna", position: "A volunteer corps that is told to go home for the winter does not come back in the spring, so the drops and the pay must keep coming." },
               setFlags: { partisanWinter44: "keepFighting" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
@@ -3290,7 +3290,7 @@
               : ""),
           choices: [
             {
-              label: "Accept attachment to the Allied corps — each Group fights where the Eighth and Fifth Armies need it",
+              label: "Accept attachment to the Allied corps: each Group fights where the Eighth and Fifth Armies need it",
               advisor: { name: "Messe", position: "The guns, the shells and the trucks are with the Allied corps, and a Group that fights under one has them behind it, which is what wins a battle." },
               historical: true,
               setFlags: { groupsCommand45: "attached" },
@@ -3300,7 +3300,7 @@
                 "What happened. Cremona entered the line on January 12 with the British V Corps, Friuli went to X Corps and Folgore to XIII Corps, and each fought where it was sent. Each was one more division in someone else's corps, supplied from someone else's stocks. It was not a national army, and it never had the chance to look like one. It did have the shells.",
             },
             {
-              label: "Press for an Italian corps headquarters to command the Groups together — one army, one flag, one sector",
+              label: "Press for an Italian corps headquarters to command the Groups together: one army, one flag, one sector",
               advisor: { name: "Utili", position: "An army that fights as one body is remembered as an army, while a handful of divisions spread across other men's corps is remembered as reinforcements, so the Groups fight under their own headquarters." },
               setFlags: { groupsCommand45: "corps" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
@@ -3352,7 +3352,7 @@
               : ""),
           choices: [
             {
-              label: "Ask for the assault roles — Cremona across the Senio at Alfonsine, Friuli and Folgore on the road to Bologna",
+              label: "Ask for the assault roles: Cremona across the Senio at Alfonsine, Friuli and Folgore on the road to Bologna",
               advisor: { name: "Utili", position: "A national army is remembered for the river it crossed and the city it entered, not for the line it held, so the Groups ask to be where the offensive will be won." },
               historical: true,
               setFlags: { springOffensive45: "lead" },
@@ -3375,7 +3375,7 @@
               // April the Eighth Army had reached the Santerno, 5.6 km beyond.
               keyBattleSubgame: {
                 id: "springOffensive45",
-                title: "Order of Battle — The Senio at Alfonsine",
+                title: "Order of Battle: The Senio at Alfonsine",
                 flavor:
                   "The Senio is a small river between two high earth banks, and the Germans have spent the winter living in the one on their side. After four months of stalemate the Eighth Army is to cross it on the evening of the ninth behind a fire plan of heavy bombers and massed guns, and the Cremona Group, which has sat in the line since January with British guns and British uniforms, has asked to cross with it. The Group is about nine thousand men. The fire, the flame-throwers and the bridging stores belong to V Corps, and so do the hours. What's decided here is how the Group's effort is placed: how much into its own infantry, how much into the flame-throwers and tanks V Corps will lend, how much into the bombers and guns that go ahead of it, and how much into the engineers who have to put a bridge across for the men who follow.",
                 categories: [
@@ -3564,7 +3564,7 @@
               ],
             },
             {
-              label: "Keep the Groups to supporting roles — flanks, follow-up and the occupation — and hold them whole for the peace",
+              label: "Keep the Groups to supporting roles (flanks, follow-up and the occupation) and hold them whole for the peace",
               advisor: { name: "Messe", position: "An army that comes out of the last month whole has something to put on the table at the peace, while one that has bled for a river crossing has a casualty list." },
               setFlags: { springOffensive45: "support" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
@@ -3581,7 +3581,7 @@
           title: "The War's End, From the South",
           historicalRecord: true,
           situation:
-            "The final Allied offensive breaks the Gothic Line in April 1945, and what remains of German Army Group C in Italy surrenders unconditionally on May 2 — five days before the wider European war ends, and the culmination of nineteen months in which what used to be a single Comando Supremo fought its final act as a junior partner in someone else's coalition, on its own soil, against other Italians wearing the same uniforms a year and a half earlier wore alongside it. The reckoning this ending leaves behind is not primarily military: it is the question of what Italy's own war record, split as it was between two governments and an army that fought on both sides of the final line, actually amounts to when the guns finally stop." +
+            "The final Allied offensive breaks the Gothic Line in April 1945, and what remains of German Army Group C in Italy surrenders unconditionally on May 2: five days before the wider European war ends, and the culmination of nineteen months in which what used to be a single Comando Supremo fought its final act as a junior partner in someone else's coalition, on its own soil, against other Italians wearing the same uniforms a year and a half earlier wore alongside it. The reckoning this ending leaves behind is not primarily military: it is the question of what Italy's own war record, split as it was between two governments and an army that fought on both sides of the final line, actually amounts to when the guns finally stop." +
             " The army that fought on the Allied side put some 50,000 combat troops in the line by the end; the navy that sailed to Allied ports in September 1943 brought nine cruisers and thirty-three destroyers, and the air force flew more than 4,000 missions between September 1943 and May 1945." +
             (flags.springOffensive45 === "lead" && flags.springResult45 === "decisive"
               ? " The Combat Groups spent the last weeks of the war at the head of the Allied offensive, from the Senio to Bologna and Venice, and that is a fact the peace table will find easier to ignore than to dispute."
@@ -3600,7 +3600,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "END",
               outcome:
-                "What the historical record actually shows is a partial, contested answer: the Co-Belligerent Army's combat record was real, but Italy's postwar treatment at the peace conference — loss of colonies, war reparations, territorial concessions to Yugoslavia — reflected its status as a defeated former Axis power considerably more than its status as a co-belligerent ally, whatever the campaign's final nineteen months had actually cost in Italian lives fighting Germans. The distinction mattered less at the peace table than the men who fought this campaign's final year, on the correct side of it, might reasonably have hoped.",
+                "What the historical record actually shows is a partial, contested answer: the Co-Belligerent Army's combat record was real, but Italy's postwar treatment at the peace conference (loss of colonies, war reparations, territorial concessions to Yugoslavia) reflected its status as a defeated former Axis power considerably more than its status as a co-belligerent ally, whatever the campaign's final nineteen months had actually cost in Italian lives fighting Germans. The distinction mattered less at the peace table than the men who fought this campaign's final year, on the correct side of it, might reasonably have hoped.",
             },
             {
               label: "Accept the settlement quietly and focus on the republic's own reconstruction instead",
@@ -3611,7 +3611,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "END",
               outcome:
-                "The path closer to how Italy's postwar politics actually unfolded, in substance if not always in tone: the peace treaty's harsh terms were accepted rather than fought at length, and national energy went overwhelmingly toward reconstruction and, within a year, the referendum that would abolish the monarchy Victor Emmanuel III abdicated just ahead of. Comando Supremo, in any form resembling what it was in 1940, does not survive this campaign's end — its wartime institutions, and the monarchy some of them served, are replaced rather than restored.",
+                "The path closer to how Italy's postwar politics actually unfolded, in substance if not always in tone: the peace treaty's harsh terms were accepted rather than fought at length, and national energy went overwhelmingly toward reconstruction and, within a year, the referendum that would abolish the monarchy Victor Emmanuel III abdicated just ahead of. Comando Supremo, in any form resembling what it was in 1940, does not survive this campaign's end: its wartime institutions, and the monarchy some of them served, are replaced rather than restored.",
             },
           ],
         };
@@ -3622,7 +3622,7 @@
           title: "Founding the Republic",
           historicalRecord: true,
           situation:
-            "Freed from his mountaintop prison by German commandos and installed as head of a new Italian Social Republic governing the German-occupied north — the north this command chose to answer to, when Comando Supremo split, rather than follow the King south — Mussolini is, by any honest reading available to the men now serving under him, less a restored leader than a managed asset — the RSI's ministries are headquartered in small towns around Lake Garda rather than Rome, its army answers in practice to German operational command whenever the two disagree, and its territory shrinks by the month as the Allied advance and the front both press north. The republic's founding proclamation promises a return to the movement's original, more radical 1919 program — a rhetorical move Pavolini and the party's hardliners push hard, aimed at recapturing something of Fascism's early energy rather than defending the compromises the regime made with the monarchy and industry over two decades in power.",
+            "Freed from his mountaintop prison by German commandos and installed as head of a new Italian Social Republic governing the German-occupied north (the north this command chose to answer to, when Comando Supremo split, rather than follow the King south) Mussolini is, by any honest reading available to the men now serving under him, less a restored leader than a managed asset: the RSI's ministries are headquartered in small towns around Lake Garda rather than Rome, its army answers in practice to German operational command whenever the two disagree, and its territory shrinks by the month as the Allied advance and the front both press north. The republic's founding proclamation promises a return to the movement's original, more radical 1919 program: a rhetorical move Pavolini and the party's hardliners push hard, aimed at recapturing something of Fascism's early energy rather than defending the compromises the regime made with the monarchy and industry over two decades in power.",
           choices: [
             {
               label: "Build a genuine RSI military, conscripted and organized, to hold a real front line alongside the Wehrmacht",
@@ -3632,10 +3632,10 @@
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: "alpenvorlandQuestion43",
               outcome:
-                "What Graziani, as the RSI's Minister of Defense, actually attempted: a conscription law that summoned roughly 300,000 men to the colors, of whom perhaps half actually reported — draft evasion into the mountains, often straight into the arms of the partisan bands it was meant to fight, undercut the program from the start. What did materialize were several properly trained divisions, some formed and equipped in Germany itself, that fought on the front line alongside the Wehrmacht through the campaign's final phase — a real military, just never the reliable mass mobilization its planners on paper had projected.",
+                "What Graziani, as the RSI's Minister of Defense, actually attempted: a conscription law that summoned roughly 300,000 men to the colors, of whom perhaps half actually reported–draft evasion into the mountains, often straight into the arms of the partisan bands it was meant to fight, undercut the program from the start. What did materialize were several properly trained divisions, some formed and equipped in Germany itself, that fought on the front line alongside the Wehrmacht through the campaign's final phase: a real military, just never the reliable mass mobilization its planners on paper had projected.",
             },
             {
-              label: "Keep the RSI's military footprint deliberately small — rely on German forces for the front, Italian units for internal order only",
+              label: "Keep the RSI's military footprint deliberately small: rely on German forces for the front, Italian units for internal order only",
               advisor: { name: "Ambrosio", position: "Speaking from the government that was not chosen, he says plainly to anyone listening in the north that a smaller army conscripted from a population that increasingly does not want this war is a smaller number of Italians spent on a cause already lost." },
               setFlags: { rsiMilitary: "minimal" },
               favor: 1,
@@ -3653,10 +3653,10 @@
           title: "The Provinces Salò Never Actually Governed",
           historicalRecord: true,
           situation:
-            "Within days of the armistice, German administrative decree quietly removes two entire border regions from whatever authority the new Republic claims to hold: the Alpine provinces around Bolzano and Trento are folded into an 'Operational Zone Alpine Foothills' under direct German civil administration, and the northeastern provinces around Trieste and Udine into a matching 'Operational Zone Adriatic Littoral' — both run by German Gauleiters, both a hedge, unmistakable to anyone reading the paperwork, against exactly the kind of German territorial claims on former Habsburg and Italian-Austrian borderlands that outlasted the empire that first drew them. The Republic's founding proclamation speaks of restoring Italian sovereignty in full; this decree, issued by the same patrons who freed Mussolini at Gran Sasso, quietly removes a meaningful share of that sovereignty before the Republic has even finished being founded.",
+            "Within days of the armistice, German administrative decree quietly removes two entire border regions from whatever authority the new Republic claims to hold: the Alpine provinces around Bolzano and Trento are folded into an 'Operational Zone Alpine Foothills' under direct German civil administration, and the northeastern provinces around Trieste and Udine into a matching 'Operational Zone Adriatic Littoral': both run by German Gauleiters, both a hedge, unmistakable to anyone reading the paperwork, against exactly the kind of German territorial claims on former Habsburg and Italian-Austrian borderlands that outlasted the empire that first drew them. The Republic's founding proclamation speaks of restoring Italian sovereignty in full; this decree, issued by the same patrons who freed Mussolini at Gran Sasso, quietly removes a meaningful share of that sovereignty before the Republic has even finished being founded.",
           choices: [
             {
-              label: "Formally protest the annexation to Berlin — insist the operational zones are provisional, not permanent",
+              label: "Formally protest the annexation to Berlin: insist the operational zones are provisional, not permanent",
               advisor: { name: "Graziani", position: "Men are asked to fight and die for a Republic whose own government cannot say with a straight face where its northern border is this month, and he would rather lodge the protest and be told no than let the question go unasked." },
               checkLabel: "Initiative",
               disabledReason: (meters.initiative || 0) >= 1 ? undefined : "insufficient standing left to contest a German administrative decision inside the Republic's own claimed territory",
@@ -3664,10 +3664,10 @@
               impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "civilWarPartisans44",
               outcome:
-                "The protest is heard and, in every practical sense, ignored — both operational zones remain under direct German civil administration for the entirety of the war, run by their own Gauleiters answering to Berlin rather than to any office in Salò, a fact the Republic's own propaganda apparatus finds no honest way to describe as anything other than what it plainly is.",
+                "The protest is heard and, in every practical sense, ignored: both operational zones remain under direct German civil administration for the entirety of the war, run by their own Gauleiters answering to Berlin rather than to any office in Salò, a fact the Republic's own propaganda apparatus finds no honest way to describe as anything other than what it plainly is.",
             },
             {
-              label: "Accept the arrangement quietly — preserve the relationship with Berlin rather than contest a decision already made",
+              label: "Accept the arrangement quietly: preserve the relationship with Berlin rather than contest a decision already made",
               advisor: { name: "Pavolini", position: "The Republic exists because Berlin decided it should, and the little goodwill that decision bought will not be spent arguing over provinces the Reich has already made up its mind about." },
               historical: true,
               setFlags: { alpenvorlandQuestion43: "accept" },
@@ -3675,7 +3675,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "civilWarPartisans44",
               outcome:
-                "Roughly what actually happened — the Republic never seriously contested either zone's removal from its authority for the whole of its twenty-month existence, an acceptance that costs it nothing further to admit and that changes nothing about a fact every officer in this chain of command can read for themselves on any map issued after October 1943: this Republic's sovereignty was conditional, partial, and set by someone else's decree from its very first weeks.",
+                "Roughly what actually happened: the Republic never seriously contested either zone's removal from its authority for the whole of its twenty-month existence, an acceptance that costs it nothing further to admit and that changes nothing about a fact every officer in this chain of command can read for themselves on any map issued after October 1943: this Republic's sovereignty was conditional, partial, and set by someone else's decree from its very first weeks.",
             },
           ],
         };
@@ -3686,7 +3686,7 @@
           title: "The War Behind the Front",
           historicalRecord: true,
           situation:
-            "Partisan resistance in the RSI-controlled north has grown from scattered, poorly armed bands into a genuine irregular army — tens of thousands of fighters across a political spectrum from Communist to Catholic to purely apolitical draft-evaders, tying down German and RSI garrison forces across the mountains and industrial cities alike. Pavolini's Black Brigades, the Republic's own paramilitary anti-partisan force, are conducting reprisal operations with a brutality that has, if anything, deepened rather than suppressed the resistance they're meant to be fighting — a dynamic every occupation in this war's European theaters has produced in some form, and one this republic's own remaining legitimacy is being spent on regardless of which side of the argument the men actually running it privately believe.",
+            "Partisan resistance in the RSI-controlled north has grown from scattered, poorly armed bands into a genuine irregular army: tens of thousands of fighters across a political spectrum from Communist to Catholic to purely apolitical draft-evaders, tying down German and RSI garrison forces across the mountains and industrial cities alike. Pavolini's Black Brigades, the Republic's own paramilitary anti-partisan force, are conducting reprisal operations with a brutality that has, if anything, deepened rather than suppressed the resistance they're meant to be fighting: a dynamic every occupation in this war's European theaters has produced in some form, and one this republic's own remaining legitimacy is being spent on regardless of which side of the argument the men actually running it privately believe.",
           choices: [
             {
               label: "Commit RSI forces fully to anti-partisan operations, including the reprisal tactics German command favors",
@@ -3698,7 +3698,7 @@
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "gothicLineRSI44",
               outcome:
-                "What actually happened across large stretches of the RSI's territory: a campaign of mass reprisal killings — Marzabotto, where roughly 770 civilians were killed by German and RSI forces in a matter of days, is the single worst but far from the only example — that suppressed partisan activity in some areas temporarily while entrenching a level of hatred toward the Republic and its forces that made any postwar reconciliation, for the men who carried these operations out personally, essentially impossible. The military effectiveness of the approach, measured strictly, is genuinely disputed by postwar historians; its political and moral cost is not.",
+                "What actually happened across large stretches of the RSI's territory: a campaign of mass reprisal killings (Marzabotto, where roughly 770 civilians were killed by German and RSI forces in a matter of days, is the single worst but far from the only example) that suppressed partisan activity in some areas temporarily while entrenching a level of hatred toward the Republic and its forces that made any postwar reconciliation, for the men who carried these operations out personally, essentially impossible. The military effectiveness of the approach, measured strictly, is genuinely disputed by postwar historians; its political and moral cost is not.",
               uncertain: [
                 {
                   weight: modWeight(35, meters.initiative),
@@ -3706,7 +3706,7 @@
                   setFlags: { partisanWar44Result: "suppressed" },
                   impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
-                    "In the districts hit hardest, partisan activity does drop for weeks afterward — the military logic Pavolini argued for is not simply propaganda, in these specific sectors. What it buys the Republic in the same districts, longer term, is a hatred no garrison report is honest enough to put a number on.",
+                    "In the districts hit hardest, partisan activity does drop for weeks afterward: the military logic Pavolini argued for is not simply propaganda, in these specific sectors. What it buys the Republic in the same districts, longer term, is a hatred no garrison report is honest enough to put a number on.",
                 },
                 {
                   weight: 100 - modWeight(35, meters.initiative),
@@ -3726,7 +3726,7 @@
               impact: { manpower: 0, fuel: 0, initiative: -1 },
               next: "gothicLineRSI44",
               outcome:
-                "A real, if narrow, distinction some RSI military officers did draw in practice — declining to personally lead the harshest reprisal operations while still serving a government whose German patrons conducted them regardless, with or without Italian participation. It spares RSI forces some of the direct authorship of the war's ugliest chapter in the north without meaningfully changing the campaign's outcome or sparing the civilians those German-led operations were still visited upon.",
+                "A real, if narrow, distinction some RSI military officers did draw in practice: declining to personally lead the harshest reprisal operations while still serving a government whose German patrons conducted them regardless, with or without Italian participation. It spares RSI forces some of the direct authorship of the war's ugliest chapter in the north without meaningfully changing the campaign's outcome or sparing the civilians those German-led operations were still visited upon.",
             },
           ],
         };
@@ -3737,22 +3737,22 @@
           title: "The Republic's Front",
           historicalRecord: true,
           situation:
-            "RSI divisions — the ones Graziani's conscription program actually produced, several trained and equipped in Germany — hold sectors of the Gothic Line alongside Wehrmacht formations as the Allied autumn offensive grinds to a halt in the northern Apennines' winter weather, the same stalemate the campaign's southern, co-belligerent counterpart is experiencing on the other side of the same line. What is different here is what holding this front is actually for: not liberation, but the postponement of a defeat every officer in this chain of command can read as clearly as anyone in Rome can." +
+            "RSI divisions (the ones Graziani's conscription program actually produced, several trained and equipped in Germany) hold sectors of the Gothic Line alongside Wehrmacht formations as the Allied autumn offensive grinds to a halt in the northern Apennines' winter weather, the same stalemate the campaign's southern, co-belligerent counterpart is experiencing on the other side of the same line. What is different here is what holding this front is actually for: not liberation, but the postponement of a defeat every officer in this chain of command can read as clearly as anyone in Rome can." +
             (flags.partisanWar44Result === "backfired"
               ? " The mountains behind this line are fuller of armed partisans than they were a season ago, a direct dividend of the reprisal campaign, and every division holding the Gothic Line is a division that can also feel it has an enemy at its back now, not only in front."
               : flags.partisanWar44Result === "suppressed"
-              ? " The rear areas behind this stretch of the line are, for now, quieter than the reprisal campaign's critics predicted — a fact this command is careful not to mistake for a verdict on the policy as a whole."
+              ? " The rear areas behind this stretch of the line are, for now, quieter than the reprisal campaign's critics predicted: a fact this command is careful not to mistake for a verdict on the policy as a whole."
               : ""),
           choices: [
             {
-              label: "Hold the line with full commitment — the republic's legitimacy depends on being seen to fight, not merely exist",
+              label: "Hold the line with full commitment: the republic's legitimacy depends on being seen to fight, not merely exist",
               advisor: { name: "Graziani", position: "Whatever this government becomes in the history books, it will not be recorded as one that did not fight, and that distinction is the only thing left entirely in its own hands." },
               historical: true,
               setFlags: { gothicLineRSI: "commit" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "rsiCollapse45",
               outcome:
-                "The RSI's military did, in fact, fight with a determination that surprised some Allied assessments of a client-state army's likely reliability — several units held their sectors through the winter stalemate as capably as the German formations alongside them. What this commitment could not do, any more than the equivalent commitment on the co-belligerent side of the line could reverse Germany's wider strategic collapse, is change where this front — and the government it serves — ultimately ends, within months, regardless of how well any single winter's defense was fought.",
+                "The RSI's military did, in fact, fight with a determination that surprised some Allied assessments of a client-state army's likely reliability: several units held their sectors through the winter stalemate as capably as the German formations alongside them. What this commitment could not do, any more than the equivalent commitment on the co-belligerent side of the line could reverse Germany's wider strategic collapse, is change where this front, and the government it serves, ultimately ends, within months, regardless of how well any single winter's defense was fought.",
             },
             {
               label: "Preserve forces where possible, quietly deprioritizing the hardest-held sectors",
@@ -3762,7 +3762,7 @@
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "rsiCollapse45",
               outcome:
-                "A quieter, more self-preserving posture through the winter's fighting costs the Republic whatever propaganda value a fuller commitment might have produced, and draws private German suspicion about Italian reliability in sectors where it's applied — but it does leave more RSI units intact and closer to their home communities when the final collapse comes in the spring, a difference that will matter considerably more to the men in those units, and to their families, than to the war's actual outcome.",
+                "A quieter, more self-preserving posture through the winter's fighting costs the Republic whatever propaganda value a fuller commitment might have produced, and draws private German suspicion about Italian reliability in sectors where it's applied, but it does leave more RSI units intact and closer to their home communities when the final collapse comes in the spring, a difference that will matter considerably more to the men in those units, and to their families, than to the war's actual outcome.",
             },
           ],
         };
@@ -3782,7 +3782,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "END",
               outcome:
-                "Graziani's own historical instinct — he did in fact favor negotiation through Schuster's channel, and eventually surrendered the RSI's remaining forces to Allied command directly on April 29, a full accounting of the choice that saved him, uniquely among the Republic's senior figures, from summary execution. Mussolini himself never accepted this path: he left the negotiation meeting on April 25 and fled north the same night, a decision this choice does nothing to change, since the negotiation was always Graziani's initiative and Mussolini's alone to reject.",
+                "Graziani's own historical instinct: he did in fact favor negotiation through Schuster's channel, and eventually surrendered the RSI's remaining forces to Allied command directly on April 29, a full accounting of the choice that saved him, uniquely among the Republic's senior figures, from summary execution. Mussolini himself never accepted this path: he left the negotiation meeting on April 25 and fled north the same night, a decision this choice does nothing to change, since the negotiation was always Graziani's initiative and Mussolini's alone to reject.",
             },
             {
               label: "Attempt to flee toward Switzerland with the government's remaining officials",
@@ -3792,7 +3792,7 @@
               impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "END",
               outcome:
-                "What happened: Mussolini's convoy, attempting to reach the Swiss border disguised among retreating German troops, is stopped by Communist partisans near the village of Dongo on April 27. Recognized despite the disguise, he is shot the following day along with his mistress Clara Petacci and several other captured RSI officials — Pavolini among them — on partisan orders, without trial. Their bodies are transported to Milan and hung by the feet in the Piazzale Loreto the next morning, on the same square where partisan bodies had been displayed by Fascist authorities the previous August, a circularity the crowd gathering to see it does not need explained to them. The Republic of Salò, twenty months after its founding at Gran Sasso, ends here — and this campaign, whichever of its two governments this chain of command ultimately served, ends with it.",
+                "What happened: Mussolini's convoy, attempting to reach the Swiss border disguised among retreating German troops, is stopped by Communist partisans near the village of Dongo on April 27. Recognized despite the disguise, he is shot the following day along with his mistress Clara Petacci and several other captured RSI officials, Pavolini among them, on partisan orders, without trial. Their bodies are transported to Milan and hung by the feet in the Piazzale Loreto the next morning, on the same square where partisan bodies had been displayed by Fascist authorities the previous August, a circularity the crowd gathering to see it does not need explained to them. The Republic of Salò, twenty months after its founding at Gran Sasso, ends here, and this campaign, whichever of its two governments this chain of command ultimately served, ends with it.",
             },
           ],
         };
@@ -3872,13 +3872,13 @@
       // entirely speculative, September 1943 terminal node, so it gets its own case here rather
       // than falling through to the "incomplete record" default meant for runs that stop early.
       if (flags.coupResponse === "backMussolini")
-        return { stamp: "SEPTEMBER 1943 — SPECULATIVE", prose: "September 1943", exact: false };
+        return { stamp: "SEPTEMBER 1943: SPECULATIVE", prose: "September 1943", exact: false };
       // Round 19: the extended non-belligerence branch never reaches the armistice fork either —
       // it closes on its own dates, same reasoning as the backMussolini case immediately above.
       if (flags.italyEntry === "neutral" && flags.neutralItalyEnd)
-        return { stamp: "LATE 1942 — SPECULATIVE", prose: "late 1942", exact: false };
+        return { stamp: "LATE 1942: SPECULATIVE", prose: "late 1942", exact: false };
       if (flags.italyEntry === "neutral" && flags.neutralItalyPressure === "tolerated")
-        return { stamp: "1945 — SPECULATIVE", prose: "1945", exact: false };
+        return { stamp: "1945: SPECULATIVE", prose: "1945", exact: false };
       if (flags.italyPath === "rsi") {
         if (flags.rsiEnd === "flee")
           return { stamp: "APRIL 28, 1945", prose: "April 28, 1945", exact: true };
@@ -3949,8 +3949,8 @@
     epilogue(flags, meters) {
       if (flags.superseded) {
         return (
-          "This campaign ends here, and not on any battlefield. Under Axis Mode, German Trust tracked every choice that read to Berlin as Rome acting on its own judgment rather than deferring to the senior partner's — and it has run out, well before whatever September the historical armistice would have arrived in on this path. There is no dramatic arrest, no summons to the Palazzo Venezia. Case Achse — the real contingency plan the Wehrmacht kept updated for exactly this scenario throughout the war, the one actually executed within hours of the historical armistice announcement in September 1943 — is simply triggered early, against a command Berlin has already stopped trusting to be told the date in advance. German formations already stationed on Italian soil for 'joint defense' move on their own authority to disarm the formations nominally still commanding them. Comando Supremo does not resign. It is no longer the office anyone in Berlin, or increasingly in Rome, is bothering to call. " +
-          "What this command spent, choice by choice, wasn't manpower or fuel — it was the one resource this junior partnership was always going to be measured in, and every act of independent judgment this campaign rewarded as the bolder, more Italian answer was also, without exception, a withdrawal against it. The war continues without this file's author in the room where it gets decided. It was never actually Rome's war to run alone, only Rome's war to be seen running."
+          "This campaign ends here, and not on any battlefield. Under Axis Mode, German Trust tracked every choice that read to Berlin as Rome acting on its own judgment rather than deferring to the senior partner's, and it has run out, well before whatever September the historical armistice would have arrived in on this path. There is no dramatic arrest, no summons to the Palazzo Venezia. Case Achse: the real contingency plan the Wehrmacht kept updated for exactly this scenario throughout the war, the one actually executed within hours of the historical armistice announcement in September 1943: is simply triggered early, against a command Berlin has already stopped trusting to be told the date in advance. German formations already stationed on Italian soil for 'joint defense' move on their own authority to disarm the formations nominally still commanding them. Comando Supremo does not resign. It is no longer the office anyone in Berlin, or increasingly in Rome, is bothering to call. " +
+          "What this command spent, choice by choice, wasn't manpower or fuel: it was the one resource this junior partnership was always going to be measured in, and every act of independent judgment this campaign rewarded as the bolder, more Italian answer was also, without exception, a withdrawal against it. The war continues without this file's author in the room where it gets decided. It was never actually Rome's war to run alone, only Rome's war to be seen running."
         );
       }
       const end = this.projectedEnd(flags, meters);
@@ -3959,156 +3959,156 @@
       let dateClause;
       if (flags.coupResponse === "backMussolini") {
         dateClause =
-          `This file closes on ${end.prose}, a speculative branch's own ending rather than a date the documented record recognizes — six weeks of an Italian army fighting itself that the actual, bloodless transition of July 1943 never had to spend.`;
+          `This file closes on ${end.prose}, a speculative branch's own ending rather than a date the documented record recognizes: six weeks of an Italian army fighting itself that the actual, bloodless transition of July 1943 never had to spend.`;
       } else if (flags.italyPath === "rsi") {
         dateClause =
           `The Italian Social Republic ends on ${end.prose}, twenty months after Mussolini's rescue from Gran Sasso installed it as a German client state in the occupied north.`;
       } else if (flags.italyPath === "coBelligerent") {
         dateClause =
-          `Army Group C surrenders in Italy on ${end.prose}, five days before the wider European war ends — the close of nineteen months fighting as a junior Allied partner on Italian soil.`;
+          `Army Group C surrenders in Italy on ${end.prose}, five days before the wider European war ends: the close of nineteen months fighting as a junior Allied partner on Italian soil.`;
       } else if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "resist") {
         dateClause =
-          `This file closes on ${end.prose}, speculative throughout — a non-belligerent Italy that held out for two years, then fought a war after all, just against the ally its whole policy was built to accommodate rather than for it.`;
+          `This file closes on ${end.prose}, speculative throughout: a non-belligerent Italy that held out for two years, then fought a war after all, just against the ally its whole policy was built to accommodate rather than for it.`;
       } else if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "submit") {
         dateClause =
-          `This file closes on ${end.prose}, speculative throughout — a non-belligerent Italy occupied in practice, without ever having fought a war on either side of it.`;
+          `This file closes on ${end.prose}, speculative throughout: a non-belligerent Italy occupied in practice, without ever having fought a war on either side of it.`;
       } else if (flags.italyEntry === "neutral") {
         dateClause =
-          `This file closes on ${end.prose}, speculative throughout — the war in Europe ends with this command never having entered it, on either side.`;
+          `This file closes on ${end.prose}, speculative throughout: the war in Europe ends with this command never having entered it, on either side.`;
       } else {
-        dateClause = "This file ends before the armistice fork that defines the rest of this campaign — an incomplete record.";
+        dateClause = "This file ends before the armistice fork that defines the rest of this campaign: an incomplete record.";
       }
 
       let costClause;
       if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "resist") {
         costClause =
-          " The human cost of this path is real but not comparable to the documented record's roughly 300,000 Italian dead — a short, localized conflict against a former ally, fought years into a war this command otherwise avoided entirely.";
+          " The human cost of this path is real but not comparable to the documented record's roughly 300,000 Italian dead: a short, localized conflict against a former ally, fought years into a war this command otherwise avoided entirely.";
       } else if (flags.italyEntry === "neutral" && flags.neutralItalyEnd === "submit") {
         costClause =
-          " The human cost of this path is the lowest of any branch this campaign can reach — an occupation absorbed without armed resistance, paid for in sovereignty rather than in the roughly 300,000 dead the documented war actually cost Italy.";
+          " The human cost of this path is the lowest of any branch this campaign can reach: an occupation absorbed without armed resistance, paid for in sovereignty rather than in the roughly 300,000 dead the documented war actually cost Italy.";
       } else if (flags.italyEntry === "neutral") {
         costClause =
-          " The human cost of this path is the lowest of any branch this campaign can reach — a European war that, for this file alone among every other run of this campaign, was never actually fought.";
+          " The human cost of this path is the lowest of any branch this campaign can reach: a European war that, for this file alone among every other run of this campaign, was never actually fought.";
       } else if ((meters.manpower || 0) >= 3) {
         costClause =
-          " The forces under this command's authority came through both the North African collapse and the armistice split more intact than the historical record — fewer of them spent proving points the war's arithmetic had already settled.";
+          " The forces under this command's authority came through both the North African collapse and the armistice split more intact than the historical record: fewer of them spent proving points the war's arithmetic had already settled.";
       } else if ((meters.manpower || 0) <= -3) {
         costClause =
-          " The human cost of this path runs higher than the historical one at nearly every hinge point — Italy's own wartime dead, roughly 300,000 military and civilian combined split across two governments and a country fought over twice, were already among the higher tolls of any Axis power relative to population.";
+          " The human cost of this path runs higher than the historical one at nearly every hinge point: Italy's own wartime dead, roughly 300,000 military and civilian combined split across two governments and a country fought over twice, were already among the higher tolls of any Axis power relative to population.";
       } else {
         costClause =
-          " The human cost of this path lands close to the historical record — a war that cost Italy its colonial empire, its monarchy within a year of the peace, and a divided memory of who actually fought whom in its final nineteen months.";
+          " The human cost of this path lands close to the historical record: a war that cost Italy its colonial empire, its monarchy within a year of the peace, and a divided memory of who actually fought whom in its final nineteen months.";
       }
 
       const notes = [];
       const add = (w, t) => notes.push({ w, t });
       if (flags.italyEntry === "wait")
-        add(7, "Non-belligerence was held past the historical June 10 declaration — a delay that cost the peace-table access Mussolini's actual gamble was built to secure, in exchange for readiness numbers the standing mobilization plan still needed.");
+        add(7, "Non-belligerence was held past the historical June 10 declaration: a delay that cost the peace-table access Mussolini's actual gamble was built to secure, in exchange for readiness numbers the standing mobilization plan still needed.");
       if (flags.italyEntry === "lateDeclare")
-        add(8, "War was declared only in the war's last days before France's own armistice — a real entry, but with almost none of the peace-table logic the historical June 10 declaration was built around still intact by the time it happened.");
+        add(8, "War was declared only in the war's last days before France's own armistice: a real entry, but with almost none of the peace-table logic the historical June 10 declaration was built around still intact by the time it happened.");
       if (flags.italyEntry === "britainOnly")
-        add(9, "War was declared on Britain alone, months after France had already settled its own armistice without Italian participation — a different opening than the historical one, fought for the Mediterranean prize directly rather than for a seat at a peace table that no longer existed to claim.");
+        add(9, "War was declared on Britain alone, months after France had already settled its own armistice without Italian participation: a different opening than the historical one, fought for the Mediterranean prize directly rather than for a seat at a peace table that no longer existed to claim.");
       if (flags.italyEntry === "neutral")
-        add(10, "Non-belligerence was held past every deadline the historical 'parallel war' doctrine assumed would force a choice — France's fall, Britain's survival, Barbarossa's launch — a counterfactual with almost no footing in what any Italian government under this regime actually considered.");
+        add(10, "Non-belligerence was held past every deadline the historical 'parallel war' doctrine assumed would force a choice (France's fall, Britain's survival, Barbarossa's launch) a counterfactual with almost no footing in what any Italian government under this regime actually considered.");
       if (flags.neutralItalyResponse41 === "refuse")
         add(7, "Berlin's 1941 pressure was met with an outright refusal to offer any concessions at all, a wager staked directly on this government's own remaining legitimacy rather than on a negotiated accommodation.");
       if (flags.neutralItalyResponse41 === "concede")
-        add(6, "Berlin's 1941 pressure was answered with economic concessions short of alliance — raw materials and transit access offered to keep the arrangement tolerable without actually joining the war.");
+        add(6, "Berlin's 1941 pressure was answered with economic concessions short of alliance: raw materials and transit access offered to keep the arrangement tolerable without actually joining the war.");
       if (flags.neutralItalyResistResult === "held")
-        add(7, "The refusal to submit to Berlin's 1942 ultimatum held — an occupation Germany could not fully resource on top of the Eastern Front's own demands never materialized past the threat of it.");
+        add(7, "The refusal to submit to Berlin's 1942 ultimatum held: an occupation Germany could not fully resource on top of the Eastern Front's own demands never materialized past the threat of it.");
       else if (flags.neutralItalyResistResult === "fought")
-        add(8, "The refusal to submit to Berlin's 1942 ultimatum was pressed, and answered directly — a real, if small and strange, war fought against the ally this command spent two years avoiding fighting for.");
+        add(8, "The refusal to submit to Berlin's 1942 ultimatum was pressed, and answered directly: a real, if small and strange, war fought against the ally this command spent two years avoiding fighting for.");
       if (flags.neutralItalyRetrospect === "vindicated")
-        add(6, "This command's own closing verdict on six years of non-belligerence was vindication — a judgment defended on the strength of an army that survived intact and cities that were never bombed, whatever it cost at the peace table this government never had a seat at.");
+        add(6, "This command's own closing verdict on six years of non-belligerence was vindication: a judgment defended on the strength of an army that survived intact and cities that were never bombed, whatever it cost at the peace table this government never had a seat at.");
       else if (flags.neutralItalyRetrospect === "unresolved")
-        add(6, "This command's own closing verdict on six years of non-belligerence declined to claim vindication — survival, it argued, is not the same thing as having answered for the choice not to fight.");
+        add(6, "This command's own closing verdict on six years of non-belligerence declined to claim vindication: survival, it argued, is not the same thing as having answered for the choice not to fight.");
       if (flags.malta40 === "fell" && flags.maltaRetaken)
-        add(6, "Malta was taken in an actual 1940 invasion, while the garrison was still weak — then lost back to a determined British counter-effort over the following winter, the documented British commitment to the island reasserting itself even against an early and successful Italian gamble.");
+        add(6, "Malta was taken in an actual 1940 invasion, while the garrison was still weak, then lost back to a determined British counter-effort over the following winter, the documented British commitment to the island reasserting itself even against an early and successful Italian gamble.");
       else if (flags.malta40 === "fell")
-        add(9, "The Mediterranean question was answered with an actual 1940 invasion of Malta, while the garrison was still weak — the operation the historical Comando Supremo only ever planned as Operation Hercules a year too late, attempted, won, and then held against Britain's own attempt to take it back.");
+        add(9, "The Mediterranean question was answered with an actual 1940 invasion of Malta, while the garrison was still weak: the operation the historical Comando Supremo only ever planned as Operation Hercules a year too late, attempted, won, and then held against Britain's own attempt to take it back.");
       else if (flags.herculesResult === "fell" && flags.maltaRetaken)
-        add(6, "Operation Hercules was finally executed and won in 1941 — then lost back to Britain within a season, the historical Comando Supremo's own caution about the island's real cost vindicated even by a late and successful invasion.");
+        add(6, "Operation Hercules was finally executed and won in 1941, then lost back to Britain within a season, the historical Comando Supremo's own caution about the island's real cost vindicated even by a late and successful invasion.");
       else if (flags.medStrategy === "malta")
-        add(7, "The Mediterranean question was answered with Malta named the priority in 1940 — an early invasion attempt was thrown back, and the base survived to become the same year-long argument over Operation Hercules the historical Comando Supremo also never resourced in time.");
+        add(7, "The Mediterranean question was answered with Malta named the priority in 1940: an early invasion attempt was thrown back, and the base survived to become the same year-long argument over Operation Hercules the historical Comando Supremo also never resourced in time.");
       else if (flags.medStrategy === "gibraltar")
         add(
           flags.gibraltarTaken === "success" ? 10 : 7,
           flags.gibraltarTaken === "success"
-            ? "Rome reached past both Malta and Egypt for the whole sea's western lock — Italian shipments to Madrid succeeded where the real Hitler-Franco meeting at Hendaye failed, and Gibraltar's fall took Force H off the board entirely, a strategic reversal with no equivalent anywhere else in the documented Mediterranean war."
-            : "Rome pressed Berlin and Madrid for a seat in the Gibraltar question rather than settling for Malta or Egypt alone — a diplomatic wager the documented record never records Italy attempting, win or lose at Hendaye's actual table."
+            ? "Rome reached past both Malta and Egypt for the whole sea's western lock: Italian shipments to Madrid succeeded where the real Hitler-Franco meeting at Hendaye failed, and Gibraltar's fall took Force H off the board entirely, a strategic reversal with no equivalent anywhere else in the documented Mediterranean war."
+            : "Rome pressed Berlin and Madrid for a seat in the Gibraltar question rather than settling for Malta or Egypt alone: a diplomatic wager the documented record never records Italy attempting, win or lose at Hendaye's actual table."
         );
       // Round 19: gibraltarGambit and gibraltarCommitment were flagged write-only by the audit —
       // set at gibraltarGambit40/gibraltarResolution40, but previously only ever read indirectly
       // through the derived gibraltarTaken flag above. These give the player's actual choice at
       // each of those two nodes its own narrative line, independent of how the roll landed.
       if (flags.gibraltarGambit === "backFranco")
-        add(5, "Rome pressed its own seat at the Gibraltar question rather than let Berlin negotiate it alone — a real diplomatic stake taken up even before the fuel-and-shipments question that followed it was decided.");
+        add(5, "Rome pressed its own seat at the Gibraltar question rather than let Berlin negotiate it alone: a real diplomatic stake taken up even before the fuel-and-shipments question that followed it was decided.");
       else if (flags.gibraltarGambit === "abstain")
         add(5, "Rome floated a seat at the Gibraltar question and then abandoned it, closer to the documented Hendaye meeting's actual absence of an Italian delegate than the alternative this branch also offered.");
       if (flags.gibraltarCommitment === "guaranteesOnly")
-        add(5, "Franco's price at Hendaye was met with paper guarantees on Tunisia and Nice rather than real Italian shipments — a wager this command declined to make, leaving Gibraltar exactly the fortress the documented meeting also failed to close.");
+        add(5, "Franco's price at Hendaye was met with paper guarantees on Tunisia and Nice rather than real Italian shipments: a wager this command declined to make, leaving Gibraltar exactly the fortress the documented meeting also failed to close.");
       if (flags.maltaDefense41 === "reinforce")
-        add(5, "Malta's garrison was reinforced from the fleet's own continuing budget rather than left to what was already there — an ongoing commitment against a British effort this command judged certain to come, whatever it cost the desert war's own timetable.");
+        add(5, "Malta's garrison was reinforced from the fleet's own continuing budget rather than left to what was already there: an ongoing commitment against a British effort this command judged certain to come, whatever it cost the desert war's own timetable.");
       else if (flags.maltaDefense41 === "minimal")
-        add(5, "Malta was defended with whatever was already on the island, nothing further diverted from the desert war to reinforce it — the cheaper bet, and the more exposed one, whichever way the British effort against it actually went.");
+        add(5, "Malta was defended with whatever was already on the island, nothing further diverted from the desert war to reinforce it: the cheaper bet, and the more exposed one, whichever way the British effort against it actually went.");
       if (flags.greeceDecision === "delay")
-        add(8, "Mussolini's answer to Romania was delayed rather than rushed — the single change every honest account of the Greek campaign says should have been made, and on this path, was.");
+        add(8, "Mussolini's answer to Romania was delayed rather than rushed: the single change every honest account of the Greek campaign says should have been made, and on this path, was.");
       if (flags.tarantoDoctrine === "escort")
-        add(6, "The diminished battle fleet was committed to active convoy escort after Taranto rather than preserved in harbor — more fuel and equipment reaching Libya, at a risk the historical 'fleet in being' doctrine was built specifically to avoid.");
+        add(6, "The diminished battle fleet was committed to active convoy escort after Taranto rather than preserved in harbor: more fuel and equipment reaching Libya, at a risk the historical 'fleet in being' doctrine was built specifically to avoid.");
       if (flags.compass40 === "withdraw")
-        add(8, "Graziani ordered the withdrawal from the fortified camps before Compass's flanking attack landed, rather than holding as the historical delay did — sparing the Tenth Army the worst of a rout that historically cost some 130,000 men taken prisoner.");
+        add(8, "Graziani ordered the withdrawal from the fortified camps before Compass's flanking attack landed, rather than holding as the historical delay did: sparing the Tenth Army the worst of a rout that historically cost some 130,000 men taken prisoner.");
       if (flags.germanRescue === "libyaOnly")
-        add(6, "The request to Berlin was narrowed to Libya alone — preserving, for one more season, the fiction that Greece remained an Italian-run campaign, right up until Yugoslavia's collapse made the question moot regardless.");
+        add(6, "The request to Berlin was narrowed to Libya alone: preserving, for one more season, the fiction that Greece remained an Italian-run campaign, right up until Yugoslavia's collapse made the question moot regardless.");
       if (flags.balkansAnnex === "limited")
-        add(6, "The Balkans annexation was kept deliberately small — fewer divisions tied down chasing a Yugoslav insurgency across occupied coastline over the following two years, at the cost of standing at Berlin's table.");
+        add(6, "The Balkans annexation was kept deliberately small: fewer divisions tied down chasing a Yugoslav insurgency across occupied coastline over the following two years, at the cost of standing at Berlin's table.");
       if (flags.eastAfrica === "guerrilla")
-        add(5, "East Africa's last garrison was ordered to scatter and fight on rather than surrender at Amba Alagi — a real option a handful of officers pursued historically at small scale, ordered here at a cost in the campaign's final week that bought no lasting diversion.");
+        add(5, "East Africa's last garrison was ordered to scatter and fight on rather than surrender at Amba Alagi: a real option a handful of officers pursued historically at small scale, ordered here at a cost in the campaign's final week that bought no lasting diversion.");
       if (flags.maltaQuestion === "invade")
-        add(7, "Operation Hercules was finally pushed to execution after a year of deferred planning — the invasion historians still argue would or wouldn't have worked, attempted here at direct cost to Rommel's own offensive timetable in the same season.");
+        add(7, "Operation Hercules was finally pushed to execution after a year of deferred planning: the invasion historians still argue would or wouldn't have worked, attempted here at direct cost to Rommel's own offensive timetable in the same season.");
       if (flags.desertCommand === "assert")
-        add(6, "Italian theater command's nominal authority over Rommel was actually enforced rather than left informal — slowing the desert war's characteristic speed of decision in exchange for operations that answered, on paper and in practice, to Rome.");
+        add(6, "Italian theater command's nominal authority over Rommel was actually enforced rather than left informal: slowing the desert war's characteristic speed of decision in exchange for operations that answered, on paper and in practice, to Rome.");
       if (flags.tobrukAftermath === "consolidate")
-        add(6, "The advance halted at the planned Libya-Egypt line after Tobruk's fall rather than pressing on toward Alamein — preserving more of the captured supplies for a later offensive at the cost of the momentum the historical pursuit spent instead.");
+        add(6, "The advance halted at the planned Libya-Egypt line after Tobruk's fall rather than pressing on toward Alamein: preserving more of the captured supplies for a later offensive at the cost of the momentum the historical pursuit spent instead.");
       if (flags.alamein42 === "withdraw")
         add(7, "A deliberate early withdrawal from the Alamein line concedes the same ground the historical twelve-day battle eventually lost anyway, without first spending the attritional casualties a fuel-starved defense was never favored to hold.");
       if (flags.tunisiaBuildup === "evacuate")
-        add(6, "The Tunisia commitment was limited in favor of evacuating veteran cadres back to Italy — trading roughly six months of delay the historical buildup bought for units preserved to defend the home front the war's geography was about to turn to face directly.");
+        add(6, "The Tunisia commitment was limited in favor of evacuating veteran cadres back to Italy: trading roughly six months of delay the historical buildup bought for units preserved to defend the home front the war's geography was about to turn to face directly.");
       if (flags.homeFront43 === "airDefense")
-        add(5, "Air defense was concentrated over the home cities in the weeks before Sicily fell — a partial mercy for the civilians under the summer 1943 bombing campaign, though it changed nothing about which beach the Allies chose to land on next.");
+        add(5, "Air defense was concentrated over the home cities in the weeks before Sicily fell: a partial mercy for the civilians under the summer 1943 bombing campaign, though it changed nothing about which beach the Allies chose to land on next.");
       if (flags.coupResponse === "backMussolini")
-        add(9, "A speculative path with almost no historical footing: the officer corps' actual loyalty to the constitutional monarchy in July 1943 proved deeper than any loyalty to Mussolini personally. What this file records instead is a counterfactual crisis of legitimacy inside the regime's own institutions — one the losing war underneath it would have overtaken regardless of who signed the orders.");
+        add(9, "A speculative path with almost no historical footing: the officer corps' actual loyalty to the constitutional monarchy in July 1943 proved deeper than any loyalty to Mussolini personally. What this file records instead is a counterfactual crisis of legitimacy inside the regime's own institutions: one the losing war underneath it would have overtaken regardless of who signed the orders.");
       if (flags.romeStandoff43 === "seize")
-        add(8, "The loyalist movement tried to seize the Quirinale and the capital's ministries outright rather than negotiate — a direct test of an authority the real King's Carabinieri were, historically, already positioned to defend against exactly this scenario.");
+        add(8, "The loyalist movement tried to seize the Quirinale and the capital's ministries outright rather than negotiate: a direct test of an authority the real King's Carabinieri were, historically, already positioned to defend against exactly this scenario.");
       if (flags.factionSplit43 === "enforce")
-        add(8, "Wavering and defecting commanders were arrested rather than allowed to declare for the King quietly — Italian units turned on each other in a way the actual, largely bloodless transition of power never required.");
+        add(8, "Wavering and defecting commanders were arrested rather than allowed to declare for the King quietly: Italian units turned on each other in a way the actual, largely bloodless transition of power never required.");
       if (flags.germanExploitation43 === "accept")
-        add(7, "German troops were invited into Rome to help suppress the King's loyalists a full month before the historical armistice ever gave Berlin a comparable opening — the same client-state arrangement the real Republic of Salò reached in September, reached here in August instead.");
+        add(7, "German troops were invited into Rome to help suppress the King's loyalists a full month before the historical armistice ever gave Berlin a comparable opening: the same client-state arrangement the real Republic of Salò reached in September, reached here in August instead.");
       if (flags.imiCrisis43 === "press")
-        add(6, "The government pressed the Allies to raise the roughly 600,000 Italian Military Internees' treatment directly with Berlin — close to what Badoglio's government actually attempted, against a German policy choice no amount of appeal was ever positioned to reverse.");
+        add(6, "The government pressed the Allies to raise the roughly 600,000 Italian Military Internees' treatment directly with Berlin: close to what Badoglio's government actually attempted, against a German policy choice no amount of appeal was ever positioned to reverse.");
       if (flags.imiOutcome44 === "honor")
-        add(6, "The government publicly honored the documented majority of IMIs who refused Germany's offer of better conditions in exchange for a German or RSI uniform — recognition the postwar Italian state did eventually extend, though not in time to change what those men were living through.");
+        add(6, "The government publicly honored the documented majority of IMIs who refused Germany's offer of better conditions in exchange for a German or RSI uniform: recognition the postwar Italian state did eventually extend, though not in time to change what those men were living through.");
       if (flags.alpenvorlandQuestion43 === "protest")
-        add(6, "The Republic formally protested Berlin's removal of the Alpine and Adriatic border provinces from its own authority — a protest the historical record shows went nowhere, since both operational zones stayed under direct German civil administration for the RSI's entire existence.");
+        add(6, "The Republic formally protested Berlin's removal of the Alpine and Adriatic border provinces from its own authority: a protest the historical record shows went nowhere, since both operational zones stayed under direct German civil administration for the RSI's entire existence.");
       if (flags.clnLiaison44 === "arm")
-        add(6, "The government in the south committed arms and gold to the CLNAI partisans fighting north of the Gothic Line, at real cost to its own front-line supply — a material commitment the resistance that helped liberate Milan and Turin in April 1945 partly depended on.");
+        add(6, "The government in the south committed arms and gold to the CLNAI partisans fighting north of the Gothic Line, at real cost to its own front-line supply: a material commitment the resistance that helped liberate Milan and Turin in April 1945 partly depended on.");
       if (flags.herculesExecution41 === "launch")
-        add(5, "Operation Hercules was actually attempted with Italian assets alone once German transport aircraft proved unavailable — a scaled-down version of the plan Italian staff officers themselves argued against, run here instead of left on paper.");
+        add(5, "Operation Hercules was actually attempted with Italian assets alone once German transport aircraft proved unavailable: a scaled-down version of the plan Italian staff officers themselves argued against, run here instead of left on paper.");
       if (flags.armisticeExecution === "delay" && flags.romeDefenseResult === "stood")
-        add(9, "The armistice announcement was actually delayed long enough to concentrate a real defense around Rome — a stand the historical chaos of September 8-9, 1943 never gave the scattered garrison any chance to mount, even though the city still fell within the week regardless.");
+        add(9, "The armistice announcement was actually delayed long enough to concentrate a real defense around Rome: a stand the historical chaos of September 8-9, 1943 never gave the scattered garrison any chance to mount, even though the city still fell within the week regardless.");
       if (flags.armisticeExecution === "delay" && flags.romeDefenseResult === "worse")
-        add(8, "The delay meant to buy Rome a coordinated defense instead bought German intelligence two additional days to reinforce the garrison — Operation Achse executed even more completely than its historical version.");
+        add(8, "The delay meant to buy Rome a coordinated defense instead bought German intelligence two additional days to reinforce the garrison: Operation Achse executed even more completely than its historical version.");
       if (flags.greeceWinterResult === "worse")
-        add(6, "The Epirus winter reserve arrived too late to stop the bleeding — the Greek counteroffensive pushed further into Albanian territory than the historical campaign ever allowed, a deeper hole for the German rescue that follows to climb out of.");
+        add(6, "The Epirus winter reserve arrived too late to stop the bleeding: the Greek counteroffensive pushed further into Albanian territory than the historical campaign ever allowed, a deeper hole for the German rescue that follows to climb out of.");
       if (flags.greeceWinterResult === "held")
         add(5, "The Epirus front's winter reserve held the line inside Albania, roughly where the historical campaign's own costly stabilization managed to hold it.");
       if (flags.italyPath === "coBelligerent" && flags.coBelligerentRole === "expand")
-        add(6, "The Co-Belligerent Army pushed hard and early for an expanded combat role after Salerno rather than accepting the auxiliary status Allied caution first assigned it — accelerating the trust-building the historical, more gradual approach spent over a year completing.");
+        add(6, "The Co-Belligerent Army pushed hard and early for an expanded combat role after Salerno rather than accepting the auxiliary status Allied caution first assigned it: accelerating the trust-building the historical, more gradual approach spent over a year completing.");
       if (flags.italyPath === "coBelligerent" && flags.cassino44 === "direct")
-        add(6, "Italian formations pushed for direct participation in the Cassino assault itself rather than the supporting role history assigned them — a faster answer to the trust question, at a cost the still-rebuilding army could less easily absorb than the campaign's larger Allied formations.");
+        add(6, "Italian formations pushed for direct participation in the Cassino assault itself rather than the supporting role history assigned them: a faster answer to the trust question, at a cost the still-rebuilding army could less easily absorb than the campaign's larger Allied formations.");
       if (flags.italyPath === "rsi" && flags.rsiMilitary === "minimal")
-        add(6, "The Republic's conscription was kept deliberately small — sparing a real number of young men the draft-evasion pipeline that historically fed conscripts straight into partisan ranks, at the cost of any claim to being more than an administered zone defended by someone else's army.");
+        add(6, "The Republic's conscription was kept deliberately small: sparing a real number of young men the draft-evasion pipeline that historically fed conscripts straight into partisan ranks, at the cost of any claim to being more than an administered zone defended by someone else's army.");
       if (flags.italyPath === "rsi" && flags.partisanWar44 === "limited")
-        add(7, "RSI forces were kept to defensive garrison duty rather than committed to the reprisal operations German command favored — a real distinction some officers drew historically, sparing this command's forces the direct authorship of the north's worst chapter, without changing what German-led units still visited on the same villages regardless.");
+        add(7, "RSI forces were kept to defensive garrison duty rather than committed to the reprisal operations German command favored: a real distinction some officers drew historically, sparing this command's forces the direct authorship of the north's worst chapter, without changing what German-led units still visited on the same villages regardless.");
       // Round 24: what the co-belligerent army's own war left behind.
       if (flags.italyPath === "coBelligerent" && flags.monteLungo43 === "attack" && flags.monteLungoResult !== "firstTry")
         add(6, "The first Italian attack on Monte Lungo went in on December 8, 1943, as the Americans had planned it, and failed; the second, on the 16th, did not. The Allies had watched the Italian army fight twice.");
@@ -4162,9 +4162,9 @@
         (threadText ? " " + threadText : "") +
         " " +
         [
-          "Italy's defeat was never a variable this command's decisions controlled — only which of two governments it answered to when the choice was finally forced, and what that choice cost the men who made it with it.",
+          "Italy's defeat was never a variable this command's decisions controlled, only which of two governments it answered to when the choice was finally forced, and what that choice cost the men who made it with it.",
           "No branch of this campaign avoids the armistice fork; the war that follows it was already decided by an arithmetic no single command, on either side of the line, could overturn.",
-          "What this file actually records is not whether Italy's war was lost — that was settled well before September 1943 — but which of two answers to losing it this command chose to give.",
+          "What this file actually records is not whether Italy's war was lost, that was settled well before September 1943, but which of two answers to losing it this command chose to give.",
         ][Math.abs((meters.initiative || 0) + (meters.manpower || 0) + h.matched) % 3]
       );
     },
@@ -4175,14 +4175,14 @@
     // that follows it, including what "a year later" even means for this file.
     oneYearLater(flags, meters) {
       if (flags.superseded) {
-        return "A year past a supersession that was never announced as one, Italy's war is still being fought — by German formations using whatever Italian units didn't disarm or scatter when Case Achse triggered, on a timetable this file's author had no further say in. Badoglio's actual armistice, when it comes on whatever this timeline's own delayed schedule allows, finds a country already split in practice, if not yet on paper, between an occupied north and a south the Allies are fighting their way up. Whoever ends up signing that document, and whoever ends up governing what's left of the Fascist state in the meantime, it is not this command — German Trust ran out before either question was this desk's to answer.";
+        return "A year past a supersession that was never announced as one, Italy's war is still being fought: by German formations using whatever Italian units didn't disarm or scatter when Case Achse triggered, on a timetable this file's author had no further say in. Badoglio's actual armistice, when it comes on whatever this timeline's own delayed schedule allows, finds a country already split in practice, if not yet on paper, between an occupied north and a south the Allies are fighting their way up. Whoever ends up signing that document, and whoever ends up governing what's left of the Fascist state in the meantime, it is not this command: German Trust ran out before either question was this desk's to answer.";
       }
       if (flags.coupResponse === "backMussolini") {
         const aftermath =
           flags.loyalistEnd === "absorbed"
-            ? "the loyalist movement formalized its dependence on Berlin barely a month after the crisis began, reaching in August what the documented history's Republic of Salò reached in September — a client state whichever banner happens to fly over it"
+            ? "the loyalist movement formalized its dependence on Berlin barely a month after the crisis began, reaching in August what the documented history's Republic of Salò reached in September: a client state whichever banner happens to fly over it"
             : "the loyalist movement dissolved under its own exhaustion rather than in battle, arriving by autumn at something close to the King's government anyway, several bloodier weeks and several thousand more Italian casualties later than the transition that actually happened";
-        return `SPECULATIVE — a year past a crisis of legitimacy inside the regime's own institutions rather than the historical, quieter transfer of power to Badoglio, the losing war underneath either choice runs on the same schedule regardless: ${aftermath}. Whatever this file's counterfactual palace politics actually produced, it did not produce a different arithmetic for the war Italy could no longer win.`;
+        return `SPECULATIVE: a year past a crisis of legitimacy inside the regime's own institutions rather than the historical, quieter transfer of power to Badoglio, the losing war underneath either choice runs on the same schedule regardless: ${aftermath}. Whatever this file's counterfactual palace politics actually produced, it did not produce a different arithmetic for the war Italy could no longer win.`;
       }
       if (flags.italyPath === "rsi") {
         const memory =
@@ -4191,25 +4191,25 @@
             : flags.rsiEnd === "negotiate"
             ? "the handover was negotiated rather than fled from, and the year that follows argues, more than most, over whether that distinction changed anything about what the Republic actually was"
             : "the Republic dissolves into occupied and then liberated territory, and the year that follows is Italy's first real reckoning with having fought a war against itself";
-        return `A year past the Salò government's collapse, Italy is holding a referendum — June 1946 — on whether it keeps its monarchy at all. The House of Savoy's wartime record, including the same King who dismissed Mussolini in 1943 and then largely vanished from the war his signature had co-authored since 1940, does not survive that vote: Italy becomes a republic within roughly a year of this file's own close. Partisan tribunals and formal courts are, in the same year, working through a case list this command's own RSI choices did a great deal to lengthen — reprisal operations, conscription policy, who cooperated and how much, argued case by case in a country that fought itself for nineteen months and has not agreed, a year on, what that argument was actually about. And ${memory}.`;
+        return `A year past the Salò government's collapse, Italy is holding a referendum, June 1946, on whether it keeps its monarchy at all. The House of Savoy's wartime record, including the same King who dismissed Mussolini in 1943 and then largely vanished from the war his signature had co-authored since 1940, does not survive that vote: Italy becomes a republic within roughly a year of this file's own close. Partisan tribunals and formal courts are, in the same year, working through a case list this command's own RSI choices did a great deal to lengthen: reprisal operations, conscription policy, who cooperated and how much, argued case by case in a country that fought itself for nineteen months and has not agreed, a year on, what that argument was actually about. And ${memory}.`;
       }
       if (flags.italyPath === "coBelligerent") {
         const standing =
           flags.postwarRecognition === "press"
-            ? "the harder diplomatic push for recognized co-belligerent standing has, within the year, produced language in the peace negotiations that a purely passive record never would have earned — not equal treatment, but not the flattest possible defeated-power terms either"
+            ? "the harder diplomatic push for recognized co-belligerent standing has, within the year, produced language in the peace negotiations that a purely passive record never would have earned, not equal treatment, but not the flattest possible defeated-power terms either"
             : "the more gradual, Allied-paced path to recognition means the peace negotiations opening within the year still treat Italy substantially as a defeated Axis power, whatever combat record the Co-Belligerent Army actually built";
-        return `A year past Army Group C's surrender in Italy, the same June 1946 referendum that follows the RSI's collapse follows this branch too — the monarchy that declared war in 1940 does not survive a popular vote a year after the fighting stops, whichever branch of this campaign reaches that vote. What differs on this path is the country's negotiating position going in: ${standing}. Either way, the peace conference that opens within the year will cost Italy its colonial empire outright and leave the Trieste border an open dispute — an argument this command's wartime choices never actually reached.`;
+        return `A year past Army Group C's surrender in Italy, the same June 1946 referendum that follows the RSI's collapse follows this branch too: the monarchy that declared war in 1940 does not survive a popular vote a year after the fighting stops, whichever branch of this campaign reaches that vote. What differs on this path is the country's negotiating position going in: ${standing}. Either way, the peace conference that opens within the year will cost Italy its colonial empire outright and leave the Trieste border an open dispute: an argument this command's wartime choices never actually reached.`;
       }
       if (flags.italyEntry === "neutral") {
         if (flags.neutralItalyEnd === "resist") {
-          return "SPECULATIVE — a year past a short, strange war against the ally this command spent two years avoiding, Italy is not the country the documented June 1946 referendum actually found: Mussolini's regime, having staked its legitimacy on judgment rather than combat, faces a domestic reckoning of its own, though not the same one — a public asked to weigh a government that kept the country largely out of Europe's catastrophe against one that ultimately fought anyway, on nobody's side but its own, against the power it spent two years trying not to provoke.";
+          return "SPECULATIVE: a year past a short, strange war against the ally this command spent two years avoiding, Italy is not the country the documented June 1946 referendum actually found: Mussolini's regime, having staked its legitimacy on judgment rather than combat, faces a domestic reckoning of its own, though not the same one: a public asked to weigh a government that kept the country largely out of Europe's catastrophe against one that ultimately fought anyway, on nobody's side but its own, against the power it spent two years trying not to provoke.";
         }
         if (flags.neutralItalyEnd === "submit") {
-          return "SPECULATIVE — a year past an occupation absorbed rather than resisted, Italy exists in a strange diplomatic limbo the documented postwar order has no real category for: neither a defeated Axis power nor a liberated Allied one, a country whose army never fired a shot in Europe's war now administered, in practice, by the ally it spent two years trying to avoid antagonizing.";
+          return "SPECULATIVE: a year past an occupation absorbed rather than resisted, Italy exists in a strange diplomatic limbo the documented postwar order has no real category for: neither a defeated Axis power nor a liberated Allied one, a country whose army never fired a shot in Europe's war now administered, in practice, by the ally it spent two years trying to avoid antagonizing.";
         }
-        return "SPECULATIVE — a year past a European war this command never entered on either side, Italy faces a postwar order it had no hand in shaping and no casualty list to bring to the table. Mussolini's regime, whatever it argued about vindicated judgment, is a government that sat out the defining catastrophe of its own generation — a fact history is likely to remember differently than this file's own closing choice framed it.";
+        return "SPECULATIVE: a year past a European war this command never entered on either side, Italy faces a postwar order it had no hand in shaping and no casualty list to bring to the table. Mussolini's regime, whatever it argued about vindicated judgment, is a government that sat out the defining catastrophe of its own generation: a fact history is likely to remember differently than this file's own closing choice framed it.";
       }
-      return "This file closes before the armistice fork that defines what 'a year later' would even mean for the rest of this campaign — an incomplete record with no later chapter to project.";
+      return "This file closes before the armistice fork that defines what 'a year later' would even mean for the rest of this campaign: an incomplete record with no later chapter to project.";
     },
   },
 };

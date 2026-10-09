@@ -45,7 +45,7 @@ function monthIndex(prose) {
 // "than the historical" — this is the actual template both campaigns use, and it avoids
 // false positives from other "faster"/"slower" mentions elsewhere in the same sentence
 // (e.g. "bought with a faster, costlier advance" describing the ALTERNATIVE not taken).
-const VERDICT_RE = /—\s*(earlier|later|faster|slower)\s+than\s+the\s+historical/i;
+const VERDICT_RE = /[—,:;]\s*(earlier|later|faster|slower)\s+than\s+the\s+historical/i;
 const EARLY_VERDICTS = new Set(["earlier", "faster"]);
 const LATE_VERDICTS = new Set(["later", "slower"]);
 

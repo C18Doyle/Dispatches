@@ -22,12 +22,6 @@ function WarRoomDocOKW({ campaign, modeInfo, easy }) {
       </div>
       {(
         <>
-          <p
-            className="text-[13px] leading-relaxed mb-4 text-[#000000] text-left"
-            style={{ fontFamily: "'Courier Prime', monospace" }}
-          >
-            {CAMPAIGN_WAR_CONTEXT[campaign.id]}
-          </p>
           {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
             <p className="text-[14px] italic leading-relaxed mb-4 text-[#000000] text-left" style={{ fontFamily: "'Courier Prime', monospace" }}>
               "{CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].text}"
@@ -40,19 +34,8 @@ function WarRoomDocOKW({ campaign, modeInfo, easy }) {
           )}
         </>
       )}
-      <div className="pt-4 mt-1 mb-8 text-left" style={{ borderTop: `2px solid ${campaign.accent}` }}>
-        <div
-          className="text-[11px] uppercase tracking-[0.2em] font-bold mb-2"
-          style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
-        >
-          {modeInfo.label}
-        </div>
-        <p className="text-[14px] leading-relaxed text-[#000000] opacity-80" style={{ fontFamily: "'Courier Prime', monospace" }}>
-          {modeInfo.note}
-        </p>
-      </div>
       <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#777", fontFamily: "'IBM Plex Mono', monospace" }}>
-        VERTEILER: OKW / OKH / OKM — ROUTINE DISTRIBUTION ONLY
+        VERTEILER: OKW / OKH / OKM: ROUTINE DISTRIBUTION ONLY
       </div>
     </>
   );
@@ -64,7 +47,7 @@ function WarRoomDocComandoSupremo({ campaign, modeInfo, easy }) {
       <div className="flex justify-between items-start mb-3">
         <div style={{ fontFamily: "'IBM Plex Mono', monospace" }} className="text-left">
           <div className="text-[10px] font-bold tracking-[0.18em]" style={{ color: campaign.accent }}>
-            COMANDO SUPREMO — STATO MAGGIORE GENERALE
+            COMANDO SUPREMO: STATO MAGGIORE GENERALE
           </div>
           <div className="text-[9px] text-[#555] mt-0.5">{campaign.name}</div>
         </div>
@@ -82,12 +65,6 @@ function WarRoomDocComandoSupremo({ campaign, modeInfo, easy }) {
       </div>
       {(
         <>
-          <p
-            className="text-[13px] leading-relaxed mb-4 text-[#000000] text-left"
-            style={{ fontFamily: "'Courier Prime', monospace" }}
-          >
-            {CAMPAIGN_WAR_CONTEXT[campaign.id]}
-          </p>
           {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
             <p className="text-[14px] italic leading-relaxed mb-4 text-[#000000] text-left" style={{ fontFamily: "'Courier Prime', monospace" }}>
               "{CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].text}"
@@ -100,19 +77,8 @@ function WarRoomDocComandoSupremo({ campaign, modeInfo, easy }) {
           )}
         </>
       )}
-      <div className="pt-4 mt-1 mb-8 text-left" style={{ borderTop: `2px solid ${campaign.accent}` }}>
-        <div
-          className="text-[11px] uppercase tracking-[0.2em] font-bold mb-2"
-          style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
-        >
-          {modeInfo.label}
-        </div>
-        <p className="text-[14px] leading-relaxed text-[#000000] opacity-80" style={{ fontFamily: "'Courier Prime', monospace" }}>
-          {modeInfo.note}
-        </p>
-      </div>
       <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#777", fontFamily: "'IBM Plex Mono', monospace" }}>
-        DISTRIBUZIONE: COMANDO SUPREMO — SOLO USO INTERNO
+        DISTRIBUZIONE: COMANDO SUPREMO: SOLO USO INTERNO
       </div>
     </>
   );
@@ -145,12 +111,6 @@ function WarRoomDocSTAVKA({ campaign, modeInfo, easy }) {
       <hr className="briefing-rule-stavka" style={{ color: campaign.accent }} />
       {(
         <>
-          <p
-            className="text-[13px] leading-relaxed mb-4 text-[#000000] text-left"
-            style={{ fontFamily: "'Courier Prime', monospace" }}
-          >
-            {CAMPAIGN_WAR_CONTEXT[campaign.id]}
-          </p>
           {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
             <div className="mb-4 text-left pl-3" style={{ borderLeft: `3px solid ${campaign.accent}` }}>
               <p className="text-[14px] italic leading-relaxed text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
@@ -165,17 +125,6 @@ function WarRoomDocSTAVKA({ campaign, modeInfo, easy }) {
           )}
         </>
       )}
-      <div className="pt-4 mt-1 mb-2 text-left" style={{ borderTop: `2px solid ${campaign.accent}` }}>
-        <div
-          className="text-[11px] uppercase tracking-[0.2em] font-bold mb-2"
-          style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
-        >
-          {modeInfo.label}
-        </div>
-        <p className="text-[14px] leading-relaxed text-[#000000] opacity-80" style={{ fontFamily: "'Courier Prime', monospace" }}>
-          {modeInfo.note}
-        </p>
-      </div>
     </>
   );
 }
@@ -231,12 +180,6 @@ function WarRoomDocSHAEF({ campaign, modeInfo, easy }) {
       </div>
       {(
         <>
-          <p
-            className="text-[13px] leading-relaxed mb-4 text-[#000000] text-left"
-            style={{ fontFamily: "'Courier Prime', monospace" }}
-          >
-            {CAMPAIGN_WAR_CONTEXT[campaign.id]}
-          </p>
           {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
             <p className="text-[14px] italic leading-relaxed mb-4 text-[#000000] text-left pt-3" style={{ borderTop: "1px dashed #aab8b5", fontFamily: "'Courier Prime', monospace" }}>
               "{CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].text}"
@@ -249,17 +192,6 @@ function WarRoomDocSHAEF({ campaign, modeInfo, easy }) {
           )}
         </>
       )}
-      <div className="pt-4 mt-1 mb-2 text-left" style={{ borderTop: `2px solid ${campaign.accent}` }}>
-        <div
-          className="text-[11px] uppercase tracking-[0.2em] font-bold mb-2"
-          style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
-        >
-          {modeInfo.label}
-        </div>
-        <p className="text-[14px] leading-relaxed text-[#000000] opacity-80" style={{ fontFamily: "'Courier Prime', monospace" }}>
-          {modeInfo.note}
-        </p>
-      </div>
     </>
   );
 }
@@ -306,7 +238,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
             className="text-[9px] pt-2 text-[#888]"
             style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            WIRE — RELAYED VIA {campaign.name.toUpperCase()}, ROUTINE PRIORITY
+            WIRE: RELAYED VIA {campaign.name.toUpperCase()}, ROUTINE PRIORITY
           </div>
         </div>
         <div className="wire-tear wire-tear-bottom" style={{ "--wire-paper": paperTint }}></div>
@@ -510,7 +442,7 @@ const MAP_TIMELINE = {
   france: [["1939-01-01", "allied"], ["1940-05-13", "contested"], ["1940-06-22", "axisAllied"], ["1942-11-11", "axis"], ["1944-06-06", "contested"], ["1944-08-25", "allied"]],
   benelux: [["1939-01-01", "neutral"], ["1940-05-10", "contested"], ["1940-05-28", "axis"], ["1944-09-03", "contested"], ["1945-05-05", "allied"]],
   denmark: [["1939-01-01", "neutral"], ["1940-04-09", "axis"], ["1945-05-05", "allied"]],
-  norway: [["1939-01-01", "neutral"], ["1940-04-09", "contested"], ["1940-06-10", "axis"], ["1945-05-08", "allied"]],
+  norway: [["1939-01-01", "neutral"], ["1940-04-09", "contested"], ["1940-05-03", "axis"], ["1945-05-08", "allied"]],
   sweden: [["1939-01-01", "neutral"]],
   switzerland: [["1939-01-01", "neutral"]],
   iberia: [["1939-01-01", "neutral"]],
@@ -669,7 +601,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
     >
       <defs>
         {/* West/east occupation-zone split for "divided" (Germany and Austria, end of
-            1945) — objectBoundingBox (the SVG default) means this one definition scales
+            1945): objectBoundingBox (the SVG default) means this one definition scales
             to each path's own bounding box, so every divided region gets its own correctly
             proportioned half-and-half fill from a single <linearGradient>. */}
         <linearGradient id="checkpointDivideGradient" x1="0" y1="0" x2="1" y2="0">
@@ -681,7 +613,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
         {/* Keys the color overlay's visibility to the base map's OWN land/sea pixels
             (generate_placeholder_maps.py's render_land_mask: white land, black sea, one per
             campaign) rather than trusting regions.json's polygons to line up with the
-            coastline actually drawn underneath — they never will exactly, since they trace
+            coastline actually drawn underneath: they never will exactly, since they trace
             two independently-sourced coastlines. SVG masks read luminance, so white passes
             the color group through and black blocks it: sea and lakes (rendered black in the
             mask, same as sea) are never tinted no matter how a region's polygon happens to
@@ -709,14 +641,14 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           <path key={r.id} d={r.d} fill={r.fill} style={{ pointerEvents: "none" }} />
         ))}
       </g>
-      {/* Small unmasked status dot for "small"-tier regions (round 8: just Malta) — at this
+      {/* Small unmasked status dot for "small"-tier regions (round 8: just Malta): at this
           map's scale (a single 800x600 image spanning the whole German theater bbox, ~65
           degrees of longitude), a real island under 0.03 sq degrees is one or two pixels,
           which the land mask above only barely paints at all (see
           tools/generate_placeholder_maps.py's Basemap resolution note) and the 0.42-opacity
           fill group renders as an imperceptible tint on top of. Rather than ship a region
           whose ownership color is technically correct but never actually visible, draw its
-          status color as a small always-visible dot at the label point too — same idea as
+          status color as a small always-visible dot at the label point too: same idea as
           MAP_CITIES' dot-plus-label below, just colored by status instead of fixed ink. */}
       {drawnRegions
         .filter((r) => MAP_REGION_SIZE[r.id] === "small")
@@ -727,12 +659,12 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           // rather than hiding underneath the text's own stroke halo.
           return <circle key={`dot-${r.id}`} cx={px} cy={py - 8} r={2.4} fill={r.fill} stroke="#241d12" strokeWidth={0.6} style={{ pointerEvents: "none" }} />;
         })}
-      {/* Base political border grid, unmasked — every real inter-region border drawn
+      {/* Base political border grid, unmasked: every real inter-region border drawn
           exactly once. Precomputed in build_region_geometry.py (border_lines()) from a
           topology shared across every region, so two neighbors' border lines are
           byte-identical instead of each region stroking its own independently-built
           outline (which used to draw every shared border twice, at whatever the old
-          per-region buffer happened to leave a hair's difference between) — and a
+          per-region buffer happened to leave a hair's difference between), and a
           region's coastal edge simply never appears in this list at all, since nothing
           else claims that boundary, so the base map's own coastline ink is left as the
           only line drawn there. Fixes both halves of Craig's round-8 report: "we don't
@@ -751,7 +683,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
       ))}
       {/* Diverged-region emphasis + click/keyboard handling, unmasked. The grid above
           already draws every region's ordinary border, so this pass only has work to do
-          for a region that has actually diverged from the historical record — its own
+          for a region that has actually diverged from the historical record: its own
           dashed highlight on top of the grid, and the hit area to inspect why (hit-
           testing follows the path's geometry, not the fill mask, so it's unaffected by
           the fill pass being masked out over water). selectedRegion can only ever be a
@@ -919,7 +851,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
   );
 }
 
-function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadlines, onClose, nodeId, lastSeenMapStatuses, onStatusesChange, history }) {
+function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadlines, onClose, nodeId, lastSeenMapStatuses, onStatusesChange, history, embedded = false, review = null, endDate = null }) {
   const highlightRegions = (NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId];
   const years = CAMPAIGN_MAP_YEARS[campaign.id] || [year];
   const forks = DIVERGENCE_FORKS[campaign.id] || [];
@@ -982,8 +914,24 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
       const changed = MAP_REGIONS.some((r) => entry.statuses[r.id] !== prevKept.statuses[r.id]);
       if (changed || entry.isLast) kept.push(entry);
     }
+    if (embedded && endDate) {
+      const endKey = nodeDayKey(endDate);
+      const finalKey = endKey != null ? Math.max(endKey, latestKey) : latestKey;
+      const endYear = cappedStatusYear(Math.max(latestYear, yearFrom(endDate, 1945)), true);
+      kept[kept.length - 1].isLast = false;
+      kept.push({
+        date: endDate,
+        title: "The war ends",
+        year: endYear,
+        flags,
+        meters: meters || {},
+        dayKey: finalKey || null,
+        statuses: currentRegionStatuses(endYear, flags, meters || {}, finalKey || null),
+        isLast: true,
+      });
+    }
     return kept;
-  }, [history, campaign, nodeId, flags, meters]);
+  }, [history, campaign, nodeId, flags, meters, embedded, endDate]);
   const [viewIndex, setViewIndex] = useState(runTimeline.length - 1);
   const current = runTimeline[Math.min(viewIndex, runTimeline.length - 1)];
   const statusYear = current.year;
@@ -1026,24 +974,9 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   }, [viewIndex]);
   const headingRef = useRef(null);
   useEffect(() => {
-    if (headingRef.current) headingRef.current.focus();
+    if (!embedded && headingRef.current) headingRef.current.focus();
   }, []);
-  return (
-    <div
-      // Round 12 (Craig's item #10, "phone-height UI fix"): this was `items-center`, which
-      // centers the card whether or not it fits the viewport. On a short phone — landscape
-      // above all, but a compact portrait phone too once the timeline slider or the region
-      // legend below the map adds height — the card can be taller than the screen, and
-      // centering an overflowing flex item pushes its TOP half above y=0 with nothing to
-      // scroll it back into view (confirmed with Playwright at 812x375: the Close button
-      // rendered at y=-31.75, genuinely off-screen and unreachable). `items-start` anchors the
-      // card's top edge — where Close and the year heading live — to a fixed, reachable
-      // position, and `overflow-y-auto` on this backdrop lets the rest of a too-tall card
-      // scroll under it instead of clipping past the bottom edge.
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto px-4 py-8"
-      style={{ backgroundColor: "#000000cc" }}
-      onClick={handleClose}
-    >
+  const card = (
       <div
         className={`${paper} w-full max-w-md p-4 my-auto`}
         style={{ ...campaignPaperStyle(campaign.id, campaign.accent), borderTop: `5px solid ${campaign.accent}` }}
@@ -1056,15 +989,17 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             className="text-xs uppercase tracking-widest font-bold outline-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}
           >
-            Checkpoint Map — {clampedYear}
+            {embedded ? `The map at the end of ${clampedYear}` : `Theater Map: ${clampedYear}`}
           </div>
-          <button
-            onClick={handleClose}
-            className="text-[10px] uppercase tracking-widest font-bold border-2 border-black px-2 py-1 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            Close
-          </button>
+          {!embedded && (
+            <button
+              onClick={handleClose}
+              className="text-[10px] uppercase tracking-widest font-bold border-2 border-black px-2 py-1 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Close
+            </button>
+          )}
         </div>
         {runTimeline.length > 1 && (
           <div className="mb-3">
@@ -1075,7 +1010,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               step={1}
               value={viewIndex}
               onChange={(e) => setViewIndex(parseInt(e.target.value, 10))}
-              aria-label={`Timeline position ${viewIndex + 1} of ${runTimeline.length}: ${current.date || ""}${current.title ? ` — ${current.title}` : ""}`}
+              aria-label={`Timeline position ${viewIndex + 1} of ${runTimeline.length}: ${current.date || ""}${current.title ? `: ${current.title}` : ""}`}
               className="w-full accent-black"
               style={{ accentColor: campaign.accent }}
             />
@@ -1089,10 +1024,10 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               <span
                 className="text-[10px] uppercase tracking-wider font-bold text-center flex-1 truncate px-1"
                 style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}
-                title={current.title ? `${current.date} — ${current.title}` : current.date}
+                title={current.title ? `${current.date}: ${current.title}` : current.date}
               >
                 {current.date}
-                {current.title ? ` — ${current.title}` : ""}
+                {current.title ? `: ${current.title}` : ""}
               </span>
               {current.isLast ? (
                 <span
@@ -1113,10 +1048,16 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             </div>
           </div>
         )}
+        {review && !embedded && (
+          <p className="mb-3 border border-black px-3 py-1 text-[11px] leading-snug text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            <span className="font-bold uppercase tracking-wider">Strategic review</span>
+            {review}
+          </p>
+        )}
         <div className="relative w-full border-2 border-black overflow-hidden" style={{ aspectRatio: "4 / 3" }}>
           <img
             src={src}
-            alt={`${campaign.name} — ${clampedYear}`}
+            alt={`${campaign.name}: ${clampedYear}`}
             className="w-full h-full object-cover absolute inset-0"
             onError={(e) => {
               e.currentTarget.style.display = "none";
@@ -1171,26 +1112,26 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               {STATUS_LABELS[s] || s}
             </span>
           ))}
-          {divergedRegions.size > 0 && (
-            <span
-              className="flex items-center gap-1 text-[9px] uppercase tracking-wider opacity-80"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              <span aria-hidden="true">{"◆"}</span>
-              Dashed border — tap the territory for why
-            </span>
-          )}
           {changedRegions.size > 0 && (
             <span
               className="flex items-center gap-1 text-[9px] uppercase tracking-wider opacity-80"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               <span aria-hidden="true">{"✦"}</span>
-              Flashing border — changed since you last checked the map
+              Flashing border: changed since you last checked the map
             </span>
           )}
         </div>
-        {selectedRegion && notesForRegion(selectedRegion).length > 0 && (
+        {embedded && notes.length > 0 && (
+          <div className="mt-2">
+            {notes.map((n, i) => (
+              <p key={i} className="text-[12px] leading-snug mb-1 border-l-4 pl-2" style={{ borderColor: campaign.accent || "#7a2e2e", fontFamily: "'Courier Prime', monospace" }}>
+                {n.text}
+              </p>
+            ))}
+          </div>
+        )}
+        {!embedded && selectedRegion && notesForRegion(selectedRegion).length > 0 && (
           <div className="mt-2 border-2 px-2 py-1" style={{ borderColor: campaign.accent || "#7a2e2e" }}>
             <p className="text-[10px] uppercase tracking-widest font-bold mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {nameOf(selectedRegion)}
@@ -1212,12 +1153,27 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
           {statusYear === 1942 && " Dashed line marks Case Blue's farthest advance, autumn 1942."}
         </p>
       </div>
+  );
+  if (embedded) return card;
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto px-4 py-8"
+      style={{ backgroundColor: "#000000cc" }}
+      onClick={handleClose}
+    >
+      {card}
     </div>
   );
 }
 
-function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
+function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const modeInfo = warRoomModeInfo(mode, campaign.id);
+  const hardId = HARD_MODE_OF[campaign.id];
+  const modeChoices = [
+    { id: "easy", name: "Easy", available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
+    { id: "open", name: "Normal", available: true, colour: "#000000" },
+    { id: hardId, name: `Hard: ${warRoomModeInfo(hardId, campaign.id).label}`, available: HARD_MODES_ENABLED, colour: "#7a2e2e" },
+  ];
   const headingRef = useRef(null);
   useEffect(() => {
     if (headingRef.current) headingRef.current.focus();
@@ -1238,21 +1194,36 @@ function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
         style={{ ...campaignPaperStyle(campaign.id, campaign.accent), borderTop: `5px solid ${campaign.accent}` }}
       >
         <h1 ref={headingRef} tabIndex={-1} className="sr-only outline-none">
-          {campaign.name} — War Room
+          {campaign.name}: War Room
         </h1>
         <Doc campaign={campaign} modeInfo={modeInfo} easy={mode === "easy"} />
-        {modeInfo.rules && modeInfo.rules.length > 0 && (
-          <div className="mb-4 pb-4 border-b-2 text-[12px] leading-snug text-[#000000]" style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}>
-            <div className="font-bold uppercase tracking-widest text-[11px] mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              What this command changes
-            </div>
-            <ul className="list-disc pl-5">
-              {modeInfo.rules.map((r, i) => (
-                <li key={i}>{r}</li>
-              ))}
-            </ul>
+        <div role="radiogroup" aria-label="Difficulty" className="mb-4 pb-4 border-b-2" style={{ borderColor: campaign.accent }}>
+          <div className="font-bold uppercase tracking-widest text-[11px] mb-2 text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Difficulty
           </div>
-        )}
+          <div className="flex flex-col gap-2">
+            {modeChoices.map((c) => {
+              const on = mode === c.id;
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  disabled={!c.available}
+                  onClick={() => (on ? null : onModeChange(c.id))}
+                  className="text-left border-2 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                  style={{ borderColor: c.colour, backgroundColor: on ? c.colour : "transparent", color: on ? "#ffffff" : "#000000", fontFamily: "'Courier Prime', monospace" }}
+                >
+                  <span className="block text-[12px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    {c.name}{c.available ? "" : " (full version)"}
+                  </span>
+                  <span className="block text-[13px] leading-snug mt-1">{warRoomModeInfo(c.id, campaign.id).summary}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
         {hasForks && (
           <label
             className="flex items-start gap-3 mb-4 pb-4 border-b-2 text-[12px] leading-snug text-[#000000] cursor-pointer"
@@ -1277,7 +1248,7 @@ function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
               {/* Round 19 (Craig: "instead of a tick... make it a stamp, would look more
                   authentic"): reuses this file's existing ink-stamp visual grammar (see the
                   <Stamp> component and .briefing-stamp-* classes used for ending/report seals)
-                  rather than inventing a new treatment — a small canted bordered rectangle in the
+                  rather than inventing a new treatment: a small canted bordered rectangle in the
                   campaign's own accent color struck over the checkbox, not a handwritten check
                   mark. Centered on the container (not left-anchored) so the rotated box can't
                   spill into the label text that follows. */}

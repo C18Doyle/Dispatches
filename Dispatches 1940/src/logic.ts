@@ -34,6 +34,8 @@ export interface Choice {
   label: string;
   /** Optional explicit strand of Matériel this choice's impact falls on; otherwise read from the text (see strandOf). */
   matStrand?: string;
+  /** The meter the choice is checked against ("Manpower", "Matériel" or "Initiative"), where it names one. */
+  checkLabel?: string;
   impact?: Impact;
   outcome?: string;
   next?: string;
@@ -618,28 +620,41 @@ export function commandRating(i: RatingInput): Rating {
 // up ten points of debt, make one good decision and see the meter read -9. Arrears keep the debt. Whatever a decision
 // takes from a meter below -10 is owed (up to ARREARS_CAP), and the next gains on that meter pay the debt before they
 // raise it. They live in the flags, so saves and rewinds carry them.
-export const ARREARS_CAP = 6;
+export const ARREARS_CAP = 3;
 export const ARREARS_FLAGS: Record<MeterKey, string> = { manpower: "arrearsManpower", fuel: "arrearsFuel", initiative: "arrearsInitiative" };
 export function arrearsOf(flags: Flags, meter: MeterKey): number {
   return Math.max(0, Number(flags[ARREARS_FLAGS[meter]]) || 0);
 }
 
-// Strain: shortages change the odds. A meter below -4 takes points of probability off the best outcome of every
-// contested decision (not battles, which weigh their own shortages), and each point owed adds half a point more.
-// Shown on the decision itself, so the player sees what the shortage is costing before choosing.
+// Strain: shortages change the odds. A meter below -4 takes points of probability off the best outcome of the contested
+// decisions that put that meter at stake (not battles, which weigh their own shortages), and each point owed on it adds
+// half a point more. Shown on the decision itself, so the player sees what the shortage is costing before choosing.
 export interface Strain {
   points: number;
   causes: string[];
 }
 const STRAIN_MAX = 12;
-export function strainOf(flags: Flags, meters: Meters): Strain {
+const METER_LABELS: Record<MeterKey, string> = { manpower: "Manpower", fuel: "Matériel", initiative: "Initiative" };
+const CHECK_LABEL_METER: Record<string, MeterKey> = { Manpower: "manpower", Matériel: "fuel", Initiative: "initiative" };
+
+/** The meter a contested choice puts at stake: the one its check label names, else the one its outcomes move most. */
+export function strainMeterOf(choice: Choice): MeterKey | null {
+  const named = choice.checkLabel ? CHECK_LABEL_METER[choice.checkLabel] : undefined;
+  if (named) return named;
+  const impacts = choice.uncertain && choice.uncertain.length ? choice.uncertain.map((u) => u.impact || choice.impact) : [choice.impact];
+  const moved: Record<MeterKey, number> = { manpower: 0, fuel: 0, initiative: 0 };
+  for (const imp of impacts) for (const k of AXES) moved[k] += Math.abs((imp && imp[k]) || 0);
+  const best = AXES.reduce((a, k) => (moved[k] > moved[a] ? k : a));
+  return moved[best] > 0 ? best : null;
+}
+
+/** The strain on a decision. With `meter` it is the shortage of that meter alone (and what is owed on it); without, of all three. */
+export function strainOf(flags: Flags, meters: Meters, meter?: MeterKey | null): Strain {
   const lack = (v: number) => Math.max(0, -v - 4);
-  const owed = arrearsOf(flags, "manpower") + arrearsOf(flags, "fuel") + arrearsOf(flags, "initiative");
-  const raw = (lack(meters.manpower) + lack(meters.fuel)) * 1.2 + lack(meters.initiative) * 0.6 + owed * 0.5;
-  const causes: string[] = [];
-  if (meters.manpower <= -5) causes.push("Manpower");
-  if (meters.fuel <= -5) causes.push("Matériel");
-  if (meters.initiative <= -5) causes.push("Initiative");
+  const keys: MeterKey[] = meter ? [meter] : ["manpower", "fuel", "initiative"];
+  const owed = keys.reduce((a, k) => a + arrearsOf(flags, k), 0);
+  const raw = keys.reduce((a, k) => a + lack(meters[k]) * (k === "initiative" ? 0.6 : 1.2), 0) + owed * 0.5;
+  const causes = keys.filter((k) => meters[k] <= -5 || arrearsOf(flags, k) > 0).map((k) => METER_LABELS[k]);
   return { points: Math.min(STRAIN_MAX, Math.round(raw)), causes };
 }
 
@@ -655,11 +670,12 @@ export interface StrainedChoice extends Choice {
  */
 export function strainStage<T extends Stage | null | undefined>(stage: T, flags: Flags, meters: Meters): T {
   if (!stage || !stage.choices) return stage;
-  const strain = strainOf(flags, meters);
-  if (!strain.points) return stage;
   const choices = stage.choices.map((choice): Choice => {
     const u = choice.uncertain;
     if (!u || u.length < 2 || choice.keyBattleSubgame) return choice;
+    // Round 27: the strain on a decision is the shortage of the meter that decision is about, not of whichever meter is lowest.
+    const strain = strainOf(flags, meters, strainMeterOf(choice));
+    if (!strain.points) return choice;
     const sums = u.map((v) => impactSum(v.impact || choice.impact));
     const best = sums.indexOf(Math.max(...sums));
     const worst = sums.indexOf(Math.min(...sums));
