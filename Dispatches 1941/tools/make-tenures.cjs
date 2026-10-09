@@ -5,7 +5,7 @@
 const fs = require("fs");
 const t = {};
 const set = (name, o) => (t[name] = o);
-const reviewed = "Acheson Arnold Attlee Biddle Blamey Compton Davies Doolittle Eichelberger Fletcher Ghormley Grew Groves Halsey Holland-Smith Hull Hurley Iida Imamura Inoue Kawabe Kenney Kido King Kistiakowsky Krueger Kurita Kusaka Layton LeMay Lockwood MacArthur Marshall McCloy Mitscher Nimitz Nomura Ozawa Porter Pye Sakurai Sato Slim Spruance Stilwell Stimson Suzuki Tanaka Terauchi Toyoda Truman Webb Yonai Yoshida Kawane".split(" ");
+const reviewed = "Acheson Arnold Attlee Biddle Blamey Compton Davies Doolittle Eichelberger Fletcher Ghormley Grew Groves Halsey Holland-Smith Hull Hurley Iida Imamura Inoue Kawabe Kenney Kido King Kistiakowsky Franck Krueger Kurita Kusaka Layton LeMay Lockwood MacArthur Marshall McCloy Mitscher Nimitz Nomura Ozawa Porter Pye Sakurai Sato Slim Spruance Stilwell Stimson Suzuki Tanaka Terauchi Toyoda Truman Webb Yonai Yoshida Kawane".split(" ");
 for (const n of reviewed) set(n.replace("-", " "), {});
 // Died, killed, executed, imprisoned or removed: the last month they can speak in a node.
 set("Yamamoto", { until: "1943-04", note: "shot down over Bougainville, 18 April 1943" });
@@ -37,13 +37,13 @@ set("Osmeña", { titlePeriods: [["1944-08", "1946-05"]], note: "President of the
 set("Hull", { titlePeriods: [["1933-03", "1944-11"]] });
 set("Knox", { titlePeriods: [["1940-07", "1944-04"]], until: "1944-04", note: "Secretary of the Navy, died 28 April 1944" });
 set("Biddle", { titlePeriods: [["1941-09", "1945-06"]] });
-set("Grew", { titlePeriods: [["1932-06", "1941-12"]], note: "Ambassador to Japan until Pearl Harbor; Under Secretary of State from December 1944" });
-set("Hurley", { titlePeriods: [["1944-11", "1945-11"]], note: "Ambassador to China from November 1944" });
+set("Grew", { titlePeriods: [["1932-06", "1941-12"], ["1944-12", "1945-08"]], note: "Ambassador to Japan until Pearl Harbor; Under Secretary of State from December 1944" });
+set("Hurley", { titlePeriods: [["1940-01", "1945-11"]], note: "General, then Ambassador to China from November 1944" });
 set("Sato", { titlePeriods: [["1942-03", "1945-08"]], note: "Ambassador to the USSR" });
 set("Kawane", { note: "identity to confirm in the fact-check pass" });
 set("Wainwright", {});
-set("Yoshida", { titlePeriods: [["1936-04", "1938-12"]], note: "Ambassador to Britain 1936 to 1938; Prime Minister from 1946" });
-set("Terauchi", { titlePeriods: [["1943-06", "1945-09"]], note: "Field Marshal from June 1943" });
+set("Yoshida", { note: "Ambassador to Britain 1936 to 1938; Prime Minister from 1946; no title is shown" });
+set("Terauchi", { note: "General, Field Marshal from June 1943 (dated title in the game)" });
 set("Stimson", { titlePeriods: [["1940-07", "1945-09"]] });
 set("McCloy", { note: "Assistant Secretary of War: the title shown ('Sec.') is imprecise" });
 fs.writeFileSync("tests/adviser-tenures.json", JSON.stringify({ _note: "Reviewed adviser tenures for tools/check-advisor-dates.mjs. Dates are year-month. Facts from memory of standard histories; confirm with sources (docs/WRITING.md, claims register).", anonymous: ["Bureau of Ordnance", "Sixth Army staff"], tenures: t }, null, 2) + "\n");

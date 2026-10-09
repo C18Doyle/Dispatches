@@ -19,14 +19,5 @@
       "submarineCarriersPath"
     ]
   },
-  "adviserDates": [
-    "SPEAKS_AFTER_FATE Sugiyama: japan/coldWarOpening48 (1947 – 1950) is after SEP 1945 (suicide, 12 September 1945)",
-    "SPEAKS_AFTER_FATE Yamamoto: japan/theFuelLedger44 (1944) is after APR 1943 (shot down over Bougainville, 18 April 1943)",
-    "TITLE Grew: shown as \"Amb.\" in alliedPacific/nagasakiDelayed45 (AUGUST 1945), but the post was held 1932-06 to 1941-12 (Ambassador to Japan until Pearl Harbor; Under Secretary of State from December 1944)",
-    "TITLE Hull: shown as \"Sec.\" in alliedPacific/warWithoutAmerica45 (1945), but the post was held 1933-03 to 1944-11",
-    "TITLE Hurley: shown as \"Amb.\" in alliedPacific/stilwellUltimatum44 (SEPTEMBER 1944), but the post was held 1944-11 to 1945-11 (Ambassador to China from November 1944)",
-    "TITLE Terauchi: shown as \"F.M.\" in alliedPacific/theUnopposedConsolidation42 (LATE 1942), but the post was held 1943-06 to 1945-09 (Field Marshal from June 1943)",
-    "TITLE Togo: shown as \"F.M.\" in japan/americaDecides44 (1943 – 1944), but the post was held 1941-10 to 1942-09; 1945-04 to 1945-08 (died in prison, 1950)",
-    "TITLE Yoshida: shown as \"Amb.\" in japan/coldWarOpening48 (1947 – 1950), but the post was held 1936-04 to 1938-12 (Ambassador to Britain 1936 to 1938; Prime Minister from 1946)"
-  ]
+  "adviserDates": []
 }

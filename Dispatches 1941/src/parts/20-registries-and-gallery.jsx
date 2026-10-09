@@ -458,7 +458,7 @@ const NODE_ATLAS = {
     { id: "savoIslandReckoning42", date: "AUGUST 1942", title: "Savo Island" },
     { id: "unconditionalSurrender43", date: "JANUARY 1943", title: "The Casablanca Declaration" },
     { id: "torpedoCrisis43", date: "JANUARY 1943", title: "The Torpedo That Won't Explode" },
-    { id: "theBatBombQuestion43", date: "JANUARY 1943", title: "Project X-Ray: A Dentist's Idea, Fourteen Months Later" },
+    { id: "theBatBombQuestion43", date: "JANUARY 1943", title: "Project X-Ray: A Dentist's Idea, Sixteen Months Later" },
     { id: "bismarckSea43", date: "MARCH 1943", title: "The Bismarck Sea" },
     { id: "yamamotoIntercept43", date: "APRIL 1943", title: "Operation Vengeance: The Yamamoto Intercept" },
     { id: "yamamotoSurvives43", date: "SUMMER 1943", title: "Yamamoto's Silence" },
