@@ -9,7 +9,7 @@
         "label": "Press for a declaration of war regardless: the occupation of American territory in the Philippines is provocation enough",
         "advisor": {
           "name": "Stimson",
-          "quote": "This Congress does not need a second Pearl Harbor to recognize the first one already happened. American soil is occupied. I am not willing to treat that as somehow insufficient."
+          "position": "Congress does not need a second Pearl Harbor to see that the first already happened, and American soil is occupied, which is not something to treat as insufficient."
         },
         "setFlags": {
           "standoffPath": "pressWar"
@@ -26,7 +26,7 @@
         "label": "Accept the standoff: focus entirely on the war against Germany, leave the Pacific to Britain, China, and the Dutch",
         "advisor": {
           "name": "Marshall",
-          "quote": "Europe First was always the plan even with Pearl Harbor forcing our hand in the Pacific too. Without that forcing, I see no reason to fight a second war this country was never actually attacked into."
+          "position": "Europe First was always the plan even with Pearl Harbor forcing the Pacific, and without that forcing there is no reason to fight a second war the country was never attacked into."
         },
         "setFlags": {
           "standoffPath": "acceptStandoff"
@@ -51,7 +51,7 @@
         "label": "Build the case methodically: hearings, documented atrocity reports from the occupied Philippines, a slow accumulation of pressure",
         "advisor": {
           "name": "Stimson",
-          "quote": "Zimmermann took five weeks against a threat aimed at Texas. I am asking this Congress to move on a threat aimed at an American colony instead, and I do not expect that argument to move faster just because I want it to."
+          "position": "Zimmermann took five weeks against a threat aimed at Texas, and a threat aimed at an American colony is not going to move Congress faster because the Secretary wants it to."
         },
         "setFlags": {
           "declarationPath": "methodical"
@@ -68,7 +68,7 @@
         "label": "Force the vote early: accept a chance of losing it rather than let the case build indefinitely",
         "advisor": {
           "name": "Marshall",
-          "quote": "Every week this argument builds is a week the Philippines spends further consolidated under occupation. I would rather force a vote we might actually lose now than win a stronger case for a country that no longer has anything left worth declaring war to recover."
+          "position": "Each week the argument builds is a week the Philippines spends further consolidated under occupation, and it is better to force a vote that might be lost than win a stronger case for a country with nothing left worth declaring war to recover."
         },
         "setFlags": {
           "declarationPath": "forceVote"
@@ -123,7 +123,7 @@
         "label": "Close the file here: the declaration itself was the question worth asking",
         "advisor": {
           "name": "Marshall",
-          "quote": "We asked whether this Congress could be walked to a war it wasn't shocked into. It could. What that war actually looks like is a question. It is not the one this particular file was opened to answer."
+          "position": "The question was whether Congress could be walked to a war it was not shocked into, and it could, and what that war looks like is a different question from the one this file was opened to answer."
         },
         "setFlags": {
           "lateWarPath": "fileClosed"
@@ -140,7 +140,7 @@
         "label": "Follow it forward: build the war this declaration actually produces, not just the declaration itself",
         "advisor": {
           "name": "Stimson",
-          "quote": "We spent real effort proving this Congress could be walked to a vote instead of shocked into one. I would like to know what kind of war that walk actually bought us, not just that we reached the door."
+          "position": "The effort went into proving Congress could be walked to a vote and not shocked into one, and the next question is what kind of war that walk bought, not only that it reached the door."
         },
         "setFlags": {
           "lateWarPath": "continued",
@@ -166,7 +166,7 @@
         "label": "Treat the expansionist reports as the more credible reading: an unopposed Japan probably does have room to press further",
         "advisor": {
           "name": "Marshall",
-          "quote": "An enemy with no one shooting at it has room its own logistics don't obviously deny it yet. I would rather plan for that room being real than assume Japan's own restraint where we have no forces in place to test it."
+          "position": "An enemy with no one shooting at it has room its logistics do not obviously deny it yet, and it is better to plan for that room being real than to assume Japan's restraint where no American forces are in place to test it."
         },
         "setFlags": {
           "japanExpansionPath": "credited"
@@ -183,7 +183,7 @@
         "label": "Treat the logistics constraints as the more credible reading: an unopposed Japan is likely finding its own ceiling regardless",
         "advisor": {
           "name": "King",
-          "quote": "Nobody's oil reserves get bigger because nobody's shooting at their tankers. I don't think the absence of an American fleet changes what Japan can actually fuel, and I'm not going to plan as though it does."
+          "position": "Nobody's oil reserves grow because nobody is shooting at their tankers, and the absence of an American fleet does not change what Japan can fuel."
         },
         "historical": false,
         "setFlags": {
@@ -209,7 +209,7 @@
         "label": "Maintain the standoff to its logical end: let Britain, the Soviet Union, China, and the Dutch settle Japan's fate and the postwar Pacific without an American voice in the room",
         "advisor": {
           "name": "Marshall",
-          "quote": "We chose this position four years ago and I don't think the fact that it's finally becoming uncomfortable is a good reason to abandon it now. If the principle was worth holding in 1941, it's worth holding at the finish."
+          "position": "The position was chosen four years ago, its becoming uncomfortable is no reason to abandon it now, and if the principle was worth holding in 1941 it is worth holding at the finish."
         },
         "historical": false,
         "setFlags": {
@@ -227,7 +227,7 @@
         "label": "Break the standoff at the finish: engage diplomatically now, before a postwar settlement gets decided entirely without American input",
         "advisor": {
           "name": "Hull",
-          "quote": "The principle we've held for four years is one worth keeping. What I don't understand is the case for holding it through the one conversation that decides what the Pacific actually looks like for the next fifty. There's a difference between consistency and a country talking itself out of a seat at its own century."
+          "position": "The principle held for four years is worth keeping, but not through the one conversation that decides what the Pacific looks like for the next fifty years, because consistency is different from a country talking itself out of a seat at its own century."
         },
         "setFlags": {
           "warWithoutAmericaFinalPath": "lateEngagement"
@@ -252,7 +252,7 @@
         "label": "Authorize the removal: approve Executive Order 9066 as DeWitt's command has requested",
         "advisor": {
           "name": "Marshall",
-          "quote": "I have not been given evidence of the sabotage risk DeWitt describes. I have been given his conviction that the risk exists regardless of evidence. I am recommending the order proceed."
+          "position": "General DeWitt has offered conviction that the risk exists and not evidence of it, and the recommendation is that the order proceed."
         },
         "historical": true,
         "setFlags": {
@@ -270,7 +270,7 @@
         "label": "Reject the removal order: side with the Justice Department's objection, pursue individualized security review instead",
         "advisor": {
           "name": "Biddle",
-          "quote": "This position will be called soft on security in a war we are still losing on every front that matters. That much is obvious. What is also true is that the evidence for this specific measure does not exist, and I am not willing to authorize it on conviction alone."
+          "position": "The position will be called soft on security in a war still being lost on every front that matters, and it is also true that the evidence for this measure does not exist and it should not be authorized on conviction alone."
         },
         "setFlags": {
           "internmentPath": "reject"
@@ -287,7 +287,7 @@
         "label": "Restrict the order to Issei non-citizens only, exempting American-born Nisei citizens from removal",
         "advisor": {
           "name": "Biddle",
-          "quote": "The government's actual legal authority under the Alien Enemies Act reaches non-citizens, not citizens by birth. I can defend a narrower order on that ground. I cannot defend this one."
+          "position": "The government's legal authority under the Alien Enemies Act reaches non-citizens and not citizens by birth, and a narrower order can be defended on that ground but this one cannot."
         },
         "setFlags": {
           "internmentPath": "citizensExempt"
@@ -312,7 +312,7 @@
         "label": "Launch immediately despite the shortened range: accept that most crews will have to ditch or bail out over China",
         "advisor": {
           "name": "Halsey",
-          "quote": "We've been spotted. Every hour we wait is an hour closer to Japanese carriers finding us instead of the other way around. Launch them now, and let Doolittle's people worry about the fuel math afterward."
+          "position": "The task force has been spotted and every hour of waiting brings Japanese carriers closer to finding it first, so the bombers should launch now and the fuel math be left to Doolittle's people."
         },
         "historical": true,
         "setFlags": {
@@ -324,13 +324,13 @@
           "initiative": 3
         },
         "next": "coralSeaMidwayAllied42",
-        "outcome": "All sixteen aircraft reach their targets, but none reach the intended Chinese airfields — most crews bail out or crash-land along the Chinese coast, several are captured by Japanese forces (three executed, one dies in captivity), and Hornet and Enterprise turn for home having launched a raid that killed almost nobody and destroyed almost nothing. The psychological return is wildly disproportionate to the physical one: American morale after four months of unbroken defeats gets its first unambiguous good headline, and inside Imperial Headquarters, the raid becomes the argument that finally silences Naval General Staff's remaining doubts about Midway. It also becomes the trigger for a Japanese reprisal campaign through Zhejiang and Jiangxi, the provinces that sheltered the raid's other crews, killing a number of Chinese civilians that no accounting ever fixed precisely, estimated anywhere from the tens of thousands into the hundreds of thousands. No one making this decision in April 1942 has any way to know that cost is coming."
+        "outcome": "All sixteen aircraft reach their targets, but none reach the intended Chinese airfields: most crews bail out or crash-land along the Chinese coast, several are captured by Japanese forces (three executed, one dies in captivity), and Hornet and Enterprise turn for home having launched a raid that killed almost nobody and destroyed almost nothing. The psychological return is wildly disproportionate to the physical one: American morale after four months of unbroken defeats gets its first unambiguous good headline, and inside Imperial Headquarters, the raid becomes the argument that finally silences Naval General Staff's remaining doubts about Midway. It also becomes the trigger for a Japanese reprisal campaign through Zhejiang and Jiangxi, the provinces that sheltered the raid's other crews, killing a number of Chinese civilians that no accounting ever fixed precisely, estimated anywhere from the tens of thousands into the hundreds of thousands. No one making this decision in April 1942 has any way to know that cost is coming."
       },
       {
         "label": "Abort the mission: the fuel margin no longer supports it, preserve the aircrews and the carriers",
         "advisor": {
           "name": "Doolittle",
-          "quote": "Months went into building this mission, and I am still the one asking to cancel it. I would rather explain a cancelled raid to Washington than explain sixteen crews lost over open ocean to reach a target we could have hit with better luck next time."
+          "position": "Months went into the mission and its own leader asks to cancel it, preferring to explain a cancelled raid to Washington to explaining sixteen crews lost over open ocean."
         },
         "setFlags": {
           "doolittleAlliedPath": "abort"
@@ -355,7 +355,7 @@
         "label": "Push it toward combat readiness: transfer the program to the Navy, fund it at the scale its own fire-efficiency numbers justify",
         "advisor": {
           "name": "King",
-          "quote": "I have read the fire numbers, and on paper this is a better weapon than what we are already dropping. I am authorizing the transfer on that basis alone, not because I am confident bats are a serious instrument of war."
+          "position": "On paper the bat bomb is a better weapon than what is being dropped now, and the transfer is authorized on that basis alone and not out of confidence that bats are a serious instrument of war."
         },
         "historical": true,
         "setFlags": {
@@ -373,7 +373,7 @@
         "label": "Redirect the resources now: the fire-efficiency numbers are real, but this staff has higher-confidence programs competing for the same funding",
         "advisor": {
           "name": "Nimitz",
-          "quote": "I don't doubt the numbers on paper. I doubt a weapons platform built out of live animals that have to be captured, refrigerated, and kept exactly cold enough to stay dormant until the moment they're needed. That is a great deal of operational fragility for a fire-efficiency advantage."
+          "position": "The numbers are not doubted on paper, but a weapon built from live animals that must be captured, refrigerated and kept cold enough to stay dormant carries a great deal of operational fragility for a fire-efficiency advantage."
         },
         "setFlags": {
           "batBombPath": "redirected"
@@ -398,7 +398,7 @@
         "label": "Commit the full weight of skip-bombing doctrine against the convoy, all available bombers in a single, coordinated strike",
         "advisor": {
           "name": "Kenney",
-          "quote": "We have practiced this exact attack for months against a target we didn't have yet. We have it now. I am not going to hold this doctrine in reserve for a convoy that might not be this exposed again."
+          "position": "The air force has practiced this attack for months against a target it did not have, it has one now, and the doctrine should not be held in reserve for a convoy that may not be this exposed again."
         },
         "historical": true,
         "setFlags": {
@@ -416,7 +416,7 @@
         "label": "Hold back part of the strike force in reserve, in case a larger or more critical target appears later",
         "advisor": {
           "name": "MacArthur",
-          "quote": "A guaranteed result today has real appeal. I am less certain a hypothetical better target tomorrow is worth letting a real one finish crossing that water today."
+          "position": "A guaranteed result today has real appeal, but a better target tomorrow is not worth letting a real one finish crossing the water today."
         },
         "setFlags": {
           "bismarckSeaPath": "reserved"
@@ -440,7 +440,7 @@
         "label": "Keep the same discipline: treat MAGIC as too valuable to spend on tactical opportunities, however good",
         "advisor": {
           "name": "Layton",
-          "quote": "We have now proven this source survives our own restraint. I am not eager to find out whether it survives our appetite."
+          "position": "The source has now been shown to survive restraint, and it may not survive appetite."
         },
         "historical": false,
         "setFlags": {
@@ -458,7 +458,7 @@
         "label": "Loosen the restriction: this fleet just proved the source can survive being used. Use it again when it matters",
         "advisor": {
           "name": "Nimitz",
-          "quote": "We were careful once and the secret held. I am not going to spend the next two years being careful out of habit rather than judgment."
+          "position": "The restriction held once and the secret survived, and the next two years should not be spent being careful out of habit and not judgment."
         },
         "setFlags": {
           "magicDisciplinePath": "willing"
@@ -511,7 +511,7 @@
         "label": "Defend the doctrine publicly: argue that bypassing costs more blood in the long run than paying it up front",
         "advisor": {
           "name": "Holland Smith",
-          "quote": "I will not apologize for what this doctrine costs. I will explain, as many times as this Congress needs to hear it, what letting a fortified position sit behind our lines costs instead."
+          "position": "The doctrine's cost will not be apologized for, and each time Congress needs to hear it, the answer is what letting a fortified position sit behind the lines costs instead."
         },
         "setFlags": {
           "tarawaPath": "defend"
@@ -557,7 +557,7 @@
         "label": "Adjust doctrine: extend preparatory bombardment before future assaults, even at the cost of tempo",
         "advisor": {
           "name": "Nimitz",
-          "quote": "I don't need Congress to tell me Tarawa's naval gunfire schedule was too short. I read the after-action report. We fix what the report says, before anyone has to ask us to."
+          "position": "Tarawa's naval gunfire schedule was too short, the after-action report says so, and what it says should be fixed before anyone has to ask."
         },
         "setFlags": {
           "tarawaPath": "adjust"
@@ -582,7 +582,7 @@
         "label": "Let it stand: MacArthur's popularity and the Philippines' symbolic weight make this a fight not worth having",
         "advisor": {
           "name": "Marshall",
-          "quote": "I have relieved officers for less than this. I am not going to relieve the one man whose removal the newspapers would turn into the story, instead of the war."
+          "position": "Officers have been relieved for less than this, but the one man whose removal the newspapers would make the story instead of the war will not be relieved."
         },
         "historical": true,
         "setFlags": {
@@ -600,7 +600,7 @@
         "label": "Relieve him for insubordination: unified command discipline matters more than one theater commander's popularity",
         "advisor": {
           "name": "King",
-          "quote": "We have tolerated a public relations campaign against agreed strategy for two years because relieving him seemed like more trouble than it was worth. I am telling you plainly that it was never going to stop being worth it less."
+          "position": "A public relations campaign against agreed strategy has been tolerated for two years because relieving him seemed more trouble than it was worth, and it was never going to stop being worth it less."
         },
         "setFlags": {
           "macArthurTensionPath": "relieved",
@@ -626,7 +626,7 @@
         "label": "Keep the Philippines liberation plan intact: honor the commitment MacArthur made publicly, under new command",
         "advisor": {
           "name": "Eichelberger",
-          "quote": "The promise wasn't his to make alone, and it isn't mine to break just because the man who made it is gone. We finish what was started."
+          "position": "The promise was not his to make alone and is not another man's to break because he is gone, and the liberation plan should be finished as it was begun."
         },
         "setFlags": {
           "eichelbergerPath": "honorPledge"
@@ -643,7 +643,7 @@
         "label": "Reconsider the Philippines timetable on its military merits alone, without a personal promise to honor",
         "advisor": {
           "name": "Nimitz",
-          "quote": "I would like this decided on where the airfields and the shipping point, not on a pledge a relieved commander made to newsreel cameras."
+          "position": "The Philippines timetable should be decided on where the airfields and shipping are, and not on a pledge a relieved commander made to newsreel cameras."
         },
         "setFlags": {
           "eichelbergerPath": "reconsider"
@@ -668,7 +668,7 @@
         "label": "Accept the narrower command as the real, achievable outcome, rather than reopen the fight for more",
         "advisor": {
           "name": "Marshall",
-          "quote": "We asked for everything and I watched what asking for everything cost the last time. I would rather keep the general than win an argument about how much of China he commands."
+          "position": "Asking for everything cost a great deal last time, and it is better to keep the general than win an argument about how much of China he commands."
         },
         "historical": false,
         "setFlags": {
@@ -686,7 +686,7 @@
         "label": "Push again for the fuller command the original ultimatum demanded, betting the narrower deal is a first step, not a ceiling",
         "advisor": {
           "name": "Stilwell",
-          "quote": "Two and a half years in this theater were not spent so that I could command Yunnan. Ask again. Ask for what this war actually needs."
+          "position": "Two and a half years in the theater were not spent to command Yunnan, and the ultimatum should be put again for what the war requires."
         },
         "setFlags": {
           "stilwellFatePath": "pushedAgain"
@@ -711,7 +711,7 @@
         "label": "Back Stimson: strike Kyoto from the list permanently, over Groves' operational objection",
         "advisor": {
           "name": "Stimson",
-          "quote": "I have told General Arnold there is one city he does not touch without my direct permission, and I meant it before this list existed. I mean it now."
+          "position": "The Secretary has told General Arnold there is one city he does not touch without direct permission, meant it before the list existed and means it now."
         },
         "historical": true,
         "setFlags": {
@@ -729,7 +729,7 @@
         "label": "Overrule Stimson: retain Kyoto as the primary target, on Groves' argument that its intact population is exactly the point",
         "advisor": {
           "name": "Groves",
-          "quote": "I want Kyoto because it is large enough that there is no question about what this weapon actually does. That is not a reason to look away from. It is the reason."
+          "position": "Kyoto is large enough that there would be no question about what the weapon does, and that is not a reason to look away but the reason to choose it."
         },
         "setFlags": {
           "kyotoPath": "struck",
@@ -755,7 +755,7 @@
         "label": "Make cultural preservation and restoration an explicit occupation priority, as a direct answer to what was destroyed",
         "advisor": {
           "name": "Stimson",
-          "quote": "I said this would be the position we occupy afterward. I did not expect to be the one drafting the policy that has to answer for it, and I am not going to draft it halfheartedly."
+          "position": "The Secretary said preservation would be the position afterward, did not expect to be the one drafting the policy that has to answer for it, and will not draft it halfheartedly."
         },
         "historical": false,
         "setFlags": {
@@ -773,7 +773,7 @@
         "label": "Proceed with standard occupation policy: treat this as a wartime decision like any other, not a special case requiring one",
         "advisor": {
           "name": "Groves",
-          "quote": "The weapon did what weapons of war do. I don't think the occupation needs a special policy to answer for a target selection I have already defended on its own terms."
+          "position": "The weapon did what weapons of war do, and the occupation needs no special policy to answer for a target selection already defended on its own terms."
         },
         "setFlags": {
           "kyotoAftermathPath": "standard"
@@ -798,7 +798,7 @@
         "label": "Decline specific warnings: preserve surprise, rely on the general leaflet campaign already underway",
         "advisor": {
           "name": "Groves",
-          "quote": "A named warning gives the target city time to move anti-aircraft assets and disperse whatever we're trying to measure the blast against. I understand what that costs the people living there. I am telling you plainly what it costs the mission if we don't."
+          "position": "A named warning gives the target city time to move anti-aircraft assets and disperse what the blast is to be measured against, which costs the mission, and the general knows what it costs the people living there."
         },
         "historical": true,
         "setFlags": {
@@ -816,7 +816,7 @@
         "label": "Drop specific warnings naming the candidate target cities, accepting the military cost for the chance to reduce civilian deaths",
         "advisor": {
           "name": "Stimson",
-          "quote": "A named warning has a cost to the mission's measurement value. I understand that. What I am less certain of than General Groves that the measurement is worth what withholding the warning costs the people living in whichever city it turns out to be."
+          "position": "A named warning costs the mission its measurement value, but the Secretary is less certain than General Groves that the measurement is worth what withholding the warning costs the people living in whichever city it turns out to be."
         },
         "setFlags": {
           "targetSelectionPath": "warned"
@@ -841,7 +841,7 @@
         "label": "Let the standing order continue: no new decision required, the second weapon proceeds on schedule",
         "advisor": {
           "name": "Groves",
-          "quote": "The order already covers this. I don't require a new signature to do what the President has already authorized me to do."
+          "position": "The standing order already covers this, and no new signature is needed to do what the President has authorized."
         },
         "historical": true,
         "setFlags": {
@@ -859,7 +859,7 @@
         "label": "Intervene now: pause the order and require the President's own fresh decision before any second strike",
         "advisor": {
           "name": "McCloy",
-          "quote": "The order as written means the next bomb happens because nobody stopped it, not because anybody decided it. I don't think that's the same thing, and I don't think it should be."
+          "position": "As written, the order means the next bomb happens because nobody stopped it and not because anybody decided it, and those are not the same thing."
         },
         "setFlags": {
           "secondBombPath": "paused"
@@ -884,7 +884,7 @@
         "label": "Make no public statement beyond confirming the strike: let the military record speak for itself",
         "advisor": {
           "name": "Truman",
-          "quote": "I have already said what needed saying after the first one. I don't have a second speech that says anything different."
+          "position": "Everything that needed saying was said after the first bomb, and there is no second speech that says anything different."
         },
         "historical": true,
         "setFlags": {
@@ -902,7 +902,7 @@
         "label": "Address the public directly again: acknowledge the second strike and its scale honestly",
         "advisor": {
           "name": "Stimson",
-          "quote": "Silence after the second one reads as something we're not willing to own. I would rather account for it plainly than let the absence of an accounting do the talking."
+          "position": "Silence after the second bomb reads as something the government is unwilling to own, and it is better to account for it plainly than let the absence of an account do the talking."
         },
         "setFlags": {
           "nagasakiAnnouncePath": "direct"
@@ -927,7 +927,7 @@
         "label": "Court-martial Captain McVay for failing to zigzag his ship in submarine waters",
         "advisor": {
           "name": "King",
-          "quote": "A captain lost his ship. I am aware of what else went wrong that night, and I am telling you that awareness does not by itself answer the question of whether this captain's own decisions that night were sound."
+          "position": "A captain lost his ship, and awareness of what else went wrong that night does not by itself answer whether his own decisions were sound."
         },
         "historical": true,
         "setFlags": {
@@ -945,7 +945,7 @@
         "label": "Order a full review of the reporting failure instead: the four days in the water are the scandal",
         "advisor": {
           "name": "Nimitz",
-          "quote": "I am less interested in one captain's zigzag pattern than in how a ship this size goes missing for four days without anyone at any station connecting what they were each separately told."
+          "position": "The failure is less one captain's zigzag pattern than how a ship of that size goes missing for four days without anyone at any station connecting what each was separately told."
         },
         "setFlags": {
           "indianapolisPath": "systemicReview"

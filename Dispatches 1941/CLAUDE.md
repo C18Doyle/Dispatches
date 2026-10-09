@@ -42,3 +42,7 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 - After any change run `npm run test:fast`. When `verify:baseline` fails: if it is a bug you introduced, fix the code; if the change is intended, read the reported differences, run `npm run baseline:accept`, and commit the new baseline together with the change and a line in `CHANGELOG.md`. A fix of a legacy bug that the old build got wrong goes in `tests/baseline/known-diffs.json` instead (first differing step plus a one-line reason).
 - Saves: `npm run test:saves` loads the committed old saves in `tests/saves/` into the current build and resumes; they must restore the same screen. Never re-record them to make a failure pass: write a migration so old saves still load.
 - Real-browser check (from the repo root, after building): `npm run smoke:browser`. Known layout findings are listed in `tests/browser-allowlist.json`.
+
+## Writing and quotations
+- Follow `../docs/WRITING.md`. `npm run check-writing` fails on an em dash in on-screen text (campaign parts and `src/data`).
+- Advisers carry `position`, a third-person summary, never invented speech. A real quotation is an `attested` line on the choice and is logged in `claims/quotations.json`; `npm run check-quotations` enforces both.

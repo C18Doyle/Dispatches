@@ -3,11 +3,11 @@
     seal: "IGHQ",
     name: "Imperial General Headquarters",
     dates: "Beginning 1940",
-    brief: "Direct Japan's war from the road to the Tripartite Pact through the surrender debate. Army and Navy will argue past each other more often than they agree. Some calls were contested even inside Imperial Headquarters at the time — those can break either way.",
+    brief: "Direct Japan's war from the road to the Tripartite Pact to the surrender debate.",
     teaser: "A war chosen in confidence, fought in doubt.",
     accent: "#5c1a1a",
     dynamic: true,
-    intro: "September 1940. The alliance with Germany and Italy is on the table, and the Southern Resource Area's oil and rubber sit behind every argument being made in this room right now. China is still unresolved after three years. What Tokyo does next, in each of these rooms, is yours to decide.",
+    intro: "September 1940. The alliance with Germany and Italy is on the table. China is unresolved after three years of war, and the oil and rubber of the Southern Resource Area lie behind every argument in the room.",
     start: "chinaPeaceQuestion40",
     resolveNode(id, flags, meters) {
       const carriersUntouched = !!flags.usCarriersUntouched;
@@ -23,7 +23,7 @@
           choices: [
             {
               label: "Continue backing the Wang Jingwei government: pursue victory over Chiang rather than terms with him",
-              advisor: { name: "Tojo", quote: "Chiang has rejected every terms we have offered because he believes America will eventually fight this war for him. I do not think further concessions change that calculation. I think finishing the war does." },
+              advisor: { name: "Tojo", position: "Chiang has turned down every set of terms because he expects America to fight for him in the end, so more concessions will change nothing and finishing the war is the only answer." },
               historical: true,
               setFlags: { chinaPeacePath: "continueWar" },
               impact: { readiness: 0, pipeline: -1, initiative: 0 },
@@ -33,7 +33,7 @@
             },
             {
               label: "Pursue a genuine negotiated settlement with Chiang, offering real terms rather than a puppet government",
-              advisor: { name: "Konoe", quote: "I have said before that we should not have a policy of refusing to deal with Chiang's government. I am aware that saying so again, three years into this war, sounds like weakness. I believe continuing to refuse is the real weakness." },
+              advisor: { name: "Konoe", position: "Refusing to deal with Chiang's government has failed for three years, and continuing to refuse is the real weakness, however much saying so now sounds like weakness." },
               setFlags: { chinaPeacePath: "negotiate", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
               next: "tripartitePact40",
@@ -60,7 +60,7 @@
             },
             {
               label: "Escalate the military pressure while quietly keeping a back channel open: force better terms rather than choosing between war and peace",
-              advisor: { name: "Sugiyama", quote: "Chiang does not negotiate from a position he doesn't feel pressure in. Pressure alone, though, has not produced terms in three years of trying. I would like to attempt both at once before I concede either has failed." },
+              advisor: { name: "Sugiyama", position: "Pressure alone has not produced terms in three years, so the army should press and keep a back channel open, and try both before conceding that either has failed." },
               setFlags: { chinaPeacePath: "pressureAndTalk" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
               next: "tripartitePact40",
@@ -85,7 +85,7 @@
           choices: [
             {
               label: "Sign the Tripartite Pact, formalizing the alliance with Germany and Italy",
-              advisor: { name: "Matsuoka", quote: "America respects strength and despises weakness. A three-power pact is the clearest strength we can show without firing a shot. I believe it keeps the peace, not breaks it." },
+              advisor: { name: "Matsuoka", position: "America respects strength and despises weakness, and a pact of three powers shows strength without a shot fired, so signing it keeps the peace." },
               historical: true,
               setFlags: { tripartitePath: "signed" },
               impact: { readiness: 0, pipeline: 0, initiative: 1 },
@@ -95,7 +95,7 @@
             },
             {
               label: "Decline the pact, keeping Japan's diplomatic hands free rather than binding to Germany's fortunes",
-              advisor: { name: "Yamamoto", quote: "I am being asked to plan a war against the country that would have to supply half of what I'd need to fight it. I would like that considered before this alliance is signed, not after." },
+              advisor: { name: "Yamamoto", position: "The Navy would have to plan a war against the country that supplies half of what it needs to fight, and that should be weighed before the pact is signed, not after." },
               setFlags: { tripartitePath: "declined" },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
               next: "unificationQuestion40",
@@ -104,7 +104,7 @@
             },
             {
               label: "Negotiate a narrower agreement: technical and economic cooperation with Germany, without the mutual military defense commitment",
-              advisor: { name: "Yonai", quote: "I am not opposed to German engineering. I am opposed to a clause that puts this country's war decisions on a timetable Berlin sets. Take the technology. Decline the obligation." },
+              advisor: { name: "Yonai", position: "Germany's engineering is welcome. A clause that puts Japan's war decisions on a timetable Berlin sets is not, so the technology should be taken and the obligation declined." },
               setFlags: { tripartitePath: "limited" },
               impact: { readiness: 1, pipeline: 0, initiative: 0 },
               next: "unificationQuestion40",
@@ -124,7 +124,7 @@
           choices: [
             {
               label: "Leave the services running parallel: unification fights are for peacetime, not for a staff about to plan a war",
-              advisor: { name: "Sugiyama", quote: "Fighting the Navy over which service's codebreakers get first look at a decrypt is not how I intend to spend the months before this war starts. We fight the war we have the structure for." },
+              advisor: { name: "Sugiyama", position: "The services should keep running in parallel, because a fight over which of them reads a decrypt first is no way to spend the months before the war." },
               historical: true,
               setFlags: { unificationPath: "parallel" },
               impact: { readiness: 0, pipeline: 0, initiative: 1 },
@@ -134,7 +134,7 @@
             },
             {
               label: "Force a genuine joint command structure now, before the shooting starts",
-              advisor: { name: "Nagano", quote: "This fight is unpopular in both services, and I know it. Unpopular is not the same as wrong, and the war we are about to start will not forgive us the years we didn't spend fixing this." },
+              advisor: { name: "Nagano", position: "The fight over a joint command is unpopular in both services and still right, and the coming war will not forgive the years spent not fixing it." },
               setFlags: { unificationPath: "forced", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
               next: "hokushinDebate41",
@@ -154,7 +154,7 @@
           choices: [
             {
               label: "Hold to the Southern Operation: the resources that actually solve the oil problem are south, not north",
-              advisor: { name: "Nagano", quote: "Kantokuen solves a problem we don't have. We are not short on land. We are eighteen months from being short on fuel, and there is no fuel in Siberia worth this fleet's time." },
+              advisor: { name: "Nagano", position: "Kantokuen solves a problem Japan does not have. The shortage is fuel, which will bite in about eighteen months, and there is no fuel in Siberia worth the fleet's time." },
               historical: true,
               setFlags: { hokushinPath: "south", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 0, pipeline: 1, initiative: 0 },
@@ -164,7 +164,7 @@
             },
             {
               label: "Execute Kantokuen: strike north into Siberia while Soviet attention is fixed on Germany",
-              advisor: { name: "Tojo", quote: "The Army has waited a decade to answer what Nomonhan cost us. If there is ever a year Russia cannot afford to fight on two fronts, staff estimates say this is it." },
+              advisor: { name: "Tojo", position: "The Army has waited a decade to answer Nomonhan, and the staff estimates say this is the year the Soviet Union can least afford to fight on two fronts." },
               setFlags: { hokushinPath: "north" },
               impact: { readiness: -2, pipeline: -2, initiative: 1 },
               next: "kantokuenOffensive41",
@@ -175,7 +175,7 @@
               ? [
                   {
                     label: "Hold to the Southern Operation, but run a limited northern reconnaissance-in-force to test Soviet weakness rather than guess at it",
-                    advisor: { name: "Nagano", quote: "I am not proposing Kantokuen. I am proposing this staff stop arguing about Soviet weakness from rumor and Berlin's own optimism, and go find out what's across that border, on a scale that costs us nothing if the answer is unfavorable." },
+                    advisor: { name: "Nagano", position: "The staff should stop arguing about Soviet weakness from rumor and Berlin's optimism and look across the border, on a scale that costs nothing if the answer is unfavorable." },
                     setFlags: { hokushinPath: "southWithProbe" },
                     impact: { readiness: -1, pipeline: -1, initiative: 1 },
                     next: "indochinaOccupation41",
@@ -193,11 +193,11 @@
           title: "The Kwantung Army's Wager",
           historicalRecord: false,
           situation:
-            "The Kwantung Army has crossed the border, and the first weeks bring the kind of resistance staff optimism had discounted: Soviet garrison divisions dug in around Lake Baikal and the Trans-Siberian Railway are fighting with a discipline the Nomonhan generation didn't expect a Soviet high command distracted by Germany to still be capable of. The historical record has nothing to say past this point: the actual Kantokuen was stood down before crossing the border at all, so everything from here is built on staff-plan logistics and Nomonhan's own lessons about what this terrain does to an offensive that outruns its supply — extrapolation, since nothing here actually happened.",
+            "The Kwantung Army has crossed the border, and the first weeks bring the kind of resistance staff optimism had discounted: Soviet garrison divisions dug in around Lake Baikal and the Trans-Siberian Railway are fighting with a discipline the Nomonhan generation didn't expect a Soviet high command distracted by Germany to still be capable of. The historical record has nothing to say past this point: the actual Kantokuen was stood down before crossing the border at all, so everything from here is built on staff-plan logistics and Nomonhan's own lessons about what this terrain does to an offensive that outruns its supply: extrapolation, since nothing here actually happened.",
           choices: [
             {
               label: "Push deep: drive for the Trans-Siberian Railway itself, cutting the Soviet Far East off from resupply entirely",
-              advisor: { name: "Tojo", quote: "Nomonhan taught us the cost of fighting Zhukov on a battlefield he chose. This time we choose it, deep enough that the railway itself becomes the objective, not a fortified line we have to grind through first." },
+              advisor: { name: "Tojo", position: "Nomonhan showed the cost of fighting Zhukov on ground he chose. This time the army chooses, and the Trans-Siberian Railway, not a fortified line, is the objective." },
               setFlags: { kantokuenPath: "deep" },
               impact: { readiness: -4, pipeline: -3, initiative: 2 },
               disabledReason: meters.pipeline <= -3 ? "There isn't rail capacity left to sustain a drive this deep into Siberia. The border gains can be held, but the railway itself is out of reach at this pipeline level." : undefined,
@@ -208,7 +208,7 @@
             },
             {
               label: "Limit the objective: seize the border regions and key resource areas, decline the deeper drive",
-              advisor: { name: "Nagano", quote: "Whatever this offensive was supposed to prove about Nomonhan, it is not going to prove it by repeating Nomonhan's mistake at a larger scale. Take what the border gives us. Do not go looking for the railway." },
+              advisor: { name: "Nagano", position: "The offensive will not answer Nomonhan by repeating Nomonhan's mistake on a larger scale, so the army should take what the border gives and leave the railway alone." },
               setFlags: { kantokuenPath: "limited" },
               impact: { readiness: -1, pipeline: -1, initiative: -1 },
               next: "siberianReckoning42",
@@ -219,7 +219,7 @@
               ? [
                   {
                     label: "Hold the border and wait: commit nothing further until the Kwantung Army actually reaches the two-to-one edge its own staff studies say the offensive needs",
-                    advisor: { name: "Nagano", quote: "A real American intelligence estimate this October puts us at rough parity with the Siberian army, not superiority. Our own staff studies say two to one before this offensive makes sense. I would like to actually have that before we spend men finding out we don't." },
+                    advisor: { name: "Nagano", position: "American intelligence puts Japan at rough parity with the Siberian army, while the staff's own studies call for two to one, and the army should have that margin before it spends men finding out it does not." },
                     setFlags: { kantokuenPath: "waitForEdge" },
                     impact: { readiness: 2, pipeline: -1, initiative: -2 },
                     next: "siberianReckoning42",
@@ -248,7 +248,7 @@
           choices: [
             {
               label: "Hold the gains and dig in for a long war of attrition against the Soviet Far East",
-              advisor: { name: "Tojo", quote: "A single hard winter is not a reason to withdraw from a war we chose to start. This army holds what it has taken." },
+              advisor: { name: "Tojo", position: "One hard winter is no reason to withdraw from a war Japan chose to start, so the army holds what it has taken." },
               setFlags: { siberianPath: "holdGains" },
               impact: { readiness: -3, pipeline: -2, initiative: 0 },
               disabledReason: meters.pipeline <= -3 ? "There isn't the winter supply capacity to hold this ground through an attrition campaign. A dug-in position this exposed needs sustainment this pipeline level can't provide." : undefined,
@@ -259,7 +259,7 @@
             },
             {
               label: "Cut losses: negotiate a local ceasefire with Soviet forces and withdraw to the original border",
-              advisor: { name: "Nagano", quote: "We were told this would be over before the snow. It is not over, and there is snow. I would rather explain a withdrawal to the Emperor than explain why I let a resource war become a two-front war on top of it." },
+              advisor: { name: "Nagano", position: "The war was meant to be over before the snow and it is not, and it is better to explain a withdrawal to the Emperor than a resource war that has become a two-front war." },
               setFlags: { siberianPath: "withdraw" },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "twoFrontStrain44",
@@ -270,7 +270,7 @@
               ? [
                   {
                     label: "Press for the actual German objective: drive west toward a link-up on the Trans-Siberian line before the window closes",
-                    advisor: { name: "Tojo", quote: "Ribbentrop's own telegram to this embassy was explicit: the goal was always a meeting of German and Japanese forces on that railroad before winter. Every month we spend digging in instead of driving toward it is a month closer to that goal becoming permanently impossible." },
+                    advisor: { name: "Tojo", position: "Ribbentrop's telegram named the goal as a meeting of German and Japanese forces on the Trans-Siberian Railway, and every month spent digging in puts that goal further out of reach." },
                     setFlags: { siberianPath: "pressWest" },
                     impact: { readiness: -4, pipeline: -3, initiative: 3 },
                     disabledReason: meters.pipeline <= -2 ? "There isn't fuel or rail capacity to drive west at all, let alone far enough to matter. A push toward a link-up that never gets close enough to attempt isn't a push, it's a further withdrawal in slow motion." : undefined,
@@ -299,7 +299,7 @@
           choices: [
             {
               label: "Launch the delayed Southern Operation at full urgency: race to close a two-year gap the embargo clock never paused for",
-              advisor: { name: "Tojo", quote: "The deliberate timeline this operation would have had in 1941 is not a luxury we have. Every month further behind is a month closer to a fuel crisis this whole war was supposed to solve, not deepen." },
+              advisor: { name: "Tojo", position: "The deliberate timetable of 1941 is a luxury the army no longer has, and each month of delay brings the fuel crisis the war was meant to solve closer." },
               setFlags: { delayedSouthPath: "rushed", speculativePath: true },
               impact: { readiness: -2, pipeline: -1, initiative: 2 },
               disabledReason: meters.pipeline <= -4 ? "There isn't fuel to compress this timetable at all. A rushed operation needs a margin to rush with, and this pipeline level has none left." : undefined,
@@ -310,7 +310,7 @@
             },
             {
               label: "Proceed deliberately: apply the caution the Siberian front's own hard lessons argue for, despite the compounding fuel deficit",
-              advisor: { name: "Nagano", quote: "We have just spent a year learning what happens when this staff assumes a timeline the terrain and the enemy don't agree to. I would rather apply that lesson here than repeat the assumption that cost us the last one." },
+              advisor: { name: "Nagano", position: "The Siberian front has just shown what follows when the staff assumes a timetable that the terrain and the enemy do not accept, and that lesson should be applied here." },
               setFlags: { delayedSouthPath: "deliberate", speculativePath: true },
               impact: { readiness: 1, pipeline: -2, initiative: -1 },
               next: "theDelayedStrike44",
@@ -333,7 +333,7 @@
           choices: [
             {
               label: "Strike the fleet directly: whatever it has become, hitting it before it can be used is still the whole strategic logic of this operation",
-              advisor: { name: "Toyoda", quote: "A fleet that has never once been struck has no reason to expect to be struck. That is the one advantage two and a half years of delay hasn't cost us yet, whatever this fleet's actual strength turns out to be." },
+              advisor: { name: "Toyoda", position: "A fleet that has never been struck has no reason to expect it, and that is the one advantage two and a half years of delay has not cost Japan, whatever the fleet has become." },
               setFlags: { delayedStrikePath: "strike" },
               impact: { readiness: -3, pipeline: -2, initiative: 3 },
               next: "theUndemolishedFields44",
@@ -342,7 +342,7 @@
             },
             {
               label: "Reconnoiter first: confirm what the fleet has actually become before committing to a strike built on two-and-a-half-year-old intelligence",
-              advisor: { name: "Nagano", quote: "I am being asked to authorize a strike on a fleet we have not properly observed since before this whole detour began. I would like one real look at what we're actually striking before this navy commits to it." },
+              advisor: { name: "Nagano", position: "Nobody has properly observed the fleet since the detour began, so the navy should have one real look at what it is striking before it commits." },
               setFlags: { delayedStrikePath: "reconnoiter" },
               impact: { readiness: 1, pipeline: -1, initiative: -2 },
               disabledReason: meters.initiative <= -4 ? "There isn't the operational tempo left to reconnoiter and still strike before the fleet's own position shifts again. This delay has already cost more of that margin than this staff can spare a second time." : undefined,
@@ -364,7 +364,7 @@
           choices: [
             {
               label: "Move fast: land ahead of any warning the fleet's own approach might give the demolition teams time to act on",
-              advisor: { name: "Terauchi", quote: "The Dutch have had two and a half years of undisturbed war footing to prepare demolition plans for exactly this scenario. I intend to give them less warning of our approach than that preparation assumes, not more." },
+              advisor: { name: "Terauchi", position: "The Dutch have had two and a half years to prepare demolitions, so the landings should come with less warning than that preparation assumes." },
               setFlags: { resourceFieldsPath: "moveFast" },
               impact: { readiness: -2, pipeline: 1, initiative: 1 },
               next: "theFuelLedger44",
@@ -373,7 +373,7 @@
             },
             {
               label: "Accept the likely demolition and plan around a damaged resource area from the start, rather than bet the operation's own fuel math on an intact one",
-              advisor: { name: "Nagano", quote: "I would rather this staff plan for the fields we're actually likely to get than the fields we're hoping for. Two and a half years of Dutch preparation is a reason to expect a more thorough demolition plan." },
+              advisor: { name: "Nagano", position: "The staff should plan for the fields it is likely to get, damaged after two and a half years of Dutch preparation, and not for the fields it hopes for." },
               setFlags: { resourceFieldsPath: "planForDamage" },
               impact: { readiness: 1, pipeline: -2, initiative: -1 },
               next: "theFuelLedger44",
@@ -403,7 +403,7 @@
           choices: [
             {
               label: "Prioritize the fleet: the Pacific war is still the one this navy actually needs to fight",
-              advisor: { name: "Yamamoto", quote: "Whatever this army needs in Siberia, it needs it less than this fleet needs fuel to still be a fleet. I am not going to watch the Navy starve for an army's garrison duty." },
+              advisor: { name: "Yamamoto", position: "The Pacific war is the one the Navy needs to win, and the fleet needs fuel to remain a fleet more than the army needs it for garrison duty in Siberia." },
               setFlags: { fuelLedgerPath: "fleet" },
               impact: { readiness: 1, pipeline: -1, initiative: 0 },
               next: "aSecondArmisticeQuestion44",
@@ -430,7 +430,7 @@
             },
             {
               label: "Prioritize the army: the northern front IGHQ chose to open still has to be sustained on its own terms",
-              advisor: { name: "Tojo", quote: "A second front does not get starved the moment it becomes inconvenient to the Navy's own priorities. This army gets what it needs to hold what it was ordered to hold." },
+              advisor: { name: "Tojo", position: "A second front does not get starved the moment it becomes inconvenient to the Navy, and the army must have what it needs to hold what it was ordered to hold." },
               setFlags: { fuelLedgerPath: "army" },
               impact: { readiness: -1, pipeline: 1, initiative: 0 },
               next: "aSecondArmisticeQuestion44",
@@ -441,7 +441,7 @@
               ? [
                   {
                     label: "Force genuine unified allocation: break the structural split where the Army controls captured oil and the Navy consumes most of it",
-                    advisor: { name: "Nagano", quote: "The Army administers the fields. This fleet burns most of what comes out of them. That arrangement was never designed by anyone, it simply happened, and every month it costs us fuel neither service can actually account for. I want one ledger, not two." },
+                    advisor: { name: "Nagano", position: "The Army administers the oilfields and the fleet burns most of what comes out of them. That arrangement was never designed, it costs fuel neither service can account for, and it needs one ledger instead of two." },
                     setFlags: { fuelLedgerPath: "unified" },
                     impact: { readiness: -2, pipeline: 2, initiative: -1 },
                     next: "aSecondArmisticeQuestion44",
@@ -468,7 +468,7 @@
           choices: [
             {
               label: "Commission a full accounting of what the two-front choice cost, however uncomfortable the answer",
-              advisor: { name: "Nagano", quote: "I would like this staff to know, in writing, what choosing Kantokuen over the Southern Operation's original timetable has cost us. I do not expect the answer to be comfortable. I expect it to be useful." },
+              advisor: { name: "Nagano", position: "The staff should have in writing what the choice of Kantokuen over the Southern Operation's first timetable has cost, uncomfortable or not, because it will be useful." },
               setFlags: { armisticeQuestionPath: "accounting" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "theBelatedReckoning45",
@@ -477,7 +477,7 @@
             },
             {
               label: "Decline the accounting: press forward without dwelling on what the delay and division already cost",
-              advisor: { name: "Tojo", quote: "I am not interested in a ledger of what we have already spent. I am interested in what this army does next. Save the accounting for historians, if there are any left to write it." },
+              advisor: { name: "Tojo", position: "A ledger of what has been spent helps nobody, and what matters is what the army does next, with the accounting left to historians if any are left." },
               setFlags: { armisticeQuestionPath: "pressForward" },
               impact: { readiness: -1, pipeline: -1, initiative: 1 },
               next: "theBelatedReckoning45",
@@ -488,7 +488,7 @@
               ? [
                   {
                     label: "Commission the accounting and commit in advance to acting on it, whatever it shows",
-                    advisor: { name: "Nagano", quote: "A real institute gathered this government's own brightest analysts in the summer of 1941 and told the cabinet, to their faces, that a war with America ends in defeat. The report was filed and ignored. I am not interested in filing another one." },
+                    advisor: { name: "Nagano", position: "The staff should order the accounting and commit in advance to act on it. In the summer of 1941 a government institute told the cabinet that a war with America ends in defeat, and the report was filed and ignored." },
                     setFlags: { armisticeQuestionPath: "boundInAdvance" },
                     impact: { readiness: -1, pipeline: 1, initiative: -1 },
                     next: "theBelatedReckoning45",
@@ -529,7 +529,7 @@
           choices: [
             {
               label: "Seek terms: a delayed, diminished war looking for an exit before the arithmetic gets worse",
-              advisor: { name: "Togo", quote: "We have fought two wars back to back instead of the one we needed to win. I would rather ask for terms from this position than wait for a third." },
+              advisor: { name: "Togo", position: "Japan has fought two wars back to back instead of the one it needed to win, and it is better to ask for terms from here than to wait for a third." },
               setFlags: { kantokuenLegacyPath: "seekTerms" },
               impact: { readiness: 1, pipeline: 0, initiative: -2 },
               next: "kantokuenFinalWord46",
@@ -538,7 +538,7 @@
             },
             {
               label: "Fight on: commit whatever remains to finishing the Southern Operation's original promise, however late",
-              advisor: { name: "Tojo", quote: "Late is not the same as failed. We finish what this war was supposed to be about, on whatever timeline it takes." },
+              advisor: { name: "Tojo", position: "Late is not failed, and the war should be finished on whatever timeline it takes." },
               setFlags: { kantokuenLegacyPath: "fightOn" },
               impact: { readiness: -2, pipeline: -1, initiative: 1 },
               next: "theUnbloodiedFleets45",
@@ -549,7 +549,7 @@
               ? [
                   {
                     label: "Let the war ministry's hardest faction settle it: sideline whoever is still arguing for terms and commit to fighting past the point civilian government can still order otherwise",
-                    advisor: { name: "Anami", quote: "This staff has watched two governments, one after the other, run out of the authority to end a war on their own terms. I am not confident a third attempt at terms succeeds where the first two didn't." },
+                    advisor: { name: "Anami", position: "Two governments in turn have run out of authority to end a war on their own terms, and there is little reason to expect a third attempt at terms to do better." },
                     setFlags: { kantokuenLegacyPath: "hardlinerSeizure" },
                     impact: { readiness: -3, pipeline: 0, initiative: 2 },
                     next: "kantokuenFinalWord46",
@@ -571,7 +571,7 @@
           choices: [
             {
               label: "Trust the veterans: commit the fleet's experienced aircrew to a decisive engagement on skill this timeline never let America's newer pilots prove against Japan specifically",
-              advisor: { name: "Ozawa", quote: "These are the same aircrews that fought over Malaya and the Indian Ocean when this war was still winning. They have never once faced American carrier aviation directly. I do not think that omission favors the Americans as much as their aircraft roster suggests it should." },
+              advisor: { name: "Ozawa", position: "The aircrews that fought over Malaya and the Indian Ocean have never met American carrier aviation, and that gap may favor them more than the American aircraft numbers suggest." },
               setFlags: { unbloodiedFleetsPath: "trustVeterans" },
               impact: { readiness: -3, pipeline: -2, initiative: 2 },
               next: "kantokuenFinalWord46",
@@ -580,7 +580,7 @@
             },
             {
               label: "Decline the engagement: preserve the veteran air groups rather than test them against an unknown quantity in unfamiliar aircraft",
-              advisor: { name: "Nagano", quote: "I have an air group with no equal in raw skill and no experience whatsoever against the fleet it's about to meet. I would rather keep that air group intact and uncertain than spend it finding out for certain in a single afternoon." },
+              advisor: { name: "Nagano", position: "The air groups have no equal in skill and no experience against this fleet, and they are worth more kept intact and untested than spent finding out in one afternoon." },
               setFlags: { unbloodiedFleetsPath: "decline" },
               impact: { readiness: 1, pipeline: 1, initiative: -3 },
               disabledReason: meters.pipeline <= -5 ? "There isn't fuel to maintain a fleet in being and decline this engagement indefinitely. Declining costs time this pipeline level doesn't have left to spend." : undefined,
@@ -603,7 +603,7 @@
           choices: [
             {
               label: "Protect the planning staff who championed Kantokuen from any institutional consequence: no reassignment, no board of inquiry, no career cost",
-              advisor: { name: "Tojo", quote: "History can judge whether this was the right war to fight first. I will not spend the officers who argued for it as this army's own scapegoats for an argument the whole General Staff, myself included, ultimately approved." },
+              advisor: { name: "Tojo", position: "History can judge whether this was the right war to fight first, but the staff officers who argued for Kantokuen should not be made scapegoats for a decision the whole General Staff approved." },
               setFlags: { kantokuenFinalPath: "heldGround" },
               impact: { readiness: -1, pipeline: -1, initiative: 0 },
               next: "END",
@@ -612,7 +612,7 @@
             },
             {
               label: "Convene a board of inquiry: name the specific General Staff officers who championed the northern gamble and remove them from further planning authority",
-              advisor: { name: "Nagano", quote: "I said in 1941 that Kantokuen solved a problem we did not have. I am not interested in a formal apology from this staff. I am interested in the specific men who argued loudest for it never being trusted with a war plan again." },
+              advisor: { name: "Nagano", position: "Kantokuen solved a problem Japan did not have, and the men who argued loudest for it should never again be trusted with a war plan." },
               setFlags: { kantokuenFinalPath: "wrongGamble" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "END",
@@ -632,7 +632,7 @@
           choices: [
             {
               label: "Proceed with the full occupation of southern Indochina",
-              advisor: { name: "Tojo", quote: "We have been told for a year that provoking America is the one thing we cannot afford. I would like someone to explain what continuing to wait for an embargo that may come regardless has actually bought us." },
+              advisor: { name: "Tojo", position: "For a year Japan has been told that provoking America is the one thing it cannot afford, and waiting for an embargo that may come regardless has bought nothing." },
               historical: true,
               setFlags: { indochinaPath: "fullOccupation" },
               impact: { readiness: 0, pipeline: -2, initiative: 2 },
@@ -642,7 +642,7 @@
             },
             {
               label: "Negotiate limited basing and transit rights instead: stop short of full occupation",
-              advisor: { name: "Nomura", quote: "I am the one who has to sit across from Secretary Hull after this decision is made. I am telling you plainly that full occupation forecloses every negotiating option I currently have left." },
+              advisor: { name: "Nomura", position: "Full occupation would close every negotiating option the ambassador has left, and he will be the one sitting across from Secretary Hull afterward." },
               setFlags: { indochinaPath: "limited", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "novemberUltimatum41",
@@ -651,7 +651,7 @@
             },
             {
               label: "Occupy in stages: take key ports and airfields first, hold the rest in reserve as leverage while watching Washington's response",
-              advisor: { name: "Konoe", quote: "Learning what this costs us in stages beats finding out all at once. Take what the fleet needs first. See what Washington does before spending the rest of the country." },
+              advisor: { name: "Konoe", position: "Learning the cost in stages beats learning it all at once, so the fleet's needs should be taken first and Washington's reaction watched before the rest is spent." },
               setFlags: { indochinaPath: "staged" },
               impact: { readiness: 0, pipeline: 0, initiative: 0 },
               next: "novemberUltimatum41",
@@ -671,7 +671,7 @@
           choices: [
             {
               label: "Confirm the deadline: proceed toward the Southern Operation and the opening strike",
-              advisor: { name: "Tojo", quote: "The Hull Note has had as careful a reading from me as anyone in this room can claim. It asks us to surrender everything this government has built since Manchuria, unilaterally, on trust. I do not believe further negotiation changes those terms." },
+              advisor: { name: "Tojo", position: "The Hull Note asks Japan to surrender everything built since Manchuria, unilaterally and on trust, and further negotiation will not change those terms." },
               historical: true,
               setFlags: { novemberPath: "confirmed" },
               impact: { readiness: 0, pipeline: 0, initiative: 1 },
@@ -681,7 +681,7 @@
             },
             {
               label: "Seek one more extension of the negotiating window",
-              advisor: { name: "Togo", quote: "One more extension is unlikely to change Secretary Hull's terms. I believe it is still worth being the government that asked, when history is done deciding who chose this war and who tried not to." },
+              advisor: { name: "Togo", position: "One more extension is unlikely to change Hull's terms, but it is worth being the government that asked, when history decides who chose the war and who tried to avoid it." },
               setFlags: { novemberPath: "delayed", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 2, initiative: -2 },
               disabledReason: meters.pipeline <= -4 ? "The embargo has already cut too deep to buy with more time. The fleet's reserves force this decision now, whatever the diplomatic calendar would prefer." : undefined,
@@ -692,7 +692,7 @@
             },
             {
               label: "Counter-offer a partial withdrawal: pull out of southern Indochina while keeping northern positions and China off the table entirely",
-              advisor: { name: "Togo", quote: "Hull is asking for everything. I would like this conference's actual answer, once, to be something other than yes or no to that exact question." },
+              advisor: { name: "Togo", position: "Hull is asking for everything, and the government's answer, once, should be something other than a plain yes or no to that question." },
               setFlags: { novemberPath: "counterOffer", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               disabledReason: meters.pipeline <= -4 ? "The embargo has already cut too deep to spend more weeks on a counter-offer Hull's own position gives little reason to expect will be entertained." : undefined,
@@ -717,7 +717,7 @@
           choices: [
             {
               label: "Execute the Pearl Harbor strike as planned: six carriers, full surprise",
-              advisor: { name: "Yamamoto", quote: "Whatever this morning buys us, it isn't unlimited time. I've told this cabinet before what a protracted war against that industrial base actually looks like. Nothing that happened today changes that math." },
+              advisor: { name: "Yamamoto", position: "The strike buys no unlimited time, and a long war against that industrial base looks the same after today as it did before." },
               historical: true,
               setFlags: { openingVector: "pearlHarbor" },
               impact: { readiness: 0, pipeline: 0, initiative: 0 },
@@ -727,7 +727,7 @@
             },
             {
               label: "Bypass Oahu entirely: commit every carrier to the Southern Resource Area instead",
-              advisor: { name: "Nagano", quote: "Every ship the Navy General Staff sends to Hawaii is a ship not covering Malaya's landings. Take the oil. Leave the Americans a war they haven't decided to fight yet." },
+              advisor: { name: "Nagano", position: "Every ship sent to Hawaii is one not covering the landings in Malaya, so the fleet should take the oil and leave America a war it has not yet decided to fight." },
               setFlags: { openingVector: "southBlitz", usCarriersUntouched: true, speculativePath: true },
               impact: { readiness: 1, pipeline: 2, initiative: -1 },
               disabledReason: meters.pipeline <= -3 ? "The Southern Operation can't absorb every carrier at this pipeline level without a Hawaii strike to buy the time the supply chain needs to catch up. There isn't enough slack left for the bet Nagano is proposing." : undefined,
@@ -757,7 +757,7 @@
           choices: [
             {
               label: "Press the jungle drive at speed: take Rangoon before British and Chinese reinforcements consolidate",
-              advisor: { name: "Iida", quote: "The road closes the day Rangoon falls, not the day the campaign is declared won. Every week we spend being careful is a week China keeps breathing through a port we could have already taken." },
+              advisor: { name: "Iida", position: "The road to China closes the day Rangoon falls, and each cautious week lets China keep breathing through a port the army could already have taken." },
               historical: true,
               setFlags: { burmaPath: "speed" },
               impact: { readiness: -1, pipeline: 1, initiative: 2 },
@@ -769,7 +769,7 @@
             },
             {
               label: "Advance methodically along the coast with naval gunfire support: slower, but preserves the division for the India campaign to come",
-              advisor: { name: "Sakurai", quote: "Rangoon will fall either way. I would rather my division still be a division when the harder push into India comes, than a division that spent itself winning a race against a British retreat that was never going to hold the city regardless." },
+              advisor: { name: "Sakurai", position: "Rangoon will fall either way, and a division that is still a division for the harder push into India is worth more than one spent winning a race the British retreat would have lost anyway." },
               setFlags: { burmaPath: "methodical" },
               impact: { readiness: 1, pipeline: -1, initiative: -1 },
               next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
@@ -780,7 +780,7 @@
               ? [
                   {
                     label: "Divert divisions earmarked for Burma toward a genuine invasion of Ceylon, over the Army's real historical objection",
-                    advisor: { name: "Sugiyama", quote: "The Navy has asked for these divisions three times and I have refused three times, because Burma and the mainland already have more claims on this army than it can honestly satisfy. At this rate of advance, I am no longer certain refusing is the more disciplined position." },
+                    advisor: { name: "Sugiyama", position: "The Navy has asked for these divisions three times and been refused, because Burma and the mainland already claim more of the army than it can supply, but at this rate of advance refusing is no longer clearly the more disciplined course." },
                     setFlags: { ceylonPath: "invade" },
                     impact: { readiness: -3, pipeline: -2, initiative: -1 },
                     next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
@@ -808,7 +808,7 @@
           choices: [
             {
               label: "Press the drive at speed regardless of the delay: take Rangoon before the reinforced defense hardens further",
-              advisor: { name: "Iida", quote: "We have already lost the window this plan was actually built for. I am not interested in losing the city on top of it by treating a late start as a reason to also be slow." },
+              advisor: { name: "Iida", position: "The window the plan was built for has already been lost, and a late start is no reason to lose the city as well by moving slowly." },
               setFlags: { burmaPath: "speedDelayed" },
               impact: { readiness: -2, pipeline: 0, initiative: 1 },
               disabledReason: meters.pipeline <= -3 ? "The supply train can't sustain a forced march through this terrain at this pipeline level, and this division has less margin for that risk than the historical timetable's version ever did." : undefined,
@@ -819,7 +819,7 @@
             },
             {
               label: "Advance methodically: accept an even longer delay rather than spend this weakened division on speed",
-              advisor: { name: "Sakurai", quote: "This division is already fighting the campaign the plan didn't budget for. I am not going to also ask it to fight fast." },
+              advisor: { name: "Sakurai", position: "The division is already fighting a campaign the plan did not budget for and should not also be asked to fight it fast." },
               setFlags: { burmaPath: "methodicalDelayed" },
               impact: { readiness: 1, pipeline: -1, initiative: -2 },
               next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
@@ -839,7 +839,7 @@
           choices: [
             {
               label: "Leave transport arrangements to Kawane's command and the field officers already on the ground: keep personal attention on Corregidor's guns",
-              advisor: { name: "Homma", quote: "Corregidor is the position that still threatens this army's own supply line. Bataan has already surrendered. I am not persuaded that where my attention belongs is a question with two right answers." },
+              advisor: { name: "Homma", position: "Corregidor still threatens the army's supply line while Bataan has already surrendered, and where the commander's attention belongs is not a question with two right answers." },
               historical: true,
               setFlags: { bataanPath: "delegated" },
               impact: { readiness: 1, pipeline: 0, initiative: 1 },
@@ -849,7 +849,7 @@
             },
             {
               label: "Personally order humane transport standards for the entire march, backed by real enforcement down the chain of command",
-              advisor: { name: "Homma", quote: "Corregidor can wait a week for the attention this actually requires. Seventy-eight thousand men is not a number this command gets to treat as someone else's administrative problem." },
+              advisor: { name: "Homma", position: "Corregidor can wait a week, and seventy-eight thousand prisoners are not a number the command can treat as someone else's administrative problem." },
               setFlags: { bataanPath: "personalOrder" },
               impact: { readiness: -2, pipeline: -1, initiative: -1 },
               next: "doolittleRaid42",
@@ -878,7 +878,7 @@
               ? [
                   {
                     label: "Divert real transport capacity, trucks and rail cars pulled from Corregidor's own siege supply, to actually move this many men rather than just order it",
-                    advisor: { name: "Kawane", quote: "An order solves nothing if the trucks don't exist. Give this command the transport capacity the actual number of prisoners requires, and the order enforces itself." },
+                    advisor: { name: "Kawane", position: "An order solves nothing if the trucks do not exist, and the command needs the transport the number of prisoners requires, after which the order enforces itself." },
                     setFlags: { bataanPath: "resourced" },
                     impact: { readiness: -3, pipeline: -3, initiative: 1 },
                     next: "doolittleRaid42",
@@ -903,7 +903,7 @@
           choices: [
             {
               label: "Treat it as confirmation that Midway must proceed on the accelerated timetable Yamamoto's staff has been pushing for",
-              advisor: { name: "Yamamoto", quote: "Months of being told this operation can wait, and fifteen minutes over Tokyo has just answered that argument better than I could." },
+              advisor: { name: "Yamamoto", position: "Months of being told the operation can wait have been answered by fifteen minutes over Tokyo, and Midway should go ahead on the accelerated timetable." },
               historical: true,
               setFlags: { doolittlePath: "accelerate" },
               impact: { readiness: 0, pipeline: 0, initiative: 2 },
@@ -913,7 +913,7 @@
             },
             {
               label: "Treat it as a propaganda embarrassment, not a strategic one: decline to let it accelerate operations already running on their own schedule",
-              advisor: { name: "Nagano", quote: "Sixteen bombers that could not find their own landing fields are not evidence of a strategic gap. I would rather fix this problem with better picket coverage than with an operation rushed to prove a point." },
+              advisor: { name: "Nagano", position: "Sixteen bombers that could not find their landing fields show no strategic gap, and the problem is better fixed with better picket coverage than with an operation rushed to prove a point." },
               setFlags: { doolittlePath: "measured" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               disabledReason: meters.pipeline <= -3 ? "There isn't the picket-boat and reconnaissance capacity left to fix this gap properly. The measured response Nagano wants requires resources this pipeline level doesn't have." : undefined,
@@ -945,7 +945,7 @@
           choices: [
             {
               label: "Carry out the sentences: execute a portion of the condemned airmen, commute the rest",
-              advisor: { name: "Tojo", quote: "The tribunal has ruled. I am not going to be the officer who overturns a military court's finding on airmen accused of striking noncombatants, whatever doubt exists about the specific charge." + (flags.novemberPath === "confirmed" ? " I confirmed the war deadline once already. I don't reverse decisions because they've become uncomfortable." : "") },
+              advisor: { name: "Tojo", position: "The tribunal has ruled, and the army will not overturn a military court's finding on airmen accused of striking noncombatants, whatever doubt there is about the specific charge." + (flags.novemberPath === "confirmed" ? " The war deadline was confirmed once already, and decisions are not reversed because they have become uncomfortable." : "") },
               historical: true,
               setFlags: { doolittleAirmenPath: "executed" },
               impact: { readiness: 0, pipeline: 0, initiative: 0 },
@@ -955,7 +955,7 @@
             },
             {
               label: "Overturn the tribunal: hold the captured airmen as conventional prisoners of war instead",
-              advisor: { name: "Nagano", quote: "I have not seen evidence for the charge beyond the tribunal's own say-so. I am not comfortable executing men on a finding this thin, whatever it costs this command to say so publicly." },
+              advisor: { name: "Nagano", position: "There is no evidence for the charge beyond the tribunal's own say-so, and it is wrong to execute men on a finding that thin, whatever it costs the command to say so in public." },
               setFlags: { doolittleAirmenPath: "pow", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 0, pipeline: 0, initiative: -1 },
               next: "coralSea42",
@@ -975,7 +975,7 @@
           choices: [
             {
               label: "Accept the decisive battle Yamamoto wants: commit the fleet toward Midway",
-              advisor: { name: "Yamamoto", quote: "The Pacific Fleet's carriers are still afloat. Every month they stay afloat is a month closer to the moment America's shipyards make this war unwinnable. I want them at the bottom of the ocean before that month arrives." },
+              advisor: { name: "Yamamoto", position: "The Pacific Fleet's carriers are still afloat, each month brings America's shipyards closer to making the war unwinnable, and the carriers should be sunk before that month arrives." },
               historical: true,
               setFlags: { coralSeaPath: "midway" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
@@ -985,7 +985,7 @@
             },
             {
               label: "Consolidate: hold what the Southern Operation has already won and decline further overextension",
-              advisor: { name: "Inoue", quote: "More than the plan asked for is already ours. Every mile further from Truk is a mile the supply line has to be defended, not just extended." },
+              advisor: { name: "Inoue", position: "The Southern Operation has already won more than the plan asked for, and every mile beyond Truk is a mile of supply line that has to be defended as well as extended." },
               setFlags: { coralSeaPath: "consolidate", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 2, pipeline: -1, initiative: -2 },
               next: "perimeterDoctrine42",
@@ -1027,7 +1027,7 @@
           choices: [
             {
               label: "Proceed with the plan as built: full commitment to the Midway invasion and the decisive battle it's meant to force",
-              advisor: { name: "Nagumo", quote: "We proceed on the assumption already built into this plan: no American carriers within range. If that assumption is wrong, we will know soon enough, and by then it may already be too late to matter." },
+              advisor: { name: "Nagumo", position: "The plan was built on the assumption that no American carriers are within range, and if that is wrong it will be known soon enough, perhaps too late to matter." },
               historical: true,
               setFlags: { midwayPath: "committed" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
@@ -1070,7 +1070,7 @@
             },
             {
               label: "Redirect at sea: abandon the Midway plan, commit the carrier force to the Fiji-Samoa supply line operation instead",
-              advisor: { name: "Ugaki", quote: "Cut the road between America and Australia and every reinforcement MacArthur is promised has to sail around a war zone instead of through one. That is a slower war to win. It is also a war where our carriers are not required to fight where the enemy has already read our mail." },
+              advisor: { name: "Ugaki", position: "Cutting the road between America and Australia forces every reinforcement promised to MacArthur to sail around a war zone, a slower war to win, but one where the carriers do not have to fight where the enemy has already read their mail." },
               setFlags: { midwayPath: "diverted", suspicion: (flags.suspicion || 0) + 1, speculativePath: true },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "severSupplyLine42",
@@ -1090,7 +1090,7 @@
           choices: [
             {
               label: "Push toward Hawaii: commit to raids and reconnaissance in force, testing exactly how far this advantage extends",
-              advisor: { name: "Ugaki", quote: "Holding Hawaii is not realistic. I believe we can make the Americans spend the next six months finding that out for themselves, which may be worth nearly as much." },
+              advisor: { name: "Ugaki", position: "Hawaii cannot be held, but Japan can make the Americans spend six months finding that out for themselves, which is worth nearly as much." },
               setFlags: { ascendantPath: "pressHawaii" },
               impact: { readiness: -2, pipeline: -3, initiative: 3 },
               disabledReason: meters.pipeline <= -3 ? "There isn't fuel for a sustained raiding campaign this far from any friendly base. Whatever this advantage is worth, it isn't worth spending on a reach this long at this pipeline level." : undefined,
@@ -1101,7 +1101,7 @@
             },
             {
               label: "Consolidate the win: use the destroyed American carrier force to guarantee the Southern Operation's flank, without chasing the Hawaii fantasy",
-              advisor: { name: "Yamamoto", quote: "I have wanted this fleet destroyed since the day I planned the attack that was supposed to buy us the year it just bought us twice over. I am not going to spend that gift chasing an island we cannot hold and do not need." },
+              advisor: { name: "Yamamoto", position: "The Navy has wanted the American fleet destroyed since the attack that bought a year and has now bought it twice over, and that gift should not be spent chasing an island Japan cannot hold and does not need." },
               setFlags: { ascendantPath: "consolidate" },
               impact: { readiness: 1, pipeline: 1, initiative: 0 },
               next: "aPacificWonTwice43",
@@ -1121,7 +1121,7 @@
           choices: [
             {
               label: "Press the advantage into the Indian Ocean: coordinate with German efforts against British supply lines while the free hand lasts",
-              advisor: { name: "Ugaki", quote: "We have the ocean to ourselves for the first time this war. I would rather spend that on something that helps a war we're actually fighting alongside, not just a defensive perimeter." },
+              advisor: { name: "Ugaki", position: "Japan has the ocean to itself for the first time in the war, and the time is better spent helping a war it is fighting alongside than on a defensive perimeter." },
               setFlags: { pacificWonPath: "indianOcean" },
               impact: { readiness: -2, pipeline: -1, initiative: 2 },
               disabledReason: meters.pipeline <= -2 ? "The Indian Ocean is too far to sustain a fleet operation at this pipeline level. Whatever this free hand is worth, it isn't worth spending on a voyage this force can't fuel both ways." : undefined,
@@ -1132,7 +1132,7 @@
             },
             {
               label: "Turn the free hand entirely inward: use the time to harden the resource area against the war everyone still expects eventually",
-              advisor: { name: "Yamamoto", quote: "A year with nobody shooting at this fleet is worth more spent making the perimeter unbreakable than spent chasing a coordination with Berlin we have never actually managed to build." },
+              advisor: { name: "Yamamoto", position: "A year with nobody shooting at the fleet is worth more spent making the perimeter unbreakable than spent on a coordination with Berlin that has never worked." },
               setFlags: { pacificWonPath: "harden" },
               impact: { readiness: 2, pipeline: 1, initiative: -1 },
               disabledReason: meters.readiness <= -4 ? "There isn't the organizational capacity left to execute a full perimeter-hardening program at this readiness level. The resource area holds what it already has, nothing more." : undefined,
@@ -1154,7 +1154,7 @@
           choices: [
             {
               label: "Press on regardless: degrade British shipping in the Indian Ocean even without a German offensive to support",
-              advisor: { name: "Ugaki", quote: "Rommel's retreat does not make British supply lines through this ocean any less worth cutting. We are here. I would rather use the fleet than turn it around over timing we could not have controlled." },
+              advisor: { name: "Ugaki", position: "Rommel's retreat does not make British supply lines through the Indian Ocean any less worth cutting, and the fleet is already there and should be used rather than turned round over timing it could not control." },
               setFlags: { rommelPath: "pressAnyway" },
               impact: { readiness: -1, pipeline: -1, initiative: 1 },
               next: "theMainlandCrisis44",
@@ -1163,7 +1163,7 @@
             },
             {
               label: "Recall the fleet: a coordination this late, against a losing partner, isn't worth the fuel",
-              advisor: { name: "Yamamoto", quote: "This coordination did not strike me as workable when it was proposed, and a losing partner does not change that answer. Bring the fleet home before we spend more on it." },
+              advisor: { name: "Yamamoto", position: "The coordination did not look workable when it was proposed and a losing partner does not change that, so the fleet should come home before more is spent on it." },
               setFlags: { rommelPath: "recall" },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
               disabledReason: meters.pipeline <= -5 ? "There isn't fuel for a clean withdrawal from this distance at this pipeline level. Whatever this squadron does next, an orderly recall isn't an option anymore." : undefined,
@@ -1185,7 +1185,7 @@
           choices: [
             {
               label: "Treat Midway as a setback to route around: the war continues on its original premise",
-              advisor: { name: "Tojo", quote: "We have lost four carriers, not the war. I am not going to let one afternoon's misfortune become the argument for abandoning everything this government committed to in December." },
+              advisor: { name: "Tojo", position: "Four carriers have been lost, not the war, and one afternoon's misfortune is no argument for abandoning what the government committed to in December." },
               historical: true,
               setFlags: { earlyPeacePath: "fightOn" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
@@ -1195,7 +1195,7 @@
             },
             {
               label: "Explore a negotiated exit now, while the territorial position is still real leverage rather than a memory",
-              advisor: { name: "Yonai", quote: "I opposed this war before it started because I did not believe it winnable on the terms it was fought for. I do not believe four lost carriers change that argument. I believe they finally make it possible to say out loud." },
+              advisor: { name: "Yonai", position: "The war was unwinnable on the terms it was fought for before it started, four lost carriers do not change that, and they finally make it possible to say so aloud." },
               setFlags: { earlyPeacePath: "explore", suspicion: (flags.suspicion || 0) + 2 },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "earlyPeaceChannel42",
@@ -1206,7 +1206,7 @@
               ? [
                   {
                     label: "Explore a negotiated exit backed by genuine strength, not just an intact map: a Japan that has managed this war well has more to offer than territory alone",
-                    advisor: { name: "Yonai", quote: "Every version of this argument I have made, I made while this staff privately believed there was nothing behind it but a hope Washington would take pity on a war we were already losing. That is not what I am asking anyone to believe this time." },
+                    advisor: { name: "Yonai", position: "Earlier arguments for a negotiated exit were made while the staff privately thought there was nothing behind them but a hope that Washington would take pity, and this time there is something behind it." },
                     setFlags: { earlyPeacePath: "exploreFromStrength" },
                     impact: { readiness: -1, pipeline: -1, initiative: -1 },
                     next: "aStrongerHandToPlay42",
@@ -1228,7 +1228,7 @@
           choices: [
             {
               label: "Offer genuine, substantial withdrawal from China in exchange for a negotiated peace recognizing the rest",
-              advisor: { name: "Togo", quote: "China is the concession that costs the war ministry something to offer, which is exactly why it's the one worth offering. A peace bought with something real is a peace that might really hold." },
+              advisor: { name: "Togo", position: "China is the concession that costs the war ministry something, which is why it is the one worth offering, because a peace bought with something real might hold." },
               setFlags: { strongerHandPath: "chinaWithdrawal" },
               impact: { readiness: 0, pipeline: 1, initiative: -2 },
               next: "END",
@@ -1257,7 +1257,7 @@
             },
             {
               label: "Hold the current territorial line as the offer: no further concessions, take the map as it stands or reject it",
-              advisor: { name: "Nagano", quote: "A decade of arguing this navy needed the resource area, not the mainland, and I am not going to spend what we actually fought for on a concession that was never the point of this war to begin with." },
+              advisor: { name: "Nagano", position: "The Navy argued for a decade that it needed the resource area and not the mainland, and it will not spend what the war was fought for on a concession that was never its point." },
               setFlags: { strongerHandPath: "holdLine" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               uncertain: [
@@ -1296,7 +1296,7 @@
           choices: [
             {
               label: "Accept a phased withdrawal from the Philippines and Malaya, retaining the Indies as the core of a smaller, negotiated resource sphere",
-              advisor: { name: "Togo", quote: "Every territory this war seized, and a peace on top of it, is not an offer coming our way. I would rather keep the resource area that justified this war and let the rest go, than lose the negotiation trying to keep all of it." },
+              advisor: { name: "Togo", position: "A peace on top of every territory the war seized is not on offer, so Japan should keep the resource area that justified the war and let the rest go rather than lose the negotiation trying to keep it all." },
               setFlags: { peaceShapePath: "phasedWithdrawal" },
               impact: { readiness: 1, pipeline: 2, initiative: -1 },
               next: "END",
@@ -1305,7 +1305,7 @@
             },
             {
               label: "Hold out for retaining the Indies and the Philippines both, offering only Malaya's withdrawal as the further concession",
-              advisor: { name: "Nagano", quote: "The Philippines cost the Navy nothing to take and would cost this negotiation everything to give up without a fight. I would rather test how much this position is really worth before assuming the answer." },
+              advisor: { name: "Nagano", position: "The Philippines cost the Navy nothing to take and would cost the negotiation everything to give up without a fight, so the value of the position should be tested before the answer is assumed." },
               setFlags: { peaceShapePath: "heldMore" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
               next: "END",
@@ -1343,7 +1343,7 @@
           choices: [
             {
               label: "Open the channel anyway: even a rejected overture establishes there was one",
-              advisor: { name: "Togo", quote: "Washington answering generously is not something I expect. I expect, if this is ever written down honestly, for it to matter that Japan asked before the alternative was two cities and an invasion nobody could stop." },
+              advisor: { name: "Togo", position: "Washington is unlikely to answer generously, but it may matter, if the story is told honestly, that Japan asked before the alternative was two cities and an invasion nobody could stop." },
               setFlags: { earlyPeaceChannelPath: "press" },
               impact: { readiness: 0, pipeline: 0, initiative: -1 },
               next: "earlyPeaceOutcome42",
@@ -1352,7 +1352,7 @@
             },
             {
               label: "Withdraw the inquiry before it reaches anyone who might leak it: the domestic risk outweighs the diplomatic upside",
-              advisor: { name: "Nagano", quote: "If this becomes known inside the war ministry before it becomes known in Washington, the channel does not matter. What matters is who moves against Yonai first." },
+              advisor: { name: "Nagano", position: "If the inquiry becomes known inside the war ministry before Washington, the channel does not matter, and what matters is who moves against Yonai first." },
               setFlags: { earlyPeaceChannelPath: "withdraw", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 0, initiative: -2 },
               next: "earlyPeaceOutcome42",
@@ -1377,7 +1377,7 @@
           choices: [
             {
               label: "Let the record show the question was asked early, whatever else follows from here",
-              advisor: { name: "Yonai", quote: "Ending the war in 1942 was never the expectation here. I expected it to mean something, eventually, that someone asked in 1942 rather than 1945." },
+              advisor: { name: "Yonai", position: "Ending the war in 1942 was never the expectation, but it should mean something, eventually, that someone asked in 1942 and not in 1945." },
               setFlags: { earlyPeaceFinalPath: "askedEarly" },
               impact: { readiness: 0, pipeline: 1, initiative: -1 },
               next: "END",
@@ -1386,7 +1386,7 @@
             },
             {
               label: "Close the thread here and let the historical war simply resume",
-              advisor: { name: "Tojo", quote: "Whatever was asked or not asked in the summer of 1942, this government is fighting the war it committed to fighting. I do not see what continuing to look backward at a closed channel accomplishes now." },
+              advisor: { name: "Tojo", position: "Whatever was or was not asked in the summer of 1942, the government is fighting the war it committed to, and looking back at a closed channel accomplishes nothing now." },
               setFlags: { earlyPeaceFinalPath: "resumed" },
               impact: { readiness: -1, pipeline: -1, initiative: 1 },
               next: "END",
@@ -1406,7 +1406,7 @@
           choices: [
             {
               label: "Press the final push toward Port Moresby despite the supply collapse behind it",
-              advisor: { name: "Horii", quote: "We have come further than any staff estimate believed possible. I am not prepared to be the officer who turns back thirty miles from the objective because a supply line built for half this distance is now failing." },
+              advisor: { name: "Horii", position: "The force has come further than any staff estimate thought possible, and its commander will not be the officer who turns back thirty miles from the objective because a supply line built for half the distance is failing." },
               historical: true,
               setFlags: { kokodaPath: "press" },
               impact: { readiness: -3, pipeline: -3, initiative: 1 },
@@ -1418,7 +1418,7 @@
             },
             {
               label: "Order an earlier withdrawal: preserve the detachment before the supply line fully collapses",
-              advisor: { name: "Imamura", quote: "Thirty miles from an objective we cannot supply is not thirty miles closer to winning it. I would rather have a South Seas Detachment that survives this year than one that dies thirty miles short of Port Moresby proving a point about how close it got." },
+              advisor: { name: "Imamura", position: "Thirty miles from an objective that cannot be supplied is not thirty miles closer to winning it, and a detachment that survives the year is worth more than one that dies short of Port Moresby proving a point." },
               setFlags: { kokodaPath: "earlyWithdraw" },
               impact: { readiness: 1, pipeline: 0, initiative: -2 },
               next: "guadalcanal42",
@@ -1448,7 +1448,7 @@
           choices: [
             {
               label: "Commit destroyers and remaining naval air strength to retake Henderson Field",
-              advisor: { name: "Tanaka", quote: "The Tokyo Express runs every night we still have destroyers to run it. Every night we don't, that airfield gets stronger and this campaign gets more expensive to ever reverse." },
+              advisor: { name: "Tanaka", position: "The Tokyo Express runs every night destroyers remain, and every night they do not, the airfield gets stronger and the campaign more expensive to reverse." },
               historical: true,
               setFlags: { guadalcanalPath: "commit" },
               impact: { readiness: -3, pipeline: -2, initiative: 0 },
@@ -1478,7 +1478,7 @@
             },
             {
               label: "Concede Guadalcanal early: pull back to a defensible perimeter at Rabaul and Bougainville",
-              advisor: { name: "Inoue", quote: "We are trading our most experienced pilots for a jungle airfield we may not even hold at the end of it. Trade ground we can afford to lose for pilots we cannot afford to replace." },
+              advisor: { name: "Inoue", position: "Japan is trading its most experienced pilots for a jungle airfield it may not hold, and should trade ground it can afford to lose for pilots it cannot replace." },
               setFlags: { guadalcanalPath: "earlyWithdraw", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 2, pipeline: -1, initiative: -2 },
               next: "earlyPerimeter43",
@@ -1489,7 +1489,7 @@
               ? [
                   {
                     label: "Abandon destroyer resupply entirely: drum-float what little remains ashore and let the garrison stretch it as far as it goes",
-                    advisor: { name: "Tanaka", quote: "Full drums, sealed with enough air to float, tied together on a line and cut loose offshore for the current to carry in. It is not a supply run. It is closer to a message in a bottle, except the men reading it are starving." },
+                    advisor: { name: "Tanaka", position: "Full drums sealed with enough air to float, tied on a line and cut loose offshore for the current to carry in, are not a supply run, and are closer to a message in a bottle read by starving men." },
                     setFlags: { guadalcanalPath: "drumResupply" },
                     impact: { readiness: -1, pipeline: 1, initiative: -1 },
                     next: "keGoWithdrawal43",
@@ -1519,7 +1519,7 @@
           choices: [
             {
               label: "Commit to the deception plan in full: stage a visible reinforcement buildup to mask the actual evacuation",
-              advisor: { name: "Tanaka", quote: "Five months of watching exactly how much attention this stretch of water gets from American reconnaissance tells me what I need to know. I intend to use that knowledge to make them see an army arriving while we actually take one away." },
+              advisor: { name: "Tanaka", position: "Five months of watching how much attention American reconnaissance gives this water show how to make them see an army arriving while one is taken away." },
               historical: true,
               setFlags: { keGoPath: "deception" },
               impact: { readiness: 1, pipeline: -1, initiative: 1 },
@@ -1529,7 +1529,7 @@
             },
             {
               label: "Skip the deception, evacuate directly under cover of the remaining air strength: faster, more exposed",
-              advisor: { name: "Yamamoto", quote: "Tanaka's plan asks for more patience than this fleet has fuel to spend on patience. I would rather move these men now, under whatever cover we can still provide, than lose them to a deception that runs a week too long." },
+              advisor: { name: "Yamamoto", position: "The deception asks for more patience than the fleet has fuel to spend, and it is better to move the men now under whatever cover remains than lose them to a plan that runs a week too long." },
               setFlags: { keGoPath: "direct" },
               impact: { readiness: -1, pipeline: 1, initiative: -1 },
               next: "yamamotoDeath43",
@@ -1582,7 +1582,7 @@
           choices: [
             {
               label: "Conceal the death for now: announce it publicly only once the shock can be managed",
-              advisor: { name: "Tojo", quote: "The Emperor will know today. The country does not need to know today. I would rather choose the moment this news arrives than let it arrive on its own." },
+              advisor: { name: "Tojo", position: "The Emperor will know today and the country need not, and it is better to choose the moment the news arrives than let it arrive on its own." },
               historical: true,
               setFlags: { yamamotoDeathPath: "concealed" },
               impact: { readiness: 0, pipeline: 0, initiative: -1 },
@@ -1592,7 +1592,7 @@
             },
             {
               label: "Announce it immediately: the country will find out regardless, better to control the story from the start",
-              advisor: { name: "Koga", quote: "I am taking this command whether the news is public today or in a month. I would rather this navy's officers hear it from us first." },
+              advisor: { name: "Koga", position: "The country will find out regardless, the new commander takes over whether the news is public today or in a month, and the Navy's officers should hear it from their own side first." },
               setFlags: { yamamotoDeathPath: "announced" },
               impact: { readiness: -1, pipeline: 0, initiative: 0 },
               next: "attu43",
@@ -1612,7 +1612,7 @@
           choices: [
             {
               label: "Authorize surrender: order Yamasaki to lay down arms rather than continue an unwinnable defense",
-              advisor: { name: "Sugiyama", quote: "This order costs this army's own doctrine something to issue, and I know it. I am not willing to spend twenty-six hundred men on a battle already lost to prove a point about what this army will and will not order." },
+              advisor: { name: "Sugiyama", position: "The order costs the army's own doctrine something to issue, but twenty-six hundred men should not be spent on a battle already lost to prove a point about what the army will order." },
               setFlags: { attuPath: "surrender" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "theMainlandCrisis44",
@@ -1621,7 +1621,7 @@
             },
             {
               label: "Leave the decision to Yamasaki's own command: no order either way, let the garrison decide its own end",
-              advisor: { name: "Tojo", quote: "Twenty-six hundred men do not die from an order I give from a desk in Tokyo, and they do not surrender on one either. Colonel Yamasaki has commanded this garrison from the beginning. He will command its end." },
+              advisor: { name: "Tojo", position: "Twenty-six hundred men do not die or surrender on an order given from a desk in Tokyo, and Colonel Yamasaki, who has commanded the garrison from the start, should command its end." },
               historical: true,
               setFlags: { attuPath: "noOrder" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
@@ -1667,7 +1667,7 @@
           choices: [
             {
               label: "Launch both offensives as planned: bet the army can sustain two fronts running at once",
-              advisor: { name: "Sugiyama", quote: "Telling either front commander his offensive is the one we can't afford isn't a call I'm prepared to make. Launch both. We will find out together what the army can really sustain." },
+              advisor: { name: "Sugiyama", position: "Telling either front commander that his offensive is the one the army cannot afford is not a call the chief of staff will make, so both launch and the army finds out what it can sustain." },
               historical: true,
               setFlags: { mainlandPath: "both" },
               impact: { readiness: -4, pipeline: -3, initiative: 1 },
@@ -1679,7 +1679,7 @@
             },
             {
               label: "Recognize the logistics can't support both: commit fully to Ichi-Go, cancel U-Go outright",
-              advisor: { name: "Kawabe", quote: "General Mutaguchi has never once, in two years of arguing for this offensive, given me a satisfactory answer about what the divisions eat after day twenty. I am not willing to find out the answer is nothing. Take the divisions to China instead." },
+              advisor: { name: "Kawabe", position: "Mutaguchi has never given a satisfactory answer in two years about what the divisions eat after day twenty, and the divisions should go to China instead." },
               setFlags: { mainlandPath: "ichiGoOnly", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: -1, initiative: 1 },
               next: "ichiGoTriumph44",
@@ -1688,7 +1688,7 @@
             },
             {
               label: "Launch both offensives, but hold back genuine reserves to resupply U-Go past the twenty-day ration assumption that doomed it historically",
-              advisor: { name: "Kawabe", quote: "Two years now, telling Mutaguchi his ration plan doesn't survive contact with the monsoon. I have never once had the divisions to fix that instead of just saying it. I have them now." },
+              advisor: { name: "Kawabe", position: "Mutaguchi's ration plan has been said not to survive the monsoon for two years without the divisions to fix it, and now they exist and can be held back to resupply U-Go." },
               setFlags: { mainlandPath: "bothResourced" },
               impact: { readiness: -3, pipeline: -3, initiative: 2 },
               disabledReason: meters.readiness < 5 ? "This army doesn't have reserve strength to spare. Resupplying U-Go past its historical failure point needs a readiness margin this command doesn't currently have." : undefined,
@@ -1711,7 +1711,7 @@
           choices: [
             {
               label: "Present the corridor as proof the war in China is winnable outright",
-              advisor: { name: "Kawabe", quote: "More ground has changed hands this year than in any since the war began. I would like this staff to explain to me what, specifically, that ground has done to the war we are losing." },
+              advisor: { name: "Kawabe", position: "More ground has changed hands this year than in any since the war began, and the staff should be asked what that ground has done to the war that is being lost." },
               historical: true,
               setFlags: { ichiGoTriumphPath: "proofOfWin" },
               impact: { readiness: 0, pipeline: -1, initiative: 1 },
@@ -1721,7 +1721,7 @@
             },
             {
               label: "Treat the corridor honestly, as a battlefield win with no bearing on the war Japan is actually losing",
-              advisor: { name: "Umezu", quote: "A map is not a strategy. Chennault's airbases are gone. The war those airbases were never going to win for America is still being lost by us somewhere else entirely." },
+              advisor: { name: "Umezu", position: "A map is not a strategy, Chennault's airbases are gone, and the war those bases were never going to win for America is still being lost somewhere else entirely." },
               setFlags: { ichiGoTriumphPath: "honestAccounting" },
               impact: { readiness: -1, pipeline: 0, initiative: -1 },
               next: fleetPreserved ? "theLongWarFooting45" : "philippineSea44",
@@ -1765,7 +1765,7 @@
           choices: [
             {
               label: "Use what's actually still intact to seek terms from a position of genuine remaining strength, rather than the historical exhaustion",
-              advisor: { name: "Togo", quote: "A ministry that goes to the table with nothing left to offer and nothing left to threaten with gets the terms it deserves. This ministry still has a fleet, or an air arm, or a cadre most of Tokyo assumed we'd have spent by now. That is worth using at a table, not just in a battle." },
+              advisor: { name: "Togo", position: "A ministry that goes to the table with nothing to offer and nothing to threaten with gets the terms it deserves, and the fleet, air arm or cadre that Tokyo assumed would be spent is worth using at a table as well as in a battle." },
               setFlags: { longWarPath: "terms", suspicion: (flags.suspicion || 0) + 2 },
               impact: { readiness: 1, pipeline: 0, initiative: -2 },
               next: "END",
@@ -1774,7 +1774,7 @@
             },
             {
               label: "Commit whatever's preserved to Ketsu-Go regardless: a squadron saved from history doesn't settle the argument, it just changes who's making it",
-              advisor: { name: "Anami", quote: "A preserved squadron does not change what the Americans can build in a year that we cannot. I think it changes how long I can keep telling this cabinet the fight is still worth having." },
+              advisor: { name: "Anami", position: "A preserved squadron does not change what America can build in a year that Japan cannot, but it changes how long the minister can keep telling the cabinet that the fight is worth having." },
               setFlags: { longWarPath: "ketsuGoRegardless" },
               impact: { readiness: -3, pipeline: -1, initiative: 2 },
               next: "afterHiroshima45",
@@ -1794,7 +1794,7 @@
           choices: [
             {
               label: "Commit the fleet to the decisive battle for the Marianas as planned",
-              advisor: { name: "Ozawa", quote: "These air groups are not what a fleet action against this many American carriers would have required two years ago, and no one in this room needs reminding. Saipan falls regardless if this fleet does not fight for it." },
+              advisor: { name: "Ozawa", position: "The air groups are not what a fleet action against this many American carriers would have needed two years ago, but Saipan falls regardless if the fleet does not fight for it." },
               historical: true,
               setFlags: { philippineSeaPath: "commit" },
               impact: { readiness: -4, pipeline: -1, initiative: 0 },
@@ -1806,7 +1806,7 @@
             },
             {
               label: "Decline the fleet action: withdraw the Mobile Fleet, abandon Saipan's garrison without a naval battle",
-              advisor: { name: "Toyoda", quote: "I can commit this fleet and lose both the fleet and Saipan, or withhold it and lose only Saipan. I am not confident committing it changes which of those losses happens." },
+              advisor: { name: "Toyoda", position: "The fleet can be committed and lost along with Saipan, or withheld and only Saipan lost, and it is not clear that committing it changes which of those happens." },
               setFlags: { philippineSeaPath: "withdraw" },
               impact: { readiness: 2, pipeline: 0, initiative: -2 },
               next: "onishiKamikaze44",
@@ -1817,7 +1817,7 @@
               ? [
                   {
                     label: "Commit the fleet with a more experienced air wing than history had to work with, the training pipeline this war has protected until now",
-                    advisor: { name: "Ozawa", quote: "I have flown with these pilots. They are not the men Nagumo had at Midway, but they are veterans all the same, not the barely-trained boys a rushed replacement pipeline would have sent up in their place. That difference is the entire plan." },
+                    advisor: { name: "Ozawa", position: "These are not the pilots Nagumo had at Midway, but they are veterans and not the barely trained boys a rushed replacement pipeline would have sent, and that difference is the plan." },
                     setFlags: { philippineSeaPath: "commitTrained" },
                     impact: { readiness: -3, pipeline: -1, initiative: 1 },
                     next: "onishiKamikaze44",
@@ -1865,7 +1865,8 @@
           choices: [
             {
               label: "Approve organized suicide attacks as formal naval doctrine",
-              advisor: { name: "Onishi", quote: "In our present situation I firmly believe there is only one way of channeling our meager strength into maximum efficiency: to organize suicide attack units composed of Zero fighters armed with 250-kilogram bombs, with each plane to crash-dive into an enemy carrier." },
+              advisor: { name: "Onishi", position: "In the present situation there is only one way to channel Japan's meager strength into maximum efficiency: organize suicide attack units of Zero fighters armed with 250-kilogram bombs, each plane to crash-dive into an enemy carrier." },
+              attested: { by: "Onishi", text: "organize suicide attack units composed of Zero fighters armed with 250 kilogram bombs, with each plane to crash-dive into enemy carriers", source: "Onishi to the staff of the 201st Air Group, 19 October 1944, as recorded in Inoguchi and Nakajima, The Divine Wind (1958)" },
               historical: true,
               setFlags: { kamikazePath: "approved" },
               impact: { readiness: -1, pipeline: 0, initiative: 2 },
@@ -1875,7 +1876,7 @@
             },
             {
               label: "Decline to formalize it: permit individual voluntary acts but refuse to make suicide attack organized policy",
-              advisor: { name: "Toyoda", quote: "I am not willing to be the officer who makes this the Navy's actual doctrine, on paper, with a name and a training pipeline attached. What individual pilots choose to do in extremity is not the same decision as what this command chooses to institutionalize." },
+              advisor: { name: "Toyoda", position: "The Navy should not make suicide attacks its doctrine on paper, with a name and a training pipeline, because what individual pilots choose to do in extremity is not what a command chooses to institutionalize." },
               setFlags: { kamikazePath: "declinedFormal", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 0, initiative: -2 },
               next: "leyteGulf44",
@@ -1895,7 +1896,7 @@
           choices: [
             {
               label: "Execute Sho-Go as planned: the carrier force as decoy, the battleships through San Bernardino Strait",
-              advisor: { name: "Kurita", quote: "This fleet knows what it is being asked to be. I will take it through the strait regardless." },
+              advisor: { name: "Kurita", position: "The fleet knows what it is being asked to be, and the commander will take it through the strait regardless." },
               historical: true,
               setFlags: { leytePath: "shoGo" },
               impact: { readiness: -3, pipeline: -2, initiative: 0 },
@@ -1905,7 +1906,7 @@
             },
             {
               label: "Concentrate what remains on Formosa and the home approaches: decline the Leyte gamble, abandon the Philippines",
-              advisor: { name: "Toyoda", quote: "We can spend this fleet on one throw at Leyte, or preserve it to contest the approaches to the home islands themselves. I do not believe we get to do both." },
+              advisor: { name: "Toyoda", position: "The fleet can be spent on one throw at Leyte or kept to contest the approaches to the home islands, and it cannot do both." },
               setFlags: { leytePath: "abandonPhilippines", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 2, pipeline: -4, initiative: -1 },
               disabledReason: meters.pipeline <= -5 ? "There isn't fuel left to relocate and sustain a fleet-in-being at Formosa. Whatever's still afloat has to fight now or not at all." : undefined,
@@ -1927,7 +1928,7 @@
           choices: [
             {
               label: "Withdraw: uncertain reports and fear of a trap outweigh the opportunity in front of this fleet",
-              advisor: { name: "Kurita", quote: "What is actually north of this position is not clear to me, and I am not willing to commit this fleet's last battleships against an enemy carrier force I cannot see. We turn back." },
+              advisor: { name: "Kurita", position: "What lies to the north is not clear, and the commander will not commit the last battleships against an enemy carrier force he cannot see, so the fleet turns back." },
               historical: true,
               setFlags: { kuritaPath: "withdraw" },
               impact: { readiness: 1, pipeline: -1, initiative: -1 },
@@ -1937,7 +1938,7 @@
             },
             {
               label: "Finish the attack: break through to the transports and the beachhead while Taffy 3 is still all that stands in the way",
-              advisor: { name: "Ugaki", quote: "Six escort carriers and a handful of destroyers are not what turns this fleet back after fighting through this strait. Whatever comes north later comes later. The beach is in front of us now." },
+              advisor: { name: "Ugaki", position: "Six escort carriers and a handful of destroyers are not what turns this fleet back after it has fought through the strait, whatever comes north later, and the beach is in front of it now." },
               setFlags: { kuritaPath: "press" },
               impact: { readiness: -2, pipeline: -1, initiative: 3 },
               next: "leyteBeachheadAftermath44",
@@ -1957,7 +1958,7 @@
           choices: [
             {
               label: "Commit fully to bombarding the beachhead and the transport anchorage before American forces can respond",
-              advisor: { name: "Ugaki", quote: "We have the guns. We have the range. I am not going to spend this opportunity carefully when carefulness is not what got this fleet through the strait in the first place." },
+              advisor: { name: "Ugaki", position: "The fleet has the guns and the range, and carefulness is not what got it through the strait, so it should not spend the opportunity carefully." },
               setFlags: { beachheadPath: "fullBombardment" },
               impact: { readiness: -3, pipeline: -1, initiative: 2 },
               next: "iwoJima45",
@@ -1984,7 +1985,7 @@
             },
             {
               label: "Conduct a limited strike and withdraw before American carrier air power can fully organize a response",
-              advisor: { name: "Kurita", quote: "I am prepared to have pressed further than caution would ordinarily argue for. I am not prepared to lose this fleet entirely for a beachhead we cannot hold or occupy afterward." },
+              advisor: { name: "Kurita", position: "The commander is prepared to have pressed further than caution would argue, but not to lose the whole fleet for a beachhead Japan cannot hold or occupy afterward." },
               setFlags: { beachheadPath: "limitedStrike" },
               impact: { readiness: -1, pipeline: -1, initiative: 1 },
               next: "iwoJima45",
@@ -2003,8 +2004,8 @@
             "American Marines are landing on eight square miles of volcanic ash whose only value is the airfields on it, close enough to escort B-29s all the way to Tokyo and back. Lieutenant General Kuribayashi has thrown out the beach-defense doctrine that failed at every previous island: no counterattack at the water's edge, no banzai charges to waste the garrison in a single afternoon. Instead, over eleven miles of tunnels bored into volcanic rock, a defense meant to bleed the invasion for as long as physically possible rather than break it in one battle. Imperial Headquarters has one real decision left: whether the garrison already committed is the last reinforcement this island gets, or whether more can still be found for it.",
           choices: [
             {
-              label: "Reinforce and hold as long as the garrison physically can — no evacuation, no withdrawal",
-              advisor: { name: "Kuribayashi", quote: "I have told my staff, and I will tell Imperial Headquarters directly: I do not expect to leave this island, and I do not intend to make the Americans' cost for it a cheap one. Send what you can. I will use all of it." },
+              label: "Reinforce and hold as long as the garrison physically can: no evacuation, no withdrawal",
+              advisor: { name: "Kuribayashi", position: "The island's commander does not expect to leave it and intends to make the Americans pay dearly for it, and asks for whatever can be sent, all of which he will use." },
               historical: true,
               setFlags: { iwoJimaPath: "hold" },
               impact: { readiness: -3, pipeline: -1, initiative: 1 },
@@ -2015,8 +2016,8 @@
                 "Of roughly 21,000 defenders, fewer than 1,000 survive to be taken prisoner; the rest are killed almost to the last man over five weeks of fighting through tunnels and volcanic rock that neither naval bombardment nor flamethrowers ever fully cleared. It costs the Marine Corps its highest single-battle casualty count of the war, nearly 7,000 dead, and produces the single most reproduced photograph of the Pacific War, the flag raising on Suribachi, on day five of a battle that still has thirty more to run.",
             },
             {
-              label: "Decline further reinforcement — treat the island as an expendable delay, redirect any spare strength to Okinawa",
-              advisor: { name: "Toyoda", quote: "Kuribayashi's plan was always to make this expensive, not to win it. Sending more men into a battle already understood to be unwinnable spends strength Okinawa is going to need considerably more urgently." },
+              label: "Decline further reinforcement: treat the island as an expendable delay, redirect any spare strength to Okinawa",
+              advisor: { name: "Toyoda", position: "Kuribayashi's plan was always to make the island expensive and not to win it, and sending more men into a battle already understood to be lost spends strength Okinawa will need more urgently." },
               setFlags: { iwoJimaPath: "conserve" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "okinawa45",
@@ -2042,7 +2043,7 @@
           choices: [
             {
               label: "Commit everything: Yamato's sortie, the full Kikusui kamikaze campaign, against the invasion fleet",
-              advisor: { name: "Ugaki", quote: "This is the fleet's last mission whether we spend it here or lose it at anchor to the next carrier strike. I would rather it cost the Americans something on the way down." },
+              advisor: { name: "Ugaki", position: "This is the fleet's last mission whether it is spent here or lost at anchor to the next carrier strike, and it should at least cost the Americans something on the way down." },
               historical: true,
               setFlags: { okinawaPath: "commitAll", suspicion: (flags.suspicion || 0) - 1 },
               impact: { readiness: -4, pipeline: -2, initiative: 2 },
@@ -2054,7 +2055,7 @@
             },
             {
               label: "Withhold Yamato and conserve remaining kamikaze-capable aircraft for the home islands' own defense instead",
-              advisor: { name: "Toyoda", quote: "Spending Yamato at Okinawa does not buy anything Yamato spent at Kyushu wouldn't buy more of. If this navy has one more mission in it, I would rather choose where." },
+              advisor: { name: "Toyoda", position: "Spending Yamato at Okinawa buys nothing that Yamato at Kyushu would not buy more of, and if the Navy has one more mission it should choose where." },
               setFlags: { okinawaPath: "husband", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 2, pipeline: -1, initiative: -2 },
               next: "theSubmarineCarriersQuestion45",
@@ -2074,7 +2075,7 @@
           choices: [
             {
               label: "Launch the original mission: the Panama Canal, struck from the Caribbean side, severing the fleet's shortest route between two oceans",
-              advisor: { name: "Ariizumi", quote: "This is the mission these submarines were built for. Everything since Yamamoto's death has been an argument for spending them closer to home instead. I am asking to keep the original order." },
+              advisor: { name: "Ariizumi", position: "The Panama Canal mission is the one the submarines were built for, everything since Yamamoto's death has been an argument for spending them closer to home, and the original order should stand." },
               historical: false,
               setFlags: { submarineCarriersPath: "panama" },
               impact: { readiness: -1, pipeline: -2, initiative: 2 },
@@ -2084,7 +2085,7 @@
             },
             {
               label: "Redirect toward the closer target: American forces massing at Ulithi Atoll, the same decision the real Imperial Japanese Headquarters made on June 25th, 1945",
-              advisor: { name: "Toyoda", quote: "The Americans are not two oceans away anymore. They are at Okinawa. I would rather this navy's last submarines strike something we can actually still reach." },
+              advisor: { name: "Toyoda", position: "The Americans are no longer two oceans away and are at Okinawa, and the Navy's last submarines should strike something they can still reach." },
               historical: true,
               setFlags: { submarineCarriersPath: "ulithi" },
               impact: { readiness: 0, pipeline: -1, initiative: 1 },
@@ -2123,7 +2124,7 @@
           choices: [
             {
               label: "Commit to Ketsu-Go: mobilize civilian militia, prepare the home islands for invasion",
-              advisor: { name: "Anami", quote: "One hundred million die together rather than surrender. That is not a figure I offer lightly, and it is not one I am prepared to abandon while the army still stands." },
+              advisor: { name: "Anami", position: "The army's slogan that a hundred million die together rather than surrender is not offered lightly, and the minister will not abandon it while the army still stands." },
               historical: true,
               setFlags: { endgamePath: "ketsuGo" },
               impact: { readiness: -4, pipeline: -3, initiative: 2 },
@@ -2133,7 +2134,7 @@
             },
             {
               label: "Open a conditional surrender inquiry through neutral channels",
-              advisor: { name: "Togo", quote: "We can lose this war while there is still a country left to lose it for, or we can lose it after there is not. I am asking Imperial Headquarters to notice that those are different outcomes." },
+              advisor: { name: "Togo", position: "Japan can lose the war while there is still a country left to lose it for or after there is not, and Imperial Headquarters should notice that those are different outcomes." },
               setFlags: { endgamePath: "surrenderInquiry", suspicion: (flags.suspicion || 0) + 2 },
               impact: { readiness: 1, pipeline: 1, initiative: -3 },
               next: "moscowMediates45",
@@ -2142,7 +2143,7 @@
             },
             {
               label: "Move preemptively against the peace faction: foreclose any surrender inquiry before it can be raised",
-              advisor: { name: "Umezu", quote: "Togo will raise this question again the moment the cabinet looks weak enough to hear it. I would rather this army decide there is no question left to raise." },
+              advisor: { name: "Umezu", position: "Togo will raise the question again as soon as the cabinet looks weak enough to hear it, and the army should decide now that there is no question left to raise." },
               setFlags: { endgamePath: "purgePeaceFaction", suspicion: (flags.suspicion || 0) + 3 },
               impact: { readiness: -3, pipeline: -2, initiative: 3 },
               disabledReason: meters.pipeline <= -8 ? "There isn't fuel or transport left to move loyal units against anyone. Whatever this army wants to do about the peace faction, it no longer has the physical means to act on it." : undefined,
@@ -2155,7 +2156,7 @@
               ? [
                   {
                     label: "Divert every gallon the pine-root program actually yields to the kamikaze reserve, at the cost of everything else that still burns fuel",
-                    advisor: { name: "Toyoda", quote: "Two hundred pine roots, properly distilled, keep one aircraft in the air for one hour. I am aware how that sounds. I am also aware it is the only fuel this navy has left to allocate at all." },
+                    advisor: { name: "Toyoda", position: "Two hundred pine roots, properly distilled, keep one aircraft in the air for an hour, which sounds as it sounds, and it is the only fuel the Navy has left to allocate." },
                     setFlags: { endgamePath: "pineRootDiversion" },
                     impact: { readiness: -2, pipeline: 1, initiative: 1 },
                     next: "afterHiroshima45",
@@ -2168,7 +2169,7 @@
               ? [
                   {
                     label: "Extend the Volunteer Fighting Corps conscription past its own real limits: no exemption for married women, no upper age this desperate",
-                    advisor: { name: "Anami", quote: "The corps already reaches every man of fifteen and every unmarried woman of seventeen. I am being asked whether it should reach further still, and I no longer have an honest argument for where the line was supposed to hold." },
+                    advisor: { name: "Anami", position: "The corps already reaches every man of fifteen and every unmarried woman of seventeen, and there is no honest argument left for where the line was meant to hold." },
                     setFlags: { endgamePath: "totalMobilization" },
                     impact: { readiness: -1, pipeline: 0, initiative: 1 },
                     next: "afterHiroshima45",
@@ -2181,7 +2182,7 @@
               ? [
                   {
                     label: "Negotiate from what's still intact: open the surrender channel backed by genuine remaining strength, not desperation",
-                    advisor: { name: "Togo", quote: "Every version of this argument I have lost, I lost while holding nothing the war ministry believed was worth trading. I am not holding nothing this time." },
+                    advisor: { name: "Togo", position: "Earlier arguments for surrender were lost while the war ministry held nothing it thought worth trading, and this time Japan is not holding nothing." },
                     setFlags: { endgamePath: "negotiatedFromStrength" },
                     impact: { readiness: -2, pipeline: -1, initiative: -1 },
                     next: "termsWorthHaving45",
@@ -2204,7 +2205,7 @@
           choices: [
             {
               label: "Move to surrender now, before a second weapon falls",
-              advisor: { name: "Togo", quote: "I do not know how many of these weapons America has. I know that finding out by losing a second city is not a policy, it is a failure to have one. I am asking this council to decide now, while there is still a decision left to make rather than a disaster left to survive." },
+              advisor: { name: "Togo", position: "Nobody knows how many of these weapons America has, and finding out by losing a second city is a failure to have a policy, so the council should decide now, while there is still a decision to make." },
               setFlags: { hiroshimaResponsePath: "surrenderNow" },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "END",
@@ -2213,7 +2214,7 @@
             },
             {
               label: "Hold the position: one bomb, however terrible, does not by itself void Ketsu-Go's own logic",
-              advisor: { name: "Anami", quote: "One city, against an invasion this empire is prepared to make impossibly costly. I am not going to abandon a defense built on exactly that cost calculation because the enemy found a more efficient way to burn a city than the hundred he has already burned with ordinary bombs." },
+              advisor: { name: "Anami", position: "One city, against an invasion the empire means to make impossibly costly, is no reason to abandon a defense built on that cost, because the enemy has found a more efficient way to burn a city than the hundred he has already burned." },
               historical: true,
               setFlags: { hiroshimaResponsePath: "holdPosition" },
               impact: { readiness: -2, pipeline: -1, initiative: 1 },
@@ -2235,7 +2236,7 @@
           choices: [
             {
               label: "Defer to the Emperor's own direct intervention: let the sacred decision break the deadlock",
-              advisor: { name: "Suzuki", quote: "This council cannot break its own tie. I am asking His Majesty to do what six votes could not, because I do not see another lawful way this deadlock resolves before a third weapon or a Soviet army makes the question academic." },
+              advisor: { name: "Suzuki", position: "The council cannot break its own tie, and the Emperor should be asked to do what six votes could not before a third weapon or a Soviet army makes the question academic." },
               historical: true,
               setFlags: { nagasakiResponsePath: "imperialIntervention" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
@@ -2245,7 +2246,7 @@
             },
             {
               label: "Reject the deadlock-breaking precedent: the council's own split stands, and the war ministry's hardliners hold the line regardless",
-              advisor: { name: "Anami", quote: "I understand what is being asked of His Majesty, and I understand why. I am telling this council plainly that I do not believe every officer under this army's command will accept a decision reached this way, however lawfully it is reached." },
+              advisor: { name: "Anami", position: "The minister understands what is being asked of the Emperor and why, and says plainly that not every officer in the army will accept a decision reached this way, however lawfully." },
               setFlags: { nagasakiResponsePath: "rejectPrecedent" },
               impact: { readiness: -3, pipeline: -1, initiative: 2 },
               next: "ketsuGoFinalStand45",
@@ -2266,7 +2267,7 @@
           choices: [
             {
               label: "The Imperial Guard holds: the palace garrison does not join the coup, and loyalist officers move to suppress it",
-              advisor: { name: "Suzuki", quote: "I do not know, tonight, whether the men guarding this palace will fire on other Japanese soldiers to protect a recording. I know that if they don't, there may be no surrender broadcast left to protect by morning." },
+              advisor: { name: "Suzuki", position: "Nobody knows tonight whether the men guarding the palace will fire on other Japanese soldiers to protect a recording, and if they will not, there may be no surrender broadcast left to protect by morning." },
               historical: true,
               setFlags: { coupOutcomePath: "suppressed" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
@@ -2276,7 +2277,7 @@
             },
             {
               label: "The coup succeeds long enough to matter: the recording is seized, and the broadcast does not air on schedule",
-              advisor: { name: "Anami", quote: "I did not order this. I am telling this council plainly that I understand why it happened, and I am not certain, tonight, that I am prepared to be the man who orders it stopped." },
+              advisor: { name: "Anami", position: "The minister did not order the coup, understands why it happened, and is not sure tonight that he will be the man to order it stopped." },
               setFlags: { coupOutcomePath: "succeeded", speculativePath: true },
               impact: { readiness: -2, pipeline: -1, initiative: 2 },
               next: "END",
@@ -2297,7 +2298,7 @@
           choices: [
             {
               label: "Break ranks: one member of the war ministry's own bloc crosses to end the deadlock without invoking the Emperor at all",
-              advisor: { name: "Togo", quote: "I do not need six votes. I need one man on the other side of this deadlock to decide that a third city is a worse outcome than losing an argument. I am asking for exactly one." },
+              advisor: { name: "Togo", position: "The foreign minister does not need six votes, only one man on the other side of the deadlock who decides that a third city is worse than losing an argument." },
               setFlags: { deadlockPath: "brokenByDefection" },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "END",
@@ -2306,7 +2307,7 @@
             },
             {
               label: "The deadlock holds: no third path emerges, and Ketsu-Go proceeds toward whatever invasion actually arrives",
-              advisor: { name: "Anami", quote: "Then we have not decided. I understand what that costs. I am not the one who created this deadlock, and I am not going to manufacture a resolution to it that this council itself never actually reached." },
+              advisor: { name: "Anami", position: "Then nothing has been decided, the minister did not create the deadlock, and he will not manufacture a resolution the council never reached." },
               setFlags: { deadlockPath: "unresolved" },
               impact: { readiness: -3, pipeline: -2, initiative: 1 },
               next: "theDeadlockHolds45",
@@ -2328,7 +2329,7 @@
           choices: [
             {
               label: "IGHQ orders no change: the deadlock in the war ministry is a civilian government question, not a military one, and the military keeps executing Ketsu-Go's existing plan without waiting on Tokyo to decide anything",
-              advisor: { name: "Umezu", quote: "The council's paralysis is their failure to resolve, not mine to solve for them by exceeding my own authority. This staff continues preparing the defense it was already preparing. That is the one thing that was never actually in question here." },
+              advisor: { name: "Umezu", position: "The council's paralysis is its own failure to resolve and not the chief of staff's to solve by exceeding his authority, so the staff goes on preparing the defense it was already preparing." },
               setFlags: { finalDeadlockPath: "militaryProceeds" },
               impact: { readiness: -1, pipeline: -1, initiative: 0 },
               next: "END",
@@ -2337,7 +2338,7 @@
             },
             {
               label: "Send the deadlock itself to the Emperor as a formal question, without asking him to break it: state plainly that the council could not decide, and let him choose what, if anything, that information changes",
-              advisor: { name: "Kido", quote: "There is a real difference between asking him to cast the deciding vote and simply telling him the vote could not be cast. I am not certain the distinction is one His Majesty will accept. I am certain it is the only honest option this council has left." },
+              advisor: { name: "Kido", position: "There is a difference between asking the Emperor to cast the deciding vote and telling him the vote could not be cast, and the second is the only honest option the council has left." },
               setFlags: { finalDeadlockPath: "informedAnyway" },
               impact: { readiness: 0, pipeline: 0, initiative: -1 },
               next: "END",
@@ -2357,7 +2358,7 @@
           choices: [
             {
               label: "Press for the Emperor's institutional preservation as the core, non-negotiable term",
-              advisor: { name: "Togo", quote: "Every other term in this offer, I am prepared to see negotiated down. This one, I am not. It is the one term this war ministry has never once wavered on, and I am not going to be the minister who wavers on it for them." },
+              advisor: { name: "Togo", position: "Every other term can be negotiated down, but the preservation of the throne cannot, and it is the term the war ministry has never wavered on." },
               setFlags: { termsPath: "throne" },
               impact: { readiness: 1, pipeline: 0, initiative: 0 },
               next: "END",
@@ -2366,7 +2367,7 @@
             },
             {
               label: "Press for broader terms: the throne, but also a negotiated timeline for withdrawal rather than immediate occupation",
-              advisor: { name: "Umezu", quote: "If this army still has something to negotiate with, I want more than the throne asked for. I want time, and I want it asked for now, while there is still a position to ask from." },
+              advisor: { name: "Umezu", position: "If the army still has something to negotiate with, it should ask for more than the throne, and above all for time, now, while there is still a position to ask from." },
               setFlags: { termsPath: "broader" },
               impact: { readiness: -1, pipeline: -1, initiative: 1 },
               next: "END",
@@ -2385,8 +2386,8 @@
             "The Southern Resource Area falls even faster with every carrier committed to it rather than held back for Hawaii, and the U.S. Pacific Fleet, battleships and carriers both, sits intact at Pearl Harbor. Washington faces landings across a string of colonial possessions and mandates without the single galvanizing morning that, historically, ended the argument over intervention overnight. Congress remains exactly as divided as it was on December 6th. Whether that division holds once Manila and Singapore fall regardless is uncertain, and it's a question no single decision from this seat can fully answer, since American domestic politics were never Imperial Headquarters' call to make.",
           choices: [
             {
-              label: "Spend every advantage the intact resource area buys — accelerate the Burma and Indies timetable",
-              advisor: { name: "Sugiyama", quote: "We have bought time with something more valuable than a strike on Hawaii: an enemy who has not yet decided he is at war. Spend that time before he decides." },
+              label: "Spend every advantage the intact resource area buys: accelerate the Burma and Indies timetable",
+              advisor: { name: "Sugiyama", position: "Japan has bought time with something worth more than a strike on Hawaii, an enemy who has not yet decided he is at war, and the time should be spent before he decides." },
               setFlags: { southPath: "accelerate" },
               impact: { readiness: 1, pipeline: 2, initiative: 1 },
               disabledReason: meters.pipeline <= -2 ? "Tanker capacity is already short of what a compressed timetable would need to move the resource area's output home at all. Accelerating further just strands oil at the source." : undefined,
@@ -2397,7 +2398,7 @@
             },
             {
               label: "Hold back: consolidate the resource area's gains and avoid provoking Washington further than the landings already have",
-              advisor: { name: "Nagano", quote: "We have what the war was fought for. I see no reason to hand the Americans another reason to finish deciding what they haven't decided yet." },
+              advisor: { name: "Nagano", position: "Japan has what the war was fought for, and there is no reason to give the Americans another reason to finish deciding what they have not decided yet." },
               setFlags: { southPath: "consolidate", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 2, pipeline: 1, initiative: -1 },
               next: "burmaRangoon42",
@@ -2408,7 +2409,7 @@
                   setFlags: { congressResult: "divided" },
                   impact: { readiness: 1, pipeline: 0, initiative: 0 },
                   outcome:
-                    "The bet pays off, at least for now. Without a single galvanizing attack to point to, Congress stays roughly as split as it was in December — isolationist voices holding real ground against intervention. Tokyo has bought something history never gave it: time to watch Washington argue with itself.",
+                    "The bet pays off, at least for now. Without a single galvanizing attack to point to, Congress stays roughly as split as it was in December: isolationist voices holding real ground against intervention. Tokyo has bought something history never gave it: time to watch Washington argue with itself.",
                 },
                 {
                   weight: (() => { const w = modWeight(45, meters.readiness); return Math.max(5, 100 - w); })(),
@@ -2422,7 +2423,7 @@
             },
             {
               label: "Push further still: commit the fleet toward an outright invasion of Australia",
-              advisor: { name: "Sugiyama", quote: "I am required to say plainly what the Army's own planners have already told me: we do not have the shipping to invade Australia, and no version of this war ends with us finding it. I am recommending against this, not proposing it." },
+              advisor: { name: "Sugiyama", position: "The Army's planners say there is not the shipping to invade Australia and no version of the war ends with Japan finding it, and the chief of staff recommends against the invasion and does not propose it." },
               setFlags: { southPath: "australiaGamble" },
               impact: { readiness: -4, pipeline: -4, initiative: 2 },
               disabledReason: meters.pipeline <= -1 ? "The Army's own transport-tonnage study already says no at this pipeline level, let alone a lower one. There is no honest path to greenlighting this." : undefined,
@@ -2440,11 +2441,11 @@
           title: "Darwin: The Beachhead Nobody Could Supply",
           historicalRecord: false,
           situation:
-            "There is no historical record past this point: the actual Army General Staff rejected an Australia invasion before it reached anything resembling an operational plan, so everything from here is built on the shipping arithmetic Sugiyama's own staff already ran — extrapolation, not historical record. The invasion fleet, assembled by stripping transport tonnage from Burma, the Solomons, and the home-waters reserve simultaneously, reaches the northern Australian coast near Darwin still short of the escort and sealift the Army's own studies said this operation required before a single soldier boarded a ship.",
+            "There is no historical record past this point: the actual Army General Staff rejected an Australia invasion before it reached anything resembling an operational plan, so everything from here is built on the shipping arithmetic Sugiyama's own staff already ran: extrapolation, not historical record. The invasion fleet, assembled by stripping transport tonnage from Burma, the Solomons, and the home-waters reserve simultaneously, reaches the northern Australian coast near Darwin still short of the escort and sealift the Army's own studies said this operation required before a single soldier boarded a ship.",
           choices: [
             {
               label: "Force the landing regardless: get troops ashore before the fleet's escort thins any further",
-              advisor: { name: "Sugiyama", quote: "I told this command in the planning room what this would cost. I am not going to pretend the arithmetic has changed now that the ships are actually at sea." },
+              advisor: { name: "Sugiyama", position: "The chief of staff said in the planning room what the landing would cost, and the arithmetic has not changed now that the ships are at sea." },
               setFlags: { australiaLandingPath: "press" },
               impact: { readiness: -3, pipeline: -3, initiative: 1 },
               next: "burmaRangoon42Delayed",
@@ -2469,7 +2470,7 @@
             },
             {
               label: "Abort the landing: recall the fleet before the losses compound further",
-              advisor: { name: "Yamamoto", quote: "This operation did not have my support in the planning room, and pretending it can still be salvaged now that it's failing in exactly the way I was told it would." },
+              advisor: { name: "Yamamoto", position: "The operation did not have the admiral's support in the planning room, and it is failing in exactly the way he was told it would, so it should be abandoned." },
               setFlags: { australiaLandingPath: "abort" },
               impact: { readiness: -1, pipeline: -2, initiative: -1 },
               next: "burmaRangoon42Delayed",
@@ -2495,16 +2496,16 @@
           choices: [
             {
               label: "Test a negotiated settlement through neutral channels: offer open trade in the resource area in exchange for recognition of the conquests",
-              advisor: { name: "Togo", quote: "We have never fought a war we expected to end in an unconditional victory over the United States. If there is a table where this stops now, on terms we can live with, I would like to find it before someone decides there isn't one." },
+              advisor: { name: "Togo", position: "Japan never fought a war expecting an unconditional victory over the United States, and if there is a table where it stops now on terms that can be lived with, it should be found before someone decides there is none." },
               setFlags: { washingtonPath: "negotiate", suspicion: (flags.suspicion || 0) + 2 },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "americaDecides44",
               outcome:
-                "A diplomatic overture that reflects a period hope inside the Foreign Ministry — that a fait accompli, offered with open trade attached, might be accepted rather than fought over. Whether Washington's divided Congress would have taken that offer seriously, or read it as proof Japan feared exactly the war it was hoping to avoid, is not a question that can be answered with any real confidence: there's no polling data for a Senate that, in this history, never had its Pearl Harbor to unify it, and inventing one would be fiction dressed as prediction. What's certain is only that Tokyo tried the quieter door before assuming the louder one was the only one left, and the years since have to answer whether anyone in Washington walked through it.",
+                "A diplomatic overture that reflects a period hope inside the Foreign Ministry: that a fait accompli, offered with open trade attached, might be accepted rather than fought over. Whether Washington's divided Congress would have taken that offer seriously, or read it as proof Japan feared exactly the war it was hoping to avoid, is not a question that can be answered with any real confidence: there's no polling data for a Senate that, in this history, never had its Pearl Harbor to unify it, and inventing one would be fiction dressed as prediction. What's certain is only that Tokyo tried the quieter door before assuming the louder one was the only one left, and the years since have to answer whether anyone in Washington walked through it.",
             },
             {
               label: "Harden the whole resource arc now, on the working assumption that war comes regardless",
-              advisor: { name: "Sugiyama", quote: "Being wrong about a war that never comes costs less than being right about one we weren't ready for. Fortify while the ambiguity holds. It will not hold forever." },
+              advisor: { name: "Sugiyama", position: "Being wrong about a war that never comes costs less than being right about one for which Japan was not ready, so the resource arc should be fortified while the ambiguity holds, which will not be forever." },
               setFlags: { washingtonPath: "fortify" },
               impact: { readiness: 2, pipeline: -1, initiative: 1 },
               disabledReason: meters.pipeline <= -3 ? "There isn't the construction material and shipping capacity left to fortify an arc this size. Hardening it further isn't available at this pipeline level." : undefined,
@@ -2526,7 +2527,7 @@
           choices: [
             {
               label: "Spend the remaining window preparing for war, betting the standoff won't hold forever",
-              advisor: { name: "Nagano", quote: "A war this size does not wait forever at the edge of a resource line this valuable. I would rather spend our remaining certainty preparing for the reckoning than pretending the ambiguity is a permanent state." },
+              advisor: { name: "Nagano", position: "A war this size does not wait forever at the edge of so valuable a resource line, and the remaining certainty should be spent preparing for it and not on pretending the ambiguity will last." },
               setFlags: { americaPath: "prepareForWar" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "aQuietEmpire45",
@@ -2535,7 +2536,7 @@
             },
             {
               label: "Keep building the resource-area empire as is, betting Congress never fully commits",
-              advisor: { name: "Togo", quote: "Every year this standoff holds is a year I did not have to be wrong about how this ends. I am not going to abandon that record now on the assumption that a war we have successfully avoided for two years is somehow still coming." },
+              advisor: { name: "Togo", position: "Every year the standoff holds is a year the minister did not have to be wrong about how it ends, and a war avoided for two years should not be assumed to be coming." },
               setFlags: { americaPath: "isolatedEmpire" },
               impact: { readiness: 2, pipeline: 1, initiative: -2 },
               disabledReason: meters.readiness <= -5 ? "There isn't the institutional confidence left to bet on Congress staying divided at this readiness level. This staff can't sell optimism it doesn't have." : undefined,
@@ -2548,7 +2549,7 @@
               ? [
                   {
                     label: "Actively work to keep Congress divided: fund and expand the same kind of American opinion apparatus Tokyo already ran once, rather than just hope the division holds on its own",
-                    advisor: { name: "Togo", quote: "This ministry ran a real committee in San Francisco once, before the war that never happened here, aimed specifically at the educated Americans with the standing to actually move Congress. I see no reason not to fund a larger version of it now, with two additional years and a genuine ambiguity to work with instead of a fait accompli to explain away." },
+                    advisor: { name: "Togo", position: "The ministry once ran a committee in San Francisco aimed at the educated Americans with the standing to move Congress, and a larger version, with two more years and a real ambiguity to work with, should be funded now." },
                     setFlags: { americaPath: "activeInfluence" },
                     impact: { readiness: -1, pipeline: -1, initiative: 2 },
                     next: "aQuietEmpire45",
@@ -2578,7 +2579,7 @@
           choices: [
             {
               label: "Treat the standoff as a genuine, if fragile, peace: stand down from a war footing",
-              advisor: { name: "Nagano", quote: "We have gone longer without this war than most of this staff believed possible in 1941. I am prepared to call that something other than luck." },
+              advisor: { name: "Nagano", position: "Japan has gone longer without this war than most of the staff thought possible in 1941, and that can be called something other than luck." },
               setFlags: { quietEmpirePath: "standDown" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "newWorldOrder45",
@@ -2587,7 +2588,7 @@
             },
             {
               label: "Treat the standoff as borrowed time: commit to permanent war footing regardless of the peace's apparent stability",
-              advisor: { name: "Sugiyama", quote: "Borrowed time spent as though it were permanent is how empires lose wars they had years of warning about. We do not stand down. We keep building for the day this stops being quiet." },
+              advisor: { name: "Sugiyama", position: "Borrowed time spent as though it were permanent is how empires lose wars they had years of warning about, so Japan should keep building for the day the quiet ends." },
               setFlags: { quietEmpirePath: "permanentReadiness" },
               impact: { readiness: -1, pipeline: -2, initiative: 1 },
               next: "newWorldOrder45",
@@ -2598,7 +2599,7 @@
               ? [
                   {
                     label: "Convert to an armed-neutrality reserve model: low standing costs, a citizen-militia structure built for rapid mobilization rather than permanent readiness or genuine demobilization",
-                    advisor: { name: "Sugiyama", quote: "This isn't a choice between spending everything and spending nothing. Switzerland and Sweden built real deterrence out of a militia that costs almost nothing to maintain standing and almost everything to actually fight against, once called up. I would rather this empire copy that structure than either bankrupt itself keeping a standing army fed for a war that hasn't come, or gut its own deterrence entirely." },
+                    advisor: { name: "Sugiyama", position: "The choice is not between spending everything and spending nothing, and Switzerland and Sweden built real deterrence from a militia that costs little to keep and a great deal to fight against, a structure Japan should copy." },
                     setFlags: { quietEmpirePath: "armedNeutrality" },
                     impact: { readiness: -1, pipeline: 2, initiative: -1 },
                     next: "newWorldOrder45",
@@ -2620,7 +2621,7 @@
           choices: [
             {
               label: "Petition for recognition: argue formally that a Japan never at war with the Allied powers doesn't belong on their enemy list",
-              advisor: { name: "Togo", quote: "We have never fired on an American or British soldier. I do not know if that argument moves men who watched us sign a pact with Germany and fight a war in China regardless. I know it is the only argument we have." },
+              advisor: { name: "Togo", position: "Japan has never fired on an American or British soldier, and whether that argument moves men who watched it sign a pact with Germany and fight in China is unknown, but it is the only argument it has." },
               setFlags: { newOrderPath: "petition" },
               impact: { readiness: 0, pipeline: 1, initiative: -2 },
               next: "coldWarOpening48",
@@ -2629,7 +2630,7 @@
             },
             {
               label: "Decline engagement: treat the new international order as an Allied club with no genuine place for an unconquered Japan",
-              advisor: { name: "Sugiyama", quote: "Begging for a seat at a table built by men who would still rather this empire didn't exist is not a delegation I intend to send. Let them write their charter. We will still be here when it's finished." },
+              advisor: { name: "Sugiyama", position: "Japan should not send a delegation to beg a seat at a table built by men who would rather it did not exist, and should let them write their charter and still be there when it is finished." },
               setFlags: { newOrderPath: "decline" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "coldWarOpening48",
@@ -2640,7 +2641,7 @@
               ? [
                   {
                     label: "Work Chile specifically, not the full Charter body: a real signatory whose own war against Japan is barely more genuine than this one",
-                    advisor: { name: "Togo", quote: "Chile signed the Charter having declared war on us in February, months after the fact, for reasons that had considerably more to do with founding membership than with any battle either of us fought. I would rather work one delegate who understands exactly what that kind of declaration is worth than petition fifty who don't." },
+                    advisor: { name: "Togo", position: "Chile signed the Charter after declaring war on Japan months after the event, for reasons to do with founding membership, and it is better to work one delegate who understands what such a declaration is worth than petition fifty who do not." },
                     setFlags: { newOrderPath: "chileChannel" },
                     impact: { readiness: -1, pipeline: 0, initiative: 2 },
                     next: "coldWarOpening48",
@@ -2667,7 +2668,7 @@
           choices: [
             {
               label: "Open informal channels to Washington: offer the resource area's stability as a Cold War asset, formal recognition or not",
-              advisor: { name: "Yoshida", quote: "A career in this ministry was not spent so that we stand outside a door the Americans are now, for their own reasons, considering opening. Whatever recognition eventually costs, it costs less than staying outside it." },
+              advisor: { name: "Yoshida", position: "A career in the ministry was not spent to stay outside a door the Americans are now considering opening for their own reasons, and whatever recognition costs, it costs less than staying outside." },
               setFlags: { coldWarPath: "align" },
               impact: { readiness: 1, pipeline: 2, initiative: 0 },
               next: "END",
@@ -2676,7 +2677,7 @@
             },
             {
               label: "Hold the line: continue treating recognition as beneath negotiation, whatever Washington's China problem is worth to them",
-              advisor: { name: "Sugiyama", quote: "They ignored us when it cost them nothing. I am not interested in being useful to them now that it costs them something. Let this empire remain exactly as unresolved as they left it." },
+              advisor: { name: "Sugiyama", position: "The Americans ignored Japan when it cost them nothing, Japan will not be useful to them now that it costs them something, and the empire should stay exactly as unresolved as they left it." },
               setFlags: { coldWarPath: "holdLine" },
               impact: { readiness: -1, pipeline: -1, initiative: 2 },
               next: "END",
@@ -2687,7 +2688,7 @@
               ? [
                   {
                     label: "Get ahead of it: propose a formal economic and security partnership matching what Washington's own internal policy is already discussing, rather than wait for an informal channel to slowly become one",
-                    advisor: { name: "Yoshida", quote: "Washington's own security establishment issued a real, formal policy directive in October 1948 laying out exactly this kind of relationship for an occupied, war-damaged partner. We are neither occupied nor war-damaged, and I see no reason that should count against us at the table. I would rather this government match their paper with a proposal of equal weight than wait for an informal signal to slowly earn one." },
+                    advisor: { name: "Yoshida", position: "Washington's security establishment issued a formal policy directive in October 1948 describing this kind of relationship with an occupied, war-damaged partner, Japan is neither, and it should answer their paper with a proposal of equal weight instead of waiting for an informal signal." },
                     setFlags: { coldWarPath: "formalProposal" },
                     impact: { readiness: -2, pipeline: -3, initiative: 2 },
                     next: "END",
@@ -2714,7 +2715,7 @@
           choices: [
             {
               label: "Use the preserved carrier strength to contest the Solomons before America can build up Guadalcanal",
-              advisor: { name: "Yamamoto", quote: "A fleet in being is worth something. A fleet used to hold the perimeter before the Americans finish building their airfield is worth considerably more." },
+              advisor: { name: "Yamamoto", position: "A fleet in being is worth something, and a fleet used to hold the perimeter before the Americans finish their airfield is worth considerably more." },
               setFlags: { perimeterPath: "contest" },
               impact: { readiness: -1, pipeline: -1, initiative: 2 },
               next: "yamamotoDeath43",
@@ -2737,11 +2738,11 @@
                 },
               ],
               outcome:
-                "A pre-emptive move into the Solomons with the fleet carrier force still intact. Whether four carriers committed early enough could have denied Henderson Field's construction entirely is a real, open strategic question — what's not in doubt is that this path never pays Midway's price, for better or worse, and the war's later chapters unfold from a materially different starting position than the one history actually reached.",
+                "A pre-emptive move into the Solomons with the fleet carrier force still intact. Whether four carriers committed early enough could have denied Henderson Field's construction entirely is a real, open strategic question: what's not in doubt is that this path never pays Midway's price, for better or worse, and the war's later chapters unfold from a materially different starting position than the one history actually reached.",
             },
             {
               label: "Hold the fleet in reserve: let the perimeter's static defenses absorb the first American attacks",
-              advisor: { name: "Inoue", quote: "Let them break themselves against Rabaul's air garrison first. We spend the fleet when spending it decides something." },
+              advisor: { name: "Inoue", position: "The enemy should break himself on Rabaul's air garrison first, and the fleet should be spent when spending it decides something." },
               setFlags: { perimeterPath: "reserve", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 2, pipeline: 0, initiative: -2 },
               next: "yamamotoDeath43",
@@ -2761,7 +2762,7 @@
           choices: [
             {
               label: "Press the supply-line campaign further: extend operations toward the New Hebrides and threaten the Australia route directly",
-              advisor: { name: "Ugaki", quote: "We have already done what Midway was supposed to make possible eventually: degrade the road to Australia. Finish the job while the Americans are still reorganizing around the ambush that never happened." },
+              advisor: { name: "Ugaki", position: "Japan has already done what Midway was meant to make possible, degraded the road to Australia, and should finish the job while the Americans are reorganizing around an ambush that never happened." },
               setFlags: { supplyLinePath: "extend" },
               impact: { readiness: -1, pipeline: 2, initiative: 1 },
               disabledReason: meters.readiness <= -3 ? "There isn't the strike capacity left to extend this campaign further. The carrier force that survived Midway can defend what it's already taken, not push past it." : undefined,
@@ -2772,7 +2773,7 @@
             },
             {
               label: "Withdraw the fleet to consolidate: bank the preserved carriers rather than press further into contested waters",
-              advisor: { name: "Nagumo", quote: "We have four carriers that were supposed to be at the bottom of the Pacific by now. I would like to keep it that way a little longer before we test our luck a second time." },
+              advisor: { name: "Nagumo", position: "Japan has four carriers that were meant to be at the bottom of the Pacific by now, and they should be kept that way a little longer before luck is tested a second time." },
               setFlags: { supplyLinePath: "bank" },
               impact: { readiness: 2, pipeline: 0, initiative: -1 },
               next: "operationFsCulmination42",
@@ -2783,7 +2784,7 @@
               ? [
                   {
                     label: "Escalate the submarine campaign against Australia itself, past what the historical raids ever sustained: coastal shipping, port cities, and the shock of it kept up rather than left as isolated incidents",
-                    advisor: { name: "Yamamoto", quote: "Our own submarine force hit Sydney Harbor, shelled Newcastle, and sank ships off the coast for a few months already, and let it trail off into what the Australians themselves are already calling nuisance attacks. I am not interested in a nuisance. I am interested in what the same campaign does if this command actually sustains it instead of letting it fade." },
+                    advisor: { name: "Yamamoto", position: "Japan's submarines hit Sydney Harbor, shelled Newcastle and sank ships off the coast for a few months and then let it fade into what the Australians call nuisance attacks, and the same campaign sustained would be something more." },
                     setFlags: { supplyLinePath: "terrorCampaign" },
                     impact: { readiness: -2, pipeline: -1, initiative: 2 },
                     next: "operationFsCulmination42",
@@ -2811,8 +2812,8 @@
               : ""),
           choices: [
             {
-              label: "Launch the full invasion — take Fiji and New Caledonia, sever Australia's supply route completely",
-              advisor: { name: "Ugaki", quote: "Coral Sea couldn't afford this. We can. I don't see the argument for leaving the one prize this war was fought over sitting on the table because history's navy couldn't reach it." },
+              label: "Launch the full invasion: take Fiji and New Caledonia, sever Australia's supply route completely",
+              advisor: { name: "Ugaki", position: "Coral Sea could not afford this and Japan can, and the one prize the war was fought over should not be left on the table because history's navy could not reach it." },
               setFlags: { fsPath: "invade" },
               impact: { readiness: -3, pipeline: -1, initiative: 2 },
               disabledReason: meters.pipeline <= -2 ? "The supply chain doesn't have the tonnage left to sustain an amphibious invasion this far south. An already-stretched arc can't stretch further." : undefined,
@@ -2823,7 +2824,7 @@
             },
             {
               label: "Stop short: consolidate the raiding gains already won rather than risk the overextension Coral Sea's cancellation was meant to prevent",
-              advisor: { name: "Nagano", quote: "Coral Sea taught the actual Navy General Staff a lesson about reaching past what the supply chain can carry. I see no reason this fleet gets to unlearn it just because the carriers survived." },
+              advisor: { name: "Nagano", position: "Coral Sea taught the Navy General Staff the cost of reaching past what the supply chain can carry, and the survival of the carriers is no reason to unlearn it." },
               setFlags: { fsPath: "consolidate", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
               next: "yamamotoDeath43",
@@ -2844,7 +2845,7 @@
           choices: [
             {
               label: "Use the preserved pilot cadre to rebuild carrier air groups for a future fleet action",
-              advisor: { name: "Ozawa", quote: "Pilots we did not lose in the Solomons are pilots we can still train the next generation on. That pipeline is the only asset in this navy that compounds." },
+              advisor: { name: "Ozawa", position: "The pilots not lost in the Solomons are the ones the next generation can be trained on, and that pipeline is the only asset the Navy has that compounds." },
               setFlags: { earlyPerimeterPath: "rebuild" },
               impact: { readiness: 2, pipeline: -1, initiative: -1 },
               next: "yamamotoDeath43",
@@ -2853,7 +2854,7 @@
             },
             {
               label: "Reinforce Bougainville and Rabaul's static defenses: dig the perimeter in rather than rebuild for offense",
-              advisor: { name: "Kusaka", quote: "A pilot cadre saved for a future battle is a pilot cadre that has to survive until that battle arrives. I would rather spend the time we bought making this line unbreakable." },
+              advisor: { name: "Kusaka", position: "A pilot cadre saved for a future battle has to survive until that battle comes, and the time bought is better spent making the line unbreakable." },
               setFlags: { earlyPerimeterPath: "fortify" },
               impact: { readiness: 1, pipeline: -2, initiative: -2 },
               disabledReason: meters.pipeline <= -4 ? "There isn't construction material and shipping left to harden this perimeter further. It holds what it already has, nothing more." : undefined,
@@ -2875,7 +2876,7 @@
           choices: [
             {
               label: "Press the channel formally: request that Moscow mediate terms with Washington",
-              advisor: { name: "Togo", quote: "What promises have already been made in rooms this ministry was not invited into, I cannot say. What I do know is that asking is the only version of this argument available to us, and I would rather ask early than not at all." },
+              advisor: { name: "Togo", position: "What promises have been made in rooms the ministry was not invited into cannot be said, but asking Moscow to mediate is the only version of the argument available, and it is better to ask early than not at all." },
               setFlags: { moscowPath: "pressed" },
               impact: { readiness: 1, pipeline: 0, initiative: -1 },
               next: "END",
@@ -2902,7 +2903,7 @@
             },
             {
               label: "Offer territorial concessions directly: propose ceding the southern Kurils in exchange for continued neutrality",
-              advisor: { name: "Sato", quote: "I have served in Moscow long enough to know this government does not trade in gestures. If neutrality is for sale, it is being sold at a price, and I would rather know that price than continue guessing at Soviet intentions from cables alone." },
+              advisor: { name: "Sato", position: "The ambassador has served in Moscow long enough to know the government does not trade in gestures, and if neutrality is for sale he would rather know the price than guess at Soviet intentions from cables." },
               setFlags: { moscowPath: "concessions", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: -1, pipeline: 0, initiative: -1 },
               next: "END",
@@ -2928,7 +2929,7 @@
           choices: [
             {
               label: "Commit the preserved fleet to a final defense of the home waters",
-              advisor: { name: "Toyoda", quote: "We kept this fleet alive for a reason. That reason is now." },
+              advisor: { name: "Toyoda", position: "The fleet was kept alive for a reason, and that reason is now." },
               setFlags: { finalPath: "lastStand" },
               impact: { readiness: -3, pipeline: -1, initiative: 1 },
               disabledReason: meters.pipeline <= -4 ? "There isn't fuel left for even a single final sortie. Whatever this fleet was preserved for, it can't reach the fight at this pipeline level." : undefined,
@@ -2939,7 +2940,7 @@
             },
             {
               label: "Push the diplomatic channel harder, using the preserved fleet as leverage rather than a weapon",
-              advisor: { name: "Togo", quote: "A fleet spent buys nothing at a negotiating table. A fleet that could still fight, and doesn't, is the only leverage this ministry has left to offer." },
+              advisor: { name: "Togo", position: "A fleet spent buys nothing at a negotiating table, while a fleet that could still fight and does not is the only leverage the ministry has left." },
               setFlags: { finalPath: "leverage", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "END",
@@ -3017,10 +3018,10 @@
         ? "A war that never had its Pearl Harbor, "
         : "A war that opened at Pearl Harbor, ";
       if (flags.peaceShapePath === "phasedWithdrawal") {
-        return "The settlement lands on the same resource logic the Navy argued for since before this war started: the Indies retained under a negotiated arrangement, the Philippines and Malaya reverting on a phased timeline. Not the war Japan set out in 1941 to win, but a war that ended in 1942 instead of 1945, nearly three years before the actual war's eventual close. Most of the real total, more than 2.3 million Japanese military dead and over a million civilian deaths across the full 1937–1945 war, was still ahead of this point in the historical timeline, not behind it — this ending doesn't get to claim a specific number spared, only that the years the historical toll was mostly still accumulating in never happened here.";
+        return "The settlement lands on the same resource logic the Navy argued for since before this war started: the Indies retained under a negotiated arrangement, the Philippines and Malaya reverting on a phased timeline. Not the war Japan set out in 1941 to win, but a war that ended in 1942 instead of 1945, nearly three years before the actual war's eventual close. Most of the real total, more than 2.3 million Japanese military dead and over a million civilian deaths across the full 1937–1945 war, was still ahead of this point in the historical timeline, not behind it: this ending doesn't get to claim a specific number spared, only that the years the historical toll was mostly still accumulating in never happened here.";
       }
       if (flags.peaceShapeResult === "held") {
-        return "The harder ask pays off: a broader Japanese sphere held through the final rounds of a negotiation Washington had every reason to walk away from and chose not to. A rarer outcome within an already rare ending, a war that ended in 1942 instead of 1945, nearly three years early. Most of the real total, more than 2.3 million Japanese military dead and over a million civilian deaths across the full 1937–1945 war, was still ahead of this point in the historical timeline — a number this ending can't honestly claim credit for avoiding precisely, only for the years it was mostly still being accumulated in never happening here.";
+        return "The harder ask pays off: a broader Japanese sphere held through the final rounds of a negotiation Washington had every reason to walk away from and chose not to. A rarer outcome within an already rare ending, a war that ended in 1942 instead of 1945, nearly three years early. Most of the real total, more than 2.3 million Japanese military dead and over a million civilian deaths across the full 1937–1945 war, was still ahead of this point in the historical timeline: a number this ending can't honestly claim credit for avoiding precisely, only for the years it was mostly still being accumulated in never happening here.";
       }
       if (flags.peaceShapeResult === "collapsed") {
         return "The negotiation that came closer to ending this war in 1942 than the historical record ever managed collapses anyway, asking for more than an American administration under no obligation to keep testing an increasingly ambitious offer was willing to grant. The channel goes quiet, and the war Yonai's entire argument was built to end continues on a timetable this attempt never managed to shorten, a rare opportunity reached and then lost to its own reach.";
@@ -3192,7 +3193,7 @@
         return "The Philippines were conceded without a fleet action at Leyte, and whatever the Navy preserved by not spending it there gets committed instead to a final defense in home waters. A different final chapter than the historical one, but leaving Japan facing an identical bottom line: a Japan with no navy left and a surrender still to negotiate. The closest real analogue isn't hypothetical: the actual Yamato, held back from Leyte's own fighting, was sent on exactly this kind of one-way final sortie six months later anyway, Operation Ten-Go in April 1945, fuel for a single trip and orders to beach herself as a coastal gun platform once the fuel ran out. She and her escorts were found and sunk before reaching Okinawa at all, roughly 3,700 to 4,200 Japanese sailors dead, Yamato alone losing 3,055 of her 3,332 crew, against ten American aircraft lost taking her down. Whatever fleet survives to be spent here is being spent on a mission the actual historical record already ran once, at almost exactly this cost.";
       }
       if (flags.finalPath === "leverage") {
-        return "Leyte never happened. The fleet that would have been spent there survives Manila's loss instead, and becomes a bargaining chip rather than a weapon in the war's final diplomatic maneuvering. Whether an intact fleet changed Washington's committed insistence on unconditional surrender is uncertain, and probably didn't — American terms weren't primarily a function of Japan's remaining naval strength. What it changed was the shape of the argument happening inside Japan's own war ministry in the war's final weeks. The real Yamato never got this chance: preserved through Leyte only to be spent six months later anyway, on a one-way sortie that cost roughly 3,700 to 4,200 Japanese sailors and never reached its target. A fleet that survives long enough to matter at the negotiating table, rather than being spent the same way regardless, is the rarer outcome this path actually tests.";
+        return "Leyte never happened. The fleet that would have been spent there survives Manila's loss instead, and becomes a bargaining chip rather than a weapon in the war's final diplomatic maneuvering. Whether an intact fleet changed Washington's committed insistence on unconditional surrender is uncertain, and probably didn't: American terms weren't primarily a function of Japan's remaining naval strength. What it changed was the shape of the argument happening inside Japan's own war ministry in the war's final weeks. The real Yamato never got this chance: preserved through Leyte only to be spent six months later anyway, on a one-way sortie that cost roughly 3,700 to 4,200 Japanese sailors and never reached its target. A fleet that survives long enough to matter at the negotiating table, rather than being spent the same way regardless, is the rarer outcome this path actually tests.";
       }
       if (flags.rommelPath === "pressAnyway") {
         return "Midway broke the other way, one of the rarest breaks in this war, and the free hand it bought sailed for the Indian Ocean only to find Rommel already beaten at El Alamein. The squadron pressed on and degraded British shipping anyway, a modest result that doesn't change the Mediterranean war's already-settled trajectory. The coordination imagined here never had a German partner capable of using it by the time Japan's fleet was actually in position to offer it.";

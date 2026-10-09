@@ -281,8 +281,8 @@ const DOCTRINES = {
       title: "Kantai Kessen",
       subtitle: "Decisive Battle Doctrine",
       advisor: "Yamamoto",
-      quote: "Give this fleet one real chance at the American carriers and I will end this war in an afternoon. Deny me that chance and I cannot promise you a decade will be enough either.",
-      description: "Commit the fleet to drawing the Americans into a single decisive engagement. Aggressive posture, aggressive fuel consumption.",
+      position: "Give the fleet one real chance at the American carriers and it can end the war in an afternoon, and deny it that chance and a decade may not be enough.",
+      description: "Commit the fleet to drawing the Americans into one decisive battle. Momentum builds fast and fuel burns fast.",
       impact: { readiness: 0, pipeline: -2, initiative: 3 },
     },
     {
@@ -290,8 +290,8 @@ const DOCTRINES = {
       title: "Shubi-Ichi",
       subtitle: "Defense-in-Depth Doctrine",
       advisor: "Sugiyama",
-      quote: "Let the Navy chase its one decisive afternoon. This army will make every mile the Americans take cost more than the last one, until they stop counting the cost as worth it.",
-      description: "Dig in, absorb the first blow, and make every mile of ground expensive. Slower to build momentum, harder to dislodge once it has.",
+      position: "The Navy can chase its one decisive afternoon, while the army makes every mile the Americans take cost more than the last until they stop thinking it worth the cost.",
+      description: "Dig in, absorb the first blow and make every mile expensive. Momentum builds slowly, and the line is hard to dislodge.",
       impact: { readiness: 3, pipeline: 0, initiative: -2 },
     },
     {
@@ -299,8 +299,8 @@ const DOCTRINES = {
       title: "Jikyu Jisoku",
       subtitle: "Self-Sufficiency Doctrine",
       advisor: "Nagano",
-      quote: "Neither the fleet's decisive battle nor the army's defensive line survives a war this navy cannot fuel. Secure the resource area's output first. Everything else follows from that or it follows from nothing.",
-      description: "Prioritize the Southern Resource Area's actual output over any single battle plan, and let combat readiness build from a position that can sustain a long war.",
+      position: "Neither the fleet's decisive battle nor the army's defensive line survives a war the Navy cannot fuel, so the resource area's output comes first.",
+      description: "Put the output of the Southern Resource Area ahead of any single battle plan, so that readiness is built on a position that can sustain a long war.",
       impact: { readiness: -2, pipeline: 3, initiative: 0 },
     },
   ],
@@ -310,8 +310,8 @@ const DOCTRINES = {
       title: "Island Hopping",
       subtitle: "Bypass Doctrine",
       advisor: "Nimitz",
-      quote: "I am not interested in taking every fortified island between here and Tokyo. I am interested in taking the ones that matter and leaving the rest to starve on the vine.",
-      description: "Skip the heavily fortified positions, strike where the enemy isn't, and let bypassed garrisons wither. Fast, but it strains the supply lines that have to keep pace.",
+      position: "Not every fortified island between here and Tokyo needs taking, only the ones that matter, and the rest can be left to starve.",
+      description: "Skip the heavily fortified islands, strike where the enemy is weak and let bypassed garrisons wither. It is fast, and it strains the supply lines that have to keep pace.",
       impact: { readiness: 0, pipeline: -2, initiative: 3 },
     },
     {
@@ -319,8 +319,8 @@ const DOCTRINES = {
       title: "Combined Arms",
       subtitle: "Overwhelming Force Doctrine",
       advisor: "MacArthur",
-      quote: "Landing before the guns and the air support are actually in place costs men. I've watched it happen. Nothing moves until this fleet can guarantee what it's putting ashore.",
-      description: "Nothing moves until naval gunfire, air support, and logistics are all actually in place. Slower to build early momentum, considerably harder to stall out once it's moving.",
+      position: "Landing before the guns and the air support are in place costs men, so nothing moves until the fleet can guarantee what it puts ashore.",
+      description: "Nothing moves until naval gunfire, air support and logistics are in place. Momentum comes late, and is hard to stall once it has come.",
       impact: { readiness: 3, pipeline: 0, initiative: -2 },
     },
     {
@@ -328,8 +328,8 @@ const DOCTRINES = {
       title: "Logistics Corps",
       subtitle: "Industrial Doctrine",
       advisor: "King",
-      quote: "Every admiral in this room wants his decisive battle. None of them get one without a supply line that can actually reach the fleet they're commanding. Build that first.",
-      description: "Prioritize the supply chain, the Seabees, the forward bases, and the shipping tonnage over any single early offensive, the unglamorous option that arguably did the most to actually win the war.",
+      position: "Every admiral wants his decisive battle, and none gets one without a supply line that reaches the fleet, so the supply line is built first.",
+      description: "Put the supply chain, the Seabees, the forward bases and the shipping tonnage ahead of any single early offensive.",
       impact: { readiness: -2, pipeline: 3, initiative: 0 },
     },
   ],
@@ -415,9 +415,9 @@ const SPECIAL_EVENTS = {
 const PRESS_CONTENT = {
   pearlHarbor: {
     alliedPacific: {
-      volLine: "Vol. LXXII — No. 341", dateLine: "Monday, December 8, 1941", priceLine: "Five Cents",
+      volLine: "Vol. LXXII: No. 341", dateLine: "Monday, December 8, 1941", priceLine: "Five Cents",
       theWord: "The", masthead: "Pacific Command Dispatch", mastheadSub: "Honolulu · San Francisco · Washington",
-      kicker: "Extra — Filed 0800 Hawaii Time",
+      kicker: "Extra: Filed 0800 Hawaii Time",
       headline: "JAPAN STRIKES PEARL HARBOR",
       deck: "Surprise dawn attack batters Pacific Fleet at anchor; Congress to convene as President prepares address",
       bylineLeft: "By The Associated Press, Honolulu", bylineRight: "Casualties Not Yet Confirmed",
@@ -438,12 +438,12 @@ const PRESS_CONTENT = {
         },
       ],
       photoCaption: "Caption redacted pending Fleet Intelligence review.",
-      photoLabel: "PHOTOGRAPH WITHHELD — NAVAL CENSOR",
+      photoLabel: "PHOTOGRAPH WITHHELD: NAVAL CENSOR",
     },
     japan: {
       volLine: "昭和十六年", dateLine: "December 8, Shōwa 16", priceLine: "IGHQ Naval Bulletin",
-      theWord: "大東亜戦争", masthead: "Imperial Navy Bulletin", mastheadSub: "Tokyo — Issued by Imperial General Headquarters",
-      kicker: "Special Announcement — Naval Section",
+      theWord: "大東亜戦争", masthead: "Imperial Navy Bulletin", mastheadSub: "Tokyo: Issued by Imperial General Headquarters",
+      kicker: "Special Announcement: Naval Section",
       headline: "NAVY STRIKES DECISIVE BLOW AT HAWAII",
       deck: "Combined Fleet air units devastate American Pacific Fleet at Pearl Harbor; Empire declares war on United States and Britain",
       bylineLeft: "Imperial General Headquarters via Domei Tsushin", bylineRight: "8:00 AM Announcement",
@@ -464,14 +464,14 @@ const PRESS_CONTENT = {
         },
       ],
       photoCaption: "Image cleared for publication by Imperial General Headquarters.",
-      photoLabel: "PHOTOGRAPH — RELEASED BY NAVAL PRESS SECTION",
+      photoLabel: "PHOTOGRAPH: RELEASED BY NAVAL PRESS SECTION",
     },
   },
   doolittle: {
     alliedPacific: {
-      volLine: "Vol. LXXII — No. 452", dateLine: "Saturday, April 18, 1942", priceLine: "Five Cents",
+      volLine: "Vol. LXXII: No. 452", dateLine: "Saturday, April 18, 1942", priceLine: "Five Cents",
       theWord: "The", masthead: "Pacific Command Dispatch", mastheadSub: "Honolulu · San Francisco · Washington",
-      kicker: "Extra — First Strike on Japan",
+      kicker: "Extra: First Strike on Japan",
       headline: "ARMY BOMBERS STRIKE TOKYO",
       deck: "First raid on Japanese home islands since war began; President declines to say where planes came from",
       bylineLeft: "By The Associated Press, Washington", bylineRight: "Origin of Aircraft Not Disclosed",
@@ -496,7 +496,7 @@ const PRESS_CONTENT = {
     },
     japan: {
       volLine: "昭和十七年", dateLine: "April 18, Shōwa 17", priceLine: "IGHQ Special Bulletin",
-      theWord: "本土空襲", masthead: "Imperial News Bulletin", mastheadSub: "Tokyo — Issued by Imperial General Headquarters",
+      theWord: "本土空襲", masthead: "Imperial News Bulletin", mastheadSub: "Tokyo: Issued by Imperial General Headquarters",
       kicker: "Special Announcement",
       headline: "ENEMY RAIDERS ATTACK HOMELAND, INFLICT LITTLE DAMAGE",
       deck: "Small number of enemy aircraft bomb civilian areas; military and industrial targets largely unaffected",
@@ -523,9 +523,9 @@ const PRESS_CONTENT = {
   },
   midway: {
     alliedPacific: {
-      volLine: "Vol. LXXII — No. 507", dateLine: "Monday, June 8, 1942", priceLine: "Five Cents",
+      volLine: "Vol. LXXII: No. 507", dateLine: "Monday, June 8, 1942", priceLine: "Five Cents",
       theWord: "The", masthead: "Pacific Command Dispatch", mastheadSub: "Honolulu · San Francisco · Washington",
-      kicker: "Extra — Nimitz Communiqué",
+      kicker: "Extra: Nimitz Communiqué",
       headline: "NAVY SMASHES JAPANESE FLEET AT MIDWAY",
       deck: "Four enemy carriers reported sunk in decisive Pacific battle; Navy calls turning point in war six months after Pearl Harbor",
       bylineLeft: "By The Associated Press, Pearl Harbor", bylineRight: "Official Communiqué Pending Full Confirmation",
@@ -546,12 +546,12 @@ const PRESS_CONTENT = {
         },
       ],
       photoCaption: "Caption withheld pending Fleet Intelligence review.",
-      photoLabel: "PHOTOGRAPH WITHHELD — NAVAL CENSOR",
+      photoLabel: "PHOTOGRAPH WITHHELD: NAVAL CENSOR",
     },
     japan: {
       volLine: "昭和十七年", dateLine: "June 10, Shōwa 17", priceLine: "IGHQ Naval Bulletin",
-      theWord: "大海戦", masthead: "Imperial Navy Bulletin", mastheadSub: "Tokyo — Issued by Imperial General Headquarters",
-      kicker: "Special Announcement — Naval Section",
+      theWord: "大海戦", masthead: "Imperial Navy Bulletin", mastheadSub: "Tokyo: Issued by Imperial General Headquarters",
+      kicker: "Special Announcement: Naval Section",
       headline: "GREAT NAVAL VICTORY AT MIDWAY",
       deck: "Combined Fleet engages American carrier force in decisive battle; two enemy carriers confirmed sunk",
       bylineLeft: "Imperial General Headquarters via Domei Tsushin", bylineRight: "June 10 Announcement",
@@ -577,9 +577,9 @@ const PRESS_CONTENT = {
   },
   hiroshima: {
     alliedPacific: {
-      volLine: "Vol. LXXIII — No. 574", dateLine: "Monday, August 6, 1945", priceLine: "Five Cents",
+      volLine: "Vol. LXXIII: No. 574", dateLine: "Monday, August 6, 1945", priceLine: "Five Cents",
       theWord: "The", masthead: "Pacific Command Dispatch", mastheadSub: "Honolulu · San Francisco · Washington",
-      kicker: "Extra — President Addresses Nation",
+      kicker: "Extra: President Addresses Nation",
       headline: "ATOMIC BOMB DROPPED ON JAPAN",
       deck: "President announces new weapon 'harnessing the basic power of the universe'; single bomb said to equal thousands of tons of conventional explosive",
       bylineLeft: "By The Associated Press, Washington", bylineRight: "Text of Presidential Statement Follows Separately",
@@ -604,11 +604,11 @@ const PRESS_CONTENT = {
     },
     japan: {
       volLine: "昭和二十年", dateLine: "August 7, Shōwa 20", priceLine: "IGHQ Special Bulletin",
-      theWord: "新型爆弾", masthead: "Imperial News Bulletin", mastheadSub: "Tokyo — Issued by Imperial General Headquarters",
+      theWord: "新型爆弾", masthead: "Imperial News Bulletin", mastheadSub: "Tokyo: Issued by Imperial General Headquarters",
       kicker: "Special Announcement",
       headline: "ENEMY EMPLOYS NEW TYPE OF BOMB AGAINST HIROSHIMA",
       deck: "Damage still being assessed; Imperial Headquarters states enemy claims regarding the weapon's nature cannot yet be confirmed",
-      bylineLeft: "Imperial General Headquarters via Domei Tsushin", bylineRight: "Preliminary Report — August 7",
+      bylineLeft: "Imperial General Headquarters via Domei Tsushin", bylineRight: "Preliminary Report: August 7",
       columns: [
         {
           head: "Reports Remain Fragmentary",
@@ -653,9 +653,9 @@ const PRESS_CONTENT = {
   // sibling choice at the same node explicitly avoids the event the bulletin describes.
   vjDay: {
     alliedPacific: {
-      volLine: "Vol. LXXIII — No. 580", dateLine: "Tuesday, August 14, 1945", priceLine: "Five Cents",
+      volLine: "Vol. LXXIII: No. 580", dateLine: "Tuesday, August 14, 1945", priceLine: "Five Cents",
       theWord: "The", masthead: "Pacific Command Dispatch", mastheadSub: "Honolulu · San Francisco · Washington",
-      kicker: "Extra — President Announces Japanese Surrender",
+      kicker: "Extra: President Announces Japanese Surrender",
       headline: "JAPAN SURRENDERS",
       deck: "War ends after three years, eight months; crowds fill streets from Honolulu to Washington as President calls for formal ceremony at sea",
       bylineLeft: "By The Associated Press, Washington", bylineRight: "Formal Signing Awaits Fleet Arrival in Tokyo Bay",
@@ -676,7 +676,7 @@ const PRESS_CONTENT = {
         },
       ],
       photoCaption: "Caption to follow pending wire transmission.",
-      photoLabel: "PHOTOGRAPH PENDING — WIRE TRANSMISSION DELAYED BY VOLUME",
+      photoLabel: "PHOTOGRAPH PENDING: WIRE TRANSMISSION DELAYED BY VOLUME",
     },
   },
 };
@@ -764,7 +764,7 @@ function rollDivergenceForks(campaignId) {
 const LEADER_QUOTES = {
   japan: {
     name: "Yamamoto",
-    quote: "To finish this war, our armies would need to march to Washington itself. I do not believe this nation is prepared for what that actually requires.",
+    quote: "In the first six months to a year of war with the United States and Britain I will run wild and win victory after victory. But then, if the war continues after that, I have no expectation of success.",
   },
   alliedPacific: {
     name: "President Roosevelt",
