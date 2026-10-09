@@ -1,13 +1,13 @@
 // JSON-backed nodes stay consistent with the code that serves them (see tools/extract-json-nodes.mjs and
 // docs/DATA_MIGRATION.md). For every src/data/*.nodes.json: the head part inlines the file, each id has exactly one
-// `dataNode(<DATA>, "id")` stub in the parts, each stub has a JSON entry, and every entry looks like a node.
+// `dataNode(<DATA>, "id", meters)` stub in the parts, each stub has a JSON entry, and every entry looks like a node.
 // Run: npm run test:json
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const problems = [];
 const all = readdirSync("src/parts").map((f) => readFileSync(join("src/parts", f), "utf8").replace(/\r\n/g, "\n")).join("\n");
-const STUB = /dataNode\((\w+), "([A-Za-z0-9_]+)"\)/g;
+const STUB = /dataNode\((\w+), "([A-Za-z0-9_]+)", meters\)/g;
 let total = 0;
 if (existsSync("src/data")) {
   for (const f of readdirSync("src/data").filter((x) => x.endsWith(".nodes.json"))) {

@@ -47,6 +47,8 @@ for (const cid of ["japan", "alliedPacific"]) {
 // 1. gallery
 const allTitles = new Set([...sourceLabels.japan, ...sourceLabels.alliedPacific]);
 for (const g of game.ENDINGS_GALLERY) if (!allTitles.has(g.label)) note("staleGallery", g.label, `gallery entry that no campaign can return: "${g.label}"`);
+// 1b. every ENDING_CLASSIFICATION entry is a title a campaign can return (a leftover would score an ending that cannot happen)
+for (const k of Object.keys(game.ENDING_CLASSIFICATION)) if (!allTitles.has(k)) note("staleClassification", k, `ending classification for a title no campaign returns: "${k}"`);
 // 2. write-only flags
 const reads = (k) => new RegExp(`(\\.|\\?\\.)${k}\\b|\\[["']${k}["']\\]|["']${k}["']\\s*in\\s`).test(src);
 // the tallies behind the readings under each meter are read by name from logic.ts (flags[def.flag]), so a text search cannot see them

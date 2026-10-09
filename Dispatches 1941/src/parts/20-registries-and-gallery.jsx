@@ -628,11 +628,9 @@ const ENDING_CLASSIFICATION = {
   "The Fleet's Last Sortie": "Major Defeat",
   "A Navy Held Hostage to Its Own Survival": "Major Defeat",
   "Peace Bought With What Remained": "Minor Defeat",
-  "Spent Regardless of the Reason": "Major Defeat",
   "The Gift Yamamoto Asked For": "Minor Victory",
   "A Coordination That Arrived Too Late": "Minor Defeat",
   "The Fleet That Turned for Home": "Minor Defeat",
-  "The War That Waited": "Contested Outcome",
   "Armed Against a Ghost": "Contested Outcome",
   "Held to the Last Man, Lost to the Ledger": "Major Defeat",
   "The Lesson Nomonhan Taught Twice": "Major Defeat",
@@ -647,7 +645,6 @@ const ENDING_CLASSIFICATION = {
   // the specific arrangement. totalMobilization/pineRootDiversion are two more branches
   // of the same historical-finish thread as ketsuGo, appended with atomicChainOutcome
   // the same way, so they're classified consistently with that thread's other endings.
-  "A Different Kind of Ready": "Minor Victory",
   "A Militia Empire, Courted Anyway": "Minor Victory",
   "A Quiet Empire, Quietly Courted": "Minor Victory",
   "An Unoccupied Japan Names Its Own Price": "Minor Victory",
@@ -658,11 +655,8 @@ const ENDING_CLASSIFICATION = {
   "The War That Waited, Still Waiting": "Contested Outcome",
   "A Price Already Paid to Someone Else": "Contested Outcome",
   "The War Moscow Sat Out": "Contested Outcome",
-  "The Line Nobody Had to Cross": "Major Defeat",
-  "Two Hundred Roots, One Hour": "Major Defeat",
   "The Peace That Asked for Too Much": "Minor Defeat",
   "Strength Read as Weakness": "Minor Defeat",
-  "The Line Not Moved": "Contested Outcome",
   "The One Term That Held": "Minor Victory",
   "Terms Worth Having": "Minor Victory",
   "A Shorter Final Act": "Minor Victory",
@@ -670,13 +664,10 @@ const ENDING_CLASSIFICATION = {
   "A Raid, Not a Rout": "Minor Victory",
   "The Question Asked Three Years Early": "Minor Defeat",
   "The Channel That Closed Itself": "Major Defeat",
-  "The Reform Nobody Wrote a History Of": "Minor Victory",
-  "Four Years of Quiet Friction": "Minor Defeat",
   // CINCPAC (Allied) — victory/defeat judged by outcome for the Allied war effort
   "The Coalition Comes Apart": "Major Defeat",
   "The Cost of the Other Road": "Minor Victory",
   "An Honest Silence at the End": "Minor Victory",
-  "Manila, Left Behind": "Minor Victory",
   "Japan, Kept Whole": "Major Victory",
   "One Occupation, No Exceptions": "Major Victory",
   "A Second Korea, A Kept Throne": "Minor Victory",
@@ -697,9 +688,6 @@ const ENDING_CLASSIFICATION = {
   "The Admiral Who Wasn't Removed": "Contested Outcome",
   "The Landing That Never Happened": "Contested Outcome",
   "The General Who Stayed": "Contested Outcome",
-  "Europe First, Meant Literally": "Minor Defeat",
-  "Mercenaries in Everything But Name": "Minor Victory",
-  "The Stalemate That Finally Moved": "Minor Victory",
   "The Fleet the Act Built Anyway": "Minor Victory",
   "What Urgency Was Actually Worth": "Contested Outcome",
   "First Contact, Held": "Contested Outcome",
@@ -710,7 +698,6 @@ const ENDING_CLASSIFICATION = {
   // cross-reference check rather than assuming the earlier fix was complete).
   "A Vote Forced, and Won": "Contested Outcome",
   "A Slower, Angrier War": "Contested Outcome",
-  "Everything But the Declaration": "Contested Outcome",
 };
 
 function classifyEnding(endingLabel) {

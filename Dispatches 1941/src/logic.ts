@@ -176,6 +176,141 @@ export function strandReadout(meter: MeterKey, flags: Flags, meters: Meters): St
   });
 }
 
+// ---------- Command rank ----------
+// A single mark for how the war was commanded, from Private to General. It is built from five things the player can see and
+// nothing hidden: how the war ended, the condition the command was left in, how the battles went (none are fought yet in this
+// game, so that part follows the ending), how the decisions compare with the historical ones, and the objectives earned. Luck in
+// the dice is not scored. Being removed from command caps the rank, and the training-wheels mode cannot reach General.
+export const COMMAND_RANKS = ["Private", "Corporal", "Sergeant", "Lieutenant", "Captain", "Major", "Colonel", "General"] as const;
+const RANK_FROM = [0, 20, 32, 44, 55, 65, 74, 83];
+
+export interface RatingInput {
+  /** The ending's tier ("Major Victory" ... "Major Defeat"), or null when it has none. */
+  tier: string | null;
+  /** The best tier any ending on this run's path can award (see endingCeiling). The ending is scored against it. */
+  ceiling?: string | null;
+  removed: boolean;
+  /** Readiness + Pipeline + Initiative at the end. */
+  total: number;
+  battles: { grade: string; staff: boolean }[];
+  judged: { sum: number; histSum: number }[];
+  objectives: number;
+  mode: string;
+}
+export interface RatingPart {
+  id: string;
+  label: string;
+  points: number;
+  max: number;
+  word: "Strong" | "Fair" | "Weak";
+  fact: string;
+}
+export interface Rating {
+  score: number;
+  rank: string;
+  rankIndex: number;
+  parts: RatingPart[];
+  /** Why the rank was held down, or null. */
+  capped: string | null;
+}
+
+const TIER_POINTS: Record<string, number> = { "Major Victory": 30, "Minor Victory": 24, "Contested Outcome": 15, "Minor Defeat": 8, "Major Defeat": 2 };
+const TIER_FACT: Record<string, string> = {
+  "Major Victory": "A major victory",
+  "Minor Victory": "A minor victory",
+  "Contested Outcome": "A contested outcome",
+  "Minor Defeat": "A minor defeat",
+  "Major Defeat": "A major defeat",
+};
+// The best tier any ending on a command's path can award. The ending is worth 30 of the 100 points and is scored against this
+// ceiling. Both Pacific commands have a major victory among their endings, so both are scored as they stand. `npm run
+// check-endings` fails if an ending outranks its command's ceiling, so the table cannot drift when an ending is added.
+export const ENDING_CEILING: Record<string, string> = {
+  japan: "Major Victory",
+  alliedPacific: "Major Victory",
+};
+export function endingCeiling(campaignId: string): string {
+  return ENDING_CEILING[campaignId] ?? "Major Victory";
+}
+const GRADE_POINTS: Record<string, number> = { clean: 1, costly: 0.75, marginal: 0.35, total: 0 };
+
+export function commandRating(i: RatingInput): Rating {
+  const word = (p: number, max: number): "Strong" | "Fair" | "Weak" => (p / max >= 0.65 ? "Strong" : p / max < 0.35 ? "Weak" : "Fair");
+  const parts: RatingPart[] = [];
+
+  const rawEnding = i.tier && TIER_POINTS[i.tier] != null ? TIER_POINTS[i.tier] : 15;
+  const ceilingPts = i.ceiling && TIER_POINTS[i.ceiling] ? TIER_POINTS[i.ceiling] : 30;
+  const endingPts = i.removed ? 0 : Math.round(Math.min(30, (30 * rawEnding) / ceilingPts) * 10) / 10;
+  const endingFact = i.tier && TIER_FACT[i.tier] ? TIER_FACT[i.tier] : "An ending with no verdict of its own";
+  parts.push({
+    id: "ending",
+    label: "How the war ended",
+    points: endingPts,
+    max: 30,
+    word: word(endingPts, 30),
+    fact: i.removed ? "Removed from command before the war was over" : endingFact,
+  });
+
+  const posPts = Math.max(0, Math.min(20, 10 + i.total));
+  parts.push({
+    id: "position",
+    label: "The command's condition",
+    points: posPts,
+    max: 20,
+    word: word(posPts, 20),
+    fact: i.total >= 3 ? "Left in good order" : i.total <= -3 ? "Left spent" : "Left holding together",
+  });
+
+  // With no battle fought, or nothing to set against the record, those parts follow the ending: they cannot rescue a lost war or
+  // lift a won one to the top.
+  const endingShare = endingPts / 30;
+  let batPts = Math.round(20 * endingShare * 0.7 * 10) / 10;
+  let fact = "No battle was fought";
+  if (i.battles.length) {
+    const weights = i.battles.map((b) => (b.staff ? 0.85 : 1));
+    const avg = i.battles.reduce((a, b, k) => a + (GRADE_POINTS[b.grade] ?? 0.35) * weights[k], 0) / i.battles.length;
+    batPts = Math.round(20 * avg * 10) / 10;
+    const wins = i.battles.filter((b) => b.grade === "clean" || b.grade === "costly").length;
+    const staffN = i.battles.filter((b) => b.staff).length;
+    fact = `Won ${wins} of ${i.battles.length} ${i.battles.length === 1 ? "battle" : "battles"}${staffN ? `, ${staffN} planned by the staff` : ""}`;
+  }
+  parts.push({ id: "battles", label: "The battles", points: batPts, max: 20, word: word(batPts, 20), fact });
+
+  let judgePts = Math.round(20 * endingShare * 0.7 * 10) / 10;
+  let judgeFact = "No decision could be set against the record";
+  if (i.judged.length) {
+    const each = i.judged.map((e) => (e.sum > e.histSum ? 1 : e.sum === e.histSum ? 0.6 : 0.25));
+    judgePts = Math.round(20 * (each.reduce((a, v) => a + v, 0) / each.length) * 10) / 10;
+    const out = i.judged.filter((e) => e.sum > e.histSum).length;
+    judgeFact = `Out-positioned the historical choice at ${out} of ${i.judged.length} decisions`;
+  }
+  parts.push({ id: "judgement", label: "Judgement against history", points: judgePts, max: 20, word: word(judgePts, 20), fact: judgeFact });
+
+  const objPts = Math.min(10, i.objectives * 3);
+  parts.push({
+    id: "objectives",
+    label: "Objectives",
+    points: objPts,
+    max: 10,
+    word: word(objPts, 10),
+    fact: i.objectives === 0 ? "None achieved" : `${i.objectives} achieved`,
+  });
+
+  const modeAdj = i.mode === "easy" ? -8 : i.mode === "open" ? 0 : 6;
+  const score = Math.round(Math.max(0, Math.min(100, parts.reduce((a, p) => a + p.points, 0) + modeAdj)));
+  let rankIndex = 0;
+  for (let k = 0; k < RANK_FROM.length; k++) if (score >= RANK_FROM[k]) rankIndex = k;
+  let capped: string | null = null;
+  if (i.removed && rankIndex > 3) {
+    rankIndex = 3;
+    capped = "Removed from command, which holds the rank at Lieutenant.";
+  } else if (i.mode === "easy" && rankIndex > 6) {
+    rankIndex = 6;
+    capped = "Played with the training wheels on, which holds the rank at Colonel.";
+  }
+  return { score, rank: COMMAND_RANKS[rankIndex], rankIndex, parts, capped };
+}
+
 export function impactSum(impact: Impact | undefined): number {
   if (!impact) return 0;
   return (impact.readiness || 0) + (impact.pipeline || 0) + (impact.initiative || 0);

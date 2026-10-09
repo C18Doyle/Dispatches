@@ -108,7 +108,8 @@
             "outcome": "The likelier outcome. The vote fails, and forcing it early costs the case its momentum. Congress does not return to where it was: a failed declaration is a signal in itself, and isolationists treat it as confirmation and not as a setback."
           }
         ],
-        "outcome": "A modeled alternative. Forcing an early vote risks losing the argument permanently instead of winning it more slowly, on the theory that Japan's consolidation of the Philippines is a clock this Congress cannot ignore while it deliberates."
+        "outcome": "A modeled alternative. Forcing an early vote risks losing the argument permanently instead of winning it more slowly, on the theory that Japan's consolidation of the Philippines is a clock this Congress cannot ignore while it deliberates.",
+        "rollMeter": "initiative"
       }
     ]
   },
@@ -498,7 +499,8 @@
           }
         ],
         "next": "tehransPromise43",
-        "outcome": "Speculative. The fleet treats the source as resilient and not fragile, betting that April's restraint was a caution this war cannot afford twice."
+        "outcome": "Speculative. The fleet treats the source as resilient and not fragile, betting that April's restraint was a caution this war cannot afford twice.",
+        "rollMeter": "initiative"
       }
     ]
   },
@@ -552,7 +554,8 @@
             "outcome": "Speculative, and the rarer outcome. Political pressure over Tarawa's casualties forces a formal review that ties the theater command's hands on future direct assaults, whatever Holland Smith or the Joint Chiefs judge militarily. Every later island campaign is fought under a bombardment requirement imposed by politics and not tactics."
           }
         ],
-        "outcome": "A defense on the tactical logic Holland Smith and other advocates of direct assault held: a bypassed fortress is a fortress you fight later, on its terms, with less warning. Whether that survives a Congress looking at casualty photographs is open."
+        "outcome": "A defense on the tactical logic Holland Smith and other advocates of direct assault held: a bypassed fortress is a fortress you fight later, on its terms, with less warning. Whether that survives a Congress looking at casualty photographs is open.",
+        "rollMeter": "readiness"
       },
       {
         "label": "Adjust doctrine: extend preparatory bombardment before future assaults, even at the cost of tempo",

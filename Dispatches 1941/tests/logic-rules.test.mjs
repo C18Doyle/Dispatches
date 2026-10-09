@@ -50,6 +50,22 @@ check(L.startFlags("fanatical").hardMode === true && L.startFlags("coalition").h
 r = resolve(choice({ readiness: 1 }), M(0, 0, 0), {}, "easy");
 check(r.meters.readiness === 1, "Easy resolves a choice exactly as Normal does");
 
+
+// --- the command rank --------------------------------------------------------------------------------------------
+const base = { tier: "Minor Victory", ceiling: "Major Victory", removed: false, total: 3, battles: [], judged: [{ sum: 2, histSum: 0 }], objectives: 2, mode: "open" };
+let rk = L.commandRating(base);
+check(rk.score >= 0 && rk.score <= 100 && L.COMMAND_RANKS[rk.rankIndex] === rk.rank, "the rank is a word from Private to General for a score from 0 to 100");
+check(L.commandRating({ ...base, tier: "Major Defeat" }).score < rk.score, "a worse ending scores lower");
+check(L.commandRating({ ...base, tier: "Major Victory", total: 10, judged: [{ sum: 5, histSum: 0 }], objectives: 4 }).rank === "General", "a major victory with a command left in good order, ahead of history, with the objectives, is a General");
+rk = L.commandRating({ ...base, tier: "Major Victory", total: 10, removed: true });
+check(rk.rankIndex <= 3 && rk.parts[0].points === 0, "being removed from command scores the ending at nothing and holds the rank at Lieutenant or below");
+rk = L.commandRating({ ...base, tier: "Major Victory", total: 10, judged: [{ sum: 5, histSum: 0 }], objectives: 4, mode: "easy" });
+check(rk.rankIndex <= 6 && rk.capped !== null, "Easy cannot reach General");
+check(L.commandRating({ ...base, mode: "fanatical" }).score > L.commandRating(base).score && L.commandRating({ ...base, mode: "easy" }).score < L.commandRating(base).score, "a hard mode adds to the score and Easy takes from it");
+rk = L.commandRating({ ...base, tier: "Contested Outcome", ceiling: "Contested Outcome" });
+check(rk.parts[0].points === 30, "an ending that is the best open to the command earns the full thirty");
+check(L.endingCeiling("japan") === "Major Victory" && L.endingCeiling("alliedPacific") === "Major Victory", "both Pacific commands are scored against a major victory");
+
 if (fails.length) {
   console.error(`\n${fails.length} failure(s)`);
   process.exit(1);

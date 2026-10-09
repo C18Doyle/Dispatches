@@ -9,6 +9,24 @@ const RUNS = parseInt(process.env.RUNS || "10000", 10);
 const game = await loadGame();
 const { logic } = game;
 let failed = false;
+const TIER_ORDER = ["Major Defeat", "Minor Defeat", "Contested Outcome", "Minor Victory", "Major Victory"];
+
+// The command rank of a finished war, built as the end screen builds it (the log lines come from the game's own buildLogEntry).
+function rankOf(cid, mode, war) {
+  const camp = game.CAMPAIGNS[cid];
+  const log = war.seen.map((s) => logic.buildLogEntry(s.stage, s.index, s.rollIndex));
+  const removed = !!(war.flags.purged || war.flags.relieved);
+  return logic.commandRating({
+    tier: game.classifyEnding(war.label),
+    ceiling: logic.endingCeiling(cid),
+    removed,
+    total: war.meters.readiness + war.meters.pipeline + war.meters.initiative,
+    battles: [],
+    judged: log.filter((e) => e.histSum != null).map((e) => ({ sum: e.sum, histSum: e.histSum })),
+    objectives: game.evaluateObjectives({ campaignId: cid, flags: war.flags, meters: war.meters, log, rewinds: 0, mode, favor: 5 }).length,
+    mode,
+  });
+}
 
 function historicalWar(cid) {
   // always the historical choice where there is one, else the first open choice; rolls by the game's weights
@@ -46,6 +64,31 @@ for (const cid of ["japan", "alliedPacific"]) {
     failed = true;
   } else if (top > 0.6) console.log(`  warning: "${rows[0][0]}" takes ${(top * 100).toFixed(0)}% of random wars`);
   console.log(`  historical play: ${historicalWar(cid)}`);
+  // ceilings: no ending may outrank its command's ceiling, or the rank table is stale
+  const ceil = TIER_ORDER.indexOf(logic.endingCeiling(cid));
+  for (const label of Object.keys(counts)) {
+    const t = TIER_ORDER.indexOf(game.classifyEnding(label));
+    if (t > ceil) {
+      console.error(`  FAIL: "${label}" is a ${game.classifyEnding(label)}, above the ${logic.endingCeiling(cid)} ceiling for ${cid}`);
+      failed = true;
+    }
+  }
+  // the spread of command ranks
+  for (const mode of ["open", "easy"]) {
+    const r2 = seeded(42);
+    const ranks = {};
+    for (let i = 0; i < Math.min(RUNS, 4000); i++) {
+      const w = playWar(game, cid, mode, r2);
+      const rk = rankOf(cid, mode, w).rank;
+      ranks[rk] = (ranks[rk] || 0) + 1;
+    }
+    const n = Object.values(ranks).reduce((a, v) => a + v, 0);
+    console.log(`  command ranks, random play, ${mode}: ` + logic.COMMAND_RANKS.map((k) => `${k} ${(((ranks[k] || 0) * 100) / n).toFixed(0)}%`).join(", "));
+    if (((ranks.General || 0) / n) > 0.15) {
+      console.error(`  FAIL: random play reaches General in ${(((ranks.General || 0) * 100) / n).toFixed(0)}% of wars (limit 15%)`);
+      failed = true;
+    }
+  }
 }
 if (failed) process.exit(1);
 console.log("\nEndings check passed.");

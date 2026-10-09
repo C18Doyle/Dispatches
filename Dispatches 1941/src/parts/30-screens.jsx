@@ -2006,7 +2006,7 @@ const NODE_REGION_HINTS = {
   burmaRangoon42: ["burma"],
   rangoonRetreatAllied42: ["burma"],
   burmaReconquest45: ["burma"],
-  overlandChina44: ["china"],
+  theMainlandCrisis44: ["china", "burma", "india"], // Ichi-Go and U-Go (this hint was keyed to a node id that does not exist)
   chinaCrisisAllied44: ["china"],
   chinasWarAlone43: ["china"],
   britainsCalculus43: ["india", "burma"],
@@ -3125,8 +3125,23 @@ function DemoWallScreen({ campaign, onHome, onRestart }) {
   );
 }
 
-function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, favor, newlyEarnedObjectives, onRestart, onSwitch, onRewind }) {
+function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, favor, history, newlyEarnedObjectives, onRestart, onSwitch, onRewind }) {
   const [copied, setCopied] = useState(false);
+  // The map at the end of the war, and at the start of each report before it: step 0 is the first report, the last step is the end.
+  const snaps = (history || []).filter((h) => h && h.flags && h.meters);
+  const [reviewStep, setReviewStep] = useState(snaps.length);
+  const reviewView = useMemo(() => {
+    const lastDate = log && log.length ? log[log.length - 1].date : null;
+    if (reviewStep >= snaps.length) return { flags, meters, year: yearFrom(lastDate, 1945), nodeId: null, date: lastDate, title: "The end of the war" };
+    const snap = snaps[reviewStep];
+    let stage = null;
+    try {
+      stage = resolveStage(campaign, snap.position, snap.flags, snap.meters);
+    } catch (e) {
+      stage = null;
+    }
+    return { flags: snap.flags, meters: snap.meters, year: yearFrom(stage && stage.date, 1941), nodeId: snap.position, date: stage && stage.date, title: stage && stage.title };
+  }, [reviewStep, snaps.length, campaign, flags, meters, log]);
   const screenRef = useRef(null);
   useEffect(() => {
     // Move focus to the ending screen on mount so screen reader users get an immediate,
@@ -3140,6 +3155,18 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
     [campaign, flags, meters]
   );
   const removedFromCommand = flags.purged || flags.relieved;
+  const rating = campaign.dynamic
+    ? commandRating({
+        tier: campaign.positionLabel ? classifyEnding(campaign.positionLabel(flags, meters)) : null,
+        ceiling: endingCeiling(campaign.id),
+        removed: !!removedFromCommand,
+        total,
+        battles: [],
+        judged: (log || []).filter((e) => e.histSum != null).map((e) => ({ sum: e.sum, histSum: e.histSum })),
+        objectives: evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor }).length,
+        mode: mode || "open",
+      })
+    : null;
   // No Pacific content sets a "front collapse" path variant (that was Europe-specific);
   // kept as an inert false rather than ripping out its two downstream references.
   const collapsed = false;
@@ -3280,6 +3307,47 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             </>
           );
         })()}
+        {rating && (
+          <div className="mb-6 border-2 px-4 py-3" style={{ borderColor: campaign.accent }}>
+            <div className="text-xs uppercase tracking-[0.25em] font-semibold opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              Command rank
+            </div>
+            <div className="flex items-baseline justify-between gap-3">
+              <div className="text-4xl leading-tight text-[#000000]" style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600 }}>
+                {rating.rank}
+              </div>
+              <div className="text-xs uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                {rating.score} of 100
+              </div>
+            </div>
+            <div className="flex gap-1 my-2" aria-hidden="true">
+              {COMMAND_RANKS.map((r, k) => (
+                <span key={r} title={r} className="flex-1 h-2 border" style={{ borderColor: campaign.accent, backgroundColor: k <= rating.rankIndex ? campaign.accent : "transparent" }} />
+              ))}
+            </div>
+            <div className="flex justify-between text-[9px] uppercase tracking-wider opacity-70 mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }} aria-hidden="true">
+              <span>Private</span>
+              <span>General</span>
+            </div>
+            <ul className="flex flex-col gap-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              {rating.parts.map((p) => (
+                <li key={p.id} className="flex items-baseline justify-between gap-3 text-[13px] leading-snug text-[#000000] border-l-4 pl-2" style={{ borderColor: p.word === "Strong" ? "#2f6b3f" : p.word === "Weak" ? "#7a2e2e" : "#8a5a1a" }}>
+                  <span>
+                    <b>{p.label}.</b> {p.fact}.
+                  </span>
+                  <span className="shrink-0 text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    {p.word}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            {rating.capped && (
+              <p className="mt-2 text-[12px] italic text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                {rating.capped}
+              </p>
+            )}
+          </div>
+        )}
         {campaign.dynamic && <MeterPanel meters={meters} flags={flags} prev={null} />}
         <p
           className="leading-relaxed mb-6 text-[16px] text-[#000000]"
@@ -3454,6 +3522,43 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           </details>
         )}
 
+        {campaign.dynamic && (
+          <details className="border-t-2 pt-4 mb-6" style={{ borderColor: campaign.accent }} open>
+            <summary
+              className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              The Pacific at the End
+            </summary>
+            <div className="mt-3">
+              {snaps.length > 0 && (
+                <div className="mb-2 flex items-center gap-3 text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <label htmlFor="review-step" className="uppercase tracking-widest font-semibold shrink-0">
+                    Review the war
+                  </label>
+                  <input
+                    id="review-step"
+                    type="range"
+                    min={0}
+                    max={snaps.length}
+                    value={reviewStep}
+                    onChange={(e) => setReviewStep(Number(e.target.value))}
+                    aria-valuetext={`${reviewView.title || "Report"}${reviewView.date ? ", " + reviewView.date : ""}`}
+                    className="flex-1"
+                    style={{ accentColor: campaign.accent }}
+                  />
+                </div>
+              )}
+              {snaps.length > 0 && (
+                <p className="mb-2 text-[12px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  {reviewStep >= snaps.length ? "The war as it ended." : `Before the report ${reviewStep + 1} of ${snaps.length}: ${reviewView.title || ""}${reviewView.date ? " (" + reviewView.date + ")" : ""}.`}
+                </p>
+              )}
+              <PacificMap key={reviewStep} year={reviewView.year} flags={reviewView.flags} meters={reviewView.meters} accent={campaign.accent} nodeId={reviewView.nodeId} />
+            </div>
+          </details>
+        )}
+
         <details className="border-t-2 pt-4 mb-6" style={{ borderColor: campaign.accent }} open>
           <summary
             className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none"
@@ -3506,7 +3611,8 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
               const shareText = [
                 "DISPATCHES 1941: After-Action Report",
                 campaign.name + modeLabel,
-                "Rank: " + rank,
+                rating ? "Command rank: " + rating.rank + " (" + rating.score + "/100)" : null,
+                "Style: " + rank,
                 "Ending: " + endingLabelForShare + " (" + classifyEnding(endingLabelForShare) + ")",
                 comparable.length > 0
                   ? "Matched history " + matchedHistory + "/" + comparable.length + " · Outperformed at " + outperformed
