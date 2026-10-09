@@ -12,7 +12,7 @@
     "assemble": "node ../packages/testkit/src/split.mjs assemble",
     "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip",
     "check:structure": "node tools/check-structure.mjs",
-    "test:fast": "npm run build && npm run typecheck && npm run test:logic && npm run test:json && npm run check:structure && npm run roundtrip && npm run verify:baseline && npm run test:migration && npm run test:saves && npm run check:orphans && npm run check-quotations && npm run check-writing && npm run check-reachability && npm run check-advisor-dates && npm run check-outcome-sign && npm run check-endings && npm run check-rolls && npm run check-map",
+    "test:fast": "npm run build && npm run typecheck && npm run test:logic && npm run test:json && npm run check:structure && npm run roundtrip && npm run verify:baseline && npm run test:migration && npm run test:saves && npm run check:orphans && npm run check-quotations && npm run check-writing && npm run check-reachability && npm run check-advisor-dates && npm run check-outcome-sign && npm run check-endings && npm run check-rolls && npm run check-map && npm run check-glossary",
     "release": "node ../packages/testkit/src/release.mjs",
     "test:saves": "node ../packages/testkit/src/cli.mjs saves-verify",
     "baseline:accept": "node ../packages/testkit/src/cli.mjs accept",
@@ -22,14 +22,15 @@
     "check-endings": "node tools/check-endings.mjs",
     "test:logic": "node tests/logic-rules.test.mjs",
     "check-map": "node tools/check-map.mjs",
-    "audit": "npm run check:orphans && npm run check-reachability && npm run check-advisor-dates && npm run check-outcome-sign && npm run check-endings && npm run check-rolls && npm run check-map && npm run check-quotations && npm run check-writing",
+    "audit": "npm run check:orphans && npm run check-reachability && npm run check-advisor-dates && npm run check-outcome-sign && npm run check-endings && npm run check-rolls && npm run check-map && npm run check-glossary && npm run check-quotations && npm run check-writing",
     "check-quotations": "node tools/check-quotations.cjs",
     "check-writing": "node ../tools/check-writing.mjs . --strict",
     "check:orphans": "node tools/check-orphans.mjs",
     "test:migration": "node tests/migration.test.mjs",
     "test:json": "node tests/json-nodes.test.mjs",
     "extract:json": "node tools/extract-json-nodes.mjs",
-    "check-rolls": "node tools/check-rolls.mjs"
+    "check-rolls": "node tools/check-rolls.mjs",
+    "check-glossary": "node tools/check-glossary.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {

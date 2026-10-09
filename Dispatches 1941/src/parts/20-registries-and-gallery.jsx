@@ -816,6 +816,128 @@ const NODE_TOTAL = 139; // Corrected from 136 to 139: bataanPOWQuestion42 (japan
 // same static method as prior corrections: every atlas entry has a real node definition and
 // is referenced as a next: target or is a legitimate campaign start node.
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Glossary. Terms a reader who is not a wargamer may not know. In a report the first mention of each term is underlined with
+// dots (tap or click it for a note); the whole list is under "Glossary" on the title page. Terms are matched exactly as written
+// (capital letters count); an entry with `plural: true` also matches with a trailing "s"; a lower-case term also matches with a
+// capital letter, for a sentence's first word. `listOnly` marks a term the reader meets only in a title or a choice (never in the text that is underlined). Facts are in claims/facts-round1.json or standard references.
+// ---------------------------------------------------------------------------------------------------------------------
+const GLOSSARY_GROUPS = [
+  { id: "commands", label: "Commands and services" },
+  { id: "operations", label: "Operations and events" },
+  { id: "weapons", label: "Weapons, intelligence and supply" },
+  { id: "ideas", label: "Agreements, ideas and places" },
+  { id: "game", label: "In this game" },
+];
+const GLOSSARY = [
+  { group: "commands", term: "IGHQ", also: ["Imperial General Headquarters"], text: "Imperial General Headquarters, set up in 1937: the joint Army and Navy headquarters through which Japan's war was directed. The Army General Staff and the Naval General Staff sat inside it." },
+  { group: "commands", term: "Combined Fleet", text: "The main fleet of the Imperial Japanese Navy. Admiral Yamamoto commanded it from 1939 until his death in April 1943." },
+  { group: "commands", term: "Kwantung Army", text: "The Japanese Army in Manchuria. It was the largest Japanese force outside Japan in 1941, and for years it acted more or less on its own orders." },
+  { group: "commands", term: "Naval General Staff", text: "The Navy's planning headquarters in Tokyo, which wrote the operations that the Combined Fleet carried out." },
+  { group: "commands", term: "Army General Staff", text: "The Army's planning headquarters in Tokyo." },
+  { group: "commands", term: "Big Six", also: ["Supreme Council"], text: "The Supreme Council for the Direction of the War: the prime minister, the foreign minister, the army and navy ministers and the two chiefs of staff. Nothing important was decided without its agreement." },
+  { group: "commands", term: "war ministry", also: ["War Ministry"], text: "The Army Ministry, the army's voice in the cabinet. In 1945 it was the stronghold of those who wanted to fight on." },
+  { group: "commands", term: "peace faction", text: "The ministers and officials, among them Togo and Yonai, who argued in 1945 for ending the war on terms that kept the imperial institution." },
+  { group: "commands", term: "Joint Chiefs", also: ["Joint Chiefs of Staff"], text: "The American Joint Chiefs of Staff, formed in January 1942: the heads of the Army, the Navy and the Army Air Forces, who with their British counterparts directed the Allied war." },
+  { group: "commands", term: "CINCPAC", listOnly: true, text: "Commander in Chief, Pacific Fleet: Admiral Nimitz's command, based at Pearl Harbor." },
+  { group: "commands", term: "COMSUBPAC", text: "Commander, Submarine Force, Pacific Fleet." },
+  { group: "commands", term: "Southwest Pacific Area", text: "General MacArthur's command, covering Australia, New Guinea and the Philippines, separate from Nimitz's command of the Pacific Ocean." },
+  { group: "commands", term: "Task Force 58", text: "The American fast carrier force of 1944 and 1945: up to a dozen carriers with their escorts, under Mitscher." },
+  { group: "commands", term: "AIF", text: "The Australian Imperial Force: Australia's volunteer army for service overseas, as distinct from the part-time militia." },
+  { group: "commands", term: "Mobile Fleet", text: "Japan's carrier force in 1944, under Ozawa." },
+  { group: "operations", term: "Southern Operation", text: "Japan's plan, carried out from December 1941, to seize Malaya, the Dutch East Indies, the Philippines and Burma and with them the oil and rubber of Southeast Asia." },
+  { group: "operations", term: "Southern Resource Area", text: "The oil, rubber, tin and rice of Malaya and the Dutch East Indies, which Japan went to war to control." },
+  { group: "operations", term: "Kantokuen", text: "The Kwantung Army Special Maneuvers: the mobilization in July 1941 of about 700,000 men in Manchuria for a possible attack on the Soviet Union. It was stood down in August." },
+  { group: "operations", term: "Nomonhan", text: "The 1939 border war with the Soviet Union in Mongolia, in which the Kwantung Army was beaten by General Zhukov." },
+  { group: "operations", term: "Ichi-Go", text: "The Japanese offensive across China in 1944, by about 500,000 men, to open a rail line to Indochina and overrun the American airfields." },
+  { group: "operations", term: "U-Go", text: "The Japanese offensive of March 1944 from Burma into India toward Imphal and Kohima. It failed with very heavy losses." },
+  { group: "operations", term: "Ke-Go", text: "The evacuation of Guadalcanal in the first week of February 1943: more than 10,000 men lifted off by destroyers in three runs." },
+  { group: "operations", term: "Sho-Go", text: "The Japanese plans of 1944 for a decisive battle in defense of the Philippines, Formosa, the home islands or the north." },
+  { group: "operations", term: "Ten-Go", text: "The sortie of the battleship Yamato and her escort toward Okinawa in April 1945, ordered with her loss assumed." },
+  { group: "operations", term: "Ketsu-Go", text: "The plan for defending the home islands in 1945, with militia, suicide boats and aircraft, on the assumption that the cost of an invasion could be made too high for the Americans." },
+  { group: "operations", term: "Kikusui", text: "The ten mass kamikaze attacks on the fleet off Okinawa between April and June 1945. The word means floating chrysanthemums." },
+  { group: "operations", term: "Operation FS", text: "A Japanese plan of 1942 to seize Fiji, New Caledonia and Samoa and cut the sea route between America and Australia. It was postponed after Coral Sea and cancelled." },
+  { group: "operations", term: "Stalemate II", text: "The American plan to take Peleliu and Angaur in the Palau Islands in September 1944." },
+  { group: "operations", term: "Downfall", text: "The Allied plan to invade Japan: Operation Olympic against Kyushu in November 1945, then Operation Coronet against Honshu in the spring of 1946." },
+  { group: "operations", term: "Starvation", text: "The American campaign of 1945 to mine Japan's coastal waters from the air, cutting its sea routes." },
+  { group: "operations", term: "Turkey Shoot", text: "The American nickname for the air battle of June 19, 1944 during the Battle of the Philippine Sea, in which Japan lost several hundred aircraft." },
+  { group: "operations", term: "Taffy 3", text: "One of three groups of escort carriers off Leyte. On October 25, 1944 it faced Kurita's battleships." },
+  { group: "operations", term: "Kyujo", text: "The Kyujo incident: the attempt by army officers on the night of August 14, 1945 to seize the Imperial Palace and stop the surrender broadcast. It failed." },
+  { group: "operations", term: "Dixie Mission", text: "The group of American observers sent to the Communist base at Yan'an in 1944." },
+  { group: "weapons", term: "kamikaze", plural: true, text: "A Japanese suicide attack, usually by an aircraft crashed into a ship. The word means divine wind, after the storms that scattered a Mongol fleet in the thirteenth century." },
+  { group: "weapons", term: "gyokusai", text: "Shattered jewel: the Japanese army's word for a garrison fighting to the last man." },
+  { group: "weapons", term: "banzai charge", plural: true, text: "A last mass infantry charge, ending in the death of most of those who made it." },
+  { group: "weapons", term: "picket", plural: true, text: "A radar picket: a destroyer stationed far out from the fleet to give early warning of an air attack, and the first ship the attackers met." },
+  { group: "weapons", term: "skip-bombing", text: "Attacking a ship by releasing a bomb from low altitude so that it skips across the water into the hull." },
+  { group: "weapons", term: "Mark 14", text: "The standard American submarine torpedo. For the first two years of the war it ran deeper than set and often failed to explode." },
+  { group: "weapons", term: "JN-25", text: "The Japanese navy's main operational code, which American codebreakers were partly reading from early 1942." },
+  { group: "weapons", term: "Tokyo Express", text: "The American name for the Japanese destroyer runs that took reinforcements to Guadalcanal at night." },
+  { group: "weapons", term: "Henderson Field", text: "The airfield on Guadalcanal, begun by the Japanese and taken by the Marines on August 7, 1942. Whoever flew from it controlled the waters around the island by day." },
+  { group: "weapons", term: "Hump", text: "The air route over the Himalayas by which supplies reached China after the Burma Road was cut." },
+  { group: "weapons", term: "Burma Road", text: "The road from Burma into China, the main land route for supplies to Chiang Kai-shek's government until 1942." },
+  { group: "weapons", term: "Ledo Road", text: "The road built from Ledo in Assam to join the Burma Road, opened in early 1945." },
+  { group: "weapons", term: "island-hopping", also: ["leapfrogging","bypassed"], text: "The American method of taking selected islands and leaving others, cut off from supply, to be bypassed." },
+  { group: "ideas", term: "Tripartite Pact", listOnly: true, text: "The alliance of Japan, Germany and Italy, signed on September 27, 1940." },
+  { group: "ideas", term: "Hull Note", text: "The American proposal of November 26, 1941 that demanded Japan's withdrawal from China and Indochina. Japan read it as an ultimatum." },
+  { group: "ideas", term: "Two-Ocean Navy Act", text: "The American law of July 1940 that ordered a navy large enough to fight in the Atlantic and the Pacific at once." },
+  { group: "ideas", term: "Lend-Lease", text: "The American program, begun in March 1941, of supplying Britain, the Soviet Union, China and others with war material without immediate payment." },
+  { group: "ideas", term: "Arcadia", text: "The Washington conference of December 1941 and January 1942 at which Roosevelt and Churchill confirmed that Germany would be defeated first." },
+  { group: "ideas", term: "Europe First", text: "The Allied decision to defeat Germany first and hold against Japan meanwhile." },
+  { group: "ideas", term: "Casablanca", text: "The Allied conference of January 1943 at which Roosevelt announced that the Axis powers must surrender unconditionally." },
+  { group: "ideas", term: "unconditional surrender", text: "The Allied demand that Germany, Italy and Japan give up without agreed terms." },
+  { group: "ideas", term: "Tehran", text: "The conference of Roosevelt, Churchill and Stalin in November and December 1943, where Stalin promised to enter the war against Japan once Germany was beaten." },
+  { group: "ideas", term: "Yalta", text: "The conference of Roosevelt, Churchill and Stalin in February 1945, where Stalin promised to enter the war against Japan about three months after Germany's surrender." },
+  { group: "ideas", term: "Interim Committee", text: "The small committee that advised President Truman in 1945 on the use of the atomic bomb." },
+  { group: "ideas", term: "Franck Report", text: "A June 1945 report by a group of Manhattan Project scientists, chaired by James Franck, urging a demonstration of the bomb before any use on a city." },
+  { group: "ideas", term: "Manhattan Project", text: "The American program, with British and Canadian help, that built the atomic bomb." },
+  { group: "ideas", term: "Executive Order 9066", listOnly: true, text: "The order of February 19, 1942 under which about 120,000 people of Japanese descent, most of them American citizens, were removed from the West Coast." },
+  { group: "ideas", term: "Alien Enemies Act", text: "The American law of 1798 that lets the government detain citizens of an enemy country in wartime. It does not apply to citizens by birth." },
+  { group: "ideas", term: "Nisei", listOnly: true, text: "Americans of Japanese descent who were born in the United States, and so citizens." },
+  { group: "ideas", term: "Issei", listOnly: true, text: "Japanese immigrants to the United States, who were barred by law from becoming citizens." },
+  { group: "ideas", term: "Manchukuo", text: "The state Japan set up in Manchuria in 1932, ruled in practice by the Kwantung Army." },
+  { group: "ideas", term: "Wang Jingwei", text: "A former Nationalist leader who headed Japan's puppet government in Nanjing from March 1940." },
+  { group: "ideas", term: "Chungking", also: ["Chongqing"], text: "Chongqing: the wartime capital of Chiang Kai-shek's government from 1938." },
+  { group: "ideas", term: "Yan'an", text: "The base of the Chinese Communists in the north of Shaanxi province." },
+  { group: "ideas", term: "Formosa", text: "Taiwan, a Japanese colony from 1895 until 1945." },
+  { group: "game", term: "Readiness", text: "The first meter: the strength and condition of the forces. Under it are Training, Forces and Morale." },
+  { group: "game", term: "Pipeline", text: "The second meter: what keeps the forces supplied. Under it are Fuel & Oil, Shipping and Industry." },
+  { group: "game", term: "Initiative", text: "The third meter: how far you are ahead of, or behind, the historical pace. Under it are Intelligence, Command and Tempo." },
+];
+
+const GLOSSARY_MATCH = (() => {
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const byWord = {};
+  const forms = [];
+  GLOSSARY.forEach((e, idx) => {
+    for (const f of [e.term, ...(e.also || [])]) {
+      const variants = new Set([f]);
+      if (/^[a-z]/.test(f)) variants.add(f[0].toUpperCase() + f.slice(1));
+      for (const v of variants) {
+        byWord[v] = idx;
+        if (e.plural) byWord[v + "s"] = idx;
+        forms.push({ form: v, src: esc(v) + (e.plural ? "s?" : "") });
+      }
+    }
+  });
+  forms.sort((x, y) => y.form.length - x.form.length);
+  return { source: "(?<!\\w)(?:" + forms.map((x) => x.src).join("|") + ")(?!\\w)", byWord };
+})();
+
+// Where the first mention of each glossary term falls in `text`: [{ start, end, idx }], in reading order.
+function glossarySpans(text) {
+  const out = [];
+  const seen = new Set();
+  const re = new RegExp(GLOSSARY_MATCH.source, "g");
+  let m;
+  while ((m = re.exec(text))) {
+    const idx = GLOSSARY_MATCH.byWord[m[0]];
+    if (idx === undefined || seen.has(idx)) continue;
+    seen.add(idx);
+    out.push({ start: m.index, end: m.index + m[0].length, idx });
+  }
+  return out;
+}
+
 function warRoomModeInfo(mode, campaignId) {
   const names = {
     easy: EASY_MODE_NAMES[campaignId] || "Easy Command",

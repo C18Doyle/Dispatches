@@ -863,6 +863,16 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
+            Glossary: {GLOSSARY.length} terms
+          </summary>
+          <GlossaryList />
+        </details>
+
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
             How to Read These Reports
           </summary>
           <div
@@ -870,12 +880,13 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
             style={{ fontFamily: "'Courier Prime', monospace" }}
           >
             <p className="mb-2">
-              <b>Meters.</b> Readiness, Pipeline, and Initiative track your strategic position against the
-              historical baseline (zero). They gate collapses, foreclose options, and decide when your war ends.
+              <b>Meters.</b> Readiness, Pipeline and Initiative track your strategic position against the
+              historical baseline (zero). They gate collapses, foreclose options and decide when your war ends.
+              Open a meter (▸) to see the three readings behind it.
             </p>
             <p className="mb-2">
-              <b>⚄ Contested.</b> A handful of decisions are disputed by historians. These roll
-              the same choice can break differently, and rewinding re-rolls them.
+              <b>⚄ Contested.</b> A handful of decisions are disputed by historians. These roll, so the
+              same choice can break differently, and rewinding re-rolls them.
             </p>
             <p className="mb-2">
               <b>Projected scenarios.</b> Anything beyond the historical record is labelled as reasoned
@@ -886,6 +897,49 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               into territory the scholarly consensus argues against. These carry a distinct amber warning,
               exist only through chains of low-probability rolls, and the file computes and shows you exactly
               how unlikely the path you walked was.
+            </p>
+          </div>
+        </details>
+
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            What This Game Leaves Out
+          </summary>
+          <div className="mt-3 text-[14px] leading-relaxed text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+            <p className="mb-2">
+              This game is about the decisions of high commands. A great deal of what happened in the Pacific war was not decided
+              in the rooms it shows, and it is not turned into a choice, a meter or a score. That is deliberate, and it is not
+              because those things matter less. Each was done to real people, each with a name, a family and a life.
+            </p>
+            <p className="mb-2">
+              In December 1937 and January 1938 Japanese troops killed tens of thousands of civilians and disarmed soldiers in
+              Nanjing and raped many thousands of women. Estimates of the dead run from about 40,000 to 300,000.
+            </p>
+            <p className="mb-2">
+              Unit 731, a Japanese Army unit at Harbin in Manchuria, killed thousands of prisoners, most of them Chinese, in
+              experiments, and its biological weapons were used against Chinese cities. After the war the United States gave its
+              leaders immunity in return for their data.
+            </p>
+            <p className="mb-2">
+              Tens of thousands of women from Korea, China, the Philippines and other occupied countries were forced into military
+              brothels.
+            </p>
+            <p className="mb-2">
+              Allied prisoners of war and civilian internees were starved, beaten and worked to death. About 27 percent of the
+              Western prisoners Japan held died, and on the Burma-Thailand railway some 12,000 Allied prisoners and tens of
+              thousands of Asian laborers died. Across Asia, millions of civilians died in the fighting and under occupation.
+            </p>
+            <p className="mb-2">
+              Some of what the Allies did is in the game as a decision: the bombing of Japanese cities, the two atomic bombs, and
+              the removal of 120,000 people of Japanese descent from the American West Coast. Others, such as the killing of
+              civilians in the Philippines, appear as part of a campaign and not as a choice.
+            </p>
+            <p>
+              To learn more, see the Memorial Hall of the Victims in Nanjing Massacre by Japanese Invaders, in Nanjing, and the
+              National WWII Museum in New Orleans.
             </p>
           </div>
         </details>
@@ -2406,27 +2460,123 @@ function Typewriter({ text, instant, soundOn }) {
     return () => clearInterval(id);
   }, [text, instant]);
   const done = shown >= text.length;
+  // Once the text has finished, the first mention of each glossary term is underlined (see GlossText).
+  if (!done) {
+    return (
+      <p
+        onClick={() => setShown(text.length)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+            e.preventDefault();
+            setShown(text.length);
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        className="leading-relaxed mb-6 text-[16px] text-[#000000] cursor-pointer"
+        style={{ fontFamily: "'Courier Prime', monospace", whiteSpace: "pre-line" }}
+        title="Click to reveal instantly"
+        aria-label={text}
+      >
+        <span aria-hidden="true">
+          {text.slice(0, shown)}
+          <span className="opacity-70">▌</span>
+        </span>
+      </p>
+    );
+  }
+  return <GlossText text={text} />;
+}
+
+// A paragraph with the first mention of each glossary term underlined with dots; tap or click one for its note. The words on
+// the page do not change, and the same paragraph is read aloud as before. The full list is under "Glossary" on the title page.
+function GlossText({ text, className }) {
+  const spans = useMemo(() => glossarySpans(text || ""), [text]);
+  const [openTerm, setOpenTerm] = useState(null);
+  useEffect(() => setOpenTerm(null), [text]);
+  const base = className || "leading-relaxed text-[16px] text-[#000000]";
+  if (!spans.length) {
+    return (
+      <p className={`${base} mb-6`} style={{ fontFamily: "'Courier Prime', monospace", whiteSpace: "pre-line" }}>
+        {text}
+      </p>
+    );
+  }
+  const pieces = [];
+  let at = 0;
+  for (const sp of spans) {
+    if (sp.start > at) pieces.push(text.slice(at, sp.start));
+    pieces.push(
+      <button
+        key={sp.start}
+        type="button"
+        tabIndex={-1}
+        aria-label={`Show meaning of ${GLOSSARY[sp.idx].term}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpenTerm((o) => (o === sp.idx ? null : sp.idx));
+        }}
+        className="inline p-0 m-0 bg-transparent text-inherit border-b border-dotted border-[#000000] cursor-help"
+        style={{ font: "inherit", textAlign: "inherit" }}
+      >
+        {text.slice(sp.start, sp.end)}
+      </button>
+    );
+    at = sp.end;
+  }
+  if (at < text.length) pieces.push(text.slice(at));
+  const note = openTerm != null ? GLOSSARY[openTerm] : null;
   return (
-    <p
-      onClick={() => setShown(text.length)}
-      onKeyDown={(e) => {
-        if (!done && (e.key === "Enter" || e.key === " " || e.key === "Spacebar")) {
-          e.preventDefault();
-          setShown(text.length);
-        }
-      }}
-      role={done ? undefined : "button"}
-      tabIndex={done ? undefined : 0}
-      className="leading-relaxed mb-6 text-[16px] text-[#000000] cursor-pointer"
-      style={{ fontFamily: "'Courier Prime', monospace", whiteSpace: "pre-line" }}
-      title={done ? undefined : "Click to reveal instantly"}
-      aria-label={text}
-    >
-      <span aria-hidden="true">
-        {text.slice(0, shown)}
-        {!done && <span className="opacity-70">▌</span>}
-      </span>
-    </p>
+    <>
+      <p className="sr-only" role="status">
+        {text}
+      </p>
+      <p aria-hidden="true" className={`${base} ${note ? "mb-2" : "mb-6"}`} style={{ fontFamily: "'Courier Prime', monospace", whiteSpace: "pre-line" }}>
+        {pieces}
+      </p>
+      {note && (
+        <div role="note" className="mb-6 border-l-4 pl-3 py-1 text-[13px] leading-snug text-[#000000]" style={{ borderColor: "#b08d3f", fontFamily: "'Courier Prime', monospace" }}>
+          <b>{note.term}</b>: {note.text}
+          <button
+            type="button"
+            onClick={() => setOpenTerm(null)}
+            aria-label={`Close the note on ${note.term}`}
+            className="ml-2 px-1 border border-black text-[11px] uppercase tracking-wider hover:bg-[#000000] hover:text-[#ffffff]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Close
+          </button>
+        </div>
+      )}
+    </>
+  );
+}
+
+// The whole glossary, for the title page.
+function GlossaryList() {
+  return (
+    <div className="mt-3">
+      <p className="text-[12px] italic mb-3 text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
+        In a report, the first mention of each of these is underlined with dots. Tap or click it for the note.
+      </p>
+      {GLOSSARY_GROUPS.map((g) => (
+        <details key={g.id} className="mb-2 border-l-4 pl-2" style={{ borderColor: "#00000033" }}>
+          <summary className="text-[12px] uppercase tracking-widest font-bold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {g.label}
+          </summary>
+          <div className="mt-1">
+            {GLOSSARY.filter((e) => e.group === g.id)
+              .slice()
+              .sort((a, b) => a.term.localeCompare(b.term))
+              .map((e) => (
+                <p key={e.term} className="text-[13px] leading-snug text-[#000000] mb-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  <b>{e.term}</b>: {e.text}
+                </p>
+              ))}
+          </div>
+        </details>
+      ))}
+    </div>
   );
 }
 
@@ -3040,12 +3190,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
           </div>
         )}
 
-        <p
-          className="leading-relaxed text-[16px] mb-6 text-[#000000]"
-          style={{ fontFamily: "'Courier Prime', monospace" }}
-        >
-          {eff.outcome}
-        </p>
+        <GlossText text={eff.outcome} />
 
         {eff.impact && campaign.dynamic && meters && (
           <div className="mb-8">
@@ -3349,12 +3494,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           </div>
         )}
         {campaign.dynamic && <MeterPanel meters={meters} flags={flags} prev={null} />}
-        <p
-          className="leading-relaxed mb-6 text-[16px] text-[#000000]"
-          style={{ fontFamily: "'Courier Prime', monospace" }}
-        >
-          {epilogueText}
-        </p>
+        <GlossText text={epilogueText} />
 
         {topAdvisors.length > 0 && (
           <div className="mb-6">
