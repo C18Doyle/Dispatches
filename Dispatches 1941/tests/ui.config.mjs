@@ -20,7 +20,7 @@ export default {
   bundle: "dist/full/bundle.js",
   assetRoot: ".", // the app fetches assets/maps/pacific-regions.json at runtime
   cases: CASES,
-  seeds: [1, 2, 3, 4, 5, 6],
+  seeds: [1, 2, 3, 4, 5, 6, 7, 8],
   meta: ([id, , mode, staff]) => ({ id: `${id}-${mode}${staff ? "-staff" : ""}`, campaignId: id, mode }),
   maxSteps: 400,
   stallLimit: 8,

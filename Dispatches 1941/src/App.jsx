@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, Component } from "react";
+import { useState, useEffect, useMemo, useRef, useId, Component } from "react";
 import * as Tone from "tone";
 import {
   EMPTY_METERS,
@@ -11490,6 +11490,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
   const monthLabel = atEnd && month === maxMonth ? "The war as it ended" : `${MAP_MONTH_NAMES[month % 12]} ${Math.floor(month / 12)}`;
   const clampedYear = Math.floor(dayKey / 10000);
   const [selectedRegion, setSelectedRegion] = useState(null);
+  const uid = useId().replace(/:/g, "");
   const [geometry, setGeometry] = useState(null);
   const [geometryFailed, setGeometryFailed] = useState(false);
   useEffect(() => {
@@ -11576,9 +11577,9 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
   return (
     <div className="mb-2">
       {header}
-      <svg viewBox={`0 0 ${VBW} ${VBH}`} className="w-full border-[3px]" style={{ background: "#e3d5ae", borderColor: "#3a2a18" }}>
+      <svg viewBox={`0 0 ${VBW} ${VBH}`} role="group" aria-label={`Pacific theater map, ${monthLabel}`} className="w-full border-[3px]" style={{ background: "#e3d5ae", borderColor: "#3a2a18" }}>
         <defs>
-          <pattern id="hexTexture" width="16" height="27.7" patternUnits="userSpaceOnUse">
+          <pattern id={`hexTexture${uid}`} width="16" height="27.7" patternUnits="userSpaceOnUse">
             <path
               d="M8 0 L16 4.6 L16 13.85 L8 18.5 L0 13.85 L0 4.6 Z M8 18.5 L16 23.1 L16 27.7 M0 23.1 L8 18.5 M8 0 L8 -4.6"
               fill="none"
@@ -11590,7 +11591,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
 
         {/* Ocean */}
         <rect x="0" y="0" width={VBW} height={VBH} fill="#e3d5ae" />
-        <rect x="0" y="0" width={VBW} height={VBH} fill="url(#hexTexture)" opacity="0.25" />
+        <rect x="0" y="0" width={VBW} height={VBH} fill={`url(#hexTexture${uid})`} opacity="0.25" />
 
         {/* Real coastlines/borders for every landmass in view that isn't itself one of
             this game's colorable regions: geographic context, not interactive. */}
@@ -11684,20 +11685,35 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
               <title>{`${nameOf(id)}: ${STATUS_LABELS[status]}${hasNote ? " (tap for why)" : ""}`}</title>
               <path d={d} fill={STATUS_COLORS[status]} fillOpacity="0.88" stroke="#241a10" strokeWidth="1" />
               {isHighlighted && <path d={d} fill="none" stroke={accent} strokeWidth="3" strokeDasharray="6 3" />}
-              <text
-                x={lx} y={labelY}
-                textAnchor="middle"
-                fontSize="9"
-                fontWeight="700"
-                fill="#241a10"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                {nameOf(id)}
-              </text>
               {hasNote && <circle cx={lx + 12} cy={ly - 10} r="4" fill="#241a10" opacity="0.85" />}
             </g>
           );
         })}
+
+        {/* The labels are drawn after every zone, so that a neighbouring zone's fill cannot cover one (Guangdong under Hunan-Guangxi). */}
+        <g aria-hidden="true" pointerEvents="none">
+          {MAP_REGIONS.filter((r) => r.kind === "polygon" && regionById[r.id]).map((region) => {
+            const [lx, ly] = regionById[region.id].label;
+            return (
+              <text
+                key={region.id}
+                x={lx}
+                y={LABEL_BELOW[region.id] ? ly + 16 : ly - 10}
+                textAnchor="middle"
+                fontSize="9"
+                fontWeight="700"
+                fill="#241a10"
+                stroke="#f6efdf"
+                strokeWidth="3"
+                strokeLinejoin="round"
+                paintOrder="stroke"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                {nameOf(region.id)}
+              </text>
+            );
+          })}
+        </g>
 
         {/* The 7 regions with no clean modern-country polygon (see MAP_REGIONS'
             comment): same status-colored disc every region used to be, positioned by
@@ -11742,6 +11758,10 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
                 fontSize="9"
                 fontWeight="700"
                 fill="#241a10"
+                stroke="#f6efdf"
+                strokeWidth="3"
+                strokeLinejoin="round"
+                paintOrder="stroke"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 {nameOf(id)}
@@ -11759,6 +11779,18 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           REAL COASTLINES · SMALLER POINTS SIZED BY POPULATION
         </text>
       </svg>
+      <p className="sr-only">
+        {`The map on ${monthLabel}. `}
+        {Object.entries(
+          MAP_REGIONS.reduce((acc, r) => {
+            const st = statuses[r.id] || "neutral";
+            (acc[st] = acc[st] || []).push(r.name);
+            return acc;
+          }, {})
+        )
+          .map(([st, names]) => `${STATUS_LABELS[st]}: ${names.join(", ")}.`)
+          .join(" ")}
+      </p>
       {selectedRegion && regionNotes[selectedRegion] && (
         <div
           className="mt-2 p-3 border-2 text-[12px] leading-relaxed"
@@ -11943,8 +11975,44 @@ function cohesionLabel(c) {
   return "Fraying";
 }
 
+const GUIDE_KEY = "dispatches1941_guide_seen";
+// Shown once, on the first report of a war, until "Got it" is pressed: what a report is and how to read it.
+function FirstRunGuide({ accent, onDismiss }) {
+  const item = "text-[13px] leading-snug text-[#000000]";
+  return (
+    <details open className="mb-3 border-2 px-3 py-2" style={{ borderColor: accent }}>
+      <summary className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+        How to read a report
+      </summary>
+      <ul className="mt-2 flex flex-col gap-2 list-disc pl-5" style={{ fontFamily: "'Courier Prime', monospace" }}>
+        <li className={item}>A report gives the date, the situation and two or three courses of action. Choose one by pressing it, or press its number. The war goes on from your choice.</li>
+        <li className={item}>Each course has an adviser who argues a position. They argue; they are not quoted, except where a line is marked as a real quotation.</li>
+        <li className={item}>The three bars are Readiness (the force), Pipeline (what feeds it) and Initiative (who sets the pace). Press the arrow beside a bar to see the three readings under it. A bar that is low costs you: it worsens the odds of the decisions it touches, and the course says so in red.</li>
+        <li className={item}>"Contested" means the dice are rolled. The percentages are the odds of each result, and they move with the bars.</li>
+        <li className={item}>A course marked "Leads to battle planning" opens an Order of Battle before it resolves: you place your effort, and read the battle as it happens.</li>
+        <li className={item}>"Show Pacific Situation" opens the map as it stood on the day of this report. Its slider steps back through the war.</li>
+        <li className={item}>Save keeps your place. Home leaves the war to be resumed from the title page.</li>
+      </ul>
+      <button
+        onClick={onDismiss}
+        className="mt-3 border-2 border-black px-3 py-1 text-[11px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
+        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+      >
+        Got it: do not show this again
+      </button>
+    </details>
+  );
+}
+
 function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
+  const [guideSeen, setGuideSeen] = useState(() => {
+    try {
+      return window.localStorage.getItem(GUIDE_KEY) === "1";
+    } catch (e) {
+      return false;
+    }
+  });
   const iron = mode === "iron";
   const easy = mode === "easy";
   const purge = mode === "fanatical";
@@ -12122,6 +12190,18 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
         </div>
 
         {campaign.dynamic && <Timeline date={stage.date} accent={campaign.accent} />}
+
+        {campaign.dynamic && !guideSeen && nodeId === campaign.start && (
+          <FirstRunGuide
+            accent={campaign.accent}
+            onDismiss={() => {
+              setGuideSeen(true);
+              try {
+                window.localStorage.setItem(GUIDE_KEY, "1");
+              } catch (e) {}
+            }}
+          />
+        )}
 
         {campaign.dynamic && (
           <details className="mb-3 border-2 border-black px-3 py-1.5">

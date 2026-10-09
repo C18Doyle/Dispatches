@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, Component } from "react";
+import { useState, useEffect, useMemo, useRef, useId, Component } from "react";
 import * as Tone from "tone";
 import {
   EMPTY_METERS,
