@@ -28,7 +28,7 @@ const files = [];
     if (statSync(p).isDirectory()) {
       if (name === "assets" || name === "node_modules") continue;
       walk(p);
-    } else if (/\.(jsx?|tsx?|mjs)$/.test(name)) {
+    } else if (/\.(jsx?|tsx?|mjs)$/.test(name) || (/\.json$/.test(name) && dir.endsWith(path.join("src", "data")))) {
       if (hasParts && dir === src && name === "App.jsx") continue;
       files.push(p);
     }

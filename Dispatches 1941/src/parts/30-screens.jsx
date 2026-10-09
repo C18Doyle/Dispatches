@@ -84,7 +84,7 @@ function WarRoomScreen({ campaign, mode, onEnter, onBack }) {
             />
             <span>
               Historically accurate opponent. Unchecked, a small number of genuinely contested
-              moments this campaign touches may play out differently than they did historically —
+              moments this campaign touches may play out differently than they did historically
               discovered in play, never announced in advance.
             </span>
           </label>
@@ -160,13 +160,13 @@ function DoctrineScreen({ campaign, onSelect }) {
                 className="text-[11px] uppercase tracking-widest font-bold mb-3 text-[#000000] group-hover:text-[#ffffff] opacity-60"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                {d.advisor}'s case
+                {d.advisor} argues
               </div>
               <p
                 className="text-[13px] italic leading-relaxed mb-3 text-[#000000] group-hover:text-[#ffffff] opacity-90"
                 style={{ fontFamily: "'Courier Prime', monospace" }}
               >
-                "{d.quote}"
+                {d.position}
               </p>
               <p
                 className="text-[12px] leading-relaxed mb-4 text-[#000000] group-hover:text-[#ffffff] opacity-70"
@@ -340,7 +340,7 @@ function DivergenceRevealScreen({ campaign, headline, onContinue }) {
             className="text-[10px] font-bold uppercase tracking-[0.2em]"
             style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {campaign.id === "japan" ? "IGHQ — Signals Section" : "CINCPAC — Fleet Intelligence"}
+            {campaign.id === "japan" ? "IGHQ: Signals Section" : "CINCPAC: Fleet Intelligence"}
           </div>
           <div className="text-[10px] text-[#555] shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             {headline.month} {headline.year}
@@ -359,7 +359,7 @@ function DivergenceRevealScreen({ campaign, headline, onContinue }) {
           className="text-[9px] pt-2 mb-5 text-[#666]"
           style={{ borderTop: "1px dashed #999", fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          UNCONFIRMED — CIRCULATED FOR STAFF AWARENESS ONLY
+          UNCONFIRMED: CIRCULATED FOR STAFF AWARENESS ONLY
         </div>
         <button
           onClick={onContinue}
@@ -417,7 +417,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
           className="text-[#ffffff] uppercase tracking-[0.35em] text-xs mb-3 font-semibold"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          Restricted — Command Eyes Only
+          Restricted: Command Eyes Only
         </div>
         <h1
           className="text-[#ffffff] text-4xl sm:text-6xl uppercase tracking-wide"
@@ -449,7 +449,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
             <p className="text-[14px] text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
               {CAMPAIGNS[activeRun.campaignId].name}
               {activeRun.mode === "fanatical" ? " · ⚔ Fanatical Resolve" : activeRun.mode === "coalition" ? " · ★ Coalition Resolve" : ""} · {(activeRun.log || []).length} decisions on
-              file — resume where you left off.
+              file: resume where you left off.
             </p>
           </button>
         )}
@@ -525,7 +525,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                     className="border-2 border-dashed px-3 py-2 text-xs uppercase tracking-widest font-bold opacity-40 cursor-not-allowed"
                     style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: c.accent, color: c.accent }}
                   >
-                    Open Command — 🔒 full version
+                    Open Command: 🔒 full version
                   </button>
                 ) : (
                   <button
@@ -557,7 +557,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                       className="border-2 border-dashed px-3 py-2 text-xs uppercase tracking-widest font-bold opacity-40 cursor-not-allowed"
                       style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#5c1a1a", color: "#5c1a1a" }}
                     >
-                      ⚔ Fanatical Resolve Mode — 🔒 full version
+                      ⚔ Fanatical Resolve Mode: 🔒 full version
                     </button>
                   ))}
                 {c.id === "alliedPacific" &&
@@ -581,14 +581,14 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                       className="border-2 border-dashed px-3 py-2 text-xs uppercase tracking-widest font-bold opacity-40 cursor-not-allowed"
                       style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#28497a", color: "#28497a" }}
                     >
-                      ★ Coalition Resolve Mode — 🔒 full version
+                      ★ Coalition Resolve Mode: 🔒 full version
                     </button>
                   ))}
               </div>
               {c.id === "japan" && (
                 <p className="text-[11px] italic text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                  Fanatical Resolve Mode: no rewind, decisions final, no meter dashboard — only staff reports.
-                  Pragmatic, non-dogmatic choices draw insubordination out of 5 — let it max out and the run
+                  Fanatical Resolve Mode: no rewind, decisions final, no meter dashboard, only staff reports.
+                  Pragmatic, non-dogmatic choices draw insubordination out of 5: let it max out and the run
                   ends in a coup, not a defeat.
                   {!HARD_MODES_ENABLED && " Included in the full downloadable version."}
                 </p>
@@ -596,7 +596,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               {c.id === "alliedPacific" && (
                 <p className="text-[11px] italic text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
                   Coalition Resolve Mode: no rewind, decisions final. Tracks Coalition Resolve between
-                  Washington, London, Chongqing, and Canberra — every choice that overrides a partner's
+                  Washington, London, Chongqing, and Canberra: every choice that overrides a partner's
                   strong objection costs something, and a badly frayed coalition can no longer greenlight
                   its boldest unilateral gambles.
                   {!HARD_MODES_ENABLED && " Included in the full downloadable version."}
@@ -631,7 +631,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                   className="border-[3px] border-black px-2 py-1 uppercase tracking-[0.2em] text-[10px] font-bold rotate-[6deg]"
                   style={{ fontFamily: "Oswald, sans-serif" }}
                 >
-                  Sealed — In Preparation
+                  Sealed: In Preparation
                 </div>
               </div>
             </div>
@@ -683,7 +683,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                 className="text-[12px] text-[#000000] border-l-4 pl-2 mb-1"
                 style={{ borderColor: "#7a2e2e", fontFamily: "'Courier Prime', monospace" }}
               >
-                {r.mode === "fanatical" ? "⚔ " : r.mode === "coalition" ? "★ " : ""}{r.label || "War concluded"} — ended {r.endDate || "—"}
+                {r.mode === "fanatical" ? "⚔ " : r.mode === "coalition" ? "★ " : ""}{r.label || "War concluded"}: ended {r.endDate || "—"}
               </div>
             ))}
           </div>
@@ -708,7 +708,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                     fontFamily: "'Courier Prime', monospace",
                   }}
                 >
-                  {done ? "★" : "☆"} <b>{o.title}</b> — {o.desc}
+                  {done ? "★" : "☆"} <b>{o.title}</b>: {o.desc}
                 </div>
               );
             })}
@@ -719,7 +719,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Endings Gallery — {ENDINGS_GALLERY.filter((e) => endings.includes(e.label)).length} of {ENDINGS_GALLERY.length} named endings
+            Endings Gallery: {ENDINGS_GALLERY.filter((e) => endings.includes(e.label)).length} of {ENDINGS_GALLERY.length} named endings
           </summary>
           <div className="mt-3">
             {ENDINGS_GALLERY.map((e, i) => {
@@ -732,7 +732,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                   {found ? (
                     <span className="font-bold text-[#000000]">{e.label}</span>
                   ) : (
-                    <span className="text-[#000000] opacity-60">——— <i>{e.hint}</i></span>
+                    <span className="text-[#000000] opacity-60">Not yet reached: <i>{e.hint}</i></span>
                   )}
                 </div>
               );
@@ -750,12 +750,12 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Discovery Atlas — {Math.min(discovered, NODE_TOTAL)} of {NODE_TOTAL} situation reports
+            Discovery Atlas: {Math.min(discovered, NODE_TOTAL)} of {NODE_TOTAL} situation reports
           </summary>
           <div className="mt-3">
             {[
-              { key: "japan", label: "IGHQ — Japanese Command" },
-              { key: "alliedPacific", label: "CINCPAC — Allied Pacific Command" },
+              { key: "japan", label: "IGHQ: Japanese Command" },
+              { key: "alliedPacific", label: "CINCPAC: Allied Pacific Command" },
             ].map((grp) => {
               const nodes = NODE_ATLAS[grp.key] || [];
               const seen = nodes.filter((n) => (record?.nodes || []).includes(n.id)).length;
@@ -868,7 +868,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Context — Key Events of the War
+            Context: Key Events of the War
           </summary>
           <div className="mt-3">
             {[
@@ -885,7 +885,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                 <div className="mt-1">
                   {CONTEXT_NOTES[grp.key].map((c, i) => (
                     <p key={i} className="text-[13px] leading-snug text-[#000000] mb-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                      <b>{c.term}</b> — {c.note}
+                      <b>{c.term}</b>: {c.note}
                     </p>
                   ))}
                 </div>
@@ -910,7 +910,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               historical baseline (zero). They gate collapses, foreclose options, and decide when your war ends.
             </p>
             <p className="mb-2">
-              <b>⚄ Contested.</b> A handful of decisions are disputed by historians. These roll —
+              <b>⚄ Contested.</b> A handful of decisions are disputed by historians. These roll
               the same choice can break differently, and rewinding re-rolls them.
             </p>
             <p className="mb-2">
@@ -918,7 +918,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               projection and never claims to be what happened.
             </p>
             <p>
-              <b>⚠ Speculative.</b> A very small number of branches go further — past reasoned projection
+              <b>⚠ Speculative.</b> A very small number of branches go further: past reasoned projection
               into territory the scholarly consensus argues against. These carry a distinct amber warning,
               exist only through chains of low-probability rolls, and the file computes and shows you exactly
               how unlikely the path you walked was.
@@ -1031,7 +1031,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
           </span>
         </div>
         <p className="text-[11px] italic text-[#4a4438] px-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
-          No soundtrack is loaded yet — this slider is wired and ready for when one is.
+          No soundtrack is loaded yet: this slider is wired and ready for when one is.
         </p>
         <div className={`${paper} p-4`}>
           <div
@@ -1042,7 +1042,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
           </div>
           <div className="text-sm leading-relaxed text-[#4a4438]" style={{ fontFamily: "'Courier Prime', monospace" }}>
             <p>Design, writing, and development: Craig Doyle</p>
-            <p className="mt-2 italic">Music: three themes planned (menu, IGHQ, CINCPAC) — not yet composed. See the volume note above.</p>
+            <p className="mt-2 italic">Music: three themes planned (menu, IGHQ, CINCPAC), not yet composed. See the volume note above.</p>
             <p className="mt-4 italic">
               Every decision here is drawn from an actual historical record or a reasoned
               extension of one, argued by the people who actually argued it.
@@ -1659,34 +1659,34 @@ function mapOverrides(year, flags, meters) {
     }
   }
   if (flags.openingVector === "southBlitz" && year === 1941) {
-    set("philippines", "contested", "No Pearl Harbor strike on this path — the Pacific Fleet's battleships and carriers remain intact at Hawaii (projection).");
+    set("philippines", "contested", "No Pearl Harbor strike on this path: the Pacific Fleet's battleships and carriers remain intact at Hawaii (projection).");
   }
   if (flags.midwayResult === "disaster" && year >= 1942) {
-    if (year >= 1943) set("solomons", "allied", "Four Japanese fleet carriers and their veteran air crews were lost in a single morning at Midway — a loss the carrier air training pipeline never fully replaces.");
-    else notes.push("Four Japanese fleet carriers and their veteran air crews were lost in a single morning at Midway — a loss the carrier air training pipeline never fully replaces.");
+    if (year >= 1943) set("solomons", "allied", "Four Japanese fleet carriers and their veteran air crews were lost in a single morning at Midway: a loss the carrier air training pipeline never fully replaces.");
+    else notes.push("Four Japanese fleet carriers and their veteran air crews were lost in a single morning at Midway: a loss the carrier air training pipeline never fully replaces.");
   }
   if (flags.midwayPath === "diverted" && year === 1942) {
-    set("solomons", "contested", "The carrier force struck at the Australia supply line instead of Midway — an undefeated Japanese carrier fleet remains at large (projection).");
-    set("australia", "allied", "The carrier force struck at the Australia supply line instead of Midway — an undefeated Japanese carrier fleet remains at large (projection).");
+    set("solomons", "contested", "The carrier force struck at the Australia supply line instead of Midway: an undefeated Japanese carrier fleet remains at large (projection).");
+    set("australia", "allied", "The carrier force struck at the Australia supply line instead of Midway: an undefeated Japanese carrier fleet remains at large (projection).");
   }
   if (flags.midwayAlliedResult === "decisive" && year >= 1942) {
-    notes.push("Midway's decisive result, as it happened — four Japanese fleet carriers destroyed for one American loss.");
+    notes.push("Midway's decisive result, as it happened: four Japanese fleet carriers destroyed for one American loss.");
   }
   if (flags.midwayAlliedPath === "conservative" && year === 1942) {
-    notes.push("The Midway ambush was declined — Japan's carrier fleet sails home undefeated (projection).");
+    notes.push("The Midway ambush was declined: Japan's carrier fleet sails home undefeated (projection).");
   }
   if (flags.leytePath === "abandonPhilippines" && year >= 1944) {
-    set("philippines", "axis", "The Philippines were conceded without a fleet action at Leyte — the oil route from the Indies is cut months ahead of the historical timetable (projection).");
-    set("indies", "contested", "The Philippines were conceded without a fleet action at Leyte — the oil route from the Indies is cut months ahead of the historical timetable (projection).");
+    set("philippines", "axis", "The Philippines were conceded without a fleet action at Leyte: the oil route from the Indies is cut months ahead of the historical timetable (projection).");
+    set("indies", "contested", "The Philippines were conceded without a fleet action at Leyte: the oil route from the Indies is cut months ahead of the historical timetable (projection).");
   }
   if (flags.philippinesPath === "bypassFormosa" && year >= 1944) {
-    set("philippines", "contested", "Formosa was seized in place of the Philippines — Filipino civilians remain under occupation through the war's final year (projection).");
-    set("formosa", "contested", "Formosa was seized in place of the Philippines — Filipino civilians remain under occupation through the war's final year (projection).");
+    set("philippines", "contested", "Formosa was seized in place of the Philippines: Filipino civilians remain under occupation through the war's final year (projection).");
+    set("formosa", "contested", "Formosa was seized in place of the Philippines: Filipino civilians remain under occupation through the war's final year (projection).");
   }
   if (flags.endgamePath === "surrenderInquiry" && year === 1945)
     notes.push("A conditional surrender inquiry opened through neutral channels ahead of the historical timetable (projection).");
   if (flags.endgameAlliedPath === "blockade" && year === 1945) {
-    set("japan", "contested", "Operation Downfall was set aside for naval encirclement and air blockade — no invasion of the home islands was attempted (projection).");
+    set("japan", "contested", "Operation Downfall was set aside for naval encirclement and air blockade: no invasion of the home islands was attempted (projection).");
   }
   // Correctness fix, not just an enrichment: the 1945 baseline unconditionally shows Iwo
   // Jima as allied-controlled, which is true for the compressed/extended/fullSupport
@@ -1696,7 +1696,7 @@ function mapOverrides(year, flags, meters) {
   // override the map would show a location as captured that the game's own narrative
   // explicitly says was bypassed.
   if (flags.iwoJimaAlliedPath === "skipped" && year >= 1945) {
-    set("iwoJima", "axis", "Iwo Jima was bypassed entirely rather than invaded — King's real argument that the island wasn't worth the cost, acted on here. Kuribayashi's tunnel network was never tested because nobody landed to test it.");
+    set("iwoJima", "axis", "Iwo Jima was bypassed entirely rather than invaded: King's real argument that the island wasn't worth the cost, acted on here. Kuribayashi's tunnel network was never tested because nobody landed to test it.");
   }
   // Guadalcanal/Solomons: all three guadalcanalPath branches (commit, earlyWithdraw,
   // drumResupply) eventually route toward Japan losing the island — this matches the
@@ -1707,13 +1707,13 @@ function mapOverrides(year, flags, meters) {
   // earlyPerimeter43 (the node this branch routes to) is dated 1943, not 1944, so the
   // map should reflect the region flipping a full year earlier on this specific branch.
   if (flags.guadalcanalPath === "earlyWithdraw" && year >= 1943) {
-    set("solomons", "allied", "Guadalcanal was conceded early rather than fought over for six months — the perimeter falls back to Bougainville and Rabaul, handing American planners a forward airfield roughly a year ahead of the historical timetable (projection).");
+    set("solomons", "allied", "Guadalcanal was conceded early rather than fought over for six months: the perimeter falls back to Bougainville and Rabaul, handing American planners a forward airfield roughly a year ahead of the historical timetable (projection).");
   }
   if (flags.guadalcanalNavalResult === "disaster" && year === 1942) {
-    notes.push("The November 1942 naval battles for Guadalcanal went worse than history's own close-run version — reinforcement convoys caught with less warning, more of the destroyer force lost in a single week than the historical campaign's attrition rate.");
+    notes.push("The November 1942 naval battles for Guadalcanal went worse than history's own close-run version: reinforcement convoys caught with less warning, more of the destroyer force lost in a single week than the historical campaign's attrition rate.");
   }
   if (flags.guadalcanalPath === "drumResupply" && year === 1943) {
-    notes.push("Destroyer resupply runs to Guadalcanal were abandoned entirely in favor of improvised drum-floats, a real historical method — the garrison held on at the barest possible margin before the eventual withdrawal.");
+    notes.push("Destroyer resupply runs to Guadalcanal were abandoned entirely in favor of improvised drum-floats, a real historical method: the garrison held on at the barest possible margin before the eventual withdrawal.");
   }
   // Kantokuen/Siberia: the single largest territorial divergence this game models —
   // Japan invading the Soviet Far East instead of, or in addition to, the Southern
@@ -1724,16 +1724,16 @@ function mapOverrides(year, flags, meters) {
   // except 1945 (the real Soviet declaration of war) — on this branch it should show
   // Japan actually crossing into and fighting over that territory years earlier.
   if (flags.hokushinPath === "north" && year === 1941) {
-    set("sovietFarEast", "contested", "The Kwantung Army crosses into Soviet territory instead of standing Kantokuen down — the single largest departure from the historical record this whole counterfactual makes (projection).");
+    set("sovietFarEast", "contested", "The Kwantung Army crosses into Soviet territory instead of standing Kantokuen down: the single largest departure from the historical record this whole counterfactual makes (projection).");
   }
   if (flags.siberianPath === "holdGains" && year >= 1942) {
-    set("sovietFarEast", "axis", "Japan dug in to hold its Siberian gains through the winter rather than withdraw — a real, ongoing second front against the Soviet Union, fought alongside the war against America and Britain (projection).");
+    set("sovietFarEast", "axis", "Japan dug in to hold its Siberian gains through the winter rather than withdraw: a real, ongoing second front against the Soviet Union, fought alongside the war against America and Britain (projection).");
   }
   if (flags.siberianPath === "pressWest" && year >= 1942) {
-    set("sovietFarEast", "axis", "The Kwantung Army pressed west toward a Trans-Siberian rail link-up with German forces, a real Axis war aim (per Ribbentrop's own July 1941 telegram) neither side's actual logistics could reach — the deepest push into Soviet territory this counterfactual makes (projection).");
+    set("sovietFarEast", "axis", "The Kwantung Army pressed west toward a Trans-Siberian rail link-up with German forces, a real Axis war aim (per Ribbentrop's own July 1941 telegram) neither side's actual logistics could reach: the deepest push into Soviet territory this counterfactual makes (projection).");
   }
   if (flags.siberianPath === "withdraw" && year >= 1942) {
-    set("sovietFarEast", "neutral", "The Kwantung Army withdrew back to the original Manchurian border after a single hard winter — the gamble conceded without the underlying argument for it ever being conceded (projection).");
+    set("sovietFarEast", "neutral", "The Kwantung Army withdrew back to the original Manchurian border after a single hard winter: the gamble conceded without the underlying argument for it ever being conceded (projection).");
   }
   // China: the baseline holds China flat at "contested" every year regardless of what
   // actually happens there, but this game models a real, well-documented divergence —
@@ -1744,15 +1744,15 @@ function mapOverrides(year, flags, meters) {
   // bothResourced) achieve this same stronger-than-historical Ichi-Go — the difference
   // between them is what happens to the Burma front (U-Go), not to China itself.
   if (flags.mainlandPath && year >= 1944) {
-    set("china", "axis", "A fully-resourced Ichi-Go offensive creates the largest contiguous Japanese-held territory of the entire war — an overland corridor from Manchuria to French Indochina, larger than the historical partial version (projection).");
+    set("china", "axis", "A fully-resourced Ichi-Go offensive creates the largest contiguous Japanese-held territory of the entire war: an overland corridor from Manchuria to French Indochina, larger than the historical partial version (projection).");
   }
   // Allied-side China: chinaCrisisResult reflects whether material support to
   // Communist forces actually blunted Ichi-Go's advance or arrived too late to matter.
   if (flags.chinaCrisisResult === "blunted" && year >= 1944) {
-    set("china", "contested", "Material support reaching Communist forces in the north blunts, though doesn't stop, Ichi-Go's advance — real pressure on Japanese supply lines that slows the offensive below its historical scale (projection).");
+    set("china", "contested", "Material support reaching Communist forces in the north blunts, though doesn't stop, Ichi-Go's advance: real pressure on Japanese supply lines that slows the offensive below its historical scale (projection).");
   }
   if (flags.chinaCrisisResult === "tooLittle" && year >= 1944) {
-    set("china", "axis", "Material support to Communist forces arrives too late and too thin to meaningfully change a five-hundred-thousand-man offensive's trajectory — Ichi-Go succeeds largely as it did historically (projection).");
+    set("china", "axis", "Material support to Communist forces arrives too late and too thin to meaningfully change a five-hundred-thousand-man offensive's trajectory: Ichi-Go succeeds largely as it did historically (projection).");
   }
   // Burma: rangoonAlliedPath/rangoonDefendResult and overlandPath are deliberately
   // notes-only, not status overrides — both nodes' own situation text says the
@@ -1763,7 +1763,7 @@ function mapOverrides(year, flags, meters) {
     notes.push("The Chinese divisions committed to Rangoon's defense bought real extra weeks before the city fell, letting more of the wider Burma garrison reach India intact than the historical retreat managed.");
   }
   if (flags.rangoonAlliedPath === "defend" && flags.rangoonDefendResult === "wasted" && year === 1942) {
-    notes.push("Rangoon fell on very nearly the historical timetable regardless — the Chinese divisions committed to its defense were mauled holding a city British planning had already written off.");
+    notes.push("Rangoon fell on very nearly the historical timetable regardless: the Chinese divisions committed to its defense were mauled holding a city British planning had already written off.");
   }
   if (flags.overlandPath === "ledoRoad" && year === 1945) {
     notes.push("The Ledo Road reached China in early 1945, a genuine engineering achievement, though one that arrived so late its actual strategic contribution was modest against the Hump airlift's own tonnage.");
@@ -1777,10 +1777,10 @@ function mapOverrides(year, flags, meters) {
   // — the alternative, leaving Australia "allied" throughout, would flatly contradict
   // this branch's own established outcome.
   if (flags.australiaResult === "beachhead" && year === 1942) {
-    set("australia", "contested", "A Japanese beachhead near Darwin holds for several weeks before Allied forces overrun it — a real, if temporary, foothold no supply line could have sustained indefinitely (projection).");
+    set("australia", "contested", "A Japanese beachhead near Darwin holds for several weeks before Allied forces overrun it: a real, if temporary, foothold no supply line could have sustained indefinitely (projection).");
   }
   if (flags.australiaResult === "disaster" && year === 1942) {
-    notes.push("A Japanese landing attempt near Darwin fails before establishing anything — escort thinned past the point of covering the transports, the operation collapsing before it could commit.");
+    notes.push("A Japanese landing attempt near Darwin fails before establishing anything: escort thinned past the point of covering the transports, the operation collapsing before it could commit.");
   }
   // Palau region added since this note was first written — see MAP_REGIONS,
   // POPULATION, MAP_EDGES, and MAP_YEAR_STATUS above for the new territory itself.
@@ -1790,7 +1790,7 @@ function mapOverrides(year, flags, meters) {
   // branch should show the region staying "axis" straight through, since neither
   // Peleliu nor any part of Palau is ever invaded on this path.
   if (flags.peleliuPath === "cancelled" && year >= 1944) {
-    set("palau", "axis", "Halsey's recommendation to cancel the landing is acted on — the roughly 10,900-man Japanese garrison across the Palaus is never invaded at all, bypassed and left to wither without supply or reinforcement, unlike the historical Peleliu/Angaur landings this projection replaces.");
+    set("palau", "axis", "Halsey's recommendation to cancel the landing is acted on: the roughly 10,900-man Japanese garrison across the Palaus is never invaded at all, bypassed and left to wither without supply or reinforcement, unlike the historical Peleliu/Angaur landings this projection replaces.");
   }
   // ironBottomPath (the accelerated-Iwo-Jima consequence of Peleliu's cancellation) DOES
   // map cleanly onto the existing iwoJima region, since it's a timing shift on a place
@@ -1802,7 +1802,7 @@ function mapOverrides(year, flags, meters) {
     set("iwoJima", "allied", "Iwo Jima is taken months ahead of the historical February 1945 date, using the divisions freed by Peleliu's cancellation while the garrison's tunnel network is still unfinished (projection).");
   }
   if (flags.ironBottomPath === "accelerated" && flags.ironBottomResult === "costly" && year === 1944) {
-    set("iwoJima", "allied", "Iwo Jima is taken months ahead of the historical February 1945 date, but at close to the same cost as the historical assault — the reasons the original timetable waited turn out to have been real ones (projection).");
+    set("iwoJima", "allied", "Iwo Jima is taken months ahead of the historical February 1945 date, but at close to the same cost as the historical assault: the reasons the original timetable waited turn out to have been real ones (projection).");
   }
   return { o, notes, regionNotes };
 }
@@ -2037,12 +2037,12 @@ function PacificMap({ year, accent, flags, meters, nodeId }) {
         <rect x="0" y="0" width={VBW} height={VBH} fill="url(#hexTexture)" opacity="0.25" />
 
         {/* Real coastlines/borders for every landmass in view that isn't itself one of
-            this game's colorable regions — geographic context, not interactive. */}
+            this game's colorable regions: geographic context, not interactive. */}
         {geometry.backdrop.map((country) => (
           <path key={country.name} d={ringsPathD(country.rings)} fill="#d8cba8" stroke="#8a7a5c" strokeWidth="0.6" />
         ))}
 
-        {/* Faint lat/long reference grid — also a real WWII navigational-chart convention */}
+        {/* Faint lat/long reference grid: also a real WWII navigational-chart convention */}
         {[100, 120, 140, 160, 180, 200].map((lon) => {
           const x = 40 + (lon - 79) * 7.15;
           return <line key={lon} x1={x} y1={0} x2={x} y2={VBH} stroke="#3a2a18" strokeWidth="0.5" strokeDasharray="2 4" opacity="0.15" />;
@@ -2097,7 +2097,7 @@ function PacificMap({ year, accent, flags, meters, nodeId }) {
           );
         })}
 
-        {/* The 17 regions with a real country-shaped polygon — status-colored fill,
+        {/* The 17 regions with a real country-shaped polygon: status-colored fill,
             country border redrawn on top of the color so it stays legible. */}
         {MAP_REGIONS.filter((r) => r.kind === "polygon").map((region) => {
           const id = region.id;
@@ -2144,7 +2144,7 @@ function PacificMap({ year, accent, flags, meters, nodeId }) {
         })}
 
         {/* The 7 regions with no clean modern-country polygon (see MAP_REGIONS'
-            comment) — same status-colored disc every region used to be, positioned by
+            comment): same status-colored disc every region used to be, positioned by
             real verified lat/long over the real coastline backdrop instead of a
             schematic guess over blank paper. */}
         {MAP_REGIONS.filter((r) => r.kind === "pin").map((region) => {
@@ -2336,15 +2336,15 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
   const warnings = [];
   if (campaign.dynamic) {
     if (meters.readiness <= -5)
-      warnings.push("STAFF NOTE — Readiness has broken down. Units cannot absorb another major commitment.");
+      warnings.push("STAFF NOTE: Readiness has broken down. Units cannot absorb another major commitment.");
     else if (meters.readiness <= -3)
-      warnings.push("STAFF NOTE — Readiness is running dangerously thin.");
+      warnings.push("STAFF NOTE: Readiness is running dangerously thin.");
     if (meters.pipeline <= -6)
-      warnings.push("STAFF NOTE — The supply pipeline has collapsed. Offensive operations are no longer sustainable.");
+      warnings.push("STAFF NOTE: The supply pipeline has collapsed. Offensive operations are no longer sustainable.");
     else if (meters.pipeline <= -4)
-      warnings.push("STAFF NOTE — Pipeline integrity critically low. Further offensive options may be foreclosed.");
+      warnings.push("STAFF NOTE: Pipeline integrity critically low. Further offensive options may be foreclosed.");
     if (total >= 3)
-      warnings.push("STAFF NOTE — The force remains coherent. A sustained campaign may yet be within reach.");
+      warnings.push("STAFF NOTE: The force remains coherent. A sustained campaign may yet be within reach.");
   }
   const showReview = campaign.dynamic && reportNumber > 1 && (reportNumber - 1) % 4 === 0 && log.length > 0;
   const comparableSoFar = log.filter((e) => e.histSum != null);
@@ -2448,7 +2448,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved" : saveState === "failed" ? "Save failed — retry" : "Save"}
+              {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved" : saveState === "failed" ? "Save failed: retry" : "Save"}
             </button>
             <div
               role="status"
@@ -2510,7 +2510,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4 border-2 px-3 py-2 text-[11px] sm:text-xs uppercase tracking-widest font-bold"
             style={{ borderColor: "#5c1a1a", color: "#5c1a1a", fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            <span>Fanatical Resolve Mode — no dashboard, no rewind</span>
+            <span>Fanatical Resolve Mode: no dashboard, no rewind</span>
             <span>
               Insubordination: {"●".repeat(Math.min(5, flags.suspicion || 0))}
               {"○".repeat(Math.max(0, 5 - (flags.suspicion || 0)))} ({flags.suspicion || 0}/5)
@@ -2522,7 +2522,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4 border-2 px-3 py-2 text-[11px] sm:text-xs uppercase tracking-widest font-bold"
             style={{ borderColor: "#28497a", color: "#28497a", fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            <span>Coalition Resolve Mode — no rewind</span>
+            <span>Coalition Resolve Mode: no rewind</span>
             <span>Coalition Resolve: {cohesionLabel(flags.cohesion)}</span>
           </div>
         )}
@@ -2573,7 +2573,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                 className="inline-block border-[3px] px-2 py-1 text-xs uppercase tracking-widest font-bold"
                 style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#b08d3f", color: "#7a5b1e" }}
               >
-                ⚠ Speculative — beyond what evidence supports
+                ⚠ Speculative: beyond what evidence supports
               </span>
             </div>
           )
@@ -2588,7 +2588,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                 className="inline-block border-2 border-black px-2 py-1 text-xs uppercase tracking-widest font-bold"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Projected Scenario — beyond the historical record
+                Projected Scenario: beyond the historical record
               </span>
             </div>
           )
@@ -2662,7 +2662,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  ⚔ Costs {choice.favor} political capital{choice.favor > favor ? " — insufficient" : ""}
+                  ⚔ Costs {choice.favor} political capital{choice.favor > favor ? ": insufficient" : ""}
                 </span>
               )}
               {purge && choice.setFlags && choice.setFlags.suspicion !== undefined && (() => {
@@ -2694,14 +2694,14 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  ⛔ Unavailable — {choice.disabledReason}
+                  ⛔ Unavailable: {choice.disabledReason}
                 </span>
               )}
               {choice.gateCheck && !choice.disabledReason && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-60"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#2e5a2e" }}
-                  title={`Needs ${choice.gateCheck.meter} above ${choice.gateCheck.threshold} — currently ${meters[choice.gateCheck.meter]}`}
+                  title={`Needs ${choice.gateCheck.meter} above ${choice.gateCheck.threshold}: currently ${meters[choice.gateCheck.meter]}`}
                 >
                   ✓ {choice.gateCheck.label} check passed
                 </span>
@@ -2724,21 +2724,29 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   {choice.suspicionDelta} Suspicion
                 </span>
               )}
-              {choice.advisor && (
+              {choice.attested ? (
                 <span
                   className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100"
                   style={{ borderLeft: "2px solid currentColor" }}
                 >
-                  "{choice.advisor.quote}"
-                  <span className="block not-italic text-[10.5px] uppercase tracking-wide mt-[2px]">— {advisorAttribution(choice.advisor.name)}</span>
+                  “{choice.attested.text}”: {advisorAttribution(choice.attested.by)}
                 </span>
+              ) : (
+                choice.advisor && (
+                  <span
+                    className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100"
+                    style={{ borderLeft: "2px solid currentColor" }}
+                  >
+                    {advisorAttribution(choice.advisor.name)} argues: {choice.advisor.position}
+                  </span>
+                )
               )}
               {choice.uncertain && !choice.concealRoll && (
                 <span
                   className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  ⚄ Contested —{" "}
+                  ⚄ Contested: {" "}
                   {choice.uncertain
                     .map((v) => {
                       const total = choice.uncertain.reduce((a, x) => a + x.weight, 0);
@@ -2771,7 +2779,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="text-[12px] italic mt-2 text-[#000000] opacity-70"
               style={{ fontFamily: "'Courier Prime', monospace" }}
             >
-              Note: contested decisions re-roll on a rewound timeline — history is not obliged to repeat
+              Note: contested decisions re-roll on a rewound timeline: history is not obliged to repeat
               itself.
             </p>
             <div className="flex flex-col gap-2 mt-3">
@@ -2782,7 +2790,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="text-left border px-3 py-2 text-xs text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
                   style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
                 >
-                  ↺ Rewind to {p.date} — {p.title}
+                  ↺ Rewind to {p.date}: {p.title}
                 </button>
               ))}
             </div>
@@ -2851,7 +2859,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
             className="mb-4 border-2 border-black px-3 py-2 text-[13px] uppercase tracking-widest font-bold text-[#000000]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {choice.concealRoll ? eff.variantTitle : `⚄ Contested decision — resolved: ${eff.variantTitle}`}
+            {choice.concealRoll ? eff.variantTitle : `⚄ Contested decision: resolved: ${eff.variantTitle}`}
           </div>
         )}
 
@@ -2987,7 +2995,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
   const outRate = comparable.length ? outperformed / comparable.length : 0;
   let rank;
   if (removedFromCommand) {
-    rank = flags.purged ? "Deposed by the Hardliners" : "Relieved — Coalition Collapsed";
+    rank = flags.purged ? "Deposed by the Hardliners" : "Relieved: Coalition Collapsed";
   } else if (outRate >= 0.6 && total >= 3) {
     rank = "Better Than the Historical Record";
   } else if (outRate >= 0.4) {
@@ -3071,7 +3079,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                 className="text-xs uppercase tracking-[0.25em] font-semibold text-[#000000] cursor-pointer select-none py-1"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Pacific Situation — the war actually fought
+                Pacific Situation: the war actually fought
               </summary>
               <PacificMap
                 year={yearFrom(lastLogDate, 1945)}
@@ -3252,7 +3260,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                     {e.isHistorical ? "·" : "◆"}
                   </span>
                   <div className="text-[10px] uppercase tracking-widest text-[#000000] opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                    {e.date} — {e.title}
+                    {e.date}: {e.title}
                   </div>
                   <div
                     className={`text-[13px] text-[#000000] ${e.isHistorical ? "" : "font-bold"}`}
@@ -3297,7 +3305,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                   <span className="font-bold">
                     {e.sum > e.histSum ? "▲" : e.sum < e.histSum ? "▼" : "＝"} {e.title}
                   </span>{" "}
-                  — you: {e.label}
+                  · you: {e.label}
                   {!e.isHistorical && <span> · history: {e.histLabel}</span>}
                 </div>
               ))}
@@ -3319,7 +3327,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                 className="text-sm leading-snug text-[#000000] font-medium"
                 style={{ fontFamily: "'Courier Prime', monospace" }}
               >
-                <span className="text-[#000000] font-semibold">{entry.date} — </span>
+                <span className="text-[#000000] font-semibold">{entry.date}</span>
                 {entry.label}
               </li>
             ))}
@@ -3342,7 +3350,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                   className="text-left border px-3 py-2 text-xs text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
                   style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
                 >
-                  ↺ Rewind to {p.date} — {p.title}
+                  ↺ Rewind to {p.date}: {p.title}
                 </button>
               ))}
             </div>
@@ -3355,7 +3363,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
               const modeLabel = mode === "fanatical" ? " · ⚔ Fanatical Resolve Mode" : mode === "coalition" ? " · ⚔ Coalition Resolve Mode" : "";
               const endingLabelForShare = campaign.positionLabel ? campaign.positionLabel(flags, meters) : "Unknown";
               const shareText = [
-                "DISPATCHES 1941 — After-Action Report",
+                "DISPATCHES 1941: After-Action Report",
                 campaign.name + modeLabel,
                 "Rank: " + rank,
                 "Ending: " + endingLabelForShare + " (" + classifyEnding(endingLabelForShare) + ")",
@@ -3530,68 +3538,68 @@ function isValidSave(saved) {
 
 const ADVISOR_DOSSIERS = {
   Konoe: { role: "Prime Minister (1937–39, 1940–41)", summary: "Presided over the China war's early escalation and, in January 1938, declared his government would no longer deal with Chiang Kai-shek's government at all, foreclosing settlement while relatively generous terms were still available, a decision many historians consider one of the war's more consequential unforced errors. Resigned in October 1941 rather than confirm the war decision Tojo's cabinet ultimately made; took his own life in December 1945 rather than face the Tokyo tribunal.", faction: "japan", rank: 1 },
-  Umezu: { role: "General — Chief of the Army General Staff", summary: "One of the war ministry's most committed holdouts against surrender in 1945, reportedly among the last senior officers to accept the Emperor's decision even after it was made. Signed the instrument of surrender on behalf of the Army anyway; convicted at the Tokyo tribunal and died in prison in 1949.", faction: "japan", rank: 1 },
-  Onishi: { role: "Vice Admiral — First Air Fleet commander", summary: "Proposed organizing suicide attacks as formal Navy doctrine in October 1944, arguing a First Air Fleet reduced to barely thirty operational aircraft had no other way to meaningfully strike an American carrier force. Took his own life the day after Japan's surrender broadcast, leaving a letter apologizing to the pilots he had sent to die.", faction: "japan", rank: 2 },
-  Yonai: { role: "Admiral — former Prime Minister, Navy Minister", summary: "Opposed the Tripartite Pact and the drift toward war with the United States before it began, real, documented skepticism that never translated into a concrete peace initiative he or anyone else in government actually attempted before 1945. Served as Navy Minister through the war's end and supported the surrender; died in 1948, largely out of public life.", faction: "japan", rank: 1 },
-  Koga: { role: "Admiral — Yamamoto's successor as Combined Fleet Commander-in-Chief", summary: "Inherited command after Yamamoto's death in April 1943 with a fleet already past the point where any single commander's tactical skill could offset the production gap it faced. Died in an air accident in March 1944 en route to a staff conference, in circumstances almost as poorly documented as Yamamoto's own death was well documented.", faction: "japan", rank: 2 },
+  Umezu: { role: "General: Chief of the Army General Staff", summary: "One of the war ministry's most committed holdouts against surrender in 1945, reportedly among the last senior officers to accept the Emperor's decision even after it was made. Signed the instrument of surrender on behalf of the Army anyway; convicted at the Tokyo tribunal and died in prison in 1949.", faction: "japan", rank: 1 },
+  Onishi: { role: "Vice Admiral: First Air Fleet commander", summary: "Proposed organizing suicide attacks as formal Navy doctrine in October 1944, arguing a First Air Fleet reduced to barely thirty operational aircraft had no other way to meaningfully strike an American carrier force. Took his own life the day after Japan's surrender broadcast, leaving a letter apologizing to the pilots he had sent to die.", faction: "japan", rank: 2 },
+  Yonai: { role: "Admiral: former Prime Minister, Navy Minister", summary: "Opposed the Tripartite Pact and the drift toward war with the United States before it began, real, documented skepticism that never translated into a concrete peace initiative he or anyone else in government actually attempted before 1945. Served as Navy Minister through the war's end and supported the surrender; died in 1948, largely out of public life.", faction: "japan", rank: 1 },
+  Koga: { role: "Admiral: Yamamoto's successor as Combined Fleet Commander-in-Chief", summary: "Inherited command after Yamamoto's death in April 1943 with a fleet already past the point where any single commander's tactical skill could offset the production gap it faced. Died in an air accident in March 1944 en route to a staff conference, in circumstances almost as poorly documented as Yamamoto's own death was well documented.", faction: "japan", rank: 2 },
   Matsuoka: { role: "Foreign Minister (1940–41)", summary: "Championed the Tripartite Pact with Germany and Italy as a deterrent against American intervention, then pursued a neutrality pact with the Soviet Union on similar logic, a diplomatic style built around dramatic gestures colleagues increasingly found erratic. Removed from office in 1941 partly over his handling of Soviet relations; died in 1946 while on trial at the Tokyo tribunal, before a verdict was reached.", faction: "japan", rank: 2 },
   Tojo: { role: "War Minister, later Prime Minister (1941–44)", summary: "A firm advocate of the Indochina occupation and the war decision as War Minister, he became Prime Minister in October 1941 and personally confirmed the deadline that led to Pearl Harbor at the Imperial Conference that December. Removed as Prime Minister in July 1944 after Saipan fell; convicted at the Tokyo tribunal and executed in 1948.", faction: "japan", rank: 1 },
   Nomura: { role: "Ambassador to the United States (1941)", summary: "A retired admiral sent to Washington specifically for his known moderation, he conducted the Hull-Nomura talks through 1941 trying to find terms both governments could accept, working against a deadline he was never fully informed about. Survived the war, later serving in the postwar House of Councillors; died in 1964.", faction: "japan", rank: 2 },
-  Kuribayashi: { role: "Lieutenant General — Iwo Jima garrison commander", summary: "Abandoned the beach-defense doctrine that had failed at every prior island in favor of a deep tunnel network built to bleed an invasion for as long as physically possible, in a battle he privately told his staff he did not expect to survive. Killed in the battle's final days, March 1945; his body was never conclusively identified.", faction: "japan", rank: 3 },
-  Horii: { role: "Major General — South Seas Detachment commander", summary: "Led the overland push toward Port Moresby across the Kokoda Track, reaching within thirty miles of the objective before a collapsing supply line forced a withdrawal IGHQ ordered over his own preference to press on. Drowned crossing the Kumusi River during the detachment's retreat in November 1942.", faction: "japan", rank: 3 },
-  Imamura: { role: "Lieutenant General — Eighth Area Army commander", summary: "Took command of Japan's New Guinea and Solomons theater after the Kokoda campaign's collapse, generally favoring consolidation and supply discipline over the more aggressive commitments some subordinates preferred. Survived the war; convicted of war crimes related to his command's conduct and served a prison sentence; died in 1968.", faction: "japan", rank: 2 },
-  Yamamoto: { role: "Admiral — Commander in Chief, Combined Fleet", summary: "Architect of the Pearl Harbor strike, and privately its most consistent skeptic about what it could actually buy, having studied at Harvard and toured American industry, and said so in terms his own staff found unwelcome. Warned Tokyo he could run wild for six months but promised nothing beyond that, a prediction the war's actual timeline bore out with uncomfortable precision. Killed in April 1943 when American fighters, guided by intercepted and decoded travel plans, shot down his aircraft over Bougainville, a targeted strike his own staff argued against for fear of confirming Japan's code was broken.", faction: "japan", rank: 0 },
-  Nagano: { role: "Admiral — Chief of the Navy General Staff", summary: "Signed off on the Pearl Harbor plan after resisting it, and oversaw the Navy's argument for prioritizing the Southern Resource Area over a Hawaii strike in early planning. Died in American custody in 1947 while on trial at the Tokyo tribunal, before a verdict was reached.", faction: "japan", rank: 1 },
-  Nagumo: { role: "Vice Admiral — First Air Fleet commander", summary: "Led the Pearl Harbor strike force and the Midway invasion fleet, a battleship officer given command of the Navy's carriers more for seniority than for any enthusiasm about naval aviation. Commanded the garrison on Saipan in 1944; took his own life as the island fell rather than be captured.", faction: "japan", rank: 1 },
-  Inoue: { role: "Vice Admiral — Fourth Fleet, South Seas", summary: "One of the more openly skeptical senior officers about the war's odds against American industrial capacity, and an early advocate of land-based naval air power over the battleship doctrine most peers still favored. Survived the war in a training command; died in 1975, remembered as one of the more clear-eyed strategic minds Japan didn't fully listen to.", faction: "japan", rank: 2 },
-  Ugaki: { role: "Rear Admiral — Chief of Staff, Combined Fleet", summary: "Yamamoto's closest staff officer and diarist, whose wartime journal remains one of the most detailed insider accounts of Imperial Navy decision-making. Led a final kamikaze sortie on the day of Japan's surrender broadcast, in defiance of the ceasefire; killed in the attack.", faction: "japan", rank: 2 },
-  Tanaka: { role: "Rear Admiral — Destroyer Squadron 2, 'Tokyo Express'", summary: "Ran the night resupply and reinforcement runs to Guadalcanal with a tactical skill his American opponents came to respect, under conditions of near-total air inferiority. Relieved after criticizing high command's Guadalcanal strategy too openly; survived the war and died in 1969.", faction: "japan", rank: 3 },
-  Kurita: { role: "Vice Admiral — First Diversion Attack Force, Leyte Gulf", summary: "Commanded the battleship force that broke through San Bernardino Strait at Leyte and then withdrew short of the invasion beaches, a decision made on incomplete information that historians still debate. Survived the war in a training post; gave few interviews about Leyte before his death in 1977.", faction: "japan", rank: 2 },
-  Toyoda: { role: "Admiral — Commander in Chief, Combined Fleet (1944–45)", summary: "Oversaw the Sho-Go plans and the fleet's final operations, inheriting a navy with barely enough fuel left to conduct them. Tried at the Tokyo tribunal and acquitted; died in 1957.", faction: "japan", rank: 1 },
-  Anami: { role: "General — Army Minister", summary: "The war ministry's leading holdout against surrender in August 1945, arguing the home islands' defense could still make an invasion politically unbearable for the Allies. Took his own life the night before the surrender broadcast, leaving a note apologizing for his 'great crime.'", faction: "japan", rank: 1 },
+  Kuribayashi: { role: "Lieutenant General: Iwo Jima garrison commander", summary: "Abandoned the beach-defense doctrine that had failed at every prior island in favor of a deep tunnel network built to bleed an invasion for as long as physically possible, in a battle he privately told his staff he did not expect to survive. Killed in the battle's final days, March 1945; his body was never conclusively identified.", faction: "japan", rank: 3 },
+  Horii: { role: "Major General: South Seas Detachment commander", summary: "Led the overland push toward Port Moresby across the Kokoda Track, reaching within thirty miles of the objective before a collapsing supply line forced a withdrawal IGHQ ordered over his own preference to press on. Drowned crossing the Kumusi River during the detachment's retreat in November 1942.", faction: "japan", rank: 3 },
+  Imamura: { role: "Lieutenant General: Eighth Area Army commander", summary: "Took command of Japan's New Guinea and Solomons theater after the Kokoda campaign's collapse, generally favoring consolidation and supply discipline over the more aggressive commitments some subordinates preferred. Survived the war; convicted of war crimes related to his command's conduct and served a prison sentence; died in 1968.", faction: "japan", rank: 2 },
+  Yamamoto: { role: "Admiral: Commander in Chief, Combined Fleet", summary: "Architect of the Pearl Harbor strike, and privately its most consistent skeptic about what it could actually buy, having studied at Harvard and toured American industry, and said so in terms his own staff found unwelcome. Warned Tokyo he could run wild for six months but promised nothing beyond that, a prediction the war's actual timeline bore out with uncomfortable precision. Killed in April 1943 when American fighters, guided by intercepted and decoded travel plans, shot down his aircraft over Bougainville, a targeted strike his own staff argued against for fear of confirming Japan's code was broken.", faction: "japan", rank: 0 },
+  Nagano: { role: "Admiral: Chief of the Navy General Staff", summary: "Signed off on the Pearl Harbor plan after resisting it, and oversaw the Navy's argument for prioritizing the Southern Resource Area over a Hawaii strike in early planning. Died in American custody in 1947 while on trial at the Tokyo tribunal, before a verdict was reached.", faction: "japan", rank: 1 },
+  Nagumo: { role: "Vice Admiral: First Air Fleet commander", summary: "Led the Pearl Harbor strike force and the Midway invasion fleet, a battleship officer given command of the Navy's carriers more for seniority than for any enthusiasm about naval aviation. Commanded the garrison on Saipan in 1944; took his own life as the island fell rather than be captured.", faction: "japan", rank: 1 },
+  Inoue: { role: "Vice Admiral: Fourth Fleet, South Seas", summary: "One of the more openly skeptical senior officers about the war's odds against American industrial capacity, and an early advocate of land-based naval air power over the battleship doctrine most peers still favored. Survived the war in a training command; died in 1975, remembered as one of the more clear-eyed strategic minds Japan didn't fully listen to.", faction: "japan", rank: 2 },
+  Ugaki: { role: "Rear Admiral: Chief of Staff, Combined Fleet", summary: "Yamamoto's closest staff officer and diarist, whose wartime journal remains one of the most detailed insider accounts of Imperial Navy decision-making. Led a final kamikaze sortie on the day of Japan's surrender broadcast, in defiance of the ceasefire; killed in the attack.", faction: "japan", rank: 2 },
+  Tanaka: { role: "Rear Admiral: Destroyer Squadron 2, 'Tokyo Express'", summary: "Ran the night resupply and reinforcement runs to Guadalcanal with a tactical skill his American opponents came to respect, under conditions of near-total air inferiority. Relieved after criticizing high command's Guadalcanal strategy too openly; survived the war and died in 1969.", faction: "japan", rank: 3 },
+  Kurita: { role: "Vice Admiral: First Diversion Attack Force, Leyte Gulf", summary: "Commanded the battleship force that broke through San Bernardino Strait at Leyte and then withdrew short of the invasion beaches, a decision made on incomplete information that historians still debate. Survived the war in a training post; gave few interviews about Leyte before his death in 1977.", faction: "japan", rank: 2 },
+  Toyoda: { role: "Admiral: Commander in Chief, Combined Fleet (1944–45)", summary: "Oversaw the Sho-Go plans and the fleet's final operations, inheriting a navy with barely enough fuel left to conduct them. Tried at the Tokyo tribunal and acquitted; died in 1957.", faction: "japan", rank: 1 },
+  Anami: { role: "General: Army Minister", summary: "The war ministry's leading holdout against surrender in August 1945, arguing the home islands' defense could still make an invasion politically unbearable for the Allies. Took his own life the night before the surrender broadcast, leaving a note apologizing for his 'great crime.'", faction: "japan", rank: 1 },
   Togo: { role: "Foreign Minister (1941–42, 1945)", summary: "Argued against the Pearl Harbor timing's diplomatic handling in 1941 and, returning to office in 1945, pushed the peace faction's case through the war's final, deadlocked cabinet meetings. Convicted at the Tokyo tribunal for his role in the war's opening; died in prison in 1950.", faction: "japan", rank: 2 },
   Sato: { role: "Ambassador to the Soviet Union", summary: "Cabled Tokyo repeatedly in the war's final weeks expressing frustration at Moscow's unreadable silence in response to Japan's real approach for peace mediation, without knowing the Soviets had already committed to entering the war at Yalta. Survived the war, later serving in postwar Japanese diplomatic and political roles; died in 1975.", faction: "japan", rank: 2 },
   Yoshida: { role: "Diplomat and postwar political figure", summary: "A career diplomat with real prewar doubts about war with the Anglo-American powers, who went on to serve as Prime Minister and architect of Japan's postwar economic rebuilding under American occupation and Cold War alignment. Served as Prime Minister for most of 1946–54; died in 1967, regarded as the chief architect of postwar Japan's recovery.", faction: "japan", rank: 2 },
-  Sugiyama: { role: "General — Army Chief of Staff", summary: "Oversaw Army planning through the war's opening expansion, consistently more optimistic about timelines than events subsequently justified. Took his own life in September 1945 rather than face the occupation's reckoning.", faction: "japan", rank: 2 },
-  Iida: { role: "Lieutenant General — Fifteenth Army, Burma", summary: "Drove the invasion of Burma at a pace prewar staff studies had rated impassable, cutting the Burma Road and China's last land supply route within weeks of crossing the frontier. Later commanded occupation forces in Sumatra; survived the war and died in 1980.", faction: "japan", rank: 3 },
-  Sakurai: { role: "Lieutenant General — 33rd Division, Burma", summary: "Commanded one of Fifteenth Army's two divisions through the Rangoon campaign and the subsequent push toward India. Continued in Burma theater command through the war's later reversals; details of his postwar life are sparsely recorded.", faction: "japan", rank: 4 },
-  Kawabe: { role: "General — Burma Area Army commander", summary: "Held nominal authority over Mutaguchi's U-Go offensive and harbored serious private doubts about its logistics that he ultimately failed to act on before the campaign's launch. Relieved of command amid U-Go's collapse; survived the war and later served in Japan's postwar Self-Defense Forces advisory circles.", faction: "japan", rank: 3 },
-  Slim: { role: "Lieutenant General — Burma Corps, later Fourteenth Army", summary: "Led the near-thousand-mile fighting retreat from Burma into India in 1942, then rebuilt the shattered force into the Fourteenth Army that broke Japan's U-Go offensive at Imphal and Kohima two years later. Later Chief of the Imperial General Staff and Governor-General of Australia; widely regarded as one of the war's most capable field commanders; died in 1970.", faction: "alliedPacific", rank: 1 },
-  Stilwell: { role: "Lieutenant General — U.S. commander, China-Burma-India theater", summary: "Commanded American forces in the CBI theater while serving simultaneously as Chiang Kai-shek's chief of staff, a dual role that put him in near-constant friction with Chiang over strategy, supply priority, and command of Chinese forces. Recalled from China in October 1944 at Chiang's explicit demand after their relationship broke down entirely; died in 1946.", faction: "alliedPacific", rank: 2 },
-  Davies: { role: "Foreign Service officer — Yan'an observer group", summary: "A State Department China hand attached to the Dixie Mission, the first American observer group to reach Communist-held territory, whose reports argued Communist forces were fighting the Japanese occupation more effectively than the Nationalist front. Caught up in the McCarthy-era loyalty investigations of the 1950s and dismissed from the Foreign Service; formally exonerated decades later; died in 1999.", faction: "alliedPacific", rank: 4 },
-  Ozawa: { role: "Vice Admiral — Mobile Fleet", summary: "Commanded Japan's last carrier force at the Philippine Sea and served as the Sho-Go decoy at Leyte, widely regarded by both sides as one of the Imperial Navy's more capable tacticians working with steadily diminishing means. Survived the war; declined most interview requests and died in 1966.", faction: "japan", rank: 2 },
-  Kusaka: { role: "Rear Admiral — Chief of Staff, Combined Fleet air operations", summary: "A senior carrier-doctrine planner involved in the Pearl Harbor strike and subsequent carrier operations' staff work. Survived the war in a home-defense post; died in 1971.", faction: "japan", rank: 3 },
-  Spruance: { role: "Admiral — Fifth Fleet commander", summary: "A famously unflappable, methodical commander who took the Fifth Fleet through the Marianas, Iwo Jima, and Okinawa, generally favoring the more conservative operational choice available to him over the bolder one. Later President of the Naval War College and ambassador to the Philippines; died in 1969.", faction: "alliedPacific", rank: 1 },
-  Arnold: { role: "General — Commanding General, Army Air Forces", summary: "Built the wartime Army Air Forces from a fraction of its final size and championed strategic bombing doctrine throughout, though its actual execution against Japan's dispersed industry increasingly diverged from what he'd originally envisioned. The only Air Force officer ever to hold five-star rank; died in 1950.", faction: "alliedPacific", rank: 1 },
+  Sugiyama: { role: "General: Army Chief of Staff", summary: "Oversaw Army planning through the war's opening expansion, consistently more optimistic about timelines than events subsequently justified. Took his own life in September 1945 rather than face the occupation's reckoning.", faction: "japan", rank: 2 },
+  Iida: { role: "Lieutenant General: Fifteenth Army, Burma", summary: "Drove the invasion of Burma at a pace prewar staff studies had rated impassable, cutting the Burma Road and China's last land supply route within weeks of crossing the frontier. Later commanded occupation forces in Sumatra; survived the war and died in 1980.", faction: "japan", rank: 3 },
+  Sakurai: { role: "Lieutenant General: 33rd Division, Burma", summary: "Commanded one of Fifteenth Army's two divisions through the Rangoon campaign and the subsequent push toward India. Continued in Burma theater command through the war's later reversals; details of his postwar life are sparsely recorded.", faction: "japan", rank: 4 },
+  Kawabe: { role: "General: Burma Area Army commander", summary: "Held nominal authority over Mutaguchi's U-Go offensive and harbored serious private doubts about its logistics that he ultimately failed to act on before the campaign's launch. Relieved of command amid U-Go's collapse; survived the war and later served in Japan's postwar Self-Defense Forces advisory circles.", faction: "japan", rank: 3 },
+  Slim: { role: "Lieutenant General: Burma Corps, later Fourteenth Army", summary: "Led the near-thousand-mile fighting retreat from Burma into India in 1942, then rebuilt the shattered force into the Fourteenth Army that broke Japan's U-Go offensive at Imphal and Kohima two years later. Later Chief of the Imperial General Staff and Governor-General of Australia; widely regarded as one of the war's most capable field commanders; died in 1970.", faction: "alliedPacific", rank: 1 },
+  Stilwell: { role: "Lieutenant General: U.S. commander, China-Burma-India theater", summary: "Commanded American forces in the CBI theater while serving simultaneously as Chiang Kai-shek's chief of staff, a dual role that put him in near-constant friction with Chiang over strategy, supply priority, and command of Chinese forces. Recalled from China in October 1944 at Chiang's explicit demand after their relationship broke down entirely; died in 1946.", faction: "alliedPacific", rank: 2 },
+  Davies: { role: "Foreign Service officer: Yan'an observer group", summary: "A State Department China hand attached to the Dixie Mission, the first American observer group to reach Communist-held territory, whose reports argued Communist forces were fighting the Japanese occupation more effectively than the Nationalist front. Caught up in the McCarthy-era loyalty investigations of the 1950s and dismissed from the Foreign Service; formally exonerated decades later; died in 1999.", faction: "alliedPacific", rank: 4 },
+  Ozawa: { role: "Vice Admiral: Mobile Fleet", summary: "Commanded Japan's last carrier force at the Philippine Sea and served as the Sho-Go decoy at Leyte, widely regarded by both sides as one of the Imperial Navy's more capable tacticians working with steadily diminishing means. Survived the war; declined most interview requests and died in 1966.", faction: "japan", rank: 2 },
+  Kusaka: { role: "Rear Admiral: Chief of Staff, Combined Fleet air operations", summary: "A senior carrier-doctrine planner involved in the Pearl Harbor strike and subsequent carrier operations' staff work. Survived the war in a home-defense post; died in 1971.", faction: "japan", rank: 3 },
+  Spruance: { role: "Admiral: Fifth Fleet commander", summary: "A famously unflappable, methodical commander who took the Fifth Fleet through the Marianas, Iwo Jima, and Okinawa, generally favoring the more conservative operational choice available to him over the bolder one. Later President of the Naval War College and ambassador to the Philippines; died in 1969.", faction: "alliedPacific", rank: 1 },
+  Arnold: { role: "General: Commanding General, Army Air Forces", summary: "Built the wartime Army Air Forces from a fraction of its final size and championed strategic bombing doctrine throughout, though its actual execution against Japan's dispersed industry increasingly diverged from what he'd originally envisioned. The only Air Force officer ever to hold five-star rank; died in 1950.", faction: "alliedPacific", rank: 1 },
   Acheson: { role: "Assistant Secretary of State", summary: "Administered the July 1941 freezing order on Japanese assets, interpreting the licensing system strictly enough that it functioned as a near-total oil embargo in practice, reportedly beyond what Roosevelt had explicitly intended. Later Secretary of State under Truman, a principal architect of the Marshall Plan and NATO; died in 1971.", faction: "alliedPacific", rank: 3 },
   Grew: { role: "Ambassador to Japan (1932–41)", summary: "Spent a decade watching Japanese politics shift toward the military faction and warned Washington repeatedly through 1941 that an oil embargo severe enough to threaten Japan's survival would strengthen the case for war rather than deter it. Later Under Secretary of State; died in 1965.", faction: "alliedPacific", rank: 3 },
-  Halsey: { role: "Vice Admiral — Task Force 16, Doolittle Raid escort", summary: "Commanded the carrier task force that launched the Doolittle Raid, and made the call to launch early once the force was spotted by a Japanese picket boat rather than risk the carriers searching for a better position. Later commanded the Third Fleet through the war's final years; died in 1959.", faction: "alliedPacific", rank: 2 },
-  Doolittle: { role: "Lieutenant Colonel — commander, Tokyo Raid", summary: "Led the sixteen-bomber raid on Tokyo that carried his name, personally flying the lead aircraft despite holding a rank that made the mission's actual risk to him a matter of real internal debate beforehand. Promoted to Brigadier General immediately after the raid and awarded the Medal of Honor; later commanded the Eighth Air Force; died in 1993.", faction: "alliedPacific", rank: 2 },
+  Halsey: { role: "Vice Admiral: Task Force 16, Doolittle Raid escort", summary: "Commanded the carrier task force that launched the Doolittle Raid, and made the call to launch early once the force was spotted by a Japanese picket boat rather than risk the carriers searching for a better position. Later commanded the Third Fleet through the war's final years; died in 1959.", faction: "alliedPacific", rank: 2 },
+  Doolittle: { role: "Lieutenant Colonel: commander, Tokyo Raid", summary: "Led the sixteen-bomber raid on Tokyo that carried his name, personally flying the lead aircraft despite holding a rank that made the mission's actual risk to him a matter of real internal debate beforehand. Promoted to Brigadier General immediately after the raid and awarded the Medal of Honor; later commanded the Eighth Air Force; died in 1993.", faction: "alliedPacific", rank: 2 },
   Stimson: { role: "Secretary of War", summary: "Oversaw the Manhattan Project's military administration and personally removed Kyoto from the atomic target list over the objections of officers who considered it operationally ideal, on cultural and historical grounds he was unwilling to compromise on even under wartime pressure. Retired shortly after the war's end; died in 1950.", faction: "alliedPacific", rank: 1 },
-  Groves: { role: "Major General — director, Manhattan Project", summary: "Ran the Manhattan Project's military side with a famously singular focus on the mission's success, favoring target selection criteria that preserved the bomb's effects as a clean, measurable baseline over cities already damaged by conventional bombing. Left the Army in 1948; died in 1970.", faction: "alliedPacific", rank: 2 },
-  Compton: { role: "Physicist — Manhattan Project, National Defense Research Committee", summary: "A Nobel laureate who signed the Franck Report advocating a demonstration of the atomic bomb before any use on a populated city, a minority position among the scientists and officials the Interim Committee consulted. Later chancellor of Washington University in St. Louis; died in 1962.", faction: "alliedPacific", rank: 3 },
-  Blamey: { role: "General — Commander, Allied Land Forces, Australia", summary: "Backed his commanders' fighting-withdrawal strategy on the Kokoda Track against considerable pressure from MacArthur, who read the retreat as a failure of Australian fighting quality rather than the sound tactical choice historians now generally consider it. Australia's only field marshal; died in 1951.", faction: "alliedPacific", rank: 2 },
-  Mitscher: { role: "Vice Admiral — Task Force 58 carrier commander", summary: "Argued for an aggressive pursuit of Ozawa's fleet at the Philippine Sea over Spruance's more protective posture, a disagreement about carrier doctrine that recurred in various forms for the rest of the war. Later commanded fast carrier task forces through the war's end; died in 1947.", faction: "alliedPacific", rank: 2 },
+  Groves: { role: "Major General: director, Manhattan Project", summary: "Ran the Manhattan Project's military side with a famously singular focus on the mission's success, favoring target selection criteria that preserved the bomb's effects as a clean, measurable baseline over cities already damaged by conventional bombing. Left the Army in 1948; died in 1970.", faction: "alliedPacific", rank: 2 },
+  Compton: { role: "Physicist: Manhattan Project, National Defense Research Committee", summary: "A Nobel laureate who signed the Franck Report advocating a demonstration of the atomic bomb before any use on a populated city, a minority position among the scientists and officials the Interim Committee consulted. Later chancellor of Washington University in St. Louis; died in 1962.", faction: "alliedPacific", rank: 3 },
+  Blamey: { role: "General: Commander, Allied Land Forces, Australia", summary: "Backed his commanders' fighting-withdrawal strategy on the Kokoda Track against considerable pressure from MacArthur, who read the retreat as a failure of Australian fighting quality rather than the sound tactical choice historians now generally consider it. Australia's only field marshal; died in 1951.", faction: "alliedPacific", rank: 2 },
+  Mitscher: { role: "Vice Admiral: Task Force 58 carrier commander", summary: "Argued for an aggressive pursuit of Ozawa's fleet at the Philippine Sea over Spruance's more protective posture, a disagreement about carrier doctrine that recurred in various forms for the rest of the war. Later commanded fast carrier task forces through the war's end; died in 1947.", faction: "alliedPacific", rank: 2 },
   Roosevelt: { role: "President of the United States", summary: "Set Allied war aims at the Casablanca Conference in January 1943, announcing unconditional surrender as declared policy against Germany, Italy, and Japan alike, citing the perceived mistake of the 1918 armistice that let German militarists later claim they were never truly defeated. Committed the United States to Europe First at Arcadia weeks after Pearl Harbor, a priority the Pacific command spent the whole war arguing hadn't been given enough of the resources it was owed. Died in office in April 1945, four months before Japan's surrender; did not live to see the war he'd shaped end.", faction: "alliedPacific", rank: 0 },
   Curtin: { role: "Prime Minister of Australia", summary: "Publicly declared in December 1941 that Australia looked to America rather than Britain for its defense, and defied Churchill's attempt to redirect Australian troops to Burma in early 1942, insisting they return home instead. Died in office in July 1945, weeks before the war he'd spent it directing Australia through actually ended.", faction: "alliedPacific", rank: 1 },
   Churchill: { role: "Prime Minister of the United Kingdom", summary: "Pushed hard to keep Australian divisions committed to the wider Commonwealth war effort even as Singapore fell and Australia's own home defense looked increasingly urgent, straining the Australian-British relationship badly enough that Curtin looked to Washington instead. Argued consistently for Europe First at every Allied conference, a priority he and Roosevelt agreed on more readily than either did with their own Pacific commanders. Voted out of office in a landslide in July 1945, before the war he'd led Britain through actually ended; returned as Prime Minister in 1951; died in 1965.", faction: "alliedPacific", rank: 0 },
   Biddle: { role: "Attorney General", summary: "Opposed the forced removal of Japanese Americans from the West Coast, arguing the Justice Department had no evidence to support the military necessity claim being used to justify it, and lost the argument to the War Department. Later served as the American judge at the Nuremberg trials; died in 1968.", faction: "alliedPacific", rank: 1 },
-  Marshall: { role: "General — Army Chief of Staff", summary: "The organizer of the wartime Army from a fraction of its final size, and the strongest voice for the Europe First doctrine confirmed at Arcadia, arguing Germany was the only enemy capable of winning the war outright before America was ready to stop it. Later revived a seriously argued 1945 proposal to use gas against Japanese cave defenses during the planned home-islands invasion, a proposal Truman ultimately declined. Author of the postwar Marshall Plan bearing his name; awarded the Nobel Peace Prize in 1953, the only career soldier to receive it.", faction: "alliedPacific", rank: 0 },
-  King: { role: "Fleet Admiral — Commander in Chief, U.S. Fleet", summary: "Fought the Navy's corner in every Europe First conference and kept the Pacific resourced despite the formal priority, a persistent and occasionally abrasive advocate for a theater he felt was chronically underweighted. Retired in 1945; died in 1956.", faction: "alliedPacific", rank: 1 },
-  Nimitz: { role: "Fleet Admiral — Commander in Chief, Pacific Fleet", summary: "Took command days after Pearl Harbor, when American morale and the fleet's own material state were both at their lowest point of the war, and staked its remaining three carriers on codebreaking intelligence at Midway, a wager that became the Pacific war's turning point. Balanced Central Pacific island-hopping against MacArthur's Southwest Pacific priorities for years without the command structure ever fully resolving which theater actually came first. Accepted the Japanese surrender aboard USS Missouri; later Chief of Naval Operations; died in 1966, remembered as uncommonly unflappable even by his own command's standards.", faction: "alliedPacific", rank: 0 },
-  Fletcher: { role: "Rear Admiral — Task Force 17", summary: "Commanded the American carrier forces at both Coral Sea and Midway, cautious with his ships in a war that could not yet afford to lose them carelessly. Later commanded the North Pacific Force; died in 1973.", faction: "alliedPacific", rank: 2 },
-  Pye: { role: "Vice Admiral — acting Commander in Chief, Pacific Fleet", summary: "Held temporary command of the Pacific Fleet in the weeks after Pearl Harbor and made the actual decision to recall the Wake Island relief force, a call that remains one of the most argued-over of the early Pacific war. Reverted to his prior command after Nimitz's arrival; died in 1959.", faction: "alliedPacific", rank: 2 },
-  Ghormley: { role: "Vice Admiral — South Pacific Area commander", summary: "Oversaw the planning for the Guadalcanal landing on a compressed and under-resourced timetable he privately doubted was adequate. Relieved of command in October 1942 amid the campaign's darkest weeks; served in administrative posts for the war's remainder; died in 1958.", faction: "alliedPacific", rank: 3 },
-  "Holland Smith": { role: "Lieutenant General — V Amphibious Corps", summary: "A leading advocate of direct amphibious assault over bypass strategy, and the Marine Corps' most influential voice on fortified-atoll doctrine through the Central Pacific campaign. Retired after the war with the nickname 'Howlin' Mad' intact; died in 1967.", faction: "alliedPacific", rank: 2 },
-  MacArthur: { role: "General — Supreme Commander, Southwest Pacific Area", summary: "Left the Philippines in 1942 promising to return, and spent two years making both the strategic and moral case for doing so over the Navy's preference for bypassing them entirely. Accepted the Japanese surrender and administered the postwar occupation of Japan; relieved of Korean War command in 1951; died in 1964.", faction: "alliedPacific", rank: 1 },
-  Kenney: { role: "General — Commander, Fifth Air Force", summary: "Developed and championed low-altitude skip-bombing tactics against Japanese shipping, applied with devastating effect at the Bismarck Sea, one of the most lopsided air-versus-naval engagements of the war. Later commanded Far East Air Forces; retired from the Air Force in 1951; died in 1977.", faction: "alliedPacific", rank: 2 },
+  Marshall: { role: "General: Army Chief of Staff", summary: "The organizer of the wartime Army from a fraction of its final size, and the strongest voice for the Europe First doctrine confirmed at Arcadia, arguing Germany was the only enemy capable of winning the war outright before America was ready to stop it. Later revived a seriously argued 1945 proposal to use gas against Japanese cave defenses during the planned home-islands invasion, a proposal Truman ultimately declined. Author of the postwar Marshall Plan bearing his name; awarded the Nobel Peace Prize in 1953, the only career soldier to receive it.", faction: "alliedPacific", rank: 0 },
+  King: { role: "Fleet Admiral: Commander in Chief, U.S. Fleet", summary: "Fought the Navy's corner in every Europe First conference and kept the Pacific resourced despite the formal priority, a persistent and occasionally abrasive advocate for a theater he felt was chronically underweighted. Retired in 1945; died in 1956.", faction: "alliedPacific", rank: 1 },
+  Nimitz: { role: "Fleet Admiral: Commander in Chief, Pacific Fleet", summary: "Took command days after Pearl Harbor, when American morale and the fleet's own material state were both at their lowest point of the war, and staked its remaining three carriers on codebreaking intelligence at Midway, a wager that became the Pacific war's turning point. Balanced Central Pacific island-hopping against MacArthur's Southwest Pacific priorities for years without the command structure ever fully resolving which theater actually came first. Accepted the Japanese surrender aboard USS Missouri; later Chief of Naval Operations; died in 1966, remembered as uncommonly unflappable even by his own command's standards.", faction: "alliedPacific", rank: 0 },
+  Fletcher: { role: "Rear Admiral: Task Force 17", summary: "Commanded the American carrier forces at both Coral Sea and Midway, cautious with his ships in a war that could not yet afford to lose them carelessly. Later commanded the North Pacific Force; died in 1973.", faction: "alliedPacific", rank: 2 },
+  Pye: { role: "Vice Admiral: acting Commander in Chief, Pacific Fleet", summary: "Held temporary command of the Pacific Fleet in the weeks after Pearl Harbor and made the actual decision to recall the Wake Island relief force, a call that remains one of the most argued-over of the early Pacific war. Reverted to his prior command after Nimitz's arrival; died in 1959.", faction: "alliedPacific", rank: 2 },
+  Ghormley: { role: "Vice Admiral: South Pacific Area commander", summary: "Oversaw the planning for the Guadalcanal landing on a compressed and under-resourced timetable he privately doubted was adequate. Relieved of command in October 1942 amid the campaign's darkest weeks; served in administrative posts for the war's remainder; died in 1958.", faction: "alliedPacific", rank: 3 },
+  "Holland Smith": { role: "Lieutenant General: V Amphibious Corps", summary: "A leading advocate of direct amphibious assault over bypass strategy, and the Marine Corps' most influential voice on fortified-atoll doctrine through the Central Pacific campaign. Retired after the war with the nickname 'Howlin' Mad' intact; died in 1967.", faction: "alliedPacific", rank: 2 },
+  MacArthur: { role: "General: Supreme Commander, Southwest Pacific Area", summary: "Left the Philippines in 1942 promising to return, and spent two years making both the strategic and moral case for doing so over the Navy's preference for bypassing them entirely. Accepted the Japanese surrender and administered the postwar occupation of Japan; relieved of Korean War command in 1951; died in 1964.", faction: "alliedPacific", rank: 1 },
+  Kenney: { role: "General: Commander, Fifth Air Force", summary: "Developed and championed low-altitude skip-bombing tactics against Japanese shipping, applied with devastating effect at the Bismarck Sea, one of the most lopsided air-versus-naval engagements of the war. Later commanded Far East Air Forces; retired from the Air Force in 1951; died in 1977.", faction: "alliedPacific", rank: 2 },
   Osmeña: { role: "President of the Philippine Commonwealth government-in-exile", summary: "Succeeded Manuel Quezon as president when Quezon died in August 1944, weeks before the Leyte landing, and waded ashore beside MacArthur in a moment the newsreels used to represent a leader who wasn't there to see it. Served as President until losing the 1946 election shortly after the Philippines gained independence; died in 1961.", faction: "alliedPacific", rank: 2 },
-  Wainwright: { role: "Lieutenant General — Philippines commander after MacArthur's evacuation", summary: "Inherited command of the doomed Bataan and Corregidor garrisons after MacArthur left for Australia, and was ultimately forced to surrender the largest American force in history to that point. Survived brutal Japanese captivity for the rest of the war; present at the formal Japanese surrender in 1945; died in 1953.", faction: "alliedPacific", rank: 2 },
-  Sutherland: { role: "Major General — MacArthur's Chief of Staff", summary: "Ran MacArthur's Southwest Pacific Area headquarters with a famously controlling grip on what reached the general's desk, to the point other senior officers routinely complained of having to go through him rather than around him. Fell out of favor after the war over a personal scandal involving an Australian officer; died in 1966.", faction: "alliedPacific", rank: 2 },
+  Wainwright: { role: "Lieutenant General: Philippines commander after MacArthur's evacuation", summary: "Inherited command of the doomed Bataan and Corregidor garrisons after MacArthur left for Australia, and was ultimately forced to surrender the largest American force in history to that point. Survived brutal Japanese captivity for the rest of the war; present at the formal Japanese surrender in 1945; died in 1953.", faction: "alliedPacific", rank: 2 },
+  Sutherland: { role: "Major General: MacArthur's Chief of Staff", summary: "Ran MacArthur's Southwest Pacific Area headquarters with a famously controlling grip on what reached the general's desk, to the point other senior officers routinely complained of having to go through him rather than around him. Fell out of favor after the war over a personal scandal involving an Australian officer; died in 1966.", faction: "alliedPacific", rank: 2 },
   Webb: { role: "President of the International Military Tribunal for the Far East", summary: "Presided over the Tokyo war crimes trials and was known to be personally frustrated by the political decision to exempt Hirohito from prosecution despite testimony implicating the imperial government at every level below the throne. Returned to the Australian judiciary after the tribunal concluded; died in 1972.", faction: "alliedPacific", rank: 2 },
-  Eichelberger: { role: "General — Eighth Army commander under MacArthur", summary: "Took Buna in a grinding 1942 campaign MacArthur's headquarters publicly credited to MacArthur himself, a lasting source of friction between the two men that never became open insubordination. Commanded occupation forces in Japan after the war; died in 1961.", faction: "alliedPacific", rank: 2 },
+  Eichelberger: { role: "General: Eighth Army commander under MacArthur", summary: "Took Buna in a grinding 1942 campaign MacArthur's headquarters publicly credited to MacArthur himself, a lasting source of friction between the two men that never became open insubordination. Commanded occupation forces in Japan after the war; died in 1961.", faction: "alliedPacific", rank: 2 },
   Attlee: { role: "British Prime Minister (from July 1945)", summary: "Won the 1945 general election by landslide against Churchill and inherited Britain's role in the Pacific war's final weeks and the postwar settlement that followed, generally favoring more shared Allied authority over occupied Japan than the arrangement the United States actually pursued. Led Britain's postwar Labour government through 1951, including creation of the National Health Service; died in 1967.", faction: "alliedPacific", rank: 1 },
-  LeMay: { role: "Major General — XXI Bomber Command", summary: "Directed the incendiary bombing campaign against Japanese cities and was among the strongest advocates that blockade and air power alone might force surrender without a home-islands invasion. Later led Strategic Air Command and served as Air Force Chief of Staff; died in 1990.", faction: "alliedPacific", rank: 2 },
+  LeMay: { role: "Major General: XXI Bomber Command", summary: "Directed the incendiary bombing campaign against Japanese cities and was among the strongest advocates that blockade and air power alone might force surrender without a home-islands invasion. Later led Strategic Air Command and served as Air Force Chief of Staff; died in 1990.", faction: "alliedPacific", rank: 2 },
 };
 
 const OBJECTIVES = [

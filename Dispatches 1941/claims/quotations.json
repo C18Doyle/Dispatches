@@ -1,0 +1,38 @@
+[
+  {
+    "campaign": "japan",
+    "node": "onishiKamikaze44",
+    "by": "Onishi",
+    "text": "organize suicide attack units composed of Zero fighters armed with 250 kilogram bombs, with each plane to crash-dive into enemy carriers",
+    "source": "Onishi to the staff of the 201st Air Group, 19 October 1944, as recorded in Inoguchi and Nakajima, The Divine Wind (1958)",
+    "status": "secondary",
+    "note": "Checked 2026-10-09: the sentence appears, in these words, in accounts of Onishi's address at Mabalacat on 19 October 1944 that cite Inoguchi and Nakajima. English editions differ in small ways (250 kilogram or 250-kilogram, enemy carrier or carriers). Open The Divine Wind (1958) for the exact English and the page."
+  },
+  {
+    "campaign": "alliedPacific",
+    "node": "curtinsTurn42",
+    "by": "Curtin",
+    "text": "Australia looks to America, free of any pangs as to our traditional links or kinship with the United Kingdom",
+    "source": "John Curtin, 'The Task Ahead', Melbourne Herald, 27 December 1941",
+    "status": "secondary",
+    "note": "Checked 2026-10-09: several histories (the Australian War Memorial and Curtin University among them) give this sentence from the Herald editorial 'The Task Ahead' of 27 December 1941. The newspaper page itself was not opened: look it up on Trove."
+  },
+  {
+    "campaign": "alliedPacific",
+    "node": "corregidorEvacuation42",
+    "by": "MacArthur",
+    "text": "I came through and I shall return.",
+    "source": "MacArthur, interview with the Adelaide Advertiser at Terowie, 20 March 1942",
+    "status": "secondary",
+    "note": "Checked 2026-10-09: the sentence closes MacArthur's statement to two Advertiser reporters at Terowie railway station, which the paper printed on 21 March 1942 under the headline 'I Shall Return'. Open the Advertiser of 21 March 1942 (Trove) for the exact words."
+  },
+  {
+    "campaign": "alliedPacific",
+    "node": "radiationDisclosure45",
+    "by": "Groves",
+    "text": "they say it is a very pleasant way to die",
+    "source": "Leslie Groves, testimony to the Senate Special Committee on Atomic Energy, 1945",
+    "status": "secondary",
+    "note": "Checked 2026-10-09: the full sentence reported in secondary accounts is 'without undue suffering. In fact, they say it is a very pleasant way to die', from Groves's testimony to the Senate Special Committee on Atomic Energy, which the National Security Archive holds. The node's date (September 1945) probably does not match the hearing (autumn 1945): open the transcript, then fix the node's date or text."
+  }
+]
