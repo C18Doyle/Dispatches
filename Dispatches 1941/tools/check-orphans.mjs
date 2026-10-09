@@ -2,6 +2,7 @@
 // reachable nodes missing from the atlas, NODE_TOTAL drift. Run: npm run check:orphans
 import { createRequire } from "node:module";
 import { checkOrphans, reportOrphans } from "../../packages/testkit/src/content-checks.mjs";
+import { labelsInSource } from "./audit-lib.mjs";
 import { loadFromJsx } from "../../packages/testkit/src/load-campaigns.mjs";
 
 const esbuild = createRequire(import.meta.url)("esbuild");
@@ -12,6 +13,8 @@ const result = checkOrphans(CAMPAIGNS, {
   startOf: (camp) => camp.start,
   gated: (c) => !!c.disabledReason,
   atlasOf: (camp, cid) => (NODE_ATLAS[cid] || []).map((n) => n.id),
+  labelOf: (camp, flags, meters) => (camp.positionLabel ? camp.positionLabel(flags, meters) : null),
+  labelsOf: (camp, cid) => labelsInSource(cid),
   nodeTotal: NODE_TOTAL,
 });
 process.exit(reportOrphans("1941", result, "tests/orphans-allowlist.json") ? 1 : 0);

@@ -1,0 +1,282 @@
+{
+  "_note": "Reviewed adviser tenures for tools/check-advisor-dates.mjs. Dates are year-month. Facts from memory of standard histories; confirm with sources (docs/WRITING.md, claims register).",
+  "anonymous": [
+    "Bureau of Ordnance",
+    "Sixth Army staff"
+  ],
+  "tenures": {
+    "Acheson": {},
+    "Arnold": {},
+    "Attlee": {
+      "titlePeriods": [
+        [
+          "1945-07",
+          "1951-10"
+        ]
+      ]
+    },
+    "Biddle": {
+      "titlePeriods": [
+        [
+          "1941-09",
+          "1945-06"
+        ]
+      ]
+    },
+    "Blamey": {},
+    "Compton": {},
+    "Davies": {},
+    "Doolittle": {},
+    "Eichelberger": {},
+    "Fletcher": {},
+    "Ghormley": {},
+    "Grew": {
+      "titlePeriods": [
+        [
+          "1932-06",
+          "1941-12"
+        ]
+      ],
+      "note": "Ambassador to Japan until Pearl Harbor; Under Secretary of State from December 1944"
+    },
+    "Groves": {},
+    "Halsey": {},
+    "Holland Smith": {},
+    "Hull": {
+      "titlePeriods": [
+        [
+          "1933-03",
+          "1944-11"
+        ]
+      ]
+    },
+    "Hurley": {
+      "titlePeriods": [
+        [
+          "1944-11",
+          "1945-11"
+        ]
+      ],
+      "note": "Ambassador to China from November 1944"
+    },
+    "Iida": {},
+    "Imamura": {},
+    "Inoue": {},
+    "Kawabe": {},
+    "Kenney": {},
+    "Kido": {},
+    "King": {},
+    "Kistiakowsky": {},
+    "Krueger": {},
+    "Kurita": {},
+    "Kusaka": {},
+    "Layton": {},
+    "LeMay": {},
+    "Lockwood": {},
+    "MacArthur": {},
+    "Marshall": {},
+    "McCloy": {
+      "note": "Assistant Secretary of War: the title shown ('Sec.') is imprecise"
+    },
+    "Mitscher": {},
+    "Nimitz": {},
+    "Nomura": {},
+    "Ozawa": {},
+    "Porter": {},
+    "Pye": {},
+    "Sakurai": {},
+    "Sato": {
+      "titlePeriods": [
+        [
+          "1942-03",
+          "1945-08"
+        ]
+      ],
+      "note": "Ambassador to the USSR"
+    },
+    "Slim": {},
+    "Spruance": {},
+    "Stilwell": {},
+    "Stimson": {
+      "titlePeriods": [
+        [
+          "1940-07",
+          "1945-09"
+        ]
+      ]
+    },
+    "Suzuki": {
+      "titlePeriods": [
+        [
+          "1945-04",
+          "1945-08"
+        ]
+      ]
+    },
+    "Tanaka": {},
+    "Terauchi": {
+      "titlePeriods": [
+        [
+          "1943-06",
+          "1945-09"
+        ]
+      ],
+      "note": "Field Marshal from June 1943"
+    },
+    "Toyoda": {},
+    "Truman": {
+      "titlePeriods": [
+        [
+          "1945-04",
+          "1953-01"
+        ]
+      ]
+    },
+    "Webb": {},
+    "Yonai": {},
+    "Yoshida": {
+      "titlePeriods": [
+        [
+          "1936-04",
+          "1938-12"
+        ]
+      ],
+      "note": "Ambassador to Britain 1936 to 1938; Prime Minister from 1946"
+    },
+    "Kawane": {
+      "note": "identity to confirm in the fact-check pass"
+    },
+    "Yamamoto": {
+      "until": "1943-04",
+      "note": "shot down over Bougainville, 18 April 1943"
+    },
+    "Koga": {
+      "until": "1944-03",
+      "note": "lost in an aircraft, 31 March 1944"
+    },
+    "Konoe": {
+      "until": "1945-12",
+      "note": "suicide, 16 December 1945",
+      "titlePeriods": [
+        [
+          "1940-07",
+          "1941-10"
+        ]
+      ]
+    },
+    "Anami": {
+      "until": "1945-08",
+      "note": "suicide, 15 August 1945"
+    },
+    "Kuribayashi": {
+      "until": "1945-03",
+      "note": "killed on Iwo Jima, about 26 March 1945"
+    },
+    "Roosevelt": {
+      "until": "1945-04",
+      "note": "died 12 April 1945"
+    },
+    "Onishi": {
+      "until": "1945-08",
+      "note": "suicide, 16 August 1945"
+    },
+    "Ugaki": {
+      "until": "1945-08",
+      "note": "killed on a last sortie, 15 August 1945"
+    },
+    "Sugiyama": {
+      "until": "1945-09",
+      "note": "suicide, 12 September 1945"
+    },
+    "Nagumo": {
+      "until": "1944-07",
+      "note": "suicide on Saipan, July 1944"
+    },
+    "Knox": {
+      "titlePeriods": [
+        [
+          "1940-07",
+          "1944-04"
+        ]
+      ],
+      "until": "1944-04",
+      "note": "Secretary of the Navy, died 28 April 1944"
+    },
+    "Curtin": {
+      "until": "1945-07",
+      "note": "died 5 July 1945",
+      "titlePeriods": [
+        [
+          "1941-10",
+          "1945-07"
+        ]
+      ]
+    },
+    "Horii": {
+      "until": "1942-11",
+      "note": "drowned crossing the Kumusi River, 18 November 1942"
+    },
+    "Homma": {
+      "until": "1946-04",
+      "note": "executed 3 April 1946"
+    },
+    "Ariizumi": {
+      "until": "1945-08",
+      "note": "suicide, 27 August 1945"
+    },
+    "Nagano": {
+      "until": "1947-01",
+      "note": "died in custody, 5 January 1947"
+    },
+    "Tojo": {
+      "until": "1948-12",
+      "note": "executed 23 December 1948"
+    },
+    "Umezu": {
+      "until": "1949-01",
+      "note": "died in prison, January 1949"
+    },
+    "Togo": {
+      "until": "1950-07",
+      "note": "died in prison, 1950",
+      "titlePeriods": [
+        [
+          "1941-10",
+          "1942-09"
+        ],
+        [
+          "1945-04",
+          "1945-08"
+        ]
+      ]
+    },
+    "Matsuoka": {
+      "titlePeriods": [
+        [
+          "1940-07",
+          "1941-07"
+        ]
+      ],
+      "note": "Foreign Minister July 1940 to July 1941"
+    },
+    "Churchill": {
+      "titlePeriods": [
+        [
+          "1940-05",
+          "1945-07"
+        ]
+      ],
+      "note": "Prime Minister until the July 1945 election"
+    },
+    "Osmeña": {
+      "titlePeriods": [
+        [
+          "1944-08",
+          "1946-05"
+        ]
+      ],
+      "note": "President of the Commonwealth from Quezon's death, 1 August 1944"
+    },
+    "Wainwright": {}
+  }
+}

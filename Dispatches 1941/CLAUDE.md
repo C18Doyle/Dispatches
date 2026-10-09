@@ -46,3 +46,8 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 ## Writing and quotations
 - Follow `../docs/WRITING.md`. `npm run check-writing` fails on an em dash in on-screen text (campaign parts and `src/data`).
 - Advisers carry `position`, a third-person summary, never invented speech. A real quotation is an `attested` line on the choice and is logged in `claims/quotations.json`; `npm run check-quotations` enforces both.
+## Audits (npm run audit; most are in test:fast)
+- `tools/audit-lib.mjs` loads the campaigns and logic.ts and plays seeded wars the way the app does (random, greedy on the meters, uniform rolls so rare branches are visited).
+- `check:orphans` (nodes and ending titles reachable), `check-reachability`, `check-advisor-dates` (needs an entry in `tests/adviser-tenures.json` for every named adviser), `check-outcome-sign`, `check-endings`.
+- Reviewed exceptions live in `tests/audit-allowlist.json` and `tests/orphans-allowlist.json`; an entry that no longer occurs is reported so it can be removed. Never add an exception to make a new finding pass without reading it.
+- Known gap: there is no pace-text check because the Pacific campaigns have no projected end date yet.

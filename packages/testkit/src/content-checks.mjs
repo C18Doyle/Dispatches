@@ -99,13 +99,16 @@ export function report(name, result, allowlistPath) {
  *   - atlas size differs from the game's NODE_TOTAL                            -> problem
  *   - an authored ending (endingsOf: an id, or {id, title} for endings reached through a redirecting node,
  *     matched by the resolved title) that no state reaches                     -> problem
+ * `labelOf(camp, flags, meters)` (optional) names the ending of a run that stops at the given state, as a campaign's positionLabel does;
+ *   with it the search records every label a run can end with at the meter samples, returned in info.labels[campaign], and `labelsOf(camp, cid)`
+ *   (the labels the game promises) turns a promised label no state produces into a problem.
  * `startFlags` lists the flag sets a run can begin with (default one empty set; 1940 passes {} and { hardMode: true }, because
  * hard mode adds nodes only it reaches).
  * Not covered: endings that are labels computed from final state (1940's check-reachability.js plays runs for those).
  * If the exact search hits `maxStates` (many independent flags), that campaign falls back to `walks` seeded random
  * walks, and anything they never visit is reported as "never reached in N random walks" (strong evidence, not proof).
  */
-export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, endingsOf, nodeTotal, maxStates = 150000, counterClamp = 3, walks = 30000, gated, startFlags = [{}] }) {
+export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, endingsOf, labelOf, labelsOf, nodeTotal, maxStates = 150000, counterClamp = 3, walks = 30000, gated, startFlags = [{}] }) {
   const problems = [];
   const info = { campaigns: 0, reached: 0, atlas: 0, states: 0, truncated: [], walked: [] };
   // Meter states tried at every node: all zero, all high, all low, alternating, and each axis alone at its extremes
@@ -137,6 +140,7 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
       const reached = new Set();
       const endIds = new Set();
       const endTitles = new Set();
+      const labels = new Set();
       const stack = startFlags.map((f) => ({ nid: start, flags: project(f, keep) }));
       for (const e of stack) seen.add(start + "|" + stable(e.flags));
       let truncated = false;
@@ -174,6 +178,16 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
                 }
               }
               for (const d of dests) {
+                if (typeof d === "string" && END.has(d) && labelOf) {
+                  for (const mm of meters) {
+                    try {
+                      const lab = labelOf(camp, reads ? watched(nf, reads) : nf, mm);
+                      if (lab) labels.add(lab);
+                    } catch {
+                      /* a label that needs state we do not model */
+                    }
+                  }
+                }
                 if (typeof d !== "string" || END.has(d)) continue;
                 const key = d + "|" + stable(nf);
                 if (seen.has(key)) continue;
@@ -184,7 +198,7 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
           }
         }
       }
-      return { seen, reached, endIds, endTitles, truncated };
+      return { seen, reached, endIds, endTitles, labels, truncated };
     };
     // Fallback when the exact search is too big (many independent flags): seeded random walks. Flags are exact along
     // each walk, meters are random every step. Not a proof: a node no walk visits is reported as "never reached in N walks".
@@ -204,6 +218,7 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
       const reached = new Set();
       const endIds = new Set();
       const endTitles = new Set();
+      const labels = new Set();
       for (let w = 0; w < walks; w++) {
         let nid = start;
         let flags = { ...startFlags[w % startFlags.length] };
@@ -253,22 +268,32 @@ export function checkOrphans(CAMPAIGNS, { axes, resolveNode, startOf, atlasOf, e
               /* keep the static destination */
             }
           }
+          if (labelOf && (typeof dest !== "string" || END.has(dest))) {
+            try {
+              const lab = labelOf(camp, flags, Object.fromEntries(keys.map((k) => [k, draw()])));
+              if (lab) labels.add(lab);
+            } catch {
+              /* ignore */
+            }
+          }
           nid = typeof dest === "string" && !END.has(dest) ? dest : null;
         }
       }
-      return { reached, endIds, endTitles };
+      return { reached, endIds, endTitles, labels };
     };
     // Pass 1 (bounded): which flags are ever read? Pass 2: exact search over only those flags.
     const reads = new Set();
     explore(null, reads, 20000);
     const exact = explore(reads, null, maxStates);
     const { seen } = exact;
-    let { reached, endIds, endTitles } = exact;
+    let { reached, endIds, endTitles, labels } = exact;
     const how = exact.truncated ? `never reached in ${walks} random walks` : "not reached by any path from the start";
     if (exact.truncated) {
       info.walked.push(cid);
-      ({ reached, endIds, endTitles } = walkSearch());
+      ({ reached, endIds, endTitles, labels } = walkSearch());
     }
+    if (labelOf) (info.labels || (info.labels = {}))[cid] = [...labels];
+    for (const t of labelsOf ? labelsOf(camp, cid) : []) if (!labels.has(t)) problems.push(`${cid}: ending title "${t}": ${how}`);
     info.states += seen.size;
     info.reached += reached.size;
     const atlas = atlasOf ? atlasOf(camp, cid) : null;
