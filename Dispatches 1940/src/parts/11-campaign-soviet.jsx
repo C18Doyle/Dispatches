@@ -1465,8 +1465,206 @@
               setFlags: { stalingradStreets: "hug" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "stalingradCounter42",
+              // Round 26 (item 1). The defence of the city itself, September to November 1942. Facts checked 2026-10-08
+              // (Wikipedia, Battle of Stalingrad): Chuikov took over the 62nd Army on 11 September; the 13th Guards Rifle
+              // Division under Rodimtsev crossed the Volga on 14 and 15 September to reinforce it; the Luftwaffe's bombing
+              // of 23 August had reduced the city to rubble; the German offensives into the city began on 13 September, the
+              // big attack on the tractor factory was on 14 October and the last assaults were made on 11 November; the
+              // Soviet defenders held Mamayev Kurgan, the Red October factory, Pavlov's House and Lyudnikov's Island at
+              // various times, fighting at close quarters, with snipers; by mid-November the Germans had pushed them back
+              // to narrow zones along the west bank of the Volga; the army was supplied by ferries from the east bank, where
+              // the artillery stood and covered the crossing; Operation Uranus began on 19 November.
+              keyBattleSubgame: {
+                id: "stalingradCity42",
+                title: "Order of Battle — The Strip on the Volga",
+                flavor:
+                  "Sixth Army is in the city, and the 62nd Army is in a strip of ruins a few hundred metres deep along the river, with the Volga at its back and nothing but ferries to bring it anything. Chuikov has taken command in the middle of September and means to hold. The Luftwaffe rules the sky, and the German guns can reach every street. Behind him on the east bank stand the army's own guns, which can fire over the river into the ruins, and every night the ferries bring men and shells across under fire. What's decided here is how the weight is spread between the rifle divisions that have to hold the buildings, the guns on the east bank, the assault groups that fight at grenade range, and the ferries that keep the army alive.",
+                categories: [
+                  { id: "rifle", name: "The Rifle Divisions", meter: "manpower" },
+                  { id: "guns", name: "East-Bank Artillery", meter: "fuel", strand: "steel" },
+                  { id: "groups", name: "Assault Groups in the Ruins", meter: "manpower" },
+                  { id: "ferries", name: "The Volga Ferries", meter: "initiative" },
+                ],
+                // The rifle divisions and the guns hold the strip; the assault groups are what makes the ruins cost the Germans; the ferries keep it all alive.
+                effectiveness: { rifle: 2.2, guns: 2.3, groups: 2.4, ferries: 2.0 },
+                orderOfBattle: {
+                  rifle: {
+                    units: [
+                      "The 13th Guards Rifle Division under Rodimtsev, which crossed the Volga on 14 and 15 September",
+                      "The other rifle divisions of the 62nd Army holding the strip along the river",
+                    ],
+                    real: "Divisions crossed the Volga and were used up within days. By mid-November the army held only narrow zones along the west bank.",
+                  },
+                  guns: {
+                    units: [
+                      "The artillery on the east bank, firing over the river into the city",
+                      "The rocket batteries and mortars that could reach the German lines in the ruins",
+                    ],
+                    real: "The guns on the east bank covered the crossings and the ruins, and were among the few things the Luftwaffe could not silence.",
+                  },
+                  groups: {
+                    units: [
+                      "The assault groups of a dozen men each, fighting for single buildings",
+                      "The snipers and the strongpoints: Mamayev Kurgan, the Red October factory, Pavlov's House",
+                    ],
+                    real: "Chuikov's men fought at close quarters so that the German aircraft and guns could not be used without hitting their own men.",
+                  },
+                  ferries: {
+                    units: [
+                      "The ferries and boats of the Volga flotilla, crossing from the east bank under fire",
+                      "The sappers and the stretcher parties on the landing stages",
+                    ],
+                    real: "The army was supplied across the river every night by ferry, and the wounded went back the same way. The landing stages were under fire all day.",
+                  },
+                },
+                hardRule: { text: "Stalin's order stands: not one more step is to be given, and the strip on the river is to be held where it is.", noGiveGround: true },
+                conditions: "Early autumn turning to the first frosts, in a city of ruins, with the Volga running full behind and ice not yet on it.",
+                terrainModifiers: { ferries: 0.9 },
+                terrainNotes: { ferries: "the crossing under fire" },
+                attrition: [
+                  { category: "rifle", atLeast: 3, meter: "manpower", delta: -1, reason: "Divisions that cross the river do not last" },
+                  { category: "ferries", atLeast: 3, meter: "initiative", delta: -1, reason: "Boats lost on the crossing" },
+                ],
+                // Field decision: the day of the great attack on the factories. Facts: the big German assault on the
+                // tractor factory district began on 14 October. The three answers are the real options before Chuikov
+                // that morning; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theFactoryDay",
+                    time: "1230",
+                    title: "The factory district",
+                    prompt: "A heavy German attack is going in against the factories in the north of the city, with every aircraft the Luftwaffe has over it. The line is bending, and the reserve is a single regiment on the east bank.",
+                    options: [
+                      {
+                        id: "counterattackNow",
+                        name: "Counterattack with the regiment at once",
+                        note: "Throws the Germans back, if they are not yet in strength, and uses the last reserve.",
+                        bonus: 0,
+                        bonusByPosture: { landingStage: 3, factoryWeight: -3, flameAndSappers: 1 },
+                        meters: { manpower: -1 },
+                        costReason: "The last reserve spent",
+                        reportLine: "The reserve regiment is ferried across and goes in at once against the German assault.",
+                      },
+                      {
+                        id: "fallBackToTheStrip",
+                        name: "Fall back to the next line and make them come on",
+                        note: "Saves the garrison of the factories, and gives up buildings that cost blood to hold.",
+                        bonus: 0,
+                        bonusByPosture: { landingStage: -1, factoryWeight: 3, flameAndSappers: 0 },
+                        reportLine: "The defenders of the factory yards fall back one line, leaving the Germans the ruined workshops.",
+                      },
+                      {
+                        id: "guns",
+                        name: "Call down every gun on the east bank",
+                        note: "Fires into our own ruins as well as theirs.",
+                        bonus: 0,
+                        bonusByPosture: { landingStage: 1, factoryWeight: 1, flameAndSappers: 4 },
+                        reportLine: "Every gun on the east bank is turned on the factory yards, and the shells fall on friend and foe alike.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  rifle:
+                    "The rifle divisions hold the buildings, the streets and the cellars. Each commitment here puts more of them across the river and into the line, at a cost in men that nothing else in the city matches.",
+                  guns:
+                    "The guns on the east bank are the heaviest weapon the 62nd Army has, and they can fire over the river without being touched by the German infantry. Each commitment here puts more guns and more shells behind the line.",
+                  groups:
+                    "The assault groups are what the Germans meet in every building: a dozen men with grenades, submachine guns and a flamethrower. Each commitment here puts more of them in the ruins, fighting for a floor at a time.",
+                  ferries:
+                    "The ferries bring across the men and shells, and take away the wounded, every night under fire. Each commitment here puts more boats on the river and more men on the landing stages.",
+                },
+                flashups: {
+                  rifle: [
+                    "A rifle company crosses the Volga at night in the dark and goes into the ruins at once.",
+                    "A battalion in a cellar counts its men and finds a third of them left.",
+                    "A division commander looks at the map and moves his headquarters to the bank of the river.",
+                    "A regiment holds a street corner for three days and is relieved by a company.",
+                    "A sergeant leads a handful of men back from the line to the landing stage.",
+                  ],
+                  guns: [
+                    "A battery on the east bank fires over the river and the shells land among the German infantry.",
+                    "A rocket battery fires a salvo from a gully and moves at once.",
+                    "A German aircraft finds a gun position on the bank and the battery moves.",
+                    "An artillery observer calls down fire on a building his own men have just left.",
+                    "A battery runs short of shells and waits for the night's ferry.",
+                  ],
+                  groups: [
+                    "A group of ten men takes the ground floor of a building and fights for the next.",
+                    "A sniper takes up a position in a wrecked water tower and waits.",
+                    "A group in Pavlov's House holds the building for days against everything sent at it.",
+                    "A flamethrower team clears a cellar at the point of a grenade.",
+                    "A group is cut off in a factory shed and fights on through the night.",
+                  ],
+                  ferries: [
+                    "A ferry crosses the river under fire with its deck full of men.",
+                    "A boat is hit in mid-river, and the men aboard are lost.",
+                    "A stretcher party waits on the landing stage for the next boat across.",
+                    "Sappers repair a landing stage that has been smashed by shellfire.",
+                    "A tug brings two barges of ammunition across the river in the dark.",
+                  ],
+                },
+                reportTimes: { open: "0500", contact: "0630", cats: ["0800", "1030", "1230", "1430"], reserve: "1630", counter: "1830" },
+                idleLines: {
+                  rifle: [
+                    "No more divisions are sent across the river, and the strip is held by what is in it.",
+                    "The rifle divisions are left as they are, and the line bends where it is thinnest.",
+                  ],
+                  guns: [
+                    "The guns on the east bank fire what they have always fired, and nothing more is added.",
+                    "No more shells are brought up to the batteries on the bank, and the fire dwindles.",
+                  ],
+                  groups: [
+                    "No more assault groups are put into the ruins, and the Germans move through them more freely.",
+                    "The buildings are held by the men already in them, and nobody is sent to retake those that are lost.",
+                  ],
+                  ferries: [
+                    "No more boats are put on the river, and what crosses is what the ferries could already carry.",
+                    "The landing stages are left to the crews already on them, and the wounded wait for the night.",
+                  ],
+                },
+                verdicts: ["The Strip Holds", "The Strip Is Cut Through"],
+                verdictGrades: {
+                  clean: "The divisions, the guns, the assault groups and the ferries held together, and the German attack stopped in the ruins short of the river.",
+                  costly: "The strip on the river holds, but the divisions that held it are used up and the ferries are barely running.",
+                  marginal: "The Germans reach the river in places, and the army holds two thin strips instead of one.",
+                  total: "The Germans cut through the strip to the river, and the army is divided into pockets with no way across.",
+                },
+                counterattack: {
+                  category: "groups",
+                  severity: { landingStage: 2, factoryWeight: 2, flameAndSappers: 1 },
+                  warn: {
+                    1: "German infantry with flamethrowers and sappers are moving up through the ruins.",
+                    2: "A strong German attack, with tanks and aircraft over it, is coming down on the landing stage.",
+                  },
+                  results: {
+                    repulsed: "The German attack is stopped in the ruins before it reaches the river, and the strip is held.",
+                    heldAtCost: "The strip holds, at a heavy cost in the assault groups that held it.",
+                    broke: "The Germans break through to the river, and the strip is divided in two.",
+                    gaveGround: "The defenders give up a block of ruined buildings rather than be cut off in them.",
+                  },
+                },
+              },
               outcome:
                 "What happened, and it worked: the hugging doctrine neutralized German air superiority inside the city, turned Sixth Army's strength into a liability fed piecemeal into rubble, and — the strategic point — held the fight in place, consuming German attention and reserves while Uranus massed on the flanks. The cost inside the 62nd Army was staggering and Chuikov never pretended otherwise; divisions crossed the Volga and ceased to exist in days. The city held by exactly as much as it needed to: the last few hundred meters to the river, never lost.",
+              uncertain: [
+                  {
+                    weight: modWeight(70, meters.manpower),
+                    title: "The strip holds",
+                    setFlags: { stalingradResult: "held" },
+                    impact: { manpower: -1, fuel: 0, initiative: 1 },
+                    outcome:
+                      "What happened, and it worked: the hugging doctrine neutralized German air superiority inside the city, turned Sixth Army's strength into a liability fed piecemeal into rubble, and held the fight in place while Uranus massed on the flanks. Divisions crossed the Volga and ceased to exist in days, and Chuikov never pretended otherwise. By mid-November the army held only narrow zones along the west bank, and the last few hundred metres to the river were never lost.",
+                  },
+                  {
+                    weight: 100 - modWeight(70, meters.manpower),
+                    title: "The strip is cut through",
+                    setFlags: { stalingradResult: "cut" },
+                    impact: { manpower: -2, fuel: 0, initiative: 0 },
+                    outcome:
+                      "Speculative. The German attack reaches the river in two places before the strip can be reinforced, and the 62nd Army is left holding separate pockets of ruins with nothing but boats between them. The ferries run only at night and the pockets live on what they can carry. Chuikov keeps the factory district and the centre alive, as he did historically, but not as one army, and Stalingrad costs more and holds on by less when Uranus begins.",
+                  },
+              ],
             },
             {
               label: "A conventional defense — proper lines and reliefs, spare the 62nd the meat-grinder method",
@@ -1627,7 +1825,7 @@
               historical: true,
               setFlags: { eastPrussia45: "storm" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
-              next: "berlinRace45",
+              next: "balatonVienna45",
               outcome:
                 "The East Prussian operation became one of the costliest campaigns of the war's final year — Königsberg itself fell in April after a siege reduction of exceptional violence, and total Soviet casualties in the operation ran into the hundreds of thousands. Whether the fortress truly threatened the Berlin axis or merely offended the doctrine that no enemy force stays intact in the rear remains a fair question; the historical answer was paid for either way.",
             },
@@ -1695,16 +1893,219 @@
               historical: true,
               setFlags: { berlinAssault: "seelow" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
-              next: "END",
+              next: "prague45",
+              // Round 26 (item 1). The Seelow Heights, 16 to 19 April 1945. Facts checked 2026-10-08 (Wikipedia, Battle of
+              // the Seelow Heights): Zhukov's 1st Belorussian Front had about a million men, 3,059 tanks and self-propelled
+              // guns and 16,934 guns and mortars, with the 8th Guards Army (Chuikov), the 5th Shock, 3rd Shock and 47th
+              // Armies and the 1st Guards Tank Army (Katukov) and 2nd Guards Tank Army (Bogdanov); some 9,000 guns and
+              // Katyushas fired over 500,000 shells in the first 30 minutes; the searchlights were meant to light the
+              // ground, and the dust and smoke of the barrage made them ineffective; Heinrici's Army Group Vistula had the
+              // 9th Army (Busse) with about 110,000 men and 587 tanks, in three lines (the riverbank screen, the Seelow
+              // Heights, and the Wotan line 10 to 15 miles behind); the Oder floodplain had been flooded by releasing a
+              // reservoir; Heinrici pulled the front-line troops back to the second line before the barrage; the first day
+              // gained 4 to 6 kilometres, the second line was broken on the second day, and the final line on 19 April;
+              // Stalin told Zhukov that Konev's tank armies would turn north toward Berlin.
+              keyBattleSubgame: {
+                id: "seelow45",
+                title: "Order of Battle — The Seelow Heights",
+                flavor:
+                  "Zhukov has a million men, over three thousand tanks and self-propelled guns, and nearly seventeen thousand guns and mortars on the Oder, and Berlin is ninety kilometres behind the German line he has to break. Heinrici has spent a month digging three lines on the ground the maps said the blow would come, and has flooded the river plain at the foot of the heights. Stalin has made it plain that Konev's tank armies will turn north to Berlin if Zhukov does not get through. What's decided here is how the weight is spread between the barrage that opens the attack, the rifle armies that have to climb the heights behind it, the tank armies that have to get through, and the engineers who have to get them all across a flooded plain.",
+                categories: [
+                  { id: "barrage", name: "The Opening Barrage", meter: "fuel", strand: "steel" },
+                  { id: "rifle", name: "Rifle Armies", meter: "manpower" },
+                  { id: "tanks", name: "The Tank Armies", meter: "fuel", strand: "oil" },
+                  { id: "engineers", name: "Engineers and Bridging", meter: "initiative" },
+                ],
+                // The barrage and the rifle armies break the line; the tank armies exploit; the engineers get them over the marsh.
+                effectiveness: { barrage: 2.4, rifle: 2.3, tanks: 2.2, engineers: 1.9 },
+                orderOfBattle: {
+                  barrage: {
+                    units: [
+                      "The guns, mortars and Katyusha rocket launchers of the front, some 9,000 in the first barrage",
+                      "The searchlights meant to light the ground when the infantry went forward",
+                    ],
+                    real: "More than 500,000 shells fell in the first 30 minutes. The searchlights were made useless by the dust and smoke the barrage raised, and the Germans had already pulled their front-line troops back to the second line.",
+                  },
+                  rifle: {
+                    units: [
+                      "The 8th Guards Army (Chuikov), in the centre of the attack",
+                      "The 5th Shock, 3rd Shock and 47th Armies on either side of it",
+                    ],
+                    real: "The first day gained four to six kilometres through marsh and under fire from the heights, and the infantry were still fighting for the second line on the second day.",
+                  },
+                  tanks: {
+                    units: [
+                      "The 1st Guards Tank Army (Katukov)",
+                      "The 2nd Guards Tank Army (Bogdanov)",
+                    ],
+                    real: "The tank armies were committed to the battle before the infantry had broken through. They added to the crowding on the narrow roads and were slowed by the antitank guns on the heights.",
+                  },
+                  engineers: {
+                    units: [
+                      "The bridging battalions and assault-boat units of the front",
+                      "The sappers who had to clear the mines and lay roads across the flooded Oderbruch",
+                    ],
+                    real: "The Germans had flooded the plain below the heights by releasing a reservoir, and everything that crossed had to cross on the roads and bridges that the engineers could make.",
+                  },
+                },
+                hardRule: { text: "Zhukov's plan stands as issued: the barrage is to open before dawn, the searchlights are to be used, and the tank armies are to be committed on the first day.", lockApproach: "tanksOnTheFirstDay" },
+                conditions: "Mid-April on the Oderbruch: wet ground, flooded fields and a ridge of heights above them, with the roads the only firm ground.",
+                terrainModifiers: { tanks: 0.85, engineers: 0.9 },
+                terrainNotes: { tanks: "the flooded plain and narrow roads", engineers: "a flooded plain under fire" },
+                attrition: [
+                  { category: "rifle", atLeast: 3, meter: "manpower", delta: -1, reason: "The infantry climb the heights under fire" },
+                  { category: "tanks", atLeast: 3, meter: "fuel", delta: -1, reason: "Tanks stuck in traffic burn their fuel" },
+                ],
+                // Field decision: the second day. Facts: the second line was broken by the night of 17 April, after a
+                // day of fighting for it; Stalin told Zhukov that Konev's tank armies would turn north; Zhukov was under
+                // pressure to get through. The three answers are the real options before Zhukov and Chuikov on the
+                // second morning; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theSecondMorning",
+                    time: "1100",
+                    title: "The second morning",
+                    prompt: "The first line is broken and the second is not. The roads are jammed with tanks, the infantry have lost a day, and Stalin's message about Konev has come in. The Germans are firing from the heights at everything that moves.",
+                    options: [
+                      {
+                        id: "sendTheTanksIn",
+                        name: "Send both tank armies in at once",
+                        note: "Forces the issue, and adds to the jam on the roads.",
+                        bonus: 0,
+                        bonusByPosture: { secondLineHeld: -2, firstLineStrong: 3, floodedPlain: -3 },
+                        meters: { fuel: -1 },
+                        costReason: "Tanks stuck in traffic",
+                        reportLine: "Both tank armies are ordered forward through the infantry, and the roads fill with them.",
+                      },
+                      {
+                        id: "infantryFirst",
+                        name: "Hold the tanks until the infantry have the heights",
+                        note: "Slower, and it keeps the tanks out of the antitank guns.",
+                        bonus: 0,
+                        bonusByPosture: { secondLineHeld: 4, firstLineStrong: -2, floodedPlain: 2 },
+                        meters: { initiative: -1 },
+                        costReason: "A day given to Konev",
+                        reportLine: "The tank armies are held back, and the rifle armies are ordered to take the heights.",
+                      },
+                      {
+                        id: "bypassTheHeights",
+                        name: "Send the tanks round the northern end of the heights",
+                        note: "Avoids the strongest ground, over roads the engineers have not made.",
+                        bonus: 0,
+                        bonusByPosture: { secondLineHeld: 1, firstLineStrong: 0, floodedPlain: -1 },
+                        reportLine: "The tank armies are sent north to go round the end of the heights.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  barrage:
+                    "The barrage is meant to destroy the first German line and break the heart of the defence before the infantry go forward. Each commitment here puts more guns and rocket launchers into the first thirty minutes.",
+                  rifle:
+                    "The rifle armies have to take the ground the barrage has cleared and climb the heights behind it. Each commitment here puts more divisions into the first assault and the days that follow.",
+                  tanks:
+                    "The tank armies are meant to drive through the gap and into Berlin. Each commitment here puts more tanks forward onto the roads behind the infantry, early.",
+                  engineers:
+                    "The engineers make the roads and bridges across the flooded plain, and without them nothing crosses. Each commitment here puts more of the bridging and sapper units at the front.",
+                },
+                flashups: {
+                  barrage: [
+                    "The whole horizon lights up in a single sheet of flame as the barrage opens.",
+                    "A battery of Katyushas fires and limbers up at once.",
+                    "The searchlights come on, and the beams are lost in dust and smoke.",
+                    "A gun crew loads and fires for half an hour without stopping.",
+                    "A forward observer reports that the German trenches are empty.",
+                  ],
+                  rifle: [
+                    "A rifle battalion goes forward behind the barrage and finds the trench empty.",
+                    "Infantry wade through the flooded fields toward the foot of the heights.",
+                    "A company is pinned down at the bottom of the slope by machine guns.",
+                    "A regiment reaches the first road and the guns on the heights open on it.",
+                    "A division commander moves his headquarters forward through a hail of shells.",
+                  ],
+                  tanks: [
+                    "A column of T-34s stands in a jam on the one dry road.",
+                    "A tank is hit by a Panzerfaust in a cutting, and the column behind it halts.",
+                    "The leading tank of an army reaches the second line and draws the fire of every gun on the ridge.",
+                    "A tank company is bogged down in the marsh and its crews abandon it.",
+                    "A tank army commander drives along the jammed road and orders the column forward.",
+                  ],
+                  engineers: [
+                    "A pontoon bridge goes into the water and the first tanks cross it.",
+                    "Sappers clear a minefield under fire on the road to the heights.",
+                    "A bridge is hit by German artillery and the engineers begin to repair it.",
+                    "A battalion lays a corduroy road across a stretch of flooded ground.",
+                    "An officer reports that the bridge will not carry the heavy tanks.",
+                  ],
+                },
+                reportTimes: { open: "0300", contact: "0530", cats: ["0730", "0930", "1130", "1330"], reserve: "1530", counter: "1730" },
+                idleLines: {
+                  barrage: [
+                    "The barrage is thin, and the German trenches are barely touched.",
+                    "No more guns are added to the opening fire, and the infantry go in behind a light barrage.",
+                  ],
+                  rifle: [
+                    "No more divisions are put into the assault, and the heights are attacked on a narrow front.",
+                    "The rifle armies are held back, and the first wave goes forward alone.",
+                  ],
+                  tanks: [
+                    "The tank armies are held in their assembly areas, and no tanks go up the roads.",
+                    "No more tanks are committed, and the infantry fight for the heights without them.",
+                  ],
+                  engineers: [
+                    "No more engineers go to the plain, and the roads are made by whoever is at hand.",
+                    "The bridging units are held back, and the crossings are made on what already stands.",
+                  ],
+                },
+                verdicts: ["The Heights Are Taken", "The Heights Hold for Three Days"],
+                verdictGrades: {
+                  clean: "The barrage, the rifle armies, the tanks and the engineers worked together, and the heights fell on the second day.",
+                  costly: "The heights are taken and Berlin's road is open, but the armies that took them are spent.",
+                  marginal: "The heights are taken only on the third day, and Konev's armies are ahead of Zhukov's on the road to Berlin.",
+                  total: "The assault is stopped at the foot of the heights, and the tank armies are stuck behind the infantry for days.",
+                },
+                counterattack: {
+                  category: "rifle",
+                  severity: { secondLineHeld: 2, firstLineStrong: 1, floodedPlain: 0 },
+                  warn: {
+                    1: "German tanks and infantry are counterattacking at the foot of the heights.",
+                    2: "Heinrici has thrown his reserves against the shoulder of the penetration in strength.",
+                  },
+                  results: {
+                    repulsed: "The German counterattack is thrown back, and the infantry keep the ground they have taken.",
+                    heldAtCost: "The line holds against the Germans, at a heavy cost in the battalions that held it.",
+                    broke: "The Germans break into the flank of the penetration, and the infantry have to fall back to the road.",
+                    gaveGround: "The foremost battalions give up the slope rather than be cut off on it.",
+                  },
+                },
+              },
               outcome:
                 "What happened, and it went wrong in every way the skeptics predicted: the searchlights silhouetted the attackers against their own beams and reflected off battlefield haze into Soviet eyes; Heinrici had already pulled his men off the bombarded first line into the second; and the heights held for three days at a cost in Soviet dead that Zhukov's rivals never let him forget. Berlin fell on schedule anyway — May 2 — because by April 1945 no tactical setback could change the arithmetic. The men spent on the heights were spent against a verdict already rendered.",
+              uncertain: [
+                  {
+                    weight: modWeight(30, meters.fuel),
+                    title: "The heights fall on the second day",
+                    setFlags: { seelowResult: "quick" },
+                    impact: { manpower: -1, fuel: 0, initiative: 1 },
+                    outcome:
+                      "Speculative. The tank armies, the infantry and the engineers work together as they did not on the real first day: the second line is broken before dark on the second day and the heights are taken from the north on the third morning, a day before they were, at a lower cost in men. Berlin is reached a day earlier, and the argument with Konev is settled in Zhukov's favour before Stalin has to make it. It is the best the plan could have done, and it was not what happened.",
+                  },
+                  {
+                    weight: 100 - modWeight(30, meters.fuel),
+                    title: "The heights hold for three days",
+                    setFlags: { seelowResult: "slow" },
+                    impact: { manpower: -2, fuel: 0, initiative: 0 },
+                    outcome:
+                      "What happened, and it went wrong in every way the skeptics predicted: the barrage fell on trenches Heinrici had already emptied, the searchlights were made useless by their own dust and smoke, the tank armies crowded the one dry road behind the infantry, and the heights held for three days at a cost in Soviet dead that Zhukov's rivals never let him forget. Berlin fell on schedule anyway, on May 2, because by April 1945 no tactical setback could change the arithmetic. The men spent on the heights were spent against a verdict already rendered.",
+                  },
+              ],
             },
             {
               label: "Suppress first, assault second — give the heights a full preparatory day",
               advisor: { name: "Chuikov", position: "One city was taken the patient way, house by house, and that is why he is alive to take this one, since the heights will still be there tomorrow and so will more of his men." },
               setFlags: { berlinAssault: "methodical" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
-              next: "END",
+              next: "prague45",
               outcome:
                 "A plausible projection of the methodical alternative: a properly suppressed Seelow costs a day — a day Koniev's southern axis uses to strengthen its claim on the city, with everything the Zhukov–Koniev rivalry made of such things — and spares a meaningful fraction of the assault's historical casualties. Berlin's fall moves by days at most; the war's final ledger of Soviet dead moves by more. Which of those mattered more in April 1945 depends entirely on which map table you were standing at.",
             },
@@ -1715,7 +2116,7 @@
                 advisor: { name: "Chuikov", position: "Heinrici built his line where the maps said the army had to come, and it does not have to. For the first time there is enough army to go around a position instead of through it, and that should be spent on the last week and not saved for one that will not arrive." },
                 setFlags: { berlinAssault: "envelop", berlinEnveloped45: true },
                 impact: { manpower: -1, fuel: -2, initiative: 1 },
-                next: "END",
+                next: "prague45",
                 outcome:
                   "SPECULATIVE in more than scale here — Koniev's southern axis on Berlin was real, but Rokossovsky's front was historically pointed north, at Stettin and the Baltic coast, in part precisely so it would not become a third claimant on a city Zhukov and Koniev were already racing each other for. Turning it onto Berlin's northern approaches instead is this branch's actual invention, not just a heavier version of what happened. What that invention buys, though, holds up on its own terms: the last prepared defensive line of the war has no answer to an attack that never arrives, while the city behind it is encircled from two directions at once. Berlin falls faster and cheaper than the historical assault managed, and the searchlights stay in their crates. The garrison surrenders to a ring rather than a battle.",
               },
@@ -2120,7 +2521,13 @@
               : "") +
             (flags.forkRzhevThin && flags.rzhev42 === "mars"
               ? " Whatever thinned Model's garrison at Rzhev never got explained, and it hasn't mattered enough on its own to change anything here — Mars still spent itself against the salient at full historical cost, and Uranus was assembled and launched without reference to it."
-              : ""),
+              : "") +
+            (flags.stalingradResult === "cut"
+              ? " The 62nd Army is holding the city in separate pockets of ruins, and the staff are counting what it will take to keep them alive for the next fortnight."
+              : flags.stalingradResult === "held"
+              ? " The strip on the river has held, and the army that held it has nothing in reserve."
+              : "") +
+            keyBattleEcho("stalingradCity42", flags),
           choices: [
             {
               label: "The full envelopment — strike deep, trap Sixth Army entirely",
@@ -2653,8 +3060,209 @@
               setFlags: { kursk43soviet: "defense" },
               impact: { manpower: -1, fuel: 0, initiative: -1 },
               next: "axis43",
+              // Round 26 (item 1). The Soviet defence of the Kursk salient, July 1943. Facts checked 2026-10-08
+              // (Wikipedia, Battle of Kursk): the Central Front under Rokossovsky on the northern face, the Voronezh Front
+              // under Vatutin on the southern face, the Steppe Front under Konev in reserve, with Zhukov and Vasilevsky
+              // coordinating for Stavka; the Soviet forces had 5,128 tanks and 25,013 guns and mortars; there were three
+              // main defensive belts in each sector and three more behind them, 130 to 150 kilometres deep, with mine
+              // densities of 2,500 anti-personnel and 2,200 anti-tank mines per kilometre, six times the density used
+              // at Moscow; an anti-tank strongpoint had four to six anti-tank guns, six to nine anti-tank rifles and five
+              // to seven machine guns; 300,000 civilians worked on the fortifications; Soviet intelligence, including
+              // the Lucy ring and decrypts passed on by Cairncross, had warned of the attack; the Germans attacked on
+              // 5 July with some 777,000 men and 2,451 tanks and assault guns; the 5th Guards Tank Army under Rotmistrov
+              // fought at Prokhorovka on 12 July; Hitler halted the offensive after a week, with the Allied landing in
+              // Sicily in the background.
+              keyBattleSubgame: {
+                id: "kurskSoviet43",
+                title: "Order of Battle — The Kursk Salient, Soviet Side",
+                flavor:
+                  "Stavka knows where the blow is coming and roughly when. Zhukov's plan is to let the Germans exhaust themselves against the deepest defence the Red Army has ever built, and only then go over to the offensive. The Central Front under Rokossovsky holds the north of the salient, the Voronezh Front under Vatutin the south, and Konev's Steppe Front waits behind them. Three belts of trenches, mines and anti-tank guns lie in front, and three more behind. The question is not whether to defend but how to spread the defence: how many of the rifle divisions go into the forward belts, how much of the anti-tank and mine system is manned and fed, how much of the tank reserve is held back for the counterstroke, and how much of the air armies goes over the belts.",
+                categories: [
+                  { id: "infantry", name: "Rifle Armies in the Belts", meter: "manpower" },
+                  { id: "antiTank", name: "Anti-Tank Guns and Minefields", meter: "fuel", strand: "steel" },
+                  { id: "tanks", name: "The Tank Reserve", meter: "fuel", strand: "oil" },
+                  { id: "air", name: "The Air Armies", meter: "initiative" },
+                ],
+                // The anti-tank system and the rifle armies hold the belts; the tank reserve is the counterstroke; the air armies least.
+                effectiveness: { infantry: 2.3, antiTank: 2.6, tanks: 2.2, air: 1.6 },
+                orderOfBattle: {
+                  infantry: {
+                    units: [
+                      "The rifle armies of the Central Front (Rokossovsky) on the northern face",
+                      "The rifle armies of the Voronezh Front (Vatutin), including the 6th and 7th Guards Armies, on the southern face",
+                    ],
+                    real: "The rifle divisions held the belts in depth, and the German attack did not break through the main defences on either face.",
+                  },
+                  antiTank: {
+                    units: [
+                      "The anti-tank strongpoints, each of four to six anti-tank guns, six to nine anti-tank rifles and five to seven machine guns",
+                      "The minefields, at 2,500 anti-personnel and 2,200 anti-tank mines to the kilometre",
+                    ],
+                    real: "The density of mines was six times what was used in the defence of Moscow, and 300,000 civilians had worked on the fortifications in the weeks before.",
+                  },
+                  tanks: {
+                    units: [
+                      "The 5th Guards Tank Army (Rotmistrov), moved up from the Steppe Front in July",
+                      "The tank corps held behind the second belt for the counterstroke",
+                    ],
+                    real: "The 5th Guards Tank Army fought at Prokhorovka on 12 July. The Soviet forces had 5,128 tanks in the whole operation, and the battle cost them more than they lost to anything else.",
+                  },
+                  air: {
+                    units: [
+                      "The 2nd Air Army, over the Voronezh Front's sector",
+                      "The 16th Air Army, over the Central Front's sector",
+                    ],
+                    real: "The Soviet air armies had between 2,800 and 3,500 aircraft, and fought a long battle for the sky over the belts.",
+                  },
+                },
+                hardRule: { text: "Stavka's plan stands: the defence is to be fought in the belts as laid out, and no part of the tank reserve is to be used before the Germans are exhausted.", lockApproach: "holdTheBelts" },
+                conditions: "High summer on the black-earth steppe, with dust, heat and long daylight, and ground that has been dug, mined and fortified for three months.",
+                terrainModifiers: { tanks: 0.95 },
+                terrainNotes: { tanks: "dust and long marches to the line" },
+                attrition: [
+                  { category: "infantry", atLeast: 3, meter: "manpower", delta: -1, reason: "The forward belts take the first blow" },
+                  { category: "tanks", atLeast: 3, meter: "fuel", delta: -1, reason: "The tank reserve fights on at its own expense" },
+                ],
+                // Field decision: Prokhorovka. Facts: the 5th Guards Tank Army attacked at Prokhorovka on 12 July, in
+                // a large armoured engagement; the German offensive was called off the next day. The three answers are
+                // the real options before Vatutin and Rotmistrov; the payoff against each German setup is modeled.
+                decisions: [
+                  {
+                    id: "theTwelfthOfJuly",
+                    time: "1300",
+                    title: "The twelfth of July",
+                    prompt: "The German tanks of the II SS Panzer Corps are in front of Prokhorovka, and the 5th Guards Tank Army has come up to meet them. Stavka wants a counterstroke today. The German tanks are better, and the Soviet tanks are many.",
+                    options: [
+                      {
+                        id: "attackAtOnce",
+                        name: "Counterattack today with the whole tank army",
+                        note: "Closes with the German tanks, where their guns count for less, and spends the reserve.",
+                        bonus: 0,
+                        bonusByPosture: { southWeight: 4, northWeight: -1, tigerWedge: -3 },
+                        meters: { fuel: -1 },
+                        costReason: "The whole tank reserve spent in one day",
+                        reportLine: "The tank army is ordered forward in a single attack on the II SS Panzer Corps.",
+                      },
+                      {
+                        id: "fightFromCover",
+                        name: "Fight from prepared positions and let them come on",
+                        note: "Keeps the guns and the ground, and leaves the Germans the choice of when to attack.",
+                        bonus: 0,
+                        bonusByPosture: { southWeight: -1, northWeight: 2, tigerWedge: 3 },
+                        reportLine: "The tank army is ordered to take up positions behind the anti-tank guns and wait.",
+                      },
+                      {
+                        id: "strikeTheFlank",
+                        name: "Send a part of the tanks round the flank",
+                        note: "Threatens the German rear, and divides the army in the face of the enemy.",
+                        bonus: 0,
+                        bonusByPosture: { southWeight: 1, northWeight: 1, tigerWedge: 0 },
+                        reportLine: "A part of the tank army is sent round the flank of the German advance.",
+                      },
+                    ],
+                  },
+                ],
+                categoryContext: {
+                  infantry:
+                    "The rifle armies hold the forward belts and take the first German blow. Each commitment here puts more of the divisions into the trenches and into the strongpoints between them.",
+                  antiTank:
+                    "The anti-tank guns and the minefields are the heart of Zhukov's plan: ground that German armour cannot cross without being broken. Each commitment here puts more guns into the strongpoints and more mines into the ground, and more shells behind them.",
+                  tanks:
+                    "The tank reserve is the counterstroke, held back behind the second belt until the Germans are spent. Each commitment here puts more of the tank corps up to the line, ready to move.",
+                  air:
+                    "The air armies fight for the sky over the belts and attack the German columns when they stop. Each commitment here puts more fighters and ground-attack aircraft over the front.",
+                },
+                flashups: {
+                  infantry: [
+                    "A rifle company waits in a trench, and the German guns open fire on it at first light.",
+                    "A regiment falls back from the forward belt to the second as it was ordered to do.",
+                    "A battalion in a village counts its ammunition and finds there is plenty.",
+                    "A sapper platoon crawls out at night to lay another row of mines.",
+                    "A division commander reports that his forward line has been taken and that his main line has not.",
+                  ],
+                  antiTank: [
+                    "A battery of 76-millimetre guns opens fire at a range of eight hundred metres.",
+                    "A Tiger comes to a halt in a minefield and its tracks are blown off.",
+                    "An anti-tank strongpoint is overrun, and the guns behind it fire into the German infantry.",
+                    "A mine-laying party works through the night and finishes at dawn.",
+                    "A German assault gun is hit twice in the side and burns.",
+                  ],
+                  tanks: [
+                    "A tank corps moves up in the dust of a summer morning.",
+                    "A company of T-34s waits in a ravine for the order to go forward.",
+                    "A tank army commander looks through his glasses at the German tanks across the valley.",
+                    "A column of tanks halts at a crossing and the staff argue about the order of march.",
+                    "A battalion of T-34s goes forward in extended order into the dust.",
+                  ],
+                  air: [
+                    "A flight of Il-2s goes over low and attacks a German tank column.",
+                    "Soviet fighters meet a wave of Ju 87s and break it up.",
+                    "A reconnaissance aircraft reports a German column halted on the road.",
+                    "A fighter regiment takes off from a field with its runway under fire.",
+                    "A bomber group attacks a German airfield before dawn.",
+                  ],
+                },
+                reportTimes: { open: "0200", contact: "0430", cats: ["0700", "1000", "1300", "1600"], reserve: "1800", counter: "2000" },
+                idleLines: {
+                  infantry: [
+                    "The forward belts are thinly held, and the German attack meets only the outposts.",
+                    "No more divisions go into the trenches, and the line is held by what was already there.",
+                  ],
+                  antiTank: [
+                    "The strongpoints are left as they were, and no more guns and mines are put into them.",
+                    "No more ammunition is brought to the anti-tank guns, and they fire on what they have.",
+                  ],
+                  tanks: [
+                    "The tank reserve is held back, and no tank corps is moved up to the line.",
+                    "No more of the reserve is brought forward, and the belts must hold alone.",
+                  ],
+                  air: [
+                    "The air armies fly the missions they already had, and nothing more.",
+                    "No more aircraft go over the belts, and the German columns move unhindered.",
+                  ],
+                },
+                verdicts: ["The Belts Hold", "The Line Bends"],
+                verdictGrades: {
+                  clean: "The belts held in depth, the guns and mines took the German armour apart, and the reserve was left whole for the counterstroke.",
+                  costly: "The German offensive is broken, but the belts and the tank reserve have been spent in breaking it.",
+                  marginal: "The Germans make ground on one face, and the line holds only because the reserve is committed early.",
+                  total: "The German armour breaks through the first belts, and the reserve has to be thrown in to stop it.",
+                },
+                counterattack: {
+                  category: "tanks",
+                  severity: { southWeight: 2, northWeight: 1, tigerWedge: 2 },
+                  warn: {
+                    1: "German tanks are massing in front of one of the strongpoints.",
+                    2: "The German tank divisions are attacking in a wedge, with the heavy tanks at the point.",
+                  },
+                  results: {
+                    repulsed: "The German wedge is stopped in the minefield and the guns behind it, and the reserve is not needed.",
+                    heldAtCost: "The line holds against the German tanks, at a heavy cost in guns and men.",
+                    broke: "The German tanks break through the first belt, and the reserve has to be thrown in to close the gap.",
+                    gaveGround: "The forward position is given up rather than meet the wedge on open ground.",
+                  },
+                },
+              },
               outcome:
                 "What happened, and it worked precisely as planned: minefield densities up to 2,500 per kilometer and anti-tank gun belts arranged in mutually supporting layers absorbed the German offensive's momentum within days. It was the last major German strategic offensive of the eastern war — after Kursk, initiative belongs to Stavka for the rest of the conflict, without interruption.",
+              uncertain: [
+                  {
+                    weight: modWeight(75, meters.manpower),
+                    title: "The belts hold",
+                    setFlags: { kurskResult: "held" },
+                    impact: { manpower: -1, fuel: 0, initiative: -1 },
+                    outcome:
+                      "What happened, and it worked as planned: the minefields and anti-tank belts absorbed the German offensive within days, the northern face barely moved, and in the south the Germans got through the first belt and no further. Prokhorovka on July 12 was a great armoured clash that cost both sides heavily, and Hitler called the offensive off the next day. It was the last major German strategic offensive of the eastern war, and the first time one had been halted before it broke through.",
+                  },
+                  {
+                    weight: 100 - modWeight(75, meters.manpower),
+                    title: "The line bends",
+                    setFlags: { kurskResult: "bent" },
+                    impact: { manpower: -2, fuel: -1, initiative: -1 },
+                    outcome:
+                      "Speculative. The belts hold in the north and bend in the south: the German wedge gets through the first two belts on the third day, and the reserve has to be thrown in earlier than Zhukov wanted and in worse order. The offensive still fails, as the whole plan was designed to make it fail, but the cost is higher, and the tank army that was to have gone over to the attack is half spent before it can.",
+                  },
+              ],
             },
             {
               label: "Preempt — strike the assembling German forces before they can launch",
@@ -2708,7 +3316,11 @@
           historicalRecord: true,
           directive: true,
           situation:
-            "Kursk is won, the initiative is permanently Soviet, and the summer's pursuit must choose its main axis. South: the race to the Dnieper — the Donbas industrial region, Kiev, and the road into Ukraine, where the terrain runs fast and the political weight is heaviest. West: the Smolensk axis — Operation Suvorov's road, straight toward Belorussia and the shortest geographic line to Germany, into terrain of forests and prepared defensive lines that favors the defender. The historical answer weighted south decisively; the western school never stopped arguing its case.",
+            "Kursk is won, the initiative is permanently Soviet, and the summer's pursuit must choose its main axis. South: the race to the Dnieper — the Donbas industrial region, Kiev, and the road into Ukraine, where the terrain runs fast and the political weight is heaviest. West: the Smolensk axis — Operation Suvorov's road, straight toward Belorussia and the shortest geographic line to Germany, into terrain of forests and prepared defensive lines that favors the defender. The historical answer weighted south decisively; the western school never stopped arguing its case." +
+            (flags.kurskResult === "bent"
+              ? " The belts held at Kursk, but the line bent in the south, and the tank army that was to have led the pursuit is half spent."
+              : "") +
+            keyBattleEcho("kurskSoviet43", flags),
           choices: [
             {
               label: "South — the Dnieper, the Donbas, and Kiev before winter",
@@ -2750,7 +3362,7 @@
               disabledReason: meters.manpower <= -3 ? "insufficient strength left to press a fortified gateway" : undefined,
               setFlags: { smolenskGates: "press" },
               impact: { manpower: -2, fuel: 0, initiative: 0 },
-              next: "bagrationSoviet44",
+              next: "leningrad44",
               uncertain: [
                 {
                   weight: modWeight(30, meters.manpower),
@@ -2773,7 +3385,7 @@
               advisor: { name: "Antonov", position: "The start line has moved two hundred kilometers west, which is the season's victory, and the winter should not be spent buying its decimal places." },
               setFlags: { smolenskGates: "consolidate" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
-              next: "bagrationSoviet44",
+              next: "leningrad44",
               outcome:
                 "The consolidation banks the axis shift: 1944's great offensive will launch from positions the historical version spent its opening days reaching, with the armies that would have been spent on winter gateway assaults intact. The projection's honest caveat: the southern theater this weighting starved advanced correspondingly slower, and Ukraine's liberation — with everything it meant to the people waiting for it — runs months behind the historical clock.",
             },
@@ -2794,7 +3406,7 @@
               historical: true,
               setFlags: { dnieper43: "forced" },
               impact: { manpower: -2, fuel: 0, initiative: 1 },
-              next: "bagrationSoviet44",
+              next: "leningrad44",
               outcome:
                 "Soviet troops crossed the Dnieper on log rafts, empty fuel drums, and anything else that floated, seizing dozens of small bridgeheads before German defenses could properly organize along the 'Eastern Wall.' The improvisation worked strategically — the river line never became the fortress Hitler had ordered — at a cost in drowned and killed soldiers high enough that the crossing generated an unusually large number of the war's Hero of the Soviet Union citations, itself a measure of the losses involved.",
             },
@@ -2826,7 +3438,7 @@
               disabledReason: meters.fuel <= -3 ? "not enough shells and fuel left to mass artillery for a deliberate set-piece breakthrough" : undefined,
               setFlags: { easternWallBreach43: "artillery" },
               impact: { manpower: 1, fuel: -2, initiative: 0 },
-              next: "bagrationSoviet44",
+              next: "leningrad44",
               outcome:
                 "The trade the slower crossing was always implicitly making: fuel and shells spent now, against a wall that exists specifically because the crossing bought time to build it. Kiev falls to a genuine breakthrough rather than an improvised rush — slower, better-supplied, and arguably the more honest use of the caution that created the problem in the first place.",
               uncertain: [
@@ -2852,7 +3464,7 @@
               historical: false,
               setFlags: { easternWallBreach43: "probe" },
               impact: { manpower: 0, fuel: 0, initiative: -1 },
-              next: "bagrationSoviet44",
+              next: "leningrad44",
               outcome:
                 "The patient answer to a problem the impatient answer created: reconnaissance in force finds a weakly-held sector rather than testing the wall's strongest point directly, and Kiev falls to infiltration rather than bombardment. Slower again, but the fuel this path saves is fuel Bagration will want next summer.",
             },
@@ -2881,6 +3493,11 @@
               : "") +
             (flags.forkDeceptionSeen
               ? " One thread of the maskirovka plan hasn't held as cleanly as the rest: persistent German air reconnaissance over the Center sector's concentration areas — ground the deception plan was supposed to keep uninteresting — has been reported for a fortnight now, and staff cannot yet say whether it will be read correctly, or in time, by whoever receives it in Berlin."
+              : "") +
+            (flags.crimea44 === "mask"
+              ? " The Crimea was not stormed in the spring, and the divisions that would have taken Sevastopol are on this front instead."
+              : flags.crimea44 === "assault"
+              ? " The Crimea was cleared in May, and the armies that did it are on their way north to the main front."
               : ""),
           choices: [
             {
@@ -3100,7 +3717,7 @@
               advisor: { name: "Vasilevsky", position: "An army that has advanced this far this fast is running on momentum and not fuel, so let the rear catch up before asking it to do more." },
               setFlags: { bagration44soviet: "halt" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
-              next: "balkans44",
+              next: "iasiKishinev44",
               outcome:
                 "A careful extrapolation of the more conservative operational choice: consolidating before Warsaw preserves the offensive's own logistics and reduces losses to overextension, at the cost of momentum the historical push all the way to the city's outskirts carried. With the northern axis paused, Stavka's attention shifts south, where Romania's own government is about to hand the war a different kind of opportunity.",
             },
@@ -3116,6 +3733,269 @@
                   "SPECULATIVE in scale, not in kind — the Red Army's rear services did exactly this sort of forward dumping before major operations, and Khrulev spent the war arguing for more of it; what no 1944 front had was the accumulated surplus to do it on the scale this command can now afford. Bagration launches a fortnight later and destroys Army Group Center just as thoroughly, but the spearheads that reach the Vistula in August arrive with fuel in the tanks and a supply chain that has moved up behind them rather than stretched out behind them. Whatever happens at Warsaw next, the logistics argument that dominated the historical decision will not be available in the same form.",
               },
             ]),
+        };
+        },
+        // Round 26 (item 2): the Soviet winter of 1943-44 and the summer of 1944, which had no reports between the Dnieper and
+        // Bagration. Facts checked 2026-10-08 (Wikipedia: Leningrad-Novgorod offensive, Korsun-Cherkassy Pocket, Crimean
+        // offensive (1944), Jassy-Kishinev offensive).
+        get leningrad44() {
+          return {
+          date: "JANUARY 1944",
+          title: "The Ring Is Lifted",
+          historicalRecord: true,
+          situation:
+            "Leningrad has been besieged for nearly nine hundred days, and Stavka means to end it in the depth of winter. The Leningrad Front under Govorov, the Volkhov Front under Meretskov and the 2nd Baltic Front under Popov are to attack together against Army Group North, whose commander Küchler has asked Hitler for leave to fall back and has been refused. The Second Shock Army has been moved across Lake Ladoga to the Oranienbaum bridgehead for the blow from the north, and the Soviet fronts have some 1.24 million men to the Germans' 500,000. The question that is open is how much to ask of the offensive: to lift the siege and push the Germans back from the city, or to try to close a ring behind the 18th Army in the Luga region and destroy it." +
+            (flags.dnieper43 === "forced"
+              ? " The fast crossing of the Dnieper last autumn is on the staff's mind: the war has taught that an army can be asked for more than the textbooks allow, and that it sometimes gives it."
+              : "") +
+            (meters.manpower <= -3
+              ? " There is a limit to what this front can be asked for, and the staff know where it is: the divisions that would have to close a deep ring are not at full strength, and every plan on the table has to be one they can carry out."
+              : ""),
+          choices: [
+            {
+              label: "Aim to encircle the 18th Army at Luga — a deep double envelopment by three fronts",
+              advisor: { name: "Govorov", position: "The siege must end, and it is better to end it by destroying the army that has kept the city under its guns than by pushing it a few kilometres back to shell it from a new line." },
+              historical: true,
+              setFlags: { leningrad44: "deep" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "rightBank44",
+              outcome:
+                "What was attempted, and what was achieved. The offensive began on January 14, and Stalin declared the siege lifted on the 26th, with a 324-gun salute that evening; the Germans were pushed back between 60 and 100 kilometres to the Luga River and Novgorod, Luga and Mga were retaken. The plan to close the ring on the 18th Army did not work: the fronts did not coordinate their blows, and the Army kept a large part of its fighting strength. Küchler was replaced by Model on February 1. The Soviet side lost about 314,000 men to the Germans' 72,000, by the Soviet and German figures.",
+            },
+            {
+              label: "Settle for lifting the siege — clear the railways and stop at the Luga",
+              advisor: { name: "Meretskov", position: "A limited objective can be reached by a front in the winter that a deep one cannot, and the city does not care whether the army that lifted the siege was destroyed or only moved." },
+              setFlags: { leningrad44: "limited" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "rightBank44",
+              outcome:
+                "A modeled alternative to the historical plan. The siege is lifted in the last week of January, as it was, and the railways to the city are cleared; the fronts stop at the Luga and do not try to close a ring behind the 18th Army. Fewer men are lost in the winter forest than the deep offensive cost, and the German army that Küchler was refused leave to withdraw is allowed to withdraw anyway, in good order, to a shorter line. The siege is over either way. What the Soviet command gives up is the chance, which the real offensive also missed, of ending the war in the north that winter.",
+            },
+          ],
+        };
+        },
+        get rightBank44() {
+          return {
+          date: "JANUARY – FEBRUARY 1944",
+          title: "The Cauldron at Korsun",
+          historicalRecord: true,
+          situation:
+            "On the right bank of the Dnieper, Vatutin's 1st Ukrainian Front and Konev's 2nd Ukrainian Front have closed a ring at Zvenigorodka on January 28 around some 60,000 Germans in six divisions at about 55 per cent of their strength, with the 5th SS Panzer Division Wiking among them. Stalin wants the pocket destroyed. Manstein is trying to relieve it, in a thaw that has turned the roads to mud and immobilized German vehicles while Soviet lend-lease trucks still run; the Luftwaffe can bring in only half of what the pocket needs each day. What is open is how the ring should be held: to squeeze it tight and destroy what is inside, or to hold it at a distance and keep the tank armies facing the relief force." +
+            (flags.leningrad44 === "deep"
+              ? " The Leningrad offensive three weeks ago has shown what happens when fronts try to close a ring without sharing it between them, and the staff are determined that the two commanders here will not repeat it."
+              : flags.leningrad44 === "limited"
+              ? " The offensive at Leningrad stopped short of the ring it might have closed, and nobody on this staff intends to be accused of the same here."
+              : "") +
+            (flags.axis43 === "west"
+              ? " The weight of last summer's pursuit went west rather than south, and these two fronts are fighting this winter with less than history gave them."
+              : ""),
+          choices: [
+            {
+              label: "Tighten the ring and destroy the pocket — every division that can be spared on the inner front",
+              advisor: { name: "Konev", position: "The Germans have been caught in a pocket on the right bank, and an army that is allowed to leave will fight again in the spring, so no gap is left." },
+              historical: true,
+              setFlags: { rightBank44: "destroy" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "crimea44",
+              outcome:
+                "What was attempted. The ring was held and squeezed, and the German breakout on February 16 and 17 was met at the Soviet line. The Soviet side claimed some 55,000 dead and 18,000 captured; the Germans' own figure for the men who escaped is 40,423. The Soviet fronts lost about 80,000 men. Twelve days after the breakout Vatutin was shot by Ukrainian insurgents, on February 29, and he died of his wounds on April 15.",
+            },
+            {
+              label: "Hold the ring at a distance — keep the tank armies facing outward against the relief and let the pocket starve",
+              advisor: { name: "Vatutin", position: "Manstein's relief divisions are the German army that matters here, and a pocket can be starved while tanks that are needed against them are saved." },
+              setFlags: { rightBank44: "distance" },
+              impact: { manpower: 1, fuel: 0, initiative: 0 },
+              next: "crimea44",
+              outcome:
+                "A modeled alternative. The tank armies are turned outward and the relief attempts are beaten off at a distance, while the infantry hold a looser ring around the pocket and the Luftwaffe flies in half of what it needs. The pocket lives longer and its breakout, when it comes, is made against a lighter line. Fewer Soviet soldiers are lost in the thaw, and more of the encircled army gets out than the historical count of the dead and captured allows; Stavka gets a victory that is less complete than the one it asked for.",
+            },
+          ],
+        };
+        },
+        get crimea44() {
+          return {
+          date: "APRIL – MAY 1944",
+          title: "The Crimea",
+          historicalRecord: true,
+          situation:
+            "Hitler refused to let the 17th Army leave the Crimea, because he believed that giving it up would turn Turkey against him and open the Romanian oilfields to Soviet bombers, and some 230,000 German and Romanian soldiers are still on the peninsula, cut off from the mainland since November 1943. Tolbukhin's 4th Ukrainian Front is to attack across the Perekop isthmus and the Sivash, while the Separate Coastal Army under Yeryomenko comes from the Kerch bridgehead, with the Black Sea Fleet in support. Sevastopol is the great fortress on the far end of the peninsula." +
+            (flags.rightBank44 === "destroy"
+              ? " The winter on the Dnieper has shown how an army that has been given an order not to leave a pocket ends: the staff have it in front of them as they plan."
+              : flags.rightBank44 === "distance"
+              ? " The pocket at Korsun let a good part of its army go, and Stavka's orders for the Crimea are stricter about gaps than they were in February."
+              : ""),
+          choices: [
+            {
+              label: "Attack across the isthmus and from Kerch at once, then storm Sevastopol",
+              advisor: { name: "Tolbukhin", position: "The army on the peninsula cannot be reinforced, and it cannot easily be withdrawn, so it is better to meet it now than after Hitler has changed his mind." },
+              historical: true,
+              setFlags: { crimea44: "assault" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "bagrationSoviet44",
+              outcome:
+                "What happened. The offensive opened on April 8; Kerch fell on the 11th and Simferopol on the 13th, and Sevastopol was assaulted from the end of April and taken on May 9. The Germans, allowed to leave at last, evacuated over 113,000 men by sea between April 14 and May 14, and the ships carrying them were hit hard: the Totila and the Teja were sunk on May 10, with the loss of as many as 10,000 lives. The Soviet side lost about 85,000 men and the Axis about 97,000.",
+            },
+            {
+              label: "Seal the isthmus and mask the peninsula — spare the army the fortress assault and keep it for the summer",
+              advisor: { name: "Yeryomenko", position: "A peninsula that cannot be left is as good as a camp for prisoners, and the divisions that would take its fortress are needed in Belorussia in June." },
+              setFlags: { crimea44: "mask" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "bagrationSoviet44",
+              outcome:
+                "A modeled alternative. The isthmus is sealed and the Sivash held, and the German and Romanian army in the Crimea is left where Hitler put it. Sevastopol is not stormed in May, and the divisions and guns it would have cost are kept for the summer. The peninsula is not liberated until later, and a German army of a quarter of a million men has to be fed and watched until then; it cannot go anywhere, which is the point, and it cannot be ignored, which is the price.",
+            },
+          ],
+        };
+        },
+        // Round 26 (item 2), continued: Romania, Budapest, Lake Balaton and Prague. Facts checked 2026-10-08 (Wikipedia:
+        // Jassy-Kishinev offensive, Siege of Budapest, Operation Spring Awakening, Prague offensive).
+        get iasiKishinev44() {
+          return {
+          date: "AUGUST 1944",
+          title: "The Cannae in Romania",
+          historicalRecord: true,
+          situation:
+            "Malinovsky's 2nd Ukrainian Front and Tolbukhin's 3rd Ukrainian Front are about to attack Army Group South Ukraine, under Friessner, along the Prut and the Dniester, where much of the line is held by Romanian troops. The plan is a double envelopment: break the line on both sides of Jassy and Kishinev and meet behind the German Sixth Army. Beyond it lie the Ploesti oilfields, which have fuelled the German war since 1941, and the road to Bucharest. The Soviet staff have two ways to spend the first week: by closing the ring, and by driving for the oil." +
+            (flags.crimea44 === "assault"
+              ? " The army that took Sevastopol in May is on this front now, and its commanders have the lesson of a peninsula where an enemy was cut off and then, at the last, allowed to leave by sea."
+              : flags.crimea44 === "mask"
+              ? " The divisions that did not storm Sevastopol in May are on this front instead, with their strength and their patience intact."
+              : "") +
+            (flags.bagration44soviet === "halt"
+              ? " Bagration has stopped at the approaches to Warsaw, and the south is where the summer's next blow falls."
+              : ""),
+          choices: [
+            {
+              label: "Double envelopment — the two fronts meet behind the German Sixth Army",
+              advisor: { name: "Malinovsky", position: "The Romanian line is the weak one, and the German army behind it cannot be allowed to get out, so the two fronts should meet behind it before it can turn." },
+              historical: true,
+              setFlags: { iasiKishinev44: "pincers" },
+              impact: { manpower: -1, fuel: 0, initiative: 2 },
+              next: flags.bagration44soviet === "halt" ? "balkans44" : "finnishArmistice44",
+              outcome:
+                "What happened. The offensive opened on August 20, and on the 23rd King Michael's coup in Bucharest took Romania out of the war and the Romanian army collapsed. The two fronts met at Khushi on August 24, and the German Sixth Army was surrounded for the second time in the war. Ploesti was reached on August 30 and Bucharest on the 31st. The operation has been compared to Cannae.",
+            },
+            {
+              label: "Break through and drive for Ploesti and Bucharest — leave the pocket to the second echelon",
+              advisor: { name: "Tolbukhin", position: "The oil and the capital are what this offensive is for, and the army behind the line can be dealt with by the troops that come after the tanks." },
+              setFlags: { iasiKishinev44: "oilfields" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: flags.bagration44soviet === "halt" ? "balkans44" : "finnishArmistice44",
+              outcome:
+                "A modeled alternative. The armoured spearheads go straight south, and reach the oilfields in the last days of August, a little before the real armies did; the encirclement of the Sixth Army is left to the infantry that follow, and it closes later and leakier. More of the German army gets away to the Carpathians. The oil is Soviet earlier, and the war in the Balkans begins with a German army still in the field behind the front.",
+            },
+          ],
+        };
+        },
+        get budapest44() {
+          return {
+          date: "DECEMBER 1944 – FEBRUARY 1945",
+          title: "The Siege of Budapest",
+          historicalRecord: true,
+          situation:
+            "Malinovsky's 2nd Ukrainian Front and Tolbukhin's 3rd have closed a ring round Budapest, with some 33,000 German and 37,000 Hungarian soldiers inside it and more than 800,000 civilians. Two officers sent in under a flag of truce with a demand to surrender were killed on December 29, and the garrison commander, Pfeffer-Wildenbruch, has refused. The Germans are already preparing the relief: three offensives, Konrad I to III, will use about half of the German armoured divisions left on the Eastern Front. The question for Stavka is how much of the army to spend on the city, which can be taken street by street, or can be contained while the main force goes on toward Vienna." +
+            (flags.iasiKishinev44 === "pincers"
+              ? " The road to Hungary was opened by the double envelopment in Romania, and the divisions that fought it are here, at the end of a long advance."
+              : flags.iasiKishinev44 === "oilfields"
+              ? " The road to Hungary was opened by a drive that left a German army still in the field on the Carpathian side, and the staff cannot be sure where all of it is."
+              : "") +
+            (flags.balkans44soviet === "deep"
+              ? " The Balkan campaign has taken divisions that would have been here, and the staff feel their absence."
+              : ""),
+          choices: [
+            {
+              label: "Storm the city, block by block — Budapest must fall before the Germans can relieve it",
+              advisor: { name: "Malinovsky", position: "A city of this size, held by this garrison, with a relief force coming, can only be settled by taking it, and every week it stands is a week the Germans use." },
+              historical: true,
+              setFlags: { budapest44: "storm" },
+              impact: { manpower: -2, fuel: 0, initiative: 0 },
+              next: "vistulaOder45",
+              outcome:
+                "What happened. The siege lasted from the end of December to February 13, in a city where civilians and soldiers were crowded into the same cellars. Konrad III, the last of the relief attempts, came within 25 kilometres of the city by January 26 and could not keep up its impetus for lack of fuel and supplies. Some 28,000 men tried to break out on February 11, into prepared Soviet positions, and only 600 to 700 reached the German lines. The Soviet fronts lost 320,082 men in the 108 days of the Budapest operation.",
+            },
+            {
+              label: "Contain the city with a minimum force and send the rest toward Vienna",
+              advisor: { name: "Tolbukhin", position: "A garrison with no relief is a pocket, and a pocket does not need an army to keep it shut, while Vienna and the Austrian oilfields do." },
+              setFlags: { budapest44: "contain" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "vistulaOder45",
+              outcome:
+                "A modeled alternative. A thin ring holds the city, and the main force goes on toward Vienna and the Austrian oil. The garrison lasts longer than the real one did, and the Germans' Konrad offensives, with a thinner Soviet line in front of them, get further than they did. The city is taken after the relief has failed, and not before, and the army that reaches Vienna is a little fresher for it. It is a gamble that the German reserves are no better than they were, and the staff cannot know that.",
+            },
+          ],
+        };
+        },
+        get balatonVienna45() {
+          return {
+          date: "MARCH – APRIL 1945",
+          title: "The Last German Offensive",
+          historicalRecord: true,
+          situation:
+            "Hitler has sent the Sixth SS Panzer Army to Hungary to hold the last oilfields, and some 260,000 German men are massing between Lake Balaton and the Danube, with the Sixth Army and the Second Panzer Army on either side. The Soviet command knows it. Tolbukhin's 3rd Ukrainian Front can strike first at the assembly areas, as Vatutin once proposed at Kursk, or it can dig in and let the Germans come on, and then go over to the offensive. The ground that matters is the 26th Army's sector in the north, which is to bear the main assault over 44 kilometres of front, and has only 10 to 15 kilometres of depth." +
+            (flags.budapest44 === "storm"
+              ? " Budapest fell on February 13, and the army that took it is here, short of men but practised in a defence of cities."
+              : flags.budapest44 === "contain"
+              ? " The ring round Budapest has been held thinly, and the staff know that the Germans fought their way near to it in January and could do so again."
+              : "") +
+            (flags.kursk43soviet === "defense"
+              ? " This staff has done this before: the defence in depth at Kursk in 1943 is the pattern, and many of the officers who planned it are still here."
+              : ""),
+          choices: [
+            {
+              label: "Defend in depth — let the Sixth SS Panzer Army break itself on the mines, then attack",
+              advisor: { name: "Tolbukhin", position: "The Germans have been told where to go and they will go there, and an army that has dug in is a better answer to a last offensive than one that moves to meet it." },
+              historical: true,
+              setFlags: { balatonVienna45: "defend" },
+              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              next: "berlinRace45",
+              outcome:
+                "What happened. On average the front was mined with more than 700 anti-tank and 600 anti-personnel mines to the kilometre, rising to 2,700 and 2,900 in the 26th Army's sector. Spring Awakening began on March 6 and was stalled by March 15, with some 30,000 German casualties. The Soviet counteroffensive, the Vienna offensive, opened on March 16 and took the city on April 13; it cost the Soviet fronts 167,940 men, about 135,000 of them in combat.",
+            },
+            {
+              label: "Strike first at the assembly areas around the lake — do not wait for the blow",
+              advisor: { name: "Vasilevsky", position: "An army that is known to be massing can be caught while it is massing, and the guns and aircraft can do to it what no mine can do." },
+              setFlags: { balatonVienna45: "preempt" },
+              impact: { manpower: -2, fuel: -1, initiative: 0 },
+              next: "berlinRace45",
+              outcome:
+                "A modeled alternative. The Soviet front attacks into the German assembly areas before the offensive can open, catching some of the divisions as they were arriving. The blow is not as heavy as the defence would have been, because the mines and guns are still in their crates and the army is not dug in. The Germans' offensive is delayed and cut up rather than broken, and the Soviet counteroffensive that follows starts further forward but with more to repair.",
+            },
+          ],
+        };
+        },
+        get prague45() {
+          return {
+          date: "MAY 1945",
+          title: "The Last Operation",
+          historicalRecord: true,
+          situation:
+            "Berlin has fallen, and Germany's surrender is days away, but Army Group Centre under Schörner is still in the field in Czechoslovakia with a large army, and on May 5 the people of Prague have risen against the German garrison and broadcast an appeal for help. Three Soviet fronts, Konev's 1st Ukrainian, Malinovsky's 2nd and Yeryomenko's 4th, with about 1.77 million men, are to attack, and Konev's tank armies, the 3rd and the 4th Guards, can be sent ahead of the rest. The American armies have halted at Plzen, short of Prague, after Soviet objections to any advance to the west of the agreed lines. The question is how fast to go: whether to send the tanks in alone at once, or to wait and go in together." +
+            (flags.berlin45soviet === "race"
+              ? " The rivalry between the marshals, which was Stalin's own, is still working, and Konev has a point to make after Berlin."
+              : flags.berlin45soviet === "concentrated"
+              ? " The single thrust on Berlin left Konev's front free for this one, and its tank armies are close to their start line."
+              : ""),
+          choices: [
+            {
+              label: "Send the tank armies to Prague at once — the uprising must be relieved",
+              advisor: { name: "Konev", position: "The city has risen and is asking for help, and every day the tanks wait is a day the garrison can use to destroy it, so the tank armies go ahead of the infantry." },
+              historical: true,
+              setFlags: { prague45: "rush" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "END",
+              outcome:
+                "What happened. The offensive was begun a day early, on May 6, because the uprising had begun, and Konev's tank armies drove south from the area of Riesa. Soviet tanks first entered Prague on May 9, and the German forces in the city were being cleared by the 11th. The Russian Liberation Army's 1st Division under Bunyachenko, which was Vlasov's, had turned on the Germans and fought in the city from May 7, which complicated the Soviet position: they were Soviet citizens in German uniform, and they were fighting the Germans.",
+            },
+            {
+              label: "Wait for the three fronts to close together — no tank army goes in alone",
+              advisor: { name: "Antonov", position: "The war is won, and an operation that holds its three fronts together will cost fewer lives than one that sends a few tank armies into a city whose garrison has not yet surrendered." },
+              setFlags: { prague45: "together" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "END",
+              outcome:
+                "A modeled alternative. The tank armies wait for the infantry and the other two fronts, and the city is reached on the 11th, two days later than it was. The uprising fights alone for two days more than it did, and the Germans bargain for their way west before the Soviet armies arrive. Fewer men are lost in the last days of the war, but the people of Prague have longer to wait, and more of them remember that they did.",
+            },
+          ],
         };
         },
         get warsawUprising44() {
@@ -3146,7 +4026,7 @@
               disabledReason: meters.fuel <= -4 ? "insufficient fuel to attempt a relief column at all, let alone one that might break through" : undefined,
               setFlags: { warsaw44: "relieve" },
               impact: { manpower: -2, fuel: -1, initiative: 0 },
-              next: "finnishArmistice44",
+              next: "iasiKishinev44",
               uncertain: [
                 {
                   weight: flags.forwardSupply44 ? modWeight(62, meters.fuel) : modWeight(22, meters.fuel),
@@ -3162,7 +4042,7 @@
                   weight: flags.forwardSupply44 ? 100 - modWeight(62, meters.fuel) : 100 - modWeight(22, meters.fuel),
                   title: "The push is repulsed",
                   impact: { manpower: -1, fuel: -1, initiative: 0 },
-                  next: "finnishArmistice44",
+                  next: "iasiKishinev44",
                   outcome:
                     "The likelier case, and the one most assessments favor: the rushed relief meets fresh SS armor at the approaches and is thrown back at real cost, without reaching the city. The uprising's fate ends up close to the historical one regardless of the attempt — proof, on this path, that the logistics argument carried real weight even if it wasn't the only thing in the room.",
                 },
@@ -3176,7 +4056,7 @@
               historical: true,
               setFlags: flags.forwardSupply44 ? { warsaw44: "halt", warsawHaltUnexcused: true } : { warsaw44: "halt" },
               impact: { manpower: 1, fuel: 1, initiative: 0 },
-              next: "finnishArmistice44",
+              next: "iasiKishinev44",
               outcome: flags.forwardSupply44
                 ? "The same halt history ordered, on a front that — uniquely on this path — cannot honestly explain it the same way. Warsaw's uprising fought alone for 63 days and was crushed; the city was then systematically demolished on Hitler's direct order, block by block, after the surrender. Those are the settled facts and they do not change here. What changes is the accounting behind them: with supply forward and armor fuelled, the logistics defence that carries genuine weight in the historical debate has been spent in advance, and the decision stands on the other argument alone."
                 : "Soviet forces halted along the Vistula for several months while the uprising, fighting alone, was crushed by German forces over 63 days — the city was then systematically demolished on Hitler's direct order in reprisal, block by block, after the surrender. Whether the halt was primarily a logistics necessity or partly a political calculation to let a rival Polish authority be destroyed remains one of the most contested judgment calls of the entire war among historians; the sources support weight on both sides of that question.",
@@ -3207,7 +4087,7 @@
               historical: false,
               setFlags: { warsawRelief44: "distance" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
-              next: "finnishArmistice44",
+              next: "iasiKishinev44",
               outcome:
                 "The narrower reading of the relief: the corridor holds, the city survives in a way its historical version didn't, and the Home Army is fed and treated correctly and armed not at all. The political calculation some historians already suspected in the historical halt doesn't disappear just because the military halt did — it simply moves to a quieter register.",
             },
@@ -3374,7 +4254,7 @@
               setFlags: { polishQuestion45: "absorb" },
               suspicionDelta: 1,
               impact: { manpower: 1, fuel: 0, initiative: 0 },
-              next: "finnishArmistice44",
+              next: "iasiKishinev44",
               outcome:
                 "The version of the postwar settlement Moscow actually wanted delivered a year early and by more direct means: the Home Army's survivors are folded into the Soviet-recognized Polish forces, by persuasion where possible and by the plain fact of who controls supply and reinforcement where it isn't. London's government-in-exile loses, on this path, the one card the historical outcome never let it hold in the first place — just more visibly, and with your own name closer to the decision.",
             },
@@ -3384,7 +4264,7 @@
               historical: false,
               setFlags: { polishQuestion45: "standApart" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
-              next: "finnishArmistice44",
+              next: "iasiKishinev44",
               outcome:
                 "The harder, more honest version of what this whole relief was in fact for: a really independent Polish force enters 1945 still answering to London, which means the postwar argument about who governs Poland arrives at the negotiating table already half-fought in the field rather than settled by default before anyone sat down. Whether that changes Poland's actual postwar fate, given everything else already decided by whose army stands where, is the rare question in this campaign with no honest answer yet — only a harder version of the argument still to come.",
             },
@@ -3406,7 +4286,7 @@
               historical: true,
               setFlags: { finlandOutcome: "armistice" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
-              next: "vistulaOder45",
+              next: "budapest44",
               outcome:
                 "What actually happened, signed September 19th: Finland cedes territory beyond even the 1940 losses, pays substantial reparations, and — the term that matters most for the war still being fought — commits to expelling or interning every German soldier still on Finnish soil, a promise that becomes its own brief war in Lapland once Wehrmacht units refuse to simply leave. No occupation, no garrison, no divisions tied down administering a hostile population. The northern flank is settled for the cost of a signature rather than a campaign.",
             },
@@ -3436,7 +4316,7 @@
               favor: -1,
               setFlags: { finlandOccupationCost44: "harsh" },
               impact: { manpower: -1, fuel: 0, initiative: 1 },
-              next: "vistulaOder45",
+              next: "budapest44",
               outcome:
                 "The doctrine this occupation adopts is the one that suppresses fastest and costs most to maintain: collective pressure quiets organized resistance within the winter, at the price of a garrison commitment that has to stay large indefinitely, and a northern population whose loyalty was never actually the goal, only its silence. The manpower this front is spending to hold Finland is manpower the German front doesn't get, for as long as this occupation runs.",
             },
@@ -3446,7 +4326,7 @@
               favor: 1,
               setFlags: { finlandOccupationCost44: "narrow" },
               impact: { manpower: 1, fuel: 0, initiative: -1 },
-              next: "vistulaOder45",
+              next: "budapest44",
               outcome:
                 "The cheaper doctrine, and the one that concedes the most: a narrow garrison footprint costs less in manpower and produces less resistance to answer in the first place, but it is occupation in name more than in practice across most of the country's own territory — the difference between this path and the historical armistice narrows considerably, for a smaller fraction of the price this occupation was originally billed at.",
             },
@@ -3469,6 +4349,11 @@
                 : " The narrow garrison this command settled for in Finland freed up more of the north than the harsher option would have, though not as much as simply signing the historical armistice would have.")
               : flags.finlandOutcome === "armistice"
               ? " The northern flank has been a signed, settled question since September — nothing about Finland is drawing on what this offensive has to spend."
+              : "") +
+            (flags.budapest44 === "storm"
+              ? " Budapest was taken at a heavy price in February, and the southern fronts are on the road to Vienna."
+              : flags.budapest44 === "contain"
+              ? " Budapest was left behind a thin ring, and a lighter German relief attempt in January came closer than it should have."
               : ""),
           choices: [
             {
@@ -3556,7 +4441,7 @@
               historical: false,
               setFlags: { maskingForceQuestion45: "lean" },
               impact: { manpower: 1, fuel: 0, initiative: 0 },
-              next: "berlinRace45",
+              next: "balatonVienna45",
               outcome:
                 "The full logic of containment, followed all the way through: the masking force is kept truly minimal, and the strength the historical storm spent stays available for Berlin almost in full. The risk this accepts is real — a lean seal is a seal that could, in principle, be tested — but a garrison this cut off, this low on fuel, was never actually likely to test it, and the front bets accordingly.",
             },
@@ -3565,7 +4450,7 @@
               advisor: { name: "Vasilevsky", position: "A trapped garrison with artillery and nothing left to lose is not a bookkeeping entry, and it is better to over-insure a fortress than explain a breakout to Moscow." },
               setFlags: { maskingForceQuestion45: "heavy" },
               impact: { manpower: -1, fuel: 0, initiative: 0 },
-              next: "berlinRace45",
+              next: "balatonVienna45",
               outcome:
                 "The cautious reading of the same decision: a substantial containment force stays behind, insurance against a fortress that — however unlikely to break out — still has artillery and hundreds of thousands of men with nothing left to lose. It costs the Berlin operation real strength the lean version would have kept, spent on a risk that, this campaign admits plainly, was probably always smaller than the insurance premium paid against it.",
             },
@@ -3579,7 +4464,12 @@
           title: "The Race for Berlin",
           historicalRecord: true,
           situation:
-            "Western Allied forces have crossed the Rhine and could, by most staff estimates, reach Berlin before Soviet forces if ordered to try — Eisenhower has instead directed the main American thrust toward Leipzig and Dresden, judging the political prize not worth the military cost against a city already assigned to the Soviet occupation zone at Yalta. That judgment is not yours to rely on. Zhukov and Konev's fronts stand on the Oder, sixty kilometers out, and the only question left in this war is how the final assault is fought.",
+            "Western Allied forces have crossed the Rhine and could, by most staff estimates, reach Berlin before Soviet forces if ordered to try — Eisenhower has instead directed the main American thrust toward Leipzig and Dresden, judging the political prize not worth the military cost against a city already assigned to the Soviet occupation zone at Yalta. That judgment is not yours to rely on. Zhukov and Konev's fronts stand on the Oder, sixty kilometers out, and the only question left in this war is how the final assault is fought." +
+            (flags.balatonVienna45 === "preempt"
+              ? " The southern front struck first at Lake Balaton in March, and its armies come to Vienna and the Danube with the German offensive already broken."
+              : flags.balatonVienna45 === "defend"
+              ? " The southern front let the last German offensive break itself in the mines at Lake Balaton, and took Vienna on the counterattack."
+              : ""),
           choices: [
             {
               label: "A single concentrated thrust under one commander — minimize the political cost of a divided assault",
@@ -3654,6 +4544,13 @@
         yelnya41: "strike",
         winter42: "general",
         kharkov42: "attack",
+        leningrad44: "deep",
+        rightBank44: "destroy",
+        crimea44: "assault",
+        iasiKishinev44: "pincers",
+        budapest44: "storm",
+        balatonVienna45: "defend",
+        prague45: "rush",
       };
       let matched = 0,
         considered = 0;
@@ -3854,6 +4751,26 @@
         add(8, "The drive on Rostov closed the door on Army Group A — the encirclement history reached for and missed, landed on this path at the favorable edge of what the winter logistics allowed.");
       if (flags.earlyDnieper43)
         add(8, "The reserve banked since Stalingrad was spent skipping Kharkov's recapture entirely rather than refighting it — a front committed further west a season before its logistics were built to support it, and Manstein's last great counterstroke handed nothing to work with.");
+      if (flags.leningrad44 === "limited")
+        add(6, "The siege of Leningrad was lifted in January 1944 on a limited plan: the railways cleared, the 18th Army allowed to fall back in order to a shorter line, and the winter forest spared the divisions a deep offensive would have cost.");
+      if (flags.rightBank44 === "distance")
+        add(6, "The ring at Korsun was held at a distance, and a larger part of the encircled army got out than the historical count allows: Stavka got a victory less complete than the one it asked for.");
+      if (flags.crimea44 === "mask")
+        add(6, "The Crimea was not stormed in the spring of 1944: the isthmus was sealed and a German army of a quarter of a million men was left on the peninsula, fed and watched, until the summer's blow had been struck elsewhere.");
+      if (flags.iasiKishinev44 === "oilfields")
+        add(6, "The drive for the Ploesti oilfields went ahead of the encirclement of the German Sixth Army in Romania, and the oil was Soviet a little earlier than it was in the real war.");
+      if (flags.budapest44 === "contain")
+        add(7, "Budapest was contained rather than stormed, and the army that went on toward Vienna was a little fresher for it, with the Germans' January relief attempts meeting a thinner line.");
+      if (flags.balatonVienna45 === "preempt")
+        add(7, "The Soviet front struck first at the German assembly areas around Lake Balaton in March 1945, and the last German offensive was cut up before it could open.");
+      if (flags.prague45 === "together")
+        add(8, "The tank armies waited for the three fronts to close together and entered Prague on May 11, two days later than they did in the real war.");
+      if (flags.prague45 === "rush")
+        add(7, "Konev's tank armies reached Prague on May 9, the day after the surrender was signed in Berlin, in the last major operation of the war in Europe.");
+      if (flags.seelowResult === "quick")
+        add(8, "The Seelow Heights fell on the second day instead of the third, at a lower cost: the best the plan could have done, and not what happened.");
+      if (keyBattleEcho("seelow45", flags))
+        add(6, keyBattleEcho("seelow45", flags).trim());
       if (flags.berlinEnveloped45)
         add(9, "Seelow was never fought. The last prepared defensive line of the war held its position perfectly while the city behind it was encircled from two directions by an army with enough left in the ranks to go around rather than through.");
       if (flags.berlinFeb45)

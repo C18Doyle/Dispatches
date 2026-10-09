@@ -1405,6 +1405,7 @@ const NODE_HIGHLIGHT_REGIONS = {
   valkyrieGovernment44: ["germany"],
   caenAttrition: ["france"],
   falaiseGerman: ["france"],
+  backhandBlow43: ["ussrUkraine", "ussrDon"],
   },
   soviet: {
   border41: ["baltics", "ussrLeningrad", "ussrBelarus", "ussrUkraine"],
@@ -1460,6 +1461,13 @@ const NODE_HIGHLIGHT_REGIONS = {
   smolenskThaw42: ["ussrMoscow"],
   kharkov42: ["ussrUkraine"],
   westernOffensive42: ["ussrMoscow", "ussrBelarus"],
+  leningrad44: ["ussrLeningrad"],
+  rightBank44: ["ussrUkraine"],
+  crimea44: ["ussrUkraine"],
+  iasiKishinev44: ["romania"],
+  budapest44: ["hungary"],
+  balatonVienna45: ["hungary", "austria"],
+  prague45: ["czechia"],
   },
   allied: {
   narvik40: ["norway"],
