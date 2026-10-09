@@ -40,6 +40,7 @@ export interface Choice {
   disabledReason?: string;
   historical?: boolean;
   advisor?: { name: string; quote?: string };
+  keyBattleSubgame?: { id: string } & Record<string, unknown>;
 }
 
 export interface Stage {
@@ -61,6 +62,29 @@ export interface DivergenceFork {
   id: string;
   flag: string;
   revealNode: string;
+}
+
+/** What the Order of Battle screen hands back when a battle is resolved. */
+export interface SubgamePayload {
+  bonus?: number;
+  flagsOut?: Flags;
+  finalAllocation?: unknown;
+  poolSize?: number;
+  contributions?: unknown;
+  reservesHeld?: number;
+  counter?: unknown;
+  notes?: unknown;
+}
+
+export interface PlanCosts {
+  grade?: string;
+  totals: Meters;
+}
+
+/** Nudges a two-outcome roll by the Order of Battle bonus, clamped to [2, 98] each. */
+export function subgameWeights(weights: number[], bonus: number): number[] {
+  if (!bonus || weights.length !== 2) return weights;
+  return [Math.max(2, Math.min(98, weights[0] + bonus)), Math.max(2, Math.min(98, weights[1] - bonus))];
 }
 
 export const EMPTY_METERS: Meters = { readiness: 0, pipeline: 0, initiative: 0 };
@@ -372,6 +396,10 @@ export interface ChoiceResult {
   meters: Meters;
   rollIndex: number | null;
   choiceIndex: number;
+  /** Set only for a battle-resolved choice: the weights actually rolled, the pre-bonus weights, the plan costs. */
+  battle: { weights: number[]; baseWeights: number[]; planCosts: PlanCosts | null } | null;
+  /** True if the choice rolled dice (the caller plays the dice sound). */
+  rolled: boolean;
 }
 
 /**
@@ -387,20 +415,38 @@ export function resolveChoice(args: {
   flags: Flags;
   meters: Meters;
   rand: () => number;
+  subgame?: SubgamePayload;
+  planCostsFor?: (ri: number | null) => PlanCosts | null;
 }): ChoiceResult | null {
   const { stage, index, mode, rand } = args;
   const choice = stage.choices[index];
   if (mode === "iron" && choice.favor && choice.favor > args.favor) return null;
   const favor = mode === "iron" && choice.favor ? args.favor - choice.favor : args.favor;
 
-  const rollIndex = choice.uncertain ? pickRollIndex(choice.uncertain, rand()) : null;
+  const subgame = args.subgame;
+  const isSubgameResolution = subgame !== undefined;
+  const subgameBonus = subgame?.bonus ?? 0;
+  let rollIndex: number | null = null;
+  let resolvedWeights: number[] | null = null;
+  let baseWeights: number[] | null = null;
+  if (choice.uncertain) {
+    let weights = choice.uncertain.map((u) => u.weight);
+    baseWeights = weights.slice();
+    if (isSubgameResolution && subgameBonus) weights = subgameWeights(weights, subgameBonus);
+    if (isSubgameResolution) resolvedWeights = weights;
+    rollIndex = pickWeighted(weights, rand(), ROLL);
+  }
   const eff = effectiveChoice(choice, rollIndex);
+  const planCosts = resolvedWeights && subgame && subgame.finalAllocation && args.planCostsFor ? args.planCostsFor(rollIndex) : null;
 
   let flags: Flags = { ...args.flags };
   if (choice.setFlags) flags = { ...flags, ...choice.setFlags };
   if (choice.uncertain && rollIndex != null && choice.uncertain[rollIndex].setFlags) {
     flags = { ...flags, ...choice.uncertain[rollIndex].setFlags };
   }
+  // How a battle was fought, and how well (the plan's grade), carry into later node text.
+  if (subgame && subgame.flagsOut) flags = { ...flags, ...subgame.flagsOut };
+  if (planCosts && planCosts.grade && choice.keyBattleSubgame) flags = { ...flags, [`${choice.keyBattleSubgame.id}Grade`]: planCosts.grade };
   // The reading of each meter this choice's impact fell on (see METER_STRANDS).
   for (const mk of ["readiness", "pipeline", "initiative"] as const) {
     const delta = eff.impact ? eff.impact[mk] || 0 : 0;
@@ -417,7 +463,29 @@ export function resolveChoice(args: {
     if (defiance >= 5 && !flags.dismissed) flags = { ...flags, dismissed: true };
   }
 
-  return { favor, defiance, flags, meters: applyImpact(args.meters, eff.impact), rollIndex, choiceIndex: index };
+  // One clamp on the sum of the choice's impact and the battle plan's cost. A battle may not charge the same fault twice: where the
+  // outcome itself already costs a meter two points or more, the plan's own charge on that meter is held to one.
+  let impact: Impact | undefined = eff.impact;
+  if (planCosts) {
+    const imp = eff.impact || {};
+    const plan = planCosts.totals;
+    const stacked = (outcome: number, charge: number) => (outcome <= -2 ? Math.max(charge, -1) : charge);
+    impact = {
+      readiness: (imp.readiness || 0) + stacked(imp.readiness || 0, plan.readiness || 0),
+      pipeline: (imp.pipeline || 0) + stacked(imp.pipeline || 0, plan.pipeline || 0),
+      initiative: (imp.initiative || 0) + stacked(imp.initiative || 0, plan.initiative || 0),
+    };
+  }
+  return {
+    favor,
+    defiance,
+    flags,
+    meters: applyImpact(args.meters, impact),
+    rollIndex,
+    choiceIndex: index,
+    battle: resolvedWeights ? { weights: resolvedWeights, baseWeights: baseWeights as number[], planCosts } : null,
+    rolled: !!choice.uncertain,
+  };
 }
 
 export interface LogEntry {

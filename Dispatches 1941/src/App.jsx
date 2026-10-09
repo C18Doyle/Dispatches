@@ -86,6 +86,11 @@ let clackSynth = null;
 let stampSynth = null;
 let diceSynth = null;
 let rumbleSynth = null;
+// The Order of Battle screens' sounds: quiet, only heard with the Sound setting on, and none carries information the screen does not also give in words.
+let tickSynth = null;
+let radioSynth = null;
+let boomSynth = null;
+let chimeSynth = null;
 let rustleSynth = null;
 let sfxBus = null;
 // Background music: a small registry of Tone.Player instances (one for the menu,
@@ -159,6 +164,10 @@ function ensureSound() {
       envelope: { attack: 0.01, decay: 0.25, sustain: 0, release: 0.05 },
     }).connect(new Tone.Filter(2400, "highpass").connect(sfxBus));
     rustleSynth.volume.value = -18;
+    tickSynth = new Tone.MembraneSynth({ pitchDecay: 0.004, octaves: 1.5, envelope: { attack: 0.001, decay: 0.05, sustain: 0 }, volume: -24 }).connect(sfxBus);
+    radioSynth = new Tone.NoiseSynth({ noise: { type: "pink" }, envelope: { attack: 0.001, decay: 0.09, sustain: 0 }, volume: -22 }).connect(new Tone.Filter(2400, "bandpass").connect(sfxBus));
+    boomSynth = new Tone.NoiseSynth({ noise: { type: "brown" }, envelope: { attack: 0.03, decay: 0.8, sustain: 0 }, volume: -16 }).connect(new Tone.Filter(180, "lowpass").connect(sfxBus));
+    chimeSynth = new Tone.Synth({ oscillator: { type: "triangle" }, envelope: { attack: 0.005, decay: 0.32, sustain: 0, release: 0.2 }, volume: -22 }).connect(sfxBus);
     soundReady = true;
   } catch (e) {
     soundReady = false;
@@ -249,6 +258,44 @@ function playDice() {
         diceSynth.triggerAttackRelease("32n");
       } catch (e) {}
     }, 90);
+  } catch (e) {}
+}
+// Effort placed or taken back on the planning screen: a soft click, higher going in, lower coming out.
+function playTick(up) {
+  if (!soundReady || !tickSynth) return;
+  try {
+    tickSynth.triggerAttackRelease(up ? "E4" : "A3", "64n");
+  } catch (e) {}
+}
+// A report coming in over the radio: two short bursts of band-limited noise.
+function playRadio() {
+  if (!soundReady || !radioSynth) return;
+  try {
+    radioSynth.triggerAttackRelease("32n");
+    setTimeout(() => {
+      try {
+        radioSynth.triggerAttackRelease("64n");
+      } catch (e) {}
+    }, 110);
+  } catch (e) {}
+}
+// Guns a long way off: the battle opening, and a beat that swings hard against you.
+function playRumble() {
+  if (!soundReady || !boomSynth) return;
+  try {
+    boomSynth.triggerAttackRelease("4n");
+  } catch (e) {}
+}
+// The verdict: two notes rising on a win, two sinking on a loss.
+function playVerdict(won) {
+  if (!soundReady || !chimeSynth) return;
+  try {
+    chimeSynth.triggerAttackRelease(won ? "G4" : "D4", "8n");
+    setTimeout(() => {
+      try {
+        chimeSynth.triggerAttackRelease(won ? "D5" : "Ab3", "8n");
+      } catch (e) {}
+    }, 220);
   } catch (e) {}
 }
 // meters -> ambient rumble, keyed off the same wearTier() severity bands as the visual
@@ -2252,6 +2299,7 @@ const CAMPAIGNS = {
               disabledReason: meters.pipeline <= -2 ? "Destroyer squadron fuel stocks can't sustain nightly Tokyo Express runs at this tonnage. There's nothing left to commit." : undefined,
               gateCheck: { meter: "pipeline", threshold: -2, label: "Pipeline" },
               next: "keGoWithdrawal43",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.guadalcanalNaval42,
               uncertain: [
                 {
                   weight: modWeight(45, meters.initiative),
@@ -2304,7 +2352,7 @@ const CAMPAIGNS = {
           title: "Operation Ke-Go",
           historicalRecord: true,
           situation:
-            "Guadalcanal is lost, and Imperial Headquarters has to decide how to get roughly 11,000 remaining soldiers off the island before American forces finish reducing the perimeter. The real operation, Ke-Go, is one of the most skillful pieces of naval logistics either side manages in the war: a buildup that leads the Americans to expect reinforcement, and an air campaign that draws their attention away from the destroyer runs." +
+            ("Guadalcanal is lost, and Imperial Headquarters has to decide how to get roughly 11,000 remaining soldiers off the island before American forces finish reducing the perimeter. The real operation, Ke-Go, is one of the most skillful pieces of naval logistics either side manages in the war: a buildup that leads the Americans to expect reinforcement, and an air campaign that draws their attention away from the destroyer runs." +
             (flags.guadalcanalPath === "drumResupply"
               ? " The men being evacuated now are the same ones who spent the campaign's final weeks recovering sealed drums from the surf under fire rather than eating anything a destroyer actually delivered. Whatever this evacuation manages to save, it isn't saving a garrison that was ever properly fed."
               : "") +
@@ -2312,7 +2360,7 @@ const CAMPAIGNS = {
               ? " The destroyer force this evacuation depends on is the same one that fought the November naval battles to a genuine standstill rather than a rout, a fighting chance that's part of why there's still enough of a squadron left to attempt Ke-Go's kind of precision at all."
               : flags.guadalcanalNavalResult === "disaster"
               ? " The destroyer force this evacuation depends on is thinner than it should be, having taken losses in November closer to a rout than a contested fight, which is exactly the kind of shortfall a deception plan this precise has no real margin to absorb."
-              : ""),
+              : "")) + (flags.guadalcanalPath === "commit" ? keyBattleEcho("guadalcanalNaval42", flags) : ""),
           choices: [
             {
               label: "Commit to the deception plan in full: stage a visible reinforcement buildup to mask the actual evacuation",
@@ -4608,6 +4656,7 @@ const CAMPAIGNS = {
               setFlags: { midwayAlliedPath: "ambush" },
               impact: { readiness: -2, pipeline: 0, initiative: 3 },
               next: "kokodaTrailAllied42",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.midwayAllied42,
               uncertain: [
                 {
                   weight: modWeight(60 + (flags.forkToneOnTime ? 5 : 0), meters.initiative),
@@ -4676,7 +4725,7 @@ const CAMPAIGNS = {
           title: "The Kokoda Track",
           historicalRecord: true,
           situation:
-            "Australian militia, mostly young, poorly equipped conscripts not yet reinforced by the veteran AIF divisions still returning from the Middle East, are conducting a fighting withdrawal down the Kokoda Track as Horii's South Seas Detachment pushes toward Port Moresby. MacArthur, running the campaign from Australia with little visibility into the terrain and supply conditions on the track, is reading the retreat as a failure of will rather than the skillfully executed delaying action Australian commanders on the ground understand it to be, and is pressing hard for an immediate stand.",
+            "Australian militia, mostly young, poorly equipped conscripts not yet reinforced by the veteran AIF divisions still returning from the Middle East, are conducting a fighting withdrawal down the Kokoda Track as Horii's South Seas Detachment pushes toward Port Moresby. MacArthur, running the campaign from Australia with little visibility into the terrain and supply conditions on the track, is reading the retreat as a failure of will rather than the skillfully executed delaying action Australian commanders on the ground understand it to be, and is pressing hard for an immediate stand." + (flags.midwayAlliedPath === "ambush" ? keyBattleEcho("midwayAllied42", flags) : ""),
           choices: [
             {
               label: "Back Blamey and the Australian commanders' fighting-withdrawal strategy: trade ground for time until reinforcements arrive",
@@ -5175,6 +5224,7 @@ const CAMPAIGNS = {
               disabledReason: meters.readiness <= -4 ? "The carrier air groups don't have the strength left to leave the landing force uncovered and still win a pursuit. The fleet can protect the beach or gamble, not both, at this readiness level." : undefined,
               gateCheck: { meter: "readiness", threshold: -4, label: "Readiness" },
               next: "chinaCrisisAllied44",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.philippineSea44,
               uncertain: [
                 {
                   weight: modWeight(40, meters.initiative),
@@ -5347,7 +5397,7 @@ const CAMPAIGNS = {
           title: "Two Fronts, One Air Bridge",
           historicalRecord: true,
           situation:
-            "Ichi-Go's offensive is overrunning the Fourteenth Air Force's forward airbases faster than Chennault's command can evacuate them, and Chiang's Nationalist divisions, chronically under-supplied, chronically riven by the rivalry between Chiang and Stilwell that's about to cost Stilwell his command entirely, are giving ground across southern China. In the north, Communist forces under Mao have spent the war largely intact, fighting a guerrilla campaign against Japanese occupation that American observers newly arrived at Yan'an report is considerably more effective than anything the Nationalist front is currently managing." +
+            ("Ichi-Go's offensive is overrunning the Fourteenth Air Force's forward airbases faster than Chennault's command can evacuate them, and Chiang's Nationalist divisions, chronically under-supplied, chronically riven by the rivalry between Chiang and Stilwell that's about to cost Stilwell his command entirely, are giving ground across southern China. In the north, Communist forces under Mao have spent the war largely intact, fighting a guerrilla campaign against Japanese occupation that American observers newly arrived at Yan'an report is considerably more effective than anything the Nationalist front is currently managing." +
             (divergentPath
               ? " None of that changes for how the naval war went: China's crisis runs on Chennault's airbases and Chiang's divisions, not on which islands the fleet has taken."
               : "") +
@@ -5365,7 +5415,7 @@ const CAMPAIGNS = {
               ? " This theater is still absorbing the cost of a hard-fought, long-odds win over an undamaged Japanese carrier fleet at FS, a victory but not a cheap one, and China's own crisis is landing on a Pacific command that has less spare capacity than the historical 1944 war ever had to work with at this point."
               : flags.fsAlliedResult === "forcedWithdrawal"
               ? " This theater is still recovering from a forced withdrawal against an undamaged Japanese carrier fleet at FS, and China's own crisis is landing on a Pacific command working from a materially weaker position than the historical 1944 war ever had to answer from."
-              : ""),
+              : "")) + (flags.philippineSeaAlliedPath === "pursue" ? keyBattleEcho("philippineSea44", flags) : ""),
           choices: [
             {
               label: "Maintain support solely to Chiang's Nationalist government: hold the alliance's official line even as Ichi-Go costs airbases",
@@ -7016,7 +7066,11 @@ const CAMPAIGNS = {
 // The artifact environment ships only Tailwind's precompiled core classes — arbitrary
 // values like text-[#ffffff] are never generated. This stylesheet implements every
 // arbitrary class this file uses, so the classes behave as written.
+// Fallback utilities for class names with arbitrary values. They sit in the `utilities` layer, the layer Tailwind uses: as unlayered rules
+// they beat every Tailwind utility whatever its specificity, so `hover:text-[#ffffff]` lost to `text-[#000000]` (a hovered choice went black on
+// black) and `sm:text-[..]` lost to `text-[..]`.
 const ARBITRARY_CSS = `
+@layer utilities {
 .bg-\\[\\#000000\\] { background-color: #000000; }
 .bg-\\[\\#ffffff\\] { background-color: #ffffff; }
 .border-\\[\\#000000\\] { border-color: #000000; }
@@ -7042,6 +7096,7 @@ const ARBITRARY_CSS = `
 .tracking-\\[0\\.25em\\] { letter-spacing: 0.25em; }
 .tracking-\\[0\\.35em\\] { letter-spacing: 0.35em; }
 .shadow-\\[0_8px_30px_rgba\\(0\\,0\\,0\\,0\\.5\\)\\] { box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+}
 `;
 
 const paper =
@@ -7972,6 +8027,1163 @@ function warRoomModeInfo(mode, campaignId) {
   return { label: names[mode] || mode, note: summaries[mode] || "", summary: summaries[mode] || "" };
 }
 
+// The Order of Battle (Key Battle) subgame, ported from Dispatches 1940. A major battle can be fought on its own screen: the player
+// commits a pool of effort across the battle's arms, picks a commander and an approach, and meets one of several enemy setups the
+// intelligence may or may not have read right. The plan nudges the roll of the choice that hosts the battle (see subgameWeights in
+// logic.ts) and costs the meters (computeBattlePlanCosts). Battles are registered below: KEY_BATTLE_COMMANDERS, _APPROACHES, _POSTURES,
+// _ECHOES and _TITLES are keyed by the battle's id (the `id` of the hosting choice's `keyBattleSubgame`).
+// The hosting choice's FIRST outcome is the win. A battle must have exactly two outcomes.
+
+const BATTLE_ALLOCATION_CATEGORIES = [
+  { id: "fleet", name: "Carriers & Battleships", meter: "readiness", strand: "flt" },
+  { id: "air", name: "Air Groups", meter: "readiness", strand: "trn" },
+  { id: "escorts", name: "Cruisers & Destroyers", meter: "readiness", strand: "mor" },
+  { id: "supply", name: "Supply & Logistics", meter: "pipeline", strand: "shp" },
+];
+
+// Commanders available to the player, per battle: { id, name, role, category, note }. The category is the arm the officer's
+// real command gives a bonus (KEY_BATTLE_COMMANDER_BONUS).
+const KEY_BATTLE_COMMANDERS = {};
+const KEY_BATTLE_COMMANDER_BONUS = 0.8;
+
+// Approaches, per battle: { id, name, note, modifiers: { <category id>: bonus } }.
+const KEY_BATTLE_APPROACHES = {};
+
+// Enemy setups, per battle: { id, name, intel, modifiers: { <category id>: multiplier }, weight, only }.
+const KEY_BATTLE_POSTURES = {};
+
+const KEY_BATTLE_NEGLECT_PENALTY = 1.5;
+const KEY_BATTLE_RESERVE_MULT = 0.75;
+const KEY_BATTLE_BONUS_CLAMP = 30;
+
+// Round 10 (item 7): postures can carry a `weight` (default 1) — Omaha's historical posture is
+// drawn twice as often as either alternative.
+function pickKeyBattlePosture(battleId, excludeId, phase) {
+  // Round 22: a battle with phases (config.phases) draws a second posture for its second phase,
+  // never the same one twice. excludeId is undefined for every ordinary battle, so nothing about
+  // the first draw changes for them.
+  // A posture can be tied to one phase (only: 1 or 2): a second wave cannot open the day.
+  const roster = (KEY_BATTLE_POSTURES[battleId] || []).filter(
+    (p) => (!excludeId || p.id !== excludeId) && (!phase || !p.only || p.only === phase)
+  );
+  if (!roster.length) return null;
+  const total = roster.reduce((a, p) => a + (p.weight || 1), 0);
+  let r = Math.random() * total;
+  for (const p of roster) {
+    r -= p.weight || 1;
+    if (r <= 0) return p;
+  }
+  return roster[roster.length - 1];
+}
+
+// Round 10, Craig's item #4: the staff assessment's reliability scales with Initiative at the
+// moment you ask — his own example, "9 initiative 90% accuracy." Floored at 10% so a staff
+// that is badly behind events still occasionally gets it right, capped at 95% so it never
+// becomes a guarantee. The free intelligence summary is wrong a flat 1 time in 4.
+const KEY_BATTLE_INTEL_ERROR_RATE = 0.25;
+// Round 13, Craig's item #3 ("intel as a spendable resource"): a second, PAID look at the same
+// hidden posture, priced the same way the staff assessment is (1 Initiative) and reusing that
+// same "spend a scarce meter for a materially better read, never a certainty" shape — sharper
+// than the free hint (1-in-10 wrong, not 1-in-4) but still not perfect, so a Recon Pass narrows
+// the odds of being fooled rather than removing the risk outright. See requestRecon.
+const KEY_BATTLE_RECON_ERROR_RATE = 0.1;
+function staffReliability(initiative) {
+  return Math.max(10, Math.min(95, (initiative || 0) * 10));
+}
+const STAFF_VERDICT_BANDS = ["strong", "sound", "thin", "a mistake"];
+
+// Round 10, Craig's item #8: how the battle was fought carries into the next node. chooseOption
+// writes `${battleId}Counter`, `${battleId}PlanNeglected` and `${battleId}PlanCommander` flags
+// (dev build only — the subgame is the only thing that sets them), and the next node's
+// situation text appends at most two of these lines: what happened with the counterattack, then
+// either the arm that was left uncovered or, if none was, the commander's lingering mark.
+// Past tense is right here: by the next node, this is the player's own history.
+
+// What the next report says about how the battle was fought: { counter: {...}, neglected: {...}, commander: {...} } per battle.
+const KEY_BATTLE_ECHOES = {};
+
+// The battles, in campaign order, with the campaign seal each belongs to (the war record lists them by name).
+const KEY_BATTLE_TITLES = [];
+
+const BATTLE_GRADE_ORDER = ["total", "marginal", "costly", "clean"]; // worst to best
+
+function keyBattleEcho(echoId, flags, battleId) {
+  const E = KEY_BATTLE_ECHOES[echoId];
+  const id = battleId || echoId;
+  if (!E) return "";
+  const parts = [];
+  const counter = flags[`${id}Counter`];
+  if (counter && E.counter[counter]) parts.push(E.counter[counter]);
+  const neglected = flags[`${id}PlanNeglected`];
+  const commander = flags[`${id}PlanCommander`];
+  if (neglected && E.neglected[neglected]) parts.push(E.neglected[neglected]);
+  else if (commander && E.commander[commander]) parts.push(E.commander[commander]);
+  return parts.length ? " " + parts.join(" ") : "";
+}
+
+function keyBattleCategories(config) {
+  return (config && config.categories) || BATTLE_ALLOCATION_CATEGORIES;
+}
+
+function computeBattleContributions(categories, plan, weights, poolSize, reserve) {
+  const res = reserve || {};
+  const spent = categories.reduce((a, c) => a + (plan[c.id] || 0) + (res[c.id] || 0), 0);
+  // Round 12: fair share is what an even split of the pool would give each category. Below it,
+  // a category owes a penalty graded by the shortfall, linearly (Round 16 — see the comments
+  // above this function and on the penalty line below); at or above it, nothing.
+  const fairShare = poolSize / categories.length;
+  const out = {};
+  for (const c of categories) {
+    const p = plan[c.id] || 0;
+    const r = res[c.id] || 0;
+    const finalCount = p + r;
+    const value = finalCount > 0 ? (p + r * KEY_BATTLE_RESERVE_MULT) * (weights[c.id] || 0) : 0;
+    let penalty = 0;
+    if (spent >= poolSize / 2 && finalCount < fairShare) {
+      // Round 16 superseded the 1/4-power curve this comment used to describe — see the
+      // Round 16 comment above this function for why. Short version: that curve's own concavity
+      // made the LAST chit before fair share worth far more than its raw weight (it bought back
+      // almost the whole remaining penalty at once), which a "top everyone up to fair share, dump
+      // the leftover" plan could exploit for a bigger net gain than the one-chit hedge the old
+      // check screened for. Linear removes that: every missing chit costs the same fixed slice of
+      // KEY_BATTLE_NEGLECT_PENALTY, first or last, so there's no crossing point worth camping on.
+      // The earlier note that "linear lets the one-chit hedge win" was true at the OLD constant
+      // (4.5) — raising a linear penalty's constant to compensate for the shape change is what
+      // widened the hedge's margin back then. It was never linear-vs-power that mattered; it was
+      // never re-tuning the constant alongside the shape. 1.5 is the largest constant that clears
+      // both the original 250 check-battle-balance.js scenarios AND an exhaustive search over
+      // every possible allocation (not just the hand-picked hedge/concentration shapes) across
+      // every battle, posture, and pool size 5-8.
+      penalty = KEY_BATTLE_NEGLECT_PENALTY * ((fairShare - finalCount) / fairShare);
+    }
+    out[c.id] = value - penalty;
+  }
+  return out;
+}
+
+function sumBattleContributions(contributions) {
+  return Object.values(contributions).reduce((a, v) => a + v, 0);
+}
+
+function clampBattleBonus(raw) {
+  return Math.max(-KEY_BATTLE_BONUS_CLAMP, Math.min(KEY_BATTLE_BONUS_CLAMP, Math.round(raw)));
+}
+
+// Round 9, Craig's item #3 (consequences that depend on the plan, not just the odds). Small,
+// legible rules keyed off each category's own `meter`, so they generalize to any battle's
+// categories: a category holding at least half the pool costs its meter 1 (you spent that
+// resource hard); a WIN with nothing neglected earns +1 Initiative (a coordinated plan leaves
+// the staff ahead of events); a reserve of 2+ chits held back and never committed returns +1
+// Manpower. Each meter's net plan cost is capped to [-2, +1] so the plan can sting but never
+// outweigh the battle's own historical outcome impact (round 27: at most 1 per meter and 2 in all).
+function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contributions, won, reservesHeld, counter, extraLines, attrition }) {
+  const lines = [];
+  // Round 22: costs chosen at a mid-battle decision (extraLines: [{meter, delta, reason}]) and a
+  // battle's own attrition rules (attrition: [{category, atLeast, meter, delta, reason}], e.g. the
+  // frostbite on the Alps or the cold before Moscow) read exactly like the rules below. They go
+  // through the same [-2, +1] cap per meter, so a battle can sting but never outweigh its outcome.
+  for (const l of extraLines || []) lines.push({ meter: l.meter, delta: l.delta, reason: l.reason });
+  for (const a of attrition || []) {
+    if ((finalAllocation[a.category] || 0) >= a.atLeast) lines.push({ meter: a.meter, delta: a.delta, reason: a.reason });
+  }
+  // Round 10: the counterattack's own cost. Repulsing it is free; holding it at a cost, or
+  // being broken, costs the meter of the arm that met it; giving ground costs tempo.
+  if (counter && counter.result !== "repulsed") {
+    const cat = categories.find((c) => c.id === counter.category);
+    if (counter.result === "gaveGround") {
+      lines.push({ meter: "initiative", delta: -1, reason: "Gave ground to the counterattack" });
+    } else if (cat) {
+      lines.push({ meter: cat.meter, delta: -1, reason: `${cat.name} mauled by the counterattack` });
+      if (counter.result === "broke") lines.push({ meter: "initiative", delta: -1, reason: "The counterattack broke through" });
+    }
+  }
+  for (const c of categories) {
+    if ((finalAllocation[c.id] || 0) >= poolSize / 2) {
+      lines.push({ meter: c.meter, delta: -1, reason: `Heavy commitment to ${c.name}` });
+    }
+  }
+  // Round 24 (double jeopardy): an arm left uncovered used to cost its meter a point on a loss as well. The gap has
+  // already cost the plan its odds (the neglect penalty) and set the grade, and a loss carries its own impact, so
+  // charging it again was charging the same fault three times. A win with nothing neglected still earns the point.
+  const neglected = categories.filter((c) => (contributions[c.id] || 0) < 0);
+  if (won && neglected.length === 0) {
+    lines.push({ meter: "initiative", delta: 1, reason: "A coordinated plan" });
+  }
+  if (reservesHeld >= 2) lines.push({ meter: "readiness", delta: 1, reason: "Reserve returned intact" });
+  const totals = { readiness: 0, pipeline: 0, initiative: 0 };
+  for (const l of lines) totals[l.meter] = (totals[l.meter] || 0) + l.delta;
+  // Round 27: random play reached -10 within a few decisions once battles charged their plans on top of their own
+  // outcomes. A plan now costs a meter at most 1, and a battle's plan takes at most 2 points from the three meters in
+  // all (the largest charges are eased first); gains are still capped at +1.
+  for (const m of Object.keys(totals)) totals[m] = Math.max(-1, Math.min(1, totals[m]));
+  let owed = Object.values(totals).reduce((a, v) => a + Math.min(0, v), 0);
+  while (owed < -2) {
+    const worst = Object.keys(totals).reduce((a, m) => (totals[m] < totals[a] ? m : a));
+    totals[worst] += 1;
+    owed += 1;
+  }
+  // Round 13, Craig's item #1 ("graded outcomes, not strict binary win/lose"). Deliberately NOT a
+  // second dice roll or a change to the shared uncertain[] mechanic (that roll is game-wide, used
+  // for hundreds of choices — too risky to touch for one subsystem). Instead a quality axis
+  // layered on top of the same signals this function already computes for meter costs: a win with
+  // nothing neglected and no counterattack cost reads as "clean"; any win that neglected a
+  // category or paid for a counterattack reads as "costly" — same battle, different texture. A
+  // loss is graded the other way: "marginal" when the plan itself held up (0-1 neglected
+  // categories) and the roll simply went the other way — the plan wasn't the problem, the dice
+  // were — versus "total" when 2+ categories were left short or the counterattack broke through
+  // outright, i.e. the plan itself gave out, not just the roll.
+  const grade = won
+    ? neglected.length === 0 && (!counter || counter.result === "repulsed")
+      ? "clean"
+      : "costly"
+    : neglected.length >= 2 || (counter && counter.result === "broke")
+    ? "total"
+    : "marginal";
+  return { lines, totals, grade };
+}
+
+// Round 22, field decisions (config.decisions). Mid-battle choices written for each battle from
+// the real alternatives its day offered. Each option has a flat `bonus` toward the roll, optionally
+// an extra `bonusByPosture` for the enemy posture in force when the decision is made (the later
+// of the battle's postures, when it has two phases), optional `meters` costs, and an optional
+// `severity` change to the counterattack that follows. Pure, so the balance check can run the same
+// code the screen does.
+function battleDecisionEffect(option, postureId) {
+  const byPosture = (option.bonusByPosture && postureId && option.bonusByPosture[postureId]) || 0;
+  const lines = Object.entries(option.meters || {}).map(([meter, delta]) => ({
+    meter,
+    delta,
+    reason: option.costReason || option.name,
+  }));
+  return { bonus: (option.bonus || 0) + byPosture, severity: option.severity || 0, lines };
+}
+
+// The campaign hard modes that can put orders from above on a battle (config.hardRule).
+const HARD_MODE_NAMES = { fanatical: "Fanatical Resolve Mode", coalition: "Coalition Resolve Mode" };
+
+// How a reading's band (see strandReadout in logic.ts) changes the weight an arm can bring. Each category may name the reading it draws on
+// (category.strand with category.meter): aircraft draw on Training, ships on Forces, supply on Shipping. Read once, when the battle screen
+// opens, like the pool size. The balance check holds the worst band at 0.85 and fails below it.
+const STRAND_LEVEL_MULT = [0.85, 0.85, 0.93, 1, 1.06];
+
+// Weight per effort point for one arm. Pure, so the planning screen, the staff plan and the balance
+// check all use the same arithmetic: (jittered base + commander bonus + approach modifier) times the
+// enemy posture (the average of the two when a battle has two phases), the ground, and the strand.
+function battleArmWeight({ config, catId, jitter, commander, approach, posture, posture2, strandMult }) {
+  const base = (config.effectiveness[catId] ?? 1) * (jitter ?? 1);
+  const commanderBonus = commander && commander.category === catId ? KEY_BATTLE_COMMANDER_BONUS : 0;
+  const approachMod = approach?.modifiers?.[catId] ?? 0;
+  const m1 = posture?.modifiers?.[catId] ?? 1;
+  const postureMult = posture2 ? (m1 + (posture2.modifiers?.[catId] ?? 1)) / 2 : m1;
+  const terrain = config.terrainModifiers?.[catId] ?? 1;
+  return (base + commanderBonus + approachMod) * postureMult * terrain * (strandMult ?? 1);
+}
+
+// Every way to place exactly `pool` points of effort across the arms.
+function allBattleAllocations(categories, pool) {
+  const out = [];
+  const rec = (i, left, cur) => {
+    if (i === categories.length - 1) {
+      out.push({ ...cur, [categories[i].id]: left });
+      return;
+    }
+    for (let v = 0; v <= left; v++) rec(i + 1, left - v, { ...cur, [categories[i].id]: v });
+  };
+  rec(0, pool, {});
+  return out;
+}
+
+// The enemy setups a battle can be fought against, as scenarios: one posture each, or an ordered
+// pair when the battle has two phases (a second-phase-only posture never opens the day).
+function battleScenarios(config, postures) {
+  if (!postures.length) return [{ posture: null, posture2: null, weight: 1 }];
+  if (!config.phases) return postures.map((p) => ({ posture: p, posture2: null, weight: p.weight || 1 }));
+  const out = [];
+  for (const a of postures) {
+    for (const b of postures) {
+      if (a.id === b.id || a.only === 2 || b.only === 1) continue;
+      out.push({ posture: a, posture2: b, weight: (a.weight || 1) * (b.weight || 1) });
+    }
+  }
+  return out;
+}
+
+// "Let your staff plan it". The plan a competent staff would send without knowing what the enemy has
+// drawn: the commander, approach and placement of all the effort that does best on average across
+// the setups the enemy might show (the historical one counting double where the battle says so). It
+// is robust and not clever: it never reads the intelligence, so a player who does can beat it.
+function staffPlanFor({ config, categories, poolSize, strandMults, commanders, approaches, postures, commanderRequired }) {
+  const scenarios = battleScenarios(config, postures);
+  const totalWeight = scenarios.reduce((a, s) => a + s.weight, 0);
+  const allocations = allBattleAllocations(categories, poolSize);
+  let best = null;
+  // The staff name no favourite: no commander unless the orders require one, and no more than half the
+  // effort (rounded up) in any one arm, so their plan is balanced rather than clever.
+  const cap = Math.ceil(poolSize / 2);
+  for (const commander of commanderRequired ? commanders : [null]) {
+    for (const approach of approaches.length ? approaches : [null]) {
+      const weightSets = scenarios.map((s) =>
+        Object.fromEntries(
+          categories.map((c) => [
+            c.id,
+            battleArmWeight({ config, catId: c.id, jitter: 1, commander, approach, posture: s.posture, posture2: s.posture2, strandMult: strandMults?.[c.id] }),
+          ])
+        )
+      );
+      for (const allocation of allocations) {
+        if (Object.values(allocation).some((v) => v > cap)) continue;
+        let expected = 0;
+        scenarios.forEach((s, i) => {
+          const raw = sumBattleContributions(computeBattleContributions(categories, allocation, weightSets[i], poolSize));
+          expected += (s.weight / totalWeight) * clampBattleBonus(raw);
+        });
+        if (!best || expected > best.expected + 1e-9) {
+          best = { commanderId: commander ? commander.id : null, approachId: approach ? approach.id : null, allocation, expected };
+        }
+      }
+    }
+  }
+  return best;
+}
+
+// The field-decision answer a staff gives without knowing the enemy: best on average across setups.
+function staffDecisionOption(decision, postures, config) {
+  const scenarios = battleScenarios(config || {}, postures);
+  const totalWeight = scenarios.reduce((a, s) => a + s.weight, 0);
+  let best = null;
+  for (const option of decision.options) {
+    let score = 0;
+    for (const s of scenarios) {
+      const latest = s.posture2 || s.posture;
+      const e = battleDecisionEffect(option, latest ? latest.id : null);
+      score += (s.weight / totalWeight) * (e.bonus + e.lines.reduce((a, l) => a + l.delta, 0) - 2 * e.severity);
+    }
+    if (!best || score > best.score + 1e-9) best = { option, score };
+  }
+  return best.option;
+}
+// The Pacific battles that open on the Order of Battle screen. Each entry of KEY_BATTLE_CONFIGS is the `keyBattleSubgame` of the
+// choice that hosts it, and the registries in 25-battle-subgame.jsx are filled in below, keyed by the same id. Facts were checked on
+// 2026-10-09 against the standard histories (see claims/battles-round1.json); anything modeled and not documented is marked as such.
+
+const KEY_BATTLE_CONFIGS = {
+  // ------------------------------------------------------------------------------------------------------------------------
+  // Midway, 4 June 1942, from the American side. Hosted by coralSeaMidwayAllied42, "Commit all three available carriers".
+  // The win is the strike arriving in the window that mattered. Facts: Station HYPO (Rochefort) read the plan and the date; the
+  // first Japanese carriers were reported by a PBY at about 05:34; the carrier strike was launched from about 175 miles at 07:00;
+  // the torpedo squadrons attacked first and were destroyed (Torpedo Eight lost all fifteen aircraft and all but one of its crews);
+  // the dive bombers of Enterprise and Yorktown arrived at about 10:22 and three carriers burned within five minutes; Hornet's
+  // air group missed the enemy; Hiryu hit Yorktown twice that afternoon and was sunk in the evening.
+  // ------------------------------------------------------------------------------------------------------------------------
+  midwayAllied42: {
+    id: "midwayAllied42",
+    title: "Order of Battle: Midway",
+    flavor:
+      "Three carriers, an island and a codebreaking cell have to find four Japanese carriers before the Japanese find them. Nothing is certain except the date: the carrier fleet is reading Nagumo's plan and the Japanese are not reading Nimitz's. How the American air strength is spread across the day decides whether the blow lands in the one window that counts.",
+    categories: [
+      { id: "dive", name: "Carrier Dive Bombers", meter: "readiness", strand: "trn" },
+      { id: "torpedo", name: "Carrier Torpedo Squadrons", meter: "readiness", strand: "flt" },
+      { id: "search", name: "Search and Codebreaking", meter: "initiative", strand: "int" },
+      { id: "island", name: "Midway's Own Aircraft", meter: "pipeline", strand: "oil" },
+    ],
+    // Dive bombers first: three carriers were put out of action in five minutes by the two squadrons that arrived together.
+    // Search second: the whole battle rests on knowing where the carriers were before they knew. The island's aircraft third, and
+    // the torpedo squadrons last on their own terms: they hit nothing, though they drew the fighters down to the sea.
+    effectiveness: { dive: 2.4, search: 2.2, island: 1.8, torpedo: 1.5 },
+    orderOfBattle: {
+      dive: {
+        units: [
+          "Enterprise's Air Group 6 dive bombers, led by Lieutenant Commander Wade McClusky",
+          "Yorktown's Bombing Three and Scouting Three, led by Lieutenant Commander Maxwell Leslie",
+          "Hornet's dive bombers and fighters, sent on a course that never met the enemy",
+        ],
+        real:
+          "McClusky followed a lone Japanese destroyer to the carriers and arrived over them at about 10:22, when the Zeros had been pulled down to sea level by the torpedo planes. In five minutes Akagi, Kaga and Soryu were burning. Hornet's air group flew the wrong way and found nothing.",
+      },
+      torpedo: {
+        units: [
+          "Torpedo Eight (Hornet), 15 Devastators under Lieutenant Commander John Waldron",
+          "Torpedo Six (Enterprise) under Lieutenant Commander Eugene Lindsey",
+          "Torpedo Three (Yorktown) under Lieutenant Commander Lance Massey",
+        ],
+        real:
+          "The torpedo squadrons found the carriers first, without fighter escort, and flew in low and slow. Torpedo Eight lost every aircraft and all but one of its crews. Torpedo Six and Torpedo Three lost most of theirs. They scored no hit, and they drew the Zeros down to the water just before the dive bombers arrived.",
+      },
+      search: {
+        units: [
+          "Station HYPO at Pearl Harbor under Commander Joseph Rochefort, which read the Japanese plan",
+          "PBY Catalinas flying 700-mile searches from Midway",
+          "Yorktown's scouting squadron, flying the carriers' own patrols",
+        ],
+        real:
+          "Rochefort's team told Nimitz that the target was Midway, which the Japanese called AF, and gave the date weeks ahead. A PBY found the Japanese carriers at about 05:30 on June 4, so the American carriers knew where the enemy was before the enemy knew they were there.",
+      },
+      island: {
+        units: [
+          "Marine Scout Bombing Squadron 241 and Marine Fighting Squadron 221 on Midway",
+          "Army B-17 Flying Fortresses and a few B-26 and Avenger torpedo bombers",
+          "Navy PBYs on the atoll's seaplane ramp",
+        ],
+        real:
+          "The island's aircraft attacked the Japanese carriers from early morning and hit none of them, and about half were lost. Nagumo had to deal with their attacks and with the need for a second strike on the island, and the argument about what to arm his aircraft with was under way when the American dive bombers arrived.",
+      },
+    },
+    hardRule: {
+      text: "Nimitz has ordered the principle of calculated risk: the carriers are not to be exposed to superior force without a good prospect of damaging the enemy, so the strike is to be made together and not piecemeal.",
+      lockApproach: "strikeTogether",
+    },
+    conditions:
+      "A fine morning with broken cloud, good for the scouts. The Japanese carriers are 175 miles northwest of the American carriers at the moment the first strike is launched, at the limit of a loaded dive bomber's range.",
+    terrainModifiers: { search: 1.1 },
+    terrainNotes: { search: "good visibility, broken cloud" },
+    decisions: [
+      {
+        id: "theLaunch",
+        time: "0702",
+        title: "The launch",
+        prompt:
+          "Morning on 4 June. A PBY has reported two carriers and their escort 175 miles out. The Japanese have not yet found the American carriers. Spruance can launch everything now, at the edge of the range, with the fighters and bombers sorting themselves out in the air, or close the range first and strike together a little later, with the risk that the Japanese find him in the meantime.",
+        options: [
+          {
+            id: "launchNow",
+            name: "Launch the full deck load at once, at extreme range",
+            note: "The first blow goes in before the Japanese can launch against the carriers. The squadrons arrive in pieces.",
+            bonus: 1,
+            bonusByPosture: { caughtRearming: 4, hiddenUnderCloud: -2, fightersAloft: -3 },
+            reportLine: "Every aircraft that can fly is launched at once, and the squadrons form up as they climb.",
+          },
+          {
+            id: "closeFirst",
+            name: "Close the range before launching",
+            note: "A shorter flight and a better chance of striking together, and an hour in which the Japanese may find the carriers first.",
+            bonus: 0,
+            bonusByPosture: { fightersAloft: 3, hiddenUnderCloud: 2, caughtRearming: -3 },
+            reportLine: "The carriers turn toward the enemy and hold their aircraft on deck while the range closes.",
+          },
+          {
+            id: "holdReserve",
+            name: "Launch most of the deck, and hold a second wave back",
+            note: "Costs weight in the first blow and keeps something in hand if the first goes wrong.",
+            bonus: 0,
+            bonusByPosture: { hiddenUnderCloud: 3, caughtRearming: -1, fightersAloft: 1 },
+            meters: { readiness: -1 },
+            costReason: "Aircraft held back from the first blow",
+            reportLine: "The first wave goes, and a second wave is kept on deck, fuelled and armed, for whatever the morning shows.",
+          },
+        ],
+      },
+    ],
+    counterattack: {
+      category: "search",
+      severity: { caughtRearming: 0, fightersAloft: 2, hiddenUnderCloud: 1 },
+      warn: {
+        1: "Radar shows a large formation of aircraft approaching Yorktown from the northwest.",
+        2: "The Japanese carrier that survived the morning has launched its dive bombers and torpedo planes against the carriers.",
+      },
+      results: {
+        repulsed: "The Japanese attack is met by fighters sent out on the radar warning, and few of its aircraft reach the carrier.",
+        heldAtCost: "The carriers survive the Japanese attack, but a carrier is hit, burning and slowed.",
+        broke: "Hiryu's aircraft find a carrier and hit her twice. The fires are bad and the ship is dead in the water.",
+        gaveGround: "The carriers turn away from the Japanese attack and the fight goes on without them.",
+      },
+    },
+    categoryContext: {
+      dive:
+        "The dive bombers are the arm that can sink a carrier. Each commitment puts more of them over the target in the one window when the Japanese decks are crowded and their fighters are low.",
+      torpedo:
+        "The torpedo squadrons are slow and short of fighter escort, and the American torpedo has not been proved. Each commitment sends more of them in low, to draw the Zeros down and make the carriers turn.",
+      search:
+        "The codebreakers and the scouts decide whether the blow lands where the enemy is. Each commitment puts more patrols over the sea and more men on the decrypts, and keeps the American carriers unseen a little longer.",
+      island:
+        "Midway's aircraft are the first to meet the enemy. Each commitment sends more of them against the carriers, and keeps more of Nagumo's attention on the island.",
+    },
+    flashups: {
+      dive: [
+        "A dive bomber squadron climbs out over the carrier and turns northwest.",
+        "McClusky finds a Japanese destroyer steaming north at speed and follows her.",
+        "Bombers peel off over the Japanese carriers, with their decks crowded below.",
+        "A squadron leader signals the bombers into line astern for the dive.",
+        "A Dauntless pulls out of its dive at the water's edge and turns for home.",
+      ],
+      torpedo: [
+        "The Devastators skim the sea toward the carriers with no fighters above them.",
+        "A torpedo squadron leader reports the carriers in sight and turns in alone.",
+        "Zeros dive from every direction on a squadron of slow torpedo planes.",
+        "A torpedo plane drops its torpedo and the weapon runs on out of sight.",
+        "The last torpedo plane of a squadron goes into the sea ahead of the carriers.",
+      ],
+      search: [
+        "A PBY reports two carriers, bearing 320 degrees, distance 180 miles.",
+        "A scout plane reports the enemy's course and speed in a clear voice.",
+        "The decrypts at Pearl Harbor give the time of the Japanese strike on the island.",
+        "A second scout reports the Japanese screen and the carriers behind it.",
+        "A patrol finds nothing and turns for Midway.",
+      ],
+      island: [
+        "A Marine squadron leaves Midway in the half-light and turns northwest.",
+        "The Flying Fortresses bomb from high over the Japanese carriers and score no hit.",
+        "A Marine dive bomber attacks a carrier under fire from the Zeros.",
+        "A Navy torpedo plane limps back to the airstrip with its crew wounded.",
+        "A PBY lands on the lagoon and its crew report the Japanese force.",
+      ],
+    },
+    reportTimes: { open: "0534", contact: "0702", cats: ["0830", "0920", "1022", "1130"], reserve: "1230", counter: "1400" },
+    idleLines: {
+      dive: [
+        "No extra dive bombers are held for the blow. The carriers send the squadrons they have.",
+        "The dive bombers are given no more than their regular share of the strike.",
+      ],
+      torpedo: [
+        "No extra torpedo planes are added. The squadrons that go are those already on the decks.",
+        "The torpedo squadrons are not asked for more than the plan gave them.",
+      ],
+      search: [
+        "No extra patrols are flown. The search covers the sectors it was given.",
+        "The scouts go out on the day's ordinary plan, and the codebreakers are left to their desks.",
+      ],
+      island: [
+        "Midway's aircraft are sent against the carriers on the ordinary plan and no more.",
+        "No extra weight is put on the island's aircraft. They fly what they were given.",
+      ],
+    },
+    verdicts: ["The Dive Bombers Arrive in the Window", "The Strike Misses Its Window"],
+    verdictGrades: {
+      clean:
+        "The scouts had the enemy first, the dive bombers arrived together while the Zeros were low, and every part of the American air strength worked on the same morning.",
+      costly:
+        "The dive bombers got their window and three carriers burned, but the torpedo squadrons, the island and the scouts paid more than the plan allowed for to bring them there.",
+      marginal:
+        "The blow was struck and the Japanese took heavy losses, but the American air strength arrived in pieces and the morning did not break clean.",
+      total:
+        "The squadrons arrived late and apart, the scouts lost the enemy, and the carriers were left to fight the Japanese air groups on their own terms.",
+    },
+  },
+};
+
+// ---------------------------------------------------------------------------------------------------------------------------
+// Registries for the battles above.
+// ---------------------------------------------------------------------------------------------------------------------------
+
+// Commanders: each is tied to the arm of his own documented command (modeled bonus, not a claim about his skill).
+KEY_BATTLE_COMMANDERS.midwayAllied42 = [
+  { id: "spruance", name: "Rear Admiral Raymond Spruance", role: "Commanding Task Force 16 (Enterprise and Hornet)", category: "dive", note: "He launched the full deck load at extreme range. Effort in Carrier Dive Bombers carries further under him.", reportLine: "Spruance orders the dive bombers launched and keeps the carriers closed up behind them." },
+  { id: "rochefort", name: "Commander Joseph Rochefort", role: "Chief of Station HYPO, Pearl Harbor", category: "search", note: "His codebreakers read the plan and the date. Effort in Search and Codebreaking carries further under him.", reportLine: "Rochefort's team has the Japanese plan on the table and gives the carriers their time and place." },
+  { id: "simard", name: "Captain Cyril Simard", role: "Commanding Naval Air Station Midway", category: "island", note: "Every aircraft on the atoll is his to fly. Effort in Midway's Own Aircraft carries further under him.", reportLine: "Simard sends everything on the atoll into the air, and keeps the airstrip ready for the survivors." },
+  { id: "massey", name: "Lieutenant Commander Lance Massey", role: "Commanding Torpedo Three, Yorktown", category: "torpedo", note: "His squadron goes in with no escort. Effort in Carrier Torpedo Squadrons carries further under him.", reportLine: "Massey leads Torpedo Three in low over the water toward the carriers." },
+];
+
+// Approaches: what the carriers do with the strike. Modeled tradeoffs, not two named historical plans (the documented fact is the tension).
+KEY_BATTLE_APPROACHES.midwayAllied42 = [
+  {
+    id: "strikeTogether",
+    name: "Strike Together",
+    subtitle: "Hold the squadrons to one coordinated blow",
+    note: "Wait for the squadrons to form up and go in as a group. Effort in Carrier Dive Bombers and Carrier Torpedo Squadrons carries further; effort in Search and Codebreaking carries less, tied to the carriers' own position.",
+    modifiers: { dive: 0.6, torpedo: 0.5, search: -0.4 },
+    reportLine: "The squadrons are held until they can go in together.",
+  },
+  {
+    id: "launchAtOnce",
+    name: "Launch at Once",
+    subtitle: "Send each squadron as soon as it is ready",
+    note: "Get the blow in before the enemy can launch against the carriers. Effort in Midway's Own Aircraft and Search and Codebreaking carries further; effort in Carrier Torpedo Squadrons carries less, going in without cover.",
+    modifiers: { island: 0.6, search: 0.5, torpedo: -0.5 },
+    reportLine: "Each squadron is launched the moment it is ready, and the blow goes in as it arrives.",
+  },
+];
+
+// Enemy setups: what Nagumo's force is doing when the American blow arrives. The first is the historical one and is drawn twice as often.
+KEY_BATTLE_POSTURES.midwayAllied42 = [
+  {
+    id: "caughtRearming",
+    name: "Decks crowded, aircraft being rearmed",
+    weight: 2,
+    modifiers: { dive: 1.5, torpedo: 0.9, search: 1, island: 0.9 },
+    hints: [
+      "The Japanese strike on Midway is reported returning to its carriers.",
+      "Signals traffic suggests the Japanese are changing their loads and their plans.",
+    ],
+    reveal: "Contact: the Japanese carriers are crowded with aircraft being rearmed and refuelled, and their strike on the island is landing on.",
+  },
+  {
+    id: "fightersAloft",
+    name: "Fighters aloft, decks clear",
+    modifiers: { torpedo: 0.5, dive: 0.8, island: 1.2, search: 1 },
+    hints: [
+      "The carriers' fighters are reported over the Japanese fleet in strength.",
+      "A scout reports the Japanese flight decks clear and the fighters circling.",
+    ],
+    reveal: "Contact: the Japanese fighters are aloft in strength and the flight decks are clear, and nothing gets through to the carriers without a fight.",
+  },
+  {
+    id: "hiddenUnderCloud",
+    name: "Carriers screened by cloud",
+    modifiers: { search: 1.4, dive: 0.9, torpedo: 0.9, island: 0.8 },
+    hints: [
+      "A front of low cloud is reported lying over the Japanese approach.",
+      "The scouts report broken cloud and poor sightings to the northwest.",
+    ],
+    reveal: "Contact: the Japanese carriers are under broken cloud, and they are found only by the scouts that stay on them.",
+  },
+];
+
+KEY_BATTLE_ECHOES.midwayAllied42 = {
+  counter: {
+    repulsed: "The Japanese attack on the carriers was broken up before it did harm.",
+    heldAtCost: "The carriers survived the Japanese attack, but one of them was badly hit.",
+    broke: "The Japanese found a carrier and hit her twice, and she was lost.",
+    gaveGround: "The carriers turned away from the Japanese attack and left the fight to others.",
+  },
+  neglected: {
+    dive: "There were too few dive bombers over the Japanese carriers to finish the work.",
+    torpedo: "The torpedo squadrons barely flew, and the Japanese fighters were never drawn down.",
+    search: "The scouts and the codebreakers were left short, and the carriers went on half blind.",
+    island: "Midway's aircraft were hardly used, and the island's attacks never drew the Japanese off.",
+  },
+  commander: {
+    spruance: "Spruance is back on his flagship with the day's reports to read.",
+    rochefort: "Rochefort has gone back to his desk at Pearl Harbor to read the next day's traffic.",
+    simard: "Simard is counting the aircraft that came back to the atoll.",
+    massey: "Massey's squadron is a name on a casualty list, and the others flew on.",
+  },
+};
+
+KEY_BATTLE_TITLES.push({ id: "midwayAllied42", seal: "CINCPAC", title: "Midway" });
+
+// ------------------------------------------------------------------------------------------------------------------------
+// The Naval Battle of Guadalcanal, 12-15 November 1942, from the Japanese side. Hosted by guadalcanal42, "Commit destroyers and
+// remaining naval air strength to retake Henderson Field". The win is the first outcome, "as close as it did". Facts: Abe's
+// bombardment force (Hiei, Kirishima) met Callaghan's cruisers and destroyers on the night of 12-13 November and Hiei was crippled and
+// lost the next day; Callaghan and Scott were killed; Mikawa's Suzuya and Maya shelled Henderson on the night of 13-14 November
+// for about 35 minutes; aircraft from Henderson and Enterprise sank Kinugasa and, with the battleships' help, seven of Tanaka's
+// eleven transports on 14 November; the other four were beached on 15 November and destroyed; about 2,000 of 7,000 troops landed;
+// Washington sank Kirishima by radar-directed fire on the night of 14-15 November. See claims/battles-round1.json.
+// ------------------------------------------------------------------------------------------------------------------------
+KEY_BATTLE_CONFIGS.guadalcanalNaval42 = {
+  id: "guadalcanalNaval42",
+  title: "Order of Battle: The November Battles off Guadalcanal",
+  flavor:
+    "Yamamoto has ordered the last great effort to retake Henderson Field. Seven thousand troops are to be landed from eleven transports, and before they come the battleships must wreck the airfield that threatens them. Against that, the Americans have a field they cannot be driven from, a handful of cruisers and destroyers that will fight at point-blank range, and two new battleships with radar fire control. The weight you place across the fleet decides whether the transports reach the beach.",
+  categories: [
+    { id: "battleline", name: "Bombardment Battleships", meter: "readiness", strand: "flt" },
+    { id: "screen", name: "Cruisers and Night Destroyers", meter: "pipeline", strand: "oil" },
+    { id: "convoy", name: "Tanaka's Transports", meter: "pipeline", strand: "shp" },
+    { id: "air", name: "Air Cover from Rabaul", meter: "readiness", strand: "trn" },
+  ],
+  effectiveness: { screen: 2.4, battleline: 2.3, convoy: 1.9, air: 1.8 },
+  orderOfBattle: {
+    battleline: {
+      units: [
+        "Vice Admiral Hiroaki Abe's bombardment force: the battleships Hiei and Kirishima",
+        "Vice Admiral Nobutake Kondo's force for the second attempt, with Kirishima and heavy cruisers",
+      ],
+      real:
+        "Hiei was crippled in the night action of 12 to 13 November and lost the next day to aircraft. Kirishima was sunk on the night of 14 to 15 November by the American battleship Washington, firing by radar at about 8,500 yards. Henderson Field was not put out of action.",
+    },
+    screen: {
+      units: [
+        "Vice Admiral Gunichi Mikawa's cruisers, among them Suzuya and Maya, which shelled Henderson Field on the night of 13 to 14 November",
+        "The destroyer squadrons, with their long-range oxygen torpedoes and night training",
+      ],
+      real:
+        "At close range on the first night the Japanese sank or crippled American cruisers and destroyers and killed Rear Admirals Callaghan and Scott. The cruisers' bombardment of Henderson lasted about 35 minutes and left the airfield in use, and the next morning the cruiser Kinugasa was sunk by American aircraft.",
+    },
+    convoy: {
+      units: [
+        "Rear Admiral Raizo Tanaka's convoy of eleven transports carrying some 7,000 troops",
+        "Twelve destroyers as escort",
+      ],
+      real:
+        "Seven transports were sunk by aircraft on 14 November. The four that remained were run aground on Guadalcanal on 15 November and destroyed there. About 2,000 of the 7,000 men were landed, with a fraction of their supplies.",
+    },
+    air: {
+      units: [
+        "Aircraft of the Southeast Area Fleet at Rabaul, some 560 miles away",
+        "Carrier air groups that had lost most of their veteran pilots in the Solomons",
+      ],
+      real:
+        "Rabaul could cover the convoy only at the limit of its fighters' range, and the cover was not enough to stop the American attacks on 14 November. The Japanese lost about 64 aircraft in the four days.",
+    },
+  },
+  hardRule: {
+    text: "Combined Fleet has ordered the transports beached on Guadalcanal by dawn on 15 November whatever happens, so the convoy must be run through.",
+    lockApproach: "runTheConvoy",
+  },
+  conditions:
+    "Moonless nights and an American force too weak to hold the Slot by day. The transports can only come in at night, and by day they are within reach of Henderson Field's aircraft.",
+  terrainModifiers: { screen: 1.1 },
+  terrainNotes: { screen: "narrow waters, a dark night and a short range" },
+  decisions: [
+    {
+      id: "theConvoyByDay",
+      time: "1330",
+      title: "The convoy by day",
+      prompt:
+        "The first night's bombardment has failed and Hiei is gone. The transports are still at sea, and Henderson Field's aircraft are airborne in the daylight. Tanaka can press on by day with all eleven transports, hold them back for the night and take the delay, or break the convoy into groups and run what he can.",
+      options: [
+        {
+          id: "pressOn",
+          name: "Press on by day with all eleven transports",
+          note: "The troops land on schedule if the air attacks miss, and the transports are exposed to them for hours.",
+          bonus: 0,
+          bonusByPosture: { radarCruisers: 2, cactusAirReady: -5, washingtonWaiting: 1 },
+          reportLine: "Tanaka orders the transports on at full speed through the afternoon.",
+        },
+        {
+          id: "holdForNight",
+          name: "Turn away and run in by night",
+          note: "Keeps the transports out of the daylight air attacks, and the schedule slips a day.",
+          bonus: 0,
+          bonusByPosture: { radarCruisers: -2, cactusAirReady: 3, washingtonWaiting: -1 },
+          reportLine: "The convoy turns away to the north to wait for dark.",
+        },
+        {
+          id: "splitTheConvoy",
+          name: "Break the convoy up and run it in groups",
+          note: "Costs Pipeline in shipping scattered across the sea, and the groups are harder to catch together.",
+          bonus: 0,
+          bonusByPosture: { washingtonWaiting: 3 },
+          meters: { pipeline: -1 },
+          costReason: "Shipping scattered and lost in the separate runs",
+          reportLine: "The transports split into small groups, each with its own escorts.",
+        },
+      ],
+    },
+  ],
+  counterattack: {
+    category: "convoy",
+    severity: { radarCruisers: 0, cactusAirReady: 2, washingtonWaiting: 1 },
+    warn: {
+      1: "American aircraft are reported over the Slot, flying from Henderson Field.",
+      2: "Wave after wave of dive bombers and torpedo planes are attacking the transports in daylight.",
+    },
+    results: {
+      repulsed: "The air attacks are beaten off, and the transports go on toward Guadalcanal with few losses.",
+      heldAtCost: "The convoy goes on, but several transports are lost to the air attacks.",
+      broke: "The transports are caught in the open and most of them are sunk.",
+      gaveGround: "The convoy turns back to the Shortlands, and the landing is put off.",
+    },
+  },
+  categoryContext: {
+    battleline:
+      "The battleships are the only weapon that can wreck Henderson Field in one night, which is why Yamamoto sent them. Each commitment puts more of the fleet's heavy ships in the bombardment, and puts them in range of the American cruisers.",
+    screen:
+      "The cruisers and destroyers fight the night action, and their torpedoes and training are the Japanese Navy's best edge. Each commitment sends more of them into the Slot, and costs the fuel they burn doing it.",
+    convoy:
+      "The transports carry the troops the whole operation exists to land. Each commitment adds more ships to the convoy, and more of the army's strength to land on the first night.",
+    air:
+      "Aircraft from Rabaul and the carriers can cover the convoy in daylight, but only at the end of their range and with crews who are not the pilots of 1941. Each commitment sends more of them over the Slot.",
+  },
+  flashups: {
+    battleline: [
+      "Hiei's lookouts sight the American cruisers in the dark at a range of a few thousand yards.",
+      "The bombardment force turns away from Savo Island without firing on the airfield.",
+      "A battleship fires a salvo at a cruiser at point-blank range, and the shells go through her without bursting.",
+      "Searchlights pick out a Japanese battleship, and the American destroyers close in.",
+      "A damaged battleship turns north at slow speed with a rudder jammed.",
+    ],
+    screen: [
+      "A Japanese destroyer launches torpedoes at an American cruiser and turns away in the dark.",
+      "Cruisers shell the airfield for a short time and then withdraw.",
+      "Two destroyers close at point-blank range and open fire with every gun.",
+      "A Japanese destroyer burns on the surface, and her crew abandons ship.",
+      "Mikawa's cruisers turn northwest before dawn and leave the airfield behind them.",
+    ],
+    convoy: [
+      "The transports steam down the Slot in line with the destroyers around them.",
+      "Tanaka signals the convoy to hold its speed and its formation.",
+      "A transport is set on fire, and her troops take to the boats.",
+      "The four surviving transports turn in toward the beach at Tassafaronga.",
+      "Men and boxes of supplies are unloaded as fast as the crews can work.",
+    ],
+    air: [
+      "Zeros leave Rabaul before dawn for the long flight to the Slot.",
+      "A formation of fighters circles over the convoy for twenty minutes and turns back.",
+      "A bomber leaves Rabaul to attack the American ships off Guadalcanal.",
+      "A fighter pilot reports the American dive bombers coming in from the south.",
+      "The cover is short of fuel and leaves the convoy to the American aircraft.",
+    ],
+  },
+  reportTimes: { open: "2230", contact: "0120", cats: ["0200", "0630", "1100", "1500"], reserve: "1900", counter: "2300" },
+  idleLines: {
+    battleline: [
+      "The battleships are held back. Henderson Field is not shelled.",
+      "No more heavy ships are sent in, and the airfield flies its aircraft in the morning.",
+    ],
+    screen: [
+      "The night destroyers are kept in reserve and the cruisers do not go in.",
+      "No more of the screen is committed, and the Slot is left to the Americans.",
+    ],
+    convoy: [
+      "No more transports are sent, and the troops stay on the Shortlands.",
+      "The convoy goes with the ships it has, and the army lands what it can.",
+    ],
+    air: [
+      "No extra aircraft are sent from Rabaul, and the convoy is left to its own guns.",
+      "The cover is kept at its usual strength, and the American aircraft get through.",
+    ],
+  },
+  verdicts: ["The Battle Goes As Close As It Did", "The Convoy Is Caught Cold"],
+  verdictGrades: {
+    clean:
+      "The battleships, the destroyers, the transports and the air cover all worked together, and the fight over Henderson Field stayed as close as the commanders had hoped.",
+    costly:
+      "The battle was kept in the balance, but the heavy ships, the destroyers and the convoy paid more than the plan had allowed for.",
+    marginal:
+      "The Japanese fleet fought well and lost, mostly to the odds, and the transports were left to the American aircraft.",
+    total:
+      "The fleet's arms fought separate battles, the cover failed, and the transports were destroyed with little of what they carried landed.",
+  },
+};
+
+KEY_BATTLE_COMMANDERS.guadalcanalNaval42 = [
+  { id: "abe", name: "Vice Admiral Hiroaki Abe", role: "Commanding the bombardment force", category: "battleline", note: "He led Hiei and Kirishima down the Slot on the night of 12 November. Effort in Bombardment Battleships carries further under him.", reportLine: "Abe takes the battleships down the Slot toward Savo Island." },
+  { id: "mikawa", name: "Vice Admiral Gunichi Mikawa", role: "Commanding the Eighth Fleet's cruisers", category: "screen", note: "His cruisers shelled Henderson Field on the night of 13 November. Effort in Cruisers and Night Destroyers carries further under him.", reportLine: "Mikawa's cruisers close the island and open fire on the airfield." },
+  { id: "tanaka", name: "Rear Admiral Raizo Tanaka", role: "Commanding the reinforcement convoy", category: "convoy", note: "He ran the destroyer supply runs down the Slot all autumn. Effort in Tanaka's Transports carries further under him.", reportLine: "Tanaka keeps the transports in formation and holds course for Tassafaronga." },
+  { id: "kusaka", name: "Vice Admiral Jinichi Kusaka", role: "Commanding the Southeast Area Fleet, Rabaul", category: "air", note: "The aircraft at Rabaul are his to send. Effort in Air Cover from Rabaul carries further under him.", reportLine: "Kusaka sends every aircraft at Rabaul that has the range to reach the convoy." },
+];
+
+KEY_BATTLE_APPROACHES.guadalcanalNaval42 = [
+  {
+    id: "silenceHenderson",
+    name: "Silence Henderson First",
+    subtitle: "Bombard the airfield, then bring the transports in behind it",
+    note: "Wreck the airfield on the night before the troops land. Effort in Bombardment Battleships and Cruisers and Night Destroyers carries further; effort in Tanaka's Transports carries less, the convoy waiting on the result.",
+    modifiers: { battleline: 0.6, screen: 0.5, convoy: -0.5 },
+    reportLine: "The battleships go in first, and the transports wait behind them.",
+  },
+  {
+    id: "runTheConvoy",
+    name: "Run the Convoy Through",
+    subtitle: "Send the transports in whether or not the airfield is silenced",
+    note: "Get the troops ashore on schedule. Effort in Tanaka's Transports and Air Cover from Rabaul carries further; effort in Bombardment Battleships carries less, the battleships not shielding the convoy.",
+    modifiers: { convoy: 0.6, air: 0.5, battleline: -0.5 },
+    reportLine: "The transports are sent in on schedule, with whatever cover can be found.",
+  },
+];
+
+KEY_BATTLE_POSTURES.guadalcanalNaval42 = [
+  {
+    id: "radarCruisers",
+    name: "American cruisers and destroyers meet the bombardment force",
+    weight: 2,
+    modifiers: { screen: 1.4, battleline: 0.8, convoy: 1, air: 0.9 },
+    hints: [
+      "Coastwatchers report American cruisers and destroyers leaving Espiritu Santo for the Solomons.",
+      "A reconnaissance aircraft reports a column of American cruisers southeast of Guadalcanal.",
+    ],
+    reveal: "Contact: a small column of American cruisers and destroyers is waiting at the entrance to the Sound, and the fight will be at point-blank range.",
+  },
+  {
+    id: "cactusAirReady",
+    name: "The airfield's aircraft are intact and ready",
+    modifiers: { air: 0.8, convoy: 0.6, battleline: 1.1, screen: 1 },
+    hints: [
+      "Reports speak of American aircraft arriving at Henderson Field in numbers.",
+      "A carrier is reported south of Guadalcanal, within range of the Slot.",
+    ],
+    reveal: "Contact: the airfield's aircraft are in the air at first light, with the carrier's aircraft in support, and the transports are the target.",
+  },
+  {
+    id: "washingtonWaiting",
+    name: "American battleships wait in the dark",
+    modifiers: { battleline: 0.7, screen: 1, convoy: 1.1, air: 1.2 },
+    hints: [
+      "Intelligence reports two American battleships have left the carrier screen.",
+      "The radio traffic suggests a heavy American force is close to the Sound.",
+    ],
+    reveal: "Contact: two American battleships with radar are waiting in the dark, and the heavy ships are the targets.",
+  },
+];
+
+KEY_BATTLE_ECHOES.guadalcanalNaval42 = {
+  counter: {
+    repulsed: "The air attacks on the convoy were beaten off, and the transports reached the island.",
+    heldAtCost: "The convoy went on after the air attacks, but several transports did not arrive.",
+    broke: "The transports were caught in daylight, and most of them were sunk.",
+    gaveGround: "The convoy turned back to the Shortlands, and the landing was put off.",
+  },
+  neglected: {
+    battleline: "The battleships were barely used, and the airfield flew on untouched.",
+    screen: "The cruisers and destroyers were held back, and the night belonged to the Americans.",
+    convoy: "Too few transports were sent, and the army landed with little of its strength.",
+    air: "The cover from Rabaul was thin, and the convoy was open to the American aircraft.",
+  },
+  commander: {
+    abe: "Abe's battleship is on the bottom, and he has been relieved of command.",
+    mikawa: "Mikawa's cruisers are back at Rabaul, and the airfield they shelled is flying aircraft.",
+    tanaka: "Tanaka is back at the Shortlands with the destroyers that came through.",
+    kusaka: "Kusaka's aircraft crews at Rabaul are counting the losses of the four days.",
+  },
+};
+KEY_BATTLE_TITLES.push({ id: "guadalcanalNaval42", seal: "IGHQ", title: "The November Battles off Guadalcanal" });
+
+// ------------------------------------------------------------------------------------------------------------------------
+// The Battle of the Philippine Sea, 19-20 June 1944, from the American side. Hosted by philippineSeaAllied44, "Release the carriers
+// for an aggressive pursuit" (a modeled alternative to Spruance's choice; the real battle was fought partly in these terms).
+// Facts: Flying Fish sighted the Japanese fleet leaving the Philippines on 15 June, Seahorse tracked it on the 16th; on 19 June TF 58
+// destroyed hundreds of Japanese aircraft ("the Turkey Shoot"); Albacore sank Taiho and Cavalla sank Shokaku that day; on 20 June
+// Mitscher launched an evening strike at long range, sank Hiyo, and ordered the ships' lights turned on for the return in the dark;
+// about 80 aircraft were lost on the return. See claims/battles-round1.json.
+// ------------------------------------------------------------------------------------------------------------------------
+KEY_BATTLE_CONFIGS.philippineSea44 = {
+  id: "philippineSea44",
+  title: "Order of Battle: The Philippine Sea",
+  flavor:
+    "Ozawa's Mobile Fleet is west of Saipan with nine carriers, and its aircraft can outrange Mitscher's. Spruance's orders are to protect the landing. Mitscher wants to go and find the fleet, and finish it. How the American strength is spread among the carriers' air groups, the submarines and the search, the battle line and the fleet's own oil decides whether the pursuit finds the enemy and what it costs to bring the aircraft home.",
+  categories: [
+    { id: "air", name: "Carrier Air Groups", meter: "readiness", strand: "trn" },
+    { id: "subs", name: "Submarines and Search", meter: "initiative", strand: "int" },
+    { id: "train", name: "Fleet Train and Tankers", meter: "pipeline", strand: "oil" },
+    { id: "battleline", name: "Battle Line and Screen", meter: "readiness", strand: "flt" },
+  ],
+  effectiveness: { air: 2.4, subs: 2.1, train: 2.0, battleline: 1.7 },
+  orderOfBattle: {
+    air: {
+      units: [
+        "Task Force 58 under Vice Admiral Marc Mitscher: fifteen carriers in four task groups",
+        "Hellcat fighters, Helldiver dive bombers and Avenger torpedo planes, many with new radar-fuzed ordnance and trained crews",
+      ],
+      real:
+        "On 19 June the carriers' fighters, guided by radar, shot down hundreds of Japanese aircraft. Across the two days Japan lost an estimated 550 to 645 aircraft to about 123 American, and Japanese carrier aviation never recovered. About 80 American aircraft were lost on the dark return of 20 June.",
+    },
+    subs: {
+      units: [
+        "Pacific Fleet submarines under Vice Admiral Charles Lockwood, among them Flying Fish, Seahorse, Albacore and Cavalla",
+        "Search aircraft flown from the carriers and from Saipan's captured fields",
+      ],
+      real:
+        "Flying Fish sighted the Japanese fleet leaving the Philippines on 15 June and Seahorse followed it. On 19 June Albacore sank the carrier Taiho and Cavalla sank Shokaku. The Japanese carrier groups were sighted late on 20 June, at the limit of the strike aircraft's range.",
+    },
+    train: {
+      units: [
+        "The Service Force's fast oilers under Vice Admiral William Calhoun",
+        "Escort carriers, which carried replacement aircraft to the fleet",
+      ],
+      real:
+        "The fast carrier force had to refuel on the move and replace its aircraft from the fleet train. The pursuit on 20 June was made at the end of the aircraft's fuel, and the return in darkness was far from the oilers.",
+    },
+    battleline: {
+      units: [
+        "Task Group 58.7 under Vice Admiral Willis Lee: seven fast battleships and cruisers and destroyers in a line west of the carriers",
+        "Destroyers that picked up pilots from the sea after the dark return",
+      ],
+      real:
+        "Lee's battleships were stationed west of the carriers on 19 June, but the Japanese raids were broken up mostly by fighters before they reached the ships. After the return on 20 June, the destroyers combed the sea for days for ditched crews and rescued most of them.",
+    },
+  },
+  hardRule: {
+    text: "Nimitz's orders to Spruance put the Saipan landing first, so the fleet is to stay within reach of it and not be drawn away.",
+    lockApproach: "holdTheLine",
+  },
+  conditions:
+    "A fine summer day with good visibility and a light wind from the east, and a sea in which the carriers can turn into the wind to launch and land. The Japanese fleet is more than two hundred miles to the west.",
+  terrainModifiers: { air: 1.05 },
+  terrainNotes: { air: "good visibility and a light wind" },
+  decisions: [
+    {
+      id: "eveningStrike",
+      time: "1615",
+      title: "The evening strike",
+      prompt:
+        "Late on 20 June a search plane has found the Japanese carriers at long range. It is nearly dark, and a strike launched now will have to come home in the dark with little fuel to spare. Mitscher can launch everything at once, hold the aircraft for the morning, or launch a smaller strike and prepare to light the ships for the return.",
+      options: [
+        {
+          id: "launchAtRange",
+          name: "Launch everything now, at the limit of the range",
+          note: "The Japanese ships are hit before they get away, and the return is made in the dark.",
+          bonus: 0,
+          bonusByPosture: { ozawaWithdrawing: 4, mobileFleetAttacks: 0, guamShuttle: -2 },
+          reportLine: "Every available aircraft is launched into the sunset.",
+        },
+        {
+          id: "holdForMorning",
+          name: "Hold the aircraft and search again at dawn",
+          note: "Keeps the aircraft and their crews, and Ozawa is further away by then.",
+          bonus: 0,
+          bonusByPosture: { ozawaWithdrawing: -3, mobileFleetAttacks: 3, guamShuttle: 2 },
+          reportLine: "The carriers hold their aircraft on deck as the light fails.",
+        },
+        {
+          id: "smallStrikeLights",
+          name: "Launch a smaller strike and plan to light the ships for the return",
+          note: "Costs Readiness in the aircraft that will not be recovered, and the crews have a chance of finding the ships.",
+          bonus: 0,
+          bonusByPosture: { guamShuttle: 4 },
+          meters: { readiness: -1 },
+          costReason: "Aircraft lost on the dark return",
+          reportLine: "A reduced strike is launched, and the ships are told to show their lights when it returns.",
+        },
+      ],
+    },
+  ],
+  counterattack: {
+    category: "battleline",
+    severity: { mobileFleetAttacks: 2, ozawaWithdrawing: 0, guamShuttle: 1 },
+    warn: {
+      1: "Radar shows large formations of aircraft approaching from the west.",
+      2: "Several large raids are coming in at once, and the fighters are running short of fuel.",
+    },
+    results: {
+      repulsed: "The Japanese raids are broken up well short of the fleet, and few aircraft reach the ships.",
+      heldAtCost: "The fleet is not hit hard, but the battleships are attacked and a ship is damaged.",
+      broke: "Several raids get through, and a carrier and a battleship are hit.",
+      gaveGround: "The fleet turns east to keep the raids away from the carriers, and the pursuit loses a day.",
+    },
+  },
+  categoryContext: {
+    air:
+      "The carriers' air groups can destroy a fleet and defend one. Each commitment puts more fighters and bombers into the pursuit, and uses more of the fuel they will need for the return.",
+    subs:
+      "The submarines and the search tell the carriers where the Japanese are and sometimes sink them. Each commitment puts more boats and scouts on the Japanese track, and keeps the American carriers a little better informed.",
+    train:
+      "The oilers keep the carriers moving fast enough to run down the Japanese and to launch aircraft into the wind. Each commitment puts more tankers close to the fleet, and takes them away from the other fleets that need them.",
+    battleline:
+      "The battleships and their screen guard the carriers against raids and rescue the aircrews that go into the sea. Each commitment puts more of them between the Japanese and the American carriers.",
+  },
+  flashups: {
+    air: [
+      "Hellcats climb out of the carriers and form into division after division.",
+      "A radar controller sends a division of fighters to meet an incoming raid.",
+      "Helldivers go in on a Japanese carrier and the Japanese fighters are few.",
+      "Avengers drop their torpedoes at long range on a carrier in the dusk.",
+      "A pilot short of fuel makes his approach to the nearest carrier in the dark.",
+    ],
+    subs: [
+      "A submarine reports the Japanese fleet leaving the Philippines.",
+      "Albacore fires a spread of torpedoes at a Japanese carrier.",
+      "Cavalla fires on a carrier at close range and holds it in her sights.",
+      "A search plane reports the Japanese fleet at the limit of its range.",
+      "A submarine surfaces at night and radios the enemy's course.",
+    ],
+    train: [
+      "A fast oiler comes alongside a carrier and the hoses are passed across.",
+      "The fleet turns into the wind to launch and the ships' speed climbs.",
+      "An oiler turns back to Eniwetok for the next load.",
+      "The fleet runs west at twenty-three knots, burning oil.",
+      "A destroyer is refuelled in the dusk and returns to her station.",
+    ],
+    battleline: [
+      "Lee's battleships form a line ahead of the carriers with the sun behind them.",
+      "Anti-aircraft fire fills the sky above the fleet and a Japanese bomber falls.",
+      "A destroyer picks a pilot out of the sea.",
+      "The ships turn on their lights, and searchlights and star shells light the horizon.",
+      "A battleship opens fire on a low-flying torpedo plane.",
+    ],
+  },
+  reportTimes: { open: "0600", contact: "1000", cats: ["1115", "1330", "1615", "1900"], reserve: "2030", counter: "2200" },
+  idleLines: {
+    air: [
+      "No extra air groups are committed, and the strike goes with what it has.",
+      "The carriers hold their reserves on deck.",
+    ],
+    subs: [
+      "No extra submarines are sent on the Japanese track, and the search flies its usual sectors.",
+      "The submarines are left on their stations, with no new orders.",
+    ],
+    train: [
+      "No more tankers are sent to the fleet, and the ships run on what they carry.",
+      "The oilers stay at Eniwetok.",
+    ],
+    battleline: [
+      "The battle line is kept at its usual strength, and the carriers are covered as before.",
+      "No extra ships are put on the screen, and the rescue destroyers are few.",
+    ],
+  },
+  verdicts: ["The Pursuit Catches the Fleet", "The Pursuit Comes Up Empty"],
+  verdictGrades: {
+    clean:
+      "The submarines found the fleet, the air groups reached it with fuel to spare, and the oilers and the battle line kept the carriers fighting and the aircrews alive.",
+    costly:
+      "The pursuit caught the Japanese carriers, but the aircraft, the oilers and the screen paid more than the plan allowed for.",
+    marginal:
+      "The pursuit was well planned and the Japanese fleet got away, and the fault lay with the distance and the odds.",
+    total:
+      "The strike left too late and too weak, the fleet ran short of oil, and the aircraft returned in the dark to ships that had little to give them.",
+  },
+};
+
+KEY_BATTLE_COMMANDERS.philippineSea44 = [
+  { id: "mitscher", name: "Vice Admiral Marc Mitscher", role: "Commanding Task Force 58", category: "air", note: "He launched the strike on the evening of 20 June at long range and ordered the lights turned on for its return. Effort in Carrier Air Groups carries further under him.", reportLine: "Mitscher orders the air groups launched and keeps the carriers steaming west." },
+  { id: "lockwood", name: "Vice Admiral Charles Lockwood", role: "Commanding the Pacific Fleet's submarines", category: "subs", note: "His boats shadowed the Japanese fleet and sank two of its carriers. Effort in Submarines and Search carries further under him.", reportLine: "Lockwood's boats hold the Japanese track and radio each change of course." },
+  { id: "calhoun", name: "Vice Admiral William Calhoun", role: "Commanding the Service Force, Pacific Fleet", category: "train", note: "The fast oilers and the replacement aircraft were his to send. Effort in Fleet Train and Tankers carries further under him.", reportLine: "Calhoun's oilers keep pace with the fleet and top up the destroyers." },
+  { id: "lee", name: "Vice Admiral Willis Lee", role: "Commanding Task Group 58.7, the battle line", category: "battleline", note: "His seven fast battleships formed the line west of the carriers. Effort in Battle Line and Screen carries further under him.", reportLine: "Lee holds the battleships in line ahead of the carriers." },
+];
+
+KEY_BATTLE_APPROACHES.philippineSea44 = [
+  {
+    id: "closeTheRange",
+    name: "Close the Range",
+    subtitle: "Steam west at speed to bring the Japanese within strike range",
+    note: "Go after the Japanese fleet and bring it within reach of the strike aircraft. Effort in Carrier Air Groups and Submarines and Search carries further; effort in Fleet Train and Tankers carries less, the fleet burning oil faster than the tankers can bring it.",
+    modifiers: { air: 0.6, subs: 0.5, train: -0.5 },
+    reportLine: "The fleet turns west at high speed and the oilers follow.",
+  },
+  {
+    id: "holdTheLine",
+    name: "Hold the Line West of Saipan",
+    subtitle: "Keep the fleet between the Japanese and the landing",
+    note: "Let the Japanese come to the fleet. Effort in Battle Line and Screen and Fleet Train and Tankers carries further; effort in Carrier Air Groups carries less, the carriers staying near the transports.",
+    modifiers: { battleline: 0.6, train: 0.5, air: -0.5 },
+    reportLine: "The fleet holds its station west of Saipan and waits for the Japanese to come.",
+  },
+];
+
+KEY_BATTLE_POSTURES.philippineSea44 = [
+  {
+    id: "mobileFleetAttacks",
+    name: "The Mobile Fleet launches its raids",
+    weight: 2,
+    modifiers: { air: 1.4, battleline: 1.1, subs: 1, train: 0.9 },
+    hints: [
+      "Radio intelligence suggests the Japanese are about to launch from long range.",
+      "Search planes report the Japanese carriers turning into the wind.",
+    ],
+    reveal: "Contact: the Japanese carriers are launching raids at long range, and the American fighters have time to climb to meet them.",
+  },
+  {
+    id: "ozawaWithdrawing",
+    name: "Ozawa breaks off and withdraws",
+    modifiers: { air: 0.8, subs: 1.2, train: 0.7, battleline: 0.8 },
+    hints: [
+      "The Japanese carriers have turned to the northwest and increased speed.",
+      "Submarine reports show the Japanese fleet moving away from the American track.",
+    ],
+    reveal: "Contact: the Japanese fleet is withdrawing at speed and the pursuit is a stern chase.",
+  },
+  {
+    id: "guamShuttle",
+    name: "The Japanese use the airfields on Guam",
+    modifiers: { air: 0.9, battleline: 1.3, subs: 1, train: 1 },
+    hints: [
+      "Reports show many Japanese aircraft on Guam.",
+      "Radar shows aircraft flying from Guam toward the American fleet.",
+    ],
+    reveal: "Contact: Japanese aircraft are flying from Guam as well as from the carriers, and the screen is under attack from two directions.",
+  },
+];
+
+KEY_BATTLE_ECHOES.philippineSea44 = {
+  counter: {
+    repulsed: "The Japanese raids were broken up before they reached the fleet.",
+    heldAtCost: "The fleet was not badly hit, but one of its ships was damaged.",
+    broke: "Several raids got through and a carrier and a battleship were hit.",
+    gaveGround: "The fleet turned east to cover the carriers, and the pursuit lost a day.",
+  },
+  neglected: {
+    air: "Too few air groups were sent against the Japanese, and the strike was weak.",
+    subs: "The submarines and the search were left short, and the fleet was slow to find the enemy.",
+    train: "The oilers were left behind, and the fleet ran short of fuel on the chase.",
+    battleline: "The battle line was thin, and the raids and the dark return cost more ships and men.",
+  },
+  commander: {
+    mitscher: "Mitscher is on his flagship counting the aircraft that came back.",
+    lockwood: "Lockwood's submarines are back on patrol with the carriers they sank on the record.",
+    calhoun: "Calhoun's oilers are back at Eniwetok, loading for the next sortie.",
+    lee: "Lee is at the head of the battle line with the fleet still around him.",
+  },
+};
+KEY_BATTLE_TITLES.push({ id: "philippineSea44", seal: "CINCPAC", title: "The Philippine Sea" });
 function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const modeInfo = warRoomModeInfo(mode, campaign.id);
   const hardId = HARD_MODE_OF[campaign.id];
@@ -8450,6 +9662,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               {CAMPAIGNS[activeRun.campaignId].name}
               {activeRun.mode === "easy" ? " · Easy" : activeRun.mode === "fanatical" ? " · ⚔ Fanatical Resolve" : activeRun.mode === "coalition" ? " · ★ Coalition Resolve" : ""} · {(activeRun.log || []).length} decisions on
               file: resume where you left off.
+              {activeRun.battle && (() => { const t = KEY_BATTLE_TITLES.find((x) => x.id === activeRun.battle.configId); return t ? ` You were part way through ${t.title}.` : ""; })()}
             </p>
           </button>
         )}
@@ -8681,6 +9894,52 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                 {endings.filter((l) => !ENDINGS_GALLERY.some((e) => e.label === l)).length === 1 ? "conclusion" : "conclusions"} reached.
               </p>
             )}
+          </div>
+        </details>
+        {/* The Battle Record: every Order of Battle fought, with the enemy setups met, the best
+            result, and what the player did last time (commander and field decisions). A log, not a
+            hint: the setups are drawn at random, so having met one says nothing about the next. */}
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Battle Record: {KEY_BATTLE_TITLES.filter((b) => record?.battles?.[b.id]).length} of {KEY_BATTLE_TITLES.length} battles fought
+          </summary>
+          <div className="mt-3">
+            {KEY_BATTLE_TITLES.map((b) => {
+              const r = record?.battles?.[b.id];
+              const roster = KEY_BATTLE_POSTURES[b.id] || [];
+              const commander = r?.last?.commander ? (KEY_BATTLE_COMMANDERS[b.id] || []).find((c) => c.id === r.last.commander) : null;
+              return (
+                <div key={b.id} className="border-l-4 pl-2 mb-3" style={{ borderColor: r ? "#b08d3f" : "#00000033", fontFamily: "'Courier Prime', monospace" }}>
+                  <div className="text-[13px] text-[#000000]">
+                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-50 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                      {b.seal}
+                    </span>
+                    {r ? <b>{b.title}</b> : <span className="opacity-40">████████████</span>}
+                  </div>
+                  {r && (
+                    <div className="text-[12px] text-[#000000] leading-snug">
+                      <div>
+                        Fought {r.fought} {r.fought === 1 ? "time" : "times"} · won {r.won} · best result: {r.best === "clean" ? "a clean win" : r.best === "costly" ? "a costly win" : r.best === "marginal" ? "a close loss" : "a heavy loss"}
+                      </div>
+                      <div>
+                        Enemy setups met: {r.setups.length} of {roster.length}
+                        {r.setups.length > 0 && <> ({r.setups.map((id) => roster.find((p) => p.id === id)?.name || id).join("; ")})</>}
+                      </div>
+                      {r.last && (
+                        <div className="opacity-80">
+                          Last time: {r.last.won ? "won" : "lost"}
+                          {commander ? `, under ${commander.name}` : ""}
+                          {r.last.decisions && r.last.decisions.length > 0 ? `. Field decision: ${r.last.decisions.join("; ")}` : ""}.
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </details>
         <details className={`${paper} p-5`}>
@@ -10980,6 +12239,15 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
                   ⛔ Unavailable: {choice.disabledReason}
                 </span>
               )}
+              {/* Unconditional, not Easy-only: it changes what tapping the button does (the choice opens the Order of Battle). */}
+              {!choice.disabledReason && choice.keyBattleSubgame && (
+                <span
+                  className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: campaign.accent, color: campaign.accent }}
+                >
+                  <span aria-hidden="true">⚑ </span>Leads to battle planning
+                </span>
+              )}
               {choice.gateCheck && !choice.disabledReason && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-60"
@@ -11084,7 +12352,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
   );
 }
 
-function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags, prevSnap, onProceed, isLast, soundOn }) {
+function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags, prevSnap, onProceed, isLast, soundOn, resolvedWeights, planCosts, battleNotes }) {
   const choice = stage.choices[choiceIndex];
   const eff = effectiveChoice(choice, rollIndex);
   const screenRef = useRef(null);
@@ -11137,7 +12405,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
           "{choice.label}"
         </p>
 
-        {eff.variantTitle && (
+        {eff.variantTitle && !resolvedWeights && (
           <div
             className="mb-4 border-2 border-black px-3 py-2 text-[13px] uppercase tracking-widest font-bold text-[#000000]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -11161,6 +12429,39 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
                 {v > 0 ? "▲" : "▼"} {label} {v > 0 ? "+" + v : v}
               </span>
             ))}
+          </div>
+        )}
+
+        {/* A battle's own cost (see computeBattlePlanCosts), applied to the meters alongside the outcome's impact above, is shown
+            separately so the player can tell the battle's consequence from the price of how they fought it. */}
+        {battleNotes && battleNotes.length > 0 && (
+          <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-70 mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              After-action notes
+            </div>
+            {battleNotes.map((n, i) => (
+              <p key={i} className="text-[13px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                {n}
+              </p>
+            ))}
+          </div>
+        )}
+        {planCosts && Object.values(planCosts.totals).some((v) => v !== 0) && (
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <span className="text-[10px] uppercase tracking-widest font-bold opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              The plan's own cost:
+            </span>
+            {Object.entries(planCosts.totals)
+              .filter(([, v]) => v !== 0)
+              .map(([m, v]) => (
+                <span
+                  key={m}
+                  className="inline-block border-2 px-2 py-1 text-xs uppercase tracking-widest font-bold"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: v > 0 ? "#2f4a3a" : "#7a2e2e", color: v > 0 ? "#2f4a3a" : "#7a2e2e" }}
+                >
+                  {v > 0 ? "▲" : "▼"} {m === "readiness" ? "Readiness" : m === "pipeline" ? "Pipeline" : "Initiative"} {v > 0 ? "+" + v : v}
+                </span>
+              ))}
           </div>
         )}
 
@@ -11280,7 +12581,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         ceiling: endingCeiling(campaign.id),
         removed: !!removedFromCommand,
         total,
-        battles: [],
+        battles: KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => ({ grade: flags[`${b.id}Grade`], staff: !!flags[`${b.id}Staff`] })),
         judged: (log || []).filter((e) => e.histSum != null).map((e) => ({ sum: e.sum, histSum: e.histSum })),
         objectives: evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor }).length,
         mode: mode || "open",
@@ -11464,6 +12765,15 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
               <p className="mt-2 text-[12px] italic text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
                 {rating.capped}
               </p>
+            )}
+            {battleSummaryLines(flags).length > 0 && (
+              <ul className="mt-2 flex flex-col gap-1" style={{ fontFamily: "'Courier Prime', monospace" }} aria-label="Battles fought">
+                {battleSummaryLines(flags).map((l) => (
+                  <li key={l} className="text-[12px] leading-snug text-[#000000] opacity-80">
+                    {l}
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         )}
@@ -11734,6 +13044,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                 rolls.length > 0
                   ? "Dice: " + rolls.length + " contested outcomes, path likelihood ~" + compoundPct + (rewinds > 0 ? " across " + rewinds + " rewinds" : ", no rewinds")
                   : null,
+                ...battleSummaryLines(flags),
                 topAdvisors.length > 0 ? "Most trusted advisor: " + topAdvisors[0][0] + " (" + topAdvisors[0][1] + ")" : null,
                 earnedObjectives.length > 0
                   ? "Objectives: " + earnedObjectives.map((id) => (OBJECTIVES.find((x) => x.id === id) || {}).title).filter(Boolean).join(", ")
@@ -11874,6 +13185,41 @@ function migrateSave(saved) {
     if (Array.isArray(s.history)) s.history = s.history.map((h) => (h && typeof h === "object" ? { ...h, position: aliasNode(h.position) } : h));
   }
   return s;
+}
+
+// Put a battle back from a save. A save made on the planning screen or the battle report carries the battle
+// with it (saved.battle). The choice that opened it is found again by its label on the node the save points at,
+// because the choice list can shift as Initiative is spent on the planning screen, and everything the save
+// holds is checked before it is trusted. Anything that does not check out returns null, and the game then
+// resumes at the briefing as it always did.
+function restoreBattleSave(saved) {
+  const b = saved && saved.battle;
+  if (!b || typeof b !== "object" || (b.stage !== "allocation" && b.stage !== "report")) return null;
+  const campaign = CAMPAIGNS[saved.campaignId];
+  if (!campaign || !saved.position) return null;
+  let stage;
+  try {
+    stage = resolveStage(campaign, saved.position, saved.flags || {}, saved.meters || EMPTY_METERS);
+  } catch (e) {
+    return null;
+  }
+  if (!stage || !stage.choices) return null;
+  const index = stage.choices.findIndex((c) => c.label === b.label && c.keyBattleSubgame && c.keyBattleSubgame.id === b.configId);
+  if (index < 0) return null;
+  const choice = stage.choices[index];
+  const config = choice.keyBattleSubgame;
+  const ids = keyBattleCategories(config).map((c) => c.id);
+  const allocOk = (a) => !!a && typeof a === "object" && ids.every((id) => Number.isInteger(a[id]) && a[id] >= 0);
+  const baseWeights = Array.isArray(b.baseWeights) && b.baseWeights.every((w) => typeof w === "number") ? b.baseWeights : (choice.uncertain || []).map((u) => u.weight);
+  if (b.stage === "allocation") {
+    const d = b.draft;
+    if (!d || typeof d !== "object" || !allocOk(d.allocation) || !Array.isArray(d.bonusMeters) || !d.jitter || typeof d.jitter !== "object") return null;
+    if (ids.reduce((n, id) => n + d.allocation[id], 0) > 5 + d.bonusMeters.length) return null;
+    return { stage: "allocation", draft: d, pending: { index, label: b.label, config, baseWeights } };
+  }
+  const p = b.plan;
+  if (!p || typeof p !== "object" || !allocOk(p.allocation) || !Number.isInteger(p.poolSize) || !Number.isInteger(p.reserves) || !p.weights || typeof p.weights !== "object") return null;
+  return { stage: "report", draft: null, pending: { index, label: b.label, config, baseWeights, plan: p } };
 }
 
 function isValidSave(saved) {
@@ -12033,6 +13379,22 @@ function evaluateObjectives(ctx) {
 }
 
 
+// One readable line per battle fought, for the after-action summary.
+const BATTLE_GRADE_WORDS = { clean: "clean win", costly: "costly win", marginal: "close loss", total: "heavy loss" };
+function battleSummaryLines(flags) {
+  return KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => {
+    const roster = KEY_BATTLE_POSTURES[b.id] || [];
+    const setups = [flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean).map((id) => (roster.find((p) => p.id === id) || {}).name || id);
+    const cmdId = flags[`${b.id}PlanCommander`];
+    const cmd = cmdId ? ((KEY_BATTLE_COMMANDERS[b.id] || []).find((c) => c.id === cmdId) || {}).name : null;
+    const decisions = Object.keys(flags)
+      .filter((k) => k.startsWith(`${b.id}DecNote_`))
+      .map((k) => flags[k]);
+    const bits = [setups.length ? "against " + setups.join(", then ") : null, cmd ? "under " + cmd : null, flags[`${b.id}Staff`] ? "staff plan" : "own plan", ...decisions].filter(Boolean);
+    return `${b.title}: ${BATTLE_GRADE_WORDS[flags[`${b.id}Grade`]] || flags[`${b.id}Grade`]}${bits.length ? ` (${bits.join("; ")})` : ""}`;
+  });
+}
+
 async function withRetry(fn, attempts = 3, delayMs = 250) {
   let lastErr;
   for (let i = 0; i < attempts; i++) {
@@ -12098,6 +13460,28 @@ async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewind
       if (e.advisor) advisors[e.advisor] = (advisors[e.advisor] || 0) + 1;
     });
     record.advisors = advisors;
+    // The Battle Record: every Order of Battle fought this war leaves its grade, enemy setup(s), commander and field decisions in the
+    // run's flags; the record keeps a running tally per battle across wars. Written once, when a war ends, like the rest of the record.
+    const battles = record.battles || {};
+    for (const b of KEY_BATTLE_TITLES) {
+      const grade = flags[`${b.id}Grade`];
+      if (!grade) continue;
+      const prev = battles[b.id] || { fought: 0, won: 0, setups: [], best: null, last: null };
+      const won = grade === "clean" || grade === "costly";
+      const decisions = Object.keys(flags)
+        .filter((k) => k.startsWith(`${b.id}DecNote_`))
+        .map((k) => flags[k]);
+      const setups = [...new Set([...(prev.setups || []), flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean))];
+      const best = prev.best && BATTLE_GRADE_ORDER.indexOf(prev.best) > BATTLE_GRADE_ORDER.indexOf(grade) ? prev.best : grade;
+      battles[b.id] = {
+        fought: prev.fought + 1,
+        won: prev.won + (won ? 1 : 0),
+        setups,
+        best,
+        last: { grade, won, commander: flags[`${b.id}PlanCommander`] || null, setup: flags[`${b.id}Posture`] || null, decisions },
+      };
+    }
+    record.battles = battles;
     await withRetry(() => window.storage.set("ww2-command-record", JSON.stringify(record)), 5, 400);
     const newlyEarned = (record.objectives || []).filter((id) => !objectivesBefore.has(id));
     return newlyEarned;
@@ -12158,6 +13542,1571 @@ class ErrorBoundary extends Component {
   }
 }
 
+function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn, onCommit, onSpendInitiative, easyMode, resume, onDraft, onSaveLeave }) {
+  const headingRef = useRef(null);
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+    if (headingRef.current) headingRef.current.focus();
+  }, []);
+
+  // Round 9: categories are per battle now (Omaha's are not Kursk's) — see keyBattleCategories.
+  const categories = keyBattleCategories(config);
+  // Round 23 (strands bite): an arm that draws on a Matériel strand (category.strand) carries more or
+  // less weight as that strand reads Plentiful, Adequate, Strained or Short. Read once, as the pool is.
+  const [strandInfo] = useState(() => {
+    if (resume && resume.strandInfo) return resume.strandInfo;
+    const strandFor = (c) => (c.strand && c.meter ? strandReadout(c.meter, flags || {}, meters).find((r) => r.id === c.strand) : null);
+    return Object.fromEntries(
+      categories.map((c) => [c.id, strandFor(c) ? { name: strandFor(c).name, band: strandFor(c).band, level: strandFor(c).level, mult: STRAND_LEVEL_MULT[strandFor(c).level] } : null])
+    );
+  });
+  const strandMults = Object.fromEntries(categories.map((c) => [c.id, strandInfo[c.id] ? strandInfo[c.id].mult : 1]));
+
+  // Round 4 (Craig: "could we have a commander selection option which had a modifier on one of
+  // the four categories"). Null = no selection ("no particular emphasis," the honest default).
+  // Keyed by config.id against KEY_BATTLE_COMMANDERS; battles without a roster render no
+  // commander section at all rather than an empty one.
+  const commanderRoster = KEY_BATTLE_COMMANDERS[config.id] || [];
+  // Round 23: in a campaign's hard mode a battle can carry orders from above (config.hardRule): a
+  // locked approach or commander, officers who are not available, or a ban on giving ground. The
+  // locks are applied here and the ban on giving ground in the report.
+  const hardRule = HARD_MODE_NAMES[mode] ? config.hardRule || null : null;
+  const commanderBarred = (id) => !!hardRule && ((hardRule.lockCommander && hardRule.lockCommander !== id) || (hardRule.forbidCommanders || []).includes(id));
+  const [commanderId, setCommanderId] = useState(resume ? resume.commanderId ?? null : hardRule?.lockCommander ?? null);
+  const selectedCommander = commanderRoster.find((c) => c.id === commanderId) || null;
+
+  // Round 4 follow-up (Craig: "let's make this one between the two tactical choices"). Forced
+  // pick, no default: the Commit button stays disabled until one is chosen for any battle with
+  // a roster entry.
+  const approachRoster = KEY_BATTLE_APPROACHES[config.id] || [];
+  const [approachId, setApproachId] = useState(resume ? resume.approachId ?? null : hardRule?.lockApproach ?? null);
+  const selectedApproach = approachRoster.find((a) => a.id === approachId) || null;
+
+  // Round 9, item #1: the enemy's hidden posture for THIS attempt at this battle, drawn once per
+  // screen instance (lazy initializer) and never shown directly — only one line of intelligence
+  // hints at it (postureHint), and it's revealed as the "contact" beat of the battle report.
+  // A resumed battle keeps the enemy setup it was saved with, so saving and loading cannot be used to redraw it.
+  const restorePosture = (id) => (KEY_BATTLE_POSTURES[config.id] || []).find((p) => p.id === id) || null;
+  const [posture] = useState(() => (resume && resume.postureId && restorePosture(resume.postureId)) || pickKeyBattlePosture(config.id, undefined, config.phases ? 1 : undefined));
+  // Round 22 (twists): a battle fought in phases (config.phases, a list of phase names) draws a
+  // second hidden posture for its second phase. The plan is weighed against the average of the
+  // two, and the report reveals the second one half way through — so intelligence about the first
+  // phase is only part of the picture, which is exactly what fighting an outbound leg and a bomb
+  // run, or a morning raid and an afternoon raid, is like.
+  const phaseNames = config.phases || null;
+  const [posture2] = useState(() => (resume && resume.posture2Id && restorePosture(resume.posture2Id)) || (phaseNames && posture ? pickKeyBattlePosture(config.id, posture.id, 2) : null));
+  // Mean posture multiplier for a category: the first posture's alone for an ordinary battle.
+  function postureMultFor(catId) {
+    const m1 = posture?.modifiers?.[catId] ?? 1;
+    return posture2 ? (m1 + (posture2.modifiers?.[catId] ?? 1)) / 2 : m1;
+  }
+  // Round 22 (explainer): the first Order of Battle a player meets arrives after one or two
+  // decisions, so the first one opens with a short plain-language guide, shut on every later visit.
+  const [introOpen] = useState(() => {
+    try {
+      return !window.localStorage.getItem("dispatches1940_battle_intro_seen");
+    } catch {
+      return true;
+    }
+  });
+  const [guideOpen, setGuideOpen] = useState(introOpen);
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("dispatches1940_battle_intro_seen", "1");
+    } catch {
+      /* storage can be blocked; the guide then simply opens every time */
+    }
+  }, []);
+  // Round 10, Craig's item #4: the intelligence summary is wrong one time in four — the hint is
+  // then drawn from a DIFFERENT posture than the real one, so a player who reads the intel
+  // perfectly still gets fooled sometimes, the way a general would. Whether it was right is
+  // told after the battle (the battle report's after-action notes), never before.
+  // Round 13, item #3: factored out to drawIntel() so the paid Reconnaissance Pass (requestRecon,
+  // below) can redraw the same hint at a lower error rate instead of duplicating this logic.
+  function drawIntel(errorRate) {
+    if (!posture) return null;
+    const roster = KEY_BATTLE_POSTURES[config.id] || [];
+    const others = roster.filter((p) => p.id !== posture.id && (!config.phases || p.only !== 2));
+    const wrong = others.length > 0 && Math.random() < errorRate;
+    const source = wrong ? others[Math.floor(Math.random() * others.length)] : posture;
+    const hint = source.hints.length ? source.hints[Math.floor(Math.random() * source.hints.length)] : null;
+    return { hint, hintPostureId: source.id, correct: !wrong };
+  }
+  // Round 13, item #8 (minor difficulty tie-in): Easy Command's own text already promises "full
+  // [meter] visibility" as its whole training-wheels premise — extending that to the subgame's
+  // one piece of hidden information means the free hint is simply never wrong in Easy, at 0
+  // error rate rather than the usual 1-in-4. Standard and the hard modes are untouched.
+  const [intel, setIntel] = useState(() => (resume && resume.intel !== undefined ? resume.intel : drawIntel(easyMode ? 0 : KEY_BATTLE_INTEL_ERROR_RATE)));
+  const postureHint = intel?.hint || null;
+  // Round 13, item #3: a Recon Pass is a one-shot, paid redraw of the same hint at
+  // KEY_BATTLE_RECON_ERROR_RATE instead of the free hint's rate. Gated the same way the staff
+  // assessment is gated below (needs Initiative to spend, one use per screen instance — buying
+  // a second look at the same ground has diminishing returns the design isn't trying to model).
+  const [reconUsed, setReconUsed] = useState(!!(resume && resume.reconUsed));
+  function requestRecon() {
+    if (reconUsed || (meters.initiative || 0) <= 0 || !posture) return;
+    setIntel(drawIntel(KEY_BATTLE_RECON_ERROR_RATE));
+    setReconUsed(true);
+    if (onSpendInitiative) onSpendInitiative();
+    if (soundOn) playRadio();
+  }
+
+  // Pool size: a base of 5 effort chits, plus one bonus chit per meter (readiness/pipeline/
+  // initiative) standing above +2 — "extra resources should directly help," as a bigger toolkit
+  // rather than a gate. Round 9: frozen at mount, because the staff assessment below spends
+  // Initiative on this very screen — without the freeze, buying an assessment at Initiative +3
+  // would drop the meter to +2, shrink the pool by one mid-plan, and could leave the player with
+  // more chits placed than the pool now allows.
+  const [bonusMeters] = useState(() => (resume && Array.isArray(resume.bonusMeters) ? resume.bonusMeters : ["readiness", "pipeline", "initiative"].filter((m) => (meters[m] || 0) > 2)));
+  const poolSize = 5 + bonusMeters.length;
+
+  const [allocation, setAllocation] = useState(() => Object.fromEntries(categories.map((c) => [c.id, (resume && resume.allocation && resume.allocation[c.id]) || 0])));
+  const spent = Object.values(allocation).reduce((a, v) => a + v, 0);
+  const remaining = poolSize - spent;
+
+  function addEffort(catId) {
+    if (remaining <= 0) return;
+    if (soundOn) playTick(true);
+    setAllocation((a) => ({ ...a, [catId]: a[catId] + 1 }));
+  }
+  function removeEffort(catId) {
+    if (allocation[catId] > 0 && soundOn) playTick(false);
+    setAllocation((a) => (a[catId] > 0 ? { ...a, [catId]: a[catId] - 1 } : a));
+  }
+  // Round 22 (quick placement): one tap for an even split, one for a clean slate. An even split of a
+  // pool that doesn't divide leaves the remainder unplaced, as the reserve.
+  function spreadEvenly() {
+    const each = Math.floor(poolSize / categories.length);
+    setAllocation(Object.fromEntries(categories.map((c) => [c.id, each])));
+  }
+  function clearAll() {
+    setAllocation(Object.fromEntries(categories.map((c) => [c.id, 0])));
+  }
+
+  // Round 3 (Craig): a battle isn't a spreadsheet — the same push doesn't land the same way
+  // twice. Rolled once per screen instance and applied as a +/-30% jitter on that category's
+  // base effectiveness, shown only as a banded readiness phrase (see readiness()).
+  const [jitter] = useState(() => Object.fromEntries(categories.map((c) => [c.id, resume && resume.jitter && resume.jitter[c.id] ? resume.jitter[c.id] : 0.7 + Math.random() * 0.6])));
+  function approachModifier(catId) {
+    return selectedApproach?.modifiers?.[catId] ?? 0;
+  }
+  // Per-chit weight for a category: jittered base effectiveness, plus the commander's flat
+  // bonus and the approach's flat modifier (both known facts going in, so un-jittered) — then,
+  // round 9, the whole thing scaled by the hidden enemy posture, which blunts or opens an arm no
+  // matter who leads it (see KEY_BATTLE_POSTURES for why it has to scale the whole weight).
+  function effectiveWeight(catId, commander = selectedCommander, approach = selectedApproach) {
+    return battleArmWeight({ config, catId, jitter: jitter[catId], commander, approach, posture, posture2, strandMult: strandMults[catId] });
+  }
+  function weightsMap(commander = selectedCommander, approach = selectedApproach) {
+    return Object.fromEntries(categories.map((c) => [c.id, effectiveWeight(c.id, commander, approach)]));
+  }
+  // Bottom/middle/top third of the jitter range — a coarse signal, not the number itself. Does
+  // NOT reflect the enemy posture: readiness is about your own formations, the posture is about
+  // the enemy's, and only the intelligence line (or a paid staff assessment) speaks to that.
+  function readiness(catId) {
+    const j = jitter[catId];
+    if (j < 0.9) return "reports uncertain";
+    if (j > 1.1) return "in good order";
+    return "holding to plan";
+  }
+
+  // Round 9, Craig's item #7: "a button... get staff assessment on plan but it costs one
+  // initiative." A verdict in words only — never a number or a percentage, since round 6
+  // removed the odds-range panel precisely because a spreadsheet readout made the screen feel
+  // wrong. What the Initiative actually buys is real information: the verdict is computed with
+  // the TRUE weights, hidden posture included, and the one specific pointer it adds can point at
+  // exactly the thing the player can't otherwise see (the enemy being strongest where they're
+  // heaviest, or an arm the posture favors that they've underused). Re-buyable; marked stale as
+  // soon as the plan changes after it was given.
+  const [assessment, setAssessment] = useState(resume ? resume.assessment || null : null);
+  const planKey = JSON.stringify([allocation, commanderId, approachId]);
+
+  // Round 23 (item 7, "let your staff plan it"): the whole battle handed to the staff. Commander,
+  // approach and placement come from staffPlanFor; the report then runs itself (see autoplay in
+  // BattleSimulationScreen). A standing setting does it every time.
+  // The standing choice lives in the main Settings ("Always let my staff plan battles"), off by default.
+  const [staffAlways] = useState(() => {
+    try {
+      return window.localStorage.getItem("dispatches1941_staff_plans") === "1";
+    } catch {
+      return false;
+    }
+  });
+  function letStaffPlan() {
+    const allowedCommanders = commanderRoster.filter((c) => !commanderBarred(c.id) || c.id === hardRule?.lockCommander);
+    const allowedApproaches = hardRule?.lockApproach ? approachRoster.filter((a) => a.id === hardRule.lockApproach) : approachRoster;
+    const plan = staffPlanFor({
+      config,
+      categories,
+      poolSize,
+      strandMults,
+      commanders: hardRule?.lockCommander ? allowedCommanders.filter((c) => c.id === hardRule.lockCommander) : allowedCommanders,
+      approaches: allowedApproaches,
+      postures: KEY_BATTLE_POSTURES[config.id] || [],
+      commanderRequired: !!hardRule?.lockCommander,
+    });
+    if (!plan) return;
+    const commander = commanderRoster.find((c) => c.id === plan.commanderId) || null;
+    const approach = approachRoster.find((a) => a.id === plan.approachId) || null;
+    if (soundOn) playStamp();
+    onCommit({
+      allocation: plan.allocation,
+      reserves: 0,
+      poolSize,
+      weights: weightsMap(commander, approach),
+      commanderId: plan.commanderId,
+      approachId: plan.approachId,
+      postureId: posture?.id ?? null,
+      posture2Id: posture2?.id ?? null,
+      intel: null,
+      assessment: null,
+      autoplay: true,
+    });
+  }
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (staffAlways && !autoStarted.current && !resume) {
+      autoStarted.current = true;
+      letStaffPlan();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // Round 10, item #4: reliability is set by Initiative at the moment of asking (before paying
+  // for it) — see staffReliability. When the roll says the staff get it wrong, their verdict is
+  // shifted one or two bands from the truth and their specific pointer is replaced with a
+  // plausible but unfounded one. The player is only told which it was after the battle.
+  const reliability = staffReliability(meters.initiative);
+  const BAND_TEXT = [
+    "The staff think this plan is strong. They would send it as written.",
+    "Sound, the staff say, but not overwhelming.",
+    "The staff are uneasy. This plan will move the line, but not far.",
+    "The staff advise against this plan. As written, it leaves you worse off than doing nothing.",
+  ];
+  // One Initiative buys the staff's review of the plan: a verdict on it against what the enemy really has (which
+  // may be wrong, at the staff's reliability), and a war game of it against two setups the enemy might show (which
+  // cannot say which one he has). Re-buyable; marked stale as soon as the plan changes after it was given.
+  function requestStaffReview() {
+    if (spent === 0) return;
+    const accurate = Math.random() * 100 < reliability;
+    if (onSpendInitiative) onSpendInitiative();
+    if (soundOn) playRadio();
+    const contributions = computeBattleContributions(categories, allocation, weightsMap(), poolSize);
+    const bonus = clampBattleBonus(sumBattleContributions(contributions));
+    const trueBand = bonus >= 20 ? 0 : bonus >= 10 ? 1 : bonus >= 0 ? 2 : 3;
+    let shownBand = trueBand;
+    if (!accurate) {
+      const step = Math.random() < 0.7 ? 1 : 2;
+      const dir = Math.random() < 0.5 ? -1 : 1;
+      shownBand = trueBand + dir * step;
+      if (shownBand < 0 || shownBand > 3) shownBand = trueBand - dir * step;
+      shownBand = Math.max(0, Math.min(3, shownBand));
+      if (shownBand === trueBand) shownBand = trueBand === 0 ? 1 : trueBand - 1;
+    }
+    const text = BAND_TEXT[shownBand];
+    const pm = (id) => postureMultFor(id);
+    const neglected = categories.filter((c) => contributions[c.id] < 0);
+    const heaviest = categories.reduce((m, c) => ((allocation[c.id] || 0) > (allocation[m.id] || 0) ? c : m), categories[0]);
+    const underused = categories
+      .filter((c) => pm(c.id) > 1 && (allocation[c.id] || 0) < poolSize / 4)
+      .sort((a, b) => pm(b.id) - pm(a.id))[0];
+    let detail = null;
+    if (neglected.length) {
+      detail = `They single out ${neglected.map((c) => c.name).join(" and ")}, left uncovered.`;
+    } else if ((allocation[heaviest.id] || 0) > 0 && pm(heaviest.id) < 1) {
+      detail = `Intelligence suggests the enemy is strongest exactly where you are heaviest: ${heaviest.name}.`;
+    } else if (underused) {
+      detail = `They think ${underused.name} deserves more than it's getting.`;
+    }
+    if (!accurate) {
+      // A wrong read points somewhere plausible but unfounded.
+      const decoy = categories[Math.floor(Math.random() * categories.length)];
+      detail = `They think ${decoy.name} deserves more than it's getting.`;
+    }
+    if (remaining > 0) {
+      detail = (detail ? detail + " " : "") + `${remaining} ${remaining === 1 ? "point of effort is" : "points of effort are"} being held back as a reserve.`;
+    }
+    // The war game: two setups drawn at random from those the enemy might show.
+    let runs = [];
+    const scenarios = battleScenarios(config, KEY_BATTLE_POSTURES[config.id] || []);
+    if (scenarios.length) {
+      const first = Math.floor(Math.random() * scenarios.length);
+      let second = scenarios.length > 1 ? Math.floor(Math.random() * (scenarios.length - 1)) : first;
+      if (second >= first && scenarios.length > 1) second += 1;
+      const picks = first === second ? [scenarios[first]] : [scenarios[first], scenarios[second]];
+      runs = picks.map((sc) => {
+        const weights = Object.fromEntries(
+          categories.map((c) => [
+            c.id,
+            battleArmWeight({ config, catId: c.id, jitter: jitter[c.id], commander: selectedCommander, approach: selectedApproach, posture: sc.posture, posture2: sc.posture2, strandMult: strandMults[c.id] }),
+          ])
+        );
+        const gamed = clampBattleBonus(sumBattleContributions(computeBattleContributions(categories, allocation, weights, poolSize)));
+        const label = sc.posture ? (sc.posture2 ? sc.posture.name + ", then " + sc.posture2.name : sc.posture.name) : "the enemy as briefed";
+        const verdict = gamed >= 20 ? "held firm" : gamed >= 10 ? "held, but with strain" : gamed >= 0 ? "barely moved the line" : "broke down";
+        return { label, verdict };
+      });
+    }
+    setAssessment({ text, detail, key: planKey, accurate, shownBand, trueBand, reliability, runs });
+  }
+
+  // Round 22 (item 3): the plan as one plain sentence. Names the weighted arms, the commander and
+  // approach if chosen, the reserve, and any arm left with nothing in it.
+  const planSummary = (() => {
+    if (spent === 0) return "No effort committed yet.";
+    const placed = categories.filter((c) => allocation[c.id] > 0).sort((a, b) => allocation[b.id] - allocation[a.id]);
+    const bare = categories.filter((c) => allocation[c.id] === 0);
+    const parts = [`Weight on ${placed.map((c) => `${c.name} (${allocation[c.id]})`).join(", ")}.`];
+    if (selectedCommander) parts.push(`${selectedCommander.name} in command.`);
+    if (selectedApproach) parts.push(`Approach: ${selectedApproach.name}.`);
+    if (remaining > 0) parts.push(`${remaining} ${remaining === 1 ? "point" : "points"} of effort held in reserve.`);
+    if (bare.length) parts.push(`Nothing placed in ${bare.map((c) => c.name).join(", ")}.`);
+    return parts.join(" ");
+  })();
+
+  // Everything a saved game needs to put this screen back exactly as it stands: the plan so far, the
+  // hidden setup the enemy was dealt, the intelligence already bought and the readings already given.
+  const draft = { commanderId, approachId, postureId: posture?.id ?? null, posture2Id: posture2?.id ?? null, intel, reconUsed, bonusMeters, allocation, jitter, strandInfo, assessment };
+  const draftKey = JSON.stringify(draft);
+  useEffect(() => {
+    if (onDraft) onDraft(draft);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draftKey]);
+  const [saveNote, setSaveNote] = useState("");
+  async function saveAndLeave() {
+    setSaveNote("");
+    const ok = await onSaveLeave();
+    if (ok === false) setSaveNote("The save did not go through, so you have not left the field. Your orders are unchanged.");
+  }
+
+  const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
+  const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
+
+  return (
+    <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
+      <div
+        className={`${paper} w-full max-w-[600px] p-6 sm:p-8`}
+        style={{ ...campaignPaperStyle(campaign.id, campaign.accent), fontFamily: "'Courier Prime', monospace" }}
+      >
+        <div className="text-xs uppercase tracking-[0.25em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
+          Order of Battle: Before Committing
+        </div>
+        <h2
+          ref={headingRef}
+          tabIndex={-1}
+          className="text-2xl sm:text-3xl mb-3 text-[#000000] focus:outline-none"
+          style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600 }}
+        >
+          {config.title}
+        </h2>
+        <p className="text-sm mb-4 text-[#000000]">{config.flavor}</p>
+
+        {campaign.dynamic && <MeterPanel meters={meters} flags={flags} prev={null} />}
+
+        {/* Round 24: the two things a player may want before anything else sit together at the top: the short guide,
+            and the way to skip the planning altogether. */}
+        <div className="mb-4 grid grid-cols-2 gap-2">
+          <button
+            onClick={() => setGuideOpen((v) => !v)}
+            aria-expanded={guideOpen}
+            aria-controls="oob-guide"
+            className="text-left border-2 px-3 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+            style={{ borderColor: campaign.accent }}
+          >
+            <span className="block text-xs uppercase tracking-widest font-bold" style={labelStyle}>
+              How it works
+            </span>
+            <span className="block text-[11px] opacity-80">{guideOpen ? "Hide the guide" : "A short guide"}</span>
+          </button>
+          <button
+            onClick={letStaffPlan}
+            className="text-left border-2 px-3 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+            style={{ borderColor: campaign.accent }}
+          >
+            <span className="block text-xs uppercase tracking-widest font-bold" style={labelStyle}>
+              Let Your Staff Plan It
+            </span>
+            <span className="block text-[11px] opacity-80">Skip the planning</span>
+          </button>
+        </div>
+        {guideOpen && (
+          <div id="oob-guide" className="mb-4 border px-3 py-2" style={{ borderColor: campaign.accent }}>
+            <ul className="list-disc pl-5 text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
+              <li>You have a pool of effort: five points, plus one for each of Readiness, Pipeline and Initiative above +2. Each point gives an arm more weight.</li>
+              <li>Weight on one arm helps, but a bare arm costs you: a battle punishes a gap.</li>
+              <li>Name one field commander, who strengthens one arm, and pick one tactical approach, which strengthens one arm and weakens another.</li>
+              <li>The enemy's setup is hidden. A line of intelligence hints at it and is wrong about one time in four. Reconnaissance and a staff review cost Initiative.</li>
+              <li>Effort left unplaced is a reserve to commit at the decisive hour, once you have seen the enemy's hand. It counts for less than planned effort.</li>
+              <li>You may be asked for a field decision during the battle.</li>
+              <li>Letting the staff plan it costs nothing: they fight the battle for you, without field decisions.</li>
+              <li>None of this decides the result. It moves the odds on the roll.</li>
+            </ul>
+          </div>
+        )}
+
+        {/* Round 22: the day's known ground and weather (config.conditions), set out in words once;
+            the per-arm effect is the italic note on the category it touches. */}
+        {config.conditions && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              Ground and weather
+            </span>
+            {config.conditions}
+          </p>
+        )}
+        {phaseNames && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              Fought in two phases
+            </span>
+            {phaseNames[0]}, then {phaseNames[1]}. The enemy's setup can change between them, and the plan has to hold through both.
+          </p>
+        )}
+        {/* Round 22 (twists): a defensive battle's counterattack counts for more, and a battle's own
+            attrition rules (frostbite, exposure) are stated up front, so that no cost is a surprise. */}
+        {config.counterScale > 1 && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              A defensive battle
+            </span>
+            the enemy's blow is the main event here, and the counterattack counts for half as much again.
+          </p>
+        )}
+        {config.attrition && config.attrition.length > 0 && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
+              Known hazards
+            </span>
+            {config.attrition
+              .map((a) => `${a.atLeast} or more points of effort in ${categories.find((c) => c.id === a.category)?.name || a.category} will cost ${a.meter} (${a.reason.toLowerCase()})`)
+              .join("; ")}
+            .
+          </p>
+        )}
+
+        {hardRule && (
+          <p className="text-[13px] leading-snug mb-4 text-[#000000] border-l-4 pl-3" style={{ ...bodyStyle, borderColor: "#7a2e2e" }}>
+            <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ ...labelStyle, color: "#7a2e2e" }}>
+              {HARD_MODE_NAMES[mode]}: orders from above:
+            </span>
+            {hardRule.text}
+          </p>
+        )}
+
+        {postureHint && (
+          <div className="mb-6 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+            <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
+              Intelligence Summary{phaseNames ? `: ${phaseNames[0]}` : ""}
+            </div>
+            <p className="text-[13px] leading-snug italic text-[#000000]" style={bodyStyle}>
+              {postureHint}
+            </p>
+            {/* Round 13, item #3: a paid second look, same shape as the staff assessment button
+                further down: spend Initiative for a materially sharper (not perfect) read. Not
+                offered in Easy Command (item #8): the free hint there is already accurate, so a
+                Recon Pass would just be spending Initiative on nothing. */}
+            {!reconUsed && !easyMode && (
+              <button
+                onClick={requestRecon}
+                disabled={(meters.initiative || 0) <= 0}
+                className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                style={labelStyle}
+              >
+                Call for a Reconnaissance Pass: costs 1 Initiative
+              </button>
+            )}
+            {reconUsed && (
+              <p className="mt-2 text-[11px] uppercase tracking-widest opacity-60 text-[#000000]" style={labelStyle}>
+                Reconnaissance pass called in.
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Round 8 (Craig, looking at the iOS picker sheet round 7's <select> produced): back
+            to the button/card grid; commander roster capped at 3. */}
+        {commanderRoster.length > 0 && (
+          <div className="mb-6">
+            <div role="heading" aria-level="3" className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
+              Field Command
+            </div>
+            <div role="group" aria-label="Field commander" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button
+                onClick={() => setCommanderId(null)}
+                disabled={!!hardRule?.lockCommander}
+                aria-pressed={commanderId === null}
+                className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                style={
+                  commanderId === null
+                    ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
+                    : { borderColor: campaign.accent, color: "#000000" }
+                }
+              >
+                <div className="text-sm font-semibold">
+                  {commanderId === null && <span aria-hidden="true">✓ </span>}No particular emphasis
+                </div>
+                <div className="text-[11px] opacity-80">Command as planned, no single lever favored.</div>
+              </button>
+              {commanderRoster.map((cmd) => {
+                const cat = categories.find((c) => c.id === cmd.category);
+                const selected = commanderId === cmd.id;
+                return (
+                  <button
+                    key={cmd.id}
+                    onClick={() => setCommanderId(cmd.id)}
+                    disabled={commanderBarred(cmd.id)}
+                    aria-pressed={selected}
+                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                    style={
+                      selected
+                        ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
+                        : { borderColor: campaign.accent, color: "#000000" }
+                    }
+                  >
+                    <div className="text-sm font-semibold">
+                      {selected && <span aria-hidden="true">✓ </span>}
+                      {cmd.name}
+                    </div>
+                    <div className="text-[11px] opacity-80">
+                      {cmd.role}: favors {cat ? cat.name : cmd.category}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+            {selectedCommander && (
+              <p className="text-[13px] leading-snug italic mt-2 text-[#000000]" style={bodyStyle}>
+                {selectedCommander.note}
+              </p>
+            )}
+          </div>
+        )}
+
+        {approachRoster.length > 0 && (
+          <div className="mb-6">
+            <div role="heading" aria-level="3" className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
+              Tactical Approach: Choose One
+            </div>
+            <div role="group" aria-label="Tactical approach" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {approachRoster.map((appr) => {
+                const selected = approachId === appr.id;
+                return (
+                  <button
+                    key={appr.id}
+                    onClick={() => setApproachId(appr.id)}
+                    disabled={!!hardRule?.lockApproach && hardRule.lockApproach !== appr.id}
+                    aria-pressed={selected}
+                    className="text-left border px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                    style={
+                      selected
+                        ? { borderColor: campaign.accent, backgroundColor: campaign.accent, color: "#ffffff" }
+                        : { borderColor: campaign.accent, color: "#000000" }
+                    }
+                  >
+                    <div className="text-sm font-semibold">
+                      {selected && <span aria-hidden="true">✓ </span>}
+                      {appr.name}
+                    </div>
+                    <div className="text-[11px] opacity-80">{appr.subtitle}</div>
+                  </button>
+                );
+              })}
+            </div>
+            {selectedApproach ? (
+              <p className="text-[13px] leading-snug italic mt-2 text-[#000000]" style={bodyStyle}>
+                {selectedApproach.note}
+              </p>
+            ) : (
+              <p className="text-[13px] leading-snug mt-2 text-[#000000] opacity-70" style={bodyStyle}>
+                Pick one: the offensive can't run on both doctrines at once.
+              </p>
+            )}
+          </div>
+        )}
+
+        <div role="heading" aria-level="3" aria-live="polite" className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
+          Effort in reserve: {remaining} of {poolSize}
+          {bonusMeters.length > 0 && (
+            <span className="normal-case font-normal"> · {bonusMeters.length} extra from the standing of your logistics</span>
+          )}
+        </div>
+        <p className="text-[12px] leading-snug mb-3 text-[#000000] opacity-80" style={bodyStyle}>
+          Effort you leave unplaced goes in as a reserve you can commit once you see how the fighting goes. It arrives late and counts for less than planned effort.
+        </p>
+        <div className="flex gap-2 mb-3">
+          <button
+            onClick={spreadEvenly}
+            aria-label="Spread effort evenly"
+            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+            style={{ borderColor: campaign.accent, ...labelStyle }}
+          >
+            Spread effort evenly
+          </button>
+          <button
+            onClick={clearAll}
+            disabled={spent === 0}
+            aria-label="Clear all effort"
+            className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+            style={{ borderColor: campaign.accent, ...labelStyle }}
+          >
+            Clear all effort
+          </button>
+        </div>
+
+        <div className="flex flex-col gap-3 mb-6">
+          {categories.map((cat) => (
+            <div key={cat.id} className="border px-4 py-3" style={{ borderColor: campaign.accent }}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold text-[#000000]">
+                  {cat.name}
+                  {/* Round 13, item #6: a visible (not hidden, unlike posture) ground-conditions
+                      note: the flavor paragraph already told the player about the mud; this ties
+                      that text to the specific category it actually affects. */}
+                  {config.terrainNotes?.[cat.id] && (
+                    <span className="ml-1 text-[11px] font-normal italic opacity-60">({config.terrainNotes[cat.id]})</span>
+                  )}
+                  {strandInfo[cat.id] && strandInfo[cat.id].level !== 3 && (
+                    <span className="ml-1 text-[11px] font-normal italic opacity-60">
+                      ({strandInfo[cat.id].name}: {strandInfo[cat.id].band})
+                    </span>
+                  )}
+                </span>
+                {/* Round 8 (Craig: "'in good order' and 'reports uncertain' aren't clear in what
+                    they are doing"): the bare phrase read as ambiguous: readiness of what,
+                    exactly? A "Readiness:" label anchors it to the category it sits next to,
+                    without spelling out the hidden jitter roll it's actually a coarse signal
+                    for (see readiness() above: that's staying a band, not a number, on
+                    purpose). */}
+                <span className="text-xs text-[#000000] opacity-70 italic">Readiness: {readiness(cat.id)}</span>
+              </div>
+              {/* Round 4 (Craig, testing on mobile: "tap add and minus with the plus signing
+                  moving along the screen from left to right"): tapping a filled square to
+                  remove it worked on desktop but gave no visible affordance on a touch screen,
+                  and the "+" button's position shifted every time the row filled or wrapped.
+                  Fixed layout now: a minus button pinned left, a fill track (empty-to-filled,
+                  left to right) scaled to the actual pool size so the same track reads
+                  identically across all four categories, and a plus button pinned right
+                  neither button moves regardless of how much effort is placed. */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => removeEffort(cat.id)}
+                  disabled={allocation[cat.id] <= 0}
+                  aria-label={`Remove effort from ${cat.name}`}
+                  className="w-11 h-11 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                  style={{ borderColor: campaign.accent, color: campaign.accent }}
+                  title={allocation[cat.id] <= 0 ? "Nothing placed here to take back" : undefined}
+                >
+                  −
+                </button>
+                <div className="flex-1 flex items-center gap-1 min-w-0" aria-hidden="true">
+                  {Array.from({ length: poolSize }).map((_, k) => (
+                    <span
+                      key={k}
+                      className="flex-1 h-5 border-2 min-w-[10px]"
+                      style={
+                        k < allocation[cat.id]
+                          ? { borderColor: campaign.accent, backgroundColor: campaign.accent }
+                          : { borderColor: campaign.accent, opacity: 0.35 }
+                      }
+                    />
+                  ))}
+                </div>
+                <span
+                  role="status"
+                  aria-label={`${cat.name}: ${allocation[cat.id]} of effort placed`}
+                  className="w-6 text-center text-sm font-bold flex-none"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  {allocation[cat.id]}
+                </span>
+                <button
+                  onClick={() => addEffort(cat.id)}
+                  disabled={remaining <= 0}
+                  aria-label={`Add effort to ${cat.name}`}
+                  className="w-11 h-11 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                  style={{ borderColor: campaign.accent, color: campaign.accent }}
+                  title={remaining <= 0 ? "No effort left to place: take some back from another arm first" : undefined}
+                >
+                  +
+                </button>
+              </div>
+              {/* Round 24: the staff's situation report and the order of battle are one disclosure now. What actually
+                  happened is for after the battle, not for the planning. */}
+              {(config.categoryContext?.[cat.id] || config.orderOfBattle?.[cat.id]) && (
+                <details className="mt-2">
+                  <summary className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-70 cursor-pointer select-none" style={labelStyle}>
+                    Situation and order of battle
+                  </summary>
+                  {config.categoryContext?.[cat.id] && (
+                    <p className="text-[13px] leading-snug text-[#000000] mt-1 italic" style={bodyStyle}>
+                      {config.categoryContext[cat.id]}
+                    </p>
+                  )}
+                  {config.orderOfBattle?.[cat.id] && (
+                    <ul className="mt-1 list-disc pl-5 text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
+                      {config.orderOfBattle[cat.id].units.map((u, k) => (
+                        <li key={k}>{u}</li>
+                      ))}
+                    </ul>
+                  )}
+                </details>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="mb-4 border px-4 py-3" style={{ borderColor: campaign.accent }}>
+          <button
+            onClick={requestStaffReview}
+            aria-describedby="staff-work-why"
+            disabled={spent === 0}
+            className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+            style={{ borderColor: campaign.accent, ...bodyStyle }}
+          >
+            Ask the staff to review the plan: costs 1 Initiative
+          </button>
+          {assessment && (
+            <div className="mt-3">
+              <p className="text-[13px] leading-snug italic text-[#000000]" style={bodyStyle}>
+                {assessment.text}
+              </p>
+              {assessment.detail && (
+                <p className="text-[13px] leading-snug text-[#000000] mt-1" style={bodyStyle}>
+                  {assessment.detail}
+                </p>
+              )}
+              {(assessment.runs || []).map((r, i) => (
+                <p key={i} className="text-[13px] leading-snug text-[#000000] mt-1" style={bodyStyle}>
+                  Against <i>{r.label}</i>, the plan {r.verdict}.
+                </p>
+              ))}
+              {(assessment.runs || []).length > 0 && (
+                <p className="text-[12px] leading-snug italic opacity-70 text-[#000000] mt-1" style={bodyStyle}>
+                  The staff also war-gamed the plan against setups the enemy might show. They cannot say which one he has.
+                </p>
+              )}
+              {assessment.key !== planKey && (
+                <p className="text-[11px] uppercase tracking-widest text-[#000000] opacity-70 mt-1" style={labelStyle}>
+                  Reviewed before your latest changes
+                </p>
+              )}
+            </div>
+          )}
+          {spent === 0 && (
+            <p id="staff-work-why" className="text-[12px] leading-snug mt-2 text-[#000000]" style={bodyStyle}>
+              Place some effort first: the staff need a plan to look at.
+            </p>
+          )}
+          <p className="text-[11px] uppercase tracking-widest text-[#000000] opacity-70 mt-2" style={labelStyle}>
+            Initiative now: {meters.initiative > 0 ? "+" : ""}
+            {meters.initiative} · Staff reliability: {reliability}%
+          </p>
+        </div>
+
+        {/* Round 22 (item 3, a plan summary): the plan in one plain sentence, so the player can read back
+            what they are about to commit to without decoding the bars. */}
+        <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+          <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
+            Your plan so far
+          </div>
+          <p className="text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
+            {planSummary}
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            if (soundOn) playStamp();
+            onCommit({
+              allocation,
+              reserves: remaining,
+              poolSize,
+              weights: weightsMap(),
+              commanderId: selectedCommander?.id ?? null,
+              approachId: selectedApproach?.id ?? null,
+              postureId: posture?.id ?? null,
+              posture2Id: posture2?.id ?? null,
+              // Round 10: carried forward so the battle report can say, afterwards, whether the
+              // intelligence and the last staff assessment were right.
+              intel: intel ? { hintPostureId: intel.hintPostureId, correct: intel.correct } : null,
+              assessment: assessment
+                ? {
+                    accurate: assessment.accurate,
+                    shownBand: assessment.shownBand,
+                    trueBand: assessment.trueBand,
+                    reliability: assessment.reliability,
+                    stale: assessment.key !== planKey,
+                  }
+                : null,
+            });
+          }}
+          disabled={(approachRoster.length > 0 && !selectedApproach) || spent === 0}
+          className="w-full border-2 px-4 py-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
+          style={{ borderColor: campaign.accent, ...bodyStyle }}
+        >
+          {approachRoster.length > 0 && !selectedApproach
+            ? "Choose a Tactical Approach First"
+            : spent === 0
+            ? "Commit Some Effort First"
+            : remaining > 0
+            ? `Commit to Battle: ${remaining} held in reserve`
+            : "Commit to Battle"}
+        </button>
+        {onSaveLeave && (
+          <>
+            <button onClick={saveAndLeave} className="w-full mt-3 text-center text-xs uppercase tracking-widest opacity-70 underline text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px" style={labelStyle}>
+              Save and leave the field: pick this battle up later
+            </button>
+            <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
+              {saveNote}
+            </p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// The battle report. Design history in brief: round 6 replaced a static result screen with an animated reveal; round 7
+// made it one tug-of-war bar with each beat a REAL per-category contribution; round 8 kept every report line on
+// screen as a log; round 9 added the contact beat, the decisive hour and motion; round 10 the dispatch times, the
+// enemy counterattack and the after-action notes. Round 24 made it run on its own: a Start button at the top, the
+// newest dispatch above the older ones, a pause, and a stop for every decision. Positions before the verdict replay
+// chooseOption's own nudge math against the base weights; the verdict itself is forced to the resolved weights, so
+// the bar can never disagree with OutcomeScreen. uncertain[0] is the favorable break, uncertain[1] the unfavorable one.
+// How long the report waits between one dispatch and the next, in milliseconds, when it is running on its own.
+
+const BATTLE_BEAT_MS = 2600;
+// Effort committed at the decisive hour arrives late. Mirrors KEY_BATTLE_RESERVE_MULT.
+const COUNTER_WORDS = { repulsed: "thrown back", heldAtCost: "held, at a cost", broke: "a break-through", gaveGround: "ground given up" };
+
+function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, uncertain, result, soundOn, instantText, reducedMotion, onResolve, onContinue, onSaveLeave, resumed }) {
+  const headingRef = useRef(null);
+  const categories = keyBattleCategories(config);
+  const postures = KEY_BATTLE_POSTURES[config.id] || [];
+  const posture = postures.find((p) => p.id === plan.postureId) || null;
+  // Round 22: a battle fought in phases has a second posture, revealed after the category beats.
+  const posture2 = postures.find((p) => p.id === plan.posture2Id) || null;
+  const phaseNames = config.phases || null;
+  const latestPosture = posture2 || posture;
+  const commander = (KEY_BATTLE_COMMANDERS[config.id] || []).find((c) => c.id === plan.commanderId) || null;
+  const approach = (KEY_BATTLE_APPROACHES[config.id] || []).find((a) => a.id === plan.approachId) || null;
+  const hasReserve = (plan.reserves || 0) > 0;
+  const times = config.reportTimes || null;
+  const ca = config.counterattack || null;
+  const severityBase = ca ? ca.severity?.[latestPosture?.id] || 1 : 1;
+  // Round 22: field decisions (config.decisions) — see battleDecisionEffect. Made in order, after the
+  // category beats and before the decisive hour.
+  const decisions = config.decisions || [];
+  const [decisionChoices, setDecisionChoices] = useState({}); // { decisionId: optionId }
+  const decisionEffects = decisions
+    .filter((d) => decisionChoices[d.id])
+    .map((d) => ({ d, option: d.options.find((o) => o.id === decisionChoices[d.id]), eff: battleDecisionEffect(d.options.find((o) => o.id === decisionChoices[d.id]), latestPosture?.id) }));
+  const decisionBonus = decisionEffects.reduce((a, x) => a + x.eff.bonus, 0);
+  const severity = Math.max(1, Math.min(3, severityBase + decisionEffects.reduce((a, x) => a + x.eff.severity, 0)));
+  const decidedCount = decisionEffects.length;
+  const nextDecision = decisions.find((d) => !decisionChoices[d.id]) || null;
+  const counterScale = config.counterScale || 1;
+  // Round 23: under a hard mode's orders from above, the line may not give ground (Order No. 227).
+  const noGiveGround = !!(HARD_MODE_NAMES[mode] && config.hardRule && config.hardRule.noGiveGround);
+
+  const planContrib = computeBattleContributions(categories, plan.allocation, plan.weights, plan.poolSize);
+  const orderedCatIds = [...categories]
+    .sort((a, b) => Math.abs(planContrib[a.id] || 0) - Math.abs(planContrib[b.id] || 0))
+    .map((c) => c.id);
+
+  // Must mirror chooseOption's nudge exactly.
+  function pctFor(total) {
+    const b = Math.max(-KEY_BATTLE_BONUS_CLAMP, Math.min(KEY_BATTLE_BONUS_CLAMP, total));
+    const w0 = Math.max(2, Math.min(98, baseWeights[0] + b));
+    const w1 = Math.max(2, Math.min(98, baseWeights[1] - b));
+    return Math.round((w0 / (w0 + w1)) * 100);
+  }
+
+  const [reserveChoice, setReserveChoice] = useState(null); // null | "hold" | catId
+  const [counterChoice, setCounterChoice] = useState(null); // null | "head" | "give" | "reserve"
+  const reserveAlloc = reserveChoice && reserveChoice !== "hold" ? { [reserveChoice]: plan.reserves } : {};
+  const finalContrib = computeBattleContributions(categories, plan.allocation, plan.weights, plan.poolSize, reserveAlloc);
+  const reserveTotal = sumBattleContributions(finalContrib);
+  const counterStrengthBase = ca ? (plan.allocation[ca.category] || 0) + (reserveAlloc[ca.category] || 0) : 0;
+  const canThrowReserve = reserveChoice === "hold" && hasReserve;
+
+  // counterScale (default 1) is a defensive battle's way of saying the enemy's blow is the main
+  // event: every swing of the counterattack counts that many times.
+  function counterOutcome(choice) {
+    if (!ca || !choice) return null;
+    if (choice === "give") return { result: "gaveGround", swing: -2 * severity * counterScale };
+    const strength = counterStrengthBase + (choice === "reserve" ? plan.reserves : 0);
+    if (strength >= 2 + severity) return { result: "repulsed", swing: 4 * counterScale };
+    if (strength >= 1) return { result: "heldAtCost", swing: -3 * severity * counterScale };
+    return { result: "broke", swing: -5 * severity * counterScale };
+  }
+  const counter = counterOutcome(counterChoice);
+  const finalTotal = reserveTotal + decisionBonus + (counter ? counter.swing : 0);
+
+  const beats = [{ kind: "open", position: 50 }];
+  if (posture) beats.push({ kind: "contact", position: 50 });
+  let cum = 0;
+  orderedCatIds.forEach((id, i) => {
+    cum += planContrib[id] || 0;
+    beats.push({ kind: "cat", catId: id, catOrder: i, position: pctFor(cum) });
+  });
+  if (posture2) beats.push({ kind: "contact2", position: pctFor(cum) });
+  const lastCatIndex = beats.length - 1;
+  let decCum = cum;
+  decisionEffects.forEach((x) => {
+    decCum += x.eff.bonus;
+    beats.push({ kind: "decision", decId: x.d.id, position: pctFor(decCum) });
+  });
+  if (reserveChoice) beats.push({ kind: "reserve", position: pctFor(reserveTotal + decisionBonus) });
+  if (counterChoice) beats.push({ kind: "counter", position: pctFor(finalTotal) });
+  const lastBeat = beats.length - 1;
+
+  const [flashupLines] = useState(() => {
+    const pool = config?.flashups || {};
+    const lines = {};
+    for (const c of categories) {
+      const options = pool[c.id] || [];
+      lines[c.id] = options.length ? options[Math.floor(Math.random() * options.length)] : null;
+    }
+    return lines;
+  });
+  // Round 12 (Craig's item #5, "richer dispatch text"): idleLines used to be a single fixed
+  // string per category — every replay that left an arm uncommitted saw the exact same sentence.
+  // Now a small pool per category, same pattern as flashupLines above, picked once per screen
+  // instance so it doesn't flicker on re-render. Still accepts a bare string for any battle
+  // config that hasn't been converted to a pool, so nothing breaks if one is added later without
+  // the array wrapper.
+  const [idleLine] = useState(() => {
+    const pool = config?.idleLines || {};
+    const lines = {};
+    for (const c of categories) {
+      const options = pool[c.id];
+      if (Array.isArray(options)) lines[c.id] = options.length ? options[Math.floor(Math.random() * options.length)] : null;
+      else lines[c.id] = options || null;
+    }
+    return lines;
+  });
+
+  function timeFor(beat) {
+    if (beat.kind === "decision") return decisions.find((d) => d.id === beat.decId)?.time || null;
+    if (!times) return null;
+    if (beat.kind === "cat") return times.cats?.[beat.catOrder] || null;
+    return times[beat.kind] || null;
+  }
+  function bodyFor(beat) {
+    if (beat.kind === "open") return approach?.reportLine || "The attack goes in.";
+    if (beat.kind === "contact") return posture.reveal;
+    if (beat.kind === "contact2") return posture2.reveal;
+    if (beat.kind === "decision") {
+      const x = decisionEffects.find((e) => e.d.id === beat.decId);
+      return x?.option?.reportLine || x?.option?.name || "";
+    }
+    if (beat.kind === "reserve") {
+      if (reserveChoice === "hold") return "The reserve stays back.";
+      const cat = categories.find((c) => c.id === reserveChoice);
+      const plugged = (plan.allocation[reserveChoice] || 0) === 0;
+      return `The reserve goes in behind ${cat?.name || reserveChoice}${plugged ? ", into the gap left there" : ""}.`;
+    }
+    if (beat.kind === "counter") {
+      const lead = counterChoice === "reserve" ? "The held reserve goes in against the counterattack. " : "";
+      return lead + (ca.results[counter.result] || "");
+    }
+    const cat = categories.find((c) => c.id === beat.catId);
+    if ((plan.allocation[beat.catId] || 0) === 0) {
+      return idleLine[beat.catId] || `${cat?.name || beat.catId}: nothing committed.`;
+    }
+    if (commander && commander.category === beat.catId && commander.reportLine) return commander.reportLine;
+    return flashupLines[beat.catId] || `${cat?.name || beat.catId} holds its ground.`;
+  }
+  function labelFor(beat) {
+    if (beat.kind === "contact" && phaseNames) return phaseNames[0];
+    if (beat.kind === "contact2") return phaseNames ? phaseNames[1] : null;
+    if (beat.kind === "decision") return decisions.find((d) => d.id === beat.decId)?.title || null;
+    if (beat.kind !== "cat") return null;
+    return categories.find((c) => c.id === beat.catId)?.name || null;
+  }
+
+  const [beatIndex, setBeatIndex] = useState(0);
+  const [phase, setPhase] = useState("running"); // "running" | "decision" | "reserve" | "counter" | "resolving"
+  // Round 24: the report runs on its own once started, newest dispatch at the top, and stops for a decision.
+  const [started, setStarted] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const done = !!result;
+  // With instant text or reduced motion on, and for a battle the staff fight, the report does not wait between dispatches.
+  const instant = !!instantText || !!reducedMotion || !!plan.autoplay;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+    if (headingRef.current) headingRef.current.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (result && soundOn) playVerdict(result.ri === 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
+
+  const reserveDecided = !hasReserve || !!reserveChoice;
+  const counterDecided = !ca || !!counterChoice;
+
+  function afterNotes() {
+    const notes = [];
+    if (plan.autoplay) notes.push("Your staff planned and fought this battle without you.");
+    // Round 22 (item 7): what the player's orders were worth, as military intelligence would put it —
+    // an estimate to the nearest five points, and of the change the plan made, never of the odds.
+    const basePct = Math.round((baseWeights[0] / (baseWeights[0] + baseWeights[1])) * 100);
+    const gain = pctFor(finalTotal) - basePct;
+    const gainRounded = Math.round(Math.abs(gain) / 5) * 5;
+    notes.push(
+      gainRounded === 0
+        ? "Military intelligence believes your orders made little difference to our chance of victory."
+        : gain > 0
+        ? `Military intelligence believes your orders improved our chance of victory by about ${gainRounded} points.`
+        : `Military intelligence believes your orders cost us about ${gainRounded} points of our chance of victory.`
+    );
+    if (plan.intel && posture) {
+      const hinted = postures.find((p) => p.id === plan.intel.hintPostureId);
+      notes.push(
+        plan.intel.correct
+          ? "The intelligence summary was right."
+          : `The intelligence summary was wrong. It pointed to ${hinted ? hinted.name.toLowerCase() : "something else"}; the enemy's real setup was ${posture.name.toLowerCase()}.`
+      );
+    }
+    if (plan.assessment) {
+      const a = plan.assessment;
+      const shown = STAFF_VERDICT_BANDS[a.shownBand];
+      const truth = STAFF_VERDICT_BANDS[a.trueBand];
+      let line = a.accurate
+        ? `The staff review held up: they called the plan ${shown}, and it was.`
+        : `The staff review was wrong. They called the plan ${shown}; it was ${truth}.`;
+      line += ` (Staff reliability at the time: ${a.reliability}%.)`;
+      if (a.stale) line += " It was given on an earlier version of the plan.";
+      notes.push(line);
+    }
+    return notes;
+  }
+
+  function resolve() {
+    if (phase === "resolving" || done) return;
+    setPhase("resolving");
+    const finalAllocation = Object.fromEntries(
+      categories.map((c) => [c.id, (plan.allocation[c.id] || 0) + (reserveAlloc[c.id] || 0)])
+    );
+    // Round 13 fix: was categories.find() — the FIRST neglected category, in category-declaration
+    // order, regardless of how badly it was neglected. That's arbitrary text-picking (fine when
+    // only echo texture read it) but wrong once a grade needs to know severity. Now picks the
+    // WORST shortfall (most negative contribution), and neglectedAll is kept for the count.
+    const neglectedAll = categories.filter((c) => (finalContrib[c.id] || 0) < 0);
+    const neglected = neglectedAll.length
+      ? neglectedAll.reduce((worst, c) => ((finalContrib[c.id] || 0) < (finalContrib[worst.id] || 0) ? c : worst))
+      : null;
+    const flagsOut = {};
+    if (counter) flagsOut[`${config.id}Counter`] = counter.result;
+    if (neglected) flagsOut[`${config.id}PlanNeglected`] = neglected.id;
+    if (neglectedAll.length) flagsOut[`${config.id}NeglectedCount`] = neglectedAll.length;
+    if (plan.commanderId) flagsOut[`${config.id}PlanCommander`] = plan.commanderId;
+    if (plan.autoplay) flagsOut[`${config.id}Staff`] = true;
+    // Round 22: which way each field decision went, kept as a flag for later text.
+    for (const x of decisionEffects) {
+      flagsOut[`${config.id}Dec_${x.d.id}`] = x.option.id;
+      flagsOut[`${config.id}DecNote_${x.d.id}`] = `${x.d.title}: ${x.option.name}`;
+    }
+    // The enemy setup(s) met, for the War Record's Battle Record.
+    if (plan.postureId) flagsOut[`${config.id}Posture`] = plan.postureId;
+    if (plan.posture2Id) flagsOut[`${config.id}Posture2`] = plan.posture2Id;
+    onResolve({
+      bonus: clampBattleBonus(finalTotal),
+      extraLines: decisionEffects.flatMap((x) => x.eff.lines),
+      finalAllocation,
+      contributions: finalContrib,
+      reservesHeld: reserveChoice === "hold" && counterChoice !== "reserve" ? plan.reserves : 0,
+      poolSize: plan.poolSize,
+      counter: counter ? { category: ca.category, result: counter.result } : null,
+      flagsOut,
+      notes: afterNotes(),
+    });
+  }
+  function advance() {
+    if (beatIndex < lastCatIndex) {
+      setBeatIndex((b) => b + 1);
+      if (soundOn) playRadio();
+    } else if (nextDecision) {
+      setBeatIndex(lastCatIndex + decidedCount);
+      setPhase("decision");
+    } else if (!reserveDecided) {
+      setBeatIndex(lastCatIndex + decidedCount);
+      setPhase("reserve");
+    } else if (!counterDecided) {
+      setBeatIndex(lastBeat);
+      setPhase("counter");
+    } else {
+      setBeatIndex(lastBeat);
+      resolve();
+    }
+  }
+  function chooseDecision(d, optionId) {
+    setDecisionChoices((c) => ({ ...c, [d.id]: optionId }));
+    setBeatIndex(lastCatIndex + decidedCount + 1);
+    setPhase("running");
+    if (soundOn) playDice();
+  }
+  function chooseReserve(choice) {
+    setReserveChoice(choice);
+    setBeatIndex(lastCatIndex + decidedCount + 1);
+    setPhase("running");
+    if (soundOn) playDice();
+  }
+  function chooseCounter(choice) {
+    setCounterChoice(choice);
+    setBeatIndex(lastCatIndex + decidedCount + (reserveChoice ? 2 : 1));
+    setPhase("running");
+    if (soundOn) playDice();
+  }
+  function skip() {
+    setStarted(true);
+    if (nextDecision) {
+      setBeatIndex(lastCatIndex + decidedCount);
+      setPhase("decision");
+    } else if (!reserveDecided) {
+      setBeatIndex(lastCatIndex + decidedCount);
+      setPhase("reserve");
+    } else if (!counterDecided) {
+      setBeatIndex(lastBeat);
+      setPhase("counter");
+    } else {
+      setBeatIndex(lastBeat);
+      resolve();
+    }
+  }
+  function startBattle() {
+    setStarted(true);
+    if (soundOn) playRumble();
+  }
+  // The report moves itself along: one dispatch after another with a gap between, until a decision stops it.
+  useEffect(() => {
+    if (!started || paused || done || phase !== "running") return undefined;
+    const t = setTimeout(advance, instant ? 0 : BATTLE_BEAT_MS);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [started, paused, done, phase, beatIndex, decisionChoices, reserveChoice, counterChoice]);
+
+  // Round 23 (item 7): a battle the staff plan runs itself. One step per pass, so each choice is made
+  // from the state the one before it left: the field decisions, the counterattack, then the verdict.
+  const autoResolved = useRef(false);
+  useEffect(() => {
+    if (!plan.autoplay || done || autoResolved.current) return;
+    if (nextDecision) {
+      setDecisionChoices((c) => ({ ...c, [nextDecision.id]: staffDecisionOption(nextDecision, postures, config).id }));
+      return;
+    }
+    if (!counterDecided) {
+      setCounterChoice(noGiveGround || counterStrengthBase >= 2 + severity ? "head" : "give");
+      return;
+    }
+    autoResolved.current = true;
+    setBeatIndex(lastBeat);
+    resolve();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plan.autoplay, decisionChoices, counterChoice, done]);
+  const [staffStillOn, setStaffStillOn] = useState(() => {
+    try {
+      return window.localStorage.getItem("dispatches1941_staff_plans") === "1";
+    } catch {
+      return false;
+    }
+  });
+
+  const total = result ? result.weights.reduce((a, v) => a + v, 0) : 1;
+  const finalPct = result ? result.weights.map((w) => Math.round((w / total) * 100)) : null;
+  const won = result ? result.ri === 0 : false;
+  const shownIndex = Math.min(beatIndex, lastBeat);
+  // Round 10: at the verdict the bar settles on what HAPPENED, not on the odds it was fought at.
+  // With odds hidden, a loss shown with the bar two-thirds toward your side read as a
+  // contradiction (caught in round-10 screenshots). A win pushes the boundary at least to 85, a
+  // loss back to at most 15, so the last movement is the decision itself.
+  const position = done ? (won ? Math.max(finalPct[0], 85) : Math.min(finalPct[0], 15)) : started || plan.autoplay ? beats[shownIndex].position : 50;
+  const visibleBeats = started || done || plan.autoplay ? beats.slice(0, shownIndex + 1) : [];
+  const verdicts = config.verdicts || ["The Attack Succeeds", "The Attack Fails"];
+
+  // Motion (round 9, item #9 — movement only).
+  const prevPosRef = useRef(50);
+  const delta = position - prevPosRef.current;
+  const [shaking, setShaking] = useState(false);
+  useEffect(() => {
+    const d = position - prevPosRef.current;
+    prevPosRef.current = position;
+    if (d <= -6) {
+      setShaking(true);
+      if (soundOn) playRumble();
+      const t = setTimeout(() => setShaking(false), 450);
+      return () => clearTimeout(t);
+    }
+    return undefined;
+  }, [position]);
+  const moveMs = 400 + Math.min(Math.abs(delta), 25) * 32;
+  const moveEase = delta > 0 ? "cubic-bezier(0.34, 1.35, 0.64, 1)" : "cubic-bezier(0.55, 0, 0.35, 1)";
+  const barTransition = `width ${moveMs}ms ${moveEase}`;
+
+  const meterNames = { readiness: "Readiness", pipeline: "Pipeline", initiative: "Initiative" };
+  const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
+  const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
+  const caCat = ca ? categories.find((c) => c.id === ca.category) : null;
+  const choiceBtn = "text-left border px-3 py-2 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150" + " focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px";
+  const [saveNote, setSaveNote] = useState("");
+  async function saveAndLeave() {
+    setSaveNote("");
+    const ok = await onSaveLeave();
+    if (ok === false) setSaveNote("The save did not go through, so you have not left the field. Your orders are unchanged.");
+  }
+  // When a decision, the decisive hour or the counterattack comes up, focus goes to it, so a keyboard or a
+  // screen reader lands on the question and not on a button that has just gone. After the verdict it goes to the
+  // heading, which now reads the verdict.
+  const panelRef = useRef(null);
+  const sawPanel = useRef(false);
+  useEffect(() => {
+    if (done) {
+      if (headingRef.current) headingRef.current.focus();
+    } else if (phase === "decision" || phase === "reserve" || phase === "counter") {
+      sawPanel.current = true;
+      if (panelRef.current) panelRef.current.focus();
+    } else if (sawPanel.current && headingRef.current) {
+      headingRef.current.focus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, done]);
+  // The roll has not been made until the verdict, so a battle can be put down at any point before it.
+  const canSaveHere = !!onSaveLeave && !done && phase !== "resolving" && !plan.autoplay;
+
+  // --- words for the decisive hour and the counterattack: where things stand, and what each choice does ---
+  const standing = position >= 65 ? "strongly in your favour" : position >= 55 ? "leaning your way" : position > 45 ? "evenly balanced" : position > 35 ? "leaning against you" : "strongly against you";
+  const carrying = categories.filter((c) => (plan.allocation[c.id] || 0) > 0 && (planContrib[c.id] || 0) > 0).map((c) => c.name);
+  const short = categories.filter((c) => (plan.allocation[c.id] || 0) > 0 && (planContrib[c.id] || 0) <= 0).map((c) => c.name);
+  const bare = categories.filter((c) => (plan.allocation[c.id] || 0) === 0).map((c) => c.name);
+  const listWords = (xs) => (xs.length <= 1 ? xs.join("") : xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1]);
+  const reserveStatus = (c) => {
+    const n = plan.allocation[c.id] || 0;
+    return n === 0 ? "nothing there yet, so this would close a gap" : (planContrib[c.id] || 0) > 0 ? `already carrying the attack, with ${n} ${n === 1 ? "point" : "points"}` : `${n} ${n === 1 ? "point" : "points"} there, and still short`;
+  };
+  const counterNow = counterOutcome("head");
+  const counterWithReserve = canThrowReserve ? counterOutcome("reserve") : null;
+  const needed = 2 + severity;
+
+  return (
+    <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
+      <div className={`${paper} w-full max-w-[600px] p-6 sm:p-8`} style={{ ...campaignPaperStyle(campaign.id, campaign.accent), fontFamily: "'Courier Prime', monospace" }}>
+        <div className="text-xs uppercase tracking-[0.25em] mb-1 opacity-70" style={labelStyle}>
+          Battle Report
+        </div>
+        <h2
+          ref={headingRef}
+          tabIndex={-1}
+          className={`text-2xl sm:text-3xl focus:outline-none ${done && config.verdictGrades && result.planCosts?.grade ? "mb-1" : "mb-4"}`}
+          style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600, color: done ? (won ? "#3a6b4f" : "#8a3a3a") : undefined }}
+        >
+          {done
+            ? verdicts[won ? 0 : 1]
+            : phase === "decision"
+            ? "A Field Decision"
+            : phase === "reserve"
+            ? "The Decisive Hour"
+            : phase === "counter"
+            ? "Enemy Counterattack"
+            : !started && !plan.autoplay
+            ? config.title
+            : "The Battle Unfolds"}
+        </h2>
+        {/* Round 13, Craig's item #1 ("graded outcomes, not strict binary win/lose"): a second
+            line under the verdict heading, grading the SAME win/loss on plan quality: clean vs.
+            costly win, marginal vs. total loss, from computeBattlePlanCosts's grade (see its own
+            comment for the exact thresholds). Falls back to nothing (not a generic sentence) when
+            a battle config has no verdictGrades text yet, so this never half-renders for a future
+            battle that hasn't had its grade copy written. */}
+        {done && config.verdictGrades && result.planCosts?.grade && (
+          <p className="text-sm italic mb-4 opacity-80" style={bodyStyle}>
+            {config.verdictGrades[result.planCosts.grade]}
+          </p>
+        )}
+
+        <div className="mb-1 flex items-center justify-between text-xs uppercase tracking-[0.2em] font-semibold opacity-70" style={labelStyle}>
+          <span>Your Forces</span>
+          <span>Enemy Forces</span>
+        </div>
+        <div className={`relative mb-4 ${shaking ? "bar-shake" : ""}`}>
+          <div
+            className="w-full h-8 border-2 overflow-hidden flex"
+            style={{ borderColor: campaign.accent }}
+            role="img"
+            aria-label={`Balance of the battle: ${standing}`}
+          >
+            <div className="h-full" style={{ width: `${position}%`, backgroundColor: campaign.accent, transition: barTransition }} />
+            <div className="h-full" style={{ width: `${100 - position}%`, backgroundColor: "#5a2a2a", transition: barTransition }} />
+          </div>
+          <div
+            aria-hidden="true"
+            className="absolute"
+            style={{ top: -5, bottom: -5, width: 4, left: `calc(${position}% - 2px)`, transition: `left ${moveMs}ms ${moveEase}` }}
+          >
+            <span key={`${shownIndex}-${done ? 1 : 0}`} className="boundary-pulse block w-full h-full" style={{ backgroundColor: "#1a1a1a" }} />
+          </div>
+        </div>
+
+        {/* The control stays at the top: Start before the battle, Pause (and a way to skip) while it runs. */}
+        {!done && phase === "running" && !plan.autoplay && (
+          <div className="mb-4">
+            {!started ? (
+              <>
+                {resumed && (
+                  <p className="text-[12px] leading-snug mb-2 italic opacity-80" style={bodyStyle}>
+                    You are back at the front. Your orders stand as you gave them, and the report begins again from its first line.
+                  </p>
+                )}
+                <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
+                  Your orders are given. The reports will come in on their own, newest at the top, and the battle stops when it needs a decision from you.
+                </p>
+                <button
+                  onClick={startBattle}
+                  className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                  style={{ borderColor: campaign.accent, ...bodyStyle }}
+                >
+                  Start battle
+                </button>
+              </>
+            ) : (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setPaused((p) => !p)}
+                  aria-pressed={paused}
+                  className="flex-1 border-2 px-3 py-2 text-xs uppercase tracking-widest font-bold hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                  style={{ borderColor: campaign.accent, ...labelStyle }}
+                >
+                  {paused ? "Resume" : "Pause"}
+                </button>
+                <button
+                  onClick={skip}
+                  className="flex-1 border px-3 py-2 text-xs uppercase tracking-widest font-bold hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                  style={{ borderColor: campaign.accent, ...labelStyle }}
+                >
+                  Skip to the verdict
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* A decision stops the battle. The panel sits where the control was, above the reports. */}
+        {!done && phase === "decision" && nextDecision && (
+          <div ref={panelRef} tabIndex={-1} role="group" aria-label="A field decision" className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
+            <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
+              {nextDecision.time ? `${nextDecision.time}` : ""}
+              {nextDecision.title}
+            </p>
+            <p className="text-sm mb-3" style={bodyStyle}>
+              {nextDecision.prompt}
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              {nextDecision.options.map((o) => (
+                <button key={o.id} onClick={() => chooseDecision(nextDecision, o.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">{o.name}</div>
+                  {o.note && <div className="text-[11px] opacity-80">{o.note}</div>}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        {!done && phase === "reserve" && (
+          <div ref={panelRef} tabIndex={-1} role="group" aria-label="The decisive hour" className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
+            <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
+              {times?.reserve ? <span className="font-bold mr-1" style={labelStyle}>{times.reserve}</span> : null}
+              The battle stands at the point where it will be decided, and the line is {standing}.
+              {carrying.length > 0 && <> {listWords(carrying)} {carrying.length === 1 ? "is" : "are"} carrying the attack.</>}
+              {short.length > 0 && <> {listWords(short)} {short.length === 1 ? "is" : "are"} short of what {short.length === 1 ? "it needs" : "they need"}.</>}
+              {bare.length > 0 && <> Nothing was committed to {listWords(bare)}.</>}
+            </p>
+            <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
+              {plan.reserves} {plan.reserves === 1 ? "point of effort was" : "points of effort were"} held back for this hour.
+              Committed now, {plan.reserves === 1 ? "it arrives" : "they arrive"} late and count for three quarters of what planned effort would have counted for.
+              Held back, {plan.reserves === 1 ? "it stays" : "they stay"} in hand{plan.reserves >= 2 ? ", and a reserve of two or more that comes home intact earns back a point of Readiness" : ""}
+              {ca ? ", and can still be thrown at an enemy counterattack if one comes" : ""}.
+            </p>
+            <p className="text-[12px] leading-snug mb-3 italic opacity-80" style={bodyStyle}>
+              Where do you commit {plan.reserves === 1 ? "it" : "them"}, or do you hold?
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {categories.map((c) => (
+                <button key={c.id} onClick={() => chooseReserve(c.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">Commit to {c.name}</div>
+                  <div className="text-[11px] opacity-80">{reserveStatus(c)}</div>
+                </button>
+              ))}
+              <button onClick={() => chooseReserve("hold")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                <div className="text-sm font-semibold">Hold the reserve</div>
+                <div className="text-[11px] opacity-80">Keep it back for whatever comes next.</div>
+              </button>
+            </div>
+          </div>
+        )}
+        {!done && phase === "counter" && (
+          <div ref={panelRef} tabIndex={-1} role="group" aria-label="Enemy counterattack" className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
+            <p className="text-sm mb-2 italic" style={bodyStyle}>
+              {times?.counter ? <span className="font-bold not-italic mr-1" style={labelStyle}>{times.counter}</span> : null}
+              {ca.warn[severity] || ca.warn[1]}
+            </p>
+            <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
+              It will fall on {caCat?.name || ca.category}, where you have {counterStrengthBase} {counterStrengthBase === 1 ? "point" : "points"} of effort.
+              Held head-on, it takes {needed} or more to throw the attack back cleanly. With fewer it is held at a cost, and with none it breaks through.
+              As things stand, standing and fighting would mean {COUNTER_WORDS[counterNow.result]}.
+            </p>
+            {canThrowReserve && (
+              <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
+                You still hold {plan.reserves} {plan.reserves === 1 ? "point" : "points"} in reserve. Thrown in here {plan.reserves === 1 ? "it brings" : "they bring"} the strength to {counterStrengthBase + plan.reserves}, which would mean {COUNTER_WORDS[counterWithReserve.result]}.
+                {plan.reserves >= 2 && <> Spent here, they do not come home intact, so the point of Readiness a reserve earns back is lost.</>}
+              </p>
+            )}
+            <div className="grid grid-cols-1 gap-2">
+              <button onClick={() => chooseCounter("head")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                <div className="text-sm font-semibold">Meet it head-on</div>
+                <div className="text-[11px] opacity-80">Stand and fight with what is there: {COUNTER_WORDS[counterNow.result]}.</div>
+              </button>
+              {!noGiveGround && (
+                <button onClick={() => chooseCounter("give")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">Give ground and hold what you can</div>
+                  <div className="text-[11px] opacity-80">A smaller loss, and a certain one. It costs a point of Initiative.</div>
+                </button>
+              )}
+              {noGiveGround && (
+                <p className="text-[12px] leading-snug italic opacity-80" style={bodyStyle}>
+                  {HARD_MODE_NAMES[mode]}: the order is to hold. The line may not give ground.
+                </p>
+              )}
+              {canThrowReserve && (
+                <button onClick={() => chooseCounter("reserve")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
+                  <div className="text-sm font-semibold">Throw the held reserve at it</div>
+                  <div className="text-[11px] opacity-80">
+                    {plan.reserves} more {plan.reserves === 1 ? "point" : "points"} of effort alongside the {caCat?.name || ca.category} already there: {COUNTER_WORDS[counterWithReserve.result]}.
+                  </div>
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+        {!done && phase === "resolving" && (
+          <p className="mb-4 text-sm italic opacity-70" style={bodyStyle}>
+            Waiting on the last reports…
+          </p>
+        )}
+
+        {/* The reports, newest first. Each new one is added at the top and the older ones move down. */}
+        <div role="log" aria-live="polite" aria-relevant="additions" aria-label="Battle report" className="mb-5 flex flex-col gap-3">
+          {[...visibleBeats]
+            .map((b, idx) => ({ b, idx }))
+            .reverse()
+            .map(({ b, idx }) => {
+              const t = timeFor(b);
+              const label = labelFor(b);
+              const newest = idx === visibleBeats.length - 1 && !done;
+              return (
+                <p key={idx} className={`dispatch-line text-sm ${newest ? "flashup-line" : "opacity-60"}`} style={bodyStyle}>
+                  {t && (
+                    <span className="font-bold not-italic mr-1" style={labelStyle}>
+                      {t}
+                    </span>
+                  )}
+                  {label && <span className="font-bold">{label}: </span>}
+                  <span className="italic">{bodyFor(b)}</span>
+                </p>
+              );
+            })}
+        </div>
+
+        {done && (
+          <>
+            {result.notes && result.notes.length > 0 && (
+              <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
+                <div className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
+                  After-Action Notes
+                </div>
+                {result.notes.map((n, i) => (
+                  <p key={i} className="text-[13px] leading-snug mb-1" style={bodyStyle}>
+                    {n}
+                  </p>
+                ))}
+              </div>
+            )}
+            {result.planCosts && result.planCosts.lines.length > 0 && (
+              <div className="mb-5 border-2 px-3 py-2" style={{ borderColor: campaign.accent }}>
+                <div className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
+                  What the Plan Cost
+                </div>
+                {/* Every meter that has a reason is listed, even at a net of zero: otherwise a
+                    cost and a refund on the same meter would cancel into silence. */}
+                {Object.entries(result.planCosts.totals)
+                  .filter(([m]) => result.planCosts.lines.some((l) => l.meter === m))
+                  .map(([m, v]) => (
+                    <p key={m} className="text-[13px] leading-snug" style={bodyStyle}>
+                      <span className="font-bold">
+                        {meterNames[m]} {v > 0 ? "+" : v === 0 ? "±" : ""}
+                        {v}
+                      </span>{": "}
+                      {result.planCosts.lines.filter((l) => l.meter === m).map((l) => l.reason).join("; ")}
+                    </p>
+                  ))}
+              </div>
+            )}
+            {categories.some((c) => config.orderOfBattle?.[c.id]?.real) && (
+              <details className="mb-5 border px-3 py-2" style={{ borderColor: campaign.accent }}>
+                <summary className="text-[11px] uppercase tracking-widest font-bold cursor-pointer select-none" style={labelStyle}>
+                  What actually happened
+                </summary>
+                <div className="mt-2 flex flex-col gap-2">
+                  {categories
+                    .filter((c) => config.orderOfBattle?.[c.id]?.real)
+                    .map((c) => (
+                      <p key={c.id} className="text-[12px] leading-snug" style={bodyStyle}>
+                        <b>{c.name}.</b> {config.orderOfBattle[c.id].real}
+                      </p>
+                    ))}
+                </div>
+              </details>
+            )}
+            <button
+              onClick={onContinue}
+              className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+              style={{ borderColor: campaign.accent, ...bodyStyle }}
+            >
+              See the Full Report →
+            </button>
+            {plan.autoplay && staffStillOn && (
+              <button
+                onClick={() => {
+                  try {
+                    window.localStorage.removeItem("dispatches1941_staff_plans");
+                  } catch {
+                    /* nothing to clear */
+                  }
+                  setStaffStillOn(false);
+                }}
+                className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-70 underline focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
+                style={labelStyle}
+              >
+                Plan my own battles from now on
+              </button>
+            )}
+          </>
+        )}
+        {canSaveHere && (
+          <>
+            <button onClick={saveAndLeave} className="w-full mt-4 text-center text-xs uppercase tracking-widest opacity-70 underline focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px" style={labelStyle}>
+              Save and leave the field: the report starts again from its first line
+            </button>
+            <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
+              {saveNote}
+            </p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function WW2CommandInner() {
   const [screen, setScreen] = useState("select");
   // Counts choices made in the current demo run (Japan campaign only). At 6, the demo
@@ -12166,6 +15115,15 @@ function WW2CommandInner() {
   // content was added and had already missed one whole branch once (Kantokuen). A count
   // is structurally immune to that failure mode: it doesn't care which nodes exist.
   const [demoChoiceCount, setDemoChoiceCount] = useState(0);
+  // The Order of Battle: null outside a battle, otherwise { index, label, config, baseWeights, plan } for the choice that hosts it.
+  const [pendingBattle, setPendingBattle] = useState(null);
+  // What the battle's roll produced, once it has happened: { weights, ri, uncertain, baseWeights, planCosts, notes }. The report and the
+  // outcome page both read it, so the odds shown are the odds rolled.
+  const [pendingBattleResult, setPendingBattleResult] = useState(null);
+  // Saving inside a battle. battleDraftRef holds the planning screen's plan as it stands (the screen reports every change), and
+  // battleResume carries a battle put back from a save: { stage, draft } or null. See battleSnapshot and restoreBattleSave.
+  const battleDraftRef = useRef(null);
+  const [battleResume, setBattleResume] = useState(null);
   const [pendingPressEvent, setPendingPressEvent] = useState(null);
   const [pendingDivergenceReveal, setPendingDivergenceReveal] = useState(null);
   // Ids of divergence forks already shown to the player this run — a fork has exactly one
@@ -12303,10 +15261,49 @@ function WW2CommandInner() {
     setScreen("briefing");
   }
 
-  function chooseOption(i) {
+  function chooseOption(i, subgamePayload) {
     const picked = stage.choices[i];
+    // A choice that hosts a battle opens the Order of Battle before anything resolves. The second call, with the battle's payload,
+    // is the real resolution: the plan's bonus is folded into the roll and its cost into the meters (all in logic.ts).
+    if (picked.keyBattleSubgame && subgamePayload === undefined) {
+      setPendingBattle({
+        index: i,
+        label: picked.label,
+        config: picked.keyBattleSubgame,
+        baseWeights: (picked.uncertain || []).map((u) => u.weight),
+      });
+      battleDraftRef.current = null;
+      setBattleResume(null);
+      setPendingBattleResult(null);
+      setScreen("battleAllocation");
+      return;
+    }
     if (picked.uncertain && soundOn) playDice();
-    const res = resolveChoice({ stage, index: i, mode, favor, defiance, flags, meters, rand: Math.random });
+    const res = resolveChoice({
+      stage,
+      index: i,
+      mode,
+      favor,
+      defiance,
+      flags,
+      meters,
+      rand: Math.random,
+      subgame: subgamePayload,
+      planCostsFor: subgamePayload
+        ? (ri) =>
+            computeBattlePlanCosts({
+              categories: keyBattleCategories(picked.keyBattleSubgame),
+              finalAllocation: subgamePayload.finalAllocation,
+              poolSize: subgamePayload.poolSize,
+              contributions: subgamePayload.contributions || {},
+              won: ri === 0,
+              reservesHeld: subgamePayload.reservesHeld || 0,
+              counter: subgamePayload.counter || null,
+              extraLines: subgamePayload.extraLines || [],
+              attrition: picked.keyBattleSubgame.attrition || null,
+            })
+        : undefined,
+    });
     if (!res) return;
     setFavor(res.favor);
     setDefiance(res.defiance);
@@ -12316,10 +15313,26 @@ function WW2CommandInner() {
     setChoiceIndex(i);
     setOutcomeStage(stage);
     if (DEMO_BUILD && campaignId === "japan") setDemoChoiceCount((n) => n + 1);
-    setScreen("outcome");
+    // A battle's roll stays on the battle report, which is already showing; the real, post-allocation weights also go forward to the
+    // outcome page, and the plan's cost to its impact box.
+    if (res.battle) {
+      setPendingBattleResult({
+        weights: res.battle.weights,
+        ri: res.rollIndex,
+        uncertain: picked.uncertain,
+        baseWeights: res.battle.baseWeights,
+        planCosts: res.battle.planCosts,
+        notes: subgamePayload.notes || [],
+      });
+      setScreen("battleResult");
+    } else {
+      setScreen("outcome");
+    }
   }
 
   function proceed() {
+    // Leaving the outcome page behind: clear the battle's result so it cannot leak into a later choice.
+    if (pendingBattleResult) setPendingBattleResult(null);
     const seen = seenStage;
     const choice = seen.choices[choiceIndex];
     const newLog = [...log, buildLogEntry(seen, choiceIndex, rollIndex)];
@@ -12399,8 +15412,19 @@ function WW2CommandInner() {
     }
   }
 
+  // The battle in hand, if there is one that can be put down: the planning screen, or the report before its verdict. After the
+  // verdict the roll is made and its effects applied, so a save there would count them twice.
+  function battleSnapshot() {
+    if (!pendingBattle) return null;
+    const head = { label: pendingBattle.label, configId: pendingBattle.config.id, baseWeights: pendingBattle.baseWeights };
+    if (screen === "battleAllocation" && battleDraftRef.current) return { stage: "allocation", ...head, draft: battleDraftRef.current };
+    if (screen === "battleResult" && !pendingBattleResult && pendingBattle.plan) return { stage: "report", ...head, plan: pendingBattle.plan };
+    return null;
+  }
+
   async function manualSave() {
     return await saveActiveRun({
+      battle: battleSnapshot() || undefined,
       schemaVersion: SAVE_SCHEMA_VERSION,
       campaignId,
       mode,
@@ -12416,6 +15440,37 @@ function WW2CommandInner() {
       demoChoiceCount,
     });
   }
+
+  // "Save and leave the field": the battle goes into the save, and the player leaves for the menu only once the save has gone through.
+  async function leaveBattleSaved() {
+    const ok = await manualSave();
+    if (!ok) return false;
+    setPendingBattle(null);
+    setPendingBattleResult(null);
+    setBattleResume(null);
+    setScreen("select");
+    if (soundOn) switchMusic("menu");
+    return true;
+  }
+
+  // Closing the tab or switching away mid-battle writes the same save, so the plan and the enemy's setup are not lost to the last
+  // autosave. Reads the latest render through a ref.
+  const battleExitSave = useRef(null);
+  battleExitSave.current = () => {
+    if (battleSnapshot()) manualSave();
+  };
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") battleExitSave.current();
+    };
+    const onHide = () => battleExitSave.current();
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", onHide);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", onHide);
+    };
+  }, []);
 
   async function goHome() {
     const ok = await manualSave();
@@ -12451,6 +15506,16 @@ function WW2CommandInner() {
     setHistory(saved.history || [{ position: saved.position, flags: saved.flags, meters: saved.meters, log: saved.log }]);
     setChoiceIndex(null);
     setRollIndex(null);
+    const battle = restoreBattleSave(saved);
+    if (battle) {
+      battleDraftRef.current = battle.draft;
+      setBattleResume({ stage: battle.stage, draft: battle.draft });
+      setPendingBattleResult(null);
+      setOutcomeStage(null);
+      setPendingBattle(battle.pending);
+      setScreen(battle.stage === "report" ? "battleResult" : "battleAllocation");
+      return;
+    }
     setScreen("briefing");
   }
 
@@ -12533,6 +15598,69 @@ function WW2CommandInner() {
       {screen === "divergence" && campaign && pendingDivergenceReveal && (
         <DivergenceRevealScreen campaign={campaign} headline={pendingDivergenceReveal} onContinue={dismissDivergence} />
       )}
+      {screen === "battleAllocation" && campaign && pendingBattle && (
+        <BattleAllocationScreen
+          campaign={campaign}
+          config={pendingBattle.config}
+          meters={meters}
+          flags={flags}
+          mode={mode}
+          soundOn={soundOn}
+          // Easy mode: the free intelligence hint is never wrong.
+          easyMode={mode === "easy"}
+          onSpendInitiative={() => setMeters((m) => ({ ...m, initiative: Math.max(-10, Math.min(10, m.initiative - 1)) }))}
+          resume={battleResume && battleResume.stage === "allocation" ? battleResume.draft : null}
+          onDraft={(d) => {
+            battleDraftRef.current = d;
+          }}
+          onSaveLeave={leaveBattleSaved}
+          onCommit={(plan) => {
+            setPendingBattle((pb) => ({ ...pb, plan }));
+            setPendingBattleResult(null);
+            setBattleResume(null);
+            setScreen("battleResult");
+            // The plan is as good as made once committed: save it, so closing the page mid-report does not send the player back to an
+            // earlier autosave.
+            saveActiveRun({
+              battle: { stage: "report", label: pendingBattle.label, configId: pendingBattle.config.id, baseWeights: pendingBattle.baseWeights, plan },
+              schemaVersion: SAVE_SCHEMA_VERSION,
+              campaignId,
+              mode,
+              favor,
+              defiance,
+              position,
+              flags,
+              meters,
+              log,
+              visited,
+              rewinds,
+              history,
+              demoChoiceCount,
+            });
+          }}
+        />
+      )}
+      {screen === "battleResult" && campaign && displayStage && pendingBattle && pendingBattle.plan && (
+        <BattleSimulationScreen
+          campaign={campaign}
+          mode={mode}
+          config={pendingBattle.config}
+          plan={pendingBattle.plan}
+          baseWeights={pendingBattle.baseWeights}
+          uncertain={displayStage.choices[pendingBattle.index].uncertain}
+          result={pendingBattleResult}
+          soundOn={soundOn}
+          instantText={instantText}
+          reducedMotion={reducedMotion}
+          resumed={!!(battleResume && battleResume.stage === "report")}
+          onSaveLeave={leaveBattleSaved}
+          onResolve={(payload) => chooseOption(pendingBattle.index, payload)}
+          onContinue={() => {
+            setPendingBattle(null);
+            setScreen("outcome");
+          }}
+        />
+      )}
       {screen === "briefing" && campaign && stage && (
         <BriefingScreen
           campaign={campaign}
@@ -12564,6 +15692,9 @@ function WW2CommandInner() {
           meters={meters}
           flags={flags}
           prevSnap={history.length ? history[history.length - 1] : null}
+          resolvedWeights={pendingBattleResult ? pendingBattleResult.weights : null}
+          planCosts={pendingBattleResult ? pendingBattleResult.planCosts : null}
+          battleNotes={pendingBattleResult ? pendingBattleResult.notes : null}
           onProceed={proceed}
           soundOn={soundOn}
           isLast={campaign.dynamic ? displayStage.choices[choiceIndex].next === "END" : position + 1 >= campaign.length}

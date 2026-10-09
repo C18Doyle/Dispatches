@@ -86,6 +86,11 @@ let clackSynth = null;
 let stampSynth = null;
 let diceSynth = null;
 let rumbleSynth = null;
+// The Order of Battle screens' sounds: quiet, only heard with the Sound setting on, and none carries information the screen does not also give in words.
+let tickSynth = null;
+let radioSynth = null;
+let boomSynth = null;
+let chimeSynth = null;
 let rustleSynth = null;
 let sfxBus = null;
 // Background music: a small registry of Tone.Player instances (one for the menu,
@@ -159,6 +164,10 @@ function ensureSound() {
       envelope: { attack: 0.01, decay: 0.25, sustain: 0, release: 0.05 },
     }).connect(new Tone.Filter(2400, "highpass").connect(sfxBus));
     rustleSynth.volume.value = -18;
+    tickSynth = new Tone.MembraneSynth({ pitchDecay: 0.004, octaves: 1.5, envelope: { attack: 0.001, decay: 0.05, sustain: 0 }, volume: -24 }).connect(sfxBus);
+    radioSynth = new Tone.NoiseSynth({ noise: { type: "pink" }, envelope: { attack: 0.001, decay: 0.09, sustain: 0 }, volume: -22 }).connect(new Tone.Filter(2400, "bandpass").connect(sfxBus));
+    boomSynth = new Tone.NoiseSynth({ noise: { type: "brown" }, envelope: { attack: 0.03, decay: 0.8, sustain: 0 }, volume: -16 }).connect(new Tone.Filter(180, "lowpass").connect(sfxBus));
+    chimeSynth = new Tone.Synth({ oscillator: { type: "triangle" }, envelope: { attack: 0.005, decay: 0.32, sustain: 0, release: 0.2 }, volume: -22 }).connect(sfxBus);
     soundReady = true;
   } catch (e) {
     soundReady = false;
@@ -249,6 +258,44 @@ function playDice() {
         diceSynth.triggerAttackRelease("32n");
       } catch (e) {}
     }, 90);
+  } catch (e) {}
+}
+// Effort placed or taken back on the planning screen: a soft click, higher going in, lower coming out.
+function playTick(up) {
+  if (!soundReady || !tickSynth) return;
+  try {
+    tickSynth.triggerAttackRelease(up ? "E4" : "A3", "64n");
+  } catch (e) {}
+}
+// A report coming in over the radio: two short bursts of band-limited noise.
+function playRadio() {
+  if (!soundReady || !radioSynth) return;
+  try {
+    radioSynth.triggerAttackRelease("32n");
+    setTimeout(() => {
+      try {
+        radioSynth.triggerAttackRelease("64n");
+      } catch (e) {}
+    }, 110);
+  } catch (e) {}
+}
+// Guns a long way off: the battle opening, and a beat that swings hard against you.
+function playRumble() {
+  if (!soundReady || !boomSynth) return;
+  try {
+    boomSynth.triggerAttackRelease("4n");
+  } catch (e) {}
+}
+// The verdict: two notes rising on a win, two sinking on a loss.
+function playVerdict(won) {
+  if (!soundReady || !chimeSynth) return;
+  try {
+    chimeSynth.triggerAttackRelease(won ? "G4" : "D4", "8n");
+    setTimeout(() => {
+      try {
+        chimeSynth.triggerAttackRelease(won ? "D5" : "Ab3", "8n");
+      } catch (e) {}
+    }, 220);
   } catch (e) {}
 }
 // meters -> ambient rumble, keyed off the same wearTier() severity bands as the visual

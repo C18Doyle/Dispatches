@@ -1455,6 +1455,7 @@
               disabledReason: meters.pipeline <= -2 ? "Destroyer squadron fuel stocks can't sustain nightly Tokyo Express runs at this tonnage. There's nothing left to commit." : undefined,
               gateCheck: { meter: "pipeline", threshold: -2, label: "Pipeline" },
               next: "keGoWithdrawal43",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.guadalcanalNaval42,
               uncertain: [
                 {
                   weight: modWeight(45, meters.initiative),
@@ -1507,7 +1508,7 @@
           title: "Operation Ke-Go",
           historicalRecord: true,
           situation:
-            "Guadalcanal is lost, and Imperial Headquarters has to decide how to get roughly 11,000 remaining soldiers off the island before American forces finish reducing the perimeter. The real operation, Ke-Go, is one of the most skillful pieces of naval logistics either side manages in the war: a buildup that leads the Americans to expect reinforcement, and an air campaign that draws their attention away from the destroyer runs." +
+            ("Guadalcanal is lost, and Imperial Headquarters has to decide how to get roughly 11,000 remaining soldiers off the island before American forces finish reducing the perimeter. The real operation, Ke-Go, is one of the most skillful pieces of naval logistics either side manages in the war: a buildup that leads the Americans to expect reinforcement, and an air campaign that draws their attention away from the destroyer runs." +
             (flags.guadalcanalPath === "drumResupply"
               ? " The men being evacuated now are the same ones who spent the campaign's final weeks recovering sealed drums from the surf under fire rather than eating anything a destroyer actually delivered. Whatever this evacuation manages to save, it isn't saving a garrison that was ever properly fed."
               : "") +
@@ -1515,7 +1516,7 @@
               ? " The destroyer force this evacuation depends on is the same one that fought the November naval battles to a genuine standstill rather than a rout, a fighting chance that's part of why there's still enough of a squadron left to attempt Ke-Go's kind of precision at all."
               : flags.guadalcanalNavalResult === "disaster"
               ? " The destroyer force this evacuation depends on is thinner than it should be, having taken losses in November closer to a rout than a contested fight, which is exactly the kind of shortfall a deception plan this precise has no real margin to absorb."
-              : ""),
+              : "")) + (flags.guadalcanalPath === "commit" ? keyBattleEcho("guadalcanalNaval42", flags) : ""),
           choices: [
             {
               label: "Commit to the deception plan in full: stage a visible reinforcement buildup to mask the actual evacuation",
