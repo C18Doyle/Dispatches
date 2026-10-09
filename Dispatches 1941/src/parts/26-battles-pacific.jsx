@@ -334,7 +334,7 @@ KEY_BATTLE_CONFIGS.guadalcanalNaval42 = {
     },
     air: {
       units: [
-        "Aircraft of the Southeast Area Fleet at Rabaul, some 560 miles away",
+        "Aircraft of the 11th Air Fleet at Rabaul, some 650 miles away",
         "Carrier air groups that had lost most of their veteran pilots in the Solomons",
       ],
       real:
@@ -476,7 +476,7 @@ KEY_BATTLE_COMMANDERS.guadalcanalNaval42 = [
   { id: "abe", name: "Vice Admiral Hiroaki Abe", role: "Commanding the bombardment force", category: "battleline", note: "He led Hiei and Kirishima down the Slot on the night of 12 November. Effort in Bombardment Battleships carries further under him.", reportLine: "Abe takes the battleships down the Slot toward Savo Island." },
   { id: "mikawa", name: "Vice Admiral Gunichi Mikawa", role: "Commanding the Eighth Fleet's cruisers", category: "screen", note: "His cruisers shelled Henderson Field on the night of 13 November. Effort in Cruisers and Night Destroyers carries further under him.", reportLine: "Mikawa's cruisers close the island and open fire on the airfield." },
   { id: "tanaka", name: "Rear Admiral Raizo Tanaka", role: "Commanding the reinforcement convoy", category: "convoy", note: "He ran the destroyer supply runs down the Slot all autumn. Effort in Tanaka's Transports carries further under him.", reportLine: "Tanaka keeps the transports in formation and holds course for Tassafaronga." },
-  { id: "kusaka", name: "Vice Admiral Jinichi Kusaka", role: "Commanding the Southeast Area Fleet, Rabaul", category: "air", note: "The aircraft at Rabaul are his to send. Effort in Air Cover from Rabaul carries further under him.", reportLine: "Kusaka sends every aircraft at Rabaul that has the range to reach the convoy." },
+  { id: "kusaka", name: "Vice Admiral Jinichi Kusaka", role: "Commanding the 11th Air Fleet, Rabaul", category: "air", note: "The aircraft at Rabaul are his to send. Effort in Air Cover from Rabaul carries further under him.", reportLine: "Kusaka sends every aircraft at Rabaul that has the range to reach the convoy." },
 ];
 
 KEY_BATTLE_APPROACHES.guadalcanalNaval42 = [
