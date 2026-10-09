@@ -6,7 +6,7 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 - `src/App.jsx` (~12.7k lines, 1.1 MB): content (`CAMPAIGNS`, lines ~760-7600) plus all screens. **Never read it whole.** Use Grep and ranged Read. Campaign nodes are getters inside `resolveNode(id, flags, meters)`; node text, choices and weights are code that reads `flags` and `meters`, so they cannot simply be moved to JSON.
 - `src/logic.ts` the pure run logic (typed, no React/DOM/storage/sound/`Math.random`): meters and clamping, roll picking, choice resolution, next position, log entry, arrival interstitials. App.jsx calls it; content is passed in, never imported.
 - `src/main.jsx`, `src/tailwind.css`, `build.mjs` build. `assets/maps/pacific-regions.json` (fetched at runtime), `audio/theme.mp3`, `tools/build_pacific_map_geometry.py` (map geometry pipeline).
-- `tests/baseline/ui/` recorded runs (48: easy, standard, hard and a staff-plan run per campaign, x 6 seeds). `tests/ui.config.mjs` configures the shared headless driver in `../packages/testkit`.
+- `tests/baseline/ui/` recorded runs (64: easy, standard, hard and a staff-plan run per campaign, x 8 seeds). `tests/ui.config.mjs` configures the shared headless driver in `../packages/testkit`.
 
 ## Editing surface: src/parts/ (not src/App.jsx)
 `src/App.jsx` is an assembled artifact (the validators, extractors and baselines read it). Edit the parts in `src/parts/`: `00-head`, one file per campaign (`10-campaign-japan`, `11-campaign-alliedpacific`), `20-registries-and-gallery`, `25-battle-subgame` (the Order of Battle engine and registries), `26-battles-pacific` (the three battles), `30-screens`, `35-battle-screens`, `40-app`. A session that touches one campaign needs that one part plus this file.
