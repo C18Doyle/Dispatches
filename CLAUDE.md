@@ -17,6 +17,7 @@ One folder per game plus a shared engine. Read the folder's own `CLAUDE.md` befo
 - Shared tooling: `packages/engine` (engine + `CHANGELOG.md`), `packages/testkit` (headless UI-differential driver, split/assemble, content checks, release zipper). `docs/ROADMAP.md` is the status of the migration; `docs/NEW_GAME_CHECKLIST.md` is the recipe for a new game. CI is `.github/workflows/ci.yml` (fast tier on Linux + Windows, browser smoke test on Linux, slow tier weekly); releases are `.github/workflows/release.yml` (tag `<game>-v<version>`). Day-to-day workflow, baseline changes and releasing: `docs/WORKFLOW.md`.
 
 ## Rules for the whole repo
+- Writing: every word a player reads follows `docs/WRITING.md` (no em dashes, plain facts, no hindsight in a report). `node tools/check-writing.mjs "<game folder>"` checks the mechanical rule; 1940 runs it strictly in `test:fast`.
 - Never read a whole large source file. Use Grep and ranged Read. `1940/src/App.jsx` alone is ~1.9 MB.
 - Every game now has: a build, a seeded UI baseline, typed `src/logic.ts` (or a pure engine layer), and a `CLAUDE.md`. Content is still code in 1914/1922/1940/1941; only Frankenstein is data.
 - Edit `src/parts/*` in 1922/1940/1941 (not the assembled `src/App.jsx`); `npm run build` assembles. 1914 edits `src/*.jsx`.

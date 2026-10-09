@@ -37,7 +37,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Generaloberst Hermann Hoth",
       role: "Commanding, 4th Panzer Army",
       category: "armour",
-      note: "The offensive's main armored fist — roughly 700 tanks under his direct command. Effort put into Mechanised Armour carries further with him running that push.",
+      note: "The offensive's main armored fist: roughly 700 tanks under his direct command. Effort put into Mechanised Armour carries further with him running that push.",
       // Round 9 report lines (Craig's item #4 — commander/approach voice in the battle report).
       // Each verified 2026-09-21: Hoth "had discussed [turning toward Prokhorovka] with
       // Manstein since early May, as he expected large Soviet armoured reserve forces to arrive
@@ -247,7 +247,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Major General Lucian K. Truscott Jr.",
       role: "Commanding, 3rd Infantry Division",
       category: "armor",
-      note: "His division leads the push toward the Alban Hills, armor included — the same thrust he will later argue should never have stopped short of Valmontone. Effort put into Armored Exploitation carries further under him.",
+      note: "His division leads the push toward the Alban Hills, armor included: the same thrust he will later argue should never have stopped short of Valmontone. Effort put into Armored Exploitation carries further under him.",
       reportLine: "Truscott pushes his division's own column forward without waiting on the corps to confirm it.",
     },
     {
@@ -364,7 +364,7 @@ const KEY_BATTLE_COMMANDERS = {
       name: "Lieutenant General Ira Eaker",
       role: "Commanding, Eighth Air Force",
       category: "targeting",
-      note: "The target list — and the case that chokepoint industries are worth this cost — is his own command's doctrine. Effort put into Precision Bomb-Run carries further under him.",
+      note: "The target list, and the case that chokepoint industries are worth this cost, is his own command's doctrine. Effort put into Precision Bomb-Run carries further under him.",
       reportLine: "Eaker's own standing order to hold the run steady through flak is what the lead bombardiers are flying to.",
     },
   ],
@@ -900,15 +900,15 @@ const KEY_BATTLE_APPROACHES = {
     {
       id: "spearhead",
       name: "Concentrated Armored Spearhead",
-      subtitle: "Hoth's approach — the southern pincer",
-      note: "Lead with the tanks. A narrow armored wedge — Tigers forward, the rest fanning to the flanks and rear — punches through fast, the way 4th Panzer Army's own attack did. Speed outruns its own supply tail: effort in Mechanised Armour carries further, effort in Supply carries less.",
+      subtitle: "Hoth's approach: the southern pincer",
+      note: "Lead with the tanks. A narrow armored wedge (Tigers forward, the rest fanning to the flanks and rear) punches through fast, the way 4th Panzer Army's own attack did. Speed outruns its own supply tail: effort in Mechanised Armour carries further, effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The attack goes in as a wedge: Tigers at the point, the lighter tanks fanning out behind.",
     },
     {
       id: "infantryBreach",
       name: "Methodical Infantry-Led Breach",
-      subtitle: "Model's approach — the northern pincer",
+      subtitle: "Model's approach: the northern pincer",
       note: "Hold the tanks back. Infantry and artillery batter the line open first, the way 9th Army's own attack did, with the panzer reserve committed only once the defenses are actually breached. Effort in Divisions carries further; effort in Mechanised Armour carries less, held back rather than leading. The methodical pace also keeps the supply columns closer behind the line: effort in Supply carries a little further too.",
       // Round 13, Craig's item #4: Supply had no commander tie and no positive approach modifier
       // anywhere in Kursk's config — structurally a dead end, since check-battle-balance.js's own
@@ -936,7 +936,7 @@ const KEY_BATTLE_APPROACHES = {
     {
       id: "forceDraws",
       name: "Force the Draws",
-      subtitle: "The V Corps plan — take the exits",
+      subtitle: "The V Corps plan: take the exits",
       note: "Go straight at the five draws, where the vehicle exits and the strongpoints both are. Open them and the beach can drain inland. Effort in Engineers & Tanks carries further; effort in Follow-on Waves carries less, fed into the fire at the draw mouths.",
       modifiers: { engineers: 0.7, waves: -0.5 },
       reportLine: "The assault goes straight at the draws, where the exits and the strongpoints both are.",
@@ -983,7 +983,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "raceTheDawn",
       name: "Race the Dawn",
       subtitle: "Force the gap before first light",
-      note: "Push the panzer spearhead through the minefield lanes at speed rather than wait for them fully cleared — every hour saved is an hour less exposed to the Desert Air Force in daylight. Effort in Mechanised Armour carries further; the pace burns fuel nobody is shipping a second load of, so effort in Supply carries less.",
+      note: "Push the panzer spearhead through the minefield lanes at speed rather than wait for them fully cleared: every hour saved is an hour less exposed to the Desert Air Force in daylight. Effort in Mechanised Armour carries further; the pace burns fuel nobody is shipping a second load of, so effort in Supply carries less.",
       modifiers: { armour: 0.7, supply: -0.5 },
       reportLine: "The panzer spearhead probes the minefield's edge, looking for a lane already cleared.",
     },
@@ -1059,7 +1059,7 @@ const KEY_BATTLE_APPROACHES = {
     {
       id: "pushInland",
       name: "Push the Column Inland Now",
-      subtitle: "Truscott's argument — commit the exploitation force while the roads are open",
+      subtitle: "Truscott's argument: commit the exploitation force while the roads are open",
       note: "Send the armor and its screening infantry up the road toward the Alban Hills before the German response can organize. Effort in Armored Exploitation carries further; the beachhead's own infantry line, thinned to feed the column, carries less. Effort in Infantry Beachhead carries less.",
       modifiers: { armor: 0.7, assault: -0.5 },
       reportLine: "The exploitation column moves out on the road inland without waiting for the beachhead to fully consolidate.",
@@ -1067,7 +1067,7 @@ const KEY_BATTLE_APPROACHES = {
     {
       id: "securePerimeter",
       name: "Secure the Perimeter First",
-      subtitle: "Lucas's actual order — entrench the beachhead against the counterattack he expects",
+      subtitle: "Lucas's actual order: entrench the beachhead against the counterattack he expects",
       note: "Hold the armor back and dig the infantry line in before committing anything inland, the way the historical corps commander actually ordered it. Effort in Infantry Beachhead carries further; effort in Armored Exploitation carries less, held in reserve rather than leading.",
       modifiers: { assault: 0.7, armor: -0.5 },
       reportLine: "The infantry digs in on the beachhead's own perimeter while the armor stays back in reserve.",
@@ -1084,7 +1084,7 @@ const KEY_BATTLE_APPROACHES = {
       id: "directAssault",
       name: "Push the Armor Straight at the River",
       subtitle: "Send the spearhead for the crossing directly, corridor security secondary",
-      note: "Drive the column for the river without pausing to widen the road behind it. Effort in XXX Corps Armored Push carries further; the single road left thin behind the spearhead is exactly what let the Germans cut it near Koevering — effort in Supply Drop carries less, the corridor's own security being what keeps any resupply moving at all.",
+      note: "Drive the column for the river without pausing to widen the road behind it. Effort in XXX Corps Armored Push carries further; the single road left thin behind the spearhead is exactly what let the Germans cut it near Koevering: effort in Supply Drop carries less, the corridor's own security being what keeps any resupply moving at all.",
       modifiers: { corpsPush: 0.7, resupply: -0.5 },
       reportLine: "The column drives straight for the river, leaving the road behind it thinner than the plan called for.",
     },
@@ -1197,7 +1197,7 @@ const KEY_BATTLE_APPROACHES = {
     {
       id: "smallSquadrons",
       name: "Meet Them in Squadron Strength",
-      subtitle: "Park's practice — scramble fast, meet each raid forward, in small formations",
+      subtitle: "Park's practice: scramble fast, meet each raid forward, in small formations",
       note: "Fight the raids with 11 Group's own squadrons, in the numbers each raid needs and no more. Effort in 11 Group Squadrons carries further; effort in the Duxford Wing carries less, held off until it is wanted.",
       modifiers: { squadrons: 0.7, wing: -0.5 },
       reportLine: "11 Group's squadrons go up in pairs and sections to meet each raid well forward of London.",
@@ -1682,7 +1682,7 @@ const KEY_BATTLE_POSTURES = {
         "Reconnaissance reports fresh Soviet formations digging in facing west, away from the pocket, not just around it.",
         "A patrol that found open ground yesterday reports the same stretch entrenched this morning.",
       ],
-      reveal: "Contact: the outer ring is forming faster than hoped — this isn't a cordon around a pocket anymore, it's a front facing both ways.",
+      reveal: "Contact: the outer ring is forming faster than hoped: this isn't a cordon around a pocket anymore, it's a front facing both ways.",
     },
     {
       id: "softSpot",
@@ -1692,7 +1692,7 @@ const KEY_BATTLE_POSTURES = {
         "A returning patrol reports a stretch of the ring with no organized position at all, just outposts.",
         "Prisoners taken west of the pocket describe units still arriving, not yet dug in.",
       ],
-      reveal: "Contact: there's a real gap, for now — a stretch of the ring that's outposts and arriving units, not a finished line.",
+      reveal: "Contact: there's a real gap, for now: a stretch of the ring that's outposts and arriving units, not a finished line.",
     },
     {
       id: "deepWinter",
@@ -1707,7 +1707,7 @@ const KEY_BATTLE_POSTURES = {
         "The forecast the staff meteorologist won't put a number on, except to say it's worse than yesterday.",
         "Vehicles that started this morning without trouble won't start again without being run all night.",
       ],
-      reveal: "Contact: the cold is the enemy tonight as much as the Red Army is — aircraft grounded, engines failing to start, the column moving slower than the plan allowed for.",
+      reveal: "Contact: the cold is the enemy tonight as much as the Red Army is: aircraft grounded, engines failing to start, the column moving slower than the plan allowed for.",
     },
   ],
   // Round 15, battle #4 (Alam Halfa). Three sourced facts about how the actual attempt broke
@@ -1732,7 +1732,7 @@ const KEY_BATTLE_POSTURES = {
         "Engineers report the first belt running deeper than the reconnaissance photos showed.",
         "A cleared lane from last week's patrol reports fresh mines laid back into it overnight.",
       ],
-      reveal: "Contact: the belts are deeper than briefed — what looked like a thin screen is a real minefield, and it's already past the hour the plan needed to be through it by.",
+      reveal: "Contact: the belts are deeper than briefed: what looked like a thin screen is a real minefield, and it's already past the hour the plan needed to be through it by.",
     },
     {
       id: "airSuperiority",
@@ -1742,7 +1742,7 @@ const KEY_BATTLE_POSTURES = {
         "Reconnaissance reports the Desert Air Force flying at a tempo that hasn't let up since Gazala.",
         "Forward units report aircraft finding them well before the column expected to be seen.",
       ],
-      reveal: "Contact: the sky never changed hands — the Desert Air Force is over the column in daylight strength, and the plan's whole logic was not to still be moving when that happened.",
+      reveal: "Contact: the sky never changed hands: the Desert Air Force is over the column in daylight strength, and the plan's whole logic was not to still be moving when that happened.",
     },
     {
       id: "hullDownLine",
@@ -1752,7 +1752,7 @@ const KEY_BATTLE_POSTURES = {
         "Prisoners describe orders to hold fixed positions and let the attack come to them, not to counter-charge.",
         "The armor on the ridge hasn't moved from its dug-in line since first contact was reported.",
       ],
-      reveal: "Contact: the ridge isn't maneuvering — the tanks up there are dug in hull-down behind their own guns, waiting, the way this army usually makes the British wait.",
+      reveal: "Contact: the ridge isn't maneuvering: the tanks up there are dug in hull-down behind their own guns, waiting, the way this army usually makes the British wait.",
     },
   ],
   // Round 15, battle #5 (Monte Marrone). Three sourced facts (Wikipedia, Battle of Monte
@@ -1777,7 +1777,7 @@ const KEY_BATTLE_POSTURES = {
         "Prisoners describe fresh mountain-trained units moving into the sector, not the garrison troops briefed.",
         "Reconnaissance reports a column with mule transport of its own moving toward the peak from the German rear.",
       ],
-      reveal: "Contact: these aren't garrison troops — Gebirgsjäger, German mountain specialists, are moving up in strength, and the guns are what's going to have to answer them.",
+      reveal: "Contact: these aren't garrison troops: Gebirgsjäger, German mountain specialists, are moving up in strength, and the guns are what's going to have to answer them.",
     },
     {
       id: "thinInitialLine",
@@ -1787,7 +1787,7 @@ const KEY_BATTLE_POSTURES = {
         "A returning patrol reports the peak's garrison keeping a routine night posture, not an alerted one.",
         "No fresh wire or listening posts have gone in on the approach the plan actually uses.",
       ],
-      reveal: "Contact: the peak isn't alerted — whatever's up there is holding a routine night line, not one that's expecting what's coming.",
+      reveal: "Contact: the peak isn't alerted: whatever's up there is holding a routine night line, not one that's expecting what's coming.",
     },
     {
       id: "highAltitudeCold",
@@ -1797,7 +1797,7 @@ const KEY_BATTLE_POSTURES = {
         "The forecast for the peak itself is worse than the valley floor's, and nobody will put a number on how much worse.",
         "A mule train already turned back once tonight, the trail too iced over past a certain height.",
       ],
-      reveal: "Contact: the mountain is its own enemy tonight — the cold and the altitude are slowing everything that isn't a small unit moving light.",
+      reveal: "Contact: the mountain is its own enemy tonight: the cold and the altitude are slowing everything that isn't a small unit moving light.",
     },
   ],
   // Round 15, battle #6 (Minsk). Three sourced facts (Wikipedia, Operation Bagration; Minsk
@@ -1818,7 +1818,7 @@ const KEY_BATTLE_POSTURES = {
         "Signals intercepts still show the German reserve armies oriented south, toward Lvov.",
         "No sign yet that Berlin has read this front's own buildup for what it actually is.",
       ],
-      reveal: "Contact: the deception is holding — whatever reserves the Germans have left are still watching the wrong front, and this one is wide open in front of the rifle armies.",
+      reveal: "Contact: the deception is holding: whatever reserves the Germans have left are still watching the wrong front, and this one is wide open in front of the rifle armies.",
     },
     {
       id: "fortifiedResistance",
@@ -1828,7 +1828,7 @@ const KEY_BATTLE_POSTURES = {
         "Prisoners describe orders to hold their positions regardless of what happens on either flank.",
         "A garrison the advance already passed is still fighting rather than surrendering to the follow-on troops.",
       ],
-      reveal: "Contact: the fortified towns are fighting on past the point where holding makes any sense — Hitler's own order, and it's slowing the rifle armies more than the tanks that already bypassed it.",
+      reveal: "Contact: the fortified towns are fighting on past the point where holding makes any sense: Hitler's own order, and it's slowing the rifle armies more than the tanks that already bypassed it.",
     },
     {
       id: "collapsingCenter",
@@ -1838,7 +1838,7 @@ const KEY_BATTLE_POSTURES = {
         "Reports describe entire regiments surrendering without a fight along stretches of the line.",
         "Radio discipline on the German side has broken down; whole units are transmitting in the clear.",
       ],
-      reveal: "Contact: this isn't a defense giving ground anymore, it's a front coming apart — the rifle armies are the ones positioned to take advantage of it fastest.",
+      reveal: "Contact: this isn't a defense giving ground anymore, it's a front coming apart: the rifle armies are the ones positioned to take advantage of it fastest.",
     },
   ],
   // Round 15, battle #7 (Anzio). Three sourced facts (Wikipedia, Battle of Anzio): Kesselring's
@@ -1860,7 +1860,7 @@ const KEY_BATTLE_POSTURES = {
         "Reconnaissance reports German armored cars already moving on the road to Campoleone.",
         "Radio intercepts suggest a corps-level order went out from German headquarters before dawn was fully broken.",
       ],
-      reveal: "Contact: Kesselring's own order went out at first light — Kampfgruppe elements of the Hermann Göring and 4th Parachute Divisions are already moving to block the roads to Campoleone and Cisterna, and every hour spent deciding is an hour closer to that order being finished.",
+      reveal: "Contact: Kesselring's own order went out at first light: Kampfgruppe elements of the Hermann Göring and 4th Parachute Divisions are already moving to block the roads to Campoleone and Cisterna, and every hour spent deciding is an hour closer to that order being finished.",
     },
     {
       id: "windowStillOpen",
@@ -1870,7 +1870,7 @@ const KEY_BATTLE_POSTURES = {
         "A jeep patrol reports the road to Campoleone clear for miles, no German positions found.",
         "Forward observers see nothing moving on the approaches to the Alban Hills.",
       ],
-      reveal: "Contact: the roads are still open — whatever Kesselring intends, it hasn't reached this stretch of ground yet, and the gap won't stay unwatched forever.",
+      reveal: "Contact: the roads are still open: whatever Kesselring intends, it hasn't reached this stretch of ground yet, and the gap won't stay unwatched forever.",
     },
     {
       id: "thinCordon",
@@ -1880,7 +1880,7 @@ const KEY_BATTLE_POSTURES = {
         "A patrol finds a stretch of the German blocking line thinly held, more outpost than front.",
         "Prisoners describe a scratch force, rushed forward without time to dig in properly.",
       ],
-      reveal: "Contact: whatever line the Germans are forming, it isn't finished — a fast-moving element could still find the gap before it closes.",
+      reveal: "Contact: whatever line the Germans are forming, it isn't finished: a fast-moving element could still find the gap before it closes.",
     },
   ],
   // Round 15, battle #8 (Arnhem). Three sourced facts (Wikipedia, Battle of Arnhem): the
@@ -1906,7 +1906,7 @@ const KEY_BATTLE_POSTURES = {
         "Radio traffic from the rear of the column reports German infantry active near Koevering.",
         "A supply convoy due up from Nijmegen hasn't arrived and isn't answering the radio.",
       ],
-      reveal: "Contact: the road is cut behind the column — whatever reaches the river now is whatever's already forward of Koevering, and nothing else is getting through today.",
+      reveal: "Contact: the road is cut behind the column: whatever reaches the river now is whatever's already forward of Koevering, and nothing else is getting through today.",
     },
     {
       id: "dropZoneCompromised",
@@ -1916,7 +1916,7 @@ const KEY_BATTLE_POSTURES = {
         "A pilot reports marker panels on the old drop zone that don't match today's recognition signal.",
         "Ground observers inside the perimeter report supply canisters landing well outside the horseshoe again.",
       ],
-      reveal: "Contact: the drop zone answers to the wrong markers now — the Germans are flying our own panels and flares to pull the aircraft onto their own ground, not the perimeter's.",
+      reveal: "Contact: the drop zone answers to the wrong markers now: the Germans are flying our own panels and flares to pull the aircraft onto their own ground, not the perimeter's.",
     },
     {
       id: "freshPanzerReserves",
@@ -1926,7 +1926,7 @@ const KEY_BATTLE_POSTURES = {
         "Prisoners describe armor moving up that wasn't in the line yesterday.",
         "A forward post reports the unmistakable sound of heavier tanks somewhere past the tree line.",
       ],
-      reveal: "Contact: fresh armor is reaching the ring — heavier than what the perimeter has faced so far, and it's the wire itself that's going to have to answer it.",
+      reveal: "Contact: fresh armor is reaching the ring: heavier than what the perimeter has faced so far, and it's the wire itself that's going to have to answer it.",
     },
   ],
   // Round 15, battle #9 (PQ-17). Three real, period-accurate threat pictures a convoy on this
@@ -1951,7 +1951,7 @@ const KEY_BATTLE_POSTURES = {
         "Hydrophone contacts are being reported on multiple bearings around the convoy's track.",
         "Direction-finding suggests more than one U-boat is shadowing the convoy tonight.",
       ],
-      reveal: "Contact: this is a coordinated pack, not a single boat — multiple U-boats are converging on the convoy's track from more than one bearing.",
+      reveal: "Contact: this is a coordinated pack, not a single boat: multiple U-boats are converging on the convoy's track from more than one bearing.",
     },
     {
       id: "luftwaffeStrike",
@@ -1965,7 +1965,7 @@ const KEY_BATTLE_POSTURES = {
         "Reconnaissance reports torpedo bomber squadrons active from the Norwegian bases today.",
         "A shadowing aircraft has held station longer than a single reconnaissance pass usually takes.",
       ],
-      reveal: "Contact: the Luftwaffe is coming in strength — torpedo bombers are forming up from the Norwegian fields, and it's the sky the convoy has to answer first.",
+      reveal: "Contact: the Luftwaffe is coming in strength: torpedo bombers are forming up from the Norwegian fields, and it's the sky the convoy has to answer first.",
     },
     {
       id: "distantShadow",
@@ -1978,7 +1978,7 @@ const KEY_BATTLE_POSTURES = {
         "A shadowing aircraft has held contact with the convoy for hours without breaking off.",
         "Signals traffic suggests the convoy's position has been reported up the German chain of command.",
       ],
-      reveal: "Contact: the convoy is fixed and reported — whatever responds to that report, surface or otherwise, now knows exactly where to look.",
+      reveal: "Contact: the convoy is fixed and reported: whatever responds to that report, surface or otherwise, now knows exactly where to look.",
     },
   ],
   // Round 15, battle #10 (Pointblank / Second Schweinfurt). Three real, documented threat
@@ -2018,7 +2018,7 @@ const KEY_BATTLE_POSTURES = {
         "Signals traffic reports twin-engine aircraft orbiting well outside the bomber stream's own gun range.",
         "A returning crew reports rocket contrails fired from a stand-off distance no defensive gun could reach.",
       ],
-      reveal: "Contact: twin-engine Ju 88s are firing rockets from well outside the formation's own defensive range — only the escort can reach them before they fire.",
+      reveal: "Contact: twin-engine Ju 88s are firing rockets from well outside the formation's own defensive range, only the escort can reach them before they fire.",
     },
     {
       id: "flakOverTarget",
@@ -2031,7 +2031,7 @@ const KEY_BATTLE_POSTURES = {
         "Prior missions to this target report flak concentrations denser than the fighter threat itself.",
         "Intelligence flags the target's own defenses as the heavier risk on this run, not the fighter screen.",
       ],
-      reveal: "Contact: the target itself is ringed with flak dense enough that only a disciplined run gets bombs through it — the fighters are not today's real defense.",
+      reveal: "Contact: the target itself is ringed with flak dense enough that only a disciplined run gets bombs through it: the fighters are not today's real defense.",
     },
   ],
   // Round 21, Sedan. Three real conditions the crossing met, all verified 2026-10-05
@@ -3006,11 +3006,11 @@ const KEY_BATTLE_ECHOES = {
       divisions: "The column came out with its tanks intact and its infantry a fraction of what it started with.",
       armour: "What made it out marched the whole way; there was no armor left to screen it.",
       air: "Nothing flew over the column from the first day to the last. Whatever found it, found it alone.",
-      supply: "What's left of the army came out with its rifles and little else — the depots were never stripped before the order went out.",
+      supply: "What's left of the army came out with its rifles and little else: the depots were never stripped before the order went out.",
     },
     commander: {
       hube: "Hube's panzer corps, what's left of it, screened the column the whole way west.",
-      seydlitz: "Seydlitz's three divisions came out of the pocket the way they went in — as divisions.",
+      seydlitz: "Seydlitz's three divisions came out of the pocket the way they went in, as divisions.",
       fiebig: "VIII Fliegerkorps flew over the column from the first light to the last.",
     },
   },
@@ -3025,7 +3025,7 @@ const KEY_BATTLE_ECHOES = {
       divisions: "The panzers took the ridge alone; the infantry corps never caught up to hold what they took.",
       armour: "What reached the ridge got there on foot; there was no armored spearhead left to lead it.",
       air: "Nothing flew over the column from the first hour to the last. The Desert Air Force never had to share the sky.",
-      supply: "What's left of the army reached the ridge running on fumes — the reserve dump was never touched before the order went out.",
+      supply: "What's left of the army reached the ridge running on fumes: the reserve dump was never touched before the order went out.",
     },
     commander: {
       vaerst: "Von Vaerst's Korps, what's left of it, is still screening the ground it took.",
@@ -3061,7 +3061,7 @@ const KEY_BATTLE_ECHOES = {
       divisions: "The tanks closed the ring alone; the rifle armies were never the weight that sealed it shut.",
       armour: "What sealed the ring did it on foot; there was no tank strength left to drive it closed faster.",
       air: "Nothing flew over the pocket's roads from the first hour to the last. Whatever moved on them, moved unmolested.",
-      supply: "What reached Minsk got there running on what it started with — the rear services never caught up to the advance.",
+      supply: "What reached Minsk got there running on what it started with: the rear services never caught up to the advance.",
     },
     commander: {
       chernyakhovsky: "Chernyakhovsky's rifle armies are still holding every stretch of the ring they sealed.",
@@ -3076,10 +3076,10 @@ const KEY_BATTLE_ECHOES = {
       gaveGround: "The column pulled back onto the beachhead rather than force roads that were no longer open.",
     },
     neglected: {
-      assault: "The beachhead's own perimeter was left thin to feed the push inland — what holds it now is mostly the ground itself.",
+      assault: "The beachhead's own perimeter was left thin to feed the push inland: what holds it now is mostly the ground itself.",
       armor: "Nothing pushed past the beachhead's own edge; whatever window the roads offered, it closed unused.",
       rangers: "No vanguard went out ahead of the main line, and nobody found out what was past it until the main line did.",
-      naval: "The buildup off the ships never caught up to what came ashore that first day — the beachhead is living on what it landed with.",
+      naval: "The buildup off the ships never caught up to what came ashore that first day: the beachhead is living on what it landed with.",
     },
     commander: {
       truscott: "Truscott's own division still holds the ground its column pushed to take.",
@@ -3096,7 +3096,7 @@ const KEY_BATTLE_ECHOES = {
     },
     neglected: {
       corpsPush: "The column never reached past where it already was; whatever the road might have offered, nobody drove for it.",
-      perimeter: "The horseshoe held on what it already had — no one went forward to the wire who wasn't there already.",
+      perimeter: "The horseshoe held on what it already had: no one went forward to the wire who wasn't there already.",
       resupply: "Nothing extra came down that day; the division ate whatever it already had on hand and no more.",
       poles: "No boats went out; the brigade stayed on the south bank watching a crossing nobody attempted.",
     },
@@ -3646,7 +3646,7 @@ function clampBattleBonus(raw) {
 // resource hard); a WIN with nothing neglected earns +1 Initiative (a coordinated plan leaves
 // the staff ahead of events); a reserve of 2+ chits held back and never committed returns +1
 // Manpower. Each meter's net plan cost is capped to [-2, +1] so the plan can sting but never
-// outweigh the battle's own historical outcome impact.
+// outweigh the battle's own historical outcome impact (round 27: at most 1 per meter and 2 in all).
 function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contributions, won, reservesHeld, counter, extraLines, attrition }) {
   const lines = [];
   // Round 22: costs chosen at a mid-battle decision (extraLines: [{meter, delta, reason}]) and a
@@ -3683,7 +3683,16 @@ function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contrib
   if (reservesHeld >= 2) lines.push({ meter: "manpower", delta: 1, reason: "Reserve returned intact" });
   const totals = { manpower: 0, fuel: 0, initiative: 0 };
   for (const l of lines) totals[l.meter] = (totals[l.meter] || 0) + l.delta;
-  for (const m of Object.keys(totals)) totals[m] = Math.max(-2, Math.min(1, totals[m]));
+  // Round 27: random play reached -10 within a few decisions once battles charged their plans on top of their own
+  // outcomes. A plan now costs a meter at most 1, and a battle's plan takes at most 2 points from the three meters in
+  // all (the largest charges are eased first); gains are still capped at +1.
+  for (const m of Object.keys(totals)) totals[m] = Math.max(-1, Math.min(1, totals[m]));
+  let owed = Object.values(totals).reduce((a, v) => a + Math.min(0, v), 0);
+  while (owed < -2) {
+    const worst = Object.keys(totals).reduce((a, m) => (totals[m] < totals[a] ? m : a));
+    totals[worst] += 1;
+    owed += 1;
+  }
   // Round 13, Craig's item #1 ("graded outcomes, not strict binary win/lose"). Deliberately NOT a
   // second dice roll or a change to the shared uncertain[] mechanic (that roll is game-wide, used
   // for hundreds of choices — too risky to touch for one subsystem). Instead a quality axis
@@ -3940,7 +3949,7 @@ const DIVERGENCE_HEADLINES = {
   torchShift: { id: "torchShift", year: 1942, month: "NOVEMBER", headline: "Allied Landing Fleet Reported Delayed by Weather", dek: "North African convoys said to be running days behind their expected schedule. Whether this changes anything at Toulon is, for the moment, an open question." },
   barbarossaDelay: { id: "barbarossaDelay", year: 1941, month: "JUNE", headline: "Frontier Reports Describe a Slower Opening Than Feared", dek: "Some formations expected at the border in the war's first hours are still reportedly arriving. Stavka's own picture of the opening days remains unusually incomplete." },
   kievPush: { id: "kievPush", year: 1941, month: "SEPTEMBER", headline: "No Southern Turn Reported in German Axis of Advance", dek: "Army Group Center's spearheads are described as continuing directly toward the capital rather than diverting south, contrary to the pattern Stavka's planners had expected." },
-  stalingradConsolidate: { id: "stalingradConsolidate", year: 1942, month: "JULY", headline: "German Advance Reportedly Consolidating Short of the City", dek: "Rather than pressing directly into Stalingrad's outskirts, forward units are said to be regrouping — an uncharacteristic pause Stavka's staff cannot yet explain." },
+  stalingradConsolidate: { id: "stalingradConsolidate", year: 1942, month: "JULY", headline: "German Advance Reportedly Consolidating Short of the City", dek: "Rather than pressing directly into Stalingrad's outskirts, forward units are said to be regrouping: an uncharacteristic pause Stavka's staff cannot yet explain." },
   narvikHeld: { id: "narvikHeld", year: 1940, month: "APRIL", headline: "Narvik Garrison Reports Successful Reinforcement", dek: "Allied troops holding the port say German counter-landings have so far failed to dislodge them. The ore route's fate remains unresolved for now." },
   luftwaffeShift: { id: "luftwaffeShift", year: 1940, month: "SEPTEMBER", headline: "Luftwaffe Raids Reported Still Concentrated on Airfields", dek: "The expected shift toward city targets has not yet materialized. Fighter Command's own assessment of what this means for its reserves is, so far, not being made public." },
   arnhemLucky: { id: "arnhemLucky", year: 1944, month: "SEPTEMBER", headline: "No SS Armor Reported Near Arnhem Drop Zones", dek: "Aerial reconnaissance ahead of the operation found the area unusually quiet. Planners are said to be treating the absence with some suspicion rather than relief." },
@@ -4005,24 +4014,12 @@ function migrateSave(saved) {
 
 const NODE_TOTAL = 278; // 100 German + 63 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
-const CAMPAIGN_WAR_CONTEXT = {
-  german: "APRIL 1940 — Poland fell in weeks last September, divided between Berlin and Moscow under a pact neither side expects to last. The West has spent seven quiet months in what the newspapers call the Phoney War. That quiet ends with Norway.",
-  soviet: "JUNE 1941 — Germany controls Poland's western half, Denmark, Norway, the Low Countries, and France. Britain fights on alone from across the Channel. The Molotov–Ribbentrop Pact has held for nearly two years. It is about to end, without warning, from the other side.",
-  allied: "MAY 1940 — Poland, Denmark, and Norway are gone. German panzers have reached the Channel coast, and France is breaking apart. The entire British Expeditionary Force is pinned against the sea at a small port called Dunkirk.",
-  italy: "JUNE 1940 — France is collapsing faster than anyone in Rome expected. Italy has stayed 'non-belligerent' — deliberately not neutral — since September 1939, and the army's own mobilization tables say it isn't ready. The peace table is about to seat only belligerents.",
-};
-
 // Framing quotes shown on entering the War Room. Where a clean, verified, short quote from
 // the actual command figure at this moment exists, it's used with a real name and date. Where
 // none could be verified (no attributable line was found for German high command in this
 // specific window), the line is left unattributed rather than inventing a false citation —
 // same standard the Pacific build's advisor dossier work established.
 const CAMPAIGN_WAR_ROOM_QUOTE = {
-  german: {
-    text: "Seven quiet months end with a single order to a fleet that has no margin for the losses this will cost it.",
-    speaker: null,
-    date: null,
-  },
   soviet: {
     text: "A grave danger hangs over our country.",
     speaker: "Joseph Stalin",
@@ -4059,12 +4056,12 @@ function warRoomModeInfo(mode, campaignId) {
   };
   const hard = !!HARD_MODE_NAMES[mode];
   const summaries = {
-    easy: "Training wheels: see what each order will cost before you give it, and which one the record chose.",
-    open: "The war as designed. Judge each order on what you know.",
-    iron: "The Führer's command, with no dashboard and no way back. Five points of political capital to spend on defying him.",
-    purge: "Stalin's apparatus is watching. Suspicion is counted out of five, and a full count ends in a recall.",
-    coalition: "Every order that overrides a partner's strong objection costs Coalition Cohesion, and a broken alliance relieves you.",
-    axis: "Berlin watches every act of independent Italian judgment. Lose its trust and the command is superseded.",
+    easy: "Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind.",
+    open: "The full dashboard and the rewind. You judge each order on what you know.",
+    iron: "No dashboard and no rewind. You have five points of political capital to spend on defying Hitler.",
+    purge: "No rewind, and the NKVD is watching: five counts of suspicion end in a recall.",
+    coalition: "No rewind. Overriding a partner's strong objection costs Coalition Cohesion, and a broken alliance relieves you.",
+    axis: "No rewind. Berlin watches every act of independent Italian judgment, and losing its trust ends the command.",
   };
   const trackerRules = {
     iron: "Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed.",
@@ -4088,30 +4085,4 @@ function warRoomModeInfo(mode, campaignId) {
 
 // The hard mode of each campaign.
 const HARD_MODE_OF = { german: "iron", soviet: "purge", allied: "coalition", italy: "axis" };
-
-// What each mode changes, as rows the difficulty screen sets side by side. modeFeatures gives each mode's value for every row.
-const MODE_FEATURES = [
-  { id: "preview", label: "Meter impact shown before you choose" },
-  { id: "history", label: "The historical choice marked" },
-  { id: "rewind", label: "Rewind to an earlier decision" },
-  { id: "dashboard", label: "Meter dashboard" },
-  { id: "intel", label: "Intelligence in battle" },
-  { id: "tracker", label: "Extra tracker" },
-  { id: "orders", label: "Orders from above in battle" },
-  { id: "censor", label: "Reports censored as Manpower falls" },
-];
-function modeFeatures(mode) {
-  const hard = !!HARD_MODE_NAMES[mode];
-  const trackers = { iron: "Political capital, 5", purge: "Suspicion, out of 5", coalition: "Coalition Cohesion", axis: "German Trust" };
-  return {
-    preview: mode === "easy" ? "Yes" : "No",
-    history: mode === "easy" ? "Yes" : "No",
-    rewind: hard ? "No" : "Yes",
-    dashboard: mode === "iron" ? "Staff notes only" : "Full",
-    intel: mode === "easy" ? "Always right" : "Wrong one time in four",
-    tracker: trackers[mode] || "None",
-    orders: hard ? "Yes" : "No",
-    censor: hard ? "Yes" : "No",
-  };
-}
 

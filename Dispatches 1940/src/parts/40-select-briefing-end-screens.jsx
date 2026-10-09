@@ -59,7 +59,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           className="text-[#ffffff] uppercase tracking-[0.35em] text-xs mb-3 font-semibold"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          Restricted — Command Eyes Only
+          Restricted: Command Eyes Only
         </div>
         <h1
           className="text-[#ffffff] text-4xl sm:text-6xl uppercase tracking-wide"
@@ -72,7 +72,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="inline-block mt-2 border-2 px-3 py-1 uppercase tracking-[0.2em] text-[11px] font-bold"
             style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#7a2e2e", color: "#7a2e2e" }}
           >
-            Free Demo — OKW Command Only
+            Free Demo: OKW Command Only
           </div>
         )}
         <div className="mx-auto mt-3 mb-3 h-[2px] w-40 bg-[#ffffff]" />
@@ -80,8 +80,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           className="text-[#ffffff] max-w-md mx-auto text-[15px]"
           style={{ fontFamily: "'Courier Prime', monospace" }}
         >
-          Choose a high command. Each decision is drawn from the real strategic choices made
-          starting in 1940.
+          Choose a high command and endeavor to lead your armies to victory.
         </p>
       </div>
 
@@ -103,7 +102,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                 ? ` · ${warRoomModeInfo(activeRun.mode, activeRun.campaignId).label}`
                 : ""}{" "}
               ·{" "}
-              {(activeRun.log || []).length} decisions on file — resume where you left off.
+              {(activeRun.log || []).length} decisions on file: resume where you left off.
               {activeRun.battle && (() => { const t = KEY_BATTLE_TITLES.find((x) => x.id === activeRun.battle.configId); return t ? ` You were part way through ${t.title}.` : ""; })()}
             </p>
           </button>
@@ -132,8 +131,8 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                   {c.brief}
                 </p>
                 <div className="text-[11px] uppercase tracking-widest border-t-2 pt-2 mt-3 text-[#000000] font-semibold" style={{ borderColor: c.accent, fontFamily: "'IBM Plex Mono', monospace" }}>
-                  {{ german: "20–35+ decisions", soviet: "25–30+ decisions", allied: "25–30+ decisions", italy: "~30 decisions" }[c.id] || "decisions"} · contested outcomes · multiple wars
-                  {unlocked ? " · choose a difficulty next" : " · included in the full version"}
+                  {{ german: "20–35+ decisions", soviet: "25–30+ decisions", allied: "25–30+ decisions", italy: "~30 decisions" }[c.id] || "decisions"}
+                  {unlocked ? "" : " · included in the full version"}
                 </div>
               </>
             );
@@ -174,7 +173,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                   className="border-[3px] border-black px-2 py-1 uppercase tracking-[0.2em] text-[10px] font-bold rotate-[6deg]"
                   style={{ fontFamily: "Oswald, sans-serif" }}
                 >
-                  Sealed — In Preparation
+                  Sealed: In Preparation
                 </div>
               </div>
             </div>
@@ -190,7 +189,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
               className="text-xs uppercase tracking-[0.25em] font-bold mb-1"
               style={{ color: "#b08d3f", fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              ⚑ Prototype — Internal Only
+              ⚑ Prototype: Internal Only
             </div>
             <h2 className="text-xl leading-tight text-[#000000]" style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600 }}>
               Grand Campaign
@@ -198,7 +197,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             <p className="text-[13px] mt-1 text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
               German → Soviet → Allied, chained: how your German war went seeds how your Soviet
               war starts, and so on. Fixed order, Standard Issue rules only. Not in the itch
-              build — this entry point only exists in this dev build.
+              build: this entry point only exists in this dev build.
             </p>
           </button>
         )}
@@ -210,7 +209,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                 className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Command Record — Closed File
+                Command Record: Closed File
               </div>
               <Stamp text="Full Clearance" color="#b08d3f" campaignId="allied" />
             </div>
@@ -250,7 +249,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                 className="text-[12px] text-[#000000] border-l-4 pl-2 mb-1"
                 style={{ borderColor: "#7a2e2e", fontFamily: "'Courier Prime', monospace" }}
               >
-                {r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "coalition" ? "★ " : r.mode === "axis" ? "⚖ " : ""}{r.label || "War concluded"} — ended {r.endDate || "—"}{r.rank ? ` · ${r.rank}` : ""}
+                {r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "coalition" ? "★ " : r.mode === "axis" ? "⚖ " : ""}{r.label || "War concluded"}: ended {r.endDate || "—"}{r.rank ? ` · ${r.rank}` : ""}
               </div>
             ))}
           </div>
@@ -275,7 +274,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                     fontFamily: "'Courier Prime', monospace",
                   }}
                 >
-                  {done ? "★" : "☆"} <b>{o.title}</b> — {o.desc}
+                  {done ? "★" : "☆"} <b>{o.title}</b>: {o.desc}
                 </div>
               );
             })}
@@ -286,7 +285,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Endings Gallery — {ENDINGS_GALLERY.filter((e) => endings.includes(e.label)).length} of {ENDINGS_GALLERY.length} named endings
+            Endings Gallery: {ENDINGS_GALLERY.filter((e) => endings.includes(e.label)).length} of {ENDINGS_GALLERY.length} named endings
           </summary>
           <div className="mt-3">
             {ENDINGS_GALLERY.map((e, i) => {
@@ -302,7 +301,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                       <EndingTierBadge tier={e.tier} />
                     </>
                   ) : (
-                    <span className="text-[#000000] opacity-60">——— <i>{e.hint}</i></span>
+                    <span className="text-[#000000] opacity-60">Not yet reached: <i>{e.hint}</i></span>
                   )}
                 </div>
               );
@@ -315,7 +314,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             )}
           </div>
         </details>
-        {/* Round 22: the Battle Record — every Order of Battle fought, with the enemy setups met, the best
+        {/* Round 22: the Battle Record: every Order of Battle fought, with the enemy setups met, the best
             result, and what the player did last time (commander and field decisions). A log, not a
             hint: the setups are drawn at random, so having met one says nothing about the next. */}
         <details className={`${paper} p-5`}>
@@ -323,7 +322,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Battle Record — {KEY_BATTLE_TITLES.filter((b) => record?.battles?.[b.id]).length} of {KEY_BATTLE_TITLES.length} battles fought
+            Battle Record: {KEY_BATTLE_TITLES.filter((b) => record?.battles?.[b.id]).length} of {KEY_BATTLE_TITLES.length} battles fought
           </summary>
           <div className="mt-3">
             {KEY_BATTLE_TITLES.map((b) => {
@@ -345,7 +344,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                       </div>
                       <div>
                         Enemy setups met: {r.setups.length} of {roster.length}
-                        {r.setups.length > 0 && <> — {r.setups.map((id) => roster.find((p) => p.id === id)?.name || id).join("; ")}</>}
+                        {r.setups.length > 0 && <> ({r.setups.map((id) => roster.find((p) => p.id === id)?.name || id).join("; ")})</>}
                       </div>
                       {r.last && (
                         <div className="opacity-80">
@@ -366,14 +365,14 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Discovery Atlas — {Math.min(discovered, NODE_TOTAL)} of {NODE_TOTAL} situation reports
+            Discovery Atlas: {Math.min(discovered, NODE_TOTAL)} of {NODE_TOTAL} situation reports
           </summary>
           <div className="mt-3">
             {[
-              { key: "german", label: "OKW — German Command" },
-              { key: "soviet", label: "STAVKA — Soviet Command" },
-              { key: "allied", label: "SHAEF — Allied Command" },
-              { key: "italy", label: "COMANDO SUPREMO — Italy" },
+              { key: "german", label: "OKW: German Command" },
+              { key: "soviet", label: "STAVKA: Soviet Command" },
+              { key: "allied", label: "SHAEF: Allied Command" },
+              { key: "italy", label: "COMANDO SUPREMO: Italy" },
             ].map((grp) => {
               const nodes = NODE_ATLAS[grp.key] || [];
               const seen = nodes.filter((n) => (record?.nodes || []).includes(n.id)).length;
@@ -454,7 +453,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                         className="text-[13px] font-bold text-[#000000] cursor-pointer select-none py-1"
                         style={{ fontFamily: "'Courier Prime', monospace" }}
                       >
-                        {d.name} — {d.role}
+                        {d.name}: {d.role}
                         {d.count > 0 ? ` · ${d.count} ${d.count === 1 ? "council" : "councils"} followed` : ""}
                       </summary>
                       <p className="text-[13px] text-[#000000] mt-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
@@ -475,7 +474,26 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Context — Key Events of the War
+            The Holocaust
+          </summary>
+          <div className="mt-3">
+            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              The Holocaust is not a decision in this game, and that is deliberate. The murder of millions of people was not a problem for a high command to weigh, and turning it into a choice, a meter or a score would make a game of it. It was left out of the decisions so that it could not be gamified. It was not a side event of the war, and it must not be forgotten.
+            </p>
+            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              From 1933 the Nazi state persecuted the Jews of Germany and took away their rights, property and livelihoods. The Nuremberg Laws followed in 1935 and the November pogrom in 1938. After the invasion of Poland in 1939 Jews were forced into ghettos. From June 1941, behind the armies that invaded the Soviet Union, mobile killing units, helped by police and army units, shot Jewish men, women and children in great numbers. In January 1942 officials met at Wannsee to coordinate the deportation and murder of the Jews of Europe, and killing centres such as Chełmno, Bełżec, Sobibór, Treblinka and Auschwitz-Birkenau were put to work. About six million Jews were murdered, around two thirds of the Jews of Europe.
+            </p>
+            <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              The Nazis and their collaborators also murdered Roma and Sinti, disabled people, Soviet prisoners of war, Polish and other civilians, and many more. Soviet and Western Allied armies reached the camps between 1944 and 1945. Italy took its part: Jews were persecuted under the racial laws from 1938 and, after the German occupation of 1943, deported. For more, see the United States Holocaust Memorial Museum and Yad Vashem.
+            </p>
+          </div>
+        </details>
+        <details className={`${paper} p-5`}>
+          <summary
+            className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Context: Key Events of the War
           </summary>
           <div className="mt-3">
             {[
@@ -494,7 +512,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                 <div className="mt-1">
                   {(CONTEXT_NOTES[grp.key] || []).map((c, i) => (
                     <p key={i} className="text-[13px] leading-snug text-[#000000] mb-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                      <b>{c.term}</b> — {c.note}
+                      <b>{c.term}</b>: {c.note}
                     </p>
                   ))}
                 </div>
@@ -508,7 +526,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Glossary — {GLOSSARY.length} terms
+            Glossary: {GLOSSARY.length} terms
           </summary>
           <GlossaryList />
         </details>
@@ -529,7 +547,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
               baseline (zero). They gate collapses, foreclose options, and decide when your war ends. Matériel is the one number the rules use for fuel, ammunition, steel, shipping and rail together; the three small readings under each meter (open one with its ▸ button) show where your decisions have been putting the weight.
             </p>
             <p className="mb-2">
-              <b>⚄ Contested.</b> A handful of decisions are honestly disputed by historians. These roll —
+              <b>⚄ Contested.</b> A handful of decisions are honestly disputed by historians. These roll
               the same choice can break differently, and rewinding re-rolls them.
             </p>
             <p className="mb-2">
@@ -537,7 +555,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
               projection and never claims to be what happened.
             </p>
             <p>
-              <b>⚠ Speculative.</b> A very small number of branches go further — past reasoned projection
+              <b>⚠ Speculative.</b> A very small number of branches go further: past reasoned projection
               into territory the scholarly consensus argues against. These carry a distinct amber warning,
               exist only through chains of low-probability rolls, and this campaign computes and shows you exactly
               how unlikely the path you walked was.
@@ -670,95 +688,12 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="mt-3 text-[14px] leading-relaxed text-[#000000] opacity-70"
             style={{ fontFamily: "'Courier Prime', monospace" }}
           >
-            <p className="not-italic mb-2">Developer — Craig Doyle</p>
-            <p className="not-italic">Music — Hyteck9</p>
+            <p className="not-italic mb-2">Developer: Craig Doyle</p>
+            <p className="not-italic">Music: Hyteck9</p>
           </div>
         </details>
 
       </div>
-    </div>
-  );
-}
-
-// The step between choosing a command and the war room: the difficulty. Each mode is a card listing the same rows,
-// so what it changes can be read straight down and compared. A row that differs from Standard Issue is marked.
-function DifficultyScreen({ campaign, onPick, onBack }) {
-  const headingRef = useRef(null);
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0 });
-    if (headingRef.current) headingRef.current.focus();
-  }, [campaign.id]);
-  const hardId = HARD_MODE_OF[campaign.id];
-  const cards = [
-    { id: "easy", available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
-    { id: "open", available: true, colour: "#000000" },
-    { id: hardId, available: HARD_MODES_ENABLED, colour: "#7a2e2e" },
-  ];
-  const standard = modeFeatures("open", campaign.id);
-  return (
-    <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center px-4 py-10">
-      <div className="text-center mb-6 max-w-md">
-        <div className="text-[#ffffff] uppercase tracking-[0.35em] text-xs mb-2 font-semibold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-          {campaign.name}
-        </div>
-        <h1 ref={headingRef} tabIndex={-1} className="text-[#ffffff] text-3xl sm:text-4xl uppercase tracking-wide outline-none" style={{ fontFamily: "Oswald, sans-serif", fontWeight: 700 }}>
-          Choose a Difficulty
-        </h1>
-        <p className="text-[#ffffff] text-[14px] mt-3" style={{ fontFamily: "'Courier Prime', monospace" }}>
-          The war is the same in all three. What changes is how much you are told, what you can undo, and what the command asks of you.
-        </p>
-      </div>
-      <div className="flex flex-col gap-5 w-full max-w-md">
-        {cards.map(({ id, available, colour }) => {
-          const info = warRoomModeInfo(id, campaign.id);
-          const feat = modeFeatures(id, campaign.id);
-          return (
-            <section key={id} className={`${paper} p-5`} style={{ borderTop: `5px solid ${colour}` }} aria-labelledby={`diff-${id}`}>
-              <h2 id={`diff-${id}`} className="text-xl leading-tight" style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600, color: colour }}>
-                {info.label}
-              </h2>
-              <p className="text-[13px] leading-snug mt-1 mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                {info.summary}
-              </p>
-              <dl className="text-[12px] border-t border-black/30" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                {MODE_FEATURES.map((row) => {
-                  const v = feat[row.id];
-                  const differs = id !== "open" && v !== standard[row.id];
-                  return (
-                    <div key={row.id} className="flex items-baseline justify-between gap-3 py-1 border-b border-black/20">
-                      <dt className="text-[#000000]">{row.label}</dt>
-                      <dd className="text-right font-bold text-[#000000]" style={{ color: differs ? colour : undefined }}>
-                        {differs ? <span aria-hidden="true">◆ </span> : null}
-                        {v}
-                      </dd>
-                    </div>
-                  );
-                })}
-              </dl>
-              {available ? (
-                <button
-                  onClick={() => onPick(id)}
-                  className="mt-4 w-full border-2 px-4 py-3 text-xs uppercase tracking-[0.2em] font-bold text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: colour, backgroundColor: colour }}
-                >
-                  Take command — {info.label}
-                </button>
-              ) : (
-                <p className="mt-4 text-center text-[11px] uppercase tracking-widest font-bold opacity-70 text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                  Included in the full version
-                </p>
-              )}
-            </section>
-          );
-        })}
-      </div>
-      <button
-        onClick={onBack}
-        className="mt-6 border-2 border-[#ffffff] px-6 py-2 text-xs uppercase tracking-widest font-bold text-[#ffffff] hover:bg-[#ffffff] hover:text-[#000000] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
-        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-      >
-        Back to the commands
-      </button>
     </div>
   );
 }
@@ -769,7 +704,7 @@ function DifficultyScreen({ campaign, onPick, onBack }) {
 // one. Only the bar moves; the figures in the text never change, so the words on the page are the same at every
 // moment. The app's reduced-motion setting and the system one both shorten the slide to nothing. `min` and `max`
 // (kept symmetrical about zero) let the same bar draw a tracker with its own scale (Coalition Cohesion, German Trust).
-function MeterBar({ label, value, danger, showBar = true, from, min = -10, max = 10, tag, valueLabel, reserveTag = false }) {
+function MeterBar({ label, value, danger, showBar = true, from, min = -10, max = 10, tag, valueLabel }) {
   const clamp = (n) => Math.max(min, Math.min(max, n));
   const clamped = clamp(value);
   const hasFrom = typeof from === "number";
@@ -803,7 +738,7 @@ function MeterBar({ label, value, danger, showBar = true, from, min = -10, max =
             style={{
               left: `${50 + Math.min(0, shown) * unit}%`,
               width: `${Math.abs(shown) * unit}%`,
-              backgroundColor: danger ? "#7a2e2e" : shown >= 0 ? "#28497a" : "#5c4a2a",
+              backgroundColor: shown >= 0 ? "#2f6b3f" : "#7a2e2e",
               transition: "left 800ms cubic-bezier(0.2, 0.8, 0.2, 1), width 800ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 800ms",
             }}
           />
@@ -815,14 +750,11 @@ function MeterBar({ label, value, danger, showBar = true, from, min = -10, max =
         {danger && !tag ? " ⚠" : ""}
       </span>
     </div>
-    {/* The figures column is one width whatever it holds, so the bar is always the same size; what a decision just changed and any warning go on a line of their own, which the briefing meters (reserveTag) keep even when it is empty. */}
-    {tag || reserveTag || (moved && !valueLabel) ? (
-      <div className="flex justify-between gap-2 text-[10px] uppercase tracking-wider font-bold mt-[2px] min-h-[14px]" style={{ paddingLeft: 88 }}>
-        <span style={{ color: /critical|dangerous|owed/i.test(tag || "") ? "#7a2e2e" : "#8a5a1a" }}>
-          {tag && /critical|dangerous/i.test(tag) ? <span aria-hidden="true">⚠ </span> : null}
-          {tag}
-        </span>
-        {moved && !valueLabel ? <span className="font-normal opacity-70 normal-case tracking-normal text-[11px] whitespace-nowrap">was {fmt(from)}</span> : null}
+    {/* The figures column is one width whatever it holds, so the bar is always the same size. A warning, when there is one, goes on a line of its own. */}
+    {tag ? (
+      <div className="text-[10px] uppercase tracking-wider font-bold mt-[2px]" style={{ paddingLeft: 88, color: /critical|dangerous/i.test(tag) ? "#7a2e2e" : "#8a5a1a" }}>
+        {/critical|dangerous/i.test(tag) ? <span aria-hidden="true">⚠ </span> : null}
+        {tag}
       </div>
     ) : null}
     </div>
@@ -869,8 +801,6 @@ function meterStaffNotes(key, meters, flags) {
     else if (meters.fuel <= -3) out.push({ grave: true, text: "STAFF NOTE: Matériel stocks are exhausted. Offensive operations are no longer possible." });
     else if (meters.fuel <= -2) out.push({ grave: true, text: "STAFF NOTE: Matériel reserves critically low. Further offensive options may be foreclosed." });
   }
-  const owed = arrearsOf(flags || {}, key);
-  if (owed > 0) out.push({ grave: true, text: `ARREARS: ${owed} ${owed === 1 ? "point" : "points"} owed below the floor. The next gains go to paying it before this meter rises.` });
   if (key === "initiative" && meters.initiative >= 5) out.push({ grave: true, text: "STAFF NOTE: The war is running years ahead of its historical schedule. Whatever comes next arrives early." });
   return out;
 }
@@ -906,13 +836,12 @@ function MeterPanel({ meters, flags, prev }) {
           const rows = strandReadout(key, flags || {}, meters);
           const before = prev && prev.meters ? strandReadout(key, prev.flags || {}, prev.meters) : null;
           const notes = meterStaffNotes(key, meters, flags);
-          const owed = arrearsOf(flags || {}, key);
           const panelId = `meter-panel-${key}`;
           return (
             <div key={key}>
               <div className="flex items-center gap-1">
                 <div className="flex-1 min-w-0">
-                  <MeterBar label={label} value={v} from={prev && prev.meters ? prev.meters[key] : undefined} danger={dangerAt != null && v <= dangerAt} tag={owed > 0 ? `${meterDangerTag(v) || ""} · ${owed} owed`.trim() : meterDangerTag(v)} reserveTag />
+                  <MeterBar label={label} value={v} from={prev && prev.meters ? prev.meters[key] : undefined} danger={dangerAt != null && v <= dangerAt} tag={meterDangerTag(v)} />
                 </div>
                 <button
                   onClick={() => toggle(key)}
@@ -1719,24 +1648,24 @@ function mapOverrides(year, flags, meters, dayKey) {
   if (flags.italyEntry === "neutral") {
     o.italy = "neutral";
     if (!flags.neutralItalyPressure) {
-      note("Rome never declared — the historical June 1940 entry window closed with Italy still non-belligerent (projection).", ["italy"]);
+      note("Rome never declared: the historical June 1940 entry window closed with Italy still non-belligerent (projection).", ["italy"]);
     }
   }
   if (flags.neutralItalyPressure === "tolerated") {
     o.italy = "neutral";
-    note("Berlin's pressure against a neutral Italy never escalated past complaint — the country sat out the entire war (projection).", ["italy"]);
+    note("Berlin's pressure against a neutral Italy never escalated past complaint: the country sat out the entire war (projection).", ["italy"]);
   }
   if (flags.neutralItalyPressure === "coerced" && !flags.neutralItalyEnd) {
     o.italy = "neutral";
-    note("Germany is moving to compel compliance from a neutral Italy that never fought for the Axis or against it — still unresolved (projection).", ["italy"]);
+    note("Germany is moving to compel compliance from a neutral Italy that never fought for the Axis or against it: still unresolved (projection).", ["italy"]);
   }
   if (flags.neutralItalyEnd === "submit") {
     o.italy = "axisAllied";
-    note("Faced with Berlin's ultimatum, Rome submitted rather than resist — occupied and compliant, without ever having fought a war on Germany's behalf (projection).", ["italy"]);
+    note("Faced with Berlin's ultimatum, Rome submitted rather than resist: occupied and compliant, without ever having fought a war on Germany's behalf (projection).", ["italy"]);
   }
   if (flags.neutralItalyEnd === "resist") {
     o.italy = "contested";
-    note("Comando Supremo refused Berlin's ultimatum — a country that spent two years avoiding this war is fighting one now, against its former ally instead of beside it (projection).", ["italy"]);
+    note("Comando Supremo refused Berlin's ultimatum: a country that spent two years avoiding this war is fighting one now, against its former ally instead of beside it (projection).", ["italy"]);
   }
   if (flags.barbarossa === "launched" && year === 1941) {
     // The historical path (Halder's choice, June 22 1941) — no note, since this isn't a
@@ -1748,7 +1677,7 @@ function mapOverrides(year, flags, meters, dayKey) {
   }
   if (flags.barbarossa === "medFirst" && year === 1941) {
     setZones(EAST_FRONT, "contested");
-    note("Barbarossa launched in autumn instead of June, after a summer Mediterranean campaign first — the invasion is underway, just months behind the historical schedule (projection).", EAST_FRONT);
+    note("Barbarossa launched in autumn instead of June, after a summer Mediterranean campaign first: the invasion is underway, just months behind the historical schedule (projection).", EAST_FRONT);
   }
   if (flags.reichStand === "west" && year >= 1945) {
     // Austria's real 1945 split ran roughly east-west (Soviet zone east, the three Western
@@ -1757,7 +1686,7 @@ function mapOverrides(year, flags, meters, dayKey) {
     // (The original o.czechia = "soviet" here was a no-op — MAP_YEAR_STATUS[1945].czechia is
     // already "soviet", so the note had nothing to actually show.)
     o.austria = "soviet";
-    note("The west-weighted final defense let Soviet forces take all of Austria rather than share it — the postwar dividing line sits further west than the historical map (projection).", ["austria"]);
+    note("The west-weighted final defense let Soviet forces take all of Austria rather than share it: the postwar dividing line sits further west than the historical map (projection).", ["austria"]);
   }
   if (flags.reichStand === "east" && year >= 1945) {
     // The mirror case: German defense weighted east means the west collapses faster, so
@@ -1768,16 +1697,16 @@ function mapOverrides(year, flags, meters, dayKey) {
     note("The deliberately opened western front let Anglo-American forces advance deeper into Czechoslovakia than the historical meeting line (projection).", ["czechia"]);
   }
   if (flags.reichStand === "north" && year >= 1945) {
-    o.norway = "contested";
-    note("Festung Norwegen: an intact German army of 350,000+ in Norway outlasted the continental war, so its occupation hasn't formally ended here (projection).", ["norway"]);
+    o.norway = "axis";
+    note("Festung Norwegen: an intact German army of 350,000 or more in Norway outlasted the continental war, so the occupation has not ended here (projection).", ["norway"]);
   }
   if (flags.sealion === "launched" && year === 1940)
-    note("The Channel crossing was attempted and failed — Britain unconquered, at heavy German cost.", ["britain"]);
+    note("The Channel crossing was attempted and failed: Britain unconquered, at heavy German cost.", ["britain"]);
   if (flags.tannenbaum40 === "invade" && year >= 1940) {
     o.switzerland = flags.tannenbaumOutcome === "quagmire" && year <= 1941 ? "contested" : "axis";
     note(
       flags.tannenbaumOutcome === "quagmire"
-        ? "Switzerland was invaded rather than left neutral — the Alpine Réduit kept organized resistance alive well past the lowland occupation (projection)."
+        ? "Switzerland was invaded rather than left neutral: the Alpine Réduit kept organized resistance alive well past the lowland occupation (projection)."
         : "Switzerland was invaded rather than left neutral (projection).",
       ["switzerland"]
     );
@@ -1788,12 +1717,12 @@ function mapOverrides(year, flags, meters, dayKey) {
       o.france = "axis";
       o.benelux = "axis";
       if (year === 1944)
-        note("No eastern front on this path — the Soviet border stays quiet, and no cross-Channel invasion has been attempted against an undistracted Wehrmacht (projection).", [...EAST_ALL, "france", "benelux"]);
+        note("No eastern front on this path: the Soviet border stays quiet, and no cross-Channel invasion has been attempted against an undistracted Wehrmacht (projection).", [...EAST_ALL, "france", "benelux"]);
     }
     if (year >= 1945) {
       o.germany = "allied"; o.austria = "allied"; o.czechia = "allied"; o.poland = "allied";
       o.france = "allied"; o.benelux = "allied"; o.denmark = "allied"; o.norway = "allied"; o.italy = "allied";
-      note("Occupation follows a war with no eastern front — the historical Soviet zone never forms (projection).", ["germany", "austria", "czechia", "poland", "france", "benelux", "denmark", "norway", "italy"]);
+      note("Occupation follows a war with no eastern front: the historical Soviet zone never forms (projection).", ["germany", "austria", "czechia", "poland", "france", "benelux", "denmark", "norway", "italy"]);
     }
   }
   if (flags.moscowCaptured && year >= 1941 && year <= 1944) {
@@ -1815,18 +1744,18 @@ function mapOverrides(year, flags, meters, dayKey) {
     // Kursk sits in the Don & Volga zone (ussrDon; tools/split-ussr-zones.mjs checks it against a list of named
     // places) — round 14 narrowed this from the old whole-blob "ussr", round 25 from the old South zone.
     o.ussrDon = "axisAllied";
-    note("The early Kursk strike's breach was pushed rather than banked — a rare, genuine eastern gain the historical July offensive never had the room to attempt (projection).", ["ussrDon"]);
+    note("The early Kursk strike's breach was pushed rather than banked: a rare, genuine eastern gain the historical July offensive never had the room to attempt (projection).", ["ussrDon"]);
   }
   if (flags.dnieper === "sealed" && year === 1943) {
     o.ussrUkraine = "axisAllied";
-    note("The last mobile reserve sealed the Dnieper crossing near Kiev — the firmest eastern line this campaign reaches, at the cost of what that reserve could have done in the west instead (projection).", ["ussrUkraine"]);
+    note("The last mobile reserve sealed the Dnieper crossing near Kiev: the firmest eastern line this campaign reaches, at the cost of what that reserve could have done in the west instead (projection).", ["ussrUkraine"]);
   }
   // dnieper === "conceded" gets no status change: its own outcome text frames it as a real but
   // local setback, not a country-level shift — the Ukraine zone is already "contested" by default from August 1943,
   // and forcing a drop to "soviet" here would overstate what a single crossing near Kiev
   // cost. Note-only, same principle as forkLuftwaffeShift above.
   if (flags.dnieper === "conceded" && year === 1943) {
-    note("The Dnieper crossing near Kiev was let through rather than sealed, to preserve the reserve for the west — a real, local eastern setback ahead of the historical timeline (projection).", ["ussrUkraine"]);
+    note("The Dnieper crossing near Kiev was let through rather than sealed, to preserve the reserve for the west: a real, local eastern setback ahead of the historical timeline (projection).", ["ussrUkraine"]);
   }
   if (flags.suez41 === "taken" && year >= 1941 && year <= 1942) {
     o.egypt = "axis";
@@ -1840,7 +1769,7 @@ function mapOverrides(year, flags, meters, dayKey) {
     o.malta = "axis";
     o.libya = "axisAllied";
     o.egypt = "contested";
-    note("Malta is in Axis hands — the central Mediterranean convoy war inverted (projection).", ["malta", "libya", "egypt"]);
+    note("Malta is in Axis hands: the central Mediterranean convoy war inverted (projection).", ["malta", "libya", "egypt"]);
   }
   if (flags.herculesResult === "fell") {
     // Italy campaign's own Malta arc — distinct from the German campaign's med42 flag above.
@@ -1852,21 +1781,21 @@ function mapOverrides(year, flags, meters, dayKey) {
     if (flags.maltaRetaken && year >= retakenYear) {
       o.malta = "contested";
       o.libya = "contested";
-      note("Malta changed hands twice — taken by Italy, then retaken by a determined British counter-effort over the winter of 1941-42 — and the convoy war to Libya reverted with it (projection).", ["malta", "libya"]);
+      note("Malta changed hands twice (taken by Italy, then retaken by a determined British counter-effort over the winter of 1941-42) and the convoy war to Libya reverted with it (projection).", ["malta", "libya"]);
     } else if (year >= sinceYear) {
       o.malta = "axis";
       o.libya = "axisAllied";
       note(
         flags.malta40 === "fell"
-          ? "Malta fell to an Italian invasion in the summer of 1940 — years before the historical war ever seriously put the island at risk (projection)."
-          : "Malta fell to Operation Hercules in 1941 — the invasion the historical Comando Supremo planned for a year and never actually ordered (projection).",
+          ? "Malta fell to an Italian invasion in the summer of 1940: years before the historical war ever seriously put the island at risk (projection)."
+          : "Malta fell to Operation Hercules in 1941: the invasion the historical Comando Supremo planned for a year and never actually ordered (projection).",
         ["malta", "libya"]
       );
     }
   }
   if (flags.gibraltarTaken === "success" && year >= 1941) {
     o.iberia = "axisAllied";
-    note("Spain entered the war and Gibraltar fell in early 1941 — Italian shipments to Madrid succeeded where the real Hitler-Franco meeting at Hendaye failed, closing the Mediterranean's western mouth (projection).", ["iberia"]);
+    note("Spain entered the war and Gibraltar fell in early 1941: Italian shipments to Madrid succeeded where the real Hitler-Franco meeting at Hendaye failed, closing the Mediterranean's western mouth (projection).", ["iberia"]);
   }
   if (flags.maltaPath && year === 1943) {
     o.malta = "axis";
@@ -1885,7 +1814,7 @@ function mapOverrides(year, flags, meters, dayKey) {
     note("General collapse in the east, roughly nine months ahead of the historical schedule (projection).", ["poland", "germany", ...EAST_ALL]);
   }
   if (flags.eastStand && year === 1944)
-    note("Army Group Center retreats as an army — the eastern line anchors in better order than the historical rout (projection).", ["poland"]);
+    note("Army Group Center retreats as an army: the eastern line anchors in better order than the historical rout (projection).", ["poland"]);
   if (flags.eastern44 === "preempt" && year >= 1944) {
     o.poland = "contested";
     note("The 1944 preemptive eastern war rages along the old demarcation line (projection).", ["poland"]);
@@ -1917,7 +1846,7 @@ function mapOverrides(year, flags, meters, dayKey) {
   // future fork's zone(s) do overlap.
   if (flags.forkNorwayHeld && year === 1940) {
     o.norway = "contested";
-    note("Allied resistance around Narvik held on longer than history recorded — the occupation wasn't complete by year's end (projection).", ["norway"]);
+    note("Allied resistance around Narvik held on longer than history recorded: the occupation wasn't complete by year's end (projection).", ["norway"]);
   }
   if (flags.forkMoscowHolds && year === 1941 && !flags.moscowCaptured) {
     o.ussrMoscow = "axis";
@@ -1939,7 +1868,7 @@ function mapOverrides(year, flags, meters, dayKey) {
     // approach), and explicitly NOT Ukraine's, since the whole point is that Kiev wasn't
     // taken this way. Only ussrMoscow moves; ussrUkraine stays at its 1941 baseline.
     o.ussrMoscow = "axis";
-    note("No southern turn toward Kiev — the direct drive on the capital reached further than the historical detour allowed (projection).", ["ussrMoscow"]);
+    note("No southern turn toward Kiev: the direct drive on the capital reached further than the historical detour allowed (projection).", ["ussrMoscow"]);
   }
   if (flags.forkStalingradConsolidate && year === 1942) {
     // Stalingrad sits in the Don & Volga zone.
@@ -1948,7 +1877,7 @@ function mapOverrides(year, flags, meters, dayKey) {
   }
   if (flags.forkNarvikHeld && year === 1940) {
     o.norway = "contested";
-    note("The Narvik garrison's reinforcement held — Norway's occupation wasn't complete by year's end on this run (projection).", ["norway"]);
+    note("The Narvik garrison's reinforcement held: Norway's occupation wasn't complete by year's end on this run (projection).", ["norway"]);
   }
   // Round 24 (Norway never moved with the decisions about it). The German campaign's own choice at Weserübung and the
   // Allied campaign's at Narvik, each read here. The historical choices (a full seizure; the evacuation) are the
@@ -2003,7 +1932,7 @@ function mapOverrides(year, flags, meters, dayKey) {
   // case, same as sealion === "launched" above.
   if (flags.forkArnhemLucky && year === 1944) {
     o.benelux = "allied";
-    note("No SS armor near the drop zones — the corridor held, and the Netherlands were further along toward liberation by year's end than the historical record shows (projection).", ["benelux"]);
+    note("No SS armor near the drop zones: the corridor held, and the Netherlands were further along toward liberation by year's end than the historical record shows (projection).", ["benelux"]);
   }
   if (flags.forkGreeceResistance && year === 1940) {
     o.greece = "neutral";
@@ -2038,7 +1967,7 @@ function mapOverrides(year, flags, meters, dayKey) {
   // legitimate note-only case, same as forkLuftwaffeShift above.
   if (flags.forkDeceptionSeen && flags.bagration44soviet === "full" && year === 1944) {
     o.poland = "contested";
-    note("German reconnaissance flagged the real concentration areas before Bagration launched — the advance to Warsaw's approaches drew a sharper, more contested response than the historical surprise allowed for (projection).", ["poland"]);
+    note("German reconnaissance flagged the real concentration areas before Bagration launched: the advance to Warsaw's approaches drew a sharper, more contested response than the historical surprise allowed for (projection).", ["poland"]);
   }
   if (flags.forkAnzioWeak && year === 1944) {
     o.italy = "contested";
@@ -2069,27 +1998,27 @@ function mapOverrides(year, flags, meters, dayKey) {
   // historicalRecord:false/speculative:true branch and often an uncertain roll on top of that.
   if (flags.finlandOutcome === "occupation" && year >= 1944) {
     o.finland = "soviet";
-    note("Finland was pressed into direct Soviet occupation rather than left to a negotiated armistice — brought into the Soviet sphere the way the Baltic states were, not the way Finland actually was (projection).", ["finland"]);
+    note("Finland was pressed into direct Soviet occupation rather than left to a negotiated armistice: brought into the Soviet sphere the way the Baltic states were, not the way Finland actually was (projection).", ["finland"]);
   }
   if (flags.balkans44soviet === "greece" && flags.athensStandoff44 === "hold" && year >= 1944) {
     o.greece = "contested";
-    note("Soviet forces held Athens rather than withdrawing when the British landing found the city already occupied — Greece's postwar alignment is a live, contested argument here, not the settled British sphere the historical percentages agreement produced (projection).", ["greece"]);
+    note("Soviet forces held Athens rather than withdrawing when the British landing found the city already occupied: Greece's postwar alignment is a live, contested argument here, not the settled British sphere the historical percentages agreement produced (projection).", ["greece"]);
   }
   if (flags.polishQuestion45 === "standApart" && year >= 1945) {
     o.poland = "contested";
-    note("An independent, London-loyal Home Army held apart rather than being absorbed into the Soviet-recognized Polish forces — Poland's postwar alignment is genuinely contested here, not the settled Soviet sphere the historical record shows (projection).", ["poland"]);
+    note("An independent, London-loyal Home Army held apart rather than being absorbed into the Soviet-recognized Polish forces: Poland's postwar alignment is genuinely contested here, not the settled Soviet sphere the historical record shows (projection).", ["poland"]);
   }
   if (flags.berlinFeb45 && year >= 1945) {
     o.germany = "soviet";
-    note("A rare, deep breakthrough put Soviet spearheads into Berlin roughly three weeks ahead of the historical assault, before Seelow Heights could be dug in — the city falls in March here, weeks before the Western Allies are anywhere near it (projection).", ["germany"]);
+    note("A rare, deep breakthrough put Soviet spearheads into Berlin roughly three weeks ahead of the historical assault, before Seelow Heights could be dug in: the city falls in March here, weeks before the Western Allies are anywhere near it (projection).", ["germany"]);
   }
   if (flags.westernCollapse45 && year >= 1945) {
     o.germany = "contested";
-    note("Army Group B's mass surrender in the Ruhr collapsed the western front roughly six weeks ahead of the historical schedule while the eastern front was still being fought — Germany's status this spring is a genuine east/west split, not yet the war's actual, later four-power settlement (projection).", ["germany"]);
+    note("Army Group B's mass surrender in the Ruhr collapsed the western front roughly six weeks ahead of the historical schedule while the eastern front was still being fought: Germany's status this spring is a genuine east/west split, not yet the war's actual, later four-power settlement (projection).", ["germany"]);
   }
   if (flags.viennaStandoff44 && year === 1944) {
     o.austria = "contested";
-    note("Western Allied forces reached Vienna's approaches ahead of Soviet forces — a genuine alt-history first, though the historical record's own logic still applies once 1945's conference settles the zones: the city ends up divided either way (projection).", ["austria"]);
+    note("Western Allied forces reached Vienna's approaches ahead of Soviet forces: a genuine alt-history first, though the historical record's own logic still applies once 1945's conference settles the zones: the city ends up divided either way (projection).", ["austria"]);
   }
   if (flags.coupResponse === "backMussolini" && year === 1943) {
     // No o.italy assignment needed — MAP_YEAR_STATUS already has Italy "contested" for 1943,
@@ -2099,7 +2028,7 @@ function mapOverrides(year, flags, meters, dayKey) {
     // essentially no one in the documented July 1943 record actually took — not the ordinary
     // occupation/armistice uncertainty the same color represents on the historical path. A
     // note-only entry, same pattern as sealion === "launched" above.
-    note("A minority of the officer corps rallied to Mussolini against the King rather than accept his dismissal — Italy's contested status this year reflects a documented-nowhere internal military conflict, not simply the historical transition's occupation-control uncertainty (projection).", ["italy"]);
+    note("A minority of the officer corps rallied to Mussolini against the King rather than accept his dismissal: Italy's contested status this year reflects a documented-nowhere internal military conflict, not simply the historical transition's occupation-control uncertainty (projection).", ["italy"]);
   }
 
   return { o, notes };
@@ -2125,8 +2054,8 @@ function TheaterGraph({ statuses, highlightSet, divergedRegions, selectedRegion,
     >
       <defs>
         {/* STATUS_COLORS.divided refers to url(#divideGradient). Without this def the fill
-            resolves to nothing and divided regions — Germany and Austria at the end of 1945,
-            the two the whole postwar settlement turns on — rendered as empty circles. */}
+            resolves to nothing and divided regions: Germany and Austria at the end of 1945,
+            the two the whole postwar settlement turns on: rendered as empty circles. */}
         <linearGradient id="divideGradient" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor={STATUS_COLORS.allied} />
           <stop offset="50%" stopColor={STATUS_COLORS.allied} />
@@ -2246,12 +2175,12 @@ function TheaterGraph({ statuses, highlightSet, divergedRegions, selectedRegion,
       {/* Arrival pulse: a decorative ring that expands and fades once, over the currently
           highlighted region(s), when the player reaches a new node. This board is a fixed
           schematic rather than a pannable survey map (see the compass-rose note below), so
-          there's no literal camera to zoom with — this is that same idea's honest equivalent:
+          there's no literal camera to zoom with: this is that same idea's honest equivalent:
           draw the eye to where the decision is, without pretending the layout has geographic
           precision it doesn't. Keyed on nodeId so React remounts (and the CSS animation
           replays) every time the node changes, even revisiting the same region back-to-back.
           Respects the app's existing reducedMotion override, which zeroes all animation
-          durations globally — no separate check needed here. */}
+          durations globally: no separate check needed here. */}
       {[...highlightSet].map((id) => {
         const r = posOf(id);
         if (!r) return null;
@@ -2289,7 +2218,7 @@ function TheaterGraph({ statuses, highlightSet, divergedRegions, selectedRegion,
             opacity="0.55"
           />
         ))}
-        {/* North needle: filled east half, hollow west half — the conventional split rose */}
+        {/* North needle: filled east half, hollow west half: the conventional split rose */}
         <path d="M 0 -21 L 6 0 L 0 5.5 Z" fill="#3a2a18" />
         <path d="M 0 -21 L -6 0 L 0 5.5 Z" fill="#e3d5ae" stroke="#3a2a18" strokeWidth="0.7" />
         {/* South tail */}
@@ -2366,7 +2295,7 @@ function EuropeMap({ year, accent, flags, meters, highlightRegions, maxYear, res
         className="text-[11px] uppercase tracking-widest text-[#000000] font-semibold mb-1"
         style={{ fontFamily: "'IBM Plex Mono', monospace" }}
       >
-        Continental Situation — End of {clampedYear} · Theater Map
+        Continental Situation: End of {clampedYear} · Theater Map
       </div>
 
       <div className="flex items-center gap-2 mb-2">
@@ -2421,7 +2350,7 @@ function EuropeMap({ year, accent, flags, meters, highlightRegions, maxYear, res
         {divergedRegions.size > 0 && (
           <div className="flex items-center gap-1 text-[11px] text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             <span aria-hidden="true">{"\u25C6"}</span>
-            Diverges from the plain historical status — tap the territory for why
+            Diverges from the plain historical status
           </div>
         )}
       </div>
@@ -2494,11 +2423,11 @@ const METER_NOTES = {
     initiative: {
       bad: [
         "Every order this month has been a response to something the enemy did first.",
-        "OKW is no longer choosing where this war is fought — it is being told, and arriving late.",
+        "OKW is no longer choosing where this war is fought: it is being told, and arriving late.",
       ],
       critical: ["Nothing on this front is being decided here any more. The staff is a relay for other people's decisions."],
       good: [
-        "The enemy is conforming to this headquarters' movements rather than the reverse — a position the Reich has not held in some time.",
+        "The enemy is conforming to this headquarters' movements rather than the reverse: a position the Reich has not held in some time.",
         "The operational tempo belongs to OKW this month, and every front is answering it rather than setting it.",
       ],
     },
@@ -2528,7 +2457,7 @@ const METER_NOTES = {
     },
     initiative: {
       bad: [
-        "Every operation this season has been a reaction — the Germans move, and Stavka answers.",
+        "Every operation this season has been a reaction: the Germans move, and Stavka answers.",
         "The front is dictating to Stavka rather than the other way round, and it has been for months.",
       ],
       critical: ["Nothing is being initiated from this building. Every order leaving it is a response to something already lost."],
@@ -2563,12 +2492,12 @@ const METER_NOTES = {
     },
     initiative: {
       bad: [
-        "SHAEF is reacting this month — to the weather, to the enemy, to its own supply position, in roughly that order.",
+        "SHAEF is reacting this month, to the weather, to the enemy, to its own supply position, in roughly that order.",
         "Every decision reaching this headquarters arrives already shaped by something that happened without it.",
       ],
       critical: ["Nothing is being initiated from SHAEF. The staff is managing consequences and calling it planning."],
       good: [
-        "The German command is responding to Allied movements rather than setting any of its own — the position every plan since 1942 assumed and none delivered until now.",
+        "The German command is responding to Allied movements rather than setting any of its own: the position every plan since 1942 assumed and none delivered until now.",
         "The alliance is choosing where this war goes next rather than discovering it after the fact.",
       ],
     },
@@ -2576,7 +2505,7 @@ const METER_NOTES = {
   italy: {
     manpower: {
       bad: [
-        "Replacement drafts are arriving thinner than the casualty lists they're meant to answer — the mobilization tables never accounted for a war run this long.",
+        "Replacement drafts are arriving thinner than the casualty lists they're meant to answer: the mobilization tables never accounted for a war run this long.",
         "Divisions are being reported understrength as a matter of course, not exception.",
       ],
       critical: ["Whole formations exist now only on the order-of-battle chart Comando Supremo keeps for the newspapers."],
@@ -2599,11 +2528,11 @@ const METER_NOTES = {
     initiative: {
       bad: [
         "Every order leaving this headquarters this month has been a response to something Berlin, London, or the calendar decided first.",
-        "Comando Supremo is no longer setting this war's terms — it is being informed of them, often after the fact.",
+        "Comando Supremo is no longer setting this war's terms: it is being informed of them, often after the fact.",
       ],
       critical: ["Nothing on any front is being decided from this building any more. The staff is a relay for other commands' decisions."],
       good: [
-        "This command is dictating terms this month rather than answering them — a position Rome has held rarely, and not for long, in this war.",
+        "This command is dictating terms this month rather than answering them: a position Rome has held rarely, and not for long, in this war.",
         "The operational tempo belongs to Comando Supremo for once, and the fronts are answering it rather than setting it.",
       ],
     },
@@ -2788,7 +2717,7 @@ function Typewriter({ text, instant, soundOn }) {
       </p>
       {note && (
         <div role="note" className="mb-6 border-l-4 pl-3 py-1 text-[13px] leading-snug text-[#000000]" style={{ borderColor: "#b08d3f", fontFamily: "'Courier Prime', monospace" }}>
-          <b>{note.term}</b> — {note.text}
+          <b>{note.term}</b>: {note.text}
           <button
             type="button"
             onClick={() => setOpenTerm(null)}
@@ -2922,7 +2851,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             >
               {campaign.dynamic ? campaignReportLabel(campaign.id, stage.directive ? "directive" : "situation") : stage.directive ? "Theater Directive" : "Situation Report"} · No. {reportNumber}
               {campaign.dynamic && FILING_NOTE[timeSev] && (
-                <span className="opacity-50 italic normal-case tracking-normal"> — {FILING_NOTE[timeSev]}</span>
+                <span className="opacity-50 italic normal-case tracking-normal"> · {FILING_NOTE[timeSev]}</span>
               )}
             </div>
             <button
@@ -2935,7 +2864,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved" : saveState === "failed" ? "Save failed — retry" : "Save"}
+              {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved" : saveState === "failed" ? "Save failed: retry" : "Save"}
             </button>
             <button
               onClick={onHome}
@@ -2959,6 +2888,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             lastSeenMapStatuses={lastSeenMapStatuses}
             onStatusesChange={onStatusesChange}
             history={history}
+            review={showReview ? (!iron ? (total >= 3 ? " · ahead of the historical baseline" : total <= -3 ? " · behind the historical baseline" : " · tracking the historical record") : "") + (comparableSoFar.length > 0 ? ` · history matched at ${matchedSoFar} of ${comparableSoFar.length} points` : "") : null}
           />
         )}
 
@@ -2966,10 +2896,10 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
 
         {/* Round 13 (Craig: "Can the map being moved into one of the old continental theatre
             bar in the main node section"): this bar used to open the old schematic
-            "Show Continental Situation" node-graph map (EuropeMap — see
+            "Show Continental Situation" node-graph map (EuropeMap: see
             SHOW_LEGACY_SCHEMATIC_MAP above; still used by the post-campaign summary screen,
             just not here). It now opens the real-geography Checkpoint Map instead, from the
-            same position in the briefing flow the old bar held — replacing the small toolbar
+            same position in the briefing flow the old bar held: replacing the small toolbar
             "Map" button above, not adding a second entry point alongside it. */}
         {campaign.dynamic && (
           <button
@@ -2979,13 +2909,6 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
           >
             Show Theater Map
           </button>
-        )}
-        {showReview && (
-          <p className="mb-4 -mt-2 border border-black px-3 py-1 text-[11px] leading-snug text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            <span className="font-bold uppercase tracking-wider">Strategic review</span>
-            {!iron ? (total >= 3 ? " · ahead of the historical baseline" : total <= -3 ? " · behind the historical baseline" : " · tracking the historical record") : ""}
-            {comparableSoFar.length > 0 ? ` · history matched at ${matchedSoFar} of ${comparableSoFar.length} points` : ""}
-          </p>
         )}
         {SHOW_LEGACY_SCHEMATIC_MAP && campaign.dynamic && (
           <details className="mb-4 border-2 border-black px-3 py-2">
@@ -3078,7 +3001,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="inline-block border-[4px] px-2 py-1 text-xs uppercase tracking-widest font-bold"
               style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#7a2e2e", color: "#7a2e2e" }}
             >
-              ⚠⚠ Alternate History — invented, not argued by historians
+              ⚠⚠ Alternate History: invented, not argued by historians
             </span>
           </div>
         ) : (stage.speculative || flags.speculativePath) ? (
@@ -3087,7 +3010,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="inline-block border-[3px] px-2 py-1 text-xs uppercase tracking-widest font-bold"
               style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#b08d3f", color: "#7a5b1e" }}
             >
-              ⚠ Speculative — beyond what evidence supports
+              ⚠ Speculative: beyond what evidence supports
             </span>
           </div>
         ) : !isHistorical ? (
@@ -3096,7 +3019,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="inline-block border-2 border-black px-2 py-1 text-xs uppercase tracking-widest font-bold"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Projected Scenario — beyond the historical record
+              Projected Scenario: beyond the historical record
             </span>
           </div>
         ) : null}
@@ -3176,7 +3099,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-70"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  <span aria-hidden="true">Δ </span>Outcome genuinely uncertain — not even the preview can tell you this one
+                  <span aria-hidden="true">Δ </span>Outcome genuinely uncertain, not even the preview can tell you this one
                 </span>
               )}
               {iron && choice.favor && (
@@ -3184,7 +3107,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  <span aria-hidden="true">⚔ </span>Costs {choice.favor} political capital{choice.favor > favor ? " — insufficient" : ""}
+                  <span aria-hidden="true">⚔ </span>Costs {choice.favor} political capital{choice.favor > favor ? ": insufficient" : ""}
                 </span>
               )}
               {choice.disabledReason && (
@@ -3192,7 +3115,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  <span aria-hidden="true">⛔ </span>Unavailable — {choice.disabledReason}
+                  <span aria-hidden="true">⛔ </span>Unavailable: {choice.disabledReason}
                 </span>
               )}
               {!choice.disabledReason && choice.checkLabel && (
@@ -3205,7 +3128,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               )}
               {/* Round 4 (Craig: "we need a way when selecting the node that the choice will
                   lead to battle planning"): the Order of Battle screen used to arrive with no
-                  warning — a player picking this choice had no way to know it wasn't a normal
+                  warning: a player picking this choice had no way to know it wasn't a normal
                   one-tap decision. Unconditional (not mode-gated like the Easy-mode preview
                   badges above) since this is need-to-know regardless of difficulty: it changes
                   what tapping the button actually does, not just what it previews. */}
@@ -3246,7 +3169,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               )}
               {choice.attested ? (
                 <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
-                  “{choice.attested.text}” — {choice.attested.by}
+                  “{choice.attested.text}”: {choice.attested.by}
                 </span>
               ) : (
                 choice.advisor && (
@@ -3258,7 +3181,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               {choice.strain && choice.strain.points > 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
                   <span aria-hidden="true">▼ </span>
-                  Strain: {choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : "arrears owed"}
+                  Strain: {choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : "supplies short"}
                   {choice.concealRoll ? ", and the odds are worse for it" : `, so the odds are ${choice.strain.points} points worse for it`}
                 </span>
               )}
@@ -3267,7 +3190,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  ⚄ Contested —{" "}
+                  ⚄ Contested: {" "}
                   {choice.uncertain
                     .map((v) => {
                       const total = choice.uncertain.reduce((a, x) => a + x.weight, 0);
@@ -3293,7 +3216,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="text-[12px] italic mt-2 text-[#000000] opacity-70"
               style={{ fontFamily: "'Courier Prime', monospace" }}
             >
-              Note: contested decisions re-roll on a rewound timeline — history is not obliged to repeat
+              Note: contested decisions re-roll on a rewound timeline: history is not obliged to repeat
               itself.
             </p>
             <div className="flex flex-col gap-2 mt-3">
@@ -3304,7 +3227,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="text-left border px-3 py-2 text-xs text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
                   style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
                 >
-                  ↺ Rewind to {p.date} — {p.title}
+                  ↺ Rewind to {p.date}: {p.title}
                 </button>
               ))}
             </div>
@@ -3669,7 +3592,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         style={{ ...campaignPaperStyle(campaign.id, campaign.accent), fontFamily: "'Courier Prime', monospace" }}
       >
         <div className="text-xs uppercase tracking-[0.25em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
-          Order of Battle — Before Committing
+          Order of Battle: Before Committing
         </div>
         <h2
           ref={headingRef}
@@ -3727,7 +3650,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {config.conditions && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
-              Ground and weather —
+              Ground and weather
             </span>
             {config.conditions}
           </p>
@@ -3735,7 +3658,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {phaseNames && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
-              Fought in two phases —
+              Fought in two phases
             </span>
             {phaseNames[0]}, then {phaseNames[1]}. The enemy's setup can change between them, and the plan has to hold through both.
           </p>
@@ -3745,7 +3668,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {config.counterScale > 1 && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
-              A defensive battle —
+              A defensive battle
             </span>
             the enemy's blow is the main event here, and the counterattack counts for half as much again.
           </p>
@@ -3753,7 +3676,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {config.attrition && config.attrition.length > 0 && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
-              Known hazards —
+              Known hazards
             </span>
             {config.attrition
               .map((a) => `${a.atLeast} or more points of effort in ${categories.find((c) => c.id === a.category)?.name || a.category} will cost ${a.meter} (${a.reason.toLowerCase()})`)
@@ -3765,7 +3688,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {hardRule && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000] border-l-4 pl-3" style={{ ...bodyStyle, borderColor: "#7a2e2e" }}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ ...labelStyle, color: "#7a2e2e" }}>
-              {HARD_MODE_NAMES[mode]} — orders from above:
+              {HARD_MODE_NAMES[mode]}: orders from above:
             </span>
             {hardRule.text}
           </p>
@@ -3774,14 +3697,14 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {postureHint && (
           <div className="mb-6 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
             <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
-              Intelligence Summary{phaseNames ? ` — ${phaseNames[0]}` : ""}
+              Intelligence Summary{phaseNames ? `: ${phaseNames[0]}` : ""}
             </div>
             <p className="text-[13px] leading-snug italic text-[#000000]" style={bodyStyle}>
               {postureHint}
             </p>
             {/* Round 13, item #3: a paid second look, same shape as the staff assessment button
-                further down — spend Initiative for a materially sharper (not perfect) read. Not
-                offered in Easy Command (item #8) — the free hint there is already accurate, so a
+                further down: spend Initiative for a materially sharper (not perfect) read. Not
+                offered in Easy Command (item #8): the free hint there is already accurate, so a
                 Recon Pass would just be spending Initiative on nothing. */}
             {!reconUsed && !easyMode && (
               <button
@@ -3790,7 +3713,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                 className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={labelStyle}
               >
-                Call for a Reconnaissance Pass — costs 1 Initiative
+                Call for a Reconnaissance Pass: costs 1 Initiative
               </button>
             )}
             {reconUsed && (
@@ -3846,7 +3769,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                       {cmd.name}
                     </div>
                     <div className="text-[11px] opacity-80">
-                      {cmd.role} — favors {cat ? cat.name : cmd.category}
+                      {cmd.role}: favors {cat ? cat.name : cmd.category}
                     </div>
                   </button>
                 );
@@ -3863,7 +3786,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {approachRoster.length > 0 && (
           <div className="mb-6">
             <div role="heading" aria-level="3" className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
-              Tactical Approach — Choose One
+              Tactical Approach: Choose One
             </div>
             <div role="group" aria-label="Tactical approach" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {approachRoster.map((appr) => {
@@ -3896,7 +3819,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
               </p>
             ) : (
               <p className="text-[13px] leading-snug mt-2 text-[#000000] opacity-70" style={bodyStyle}>
-                Pick one — the offensive can't run on both doctrines at once.
+                Pick one: the offensive can't run on both doctrines at once.
               </p>
             )}
           </div>
@@ -3905,7 +3828,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         <div role="heading" aria-level="3" aria-live="polite" className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
           Effort in reserve: {remaining} of {poolSize}
           {bonusMeters.length > 0 && (
-            <span className="normal-case font-normal"> — {bonusMeters.length} extra from the standing of your logistics</span>
+            <span className="normal-case font-normal"> · {bonusMeters.length} extra from the standing of your logistics</span>
           )}
         </div>
         <p className="text-[12px] leading-snug mb-3 text-[#000000] opacity-80" style={bodyStyle}>
@@ -3938,7 +3861,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                 <span className="text-sm font-semibold text-[#000000]">
                   {cat.name}
                   {/* Round 13, item #6: a visible (not hidden, unlike posture) ground-conditions
-                      note — the flavor paragraph already told the player about the mud; this ties
+                      note: the flavor paragraph already told the player about the mud; this ties
                       that text to the specific category it actually affects. */}
                   {config.terrainNotes?.[cat.id] && (
                     <span className="ml-1 text-[11px] font-normal italic opacity-60">({config.terrainNotes[cat.id]})</span>
@@ -3950,10 +3873,10 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                   )}
                 </span>
                 {/* Round 8 (Craig: "'in good order' and 'reports uncertain' aren't clear in what
-                    they are doing"): the bare phrase read as ambiguous — readiness of what,
+                    they are doing"): the bare phrase read as ambiguous: readiness of what,
                     exactly? A "Readiness:" label anchors it to the category it sits next to,
                     without spelling out the hidden jitter roll it's actually a coarse signal
-                    for (see readiness() above — that's staying a band, not a number, on
+                    for (see readiness() above: that's staying a band, not a number, on
                     purpose). */}
                 <span className="text-xs text-[#000000] opacity-70 italic">Readiness: {readiness(cat.id)}</span>
               </div>
@@ -3963,7 +3886,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                   and the "+" button's position shifted every time the row filled or wrapped.
                   Fixed layout now: a minus button pinned left, a fill track (empty-to-filled,
                   left to right) scaled to the actual pool size so the same track reads
-                  identically across all four categories, and a plus button pinned right —
+                  identically across all four categories, and a plus button pinned right
                   neither button moves regardless of how much effort is placed. */}
               <div className="flex items-center gap-2">
                 <button
@@ -4041,7 +3964,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
             style={{ borderColor: campaign.accent, ...bodyStyle }}
           >
-            Ask the staff to review the plan — costs 1 Initiative
+            Ask the staff to review the plan: costs 1 Initiative
           </button>
           {assessment && (
             <div className="mt-3">
@@ -4127,13 +4050,13 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             : spent === 0
             ? "Commit Some Effort First"
             : remaining > 0
-            ? `Commit to Battle — ${remaining} held in reserve`
+            ? `Commit to Battle: ${remaining} held in reserve`
             : "Commit to Battle"}
         </button>
         {onSaveLeave && (
           <>
             <button onClick={saveAndLeave} className="w-full mt-3 text-center text-xs uppercase tracking-widest opacity-70 underline text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px" style={labelStyle}>
-              Save and leave the field — pick this battle up later
+              Save and leave the field: pick this battle up later
             </button>
             <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
               {saveNote}
@@ -4593,8 +4516,8 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             : "The Battle Unfolds"}
         </h2>
         {/* Round 13, Craig's item #1 ("graded outcomes, not strict binary win/lose"): a second
-            line under the verdict heading, grading the SAME win/loss on plan quality — clean vs.
-            costly win, marginal vs. total loss — from computeBattlePlanCosts's grade (see its own
+            line under the verdict heading, grading the SAME win/loss on plan quality: clean vs.
+            costly win, marginal vs. total loss, from computeBattlePlanCosts's grade (see its own
             comment for the exact thresholds). Falls back to nothing (not a generic sentence) when
             a battle config has no verdictGrades text yet, so this never half-renders for a future
             battle that hasn't had its grade copy written. */}
@@ -4674,7 +4597,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
         {!done && phase === "decision" && nextDecision && (
           <div ref={panelRef} tabIndex={-1} role="group" aria-label="A field decision" className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
             <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
-              {nextDecision.time ? `${nextDecision.time} — ` : ""}
+              {nextDecision.time ? `${nextDecision.time}` : ""}
               {nextDecision.title}
             </p>
             <p className="text-sm mb-3" style={bodyStyle}>
@@ -4693,7 +4616,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
         {!done && phase === "reserve" && (
           <div ref={panelRef} tabIndex={-1} role="group" aria-label="The decisive hour" className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
             <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
-              {times?.reserve ? <span className="font-bold mr-1" style={labelStyle}>{times.reserve} —</span> : null}
+              {times?.reserve ? <span className="font-bold mr-1" style={labelStyle}>{times.reserve}</span> : null}
               The battle stands at the point where it will be decided, and the line is {standing}.
               {carrying.length > 0 && <> {listWords(carrying)} {carrying.length === 1 ? "is" : "are"} carrying the attack.</>}
               {short.length > 0 && <> {listWords(short)} {short.length === 1 ? "is" : "are"} short of what {short.length === 1 ? "it needs" : "they need"}.</>}
@@ -4725,7 +4648,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
         {!done && phase === "counter" && (
           <div ref={panelRef} tabIndex={-1} role="group" aria-label="Enemy counterattack" className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
             <p className="text-sm mb-2 italic" style={bodyStyle}>
-              {times?.counter ? <span className="font-bold not-italic mr-1" style={labelStyle}>{times.counter} —</span> : null}
+              {times?.counter ? <span className="font-bold not-italic mr-1" style={labelStyle}>{times.counter}</span> : null}
               {ca.warn[severity] || ca.warn[1]}
             </p>
             <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
@@ -4785,7 +4708,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                 <p key={idx} className={`dispatch-line text-sm ${newest ? "flashup-line" : "opacity-60"}`} style={bodyStyle}>
                   {t && (
                     <span className="font-bold not-italic mr-1" style={labelStyle}>
-                      {t} —
+                      {t}
                     </span>
                   )}
                   {label && <span className="font-bold">{label}: </span>}
@@ -4814,7 +4737,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                 <div className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
                   What the Plan Cost
                 </div>
-                {/* Every meter that has a reason is listed, even at a net of zero — otherwise a
+                {/* Every meter that has a reason is listed, even at a net of zero: otherwise a
                     cost and a refund on the same meter would cancel into silence. */}
                 {Object.entries(result.planCosts.totals)
                   .filter(([m]) => result.planCosts.lines.some((l) => l.meter === m))
@@ -4823,8 +4746,8 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                       <span className="font-bold">
                         {meterNames[m]} {v > 0 ? "+" : v === 0 ? "±" : ""}
                         {v}
-                      </span>{" "}
-                      — {result.planCosts.lines.filter((l) => l.meter === m).map((l) => l.reason).join("; ")}
+                      </span>{": "}
+                      {result.planCosts.lines.filter((l) => l.meter === m).map((l) => l.reason).join("; ")}
                     </p>
                   ))}
               </div>
@@ -4873,7 +4796,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
         {canSaveHere && (
           <>
             <button onClick={saveAndLeave} className="w-full mt-4 text-center text-xs uppercase tracking-widest opacity-70 underline focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px" style={labelStyle}>
-              Save and leave the field — the report starts again from its first line
+              Save and leave the field: the report starts again from its first line
             </button>
             <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
               {saveNote}
@@ -4964,7 +4887,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
         )}
 
         {/* Round 10 (Craig: a general wouldn't know the option he didn't get): after a Key
-            Battle Subgame battle (resolvedWeights set) this box is not shown at all — no odds,
+            Battle Subgame battle (resolvedWeights set) this box is not shown at all: no odds,
             no alternative outcome. The battle report already gave the verdict in the battle's
             own words. Every ordinary concealRoll/contested choice elsewhere is unchanged. */}
         {eff.variantTitle && !(choice.concealRoll && resolvedWeights) && (
@@ -5001,7 +4924,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
               ) : (
                 <>
                   <div className="uppercase tracking-widest text-[10px] opacity-60 mb-1">
-                    ⚄ Hidden at the time — the odds you couldn't see
+                    ⚄ Hidden at the time: the odds you couldn't see
                   </div>
                   <div className="uppercase tracking-widest">
                     {choice.uncertain
@@ -5012,7 +4935,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
                 </>
               )
             ) : (
-              <div className="uppercase tracking-widest">⚄ Contested decision — resolved: {eff.variantTitle}</div>
+              <div className="uppercase tracking-widest">⚄ Contested decision: resolved: {eff.variantTitle}</div>
             )}
           </div>
         )}
@@ -5035,7 +4958,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
           </div>
         )}
         {/* Round 9: a Key Battle Subgame plan's own cost (see computeBattlePlanCosts), applied
-            to the meters alongside the outcome's impact above — shown separately so the player
+            to the meters alongside the outcome's impact above: shown separately so the player
             can tell the battle's historical consequence from the price of how they fought it. */}
         {battleNotes && battleNotes.length > 0 && (
           <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
@@ -5097,7 +5020,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, onProc
   );
 }
 
-function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, favor, onRestart, onSwitch, onRewind, grandChain, onContinueGrand }) {
+function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, favor, onRestart, onSwitch, onRewind, grandChain, onContinueGrand, history, position, seenWireHeadlines }) {
   const [copied, setCopied] = useState(false);
   const headingRef = useRef(null);
   useEffect(() => {
@@ -5171,7 +5094,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
   // The summary a player can copy and share: plain lines, in the order a reader wants them.
   const shareText = () => {
     const lines = [
-      "DISPATCHES 1940 — After-Action Report",
+      "DISPATCHES 1940: After-Action Report",
       `${campaign.name} · ${warRoomModeInfo(mode || "open", campaign.id).label}`,
       "",
       rating ? `Command rank: ${rating.rank} (${rating.score}/100)` : null,
@@ -5217,8 +5140,8 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             className="mt-2 inline-block border-2 px-2 py-1 text-[10px] uppercase tracking-[0.2em] font-bold"
             style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Grand Campaign (prototype) — Leg {grandChain.index + 1} of {grandChain.order.length}
-            {grandChain.index + 1 >= grandChain.order.length ? " — Complete" : ""}
+            Grand Campaign (prototype): Leg {grandChain.index + 1} of {grandChain.order.length}
+            {grandChain.index + 1 >= grandChain.order.length ? ": Complete" : ""}
           </div>
         )}
         <div className="flex items-start gap-2 flex-wrap mt-4 mb-1">
@@ -5242,7 +5165,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         {endStamp && (
           <div className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             End of hostilities: {endStamp}
-            {campaign.dynamic && FILING_NOTE[timeSev] && <span className="opacity-70 italic normal-case tracking-normal"> — {FILING_NOTE[timeSev]}</span>}
+            {campaign.dynamic && FILING_NOTE[timeSev] && <span className="opacity-70 italic normal-case tracking-normal"> · {FILING_NOTE[timeSev]}</span>}
           </div>
         )}
 
@@ -5268,9 +5191,20 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         {campaign.projectedEnd && campaign.dynamic && (
           <details className="mb-6">
             <summary className="text-xs uppercase tracking-[0.25em] font-semibold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              Continental Situation — the Europe this war made
+              The Theater Map at the end of the war
             </summary>
-            <EuropeMap year={yearFrom(endStamp, 1945)} flags={flags} meters={meters} accent={campaign.accent} resolved />
+            <CheckpointMap
+              embedded
+              campaign={campaign}
+              year={yearFrom(endStamp, 1945)}
+              flags={flags}
+              meters={meters}
+              resolved
+              seenWireHeadlines={seenWireHeadlines || []}
+              nodeId={position}
+              history={history}
+              endDate={endStamp.replace(/\s*\(.*\)\s*$/, "")}
+            />
           </details>
         )}
 
@@ -5336,7 +5270,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
               {legacyAdvisors.map(([name, , dossier]) => (
                 <p key={name} className="text-[13px] leading-snug text-[#000000] border-l-4 pl-2" style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}>
                   <span className="font-bold">{name}</span>
-                  {dossier.role ? <span className="opacity-70"> ({dossier.role})</span> : null} — {dossier.fate}
+                  {dossier.role ? <span className="opacity-70"> ({dossier.role})</span> : null}: {dossier.fate}
                 </p>
               ))}
             </div>
@@ -5350,7 +5284,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
               const o = OBJECTIVES.find((x) => x.id === id);
               return o ? (
                 <div key={id} className="text-sm text-[#000000] border-l-4 pl-2 mb-1" style={{ borderColor: "#b08d3f", fontFamily: "'Courier Prime', monospace" }}>
-                  ★ <b>{o.title}</b> — {o.desc}
+                  ★ <b>{o.title}</b>: {o.desc}
                 </div>
               ) : null;
             })}
@@ -5378,7 +5312,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                       {e.isHistorical ? "·" : "◆"}
                     </span>
                     <div className="text-[10px] uppercase tracking-widest text-[#000000] opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                      {e.date} — {e.title}
+                      {e.date}: {e.title}
                     </div>
                     <div className={`text-[13px] text-[#000000] ${e.isHistorical ? "" : "font-bold"}`} style={{ fontFamily: "'Courier Prime', monospace" }}>
                       {e.label}
@@ -5412,7 +5346,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                   className="text-left border px-3 py-2 text-xs text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
                   style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
                 >
-                  ↺ Rewind to {p.date} — {p.title}
+                  ↺ Rewind to {p.date}: {p.title}
                 </button>
               ))}
             </div>
@@ -5426,7 +5360,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
               className="border-2 px-5 py-2 uppercase tracking-widest text-sm font-bold text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
               style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "Oswald, sans-serif" }}
             >
-              Continue Grand Campaign — {CAMPAIGNS[grandChain.order[grandChain.index + 1]].name} →
+              Continue Grand Campaign: {CAMPAIGNS[grandChain.order[grandChain.index + 1]].name} →
             </button>
           )}
           <button

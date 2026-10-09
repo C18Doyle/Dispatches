@@ -42,24 +42,27 @@ check(L.arrearsOf({ arrearsFuel: 3 }, "fuel") === 3 && L.arrearsOf({}, "manpower
 // --- strain ------------------------------------------------------------------------------------------------------
 check(L.strainOf({}, M(0, 0, 0)).points === 0, "no strain when nothing is short");
 check(L.strainOf({}, M(0, -4, 0)).points === 0, "no strain at -4");
+check(L.strainOf({}, M(0, -10, 0), "fuel").points === 7 && eq(L.strainOf({}, M(-10, 0, 0), "fuel").causes, []), "strain on one meter counts only that meter");
 check(L.strainOf({}, M(0, -10, 0)).points === 7 && eq(L.strainOf({}, M(0, -10, 0)).causes, ["Matériel"]), "Matériel at -10 is 7 points of strain, and names the cause");
 check(L.strainOf({ arrearsFuel: 4 }, M(0, -10, 0)).points === 9, "arrears add to the strain");
 check(L.strainOf({ arrearsManpower: 6, arrearsFuel: 6, arrearsInitiative: 6 }, M(-10, -10, -10)).points === 12, "strain is capped at 12 points");
 const contested = choice({}, { uncertain: [{ weight: 60, impact: { manpower: 1 } }, { weight: 40, impact: { manpower: -2 } }] });
-let st = L.strainStage(stage(contested), {}, M(0, -10, 0));
+check(L.strainMeterOf(contested) === "manpower" && L.strainMeterOf(choice({}, { checkLabel: "Matériel", uncertain: [{ weight: 50, impact: { manpower: 2 } }, { weight: 50, impact: { manpower: -2 } }] })) === "fuel" && L.strainMeterOf(choice({})) === null, "a decision is strained by the meter it names, else the one its outcomes move most");
+check(L.strainStage(stage(contested), {}, M(0, -10, 0)).choices[0] === contested, "a shortage of a meter the decision does not touch leaves it alone");
+let st = L.strainStage(stage(contested), {}, M(-10, 0, 0));
 let w = st.choices[0].uncertain.map((v) => v.weight);
 check(Math.abs(w[0] - 53) < 1e-9 && Math.abs(w[1] - 47) < 1e-9 && st.choices[0].strain.points === 7, "strain moves points from the best outcome to the worst, and the choice says so");
 check(L.strainStage(stage(contested), {}, M(0, 0, 0)).choices[0] === contested, "no strain leaves the choice untouched");
 const battle = choice({}, { keyBattleSubgame: { id: "k" }, uncertain: [{ weight: 60, impact: { manpower: 1 } }, { weight: 40, impact: { manpower: -2 } }] });
-check(L.strainStage(stage(battle), {}, M(0, -10, 0)).choices[0] === battle, "a battle keeps its own arithmetic");
+check(L.strainStage(stage(battle), {}, M(-10, 0, 0)).choices[0] === battle, "a battle keeps its own arithmetic");
 const flat = choice({}, { uncertain: [{ weight: 50, impact: { manpower: 1 } }, { weight: 50, impact: { manpower: 1 } }] });
-check(L.strainStage(stage(flat), {}, M(0, -10, 0)).choices[0] === flat, "outcomes that cost the same are left alone");
+check(L.strainStage(stage(flat), {}, M(-10, 0, 0)).choices[0] === flat, "outcomes that cost the same are left alone");
 const nearly = choice({}, { uncertain: [{ weight: 6, impact: { manpower: 1 } }, { weight: 94, impact: { manpower: -2 } }] });
-w = L.strainStage(stage(nearly), {}, M(0, -10, 0)).choices[0].uncertain.map((v) => v.weight);
+w = L.strainStage(stage(nearly), {}, M(-10, 0, 0)).choices[0].uncertain.map((v) => v.weight);
 check(w[0] >= 5 - 1e-9 && Math.abs(w[0] + w[1] - 100) < 1e-9, "the best outcome is never drained below 5% and the weights still total the same");
-r = resolve(L.strainStage(stage(contested), {}, M(0, -10, 0)).choices[0], M(0, -10, 0), {}, { rand: () => 0.55 });
+r = resolve(L.strainStage(stage(contested), {}, M(-10, 0, 0)).choices[0], M(-10, 0, 0), {}, { rand: () => 0.55 });
 check(r.rollIndex === 1, "the roll uses the strained weights (0.55 lands on the worse outcome at 53/47)");
-r = resolve(contested, M(0, -10, 0), {}, { rand: () => 0.55 });
+r = resolve(contested, M(-10, 0, 0), {}, { rand: () => 0.55 });
 check(r.rollIndex === 0, "and the unstrained weights would have given the better one (60/40)");
 
 // --- a battle may not charge the same fault twice ------------------------------------------------------------------------

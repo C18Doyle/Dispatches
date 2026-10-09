@@ -1,8 +1,6 @@
 function WW2CommandInner() {
   const [screen, setScreen] = useState("select");
   const [campaignId, setCampaignId] = useState(null);
-  // The command chosen on the main screen, while its difficulty is being chosen.
-  const [pendingCampaignId, setPendingCampaignId] = useState(null);
   const [position, setPosition] = useState(0);
   const [choiceIndex, setChoiceIndex] = useState(null);
   const [rollIndex, setRollIndex] = useState(null);
@@ -644,7 +642,7 @@ function WW2CommandInner() {
           100% { opacity: 1; transform: translateY(0); }
         }
         /* Round 9 fix: this used to end at opacity 0 (a round-6 leftover, when a flashup was a
-           transient one-liner) with fill-mode both — so ever since round 8 made the report a
+           transient one-liner) with fill-mode both, so ever since round 8 made the report a
            persistent log, the NEWEST line faded out 650ms after appearing. Now fades in and
            stays. */
         .flashup-line { animation: flashupFade 450ms ease-out both; }
@@ -683,12 +681,9 @@ function WW2CommandInner() {
         `}</style>
       )}
       <audio ref={musicRef} src={MUSIC_TRACK_SRC} loop preload="none" />
-      {screen === "select" && <SelectScreen onChooseCampaign={(id) => { setPendingCampaignId(id); setScreen("difficulty"); }} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
-      {screen === "difficulty" && pendingCampaignId && CAMPAIGNS[pendingCampaignId] && (
-        <DifficultyScreen campaign={CAMPAIGNS[pendingCampaignId]} onPick={(m) => pickCampaign(pendingCampaignId, m)} onBack={() => setScreen("select")} />
-      )}
+      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
-        <WarRoomScreen campaign={campaign} mode={mode} onEnter={enterWarRoom} onBack={() => { setPendingCampaignId(campaignId); setScreen("difficulty"); }} />
+        <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
       )}
       {screen === "wire" && campaign && pendingWireHeadline && (
         <WireBulletin
@@ -823,6 +818,9 @@ function WW2CommandInner() {
           onRewind={rewindTo}
           grandChain={grandChain}
           onContinueGrand={() => continueGrandCampaign(campaign.id, flags, meters)}
+          history={history}
+          position={position}
+          seenWireHeadlines={seenWireHeadlines}
         />
       )}
     </div>

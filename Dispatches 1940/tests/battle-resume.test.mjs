@@ -47,7 +47,7 @@ if (err) throw new Error(err);
 const policy = {};
 let reached = false;
 for (let i = 0; i < 200 && !reached; i++) {
-  if (/Order of Battle — Before Committing/.test(ctx1.text())) {
+  if (/Order of Battle[:—] Before Committing/.test(ctx1.text())) {
     reached = true;
     break;
   }
@@ -88,7 +88,7 @@ const resume = find(ctx2, /War in Progress/);
 check(!!resume, "fresh page offers to resume");
 await ctx2.click(resume);
 const after = ctx2.text();
-check(/Order of Battle — Before Committing/.test(after), "resume lands on the planning screen, not the briefing");
+check(/Order of Battle[:—] Before Committing/.test(after), "resume lands on the planning screen, not the briefing");
 check(after === before, "the planning screen is exactly as it was left (plan, intelligence, readings, Initiative)");
 
 // --- commit, play into the report, save mid-report --------------------------------------------------
@@ -150,7 +150,7 @@ broken.battle.draft.allocation = { nonsense: 1 };
 bad["ww2-command-active"] = JSON.stringify(broken);
 const ctx4 = await boot(bad);
 await ctx4.click(find(ctx4, /War in Progress/));
-check(!/Order of Battle — Before Committing/.test(ctx4.text()) && !/The File Was Damaged/.test(ctx4.text()), "a damaged battle section falls back to the briefing");
+check(!/Order of Battle[:—] Before Committing/.test(ctx4.text()) && !/The File Was Damaged/.test(ctx4.text()), "a damaged battle section falls back to the briefing");
 ctx4.restore();
 
 if (fails.length) {

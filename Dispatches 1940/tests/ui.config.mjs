@@ -8,7 +8,7 @@ const CAMPAIGNS = [
   ["allied", "SHAEF"],
   ["italy", "COMANDO"],
 ];
-// The three buttons right after a campaign card, in order.
+// The three difficulties, by the order of the cases below.
 const MODES = ["easy", "open", "hard"];
 const CASES = [];
 for (const [id, prefix] of CAMPAIGNS) for (const mode of MODES) CASES.push([id, prefix, mode]);
@@ -54,9 +54,12 @@ export default {
     const card = ctx.buttons().find((b) => lab(b).startsWith(prefix));
     if (!card) return "campaign card missing: " + prefix;
     await ctx.click(card);
-    const modeBtn = ctx.buttons().filter((b) => /^Take command/.test(lab(b)))[MODES.indexOf(mode)];
-    if (!modeBtn) return "mode button missing: " + mode;
-    await ctx.click(modeBtn);
+    // The war room holds the difficulty: Normal is already selected; Easy and Hard are buttons with those names.
+    if (mode !== "open") {
+      const modeBtn = ctx.buttons().find((b) => lab(b).startsWith(mode === "easy" ? "Easy" : "Hard"));
+      if (!modeBtn) return "mode button missing: " + mode;
+      await ctx.click(modeBtn);
+    }
     const enter = ctx.buttons().find((b) => /^Enter the War Room/i.test(lab(b)));
     if (!enter) return "no war room button; saw " + ctx.buttons().map(lab).join(" | ").slice(0, 160);
     await ctx.click(enter);
