@@ -666,13 +666,14 @@ export interface StrainedChoice extends Choice {
  * The stage with the odds of its contested choices worsened by strain: probability moves from the choice's best
  * outcome (by the sum of its meter impact) to its worst. Choices that open an Order of Battle keep their own
  * arithmetic, and a choice whose outcomes cost the same is left alone. The result is what the player is shown and what
- * is rolled, so the two can never disagree.
+ * is rolled, so the two can never disagree. When the player has left the battles to the game (`planBattles` false) a battle choice is
+ * an ordinary contested choice, so it is strained like one.
  */
-export function strainStage<T extends Stage | null | undefined>(stage: T, flags: Flags, meters: Meters): T {
+export function strainStage<T extends Stage | null | undefined>(stage: T, flags: Flags, meters: Meters, planBattles = true): T {
   if (!stage || !stage.choices) return stage;
   const choices = stage.choices.map((choice): Choice => {
     const u = choice.uncertain;
-    if (!u || u.length < 2 || choice.keyBattleSubgame) return choice;
+    if (!u || u.length < 2 || (planBattles && choice.keyBattleSubgame)) return choice;
     // Round 27: the strain on a decision is the shortage of the meter that decision is about, not of whichever meter is lowest.
     const strain = strainOf(flags, meters, strainMeterOf(choice));
     if (!strain.points) return choice;

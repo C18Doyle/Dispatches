@@ -26673,6 +26673,66 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   );
 }
 
+// A war room setting drawn as a tick box with an ink stamp struck over it when it is on (Round 19 look: the ending/report seals' grammar, in the
+// campaign's accent colour). The stamp is centred on its box, not left-anchored, so the canted rectangle cannot spill into the words after it.
+function StampToggle({ accent, checked, onChange, stamp, title, text }) {
+  return (
+    <label
+      className="flex items-start gap-3 mb-4 pb-4 border-b-2 text-[12px] leading-snug text-[#000000] cursor-pointer"
+      style={{ borderColor: accent, fontFamily: "'Courier Prime', monospace" }}
+    >
+      <span className="relative shrink-0" style={{ width: 68, height: 26 }}>
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="appearance-none m-0 block cursor-pointer absolute"
+          style={{
+            left: 25,
+            top: 4,
+            width: 18,
+            height: 18,
+            border: "2px solid #000000",
+            background: "#f4efe3",
+            boxShadow: "inset 0 0 0 2px #f4efe3",
+          }}
+        />
+        {checked && (
+          <span
+            aria-hidden="true"
+            className="absolute pointer-events-none select-none whitespace-nowrap"
+            style={{
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%) rotate(-9deg)",
+              display: "inline-block",
+              border: `2px solid ${accent}`,
+              borderRadius: 2,
+              padding: "2px 5px",
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontWeight: 700,
+              fontSize: 8,
+              letterSpacing: "0.1em",
+              color: accent,
+              opacity: 0.85,
+              mixBlendMode: "multiply",
+            }}
+          >
+            {stamp}
+          </span>
+        )}
+      </span>
+      <span>
+        <span className="font-bold uppercase tracking-widest text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          {title}
+        </span>
+        <br />
+        {text}
+      </span>
+    </label>
+  );
+}
+
 function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const modeInfo = warRoomModeInfo(mode, campaign.id);
   const hardId = HARD_MODE_OF[campaign.id];
@@ -26693,6 +26753,8 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   // behavior); unticking is an opt-in the player actively chooses.
   const [historicallyAccurate, setHistoricallyAccurate] = useState(true);
   const hasForks = (DIVERGENCE_FORKS[campaign.id] || []).length > 0;
+  // "Take control of battle planning": ticked, the Order of Battle opens on a battle choice; unticked, it is made like any other decision.
+  const [controlBattles, setControlBattles] = useState(true);
 
   return (
     <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
@@ -26732,70 +26794,28 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
           </div>
         </div>
         {hasForks && (
-          <label
-            className="flex items-start gap-3 mb-4 pb-4 border-b-2 text-[12px] leading-snug text-[#000000] cursor-pointer"
-            style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
-          >
-            <span className="relative shrink-0" style={{ width: 68, height: 26 }}>
-              <input
-                type="checkbox"
-                checked={historicallyAccurate}
-                onChange={(e) => setHistoricallyAccurate(e.target.checked)}
-                className="appearance-none m-0 block cursor-pointer absolute"
-                style={{
-                  left: 25,
-                  top: 4,
-                  width: 18,
-                  height: 18,
-                  border: "2px solid #000000",
-                  background: "#f4efe3",
-                  boxShadow: "inset 0 0 0 2px #f4efe3",
-                }}
-              />
-              {/* Round 19 (Craig: "instead of a tick... make it a stamp, would look more
-                  authentic"): reuses this file's existing ink-stamp visual grammar (see the
-                  <Stamp> component and .briefing-stamp-* classes used for ending/report seals)
-                  rather than inventing a new treatment: a small canted bordered rectangle in the
-                  campaign's own accent color struck over the checkbox, not a handwritten check
-                  mark. Centered on the container (not left-anchored) so the rotated box can't
-                  spill into the label text that follows. */}
-              {historicallyAccurate && (
-                <span
-                  aria-hidden="true"
-                  className="absolute pointer-events-none select-none whitespace-nowrap"
-                  style={{
-                    left: "50%",
-                    top: "50%",
-                    transform: "translate(-50%, -50%) rotate(-9deg)",
-                    display: "inline-block",
-                    border: `2px solid ${campaign.accent}`,
-                    borderRadius: 2,
-                    padding: "2px 5px",
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontWeight: 700,
-                    fontSize: 8,
-                    letterSpacing: "0.1em",
-                    color: campaign.accent,
-                    opacity: 0.85,
-                    mixBlendMode: "multiply",
-                  }}
-                >
-                  VERIFIED
-                </span>
-              )}
-            </span>
-            <span>
-              <span className="font-bold uppercase tracking-widest text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                Historically Accurate Opponent
-              </span>
-              <br />
-              Lift the stamp, and the war is more likely to run beyond the realms of historical accuracy.
-            </span>
-          </label>
+          <StampToggle
+            accent={campaign.accent}
+            checked={historicallyAccurate}
+            onChange={setHistoricallyAccurate}
+            stamp="VERIFIED"
+            title="Historically Accurate Opponent"
+            text="Lift the stamp, and the war is more likely to run beyond the realms of historical accuracy."
+          />
+        )}
+        {KEY_BATTLE_SUBGAME_ENABLED && (
+          <StampToggle
+            accent={campaign.accent}
+            checked={controlBattles}
+            onChange={setControlBattles}
+            stamp="COMMAND"
+            title="Take Control of Battle Planning"
+            text="Lift the stamp, and the battles are not played: those choices are made like any other decision."
+          />
         )}
         <div className="flex flex-col gap-3">
           <button
-            onClick={() => onEnter(hasForks ? historicallyAccurate : true)}
+            onClick={() => onEnter(hasForks ? historicallyAccurate : true, KEY_BATTLE_SUBGAME_ENABLED ? controlBattles : true)}
             className="w-full border-2 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#ffffff] transition-colors duration-150"
             style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >
@@ -27551,7 +27571,6 @@ function MeterBar({ label, value, danger, showBar = true, from, min = -10, max =
           role="img"
           aria-label={`${label}: ${valueLabel || fmt(value)} on a scale from ${fmt(min)} to ${fmt(max)}${moved ? `, ${value > from ? "up" : "down"} from ${fmt(from)}` : ""}${danger ? ", critical" : ""}`}
         >
-          <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black opacity-40" />
           <div
             className="absolute top-0 bottom-0"
             style={{
@@ -27561,7 +27580,6 @@ function MeterBar({ label, value, danger, showBar = true, from, min = -10, max =
               transition: "left 800ms cubic-bezier(0.2, 0.8, 0.2, 1), width 800ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 800ms",
             }}
           />
-          {moved && <div aria-hidden="true" className="absolute top-0 bottom-0 w-[2px] bg-black opacity-70" style={{ left: `calc(${50 + clamp(from) * unit}% - 1px)` }} />}
         </div>
       )}
       <span className={`font-bold text-right shrink-0 whitespace-nowrap ${valueLabel ? "w-32" : "w-10"}`} style={{ color: danger ? "#7a2e2e" : "#000000" }}>
@@ -27599,11 +27617,16 @@ const METER_ROWS = [
   { key: "initiative", label: "Initiative", dangerAt: null },
 ];
 const BAND_COLOURS = ["#7a2e2e", "#7a2e2e", "#8a5a1a", "#000000", "#28497a"];
-const METER_OPEN_KEY = "dispatches1940_meters_open";
+// Which meter panels are open. Kept while the page is open (so they stay as the player left them from one report to the next) and
+// cleared when a run starts, so every new game opens with them closed. Not stored: it used to be, and a panel opened once stayed open for good.
+let meterPanelsOpen = {};
+function closeMeterPanels() {
+  meterPanelsOpen = {};
+}
 
-// A word for a meter that has fallen far enough to matter, shown beside the bar even when it is closed.
+// A word for a meter that has fallen far enough to matter, shown beside the bar even when it is closed. (Not for a merely low one: the bar says that.)
 function meterDangerTag(v) {
-  return v <= -8 ? "Critical" : v <= -5 ? "Dangerous" : v <= -2 ? "Low" : null;
+  return v <= -8 ? "Critical" : v <= -5 ? "Dangerous" : null;
 }
 
 // What the staff say about a meter, shown inside its panel. { text, grave }: grave notes are drawn in red.
@@ -27628,22 +27651,11 @@ function meterStaffNotes(key, meters, flags) {
 // METER_STRANDS in logic.ts) with a status word, a green or red marker on any that moved since the last decision
 // (`prev` is the state before it), and the staff's notes on that meter. Which are open is remembered.
 function MeterPanel({ meters, flags, prev }) {
-  const [open, setOpen] = useState(() => {
-    try {
-      return JSON.parse(window.localStorage.getItem(METER_OPEN_KEY) || "{}") || {};
-    } catch (e) {
-      return {};
-    }
-  });
+  const [open, setOpen] = useState(() => meterPanelsOpen);
   function toggle(key) {
     setOpen((o) => {
-      const next = { ...o, [key]: !o[key] };
-      try {
-        window.localStorage.setItem(METER_OPEN_KEY, JSON.stringify(next));
-      } catch (e) {
-        /* storage can be blocked; the panel then simply starts closed each time */
-      }
-      return next;
+      meterPanelsOpen = { ...o, [key]: !o[key] };
+      return meterPanelsOpen;
     });
   }
   return (
@@ -29573,7 +29585,7 @@ function cohesionLabel(c) {
   return "Fraying";
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history }) {
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
@@ -29951,7 +29963,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   one-tap decision. Unconditional (not mode-gated like the Easy-mode preview
                   badges above) since this is need-to-know regardless of difficulty: it changes
                   what tapping the button actually does, not just what it previews. */}
-              {KEY_BATTLE_SUBGAME_ENABLED && !choice.disabledReason && choice.keyBattleSubgame && (
+              {KEY_BATTLE_SUBGAME_ENABLED && controlBattles && !choice.disabledReason && choice.keyBattleSubgame && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: campaign.accent, color: campaign.accent }}
@@ -32884,6 +32896,8 @@ function WW2CommandInner() {
   const [battleResume, setBattleResume] = useState(null);
   const [rewinds, setRewinds] = useState(0);
   const [mode, setMode] = useState("open");
+  // "Take control of battle planning" (the war room stamp). Off: a choice that would open the Order of Battle is made like any other.
+  const [controlBattles, setControlBattles] = useState(true);
   // Grand Campaign prototype: null outside a Grand Campaign run, otherwise
   // { order: GRAND_CAMPAIGN_ORDER, index }. See pickCampaign/startGrandCampaign/
   // continueGrandCampaign below.
@@ -32974,9 +32988,9 @@ function WW2CommandInner() {
   const stage = useMemo(() => {
     if (!campaign) return null;
     // Führer Mode necessity rule lives in logic.ts (playableStage).
-    return strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters);
+    return strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters, controlBattles);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [campaign, position, flags, meters, mode]);
+  }, [campaign, position, flags, meters, mode, controlBattles]);
 
   // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as the
   // choice applies its impact, which can drop or shift a meter-gated choice and changes the roll odds
@@ -32999,6 +33013,8 @@ function WW2CommandInner() {
     const camp = CAMPAIGNS[id];
     const startPos = camp.dynamic ? camp.start : 0;
     setMode(playMode);
+    setControlBattles(true);
+    closeMeterPanels();
     setFavor(5);
     setDefiance(0);
     clearActiveRun();
@@ -33053,7 +33069,8 @@ function WW2CommandInner() {
   // border41, narvik40) — chooseOption's check never runs for the very first node a player sees
   // (nothing chose their way into it), so that one case is handled here instead, using the same
   // WireBulletin/pendingWireHeadline plumbing.
-  function enterWarRoom(historicallyAccurate = true) {
+  function enterWarRoom(historicallyAccurate = true, planBattles = true) {
+    setControlBattles(planBattles);
     if (!historicallyAccurate && campaignId && DIVERGENCE_FORKS[campaignId]) {
       const forkFlags = rollDivergenceForks(campaignId);
       if (Object.keys(forkFlags).length) {
@@ -33079,7 +33096,7 @@ function WW2CommandInner() {
     // impact, the roll itself) and hand off to the Order of Battle allocation screen. The
     // second call — with subgamePayload defined — is the real resolution and falls through to
     // the normal logic below, now with that screen's result folded into the roll.
-    if (KEY_BATTLE_SUBGAME_ENABLED && choice.keyBattleSubgame && subgamePayload === undefined) {
+    if (KEY_BATTLE_SUBGAME_ENABLED && controlBattles && choice.keyBattleSubgame && subgamePayload === undefined) {
       // Round 9: base weights captured here so the battle report can replay the nudge before the
       // roll exists — the roll now happens at the END of the report (see onResolve), not at
       // commit, so the mid-battle reserve decision can still change it.
@@ -33210,6 +33227,7 @@ function WW2CommandInner() {
           version: SAVE_VERSION,
           campaignId,
           mode,
+          controlBattles,
           favor: mode === "iron" && choice.favor ? favor - choice.favor : favor,
           defiance,
           position: nextPos,
@@ -33244,6 +33262,7 @@ function WW2CommandInner() {
       version: SAVE_VERSION,
       campaignId,
       mode,
+      controlBattles,
       favor,
       defiance,
       position,
@@ -33411,6 +33430,7 @@ function WW2CommandInner() {
   function resumeRun(saved) {
     setCampaignId(saved.campaignId);
     setMode(saved.mode || "open");
+    setControlBattles(saved.controlBattles !== false);
     setFavor(saved.favor != null ? saved.favor : 5);
     setDefiance(saved.defiance != null ? saved.defiance : 0);
     setPosition(saved.position);
@@ -33589,6 +33609,7 @@ function WW2CommandInner() {
               version: SAVE_VERSION,
               campaignId,
               mode,
+              controlBattles,
               favor,
               defiance,
               position,
@@ -33637,6 +33658,7 @@ function WW2CommandInner() {
           favor={favor}
           instantText={instantText}
           soundOn={soundOn}
+          controlBattles={controlBattles}
           onChoose={chooseOption}
           onRewind={rewindTo}
           onSave={manualSave}

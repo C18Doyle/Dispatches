@@ -735,7 +735,6 @@ function MeterBar({ label, value, danger, showBar = true, from, min = -10, max =
           role="img"
           aria-label={`${label}: ${valueLabel || fmt(value)} on a scale from ${fmt(min)} to ${fmt(max)}${moved ? `, ${value > from ? "up" : "down"} from ${fmt(from)}` : ""}${danger ? ", critical" : ""}`}
         >
-          <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black opacity-40" />
           <div
             className="absolute top-0 bottom-0"
             style={{
@@ -745,7 +744,6 @@ function MeterBar({ label, value, danger, showBar = true, from, min = -10, max =
               transition: "left 800ms cubic-bezier(0.2, 0.8, 0.2, 1), width 800ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 800ms",
             }}
           />
-          {moved && <div aria-hidden="true" className="absolute top-0 bottom-0 w-[2px] bg-black opacity-70" style={{ left: `calc(${50 + clamp(from) * unit}% - 1px)` }} />}
         </div>
       )}
       <span className={`font-bold text-right shrink-0 whitespace-nowrap ${valueLabel ? "w-32" : "w-10"}`} style={{ color: danger ? "#7a2e2e" : "#000000" }}>
@@ -783,11 +781,16 @@ const METER_ROWS = [
   { key: "initiative", label: "Initiative", dangerAt: null },
 ];
 const BAND_COLOURS = ["#7a2e2e", "#7a2e2e", "#8a5a1a", "#000000", "#28497a"];
-const METER_OPEN_KEY = "dispatches1940_meters_open";
+// Which meter panels are open. Kept while the page is open (so they stay as the player left them from one report to the next) and
+// cleared when a run starts, so every new game opens with them closed. Not stored: it used to be, and a panel opened once stayed open for good.
+let meterPanelsOpen = {};
+function closeMeterPanels() {
+  meterPanelsOpen = {};
+}
 
-// A word for a meter that has fallen far enough to matter, shown beside the bar even when it is closed.
+// A word for a meter that has fallen far enough to matter, shown beside the bar even when it is closed. (Not for a merely low one: the bar says that.)
 function meterDangerTag(v) {
-  return v <= -8 ? "Critical" : v <= -5 ? "Dangerous" : v <= -2 ? "Low" : null;
+  return v <= -8 ? "Critical" : v <= -5 ? "Dangerous" : null;
 }
 
 // What the staff say about a meter, shown inside its panel. { text, grave }: grave notes are drawn in red.
@@ -812,22 +815,11 @@ function meterStaffNotes(key, meters, flags) {
 // METER_STRANDS in logic.ts) with a status word, a green or red marker on any that moved since the last decision
 // (`prev` is the state before it), and the staff's notes on that meter. Which are open is remembered.
 function MeterPanel({ meters, flags, prev }) {
-  const [open, setOpen] = useState(() => {
-    try {
-      return JSON.parse(window.localStorage.getItem(METER_OPEN_KEY) || "{}") || {};
-    } catch (e) {
-      return {};
-    }
-  });
+  const [open, setOpen] = useState(() => meterPanelsOpen);
   function toggle(key) {
     setOpen((o) => {
-      const next = { ...o, [key]: !o[key] };
-      try {
-        window.localStorage.setItem(METER_OPEN_KEY, JSON.stringify(next));
-      } catch (e) {
-        /* storage can be blocked; the panel then simply starts closed each time */
-      }
-      return next;
+      meterPanelsOpen = { ...o, [key]: !o[key] };
+      return meterPanelsOpen;
     });
   }
   return (
@@ -2757,7 +2749,7 @@ function cohesionLabel(c) {
   return "Fraying";
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history }) {
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
@@ -3135,7 +3127,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   one-tap decision. Unconditional (not mode-gated like the Easy-mode preview
                   badges above) since this is need-to-know regardless of difficulty: it changes
                   what tapping the button actually does, not just what it previews. */}
-              {KEY_BATTLE_SUBGAME_ENABLED && !choice.disabledReason && choice.keyBattleSubgame && (
+              {KEY_BATTLE_SUBGAME_ENABLED && controlBattles && !choice.disabledReason && choice.keyBattleSubgame && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: campaign.accent, color: campaign.accent }}

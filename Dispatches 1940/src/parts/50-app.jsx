@@ -25,6 +25,8 @@ function WW2CommandInner() {
   const [battleResume, setBattleResume] = useState(null);
   const [rewinds, setRewinds] = useState(0);
   const [mode, setMode] = useState("open");
+  // "Take control of battle planning" (the war room stamp). Off: a choice that would open the Order of Battle is made like any other.
+  const [controlBattles, setControlBattles] = useState(true);
   // Grand Campaign prototype: null outside a Grand Campaign run, otherwise
   // { order: GRAND_CAMPAIGN_ORDER, index }. See pickCampaign/startGrandCampaign/
   // continueGrandCampaign below.
@@ -115,9 +117,9 @@ function WW2CommandInner() {
   const stage = useMemo(() => {
     if (!campaign) return null;
     // Führer Mode necessity rule lives in logic.ts (playableStage).
-    return strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters);
+    return strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters, controlBattles);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [campaign, position, flags, meters, mode]);
+  }, [campaign, position, flags, meters, mode, controlBattles]);
 
   // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as the
   // choice applies its impact, which can drop or shift a meter-gated choice and changes the roll odds
@@ -140,6 +142,8 @@ function WW2CommandInner() {
     const camp = CAMPAIGNS[id];
     const startPos = camp.dynamic ? camp.start : 0;
     setMode(playMode);
+    setControlBattles(true);
+    closeMeterPanels();
     setFavor(5);
     setDefiance(0);
     clearActiveRun();
@@ -194,7 +198,8 @@ function WW2CommandInner() {
   // border41, narvik40) — chooseOption's check never runs for the very first node a player sees
   // (nothing chose their way into it), so that one case is handled here instead, using the same
   // WireBulletin/pendingWireHeadline plumbing.
-  function enterWarRoom(historicallyAccurate = true) {
+  function enterWarRoom(historicallyAccurate = true, planBattles = true) {
+    setControlBattles(planBattles);
     if (!historicallyAccurate && campaignId && DIVERGENCE_FORKS[campaignId]) {
       const forkFlags = rollDivergenceForks(campaignId);
       if (Object.keys(forkFlags).length) {
@@ -220,7 +225,7 @@ function WW2CommandInner() {
     // impact, the roll itself) and hand off to the Order of Battle allocation screen. The
     // second call — with subgamePayload defined — is the real resolution and falls through to
     // the normal logic below, now with that screen's result folded into the roll.
-    if (KEY_BATTLE_SUBGAME_ENABLED && choice.keyBattleSubgame && subgamePayload === undefined) {
+    if (KEY_BATTLE_SUBGAME_ENABLED && controlBattles && choice.keyBattleSubgame && subgamePayload === undefined) {
       // Round 9: base weights captured here so the battle report can replay the nudge before the
       // roll exists — the roll now happens at the END of the report (see onResolve), not at
       // commit, so the mid-battle reserve decision can still change it.
@@ -351,6 +356,7 @@ function WW2CommandInner() {
           version: SAVE_VERSION,
           campaignId,
           mode,
+          controlBattles,
           favor: mode === "iron" && choice.favor ? favor - choice.favor : favor,
           defiance,
           position: nextPos,
@@ -385,6 +391,7 @@ function WW2CommandInner() {
       version: SAVE_VERSION,
       campaignId,
       mode,
+      controlBattles,
       favor,
       defiance,
       position,
@@ -552,6 +559,7 @@ function WW2CommandInner() {
   function resumeRun(saved) {
     setCampaignId(saved.campaignId);
     setMode(saved.mode || "open");
+    setControlBattles(saved.controlBattles !== false);
     setFavor(saved.favor != null ? saved.favor : 5);
     setDefiance(saved.defiance != null ? saved.defiance : 0);
     setPosition(saved.position);
@@ -730,6 +738,7 @@ function WW2CommandInner() {
               version: SAVE_VERSION,
               campaignId,
               mode,
+              controlBattles,
               favor,
               defiance,
               position,
@@ -778,6 +787,7 @@ function WW2CommandInner() {
           favor={favor}
           instantText={instantText}
           soundOn={soundOn}
+          controlBattles={controlBattles}
           onChoose={chooseOption}
           onRewind={rewindTo}
           onSave={manualSave}
