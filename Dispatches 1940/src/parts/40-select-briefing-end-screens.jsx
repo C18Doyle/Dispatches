@@ -70,7 +70,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
         {DEMO_BUILD && (
           <div
             className="inline-block mt-2 border-2 px-3 py-1 uppercase tracking-[0.2em] text-[11px] font-bold"
-            style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#7a2e2e", color: "#7a2e2e" }}
+            style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#e39a9a", color: "#e39a9a" }}
           >
             Free Demo: OKW Command Only
           </div>

@@ -34,7 +34,7 @@ function WarRoomDocOKW({ campaign, modeInfo, easy }) {
           )}
         </>
       )}
-      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#777", fontFamily: "'IBM Plex Mono', monospace" }}>
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
         VERTEILER: OKW / OKH / OKM: ROUTINE DISTRIBUTION ONLY
       </div>
     </>
@@ -77,7 +77,7 @@ function WarRoomDocComandoSupremo({ campaign, modeInfo, easy }) {
           )}
         </>
       )}
-      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#777", fontFamily: "'IBM Plex Mono', monospace" }}>
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
         DISTRIBUZIONE: COMANDO SUPREMO: SOLO USO INTERNO
       </div>
     </>

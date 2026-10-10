@@ -25541,7 +25541,7 @@ function WarRoomDocOKW({ campaign, modeInfo, easy }) {
           )}
         </>
       )}
-      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#777", fontFamily: "'IBM Plex Mono', monospace" }}>
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
         VERTEILER: OKW / OKH / OKM: ROUTINE DISTRIBUTION ONLY
       </div>
     </>
@@ -25584,7 +25584,7 @@ function WarRoomDocComandoSupremo({ campaign, modeInfo, easy }) {
           )}
         </>
       )}
-      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#777", fontFamily: "'IBM Plex Mono', monospace" }}>
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
         DISTRIBUZIONE: COMANDO SUPREMO: SOLO USO INTERNO
       </div>
     </>
@@ -26906,7 +26906,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
         {DEMO_BUILD && (
           <div
             className="inline-block mt-2 border-2 px-3 py-1 uppercase tracking-[0.2em] text-[11px] font-bold"
-            style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#7a2e2e", color: "#7a2e2e" }}
+            style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#e39a9a", color: "#e39a9a" }}
           >
             Free Demo: OKW Command Only
           </div>
