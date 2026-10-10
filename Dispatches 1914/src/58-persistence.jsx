@@ -101,7 +101,7 @@ export function removeKey(key) {
 // ---------- the saved run ----------
 
 /** What is stored for a run in progress. `pendingOutcome` (and `pendingRecord`, the historical note shown with it) are set while the player is on an outcome screen. */
-export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null, easy = false, taken = [], history = [] }) {
+export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null, pendingBattle = null, easy = false, taken = [], history = [] }) {
   return {
     schemaVersion: SAVE_SCHEMA_VERSION,
     campaignId,
@@ -113,6 +113,7 @@ export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visi
     pendingNextId,
     pendingOutcome,
     pendingRecord,
+    pendingBattle,
     // Added in 1.3.0, all optional: a save made before them has none and resumes as a standard (or hard) run with no rewind history.
     easy: Boolean(easy),
     taken: Array.isArray(taken) ? taken : [],
@@ -306,13 +307,13 @@ export function echoSeed(record) {
 export const TEXT_SIZES = ["s", "m", "l"];
 
 export function defaultSettings() {
-  return { schemaVersion: 1, textSize: "s", sound: false };
+  return { schemaVersion: 1, textSize: "s", sound: false, battles: true };
 }
 
 export function sanitizeSettings(raw) {
   const base = defaultSettings();
   if (!raw || typeof raw !== "object" || raw.schemaVersion !== 1) return base;
-  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true };
+  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, battles: raw.battles !== false };
 }
 
 export function loadSettings() {

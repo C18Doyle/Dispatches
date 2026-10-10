@@ -1120,5 +1120,89 @@
     "status": "drafted",
     "sources": [],
     "note": "Characterization of the documented decision to withdraw the Twelfth Army; the sources name Klembovsky only among those who decided."
+  },
+  {
+    "id": "bat-stavka-26",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "fact",
+    "claim": "The Eighth Army (Kaledin) spearheaded the attack toward Lutsk and Kovel with the 32nd, 8th, 40th and 39th Corps; it overran the first and second Austro-Hungarian lines by 5 June and occupied Lutsk by 7 June.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-stavka-27",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "figure",
+    "claim": "The Austro-Hungarian Fourth Army (Archduke Joseph Ferdinand) fell from 117,800 men to about 35,000 within four days; it had 53 infantry battalions against 148 Russian.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-stavka-28",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "fact",
+    "claim": "The Ninth Army (Lechitsky) advanced on Doroshoutz, Okna and Czarny Potok on 9 and 10 June; Czernowitz fell on 17 June and Kolomea on 18 June; the Austro-Hungarian Seventh Army (Pflanzer-Baltin) had 194,200 men and lost 76,200 by 8 June.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-stavka-29",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "fact",
+    "claim": "The Seventh Army (Shcherbachev) pushed the Austro-Hungarian Seventh Army back to the Strypa and captured Jazlowiek; the Eleventh Army (Sakharov) attacked on 4 June; Bothmer's South Army prepared a counter-attack on 11 June and the line held.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-stavka-30",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "fact",
+    "claim": "Each army attacked on a sector about 15 km wide of its own choosing, with two reinforced corps in waves; sap trenches were pushed to within about 100 metres of the Austro-Hungarian lines and tunnels ran under the Russian wire.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-stavka-31",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "fact",
+    "claim": "Winogradsky's artillery brigade used 76 mm guns to open 24 breaches; 152 mm howitzers and 122 mm guns hit hard points; a creeping barrage moved ahead of the infantry; false radio traffic, planted orders and dummy artillery were used to deceive.",
+    "status": "web-checked",
+    "sources": [
+      "wp-brusilov"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-stavka-32",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the four arms and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx."
+  },
+  {
+    "id": "bat-stavka-33",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "characterization",
+    "claim": "The description of the three setups (a thin line, a warned enemy, German divisions on their way) is a modelled range; only the thin Fourth Army line is documented.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The German reinforcement of the Kovel sector began on 8 June and is documented; the warned setup is a counterfactual."
   }
 ]

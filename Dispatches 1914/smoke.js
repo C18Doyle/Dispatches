@@ -66,6 +66,36 @@ t("flag prefixes are unique",
 }
 
 
+{
+  // The Order of Battle (61-battle.jsx): the plan moves the roll against the staff's plan, and costs the meters a little
+  const host = E.findNode("gqg_1914_02_marne").node.choices.find((c) => c.id === "attack");
+  const cfg = E.BATTLES.marneFrench;
+  const posture = cfg.postures.find((p) => p.id === "kluckTurns");
+  const pool = 6;
+  const staff = E.staffPlanFor(cfg, pool);
+  const best = (() => { let b = null; for (const a of E.allBattleAllocations(cfg.categories, pool)) for (const ap of cfg.approaches) { const bonus = E.battleBonus(cfg, { allocation: a, approachId: ap.id, commanderId: null }, posture, pool); if (!b || bonus > b.bonus) b = { allocation: a, approachId: ap.id, commanderId: null, bonus }; } return b; })();
+  const mk = (p) => ({ ...p, postureId: posture.id, pool });
+  const M = E.emptyMeters();
+  const run = (plan, r) => E.chooseNext("gqg", host, {}, M, E.emptyHardState(), () => r, plan);
+  t("a battle is hosted by a choice with two contested outcomes", E.battleOf(host) === cfg && host.uncertain.length === 2);
+  t("the staff's plan plays the record's odds", E.battleBonus(cfg, staff, posture, pool) === 0);
+  t("a plan that reads the enemy beats the staff's", best.bonus >= 3);
+  // weights are 65/35, the win is the first outcome: a roll of 0.70 is the second outcome at the record's odds
+  t("without a plan the roll is the record's", run(null, 0.70).branch.title === host.uncertain[1].title && run(null, 0.60).branch.title === host.uncertain[0].title);
+  t("the staff's plan rolls the same", run(mk(staff), 0.70).branch.title === host.uncertain[1].title);
+  t("a better plan turns a roll the record would have lost", run(mk(best), 0.65 + best.bonus / 2 / 100 + 0.0001 > 0.65 ? 0.66 : 0.70).branch.title === host.uncertain[0].title);
+  const r = run(mk(staff), 0.1);
+  t("a battle leaves its result, its grade and its flags", r.battle && r.battle.id === "marneFrench" && ["clean", "costly", "marginal", "total"].includes(r.battle.grade) && r.flags.bx_marneFrench_grade === r.battle.grade);
+  t("its cost to the meters is held to two points in all and one a meter", E.METER_AXES.every((a) => Math.abs(r.battle.totals[a]) <= 1) && E.METER_AXES.reduce((x, a) => x + Math.min(0, r.battle.totals[a]), 0) >= -2);
+  const heavy = { allocation: { sixth: 6, gap: 0, ninth: 0, guns: 0 }, approachId: "flank", commanderId: null, postureId: posture.id, pool };
+  const rh = run(heavy, 0.5);
+  t("a heavy commitment costs its meter a point and a neglected arm sets a flag", rh.battle.lines.some((l) => l.meter === "manpower" && l.delta === -1) && rh.flags.bx_marneFrench_neglected);
+  t("the next report reads the flags and says nothing without them", E.battleEchoText("gqg_1914_14_race", r.flags).length > 20 && E.battleEchoText("gqg_1914_14_race", {}) === "");
+  t("the pool follows the men and the shells, between 4 and 8", E.battlePoolSize({ manpower: -10, munitions: -10 }) === 4 && E.battlePoolSize({ manpower: 0, munitions: 0 }) === 6 && E.battlePoolSize({ manpower: 10, munitions: 10 }) === 8);
+  t("the intelligence line is wrong about one time in four", (() => { let wrong = 0; let i = 0; const rng = () => ((i++ * 0.6180339) % 1); for (let k = 0; k < 400; k++) { if (!E.battleIntel(cfg, posture, rng).right) wrong++; } return wrong > 60 && wrong < 140; })());
+  t("a snapshot keeps a pending battle report and the settings default to planning on", E.snapshotRun({ campaignId: "gqg", nodeId: "gqg_1914_02_marne", flags: {}, meters: M, hardState: E.emptyHardState(), visited: [], pendingBattle: r.battle }).pendingBattle.id === "marneFrench" && E.defaultSettings().battles === true && E.sanitizeSettings({ schemaVersion: 1, battles: false }).battles === false);
+}
+
 // ---- historical note (outcome screen) ----
 {
   let decisions = 0, bad = 0, withDispute = 0;

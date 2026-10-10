@@ -282,6 +282,7 @@ CAMPAIGNS.gqg.nodes = {
           "The flank is there now. It will not be there next week, and neither will the initiative." },
         impact: { manpower: -1, munitions: -1, will: 3 },
         setFlags: { gqg_marne: "attacked", xc_marne_french: "attacked" },
+        keyBattleSubgame: { id: "marneFrench" },
         dispute:
           "Responsibility for the German halt on the Marne is contested from the other " +
           "side of the hill. One tradition holds that German command control had already " +

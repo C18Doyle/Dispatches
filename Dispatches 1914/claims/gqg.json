@@ -755,5 +755,111 @@
     "status": "drafted",
     "sources": [],
     "note": "Clemenceau's formula of 'je fais la guerre' is firmly attested; the exact occasion (the speech of 8 March 1918) should be confirmed against the Journal officiel."
+  },
+  {
+    "id": "bat-gqg-1",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "The French Sixth Army (Maunoury) numbered about 150,000 men, mostly reservists, formed to protect Paris; Gallieni was Military Governor of Paris.",
+    "status": "web-checked",
+    "sources": [
+      "wp-marne1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-gqg-2",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "Franchet d'Esperey replaced Lanrezac as commander of the Fifth Army on 3 September 1914; Foch's Ninth Army was formed during the retreat.",
+    "status": "web-checked",
+    "sources": [
+      "wp-marne1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-gqg-3",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "The BEF numbered about 100,000 on the eve of the battle; eve-of-battle Allied strength is given as 980,000 French and 100,000 British with about 3,000 guns, against about 3,300 German.",
+    "status": "web-checked",
+    "sources": [
+      "wp-marne1914"
+    ],
+    "note": "Totals conflict across the article (the infobox gives 1,080,000)."
+  },
+  {
+    "id": "bat-gqg-4",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "Kluck's turn north-west opened a gap of about 50 kilometres between the German First and Second Armies, which French aircraft spotted; the BEF outnumbered the Germans there ten to one and advanced about 40 kilometres in three days, ending 6 September about 12 kilometres short of its objectives.",
+    "status": "web-checked",
+    "sources": [
+      "wp-marne1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-gqg-5",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "The Fifth Army fought the Battle of the Two Morins on 6 September, crossed the Petit Morin by 8 September and the Marne on 9 September.",
+    "status": "web-checked",
+    "sources": [
+      "wp-marne1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-gqg-6",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "On 5 September part of the Sixth Army met the German IV Reserve Corps (about 24,000 under Gronau); Kluck's army marched about 130 km in two days to face the Sixth Army.",
+    "status": "web-checked",
+    "sources": [
+      "wp-marne1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-gqg-7",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "About 600 Renault taxis were requisitioned at Les Invalides on the night of 7 to 8 September and carried troops about 50 kilometres to Nanteuil-le-Haudouin; historians dispute their military value, but the morale effect was undeniable.",
+    "status": "web-checked",
+    "sources": [
+      "wp-marne1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-gqg-8",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "On 8 September Hausen's Third Army (82,000 for the attack) struck Foch's Ninth Army in the marshes of Saint-Gond in a night assault with no artillery preparation, pushing it back 13 km before bogging down with about 11,000 losses.",
+    "status": "web-checked",
+    "sources": [
+      "wp-marne1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-gqg-9",
+    "node": "gqg_1914_02_marne",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the four arms (gap 2.4, Sixth Army 2.0, Ninth Army 1.6, guns 1.3) and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx; the ordering follows the account of where the battle turned."
+  },
+  {
+    "id": "bat-gqg-10",
+    "node": "gqg_1914_02_marne",
+    "kind": "characterization",
+    "claim": "The statement that the Marne is remembered for marches and a gap and not for a bombardment is a characterization; the source gives only the gun counts and a German artillery advantage (Herwig).",
+    "status": "drafted",
+    "sources": [],
+    "note": "Rewrite if a source for the artillery's part is read."
   }
 ]
