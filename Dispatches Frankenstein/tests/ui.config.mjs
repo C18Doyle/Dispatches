@@ -4,7 +4,9 @@
 // interludes, Fritz's panel (advice, favor, gossip, the creature report) and the endings.
 import { JSDOM } from "jsdom";
 
+// the difficulty card shows the names from flavor.json
 const DIFFICULTIES = ["Easy", "Medium", "Hard"];
+const CARD = { Easy: /^The Apprentice$/, Medium: /^The Natural Philosopher$/, Hard: /^The Debtor$/ };
 
 export default {
   JSDOM,
@@ -32,7 +34,7 @@ export default {
       await ctx.click(b);
       return null;
     };
-    return (await press(/^Begin the Work/)) || (await press(/^Continue$/)) || (await press(new RegExp(`^${difficulty}$`, "i"))) || (await press(/^Enter$/));
+    return (await press(/^Begin the Work/)) || (await press(/^Continue$/)) || (await press(CARD[difficulty])) || (await press(/^Enter$/));
   },
 
   isCrashed: (ctx) => ctx.text().length < 20,

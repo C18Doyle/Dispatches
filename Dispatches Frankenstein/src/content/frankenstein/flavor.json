@@ -50,6 +50,14 @@
     {
       "heading": "How It's Remembered",
       "body": "How the story closes isn't only about which of the twelve endings you reach. A number of the run's more human choices — mercy or cruelty, honesty or betrayal, the way the campaign as a whole went — shape a closing line about what kind of thing you actually built, from sensitive and eloquent to crazed and vengeful. There's no meter to watch for it. It reveals itself only at the end."
+    },
+    {
+      "heading": "Strain",
+      "body": "A resource that runs short makes the experiments that depend on it harder. Below -3, every point of shortage takes three points off the odds of an experiment that is about that resource, up to fifteen. The option says so before you choose, and so does the experiment screen."
+    },
+    {
+      "heading": "What you carry forward",
+      "body": "Some choices leave something behind: a witness, a debt, a flaw in the harness. Later scenes say so in italics under the description. A few doors open only to a man the creature has come to trust, and they are marked with a lock that tells you what they need."
     }
   ],
   "gossip": [
@@ -301,5 +309,19 @@
       "It's learned every lesson you taught it, sir, and I don't think it's forgotten a single cruel one.",
       "I don't recognize what's under that roof anymore. I'm not sure you do either."
     ]
+  },
+  "difficultyInfo": {
+    "EASY": {
+      "label": "The Apprentice",
+      "blurb": "Fritz reads the ledger aloud: you see exactly how each choice will move your resources before you commit."
+    },
+    "MEDIUM": {
+      "label": "The Natural Philosopher",
+      "blurb": "How each choice moves your resources stays hidden until after you commit. Fritz will advise you three times."
+    },
+    "HARD": {
+      "label": "The Debtor",
+      "blurb": "As the Natural Philosopher, plus fifty Thaler of borrowed money. Some choices cost coin you cannot replace, some are only offered to a man in debt, and the creditors remember."
+    }
   }
 }

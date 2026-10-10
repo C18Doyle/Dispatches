@@ -9,7 +9,7 @@
     "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts frankenstein",
     "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts frankenstein",
     "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
-    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run verify:baseline && npm run validate && npm run test:saves && npm run verify:ui && npm run check-a11y",
+    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run verify:ui && npm run check-a11y",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
     "build:audio": "node scripts/copy_audio.mjs",
@@ -19,7 +19,9 @@
     "test:saves": "tsx scripts/test_saves.ts",
     "verify:ui": "npm run build && node ../packages/testkit/src/cli.mjs verify",
     "ui:accept": "node ../packages/testkit/src/cli.mjs accept",
-    "check-a11y": "node scripts/check-a11y.mjs"
+    "check-a11y": "node scripts/check-a11y.mjs",
+    "record:baseline": "tsx ../packages/engine/tools/record_baseline.ts frankenstein",
+    "check:balance": "tsx scripts/balance_check.ts"
   },
   "dependencies": {
     "react": "^18.3.1",

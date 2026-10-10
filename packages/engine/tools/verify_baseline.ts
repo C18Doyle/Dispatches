@@ -1,53 +1,19 @@
 /**
- * Replays tests/fixtures/baseline.json (recorded from the legacy engine)
+ * Replays tests/fixtures/baseline.json (recorded by record_baseline.ts; the first recording was made from the legacy engine)
  * through the new pure reducer and compares a hash after every step.
  *   npm run verify:baseline
  * Exit code 1 on the first divergence, with the run, step and field diff.
  */
 import { readFileSync } from "node:fs";
-import {
-  reduce, createInitialState, resolveEnding, gossipPool, creatureReportPool,
-  type Action, type GameDefinition, type GameState,
-} from "../src/index";
+import { reduce, createInitialState, type Action, type GameDefinition } from "../src/index";
+import { makeProject } from "./project_state";
 import { hashProjection, type Baseline, type Projection, type RecordedAction } from "./projection";
 import { loadDefinition } from "./load_definition";
 
 const def: GameDefinition = loadDefinition(process.argv[2] ?? "frankenstein");
 const baseline: Baseline = JSON.parse(readFileSync("tests/fixtures/baseline.json", "utf8"));
 
-const distinctSorted = (lines: string[]) => [...new Set(lines)].sort();
-
-function project(s: GameState): Projection {
-  const ending = s.phase === "ENDING" ? resolveEnding(def, s) : null;
-  return {
-    phase: s.phase,
-    difficulty: s.difficulty,
-    money: s.money,
-    currentNodeId: s.currentNodeId,
-    activeBranch: s.activeBranch,
-    resources: { ...s.resources },
-    axes: { ...s.axes },
-    flags: Object.keys(s.flags).filter((k) => s.flags[k]).sort(),
-    activeInterludeId: s.activeInterludeId,
-    pendingTarget: s.pendingTarget,
-    pendingOutcomeText: s.pendingOutcomeText,
-    pendingOutcomeKind: s.pendingOutcomeKind,
-    pendingOutcomeStamps: s.pendingOutcomeStamps as Record<string, number> | null,
-    pendingRoll: s.pendingRoll,
-    pendingOptionLabel: s.pendingOptionLabel,
-    pendingOptionQuote: s.pendingOptionQuote,
-    shownCrises: [...s.shownCrises],
-    shownOneShot: [...s.shownOneShot],
-    endingId: s.endingId,
-    history: s.history.map((h) => ({ ...h })),
-    adviceUsesLeft: s.adviceUsesLeft,
-    adviceRevealed: s.adviceRevealed,
-    favorUsed: s.favorUsed,
-    ending: ending && { headline: ending.headline, title: ending.title, text: ending.text, temperamentLabel: ending.epilogueLabel },
-    gossipPool: s.phase === "NODE" ? distinctSorted(gossipPool(def, s)) : null,
-    reportPool: s.phase === "NODE" ? distinctSorted(creatureReportPool(def, s)) : null,
-  };
-}
+const project = makeProject(def);
 
 let steps = 0;
 for (const run of baseline.runs) {
@@ -62,4 +28,4 @@ for (const run of baseline.runs) {
     }
   }
 }
-console.log(`BASELINE MATCH: ${baseline.runs.length} runs, ${steps} steps identical to the legacy engine.`);
+console.log(`BASELINE MATCH: ${baseline.runs.length} runs, ${steps} steps identical to the recording.`);

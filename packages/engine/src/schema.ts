@@ -119,6 +119,8 @@ export interface Roll {
   /** 0-1 base probability, or the probability at resource value 0 when scaling is set. */
   chance: number;
   scaling?: RollScaling;
+  /** The resource this roll is about, for strain (see GameConfig.strain). Defaults to scaling.resource. */
+  about?: ResourceId;
   success: RollOutcome;
   failure: RollOutcome;
 }
@@ -143,6 +145,18 @@ export interface Option {
   requiresFlag?: FlagId;
   /** Shown while a requiresFlag option is locked. */
   requiresFlagHint?: string;
+  /** The option is shown but locked until this holds (an axis, a resource, a flag, the difficulty...). */
+  requires?: Condition;
+  /** Shown while a `requires` option is locked. */
+  requiresHint?: string;
+  /** The option is not shown, and cannot be chosen, unless this holds (for example { difficulty: "HARD" }). */
+  showWhen?: Condition;
+}
+
+/** Lines added under a scene's description while their condition holds: the player's earlier choices carried forward. */
+export interface NodeEcho {
+  when: Condition;
+  text: string;
 }
 
 export interface GameNode {
@@ -151,6 +165,7 @@ export interface GameNode {
   title: string;
   description: string;
   options: Option[];
+  echoes?: NodeEcho[];
 }
 
 export type InterludeKind = "lore" | "crisis" | "transition";
@@ -166,7 +181,9 @@ export interface Interlude {
 }
 
 export interface EndingVariant {
-  flag: FlagId;
+  /** One of `flag` or `when` is required. */
+  flag?: FlagId;
+  when?: Condition;
   headline: string;
   text: string;
 }
@@ -178,7 +195,7 @@ export interface Ending {
   kind: "narrative" | "failure";
   headline: string;
   text: string;
-  /** First variant whose flag is set wins. */
+  /** First variant whose flag is set (or whose condition holds) wins. */
   variants?: EndingVariant[];
 }
 
@@ -219,6 +236,16 @@ export interface AssistConfig {
   favorFlag: FlagId; // Frankenstein: "fritzPatron"
 }
 
+/**
+ * Strain: a resource below `threshold` takes `perPoint` of probability off every roll that is about it, for each point below,
+ * up to `max`. Shown on the option and the experiment screen.
+ */
+export interface StrainConfig {
+  threshold: number;
+  perPoint: number;
+  max: number;
+}
+
 /** config.json */
 export interface GameConfig {
   id: string; // e.g. "frankenstein"
@@ -233,6 +260,7 @@ export interface GameConfig {
   startBranch: BranchId;
   interludeTriggers: InterludeTrigger[];
   assist?: AssistConfig;
+  strain?: StrainConfig;
   /** Node to jump to for returning players. Resets resources/axes/flags to start values. */
   skipToNodeId?: NodeId;
 }
@@ -258,6 +286,8 @@ export interface FlavorContent {
   epilogueReadings: Record<string, EpilogueReading>;
   /** Mid-run hints, same key scheme; one line chosen by caller-supplied RNG. */
   creatureReportLines: Record<string, string[]>;
+  /** Names and one-line descriptions of the difficulties, for the difficulty card and the record. */
+  difficultyInfo?: Record<Difficulty, { label: string; blurb: string }>;
 }
 
 export interface GameDefinition {

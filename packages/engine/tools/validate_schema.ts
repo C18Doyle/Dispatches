@@ -83,8 +83,12 @@ function checkCondition(where: string, c: unknown) {
 // ── config ──
 shape("config", config, {
   id: "string", title: "string", schemaVersion: "number", resources: "array", axes: "array", epilogue: "?object",
-  difficulties: "object", defaultDifficulty: "string", startBranch: "string", interludeTriggers: "array", assist: "?object", skipToNodeId: "?string",
+  difficulties: "object", defaultDifficulty: "string", startBranch: "string", interludeTriggers: "array", assist: "?object", strain: "?object", skipToNodeId: "?string",
 });
+if (config.strain) {
+  shape("strain", config.strain, { threshold: "number", perPoint: "number", max: "number" });
+  if (!(config.strain.perPoint > 0 && config.strain.max > 0 && config.strain.max < 1)) fail("strain", "perPoint must be above 0 and max within (0, 1)");
+}
 for (const r of config.resources) {
   shape(`resource ${r.id}`, r, {
     id: "string", label: "string", min: "number", max: "number", start: "number",
@@ -134,7 +138,11 @@ if (!nodeIds.has(content.startNodeId)) fail("content", `startNodeId "${content.s
 
 for (const [key, node] of Object.entries(content.nodes)) {
   const nw = `node ${key}`;
-  shape(nw, node, { id: "string", branch: "string", title: "string", description: "string", options: "array" });
+  shape(nw, node, { id: "string", branch: "string", title: "string", description: "string", options: "array", echoes: "?array" });
+  node.echoes?.forEach((en, ei) => {
+    shape(`${nw} echo ${ei}`, en, { when: "object", text: "string" });
+    checkCondition(`${nw} echo ${ei}`, en.when);
+  });
   if (node.id !== key) fail(nw, `id "${node.id}" does not match its key`);
   if (!node.options.length) fail(nw, "has no options");
   node.options.forEach((o, i) => {
@@ -142,7 +150,11 @@ for (const [key, node] of Object.entries(content.nodes)) {
     shape(ow, o, {
       label: "string", detail: "string", stamps: "object", quote: "object", outcome: "string", gate: "?object", moneyCost: "?number",
       moneyDelta: "?number", roll: "?object", nextNodeId: "string", setFlags: "?string[]", axisDelta: "?object", requiresFlag: "?string", requiresFlagHint: "?string",
+      requires: "?object", requiresHint: "?string", showWhen: "?object",
     });
+    if (o.requires) checkCondition(`${ow} requires`, o.requires);
+    if (o.showWhen) checkCondition(`${ow} showWhen`, o.showWhen);
+    if (o.requires && !o.requiresHint) fail(ow, "a `requires` option needs a requiresHint");
     shape(`${ow} quote`, o.quote, { speaker: "string", text: "string" });
     checkStamps(ow, o.stamps);
     checkTarget(ow, o.nextNodeId);
@@ -154,7 +166,8 @@ for (const [key, node] of Object.entries(content.nodes)) {
     o.setFlags?.forEach((f) => flagsSet.add(f));
     if (o.requiresFlag) flagsRead.add(o.requiresFlag);
     if (o.roll) {
-      shape(`${ow} roll`, o.roll, { chance: "number", scaling: "?object", success: "object", failure: "object" });
+      shape(`${ow} roll`, o.roll, { chance: "number", scaling: "?object", about: "?string", success: "object", failure: "object" });
+      if (o.roll.about && !resourceIds.has(o.roll.about)) fail(ow, `roll.about names unknown resource "${o.roll.about}"`);
       if (o.roll.chance < 0 || o.roll.chance > 1) fail(ow, "roll.chance must be within 0..1");
       if (o.roll.scaling) {
         shape(`${ow} scaling`, o.roll.scaling, { resource: "string", perPoint: "number", min: "?number", max: "?number" });
@@ -181,13 +194,16 @@ for (const [key, e] of Object.entries(content.endings)) {
   if (!key.startsWith("ENDING_")) fail(`ending ${key}`, 'ids must start with "ENDING_" (the reducer routes on that prefix)');
   if (!["narrative", "failure"].includes(e.kind)) fail(`ending ${key}`, `unknown kind "${e.kind}"`);
   e.variants?.forEach((v, i) => {
-    shape(`ending ${key} variant ${i}`, v, { flag: "string", headline: "string", text: "string" });
-    flagsRead.add(v.flag);
+    shape(`ending ${key} variant ${i}`, v, { flag: "?string", when: "?object", headline: "string", text: "string" });
+    if (!v.flag && !v.when) fail(`ending ${key} variant ${i}`, "needs a flag or a when");
+    if (v.flag) flagsRead.add(v.flag);
+    if (v.when) checkCondition(`ending ${key} variant ${i}`, v.when);
   });
 }
 
 // ── flavor ──
-shape("flavor", flavor, { prologue: "string[]", chapterCard: "object", howToPlay: "array", gossip: "array", epilogueReadings: "object", creatureReportLines: "object" });
+shape("flavor", flavor, { prologue: "string[]", chapterCard: "object", howToPlay: "array", gossip: "array", epilogueReadings: "object", creatureReportLines: "object", difficultyInfo: "?object" });
+if (flavor.difficultyInfo) for (const d of ["EASY", "MEDIUM", "HARD"] as const) shape(`difficultyInfo ${d}`, flavor.difficultyInfo[d], { label: "string", blurb: "string" });
 flavor.gossip.forEach((g, i) => {
   shape(`gossip ${i}`, g, { when: "?object", lines: "string[]" });
   if (g.when) checkCondition(`gossip ${i}`, g.when);

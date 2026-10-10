@@ -40,7 +40,7 @@ export function resolveEnding(
   if (!ending) return { headline: "", title: "Unknown", text: "", epilogueLabel: null };
 
   let { headline, text } = ending;
-  const match = ending.variants?.find((v) => state.flags[v.flag]);
+  const match = ending.variants?.find((v) => (v.when ? evalCondition(v.when, state) : !!(v.flag && state.flags[v.flag])));
   if (match) ({ headline, text } = match);
 
   if (ending.kind === "narrative") {
