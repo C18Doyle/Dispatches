@@ -6,14 +6,14 @@ Auto-loads each session. Read before touching the file.
 
 - This is the reference shape for the series: the logic layer is already pure and separate. `src/50-registries` to `57-nodeids` (registries, meters, succession, hard mode, `resolveNode`, `chooseNext`, `walkSpine`) have no React/DOM, take an injectable `rng`, and read content only from `CAMPAIGNS`. `chooseNext(campaignId, choice, flags, meters, hardState, rng)` already honours per-roll `next`, `nextIf` on post-choice meters, and the hard-mode forced ending. The shared engine's "function returns the node" mode should be modelled on it.
 - No logic extraction was needed. A headless UI baseline was added instead: `npm run verify:baseline` (jsdom, ~20 s) plays 24 seeded runs (3 campaigns x 8 seeds) through `dist/bundle.js` and compares every step's page hash to `tests/baseline/ui`. Build first (`npm run build`).
-- `npm test` = build, smoke, render-test, roundtrip, verify:baseline. `npm run validate` (= `bash validate.sh`) is separate because it exits 1 on the deliberate Ottoman research gate.
+- `npm test` = build, smoke, render-test, roundtrip, verify:baseline. `npm run validate` (= `bash validate.sh`) is part of `npm test` and passes (it used to exit 1 on the Ottoman research gate, closed in 1.3.0).
 - The menu has a Standard / Hard mode switch (1.1.0). The UI baseline has `-open` runs (the pre-refactor behaviour) and `-hard` runs (recorded when the switch was added); `smoke.js` and `montecarlo.js` still cover hard mode in the rules.
 - `roundtrip-test.mjs` now uses the OS temp dir (it hardcoded `/tmp`, which failed on Windows).
 - Moving a campaign's text into JSON is not planned: nodes use functions of `flags`/`meters` for prose and gates.
 
 ## State
 
-Five campaigns (OHL, GQG, Stavka, BEF, AOK) are written and playable through a menu UI; Ottoman is not started and is blocked by the spec's research gate (see Content status below). The bullets in this State section were written when it was an engine scaffold and are partly out of date.
+All six campaigns (OHL, GQG, Stavka, BEF, AOK, Ottoman) are written and playable through a menu UI. The Ottoman campaign was built last, after spec §9 was resolved (the genocide of the Armenians is narrated as settled fact, never a choice, flag or meter effect; the PR that added it flags the handling for the author's review), and the Rumi dating of the General Staff itself is still the one open research gate (see `CALENDARS.rumi`). The bullets in this State section were written when it was an engine scaffold and are partly out of date.
 
 - `dispatches-greatwar.jsx` — engine layer. UI layer is empty, blocked on art direction.
 - 13 validators + `smoke.js` + `_fixture.jsx` (deliberate faults, validator self-test)
@@ -31,8 +31,8 @@ node smoke.js                 # engine behaviour, real execution
 ./validate.sh _fixture.jsx    # self-test: must report MANY problems
 ```
 
-`validate.sh` currently exits 1 on the Ottoman Rumi calendar research gate. That is
-correct and deliberate. It stays failing until spec §9 is resolved.
+`validate.sh` passes. The Ottoman campaign's research gate on the Rumi calendar is recorded in
+`CALENDARS.rumi` and `claims/otto.json` (one claim is marked OPEN); spec §9 is resolved.
 
 ## Non-negotiables
 
@@ -66,8 +66,8 @@ solving a solvable problem. Write them as people solving it.
 
 ## Build order
 
-OHL → GQG → STAVKA → BEF → AOK → OTTO. One campaign end-to-end through its full
-ship gate before the next starts. Ottoman last, and blocked on spec §9.
+OHL → GQG → STAVKA → BEF → AOK → OTTO (all written). One campaign end-to-end through its full
+ship gate before the next starts. Ottoman was last.
 
 ## Session discipline
 
@@ -137,7 +137,7 @@ Where wording is attested, a choice may carry `attested: { by, text, source }`: 
 | stavka | 15 | 9 | 11 | 8 | 16 | 3 | 3.98 | expanded (1.1.0), claims logged |
 | bef | 21 | 9 | 11 | 9 | 22 | 3 | 4.4 | first pass (unreleased), claims logged |
 | aok | 13 | 6 | 8 | 5 | 14 | 2 | 2.2 | first pass (unreleased), gate closed on web sources, claims logged |
-| otto | 0 | - | - | - | - | - | - | blocked, spec §9 |
+| otto | 13 decisions, 5 endings | 5 | 8 | 5 | 14 | 2 | ~3 | first pass (unreleased), spec §9 resolved, claims logged (many `drafted`), Rumi dating of the General Staff open |
 
 Both complete campaigns: 30,000 runs each, 0 dead ends, 0 softlocks, every
 non-hard ending reachable, hard-mode ending fires ~10% of runs with hard mode on.

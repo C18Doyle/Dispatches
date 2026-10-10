@@ -31,8 +31,8 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   t("all six campaigns listed",
     ["Oberste","Grand Quartier","Stavka","British","Armeeoberkommando","Ottoman"]
       .every(n => txt().includes(n)));
-  t("campaigns without content are disabled",
-    btns().filter(b => b.disabled).length === 1);
+  t("every campaign has content, so no card is disabled",
+    btns().filter(b => b.disabled).length === 0);
   t("GQG is enabled", btns().some(b => !b.disabled && b.textContent.includes("Grand Quartier")));
 
   const playable = btns().find(b => !b.disabled && b.textContent.includes("Oberste"));

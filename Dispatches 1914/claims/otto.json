@@ -1,0 +1,1143 @@
+[
+  {
+    "id": "otto-blacksea-1",
+    "node": "otto_1914_02_blacksea",
+    "kind": "fact",
+    "claim": "The Ottoman-German alliance was agreed on 30 July and signed on 1 August 1914; the empire ordered a general mobilisation on 2 August and declared neutrality on 3 August.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ottoman-entry"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-blacksea-2",
+    "node": "otto_1914_02_blacksea",
+    "kind": "fact",
+    "claim": "On 22 October Enver issued a secret order to attack the Russian navy without declaring war, and on 25 October told Souchon to attack if a suitable opportunity presented itself; the cabinet, including the Grand Vizier, was not informed.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ottoman-entry"
+    ],
+    "note": "The article says the cabinet was not informed; it adds that Talat later said the whole cabinet except Enver opposed the action."
+  },
+  {
+    "id": "otto-blacksea-3",
+    "node": "otto_1914_02_blacksea",
+    "kind": "fact",
+    "claim": "The raid of 29 October shelled Sevastopol, Theodosia, Yalta and Odessa and laid mines off Novorossiysk; Russia declared war on 1 November (20 October Old Style) and Britain and France on 5 November 1914.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ottoman-entry"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-blacksea-4",
+    "node": "otto_1914_02_blacksea",
+    "kind": "fact",
+    "claim": "Said Halim and the finance minister Cavit protested to Enver that the raid was a political provocation; four ministers resigned in all.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ottoman-entry"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-blacksea-5",
+    "node": "otto_1914_02_blacksea",
+    "kind": "fact",
+    "claim": "The Ottoman state's official calendar was the Rumi calendar: the Julian calendar thirteen days behind the Western, with the year counted from 1 March.",
+    "status": "drafted",
+    "sources": [],
+    "note": "From a search of English-language sources; the passage was not read on a page. 25 October 1914 Western is 12 October Julian, which is 12 Tesrinievvel 1330 (year 1914 less 584)."
+  },
+  {
+    "id": "otto-blacksea-6",
+    "node": "otto_1914_02_blacksea",
+    "kind": "characterization",
+    "claim": "What the Ottoman General Staff dated its own documents in has not been confirmed; the file says only that the state used the Rumi calendar.",
+    "status": "drafted",
+    "sources": [],
+    "note": "OPEN: spec section 6 research gate for the Rumi calendar. Confirm before release."
+  },
+  {
+    "id": "otto-blacksea-7",
+    "node": "otto_1914_02_blacksea",
+    "kind": "position",
+    "claim": "Enver's position is characterized as: Russia will join the Entente whatever the cabinet decides, so the fleet should strike first with its German officers.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented secret order and of his policy of alliance with Germany; not a quotation."
+  },
+  {
+    "id": "otto-blacksea-8",
+    "node": "otto_1914_02_blacksea",
+    "kind": "position",
+    "claim": "Liman von Sanders's position (on the counterfactual) is characterized as: the army is not ready and a war begun by an admiral's raid is begun at the German hour.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view of the raid."
+  },
+  {
+    "id": "otto-straits-9",
+    "node": "otto_1914_01_straits",
+    "kind": "fact",
+    "claim": "The cabinet decided unanimously on 6 August 1914 to open the Straits to the Goeben and Breslau; on 9 August the Grand Vizier asked for a fictitious sale of the Goeben and Berlin refused.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ottoman-entry"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-straits-10",
+    "node": "otto_1914_01_straits",
+    "kind": "fact",
+    "claim": "The ships reached the Dardanelles on 10 August (Enver authorised the entry) and Constantinople on 11 August; on 16 August they were commissioned as the Yavuz Sultan Selim and the Midilli with their German crews transferred into the Ottoman navy.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ottoman-entry"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-straits-11",
+    "node": "otto_1914_01_straits",
+    "kind": "fact",
+    "claim": "The pre-war Ottoman debt was about US$716 million, held 60 per cent by France, 20 per cent by Germany and 15 per cent by Britain.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ottoman-entry"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-straits-12",
+    "node": "otto_1914_01_straits",
+    "kind": "figure",
+    "claim": "The Ottoman general mobilisation was expected to take about four weeks.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ottoman-entry"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-straits-13",
+    "node": "otto_1914_01_straits",
+    "kind": "position",
+    "claim": "Enver's position is characterized as: the alliance has to be given something to show for itself.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his policy in authorising the entry of the ships; not a quotation."
+  },
+  {
+    "id": "otto-straits-14",
+    "node": "otto_1914_01_straits",
+    "kind": "position",
+    "claim": "Djemal's position (on the counterfactual) is characterized as: the army is unmobilised and the empire should not take the ships of the side it has not joined.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records Djemal's view on the Straits question."
+  },
+  {
+    "id": "otto-straits-15",
+    "node": "otto_1914_01_straits",
+    "kind": "characterization",
+    "claim": "The Ottoman navy could not match the Greek navy.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known; cite a source."
+  },
+  {
+    "id": "otto-sarikamis-16",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "fact",
+    "claim": "Enver's plan was an envelopment: XI Corps was to fix the Russians in place while X Corps (about 40,000 under Hafiz Hakki) and IX Corps (about 28,000 under Ali Ihsan) advanced on Kotek and into the Aras valley.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sarikamish"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-sarikamis-17",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "fact",
+    "claim": "The operation was on a plateau at 1,500 to 2,000 metres; IX and X Corps marched without winter clothing and carried mainly dry bread and olives.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sarikamish"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-sarikamis-18",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "fact",
+    "claim": "Hasan Izzet, the Third Army commander, doubted the plan and asked to be relieved on 18 December; Enver took direct command.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sarikamish"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-sarikamis-19",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "fact",
+    "claim": "The Russians had a railway terminal at Sarikamis about 24 kilometres from the border.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sarikamish"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-sarikamis-20",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "fact",
+    "claim": "Snowstorms struck on 25 and 26 December; IX Corps surrendered on 4 January 1915 and X Corps withdrew that night; Enver left the army in the second week of January (9 or 10 January).",
+    "status": "web-checked",
+    "sources": [
+      "wp-sarikamish",
+      "wp-enver"
+    ],
+    "note": "The Sarikamish article says 9 January; the Enver article says 10 January."
+  },
+  {
+    "id": "otto-sarikamis-21",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "figure",
+    "claim": "Estimates of Ottoman losses range from about 30,000 dead (Hafiz Hakki) to about 80,000 in all; more than 10,000 died in hospital, mostly of typhus.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sarikamish"
+    ],
+    "note": "The article's figures conflict; the node gives the range and does not choose."
+  },
+  {
+    "id": "otto-sarikamis-22",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "figure",
+    "claim": "The Ottoman force is given as about 90,000 regular troops (estimates run from 90,000 to 118,000).",
+    "status": "web-checked",
+    "sources": [
+      "wp-sarikamish"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-sarikamis-23",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "position",
+    "claim": "Enver's position is characterized as: the Russians do not expect an attack in the snow, and the army needs a victory.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented plan and of his role; not a quotation."
+  },
+  {
+    "id": "otto-sarikamis-24",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "position",
+    "claim": "Liman von Sanders's position (on the counterfactual) is characterized as: an army sent into the mountains in December without winter clothing will be lost to the weather before it meets an enemy.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; the Sarikamish article records that he blocked Enver's order of 5 January to send V Corps to the Caucasus, not a view of the plan."
+  },
+  {
+    "id": "otto-suez-25",
+    "node": "otto_1915_01_suez",
+    "kind": "fact",
+    "claim": "The first Suez Canal offensive (26 January to 4 February 1915) was planned by Zeki Pasha, commander of the Fourth Army at Damascus, backed by Djemal; Kress von Kressenstein arrived as chief of staff of VIII Corps on 18 November 1914.",
+    "status": "web-checked",
+    "sources": [
+      "wp-suez1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-suez-26",
+    "node": "otto_1915_01_suez",
+    "kind": "fact",
+    "claim": "Three columns crossed Sinai, the central column by Beersheba and Ismailia; the advance took about ten days and was tracked by British aircraft.",
+    "status": "web-checked",
+    "sources": [
+      "wp-suez1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-suez-27",
+    "node": "otto_1915_01_suez",
+    "kind": "figure",
+    "claim": "Kress's force is given as about 20,000 men; estimates in the article run from 10,000 to 50,000. The British had about 30,000 men on the canal.",
+    "status": "web-checked",
+    "sources": [
+      "wp-suez1915"
+    ],
+    "note": "The node gives 20,000 and 30,000."
+  },
+  {
+    "id": "otto-suez-28",
+    "node": "otto_1915_01_suez",
+    "kind": "fact",
+    "claim": "The attack came on 2 and 3 February; only two companies crossed and the force withdrew on the evening of 3 February. Kress and Djemal had hoped for an Egyptian rising, which did not happen.",
+    "status": "web-checked",
+    "sources": [
+      "wp-suez1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-suez-29",
+    "node": "otto_1915_01_suez",
+    "kind": "figure",
+    "claim": "Ottoman losses are given as about 1,500, including 716 prisoners; British losses about 150.",
+    "status": "web-checked",
+    "sources": [
+      "wp-suez1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-suez-30",
+    "node": "otto_1915_01_suez",
+    "kind": "characterization",
+    "claim": "The commanders described the operation as a forcible reconnaissance.",
+    "status": "web-checked",
+    "sources": [
+      "wp-suez1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-suez-31",
+    "node": "otto_1915_01_suez",
+    "kind": "position",
+    "claim": "Djemal's position is characterized as: Egypt is where the British are weakest and a blow there draws their troops from Europe.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented support for the attack; the claim about drawing troops from Europe is from the article's list of Ottoman gains and is doubtful."
+  },
+  {
+    "id": "otto-suez-32",
+    "node": "otto_1915_01_suez",
+    "kind": "position",
+    "claim": "Kress von Kressenstein's position (on the counterfactual) is characterized as: a force that reaches the canal after ten days with no reserve is used up in coming.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of the 'forcible reconnaissance' description; a counterfactual position."
+  },
+  {
+    "id": "otto-gallipoli-33",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "On 18 March 1915 the Bouvet capsized, the Irresistible sank and the Ocean was abandoned; the ships struck a minefield laid ten days earlier by the minelayer Nusret.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli-otto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-gallipoli-34",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "The Fifth Army under Liman von Sanders had five divisions, a sixth arriving in early April, and 60,000 to 62,000 men; a third were at Besika Bay, two divisions at Bulair, the 19th Division of Mustafa Kemal inland as a reserve.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli-otto"
+    ],
+    "note": "The article is inconsistent about where the 19th Division stood; the node follows the reserve placement."
+  },
+  {
+    "id": "otto-gallipoli-35",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "Sanders kept the reserve mobile; Kemal and others thought the defenders too dispersed; Sanders was at Bulair on 25 April, which the article says disrupted the chain of command.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli-otto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-gallipoli-36",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "Each side lost about 250,000 men; the Allies withdrew and the campaign ended on 9 January 1916.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli-otto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-gallipoli-37",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "On the night of 23 to 24 April 1915 hundreds of Armenian political and community leaders were arrested in Constantinople and across the empire; the article treats this as the opening of the genocide.",
+    "status": "web-checked",
+    "sources": [
+      "wp-armeniangenocide"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-gallipoli-38",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "The deportations and massacres were directed by the Committee of Union and Progress and the Ministry of the Interior under Talat; units of the army (the Third Army at Van, Erzurum and Bitlis), the Special Organization and the gendarmerie took part.",
+    "status": "web-checked",
+    "sources": [
+      "wp-armeniangenocide"
+    ],
+    "note": "SETTLED RECORD (spec section 9). The node says that units of the army took part and that the command whose file it is bears its share of the responsibility."
+  },
+  {
+    "id": "otto-gallipoli-39",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "figure",
+    "claim": "About one million Armenians were killed (estimates 600,000 to 1.5 million) of about two million in the empire.",
+    "status": "web-checked",
+    "sources": [
+      "wp-armeniangenocide"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-gallipoli-40",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "The killing of the Armenians meets the definition of genocide; this is the position of almost all historians who have studied it and of the International Association of Genocide Scholars (1997).",
+    "status": "web-checked",
+    "sources": [
+      "wp-armeniangenocide",
+      "iags-1997"
+    ],
+    "note": "SETTLED RECORD. The node states it plainly as fact; denial is not presented as a competing view."
+  },
+  {
+    "id": "otto-gallipoli-41",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "position",
+    "claim": "Liman von Sanders's position is characterized as: no one knows where the landing will come, a mobile reserve can meet it anywhere, and divisions on every beach would be beaten one at a time.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented placement of the reserve; not a quotation."
+  },
+  {
+    "id": "otto-gallipoli-42",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "position",
+    "claim": "Mustafa Kemal's position is characterized as: the reserve cannot be moved fast enough, and the divisions should be on the heights above the beaches.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli-otto"
+    ],
+    "note": "The article records that Sanders's strategy was opposed by Kemal and others who thought the defenders too dispersed."
+  },
+  {
+    "id": "otto-gallipoli-43",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "characterization",
+    "claim": "Whether a different placement of the Fifth Army would have beaten the landings, and how close the Allies came to breaking the defence, is a matter on which the accounts disagree.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The roll's dispute field. 88/12 is a game judgment, not a measurement."
+  },
+  {
+    "id": "otto-kut-44",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "The siege of Kut ran from 7 December 1915 to 29 April 1916 (147 days); the Sixth Army was created on 5 October 1915 under Goltz.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut",
+      "wp-mesopotamia"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-kut-45",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "Goltz directed the building of siege works after three attacks in December failed to take the town.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-kut-46",
+    "node": "otto_1915_03_kut",
+    "kind": "figure",
+    "claim": "The British garrison is given as 8,000 in the lead and 13,000-plus in the infobox.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut"
+    ],
+    "note": "The article's two figures conflict; the node says between 8,000 and 13,000."
+  },
+  {
+    "id": "otto-kut-47",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "British relief attempts at Sheikh Sa'ad, the Wadi, Hanna, Dujaila and in April under Gorringe failed; a ceasefire was arranged on 26 April and Townshend surrendered on 29 April.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-kut-48",
+    "node": "otto_1915_03_kut",
+    "kind": "figure",
+    "claim": "About 13,000 Allied soldiers went into captivity (13,164 in the infobox).",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-kut-49",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "Goltz died about a week before the surrender (typhoid, typhus or cholera: the articles disagree).",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut",
+      "wp-mesopotamia"
+    ],
+    "note": "The node says only 'dies of disease'."
+  },
+  {
+    "id": "otto-kut-50",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "The Allies were evacuating Gallipoli in December 1915 and January 1916.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli-otto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-kut-51",
+    "node": "otto_1915_03_kut",
+    "kind": "position",
+    "claim": "Enver's position is characterized as: a garrison that cannot be taken cheaply can be starved, and Mesopotamia must not take the divisions that Anatolia needs.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization; no source read records his view of the siege."
+  },
+  {
+    "id": "otto-kut-52",
+    "node": "otto_1915_03_kut",
+    "kind": "characterization",
+    "claim": "How close the relief came to Kut is argued.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The roll's dispute field. 85/15 is a game judgment."
+  },
+  {
+    "id": "otto-erzurum-53",
+    "node": "otto_1916_01_erzurum",
+    "kind": "fact",
+    "claim": "The Russians took the Azapkei positions on 31 December 1915, fought at Hasankale on 18 and 19 January and Deve-boyun on 11 and 12 February, took Fort Tafet on 14 February and entered Erzurum on 16 February 1916.",
+    "status": "web-checked",
+    "sources": [
+      "wp-erzurum"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-erzurum-54",
+    "node": "otto_1916_01_erzurum",
+    "kind": "fact",
+    "claim": "The Ottoman high command did not expect a winter offensive; Mahmut Kamil returned from Constantinople on 29 January.",
+    "status": "web-checked",
+    "sources": [
+      "wp-erzurum"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-erzurum-55",
+    "node": "otto_1916_01_erzurum",
+    "kind": "figure",
+    "claim": "About 80,000 Ottoman troops in the region; the fortress had 235 guns in the article's text and 265 in the infobox; the Russians had 130,000 infantry and 35,000 cavalry.",
+    "status": "web-checked",
+    "sources": [
+      "wp-erzurum"
+    ],
+    "note": "The article's figures conflict; the node says more than 200 guns."
+  },
+  {
+    "id": "otto-erzurum-56",
+    "node": "otto_1916_01_erzurum",
+    "kind": "figure",
+    "claim": "Ottoman losses in the campaign were about 66,000 killed, wounded and captured; 12,988 prisoners were taken at Erzurum.",
+    "status": "web-checked",
+    "sources": [
+      "wp-erzurum"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-erzurum-57",
+    "node": "otto_1916_01_erzurum",
+    "kind": "fact",
+    "claim": "The Third Army ceased to exist as a single force and the Russians gained access to Anatolia.",
+    "status": "web-checked",
+    "sources": [
+      "wp-erzurum"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-erzurum-58",
+    "node": "otto_1916_01_erzurum",
+    "kind": "position",
+    "claim": "Enver's position is characterized as: Erzurum is the key to eastern Anatolia, and the fortress has the guns.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization; no source read records his view."
+  },
+  {
+    "id": "otto-erzurum-59",
+    "node": "otto_1916_01_erzurum",
+    "kind": "position",
+    "claim": "Enver's position (on the counterfactual) is characterized as: an army shut in a fortress can be surrounded and should be kept in being in the open.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records it."
+  },
+  {
+    "id": "otto-medina-60",
+    "node": "otto_1916_02_medina",
+    "kind": "fact",
+    "claim": "The Arab revolt began on 10 June 1916 under the Sharif Hussein of Mecca (the article's infobox gives the siege as 10 June 1916 to 10 January 1919, the text as beginning in October 1916).",
+    "status": "web-checked",
+    "sources": [
+      "wp-medina"
+    ],
+    "note": "The article does not reconcile the two dates."
+  },
+  {
+    "id": "otto-medina-61",
+    "node": "otto_1916_02_medina",
+    "kind": "fact",
+    "claim": "The Hejaz railway was the Ottomans' only supply line; the article cites about 130 major attacks on it in 1917 and hundreds in 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-medina"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-medina-62",
+    "node": "otto_1916_02_medina",
+    "kind": "figure",
+    "claim": "Arab forces numbered about 30,000 in 1916; about 8,000 of the garrison (519 officers and 7,545 soldiers) were evacuated to Egypt in January 1919.",
+    "status": "web-checked",
+    "sources": [
+      "wp-medina"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-medina-63",
+    "node": "otto_1916_02_medina",
+    "kind": "fact",
+    "claim": "Fakhri Pasha held the city and refused to surrender after the armistice, holding it 72 days past the war's end.",
+    "status": "web-checked",
+    "sources": [
+      "wp-medina"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-medina-64",
+    "node": "otto_1916_02_medina",
+    "kind": "figure",
+    "claim": "The Hejaz railway ran about 1,300 kilometres from Damascus to Medina.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known; cite a source."
+  },
+  {
+    "id": "otto-medina-65",
+    "node": "otto_1916_02_medina",
+    "kind": "fact",
+    "claim": "The Ottoman government declared a holy war (jihad) on 11 November 1914.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ottoman-entry"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-medina-66",
+    "node": "otto_1916_02_medina",
+    "kind": "fact",
+    "claim": "The Ottoman garrison at Mecca was besieged.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known; cite a source."
+  },
+  {
+    "id": "otto-medina-67",
+    "node": "otto_1916_02_medina",
+    "kind": "position",
+    "claim": "Fakhri Pasha's position is characterized as: Medina is the second holy city of Islam and cannot be given up while the sultan is caliph.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented refusal to leave; not a quotation."
+  },
+  {
+    "id": "otto-medina-68",
+    "node": "otto_1916_02_medina",
+    "kind": "position",
+    "claim": "Djemal's position (on the counterfactual) is characterized as: the holy cities are not worth an army and a short line held in strength is worth more.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records Djemal's view of Medina."
+  },
+  {
+    "id": "otto-yildirim-69",
+    "node": "otto_1917_01_yildirim",
+    "kind": "fact",
+    "claim": "Baghdad fell on 11 March 1917, with about 15,000 Ottoman soldiers captured in the retreat; Halil withdrew north with about 30,000.",
+    "status": "web-checked",
+    "sources": [
+      "wp-mesopotamia",
+      "wp-yildirim"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-yildirim-70",
+    "node": "otto_1917_01_yildirim",
+    "kind": "fact",
+    "claim": "Falkenhayn arrived in Constantinople on 7 May 1917 to organise the Yildirim; the Sultan approved his commission on 11 July and the establishment order was published on 15 July. It comprised the Sixth and Seventh Armies with the German Asia Corps attached to the Seventh.",
+    "status": "web-checked",
+    "sources": [
+      "wp-yildirim"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-yildirim-71",
+    "node": "otto_1917_01_yildirim",
+    "kind": "fact",
+    "claim": "Falkenhayn warned that an advance on Baghdad without securing the Sinai front would be unwise; Djemal also favoured reinforcing Sinai and Palestine; Enver relented once he concluded the Baghdad plan was impossible without German help.",
+    "status": "web-checked",
+    "sources": [
+      "wp-yildirim"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-yildirim-72",
+    "node": "otto_1917_01_yildirim",
+    "kind": "fact",
+    "claim": "In September 1917 Falkenhayn redirected the group to Sinai and Palestine; Kress von Kressenstein received the Eighth Army, Djemal the Fourth, and Falkenhayn the Sixth, Seventh and Eighth Armies with responsibility for Jerusalem.",
+    "status": "web-checked",
+    "sources": [
+      "wp-yildirim"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-yildirim-73",
+    "node": "otto_1917_01_yildirim",
+    "kind": "fact",
+    "claim": "The railway to Baghdad was unfinished and the last part of the way was by road.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known; cite a source."
+  },
+  {
+    "id": "otto-yildirim-74",
+    "node": "otto_1917_01_yildirim",
+    "kind": "position",
+    "claim": "Falkenhayn's position is characterized as: an army group sent to Baghdad leaves the road to Jerusalem open.",
+    "status": "web-checked",
+    "sources": [
+      "wp-yildirim"
+    ],
+    "note": "The article records his warning about Sinai."
+  },
+  {
+    "id": "otto-yildirim-75",
+    "node": "otto_1917_01_yildirim",
+    "kind": "position",
+    "claim": "Enver's position (on the counterfactual) is characterized as: Baghdad is the empire's second city in the east and the army group was raised for this.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The article records that Enver wanted Baghdad retaken and relented only once he concluded it was impossible without German help; the wording is a counterfactual extension."
+  },
+  {
+    "id": "otto-jerusalem-76",
+    "node": "otto_1917_02_jerusalem",
+    "kind": "fact",
+    "claim": "The Seventh Army (Fevzi) and the Eighth Army (Kress) withdrew after the British victory at Mughar Ridge on 13 November; Falkenhayn moved his headquarters from Jerusalem to Nablus on 14 November; Jaffa fell on 16 November.",
+    "status": "web-checked",
+    "sources": [
+      "wp-jerusalem1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-jerusalem-77",
+    "node": "otto_1917_02_jerusalem",
+    "kind": "figure",
+    "claim": "Eleven Ottoman infantry divisions lost 28,443 casualties, about 12,000 prisoners and 100 guns in the Jerusalem phase.",
+    "status": "web-checked",
+    "sources": [
+      "wp-jerusalem1917"
+    ],
+    "note": "The article's totals cover different periods; the node says 'some 28,000 men and 100 guns'."
+  },
+  {
+    "id": "otto-jerusalem-78",
+    "node": "otto_1917_02_jerusalem",
+    "kind": "fact",
+    "claim": "The Seventh Army retreated on the evening of 8 December in rain; on 9 December the Mutasarrif of Jerusalem signed the surrender, citing the danger of shells hitting the holy places; Allenby entered on foot by the Jaffa Gate on 11 December.",
+    "status": "web-checked",
+    "sources": [
+      "wp-jerusalem1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-jerusalem-79",
+    "node": "otto_1917_02_jerusalem",
+    "kind": "fact",
+    "claim": "Falkenhayn's counter-attack of 26 and 27 December failed; Kress was relieved by Djevad Pasha in late November or early December.",
+    "status": "web-checked",
+    "sources": [
+      "wp-jerusalem1917"
+    ],
+    "note": "The article is vague on the date and says Falkenhayn counter-attacked on Christmas Day in one place and on 27 December in another."
+  },
+  {
+    "id": "otto-jerusalem-80",
+    "node": "otto_1917_02_jerusalem",
+    "kind": "fact",
+    "claim": "Liman von Sanders replaced Falkenhayn in February or March 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-yildirim",
+      "wp-megiddo"
+    ],
+    "note": "The articles give 24-25 February and 8 March."
+  },
+  {
+    "id": "otto-jerusalem-81",
+    "node": "otto_1917_02_jerusalem",
+    "kind": "position",
+    "claim": "Falkenhayn's position is characterized as: a battle for the city would be fought on the British guns' terms and the Seventh Army should be kept in being on the Nablus road.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented withdrawal; not a quotation."
+  },
+  {
+    "id": "otto-jerusalem-82",
+    "node": "otto_1917_02_jerusalem",
+    "kind": "position",
+    "claim": "Kress von Kressenstein's position (on the counterfactual) is characterized as: the army has to be seen to defend the city, and a line that goes back every week has nothing left to go back to.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records it."
+  },
+  {
+    "id": "otto-caucasus-83",
+    "node": "otto_1918_01_caucasus",
+    "kind": "fact",
+    "claim": "Brest-Litovsk was signed on 3 March 1918; the treaty of Batum with Armenia, Azerbaijan and Georgia on 4 June 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caucasus"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-caucasus-84",
+    "node": "otto_1918_01_caucasus",
+    "kind": "fact",
+    "claim": "Ottoman aims in the Caucasus included recovering Artvin, Ardahan, Kars and Batum, opening the way to Tiflis and cutting Russian access to Caspian oil.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caucasus"
+    ],
+    "note": "The article gives these as the pre-war aims; the claim that Kars, Ardahan and Batum were lost 'forty years ago' (1878) is well known and not sourced here."
+  },
+  {
+    "id": "otto-caucasus-85",
+    "node": "otto_1918_01_caucasus",
+    "kind": "fact",
+    "claim": "Nuri Pasha arrived at Ganja on 25 May 1918 to organise the Army of Islam; it had about 20,000 men and, by Enver's order, no German officers.",
+    "status": "web-checked",
+    "sources": [
+      "wp-armyofislam",
+      "wp-enver"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-caucasus-86",
+    "node": "otto_1918_01_caucasus",
+    "kind": "fact",
+    "claim": "Attacks on Hill 905 failed on 31 July, 2 August and 5 August; the final assault began at 1 a.m. on 14 September, Dunsterville withdrew that day and the Ottomans took Baku on 15 September.",
+    "status": "web-checked",
+    "sources": [
+      "wp-armyofislam"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-caucasus-87",
+    "node": "otto_1918_01_caucasus",
+    "kind": "fact",
+    "claim": "The German high command objected; Seeckt was sent to Batum to confer with Enver, and Vehip Pasha was removed from command of the Third Army.",
+    "status": "web-checked",
+    "sources": [
+      "wp-armyofislam"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-caucasus-88",
+    "node": "otto_1918_01_caucasus",
+    "kind": "fact",
+    "claim": "The Germans wanted the oil of Baku and told Enver to keep out of southern Russia.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The article tags this claim 'citation needed'; confirm before release."
+  },
+  {
+    "id": "otto-caucasus-89",
+    "node": "otto_1918_01_caucasus",
+    "kind": "fact",
+    "claim": "Baku is five hundred kilometres from the nearest Ottoman railway.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A rough figure; check against a map and a source or remove."
+  },
+  {
+    "id": "otto-caucasus-90",
+    "node": "otto_1918_01_caucasus",
+    "kind": "position",
+    "claim": "Enver's position is characterized as: Russia has gone, the Muslims of the Caucasus are waiting, and the oil of Baku is worth more than another division in Palestine.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his aims as recorded in the articles; not a quotation."
+  },
+  {
+    "id": "otto-caucasus-91",
+    "node": "otto_1918_01_caucasus",
+    "kind": "position",
+    "claim": "Liman von Sanders's position (on the counterfactual) is characterized as: the war will be decided in Syria and every division should go to Palestine.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records it."
+  },
+  {
+    "id": "otto-megiddo-92",
+    "node": "otto_1918_02_megiddo",
+    "kind": "figure",
+    "claim": "Ottoman and German strength 32,000 infantry and 402 guns; Allied 57,000 infantry, 12,000 mounted and 540 guns (infobox).",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": "The article gives 40,598 front-line infantry for August in its text; the figures measure different things."
+  },
+  {
+    "id": "otto-megiddo-93",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "The armies in September 1918: the Eighth (Jevad) on the coast, the Seventh (Mustafa Kemal) in the hills, the Fourth (Djemal Mersinli) east of the Jordan; Liman von Sanders had two German regiments and two understrength cavalry divisions in reserve.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-megiddo-94",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "Refet, commander of XXII Corps, wanted to withdraw before the attack; Jevad and Liman forbade it, Liman suspecting an intelligence bluff.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-megiddo-95",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "The attack opened at 4.30 on 19 September behind 385 guns; a bomber cut the telephone exchange at Afula; Liman's headquarters at Nazareth was overrun on 20 September.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-megiddo-96",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "The Seventh Army began evacuating Nablus on the night of 20 and 21 September and was destroyed by aeroplanes in the Wadi Fara on the 21st.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-megiddo-97",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "Damascus fell on 1 October and Aleppo on 26 October; the article gives 75,000 Ottoman soldiers surrendering up to the fall of Damascus (Liddell Hart).",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-megiddo-98",
+    "node": "otto_1918_02_megiddo",
+    "kind": "figure",
+    "claim": "Allenby concentrated nearly five to one in infantry against XXII Corps on the coast.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-megiddo-99",
+    "node": "otto_1918_02_megiddo",
+    "kind": "position",
+    "claim": "Liman von Sanders's position is characterized as: there is no sign the attack is coming where Refet says, and a withdrawal on a rumour would give away ground.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of the article's account that he suspected an intelligence bluff."
+  },
+  {
+    "id": "otto-megiddo-100",
+    "node": "otto_1918_02_megiddo",
+    "kind": "position",
+    "claim": "Mustafa Kemal's position (on the counterfactual) is characterized as: the army has too few men to hold the line against a blow at one point and should shorten it while there is time.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The article records that Kemal judged he lacked the men to fight the British and evacuated Nablus; this is a counterfactual extension."
+  },
+  {
+    "id": "otto-mudros-101",
+    "node": "otto_1918_03_mudros",
+    "kind": "fact",
+    "claim": "Talat's ministry resigned on 13 October 1918 and Ahmed Izzet Pasha became Grand Vizier on 14 October, keeping the ministry of war for himself.",
+    "status": "web-checked",
+    "sources": [
+      "wp-mudros",
+      "wp-izzet"
+    ],
+    "note": "The Enver article says the rest of the government resigned on 14 October."
+  },
+  {
+    "id": "otto-mudros-102",
+    "node": "otto_1918_03_mudros",
+    "kind": "fact",
+    "claim": "Negotiations began on 27 October aboard HMS Agamemnon at Mudros; Rauf Bey, the Minister of Marine, led the Ottoman delegation and Admiral Calthorpe led the British; the French were excluded.",
+    "status": "web-checked",
+    "sources": [
+      "wp-mudros"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-mudros-103",
+    "node": "otto_1918_03_mudros",
+    "kind": "fact",
+    "claim": "The armistice was signed on 30 October and took effect at noon on 31 October 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-mudros"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-mudros-104",
+    "node": "otto_1918_03_mudros",
+    "kind": "fact",
+    "claim": "The terms: garrisons outside Anatolia to surrender, the forts of the Dardanelles and Bosporus to be occupied, the army demobilised, ports and railways at the Allies' disposal, and a right to occupy any territory in case of disorder.",
+    "status": "web-checked",
+    "sources": [
+      "wp-mudros"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-mudros-105",
+    "node": "otto_1918_03_mudros",
+    "kind": "fact",
+    "claim": "Enver left Constantinople on 1 or 2 November 1918 aboard a German submarine.",
+    "status": "web-checked",
+    "sources": [
+      "wp-enver"
+    ],
+    "note": "The Enver article says 1 to 2 November."
+  },
+  {
+    "id": "otto-mudros-106",
+    "node": "otto_1918_03_mudros",
+    "kind": "fact",
+    "claim": "Bulgaria had made peace and Germany was asking for an armistice.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known (Salonika armistice of 29 September 1918); cite a source."
+  },
+  {
+    "id": "otto-mudros-107",
+    "node": "otto_1918_03_mudros",
+    "kind": "fact",
+    "claim": "The Army of Islam took Baku in September 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-armyofislam"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-mudros-108",
+    "node": "otto_1918_03_mudros",
+    "kind": "position",
+    "claim": "Ahmed Izzet Pasha's position is characterized as: the army is beaten and the empire cannot fight on, and the terms, though hard, end the war.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his role in forming the government that signed; no source read records his words."
+  },
+  {
+    "id": "otto-mudros-109",
+    "node": "otto_1918_03_mudros",
+    "kind": "position",
+    "claim": "Fakhri Pasha's position (on the counterfactual) is characterized as: a garrison that has held a city for two years does not give it up because a ministry has asked for terms.",
+    "status": "web-checked",
+    "sources": [
+      "wp-medina"
+    ],
+    "note": "The article records that he refused to surrender after the armistice."
+  }
+]

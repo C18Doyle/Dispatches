@@ -48,7 +48,22 @@ t("calendars are authentic per campaign",
   E.CAMPAIGNS.stavka.calendar === "julian" && E.CAMPAIGNS.ohl.calendar === "gregorian");
 t("flag prefixes are unique",
   new Set(E.CAMPAIGN_IDS.map(c => E.CAMPAIGNS[c].flagPrefix)).size === 6);
-t("ottoman blocked on spec §9", E.CAMPAIGNS.otto.blockingIssue.resolved === false);
+{
+  // Ottoman campaign, spec §9: the genocide of the Armenians is narrated as settled fact, never a choice, a flag or a meter effect
+  const o = E.CAMPAIGNS.otto;
+  t("ottoman §9 is resolved and recorded", o.blockingIssue.resolved === true && o.researchGate.open === false);
+  const g = E.resolveNode("otto_1915_02_gallipoli", {}, E.emptyMeters(), E.emptyHardState());
+  t("the genocide is narrated plainly at 24 April 1915, in the Ottoman command's own file", /genocide/.test(g.situation) && /bears its share of the responsibility/.test(g.situation));
+  const arm = (x) => /armen|genocide|deport/i.test(x);
+  const touched = [];
+  for (const [id, n] of Object.entries(o.nodes)) for (const ch of n.choices || []) {
+    const flagNames = [ch.setFlags, ...(ch.uncertain || []).map((b) => b.setFlags)].flatMap((sf) => Object.entries(sf || {}).flat());
+    if (arm(ch.id) || arm(ch.label || "") || flagNames.some(arm)) touched.push(id + "/" + ch.id);
+  }
+  t("no Ottoman choice, label or flag is about the Armenians", touched.length === 0);
+  t("no Ottoman bulletin mentions them", Object.values(o.nodes).every((n) => !n.bulletin || !arm(typeof n.bulletin === "function" ? "" : n.bulletin.text)));
+  t("every Ottoman city is on the Near East map", Object.values(o.nodes).every((n) => E.mapFor("otto").cities[n.city]) && E.mapFor("otto").view.height > 0 && E.mapFor("aok").land === E.MAP_LAND_PATH);
+}
 
 
 // ---- historical note (outcome screen) ----
