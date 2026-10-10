@@ -2,13 +2,15 @@
 // Pushes a game's release zips to itch.io with butler. Used by .github/workflows/release.yml, or by hand:
 //   BUTLER_API_KEY=... node tools/itch-push.mjs 1941 [version]
 //   node tools/itch-push.mjs 1941 --dry-run          print the butler commands, push nothing
-// Targets live in itch.json at the repo root: { "1941": { "target": "user/game-slug", "channels": { "full": "web-full", "demo": "web-demo" } } }
-// (channel is chosen by the release variant name). A target of null or "REPLACE_ME/..." is skipped, so the
-// release workflow never fails just because itch.io is not configured yet.
+// Targets live in itch.json at the repo root. A release variant can go to several pages (see tools/lib/itch-config.mjs):
+//   { "1941": { "pushes": { "demo": ["user/page:web-demo"], "full": ["user/page:download-full", "user/page-confidential:web-full"] } } }
+// (the older { "target", "channels" } shape still works). A game with nothing set up, or still reading REPLACE_ME, is skipped,
+// so the release workflow never fails just because itch.io is not configured yet.
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isSetUp, pushesFor } from "./lib/itch-config.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const args = process.argv.slice(2);
@@ -19,8 +21,8 @@ if (!game) {
   process.exit(2);
 }
 const cfg = JSON.parse(readFileSync(join(ROOT, "itch.json"), "utf8"))[game];
-if (!cfg || !cfg.target || /REPLACE_ME/.test(cfg.target)) {
-  console.log(`itch.io target for "${game}" is not set in itch.json: skipping the itch.io push.`);
+if (!isSetUp(cfg)) {
+  console.log(`itch.io pages for "${game}" are not set in itch.json: skipping the itch.io push.`);
   process.exit(0);
 }
 if (!dry && !process.env.BUTLER_API_KEY) {
@@ -33,15 +35,17 @@ const version = versionArg ?? readdirSync(relRoot).filter((v) => existsSync(join
 const manifest = JSON.parse(readFileSync(join(relRoot, version, "RELEASE.json"), "utf8"));
 let failed = 0;
 for (const f of manifest.files) {
-  const channel = cfg.channels?.[f.variant];
-  if (!channel) {
-    console.log(`no channel for variant "${f.variant}" in itch.json: not pushed`);
+  const targets = pushesFor(cfg, f.variant);
+  if (!targets.length) {
+    console.log(`no itch.io page for variant "${f.variant}" in itch.json: not pushed`);
     continue;
   }
-  const cmd = ["push", join(relRoot, version, f.zip), `${cfg.target}:${channel}`, "--userversion", version];
-  console.log(`butler ${cmd.join(" ")}`);
-  if (dry) continue;
-  const r = spawnSync("butler", cmd, { stdio: "inherit" });
-  if (r.status !== 0) failed++;
+  for (const target of targets) {
+    const cmd = ["push", join(relRoot, version, f.zip), target, "--userversion", version];
+    console.log(`butler ${cmd.join(" ")}`);
+    if (dry) continue;
+    const r = spawnSync("butler", cmd, { stdio: "inherit" });
+    if (r.status !== 0) failed++;
+  }
 }
 process.exit(failed ? 1 : 0);

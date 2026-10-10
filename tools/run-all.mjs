@@ -39,6 +39,7 @@ if (mode === "--install") {
     }
     run(`${g}: ${script}`, npm, ["run", script], join(ROOT, g));
   }
+  if (mode !== "--slow" && !filter) run("itch.json", process.execPath, [join(ROOT, "tools", "check-itch-config.mjs")], ROOT);
   if (mode !== "--slow" && !filter) run("engine: campaign equivalence", process.execPath, [join(ROOT, "packages", "engine", "tests", "campaign-equivalence.test.mjs")], ROOT);
 }
 
