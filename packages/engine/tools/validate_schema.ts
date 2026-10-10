@@ -155,7 +155,8 @@ for (const [key, node] of Object.entries(content.nodes)) {
     if (o.requires) checkCondition(`${ow} requires`, o.requires);
     if (o.showWhen) checkCondition(`${ow} showWhen`, o.showWhen);
     if (o.requires && !o.requiresHint) fail(ow, "a `requires` option needs a requiresHint");
-    shape(`${ow} quote`, o.quote, { speaker: "string", text: "string" });
+    shape(`${ow} quote`, o.quote, { speaker: "string", text: "string", kind: "?string", source: "?string" });
+    if (o.quote.kind && !["novel", "imagined"].includes(o.quote.kind)) fail(ow, `quote kind "${o.quote.kind}" is not novel or imagined`);
     checkStamps(ow, o.stamps);
     checkTarget(ow, o.nextNodeId);
     if (o.axisDelta) checkAxisDelta(ow, o.axisDelta);
@@ -202,7 +203,16 @@ for (const [key, e] of Object.entries(content.endings)) {
 }
 
 // ── flavor ──
-shape("flavor", flavor, { prologue: "string[]", chapterCard: "object", howToPlay: "array", gossip: "array", epilogueReadings: "object", creatureReportLines: "object", difficultyInfo: "?object" });
+shape("flavor", flavor, { prologue: "string[]", chapterCard: "object", howToPlay: "array", gossip: "array", epilogueReadings: "object", creatureReportLines: "object", difficultyInfo: "?object", novelNotes: "?object", endingHints: "?object", flagNotes: "?object" });
+for (const [name, table] of [["novelNotes", flavor.novelNotes], ["endingHints", flavor.endingHints]] as const) {
+  if (!table) continue;
+  for (const id of Object.keys(table)) if (!endingIds.has(id)) fail(`flavor.${name}`, `"${id}" is not an ending`);
+  for (const id of endingIds) if (!table[id]) fail(`flavor.${name}`, `no entry for ${id}`);
+}
+if (flavor.flagNotes) {
+  for (const id of Object.keys(flavor.flagNotes)) if (!flagsSet.has(id)) fail("flavor.flagNotes", `"${id}" is not a flag anything sets`);
+  for (const id of flagsSet) if (!flavor.flagNotes[id]) fail("flavor.flagNotes", `no note for the flag "${id}"`);
+}
 if (flavor.difficultyInfo) for (const d of ["EASY", "MEDIUM", "HARD"] as const) shape(`difficultyInfo ${d}`, flavor.difficultyInfo[d], { label: "string", blurb: "string" });
 flavor.gossip.forEach((g, i) => {
   shape(`gossip ${i}`, g, { when: "?object", lines: "string[]" });

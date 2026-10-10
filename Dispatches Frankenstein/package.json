@@ -9,7 +9,7 @@
     "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts frankenstein",
     "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts frankenstein",
     "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
-    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run verify:ui && npm run check-a11y",
+    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run check:quotations && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check-a11y",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
     "build:audio": "node scripts/copy_audio.mjs",
@@ -21,7 +21,9 @@
     "ui:accept": "node ../packages/testkit/src/cli.mjs accept",
     "check-a11y": "node scripts/check-a11y.mjs",
     "record:baseline": "tsx ../packages/engine/tools/record_baseline.ts frankenstein",
-    "check:balance": "tsx scripts/balance_check.ts"
+    "check:balance": "tsx scripts/balance_check.ts",
+    "check:quotations": "node scripts/check_quotations.mjs",
+    "test:ledger": "tsx scripts/test_ledger.ts"
   },
   "dependencies": {
     "react": "^18.3.1",

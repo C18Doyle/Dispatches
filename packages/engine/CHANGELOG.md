@@ -6,6 +6,7 @@ A game's `config.json` `schemaVersion` changes only when that game's saved state
 
 ## 0.3.0 (2026-10)
 - JSON-content engine, all new fields optional (Frankenstein's recorded 240 runs, 7,917 steps, still replay identically with its old content): `config.strain` and `roll.about` (a short resource takes probability off the rolls that are about it; `rollStrain`, and `effectiveRollChance` takes the config as a third argument); `node.echoes` (lines added to a scene while a condition holds); `option.requires` / `requiresHint` (an option locked by any condition) and `option.showWhen` (an option not shown unless a condition holds, for example `{ difficulty: "HARD" }`; `isOptionHidden`, `isOptionConditionLocked`); `ending.variants[].when` (a full condition instead of a flag); `flavor.difficultyInfo`.
+- Also optional: `quote.kind` ("novel" or "imagined") and `quote.source`, and `flavor.novelNotes`, `flavor.endingHints` and `flavor.flagNotes` (each checked by `validate_schema.ts`: every ending has a note and a hint, every flag a game can set has a note).
 - Tools: `record_baseline.ts` re-records a game's behaviour baseline from the reducer (seeded random runs); the projection both tools hash is shared in `project_state.ts`.
 
 ## 0.2.0 (2026-10)
