@@ -9,6 +9,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isSetUp, pagesOf } from "./lib/itch-config.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const args = process.argv.slice(2);
@@ -55,7 +56,7 @@ const unreleased = section("Unreleased");
 const unreleasedEntries = unreleased ? unreleased.split("\n").filter((l) => l.startsWith("- ")).length : 0;
 if (unreleasedEntries) console.log(`warning: "## Unreleased" still has ${unreleasedEntries} entr${unreleasedEntries === 1 ? "y" : "ies"}; if they ship in this release they belong under "## ${version}"`);
 const itch = existsSync(join(ROOT, "itch.json")) ? JSON.parse(readFileSync(join(ROOT, "itch.json"), "utf8"))[game.toLowerCase()] : null;
-console.log(itch && itch.target && !/REPLACE_ME/.test(itch.target) ? `itch.io target: ${itch.target}` : "note: no itch.io target set in itch.json for this game (the itch.io push will be skipped)");
+console.log(isSetUp(itch) ? `itch.io pages: ${pagesOf(itch).join(", ")}` : "note: no itch.io page set in itch.json for this game (the itch.io push will be skipped)");
 
 for (const p of problems) console.error("FAIL: " + p);
 console.log(problems.length ? `${dir} ${version}: not ready` : `${dir} ${version}: ready to release`);

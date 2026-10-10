@@ -70,7 +70,8 @@ tag and bump from there.
    a GitHub *pre-release* and never touches itch.io. Delete it afterwards: `gh release delete 1941-v1.0.1-rc.1 --cleanup-tag --yes`.
 
 ### One-time itch.io setup
-- In `itch.json` replace each `REPLACE_ME/...` with your itch.io `user/game-slug`.
+- `itch.json` says where each release variant goes, as `user/page:channel` entries; one zip can go to several pages (1940 and 1941 send the full game to a download on the main page and to a browser build on the "-confidential" page). Check it with `node tools/check-itch-config.mjs`. A game still reading `REPLACE_ME` is skipped.
+- After a channel's first push, open the page's edit screen and tick "This file will be played in the browser" on that upload, once (butler cannot set it).
 - itch.io > Settings > API keys: create a key, then on GitHub: repository Settings > Secrets and variables >
   Actions > New repository secret named `BUTLER_API_KEY`.
 - Test without pushing: `node tools/itch-push.mjs 1941 --dry-run`.
