@@ -33,9 +33,10 @@ publishes nothing; the creature never speaks before a crowd) cannot be shown by 
 confirm or correct them. The chapters are the 1818 edition's (three volumes); the later 1831 text numbers them differently.
 
 ## The demo
-`npm run build` also writes `dist/demo/index.html`: the same game, stopped on the three climax scenes (the last choice of each track), where it shows a
-"Here the Demo Ends" screen. A run that collapses first (a resource driven to ruin) still ends normally in either build.
-`npm run check:demo` plays both builds and checks that. Whether the demo should stop there, or earlier or later, is a question for playtesters too.
+`npm run build` also writes `dist/demo/index.html`: the same game, locked at the end of Act I. On arriving at the first scene of a track, the player sees an
+"End of Act I" screen: all of Act I has been played, including the choice that decides the track, and none of Act II. A run that collapses first (a resource
+driven to ruin) still ends normally in either build. `npm run check:demo` plays both builds and checks that. Whether the lock should come there, or earlier or later,
+is a question for playtesters too. The demo is the file on the main itch page; the full game is on the confidential page.
 
 ## Before trusting the results
 Five or six testers will find the big problems and too few to find the balance ones. Balance is measured by simulation (`scripts/balance_check.ts`), not by playtest.
