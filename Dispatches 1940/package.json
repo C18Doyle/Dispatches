@@ -26,14 +26,15 @@
     "assemble": "node ../packages/testkit/src/split.mjs assemble",
     "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip",
     "check:structure": "node tools/check-structure.mjs",
-    "test:fast": "npm run build:nozip && npm run typecheck && npm run check:structure && npm run roundtrip && npm run check-reachability && npm run check-advisor-dates && npm run check-pace-text && npm run check-outcome-sign && npm run check-battle-balance && npm run check-quotations && npm run check-writing && npm run check-map && npm run check-endings && npm run test:logic && npm run verify:baseline && npm run check:orphans && npm run test:migration && npm run test:saves && npm run test:battle-resume",
+    "test:fast": "npm run build:nozip && npm run typecheck && npm run check:structure && npm run roundtrip && npm run check-reachability && npm run check-advisor-dates && npm run check-pace-text && npm run check-outcome-sign && npm run check-battle-balance && npm run check-quotations && npm run check-writing && npm run check-map && npm run check-endings && npm run test:logic && npm run verify:baseline && npm run check:orphans && npm run test:migration && npm run test:saves && npm run test:battle-resume && npm run test:battle-toggle",
     "release": "node ../packages/testkit/src/release.mjs",
     "baseline:accept": "node ../packages/testkit/src/cli.mjs accept",
     "check:orphans": "node tools/check-orphans.mjs",
     "test:saves": "node ../packages/testkit/src/cli.mjs saves-verify",
     "test:migration": "node tests/migration.test.mjs",
     "test:battle-resume": "node tests/battle-resume.test.mjs",
-    "test:logic": "node tests/logic-rules.test.mjs"
+    "test:logic": "node tests/logic-rules.test.mjs",
+    "test:battle-toggle": "node tests/battle-toggle.test.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {

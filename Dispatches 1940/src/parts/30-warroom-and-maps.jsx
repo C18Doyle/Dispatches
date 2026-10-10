@@ -1166,6 +1166,66 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   );
 }
 
+// A war room setting drawn as a tick box with an ink stamp struck over it when it is on (Round 19 look: the ending/report seals' grammar, in the
+// campaign's accent colour). The stamp is centred on its box, not left-anchored, so the canted rectangle cannot spill into the words after it.
+function StampToggle({ accent, checked, onChange, stamp, title, text }) {
+  return (
+    <label
+      className="flex items-start gap-3 mb-4 pb-4 border-b-2 text-[12px] leading-snug text-[#000000] cursor-pointer"
+      style={{ borderColor: accent, fontFamily: "'Courier Prime', monospace" }}
+    >
+      <span className="relative shrink-0" style={{ width: 68, height: 26 }}>
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="appearance-none m-0 block cursor-pointer absolute"
+          style={{
+            left: 25,
+            top: 4,
+            width: 18,
+            height: 18,
+            border: "2px solid #000000",
+            background: "#f4efe3",
+            boxShadow: "inset 0 0 0 2px #f4efe3",
+          }}
+        />
+        {checked && (
+          <span
+            aria-hidden="true"
+            className="absolute pointer-events-none select-none whitespace-nowrap"
+            style={{
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%) rotate(-9deg)",
+              display: "inline-block",
+              border: `2px solid ${accent}`,
+              borderRadius: 2,
+              padding: "2px 5px",
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontWeight: 700,
+              fontSize: 8,
+              letterSpacing: "0.1em",
+              color: accent,
+              opacity: 0.85,
+              mixBlendMode: "multiply",
+            }}
+          >
+            {stamp}
+          </span>
+        )}
+      </span>
+      <span>
+        <span className="font-bold uppercase tracking-widest text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          {title}
+        </span>
+        <br />
+        {text}
+      </span>
+    </label>
+  );
+}
+
 function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const modeInfo = warRoomModeInfo(mode, campaign.id);
   const hardId = HARD_MODE_OF[campaign.id];
@@ -1186,6 +1246,8 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   // behavior); unticking is an opt-in the player actively chooses.
   const [historicallyAccurate, setHistoricallyAccurate] = useState(true);
   const hasForks = (DIVERGENCE_FORKS[campaign.id] || []).length > 0;
+  // "Take control of battle planning": ticked, the Order of Battle opens on a battle choice; unticked, it is made like any other decision.
+  const [controlBattles, setControlBattles] = useState(true);
 
   return (
     <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
@@ -1225,70 +1287,28 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
           </div>
         </div>
         {hasForks && (
-          <label
-            className="flex items-start gap-3 mb-4 pb-4 border-b-2 text-[12px] leading-snug text-[#000000] cursor-pointer"
-            style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
-          >
-            <span className="relative shrink-0" style={{ width: 68, height: 26 }}>
-              <input
-                type="checkbox"
-                checked={historicallyAccurate}
-                onChange={(e) => setHistoricallyAccurate(e.target.checked)}
-                className="appearance-none m-0 block cursor-pointer absolute"
-                style={{
-                  left: 25,
-                  top: 4,
-                  width: 18,
-                  height: 18,
-                  border: "2px solid #000000",
-                  background: "#f4efe3",
-                  boxShadow: "inset 0 0 0 2px #f4efe3",
-                }}
-              />
-              {/* Round 19 (Craig: "instead of a tick... make it a stamp, would look more
-                  authentic"): reuses this file's existing ink-stamp visual grammar (see the
-                  <Stamp> component and .briefing-stamp-* classes used for ending/report seals)
-                  rather than inventing a new treatment: a small canted bordered rectangle in the
-                  campaign's own accent color struck over the checkbox, not a handwritten check
-                  mark. Centered on the container (not left-anchored) so the rotated box can't
-                  spill into the label text that follows. */}
-              {historicallyAccurate && (
-                <span
-                  aria-hidden="true"
-                  className="absolute pointer-events-none select-none whitespace-nowrap"
-                  style={{
-                    left: "50%",
-                    top: "50%",
-                    transform: "translate(-50%, -50%) rotate(-9deg)",
-                    display: "inline-block",
-                    border: `2px solid ${campaign.accent}`,
-                    borderRadius: 2,
-                    padding: "2px 5px",
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontWeight: 700,
-                    fontSize: 8,
-                    letterSpacing: "0.1em",
-                    color: campaign.accent,
-                    opacity: 0.85,
-                    mixBlendMode: "multiply",
-                  }}
-                >
-                  VERIFIED
-                </span>
-              )}
-            </span>
-            <span>
-              <span className="font-bold uppercase tracking-widest text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                Historically Accurate Opponent
-              </span>
-              <br />
-              Lift the stamp, and the war is more likely to run beyond the realms of historical accuracy.
-            </span>
-          </label>
+          <StampToggle
+            accent={campaign.accent}
+            checked={historicallyAccurate}
+            onChange={setHistoricallyAccurate}
+            stamp="VERIFIED"
+            title="Historically Accurate Opponent"
+            text="Lift the stamp, and the war is more likely to run beyond the realms of historical accuracy."
+          />
+        )}
+        {KEY_BATTLE_SUBGAME_ENABLED && (
+          <StampToggle
+            accent={campaign.accent}
+            checked={controlBattles}
+            onChange={setControlBattles}
+            stamp="COMMAND"
+            title="Take Control of Battle Planning"
+            text="Lift the stamp, and the battles are not played: those choices are made like any other decision."
+          />
         )}
         <div className="flex flex-col gap-3">
           <button
-            onClick={() => onEnter(hasForks ? historicallyAccurate : true)}
+            onClick={() => onEnter(hasForks ? historicallyAccurate : true, KEY_BATTLE_SUBGAME_ENABLED ? controlBattles : true)}
             className="w-full border-2 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#ffffff] transition-colors duration-150"
             style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >
