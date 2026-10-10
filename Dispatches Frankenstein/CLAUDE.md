@@ -24,8 +24,11 @@ Document-driven branching strategy game (React + TypeScript, built with esbuild 
 - `npm run check:boundaries` enforces rules 1 and 2 by source scan.
 - `npm run validate:schema` enforces rule 3 (fields, types, cross-references).
 - `npm run verify:baseline` enforces rule 8.
+- `npm run check:quotations` every quotation marked `kind: "novel"` is in the 1818 text (`claims/source/`), in the chapter its `source` names. `npm run check:claims` the same for each statement in `claims/novel-notes.json` (the "In the Novel" notes). A new note needs a claim; the chapters are the 1818 edition's.
+- `npm run test:ledger` the run ledger (`src/ledger.ts`, pure). `npm run check:demo` plays the demo and full builds.
 - `npm run validate` exhaustive graph search: reachability, gates, endings, flags.
-- `npm run build` writes `dist/index.html` (single file, inlined).
+- `npm run build` writes `dist/index.html` (single file, inlined) and `dist/demo/index.html` (`--demo`: `__DEMO__` is true, `src/demo.ts` stops the player on the climax scenes).
+- `PLAYTEST.md` how to playtest, and what has not been done.
 
 ## Working here cheaply
 - Story or balance edit: read only `events.json` or `config.json`, then run `npm run validate:schema` and `npm run validate`. Do not open `App.tsx`.

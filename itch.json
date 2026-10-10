@@ -29,7 +29,8 @@
   "frankenstein": {
     "target": "REPLACE_ME/frankenstein",
     "channels": {
-      "web": "web"
+      "full": "web-full",
+      "demo": "web-demo"
     }
   }
 }

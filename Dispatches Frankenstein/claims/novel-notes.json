@@ -1,0 +1,240 @@
+{
+  "_about": "What the game says about the novel (flavor.json novelNotes: the 'In the Novel' line on each ending screen and in the Ledger), claim by claim. 'fact' claims carry a short passage from the 1818 text that is checked to be in the chapter named (npm run check:claims). 'reading' claims are interpretation, with the passage that prompts it. 'absence' claims say something is not in the book; a passage cannot show that, so they were checked by reading, and are listed for a reader who knows the book to confirm.",
+  "source": "claims/source/frankenstein-1818.txt (Project Gutenberg #41445, the 1818 first edition, three volumes)",
+  "claims": [
+    {
+      "ending": "ENDING_1A",
+      "kind": "fact",
+      "claim": "The creature, at the very end, speaks of collecting his funeral pile in the far north and ascending it.",
+      "where": "Vol. III, ch. 7",
+      "evidence": "I shall ascend my funeral pile triumphantly"
+    },
+    {
+      "ending": "ENDING_1A",
+      "kind": "absence",
+      "claim": "Victor does not burn his laboratory down.",
+      "how": "read through; the only destruction of apparatus is the female creature's (Vol. III, ch. 3), by tearing, not fire"
+    },
+    {
+      "ending": "ENDING_1B",
+      "kind": "fact",
+      "claim": "The creature says he is alone, in contrast to the devil of Paradise Lost who had companions.",
+      "where": "Vol. III, ch. 7",
+      "evidence": "I am quite alone"
+    },
+    {
+      "ending": "ENDING_1B",
+      "kind": "absence",
+      "claim": "There is no army of grafted creatures; there is one creature.",
+      "how": "read through; Victor makes one creature and destroys the second before it is animated"
+    },
+    {
+      "ending": "ENDING_1C",
+      "kind": "fact",
+      "claim": "Victor pursues the creature, reserved for vengeance.",
+      "where": "Vol. III, ch. 7",
+      "evidence": "I was reserved for vengeance"
+    },
+    {
+      "ending": "ENDING_1C",
+      "kind": "fact",
+      "claim": "Victor dies aboard Walton's ship.",
+      "where": "Vol. III, ch. 7",
+      "evidence": "his eyes closed for ever"
+    },
+    {
+      "ending": "ENDING_1C",
+      "kind": "fact",
+      "claim": "Walton's crew sees a traveller on the Arctic ice, and later takes Victor aboard.",
+      "where": "Letter 4",
+      "evidence": "lost among the distant inequalities of the ice"
+    },
+    {
+      "ending": "ENDING_1D",
+      "kind": "fact",
+      "claim": "Victor takes the female creature to one of the remotest of the Orkneys.",
+      "where": "Vol. III, ch. 2",
+      "evidence": "fixed on one of the remotest of the Orkneys"
+    },
+    {
+      "ending": "ENDING_1D",
+      "kind": "fact",
+      "claim": "He destroys it before it is animated, with the creature watching.",
+      "where": "Vol. III, ch. 3",
+      "evidence": "tore to pieces the thing on which I was engaged"
+    },
+    {
+      "ending": "ENDING_1D",
+      "kind": "fact",
+      "claim": "The creature promises to be with him on his wedding-night.",
+      "where": "Vol. III, ch. 3",
+      "evidence": "I shall be with you on your wedding-night"
+    },
+    {
+      "ending": "ENDING_1D",
+      "kind": "fact",
+      "claim": "Victor is told a gentleman was found murdered the night before (it is Clerval).",
+      "where": "Vol. III, ch. 3",
+      "evidence": "a gentleman who was found murdered here last night"
+    },
+    {
+      "ending": "ENDING_1D",
+      "kind": "fact",
+      "claim": "Elizabeth is killed on her wedding night (Victor hears her scream and the truth rushes in).",
+      "where": "Vol. III, ch. 6",
+      "evidence": "the whole truth rushed into my mind"
+    },
+    {
+      "ending": "ENDING_2A",
+      "kind": "fact",
+      "claim": "The novel's subtitle is The Modern Prometheus.",
+      "where": "title page",
+      "evidence": "FRANKENSTEIN; OR, THE MODERN PROMETHEUS"
+    },
+    {
+      "ending": "ENDING_2A",
+      "kind": "reading",
+      "claim": "Its Prometheus is Victor, who takes the power of making life and is ruined by what he has made.",
+      "where": "Vol. III, ch. 7",
+      "evidence": "I was reserved for vengeance"
+    },
+    {
+      "ending": "ENDING_2B",
+      "kind": "fact",
+      "claim": "The creature learns the ideas that belong to words, and to say them, by overhearing the cottagers.",
+      "where": "Vol. II, ch. 4",
+      "evidence": "I cannot describe the delight I felt when I learned the ideas appropriated to each of these sounds"
+    },
+    {
+      "ending": "ENDING_2B",
+      "kind": "fact",
+      "claim": "He watches the family from a hovel through a chink in its wall.",
+      "where": "Vol. II, ch. 3",
+      "evidence": "looking through a small chink"
+    },
+    {
+      "ending": "ENDING_2C",
+      "kind": "fact",
+      "claim": "Victor runs from the creature the night it wakes.",
+      "where": "Vol. I, ch. 4",
+      "evidence": "I rushed out of the room"
+    },
+    {
+      "ending": "ENDING_2C",
+      "kind": "fact",
+      "claim": "He sees it again by a flash of lightning the night William is killed.",
+      "where": "Vol. I, ch. 6",
+      "evidence": "A flash of lightning illuminated the object"
+    },
+    {
+      "ending": "ENDING_2D",
+      "kind": "fact",
+      "claim": "On the glacier the creature asks Victor to hear him.",
+      "where": "Vol. II, ch. 2",
+      "evidence": "Be calm! I entreat you to hear me"
+    },
+    {
+      "ending": "ENDING_2D",
+      "kind": "fact",
+      "claim": "Victor first refuses.",
+      "where": "Vol. II, ch. 2",
+      "evidence": "Begone! I will not hear you"
+    },
+    {
+      "ending": "ENDING_2D",
+      "kind": "fact",
+      "claim": "Then he consents to listen.",
+      "where": "Vol. II, ch. 2",
+      "evidence": "But I consented to listen"
+    },
+    {
+      "ending": "ENDING_3A",
+      "kind": "fact",
+      "claim": "Justine is condemned for William's murder.",
+      "where": "Vol. I, ch. 7",
+      "evidence": "Justine was condemned"
+    },
+    {
+      "ending": "ENDING_3A",
+      "kind": "fact",
+      "claim": "Victor does not say what he knows, because it would be taken for madness.",
+      "where": "Vol. I, ch. 7",
+      "evidence": "the ravings of a madman"
+    },
+    {
+      "ending": "ENDING_3B",
+      "kind": "fact",
+      "claim": "The story survives because Walton records Victor's account as nearly as possible in his own words.",
+      "where": "Letter 4",
+      "evidence": "to record, as nearly as possible in his own words, what he has related during the day"
+    },
+    {
+      "ending": "ENDING_3B",
+      "kind": "absence",
+      "claim": "Victor takes no professorship and publishes nothing.",
+      "how": "read through; he returns to Geneva, then travels, and never takes a post or publishes"
+    },
+    {
+      "ending": "ENDING_3C",
+      "kind": "fact",
+      "claim": "At Justine's trial the truth is known to Victor, who stays silent.",
+      "where": "Vol. I, ch. 7",
+      "evidence": "the ravings of a madman"
+    },
+    {
+      "ending": "ENDING_3D",
+      "kind": "fact",
+      "claim": "The blind De Lacey is one of the few the creature pleads with.",
+      "where": "Vol. II, ch. 7",
+      "evidence": "I am an unfortunate and deserted creature"
+    },
+    {
+      "ending": "ENDING_3D",
+      "kind": "fact",
+      "claim": "Victor on the glacier is another.",
+      "where": "Vol. II, ch. 2",
+      "evidence": "Be calm! I entreat you to hear me"
+    },
+    {
+      "ending": "ENDING_3D",
+      "kind": "fact",
+      "claim": "Walton, over Victor's body, is the last.",
+      "where": "Vol. III, ch. 7",
+      "evidence": "I am quite alone"
+    },
+    {
+      "ending": "ENDING_3D",
+      "kind": "absence",
+      "claim": "The creature never speaks before a crowd.",
+      "how": "read through; the villagers and the cottagers meet him with blows and he does not speak"
+    },
+    {
+      "ending": "ENDING_CRISIS_VOLTAGE",
+      "kind": "fact",
+      "claim": "The work succeeds, and Victor is overcome with horror at once.",
+      "where": "Vol. I, ch. 4",
+      "evidence": "breathless horror and disgust"
+    },
+    {
+      "ending": "ENDING_CRISIS_BIOMASS",
+      "kind": "fact",
+      "claim": "Victor's materials come from the dissecting room and the slaughter-house.",
+      "where": "Vol. I, ch. 3",
+      "evidence": "The dissecting room and the slaughter-house furnished many of my materials"
+    },
+    {
+      "ending": "ENDING_CRISIS_BIOMASS",
+      "kind": "fact",
+      "claim": "The creature's hunger comes later, in the forest.",
+      "where": "Vol. II, ch. 3",
+      "evidence": "I felt tormented by hunger and thirst"
+    },
+    {
+      "ending": "ENDING_CRISIS_SECRECY",
+      "kind": "fact",
+      "claim": "Victor tells the whole story to a Geneva magistrate, who half believes it and will not act.",
+      "where": "Vol. III, ch. 6",
+      "evidence": "the whole tide of his incredulity returned"
+    }
+  ]
+}

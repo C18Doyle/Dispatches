@@ -17,6 +17,7 @@ import {
 } from "@dispatches/engine";
 import type { Action, Difficulty, GameState, Quote, UiPrefs } from "@dispatches/engine";
 import { def } from "./game";
+import { IS_DEMO, isClimax } from "./demo";
 import { IN_RUN_SCREENS, parseRunSave, serializeRunSave } from "./runSave";
 import { LEDGER_KEY, carriedNotes, count, parseLedger, recordRun, runRecord, summaryText } from "./ledger";
 import type { Ledger } from "./ledger";
@@ -288,7 +289,9 @@ export default function App() {
   const [state, dispatch] = useReducer((s: GameState, a: Action) => reduce(def, s, a), undefined, () => createInitialState(def));
   const [prefs, setPrefs] = useState<UiPrefs>(loadSettings);
   const [overlay, setOverlay] = useState<"SETTINGS" | "RESEARCH" | "LEDGER" | null>(null);
-  const screen: string = overlay ?? state.phase;
+  // The demo build stops at the last choice of a track (src/demo.ts); the full game never does.
+  const demoStop = IS_DEMO && state.phase === "NODE" && isClimax(def.content.nodes, state.currentNodeId);
+  const screen: string = overlay ?? (demoStop ? "DEMO_END" : state.phase);
   const rules = def.config.difficulties[state.difficulty];
   const interlude = state.activeInterludeId ? def.content.interludes[state.activeInterludeId] : undefined;
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -883,6 +886,42 @@ export default function App() {
               </p>
             </div>
           )}
+        </div>
+      </VoidScreen>
+    );
+  } else if (screen === "DEMO_END" && def.flavor.demoEnd) {
+    const demoEnd = def.flavor.demoEnd;
+    content = (
+      <VoidScreen>
+        {settingsButton}
+        <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
+          <CornerFlourishes />
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold mb-5">{demoEnd.title}</h1>
+          <div className="space-y-4 text-[1.05rem] leading-relaxed">
+            {demoEnd.body.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              onClick={() => {
+                click();
+                dispatch({ type: "RESTART" });
+              }}
+              className="px-5 py-2.5 bg-blood text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-blood-bright transition-colors"
+            >
+              {demoEnd.restart}
+            </button>
+            <a
+              href="https://dispatches.itch.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => click()}
+              className="px-5 py-2.5 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
+            >
+              See the Rest of the Series
+            </a>
+          </div>
         </div>
       </VoidScreen>
     );

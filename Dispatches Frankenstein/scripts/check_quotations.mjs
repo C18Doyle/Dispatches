@@ -1,41 +1,15 @@
 // check_quotations.mjs: every line the game marks as Mary Shelley's own must be in her book, in the place it says.
 //
-// A quotation in events.json is `imagined` unless it carries kind "novel", a `source` ("Vol. I, ch. 4": the 1818 text's own volumes and chapters, or
-// "Letter 4") and a speaker the novel gives the words to (Victor or The Creature). For each "novel" line this finds the text in
+// A quotation in events.json is `imagined` unless it carries kind "novel", a `source` ("Vol. I, ch. 4": the 1818 text's own volumes and
+// chapters, or "Letter 4") and a speaker the novel gives the words to (Victor or The Creature). For each "novel" line this finds the text in
 // claims/source/frankenstein-1818.txt (Project Gutenberg #41445, public domain; whitespace, quotation marks and dashes are normalised before comparing) and
 // checks it falls in the chapter named by `source`. An imagined line may not carry a source. Also reports how many lines are real and how many are not.
 import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
+import { ROOT, loadNovel, norm } from "./lib/novel.mjs";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const events = JSON.parse(readFileSync(join(ROOT, "src/content/frankenstein/events.json"), "utf8"));
-const raw = readFileSync(join(ROOT, "claims/source/frankenstein-1818.txt"), "utf8").replace(/\r\n/g, "\n");
-
-const norm = (t) => t.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[—–]/g, "-").replace(/\s+/g, " ").trim();
-const ROMAN = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6, VII: 7, VIII: 8, IX: 9 };
-
-// The novel's text only: from the first letter to the end of the third volume's last chapter, split by volume and chapter.
-const lines = raw.split("\n");
-const segments = [];
-let vol = 0;
-let current = null;
-for (const l of lines) {
-  if (/^\s*VOL\. I\.?\s*$/i.test(l)) vol = 1;
-  else if (/^\s*VOL\. II\.?\s*$/i.test(l)) vol = 2;
-  else if (/^\s*VOL\. III\.?\s*$/i.test(l)) vol = 3;
-  const m = /^\s*(CHAPTER|LETTER) ([IVX]+)\.?\s*$/i.exec(l);
-  if (m) {
-    const n = ROMAN[m[2].toUpperCase()];
-    current = { label: m[1].toUpperCase() === "LETTER" ? `Letter ${n}` : `Vol. ${"I".repeat(vol)}, ch. ${n}`, text: "" };
-    segments.push(current);
-  } else if (current) current.text += l + "\n";
-}
-if (segments.length < 27) {
-  console.error(`could not read the book's chapters from claims/source/frankenstein-1818.txt (found ${segments.length}, expected the 4 letters and 23 chapters)`);
-  process.exit(2);
-}
-for (const s of segments) s.text = norm(s.text);
+const { segments } = loadNovel();
 
 let failures = 0;
 const fail = (m) => {

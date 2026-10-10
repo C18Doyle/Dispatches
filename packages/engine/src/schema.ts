@@ -297,6 +297,8 @@ export interface FlavorContent {
   endingHints?: Record<EndingId, string>;
   /** One line for each flag a run can carry, for the record of what the run carried. */
   flagNotes?: Record<FlagId, string>;
+  /** The screen a demo build shows where it stops (a game that ships a demo; see the game's own build). */
+  demoEnd?: { title: string; body: string[]; restart: string };
 }
 
 export interface GameDefinition {
