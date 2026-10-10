@@ -804,9 +804,12 @@ CAMPAIGNS.ohl.nodes = {
     year: 1915, date: "1915-09-06", city: "Belgrade",
     title: "A Road to Constantinople",
     advisors: ["falkenhayn", "tappen"],
-    situation:
+    situation: (flags) =>
       "Bulgaria has signed with the Central Powers. The military convention puts " +
-      "German, Austro-Hungarian and Bulgarian armies under Mackensen, with the task of " +
+      (flags.xc_pless === "own"
+        ? "the German and Bulgarian armies under Mackensen, with the Austro-Hungarian Third Army keeping its own commander and taking its orders from AOK, "
+        : "German, Austro-Hungarian and Bulgarian armies under Mackensen, ") +
+      "with the task of " +
       "defeating the Serbian army and opening a land connection between Hungary and " +
       "Bulgaria.\n\n" +
       "That connection is the only way to get German guns and shells to the Ottoman " +
@@ -1414,7 +1417,8 @@ CAMPAIGNS.ohl.nodes = {
           "decide where to use them."
         : "The divisions that did not go to Italy are where they were, and the army has " +
           "to decide where to use them.") +
-      " Every division that stays in the east is one that is not in France in March.",
+      " Every division that stays in the east is one that is not in France in March." +
+      (flags.xc_ukraine === "kept" ? "\n\nVienna has told Berlin that no Austro-Hungarian division will go into Ukraine. The occupation, and the grain, will be German work alone." : ""),
     context:
       "The advance, if it is made, needs no plan. The Russian army is not resisting. " +
       "What it needs is a decision about how much of the east the Empire will hold " +
@@ -2803,14 +2807,15 @@ CAMPAIGNS.gqg.nodes = {
         "A violent attack has been delivered north of Verdun. Our troops have carried " +
         "out the movements ordered. The struggle continues with the greatest vigour.",
     },
-    situation:
+    situation: (flags) =>
       "The guns were taken out of the Verdun forts and sent to the field army, which " +
       "was defensible when the sector was quiet and is now the situation. The Germans " +
       "are attacking into a fortress zone that is a fortress mainly on the map.\n\n" +
       "There is a case for shortening the line, giving up the east bank, and refusing " +
       "the battle on ground of the enemy's choosing. It is militarily coherent. It " +
       "would also mean announcing that Verdun has been abandoned, and no government in " +
-      "France survives that announcement.",
+      "France survives that announcement." +
+      (flags.xc_naroch === "refused" ? "\n\nJoffre has asked the Russians for an offensive and been told that it will come with the others in the summer, not before. Until then the Germans can take what they need from the east." : ""),
     context:
       "One road runs into the sector. Everything that reaches Verdun — men, shells, " +
       "food — reaches it along that road, and the battle will be as long as the road " +
@@ -2866,7 +2871,8 @@ CAMPAIGNS.gqg.nodes = {
         : "Verdun has consumed the divisions that were to make it. What France can now put into the Somme is a fraction of what was promised.") +
       "\n\nThe British will attack either way. What is at stake is whether they " +
       "attack beside an ally or in place of one, and what that does to the alliance " +
-      "for the remaining years of the war.",
+      "for the remaining years of the war." +
+      (flags.xc_chantilly === "declined" ? "\n\nThe Russian representative at Chantilly gave no date for an offensive in the east, and the Somme is the only combined blow the Allies are certain to make." : ""),
     context:
       "Relieving Verdun is one argument for the Somme. Keeping the coalition intact is " +
       "the other, and it is the one that will still matter in 1918.",
@@ -3107,7 +3113,8 @@ CAMPAIGNS.gqg.nodes = {
       "cover every approach. The undertaking given to the Minister of War was that " +
       "this attack would stop if it had not broken through.\n\n" +
       "Stopping means admitting the promise was worthless. Continuing means the men on " +
-      "the ridge pay for the promise.",
+      "the ridge pay for the promise." +
+      (flags.xc_petrograd === "promised" ? "\n\nThe Allied missions at Petrograd were given a date for a Russian offensive in the spring, and the staff in Paris expects it in the east in these same weeks. An attack stopped here is stopped while the Allies have been told to expect two." : ""),
     context:
       "The army has been told this attack ends the war. It has been told that " +
       "explicitly, by name, in orders. Whatever happens on this ridge happens to an " +
@@ -4388,7 +4395,7 @@ CAMPAIGNS.stavka.nodes = {
     year: 1914, date: "1914-10-28", city: "Baranovichi",
     title: "The Fortress Behind Our Lines",
     advisors: ["grandduke", "brusilov"],
-    situation:
+    situation: (flags) =>
       "On 28 October (10 November in the west) the Austro-Hungarian fortress of Przemysl " +
       "is cut off again, with a garrison of about 120,000 men inside it. The first siege " +
       "was lifted when the relieving army came up, and the assault the Third Army ordered " +
@@ -4397,7 +4404,8 @@ CAMPAIGNS.stavka.nodes = {
       "The fortress sits on the main railway between Lvov and Cracow, and the Austrians " +
       "will try to relieve it again. The guns that could reduce it quickly are not here, " +
       "and the army that would storm it is the army that is needed to hold the line " +
-      "outside.",
+      "outside." +
+      (flags.xc_kolubara === "declined" ? "\n\nRussian intelligence reports that the Austro-Hungarian divisions meant for a third invasion of Serbia have been kept in Galicia, and that the relief of the fortress will be made in more strength than it would otherwise have been." : ""),
     context:
       "A fortress that is starved costs the besiegers an army and a winter. A fortress " +
       "that is stormed costs them men, and the first attempt showed what that price " +
@@ -4885,7 +4893,7 @@ CAMPAIGNS.stavka.nodes = {
         advisor: { name: "Alekseyev", position:
           "In 1915 the Germans were free to choose their front. In 1916 they should be made to choose among several, and Russia has to be one of them." },
         impact: { manpower: 0, munitions: 1, will: 1 },
-        setFlags: { stavka_chantilly: "committed" },
+        setFlags: { stavka_chantilly: "committed", xc_chantilly: "committed" },
         next: "stavka_1916_02_naroch",
         outcome:
           "The Russian representative accepts the principle of simultaneous " +
@@ -4903,7 +4911,7 @@ CAMPAIGNS.stavka.nodes = {
         gate: (m) => m.munitions <= -2,
         disabledReason: "The army's stores are not low enough for a refusal to be believed",
         impact: { manpower: 1, munitions: 1, will: 0 },
-        setFlags: { stavka_chantilly: "declined" },
+        setFlags: { stavka_chantilly: "declined", xc_chantilly: "declined" },
         next: "stavka_1916_02_naroch",
         outcome:
           "Speculative. The Russian representative takes the plan home and the " +
@@ -4944,7 +4952,7 @@ CAMPAIGNS.stavka.nodes = {
         advisor: { name: "Alekseyev", position:
           "The French asked, and the alliance rests on what each does when the other is in trouble. It will not be a good attack, but it will be an attack." },
         impact: { manpower: -1, munitions: -1, will: 0 },
-        setFlags: { stavka_naroch: "launched" },
+        setFlags: { stavka_naroch: "launched", xc_naroch: "launched" },
         next: "stavka_1916_05_brusilov",
         outcome:
           "The guns open on 5 March (18 March in the west), but the bombardment does not " +
@@ -4963,7 +4971,7 @@ CAMPAIGNS.stavka.nodes = {
         gate: (m) => m.will >= -3,
         disabledReason: "The alliance cannot be told no while Verdun is under attack",
         impact: { manpower: 1, munitions: 1, will: 0 },
-        setFlags: { stavka_naroch: "refused" },
+        setFlags: { stavka_naroch: "refused", xc_naroch: "refused" },
         next: "stavka_1916_05_brusilov",
         outcome:
           "Speculative. The answer to Joffre is that Russia will attack with the " +
@@ -5267,7 +5275,7 @@ CAMPAIGNS.stavka.nodes = {
         advisor: { name: "Alekseyev", position:
           "The army will take the field when it has the guns, the rifles and the railway to carry them, and not on a date written in Petrograd." },
         impact: { manpower: 1, munitions: 1, will: -1 },
-        setFlags: { stavka_petrograd: "postponed" },
+        setFlags: { stavka_petrograd: "postponed", xc_petrograd: "postponed" },
         next: "stavka_1917_06_february",
         outcome:
           "General Gurko, speaking for the High Command, tells the conference that " +
@@ -5285,7 +5293,7 @@ CAMPAIGNS.stavka.nodes = {
         gate: (m) => m.will >= -2,
         disabledReason: "Headquarters will not put its name to a date that the railways cannot keep",
         impact: { manpower: 0, munitions: -1, will: 1 },
-        setFlags: { stavka_petrograd: "promised" },
+        setFlags: { stavka_petrograd: "promised", xc_petrograd: "promised" },
         next: "stavka_1917_06_february",
         outcome:
           "Speculative. The mission goes home with a date and a promise, and the " +
@@ -8036,7 +8044,7 @@ CAMPAIGNS.aok.nodes = {
         advisor: { name: "Potiorek", position:
           "Serbia is the reason for the war, and the Serbian army has been beaten twice back from its own ground. A third blow, with the whole of the Balkan force, will finish it." },
         impact: { manpower: -1, munitions: 0, will: 0 },
-        setFlags: { aok_kolubara: "invaded" },
+        setFlags: { aok_kolubara: "invaded", xc_kolubara: "invaded" },
         next: "aok_1915_04_carpathians",
         outcome:
           "The offensive opens on 6 November and reaches the Kolubara on 16 November. " +
@@ -8054,7 +8062,7 @@ CAMPAIGNS.aok.nodes = {
         gate: (m) => m.will >= -3,
         disabledReason: "The Emperor has already given his word for the invasion",
         impact: { manpower: 1, munitions: 0, will: 0 },
-        setFlags: { aok_kolubara: "declined" },
+        setFlags: { aok_kolubara: "declined", xc_kolubara: "declined" },
         next: "aok_1915_04_carpathians",
         outcome:
           "Speculative. The Emperor's authorisation is put aside, and the Balkan force " +
@@ -8330,7 +8338,7 @@ CAMPAIGNS.aok.nodes = {
         advisor: { name: "Conrad", position:
           "The monarchy has failed three times alone. The Germans have the divisions and the Bulgarians are being brought in, and the war with Serbia must be ended." },
         impact: { manpower: 0, munitions: 1, will: -1 },
-        setFlags: { aok_pless: "mackensen" },
+        setFlags: { aok_pless: "mackensen", xc_pless: "mackensen" },
         next: "aok_1916_06_montenegro",
         outcome:
           "Mackensen takes the supreme command over the German Eleventh Army, the " +
@@ -8348,7 +8356,7 @@ CAMPAIGNS.aok.nodes = {
         gate: (m) => m.will >= -3,
         disabledReason: "Berlin has already named the commander, and AOK cannot now refuse it",
         impact: { manpower: -1, munitions: 0, will: 1 },
-        setFlags: { aok_pless: "own" },
+        setFlags: { aok_pless: "own", xc_pless: "own" },
         next: "aok_1916_06_montenegro",
         outcome:
           "Speculative. Falkenhayn does not agree to everything, and the convention " +
@@ -8804,7 +8812,7 @@ CAMPAIGNS.aok.nodes = {
         advisor: { name: "Czernin", position:
           "The peace with Ukraine was made for bread. If the monarchy is not in the country when the grain is taken, then the Germans will have it and the towns will go without." },
         impact: { manpower: 0, munitions: 1, will: 1 },
-        setFlags: { aok_ukraine: "occupied" },
+        setFlags: { aok_ukraine: "occupied", xc_ukraine: "occupied" },
         next: "aok_1918_12_piave",
         outcome:
           "Austro-Hungarian troops go into Ukraine in the weeks that follow, and on " +
@@ -8821,7 +8829,7 @@ CAMPAIGNS.aok.nodes = {
         gate: (m) => m.manpower >= -4,
         disabledReason: "The towns cannot be told that the army will not go for the grain",
         impact: { manpower: 1, munitions: 0, will: 0 },
-        setFlags: { aok_ukraine: "kept" },
+        setFlags: { aok_ukraine: "kept", xc_ukraine: "kept" },
         next: "aok_1918_12_piave",
         outcome:
           "Speculative. The divisions stay on the Italian side and the occupation of " +
@@ -9867,6 +9875,42 @@ export const ECHOES = {
     historical: "sent",
     values: { sent: "German divisions sent to the Isonzo, as they were.", refused: "Guns and staff officers only." },
     setBy: "German OHL", readBy: "Austro-Hungarian AOK (September 1917)",
+  },
+  xc_chantilly: {
+    label: "Russia at Chantilly, December 1915",
+    historical: "committed",
+    values: { committed: "Russia accepted the plan for simultaneous offensives, as it did.", declined: "Russia declined to commit to a date until the army was re-equipped." },
+    setBy: "Russian Stavka", readBy: "French GQG (the Somme, July 1916)",
+  },
+  xc_naroch: {
+    label: "Lake Naroch, March 1916",
+    historical: "launched",
+    values: { launched: "A Russian offensive at Lake Naroch for the French, as it was.", refused: "The French were told to wait for the summer." },
+    setBy: "Russian Stavka", readBy: "French GQG (Verdun, February 1916)",
+  },
+  xc_petrograd: {
+    label: "The Allied missions in Petrograd, January 1917",
+    historical: "postponed",
+    values: { postponed: "The great offensives were put off, as they were.", promised: "A Russian offensive was promised for the spring, on the Allies' date." },
+    setBy: "Russian Stavka", readBy: "French GQG (the Chemin des Dames, April 1917)",
+  },
+  xc_pless: {
+    label: "The convention at Pless, September 1915",
+    historical: "mackensen",
+    values: { mackensen: "The Austro-Hungarian Third Army under Mackensen, as it was.", own: "The Third Army kept its own commander and AOK's orders." },
+    setBy: "Austro-Hungarian AOK", readBy: "German OHL (the attack on Serbia, September 1915)",
+  },
+  xc_kolubara: {
+    label: "Serbia, October 1914",
+    historical: "invaded",
+    values: { invaded: "A third invasion of Serbia, as it was.", declined: "The Balkan divisions were held for Galicia." },
+    setBy: "Austro-Hungarian AOK", readBy: "Russian Stavka (Przemysl, October 1914)",
+  },
+  xc_ukraine: {
+    label: "Grain from Ukraine, February 1918",
+    historical: "occupied",
+    values: { occupied: "Austro-Hungarian divisions went into Ukraine, as they did.", kept: "The divisions stayed on the Italian front." },
+    setBy: "Austro-Hungarian AOK", readBy: "German OHL (the end of the armistice, February 1918)",
   },
 };
 
