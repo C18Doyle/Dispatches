@@ -1,7 +1,9 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
+// `node scripts/inline.mjs --demo` builds dist/demo/index.html from dist/demo/bundle.js
+const dir = process.argv.includes("--demo") ? "dist/demo" : "dist";
 const css = readFileSync("dist/styles.css", "utf8");
-const js = readFileSync("dist/bundle.js", "utf8");
+const js = readFileSync(`${dir}/bundle.js`, "utf8");
 
 const html = `<!doctype html>
 <html lang="en">
@@ -28,5 +30,5 @@ ${js}
 </html>
 `;
 
-writeFileSync("dist/index.html", html, "utf8");
-console.log(`inline: wrote dist/index.html (${(html.length / 1024).toFixed(1)} KB)`);
+writeFileSync(`${dir}/index.html`, html, "utf8");
+console.log(`inline: wrote ${dir}/index.html (${(html.length / 1024).toFixed(1)} KB)`);

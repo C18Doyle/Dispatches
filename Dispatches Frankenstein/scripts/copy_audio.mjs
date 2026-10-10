@@ -1,3 +1,7 @@
 import { mkdirSync, copyFileSync } from "node:fs";
-mkdirSync("dist/audio", { recursive: true });
-copyFileSync("audio/lament.mp3", "dist/audio/lament.mp3");
+// `--demo` copies into dist/demo/audio as well, so the demo folder is a complete page
+const dirs = process.argv.includes("--demo") ? ["dist/demo/audio"] : ["dist/audio"];
+for (const d of dirs) {
+  mkdirSync(d, { recursive: true });
+  copyFileSync("audio/lament.mp3", d + "/lament.mp3");
+}

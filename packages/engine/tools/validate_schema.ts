@@ -203,7 +203,8 @@ for (const [key, e] of Object.entries(content.endings)) {
 }
 
 // ── flavor ──
-shape("flavor", flavor, { prologue: "string[]", chapterCard: "object", howToPlay: "array", gossip: "array", epilogueReadings: "object", creatureReportLines: "object", difficultyInfo: "?object", novelNotes: "?object", endingHints: "?object", flagNotes: "?object" });
+shape("flavor", flavor, { prologue: "string[]", chapterCard: "object", howToPlay: "array", gossip: "array", epilogueReadings: "object", creatureReportLines: "object", difficultyInfo: "?object", novelNotes: "?object", endingHints: "?object", flagNotes: "?object", demoEnd: "?object" });
+if (flavor.demoEnd) shape("flavor.demoEnd", flavor.demoEnd, { title: "string", body: "string[]", restart: "string" });
 for (const [name, table] of [["novelNotes", flavor.novelNotes], ["endingHints", flavor.endingHints]] as const) {
   if (!table) continue;
   for (const id of Object.keys(table)) if (!endingIds.has(id)) fail(`flavor.${name}`, `"${id}" is not an ending`);

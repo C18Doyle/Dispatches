@@ -9,11 +9,11 @@
     "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts frankenstein",
     "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts frankenstein",
     "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
-    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run check:quotations && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check-a11y",
+    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run check:quotations && npm run check:claims && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check:demo && npm run check-a11y",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
     "build:audio": "node scripts/copy_audio.mjs",
-    "build": "npm run build:css && npm run build:js && npm run build:audio && node scripts/inline.mjs",
+    "build": "npm run build:css && npm run build:js && npm run build:audio && node scripts/inline.mjs && npm run build:demo",
     "test:fast": "npm test",
     "release": "node ../packages/testkit/src/release.mjs",
     "test:saves": "tsx scripts/test_saves.ts",
@@ -23,7 +23,10 @@
     "record:baseline": "tsx ../packages/engine/tools/record_baseline.ts frankenstein",
     "check:balance": "tsx scripts/balance_check.ts",
     "check:quotations": "node scripts/check_quotations.mjs",
-    "test:ledger": "tsx scripts/test_ledger.ts"
+    "test:ledger": "tsx scripts/test_ledger.ts",
+    "check:claims": "node scripts/check_novel_claims.mjs",
+    "build:demo": "node esbuild.config.mjs --demo && node scripts/copy_audio.mjs --demo && node scripts/inline.mjs --demo",
+    "check:demo": "node scripts/check_demo.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -44,9 +47,18 @@
     "build": "npm run build",
     "variants": [
       {
-        "name": "web",
+        "name": "full",
         "from": "dist",
-        "zip": "dispatches-frankenstein-web.zip",
+        "zip": "dispatches-frankenstein-full.zip",
+        "include": [
+          "index.html",
+          "audio"
+        ]
+      },
+      {
+        "name": "demo",
+        "from": "dist/demo",
+        "zip": "dispatches-frankenstein-demo.zip",
         "include": [
           "index.html",
           "audio"
