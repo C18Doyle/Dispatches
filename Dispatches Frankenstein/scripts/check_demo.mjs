@@ -1,28 +1,31 @@
-// check_demo.mjs: the demo build stops at the last choice of each track, and the full build never does.
+// check_demo.mjs: the demo build locks at the end of Act I, and the full build never does.
 //
 // Plays seeded runs through the real screens (the same jsdom driver as verify:ui) on dist/demo/bundle.js and on dist/bundle.js. Run it after `npm run build`.
 //   demo: every run ends on "Here the Demo Ends" or on a collapse ending (a resource run to ruin ends the story early in either build), never on a
 //         narrative ending; and at least one run reaches the demo screen
 //   full: no run ever shows the demo screen
-// Also: the scenes the demo stops at are exactly the three climaxes (so a content change that moves an ending is noticed here).
+// Also: the scenes the demo stops at are the scenes a starting-branch (Act I) choice leads into on another branch, so a content change that moves the
+// act boundary is noticed here.
 import { readFileSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import { playRun } from "../../packages/testkit/src/ui-driver.mjs";
 import cfg from "../tests/ui.config.mjs";
 
 const events = JSON.parse(readFileSync("src/content/frankenstein/events.json", "utf8"));
-const climaxes = Object.entries(events.nodes)
-  .filter(([, n]) => n.options.some((o) => o.nextNodeId.startsWith("ENDING_") || o.roll?.success.nextNodeId?.startsWith("ENDING_") || o.roll?.failure.nextNodeId?.startsWith("ENDING_")))
-  .map(([id]) => id)
-  .sort();
+const config = JSON.parse(readFileSync("src/content/frankenstein/config.json", "utf8"));
+const targets = (o) => [o.nextNodeId, o.roll?.success.nextNodeId, o.roll?.failure.nextNodeId].filter(Boolean);
+const lockScenes = new Set();
+for (const n of Object.values(events.nodes))
+  if (n.branch === config.startBranch) for (const o of n.options) for (const t of targets(o)) if (events.nodes[t] && events.nodes[t].branch !== config.startBranch) lockScenes.add(t);
+const climaxes = [...lockScenes].sort();
 let failures = 0;
 const fail = (m) => {
   failures++;
   console.error("FAIL: " + m);
 };
-if (climaxes.join(",") !== "15A,15B,15C") fail(`the demo stops at ${climaxes.join(", ")}; expected 15A, 15B, 15C (update this check if the climaxes moved on purpose)`);
+if (climaxes.join(",") !== "8A,8B,8B-SURGE,8C") fail(`the demo locks on ${climaxes.join(", ")}; expected 8A, 8B, 8B-SURGE, 8C (update this check if the act boundary moved on purpose)`);
 
-const DEMO_TEXT = /Here the Demo Ends/;
+const DEMO_TEXT = /End of Act I/;
 const demoCfg = { ...cfg, JSDOM, isEnded: (ctx) => DEMO_TEXT.test(ctx.text()) || /Begin a New Experiment/.test(ctx.text()) };
 const demoBundle = readFileSync("dist/demo/bundle.js", "utf8");
 const fullBundle = readFileSync("dist/bundle.js", "utf8");

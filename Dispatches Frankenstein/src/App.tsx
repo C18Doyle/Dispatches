@@ -17,7 +17,7 @@ import {
 } from "@dispatches/engine";
 import type { Action, Difficulty, GameState, Quote, UiPrefs } from "@dispatches/engine";
 import { def } from "./game";
-import { IS_DEMO, isClimax } from "./demo";
+import { IS_DEMO, isDemoStop } from "./demo";
 import { IN_RUN_SCREENS, parseRunSave, serializeRunSave } from "./runSave";
 import { LEDGER_KEY, carriedNotes, count, parseLedger, recordRun, runRecord, summaryText } from "./ledger";
 import type { Ledger } from "./ledger";
@@ -289,8 +289,8 @@ export default function App() {
   const [state, dispatch] = useReducer((s: GameState, a: Action) => reduce(def, s, a), undefined, () => createInitialState(def));
   const [prefs, setPrefs] = useState<UiPrefs>(loadSettings);
   const [overlay, setOverlay] = useState<"SETTINGS" | "RESEARCH" | "LEDGER" | null>(null);
-  // The demo build stops at the last choice of a track (src/demo.ts); the full game never does.
-  const demoStop = IS_DEMO && state.phase === "NODE" && isClimax(def.content.nodes, state.currentNodeId);
+  // The demo build locks at the end of Act I, on arriving at the first scene of a track (src/demo.ts); the full game never does.
+  const demoStop = IS_DEMO && state.phase === "NODE" && isDemoStop(def, state.currentNodeId);
   const screen: string = overlay ?? (demoStop ? "DEMO_END" : state.phase);
   const rules = def.config.difficulties[state.difficulty];
   const interlude = state.activeInterludeId ? def.content.interludes[state.activeInterludeId] : undefined;

@@ -1,5 +1,4 @@
 {
-  "_comment": "itch.io pushes. Each game lists, per release variant, the 'user/page:channel' entries it is pushed to (one zip can go to several pages). Needs a repository secret named BUTLER_API_KEY (itch.io > Settings > API keys). A variant listed under 'unpushed' is built but has no page. Entries left as REPLACE_ME are skipped. Check with: node tools/check-itch-config.mjs. After a channel's first push, tick 'This file will be played in the browser' on that upload on the itch.io page, once.",
   "1914": {
     "target": "dispatches/dispatches-1914",
     "channels": {
@@ -14,20 +13,35 @@
   },
   "1940": {
     "pushes": {
-      "demo": ["dispatches/dispatches-1940:web-demo"],
-      "full": ["dispatches/dispatches-1940:download-full", "dispatches/dispatches-1940-confidential:web-full"]
+      "demo": [
+        "dispatches/dispatches-1940:web-demo"
+      ],
+      "full": [
+        "dispatches/dispatches-1940:download-full",
+        "dispatches/dispatches-1940-confidential:web-full"
+      ]
     }
   },
   "1941": {
     "pushes": {
-      "demo": ["dispatches/dispatches-1941:web-demo"],
-      "full": ["dispatches/dispatches-1941:download-full", "dispatches/dispatches-1941-confidential:web-full"]
+      "demo": [
+        "dispatches/dispatches-1941:web-demo"
+      ],
+      "full": [
+        "dispatches/dispatches-1941:download-full",
+        "dispatches/dispatches-1941-confidential:web-full"
+      ]
     }
   },
+  "_comment": "itch.io pushes. Each game lists, per release variant, the 'user/page:channel' entries it is pushed to (one zip can go to several pages). Needs a repository secret named BUTLER_API_KEY (itch.io > Settings > API keys). A variant listed under 'unpushed' is built but has no page. Entries left as REPLACE_ME are skipped. Check with: node tools/check-itch-config.mjs. After a channel's first push, tick 'This file will be played in the browser' on that upload on the itch.io page, once.",
   "frankenstein": {
     "pushes": {
-      "full": ["dispatches/dispatches-frankenstein:web"]
-    },
-    "unpushed": ["demo"]
+      "demo": [
+        "dispatches/dispatches-frankenstein:web-demo"
+      ],
+      "full": [
+        "dispatches/dispatchesfrankensteinconfidential:web-full"
+      ]
+    }
   }
 }

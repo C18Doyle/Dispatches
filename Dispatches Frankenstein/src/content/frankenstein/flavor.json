@@ -387,10 +387,10 @@
     "fritzPatron": "Fritz called in his patron's favour."
   },
   "demoEnd": {
-    "title": "Here the Demo Ends",
+    "title": "End of Act I",
     "body": [
-      "You have been through the whole of the work, from the first night in Ingolstadt to the eve of the last choice.",
-      "One choice remains, and it is the one that decides what history will say of you. The full game has that choice on each of the three tracks, fifteen endings in all, and the Ledger that keeps the ones you have found and says where to look for the rest."
+      "You have been through the whole of the first act: the first night in Ingolstadt, the materials, the gathering of what the work needs, and the choice that decides which track you will take.",
+      "The door ahead is locked in the demo. The full game goes on through the second act on the track you chose, to the last choice on each of the three tracks, fifteen endings in all, and the Ledger that keeps the ones you have found and says where to look for the rest."
     ],
     "restart": "Begin Again"
   }
