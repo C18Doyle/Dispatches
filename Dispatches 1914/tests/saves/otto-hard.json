@@ -1,0 +1,15 @@
+{
+ "id": "otto-hard",
+ "seed": 1,
+ "storage": {
+  "dispatches1914_settings_v1": "{\"schemaVersion\":1,\"textSize\":\"s\",\"sound\":false}",
+  "dispatches1914_record_v1": "{\"schemaVersion\":1,\"nodes\":{\"otto\":[\"otto_1914_01_straits\",\"otto_1914_02_blacksea\",\"otto_1914_03_sarikamis\",\"otto_1915_01_suez\",\"otto_1915_02_gallipoli\"]},\"advisers\":{\"otto\":[\"enver\",\"djemal\",\"liman\",\"kress\",\"kemal\"]},\"endings\":[],\"runs\":0,\"hardRuns\":0,\"xc\":{}}",
+  "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"otto\",\"nodeId\":\"otto_1915_02_gallipoli\",\"flags\":{\"otto_straits\":\"admitted\",\"otto_blacksea\":\"raid\",\"otto_sarikamis\":\"held\",\"otto_suez\":\"kept\"},\"meters\":{\"manpower\":2,\"munitions\":1,\"will\":-4},\"hardState\":{\"enabled\":true,\"erosion\":0},\"visited\":[\"otto_1914_01_straits\",\"otto_1914_02_blacksea\",\"otto_1914_03_sarikamis\",\"otto_1915_01_suez\",\"otto_1915_02_gallipoli\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"easy\":false,\"taken\":[{\"node\":\"otto_1914_01_straits\",\"choice\":\"admit\"},{\"node\":\"otto_1914_02_blacksea\",\"choice\":\"raid\"},{\"node\":\"otto_1914_03_sarikamis\",\"choice\":\"wait\"},{\"node\":\"otto_1915_01_suez\",\"choice\":\"keep\"}],\"history\":[],\"savedAt\":1791663873228}"
+ },
+ "expect": {
+  "menuHash": "YjWp64sZ:2382",
+  "resumeControl": "Resume file",
+  "afterResumeHash": "s2iCyucm:2457",
+  "errors": []
+ }
+}

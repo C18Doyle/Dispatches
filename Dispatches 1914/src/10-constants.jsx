@@ -40,9 +40,12 @@ export const CALENDARS = {
   },
   rumi: {
     id: "rumi",
-    label: "Rumi",
-    note: "RESEARCH GATE — confirm Ottoman general staff document dating before use.",
-    researchGate: true,
+    label: "Rumi, shown in Western dates",
+    note:
+      "The Ottoman state's official calendar: the Julian calendar, thirteen days behind the " +
+      "Western, with the year counted from 1 March until it was realigned on 1 March 1917. " +
+      "Dates in this file are Western, and the Rumi date is given once, at the first mention. " +
+      "What the General Staff dated its own documents in has not been confirmed.",
   },
 };
 

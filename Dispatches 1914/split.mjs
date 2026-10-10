@@ -26,6 +26,7 @@ const SECTIONS = [
   { title: "RUSSIAN STAVKA — HISTORICAL SPINE", file: "32-campaign-stavka.jsx" },
   { title: "BRITISH EMPIRE — BEF AND WAR CABINET — HISTORICAL SPINE", file: "33-campaign-bef.jsx" },
   { title: "AUSTRO-HUNGARIAN AOK — HISTORICAL SPINE", file: "34-campaign-aok.jsx" },
+  { title: "OTTOMAN GENERAL STAFF — HISTORICAL SPINE", file: "35-campaign-otto.jsx" },
   { title: "MAPS — spec §13.4", file: "40-maps.jsx" },
   { title: "DERIVED REGISTRIES", file: "50-registries.jsx" },
   { title: "METERS", file: "51-meters.jsx" },
