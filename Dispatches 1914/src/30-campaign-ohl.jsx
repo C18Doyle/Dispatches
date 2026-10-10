@@ -476,9 +476,12 @@ CAMPAIGNS.ohl.nodes = {
     year: 1915, date: "1915-09-06", city: "Belgrade",
     title: "A Road to Constantinople",
     advisors: ["falkenhayn", "tappen"],
-    situation:
+    situation: (flags) =>
       "Bulgaria has signed with the Central Powers. The military convention puts " +
-      "German, Austro-Hungarian and Bulgarian armies under Mackensen, with the task of " +
+      (flags.xc_pless === "own"
+        ? "the German and Bulgarian armies under Mackensen, with the Austro-Hungarian Third Army keeping its own commander and taking its orders from AOK, "
+        : "German, Austro-Hungarian and Bulgarian armies under Mackensen, ") +
+      "with the task of " +
       "defeating the Serbian army and opening a land connection between Hungary and " +
       "Bulgaria.\n\n" +
       "That connection is the only way to get German guns and shells to the Ottoman " +
@@ -1086,7 +1089,8 @@ CAMPAIGNS.ohl.nodes = {
           "decide where to use them."
         : "The divisions that did not go to Italy are where they were, and the army has " +
           "to decide where to use them.") +
-      " Every division that stays in the east is one that is not in France in March.",
+      " Every division that stays in the east is one that is not in France in March." +
+      (flags.xc_ukraine === "kept" ? "\n\nVienna has told Berlin that no Austro-Hungarian division will go into Ukraine. The occupation, and the grain, will be German work alone." : ""),
     context:
       "The advance, if it is made, needs no plan. The Russian army is not resisting. " +
       "What it needs is a decision about how much of the east the Empire will hold " +
