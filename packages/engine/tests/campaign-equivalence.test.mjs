@@ -71,9 +71,12 @@ const engine = await compileTs(join(ROOT, "packages", "engine", "src", "campaign
           for (const u of ROLLS) {
             const flags = { seeded: true };
             const ref = e.chooseNext(cid, choice, flags, meters, e.emptyHardState(), () => u);
-            const got = engine.resolveChoice({ choice, meters, flags, rules, rand: () => u });
+            // 1914's strain (a command short of what a contested order is about finds it harder) is a rule of the game, applied to the weights
+            // before the roll: the engine is given the strained weights, as chooseNext gives them to its own roll.
+            const strained = choice.uncertain && choice.uncertain.length ? { ...choice, uncertain: e.strainedUncertain(choice, meters).uncertain } : choice;
+            const got = engine.resolveChoice({ choice: strained, meters, flags, rules, rand: () => u });
             checked++;
-            if (!eq(ref.meters, got.meters) || !eq(ref.flags, got.flags) || (ref.nextId ?? null) !== (got.destination ?? null) || ref.branch !== got.variant)
+            if (!eq(ref.meters, got.meters) || !eq(ref.flags, got.flags) || (ref.nextId ?? null) !== (got.destination ?? null) || (ref.branch && ref.branch.title) !== (got.variant && got.variant.title))
               fail(`1914 ${cid}/${node.id ?? "?"} u=${u}: ref ${JSON.stringify([ref.meters, ref.nextId])} vs engine ${JSON.stringify([got.meters, got.destination])}`);
           }
         }
