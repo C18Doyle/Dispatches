@@ -11952,17 +11952,25 @@ BATTLES.brusilovRussian = {
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
 
+// The values live in the stylesheet as custom properties on .dg-root (each command sets its own paper tint and accent there), so a screen
+// takes its command's look without the components knowing it. Changing direction is a change to the stylesheet below.
 const THEME = {
-  paper: "#f4efe2",
-  paperRaised: "#e9e2cf",
-  ink: "#1c1a17",
-  inkSoft: "#5d574c",
-  rule: "#1c1a17",
-  accent: "#7a2e2e",
-  inverse: "#0d0c0b",
-  serif: 'Georgia, "Times New Roman", serif',
-  mono: '"SFMono-Regular", Menlo, Consolas, "Courier New", monospace',
+  paper: "var(--paper)",
+  paperRaised: "var(--paper-raised)",
+  ink: "var(--ink)",
+  inkSoft: "var(--ink-soft)",
+  rule: "var(--rule)",
+  accent: "var(--accent)",
+  inverse: "var(--inverse)",
+  serif: '"Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif',
+  mono: '"American Typewriter", "Courier Prime", "Courier New", Courier, monospace',
 };
+
+/** Props for a screen's root: it takes its command's accent and paper (see the stylesheet's [data-campaign] rules). */
+function rootProps(campaignId, screen) {
+  const c = campaignId && CAMPAIGNS[campaignId];
+  return { className: "dg-root", "data-campaign": campaignId || undefined, "data-screen": screen, style: c ? { "--accent": c.accent } : undefined };
+}
 
 const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 
@@ -11974,120 +11982,186 @@ function romanDate(iso) {
 }
 
 const css = `
-  .dg-root{background:${THEME.paper};color:${THEME.ink};font-family:${THEME.mono};
-    min-height:100%;padding:20px 18px 48px;box-sizing:border-box;line-height:1.6}
-  .dg-root button:focus-visible,.dg-root summary:focus-visible{outline:3px solid ${THEME.accent};outline-offset:2px}
-  .dg-filerow{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.22em;
-    color:${THEME.inkSoft};text-transform:uppercase}
-  .dg-filerow .r{color:${THEME.accent}}
-  .dg-title{font-family:${THEME.serif};font-weight:700;font-size:44px;line-height:1.02;
-    margin:14px 0 18px;letter-spacing:-.01em}
-  .dg-rule{border:0;border-top:1.5px solid ${THEME.rule};margin:0 0 22px}
-  .dg-sect{font-size:11px;letter-spacing:.22em;color:${THEME.accent};text-transform:uppercase;
-    margin:26px 0 12px;font-weight:400}
-  .dg-card{position:relative;border:1.5px solid ${THEME.rule};background:${THEME.paperRaised};
-    padding:20px 18px;margin-bottom:14px;cursor:pointer;width:100%;text-align:left;
-    font:inherit;color:inherit;display:block;box-sizing:border-box}
-  .dg-card:hover{background:${THEME.ink};color:${THEME.paper}}
-  .dg-card h3{font-family:${THEME.serif};font-size:23px;font-weight:700;margin:0 0 6px;line-height:1.2}
-  .dg-card p{margin:0;font-size:13px;color:${THEME.inkSoft}}
-  .dg-card:hover p{color:${THEME.paperRaised}}
-  .dg-stamp{position:absolute;top:-12px;right:14px;transform:rotate(-3deg);
-    border:2px solid ${THEME.accent};color:${THEME.accent};background:${THEME.paper};
-    font-size:11px;letter-spacing:.18em;padding:4px 9px}
-  .dg-dash{border:0;border-top:4px dashed ${THEME.accent};margin:28px 0 20px}
-  .dg-btn{border:1.5px solid ${THEME.rule};background:none;font:inherit;color:inherit;
-    padding:8px 12px;font-size:11px;letter-spacing:.14em;cursor:pointer;text-transform:uppercase}
-  .dg-btn:hover{background:${THEME.ink};color:${THEME.paper}}
-  .dg-docrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-    font-size:13px;letter-spacing:.16em;font-weight:700;margin:18px 0 16px}
-  .dg-timeline{display:flex;justify-content:space-between;border-top:1.5px solid ${THEME.rule};
-    padding-top:6px;font-size:11px;letter-spacing:.1em;margin-bottom:18px}
-  .dg-timeline span.on{color:${THEME.accent};font-weight:700}
-  .dg-node-date{font-size:13px;letter-spacing:.2em;margin-bottom:6px}
-  .dg-node-title{font-family:${THEME.serif};font-size:34px;font-weight:700;line-height:1.08;margin:0 0 18px}
-  .dg-prose{white-space:pre-wrap;font-size:15px;margin-bottom:18px}
-  .dg-order{font-size:12px;letter-spacing:.22em;font-weight:700;margin:24px 0 12px}
-  .dg-choice{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;
-    border:1.5px solid ${THEME.accent};background:none;padding:16px;margin-bottom:12px;display:block}
-  .dg-choice:hover:not(:disabled){background:${THEME.inverse};color:${THEME.paper}}
-  .dg-choice:disabled{cursor:not-allowed;opacity:.45}
-  .dg-choice .lab{font-size:15px;margin-bottom:8px}
-  .dg-quote{font-style:italic;font-size:13px;color:${THEME.inkSoft}}
+  /* ---- tokens: one paper, one ink, one accent per command (a command sets its own on the screen's root) ---- */
+  .dg-root{
+    --paper:#f4efe2;--paper-raised:#e9e2cf;--ink:#1c1a17;--ink-soft:#5d574c;--rule:#1c1a17;--accent:#7a2e2e;--inverse:#0d0c0b;
+    --good:#3d5a2f;--sea:#e1e4da;--tint:rgba(0,0,0,0);
+    --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .36  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    --band:linear-gradient(90deg,var(--ink) 0 33.3%,var(--paper) 33.3% 66.6%,var(--accent) 66.6%);
+    counter-reset:ord;
+  }
+  .dg-root[data-campaign="ohl"]{--tint:rgba(70,80,60,.06);--accent:#7a2e2e;--band:linear-gradient(90deg,#1c1a17 0 33.3%,#f4efe2 33.3% 66.6%,#7a2e2e 66.6%)}
+  .dg-root[data-campaign="gqg"]{--tint:rgba(40,70,110,.06);--paper:#f1f0e8;--band:linear-gradient(90deg,#2f4858 0 33.3%,#f1f0e8 33.3% 66.6%,#8a2f2f 66.6%)}
+  .dg-root[data-campaign="stavka"]{--tint:rgba(150,110,40,.1);--paper:#f3e9cf;--paper-raised:#e8dcbb;--band:linear-gradient(90deg,#1c1a17 0 33.3%,#b08a2e 33.3% 66.6%,#f3e9cf 66.6%)}
+  .dg-root[data-campaign="bef"]{--tint:rgba(90,100,60,.08);--paper:#eeeadb;--paper-raised:#dfdbc6;--band:repeating-linear-gradient(90deg,#3d4a2f 0 14px,#eeeadb 14px 20px)}
+  .dg-root[data-campaign="aok"]{--tint:rgba(150,120,40,.07);--paper:#f4eedc;--band:linear-gradient(90deg,#1c1a17 0 50%,#c4a02a 50%)}
+  .dg-root[data-campaign="otto"]{--tint:rgba(100,70,110,.06);--paper:#f3ecde;--band:repeating-linear-gradient(90deg,#5a4a6b 0 4px,#f3ecde 4px 9px)}
+
+  /* ---- the sheet ---- */
+  .dg-root{background-color:var(--paper);
+    background-image:var(--grain),linear-gradient(var(--tint),var(--tint)),radial-gradient(ellipse at 50% -10%,rgba(255,255,255,.5),rgba(255,255,255,0) 55%);
+    color:var(--ink);font-family:${THEME.mono};min-height:100%;padding:26px 20px 56px;box-sizing:border-box;line-height:1.62;
+    position:relative;-webkit-font-smoothing:antialiased}
+  .dg-root[data-campaign]::before,.dg-root[data-screen="menu"]::before{content:"";display:block;height:7px;margin:-26px -20px 18px;background:var(--band);
+    border-bottom:1.5px solid var(--rule);box-shadow:0 1px 0 rgba(255,255,255,.5)}
+  .dg-root button:focus-visible,.dg-root summary:focus-visible,.dg-root input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .dg-filerow{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.24em;color:var(--ink-soft);text-transform:uppercase}
+  .dg-filerow .r{color:var(--accent);border:1.5px solid var(--accent);padding:1px 8px;transform:rotate(1.5deg);font-weight:700}
+  .dg-title{font-family:${THEME.serif};font-weight:700;font-size:48px;line-height:1;margin:16px 0 18px;letter-spacing:-.015em;
+    text-shadow:0 1px 0 rgba(255,255,255,.65),0 -1px 0 rgba(0,0,0,.08)}
+  .dg-rule{border:0;border-top:3px double var(--rule);margin:0 0 22px}
+  .dg-sect{font-size:11px;letter-spacing:.26em;color:var(--accent);text-transform:uppercase;margin:28px 0 14px;font-weight:700;
+    display:flex;align-items:center;gap:12px}
+  .dg-sect::after{content:"";flex:1;border-top:1px solid var(--accent);opacity:.55}
+
+  /* ---- menu: a dossier folder for each command ---- */
+  .dg-card{position:relative;border:1.5px solid var(--rule);background:var(--paper-raised);
+    background-image:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0) 40%);
+    padding:20px 18px 18px;margin:0 0 18px;cursor:pointer;width:100%;text-align:left;font:inherit;color:inherit;display:block;box-sizing:border-box;
+    box-shadow:2px 3px 0 rgba(28,26,23,.14)}
+  .dg-card::before{content:"";position:absolute;left:14px;top:-9px;width:84px;height:9px;background:var(--paper-raised);
+    border:1.5px solid var(--rule);border-bottom:0;border-radius:3px 3px 0 0}
+  .dg-card:hover{background:var(--ink);color:var(--paper);box-shadow:2px 3px 0 var(--accent)}
+  .dg-card:hover::before{background:var(--ink)}
+  .dg-card h3{font-family:${THEME.serif};font-size:24px;font-weight:700;margin:0 0 6px;line-height:1.15}
+  .dg-card p{margin:0;font-size:13px;color:var(--ink-soft)}
+  .dg-card:hover p{color:var(--paper-raised)}
+  .dg-card[disabled]{box-shadow:none}
+  .dg-stamp{position:absolute;top:-13px;right:14px;transform:rotate(-3deg);border:2px solid var(--accent);color:var(--accent);background:var(--paper);
+    font-size:11px;font-weight:700;letter-spacing:.2em;padding:4px 10px;box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3px var(--accent)}
+  .dg-dash{border:0;border-top:3px dashed var(--accent);opacity:.7;margin:30px 0 22px}
+  .dg-btn{border:1.5px solid var(--rule);background:none;font:inherit;color:inherit;padding:8px 13px;font-size:11px;letter-spacing:.16em;cursor:pointer;
+    text-transform:uppercase;box-shadow:1px 2px 0 rgba(28,26,23,.2)}
+  .dg-btn:hover:not(:disabled){background:var(--ink);color:var(--paper)}
+  .dg-btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+
+  /* ---- the order sheet ---- */
+  .dg-docrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;letter-spacing:.26em;font-weight:700;margin:20px 0 16px;
+    padding-bottom:10px;border-bottom:3px double var(--rule);text-transform:uppercase}
+  .dg-docrow .dg-btn{margin-left:auto}
+  .dg-timeline{display:flex;justify-content:space-between;align-items:center;padding:8px 0 0;font-size:11px;letter-spacing:.12em;margin-bottom:20px;
+    background:linear-gradient(var(--rule),var(--rule)) 0 0/100% 1.5px no-repeat}
+  .dg-timeline span{padding:2px 8px;border:1.5px solid transparent}
+  .dg-timeline span.on{color:var(--accent);font-weight:700;border-color:var(--accent);transform:rotate(-1.5deg);background:var(--paper)}
+  .dg-node-date{display:inline-block;font-size:13px;letter-spacing:.24em;margin:0 0 10px;padding:2px 12px;border:2px solid var(--accent);color:var(--accent);
+    font-weight:700;transform:rotate(-1.2deg);background:var(--paper)}
+  .dg-node-title{font-family:${THEME.serif};font-size:36px;font-weight:700;line-height:1.06;margin:0 0 18px;letter-spacing:-.01em}
+  .dg-prose{white-space:pre-wrap;font-size:15.5px;margin-bottom:18px}
+  .dg-node-title + .dg-prose::first-letter{float:left;font-family:${THEME.serif};font-size:3.3em;line-height:.82;font-weight:700;padding:.07em .1em 0 0;color:var(--accent)}
+  .dg-order{font-size:12px;letter-spacing:.26em;font-weight:700;margin:26px 0 14px;text-transform:uppercase;display:flex;gap:12px;align-items:center;color:var(--accent)}
+  .dg-order::after{content:"";flex:1;border-top:1px solid var(--accent);opacity:.55}
+  .dg-choice{position:relative;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;border:1.5px solid var(--rule);
+    border-left:8px solid var(--accent);background:rgba(255,255,255,.28);padding:16px 16px 14px;margin-bottom:14px;display:block;
+    box-shadow:2px 3px 0 rgba(28,26,23,.13)}
+  .dg-choice:not(.dg-opt):not(.dg-issue)::before{counter-increment:ord;content:"ORDER " counter(ord);display:block;font-size:10px;letter-spacing:.24em;
+    color:var(--accent);font-weight:700;margin-bottom:6px}
+  .dg-choice:hover:not(:disabled){background:var(--inverse);color:var(--paper);box-shadow:2px 3px 0 var(--accent)}
+  .dg-choice:hover:not(:disabled)::before{color:var(--paper-raised)}
+  .dg-choice:disabled{cursor:not-allowed;opacity:.5;box-shadow:none}
+  .dg-choice .lab{font-size:15.5px;margin-bottom:8px;font-weight:700}
+  .dg-quote{font-style:italic;font-size:13px;color:var(--ink-soft);border-top:1px dotted var(--ink-soft);padding-top:8px;margin-top:6px}
   .dg-root summary{list-style:none}
   .dg-root summary::-webkit-details-marker{display:none}
-  .dg-map{display:block;width:100%;height:auto;border:1.5px solid ${THEME.rule};background:${THEME.paper};margin:10px 0 18px}
-  .dg-attested{font-size:13px;margin-top:8px;color:${THEME.inkSoft}}
+  .dg-map{display:block;width:100%;height:auto;border:1.5px solid var(--rule);background:var(--sea);margin:10px 0 18px;
+    box-shadow:inset 0 0 0 4px var(--paper),inset 0 0 0 5.5px var(--rule),2px 3px 0 rgba(28,26,23,.13)}
+  .dg-attested{font-size:13px;margin-top:8px;color:var(--ink-soft)}
   .dg-attested cite{font-style:normal;font-size:12px}
   .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
-  .dg-choice:hover:not(:disabled) .dg-quote,.dg-choice:hover:not(:disabled) .dg-attested{color:${THEME.paperRaised}}
-  .dg-cost{display:inline-block;border:1px solid currentColor;font-size:10px;
-    letter-spacing:.14em;padding:3px 7px;margin-bottom:8px}
-  .dg-meters{display:flex;gap:14px;border:1.5px solid ${THEME.rule};padding:12px;
-    margin-bottom:18px;font-size:11px;letter-spacing:.1em}
-  .dg-meters div{flex:1}
-  .dg-meters b{display:block;font-size:18px;font-family:${THEME.serif}}
-  .dg-hard{border:1.5px solid ${THEME.accent};color:${THEME.accent};padding:12px;
-    font-size:12px;letter-spacing:.14em;margin-bottom:18px}
-  .dg-draft{border:1.5px dashed ${THEME.accent};color:${THEME.accent};padding:10px;
-    font-size:11px;letter-spacing:.12em;margin-bottom:18px}
-  .dg-badge{display:inline-block;border:2px solid ${THEME.accent};color:${THEME.accent};text-transform:uppercase;
-    font-size:10px;font-weight:700;letter-spacing:.2em;padding:5px 10px;margin-bottom:14px;transform:rotate(-1.5deg);
-    box-shadow:inset 0 0 0 2px ${THEME.paper},inset 0 0 0 3px ${THEME.accent}}
-  .dg-badge-contested{border-style:double;border-width:4px;box-shadow:none}
+  .dg-choice:hover:not(:disabled) .dg-quote,.dg-choice:hover:not(:disabled) .dg-attested{color:var(--paper-raised)}
+  .dg-cost{display:inline-block;border:1px solid currentColor;font-size:10px;letter-spacing:.14em;padding:3px 7px;margin-bottom:8px}
+
+  /* ---- the ledger of meters ---- */
+  .dg-meters{display:flex;gap:16px;border:1.5px solid var(--rule);padding:12px 14px 10px;margin-bottom:20px;font-size:10.5px;letter-spacing:.12em;
+    background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule)}
+  .dg-meters>div{flex:1}
+  .dg-meters b{display:block;font-size:22px;font-family:${THEME.serif};line-height:1.2}
+  .dg-meters .neg b{color:var(--accent)}
+  .dg-meters .pos b{color:var(--good)}
+  .dg-gauge{display:block;position:relative;height:7px;margin:3px 0 6px;border:1px solid var(--ink-soft);
+    background:linear-gradient(90deg,var(--accent) 0,var(--accent) 50%,var(--good) 50%,var(--good) 100%);opacity:.9}
+  .dg-gauge::before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--ink)}
+  .dg-gauge i{position:absolute;top:-4px;width:7px;height:13px;margin-left:-3.5px;background:var(--paper);border:1.5px solid var(--ink);box-sizing:border-box}
+  .dg-hard{border:1.5px solid var(--accent);color:var(--accent);padding:12px;font-size:12px;letter-spacing:.16em;margin-bottom:18px;font-weight:700;
+    background:repeating-linear-gradient(135deg,rgba(122,46,46,.07) 0 8px,rgba(122,46,46,0) 8px 16px)}
+  .dg-draft{border:1.5px dashed var(--accent);color:var(--accent);padding:10px;font-size:11px;letter-spacing:.12em;margin-bottom:18px}
+  .dg-badge{display:inline-block;border:3px solid var(--accent);color:var(--accent);text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:.22em;
+    padding:7px 14px;margin-bottom:16px;transform:rotate(-1.5deg);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--accent);background:var(--paper)}
+  .dg-badge-contested{border-style:double;border-width:5px;box-shadow:none}
   .dg-badge-speculative{border-style:dashed}
   .dg-root h1:focus{outline:none}
-  .dg-note-box{border:1.5px solid ${THEME.rule};padding:12px;margin:14px 0}
-  .dg-note-box textarea{width:100%;box-sizing:border-box;font:inherit;font-size:12px;min-height:110px;background:${THEME.paperRaised};color:${THEME.ink};border:1px solid ${THEME.rule}}
-  .dg-note-box a{color:${THEME.accent}}
-  .dg-bulletin{border-top:1px solid ${THEME.rule};border-bottom:1px solid ${THEME.rule};
-    padding:12px 0;margin-bottom:18px;font-size:13px}
-  .dg-bulletin .h{font-size:10px;letter-spacing:.2em;color:${THEME.accent};margin-bottom:6px}
-  details summary{cursor:pointer;border:1.5px solid ${THEME.rule};padding:10px 12px;
-    font-size:12px;letter-spacing:.16em;margin-bottom:16px}
-  .dg-banner{border:1.5px solid ${THEME.accent};padding:14px;margin:0 0 18px}
+  .dg-note-box{border:1.5px solid var(--rule);padding:12px;margin:14px 0;background:rgba(255,255,255,.25)}
+  .dg-note-box textarea{width:100%;box-sizing:border-box;font:inherit;font-size:12px;min-height:110px;background:var(--paper-raised);color:var(--ink);border:1px solid var(--rule)}
+  .dg-note-box a{color:var(--accent)}
+
+  /* ---- the bulletin: a wire slip pasted to the sheet ---- */
+  .dg-bulletin{position:relative;border:1.5px dashed var(--ink-soft);background:var(--paper-raised);
+    background-image:repeating-linear-gradient(180deg,rgba(28,26,23,0) 0 21px,rgba(28,26,23,.06) 21px 22px);
+    padding:14px 14px 12px;margin:0 0 20px;font-size:13px;transform:rotate(-.35deg);box-shadow:1px 2px 0 rgba(28,26,23,.12)}
+  .dg-bulletin::before{content:"";position:absolute;left:50%;top:-8px;width:56px;height:14px;margin-left:-28px;background:rgba(190,170,110,.55);transform:rotate(1.5deg)}
+  .dg-bulletin .h{font-size:10px;letter-spacing:.22em;color:var(--accent);margin-bottom:6px;font-weight:700;text-transform:uppercase}
+  details summary{cursor:pointer;border:1.5px solid var(--rule);padding:10px 12px;font-size:12px;letter-spacing:.16em;margin-bottom:16px;background:rgba(255,255,255,.22)}
+  details summary:hover{background:var(--ink);color:var(--paper)}
+  .dg-banner{border:1.5px solid var(--accent);padding:14px;margin:0 0 20px;background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--accent)}
   .dg-banner p{margin:0 0 10px;font-size:13px}
-  .dg-banner .small{font-size:12px;color:${THEME.inkSoft}}
+  .dg-banner .small{font-size:12px;color:var(--ink-soft)}
   .dg-seg{display:flex;margin:0 0 10px}
-  .dg-seg button{flex:1;border:1.5px solid ${THEME.rule};background:none;font:inherit;color:inherit;
-    padding:10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+  .dg-seg button{flex:1;border:1.5px solid var(--rule);background:none;font:inherit;color:inherit;padding:11px 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
   .dg-seg button+button{border-left:0}
-  .dg-seg button[aria-pressed="true"]{background:${THEME.ink};color:${THEME.paper}}
-  .dg-note{font-size:12px;color:${THEME.inkSoft};margin:0 0 14px}
+  .dg-seg button:hover{background:var(--paper-raised)}
+  .dg-seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .dg-note{font-size:12px;color:var(--ink-soft);margin:0 0 14px}
   .dg-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
-  .dg-tabs button[aria-pressed="true"]{background:${THEME.ink};color:${THEME.paper}}
-  .dg-entry{border-top:1px solid ${THEME.rule};padding:10px 0;font-size:13px}
+  .dg-tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .dg-entry{border-top:1px solid var(--rule);padding:10px 0;font-size:13px}
   .dg-entry .t{font-family:${THEME.serif};font-size:17px;font-weight:700}
-  .dg-entry.locked{color:${THEME.inkSoft}}
-  .dg-entry .meta{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${THEME.inkSoft}}
-  .dg-count{font-size:11px;letter-spacing:.14em;color:${THEME.inkSoft};margin:0 0 6px}
+  .dg-entry.locked{color:var(--ink-soft)}
+  .dg-entry .meta{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-count{font-size:11px;letter-spacing:.16em;color:var(--ink-soft);margin:0 0 6px;text-transform:uppercase}
   .dg-term{background:none;border:0;border-bottom:1px dotted currentColor;font:inherit;color:inherit;cursor:pointer;padding:0;margin:0}
-  .dg-defn{display:block;border-left:3px solid ${THEME.accent};padding:4px 0 4px 10px;margin:8px 0 14px;font-size:13px;color:${THEME.inkSoft}}
+  .dg-defn{display:block;border-left:3px solid var(--accent);padding:4px 0 4px 10px;margin:8px 0 14px;font-size:13px;color:var(--ink-soft)}
   .dg-preview{display:inline-block;border:1px solid currentColor;font-size:11px;letter-spacing:.08em;padding:3px 7px;margin:0 6px 8px 0}
-  .dg-record-mark{display:inline-block;border:1px solid ${THEME.accent};color:${THEME.accent};font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:2px 6px;margin:0 6px 8px 0}
-  .dg-choice:hover:not(:disabled) .dg-record-mark{color:${THEME.paperRaised};border-color:${THEME.paperRaised}}
-  .dg-strain{display:block;font-size:12px;color:${THEME.accent};margin:0 0 8px;font-weight:700}
-  .dg-choice:hover:not(:disabled) .dg-strain{color:${THEME.paperRaised}}
-  .dg-rank{border:1.5px solid ${THEME.rule};padding:14px;margin:18px 0}
-  .dg-rank h2{font-family:${THEME.serif};font-size:26px;margin:0 0 4px}
-  .dg-rank ul{list-style:none;margin:10px 0 0;padding:0;font-size:12px}
-  .dg-rank li{display:flex;justify-content:space-between;gap:10px;border-top:1px solid ${THEME.rule};padding:6px 0}
-  .dg-rank li span.n{color:${THEME.inkSoft}}
-  .dg-bt-arm{border:1.5px solid ${THEME.rule};padding:12px 14px;margin:0 0 12px}
+  .dg-record-mark{display:inline-block;border:1px solid var(--accent);color:var(--accent);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:2px 6px;margin:0 6px 8px 0}
+  .dg-choice:hover:not(:disabled) .dg-record-mark{color:var(--paper-raised);border-color:var(--paper-raised)}
+  .dg-strain{display:block;font-size:12px;color:var(--accent);margin:0 0 8px;font-weight:700}
+  .dg-choice:hover:not(:disabled) .dg-strain{color:var(--paper-raised)}
+
+  /* ---- the report on your command ---- */
+  .dg-rank{border:1.5px solid var(--rule);padding:16px 16px 12px;margin:22px 0;background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule),2px 3px 0 rgba(28,26,23,.13)}
+  .dg-rank h2{font-family:${THEME.serif};font-size:30px;margin:0 0 4px;color:var(--accent)}
+  .dg-rank ul{list-style:none;margin:12px 0 0;padding:0;font-size:12px}
+  .dg-rank li{display:flex;justify-content:space-between;gap:10px;border-top:1px dotted var(--ink-soft);padding:7px 0}
+  .dg-rank li span.n{color:var(--ink-soft)}
+
+  /* ---- the Order of Battle ---- */
+  .dg-bt-arm{border:1.5px solid var(--rule);padding:12px 14px;margin:0 0 14px;background:rgba(255,255,255,.28);box-shadow:2px 3px 0 rgba(28,26,23,.12)}
   .dg-bt-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px;font-size:14px}
   .dg-bt-ctl{display:flex;align-items:center;gap:8px}
-  .dg-bt-n{min-width:2ch;text-align:center;font-family:${THEME.serif};font-size:20px;font-weight:700}
+  .dg-bt-n{min-width:2ch;text-align:center;font-family:${THEME.serif};font-size:24px;font-weight:700;color:var(--accent)}
   .dg-bt-units{margin:0 0 12px;padding-left:20px;font-size:13px}
-  .dg-bt-pick .dg-choice{margin-bottom:8px}
-  .dg-opt[aria-pressed="true"]{background:${THEME.ink};color:${THEME.paper}}
-  .dg-opt[aria-pressed="true"] .dg-quote{color:${THEME.paperRaised}}
-  .dg-bt-report{border-top:1.5px solid ${THEME.rule};margin-top:18px;padding-top:6px}
-  .dg-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:0 0 8px;cursor:pointer}
-  .dg-check input{margin-top:4px;width:18px;height:18px;accent-color:${THEME.accent}}
+  .dg-bt-pick .dg-choice{margin-bottom:10px}
+  .dg-opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-left-color:var(--paper-raised)}
+  .dg-opt[aria-pressed="true"] .dg-quote{color:var(--paper-raised);border-top-color:var(--paper-raised)}
+  .dg-bt-report{border-top:3px double var(--rule);margin-top:22px;padding-top:8px}
+  .dg-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:0 0 10px;cursor:pointer}
+  .dg-check input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent)}
+
+  /* ---- text sizes ---- */
   .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:17px}
   .dg-fs-m .dg-bulletin,.dg-fs-m .dg-quote,.dg-fs-m .dg-entry,.dg-fs-m .dg-banner p{font-size:15px}
   .dg-fs-l .dg-prose,.dg-fs-l .dg-choice .lab{font-size:19px}
   .dg-fs-l .dg-bulletin,.dg-fs-l .dg-quote,.dg-fs-l .dg-entry,.dg-fs-l .dg-banner p{font-size:17px}
+  @media (max-width:420px){.dg-title{font-size:40px}.dg-node-title{font-size:30px}.dg-meters{gap:10px}.dg-meters b{font-size:19px}}
+
+  /* ---- a stamp comes down on an ending, and an order is signed ---- */
+  @media (prefers-reduced-motion:no-preference){
+    @keyframes dg-thump{0%{transform:scale(1.7) rotate(-7deg);opacity:0}55%{opacity:1}100%{transform:scale(1) rotate(-1.5deg);opacity:1}}
+    @keyframes dg-rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .dg-badge{animation:dg-thump .55s cubic-bezier(.2,.8,.2,1) both}
+    .dg-prose,.dg-choice,.dg-bulletin{animation:dg-rise .35s ease-out both}
+    .dg-choice:nth-of-type(2){animation-delay:.06s}
+    .dg-choice:nth-of-type(3){animation-delay:.12s}
+  }
+  @media print{.dg-root{background:#fff!important}.dg-btn,.dg-choice{box-shadow:none}}
 `;
 
 function Stamp({ children }) {
@@ -12216,7 +12290,7 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onM
     );
   };
   return (
-    <main className="dg-root">
+    <main {...rootProps(null, "menu")}>
       <div className="dg-filerow"><span>File No. 1914</span><span className="r">Restricted</span></div>
       <h1 className="dg-title">DISPATCHES<br />1914</h1>
       <hr className="dg-rule" />
@@ -12302,8 +12376,9 @@ function Meters({ meters, labels }) {
   return (
     <div className="dg-meters">
       {METER_AXES.map((a) => (
-        <div key={a}>
+        <div key={a} className={meters[a] < 0 ? "neg" : meters[a] > 0 ? "pos" : ""}>
           <b>{meters[a] > 0 ? `+${meters[a]}` : meters[a]}</b>
+          <span className="dg-gauge" aria-hidden="true"><i style={{ left: `${(meters[a] + 10) * 5}%` }} /></span>
           {labels[a].toUpperCase()}
         </div>
       ))}
@@ -12386,7 +12461,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
   return (
-    <main className="dg-root">
+    <main {...rootProps(campaignId, "node")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow">
         <span>{c.docLabel}</span>
@@ -12497,7 +12572,7 @@ function OutcomeScreen({ campaignId, outcome, record, battle, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([outcome, record && record.text]), [outcome, record]);
   return (
-    <main className="dg-root">
+    <main {...rootProps(campaignId, "outcome")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <h1 className="dg-docrow" style={{ margin: "18px 0 16px" }}><span>{c.docLabel} · OUTCOME</span></h1>
       <hr className="dg-rule" />
@@ -12525,7 +12600,7 @@ function RecordScreen({ record, onBack }) {
   const atlas = buildNodeAtlas();
   const endings = buildEndings();
   return (
-    <main className="dg-root">
+    <main {...rootProps(null, "record")}>
       <div className="dg-docrow">
         <h1 style={{ margin: 0, font: "inherit" }}>WAR RECORD</h1>
         <button className="dg-btn" onClick={onBack}>Return to file</button>
@@ -12855,7 +12930,7 @@ function BattleScreen({ campaignId, config, meters, easy, onCommit, onBack }) {
   };
   const weights = easy ? Object.fromEntries(config.categories.map((k) => [k.id, battleArmWeight(config, k.id, (config.commanders || []).find((x) => x.id === commanderId) || null, (config.approaches || []).find((x) => x.id === approachId) || null, null)])) : null;
   return (
-    <main className="dg-root">
+    <main {...rootProps(campaignId, "battle")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow">
         <span>ORDER OF BATTLE</span>

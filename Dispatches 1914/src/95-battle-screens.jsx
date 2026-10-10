@@ -39,7 +39,7 @@ function BattleScreen({ campaignId, config, meters, easy, onCommit, onBack }) {
   };
   const weights = easy ? Object.fromEntries(config.categories.map((k) => [k.id, battleArmWeight(config, k.id, (config.commanders || []).find((x) => x.id === commanderId) || null, (config.approaches || []).find((x) => x.id === approachId) || null, null)])) : null;
   return (
-    <main className="dg-root">
+    <main {...rootProps(campaignId, "battle")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow">
         <span>ORDER OF BATTLE</span>
