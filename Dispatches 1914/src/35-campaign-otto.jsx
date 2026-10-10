@@ -358,6 +358,7 @@ CAMPAIGNS.otto.nodes = {
         advisor: { name: "Liman von Sanders", position:
           "No one knows where the landing will come. A mobile reserve can meet it anywhere. Divisions on every beach would be defeated one at a time." },
         impact: { manpower: -1, munitions: -1, will: 1 },
+        keyBattleSubgame: { id: "gallipoliOttoman" },
         dispute:
           "Whether a different placement would have beaten the landings is argued. Liman von " +
           "Sanders kept most of the Fifth Army inland and was himself at Bulair on the first " +

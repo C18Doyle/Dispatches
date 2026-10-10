@@ -43,6 +43,12 @@ export default {
 
   choose(ctx) {
     const bs = ctx.buttons();
+    // The Order of Battle screen: let the staff plan it, then issue the plan.
+    const staff = bs.find((x) => ctx.lab(x) === "Let the staff plan it");
+    if (staff) {
+      const issue = bs.find((x) => ctx.lab(x).startsWith("Issue the plan"));
+      return issue && !issue.disabled ? issue : staff;
+    }
     const orders = bs.filter((x) => x.className === "dg-choice");
     if (orders.length) return orders[Math.floor(ctx.pick() * orders.length)];
     return bs.find((x) => ctx.lab(x) === "Continue") || null;

@@ -906,6 +906,7 @@ CAMPAIGNS.stavka.nodes = {
           "The other fronts will attack when they are ready. I am not able to make them ready by ordering it." },
         impact: { manpower: -3, munitions: -2, will: 1 },
         setFlags: { stavka_brusilov: "alone" },
+        keyBattleSubgame: { id: "brusilovRussian" },
         dispute:
           "What the 1916 offensive cost Russia relative to what it bought is argued. " +
           "One reading holds it as the war's most successful Russian operation and a " +

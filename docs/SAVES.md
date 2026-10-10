@@ -55,3 +55,6 @@ The 1914 war record carries `xc: { flag: value }`, the `xc_` flags a run has set
 2. In `src/parts/30-screens.jsx` set `const NODE_ALIASES = { oldNodeId: "newNodeId" };`.
 3. `npm run test:fast`. `check:orphans` and `check:structure` catch a dangling or unlisted node; `test:migration`
    proves aliases are applied; `test:saves` proves existing saves still resume.
+
+## Battle planning (1914)
+The settings gain `battles` (default true: a settings object without it loads as true) and a run snapshot gains `pendingBattle` (the after-action report shown with a pending outcome; null otherwise). Both are optional, so no schema bump was needed. The flags a fought battle leaves are `bx_<battle>_grade`, `bx_<battle>_neglected` and `bx_<battle>_commander`; the next node's text reads them (`battleEchoText` in src/61-battle.jsx).

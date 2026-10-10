@@ -458,5 +458,15 @@
     "title": "IAGS resolution on the Armenian Genocide, 13 June 1997",
     "kind": "scholarly society (primary)",
     "url": "https://www.genocidescholars.org/"
+  },
+  "wp-marne1914": {
+    "title": "First Battle of the Marne",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/First_Battle_of_the_Marne"
+  },
+  "wp-sommeday1": {
+    "title": "First day on the Somme",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/First_day_on_the_Somme"
   }
 }

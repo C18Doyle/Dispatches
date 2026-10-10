@@ -552,5 +552,102 @@
       "wp-haig1918"
     ],
     "note": "Wilson's telegram of 31 August 1918, as quoted by a History Press article; check the full text in the Wilson papers."
+  },
+  {
+    "id": "bat-bef-17",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "The British preliminary bombardment fired more than 1.5 million shells and about 250,000 more on 1 July; heavy guns rose from 324 to 714 between 1 January and 3 July 1916.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sommeday1"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-bef-18",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "There were not enough guns to be certain the wire was cut; shrapnel was virtually useless against entrenched positions and very little high-explosive shell had been made for field artillery.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sommeday1"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-bef-19",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "Nineteen mines were placed under the German front; most were fired at 7.28 a.m., two minutes before zero hour (7.30); the Hawthorn Ridge mine (about 18 long tons) at 7.20.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sommeday1"
+    ],
+    "note": "The article is internally inconsistent about the number of large and small mines."
+  },
+  {
+    "id": "bat-bef-20",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "XIII Corps (18th and 30th Divisions) took Montauban and reached all its objectives; XV Corps captured Mametz and isolated Fricourt, which the Germans abandoned overnight.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sommeday1"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-bef-21",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "III Corps suffered a disaster on the Albert-Bapaume road, the 34th Division losing more men than any other Allied division that day; X Corps took part of the Leipzig Redoubt and failed at Thiepval, the 36th (Ulster) Division taking the Schwaben and Stuff Redoubts for a time; VIII Corps was a costly failure.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sommeday1"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-bef-22",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "The French XX Corps attacked at 7.30 and took Bois Y; I Colonial Corps took about 2,000 prisoners for very few casualties; the French Sixth Army had 552 heavy guns and howitzers.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sommeday1"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-bef-23",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "Cavalry (1st, 2nd Indian and 3rd Cavalry Divisions) were assembled about five miles west of Albert; the 19th (Western) and 49th (West Riding) Divisions were in local reserve; on 28 June Fourth Army ordered the infantry to exploit without waiting for the cavalry.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sommeday1"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-bef-24",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "The German defences had two wire belts about 30 yards deep, dugouts 20 to 30 feet deep, the front line on a forward slope of white chalk, and a third position begun in February and nearly complete.",
+    "status": "web-checked",
+    "sources": [
+      "wp-sommeday1"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-bef-25",
+    "node": "bef_1916_11_somme",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the four arms and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx."
   }
 ]

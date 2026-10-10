@@ -34,6 +34,10 @@ node smoke.js                 # engine behaviour, real execution
 `validate.sh` passes. The Ottoman campaign's research gate on the Rumi calendar is recorded in
 `CALENDARS.rumi` and `claims/otto.json` (one claim is marked OPEN); spec §9 is resolved.
 
+## The Order of Battle (1.3.0)
+
+A contested two-outcome choice can carry `keyBattleSubgame: { id }` and open a planning screen (`src/61-battle.jsx` rules, `src/62-battles.jsx` configs, `src/95-battle-screens.jsx` screens). A battle's config is keyed by that id and names its host (node and choice), `winBranch` (the better outcome), four arms with real formations, commanders, approaches, hidden enemy setups and an echo node. The bonus is measured against `staffPlanFor`, so the staff plan plays the record's odds. `check-battles.js` enforces the shape and the arithmetic; `tests/battle.test.mjs` plays the screens; the menu checkbox (`settings.battles`) turns the screen off. To add a battle: write the config, put `keyBattleSubgame` on the host choice, add its facts to the host campaign's claims, and run `npm run validate`.
+
 ## Non-negotiables
 
 1. Never add a field the UI doesn't render. Check the render layer first.

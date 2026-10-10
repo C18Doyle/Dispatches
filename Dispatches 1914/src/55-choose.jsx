@@ -73,22 +73,37 @@ export function previewImpact(choice) {
 }
 
 /**
- * Apply a choice. Returns the next node id and updated state.
+ * Apply a choice. Returns the next node id and updated state. `plan` is an Order of Battle plan (61-battle.jsx) for a choice that hosts one: it
+ * moves the weights of the contested roll after strain, charges the meters a little, and leaves flags for the next report.
  *
  * Order matters and matches the handover's description of handleChoose:
  * impact is applied first, then nextIf is evaluated against POST-choice meters,
  * then next is the fallthrough.
  */
-export function chooseNext(campaignId, choice, flags, meters, hardState, rng = Math.random) {
+export function chooseNext(campaignId, choice, flags, meters, hardState, rng = Math.random, plan = null) {
   let branch = null;
+  let battle = null;
   if (choice.uncertain && choice.uncertain.length) {
-    branch = rollUncertain(strainedUncertain(choice, meters).uncertain, rng);
+    let weights = strainedUncertain(choice, meters).uncertain;
+    const roll = plan ? battleRoll(choice, plan, meters) : null;
+    if (roll) weights = shiftToward(weights, roll.config.winBranch, roll.bonus);
+    branch = rollUncertain(weights, rng);
+    if (roll) {
+      const won = weights.indexOf(branch) === roll.config.winBranch;
+      const costs = roll.costsFor(won);
+      battle = {
+        id: roll.config.id, title: roll.config.title, posture: roll.posture ? roll.posture.id : null, bonus: roll.bonus, won,
+        grade: costs.grade, lines: costs.lines, totals: costs.totals, weights: weights.map((b) => b.weight),
+        flagsOut: battleFlagsOut(roll.config, plan, costs),
+      };
+    }
   }
 
   const impact = branch?.impact ?? choice.impact;
-  const setFlags = { ...(choice.setFlags ?? {}), ...(branch?.setFlags ?? {}) };
+  const setFlags = { ...(choice.setFlags ?? {}), ...(branch?.setFlags ?? {}), ...(battle ? battle.flagsOut : {}) };
 
-  const nextMeters = applyImpact(meters, impact);
+  let nextMeters = applyImpact(meters, impact);
+  if (battle) nextMeters = applyImpact(nextMeters, battle.totals);
   const nextFlags = { ...flags, ...setFlags };
   const nextHard = applyErosion(hardState, campaignId, choice);
 
@@ -111,5 +126,6 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
     branch,
     outcome: branch?.outcome ?? choice.outcome ?? null,
     aftermath: branch?.aftermath ?? choice.aftermath ?? null,
+    battle,
   };
 }

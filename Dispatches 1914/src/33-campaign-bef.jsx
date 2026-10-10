@@ -723,6 +723,7 @@ CAMPAIGNS.bef.nodes = {
           "The plan must aim at a real success. If the line breaks, the cavalry must be there to go through it." },
         impact: { manpower: -2, munitions: -2, will: 0 },
         setFlags: { bef_somme: "compromise" },
+        keyBattleSubgame: { id: "sommeBritish" },
         dispute:
           "Whether the Somme was an exercise in futility or a necessary stage in wearing " +
           "down the German army is disputed, and has been since 1916. Critics point to " +

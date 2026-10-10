@@ -20,5 +20,8 @@
   "58-persistence.jsx",
   "59-rank.jsx",
   "60-glossary.jsx",
-  "90-ui.jsx"
+  "61-battle.jsx",
+  "62-battles.jsx",
+  "90-ui.jsx",
+  "95-battle-screens.jsx"
 ]
