@@ -148,7 +148,7 @@ function clearRunSave() {
 
 function GearIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.6">
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
       <circle cx="12" cy="12" r="3.2" />
       <path d="M12 3.5v2.4M12 18.1v2.4M20.5 12h-2.4M5.9 12H3.5M17.8 6.2l-1.7 1.7M7.9 16.1l-1.7 1.7M17.8 17.8l-1.7-1.7M7.9 7.9 6.2 6.2" />
     </svg>
@@ -157,7 +157,7 @@ function GearIcon({ className }: { className?: string }) {
 
 function LockIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8">
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
       <rect x="5.5" y="10.5" width="13" height="9" rx="1.2" />
       <path d="M8.2 10.5V7.8a3.8 3.8 0 0 1 7.6 0v2.7" />
     </svg>
@@ -166,7 +166,7 @@ function LockIcon({ className }: { className?: string }) {
 
 function CoinIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.6">
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
       <circle cx="12" cy="12" r="8" />
       <path d="M12 8.3v7.4M9.7 9.8c0-1 1-1.7 2.3-1.7s2.3.6 2.3 1.5c0 2.2-4.6 1-4.6 3.2 0 .9 1 1.6 2.3 1.6s2.3-.6 2.3-1.6" />
     </svg>
@@ -203,12 +203,12 @@ function Meter({ resource, value }: { resource: Resource; value: number }) {
     ? "shadow-[0_0_8px_rgba(92,146,105,0.6)]"
     : "shadow-[0_0_8px_rgba(179,40,31,0.55)]";
   return (
-    <div className="flex-1 min-w-0">
+    <div className="flex-1 min-w-0" role="meter" aria-label={RESOURCE_LABELS[resource]} aria-valuemin={range.min} aria-valuemax={range.max} aria-valuenow={value} aria-valuetext={`${value}${inCrisis ? ", in crisis" : ""}`}>
       <div className="flex items-baseline justify-between mb-1 sm:mb-1.5 gap-1">
-        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-brass/90 font-semibold truncate">
+        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">
           {RESOURCE_LABELS[resource]}
         </span>
-        <span className={`font-heading text-[0.65rem] sm:text-xs font-bold tabular-nums shrink-0 ${inCrisis ? "text-blood-bright" : "text-parchment"}`}>
+        <span className={`font-heading text-[0.65rem] sm:text-xs font-bold tabular-nums shrink-0 ${inCrisis ? "text-blood" : "text-ink"}`}>
           {value > 0 ? `+${value}` : value}
         </span>
       </div>
@@ -253,6 +253,7 @@ export default function App() {
   const rules = def.config.difficulties[state.difficulty];
   const interlude = state.activeInterludeId ? def.content.interludes[state.activeInterludeId] : undefined;
   const audioRef = useRef<HTMLAudioElement>(null);
+  const shellRef = useRef<HTMLElement>(null);
   const [favorPanelOpen, setFavorPanelOpen] = useState(false);
   const [fritzPanelOpen, setFritzPanelOpen] = useState(false);
   const [gossipLine, setGossipLine] = useState<string | null>(null);
@@ -282,6 +283,19 @@ export default function App() {
     setCreatureReportLine(null);
     setArmedOptionIndex(null);
   }, [state.currentNodeId]);
+
+  // A new screen or scene puts focus on its heading, so a screen reader announces what changed and a keyboard user starts at the top. (The page
+  // is also returned to the top: a long scene used to leave the next screen scrolled part way down.)
+  useEffect(() => {
+    const root = shellRef.current;
+    if (!root) return;
+    const heading = root.querySelector<HTMLElement>("[data-screen-heading]") ?? root.querySelector<HTMLElement>("h1");
+    if (heading) {
+      heading.setAttribute("tabindex", "-1");
+      heading.focus({ preventScroll: true });
+    }
+    window.scrollTo(0, 0);
+  }, [screen, state.currentNodeId, state.activeInterludeId]);
 
   // The Experiment screen's suspense phase: a fixed-length hold between the
   // player committing to a roll and the real outcome resolving, so the only
@@ -440,10 +454,10 @@ export default function App() {
   if (screen === "SETTINGS") {
     content = (
       <VoidScreen>
-        <div className="parchment-card max-w-sm w-full p-7 font-body text-ink relative">
+        <div className="parchment-card max-w-sm w-full p-7 font-body text-ink relative" role="dialog" aria-modal="true" aria-labelledby="settings-title">
           <CornerFlourishes />
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">Settings</p>
-          <h2 className="font-heading text-2xl font-bold mb-5">The Ledger's Print</h2>
+          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1" aria-hidden="true">Settings</p>
+          <h1 id="settings-title" className="font-heading text-2xl font-bold mb-5">The Ledger's Print</h1>
 
           <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Font Size</p>
           <div className="flex gap-2 mb-7">
@@ -570,16 +584,16 @@ export default function App() {
   } else if (screen === "RESEARCH") {
     content = (
       <VoidScreen>
-        <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto">
+        <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="research-title">
           <CornerFlourishes />
           <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">How To</p>
-          <h2 className="font-heading text-2xl font-bold mb-6">How to Play</h2>
+          <h1 id="research-title" className="font-heading text-2xl font-bold mb-6">How to Play</h1>
           <div className="space-y-5">
             {def.flavor.howToPlay.map((section) => (
               <div key={section.heading}>
-                <h3 className="font-heading text-sm uppercase tracking-widest text-blood-bright font-bold mb-1.5">
+                <h2 className="font-heading text-sm uppercase tracking-widest text-blood font-bold mb-1.5">
                   {section.heading}
-                </h3>
+                </h2>
                 <p className="text-[0.98rem] leading-relaxed text-ink/90">{section.body}</p>
               </div>
             ))}
@@ -651,7 +665,7 @@ export default function App() {
             </button>
           </div>
           {endingsSeen.size > 0 && (
-            <p className="mt-6 font-heading text-[0.65rem] uppercase tracking-[0.2em] text-brass-dim">
+            <p className="mt-6 font-heading text-[0.65rem] uppercase tracking-[0.2em] text-ash">
               {endingsSeen.size} / {TOTAL_ENDINGS} Endings Discovered
             </p>
           )}
@@ -666,7 +680,7 @@ export default function App() {
       <VoidScreen>
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-5">From a Private Journal</p>
+          <h1 className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-5">From a Private Journal</h1>
           <div className="space-y-4 text-[1.05rem] leading-relaxed">
             {def.flavor.prologue.map((para, i) => (
               <p key={i} className={i === 0 ? "font-heading text-lg tracking-wide" : ""}>
@@ -691,9 +705,9 @@ export default function App() {
       <VoidScreen>
         <div className="text-center max-w-lg w-full">
           <OrnamentDivider />
-          <h2 className="flicker font-display text-4xl sm:text-5xl font-bold text-parchment my-6">
+          <h1 className="flicker font-display text-4xl sm:text-5xl font-bold text-parchment my-6">
             {def.flavor.chapterCard.title}
-          </h2>
+          </h1>
           <p className="font-heading text-xs uppercase tracking-[0.4em] text-brass/80 mb-8">{def.flavor.chapterCard.subtitle}</p>
 
           <p className="font-heading text-xs uppercase tracking-[0.3em] text-ash mb-3">Choose Your Difficulty</p>
@@ -829,7 +843,7 @@ export default function App() {
             <span className="text-xs uppercase tracking-[0.25em] font-bold">{paper.source}</span>
             <span className="text-xs uppercase tracking-widest text-ink/60">{paper.kind}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold leading-tight mb-3">{paper.headline}</h2>
+          <h1 className="text-2xl sm:text-3xl font-bold leading-tight mb-3">{paper.headline}</h1>
           <p className="font-body text-sm leading-relaxed columns-1 sm:columns-2 gap-6 whitespace-pre-line">{paper.bodyText}</p>
           <button
             onClick={() => {
@@ -850,7 +864,7 @@ export default function App() {
         {settingsButton}
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative text-center">
           <CornerFlourishes />
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-4">An Experiment</p>
+          <h1 className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-4">An Experiment</h1>
           {state.pendingOptionLabel && (
             <h2 className="font-heading text-xl font-bold mb-3">{state.pendingOptionLabel}</h2>
           )}
@@ -905,14 +919,14 @@ export default function App() {
       state.pendingOutcomeKind === "SUCCESS"
         ? "text-verdigris-bright"
         : state.pendingOutcomeKind === "FAILURE"
-        ? "text-blood-bright"
+        ? "text-blood"
         : "text-blood";
     content = (
       <VoidScreen>
         {settingsButton}
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
-          <p className={`font-heading text-xs uppercase tracking-[0.3em] font-bold mb-5 ${kindColor}`}>{kindLabel}</p>
+          <h1 className={`font-heading text-xs uppercase tracking-[0.3em] font-bold mb-5 ${kindColor}`}>{kindLabel}</h1>
           <p className="text-[1.1rem] leading-relaxed italic">{state.pendingOutcomeText}</p>
           {!rules.showPreview &&
             state.pendingOutcomeStamps &&
@@ -1081,7 +1095,7 @@ export default function App() {
 
           <div className="parchment-card p-6 sm:p-8 font-body text-ink relative">
             <CornerFlourishes />
-            <h2 className="font-heading text-2xl font-bold mb-3">{node.title}</h2>
+            <h2 data-screen-heading className="font-heading text-2xl font-bold mb-3">{node.title}</h2>
             <p className="text-[1.05rem] leading-relaxed text-ink/90 mb-2">{node.description}</p>
             <OrnamentDivider />
 
@@ -1122,7 +1136,7 @@ export default function App() {
                           delta ? <StampBadge key={resource} resource={resource as Resource} delta={delta} /> : null
                         )}
                       {option.roll && (
-                        <span className="stamp text-brass border-brass">
+                        <span className="stamp text-brass-dim border-brass-dim">
                           {Math.round(effectiveRollChance(option.roll, state.resources) * 100)}% EXPERIMENT
                         </span>
                       )}
@@ -1180,7 +1194,9 @@ export default function App() {
   return (
     <>
       {audioEl}
-      <div className="app-shell">{content}</div>
+      <main className="app-shell" ref={shellRef}>
+        {content}
+      </main>
     </>
   );
 }
