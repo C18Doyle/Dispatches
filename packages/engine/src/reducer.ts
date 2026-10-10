@@ -148,7 +148,7 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
     case "CONDUCT_EXPERIMENT": {
       if (!state.pendingRoll || !state.pendingTarget) return state;
       const roll = state.pendingRoll;
-      const success = action.roll < effectiveRollChance(roll, state.resources);
+      const success = action.roll < effectiveRollChance(roll, state.resources, config.strain);
       const result = success ? roll.success : roll.failure;
 
       const resources = applyStamps(def, state.resources, result.stamps);

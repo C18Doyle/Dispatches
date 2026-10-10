@@ -40,19 +40,43 @@
         {
           "label": "Raid the Local Executioner's Scaffold.",
           "detail": "A direct bribe to the hangman's assistant for a body still processing through the gallows queue — fresh, but conspicuous to acquire.",
-          "stamps": {
-            "biomass": 4,
-            "secrecy": -3
-          },
+          "stamps": {},
           "quote": {
             "speaker": "Fritz",
             "text": "Fresh from the gallows! The neck is broken, but the heart was still beating when we cut him down."
           },
-          "outcome": "The body is still warm when it reaches the laboratory table. Fritz will not meet your eyes for the rest of the night, and you find you cannot blame him.",
+          "outcome": "",
           "nextNodeId": "2-DARK",
-          "setFlags": [
-            "executedOrigin"
-          ]
+          "roll": {
+            "chance": 0.65,
+            "scaling": {
+              "resource": "secrecy",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "The body is still warm when it reaches the laboratory table. Fritz will not meet your eyes for the rest of the night, and you find you cannot blame him.",
+              "stamps": {
+                "biomass": 4,
+                "secrecy": -3
+              },
+              "setFlags": [
+                "executedOrigin"
+              ]
+            },
+            "failure": {
+              "outcome": "The hangman's assistant takes your coin and sells you to the watch before the body has cooled. You keep the body, and a captain of the watch now knows your face.",
+              "stamps": {
+                "biomass": 2,
+                "secrecy": -5
+              },
+              "setFlags": [
+                "executedOrigin",
+                "scaffoldBetrayed"
+              ]
+            }
+          }
         }
       ]
     },
@@ -138,6 +162,26 @@
           },
           "outcome": "The merchant pays without haggling and without much curiosity either, which worries you almost as much as the coin reassures you. Two more sovereigns in the purse, and one more stranger who could describe your workroom if anyone ever thought to ask him.",
           "nextNodeId": "4"
+        },
+        {
+          "stamps": {
+            "secrecy": -1
+          },
+          "outcome": "Herr Krüger counts the coin out onto the table twice, once for you and once, you suspect, for his own satisfaction. He does not ask what the work is. He asks only when the rents will arrive.",
+          "label": "Borrow against the castle's rents from Herr Krüger.",
+          "detail": "A moneylender in the Judengasse will advance you coin on the strength of a title you do not quite hold. Useful tonight, and a debt that will be collected.",
+          "moneyDelta": 30,
+          "quote": {
+            "speaker": "Victor",
+            "text": "Money is only another current. It goes where it is pulled."
+          },
+          "nextNodeId": "4",
+          "setFlags": [
+            "krugerLoan"
+          ],
+          "showWhen": {
+            "difficulty": "HARD"
+          }
         }
       ]
     },
@@ -150,20 +194,43 @@
         {
           "label": "Bribe the Dean's Clerk with Research Funds.",
           "detail": "Pay the Dean's clerk directly to falsify the inspection report before it ever reaches the Rector's desk.",
-          "stamps": {
-            "secrecy": 3,
-            "voltage": -1
-          },
+          "stamps": {},
           "moneyCost": 20,
           "quote": {
             "speaker": "Clerk Waldman",
             "text": "A few gold sovereigns, Frankenstein, and I assure the Rector your room holds only chemical vats."
           },
-          "outcome": "Clerk Waldman pockets the sovereigns without ceremony and amends the inspection ledger himself. The Rector will read only what Waldman wants him to read.",
+          "outcome": "",
           "nextNodeId": "6",
-          "setFlags": [
-            "waldmanDebt"
-          ]
+          "roll": {
+            "chance": 0.7,
+            "scaling": {
+              "resource": "secrecy",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "Clerk Waldman pockets the sovereigns without ceremony and amends the inspection ledger himself. The Rector will read only what Waldman wants him to read.",
+              "stamps": {
+                "secrecy": 3,
+                "voltage": -1
+              },
+              "setFlags": [
+                "waldmanDebt"
+              ]
+            },
+            "failure": {
+              "outcome": "Waldman pockets the sovereigns, and then files the inspection ledger exactly as it was. The Rector will read the truth, and so will whoever Waldman sells the story to next.",
+              "stamps": {
+                "secrecy": -2,
+                "voltage": -1
+              },
+              "setFlags": [
+                "clerkTalked"
+              ]
+            }
+          }
         },
         {
           "label": "Bar the West Tower Stair and Ignore the Order.",
@@ -177,6 +244,14 @@
           },
           "outcome": "You bar the tower stair and answer no knock. The constable's notice goes unanswered, and somewhere in the town hall, a file with your name on it grows one page thicker.",
           "nextNodeId": "6-TOWER"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "scaffoldBetrayed"
+          },
+          "text": "The notice is specific about the scaffold. The hangman's assistant has been talking, and someone at the university has been listening."
         }
       ]
     },
@@ -247,7 +322,8 @@
                 "voltage": 2,
                 "secrecy": -4
               }
-            }
+            },
+            "about": "voltage"
           },
           "quote": {
             "speaker": "Victor",
@@ -317,6 +393,14 @@
           },
           "outcome": "Waldman's shadow committee moves with a bureaucrat's quiet efficiency — permits forged, witnesses paid, inconvenient questions redirected before they're even asked. For the first time, you feel less like a fugitive and more like an institution.",
           "nextNodeId": "8C"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "clerkTalked"
+          },
+          "text": "Waldman's ledger is not the only thing he has sold. The watch looks at the sixth floor a little longer than it used to."
         }
       ]
     },
@@ -488,6 +572,14 @@
           },
           "outcome": "Waldman's shadow committee retroactively authorizes the very door you already barred, and for the first time the defiance looks less like guilt and more like university procedure.",
           "nextNodeId": "8C"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "clerkTalked"
+          },
+          "text": "Waldman's ledger is not the only thing he has sold. The watch looks at the barred stair a little longer than it used to."
         }
       ]
     },
@@ -670,19 +762,42 @@
         {
           "label": "Induce a coma in a hospital patient with acid.",
           "detail": "Use acid to induce a fatal seizure in a hospital patient, disguising the harvest as a natural death.",
-          "stamps": {
-            "biomass": 4,
-            "secrecy": -4
-          },
+          "stamps": {},
           "quote": {
             "speaker": "Fritz",
             "text": "The ward nurse will swear it was a seizure."
           },
-          "outcome": "The hospital ward is quiet, the nurse conveniently elsewhere, the patient conveniently unable to describe what happened to him afterward. You tell yourself it will be recorded as a seizure. You almost believe it.",
+          "outcome": "",
           "nextNodeId": "9A",
           "axisDelta": {
             "voice": -2,
             "bond": -1
+          },
+          "roll": {
+            "chance": 0.6,
+            "scaling": {
+              "resource": "secrecy",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "The hospital ward is quiet, the nurse conveniently elsewhere, the patient conveniently unable to describe what happened to him afterward. You tell yourself it will be recorded as a seizure. You almost believe it.",
+              "stamps": {
+                "biomass": 4,
+                "secrecy": -4
+              }
+            },
+            "failure": {
+              "outcome": "The patient wakes screaming before the acid has finished its work. The nurse who comes running will remember a stranger in a good coat, and the word she gives the ward sister will not be 'seizure'.",
+              "stamps": {
+                "biomass": 1,
+                "secrecy": -6
+              },
+              "setFlags": [
+                "wardWitness"
+              ]
+            }
           }
         },
         {
@@ -755,6 +870,51 @@
           },
           "outcome": "The vapor rolls out into the dry moat in a low yellow fog. By morning three separate households will report a smell they cannot explain, and choose not to investigate.",
           "nextNodeId": "10A"
+        },
+        {
+          "stamps": {
+            "secrecy": 2
+          },
+          "outcome": "The moneylender's man takes the coin at the postern, counts it by the lantern, and touches his hat. It is the first civil thing anyone has said to you in a week.",
+          "label": "Repay Herr Krüger before his man asks twice.",
+          "detail": "Settle the loan in full while the vats are still quiet enough to hide what you spend it on.",
+          "moneyCost": 25,
+          "quote": {
+            "speaker": "Victor",
+            "text": "A debt paid early is a witness sent home."
+          },
+          "nextNodeId": "10A",
+          "showWhen": {
+            "all": [
+              {
+                "difficulty": "HARD"
+              },
+              {
+                "flag": "krugerLoan"
+              }
+            ]
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "wardWitness"
+          },
+          "text": "A nurse at the hospital has begun describing a man in a good coat to anyone who will listen. The vats do not care. You do."
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "difficulty": "HARD"
+              },
+              {
+                "flag": "krugerLoan"
+              }
+            ]
+          },
+          "text": "Herr Krüger's man has been at the postern twice this week. He is polite about it, which is how you know."
         }
       ]
     },
@@ -792,6 +952,38 @@
           },
           "outcome": "The vapor rolls out into the dry moat in a low yellow fog. By morning three separate households will report a smell they cannot explain, and choose not to investigate — one fewer thing, this week, for Fritz to carry.",
           "nextNodeId": "10A"
+        },
+        {
+          "stamps": {
+            "secrecy": 2
+          },
+          "outcome": "The moneylender's man takes the coin at the postern, counts it by the lantern, and touches his hat. It is the first civil thing anyone has said to you in a week.",
+          "label": "Repay Herr Krüger before his man asks twice.",
+          "detail": "Settle the loan in full while the vats are still quiet enough to hide what you spend it on.",
+          "moneyCost": 25,
+          "quote": {
+            "speaker": "Victor",
+            "text": "A debt paid early is a witness sent home."
+          },
+          "nextNodeId": "10A",
+          "showWhen": {
+            "all": [
+              {
+                "difficulty": "HARD"
+              },
+              {
+                "flag": "krugerLoan"
+              }
+            ]
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "wardWitness"
+          },
+          "text": "A nurse at the hospital has begun describing a man in a good coat to anyone who will listen. The widow's coin did not buy her."
         }
       ]
     },
@@ -933,16 +1125,39 @@
         {
           "label": "Send the construct to dispose of the body.",
           "detail": "Send the creature itself to remove the gravedigger's body, trusting it with a task you can no longer stomach.",
-          "stamps": {
-            "secrecy": 2,
-            "biomass": -2
-          },
+          "stamps": {},
           "quote": {
             "speaker": "Fritz",
             "text": "It carried him like a sack of grain. Didn't blink."
           },
-          "outcome": "It carries the gravedigger away with an eerie, wordless efficiency, and by dawn there is nothing left in the old moat to find. You are no longer certain which of you is doing the other's dirty work.",
-          "nextNodeId": "13A"
+          "outcome": "",
+          "nextNodeId": "13A",
+          "roll": {
+            "chance": 0.65,
+            "scaling": {
+              "resource": "biomass",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "It carries the gravedigger away with an eerie, wordless efficiency, and by dawn there is nothing left in the old moat to find. You are no longer certain which of you is doing the other's dirty work.",
+              "stamps": {
+                "secrecy": 2,
+                "biomass": -2
+              }
+            },
+            "failure": {
+              "outcome": "It carries the gravedigger away as it was told to, and is seen doing it: a carter on the moat road will swear to what he saw, and will go on swearing to it in every tavern in the district.",
+              "stamps": {
+                "secrecy": -3,
+                "biomass": -2
+              },
+              "setFlags": [
+                "moatWitness"
+              ]
+            }
+          }
         },
         {
           "label": "Let the city watch investigate the moat.",
@@ -984,7 +1199,8 @@
                 "biomass": -5,
                 "secrecy": -6
               }
-            }
+            },
+            "about": "biomass"
           },
           "quote": {
             "speaker": "Fritz",
@@ -1006,6 +1222,14 @@
           },
           "outcome": "You force the stock down through the sewer grate moments before the door gives way. The magistrate's men find an empty tower chamber and a smell they cannot place — and you find, later, that not everything survives the vault.",
           "nextNodeId": "14A"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "moatWitness"
+          },
+          "text": "A carter on the moat road has told his story in the tavern twice, and the second telling had more detail than the first."
         }
       ]
     },
@@ -1048,6 +1272,16 @@
           "axisDelta": {
             "bond": -2
           }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "resource": "secrecy",
+            "op": "<=",
+            "value": -5
+          },
+          "text": "The town no longer pretends not to see. Someone has been writing the hours of your lamps on the church door."
         }
       ]
     },
@@ -1100,6 +1334,33 @@
             "voice": 2,
             "bond": 3
           }
+        },
+        {
+          "stamps": {},
+          "outcome": "You finish the second body by lamplight, and the creature watches every stitch without once looking away. When it opens its eyes, the first thing it sees is the other one.",
+          "label": "Finish the second body, and send the two of them north together.",
+          "detail": "Complete the companion the creature asked for, and let the pair go beyond the reach of every map you know: the one promise of the whole work that you keep.",
+          "quote": {
+            "speaker": "Victor",
+            "text": "I made one lonely thing. I will not unmake it twice."
+          },
+          "nextNodeId": "ENDING_1D",
+          "requires": {
+            "axis": "bond",
+            "op": ">=",
+            "value": 3
+          },
+          "requiresHint": "THE CREATURE MUST TRUST YOU"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "axis": "bond",
+            "op": ">=",
+            "value": 3
+          },
+          "text": "The creature has stopped watching your hands and started watching your face."
         }
       ]
     },
@@ -1112,16 +1373,39 @@
         {
           "label": "Strip wire from the stairwell lighting grid.",
           "detail": "Strip the castle's own stairwell wiring for copper rather than sourcing new material from outside — free, quiet, and impossible to explain if anyone counts the lamps that have gone dark.",
-          "stamps": {
-            "voltage": 2,
-            "secrecy": 1
-          },
+          "stamps": {},
           "quote": {
             "speaker": "Heinrich",
             "text": "The other students will grumble about dark stairs, nothing more."
           },
-          "outcome": "The stairwell lights go dark, one landing at a time, as their copper feeds a purpose the students below will never learn about.",
-          "nextNodeId": "9B"
+          "outcome": "",
+          "nextNodeId": "9B",
+          "roll": {
+            "chance": 0.7,
+            "scaling": {
+              "resource": "voltage",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "The stairwell lights go dark, one landing at a time, as their copper feeds a purpose the students below will never learn about.",
+              "stamps": {
+                "voltage": 2,
+                "secrecy": 1
+              }
+            },
+            "failure": {
+              "outcome": "The old insulation gives way, and the stair lighting goes out across the whole east wing at once. The steward comes up with a lantern and a great many questions.",
+              "stamps": {
+                "voltage": 1,
+                "secrecy": -3
+              },
+              "setFlags": [
+                "stewardSuspects"
+              ]
+            }
+          }
         },
         {
           "label": "Braze heavy copper line with a sulfur torch.",
@@ -1149,16 +1433,39 @@
         {
           "label": "Strip wire from the stairwell lighting grid.",
           "detail": "Strip the castle's own stairwell wiring for copper rather than sourcing new material from outside — the array already took what it needed from the storm; this is only for what comes after.",
-          "stamps": {
-            "voltage": 2,
-            "secrecy": 1
-          },
+          "stamps": {},
           "quote": {
             "speaker": "Heinrich",
             "text": "It's already live, sir. I felt it through the banister from the landing below."
           },
-          "outcome": "The stairwell lights go dark, one landing at a time, feeding a conduit that was already carrying more than it should. The frame on the table does not need convincing anymore.",
-          "nextNodeId": "9B"
+          "outcome": "",
+          "nextNodeId": "9B",
+          "roll": {
+            "chance": 0.8,
+            "scaling": {
+              "resource": "voltage",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "The stairwell lights go dark, one landing at a time, feeding a conduit that was already carrying more than it should. The frame on the table does not need convincing anymore.",
+              "stamps": {
+                "voltage": 2,
+                "secrecy": 1
+              }
+            },
+            "failure": {
+              "outcome": "The wiring has already drunk what it could carry, and what is left of the insulation gives way. The stair lighting goes out across the east wing, and the steward comes up with a lantern.",
+              "stamps": {
+                "voltage": 1,
+                "secrecy": -3
+              },
+              "setFlags": [
+                "stewardSuspects"
+              ]
+            }
+          }
         },
         {
           "label": "Braze heavy copper line with a sulfur torch.",
@@ -1225,6 +1532,14 @@
           "outcome": "",
           "nextNodeId": "10B"
         }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "stewardSuspects"
+          },
+          "text": "The castle steward has taken to leaving a lantern burning at the foot of the stair. He says it is for the wiring."
+        }
       ]
     },
     "10B": {
@@ -1278,6 +1593,14 @@
           },
           "outcome": "You cut the main line and let the charge ground out uselessly into the earth. It is, by any measure, a wasted night — but a quiet one, and quiet has its own value now.",
           "nextNodeId": "11B"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "stewardSuspects"
+          },
+          "text": "The steward's lantern is at the foot of the stair again tonight, and the steward is not far behind it."
         }
       ]
     },
@@ -1333,6 +1656,14 @@
           "outcome": "You cut the main line and let the charge ground out uselessly into the earth. It is, by any measure, a wasted night on top of an expensive one — but a quiet one, and quiet has its own value now.",
           "nextNodeId": "11B"
         }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "stewardSuspects"
+          },
+          "text": "The steward's lantern is at the foot of the stair again tonight, and the steward is not far behind it."
+        }
       ]
     },
     "11B": {
@@ -1344,18 +1675,41 @@
         {
           "label": "Rivet brass restraints directly to the spine.",
           "detail": "Rivet the control restraints directly into the automaton's spine for instant, permanent obedience — total control, bought at a cost you'd rather not examine too closely.",
-          "stamps": {
-            "voltage": 2,
-            "biomass": -2
-          },
+          "stamps": {},
           "quote": {
             "speaker": "Victor",
             "text": "Obedience, wired straight into bone."
           },
-          "outcome": "The restraints go in through bone, not around it. Obedience, wired directly into the frame, arrives instantly — and without a flicker of anything you'd call consent.",
+          "outcome": "",
           "nextNodeId": "12B",
           "axisDelta": {
             "bond": -2
+          },
+          "roll": {
+            "chance": 0.6,
+            "scaling": {
+              "resource": "biomass",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "The restraints go in through bone, not around it. Obedience, wired directly into the frame, arrives instantly — and without a flicker of anything you'd call consent.",
+              "stamps": {
+                "voltage": 2,
+                "biomass": -2
+              }
+            },
+            "failure": {
+              "outcome": "The rivets shear the spine instead of seating in it. The automaton stands, but it stands wrong, and the harness will never again hold it for long.",
+              "stamps": {
+                "voltage": 1,
+                "biomass": -4
+              },
+              "setFlags": [
+                "harnessFlawed"
+              ]
+            }
           }
         },
         {
@@ -1430,6 +1784,31 @@
           "axisDelta": {
             "voice": -1
           }
+        },
+        {
+          "stamps": {
+            "secrecy": 3
+          },
+          "outcome": "The glazier works the whole forenoon, takes his fee, and does not look up at the sixth floor once. A careful man, and an expensive one.",
+          "label": "Hire a glazier to black out the windows by day.",
+          "detail": "A trade you can pay for, and a man who will talk about the job only as long as the money lasts.",
+          "moneyCost": 15,
+          "quote": {
+            "speaker": "Victor",
+            "text": "A shutter is cheaper than a lie."
+          },
+          "nextNodeId": "13B",
+          "showWhen": {
+            "difficulty": "HARD"
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "harnessFlawed"
+          },
+          "text": "The harness hums wrong against the spine. It will hold a day, perhaps two."
         }
       ]
     },
@@ -1467,6 +1846,14 @@
           "outcome": "The nets drop from the roofline in silence and wait. Whatever they catch, the street below will simply believe has gone missing.",
           "nextNodeId": "14B"
         }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "harnessFlawed"
+          },
+          "text": "The harness hums wrong against the spine. It will hold a day, perhaps two."
+        }
       ]
     },
     "13B-COVER": {
@@ -1503,6 +1890,14 @@
           "outcome": "The nets drop from the roofline in silence and wait. Whatever they catch, the street below will simply add to a story about a beast they were already telling themselves.",
           "nextNodeId": "14B"
         }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "harnessFlawed"
+          },
+          "text": "The harness hums wrong against the spine. It will hold a day, perhaps two."
+        }
       ]
     },
     "14B": {
@@ -1514,16 +1909,39 @@
         {
           "label": "Route raw steam through the Leyden array.",
           "detail": "Push the Leyden array to its absolute limit with raw steam pressure for one final, decisive surge — everything the tower's wiring can carry, and possibly more than it can survive.",
-          "stamps": {
-            "voltage": 5,
-            "biomass": -2
-          },
+          "stamps": {},
           "quote": {
             "speaker": "Victor",
             "text": "Full pressure. Now or never."
           },
-          "outcome": "The array screams under the load, glass cracking somewhere in the walls, and for one unbearable second you are certain the whole tower is about to go with it. It doesn't. Barely.",
-          "nextNodeId": "15B"
+          "outcome": "",
+          "nextNodeId": "15B",
+          "roll": {
+            "chance": 0.55,
+            "scaling": {
+              "resource": "voltage",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "The array screams under the load, glass cracking somewhere in the walls, and for one unbearable second you are certain the whole tower is about to go with it. It doesn't. Barely.",
+              "stamps": {
+                "voltage": 5,
+                "biomass": -2
+              }
+            },
+            "failure": {
+              "outcome": "The Leyden array takes the steam and keeps it. The boiler gives way in the cellar, and the whole tower shudders to its roots with a sound the town below will not mistake for thunder.",
+              "stamps": {
+                "voltage": -3,
+                "secrecy": -3
+              },
+              "setFlags": [
+                "boilerBurst"
+              ]
+            }
+          }
         },
         {
           "label": "Fortify the oak door with iron bracing instead.",
@@ -1538,6 +1956,14 @@
           },
           "outcome": "You choose caution over spectacle and reinforce the door instead of the core. Krempe, for once, looks relieved rather than alarmed.",
           "nextNodeId": "15B"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "harnessFlawed"
+          },
+          "text": "The harness hums wrong against the spine. It will hold a day, perhaps two."
         }
       ]
     },
@@ -1590,6 +2016,46 @@
             "bond": 2,
             "voice": 1
           }
+        },
+        {
+          "stamps": {},
+          "outcome": "The harness comes away in your hands. The automaton does not move. For a long moment, the only sound in the room is the current going out of it, and then a word that was not yours.",
+          "label": "Take off the harness, and ask it what it wants.",
+          "detail": "Stop commanding the thing and put a question to it, knowing it has never once been asked.",
+          "quote": {
+            "speaker": "Victor",
+            "text": "I have given it orders for a year. I never asked it one thing."
+          },
+          "nextNodeId": "ENDING_2D",
+          "requires": {
+            "all": [
+              {
+                "axis": "bond",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "axis": "voice",
+                "op": ">=",
+                "value": 1
+              }
+            ]
+          },
+          "requiresHint": "SOMETHING MUST HAVE BEEN LEARNED"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "boilerBurst"
+          },
+          "text": "The cellar still reeks of scalded iron. Whatever the automaton does next, the tower has little left to give it."
+        },
+        {
+          "when": {
+            "flag": "harnessFlawed"
+          },
+          "text": "The harness is held on by habit and rust. You are not certain the command will reach it."
         }
       ]
     },
@@ -1627,6 +2093,41 @@
           },
           "outcome": "The steward pockets the extra coin and develops a sudden, convenient blindness to the noise from the west tower.",
           "nextNodeId": "9C"
+        },
+        {
+          "stamps": {
+            "voltage": -1,
+            "secrecy": -1
+          },
+          "outcome": "The Frankfurt agent leaves with a signed share and a notebook full of questions you answered more fully than you meant to. The coin is real, at least.",
+          "label": "Sell a share of the patents to a merchant house.",
+          "detail": "A Frankfurt house will pay now for a share of what you have not yet finished, and will want to know a good deal about it.",
+          "moneyDelta": 20,
+          "quote": {
+            "speaker": "Victor",
+            "text": "What I have not made I may still sell. That is what a patent is."
+          },
+          "nextNodeId": "9C",
+          "showWhen": {
+            "difficulty": "HARD"
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "all": [
+              {
+                "difficulty": "HARD"
+              },
+              {
+                "stat": "money",
+                "op": "<=",
+                "value": 10
+              }
+            ]
+          },
+          "text": "Your purse is nearly empty, and the world does not extend credit to a man it has begun to suspect."
         }
       ]
     },
@@ -1653,16 +2154,39 @@
         {
           "label": "Challenge the rival paper with public proofs.",
           "detail": "Answer the rival publicly with real proofs, reclaiming credit at the direct cost of your secrecy — your name attached to the discovery, and to everything that discovery implies.",
-          "stamps": {
-            "voltage": 3,
-            "secrecy": -4
-          },
+          "stamps": {},
           "quote": {
             "speaker": "Victor",
             "text": "I will not be erased from my own work."
           },
-          "outcome": "You answer him in public, with proofs that leave no room for doubt about whose work this truly is. The applause costs you every ounce of the secrecy you'd built.",
-          "nextNodeId": "10C"
+          "outcome": "",
+          "nextNodeId": "10C",
+          "roll": {
+            "chance": 0.6,
+            "scaling": {
+              "resource": "voltage",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "You answer him in public, with proofs that leave no room for doubt about whose work this truly is. The applause costs you every ounce of the secrecy you'd built.",
+              "stamps": {
+                "voltage": 3,
+                "secrecy": -4
+              }
+            },
+            "failure": {
+              "outcome": "Your proofs are sound and your rival's are better rehearsed. The room applauds him, and your name is now attached to the failure of your own method.",
+              "stamps": {
+                "voltage": -1,
+                "secrecy": -4
+              },
+              "setFlags": [
+                "patentFeud"
+              ]
+            }
+          }
         },
         {
           "label": "License the rival a minor footnote, for a fee.",
@@ -1796,6 +2320,14 @@
             "voice": 2
           }
         }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "patentFeud"
+          },
+          "text": "Your rival's account of the discovery is on every lecture-room desk in Ingolstadt, and the magistrate has read it."
+        }
       ]
     },
     "12C": {
@@ -1847,6 +2379,14 @@
           "nextNodeId": "13C-CLEARED",
           "requiresFlag": "waldmanDebt",
           "requiresFlagHint": "Only if you bribed Clerk Waldman at the University Inquiry."
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "patentFeud"
+          },
+          "text": "Your rival's account of the discovery is still going round the market. Someone has begun to wonder what it is a discovery of."
         }
       ]
     },
@@ -1900,6 +2440,14 @@
           "requiresFlag": "waldmanDebt",
           "requiresFlagHint": "Only if you bribed Clerk Waldman at the University Inquiry."
         }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "patentFeud"
+          },
+          "text": "Your rival's account of the discovery is still going round the market, and the scandal has not made it forgotten."
+        }
       ]
     },
     "13C": {
@@ -1911,17 +2459,40 @@
         {
           "label": "Move laboratory equipment to a mountain lease.",
           "detail": "Lease a remote mountain property and relocate the entire operation away from prying neighbors — real safety, bought with weeks of exposure in transit and a great deal of coin.",
-          "stamps": {
-            "secrecy": 3,
-            "voltage": -3
-          },
+          "stamps": {},
           "moneyCost": 20,
           "quote": {
             "speaker": "Krempe",
             "text": "No neighbors for miles. No witnesses either."
           },
-          "outcome": "The mountain lease is remote, expensive, and blessedly free of neighbors. Moving the equipment costs you weeks — and buys you a silence no bribe in the city ever could.",
-          "nextNodeId": "14C"
+          "outcome": "",
+          "nextNodeId": "14C",
+          "roll": {
+            "chance": 0.7,
+            "scaling": {
+              "resource": "secrecy",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "The mountain lease is remote, expensive, and blessedly free of neighbors. Moving the equipment costs you weeks — and buys you a silence no bribe in the city ever could.",
+              "stamps": {
+                "secrecy": 3,
+                "voltage": -3
+              }
+            },
+            "failure": {
+              "outcome": "The wagons are stopped at the toll bridge and searched by a clerk with nothing better to do. What he finds in the crates he does not write down, which is worse.",
+              "stamps": {
+                "secrecy": -3,
+                "voltage": -3
+              },
+              "setFlags": [
+                "leaseExposed"
+              ]
+            }
+          }
         },
         {
           "label": "Fortify the tower behind a fake stone facade.",
@@ -1936,6 +2507,40 @@
           },
           "outcome": "The false wall goes up convincingly enough to fool a casual glance, though you suspect it would not survive a determined search. You are gambling that no one determined comes looking.",
           "nextNodeId": "14C"
+        },
+        {
+          "stamps": {
+            "secrecy": 2
+          },
+          "outcome": "The toll-keeper takes the coin the way a man takes a coin he has taken before, and the wagons go over the bridge as if they carried grain.",
+          "label": "Pay the toll-keeper at the bridge to look elsewhere.",
+          "detail": "Twenty Thaler to a man whose whole trade is looking, and the wagons cross unremarked.",
+          "moneyCost": 20,
+          "quote": {
+            "speaker": "Victor",
+            "text": "Every watchman has a price. Mine is only higher than most."
+          },
+          "nextNodeId": "14C",
+          "showWhen": {
+            "difficulty": "HARD"
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "all": [
+              {
+                "difficulty": "HARD"
+              },
+              {
+                "stat": "money",
+                "op": "<=",
+                "value": 15
+              }
+            ]
+          },
+          "text": "The mountain lease was paid for in advance, and the advance was most of what you had."
         }
       ]
     },
@@ -1948,17 +2553,40 @@
         {
           "label": "Move laboratory equipment to a mountain lease.",
           "detail": "Lease a remote mountain property and relocate the entire operation away from prying neighbors — you don't strictly need to, tonight, but Waldman's debt won't cover you forever, and it may not always be so quiet as this.",
-          "stamps": {
-            "secrecy": 3,
-            "voltage": -3
-          },
+          "stamps": {},
           "moneyCost": 20,
           "quote": {
             "speaker": "Krempe",
             "text": "No neighbors for miles. No witnesses either — and no debt to Waldman lasts forever."
           },
-          "outcome": "The mountain lease is remote, expensive, and blessedly free of neighbors. Moving the equipment costs you weeks, but you make the choice this time rather than having it made for you.",
-          "nextNodeId": "14C"
+          "outcome": "",
+          "nextNodeId": "14C",
+          "roll": {
+            "chance": 0.8,
+            "scaling": {
+              "resource": "secrecy",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "The mountain lease is remote, expensive, and blessedly free of neighbors. Moving the equipment costs you weeks, but you make the choice this time rather than having it made for you.",
+              "stamps": {
+                "secrecy": 3,
+                "voltage": -3
+              }
+            },
+            "failure": {
+              "outcome": "The wagons are stopped at the toll bridge and searched by a clerk with nothing better to do. What he finds in the crates he does not write down, which is worse.",
+              "stamps": {
+                "secrecy": -3,
+                "voltage": -3
+              },
+              "setFlags": [
+                "leaseExposed"
+              ]
+            }
+          }
         },
         {
           "label": "Fortify the tower behind a fake stone facade.",
@@ -1985,18 +2613,44 @@
         {
           "label": "Agree to build a female in total seclusion.",
           "detail": "Accept the creature's bargain and agree to build its companion, this time entirely on its terms — a mercy that buys peace with the one thing you swore never to build again.",
-          "stamps": {
-            "secrecy": 3,
-            "biomass": -3
-          },
+          "stamps": {},
           "quote": {
             "speaker": "The Creature",
             "text": "Then we understand each other, at last."
           },
-          "outcome": "You agree, and for the first time since the reanimation, the creature's posture eases into something almost like peace. You are no longer entirely certain who negotiated this bargain to their advantage.",
+          "outcome": "",
           "nextNodeId": "15C",
           "axisDelta": {
             "bond": 2
+          },
+          "roll": {
+            "chance": 0.6,
+            "scaling": {
+              "resource": "biomass",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "You agree, and for the first time since the reanimation, the creature's posture eases into something almost like peace. You are no longer entirely certain who negotiated this bargain to their advantage.",
+              "stamps": {
+                "secrecy": 3,
+                "biomass": -3
+              },
+              "setFlags": [
+                "companionPromised"
+              ]
+            },
+            "failure": {
+              "outcome": "The second body will not take. You work through the night against the cold, and what you have at dawn is a promise broken twice over.",
+              "stamps": {
+                "secrecy": 1,
+                "biomass": -4
+              },
+              "setFlags": [
+                "companionFailed"
+              ]
+            }
           }
         },
         {
@@ -2016,6 +2670,14 @@
             "bond": -3,
             "voice": -1
           }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "leaseExposed"
+          },
+          "text": "A clerk at the toll bridge wrote the wagons' number in his book, and the number is in a magistrate's drawer by now."
         }
       ]
     },
@@ -2069,6 +2731,46 @@
             "voice": 3,
             "bond": 1
           }
+        },
+        {
+          "stamps": {},
+          "outcome": "The Rector's hall goes quiet in the way a room goes quiet when it realises what it has been talking about. The creature does not look at you. It looks at them, and begins.",
+          "label": "Bring the creature before the university, and let it speak.",
+          "detail": "Stand beside it at the Rector's table and let it answer for itself, with every ledger entry you hid laid out beside it.",
+          "quote": {
+            "speaker": "Victor",
+            "text": "I have kept it silent to keep myself safe. Let it be heard."
+          },
+          "nextNodeId": "ENDING_3D",
+          "requires": {
+            "all": [
+              {
+                "axis": "bond",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "axis": "voice",
+                "op": ">=",
+                "value": 1
+              }
+            ]
+          },
+          "requiresHint": "THE CREATURE MUST BE WILLING TO BE SEEN"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "companionPromised"
+          },
+          "text": "You gave your word on the second body. The creature remembers it better than you do."
+        },
+        {
+          "when": {
+            "flag": "companionFailed"
+          },
+          "text": "You failed the second body, and you know what that failure will sound like when it is told."
         }
       ]
     }
@@ -2229,6 +2931,56 @@
       "kind": "failure",
       "headline": "MOB STORMS CASTLE'S WEST TOWER",
       "text": "There is no bribe left to pay and no story left to tell. The magistrate arrives with the mob a half-step behind him, torches already lit. Whatever Victor Frankenstein built in that room, the town decides collectively and immediately that it should never have existed—and neither, it turns out, should he."
+    },
+    "ENDING_1D": {
+      "id": "ENDING_1D",
+      "title": "The Companion",
+      "kind": "narrative",
+      "headline": "TWO FIGURES SEEN CROSSING THE SNOW LINE; TOWER LEFT TO ITS CREDITORS",
+      "text": "The tower is left to its ghosts and its creditors. Before dawn two shapes go up through the pines above Ingolstadt, one a little behind the other, the way people walk who have only just learned to walk beside someone. Victor does not follow. He stands at the postern gate until the snow has taken the last of the footprints, and then he goes back in and begins, for the first time in a year, to put the room in order. Whatever comes down from the north in the years afterward comes down as a rumour, and in the rumour there are always two of them.",
+      "variants": [
+        {
+          "when": {
+            "resource": "secrecy",
+            "op": "<=",
+            "value": -4
+          },
+          "headline": "SEARCH OF THE HIGH PASSES ABANDONED; TOWER SEALED BY MAGISTRATE",
+          "text": "The magistrate's men reach the tower an hour too late and spend a week combing the high passes for what they are certain they saw. They find footprints that stop at a rockfall and a cairn that was not there in autumn. Victor is questioned for a month and charged with nothing that will hold. He tells them what is true, which is that he built something and then let it go, and no court in Bavaria has a word for that. In the villages above the snow line, they say the pair keep to the north face. They have been seen together, and they have not been seen hurting anyone."
+        }
+      ]
+    },
+    "ENDING_2D": {
+      "id": "ENDING_2D",
+      "title": "The Word",
+      "kind": "narrative",
+      "headline": "GALVANIC APPARATUS FOUND DISMANTLED; SCHOLAR REFUSES TO EXPLAIN",
+      "text": "When the scholars finally force the door they find the harness on the table, unbuckled, and the dynamo wound down to a cold stillness that no one can account for. Victor tells them the apparatus failed. The frame on the table is gone, and the people who ask where it went get no better answer. He does not mention the word. Years later, in a lecture hall in another country, he stops in the middle of a sentence, because someone in the front row has said that word in the same voice, and he has to be helped from the room.",
+      "variants": [
+        {
+          "when": {
+            "flag": "boilerBurst"
+          },
+          "headline": "CELLAR EXPLOSION AT INGOLSTADT TOWER; SCHOLAR UNHARMED, APPARATUS GONE",
+          "text": "The scholars come for the explosion and stay for the silence. The cellar is a ruin of scalded iron, the dynamo a lump of slag, and the room above it is empty except for a harness that someone has unbuckled with great care. Victor tells them the boiler failed, which is true. He does not say what he heard in the quiet afterward. For the rest of his life he will say the word aloud once a year, in an empty room, to see whether anything answers."
+        }
+      ]
+    },
+    "ENDING_3D": {
+      "id": "ENDING_3D",
+      "title": "The Witness",
+      "kind": "narrative",
+      "headline": "UNIVERSITY HEARING ENDS IN UPROAR; RECTOR ADJOURNS WITHOUT A VERDICT",
+      "text": "The hearing is adjourned without a verdict, which in a university is the nearest thing to a confession. The creature has said what it has to say in the Rector's hall, in front of the ledgers and the magistrate and a clerk whose pen stopped halfway down the page. Nobody knows what to do with it. Nobody knows what to do with Victor either, who sits through the whole of it with his hands flat on the table, no longer hiding anything because there is no longer anything left to hide. The papers print the account three ways in as many days. None of the three is quite the one that was heard.",
+      "variants": [
+        {
+          "when": {
+            "flag": "patentFeud"
+          },
+          "headline": "RIVAL SCHOLAR WITHDRAWS CLAIM; HEARING ADJOURNED IN UPROAR",
+          "text": "The rival who spent a year putting his name to your method is the first to leave the hall, white in the face, with a lecture he will never give folded in his coat. The hearing is adjourned without a verdict. The creature has said what it has to say, in front of the ledgers and the magistrate and a clerk whose pen stopped halfway down the page. Victor sits through all of it with his hands flat on the table. For once he has nothing to defend, and he finds that this is the first time in the whole year that he has felt able to breathe."
+        }
+      ]
     }
   }
 }

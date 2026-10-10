@@ -1,5 +1,6 @@
 /** Pure rule helpers shared by the reducer and the UI (locks, odds, clamping). */
-import type { AxisId, GameDefinition, GameState, Option, PartialStamps, Roll } from "./schema";
+import { evalCondition } from "./conditions";
+import type { AxisId, GameDefinition, GameState, Option, PartialStamps, Roll, StrainConfig } from "./schema";
 
 export function clampTo(n: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, n));
@@ -30,11 +31,24 @@ export function checkFailureEnding(def: GameDefinition, resources: Record<string
   return null;
 }
 
-/** Effective success chance of a roll given live resources. */
-export function effectiveRollChance(roll: Roll, resources: Record<string, number>): number {
-  if (!roll.scaling) return roll.chance;
+/**
+ * Strain on a roll: the probability taken off because the resource it is about is short (0 when there is no strain config, no
+ * resource, or the resource is at or above the threshold). A positive number.
+ */
+export function rollStrain(roll: Roll, resources: Record<string, number>, strain?: StrainConfig): number {
+  const about = roll.about ?? roll.scaling?.resource;
+  if (!strain || !about) return 0;
+  const value = resources[about] ?? 0;
+  if (value >= strain.threshold) return 0;
+  return Math.min(strain.max, (strain.threshold - value) * strain.perPoint);
+}
+
+/** Effective success chance of a roll given live resources (and strain, if the game has it). */
+export function effectiveRollChance(roll: Roll, resources: Record<string, number>, strain?: StrainConfig): number {
+  const penalty = rollStrain(roll, resources, strain);
+  if (!roll.scaling) return clampTo(roll.chance - penalty, 0.05, 0.95);
   const { resource, perPoint, min = 0.1, max = 0.95 } = roll.scaling;
-  return clampTo(roll.chance + (resources[resource] ?? 0) * perPoint, min, max);
+  return clampTo(clampTo(roll.chance + (resources[resource] ?? 0) * perPoint, min, max) - penalty, 0.05, max);
 }
 
 export function isOptionLocked(resources: Record<string, number>, gate?: Option["gate"]): boolean {
@@ -50,8 +64,20 @@ export function isOptionAffordable(def: GameDefinition, state: Pick<GameState, "
   return state.money >= moneyCost;
 }
 
+/** An option that is not shown (and cannot be chosen) because its showWhen condition does not hold. */
+export function isOptionHidden(state: GameState, option: Option): boolean {
+  return !!option.showWhen && !evalCondition(option.showWhen, state);
+}
+
+/** A shown option locked by its `requires` condition. */
+export function isOptionConditionLocked(state: GameState, option: Option): boolean {
+  return !!option.requires && !evalCondition(option.requires, state);
+}
+
 export function isOptionUnavailable(def: GameDefinition, state: GameState, option: Option): boolean {
   return (
+    isOptionHidden(state, option) ||
+    isOptionConditionLocked(state, option) ||
     isOptionLocked(state.resources, option.gate) ||
     !isOptionAffordable(def, state, option.moneyCost) ||
     isOptionFlagLocked(state.flags, option.requiresFlag)

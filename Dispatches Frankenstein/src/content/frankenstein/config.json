@@ -229,5 +229,10 @@
     },
     "favorFlag": "fritzPatron"
   },
-  "skipToNodeId": "5"
+  "skipToNodeId": "5",
+  "strain": {
+    "threshold": -4,
+    "perPoint": 0.025,
+    "max": 0.12
+  }
 }

@@ -4,7 +4,8 @@
  * so this can't silently drift from what ships. Reports measured counts, per
  * Craig's own validation standard: never "looks good" without numbers.
  */
-import { clampTo, isOptionLocked, isOptionFlagLocked } from "@dispatches/engine";
+import { clampTo, isOptionLocked, isOptionFlagLocked, isOptionHidden, isOptionConditionLocked, applyAxisDelta } from "@dispatches/engine";
+import type { Condition, Difficulty, GameState } from "@dispatches/engine";
 import { loadDefinition } from "../../packages/engine/tools/load_definition";
 
 const def = loadDefinition("frankenstein");
@@ -63,6 +64,11 @@ const gateEverSatisfied = new Map<string, boolean>();
 const gateKeys: string[] = [];
 const flagGateEverSatisfied = new Map<string, boolean>();
 const flagGateKeys: string[] = [];
+const condGateEverSatisfied = new Map<string, boolean>(); // `requires` options, unlocked at least once
+const condGateKeys: string[] = [];
+const shownWhenEverShown = new Map<string, boolean>(); // `showWhen` options, shown at least once
+const shownWhenKeys: string[] = [];
+const DIFFICULTIES = Object.keys(def.config.difficulties) as Difficulty[];
 for (const node of Object.values(NODES)) {
   for (const opt of node.options) {
     if (opt.gate) {
@@ -74,6 +80,16 @@ for (const node of Object.values(NODES)) {
       const key = `${node.id}:${opt.label}`;
       flagGateKeys.push(key);
       flagGateEverSatisfied.set(key, false);
+    }
+    if (opt.requires) {
+      const key = `${node.id}:${opt.label}`;
+      condGateKeys.push(key);
+      condGateEverSatisfied.set(key, false);
+    }
+    if (opt.showWhen) {
+      const key = `${node.id}:${opt.label}`;
+      shownWhenKeys.push(key);
+      shownWhenEverShown.set(key, false);
     }
   }
 }
@@ -93,7 +109,19 @@ function recordExtremes(nodeId: string, resources: Resources) {
   }
 }
 
-function dfs(nodeId: string, resources: Resources, flags: Record<string, boolean>, depth: number) {
+type Axes = Record<string, number>;
+// What a Condition is evaluated against while searching: resources, axes, flags, the difficulty and the branch are tracked; the purse is not
+// (conditions on money are rejected below), and Fritz's favor is never used here.
+function stateOf(resources: Resources, axes: Axes, flags: Record<string, boolean>, difficulty: Difficulty, branch: string): GameState {
+  return { resources, axes, flags, difficulty, activeBranch: branch, money: 0, favorUsed: false } as unknown as GameState;
+}
+
+// A state is (scene, resources, axes, flags, difficulty); one already searched is not searched again, so the search stays finite however many rolls fork it.
+const seenStates = new Set<string>();
+function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<string, boolean>, depth: number, difficulty: Difficulty) {
+  const key = `${difficulty}|${nodeId}|${RESOURCES.map((r) => resources[r]).join(",")}|${Object.values(axes).join(",")}|${Object.keys(flags).sort().join(",")}`;
+  if (seenStates.has(key)) return;
+  seenStates.add(key);
   pathsExplored++;
   deepestDepth = Math.max(deepestDepth, depth);
   reachableNodeIds.add(nodeId);
@@ -101,13 +129,23 @@ function dfs(nodeId: string, resources: Resources, flags: Record<string, boolean
   const node = NODES[nodeId];
   if (!node) return;
 
+  const here = stateOf(resources, axes, flags, difficulty, node.branch);
   for (const opt of node.options) {
+    if (opt.showWhen) {
+      if (isOptionHidden(here, opt)) continue;
+      shownWhenEverShown.set(`${nodeId}:${opt.label}`, true);
+    }
     const locked = isOptionLocked(resources, opt.gate);
     if (locked) continue;
     const flagLocked = isOptionFlagLocked(flags, opt.requiresFlag);
     if (flagLocked) continue;
+    if (opt.requires) {
+      if (isOptionConditionLocked(here, opt)) continue;
+      condGateEverSatisfied.set(`${nodeId}:${opt.label}`, true);
+    }
     if (opt.gate) gateEverSatisfied.set(`${nodeId}:${opt.label}`, true);
     if (opt.requiresFlag) flagGateEverSatisfied.set(`${nodeId}:${opt.label}`, true);
+    const nextAxes = applyAxisDelta(def, axes, opt.axisDelta);
 
     if (opt.roll) {
       // Fork the DFS on both branches of the roll. Each branch may name its
@@ -133,7 +171,7 @@ function dfs(nodeId: string, resources: Resources, flags: Record<string, boolean
         const nextFlags = branch.setFlags
           ? { ...flags, ...Object.fromEntries(branch.setFlags.map((f) => [f, true])) }
           : flags;
-        dfs(target, next, nextFlags, depth + 1);
+        dfs(target, next, nextAxes, nextFlags, depth + 1, difficulty);
       }
       continue;
     }
@@ -157,13 +195,13 @@ function dfs(nodeId: string, resources: Resources, flags: Record<string, boolean
     }
 
     const nextFlags = opt.setFlags ? { ...flags, ...Object.fromEntries(opt.setFlags.map((f) => [f, true])) } : flags;
-    dfs(target, next, nextFlags, depth + 1);
+    dfs(target, next, nextAxes, nextFlags, depth + 1, difficulty);
   }
 }
 
-dfs(START_NODE_ID, { voltage: 0, biomass: 0, secrecy: 0 }, {}, 0);
+for (const difficulty of DIFFICULTIES) dfs(START_NODE_ID, { voltage: 0, biomass: 0, secrecy: 0 }, { voice: 0, bond: 0 }, {}, 0, difficulty);
 
-ok(`${pathsExplored} distinct game-states explored (max depth ${deepestDepth}) via exhaustive DFS, forking ${rollsForked} roll option encounter(s) into success/failure branches`);
+ok(`${pathsExplored} distinct game-states explored (max depth ${deepestDepth}) via exhaustive DFS on every difficulty, forking ${rollsForked} roll option encounter(s) into success/failure branches`);
 
 // 3. Every defined node is actually reachable under real gate constraints.
 const allNodeIds = Object.keys(NODES);
@@ -201,6 +239,19 @@ if (deadFlagGates.length) {
   ok(`all ${flagGateKeys.length} requiresFlag callback options are unlockable by at least one real path`);
 }
 
+// 5c. Every `requires` option (an axis, a resource, a flag...) is unlockable by some real path, and every `showWhen` option is shown by one.
+const deadCond = condGateKeys.filter((k) => !condGateEverSatisfied.get(k));
+if (deadCond.length) fail(`${deadCond.length} \`requires\` option(s) never unlockable by any real path: ${deadCond.join(" | ")}`);
+else ok(`all ${condGateKeys.length} \`requires\` options (axis, resource and flag conditions) are unlockable by at least one real path`);
+const neverShown = shownWhenKeys.filter((k) => !shownWhenEverShown.get(k));
+if (neverShown.length) fail(`${neverShown.length} \`showWhen\` option(s) never shown on any difficulty: ${neverShown.join(" | ")}`);
+else ok(`all ${shownWhenKeys.length} \`showWhen\` options are shown on at least one difficulty`);
+// Conditions on the purse cannot be searched (money is not tracked), so they are not allowed on options.
+const moneyConds: string[] = [];
+const hasMoney = (c: Condition): boolean => ("stat" in c ? true : "all" in c ? c.all.some(hasMoney) : "any" in c ? c.any.some(hasMoney) : "not" in c ? hasMoney(c.not) : false);
+for (const node of Object.values(NODES)) for (const opt of node.options) for (const c of [opt.requires, opt.showWhen]) if (c && hasMoney(c)) moneyConds.push(`${node.id}:${opt.label}`);
+if (moneyConds.length) fail(`conditions on money are not allowed on options (the search cannot prove them): ${moneyConds.join(" | ")}`);
+
 // 6. Flag read/write coverage — every setFlags value is referenced by some ending variant.
 const flagsWritten = new Set<string>();
 for (const node of Object.values(NODES)) {
@@ -211,7 +262,21 @@ for (const node of Object.values(NODES)) {
   }
 }
 const flagsRead = new Set<string>();
-for (const ending of Object.values(ENDINGS)) ending.variants?.forEach((v) => flagsRead.add(v.flag));
+const condFlags = (c: Condition | undefined, into: Set<string>) => {
+  if (!c) return;
+  if ("flag" in c) into.add(c.flag);
+  else if ("all" in c) c.all.forEach((x) => condFlags(x, into));
+  else if ("any" in c) c.any.forEach((x) => condFlags(x, into));
+  else if ("not" in c) condFlags(c.not, into);
+};
+for (const ending of Object.values(ENDINGS)) {
+  ending.variants?.forEach((v) => {
+    if (v.flag) flagsRead.add(v.flag);
+    condFlags(v.when, flagsRead);
+  });
+}
+// a flag read by a scene's echo is read too
+for (const node of Object.values(NODES)) node.echoes?.forEach((e) => condFlags(e.when, flagsRead));
 
 // 6b. Engine-level flags (set by a UI action, not by any option's setFlags)
 // can't be exercised by this graph-only DFS. Checked by static
@@ -231,6 +296,8 @@ const flagsUsedAsRequires = new Set<string>();
 for (const node of Object.values(NODES)) {
   for (const opt of node.options) {
     if (opt.requiresFlag) flagsUsedAsRequires.add(opt.requiresFlag);
+    condFlags(opt.requires, flagsUsedAsRequires);
+    condFlags(opt.showWhen, flagsUsedAsRequires);
   }
 }
 const unreadFlags = [...flagsWritten].filter((f) => !flagsRead.has(f) && !flagsUsedAsRequires.has(f));
@@ -266,7 +333,7 @@ if (selfRefs === 0) ok(`0 self-referencing options found`);
 //    regardless of resources or money on hand.)
 const nodesWithoutFreeOption: string[] = [];
 for (const node of Object.values(NODES)) {
-  const hasFreeOption = node.options.some((opt) => !opt.gate && !opt.moneyCost);
+  const hasFreeOption = node.options.some((opt) => !opt.gate && !opt.moneyCost && !opt.requires && !opt.showWhen);
   if (!hasFreeOption) nodesWithoutFreeOption.push(node.id);
 }
 if (nodesWithoutFreeOption.length) {

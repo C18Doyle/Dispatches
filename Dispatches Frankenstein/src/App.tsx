@@ -9,7 +9,11 @@ import {
   isOptionUnavailable,
   isOptionLocked,
   isOptionFlagLocked,
+  isOptionHidden,
+  isOptionConditionLocked,
   effectiveRollChance,
+  rollStrain,
+  evalCondition,
 } from "@dispatches/engine";
 import type { Action, Difficulty, GameState, UiPrefs } from "@dispatches/engine";
 import { def } from "./game";
@@ -36,10 +40,11 @@ const BRANCH_LABELS: Record<string, string> = {
   PROMETHEUS: "Act II · The Prometheus Pact",
 };
 
-const DIFFICULTY_INFO: Record<Difficulty, { label: string; blurb: string }> = {
-  EASY: { label: "Easy", blurb: "See exactly how each choice will move your resources before you commit." },
-  MEDIUM: { label: "Medium", blurb: "How each choice moves your resources stays hidden until after you commit." },
-  HARD: { label: "Hard", blurb: "As Medium, plus fifty Thaler — some choices cost coin you cannot replace." },
+// The names and blurbs are content (flavor.json); these only stand in if a game does not supply them.
+const DIFFICULTY_INFO: Record<Difficulty, { label: string; blurb: string }> = def.flavor.difficultyInfo ?? {
+  EASY: { label: "Easy", blurb: "" },
+  MEDIUM: { label: "Medium", blurb: "" },
+  HARD: { label: "Hard", blurb: "" },
 };
 
 const FONT_SIZE_PX: Record<FontSize, string> = {
@@ -858,7 +863,9 @@ export default function App() {
       </VoidScreen>
     );
   } else if (screen === "ROLL" && state.pendingRoll) {
-    const pct = Math.round(effectiveRollChance(state.pendingRoll, state.resources) * 100);
+    const pct = Math.round(effectiveRollChance(state.pendingRoll, state.resources, def.config.strain) * 100);
+    const strainPct = Math.round(rollStrain(state.pendingRoll, state.resources, def.config.strain) * 100);
+    const strainAbout = state.pendingRoll.about ?? state.pendingRoll.scaling?.resource;
     content = (
       <VoidScreen>
         {settingsButton}
@@ -882,6 +889,11 @@ export default function App() {
               {pct}%
             </span>
             <p className="font-heading text-xs uppercase tracking-widest text-ink-soft mt-1">Chance of Success</p>
+            {strainPct > 0 && strainAbout && (
+              <p className="font-heading text-xs uppercase tracking-widest text-blood font-bold mt-2">
+                Strain: {RESOURCE_LABELS[strainAbout]} is short, so the odds are {strainPct} points worse
+              </p>
+            )}
           </div>
           {rolling && (
             <p className="text-sm italic text-ink/70 mb-4 min-h-[1.5rem]" aria-live="polite">
@@ -1097,14 +1109,24 @@ export default function App() {
             <CornerFlourishes />
             <h2 data-screen-heading className="font-heading text-2xl font-bold mb-3">{node.title}</h2>
             <p className="text-[1.05rem] leading-relaxed text-ink/90 mb-2">{node.description}</p>
+            {(node.echoes ?? [])
+              .filter((e) => evalCondition(e.when, state))
+              .map((e, i) => (
+                <p key={i} className="mt-3 text-[1rem] leading-relaxed italic text-ink/80 border-l-2 border-blood/50 pl-3">
+                  {e.text}
+                </p>
+              ))}
             <OrnamentDivider />
 
             <div className="space-y-4">
               {node.options.map((option, i) => {
+                // An option that is not on offer at this difficulty (or in this state) is not shown; the index stays the option's own.
+                if (isOptionHidden(state, option)) return null;
                 const locked = isOptionUnavailable(def, state, option);
                 const gateLocked = isOptionLocked(state.resources, option.gate);
                 const flagLocked = isOptionFlagLocked(state.flags, option.requiresFlag);
-                const affordLocked = !gateLocked && !flagLocked && locked;
+                const condLocked = isOptionConditionLocked(state, option);
+                const affordLocked = !gateLocked && !flagLocked && !condLocked && locked;
                 const showStampPreview = rules.showPreview || state.adviceRevealed;
                 const armed = armedOptionIndex === i;
                 return (
@@ -1137,7 +1159,12 @@ export default function App() {
                         )}
                       {option.roll && (
                         <span className="stamp text-brass-dim border-brass-dim">
-                          {Math.round(effectiveRollChance(option.roll, state.resources) * 100)}% EXPERIMENT
+                          {Math.round(effectiveRollChance(option.roll, state.resources, def.config.strain) * 100)}% EXPERIMENT
+                        </span>
+                      )}
+                      {option.roll && rollStrain(option.roll, state.resources, def.config.strain) > 0 && (
+                        <span className="stamp text-blood border-blood">
+                          <span aria-hidden="true">▼ </span>STRAIN: {RESOURCE_LABELS[option.roll.about ?? option.roll.scaling?.resource ?? ""]} SHORT, -{Math.round(rollStrain(option.roll, state.resources, def.config.strain) * 100)} POINTS
                         </span>
                       )}
                       {option.gate && (
@@ -1145,6 +1172,11 @@ export default function App() {
                           <LockIcon className="w-3 h-3" /> REQUIRES {RESOURCE_LABELS[option.gate.resource].toUpperCase()}{" "}
                           {"≥"}{" "}
                           {option.gate.minThreshold >= 0 ? `+${option.gate.minThreshold}` : option.gate.minThreshold}
+                        </span>
+                      )}
+                      {option.requires && (
+                        <span className="stamp text-brass-dim border-brass-dim">
+                          <LockIcon className="w-3 h-3" /> {condLocked ? option.requiresHint : "OPEN TO YOU"}
                         </span>
                       )}
                       {option.requiresFlag && (
