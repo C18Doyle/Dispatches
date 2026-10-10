@@ -60,9 +60,10 @@ export const GLOSSARY = [
 /** What the game leaves out: shown on the menu. */
 export const LEAVES_OUT = [
   "The war here is the war as the commands in this game saw it from headquarters. Most of it is not in view: the colonies and the fighting outside Europe, the war at sea beyond what a headquarters decided about it, the smaller allies and their armies, and the hunger and work of the home fronts.",
-  "The people the orders fell on are in the meters and not in the story. Millions of soldiers died, and millions of civilians were driven from their homes, starved, imprisoned or killed. The German army killed thousands of Belgian and French civilians in the invasion of 1914.",
+  "The people the orders fell on are in the meters and not in the story. Millions of soldiers died, and millions of civilians were driven from their homes, starved, imprisoned or killed. The German army killed thousands of Belgian and French civilians in the invasion of 1914, and in 1915 the Russian army's headquarters ordered the border regions laid waste and their peoples expelled: about half a million Jews and a quarter of a million Germans were deported into the interior.",
   "Some of the worst events of the war were crimes, not decisions a general could take, and the game does not offer them as choices. One is the killing of Armenians in the Ottoman Empire from 1915, which the International Association of Genocide Scholars affirmed in 1997 was a genocide.",
 ];
+// Source for the expulsions: Great Retreat (Russian), Wikipedia (wp-greatretreat in claims/sources.json): Yanushkevich, backed by the Grand Duke, ordered the army to devastate the border territories and expel the "enemy" nations; about 500,000 Jews and 250,000 Germans were deported.
 // Source for the last sentence: the IAGS resolution on the Armenian Genocide, passed unanimously at its Montreal conference, 13 June 1997
 // (genocidescholars.org, "IAGS Armenian Genocide Resolution"). It says the mass murder of over a million Armenians in 1915 meets the UN
 // Convention's definition of genocide.

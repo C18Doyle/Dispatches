@@ -343,5 +343,20 @@
     "title": "Paleologue, An Ambassador's Memoirs, vol. 3, ch. 7 (Petrograd Conference)",
     "kind": "web (primary, memoir)",
     "url": "https://net.lib.byu.edu/~rdh7/wwi/memoir/FrAmbRus/pal3-07.htm"
+  },
+  "wp-rawa": {
+    "title": "Battle of Rawa",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Rawa"
+  },
+  "wp-kolubara": {
+    "title": "Battle of Kolubara",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Kolubara"
+  },
+  "wp-serbia1915": {
+    "title": "Serbian campaign of 1915",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Serbian_campaign_of_1915"
   }
 }
