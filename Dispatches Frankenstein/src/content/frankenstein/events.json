@@ -16,8 +16,10 @@
           },
           "moneyCost": 10,
           "quote": {
-            "speaker": "Fritz",
-            "text": "Unmarked graves from the pauper's field. The mud hasn't even dried on their shirts."
+            "speaker": "Victor",
+            "text": "I collected bones from charnel houses; and disturbed, with profane fingers, the tremendous secrets of the human frame.",
+            "kind": "novel",
+            "source": "Vol. I, ch. 3"
           },
           "outcome": "The sack is heavier than it looks. By lamplight you catalogue what the pauper's field has given you — enough tissue to begin, though the stench of the grave clings to the workroom for days.",
           "nextNodeId": "2"
@@ -94,8 +96,10 @@
             "secrecy": -2
           },
           "quote": {
-            "speaker": "Fritz",
-            "text": "The sky is bleeding fire, Victor! Look at the town below—sparks are jumping off the battlements!"
+            "speaker": "Victor",
+            "text": "I beheld a stream of fire issue from an old and beautiful oak, which stood about twenty yards from our house; and so soon as the dazzling light vanished, the oak had disappeared, and nothing remained but a blasted stump.",
+            "kind": "novel",
+            "source": "Vol. I, ch. 1"
           },
           "outcome": "The spires groan under their new height, and by midnight the whole battlement line crackles faintly blue. Half the town below will swear, later, that they saw the sky itself reach down into the castle.",
           "nextNodeId": "3"
@@ -270,7 +274,9 @@
           },
           "quote": {
             "speaker": "Victor",
-            "text": "Flesh is adaptable. We shall craft a self-sustaining organism!"
+            "text": "I thought, that if I could bestow animation upon lifeless matter, I might in process of time (although I now found it impossible) renew life where death had apparently devoted the body to corruption.",
+            "kind": "novel",
+            "source": "Vol. I, ch. 3"
           },
           "outcome": "You choose flesh over current, betting that what you have built can sustain itself the way living things always have. The vats begin their slow, wet work, and there is no undoing it now.",
           "nextNodeId": "8A"
@@ -327,7 +333,9 @@
           },
           "quote": {
             "speaker": "Victor",
-            "text": "The grid is primed! We turn this entire building into a continuous generator!"
+            "text": "I was surprised that among so many men of genius, who had directed their inquiries towards the same science, that I alone should be reserved to discover so astonishing a secret.",
+            "kind": "novel",
+            "source": "Vol. I, ch. 3"
           },
           "outcome": "",
           "nextNodeId": "8B"
@@ -475,7 +483,9 @@
           },
           "quote": {
             "speaker": "Victor",
-            "text": "A masterpiece! More than human—better than nature intended!"
+            "text": "A new species would bless me as its creator and source; many happy and excellent natures would owe their being to me.",
+            "kind": "novel",
+            "source": "Vol. I, ch. 3"
           },
           "outcome": "",
           "nextNodeId": "5"
@@ -753,8 +763,10 @@
             "secrecy": -2
           },
           "quote": {
-            "speaker": "Fritz",
-            "text": "Still warm. He was buried this morning."
+            "speaker": "Victor",
+            "text": "Who shall conceive the horrors of my secret toil, as I dabbled among the unhallowed damps of the grave, or tortured the living animal to animate the lifeless clay?",
+            "kind": "novel",
+            "source": "Vol. I, ch. 3"
           },
           "outcome": "The scholar's grave gives up easily — too easily, you think, for a man who spent his whole life guarding knowledge jealously. Perhaps this is simply his final lesson.",
           "nextNodeId": "9A"
@@ -1248,7 +1260,9 @@
           },
           "quote": {
             "speaker": "The Creature",
-            "text": "Then I am not alone. That is all I asked."
+            "text": "My companion must be of the same species, and have the same defects. This being you must create.",
+            "kind": "novel",
+            "source": "Vol. II, ch. 8"
           },
           "outcome": "You take up the needle again, telling yourself this is the last time. The creature watches every stitch with an attention that feels less like gratitude and more like a promise you're not sure you can keep.",
           "nextNodeId": "15A",
@@ -1265,7 +1279,9 @@
           },
           "quote": {
             "speaker": "Victor",
-            "text": "I will not father a race of them."
+            "text": "a race of devils would be propagated upon the earth, who might make the very existence of the species of man a condition precarious and full of terror.",
+            "kind": "novel",
+            "source": "Vol. III, ch. 3"
           },
           "outcome": "You take the frame apart before it can ever draw breath. What crosses the creature's face afterward is not quite grief, and not quite what you expected either.",
           "nextNodeId": "15A",
@@ -1297,7 +1313,9 @@
           "stamps": {},
           "quote": {
             "speaker": "Victor",
-            "text": "Let it end here, with only me."
+            "text": "I had desired it with an ardour that far exceeded moderation; but now that I had finished, the beauty of the dream vanished, and breathless horror and disgust filled my heart.",
+            "kind": "novel",
+            "source": "Vol. I, ch. 4"
           },
           "outcome": "You open every carboy at once and let the fire finish what the storm started. The tower does not simply burn — it erases, thoroughly, everything that was ever built inside it.",
           "nextNodeId": "ENDING_1A",
@@ -1312,7 +1330,9 @@
           "stamps": {},
           "quote": {
             "speaker": "The Creature",
-            "text": "You made a maker of me too, Victor."
+            "text": "Beware; for I am fearless, and therefore powerful.",
+            "kind": "novel",
+            "source": "Vol. III, ch. 3"
           },
           "outcome": "You open every cage instead of every carboy. What pours down the stairwell and into the street was never going to be contained by a magistrate's men.",
           "nextNodeId": "ENDING_1B",
@@ -1326,7 +1346,9 @@
           "stamps": {},
           "quote": {
             "speaker": "The Creature",
-            "text": "You made me alone in the world. Do not leave me alone in it a second time."
+            "text": "I was benevolent and good; misery made me a fiend.",
+            "kind": "novel",
+            "source": "Vol. II, ch. 2"
           },
           "outcome": "You leave the vats, the notes, the whole ruined apparatus of the last year exactly as it stands, and walk out the postern gate beside the thing you built, north, into weather no sane traveler would choose. Neither of you looks back at the tower.",
           "nextNodeId": "ENDING_1C",
@@ -2023,8 +2045,10 @@
           "label": "Take off the harness, and ask it what it wants.",
           "detail": "Stop commanding the thing and put a question to it, knowing it has never once been asked.",
           "quote": {
-            "speaker": "Victor",
-            "text": "I have given it orders for a year. I never asked it one thing."
+            "speaker": "The Creature",
+            "text": "Be calm! I entreat you to hear me, before you give vent to your hatred on my devoted head. Have I not suffered enough, that you seek to increase my misery?",
+            "kind": "novel",
+            "source": "Vol. II, ch. 2"
           },
           "nextNodeId": "ENDING_2D",
           "requires": {
@@ -2157,7 +2181,9 @@
           "stamps": {},
           "quote": {
             "speaker": "Victor",
-            "text": "I will not be erased from my own work."
+            "text": "I had worked hard for nearly two years, for the sole purpose of infusing life into an inanimate body.",
+            "kind": "novel",
+            "source": "Vol. I, ch. 4"
           },
           "outcome": "",
           "nextNodeId": "10C",
@@ -2616,7 +2642,9 @@
           "stamps": {},
           "quote": {
             "speaker": "The Creature",
-            "text": "Then we understand each other, at last."
+            "text": "Make me happy, and I shall again be virtuous.",
+            "kind": "novel",
+            "source": "Vol. II, ch. 2"
           },
           "outcome": "",
           "nextNodeId": "15C",
@@ -2693,7 +2721,9 @@
           "stamps": {},
           "quote": {
             "speaker": "Victor",
-            "text": "Let the work die with me. That is the mercy left to give."
+            "text": "Farewell, Walton! Seek happiness in tranquillity, and avoid ambition, even if it be only the apparently innocent one of distinguishing yourself in science and discoveries.",
+            "kind": "novel",
+            "source": "Vol. III, ch. 7"
           },
           "outcome": "You feed the notebooks into the stove one page at a time and watch a decade of work turn to smoke and ash. It is, you tell yourself, the only honest ending available to you.",
           "nextNodeId": "ENDING_3A",
@@ -2723,7 +2753,9 @@
           "stamps": {},
           "quote": {
             "speaker": "Victor",
-            "text": "Let them judge the work honestly, or not at all. I am done choosing which lies protect me."
+            "text": "Learn from me, if not by my precepts, at least by my example, how dangerous is the acquirement of knowledge, and how much happier that man is who believes his native town to be the world, than he who aspires to become greater than his nature will allow.",
+            "kind": "novel",
+            "source": "Vol. I, ch. 3"
           },
           "outcome": "You lay the full ledger on the Rector's desk yourself, unasked, and sit down to wait for whatever follows. For the first time in a year, you sleep that night without listening for the stairs.",
           "nextNodeId": "ENDING_3C",
@@ -2738,8 +2770,10 @@
           "label": "Bring the creature before the university, and let it speak.",
           "detail": "Stand beside it at the Rector's table and let it answer for itself, with every ledger entry you hid laid out beside it.",
           "quote": {
-            "speaker": "Victor",
-            "text": "I have kept it silent to keep myself safe. Let it be heard."
+            "speaker": "The Creature",
+            "text": "Listen to my tale: when you have heard that, abandon or commiserate me, as you shall judge that I deserve.",
+            "kind": "novel",
+            "source": "Vol. II, ch. 2"
           },
           "nextNodeId": "ENDING_3D",
           "requires": {

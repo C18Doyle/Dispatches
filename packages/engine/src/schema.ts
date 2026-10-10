@@ -89,6 +89,9 @@ export interface EpilogueConfig {
 export interface Quote {
   speaker: string;
   text: string;
+  /** "novel" for the source text's own words (then `source` names the place); absent means imagined. */
+  kind?: "novel" | "imagined";
+  source?: string;
 }
 
 export interface Gate {
@@ -288,6 +291,12 @@ export interface FlavorContent {
   creatureReportLines: Record<string, string[]>;
   /** Names and one-line descriptions of the difficulties, for the difficulty card and the record. */
   difficultyInfo?: Record<Difficulty, { label: string; blurb: string }>;
+  /** What the source work does at each ending, shown on the ending screen. */
+  novelNotes?: Record<EndingId, string>;
+  /** Where to look for an ending that has not been found yet. */
+  endingHints?: Record<EndingId, string>;
+  /** One line for each flag a run can carry, for the record of what the run carried. */
+  flagNotes?: Record<FlagId, string>;
 }
 
 export interface GameDefinition {

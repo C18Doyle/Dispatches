@@ -17,7 +17,7 @@
     },
     {
       "heading": "Locked Options",
-      "body": "Some choices require a resource to already sit at or above a threshold before they can be taken — shown as \"REQUIRES [RESOURCE] ≥ [N]\" on the option itself, on every difficulty, whether or not you can currently see the numbers your other choices move. A few others unlock only after a specific earlier choice; those show a hint about what unlocks them instead of a threshold. Every node keeps at least one option that's never locked, so you're never fully shut out of continuing — you may just be choosing between fewer things."
+      "body": "Some choices require a resource to already sit at or above a threshold before they can be taken, shown as \"REQUIRES [RESOURCE] ≥ [N]\" on the option itself, on every difficulty. A few others unlock only after a specific earlier choice, and a few more open only to what you have become to the creature: those show a lock that says what they need, without naming the numbers behind it. Every scene keeps at least one option that is never locked, so you are never fully shut out of continuing; you may just be choosing between fewer things."
     },
     {
       "heading": "Fritz",
@@ -25,11 +25,11 @@
     },
     {
       "heading": "Difficulty",
-      "body": "Easy shows exactly how each choice will move the Triangle before you commit. Medium hides that preview, so you're judging choices by their description and consequence rather than their arithmetic — three uses of Fritz's advice are all you get to see the numbers directly. Hard hides it too, and adds a fifth resource: fifty Thaler, spent on certain choices that require paying for materials, bribes, or silence, and shown as a \"COST\" badge on the option. A very small number of choices instead pay Thaler back — nowhere near enough to cover every costed option in one run, so on Hard, spending early on one branch's costs can leave you unable to afford another branch's later ones. That's deliberate: it's a real trade-off, not a trap, since every node still keeps a free option regardless."
+      "body": "The Apprentice (Easy) shows exactly how each choice will move the Triangle before you commit. The Natural Philosopher (Medium) hides that preview, so you are judging choices by their description and consequence rather than their arithmetic; three uses of Fritz's advice are all you get to see the numbers directly. The Debtor (Hard) hides it too, and adds a fifth resource: fifty Thaler of borrowed money, spent on certain choices that require paying for materials, bribes or silence, and shown as a \"COST\" badge on the option. A few choices pay Thaler back, and a few options (a moneylender's loan, a patent share, a glazier, a toll-keeper) are offered only to The Debtor. Nowhere near enough to cover every costed option in one run, so spending early on one branch can leave you unable to afford another branch's later ones. That is deliberate: it is a real trade-off, not a trap, since every scene still keeps a free option."
     },
     {
       "heading": "Experiments",
-      "body": "A handful of pivotal choices are framed as experiments rather than certainties — you'll be told the odds before committing, and the result is decided by a roll against that percentage. Most experiments only change the cost of what happens next; a few of the bigger ones also change what happens next, sending a clean success down a path a failure (or a safer option) never sees."
+      "body": "Twenty choices are framed as experiments rather than certainties: you are told the odds before committing, and the result is decided by a roll against that percentage. Each can fail in its own way, and a failure leaves something behind (a witness, a debt, a flaw in the harness) that a later scene will remember. A few of the bigger ones also change what happens next, sending a clean success down a path a failure never sees."
     },
     {
       "heading": "Returning to the Laboratory",
@@ -41,7 +41,7 @@
     },
     {
       "heading": "Endings",
-      "body": "The campaign resolves into one of twelve endings: nine narrative conclusions, three apiece across the Alchemical, Galvanic, and Prometheus tracks, and three collapse endings reserved for whichever resource you drive to ruin."
+      "body": "The story resolves into one of fifteen endings: twelve narrative conclusions (four across each of the Alchemical, Galvanic and Prometheus tracks, the fourth of each opening only to a creature that has come to trust you) and three collapse endings reserved for whichever resource you drive to ruin. The Ledger on the title page keeps the ones you have found, and says where to look for the rest."
     },
     {
       "heading": "Sending for Fritz",
@@ -49,15 +49,23 @@
     },
     {
       "heading": "How It's Remembered",
-      "body": "How the story closes isn't only about which of the twelve endings you reach. A number of the run's more human choices — mercy or cruelty, honesty or betrayal, the way the campaign as a whole went — shape a closing line about what kind of thing you actually built, from sensitive and eloquent to crazed and vengeful. There's no meter to watch for it. It reveals itself only at the end."
+      "body": "How the story closes isn't only about which of the fifteen endings you reach. A number of the run's more human choices — mercy or cruelty, honesty or betrayal, the way the campaign as a whole went — shape a closing line about what kind of thing you actually built, from sensitive and eloquent to crazed and vengeful. There's no meter to watch for it. It reveals itself only at the end."
     },
     {
       "heading": "Strain",
-      "body": "A resource that runs short makes the experiments that depend on it harder. Below -3, every point of shortage takes three points off the odds of an experiment that is about that resource, up to fifteen. The option says so before you choose, and so does the experiment screen."
+      "body": "A resource that runs short makes the experiments that depend on it harder. Below -4, each point of shortage takes two and a half points off the odds of an experiment that is about that resource, up to twelve. The option says so before you choose, and so does the experiment screen."
     },
     {
       "heading": "What you carry forward",
       "body": "Some choices leave something behind: a witness, a debt, a flaw in the harness. Later scenes say so in italics under the description. A few doors open only to a man the creature has come to trust, and they are marked with a lock that tells you what they need."
+    },
+    {
+      "heading": "Quotations",
+      "body": "The line in italics under each choice is imagined: what the speaker might say, not what anyone said. Where a line carries a volume and chapter, it is Mary Shelley's own wording from the 1818 text (the chapters are that edition's), and the game checks it against the book."
+    },
+    {
+      "heading": "The Ledger",
+      "body": "At the end of a run the game lists what you carried (the witnesses and debts your choices left), says what the novel does at that point, and offers a short summary to copy. The Ledger on the title page keeps every ending you have found, how often, and your last runs."
     }
   ],
   "gossip": [
@@ -323,5 +331,59 @@
       "label": "The Debtor",
       "blurb": "As the Natural Philosopher, plus fifty Thaler of borrowed money. Some choices cost coin you cannot replace, some are only offered to a man in debt, and the creditors remember."
     }
+  },
+  "novelNotes": {
+    "ENDING_1A": "In the novel Victor never burns his laboratory. It is the creature who speaks, at the very end, of building himself a funeral pyre in the far north.",
+    "ENDING_1B": "The novel has no army of grafted creatures. It has one creature, and the book's whole horror is that he is alone.",
+    "ENDING_1C": "In the novel the two of them do go north, but not together: Victor chases the creature across the Arctic ice for months, and dies aboard Robert Walton's ship.",
+    "ENDING_1D": "In the novel Victor begins a female creature on a remote island in the Orkneys and destroys it before it is animated (Vol. III, ch. 3). The creature's revenge follows: Clerval, and then Elizabeth on her wedding night.",
+    "ENDING_2A": "The novel's subtitle is The Modern Prometheus, and its Prometheus is Victor, who steals life and is punished by what he has made. In the novel he is not praised for it.",
+    "ENDING_2B": "The novel's creature is neither an automaton nor obedient: he teaches himself to read and speak by listening through a cottage wall.",
+    "ENDING_2C": "In the novel Victor does not lose the work to a mechanism. He loses it by running from the creature the night it wakes, and he does not face it again for nearly two years.",
+    "ENDING_2D": "In the novel the creature's first real words to Victor are a plea. On the glacier at Montanvert he asks to be heard (Vol. II, ch. 2), and Victor, after refusing, listens.",
+    "ENDING_3A": "In the novel Geneva is where Victor goes home to, and where he lets Justine Moritz hang for William's murder rather than say what he knows (Vol. I, ch. 7).",
+    "ENDING_3B": "In the novel Victor takes no professorship and publishes nothing. The book is the only account he ever gives, to Walton, near the end of his life.",
+    "ENDING_3C": "In the novel there is no hearing. The nearest thing is Justine's trial, where the truth is known to one person in the room, and he says nothing.",
+    "ENDING_3D": "In the novel the creature never speaks in public. The only people he speaks to are Victor, the blind De Lacey and, over Victor's body, Walton.",
+    "ENDING_CRISIS_VOLTAGE": "In the novel the work does not fail for want of current. It succeeds, and Victor is overcome with horror at once (Vol. I, ch. 4).",
+    "ENDING_CRISIS_BIOMASS": "In the novel Victor's materials come from dissecting rooms and slaughterhouses (Vol. I, ch. 3) and he never runs short. The creature's hunger comes later, in the forest.",
+    "ENDING_CRISIS_SECRECY": "In the novel nobody exposes Victor. He keeps his secret for the rest of his life, and it costs William, Justine, Clerval and Elizabeth."
+  },
+  "endingHints": {
+    "ENDING_1A": "On the Alchemical track, at the last choice, put the whole laboratory to the fire.",
+    "ENDING_1B": "On the Alchemical track, at the last choice, let the grafted army out into the town.",
+    "ENDING_1C": "On the Alchemical track, at the last choice, leave with the creature.",
+    "ENDING_1D": "On the Alchemical track, the last choice has a fourth door. It opens only to a creature that has come to trust you, so spend the run earning that.",
+    "ENDING_2A": "On the Galvanic track, at the last choice, spend all the current at once.",
+    "ENDING_2B": "On the Galvanic track, at the last choice, bind the creature to the harness and march.",
+    "ENDING_2C": "On the Galvanic track, at the last choice, sabotage the obedience circuit and let it walk free.",
+    "ENDING_2D": "On the Galvanic track, the last choice has a fourth door. It opens only to a creature that has come to trust you, and that you have let speak.",
+    "ENDING_3A": "On the Prometheus track, at the last choice, burn the notes and walk away.",
+    "ENDING_3B": "On the Prometheus track, at the last choice, let someone else take the blame and accept the post.",
+    "ENDING_3C": "On the Prometheus track, at the last choice, publish everything under your own name.",
+    "ENDING_3D": "On the Prometheus track, the last choice has a fourth door. It opens only to a creature that has come to trust you, and that you have let speak.",
+    "ENDING_CRISIS_VOLTAGE": "Let Voltage fall to -10.",
+    "ENDING_CRISIS_BIOMASS": "Let Biomass fall to -10.",
+    "ENDING_CRISIS_SECRECY": "Let Secrecy fall to -10."
+  },
+  "flagNotes": {
+    "executedOrigin": "You took the body from the scaffold.",
+    "scaffoldBetrayed": "The hangman's assistant sold you to the watch.",
+    "waldmanDebt": "Clerk Waldman owes you a favour.",
+    "clerkTalked": "Clerk Waldman talked.",
+    "constructSighted": "The town saw something on the battlements.",
+    "superConstruct": "You pushed the hybridization past caution.",
+    "galvanicOvercharge": "You drank the whole storm at once.",
+    "wardWitness": "A nurse remembers a man in a good coat.",
+    "moatWitness": "A carter saw the construct on the moat road.",
+    "stewardSuspects": "The castle steward watches the stair.",
+    "harnessFlawed": "The harness was riveted wrong.",
+    "boilerBurst": "The cellar boiler burst.",
+    "patentFeud": "A rival beat you in public over the patent.",
+    "leaseExposed": "Your wagons were searched at the toll bridge.",
+    "companionPromised": "You promised the creature a companion.",
+    "companionFailed": "You failed the creature's companion.",
+    "krugerLoan": "You owe Herr Krüger.",
+    "fritzPatron": "Fritz called in his patron's favour."
   }
 }

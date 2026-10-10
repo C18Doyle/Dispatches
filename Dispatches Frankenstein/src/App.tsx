@@ -15,9 +15,11 @@ import {
   rollStrain,
   evalCondition,
 } from "@dispatches/engine";
-import type { Action, Difficulty, GameState, UiPrefs } from "@dispatches/engine";
+import type { Action, Difficulty, GameState, Quote, UiPrefs } from "@dispatches/engine";
 import { def } from "./game";
 import { IN_RUN_SCREENS, parseRunSave, serializeRunSave } from "./runSave";
+import { LEDGER_KEY, carriedNotes, count, parseLedger, recordRun, runRecord, summaryText } from "./ledger";
+import type { Ledger } from "./ledger";
 import * as sfx from "./sfx";
 
 type Resource = string;
@@ -123,6 +125,38 @@ function saveEndingsSeen(seen: Set<string>) {
   } catch {
     /* best-effort — a missed save just costs one line of "discovered" bookkeeping */
   }
+}
+
+function loadLedger(): Ledger {
+  try {
+    return parseLedger(localStorage.getItem(LEDGER_KEY));
+  } catch {
+    return parseLedger(null);
+  }
+}
+
+function saveLedger(ledger: Ledger) {
+  try {
+    localStorage.setItem(LEDGER_KEY, JSON.stringify(ledger));
+  } catch {
+    /* the ledger is a keepsake, never a requirement */
+  }
+}
+
+/**
+ * A choice's quotation. Imagined lines read as before; a line that is Mary Shelley's own carries its volume and chapter
+ * (the 1818 edition's), so a player can tell which words are hers. scripts/check_quotations.mjs holds that claim to the book.
+ */
+function QuoteLine({ quote, className }: { quote: Quote; className: string }) {
+  const novel = quote.kind === "novel" && !!quote.source;
+  return (
+    <p className={className}>
+      {quote.speaker}
+      {novel ? <span className="not-italic font-heading text-[0.65rem] uppercase tracking-widest text-ink-soft"> · {quote.source}</span> : null}: {"“"}
+      {quote.text}
+      {"”"}
+    </p>
+  );
 }
 
 const RUN_SAVE_KEY = "frankenstein_run_save_v2";
@@ -253,7 +287,7 @@ export default function App() {
   // Engine state: only the pure reducer changes it. Everything else below is UI-only.
   const [state, dispatch] = useReducer((s: GameState, a: Action) => reduce(def, s, a), undefined, () => createInitialState(def));
   const [prefs, setPrefs] = useState<UiPrefs>(loadSettings);
-  const [overlay, setOverlay] = useState<"SETTINGS" | "RESEARCH" | null>(null);
+  const [overlay, setOverlay] = useState<"SETTINGS" | "RESEARCH" | "LEDGER" | null>(null);
   const screen: string = overlay ?? state.phase;
   const rules = def.config.difficulties[state.difficulty];
   const interlude = state.activeInterludeId ? def.content.interludes[state.activeInterludeId] : undefined;
@@ -276,6 +310,9 @@ export default function App() {
   const [resumableSave, setResumableSave] = useState<GameState | null>(() => loadRunSave());
   const [endingsSeen, setEndingsSeen] = useState<Set<string>>(() => loadEndingsSeen());
   const [isNewEnding, setIsNewEnding] = useState(false);
+  const [ledger, setLedger] = useState<Ledger>(() => loadLedger());
+  const recordedState = useRef<GameState | null>(null);
+  const [copyNote, setCopyNote] = useState("");
 
   // Fritz waits outside each node rather than staying underfoot — collapse
   // the panel (and clear any gossip line, which is scoped to the node it
@@ -363,6 +400,13 @@ export default function App() {
   // across runs rather than being cleared when one finishes.
   useEffect(() => {
     if (screen !== "ENDING" || !state.endingId) return;
+    // Once per finished run: opening Settings over the ending screen and coming back must not count it again.
+    if (recordedState.current === state) return;
+    recordedState.current = state;
+    setCopyNote("");
+    const nextLedger = recordRun(ledger, runRecord(def, state));
+    setLedger(nextLedger);
+    saveLedger(nextLedger);
     const id = state.endingId;
     const wasNew = !endingsSeen.has(id);
     setIsNewEnding(wasNew);
@@ -586,6 +630,70 @@ export default function App() {
         </div>
       </VoidScreen>
     );
+  } else if (screen === "LEDGER") {
+    const endingIds = Object.keys(def.content.endings);
+    const found = endingIds.filter((id) => endingsSeen.has(id) || (ledger.endings[id] ?? 0) > 0);
+    content = (
+      <VoidScreen>
+        <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="ledger-title">
+          <CornerFlourishes />
+          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">Kept in this browser</p>
+          <h1 id="ledger-title" className="font-heading text-2xl font-bold mb-1">The Ledger</h1>
+          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft mb-6">
+            {found.length} / {endingIds.length} endings found
+          </p>
+          <ul className="space-y-3">
+            {endingIds.map((id) => {
+              const seen = found.includes(id);
+              const times = ledger.endings[id] ?? 0;
+              return (
+                <li key={id} className="border-b border-ink/15 pb-3">
+                  {seen ? (
+                    <>
+                      <h2 className="font-heading text-sm font-bold">
+                        {def.content.endings[id].title}
+                        {times > 1 ? <span className="text-ink-soft font-normal"> · reached {times} times</span> : null}
+                      </h2>
+                      {def.flavor.novelNotes?.[id] && <p className="text-sm text-ink/80 mt-1">{def.flavor.novelNotes[id]}</p>}
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="font-heading text-sm font-bold text-ink-soft">Not yet found</h2>
+                      {def.flavor.endingHints?.[id] && <p className="text-sm text-ink/80 mt-1">{def.flavor.endingHints[id]}</p>}
+                    </>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          {ledger.runs.length > 0 && (
+            <>
+              <h2 className="font-heading text-sm uppercase tracking-widest text-blood font-bold mt-7 mb-2">Your last runs</h2>
+              <ol className="space-y-1.5 text-sm">
+                {ledger.runs.map((r, i) => (
+                  <li key={i}>
+                    <span className="font-semibold">{def.content.endings[r.endingId]?.title ?? r.endingId}</span>
+                    <span className="text-ink-soft">
+                      {" "}
+                      · {def.flavor.difficultyInfo?.[r.difficulty as Difficulty]?.label ?? r.difficulty} · {count(r.choices, "choice")}, {count(r.experiments, "experiment")}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </>
+          )}
+          <button
+            onClick={() => {
+              click();
+              setOverlay(null);
+            }}
+            className="mt-8 px-6 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
+          >
+            Back
+          </button>
+        </div>
+      </VoidScreen>
+    );
   } else if (screen === "RESEARCH") {
     content = (
       <VoidScreen>
@@ -668,6 +776,17 @@ export default function App() {
             >
               Settings
             </button>
+            {endingsSeen.size > 0 && (
+              <button
+                onClick={() => {
+                  click();
+                  setOverlay("LEDGER");
+                }}
+                className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
+              >
+                Ledger
+              </button>
+            )}
           </div>
           {endingsSeen.size > 0 && (
             <p className="mt-6 font-heading text-[0.65rem] uppercase tracking-[0.2em] text-ash">
@@ -770,6 +889,9 @@ export default function App() {
   } else if (screen === "ENDING") {
     const ending = resolveEnding(def, state);
     const isFailure = state.endingId?.startsWith("ENDING_CRISIS");
+    const thisRun = runRecord(def, state);
+    const carried = carriedNotes(def, thisRun);
+    const novelNote = state.endingId ? def.flavor.novelNotes?.[state.endingId] : undefined;
     content = (
       <VoidScreen>
         {settingsButton}
@@ -826,16 +948,51 @@ export default function App() {
             </div>
           </div>
 
-          <button
-            onClick={() => {
-              click();
-              setFavorPanelOpen(false);
-              dispatch({ type: "RESTART" });
-            }}
-            className="mt-8 px-5 py-2.5 bg-blood text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-blood-bright transition-colors"
-          >
-            Begin a New Experiment
-          </button>
+          {carried.length > 0 && (
+            <div className="mt-6">
+              <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">What You Carried</p>
+              <ul className="list-disc pl-5 space-y-1 text-sm text-ink/90">
+                {carried.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {novelNote && (
+            <div className="mt-6">
+              <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">In the Novel</p>
+              <p className="text-sm text-ink/90 leading-relaxed">{novelNote}</p>
+            </div>
+          )}
+
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <button
+              onClick={() => {
+                click();
+                setFavorPanelOpen(false);
+                dispatch({ type: "RESTART" });
+              }}
+              className="px-5 py-2.5 bg-blood text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-blood-bright transition-colors"
+            >
+              Begin a New Experiment
+            </button>
+            <button
+              onClick={() => {
+                click();
+                const text = summaryText(def, thisRun, ending.title);
+                navigator.clipboard.writeText(text).then(
+                  () => setCopyNote("Summary copied."),
+                  () => setCopyNote("Could not copy. Select the record above instead."),
+                );
+              }}
+              className="px-5 py-2.5 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
+            >
+              Copy Summary
+            </button>
+            <span role="status" className="text-sm text-ink-soft">
+              {copyNote}
+            </span>
+          </div>
         </div>
       </VoidScreen>
     );
@@ -875,13 +1032,7 @@ export default function App() {
           {state.pendingOptionLabel && (
             <h2 className="font-heading text-xl font-bold mb-3">{state.pendingOptionLabel}</h2>
           )}
-          {state.pendingOptionQuote && (
-            <p className="text-sm italic text-ink/70 mb-6">
-              {state.pendingOptionQuote.speaker}: {"“"}
-              {state.pendingOptionQuote.text}
-              {"”"}
-            </p>
-          )}
+          {state.pendingOptionQuote && <QuoteLine quote={state.pendingOptionQuote} className="text-sm italic text-ink/70 mb-6" />}
           <div className="my-6">
             <span
               className={`font-heading text-4xl font-bold text-blood inline-block ${rolling ? "tension-pulse" : ""}`}
@@ -1203,11 +1354,7 @@ export default function App() {
                       {option.label}
                     </p>
                     <p className="mt-1.5 text-[0.92rem] leading-snug text-ink/75">{option.detail}</p>
-                    <p className="mt-2 text-sm italic text-ink/70">
-                      {option.quote.speaker}: {"“"}
-                      {option.quote.text}
-                      {"”"}
-                    </p>
+                    <QuoteLine quote={option.quote} className="mt-2 text-sm italic text-ink/70" />
                     {armed && (
                       <p className="mt-2 text-[0.7rem] uppercase tracking-widest text-blood-bright font-heading font-semibold">
                         Tap again to confirm
