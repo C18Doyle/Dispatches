@@ -101,7 +101,7 @@ export function removeKey(key) {
 // ---------- the saved run ----------
 
 /** What is stored for a run in progress. `pendingOutcome` (and `pendingRecord`, the historical note shown with it) are set while the player is on an outcome screen. */
-export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null }) {
+export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null, easy = false, taken = [], history = [] }) {
   return {
     schemaVersion: SAVE_SCHEMA_VERSION,
     campaignId,
@@ -113,9 +113,16 @@ export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visi
     pendingNextId,
     pendingOutcome,
     pendingRecord,
+    // Added in 1.3.0, all optional: a save made before them has none and resumes as a standard (or hard) run with no rewind history.
+    easy: Boolean(easy),
+    taken: Array.isArray(taken) ? taken : [],
+    history: Array.isArray(history) ? history.slice(-REWIND_LIMIT) : [],
     savedAt: Date.now(),
   };
 }
+
+/** How many orders the easy mode can take back. */
+export const REWIND_LIMIT = 40;
 
 /** A save is only offered for resume if it parses, is a known version, and still resolves in the current content. */
 export function validateSave(saved) {

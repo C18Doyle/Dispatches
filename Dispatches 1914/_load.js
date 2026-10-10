@@ -35,6 +35,9 @@ function loadEngine(file) {
     "historicalChoice", "walkSpine", "historicalNote",
     "snapshotRun", "validateSave", "emptyRecord", "noteNodeSeen", "MAP_CITIES", "MAP_VIEW", "noteEnding", "noteEchoes", "echoSeed", "ECHOES", "sanitizeSettings", "defaultSettings", "SAVE_SCHEMA_VERSION",
     "NODE_ID_PATTERN", "ENDING_ID_PATTERN", "isValidNodeId",
+    "STRAIN", "strainMeterOf", "strainedUncertain", "previewImpact", "REWIND_LIMIT",
+    "EASY_NAMES", "ENDING_TIER", "RANKS", "EASY_RANK_CAP", "modeOf", "costlyOrders", "rankFor",
+    "GLOSSARY", "LEAVES_OUT",
   ];
 
   src += `\nmodule.exports = { ${exported.join(", ")} };\n`;
