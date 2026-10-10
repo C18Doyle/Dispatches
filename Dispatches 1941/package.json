@@ -1,6 +1,6 @@
 {
   "name": "dispatches-1941",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Dispatches 1941: the Pacific war from IGHQ and CINCPAC. Source reconstructed from the shipped single-file build.",
   "private": true,
   "type": "module",

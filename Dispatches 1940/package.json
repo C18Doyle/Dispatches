@@ -1,6 +1,6 @@
 {
   "name": "dispatches-1940",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Dispatches 1940 — branching WWII decision game (German/Soviet/Allied campaigns). V6 working tree.",
   "private": true,
   "scripts": {

@@ -5,7 +5,7 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
-## Unreleased (2026-10)
+## 1.1.0 (2026-10-10)
 ### Changed
 - **Shortages change the odds.** A meter below -4 takes points of probability off the best outcome of the contested decisions that put that meter at stake (not battles, which weigh their own shortages), and each point owed adds half a point more, up to 12. The decision says so in red before you choose ("Strain: Pipeline short, so the odds are 7 points worse for it"), and the roll uses the same weights. A decision is about the meter its check names, else the one its outcomes move most.
 - **A meter at the floor keeps its debt.** What a cost takes below -10 is owed (up to 3 points, kept in the save), and later gains pay it before they raise the meter, so ten points of debt and one good decision no longer reads -9.

@@ -5,7 +5,7 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
-## Unreleased (2026-10)
+## 1.1.0 (2026-10-10)
 ### Fixed
 - **Four "In the Novel" notes said things the book does not.** Victor does see the creature before the glacier (by lightning, the night William is killed); he does tell a magistrate the whole story (who half believes it); the creature pleads with more than three people; and the funeral pile is the creature's. The notes are corrected, and every claim in them is now in `claims/novel-notes.json` and checked (below).
 ### Added
