@@ -490,5 +490,635 @@
       "wp-dukhonin"
     ],
     "note": "Short attested wording; verify the original text and date before release."
+  },
+  {
+    "id": "stavka-przemysl-1",
+    "node": "stavka_1914_03_przemysl",
+    "kind": "fact",
+    "claim": "The second Russian siege of Przemysl began on 9 or 10 November 1914 (New Style), 27 or 28 October Old Style; the fortress held a garrison of about 120,000 men.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl"
+    ],
+    "note": "The article dates the second siege 9 November in its lead and 10 November in the body."
+  },
+  {
+    "id": "stavka-przemysl-2",
+    "node": "stavka_1914_03_przemysl",
+    "kind": "figure",
+    "claim": "The assault ordered by Dimitriev of the Third Army in the first siege, after a brief bombardment, achieved nothing and cost the Russians about 40,000 casualties in three days.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-przemysl-3",
+    "node": "stavka_1914_03_przemysl",
+    "kind": "fact",
+    "claim": "In the second siege Selivanov, commanding the Eleventh Army, ordered no frontal assaults and aimed to starve the garrison.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-przemysl-4",
+    "node": "stavka_1914_03_przemysl",
+    "kind": "fact",
+    "claim": "The relief attempts through the Carpathians failed; Kusmanek ordered a breakout on 19 March 1915 and surrendered on 22 March (New Style), 9 March Old Style, with about 117,000 men.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl"
+    ],
+    "note": "The infobox gives 120,000 captured including wounded; the body gives 117,000."
+  },
+  {
+    "id": "stavka-przemysl-5",
+    "node": "stavka_1914_03_przemysl",
+    "kind": "fact",
+    "claim": "Przemysl lay on the main railway between Lvov and Cracow.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Common knowledge of the rail network; needs a source."
+  },
+  {
+    "id": "stavka-przemysl-6",
+    "node": "stavka_1914_03_przemysl",
+    "kind": "position",
+    "claim": "Brusilov's position is characterized as: without the guns to break the forts an assault only spends the army.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of Brusilov's documented concern with the shell shortage in 1915, not a quotation."
+  },
+  {
+    "id": "stavka-przemysl-7",
+    "node": "stavka_1914_03_przemysl",
+    "kind": "position",
+    "claim": "The Grand Duke's position is characterized as: the fortress has to be taken, and the sooner the better.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of the Supreme Command's interest in the fortress, not a quotation; needs a source for the Grand Duke's own view."
+  },
+  {
+    "id": "stavka-lodz-8",
+    "node": "stavka_1914_04_lodz",
+    "kind": "fact",
+    "claim": "The Grand Duke favoured Ruzsky's plan to invade Silesia on 14 November 1914 (New Style) with the Second, Fifth and Fourth Armies; on 16 November he ordered Plehve's Fifth Army to abandon the offensive and march north toward Lodz.",
+    "status": "web-checked",
+    "sources": [
+      "wp-lodz1914"
+    ],
+    "note": "New Style dates; 1 and 3 November Old Style."
+  },
+  {
+    "id": "stavka-lodz-9",
+    "node": "stavka_1914_04_lodz",
+    "kind": "figure",
+    "claim": "The Fifth Army covered 116 km in two days.",
+    "status": "web-checked",
+    "sources": [
+      "wp-lodz1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-lodz-10",
+    "node": "stavka_1914_04_lodz",
+    "kind": "fact",
+    "claim": "The German Ninth Army was moved by rail to the Thorn area and attacked on 11 November (New Style) near Wloclawek, aiming to strike the Russian right flank, cut Lodz off from Warsaw and encircle the troops there; Hindenburg and Ludendorff directed it, with Mackensen commanding.",
+    "status": "web-checked",
+    "sources": [
+      "wp-lodz1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-lodz-11",
+    "node": "stavka_1914_04_lodz",
+    "kind": "fact",
+    "claim": "The German XXV Reserve Corps was encircled near Brzeziny and broke out on 24 November (New Style); on 29 November the Grand Duke ordered a withdrawal to defensible lines nearer Warsaw, along the Bzura and Rawka.",
+    "status": "web-checked",
+    "sources": [
+      "wp-lodz1914"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-lodz-12",
+    "node": "stavka_1914_04_lodz",
+    "kind": "characterization",
+    "claim": "The battle is read both as a Russian tactical victory (the encirclement failed) and as a German strategic victory (the invasion of Germany was stopped and Russia never again came so close to German soil).",
+    "status": "disputed",
+    "sources": [
+      "wp-lodz1914"
+    ],
+    "note": "Dispute carried in the choice's dispute field."
+  },
+  {
+    "id": "stavka-lodz-13",
+    "node": "stavka_1914_04_lodz",
+    "kind": "position",
+    "claim": "The Grand Duke's position is characterized as: the flank must be made safe first and the Fifth Army is the one that can do it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented decision to turn the Fifth Army, not a quotation."
+  },
+  {
+    "id": "stavka-lodz-14",
+    "node": "stavka_1914_04_lodz",
+    "kind": "position",
+    "claim": "Ruzsky's position is characterized as: the answer to a blow at the flank is to be in Germany before it lands.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented plan for the invasion of Silesia, not a quotation."
+  },
+  {
+    "id": "stavka-masuria-15",
+    "node": "stavka_1915_01_masuria",
+    "kind": "fact",
+    "claim": "The Germans attacked on 7 February 1915 (New Style) in a snowstorm, 25 January Old Style; by 16 February they had reached Augustow, and the Twentieth Corps, encircled in the Augustow forest, surrendered on 22 February (9 February Old Style).",
+    "status": "web-checked",
+    "sources": [
+      "wp-masuria2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-masuria-16",
+    "node": "stavka_1915_01_masuria",
+    "kind": "figure",
+    "claim": "The Twentieth Corps' losses are put at 34,000; Russian losses in the battle at about 135,000, including about 80,500 prisoners (official medical reports).",
+    "status": "web-checked",
+    "sources": [
+      "wp-masuria2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-masuria-17",
+    "node": "stavka_1915_01_masuria",
+    "kind": "fact",
+    "claim": "Sievers of the Tenth Army warned Ruzsky of an attack, and Ruzsky ignored the warning.",
+    "status": "web-checked",
+    "sources": [
+      "wp-masuria2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-masuria-18",
+    "node": "stavka_1915_01_masuria",
+    "kind": "fact",
+    "claim": "Plehve's Twelfth Army was assembling about 100 km to the south-west.",
+    "status": "web-checked",
+    "sources": [
+      "wp-masuria2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-masuria-19",
+    "node": "stavka_1915_01_masuria",
+    "kind": "fact",
+    "claim": "Danilov, the quartermaster-general, called the battle a great success for the Germans that cost Russia its planned anchor in East Prussia; much of the Tenth Army escaped the encirclement.",
+    "status": "web-checked",
+    "sources": [
+      "wp-masuria2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-masuria-20",
+    "node": "stavka_1915_01_masuria",
+    "kind": "position",
+    "claim": "Ruzsky's position is characterized as: a warning is not an attack, and an army that retreats on every one has no line.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented decision to ignore Sievers' warning, not a quotation."
+  },
+  {
+    "id": "stavka-masuria-21",
+    "node": "stavka_1915_01_masuria",
+    "kind": "position",
+    "claim": "The Grand Duke's position (on the counterfactual) is characterized as: an army that is about to be struck should not be where the blow falls.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source records the Grand Duke's view of the warning."
+  },
+  {
+    "id": "stavka-sventsiany-22",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "fact",
+    "claim": "The German attack at Sventsiany, where the Russian Fifth and Tenth Armies met, began on 27 August 1915 (8 September New Style per the source) and broke through north of Vilkomir on 28 August.",
+    "status": "web-checked",
+    "sources": [
+      "nlb-sventsiany"
+    ],
+    "note": "The sources differ by a day on the New Style conversion."
+  },
+  {
+    "id": "stavka-sventsiany-23",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "fact",
+    "claim": "Six German cavalry divisions pushed back the Russian cavalry and rode toward Vileika and Molodechno; by 10 September (New Style) a gap about 50 km wide had opened between the fronts.",
+    "status": "web-checked",
+    "sources": [
+      "nlb-sventsiany"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-sventsiany-24",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "fact",
+    "claim": "On 2 and 3 September Old Style (15 and 16 September) detachments of the newly raised Second Army stopped the cavalry, which had no infantry or artillery with it; the Russian counterstroke threw it back from Molodechno and the breach was eliminated on 2 October (New Style), 19 September Old Style.",
+    "status": "web-checked",
+    "sources": [
+      "nlb-sventsiany"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-sventsiany-25",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "fact",
+    "claim": "Nicholas II took personal command on 23 August 1915 Old Style (5 September).",
+    "status": "web-checked",
+    "sources": [
+      "wp-greatretreat"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-sventsiany-26",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "position",
+    "claim": "Alekseyev's position is characterized as: answer a gap by going in at its neck, not by giving up the ground behind it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of the counterstroke that was made; the sources do not record who decided it."
+  },
+  {
+    "id": "stavka-sventsiany-27",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "position",
+    "claim": "Polivanov's position (on the counterfactual) is characterized as: the new army is the only reserve at hand and a shorter line can be held with what is left.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position, drawn from his documented concern for the army's reserves; not a quotation."
+  },
+  {
+    "id": "stavka-chantilly-28",
+    "node": "stavka_1915_06_chantilly",
+    "kind": "fact",
+    "claim": "Military representatives of France, Britain, Russia, Serbia and Italy met at Joffre's headquarters at Chantilly in December 1915 (sources give 5 to 12 December).",
+    "status": "web-checked",
+    "sources": [
+      "wp-chantilly"
+    ],
+    "note": "Sources differ on the exact days; 23 to 25 November Old Style is taken for the Russian date."
+  },
+  {
+    "id": "stavka-chantilly-29",
+    "node": "stavka_1915_06_chantilly",
+    "kind": "fact",
+    "claim": "Joffre's plan was for simultaneous large-scale offensives by the French, British, Italian and Russian armies in 1916, so that the Central Powers could not move troops from one front to another; until then each was to wear the enemy down by active operations. No timetable was agreed.",
+    "status": "web-checked",
+    "sources": [
+      "wp-chantilly"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-chantilly-30",
+    "node": "stavka_1915_06_chantilly",
+    "kind": "fact",
+    "claim": "The Russian delegate supported the plan, arguing that a coordinated offensive was needed in 1916 unlike in 1915, when the Western Allies were not ready as Gorlice-Tarnow broke the Russian line.",
+    "status": "web-checked",
+    "sources": [
+      "wp-chantilly"
+    ],
+    "note": "One account; the delegate is not named in the sources read."
+  },
+  {
+    "id": "stavka-chantilly-31",
+    "node": "stavka_1915_06_chantilly",
+    "kind": "fact",
+    "claim": "Weeks later Joffre and Haig agreed to carry out the conference's decisions as a joint Franco-British offensive on the Somme.",
+    "status": "web-checked",
+    "sources": [
+      "wp-chantilly"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-chantilly-32",
+    "node": "stavka_1915_06_chantilly",
+    "kind": "position",
+    "claim": "Alekseyev's position is characterized as: the Germans should be made to choose among several fronts, and Russia has to be one of them.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of Stavka's adherence to the Chantilly plan, not a quotation."
+  },
+  {
+    "id": "stavka-chantilly-33",
+    "node": "stavka_1915_06_chantilly",
+    "kind": "position",
+    "claim": "Polivanov's position (on the counterfactual) is characterized as: an army that has lost its guns cannot promise an attack by a date.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position drawn from his documented work on the munitions position; not a quotation."
+  },
+  {
+    "id": "stavka-naroch-34",
+    "node": "stavka_1916_02_naroch",
+    "kind": "fact",
+    "claim": "The Lake Naroch offensive (18 to 30 March 1916, New Style) was launched at France's request after the German attack on Verdun; Joffre asked Alekseyev directly, and it fitted the December 1915 Chantilly agreement.",
+    "status": "web-checked",
+    "sources": [
+      "wp-naroch"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-naroch-35",
+    "node": "stavka_1916_02_naroch",
+    "kind": "fact",
+    "claim": "Alekseyev held a meeting on 24 February with all three front commanders, who agreed any new attack would come from one or both of the other fronts after Ivanov's January losses; the junction of the Northern and Western Fronts was chosen.",
+    "status": "web-checked",
+    "sources": [
+      "wp-naroch"
+    ],
+    "note": "The source does not say whether 24 February is Old or New Style."
+  },
+  {
+    "id": "stavka-naroch-36",
+    "node": "stavka_1916_02_naroch",
+    "kind": "figure",
+    "claim": "The Northern Front (Kuropatkin) had 266,000 infantry and the Western Front (Evert) 643,000, against 495,000 Germans.",
+    "status": "web-checked",
+    "sources": [
+      "wp-naroch"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-naroch-37",
+    "node": "stavka_1916_02_naroch",
+    "kind": "figure",
+    "claim": "The Russian bombardment was ineffective; the Second Army lost about 15,000 men on the first day; the Russians took the German front line on 21 March (New Style) and gained little more.",
+    "status": "web-checked",
+    "sources": [
+      "wp-naroch"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-naroch-38",
+    "node": "stavka_1916_02_naroch",
+    "kind": "fact",
+    "claim": "Alekseyev ordered an end to the assault on 29 March (New Style) and Evert halted it on 30 March, citing warm weather and heavy rains.",
+    "status": "web-checked",
+    "sources": [
+      "wp-naroch"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-naroch-39",
+    "node": "stavka_1916_02_naroch",
+    "kind": "characterization",
+    "claim": "The operation is described as an utter failure that did not help the French.",
+    "status": "web-checked",
+    "sources": [
+      "wp-naroch"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-naroch-40",
+    "node": "stavka_1916_02_naroch",
+    "kind": "position",
+    "claim": "Alekseyev's position is characterized as: the French asked, and the alliance rests on what each does when the other is in trouble.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented decision to launch the offensive, not a quotation."
+  },
+  {
+    "id": "stavka-naroch-41",
+    "node": "stavka_1916_02_naroch",
+    "kind": "position",
+    "claim": "Brusilov's position (on the counterfactual) is characterized as: an offensive made in a hurry is not a gift to the French and the summer is when it can count.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position, drawn from his planning of the summer offensive; not a quotation."
+  },
+  {
+    "id": "stavka-romfront-42",
+    "node": "stavka_1916_14_romfront",
+    "kind": "fact",
+    "claim": "The Romanian Front was formed on 12 December 1916 (New Style), 29 November Old Style, from the headquarters of the Russian Danube Army and the remnants of the Romanian army; it was nominally under Romanian command, with Sakharov serving under King Ferdinand.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romfront",
+      "wp-danubearmy"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-romfront-43",
+    "node": "stavka_1916_14_romfront",
+    "kind": "fact",
+    "claim": "Bucharest fell to the army of Mackensen in early December 1916 (6 December), and by the end of 1916 only western Moldavia remained under Romanian and Russian control.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The second half is in the Romanian Front article; the date of Bucharest's fall needs a source."
+  },
+  {
+    "id": "stavka-romfront-44",
+    "node": "stavka_1916_14_romfront",
+    "kind": "fact",
+    "claim": "Alekseyev doubted that Romania's entry would help the Entente; under French pressure Stavka sent a corps of two infantry divisions and a cavalry division.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romania1916"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-romfront-45",
+    "node": "stavka_1916_14_romfront",
+    "kind": "figure",
+    "claim": "Thirty-six infantry and eleven cavalry divisions are said to have been moved south in November 1916.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Quoted from Norman Stone, The Eastern Front, as summarised on a web page; read the book."
+  },
+  {
+    "id": "stavka-romfront-46",
+    "node": "stavka_1916_14_romfront",
+    "kind": "fact",
+    "claim": "By the end of 1916 the line had stabilised along the Carpathians, the lower Siret and the Danube.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romfront"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-romfront-47",
+    "node": "stavka_1916_14_romfront",
+    "kind": "position",
+    "claim": "Alekseyev's position is characterized as: Romania should not have been in the war, but the front in Moldavia is Russia's flank and has to be held.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented doubt about Romania's entry and Stavka's decision to take the front, not a quotation."
+  },
+  {
+    "id": "stavka-romfront-48",
+    "node": "stavka_1916_14_romfront",
+    "kind": "position",
+    "claim": "Brusilov's position (on the counterfactual) is characterized as: every division sent south is one not sent against the Austrians in the spring.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position, drawn from his planning of offensives on the South-Western Front; not a quotation."
+  },
+  {
+    "id": "stavka-petrograd-49",
+    "node": "stavka_1917_01_petrograd",
+    "kind": "fact",
+    "claim": "The Petrograd Conference of January and February 1917 was a British, French and Italian mission to Russia; Lord Milner led the British delegation; its aims were to coordinate the coming summer's offensives and to agree the supply of equipment to Russia.",
+    "status": "web-checked",
+    "sources": [
+      "ox-milner",
+      "paleologue-petrograd"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-petrograd-50",
+    "node": "stavka_1917_01_petrograd",
+    "kind": "fact",
+    "claim": "The British mission sailed from Oban on 20 January 1917 (New Style); at Port Romanov thousands of tons of munitions lay on the docks with no apparent attempt to clear them.",
+    "status": "web-checked",
+    "sources": [
+      "ox-milner"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-petrograd-51",
+    "node": "stavka_1917_01_petrograd",
+    "kind": "fact",
+    "claim": "General Gurko told the conference the High Command's strategic intentions for 1917: the great offensives were to be postponed; the delegates were disappointed and the conference's results are described as poor.",
+    "status": "web-checked",
+    "sources": [
+      "paleologue-petrograd",
+      "ox-milner"
+    ],
+    "note": "From the French ambassador's memoir (a chapter summary and diary), not from the minutes."
+  },
+  {
+    "id": "stavka-petrograd-52",
+    "node": "stavka_1917_01_petrograd",
+    "kind": "fact",
+    "claim": "The Emperor abdicated on 2 March 1917 Old Style (15 March), less than six weeks after the mission's arrival.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known; cite a source."
+  },
+  {
+    "id": "stavka-petrograd-53",
+    "node": "stavka_1917_01_petrograd",
+    "kind": "position",
+    "claim": "Alekseyev's position is characterized as: the army will take the field when it has the guns, rifles and railway, not on a date set in Petrograd.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of the High Command's stated intention to postpone, as reported by Gurko; not a quotation."
+  },
+  {
+    "id": "stavka-petrograd-54",
+    "node": "stavka_1917_01_petrograd",
+    "kind": "position",
+    "claim": "Brusilov's position (on the counterfactual) is characterized as: the army can attack on the south-western front and the Allies' wish is a reason to.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position drawn from his advocacy of offensives on his front; not a quotation."
+  },
+  {
+    "id": "stavka-riga-55",
+    "node": "stavka_1917_09_riga",
+    "kind": "fact",
+    "claim": "The German Eighth Army under Hutier attacked at Riga on 1 September 1917 (New Style), 19 August Old Style, after a bombardment organised by Bruchmuller with explosive and gas shells, and crossed the Daugava south of Ikskile; the Germans entered Riga on 3 September.",
+    "status": "web-checked",
+    "sources": [
+      "wp-riga1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-riga-56",
+    "node": "stavka_1917_09_riga",
+    "kind": "fact",
+    "claim": "The Russian Twelfth Army under Parsky was part of Klembovsky's Northern Front; the 43rd Corps under Boldyrev covered the withdrawal.",
+    "status": "web-checked",
+    "sources": [
+      "wp-riga1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-riga-57",
+    "node": "stavka_1917_09_riga",
+    "kind": "fact",
+    "claim": "Kornilov, Klembovsky and Parsky decided to abandon the Daugava bridgehead; Kornilov wanted to hold Riga, but forces were withdrawn from the city anyway; on 2 September (New Style) Parsky ordered the city abandoned.",
+    "status": "web-checked",
+    "sources": [
+      "wp-riga1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-riga-58",
+    "node": "stavka_1917_09_riga",
+    "kind": "figure",
+    "claim": "The Twelfth Army completed its evacuation intact, leaving many guns; the 43rd Corps suffered heavy losses; the Latvian Riflemen lost more than half their troops; Russian casualties were about 25,000, including 9,000 to 15,000 prisoners.",
+    "status": "web-checked",
+    "sources": [
+      "wp-riga1917"
+    ],
+    "note": "The article gives the German strength as about 60,000 and the Russian as about 192,000."
+  },
+  {
+    "id": "stavka-riga-59",
+    "node": "stavka_1917_09_riga",
+    "kind": "characterization",
+    "claim": "Kornilov judged most of the infantry to be in poor condition and prone to flee.",
+    "status": "web-checked",
+    "sources": [
+      "wp-riga1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-riga-60",
+    "node": "stavka_1917_09_riga",
+    "kind": "position",
+    "claim": "Kornilov's position is characterized as: Riga should be held, and if the infantry cannot hold it the army is in worse shape than the government admits.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented wish to hold Riga and his judgment of the infantry; not a quotation."
+  },
+  {
+    "id": "stavka-riga-61",
+    "node": "stavka_1917_09_riga",
+    "kind": "position",
+    "claim": "Klembovsky's position is characterized as: the army can be taken out of Riga or lost in it, and a city is worth less than the army.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of the documented decision to withdraw the Twelfth Army; the sources name Klembovsky only among those who decided."
   }
 ]
