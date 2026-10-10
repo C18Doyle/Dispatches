@@ -5,7 +5,7 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
-## Unreleased (2026-10)
+## 6.1.0 (2026-10-10)
 ### Changed
 - **"Take Control of Battle Planning" is a stamp on the war room page**, next to Historically Accurate Opponent and drawn the same way, ticked by default. Lift it and the battles are not played: a choice that would open the Order of Battle is made like any other decision (no "Leads to battle planning" badge, no planning screen or report, an outcome straight away), and strain bears on it like any contested choice. The setting is kept in the save (an older save without it plans its battles, as before). `tests/battle-toggle.test.mjs`, in `test:fast`, plays the same seeded run both ways, then saves, resumes and checks an older save.
 - **The meter panels open closed on every new game.** Which panel was open used to be stored for good, so one opened once stayed open at the start of every later game. They now stay as you leave them within a game and start closed with the next one.

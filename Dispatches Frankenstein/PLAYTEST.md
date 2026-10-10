@@ -41,6 +41,5 @@ confirm or correct them. The chapters are the 1818 edition's (three volumes); th
 Five or six testers will find the big problems and too few to find the balance ones. Balance is measured by simulation (`scripts/balance_check.ts`), not by playtest.
 
 ## Decisions waiting for the author
-- The itch.io page and `itch.json` target (`REPLACE_ME/frankenstein`), and whether the demo and the full game are separate pages as for 1940 and 1941.
-- The version to release (`package.json` is 1.0.0; the changelog has an "Unreleased" section covering strain, twelve more experiments, three new endings, the Ledger and the quotations).
+- Release 1.1.0 covers strain, twelve more experiments, three new endings, the Ledger, the quotations and the demo (see the changelog). 1.0.0 was the migration baseline and was never published.
 - Whether a reader who knows the book signs off the four "absence" claims before release.
