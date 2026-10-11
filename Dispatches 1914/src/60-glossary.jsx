@@ -54,6 +54,12 @@ export const GLOSSARY = [
   { id: "chemin-des-dames", term: "Chemin des Dames", def: "The ridge north of the Aisne, where the French offensive of April 1917 failed." },
   { id: "doullens", term: "Doullens", def: "The town where, on 26 March 1918, Allied leaders agreed to put Foch in charge of coordinating their armies." },
   { id: "brest-litovsk", term: "Brest-Litovsk", def: "The town where Russia signed a peace with the Central Powers on 3 March 1918." },
+  { id: "straits", term: "Straits", def: "The Dardanelles and the Bosphorus, the narrow waterways that join the Black Sea to the Aegean past Constantinople. Whoever held them controlled Russia's southern trade and its link to its western allies." },
+  { id: "rumi", term: "Rumi", def: "The Ottoman state's official calendar: the Julian calendar, thirteen days behind the Western, with the year counted from 1 March. This game gives Western dates." },
+  { id: "hejaz", term: "Hejaz", def: "The strip of western Arabia along the Red Sea that holds Mecca and Medina. The Hejaz railway ran from Damascus to Medina." },
+  { id: "sinai", term: "Sinai", def: "The desert peninsula between Palestine and Egypt, bounded on the west by the Suez Canal." },
+  { id: "sarikamis", term: "Sarikamis", def: "A town in the mountains of north-eastern Anatolia, near the Russian frontier, where the Ottoman winter offensive of December 1914 ended." },
+  { id: "yildirim", term: "Yildirim", def: "The Ottoman army group formed in 1917 under the German general Falkenhayn. The word is Turkish for lightning." },
   { id: "hundred-days", term: "Hundred Days", def: "The Allied advance from 8 August 1918 to the armistice on 11 November." },
 ];
 
@@ -61,7 +67,7 @@ export const GLOSSARY = [
 export const LEAVES_OUT = [
   "The war here is the war as the commands in this game saw it from headquarters. Most of it is not in view: the colonies and the fighting outside Europe, the war at sea beyond what a headquarters decided about it, the smaller allies and their armies, and the hunger and work of the home fronts.",
   "The people the orders fell on are in the meters and not in the story. Millions of soldiers died, and millions of civilians were driven from their homes, starved, imprisoned or killed. The German army killed thousands of Belgian and French civilians in the invasion of 1914, and in 1915 the Russian army's headquarters ordered the border regions laid waste and their peoples expelled: about half a million Jews and a quarter of a million Germans were deported into the interior.",
-  "Some of the worst events of the war were crimes, not decisions a general could take, and the game does not offer them as choices. One is the killing of Armenians in the Ottoman Empire from 1915, which the International Association of Genocide Scholars affirmed in 1997 was a genocide.",
+  "Some of the worst events of the war were crimes, not decisions a general could take, and the game does not offer them as choices. One is the killing of the Armenians of the Ottoman Empire from 1915, which the International Association of Genocide Scholars affirmed in 1997 was a genocide. The Ottoman command's file tells it plainly, on the night it began, and says that the command bears its share of the responsibility; nothing in the file can alter it.",
 ];
 // Source for the expulsions: Great Retreat (Russian), Wikipedia (wp-greatretreat in claims/sources.json): Yanushkevich, backed by the Grand Duke, ordered the army to devastate the border territories and expel the "enemy" nations; about 500,000 Jews and 250,000 Germans were deported.
 // Source for the last sentence: the IAGS resolution on the Armenian Genocide, passed unanimously at its Montreal conference, 13 June 1997

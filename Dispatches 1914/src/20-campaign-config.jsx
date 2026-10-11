@@ -214,7 +214,7 @@ export const CAMPAIGNS = {
     flagPrefix: "otto_",
     willLabel: "Imperial Control",
     willMeaning: "Authority over provinces and territory.",
-    span: { from: "1914-10-29", to: "1918-10-30" },
+    span: { from: "1914-08-02", to: "1918-11-08" },
     targetNodes: [16, 20],
     targetEndings: [5, 6],
     map: "nearEast",

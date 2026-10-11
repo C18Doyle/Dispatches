@@ -358,5 +358,105 @@
     "title": "Serbian campaign of 1915",
     "kind": "web (tertiary)",
     "url": "https://en.wikipedia.org/wiki/Serbian_campaign_of_1915"
+  },
+  "wp-ottoman-entry": {
+    "title": "Ottoman entry into World War I",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Ottoman_entry_into_World_War_I"
+  },
+  "wp-sarikamish": {
+    "title": "Battle of Sarikamish",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Sarikamish"
+  },
+  "wp-suez1915": {
+    "title": "Raid on the Suez Canal",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Raid_on_the_Suez_Canal"
+  },
+  "wp-gallipoli-otto": {
+    "title": "Gallipoli campaign",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Gallipoli_campaign"
+  },
+  "wp-kut": {
+    "title": "Siege of Kut",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Siege_of_Kut"
+  },
+  "wp-mesopotamia": {
+    "title": "Mesopotamian campaign",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Mesopotamian_campaign"
+  },
+  "wp-erzurum": {
+    "title": "Erzurum Offensive",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Erzurum_Offensive"
+  },
+  "wp-medina": {
+    "title": "Siege of Medina",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Siege_of_Medina"
+  },
+  "wp-yildirim": {
+    "title": "Yildirim Army Group",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Yildirim_Army_Group"
+  },
+  "wp-jerusalem1917": {
+    "title": "Battle of Jerusalem",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Jerusalem"
+  },
+  "wp-sinaipal": {
+    "title": "Sinai and Palestine campaign",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Sinai_and_Palestine_campaign"
+  },
+  "wp-caucasus": {
+    "title": "Caucasus campaign",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Caucasus_campaign"
+  },
+  "wp-armyofislam": {
+    "title": "Army of Islam (Ottoman Empire)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Army_of_Islam_(Ottoman_Empire)"
+  },
+  "wp-megiddo": {
+    "title": "Battle of Megiddo (1918)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Megiddo_(1918)"
+  },
+  "wp-mudros": {
+    "title": "Armistice of Mudros",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Armistice_of_Mudros"
+  },
+  "wp-armeniangenocide": {
+    "title": "Armenian genocide",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Armenian_genocide"
+  },
+  "wp-enver": {
+    "title": "Enver Pasha",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Enver_Pasha"
+  },
+  "wp-djemal": {
+    "title": "Djemal Pasha",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Djemal_Pasha"
+  },
+  "wp-izzet": {
+    "title": "Ahmed Izzet Pasha",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Ahmed_Izzet_Pasha"
+  },
+  "iags-1997": {
+    "title": "IAGS resolution on the Armenian Genocide, 13 June 1997",
+    "kind": "scholarly society (primary)",
+    "url": "https://www.genocidescholars.org/"
   }
 }

@@ -65,6 +65,11 @@ export const ENDING_TIER = {
   aok_end_galiciafirst: 2,
   aok_end_piave: 2,
   aok_end_relieved: 0,
+  otto_end_mudros: 2,
+  otto_end_straits: 0,
+  otto_end_core: 2,
+  otto_end_stand: 1,
+  otto_end_overextended: 0,
 };
 
 /** Rank titles by the score they start at. The easy mode cannot rise past EASY_RANK_CAP (an index into RANKS). */

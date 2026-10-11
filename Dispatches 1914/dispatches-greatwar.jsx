@@ -56,9 +56,12 @@ export const CALENDARS = {
   },
   rumi: {
     id: "rumi",
-    label: "Rumi",
-    note: "RESEARCH GATE — confirm Ottoman general staff document dating before use.",
-    researchGate: true,
+    label: "Rumi, shown in Western dates",
+    note:
+      "The Ottoman state's official calendar: the Julian calendar, thirteen days behind the " +
+      "Western, with the year counted from 1 March until it was realigned on 1 March 1917. " +
+      "Dates in this file are Western, and the Rumi date is given once, at the first mention. " +
+      "What the General Staff dated its own documents in has not been confirmed.",
   },
 };
 
@@ -288,7 +291,7 @@ export const CAMPAIGNS = {
     flagPrefix: "otto_",
     willLabel: "Imperial Control",
     willMeaning: "Authority over provinces and territory.",
-    span: { from: "1914-10-29", to: "1918-10-30" },
+    span: { from: "1914-08-02", to: "1918-11-08" },
     targetNodes: [16, 20],
     targetEndings: [5, 6],
     map: "nearEast",
@@ -9160,6 +9163,1043 @@ CAMPAIGNS.aok.nodes = {
 };
 
 // =============================================================================
+// OTTOMAN GENERAL STAFF — HISTORICAL SPINE
+// =============================================================================
+//
+// The campaign's identity (spec §2.6): an empire fighting in more places than it can supply, with
+// German officers and matériel in place of a German command. The structural question is the periphery
+// against the core. Each commitment beyond what the railways and the stores can carry is tagged for
+// hard mode (overextend).
+//
+// RESEARCH GATES. The Rumi calendar: the Rumi was the Julian calendar with the year counted from
+// 1 March (and numbered from the Hijra, Gregorian year less 584 from March to December), thirteen
+// days behind the Western calendar until it was realigned with it on 1 March 1917. This file gives
+// Western dates throughout and the Rumi date once, at the first mention (otto_1914_02_blacksea). It
+// has NOT been confirmed what the General Staff itself dated its documents in, so the file says only
+// that the state used the calendar. The sourcing: claims/otto.json, built from the sources in
+// claims/sources.json; most positions are `drafted` and are for the fact-check.
+//
+// SPEC §9. The Armenian genocide is narrated as settled fact in the node for 24 April 1915 and again
+// in the closing epilogue. It is never a choice, a flag or a meter effect; no order in the file can
+// prevent it; and the command the player holds bears responsibility for it. See the PR that added
+// this file for the handling, which is for the author's review.
+// =============================================================================
+
+CAMPAIGNS.otto.startNode = "otto_1914_01_straits";
+
+CAMPAIGNS.otto.commanders = [
+  { id: "enver", name: "Enver Pasha", title: "Minister of War and Deputy Commander-in-Chief",
+    from: "1914-08-02", to: "1918-10-13" },
+  { id: "izzet", name: "Ahmed Izzet Pasha", title: "Grand Vizier and Minister of War",
+    from: "1918-10-14", to: "1918-11-08" },
+];
+
+CAMPAIGNS.otto.advisors = [
+  { id: "enver", name: "Enver", from: "1914-08-02", to: "1918-10-13",
+    dossier: { role: "Minister of War from January 1914; Deputy Commander-in-Chief",
+      bio: "The architect of the German alliance and of the empire's entry into the war. Ordered the raid on the Russian Black Sea ports, planned and took command of the winter offensive at Sarikamis, and later sent the Army of Islam into the Caucasus. After Sarikamis he blamed the Armenians for the defeat.",
+      fate: "Dismissed as Minister of War in October 1918. Left Constantinople on 1 or 2 November aboard a German submarine. Killed in Central Asia on 4 August 1922." } },
+  { id: "liman", name: "Liman von Sanders", from: "1914-08-02", to: "1918-10-30",
+    dossier: { role: "German general at the head of the military mission; commander of the Fifth Army at Gallipoli; commander of the Yildirim Army Group from February 1918",
+      bio: "Held the Fifth Army's reserve inland at Gallipoli, ready to be moved to wherever the Allies landed. In September 1918 he refused the Eighth Army leave to withdraw before the attack in Palestine. His headquarters at Nazareth was overrun on 20 September and he escaped.",
+      fate: "Handed the army group to Mustafa Kemal at the end of October 1918." } },
+  { id: "djemal", name: "Djemal", from: "1914-08-02", to: "1918-10-14",
+    dossier: { role: "Minister of the Navy; commander of the Fourth Army in Syria",
+      bio: "Held military and civil power in Syria from 1915 and led the first attack on the Suez Canal. Later he favoured reinforcing Sinai and Palestine over the plan to retake Baghdad.",
+      fate: "Left office when the Talat cabinet resigned in October 1918 and fled the country. Assassinated in Tbilisi on 21 July 1922." } },
+  { id: "kemal", name: "Mustafa Kemal", from: "1915-02-01", to: "1918-11-07",
+    dossier: { role: "Division commander at Gallipoli; commander of the Seventh Army in Palestine in 1918",
+      bio: "Commanded the 19th Division at Gallipoli and believed the defenders were spread too thin. At the end of the war he commanded the Seventh Army in Palestine and withdrew it from Nablus in September 1918.",
+      fate: "Commanded the Yildirim Army Group from the end of October 1918 until it was dissolved. Became the first President of the Turkish Republic in 1923 and died in 1938." } },
+  { id: "falkenhayn", name: "Falkenhayn", from: "1917-05-07", to: "1918-02-24",
+    dossier: { role: "German general; commander of the Yildirim Army Group, 1917-1918",
+      bio: "The former German Chief of the General Staff. Came to Constantinople in May 1917 to organise an army group for the recapture of Baghdad, warned that the Sinai front had to be secured first, and in September 1917 redirected the group to Palestine.",
+      fate: "Replaced by Liman von Sanders in February 1918. Died in 1922." } },
+  { id: "kress", name: "Kress von Kressenstein", from: "1914-11-18", to: "1917-12-31",
+    dossier: { role: "Bavarian colonel; chief of staff of the VIII Corps and the Fourth Army; commander of the Eighth Army in 1917",
+      bio: "Arrived in Palestine on 18 November 1914 and planned the crossing of Sinai. Called the attack on the Suez Canal a forcible reconnaissance. Commanded the Eighth Army in the retreat from Gaza.",
+      fate: "Relieved by Djevad Pasha at the end of November 1917." } },
+  { id: "fakhri", name: "Fakhri Pasha", from: "1916-06-01", to: "1919-01-10",
+    dossier: { role: "Commander of the Ottoman garrison at Medina",
+      bio: "Held Medina against the Arab revolt and the raids on the Hejaz railway for more than two years. Refused to surrender the city after the armistice of Mudros.",
+      fate: "Arrested on 10 January 1919, 72 days after the armistice, after the British had bribed some of his soldiers. The garrison, about 8,000 men, was taken to Egypt." } },
+  { id: "izzet", name: "Ahmed Izzet Pasha", from: "1918-10-14", to: "1918-11-08",
+    dossier: { role: "Grand Vizier and Minister of War, 14 October to 8 November 1918",
+      bio: "A soldier who had been Minister of War in 1913 and had commanded the armies in the Caucasus. Formed the government that signed the armistice of Mudros, and kept the ministry of war for himself.",
+      fate: "Dismissed on 8 November 1918 after a term of 25 days. Died in Constantinople in 1937." } },
+];
+
+CAMPAIGNS.otto.bulletinVoice = {
+  source: "Communique of the Ottoman Headquarters, as printed in the Constantinople press",
+  register: "Terse and confident; reverses become 'withdrawals to prepared positions', and the German ally is named as a comrade-in-arms",
+  defined: true,
+};
+
+CAMPAIGNS.otto.hardMode.forcedEndingId = "otto_end_overextended";
+CAMPAIGNS.otto.hardMode.erosionMax = 4;
+CAMPAIGNS.otto.researchGate = { open: false, note: "Sourcing checked node by node against English-language sources (claims/otto.json). The Rumi dating of the General Staff itself is the part left open: see the note in CALENDARS.rumi." };
+CAMPAIGNS.otto.blockingIssue = { resolved: true, ref: "DISPATCHES_1918_DESIGN_SPEC.md §9 (resolved: narrated as settled fact in otto_1915_02_gallipoli and the epilogues; never a choice, flag or meter effect)" };
+
+CAMPAIGNS.otto.nodes = {
+
+  // ---------------------------------------------------------------- 1914-08
+  otto_1914_01_straits: {
+    year: 1914, date: "1914-08-10", city: "Constantinople",
+    title: "Two Ships at the Dardanelles",
+    advisors: ["enver", "djemal"],
+    situation:
+      "The empire has a secret alliance with Germany, signed on 1 August, and a declaration " +
+      "of neutrality made on the 3rd. It ordered a general mobilisation on the 2nd, which " +
+      "will take about four weeks. The German battle cruiser Goeben and the light cruiser " +
+      "Breslau are off the Dardanelles and have asked to be let in.\n\n" +
+      "The cabinet voted unanimously on 6 August to open the Straits to them. On the 9th the " +
+      "Grand Vizier asked Berlin to pretend that the Goeben had been sold to the Ottoman " +
+      "navy, so that her entry would look like a purchase; Berlin refused. The ships are " +
+      "waiting for an answer.",
+    context:
+      "A neutral state that lets a belligerent's warships pass its Straits has stopped being " +
+      "neutral, and the Entente will say so. The empire's debt of about 716 million dollars " +
+      "is held mostly in France, and its navy cannot match the Greek one. Two modern ships " +
+      "with trained crews are worth a great deal to an empire that has neither.",
+    choices: [
+      {
+        id: "admit",
+        label: "Open the Straits to the Goeben and the Breslau and take them into the navy",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "The alliance has to be given something to show for itself, and two ships that the navy cannot buy are the most that Berlin can send quickly." },
+        impact: { manpower: 0, munitions: 1, will: -1 },
+        setFlags: { otto_straits: "admitted" },
+        next: "otto_1914_02_blacksea",
+        outcome:
+          "Enver authorises the entry on 10 August and the ships reach Constantinople on " +
+          "the 11th. On the 16th they are commissioned in the Ottoman navy as the Yavuz Sultan " +
+          "Selim and the Midilli, with their German crews now in Ottoman uniform. The Entente " +
+          "asks how a neutral state has bought two warships in a week. The empire has a fleet " +
+          "and a German admiral, and the neutrality it declared a week ago no longer means " +
+          "very much to anyone.",
+      },
+      {
+        id: "refuse",
+        label: "Refuse the ships entry to the Straits and keep the neutrality",
+        advisor: { name: "Djemal", position:
+          "The army is not mobilised and the Entente can reach Constantinople by sea. An empire that has not yet chosen should not take the ships of the side it has not yet joined." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The cabinet has voted to open the Straits, and Berlin has been told so",
+        impact: { manpower: 1, munitions: -1, will: 0 },
+        setFlags: { otto_straits: "closed" },
+        next: "otto_1914_02_blacksea",
+        outcome:
+          "Speculative. The Straits stay shut to the German ships, which turn away into the " +
+          "Aegean or are held in the Dardanelles under guard. Berlin, which signed an alliance " +
+          "with the empire a week ago, is told that it will be neutral until it has been paid " +
+          "for. The Entente's ambassadors are polite. Neither side has been given a reason to " +
+          "trust the neutrality. It has bought a few weeks, and nothing that would make them safe.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-10
+  otto_1914_02_blacksea: {
+    year: 1914, date: "1914-10-25", city: "Constantinople",
+    title: "An Order Given in Secret",
+    advisors: ["enver", "liman"],
+    bulletin: {
+      voice: "otto", date: "1914-10-24", source: "Communique of the Ottoman Headquarters",
+      text:
+        "The fleet continues its exercises in the Black Sea. The troops have completed " +
+        "their concentration in the provinces. All is quiet on the frontiers.",
+    },
+    situation:
+      "On 25 October, which the Rumi calendar of the state's papers dates as 12 Tesrinievvel " +
+      "1330, it is twelve weeks since the empire mobilised and declared its neutrality. The " +
+      "Ottoman official calendar is the Julian one, thirteen days behind the Western, with " +
+      "the year counted from 1 March. This file gives Western dates.\n\n" +
+      "Three days ago Enver issued a secret order to attack the Russian navy without a " +
+      "declaration of war, and today he has told Admiral Souchon, who commands the fleet, to " +
+      "attack if a suitable opportunity arises. The cabinet, the Grand Vizier among them, has " +
+      "not been told. The Germans want the war opened now, while the Russian fleet in the " +
+      "Black Sea is unready.",
+    context:
+      "A declaration of war would need the cabinet. An attack by a squadron at sea needs " +
+      "only an admiral. Once the first shell is fired at a Russian port the cabinet's views " +
+      "will no longer matter, and Enver knows it.",
+    choices: [
+      {
+        id: "raid",
+        label: "Let the fleet go into the Black Sea and attack the Russian navy and its ports",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "Russia will come in with the Entente whatever the cabinet decides. The fleet should strike while it can, with German officers and German ships, and before the Russians are ready." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { otto_blacksea: "raid" },
+        next: "otto_1914_03_sarikamis",
+        outcome:
+          "On the morning of 29 October the squadron shells Sevastopol, Theodosia and Odessa, " +
+          "and mines are laid off Novorossiysk. Russia declares war on 1 November, and " +
+          "Britain and France on the 5th. The Grand Vizier and the finance minister, Cavit, " +
+          "protest to Enver that it was a provocation, and several ministers offer to " +
+          "resign. The empire has gone to war by the act of one minister and one German admiral, " +
+          "and the rest of the government is left to catch up.",
+      },
+      {
+        id: "hold",
+        label: "Keep the fleet in the Bosphorus and put the Entente's offers to the cabinet",
+        advisor: { name: "Liman von Sanders", position:
+          "The army is not ready and the winter is coming. A war begun by an admiral's raid is a war begun at the Germans' hour, and not at the empire's." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "Berlin has been promised action, and the minister of war has given his order",
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { otto_blacksea: "held" },
+        next: "otto_1914_03_sarikamis",
+        outcome:
+          "Speculative. The fleet stays at its moorings and Enver's order is not carried out. " +
+          "The Germans, who have lent the officers and the guns, are told to wait. The Entente " +
+          "offers what it can, and a promise to respect the empire's territory is among it. " +
+          "At the end of October the empire is still neutral, in a Europe where neutrality " +
+          "has no friends. The war reaches it all the same, a little later and on a day " +
+          "that is not chosen in Berlin.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-12
+  otto_1914_03_sarikamis: {
+    year: 1914, date: "1914-12-18", city: "Constantinople",
+    title: "The Envelopment in the Snow",
+    advisors: ["enver", "liman"],
+    situation:
+      "The Third Army holds the frontier with Russia in the high country round Erzurum, " +
+      "and the Russians have a railway to within about 24 kilometres of the border at " +
+      "Sarikamis. Enver has a plan to destroy the Russian Caucasus Army in one stroke: the " +
+      "XI Corps is to hold the Russians in place, and the X and IX Corps, some 68,000 men " +
+      "between them, are to cross the mountains by night and fall on their flank and rear.\n\n" +
+      "The mountains are 1,500 to 2,000 metres high and it is the middle of December. The " +
+      "men have no winter clothing and are to carry dry bread and olives. The Third Army's " +
+      "commander, Hasan Izzet, has told Enver he doubts the plan and asked on the 18th to " +
+      "be relieved. Enver has said that he will command it himself.",
+    context:
+      "The plan is a good one on a map and was drawn up from German principles. Everything " +
+      "that can go wrong with it is a matter of weather and supply, and the weather " +
+      "will not be consulted. The alternative is to wait for the Russians in the fortress " +
+      "line at Erzurum, which means leaving the winter to them.",
+    choices: [
+      {
+        id: "launch",
+        label: "Take command and send the X and IX Corps over the mountains",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "The Russians do not expect an attack in the snow, and an army that has not yet fought needs a victory. It is the only way to destroy their army, not just to hold it off." },
+        impact: { manpower: -3, munitions: 0, will: -1 },
+        erodes: "overextend",
+        setFlags: { otto_sarikamis: "launched" },
+        next: "otto_1915_01_suez",
+        outcome:
+          "The offensive begins on 22 December. A snowstorm on the 25th and 26th catches the " +
+          "columns on the heights and the Russians hold Sarikamis. On 4 January the IX Corps " +
+          "surrenders, and the X Corps withdraws that night. Enver leaves the army in the " +
+          "second week of January. Estimates of the army's losses run from 30,000 to 80,000, " +
+          "most of them from cold and disease and many from typhus in the hospitals. " +
+          "The Third Army has ceased to be able to attack anywhere.",
+      },
+      {
+        id: "wait",
+        label: "Hold the Erzurum line through the winter and let the Russians come to it",
+        advisor: { name: "Liman von Sanders", position:
+          "An army that goes into the mountains in December without winter clothing will lose its men to the weather before it meets an enemy. The fortress line costs nothing to hold." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "Enver has staked his name on the plan and has taken the command",
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { otto_sarikamis: "held" },
+        next: "otto_1915_01_suez",
+        outcome:
+          "Speculative. The Third Army stays in the fortress line and no one marches. The " +
+          "Russians, who have a railway and winter clothing, do not attack in the snow either. " +
+          "The empire's army is smaller than it ought to be in January 1915 and not nearly as " +
+          "small as it would have been after the mountains. Enver, who wanted a victory, " +
+          "has none to show for the winter, and the Germans have to be told why.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-01
+  otto_1915_01_suez: {
+    year: 1915, date: "1915-01-20", city: "Damascus",
+    title: "A Reconnaissance in Force",
+    advisors: ["djemal", "kress"],
+    situation:
+      "The Fourth Army has gathered about 20,000 men in southern Palestine for an attack on " +
+      "the Suez Canal. The plan was drawn up by the army commander, Zeki Pasha, and is " +
+      "backed by Djemal, who commands in Syria. The Bavarian colonel Kress von Kressenstein, " +
+      "who has been chief of staff of the VIII Corps since November, has laid out the route: " +
+      "three columns across Sinai, the main body by the middle road from Beersheba toward " +
+      "Ismailia. It will take ten days, with water at the wells and nothing else on the way.\n\n" +
+      "The British have 30,000 men on the canal and a number of aeroplanes. The hope behind " +
+      "the plan is that a blow at the canal will bring Egypt out against the British.",
+    context:
+      "The canal is the road to India and the object of the whole attack. An army that " +
+      "reaches it at the end of a supply line of that length can do very little once there. " +
+      "Kress himself thinks of it as a forcible reconnaissance, and not an invasion.",
+    choices: [
+      {
+        id: "attack",
+        label: "Send the force across Sinai and attempt to cross the canal",
+        historical: true,
+        advisor: { name: "Djemal", position:
+          "Egypt is where the British are weakest and where a blow draws their troops from Europe. An attack on the canal is the only thing the empire can do for the alliance in the south." },
+        impact: { manpower: -1, munitions: -1, will: -1 },
+        setFlags: { otto_suez: "attacked" },
+        next: "otto_1915_02_gallipoli",
+        outcome:
+          "The columns reach the canal on 2 February, after being followed by aeroplanes " +
+          "for much of the march. On the morning of the 3rd the pontoons are fired on and " +
+          "destroyed, and only two companies cross. The force withdraws that evening. Its " +
+          "losses are about 1,500, including 716 prisoners, against about 150 for the " +
+          "British. The uprising in Egypt, which the plan counted on, does not come. " +
+          "The empire has shown the British where it can be threatened.",
+      },
+      {
+        id: "keep",
+        label: "Keep the Fourth Army in Palestine and Syria and send a division to the Caucasus",
+        advisor: { name: "Kress von Kressenstein", position:
+          "A force that arrives at the canal at the end of ten days with no water and no reserve is a force that has been used up in coming. The Fourth Army is worth more as a threat than as an attack." },
+        gate: (m) => m.munitions >= -3,
+        disabledReason: "Berlin has been told that the canal will be attacked, and the guns are already at Beersheba",
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { otto_suez: "kept" },
+        next: "otto_1915_02_gallipoli",
+        outcome:
+          "Speculative. The Fourth Army stays where it is and the British on the canal are " +
+          "left to wonder what it intends. The 30,000 men and the aeroplanes stay on guard and " +
+          "are not sent anywhere else. The Ottoman force is not diminished by the march, " +
+          "and Djemal, who has been promised an operation, has to explain to Enver " +
+          "and to Berlin why there has not been one.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-04
+  otto_1915_02_gallipoli: {
+    year: 1915, date: "1915-04-24", city: "Constantinople",
+    title: "Where the Landing Comes",
+    advisors: ["liman", "kemal"],
+    bulletin: {
+      voice: "otto", date: "1915-03-19", source: "Communique of the Ottoman Headquarters",
+      text:
+        "Yesterday the enemy fleet attempted to force the Straits and was repulsed by " +
+        "our batteries. Several of his ships were sunk or damaged.",
+    },
+    situation: (flags) =>
+      "On 18 March the Allied fleet attacked the Narrows and lost three battleships, most " +
+      "of them to a field of mines laid ten days earlier by the minelayer Nusret. " +
+      (flags.otto_suez === "attacked"
+        ? "The force that crossed Sinai in January is back in Palestine, smaller than it left. "
+        : "The Fourth Army is still whole in Palestine. ") +
+      "An army is now gathering in Egypt and on Lemnos for a landing.\n\n" +
+      "The Fifth Army, under the German general Liman von Sanders, has five divisions and a " +
+      "sixth on the way, some 60,000 men. About a third of them are on the Asiatic shore, " +
+      "two divisions are at Bulair at the neck of the peninsula, and the rest, with the 19th " +
+      "Division of Mustafa Kemal, are inland as a reserve to be moved to wherever the " +
+      "Allies land. Kemal, and others, think the beaches are too thinly held.\n\n" +
+      "On the night of 23 to 24 April, in Constantinople, the government begins the arrest " +
+      "of hundreds of Armenian political and community leaders, in the capital and across " +
+      "the empire. It is the start of the deportations and the massacres in which about a " +
+      "million Armenians would die: a genocide. The Ministry of the Interior under Talat and the " +
+      "party that rules the empire direct it, and units of the army take part. It is the " +
+      "same government that is deciding how to meet the landings. The command whose file this " +
+      "is bears its share of the responsibility, and nothing in the choices below can touch " +
+      "it, because the office never offered one.",
+    context:
+      "Sanders can keep his reserve far from the beaches, so that it is not destroyed by " +
+      "the fleet's guns and can reach the landing wherever it comes. That depends on " +
+      "moving men and orders quickly over bad roads, and on the commander being where he " +
+      "is needed. The other course is to put the divisions on the heights above every beach.",
+    choices: [
+      {
+        id: "reserve",
+        label: "Keep the reserve inland and move it to the landing when it comes",
+        historical: true,
+        advisor: { name: "Liman von Sanders", position:
+          "No one knows where the landing will come. A mobile reserve can meet it anywhere. Divisions on every beach would be defeated one at a time." },
+        impact: { manpower: -1, munitions: -1, will: 1 },
+        dispute:
+          "Whether a different placement would have beaten the landings is argued. Liman von " +
+          "Sanders kept most of the Fifth Army inland and was himself at Bulair on the first " +
+          "day, which disrupted the chain of command. Mustafa Kemal and others thought the " +
+          "army too dispersed. The landings were contained at a heavy cost, and how near they " +
+          "came to breaking the defence is something the accounts do not agree on.",
+        uncertain: [
+          { weight: 88, title: "The landings are contained", historicalBranch: true,
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            setFlags: { otto_gallipoli: "reserve" },
+            next: "otto_1915_03_kut",
+            outcome:
+              "The Allies land at Cape Helles and at Anzac on 25 April. Kemal's 19th Division is " +
+              "thrown against the heights above the beach, and the reserves are brought forward as " +
+              "they arrive. Within days the landings are contained and the campaign settles " +
+              "into trenches that neither side leaves. Each side loses about 250,000 men in " +
+              "all. The Allies leave in December and January, and the last of them go on " +
+              "9 January 1916." },
+          { weight: 12, title: "The landing breaks through to the Narrows",
+            impact: { manpower: -3, munitions: -2, will: -3 },
+            setFlags: { otto_gallipoli: "reserve" },
+            next: "otto_end_straits",
+            outcome:
+              "Speculative. The reserve reaches the heights too late, and the Allies break out " +
+              "from the beach and seize the ground overlooking the forts. Within days their " +
+              "guns can command the Narrows from the land. The fleet's mine-sweepers go to work " +
+              "on the minefield. The Straits, which the empire had counted on holding, " +
+              "are open to the guns of the Allied army within weeks." },
+        ],
+      },
+      {
+        id: "forward",
+        label: "Put the divisions on the heights above every beach",
+        advisor: { name: "Mustafa Kemal", position:
+          "The reserve cannot be moved quickly enough over those roads. The divisions should be where the guns will be, on the high ground above the beaches." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The army does not have the men to hold every beach, and the commander has ordered otherwise",
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        setFlags: { otto_gallipoli: "forward" },
+        next: "otto_1915_03_kut",
+        outcome:
+          "Speculative. The divisions dig in above the beaches, where the fleet's guns " +
+          "can reach them, and the reserve is a good deal smaller than it was. The " +
+          "Allies land where they choose, and meet the defenders on the first day with " +
+          "nothing behind them to be brought forward. What the landings find is a thin " +
+          "front line, and what is behind it is a long way inland.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-12
+  otto_1915_03_kut: {
+    year: 1915, date: "1915-12-12", city: "Constantinople",
+    title: "A British Army Shut Up in a Bend of the Tigris",
+    advisors: ["enver"],
+    situation:
+      "A British Indian division under Townshend has fallen back from Ctesiphon, below " +
+      "Baghdad, to the town of Kut, in a bend of the Tigris. The Ottoman Sixth Army, newly " +
+      "formed in October under the German field marshal Colmar von der Goltz, has followed it. " +
+      "The pursuing force reached Kut on 7 December and has made three attacks on the " +
+      "town, and has not taken it.\n\n" +
+      "The British garrison numbers somewhere between 8,000 and 13,000 men. A relief " +
+      "force is being gathered at Basra. In the west the Allies are leaving Gallipoli, which " +
+      "will free the divisions of the Fifth Army, and the Russians are pressing on " +
+      "the Third Army in the Caucasus.",
+    context:
+      "A town that is stormed can be taken in days and at a cost in lives. A town that is " +
+      "besieged keeps the army tied to it for as long as the garrison can eat. Either way, " +
+      "the divisions that are used at Kut cannot be used in the east, and the east is " +
+      "also asking.",
+    choices: [
+      {
+        id: "siege",
+        label: "Stop the assaults, build siege lines round Kut and meet the relief force on the river",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "A garrison that cannot be taken cheaply can be starved, and a relief force that has to fight up a river is easier to beat than a town. Mesopotamia must not take the divisions Anatolia needs." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        dispute:
+          "Accounts differ on how close the relief came to reaching Kut, and on whether the town " +
+          "could have been taken sooner. The British made five attempts between January and " +
+          "April and took ground at heavy cost; the Ottoman side held each position until " +
+          "the garrison's supplies gave out. How close any of the attempts came is argued.",
+        uncertain: [
+          { weight: 85, title: "The relief fails and Kut surrenders", historicalBranch: true,
+            impact: { manpower: 0, munitions: 0, will: 2 },
+            setFlags: { otto_kut: "siege", otto_kutResult: "surrendered" },
+            next: "otto_1916_01_erzurum",
+            outcome:
+              "The British attempts to relieve Kut fail at Sheikh Sa'ad, at the Wadi, at Hanna and " +
+              "at Dujaila. Goltz dies of disease about a week before the end. A ceasefire on " +
+              "26 April is followed by the surrender on the 29th, after 147 days. About 13,000 " +
+              "men go into captivity, a clear Ottoman victory, won " +
+              "at the price of a winter." },
+          { weight: 15, title: "The relief breaks through",
+            impact: { manpower: -1, munitions: -1, will: -1 },
+            setFlags: { otto_kut: "siege", otto_kutResult: "relieved" },
+            next: "otto_1916_01_erzurum",
+            outcome:
+              "Speculative. The relief force takes the positions on the Tigris one after the " +
+              "other, and reaches the town before the stores are gone. The garrison walks out " +
+              "with its arms, and the Sixth Army falls back toward Baghdad with its losses " +
+              "unrepaired. The siege, which was to be the winter's victory, ends as another " +
+              "retreat on the river, and the empire's army in Mesopotamia is no longer thought " +
+              "able to hold what it has." },
+        ],
+      },
+      {
+        id: "storm",
+        label: "Order a general assault and take Kut before the relief arrives",
+        advisor: { name: "Enver", position:
+          "Every week at Kut is a week in which the British bring more men up the river. The town should be taken while the garrison is weak and the relief is far away." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Sixth Army is too weak to take the town by assault",
+        impact: { manpower: -2, munitions: -2, will: 1 },
+        setFlags: { otto_kut: "storm" },
+        next: "otto_1916_01_erzurum",
+        outcome:
+          "Speculative. The Sixth Army attacks the town again, in strength and without waiting " +
+          "for the siege works. The garrison fights from behind its walls and the attackers " +
+          "pay for every house. When Kut falls it is weeks earlier than the siege would have " +
+          "taken, and the army that took it is smaller by thousands of men. The relief force " +
+          "arrives to find the town in Ottoman hands and has no reason to stay in the bend.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-01
+  otto_1916_01_erzurum: {
+    year: 1916, date: "1916-01-30", city: "Constantinople",
+    title: "A Winter Offensive Nobody Expected",
+    advisors: ["enver"],
+    bulletin: {
+      voice: "otto", date: "1916-01-28", source: "Communique of the Ottoman Headquarters",
+      text:
+        "On the Caucasus front the enemy has attempted reconnaissances in the region of " +
+        "Hasankale. They have been repulsed. Our positions are firm.",
+    },
+    situation:
+      "The Russian army in the Caucasus, under Yudenich, has attacked in the middle of " +
+      "winter. It took the Azapkei positions on 31 December and fought at Hasankale on " +
+      "18 and 19 January. The Ottoman high command had not expected an offensive in the " +
+      "snow. The Third Army, with some 80,000 men in the region, is falling back on the " +
+      "fortress of Erzurum, which has more than 200 guns. Its commander, Mahmut Kamil, " +
+      "returned from Constantinople on the 29th.\n\n" +
+      "The Russians have 130,000 infantry and 35,000 cavalry, and 160,000 more in reserve. " +
+      "They are moving on a wide front, and the nearest reserves are a long way off.",
+    context:
+      "A fortress holds an army in place and protects the road behind it for as long as the " +
+      "army inside is not cut off. Fortresses have a way of becoming the places where " +
+      "armies are lost. Behind Erzurum there is nothing to stop the Russians until the " +
+      "coast and the plains of Anatolia.",
+    choices: [
+      {
+        id: "defend",
+        label: "Hold the fortress of Erzurum and fight the Russians at its forts",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "Erzurum is the key to eastern Anatolia and the fortress has the guns. If it is given up there is nothing between the Russians and the heart of the empire." },
+        impact: { manpower: -1, munitions: -1, will: -1 },
+        setFlags: { otto_erzurum: "defended" },
+        next: "otto_1916_02_medina",
+        outcome:
+          "The Russians attack the outer forts on 11 and 12 February at Deve-boyun, and on the " +
+          "14th Fort Tafet falls. They enter Erzurum on the 16th. About 66,000 Ottoman " +
+          "soldiers are killed, wounded or captured in the campaign, among them nearly 13,000 " +
+          "prisoners in the fortress. The Third Army has ceased to exist as a single force, " +
+          "and the Russians are in Anatolia.",
+      },
+      {
+        id: "withdraw",
+        label: "Pull the Third Army back west of Erzurum and give up the fortress",
+        advisor: { name: "Enver", position:
+          "An army that is shut in a fortress is an army that can be surrounded. It should be kept in being, in the open country behind, and the Russians left to find the fortress empty." },
+        gate: (m) => m.will >= -4,
+        disabledReason: "Giving up Erzurum without a fight would be the end of the Third Army's command",
+        impact: { manpower: 0, munitions: 0, will: -2 },
+        setFlags: { otto_erzurum: "withdrew" },
+        next: "otto_1916_02_medina",
+        outcome:
+          "Speculative. The Third Army marches out of Erzurum in the snow, leaving the fortress " +
+          "and its guns to the Russians, who enter an empty city. The army is smaller than it " +
+          "was, but whole, and it holds a line some distance to the west. The fortress, " +
+          "whose fall would have been the defeat of the winter, is given up as a loss of " +
+          "ground only. Constantinople has to explain to the east why it left the town.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-06
+  otto_1916_02_medina: {
+    year: 1916, date: "1916-06-20", city: "Damascus",
+    title: "The Railway to Medina",
+    advisors: ["djemal", "fakhri"],
+    situation:
+      "On 10 June the Sharif of Mecca, Hussein, has risen against the Ottoman government with " +
+      "the tribes of the Hejaz, and the Arab revolt has begun. The Ottoman garrison " +
+      "at Mecca is besieged. The holy city of Medina is held by a small force under " +
+      "Fakhri Pasha, and the only line of supply to it is the Hejaz railway, a single " +
+      "track of some thirteen hundred kilometres from Damascus.\n\n" +
+      "Fakhri will need more men, and so will the Fourth Army in Syria, where Djemal " +
+      "governs with full powers. The railway can carry only a small part of what both " +
+      "need. The revolt is a rising against the sultan-caliph by the guardian of " +
+      "the holy places, and the empire has declared a holy war.",
+    context:
+      "A city held at the end of a single railway can be cut by a few men with explosives " +
+      "and a few camels. The garrison it takes to hold the line is a force that the rest " +
+      "of the empire does without.",
+    choices: [
+      {
+        id: "hold",
+        label: "Reinforce the Hejaz and hold Medina and the railway",
+        historical: true,
+        advisor: { name: "Fakhri Pasha", position:
+          "Medina is the second holy city of Islam and cannot be given up while the sultan is caliph. The railway can be held if the garrisons are strong enough." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        erodes: "overextend",
+        setFlags: { otto_medina: "held" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "Medina is held. The Arab forces, some 30,000 at first, besiege the city and raid " +
+          "the railway: more than a hundred major attacks in 1917 and many more in 1918. " +
+          "The garrison is supplied with difficulty, and a force of thousands is " +
+          "tied down in the desert for the rest of the war. At the end it is about 8,000 " +
+          "men, still in the city, and still under Fakhri.",
+      },
+      {
+        id: "evacuate",
+        label: "Evacuate the Hejaz and hold the railway only as far as Ma'an",
+        advisor: { name: "Djemal", position:
+          "The holy cities are not worth an army. A short line, held in strength, is worth more than a long one held by garrisons that cannot help each other." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The sultan-caliph cannot be seen to give up the holy city",
+        impact: { manpower: 1, munitions: 1, will: -3 },
+        setFlags: { otto_medina: "evacuated" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "Speculative. The Ottoman garrisons in the Hejaz withdraw up the railway and Medina is " +
+          "left to the Sharif. The army has a shorter line to defend, and the thousands " +
+          "it would have spent in the desert are available in Syria. The empire has given " +
+          "up the guardianship of the holy cities, which was the foundation of the sultan's " +
+          "claim to lead the Muslim world, and the claim does not survive it.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-09
+  otto_1917_01_yildirim: {
+    year: 1917, date: "1917-09-05", city: "Aleppo",
+    title: "Baghdad, or Palestine",
+    advisors: ["falkenhayn", "enver"],
+    situation:
+      "Baghdad fell on 11 March, with some 15,000 Ottoman soldiers taken in the confusion " +
+      "of the retreat. Enver wants it back. In May the German general Falkenhayn arrived in " +
+      "Constantinople to organise an army group for the purpose, the Yildirim, which the " +
+      "Sultan approved in July and which is made up of the Sixth and Seventh Armies and a " +
+      "German corps. It is to go down the Euphrates and take the British in the flank.\n\n" +
+      "Falkenhayn has warned that to advance on Baghdad without first securing the Sinai " +
+      "front would be unwise. Djemal agrees and wants the army group in Palestine. The " +
+      "British are about to attack at Gaza.",
+    context:
+      "The railway to Baghdad is unfinished, and the last of the way is a road across " +
+      "the desert. Supplying an army group that far is a different campaign from " +
+      "fighting one. In Palestine the railways are shorter, and so is the distance " +
+      "from the British.",
+    choices: [
+      {
+        id: "palestine",
+        label: "Send the Yildirim Army Group to Palestine and defend the Gaza line",
+        historical: true,
+        advisor: { name: "Falkenhayn", position:
+          "An army group that goes to Baghdad leaves the road to Jerusalem open. Sinai and Palestine must be secured first, and the Yildirim should go there." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { otto_yildirim: "palestine" },
+        next: "otto_1917_02_jerusalem",
+        outcome:
+          "In September 1917 Falkenhayn redirects the group to Sinai and Palestine. The command " +
+          "is reorganised: Kress von Kressenstein receives the Eighth Army for the Gaza front, Djemal " +
+          "the Fourth, and Falkenhayn himself the Sixth, Seventh and Eighth, with " +
+          "responsibility for Jerusalem. Enver gives up the plan to retake Baghdad. The " +
+          "army group arrives in Palestine in time for the British attack, and not in time " +
+          "to prepare for it.",
+      },
+      {
+        id: "baghdad",
+        label: "Send the Yildirim Army Group down the Euphrates to retake Baghdad",
+        advisor: { name: "Enver", position:
+          "Baghdad is the empire's second city in the east, and the Germans have promised the guns for it. The army group was raised for this and should be used for it." },
+        gate: (m) => m.munitions >= -3,
+        disabledReason: "Falkenhayn has warned that the army group cannot be supplied that far",
+        impact: { manpower: -2, munitions: -2, will: 1 },
+        erodes: "overextend",
+        setFlags: { otto_yildirim: "baghdad" },
+        next: "otto_1917_02_jerusalem",
+        outcome:
+          "Speculative. The army group sets out down the Euphrates, with the German guns and " +
+          "a supply line that will not stretch to the objective. The road is long and there " +
+          "is little water on it. The British in Mesopotamia fall back to meet it, and the " +
+          "British in Palestine, who have been left alone, attack at Gaza in October with " +
+          "the Ottoman line weaker than it was when the army group was ordered east.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-11
+  otto_1917_02_jerusalem: {
+    year: 1917, date: "1917-11-16", city: "Nablus",
+    title: "The Holy City on the Road",
+    advisors: ["falkenhayn", "kress"],
+    bulletin: {
+      voice: "otto", date: "1917-11-14", source: "Communique of the Ottoman Headquarters",
+      text:
+        "On the Palestine front our troops have withdrawn according to plan to positions " +
+        "prepared in advance. The enemy has not been able to cut our lines.",
+    },
+    situation:
+      "The British attacked at Beersheba on 31 October and broke the Gaza line. The " +
+      "Eighth Army, under Kress, has fallen back across the coastal plain and Jaffa is " +
+      "about to fall; the Seventh Army has retreated into the Judean hills. Falkenhayn " +
+      "moved his headquarters from Jerusalem to Nablus on the 14th. Eleven Ottoman " +
+      "infantry divisions have lost some 28,000 men and 100 guns.\n\n" +
+      "The question for the army group is Jerusalem. Defended, it holds the road to Nablus " +
+      "and the holy city; given up, it saves the army from a battle fought for a name.",
+    context:
+      "The city has shrines holy to three faiths, and fighting among them will be held " +
+      "against whoever fights. An army that stays to defend it will be shelled by an " +
+      "enemy who has more guns, and it will not be able to retreat if the hills behind it " +
+      "are cut.",
+    choices: [
+      {
+        id: "withdraw",
+        label: "Withdraw into the hills north of Jerusalem and leave the city undefended",
+        historical: true,
+        advisor: { name: "Falkenhayn", position:
+          "A battle for the city would be fought on the British guns' terms. The Seventh Army should be kept in being on the Nablus road, with the city left open." },
+        impact: { manpower: 0, munitions: -1, will: -2 },
+        setFlags: { otto_jerusalem: "withdrew" },
+        next: "otto_1918_01_caucasus",
+        outcome:
+          "The Seventh Army retreats in the evening of 8 December, in rain. On the 9th the " +
+          "governor surrenders the city, in writing, citing the danger to the holy places from " +
+          "shellfire. Allenby enters Jerusalem on foot by the Jaffa Gate on the 11th. At the " +
+          "end of the month Falkenhayn attacks to recover it, and is repulsed. He is " +
+          "replaced by Liman von Sanders in the winter.",
+      },
+      {
+        id: "hold",
+        label: "Defend Jerusalem and make the British fight for the city",
+        advisor: { name: "Kress von Kressenstein", position:
+          "The city is the empire's, and the army has to be seen to defend it. A line that goes back every week will have nothing left to go back to." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Seventh Army has too few men left to stand in front of the city",
+        impact: { manpower: -2, munitions: -1, will: 1 },
+        erodes: "overextend",
+        setFlags: { otto_jerusalem: "held" },
+        next: "otto_1918_01_caucasus",
+        outcome:
+          "Speculative. The army digs in in front of the city and the British guns open on it. " +
+          "The battle that follows is fought in the streets and among the shrines, and the " +
+          "army that fights it is cut off from the road north when the British turn its " +
+          "flank. The city is lost, with the army that held it, and Falkenhayn has " +
+          "a good deal less to show for the winter.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-07
+  otto_1918_01_caucasus: {
+    year: 1918, date: "1918-07-10", city: "Constantinople",
+    title: "The Road to Baku",
+    advisors: ["enver", "liman"],
+    situation:
+      "Russia made peace at Brest-Litovsk on 3 March, and the empire has taken back the " +
+      "districts of Kars, Ardahan and Batum that it lost forty years ago. On 4 June it " +
+      "signed the treaty of Batum with the new republics of Armenia, Azerbaijan and " +
+      "Georgia. Nuri Pasha reached Ganja on 25 May and has been gathering an army of " +
+      "Muslim volunteers and Ottoman regulars: the Army of Islam, which has about 20,000 " +
+      "men and no German officers in it.\n\n" +
+      "Enver wants Baku, its oil, and the Muslims of the Caspian coast. The Germans want " +
+      "the oil for themselves and have told him to keep out of southern Russia. " +
+      "In Palestine, Liman von Sanders is asking for every division he can get.",
+    context:
+      "Baku is five hundred kilometres from the nearest Ottoman railway, and a long way " +
+      "from any front where the war will be decided. The divisions that are sent to the " +
+      "Caspian are divisions that Palestine does not have, in the summer that the British " +
+      "are expected to attack there.",
+    choices: [
+      {
+        id: "baku",
+        label: "Send the Army of Islam against Baku",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "Russia has gone, and the Muslims of the Caucasus are waiting. The empire will not have this chance again, and the oil of Baku is worth more than another division in Palestine." },
+        impact: { manpower: 0, munitions: -1, will: 2 },
+        erodes: "overextend",
+        setFlags: { otto_caucasus: "baku" },
+        next: "otto_1918_02_megiddo",
+        outcome:
+          "The attacks on the hills north-west of Baku fail on 31 July, 2 August and 5 August. " +
+          "The Germans object, and Seeckt is sent to Batum to talk to Enver, and the " +
+          "commander of the Third Army is removed. The final assault goes in at 1 in the " +
+          "morning of 14 September, and the British leave that day. The Army of Islam enters " +
+          "Baku on the 15th, four days before the British attack in Palestine.",
+      },
+      {
+        id: "hold",
+        label: "Halt at the frontier of Batum and send the Caucasus divisions to Palestine",
+        advisor: { name: "Liman von Sanders", position:
+          "The war will be decided in Syria, not on the Caspian. Every division that can be moved to Palestine should be, before the British attack there." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "Enver has given the order, and the Germans' objections have not shaken him",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { otto_caucasus: "held" },
+        next: "otto_1918_02_megiddo",
+        outcome:
+          "Speculative. The Army of Islam halts at the Batum frontier, and the divisions that " +
+          "have been gathering at Ganja are sent west and south. Enver is told that Baku " +
+          "will have to wait. The oil goes on being the Germans' concern. In Palestine, " +
+          "Liman von Sanders has a few thousand more men than he would have had, and " +
+          "the empire has kept the gains that the treaty of Brest-Litovsk gave it.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-09
+  otto_1918_02_megiddo: {
+    year: 1918, date: "1918-09-17", city: "Nazareth",
+    title: "The Line Before the Blow",
+    advisors: ["liman", "kemal"],
+    bulletin: {
+      voice: "otto", date: "1918-09-15", source: "Communique of the Ottoman Headquarters",
+      text:
+        "On the Palestine front there has been the usual activity of patrols and artillery. " +
+        "The troops are in good spirits and hold their positions with confidence.",
+    },
+    situation:
+      "Liman von Sanders has commanded the army group since the spring. His three armies " +
+      "have 32,000 infantry and 402 guns on a front from the sea to the Jordan: the Eighth " +
+      "under Jevad on the coast, the Seventh under Mustafa Kemal in the hills, and the " +
+      "Fourth under Djemal Mersinli east of the Jordan. Allenby has 57,000 infantry, 12,000 " +
+      "mounted men and 540 guns, and has concentrated nearly five to one on the coast. " +
+      "Liman has two German regiments and two weak cavalry divisions in reserve.\n\n" +
+      "The commander of the XXII Corps on the coast, Refet, thinks an attack is coming " +
+      "and wants to withdraw his corps to a shorter line before it begins. Liman believes " +
+      "the information is a bluff.",
+    context:
+      "A corps that retires without being attacked gives ground it might have held, and a " +
+      "corps that does not retire may be destroyed where it stands. Behind the line there " +
+      "are two roads, a railway, and 150 kilometres to Damascus.",
+    choices: [
+      {
+        id: "hold",
+        label: "Forbid the withdrawal and hold the line as it stands",
+        historical: true,
+        advisor: { name: "Liman von Sanders", position:
+          "There is no sign that the attack is coming where Refet says. A withdrawal on a rumour would give the British the ground without a fight." },
+        impact: { manpower: -2, munitions: -1, will: -2 },
+        setFlags: { otto_megiddo: "held" },
+        next: "otto_1918_03_mudros",
+        outcome:
+          "The attack comes at 4.30 on the morning of 19 September, behind 385 guns. A bomber " +
+          "has cut the telephone exchange at Afula, and the army group is without orders for " +
+          "two days. Liman's headquarters at Nazareth is overrun on the 20th. The Seventh Army " +
+          "is destroyed in the Wadi Fara by aeroplanes on the 21st. Damascus falls on 1 October " +
+          "and Aleppo on 26 October. About 75,000 Ottoman soldiers are taken before Damascus.",
+      },
+      {
+        id: "withdraw",
+        label: "Allow Refet to withdraw the XXII Corps to a shorter line before the attack",
+        advisor: { name: "Mustafa Kemal", position:
+          "The army has too few men to hold a line this long against a blow at one point. It should be shortened while there is time, and kept in being." },
+        gate: (m) => m.manpower >= -4,
+        disabledReason: "The commander of the army group has forbidden the withdrawal",
+        impact: { manpower: 0, munitions: 0, will: -2 },
+        setFlags: { otto_megiddo: "withdrew" },
+        next: "otto_1918_03_mudros",
+        outcome:
+          "Speculative. The XXII Corps falls back in good order the night before the attack, and " +
+          "the British find the coast line empty. The blow falls on ground that has been " +
+          "given up, and the pursuit has to be made on the roads and the railway. The army " +
+          "group is pushed back, and it is not destroyed. The line in front of Damascus, " +
+          "which is held for a few weeks longer, is held by an army that still has its guns.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1918-10
+  otto_1918_03_mudros: {
+    year: 1918, date: "1918-10-27", city: "Constantinople",
+    title: "Terms at Lemnos",
+    advisors: ["izzet", "fakhri"],
+    situation: (flags) =>
+      "Talat's government resigned on the 13th, and Ahmed Izzet Pasha has formed another, " +
+      "taking the ministry of war himself. Bulgaria has made peace, Germany is asking for " +
+      "an armistice, and the army has been beaten in Palestine and Mesopotamia. " +
+      (flags.otto_caucasus === "baku"
+        ? "The Army of Islam, which took Baku in September, is far to the east and cut off from the rest."
+        : "The divisions that were kept from the Caucasus are in Syria, and have been beaten there.") +
+      "\n\nThe Minister of Marine, Rauf, has been sent to Lemnos to talk to the British " +
+      "admiral, Calthorpe, aboard the Agamemnon. The French have been kept out of the room. " +
+      "The British terms demand that the garrisons outside Anatolia surrender, that the " +
+      "Straits forts be occupied, that the army be demobilised, and that the Allies " +
+      "may occupy any territory in the event of disorder. The delegation has asked for " +
+      "instructions.",
+    context:
+      "The terms are hard and loosely drawn. The government is told it can refuse them and " +
+      "fall back on Anatolia, which it has no army to defend, or sign them and trust what " +
+      "the British say about the intentions behind them.",
+    choices: [
+      {
+        id: "sign",
+        label: "Authorise the delegation to sign the armistice on the British terms",
+        historical: true,
+        advisor: { name: "Ahmed Izzet Pasha", position:
+          "The army is beaten and the empire cannot fight on. The terms are hard, but they are the best that will be offered, and they end the war." },
+        impact: { manpower: 0, munitions: 0, will: -2 },
+        nextIf: (m, flags) =>
+          [flags.otto_sarikamis === "held", flags.otto_suez === "kept", flags.otto_medina === "evacuated", flags.otto_caucasus === "held", flags.otto_erzurum === "withdrew"].filter(Boolean).length >= 3 ? "otto_end_core"
+          : null,
+        next: "otto_end_mudros",
+        outcome:
+          "The armistice is signed on board the Agamemnon on 30 October and takes effect at noon " +
+          "on the 31st. The garrisons outside Anatolia are to surrender, the forts on the " +
+          "Straits are to be occupied, the army is to be demobilised, and the Allies may occupy " +
+          "any territory in a case of disorder. Few in Constantinople yet understand how " +
+          "much of that last clause the Allies mean to use. On 2 November Enver and the leaders " +
+          "of the party leave by German submarine.",
+      },
+      {
+        id: "refuse",
+        label: "Refuse the terms and fall back on Anatolia to fight on",
+        advisor: { name: "Fakhri Pasha", position:
+          "A garrison that has held a city for two years does not give it up because a ministry in Constantinople has asked for terms. The empire can still fight, in the country it knows." },
+        gate: (m) => m.manpower >= -5,
+        disabledReason: "There is no army left to fight on, and the Allies are already at the frontier of Anatolia",
+        impact: { manpower: -2, munitions: -2, will: -1 },
+        next: "otto_end_stand",
+        outcome:
+          "Speculative. The delegation is told to break off, and the government falls back on " +
+          "the interior. The army that is left, perhaps a few divisions in good order, is " +
+          "ordered to hold the passes into Anatolia. The Allies have the Straits, the " +
+          "ports and the railways of Syria, and the war in the east goes on for the " +
+          "winter, in a country that has no armies and nothing to feed them.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- endings
+  otto_end_mudros: {
+    year: 1918, date: "1918-10-30", city: "Mudros",
+    title: "The Armistice on Lemnos",
+    advisors: ["izzet"],
+    situation:
+      "The armistice is signed in the harbour of Mudros on 30 October, aboard a British " +
+      "battleship, by the delegation of an empire whose armies have been beaten on every " +
+      "front it has fought on. The Straits are open to the Allies, the army is to go home " +
+      "and the garrisons in Arabia, Syria and Mesopotamia are to surrender.\n\n" +
+      "The war that the empire entered at the order of one minister and one German admiral ends " +
+      "with the empire's capital under Allied guns, and with a population that was told, for " +
+      "four years, that it was winning.",
+    ending: { family: "armistice", badge: BADGES.SETTLED },
+    epilogue: (flags) =>
+      "The German ships, August 1914: " + (flags.otto_straits === "closed" ? "kept out of the Straits." : "admitted to the Straits and taken into the navy.") + "\n" +
+      "Entering the war, 1914: " + (flags.otto_blacksea === "held" ? "the fleet kept in the Bosphorus." : "the Black Sea raid, and war with Russia.") + "\n" +
+      "Sarikamis, December 1914: " + (flags.otto_sarikamis === "held" ? "the Erzurum line held through the winter." : "the offensive in the snow.") + "\n" +
+      "The Suez Canal, February 1915: " + (flags.otto_suez === "kept" ? "the Fourth Army kept in Palestine." : "the attack across Sinai.") + "\n" +
+      "Gallipoli, April 1915: " + (flags.otto_gallipoli === "forward" ? "the divisions placed above the beaches." : "the reserve kept inland, and the landings contained.") + "\n" +
+      "Kut, winter of 1915-16: " + (flags.otto_kut === "storm" ? "the town stormed." : flags.otto_kutResult === "relieved" ? "the siege broken by the relief force." : "the siege kept, and the British surrender.") + "\n" +
+      "Erzurum, 1916: " + (flags.otto_erzurum === "withdrew" ? "the fortress given up and the army saved." : "the fortress held until it fell.") + "\n" +
+      "The Hejaz, 1916: " + (flags.otto_medina === "evacuated" ? "evacuated." : "Medina held to the end of the war.") + "\n" +
+      "The Yildirim, 1917: " + (flags.otto_yildirim === "baghdad" ? "sent against Baghdad." : "sent to Palestine.") + "\n" +
+      "Jerusalem, 1917: " + (flags.otto_jerusalem === "held" ? "the city defended." : "the city left undefended.") + "\n" +
+      "The Caucasus, 1918: " + (flags.otto_caucasus === "held" ? "the army halted at Batum." : "the Army of Islam sent to Baku.") + "\n" +
+      "Palestine, September 1918: " + (flags.otto_megiddo === "withdrew" ? "the corps withdrawn before the attack." : "the line held.") + "\n\n" +
+      "What actually happened: the armistice of Mudros was signed on 30 October 1918 and took " +
+      "effect on 31 October. The Ottoman army and navy were demobilised and the Straits " +
+      "forts occupied. The Ottoman Armenians had been deported and killed from 1915; about a " +
+      "million died, in a genocide carried out by the government and the party that ran " +
+      "the war, and by units of the army. The British entered Mosul on 14 November, after " +
+      "the armistice. The Allies occupied Constantinople on 13 November 1918.",
+  },
+
+  otto_end_straits: {
+    year: 1915, date: "1915-05-02", city: "Constantinople",
+    title: "The Narrows Under Allied Guns",
+    advisors: ["liman"],
+    situation:
+      "The Allies broke out of the beaches and seized the heights above the forts, and from " +
+      "them their guns look down on the Narrows. The minefield cannot be kept while it " +
+      "is being shot at, and the fleet is at the entrance.\n\n" +
+      "The empire's capital is a day's steaming from a fleet that cannot now be stopped, and " +
+      "the Ottoman government has to decide whether to leave it. Whatever it decides, " +
+      "the war in the Straits is lost.",
+    ending: { family: "straits-lost", badge: BADGES.SPECULATIVE },
+    epilogue: () =>
+      "Speculative. The Allied landings of 25 April were contained. What actually happened: " +
+      "the Fifth Army held the beaches and then the heights, and the campaign settled into " +
+      "trenches. Each side lost about 250,000 men. The Allies evacuated in December 1915 " +
+      "and January 1916, the last of them going on 9 January 1916. The Straits were not " +
+      "forced in the war, and the Ottoman victory there made Mustafa Kemal's name. A " +
+      "defeat in April 1915 would have put Constantinople in danger within weeks, " +
+      "isolated the empire from its German ally, and opened a sea route to Russia that " +
+      "was never opened. The deportations of the Armenians had begun on the night of 23 " +
+      "April; the same government carried them out, whichever way the landings went.",
+  },
+
+  otto_end_core: {
+    year: 1918, date: "1918-10-30", city: "Mudros",
+    title: "A Smaller War",
+    advisors: ["izzet"],
+    situation:
+      "The armistice is signed on the same day, and the army that signs it is a different " +
+      "one. It did not march into the mountains in December 1914, it did not cross Sinai, " +
+      "it did not hold the Hejaz and it did not go to the Caspian. It has fewer fronts " +
+      "and more men, and it is still beaten.\n\n" +
+      "The empire that comes out of the war is smaller than the one that went into it, " +
+      "and a good deal less exhausted. It has not been asked to do what it could not do, " +
+      "and it has been asked to do a great deal less of what it could.",
+    ending: { family: "core-defence", badge: BADGES.SPECULATIVE },
+    epilogue: () =>
+      "Speculative. The empire's army fought the war on every front it could reach. What " +
+      "actually happened: the offensive at Sarikamis, the attack on the canal, the garrison " +
+      "of the Hejaz and the Army of Islam were all commitments beyond what the railways and " +
+      "the stores could carry, and each cost men the empire could not replace. Whether " +
+      "a war confined to Anatolia and the Straits would have saved the empire cannot " +
+      "be known; the armistice terms and the occupation that followed would have fallen " +
+      "on any state that signed it. The Armenian genocide of 1915 was carried out by " +
+      "the government that took the empire into the war, and no choice about the " +
+      "campaigns would have altered it.",
+  },
+
+  otto_end_stand: {
+    year: 1918, date: "1918-10-30", city: "Eskisehir",
+    title: "The Last Line in the Interior",
+    advisors: ["fakhri"],
+    situation:
+      "The delegation at Lemnos was told to break off. The government has left Constantinople " +
+      "for the interior, and the army that is left is on the passes of the Taurus and in the " +
+      "country about Eskisehir. The Allies hold the Straits and the ports. They do not yet " +
+      "hold the plateau.\n\n" +
+      "The empire is at war for another winter with a country that cannot feed its " +
+      "armies and an enemy that is not hurrying.",
+    ending: { family: "last-stand", badge: BADGES.SPECULATIVE },
+    epilogue: () =>
+      "Speculative. The government did not refuse the terms. What actually happened: the " +
+      "armistice of Mudros was signed on 30 October and took effect on the 31st; the " +
+      "Ottoman army was demobilised and Fakhri Pasha held Medina for 72 days after it, " +
+      "until he was arrested on 10 January 1919. The Allies occupied Constantinople on " +
+      "13 November. The national movement that began in Anatolia in 1919 was organised " +
+      "by officers, Mustafa Kemal among them, after the army had been demobilised, and " +
+      "not by the ministry that had asked for terms. A government that fell back on " +
+      "the interior in October 1918 would have had no army to do it with.",
+  },
+
+  otto_end_overextended: {
+    year: 1918, date: "1918-10-04", city: "Constantinople",
+    title: "The Minister Is Dismissed",
+    advisors: ["enver"],
+    situation:
+      "There was no single order that did it. There was an offensive in the snow, an attack " +
+      "across a desert, a garrison in the holy cities and an army at the Caspian, each of " +
+      "which could be defended and each of which took something the empire did not have.\n\n" +
+      "The Sultan decides that he needs a minister of war who can say no to Enver, and has " +
+      "none to hand.",
+    ending: { family: "hard-mode-overextended", badge: BADGES.CONTESTED, hardModeOnly: true },
+    epilogue: () =>
+      "What actually happened: the Sultan dismissed Enver as Minister of War on 4 October " +
+      "1918, and the rest of Talat's government resigned on 13 October. Ahmed Izzet " +
+      "Pasha formed another, and kept the ministry of war himself. An empire that had " +
+      "fought on the Caucasus, Sinai, the Hejaz, Mesopotamia, Palestine and the " +
+      "Straits at once was not saved by a change of minister. The armistice of Mudros " +
+      "followed on 30 October. Enver left on a German submarine on 1 or 2 November. " +
+      "The government he served had carried out the Armenian genocide from 1915, " +
+      "and neither the dismissal nor the armistice undid any part of it.",
+  },
+};
+
+// =============================================================================
 // MAPS — spec §13.4
 // =============================================================================
 
@@ -9197,6 +10237,22 @@ export const MAP_VIEW = { width: 600, height: 354, lon: [-9, 46], lat: [42, 62] 
 export const MAP_CITIES = {"Amiens":[123.3,214.3],"Antwerp":[146.2,190.8],"Avesnes":[141.1,210.3],"Bad Homburg":[192.2,208.3],"Baden":[275.2,247.6],"Bar-sur-Aube":[149.6,243.7],"Baranovichi":[382,157],"Belgrade":[321.4,304.1],"Berdichev":[410,214.2],"Berlin":[244.4,167.8],"Bombon":[128.7,236.8],"Brest-Litovsk":[356.5,175.2],"Calais":[118.5,195.6],"Chantilly":[125.1,226.7],"Charleville":[149.7,216.5],"Chatillon-sur-Seine":[148,250.3],"Chemin des Dames":[138.5,222.1],"Compiegne":[129.1,222.7],"Doullens":[123.7,209.6],"Dury":[123.1,215.9],"Gorlice":[329,218.4],"Kiev":[431.1,204.4],"Koblenz":[181,206],"Kreuznach":[184,215.1],"La Malmaison":[137.1,221.8],"London":[96.8,185.7],"Luxembourg":[165.1,219.3],"Lvov":[360.3,215.2],"Mogilev":[429.2,143.4],"Montreuil":[117.4,204.3],"Novocherkassk":[535.6,258.1],"Paris":[123.8,232.6],"Petrograd":[429.2,36.6],"Pless":[304.9,212.9],"Provins":[134.2,237.9],"Przemysl":[346.6,216.3],"Pskov":[407.2,74],"Saint-Omer":[122.8,199.1],"Saint-Quentin":[134.1,215.1],"Senlis":[126.3,226.4],"Soissons":[134.5,223.4],"Spa":[162.1,203.7],"Tarnopol":[377.3,220.4],"Teschen":[301.4,216.8],"Verdun":[156.9,227.3],"Vienna":[276.8,244.1],"Villa Giusti":[227.8,293.6],"Villers-Cotterets":[132,225.7],"Vitry-le-Francois":[148.1,235.1],"Ypres":[129.7,197.4]};
 
 export const MAP_LAND_PATH = "M344.9 59.8L345.7 60.2L346.4 60.1L347.1 59.8L348.7 60.1L352.3 62.2L352.6 62.8L350.5 63.1L350.0 63.8L349.5 64.2L348.9 64.4L347.8 65.3L346.4 66.2L346.1 66.7L343.6 66.6L342.2 67.0L341.1 68.0L340.7 69.9L339.8 71.4L339.0 71.9L338.2 72.0L337.9 71.4L339.8 68.8L340.2 68.1L339.3 67.7L338.6 67.0L336.9 66.2L336.6 65.5L337.4 65.2L337.8 64.6L338.0 64.0L336.7 62.0L337.4 61.7L338.2 61.8L339.1 62.3L340.0 61.7L341.1 61.8L341.8 60.5L343.3 60.1L344.1 59.7L344.9 59.8ZM306.3 73.7L305.4 74.1L304.9 75.4L304.1 75.6L303.4 76.0L303.2 79.9L304.5 81.5L303.8 81.7L303.1 82.1L302.7 82.8L302.2 84.2L300.4 85.0L299.8 85.6L298.8 87.0L298.3 88.9L297.3 89.7L296.1 89.9L296.8 88.3L297.7 87.0L296.8 86.2L296.3 84.7L295.7 83.7L296.2 82.5L295.9 80.6L296.0 78.7L296.8 77.7L297.6 76.9L299.0 75.1L300.4 73.8L302.4 73.2L303.3 73.7L303.7 72.6L304.4 72.3L305.0 72.6L306.3 73.7ZM235.3 110.0L235.3 111.8L234.6 112.6L233.5 113.0L232.6 113.5L231.7 114.4L231.5 115.7L232.1 116.6L233.3 117.1L233.6 118.8L232.6 119.7L230.1 120.6L229.8 122.7L229.9 124.3L229.8 125.5L229.6 127.2L227.6 127.9L226.3 125.4L226.3 124.4L225.8 123.2L225.8 122.2L225.3 120.6L223.4 120.2L222.6 120.1L221.6 120.4L220.0 118.1L220.3 115.7L219.6 114.4L219.5 113.3L219.0 112.8L218.3 112.5L217.9 111.1L218.7 110.8L220.6 111.0L221.7 110.6L223.2 108.3L223.4 107.2L225.0 107.0L225.8 107.8L225.6 109.2L225.7 111.0L226.7 111.5L227.5 110.2L227.8 109.6L228.4 108.0L228.2 107.3L227.6 106.8L229.5 105.3L231.5 104.1L232.6 104.0L233.8 104.3L234.8 104.7L235.4 105.1L235.7 105.6L235.0 106.9L234.8 107.6L235.3 110.0ZM214.3 113.1L214.8 114.0L215.3 116.0L216.2 118.2L215.8 119.1L216.1 120.3L215.8 121.6L214.1 123.0L212.1 123.0L210.1 122.4L207.1 121.0L206.9 120.3L205.7 117.6L205.8 114.8L207.2 114.4L210.4 113.1L211.1 113.3L211.9 114.0L212.8 114.0L214.1 113.0ZM201.6 339.7L201.3 342.3L201.5 343.1L201.9 343.6L202.1 344.2L202.4 351.1L201.3 354.0L192.6 354.0L193.1 353.2L193.1 352.3L192.5 351.9L191.9 351.1L191.6 350.1L192.1 349.4L192.8 349.0L192.3 347.9L191.6 347.7L192.4 346.4L193.2 344.3L194.3 343.2L196.3 342.6L196.9 342.3L197.3 341.5L197.9 341.0L198.5 341.1L199.1 341.4L199.8 341.4L200.0 340.4L199.9 339.6L200.0 337.3L200.3 336.0L201.4 336.6L201.4 337.3L201.6 338.8L201.6 339.7ZM64.3 61.7L64.3 63.1L64.0 64.1L63.1 65.1L61.0 66.6L57.0 69.9L54.6 71.5L54.3 72.3L54.2 73.4L55.6 73.6L56.1 74.0L55.8 74.6L53.7 76.5L53.1 78.3L54.7 78.2L56.0 77.9L58.6 76.8L61.0 76.0L62.2 75.9L64.5 76.6L66.0 76.3L67.0 76.3L73.7 76.4L75.5 76.1L76.8 76.5L77.8 77.7L78.8 79.8L78.2 81.1L77.1 82.3L76.1 83.9L75.9 84.8L75.7 85.8L75.4 86.7L73.5 90.9L71.7 93.3L70.9 94.9L69.9 96.3L68.9 97.1L67.9 97.6L64.9 98.3L64.1 98.7L63.1 99.4L62.1 99.8L63.3 99.7L64.5 99.3L66.7 99.2L69.3 100.6L69.0 101.7L68.0 102.6L65.7 102.8L63.5 104.8L62.5 105.4L61.5 105.7L60.2 105.6L57.9 105.1L56.8 104.5L57.8 105.4L58.8 105.9L64.9 107.0L67.2 105.7L69.8 105.7L74.8 107.9L76.2 109.6L78.2 112.0L79.3 112.9L80.1 113.8L80.6 115.1L81.6 119.3L82.6 123.4L84.1 127.9L84.7 129.1L85.6 130.0L89.9 132.0L90.9 132.7L92.5 134.6L94.2 136.7L95.6 138.2L97.3 139.5L96.5 140.2L95.9 141.2L96.4 142.6L97.0 144.0L98.3 146.2L99.5 148.5L98.6 148.0L98.0 148.0L96.3 147.2L95.2 146.3L93.1 146.6L92.0 146.5L91.0 146.5L92.9 147.0L95.0 147.1L99.6 151.0L101.1 153.4L102.1 156.5L101.4 157.9L100.4 158.8L99.5 159.8L98.7 161.0L101.2 162.7L102.4 162.4L102.9 161.8L103.8 160.4L104.3 159.9L105.9 159.7L107.2 159.8L108.5 160.1L109.7 160.0L112.1 160.6L113.2 161.2L116.3 163.6L116.9 165.0L117.2 166.8L117.2 168.7L116.7 170.5L116.1 172.1L115.8 174.1L115.6 174.9L115.2 175.4L113.6 177.1L112.5 177.8L111.6 177.5L112.1 178.7L112.1 179.7L111.2 180.5L110.2 180.8L108.6 180.4L106.4 181.8L108.0 182.5L108.3 183.3L107.9 184.6L106.9 185.2L105.8 185.4L104.6 185.5L103.7 185.8L102.8 186.4L103.9 186.1L104.7 186.4L105.2 187.5L107.9 188.3L109.2 188.3L111.9 188.0L113.2 188.1L113.6 189.2L113.4 191.5L109.6 193.9L108.8 195.2L108.6 196.0L106.6 195.9L105.7 196.7L104.0 197.3L102.7 197.9L101.5 198.7L100.4 198.9L96.0 198.0L93.3 198.1L89.6 198.9L88.7 198.7L87.3 198.0L85.8 197.4L84.2 197.2L82.7 196.5L83.6 197.9L81.6 199.2L80.7 199.4L79.8 199.4L77.8 199.8L76.0 199.6L76.3 200.5L76.8 201.3L76.0 201.7L72.6 201.1L71.7 201.8L70.4 201.5L69.2 200.6L67.9 199.9L66.5 199.6L65.4 199.7L61.0 201.2L60.1 202.7L59.7 204.8L59.1 206.7L58.0 208.1L56.8 208.4L55.6 207.3L53.4 206.2L52.6 205.5L51.3 206.1L50.4 206.1L49.0 206.4L46.6 207.3L45.6 207.9L43.5 209.6L43.1 210.0L42.4 211.7L41.2 212.0L40.1 210.9L38.9 210.5L37.6 210.9L36.9 211.5L36.5 210.1L37.4 208.9L39.9 208.0L42.1 205.8L43.2 204.4L43.6 203.6L44.1 203.1L44.8 202.9L45.1 202.1L48.2 198.6L48.4 197.9L48.6 196.5L48.8 195.1L51.3 194.2L52.5 191.4L56.3 190.6L58.8 190.7L61.4 191.2L62.7 191.3L64.0 191.1L65.0 190.3L66.7 187.5L67.7 186.3L68.9 185.2L69.9 183.9L71.7 181.6L70.5 182.4L69.1 183.7L68.3 184.4L65.7 185.2L64.6 185.9L62.6 187.6L59.3 187.4L57.1 185.2L55.7 184.2L55.2 184.1L54.6 184.4L53.3 184.7L52.0 184.6L52.6 183.6L53.5 183.0L51.5 182.6L51.0 182.3L50.3 181.6L48.8 181.5L48.0 181.7L46.7 182.6L44.7 183.6L42.3 182.2L41.8 181.6L41.8 180.4L41.5 179.4L40.8 179.1L41.6 177.9L42.7 177.1L44.9 176.2L48.4 174.3L50.4 173.5L52.2 172.1L52.9 171.2L53.5 170.0L54.0 168.6L54.8 167.4L54.0 167.1L53.7 166.2L53.8 165.3L54.1 164.5L53.8 163.5L53.3 162.5L53.3 161.7L53.4 160.8L52.1 160.9L50.6 161.1L49.4 161.7L48.2 162.6L47.1 162.7L47.1 162.1L47.6 161.2L48.8 160.1L50.1 159.1L50.6 158.3L51.0 157.4L51.6 156.7L53.4 155.4L56.6 153.9L58.4 154.0L59.7 153.8L60.8 153.3L61.9 153.1L64.4 154.7L63.6 152.3L64.7 151.8L66.4 153.9L66.9 154.1L68.2 153.8L67.7 153.4L66.4 153.1L65.8 152.4L64.7 150.2L64.8 148.9L65.5 147.6L66.3 146.3L65.6 146.1L65.1 145.6L65.0 144.4L65.2 143.3L66.5 142.3L66.9 140.8L67.1 139.2L66.9 138.5L65.5 138.6L64.9 138.9L64.3 139.4L63.6 139.3L62.0 137.5L61.0 136.2L59.2 133.3L59.0 131.6L60.4 127.9L62.5 125.5L65.1 124.7L60.7 124.5L59.4 124.8L58.3 125.8L57.6 126.1L56.9 126.2L56.3 126.7L55.7 127.4L55.0 127.8L53.7 127.7L53.1 127.8L52.3 126.8L51.2 126.8L50.1 127.7L48.9 128.2L47.5 127.6L45.6 126.6L44.8 127.9L44.6 129.4L43.3 128.1L42.2 126.4L41.8 125.4L41.8 124.2L42.4 123.7L43.0 124.1L44.0 121.2L46.0 117.5L46.7 116.5L47.1 115.0L47.1 114.1L46.6 113.3L44.8 111.5L44.8 110.1L45.0 108.4L45.5 107.4L48.2 107.3L47.2 106.8L45.3 105.3L45.8 103.4L45.2 104.2L44.4 105.7L42.6 106.4L42.4 107.2L41.5 107.4L41.3 108.2L40.9 107.4L40.9 106.2L41.2 105.0L41.7 104.1L43.7 102.1L42.7 102.7L40.5 104.6L39.4 105.9L39.1 106.6L39.6 109.3L39.4 110.3L37.6 117.0L37.2 117.7L36.6 118.1L35.7 118.0L35.2 117.5L35.4 116.1L36.2 112.9L36.5 112.0L37.1 111.1L38.1 109.7L37.4 109.9L36.9 109.5L37.0 105.2L37.6 103.8L37.8 101.8L38.3 100.0L38.9 98.7L39.4 97.1L40.0 96.4L40.2 95.3L41.0 94.1L41.6 92.8L37.5 96.2L36.5 96.8L35.2 96.6L34.2 96.3L33.4 95.5L33.0 94.0L32.1 94.0L31.3 93.7L32.3 92.7L34.1 92.4L35.7 91.1L34.2 90.2L35.6 89.2L37.2 86.7L37.5 84.4L36.7 83.3L36.5 82.6L35.0 81.8L34.7 80.8L35.4 79.7L36.1 79.2L37.3 78.8L36.2 78.4L35.8 77.9L35.5 77.1L36.1 74.7L36.4 73.9L37.0 72.9L39.8 73.0L40.5 72.5L41.9 72.9L39.3 70.0L39.8 68.3L39.8 67.0L40.7 66.3L43.0 66.4L43.3 65.5L42.7 64.7L42.7 64.0L42.8 63.4L42.8 62.1L43.5 60.8L44.5 60.4L45.7 60.7L46.8 61.8L48.7 60.9L49.8 61.7L52.5 60.9L56.1 60.6L58.2 60.1L60.5 59.9L62.6 59.3L64.9 59.6L64.8 60.4L64.3 61.7ZM19.9 122.9L20.7 123.1L21.5 122.5L22.4 120.7L23.0 120.6L23.7 120.7L25.1 120.5L27.5 119.6L28.6 119.6L30.2 120.0L31.3 120.0L32.3 121.3L32.9 123.4L34.1 125.4L35.8 127.1L35.9 128.2L35.3 128.8L34.0 129.5L34.1 130.2L34.9 129.8L35.6 129.7L37.3 129.8L37.9 130.6L38.3 131.8L38.5 132.7L38.3 133.8L37.4 132.5L36.9 132.1L36.3 131.9L36.6 133.1L36.5 134.9L37.6 135.0L37.0 136.8L35.9 137.3L34.6 137.4L34.3 138.1L34.1 138.9L33.4 140.0L32.5 140.7L31.4 140.6L30.3 140.0L30.8 140.7L31.0 141.3L30.2 141.5L29.4 141.4L28.9 142.6L29.2 143.7L29.8 144.4L30.2 146.1L30.6 147.9L31.2 149.1L31.3 150.5L31.2 151.1L31.3 152.4L31.2 154.0L31.9 156.4L32.2 157.7L32.4 160.6L31.9 161.7L31.3 162.7L30.9 163.9L30.6 165.2L30.4 167.4L29.0 169.9L28.4 170.5L27.7 170.9L29.2 172.6L27.9 173.4L26.6 173.7L25.1 173.2L24.2 173.3L23.3 173.9L22.8 174.0L22.2 172.6L21.8 174.1L20.9 174.5L19.5 174.4L17.0 174.8L16.1 175.3L15.7 175.9L15.4 176.7L14.5 177.4L12.7 177.9L11.4 179.4L10.3 180.1L9.3 180.3L8.5 179.6L7.8 178.9L6.5 179.0L7.1 179.7L7.2 180.7L7.1 181.6L6.5 182.1L5.7 182.2L4.5 183.2L2.9 183.4L2.0 184.4L0.0 184.9L0.0 165.8L2.4 165.0L0.8 164.4L0.1 163.6L0.0 156.4L0.8 155.6L0.0 155.3L0.0 136.5L2.8 136.9L4.5 137.5L4.7 136.2L4.1 135.5L4.8 134.5L5.8 133.8L6.4 133.4L7.8 133.0L8.4 132.6L8.8 131.3L9.4 130.2L5.9 130.8L2.6 129.5L3.1 128.7L3.8 128.1L5.0 127.7L5.8 126.9L6.8 125.9L6.4 124.5L6.6 123.5L7.4 122.9L7.6 122.0L7.9 121.3L9.4 121.1L10.9 120.4L13.1 120.4L13.6 120.6L13.5 119.5L14.5 119.4L15.1 120.4L15.6 120.9L15.7 121.7L15.4 122.4L14.9 122.9L15.4 123.5L14.6 124.4L15.5 124.0L16.6 123.1L16.6 122.3L16.4 121.3L16.0 120.5L16.2 119.5L16.8 118.9L18.5 118.6L17.8 117.5L18.4 117.4L19.1 117.7L20.1 118.5L21.1 119.2L22.2 119.7L21.2 120.8L19.9 121.5L19.4 122.3L19.9 122.9ZM600.0 0.0L600.0 354.0L461.1 354.0L462.3 353.7L465.2 354.0L478.4 354.0L480.1 352.9L481.7 353.5L553.6 354.0L552.7 351.4L551.8 347.0L550.8 342.3L550.0 340.9L546.9 339.3L546.1 337.5L543.7 335.2L540.3 334.2L539.6 333.7L536.6 330.8L534.3 328.9L533.2 327.9L529.3 323.4L527.2 320.4L520.5 313.5L519.7 313.0L516.1 312.0L514.7 311.2L511.1 306.2L509.5 306.9L508.1 306.7L507.2 306.3L506.3 305.6L505.7 304.7L504.9 302.6L504.0 301.4L501.2 299.7L498.0 298.7L497.6 297.6L500.4 296.5L501.2 295.8L499.8 294.9L498.8 294.3L499.6 293.7L500.4 293.3L501.6 294.1L503.0 295.5L504.2 296.1L504.7 295.4L508.9 294.2L509.2 293.3L509.2 292.2L508.5 292.1L508.5 290.9L509.1 289.3L511.0 286.7L512.0 283.2L512.9 282.3L513.5 282.9L513.5 283.7L513.6 284.3L514.2 283.1L514.7 281.5L516.1 281.5L517.1 281.8L518.1 281.6L516.2 278.9L513.6 276.2L512.5 276.4L511.8 276.0L510.6 273.8L510.2 271.9L511.3 272.0L512.4 272.3L514.5 271.0L515.2 270.8L516.5 271.2L518.2 271.4L518.1 270.2L517.5 268.8L519.6 267.8L521.4 267.2L525.0 265.1L526.6 264.7L526.8 263.6L526.3 262.0L525.8 260.7L523.9 260.7L522.9 262.4L520.0 263.0L518.7 262.8L519.8 261.7L520.7 261.3L519.0 261.3L518.0 262.4L515.0 263.9L510.8 263.8L507.7 264.2L505.5 267.0L504.2 267.0L502.3 267.7L501.1 268.6L499.6 270.5L498.4 269.7L497.0 269.7L495.6 270.2L494.0 271.5L493.0 271.8L491.2 271.4L489.0 272.1L484.4 276.4L482.8 279.6L482.2 280.2L481.4 281.0L480.6 281.4L482.4 279.1L483.0 278.3L483.2 277.6L483.2 276.6L482.5 275.4L480.7 278.5L479.7 278.9L478.4 279.8L478.3 281.9L478.4 283.4L479.0 285.4L480.3 288.5L482.8 293.0L484.1 294.6L485.0 295.3L486.1 295.4L488.2 294.0L489.1 293.8L491.1 294.3L491.8 293.4L492.8 292.9L494.1 292.8L495.6 293.2L497.2 293.9L496.5 295.5L495.8 296.8L495.6 298.2L495.2 299.7L493.4 300.4L491.5 300.4L489.5 300.8L488.8 300.2L488.3 299.6L487.4 299.1L486.2 298.8L485.2 299.2L483.9 301.3L481.7 302.7L481.0 304.4L478.8 304.0L476.9 304.3L474.2 305.8L472.2 309.1L469.9 311.1L468.1 311.8L466.4 311.5L465.3 310.9L463.1 308.8L463.2 308.0L464.0 306.6L464.9 302.5L464.7 301.2L464.2 299.2L462.5 297.6L461.0 297.9L460.2 297.5L457.3 294.7L455.7 294.5L453.9 295.1L453.3 294.7L452.8 293.7L456.3 290.4L459.7 287.6L461.2 287.4L463.3 286.1L465.4 284.1L465.1 282.6L464.7 281.5L463.6 281.8L462.9 282.2L461.0 281.0L460.4 280.1L457.6 281.0L456.0 280.9L452.5 281.7L450.9 280.9L447.7 278.6L446.5 278.1L445.4 278.2L444.9 277.5L445.6 277.1L446.4 277.0L447.2 276.8L447.4 275.6L445.7 275.0L444.2 274.9L443.2 274.2L442.4 273.4L444.2 273.4L445.9 274.0L448.7 274.2L451.2 274.8L451.9 274.0L453.3 272.7L451.1 273.2L448.7 272.6L447.8 271.8L447.0 270.6L446.7 269.3L446.9 268.1L446.6 265.8L445.8 263.8L445.5 262.7L444.6 261.7L445.5 264.0L445.8 265.4L446.3 266.8L446.2 270.4L445.9 271.7L444.9 272.0L443.5 271.8L442.2 271.4L442.5 269.4L441.8 270.1L440.7 272.1L439.8 272.4L437.9 272.1L434.1 273.4L433.9 274.8L433.3 276.7L432.8 277.8L432.6 278.5L431.0 281.3L427.9 285.5L425.5 286.8L424.4 287.6L423.5 287.9L422.0 287.5L421.4 288.1L421.1 288.8L421.1 290.3L421.9 291.3L422.5 294.8L422.2 296.3L422.0 297.5L421.9 298.2L421.5 301.2L421.1 302.4L420.6 303.7L415.1 305.2L415.4 304.5L415.3 303.2L415.1 302.2L415.6 301.3L414.4 301.0L413.8 301.5L413.4 302.4L413.7 304.3L413.1 305.3L412.9 305.9L412.9 307.3L412.5 307.9L412.4 308.6L413.3 308.4L412.9 309.6L411.2 312.0L410.7 313.4L410.8 318.9L410.1 322.2L410.0 323.2L409.8 327.4L408.7 329.4L407.1 328.7L405.1 329.3L404.0 331.5L403.4 332.2L402.8 333.0L402.5 335.9L402.4 340.7L401.7 341.3L401.0 341.5L398.0 345.7L399.7 346.9L400.4 347.8L401.7 350.3L403.4 353.2L403.6 354.0L307.2 354.0L306.8 352.9L304.3 349.6L301.4 347.3L301.4 346.5L300.6 346.4L298.2 344.7L296.3 342.8L292.6 339.9L290.0 339.2L286.4 336.9L284.1 336.0L285.0 335.8L286.0 335.8L291.5 338.9L290.9 338.1L290.0 337.4L289.5 337.0L287.2 334.3L285.1 332.6L282.6 329.4L279.3 328.1L277.0 326.7L275.7 326.9L274.1 327.3L273.2 327.4L272.6 327.1L272.1 326.2L272.2 325.6L272.1 324.7L270.8 323.3L269.0 321.9L267.3 320.2L263.9 315.6L263.1 314.1L263.8 313.8L264.9 313.5L265.9 313.5L267.0 313.8L266.0 312.8L264.8 311.8L261.6 307.9L260.7 306.1L260.6 304.1L260.8 301.4L260.2 299.5L257.8 296.9L256.9 295.6L255.1 294.9L254.3 294.9L253.8 295.9L253.5 298.1L251.9 300.9L251.4 302.2L250.5 303.8L249.8 303.9L248.1 301.1L246.9 299.0L246.7 298.0L246.6 296.8L245.6 292.4L246.3 291.8L247.0 291.4L247.9 290.5L248.5 289.8L246.9 287.3L246.1 287.3L245.1 288.3L242.3 287.2L241.7 287.7L241.3 288.6L240.3 289.6L239.0 290.1L237.4 291.3L235.8 292.1L234.5 292.7L233.8 292.6L235.0 291.3L232.9 292.2L232.1 293.0L231.8 294.4L231.5 296.6L232.2 297.2L233.4 300.2L234.8 301.5L234.5 302.7L234.2 303.6L233.3 304.5L232.6 303.9L231.8 305.8L232.4 311.0L233.4 314.6L234.4 316.2L236.6 318.7L239.0 320.0L243.2 324.2L245.6 325.5L246.1 326.2L247.6 329.4L248.8 333.1L250.1 338.9L251.0 341.8L252.9 345.0L256.8 349.7L260.4 353.1L261.8 354.0L228.7 354.0L227.0 352.6L225.1 348.9L223.6 347.6L221.4 346.5L220.2 347.0L219.3 346.6L219.7 346.1L220.0 344.5L217.5 340.9L216.0 339.8L215.6 339.0L215.3 338.1L215.0 337.4L214.3 337.0L212.9 336.9L212.9 335.1L213.1 333.8L213.0 332.7L212.2 329.7L210.8 327.2L210.0 321.2L209.3 319.5L207.8 318.2L204.3 316.8L199.5 313.0L198.5 312.9L195.6 311.4L193.8 311.1L191.5 312.5L188.6 316.2L186.3 320.0L185.5 320.8L182.6 322.1L179.9 322.7L177.4 324.0L176.5 324.6L173.1 328.5L171.4 329.7L171.1 330.4L170.8 331.7L169.9 332.8L169.0 333.3L167.0 333.8L164.9 335.0L164.0 334.5L161.5 334.6L160.1 333.1L157.2 332.2L156.2 330.2L154.9 330.1L154.0 330.1L153.4 329.1L153.4 328.4L152.5 328.7L151.8 328.7L151.0 329.3L150.4 329.2L149.6 329.7L148.7 329.5L146.3 328.4L144.3 327.8L143.6 327.4L143.1 326.3L142.4 325.8L140.9 326.3L140.3 327.1L139.5 328.1L133.7 332.9L132.7 334.9L131.5 337.8L131.4 339.2L131.9 343.5L133.1 345.8L133.5 347.5L134.1 347.9L134.3 348.9L133.3 349.4L132.6 351.1L133.4 352.0L133.6 354.0L1.3 354.0L1.2 352.1L2.5 350.3L3.4 349.1L2.0 349.0L2.1 348.1L2.5 347.7L3.0 346.7L2.5 346.3L2.1 345.7L2.1 344.0L2.2 343.4L2.1 342.7L0.1 343.6L0.0 341.6L0.7 340.4L0.0 339.7L0.0 331.8L1.4 330.4L3.6 330.7L5.0 330.3L6.3 329.5L7.0 329.3L8.2 328.5L8.1 327.5L7.8 326.7L8.1 326.0L9.4 325.2L10.9 324.0L12.5 323.8L14.2 322.8L15.3 323.4L16.3 323.2L17.5 324.0L18.9 325.8L21.1 326.5L22.9 325.9L26.0 325.8L27.5 326.0L30.3 325.6L31.9 325.8L34.4 324.9L36.4 326.0L40.2 326.5L42.5 327.4L48.8 328.9L51.2 329.0L54.4 328.1L55.7 327.5L57.0 327.9L58.8 327.1L59.8 327.2L60.9 328.3L65.0 329.7L66.0 328.5L66.8 328.3L69.7 329.0L72.7 330.5L74.2 330.6L76.4 330.2L78.3 329.2L80.4 328.6L82.0 326.3L83.5 318.2L84.6 308.7L85.4 306.9L86.4 306.4L85.6 305.1L85.1 305.7L84.9 306.4L85.2 298.0L85.6 294.8L86.4 291.5L87.9 292.8L89.2 294.1L89.8 295.3L90.7 299.2L91.3 300.1L92.2 300.9L91.8 300.0L91.2 299.3L90.2 294.1L89.6 292.6L88.6 291.4L85.4 288.8L85.1 288.2L85.0 287.3L86.0 287.3L86.9 287.8L86.5 286.7L86.1 284.5L85.8 279.6L85.8 278.7L85.7 277.7L84.7 277.5L83.9 277.4L83.0 277.0L78.7 274.1L77.2 271.1L75.7 268.9L75.3 267.9L75.4 266.9L76.2 264.8L75.5 263.5L74.8 263.3L74.2 262.6L74.8 261.5L75.2 260.8L76.1 260.7L77.2 260.9L78.3 261.5L79.2 261.7L76.6 260.0L72.5 260.6L71.6 260.3L70.9 260.0L70.6 258.7L71.2 258.2L71.7 257.2L71.1 256.4L70.3 256.2L69.1 256.2L68.0 256.4L68.4 254.8L67.8 254.4L67.0 254.6L65.8 254.8L64.7 254.5L63.7 253.2L63.1 253.2L61.9 252.9L61.1 252.8L59.9 252.2L55.6 250.7L53.8 250.5L52.1 251.2L51.2 250.9L50.4 250.0L49.9 248.4L47.1 247.1L47.7 246.3L49.0 246.1L50.4 245.5L51.0 244.8L49.8 243.9L49.0 243.7L48.2 242.7L48.8 242.3L50.1 242.6L51.9 242.4L51.3 241.7L50.6 241.5L48.8 241.2L48.2 241.5L46.7 241.4L46.4 240.5L46.2 239.8L46.7 238.3L48.8 236.8L53.9 235.3L56.1 235.5L57.7 235.2L59.5 234.3L60.3 233.4L62.9 232.9L65.4 233.8L67.7 237.1L68.8 238.3L71.5 236.3L75.5 236.4L76.3 237.5L76.6 236.6L77.4 235.5L78.0 236.0L78.3 236.6L82.5 236.4L83.2 236.3L82.0 235.5L81.1 233.6L80.9 226.5L79.7 224.6L78.4 221.4L77.8 219.6L77.7 218.9L77.9 218.0L79.6 218.0L80.8 218.3L83.3 217.6L84.5 218.1L84.4 219.5L84.7 221.4L85.2 222.2L85.8 223.2L87.7 223.1L89.8 223.7L92.5 223.8L96.4 224.9L98.0 224.2L99.7 223.0L102.7 222.2L101.2 221.9L99.6 221.1L99.4 220.2L99.6 219.4L100.2 217.7L104.9 214.8L108.3 214.0L111.8 212.4L113.5 210.8L114.7 208.8L115.6 207.9L115.1 207.2L115.4 199.3L115.8 197.9L116.4 196.7L117.5 195.9L119.1 194.9L124.9 193.5L125.7 193.0L130.5 190.0L133.4 188.5L134.7 188.0L135.6 187.7L137.4 187.6L138.7 188.2L140.5 188.4L142.0 187.7L143.1 188.3L144.3 187.9L143.3 187.6L141.9 186.8L139.9 187.5L138.5 186.7L137.3 186.7L136.6 186.1L135.8 185.1L136.4 184.5L139.0 184.1L140.6 184.5L143.4 186.6L144.1 186.6L144.8 186.4L144.4 185.8L143.7 185.5L142.7 184.9L141.9 184.1L143.8 183.9L143.3 182.8L141.2 180.4L141.6 179.7L142.1 178.3L142.7 177.1L144.1 176.0L145.9 173.5L147.1 171.5L148.0 169.2L149.2 162.7L149.6 161.6L150.2 160.3L151.0 160.6L151.5 160.9L153.4 160.0L156.6 157.6L157.6 155.5L158.5 154.6L162.3 152.6L164.3 152.1L167.5 151.9L169.8 151.6L172.5 151.5L173.6 152.6L174.2 153.5L175.2 154.0L176.7 154.3L176.2 153.5L175.1 152.6L175.4 150.8L175.7 149.5L176.8 147.7L177.7 147.2L181.4 147.0L185.5 147.1L187.3 149.7L186.6 151.0L187.6 151.6L188.5 150.3L188.7 149.0L190.4 149.5L190.8 150.2L190.8 152.3L191.3 149.5L191.0 147.4L191.2 145.5L191.8 144.4L192.2 143.8L195.2 144.5L198.6 144.1L199.9 144.9L202.7 148.7L203.7 149.3L204.9 149.5L203.3 148.7L199.8 144.1L198.7 143.5L197.1 143.4L196.1 142.9L195.5 142.2L195.3 141.6L195.4 137.0L194.7 136.3L193.9 136.1L192.5 136.4L192.3 135.3L192.5 134.6L194.5 134.0L195.8 133.3L195.9 132.1L195.0 131.1L194.1 129.3L192.9 127.6L192.7 124.1L192.4 123.1L191.7 121.5L192.8 121.2L192.6 118.1L192.2 116.5L189.2 114.9L186.9 113.3L187.4 107.9L187.7 106.5L186.8 103.7L186.9 100.5L187.2 95.5L188.0 95.3L190.6 96.2L191.5 96.3L192.1 97.1L192.8 97.4L193.3 96.6L193.5 95.1L195.1 93.2L196.3 92.5L197.1 92.1L197.9 92.9L198.5 93.8L198.7 91.9L199.1 88.3L197.6 87.7L196.3 88.2L195.0 90.5L193.9 93.4L192.0 93.6L190.6 94.5L189.2 93.6L188.4 92.9L188.4 91.8L188.6 91.1L190.1 88.8L192.2 86.5L194.3 86.6L195.8 85.8L196.8 85.8L199.6 85.9L201.1 85.4L202.4 84.4L205.3 80.0L206.9 78.2L210.1 77.6L213.1 75.5L213.9 75.5L212.5 77.0L212.3 77.6L212.1 78.5L213.1 80.6L212.9 81.8L213.0 84.2L212.1 85.4L211.0 88.1L210.5 88.5L210.4 91.6L210.5 92.4L210.4 95.2L211.5 96.4L212.6 97.0L216.5 97.0L216.9 97.5L217.4 98.4L217.0 99.9L216.6 101.0L215.5 101.9L214.1 102.6L213.2 102.7L211.9 101.3L211.3 101.7L210.8 102.4L209.7 106.1L209.3 108.6L208.4 108.4L207.5 108.4L206.2 109.0L206.9 109.5L207.5 110.4L206.2 111.4L205.2 112.4L204.8 113.1L203.6 114.0L202.8 115.2L203.2 116.6L203.3 117.8L203.7 119.2L203.4 120.3L201.9 121.8L201.3 123.2L202.6 123.2L203.4 123.5L203.9 123.9L204.4 124.5L204.0 125.2L204.5 127.3L206.1 127.8L206.8 128.5L207.5 129.7L207.6 131.3L206.6 132.5L205.8 133.2L208.8 133.0L209.1 133.6L209.6 134.4L211.2 133.8L215.2 136.0L217.7 134.9L218.3 134.9L218.9 136.6L218.3 138.4L216.1 140.3L216.6 141.4L217.3 141.7L219.3 141.4L222.5 142.6L223.2 142.2L225.8 139.6L226.9 139.0L230.3 138.6L230.9 137.6L232.3 136.6L233.2 135.5L235.4 133.3L237.6 133.7L238.9 134.1L240.3 134.3L241.6 136.6L244.9 139.1L247.9 138.9L249.0 141.2L249.4 144.2L250.4 145.1L251.2 145.7L253.6 146.3L256.2 147.4L257.3 148.0L257.1 147.3L257.1 145.9L257.0 144.7L254.7 144.1L252.8 143.8L251.4 144.0L250.1 143.7L249.8 142.7L250.1 141.6L249.5 141.0L249.0 140.5L249.0 139.3L251.3 141.0L253.2 142.5L255.1 142.9L258.7 141.3L265.0 139.1L271.6 137.1L273.2 136.9L274.8 136.5L275.3 135.7L275.9 135.2L276.8 133.9L278.8 131.8L282.4 131.0L283.7 130.1L286.5 128.7L292.8 127.1L295.5 126.8L298.1 126.8L300.4 128.0L302.8 129.5L303.3 130.4L302.0 129.8L300.0 128.5L299.3 128.4L301.0 132.5L301.8 134.0L303.7 135.1L305.2 135.4L309.9 134.8L311.6 133.9L312.0 133.5L313.7 132.0L314.8 130.4L315.7 128.3L315.9 126.9L316.1 125.3L317.5 124.7L320.7 124.7L322.1 124.0L323.8 122.1L325.6 119.8L326.2 118.8L327.4 116.8L327.9 115.5L328.2 113.6L328.5 113.0L328.5 113.8L328.4 115.3L327.6 117.7L325.7 120.7L322.8 124.2L323.7 124.7L324.8 124.8L326.1 125.5L327.2 125.6L329.3 125.1L329.7 122.0L329.8 119.1L329.5 117.8L329.9 115.8L329.1 113.0L327.9 109.5L327.9 105.8L327.8 105.0L327.4 101.6L327.6 94.9L328.1 91.6L330.1 89.7L331.1 88.2L331.7 86.2L331.9 84.3L332.3 82.8L335.2 78.4L337.6 77.9L340.7 76.7L344.2 75.7L344.9 77.0L345.3 78.0L349.5 81.5L350.6 82.8L352.2 86.9L356.1 89.0L359.2 88.3L360.6 87.3L363.1 85.4L364.2 84.1L364.4 82.7L364.0 77.1L363.3 74.6L363.5 73.1L363.6 72.4L365.1 68.9L365.3 66.2L365.8 65.8L365.8 64.5L364.3 64.0L363.1 65.0L362.6 65.7L361.3 66.1L360.1 65.4L357.5 64.4L356.8 63.1L356.6 61.8L355.2 60.6L354.7 59.1L354.9 58.1L356.1 57.5L356.5 56.9L354.9 57.0L354.5 56.3L353.8 54.5L354.4 53.8L354.7 53.1L354.2 52.5L354.3 51.9L354.7 51.2L354.5 49.7L356.1 48.8L357.6 48.2L360.9 47.9L360.6 46.5L361.9 46.5L364.2 44.7L366.4 45.0L369.6 43.9L375.7 43.9L376.6 43.2L376.5 42.5L376.5 41.8L377.6 42.0L379.6 41.9L386.9 43.3L388.6 43.3L391.1 44.7L392.4 45.1L396.4 45.1L402.5 45.8L403.7 44.8L404.3 43.3L404.1 41.6L403.8 40.3L404.3 39.3L405.1 39.2L405.9 40.3L407.3 40.8L408.3 40.1L408.6 38.7L409.3 38.1L410.2 38.6L411.8 38.8L413.1 38.7L414.0 38.4L414.4 38.0L414.7 37.1L415.4 36.1L416.2 35.4L421.9 36.2L426.8 37.6L427.2 37.1L427.3 36.2L426.1 35.4L425.2 34.9L424.1 33.3L422.4 32.0L420.8 31.8L418.6 32.3L415.3 32.0L412.5 29.5L410.7 28.8L409.3 26.9L409.0 25.8L410.4 26.7L410.6 25.8L410.7 24.6L410.0 23.8L409.2 23.4L405.6 25.3L401.4 25.9L400.0 26.6L398.4 26.7L397.8 27.2L395.4 25.9L393.5 26.1L392.2 27.1L389.7 27.3L388.4 27.7L387.6 28.1L387.5 27.1L387.8 25.7L388.4 24.9L388.0 24.3L387.2 25.6L386.8 27.1L386.0 27.9L384.1 28.2L382.2 27.0L381.3 27.0L381.9 27.9L382.3 28.8L381.2 29.2L380.1 29.8L379.2 30.7L378.1 29.5L376.9 30.0L375.9 30.8L373.8 31.0L372.6 32.0L370.4 32.6L369.3 32.6L366.6 33.4L365.7 34.6L364.9 35.0L363.7 34.7L360.3 35.2L357.0 36.0L355.6 36.0L354.1 35.6L352.7 36.7L351.1 38.2L349.3 38.7L348.7 38.5L349.2 37.7L350.3 37.0L351.2 35.9L351.2 35.0L350.7 34.7L350.0 34.6L349.0 33.6L348.1 31.7L347.4 32.1L347.1 33.6L346.4 34.4L345.8 34.7L343.2 34.9L343.0 34.1L343.3 32.8L343.3 31.8L344.3 31.8L344.6 30.9L343.8 30.8L344.5 29.0L343.9 28.7L341.0 28.3L337.5 26.5L336.6 26.5L336.0 24.9L335.2 25.1L334.0 26.0L333.0 25.3L332.0 24.9L331.8 24.1L331.8 23.1L331.7 21.8L331.4 20.4L331.2 18.3L331.4 16.6L332.2 15.5L332.5 14.7L332.9 12.7L333.0 10.4L332.7 9.6L333.4 9.1L333.0 8.4L332.7 7.9L333.7 7.6L333.3 5.9L333.2 5.2L332.4 3.3L331.5 1.5L330.1 0.2L288.4 0.0L288.1 0.6L287.7 2.4L288.0 3.9L288.2 4.6L288.7 5.6L287.3 5.5L285.8 4.9L286.0 6.1L285.1 7.5L285.2 8.8L285.4 9.6L285.1 10.9L285.6 11.4L285.8 12.2L285.4 12.8L285.7 15.1L286.0 17.9L285.8 18.6L286.7 21.0L286.5 21.9L286.4 23.0L287.6 24.1L288.6 24.1L289.7 24.0L290.5 25.0L290.8 25.9L291.7 25.9L293.2 25.1L294.1 24.9L294.7 26.4L296.3 28.2L297.3 29.0L298.9 29.4L300.6 30.9L300.4 32.7L301.1 33.3L303.1 34.0L303.8 34.9L304.2 35.8L304.7 36.4L305.4 38.4L305.1 39.7L304.3 40.1L302.4 41.5L301.5 42.5L300.9 43.1L298.9 44.4L298.2 44.7L297.6 45.3L296.9 45.7L296.3 45.5L294.2 46.7L296.0 47.5L296.8 47.2L297.5 46.6L298.2 46.5L298.8 46.6L299.6 46.1L300.7 46.1L301.3 47.3L300.0 47.9L299.1 48.0L298.6 49.9L298.1 50.8L295.6 52.0L294.3 53.1L292.7 53.9L292.0 53.7L291.0 54.6L288.6 55.6L287.4 57.0L284.7 58.2L283.4 59.2L279.7 59.3L276.2 59.1L275.0 59.5L276.2 59.7L277.0 60.2L278.0 59.9L280.2 60.2L281.3 60.4L282.8 62.1L281.7 62.7L279.8 63.1L280.5 65.4L281.1 67.0L280.4 68.0L280.3 72.3L279.3 72.3L278.8 74.1L279.1 75.0L279.1 77.2L279.3 78.4L279.8 79.6L279.6 80.9L277.9 83.8L278.0 85.2L278.3 86.0L278.5 87.3L277.7 89.8L277.2 91.9L276.5 93.7L275.1 95.8L274.4 97.3L272.7 102.3L271.9 103.2L270.8 104.0L269.7 103.3L268.6 102.9L267.4 103.0L265.4 103.5L262.4 103.1L259.5 103.3L258.7 103.8L259.1 105.6L258.0 105.9L257.0 105.3L256.1 105.9L255.3 106.6L253.8 108.2L253.3 109.2L253.1 111.0L253.9 112.6L254.6 114.5L252.8 116.9L251.8 116.9L248.8 116.3L243.5 117.8L238.8 116.6L239.3 115.4L239.3 114.5L239.6 113.1L239.7 111.6L239.7 110.6L239.3 109.6L238.2 108.3L235.5 103.8L234.8 101.9L234.2 101.1L236.8 102.0L237.8 101.5L237.2 100.1L236.6 99.4L236.2 98.4L237.5 98.1L238.4 98.2L239.1 97.1L238.7 95.3L237.7 94.7L236.9 94.5L235.3 91.6L233.7 90.1L230.7 84.5L229.7 80.6L228.7 81.0L228.2 79.3L227.8 77.6L227.8 76.5L226.2 75.8L226.2 75.0L225.8 71.3L224.2 70.8L223.1 68.7L222.9 64.8L221.8 64.1L220.9 64.3L220.9 63.3L221.1 62.4L220.6 58.8L220.5 55.5L220.0 54.5L219.8 53.3L220.0 52.3L220.3 51.7L221.4 51.6L222.4 52.4L222.2 51.2L219.6 50.6L218.2 50.2L217.6 50.1L216.4 49.8L215.4 47.9L214.3 46.2L214.2 45.5L214.2 42.4L213.9 41.1L213.8 39.6L213.1 40.8L213.5 42.7L212.6 43.5L211.6 43.9L211.7 45.0L212.3 46.4L212.0 48.1L209.9 52.0L209.2 52.9L208.2 52.6L206.8 53.7L205.6 53.8L205.1 52.6L203.3 51.0L202.4 51.1L203.2 51.9L204.0 52.9L203.5 53.6L203.1 54.0L202.4 54.3L199.8 55.6L200.7 56.5L199.9 57.6L199.0 57.7L198.5 58.2L198.3 58.8L195.6 60.7L191.2 65.5L188.8 66.8L187.3 68.2L185.9 68.2L184.1 69.4L179.6 70.4L176.7 70.0L174.6 70.4L173.5 69.6L173.3 69.0L173.6 68.3L172.4 68.1L172.0 69.3L170.1 69.1L169.7 68.6L170.2 67.7L171.2 66.8L170.8 66.2L169.0 66.2L167.9 66.1L164.2 64.2L163.4 63.1L160.4 61.5L159.1 59.8L158.4 57.9L158.4 56.2L158.8 53.6L159.4 52.9L162.1 53.8L164.7 55.4L166.0 54.1L167.6 53.1L164.7 54.0L163.8 53.3L162.4 52.0L162.4 51.4L163.1 50.7L163.3 49.8L163.0 48.9L163.1 47.8L164.2 46.6L165.8 45.3L167.0 44.2L168.2 43.4L166.7 43.6L165.4 44.4L163.8 45.8L161.9 46.9L160.6 47.3L159.9 47.6L158.9 48.0L157.8 49.5L156.7 50.1L154.6 50.2L154.2 49.1L154.8 45.1L155.4 43.1L156.1 41.7L157.1 41.5L157.9 40.5L158.5 40.5L159.0 41.0L161.2 41.4L162.2 40.1L163.6 39.9L166.0 38.6L164.3 38.7L163.3 38.7L161.8 39.0L161.0 38.8L160.7 37.8L161.3 36.9L163.6 34.8L164.4 33.9L164.8 33.1L165.2 31.3L167.4 29.2L169.3 28.2L169.9 29.0L169.4 31.6L169.4 32.7L170.9 28.9L171.5 28.0L172.2 27.4L174.0 26.9L174.5 26.3L172.4 26.5L167.4 28.0L165.3 29.3L164.7 30.3L163.3 31.8L162.6 32.7L162.3 34.2L161.5 34.9L160.3 35.2L158.8 37.0L158.1 38.5L156.6 39.6L155.6 40.5L154.8 41.7L153.9 41.3L153.9 40.2L154.0 38.3L154.8 37.1L155.1 35.8L154.6 34.6L155.0 33.9L155.6 33.9L156.8 34.2L158.1 34.2L160.3 33.2L159.9 32.7L159.0 32.6L157.3 32.7L155.9 31.8L154.7 30.0L154.2 27.5L154.6 26.8L158.7 24.3L159.8 23.2L159.2 23.1L157.6 24.5L155.4 25.3L154.0 24.1L153.3 22.9L152.8 20.2L153.0 18.8L152.8 17.0L153.8 16.4L154.8 16.7L155.9 16.9L158.3 16.7L163.5 15.6L166.8 16.3L168.2 16.2L170.3 15.3L172.1 15.2L173.5 15.9L174.2 16.7L174.4 17.8L175.0 18.5L175.1 17.4L175.0 16.1L180.5 14.6L181.1 14.0L178.9 13.8L178.3 12.4L179.5 10.3L178.2 11.1L177.6 12.7L177.8 13.9L177.6 14.5L176.4 14.8L173.9 14.9L172.3 14.3L170.8 14.0L170.3 13.6L170.5 12.7L169.6 13.4L169.0 15.0L167.8 15.3L164.5 14.7L159.8 15.1L157.7 15.9L156.3 15.8L153.9 14.4L152.9 13.3L152.6 11.0L152.8 10.0L154.6 9.6L155.5 9.6L156.4 9.1L155.7 8.8L154.6 8.1L153.8 6.7L152.7 6.3L151.9 5.1L151.7 3.4L152.0 2.1L152.6 1.7L154.0 2.0L157.8 1.8L161.4 3.1L163.8 3.8L168.7 3.4L171.6 2.3L168.0 2.6L165.1 2.6L160.0 1.4L157.9 0.9L155.7 1.1L154.5 0.8L154.0 0.0ZM285.8 334.1L285.0 334.2L280.2 334.1L278.7 333.8L277.2 332.8L278.4 332.2L279.9 332.5L280.4 333.2L284.3 333.8L285.8 334.1ZM447.4 279.6L448.9 280.5L447.4 280.2L444.0 279.4L442.5 278.6L442.1 277.8L441.9 276.6L442.7 277.8L443.3 278.4L447.4 279.6ZM348.3 56.2L347.4 57.0L346.8 56.7L345.4 58.3L344.1 58.6L343.3 58.2L343.4 57.5L342.7 55.5L341.5 54.9L340.0 54.9L338.8 54.1L343.2 53.6L343.7 52.6L344.6 51.6L345.3 51.6L345.9 51.8L345.9 52.5L348.1 53.2L348.9 54.5L349.2 56.0L348.3 56.2ZM50.1 138.3L47.9 140.6L47.0 140.2L46.2 140.4L46.4 139.5L46.9 137.6L47.9 136.9L49.0 134.9L49.9 134.4L50.4 134.6L50.9 136.8L50.2 137.6L50.1 138.3ZM42.5 116.0L41.1 116.0L40.0 115.4L39.4 112.9L39.6 112.1L40.2 111.4L40.9 111.2L41.6 111.7L42.5 113.7L42.6 115.2L42.5 116.0ZM35.2 100.1L30.8 101.1L29.3 101.0L29.5 100.2L30.7 99.9L31.2 97.5L29.4 96.4L29.4 95.6L30.7 94.8L31.6 94.8L32.4 95.4L33.3 96.7L34.5 96.9L35.3 97.5L35.2 100.1ZM31.3 107.4L31.7 109.7L32.1 111.1L31.8 112.3L30.0 113.2L29.4 112.9L29.8 112.0L29.4 111.0L29.6 110.2L27.8 111.4L27.6 110.3L27.7 109.6L28.2 108.8L29.0 108.4L30.4 107.9L31.3 107.4ZM33.0 109.5L32.3 109.6L31.9 108.9L31.9 108.1L32.3 107.5L33.7 106.6L33.0 106.3L33.4 105.4L34.9 104.3L35.7 104.1L34.9 106.1L33.0 109.5ZM83.9 25.9L84.1 27.1L84.7 26.8L85.6 28.0L86.7 27.5L86.5 28.6L85.8 31.7L85.5 33.2L85.1 35.3L84.6 35.9L84.2 37.4L83.4 37.0L84.0 34.7L84.3 33.4L84.1 32.7L83.7 32.1L82.8 32.0L82.0 32.3L81.8 31.5L80.6 31.3L80.1 30.8L81.0 30.1L81.9 30.2L83.2 29.5L82.4 27.1L81.3 26.9L81.2 26.2L81.8 26.0L82.8 24.8L84.0 24.6L83.9 25.9ZM52.4 153.6L54.0 153.9L53.6 154.6L52.4 155.4L51.5 156.2L50.5 156.9L50.0 156.2L48.5 154.7L48.4 152.5L49.5 151.9L51.1 151.9L52.4 153.6ZM64.8 52.6L65.5 53.0L66.7 53.4L67.5 53.4L68.0 53.9L67.7 54.8L66.9 55.0L65.5 54.2L63.6 54.5L63.0 54.2L62.9 53.3L62.1 53.7L61.6 52.8L61.7 52.0L62.1 50.8L62.7 50.5L63.8 50.7L64.9 51.3L65.3 52.1L64.8 52.6ZM30.6 64.4L29.2 67.4L28.1 68.3L26.7 69.2L28.0 69.2L28.3 70.1L26.4 71.8L25.3 72.4L24.1 73.9L23.4 73.9L22.8 74.8L22.3 75.2L21.7 75.0L20.9 74.1L22.3 73.2L23.4 72.1L21.8 71.3L21.2 70.7L22.0 69.9L21.4 69.5L20.8 69.1L20.8 68.4L20.9 67.6L21.5 66.9L22.4 67.0L23.1 67.6L23.9 67.3L24.8 67.4L24.1 65.8L24.6 65.1L26.8 64.0L29.5 62.2L30.1 61.9L30.6 63.1L30.6 64.4ZM31.2 79.5L31.1 80.3L30.9 81.3L31.2 82.3L31.2 82.9L32.0 83.5L34.0 83.9L36.0 83.7L36.3 84.5L35.0 85.9L33.7 87.4L32.9 87.7L32.3 84.9L31.0 85.3L29.8 85.2L29.2 84.9L28.8 84.3L27.9 82.7L25.3 82.1L24.6 81.2L24.4 80.7L25.0 79.7L25.7 79.9L26.4 79.5L26.0 78.7L28.6 77.8L28.8 76.7L30.0 77.0L30.9 78.1L31.2 79.5ZM19.6 76.4L20.8 77.4L19.8 79.1L18.3 79.1L16.2 77.9L16.4 77.2L17.0 76.9L18.3 76.8L18.9 76.9L19.6 76.4ZM316.2 29.2L317.3 29.2L318.2 29.8L319.0 30.4L318.5 32.0L317.7 31.9L317.1 32.0L316.7 32.7L316.7 33.7L314.2 33.9L313.6 33.6L312.8 31.3L312.9 30.7L313.5 30.4L314.0 31.6L314.7 31.5L314.9 30.7L314.9 30.0L314.3 29.5L314.4 28.5L315.1 28.2L315.8 29.1ZM278.5 101.1L277.9 101.9L277.1 100.7L277.0 97.6L277.2 96.1L279.6 90.7L280.7 90.2L282.2 86.9L282.5 85.4L283.2 84.1L283.6 82.9L284.6 82.6L284.2 83.5L284.3 84.4L282.4 88.8L281.9 91.3L281.2 92.0L278.5 101.1ZM262.8 123.5L260.6 123.3L258.4 122.1L258.7 119.7L259.3 118.6L263.3 121.3L263.3 122.4L262.8 123.5ZM247.8 134.8L248.0 136.0L247.7 136.6L246.5 135.6L245.2 135.6L244.5 137.2L242.1 135.8L241.8 135.1L242.0 132.6L241.9 132.0L242.5 131.3L242.6 130.3L243.7 129.3L244.6 129.2L244.9 130.1L245.4 130.7L246.9 131.4L247.3 132.1L246.6 133.0L246.6 134.1L247.8 134.8ZM235.1 124.5L233.0 124.6L231.1 125.8L230.4 125.4L230.7 124.6L231.5 124.0L231.9 123.5L232.1 122.8L233.7 123.3L234.2 123.6L235.1 124.5ZM222.1 125.8L224.1 126.9L225.4 126.9L226.2 127.3L226.5 128.0L226.5 129.6L225.6 130.0L224.6 129.9L223.2 130.5L218.6 127.9L218.7 125.8L218.8 125.0L221.0 124.7L222.1 125.8ZM215.3 128.3L214.1 127.0L214.8 125.6L215.3 124.6L216.6 123.0L217.4 121.1L217.3 122.8L215.6 127.5L215.3 128.3ZM188.8 127.7L188.7 125.5L189.9 122.9L189.9 123.6L189.5 125.1L192.3 125.8L189.2 126.6L188.8 127.7ZM86.6 200.2L85.6 200.8L85.4 201.5L84.5 202.0L81.7 200.6L81.6 199.9L83.1 199.4L83.9 198.7L85.7 199.4L86.6 200.2ZM259.7 301.3L258.4 301.7L257.8 301.0L256.5 300.3L255.8 299.5L256.6 298.3L257.1 296.9L257.8 297.7L258.6 299.3L259.0 299.7L259.7 301.3ZM263.9 312.6L262.9 312.2L262.2 311.6L261.8 310.9L260.9 310.0L260.6 309.0L259.2 306.8L259.0 306.3L259.7 307.1L260.2 307.7L261.9 309.1L263.1 310.9L264.4 312.4L263.9 312.6ZM263.9 320.0L263.3 320.2L260.6 316.4L260.4 315.6L261.3 316.5L263.9 320.0ZM256.2 306.9L256.2 307.6L255.5 306.7L255.1 305.2L254.3 302.7L254.2 302.0L254.6 301.2L254.6 300.5L254.0 298.3L254.8 297.9L254.9 299.5L255.2 300.4L256.0 301.4L255.8 303.2L256.0 305.8L256.2 306.9ZM340.1 28.8L341.5 29.2L342.0 29.1L342.7 30.0L341.6 30.6L341.5 31.4L342.0 31.8L342.1 32.5L341.0 32.5L340.5 31.9L340.2 31.2L339.7 30.7L339.0 30.3L339.4 29.8L339.6 29.1Z";
+
+
+// Near East (Ottoman command): Anatolia, the Levant, Mesopotamia and the Caucasus. Generated by tools/_mkmap-near.cjs from the same
+// Natural Earth land (public domain). City -> [x, y] in MAP_NEAR.view units.
+export const MAP_NEAR = {
+  view: { width: 600, height: 567, lon: [22, 51], lat: [22, 45] },
+  cities: {"Constantinople":[144.4,98.4],"Gallipoli":[96.6,113.2],"Erzurum":[398.7,125.7],"Sarikamis":[425.8,115.1],"Trabzon":[366.6,98.6],"Kut":[497.4,308.2],"Baghdad":[462.8,288.2],"Basra":[533.4,357.2],"Aleppo":[313.7,216.9],"Damascus":[295.7,283.3],"Jerusalem":[273.5,326.1],"Gaza":[258,332.8],"Beersheba":[264.6,339],"Medina":[364.3,506.1],"Ismailia":[212.5,355],"Baku":[576.6,113.2],"Kars":[436.1,108.5],"Batum":[406.3,82.6],"Eskisehir":[176.3,128.9],"Nablus":[274.3,315.1],"Mudros":[67.7,126.2],"Ankara":[224.5,125],"Nazareth":[275.2,303.2]},
+  land: "M38.3 233.3L37.1 232.8L36.6 230.9L35.9 230.4L35.5 231.6L35.5 233.0L34.6 233.8L33.6 233.5L33.3 232.6L32.5 233.3L32.0 236.3L32.3 239.2L33.0 240.2L33.9 240.7L35.3 240.8L39.0 240.4L41.3 241.0L51.0 242.6L53.4 243.7L56.0 244.3L56.6 245.1L56.8 246.2L56.8 247.8L57.9 248.1L66.3 247.5L74.7 246.3L79.2 245.9L83.8 246.2L86.2 246.0L87.8 245.4L88.1 244.2L88.6 242.6L89.0 239.9L89.4 238.8L88.7 238.9L86.2 241.2L83.3 241.2L80.6 242.1L79.4 243.3L78.5 243.5L77.5 243.0L77.3 242.0L77.7 238.5L77.2 237.9L73.8 238.4L71.9 239.0L68.2 238.2L64.2 238.0L62.2 236.4L56.3 236.0L54.3 236.4L52.5 237.1L50.6 237.5L48.7 237.7L47.9 237.6L47.0 237.0L46.7 236.1L46.7 235.0L45.1 235.2L43.9 234.6L44.0 233.9L45.5 233.3L44.8 231.8L43.3 231.9L42.1 233.3L39.7 233.5L38.3 233.3ZM29.3 148.9L27.1 147.1L26.0 147.1L23.7 147.8L20.4 150.0L18.0 151.1L19.3 151.9L21.3 151.0L23.6 151.7L25.9 152.8L28.2 154.5L30.3 156.4L31.2 157.5L32.1 158.2L33.5 159.0L34.1 161.7L36.4 162.7L39.0 162.7L42.2 162.9L42.7 164.3L43.5 164.7L44.4 166.6L45.3 167.5L45.4 168.8L45.8 169.7L47.9 171.1L48.8 172.1L50.0 172.1L50.6 172.4L51.1 173.0L51.8 173.3L52.5 173.1L53.4 172.1L53.6 169.5L53.1 168.9L51.0 169.0L48.8 168.5L47.1 167.1L45.9 164.2L45.2 161.1L45.8 160.2L45.5 159.2L44.6 158.1L44.1 156.6L43.5 156.0L38.8 155.7L35.0 153.7L33.8 153.6L31.5 152.5L30.4 151.6L29.3 148.9ZM257.9 231.9L259.8 230.2L256.8 231.0L253.9 232.5L252.2 233.1L249.6 234.8L240.2 237.8L237.1 238.3L234.0 238.1L230.1 237.7L226.4 236.9L226.1 239.7L225.1 242.1L222.9 242.6L221.6 242.3L220.4 242.0L218.4 242.7L216.7 244.3L215.0 245.3L213.1 244.5L213.4 247.7L215.4 252.0L216.2 253.2L217.4 253.7L221.2 255.2L222.4 255.2L224.8 254.9L225.8 255.5L226.4 257.0L227.7 257.1L228.1 256.4L228.1 255.5L228.8 254.5L230.0 254.0L231.2 254.0L233.7 253.5L236.1 252.7L238.2 251.3L242.0 247.2L243.3 247.2L244.6 247.4L246.9 247.2L249.3 246.8L248.7 245.4L248.4 244.9L246.9 243.1L246.4 241.6L247.1 239.3L257.9 231.9ZM579.6 0.0L579.2 1.6L581.3 4.2L582.4 4.3L583.1 3.6L581.4 2.9L580.1 1.3L580.2 0.0ZM0.0 162.6L4.7 163.9L6.6 163.7L8.0 163.1L8.7 161.7L12.1 164.0L15.6 165.4L16.2 166.1L17.2 166.8L19.3 167.6L20.6 167.3L21.4 167.6L22.6 167.7L23.8 168.2L24.5 169.3L23.9 170.2L23.2 170.8L19.8 170.7L18.5 171.3L19.0 172.4L19.0 173.6L17.5 173.4L16.6 173.0L14.7 171.4L11.5 169.8L5.0 167.9L0.0 165.2L0.0 197.0L1.7 196.5L2.8 198.1L3.4 199.6L4.8 200.1L7.8 204.6L7.9 205.9L7.8 209.2L8.8 210.1L10.2 210.9L10.1 207.9L12.6 202.7L14.9 202.3L16.1 202.5L17.2 204.9L20.4 208.9L21.9 209.9L22.9 210.7L24.0 210.8L23.0 208.4L21.6 206.0L22.2 202.8L21.9 200.8L20.6 196.8L17.6 190.1L15.8 187.5L15.0 183.9L16.0 182.8L17.6 184.1L19.5 184.5L21.0 185.4L22.7 186.3L22.8 188.2L24.0 189.0L24.9 188.6L25.9 187.9L30.8 186.3L30.2 185.0L29.2 183.9L28.9 182.9L27.9 182.5L26.1 182.5L24.8 181.9L23.7 179.5L23.7 177.6L22.5 176.2L21.4 175.6L21.7 175.0L22.5 174.7L24.7 173.6L29.4 172.8L31.1 171.7L31.8 171.8L32.7 172.3L35.9 175.4L38.8 178.0L40.8 180.5L41.8 180.5L42.5 179.7L42.6 178.1L42.6 177.1L42.0 173.7L41.9 169.1L41.5 167.0L40.7 165.8L38.0 164.6L34.8 163.9L32.5 160.5L28.3 159.6L26.0 156.3L23.6 156.1L21.1 154.3L16.0 152.8L14.3 151.6L13.1 151.6L11.8 151.2L12.3 150.6L14.0 150.4L16.6 150.4L19.3 149.2L22.1 147.0L20.0 147.1L19.4 145.2L18.4 143.7L17.4 141.5L19.0 140.4L20.5 139.7L24.0 141.5L24.2 142.7L23.2 144.6L23.9 145.4L25.2 145.3L27.4 143.6L26.6 140.8L25.5 139.1L22.8 135.8L20.2 134.0L19.0 132.4L17.3 128.2L12.2 122.4L11.8 120.3L12.5 116.5L13.3 114.2L12.9 112.7L13.0 111.0L15.4 110.0L16.8 109.0L19.1 108.7L18.5 110.3L17.6 111.2L18.6 113.4L22.8 115.8L27.1 117.9L27.4 121.0L28.9 123.5L33.7 125.1L34.3 124.9L34.7 124.3L30.3 121.4L29.7 120.4L28.7 117.8L29.5 116.8L34.4 117.7L37.9 122.7L40.3 124.1L41.0 123.4L41.4 122.7L40.7 120.4L39.7 119.5L37.7 118.2L35.6 116.2L35.8 115.1L37.7 114.2L39.6 114.4L42.6 115.8L44.6 116.4L46.2 118.0L48.4 119.6L47.4 117.3L45.8 115.2L42.0 113.2L40.0 113.2L38.6 112.9L37.9 111.4L38.8 109.8L36.8 107.8L36.1 106.6L36.5 104.8L40.3 104.8L43.1 105.4L46.2 103.9L49.3 100.8L51.3 99.9L52.9 100.2L55.4 101.8L57.8 102.1L62.2 99.4L64.2 98.7L67.2 100.3L68.8 100.0L72.4 101.4L79.8 102.5L83.0 104.3L83.5 105.3L84.1 106.4L84.9 108.2L87.4 108.0L90.2 108.3L94.7 107.9L99.2 107.8L97.7 109.8L92.0 112.3L90.1 113.6L88.0 115.5L88.0 117.1L88.1 118.3L87.4 119.8L87.0 121.4L88.4 120.9L89.6 120.2L92.5 116.8L98.7 111.0L102.9 109.4L108.8 106.3L112.4 102.6L113.8 99.3L118.9 98.3L122.6 98.8L125.9 97.1L127.7 96.6L130.2 96.9L140.3 99.3L143.9 98.4L144.8 97.1L145.5 95.1L146.0 93.0L143.7 92.5L131.3 87.1L128.2 84.9L125.2 80.6L123.9 77.5L124.4 74.7L123.8 72.8L120.5 68.8L118.1 65.3L116.7 64.1L113.5 62.4L119.1 56.5L120.4 56.3L121.8 55.5L122.0 48.8L122.6 44.7L123.7 43.6L124.9 42.7L126.9 39.6L130.8 38.8L133.7 39.7L135.7 36.9L136.3 31.0L136.3 29.6L137.8 25.0L137.5 17.3L138.6 15.4L141.8 12.2L142.5 10.5L140.8 10.7L141.0 9.8L141.6 9.0L141.7 7.0L142.1 6.2L143.3 4.7L142.6 2.0L143.4 0.8L144.5 0.2L146.8 0.6L145.8 1.9L146.2 3.2L146.5 5.0L145.8 6.0L156.4 3.9L157.3 2.1L157.9 0.5L0.0 0.0ZM239.9 0.0L240.2 2.3L238.5 7.9L237.8 9.4L237.2 9.9L236.9 11.0L241.1 14.0L243.2 14.8L246.4 15.1L249.9 14.2L254.1 11.4L258.0 6.9L263.1 4.8L266.6 4.3L270.8 4.8L272.2 2.5L276.4 0.5L276.8 0.0ZM313.0 0.0L314.6 0.7L316.2 2.3L317.6 5.2L318.8 6.5L320.6 7.5L322.2 8.1L324.9 8.4L328.0 7.4L334.8 14.3L337.5 15.4L344.2 16.8L345.9 17.6L358.5 27.2L362.4 31.4L369.8 37.6L371.9 39.0L376.3 41.6L382.0 45.7L383.3 46.3L389.7 47.7L394.3 51.0L395.8 53.5L401.8 55.8L403.2 57.7L405.1 64.2L406.9 70.3L408.9 74.7L408.9 76.8L408.8 78.5L407.6 81.2L403.7 85.9L401.6 88.2L394.8 92.2L392.3 93.4L389.4 93.9L386.6 96.0L377.9 99.6L375.1 100.0L372.5 99.2L370.6 99.4L368.4 99.0L360.5 96.0L348.7 98.2L342.6 100.2L338.9 100.5L329.2 98.6L326.2 96.6L319.3 95.8L311.7 94.1L310.2 91.8L305.7 89.7L303.0 89.9L301.8 90.6L300.2 92.2L298.0 91.9L295.4 90.3L293.3 88.1L290.7 81.8L289.2 81.2L288.0 81.0L280.5 83.0L275.1 80.6L273.3 79.0L271.5 76.7L271.3 75.0L271.9 74.2L272.2 73.3L269.1 72.4L263.8 75.0L252.2 74.9L235.5 73.5L233.5 73.8L226.5 76.6L218.1 78.7L213.2 80.6L208.7 84.1L195.7 90.7L193.4 94.7L191.5 96.0L182.3 96.5L172.7 93.7L163.8 94.9L151.5 93.0L147.9 93.2L146.8 94.2L146.2 96.1L145.8 98.4L146.5 99.5L147.2 100.2L150.2 102.4L152.4 103.3L161.4 104.5L162.4 104.5L155.3 105.8L145.9 107.3L143.9 107.7L140.4 110.1L141.6 110.9L142.7 111.4L144.3 111.8L145.9 112.8L145.0 113.6L139.4 113.6L137.2 114.0L130.1 113.3L123.4 114.1L122.6 113.9L123.4 112.5L124.0 111.8L121.5 110.6L119.4 110.7L118.6 111.4L121.0 113.8L119.8 114.6L118.5 115.2L113.3 115.4L110.3 114.0L110.0 113.0L109.3 112.0L105.9 112.1L103.7 113.5L98.1 113.4L92.6 118.4L89.3 122.7L86.5 123.5L85.8 126.4L86.0 131.7L84.9 133.9L84.7 135.1L85.1 136.4L90.0 136.0L92.8 135.1L99.8 134.0L101.3 134.3L101.6 135.2L99.6 137.6L97.5 139.5L96.9 140.7L97.6 141.5L100.4 145.0L100.4 146.5L99.5 147.6L99.6 148.9L100.7 149.8L101.8 149.5L102.8 149.9L103.7 150.7L101.6 153.4L99.1 154.4L98.6 155.1L99.0 156.3L99.2 157.1L100.1 158.8L101.6 160.7L102.8 161.5L106.4 161.4L105.5 162.3L100.6 163.4L98.7 163.0L97.8 162.3L97.2 162.6L96.7 164.3L96.0 163.9L95.1 162.3L95.4 160.6L94.9 158.8L93.4 157.0L91.9 156.8L90.6 157.2L90.5 158.7L91.6 161.7L91.4 163.5L89.9 163.4L88.7 165.7L89.6 166.6L91.6 167.3L93.6 168.6L94.8 168.9L95.6 168.2L96.9 167.7L99.5 169.1L101.0 171.2L102.3 171.0L106.8 172.9L108.3 173.1L108.7 175.5L108.1 179.3L105.1 180.3L104.8 181.0L106.5 182.3L107.7 185.1L108.0 187.6L109.4 188.6L111.2 188.8L111.8 189.6L114.2 191.1L114.5 193.2L111.1 194.2L109.7 194.1L108.6 195.2L108.9 197.8L109.9 197.6L110.6 196.7L117.3 197.0L126.9 196.5L129.2 196.5L128.8 197.3L125.8 199.2L124.3 201.4L122.8 201.9L116.5 202.5L115.0 203.2L113.1 203.5L112.9 204.3L114.7 205.0L117.0 205.2L120.1 203.7L125.9 203.3L124.4 205.3L124.6 206.2L126.4 205.9L128.2 205.0L130.5 201.8L134.2 202.1L139.0 204.6L141.0 205.2L142.7 205.3L144.2 204.2L145.6 204.8L146.0 206.1L146.2 207.3L147.2 209.0L147.8 212.1L149.4 213.9L152.1 215.5L159.1 218.0L161.1 217.7L167.2 215.7L170.3 214.3L171.6 214.8L173.5 215.9L174.8 215.2L175.5 214.2L176.0 210.7L177.1 208.9L177.5 202.2L178.9 200.5L185.2 200.9L191.2 201.6L193.5 202.1L202.3 206.8L207.3 208.7L209.6 210.8L212.8 215.3L214.7 217.3L218.0 219.4L223.3 221.0L226.1 219.5L229.7 219.3L236.7 218.1L238.4 218.3L242.0 217.4L247.3 214.6L248.7 213.5L254.5 207.0L260.7 202.5L262.8 201.8L265.0 202.2L267.8 204.0L272.6 206.2L277.1 207.7L280.1 207.1L281.9 205.8L282.6 204.0L284.2 203.0L285.5 202.7L287.7 201.0L290.7 199.4L292.5 200.9L293.3 202.0L293.6 203.5L293.6 205.6L290.3 209.0L287.2 211.9L285.8 214.2L287.3 217.9L288.7 221.9L287.5 223.9L286.3 225.6L284.8 232.4L287.6 236.2L287.9 237.9L288.0 239.2L288.5 241.0L287.4 245.0L287.3 247.8L287.5 250.2L289.2 255.7L289.2 257.7L288.1 259.0L285.6 260.4L282.4 265.0L281.7 270.4L279.6 274.1L275.9 283.4L274.1 286.1L273.2 289.4L272.2 291.9L271.2 293.8L270.6 296.6L269.1 300.1L267.4 305.3L264.9 315.6L262.3 323.0L258.3 330.5L256.3 333.2L252.4 337.2L251.9 337.6L246.3 340.7L241.4 341.9L235.4 341.9L231.6 343.1L230.9 342.0L230.3 341.0L225.6 342.4L224.6 342.2L221.0 343.3L219.4 343.5L217.9 342.6L213.6 338.8L212.1 337.8L211.3 337.9L211.9 339.0L212.8 340.2L211.2 342.2L209.0 342.9L208.3 341.4L207.1 339.7L204.9 339.2L202.2 337.9L204.3 334.9L204.6 333.2L208.4 336.6L209.7 336.7L206.1 332.8L204.6 331.8L203.6 332.2L198.8 333.9L197.0 333.8L190.2 330.7L188.0 330.3L187.3 330.5L186.8 332.6L186.2 333.7L182.9 334.3L180.0 335.2L177.2 334.8L183.8 332.2L184.6 331.2L177.3 333.5L173.7 333.9L172.6 335.2L172.0 336.3L171.0 337.3L170.2 338.7L168.1 338.8L166.5 338.6L164.0 339.5L157.0 344.9L153.7 346.9L150.6 348.4L148.1 349.2L146.3 349.3L144.2 348.7L140.8 346.5L134.8 343.9L123.5 342.7L120.6 340.3L116.3 340.4L114.6 339.9L108.6 335.8L98.6 333.5L92.2 332.5L80.6 329.8L70.0 332.5L66.8 332.0L65.2 329.0L64.5 327.6L62.6 323.3L61.0 321.6L59.5 320.9L55.5 320.1L51.3 320.6L44.1 320.3L42.2 319.6L39.3 317.3L37.2 316.6L26.6 315.2L22.9 312.3L23.0 310.7L23.3 309.4L22.5 305.2L19.0 303.5L15.6 302.2L10.8 300.9L7.0 298.8L3.9 297.8L0.0 298.0L0.0 567.0L307.7 567.0L306.8 564.6L298.3 557.3L294.4 551.5L287.8 548.8L286.5 547.6L285.5 546.1L283.4 543.7L280.6 535.6L279.8 531.5L279.4 523.2L279.6 521.6L280.2 519.6L281.3 519.1L282.0 518.9L285.2 519.2L281.9 516.0L278.8 513.9L277.2 511.0L273.0 506.0L265.9 489.6L262.4 482.2L260.0 476.0L255.1 467.8L249.3 454.8L247.4 452.4L246.1 442.5L245.2 439.2L244.2 437.1L242.0 435.3L241.2 433.1L239.0 428.8L239.1 426.4L238.9 421.6L237.9 419.7L235.3 417.8L231.8 413.9L228.0 408.2L225.5 405.2L224.6 403.5L224.1 401.7L223.1 399.7L220.5 396.2L220.0 394.6L220.1 389.9L219.3 386.5L218.6 384.9L215.1 381.3L214.3 378.9L215.4 376.0L217.0 373.5L216.7 371.6L218.6 370.4L220.3 374.7L221.8 381.6L222.7 383.3L223.7 384.6L224.9 387.4L229.1 392.6L230.3 395.0L231.8 399.9L231.8 402.0L232.7 405.1L236.2 409.5L239.9 412.8L243.3 417.9L249.2 423.3L252.8 424.9L254.8 421.8L256.6 418.7L257.2 416.5L257.5 410.3L261.0 400.4L263.5 387.7L265.9 383.8L267.0 382.7L268.4 380.8L268.6 382.5L268.0 385.7L264.8 401.3L264.4 406.6L262.4 412.6L261.0 415.4L261.2 417.5L263.2 415.9L265.4 416.4L270.6 416.9L272.7 418.2L277.7 425.7L281.0 433.1L284.8 437.3L286.6 442.0L290.3 446.7L291.6 449.5L294.8 453.7L300.4 465.8L303.6 467.4L304.2 470.8L305.4 474.5L307.4 476.0L308.7 477.2L313.5 485.9L314.9 489.3L315.4 491.2L315.8 494.0L314.9 496.1L314.1 497.5L317.3 502.5L319.3 506.4L321.6 510.5L323.5 510.9L325.1 510.9L327.3 513.1L329.4 513.1L330.6 514.6L333.0 516.3L337.0 519.9L340.6 524.8L342.3 528.6L345.6 534.8L346.7 537.6L347.5 541.2L348.3 542.6L350.5 545.3L349.3 545.2L350.5 547.2L351.9 548.0L351.7 549.8L353.0 552.4L353.7 557.3L353.2 559.7L352.4 562.0L352.2 566.2L352.0 567.0L600.0 567.0L600.0 469.1L598.0 475.2L597.3 478.0L595.9 480.8L595.1 482.1L594.9 483.2L595.4 488.7L596.8 495.8L596.6 496.7L596.0 498.2L594.3 496.3L593.1 493.9L590.8 490.9L589.8 485.5L588.8 482.6L585.1 479.1L584.3 477.7L583.2 474.4L582.0 472.2L581.0 469.4L580.0 465.7L581.3 465.5L582.1 465.9L583.8 460.8L583.2 458.4L581.6 457.2L579.9 455.4L579.5 453.4L579.5 451.7L579.9 451.2L581.1 451.7L582.1 452.2L579.0 448.0L573.5 444.8L569.8 440.0L567.0 439.3L564.5 436.1L562.2 432.9L563.5 431.6L561.9 430.7L560.4 430.2L556.6 428.2L554.4 425.9L554.6 424.9L555.2 424.0L554.6 421.6L554.0 420.1L550.9 415.8L548.8 410.3L548.2 408.0L547.1 405.7L546.0 403.5L545.6 402.0L545.0 400.3L543.2 396.9L541.8 394.9L540.0 389.2L539.7 387.7L539.0 385.7L537.9 384.9L536.6 385.4L534.8 385.4L532.2 384.7L534.2 382.4L537.3 379.2L538.9 379.7L539.8 380.2L540.9 380.3L540.8 379.2L539.5 376.8L538.0 373.8L537.4 371.1L537.5 370.2L537.6 369.5L539.4 368.7L540.9 368.8L545.3 370.8L547.3 371.3L549.2 370.7L550.2 370.4L551.8 369.1L555.2 368.9L555.9 368.2L556.9 366.8L556.7 363.8L556.4 361.7L556.9 360.0L559.4 358.7L558.7 357.3L561.3 357.2L563.3 358.1L563.7 359.6L562.5 360.5L560.6 359.8L559.6 360.0L558.7 360.6L559.2 361.6L559.8 362.2L567.5 366.6L570.1 369.1L579.0 364.6L580.8 364.9L582.0 368.6L582.8 371.7L584.1 372.9L587.3 377.7L590.5 380.9L592.8 384.1L593.1 386.1L592.7 389.2L593.3 390.8L595.8 391.6L597.5 392.9L597.5 394.3L596.7 396.2L597.2 397.6L600.0 399.5L600.0 0.0ZM308.3 483.6L309.4 482.8L308.8 482.5L305.1 479.3L301.8 477.7L301.1 477.1L300.7 476.1L300.1 477.1L300.6 478.2L304.6 479.9L305.5 480.7L306.3 481.9L307.8 483.6ZM591.9 471.3L592.1 468.3L592.0 465.3L590.8 463.5L591.4 462.5L589.0 462.8L588.7 463.7L589.4 467.0L589.0 469.2L590.5 472.5L591.2 473.2L591.9 471.3ZM543.6 379.1L545.0 377.3L545.1 376.7L545.1 375.1L542.6 371.4L541.8 370.3L541.2 370.8L540.8 372.3L540.3 373.0L539.6 374.7L540.9 378.0L541.7 379.4L542.4 379.6L543.6 379.1ZM120.9 223.6L123.5 220.7L126.0 220.2L125.5 218.7L127.1 216.7L128.9 212.8L129.0 211.2L127.7 211.4L122.3 213.3L120.3 215.1L119.5 216.6L118.2 217.6L118.3 218.4L119.1 220.2L118.2 222.9L118.9 224.0L120.9 223.6ZM107.1 235.0L108.3 234.7L107.7 232.7L106.7 231.0L107.7 228.9L108.0 226.3L106.7 227.1L106.7 228.6L104.9 231.8L105.9 233.9L105.5 235.3L106.3 236.4L107.1 235.0ZM102.4 203.9L104.2 202.9L106.5 202.7L107.4 201.9L110.7 200.5L108.9 199.6L107.9 199.7L104.7 201.2L102.5 202.8L101.8 204.0ZM73.4 198.0L74.1 196.2L74.2 193.4L73.8 192.6L73.0 192.4L69.5 195.5L70.3 197.6L71.5 199.0L73.4 198.0ZM67.8 195.5L67.7 193.8L66.9 193.5L65.1 194.6L64.2 196.4L64.8 197.2L66.2 197.4L67.8 195.5ZM99.8 177.2L98.1 177.3L96.0 178.0L94.8 179.4L95.4 179.7L97.7 179.8L99.1 181.0L100.2 181.3L103.0 180.0L104.6 179.7L104.2 178.2L103.0 178.0L102.4 178.0L99.8 177.2ZM83.4 184.2L87.0 183.2L88.9 181.9L90.0 180.6L87.1 181.5L84.6 181.6L82.7 183.3L82.4 184.2L83.4 184.2ZM79.9 202.4L82.4 200.2L84.1 199.6L82.8 198.8L81.6 200.0L79.7 201.0L79.4 201.5L78.5 202.0L77.4 202.4L78.0 202.6L79.9 202.4ZM92.3 207.4L91.5 206.5L90.4 206.1L90.7 206.9L89.7 207.6L88.4 207.2L88.4 208.4L89.6 209.3L90.7 208.0L92.3 207.4ZM61.9 178.5L61.6 177.6L61.0 176.1L61.2 174.9L59.1 174.7L57.8 172.8L55.9 173.5L56.2 175.0L57.2 175.7L57.9 176.9L59.7 178.2L61.3 180.1L61.9 178.5ZM67.4 182.5L66.7 181.7L63.9 181.3L62.9 180.4L62.0 180.5L62.4 181.3L63.1 182.1L65.3 183.8L66.6 184.0L67.4 182.5ZM84.7 167.2L85.0 165.7L86.0 165.1L85.8 161.0L86.1 159.3L85.0 159.1L83.0 157.7L79.6 158.4L79.7 160.0L82.0 162.3L82.6 163.8L81.7 165.1L80.2 165.9L80.6 166.6L82.7 168.6L84.7 167.2ZM91.3 139.8L89.9 138.5L86.2 138.7L86.1 139.7L84.6 140.4L83.3 140.9L80.9 140.8L79.5 143.0L80.8 144.5L84.3 145.6L86.4 143.1L88.4 143.0L87.8 143.8L85.0 145.9L86.1 147.3L90.8 148.6L92.5 148.6L94.1 148.0L93.1 147.1L92.8 146.1L93.7 146.3L94.9 147.1L94.7 145.2L93.7 143.7L90.9 141.2L91.3 139.8ZM36.8 145.1L33.0 142.8L34.4 145.6L35.9 145.9L36.8 145.1ZM55.4 152.6L53.4 150.9L53.1 149.3L51.4 148.4L50.9 150.7L53.1 152.1L52.5 153.1L53.1 153.2L55.4 152.6ZM76.2 112.7L75.8 111.8L75.0 111.2L73.8 110.6L71.3 111.4L73.9 113.4L76.2 112.7ZM71.1 123.7L71.4 122.4L69.8 122.9L69.3 123.6L68.0 124.3L66.9 123.1L63.3 123.3L63.1 123.9L63.4 125.5L63.3 126.9L64.7 127.5L65.9 127.5L66.2 127.0L66.7 125.9L67.3 126.9L67.5 127.6L68.3 128.1L69.5 128.0L69.8 126.0L70.3 124.5L71.1 123.7ZM57.4 108.1L57.3 107.0L57.7 105.9L57.4 105.2L56.3 103.9L54.3 103.7L53.5 104.3L52.1 106.3L52.0 107.3L54.8 109.0L57.4 108.1ZM82.1 119.9L82.3 118.9L81.1 117.4L80.2 117.5L77.4 118.4L75.9 119.9L77.3 120.7L82.1 119.9ZM21.8 217.2L22.7 215.8L20.7 213.8L19.7 212.4L18.7 214.0L18.9 216.4L19.5 217.5L21.6 218.3L21.8 217.2Z",
+};
+
+/** The map a campaign draws its headquarters on: { view, cities, land }. Europe unless the campaign says "nearEast". */
+export function mapFor(campaignId) {
+  const c = CAMPAIGNS[campaignId];
+  if (c && c.map === "nearEast") return { view: MAP_NEAR.view, cities: MAP_NEAR.cities, land: MAP_NEAR.land };
+  return { view: MAP_VIEW, cities: MAP_CITIES, land: MAP_LAND_PATH };
+}
 
 // =============================================================================
 // DERIVED REGISTRIES
@@ -10019,6 +11075,11 @@ export const ENDING_TIER = {
   aok_end_galiciafirst: 2,
   aok_end_piave: 2,
   aok_end_relieved: 0,
+  otto_end_mudros: 2,
+  otto_end_straits: 0,
+  otto_end_core: 2,
+  otto_end_stand: 1,
+  otto_end_overextended: 0,
 };
 
 /** Rank titles by the score they start at. The easy mode cannot rise past EASY_RANK_CAP (an index into RANKS). */
@@ -10136,6 +11197,12 @@ export const GLOSSARY = [
   { id: "chemin-des-dames", term: "Chemin des Dames", def: "The ridge north of the Aisne, where the French offensive of April 1917 failed." },
   { id: "doullens", term: "Doullens", def: "The town where, on 26 March 1918, Allied leaders agreed to put Foch in charge of coordinating their armies." },
   { id: "brest-litovsk", term: "Brest-Litovsk", def: "The town where Russia signed a peace with the Central Powers on 3 March 1918." },
+  { id: "straits", term: "Straits", def: "The Dardanelles and the Bosphorus, the narrow waterways that join the Black Sea to the Aegean past Constantinople. Whoever held them controlled Russia's southern trade and its link to its western allies." },
+  { id: "rumi", term: "Rumi", def: "The Ottoman state's official calendar: the Julian calendar, thirteen days behind the Western, with the year counted from 1 March. This game gives Western dates." },
+  { id: "hejaz", term: "Hejaz", def: "The strip of western Arabia along the Red Sea that holds Mecca and Medina. The Hejaz railway ran from Damascus to Medina." },
+  { id: "sinai", term: "Sinai", def: "The desert peninsula between Palestine and Egypt, bounded on the west by the Suez Canal." },
+  { id: "sarikamis", term: "Sarikamis", def: "A town in the mountains of north-eastern Anatolia, near the Russian frontier, where the Ottoman winter offensive of December 1914 ended." },
+  { id: "yildirim", term: "Yildirim", def: "The Ottoman army group formed in 1917 under the German general Falkenhayn. The word is Turkish for lightning." },
   { id: "hundred-days", term: "Hundred Days", def: "The Allied advance from 8 August 1918 to the armistice on 11 November." },
 ];
 
@@ -10143,7 +11210,7 @@ export const GLOSSARY = [
 export const LEAVES_OUT = [
   "The war here is the war as the commands in this game saw it from headquarters. Most of it is not in view: the colonies and the fighting outside Europe, the war at sea beyond what a headquarters decided about it, the smaller allies and their armies, and the hunger and work of the home fronts.",
   "The people the orders fell on are in the meters and not in the story. Millions of soldiers died, and millions of civilians were driven from their homes, starved, imprisoned or killed. The German army killed thousands of Belgian and French civilians in the invasion of 1914, and in 1915 the Russian army's headquarters ordered the border regions laid waste and their peoples expelled: about half a million Jews and a quarter of a million Germans were deported into the interior.",
-  "Some of the worst events of the war were crimes, not decisions a general could take, and the game does not offer them as choices. One is the killing of Armenians in the Ottoman Empire from 1915, which the International Association of Genocide Scholars affirmed in 1997 was a genocide.",
+  "Some of the worst events of the war were crimes, not decisions a general could take, and the game does not offer them as choices. One is the killing of the Armenians of the Ottoman Empire from 1915, which the International Association of Genocide Scholars affirmed in 1997 was a genocide. The Ottoman command's file tells it plainly, on the night it began, and says that the command bears its share of the responsibility; nothing in the file can alter it.",
 ];
 // Source for the expulsions: Great Retreat (Russian), Wikipedia (wp-greatretreat in claims/sources.json): Yanushkevich, backed by the Grand Duke, ordered the army to devastate the border territories and expel the "enemy" nations; about 500,000 Jews and 250,000 Germans were deported.
 // Source for the last sentence: the IAGS resolution on the Armenian Genocide, passed unanimously at its Montreal conference, 13 June 1997
@@ -10509,37 +11576,38 @@ function Meters({ meters, labels }) {
 /** Where the headquarters sits, on the campaign's own stretch of Europe, with the route taken so far. */
 function FrontMap({ campaignId, node, visited }) {
   const camp = CAMPAIGNS[campaignId];
-  const cities = [...new Set(Object.values(camp.nodes).map((n) => n.city))].filter((c) => MAP_CITIES[c]);
-  if (!cities.length || !MAP_CITIES[node.city]) return null;
-  const trail = visited.map((id) => camp.nodes[id] && camp.nodes[id].city).filter((c, i, a) => MAP_CITIES[c] && c !== a[i - 1]);
+  const { view, cities: CITY_XY, land } = mapFor(campaignId);
+  const cities = [...new Set(Object.values(camp.nodes).map((n) => n.city))].filter((c) => CITY_XY[c]);
+  if (!cities.length || !CITY_XY[node.city]) return null;
+  const trail = visited.map((id) => camp.nodes[id] && camp.nodes[id].city).filter((c, i, a) => CITY_XY[c] && c !== a[i - 1]);
   // Frame the last few headquarters, not the whole campaign, so the western front is readable.
   const focus = [...new Set([...trail.slice(-6), node.city])];
-  const xs = focus.map((c) => MAP_CITIES[c][0]);
-  const ys = focus.map((c) => MAP_CITIES[c][1]);
+  const xs = focus.map((c) => CITY_XY[c][0]);
+  const ys = focus.map((c) => CITY_XY[c][1]);
   const pad = 26;
   let x0 = Math.min(...xs) - pad, y0 = Math.min(...ys) - pad;
   let w = Math.max(...xs) + pad - x0, h = Math.max(...ys) + pad - y0;
-  const aspect = MAP_VIEW.width / MAP_VIEW.height;
+  const aspect = view.width / view.height;
   const minW = 150;
   if (w < minW) { x0 -= (minW - w) / 2; w = minW; }
   if (w / h < aspect) { const nw = h * aspect; x0 -= (nw - w) / 2; w = nw; } else { const nh = w / aspect; y0 -= (nh - h) / 2; h = nh; }
-  const s = w / MAP_VIEW.width;
+  const s = w / view.width;
   // Only the places the file has been to: later headquarters are not given away.
   const shown = [...new Set([...trail, node.city])];
-  const [hx, hy] = MAP_CITIES[node.city];
+  const [hx, hy] = CITY_XY[node.city];
   return (
     <svg className="dg-map" viewBox={`${x0} ${y0} ${w} ${h}`} role="img" aria-label={`Map of the front. The headquarters is at ${node.city}.`}>
-      <path d={MAP_LAND_PATH} fill={THEME.paperRaised} stroke={THEME.inkSoft} strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
+      <path d={land} fill={THEME.paperRaised} stroke={THEME.inkSoft} strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
       {trail.length > 1 && (
-        <polyline points={trail.map((c) => MAP_CITIES[c].join(",")).join(" ")} fill="none" stroke={THEME.accent}
+        <polyline points={trail.map((c) => CITY_XY[c].join(",")).join(" ")} fill="none" stroke={THEME.accent}
           strokeWidth="1.4" strokeDasharray="4 3" vectorEffect="non-scaling-stroke" />
       )}
       {shown.map((c) => (
-        <circle key={c} cx={MAP_CITIES[c][0]} cy={MAP_CITIES[c][1]} r={3.4 * s}
+        <circle key={c} cx={CITY_XY[c][0]} cy={CITY_XY[c][1]} r={3.4 * s}
           fill={trail.includes(c) ? THEME.accent : THEME.inkSoft} opacity={trail.includes(c) ? 1 : 0.55} />
       ))}
-      {shown.filter((c) => c !== node.city && MAP_CITIES[c][0] > x0 && MAP_CITIES[c][0] < x0 + w && MAP_CITIES[c][1] > y0 && MAP_CITIES[c][1] < y0 + h).map((c) => (
-        <text key={"l" + c} x={MAP_CITIES[c][0] + 5 * s} y={MAP_CITIES[c][1] + 4 * s} fontSize={11 * s} fill={THEME.inkSoft} stroke={THEME.paperRaised}
+      {shown.filter((c) => c !== node.city && CITY_XY[c][0] > x0 && CITY_XY[c][0] < x0 + w && CITY_XY[c][1] > y0 && CITY_XY[c][1] < y0 + h).map((c) => (
+        <text key={"l" + c} x={CITY_XY[c][0] + 5 * s} y={CITY_XY[c][1] + 4 * s} fontSize={11 * s} fill={THEME.inkSoft} stroke={THEME.paperRaised}
           strokeWidth={3 * s} paintOrder="stroke" fontFamily={THEME.mono}>{c}</text>
       ))}
       <circle cx={hx} cy={hy} r={7 * s} fill="none" stroke={THEME.ink} strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
@@ -10623,7 +11691,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <GlossText key={nodeId + "-context"} segs={contextSegs} />
         </details>
       )}
-      {node.city && MAP_CITIES[node.city] && (
+      {node.city && mapFor(campaignId).cities[node.city] && (
         <details>
           <summary>▶ SHOW THE MAP</summary>
           <FrontMap campaignId={campaignId} node={node} visited={visited || []} />
