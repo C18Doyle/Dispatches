@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" role="img" aria-label="An engraved cameo of an adviser: a stout officer in a kepi with a white moustache">
+  <title>Adviser card: Joffre</title>
+  <defs>
+    <pattern id="bg" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V4" stroke="#2f4858" stroke-width=".7" opacity=".55"/></pattern>
+    <pattern id="shade" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)"><path d="M0 0V3" stroke="#1c1a17" stroke-width=".7" opacity=".6"/></pattern>
+    <pattern id="cloth" width="3" height="3" patternUnits="userSpaceOnUse"><path d="M0 1.5H3" stroke="#1c1a17" stroke-width=".7" opacity=".75"/></pattern>
+    <clipPath id="oval"><ellipse cx="120" cy="126" rx="92" ry="106"/></clipPath>
+  </defs>
+  <rect width="240" height="300" fill="#f1f0e8"/>
+  <g clip-path="url(#oval)">
+    <rect x="20" y="10" width="200" height="232" fill="#f1f0e8"/>
+    <rect x="20" y="10" width="200" height="232" fill="url(#bg)"/>
+    <!-- shoulders and tunic -->
+    <path d="M26 246C34 206 70 190 98 186L120 196 142 186C170 190 206 206 214 246Z" fill="#f1f0e8" stroke="#1c1a17" stroke-width="2"/>
+    <path d="M26 246C34 206 70 190 98 186L120 196 142 186C170 190 206 206 214 246Z" fill="url(#cloth)"/>
+    <path d="M98 186 120 232 142 186" fill="none" stroke="#1c1a17" stroke-width="1.4"/>
+    <path d="M104 196 120 226 136 196" fill="#f1f0e8" stroke="#1c1a17" stroke-width="1.2"/>
+    <!-- collar tabs and buttons -->
+    <path d="M96 188 108 206 94 212 84 196Z M144 188 132 206 146 212 156 196Z" fill="#f1f0e8" stroke="#1c1a17" stroke-width="1.4"/>
+    <g fill="#1c1a17"><circle cx="120" cy="212" r="2.2"/><circle cx="120" cy="226" r="2.2"/><circle cx="120" cy="240" r="2.2"/></g>
+    <!-- neck -->
+    <path d="M100 168C100 180 104 186 108 190L120 196 132 190C136 186 140 180 140 168Z" fill="#f1f0e8" stroke="#1c1a17" stroke-width="1.6"/>
+    <path d="M102 170C104 180 110 184 118 186M138 170C136 180 130 184 122 186" fill="none" stroke="#1c1a17" stroke-width=".9"/>
+    <!-- head: broad, heavy-jawed -->
+    <path d="M70 98C68 70 88 52 120 52S172 70 170 98C172 124 166 146 152 158 144 168 132 172 120 172S96 168 88 158C74 146 68 124 70 98Z" fill="#f1f0e8" stroke="#1c1a17" stroke-width="2"/>
+    <path d="M70 100C70 124 78 146 90 156M170 100C170 124 162 146 150 156" fill="none" stroke="url(#shade)" stroke-width="9" opacity=".8"/>
+    <!-- ears -->
+    <path d="M70 100C62 98 60 112 66 122 70 126 74 124 74 120" fill="#f1f0e8" stroke="#1c1a17" stroke-width="1.5"/>
+    <path d="M170 100C178 98 180 112 174 122 170 126 166 124 166 120" fill="#f1f0e8" stroke="#1c1a17" stroke-width="1.5"/>
+    <!-- brow, eyes, nose -->
+    <path d="M86 94C94 88 106 88 114 92M126 92C134 88 146 88 154 94" fill="none" stroke="#1c1a17" stroke-width="3" stroke-linecap="round"/>
+    <path d="M90 104C95 100 105 100 110 104 105 108 95 108 90 104ZM130 104C135 100 145 100 150 104 145 108 135 108 130 104Z" fill="#f6f1e3" stroke="#1c1a17" stroke-width="1.2"/>
+    <circle cx="100" cy="104" r="2.4" fill="#1c1a17"/><circle cx="140" cy="104" r="2.4" fill="#1c1a17"/>
+    <path d="M86 112C92 116 108 116 112 112M128 112C132 116 148 116 154 112" fill="none" stroke="#1c1a17" stroke-width=".8" opacity=".7"/>
+    <path d="M120 100C118 116 114 126 112 132 116 138 124 138 128 132 126 126 122 116 120 100" fill="none" stroke="#1c1a17" stroke-width="1.4"/>
+    <path d="M112 134C115 137 125 137 128 134" fill="none" stroke="#1c1a17" stroke-width="1.1"/>
+    <!-- the white moustache and the fall of the jaw -->
+    <path d="M92 142C104 128 116 136 120 140 124 136 136 128 148 142 140 156 126 150 120 146 114 150 100 156 92 142Z" fill="#f6f1e3" stroke="#1c1a17" stroke-width="1.6"/>
+    <path d="M98 142C106 138 114 142 118 144M122 144C126 142 134 138 142 142M100 148C108 146 114 148 118 149M122 149C126 148 132 146 140 148" fill="none" stroke="#1c1a17" stroke-width=".7"/>
+    <path d="M104 158C110 164 130 164 136 158" fill="none" stroke="#1c1a17" stroke-width="1.3"/>
+    <path d="M74 134C80 156 92 168 108 172M166 134C160 156 148 168 132 172" fill="none" stroke="url(#shade)" stroke-width="6" opacity=".7"/>
+    <!-- the kepi -->
+    <path d="M66 70C70 50 92 36 120 36S170 50 174 70L176 78C160 70 140 66 120 66S80 70 64 78Z" fill="#f1f0e8" stroke="#1c1a17" stroke-width="2"/>
+    <path d="M66 70C70 50 92 36 120 36S170 50 174 70L176 78C160 70 140 66 120 66S80 70 64 78Z" fill="url(#cloth)" opacity=".9"/>
+    <path d="M64 78C80 70 100 66 120 66S160 70 176 78L178 90C160 80 140 76 120 76S80 80 62 90Z" fill="#1c1a17"/>
+    <path d="M62 90C80 82 100 78 120 78S160 82 178 90L176 94C160 86 140 82 120 82S80 86 64 94Z" fill="#f6f1e3" stroke="#1c1a17" stroke-width=".8"/>
+    <path d="M72 58C80 44 96 38 110 38M70 50C78 40 92 36 104 36" fill="none" stroke="#1c1a17" stroke-width="1" opacity=".7"/>
+    <path d="M100 56H140M104 50H136M108 44H132" stroke="#1c1a17" stroke-width="1.6" opacity=".85"/>
+    <circle cx="120" cy="66" r="3" fill="#1c1a17"/>
+    <path d="M88 82 152 82" stroke="#1c1a17" stroke-width="1" opacity=".8"/>
+  </g>
+  <ellipse cx="120" cy="126" rx="92" ry="106" fill="none" stroke="#1c1a17" stroke-width="3"/>
+  <ellipse cx="120" cy="126" rx="97" ry="111" fill="none" stroke="#2f4858" stroke-width="1"/>
+  <!-- the nameplate -->
+  <g transform="translate(120 266)">
+    <rect x="-112" y="-17" width="224" height="38" fill="#f1f0e8" stroke="#1c1a17" stroke-width="1.6"/>
+    <rect x="-108" y="-13" width="216" height="30" fill="none" stroke="#2f4858" stroke-width=".7"/>
+    <text x="0" y="-1" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="700" letter-spacing="3" fill="#1c1a17">JOFFRE</text>
+    <text x="0" y="12" text-anchor="middle" font-family="'American Typewriter','Courier New',monospace" font-size="8" letter-spacing="1.1" fill="#5d574c">COMMANDER-IN-CHIEF · 1914-1916</text>
+  </g>
+</svg>

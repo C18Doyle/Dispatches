@@ -28,6 +28,7 @@ const SECTIONS = [
   { title: "AUSTRO-HUNGARIAN AOK — HISTORICAL SPINE", file: "34-campaign-aok.jsx" },
   { title: "OTTOMAN GENERAL STAFF — HISTORICAL SPINE", file: "35-campaign-otto.jsx" },
   { title: "MAPS — spec §13.4", file: "40-maps.jsx" },
+  { title: "THE FRONT THROUGH TIME", file: "41-map-history.jsx" },
   { title: "DERIVED REGISTRIES", file: "50-registries.jsx" },
   { title: "METERS", file: "51-meters.jsx" },
   { title: "COMMANDER SUCCESSION — spec §3.2, §13.3", file: "52-succession.jsx" },
@@ -43,6 +44,9 @@ const SECTIONS = [
   { title: "THE ORDERS OF BATTLE", file: "62-battles.jsx" },
   { title: "UI_LAYER", file: "90-ui.jsx" },
   { title: "BATTLE SCREENS", file: "95-battle-screens.jsx" },
+  { title: "ORDER SCREENS", file: "96-order-screens.jsx" },
+  { title: "MAP SCREENS", file: "97-map-screens.jsx" },
+  { title: "SOUND", file: "98-sound.jsx" },
 ];
 
 const BANNER = /^\/\/ ={70,}$/;

@@ -48,6 +48,11 @@ async function step(ctx, pick = 0) {
     await ctx.click(o[Math.min(pick, o.length - 1)]);
     return true;
   }
+  const seal = btn(ctx, /^Break the seal$/);
+  if (seal) {
+    await ctx.click(seal);
+    return true;
+  }
   const c = btn(ctx, /^Continue$/);
   if (c) {
     await ctx.click(c);

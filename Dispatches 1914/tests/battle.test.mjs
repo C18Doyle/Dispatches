@@ -49,7 +49,7 @@ async function toMarne(ctx) {
   for (let i = 0; i < 40 && !/The Flank in the Open/.test(ctx.text()); i++) {
     const o = orders(ctx);
     if (o.length) await ctx.click(o.find((b) => !b.disabled) || o[0]);
-    else await ctx.click(btn(ctx, /^Continue$/));
+    else await ctx.click(btn(ctx, /^Break the seal$/) || btn(ctx, /^Continue$/));
   }
   return /The Flank in the Open/.test(ctx.text());
 }
@@ -72,6 +72,7 @@ check(/ORDER OF BATTLE/.test(t) && /Order of Battle: the Marne/.test(t), "the at
 check(/INTELLIGENCE SUMMARY/.test(t), "the screen gives an intelligence line");
 check(/6 of 6 chits left/.test(t) || /\d of \d chits left/.test(t), "the pool is shown");
 const issue = () => btn(ctx, /^Issue the plan/);
+const unseal = async (c) => { const s = btn(c, /^Break the seal/); if (s) await c.click(s); };
 { const i = ctx.d.querySelector(".dg-issue"); check(!!i && i.disabled, "the plan cannot be issued with the pool unplaced"); }
 check(ctx.d.querySelectorAll(".dg-bt-arm").length === 4, "four arms are listed");
 check(/Maunoury's Sixth Army/.test(ctx.d.querySelector(".dg-bt-arm details").textContent), "an arm lists its real formations");
@@ -90,6 +91,7 @@ await ctx.click(btn(ctx, /^Let the staff plan it/));
 check(/All 6 chits are placed/.test(ctx.text()), "the staff places the whole pool");
 check(!issue().disabled, "the plan can be issued once the pool is placed and an approach chosen");
 await ctx.click(issue());
+await unseal(ctx);
 t = ctx.text();
 check(/After-action report/.test(t) && /The enemy's setup was this/.test(t), "the outcome carries an after-action report");
 check(/did as the staff's would have/.test(t), "the staff's plan plays the record's odds");
@@ -102,6 +104,7 @@ ctx.restore();
 {
   const r = await boot(saved);
   await r.click(btn(r, /Resume file/));
+  await unseal(r);
   check(/After-action report/.test(r.text()), "a saved file resumes on the outcome with its report");
   r.restore();
 }

@@ -10,7 +10,7 @@
 // a change to THEME below, not a rewrite of the components.
 // =============================================================================
 
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, useEffect, useRef, useId } from "react";
 
 // The values live in the stylesheet as custom properties on .dg-root (each command sets its own paper tint and accent there), so a screen
 // takes its command's look without the components knowing it. Changing direction is a change to the stylesheet below.
@@ -45,7 +45,7 @@ const css = `
   /* ---- tokens: one paper, one ink, one accent per command (a command sets its own on the screen's root) ---- */
   .dg-root{
     --paper:#f4efe2;--paper-raised:#e9e2cf;--ink:#1c1a17;--ink-soft:#5d574c;--rule:#1c1a17;--accent:#7a2e2e;--inverse:#0d0c0b;
-    --good:#3d5a2f;--sea:#e1e4da;--tint:rgba(0,0,0,0);
+    --good:#3d5a2f;--sea:#d3dddb;--cp:#cdb98f;--ent:#b6c5c4;--neu:#ece6d4;--tint:rgba(0,0,0,0);
     --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .36  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     --band:linear-gradient(90deg,var(--ink) 0 33.3%,var(--paper) 33.3% 66.6%,var(--accent) 66.6%);
     counter-reset:ord;
@@ -122,8 +122,43 @@ const css = `
   .dg-quote{font-style:italic;font-size:13px;color:var(--ink-soft);border-top:1px dotted var(--ink-soft);padding-top:8px;margin-top:6px}
   .dg-root summary{list-style:none}
   .dg-root summary::-webkit-details-marker{display:none}
-  .dg-map{display:block;width:100%;height:auto;border:1.5px solid var(--rule);background:var(--sea);margin:10px 0 18px;
-    box-shadow:inset 0 0 0 4px var(--paper),inset 0 0 0 5.5px var(--rule),2px 3px 0 rgba(28,26,23,.13)}
+  .dg-map{display:block;width:100%;height:auto;border:1.5px solid var(--rule);background:var(--sea);margin:0;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4.5px var(--rule)}
+  .dg-mapcard{margin:0 0 20px;box-shadow:2px 3px 0 rgba(28,26,23,.13)}
+  .dg-maphead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 6px}
+  .dg-maphead .t{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+  .dg-sea{fill:var(--sea)}
+  .dg-country{stroke:var(--ink-soft);stroke-width:.45;vector-effect:non-scaling-stroke;stroke-opacity:.55}
+  .dg-side-cp{fill:var(--cp)}
+  .dg-side-ent{fill:var(--ent)}
+  .dg-side-neu{fill:var(--neu)}
+  .dg-occupied{stroke:none;opacity:.96}
+  .dg-coast{fill:none;stroke:var(--ink);stroke-width:.9;vector-effect:non-scaling-stroke;stroke-opacity:.6}
+  .dg-front-glow{fill:none;stroke:var(--accent);stroke-width:7;stroke-opacity:.22;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .dg-front{fill:none;stroke:var(--accent);stroke-width:2.2;stroke-dasharray:7 4;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+  .dg-trail{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-dasharray:2 4;vector-effect:non-scaling-stroke;opacity:.7}
+  .dg-visited{fill:var(--ink-soft);opacity:.65}
+  .dg-pin{stroke:var(--paper);stroke-width:1.4;vector-effect:non-scaling-stroke}
+  .dg-pintext{fill:var(--ink);font-family:${THEME.mono};font-weight:700;paint-order:stroke;stroke:var(--paper);stroke-width:2.5px}
+  .dg-maplabel{fill:var(--ink-soft);font-family:${THEME.mono};paint-order:stroke;stroke:var(--paper);stroke-width:2.6px}
+  .dg-hq{fill:none;stroke:var(--ink);stroke-width:2;vector-effect:non-scaling-stroke}
+  .dg-pulse{fill:var(--accent);opacity:.35}
+  .dg-hqlabel{fill:var(--ink);font-family:${THEME.serif};font-weight:700;paint-order:stroke;stroke:var(--paper);stroke-width:4px}
+  .dg-modal{position:fixed;inset:0;z-index:50;background:rgba(20,17,12,.72);overflow:auto;padding:18px 12px;box-sizing:border-box}
+  .dg-modal-inner{max-width:600px;margin:0 auto;background:var(--paper);padding:16px 14px 18px;border:2px solid var(--rule);box-shadow:0 14px 50px rgba(0,0,0,.4)}
+  .dg-key{list-style:none;display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;padding:0;font-size:12px}
+  .dg-key li{display:flex;align-items:center;gap:6px}
+  .dg-swatch{display:inline-block;width:16px;height:11px;border:1px solid var(--ink-soft)}
+  .dg-swatch-front{background:none;border:0;border-top:2.5px dashed var(--accent);height:0;width:20px}
+  .dg-swatch-hq{border-radius:50%;width:11px;height:11px;border:2px solid var(--ink);background:none}
+  .dg-meanwhile{list-style:none;margin:0 0 12px;padding:0;font-size:12.5px}
+  .dg-meanwhile li{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-top:1px dotted var(--ink-soft)}
+  .dg-meanwhile b{font-family:${THEME.serif};font-size:15px}
+  @media (prefers-reduced-motion:no-preference){
+    @keyframes dg-march{to{stroke-dashoffset:-22}}
+    @keyframes dg-ping{0%{transform:scale(1);opacity:.45}100%{transform:scale(3.2);opacity:0}}
+    .dg-front{animation:dg-march 1.1s linear infinite}
+    .dg-pulse{transform-box:fill-box;transform-origin:center;animation:dg-ping 2.2s ease-out infinite}
+  }
   .dg-attested{font-size:13px;margin-top:8px;color:var(--ink-soft)}
   .dg-attested cite{font-style:normal;font-size:12px}
   .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
@@ -204,6 +239,88 @@ const css = `
   .dg-bt-report{border-top:3px double var(--rule);margin-top:22px;padding-top:8px}
   .dg-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:0 0 10px;cursor:pointer}
   .dg-check input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent)}
+
+  /* ---- the readings under a meter, the odds dial, the hold to sign, the sealed cable, the list of changes ---- */
+  .dg-meter-btn{display:block;width:100%;text-align:left;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;letter-spacing:inherit;cursor:pointer}
+  .dg-meter-btn:hover b{text-decoration:underline dotted}
+  .dg-more{font-size:9px;opacity:.7}
+  .dg-gauge i{transition:left .9s cubic-bezier(.3,.7,.2,1)}
+  .dg-readings{border:1.5px solid var(--rule);border-top:0;margin:-20px 0 20px;padding:12px 14px 6px;background:rgba(255,255,255,.3);font-size:12px}
+  .dg-reading{display:grid;grid-template-columns:9.5em 1fr 8em;gap:10px;align-items:center;padding:5px 0;border-top:1px dotted var(--ink-soft)}
+  .dg-reading:first-of-type{border-top:0}
+  .dg-reading .n{letter-spacing:.06em}
+  .dg-reading b{text-align:right;font-weight:700}
+  .dg-reading.lv0 b,.dg-reading.lv1 b{color:var(--accent)}
+  .dg-reading.lv4 b{color:var(--good)}
+  .dg-rbar{display:block;height:7px;border:1px solid var(--ink-soft);background:rgba(28,26,23,.06)}
+  .dg-rbar i{display:block;height:100%;background:var(--ink-soft)}
+  .dg-reading.lv0 .dg-rbar i,.dg-reading.lv1 .dg-rbar i{background:var(--accent)}
+  .dg-reading.lv4 .dg-rbar i{background:var(--good)}
+  @media (max-width:420px){.dg-reading{grid-template-columns:7.5em 1fr 6.5em}}
+  .dg-odds{display:flex;align-items:center;gap:10px;margin:2px 0 10px;font-size:12px;letter-spacing:.08em;font-weight:700}
+  .dg-dial{width:64px;height:37px;flex:none}
+  .dg-choice{overflow:hidden}
+  .dg-holdhint{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
+  .dg-choice:hover:not(:disabled) .dg-holdhint{color:var(--paper-raised)}
+  .dg-holdbar{position:absolute;left:0;bottom:0;height:5px;width:0;background:var(--accent)}
+  .dg-choice:hover:not(:disabled) .dg-holdbar{background:var(--paper)}
+  .dg-choice.holding .dg-holdbar{animation-name:dg-hold;animation-timing-function:linear;animation-fill-mode:forwards}
+  @keyframes dg-hold{from{width:0}to{width:100%}}
+  .dg-cable{border:1.5px solid var(--rule);padding:22px 18px;margin:0 0 20px;background:rgba(255,255,255,.3);text-align:center;box-shadow:2px 3px 0 rgba(28,26,23,.13)}
+  .dg-envelope{position:relative;width:150px;height:96px;margin:6px auto 18px;border:2px solid var(--ink);background:var(--paper-raised);box-shadow:2px 3px 0 rgba(28,26,23,.2)}
+  .dg-envelope::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom right,transparent 49%,var(--ink) 49%,var(--ink) 51%,transparent 51%) 0 0/100% 100%,linear-gradient(to bottom left,transparent 49%,var(--ink) 49%,var(--ink) 51%,transparent 51%) 0 0/100% 100%}
+  .dg-envelope i{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--accent);border:2px solid var(--paper);box-shadow:0 0 0 2px var(--accent)}
+  .dg-changes{list-style:none;margin:0 0 20px;padding:0;font-size:13px}
+  .dg-changes li{border-top:1px dotted var(--ink-soft);padding:7px 0}
+  .dg-changes li b{display:inline-block;min-width:2.4em;font-family:${THEME.serif};font-size:17px}
+  .dg-changes li.neg b{color:var(--accent)}
+  .dg-changes li.pos b{color:var(--good)}
+  @media (prefers-reduced-motion:no-preference){
+    @keyframes dg-shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
+    .dg-envelope{animation:dg-shake 1.6s ease-in-out infinite}
+  }
+  @media (prefers-reduced-motion:reduce){.dg-gauge i{transition:none}}
+
+  /* ---- the war record ---- */
+  .dg-rec-card{border:1.5px solid var(--rule);padding:14px;margin:0 0 18px;background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule)}
+  .dg-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 14px}
+  .dg-tile{border:1px solid var(--ink-soft);padding:8px 6px;text-align:center;background:var(--paper)}
+  .dg-tile b{display:block;font-family:${THEME.serif};font-size:26px;line-height:1.1}
+  .dg-tile small{font-size:13px;color:var(--ink-soft)}
+  .dg-tile span{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  @media (max-width:420px){.dg-tiles{grid-template-columns:repeat(2,1fr)}}
+  .dg-rec-bar{display:grid;grid-template-columns:7.5em 1fr 3.8em;gap:10px;align-items:center;padding:3px 0;font-size:12px}
+  .dg-rec-bar b{text-align:right}
+  .dg-cmd{border:1.5px solid var(--rule);border-left:8px solid var(--accent);padding:12px 14px;margin:0 0 14px;background:rgba(255,255,255,.28);box-shadow:2px 3px 0 rgba(28,26,23,.12)}
+  .dg-cmd-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+  .dg-cmd-head .t{font-family:${THEME.serif};font-size:19px;font-weight:700;line-height:1.15}
+  .dg-cmd-head .meta{font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase}
+  .dg-seal{flex:none;border:2px solid var(--accent);color:var(--accent);font-size:10px;font-weight:700;letter-spacing:.12em;padding:5px 7px;transform:rotate(-4deg);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3px var(--accent)}
+  .dg-cmd-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px;padding-top:8px;border-top:1px dotted var(--ink-soft);font-size:12px;color:var(--ink-soft)}
+  .dg-avatar{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;border-radius:50%;margin-right:10px;border:2px solid var(--accent);
+    background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:15px;box-shadow:inset 0 0 0 2px var(--paper)}
+  .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
+  .dg-dossier summary{display:flex;align-items:center;border:0;padding:0;margin:0;background:none}
+  .dg-dossier summary:hover{background:none;color:inherit}
+  .dg-dossier-locked{display:flex;align-items:center}
+  .dg-ribbon{display:flex;gap:6px;margin:6px 0 12px}
+  .dg-ribbon .col{flex:1;border-top:2px solid var(--accent);padding-top:4px;text-align:center}
+  .dg-ribbon .y{display:block;font-size:10px;letter-spacing:.14em;color:var(--ink-soft)}
+  .dg-ribbon .dots{display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:10px;margin-top:3px}
+  .dg-ribbon i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--ink-soft);background:none}
+  .dg-ribbon i.on{background:var(--accent);border-color:var(--accent)}
+  .dg-endings{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 14px}
+  @media (max-width:420px){.dg-endings{grid-template-columns:1fr}}
+  .dg-ending{border:2px solid var(--accent);padding:10px 12px;background:var(--paper);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3px var(--accent);min-height:76px}
+  .dg-ending .t{font-family:${THEME.serif};font-size:17px;font-weight:700;line-height:1.2;margin-top:2px}
+  .dg-ending .meta{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .dg-ending.dg-badge-contested{border-style:double;border-width:5px;box-shadow:none}
+  .dg-ending.dg-badge-speculative{border-style:dashed}
+  .dg-ending.locked{border:1.5px dashed var(--ink-soft);box-shadow:none;background:none}
+  .dg-ending.locked .meta{color:var(--ink-soft)}
+  .dg-ending.locked .t{color:var(--ink-soft);font-size:26px;opacity:.5}
+  .dg-battle{border-left:6px solid var(--accent);padding-left:12px}
+  .dg-battle-grade b{text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
 
   /* ---- text sizes ---- */
   .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:17px}
@@ -407,12 +524,19 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onM
             </button>
           ))}
         </div>
-        <div className="dg-count">Sound</div>
-        <div className="dg-seg" role="group" aria-label="Sound">
-          {[[false, "Off"], [true, "Typewriter"]].map(([v, label]) => (
-            <button key={label} aria-pressed={settings.sound === v} onClick={() => onSettings({ ...settings, sound: v })}>{label}</button>
+        <div className="dg-count">Signing a risky order</div>
+        <div className="dg-seg" role="group" aria-label="Signing a risky order">
+          {[[true, "Hold to sign"], [false, "Tap to sign"]].map(([v, label]) => (
+            <button key={label} aria-pressed={(settings.holdToSign !== false) === v} onClick={() => onSettings({ ...settings, holdToSign: v })}>{label}</button>
           ))}
         </div>
+        <div className="dg-count">Sound</div>
+        <div className="dg-seg" role="group" aria-label="Sound">
+          {[["Off", false, false], ["Typewriter", true, false], ["Atmosphere", true, true]].map(([label, snd, atm]) => (
+            <button key={label} aria-pressed={settings.sound === snd && Boolean(settings.atmosphere) === atm} onClick={() => onSettings({ ...settings, sound: snd, atmosphere: atm })}>{label}</button>
+          ))}
+        </div>
+        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable, a seal and a signature.</p>
       </details>
       <details>
         <summary>▶ WHAT THIS GAME LEAVES OUT</summary>
@@ -429,64 +553,6 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onM
         </p>
       </details>
     </main>
-  );
-}
-
-function Meters({ meters, labels }) {
-  return (
-    <div className="dg-meters">
-      {METER_AXES.map((a) => (
-        <div key={a} className={meters[a] < 0 ? "neg" : meters[a] > 0 ? "pos" : ""}>
-          <b>{meters[a] > 0 ? `+${meters[a]}` : meters[a]}</b>
-          <span className="dg-gauge" aria-hidden="true"><i style={{ left: `${(meters[a] + 10) * 5}%` }} /></span>
-          {labels[a].toUpperCase()}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/** Where the headquarters sits, on the campaign's own stretch of Europe, with the route taken so far. */
-function FrontMap({ campaignId, node, visited }) {
-  const camp = CAMPAIGNS[campaignId];
-  const { view, cities: CITY_XY, land } = mapFor(campaignId);
-  const cities = [...new Set(Object.values(camp.nodes).map((n) => n.city))].filter((c) => CITY_XY[c]);
-  if (!cities.length || !CITY_XY[node.city]) return null;
-  const trail = visited.map((id) => camp.nodes[id] && camp.nodes[id].city).filter((c, i, a) => CITY_XY[c] && c !== a[i - 1]);
-  // Frame the last few headquarters, not the whole campaign, so the western front is readable.
-  const focus = [...new Set([...trail.slice(-6), node.city])];
-  const xs = focus.map((c) => CITY_XY[c][0]);
-  const ys = focus.map((c) => CITY_XY[c][1]);
-  const pad = 26;
-  let x0 = Math.min(...xs) - pad, y0 = Math.min(...ys) - pad;
-  let w = Math.max(...xs) + pad - x0, h = Math.max(...ys) + pad - y0;
-  const aspect = view.width / view.height;
-  const minW = 150;
-  if (w < minW) { x0 -= (minW - w) / 2; w = minW; }
-  if (w / h < aspect) { const nw = h * aspect; x0 -= (nw - w) / 2; w = nw; } else { const nh = w / aspect; y0 -= (nh - h) / 2; h = nh; }
-  const s = w / view.width;
-  // Only the places the file has been to: later headquarters are not given away.
-  const shown = [...new Set([...trail, node.city])];
-  const [hx, hy] = CITY_XY[node.city];
-  return (
-    <svg className="dg-map" viewBox={`${x0} ${y0} ${w} ${h}`} role="img" aria-label={`Map of the front. The headquarters is at ${node.city}.`}>
-      <path d={land} fill={THEME.paperRaised} stroke={THEME.inkSoft} strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
-      {trail.length > 1 && (
-        <polyline points={trail.map((c) => CITY_XY[c].join(",")).join(" ")} fill="none" stroke={THEME.accent}
-          strokeWidth="1.4" strokeDasharray="4 3" vectorEffect="non-scaling-stroke" />
-      )}
-      {shown.map((c) => (
-        <circle key={c} cx={CITY_XY[c][0]} cy={CITY_XY[c][1]} r={3.4 * s}
-          fill={trail.includes(c) ? THEME.accent : THEME.inkSoft} opacity={trail.includes(c) ? 1 : 0.55} />
-      ))}
-      {shown.filter((c) => c !== node.city && CITY_XY[c][0] > x0 && CITY_XY[c][0] < x0 + w && CITY_XY[c][1] > y0 && CITY_XY[c][1] < y0 + h).map((c) => (
-        <text key={"l" + c} x={CITY_XY[c][0] + 5 * s} y={CITY_XY[c][1] + 4 * s} fontSize={11 * s} fill={THEME.inkSoft} stroke={THEME.paperRaised}
-          strokeWidth={3 * s} paintOrder="stroke" fontFamily={THEME.mono}>{c}</text>
-      ))}
-      <circle cx={hx} cy={hy} r={7 * s} fill="none" stroke={THEME.ink} strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
-      <text x={hx + 10 * s} y={hy - 8 * s} fontSize={17 * s} fill={THEME.ink} stroke={THEME.paper} strokeWidth={4 * s}
-        paintOrder="stroke" fontFamily={THEME.mono}>{node.city}</text>
-    </svg>
   );
 }
 
@@ -516,7 +582,7 @@ function RankPanel({ result }) {
   );
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, onRewind, onChoose, onHome }) {
+function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, holdToSign, onRewind, onChoose, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
@@ -545,7 +611,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
-      <Meters meters={meters} labels={node.meterLabels} />
+      <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
 
       {node.bulletin && typeof node.bulletin === "object" && (
         <div className="dg-bulletin">
@@ -562,12 +629,6 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         <details>
           <summary>▶ SHOW BACKGROUND</summary>
           <GlossText key={nodeId + "-context"} segs={contextSegs} />
-        </details>
-      )}
-      {node.city && mapFor(campaignId).cities[node.city] && (
-        <details>
-          <summary>▶ SHOW THE MAP</summary>
-          <FrontMap campaignId={campaignId} node={node} visited={visited || []} />
         </details>
       )}
 
@@ -597,10 +658,11 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           )}
           {node.choices.map((ch) => {
             const strain = strainedUncertain(ch, meters);
+            const odds = ch.blocked ? null : orderOdds(ch, meters);
             return (
-            <button key={ch.id} className="dg-choice" disabled={ch.blocked}
-              onClick={() => onChoose(ch)}>
+            <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)}>
               <div className="lab">{ch.label}</div>
+              {odds && <OddsDial odds={odds} easy={easy} />}
               {ch.blocked && <div className="dg-cost">✕ {ch.disabledReason}</div>}
               {easy && ch.historical && <span className="dg-record-mark">✓ The order the command gave</span>}
               {easy && !ch.blocked && <span className="dg-preview">{previewText(ch, node.meterLabels)}</span>}
@@ -619,7 +681,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
                   {ch.attested.by}: “{ch.attested.text}” <cite>— {ch.attested.source}</cite>
                 </div>
               )}
-            </button>
+            </OrderButton>
             );
           })}
         </>
@@ -628,23 +690,39 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
   );
 }
 
-function OutcomeScreen({ campaignId, outcome, record, battle, onContinue }) {
+function OutcomeScreen({ campaignId, outcome, record, battle, changes, contested, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
+  const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([outcome, record && record.text]), [outcome, record]);
+  const labels = meterLabels(campaignId);
+  // where the meters stood before the order, so the gauges can slide to where they stand now
+  const from = useMemo(() => {
+    const f = { ...meters };
+    for (const ch of changes || []) f[ch.axis] = ch.from;
+    return f;
+  }, [meters, changes]);
   return (
     <main {...rootProps(campaignId, "outcome")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <h1 className="dg-docrow" style={{ margin: "18px 0 16px" }}><span>{c.docLabel} · OUTCOME</span></h1>
       <hr className="dg-rule" />
-      <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
-      {record && (
-        <details>
-          <summary>▶ THE HISTORICAL RECORD</summary>
-          <GlossText key={"r-" + String(outcome).slice(0, 24)} segs={recordSegs} />
-        </details>
+      {!opened ? (
+        <SealedCable onOpen={() => { atmosphereFx("seal"); setOpened(true); }} />
+      ) : (
+        <>
+          <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
+          <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
+          <MeterChanges changes={changes} labels={labels} />
+          {record && (
+            <details>
+              <summary>▶ THE HISTORICAL RECORD</summary>
+              <GlossText key={"r-" + String(outcome).slice(0, 24)} segs={recordSegs} />
+            </details>
+          )}
+          {battle && <BattleReport battle={battle} />}
+          <button className="dg-btn" onClick={onContinue}>Continue</button>
+        </>
       )}
-      {battle && <BattleReport battle={battle} />}
-      <button className="dg-btn" onClick={onContinue}>Continue</button>
     </main>
   );
 }
@@ -654,44 +732,93 @@ function yearsInPost(a) {
   return y(a.from) === y(a.to) ? y(a.from) : `${y(a.from)}–${y(a.to)}`;
 }
 
+const initialsOf = (name) => name.replace(/[^A-Za-zÀ-ɏ ]/g, "").split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
+
+function RecBar({ label, a, b }) {
+  const pct = b ? Math.round((a / b) * 100) : 0;
+  return (
+    <div className="dg-rec-bar">
+      <span className="n">{label}</span>
+      <span className="dg-rbar" role="img" aria-label={`${a} of ${b}`}><i style={{ width: pct + "%" }} /></span>
+      <b>{a}/{b}</b>
+    </div>
+  );
+}
+
 function RecordScreen({ record, onBack }) {
-  const [tab, setTab] = useState("dossiers");
+  const [tab, setTab] = useState("service");
   const playable = CAMPAIGN_IDS.filter((cid) => Object.keys(CAMPAIGNS[cid].nodes).length > 0);
   const atlas = buildNodeAtlas();
   const endings = buildEndings();
+  const best = record.best || {};
+  const files = record.files || {};
+  const fought = record.battles || {};
+  // what has been opened, per command
+  const stats = Object.fromEntries(playable.map((cid) => {
+    const c = CAMPAIGNS[cid];
+    const ids = Object.keys(c.nodes).filter((id) => !c.nodes[id].ending);
+    const seen = ids.filter((id) => (record.nodes[cid] || []).includes(id)).length;
+    const list = endings.filter((e) => e.campaignId === cid);
+    const found = list.filter((e) => record.endings.includes(e.id)).length;
+    const met = c.advisors.filter((a) => (record.advisers[cid] || []).includes(a.id)).length;
+    return [cid, { seen, decisions: ids.length, found, endings: list.length, met, advisers: c.advisors.length }];
+  }));
+  const sum = (k) => playable.reduce((n, cid) => n + stats[cid][k], 0);
+  const opened = sum("seen") + sum("found") + sum("met");
+  const everything = sum("decisions") + sum("endings") + sum("advisers");
+  const overall = everything ? Math.round((opened / everything) * 100) : 0;
+  const TABS = [["service", "Service"], ["dossiers", "Dossiers"], ["endings", "Endings"], ["atlas", "Atlas"], ["battles", "Battles"], ["glossary", "Glossary"]];
   return (
     <main {...rootProps(null, "record")}>
       <div className="dg-docrow">
         <h1 style={{ margin: 0, font: "inherit" }}>WAR RECORD</h1>
         <button className="dg-btn" onClick={onBack}>Return to file</button>
       </div>
-      <hr className="dg-rule" />
-      <p className="dg-note">
-        {record.runs} {record.runs === 1 ? "file" : "files"} closed · {record.hardRuns} in hard mode. Entries open as you play; the record stays in this browser.
-      </p>
       <div className="dg-tabs" role="group" aria-label="Record sections">
-        {[["dossiers", "Dossiers"], ["atlas", "Atlas"], ["endings", "Endings"], ["echoes", "Echoes"], ["glossary", "Glossary"]].map(([id, label]) => (
+        {TABS.map(([id, label]) => (
           <button key={id} className="dg-btn" aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>
         ))}
       </div>
 
-      {tab === "echoes" && (
+      {tab === "service" && (
         <section>
-          <p className="dg-note">A choice in one command can change what another command faces. Marks are kept here; nothing echoes unless you have departed from the record.</p>
-          {Object.entries(ECHOES).map(([flag, e]) => {
-            const v = (record.xc || {})[flag];
-            return v === undefined ? (
-              <div key={flag} className="dg-entry locked"><span className="meta">{e.label}</span> Not yet set.</div>
-            ) : (
-              <div key={flag} className="dg-entry">
-                <div className="meta">{e.label}</div>
-                <div className="t">{e.values[v] || v}</div>
-                <div className="meta">{v === e.historical ? "As in the record." : "Echoes in: " + e.readBy + ". Set in: " + e.setBy + "."}</div>
+          <div className="dg-rec-card">
+            <div className="dg-count">Service record</div>
+            <div className="dg-tiles">
+              <div className="dg-tile"><b>{record.runs || 0}</b><span>files closed</span></div>
+              <div className="dg-tile"><b>{record.hardRuns || 0}</b><span>in hard mode</span></div>
+              <div className="dg-tile"><b>{sum("found")}<small>/{sum("endings")}</small></b><span>endings found</span></div>
+              <div className="dg-tile"><b>{sum("seen")}<small>/{sum("decisions")}</small></b><span>decisions reached</span></div>
+            </div>
+            <RecBar label="The whole record" a={opened} b={everything} />
+            <p className="dg-note" style={{ margin: "8px 0 0" }}>{overall} per cent of the record is open. It is kept in this browser.</p>
+          </div>
+          {playable.map((cid) => {
+            const c = CAMPAIGNS[cid];
+            const s = stats[cid];
+            const b = best[cid];
+            return (
+              <div key={cid} className="dg-cmd" style={{ "--accent": c.accent }}>
+                <div className="dg-cmd-head">
+                  <span className="dg-seal">{c.seal}</span>
+                  <div>
+                    <div className="t">{c.shortName}</div>
+                    <div className="meta">{c.seat}</div>
+                  </div>
+                </div>
+                <RecBar label="Decisions" a={s.seen} b={s.decisions} />
+                <RecBar label="Endings" a={s.found} b={s.endings} />
+                <RecBar label="Dossiers" a={s.met} b={s.advisers} />
+                <div className="dg-cmd-foot">
+                  <span>{files[cid] ? `${files[cid]} ${files[cid] === 1 ? "file" : "files"} closed` : "No file closed yet"}</span>
+                  <span>{b ? `Best: ${b.rank} (${b.score}/100)` : "No rank yet"}</span>
+                </div>
               </div>
             );
           })}
         </section>
       )}
+
       {tab === "glossary" && (
         <section>
           <p className="dg-note">Words and places in the files. In the story text, the first mention of each on a screen is underlined: press it for the definition.</p>
@@ -703,22 +830,51 @@ function RecordScreen({ record, onBack }) {
           ))}
         </section>
       )}
-      {tab !== "echoes" && tab !== "glossary" && playable.map((cid) => {
+
+      {tab === "battles" && (
+        <section>
+          <p className="dg-note">The battles that open on an Order of Battle. Each keeps your best grade.</p>
+          {Object.values(BATTLES).map((cfg) => {
+            const f = fought[cfg.id];
+            const c = CAMPAIGNS[cfg.campaign];
+            const host = atlas[cfg.host.node];
+            return (
+              <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": c.accent }}>
+                <div className="meta">{c.shortName}{host ? ` · ${romanDate(host.date)}` : ""}</div>
+                <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
+                {f ? (
+                  <div className="dg-battle-grade">Fought {f.n} {f.n === 1 ? "time" : "times"} · best: <b>{f.best}</b></div>
+                ) : (
+                  <div>Not yet fought. It opens from "{host ? host.title : cfg.host.node}".</div>
+                )}
+              </div>
+            );
+          })}
+        </section>
+      )}
+
+      {tab !== "service" && tab !== "glossary" && tab !== "battles" && playable.map((cid) => {
         const c = CAMPAIGNS[cid];
         if (tab === "dossiers") {
           const met = record.advisers[cid] || [];
           return (
-            <section key={cid}>
+            <section key={cid} style={{ "--accent": c.accent }}>
               <h2 className="dg-sect">{c.shortName}</h2>
               <p className="dg-count">{c.advisors.filter((a) => met.includes(a.id)).length} of {c.advisors.length} dossiers open</p>
               {c.advisors.map((a) =>
                 met.includes(a.id) ? (
-                  <details key={a.id} className="dg-entry">
-                    <summary><span className="t">{a.name}</span> <span className="meta">{a.dossier.role} · {yearsInPost(a)}</span></summary>
+                  <details key={a.id} className="dg-entry dg-dossier">
+                    <summary>
+                      <span className="dg-avatar" aria-hidden="true">{initialsOf(a.name)}</span>
+                      <span><span className="t">{a.name}</span> <span className="meta">{a.dossier.role} · {yearsInPost(a)}</span></span>
+                    </summary>
                     <div className="dg-prose">{a.dossier.bio}{"\n\n"}Fate: {a.dossier.fate}</div>
                   </details>
                 ) : (
-                  <div key={a.id} className="dg-entry locked">File closed. Meet this adviser in play to open it.</div>
+                  <div key={a.id} className="dg-entry locked dg-dossier-locked">
+                    <span className="dg-avatar shut" aria-hidden="true">?</span>
+                    <span>File closed. Meet this adviser in play to open it.</span>
+                  </div>
                 )
               )}
             </section>
@@ -727,19 +883,41 @@ function RecordScreen({ record, onBack }) {
         if (tab === "atlas") {
           const ids = Object.keys(c.nodes).filter((id) => !c.nodes[id].ending);
           const seen = record.nodes[cid] || [];
+          const years = [1914, 1915, 1916, 1917, 1918];
           return (
-            <section key={cid}>
+            <section key={cid} style={{ "--accent": c.accent }}>
               <h2 className="dg-sect">{c.shortName}</h2>
               <p className="dg-count">{ids.filter((id) => seen.includes(id)).length} of {ids.length} decisions reached</p>
-              {ids.map((id) => {
-                const n = atlas[id];
-                return seen.includes(id) ? (
-                  <div key={id} className="dg-entry">
-                    <div className="meta">{romanDate(n.date)}{n.city ? ` · ${n.city}` : ""}</div>
-                    <div className="t">{n.title}</div>
+              <div className="dg-ribbon" aria-hidden="true">
+                {years.map((y) => {
+                  const here = ids.filter((id) => atlas[id].year === y);
+                  return (
+                    <div key={y} className="col">
+                      <span className="y">{y}</span>
+                      <span className="dots">{here.map((id) => <i key={id} className={seen.includes(id) ? "on" : ""} />)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              {years.map((y) => {
+                const here = ids.filter((id) => atlas[id].year === y);
+                const got = here.filter((id) => seen.includes(id));
+                if (!here.length) return null;
+                return (
+                  <div key={y}>
+                    {got.map((id) => {
+                      const n = atlas[id];
+                      return (
+                        <div key={id} className="dg-entry">
+                          <div className="meta">{romanDate(n.date)}{n.city ? ` · ${n.city}` : ""}</div>
+                          <div className="t">{n.title}</div>
+                        </div>
+                      );
+                    })}
+                    {got.length < here.length && (
+                      <div className="dg-entry locked"><span className="meta">{y}</span> {here.length - got.length} not yet reached.</div>
+                    )}
                   </div>
-                ) : (
-                  <div key={id} className="dg-entry locked"><span className="meta">{n.year}</span> Not yet reached.</div>
                 );
               })}
             </section>
@@ -748,19 +926,24 @@ function RecordScreen({ record, onBack }) {
         const list = endings.filter((e) => e.campaignId === cid);
         const found = list.filter((e) => record.endings.includes(e.id));
         return (
-          <section key={cid}>
+          <section key={cid} style={{ "--accent": c.accent }}>
             <h2 className="dg-sect">{c.shortName}</h2>
             <p className="dg-count">{found.length} of {list.length} endings found</p>
-            {list.map((e) =>
-              record.endings.includes(e.id) ? (
-                <div key={e.id} className="dg-entry">
-                  <div className="meta">{e.badgeLabel}{e.hardModeOnly ? " · hard mode" : ""}</div>
-                  <div className="t">{e.title}</div>
-                </div>
-              ) : (
-                <div key={e.id} className="dg-entry locked">Not yet reached{e.hardModeOnly ? " (hard mode)" : ""}.</div>
-              )
-            )}
+            <div className="dg-endings">
+              {list.map((e) =>
+                record.endings.includes(e.id) ? (
+                  <div key={e.id} className={"dg-ending dg-badge-" + e.badge}>
+                    <div className="meta">{e.badgeLabel}{e.hardModeOnly ? " · hard mode" : ""}</div>
+                    <div className="t">{e.title}</div>
+                  </div>
+                ) : (
+                  <div key={e.id} className="dg-ending locked">
+                    <div className="meta">Not yet reached{e.hardModeOnly ? " (hard mode)" : ""}</div>
+                    <div className="t" aria-hidden="true">?</div>
+                  </div>
+                )
+              )}
+            </div>
           </section>
         );
       })}
@@ -794,6 +977,15 @@ export default function App() {
   );
 
   useEffect(() => { saveSettings(settings); }, [settings]);
+  // sound: the mode follows the settings, the ambience follows the command in play, and a bulletin comes in on the wire
+  useEffect(() => { setAudioMode(settings.sound ? (settings.atmosphere ? 2 : 1) : 0); }, [settings.sound, settings.atmosphere]);
+  useEffect(() => {
+    if (settings.sound && settings.atmosphere && campaignId && (screen === "node" || screen === "outcome" || screen === "battle")) atmosphereStart(campaignId);
+    else atmosphereStop();
+  }, [screen, campaignId, settings.sound, settings.atmosphere]);
+  useEffect(() => {
+    if (screen === "node" && node && node.bulletin && typeof node.bulletin === "object") atmosphereFx("telegraph");
+  }, [screen, nodeId]);
 
   // A new screen puts keyboard and screen-reader focus on its heading, so the change is announced.
   const firstScreen = useRef(true);
@@ -812,7 +1004,10 @@ export default function App() {
     if (node.ending && endedRun.current !== runKey) {
       endedRun.current = runKey;
       if (settings.sound) playSound("stamp");
-      setRecord((r) => noteEnding(r, nodeId, hardState.enabled));
+      setRecord((r) => {
+        const closed = noteEnding(r, nodeId, hardState.enabled);
+        return noteRank(closed, campaignId, rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken }));
+      });
     }
   }, [screen, campaignId, nodeId, runKey]);
 
@@ -882,11 +1077,12 @@ export default function App() {
 
   const choose = (ch, plan = null) => {
     if (settings.sound) playSound("tick");
+    atmosphereFx("sign");
     const r = chooseNext(campaignId, ch, flags, meters, hardState, Math.random, plan);
     if (runEasy) setHistory((h) => [...h, { nodeId, flags, meters, hardState, visited, taken }].slice(-REWIND_LIMIT));
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
-    setRecord((rec) => noteEchoes(rec, r.flags));
+    setRecord((rec) => (r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags)));
     setPending({ ...r, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null });
     setScreen(r.outcome ? "outcome" : "node");
     if (!r.outcome) setNodeId(r.nextId);
@@ -925,7 +1121,8 @@ export default function App() {
       )}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
-        <OutcomeScreen campaignId={campaignId} outcome={pending.outcome} record={pending.record} battle={pending.battle} onContinue={cont} />
+        <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} record={pending.record} battle={pending.battle}
+          changes={pending.changes} contested={pending.contested} meters={meters} flags={flags} onContinue={cont} />
       )}
       {screen === "battle" && battleChoice && (
         <BattleScreen campaignId={campaignId} config={battleOf(battleChoice)} meters={meters} easy={runEasy}
@@ -935,7 +1132,7 @@ export default function App() {
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} onRewind={rewind} onChoose={pick} onHome={home} />
+          rank={rank} mode={runMode} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">

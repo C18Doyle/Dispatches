@@ -66,6 +66,8 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
 
   const c2 = btns().find(b => b.textContent.includes("Send Hentsch forward"));
   click(c2); await wait(60);
+  t("a contested order comes back in a sealed cable", txt().includes("sealed") && !txt().includes("THE HISTORICAL RECORD"));
+  click(btns().find(b => b.textContent.trim() === "Break the seal")); await wait(60);
   t("the outcome offers the historical record", txt().includes("THE HISTORICAL RECORD"));
   t("a historical order is marked as such", txt().includes("The command gave this order."));
   t("a contested roll shows where the record divides", txt().includes("Where the record divides.") && txt().includes("Historians divide on where responsibility for the Marne withdrawal lies"));
@@ -124,14 +126,18 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   // War record.
   click(byIncludes("WAR RECORD")); await wait(60);
   t("the war record opens", txt().includes("WAR RECORD") && txt().includes("Dossiers") && txt().includes("Atlas") && txt().includes("Endings"));
+  t("the war record opens on the service record", txt().includes("Service record") && /files closed/.test(txt()) && /decisions reached/.test(txt()));
+  t("each command has its progress, files and best rank", txt().includes("No rank yet") && /OHL/.test(txt()) && /Decisions\s*\d+\/\d+/.test(txt()));
+  t("the war record has no echoes tab", !txt().includes("Echoes"));
+  click(byText("Dossiers")); await wait(40);
   t("dossiers opened by advisers met in play", /[1-9]\d* of \d+ dossiers open/.test(txt()));
   t("dossiers not yet met stay closed", txt().includes("File closed."));
   click(byText("Atlas")); await wait(40);
-  t("atlas lists decisions reached and not yet reached", /decisions reached/.test(txt()) && txt().includes("Not yet reached."));
+  t("atlas lists decisions reached and not yet reached", /decisions reached/.test(txt()) && /not yet reached/i.test(txt()));
   click(byText("Endings")); await wait(40);
   t("endings gallery counts endings found", /\d+ of \d+ endings found/.test(txt()));
-  click(byText("Echoes")); await wait(40);
-  t("the echoes tab lists the marks between commands", txt().includes("Allied command, spring 1918") && txt().includes("Not yet set."));
+  click(byText("Battles")); await wait(40);
+  t("the battles tab lists the Orders of Battle", txt().includes("the Marne") && txt().includes("Not yet fought"));
   click(byText("Return to file")); await wait(60);
   t("the war record is kept in localStorage", !!window.localStorage.getItem("dispatches1914_record_v1"));
 

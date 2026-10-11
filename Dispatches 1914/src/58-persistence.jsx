@@ -166,7 +166,7 @@ export function clearSavedRun() {
 export const RECORD_SCHEMA_VERSION = 1;
 
 export function emptyRecord() {
-  return { schemaVersion: RECORD_SCHEMA_VERSION, nodes: {}, advisers: {}, endings: [], runs: 0, hardRuns: 0, xc: {} };
+  return { schemaVersion: RECORD_SCHEMA_VERSION, nodes: {}, advisers: {}, endings: [], runs: 0, hardRuns: 0, xc: {}, best: {}, files: {}, battles: {} };
 }
 
 export function loadRecord() {
@@ -174,6 +174,7 @@ export function loadRecord() {
   if (!raw || raw.schemaVersion !== RECORD_SCHEMA_VERSION) return emptyRecord();
   const merged = { ...emptyRecord(), ...raw };
   if (!merged.xc || typeof merged.xc !== "object" || Array.isArray(merged.xc)) merged.xc = {};
+  for (const k of ["best", "files", "battles"]) if (!merged[k] || typeof merged[k] !== "object" || Array.isArray(merged[k])) merged[k] = {};
   return merged;
 }
 
@@ -197,12 +198,30 @@ export function noteNodeSeen(record, campaignId, nodeId, adviserIds = []) {
 
 /** A run has reached this ending. */
 export function noteEnding(record, endingId, hardMode) {
+  const cid = String(endingId).split("_")[0];
   return {
     ...record,
     endings: withAdded(record.endings, [endingId]),
     runs: (record.runs || 0) + 1,
     hardRuns: (record.hardRuns || 0) + (hardMode ? 1 : 0),
+    files: { ...(record.files || {}), [cid]: ((record.files || {})[cid] || 0) + 1 },
   };
+}
+
+/** Keep the best command rank of a closed file, per command: result is { score, rank } from rankFor. */
+export function noteRank(record, campaignId, result) {
+  const had = (record.best || {})[campaignId];
+  if (had && had.score >= result.score) return record;
+  return { ...record, best: { ...(record.best || {}), [campaignId]: { score: result.score, rank: result.rank } } };
+}
+
+const GRADE_ORDER = ["total", "marginal", "costly", "clean"]; // worst to best
+
+/** Keep a fought battle: how many times, and the best grade. */
+export function noteBattle(record, battleId, grade) {
+  const had = (record.battles || {})[battleId] || { n: 0, best: grade };
+  const best = GRADE_ORDER.indexOf(grade) > GRADE_ORDER.indexOf(had.best) ? grade : had.best;
+  return { ...record, battles: { ...(record.battles || {}), [battleId]: { n: had.n + 1, best } } };
 }
 
 // ---------- echoes between commands ----------
@@ -307,13 +326,13 @@ export function echoSeed(record) {
 export const TEXT_SIZES = ["s", "m", "l"];
 
 export function defaultSettings() {
-  return { schemaVersion: 1, textSize: "s", sound: false, battles: true };
+  return { schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, holdToSign: true };
 }
 
 export function sanitizeSettings(raw) {
   const base = defaultSettings();
   if (!raw || typeof raw !== "object" || raw.schemaVersion !== 1) return base;
-  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, battles: raw.battles !== false };
+  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, holdToSign: raw.holdToSign !== false };
 }
 
 export function loadSettings() {
