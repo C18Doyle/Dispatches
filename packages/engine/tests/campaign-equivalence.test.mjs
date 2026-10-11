@@ -76,7 +76,9 @@ const engine = await compileTs(join(ROOT, "packages", "engine", "src", "campaign
             const strained = choice.uncertain && choice.uncertain.length ? { ...choice, uncertain: e.strainedUncertain(choice, meters).uncertain } : choice;
             const got = engine.resolveChoice({ choice: strained, meters, flags, rules, rand: () => u });
             checked++;
-            if (!eq(ref.meters, got.meters) || !eq(ref.flags, got.flags) || (ref.nextId ?? null) !== (got.destination ?? null) || (ref.branch && ref.branch.title) !== (got.variant && got.variant.title))
+            // 1914 also tallies where each order's impact fell (st_ flags, the readings under each meter): a game rule the engine does not know, set aside here
+            const refFlags = Object.fromEntries(Object.entries(ref.flags).filter(([k]) => !k.startsWith("st_")));
+            if (!eq(ref.meters, got.meters) || !eq(refFlags, got.flags) || (ref.nextId ?? null) !== (got.destination ?? null) || (ref.branch && ref.branch.title) !== (got.variant && got.variant.title))
               fail(`1914 ${cid}/${node.id ?? "?"} u=${u}: ref ${JSON.stringify([ref.meters, ref.nextId])} vs engine ${JSON.stringify([got.meters, got.destination])}`);
           }
         }

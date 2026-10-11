@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" role="img" aria-label="An engraved scene: a railhead at dawn, a locomotive, telegraph poles and a column of men">
+  <title>The railhead</title>
+  <defs>
+    <pattern id="sky" width="6" height="4" patternUnits="userSpaceOnUse"><path d="M0 2H6" stroke="#1c1a17" stroke-width=".5" opacity=".28"/></pattern>
+    <pattern id="skyd" width="6" height="3" patternUnits="userSpaceOnUse"><path d="M0 1.5H6" stroke="#1c1a17" stroke-width=".7" opacity=".5"/></pattern>
+    <pattern id="hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V4" stroke="#1c1a17" stroke-width=".8"/></pattern>
+    <pattern id="hatchf" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><path d="M0 0V3" stroke="#1c1a17" stroke-width=".6" opacity=".7"/></pattern>
+    <pattern id="ground" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 4Q2.5 1 5 4" fill="none" stroke="#1c1a17" stroke-width=".5" opacity=".45"/></pattern>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#f4efe2" stop-opacity="1"/><stop offset="1" stop-color="#f4efe2" stop-opacity="0"/></radialGradient>
+    <clipPath id="frame"><rect x="14" y="14" width="572" height="292"/></clipPath>
+  </defs>
+  <rect width="600" height="320" fill="#f1ebd9"/>
+  <g clip-path="url(#frame)">
+    <!-- sky: bands of ruled lines that thin toward the sun -->
+    <rect x="14" y="14" width="572" height="150" fill="url(#skyd)"/>
+    <rect x="14" y="14" width="572" height="90" fill="url(#sky)"/>
+    <circle cx="418" cy="150" r="64" fill="url(#sun)"/>
+    <circle cx="418" cy="150" r="17" fill="#f6f1e3" stroke="#1c1a17" stroke-width="1"/>
+    <g stroke="#1c1a17" stroke-width=".7" opacity=".55">
+      <path d="M418 118V98M395 126 381 110M441 126 455 110M380 150H358M456 150H478"/>
+    </g>
+    <!-- far hills -->
+    <path d="M14 168 70 146 118 160 170 138 230 158 290 142 340 160 400 150 470 162 530 144 586 158V190H14Z" fill="url(#hatchf)" stroke="#1c1a17" stroke-width=".8"/>
+    <!-- plain -->
+    <rect x="14" y="176" width="572" height="130" fill="#f1ebd9"/>
+    <rect x="14" y="176" width="572" height="130" fill="url(#ground)"/>
+    <!-- a line of poplars -->
+    <g stroke="#1c1a17" stroke-width="1">
+      <g fill="url(#hatch)"><ellipse cx="60" cy="168" rx="6" ry="20"/><ellipse cx="82" cy="170" rx="5" ry="17"/><ellipse cx="102" cy="172" rx="5" ry="15"/><ellipse cx="520" cy="170" rx="6" ry="19"/><ellipse cx="543" cy="172" rx="5" ry="16"/></g>
+      <path d="M60 188V204M82 187V204M102 187V204M520 189V204M543 188V204"/>
+    </g>
+    <!-- the railway, side on: two rails, sleepers and the bank under them -->
+    <g fill="none" stroke="#1c1a17">
+      <path d="M14 240H586M14 246H586" stroke-width="1.6"/>
+      <path d="M14 252Q150 246 300 250T586 248V266H14Z" fill="url(#hatch)" stroke-width="1"/>
+      <g stroke-width="1.5"><path d="M20 240V247M44 240V247M68 240V247M92 240V247M116 240V247M140 240V247M164 240V247M188 240V247M212 240V247M236 240V247M260 240V247M284 240V247M308 240V247M332 240V247M356 240V247M380 240V247M404 240V247M428 240V247M452 240V247M476 240V247M500 240V247M524 240V247M548 240V247M572 240V247"/></g>
+    </g>
+    <!-- telegraph poles and the wire that follows the line -->
+    <g stroke="#1c1a17" stroke-width="1.6" fill="none">
+      <path d="M440 150V240M500 132V240M548 118V240"/>
+      <path d="M430 152H452M490 134H512M538 120H560" stroke-width="1.3"/>
+    </g>
+    <g stroke="#1c1a17" stroke-width=".6" fill="none">
+      <path d="M440 152 500 134 548 120 600 108M452 152 512 134 560 120 600 112M440 152 380 170M452 152 396 172"/>
+    </g>
+    <!-- the locomotive, side on, steaming -->
+    <g transform="translate(150 207)" stroke="#1c1a17" stroke-linejoin="round">
+      <rect x="0" y="22" width="190" height="9" fill="#1c1a17"/>
+      <rect x="6" y="-6" width="108" height="30" rx="4" fill="url(#hatch)" stroke-width="1.6"/>
+      <rect x="114" y="-24" width="40" height="48" fill="#f1ebd9" stroke-width="1.6"/>
+      <rect x="114" y="-24" width="40" height="48" fill="url(#hatchf)" opacity=".6"/>
+      <rect x="108" y="-30" width="52" height="8" fill="#1c1a17"/>
+      <rect x="122" y="-14" width="14" height="14" fill="#f6f1e3" stroke-width="1.2"/>
+      <path d="M22 -6V-30H36V-6M62 -6V-16H72V-6" fill="#1c1a17" stroke-width="1"/>
+      <path d="M13 -34 22 -30H36L45 -34Z" fill="#1c1a17"/>
+      <circle cx="30" cy="30" r="17" fill="#f6f1e3" stroke-width="1.8"/><circle cx="30" cy="30" r="3" fill="#1c1a17"/>
+      <circle cx="74" cy="32" r="14" fill="#f6f1e3" stroke-width="1.8"/><circle cx="74" cy="32" r="3" fill="#1c1a17"/>
+      <circle cx="108" cy="32" r="14" fill="#f6f1e3" stroke-width="1.8"/><circle cx="108" cy="32" r="3" fill="#1c1a17"/>
+      <circle cx="142" cy="34" r="10" fill="#f6f1e3" stroke-width="1.8"/><circle cx="142" cy="34" r="2.5" fill="#1c1a17"/>
+      <path d="M30 30 108 32" stroke-width="2.4"/>
+      <path d="M-2 30 6 6V22Z" fill="#1c1a17"/>
+    </g>
+    <!-- smoke: layered curls with lines through them -->
+    <g fill="#f6f1e3" stroke="#1c1a17" stroke-width="1.1">
+      <path d="M186 160C176 146 190 134 202 138 206 122 226 120 232 132 246 122 268 130 262 146 280 146 286 164 270 168 258 178 238 172 232 166 218 176 198 172 186 160Z"/>
+      <path d="M244 118C240 104 258 94 270 100 276 86 298 86 302 98 318 94 332 108 320 118 330 128 314 138 302 134 292 144 274 140 270 132 256 136 246 128 244 118Z"/>
+      <path d="M318 84C316 72 332 66 342 72 350 62 368 64 370 76 382 76 386 90 374 94 372 102 358 104 352 98 344 106 330 102 328 94 320 94 318 84Z"/>
+    </g>
+    <g stroke="#1c1a17" stroke-width=".6" opacity=".6" fill="none">
+      <path d="M194 150C206 144 220 146 226 152M214 130C226 126 240 128 248 134M254 112C266 106 284 108 292 114M326 86C338 82 352 84 360 90"/>
+    </g>
+    <!-- a column of men on the embankment -->
+    <g fill="#1c1a17" stroke="none" transform="translate(34 288) scale(1.05)">
+      <g id="man"><circle cx="0" cy="-15" r="2.3"/><path d="M-3.5 -12.5H3.5L4.5 4H-4.5Z"/><path d="M5 -13 6.5 5" stroke="#1c1a17" stroke-width="1"/><path d="M-3 4V13M3 4V13" stroke="#1c1a17" stroke-width="1.6"/></g>
+      <use href="#man" x="17" y="0"/><use href="#man" x="34" y="0"/><use href="#man" x="51" y="0"/><use href="#man" x="68" y="0"/>
+      <use href="#man" x="85" y="0"/><use href="#man" x="102" y="0"/><use href="#man" x="119" y="0"/><use href="#man" x="136" y="0"/>
+    </g>
+    <!-- foreground grass -->
+    <g stroke="#1c1a17" stroke-width=".8" fill="none" opacity=".75">
+      <path d="M470 306C474 292 478 288 480 280M480 306C482 296 490 290 494 284M492 306C494 298 502 296 506 290M552 306C554 296 558 292 560 284M562 306C566 298 572 296 576 290"/>
+    </g>
+  </g>
+  <!-- frame and plate -->
+  <rect x="14" y="14" width="572" height="292" fill="none" stroke="#1c1a17" stroke-width="2.4"/>
+  <rect x="9" y="9" width="582" height="302" fill="none" stroke="#1c1a17" stroke-width=".8"/>
+  <g transform="translate(300 40)">
+    <rect x="-118" y="-13" width="236" height="22" fill="#f1ebd9" stroke="#1c1a17" stroke-width="1.2"/>
+    <text x="0" y="3" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" letter-spacing="3.2" fill="#1c1a17">THE RAILHEAD, 1915</text>
+  </g>
+</svg>

@@ -59,6 +59,37 @@ export function strainedUncertain(choice, meters) {
   };
 }
 
+// ---------- the odds of a contested order, for the dial ----------
+
+export const ODDS_BANDS = [
+  { max: 30, word: "Long odds" },
+  { max: 45, word: "Against us" },
+  { max: 55, word: "Even" },
+  { max: 70, word: "Favourable" },
+  { max: 101, word: "Strong" },
+];
+
+/**
+ * { pct, word, best }: the weight, out of 100, of the better of a contested order's outcomes as it stands now (after strain), and its word.
+ * The better outcome is the battle's own win where the order hosts one, otherwise the outcome whose impact is best in total (as strain reads it).
+ * null for a settled order.
+ */
+export function orderOdds(choice, meters) {
+  const u = choice.uncertain;
+  if (!u || u.length < 2) return null;
+  const strained = strainedUncertain(choice, meters).uncertain;
+  const cfg = typeof battleOf === "function" ? battleOf(choice) : null;
+  let best;
+  if (cfg && u.length === 2) best = cfg.winBranch;
+  else {
+    const sums = u.map((b) => sumImpact(b.impact || choice.impact));
+    best = sums.indexOf(Math.max(...sums));
+  }
+  const total = strained.reduce((s, b) => s + b.weight, 0) || 100;
+  const pct = Math.round((strained[best].weight / total) * 100);
+  return { pct, word: ODDS_BANDS.find((b) => pct < b.max).word, best };
+}
+
 /** For the easy modes: what an order does to each meter, as { axis: [lowest, highest] } over its outcomes. Axes it leaves alone are left out. */
 export function previewImpact(choice) {
   const branches = choice.uncertain && choice.uncertain.length ? choice.uncertain.map((b) => b.impact || choice.impact) : [choice.impact];
@@ -104,7 +135,8 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
 
   let nextMeters = applyImpact(meters, impact);
   if (battle) nextMeters = applyImpact(nextMeters, battle.totals);
-  const nextFlags = { ...flags, ...setFlags };
+  const outcomeText = branch?.outcome ?? choice.outcome ?? null;
+  const nextFlags = tallyStrands({ ...flags, ...setFlags }, choice, impact, outcomeText, campaignId);
   const nextHard = applyErosion(hardState, campaignId, choice);
 
   let nextId = branch?.next ?? null;
@@ -127,5 +159,7 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
     outcome: branch?.outcome ?? choice.outcome ?? null,
     aftermath: branch?.aftermath ?? choice.aftermath ?? null,
     battle,
+    changes: meterChanges(meters, nextMeters, flags, nextFlags, choice, outcomeText, campaignId),
+    contested: Boolean(choice.uncertain && choice.uncertain.length),
   };
 }

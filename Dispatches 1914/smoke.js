@@ -96,6 +96,20 @@ t("flag prefixes are unique",
   t("a snapshot keeps a pending battle report and the settings default to planning on", E.snapshotRun({ campaignId: "gqg", nodeId: "gqg_1914_02_marne", flags: {}, meters: M, hardState: E.emptyHardState(), visited: [], pendingBattle: r.battle }).pendingBattle.id === "marneFrench" && E.defaultSettings().battles === true && E.sanitizeSettings({ schemaVersion: 1, battles: false }).battles === false);
 }
 
+{
+  // The three readings under each meter, and the odds of a contested order
+  const marne = E.findNode("gqg_1914_02_marne").node.choices.find((c) => c.id === "attack");
+  const M = E.emptyMeters();
+  t("each meter has three readings", E.METER_AXES.every((a) => E.METER_STRANDS[a].length === 3));
+  const r = E.chooseNext("gqg", marne, {}, M, E.emptyHardState(), () => 0.1);
+  t("an order tallies where its impact fell", Object.keys(r.flags).some((k) => k.startsWith("st_")) && r.changes.length >= 1 && r.contested === true);
+  t("the readings average back to the headline", E.METER_AXES.every((a) => { const rd = E.strandReadout(a, r.flags, r.meters); return Math.abs(rd.reduce((x, y) => x + y.score, 0) / 3 - r.meters[a]) <= 1; }));
+  t("a change names the reading and the meter it moved", r.changes.every((c) => c.strand.name && c.to - c.from === c.delta));
+  const odds = E.orderOdds(marne, M);
+  t("a contested order has odds with a word, a settled one none", odds && odds.pct === 65 && odds.word === "Favourable" && E.orderOdds({ impact: {} }, M) === null);
+  t("strain worsens the odds", E.orderOdds(marne, { ...M, [E.strainMeterOf(marne)]: -9 }).pct < odds.pct);
+}
+
 // ---- historical note (outcome screen) ----
 {
   let decisions = 0, bad = 0, withDispute = 0;

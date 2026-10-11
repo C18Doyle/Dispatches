@@ -9,6 +9,7 @@
   "34-campaign-aok.jsx",
   "35-campaign-otto.jsx",
   "40-maps.jsx",
+  "41-map-history.jsx",
   "50-registries.jsx",
   "51-meters.jsx",
   "52-succession.jsx",
@@ -23,5 +24,8 @@
   "61-battle.jsx",
   "62-battles.jsx",
   "90-ui.jsx",
-  "95-battle-screens.jsx"
+  "95-battle-screens.jsx",
+  "96-order-screens.jsx",
+  "97-map-screens.jsx",
+  "98-sound.jsx"
 ]

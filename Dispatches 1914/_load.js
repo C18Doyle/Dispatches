@@ -33,7 +33,7 @@ function loadEngine(file) {
     "emptyHardState", "erosionMax", "erosionFromChoice", "applyErosion", "hardModeForcesEnding",
     "findNode", "resolveNode", "rollUncertain", "chooseNext",
     "historicalChoice", "walkSpine", "historicalNote",
-    "snapshotRun", "validateSave", "emptyRecord", "noteNodeSeen", "MAP_CITIES", "MAP_VIEW", "MAP_NEAR", "MAP_LAND_PATH", "mapFor", "noteEnding", "noteEchoes", "echoSeed", "ECHOES", "sanitizeSettings", "defaultSettings", "SAVE_SCHEMA_VERSION",
+    "snapshotRun", "validateSave", "emptyRecord", "noteNodeSeen", "MAP_CITIES", "MAP_VIEW", "MAP_NEAR", "MAP_LAND_PATH", "MAP_COUNTRIES", "mapFor", "MAP_ALLEGIANCE", "MAP_OVERLAYS", "sideOfCountry", "activeOverlays", "mapDate", "meanwhileAt", "noteEnding", "noteRank", "noteBattle", "noteEchoes", "echoSeed", "ECHOES", "sanitizeSettings", "defaultSettings", "SAVE_SCHEMA_VERSION",
     "NODE_ID_PATTERN", "ENDING_ID_PATTERN", "isValidNodeId",
     "STRAIN", "strainMeterOf", "strainedUncertain", "previewImpact", "REWIND_LIMIT",
     "EASY_NAMES", "ENDING_TIER", "RANKS", "EASY_RANK_CAP", "modeOf", "costlyOrders", "rankFor",
@@ -41,6 +41,7 @@ function loadEngine(file) {
     "BATTLES", "BATTLE_COMMANDER_BONUS", "BATTLE_NEGLECT_PENALTY", "BATTLE_BONUS_CLAMP", "BATTLE_SCALE", "BATTLE_INTEL_ERROR", "BATTLE_WEIGHT_BOUNDS",
     "battleOf", "battlePoolSize", "pickBattlePosture", "battleIntel", "battleArmWeight", "battleContributions", "allBattleAllocations", "staffPlanFor",
     "battleBonus", "shiftToward", "battlePlanCosts", "battleFlagsOut", "battleEchoText", "battleRoll",
+    "ODDS_BANDS", "orderOdds", "METER_STRANDS", "strandOf", "strandReadout", "tallyStrands", "meterChanges",
   ];
 
   src += `\nmodule.exports = { ${exported.join(", ")} };\n`;

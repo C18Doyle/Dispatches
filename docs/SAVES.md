@@ -58,3 +58,6 @@ The 1914 war record carries `xc: { flag: value }`, the `xc_` flags a run has set
 
 ## Battle planning (1914)
 The settings gain `battles` (default true: a settings object without it loads as true) and a run snapshot gains `pendingBattle` (the after-action report shown with a pending outcome; null otherwise). Both are optional, so no schema bump was needed. The flags a fought battle leaves are `bx_<battle>_grade`, `bx_<battle>_neglected` and `bx_<battle>_commander`; the next node's text reads them (`battleEchoText` in src/61-battle.jsx).
+
+## The readings, the record and sound (1914)
+Settings gain `holdToSign` and `atmosphere` (defaults true and false). The war record gains `best` (the best command rank per command), `files` (files closed per command) and `battles` (how often each battle was fought, and the best grade): a record without them loads with empty ones. A run's flags gain `st_<reading>` tallies (the three readings under each meter). All optional, so no schema bump.
