@@ -762,5 +762,122 @@
     "status": "drafted",
     "sources": [],
     "note": "A counterfactual position; no source read records his view."
+  },
+  {
+    "id": "bat-aok-1",
+    "node": "aok_1914_03_galicia",
+    "kind": "fact",
+    "claim": "The Austro-Hungarian armies in Galicia (23 August to 11 September 1914) numbered about 950,000 on a front of about 280 km; Russia could bring 260 trains a day to the front against 152.",
+    "status": "web-checked",
+    "sources": [
+      "wp-galicia"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-2",
+    "node": "aok_1914_03_galicia",
+    "kind": "fact",
+    "claim": "Dankl's First Army beat the Russian Fourth Army at Krasnik (about 6,000 prisoners), after which Salza was replaced by Evert; Auffenberg's Fourth Army beat Plehve's Fifth at Komarow (about 20,000 prisoners).",
+    "status": "web-checked",
+    "sources": [
+      "wp-galicia"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-3",
+    "node": "aok_1914_03_galicia",
+    "kind": "fact",
+    "claim": "The Third Army and Army Group Kovess were routed at the Gnila Lipa by Brusilov and Ruzsky; Lemberg was lost, the army fell back about 160 km to the Carpathians, and the siege of Przemysl began.",
+    "status": "web-checked",
+    "sources": [
+      "wp-galicia"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-4",
+    "node": "aok_1914_03_galicia",
+    "kind": "fact",
+    "claim": "The Second Army, recalled from Serbia, arrived too late to affect the first battles.",
+    "status": "web-checked",
+    "sources": [
+      "wp-galicia"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-5",
+    "node": "aok_1914_03_galicia",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the arms and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx."
+  },
+  {
+    "id": "bat-aok-6",
+    "node": "aok_1918_12_piave",
+    "kind": "fact",
+    "claim": "On the Piave in June 1918 the Austro-Hungarian side had 946,000 men and 6,833 guns, and the Italians about 900,000, 5,650 guns and 1,570 mortars.",
+    "status": "web-checked",
+    "sources": [
+      "wp-piave2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-7",
+    "node": "aok_1918_12_piave",
+    "kind": "fact",
+    "claim": "Army Group Boroevic (Fifth Army under Wurm, Sixth under the Archduke Joseph) and Army Group Conrad (Eleventh Army under Scheuchenstuel, Tenth under Krobatin) attacked, with Arz as Chief of the General Staff.",
+    "status": "web-checked",
+    "sources": [
+      "wp-piave2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-8",
+    "node": "aok_1918_12_piave",
+    "kind": "fact",
+    "claim": "Boroevic crossed the Piave on 15 June and held a bridgehead about 24 km wide and 8 deep until Diaz's flank counter-attack of 19 June; Karl ordered the retreat on 20 June and by 23 June the Italians had recovered all the ground.",
+    "status": "web-checked",
+    "sources": [
+      "wp-piave2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-9",
+    "node": "aok_1918_12_piave",
+    "kind": "fact",
+    "claim": "Conrad attacked on the Asiago plateau on 15 June, met stiff resistance at Mount Zovetto, Mount Lemerle and the Tre Monti, and kept attacking without sending reinforcements to the Piave.",
+    "status": "web-checked",
+    "sources": [
+      "wp-piave2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-10",
+    "node": "aok_1918_12_piave",
+    "kind": "fact",
+    "claim": "The Italian artillery opened fire at 2.30 on 15 June, half an hour before the 3.00 attack; the river was swollen, the bridges were destroyed, and many men drowned.",
+    "status": "web-checked",
+    "sources": [
+      "wp-piave2"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-11",
+    "node": "aok_1918_12_piave",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the arms and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx."
   }
 ]

@@ -72,7 +72,7 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
       {shown.filter((c) => c !== node.city).map((c) => <circle key={c} cx={XY[c][0]} cy={XY[c][1]} r={3.2 * s} className="dg-visited" />)}
       {(pins || []).filter((p) => XY[p.city]).map((p) => (
         <g key={p.campaignId} transform={`translate(${XY[p.city][0]} ${XY[p.city][1]})`}>
-          <rect x={-3.6 * s} y={-3.6 * s} width={7.2 * s} height={7.2 * s} transform="rotate(45)" className="dg-pin" style={{ fill: CAMPAIGNS[p.campaignId].accent }} />
+          <rect x={-3.6 * s} y={-3.6 * s} width={7.2 * s} height={7.2 * s} transform="rotate(45)" className="dg-pin" style={{ fill: "var(--acc-" + p.campaignId + ")" }} />
           {full && <text x={7 * s} y={3 * s} fontSize={9.5 * s} className="dg-pintext">{CAMPAIGNS[p.campaignId].seal}</text>}
         </g>
       ))}
@@ -101,7 +101,20 @@ function FrontMapPanel({ campaignId, node, visited }) {
   useEffect(() => {
     if (!open) return undefined;
     if (closer.current) closer.current.focus();
-    const onKey = (e) => { if (e.key === "Escape") { setOpen(false); } };
+    // Escape closes it; Tab and Shift-Tab go round inside it, so the page behind cannot be reached from the keyboard while it is open
+    const onKey = (e) => {
+      if (e.key === "Escape") { setOpen(false); return; }
+      if (e.key !== "Tab") return;
+      const dlg = document.querySelector('.dg-modal[role="dialog"]');
+      if (!dlg) return;
+      const f = [...dlg.querySelectorAll("button, [href], input, summary, [tabindex]")].filter((el) => !el.disabled && el.tabIndex >= 0 && el.offsetParent !== null);
+      if (!f.length) { e.preventDefault(); return; }
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (!dlg.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
     document.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -132,7 +145,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
                 <h2 className="dg-order">Meanwhile</h2>
                 <ul className="dg-meanwhile">
                   {meanwhile.map((m) => (
-                    <li key={m.campaignId} style={{ "--accent": CAMPAIGNS[m.campaignId].accent }}>
+                    <li key={m.campaignId} style={{ "--accent": "var(--acc-" + m.campaignId + ")" }}>
                       <span className="dg-seal">{CAMPAIGNS[m.campaignId].seal}</span>
                       <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{romanDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} days before this report)` : ""}</span>
                     </li>

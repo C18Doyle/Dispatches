@@ -754,5 +754,133 @@
     "status": "drafted",
     "sources": [],
     "note": "Ludendorff's own wording in his memoirs (Meine Kriegserinnerungen); check the English translation's wording against the German."
+  },
+  {
+    "id": "bat-ohl-1",
+    "node": "ohl_1916_04_verdun",
+    "kind": "fact",
+    "claim": "The Verdun attack was set for 12 February and put off by the weather; the bombardment began at 7.15 on 21 February and lasted about ten hours, and the infantry attacked at 4 in the afternoon.",
+    "status": "web-checked",
+    "sources": [
+      "wp-verdun"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-2",
+    "node": "ohl_1916_04_verdun",
+    "kind": "fact",
+    "claim": "About 1,201 guns (two-thirds of them heavy) were massed, 808 of them in the opening bombardment, firing about a million shells on the first day, with 2,000,000 planned for the first six days.",
+    "status": "web-checked",
+    "sources": [
+      "wp-verdun"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-3",
+    "node": "ohl_1916_04_verdun",
+    "kind": "fact",
+    "claim": "III Corps, VII Reserve Corps and XVIII Corps led the attack, each reinforced with 2,400 experienced troops and 2,000 recruits, with XV Corps in army reserve and Rohr's Sturm-Bataillon Number 5 in support.",
+    "status": "web-checked",
+    "sources": [
+      "wp-verdun"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-4",
+    "node": "ohl_1916_04_verdun",
+    "kind": "fact",
+    "claim": "On 25 February men of the Brandenburg Regiment 24 entered Fort Douaumont, held by a skeleton garrison of about 25 under Chenot, its guns having been removed in 1915.",
+    "status": "web-checked",
+    "sources": [
+      "wp-verdun"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-5",
+    "node": "ohl_1916_04_verdun",
+    "kind": "fact",
+    "claim": "Falkenhayn wanted the Meuse Heights and the French army bled; the Fifth Army staff's phrase 'relentless pressure' made the aim ambiguous.",
+    "status": "web-checked",
+    "sources": [
+      "wp-verdun"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-6",
+    "node": "ohl_1916_04_verdun",
+    "kind": "fact",
+    "claim": "The west-bank attack began on 6 March against the Mort-Homme and Hill 265 (Cote 265); German casualties to the end of March were 81,607.",
+    "status": "web-checked",
+    "sources": [
+      "wp-verdun"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-7",
+    "node": "ohl_1916_04_verdun",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the arms and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx."
+  },
+  {
+    "id": "bat-ohl-8",
+    "node": "ohl_1918_09_michael",
+    "kind": "fact",
+    "claim": "The March 1918 offensive used 74 divisions (44 of them 'mobile'), 6,600 guns, 3,500 mortars and 326 aircraft.",
+    "status": "web-checked",
+    "sources": [
+      "wp-michael"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-9",
+    "node": "ohl_1918_09_michael",
+    "kind": "fact",
+    "claim": "Hutier's Eighteenth Army, with about 27 divisions on both sides of St Quentin, was the only army to reach its first-day objectives; Below's Seventeenth Army was to attack toward Arras and Marwitz's Second along the Somme toward Amiens.",
+    "status": "web-checked",
+    "sources": [
+      "wp-michael"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-10",
+    "node": "ohl_1918_09_michael",
+    "kind": "fact",
+    "claim": "The bombardment opened at 4.35 and the barrage at 4.40 along a front of about 69 km, with more than 3.5 million shells in five hours; the infantry attacked at 9.40 in fog.",
+    "status": "web-checked",
+    "sources": [
+      "wp-michael"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-11",
+    "node": "ohl_1918_09_michael",
+    "kind": "fact",
+    "claim": "A directive of 23 March re-aimed the offensive at separating the British and French and then taking Amiens; Operation Mars on 28 March (29 divisions) was repulsed, and Ludendorff ended the offensive on 5 April; the gain was about 3,100 square kilometres, up to 65 km deep.",
+    "status": "web-checked",
+    "sources": [
+      "wp-michael"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-12",
+    "node": "ohl_1918_09_michael",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the arms and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx."
   }
 ]

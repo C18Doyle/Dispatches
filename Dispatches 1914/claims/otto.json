@@ -1199,5 +1199,69 @@
     "status": "drafted",
     "sources": [],
     "note": "Check against an Ottoman-side history."
+  },
+  {
+    "id": "bat-otto-17",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "The Ottoman XVIII Corps (45th and 51st Divisions) besieged Kut and the XIII Corps (35th and 52nd Divisions) blocked the Tigris below it; the Ottoman strength was about 11,000 at first and rose with reinforcements.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-18",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "The garrison was described as 8,000 strong at the outset (13,164 were captured at the surrender, including 6 generals).",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-19",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "British relief attempts: Sheikh Sa'ad (6 to 9 January 1916), the Wadi (13 January), Hanna (2,700 casualties), Dujaila (8 March, about 4,000), and Gorringe's from 5 April, with about 1,200 casualties at Sannaiyat on 22 April; all together about 30,000 killed and wounded.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-20",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "Khalil Pasha came to the battle after Aylmer's defeat with 20,000 to 30,000 reinforcements.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-21",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "No. 30 Squadron RFC made the first air supply operation in history in April 1916; many parcels fell into the Tigris or the Turkish trenches, and the rations delivered from 11 to 29 April were enough for three days.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kut"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-22",
+    "node": "otto_1915_03_kut",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the arms and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx."
   }
 ]

@@ -18,7 +18,11 @@
     "test:migration": "node tests/migration.test.mjs",
     "test:easy": "node tests/easy-mode.test.mjs",
     "test:battle": "node tests/battle.test.mjs",
-    "test:dynamic": "node tests/dynamic.test.mjs"
+    "test:dynamic": "node tests/dynamic.test.mjs",
+    "audit:screens": "node tools/audit-screens.mjs",
+    "review:build": "node tools/claims-review.mjs",
+    "review:status": "node tools/claims-review.mjs --status",
+    "review:apply": "node tools/apply-review.mjs"
   },
   "license": "UNLICENSED",
   "dependencies": {

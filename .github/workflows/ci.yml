@@ -47,6 +47,15 @@ jobs:
       - name: Real-browser smoke test (Chromium + WebKit, accessibility)
         if: matrix.os == 'ubuntu-24.04'
         run: node tools/smoke-browser.mjs
+      - name: Real-browser audit of the 1914 screens (themes, phone, accessibility)
+        if: matrix.os == 'ubuntu-24.04'
+        working-directory: Dispatches 1914
+        env:
+          BROWSERS: chromium,webkit
+          THEMES: paper,night
+        run: |
+          npm run build
+          node tools/audit-screens.mjs
       - name: Keep screenshots
         if: always() && matrix.os == 'ubuntu-24.04'
         uses: actions/upload-artifact@v7

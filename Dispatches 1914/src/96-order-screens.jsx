@@ -72,6 +72,8 @@ function OddsDial({ odds, easy }) {
 }
 
 const HOLD_MS = 900;
+const HOLD_TOUCH_MS = 650; // a finger holds less steadily than a mouse button, and has no other signal that it is being held
+const HOLD_SLOP = 14; // pixels a pointer may move before it is scrolling and not holding
 
 /**
  * An order. A contested one (`hold`) is signed by holding the button down; a keyboard or assistive press signs it at once (a click with no
@@ -79,27 +81,42 @@ const HOLD_MS = 900;
  */
 function OrderButton({ ch, hold, onSign, children }) {
   const [holding, setHolding] = useState(false);
+  const [holdMs, setHoldMs] = useState(HOLD_MS);
   const timer = useRef(null);
+  const origin = useRef(null);
   const stop = () => {
     if (timer.current) { clearTimeout(timer.current); timer.current = null; atmosphereFx("release"); }
     setHolding(false);
   };
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
-  const start = () => {
+  const start = (e) => {
     if (ch.blocked || timer.current) return;
+    const ms = e && e.pointerType === "touch" ? HOLD_TOUCH_MS : HOLD_MS;
+    origin.current = e ? [e.clientX, e.clientY] : null;
+    setHoldMs(ms);
     setHolding(true);
     atmosphereFx("hold");
-    timer.current = setTimeout(() => { timer.current = null; setHolding(false); atmosphereFx("release"); onSign(); }, HOLD_MS);
+    timer.current = setTimeout(() => {
+      timer.current = null;
+      setHolding(false);
+      atmosphereFx("release");
+      try { if (navigator.vibrate) navigator.vibrate(14); } catch (err) { /* no vibration here */ }
+      onSign();
+    }, ms);
+  };
+  const move = (e) => {
+    if (!timer.current || !origin.current) return;
+    if (Math.hypot(e.clientX - origin.current[0], e.clientY - origin.current[1]) > HOLD_SLOP) stop();
   };
   return (
     <button className={"dg-choice" + (holding ? " holding" : "")} disabled={ch.blocked}
       onClick={(e) => { if (!hold || e.detail === 0) onSign(); }}
-      onPointerDown={hold ? start : undefined} onPointerUp={hold ? stop : undefined} onPointerLeave={hold ? stop : undefined} onPointerCancel={hold ? stop : undefined}
+      onPointerDown={hold ? start : undefined} onPointerMove={hold ? move : undefined} onPointerUp={hold ? stop : undefined} onPointerLeave={hold ? stop : undefined} onPointerCancel={hold ? stop : undefined}
       onContextMenu={hold ? (e) => e.preventDefault() : undefined}
-      style={hold ? { touchAction: "manipulation", WebkitTouchCallout: "none", userSelect: "none" } : undefined}>
+      style={hold ? { touchAction: "pan-y", WebkitTouchCallout: "none", userSelect: "none" } : undefined}>
       {children}
       {hold && !ch.blocked && <span className="dg-holdhint">Hold to sign</span>}
-      {hold && <span className="dg-holdbar" aria-hidden="true" style={{ animationDuration: HOLD_MS + "ms" }} />}
+      {hold && <span className="dg-holdbar" aria-hidden="true" style={{ animationDuration: holdMs + "ms" }} />}
     </button>
   );
 }

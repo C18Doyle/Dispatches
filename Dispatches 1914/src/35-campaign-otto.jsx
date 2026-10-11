@@ -432,6 +432,7 @@ CAMPAIGNS.otto.nodes = {
     choices: [
       {
         id: "siege",
+        keyBattleSubgame: { id: "kutOttoman" },
         label: "Stop the assaults, build siege lines round Kut and meet the relief force on the river",
         historical: true,
         advisor: { name: "Enver", position:

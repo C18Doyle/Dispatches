@@ -473,3 +473,537 @@ BATTLES.brusilovRussian = {
     },
   },
 };
+
+BATTLES.galiciaAustro = {
+  id: "galiciaAustro",
+  host: { node: "aok_1914_03_galicia", choice: "offensive" },
+  winBranch: 1,
+  campaign: "aok",
+  title: "Order of Battle: Galicia",
+  flavor:
+    "Conrad has some 950,000 men on a front of about 280 kilometres and a plan to strike north before the Russians are ready. The Russians are stronger on the flank than he thought, " +
+    "and they can bring more trains to the front than he can.",
+  conditions:
+    "The end of August, in the heat. The armies march from railheads: Austria-Hungary can run 152 trains a day to this front, and Russia 260.",
+  categories: [
+    {
+      id: "first", name: "The First Army at Krasnik", meter: "manpower",
+      units: [
+        "Dankl's First Army, on the northern wing",
+        "Its advance toward Krasnik against the Russian Fourth Army",
+        "The Russian Fourth Army's position in front of it",
+      ],
+      real:
+        "Dankl's First Army drove back the Russian Fourth Army at Krasnik and took about 6,000 prisoners. It was one of the two battles in the north that the Austro-Hungarian armies won, and the Russian Fourth Army's commander, Salza, was replaced by Evert afterward.",
+      context:
+        "The First Army is the northern wing of the blow. Each commitment puts more of it into the advance on Krasnik.",
+    },
+    {
+      id: "fourth", name: "The Fourth Army at Komarow", meter: "manpower",
+      units: [
+        "Auffenberg's Fourth Army, in the centre of the northern wing",
+        "Its attack on the Russian Fifth Army under Plehve",
+        "The Russian Fifth Army's line at Komarow",
+      ],
+      real:
+        "Auffenberg's Fourth Army drove back Plehve's Fifth Army at Komarow and took about 20,000 prisoners. It was a victory in the north, won while the south was giving way, and it could not make up for what was lost on the flank.",
+      context:
+        "The Fourth Army is the centre of the blow. Each commitment puts more of it into the attack at Komarow.",
+    },
+    {
+      id: "third", name: "The Third Army and the Southern Flank", meter: "will",
+      units: [
+        "Brudermann's Third Army, advancing against the Russian left",
+        "Army Group Kovess, on its flank",
+        "The Gnila Lipa, the river line east of Lemberg",
+      ],
+      real:
+        "The Third Army and Army Group Kovess were routed at the Gnila Lipa by Brusilov's Eighth Army and Ruzsky's Third. The Russians took Lemberg, and the army fell back about 160 kilometres to the Carpathians.",
+      context:
+        "The southern flank is where the Russians are strongest and the plan is weakest. Each commitment puts more of the army's strength and attention on it.",
+    },
+    {
+      id: "rail", name: "The Second Army and the Railways", meter: "munitions",
+      units: [
+        "The Second Army, recalled from Serbia and on its way north",
+        "The railways: 152 trains a day against Russia's 260",
+        "Przemysl, the fortress behind the line of retreat",
+      ],
+      real:
+        "The Second Army was recalled from Serbia and arrived too late to stop the collapse. Russia could bring 260 trains a day to its front, against 152 for Austria-Hungary, and the siege of Przemysl began once the army had fallen back.",
+      context:
+        "The railways decide how fast the army can be strengthened where it is weak. Each commitment puts more trains, shells and reserves behind the line.",
+    },
+  ],
+  // The southern flank first: it was where the battle was lost. The Fourth Army second, the First third, the Second Army and the railways last.
+  // A game judgment, not a measurement.
+  effectiveness: { third: 2.4, fourth: 2.0, first: 1.7, rail: 1.4 },
+  commanders: [
+    { id: "dankl", name: "Dankl", role: "Commander of the First Army", category: "first",
+      note: "His army is on the northern wing and is going forward." },
+    { id: "auffenberg", name: "Auffenberg", role: "Commander of the Fourth Army", category: "fourth",
+      note: "His army is the centre of the blow." },
+    { id: "kovess", name: "Kovess", role: "Commander of the army group on the southern flank", category: "third",
+      note: "His group is where the Russians are strongest." },
+  ],
+  approaches: [
+    { id: "north", name: "Strike north with the First and Fourth Armies, as planned", note: "The weight goes into the northern wing and the flank is left to hold as it can.", modifiers: { first: 0.4, fourth: 0.4, third: -0.4 } },
+    { id: "flank", name: "Keep a strong force on the southern flank", note: "The flank is covered and the blow in the north is smaller.", modifiers: { third: 0.6, rail: 0.2, first: -0.3, fourth: -0.3 } },
+  ],
+  postures: [
+    { id: "strong", name: "The Russians stronger than expected, on the flank", weight: 2,
+      intel: "Reports speak of Russian armies in strength on the southern flank, more than the plan allows for.",
+      modifiers: { third: 0.7, rail: 0.9 } },
+    { id: "north", name: "The Russians strongest in the north", weight: 1,
+      intel: "Reports speak of the main Russian concentration in the north, against the First and Fourth Armies.",
+      modifiers: { first: 0.8, fourth: 0.8, third: 1.2 } },
+    { id: "late", name: "The Russians not yet concentrated", weight: 1,
+      intel: "Reports say the Russian armies are still coming forward and are not yet in touch with each other.",
+      modifiers: { first: 1.15, fourth: 1.15, third: 1.2, rail: 1.1 } },
+  ],
+  echo: {
+    node: "aok_1914_04_rawa",
+    grade: {
+      clean: "The offensive in Galicia was planned so that every army had its part, and the staff has the habit of working that way.",
+      costly: "The offensive in Galicia won where its weight was put, with other armies starved to pay for it.",
+      marginal: "The plan for Galicia held together, and the battle did not go the way it should have.",
+      total: "The offensive in Galicia was begun with parts of the front left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      first: "The First Army was left short of what it needed.",
+      fourth: "The Fourth Army was left short of what it needed.",
+      third: "The southern flank was left too weak to hold.",
+      rail: "The Second Army and the railways were left short, and help came too late.",
+    },
+    commander: {
+      dankl: "Dankl's army is remembered as the one that won at Krasnik.",
+      auffenberg: "Auffenberg's army is remembered as the one that won at Komarow.",
+      kovess: "Kovess's group is remembered as the one on the flank.",
+    },
+  },
+};
+
+BATTLES.michaelGerman = {
+  id: "michaelGerman",
+  host: { node: "ohl_1918_09_michael", choice: "adaptive" },
+  winBranch: 1,
+  campaign: "ohl",
+  title: "Order of Battle: the March Offensive",
+  flavor:
+    "Seventy-four divisions, 6,600 guns and a method nobody has used on this scale: a hurricane bombardment, then storm troops that go through the line and not at it. " +
+    "What is not settled is what the blow is for.",
+  conditions:
+    "21 March, before dawn. A heavy fog lies on the ground, so thick in places that a man cannot see ten metres. It will hide the infantry, and the guns' targets.",
+  categories: [
+    {
+      id: "eighteenth", name: "The Eighteenth Army at St Quentin", meter: "manpower",
+      units: [
+        "Hutier's Eighteenth Army, about 27 divisions",
+        "Its attack on both sides of St Quentin",
+        "Stormtroop battalions trained to infiltrate the line",
+      ],
+      real:
+        "The Eighteenth Army carried the main weight, with about 27 divisions attacking on both sides of St Quentin, and was the only army to reach its objectives on the first day.",
+      context:
+        "The Eighteenth Army is the arm that can break through. Each commitment puts more of the divisions on the St Quentin sector.",
+    },
+    {
+      id: "north", name: "The Seventeenth and Second Armies", meter: "manpower",
+      units: [
+        "Below's Seventeenth Army, attacking toward Arras",
+        "Marwitz's Second Army, to attack west along the Somme toward Amiens",
+        "The 44 'mobile' divisions among the 74",
+      ],
+      real:
+        "The Seventeenth Army was to advance toward Arras and the Second Army along the Somme toward Amiens. Operation Mars on 28 March, with 29 divisions, was repulsed, and Ludendorff ended the offensive on 5 April after the fighting at Villers-Bretonneux.",
+      context:
+        "The northern armies are meant to roll the British back toward the Channel. Each commitment puts more of them into the attack at Arras and on the Somme.",
+    },
+    {
+      id: "guns", name: "The Hurricane Bombardment", meter: "munitions",
+      units: [
+        "6,600 guns and 3,500 mortars",
+        "326 aircraft",
+        "Gas and smoke shell fired in three phases",
+      ],
+      real:
+        "The bombardment opened at 4.35 and the barrage began at 4.40, along a front of about 69 kilometres: more than 3.5 million shells in five hours. The infantry attacked at 9.40, in fog.",
+      context:
+        "The guns open the line. Each commitment puts more batteries and shells into the five hours before the infantry go.",
+    },
+    {
+      id: "objective", name: "The Objective and the Axis", meter: "will",
+      units: [
+        "Ludendorff's orders, which give each army its axis",
+        "The aim of separating the British from the French",
+        "Amiens, the city on the Somme",
+      ],
+      real:
+        "A directive of 23 March re-aimed the offensive at separating the British and French armies and then taking Amiens. The advance covered some 3,100 square kilometres and as much as 65 kilometres of ground, but never reached Amiens.",
+      context:
+        "What the blow is for decides where the reserves go. Each commitment puts more of the headquarters' attention on naming the objective and holding to it.",
+    },
+  ],
+  // The Eighteenth Army first: it was the army that went through. The objective second: how the blow was directed was what the criticism was about.
+  // The guns third, the northern armies last. A game judgment, not a measurement.
+  effectiveness: { eighteenth: 2.4, objective: 2.2, guns: 1.8, north: 1.4 },
+  commanders: [
+    { id: "ludendorff", name: "Ludendorff", role: "First Quartermaster-General", category: "objective",
+      note: "He has made the breakthrough the plan, and the objective whatever the line gives." },
+    { id: "hutier", name: "Hutier", role: "Commander of the Eighteenth Army", category: "eighteenth",
+      note: "His army is the one that is to break through at St Quentin." },
+  ],
+  approaches: [
+    { id: "exploit", name: "Exploit wherever the line gives", note: "The armies go where the resistance is weakest, and the objective follows.", modifiers: { eighteenth: 0.3, north: 0.2, objective: -0.4 } },
+    { id: "amiens", name: "Hold every army to its axis, with Amiens in view", note: "One objective, and no diversions from it.", modifiers: { objective: 0.5, guns: 0.2, north: -0.3 } },
+  ],
+  postures: [
+    { id: "forward", name: "A thinly held forward zone", weight: 2,
+      intel: "Reconnaissance shows the British Fifth Army spread thinly over a long front, with its forward zone lightly held and its reserves far back.",
+      modifiers: { eighteenth: 1.2, guns: 1.1 } },
+    { id: "depth", name: "A defence in depth", weight: 1,
+      intel: "Prisoners speak of a deep battle zone behind the forward line and of reserves close up to hold it.",
+      modifiers: { north: 0.75, eighteenth: 0.85, objective: 1.1 } },
+    { id: "warned", name: "An enemy that is ready", weight: 1,
+      intel: "Deserters report the British expecting an attack within days, and their batteries moved to cover the approaches.",
+      modifiers: { guns: 0.75, eighteenth: 0.85, objective: 0.9 } },
+  ],
+  echo: {
+    node: "ohl_1918_13_aisne",
+    grade: {
+      clean: "The March offensive was planned so that every army and every arm had its part and its objective, and the staff is proud of the work.",
+      costly: "The March offensive was won where its weight was put, with the rest starved to pay for it.",
+      marginal: "The plan for March held together, and the offensive did not go as it should have.",
+      total: "The March offensive was begun with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      eighteenth: "The Eighteenth Army was left short of what it needed to break through.",
+      north: "The northern armies were left short, and could not hold the British.",
+      guns: "The bombardment was left short of what the plan asked of it.",
+      objective: "No objective was held to, and the armies went where the line gave.",
+    },
+    commander: {
+      ludendorff: "Ludendorff's choice of objective is the one the army is arguing about.",
+      hutier: "Hutier's army is remembered as the one that broke through.",
+    },
+  },
+};
+
+BATTLES.verdunGerman = {
+  id: "verdunGerman",
+  host: { node: "ohl_1916_04_verdun", choice: "attrition" },
+  winBranch: 0,
+  campaign: "ohl",
+  title: "Order of Battle: Verdun",
+  flavor:
+    "Falkenhayn wants the French army drawn into a battle it cannot refuse and bled by the guns. The Fifth Army, which will fight it, can read the directive as an " +
+    "order to take a fortress. The artillery programme is the same either way, for the first week.",
+  conditions:
+    "Late February, after a delay for the weather. The forts round Verdun have been stripped of their heavy guns, and the German guns are massed on the east bank of the Meuse.",
+  categories: [
+    {
+      id: "guns", name: "The Guns and the Shell Supply", meter: "munitions",
+      units: [
+        "1,201 guns massed on the Verdun front, about two-thirds of them heavy",
+        "808 guns in the opening bombardment",
+        "A planned 2,000,000 shells in the first six days",
+      ],
+      real:
+        "The attack was set for 12 February and put off by the weather. The bombardment began at 7.15 on the morning of 21 February and lasted about ten hours, with about a million shells on the first day.",
+      context:
+        "The guns do what the plan says they will. Each commitment puts more heavy batteries and shells on the French lines, and keeps them there longer.",
+    },
+    {
+      id: "assault", name: "The Assault Corps", meter: "manpower",
+      units: [
+        "III Corps, VII Reserve Corps and XVIII Corps, each reinforced with 2,400 experienced troops and 2,000 recruits",
+        "Rohr's Sturm-Bataillon Number 5, the stormtroop battalion",
+        "The Brandenburg Regiment 24",
+      ],
+      real:
+        "The infantry attacked at 4 in the afternoon of 21 February. On 25 February men of the Brandenburg Regiment 24 entered Fort Douaumont, held by a skeleton garrison of about 25 under Chenot; most of its guns had been taken away in 1915.",
+      context:
+        "The infantry take the ground. Each commitment puts more of the corps into the attack, and fewer behind it.",
+    },
+    {
+      id: "command", name: "The Directive and the Command", meter: "will",
+      units: [
+        "Falkenhayn's directive, which can be read either way",
+        "The Fifth Army's staff, who added the phrase 'relentless pressure'",
+        "Knobelsdorf as chief of staff, and the Crown Prince as army commander",
+      ],
+      real:
+        "Falkenhayn wanted the Meuse Heights, from which artillery could dominate the battle, and the French army bled. The phrase 'relentless pressure' made the aim ambiguous, since it could be read as an order to take Verdun.",
+      context:
+        "How the directive is read decides what the operation is. Each commitment puts more of the headquarters' effort into saying plainly what the battle is for.",
+    },
+    {
+      id: "reserve", name: "The Reserve and the West Bank", meter: "manpower",
+      units: [
+        "XV Corps, held in army reserve",
+        "The French guns on the west bank of the Meuse, firing across the river",
+        "The Mort-Homme and Hill 265 (Cote 265), the west-bank heights",
+      ],
+      real:
+        "The attack on the west bank began on 6 March, against the Mort-Homme and Hill 265, to silence the French artillery that fired across the river. By the end of March the German casualties were 81,607.",
+      context:
+        "The reserve is what the battle can go on with. Each commitment holds more men back, for the day the first plan runs out.",
+    },
+  ],
+  // The command first: the roll turns on how the directive is read. The guns second, because the plan was an artillery plan. The assault corps third and the reserve last.
+  // A game judgment, not a measurement.
+  effectiveness: { command: 2.4, guns: 2.2, assault: 1.8, reserve: 1.3 },
+  commanders: [
+    { id: "falkenhayn", name: "Falkenhayn", role: "Chief of the General Staff", category: "command",
+      note: "It is his battle: the French army is the object, and the city is only the bait." },
+    { id: "knobelsdorf", name: "Knobelsdorf", role: "Chief of Staff of the Fifth Army", category: "assault",
+      note: "His army has been given the directive, and may read it as an order to take the fortress." },
+  ],
+  approaches: [
+    { id: "bleed", name: "Hold the ground and let the French counter-attack into the guns", note: "The guns do the work, and the infantry take only what the guns have cleared.", modifiers: { guns: 0.4, command: 0.3, assault: -0.4 } },
+    { id: "press", name: "Press the infantry forward and take the heights", note: "Every day's ground is taken, and the reserve is spent behind it.", modifiers: { assault: 0.5, reserve: 0.3, guns: -0.2, command: -0.4 } },
+  ],
+  postures: [
+    { id: "stripped", name: "A fortress stripped of its guns", weight: 2,
+      intel: "Aerial photographs and agents report the forts stripped of their heavy guns, the trenches thinly held and few reserves near.",
+      modifiers: { assault: 1.2, guns: 1.1 } },
+    { id: "reinforced", name: "French divisions arriving", weight: 1,
+      intel: "Agents report French divisions arriving by rail on the Meuse, and the line being strengthened behind the forts.",
+      modifiers: { assault: 0.75, reserve: 0.8 } },
+    { id: "counter", name: "A French counter-attack at once", weight: 1,
+      intel: "Prisoners say the French command means to counter-attack at once and not to give up ground.",
+      modifiers: { guns: 1.2, assault: 0.85, command: 1.1 } },
+  ],
+  echo: {
+    node: "ohl_1916_14_somme",
+    grade: {
+      clean: "The battle on the Meuse was planned so that the guns, the infantry, the reserve and the directive all pointed one way, and the staff knows it.",
+      costly: "The battle on the Meuse was fought as the directive meant, with some arms starved to pay for the rest.",
+      marginal: "The plan on the Meuse held together, and the battle did not go as it was meant to.",
+      total: "The battle on the Meuse was begun with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      guns: "The guns were left short of what the plan needed.",
+      assault: "The assault corps were left short of men.",
+      command: "The directive was left to be read two ways.",
+      reserve: "The reserve was left too small to go on with.",
+    },
+    commander: {
+      falkenhayn: "Falkenhayn's plan is the one the army is arguing about.",
+      knobelsdorf: "Knobelsdorf's reading of the directive is the one the army is arguing about.",
+    },
+  },
+};
+
+BATTLES.kutOttoman = {
+  id: "kutOttoman",
+  host: { node: "otto_1915_03_kut", choice: "siege" },
+  winBranch: 0,
+  campaign: "otto",
+  title: "Order of Battle: Kut",
+  flavor:
+    "A British Indian garrison is shut in a bend of the Tigris, and a relief force is gathering at Basra. The Sixth Army has three failed attacks behind it and not enough men for another.",
+  conditions:
+    "Winter on the Tigris: floods, mud and marsh, with the river the only road. The garrison has food for some weeks, and the relief force has to fight up the river to reach it.",
+  categories: [
+    {
+      id: "siege", name: "The Siege Lines", meter: "manpower",
+      units: [
+        "The XVIII Corps, with the 45th and 51st Divisions, assigned to besiege Kut",
+        "The siege works that Goltz directed after the December attacks",
+        "A garrison of 8,000 to 13,000 men",
+      ],
+      real:
+        "The Ottoman pursuit reached Kut on 7 December 1915 and Goltz made three attacks in December. After they failed he directed the building of siege works, and the siege lasted 147 days, to the surrender on 29 April 1916, when 13,164 men were taken.",
+      context:
+        "The siege lines keep the garrison where it is. Each commitment puts more of the army round the town, and fewer on the river.",
+    },
+    {
+      id: "blocking", name: "The Blocking Force on the Tigris", meter: "manpower",
+      units: [
+        "The XIII Corps, with the 35th and 52nd Divisions, assigned down the Tigris to block any relief from Basra",
+        "The river positions at Sheikh Sa'ad, the Wadi, Hanna and Dujaila",
+        "The fords and the marsh on the Tigris",
+      ],
+      real:
+        "The British relief attempts failed at Sheikh Sa'ad (6 to 9 January), the Wadi (13 January), Hanna, Dujaila (8 March) and, under Gorringe from 5 April, at Sannaiyat on 22 April, with about 1,200 British casualties there. All the relief efforts together cost around 30,000 killed and wounded.",
+      context:
+        "The blocking force meets the relief where it comes. Each commitment puts more men on the river positions, and takes them from the siege.",
+    },
+    {
+      id: "command", name: "Goltz and the Command", meter: "will",
+      units: [
+        "Goltz, who led the Ottoman forces",
+        "Khalil Pasha, who brought 20,000 to 30,000 reinforcements after Aylmer's defeat",
+        "The Sixth Army, created on 5 October 1915",
+      ],
+      real:
+        "The Sixth Army was created on 5 October 1915 under Goltz, who died of disease about a week before the surrender (typhoid, typhus or cholera, the sources disagree). Khalil Pasha came to the battle after Aylmer's defeat, with 20,000 to 30,000 reinforcements.",
+      context:
+        "A command that knows what it wants gets it. Each commitment puts more of the headquarters' effort into holding the plan together.",
+    },
+    {
+      id: "supply", name: "Reinforcement and Supply", meter: "munitions",
+      units: [
+        "The reinforcements that raise the Ottoman strength from about 11,000",
+        "The ammunition and rations for the siege lines",
+        "No. 30 Squadron of the Royal Flying Corps, flying supplies to the garrison",
+      ],
+      real:
+        "In April 1916 the Royal Flying Corps carried out the first air supply operation in history, but many parcels fell into the Tigris or the Ottoman trenches, and the rations delivered from 11 to 29 April were enough for only three days.",
+      context:
+        "Supply decides how long each side can hold. Each commitment puts more shells, rations and fresh men behind the Ottoman lines.",
+    },
+  ],
+  // The blocking force first: the relief was beaten on the river. The siege lines second, the command third, the supply last. A game judgment, not a measurement.
+  effectiveness: { blocking: 2.4, siege: 2.0, command: 1.6, supply: 1.5 },
+  commanders: [
+    { id: "goltz", name: "Goltz", role: "German field marshal, commander of the Sixth Army", category: "siege",
+      note: "He built the siege works after the assaults failed, and will not see the end." },
+    { id: "khalil", name: "Khalil Pasha", role: "Commander who brought the reinforcements", category: "blocking",
+      note: "He has the relief to meet, and the reinforcements to do it with." },
+  ],
+  approaches: [
+    { id: "starve", name: "Starve the garrison and meet the relief on the river", note: "No more assaults on the town; the weight goes to the river positions.", modifiers: { blocking: 0.3, siege: 0.2, supply: 0.1, command: -0.2 } },
+    { id: "close", name: "Close the siege lines tighter and keep the army round the town", note: "The garrison is pressed, and the river is held by less.", modifiers: { siege: 0.5, command: 0.2, blocking: -0.3 } },
+  ],
+  postures: [
+    { id: "piecemeal", name: "Relief attempts one after another", weight: 2,
+      intel: "Reports from Basra say the British are sending the relief up the river in separate forces, as each is ready.",
+      modifiers: { blocking: 1.2, supply: 1.1 } },
+    { id: "together", name: "A relief in force, with air supply", weight: 1,
+      intel: "Reports say the British are gathering a larger force at once and mean to supply the garrison from the air.",
+      modifiers: { blocking: 0.7, siege: 0.9, supply: 0.9 } },
+    { id: "breakout", name: "A breakout by the garrison", weight: 1,
+      intel: "Deserters say the British commander in Kut wants to break out and join the relief.",
+      modifiers: { siege: 0.7, command: 1.1 } },
+  ],
+  echo: {
+    node: "otto_1916_01_erzurum",
+    grade: {
+      clean: "The siege was planned so that the lines, the river and the command all had their part, and the staff has learned from it.",
+      costly: "The siege was won, with some arms starved to pay for the rest.",
+      marginal: "The siege was planned soundly, and the relief went the other way.",
+      total: "The siege was begun with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      siege: "The siege lines were left thin.",
+      blocking: "The river positions were left short of men.",
+      command: "The command was left divided about what the army was for.",
+      supply: "The lines were left short of shells and rations.",
+    },
+    commander: {
+      goltz: "Goltz's siege is the one the army talks about.",
+      khalil: "Khalil's defence of the river is the one the army talks about.",
+    },
+  },
+};
+
+BATTLES.piaveAustro = {
+  id: "piaveAustro",
+  host: { node: "aok_1918_12_piave", choice: "divide" },
+  winBranch: 1,
+  campaign: "aok",
+  title: "Order of Battle: the Piave",
+  flavor:
+    "The last offensive of the monarchy: 946,000 men and some 6,800 guns, and two army-group commanders who want different battles. Boroevic wants to cross the Piave, and Conrad wants to come down " +
+    "from the mountains onto the plain.",
+  conditions:
+    "Mid-June, with the Piave swollen. Bridges have to be thrown across a river that the Italian guns can reach.",
+  categories: [
+    {
+      id: "boroevic", name: "Boroevic's Thrust on the Piave", meter: "manpower",
+      units: [
+        "Army Group Boroevic: the Fifth Army (Wurm) and the Sixth (the Archduke Joseph)",
+        "The crossing of the Piave toward the Adriatic coast",
+        "The bridgehead on the far bank",
+      ],
+      real:
+        "Boroevic's army group crossed the Piave on 15 June. It held a bridgehead about 24 kilometres wide and 8 deep until Diaz counter-attacked its flank on 19 June, which the Italians had retaken in full by 23 June.",
+      context:
+        "The Piave thrust is the one that can get across. Each commitment puts more of the army on the river, and takes it from the mountains.",
+    },
+    {
+      id: "conrad", name: "Conrad's Thrust from the Mountains", meter: "manpower",
+      units: [
+        "Army Group Conrad: the Eleventh Army (Scheuchenstuel) and the Tenth (Krobatin)",
+        "The Asiago plateau, and the road to Vicenza",
+        "Mount Zovetto, Mount Lemerle and the Tre Monti",
+      ],
+      real:
+        "Conrad attacked on the Asiago plateau on 15 June, aiming for Vicenza. He met stiff resistance at Mount Zovetto, Mount Lemerle and the Tre Monti, and went on attacking with a diminished force instead of sending reinforcements to the Piave.",
+      context:
+        "The mountain thrust is the one that can come down onto the plain. Each commitment puts more of the army on the plateau, and takes it from the river.",
+    },
+    {
+      id: "guns", name: "The Guns and the Bridges", meter: "munitions",
+      units: [
+        "6,833 guns in all on the Austro-Hungarian side",
+        "The bridging trains and pontoons",
+        "The batteries that are to cover the crossing",
+      ],
+      real:
+        "The Italian side had 5,650 guns and 1,570 mortars. The swollen river and the destruction of the bridges cut off the units that had crossed, and many men are reported to have drowned trying to get back.",
+      context:
+        "The guns and the bridges decide whether a crossing can be held. Each commitment puts more batteries and bridging behind the attack.",
+    },
+    {
+      id: "secrecy", name: "Surprise and the Emperor's Orders", meter: "will",
+      units: [
+        "The plan of attack and the hour that was fixed for it",
+        "Emperor Karl, who ordered the retreat",
+        "Arz, the Chief of the General Staff",
+      ],
+      real:
+        "The Italian artillery opened fire at 2.30 on the morning of 15 June, half an hour before the Austro-Hungarian attack at 3.00. Karl ordered the retreat on 20 June, and by 23 June the Italians had recovered all that was lost.",
+      context:
+        "A blow that is expected is a different blow. Each commitment puts more of the headquarters' effort into keeping the day and the place from the enemy.",
+    },
+  ],
+  // The Piave thrust first, because it was the one that got across. Surprise second: the Italian artillery opened before the attack. The mountain thrust third, the guns last.
+  // A game judgment, not a measurement.
+  effectiveness: { boroevic: 2.3, secrecy: 2.2, conrad: 1.8, guns: 1.6 },
+  commanders: [
+    { id: "boroevic", name: "Boroevic", role: "Commander of the army group on the Piave", category: "boroevic",
+      note: "He wants the whole army on the river." },
+    { id: "conrad", name: "Conrad", role: "Commander of the army group in the mountains", category: "conrad",
+      note: "He wants the attack from the mountains, and will not be told it is the lesser one." },
+    { id: "arz", name: "Arz", role: "Chief of the General Staff", category: "secrecy",
+      note: "He has two army-group commanders who want different battles, and one day to keep secret." },
+  ],
+  approaches: [
+    { id: "equal", name: "Equal shares, as ordered", note: "Each commander has his own thrust and half the forces, and neither can say he was refused.", modifiers: { conrad: 0.3, boroevic: 0.2, secrecy: -0.2 } },
+    { id: "river", name: "Give the reserves and the bridging to the Piave thrust", note: "The two thrusts are made, and the one on the river is the stronger.", modifiers: { boroevic: 0.6, guns: 0.3, conrad: -0.5 } },
+  ],
+  postures: [
+    { id: "forewarned", name: "An enemy that has been told the day", weight: 2,
+      intel: "Deserters and prisoners speak of Italian batteries moved up and a counter-bombardment prepared for the morning of the attack.",
+      modifiers: { guns: 0.7, boroevic: 0.8, secrecy: 0.6 } },
+    { id: "quiet", name: "A quiet front", weight: 1,
+      intel: "The Italian line is quiet, with no sign of preparations on the river or on the plateau.",
+      modifiers: { boroevic: 1.3, conrad: 1.2, secrecy: 1.4 } },
+    { id: "elastic", name: "A defence that gives way", weight: 1,
+      intel: "The Italian forward positions are lightly held, and the strength is held back on a second line.",
+      modifiers: { conrad: 0.8, guns: 0.8, boroevic: 1.0 } },
+  ],
+  echo: {
+    node: "aok_1918_13_vittorio",
+    grade: {
+      clean: "The offensive on the Piave was planned so that both thrusts and the guns and the secrecy all had their part, and the staff is proud of the work.",
+      costly: "The offensive on the Piave won where its weight was put, with the rest starved to pay for it.",
+      marginal: "The plan for the Piave held together, and the battle did not go the way it should have.",
+      total: "The offensive on the Piave was begun with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      boroevic: "The thrust on the Piave was left short of what it needed.",
+      conrad: "The thrust from the mountains was left short of what it needed.",
+      guns: "The guns and the bridges were left short, and the crossing could not be held.",
+      secrecy: "The day was left to leak, and the Italians were ready.",
+    },
+    commander: {
+      boroevic: "Boroevic's thrust is remembered as the one that got across.",
+      conrad: "Conrad's thrust is remembered as the one that was left alone.",
+      arz: "Arz's plan is the one that the army is arguing about.",
+    },
+  },
+};

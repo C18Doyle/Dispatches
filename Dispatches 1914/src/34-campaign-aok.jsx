@@ -208,6 +208,7 @@ CAMPAIGNS.aok.nodes = {
     choices: [
       {
         id: "offensive",
+        keyBattleSubgame: { id: "galiciaAustro" },
         label: "Launch the offensive north into Russian Poland",
         historical: true,
         advisor: { name: "Conrad", position:
@@ -1174,6 +1175,7 @@ CAMPAIGNS.aok.nodes = {
     choices: [
       {
         id: "divide",
+        keyBattleSubgame: { id: "piaveAustro" },
         label: "Give each commander his own thrust and divide the forces equally",
         historical: true,
         advisor: { name: "Arz von Straussenburg", position:

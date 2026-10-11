@@ -557,6 +557,7 @@ CAMPAIGNS.ohl.nodes = {
     choices: [
       {
         id: "attrition",
+        keyBattleSubgame: { id: "verdunGerman" },
         label: "Make the object the French army — hold the ground, let them counter-attack into the guns",
         historical: true,
         advisor: { name: "Falkenhayn", position:
@@ -1224,6 +1225,7 @@ CAMPAIGNS.ohl.nodes = {
     choices: [
       {
         id: "adaptive",
+        keyBattleSubgame: { id: "michaelGerman" },
         label: "Make the breakthrough the objective — exploit wherever the line gives",
         historical: true,
         advisor: { name: "Ludendorff", position:
