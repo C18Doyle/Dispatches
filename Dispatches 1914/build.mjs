@@ -35,6 +35,6 @@ fs.writeFileSync("dist/index.html",
 `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dispatches 1914</title>
-<style>html,body{margin:0;padding:0;background:#f4efe2;min-height:100%}#root{max-width:600px;margin:0 auto;overflow-x:hidden}</style>
+<style>html,body{margin:0;padding:0;background:#d8cfb6;background-image:radial-gradient(ellipse at 50% 0,#e6dec9,#d2c8ad 70%);min-height:100%}#root{max-width:600px;margin:0 auto;overflow-x:hidden;min-height:100vh;background:#f4efe2;box-shadow:0 0 0 1px rgba(28,26,23,.14),0 12px 44px rgba(28,26,23,.22)}</style>
 </head><body><div id="root"></div><script>${js}</script></body></html>`);
 console.log(`built dist/index.html (DEMO_BUILD=${DEMO_BUILD})`);
