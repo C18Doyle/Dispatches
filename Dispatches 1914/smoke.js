@@ -120,5 +120,31 @@ t("ottoman blocked on spec §9", E.CAMPAIGNS.otto.blockingIssue.resolved === fal
   t("every departure from the record is read by some node", differs);
 }
 
+{
+  // Strain: a command short of what a contested order is about finds it harder (55-choose.jsx)
+  const roll = { id: "x", impact: { manpower: -1 }, uncertain: [
+    { weight: 60, impact: { manpower: 2 }, next: "good" },
+    { weight: 40, impact: { manpower: -4 }, next: "bad" },
+  ] };
+  const at = (m) => E.strainedUncertain(roll, { manpower: m, munitions: 0, will: 0 });
+  t("no strain at 0, at -2", at(0).points === 0 && at(-2).points === 0 && at(0).uncertain === roll.uncertain);
+  t("each point short of -2 moves 3 points from the best outcome to the worst", at(-3).points === 3 && at(-3).uncertain[0].weight === 57 && at(-3).uncertain[1].weight === 43);
+  t("strain is capped at 15 points and the weights still add to 100", at(-10).points === 15 && at(-10).uncertain.reduce((s, b) => s + b.weight, 0) === 100);
+  t("strain never takes the best outcome below its floor", E.strainedUncertain({ ...roll, uncertain: [{ weight: 8, impact: { manpower: 2 } }, { weight: 92, impact: { manpower: -4 } }] }, { manpower: -10, munitions: 0, will: 0 }).uncertain[0].weight === 5);
+  t("strain follows the meter the order is about", E.strainMeterOf(roll) === "manpower" && E.strainedUncertain(roll, { manpower: 0, munitions: -9, will: -9 }).points === 0);
+  t("an order with equal outcomes is not strained", E.strainedUncertain({ uncertain: [{ weight: 50, impact: { will: 1 } }, { weight: 50, impact: { will: 1 } }] }, { manpower: 0, munitions: 0, will: -9 }).points === 0);
+  t("the roll uses the strained weights", E.chooseNext("ohl", roll, {}, { manpower: -10, munitions: 0, will: 0 }, E.emptyHardState(), () => 0.5).branch.next === "bad");
+  t("without strain the same roll goes the other way", E.chooseNext("ohl", roll, {}, E.emptyMeters(), E.emptyHardState(), () => 0.5).branch.next === "good");
+  const pv = E.previewImpact(roll);
+  t("the easy mode's preview gives the range over a contested order's outcomes", pv.manpower[0] === -4 && pv.manpower[1] === 2 && !pv.will);
+  t("and the plain effect of a settled order", JSON.stringify(E.previewImpact({ impact: { will: -2, manpower: 1 } })) === JSON.stringify({ manpower: [1, 1], will: [-2, -2] }));
+  // The save carries the easy mode and the take-back history, and an older save without them still validates.
+  const snap = E.snapshotRun({ campaignId: "ohl", nodeId: E.CAMPAIGNS.ohl.startNode, flags: {}, meters: E.emptyMeters(), hardState: E.emptyHardState(), visited: [], easy: true, taken: [{ node: "a", choice: "b" }], history: [{ nodeId: "x" }] });
+  t("a snapshot keeps easy, taken and history", snap.easy === true && snap.taken.length === 1 && snap.history.length === 1);
+  const old = { ...snap }; delete old.easy; delete old.taken; delete old.history;
+  t("a save made before the easy mode still validates", E.validateSave(snap) && E.validateSave(old));
+  t("rewind history is capped", E.snapshotRun({ campaignId: "ohl", nodeId: "n", flags: {}, meters: E.emptyMeters(), hardState: E.emptyHardState(), visited: [], history: new Array(E.REWIND_LIMIT + 10).fill({}) }).history.length === E.REWIND_LIMIT);
+}
+
 console.log(`smoke: ${fail} failure${fail===1?"":"s"}`);
 process.exit(fail ? 1 : 0);

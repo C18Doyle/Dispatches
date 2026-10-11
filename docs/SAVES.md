@@ -24,6 +24,7 @@ losing them costs a counter, not a run.)
 3. **Changing what a save means or holds: bump `SAVE_SCHEMA_VERSION` and add `SAVE_MIGRATIONS[oldVersion]`**, a function
    that turns a version-n save into a version-n+1 save. Never bump without the migration: with no migration the old
    save is thrown away, which wipes every player's run.
+   An OPTIONAL new field that an old save can simply lack, read with a default, needs no bump (1914's easy flag, orders taken and take-back history are that kind).
 4. **A save from a newer build is refused**, not guessed at. A save that cannot be upgraded is cleared quietly; the
    player never sees a broken Resume button.
 5. **Never edit or re-record the committed old saves to make a test pass.** `tests/saves/*` are saves made by earlier

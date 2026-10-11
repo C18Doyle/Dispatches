@@ -8465,6 +8465,65 @@ export function rollUncertain(uncertain, rng = Math.random) {
   return uncertain[uncertain.length - 1];
 }
 
+// ---------- strain: a command that is short of something finds contested orders harder ----------
+//
+// Below -2, each point a meter is short moves STRAIN.perPoint of weight on a contested roll from its best outcome to its worst, to
+// at most STRAIN.max points, and never below STRAIN.floor on the best outcome. The meter is the one the order is about. It applies
+// only to rolls (a settled outcome is narrated, never rolled), it is worked out from the meters at the moment of the order, and the
+// same function feeds the screen and the roll, so the player is shown what is rolled.
+
+export const STRAIN = { from: -2, perPoint: 3, max: 15, floor: 5 };
+
+const sumImpact = (impact) => METER_AXES.reduce((s, a) => s + ((impact && impact[a]) || 0), 0);
+
+/** The meter a contested order is about: the one its outcomes move most, in total. */
+export function strainMeterOf(choice) {
+  const branches = choice.uncertain && choice.uncertain.length ? choice.uncertain.map((b) => b.impact || choice.impact) : [choice.impact];
+  let best = METER_AXES[0];
+  let bestTotal = -1;
+  for (const axis of METER_AXES) {
+    const total = branches.reduce((s, imp) => s + Math.abs((imp && imp[axis]) || 0), 0);
+    if (total > bestTotal) {
+      bestTotal = total;
+      best = axis;
+    }
+  }
+  return best;
+}
+
+/** { uncertain, points, meter }: the order's contested outcomes after strain (the same array when there is none). */
+export function strainedUncertain(choice, meters) {
+  const u = choice.uncertain;
+  if (!u || u.length < 2) return { uncertain: u, points: 0, meter: null };
+  const meter = strainMeterOf(choice);
+  const lack = Math.max(0, STRAIN.from - (meters ? meters[meter] : 0));
+  if (!lack) return { uncertain: u, points: 0, meter };
+  const sums = u.map((b) => sumImpact(b.impact || choice.impact));
+  const best = sums.indexOf(Math.max(...sums));
+  const worst = sums.indexOf(Math.min(...sums));
+  if (best === worst || sums[best] === sums[worst]) return { uncertain: u, points: 0, meter };
+  const moved = Math.min(STRAIN.max, lack * STRAIN.perPoint, u[best].weight - STRAIN.floor);
+  if (moved <= 0) return { uncertain: u, points: 0, meter };
+  return {
+    uncertain: u.map((b, i) => (i === best ? { ...b, weight: b.weight - moved } : i === worst ? { ...b, weight: b.weight + moved } : b)),
+    points: moved,
+    meter,
+  };
+}
+
+/** For the easy modes: what an order does to each meter, as { axis: [lowest, highest] } over its outcomes. Axes it leaves alone are left out. */
+export function previewImpact(choice) {
+  const branches = choice.uncertain && choice.uncertain.length ? choice.uncertain.map((b) => b.impact || choice.impact) : [choice.impact];
+  const out = {};
+  for (const axis of METER_AXES) {
+    const values = branches.map((imp) => (imp && imp[axis]) || 0);
+    const lo = Math.min(...values);
+    const hi = Math.max(...values);
+    if (lo !== 0 || hi !== 0) out[axis] = [lo, hi];
+  }
+  return out;
+}
+
 /**
  * Apply a choice. Returns the next node id and updated state.
  *
@@ -8475,7 +8534,7 @@ export function rollUncertain(uncertain, rng = Math.random) {
 export function chooseNext(campaignId, choice, flags, meters, hardState, rng = Math.random) {
   let branch = null;
   if (choice.uncertain && choice.uncertain.length) {
-    branch = rollUncertain(choice.uncertain, rng);
+    branch = rollUncertain(strainedUncertain(choice, meters).uncertain, rng);
   }
 
   const impact = branch?.impact ?? choice.impact;
@@ -8680,7 +8739,7 @@ export function removeKey(key) {
 // ---------- the saved run ----------
 
 /** What is stored for a run in progress. `pendingOutcome` (and `pendingRecord`, the historical note shown with it) are set while the player is on an outcome screen. */
-export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null }) {
+export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null, easy = false, taken = [], history = [] }) {
   return {
     schemaVersion: SAVE_SCHEMA_VERSION,
     campaignId,
@@ -8692,9 +8751,16 @@ export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visi
     pendingNextId,
     pendingOutcome,
     pendingRecord,
+    // Added in 1.3.0, all optional: a save made before them has none and resumes as a standard (or hard) run with no rewind history.
+    easy: Boolean(easy),
+    taken: Array.isArray(taken) ? taken : [],
+    history: Array.isArray(history) ? history.slice(-REWIND_LIMIT) : [],
     savedAt: Date.now(),
   };
 }
+
+/** How many orders the easy mode can take back. */
+export const REWIND_LIMIT = 40;
 
 /** A save is only offered for resume if it parses, is a known version, and still resolves in the current content. */
 export function validateSave(saved) {
@@ -8861,6 +8927,203 @@ export function saveSettings(settings) {
 
 
 // =============================================================================
+// EASY MODE NAMES AND THE COMMAND RANK
+// =============================================================================
+//
+// The easy mode is named for a famous machine of each army, as the other games' easy modes are. The rank is a score out of
+// 100 in five parts, shown on the end screen with its parts, so a player can see what it was made of. It is a judgment
+// about how the command fared, not a historical claim: the tier given to each ending below is the game's own reading of how
+// that ending left the army and the state, and it is checked (check-rank.js) so that every ending has one.
+// =============================================================================
+
+/** The easy mode of each command, by the gun, aeroplane or vehicle the army was known for. */
+export const EASY_NAMES = {
+  ohl: "Big Bertha",
+  gqg: "Soixante-Quinze",
+  stavka: "Ilya Muromets",
+  bef: "Mother",
+  aok: "Skoda",
+  otto: "Yildirim",
+};
+
+/**
+ * How each ending left the command: 0 ruin, 1 poor, 2 as the record left it (or an acceptable counterfactual), 3 better than the
+ * record. A game judgment, not a claim about history.
+ */
+export const ENDING_TIER = {
+  ohl_end_armistice: 2,
+  ohl_end_homefirst: 1,
+  ohl_end_armyfirst: 1,
+  ohl_end_holdout: 1,
+  ohl_end_negotiated: 3,
+  ohl_end_worseterms: 1,
+  ohl_end_intact: 3,
+  ohl_end_dictated: 2,
+  ohl_end_relieved: 0,
+  gqg_end_victory: 2,
+  gqg_end_armybreaks: 0,
+  gqg_end_coalitionfails: 1,
+  gqg_end_costlier: 1,
+  gqg_end_intact: 3,
+  gqg_end_defensive: 2,
+  gqg_end_negotiated: 3,
+  gqg_end_paris: 0,
+  gqg_end_relieved: 0,
+  stavka_end_brest: 2,
+  stavka_end_disintegration: 1,
+  stavka_end_dissolved: 0,
+  stavka_end_civilwar: 0,
+  stavka_end_holds: 3,
+  stavka_end_separate: 1,
+  stavka_end_steadied: 3,
+  stavka_end_alliance: 2,
+  stavka_end_relieved: 0,
+  bef_end_victory: 2,
+  bef_end_ports: 0,
+  bef_end_haigsacked: 2,
+  bef_end_shipping: 1,
+  bef_end_easterners: 2,
+  bef_end_bitehold: 2,
+  bef_end_reserve: 3,
+  bef_end_volunteers: 1,
+  bef_end_relieved: 0,
+  aok_end_dissolution: 2,
+  aok_end_separate: 1,
+  aok_end_satellite: 1,
+  aok_end_galiciafirst: 2,
+  aok_end_piave: 2,
+  aok_end_relieved: 0,
+};
+
+/** Rank titles by the score they start at. The easy mode cannot rise past EASY_RANK_CAP (an index into RANKS). */
+export const RANKS = [
+  { min: 0, title: "Staff Captain" },
+  { min: 35, title: "Major" },
+  { min: 50, title: "Colonel" },
+  { min: 65, title: "General" },
+  { min: 80, title: "Field Marshal" },
+];
+export const EASY_RANK_CAP = 3;
+
+/** "easy", "hard" or "standard": the mode a run was played in. */
+export function modeOf(hardState, easy) {
+  return hardState && hardState.enabled ? "hard" : easy ? "easy" : "standard";
+}
+
+/** The orders a run gave that the command's own hard-mode track counts against it (the same tag the erosion track uses). */
+export function costlyOrders(campaignId, taken) {
+  const c = CAMPAIGNS[campaignId];
+  if (!c || !Array.isArray(taken)) return 0;
+  let n = 0;
+  for (const t of taken) {
+    const node = c.nodes[t && t.node];
+    const choice = node && (node.choices || []).find((ch) => ch.id === t.choice);
+    if (choice && erosionFromChoice(campaignId, choice)) n += 1;
+  }
+  return n;
+}
+
+/**
+ * The command rank for a closed file. `taken` is the list of { node, choice } the run gave. Returns { score, rank, parts }, where each
+ * part is { id, label, points, max, note }.
+ */
+export function rankFor({ campaignId, endingId, meters, hardState, easy, taken }) {
+  const m = meters || emptyMeters();
+  const mode = modeOf(hardState, easy);
+  const sum = METER_AXES.reduce((s, a) => s + m[a], 0);
+  const standing = Math.max(0, Math.min(30, Math.round((sum + 30) / 2)));
+  const tier = ENDING_TIER[endingId] ?? 1;
+  const dry = METER_AXES.filter((a) => m[a] <= -5).length;
+  const reserves = Math.max(0, 15 - 5 * dry);
+  const costly = costlyOrders(campaignId, taken);
+  const restraint = Math.max(0, 10 - 2 * costly);
+  const modePoints = { easy: 5, standard: 10, hard: 15 }[mode];
+  const parts = [
+    { id: "standing", label: "Standing at the close", points: standing, max: 30, note: `the three meters together stood at ${sum > 0 ? "+" : ""}${sum}` },
+    { id: "ending", label: "The ending", points: tier * 10, max: 30, note: ["a ruin", "a poor ending", "an ending near the record", "better than the record"][tier] },
+    { id: "reserves", label: "Nothing run dry", points: reserves, max: 15, note: dry ? `${dry} meter${dry === 1 ? "" : "s"} ended at -5 or worse` : "no meter ended at -5 or worse" },
+    { id: "restraint", label: "Restraint", points: restraint, max: 10, note: costly ? `${costly} order${costly === 1 ? "" : "s"} that cost the command standing` : "no order that cost the command standing" },
+    { id: "mode", label: "The mode", points: modePoints, max: 15, note: { easy: "easy mode", standard: "standard mode", hard: "hard mode" }[mode] },
+  ];
+  const score = parts.reduce((s, p) => s + p.points, 0);
+  let idx = 0;
+  RANKS.forEach((r, i) => {
+    if (score >= r.min) idx = i;
+  });
+  if (mode === "easy") idx = Math.min(idx, EASY_RANK_CAP);
+  return { score, rank: RANKS[idx].title, parts, mode };
+}
+
+// =============================================================================
+// GLOSSARY
+// =============================================================================
+//
+// Words and places a reader may not know, defined once. On each screen the first mention of a term in the story text is
+// underlined; pressing it shows the definition. People are not here: they have dossiers. Each definition is meant to be
+// plain fact and kept short; check-glossary.js checks that every term is used in the game and that none is defined twice.
+// `match` is a regular expression (default: the term itself), `ci` makes it case-insensitive.
+// =============================================================================
+
+export const GLOSSARY = [
+  { id: "general-staff", term: "General Staff", def: "The permanent body of officers that plans and directs an army. Each great power ran its war through its general staff and the officer who headed it." },
+  { id: "supreme-commander", term: "Supreme Commander", def: "The Russian title for the officer who commanded all the armies. Grand Duke Nikolai Nikolaevich held it until September 1915, when Tsar Nicholas II took it himself." },
+  { id: "corps", term: "corps", ci: true, def: "A formation of two or more divisions under a general: the level between a division and an army." },
+  { id: "army-group", term: "army group", ci: true, def: "A command over several armies at once, one level above an army." },
+  { id: "salient", term: "salient", ci: true, def: "A bulge in a front line that pushes into enemy ground, so that it can be fired on from more than one side." },
+  { id: "barrage", term: "barrage", ci: true, def: "A heavy, sustained artillery bombardment. A creeping barrage moves forward ahead of the infantry at a set pace." },
+  { id: "tank", term: "tank", ci: true, match: "tanks?", def: "An armoured, tracked vehicle carrying guns. The British first used tanks in action on 15 September 1916, on the Somme." },
+  { id: "convoy", term: "convoy", ci: true, match: "convoys?", def: "Merchant ships sailing together under naval escort. The Royal Navy adopted the system in 1917 against submarine attack." },
+  { id: "blockade", term: "blockade", ci: true, def: "Using warships to stop a country's trade by sea. The Royal Navy's blockade restricted Germany's imports throughout the war." },
+  { id: "conscription", term: "conscription", ci: true, def: "Compulsory military service. Britain relied on volunteers until the Military Service Act of January 1916." },
+  { id: "shell-shortage", term: "shell shortage", ci: true, def: "In May 1915 the British commander blamed a lack of high-explosive shells for a failed attack, and the press took up the charge. It helped bring in a coalition government and a Ministry of Munitions." },
+  { id: "unrestricted", term: "unrestricted submarine warfare", ci: true, def: "Sinking merchant ships without warning, neutrals' included. Germany adopted it on 1 February 1917, and the United States declared war in April." },
+  { id: "hindenburg-programme", term: "Hindenburg Programme", def: "The German plan of August 1916 to raise munitions and weapons output sharply, named for the new head of the army, Field Marshal Hindenburg." },
+  { id: "war-cabinet", term: "War Cabinet", def: "The body of ministers that directed the British war. In December 1916 Lloyd George replaced the large Cabinet with a War Cabinet of five." },
+  { id: "admiralty", term: "Admiralty", def: "The British government department that ran the Royal Navy, under a minister, the First Lord, and an admiral, the First Sea Lord." },
+  { id: "reichstag", term: "Reichstag", def: "The German national parliament. It voted the money for the war, but the army answered to the Kaiser, not to it." },
+  { id: "kaiser", term: "Kaiser", def: "The German word for emperor. The German Kaiser in this war was Wilhelm II." },
+  { id: "provisional-government", term: "Provisional Government", def: "The Russian government formed after the Tsar abdicated in March 1917. It ruled until the Bolsheviks seized power in November." },
+  { id: "soviet", term: "Soviet", def: "A council of elected workers' and soldiers' deputies. In 1917 the Petrograd Soviet shared power with the Provisional Government." },
+  { id: "old-style", term: "Old Style", def: "The Julian calendar, which Russia used until February 1918. In this war it ran thirteen days behind the Western calendar. Dates in the Russian command are given Old Style, with the Western date in brackets." },
+  { id: "central-powers", term: "Central Powers", def: "Germany, Austria-Hungary, the Ottoman Empire and Bulgaria." },
+  { id: "entente", term: "Entente", def: "The alliance of France, Russia and Britain, later joined by Italy, Romania, the United States and others." },
+  { id: "armistice", term: "armistice", ci: true, def: "An agreement to stop fighting, short of a peace treaty. The one signed on 11 November 1918 ended the war in the west." },
+  { id: "stavka", term: "Stavka", def: "The supreme headquarters of the Russian army: the command you hold in this game." },
+  { id: "bef", term: "BEF", def: "The British Expeditionary Force: the army sent to France in August 1914, and the name for the British forces on the Western Front." },
+  { id: "galicia", term: "Galicia", def: "The Austrian province north of the Carpathians, now divided between south-eastern Poland and western Ukraine. It was the main Austro-Russian battlefield." },
+  { id: "carpathians", term: "Carpathians", match: "Carpathians?", def: "The mountain range between Galicia and Hungary. Fighting there in the winter of 1914-15 cost both armies heavily." },
+  { id: "przemysl", term: "Przemysl", def: "A fortress city in Galicia. The Russians besieged it from late 1914 and it surrendered in March 1915; German and Austro-Hungarian troops retook it in June." },
+  { id: "lemberg", term: "Lemberg", def: "Now Lviv, the capital of Galicia. The Russians took it in September 1914 and lost it in June 1915." },
+  { id: "gorlice", term: "Gorlice", def: "The town in Galicia where, in May 1915, German and Austro-Hungarian armies broke the Russian front in the Gorlice-Tarnow offensive." },
+  { id: "isonzo", term: "Isonzo", def: "The river on the Italian-Austrian front, where twelve battles were fought between 1915 and 1917." },
+  { id: "trentino", term: "Trentino", def: "The Italian-speaking Alpine region then held by Austria. Austria-Hungary attacked Italy from it in May 1916." },
+  { id: "caporetto", term: "Caporetto", def: "The Austro-German offensive of October 1917 that broke the Italian line on the Isonzo." },
+  { id: "salonika", term: "Salonika", def: "The Greek port where Allied troops landed in October 1915 to help Serbia. It became a front against Bulgaria." },
+  { id: "dardanelles", term: "Dardanelles", def: "The narrow strait between the Aegean and the Sea of Marmara. The Allies tried to force it in 1915." },
+  { id: "gallipoli", term: "Gallipoli", def: "The peninsula on the strait's European shore, where Allied troops landed in April 1915 and from which they withdrew by January 1916." },
+  { id: "marne", term: "Marne", def: "The river east of Paris. The battle of September 1914 stopped the German advance, and a second battle in July 1918 stopped the last one." },
+  { id: "ypres", term: "Ypres", def: "The Belgian town the Allies held in a salient, fought over in 1914, 1915 and 1917." },
+  { id: "loos", term: "Loos", def: "The British and French offensive of September 1915 in Artois, in which the British first used poison gas and the new volunteer divisions first fought." },
+  { id: "verdun", term: "Verdun", def: "The French fortress city on the Meuse. The German attack began there in February 1916 and the fighting lasted until December." },
+  { id: "somme", term: "Somme", def: "The river in Picardy where the British and French attacked from 1 July to November 1916." },
+  { id: "chantilly", term: "Chantilly", def: "The town that held the French headquarters. The Allies met there in December 1915 and November 1916 to plan their offensives together." },
+  { id: "chemin-des-dames", term: "Chemin des Dames", def: "The ridge north of the Aisne, where the French offensive of April 1917 failed." },
+  { id: "doullens", term: "Doullens", def: "The town where, on 26 March 1918, Allied leaders agreed to put Foch in charge of coordinating their armies." },
+  { id: "brest-litovsk", term: "Brest-Litovsk", def: "The town where Russia signed a peace with the Central Powers on 3 March 1918." },
+  { id: "hundred-days", term: "Hundred Days", def: "The Allied advance from 8 August 1918 to the armistice on 11 November." },
+];
+
+/** What the game leaves out: shown on the menu. */
+export const LEAVES_OUT = [
+  "The war here is the war as the commands in this game saw it from headquarters. Most of it is not in view: the colonies and the fighting outside Europe, the war at sea beyond what a headquarters decided about it, the smaller allies and their armies, and the hunger and work of the home fronts.",
+  "The people the orders fell on are in the meters and not in the story. Millions of soldiers died, and millions of civilians were driven from their homes, starved, imprisoned or killed. The German army killed thousands of Belgian and French civilians in the invasion of 1914.",
+  "Some of the worst events of the war were crimes, not decisions a general could take, and the game does not offer them as choices. One is the killing of Armenians in the Ottoman Empire from 1915, which the International Association of Genocide Scholars affirmed in 1997 was a genocide.",
+];
+// Source for the last sentence: the IAGS resolution on the Armenian Genocide, passed unanimously at its Montreal conference, 13 June 1997
+// (genocidescholars.org, "IAGS Armenian Genocide Resolution"). It says the mass murder of over a million Armenians in 1915 meets the UN
+// Convention's definition of genocide.
+
+// =============================================================================
 // UI_LAYER
 // =============================================================================
 //
@@ -8983,6 +9246,18 @@ const css = `
   .dg-entry.locked{color:${THEME.inkSoft}}
   .dg-entry .meta{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${THEME.inkSoft}}
   .dg-count{font-size:11px;letter-spacing:.14em;color:${THEME.inkSoft};margin:0 0 6px}
+  .dg-term{background:none;border:0;border-bottom:1px dotted currentColor;font:inherit;color:inherit;cursor:pointer;padding:0;margin:0}
+  .dg-defn{display:block;border-left:3px solid ${THEME.accent};padding:4px 0 4px 10px;margin:8px 0 14px;font-size:13px;color:${THEME.inkSoft}}
+  .dg-preview{display:inline-block;border:1px solid currentColor;font-size:11px;letter-spacing:.08em;padding:3px 7px;margin:0 6px 8px 0}
+  .dg-record-mark{display:inline-block;border:1px solid ${THEME.accent};color:${THEME.accent};font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:2px 6px;margin:0 6px 8px 0}
+  .dg-choice:hover:not(:disabled) .dg-record-mark{color:${THEME.paperRaised};border-color:${THEME.paperRaised}}
+  .dg-strain{display:block;font-size:12px;color:${THEME.accent};margin:0 0 8px;font-weight:700}
+  .dg-choice:hover:not(:disabled) .dg-strain{color:${THEME.paperRaised}}
+  .dg-rank{border:1.5px solid ${THEME.rule};padding:14px;margin:18px 0}
+  .dg-rank h2{font-family:${THEME.serif};font-size:26px;margin:0 0 4px}
+  .dg-rank ul{list-style:none;margin:10px 0 0;padding:0;font-size:12px}
+  .dg-rank li{display:flex;justify-content:space-between;gap:10px;border-top:1px solid ${THEME.rule};padding:6px 0}
+  .dg-rank li span.n{color:${THEME.inkSoft}}
   .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:17px}
   .dg-fs-m .dg-bulletin,.dg-fs-m .dg-quote,.dg-fs-m .dg-entry,.dg-fs-m .dg-banner p{font-size:15px}
   .dg-fs-l .dg-prose,.dg-fs-l .dg-choice .lab{font-size:19px}
@@ -9020,14 +9295,68 @@ function playSound(kind) {
 }
 
 /** The note a player can paste into a bug report or a playtest comment: the whole path, from the flags. */
-function runNote(campaignId, nodeId, flags, hardOn, visited) {
+function runNote(campaignId, nodeId, flags, mode, visited) {
   const c = CAMPAIGNS[campaignId];
   const marks = Object.keys(flags).sort().map((k) => k + "=" + flags[k]).join(" ");
-  return ["Dispatches 1914", c.shortName, hardOn ? "hard mode" : "standard", "ending " + nodeId,
+  return ["Dispatches 1914", c.shortName, mode === "hard" ? "hard mode" : mode === "easy" ? "easy mode" : "standard", "ending " + nodeId,
     "decisions " + (visited.length - 1), "marks: " + marks].join(" | ");
 }
 
-function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, hardOn, onHard, settings, onSettings, record }) {
+// ---------- the glossary: the first mention of a term on a screen is underlined ----------
+
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const GLOSS_RES = GLOSSARY.map((g) => ({
+  g,
+  re: new RegExp(`(^|[^\\p{L}\\p{N}_-])(${g.match || escapeRe(g.term)})(?![\\p{L}\\p{N}_-])`, g.ci ? "iu" : "u"),
+}));
+
+/** Splits each text into { t, g? } segments, giving the first mention of each glossary term across all the texts, in order, its entry. Pure. */
+function markFirstMentions(texts) {
+  const used = new Set();
+  return texts.map((text) => {
+    if (typeof text !== "string" || !text) return [];
+    const hits = [];
+    for (const { g, re } of GLOSS_RES) {
+      if (used.has(g.id)) continue;
+      const m = re.exec(text);
+      if (m) hits.push({ g, start: m.index + m[1].length, end: m.index + m[1].length + m[2].length });
+    }
+    hits.sort((a, b) => a.start - b.start);
+    const segs = [];
+    let pos = 0;
+    for (const h of hits) {
+      if (h.start < pos) continue; // inside a term already taken
+      used.add(h.g.id);
+      if (h.start > pos) segs.push({ t: text.slice(pos, h.start) });
+      segs.push({ t: text.slice(h.start, h.end), g: h.g });
+      pos = h.end;
+    }
+    if (pos < text.length) segs.push({ t: text.slice(pos) });
+    return segs;
+  });
+}
+
+/** A paragraph of story text whose glossary terms can be pressed for their definition. */
+function GlossText({ segs, className = "dg-prose" }) {
+  const [open, setOpen] = useState(null);
+  const def = open ? GLOSSARY.find((g) => g.id === open) : null;
+  return (
+    <div className={className}>
+      {segs.map((s, i) =>
+        s.g ? (
+          <button type="button" key={i} className="dg-term" aria-expanded={open === s.g.id} onClick={() => setOpen(open === s.g.id ? null : s.g.id)}>{s.t}</button>
+        ) : (
+          <React.Fragment key={i}>{s.t}</React.Fragment>
+        )
+      )}
+      {def && <span className="dg-defn" role="note"><b>{def.term}.</b> {def.def}</span>}
+    </div>
+  );
+}
+
+function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onMode, settings, onSettings, record }) {
+  const hardOn = mode === "hard";
+  const easyOn = mode === "easy";
   const majors = CAMPAIGN_IDS.filter((c) => CAMPAIGNS[c].tier === TIERS.MAJOR);
   const minors = CAMPAIGN_IDS.filter((c) => CAMPAIGNS[c].tier === TIERS.MINOR);
   const saved = useMemo(() => {
@@ -9054,6 +9383,9 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, hardOn, o
         {playable && hardOn && c.hardMode.description && (
           <p style={{ marginTop: 6 }}>Hard mode: {c.hardMode.description}</p>
         )}
+        {playable && easyOn && EASY_NAMES[cid] && (
+          <p style={{ marginTop: 6 }}>Easy: {EASY_NAMES[cid]} Command</p>
+        )}
       </button>
     );
   };
@@ -9067,7 +9399,7 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, hardOn, o
         <section className="dg-banner" aria-label="Saved file">
           <p>
             <b>File in progress.</b> {CAMPAIGNS[savedRun.campaignId].shortName} · {romanDate(saved.date)} · {saved.title}
-            {savedRun.hardState.enabled ? " · hard mode" : ""}
+            {savedRun.hardState.enabled ? " · hard mode" : savedRun.easy ? " · easy mode" : ""}
           </p>
           <p className="small">Starting a new file replaces this one.</p>
           <button className="dg-btn" onClick={onResume}>Resume file</button>{" "}
@@ -9076,12 +9408,15 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, hardOn, o
       )}
 
       <div className="dg-seg" role="group" aria-label="Difficulty">
-        <button aria-pressed={!hardOn} onClick={() => onHard(false)}>Standard</button>
-        <button aria-pressed={hardOn} onClick={() => onHard(true)}>Hard mode</button>
+        <button aria-pressed={easyOn} onClick={() => onMode("easy")}>Easy mode</button>
+        <button aria-pressed={mode === "standard"} onClick={() => onMode("standard")}>Standard</button>
+        <button aria-pressed={hardOn} onClick={() => onMode("hard")}>Hard mode</button>
       </div>
       <p className="dg-note">
         {hardOn
           ? "Hard mode adds an erosion track. Each command's office faced its own kind of pressure; at the limit its freedom to choose ends and a fixed ending follows."
+          : easyOn
+          ? "Easy mode shows what each order will do to the three meters, marks the order the command really gave, and lets you take back the last order. It cannot reach the highest rank."
           : "Standard: every command plays on the same logistical triangle, with no erosion track."}
       </p>
 
@@ -9112,6 +9447,12 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, hardOn, o
             <button key={label} aria-pressed={settings.sound === v} onClick={() => onSettings({ ...settings, sound: v })}>{label}</button>
           ))}
         </div>
+      </details>
+      <details>
+        <summary>▶ WHAT THIS GAME LEAVES OUT</summary>
+        {LEAVES_OUT.map((p, i) => (
+          <p key={i} className="dg-note">{p}</p>
+        ))}
       </details>
       <details>
         <summary>▶ FEEDBACK</summary>
@@ -9181,9 +9522,36 @@ function FrontMap({ campaignId, node, visited }) {
   );
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, onChoose, onHome }) {
+/** "Manpower -2 · Will +1" or, for a contested order, "Manpower -3 to +1". */
+function previewText(choice, labels) {
+  const p = previewImpact(choice);
+  const fmt = (n) => (n > 0 ? "+" + n : String(n));
+  const parts = METER_AXES.filter((a) => p[a]).map((a) => `${labels[a]} ${p[a][0] === p[a][1] ? fmt(p[a][0]) : `${fmt(p[a][0])} to ${fmt(p[a][1])}`}`);
+  return parts.length ? parts.join(" · ") : "No change to the meters";
+}
+
+function RankPanel({ result }) {
+  return (
+    <section className="dg-rank" aria-label="Your command">
+      <div className="dg-count">Your command</div>
+      <h2>{result.rank}</h2>
+      <div className="dg-note" style={{ margin: 0 }}>{result.score} out of 100</div>
+      <ul>
+        {result.parts.map((p) => (
+          <li key={p.id}>
+            <span>{p.label}: <span className="n">{p.note}</span></span>
+            <b>{p.points}/{p.max}</b>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, onRewind, onChoose, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
+  const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
   return (
     <main className="dg-root">
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -9220,12 +9588,12 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <div className="dg-node-date">{romanDate(node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
-      <div className="dg-prose">{node.situation}</div>
+      <GlossText key={nodeId + "-situation"} segs={situationSegs} />
 
       {node.context && (
         <details>
           <summary>▶ SHOW BACKGROUND</summary>
-          <div className="dg-prose">{node.context}</div>
+          <GlossText key={nodeId + "-context"} segs={contextSegs} />
         </details>
       )}
       {node.city && MAP_CITIES[node.city] && (
@@ -9238,7 +9606,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
       {node.ending ? (
         <>
           <div className={`dg-badge dg-badge-${node.ending.badge}`}>{BADGE_LABELS[node.ending.badge]}</div>
-          {node.epilogue && <div className="dg-prose">{node.epilogue}</div>}
+          {node.epilogue && <GlossText key={nodeId + "-epilogue"} segs={epilogueSegs} />}
+          {rank && <RankPanel result={rank} />}
           <details>
             <summary>▶ A NOTE FOR THE AUTHOR</summary>
             <div className="dg-note-box">
@@ -9246,7 +9615,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
                 A line that records the path you took. Paste it into a comment on the{" "}
                 <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer">game's page</a> with whatever you want to say.
               </p>
-              <textarea readOnly aria-label="Note with the path taken" value={runNote(campaignId, nodeId || "", flags || {}, hardState.enabled, visited || [])}
+              <textarea readOnly aria-label="Note with the path taken" value={runNote(campaignId, nodeId || "", flags || {}, mode, visited || [])}
                 onFocus={(e) => e.target.select()} />
             </div>
           </details>
@@ -9255,11 +9624,21 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
       ) : (
         <>
           <h2 className="dg-order">Issue Order</h2>
-          {node.choices.map((ch) => (
+          {easy && canRewind && (
+            <p><button className="dg-btn" onClick={onRewind}>Take back the last order</button></p>
+          )}
+          {node.choices.map((ch) => {
+            const strain = strainedUncertain(ch, meters);
+            return (
             <button key={ch.id} className="dg-choice" disabled={ch.blocked}
               onClick={() => onChoose(ch)}>
               <div className="lab">{ch.label}</div>
               {ch.blocked && <div className="dg-cost">✕ {ch.disabledReason}</div>}
+              {easy && ch.historical && <span className="dg-record-mark">✓ The order the command gave</span>}
+              {easy && !ch.blocked && <span className="dg-preview">{previewText(ch, node.meterLabels)}</span>}
+              {strain.points > 0 && (
+                <span className="dg-strain">Strain: {node.meterLabels[strain.meter]} is short, so the odds are {strain.points} points worse</span>
+              )}
               {ch.erodes && hardState.enabled && <div className="dg-cost">✕ Costs standing</div>}
               {ch.advisor && (
                 <div className="dg-quote">
@@ -9273,7 +9652,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
                 </div>
               )}
             </button>
-          ))}
+            );
+          })}
         </>
       )}
     </main>
@@ -9282,16 +9662,17 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
 function OutcomeScreen({ campaignId, outcome, record, onContinue }) {
   const c = CAMPAIGNS[campaignId];
+  const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([outcome, record && record.text]), [outcome, record]);
   return (
     <main className="dg-root">
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <h1 className="dg-docrow" style={{ margin: "18px 0 16px" }}><span>{c.docLabel} · OUTCOME</span></h1>
       <hr className="dg-rule" />
-      <div className="dg-prose">{outcome}</div>
+      <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
       {record && (
         <details>
           <summary>▶ THE HISTORICAL RECORD</summary>
-          <div className="dg-prose">{record.text}</div>
+          <GlossText key={"r-" + String(outcome).slice(0, 24)} segs={recordSegs} />
         </details>
       )}
       <button className="dg-btn" onClick={onContinue}>Continue</button>
@@ -9320,7 +9701,7 @@ function RecordScreen({ record, onBack }) {
         {record.runs} {record.runs === 1 ? "file" : "files"} closed · {record.hardRuns} in hard mode. Entries open as you play; the record stays in this browser.
       </p>
       <div className="dg-tabs" role="group" aria-label="Record sections">
-        {[["dossiers", "Dossiers"], ["atlas", "Atlas"], ["endings", "Endings"], ["echoes", "Echoes"]].map(([id, label]) => (
+        {[["dossiers", "Dossiers"], ["atlas", "Atlas"], ["endings", "Endings"], ["echoes", "Echoes"], ["glossary", "Glossary"]].map(([id, label]) => (
           <button key={id} className="dg-btn" aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>
         ))}
       </div>
@@ -9342,7 +9723,18 @@ function RecordScreen({ record, onBack }) {
           })}
         </section>
       )}
-      {tab !== "echoes" && playable.map((cid) => {
+      {tab === "glossary" && (
+        <section>
+          <p className="dg-note">Words and places in the files. In the story text, the first mention of each on a screen is underlined: press it for the definition.</p>
+          {[...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term)).map((g) => (
+            <div key={g.id} className="dg-entry">
+              <div className="t">{g.term}</div>
+              <div>{g.def}</div>
+            </div>
+          ))}
+        </section>
+      )}
+      {tab !== "echoes" && tab !== "glossary" && playable.map((cid) => {
         const c = CAMPAIGNS[cid];
         if (tab === "dossiers") {
           const met = record.advisers[cid] || [];
@@ -9411,7 +9803,10 @@ export default function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [record, setRecord] = useState(loadRecord);
   const [savedRun, setSavedRun] = useState(loadSavedRun);
-  const [hardOn, setHardOn] = useState(false);
+  const [mode, setMode] = useState("standard"); // the menu's choice: "easy", "standard" or "hard"
+  const [runEasy, setRunEasy] = useState(false); // the run in hand is an easy run
+  const [taken, setTaken] = useState([]); // the orders the run has given: { node, choice }
+  const [history, setHistory] = useState([]); // the state before each order, for the easy mode's take-back
   const [screen, setScreen] = useState("menu");
   const [campaignId, setCampaignId] = useState(null);
   const [nodeId, setNodeId] = useState(null);
@@ -9460,18 +9855,21 @@ export default function App() {
       return;
     }
     saveRun(snapshotRun({
-      campaignId, nodeId, flags, meters, hardState, visited,
+      campaignId, nodeId, flags, meters, hardState, visited, easy: runEasy, taken, history,
       pendingNextId: screen === "outcome" && pending ? pending.nextId ?? null : null,
       pendingOutcome: screen === "outcome" && pending ? pending.outcome ?? null : null,
       pendingRecord: screen === "outcome" && pending ? pending.record ?? null : null,
     }));
-  }, [screen, campaignId, nodeId, flags, meters, hardState, pending, visited]);
+  }, [screen, campaignId, nodeId, flags, meters, hardState, pending, visited, runEasy, taken, history]);
 
   const start = (cid) => {
     setCampaignId(cid);
     setFlags(echoSeed(record));
     setMeters(emptyMeters());
-    setHardState({ ...emptyHardState(), enabled: hardOn });
+    setHardState({ ...emptyHardState(), enabled: mode === "hard" });
+    setRunEasy(mode === "easy");
+    setTaken([]);
+    setHistory([]);
     setVisited([]);
     setPending(null);
     setRunKey((k) => k + 1);
@@ -9486,6 +9884,9 @@ export default function App() {
     setFlags(s.flags);
     setMeters(s.meters);
     setHardState(s.hardState);
+    setRunEasy(Boolean(s.easy));
+    setTaken(Array.isArray(s.taken) ? s.taken : []);
+    setHistory(Array.isArray(s.history) ? s.history : []);
     setVisited(s.visited);
     setPending(s.pendingOutcome ? { nextId: s.pendingNextId, outcome: s.pendingOutcome, record: s.pendingRecord ?? null } : null);
     setRunKey((k) => k + 1);
@@ -9505,6 +9906,8 @@ export default function App() {
   const choose = (ch) => {
     if (settings.sound) playSound("tick");
     const r = chooseNext(campaignId, ch, flags, meters, hardState);
+    if (runEasy) setHistory((h) => [...h, { nodeId, flags, meters, hardState, visited, taken }].slice(-REWIND_LIMIT));
+    setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
     setRecord((rec) => noteEchoes(rec, r.flags));
     setPending({ ...r, record: historicalNote(node, ch) });
@@ -9518,12 +9921,29 @@ export default function App() {
     setScreen("node");
   };
 
+  // Easy mode: take back the last order, restoring the state it was given from.
+  const rewind = () => {
+    if (!history.length) return;
+    const last = history[history.length - 1];
+    setHistory(history.slice(0, -1));
+    setFlags(last.flags); setMeters(last.meters); setHardState(last.hardState); setVisited(last.visited); setTaken(last.taken);
+    setPending(null);
+    setNodeId(last.nodeId);
+    setScreen("node");
+  };
+
+  const runMode = modeOf(hardState, runEasy);
+  const rank = useMemo(
+    () => (node && node.ending ? rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken }) : null),
+    [node, campaignId, nodeId, meters, hardState, runEasy, taken]
+  );
+
   return (
     <div className={`dg-fs-${settings.textSize}`} style={{ display: "contents" }}>
       <style>{css}</style>
       {screen === "menu" && (
         <MenuScreen onPick={start} onRecord={() => setScreen("record")} savedRun={savedRun}
-          onResume={resume} onDiscard={discard} hardOn={hardOn} onHard={setHardOn}
+          onResume={resume} onDiscard={discard} mode={mode} onMode={setMode}
           settings={settings} onSettings={setSettings} record={record} />
       )}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
@@ -9532,7 +9952,8 @@ export default function App() {
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
-          hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} onChoose={choose} onHome={home} />
+          hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
+          rank={rank} mode={runMode} onRewind={rewind} onChoose={choose} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">
