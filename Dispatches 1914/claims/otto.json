@@ -1139,5 +1139,65 @@
       "wp-medina"
     ],
     "note": "The article records that he refused to surrender after the armistice."
+  },
+  {
+    "id": "bat-otto-11",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "The Fifth Army had about a third of its strength at Besika Bay on the Asiatic shore, two divisions at Bulair, and the 19th Division (Kemal) inland in reserve; the 3rd Division and a cavalry brigade arrived in early April, bringing front-line strength to 60,000-62,077 in three groups.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli-otto"
+    ],
+    "note": "The article is inconsistent about where the 19th Division stood."
+  },
+  {
+    "id": "bat-otto-12",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "Sanders kept the reserve mobile and moved troops at night to avoid Allied aerial reconnaissance; Kemal observed from Boghali and by mid-morning on 25 April had reorganised the defenders for a counter-attack on Chunuk Bair and Sari Bair; Sanders was at Bulair with the 5th Division for two days.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli-otto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-13",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "The French landed at Kum Kale on the Asiatic shore on 25 April and a demonstration was made off Bulair; neither led to a main attack.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known; cite a source."
+  },
+  {
+    "id": "bat-otto-14",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "On 18 March the Bouvet capsized in about two minutes with 75 survivors of 718; the Irresistible sank and the Ocean was abandoned; the Ottoman account says by 2 p.m. all telephone wires were cut and the forts' fire had slackened.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gallipoli-otto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-15",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the four arms and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx."
+  },
+  {
+    "id": "bat-otto-16",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "characterization",
+    "claim": "The statement that troops on the coast were few and that the defence of the heights was made by the reserve coming up behind them is a characterization of the article's account.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Check against an Ottoman-side history."
   }
 ]

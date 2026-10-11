@@ -39,7 +39,10 @@ const SECTIONS = [
   { title: "SAVES, RECORD AND SETTINGS — docs/SAVES.md", file: "58-persistence.jsx" },
   { title: "EASY MODE NAMES AND THE COMMAND RANK", file: "59-rank.jsx" },
   { title: "GLOSSARY", file: "60-glossary.jsx" },
+  { title: "THE ORDER OF BATTLE", file: "61-battle.jsx" },
+  { title: "THE ORDERS OF BATTLE", file: "62-battles.jsx" },
   { title: "UI_LAYER", file: "90-ui.jsx" },
+  { title: "BATTLE SCREENS", file: "95-battle-screens.jsx" },
 ];
 
 const BANNER = /^\/\/ ={70,}$/;

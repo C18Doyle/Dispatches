@@ -133,6 +133,17 @@ const css = `
   .dg-rank ul{list-style:none;margin:10px 0 0;padding:0;font-size:12px}
   .dg-rank li{display:flex;justify-content:space-between;gap:10px;border-top:1px solid ${THEME.rule};padding:6px 0}
   .dg-rank li span.n{color:${THEME.inkSoft}}
+  .dg-bt-arm{border:1.5px solid ${THEME.rule};padding:12px 14px;margin:0 0 12px}
+  .dg-bt-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px;font-size:14px}
+  .dg-bt-ctl{display:flex;align-items:center;gap:8px}
+  .dg-bt-n{min-width:2ch;text-align:center;font-family:${THEME.serif};font-size:20px;font-weight:700}
+  .dg-bt-units{margin:0 0 12px;padding-left:20px;font-size:13px}
+  .dg-bt-pick .dg-choice{margin-bottom:8px}
+  .dg-opt[aria-pressed="true"]{background:${THEME.ink};color:${THEME.paper}}
+  .dg-opt[aria-pressed="true"] .dg-quote{color:${THEME.paperRaised}}
+  .dg-bt-report{border-top:1.5px solid ${THEME.rule};margin-top:18px;padding-top:6px}
+  .dg-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:0 0 8px;cursor:pointer}
+  .dg-check input{margin-top:4px;width:18px;height:18px;accent-color:${THEME.accent}}
   .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:17px}
   .dg-fs-m .dg-bulletin,.dg-fs-m .dg-quote,.dg-fs-m .dg-entry,.dg-fs-m .dg-banner p{font-size:15px}
   .dg-fs-l .dg-prose,.dg-fs-l .dg-choice .lab{font-size:19px}
@@ -294,6 +305,12 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onM
           ? "Easy mode shows what each order will do to the three meters, marks the order the command really gave, and lets you take back the last order. It cannot reach the highest rank."
           : "Standard: every command plays on the same logistical triangle, with no erosion track."}
       </p>
+      <label className="dg-check">
+        <input type="checkbox" checked={settings.battles !== false} onChange={(e) => onSettings({ ...settings, battles: e.target.checked })} />
+        <span>Take control of battle planning. {settings.battles !== false
+          ? "The battles that have an Order of Battle (" + Object.keys(BATTLES).length + ") open on a planning screen: you place the effort, name a commander and choose the approach."
+          : "Switched off, those battles are rolled as ordinary orders, at the same odds as the staff's plan."}</span>
+      </label>
 
       <h2 className="dg-sect">Major Commands</h2>
       {majors.map(card)}
@@ -536,7 +553,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
   );
 }
 
-function OutcomeScreen({ campaignId, outcome, record, onContinue }) {
+function OutcomeScreen({ campaignId, outcome, record, battle, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([outcome, record && record.text]), [outcome, record]);
   return (
@@ -551,6 +568,7 @@ function OutcomeScreen({ campaignId, outcome, record, onContinue }) {
           <GlossText key={"r-" + String(outcome).slice(0, 24)} segs={recordSegs} />
         </details>
       )}
+      {battle && <BattleReport battle={battle} />}
       <button className="dg-btn" onClick={onContinue}>Continue</button>
     </main>
   );
@@ -690,6 +708,7 @@ export default function App() {
   const [meters, setMeters] = useState(emptyMeters());
   const [hardState, setHardState] = useState(emptyHardState());
   const [pending, setPending] = useState(null);
+  const [battleChoice, setBattleChoice] = useState(null); // the order whose battle is being planned
   const [visited, setVisited] = useState([]);
   const [runKey, setRunKey] = useState(0);
   const endedRun = useRef(-1);
@@ -735,6 +754,7 @@ export default function App() {
       pendingNextId: screen === "outcome" && pending ? pending.nextId ?? null : null,
       pendingOutcome: screen === "outcome" && pending ? pending.outcome ?? null : null,
       pendingRecord: screen === "outcome" && pending ? pending.record ?? null : null,
+      pendingBattle: screen === "outcome" && pending ? pending.battle ?? null : null,
     }));
   }, [screen, campaignId, nodeId, flags, meters, hardState, pending, visited, runEasy, taken, history]);
 
@@ -764,7 +784,7 @@ export default function App() {
     setTaken(Array.isArray(s.taken) ? s.taken : []);
     setHistory(Array.isArray(s.history) ? s.history : []);
     setVisited(s.visited);
-    setPending(s.pendingOutcome ? { nextId: s.pendingNextId, outcome: s.pendingOutcome, record: s.pendingRecord ?? null } : null);
+    setPending(s.pendingOutcome ? { nextId: s.pendingNextId, outcome: s.pendingOutcome, record: s.pendingRecord ?? null, battle: s.pendingBattle ?? null } : null);
     setRunKey((k) => k + 1);
     setNodeId(s.nodeId);
     setScreen(s.pendingOutcome ? "outcome" : "node");
@@ -779,14 +799,20 @@ export default function App() {
     setSavedRun(loadSavedRun());
   };
 
-  const choose = (ch) => {
+  // An order that hosts a battle opens the planning screen first, unless the planning is switched off.
+  const pick = (ch) => {
+    if (settings.battles !== false && battleOf(ch)) { setBattleChoice(ch); setScreen("battle"); return; }
+    choose(ch);
+  };
+
+  const choose = (ch, plan = null) => {
     if (settings.sound) playSound("tick");
-    const r = chooseNext(campaignId, ch, flags, meters, hardState);
+    const r = chooseNext(campaignId, ch, flags, meters, hardState, Math.random, plan);
     if (runEasy) setHistory((h) => [...h, { nodeId, flags, meters, hardState, visited, taken }].slice(-REWIND_LIMIT));
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
     setRecord((rec) => noteEchoes(rec, r.flags));
-    setPending({ ...r, record: historicalNote(node, ch) });
+    setPending({ ...r, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null });
     setScreen(r.outcome ? "outcome" : "node");
     if (!r.outcome) setNodeId(r.nextId);
   };
@@ -824,12 +850,17 @@ export default function App() {
       )}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
-        <OutcomeScreen campaignId={campaignId} outcome={pending.outcome} record={pending.record} onContinue={cont} />
+        <OutcomeScreen campaignId={campaignId} outcome={pending.outcome} record={pending.record} battle={pending.battle} onContinue={cont} />
+      )}
+      {screen === "battle" && battleChoice && (
+        <BattleScreen campaignId={campaignId} config={battleOf(battleChoice)} meters={meters} easy={runEasy}
+          onCommit={(plan) => { const ch = battleChoice; setBattleChoice(null); choose(ch, plan); }}
+          onBack={() => { setBattleChoice(null); setScreen("node"); }} />
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} onRewind={rewind} onChoose={choose} onHome={home} />
+          rank={rank} mode={runMode} onRewind={rewind} onChoose={pick} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">

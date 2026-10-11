@@ -43,7 +43,7 @@ export function resolveNode(nodeId, flags = {}, meters = emptyMeters(), hardStat
     commander: commanderAt(campaignId, node.date),
     advisorsPresent: advisorsPresentAt(campaignId, node.date),
     meterLabels: meterLabels(campaignId),
-    situation: resolveField(node.situation, ctx),
+    situation: (resolveField(node.situation, ctx) ?? "") + battleEchoText(nodeId, flags),
     context: resolveField(node.context, ctx),
     bulletin: resolveField(node.bulletin, ctx),
     epilogue: resolveField(node.epilogue, ctx),
