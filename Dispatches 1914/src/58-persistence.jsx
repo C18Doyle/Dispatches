@@ -326,13 +326,13 @@ export function echoSeed(record) {
 export const TEXT_SIZES = ["s", "m", "l"];
 
 export function defaultSettings() {
-  return { schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, holdToSign: true, theme: "paper", font: "typewriter" };
+  return { schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, holdToSign: true, theme: DEFAULT_THEME, font: "theme" };
 }
 
 export function sanitizeSettings(raw) {
   const base = defaultSettings();
   if (!raw || typeof raw !== "object" || raw.schemaVersion !== 1) return base;
-  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, holdToSign: raw.holdToSign !== false, theme: ["paper", "night", "contrast", "auto"].includes(raw.theme) ? raw.theme : "paper", font: raw.font === "plain" ? "plain" : "typewriter" };
+  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, holdToSign: raw.holdToSign !== false, theme: [...THEME_IDS, "auto"].includes(raw.theme) ? raw.theme : DEFAULT_THEME, font: raw.font === "plain" || raw.font === "typewriter" ? raw.font : "theme" };
 }
 
 export function loadSettings() {

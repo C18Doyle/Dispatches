@@ -62,4 +62,4 @@ The settings gain `battles` (default true: a settings object without it loads as
 ## The readings, the record and sound (1914)
 Settings gain `holdToSign` and `atmosphere` (defaults true and false). The war record gains `best` (the best command rank per command), `files` (files closed per command) and `battles` (how often each battle was fought, and the best grade): a record without them loads with empty ones. A run's flags gain `st_<reading>` tallies (the three readings under each meter). All optional, so no schema bump.
 
-Settings also gain `theme` (`paper`, `night`, `contrast` or `auto`, default `paper`) and `font` (`typewriter` or `plain`, default `typewriter`). An unknown value loads as the default. Optional, so no schema bump.
+Settings also gain `theme` (`sepia`, `paper`, `night`, `contrast` or `auto`, default `sepia`) and `font` (`theme`, meaning the look's own face, `typewriter` or `plain`, default `theme`). An unknown value loads as the default. Optional, so no schema bump.

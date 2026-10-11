@@ -52,7 +52,7 @@ jobs:
         working-directory: Dispatches 1914
         env:
           BROWSERS: chromium,webkit
-          THEMES: paper,night
+          THEMES: sepia,paper
         run: |
           npm run build
           node tools/audit-screens.mjs

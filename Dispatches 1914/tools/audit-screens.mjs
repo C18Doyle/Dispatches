@@ -18,7 +18,7 @@ import AxeBuilder from "@axe-core/playwright";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const DIST = join(ROOT, "dist");
-const THEMES = (process.env.THEMES ?? "paper,night,contrast").split(",");
+const THEMES = (process.env.THEMES ?? "sepia,paper,night,contrast").split(",");
 const ENGINES = (process.env.BROWSERS ?? "chromium").split(",").map((x) => ({ chromium, webkit })[x.trim()]).filter(Boolean);
 const MIN_TAP = 40;
 const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png" };
@@ -81,7 +81,7 @@ for (const engine of ENGINES) {
   for (const theme of THEMES) {
     for (const vp of [{ label: "phone", width: 375, height: 812, mobile: true }, { label: "desktop", width: 1280, height: 800, mobile: false }]) {
       const ctx = await browser.newContext({ reducedMotion: "reduce", viewport: { width: vp.width, height: vp.height }, hasTouch: vp.mobile, isMobile: vp.mobile && engine === chromium });
-      await ctx.addInitScript(([t]) => { try { localStorage.setItem("dispatches1914_settings_v1", JSON.stringify({ schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, holdToSign: true, theme: t, font: "typewriter" })); } catch (e) { /* none */ } }, [theme]);
+      await ctx.addInitScript(([t]) => { try { localStorage.setItem("dispatches1914_settings_v1", JSON.stringify({ schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, holdToSign: true, theme: t, font: "theme" })); } catch (e) { /* none */ } }, [theme]);
       const page = await ctx.newPage();
       const errors = [];
       page.on("pageerror", (e) => errors.push(String(e)));

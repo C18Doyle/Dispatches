@@ -22,7 +22,7 @@ for (const theme of E.THEME_IDS) {
 }
 // the stylesheet carries every theme and every command
 const css = E.themeCss();
-for (const theme of ["night", "contrast"]) if (!css.includes(`[data-theme="${theme}"] .dg-root{`)) problems.push(`the stylesheet has no rules for ${theme}`);
+for (const theme of ["sepia", "night", "contrast"]) if (!css.includes(`[data-theme="${theme}"] .dg-root{`)) problems.push(`the stylesheet has no rules for ${theme}`);
 for (const cid of E.CAMPAIGN_IDS) {
   checked++;
   if (!css.includes(`.dg-root[data-campaign="${cid}"]`)) problems.push(`the stylesheet has no rule for ${cid}`);
@@ -31,6 +31,12 @@ for (const cid of E.CAMPAIGN_IDS) {
 }
 // the choice of theme
 checked++;
-if (E.resolveTheme("auto", true, false) !== "night" || E.resolveTheme("auto", false, true) !== "contrast" || E.resolveTheme("auto", false, false) !== "paper" || E.resolveTheme("nonsense", false, false) !== "paper") problems.push("resolveTheme");
+if (E.resolveTheme("auto", true, false) !== "night" || E.resolveTheme("auto", false, true) !== "contrast" || E.resolveTheme("auto", false, false) !== "paper" || E.resolveTheme("nonsense", false, false) !== E.DEFAULT_THEME || E.resolveTheme("sepia", false, false) !== "sepia") problems.push("resolveTheme");
+if (E.DEFAULT_THEME !== "sepia") problems.push("the default theme is not sepia");
+// the Sepia sheet is scoped to its theme and keeps every command on the one ink
+checked++;
+const sepia = E.sepiaCss();
+if (/(^|[,}{])s*.dg-/.test(sepia.replace(/@media[^{]*{/g, "{"))) problems.push("a Sepia rule is not scoped to [data-theme=\"sepia\"]");
+for (const cid of E.CAMPAIGN_IDS) if (!sepia.includes(`--acc-${cid}:`)) problems.push(`sepiaCss has no --acc-${cid}`);
 if (E.THEME_LABELS.auto === undefined || E.THEME_IDS.some((id) => !E.THEME_LABELS[id])) problems.push("a theme has no label");
 process.exit(report("check-themes", problems, checked) ? 1 : 0);

@@ -44,6 +44,7 @@ const css = `
   /* ---- tokens: the themes and each command's accent, from src/63-themes.jsx ---- */
   ${themeCss()}
   .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
+  [data-font="typewriter"] .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
   [data-font="plain"] .dg-root{--mono:"Atkinson Hyperlegible","Segoe UI",Verdana,Tahoma,sans-serif;line-height:1.72;letter-spacing:.012em;word-spacing:.06em}
 
   /* ---- the sheet ---- */
@@ -96,7 +97,7 @@ const css = `
     font-weight:700;transform:rotate(-1.2deg);background:var(--paper)}
   .dg-node-title{font-family:${THEME.serif};font-size:36px;font-weight:700;line-height:1.06;margin:0 0 18px;letter-spacing:-.01em}
   .dg-prose{white-space:pre-wrap;font-size:15.5px;margin-bottom:18px}
-  .dg-node-title + .dg-prose::first-letter{float:left;font-family:${THEME.serif};font-size:3.3em;line-height:.82;font-weight:700;padding:.07em .1em 0 0;color:var(--accent)}
+  .dg-lede::first-letter{float:left;font-family:${THEME.serif};font-size:3.3em;line-height:.82;font-weight:700;padding:.07em .1em 0 0;color:var(--accent)}
   .dg-order{font-size:12px;letter-spacing:.26em;font-weight:700;margin:26px 0 14px;text-transform:uppercase;display:flex;gap:12px;align-items:center;color:var(--accent)}
   .dg-order::after{content:"";flex:1;border-top:1px solid var(--accent);opacity:.55}
   .dg-choice{position:relative;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;border:1.5px solid var(--rule);
@@ -355,6 +356,9 @@ const css = `
     .dg-choice:nth-of-type(3){animation-delay:.12s}
   }
   @media print{.dg-root{background:#fff!important}.dg-btn,.dg-choice{box-shadow:none}}
+
+  /* ---- the Sepia look, over everything above ---- */
+  ${sepiaCss()}
 `;
 
 function Stamp({ children }) {
@@ -542,14 +546,14 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onM
         </div>
         <div className="dg-count">Colours</div>
         <div className="dg-seg dg-seg-wrap" role="group" aria-label="Colours">
-          {["paper", "night", "contrast", "auto"].map((id) => (
-            <button key={id} aria-pressed={(settings.theme || "paper") === id} onClick={() => onSettings({ ...settings, theme: id })}>{THEME_LABELS[id]}</button>
+          {["sepia", "paper", "night", "contrast", "auto"].map((id) => (
+            <button key={id} aria-pressed={(settings.theme || DEFAULT_THEME) === id} onClick={() => onSettings({ ...settings, theme: id })}>{THEME_LABELS[id]}</button>
           ))}
         </div>
         <div className="dg-count">Type</div>
         <div className="dg-seg" role="group" aria-label="Type">
-          {[["typewriter", "Typewriter"], ["plain", "Plain and clear"]].map(([id, label]) => (
-            <button key={id} aria-pressed={(settings.font || "typewriter") === id} onClick={() => onSettings({ ...settings, font: id })}>{label}</button>
+          {[["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"]].map(([id, label]) => (
+            <button key={id} aria-pressed={(settings.font || "theme") === id} onClick={() => onSettings({ ...settings, font: id })}>{label}</button>
           ))}
         </div>
         <div className="dg-count">Signing a risky order</div>
@@ -639,7 +643,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
-      <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
+      <div className="dg-node-date">{romanDate(node.date)}</div>
+      <h1 className="dg-node-title">{node.title}</h1>
       {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
 
       {node.bulletin && typeof node.bulletin === "object" && (
@@ -649,9 +654,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
-      <div className="dg-node-date">{romanDate(node.date)}</div>
-      <h1 className="dg-node-title">{node.title}</h1>
-      <GlossText key={nodeId + "-situation"} segs={situationSegs} />
+      <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
       {node.context && (
         <details>
@@ -659,6 +662,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <GlossText key={nodeId + "-context"} segs={contextSegs} />
         </details>
       )}
+
+      <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
 
       {node.ending ? (
         <>
@@ -1012,10 +1017,10 @@ export default function App() {
   useEffect(() => {
     const apply = () => {
       const mq = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
-      const theme = resolveTheme(settings.theme || "paper", mq("(prefers-color-scheme: dark)"), mq("(prefers-contrast: more)"));
+      const theme = resolveTheme(settings.theme || DEFAULT_THEME, mq("(prefers-color-scheme: dark)"), mq("(prefers-contrast: more)"));
       const root = document.documentElement;
       root.setAttribute("data-theme", theme);
-      root.setAttribute("data-font", settings.font === "plain" ? "plain" : "typewriter");
+      root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" ? settings.font : "theme");
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute("content", THEME_TOKENS[theme].base.paper);
     };

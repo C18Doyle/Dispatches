@@ -7,9 +7,9 @@
   "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"gqg\",\"nodeId\":\"gqg_1914_14_race\",\"flags\":{\"gqg_opening\":\"asplanned\",\"gqg_retreat\":\"ordered\",\"gqg_sack\":\"kept\",\"gqg_marne\":\"delayed\"},\"meters\":{\"manpower\":0,\"munitions\":-1,\"will\":-5},\"hardState\":{\"enabled\":true,\"erosion\":1},\"visited\":[\"gqg_1914_01_frontieres\",\"gqg_1914_12_retreat\",\"gqg_1914_13_sack\",\"gqg_1914_02_marne\",\"gqg_1914_14_race\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791134128912}"
  },
  "expect": {
-  "menuHash": "4KTe9x8N:2745",
+  "menuHash": "43aVBUjj:2838",
   "resumeControl": "Resume file",
-  "afterResumeHash": "IchM4NRU:1129",
+  "afterResumeHash": "26aBkQ3v:1129",
   "errors": []
  }
 }
