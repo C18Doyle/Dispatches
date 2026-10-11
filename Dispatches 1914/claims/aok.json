@@ -314,5 +314,453 @@
       "wp-sixtus"
     ],
     "note": "Short attested wording; verify the original text and date before release."
+  },
+  {
+    "id": "aok-rawa-132",
+    "node": "aok_1914_04_rawa",
+    "kind": "fact",
+    "claim": "The battle of Rawa was fought on 3 to 11 September 1914; Conrad ordered a decisive blow by Auffenberg's Fourth Army, which turned south-east, while Archduke Joseph Ferdinand was left with four infantry and two cavalry divisions facing north.",
+    "status": "web-checked",
+    "sources": [
+      "wp-rawa"
+    ],
+    "note": "The article cites Prit Buttar for Conrad's dispositions."
+  },
+  {
+    "id": "aok-rawa-133",
+    "node": "aok_1914_04_rawa",
+    "kind": "fact",
+    "claim": "Ivanov persuaded Ruzsky to turn north-west, which led to a head-on collision between the Fourth Army and Ruzsky's Third Army.",
+    "status": "web-checked",
+    "sources": [
+      "wp-rawa"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-rawa-134",
+    "node": "aok_1914_04_rawa",
+    "kind": "fact",
+    "claim": "The Austro-Hungarians were outnumbered two to one and their northern flank was exposed; Plehve's Fifth Army advanced from Komarow and the Russian Twenty-first Corps extended beyond the left flank.",
+    "status": "web-checked",
+    "sources": [
+      "wp-rawa"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-rawa-135",
+    "node": "aok_1914_04_rawa",
+    "kind": "fact",
+    "claim": "On 9 September Auffenberg began retreating west toward the San; the armies withdrew to the Dunajec and the Biala, abandoning Przemysl to a Russian siege.",
+    "status": "web-checked",
+    "sources": [
+      "wp-rawa"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-rawa-136",
+    "node": "aok_1914_04_rawa",
+    "kind": "position",
+    "claim": "Conrad's position is characterized as: a battle of this size is decided by one army breaking another, and the Fourth Army can do it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented order for the Fourth Army's blow, not a quotation."
+  },
+  {
+    "id": "aok-rawa-137",
+    "node": "aok_1914_04_rawa",
+    "kind": "position",
+    "claim": "Archduke Friedrich's position (on the counterfactual) is characterized as: with the flank open and the enemy twice as strong the army should disengage and fight again behind the river.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; he was the nominal commander and no source read records his view of the battle."
+  },
+  {
+    "id": "aok-kolubara-138",
+    "node": "aok_1914_05_kolubara",
+    "kind": "fact",
+    "claim": "Franz Joseph personally authorised the third invasion of Serbia in early October 1914, after the AOK had hesitated; it began on 6 November and the Austro-Hungarians reached the Kolubara on 16 November.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kolubara"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-kolubara-139",
+    "node": "aok_1914_05_kolubara",
+    "kind": "fact",
+    "claim": "The Serbs evacuated Belgrade on 29 and 30 November; the Austro-Hungarians entered on 1 December; the Serbs counterattacked on 2 December and retook Valjevo and Uzice on 8 December; the Austro-Hungarians left Belgrade on 14 and 15 December.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kolubara"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-kolubara-140",
+    "node": "aok_1914_05_kolubara",
+    "kind": "figure",
+    "claim": "Austro-Hungarian losses are given as 273,000 in the infobox and about 225,000 in the body of the article; Serbian losses as 132,000.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kolubara"
+    ],
+    "note": "The article's two figures conflict; the text says 'more than two hundred thousand'."
+  },
+  {
+    "id": "aok-kolubara-141",
+    "node": "aok_1914_05_kolubara",
+    "kind": "fact",
+    "claim": "The defeat is called a serious diminution in the Dual Monarchy's prestige and self-confidence; Potiorek was relieved on 22 December.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kolubara"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-kolubara-142",
+    "node": "aok_1914_05_kolubara",
+    "kind": "position",
+    "claim": "Potiorek's position is characterized as: Serbia is the reason for the war and a third blow with the whole Balkan force will finish it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented plan for the third invasion, not a quotation."
+  },
+  {
+    "id": "aok-kolubara-143",
+    "node": "aok_1914_05_kolubara",
+    "kind": "position",
+    "claim": "Conrad's position (on the counterfactual) is characterized as: the war will be decided against Russia and every division spent in the Balkans is one Galicia will need.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position drawn from his documented priority for the Russian front; not a quotation."
+  },
+  {
+    "id": "aok-przemysl-144",
+    "node": "aok_1915_07_przemysl",
+    "kind": "fact",
+    "claim": "Conrad told Kusmanek by the end of February 1915 that no further relief efforts would be made.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl-aok"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-przemysl-145",
+    "node": "aok_1915_07_przemysl",
+    "kind": "fact",
+    "claim": "On 19 March Kusmanek ordered a breakout attempt, which was repulsed, and he surrendered on 22 March 1915.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl-aok"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-przemysl-146",
+    "node": "aok_1915_07_przemysl",
+    "kind": "figure",
+    "claim": "The garrison at the surrender is given as 117,000 men in the article's body and 120,000 captured, including wounded, in the infobox.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl-aok"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-przemysl-147",
+    "node": "aok_1915_07_przemysl",
+    "kind": "fact",
+    "claim": "Boroevic's Third Army advanced again in February 1915 to relieve the fortress; the relief attempts through the Carpathians failed, with casualties from January to April officially reported at 800,000, mostly from weather and disease.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl-aok"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-przemysl-148",
+    "node": "aok_1915_07_przemysl",
+    "kind": "fact",
+    "claim": "The expected Russian offensive into Hungary never came, but the loss of the fortress was a serious blow to Austro-Hungarian morale.",
+    "status": "web-checked",
+    "sources": [
+      "wp-przemysl-aok"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-przemysl-149",
+    "node": "aok_1915_07_przemysl",
+    "kind": "position",
+    "claim": "Conrad's position is characterized as: the army cannot be spent in the passes any longer and the fortress has to be told.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented message to Kusmanek, not a quotation."
+  },
+  {
+    "id": "aok-przemysl-150",
+    "node": "aok_1915_07_przemysl",
+    "kind": "position",
+    "claim": "Archduke Friedrich's position (on the counterfactual) is characterized as: a fortress with a hundred thousand men is worth another attempt.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view."
+  },
+  {
+    "id": "aok-pless-151",
+    "node": "aok_1915_08_pless",
+    "kind": "fact",
+    "claim": "Falkenhayn and Conrad signed a military convention at Pless on 8 September 1915 calling for an immediate attack on Serbia.",
+    "status": "web-checked",
+    "sources": [
+      "wp-serbia1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-pless-152",
+    "node": "aok_1915_08_pless",
+    "kind": "fact",
+    "claim": "Mackensen held supreme command over the German Eleventh Army (Gallwitz), the Austro-Hungarian Third Army (Kovess) and the Bulgarian First Army.",
+    "status": "web-checked",
+    "sources": [
+      "wp-serbia1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-pless-153",
+    "node": "aok_1915_08_pless",
+    "kind": "fact",
+    "claim": "The offensive was launched on 6 October 1915; Austro-Hungarian troops entered Belgrade on 8 October; Bulgaria mobilised on 23 September and declared war on 14 October.",
+    "status": "web-checked",
+    "sources": [
+      "wp-serbia1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-pless-154",
+    "node": "aok_1915_08_pless",
+    "kind": "fact",
+    "claim": "The Serbian army's withdrawal across the mountains was decided on 25 November; the Central Powers eliminated Serbia as a threat and opened a land route to the Ottoman Empire.",
+    "status": "web-checked",
+    "sources": [
+      "wp-serbia1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-pless-155",
+    "node": "aok_1915_08_pless",
+    "kind": "fact",
+    "claim": "The monarchy's own armies had failed to defeat Serbia in three invasions in 1914.",
+    "status": "web-checked",
+    "sources": [
+      "wp-kolubara"
+    ],
+    "note": "The Kolubara article calls the autumn offensive the third invasion."
+  },
+  {
+    "id": "aok-pless-156",
+    "node": "aok_1915_08_pless",
+    "kind": "characterization",
+    "claim": "Whether Conrad agreed to a German commander at Pless, and what AOK's part in the command arrangement was, is not described in the sources read; the node presents it as a decision of the high command.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The sources say the command was Mackensen's; read a source on the Pless negotiations."
+  },
+  {
+    "id": "aok-pless-157",
+    "node": "aok_1915_08_pless",
+    "kind": "position",
+    "claim": "Conrad's position is characterized as: the monarchy has failed three times alone and the Germans have the divisions.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his documented agreement to the attack, not a quotation."
+  },
+  {
+    "id": "aok-pless-158",
+    "node": "aok_1915_08_pless",
+    "kind": "position",
+    "claim": "Archduke Friedrich's position (on the counterfactual) is characterized as: Serbia is the monarchy's quarrel and a German command takes the credit.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view."
+  },
+  {
+    "id": "aok-montenegro-159",
+    "node": "aok_1916_06_montenegro",
+    "kind": "fact",
+    "claim": "Austro-Hungarian forces began the Montenegrin campaign on 5 January 1916; Montenegro won at Mojkovac but was defeated within two weeks; the Montenegrin army did not follow the Serbs into exile.",
+    "status": "web-checked",
+    "sources": [
+      "wp-serbia1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-montenegro-160",
+    "node": "aok_1916_06_montenegro",
+    "kind": "figure",
+    "claim": "Between November 1915 and January 1916, 77,455 Serbian soldiers and 160,000 civilians died of cold, hunger, disease or enemy action in the retreat toward the Adriatic.",
+    "status": "web-checked",
+    "sources": [
+      "wp-serbia1915"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-montenegro-161",
+    "node": "aok_1916_06_montenegro",
+    "kind": "fact",
+    "claim": "Conrad was planning an offensive in the Trentino for the spring of 1916.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known; see the claims on aok_1916_07_strafe and cite a source."
+  },
+  {
+    "id": "aok-montenegro-162",
+    "node": "aok_1916_06_montenegro",
+    "kind": "position",
+    "claim": "Conrad's position is characterized as: finish the Balkans while the Serbs are in flight and the Montenegrins alone, and send the divisions north afterwards.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of the campaign that was made, not a quotation."
+  },
+  {
+    "id": "aok-montenegro-163",
+    "node": "aok_1916_06_montenegro",
+    "kind": "position",
+    "claim": "Archduke Friedrich's position (on the counterfactual) is characterized as: the divisions are wanted in the Trentino and every week in the Albanian snow is lost to the spring offensive.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view."
+  },
+  {
+    "id": "aok-pursuit-164",
+    "node": "aok_1917_12_pursuit",
+    "kind": "fact",
+    "claim": "The Central Powers advanced more than 100 km toward Venice after 24 October 1917, some units covering 25 km on the first day; by 10 November the Italians held a position on the Piave and Monte Grappa.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-pursuit-165",
+    "node": "aok_1917_12_pursuit",
+    "kind": "fact",
+    "claim": "The German and Austro-Hungarian supply lines were stretched to breaking point and the troops were short of supplies and exhausted by the Piave.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-pursuit-166",
+    "node": "aok_1917_12_pursuit",
+    "kind": "fact",
+    "claim": "The last Central Powers push ran from 15 November to 23 December 1917 and was repelled at the First Battle of Monte Grappa, which secured the Italian positions south of the Piave.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-pursuit-167",
+    "node": "aok_1917_12_pursuit",
+    "kind": "fact",
+    "claim": "Cadorna was forced to resign and replaced by Diaz and Badoglio; Italian strength fell from 1,800,000 to 1,000,000 troops.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-pursuit-168",
+    "node": "aok_1917_12_pursuit",
+    "kind": "position",
+    "claim": "Boroevic's position is characterized as: the enemy is beaten and has not dug in, and a pause gives him the weeks he needs.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of the case for pursuit; the article read does not record a dispute over crossing the Piave."
+  },
+  {
+    "id": "aok-pursuit-169",
+    "node": "aok_1917_12_pursuit",
+    "kind": "position",
+    "claim": "Arz's position (on the counterfactual) is characterized as: the army has been three weeks on the road and what it has won is worth holding.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; the article read does not record a dispute over crossing the Piave."
+  },
+  {
+    "id": "aok-ukraine-170",
+    "node": "aok_1918_14_ukraine",
+    "kind": "fact",
+    "claim": "The Central Powers signed a treaty with the Ukrainian People's Republic on 9 February 1918, and accepted the Central Rada's invitation to occupy Ukraine in order to secure food supplies for their armies and populations.",
+    "status": "web-checked",
+    "sources": [
+      "wp-faustschlag"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-ukraine-171",
+    "node": "aok_1918_14_ukraine",
+    "kind": "fact",
+    "claim": "On 13 March 1918 Ukrainian troops and the Austro-Hungarian army secured Odessa.",
+    "status": "web-checked",
+    "sources": [
+      "wp-faustschlag"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-ukraine-172",
+    "node": "aok_1918_14_ukraine",
+    "kind": "fact",
+    "claim": "The monarchy was short of food in the winter of 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known; cite a source."
+  },
+  {
+    "id": "aok-ukraine-173",
+    "node": "aok_1918_14_ukraine",
+    "kind": "fact",
+    "claim": "An Austro-Hungarian offensive on the Italian front was being prepared for the summer of 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See the claims on aok_1918_12_piave."
+  },
+  {
+    "id": "aok-ukraine-174",
+    "node": "aok_1918_14_ukraine",
+    "kind": "position",
+    "claim": "Czernin's position is characterized as: the peace with Ukraine was made for bread and the monarchy has to be in the country when the grain is taken.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Characterization of his role in the Ukrainian treaty, not a quotation; cite a source for his view."
+  },
+  {
+    "id": "aok-ukraine-175",
+    "node": "aok_1918_14_ukraine",
+    "kind": "position",
+    "claim": "Arz's position (on the counterfactual) is characterized as: the summer offensive needs every division and the bread has to come another way.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view."
   }
 ]

@@ -224,7 +224,7 @@ CAMPAIGNS.aok.nodes = {
           { weight: 70, title: "Early victories, then the collapse before Lemberg", historicalBranch: true,
             impact: { manpower: -1, will: -1 },
             setFlags: { aok_galiciaResult: "lemberg" },
-            next: "aok_1915_04_carpathians",
+            next: "aok_1914_04_rawa",
             outcome:
               "The First Army wins at Krasnik, taking some 6,000 prisoners, and the Fourth " +
               "wins at Komarow, taking some 20,000. Then the southern flank gives way: " +
@@ -235,7 +235,7 @@ CAMPAIGNS.aok.nodes = {
           { weight: 30, title: "The offensive is checked early and the army keeps its line",
             impact: { manpower: 1 },
             setFlags: { aok_galiciaResult: "checked" },
-            next: "aok_1915_04_carpathians",
+            next: "aok_1914_04_rawa",
             outcome:
               "Speculative. The offensive meets the Russians earlier and in greater strength " +
               "than it did, and is checked before the flank is turned. The army falls back " +
@@ -253,13 +253,126 @@ CAMPAIGNS.aok.nodes = {
         disabledReason: "The General Staff's doctrine and the German ally's expectation both call for an offensive",
         impact: { manpower: 1, munitions: 0, will: -2 },
         setFlags: { aok_galicia: "defensive" },
-        next: "aok_1915_04_carpathians",
+        next: "aok_1914_04_rawa",
         outcome:
           "Speculative. The army stands behind the San and takes the Russian attack there, " +
           "with the fortress of Przemysl on its flank. It loses fewer men in the first " +
           "weeks than in the offensive, and the Russians come on at their own pace. The " +
           "Germans, who were told that the Austro-Hungarian army would take the " +
           "initiative in the south, are told instead that it will defend.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-09
+  aok_1914_04_rawa: {
+    year: 1914, date: "1914-09-06", city: "Przemysl",
+    title: "A Decisive Blow Meets Another",
+    advisors: ["conrad", "friedrich"],
+    situation:
+      "On 6 September the armies are three days into the great battle in Galicia. " +
+      "Conrad's plan is a decisive blow by Auffenberg's Fourth Army, which has turned " +
+      "south-east to deliver it, and the army to its left, under Archduke Joseph " +
+      "Ferdinand, has been left with four infantry and two cavalry divisions to face " +
+      "north.\n\n" +
+      "The Russians have turned too. Ruzsky's Third Army, persuaded to swing north-west, " +
+      "is coming straight at Auffenberg, so that the blow and the Russian advance meet " +
+      "head on. The Austro-Hungarian armies are outnumbered by two to one, and on " +
+      "the northern flank Plehve's Fifth Army is advancing from Komarow and the " +
+      "Russian Twenty-first Corps reaches beyond the left of the line.",
+    context:
+      "Breaking off now is a retreat in the middle of the first great battle, with " +
+      "the northern flank open and the fortress of Przemysl behind it. Going on is a " +
+      "gamble that the Fourth Army wins before the flank is turned.",
+    choices: [
+      {
+        id: "blow",
+        label: "Let the blow go on: the Fourth Army attacks as ordered",
+        historical: true,
+        advisor: { name: "Conrad", position:
+          "A battle of this size is decided by one army breaking another, and the Fourth Army is the one that can do it. A retreat now would give the Russians the victory for nothing." },
+        impact: { manpower: 0, munitions: -1, will: 0 },
+        setFlags: { aok_rawa: "blow" },
+        next: "aok_1914_05_kolubara",
+        outcome:
+          "The blow meets the Russian advance and does not break it. On 9 September " +
+          "Auffenberg begins to retreat west toward the San, outnumbered two to one " +
+          "and with his northern flank exposed, and the armies fall back to the " +
+          "Dunajec and the Biala. Przemysl is left behind them to be besieged by " +
+          "the Russians. The plan has been tried in the place where it was meant " +
+          "to work, and it has not worked.",
+      },
+      {
+        id: "breakoff",
+        label: "Break off the battle now and fall back behind the San",
+        advisor: { name: "Friedrich", position:
+          "If the northern flank is open and the enemy is twice our number, then the army should leave the field while it is still an army and fight again behind the river." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The command will not order a retreat in the middle of its first great battle",
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { aok_rawa: "brokeoff" },
+        next: "aok_1914_05_kolubara",
+        outcome:
+          "Speculative. The orders go out on 6 September for the armies to disengage and " +
+          "fall back behind the San before the Russian flank closes. The Fourth " +
+          "Army is intact, the northern wing has not been turned, and the retreat is " +
+          "made in order, three days earlier than it was. The fortress is besieged " +
+          "all the same. What the army has lost is the battle it did not fight, " +
+          "and the hope that it would have won it.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-10
+  aok_1914_05_kolubara: {
+    year: 1914, date: "1914-10-10", city: "Vienna",
+    title: "A Third Invasion",
+    advisors: ["conrad", "potiorek"],
+    situation:
+      "In the first days of October the Emperor has personally authorised a third " +
+      "invasion of Serbia, after two had failed and after the high command had " +
+      "hesitated. Potiorek, who commands the Balkan forces, means to go in " +
+      "at the beginning of November.\n\n" +
+      "Every division that goes into Serbia is a division that is not in Galicia, " +
+      "where the Russians have driven the armies back since the Rawa battle.",
+    context:
+      "A third attempt on Serbia is the one the monarchy went to war to make. " +
+      "Declining it means telling the Emperor that the war's first purpose " +
+      "has to wait.",
+    choices: [
+      {
+        id: "invade",
+        label: "Authorise Potiorek's third invasion of Serbia",
+        historical: true,
+        advisor: { name: "Potiorek", position:
+          "Serbia is the reason for the war, and the Serbian army has been beaten twice back from its own ground. A third blow, with the whole of the Balkan force, will finish it." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { aok_kolubara: "invaded" },
+        next: "aok_1915_04_carpathians",
+        outcome:
+          "The offensive opens on 6 November and reaches the Kolubara on 16 November. " +
+          "The Serbs give up Belgrade at the end of the month and the Austro-Hungarians " +
+          "enter it on 1 December; on 2 December the Serbs counterattack, and by " +
+          "15 December the capital is theirs again. The army has lost more than two " +
+          "hundred thousand men, the monarchy's prestige has suffered badly, and " +
+          "Potiorek is relieved on 22 December.",
+      },
+      {
+        id: "decline",
+        label: "Decline the invasion and hold the Balkan divisions for Galicia",
+        advisor: { name: "Conrad", position:
+          "The war will be decided against Russia. Every division spent in the Balkans is one that the Galician front will need before the winter is out." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The Emperor has already given his word for the invasion",
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { aok_kolubara: "declined" },
+        next: "aok_1915_04_carpathians",
+        outcome:
+          "Speculative. The Emperor's authorisation is put aside, and the Balkan force " +
+          "stands on the Drina and the Sava while the divisions that can be spared go " +
+          "north. Serbia is left unbeaten and Potiorek unrewarded, and Budapest, " +
+          "which wanted Serbia, says so. Galicia has the divisions, and the monarchy " +
+          "has the army it would have lost in the mountains of Serbia in the winter.",
       },
     ],
   },
@@ -297,7 +410,7 @@ CAMPAIGNS.aok.nodes = {
           "The garrison has to be relieved. An army that leaves 130,000 men to be taken has lost more than the battle." },
         impact: { manpower: -3, munitions: -1, will: 0 },
         setFlags: { aok_carpathians: "pressed" },
-        next: "aok_1915_05_gorlice",
+        next: "aok_1915_07_przemysl",
         outcome:
           "The offensives through the mountains go on from January to April and fail. " +
           "Austro-Hungarian casualties in the Carpathians in those months are reported as " +
@@ -315,13 +428,71 @@ CAMPAIGNS.aok.nodes = {
         disabledReason: "The General Staff cannot be seen to abandon the fortress",
         impact: { manpower: 1, munitions: 1, will: -2 },
         setFlags: { aok_carpathians: "held" },
-        next: "aok_1915_05_gorlice",
+        next: "aok_1915_07_przemysl",
         outcome:
           "Speculative. The relief is not attempted and the army holds the line of the " +
           "passes. The garrison breaks out, or it does not, and surrenders in the spring " +
           "with its stores gone. The army has kept the men that the Carpathian winter would " +
           "have cost it, and has told the monarchy that the fortress it was told to be proud " +
           "of was not worth the winter.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-02
+  aok_1915_07_przemysl: {
+    year: 1915, date: "1915-02-27", city: "Teschen",
+    title: "Telling the Fortress",
+    advisors: ["conrad", "friedrich"],
+    situation: (flags) =>
+      "The fortress of Przemysl has been shut in for months, with a garrison of well " +
+      "over a hundred thousand men, and the winter in the Carpathians is costing " +
+      "the army heavily, mostly in cold and sickness.\n\n" +
+      (flags.aok_carpathians === "held"
+        ? "The passes were held in January and the fortress left to itself, and the " +
+          "commandant, Kusmanek, has heard it from nobody. "
+        : "The relief attempts have been made through the snow, and Boroevic's Third " +
+          "Army has pressed forward again in February without breaking through. ") +
+      "By the end of the month Conrad has to tell Kusmanek whether any further " +
+      "attempt to relieve him will be made.",
+    context:
+      "Telling a garrison that nothing more is coming is telling it to " +
+      "surrender or break out. Not telling it is leaving it to eat its stores while " +
+      "the army that would relieve it is spent in the passes.",
+    choices: [
+      {
+        id: "none",
+        label: "Tell the fortress that no further relief will be attempted",
+        historical: true,
+        advisor: { name: "Conrad", position:
+          "The army cannot be spent in the passes any longer. The fortress has to be told the truth, so that its commandant can do what he can with it." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { aok_przemyslend: "none" },
+        next: "aok_1915_05_gorlice",
+        outcome:
+          "Conrad tells Kusmanek by the end of February that no further relief will " +
+          "be tried. On 19 March the commandant orders a breakout, which is " +
+          "repelled, and on 22 March he surrenders with some 117,000 men. The " +
+          "expected Russian advance into Hungary does not come, but the loss is a " +
+          "serious blow to the army's morale.",
+      },
+      {
+        id: "third",
+        label: "Order a third relief attempt through the passes",
+        advisor: { name: "Friedrich", position:
+          "A fortress with a hundred thousand men in it is worth another attempt. The army is better spent in the mountains than given up behind the walls." },
+        gate: (m, flags) => m.manpower >= -4 && flags.aok_carpathians !== "held",
+        disabledReason: "There is no army left in the passes to send, or the passes were never contested",
+        impact: { manpower: -2, munitions: -1, will: 1 },
+        setFlags: { aok_przemyslend: "third" },
+        next: "aok_1915_05_gorlice",
+        outcome:
+          "Speculative. A third attempt goes in at the end of the winter, with what the " +
+          "second left of the army, over the same snow. Whether it reaches the " +
+          "fortress is something nobody knows, and the garrison is told to hold " +
+          "until it comes. The army that makes it is smaller than the one that " +
+          "made the second, and the spring, when the Russians come on again, " +
+          "finds it so.",
       },
     ],
   },
@@ -410,7 +581,7 @@ CAMPAIGNS.aok.nodes = {
           "The Isonzo is a position that a small army can hold if it holds it with its whole heart. It must not be spent in attacks." },
         impact: { manpower: -1, munitions: -1, will: 0 },
         setFlags: { aok_isonzo: "held" },
-        next: "aok_1916_07_strafe",
+        next: "aok_1915_08_pless",
         outcome:
           "Boroevic's army digs in on the heights above the Isonzo and holds them against " +
           "the Italian attacks that begin in June. There are eleven battles on the Isonzo " +
@@ -427,13 +598,132 @@ CAMPAIGNS.aok.nodes = {
         disabledReason: "There is no army to spare from Galicia for an offensive in the south",
         impact: { manpower: -3, munitions: -1, will: 0 },
         setFlags: { aok_isonzo: "attacked" },
-        next: "aok_1916_07_strafe",
+        next: "aok_1915_08_pless",
         outcome:
           "Speculative. A strong force is sent to the south and attacks across the frontier " +
           "in the first weeks of the war with Italy. It takes some ground and is stopped " +
           "by the Italian army, which has had time to mobilise, and the troops taken from " +
           "Galicia have to be replaced by Germans. The monarchy has now two active " +
           "fronts and is further in debt to its ally.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-09
+  aok_1915_08_pless: {
+    year: 1915, date: "1915-09-08", city: "Pless",
+    title: "A Convention at Pless",
+    advisors: ["conrad", "friedrich"],
+    situation: (flags) =>
+      "On 8 September Falkenhayn and Conrad meet at Pless to sign a military " +
+      "convention that calls for an immediate attack on Serbia. The plan on the " +
+      "table puts it under a German field marshal, Mackensen, with a German army, " +
+      "the Austro-Hungarian Third Army under Kovess, and, if Bulgaria comes in, " +
+      "a Bulgarian one beneath him.\n\n" +
+      (flags.aok_gorlice === "own"
+        ? "At Gorlice an Austro-Hungarian command was insisted on, and it is a " +
+          "precedent that Berlin has not forgotten. "
+        : "At Gorlice a German commander was accepted, and this would be the second " +
+          "time. ") +
+      "Serbia has been beaten off three times by the monarchy's own " +
+      "armies, and nobody at the table has to be reminded of it.",
+    context:
+      "A German commander over Austro-Hungarian troops is a thing the " +
+      "monarchy has said it would not accept, and has accepted. The case " +
+      "for refusing is that the attack on Serbia is the monarchy's own " +
+      "war. The case for accepting is that Falkenhayn has the divisions " +
+      "and the monarchy has not.",
+    choices: [
+      {
+        id: "mackensen",
+        label: "Sign: Mackensen commands the attack, with the Third Army under him",
+        historical: true,
+        advisor: { name: "Conrad", position:
+          "The monarchy has failed three times alone. The Germans have the divisions and the Bulgarians are being brought in, and the war with Serbia must be ended." },
+        impact: { manpower: 0, munitions: 1, will: -1 },
+        setFlags: { aok_pless: "mackensen" },
+        next: "aok_1916_06_montenegro",
+        outcome:
+          "Mackensen takes the supreme command over the German Eleventh Army, the " +
+          "Austro-Hungarian Third Army and the Bulgarian First. The attack opens on 6 " +
+          "October and Austro-Hungarian troops enter Belgrade on 8 October; Bulgaria " +
+          "declares war on 14 October. In November the Serbian army withdraws across " +
+          "the mountains of Albania and Montenegro. Serbia is eliminated as a " +
+          "threat, and a land route to the Ottoman Empire is open.",
+      },
+      {
+        id: "own",
+        label: "Sign only if the Third Army keeps its own commander and AOK's orders",
+        advisor: { name: "Friedrich", position:
+          "Serbia is the monarchy's quarrel and the monarchy's army should end it. A command that is German takes the credit for it." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "Berlin has already named the commander, and AOK cannot now refuse it",
+        impact: { manpower: -1, munitions: 0, will: 1 },
+        setFlags: { aok_pless: "own" },
+        next: "aok_1916_06_montenegro",
+        outcome:
+          "Speculative. Falkenhayn does not agree to everything, and the convention " +
+          "that is signed at Pless has two commanders where the other had one. The " +
+          "attack is made later and by less, and the Austro-Hungarian army is " +
+          "again on the ground that has broken it three times. Whether it wins, " +
+          "with the Bulgarians coming in, is not something the convention can " +
+          "say. The monarchy has kept what it asked to keep.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-01
+  aok_1916_06_montenegro: {
+    year: 1916, date: "1916-01-04", city: "Teschen",
+    title: "The Mountains Beyond Serbia",
+    advisors: ["conrad", "friedrich"],
+    situation:
+      "Serbia has been overrun, and its army, with the King, a great many civilians " +
+      "and the government, is making its way through the mountains of Albania " +
+      "toward the Adriatic coast, in the winter, in a retreat in which many tens " +
+      "of thousands will die. Montenegro, which stayed in the war, has not followed " +
+      "them into exile.\n\n" +
+      "Conrad has other plans for the spring, in the Trentino. The divisions that " +
+      "would take Montenegro are divisions that cannot be moved to Italy, and " +
+      "the campaign would open tomorrow.",
+    context:
+      "Montenegro is small and its army is not large, and the campaign " +
+      "against it would be short. A short campaign still costs the divisions " +
+      "that are in the Balkans something, and a month.",
+    choices: [
+      {
+        id: "attack",
+        label: "Open the campaign against Montenegro at once",
+        historical: true,
+        advisor: { name: "Conrad", position:
+          "The Balkans are to be finished while the Serbs are in flight and the Montenegrins alone. The divisions go north when it is done." },
+        impact: { manpower: 0, munitions: 0, will: 1 },
+        setFlags: { aok_montenegro: "attacked" },
+        next: "aok_1916_07_strafe",
+        outcome:
+          "The campaign opens on 5 January. The Montenegrins win at Mojkovac and are " +
+          "defeated within two weeks, and their army does not follow the Serbs into " +
+          "exile. The monarchy has taken a second kingdom. The divisions that did it " +
+          "are in the mountains in the middle of the winter, a long way from the " +
+          "Trentino.",
+      },
+      {
+        id: "halt",
+        label: "Stop at the frontier and move the divisions toward the Italian front",
+        advisor: { name: "Friedrich", position:
+          "The Serbs are beaten and Montenegro will not move. The divisions are wanted in the Trentino, and every week they spend in the Albanian snow is a week the spring offensive loses." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The Balkan command has been promised the campaign",
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { aok_montenegro: "halted" },
+        next: "aok_1916_07_strafe",
+        outcome:
+          "Speculative. The divisions stay on the frontier and are moved north, and " +
+          "Montenegro is left with its army and its king. The western Balkans are " +
+          "not closed and the Adriatic is not Austrian from end to end. The " +
+          "spring offensive in the Trentino has its divisions rested and earlier, " +
+          "and the little kingdom, if it is still at war in March, has to be " +
+          "watched.",
       },
     ],
   },
@@ -716,7 +1006,7 @@ CAMPAIGNS.aok.nodes = {
         impact: { manpower: 1, munitions: 1, will: 1 },
         setFlags: { aok_caporetto: "german" },
         erodes: "cede_sovereignty",
-        next: "aok_1918_12_piave",
+        next: "aok_1917_12_pursuit",
         outcome:
           "A Fourteenth Army is made up of German and Austro-Hungarian divisions, under " +
           "the German general Otto von Below. The offensive opens on 24 October and the " +
@@ -733,13 +1023,124 @@ CAMPAIGNS.aok.nodes = {
         disabledReason: "The army has not the divisions left to hold a twelfth battle on its own",
         impact: { manpower: -2, munitions: -1, will: -1 },
         setFlags: { aok_caporetto: "defend" },
-        next: "aok_1918_12_piave",
+        next: "aok_1917_12_pursuit",
         outcome:
           "Speculative. The Germans send guns and staff officers and no divisions, and the " +
           "army meets the next Italian attack on the Isonzo with what it has. The line " +
           "holds or it does not, on the strength of troops who have been defending it " +
           "since 1915. Whatever happens, the Emperor has not asked again for the help that " +
           "the monarchy needed.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-11
+  aok_1917_12_pursuit: {
+    year: 1917, date: "1917-11-10", city: "Baden",
+    title: "The Line Is the Piave",
+    advisors: ["arz", "boroevic", "karl"],
+    situation:
+      "By 10 November the Italians have made a stand on the Piave and on Monte Grappa. " +
+      "Since 24 October the armies have advanced more than a hundred kilometres toward " +
+      "Venice, some units twenty-five kilometres on the first day.\n\n" +
+      "The supply lines are stretched to breaking, and the troops are tired and " +
+      "short of food; the Germans who made the breakthrough have the same trouble. " +
+      "The question for the Emperor's staff is whether the line that has been reached " +
+      "is the line to hold.",
+    context:
+      "An army that stops lets the enemy dig in and rebuild. An army that goes on " +
+      "has to do it from the end of a railway that cannot carry what it needs, " +
+      "against an enemy that is now fighting on its own ground.",
+    choices: [
+      {
+        id: "push",
+        label: "Mount one more push over the Piave and on Monte Grappa",
+        historical: true,
+        advisor: { name: "Boroevic", position:
+          "The enemy is beaten and has not yet dug in. A pause now gives him the weeks he needs, and a line that is not pushed will have to be fought for later." },
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        setFlags: { aok_pursuit: "push" },
+        next: "aok_1918_14_ukraine",
+        outcome:
+          "The last push runs from 15 November to 23 December and is repelled at the " +
+          "First Battle of Monte Grappa, which secures the Italian positions south of " +
+          "the Piave. Cadorna has been replaced by Diaz, and the Italian army, much " +
+          "reduced, is rebuilt behind the river. The front, from here to the end, is " +
+          "on the Piave.",
+      },
+      {
+        id: "halt",
+        label: "Halt on the line already won and dig in for the winter",
+        advisor: { name: "Arz", position:
+          "The army has been three weeks on the road, with its supply a hundred kilometres behind it. What it has won is worth holding, and it is not worth spending it to win a little more." },
+        gate: (m) => m.will >= -4,
+        disabledReason: "The Emperor will not hear of stopping while the Italians are in flight",
+        impact: { manpower: 1, munitions: 1, will: 0 },
+        setFlags: { aok_pursuit: "halted" },
+        next: "aok_1918_14_ukraine",
+        outcome:
+          "Speculative. The armies halt on the line they have reached and the engineers " +
+          "come forward with the railway. The winter is spent on ground that was " +
+          "Italian a month ago, with the Italians using the same weeks to rebuild what " +
+          "they lost. The army has not been spent on the last push, and it has not " +
+          "taken the last ground either, and what it will be asked to do in the " +
+          "summer is the same thing.",
+      },
+    ],
+  },
+
+
+  // ---------------------------------------------------------------- 1918-02
+  aok_1918_14_ukraine: {
+    year: 1918, date: "1918-02-12", city: "Baden",
+    title: "Grain From the East",
+    advisors: ["arz", "karl", "czernin"],
+    situation:
+      "On 9 February the Central Powers signed a treaty with the Ukrainian People's " +
+      "Republic, and the Rada has invited German and Austro-Hungarian troops into " +
+      "Ukraine. The Central Powers have accepted, to secure food supplies for their " +
+      "armies and their populations.\n\n" +
+      "The monarchy is short of food. The divisions that would go east are " +
+      "divisions that are not on the Italian front, where an offensive is " +
+      "wanted for the summer.",
+    context:
+      "The grain is in Ukraine and will be taken by somebody. A German occupation " +
+      "alone takes what the Germans need first. An Austro-Hungarian army in " +
+      "the country has a claim to some, and it is paid for in divisions.",
+    choices: [
+      {
+        id: "occupy",
+        label: "Send Austro-Hungarian divisions into Ukraine to secure the grain",
+        historical: true,
+        advisor: { name: "Czernin", position:
+          "The peace with Ukraine was made for bread. If the monarchy is not in the country when the grain is taken, then the Germans will have it and the towns will go without." },
+        impact: { manpower: 0, munitions: 1, will: 1 },
+        setFlags: { aok_ukraine: "occupied" },
+        next: "aok_1918_12_piave",
+        outcome:
+          "Austro-Hungarian troops go into Ukraine in the weeks that follow, and on " +
+          "13 March, with Ukrainian troops, they secure Odessa. The occupation is " +
+          "meant to secure food supplies for the armies and the populations, and " +
+          "the divisions that make it are not available for any other front. " +
+          "The army that goes east is the monarchy's own, and it goes for the grain.",
+      },
+      {
+        id: "keep",
+        label: "Keep the divisions for the Italian front and leave Ukraine to the Germans",
+        advisor: { name: "Arz", position:
+          "The summer offensive is the army's last chance to end the war in the south, and it needs every division it has. The bread has to come by another road." },
+        gate: (m) => m.manpower >= -4,
+        disabledReason: "The towns cannot be told that the army will not go for the grain",
+        impact: { manpower: 1, munitions: 0, will: 0 },
+        setFlags: { aok_ukraine: "kept" },
+        next: "aok_1918_12_piave",
+        outcome:
+          "Speculative. The divisions stay on the Italian side and the occupation of " +
+          "Ukraine is a German affair, with the Germans taking the first share of the " +
+          "grain. The towns of the monarchy have what the Germans send, and the " +
+          "army has the divisions the offensive needs. " +
+          "The summer comes with the army larger and the cities colder and " +
+          "hungrier than they might have been.",
       },
     ],
   },
@@ -911,14 +1312,21 @@ CAMPAIGNS.aok.nodes = {
     epilogue: (flags) =>
       "Serbia and Galicia, 1914: " + (flags.aok_serbia === "galicia" ? "the swing force sent to Galicia first." : "the swing force sent to Serbia first, then recalled.") + "\n" +
       "The offensive into Russian Poland: " + (flags.aok_galicia === "defensive" ? "refused, and the army stood behind the San." : flags.aok_galiciaResult === "checked" ? "launched, and checked before the flank was turned." : "launched, and ended at Lemberg.") + "\n" +
+      "Rawa, September 1914: " + (flags.aok_rawa === "brokeoff" ? "the battle broken off and the army drawn back behind the San." : "the decisive blow left to go on, and the retreat to the Dunajec.") + "\n" +
+      "Serbia, autumn 1914: " + (flags.aok_kolubara === "declined" ? "the third invasion declined." : "the third invasion made, and Belgrade lost again.") + "\n" +
       "Przemysl, 1915: " + (flags.aok_carpathians === "held" ? "the passes held, and the fortress left to its fate." : "relief pressed through the Carpathian winter.") + "\n" +
+      "Przemysl, February 1915: " + (flags.aok_przemyslend === "third" ? "a third relief attempt ordered." : "the fortress told that no more relief would come.") + "\n" +
       "Gorlice: " + (flags.aok_gorlice === "own" ? "an Austro-Hungarian command insisted on." : "a German commander accepted.") + "\n" +
       "Italy: " + (flags.aok_isonzo === "attacked" ? "attacked at once." : "the Isonzo held.") + "\n" +
+      "Serbia, September 1915: " + (flags.aok_pless === "own" ? "the attack made under AOK's own orders." : "the attack made under Mackensen.") + "\n" +
+      "Montenegro, January 1916: " + (flags.aok_montenegro === "halted" ? "left alone, and the divisions moved north." : "the campaign opened at once.") + "\n" +
       "The Trentino, May 1916: " + (flags.aok_strafe === "cancelled" ? "the offensive cancelled." : "launched, with the Galician divisions taken for it.") + "\n" +
       "June 1916: " + (flags.aok_brusilov === "continued" ? "the offensive in the south kept up." : "the offensive halted and the divisions sent back.") + "\n" +
       "The Supreme War Command: " + (flags.aok_supreme === "refused" ? "refused." : "accepted.") + "\n" +
       "March 1917: " + (flags.aok_sixtus === "separate" ? "the Emperor's wish for peace put to Berlin." : "the Emperor's approach to France kept from the German command.") + "\n" +
       "Caporetto: " + (flags.aok_caporetto === "defend" ? "the Isonzo defended without German divisions." : "a German-commanded army accepted.") + "\n" +
+      "November 1917: " + (flags.aok_pursuit === "halted" ? "the armies halted on the line they had won." : "one more push over the Piave and on Monte Grappa.") + "\n" +
+      "February 1918: " + (flags.aok_ukraine === "kept" ? "the divisions kept for the Italian front." : "divisions sent into Ukraine for the grain.") + "\n" +
       "June 1918: " + (flags.aok_piave === "concentrated" ? "one thrust, with the whole army." : flags.aok_piaveResult === "bridgehead" ? "two thrusts, one of which held a bridgehead for a time." : "two thrusts, and the forces divided.") + "\n" +
       "October 1918: " + (flags.aok_vittorio === "german" ? "the German command asked to take the front." : "the retreat ordered and an armistice asked for.") + "\n\n" +
       "What actually happened: The armistice of Villa Giusti came into effect on 4 November 1918. The Italians had taken about 448,000 prisoners, a third of the army, and some 5,600 guns. Emperor Karl issued a proclamation on 11 November that recognised the right of the Austrian people to decide the form of the state, without using the word abdication. The monarchy was succeeded by Austria, Hungary, Czechoslovakia and the Kingdom of Serbs, Croats and Slovenes.",

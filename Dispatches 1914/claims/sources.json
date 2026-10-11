@@ -293,5 +293,70 @@
     "title": "Siege of Przemyśl",
     "kind": "web (tertiary)",
     "url": "https://en.wikipedia.org/wiki/Siege_of_Przemy%C5%9Bl"
+  },
+  "wp-lodz1914": {
+    "title": "Battle of Lodz (1914)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_%C5%81%C3%B3d%C5%BA_(1914)"
+  },
+  "wp-masuria2": {
+    "title": "Second Battle of the Masurian Lakes",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Second_Battle_of_the_Masurian_Lakes"
+  },
+  "wp-greatretreat": {
+    "title": "Great Retreat (Russian)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Great_Retreat_(Russian)"
+  },
+  "wp-naroch": {
+    "title": "Lake Naroch Offensive",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Lake_Naroch_Offensive"
+  },
+  "wp-romfront": {
+    "title": "Romanian Front (Russian Empire)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Romanian_Front_(Russian_Empire)"
+  },
+  "wp-danubearmy": {
+    "title": "Danube Army (Russian Empire, 1916)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Danube_Army_(Russian_Empire,_1916)"
+  },
+  "wp-riga1917": {
+    "title": "Riga offensive (1917)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Riga_offensive_(1917)"
+  },
+  "nlb-sventsiany": {
+    "title": "Main battles, fights, military operations (Belarus in the First World War), National Library of Belarus",
+    "kind": "web (secondary)",
+    "url": "https://nlb.by/en/information-resources/electronic-informational-resources/resources-of-the-national-library-of-belarus/virtual-projects-exhibitions-and-collections/virtual-projects-of-the-library/belarus-in-the-first-world-war-/main-battles-fights-military-operations-"
+  },
+  "ox-milner": {
+    "title": "Morgan, Milner (New College, Oxford, 2013)",
+    "kind": "web (secondary)",
+    "url": "https://www.new.ox.ac.uk/sites/default/files/3NCN7%20%282013%29%20Morgan%20-%20Milner.pdf"
+  },
+  "paleologue-petrograd": {
+    "title": "Paleologue, An Ambassador's Memoirs, vol. 3, ch. 7 (Petrograd Conference)",
+    "kind": "web (primary, memoir)",
+    "url": "https://net.lib.byu.edu/~rdh7/wwi/memoir/FrAmbRus/pal3-07.htm"
+  },
+  "wp-rawa": {
+    "title": "Battle of Rawa",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Rawa"
+  },
+  "wp-kolubara": {
+    "title": "Battle of Kolubara",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Kolubara"
+  },
+  "wp-serbia1915": {
+    "title": "Serbian campaign of 1915",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Serbian_campaign_of_1915"
   }
 }
