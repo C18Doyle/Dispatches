@@ -888,6 +888,7 @@ CAMPAIGNS.ohl.nodes = {
     choices: [
       {
         id: "attrition",
+        keyBattleSubgame: { id: "verdunGerman" },
         label: "Make the object the French army — hold the ground, let them counter-attack into the guns",
         historical: true,
         advisor: { name: "Falkenhayn", position:
@@ -1555,6 +1556,7 @@ CAMPAIGNS.ohl.nodes = {
     choices: [
       {
         id: "adaptive",
+        keyBattleSubgame: { id: "michaelGerman" },
         label: "Make the breakthrough the objective — exploit wherever the line gives",
         historical: true,
         advisor: { name: "Ludendorff", position:
@@ -7911,6 +7913,7 @@ CAMPAIGNS.aok.nodes = {
     choices: [
       {
         id: "offensive",
+        keyBattleSubgame: { id: "galiciaAustro" },
         label: "Launch the offensive north into Russian Poland",
         historical: true,
         advisor: { name: "Conrad", position:
@@ -8877,6 +8880,7 @@ CAMPAIGNS.aok.nodes = {
     choices: [
       {
         id: "divide",
+        keyBattleSubgame: { id: "piaveAustro" },
         label: "Give each commander his own thrust and divide the forces equally",
         historical: true,
         advisor: { name: "Arz von Straussenburg", position:
@@ -9599,6 +9603,7 @@ CAMPAIGNS.otto.nodes = {
     choices: [
       {
         id: "siege",
+        keyBattleSubgame: { id: "kutOttoman" },
         label: "Stop the assaults, build siege lines round Kut and meet the relief force on the river",
         historical: true,
         advisor: { name: "Enver", position:
@@ -11318,13 +11323,13 @@ export function echoSeed(record) {
 export const TEXT_SIZES = ["s", "m", "l"];
 
 export function defaultSettings() {
-  return { schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, holdToSign: true };
+  return { schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, holdToSign: true, theme: DEFAULT_THEME, font: "theme" };
 }
 
 export function sanitizeSettings(raw) {
   const base = defaultSettings();
   if (!raw || typeof raw !== "object" || raw.schemaVersion !== 1) return base;
-  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, holdToSign: raw.holdToSign !== false };
+  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, holdToSign: raw.holdToSign !== false, theme: [...THEME_IDS, "auto"].includes(raw.theme) ? raw.theme : DEFAULT_THEME, font: raw.font === "plain" || raw.font === "typewriter" ? raw.font : "theme" };
 }
 
 export function loadSettings() {
@@ -12245,6 +12250,831 @@ BATTLES.brusilovRussian = {
   },
 };
 
+BATTLES.galiciaAustro = {
+  id: "galiciaAustro",
+  host: { node: "aok_1914_03_galicia", choice: "offensive" },
+  winBranch: 1,
+  campaign: "aok",
+  title: "Order of Battle: Galicia",
+  flavor:
+    "Conrad has some 950,000 men on a front of about 280 kilometres and a plan to strike north before the Russians are ready. The Russians are stronger on the flank than he thought, " +
+    "and they can bring more trains to the front than he can.",
+  conditions:
+    "The end of August, in the heat. The armies march from railheads: Austria-Hungary can run 152 trains a day to this front, and Russia 260.",
+  categories: [
+    {
+      id: "first", name: "The First Army at Krasnik", meter: "manpower",
+      units: [
+        "Dankl's First Army, on the northern wing",
+        "Its advance toward Krasnik against the Russian Fourth Army",
+        "The Russian Fourth Army's position in front of it",
+      ],
+      real:
+        "Dankl's First Army drove back the Russian Fourth Army at Krasnik and took about 6,000 prisoners. It was one of the two battles in the north that the Austro-Hungarian armies won, and the Russian Fourth Army's commander, Salza, was replaced by Evert afterward.",
+      context:
+        "The First Army is the northern wing of the blow. Each commitment puts more of it into the advance on Krasnik.",
+    },
+    {
+      id: "fourth", name: "The Fourth Army at Komarow", meter: "manpower",
+      units: [
+        "Auffenberg's Fourth Army, in the centre of the northern wing",
+        "Its attack on the Russian Fifth Army under Plehve",
+        "The Russian Fifth Army's line at Komarow",
+      ],
+      real:
+        "Auffenberg's Fourth Army drove back Plehve's Fifth Army at Komarow and took about 20,000 prisoners. It was a victory in the north, won while the south was giving way, and it could not make up for what was lost on the flank.",
+      context:
+        "The Fourth Army is the centre of the blow. Each commitment puts more of it into the attack at Komarow.",
+    },
+    {
+      id: "third", name: "The Third Army and the Southern Flank", meter: "will",
+      units: [
+        "Brudermann's Third Army, advancing against the Russian left",
+        "Army Group Kovess, on its flank",
+        "The Gnila Lipa, the river line east of Lemberg",
+      ],
+      real:
+        "The Third Army and Army Group Kovess were routed at the Gnila Lipa by Brusilov's Eighth Army and Ruzsky's Third. The Russians took Lemberg, and the army fell back about 160 kilometres to the Carpathians.",
+      context:
+        "The southern flank is where the Russians are strongest and the plan is weakest. Each commitment puts more of the army's strength and attention on it.",
+    },
+    {
+      id: "rail", name: "The Second Army and the Railways", meter: "munitions",
+      units: [
+        "The Second Army, recalled from Serbia and on its way north",
+        "The railways: 152 trains a day against Russia's 260",
+        "Przemysl, the fortress behind the line of retreat",
+      ],
+      real:
+        "The Second Army was recalled from Serbia and arrived too late to stop the collapse. Russia could bring 260 trains a day to its front, against 152 for Austria-Hungary, and the siege of Przemysl began once the army had fallen back.",
+      context:
+        "The railways decide how fast the army can be strengthened where it is weak. Each commitment puts more trains, shells and reserves behind the line.",
+    },
+  ],
+  // The southern flank first: it was where the battle was lost. The Fourth Army second, the First third, the Second Army and the railways last.
+  // A game judgment, not a measurement.
+  effectiveness: { third: 2.4, fourth: 2.0, first: 1.7, rail: 1.4 },
+  commanders: [
+    { id: "dankl", name: "Dankl", role: "Commander of the First Army", category: "first",
+      note: "His army is on the northern wing and is going forward." },
+    { id: "auffenberg", name: "Auffenberg", role: "Commander of the Fourth Army", category: "fourth",
+      note: "His army is the centre of the blow." },
+    { id: "kovess", name: "Kovess", role: "Commander of the army group on the southern flank", category: "third",
+      note: "His group is where the Russians are strongest." },
+  ],
+  approaches: [
+    { id: "north", name: "Strike north with the First and Fourth Armies, as planned", note: "The weight goes into the northern wing and the flank is left to hold as it can.", modifiers: { first: 0.4, fourth: 0.4, third: -0.4 } },
+    { id: "flank", name: "Keep a strong force on the southern flank", note: "The flank is covered and the blow in the north is smaller.", modifiers: { third: 0.6, rail: 0.2, first: -0.3, fourth: -0.3 } },
+  ],
+  postures: [
+    { id: "strong", name: "The Russians stronger than expected, on the flank", weight: 2,
+      intel: "Reports speak of Russian armies in strength on the southern flank, more than the plan allows for.",
+      modifiers: { third: 0.7, rail: 0.9 } },
+    { id: "north", name: "The Russians strongest in the north", weight: 1,
+      intel: "Reports speak of the main Russian concentration in the north, against the First and Fourth Armies.",
+      modifiers: { first: 0.8, fourth: 0.8, third: 1.2 } },
+    { id: "late", name: "The Russians not yet concentrated", weight: 1,
+      intel: "Reports say the Russian armies are still coming forward and are not yet in touch with each other.",
+      modifiers: { first: 1.15, fourth: 1.15, third: 1.2, rail: 1.1 } },
+  ],
+  echo: {
+    node: "aok_1914_04_rawa",
+    grade: {
+      clean: "The offensive in Galicia was planned so that every army had its part, and the staff has the habit of working that way.",
+      costly: "The offensive in Galicia won where its weight was put, with other armies starved to pay for it.",
+      marginal: "The plan for Galicia held together, and the battle did not go the way it should have.",
+      total: "The offensive in Galicia was begun with parts of the front left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      first: "The First Army was left short of what it needed.",
+      fourth: "The Fourth Army was left short of what it needed.",
+      third: "The southern flank was left too weak to hold.",
+      rail: "The Second Army and the railways were left short, and help came too late.",
+    },
+    commander: {
+      dankl: "Dankl's army is remembered as the one that won at Krasnik.",
+      auffenberg: "Auffenberg's army is remembered as the one that won at Komarow.",
+      kovess: "Kovess's group is remembered as the one on the flank.",
+    },
+  },
+};
+
+BATTLES.michaelGerman = {
+  id: "michaelGerman",
+  host: { node: "ohl_1918_09_michael", choice: "adaptive" },
+  winBranch: 1,
+  campaign: "ohl",
+  title: "Order of Battle: the March Offensive",
+  flavor:
+    "Seventy-four divisions, 6,600 guns and a method nobody has used on this scale: a hurricane bombardment, then storm troops that go through the line and not at it. " +
+    "What is not settled is what the blow is for.",
+  conditions:
+    "21 March, before dawn. A heavy fog lies on the ground, so thick in places that a man cannot see ten metres. It will hide the infantry, and the guns' targets.",
+  categories: [
+    {
+      id: "eighteenth", name: "The Eighteenth Army at St Quentin", meter: "manpower",
+      units: [
+        "Hutier's Eighteenth Army, about 27 divisions",
+        "Its attack on both sides of St Quentin",
+        "Stormtroop battalions trained to infiltrate the line",
+      ],
+      real:
+        "The Eighteenth Army carried the main weight, with about 27 divisions attacking on both sides of St Quentin, and was the only army to reach its objectives on the first day.",
+      context:
+        "The Eighteenth Army is the arm that can break through. Each commitment puts more of the divisions on the St Quentin sector.",
+    },
+    {
+      id: "north", name: "The Seventeenth and Second Armies", meter: "manpower",
+      units: [
+        "Below's Seventeenth Army, attacking toward Arras",
+        "Marwitz's Second Army, to attack west along the Somme toward Amiens",
+        "The 44 'mobile' divisions among the 74",
+      ],
+      real:
+        "The Seventeenth Army was to advance toward Arras and the Second Army along the Somme toward Amiens. Operation Mars on 28 March, with 29 divisions, was repulsed, and Ludendorff ended the offensive on 5 April after the fighting at Villers-Bretonneux.",
+      context:
+        "The northern armies are meant to roll the British back toward the Channel. Each commitment puts more of them into the attack at Arras and on the Somme.",
+    },
+    {
+      id: "guns", name: "The Hurricane Bombardment", meter: "munitions",
+      units: [
+        "6,600 guns and 3,500 mortars",
+        "326 aircraft",
+        "Gas and smoke shell fired in three phases",
+      ],
+      real:
+        "The bombardment opened at 4.35 and the barrage began at 4.40, along a front of about 69 kilometres: more than 3.5 million shells in five hours. The infantry attacked at 9.40, in fog.",
+      context:
+        "The guns open the line. Each commitment puts more batteries and shells into the five hours before the infantry go.",
+    },
+    {
+      id: "objective", name: "The Objective and the Axis", meter: "will",
+      units: [
+        "Ludendorff's orders, which give each army its axis",
+        "The aim of separating the British from the French",
+        "Amiens, the city on the Somme",
+      ],
+      real:
+        "A directive of 23 March re-aimed the offensive at separating the British and French armies and then taking Amiens. The advance covered some 3,100 square kilometres and as much as 65 kilometres of ground, but never reached Amiens.",
+      context:
+        "What the blow is for decides where the reserves go. Each commitment puts more of the headquarters' attention on naming the objective and holding to it.",
+    },
+  ],
+  // The Eighteenth Army first: it was the army that went through. The objective second: how the blow was directed was what the criticism was about.
+  // The guns third, the northern armies last. A game judgment, not a measurement.
+  effectiveness: { eighteenth: 2.4, objective: 2.2, guns: 1.8, north: 1.4 },
+  commanders: [
+    { id: "ludendorff", name: "Ludendorff", role: "First Quartermaster-General", category: "objective",
+      note: "He has made the breakthrough the plan, and the objective whatever the line gives." },
+    { id: "hutier", name: "Hutier", role: "Commander of the Eighteenth Army", category: "eighteenth",
+      note: "His army is the one that is to break through at St Quentin." },
+  ],
+  approaches: [
+    { id: "exploit", name: "Exploit wherever the line gives", note: "The armies go where the resistance is weakest, and the objective follows.", modifiers: { eighteenth: 0.3, north: 0.2, objective: -0.4 } },
+    { id: "amiens", name: "Hold every army to its axis, with Amiens in view", note: "One objective, and no diversions from it.", modifiers: { objective: 0.5, guns: 0.2, north: -0.3 } },
+  ],
+  postures: [
+    { id: "forward", name: "A thinly held forward zone", weight: 2,
+      intel: "Reconnaissance shows the British Fifth Army spread thinly over a long front, with its forward zone lightly held and its reserves far back.",
+      modifiers: { eighteenth: 1.2, guns: 1.1 } },
+    { id: "depth", name: "A defence in depth", weight: 1,
+      intel: "Prisoners speak of a deep battle zone behind the forward line and of reserves close up to hold it.",
+      modifiers: { north: 0.75, eighteenth: 0.85, objective: 1.1 } },
+    { id: "warned", name: "An enemy that is ready", weight: 1,
+      intel: "Deserters report the British expecting an attack within days, and their batteries moved to cover the approaches.",
+      modifiers: { guns: 0.75, eighteenth: 0.85, objective: 0.9 } },
+  ],
+  echo: {
+    node: "ohl_1918_13_aisne",
+    grade: {
+      clean: "The March offensive was planned so that every army and every arm had its part and its objective, and the staff is proud of the work.",
+      costly: "The March offensive was won where its weight was put, with the rest starved to pay for it.",
+      marginal: "The plan for March held together, and the offensive did not go as it should have.",
+      total: "The March offensive was begun with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      eighteenth: "The Eighteenth Army was left short of what it needed to break through.",
+      north: "The northern armies were left short, and could not hold the British.",
+      guns: "The bombardment was left short of what the plan asked of it.",
+      objective: "No objective was held to, and the armies went where the line gave.",
+    },
+    commander: {
+      ludendorff: "Ludendorff's choice of objective is the one the army is arguing about.",
+      hutier: "Hutier's army is remembered as the one that broke through.",
+    },
+  },
+};
+
+BATTLES.verdunGerman = {
+  id: "verdunGerman",
+  host: { node: "ohl_1916_04_verdun", choice: "attrition" },
+  winBranch: 0,
+  campaign: "ohl",
+  title: "Order of Battle: Verdun",
+  flavor:
+    "Falkenhayn wants the French army drawn into a battle it cannot refuse and bled by the guns. The Fifth Army, which will fight it, can read the directive as an " +
+    "order to take a fortress. The artillery programme is the same either way, for the first week.",
+  conditions:
+    "Late February, after a delay for the weather. The forts round Verdun have been stripped of their heavy guns, and the German guns are massed on the east bank of the Meuse.",
+  categories: [
+    {
+      id: "guns", name: "The Guns and the Shell Supply", meter: "munitions",
+      units: [
+        "1,201 guns massed on the Verdun front, about two-thirds of them heavy",
+        "808 guns in the opening bombardment",
+        "A planned 2,000,000 shells in the first six days",
+      ],
+      real:
+        "The attack was set for 12 February and put off by the weather. The bombardment began at 7.15 on the morning of 21 February and lasted about ten hours, with about a million shells on the first day.",
+      context:
+        "The guns do what the plan says they will. Each commitment puts more heavy batteries and shells on the French lines, and keeps them there longer.",
+    },
+    {
+      id: "assault", name: "The Assault Corps", meter: "manpower",
+      units: [
+        "III Corps, VII Reserve Corps and XVIII Corps, each reinforced with 2,400 experienced troops and 2,000 recruits",
+        "Rohr's Sturm-Bataillon Number 5, the stormtroop battalion",
+        "The Brandenburg Regiment 24",
+      ],
+      real:
+        "The infantry attacked at 4 in the afternoon of 21 February. On 25 February men of the Brandenburg Regiment 24 entered Fort Douaumont, held by a skeleton garrison of about 25 under Chenot; most of its guns had been taken away in 1915.",
+      context:
+        "The infantry take the ground. Each commitment puts more of the corps into the attack, and fewer behind it.",
+    },
+    {
+      id: "command", name: "The Directive and the Command", meter: "will",
+      units: [
+        "Falkenhayn's directive, which can be read either way",
+        "The Fifth Army's staff, who added the phrase 'relentless pressure'",
+        "Knobelsdorf as chief of staff, and the Crown Prince as army commander",
+      ],
+      real:
+        "Falkenhayn wanted the Meuse Heights, from which artillery could dominate the battle, and the French army bled. The phrase 'relentless pressure' made the aim ambiguous, since it could be read as an order to take Verdun.",
+      context:
+        "How the directive is read decides what the operation is. Each commitment puts more of the headquarters' effort into saying plainly what the battle is for.",
+    },
+    {
+      id: "reserve", name: "The Reserve and the West Bank", meter: "manpower",
+      units: [
+        "XV Corps, held in army reserve",
+        "The French guns on the west bank of the Meuse, firing across the river",
+        "The Mort-Homme and Hill 265 (Cote 265), the west-bank heights",
+      ],
+      real:
+        "The attack on the west bank began on 6 March, against the Mort-Homme and Hill 265, to silence the French artillery that fired across the river. By the end of March the German casualties were 81,607.",
+      context:
+        "The reserve is what the battle can go on with. Each commitment holds more men back, for the day the first plan runs out.",
+    },
+  ],
+  // The command first: the roll turns on how the directive is read. The guns second, because the plan was an artillery plan. The assault corps third and the reserve last.
+  // A game judgment, not a measurement.
+  effectiveness: { command: 2.4, guns: 2.2, assault: 1.8, reserve: 1.3 },
+  commanders: [
+    { id: "falkenhayn", name: "Falkenhayn", role: "Chief of the General Staff", category: "command",
+      note: "It is his battle: the French army is the object, and the city is only the bait." },
+    { id: "knobelsdorf", name: "Knobelsdorf", role: "Chief of Staff of the Fifth Army", category: "assault",
+      note: "His army has been given the directive, and may read it as an order to take the fortress." },
+  ],
+  approaches: [
+    { id: "bleed", name: "Hold the ground and let the French counter-attack into the guns", note: "The guns do the work, and the infantry take only what the guns have cleared.", modifiers: { guns: 0.4, command: 0.3, assault: -0.4 } },
+    { id: "press", name: "Press the infantry forward and take the heights", note: "Every day's ground is taken, and the reserve is spent behind it.", modifiers: { assault: 0.5, reserve: 0.3, guns: -0.2, command: -0.4 } },
+  ],
+  postures: [
+    { id: "stripped", name: "A fortress stripped of its guns", weight: 2,
+      intel: "Aerial photographs and agents report the forts stripped of their heavy guns, the trenches thinly held and few reserves near.",
+      modifiers: { assault: 1.2, guns: 1.1 } },
+    { id: "reinforced", name: "French divisions arriving", weight: 1,
+      intel: "Agents report French divisions arriving by rail on the Meuse, and the line being strengthened behind the forts.",
+      modifiers: { assault: 0.75, reserve: 0.8 } },
+    { id: "counter", name: "A French counter-attack at once", weight: 1,
+      intel: "Prisoners say the French command means to counter-attack at once and not to give up ground.",
+      modifiers: { guns: 1.2, assault: 0.85, command: 1.1 } },
+  ],
+  echo: {
+    node: "ohl_1916_14_somme",
+    grade: {
+      clean: "The battle on the Meuse was planned so that the guns, the infantry, the reserve and the directive all pointed one way, and the staff knows it.",
+      costly: "The battle on the Meuse was fought as the directive meant, with some arms starved to pay for the rest.",
+      marginal: "The plan on the Meuse held together, and the battle did not go as it was meant to.",
+      total: "The battle on the Meuse was begun with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      guns: "The guns were left short of what the plan needed.",
+      assault: "The assault corps were left short of men.",
+      command: "The directive was left to be read two ways.",
+      reserve: "The reserve was left too small to go on with.",
+    },
+    commander: {
+      falkenhayn: "Falkenhayn's plan is the one the army is arguing about.",
+      knobelsdorf: "Knobelsdorf's reading of the directive is the one the army is arguing about.",
+    },
+  },
+};
+
+BATTLES.kutOttoman = {
+  id: "kutOttoman",
+  host: { node: "otto_1915_03_kut", choice: "siege" },
+  winBranch: 0,
+  campaign: "otto",
+  title: "Order of Battle: Kut",
+  flavor:
+    "A British Indian garrison is shut in a bend of the Tigris, and a relief force is gathering at Basra. The Sixth Army has three failed attacks behind it and not enough men for another.",
+  conditions:
+    "Winter on the Tigris: floods, mud and marsh, with the river the only road. The garrison has food for some weeks, and the relief force has to fight up the river to reach it.",
+  categories: [
+    {
+      id: "siege", name: "The Siege Lines", meter: "manpower",
+      units: [
+        "The XVIII Corps, with the 45th and 51st Divisions, assigned to besiege Kut",
+        "The siege works that Goltz directed after the December attacks",
+        "A garrison of 8,000 to 13,000 men",
+      ],
+      real:
+        "The Ottoman pursuit reached Kut on 7 December 1915 and Goltz made three attacks in December. After they failed he directed the building of siege works, and the siege lasted 147 days, to the surrender on 29 April 1916, when 13,164 men were taken.",
+      context:
+        "The siege lines keep the garrison where it is. Each commitment puts more of the army round the town, and fewer on the river.",
+    },
+    {
+      id: "blocking", name: "The Blocking Force on the Tigris", meter: "manpower",
+      units: [
+        "The XIII Corps, with the 35th and 52nd Divisions, assigned down the Tigris to block any relief from Basra",
+        "The river positions at Sheikh Sa'ad, the Wadi, Hanna and Dujaila",
+        "The fords and the marsh on the Tigris",
+      ],
+      real:
+        "The British relief attempts failed at Sheikh Sa'ad (6 to 9 January), the Wadi (13 January), Hanna, Dujaila (8 March) and, under Gorringe from 5 April, at Sannaiyat on 22 April, with about 1,200 British casualties there. All the relief efforts together cost around 30,000 killed and wounded.",
+      context:
+        "The blocking force meets the relief where it comes. Each commitment puts more men on the river positions, and takes them from the siege.",
+    },
+    {
+      id: "command", name: "Goltz and the Command", meter: "will",
+      units: [
+        "Goltz, who led the Ottoman forces",
+        "Khalil Pasha, who brought 20,000 to 30,000 reinforcements after Aylmer's defeat",
+        "The Sixth Army, created on 5 October 1915",
+      ],
+      real:
+        "The Sixth Army was created on 5 October 1915 under Goltz, who died of disease about a week before the surrender (typhoid, typhus or cholera, the sources disagree). Khalil Pasha came to the battle after Aylmer's defeat, with 20,000 to 30,000 reinforcements.",
+      context:
+        "A command that knows what it wants gets it. Each commitment puts more of the headquarters' effort into holding the plan together.",
+    },
+    {
+      id: "supply", name: "Reinforcement and Supply", meter: "munitions",
+      units: [
+        "The reinforcements that raise the Ottoman strength from about 11,000",
+        "The ammunition and rations for the siege lines",
+        "No. 30 Squadron of the Royal Flying Corps, flying supplies to the garrison",
+      ],
+      real:
+        "In April 1916 the Royal Flying Corps carried out the first air supply operation in history, but many parcels fell into the Tigris or the Ottoman trenches, and the rations delivered from 11 to 29 April were enough for only three days.",
+      context:
+        "Supply decides how long each side can hold. Each commitment puts more shells, rations and fresh men behind the Ottoman lines.",
+    },
+  ],
+  // The blocking force first: the relief was beaten on the river. The siege lines second, the command third, the supply last. A game judgment, not a measurement.
+  effectiveness: { blocking: 2.4, siege: 2.0, command: 1.6, supply: 1.5 },
+  commanders: [
+    { id: "goltz", name: "Goltz", role: "German field marshal, commander of the Sixth Army", category: "siege",
+      note: "He built the siege works after the assaults failed, and will not see the end." },
+    { id: "khalil", name: "Khalil Pasha", role: "Commander who brought the reinforcements", category: "blocking",
+      note: "He has the relief to meet, and the reinforcements to do it with." },
+  ],
+  approaches: [
+    { id: "starve", name: "Starve the garrison and meet the relief on the river", note: "No more assaults on the town; the weight goes to the river positions.", modifiers: { blocking: 0.3, siege: 0.2, supply: 0.1, command: -0.2 } },
+    { id: "close", name: "Close the siege lines tighter and keep the army round the town", note: "The garrison is pressed, and the river is held by less.", modifiers: { siege: 0.5, command: 0.2, blocking: -0.3 } },
+  ],
+  postures: [
+    { id: "piecemeal", name: "Relief attempts one after another", weight: 2,
+      intel: "Reports from Basra say the British are sending the relief up the river in separate forces, as each is ready.",
+      modifiers: { blocking: 1.2, supply: 1.1 } },
+    { id: "together", name: "A relief in force, with air supply", weight: 1,
+      intel: "Reports say the British are gathering a larger force at once and mean to supply the garrison from the air.",
+      modifiers: { blocking: 0.7, siege: 0.9, supply: 0.9 } },
+    { id: "breakout", name: "A breakout by the garrison", weight: 1,
+      intel: "Deserters say the British commander in Kut wants to break out and join the relief.",
+      modifiers: { siege: 0.7, command: 1.1 } },
+  ],
+  echo: {
+    node: "otto_1916_01_erzurum",
+    grade: {
+      clean: "The siege was planned so that the lines, the river and the command all had their part, and the staff has learned from it.",
+      costly: "The siege was won, with some arms starved to pay for the rest.",
+      marginal: "The siege was planned soundly, and the relief went the other way.",
+      total: "The siege was begun with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      siege: "The siege lines were left thin.",
+      blocking: "The river positions were left short of men.",
+      command: "The command was left divided about what the army was for.",
+      supply: "The lines were left short of shells and rations.",
+    },
+    commander: {
+      goltz: "Goltz's siege is the one the army talks about.",
+      khalil: "Khalil's defence of the river is the one the army talks about.",
+    },
+  },
+};
+
+BATTLES.piaveAustro = {
+  id: "piaveAustro",
+  host: { node: "aok_1918_12_piave", choice: "divide" },
+  winBranch: 1,
+  campaign: "aok",
+  title: "Order of Battle: the Piave",
+  flavor:
+    "The last offensive of the monarchy: 946,000 men and some 6,800 guns, and two army-group commanders who want different battles. Boroevic wants to cross the Piave, and Conrad wants to come down " +
+    "from the mountains onto the plain.",
+  conditions:
+    "Mid-June, with the Piave swollen. Bridges have to be thrown across a river that the Italian guns can reach.",
+  categories: [
+    {
+      id: "boroevic", name: "Boroevic's Thrust on the Piave", meter: "manpower",
+      units: [
+        "Army Group Boroevic: the Fifth Army (Wurm) and the Sixth (the Archduke Joseph)",
+        "The crossing of the Piave toward the Adriatic coast",
+        "The bridgehead on the far bank",
+      ],
+      real:
+        "Boroevic's army group crossed the Piave on 15 June. It held a bridgehead about 24 kilometres wide and 8 deep until Diaz counter-attacked its flank on 19 June, which the Italians had retaken in full by 23 June.",
+      context:
+        "The Piave thrust is the one that can get across. Each commitment puts more of the army on the river, and takes it from the mountains.",
+    },
+    {
+      id: "conrad", name: "Conrad's Thrust from the Mountains", meter: "manpower",
+      units: [
+        "Army Group Conrad: the Eleventh Army (Scheuchenstuel) and the Tenth (Krobatin)",
+        "The Asiago plateau, and the road to Vicenza",
+        "Mount Zovetto, Mount Lemerle and the Tre Monti",
+      ],
+      real:
+        "Conrad attacked on the Asiago plateau on 15 June, aiming for Vicenza. He met stiff resistance at Mount Zovetto, Mount Lemerle and the Tre Monti, and went on attacking with a diminished force instead of sending reinforcements to the Piave.",
+      context:
+        "The mountain thrust is the one that can come down onto the plain. Each commitment puts more of the army on the plateau, and takes it from the river.",
+    },
+    {
+      id: "guns", name: "The Guns and the Bridges", meter: "munitions",
+      units: [
+        "6,833 guns in all on the Austro-Hungarian side",
+        "The bridging trains and pontoons",
+        "The batteries that are to cover the crossing",
+      ],
+      real:
+        "The Italian side had 5,650 guns and 1,570 mortars. The swollen river and the destruction of the bridges cut off the units that had crossed, and many men are reported to have drowned trying to get back.",
+      context:
+        "The guns and the bridges decide whether a crossing can be held. Each commitment puts more batteries and bridging behind the attack.",
+    },
+    {
+      id: "secrecy", name: "Surprise and the Emperor's Orders", meter: "will",
+      units: [
+        "The plan of attack and the hour that was fixed for it",
+        "Emperor Karl, who ordered the retreat",
+        "Arz, the Chief of the General Staff",
+      ],
+      real:
+        "The Italian artillery opened fire at 2.30 on the morning of 15 June, half an hour before the Austro-Hungarian attack at 3.00. Karl ordered the retreat on 20 June, and by 23 June the Italians had recovered all that was lost.",
+      context:
+        "A blow that is expected is a different blow. Each commitment puts more of the headquarters' effort into keeping the day and the place from the enemy.",
+    },
+  ],
+  // The Piave thrust first, because it was the one that got across. Surprise second: the Italian artillery opened before the attack. The mountain thrust third, the guns last.
+  // A game judgment, not a measurement.
+  effectiveness: { boroevic: 2.3, secrecy: 2.2, conrad: 1.8, guns: 1.6 },
+  commanders: [
+    { id: "boroevic", name: "Boroevic", role: "Commander of the army group on the Piave", category: "boroevic",
+      note: "He wants the whole army on the river." },
+    { id: "conrad", name: "Conrad", role: "Commander of the army group in the mountains", category: "conrad",
+      note: "He wants the attack from the mountains, and will not be told it is the lesser one." },
+    { id: "arz", name: "Arz", role: "Chief of the General Staff", category: "secrecy",
+      note: "He has two army-group commanders who want different battles, and one day to keep secret." },
+  ],
+  approaches: [
+    { id: "equal", name: "Equal shares, as ordered", note: "Each commander has his own thrust and half the forces, and neither can say he was refused.", modifiers: { conrad: 0.3, boroevic: 0.2, secrecy: -0.2 } },
+    { id: "river", name: "Give the reserves and the bridging to the Piave thrust", note: "The two thrusts are made, and the one on the river is the stronger.", modifiers: { boroevic: 0.6, guns: 0.3, conrad: -0.5 } },
+  ],
+  postures: [
+    { id: "forewarned", name: "An enemy that has been told the day", weight: 2,
+      intel: "Deserters and prisoners speak of Italian batteries moved up and a counter-bombardment prepared for the morning of the attack.",
+      modifiers: { guns: 0.7, boroevic: 0.8, secrecy: 0.6 } },
+    { id: "quiet", name: "A quiet front", weight: 1,
+      intel: "The Italian line is quiet, with no sign of preparations on the river or on the plateau.",
+      modifiers: { boroevic: 1.3, conrad: 1.2, secrecy: 1.4 } },
+    { id: "elastic", name: "A defence that gives way", weight: 1,
+      intel: "The Italian forward positions are lightly held, and the strength is held back on a second line.",
+      modifiers: { conrad: 0.8, guns: 0.8, boroevic: 1.0 } },
+  ],
+  echo: {
+    node: "aok_1918_13_vittorio",
+    grade: {
+      clean: "The offensive on the Piave was planned so that both thrusts and the guns and the secrecy all had their part, and the staff is proud of the work.",
+      costly: "The offensive on the Piave won where its weight was put, with the rest starved to pay for it.",
+      marginal: "The plan for the Piave held together, and the battle did not go the way it should have.",
+      total: "The offensive on the Piave was begun with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      boroevic: "The thrust on the Piave was left short of what it needed.",
+      conrad: "The thrust from the mountains was left short of what it needed.",
+      guns: "The guns and the bridges were left short, and the crossing could not be held.",
+      secrecy: "The day was left to leak, and the Italians were ready.",
+    },
+    commander: {
+      boroevic: "Boroevic's thrust is remembered as the one that got across.",
+      conrad: "Conrad's thrust is remembered as the one that was left alone.",
+      arz: "Arz's plan is the one that the army is arguing about.",
+    },
+  },
+};
+
+// =============================================================================
+// THEMES
+// =============================================================================
+//
+// The colours of the game, as data: four themes (Sepia, Paper, Night, High contrast), each a set of tokens and one accent per command. The stylesheet in the
+// UI layer is generated from this (themeCss), and check-themes.js holds every pair of text and ground, in every theme and for every command, to
+// the WCAG contrast ratio for normal text (4.5 to 1; 7 to 1 in High contrast). Changing a colour is a change here, never in a component.
+// =============================================================================
+
+export const THEME_IDS = ["sepia", "paper", "night", "contrast"];
+export const THEME_LABELS = { sepia: "Sepia", paper: "Paper", night: "Night", contrast: "High contrast", auto: "Match my device" };
+/** The theme a new player sees. */
+export const DEFAULT_THEME = "sepia";
+
+/** Tokens common to a theme. Text and ground pairs are listed in THEME_PAIRS. */
+export const THEME_TOKENS = {
+  // Sepia: cream on black, a sepia map, no colour but one red kept for what needs a decision. The map has its own ink (mapInk, mapSoft) because it is a light sheet on a dark page.
+  sepia: {
+    base: { paper: "#0a0908", paperRaised: "#14110d", ink: "#ece5d0", inkSoft: "#b8ad90", rule: "#867d68", accent: "#e8664e", good: "#ece5d0", inverse: "#ece5d0", sea: "#b4a37c", cp: "#a39368", ent: "#c2b28b", neu: "#b8a880", mapInk: "#15110a", mapSoft: "#43371d" },
+    campaigns: {
+      ohl: { accent: "#e8664e" }, gqg: { accent: "#e8664e" }, stavka: { accent: "#e8664e" }, bef: { accent: "#e8664e" }, aok: { accent: "#e8664e" }, otto: { accent: "#e8664e" },
+    },
+    extra: { tint: "rgba(0,0,0,0)", grain: "none" },
+  },
+  paper: {
+    base: { paper: "#f4efe2", paperRaised: "#e9e2cf", ink: "#1c1a17", inkSoft: "#5d574c", rule: "#1c1a17", accent: "#7a2e2e", good: "#3d5a2f", inverse: "#0d0c0b", sea: "#d3dddb", cp: "#cdb98f", ent: "#b6c5c4", neu: "#ece6d4", mapInk: "#1c1a17", mapSoft: "#5d574c" },
+    // a command's own paper, accent and tint
+    campaigns: {
+      ohl: { accent: "#7a2e2e", tint: "rgba(70,80,60,.06)" },
+      gqg: { accent: "#2f4858", paper: "#f1f0e8", tint: "rgba(40,70,110,.06)" },
+      stavka: { accent: "#5c3a21", paper: "#f3e9cf", paperRaised: "#e8dcbb", tint: "rgba(150,110,40,.1)" },
+      bef: { accent: "#3d4a2f", paper: "#eeeadb", paperRaised: "#dfdbc6", tint: "rgba(90,100,60,.08)" },
+      aok: { accent: "#6b4a2f", paper: "#f4eedc", tint: "rgba(150,120,40,.07)" },
+      otto: { accent: "#5a4a6b", paper: "#f3ecde", tint: "rgba(100,70,110,.06)" },
+    },
+    extra: { tint: "rgba(0,0,0,0)" },
+  },
+  night: {
+    base: { paper: "#1b1814", paperRaised: "#27231d", ink: "#ece5d2", inkSoft: "#b9b09b", rule: "#cfc6b0", accent: "#e0a79d", good: "#9cc48a", inverse: "#f4efe2", sea: "#202c2e", cp: "#6a5c40", ent: "#38535a", neu: "#363229", mapInk: "#ece5d2", mapSoft: "#b9b09b" },
+    campaigns: {
+      ohl: { accent: "#e6a39b" }, gqg: { accent: "#93b8d4" }, stavka: { accent: "#dbb57f" }, bef: { accent: "#adc58d" }, aok: { accent: "#dcbd6e" }, otto: { accent: "#c7acea" },
+    },
+    extra: { tint: "rgba(0,0,0,0)", grain: "none" },
+  },
+  contrast: {
+    base: { paper: "#ffffff", paperRaised: "#f1f1f1", ink: "#000000", inkSoft: "#1f1f1f", rule: "#000000", accent: "#6a0000", good: "#0a4a00", inverse: "#000000", sea: "#e3eef3", cp: "#e6cf91", ent: "#9fc4cb", neu: "#f7f7f7", mapInk: "#000000", mapSoft: "#1f1f1f" },
+    campaigns: {
+      ohl: { accent: "#5c0000" }, gqg: { accent: "#002f4a" }, stavka: { accent: "#4a2600" }, bef: { accent: "#1c3300" }, aok: { accent: "#4f3000" }, otto: { accent: "#38195f" },
+    },
+    extra: { tint: "rgba(0,0,0,0)", grain: "none" },
+  },
+};
+
+/** The campaign bands (decoration, not text): the same in every theme. */
+export const CAMPAIGN_BANDS = {
+  ohl: "linear-gradient(90deg,#1c1a17 0 33.3%,#f4efe2 33.3% 66.6%,#7a2e2e 66.6%)",
+  gqg: "linear-gradient(90deg,#2f4858 0 33.3%,#f1f0e8 33.3% 66.6%,#8a2f2f 66.6%)",
+  stavka: "linear-gradient(90deg,#1c1a17 0 33.3%,#b08a2e 33.3% 66.6%,#f3e9cf 66.6%)",
+  bef: "repeating-linear-gradient(90deg,#3d4a2f 0 14px,#eeeadb 14px 20px)",
+  aok: "linear-gradient(90deg,#1c1a17 0 50%,#c4a02a 50%)",
+  otto: "repeating-linear-gradient(90deg,#5a4a6b 0 4px,#f3ecde 4px 9px)",
+};
+
+/** [text token, ground token]: every one of these must reach the contrast ratio, in every theme and for every command. */
+export const THEME_PAIRS = [
+  ["ink", "paper"], ["ink", "paperRaised"], ["inkSoft", "paper"], ["inkSoft", "paperRaised"],
+  ["accent", "paper"], ["accent", "paperRaised"], ["good", "paper"], ["paper", "inverse"], ["paperRaised", "inverse"],
+  ["mapInk", "cp"], ["mapInk", "ent"], ["mapInk", "neu"], ["mapInk", "sea"], ["mapSoft", "sea"],
+];
+export const THEME_MIN_RATIO = { sepia: 4.5, paper: 4.5, night: 4.5, contrast: 7 };
+
+const hexToRgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+const lin = (c) => { const v = c / 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
+const luminance = (hex) => { const [r, g, b] = hexToRgb(hex).map(lin); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+
+/** The WCAG contrast ratio of two #rrggbb colours. */
+export function contrastRatio(a, b) {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+/** The tokens in force for a theme and (optionally) a command: the base with the command's own over it. */
+export function tokensFor(theme, campaignId) {
+  const t = THEME_TOKENS[theme];
+  const own = (campaignId && t.campaigns[campaignId]) || {};
+  // only the Paper theme lets a command change the paper itself
+  return { ...t.base, ...(own.accent ? { accent: own.accent } : {}), ...(theme === "paper" ? { paper: own.paper || t.base.paper, paperRaised: own.paperRaised || t.base.paperRaised } : {}) };
+}
+
+const kebab = (k) => k.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase());
+const decls = (o) => Object.entries(o).filter(([, v]) => v !== undefined).map(([k, v]) => `--${kebab(k)}:${v}`).join(";");
+
+const GRAIN = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .36  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`;
+
+/** The stylesheet's tokens: the Paper theme is the default, Night and High contrast override it on [data-theme]. */
+export function themeCss() {
+  const out = [];
+  const p = THEME_TOKENS.paper;
+  out.push(`.dg-root{${decls(p.base)};${decls(p.extra)};--grain:${GRAIN};--band:linear-gradient(90deg,var(--ink) 0 33.3%,var(--paper) 33.3% 66.6%,var(--accent) 66.6%);counter-reset:ord}`);
+  for (const [cid, c] of Object.entries(p.campaigns)) {
+    out.push(`.dg-root[data-campaign="${cid}"]{${decls({ accent: c.accent, paper: c.paper, paperRaised: c.paperRaised, tint: c.tint })};--band:${CAMPAIGN_BANDS[cid]}}`);
+  }
+  for (const theme of ["sepia", "night", "contrast"]) {
+    const t = THEME_TOKENS[theme];
+    out.push(`[data-theme="${theme}"] .dg-root{${decls(t.base)};${decls(t.extra)}}`);
+    for (const [cid, c] of Object.entries(t.campaigns)) {
+      out.push(`[data-theme="${theme}"] .dg-root[data-campaign="${cid}"]{${decls({ accent: c.accent, paper: t.base.paper, paperRaised: t.base.paperRaised, tint: t.extra.tint })};--band:${CAMPAIGN_BANDS[cid]}}`);
+    }
+  }
+  // every command's accent is also a variable of its own (in Sepia they are all one soft ink, see sepiaCss), for the places that colour something by command (pins, the record) whatever the screen's root is
+  for (const theme of THEME_IDS) {
+    const sel = theme === "paper" ? ".dg-root" : `[data-theme="${theme}"] .dg-root`;
+    const vars = Object.entries(THEME_TOKENS[theme].campaigns).map(([cid, c]) => `--acc-${cid}:${c.accent}`).join(";");
+    out.push(`${sel}{${vars}}`);
+  }
+  // High contrast: heavier rules, no texture
+  out.push(`[data-theme="contrast"] .dg-root{background-image:none}
+  [data-theme="contrast"] .dg-root *{text-shadow:none!important}
+  [data-theme="contrast"] .dg-choice,[data-theme="contrast"] .dg-btn,[data-theme="contrast"] .dg-card{border-width:2.5px}
+  [data-theme="contrast"] .dg-quote,[data-theme="contrast"] .dg-note,[data-theme="contrast"] .dg-count{color:var(--ink)}
+  [data-theme="contrast"] .dg-root button:focus-visible,[data-theme="contrast"] .dg-root summary:focus-visible{outline:4px solid var(--ink);outline-offset:3px}`);
+  out.push(`[data-theme="night"] .dg-root{background-image:linear-gradient(rgba(255,255,255,.02),rgba(255,255,255,.02))}
+  [data-theme="night"] .dg-choice,[data-theme="night"] .dg-cmd,[data-theme="night"] .dg-bt-arm,[data-theme="night"] .dg-meters,[data-theme="night"] .dg-cable{background-color:rgba(255,255,255,.035)}`);
+  return out.join("\n  ");
+}
+
+/** The theme in force: "auto" follows the device (dark gives Night, a wish for more contrast gives High contrast); anything unknown gives the default. */
+export function resolveTheme(setting, prefersDark, prefersMore) {
+  if (setting === "auto") return prefersMore ? "contrast" : prefersDark ? "night" : "paper";
+  return THEME_IDS.includes(setting) ? setting : DEFAULT_THEME;
+}
+
+const SEPIA_SERIF = '"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif';
+const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key"];
+const SEPIA_COMMANDS = ["ohl", "gqg", "stavka", "bef", "aok", "otto"];
+
+/**
+ * The Sepia look, as a stylesheet laid over the tokens: a single dark page, the report as a column of ruled lines, serif type in small capitals for
+ * captions, a sepia map, no boxes and no shadows; one lit frame (the order under the pointer or the focus), and the one red, kept for a decision, the odds,
+ * a seal and a stamp. It comes last in the sheet so that it wins over the text sizes. Every rule is under [data-theme="sepia"].
+ */
+export function sepiaCss() {
+  const accVars = SEPIA_COMMANDS.map((c) => `--acc-${c}:var(--ink-soft)`).join(";");
+  const mapAcc = SEPIA_COMMANDS.map((c) => `--acc-${c}:var(--map-ink)`).join(";");
+  const css = `
+  /* ---- Sepia: a quiet column ---- */
+  [data-theme="sepia"]:not([data-font="plain"]):not([data-font="typewriter"]) .dg-root{--mono:${SEPIA_SERIF}}
+  @S .dg-root{${accVars};background-image:none;font-size:19px;line-height:1.5}
+  @S .dg-root[data-campaign]::before,@S .dg-root[data-screen="menu"]::before{display:none}
+  @S .dg-root button:focus-visible,@S .dg-root summary:focus-visible,@S .dg-root input:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+  ${SEPIA_SMALL.map((s) => "@S " + s).join(",")}{font-size:13.5px;letter-spacing:.14em}
+  @S .dg-title{font-weight:500;font-size:56px;text-align:center;letter-spacing:.04em;text-shadow:none;margin:12px 0 10px}
+  @S .dg-rule,@S .dg-dash{border:0;border-top:1px solid var(--rule);opacity:1;margin:0 0 18px}
+  @S .dg-filerow .r{border:0;transform:none;color:var(--ink-soft);padding:0;font-weight:400}
+  @S .dg-sect,@S .dg-order{color:var(--ink-soft);font-weight:400;margin:24px 0 0;padding-bottom:5px;border-bottom:1px solid var(--rule)}
+  @S .dg-sect::after,@S .dg-order::after{display:none}
+  @S .dg-count{color:var(--ink-soft)}
+  @S .dg-note,@S .dg-entry,@S .dg-attested,@S .dg-banner p,@S .dg-meanwhile{font-size:16px}
+  @S .dg-note{color:var(--ink-soft)}
+  @S .dg-stamp{top:14px;right:8px;transform:none;border:0;box-shadow:none;background:none;color:var(--ink-soft);font-weight:400;font-size:13.5px;letter-spacing:.14em;padding:0}
+
+  /* the menu: a list of commands */
+  @S .dg-card{border:0;border-top:1px solid var(--rule);background:none;box-shadow:none;padding:12px 8px;margin:0}
+  @S .dg-card::before{display:none}
+  @S .dg-card:hover{background:none;color:var(--ink);box-shadow:0 0 26px rgba(236,229,208,.12);outline:2px solid var(--ink);outline-offset:-2px}
+  @S .dg-card:hover p{color:var(--ink-soft)}
+  @S .dg-card h3{font-weight:400;font-size:25px;margin:0 0 2px}
+  @S .dg-card p{font-size:13.5px;letter-spacing:.1em;text-transform:uppercase}
+  @S .dg-banner{border:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:none;box-shadow:none;padding:12px 4px}
+  @S .dg-banner .small{font-size:15px}
+  @S .dg-btn{border:1px solid var(--ink-soft);box-shadow:none;padding:10px 16px}
+  @S .dg-seg button{border-color:var(--rule)}
+  @S .dg-seg button:hover:not([aria-pressed="true"]){background:rgba(236,229,208,.1)}
+  @S .dg-seg button[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:-3px}
+  @S details summary{border:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:none;font-size:13.5px;letter-spacing:.14em}
+  @S details summary:hover{background:var(--ink);color:var(--paper)}
+  @S .dg-dossier summary:hover{background:none;color:inherit}
+  @S .dg-bulletin{border:1px solid var(--rule);background:none;transform:none;box-shadow:none;font-size:16px}
+  @S .dg-bulletin::before{display:none}
+  @S .dg-bulletin .h{color:var(--ink-soft);font-weight:400;font-size:13.5px;letter-spacing:.14em}
+  @S .dg-hard,@S .dg-draft{border:1px solid var(--rule);color:var(--ink);background:none}
+
+  /* the report */
+  @S .dg-timeline{background:none;border-bottom:1px solid var(--rule);padding:0 0 8px;margin-bottom:14px}
+  @S .dg-timeline span{border:0;padding:2px 6px}
+  @S .dg-timeline span.on{transform:none;color:var(--ink);font-weight:400;border:0;border-bottom:2px solid var(--ink);background:none}
+  @S .dg-docrow{border-bottom:1px solid var(--rule);font-weight:400;margin:14px 0 14px;padding-bottom:8px}
+  @S .dg-node-date{display:block;transform:none;border:0;padding:0;color:var(--ink-soft);font-size:13.5px;letter-spacing:.14em;font-weight:400;background:none;margin:14px 0 0;text-align:center}
+  @S .dg-node-title{font-weight:500;font-size:44px;text-align:center;letter-spacing:0;margin:2px 0 14px}
+  @S .dg-prose{font-size:19.5px;line-height:1.55}
+  @S .dg-lede::first-letter{float:none;font:inherit;padding:0;color:inherit}
+  @S .dg-quote{font-size:16px;border-top:0;padding-top:0;margin-top:4px}
+  @S .dg-mapcard{box-shadow:none;margin:0 0 14px}
+  @S .dg-maphead .t{color:var(--ink-soft);font-weight:400}
+  @S .dg-meters{border:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:none;box-shadow:none;padding:10px 0 8px;gap:24px;margin:16px 0}
+  @S .dg-meters b{font-weight:500;font-size:28px}
+  @S .dg-meters .neg b,@S .dg-meters .pos b{color:var(--ink)}
+  @S .dg-gauge{background:rgba(236,229,208,.16);border-color:var(--rule);opacity:1}
+  @S .dg-gauge::before{background:var(--ink-soft)}
+  @S .dg-gauge i{background:var(--ink);border-color:var(--paper)}
+  @S .dg-readings{border-color:var(--rule);background:none;margin:-10px 0 16px;font-size:14.5px}
+  @S .dg-reading.lv0 b,@S .dg-reading.lv1 b,@S .dg-reading.lv4 b{color:var(--ink)}
+  @S .dg-rbar{border-color:var(--rule);background:none}
+  @S .dg-rbar i,@S .dg-reading.lv0 .dg-rbar i,@S .dg-reading.lv1 .dg-rbar i,@S .dg-reading.lv4 .dg-rbar i{background:var(--ink-soft)}
+
+  /* the orders: ruled rows numbered in Roman, framed when pointed at */
+  @S .dg-choice{display:grid;grid-template-columns:44px 1fr;border:0;border-bottom:1px solid var(--rule);background:none;box-shadow:none;padding:12px 8px;margin:0}
+  @S .dg-choice>*{grid-column:2}
+  @S .dg-choice:not(.dg-opt):not(.dg-issue)::before{content:counter(ord,upper-roman);grid-column:1;grid-row:1 / span 9;align-self:start;font-size:21px;letter-spacing:0;color:var(--ink-soft);font-weight:400;margin:0}
+  @S .dg-choice.dg-opt,@S .dg-choice.dg-issue{display:block}
+  @S .dg-choice:hover:not(:disabled),@S .dg-choice:focus-visible{background:none;color:var(--ink);box-shadow:0 0 26px rgba(236,229,208,.12);outline:2px solid var(--ink);outline-offset:-2px}
+  @S .dg-choice:hover:not(:disabled)::before{color:var(--ink)}
+  @S .dg-choice .lab{font-size:23px;font-weight:400;font-style:italic;margin-bottom:4px;line-height:1.2}
+  @S .dg-choice:hover:not(:disabled) .dg-quote,@S .dg-choice:hover:not(:disabled) .dg-attested,@S .dg-choice:hover:not(:disabled) .dg-holdhint,@S .dg-choice:hover:not(:disabled) .dg-strain,@S .dg-choice:hover:not(:disabled) .dg-record-mark{color:var(--ink-soft)}
+  @S .dg-choice:hover:not(:disabled) .dg-record-mark{border-color:var(--rule)}
+  @S .dg-choice:hover:not(:disabled) .dg-holdbar{background:var(--accent)}
+  @S .dg-record-mark{color:var(--ink-soft);border-color:var(--rule)}
+  @S .dg-strain{color:var(--ink);font-size:14.5px}
+  @S .dg-odds{font-size:13.5px;letter-spacing:.1em}
+  @S .dg-odds-t{color:var(--accent)}
+  @S .dg-dial path{stroke:var(--rule)}
+  @S .dg-opt[aria-pressed="true"]{background:rgba(236,229,208,.08);color:var(--ink);outline:2px solid var(--ink);outline-offset:-2px;border-left-color:var(--rule)}
+  @S .dg-opt[aria-pressed="true"] .dg-quote{color:var(--ink-soft);border-top-color:var(--rule)}
+  @S .dg-choice.dg-issue{border:1px solid var(--ink);text-align:center;margin-top:12px}
+
+  /* the map: a sepia sheet with its own ink, the front a ticked black line */
+  @S .dg-map{border:1px solid var(--rule);box-shadow:none;--ink:var(--map-ink);--ink-soft:var(--map-soft);--paper:var(--sea);--accent:var(--map-ink);${mapAcc}}
+  @S .dg-country{stroke:var(--map-soft)}
+  @S .dg-front-glow{stroke:var(--map-ink);stroke-width:11;stroke-dasharray:2 9;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1}
+  @S .dg-front{stroke:var(--map-ink);stroke-width:3.5;stroke-dasharray:none;animation:none}
+  @S .dg-pulse{fill:var(--map-ink);opacity:.25}
+  @S .dg-swatch-front{border-top-color:var(--ink)}
+  @S .dg-modal{background:rgba(5,4,3,.82)}
+  @S .dg-meanwhile li{border-top-color:var(--rule)}
+
+  /* the outcome: the sealed cable and what the order cost */
+  @S .dg-cable{border:1px solid var(--rule);background:none;box-shadow:none}
+  @S .dg-envelope{border-color:var(--ink);box-shadow:none}
+  @S .dg-changes{font-size:16px}
+  @S .dg-changes li{border-top-color:var(--rule)}
+  @S .dg-changes li b{font-weight:500}
+  @S .dg-changes li.neg b,@S .dg-changes li.pos b{color:var(--ink)}
+  @S .dg-rank{border:2px solid var(--ink);background:none;box-shadow:none}
+  @S .dg-rank h2{font-weight:500;color:var(--ink)}
+  @S .dg-rank ul{font-size:15px}
+  @S .dg-rank li{border-top-color:var(--rule)}
+  @S .dg-note-box{background:none;border-color:var(--rule)}
+
+  /* the Order of Battle and the war record */
+  @S .dg-bt-arm,@S .dg-rec-card,@S .dg-cmd{border:0;border-top:1px solid var(--rule);border-left:0;background:none;box-shadow:none;padding:12px 4px;margin:0}
+  @S .dg-bt-n{color:var(--ink);font-weight:500}
+  @S .dg-bt-head{font-size:22px;letter-spacing:0}
+  @S .dg-bt-head b,@S .dg-bt-head strong{font-weight:400}
+  @S .dg-check input{accent-color:var(--ink)}
+  @S .dg-bt-units{font-size:16px}
+  @S .dg-bt-report{border-top:1px solid var(--rule)}
+  @S .dg-tile{border-color:var(--rule);background:none}
+  @S .dg-seal{transform:none;border:1px solid var(--rule);box-shadow:none;color:var(--ink-soft);font-weight:400}
+  @S .dg-avatar{display:none}
+  @S .dg-ribbon .col{border-top-color:var(--rule)}
+  @S .dg-ribbon i{border-color:var(--ink-soft)}
+  @S .dg-ribbon i.on{background:var(--ink);border-color:var(--ink)}
+  @S .dg-ending{border:1px solid var(--rule);box-shadow:none;background:none}
+  @S .dg-ending .meta{color:var(--ink-soft);font-weight:400}
+  @S .dg-ending.dg-badge-contested{border-style:double;border-width:4px}
+  @S .dg-ending.locked{border-style:dashed}
+  @S .dg-battle{border-left:2px solid var(--rule)}
+  @S .dg-battle-grade b{color:var(--ink)}
+  @S .dg-cmd-head .t,@S .dg-entry .t{font-weight:400}
+
+  /* the badge of an ending is the stamp: the red kept for it */
+  @S .dg-badge{background:var(--paper);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--accent)}
+
+  /* text sizes: serif runs smaller than a typewriter at the same size */
+  @S .dg-fs-m .dg-prose{font-size:21px}
+  @S .dg-fs-l .dg-prose{font-size:23px}
+  @S .dg-fs-m .dg-choice .lab{font-size:25px}
+  @S .dg-fs-l .dg-choice .lab{font-size:27px}
+  @S .dg-fs-m .dg-quote,@S .dg-fs-m .dg-bulletin,@S .dg-fs-m .dg-entry,@S .dg-fs-m .dg-banner p,@S .dg-fs-m .dg-note{font-size:18px}
+  @S .dg-fs-l .dg-quote,@S .dg-fs-l .dg-bulletin,@S .dg-fs-l .dg-entry,@S .dg-fs-l .dg-banner p,@S .dg-fs-l .dg-note{font-size:20px}
+  @media (max-width:480px){
+    @S .dg-title{font-size:40px}
+    @S .dg-node-title{font-size:32px}
+    @S .dg-choice{grid-template-columns:34px 1fr}
+    @S .dg-choice .lab{font-size:21px}
+    @S .dg-prose{font-size:18.5px}
+  }
+  `;
+  return css.replace(/@S /g, '[data-theme="sepia"] ');
+}
+
 // =============================================================================
 // UI_LAYER
 // =============================================================================
@@ -12270,13 +13100,12 @@ const THEME = {
   accent: "var(--accent)",
   inverse: "var(--inverse)",
   serif: '"Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif',
-  mono: '"American Typewriter", "Courier Prime", "Courier New", Courier, monospace',
+  mono: "var(--mono)",
 };
 
 /** Props for a screen's root: it takes its command's accent and paper (see the stylesheet's [data-campaign] rules). */
 function rootProps(campaignId, screen) {
-  const c = campaignId && CAMPAIGNS[campaignId];
-  return { className: "dg-root", "data-campaign": campaignId || undefined, "data-screen": screen, style: c ? { "--accent": c.accent } : undefined };
+  return { className: "dg-root", "data-campaign": campaignId || undefined, "data-screen": screen };
 }
 
 const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
@@ -12289,20 +13118,11 @@ function romanDate(iso) {
 }
 
 const css = `
-  /* ---- tokens: one paper, one ink, one accent per command (a command sets its own on the screen's root) ---- */
-  .dg-root{
-    --paper:#f4efe2;--paper-raised:#e9e2cf;--ink:#1c1a17;--ink-soft:#5d574c;--rule:#1c1a17;--accent:#7a2e2e;--inverse:#0d0c0b;
-    --good:#3d5a2f;--sea:#d3dddb;--cp:#cdb98f;--ent:#b6c5c4;--neu:#ece6d4;--tint:rgba(0,0,0,0);
-    --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .36  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    --band:linear-gradient(90deg,var(--ink) 0 33.3%,var(--paper) 33.3% 66.6%,var(--accent) 66.6%);
-    counter-reset:ord;
-  }
-  .dg-root[data-campaign="ohl"]{--tint:rgba(70,80,60,.06);--accent:#7a2e2e;--band:linear-gradient(90deg,#1c1a17 0 33.3%,#f4efe2 33.3% 66.6%,#7a2e2e 66.6%)}
-  .dg-root[data-campaign="gqg"]{--tint:rgba(40,70,110,.06);--paper:#f1f0e8;--band:linear-gradient(90deg,#2f4858 0 33.3%,#f1f0e8 33.3% 66.6%,#8a2f2f 66.6%)}
-  .dg-root[data-campaign="stavka"]{--tint:rgba(150,110,40,.1);--paper:#f3e9cf;--paper-raised:#e8dcbb;--band:linear-gradient(90deg,#1c1a17 0 33.3%,#b08a2e 33.3% 66.6%,#f3e9cf 66.6%)}
-  .dg-root[data-campaign="bef"]{--tint:rgba(90,100,60,.08);--paper:#eeeadb;--paper-raised:#dfdbc6;--band:repeating-linear-gradient(90deg,#3d4a2f 0 14px,#eeeadb 14px 20px)}
-  .dg-root[data-campaign="aok"]{--tint:rgba(150,120,40,.07);--paper:#f4eedc;--band:linear-gradient(90deg,#1c1a17 0 50%,#c4a02a 50%)}
-  .dg-root[data-campaign="otto"]{--tint:rgba(100,70,110,.06);--paper:#f3ecde;--band:repeating-linear-gradient(90deg,#5a4a6b 0 4px,#f3ecde 4px 9px)}
+  /* ---- tokens: the themes and each command's accent, from src/63-themes.jsx ---- */
+  ${themeCss()}
+  .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
+  [data-font="typewriter"] .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
+  [data-font="plain"] .dg-root{--mono:"Atkinson Hyperlegible","Segoe UI",Verdana,Tahoma,sans-serif;line-height:1.72;letter-spacing:.012em;word-spacing:.06em}
 
   /* ---- the sheet ---- */
   .dg-root{background-color:var(--paper);
@@ -12354,7 +13174,7 @@ const css = `
     font-weight:700;transform:rotate(-1.2deg);background:var(--paper)}
   .dg-node-title{font-family:${THEME.serif};font-size:36px;font-weight:700;line-height:1.06;margin:0 0 18px;letter-spacing:-.01em}
   .dg-prose{white-space:pre-wrap;font-size:15.5px;margin-bottom:18px}
-  .dg-node-title + .dg-prose::first-letter{float:left;font-family:${THEME.serif};font-size:3.3em;line-height:.82;font-weight:700;padding:.07em .1em 0 0;color:var(--accent)}
+  .dg-lede::first-letter{float:left;font-family:${THEME.serif};font-size:3.3em;line-height:.82;font-weight:700;padding:.07em .1em 0 0;color:var(--accent)}
   .dg-order{font-size:12px;letter-spacing:.26em;font-weight:700;margin:26px 0 14px;text-transform:uppercase;display:flex;gap:12px;align-items:center;color:var(--accent)}
   .dg-order::after{content:"";flex:1;border-top:1px solid var(--accent);opacity:.55}
   .dg-choice{position:relative;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;border:1.5px solid var(--rule);
@@ -12430,7 +13250,7 @@ const css = `
     padding:7px 14px;margin-bottom:16px;transform:rotate(-1.5deg);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--accent);background:var(--paper)}
   .dg-badge-contested{border-style:double;border-width:5px;box-shadow:none}
   .dg-badge-speculative{border-style:dashed}
-  .dg-root h1:focus{outline:none}
+  .dg-root h1:focus,.dg-root h2:focus{outline:none}
   .dg-note-box{border:1.5px solid var(--rule);padding:12px;margin:14px 0;background:rgba(255,255,255,.25)}
   .dg-note-box textarea{width:100%;box-sizing:border-box;font:inherit;font-size:12px;min-height:110px;background:var(--paper-raised);color:var(--ink);border:1px solid var(--rule)}
   .dg-note-box a{color:var(--accent)}
@@ -12449,6 +13269,8 @@ const css = `
   .dg-seg{display:flex;margin:0 0 10px}
   .dg-seg button{flex:1;border:1.5px solid var(--rule);background:none;font:inherit;color:inherit;padding:11px 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
   .dg-seg button+button{border-left:0}
+  .dg-seg-wrap{flex-wrap:wrap}
+  .dg-seg-wrap button{flex:1 1 40%;border-left:1.5px solid var(--rule)!important;margin:0 0 -1.5px}
   .dg-seg button:hover{background:var(--paper-raised)}
   .dg-seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
   .dg-note{font-size:12px;color:var(--ink-soft);margin:0 0 14px}
@@ -12569,6 +13391,31 @@ const css = `
   .dg-battle{border-left:6px solid var(--accent);padding-left:12px}
   .dg-battle-grade b{text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
 
+  /* ---- the phone: tap targets of 44 pixels, a map that opens as a sheet from the bottom, the safe areas, words that never run off the edge ---- */
+  .dg-swatch.dg-side-cp{background:var(--cp)}
+  .dg-swatch.dg-side-ent{background:var(--ent)}
+  .dg-swatch.dg-side-neu{background:var(--neu)}
+  .dg-root{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-wrap:anywhere;padding-bottom:calc(56px + env(safe-area-inset-bottom,0px));padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+  .dg-root button,.dg-root summary,.dg-root label{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+  .dg-btn{min-height:44px;padding-top:10px;padding-bottom:10px}
+  .dg-seg button{min-height:44px}
+  .dg-meter-btn{min-height:44px}
+  .dg-bt-ctl .dg-btn{min-width:46px;padding-left:10px;padding-right:10px}
+  details summary{min-height:44px;display:flex;align-items:center;box-sizing:border-box}
+  .dg-check{min-height:44px;align-items:center}
+  .dg-check input{width:22px;height:22px;flex:none;margin:0}
+  .dg-term{padding:6px 0}
+  @media (max-width:640px){
+    .dg-modal{padding:0;display:flex;align-items:flex-end}
+    .dg-modal-inner{max-width:none;width:100%;max-height:92vh;overflow:auto;border-radius:16px 16px 0 0;border-width:2px 0 0;padding:18px 14px calc(22px + env(safe-area-inset-bottom,0px));box-sizing:border-box}
+    .dg-modal-inner::before{content:"";display:block;width:44px;height:4px;border-radius:2px;background:var(--ink-soft);opacity:.55;margin:-8px auto 12px}
+  }
+  @media (max-width:640px) and (prefers-reduced-motion:no-preference){
+    @keyframes dg-sheet{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+    .dg-modal-inner{animation:dg-sheet .28s ease-out both}
+  }
+  @media (orientation:landscape) and (max-height:480px){.dg-modal-inner{max-height:96vh}.dg-node-title{font-size:28px}}
+
   /* ---- text sizes ---- */
   .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:17px}
   .dg-fs-m .dg-bulletin,.dg-fs-m .dg-quote,.dg-fs-m .dg-entry,.dg-fs-m .dg-banner p{font-size:15px}
@@ -12586,6 +13433,9 @@ const css = `
     .dg-choice:nth-of-type(3){animation-delay:.12s}
   }
   @media print{.dg-root{background:#fff!important}.dg-btn,.dg-choice{box-shadow:none}}
+
+  /* ---- the Sepia look, over everything above ---- */
+  ${sepiaCss()}
 `;
 
 function Stamp({ children }) {
@@ -12771,6 +13621,18 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onM
             </button>
           ))}
         </div>
+        <div className="dg-count">Colours</div>
+        <div className="dg-seg dg-seg-wrap" role="group" aria-label="Colours">
+          {["sepia", "paper", "night", "contrast", "auto"].map((id) => (
+            <button key={id} aria-pressed={(settings.theme || DEFAULT_THEME) === id} onClick={() => onSettings({ ...settings, theme: id })}>{THEME_LABELS[id]}</button>
+          ))}
+        </div>
+        <div className="dg-count">Type</div>
+        <div className="dg-seg" role="group" aria-label="Type">
+          {[["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"]].map(([id, label]) => (
+            <button key={id} aria-pressed={(settings.font || "theme") === id} onClick={() => onSettings({ ...settings, font: id })}>{label}</button>
+          ))}
+        </div>
         <div className="dg-count">Signing a risky order</div>
         <div className="dg-seg" role="group" aria-label="Signing a risky order">
           {[[true, "Hold to sign"], [false, "Tap to sign"]].map(([v, label]) => (
@@ -12858,7 +13720,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
-      <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
+      <div className="dg-node-date">{romanDate(node.date)}</div>
+      <h1 className="dg-node-title">{node.title}</h1>
       {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
 
       {node.bulletin && typeof node.bulletin === "object" && (
@@ -12868,9 +13731,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
-      <div className="dg-node-date">{romanDate(node.date)}</div>
-      <h1 className="dg-node-title">{node.title}</h1>
-      <GlossText key={nodeId + "-situation"} segs={situationSegs} />
+      <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
       {node.context && (
         <details>
@@ -12878,6 +13739,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <GlossText key={nodeId + "-context"} segs={contextSegs} />
         </details>
       )}
+
+      <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
 
       {node.ending ? (
         <>
@@ -12940,6 +13803,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 function OutcomeScreen({ campaignId, outcome, record, battle, changes, contested, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
+  const heading = useRef(null);
+  useEffect(() => { if (contested && opened && heading.current) heading.current.focus(); }, [opened]);
   const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([outcome, record && record.text]), [outcome, record]);
   const labels = meterLabels(campaignId);
   // where the meters stood before the order, so the gauges can slide to where they stand now
@@ -12957,6 +13822,7 @@ function OutcomeScreen({ campaignId, outcome, record, battle, changes, contested
         <SealedCable onOpen={() => { atmosphereFx("seal"); setOpened(true); }} />
       ) : (
         <>
+          {contested && <h2 ref={heading} tabIndex={-1} className="dg-order">The cable says</h2>}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
           <MeterChanges changes={changes} labels={labels} />
@@ -13045,7 +13911,7 @@ function RecordScreen({ record, onBack }) {
             const s = stats[cid];
             const b = best[cid];
             return (
-              <div key={cid} className="dg-cmd" style={{ "--accent": c.accent }}>
+              <div key={cid} className="dg-cmd" style={{ "--accent": "var(--acc-" + cid + ")" }}>
                 <div className="dg-cmd-head">
                   <span className="dg-seal">{c.seal}</span>
                   <div>
@@ -13086,7 +13952,7 @@ function RecordScreen({ record, onBack }) {
             const c = CAMPAIGNS[cfg.campaign];
             const host = atlas[cfg.host.node];
             return (
-              <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": c.accent }}>
+              <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": "var(--acc-" + cfg.campaign + ")" }}>
                 <div className="meta">{c.shortName}{host ? ` · ${romanDate(host.date)}` : ""}</div>
                 <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
                 {f ? (
@@ -13105,7 +13971,7 @@ function RecordScreen({ record, onBack }) {
         if (tab === "dossiers") {
           const met = record.advisers[cid] || [];
           return (
-            <section key={cid} style={{ "--accent": c.accent }}>
+            <section key={cid} style={{ "--accent": "var(--acc-" + cid + ")" }}>
               <h2 className="dg-sect">{c.shortName}</h2>
               <p className="dg-count">{c.advisors.filter((a) => met.includes(a.id)).length} of {c.advisors.length} dossiers open</p>
               {c.advisors.map((a) =>
@@ -13132,7 +13998,7 @@ function RecordScreen({ record, onBack }) {
           const seen = record.nodes[cid] || [];
           const years = [1914, 1915, 1916, 1917, 1918];
           return (
-            <section key={cid} style={{ "--accent": c.accent }}>
+            <section key={cid} style={{ "--accent": "var(--acc-" + cid + ")" }}>
               <h2 className="dg-sect">{c.shortName}</h2>
               <p className="dg-count">{ids.filter((id) => seen.includes(id)).length} of {ids.length} decisions reached</p>
               <div className="dg-ribbon" aria-hidden="true">
@@ -13173,7 +14039,7 @@ function RecordScreen({ record, onBack }) {
         const list = endings.filter((e) => e.campaignId === cid);
         const found = list.filter((e) => record.endings.includes(e.id));
         return (
-          <section key={cid} style={{ "--accent": c.accent }}>
+          <section key={cid} style={{ "--accent": "var(--acc-" + cid + ")" }}>
             <h2 className="dg-sect">{c.shortName}</h2>
             <p className="dg-count">{found.length} of {list.length} endings found</p>
             <div className="dg-endings">
@@ -13224,6 +14090,23 @@ export default function App() {
   );
 
   useEffect(() => { saveSettings(settings); }, [settings]);
+  // the colours and the type: set on the page, so the whole sheet and the desk behind it follow
+  useEffect(() => {
+    const apply = () => {
+      const mq = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
+      const theme = resolveTheme(settings.theme || DEFAULT_THEME, mq("(prefers-color-scheme: dark)"), mq("(prefers-contrast: more)"));
+      const root = document.documentElement;
+      root.setAttribute("data-theme", theme);
+      root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" ? settings.font : "theme");
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", THEME_TOKENS[theme].base.paper);
+    };
+    apply();
+    if (settings.theme !== "auto" || !window.matchMedia) return undefined;
+    const qs = [window.matchMedia("(prefers-color-scheme: dark)"), window.matchMedia("(prefers-contrast: more)")];
+    qs.forEach((q) => q.addEventListener && q.addEventListener("change", apply));
+    return () => qs.forEach((q) => q.removeEventListener && q.removeEventListener("change", apply));
+  }, [settings.theme, settings.font]);
   // sound: the mode follows the settings, the ambience follows the command in play, and a bulletin comes in on the wire
   useEffect(() => { setAudioMode(settings.sound ? (settings.atmosphere ? 2 : 1) : 0); }, [settings.sound, settings.atmosphere]);
   useEffect(() => {
@@ -13625,6 +14508,8 @@ function OddsDial({ odds, easy }) {
 }
 
 const HOLD_MS = 900;
+const HOLD_TOUCH_MS = 650; // a finger holds less steadily than a mouse button, and has no other signal that it is being held
+const HOLD_SLOP = 14; // pixels a pointer may move before it is scrolling and not holding
 
 /**
  * An order. A contested one (`hold`) is signed by holding the button down; a keyboard or assistive press signs it at once (a click with no
@@ -13632,27 +14517,42 @@ const HOLD_MS = 900;
  */
 function OrderButton({ ch, hold, onSign, children }) {
   const [holding, setHolding] = useState(false);
+  const [holdMs, setHoldMs] = useState(HOLD_MS);
   const timer = useRef(null);
+  const origin = useRef(null);
   const stop = () => {
     if (timer.current) { clearTimeout(timer.current); timer.current = null; atmosphereFx("release"); }
     setHolding(false);
   };
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
-  const start = () => {
+  const start = (e) => {
     if (ch.blocked || timer.current) return;
+    const ms = e && e.pointerType === "touch" ? HOLD_TOUCH_MS : HOLD_MS;
+    origin.current = e ? [e.clientX, e.clientY] : null;
+    setHoldMs(ms);
     setHolding(true);
     atmosphereFx("hold");
-    timer.current = setTimeout(() => { timer.current = null; setHolding(false); atmosphereFx("release"); onSign(); }, HOLD_MS);
+    timer.current = setTimeout(() => {
+      timer.current = null;
+      setHolding(false);
+      atmosphereFx("release");
+      try { if (navigator.vibrate) navigator.vibrate(14); } catch (err) { /* no vibration here */ }
+      onSign();
+    }, ms);
+  };
+  const move = (e) => {
+    if (!timer.current || !origin.current) return;
+    if (Math.hypot(e.clientX - origin.current[0], e.clientY - origin.current[1]) > HOLD_SLOP) stop();
   };
   return (
     <button className={"dg-choice" + (holding ? " holding" : "")} disabled={ch.blocked}
       onClick={(e) => { if (!hold || e.detail === 0) onSign(); }}
-      onPointerDown={hold ? start : undefined} onPointerUp={hold ? stop : undefined} onPointerLeave={hold ? stop : undefined} onPointerCancel={hold ? stop : undefined}
+      onPointerDown={hold ? start : undefined} onPointerMove={hold ? move : undefined} onPointerUp={hold ? stop : undefined} onPointerLeave={hold ? stop : undefined} onPointerCancel={hold ? stop : undefined}
       onContextMenu={hold ? (e) => e.preventDefault() : undefined}
-      style={hold ? { touchAction: "manipulation", WebkitTouchCallout: "none", userSelect: "none" } : undefined}>
+      style={hold ? { touchAction: "pan-y", WebkitTouchCallout: "none", userSelect: "none" } : undefined}>
       {children}
       {hold && !ch.blocked && <span className="dg-holdhint">Hold to sign</span>}
-      {hold && <span className="dg-holdbar" aria-hidden="true" style={{ animationDuration: HOLD_MS + "ms" }} />}
+      {hold && <span className="dg-holdbar" aria-hidden="true" style={{ animationDuration: holdMs + "ms" }} />}
     </button>
   );
 }
@@ -13756,7 +14656,7 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
       {shown.filter((c) => c !== node.city).map((c) => <circle key={c} cx={XY[c][0]} cy={XY[c][1]} r={3.2 * s} className="dg-visited" />)}
       {(pins || []).filter((p) => XY[p.city]).map((p) => (
         <g key={p.campaignId} transform={`translate(${XY[p.city][0]} ${XY[p.city][1]})`}>
-          <rect x={-3.6 * s} y={-3.6 * s} width={7.2 * s} height={7.2 * s} transform="rotate(45)" className="dg-pin" style={{ fill: CAMPAIGNS[p.campaignId].accent }} />
+          <rect x={-3.6 * s} y={-3.6 * s} width={7.2 * s} height={7.2 * s} transform="rotate(45)" className="dg-pin" style={{ fill: "var(--acc-" + p.campaignId + ")" }} />
           {full && <text x={7 * s} y={3 * s} fontSize={9.5 * s} className="dg-pintext">{CAMPAIGNS[p.campaignId].seal}</text>}
         </g>
       ))}
@@ -13785,7 +14685,20 @@ function FrontMapPanel({ campaignId, node, visited }) {
   useEffect(() => {
     if (!open) return undefined;
     if (closer.current) closer.current.focus();
-    const onKey = (e) => { if (e.key === "Escape") { setOpen(false); } };
+    // Escape closes it; Tab and Shift-Tab go round inside it, so the page behind cannot be reached from the keyboard while it is open
+    const onKey = (e) => {
+      if (e.key === "Escape") { setOpen(false); return; }
+      if (e.key !== "Tab") return;
+      const dlg = document.querySelector('.dg-modal[role="dialog"]');
+      if (!dlg) return;
+      const f = [...dlg.querySelectorAll("button, [href], input, summary, [tabindex]")].filter((el) => !el.disabled && el.tabIndex >= 0 && el.offsetParent !== null);
+      if (!f.length) { e.preventDefault(); return; }
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (!dlg.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
     document.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -13816,7 +14729,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
                 <h2 className="dg-order">Meanwhile</h2>
                 <ul className="dg-meanwhile">
                   {meanwhile.map((m) => (
-                    <li key={m.campaignId} style={{ "--accent": CAMPAIGNS[m.campaignId].accent }}>
+                    <li key={m.campaignId} style={{ "--accent": "var(--acc-" + m.campaignId + ")" }}>
                       <span className="dg-seal">{CAMPAIGNS[m.campaignId].seal}</span>
                       <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{romanDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} days before this report)` : ""}</span>
                     </li>

@@ -23,13 +23,12 @@ const THEME = {
   accent: "var(--accent)",
   inverse: "var(--inverse)",
   serif: '"Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif',
-  mono: '"American Typewriter", "Courier Prime", "Courier New", Courier, monospace',
+  mono: "var(--mono)",
 };
 
 /** Props for a screen's root: it takes its command's accent and paper (see the stylesheet's [data-campaign] rules). */
 function rootProps(campaignId, screen) {
-  const c = campaignId && CAMPAIGNS[campaignId];
-  return { className: "dg-root", "data-campaign": campaignId || undefined, "data-screen": screen, style: c ? { "--accent": c.accent } : undefined };
+  return { className: "dg-root", "data-campaign": campaignId || undefined, "data-screen": screen };
 }
 
 const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
@@ -42,20 +41,11 @@ function romanDate(iso) {
 }
 
 const css = `
-  /* ---- tokens: one paper, one ink, one accent per command (a command sets its own on the screen's root) ---- */
-  .dg-root{
-    --paper:#f4efe2;--paper-raised:#e9e2cf;--ink:#1c1a17;--ink-soft:#5d574c;--rule:#1c1a17;--accent:#7a2e2e;--inverse:#0d0c0b;
-    --good:#3d5a2f;--sea:#d3dddb;--cp:#cdb98f;--ent:#b6c5c4;--neu:#ece6d4;--tint:rgba(0,0,0,0);
-    --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .36  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    --band:linear-gradient(90deg,var(--ink) 0 33.3%,var(--paper) 33.3% 66.6%,var(--accent) 66.6%);
-    counter-reset:ord;
-  }
-  .dg-root[data-campaign="ohl"]{--tint:rgba(70,80,60,.06);--accent:#7a2e2e;--band:linear-gradient(90deg,#1c1a17 0 33.3%,#f4efe2 33.3% 66.6%,#7a2e2e 66.6%)}
-  .dg-root[data-campaign="gqg"]{--tint:rgba(40,70,110,.06);--paper:#f1f0e8;--band:linear-gradient(90deg,#2f4858 0 33.3%,#f1f0e8 33.3% 66.6%,#8a2f2f 66.6%)}
-  .dg-root[data-campaign="stavka"]{--tint:rgba(150,110,40,.1);--paper:#f3e9cf;--paper-raised:#e8dcbb;--band:linear-gradient(90deg,#1c1a17 0 33.3%,#b08a2e 33.3% 66.6%,#f3e9cf 66.6%)}
-  .dg-root[data-campaign="bef"]{--tint:rgba(90,100,60,.08);--paper:#eeeadb;--paper-raised:#dfdbc6;--band:repeating-linear-gradient(90deg,#3d4a2f 0 14px,#eeeadb 14px 20px)}
-  .dg-root[data-campaign="aok"]{--tint:rgba(150,120,40,.07);--paper:#f4eedc;--band:linear-gradient(90deg,#1c1a17 0 50%,#c4a02a 50%)}
-  .dg-root[data-campaign="otto"]{--tint:rgba(100,70,110,.06);--paper:#f3ecde;--band:repeating-linear-gradient(90deg,#5a4a6b 0 4px,#f3ecde 4px 9px)}
+  /* ---- tokens: the themes and each command's accent, from src/63-themes.jsx ---- */
+  ${themeCss()}
+  .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
+  [data-font="typewriter"] .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
+  [data-font="plain"] .dg-root{--mono:"Atkinson Hyperlegible","Segoe UI",Verdana,Tahoma,sans-serif;line-height:1.72;letter-spacing:.012em;word-spacing:.06em}
 
   /* ---- the sheet ---- */
   .dg-root{background-color:var(--paper);
@@ -107,7 +97,7 @@ const css = `
     font-weight:700;transform:rotate(-1.2deg);background:var(--paper)}
   .dg-node-title{font-family:${THEME.serif};font-size:36px;font-weight:700;line-height:1.06;margin:0 0 18px;letter-spacing:-.01em}
   .dg-prose{white-space:pre-wrap;font-size:15.5px;margin-bottom:18px}
-  .dg-node-title + .dg-prose::first-letter{float:left;font-family:${THEME.serif};font-size:3.3em;line-height:.82;font-weight:700;padding:.07em .1em 0 0;color:var(--accent)}
+  .dg-lede::first-letter{float:left;font-family:${THEME.serif};font-size:3.3em;line-height:.82;font-weight:700;padding:.07em .1em 0 0;color:var(--accent)}
   .dg-order{font-size:12px;letter-spacing:.26em;font-weight:700;margin:26px 0 14px;text-transform:uppercase;display:flex;gap:12px;align-items:center;color:var(--accent)}
   .dg-order::after{content:"";flex:1;border-top:1px solid var(--accent);opacity:.55}
   .dg-choice{position:relative;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;border:1.5px solid var(--rule);
@@ -183,7 +173,7 @@ const css = `
     padding:7px 14px;margin-bottom:16px;transform:rotate(-1.5deg);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--accent);background:var(--paper)}
   .dg-badge-contested{border-style:double;border-width:5px;box-shadow:none}
   .dg-badge-speculative{border-style:dashed}
-  .dg-root h1:focus{outline:none}
+  .dg-root h1:focus,.dg-root h2:focus{outline:none}
   .dg-note-box{border:1.5px solid var(--rule);padding:12px;margin:14px 0;background:rgba(255,255,255,.25)}
   .dg-note-box textarea{width:100%;box-sizing:border-box;font:inherit;font-size:12px;min-height:110px;background:var(--paper-raised);color:var(--ink);border:1px solid var(--rule)}
   .dg-note-box a{color:var(--accent)}
@@ -202,6 +192,8 @@ const css = `
   .dg-seg{display:flex;margin:0 0 10px}
   .dg-seg button{flex:1;border:1.5px solid var(--rule);background:none;font:inherit;color:inherit;padding:11px 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
   .dg-seg button+button{border-left:0}
+  .dg-seg-wrap{flex-wrap:wrap}
+  .dg-seg-wrap button{flex:1 1 40%;border-left:1.5px solid var(--rule)!important;margin:0 0 -1.5px}
   .dg-seg button:hover{background:var(--paper-raised)}
   .dg-seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
   .dg-note{font-size:12px;color:var(--ink-soft);margin:0 0 14px}
@@ -322,6 +314,31 @@ const css = `
   .dg-battle{border-left:6px solid var(--accent);padding-left:12px}
   .dg-battle-grade b{text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
 
+  /* ---- the phone: tap targets of 44 pixels, a map that opens as a sheet from the bottom, the safe areas, words that never run off the edge ---- */
+  .dg-swatch.dg-side-cp{background:var(--cp)}
+  .dg-swatch.dg-side-ent{background:var(--ent)}
+  .dg-swatch.dg-side-neu{background:var(--neu)}
+  .dg-root{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-wrap:anywhere;padding-bottom:calc(56px + env(safe-area-inset-bottom,0px));padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+  .dg-root button,.dg-root summary,.dg-root label{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+  .dg-btn{min-height:44px;padding-top:10px;padding-bottom:10px}
+  .dg-seg button{min-height:44px}
+  .dg-meter-btn{min-height:44px}
+  .dg-bt-ctl .dg-btn{min-width:46px;padding-left:10px;padding-right:10px}
+  details summary{min-height:44px;display:flex;align-items:center;box-sizing:border-box}
+  .dg-check{min-height:44px;align-items:center}
+  .dg-check input{width:22px;height:22px;flex:none;margin:0}
+  .dg-term{padding:6px 0}
+  @media (max-width:640px){
+    .dg-modal{padding:0;display:flex;align-items:flex-end}
+    .dg-modal-inner{max-width:none;width:100%;max-height:92vh;overflow:auto;border-radius:16px 16px 0 0;border-width:2px 0 0;padding:18px 14px calc(22px + env(safe-area-inset-bottom,0px));box-sizing:border-box}
+    .dg-modal-inner::before{content:"";display:block;width:44px;height:4px;border-radius:2px;background:var(--ink-soft);opacity:.55;margin:-8px auto 12px}
+  }
+  @media (max-width:640px) and (prefers-reduced-motion:no-preference){
+    @keyframes dg-sheet{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+    .dg-modal-inner{animation:dg-sheet .28s ease-out both}
+  }
+  @media (orientation:landscape) and (max-height:480px){.dg-modal-inner{max-height:96vh}.dg-node-title{font-size:28px}}
+
   /* ---- text sizes ---- */
   .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:17px}
   .dg-fs-m .dg-bulletin,.dg-fs-m .dg-quote,.dg-fs-m .dg-entry,.dg-fs-m .dg-banner p{font-size:15px}
@@ -339,6 +356,9 @@ const css = `
     .dg-choice:nth-of-type(3){animation-delay:.12s}
   }
   @media print{.dg-root{background:#fff!important}.dg-btn,.dg-choice{box-shadow:none}}
+
+  /* ---- the Sepia look, over everything above ---- */
+  ${sepiaCss()}
 `;
 
 function Stamp({ children }) {
@@ -524,6 +544,18 @@ function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onM
             </button>
           ))}
         </div>
+        <div className="dg-count">Colours</div>
+        <div className="dg-seg dg-seg-wrap" role="group" aria-label="Colours">
+          {["sepia", "paper", "night", "contrast", "auto"].map((id) => (
+            <button key={id} aria-pressed={(settings.theme || DEFAULT_THEME) === id} onClick={() => onSettings({ ...settings, theme: id })}>{THEME_LABELS[id]}</button>
+          ))}
+        </div>
+        <div className="dg-count">Type</div>
+        <div className="dg-seg" role="group" aria-label="Type">
+          {[["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"]].map(([id, label]) => (
+            <button key={id} aria-pressed={(settings.font || "theme") === id} onClick={() => onSettings({ ...settings, font: id })}>{label}</button>
+          ))}
+        </div>
         <div className="dg-count">Signing a risky order</div>
         <div className="dg-seg" role="group" aria-label="Signing a risky order">
           {[[true, "Hold to sign"], [false, "Tap to sign"]].map(([v, label]) => (
@@ -611,7 +643,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
-      <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
+      <div className="dg-node-date">{romanDate(node.date)}</div>
+      <h1 className="dg-node-title">{node.title}</h1>
       {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
 
       {node.bulletin && typeof node.bulletin === "object" && (
@@ -621,9 +654,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
-      <div className="dg-node-date">{romanDate(node.date)}</div>
-      <h1 className="dg-node-title">{node.title}</h1>
-      <GlossText key={nodeId + "-situation"} segs={situationSegs} />
+      <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
       {node.context && (
         <details>
@@ -631,6 +662,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <GlossText key={nodeId + "-context"} segs={contextSegs} />
         </details>
       )}
+
+      <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
 
       {node.ending ? (
         <>
@@ -693,6 +726,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 function OutcomeScreen({ campaignId, outcome, record, battle, changes, contested, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
+  const heading = useRef(null);
+  useEffect(() => { if (contested && opened && heading.current) heading.current.focus(); }, [opened]);
   const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([outcome, record && record.text]), [outcome, record]);
   const labels = meterLabels(campaignId);
   // where the meters stood before the order, so the gauges can slide to where they stand now
@@ -710,6 +745,7 @@ function OutcomeScreen({ campaignId, outcome, record, battle, changes, contested
         <SealedCable onOpen={() => { atmosphereFx("seal"); setOpened(true); }} />
       ) : (
         <>
+          {contested && <h2 ref={heading} tabIndex={-1} className="dg-order">The cable says</h2>}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
           <MeterChanges changes={changes} labels={labels} />
@@ -798,7 +834,7 @@ function RecordScreen({ record, onBack }) {
             const s = stats[cid];
             const b = best[cid];
             return (
-              <div key={cid} className="dg-cmd" style={{ "--accent": c.accent }}>
+              <div key={cid} className="dg-cmd" style={{ "--accent": "var(--acc-" + cid + ")" }}>
                 <div className="dg-cmd-head">
                   <span className="dg-seal">{c.seal}</span>
                   <div>
@@ -839,7 +875,7 @@ function RecordScreen({ record, onBack }) {
             const c = CAMPAIGNS[cfg.campaign];
             const host = atlas[cfg.host.node];
             return (
-              <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": c.accent }}>
+              <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": "var(--acc-" + cfg.campaign + ")" }}>
                 <div className="meta">{c.shortName}{host ? ` · ${romanDate(host.date)}` : ""}</div>
                 <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
                 {f ? (
@@ -858,7 +894,7 @@ function RecordScreen({ record, onBack }) {
         if (tab === "dossiers") {
           const met = record.advisers[cid] || [];
           return (
-            <section key={cid} style={{ "--accent": c.accent }}>
+            <section key={cid} style={{ "--accent": "var(--acc-" + cid + ")" }}>
               <h2 className="dg-sect">{c.shortName}</h2>
               <p className="dg-count">{c.advisors.filter((a) => met.includes(a.id)).length} of {c.advisors.length} dossiers open</p>
               {c.advisors.map((a) =>
@@ -885,7 +921,7 @@ function RecordScreen({ record, onBack }) {
           const seen = record.nodes[cid] || [];
           const years = [1914, 1915, 1916, 1917, 1918];
           return (
-            <section key={cid} style={{ "--accent": c.accent }}>
+            <section key={cid} style={{ "--accent": "var(--acc-" + cid + ")" }}>
               <h2 className="dg-sect">{c.shortName}</h2>
               <p className="dg-count">{ids.filter((id) => seen.includes(id)).length} of {ids.length} decisions reached</p>
               <div className="dg-ribbon" aria-hidden="true">
@@ -926,7 +962,7 @@ function RecordScreen({ record, onBack }) {
         const list = endings.filter((e) => e.campaignId === cid);
         const found = list.filter((e) => record.endings.includes(e.id));
         return (
-          <section key={cid} style={{ "--accent": c.accent }}>
+          <section key={cid} style={{ "--accent": "var(--acc-" + cid + ")" }}>
             <h2 className="dg-sect">{c.shortName}</h2>
             <p className="dg-count">{found.length} of {list.length} endings found</p>
             <div className="dg-endings">
@@ -977,6 +1013,23 @@ export default function App() {
   );
 
   useEffect(() => { saveSettings(settings); }, [settings]);
+  // the colours and the type: set on the page, so the whole sheet and the desk behind it follow
+  useEffect(() => {
+    const apply = () => {
+      const mq = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
+      const theme = resolveTheme(settings.theme || DEFAULT_THEME, mq("(prefers-color-scheme: dark)"), mq("(prefers-contrast: more)"));
+      const root = document.documentElement;
+      root.setAttribute("data-theme", theme);
+      root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" ? settings.font : "theme");
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", THEME_TOKENS[theme].base.paper);
+    };
+    apply();
+    if (settings.theme !== "auto" || !window.matchMedia) return undefined;
+    const qs = [window.matchMedia("(prefers-color-scheme: dark)"), window.matchMedia("(prefers-contrast: more)")];
+    qs.forEach((q) => q.addEventListener && q.addEventListener("change", apply));
+    return () => qs.forEach((q) => q.removeEventListener && q.removeEventListener("change", apply));
+  }, [settings.theme, settings.font]);
   // sound: the mode follows the settings, the ambience follows the command in play, and a bulletin comes in on the wire
   useEffect(() => { setAudioMode(settings.sound ? (settings.atmosphere ? 2 : 1) : 0); }, [settings.sound, settings.atmosphere]);
   useEffect(() => {

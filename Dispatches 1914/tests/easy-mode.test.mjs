@@ -48,6 +48,12 @@ async function step(ctx, pick = 0) {
     await ctx.click(o[Math.min(pick, o.length - 1)]);
     return true;
   }
+  const staff = btn(ctx, /Let the staff plan it/);
+  if (staff) {
+    await ctx.click(staff);
+    await ctx.click(btn(ctx, /^Issue the plan/));
+    return true;
+  }
   const seal = btn(ctx, /^Break the seal$/);
   if (seal) {
     await ctx.click(seal);
