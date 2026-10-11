@@ -347,7 +347,7 @@ CAMPAIGNS.aok.nodes = {
         advisor: { name: "Potiorek", position:
           "Serbia is the reason for the war, and the Serbian army has been beaten twice back from its own ground. A third blow, with the whole of the Balkan force, will finish it." },
         impact: { manpower: -1, munitions: 0, will: 0 },
-        setFlags: { aok_kolubara: "invaded" },
+        setFlags: { aok_kolubara: "invaded", xc_kolubara: "invaded" },
         next: "aok_1915_04_carpathians",
         outcome:
           "The offensive opens on 6 November and reaches the Kolubara on 16 November. " +
@@ -365,7 +365,7 @@ CAMPAIGNS.aok.nodes = {
         gate: (m) => m.will >= -3,
         disabledReason: "The Emperor has already given his word for the invasion",
         impact: { manpower: 1, munitions: 0, will: 0 },
-        setFlags: { aok_kolubara: "declined" },
+        setFlags: { aok_kolubara: "declined", xc_kolubara: "declined" },
         next: "aok_1915_04_carpathians",
         outcome:
           "Speculative. The Emperor's authorisation is put aside, and the Balkan force " +
@@ -641,7 +641,7 @@ CAMPAIGNS.aok.nodes = {
         advisor: { name: "Conrad", position:
           "The monarchy has failed three times alone. The Germans have the divisions and the Bulgarians are being brought in, and the war with Serbia must be ended." },
         impact: { manpower: 0, munitions: 1, will: -1 },
-        setFlags: { aok_pless: "mackensen" },
+        setFlags: { aok_pless: "mackensen", xc_pless: "mackensen" },
         next: "aok_1916_06_montenegro",
         outcome:
           "Mackensen takes the supreme command over the German Eleventh Army, the " +
@@ -659,7 +659,7 @@ CAMPAIGNS.aok.nodes = {
         gate: (m) => m.will >= -3,
         disabledReason: "Berlin has already named the commander, and AOK cannot now refuse it",
         impact: { manpower: -1, munitions: 0, will: 1 },
-        setFlags: { aok_pless: "own" },
+        setFlags: { aok_pless: "own", xc_pless: "own" },
         next: "aok_1916_06_montenegro",
         outcome:
           "Speculative. Falkenhayn does not agree to everything, and the convention " +
@@ -1115,7 +1115,7 @@ CAMPAIGNS.aok.nodes = {
         advisor: { name: "Czernin", position:
           "The peace with Ukraine was made for bread. If the monarchy is not in the country when the grain is taken, then the Germans will have it and the towns will go without." },
         impact: { manpower: 0, munitions: 1, will: 1 },
-        setFlags: { aok_ukraine: "occupied" },
+        setFlags: { aok_ukraine: "occupied", xc_ukraine: "occupied" },
         next: "aok_1918_12_piave",
         outcome:
           "Austro-Hungarian troops go into Ukraine in the weeks that follow, and on " +
@@ -1132,7 +1132,7 @@ CAMPAIGNS.aok.nodes = {
         gate: (m) => m.manpower >= -4,
         disabledReason: "The towns cannot be told that the army will not go for the grain",
         impact: { manpower: 1, munitions: 0, will: 0 },
-        setFlags: { aok_ukraine: "kept" },
+        setFlags: { aok_ukraine: "kept", xc_ukraine: "kept" },
         next: "aok_1918_12_piave",
         outcome:
           "Speculative. The divisions stay on the Italian side and the occupation of " +

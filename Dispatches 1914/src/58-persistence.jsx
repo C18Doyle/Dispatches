@@ -248,6 +248,42 @@ export const ECHOES = {
     values: { sent: "German divisions sent to the Isonzo, as they were.", refused: "Guns and staff officers only." },
     setBy: "German OHL", readBy: "Austro-Hungarian AOK (September 1917)",
   },
+  xc_chantilly: {
+    label: "Russia at Chantilly, December 1915",
+    historical: "committed",
+    values: { committed: "Russia accepted the plan for simultaneous offensives, as it did.", declined: "Russia declined to commit to a date until the army was re-equipped." },
+    setBy: "Russian Stavka", readBy: "French GQG (the Somme, July 1916)",
+  },
+  xc_naroch: {
+    label: "Lake Naroch, March 1916",
+    historical: "launched",
+    values: { launched: "A Russian offensive at Lake Naroch for the French, as it was.", refused: "The French were told to wait for the summer." },
+    setBy: "Russian Stavka", readBy: "French GQG (Verdun, February 1916)",
+  },
+  xc_petrograd: {
+    label: "The Allied missions in Petrograd, January 1917",
+    historical: "postponed",
+    values: { postponed: "The great offensives were put off, as they were.", promised: "A Russian offensive was promised for the spring, on the Allies' date." },
+    setBy: "Russian Stavka", readBy: "French GQG (the Chemin des Dames, April 1917)",
+  },
+  xc_pless: {
+    label: "The convention at Pless, September 1915",
+    historical: "mackensen",
+    values: { mackensen: "The Austro-Hungarian Third Army under Mackensen, as it was.", own: "The Third Army kept its own commander and AOK's orders." },
+    setBy: "Austro-Hungarian AOK", readBy: "German OHL (the attack on Serbia, September 1915)",
+  },
+  xc_kolubara: {
+    label: "Serbia, October 1914",
+    historical: "invaded",
+    values: { invaded: "A third invasion of Serbia, as it was.", declined: "The Balkan divisions were held for Galicia." },
+    setBy: "Austro-Hungarian AOK", readBy: "Russian Stavka (Przemysl, October 1914)",
+  },
+  xc_ukraine: {
+    label: "Grain from Ukraine, February 1918",
+    historical: "occupied",
+    values: { occupied: "Austro-Hungarian divisions went into Ukraine, as they did.", kept: "The divisions stayed on the Italian front." },
+    setBy: "Austro-Hungarian AOK", readBy: "German OHL (the end of the armistice, February 1918)",
+  },
 };
 
 /** Remember every xc_ flag a run has set. Returns the same record if nothing changed. */

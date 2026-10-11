@@ -573,14 +573,15 @@ CAMPAIGNS.gqg.nodes = {
         "A violent attack has been delivered north of Verdun. Our troops have carried " +
         "out the movements ordered. The struggle continues with the greatest vigour.",
     },
-    situation:
+    situation: (flags) =>
       "The guns were taken out of the Verdun forts and sent to the field army, which " +
       "was defensible when the sector was quiet and is now the situation. The Germans " +
       "are attacking into a fortress zone that is a fortress mainly on the map.\n\n" +
       "There is a case for shortening the line, giving up the east bank, and refusing " +
       "the battle on ground of the enemy's choosing. It is militarily coherent. It " +
       "would also mean announcing that Verdun has been abandoned, and no government in " +
-      "France survives that announcement.",
+      "France survives that announcement." +
+      (flags.xc_naroch === "refused" ? "\n\nJoffre has asked the Russians for an offensive and been told that it will come with the others in the summer, not before. Until then the Germans can take what they need from the east." : ""),
     context:
       "One road runs into the sector. Everything that reaches Verdun — men, shells, " +
       "food — reaches it along that road, and the battle will be as long as the road " +
@@ -636,7 +637,8 @@ CAMPAIGNS.gqg.nodes = {
         : "Verdun has consumed the divisions that were to make it. What France can now put into the Somme is a fraction of what was promised.") +
       "\n\nThe British will attack either way. What is at stake is whether they " +
       "attack beside an ally or in place of one, and what that does to the alliance " +
-      "for the remaining years of the war.",
+      "for the remaining years of the war." +
+      (flags.xc_chantilly === "declined" ? "\n\nThe Russian representative at Chantilly gave no date for an offensive in the east, and the Somme is the only combined blow the Allies are certain to make." : ""),
     context:
       "Relieving Verdun is one argument for the Somme. Keeping the coalition intact is " +
       "the other, and it is the one that will still matter in 1918.",
@@ -877,7 +879,8 @@ CAMPAIGNS.gqg.nodes = {
       "cover every approach. The undertaking given to the Minister of War was that " +
       "this attack would stop if it had not broken through.\n\n" +
       "Stopping means admitting the promise was worthless. Continuing means the men on " +
-      "the ridge pay for the promise.",
+      "the ridge pay for the promise." +
+      (flags.xc_petrograd === "promised" ? "\n\nThe Allied missions at Petrograd were given a date for a Russian offensive in the spring, and the staff in Paris expects it in the east in these same weeks. An attack stopped here is stopped while the Allies have been told to expect two." : ""),
     context:
       "The army has been told this attack ends the war. It has been told that " +
       "explicitly, by name, in orders. Whatever happens on this ridge happens to an " +

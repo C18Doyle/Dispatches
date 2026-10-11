@@ -270,7 +270,7 @@ CAMPAIGNS.stavka.nodes = {
     year: 1914, date: "1914-10-28", city: "Baranovichi",
     title: "The Fortress Behind Our Lines",
     advisors: ["grandduke", "brusilov"],
-    situation:
+    situation: (flags) =>
       "On 28 October (10 November in the west) the Austro-Hungarian fortress of Przemysl " +
       "is cut off again, with a garrison of about 120,000 men inside it. The first siege " +
       "was lifted when the relieving army came up, and the assault the Third Army ordered " +
@@ -279,7 +279,8 @@ CAMPAIGNS.stavka.nodes = {
       "The fortress sits on the main railway between Lvov and Cracow, and the Austrians " +
       "will try to relieve it again. The guns that could reduce it quickly are not here, " +
       "and the army that would storm it is the army that is needed to hold the line " +
-      "outside.",
+      "outside." +
+      (flags.xc_kolubara === "declined" ? "\n\nRussian intelligence reports that the Austro-Hungarian divisions meant for a third invasion of Serbia have been kept in Galicia, and that the relief of the fortress will be made in more strength than it would otherwise have been." : ""),
     context:
       "A fortress that is starved costs the besiegers an army and a winter. A fortress " +
       "that is stormed costs them men, and the first attempt showed what that price " +
@@ -767,7 +768,7 @@ CAMPAIGNS.stavka.nodes = {
         advisor: { name: "Alekseyev", position:
           "In 1915 the Germans were free to choose their front. In 1916 they should be made to choose among several, and Russia has to be one of them." },
         impact: { manpower: 0, munitions: 1, will: 1 },
-        setFlags: { stavka_chantilly: "committed" },
+        setFlags: { stavka_chantilly: "committed", xc_chantilly: "committed" },
         next: "stavka_1916_02_naroch",
         outcome:
           "The Russian representative accepts the principle of simultaneous " +
@@ -785,7 +786,7 @@ CAMPAIGNS.stavka.nodes = {
         gate: (m) => m.munitions <= -2,
         disabledReason: "The army's stores are not low enough for a refusal to be believed",
         impact: { manpower: 1, munitions: 1, will: 0 },
-        setFlags: { stavka_chantilly: "declined" },
+        setFlags: { stavka_chantilly: "declined", xc_chantilly: "declined" },
         next: "stavka_1916_02_naroch",
         outcome:
           "Speculative. The Russian representative takes the plan home and the " +
@@ -826,7 +827,7 @@ CAMPAIGNS.stavka.nodes = {
         advisor: { name: "Alekseyev", position:
           "The French asked, and the alliance rests on what each does when the other is in trouble. It will not be a good attack, but it will be an attack." },
         impact: { manpower: -1, munitions: -1, will: 0 },
-        setFlags: { stavka_naroch: "launched" },
+        setFlags: { stavka_naroch: "launched", xc_naroch: "launched" },
         next: "stavka_1916_05_brusilov",
         outcome:
           "The guns open on 5 March (18 March in the west), but the bombardment does not " +
@@ -845,7 +846,7 @@ CAMPAIGNS.stavka.nodes = {
         gate: (m) => m.will >= -3,
         disabledReason: "The alliance cannot be told no while Verdun is under attack",
         impact: { manpower: 1, munitions: 1, will: 0 },
-        setFlags: { stavka_naroch: "refused" },
+        setFlags: { stavka_naroch: "refused", xc_naroch: "refused" },
         next: "stavka_1916_05_brusilov",
         outcome:
           "Speculative. The answer to Joffre is that Russia will attack with the " +
@@ -1149,7 +1150,7 @@ CAMPAIGNS.stavka.nodes = {
         advisor: { name: "Alekseyev", position:
           "The army will take the field when it has the guns, the rifles and the railway to carry them, and not on a date written in Petrograd." },
         impact: { manpower: 1, munitions: 1, will: -1 },
-        setFlags: { stavka_petrograd: "postponed" },
+        setFlags: { stavka_petrograd: "postponed", xc_petrograd: "postponed" },
         next: "stavka_1917_06_february",
         outcome:
           "General Gurko, speaking for the High Command, tells the conference that " +
@@ -1167,7 +1168,7 @@ CAMPAIGNS.stavka.nodes = {
         gate: (m) => m.will >= -2,
         disabledReason: "Headquarters will not put its name to a date that the railways cannot keep",
         impact: { manpower: 0, munitions: -1, will: 1 },
-        setFlags: { stavka_petrograd: "promised" },
+        setFlags: { stavka_petrograd: "promised", xc_petrograd: "promised" },
         next: "stavka_1917_06_february",
         outcome:
           "Speculative. The mission goes home with a date and a promise, and the " +
