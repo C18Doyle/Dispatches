@@ -1384,5 +1384,105 @@
     "status": "drafted",
     "sources": [],
     "note": "See wp-greatretreat in claims/sources.json; the numbers of refugees are not given."
+  },
+  {
+    "id": "stavka-pre-1",
+    "node": "stavka_1914_16_plans",
+    "kind": "fact",
+    "claim": "Russia's Plan 19 allowed two versions, Plan G (the main effort against Germany) and Plan A (against Austria-Hungary); the final scheme was two offensives, one against East Prussia and a stronger one against Galicia, and in the event only about half as many troops were assigned to East Prussia as to Galicia.",
+    "status": "web-checked",
+    "sources": [
+      "ency-russia-planning"
+    ],
+    "note": "The allocation figure is the common one; the sources do not give numbers."
+  },
+  {
+    "id": "stavka-pre-2",
+    "node": "stavka_1914_16_plans",
+    "kind": "fact",
+    "claim": "France pressed Russia to attack Germany at once with as much as it could, to draw German troops from the west; the generals of the south-west expected an Austrian attack and wanted the weight in Galicia.",
+    "status": "web-checked",
+    "sources": [
+      "ency-russia-planning"
+    ],
+    "note": ""
+  },
+  {
+    "id": "stavka-pre-3",
+    "node": "stavka_1914_16_plans",
+    "kind": "fact",
+    "claim": "The Grand Duke Nikolai Nikolaevich was named Supreme Commander (the Tsar having declined the command) at the beginning of the war; the Eighth Army, mobilised in the south, would be assembled only some weeks after the start.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The Eighth Army detail comes from a forum summary of Plan 19 and is to be checked."
+  },
+  {
+    "id": "bat-stavka-tan-1",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "On 26 August 1914 (Western calendar) the German Eighth Army struck the Russian Second Army; François's corps had been brought by rail to the south-west, and the rest of the Eighth Army, apart from a cavalry screen, was withdrawn from the First Army's front to attack the Second Army's wing; the Second Army was almost entirely destroyed.",
+    "status": "web-checked",
+    "sources": [
+      "wp-tannenberg"
+    ],
+    "note": "The sources differ on the dates of the battle (23 August to 2 September in one)."
+  },
+  {
+    "id": "bat-stavka-tan-2",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "Russian wireless messages were sent without being enciphered, and the Germans intercepted and read them.",
+    "status": "web-checked",
+    "sources": [
+      "wp-tannenberg"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-stavka-tan-3",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "Samsonov, the Second Army's commander, died by his own hand after the battle.",
+    "status": "web-checked",
+    "sources": [
+      "wp-tannenberg"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-stavka-tan-4",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "Samsonov's Second Army was made up of five corps and cavalry; the Russian I Corps on the left was attacked by François's corps and driven back toward Soldau.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The corps count and the left-flank detail are from general histories; to be checked against a detailed account."
+  },
+  {
+    "id": "bat-stavka-tan-5",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "Rennenkampf's First Army, to the north-east, did not come to the Second Army's help.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "stavka-fk2-1",
+    "node": "stavka_1916_02_naroch",
+    "kind": "fact",
+    "claim": "The Naroch offensive of March 1916 was hampered by the thaw, which turned the ground between the lakes to marsh; the bombardment did not cut the German wire.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The node text already says the bombardment failed."
+  },
+  {
+    "id": "stavka-fk2-2",
+    "node": "stavka_1914_03_przemysl",
+    "kind": "fact",
+    "claim": "The Russian army invested Przemysl again in the winter of 1914 and the German offensive toward Lodz came in November.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
   }
 ]

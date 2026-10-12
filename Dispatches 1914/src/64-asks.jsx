@@ -9,6 +9,7 @@
 
 export const ASKS = {
   // ---- the German Supreme Command
+  ohl_1914_16_kaiser: "Does the Chief tell the Kaiser that the army cannot be turned east, turn part of it east, or hold the order for a day?",
   ohl_1914_01_aufmarsch: "Does the right wing keep the full weight the plan gives it, or do corps go to Lorraine, or does the Kaiser's question turn the army east?",
   ohl_1914_14_timetable: "How much should the Kaiser's request to turn the army east be allowed to disturb a mobilisation already under way?",
   ohl_1914_12_twocorps: "Do two corps leave the right wing for East Prussia, or does the east hold with the army it has?",
@@ -35,6 +36,7 @@ export const ASKS = {
   ohl_1918_15_wilson: "Does the army hear the answer to Wilson from the Chancellor, or from an order of its own Supreme Command?",
 
   // ---- the French High Command
+  gqg_1914_17_covering: "Does Joffre obey the order to withdraw the covering troops ten kilometres, leave them where they are, or ask the Cabinet to mobilise now?",
   gqg_1914_01_frontieres: "Does the army attack in Lorraine as planned, shift its weight left, or wait a week for the cavalry to find the German right?",
   gqg_1914_16_week: "With the German right found, does the attack go in a week late, the weight move left, or a smaller attack cover the left?",
   gqg_1914_12_retreat: "Does Joffre order the armies back and form a new army on the left, or make a stand on the Sambre and the Meuse?",
@@ -62,6 +64,7 @@ export const ASKS = {
   gqg_1918_16_senlis: "What does France ask of Germany: the Rhine bridgeheads and heavy surrenders, or terms the German army can accept?",
 
   // ---- the Russian Stavka
+  stavka_1914_16_plans: "Is the army divided between East Prussia and Galicia, put against Germany as the French ask, or sent against Austria alone?",
   stavka_1914_01_prussia: "Does Russia invade East Prussia now to keep its promise to France, or finish the concentration first?",
   stavka_1914_12_tannenberg: "Do both armies press on under Zhilinsky's orders, does the Second halt for its supply, or does it wheel toward the First?",
   stavka_1914_02_galicia: "Does the weight go to Galicia against the Austrians, or back to East Prussia with divisions taken from the south?",
@@ -89,6 +92,7 @@ export const ASKS = {
   stavka_1917_14_armistice: "Does the Supreme Commander carry out the order to open talks with the Germans, or decline it?",
 
   // ---- the British Expeditionary Force and the War Cabinet
+  bef_1914_22_divisions: "Does Britain send four divisions and the cavalry, all six at once, or two as a token?",
   bef_1914_01_warcouncil: "Where does the army land: at Maubeuge on the French left, farther back at Amiens, or with all six divisions at Maubeuge?",
   bef_1914_02_seine: "Does the army stay in the line and guard against being outflanked, or withdraw behind the Seine to refit?",
   bef_1914_03_ypres: "Does the army hold the Ypres line with everything that arrives, or fall back to cover Dunkirk and Calais?",
@@ -113,6 +117,7 @@ export const ASKS = {
   bef_1918_21_armistice: "Does Britain advise moderate terms the German army can accept, or support the harder terms the French and Americans want?",
 
   // ---- the Austro-Hungarian Army High Command
+  aok_1914_15_mobilise: "Does the monarchy mobilise against Russia on 4 August, begin it at once, or mobilise against Serbia alone?",
   aok_1914_01_serbia: "Does the swing force go to Serbia first, as the plan says, or to Galicia from the start?",
   aok_1914_02_recall: "Is the Second Army recalled from Serbia and sent north, or left to finish the Serbian campaign?",
   aok_1914_03_galicia: "Does the offensive go north into Russian Poland, with or without the Third Army held back, or does the army wait behind the San?",
@@ -136,6 +141,7 @@ export const ASKS = {
   aok_1918_13_vittorio: "Does the army order a general retreat and ask for an armistice, or ask the Germans to take over the front?",
 
   // ---- the Ottoman General Staff
+  otto_1914_04_offer: "Does the empire sign the German alliance now, hold off for a week, or ask the Entente what it would guarantee first?",
   otto_1914_01_straits: "Are the Goeben and the Breslau admitted to the Straits and taken into the navy, or refused entry to keep the neutrality?",
   otto_1914_02_blacksea: "Does the fleet go into the Black Sea to attack the Russians, or stay in the Bosphorus while the cabinet weighs the Entente's offers?",
   otto_1914_03_sarikamis: "Does Enver take command of an offensive over the mountains in December, postpone it for clothing, or hold the Erzurum line?",
@@ -144,6 +150,9 @@ export const ASKS = {
   otto_1915_02_gallipoli: "Is the reserve kept inland to move to the landing when it comes, or are the divisions put above every beach?",
   otto_1915_03_kut: "Are the assaults stopped and siege lines built round Kut, or is a general assault ordered before the relief arrives?",
   otto_1916_01_erzurum: "Does the Third Army hold the forts at Erzurum, or withdraw west and give up the fortress?",
+  otto_1916_03_romani: "Does Kress attack the British at Romani before their railway and pipeline arrive, wait by his wells, or does the army turn to the Hejaz?",
+  otto_1917_03_baghdad: "Where does the Sixth Army make its stand for Baghdad: on the Diyala, below the city at Ctesiphon, or not at all?",
+  otto_1917_04_gaza: "What is done with the Gaza line after the second victory: hold it and strengthen it, draw back to the hills, or strike at the British railhead?",
   otto_1916_02_medina: "Does the empire reinforce the Hejaz and hold Medina and the railway, or evacuate and hold only as far as Ma'an?",
   otto_1917_01_yildirim: "Does the Yildirim Army Group go to Palestine, down the Euphrates to Baghdad, or divide between them?",
   otto_1917_02_jerusalem: "Does the army withdraw into the hills and leave Jerusalem undefended, or defend the city?",

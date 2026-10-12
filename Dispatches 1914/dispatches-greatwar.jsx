@@ -138,7 +138,7 @@ export const CAMPAIGNS = {
     flagPrefix: "gqg_",
     willLabel: "Army Morale",
     willMeaning: "The cohesion and obedience of the army itself.",
-    span: { from: "1914-08-01", to: "1918-11-11" },
+    span: { from: "1914-07-30", to: "1918-11-11" },
     targetNodes: [34, 38],
     targetEndings: [9, 11],
     map: "europe",
@@ -291,7 +291,7 @@ export const CAMPAIGNS = {
     flagPrefix: "otto_",
     willLabel: "Imperial Control",
     willMeaning: "Authority over provinces and territory.",
-    span: { from: "1914-08-02", to: "1918-11-08" },
+    span: { from: "1914-07-29", to: "1918-11-08" },
     targetNodes: [16, 20],
     targetEndings: [5, 6],
     map: "nearEast",
@@ -342,7 +342,7 @@ export const CAMPAIGN_IDS = Object.keys(CAMPAIGNS);
 // 1940/1941 convention.
 // =============================================================================
 
-CAMPAIGNS.ohl.startNode = "ohl_1914_01_aufmarsch";
+CAMPAIGNS.ohl.startNode = "ohl_1914_16_kaiser";
 
 CAMPAIGNS.ohl.commanders = [
   { id: "moltke", name: "Moltke", title: "Chief of the General Staff",
@@ -415,11 +415,96 @@ CAMPAIGNS.ohl.hardMode.erosionMax = 7;
 CAMPAIGNS.ohl.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
+  ohl_1914_16_kaiser: {
+    year: 1914, date: "1914-08-01", city: "Berlin",
+    title: "The Kaiser's Question",
+    advisors: ["moltke", "tappen"],
+    situation:
+      "Mobilisation has been ordered, and the Chief of the General Staff is on his way to the " +
+      "palace with the order for the trains to begin. In the afternoon a telegram arrives from " +
+      "the ambassador in London: if Germany does not attack France, Britain will keep France out " +
+      "of the war. The Kaiser takes it as a gift, and sends for the Chief.\n\n" +
+      "He asks whether the whole army can be sent east against Russia, and the French left " +
+      "alone. The railway division has an old plan for it, revised each year until 1913. The " +
+      "plan for the west, with its timetable, is the one the whole army has been trained to carry out.",
+    context:
+      "Moltke has the deployment in his hand. Every train, every bridge and every halt in it " +
+      "has been timed for years, and a change tonight is a change to all of them. The ambassador's " +
+      "telegram is a promise of a kind, and nobody in Berlin has yet asked what it means.",
+    choices: [
+      {
+        id: "west",
+        label: "Tell the Kaiser that the deployment against France cannot be improvised, and let the trains run",
+        historical: true,
+        advisor: { name: "Moltke", position:
+          "An army of a million men cannot be turned round in an evening. The plan for the west is the only one that is ready, and an army turned east would be a mob without supplies." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { ohl_kaiser: "west" },
+        next: "ohl_1914_01_aufmarsch",
+        outcome:
+          "Moltke refuses. He tells the Kaiser that a deployment of that size cannot be changed in an " +
+          "evening, and the Kaiser, who says that Moltke's uncle would have answered differently, gives " +
+          "way. That night King George sends word that the ambassador must have misunderstood, and the " +
+          "offer from London is gone. The trains begin to run on the old timetable, and Moltke, who " +
+          "has won the argument, has lost something of the Kaiser's confidence.",
+      },
+      {
+        id: "east",
+        label: "Turn part of the army east on the old plan, and keep the rest on the timetable for the west",
+        advisor: { name: "Tappen", position:
+          "The Kaiser is the Supreme War Lord. A compromise that sends some of the army each way can be ordered tonight, and the railway division has the old plan in its files." },
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "The head of the railway division, Hermann von Staab, argued after the war that the army could have " +
+          "been turned east at a day's notice, and Moltke argued that it could not. Historians still debate it. " +
+          "The two timetables were not made to be mixed.",
+        uncertain: [
+          { weight: 50, title: "The compromise costs a day",
+            impact: { manpower: -1, munitions: 0, will: 0 },
+            setFlags: { ohl_kaiser: "east1" },
+            next: "ohl_1914_01_aufmarsch",
+            outcome:
+              "Speculative. The railway division turns two armies' trains east and leaves the rest on the " +
+              "old timetable. It is done, with a day lost and a number of trains standing in the wrong " +
+              "stations, and the armies in the west are late to their start. Britain's offer is withdrawn " +
+              "the same evening, and the eastern armies have been sent to meet an enemy that is not yet in " +
+              "the field." },
+          { weight: 50, title: "The compromise costs three days",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { ohl_kaiser: "east3" },
+            next: "ohl_1914_01_aufmarsch",
+            outcome:
+              "Speculative. The two timetables cross at the great junctions of the Rhine, and trains " +
+              "stand for hours in the stations. It takes three days to sort them out, and the right " +
+              "wing, which the whole plan depends on, is not at its start line when the army is meant " +
+              "to cross the Belgian frontier. Moltke is told that he has been right, and it does not help him." },
+        ],
+      },
+      {
+        id: "wait",
+        label: "Hold the order for a day to see whether London's offer is real",
+        advisor: { name: "Moltke", position:
+          "A day's delay is a day of the timetable, and the timetable has none to spare. But the Kaiser has asked, and a Chief who refuses to wait may be asked to explain it later." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The Kaiser has already signed, and the order is on its way to the railway division",
+        impact: { manpower: 0, munitions: -1, will: 0 },
+        setFlags: { ohl_kaiser: "wait" },
+        next: "ohl_1914_01_aufmarsch",
+        outcome:
+          "Speculative. Moltke holds the order for a day, and the offer from London is withdrawn " +
+          "before it is over. The army begins to deploy on the 2nd and not on the 1st. Every corps is a " +
+          "day behind the timetable that had no day in it, and the staff, which has just been told " +
+          "that it was right, spends the first week of the war trying to recover the time that the " +
+          "Kaiser's question cost.",
+      },
+    ],
+  },
+
   ohl_1914_01_aufmarsch: {
     year: 1914, date: "1914-08-04", city: "Koblenz",
     title: "The Weight on the Right",
     advisors: ["moltke", "tappen"],
-    situation:
+    situation: (flags) =>
       "The deployment rests on one proposition inherited from Schlieffen and modified " +
       "every year since: that the decisive weight falls on the right, swings wide " +
       "through Belgium, and that everything else in the line exists to make that " +
@@ -427,7 +512,14 @@ CAMPAIGNS.ohl.nodes = {
       "British.\n\n" +
       "Lorraine is the difficulty. The French will attack there, and the armies on the " +
       "left want to meet them and win something. Every corps that goes to Lorraine is " +
-      "a corps not on the right, and the plan was never designed to do both.",
+      "a corps not on the right, and the plan was never designed to do both." +
+      (flags.ohl_kaiser === "east1"
+        ? "\n\nThe attempt to turn part of the army east has cost a day, and the armies in the west start late."
+        : flags.ohl_kaiser === "east3"
+        ? "\n\nThe attempt to turn part of the army east has cost three days, and the right wing is not at its start line."
+        : flags.ohl_kaiser === "wait"
+        ? "\n\nThe order was held for a day, and every corps is a day behind the timetable."
+        : ""),
     context:
       "Supreme Command will direct this from Koblenz, and later from Luxembourg — " +
       "hundreds of kilometres behind armies it cannot see. There is no army group " +
@@ -804,6 +896,21 @@ CAMPAIGNS.ohl.nodes = {
           "Whether Russia can be finished with the extra divisions is the whole bet, " +
           "and the record gives no answer.",
       },
+      {
+        id: "aisne",
+        label: "Order the armies to dig in on the Aisne, and leave the choice of theatre until the line is held",
+        advisor: { name: "Tappen", position:
+          "The armies are tired and the line has to be made safe before any plan is made. The theatre can be chosen when the line holds, and not before." },
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { ohl_theatre: "waited" },
+        next: "ohl_1914_13_ypres",
+        outcome:
+          "Speculative. The armies are ordered to entrench where they stand, and the new Chief names no " +
+          "theatre for the weight of the war. The line on the Aisne is made strong and the exhausted " +
+          "corps are given a few days. The army commanders, left without a plan, try to turn each " +
+          "other's flanks to the north, as they did in the record, and the east, which asked for an " +
+          "answer, is told to wait. The decision is put off, and the war chooses a theatre in the meantime.",
+      },
     ],
   },
 
@@ -832,6 +939,7 @@ CAMPAIGNS.ohl.nodes = {
   historical: true,
   advisor: { name: "Falkenhayn", position:
     "The coast is the one place in the west where a result is still possible. If it is not taken now it will not be taken." },
+  keyBattleSubgame: { id: "ypresGerman" },
   impact: { manpower: -1, munitions: -1, will: 0 },
   setFlags: { ohl_flanders: "pressed" },
   dispute:
@@ -1177,6 +1285,21 @@ CAMPAIGNS.ohl.nodes = {
           "at home as something other than a defeat. The officers who hold that no yard " +
           "may be given up say so, and the Chief has to decide whether he is willing to " +
           "be overruled by his own caution.",
+      },
+      {
+        id: "verdun",
+        label: "Stop the offensive on the Meuse and send its reserves to the Somme",
+        advisor: { name: "Tappen", position:
+          "The Meuse has cost more than it has taken, and the Somme is where the enemy is strongest. The reserves belong where the line is bending, and not where the offensive has run down." },
+        impact: { manpower: 0, munitions: -1, will: -1 },
+        setFlags: { ohl_somme: "shifted" },
+        next: "ohl_1916_05_relief",
+        outcome:
+          "Speculative. The offensive at Verdun is stopped in the first days of July, and the divisions " +
+          "that were feeding it are sent to the Somme. The ground lost at the south end is counter-attacked " +
+          "with fresh troops and not retaken piecemeal, and the French, no longer pressed on the Meuse, " +
+          "are free to find more men for the Somme. The Chief has given up the object he chose in the " +
+          "winter, and has to say so to the Kaiser.",
       },
     ],
   },
@@ -2211,10 +2334,10 @@ CAMPAIGNS.ohl.nodes = {
       "The eastern front, 1915: " + (flags.ohl_gorlice === "envelop" ? "a wide envelopment." : flags.ohl_gorlice === "carpathians" ? "German divisions in the Carpathians and nothing larger." : "a breakthrough at Gorlice.") + "\n" +
       "Serbia: " + (flags.ohl_serbia === "declined" ? "declined." : "attacked in October 1915.") + "\n" +
       "The Meuse: " + (flags.ohl_verdun === "declined" ? "declined." : (flags.ohl_verdunExec === "fortress" ? "fought as a battle for the fortress." : "fought as the directive was written.")) + "\n" +
-      "The Somme: " + (flags.ohl_somme === "elastic" ? "ground given where it was dear." : "no ground to be given up.") + "\n" +
+      "The Somme: " + (flags.ohl_somme === "elastic" ? "ground given where it was dear." : flags.ohl_somme === "shifted" ? "the Meuse offensive stopped and its reserves sent south." : "no ground to be given up.") + "\n" +
       "The Hindenburg Programme: " + (flags.ohl_programme === "moderate" ? "a smaller programme." : "adopted at full size.") + "\n" +
       "The submarines: " + (flags.ohl_usw === "restricted" ? "held under prize rules." : flags.ohl_usw === "sharpened" ? "sharpened inside the cruiser rules." : "unrestricted from 1 February 1917.") + "\n" +
-      "Weight of effort after the Marne: " + (flags.ohl_theatre === "east" ? "shifted east." : "held in the west.") + "\n" +
+      "Weight of effort after the Marne: " + (flags.ohl_theatre === "east" ? "shifted east." : flags.ohl_theatre === "waited" ? "left undecided for a time, and held in the west." : "held in the west.") + "\n" +
       "Posture for 1917: " + (flags.ohl_1917posture === "offensive" ? "continued offensive effort." : "defensive, rebuilding.") + "\n" +
       "American entry: " + (flags.ohl_usEntry === "deferred" ? "deferred." : "brought on by the decision of 9 January 1917.") + "\n" +
       "The retirement to the Siegfried Line: " + (flags.ohl_alberich === "held" ? "refused." : flags.ohl_alberich === "spared" ? "made, with the ground left standing." : "made, with the ground destroyed.") + "\n" +
@@ -2455,28 +2578,28 @@ CAMPAIGNS.ohl.nodes = {
 // disputed in the literature and the game says so rather than picking one.
 // =============================================================================
 
-CAMPAIGNS.gqg.startNode = "gqg_1914_01_frontieres";
+CAMPAIGNS.gqg.startNode = "gqg_1914_17_covering";
 
 CAMPAIGNS.gqg.commanders = [
-  { id: "joffre", name: "Joffre", title: "Commander-in-Chief", from: "1914-08-01", to: "1916-12-12" },
+  { id: "joffre", name: "Joffre", title: "Commander-in-Chief", from: "1914-07-30", to: "1916-12-12" },
   { id: "nivelle", name: "Nivelle", title: "Commander-in-Chief", from: "1916-12-12", to: "1917-05-15" },
   { id: "petain", name: "Petain", title: "Commander-in-Chief", from: "1917-05-15", to: "1918-11-11" },
 ];
 
 CAMPAIGNS.gqg.advisors = [
-  { id: "joffre", name: "Joffre", from: "1914-08-01", to: "1916-12-12",
+  { id: "joffre", name: "Joffre", from: "1914-07-30", to: "1916-12-12",
     dossier: { role: "Commander-in-Chief, 1914-1916",
       bio: "Directed the armies from the Frontiers through the Marne, the 1915 offensives, Verdun and the Somme. Advocated concerted allied attack throughout.",
       fate: "Relieved in December 1916 and made a Marshal of France." } },
-  { id: "castelnau", name: "de Castelnau", from: "1914-08-01", to: "1918-11-11",
+  { id: "castelnau", name: "de Castelnau", from: "1914-07-30", to: "1918-11-11",
     dossier: { role: "Army and army group commander; chief of staff at GQG",
       bio: "Present at most of the war's decisions on the French side without ever holding the top command.",
       fate: "Survived the war. Not made a Marshal." } },
-  { id: "gallieni", name: "Gallieni", from: "1914-08-01", to: "1916-05-27",
+  { id: "gallieni", name: "Gallieni", from: "1914-07-30", to: "1916-05-27",
     dossier: { role: "Military Governor of Paris; later Minister of War",
       bio: "Held Paris in September 1914 and pressed for the counterattack against the exposed German flank.",
       fate: "Left the war ministry in 1916 on grounds of health and died that May." } },
-  { id: "petain", name: "Petain", from: "1914-08-01", to: "1918-11-11",
+  { id: "petain", name: "Petain", from: "1914-07-30", to: "1918-11-11",
     dossier: { role: "Commander at Verdun; Commander-in-Chief from May 1917",
       bio: "Made his reputation on the defence of Verdun and the rotation system that fed the army through it. Took the command in May 1917 with the army in open indiscipline.",
       fate: "Restored the army through leave, rest and limited-objective operations. His later history is not this war's." } },
@@ -2484,7 +2607,7 @@ CAMPAIGNS.gqg.advisors = [
     dossier: { role: "Commander-in-Chief, December 1916 to May 1917",
       bio: "Came to prominence at Verdun in late 1916 and offered the governments what they wanted to hear: a rupture of the German line in forty-eight hours at a cost of around ten thousand men.",
       fate: "Relieved on 15 May 1917 and sent to North Africa." } },
-  { id: "mangin", name: "Mangin", from: "1914-08-01", to: "1918-11-11",
+  { id: "mangin", name: "Mangin", from: "1914-07-30", to: "1918-11-11",
     dossier: { role: "Corps and army commander",
       bio: "Supported the Nivelle plan and fell with it in April 1917. Returned to command and led the counterattack of July 1918.",
       fate: "Survived the war." } },
@@ -2492,7 +2615,7 @@ CAMPAIGNS.gqg.advisors = [
     dossier: { role: "Minister of War from March 1917",
       bio: "Sceptical of the Nivelle plan from the start. Extracted the promise that the offensive would stop if it had not broken through in forty-eight hours.",
       fate: "Briefly Prime Minister in late 1917." } },
-  { id: "foch", name: "Foch", from: "1914-08-01", to: "1918-11-11",
+  { id: "foch", name: "Foch", from: "1914-07-30", to: "1918-11-11",
     dossier: { role: "Army group commander; Allied generalissimo from 1918",
       bio: "Given coordinating authority over the Allied armies in the crisis of March 1918 and general command thereafter.",
       fate: "Marshal of France." } },
@@ -2518,18 +2641,107 @@ CAMPAIGNS.gqg.hardMode.erosionMax = 6;
 
 CAMPAIGNS.gqg.nodes = {
 
+  gqg_1914_17_covering: {
+    year: 1914, date: "1914-07-30", city: "Paris",
+    title: "Ten Kilometres",
+    advisors: ["joffre", "castelnau"],
+    situation:
+      "Germany has declared a state of imminent danger of war, and the army has been brought up " +
+      "to strength along the frontier. The government has done what it can to be seen as the " +
+      "party that did not want war: it has ordered the covering troops to fall back ten kilometres " +
+      "from the frontier, so that no patrol can start a fight, and so that Britain can see it.\n\n" +
+      "The Commander-in-Chief thinks the order is a mistake, since it gives ground that will not " +
+      "be easy to take back, and it delays the order to mobilise, which cannot wait.",
+    context:
+      "A covering force is the part of the army that has to be in place before the rest can " +
+      "assemble behind it. Ten kilometres is a small distance on a map, and it is the width of the " +
+      "ground that the plan assumes it holds.",
+    choices: [
+      {
+        id: "obey",
+        label: "Obey, and withdraw the covering troops ten kilometres, while pressing the Cabinet for the order to mobilise",
+        historical: true,
+        advisor: { name: "Joffre", position:
+          "The government is entitled to be obeyed, and Britain's opinion is worth ten kilometres. The cost is a day, and the Cabinet must be told what it is." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { gqg_covering: "obeyed" },
+        next: "gqg_1914_01_frontieres",
+        outcome:
+          "The covering troops fall back ten kilometres from the frontier on 30 July, and not a shot " +
+          "is fired along it. Joffre presses the Cabinet on the 31st to order mobilisation, " +
+          "and the order for general mobilisation is given on the afternoon of 1 August. France " +
+          "can say that it did not begin the war, and the army starts the war a few kilometres " +
+          "farther from its objective than it had planned.",
+      },
+      {
+        id: "stay",
+        label: "Leave the covering troops where they are, and do not tell the Cabinet",
+        advisor: { name: "Castelnau", position:
+          "The ten kilometres are the ground the plan depends on. A covering force that has fallen back cannot cover, and an order that cannot be carried out should not be carried out." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The Minister of War has repeated the order, and the President has been told it is being obeyed",
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        dispute:
+          "Whether a few kilometres would have made any difference to the opening of the war is argued. " +
+          "The covering troops were not the army, and the frontier battles were fought a good deal farther back.",
+        uncertain: [
+          { weight: 70, title: "The disobedience goes unremarked",
+            impact: { manpower: 0, munitions: 0, will: 0 },
+            setFlags: { gqg_covering: "stayed" },
+            next: "gqg_1914_01_frontieres",
+            outcome:
+              "Speculative. The covering troops stay where they are, and the German patrols stay " +
+              "on their own side. The Cabinet, which believes that its order has been obeyed, is not " +
+              "told, and the army begins the war on the ground that the plan assumed. Joffre has " +
+              "kept a few kilometres and has made himself the man who decides which of the " +
+              "government's orders are carried out." },
+          { weight: 30, title: "A frontier clash is made public",
+            impact: { manpower: -1, munitions: 0, will: -2 },
+            setFlags: { gqg_covering: "clash" },
+            next: "gqg_1914_01_frontieres",
+            outcome:
+              "Speculative. A German patrol is met on French ground, and the shots are reported " +
+              "in Berlin and in London as a French provocation. The Cabinet learns that its order " +
+              "was not obeyed from the newspapers, and Britain's ministers, who have been told that " +
+              "France has taken care to give no pretext, have to ask whether that is so. Joffre is " +
+              "summoned to explain." },
+        ],
+      },
+      {
+        id: "ask",
+        label: "Ask the Cabinet to mobilise at once and not to wait for Germany",
+        advisor: { name: "Joffre", position:
+          "Every hour lost now is an hour lost to the concentration. The Germans have not waited, and France cannot afford to be the last to move." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { gqg_covering: "asked" },
+        next: "gqg_1914_01_frontieres",
+        outcome:
+          "Speculative. Joffre goes to the ministers and says that every day of delay costs the army " +
+          "a day of its concentration. The Cabinet will not move until Germany has, and until " +
+          "Britain can be shown that France was the party that waited. The order is given on " +
+          "1 August, when it would have been given anyway, and the Commander-in-Chief is known to " +
+          "the ministers as a soldier who will say what he thinks of an order he has been given.",
+      },
+    ],
+  },
+
   gqg_1914_01_frontieres: {
     year: 1914, date: "1914-08-14", city: "Vitry-le-Francois",
     title: "Into Lorraine",
     advisors: ["joffre", "castelnau"],
-    situation:
+    situation: (flags) =>
       "The plan is an attack into Lorraine and the Ardennes, into the provinces lost " +
       "in 1871, on the shortest line to the frontier. It is built on the conviction " +
       "that the decisive quality in this war will be the willingness to attack, and it " +
       "assumes the German right will not be strong enough to matter.\n\n" +
       "Reports from Belgium suggest the German right is very much strong enough to " +
       "matter. Acting on those reports means abandoning the attack before it has been " +
-      "made and conceding that the army's whole doctrine was wrong on the first page.",
+      "made and conceding that the army's whole doctrine was wrong on the first page." +
+      (flags.gqg_covering === "stayed"
+        ? "\n\nThe covering troops never fell back the ten kilometres that the government ordered, and the Cabinet does not know it."
+        : flags.gqg_covering === "clash"
+        ? "\n\nA frontier clash in the last days of July has been laid at France's door, and the Cabinet is not pleased with the army."
+        : ""),
     context:
       "Reserve formations are the question underneath the question. The plan assumes " +
       "the Germans will not put reserve corps in the front line. If they do, the right " +
@@ -3501,6 +3713,7 @@ CAMPAIGNS.gqg.nodes = {
         historical: true,
         advisor: { name: "Nivelle", position:
           "The rupture is one more effort away. Stopping now converts a delay into a defeat." },
+        keyBattleSubgame: { id: "cheminFrench" },
         impact: { manpower: -3, munitions: -2, will: -3 },
         setFlags: { gqg_chemin: "continued" },
         erodes: "costly_offensive",
@@ -4568,7 +4781,7 @@ CAMPAIGNS.gqg.nodes = {
 // Terminal nodes hand into the situation Dispatches 1922 opens from.
 // =============================================================================
 
-CAMPAIGNS.stavka.startNode = "stavka_1914_01_prussia";
+CAMPAIGNS.stavka.startNode = "stavka_1914_16_plans";
 
 CAMPAIGNS.stavka.commanders = [
   { id: "grandduke", name: "Grand Duke Nikolai Nikolaevich", title: "Supreme Commander",
@@ -4638,6 +4851,90 @@ CAMPAIGNS.stavka.hardMode.erosionMax = 4;
 
 CAMPAIGNS.stavka.nodes = {
 
+  stavka_1914_16_plans: {
+    year: 1914, date: "1914-07-19", city: "Petrograd",
+    title: "Two Offensives",
+    advisors: ["grandduke", "zhilinsky"],
+    situation:
+      "The Grand Duke has been named Supreme Commander, and the war with Germany is a day old. The " +
+      "mobilisation plan allows two versions of the opening: Plan G, which puts the weight against " +
+      "Germany, and Plan A, which puts it against Austria-Hungary. The armies that are to " +
+      "decide it are still on the railways, and the Eighth Army, in the south, will not be " +
+      "assembled for weeks.\n\n" +
+      "The French want everything sent against Germany, to draw troops from the west. The " +
+      "generals in the south want everything sent against Austria, which is the weaker enemy " +
+      "and is certain to come into Galicia.",
+    context:
+      "The plan that was made in peace was a compromise between two schools in the army, and " +
+      "a compromise is what is likely to come out of the next days. What has to be settled is how " +
+      "the army is divided, not whether it is.",
+    choices: [
+      {
+        id: "both",
+        label: "Send two armies against East Prussia and the stronger force against Galicia",
+        historical: true,
+        advisor: { name: "Grand Duke Nikolai", position:
+          "Germany has to be attacked to keep faith with France, and Austria is the enemy that can be beaten. The army is divided because the war is divided." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { stavka_plan: "both" },
+        next: "stavka_1914_01_prussia",
+        outcome:
+          "The army is divided between two offensives. Two armies are to invade East Prussia from " +
+          "the east and the south, and a stronger force, four armies, is to go into Galicia. About " +
+          "half as many men are sent against Germany as against Austria-Hungary, which is " +
+          "less than the French asked for and more than the army can easily supply. The " +
+          "Grand Duke's headquarters is at Baranovichi by the 4th.",
+      },
+      {
+        id: "germany",
+        label: "Put the main weight against Germany, as the French ask",
+        advisor: { name: "Zhilinsky", position:
+          "France is the ally that matters, and Germany is the enemy that has to be beaten first. A strong blow in East Prussia will bring German divisions east from the Marne." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The generals in the south have been told that Galicia is the main front, and have moved their trains",
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "Historians argue over whether a Russian army concentrated against Germany could have drawn " +
+          "troops from the west in time to matter, and whether the Russian railways could have carried it.",
+        uncertain: [
+          { weight: 50, title: "The concentration in the north is larger, and later",
+            impact: { manpower: -1, munitions: -1, will: 0 },
+            setFlags: { stavka_plan: "germany" },
+            next: "stavka_1914_01_prussia",
+            outcome:
+              "Speculative. The weight of the army goes to the north, and the Eighth Army is ordered to " +
+              "East Prussia and not to Galicia. The concentration there is larger, and it is not ready " +
+              "until later. The Austrians, who find fewer Russians in front of them, " +
+              "advance into Poland, and the French have to wait for the blow that they asked for." },
+          { weight: 50, title: "The Germans send more troops east",
+            impact: { manpower: -1, munitions: 0, will: 1 },
+            setFlags: { stavka_plan: "germany" },
+            next: "stavka_1914_01_prussia",
+            outcome:
+              "Speculative. The size of the Russian concentration is seen from the German side, and " +
+              "the Eighth Army in East Prussia is reinforced from the west sooner than it was in the " +
+              "record. The French have a little relief on the Marne, and the Russians have a stronger " +
+              "enemy in front of them, in the place where their roads and their railways are worst." },
+        ],
+      },
+      {
+        id: "austria",
+        label: "Stand on the defensive against Germany and send everything against Austria",
+        advisor: { name: "Grand Duke Nikolai", position:
+          "Austria is the weaker enemy and will be beaten. Germany is the stronger one, and the army has no need to hurry into a battle that it can lose." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { stavka_plan: "austria" },
+        next: "stavka_1914_01_prussia",
+        outcome:
+          "Speculative. The two armies that would have gone into East Prussia are held on the " +
+          "frontier, and the whole weight of the army goes into Galicia. The Austrians are met by " +
+          "more men than in the record. Paris is told that the offensive it was promised will " +
+          "come later, and the French, who had counted on it, ask why a promise given in writing " +
+          "can be kept in part.",
+      },
+    ],
+  },
+
   stavka_1914_01_prussia: {
     year: 1914, date: "1914-08-04", city: "Baranovichi",
     title: "Before the Concentration Is Finished",
@@ -4648,7 +4945,7 @@ CAMPAIGNS.stavka.nodes = {
         "The mobilisation proceeds throughout the Empire in exemplary order. The " +
         "armies of the Supreme Commander stand ready upon the western frontier.",
     },
-    situation:
+    situation: (flags) =>
       "The French are asking for an offensive into East Prussia now — today, 4 August " +
       "(17 August in the west) — and the undertaking to make one was given before the " +
       "war, in writing, as the price of the alliance and the loans that built the " +
@@ -4656,7 +4953,12 @@ CAMPAIGNS.stavka.nodes = {
       "The concentration is not finished. Two armies are to go in either side of the " +
       "Masurian Lakes, which means they cannot support one another until they have " +
       "converged past them, and the wireless discipline between them is not what it " +
-      "should be.",
+      "should be." +
+      (flags.stavka_plan === "germany"
+        ? "\n\nThe army has been sent north in greater strength than the plan first allowed, and the concentration there is later."
+        : flags.stavka_plan === "austria"
+        ? "\n\nOnly a screen has been left in the north, and the army that would have joined these two is in Galicia."
+        : ""),
     context:
       "Waiting three weeks produces two armies that can operate together. It also " +
       "means the French fight the opening of the war alone, having been promised they " +
@@ -4758,6 +5060,7 @@ CAMPAIGNS.stavka.nodes = {
         label: "Order the Second Army to wheel north-east toward the First, and give up the march on Allenstein",
         advisor: { name: "Samsonov", position:
           "The armies are too far apart to help each other. If they are to fight one battle, they must first be brought within reach of each other." },
+        keyBattleSubgame: { id: "tannenbergRussian" },
         impact: { manpower: 0, munitions: 0, will: -1 },
         dispute:
           "Historians differ on whether the loss of the Second Army could have been " +
@@ -4915,6 +5218,21 @@ CAMPAIGNS.stavka.nodes = {
           "this was known. The fortress holds into the winter all the same, and the " +
           "army that stormed it is smaller when the Austrians return.",
       },
+      {
+        id: "screen",
+        label: "Leave a covering force round the fortress and take the main army to the Vistula",
+        advisor: { name: "Brusilov", position:
+          "A fortress that cannot be reduced is best watched. The army is wanted on the Vistula, where the Germans are, and not in the mud round a place that will fall when its bread is gone." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { stavka_przemysl: "watched" },
+        next: "stavka_1914_04_lodz",
+        outcome:
+          "Speculative. A covering force of a few divisions and some militia is left round the fortress, " +
+          "and the army that would have settled round it goes to the Vistula. The garrison is kept in, and " +
+          "the covering force is not strong enough to stop a relief attempt if one is made in the snow. " +
+          "The army is in the right place for the German blow that comes in November, and the fortress " +
+          "holds out for as long as its stores allow.",
+      },
     ],
   },
 
@@ -5058,6 +5376,37 @@ CAMPAIGNS.stavka.nodes = {
           "was to be the anchor of the position is given up without a battle. It " +
           "is a retreat made on a subordinate's warning, which is what the front " +
           "commander said it would be.",
+      },
+      {
+        id: "reinforce",
+        label: "Send the Guard Reserve and the corps at Warsaw to the Tenth Army, and hold the border line",
+        advisor: { name: "Grand Duke Nikolai Nikolaevich", position:
+          "The border line is the anchor of the position in East Prussia, and the Tenth Army can hold it if it is given what it asks. A line that is held is worth more than one that is given up." },
+        impact: { manpower: -1, munitions: -1, will: -1 },
+        dispute:
+          "Whether more men at the border would have held the line or only added to the numbers caught in " +
+          "the forests round Augustow is argued. The Germans attacked in a snowstorm, and the Twentieth Corps " +
+          "was cut off.",
+        uncertain: [
+          { weight: 40, title: "The reinforced line holds",
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            setFlags: { stavka_masuria: "reinforced" },
+            next: "stavka_1915_12_carpathians",
+            outcome:
+              "Speculative. The reserves reach the border before the Germans attack, and the line is held " +
+              "through the first days. The blow falls on a front strong enough to bend and not to break, and " +
+              "the German attack in the snow makes ground in the forests and is stopped short of the Niemen. " +
+              "The Tenth Army is not surrounded, and the fresh troops have been used where they were needed." },
+          { weight: 60, title: "The reserve is drawn into the encirclement",
+            impact: { manpower: -3, munitions: -1, will: -2 },
+            setFlags: { stavka_masuria: "reinforced" },
+            next: "stavka_1915_12_carpathians",
+            outcome:
+              "Speculative. The reserves arrive as the storm breaks and are put into a line that is already " +
+              "being turned. The Germans close on both flanks in the snow, and the fresh troops are caught " +
+              "with the Twentieth Corps in the forests round Augustow. The loss is greater than in the " +
+              "record by the number of men who were sent to prevent it." },
+        ],
       },
     ],
   },
@@ -5483,6 +5832,36 @@ CAMPAIGNS.stavka.nodes = {
           "who are fighting at Verdun, are not given what they asked for. The army " +
           "keeps the men and the shells that Naroch would have used, and it goes " +
           "into the summer a little stronger.",
+      },
+      {
+        id: "smaller",
+        label: "Attack at Naroch with the Northern Front's army only, on a narrower front and with a smaller aim",
+        advisor: { name: "Alekseyev", position:
+          "The French need the Germans held in the east, and not an offensive that fails. A smaller blow with the same guns on a narrower front can be a better one." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        dispute:
+          "Historians argue whether any attack at Naroch in March, in the thaw, could have worked, or whether " +
+          "its real use was to be seen to try. The ground was marsh, and the bombardment did not cut the wire.",
+        uncertain: [
+          { weight: 45, title: "The narrow blow makes ground and holds the Germans",
+            impact: { manpower: -1, munitions: 0, will: 1 },
+            setFlags: { stavka_naroch: "narrow", xc_naroch: "launched" },
+            next: "stavka_1916_05_brusilov",
+            outcome:
+              "Speculative. The guns are put on a front a third as wide, and this time the German wire in " +
+              "the sector is cut. The Russians take the first line and a stretch of the second, and the " +
+              "Germans bring up reserves to meet them, as the French asked. It is a small success, paid for " +
+              "with fewer men than in the record, and the Germans know that the Russians can still attack." },
+          { weight: 55, title: "The thaw defeats it",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { stavka_naroch: "narrow", xc_naroch: "launched" },
+            next: "stavka_1916_05_brusilov",
+            outcome:
+              "Speculative. The ice goes off the lakes in the middle of the attack, and the marsh turns the " +
+              "ground the guns have chosen into a swamp. The narrow front is swept from both flanks, and " +
+              "the attack is broken off after four days, with a smaller loss than in the record and the " +
+              "same result. The French are told that the Russians tried." },
+        ],
       },
     ],
   },
@@ -6473,12 +6852,12 @@ CAMPAIGNS.stavka.nodes = {
       "Romania: " + (flags.stavka_romania === "army" ? "an army sent at once." : "three divisions sent.") + "\n" +
       "The death penalty: " + (flags.stavka_deathpenalty === "refused" ? "not restored." : "restored at the front on 12 July 1917.") + "\n" +
       "The Kornilov affair: " + (flags.stavka_kornilov === "obeyed" ? "the dismissal obeyed." : flags.stavka_kornilov === "mediated" ? "a mediator sent, and the corps halted at Luga." : "the dismissal refused, and the march collapsed.") + "\n" +
-      "Przemysl, winter 1914: " + (flags.stavka_przemysl === "stormed" ? "assaulted." : "invested and starved out.") + "\n" +
+      "Przemysl, winter 1914: " + (flags.stavka_przemysl === "stormed" ? "assaulted." : flags.stavka_przemysl === "watched" ? "watched by a covering force." : "invested and starved out.") + "\n" +
       "Lodz, November 1914: " + (flags.stavka_lodz === "silesia" ? "the Silesian offensive pressed on." : flags.stavka_lodzResult === "covered" ? "the Fifth Army turned north and covered the flank." : "the Fifth Army turned north and the Silesian offensive was given up.") + "\n" +
-      "East Prussia, February 1915: " + (flags.stavka_masuria === "pulled" ? "the Tenth Army was drawn back to the Niemen." : "the border line was held and the Twentieth Corps lost.") + "\n" +
+      "East Prussia, February 1915: " + (flags.stavka_masuria === "pulled" ? "the Tenth Army was drawn back to the Niemen." : flags.stavka_masuria === "reinforced" ? "the Tenth Army was reinforced at the border." : "the border line was held and the Twentieth Corps lost.") + "\n" +
       "Sventsiany, September 1915: " + (flags.stavka_sventsiany === "withdrew" ? "the line was shortened." : flags.stavka_sventsiany === "partial" ? "the breach was met by a part of the new army, the rest held back." : "the breach was met by counterattack.") + "\n" +
       "Chantilly, December 1915: " + (flags.stavka_chantilly === "declined" ? "no commitment was made." : "Russia joined the plan for simultaneous offensives.") + "\n" +
-      "Lake Naroch, March 1916: " + (flags.stavka_naroch === "refused" ? "the French request was declined." : "the offensive was made.") + "\n" +
+      "Lake Naroch, March 1916: " + (flags.stavka_naroch === "refused" ? "the French request was declined." : flags.stavka_naroch === "narrow" ? "a smaller offensive was made on a narrower front." : "the offensive was made.") + "\n" +
       "The Romanian Front, December 1916: " + (flags.stavka_romfront === "limited" ? "only the Russian frontier was held." : "a front was formed in Moldavia under the King.") + "\n" +
       "The Allied missions, January 1917: " + (flags.stavka_petrograd === "promised" ? "a spring offensive was promised." : "the great offensives were put off.") + "\n" +
       "Riga, August 1917: " + (flags.stavka_riga === "held" ? "the Twelfth Army was ordered to hold." : flags.stavka_riga === "delayed" ? "the Latvian Riflemen held the bridgehead for two days." : "the Twelfth Army withdrew.") + "\n" +
@@ -6698,7 +7077,7 @@ CAMPAIGNS.stavka.nodes = {
 // carries no adviser. Claims are logged in claims/bef.json.
 // =============================================================================
 
-CAMPAIGNS.bef.startNode = "bef_1914_01_warcouncil";
+CAMPAIGNS.bef.startNode = "bef_1914_22_divisions";
 
 CAMPAIGNS.bef.commanders = [
   { id: "french", name: "Sir John French", title: "Commander-in-Chief, British Expeditionary Force",
@@ -6767,15 +7146,106 @@ CAMPAIGNS.bef.hardMode.erosionMax = 5;
 CAMPAIGNS.bef.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
+  bef_1914_22_divisions: {
+    year: 1914, date: "1914-08-05", city: "London",
+    title: "Four Divisions or Six",
+    advisors: ["kitchener", "asquith", "wilson"],
+    situation:
+      "Britain has been at war for a day. The Cabinet has agreed that the Expeditionary Force " +
+      "will go, and a council of ministers and generals meets to settle how much of it. The " +
+      "plan that the General Staff made with the French says six infantry divisions and a " +
+      "cavalry division. Kitchener, who has been made Secretary of State for War this morning, has " +
+      "taken the chair and has not made up his mind.\n\n" +
+      "The Admiralty is afraid of a German landing on the east coast, and the Territorial " +
+      "Force, which is meant to defend the country, has not yet been called out.",
+    context:
+      "The French have been promised six divisions, and a smaller army is a broken promise. The " +
+      "fear of invasion is real, and so is the arithmetic: the divisions that go to France " +
+      "are the ones that cannot be at home.",
+    choices: [
+      {
+        id: "four",
+        label: "Send four infantry divisions and the cavalry division now, and keep two at home",
+        historical: true,
+        advisor: { name: "Kitchener", position:
+          "The country must not be left bare, and the army that is sent is the one the Cabinet can spare. Four divisions are what can be sent now, and the rest will follow when the danger from the sea has passed." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { bef_divisions: "four" },
+        next: "bef_1914_01_warcouncil",
+        outcome:
+          "On 6 August the Cabinet agrees to send four infantry divisions and the cavalry division, " +
+          "and to hold two back for the present because of the fear of a German landing. Wilson, who " +
+          "has promised the French six, has to tell them four. The army that goes is the " +
+          "professional army, the best the country has, and the French do not forget that it was " +
+          "fewer than they were told.",
+      },
+      {
+        id: "six",
+        label: "Send all six infantry divisions and the cavalry division at once, as the French were promised",
+        advisor: { name: "Wilson", position:
+          "The French have been promised six. An army that arrives smaller than it was promised is an army that will not be believed again, and the Germans do not wait for the Territorials." },
+        gate: (m) => m.will >= -1,
+        disabledReason: "The Cabinet has told the country that the coast will be defended, and has not called out the Territorials",
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "Whether the two divisions would have changed the opening battles is argued. The other side " +
+          "of it is how much the fear of a German landing was a real danger, and how much a fear.",
+        uncertain: [
+          { weight: 60, title: "The six divisions arrive and the coast stays quiet",
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            setFlags: { bef_divisions: "six" },
+            next: "bef_1914_01_warcouncil",
+            outcome:
+              "Speculative. All six divisions and the cavalry go to France in the second week of August, " +
+              "and the French are told that Britain has kept its word. The army that lands is a third " +
+              "bigger than the one that did in the record, and the coast is not tested. The two " +
+              "divisions that were held back in the record are in the line when the Germans arrive, and " +
+              "in no position to be spared." },
+          { weight: 40, title: "A scare on the east coast brings a division back",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { bef_divisions: "six" },
+            next: "bef_1914_01_warcouncil",
+            outcome:
+              "Speculative. A report of German ships off the east coast reaches the Cabinet when the " +
+              "sixth division is on the quay. It is stopped there. The French, who were told that six " +
+              "were coming, hear in the middle of the first week that it is five. The army in " +
+              "France is five divisions and the cavalry, and the Cabinet has shown the French " +
+              "how much its word is worth." },
+        ],
+      },
+      {
+        id: "two",
+        label: "Send two infantry divisions and the cavalry as a token, and keep four at home to train the new armies",
+        advisor: { name: "Kitchener", position:
+          "This will be a long war, and the army that is spent in the first month will not be there in the third. Two divisions show the flag, and four are kept to be the core of the armies that have to be raised." },
+        gate: (m) => m.will >= 0,
+        disabledReason: "Paris and the General Staff have been told that the whole force is coming",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { bef_divisions: "two" },
+        next: "bef_1914_01_warcouncil",
+        outcome:
+          "Speculative. Two divisions and the cavalry go, and four stay in England as the core of the " +
+          "new army that Kitchener has told the Cabinet will be needed. The French, who were promised six, " +
+          "are told that Britain is at war and has no army to send. The professionals " +
+          "who stay are made officers and sergeants of the new armies, and the army that fights " +
+          "on the Marne has a gap on its left.",
+      },
+    ],
+  },
+
   bef_1914_01_warcouncil: {
     year: 1914, date: "1914-08-12", city: "London",
     title: "Where the Army Lands",
     advisors: ["kitchener", "wilson", "asquith"],
-    situation:
+    situation: (flags) =>
       "The Cabinet has decided that the Expeditionary Force will go to France, and on " +
-      "6 August it decided that the first force would be four infantry divisions and the " +
-      "cavalry division, not the six that had been promised. What is left to settle is " +
-      "where it is to assemble.\n\n" +
+      (flags.bef_divisions === "six"
+        ? "6 August it decided to send all six infantry divisions and the cavalry division, as had been promised. "
+        : flags.bef_divisions === "two"
+        ? "6 August it decided to send only two infantry divisions and the cavalry division, and to keep the rest to train the new armies. "
+        : "6 August it decided that the first force would be four infantry divisions and the " +
+          "cavalry division, not the six that had been promised. ") +
+      "What is left to settle is where it is to assemble.\n\n" +
       "The General Staff's plan, drawn up with the French by Henry Wilson, puts the " +
       "British on the left of the French armies, at Maubeuge, close to the frontier and " +
       "to the Belgians. Kitchener, who came to the War Office on 5 August, thinks the " +
@@ -7278,6 +7748,21 @@ CAMPAIGNS.bef.nodes = {
           "the record can say. Kitchener, who has seen the ground, has been overruled " +
           "by the people who have not.",
       },
+      {
+        id: "helles",
+        label: "Evacuate Anzac and Suvla, and hold Helles through the winter as a base",
+        advisor: { name: "Winston Churchill", position:
+          "Helles is the toe of the peninsula and the one beachhead that can be supplied. Holding it keeps the Dardanelles in the Allies' hands, and keeps the Turks tied down." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { bef_evacuate: "helles" },
+        next: "bef_1915_09_succession",
+        outcome:
+          "Speculative. Anzac and Suvla are cleared in December, as in the record, and the army at Helles " +
+          "stays through the winter and into the spring. The beaches are shelled by the guns that the Turks, " +
+          "freed from the other two fronts, bring to the toe of the peninsula, and the corps there is " +
+          "supplied with some difficulty across an open beach. It is evacuated in the end, a few months " +
+          "late, and men have died to hold a place that was not going to be used.",
+      },
     ],
   },
 
@@ -7387,6 +7872,22 @@ CAMPAIGNS.bef.nodes = {
           "peace with the Labour movement and the Liberals. The army reaches the summer " +
           "with fewer men than it was told to expect, and the offensive is planned for " +
           "an army of a smaller size.",
+      },
+      {
+        id: "all",
+        label: "Bring in a Bill to compel every man of military age at once, the married with the single",
+        advisor: { name: "Lloyd George", position:
+          "A Bill that spares the married men is half a Bill. The army needs the men, and a promise to the married that cannot be kept will be broken in any case within a few months." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The Prime Minister has given his word to the married men, and the Cabinet has not been told that it will be broken",
+        impact: { manpower: 3, munitions: 0, will: -3 },
+        setFlags: { bef_conscription: "all" },
+        next: "bef_1916_11_somme",
+        outcome:
+          "Speculative. The Bill takes in every man between eighteen and forty-one, and not only the " +
+          "single. Asquith's promise to the married men is broken, and the Labour movement's reluctance, " +
+          "which was real, becomes hostility. The army has the men a few months earlier than in the " +
+          "record, and the Cabinet has a quarrel that it did not have.",
       },
     ],
   },
@@ -7501,6 +8002,7 @@ CAMPAIGNS.bef.nodes = {
         historical: true,
         advisor: { name: "Haig", position:
           "The machines are ready, and the army needs every help it can get. They should go in as soon as there are enough to make a difference." },
+        keyBattleSubgame: { id: "flersBritish" },
         impact: { manpower: 0, munitions: -1, will: 1 },
         setFlags: { bef_tanks: "used" },
         dispute:
@@ -7935,6 +8437,21 @@ CAMPAIGNS.bef.nodes = {
           "and Petain say what they think of an ally who takes the French armies' " +
           "losses and gives them nothing in return.",
       },
+      {
+        id: "oise",
+        label: "Take over the line only as far as the Oise, and the rest when the reinforcements have come",
+        advisor: { name: "Robertson", position:
+          "The army is short of men, and the Fifth Army is already thin. A shorter extension is a promise that can be kept, and a longer one is a promise that will not be." },
+        impact: { manpower: -1, munitions: 0, will: -1 },
+        setFlags: { bef_manpower: "partial" },
+        next: "bef_1918_17_reserve",
+        outcome:
+          "Speculative. The British take over a shorter sector, as far as the Oise, and tell the French " +
+          "that the rest will follow when the reinforcements arrive. Petain, who has asked for Barisis, " +
+          "is not pleased, and puts a French division where a British one would have stood. The Fifth " +
+          "Army has fewer miles to hold when the German blow falls in March, and the French have more, " +
+          "and Clemenceau, who was told that the army would help, says what he thinks.",
+      },
     ],
   },
 
@@ -8281,15 +8798,15 @@ CAMPAIGNS.bef.nodes = {
       "The Dardanelles, March 1915: " + (flags.bef_dardanelles === "navy" ? "left to the Navy." : "the 29th Division released.") + "\n" +
       "The shortage of shells: " + (flags.bef_shells === "private" ? "kept inside the army." : "told to the press.") + "\n" +
       "Loos: " + (flags.bef_loos === "refused" ? "the ground was refused." : flags.bef_reserves === "released" ? "attacked, with the reserve close behind." : "attacked, with the reserve held back" + (flags.bef_reservesResult === "stopped" ? ", and stopped by the second line." : ", and arriving too late.")) + "\n" +
-      "Gallipoli, November 1915: " + (flags.bef_evacuate === "stayed" ? "reinforced." : "evacuated.") + "\n" +
+      "Gallipoli, November 1915: " + (flags.bef_evacuate === "stayed" ? "reinforced." : flags.bef_evacuate === "helles" ? "Anzac and Suvla evacuated, Helles held." : "evacuated.") + "\n" +
       "December 1915: " + (flags.bef_succession === "french" ? "French kept for the winter." : "Haig appointed.") + "\n" +
-      "1916: " + (flags.bef_conscription === "voluntary" ? "the voluntary system kept." : "compulsion for single men.") + "\n" +
+      "1916: " + (flags.bef_conscription === "voluntary" ? "the voluntary system kept." : flags.bef_conscription === "all" ? "compulsion for all men at once." : "compulsion for single men.") + "\n" +
       "The Somme: " + (flags.bef_somme === "bitehold" ? "limited advances only." : flags.bef_sommeResult === "gain" ? "a compromise plan, with larger first-day gains than the record shows." : "a compromise plan, and a costly first day.") + "\n" +
       "The tanks: " + (flags.bef_tanks === "held" ? "held back." : flags.bef_tanks === "tested" ? "a dozen used on 15 September, the rest held." : flags.bef_tanksResult === "lessons" ? "used on 15 September, to the lasting benefit of the staff." : "used on 15 September, and the surprise spent.") + "\n" +
       "Calais, February 1917: " + (flags.bef_calais === "refused" ? "the subordination refused." : "accepted under protest.") + "\n" +
       "Convoy: " + (flags.bef_convoy === "delayed" ? "left to patrols." : "tried from May 1917.") + "\n" +
       "Flanders, 1917: " + (flags.bef_ypres3 === "vetoed" ? "vetoed." : flags.bef_ypres3 === "limited" ? "limited to the Gheluvelt plateau." : "authorised.") + "\n" +
-      "January 1918: " + (flags.bef_manpower === "refused" ? "the extension of the line refused." : "the line extended to Barisis.") + "\n" +
+      "January 1918: " + (flags.bef_manpower === "refused" ? "the extension of the line refused." : flags.bef_manpower === "partial" ? "the line extended only as far as the Oise." : "the line extended to Barisis.") + "\n" +
       "The general reserve: " + (flags.bef_reserve === "complied" ? "divisions given." : "refused.") + "\n" +
       "Doullens: " + (flags.bef_doullens === "national" ? "national command kept." : "Foch accepted to coordinate.") + "\n" +
       "April 1918: " + (flags.bef_backs === "withdrew" ? "a withdrawal in Flanders authorised." : "an order that there be no retirement.") + "\n" +
@@ -8519,7 +9036,7 @@ CAMPAIGNS.bef.nodes = {
 // to a named person only where the record supports it.
 // =============================================================================
 
-CAMPAIGNS.aok.startNode = "aok_1914_01_serbia";
+CAMPAIGNS.aok.startNode = "aok_1914_15_mobilise";
 
 CAMPAIGNS.aok.commanders = [
   { id: "conrad", name: "Conrad von Hotzendorf", title: "Chief of the General Staff",
@@ -8577,18 +9094,107 @@ CAMPAIGNS.aok.researchGate = { open: false, note: "Closed on 2026-10-04 after a 
 CAMPAIGNS.aok.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
+  aok_1914_15_mobilise: {
+    year: 1914, date: "1914-07-30", city: "Vienna",
+    title: "Mobilising Against Russia",
+    advisors: ["conrad", "tisza"],
+    situation:
+      "The Emperor ordered mobilisation against Serbia on 25 July, to begin on the 28th, and the " +
+      "monarchy has been at war since that day. Russia has now begun to mobilise, and the news comes " +
+      "faster each hour. The railways have been timetabled for two cases: a war against Serbia " +
+      "alone, and a war against Serbia and Russia together, with the swing force going north.\n\n" +
+      "The mobilisation against Russia is a different timetable from the one that is running, and " +
+      "it cannot be begun without stopping trains that are already moving. The Chief of the General " +
+      "Staff has to say when it begins.",
+    context:
+      "A railway timetable is a thing that is made once. A train that is started for one " +
+      "front can be turned to another only at the cost of the day it takes to unload and " +
+      "load, and the days are not many.",
+    choices: [
+      {
+        id: "fourth",
+        label: "Begin the mobilisation against Russia on 4 August, and keep the swing force's destination open",
+        historical: true,
+        advisor: { name: "Conrad", position:
+          "The mobilisation against Russia cannot be begun sooner without breaking the one that is running. The Second Army can be sent to either front, and its destination can be left open for a few days longer." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { aok_mobilise: "fourth" },
+        next: "aok_1914_01_serbia",
+        outcome:
+          "Conrad fixes 4 August as the first day of the mobilisation against Russia, and the Second " +
+          "Army, the swing force, is left on the trains that are running to the south. If it is " +
+          "turned north later it will reach Galicia at the end of August, and understrength. " +
+          "Berlin, which has been promised an offensive in Galicia, is told that the army " +
+          "will be ready on the day that the plan says.",
+      },
+      {
+        id: "now",
+        label: "Begin the mobilisation against Russia at once, and send the swing force to Galicia",
+        advisor: { name: "Tisza", position:
+          "Russia will not wait for Vienna to make up its mind, and Berlin expects Galicia to be held. The army should go where the greatest enemy is, and Serbia can be dealt with by the Balkan group." },
+        gate: (m) => m.munitions >= -2,
+        disabledReason: "The railway staff has told the Chief that the timetable cannot be changed without a week of confusion",
+        impact: { manpower: 0, munitions: -1, will: 0 },
+        dispute:
+          "Whether an earlier start on the Russian timetable would have meant earlier arrivals in Galicia is " +
+          "argued. The mobilisation section held that any change would cause chaos on the railways.",
+        uncertain: [
+          { weight: 55, title: "The Second Army reaches Galicia a few days earlier",
+            impact: { manpower: 0, munitions: -1, will: 1 },
+            setFlags: { aok_mobilise: "now" },
+            next: "aok_1914_01_serbia",
+            outcome:
+              "Speculative. The trains are turned on the 31st, and the army begins its journey north " +
+              "while the Balkan group goes into Serbia without it. It arrives in Galicia some days " +
+              "earlier than it did in the record, in better order and with all its corps. The Serbian " +
+              "front is held by fewer men than the plan allowed for, and the Serbs have a good deal more room." },
+          { weight: 45, title: "The railways jam and the army arrives no sooner",
+            impact: { manpower: -1, munitions: -2, will: -1 },
+            setFlags: { aok_mobilise: "now" },
+            next: "aok_1914_01_serbia",
+            outcome:
+              "Speculative. The trains that were started for the south are stopped, and the junctions " +
+              "of Hungary fill with troop trains that stand for days in the wrong order. The army " +
+              "reaches Galicia as late as it did in the record, with units arriving in pieces, and " +
+              "the railway staff, which said that this would happen, is not in the mood to be thanked." },
+        ],
+      },
+      {
+        id: "serbia",
+        label: "Mobilise only against Serbia, and tell Berlin the army cannot be spared for Russia yet",
+        advisor: { name: "Tisza", position:
+          "The monarchy began this war to settle Serbia, and Serbia has to be settled. Russia has not yet declared war, and a mobilisation against her gives her the pretext she is waiting for." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "Berlin has been told that Galicia will be held, and the plan depends on it",
+        impact: { manpower: 0, munitions: 0, will: -2 },
+        setFlags: { aok_mobilise: "serbia" },
+        next: "aok_1914_01_serbia",
+        outcome:
+          "Speculative. The mobilisation goes on against Serbia only, and Berlin is told that Vienna " +
+          "needs a few days. The Germans, who had counted on Austria-Hungary to hold the Russians in " +
+          "Galicia, are angry, and say so. The Russians go on mobilising, and the monarchy has " +
+          "spent days in which its army was not where its plan said it would be.",
+      },
+    ],
+  },
+
   aok_1914_01_serbia: {
     year: 1914, date: "1914-08-01", city: "Vienna",
     title: "The Swing Force",
     advisors: ["conrad", "potiorek", "tisza"],
-    situation:
+    situation: (flags) =>
       "The monarchy is at war with Serbia, and Russia mobilised on 30 July. The army's " +
       "deployment is built on a division of the force into three: a Balkan group for " +
       "Serbia, a larger group in Galicia for Russia, and a swing force between them " +
       "that can be sent to either, depending on whether Russia comes in.\n\n" +
       "Russia is coming in. What is not settled is where the swing force, the Second " +
       "Army, is to go first. The Chief of the General Staff has planned a war on " +
-      "two fronts, and the war on the second front has already begun.",
+      "two fronts, and the war on the second front has already begun." +
+      (flags.aok_mobilise === "now"
+        ? "\n\nThe mobilisation against Russia was begun on 31 July, before the timetable had it, and the junctions are crowded with trains that are not in it."
+        : flags.aok_mobilise === "serbia"
+        ? "\n\nThe mobilisation against Russia has been held back, and Berlin has not been told why."
+        : ""),
     context:
       "The railways have been timetabled for months, and a train that is sent the " +
       "wrong way cannot easily be sent back. An army that goes to Serbia first is " +
@@ -8983,6 +9589,21 @@ CAMPAIGNS.aok.nodes = {
           "north. Serbia is left unbeaten and Potiorek unrewarded, and Budapest, " +
           "which wanted Serbia, says so. Galicia has the divisions, and the monarchy " +
           "has the army it would have lost in the mountains of Serbia in the winter.",
+      },
+      {
+        id: "limited",
+        label: "Allow Potiorek to advance to the Kolubara and stop there, and send two divisions north",
+        advisor: { name: "Conrad", position:
+          "Serbia cannot be left alone, and it cannot be finished with what the army can spare. An advance to the river holds the Serbs where they are and frees two divisions for Galicia." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { aok_kolubara: "limited" },
+        next: "aok_1915_04_carpathians",
+        outcome:
+          "Speculative. Potiorek is given leave to advance as far as the Kolubara and told to halt on it, " +
+          "and two divisions that would have gone into Serbia are sent north. He reaches the river in the " +
+          "middle of November, as in the record, and is stopped by order and not by the Serbs. Belgrade " +
+          "is not entered in December. The Serbs have time to bring up ammunition, and Potiorek writes " +
+          "to say what he thinks of a general who halts on a river.",
       },
     ],
   },
@@ -9955,6 +10576,21 @@ CAMPAIGNS.aok.nodes = {
           "continues to exist, as a country whose armies are commanded from Berlin and " +
           "whose government is a guest of the alliance.",
       },
+      {
+        id: "hungarians",
+        label: "Release the Hungarian divisions to go home, as Budapest is asking, and withdraw the rest",
+        advisor: { name: "Karl I", position:
+          "Budapest wants its soldiers home, and an army that is told to stay will leave anyway. Release the Hungarians with an order, and the rest can be got out in order." },
+        impact: { manpower: -1, munitions: 0, will: -2 },
+        setFlags: { aok_vittorio: "hungarians" },
+        next: "aok_end_dissolution",
+        outcome:
+          "Speculative. The Emperor releases the Hungarian divisions from their oath and orders them home, " +
+          "and the army's other units are told to fall back toward the Tagliamento. The Hungarians go by " +
+          "the railways, and most of them go in order. The Italians, who find the front emptied of half " +
+          "its defenders, advance faster than in the record, and the armistice, when it is asked for, is " +
+          "asked for by an army that has already begun to go home.",
+      },
     ],
   },
 
@@ -9976,7 +10612,7 @@ CAMPAIGNS.aok.nodes = {
       "Serbia and Galicia, 1914: " + (flags.aok_serbia === "galicia" ? "the swing force sent to Galicia first." : "the swing force sent to Serbia first, then recalled.") + "\n" +
       "The offensive into Russian Poland: " + (flags.aok_galicia === "defensive" ? "refused, and the army stood behind the San." : flags.aok_galicia === "cover" ? "launched with the Third Army held back at the San to cover the southern flank." : flags.aok_galiciaResult === "checked" ? "launched, and checked before the flank was turned." : "launched, and ended at Lemberg.") + "\n" +
       "Rawa, September 1914: " + (flags.aok_rawa === "brokeoff" ? "the battle broken off and the army drawn back behind the San." : "the decisive blow left to go on, and the retreat to the Dunajec.") + "\n" +
-      "Serbia, autumn 1914: " + (flags.aok_kolubara === "declined" ? "the third invasion declined." : "the third invasion made, and Belgrade lost again.") + "\n" +
+      "Serbia, autumn 1914: " + (flags.aok_kolubara === "declined" ? "the third invasion declined." : flags.aok_kolubara === "limited" ? "the advance stopped on the Kolubara." : "the third invasion made, and Belgrade lost again.") + "\n" +
       "Przemysl, 1915: " + (flags.aok_carpathians === "held" ? "the passes held, and the fortress left to its fate." : "relief pressed through the Carpathian winter.") + "\n" +
       "Przemysl, February 1915: " + (flags.aok_przemyslend === "third" ? "a third relief attempt ordered." : "the fortress told that no more relief would come.") + "\n" +
       "Gorlice: " + (flags.aok_gorlice === "own" ? "an Austro-Hungarian command insisted on." : "a German commander accepted.") + "\n" +
@@ -9991,7 +10627,7 @@ CAMPAIGNS.aok.nodes = {
       "November 1917: " + (flags.aok_pursuit === "halted" ? "the armies halted on the line they had won." : "one more push over the Piave and on Monte Grappa.") + "\n" +
       "February 1918: " + (flags.aok_ukraine === "kept" ? "the divisions kept for the Italian front." : flags.aok_ukraine === "partial" ? "two divisions sent for the grain, the rest kept." : "divisions sent into Ukraine for the grain.") + "\n" +
       "June 1918: " + (flags.aok_piave === "concentrated" ? "one thrust, with the whole army." : flags.aok_piaveResult === "bridgehead" ? "two thrusts, one of which held a bridgehead for a time." : "two thrusts, and the forces divided.") + "\n" +
-      "October 1918: " + (flags.aok_vittorio === "german" ? "the German command asked to take the front." : "the retreat ordered and an armistice asked for.") + "\n\n" +
+      "October 1918: " + (flags.aok_vittorio === "german" ? "the German command asked to take the front." : flags.aok_vittorio === "hungarians" ? "the Hungarian divisions sent home and the rest withdrawn." : "the retreat ordered and an armistice asked for.") + "\n\n" +
       "What actually happened: The armistice of Villa Giusti came into effect on 4 November 1918. The Italians had taken about 448,000 prisoners, a third of the army, and some 5,600 guns. Emperor Karl issued a proclamation on 11 November that recognised the right of the Austrian people to decide the form of the state, without using the word abdication. The monarchy was succeeded by Austria, Hungary, Czechoslovakia and the Kingdom of Serbs, Croats and Slovenes.",
   },
 
@@ -10148,25 +10784,25 @@ CAMPAIGNS.aok.nodes = {
 // this file for the handling, which is for the author's review.
 // =============================================================================
 
-CAMPAIGNS.otto.startNode = "otto_1914_01_straits";
+CAMPAIGNS.otto.startNode = "otto_1914_04_offer";
 
 CAMPAIGNS.otto.commanders = [
   { id: "enver", name: "Enver Pasha", title: "Minister of War and Deputy Commander-in-Chief",
-    from: "1914-08-02", to: "1918-10-13" },
+    from: "1914-07-29", to: "1918-10-13" },
   { id: "izzet", name: "Ahmed Izzet Pasha", title: "Grand Vizier and Minister of War",
     from: "1918-10-14", to: "1918-11-08" },
 ];
 
 CAMPAIGNS.otto.advisors = [
-  { id: "enver", name: "Enver", from: "1914-08-02", to: "1918-10-13",
+  { id: "enver", name: "Enver", from: "1914-07-29", to: "1918-10-13",
     dossier: { role: "Minister of War from January 1914; Deputy Commander-in-Chief",
       bio: "The architect of the German alliance and of the empire's entry into the war. Ordered the raid on the Russian Black Sea ports, planned and took command of the winter offensive at Sarikamis, and later sent the Army of Islam into the Caucasus. After Sarikamis he blamed the Armenians for the defeat.",
       fate: "Dismissed as Minister of War in October 1918. Left Constantinople on 1 or 2 November aboard a German submarine. Killed in Central Asia on 4 August 1922." } },
-  { id: "liman", name: "Liman von Sanders", from: "1914-08-02", to: "1918-10-30",
+  { id: "liman", name: "Liman von Sanders", from: "1914-07-29", to: "1918-10-30",
     dossier: { role: "German general at the head of the military mission; commander of the Fifth Army at Gallipoli; commander of the Yildirim Army Group from February 1918",
       bio: "Held the Fifth Army's reserve inland at Gallipoli, ready to be moved to wherever the Allies landed. In September 1918 he refused the Eighth Army leave to withdraw before the attack in Palestine. His headquarters at Nazareth was overrun on 20 September and he escaped.",
       fate: "Handed the army group to Mustafa Kemal at the end of October 1918." } },
-  { id: "djemal", name: "Djemal", from: "1914-08-02", to: "1918-10-14",
+  { id: "djemal", name: "Djemal", from: "1914-07-29", to: "1918-10-14",
     dossier: { role: "Minister of the Navy; commander of the Fourth Army in Syria",
       bio: "Held military and civil power in Syria from 1915 and led the first attack on the Suez Canal. Later he favoured reinforcing Sinai and Palestine over the plan to retake Baghdad.",
       fate: "Left office when the Talat cabinet resigned in October 1918 and fled the country. Assassinated in Tbilisi on 21 July 1922." } },
@@ -10206,12 +10842,106 @@ CAMPAIGNS.otto.blockingIssue = { resolved: true, ref: "DISPATCHES_1918_DESIGN_SP
 CAMPAIGNS.otto.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
+  otto_1914_04_offer: {
+    year: 1914, date: "1914-07-29", city: "Constantinople",
+    title: "The Offer from Berlin",
+    advisors: ["enver", "djemal"],
+    situation:
+      "A week ago Enver, the Minister of War, proposed an alliance to the German ambassador, and " +
+      "the ambassador has telegraphed Berlin. Austria-Hungary is at war with Serbia, and Russia " +
+      "is beginning to mobilise. The empire is poor, its army is half rebuilt after the Balkan wars, " +
+      "and not one of the great powers has promised to guarantee its frontiers.\n\n" +
+      "Only a handful of ministers know of the offer, and the cabinet has not met. The " +
+      "treaty that Germany has drafted is a defensive one, and it commits the empire to fight " +
+      "beside Germany if Russia attacks her.",
+    context:
+      "An alliance with the strongest army in Europe is a protection the empire cannot buy " +
+      "anywhere else. It is also a promise to go to war on the word of another government, and " +
+      "the army that would have to keep it is not ready.",
+    choices: [
+      {
+        id: "sign",
+        label: "Sign the alliance with Germany, and keep the empire neutral in public until the army is ready",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "The empire has no friend among the Entente, and Germany is the one power that will give it arms and officers. A treaty is the price of being armed, and it can be kept secret while the army mobilises." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { otto_offer: "signed" },
+        next: "otto_1914_01_straits",
+        outcome:
+          "The treaty is signed in secret in the first days of August, by the Grand Vizier and the " +
+          "German ambassador, and a few ministers know of it. The empire ordered a general " +
+          "mobilisation on the 2nd and declared its neutrality on the 3rd. Germany has an ally " +
+          "that cannot yet fight, and the empire has a promise from the strongest army in Europe " +
+          "that it will be protected, and a promise of its own that it will fight.",
+      },
+      {
+        id: "delay",
+        label: "Hold off for a week, until more of the army is mobilised, and then decide",
+        advisor: { name: "Djemal", position:
+          "The army is not ready, and a treaty signed now binds the empire to a war that it cannot fight. A week of mobilisation changes what the empire is worth to Germany, and what it can demand." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "Berlin has been told that the cabinet has agreed, and the ambassador has asked for the signature",
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        dispute:
+          "Whether Germany would have waited, and whether it would have given more for an ally that was " +
+          "better armed, is argued. The ambassador was pressing for a signature, and the German " +
+          "general staff wanted the empire in the war as soon as it could be got.",
+        uncertain: [
+          { weight: 50, title: "Berlin agrees to wait",
+            impact: { manpower: 0, munitions: 0, will: 0 },
+            setFlags: { otto_offer: "late" },
+            next: "otto_1914_01_straits",
+            outcome:
+              "Speculative. The ambassador telegraphs that the empire needs a week, and Berlin, which " +
+              "has other things to think about, agrees. The treaty is signed on 6 August, with the " +
+              "mobilisation a good deal further advanced, and the empire has had a few days in which " +
+              "it was not committed to anything. The Germans have not forgotten that it hesitated." },
+          { weight: 50, title: "Berlin takes the delay for a refusal",
+            impact: { manpower: 0, munitions: -1, will: -1 },
+            setFlags: { otto_offer: "worse" },
+            next: "otto_1914_01_straits",
+            outcome:
+              "Speculative. The ambassador tells Berlin that the empire cannot be counted on, and " +
+              "Berlin, which has been waiting for an answer, makes its promises thinner. The treaty is " +
+              "signed on 5 August with fewer German guns promised than were offered a week " +
+              "before, and Enver, who asked for time to be better armed, has less to arm with." },
+        ],
+      },
+      {
+        id: "entente",
+        label: "Ask Britain, France and Russia what they would guarantee, before signing anything",
+        advisor: { name: "Djemal", position:
+          "Djemal has friends in Paris, and the empire's debt is held there. An offer from the Entente to guarantee its frontiers would cost it nothing, and would show what Germany is worth." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The ambassador has told Berlin that the empire will sign, and Berlin has told the Kaiser",
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { otto_offer: "entente" },
+        next: "otto_1914_01_straits",
+        outcome:
+          "Speculative. An envoy goes to the three Entente embassies to ask what they would give for " +
+          "the empire's neutrality, and the answer is slow and conditional. The ambassador in " +
+          "Constantinople hears of the approach, and Berlin presses harder. The treaty is " +
+          "signed on 4 August, before the Entente has answered, and it has been shown that the empire " +
+          "was willing to listen to both sides.",
+      },
+    ],
+  },
+
   otto_1914_01_straits: {
     year: 1914, date: "1914-08-10", city: "Constantinople",
     title: "Two Ships at the Dardanelles",
     advisors: ["enver", "djemal"],
-    situation:
-      "The empire has a secret alliance with Germany, signed on 1 August, and a declaration " +
+    situation: (flags) =>
+      "The empire has a secret alliance with Germany, signed " +
+      (flags.otto_offer === "late"
+        ? "on 6 August, after a week's delay"
+        : flags.otto_offer === "worse"
+        ? "on 5 August, with fewer German promises than were first offered"
+        : flags.otto_offer === "entente"
+        ? "on 4 August, before the Entente had answered"
+        : "on 1 August") +
+      ", and a declaration " +
       "of neutrality made on the 3rd. It ordered a general mobilisation on the 2nd, which " +
       "will take about four weeks. The German battle cruiser Goeben and the light cruiser " +
       "Breslau are off the Dardanelles and have asked to be let in.\n\n" +
@@ -10836,6 +11566,37 @@ CAMPAIGNS.otto.nodes = {
           "whose fall would have been the defeat of the winter, is given up as a loss of " +
           "ground only. Constantinople has to explain to the east why it left the town.",
       },
+      {
+        id: "counter",
+        label: "Counter-attack the Russian columns on the road at Koprukoy, with the Third Army outside the fortress",
+        advisor: { name: "Enver", position:
+          "A fortress is a place to be besieged in. The Russians are strung out in the snow, and an army that waits behind its forts gives up the chance to hit them on the road." },
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        dispute:
+          "Historians differ on whether the Third Army could have beaten the Russian columns in the open: it was " +
+          "weaker, badly clothed and short of guns, but the Russians were also extended. What a battle outside " +
+          "the fortress would have done is not known.",
+        uncertain: [
+          { weight: 30, title: "The columns are checked and the army falls back whole",
+            impact: { manpower: -2, munitions: -1, will: 1 },
+            setFlags: { otto_erzurum: "fought" },
+            next: "otto_1916_02_medina",
+            outcome:
+              "Speculative. The Third Army turns on the leading Russian columns at Koprukoy and checks them " +
+              "for a week in the snow. It falls back to Erzurum afterwards with a third of its men gone, and " +
+              "the fortress is held a little longer, with an army inside it that still has some fight left. " +
+              "The Russians have lost time, and when they come to the forts they come to a garrison that knows the ground." },
+          { weight: 70, title: "The army is beaten in the open",
+            impact: { manpower: -3, munitions: -2, will: -2 },
+            setFlags: { otto_erzurum: "fought" },
+            next: "otto_1916_02_medina",
+            outcome:
+              "Speculative. The Third Army meets the Russians in the open and is beaten, with its guns lost in " +
+              "the snow and its men hardly able to move in their rags. It falls back on the fortress in " +
+              "disorder, and the Russians arrive before the forts have been made ready. Erzurum falls sooner " +
+              "than it did in the record, and the army that is left to defend the road to the west is smaller." },
+        ],
+      },
     ],
   },
 
@@ -10868,7 +11629,7 @@ CAMPAIGNS.otto.nodes = {
         impact: { manpower: 0, munitions: 0, will: -1 },
         erodes: "overextend",
         setFlags: { otto_medina: "held" },
-        next: "otto_1917_01_yildirim",
+        next: "otto_1916_03_romani",
         outcome:
           "Medina is held. The Arab forces, some 30,000 at first, besiege the city and raid " +
           "the railway: more than a hundred major attacks in 1917 and many more in 1918. " +
@@ -10885,7 +11646,7 @@ CAMPAIGNS.otto.nodes = {
         disabledReason: "The sultan-caliph cannot be seen to give up the holy city",
         impact: { manpower: 1, munitions: 1, will: -3 },
         setFlags: { otto_medina: "evacuated" },
-        next: "otto_1917_01_yildirim",
+        next: "otto_1916_03_romani",
         outcome:
           "Speculative. The Ottoman garrisons in the Hejaz withdraw up the railway and Medina is " +
           "left to the Sharif. The army has a shorter line to defend, and the thousands " +
@@ -10896,20 +11657,291 @@ CAMPAIGNS.otto.nodes = {
     ],
   },
 
+  otto_1916_03_romani: {
+    year: 1916, date: "1916-07-22", city: "Beersheba",
+    title: "The Road to Romani",
+    advisors: ["kress", "djemal"],
+    situation: (flags) =>
+      "The British have spent the spring and summer laying a railway and a pipeline for fresh " +
+      "water across northern Sinai, and their outposts have reached Romani, some forty " +
+      "kilometres from the canal. Kress von Kressenstein, who commands the Ottoman force in " +
+      "Sinai, has about sixteen thousand men, among them the 3rd Division, which fought at " +
+      "Gallipoli, and some batteries of heavy guns lent by the Germans and Austrians. The ground " +
+      "between is soft sand, and nearly every well on it has been blown up.\n\n" +
+      "Each month the British come on, they bring more water and more guns with them, and " +
+      "the empire's only chance to meet them near its own wells is to do it now." +
+      (flags.otto_medina === "held"
+        ? "\n\nThe Hejaz railway and Medina are taking the troops that Djemal might have sent here."
+        : ""),
+    context:
+      "A force that marches at night over sand with the water it can carry has a few days " +
+      "of fighting in it. If the British are not beaten in those days, the march home is " +
+      "the real battle.",
+    choices: [
+      {
+        id: "strike",
+        label: "Send Kress's force across the sand to attack the British at Romani before their railway is finished",
+        historical: true,
+        advisor: { name: "Kress von Kressenstein", position:
+          "The British will be strong enough to attack within weeks. The only chance is to strike at the end of their line while it is short, before the pipeline and the railway can give them the water." },
+        impact: { manpower: -2, munitions: -1, will: -1 },
+        setFlags: { otto_romani: "struck" },
+        dispute:
+          "Accounts of the battle of 3 to 5 August differ in the numbers on both sides and in the losses, " +
+          "and on whether Kress's retreat was well ordered. What is agreed is that the British mounted " +
+          "troops held, that the Ottoman force ran short of water, and that the attack was beaten.",
+        uncertain: [
+          { weight: 75, title: "The attack is beaten and the force falls back to El Arish", historicalBranch: true,
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            next: "otto_1917_03_baghdad",
+            outcome:
+              "The force crosses the sand by night and attacks the British outposts at Romani on " +
+              "3 August. It is held by the Anzac mounted troops, with infantry behind them, and the " +
+              "sun comes up on men short of water in open ground under the British guns. By " +
+              "5 August Kress is in retreat, and the force falls back some hundred kilometres to " +
+              "El Arish. It has lost thousands of men, about four thousand of them taken. The " +
+              "British railway and pipeline go on across Sinai." },
+          { weight: 25, title: "The outposts are overrun and the British fall back",
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            next: "otto_1917_03_baghdad",
+            outcome:
+              "Speculative. The attack falls on the outposts before the British mounted troops are " +
+              "in place, and the guns and infantry take the high ground above the railhead. The " +
+              "British pull back toward the canal, and the pipeline is cut for some days. It is not " +
+              "the end of their advance, but it costs them months, and the Ottoman force, still " +
+              "short of water, has to hold what it has taken." },
+        ],
+      },
+      {
+        id: "wells",
+        label: "Stay at Katia and Bir el Abd, where the wells are, and make the British come to the force",
+        advisor: { name: "Kress von Kressenstein", position:
+          "A force that waits beside its water cannot be made to fight in the sand, and the British have to come on at the pace of their railway." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { otto_romani: "waited" },
+        next: "otto_1917_03_baghdad",
+        outcome:
+          "Speculative. Kress stays by the wells and waits. The British come on at the pace of " +
+          "their railway and their pipeline, a few kilometres at a time, and stop at Romani to " +
+          "build up their strength. When they attack, it is with their guns and their water " +
+          "behind them, and the Ottoman force falls back on El Arish in good order and with " +
+          "nearly all its men. It has not been defeated, and it has not stopped anything.",
+      },
+      {
+        id: "hejaz",
+        label: "Leave a covering force in Sinai and send the divisions to the Hejaz to put down the revolt",
+        advisor: { name: "Djemal", position:
+          "The danger is the revolt, because it takes the holy places. Sinai can be covered from El Arish, and the canal will not be attacked again." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The Sultan's government has told Berlin that Sinai will be held, and the guns are at Beersheba",
+        impact: { manpower: 0, munitions: -1, will: -1 },
+        setFlags: { otto_romani: "hejaz" },
+        next: "otto_1917_03_baghdad",
+        outcome:
+          "Speculative. The divisions that would have marched to Romani go by rail to the Hejaz, " +
+          "and the revolt is met by more men than the Sharif can answer. Medina and the railway are " +
+          "held with less strain. In Sinai the British advance as far as El Arish with hardly a " +
+          "shot, and the canal is no longer a front. Djemal has chosen which of his two wars to " +
+          "lose slowly.",
+      },
+    ],
+  },
+
+  otto_1917_03_baghdad: {
+    year: 1917, date: "1917-03-02", city: "Baghdad",
+    title: "The City on the Tigris",
+    advisors: ["enver", "liman"],
+    situation:
+      "The Ottoman force left Kut on 24 February, and the British under Maude, with a force " +
+      "that outnumbers the Sixth Army several times over, are advancing up the Tigris on Baghdad. " +
+      "The Sixth Army, under Khalil Pasha, is short of men, boots and transport, and the " +
+      "prisoners of Kut, taken a year ago, have not been replaced. Khalil began to dig in at " +
+      "Ctesiphon, below the city, and has not finished.\n\n" +
+      "He has three courses: to stand in front of Baghdad, to meet the British below it, or to " +
+      "give the city up and save the army. Constantinople has to say which it wants.",
+    context:
+      "A city on a river can be held for a few days by an army that is not strong enough to " +
+      "hold it for a month. What matters is what is left of the army when the days are over.",
+    choices: [
+      {
+        id: "diyala",
+        label: "Let Khalil hold the Diyala, in front of Baghdad, and fall back if the line is turned",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "Baghdad is the empire's chief city in Mesopotamia and must be defended where it stands, on the river in front of it, with the army the empire has." },
+        impact: { manpower: -1, munitions: -1, will: -1 },
+        setFlags: { otto_baghdad: "diyala" },
+        next: "otto_1917_04_gaza",
+        outcome:
+          "Khalil holds the line of the Diyala, south-east of the city, in fighting that begins on " +
+          "8 March, and the British force the crossing. On the 10th he evacuates Baghdad, and the " +
+          "British enter it on the 11th. The Sixth Army falls back on Samarra and Mosul, with what " +
+          "it can carry. The empire's chief city in Mesopotamia is lost, and the army that is " +
+          "left to defend the north is a good deal smaller than the one that was left at Kut.",
+      },
+      {
+        id: "ctesiphon",
+        label: "Fight the decisive battle below the city, at Ctesiphon, with the whole Sixth Army",
+        advisor: { name: "Enver", position:
+          "A battle at Ctesiphon, where the army beat Townshend in 1915, may stop the British, and the army that does not fight there will not fight anywhere." },
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        erodes: "overextend",
+        setFlags: { otto_baghdad: "ctesiphon" },
+        dispute:
+          "Historians disagree on the numbers on both sides, and on whether Khalil had any good " +
+          "choice. His own indecision, between standing at Ctesiphon, at Baghdad and falling " +
+          "back, is itself a matter of dispute.",
+        uncertain: [
+          { weight: 30, title: "The stand holds for a week",
+            impact: { manpower: -2, munitions: -1, will: 1 },
+            next: "otto_1917_04_gaza",
+            outcome:
+              "Speculative. The Sixth Army holds its ground below the city for six days, and the " +
+              "British have to bring up their guns and fight for each stretch of the line. It is a " +
+              "delay and not a victory. The stand costs the army a third of its men, and Baghdad " +
+              "falls a week later than it did in the record, to an army that has less left to retreat " +
+              "with." },
+          { weight: 70, title: "The army is outflanked and broken",
+            impact: { manpower: -3, munitions: -2, will: -2 },
+            next: "otto_1917_04_gaza",
+            outcome:
+              "Speculative. The British turn the line from the east, and the Sixth Army is caught " +
+              "between the river and the desert. Thousands are taken and most of the guns are lost. " +
+              "Baghdad falls on the 11th, as it did in the record, but the army that fell back on " +
+              "Mosul in the record is now a remnant, and the north is open." },
+        ],
+      },
+      {
+        id: "mosul",
+        label: "Give up Baghdad at once and march the Sixth Army to Samarra and Mosul with its guns",
+        advisor: { name: "Liman von Sanders", position:
+          "An army that cannot beat the British cannot be spent holding a city. The Sixth Army is worth more intact at Mosul than lost at Baghdad." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The Sultan cannot be seen to give up a great city without a fight",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { otto_baghdad: "mosul" },
+        next: "otto_1917_04_gaza",
+        outcome:
+          "Speculative. Khalil is ordered to leave Baghdad at once, and the Sixth Army marches north " +
+          "with its guns, its stores and nearly all its men. The British enter the city a few days " +
+          "earlier than in the record and without a shot. The army that falls back on Mosul is the " +
+          "whole Sixth Army, and the empire has given up its chief city in Mesopotamia without a " +
+          "battle, which Enver, who wanted to fight, has to explain.",
+      },
+    ],
+  },
+
+  otto_1917_04_gaza: {
+    year: 1917, date: "1917-04-22", city: "Gaza",
+    title: "The Line That Held",
+    advisors: ["kress", "djemal"],
+    situation: (flags) =>
+      "Twice in a month the British have attacked Gaza and been beaten. The first attack, on " +
+      "26 March, was called off when it might have succeeded. The second, from 17 to 19 April, " +
+      "came with tanks and gas and cost the British about six and a half thousand men for no " +
+      "ground. Kress, the chief of staff of the Fourth Army and the German at Gaza, " +
+      "has held the town with a few divisions and a line of redoubts." +
+      (flags.otto_romani === "struck"
+        ? " The army that was beaten at Romani last summer has held here, behind trenches."
+        : "") +
+      "\n\nThe line now runs from Gaza on the coast to Beersheba, some forty kilometres inland, " +
+      "and it is thin at the eastern end, where the desert is. Two more divisions are on the way. " +
+      "The British have lost a battle and not the war, and they will be back.",
+    context:
+      "A line that is held by redoubts and few men is strong where it has been attacked and " +
+      "weak where it has not. What is done with the divisions that are coming decides where " +
+      "the next attack will fall.",
+    choices: [
+      {
+        id: "line",
+        label: "Hold the line from Gaza to Beersheba and strengthen it with the two new divisions",
+        historical: true,
+        advisor: { name: "Kress von Kressenstein", position:
+          "The line has held twice and can hold again if it is strengthened. Gaza is the gate to Jerusalem, and the British have to come to it." },
+        impact: { manpower: 0, munitions: -1, will: 1 },
+        setFlags: { otto_gaza: "line" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "After the second battle the line is lengthened to Beersheba, with a chain of redoubts " +
+          "and strongpoints, and two divisions reinforce the Fourth Army. Gaza is the strongest " +
+          "place in it, and Beersheba, at the desert end, is held by outposts. The British do not " +
+          "attack again for six months. When they do, at the end of October, it is at Beersheba.",
+      },
+      {
+        id: "shorten",
+        label: "Draw the army back from Gaza to a shorter line in the hills toward Jerusalem",
+        advisor: { name: "Djemal", position:
+          "The line from Gaza to Beersheba is too long for the men there, and the British will find the weak place. A shorter line in the hills can be held in strength." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "Gaza has been held twice and cannot be given up while it can be held",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { otto_gaza: "shortened" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "Speculative. The army leaves Gaza and falls back into the hills, to a line that runs " +
+          "from the coast near Jaffa to the hills above Hebron. The line is shorter and the " +
+          "divisions on it are denser. The British have Gaza, the plain and the railhead, and the " +
+          "Ottoman victory that has just been won is given up without a battle. The country " +
+          "round Jerusalem is the front.",
+      },
+      {
+        id: "strike",
+        label: "Follow the victory with an attack on the British railhead before they are ready again",
+        advisor: { name: "Djemal", position:
+          "The British have lost heavily and are not ready to fight again. A blow at their railhead now would give the empire a bridgehead in Sinai." },
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        erodes: "overextend",
+        setFlags: { otto_gaza: "struck" },
+        dispute:
+          "Historians differ on whether the British were as weak after the second battle as the " +
+          "Ottoman commanders hoped. They had lost heavily, but they had the railway and the " +
+          "pipeline behind them, and the force that could have attacked them was thin.",
+        uncertain: [
+          { weight: 25, title: "The British outposts are driven in",
+            impact: { manpower: -2, munitions: -1, will: 2 },
+            next: "otto_1917_01_yildirim",
+            outcome:
+              "Speculative. A column of horse and infantry moves out of Gaza at night and drives " +
+              "in the British outposts on the Wadi Ghazze. The British fall back some " +
+              "kilometres and the railhead is shelled for a night. It is a raid that is not followed " +
+              "up, because the divisions that would have to follow it are the ones that hold the " +
+              "line, and the Ottoman line is longer and thinner than it was." },
+          { weight: 75, title: "The attack is met in the open and driven back",
+            impact: { manpower: -3, munitions: -1, will: -2 },
+            next: "otto_1917_01_yildirim",
+            outcome:
+              "Speculative. The column is met in the open by British mounted troops and guns " +
+              "that have been brought up in the days since the battle. It loses a good part of its " +
+              "strength, and the line it left is weaker for the divisions it took. The British know " +
+              "now how few men there are on the Gaza line." },
+        ],
+      },
+    ],
+  },
+
   // ---------------------------------------------------------------- 1917-09
   otto_1917_01_yildirim: {
     year: 1917, date: "1917-09-05", city: "Aleppo",
     title: "Baghdad, or Palestine",
     advisors: ["falkenhayn", "enver"],
-    situation:
-      "Baghdad fell on 11 March, with some 15,000 Ottoman soldiers taken in the confusion " +
-      "of the retreat. Enver wants it back. In May the German general Falkenhayn arrived in " +
+    situation: (flags) =>
+      (flags.otto_baghdad === "mosul"
+        ? "Baghdad was given up in March without a battle, and the Sixth Army fell back on Mosul whole. "
+        : flags.otto_baghdad === "ctesiphon"
+        ? "Baghdad fell in March after the Sixth Army fought and was broken below the city. "
+        : "Baghdad fell on 11 March, with some 15,000 Ottoman soldiers taken in the confusion " +
+          "of the retreat. ") +
+      "Enver wants it back. In May the German general Falkenhayn arrived in " +
       "Constantinople to organise an army group for the purpose, the Yildirim, which the " +
       "Sultan approved in July and which is made up of the Sixth and Seventh Armies and a " +
       "German corps. It is to go down the Euphrates and take the British in the flank.\n\n" +
       "Falkenhayn has warned that to advance on Baghdad without first securing the Sinai " +
-      "front would be unwise. Djemal agrees and wants the army group in Palestine. The " +
-      "British are about to attack at Gaza.",
+      "front would be unwise. Djemal agrees and wants the army group in Palestine. " +
+      (flags.otto_gaza === "shortened"
+        ? "The British are about to attack the line in the hills."
+        : flags.otto_gaza === "struck"
+        ? "The British, who were beaten at Gaza in April, are about to attack again."
+        : "The British are about to attack at Gaza."),
     context:
       "The railway to Baghdad is unfinished, and the last of the way is a road across " +
       "the desert. Supplying an army group that far is a different campaign from " +
@@ -11256,7 +12288,7 @@ CAMPAIGNS.otto.nodes = {
       "The Suez Canal, February 1915: " + (flags.otto_suez === "kept" ? "the Fourth Army kept in Palestine." : flags.otto_suez === "raided" ? "a small column sent to raid the canal." : "the attack across Sinai.") + "\n" +
       "Gallipoli, April 1915: " + (flags.otto_gallipoli === "forward" ? "the divisions placed above the beaches." : "the reserve kept inland, and the landings contained.") + "\n" +
       "Kut, winter of 1915-16: " + (flags.otto_kut === "storm" ? "the town stormed." : flags.otto_kutResult === "relieved" ? "the siege broken by the relief force." : "the siege kept, and the British surrender.") + "\n" +
-      "Erzurum, 1916: " + (flags.otto_erzurum === "withdrew" ? "the fortress given up and the army saved." : "the fortress held until it fell.") + "\n" +
+      "Erzurum, 1916: " + (flags.otto_erzurum === "withdrew" ? "the fortress given up and the army saved." : flags.otto_erzurum === "fought" ? "the army fought the Russians outside the fortress." : "the fortress held until it fell.") + "\n" +
       "The Hejaz, 1916: " + (flags.otto_medina === "evacuated" ? "evacuated." : "Medina held to the end of the war.") + "\n" +
       "The Yildirim, 1917: " + (flags.otto_yildirim === "baghdad" ? "sent against Baghdad." : flags.otto_yildirim === "divided" ? "divided between Palestine and the Euphrates." : "sent to Palestine.") + "\n" +
       "Jerusalem, 1917: " + (flags.otto_jerusalem === "held" ? "the city defended." : "the city left undefended.") + "\n" +
@@ -14175,6 +15207,451 @@ BATTLES.megiddoOttoman = {
   },
 };
 
+BATTLES.tannenbergRussian = {
+  id: "tannenbergRussian",
+  host: { node: "stavka_1914_12_tannenberg", choice: "wheel" },
+  winBranch: 0,
+  campaign: "stavka",
+  title: "Order of Battle: Tannenberg",
+  flavor:
+    "The Second Army has gone into East Prussia from the south before its concentration was finished and before its bread could follow, and the First Army is a long way off to the north-east. " +
+    "The German Eighth Army, beaten at Gumbinnen, is thought by the staff to be falling back on the Vistula. What has to be planned is how the army is turned: which corps are drawn together, " +
+    "what is done about the bread, and how the link with the First Army is made.",
+  conditions:
+    "Late August in the lakes and sand of East Prussia: hot days, few good roads, and a country of forests and marshes in which the corps cannot see each other. The wireless sets are the only link between the armies, and the staff sends its orders in clear.",
+  categories: [
+    {
+      id: "corps", name: "The Second Army's Corps", meter: "manpower",
+      units: [
+        "Samsonov's Second Army, five corps and its cavalry",
+        "The corps on the right, marching toward Allenstein",
+        "The corps in the centre, on the roads through the forest",
+      ],
+      real:
+        "The corps were strung out over sandy roads a day or more apart. When the German Eighth Army struck on 26 August, the corps on the flanks were beaten in turn and the centre was drawn into a pocket. " +
+        "The army was almost entirely destroyed, and Samsonov died by his own hand.",
+      context:
+        "The corps are the army. Each commitment puts more of them in the march on Allenstein and fewer on the roads that hold the army together.",
+    },
+    {
+      id: "bread", name: "Bread and the Railheads", meter: "munitions",
+      units: [
+        "The field bakeries and the carts that carry the corps' bread",
+        "The railheads that the army has marched away from",
+        "The wells and villages of the sandy country in between",
+      ],
+      real:
+        "The army marched away from its railheads, through thin and sandy country, without the carts to follow it. The corps commanders complained that the men were short of bread and the horses of oats, " +
+        "and the army reached the battle hungry and tired.",
+      context:
+        "Bread is what holds an army to its road. Each commitment puts more carts and more days of food behind the corps, and takes them from the march.",
+    },
+    {
+      id: "link", name: "The Wireless and the Link with the First Army", meter: "will",
+      units: [
+        "Zhilinsky's headquarters of the North-Western Front",
+        "Rennenkampf's First Army, to the north-east",
+        "The wireless sets, whose messages were sent in clear",
+      ],
+      real:
+        "The Germans intercepted and read the Russian wireless messages, which were not enciphered, and knew where the Second Army was going. Rennenkampf's First Army, to the north-east, did not come to the Second Army's help, " +
+        "and the front headquarters was a long way from the fighting.",
+      context:
+        "The link is what makes two armies one. Each commitment puts more of the staff's effort into the wireless, the codes and the orders between the armies.",
+    },
+    {
+      id: "flank", name: "The Flank Corps", meter: "manpower",
+      units: [
+        "The corps on the left, round Soldau",
+        "The cavalry screen on the flanks",
+        "The reserve brigades on the road behind",
+      ],
+      real:
+        "On the left the Russian I Corps was attacked by François's corps, which had been brought by rail to the south-west, and was driven back toward Soldau. The flank that should have been the army's shield was opened, " +
+        "and the Germans closed in behind the centre.",
+      context:
+        "The flanks are what keep an army from being enveloped. Each commitment puts more men and horse on the corps at the edges of the line.",
+    },
+  ],
+  // The link first: the army was beaten by an enemy that read its orders. Bread second. The corps third and the flank last. A game judgment, not a measurement.
+  effectiveness: { link: 2.4, bread: 2.0, corps: 1.8, flank: 1.6 },
+  commanders: [
+    { id: "samsonov", name: "Samsonov", role: "Commander of the Second Army", category: "corps",
+      note: "He has taken the army into the country and he is the one who has to bring it out." },
+    { id: "zhilinsky", name: "Zhilinsky", role: "Commander of the North-Western Front", category: "link",
+      note: "He has the two armies and the wireless that is meant to join them." },
+    { id: "rennenkampf", name: "Rennenkampf", role: "Commander of the First Army", category: "flank",
+      note: "His army is the one that is to close the gap, and it is a long way off." },
+  ],
+  approaches: [
+    { id: "close", name: "Draw the corps together toward the First Army and shorten the front", note: "The corps are brought close and the link is made good before the army goes further.", modifiers: { link: 0.5, corps: 0.2, flank: -0.3 } },
+    { id: "feed", name: "Halt for the bread and close up the flank corps first", note: "The army stops where it is, and eats, and waits for the corps to come up.", modifiers: { bread: 0.5, flank: 0.3, corps: -0.4 } },
+  ],
+  postures: [
+    { id: "retiring", name: "A German army in retreat toward the Vistula", weight: 2,
+      intel: "Zhilinsky's staff reports that the German Eighth Army, beaten at Gumbinnen, is falling back toward the Vistula, and that the Second Army has only to pursue it.",
+      modifiers: { corps: 1.2, bread: 1.1 } },
+    { id: "turning", name: "A German army turning south on the Second Army", weight: 1,
+      intel: "Cavalry patrols report German columns marching south toward Soldau and Neidenburg, with trains of troops moving by rail on the flank.",
+      modifiers: { link: 1.25, flank: 1.2, corps: 0.8 } },
+    { id: "reinforced", name: "A German army that has been reinforced and has read the wireless", weight: 1,
+      intel: "Intercepted German messages and prisoners suggest that the Eighth Army has been reinforced and is moving to meet the Second Army where it is weakest.",
+      modifiers: { link: 1.2, bread: 0.85, flank: 1.1 } },
+  ],
+  echo: {
+    node: "stavka_1914_02_galicia",
+    grade: {
+      clean: "The Second Army's march was planned so that the corps, the bread, the wireless and the flank each had their part, and the staff knows it.",
+      costly: "The Second Army's march was kept together where its weight was put, with some arms left short to pay for the rest.",
+      marginal: "The plan for the Second Army held together, and the battle did not go the way it should have.",
+      total: "The Second Army went into the country with parts of its plan left bare, and the staff has seen what that costs.",
+    },
+    neglected: {
+      corps: "The corps were left short of the men that the march needed.",
+      bread: "The bread and the carts were left short, and the army arrived hungry.",
+      link: "The wireless and the link were left short, and the enemy read the orders.",
+      flank: "The flank corps were left short, and the flank was opened.",
+    },
+    commander: {
+      samsonov: "Samsonov's march is the one that is spoken of as having brought the army through.",
+      zhilinsky: "Zhilinsky's link between the armies is the one that is spoken of as having held.",
+      rennenkampf: "Rennenkampf's army is the one that is spoken of as having come up in time.",
+    },
+  },
+};
+
+BATTLES.cheminFrench = {
+  id: "cheminFrench",
+  host: { node: "gqg_1917_07_chemin", choice: "continue" },
+  winBranch: 1,
+  campaign: "gqg",
+  title: "Order of Battle: the Chemin des Dames",
+  flavor:
+    "The Fifth and Sixth Armies attacked on 16 April and took the lightly held front line. The German second position on the ridge is intact, the defenders are in quarries the barrage did not reach, " +
+    "and the promise given to the Minister of War was that the attack would stop if it had not broken through. What has to be planned is how the offensive is continued: where the guns and the tanks are put, and what the men are told.",
+  conditions:
+    "Late April on the Aisne: cold rain on the slopes, mud in the valleys, the ridge above covered by German machine guns, and an army that was told it was the last offensive.",
+  categories: [
+    {
+      id: "infantry", name: "The Divisions on the Ridge", meter: "manpower",
+      units: [
+        "The divisions of the Sixth Army under Mangin, on the left",
+        "The divisions of the Fifth Army under Mazel, on the right",
+        "The reserve divisions that Nivelle has kept back",
+      ],
+      real:
+        "On 16 April the infantry took the lightly held front line and found the intermediate defences largely intact. Troops, among them colonial regiments, fought their way up the slope and gained the ridge in places, " +
+        "but fire from the German second line on the plateau cut down soldiers by the platoon. The offensive was abandoned on 9 May.",
+      context:
+        "The divisions are the weight of the offensive. Each commitment puts more of them on the slope, and fewer in reserve for the days after.",
+    },
+    {
+      id: "barrage", name: "The Barrage and the Guns", meter: "munitions",
+      units: [
+        "The preliminary bombardment that began on 2 April",
+        "The creeping barrage that was to walk ahead of the infantry",
+        "The heavy guns that had to find the German batteries in the quarries",
+      ],
+      real:
+        "The bombardment had not destroyed the German defences in depth. The creeping barrage ran too far ahead of the infantry, and as the distance between them grew to hundreds of yards " +
+        "the German reserves were freed to counter-attack.",
+      context:
+        "The guns open the way. Each commitment puts more batteries and shell into the preparation, and takes them from the days when the infantry are on the slope.",
+    },
+    {
+      id: "tanks", name: "The Tanks at Berry-au-Bac", meter: "munitions",
+      units: [
+        "The groups of Schneider tanks with the Fifth Army",
+        "The crews, who had never fought together",
+        "The ground in front of Berry-au-Bac, cut by German guns",
+      ],
+      real:
+        "The Schneider tank went into action for the first time at Berry-au-Bac, in support of the Fifth Army, with more than a hundred machines. The losses were heavy, " +
+        "and a large part of them were lost on the first day. They brought the infantry little help.",
+      context:
+        "The tanks are the new thing. Each commitment puts more of the new machines and crews where they are tried, and takes them from the arm that has to carry the day.",
+    },
+    {
+      id: "word", name: "What the Men Are Told", meter: "will",
+      units: [
+        "The promise of a breakthrough in forty-eight hours",
+        "The men's belief that this was the last offensive",
+        "The orders read to the regiments before they went forward",
+      ],
+      real:
+        "The attack had been promised as the decisive one. When it failed, the French lost some 185,000 men by one count, and the belief that this offensive would end the war went with them. " +
+        "The refusals of May followed.",
+      context:
+        "The men's belief is what makes them climb the ridge. Each commitment puts more of the army's trust in what it has been told, and what it has been promised.",
+    },
+  ],
+  // What the men were told first: it was the army's belief that broke. The barrage second. The divisions third and the tanks last. A game judgment, not a measurement.
+  effectiveness: { word: 2.4, barrage: 2.2, infantry: 1.8, tanks: 1.2 },
+  commanders: [
+    { id: "mangin", name: "Mangin", role: "Commander of the Sixth Army", category: "infantry",
+      note: "He believes in the attack, and he is the one who has to make it again." },
+    { id: "mazel", name: "Mazel", role: "Commander of the Fifth Army", category: "barrage",
+      note: "His army has the heavy guns, and he has doubted the plan from the start." },
+    { id: "estienne", name: "Estienne", role: "Colonel, father of the French tank arm", category: "tanks",
+      note: "He built the tanks, and he is the one who will say what they are for." },
+  ],
+  approaches: [
+    { id: "whole", name: "Go on attacking along the whole front, as the Minister was promised", note: "The army goes on as the plan had it, and the men are told that it is the last effort.", modifiers: { word: 0.4, infantry: 0.2, barrage: -0.3 } },
+    { id: "sector", name: "Stop the general attack and make a limited one on a single sector with the guns shifted to it", note: "One sector is taken with all the guns, and the rest of the line is held.", modifiers: { barrage: 0.5, infantry: 0.1, word: -0.4 } },
+  ],
+  postures: [
+    { id: "quarries", name: "A German second position intact in the quarries", weight: 2,
+      intel: "Prisoners and air photographs show the German second position intact on the ridge, with the defenders in the quarries and the machine guns sited to cover every approach.",
+      modifiers: { barrage: 1.2, infantry: 0.9, tanks: 0.8 } },
+    { id: "depth", name: "A defence in depth, with the counter-attack divisions behind it", weight: 1,
+      intel: "German reserves are reported close behind the ridge, with fresh divisions brought up and ready to counter-attack any gain that is made.",
+      modifiers: { infantry: 1.2, word: 0.85, tanks: 1.1 } },
+    { id: "shaken", name: "A defence that has been shaken by the first day", weight: 1,
+      intel: "Deserters from the first day say that the German front line was thinly held and that the defenders on the ridge are short of food and ammunition.",
+      modifiers: { word: 1.2, infantry: 1.1, barrage: 0.8 } },
+  ],
+  echo: {
+    node: "gqg_1917_13_directive",
+    grade: {
+      clean: "The offensive was continued so that the divisions, the guns, the tanks and the men's belief each had their part, and the staff knows it.",
+      costly: "The offensive was pressed where its weight was put, with some arms left short to pay for the rest.",
+      marginal: "The plan for the offensive held together, and the ridge was not taken.",
+      total: "The offensive was continued with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      infantry: "The divisions were left short of what the slope needed.",
+      barrage: "The guns and the barrage were left short, and the defenders were not suppressed.",
+      tanks: "The tanks were left short, and they did not help the infantry.",
+      word: "What the men were told was left short of the truth, and they noticed.",
+    },
+    commander: {
+      mangin: "Mangin's attack is the one that is spoken of as having gone on longest.",
+      mazel: "Mazel's guns are the ones that are spoken of as having prepared it.",
+      estienne: "Estienne's tanks are the ones that are spoken of as having been tried.",
+    },
+  },
+};
+
+BATTLES.flersBritish = {
+  id: "flersBritish",
+  host: { node: "bef_1916_12_tanks", choice: "now" },
+  winBranch: 1,
+  campaign: "bef",
+  title: "Order of Battle: Flers and Courcelette",
+  flavor:
+    "The Somme has gone on for ten weeks, and the army needs a success. Forty-nine tanks are ready, and the attack of 15 September on the Fourth Army's front is the next chance to try them. " +
+    "The officers who built them would have waited for a mass attack on chosen ground. What has to be planned is how the tanks are used: where they go, how the guns and the infantry work with them, and how much of the secret is kept.",
+  conditions:
+    "Mid-September on the high ground of the Somme: a dry morning, the ground broken by ten weeks of shelling, and woods and villages that have been fought over since July.",
+  categories: [
+    {
+      id: "tanks", name: "The Tanks", meter: "munitions",
+      units: [
+        "The forty-nine tanks of the Heavy Section",
+        "The crews, who had trained in secret for months",
+        "The lanes left in the barrage for the tanks to pass",
+      ],
+      real:
+        "Of the forty-nine tanks, fewer than forty reached the start lines, and many of those broke down or ditched. A few reached Flers, and within fifteen minutes infantry had joined them and occupied the north and west of the village. " +
+        "Two of the four tanks with the New Zealand Division were knocked out by German artillery.",
+      context:
+        "The tanks are the new thing. Each commitment puts more of them and their crews where they are tried, and takes them from the arm that has to carry the day.",
+    },
+    {
+      id: "infantry", name: "The Six Divisions", meter: "manpower",
+      units: [
+        "The divisions of the Fourth Army that attack from Delville Wood to Flers",
+        "The 2nd Canadian Division, on the left, going for Courcelette",
+        "The New Zealand Division, between Delville Wood and High Wood",
+      ],
+      real:
+        "Six divisions attacked on 15 September. On the left the 2nd Canadian Division took Courcelette, and the New Zealanders fought between Delville and High Woods. The line advanced about a mile and a half and High Wood was taken, " +
+        "at a cost of some 29,000 casualties.",
+      context:
+        "The divisions are the weight of the attack. Each commitment puts more of them in the line and fewer in reserve for the next day.",
+    },
+    {
+      id: "guns", name: "The Barrage", meter: "munitions",
+      units: [
+        "The heavy artillery that cut the wire and shelled the German batteries",
+        "The creeping barrage that walked ahead of the infantry",
+        "The gaps left open in the barrage for the tanks",
+      ],
+      real:
+        "The British artillery fired a heavy barrage, with lanes left open so that the tanks could pass through it. It carried the infantry across the first German lines, and it did not reach the guns behind them.",
+      context:
+        "The guns open the way. Each commitment puts more of them and their shell into the barrage, and takes them from the tanks and the infantry.",
+    },
+    {
+      id: "secret", name: "The Secret", meter: "will",
+      units: [
+        "The ground that the designers wanted chosen for the first mass attack",
+        "The camouflage and the roads by which the tanks were brought up",
+        "The staff's plan for how the first use would be explained",
+      ],
+      real:
+        "The designers wanted the tanks held back until enough were ready for a mass attack on chosen ground. They were used in small groups in a battle already ten weeks old, and the Germans saw them and learned what the new weapon was.",
+      context:
+        "Surprise can be used once. Each commitment puts more of the army's effort into keeping the secret, and the later lessons for those who try.",
+    },
+  ],
+  // The infantry and the barrage first: the attack was won, where it was won, by them. The tanks next. The secret last. A game judgment, not a measurement.
+  effectiveness: { infantry: 2.2, guns: 2.0, tanks: 1.8, secret: 1.2 },
+  commanders: [
+    { id: "haig", name: "Haig", role: "Commander-in-Chief of the British armies in France", category: "secret",
+      note: "He wants the tanks tried now, and the secret is his to spend." },
+    { id: "rawlinson", name: "Rawlinson", role: "Commander of the Fourth Army", category: "infantry",
+      note: "His army has made the attack for ten weeks, and he is the one who will make it again." },
+    { id: "elles", name: "Elles", role: "Commander of the Heavy Section", category: "tanks",
+      note: "He has the machines and the crews, and he knows what they cannot do." },
+  ],
+  approaches: [
+    { id: "groups", name: "Spread the tanks in small groups ahead of the infantry along the whole front", note: "Every division gets a few, and the line is helped at the places where it is weakest.", modifiers: { tanks: 0.3, infantry: 0.3, secret: -0.4 } },
+    { id: "massed", name: "Keep the tanks in two strong groups at the points where the ground is best", note: "Two blows are made with all the machines, and the rest of the line is carried by the guns and the infantry.", modifiers: { tanks: 0.5, secret: 0.2, infantry: -0.3 } },
+  ],
+  postures: [
+    { id: "trenches", name: "German trenches that are strong on the high ground", weight: 2,
+      intel: "Air photographs show the German front system intact on the high ground, with the second line behind it and the villages of Flers and Courcelette strongly held.",
+      modifiers: { guns: 1.2, infantry: 0.9, tanks: 0.85 } },
+    { id: "wire", name: "Uncut wire and machine guns in the villages", weight: 1,
+      intel: "Patrols report that the wire in front of Flers is uncut in places, and the machine guns in the ruins have been moved forward.",
+      modifiers: { tanks: 1.25, secret: 1.1, guns: 0.85 } },
+    { id: "thin", name: "A German line that has been worn thin", weight: 1,
+      intel: "Prisoners say that the German divisions on the high ground have been worn down by ten weeks of fighting and have few reserves to put in.",
+      modifiers: { infantry: 1.2, guns: 1.1, secret: 0.85 } },
+  ],
+  echo: {
+    node: "bef_1917_13_calais",
+    grade: {
+      clean: "The attack at Flers was planned so that the tanks, the infantry, the guns and the secret each had their part, and the staff knows it.",
+      costly: "The attack at Flers was carried where its weight was put, with some arms left short to pay for the rest.",
+      marginal: "The plan for Flers held together, and the ground was not taken as it should have been.",
+      total: "The attack at Flers was made with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      tanks: "The tanks were left short, and they did little for the infantry.",
+      infantry: "The divisions were left short of what the ground needed.",
+      guns: "The guns and the barrage were left short, and the wire was not cut.",
+      secret: "The secret was left short, and the Germans learned what the tanks were.",
+    },
+    commander: {
+      haig: "Haig's decision to use the tanks is the one that is spoken of as having started them.",
+      rawlinson: "Rawlinson's divisions are the ones that are spoken of as having carried the ground.",
+      elles: "Elles's crews are the ones that are spoken of as having learned the machines.",
+    },
+  },
+};
+
+BATTLES.ypresGerman = {
+  id: "ypresGerman",
+  host: { node: "ohl_1914_13_ypres", choice: "press" },
+  winBranch: 1,
+  campaign: "ohl",
+  title: "Order of Battle: Ypres",
+  flavor:
+    "Antwerp has fallen and the race to the sea has ended without a result. If the line can be broken at Ypres, the Channel ports lie behind it. The Fourth Army is made largely of reserve corps raised since August, " +
+    "whose first assaults near Langemarck lost heavily for little ground. What has to be planned is the last attack of the autumn: where the divisions go, how the guns are used, and what is kept in reserve.",
+  conditions:
+    "Early November in Flanders: cold mist in the mornings, ground cut by drains and hedges, woods that hide the defenders, and a British line that has been fighting for three weeks and is very thin.",
+  categories: [
+    {
+      id: "divisions", name: "The Fresh Divisions", meter: "manpower",
+      units: [
+        "The Prussian Guard and the 4th Division, in twelve fresh battalions",
+        "The two army groups under Fabeck and Linsingen",
+        "The divisions of the Fourth and Sixth Armies that have been in the line since October",
+      ],
+      real:
+        "On 11 November twelve and a half divisions in two army groups attacked along a front of nine miles from Messines to Reutel. The spearhead was the Prussian Guard and the 4th Division, some ten thousand men in twelve fresh battalions, " +
+        "against eleven tired British battalions of about four thousand men.",
+      context:
+        "The divisions are the weight of the blow. Each commitment puts more of them at the point of the attack, and fewer on the rest of the line.",
+    },
+    {
+      id: "guns", name: "The Bombardment", meter: "munitions",
+      units: [
+        "The heavy guns that shelled the Menin Road and the woods",
+        "The field artillery that was to move forward with the infantry",
+        "The ammunition columns on the roads behind",
+      ],
+      real:
+        "The attack was preceded by a heavy bombardment and went in under morning mist. The mist let the Germans come out of it and over the British front line, but British artillery then isolated the Guards from their reinforcements.",
+      context:
+        "The guns open the way. Each commitment puts more of them and their shell into the first hours, and takes them from the days afterwards.",
+    },
+    {
+      id: "reserves", name: "The Second Wave and the Reserves", meter: "manpower",
+      units: [
+        "The reserve behind the Guard",
+        "The divisions held in the second line",
+        "The battalions that were to follow up a breakthrough",
+      ],
+      real:
+        "A gap north of the Menin Road was closed by British counter-attacks the same day, and by the afternoon a counter-attack had cleared the Germans from the wood. After that, there was no chance of a breakthrough, " +
+        "because the reserves that would have been needed to widen the gap could not be brought up under the British guns.",
+      context:
+        "A breakthrough has to be followed. Each commitment holds more men back for the moment when the line gives, and takes them from the first blow.",
+    },
+    {
+      id: "spirit", name: "The Men's Spirit", meter: "will",
+      units: [
+        "The reserve corps that were raised after the war began",
+        "The volunteers whose first assaults at Langemarck went in in mass",
+        "The officers who have led them and who are fewer every week",
+      ],
+      real:
+        "The reserve corps had gone in in mass at Langemarck and lost heavily for little ground. Their spirit was high and their training was short, and by November many of the officers and non-commissioned officers who could lead them were gone.",
+      context:
+        "The men's belief is what carries them forward. Each commitment puts more of the army's trust in the young soldiers, and asks more of them.",
+    },
+  ],
+  // The divisions first: the blow was struck by the Guard. The guns second. The reserves third and the men's spirit last. A game judgment, not a measurement.
+  effectiveness: { divisions: 2.2, guns: 2.0, reserves: 1.6, spirit: 1.4 },
+  commanders: [
+    { id: "fabeck", name: "Fabeck", role: "General commanding an army group of the Fourth and Sixth Armies", category: "divisions",
+      note: "He has the divisions that were brought up for the blow." },
+    { id: "linsingen", name: "Linsingen", role: "General commanding the other army group", category: "reserves",
+      note: "He has the divisions that are to follow up if the line gives." },
+    { id: "rupprecht", name: "Rupprecht", role: "Crown Prince of Bavaria, commanding the Sixth Army", category: "guns",
+      note: "He has the heavy guns, and the final word on the day." },
+  ],
+  approaches: [
+    { id: "point", name: "Put the guns and the Guard on one narrow front, and hold the rest of the line", note: "One blow is made at the Menin Road with everything that can be brought to it.", modifiers: { divisions: 0.4, guns: 0.3, reserves: -0.3 } },
+    { id: "wide", name: "Attack all along the line, to stretch the British and find the weak place", note: "The whole front is pressed at once, and the reserves are kept to follow where the line gives.", modifiers: { reserves: 0.5, spirit: 0.1, divisions: -0.4 } },
+  ],
+  postures: [
+    { id: "thin", name: "A British line that is thin and tired", weight: 2,
+      intel: "Prisoners and patrols say that the British line is held by a few tired battalions that have been fighting for three weeks, with very little behind them.",
+      modifiers: { divisions: 1.2, guns: 1.1, reserves: 0.9 } },
+    { id: "backed", name: "A British line with reserves close behind", weight: 1,
+      intel: "Aircraft and agents report that French and British reserves have been moved up close behind the line and are ready to counter-attack.",
+      modifiers: { reserves: 1.25, divisions: 0.85, guns: 1.1 } },
+    { id: "woods", name: "A line hidden in the woods, with its guns well placed", weight: 1,
+      intel: "Reports say that the British are holding the woods east of Ypres with rifles and machine guns, and that their artillery has been brought into positions to cover them.",
+      modifiers: { guns: 1.2, spirit: 0.85, divisions: 0.95 } },
+  ],
+  echo: {
+    node: "ohl_1915_14_gorlice",
+    grade: {
+      clean: "The last attack at Ypres was planned so that the divisions, the guns, the reserves and the men's spirit each had their part, and the staff knows it.",
+      costly: "The last attack at Ypres was made where its weight was put, with some arms left short to pay for the rest.",
+      marginal: "The plan for Ypres held together, and the line did not give as it should have.",
+      total: "The last attack at Ypres was made with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      divisions: "The divisions were left short of what the blow needed.",
+      guns: "The guns were left short, and the defenders were not suppressed.",
+      reserves: "The reserves were left short, and the gap could not be widened.",
+      spirit: "The men's spirit was left short, and the young soldiers broke.",
+    },
+    commander: {
+      fabeck: "Fabeck's divisions are the ones that are spoken of as having struck the blow.",
+      linsingen: "Linsingen's reserves are the ones that are spoken of as having waited.",
+      rupprecht: "Rupprecht's guns are the ones that are spoken of as having opened it.",
+    },
+  },
+};
+
 // =============================================================================
 // THEMES
 // =============================================================================
@@ -14525,6 +16002,7 @@ export function sepiaCss() {
 
 export const ASKS = {
   // ---- the German Supreme Command
+  ohl_1914_16_kaiser: "Does the Chief tell the Kaiser that the army cannot be turned east, turn part of it east, or hold the order for a day?",
   ohl_1914_01_aufmarsch: "Does the right wing keep the full weight the plan gives it, or do corps go to Lorraine, or does the Kaiser's question turn the army east?",
   ohl_1914_14_timetable: "How much should the Kaiser's request to turn the army east be allowed to disturb a mobilisation already under way?",
   ohl_1914_12_twocorps: "Do two corps leave the right wing for East Prussia, or does the east hold with the army it has?",
@@ -14551,6 +16029,7 @@ export const ASKS = {
   ohl_1918_15_wilson: "Does the army hear the answer to Wilson from the Chancellor, or from an order of its own Supreme Command?",
 
   // ---- the French High Command
+  gqg_1914_17_covering: "Does Joffre obey the order to withdraw the covering troops ten kilometres, leave them where they are, or ask the Cabinet to mobilise now?",
   gqg_1914_01_frontieres: "Does the army attack in Lorraine as planned, shift its weight left, or wait a week for the cavalry to find the German right?",
   gqg_1914_16_week: "With the German right found, does the attack go in a week late, the weight move left, or a smaller attack cover the left?",
   gqg_1914_12_retreat: "Does Joffre order the armies back and form a new army on the left, or make a stand on the Sambre and the Meuse?",
@@ -14578,6 +16057,7 @@ export const ASKS = {
   gqg_1918_16_senlis: "What does France ask of Germany: the Rhine bridgeheads and heavy surrenders, or terms the German army can accept?",
 
   // ---- the Russian Stavka
+  stavka_1914_16_plans: "Is the army divided between East Prussia and Galicia, put against Germany as the French ask, or sent against Austria alone?",
   stavka_1914_01_prussia: "Does Russia invade East Prussia now to keep its promise to France, or finish the concentration first?",
   stavka_1914_12_tannenberg: "Do both armies press on under Zhilinsky's orders, does the Second halt for its supply, or does it wheel toward the First?",
   stavka_1914_02_galicia: "Does the weight go to Galicia against the Austrians, or back to East Prussia with divisions taken from the south?",
@@ -14605,6 +16085,7 @@ export const ASKS = {
   stavka_1917_14_armistice: "Does the Supreme Commander carry out the order to open talks with the Germans, or decline it?",
 
   // ---- the British Expeditionary Force and the War Cabinet
+  bef_1914_22_divisions: "Does Britain send four divisions and the cavalry, all six at once, or two as a token?",
   bef_1914_01_warcouncil: "Where does the army land: at Maubeuge on the French left, farther back at Amiens, or with all six divisions at Maubeuge?",
   bef_1914_02_seine: "Does the army stay in the line and guard against being outflanked, or withdraw behind the Seine to refit?",
   bef_1914_03_ypres: "Does the army hold the Ypres line with everything that arrives, or fall back to cover Dunkirk and Calais?",
@@ -14629,6 +16110,7 @@ export const ASKS = {
   bef_1918_21_armistice: "Does Britain advise moderate terms the German army can accept, or support the harder terms the French and Americans want?",
 
   // ---- the Austro-Hungarian Army High Command
+  aok_1914_15_mobilise: "Does the monarchy mobilise against Russia on 4 August, begin it at once, or mobilise against Serbia alone?",
   aok_1914_01_serbia: "Does the swing force go to Serbia first, as the plan says, or to Galicia from the start?",
   aok_1914_02_recall: "Is the Second Army recalled from Serbia and sent north, or left to finish the Serbian campaign?",
   aok_1914_03_galicia: "Does the offensive go north into Russian Poland, with or without the Third Army held back, or does the army wait behind the San?",
@@ -14652,6 +16134,7 @@ export const ASKS = {
   aok_1918_13_vittorio: "Does the army order a general retreat and ask for an armistice, or ask the Germans to take over the front?",
 
   // ---- the Ottoman General Staff
+  otto_1914_04_offer: "Does the empire sign the German alliance now, hold off for a week, or ask the Entente what it would guarantee first?",
   otto_1914_01_straits: "Are the Goeben and the Breslau admitted to the Straits and taken into the navy, or refused entry to keep the neutrality?",
   otto_1914_02_blacksea: "Does the fleet go into the Black Sea to attack the Russians, or stay in the Bosphorus while the cabinet weighs the Entente's offers?",
   otto_1914_03_sarikamis: "Does Enver take command of an offensive over the mountains in December, postpone it for clothing, or hold the Erzurum line?",
@@ -14660,6 +16143,9 @@ export const ASKS = {
   otto_1915_02_gallipoli: "Is the reserve kept inland to move to the landing when it comes, or are the divisions put above every beach?",
   otto_1915_03_kut: "Are the assaults stopped and siege lines built round Kut, or is a general assault ordered before the relief arrives?",
   otto_1916_01_erzurum: "Does the Third Army hold the forts at Erzurum, or withdraw west and give up the fortress?",
+  otto_1916_03_romani: "Does Kress attack the British at Romani before their railway and pipeline arrive, wait by his wells, or does the army turn to the Hejaz?",
+  otto_1917_03_baghdad: "Where does the Sixth Army make its stand for Baghdad: on the Diyala, below the city at Ctesiphon, or not at all?",
+  otto_1917_04_gaza: "What is done with the Gaza line after the second victory: hold it and strengthen it, draw back to the hills, or strike at the British railhead?",
   otto_1916_02_medina: "Does the empire reinforce the Hejaz and hold Medina and the railway, or evacuate and hold only as far as Ma'an?",
   otto_1917_01_yildirim: "Does the Yildirim Army Group go to Palestine, down the Euphrates to Baghdad, or divide between them?",
   otto_1917_02_jerusalem: "Does the army withdraw into the hills and leave Jerusalem undefended, or defend the city?",

@@ -21,6 +21,12 @@ const wait = (ms) => new Promise(r => setTimeout(r, ms));
 const txt = () => document.getElementById("root").textContent;
 const btns = () => [...document.querySelectorAll("button")];
 const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles: true })); };
+/** The prelude each command opens on: press the order that holds the text, then Continue. */
+const pass = async (text) => {
+  click(btns().find((b) => b.textContent.includes(text))); await wait(60);
+  const c = btns().find((b) => b.textContent.trim() === "Continue");
+  if (c) { click(c); await wait(60); }
+};
 const enter = async () => { click(btns().find((b) => b.textContent.trim() === "Enter the war room")); await wait(60); }; // the briefing's door to the war room
 
 (async () => {
@@ -43,9 +49,11 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("OHL card is enabled", !!playable);
   click(playable); await wait(60);
   t("a command opens its briefing first", txt().includes("Where things stand") && txt().includes("Your seat") && txt().includes("Set up the file") && !txt().includes("Issue Order"));
-  t("the briefing says the first report's date in the UK form", txt().includes("4 August 1914"));
+  t("the briefing says the first report's date in the UK form", txt().includes("1 August 1914"));
   t("the briefing offers the difficulty and battle planning", btns().some((b) => b.textContent.trim() === "Easy mode") && txt().includes("Take control of battle planning"));
   await enter();
+  t("a command opens on its prelude, in the UK date form", txt().includes("The Kaiser's Question") && txt().includes("1 August 1914"));
+  await pass("Tell the Kaiser that the deployment");
 
   t("node screen renders a title", txt().includes("The Weight on the Right"));
   t("the date renders as the UK writes it", txt().includes("4 August 1914"));
@@ -92,7 +100,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   if (home) { click(home); await wait(60); }
   const gqg = btns().find(b => !b.disabled && b.textContent.includes("Grand Quartier"));
   t("can return to menu and pick a second campaign", !!gqg);
-  if (gqg) { click(gqg); await wait(60); await enter(); }
+  if (gqg) { click(gqg); await wait(60); await enter(); await pass("Obey, and withdraw"); }
   t("GQG node renders", txt().includes("Into Lorraine"));
   t("GQG uses its own will label", txt().includes("ARMY MORALE") && !txt().includes("HOME FRONT"));
   t("GQG uses its own document treatment", txt().includes("COMPTE RENDU"));
@@ -101,7 +109,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   if (home2) { click(home2); await wait(60); }
   const stavka = btns().find(b => !b.disabled && b.textContent.includes("Stavka"));
   t("Stavka is enabled", !!stavka);
-  if (stavka) { click(stavka); await wait(60); await enter(); }
+  if (stavka) { click(stavka); await wait(60); await enter(); await pass("Send two armies"); }
   t("Stavka node renders", txt().includes("Before the Concentration"));
   t("Julian calendar stated on the card", true);
   t("Stavka uses its own will label", txt().includes("HOME STABILITY"));

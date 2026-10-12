@@ -9,28 +9,28 @@
 // disputed in the literature and the game says so rather than picking one.
 // =============================================================================
 
-CAMPAIGNS.gqg.startNode = "gqg_1914_01_frontieres";
+CAMPAIGNS.gqg.startNode = "gqg_1914_17_covering";
 
 CAMPAIGNS.gqg.commanders = [
-  { id: "joffre", name: "Joffre", title: "Commander-in-Chief", from: "1914-08-01", to: "1916-12-12" },
+  { id: "joffre", name: "Joffre", title: "Commander-in-Chief", from: "1914-07-30", to: "1916-12-12" },
   { id: "nivelle", name: "Nivelle", title: "Commander-in-Chief", from: "1916-12-12", to: "1917-05-15" },
   { id: "petain", name: "Petain", title: "Commander-in-Chief", from: "1917-05-15", to: "1918-11-11" },
 ];
 
 CAMPAIGNS.gqg.advisors = [
-  { id: "joffre", name: "Joffre", from: "1914-08-01", to: "1916-12-12",
+  { id: "joffre", name: "Joffre", from: "1914-07-30", to: "1916-12-12",
     dossier: { role: "Commander-in-Chief, 1914-1916",
       bio: "Directed the armies from the Frontiers through the Marne, the 1915 offensives, Verdun and the Somme. Advocated concerted allied attack throughout.",
       fate: "Relieved in December 1916 and made a Marshal of France." } },
-  { id: "castelnau", name: "de Castelnau", from: "1914-08-01", to: "1918-11-11",
+  { id: "castelnau", name: "de Castelnau", from: "1914-07-30", to: "1918-11-11",
     dossier: { role: "Army and army group commander; chief of staff at GQG",
       bio: "Present at most of the war's decisions on the French side without ever holding the top command.",
       fate: "Survived the war. Not made a Marshal." } },
-  { id: "gallieni", name: "Gallieni", from: "1914-08-01", to: "1916-05-27",
+  { id: "gallieni", name: "Gallieni", from: "1914-07-30", to: "1916-05-27",
     dossier: { role: "Military Governor of Paris; later Minister of War",
       bio: "Held Paris in September 1914 and pressed for the counterattack against the exposed German flank.",
       fate: "Left the war ministry in 1916 on grounds of health and died that May." } },
-  { id: "petain", name: "Petain", from: "1914-08-01", to: "1918-11-11",
+  { id: "petain", name: "Petain", from: "1914-07-30", to: "1918-11-11",
     dossier: { role: "Commander at Verdun; Commander-in-Chief from May 1917",
       bio: "Made his reputation on the defence of Verdun and the rotation system that fed the army through it. Took the command in May 1917 with the army in open indiscipline.",
       fate: "Restored the army through leave, rest and limited-objective operations. His later history is not this war's." } },
@@ -38,7 +38,7 @@ CAMPAIGNS.gqg.advisors = [
     dossier: { role: "Commander-in-Chief, December 1916 to May 1917",
       bio: "Came to prominence at Verdun in late 1916 and offered the governments what they wanted to hear: a rupture of the German line in forty-eight hours at a cost of around ten thousand men.",
       fate: "Relieved on 15 May 1917 and sent to North Africa." } },
-  { id: "mangin", name: "Mangin", from: "1914-08-01", to: "1918-11-11",
+  { id: "mangin", name: "Mangin", from: "1914-07-30", to: "1918-11-11",
     dossier: { role: "Corps and army commander",
       bio: "Supported the Nivelle plan and fell with it in April 1917. Returned to command and led the counterattack of July 1918.",
       fate: "Survived the war." } },
@@ -46,7 +46,7 @@ CAMPAIGNS.gqg.advisors = [
     dossier: { role: "Minister of War from March 1917",
       bio: "Sceptical of the Nivelle plan from the start. Extracted the promise that the offensive would stop if it had not broken through in forty-eight hours.",
       fate: "Briefly Prime Minister in late 1917." } },
-  { id: "foch", name: "Foch", from: "1914-08-01", to: "1918-11-11",
+  { id: "foch", name: "Foch", from: "1914-07-30", to: "1918-11-11",
     dossier: { role: "Army group commander; Allied generalissimo from 1918",
       bio: "Given coordinating authority over the Allied armies in the crisis of March 1918 and general command thereafter.",
       fate: "Marshal of France." } },
@@ -72,18 +72,107 @@ CAMPAIGNS.gqg.hardMode.erosionMax = 6;
 
 CAMPAIGNS.gqg.nodes = {
 
+  gqg_1914_17_covering: {
+    year: 1914, date: "1914-07-30", city: "Paris",
+    title: "Ten Kilometres",
+    advisors: ["joffre", "castelnau"],
+    situation:
+      "Germany has declared a state of imminent danger of war, and the army has been brought up " +
+      "to strength along the frontier. The government has done what it can to be seen as the " +
+      "party that did not want war: it has ordered the covering troops to fall back ten kilometres " +
+      "from the frontier, so that no patrol can start a fight, and so that Britain can see it.\n\n" +
+      "The Commander-in-Chief thinks the order is a mistake, since it gives ground that will not " +
+      "be easy to take back, and it delays the order to mobilise, which cannot wait.",
+    context:
+      "A covering force is the part of the army that has to be in place before the rest can " +
+      "assemble behind it. Ten kilometres is a small distance on a map, and it is the width of the " +
+      "ground that the plan assumes it holds.",
+    choices: [
+      {
+        id: "obey",
+        label: "Obey, and withdraw the covering troops ten kilometres, while pressing the Cabinet for the order to mobilise",
+        historical: true,
+        advisor: { name: "Joffre", position:
+          "The government is entitled to be obeyed, and Britain's opinion is worth ten kilometres. The cost is a day, and the Cabinet must be told what it is." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { gqg_covering: "obeyed" },
+        next: "gqg_1914_01_frontieres",
+        outcome:
+          "The covering troops fall back ten kilometres from the frontier on 30 July, and not a shot " +
+          "is fired along it. Joffre presses the Cabinet on the 31st to order mobilisation, " +
+          "and the order for general mobilisation is given on the afternoon of 1 August. France " +
+          "can say that it did not begin the war, and the army starts the war a few kilometres " +
+          "farther from its objective than it had planned.",
+      },
+      {
+        id: "stay",
+        label: "Leave the covering troops where they are, and do not tell the Cabinet",
+        advisor: { name: "Castelnau", position:
+          "The ten kilometres are the ground the plan depends on. A covering force that has fallen back cannot cover, and an order that cannot be carried out should not be carried out." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The Minister of War has repeated the order, and the President has been told it is being obeyed",
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        dispute:
+          "Whether a few kilometres would have made any difference to the opening of the war is argued. " +
+          "The covering troops were not the army, and the frontier battles were fought a good deal farther back.",
+        uncertain: [
+          { weight: 70, title: "The disobedience goes unremarked",
+            impact: { manpower: 0, munitions: 0, will: 0 },
+            setFlags: { gqg_covering: "stayed" },
+            next: "gqg_1914_01_frontieres",
+            outcome:
+              "Speculative. The covering troops stay where they are, and the German patrols stay " +
+              "on their own side. The Cabinet, which believes that its order has been obeyed, is not " +
+              "told, and the army begins the war on the ground that the plan assumed. Joffre has " +
+              "kept a few kilometres and has made himself the man who decides which of the " +
+              "government's orders are carried out." },
+          { weight: 30, title: "A frontier clash is made public",
+            impact: { manpower: -1, munitions: 0, will: -2 },
+            setFlags: { gqg_covering: "clash" },
+            next: "gqg_1914_01_frontieres",
+            outcome:
+              "Speculative. A German patrol is met on French ground, and the shots are reported " +
+              "in Berlin and in London as a French provocation. The Cabinet learns that its order " +
+              "was not obeyed from the newspapers, and Britain's ministers, who have been told that " +
+              "France has taken care to give no pretext, have to ask whether that is so. Joffre is " +
+              "summoned to explain." },
+        ],
+      },
+      {
+        id: "ask",
+        label: "Ask the Cabinet to mobilise at once and not to wait for Germany",
+        advisor: { name: "Joffre", position:
+          "Every hour lost now is an hour lost to the concentration. The Germans have not waited, and France cannot afford to be the last to move." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { gqg_covering: "asked" },
+        next: "gqg_1914_01_frontieres",
+        outcome:
+          "Speculative. Joffre goes to the ministers and says that every day of delay costs the army " +
+          "a day of its concentration. The Cabinet will not move until Germany has, and until " +
+          "Britain can be shown that France was the party that waited. The order is given on " +
+          "1 August, when it would have been given anyway, and the Commander-in-Chief is known to " +
+          "the ministers as a soldier who will say what he thinks of an order he has been given.",
+      },
+    ],
+  },
+
   gqg_1914_01_frontieres: {
     year: 1914, date: "1914-08-14", city: "Vitry-le-Francois",
     title: "Into Lorraine",
     advisors: ["joffre", "castelnau"],
-    situation:
+    situation: (flags) =>
       "The plan is an attack into Lorraine and the Ardennes, into the provinces lost " +
       "in 1871, on the shortest line to the frontier. It is built on the conviction " +
       "that the decisive quality in this war will be the willingness to attack, and it " +
       "assumes the German right will not be strong enough to matter.\n\n" +
       "Reports from Belgium suggest the German right is very much strong enough to " +
       "matter. Acting on those reports means abandoning the attack before it has been " +
-      "made and conceding that the army's whole doctrine was wrong on the first page.",
+      "made and conceding that the army's whole doctrine was wrong on the first page." +
+      (flags.gqg_covering === "stayed"
+        ? "\n\nThe covering troops never fell back the ten kilometres that the government ordered, and the Cabinet does not know it."
+        : flags.gqg_covering === "clash"
+        ? "\n\nA frontier clash in the last days of July has been laid at France's door, and the Cabinet is not pleased with the army."
+        : ""),
     context:
       "Reserve formations are the question underneath the question. The plan assumes " +
       "the Germans will not put reserve corps in the front line. If they do, the right " +
@@ -1055,6 +1144,7 @@ CAMPAIGNS.gqg.nodes = {
         historical: true,
         advisor: { name: "Nivelle", position:
           "The rupture is one more effort away. Stopping now converts a delay into a defeat." },
+        keyBattleSubgame: { id: "cheminFrench" },
         impact: { manpower: -3, munitions: -2, will: -3 },
         setFlags: { gqg_chemin: "continued" },
         erodes: "costly_offensive",

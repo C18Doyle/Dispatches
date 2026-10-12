@@ -1023,5 +1023,87 @@
     "status": "drafted",
     "sources": [],
     "note": ""
+  },
+  {
+    "id": "gqg-pre-1",
+    "node": "gqg_1914_17_covering",
+    "kind": "fact",
+    "claim": "On 30 July 1914 the French government ordered the covering troops to fall back ten kilometres from the frontier, so that no incident could be laid at France's door and so that Britain would see that France had not provoked the war; Joffre protested.",
+    "status": "drafted",
+    "sources": [],
+    "note": "To be checked against Joffre's memoirs and a history of the July crisis."
+  },
+  {
+    "id": "gqg-pre-2",
+    "node": "gqg_1914_17_covering",
+    "kind": "fact",
+    "claim": "The order for general mobilisation in France was given on the afternoon of 1 August 1914.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "gqg-pre-3",
+    "node": "gqg_1914_17_covering",
+    "kind": "characterization",
+    "claim": "Joffre pressed the Cabinet to order mobilisation without delay in the last days of July, arguing that each day lost was a day lost to the concentration.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Joffre's own account says so; the ministers' accounts differ in tone."
+  },
+  {
+    "id": "bat-gqg-chem-1",
+    "node": "gqg_1917_07_chemin",
+    "kind": "fact",
+    "claim": "The preliminary bombardment began on 2 April 1917; it did not destroy the German defences in depth, and the Germans held the Chemin des Dames in quarries and tunnels.",
+    "status": "web-checked",
+    "sources": [
+      "wp-nivelle"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-gqg-chem-2",
+    "node": "gqg_1917_07_chemin",
+    "kind": "fact",
+    "claim": "On 16 April the French infantry took the lightly held front line and found the intermediate defences largely intact; troops fought their way up the slope and gained the ridge in places, but fire from the German second line on the plateau cut them down by the platoon.",
+    "status": "web-checked",
+    "sources": [
+      "wp-nivelle"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-gqg-chem-3",
+    "node": "gqg_1917_07_chemin",
+    "kind": "fact",
+    "claim": "The creeping barrage ran too far ahead of the infantry in the attacks of 16 and 17 April, and as the gap grew German reserves were freed to counter-attack.",
+    "status": "web-checked",
+    "sources": [
+      "wp-nivelle"
+    ],
+    "note": "This is one account's judgment."
+  },
+  {
+    "id": "bat-gqg-chem-4",
+    "node": "gqg_1917_07_chemin",
+    "kind": "fact",
+    "claim": "The Schneider tank went into action for the first time at Berry-au-Bac, supporting the Fifth Army, with more than a hundred machines, and the losses were heavy.",
+    "status": "web-checked",
+    "sources": [
+      "wp-nivelle"
+    ],
+    "note": "The sources give 132 tanks and about 150 lost on the first day, from different counts."
+  },
+  {
+    "id": "bat-gqg-chem-5",
+    "node": "gqg_1917_07_chemin",
+    "kind": "figure",
+    "claim": "French casualties in the offensive are given as some 185,000, and the offensive was abandoned on 9 May 1917.",
+    "status": "web-checked",
+    "sources": [
+      "wp-nivelle"
+    ],
+    "note": "The sources give 185,000 (British guide) to 187,000; Allied totals run higher."
   }
 ]

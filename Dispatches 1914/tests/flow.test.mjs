@@ -49,16 +49,18 @@ async function step(ctx) {
   await ctx.click(btn(ctx, /Stavka/));
   const b = ctx.text();
   check(/Where things stand/.test(b) && /Your seat/.test(b) && /What you will be asked/.test(b) && /Set up the file/.test(b), "a command opens its briefing");
-  check(/17 August 1914/.test(b), "the Russian command's first report is dated in the Western calendar (4 August Old Style is 17 August)");
+  check(/1 August 1914/.test(b), "the Russian command's prelude is dated in the Western calendar (19 July Old Style is 1 August)");
   check(/Old Style|Julian/.test(b) === false || /thirteen days/.test(b), "the briefing explains the calendar if it mentions it");
   await ctx.click(btn(ctx, /^Back to the commands$/));
   check(/The Central Powers/.test(ctx.text()), "Back to the commands returns to the menu");
   await ctx.click(btn(ctx, /Oberste/));
   await ctx.click(btn(ctx, /^Enter the war room$/));
-  check(/4 August 1914/.test(ctx.text()) && orders(ctx).length >= 2, "the war room opens on the first report, with its orders");
-  const order = ctx.d.querySelector("#dg-orders");
+  check(/1 August 1914/.test(ctx.text()) && /The Kaiser's Question/.test(ctx.text()) && orders(ctx).length >= 2, "the war room opens on the command's prelude, with its orders");
   const text = ctx.d.querySelector("main").textContent;
-  check(text.indexOf("Weight on the Right") < text.indexOf("Issue Order"), "the orders come last");
+  check(text.indexOf("Kaiser's Question") < text.indexOf("Issue Order"), "the orders come last");
+  await ctx.click(orders(ctx)[0]);
+  await ctx.click(btn(ctx, /^Continue$/));
+  check(/4 August 1914/.test(ctx.text()) && /The Weight on the Right/.test(ctx.text()), "the prelude leads to the first report of the record");
   ctx.restore();
 }
 

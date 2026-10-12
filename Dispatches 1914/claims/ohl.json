@@ -1062,5 +1062,109 @@
     "status": "drafted",
     "sources": [],
     "note": "Ludendorff's own account blames it in part for the army's condition in July."
+  },
+  {
+    "id": "ohl-pre-1",
+    "node": "ohl_1914_16_kaiser",
+    "kind": "fact",
+    "claim": "On the afternoon of 1 August 1914 a telegram from the German ambassador in London reported that Britain would keep France out of the war if Germany did not attack her; the Kaiser took it as good news and asked Moltke whether the army could be deployed in the east only.",
+    "status": "web-checked",
+    "sources": [
+      "hn-kaisers-question"
+    ],
+    "note": ""
+  },
+  {
+    "id": "ohl-pre-2",
+    "node": "ohl_1914_16_kaiser",
+    "kind": "fact",
+    "claim": "Moltke refused, saying that a deployment of that size could not be improvised; the Kaiser said that Moltke's uncle would have given a different answer, and accepted the argument; later that evening King George V sent word that the ambassador must have misunderstood.",
+    "status": "web-checked",
+    "sources": [
+      "hn-kaisers-question"
+    ],
+    "note": "The wording of the exchange differs between accounts; the node gives it in indirect speech."
+  },
+  {
+    "id": "ohl-pre-3",
+    "node": "ohl_1914_16_kaiser",
+    "kind": "position",
+    "claim": "The head of the railway division, Hermann von Staab, argued after the war that the army could have been turned east at a day's notice; the General Staff had a plan for deploying against Russia alone, revised each year until 1913. Moltke held that it could not be done.",
+    "status": "web-checked",
+    "sources": [
+      "wh-staab"
+    ],
+    "note": "The dispute is the node's dispute text."
+  },
+  {
+    "id": "ohl-pre-4",
+    "node": "ohl_1914_16_kaiser",
+    "kind": "fact",
+    "claim": "Mobilisation had been ordered on 1 August and the Chief of the General Staff was carrying the signed order when the Kaiser recalled him.",
+    "status": "web-checked",
+    "sources": [
+      "hn-kaisers-question"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-ypr-1",
+    "node": "ohl_1914_13_ypres",
+    "kind": "fact",
+    "claim": "The German attack of 11 November 1914 was made by twelve and a half divisions in two army groups, Fabeck's and Linsingen's, under Crown Prince Rupprecht, on a front of nine miles from Messines to Reutel.",
+    "status": "web-checked",
+    "sources": [
+      "how-nonne"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-ypr-2",
+    "node": "ohl_1914_13_ypres",
+    "kind": "figure",
+    "claim": "The spearhead was the Prussian Guard and the 4th Division, about 10,000 men in twelve fresh battalions, against eleven tired British battalions of about 4,000 men.",
+    "status": "web-checked",
+    "sources": [
+      "how-nonne"
+    ],
+    "note": "Sources differ on the British numbers."
+  },
+  {
+    "id": "bat-ohl-ypr-3",
+    "node": "ohl_1914_13_ypres",
+    "kind": "fact",
+    "claim": "The attack was preceded by a heavy bombardment and went in under morning mist; British artillery isolated the Guards from reinforcements, a gap north of the Menin Road was closed by counter-attacks, and by the afternoon a counter-attack had cleared the wood.",
+    "status": "web-checked",
+    "sources": [
+      "how-nonne"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-ohl-ypr-4",
+    "node": "ohl_1914_13_ypres",
+    "kind": "fact",
+    "claim": "The reserve corps raised since August had gone in in mass at Langemarck in October and lost heavily for little ground.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The node's own text says so."
+  },
+  {
+    "id": "ohl-fk2-1",
+    "node": "ohl_1914_03_succession",
+    "kind": "fact",
+    "claim": "After the Marne the German armies entrenched along the Aisne, and the attempts of both sides to turn each other's flank to the north, the race to the sea, followed in the next weeks.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl-fk2-2",
+    "node": "ohl_1916_14_somme",
+    "kind": "fact",
+    "claim": "The German offensive at Verdun was scaled down in July 1916 as the Somme battle drew reserves, and Falkenhayn ordered the Verdun operations to stop.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The date (about 11 July) is to be checked."
   }
 ]

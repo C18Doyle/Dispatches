@@ -7,9 +7,9 @@
   "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"aok\",\"nodeId\":\"aok_1915_05_gorlice\",\"flags\":{\"aok_serbia\":\"first\",\"aok_recall\":\"recalled\",\"aok_galicia\":\"defensive\",\"aok_carpathians\":\"held\"},\"meters\":{\"manpower\":1,\"munitions\":1,\"will\":-4},\"hardState\":{\"enabled\":true,\"erosion\":0},\"visited\":[\"aok_1914_01_serbia\",\"aok_1914_02_recall\",\"aok_1914_03_galicia\",\"aok_1915_04_carpathians\",\"aok_1915_05_gorlice\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791149831623}"
  },
  "expect": {
-  "menuHash": "i8xhQR7R:2875",
+  "menuHash": "Q2sdeueE:1752",
   "resumeControl": "Resume file",
-  "afterResumeHash": "l9NM0f9t:1657",
+  "afterResumeHash": "RZt_Ph8W:1669",
   "errors": []
  }
 }

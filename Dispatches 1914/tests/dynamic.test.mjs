@@ -50,6 +50,9 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
   const ctx = await boot();
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Oberste")));
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
+  check(/Odds:/.test(ctx.text()), "the prelude offers a contested order with an odds dial");
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).startsWith("Tell the Kaiser"))); // the settled order of the prelude
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Continue"));
   check(!/Odds:/.test(ctx.text()), "a settled order shows no odds dial");
   check(!ctx.d.querySelector(".dg-readings"), "the readings start closed");
   const m = ctx.d.querySelector(".dg-meter-btn");

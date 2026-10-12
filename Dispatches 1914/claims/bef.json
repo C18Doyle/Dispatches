@@ -784,5 +784,84 @@
     "status": "drafted",
     "sources": [],
     "note": ""
+  },
+  {
+    "id": "bef-pre-1",
+    "node": "bef_1914_22_divisions",
+    "kind": "fact",
+    "claim": "On 5 August 1914 a council of ministers and generals, with Kitchener, newly made Secretary of State for War, in the chair, discussed how much of the Expeditionary Force to send; the General Staff plan was six infantry divisions and a cavalry division.",
+    "status": "drafted",
+    "sources": [],
+    "note": "To be checked against the accounts of the War Council of 5 August."
+  },
+  {
+    "id": "bef-pre-2",
+    "node": "bef_1914_22_divisions",
+    "kind": "fact",
+    "claim": "On 6 August the Cabinet agreed to send four infantry divisions and the cavalry division and to hold two back because of the fear of a German landing; the French had been promised six.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The node already treats this as the record; see bef-warcouncil claims."
+  },
+  {
+    "id": "bat-bef-flers-1",
+    "node": "bef_1916_12_tanks",
+    "kind": "fact",
+    "claim": "The British committed forty-nine tanks at Flers-Courcelette on 15 September 1916; fewer than forty reached the start lines (the sources give 15 to 36), and many broke down or ditched.",
+    "status": "web-checked",
+    "sources": [
+      "wh-first-tank",
+      "nam-tanks"
+    ],
+    "note": "The sources disagree on how many reached the start line."
+  },
+  {
+    "id": "bat-bef-flers-2",
+    "node": "bef_1916_12_tanks",
+    "kind": "fact",
+    "claim": "Tanks reached the village of Flers, where within fifteen minutes infantry had joined them and occupied the north and west of the village; the 2nd Canadian Division took Courcelette; two of the four tanks with the New Zealand Division were knocked out by German artillery.",
+    "status": "web-checked",
+    "sources": [
+      "wh-first-tank"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-bef-flers-3",
+    "node": "bef_1916_12_tanks",
+    "kind": "fact",
+    "claim": "Six divisions attacked on 15 September 1916 with lanes left open in the barrage for the tanks; the line advanced about a mile and a half and High Wood was taken, at a cost of about 29,000 casualties.",
+    "status": "web-checked",
+    "sources": [
+      "wh-first-tank"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-bef-flers-4",
+    "node": "bef_1916_12_tanks",
+    "kind": "fact",
+    "claim": "The commander of the Heavy Section was Hugh Elles; Rawlinson commanded the Fourth Army.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "bef-fk2-1",
+    "node": "bef_1916_10_conscription",
+    "kind": "fact",
+    "claim": "The Military Service Act of January 1916 compelled unmarried men, and married men were brought in by a second Act in May 1916; Asquith had promised that the married would not be called before the single.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The first Act's coverage is given as men aged 18 to 41, unmarried or widowers without children."
+  },
+  {
+    "id": "bef-fk2-2",
+    "node": "bef_1915_08_evacuate",
+    "kind": "fact",
+    "claim": "Anzac and Suvla were evacuated in December 1915, and Helles was evacuated on 8 and 9 January 1916.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Helles was the last place evacuated; the exact days are to be checked."
   }
 ]

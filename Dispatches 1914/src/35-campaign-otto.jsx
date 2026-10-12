@@ -21,25 +21,25 @@
 // this file for the handling, which is for the author's review.
 // =============================================================================
 
-CAMPAIGNS.otto.startNode = "otto_1914_01_straits";
+CAMPAIGNS.otto.startNode = "otto_1914_04_offer";
 
 CAMPAIGNS.otto.commanders = [
   { id: "enver", name: "Enver Pasha", title: "Minister of War and Deputy Commander-in-Chief",
-    from: "1914-08-02", to: "1918-10-13" },
+    from: "1914-07-29", to: "1918-10-13" },
   { id: "izzet", name: "Ahmed Izzet Pasha", title: "Grand Vizier and Minister of War",
     from: "1918-10-14", to: "1918-11-08" },
 ];
 
 CAMPAIGNS.otto.advisors = [
-  { id: "enver", name: "Enver", from: "1914-08-02", to: "1918-10-13",
+  { id: "enver", name: "Enver", from: "1914-07-29", to: "1918-10-13",
     dossier: { role: "Minister of War from January 1914; Deputy Commander-in-Chief",
       bio: "The architect of the German alliance and of the empire's entry into the war. Ordered the raid on the Russian Black Sea ports, planned and took command of the winter offensive at Sarikamis, and later sent the Army of Islam into the Caucasus. After Sarikamis he blamed the Armenians for the defeat.",
       fate: "Dismissed as Minister of War in October 1918. Left Constantinople on 1 or 2 November aboard a German submarine. Killed in Central Asia on 4 August 1922." } },
-  { id: "liman", name: "Liman von Sanders", from: "1914-08-02", to: "1918-10-30",
+  { id: "liman", name: "Liman von Sanders", from: "1914-07-29", to: "1918-10-30",
     dossier: { role: "German general at the head of the military mission; commander of the Fifth Army at Gallipoli; commander of the Yildirim Army Group from February 1918",
       bio: "Held the Fifth Army's reserve inland at Gallipoli, ready to be moved to wherever the Allies landed. In September 1918 he refused the Eighth Army leave to withdraw before the attack in Palestine. His headquarters at Nazareth was overrun on 20 September and he escaped.",
       fate: "Handed the army group to Mustafa Kemal at the end of October 1918." } },
-  { id: "djemal", name: "Djemal", from: "1914-08-02", to: "1918-10-14",
+  { id: "djemal", name: "Djemal", from: "1914-07-29", to: "1918-10-14",
     dossier: { role: "Minister of the Navy; commander of the Fourth Army in Syria",
       bio: "Held military and civil power in Syria from 1915 and led the first attack on the Suez Canal. Later he favoured reinforcing Sinai and Palestine over the plan to retake Baghdad.",
       fate: "Left office when the Talat cabinet resigned in October 1918 and fled the country. Assassinated in Tbilisi on 21 July 1922." } },
@@ -79,12 +79,106 @@ CAMPAIGNS.otto.blockingIssue = { resolved: true, ref: "DISPATCHES_1918_DESIGN_SP
 CAMPAIGNS.otto.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
+  otto_1914_04_offer: {
+    year: 1914, date: "1914-07-29", city: "Constantinople",
+    title: "The Offer from Berlin",
+    advisors: ["enver", "djemal"],
+    situation:
+      "A week ago Enver, the Minister of War, proposed an alliance to the German ambassador, and " +
+      "the ambassador has telegraphed Berlin. Austria-Hungary is at war with Serbia, and Russia " +
+      "is beginning to mobilise. The empire is poor, its army is half rebuilt after the Balkan wars, " +
+      "and not one of the great powers has promised to guarantee its frontiers.\n\n" +
+      "Only a handful of ministers know of the offer, and the cabinet has not met. The " +
+      "treaty that Germany has drafted is a defensive one, and it commits the empire to fight " +
+      "beside Germany if Russia attacks her.",
+    context:
+      "An alliance with the strongest army in Europe is a protection the empire cannot buy " +
+      "anywhere else. It is also a promise to go to war on the word of another government, and " +
+      "the army that would have to keep it is not ready.",
+    choices: [
+      {
+        id: "sign",
+        label: "Sign the alliance with Germany, and keep the empire neutral in public until the army is ready",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "The empire has no friend among the Entente, and Germany is the one power that will give it arms and officers. A treaty is the price of being armed, and it can be kept secret while the army mobilises." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { otto_offer: "signed" },
+        next: "otto_1914_01_straits",
+        outcome:
+          "The treaty is signed in secret in the first days of August, by the Grand Vizier and the " +
+          "German ambassador, and a few ministers know of it. The empire ordered a general " +
+          "mobilisation on the 2nd and declared its neutrality on the 3rd. Germany has an ally " +
+          "that cannot yet fight, and the empire has a promise from the strongest army in Europe " +
+          "that it will be protected, and a promise of its own that it will fight.",
+      },
+      {
+        id: "delay",
+        label: "Hold off for a week, until more of the army is mobilised, and then decide",
+        advisor: { name: "Djemal", position:
+          "The army is not ready, and a treaty signed now binds the empire to a war that it cannot fight. A week of mobilisation changes what the empire is worth to Germany, and what it can demand." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "Berlin has been told that the cabinet has agreed, and the ambassador has asked for the signature",
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        dispute:
+          "Whether Germany would have waited, and whether it would have given more for an ally that was " +
+          "better armed, is argued. The ambassador was pressing for a signature, and the German " +
+          "general staff wanted the empire in the war as soon as it could be got.",
+        uncertain: [
+          { weight: 50, title: "Berlin agrees to wait",
+            impact: { manpower: 0, munitions: 0, will: 0 },
+            setFlags: { otto_offer: "late" },
+            next: "otto_1914_01_straits",
+            outcome:
+              "Speculative. The ambassador telegraphs that the empire needs a week, and Berlin, which " +
+              "has other things to think about, agrees. The treaty is signed on 6 August, with the " +
+              "mobilisation a good deal further advanced, and the empire has had a few days in which " +
+              "it was not committed to anything. The Germans have not forgotten that it hesitated." },
+          { weight: 50, title: "Berlin takes the delay for a refusal",
+            impact: { manpower: 0, munitions: -1, will: -1 },
+            setFlags: { otto_offer: "worse" },
+            next: "otto_1914_01_straits",
+            outcome:
+              "Speculative. The ambassador tells Berlin that the empire cannot be counted on, and " +
+              "Berlin, which has been waiting for an answer, makes its promises thinner. The treaty is " +
+              "signed on 5 August with fewer German guns promised than were offered a week " +
+              "before, and Enver, who asked for time to be better armed, has less to arm with." },
+        ],
+      },
+      {
+        id: "entente",
+        label: "Ask Britain, France and Russia what they would guarantee, before signing anything",
+        advisor: { name: "Djemal", position:
+          "Djemal has friends in Paris, and the empire's debt is held there. An offer from the Entente to guarantee its frontiers would cost it nothing, and would show what Germany is worth." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The ambassador has told Berlin that the empire will sign, and Berlin has told the Kaiser",
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { otto_offer: "entente" },
+        next: "otto_1914_01_straits",
+        outcome:
+          "Speculative. An envoy goes to the three Entente embassies to ask what they would give for " +
+          "the empire's neutrality, and the answer is slow and conditional. The ambassador in " +
+          "Constantinople hears of the approach, and Berlin presses harder. The treaty is " +
+          "signed on 4 August, before the Entente has answered, and it has been shown that the empire " +
+          "was willing to listen to both sides.",
+      },
+    ],
+  },
+
   otto_1914_01_straits: {
     year: 1914, date: "1914-08-10", city: "Constantinople",
     title: "Two Ships at the Dardanelles",
     advisors: ["enver", "djemal"],
-    situation:
-      "The empire has a secret alliance with Germany, signed on 1 August, and a declaration " +
+    situation: (flags) =>
+      "The empire has a secret alliance with Germany, signed " +
+      (flags.otto_offer === "late"
+        ? "on 6 August, after a week's delay"
+        : flags.otto_offer === "worse"
+        ? "on 5 August, with fewer German promises than were first offered"
+        : flags.otto_offer === "entente"
+        ? "on 4 August, before the Entente had answered"
+        : "on 1 August") +
+      ", and a declaration " +
       "of neutrality made on the 3rd. It ordered a general mobilisation on the 2nd, which " +
       "will take about four weeks. The German battle cruiser Goeben and the light cruiser " +
       "Breslau are off the Dardanelles and have asked to be let in.\n\n" +
@@ -709,6 +803,37 @@ CAMPAIGNS.otto.nodes = {
           "whose fall would have been the defeat of the winter, is given up as a loss of " +
           "ground only. Constantinople has to explain to the east why it left the town.",
       },
+      {
+        id: "counter",
+        label: "Counter-attack the Russian columns on the road at Koprukoy, with the Third Army outside the fortress",
+        advisor: { name: "Enver", position:
+          "A fortress is a place to be besieged in. The Russians are strung out in the snow, and an army that waits behind its forts gives up the chance to hit them on the road." },
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        dispute:
+          "Historians differ on whether the Third Army could have beaten the Russian columns in the open: it was " +
+          "weaker, badly clothed and short of guns, but the Russians were also extended. What a battle outside " +
+          "the fortress would have done is not known.",
+        uncertain: [
+          { weight: 30, title: "The columns are checked and the army falls back whole",
+            impact: { manpower: -2, munitions: -1, will: 1 },
+            setFlags: { otto_erzurum: "fought" },
+            next: "otto_1916_02_medina",
+            outcome:
+              "Speculative. The Third Army turns on the leading Russian columns at Koprukoy and checks them " +
+              "for a week in the snow. It falls back to Erzurum afterwards with a third of its men gone, and " +
+              "the fortress is held a little longer, with an army inside it that still has some fight left. " +
+              "The Russians have lost time, and when they come to the forts they come to a garrison that knows the ground." },
+          { weight: 70, title: "The army is beaten in the open",
+            impact: { manpower: -3, munitions: -2, will: -2 },
+            setFlags: { otto_erzurum: "fought" },
+            next: "otto_1916_02_medina",
+            outcome:
+              "Speculative. The Third Army meets the Russians in the open and is beaten, with its guns lost in " +
+              "the snow and its men hardly able to move in their rags. It falls back on the fortress in " +
+              "disorder, and the Russians arrive before the forts have been made ready. Erzurum falls sooner " +
+              "than it did in the record, and the army that is left to defend the road to the west is smaller." },
+        ],
+      },
     ],
   },
 
@@ -741,7 +866,7 @@ CAMPAIGNS.otto.nodes = {
         impact: { manpower: 0, munitions: 0, will: -1 },
         erodes: "overextend",
         setFlags: { otto_medina: "held" },
-        next: "otto_1917_01_yildirim",
+        next: "otto_1916_03_romani",
         outcome:
           "Medina is held. The Arab forces, some 30,000 at first, besiege the city and raid " +
           "the railway: more than a hundred major attacks in 1917 and many more in 1918. " +
@@ -758,7 +883,7 @@ CAMPAIGNS.otto.nodes = {
         disabledReason: "The sultan-caliph cannot be seen to give up the holy city",
         impact: { manpower: 1, munitions: 1, will: -3 },
         setFlags: { otto_medina: "evacuated" },
-        next: "otto_1917_01_yildirim",
+        next: "otto_1916_03_romani",
         outcome:
           "Speculative. The Ottoman garrisons in the Hejaz withdraw up the railway and Medina is " +
           "left to the Sharif. The army has a shorter line to defend, and the thousands " +
@@ -769,20 +894,291 @@ CAMPAIGNS.otto.nodes = {
     ],
   },
 
+  otto_1916_03_romani: {
+    year: 1916, date: "1916-07-22", city: "Beersheba",
+    title: "The Road to Romani",
+    advisors: ["kress", "djemal"],
+    situation: (flags) =>
+      "The British have spent the spring and summer laying a railway and a pipeline for fresh " +
+      "water across northern Sinai, and their outposts have reached Romani, some forty " +
+      "kilometres from the canal. Kress von Kressenstein, who commands the Ottoman force in " +
+      "Sinai, has about sixteen thousand men, among them the 3rd Division, which fought at " +
+      "Gallipoli, and some batteries of heavy guns lent by the Germans and Austrians. The ground " +
+      "between is soft sand, and nearly every well on it has been blown up.\n\n" +
+      "Each month the British come on, they bring more water and more guns with them, and " +
+      "the empire's only chance to meet them near its own wells is to do it now." +
+      (flags.otto_medina === "held"
+        ? "\n\nThe Hejaz railway and Medina are taking the troops that Djemal might have sent here."
+        : ""),
+    context:
+      "A force that marches at night over sand with the water it can carry has a few days " +
+      "of fighting in it. If the British are not beaten in those days, the march home is " +
+      "the real battle.",
+    choices: [
+      {
+        id: "strike",
+        label: "Send Kress's force across the sand to attack the British at Romani before their railway is finished",
+        historical: true,
+        advisor: { name: "Kress von Kressenstein", position:
+          "The British will be strong enough to attack within weeks. The only chance is to strike at the end of their line while it is short, before the pipeline and the railway can give them the water." },
+        impact: { manpower: -2, munitions: -1, will: -1 },
+        setFlags: { otto_romani: "struck" },
+        dispute:
+          "Accounts of the battle of 3 to 5 August differ in the numbers on both sides and in the losses, " +
+          "and on whether Kress's retreat was well ordered. What is agreed is that the British mounted " +
+          "troops held, that the Ottoman force ran short of water, and that the attack was beaten.",
+        uncertain: [
+          { weight: 75, title: "The attack is beaten and the force falls back to El Arish", historicalBranch: true,
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            next: "otto_1917_03_baghdad",
+            outcome:
+              "The force crosses the sand by night and attacks the British outposts at Romani on " +
+              "3 August. It is held by the Anzac mounted troops, with infantry behind them, and the " +
+              "sun comes up on men short of water in open ground under the British guns. By " +
+              "5 August Kress is in retreat, and the force falls back some hundred kilometres to " +
+              "El Arish. It has lost thousands of men, about four thousand of them taken. The " +
+              "British railway and pipeline go on across Sinai." },
+          { weight: 25, title: "The outposts are overrun and the British fall back",
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            next: "otto_1917_03_baghdad",
+            outcome:
+              "Speculative. The attack falls on the outposts before the British mounted troops are " +
+              "in place, and the guns and infantry take the high ground above the railhead. The " +
+              "British pull back toward the canal, and the pipeline is cut for some days. It is not " +
+              "the end of their advance, but it costs them months, and the Ottoman force, still " +
+              "short of water, has to hold what it has taken." },
+        ],
+      },
+      {
+        id: "wells",
+        label: "Stay at Katia and Bir el Abd, where the wells are, and make the British come to the force",
+        advisor: { name: "Kress von Kressenstein", position:
+          "A force that waits beside its water cannot be made to fight in the sand, and the British have to come on at the pace of their railway." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { otto_romani: "waited" },
+        next: "otto_1917_03_baghdad",
+        outcome:
+          "Speculative. Kress stays by the wells and waits. The British come on at the pace of " +
+          "their railway and their pipeline, a few kilometres at a time, and stop at Romani to " +
+          "build up their strength. When they attack, it is with their guns and their water " +
+          "behind them, and the Ottoman force falls back on El Arish in good order and with " +
+          "nearly all its men. It has not been defeated, and it has not stopped anything.",
+      },
+      {
+        id: "hejaz",
+        label: "Leave a covering force in Sinai and send the divisions to the Hejaz to put down the revolt",
+        advisor: { name: "Djemal", position:
+          "The danger is the revolt, because it takes the holy places. Sinai can be covered from El Arish, and the canal will not be attacked again." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The Sultan's government has told Berlin that Sinai will be held, and the guns are at Beersheba",
+        impact: { manpower: 0, munitions: -1, will: -1 },
+        setFlags: { otto_romani: "hejaz" },
+        next: "otto_1917_03_baghdad",
+        outcome:
+          "Speculative. The divisions that would have marched to Romani go by rail to the Hejaz, " +
+          "and the revolt is met by more men than the Sharif can answer. Medina and the railway are " +
+          "held with less strain. In Sinai the British advance as far as El Arish with hardly a " +
+          "shot, and the canal is no longer a front. Djemal has chosen which of his two wars to " +
+          "lose slowly.",
+      },
+    ],
+  },
+
+  otto_1917_03_baghdad: {
+    year: 1917, date: "1917-03-02", city: "Baghdad",
+    title: "The City on the Tigris",
+    advisors: ["enver", "liman"],
+    situation:
+      "The Ottoman force left Kut on 24 February, and the British under Maude, with a force " +
+      "that outnumbers the Sixth Army several times over, are advancing up the Tigris on Baghdad. " +
+      "The Sixth Army, under Khalil Pasha, is short of men, boots and transport, and the " +
+      "prisoners of Kut, taken a year ago, have not been replaced. Khalil began to dig in at " +
+      "Ctesiphon, below the city, and has not finished.\n\n" +
+      "He has three courses: to stand in front of Baghdad, to meet the British below it, or to " +
+      "give the city up and save the army. Constantinople has to say which it wants.",
+    context:
+      "A city on a river can be held for a few days by an army that is not strong enough to " +
+      "hold it for a month. What matters is what is left of the army when the days are over.",
+    choices: [
+      {
+        id: "diyala",
+        label: "Let Khalil hold the Diyala, in front of Baghdad, and fall back if the line is turned",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "Baghdad is the empire's chief city in Mesopotamia and must be defended where it stands, on the river in front of it, with the army the empire has." },
+        impact: { manpower: -1, munitions: -1, will: -1 },
+        setFlags: { otto_baghdad: "diyala" },
+        next: "otto_1917_04_gaza",
+        outcome:
+          "Khalil holds the line of the Diyala, south-east of the city, in fighting that begins on " +
+          "8 March, and the British force the crossing. On the 10th he evacuates Baghdad, and the " +
+          "British enter it on the 11th. The Sixth Army falls back on Samarra and Mosul, with what " +
+          "it can carry. The empire's chief city in Mesopotamia is lost, and the army that is " +
+          "left to defend the north is a good deal smaller than the one that was left at Kut.",
+      },
+      {
+        id: "ctesiphon",
+        label: "Fight the decisive battle below the city, at Ctesiphon, with the whole Sixth Army",
+        advisor: { name: "Enver", position:
+          "A battle at Ctesiphon, where the army beat Townshend in 1915, may stop the British, and the army that does not fight there will not fight anywhere." },
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        erodes: "overextend",
+        setFlags: { otto_baghdad: "ctesiphon" },
+        dispute:
+          "Historians disagree on the numbers on both sides, and on whether Khalil had any good " +
+          "choice. His own indecision, between standing at Ctesiphon, at Baghdad and falling " +
+          "back, is itself a matter of dispute.",
+        uncertain: [
+          { weight: 30, title: "The stand holds for a week",
+            impact: { manpower: -2, munitions: -1, will: 1 },
+            next: "otto_1917_04_gaza",
+            outcome:
+              "Speculative. The Sixth Army holds its ground below the city for six days, and the " +
+              "British have to bring up their guns and fight for each stretch of the line. It is a " +
+              "delay and not a victory. The stand costs the army a third of its men, and Baghdad " +
+              "falls a week later than it did in the record, to an army that has less left to retreat " +
+              "with." },
+          { weight: 70, title: "The army is outflanked and broken",
+            impact: { manpower: -3, munitions: -2, will: -2 },
+            next: "otto_1917_04_gaza",
+            outcome:
+              "Speculative. The British turn the line from the east, and the Sixth Army is caught " +
+              "between the river and the desert. Thousands are taken and most of the guns are lost. " +
+              "Baghdad falls on the 11th, as it did in the record, but the army that fell back on " +
+              "Mosul in the record is now a remnant, and the north is open." },
+        ],
+      },
+      {
+        id: "mosul",
+        label: "Give up Baghdad at once and march the Sixth Army to Samarra and Mosul with its guns",
+        advisor: { name: "Liman von Sanders", position:
+          "An army that cannot beat the British cannot be spent holding a city. The Sixth Army is worth more intact at Mosul than lost at Baghdad." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The Sultan cannot be seen to give up a great city without a fight",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { otto_baghdad: "mosul" },
+        next: "otto_1917_04_gaza",
+        outcome:
+          "Speculative. Khalil is ordered to leave Baghdad at once, and the Sixth Army marches north " +
+          "with its guns, its stores and nearly all its men. The British enter the city a few days " +
+          "earlier than in the record and without a shot. The army that falls back on Mosul is the " +
+          "whole Sixth Army, and the empire has given up its chief city in Mesopotamia without a " +
+          "battle, which Enver, who wanted to fight, has to explain.",
+      },
+    ],
+  },
+
+  otto_1917_04_gaza: {
+    year: 1917, date: "1917-04-22", city: "Gaza",
+    title: "The Line That Held",
+    advisors: ["kress", "djemal"],
+    situation: (flags) =>
+      "Twice in a month the British have attacked Gaza and been beaten. The first attack, on " +
+      "26 March, was called off when it might have succeeded. The second, from 17 to 19 April, " +
+      "came with tanks and gas and cost the British about six and a half thousand men for no " +
+      "ground. Kress, the chief of staff of the Fourth Army and the German at Gaza, " +
+      "has held the town with a few divisions and a line of redoubts." +
+      (flags.otto_romani === "struck"
+        ? " The army that was beaten at Romani last summer has held here, behind trenches."
+        : "") +
+      "\n\nThe line now runs from Gaza on the coast to Beersheba, some forty kilometres inland, " +
+      "and it is thin at the eastern end, where the desert is. Two more divisions are on the way. " +
+      "The British have lost a battle and not the war, and they will be back.",
+    context:
+      "A line that is held by redoubts and few men is strong where it has been attacked and " +
+      "weak where it has not. What is done with the divisions that are coming decides where " +
+      "the next attack will fall.",
+    choices: [
+      {
+        id: "line",
+        label: "Hold the line from Gaza to Beersheba and strengthen it with the two new divisions",
+        historical: true,
+        advisor: { name: "Kress von Kressenstein", position:
+          "The line has held twice and can hold again if it is strengthened. Gaza is the gate to Jerusalem, and the British have to come to it." },
+        impact: { manpower: 0, munitions: -1, will: 1 },
+        setFlags: { otto_gaza: "line" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "After the second battle the line is lengthened to Beersheba, with a chain of redoubts " +
+          "and strongpoints, and two divisions reinforce the Fourth Army. Gaza is the strongest " +
+          "place in it, and Beersheba, at the desert end, is held by outposts. The British do not " +
+          "attack again for six months. When they do, at the end of October, it is at Beersheba.",
+      },
+      {
+        id: "shorten",
+        label: "Draw the army back from Gaza to a shorter line in the hills toward Jerusalem",
+        advisor: { name: "Djemal", position:
+          "The line from Gaza to Beersheba is too long for the men there, and the British will find the weak place. A shorter line in the hills can be held in strength." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "Gaza has been held twice and cannot be given up while it can be held",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { otto_gaza: "shortened" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "Speculative. The army leaves Gaza and falls back into the hills, to a line that runs " +
+          "from the coast near Jaffa to the hills above Hebron. The line is shorter and the " +
+          "divisions on it are denser. The British have Gaza, the plain and the railhead, and the " +
+          "Ottoman victory that has just been won is given up without a battle. The country " +
+          "round Jerusalem is the front.",
+      },
+      {
+        id: "strike",
+        label: "Follow the victory with an attack on the British railhead before they are ready again",
+        advisor: { name: "Djemal", position:
+          "The British have lost heavily and are not ready to fight again. A blow at their railhead now would give the empire a bridgehead in Sinai." },
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        erodes: "overextend",
+        setFlags: { otto_gaza: "struck" },
+        dispute:
+          "Historians differ on whether the British were as weak after the second battle as the " +
+          "Ottoman commanders hoped. They had lost heavily, but they had the railway and the " +
+          "pipeline behind them, and the force that could have attacked them was thin.",
+        uncertain: [
+          { weight: 25, title: "The British outposts are driven in",
+            impact: { manpower: -2, munitions: -1, will: 2 },
+            next: "otto_1917_01_yildirim",
+            outcome:
+              "Speculative. A column of horse and infantry moves out of Gaza at night and drives " +
+              "in the British outposts on the Wadi Ghazze. The British fall back some " +
+              "kilometres and the railhead is shelled for a night. It is a raid that is not followed " +
+              "up, because the divisions that would have to follow it are the ones that hold the " +
+              "line, and the Ottoman line is longer and thinner than it was." },
+          { weight: 75, title: "The attack is met in the open and driven back",
+            impact: { manpower: -3, munitions: -1, will: -2 },
+            next: "otto_1917_01_yildirim",
+            outcome:
+              "Speculative. The column is met in the open by British mounted troops and guns " +
+              "that have been brought up in the days since the battle. It loses a good part of its " +
+              "strength, and the line it left is weaker for the divisions it took. The British know " +
+              "now how few men there are on the Gaza line." },
+        ],
+      },
+    ],
+  },
+
   // ---------------------------------------------------------------- 1917-09
   otto_1917_01_yildirim: {
     year: 1917, date: "1917-09-05", city: "Aleppo",
     title: "Baghdad, or Palestine",
     advisors: ["falkenhayn", "enver"],
-    situation:
-      "Baghdad fell on 11 March, with some 15,000 Ottoman soldiers taken in the confusion " +
-      "of the retreat. Enver wants it back. In May the German general Falkenhayn arrived in " +
+    situation: (flags) =>
+      (flags.otto_baghdad === "mosul"
+        ? "Baghdad was given up in March without a battle, and the Sixth Army fell back on Mosul whole. "
+        : flags.otto_baghdad === "ctesiphon"
+        ? "Baghdad fell in March after the Sixth Army fought and was broken below the city. "
+        : "Baghdad fell on 11 March, with some 15,000 Ottoman soldiers taken in the confusion " +
+          "of the retreat. ") +
+      "Enver wants it back. In May the German general Falkenhayn arrived in " +
       "Constantinople to organise an army group for the purpose, the Yildirim, which the " +
       "Sultan approved in July and which is made up of the Sixth and Seventh Armies and a " +
       "German corps. It is to go down the Euphrates and take the British in the flank.\n\n" +
       "Falkenhayn has warned that to advance on Baghdad without first securing the Sinai " +
-      "front would be unwise. Djemal agrees and wants the army group in Palestine. The " +
-      "British are about to attack at Gaza.",
+      "front would be unwise. Djemal agrees and wants the army group in Palestine. " +
+      (flags.otto_gaza === "shortened"
+        ? "The British are about to attack the line in the hills."
+        : flags.otto_gaza === "struck"
+        ? "The British, who were beaten at Gaza in April, are about to attack again."
+        : "The British are about to attack at Gaza."),
     context:
       "The railway to Baghdad is unfinished, and the last of the way is a road across " +
       "the desert. Supplying an army group that far is a different campaign from " +
@@ -1129,7 +1525,7 @@ CAMPAIGNS.otto.nodes = {
       "The Suez Canal, February 1915: " + (flags.otto_suez === "kept" ? "the Fourth Army kept in Palestine." : flags.otto_suez === "raided" ? "a small column sent to raid the canal." : "the attack across Sinai.") + "\n" +
       "Gallipoli, April 1915: " + (flags.otto_gallipoli === "forward" ? "the divisions placed above the beaches." : "the reserve kept inland, and the landings contained.") + "\n" +
       "Kut, winter of 1915-16: " + (flags.otto_kut === "storm" ? "the town stormed." : flags.otto_kutResult === "relieved" ? "the siege broken by the relief force." : "the siege kept, and the British surrender.") + "\n" +
-      "Erzurum, 1916: " + (flags.otto_erzurum === "withdrew" ? "the fortress given up and the army saved." : "the fortress held until it fell.") + "\n" +
+      "Erzurum, 1916: " + (flags.otto_erzurum === "withdrew" ? "the fortress given up and the army saved." : flags.otto_erzurum === "fought" ? "the army fought the Russians outside the fortress." : "the fortress held until it fell.") + "\n" +
       "The Hejaz, 1916: " + (flags.otto_medina === "evacuated" ? "evacuated." : "Medina held to the end of the war.") + "\n" +
       "The Yildirim, 1917: " + (flags.otto_yildirim === "baghdad" ? "sent against Baghdad." : flags.otto_yildirim === "divided" ? "divided between Palestine and the Euphrates." : "sent to Palestine.") + "\n" +
       "Jerusalem, 1917: " + (flags.otto_jerusalem === "held" ? "the city defended." : "the city left undefended.") + "\n" +

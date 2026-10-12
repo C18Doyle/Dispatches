@@ -13,7 +13,7 @@
 // carries no adviser. Claims are logged in claims/bef.json.
 // =============================================================================
 
-CAMPAIGNS.bef.startNode = "bef_1914_01_warcouncil";
+CAMPAIGNS.bef.startNode = "bef_1914_22_divisions";
 
 CAMPAIGNS.bef.commanders = [
   { id: "french", name: "Sir John French", title: "Commander-in-Chief, British Expeditionary Force",
@@ -82,15 +82,106 @@ CAMPAIGNS.bef.hardMode.erosionMax = 5;
 CAMPAIGNS.bef.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
+  bef_1914_22_divisions: {
+    year: 1914, date: "1914-08-05", city: "London",
+    title: "Four Divisions or Six",
+    advisors: ["kitchener", "asquith", "wilson"],
+    situation:
+      "Britain has been at war for a day. The Cabinet has agreed that the Expeditionary Force " +
+      "will go, and a council of ministers and generals meets to settle how much of it. The " +
+      "plan that the General Staff made with the French says six infantry divisions and a " +
+      "cavalry division. Kitchener, who has been made Secretary of State for War this morning, has " +
+      "taken the chair and has not made up his mind.\n\n" +
+      "The Admiralty is afraid of a German landing on the east coast, and the Territorial " +
+      "Force, which is meant to defend the country, has not yet been called out.",
+    context:
+      "The French have been promised six divisions, and a smaller army is a broken promise. The " +
+      "fear of invasion is real, and so is the arithmetic: the divisions that go to France " +
+      "are the ones that cannot be at home.",
+    choices: [
+      {
+        id: "four",
+        label: "Send four infantry divisions and the cavalry division now, and keep two at home",
+        historical: true,
+        advisor: { name: "Kitchener", position:
+          "The country must not be left bare, and the army that is sent is the one the Cabinet can spare. Four divisions are what can be sent now, and the rest will follow when the danger from the sea has passed." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { bef_divisions: "four" },
+        next: "bef_1914_01_warcouncil",
+        outcome:
+          "On 6 August the Cabinet agrees to send four infantry divisions and the cavalry division, " +
+          "and to hold two back for the present because of the fear of a German landing. Wilson, who " +
+          "has promised the French six, has to tell them four. The army that goes is the " +
+          "professional army, the best the country has, and the French do not forget that it was " +
+          "fewer than they were told.",
+      },
+      {
+        id: "six",
+        label: "Send all six infantry divisions and the cavalry division at once, as the French were promised",
+        advisor: { name: "Wilson", position:
+          "The French have been promised six. An army that arrives smaller than it was promised is an army that will not be believed again, and the Germans do not wait for the Territorials." },
+        gate: (m) => m.will >= -1,
+        disabledReason: "The Cabinet has told the country that the coast will be defended, and has not called out the Territorials",
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "Whether the two divisions would have changed the opening battles is argued. The other side " +
+          "of it is how much the fear of a German landing was a real danger, and how much a fear.",
+        uncertain: [
+          { weight: 60, title: "The six divisions arrive and the coast stays quiet",
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            setFlags: { bef_divisions: "six" },
+            next: "bef_1914_01_warcouncil",
+            outcome:
+              "Speculative. All six divisions and the cavalry go to France in the second week of August, " +
+              "and the French are told that Britain has kept its word. The army that lands is a third " +
+              "bigger than the one that did in the record, and the coast is not tested. The two " +
+              "divisions that were held back in the record are in the line when the Germans arrive, and " +
+              "in no position to be spared." },
+          { weight: 40, title: "A scare on the east coast brings a division back",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { bef_divisions: "six" },
+            next: "bef_1914_01_warcouncil",
+            outcome:
+              "Speculative. A report of German ships off the east coast reaches the Cabinet when the " +
+              "sixth division is on the quay. It is stopped there. The French, who were told that six " +
+              "were coming, hear in the middle of the first week that it is five. The army in " +
+              "France is five divisions and the cavalry, and the Cabinet has shown the French " +
+              "how much its word is worth." },
+        ],
+      },
+      {
+        id: "two",
+        label: "Send two infantry divisions and the cavalry as a token, and keep four at home to train the new armies",
+        advisor: { name: "Kitchener", position:
+          "This will be a long war, and the army that is spent in the first month will not be there in the third. Two divisions show the flag, and four are kept to be the core of the armies that have to be raised." },
+        gate: (m) => m.will >= 0,
+        disabledReason: "Paris and the General Staff have been told that the whole force is coming",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { bef_divisions: "two" },
+        next: "bef_1914_01_warcouncil",
+        outcome:
+          "Speculative. Two divisions and the cavalry go, and four stay in England as the core of the " +
+          "new army that Kitchener has told the Cabinet will be needed. The French, who were promised six, " +
+          "are told that Britain is at war and has no army to send. The professionals " +
+          "who stay are made officers and sergeants of the new armies, and the army that fights " +
+          "on the Marne has a gap on its left.",
+      },
+    ],
+  },
+
   bef_1914_01_warcouncil: {
     year: 1914, date: "1914-08-12", city: "London",
     title: "Where the Army Lands",
     advisors: ["kitchener", "wilson", "asquith"],
-    situation:
+    situation: (flags) =>
       "The Cabinet has decided that the Expeditionary Force will go to France, and on " +
-      "6 August it decided that the first force would be four infantry divisions and the " +
-      "cavalry division, not the six that had been promised. What is left to settle is " +
-      "where it is to assemble.\n\n" +
+      (flags.bef_divisions === "six"
+        ? "6 August it decided to send all six infantry divisions and the cavalry division, as had been promised. "
+        : flags.bef_divisions === "two"
+        ? "6 August it decided to send only two infantry divisions and the cavalry division, and to keep the rest to train the new armies. "
+        : "6 August it decided that the first force would be four infantry divisions and the " +
+          "cavalry division, not the six that had been promised. ") +
+      "What is left to settle is where it is to assemble.\n\n" +
       "The General Staff's plan, drawn up with the French by Henry Wilson, puts the " +
       "British on the left of the French armies, at Maubeuge, close to the frontier and " +
       "to the Belgians. Kitchener, who came to the War Office on 5 August, thinks the " +
@@ -593,6 +684,21 @@ CAMPAIGNS.bef.nodes = {
           "the record can say. Kitchener, who has seen the ground, has been overruled " +
           "by the people who have not.",
       },
+      {
+        id: "helles",
+        label: "Evacuate Anzac and Suvla, and hold Helles through the winter as a base",
+        advisor: { name: "Winston Churchill", position:
+          "Helles is the toe of the peninsula and the one beachhead that can be supplied. Holding it keeps the Dardanelles in the Allies' hands, and keeps the Turks tied down." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { bef_evacuate: "helles" },
+        next: "bef_1915_09_succession",
+        outcome:
+          "Speculative. Anzac and Suvla are cleared in December, as in the record, and the army at Helles " +
+          "stays through the winter and into the spring. The beaches are shelled by the guns that the Turks, " +
+          "freed from the other two fronts, bring to the toe of the peninsula, and the corps there is " +
+          "supplied with some difficulty across an open beach. It is evacuated in the end, a few months " +
+          "late, and men have died to hold a place that was not going to be used.",
+      },
     ],
   },
 
@@ -702,6 +808,22 @@ CAMPAIGNS.bef.nodes = {
           "peace with the Labour movement and the Liberals. The army reaches the summer " +
           "with fewer men than it was told to expect, and the offensive is planned for " +
           "an army of a smaller size.",
+      },
+      {
+        id: "all",
+        label: "Bring in a Bill to compel every man of military age at once, the married with the single",
+        advisor: { name: "Lloyd George", position:
+          "A Bill that spares the married men is half a Bill. The army needs the men, and a promise to the married that cannot be kept will be broken in any case within a few months." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The Prime Minister has given his word to the married men, and the Cabinet has not been told that it will be broken",
+        impact: { manpower: 3, munitions: 0, will: -3 },
+        setFlags: { bef_conscription: "all" },
+        next: "bef_1916_11_somme",
+        outcome:
+          "Speculative. The Bill takes in every man between eighteen and forty-one, and not only the " +
+          "single. Asquith's promise to the married men is broken, and the Labour movement's reluctance, " +
+          "which was real, becomes hostility. The army has the men a few months earlier than in the " +
+          "record, and the Cabinet has a quarrel that it did not have.",
       },
     ],
   },
@@ -816,6 +938,7 @@ CAMPAIGNS.bef.nodes = {
         historical: true,
         advisor: { name: "Haig", position:
           "The machines are ready, and the army needs every help it can get. They should go in as soon as there are enough to make a difference." },
+        keyBattleSubgame: { id: "flersBritish" },
         impact: { manpower: 0, munitions: -1, will: 1 },
         setFlags: { bef_tanks: "used" },
         dispute:
@@ -1250,6 +1373,21 @@ CAMPAIGNS.bef.nodes = {
           "and Petain say what they think of an ally who takes the French armies' " +
           "losses and gives them nothing in return.",
       },
+      {
+        id: "oise",
+        label: "Take over the line only as far as the Oise, and the rest when the reinforcements have come",
+        advisor: { name: "Robertson", position:
+          "The army is short of men, and the Fifth Army is already thin. A shorter extension is a promise that can be kept, and a longer one is a promise that will not be." },
+        impact: { manpower: -1, munitions: 0, will: -1 },
+        setFlags: { bef_manpower: "partial" },
+        next: "bef_1918_17_reserve",
+        outcome:
+          "Speculative. The British take over a shorter sector, as far as the Oise, and tell the French " +
+          "that the rest will follow when the reinforcements arrive. Petain, who has asked for Barisis, " +
+          "is not pleased, and puts a French division where a British one would have stood. The Fifth " +
+          "Army has fewer miles to hold when the German blow falls in March, and the French have more, " +
+          "and Clemenceau, who was told that the army would help, says what he thinks.",
+      },
     ],
   },
 
@@ -1596,15 +1734,15 @@ CAMPAIGNS.bef.nodes = {
       "The Dardanelles, March 1915: " + (flags.bef_dardanelles === "navy" ? "left to the Navy." : "the 29th Division released.") + "\n" +
       "The shortage of shells: " + (flags.bef_shells === "private" ? "kept inside the army." : "told to the press.") + "\n" +
       "Loos: " + (flags.bef_loos === "refused" ? "the ground was refused." : flags.bef_reserves === "released" ? "attacked, with the reserve close behind." : "attacked, with the reserve held back" + (flags.bef_reservesResult === "stopped" ? ", and stopped by the second line." : ", and arriving too late.")) + "\n" +
-      "Gallipoli, November 1915: " + (flags.bef_evacuate === "stayed" ? "reinforced." : "evacuated.") + "\n" +
+      "Gallipoli, November 1915: " + (flags.bef_evacuate === "stayed" ? "reinforced." : flags.bef_evacuate === "helles" ? "Anzac and Suvla evacuated, Helles held." : "evacuated.") + "\n" +
       "December 1915: " + (flags.bef_succession === "french" ? "French kept for the winter." : "Haig appointed.") + "\n" +
-      "1916: " + (flags.bef_conscription === "voluntary" ? "the voluntary system kept." : "compulsion for single men.") + "\n" +
+      "1916: " + (flags.bef_conscription === "voluntary" ? "the voluntary system kept." : flags.bef_conscription === "all" ? "compulsion for all men at once." : "compulsion for single men.") + "\n" +
       "The Somme: " + (flags.bef_somme === "bitehold" ? "limited advances only." : flags.bef_sommeResult === "gain" ? "a compromise plan, with larger first-day gains than the record shows." : "a compromise plan, and a costly first day.") + "\n" +
       "The tanks: " + (flags.bef_tanks === "held" ? "held back." : flags.bef_tanks === "tested" ? "a dozen used on 15 September, the rest held." : flags.bef_tanksResult === "lessons" ? "used on 15 September, to the lasting benefit of the staff." : "used on 15 September, and the surprise spent.") + "\n" +
       "Calais, February 1917: " + (flags.bef_calais === "refused" ? "the subordination refused." : "accepted under protest.") + "\n" +
       "Convoy: " + (flags.bef_convoy === "delayed" ? "left to patrols." : "tried from May 1917.") + "\n" +
       "Flanders, 1917: " + (flags.bef_ypres3 === "vetoed" ? "vetoed." : flags.bef_ypres3 === "limited" ? "limited to the Gheluvelt plateau." : "authorised.") + "\n" +
-      "January 1918: " + (flags.bef_manpower === "refused" ? "the extension of the line refused." : "the line extended to Barisis.") + "\n" +
+      "January 1918: " + (flags.bef_manpower === "refused" ? "the extension of the line refused." : flags.bef_manpower === "partial" ? "the line extended only as far as the Oise." : "the line extended to Barisis.") + "\n" +
       "The general reserve: " + (flags.bef_reserve === "complied" ? "divisions given." : "refused.") + "\n" +
       "Doullens: " + (flags.bef_doullens === "national" ? "national command kept." : "Foch accepted to coordinate.") + "\n" +
       "April 1918: " + (flags.bef_backs === "withdrew" ? "a withdrawal in Flanders authorised." : "an order that there be no retirement.") + "\n" +

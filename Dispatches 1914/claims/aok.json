@@ -1087,5 +1087,45 @@
     "status": "drafted",
     "sources": [],
     "note": ""
+  },
+  {
+    "id": "aok-pre-1",
+    "node": "aok_1914_15_mobilise",
+    "kind": "fact",
+    "claim": "On 25 July 1914 Franz Joseph ordered mobilisation against Serbia only, to begin on 28 July; the Second Army, the B-Staffel or swing force, was at first directed to the Serbian front.",
+    "status": "web-checked",
+    "sources": [
+      "ency-austria-planning"
+    ],
+    "note": ""
+  },
+  {
+    "id": "aok-pre-2",
+    "node": "aok_1914_15_mobilise",
+    "kind": "fact",
+    "claim": "Conrad postponed the beginning of the mobilisation against Russia until 4 August, and later redirected the Second Army to Galicia, over the objection of the railway staff; part of it had already been drawn into Serbia and it reached Galicia late and understrength.",
+    "status": "web-checked",
+    "sources": [
+      "ency-austria-planning"
+    ],
+    "note": "Sources differ on the date it reached Galicia (the end of August) and on its strength."
+  },
+  {
+    "id": "aok-fk2-1",
+    "node": "aok_1918_13_vittorio",
+    "kind": "fact",
+    "claim": "In the last days of October 1918 the Hungarian leaders were calling for Hungarian troops to be brought home, and the Emperor released them from their oath in the days that followed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The date of the release (31 October) is to be checked."
+  },
+  {
+    "id": "aok-fk2-2",
+    "node": "aok_1914_05_kolubara",
+    "kind": "fact",
+    "claim": "Potiorek's third invasion reached the Kolubara in the middle of November 1914 and took Belgrade on 2 December; the Serbs counter-attacked on 3 December.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The node's own text gives the dates."
   }
 ]
