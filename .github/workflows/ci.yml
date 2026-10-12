@@ -11,20 +11,36 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# The jobs run side by side, so a pull request waits for the slowest game (about 12 minutes) and not for the sum of them
+# (about 33 minutes, which with the browser steps made a run 50 minutes). One job per game for its own test:fast, one for
+# the tests that look across games, and one for the real-browser steps.
 jobs:
-  fast:
-    # Every push and PR: each game's test:fast plus the engine equivalence test, on Linux and Windows
-    # (the repo was built on Windows; most of the early breakage was path and shell differences).
-    # On Linux it also loads every built game in real Chromium (phone and desktop) as a smoke test.
-    # Windows minutes are billed at twice the Linux rate and the private-repo allowance is 2,000 a month, so a pull
-    # request runs on Linux only. Windows still runs on every push to main (after a merge), on a manual run, and
-    # whenever someone dispatches it before a release.
+  games:
+    # Each game's test:fast. A pull request runs on Linux only; Windows also runs on every push to main, on a manual run,
+    # and whenever someone dispatches it before a release (the repo was built on Windows, and most of the early breakage
+    # was path and shell differences).
+    name: ${{ matrix.game }} (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
+        game: ["Frankenstein", "1914", "1922", "1941", "1940"]
         os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-24.04"]') || fromJSON('["ubuntu-24.04","windows-latest"]') }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
+      - run: node tools/run-all.mjs --install "${{ matrix.game }}"
+      - run: node tools/run-all.mjs --fast "${{ matrix.game }}"
+
+  shared:
+    # The tests that look across games: the itch.json targets and the engine equivalence test.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -33,35 +49,45 @@ jobs:
           cache: npm
           cache-dependency-path: "**/package-lock.json"
       - run: node tools/run-all.mjs --install
-      - run: node tools/run-all.mjs --fast
+      - run: node tools/check-itch-config.mjs
+      - run: node packages/engine/tests/campaign-equivalence.test.mjs
 
-      - name: Build Frankenstein (its test:fast does not build)
-        if: matrix.os == 'ubuntu-24.04'
-        working-directory: Dispatches Frankenstein
-        run: npm run build
+  browser:
+    # Every built game in real Chromium and WebKit (phone and desktop, accessibility), the 1914 screens in each theme, and
+    # a bot that plays each 1914 command to its ending.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
+      - run: node tools/run-all.mjs --install
+      - name: Build every game
+        run: |
+          for g in "Dispatches Frankenstein" "Dispatches 1914" "Dispatches 1922" "Dispatches 1941" "Dispatches 1940"; do
+            echo ">>> $g"
+            if (cd "$g" && npm run | grep -q "build:nozip"); then (cd "$g" && npm run build:nozip); else (cd "$g" && npm run build); fi
+          done
       - name: Install Chromium and WebKit
-        if: matrix.os == 'ubuntu-24.04'
         run: |
           npm ci --no-audit --no-fund
           npx playwright install --with-deps chromium webkit
       - name: Real-browser smoke test (Chromium + WebKit, accessibility)
-        if: matrix.os == 'ubuntu-24.04'
         run: node tools/smoke-browser.mjs
       - name: Real-browser audit of the 1914 screens (themes, phone, accessibility)
-        if: matrix.os == 'ubuntu-24.04'
         working-directory: Dispatches 1914
         env:
           BROWSERS: chromium,webkit
           THEMES: sepia,paper
-        run: |
-          npm run build
-          node tools/audit-screens.mjs
-      - name: Real-browser playthrough of every command to its ending
-        if: matrix.os == 'ubuntu-24.04'
+        run: node tools/audit-screens.mjs
+      - name: Real-browser playthrough of every 1914 command to its ending
         working-directory: Dispatches 1914
         run: node tools/playthrough.mjs
       - name: Keep screenshots
-        if: always() && matrix.os == 'ubuntu-24.04'
+        if: always()
         uses: actions/upload-artifact@v7
         with:
           name: browser-screenshots

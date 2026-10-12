@@ -49,6 +49,8 @@ export default {
     // The Order of Battle screen: let the staff plan it, then issue the plan.
     const seal = bs.find((x) => ctx.lab(x) === "Break the seal");
     if (seal) return seal;
+    const carry = bs.find((x) => ctx.lab(x).startsWith("Carry on to the second day"));
+    if (carry && !carry.disabled) return carry;
     const staff = bs.find((x) => ctx.lab(x) === "Let the staff plan it");
     if (staff) {
       const issue = bs.find((x) => ctx.lab(x).startsWith("Issue the plan"));

@@ -1097,7 +1097,7 @@ CAMPAIGNS.otto.nodes = {
           "The line has held twice and can hold again if it is strengthened. Gaza is the gate to Jerusalem, and the British have to come to it." },
         impact: { manpower: 0, munitions: -1, will: 1 },
         setFlags: { otto_gaza: "line" },
-        next: "otto_1917_01_yildirim",
+        next: "otto_1917_05_aqaba",
         outcome:
           "After the second battle the line is lengthened to Beersheba, with a chain of redoubts " +
           "and strongpoints, and two divisions reinforce the Fourth Army. Gaza is the strongest " +
@@ -1113,7 +1113,7 @@ CAMPAIGNS.otto.nodes = {
         disabledReason: "Gaza has been held twice and cannot be given up while it can be held",
         impact: { manpower: 1, munitions: 0, will: -2 },
         setFlags: { otto_gaza: "shortened" },
-        next: "otto_1917_01_yildirim",
+        next: "otto_1917_05_aqaba",
         outcome:
           "Speculative. The army leaves Gaza and falls back into the hills, to a line that runs " +
           "from the coast near Jaffa to the hills above Hebron. The line is shorter and the " +
@@ -1136,7 +1136,7 @@ CAMPAIGNS.otto.nodes = {
         uncertain: [
           { weight: 25, title: "The British outposts are driven in",
             impact: { manpower: -2, munitions: -1, will: 2 },
-            next: "otto_1917_01_yildirim",
+            next: "otto_1917_05_aqaba",
             outcome:
               "Speculative. A column of horse and infantry moves out of Gaza at night and drives " +
               "in the British outposts on the Wadi Ghazze. The British fall back some " +
@@ -1145,13 +1145,99 @@ CAMPAIGNS.otto.nodes = {
               "line, and the Ottoman line is longer and thinner than it was." },
           { weight: 75, title: "The attack is met in the open and driven back",
             impact: { manpower: -3, munitions: -1, will: -2 },
-            next: "otto_1917_01_yildirim",
+            next: "otto_1917_05_aqaba",
             outcome:
               "Speculative. The column is met in the open by British mounted troops and guns " +
               "that have been brought up in the days since the battle. It loses a good part of its " +
               "strength, and the line it left is weaker for the divisions it took. The British know " +
               "now how few men there are on the Gaza line." },
         ],
+      },
+    ],
+  },
+
+  otto_1917_05_aqaba: {
+    year: 1917, date: "1917-06-25", city: "Damascus",
+    title: "The Port the Revolt Needs",
+    advisors: ["djemal", "fakhri"],
+    situation: (flags) =>
+      "In January the Arab forces took Wejh on the Red Sea coast, with the help of the British navy, and " +
+      "since then they have raided the Hejaz railway on most nights. The one port that could give them " +
+      "a base in touch with the British in Sinai is Aqaba, at the head of the gulf. It is held by a " +
+      "battalion or less, with a few outposts in the hills behind it.\n\n" +
+      "The road to it from the desert side runs through the Wadi Itm and the pass at Abu el Lissan, " +
+      "where there is a blockhouse. The nearest force of any size is at Ma'an, some days away, and " +
+      "the army in Palestine, where the British are expected to attack again, wants every man." +
+      (flags.otto_medina === "held" ? "\n\nThe garrison of Medina is at the other end of the same railway, and the same raiders are cutting it." : ""),
+    context:
+      "A port is worth what can be landed in it. In Arab hands Aqaba would take stores and guns from " +
+      "the British in Egypt, and the railway would be struck from its landward side as well as from the desert.",
+    choices: [
+      {
+        id: "leave",
+        label: "Leave Aqaba with its small garrison and its outposts as they are, and keep the main force at Ma'an",
+        historical: true,
+        advisor: { name: "Djemal", position:
+          "Aqaba is a port with no good road behind it. A battalion is enough to hold it, and the men that a stronger garrison would take are wanted in Palestine." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { otto_aqaba: "fell" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "In the first days of July Arab irregulars under Auda abu Tayi, with Lawrence and the Sharif " +
+          "Nasir, come across the desert from the north-east and defeat a Turkish battalion at Abu el " +
+          "Lissan on 2 July. The posts in the Wadi Itm fall in the next days, and on 6 July the Aqaba " +
+          "garrison surrenders, about 300 men giving up the post at Khadra. The Arab revolt has a port " +
+          "in touch with the British in Sinai, and the railway has a second enemy on its flank.",
+      },
+      {
+        id: "pass",
+        label: "Move a battalion and two guns forward to the Wadi Itm and the pass at Abu el Lissan, and put Ma'an on alert",
+        advisor: { name: "Fakhri Pasha", position:
+          "The way to Aqaba is the pass, and the pass can be held by a battalion with guns. A garrison that waits in the port will be cut off in it." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Fourth Army has no battalion to spare while Gaza is threatened",
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "Whether a stronger force at the pass would have stopped the Arab column is argued. The column came " +
+          "by a long desert route, and it was lightly equipped, but it had surprise, and its leaders knew the ground.",
+        uncertain: [
+          { weight: 40, title: "The pass holds and the column turns back",
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            setFlags: { otto_aqaba: "pass" },
+            next: "otto_1917_01_yildirim",
+            outcome:
+              "Speculative. The battalion and its guns are in the pass when the Arab column comes up, and " +
+              "the first charge is met with fire it did not expect. The column draws off and tries the " +
+              "northern road, and the garrison at Ma'an, which has been alerted, moves out to meet it. " +
+              "Aqaba stays in Ottoman hands through the summer, and the Arabs are left with a longer " +
+              "road to the sea than they hoped." },
+          { weight: 60, title: "The battalion is cut off and Aqaba falls anyway",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { otto_aqaba: "pass" },
+            next: "otto_1917_01_yildirim",
+            outcome:
+              "Speculative. The column goes round the pass by a path the Turkish staff did not know, and " +
+              "the battalion in it finds the Arabs behind it. It is cut off from Ma'an and from the port, and " +
+              "surrenders with its guns. Aqaba falls a few days later, as it did in the record, to an " +
+              "attacker that has taken more men and more rifles on the way." },
+        ],
+      },
+      {
+        id: "abandon",
+        label: "Give up Aqaba, bring the garrison back to Ma'an, and make the railway the line",
+        advisor: { name: "Djemal", position:
+          "A port that cannot be held is better given up with its garrison than lost with it. The line that matters is the railway, and Ma'an is its keystone." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The Sultan's government has told Berlin that the Red Sea ports will be held",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { otto_aqaba: "abandoned" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "Speculative. The garrison and its guns are brought back to Ma'an in June, and Aqaba is left to " +
+          "the Arabs when they come. The force at Ma'an is stronger by a battalion, and the railway has a " +
+          "shorter flank to watch. The Arabs and the British have their port a few weeks earlier than " +
+          "in the record, and without a shot being fired for it, which is an easier thing to " +
+          "explain to the Sultan than a surrender.",
       },
     ],
   },
@@ -1193,7 +1279,7 @@ CAMPAIGNS.otto.nodes = {
           "An army group that goes to Baghdad leaves the road to Jerusalem open. Sinai and Palestine must be secured first, and the Yildirim should go there." },
         impact: { manpower: 0, munitions: 0, will: 1 },
         setFlags: { otto_yildirim: "palestine" },
-        next: "otto_1917_02_jerusalem",
+        next: "otto_1917_06_hejaz",
         outcome:
           "In September 1917 Falkenhayn redirects the group to Sinai and Palestine. The command " +
           "is reorganised: Kress von Kressenstein receives the Eighth Army for the Gaza front, Djemal " +
@@ -1212,7 +1298,7 @@ CAMPAIGNS.otto.nodes = {
         impact: { manpower: -2, munitions: -2, will: 1 },
         erodes: "overextend",
         setFlags: { otto_yildirim: "baghdad" },
-        next: "otto_1917_02_jerusalem",
+        next: "otto_1917_06_hejaz",
         outcome:
           "Speculative. The army group sets out down the Euphrates, with the German guns and " +
           "a supply line that will not stretch to the objective. The road is long and there " +
@@ -1227,7 +1313,7 @@ CAMPAIGNS.otto.nodes = {
           "Both fronts have to be held, and Baghdad has to be tried. A force sent to each does what a force sent to one cannot." },
         impact: { manpower: -1, munitions: -1, will: 0 },
         setFlags: { otto_yildirim: "divided" },
-        next: "otto_1917_02_jerusalem",
+        next: "otto_1917_06_hejaz",
         outcome:
           "Speculative. The army group is divided, and part of it goes by the railway to " +
           "Palestine and part down the Euphrates. Neither has what it needs. The force " +
@@ -1235,6 +1321,98 @@ CAMPAIGNS.otto.nodes = {
           "and the force on the Euphrates is too small to retake Baghdad and too far from " +
           "its railway to do anything else. Falkenhayn, who warned against dividing the " +
           "effort, has done what he was asked to do.",
+      },
+    ],
+  },
+
+  otto_1917_06_hejaz: {
+    year: 1917, date: "1917-10-12", city: "Damascus",
+    title: "Flour and Firewood",
+    advisors: ["djemal", "fakhri"],
+    situation: (flags) =>
+      "On 4 October Fakhri Pasha reported that the wheat and the food in Medina were nearly gone, and that " +
+      "he could no longer rely on the railway, which the Arab raiders cut again and again. The staff at " +
+      "Damascus has told him that he is responsible for his own fuel, and may pull down the houses of the " +
+      "city, the holy places excepted.\n\n" +
+      "The army in Palestine, where the British are about to attack, needs every truck and every ton " +
+      "of coal on the same line. At the far end of thirteen hundred kilometres of single track " +
+      "a garrison of thousands has about a month of bread." +
+      (flags.otto_aqaba === "fell" || flags.otto_aqaba === "pass"
+        ? "\n\nAqaba is in Arab hands, and the railway is struck now from the south-west as well as from the desert."
+        : flags.otto_aqaba === "abandoned"
+        ? "\n\nAqaba was given up in the summer, and the Arabs and the British have the port."
+        : ""),
+    context:
+      "A garrison that is fed from a railway lives as long as the railway runs. Trucks sent to Medina " +
+      "are trucks not sent to Gaza, and a garrison brought out is a garrison that has given up the city " +
+      "that the Sultan's claim to be caliph rests on.",
+    choices: [
+      {
+        id: "live",
+        label: "Tell Fakhri to live on what the district can give him, and keep the railway for Palestine",
+        historical: true,
+        advisor: { name: "Djemal", position:
+          "The army that has to fight the British is the one that matters. The garrison of Medina can live on the district, and on the houses of the city, until the front is safe." },
+        impact: { manpower: -1, munitions: 0, will: -1 },
+        setFlags: { otto_hejaz: "held" },
+        next: "otto_1917_02_jerusalem",
+        outcome:
+          "The staff answers Fakhri that he must find his own fuel, and may take down the buildings of " +
+          "Medina except the holy places, and the railway goes on carrying what Palestine needs. In " +
+          "November, with the line at Gaza lost, Djemal tells him that if Jerusalem falls the garrison " +
+          "is to be taken out. The programme, which would have taken seventy-five days, is " +
+          "never carried out, for want of rolling stock and fuel. The garrison stays.",
+      },
+      {
+        id: "convoy",
+        label: "Send three trains of flour and fuel to Medina, and take the trucks from Palestine",
+        advisor: { name: "Fakhri Pasha", position:
+          "A garrison that is not fed will not hold. The holy city cannot be left to starve, and three trains of flour will keep it until the spring." },
+        gate: (m) => m.munitions >= -3,
+        disabledReason: "The Palestine army has told Damascus that it cannot lose a single truck",
+        impact: { manpower: 0, munitions: -2, will: 1 },
+        setFlags: { otto_hejaz: "fed" },
+        next: "otto_1917_02_jerusalem",
+        outcome:
+          "Speculative. Three trains of flour and fuel are made up at Damascus and sent south. They " +
+          "reach Medina with the help of a column that clears the line, and the garrison has bread " +
+          "through the winter. The trucks that carried them are not at Gaza when the British come, and " +
+          "the army in Palestine is the poorer by a few thousand tons of supplies, and by the men " +
+          "who guarded the trains.",
+      },
+      {
+        id: "evacuate",
+        label: "Order the Hejaz force out of Medina now, by the railway, before the winter",
+        advisor: { name: "Djemal", position:
+          "Medina is a gangrened finger, and it will spread to Ma'an and to Syria if it is not cut off. The force in it is worth more in Palestine than in a city it cannot feed." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The Sultan-caliph cannot be seen to give up the Prophet's city, and Fakhri has said he will not leave",
+        impact: { manpower: 1, munitions: -1, will: -3 },
+        erodes: "overextend",
+        dispute:
+          "Whether the garrison could have been brought out is argued. The line was single, the trucks were few, " +
+          "the fuel was short, and the Arab raiders cut the track every few days, so that an evacuation planned " +
+          "for seventy-five days might have taken a good deal longer.",
+        uncertain: [
+          { weight: 35, title: "The first trains get the garrison out",
+            impact: { manpower: 1, munitions: -1, will: -2 },
+            setFlags: { otto_hejaz: "evacuated" },
+            next: "otto_1917_02_jerusalem",
+            outcome:
+              "Speculative. The first trains leave Medina in October with the sick and the guns, and most " +
+              "of the force follows in three weeks, with the Arab raiders kept off the line by columns from " +
+              "Ma'an. Fakhri leaves last, and under protest. The city is open to the Arabs, and the " +
+              "men who held it are in Syria in time for the British attack." },
+          { weight: 65, title: "The railway breaks and the garrison is strung out along it",
+            impact: { manpower: -2, munitions: -1, will: -3 },
+            setFlags: { otto_hejaz: "evacuated" },
+            next: "otto_1917_02_jerusalem",
+            outcome:
+              "Speculative. The trains run out of fuel at the first long gradient, and the Arabs blow the " +
+              "track in half a dozen places. The garrison is spread over four hundred kilometres of " +
+              "line in stalled trains and camps, short of food and water, and the Arabs take the " +
+              "stragglers at their leisure. Medina is lost, and a good part of the force with it." },
+        ],
       },
     ],
   },
@@ -1272,7 +1450,7 @@ CAMPAIGNS.otto.nodes = {
           "A battle for the city would be fought on the British guns' terms. The Seventh Army should be kept in being on the Nablus road, with the city left open." },
         impact: { manpower: 0, munitions: -1, will: -2 },
         setFlags: { otto_jerusalem: "withdrew" },
-        next: "otto_1918_01_caucasus",
+        next: "otto_1917_07_erzincan",
         outcome:
           "The Seventh Army retreats in the evening of 8 December, in rain. On the 9th the " +
           "governor surrenders the city, in writing, citing the danger to the holy places from " +
@@ -1290,7 +1468,7 @@ CAMPAIGNS.otto.nodes = {
         impact: { manpower: -2, munitions: -1, will: 1 },
         erodes: "overextend",
         setFlags: { otto_jerusalem: "held" },
-        next: "otto_1918_01_caucasus",
+        next: "otto_1917_07_erzincan",
         outcome:
           "Speculative. The army digs in in front of the city and the British guns open on it. " +
           "The battle that follows is fought in the streets and among the shrines, and the " +
@@ -1301,12 +1479,96 @@ CAMPAIGNS.otto.nodes = {
     ],
   },
 
+  otto_1917_07_erzincan: {
+    year: 1917, date: "1917-12-14", city: "Constantinople",
+    title: "A Pause in the Snow",
+    advisors: ["enver", "djemal"],
+    situation:
+      "The Russian army in the Caucasus is coming apart. After the October revolution its soldiers are " +
+      "going home, and the front is held by Armenian and Georgian units and by what is left of the rest. " +
+      "Vehib Pasha, who commands the Third Army, has proposed a ceasefire, and the Transcaucasian " +
+      "authorities have said they will talk.\n\n" +
+      "Jerusalem fell on 9 December, and Djemal and the Germans want every division that can be spared " +
+      "in Palestine. The Third Army is hungry, ill-clothed and half the size on paper that it was, " +
+      "and it is the winter in the mountains.",
+    context:
+      "An enemy that is going home is an enemy that cannot be fought and cannot be trusted to stay " +
+      "gone. A ceasefire gives the Third Army the winter, and the Russians the same, and what " +
+      "the spring brings is not something that can be known now.",
+    choices: [
+      {
+        id: "sign",
+        label: "Sign the ceasefire at Erzincan, and hold the Third Army where it is while the Russians go home",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "The army cannot fight in the snow and has no need to. A ceasefire holds the line for the winter, and the Russians will not come back." },
+        impact: { manpower: 1, munitions: 0, will: 1 },
+        setFlags: { otto_erzincan: "signed" },
+        next: "otto_1918_01_caucasus",
+        outcome:
+          "The ceasefire is signed at Erzincan on 18 December, between the Third Army and the Transcaucasian " +
+          "authorities, and the fighting on the Caucasus and Persian fronts stops until February. The " +
+          "empire treats the other side as a state on its own, and the other side does not. The Third " +
+          "Army has the winter to rest in, and the Russian army goes home.",
+      },
+      {
+        id: "advance",
+        label: "Refuse any pause and advance into the collapsing front now, in the snow",
+        advisor: { name: "Enver", position:
+          "An enemy that is falling apart should be pushed, and not given the winter to put itself together. The army that waits will have to fight in the spring what it could take now." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Third Army has told Constantinople that it cannot march without boots",
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        erodes: "overextend",
+        dispute:
+          "Historians disagree on whether the Ottoman army could have gone far in the winter of 1917 to 1918. " +
+          "It had little transport, and the roads were closed by snow, but the front in front of it was nearly empty.",
+        uncertain: [
+          { weight: 50, title: "The army walks into an empty front",
+            impact: { manpower: -2, munitions: -1, will: 2 },
+            setFlags: { otto_erzincan: "advance" },
+            next: "otto_1918_01_caucasus",
+            outcome:
+              "Speculative. The Third Army marches into the snow and meets almost no one. Whole divisions of " +
+              "the Russian army have gone home, and the Armenian and Georgian units that are left fall " +
+              "back. The army reaches Erzurum in weeks, with men dead of cold on the road, and it holds " +
+              "ground that it would have had in the spring in any case." },
+          { weight: 50, title: "The advance stalls in the snow",
+            impact: { manpower: -3, munitions: -1, will: -1 },
+            setFlags: { otto_erzincan: "advance" },
+            next: "otto_1918_01_caucasus",
+            outcome:
+              "Speculative. The advance is stopped in the passes by snow and by the Armenian units, who " +
+              "hold the narrow roads with what guns they have. The army has no boots and no food for " +
+              "a march, and it loses more men to the cold than to the enemy. It falls back to " +
+              "its winter quarters in February, a good deal smaller." },
+        ],
+      },
+      {
+        id: "palestine",
+        label: "Sign the ceasefire, and send two divisions of the Third Army to Palestine",
+        advisor: { name: "Djemal", position:
+          "The British are on the road to Damascus. The Third Army can hold the mountains with a ceasefire and half its strength, and the other half is needed where the war is." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Third Army is already below the strength that the mountains need",
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { otto_erzincan: "palestine" },
+        next: "otto_1918_01_caucasus",
+        outcome:
+          "Speculative. The ceasefire is signed, and two divisions of the Third Army go by Aleppo to " +
+          "Palestine, where they arrive in the new year. The line in the mountains is thinner, and the " +
+          "Armenians and the Georgians see it. The Palestine army has two divisions more when the " +
+          "British come on, and the Third Army has fewer when the Russians have gone and the spring comes.",
+      },
+    ],
+  },
+
   // ---------------------------------------------------------------- 1918-07
   otto_1918_01_caucasus: {
     year: 1918, date: "1918-07-10", city: "Constantinople",
     title: "The Road to Baku",
     advisors: ["enver", "liman"],
-    situation:
+    situation: (flags) =>
       "Russia made peace at Brest-Litovsk on 3 March, and the empire has taken back the " +
       "districts of Kars, Ardahan and Batum that it lost forty years ago. On 4 June it " +
       "signed the treaty of Batum with the new republics of Armenia, Azerbaijan and " +
@@ -1315,7 +1577,12 @@ CAMPAIGNS.otto.nodes = {
       "men and no German officers in it.\n\n" +
       "Enver wants Baku, its oil, and the Muslims of the Caspian coast. The Germans want " +
       "the oil for themselves and have told him to keep out of southern Russia. " +
-      "In Palestine, Liman von Sanders is asking for every division he can get.",
+      "In Palestine, Liman von Sanders is asking for every division he can get." +
+      (flags.otto_erzincan === "advance"
+        ? "\n\nThe Third Army has been in the field since the winter, and it is smaller than it was."
+        : flags.otto_erzincan === "palestine"
+        ? "\n\nTwo divisions of the Third Army went to Palestine in January, and the Caucasus is held more thinly."
+        : ""),
     context:
       "Baku is five hundred kilometres from the nearest Ottoman railway, and a long way " +
       "from any front where the war will be decided. The divisions that are sent to the " +
@@ -1527,8 +1794,14 @@ CAMPAIGNS.otto.nodes = {
       "Kut, winter of 1915-16: " + (flags.otto_kut === "storm" ? "the town stormed." : flags.otto_kutResult === "relieved" ? "the siege broken by the relief force." : "the siege kept, and the British surrender.") + "\n" +
       "Erzurum, 1916: " + (flags.otto_erzurum === "withdrew" ? "the fortress given up and the army saved." : flags.otto_erzurum === "fought" ? "the army fought the Russians outside the fortress." : "the fortress held until it fell.") + "\n" +
       "The Hejaz, 1916: " + (flags.otto_medina === "evacuated" ? "evacuated." : "Medina held to the end of the war.") + "\n" +
+      "Sinai, 1916: " + (flags.otto_romani === "waited" ? "the force kept by its wells." : flags.otto_romani === "hejaz" ? "the divisions sent to the Hejaz." : "the attack at Romani.") + "\n" +
+      "Baghdad, 1917: " + (flags.otto_baghdad === "ctesiphon" ? "the stand below the city." : flags.otto_baghdad === "mosul" ? "the city given up and the army saved." : "the line of the Diyala.") + "\n" +
+      "Gaza, 1917: " + (flags.otto_gaza === "shortened" ? "the army drawn back to the hills." : flags.otto_gaza === "struck" ? "the British railhead attacked." : "the line held and lengthened to Beersheba.") + "\n" +
+      "Aqaba, 1917: " + (flags.otto_aqaba === "abandoned" ? "the port given up." : flags.otto_aqaba === "pass" ? "the pass defended." : "the port lost to the Arab column.") + "\n" +
+      "Medina, autumn 1917: " + (flags.otto_hejaz === "evacuated" ? "the garrison ordered out." : flags.otto_hejaz === "fed" ? "fed by trains from Syria." : "left to live on the district.") + "\n" +
       "The Yildirim, 1917: " + (flags.otto_yildirim === "baghdad" ? "sent against Baghdad." : flags.otto_yildirim === "divided" ? "divided between Palestine and the Euphrates." : "sent to Palestine.") + "\n" +
       "Jerusalem, 1917: " + (flags.otto_jerusalem === "held" ? "the city defended." : "the city left undefended.") + "\n" +
+      "Erzincan, December 1917: " + (flags.otto_erzincan === "advance" ? "the advance in the snow." : flags.otto_erzincan === "palestine" ? "the ceasefire, and two divisions sent to Palestine." : "the ceasefire signed.") + "\n" +
       "The Caucasus, 1918: " + (flags.otto_caucasus === "held" ? "the army halted at Batum." : "the Army of Islam sent to Baku.") + "\n" +
       "Palestine, September 1918: " + (flags.otto_megiddo === "withdrew" ? "the corps withdrawn before the attack." : "the line held.") + "\n\n" +
       "What actually happened: the armistice of Mudros was signed on 30 October 1918 and took " +

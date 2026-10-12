@@ -82,6 +82,31 @@ for (const [key, c] of Object.entries(E.BATTLES)) {
       if (pool >= 6 && worst > -5) problems.push(`${at}: under "${p.id}" at pool ${pool} the worst plan loses to the staff's by only ${-worst} points: nothing is at stake`);
     }
   }
+  // the second day: the staff's plan held with nothing moved is the record's odds, no stance or move takes the bonus past the clamp, and learning the
+  // real setup can be worth something (some move improves the staff's plan under some setup, at a pool of six or more)
+  for (const pool of [6, 7, 8]) {
+    const staff = E.staffPlanFor(c, pool);
+    let helped = 0;
+    for (const p of posts) {
+      checked++;
+      for (const stance of ["hold", "press", "steady"]) {
+        const b = E.battleFinalBonus(c, { ...staff, second: { stance } }, p, pool);
+        if (b !== 0) problems.push(`${at}: the staff's plan under "${p.id}" at pool ${pool} with the stance "${stance}" moves the roll ${b}, not 0`);
+      }
+      let bestMove = E.battleFinalBonus(c, { ...staff, second: { stance: "hold" } }, p, pool);
+      const arms = cats.map((k) => k.id);
+      for (const from of arms) for (const to of arms) {
+        if (from === to) continue;
+        for (const second of [{ moves: [{ from, to }] }, { moves: [{ from, to }, { from, to }] }]) for (const stance of ["hold", "press", "steady"]) {
+          const b = E.battleFinalBonus(c, { ...staff, second: { ...second, stance } }, p, pool);
+          if (Math.abs(b) > E.BATTLE_BONUS_CLAMP) problems.push(`${at}: a second-day bonus of ${b} exceeds the clamp`);
+          if (stance === "hold") bestMove = Math.max(bestMove, b);
+        }
+      }
+      if (bestMove > 0) helped++;
+    }
+    if (pool >= 6 && helped < 1) problems.push(`${at}: at pool ${pool} moving counters on the second day helps the staff's plan under none of its ${posts.length} setups`);
+  }
   // the weights stay in bounds at the extremes of the bonus
   if (choice.uncertain && choice.uncertain.length === 2) {
     for (const bonus of [-E.BATTLE_BONUS_CLAMP, E.BATTLE_BONUS_CLAMP]) {

@@ -523,5 +523,20 @@
     "title": "Battle of Nonne Bosschen, 11 November 1914 (History of War)",
     "kind": "web (secondary)",
     "url": "https://www.historyofwar.org/articles/battles_nonne_bosschen.html"
+  },
+  "wp-aqaba": {
+    "title": "Battle of Aqaba",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Aqaba"
+  },
+  "qdl-hejaz": {
+    "title": "Summary of the Hejaz Revolt (Qatar Digital Library)",
+    "kind": "archive (secondary compilation)",
+    "url": "https://qdl.qa/en/archive/81055/vdc_100023608745.0x000006"
+  },
+  "wp-erzincan": {
+    "title": "Armistice of Erzincan",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Armistice_of_Erzincan"
   }
 }

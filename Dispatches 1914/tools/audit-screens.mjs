@@ -150,6 +150,8 @@ for (const engine of ENGINES) {
         await scan(page, at("battle screen"), { viewport: vp.label });
         await click(page, /Let the staff plan it/);
         await click(page, /^Issue the plan/);
+        await scan(page, at("battle second day"), { viewport: vp.label });
+        await click(page, /^Carry on to the second day/);
         await scan(page, at("sealed cable"), { viewport: vp.label });
         await click(page, /^Break the seal$/);
         checks++;

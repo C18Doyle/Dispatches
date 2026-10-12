@@ -41,7 +41,7 @@ function loadEngine(file) {
     "THEME_IDS", "THEME_LABELS", "THEME_TOKENS", "THEME_PAIRS", "THEME_MIN_RATIO", "CAMPAIGN_BANDS", "contrastRatio", "tokensFor", "themeCss", "sepiaCss", "ASKS", "shareSummary", "BRIEFINGS", "HOW_TO", "ukDate", "nodeDate", "EVENTS", "dueEvent", "DEFAULT_THEME", "resolveTheme",
     "BATTLES", "BATTLE_COMMANDER_BONUS", "BATTLE_NEGLECT_PENALTY", "BATTLE_BONUS_CLAMP", "BATTLE_SCALE", "BATTLE_INTEL_ERROR", "BATTLE_WEIGHT_BOUNDS",
     "battleOf", "battlePoolSize", "pickBattlePosture", "battleIntel", "battleArmWeight", "battleContributions", "allBattleAllocations", "staffPlanFor",
-    "battleBonus", "battlePlanOdds", "shiftToward", "battlePlanCosts", "battleFlagsOut", "battleEchoText", "battleRoll",
+    "battleBonus", "battlePlanOdds", "BATTLE_STANCES", "BATTLE_PRESS", "BATTLE_STEADY", "BATTLE_SHIFT_MAX", "BATTLE_SHIFT_COST", "BATTLE_SECOND_GAIN", "battleSecondPlan", "battleFinalBonus", "shiftToward", "battlePlanCosts", "battleFlagsOut", "battleEchoText", "battleRoll",
     "ODDS_BANDS", "orderOdds", "METER_STRANDS", "strandOf", "strandReadout", "tallyStrands", "meterChanges",
   ];
 

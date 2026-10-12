@@ -30,6 +30,8 @@ const btn = (ctx, re) => ctx.buttons().find((b) => re.test(ctx.lab(b)));
 const orders = (ctx) => ctx.buttons().filter((b) => b.className === "dg-choice");
 /** One click of a plain playthrough: the first open order, the staff's plan on a battle screen, the seal, Continue. */
 async function step(ctx) {
+  const carry = btn(ctx, /^Carry on to the second day/);
+  if (carry && !carry.disabled) return ctx.click(carry);
   const issue = btn(ctx, /^Issue the plan/);
   const staff = btn(ctx, /Let the staff plan it/);
   if (staff) return ctx.click(issue && !issue.disabled ? issue : staff);

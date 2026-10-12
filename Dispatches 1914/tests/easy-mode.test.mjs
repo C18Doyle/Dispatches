@@ -52,6 +52,7 @@ async function step(ctx, pick = 0) {
   if (staff) {
     await ctx.click(staff);
     await ctx.click(btn(ctx, /^Issue the plan/));
+    await ctx.click(btn(ctx, /^Carry on to the second day/));
     return true;
   }
   const seal = btn(ctx, /^Break the seal$/);

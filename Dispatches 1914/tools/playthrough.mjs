@@ -124,6 +124,20 @@ async function playOne(browser, [card, id], play) {
         const issue = page.getByRole("button", { name: /^Issue the plan/ });
         if (await issue.isDisabled()) problems.push(`${where}: the battle plan cannot be issued after planning`);
         await issue.click();
+        // the second day: a stance chosen by the bot's own dice, a counter moved now and then
+        const stances = page.locator('[aria-label="Stance"] button');
+        if (await stances.count()) await stances.nth(Math.floor(rnd() * (await stances.count()))).click();
+        if (rnd() < 0.5) {
+          const out = page.locator('button[aria-label^="Take a counter out of"]:not([disabled])');
+          if (await out.count()) {
+            await out.nth(Math.floor(rnd() * (await out.count()))).click();
+            const into = page.locator('button[aria-label^="Put a counter into"]:not([disabled])');
+            if (await into.count()) await into.nth(Math.floor(rnd() * (await into.count()))).click();
+          }
+        }
+        const carry = page.getByRole("button", { name: /^Carry on to the second day/ });
+        if (await carry.isDisabled()) problems.push(`${where}: the second day cannot be carried on`);
+        await carry.click();
       } else {
         problems.push(`${where}: step ${step}: unexpected screen "${screen}"`);
         break;

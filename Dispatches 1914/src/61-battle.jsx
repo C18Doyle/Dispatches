@@ -23,6 +23,11 @@ export const BATTLE_BONUS_CLAMP = 20; // points of weight a plan can move the ro
 export const BATTLE_SCALE = 1.3; // points of weight per point of contribution above (or below) the staff's plan
 export const BATTLE_INTEL_ERROR = 0.25; // how often the free intelligence summary describes the wrong setup
 export const BATTLE_WEIGHT_BOUNDS = [5, 95];
+export const BATTLE_PRESS = 1.3; // the second day: pressing on multiplies the plan's edge (or its error) by this
+export const BATTLE_STEADY = 0.5; // the second day: steadying the line multiplies it by this
+export const BATTLE_SHIFT_MAX = 2; // counters that can be moved between arms on the second day
+export const BATTLE_SHIFT_COST = 1; // points of weight lost to the confusion of moving them, once any are moved
+export const BATTLE_SECOND_GAIN = 3; // what a counter moved with the enemy known is worth, against the same move made in the dark
 
 /** Filled in by 62-battles.jsx: { [battleId]: config }. */
 export const BATTLES = {};
@@ -130,13 +135,57 @@ export function staffPlanFor(config, pool) {
   return best;
 }
 
-/** Points of weight a plan moves the roll, against the staff's plan under the same enemy setup. Zero for the staff's own plan. */
-export function battleBonus(config, plan, posture, pool) {
+const clampBonus = (raw) => Math.max(-BATTLE_BONUS_CLAMP, Math.min(BATTLE_BONUS_CLAMP, Math.round(raw)));
+
+/** The unrounded edge of a plan over the staff's, under the same enemy setup. */
+function rawBonus(config, plan, posture, pool) {
   const staff = staffPlanFor(config, pool);
   const mine = sumValues(battleContributions(config, plan, posture, pool));
   const theirs = sumValues(battleContributions(config, staff, posture, pool));
-  const raw = (mine - theirs) * BATTLE_SCALE;
-  return Math.max(-BATTLE_BONUS_CLAMP, Math.min(BATTLE_BONUS_CLAMP, Math.round(raw)));
+  return (mine - theirs) * BATTLE_SCALE;
+}
+
+/** Points of weight a plan moves the roll, against the staff's plan under the same enemy setup. Zero for the staff's own plan. */
+export function battleBonus(config, plan, posture, pool) {
+  return clampBonus(rawBonus(config, plan, posture, pool));
+}
+
+// ---------- the second day ----------
+//
+// The plan is made on one reading of the enemy and the first day shows the real one. On the second day the player may (a) move up to BATTLE_SHIFT_MAX
+// counters from one arm to another (a counter moved with the enemy known is worth BATTLE_SECOND_GAIN times what it was worth in the dark, less
+// BATTLE_SHIFT_COST points of weight in the confusion), and (b) choose a stance: hold the plan (the
+// plan's edge as it is), press on (BATTLE_PRESS times the edge, and a point of manpower), or steady the line (BATTLE_STEADY times the edge). A plan
+// that is not given a second day is a plan held with nothing moved, so the staff's plan still plays the record's odds.
+export const BATTLE_STANCES = [
+  { id: "hold", name: "Hold the plan", note: "Carry on as planned, with the odds as they stand." },
+  { id: "press", name: "Press the attack", note: "Double down: the plan's edge, or its error, is a third greater, and it costs a point of manpower." },
+  { id: "steady", name: "Steady the line", note: "Play safe: the plan's edge, or its error, is halved." },
+];
+
+/** The plan with its second day applied: { ...plan, allocation } after the counters moved ({ from, to } pairs, at most BATTLE_SHIFT_MAX). */
+export function battleSecondPlan(plan) {
+  const second = plan.second || {};
+  const alloc = { ...(plan.allocation || {}) };
+  let n = 0;
+  for (const m of second.moves || []) {
+    if (n >= BATTLE_SHIFT_MAX || !m || m.from === m.to || !(alloc[m.from] > 0) || !(m.to in alloc)) continue;
+    alloc[m.from] -= 1;
+    alloc[m.to] += 1;
+    n++;
+  }
+  return { ...plan, allocation: alloc, moved: n };
+}
+
+/** The bonus the roll takes: the plan after its second day, under the setup the enemy really showed. Equals battleBonus for a plan with no second day. */
+export function battleFinalBonus(config, plan, posture, pool) {
+  const adjusted = battleSecondPlan(plan);
+  const stance = (plan.second && plan.second.stance) || "hold";
+  const before = rawBonus(config, plan, posture, pool);
+  let raw = before + (rawBonus(config, adjusted, posture, pool) - before) * BATTLE_SECOND_GAIN;
+  raw *= stance === "press" ? BATTLE_PRESS : stance === "steady" ? BATTLE_STEADY : 1;
+  if (adjusted.moved > 0) raw -= BATTLE_SHIFT_COST;
+  return clampBonus(raw);
 }
 
 /**
@@ -145,7 +194,7 @@ export function battleBonus(config, plan, posture, pool) {
  */
 export function battlePlanOdds(choice, config, plan, posture, pool, meters) {
   const strained = strainedUncertain(choice, meters).uncertain;
-  const bonus = plan ? battleBonus(config, plan, posture, pool) : 0;
+  const bonus = plan ? battleFinalBonus(config, plan, posture, pool) : 0;
   const moved = shiftToward(strained, config.winBranch, bonus);
   const total = moved.reduce((s, x) => s + x.weight, 0) || 100;
   const pct = Math.round((moved[config.winBranch].weight / total) * 100);
@@ -169,11 +218,13 @@ export function shiftToward(uncertain, winIndex, bonus) {
  * two points from the three meters, so a plan can sting but never outweigh the battle's own outcome. The grade: a win with nothing neglected is
  * "clean", any other win "costly"; a loss is "marginal" when the plan held up and "total" when two or more arms were left short.
  */
-export function battlePlanCosts(config, plan, posture, pool, won) {
+export function battlePlanCosts(config, planGiven, posture, pool, won) {
   const cats = config.categories;
+  const plan = battleSecondPlan(planGiven);
   const alloc = plan.allocation || {};
   const contributions = battleContributions(config, plan, posture, pool);
   const lines = [];
+  if (planGiven.second && planGiven.second.stance === "press") lines.push({ meter: "manpower", delta: -1, reason: "Pressed the attack" });
   for (const c of cats) {
     if ((alloc[c.id] || 0) >= pool / 2) lines.push({ meter: c.meter, delta: -1, reason: `Heavy commitment to ${c.name}` });
   }
@@ -231,6 +282,6 @@ export function battleRoll(choice, plan, meters) {
   if (!config || !plan || !choice.uncertain || choice.uncertain.length !== 2) return null;
   const posture = lookup(config.postures, plan.postureId);
   const pool = plan.pool || battlePoolSize(meters);
-  const bonus = battleBonus(config, plan, posture, pool);
+  const bonus = battleFinalBonus(config, plan, posture, pool);
   return { config, posture, pool, bonus, costsFor: (won) => battlePlanCosts(config, plan, posture, pool, won) };
 }
