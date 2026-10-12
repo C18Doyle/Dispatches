@@ -137,6 +137,126 @@ CAMPAIGNS.ohl.nodes = {
           "exactly the corps that went south. Nobody in this building can say yet what " +
           "that will cost, and nobody will be able to say until September.",
       },
+      {
+        id: "east",
+        label: "Put the Kaiser's question to the railways: ask what it would take to send the whole army east",
+        advisor: { name: "Tappen", position:
+          "The Kaiser has asked for it in plain words. The railway department should be asked what it would cost, and he should be answered in figures and not in a refusal." },
+        impact: { manpower: -1, munitions: -1, will: -1 },
+        next: "ohl_1914_14_timetable",
+        outcome:
+          "Speculative. The question goes to the railway department the same evening, and the " +
+          "answer comes back as a sheet of arithmetic: the trains that carry seven armies west " +
+          "have been written down to the hour, and running them the other way means writing " +
+          "them again. The Kaiser is shown the figures. The mobilisation of the west goes on in " +
+          "the meantime, and for two days nobody in the building is sure which war is being " +
+          "deployed.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-08 (a detour: the question put to the railways)
+  ohl_1914_14_timetable: {
+    year: 1914, date: "1914-08-06", city: "Koblenz",
+    title: "Two Days of Argument",
+    advisors: ["moltke", "tappen"],
+    situation:
+      "The mobilisation is under way, and the first trains of the western armies are " +
+      "crossing the Rhine bridges. The Kaiser has not let the question go. He has told " +
+      "the Chief of the General Staff that the army can be turned on Russia, and that " +
+      "the French can be left alone if the British will keep them quiet.\n\n" +
+      "The railway department has said that it can be done, in a number of days that " +
+      "the plan does not have to spare. Moltke has said that an army improvised on " +
+      "the railways is a crowd. What has to be settled now is how much the Kaiser's " +
+      "request may be allowed to disturb a mobilisation that is already moving.",
+    context:
+      "The deployment in the west was written down years ago, down to the hour at each " +
+      "bridge, and has been revised every spring since. Whether it could have been " +
+      "changed in August 1914 is argued still. Moltke said it could not.",
+    choices: [
+      {
+        id: "hold",
+        label: "Tell the Kaiser that the deployment cannot be reversed, and let the western mobilisation go on",
+        historical: true,
+        advisor: { name: "Moltke", position:
+          "A deployment is one plan and not a menu. An army sent the wrong way on the railways is not recovered by a better order afterwards." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { ohl_timetable: "asked" },
+        next: "ohl_1914_12_twocorps",
+        outcome:
+          "Speculative. The answer to the Kaiser is the one the railway department's " +
+          "arithmetic supports. The western armies go on to their railheads in the order " +
+          "the plan gave, and the argument leaves a Chief of the General Staff who has said " +
+          "no to his Emperor and will be reminded of it. Two days have been spent, and the " +
+          "plan had little slack; the right wing will cross the frontier a little later " +
+          "than its timetable said it would.",
+      },
+      {
+        id: "half",
+        label: "Divert part of the deployment east as a hedge, and thin the right wing by what the trains can spare",
+        advisor: { name: "Tappen", position:
+          "The east will be invaded whatever happens in the west. A hedge costs the right wing a corps or two, and it gives the Kaiser an answer that is not a refusal." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { ohl_timetable: "slipped" },
+        next: "ohl_1914_12_twocorps",
+        outcome:
+          "Speculative. Trains already made up for the western railheads are re-routed east " +
+          "at Cologne and Hanover, and for three days the lines through the Rhineland " +
+          "carry traffic that no timetable provided for. Some units reach the right place. " +
+          "Others sit in sidings while the staff works out where they belong. The right " +
+          "wing goes forward weaker than the plan asked, and the east has a hedge that " +
+          "was bought at the price of order.",
+      },
+      {
+        id: "whole",
+        label: "Order the whole deployment turned east, and take the consequences",
+        advisor: { name: "Moltke", position:
+          "If it is ordered I will carry it out. I will say in writing what it will do to the armies on the Rhine, and what the French will do while we do it." },
+        impact: { manpower: -1, munitions: -1, will: -1 },
+        dispute:
+          "Moltke told the Kaiser that the western deployment could not be altered. Some " +
+          "historians accept that: the timetable had been fixed for years, and the plan " +
+          "for a deployment in the east had been given up. Others think the claim was " +
+          "overstated, and that the General Staff never tried to find out what a change " +
+          "would cost. No one argues that a turn of the whole army would have been " +
+          "painless; what is disputed is how bad it would have been.",
+        uncertain: [
+          { weight: 45, title: "The lines through the Rhineland jam, and the days are lost",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { ohl_timetable: "slipped" },
+            next: "ohl_1914_12_twocorps",
+            outcome:
+              "Speculative. The turn is ordered and the railways cannot bear it. Trains " +
+              "meet trains at the junctions, units arrive without their horses and horses " +
+              "without their units, and in the second week the Chief has to countermand " +
+              "the order and send what he can back toward the Belgian frontier. The west " +
+              "is deployed late and in pieces. The Kaiser has been given what he asked " +
+              "for, and has seen what it cost." },
+          { weight: 35, title: "The turn is carried out, and the armies reach the east in order",
+            impact: { manpower: 0, munitions: -1, will: 0 },
+            setFlags: { ohl_timetable: "slipped" },
+            next: "ohl_1914_12_twocorps",
+            outcome:
+              "Speculative. The railway staff does what Moltke said it could not. The " +
+              "eastern armies are reinforced in the first weeks of the war, and a " +
+              "weaker right wing in the west is given a smaller task. The French and " +
+              "the British are not yet in the position of an enemy who has been " +
+              "attacked, and what they will do with the time is the question that " +
+              "headquarters cannot answer. The decision has been made and cannot be " +
+              "unmade." },
+          { weight: 20, title: "The Kaiser countermands within two days",
+            impact: { manpower: -1, munitions: 0, will: -1 },
+            setFlags: { ohl_timetable: "asked" },
+            next: "ohl_1914_12_twocorps",
+            outcome:
+              "Speculative. The first orders go out and the Kaiser, shown a map of the " +
+              "Rhine bridges and told how many trains are already beyond them, withdraws " +
+              "his request. The armies are sent to the places the plan named, a few days " +
+              "behind where they should be. The Chief of the General Staff has learned " +
+              "that his Emperor can change his mind, and the Emperor that his Chief " +
+              "can be made to." },
+        ],
+      },
     ],
   },
 
@@ -226,6 +346,10 @@ CAMPAIGNS.ohl.nodes = {
           ? "\n\nBoth corps the east asked for stayed on the right, and the wing is at " +
             "the strength the plan asked for."
           : "") +
+      (flags.ohl_timetable === "slipped"
+        ? "\n\nThe days lost to the argument over the railways in the first week have never " +
+          "been made up, and the armies on the right are marching on a timetable that started late."
+        : "") +
       "\n\nWhat to order is not the difficulty. Knowing what to order is." +
       (flags.xc_marne_french === "delayed" ? "\n\nThere is no French attack on the flank. The armies on the left are still withdrawing, and the only pressure on the gap is the one the German armies have made themselves." : ""),
     context:
@@ -372,22 +496,42 @@ CAMPAIGNS.ohl.nodes = {
       "will do instead.",
     choices: [
       {
-        id: "press",
-        label: "Make one more concentrated attack at Ypres before the winter",
-        historical: true,
-        advisor: { name: "Falkenhayn", position:
-          "The coast is the one place in the west where a result is still possible. If it is not taken now it will not be taken." },
-        impact: { manpower: -1, munitions: -1, will: 0 },
-        setFlags: { ohl_flanders: "pressed" },
-        next: "ohl_1915_14_gorlice",
-        outcome:
-          "The last concentrated attack goes in in the second week of November, with " +
-          "fresh divisions and a heavy bombardment. It makes ground at several points " +
-          "and does not make the breakthrough, and the local fighting dies away by the " +
-          "end of the month. The front in Flanders has settled into lines that will " +
-          "move very little for years. The reserve corps that made the attack are left " +
-          "to bury what remains of them.",
-      },
+  id: "press",
+  label: "Make one more concentrated attack at Ypres before the winter",
+  historical: true,
+  advisor: { name: "Falkenhayn", position:
+    "The coast is the one place in the west where a result is still possible. If it is not taken now it will not be taken." },
+  impact: { manpower: -1, munitions: -1, will: 0 },
+  setFlags: { ohl_flanders: "pressed" },
+  dispute:
+    "Historians differ about how close the German attack came to a breakthrough at " +
+    "Ypres in the autumn of 1914. British accounts of the crisis of 31 October stress " +
+    "how thin the line was and how little stood behind it. German accounts stress the " +
+    "exhaustion of the reserve corps and the want of reserves behind the attack. Both " +
+    "can be true of the same days.",
+  uncertain: [
+    { weight: 65, title: "The attack makes ground and not the breakthrough", historicalBranch: true,
+      impact: { manpower: -1, munitions: -1, will: 0 },
+      next: "ohl_1915_14_gorlice",
+      outcome:
+        "The last concentrated attack goes in in the second week of November, with " +
+        "fresh divisions and a heavy bombardment. It makes ground at several points " +
+        "and does not make the breakthrough, and the local fighting dies away by the " +
+        "end of the month. The front in Flanders has settled into lines that will " +
+        "move very little for years. The reserve corps that made the attack are left " +
+        "to bury what remains of them." },
+    { weight: 35, title: "The line gives for two days, and is closed",
+      impact: { manpower: -2, munitions: -1, will: 1 },
+      next: "ohl_1915_14_gorlice",
+      outcome:
+        "Speculative. The attack goes in on the 11th and the line gives where it was " +
+        "thinnest, in the woods east of Ypres. A gap opens, and for two days there is " +
+        "nothing behind it that the British can put in. Reserves are brought up and " +
+        "the gap is closed, at a price in men that the German reserve corps can no " +
+        "more afford than the British. The ground is held, and the ports are no nearer " +
+        "than the Chief expected at the start." },
+  ],
+},
       {
         id: "break",
         label: "Break off in Flanders and send the fresh divisions east for the winter",
@@ -403,6 +547,21 @@ CAMPAIGNS.ohl.nodes = {
           "the autumn left it, and the coast is never again as open as it is this week. " +
           "The Chief who gave up the last chance of a decision in the west has to say " +
           "what he will try instead.",
+      },
+      {
+        id: "dig",
+        label: "Hold what has been won at Ypres, dig in, and keep the divisions in Flanders for the winter",
+        advisor: { name: "Tappen", position:
+          "A line held through the winter by fresh divisions is a line a spring offensive can start from. Another assault now spends them on ground the weather will take back." },
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { ohl_flanders: "held" },
+        next: "ohl_1915_14_gorlice",
+        outcome:
+          "Speculative. The attack is not renewed and the divisions are not sent away. They dig " +
+          "in where the first weeks left them, and the line at Ypres becomes the line that will " +
+          "be held through the winter. The Channel ports are still behind the British, and the " +
+          "Chief has spent nothing in trying for them. At home it is read as a pause, and the " +
+          "newspapers are told that the position is being consolidated, which is true.",
       },
     ],
   },
@@ -467,6 +626,21 @@ CAMPAIGNS.ohl.nodes = {
           "meantime, and the west is left with whatever is not needed elsewhere. An " +
           "envelopment needs the enemy to stay where he is until it closes, and that is " +
           "the part nobody here can promise.",
+      },
+      {
+        id: "carpathians",
+        label: "Send German divisions to the Carpathians as Conrad asks, and attempt nothing larger",
+        advisor: { name: "Tappen", position:
+          "The ally can be held up where he stands with what has already been promised. A new army is a larger bet than the Carpathians need." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { ohl_gorlice: "carpathians" },
+        next: "ohl_1915_15_serbia",
+        outcome:
+          "Speculative. German divisions are put into the Carpathian line beside the " +
+          "Austro-Hungarian army, and the retreat stops. Nothing is attempted beyond holding " +
+          "it. Russia keeps the initiative in Poland through the spring. The ally is propped " +
+          "and not relieved, and Vienna will ask again before the summer is out, with less " +
+          "patience and a worse position than it has today.",
       },
     ],
   },
@@ -858,6 +1032,22 @@ CAMPAIGNS.ohl.nodes = {
           "argument, and the soldiers who lost it will remember who won it when the " +
           "next one comes round.",
       },
+      {
+        id: "sharpened",
+        label: "Sharpen the submarine war inside the cruiser rules: a wider zone, and no warning for armed ships only",
+        advisor: { name: "Bethmann Hollweg", position:
+          "A zone drawn wide, with the rules kept for neutral ships and liners, gives the Navy a great deal and gives the Americans nothing to declare war on." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { ohl_usw: "sharpened", ohl_usEntry: "deferred", xc_usw: "restricted" },
+        next: "ohl_1917_12_alberich",
+        outcome:
+          "Speculative. The Navy is given a larger zone and leave to sink armed ships without " +
+          "warning. Neutral ships and passenger liners stay under the old rules. The tonnage " +
+          "sunk rises, but not to the figure in the memorandum, and Holtzendorff's six months " +
+          "run out with Britain's convoys still untried. The Americans do not declare war " +
+          "in February. The soldiers hold that the compromise has put the lives of U-boat " +
+          "crews into a half measure.",
+      },
     ],
   },
 
@@ -1130,6 +1320,22 @@ CAMPAIGNS.ohl.nodes = {
           "home regard the opportunity as thrown away. Whether the Russian declaration " +
           "would have held, with a German army at the line, is a question of what the " +
           "army was prepared to ignore.",
+      },
+      {
+        id: "narva",
+        label: "Advance only to the line of the Narva, Pskov and the Dvina, and halt there",
+        advisor: { name: "Hindenburg", position:
+          "A line that can be held, taken quickly, gives the army what it needs in the Baltic and keeps the divisions for the west." },
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { ohl_faust: "narva" },
+        next: "ohl_1918_08_brest",
+        outcome:
+          "Speculative. The armies advance to the Dvina and Pskov and halt. Ukraine is left to " +
+          "the agreements already made with Kiev, and the line that has been taken is shorter " +
+          "than the line the full advance would have drawn. More divisions are free for " +
+          "France in March. The annexationists at home complain of an opportunity half used, " +
+          "and the treaty, when it comes, is signed on terms drawn by an army that stopped " +
+          "where it chose.",
       },
     ],
   },
@@ -1666,22 +1872,23 @@ CAMPAIGNS.ohl.nodes = {
     epilogue: (flags) =>
       "Chief of the General Staff at the close: Hindenburg. The war ends on the " +
       "eleventh of November.\n\n" +
+      "The deployment, August 1914: " + (flags.ohl_timetable === "slipped" ? "the Kaiser's question put to the railways, and days lost." : flags.ohl_timetable === "asked" ? "the Kaiser's question put to the railways, and answered." : "as the plan was written.") + "\n" +
       "Lorraine, August 1914: " + (flags.ohl_lorraine === "reinforced" ? "reinforced." : "conceded, as the plan required.") + "\n" +
       "The Marne: " + (flags.ohl_marne === "inperson" ? "judged in person at the front." : "delegated forward under plenipotentiary authority.") + "\n" +
       "Two corps for the east: " + (flags.ohl_twocorps === "kept" ? "kept on the right." : "sent to East Prussia by rail.") + "\n" +
-      "Ypres, November 1914: " + (flags.ohl_flanders === "broken" ? "broken off." : "one more concentrated attack.") + "\n" +
-      "The eastern front, 1915: " + (flags.ohl_gorlice === "envelop" ? "a wide envelopment." : "a breakthrough at Gorlice.") + "\n" +
+      "Ypres, November 1914: " + (flags.ohl_flanders === "broken" ? "broken off." : flags.ohl_flanders === "held" ? "no new attack, and the line dug in." : "one more concentrated attack.") + "\n" +
+      "The eastern front, 1915: " + (flags.ohl_gorlice === "envelop" ? "a wide envelopment." : flags.ohl_gorlice === "carpathians" ? "German divisions in the Carpathians and nothing larger." : "a breakthrough at Gorlice.") + "\n" +
       "Serbia: " + (flags.ohl_serbia === "declined" ? "declined." : "attacked in October 1915.") + "\n" +
       "The Meuse: " + (flags.ohl_verdun === "declined" ? "declined." : (flags.ohl_verdunExec === "fortress" ? "fought as a battle for the fortress." : "fought as the directive was written.")) + "\n" +
       "The Somme: " + (flags.ohl_somme === "elastic" ? "ground given where it was dear." : "no ground to be given up.") + "\n" +
       "The Hindenburg Programme: " + (flags.ohl_programme === "moderate" ? "a smaller programme." : "adopted at full size.") + "\n" +
-      "The submarines: " + (flags.ohl_usw === "restricted" ? "held under prize rules." : "unrestricted from 1 February 1917.") + "\n" +
+      "The submarines: " + (flags.ohl_usw === "restricted" ? "held under prize rules." : flags.ohl_usw === "sharpened" ? "sharpened inside the cruiser rules." : "unrestricted from 1 February 1917.") + "\n" +
       "Weight of effort after the Marne: " + (flags.ohl_theatre === "east" ? "shifted east." : "held in the west.") + "\n" +
       "Posture for 1917: " + (flags.ohl_1917posture === "offensive" ? "continued offensive effort." : "defensive, rebuilding.") + "\n" +
       "American entry: " + (flags.ohl_usEntry === "deferred" ? "deferred." : "brought on by the decision of 9 January 1917.") + "\n" +
       "The retirement to the Siegfried Line: " + (flags.ohl_alberich === "held" ? "refused." : flags.ohl_alberich === "spared" ? "made, with the ground left standing." : "made, with the ground destroyed.") + "\n" +
       "Italy, autumn 1917: " + (flags.ohl_caporetto === "refused" ? "guns and staff officers, no divisions." : "German divisions and the offensive at Caporetto.") + "\n" +
-      "February 1918: " + (flags.ohl_faust === "declared" ? "the Russian declaration accepted." : "the advance resumed on the 18th.") + "\n" +
+      "February 1918: " + (flags.ohl_faust === "declared" ? "the Russian declaration accepted." : flags.ohl_faust === "narva" ? "the advance stopped at the Narva, Pskov and Dvina line." : "the advance resumed on the 18th.") + "\n" +
       "Brest-Litovsk: " + (flags.ohl_brest === "narrow" ? "narrow settlement, divisions released west." : "maximal settlement, divisions retained in garrison.") + "\n" +
       "Spring 1918: " + (flags.ohl_michael === "amiensfirst" ? "Amiens named as the objective." : "breakthrough taken as the objective.") + "\n" +
       "The Aisne, May 1918: " + (flags.ohl_aisne === "halted" ? "halted on the Vesle." : "exploited to the Marne.") + "\n" +

@@ -271,6 +271,28 @@ export function sepiaCss() {
   /* the badge of an ending is the stamp: the red kept for it */
   @S .dg-badge{background:var(--paper);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--accent)}
 
+  /* the question, the steps of a battle plan, the verdict */
+  @S .dg-ask{border-left:2px solid var(--ink);font-size:19.5px}
+  @S .dg-ask b{color:var(--ink-soft);font-weight:400;font-size:13.5px;letter-spacing:.14em}
+  @S .dg-jump{font-size:13.5px;letter-spacing:.14em;color:var(--ink-soft)}
+  @S .dg-step{border:0;border-top:1px solid var(--rule);padding:10px 8px}
+  @S .dg-steps li:last-child .dg-step{border-bottom:1px solid var(--rule)}
+  @S .dg-steps .now .dg-step{background:none;color:var(--ink);outline:2px solid var(--ink);outline-offset:-2px;box-shadow:0 0 26px rgba(236,229,208,.12)}
+  @S .dg-step-n{border-color:var(--ink-soft);font-weight:400}
+  @S .dg-step-t b{font-weight:400;font-size:20px}
+  @S .dg-step-t small{font-size:15px;color:var(--ink-soft)}
+  @S .dg-bt-bar{border-top:1px solid var(--ink);background:var(--paper)}
+  @S .dg-bt-k{font-size:13px;letter-spacing:.14em}
+  @S .dg-bt-stat b{font-weight:500;font-size:19px}
+  @S .dg-bt-stat small{font-size:14px}
+  @S .dg-bt-bar .dg-choice.dg-issue{margin:0;padding:10px 18px}
+  @S .dg-verdict-h{font-weight:500;font-size:32px}
+  @S .dg-kind{border-color:var(--rule);font-size:13.5px;letter-spacing:.14em}
+  @S .dg-chips li{border-color:var(--rule);font-size:15px}
+  @S .dg-chips li.neg{border-color:var(--rule)}
+  @S .dg-chips li b{font-weight:500}
+  @S .dg-grade{font-size:15.5px}
+
   /* text sizes: serif runs smaller than a typewriter at the same size */
   @S .dg-fs-m .dg-prose{font-size:21px}
   @S .dg-fs-l .dg-prose{font-size:23px}

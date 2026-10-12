@@ -139,6 +139,19 @@ export function battleBonus(config, plan, posture, pool) {
   return Math.max(-BATTLE_BONUS_CLAMP, Math.min(BATTLE_BONUS_CLAMP, Math.round(raw)));
 }
 
+/**
+ * The odds of the better outcome as the player can reckon them: the plan's bonus under the enemy setup the intelligence names (which is right about
+ * three times in four), on the roll as strain leaves it. { pct, word, bonus }. For the screen's bar; the roll itself never reads it.
+ */
+export function battlePlanOdds(choice, config, plan, posture, pool, meters) {
+  const strained = strainedUncertain(choice, meters).uncertain;
+  const bonus = plan ? battleBonus(config, plan, posture, pool) : 0;
+  const moved = shiftToward(strained, config.winBranch, bonus);
+  const total = moved.reduce((s, x) => s + x.weight, 0) || 100;
+  const pct = Math.round((moved[config.winBranch].weight / total) * 100);
+  return { pct, word: ODDS_BANDS.find((x) => pct < x.max).word, bonus };
+}
+
 /** The choice's contested outcomes with `bonus` points of weight moved toward the better outcome (two outcomes only). */
 export function shiftToward(uncertain, winIndex, bonus) {
   if (!bonus || !uncertain || uncertain.length !== 2) return uncertain;

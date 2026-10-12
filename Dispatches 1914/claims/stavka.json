@@ -1204,5 +1204,158 @@
     "status": "drafted",
     "sources": [],
     "note": "The German reinforcement of the Kovel sector began on 8 June and is documented; the warned setup is a counterfactual."
+  },
+  {
+    "id": "stavka-fk-1",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "Russian wireless messages between the First and Second Armies in August 1914 were sent in clear, and the Germans read them.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the node's situation text; to be checked against a history of Tannenberg."
+  },
+  {
+    "id": "stavka-fk-2",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "characterization",
+    "claim": "Historians differ on whether the loss of the Second Army could have been avoided by drawing it toward the First.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the roll."
+  },
+  {
+    "id": "stavka-fk-3",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "characterization",
+    "claim": "Wheeling the Second Army toward the First is a modelled alternative; the two outcomes of the roll are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "stavka-fk-4",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "position",
+    "claim": "Samsonov is characterized as holding that the two armies had to be brought within reach of each other before they could fight one battle.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view of it."
+  },
+  {
+    "id": "stavka-fk-5",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "fact",
+    "claim": "In late August 1915 German cavalry broke through at Sventsiany, where the Fifth and Tenth Armies joined, and rode toward Vileika and Molodechno.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the node's situation text."
+  },
+  {
+    "id": "stavka-fk-6",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "characterization",
+    "claim": "Historians differ on whether the German cavalry drive at Sventsiany was meant as a deep envelopment or was a raid whose success surprised its authors.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the roll."
+  },
+  {
+    "id": "stavka-fk-7",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "characterization",
+    "claim": "A counterattack with only the leading divisions of the new army is a modelled alternative; the two outcomes of the roll are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "stavka-fk-8",
+    "node": "stavka_1916_15_lemberg",
+    "kind": "fact",
+    "claim": "In the summer of 1916 the German South Army under Bothmer stood in front of Lemberg, and Romania entered the war on the Entente side on 27 August 1916 (14 August in the Russian calendar).",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted; the Romanian date matches the existing claim on the Romania node."
+  },
+  {
+    "id": "stavka-fk-9",
+    "node": "stavka_1916_15_lemberg",
+    "kind": "characterization",
+    "claim": "A Russian drive on Lemberg in July 1916 is a modelled alternative to the attack on Kovel; the three outcomes of the roll are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "stavka-fk-10",
+    "node": "stavka_1916_15_lemberg",
+    "kind": "characterization",
+    "claim": "Historians differ on whether a Russian drive toward Lemberg in the summer of 1916 could have exploited the Austro-Hungarian collapse before German reserves arrived.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the roll."
+  },
+  {
+    "id": "stavka-fk-11",
+    "node": "stavka_1916_15_lemberg",
+    "kind": "position",
+    "claim": "Alekseyev is characterized as preferring to keep the army's strength for the autumn; Brusilov as preferring to press for a decision before German reserves arrived.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A characterization of positions they held in the summer of 1916, in indirect speech; not quotations."
+  },
+  {
+    "id": "stavka-fk-12",
+    "node": "stavka_1916_12_kovel",
+    "kind": "position",
+    "claim": "Alekseyev is characterized as holding that the Germans were gathering at Kovel and the Austrians were weaker in the south.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records this."
+  },
+  {
+    "id": "stavka-fk-13",
+    "node": "stavka_1917_09_riga",
+    "kind": "fact",
+    "claim": "The Latvian Riflemen lost more than half their strength covering the withdrawal from Riga in September 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the existing outcome text of the node."
+  },
+  {
+    "id": "stavka-fk-14",
+    "node": "stavka_1917_09_riga",
+    "kind": "characterization",
+    "claim": "Holding the Ikskile bridgehead for two days before withdrawing is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "stavka-fk-15",
+    "node": "stavka_1917_13_kornilov",
+    "kind": "fact",
+    "claim": "General Krymov's cavalry corps was stopped near Luga at the end of August 1917 and the march on Petrograd collapsed without a battle.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted; matches the existing outcome text, which gives the dates."
+  },
+  {
+    "id": "stavka-fk-16",
+    "node": "stavka_1917_13_kornilov",
+    "kind": "characterization",
+    "claim": "Sending Alekseyev to Petrograd to mediate is a modelled alternative; the two outcomes of the roll are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "stavka-fk-17",
+    "node": "stavka_1917_13_kornilov",
+    "kind": "position",
+    "claim": "Alekseyev is characterized as holding that Kerensky and Kornilov had been speaking through intermediaries who understood them differently.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; the dispute field records that the messages were understood differently."
   }
 ]

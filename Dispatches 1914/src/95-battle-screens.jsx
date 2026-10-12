@@ -13,7 +13,9 @@ const GRADE_WORDS = {
   total: "A plan that gave out: two or more arms were left short, and the battle was lost.",
 };
 
-function BattleScreen({ campaignId, config, meters, easy, onCommit, onBack }) {
+const GRADE_SHORT = { clean: "A clean battle", costly: "A costly victory", marginal: "A plan that held, and a battle that did not go its way", total: "A plan that gave out" };
+
+function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBack }) {
   const c = CAMPAIGNS[campaignId];
   const pool = useMemo(() => battlePoolSize(meters), [meters]);
   const [posture] = useState(() => pickBattlePosture(config));
@@ -22,10 +24,17 @@ function BattleScreen({ campaignId, config, meters, easy, onCommit, onBack }) {
   const [allocation, setAllocation] = useState(empty);
   const [commanderId, setCommanderId] = useState(null);
   const [approachId, setApproachId] = useState(null);
+  const hasCommanders = (config.commanders || []).length > 0;
+  const needsApproach = (config.approaches || []).length > 0;
+  // the steps, in the order a staff takes them: who leads, how it is fought, where the effort goes
+  const steps = useMemo(() => [hasCommanders && "officer", needsApproach && "approach", "counters"].filter(Boolean), [hasCommanders, needsApproach]);
+  const [si, setSi] = useState(0);
+  const step = steps[si];
   const placed = config.categories.reduce((s, k) => s + (allocation[k.id] || 0), 0);
   const left = pool - placed;
-  const needsApproach = (config.approaches || []).length > 0;
   const ready = left === 0 && (!needsApproach || approachId);
+  const commander = (config.commanders || []).find((x) => x.id === commanderId) || null;
+  const approach = (config.approaches || []).find((x) => x.id === approachId) || null;
   const bump = (id, d) => setAllocation((a) => {
     const n = (a[id] || 0) + d;
     if (n < 0 || (d > 0 && left <= 0)) return a;
@@ -36,8 +45,22 @@ function BattleScreen({ campaignId, config, meters, easy, onCommit, onBack }) {
     setAllocation({ ...empty, ...s.allocation });
     setApproachId(s.approachId);
     setCommanderId(null);
+    setSi(steps.length - 1);
   };
-  const weights = easy ? Object.fromEntries(config.categories.map((k) => [k.id, battleArmWeight(config, k.id, (config.commanders || []).find((x) => x.id === commanderId) || null, (config.approaches || []).find((x) => x.id === approachId) || null, null)])) : null;
+  const plan = { allocation, commanderId, approachId, postureId: posture ? posture.id : null, pool };
+  // the odds on the staff's own reading of the enemy: the staff's plan, and the plan in hand once it is complete
+  const shown = intel.shown || null;
+  const staffOdds = useMemo(() => (choice ? battlePlanOdds(choice, config, null, shown, pool, meters) : null), [choice, config, shown, pool, meters]);
+  const myOdds = useMemo(() => (choice && ready ? battlePlanOdds(choice, config, plan, shown, pool, meters) : null), [choice, config, shown, pool, meters, ready, allocation, commanderId, approachId]);
+  const weights = easy ? Object.fromEntries(config.categories.map((k) => [k.id, battleArmWeight(config, k.id, commander, approach, null)])) : null;
+  const summary = {
+    officer: commander ? `${commander.name}` : "No particular emphasis",
+    approach: approach ? approach.name : "Not chosen yet",
+    counters: `${placed} of ${pool} placed`,
+  };
+  const heading = { officer: "Name an officer", approach: "Choose the approach", counters: "Place the counters" };
+  const last = si === steps.length - 1;
+  const next = () => setSi((i) => Math.min(steps.length - 1, i + 1));
   return (
     <main {...rootProps(campaignId, "battle")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -46,8 +69,12 @@ function BattleScreen({ campaignId, config, meters, easy, onCommit, onBack }) {
         <button className="dg-btn" onClick={onBack}>Back to the order</button>
       </div>
       <h1 className="dg-node-title">{config.title}</h1>
+      <p className="dg-ask"><b>The task.</b> Plan the battle in {steps.length} {steps.length === 1 ? "step" : "steps"}, or let the staff plan it and change what you like.</p>
       <p className="dg-prose">{config.flavor}</p>
-      <p className="dg-note">{config.conditions}</p>
+      <details>
+        <summary>▶ Conditions on the day</summary>
+        <p className="dg-note">{config.conditions}</p>
+      </details>
 
       <div className="dg-bulletin">
         <div className="h">INTELLIGENCE SUMMARY</div>
@@ -55,50 +82,39 @@ function BattleScreen({ campaignId, config, meters, easy, onCommit, onBack }) {
         <div className="dg-note" style={{ marginTop: 6, marginBottom: 0 }}>The staff's reading is right about three times in four.</div>
       </div>
 
-      <h2 className="dg-order">Place the effort</h2>
-      <p className="dg-note" role="status" aria-live="polite">
-        {left > 0 ? `${left} of ${pool} chits left to place.` : `All ${pool} chits are placed.`} An arm left with less than its fair share costs the plan.
-      </p>
-      {config.categories.map((k) => (
-        <div key={k.id} className="dg-bt-arm">
-          <div className="dg-bt-head">
-            <b>{k.name}</b>
-            <span className="dg-bt-ctl">
-              <button className="dg-btn" aria-label={`Fewer in ${k.name}`} disabled={!allocation[k.id]} onClick={() => bump(k.id, -1)}>−</button>
-              <span className="dg-bt-n" aria-label={`${k.name}: ${allocation[k.id] || 0} chits`}>{allocation[k.id] || 0}</span>
-              <button className="dg-btn" aria-label={`More in ${k.name}`} disabled={left <= 0} onClick={() => bump(k.id, 1)}>+</button>
-            </span>
-          </div>
-          <p className="dg-note" style={{ marginBottom: 6 }}>{k.context}</p>
-          {easy && <p className="dg-note" style={{ marginBottom: 6 }}>Easy mode: each chit here carries {weights[k.id].toFixed(1)} before the enemy's setup.</p>}
-          <details>
-            <summary>▶ The formations</summary>
-            <ul className="dg-bt-units">{k.units.map((u) => <li key={u}>{u}</li>)}</ul>
-          </details>
-        </div>
-      ))}
+      <p><button className="dg-btn" onClick={byStaff}>Let the staff plan it</button>{" "}
+        <button className="dg-btn" onClick={() => { setAllocation(empty); setCommanderId(null); setApproachId(null); setSi(0); }}>Clear the plan</button></p>
 
-      {(config.commanders || []).length > 0 && (
-        <>
-          <h2 className="dg-order">Name a commander</h2>
-          <p className="dg-note">A named officer adds weight to the arm he really led. You may name none.</p>
-          <div role="group" aria-label="Commander" className="dg-bt-pick">
-            <button className="dg-choice dg-opt" aria-pressed={commanderId === null} onClick={() => setCommanderId(null)}>
-              <div className="lab">No particular emphasis</div>
+      <ol className="dg-steps" aria-label="The steps of the plan">
+        {steps.map((s, i) => (
+          <li key={s} className={i === si ? "now" : i < si || (s === "counters" && ready) ? "done" : ""}>
+            <button className="dg-step" aria-current={i === si ? "step" : undefined} onClick={() => setSi(i)}>
+              <span className="dg-step-n">{i + 1}</span>
+              <span className="dg-step-t"><b>{heading[s]}</b><small>{summary[s]}</small></span>
             </button>
-            {config.commanders.map((m) => (
-              <button key={m.id} className="dg-choice dg-opt" aria-pressed={commanderId === m.id} onClick={() => setCommanderId(m.id)}>
-                <div className="lab">{m.name}, {m.role}</div>
-                <div className="dg-quote">{m.note}</div>
-              </button>
-            ))}
-          </div>
-        </>
-      )}
+          </li>
+        ))}
+      </ol>
 
-      {needsApproach && (
-        <>
-          <h2 className="dg-order">Choose the approach</h2>
+      <section aria-label={heading[step]}>
+        <h2 className="dg-order">{heading[step]}</h2>
+        {step === "officer" && (
+          <>
+            <p className="dg-note">A named officer adds weight to the arm he really led. You may name none.</p>
+            <div role="group" aria-label="Commander" className="dg-bt-pick">
+              <button className="dg-choice dg-opt" aria-pressed={commanderId === null} onClick={() => setCommanderId(null)}>
+                <div className="lab">No particular emphasis</div>
+              </button>
+              {config.commanders.map((m) => (
+                <button key={m.id} className="dg-choice dg-opt" aria-pressed={commanderId === m.id} onClick={() => setCommanderId(m.id)}>
+                  <div className="lab">{m.name}, {m.role}</div>
+                  <div className="dg-quote">{m.note}</div>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+        {step === "approach" && (
           <div role="group" aria-label="Approach" className="dg-bt-pick">
             {config.approaches.map((a) => (
               <button key={a.id} className="dg-choice dg-opt" aria-pressed={approachId === a.id} onClick={() => setApproachId(a.id)}>
@@ -107,18 +123,53 @@ function BattleScreen({ campaignId, config, meters, easy, onCommit, onBack }) {
               </button>
             ))}
           </div>
-        </>
-      )}
+        )}
+        {step === "counters" && (
+          <>
+            <p className="dg-note" role="status" aria-live="polite">
+              {left > 0 ? `${left} of ${pool} counters left to place.` : `All ${pool} counters are placed.`} An arm left with less than its fair share costs the plan.
+            </p>
+            {config.categories.map((k) => (
+              <div key={k.id} className="dg-bt-arm">
+                <div className="dg-bt-head">
+                  <b>{k.name}</b>
+                  <span className="dg-bt-ctl">
+                    <button className="dg-btn" aria-label={`Fewer in ${k.name}`} disabled={!allocation[k.id]} onClick={() => bump(k.id, -1)}>−</button>
+                    <span className="dg-bt-n" aria-label={`${k.name}: ${allocation[k.id] || 0} counters`}>{allocation[k.id] || 0}</span>
+                    <button className="dg-btn" aria-label={`More in ${k.name}`} disabled={left <= 0} onClick={() => bump(k.id, 1)}>+</button>
+                  </span>
+                </div>
+                <p className="dg-note" style={{ marginBottom: 6 }}>{k.context}</p>
+                {easy && <p className="dg-note" style={{ marginBottom: 6 }}>Easy mode: each counter here carries {weights[k.id].toFixed(1)} before the enemy's setup.</p>}
+                <details>
+                  <summary>▶ The formations</summary>
+                  <ul className="dg-bt-units">{k.units.map((u) => <li key={u}>{u}</li>)}</ul>
+                </details>
+              </div>
+            ))}
+          </>
+        )}
+      </section>
 
-      <p>
-        <button className="dg-btn" onClick={byStaff}>Let the staff plan it</button>{" "}
-        <button className="dg-btn" onClick={() => { setAllocation(empty); setCommanderId(null); setApproachId(null); }}>Clear the plan</button>
-      </p>
-      <button className="dg-choice dg-issue" disabled={!ready}
-        onClick={() => onCommit({ allocation, commanderId, approachId, postureId: posture ? posture.id : null, pool })}>
-        <div className="lab">Issue the plan</div>
-        {!ready && <div className="dg-cost">{left > 0 ? `Place the remaining ${left} chits` : "Choose the approach"}</div>}
-      </button>
+      <div className="dg-bt-bar" role="group" aria-label="Your plan">
+        <div className="dg-bt-stat">
+          <span className="dg-bt-k">Counters</span>
+          <b aria-live="polite">{left} left</b>
+        </div>
+        <div className="dg-bt-stat">
+          <span className="dg-bt-k">The odds</span>
+          <b>{myOdds ? myOdds.word : "Plan not complete"}</b>
+          {staffOdds && <small>The staff's plan: {staffOdds.word}</small>}
+        </div>
+        {last ? (
+          <button className="dg-choice dg-issue" disabled={!ready} onClick={() => onCommit(plan)}>
+            <div className="lab">Issue the plan</div>
+            {!ready && <div className="dg-cost">{left > 0 ? `Place the remaining ${left} counters` : "Choose the approach"}</div>}
+          </button>
+        ) : (
+          <button className="dg-btn dg-next" onClick={next}>Next: {heading[steps[si + 1]].toLowerCase()}</button>
+        )}
+      </div>
     </main>
   );
 }

@@ -43,6 +43,7 @@ const SECTIONS = [
   { title: "THE ORDER OF BATTLE", file: "61-battle.jsx" },
   { title: "THE ORDERS OF BATTLE", file: "62-battles.jsx" },
   { title: "THEMES", file: "63-themes.jsx" },
+  { title: "THE DECISIONS, IN A LINE", file: "64-asks.jsx" },
   { title: "UI_LAYER", file: "90-ui.jsx" },
   { title: "BATTLE SCREENS", file: "95-battle-screens.jsx" },
   { title: "ORDER SCREENS", file: "96-order-screens.jsx" },

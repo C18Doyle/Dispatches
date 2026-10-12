@@ -882,5 +882,140 @@
     "status": "drafted",
     "sources": [],
     "note": "62-battles.jsx."
+  },
+  {
+    "id": "ohl-fk-1",
+    "node": "ohl_1914_14_timetable",
+    "kind": "fact",
+    "claim": "On 1 August 1914 the Kaiser asked Moltke whether the army could be directed east against Russia, leaving France alone; Moltke answered that the deployment could not be changed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Widely reported; to be checked against Moltke's own account and Tuchman, Barbara, The Guns of August."
+  },
+  {
+    "id": "ohl-fk-2",
+    "node": "ohl_1914_14_timetable",
+    "kind": "characterization",
+    "claim": "The western deployment was a single railway timetable written down in detail and revised each year; running it the other way would have meant writing it again.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A characterization of the plan's rigidity, not a measurement. Historians dispute how rigid it was."
+  },
+  {
+    "id": "ohl-fk-3",
+    "node": "ohl_1914_14_timetable",
+    "kind": "characterization",
+    "claim": "The outcomes of the three choices (hold, divert in part, turn the whole army) are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "ohl-fk-4",
+    "node": "ohl_1914_14_timetable",
+    "kind": "position",
+    "claim": "Moltke is characterized as holding that a deployment cannot be altered once begun and that an army improvised on the railways is a crowd.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A characterization of his recorded refusal, in indirect speech; not a quotation."
+  },
+  {
+    "id": "ohl-fk-5",
+    "node": "ohl_1914_14_timetable",
+    "kind": "position",
+    "claim": "Tappen is characterized as favouring a partial diversion as a hedge.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view of the question."
+  },
+  {
+    "id": "ohl-fk-6",
+    "node": "ohl_1914_01_aufmarsch",
+    "kind": "position",
+    "claim": "Tappen is characterized as favouring putting the Kaiser's question to the railway department and answering him in figures.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records this."
+  },
+  {
+    "id": "ohl-fk-7",
+    "node": "ohl_1914_13_ypres",
+    "kind": "fact",
+    "claim": "On 31 October 1914 the British line east of Ypres at Gheluvelt came close to breaking, and a counter-attack restored it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Well known; to be checked against a regimental or official history."
+  },
+  {
+    "id": "ohl-fk-8",
+    "node": "ohl_1914_13_ypres",
+    "kind": "characterization",
+    "claim": "Historians differ about how close the German attacks at Ypres came to a breakthrough: British accounts stress how thin the line was, German accounts the exhaustion of the reserve corps.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the choice."
+  },
+  {
+    "id": "ohl-fk-9",
+    "node": "ohl_1914_13_ypres",
+    "kind": "characterization",
+    "claim": "The second outcome of the concentrated attack (a gap for two days, then closed) is modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "ohl-fk-10",
+    "node": "ohl_1915_14_gorlice",
+    "kind": "fact",
+    "claim": "In the winter of 1915 German divisions were sent to the Carpathians to stiffen the Austro-Hungarian line.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from memory of the Südarmee and the Beskidenkorps; to be checked."
+  },
+  {
+    "id": "ohl-fk-11",
+    "node": "ohl_1915_14_gorlice",
+    "kind": "characterization",
+    "claim": "A German commitment to the Carpathians alone, with no new army for Gorlice, is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "ohl-fk-12",
+    "node": "ohl_1917_06_pless",
+    "kind": "characterization",
+    "claim": "A 'sharpened' submarine war inside the cruiser rules, with a wider zone and no warning for armed ships only, is a modelled middle course between the two positions argued at Pless.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "ohl-fk-13",
+    "node": "ohl_1917_06_pless",
+    "kind": "position",
+    "claim": "Bethmann Hollweg is characterized as holding that a limited campaign would give the Navy much and the Americans no cause for war.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A characterization of his recorded objection to unrestricted warfare, in indirect speech."
+  },
+  {
+    "id": "ohl-fk-14",
+    "node": "ohl_1918_12_faustschlag",
+    "kind": "fact",
+    "claim": "German troops took Pskov on 25 February 1918 and Narva on 4 March 1918 in the advance that followed the end of the armistice.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted; to be checked."
+  },
+  {
+    "id": "ohl-fk-15",
+    "node": "ohl_1918_12_faustschlag",
+    "kind": "characterization",
+    "claim": "Halting the advance at the line of the Narva, Pskov and the Dvina is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
   }
 ]

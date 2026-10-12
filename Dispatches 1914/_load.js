@@ -38,10 +38,10 @@ function loadEngine(file) {
     "STRAIN", "strainMeterOf", "strainedUncertain", "previewImpact", "REWIND_LIMIT",
     "EASY_NAMES", "ENDING_TIER", "RANKS", "EASY_RANK_CAP", "modeOf", "costlyOrders", "rankFor",
     "GLOSSARY", "LEAVES_OUT",
-    "THEME_IDS", "THEME_LABELS", "THEME_TOKENS", "THEME_PAIRS", "THEME_MIN_RATIO", "CAMPAIGN_BANDS", "contrastRatio", "tokensFor", "themeCss", "sepiaCss", "DEFAULT_THEME", "resolveTheme",
+    "THEME_IDS", "THEME_LABELS", "THEME_TOKENS", "THEME_PAIRS", "THEME_MIN_RATIO", "CAMPAIGN_BANDS", "contrastRatio", "tokensFor", "themeCss", "sepiaCss", "ASKS", "DEFAULT_THEME", "resolveTheme",
     "BATTLES", "BATTLE_COMMANDER_BONUS", "BATTLE_NEGLECT_PENALTY", "BATTLE_BONUS_CLAMP", "BATTLE_SCALE", "BATTLE_INTEL_ERROR", "BATTLE_WEIGHT_BOUNDS",
     "battleOf", "battlePoolSize", "pickBattlePosture", "battleIntel", "battleArmWeight", "battleContributions", "allBattleAllocations", "staffPlanFor",
-    "battleBonus", "shiftToward", "battlePlanCosts", "battleFlagsOut", "battleEchoText", "battleRoll",
+    "battleBonus", "battlePlanOdds", "shiftToward", "battlePlanCosts", "battleFlagsOut", "battleEchoText", "battleRoll",
     "ODDS_BANDS", "orderOdds", "METER_STRANDS", "strandOf", "strandReadout", "tallyStrands", "meterChanges",
   ];
 

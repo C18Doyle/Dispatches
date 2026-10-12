@@ -135,6 +135,22 @@ CAMPAIGNS.bef.nodes = {
           "a later date than it expected. The French staff, who built their plan on " +
           "Maubeuge, are told by their ally that the army will not be there.",
       },
+      {
+        id: "six",
+        label: "Send all six divisions at once, as the French were promised, and assemble at Maubeuge",
+        advisor: { name: "Henry Wilson", position:
+          "Six divisions were promised, and the French have built their plan on six. Four is a number their plan does not contain." },
+        impact: { manpower: -1, munitions: -1, will: 1 },
+        setFlags: { bef_landing: "six" },
+        next: "bef_1914_02_seine",
+        outcome:
+          "Speculative. The fear of invasion is outweighed, and the two divisions held back " +
+          "for home defence go with the others. The army that assembles at Maubeuge is " +
+          "half as strong again as the one that went, and the army at home is that much " +
+          "weaker against a landing that does not come. The French, who counted on six, are " +
+          "not disappointed, and the War Office has to answer for a decision that leaves " +
+          "the coast to the Territorial Force.",
+      },
     ],
   },
 
@@ -846,6 +862,21 @@ CAMPAIGNS.bef.nodes = {
           "and the tanks are kept for a mass attack the following year, on ground " +
           "chosen for them. The Germans do not see the machine until it comes in force.",
       },
+      {
+        id: "tested",
+        label: "Use a dozen on 15 September to test the machine, and hold the rest for a surprise",
+        advisor: { name: "Lloyd George", position:
+          "A trial in small numbers teaches the crews what the machine can do, and the rest are kept for a day when the Germans are not looking." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { bef_tanks: "tested" },
+        next: "bef_1917_13_calais",
+        outcome:
+          "Speculative. A dozen tanks go forward at Flers and Courcelette and the rest stay " +
+          "in the parks. Some of the dozen break down, and two or three do what the staff " +
+          "hoped. The Germans see a new machine and do not see how many there are. The crews " +
+          "that went in learn what the engines will bear, and the army has a test and a " +
+          "reserve and no victory to put to the account of either.",
+      },
     ],
   },
 
@@ -1052,6 +1083,107 @@ CAMPAIGNS.bef.nodes = {
           "authority over the generals once, and has made it clear that he will use it " +
           "again. Haig and Robertson have to decide whether to accept the decision or " +
           "to resign, and the Cabinet has to decide what it will do if they do.",
+      },
+      {
+        id: "limited",
+        label: "Allow a limited offensive on the Gheluvelt plateau only, to be stopped when the plateau is taken",
+        advisor: { name: "Milner", position:
+          "A limited attack with a limit that is kept is a compromise the Cabinet can accept. The Cabinet should insist on the limit in writing." },
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        setFlags: { bef_ypres3: "limited" },
+        next: "bef_1917_16_plateau",
+        outcome:
+          "Speculative. The Cabinet agrees to an attack on the plateau and no more. Haig " +
+          "accepts the limit in writing, and the artillery is massed for a step of a " +
+          "thousand yards. The Commander-in-Chief has been given less than he asked for and " +
+          "more than the Prime Minister wished to give, and both of them know that a limit " +
+          "is only kept by the man who has to keep it.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1917-09 (a detour: the plateau is taken)
+  bef_1917_16_plateau: {
+    year: 1917, date: "1917-09-21", city: "Montreuil",
+    title: "The Plateau Is Taken",
+    advisors: ["haig", "robertson", "lloydgeorge"],
+    situation:
+      "The attack on the plateau has gone as planned. The ground that was to be taken " +
+      "has been taken behind a creeping barrage and at a lower price than the Somme " +
+      "charged for the same distance, and the German counter-attacks have been " +
+      "broken. The Cabinet agreed to a limit, and the limit has been reached.\n\n" +
+      "Haig believes the ground in front is open for a further step and that the " +
+      "Germans are tired. The Prime Minister believes that the first step has shown " +
+      "what the army can do and that a second would show what it cannot. The weather " +
+      "has begun to break.",
+    context:
+      "A limited attack that succeeds is the hardest kind to stop. The ground that has " +
+      "been taken is a base for the next step, and every argument for going on is " +
+      "made by a man who has just been proved right.",
+    choices: [
+      {
+        id: "goon",
+        label: "Go on toward Passchendaele through the autumn, as Haig asks",
+        historical: true,
+        advisor: { name: "Haig", position:
+          "The enemy is tired and the ground is there to be taken. To stop now is to give him the time he needs to recover." },
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        dispute:
+          "Historians differ about whether the later stages of the Flanders offensive " +
+          "were justified once the plateau had been taken. Haig's defenders point to " +
+          "the strain on the German army and the need to relieve the French. His " +
+          "critics point to the rain, the mud and the small ground gained, and to the " +
+          "success of the limited steps that came before.",
+        uncertain: [
+          { weight: 60, title: "The ridge is taken in November, at heavy cost",
+            impact: { manpower: -2, munitions: -2, will: -1 },
+            next: "bef_1918_16_manpower",
+            outcome:
+              "Speculative. The offensive goes on into October and November, in rain " +
+              "and in mud that the guns have made. The ridge at Passchendaele is taken " +
+              "at the price of a large part of the army's strength, and the Belgian " +
+              "coast is no nearer. The Prime Minister's distrust of Haig, and of " +
+              "Robertson who backed him, is settled, and he begins to look for a way " +
+              "to deal with both." },
+          { weight: 40, title: "The offensive bogs down short of the ridge",
+            impact: { manpower: -2, munitions: -1, will: -2 },
+            next: "bef_1918_16_manpower",
+            outcome:
+              "Speculative. The attack goes on and the rain comes with it. The guns " +
+              "sink in the ground they have broken, the infantry cannot be fed forward, " +
+              "and by the end of October the offensive is stopped short of the ridge " +
+              "by the weather as much as by the enemy. The army has lost its strength on " +
+              "ground it will have to give up, and the Cabinet has an account to settle." },
+        ],
+      },
+      {
+        id: "keep",
+        label: "Keep to the limit agreed with the Cabinet, and hold the plateau through the winter",
+        advisor: { name: "Robertson", position:
+          "The Cabinet was promised a limit, and the Commander-in-Chief accepted it in writing. Breaking it now would end any trust between them." },
+        impact: { manpower: 1, munitions: 0, will: 1 },
+        next: "bef_1918_16_manpower",
+        outcome:
+          "Speculative. The attack stops on the plateau, and the army digs in. The " +
+          "Cabinet has been shown that a limit can be kept, and Haig has been shown that " +
+          "keeping it costs him the ridge. The army goes into the winter with more " +
+          "men than it would otherwise have had, and a Commander-in-Chief who believes " +
+          "that he was stopped one step from a result.",
+      },
+      {
+        id: "cambrai",
+        label: "Close the Flanders offensive here and prepare a mass attack with the tanks on the Hindenburg Line at Cambrai",
+        advisor: { name: "Lloyd George", position:
+          "The tanks were made for firm ground, and the ground at Cambrai is firm. Use them there in a mass, and not in the mud of Flanders." },
+        impact: { manpower: 0, munitions: -1, will: 1 },
+        next: "bef_1918_16_manpower",
+        outcome:
+          "Speculative. The Flanders offensive ends on the plateau, and the tanks and the " +
+          "guns that would have gone on in the mud are moved south for an attack on " +
+          "firm ground with no long bombardment to warn the enemy. The attack takes the " +
+          "first German positions by surprise and cannot be exploited for want of " +
+          "reserves. The army has found what the machines can do, and has not yet " +
+          "found the men to follow them.",
       },
     ],
   },
@@ -1458,7 +1590,7 @@ CAMPAIGNS.bef.nodes = {
       "the next twenty years.",
     ending: { family: "victory-and-an-argument", badge: BADGES.SETTLED },
     epilogue: (flags) =>
-      "Landing, August 1914: " + (flags.bef_landing === "amiens" ? "assembled at Amiens." : "assembled at Maubeuge.") + "\n" +
+      "Landing, August 1914: " + (flags.bef_landing === "amiens" ? "assembled at Amiens." : flags.bef_landing === "six" ? "all six divisions sent, assembled at Maubeuge." : "assembled at Maubeuge.") + "\n" +
       "The Seine, September 1914: " + (flags.bef_seine === "withdrew" ? "the army withdrew to refit." : "the army kept to the line.") + "\n" +
       "Ypres, 1914: " + (flags.bef_ypres === "withdrew" ? "the line was shortened toward the coast." : "the line was held.") + "\n" +
       "The Dardanelles, March 1915: " + (flags.bef_dardanelles === "navy" ? "left to the Navy." : "the 29th Division released.") + "\n" +
@@ -1468,10 +1600,10 @@ CAMPAIGNS.bef.nodes = {
       "December 1915: " + (flags.bef_succession === "french" ? "French kept for the winter." : "Haig appointed.") + "\n" +
       "1916: " + (flags.bef_conscription === "voluntary" ? "the voluntary system kept." : "compulsion for single men.") + "\n" +
       "The Somme: " + (flags.bef_somme === "bitehold" ? "limited advances only." : flags.bef_sommeResult === "gain" ? "a compromise plan, with larger first-day gains than the record shows." : "a compromise plan, and a costly first day.") + "\n" +
-      "The tanks: " + (flags.bef_tanks === "held" ? "held back." : flags.bef_tanksResult === "lessons" ? "used on 15 September, to the lasting benefit of the staff." : "used on 15 September, and the surprise spent.") + "\n" +
+      "The tanks: " + (flags.bef_tanks === "held" ? "held back." : flags.bef_tanks === "tested" ? "a dozen used on 15 September, the rest held." : flags.bef_tanksResult === "lessons" ? "used on 15 September, to the lasting benefit of the staff." : "used on 15 September, and the surprise spent.") + "\n" +
       "Calais, February 1917: " + (flags.bef_calais === "refused" ? "the subordination refused." : "accepted under protest.") + "\n" +
       "Convoy: " + (flags.bef_convoy === "delayed" ? "left to patrols." : "tried from May 1917.") + "\n" +
-      "Flanders, 1917: " + (flags.bef_ypres3 === "vetoed" ? "vetoed." : "authorised.") + "\n" +
+      "Flanders, 1917: " + (flags.bef_ypres3 === "vetoed" ? "vetoed." : flags.bef_ypres3 === "limited" ? "limited to the Gheluvelt plateau." : "authorised.") + "\n" +
       "January 1918: " + (flags.bef_manpower === "refused" ? "the extension of the line refused." : "the line extended to Barisis.") + "\n" +
       "The general reserve: " + (flags.bef_reserve === "complied" ? "divisions given." : "refused.") + "\n" +
       "Doullens: " + (flags.bef_doullens === "national" ? "national command kept." : "Foch accepted to coordinate.") + "\n" +

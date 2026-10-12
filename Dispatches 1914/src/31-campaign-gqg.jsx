@@ -125,6 +125,113 @@ CAMPAIGNS.gqg.nodes = {
           "plan they were taught is the wrong one, and some of them will not be, " +
           "whatever the reports from Belgium say.",
       },
+      {
+        id: "week",
+        label: "Hold the offensive for a week, send the cavalry and the aeroplanes to find the German right, and decide on what they report",
+        advisor: { name: "de Castelnau", position:
+          "A week is cheap beside a battle fought on the wrong front. The aeroplanes can tell us where the German right is, and we can decide once we know." },
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { gqg_week: "looked" },
+        next: "gqg_1914_16_week",
+        outcome:
+          "Speculative. The orders for Lorraine are held and the aeroplanes go up. Within days " +
+          "the reports describe columns of the German right wing on the roads of Belgium, " +
+          "west of the Meuse, in greater strength than the plan allowed for. The offensive " +
+          "has not been given up, only put off, and the officers who built the plan for the " +
+          "frontier battle hear their Commander-in-Chief ask for a week in which nothing " +
+          "is attacked.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-08 (a detour: the week of looking)
+  gqg_1914_16_week: {
+    year: 1914, date: "1914-08-21", city: "Vitry-le-Francois",
+    title: "A Week of Looking",
+    advisors: ["joffre", "castelnau"],
+    situation:
+      "The cavalry and the aeroplanes have been over the ground, and what they report is " +
+      "not what the plan was built for: strong columns of German infantry, reserve " +
+      "formations among them, west of the Meuse and moving south-west. The armies in " +
+      "Lorraine are in position and the order to attack has been held.\n\n" +
+      "Every day of the delay is a day the German right comes on. What is not known is " +
+      "whether it is the main blow or only a flank guard, and nobody who has flown over " +
+      "it will say so with certainty.",
+    context:
+      "The plan assumed that the Germans would put no reserve corps into the front line. " +
+      "If they have, the right wing is stronger by about half than the staff allowed for, " +
+      "and the left of the French line is where it will be felt.",
+    choices: [
+      {
+        id: "attack",
+        label: "Release the attack in Lorraine and the Ardennes now, a week late, with the left reinforced from what the week has freed",
+        historical: true,
+        advisor: { name: "Joffre", position:
+          "The reports are reports. The plan is a plan. An army that has been told to attack and is then told to wait loses more than a week." },
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        setFlags: { gqg_opening: "asplanned" },
+        erodes: "costly_offensive",
+        next: "gqg_1914_12_retreat",
+        outcome:
+          "Speculative. A week late, the armies in Lorraine and the Ardennes attack, and " +
+          "are stopped in front of positions the doctrine said would give way. The week " +
+          "has told the staff how strong the German right is and has changed nothing " +
+          "about what the attacks cost. The left is stronger by the divisions that " +
+          "arrived during the week, and the German right is a week further on.",
+      },
+      {
+        id: "move",
+        label: "Break off the Lorraine attack and begin moving the weight left at once",
+        advisor: { name: "de Castelnau", position:
+          "If the reports are right, the war is being decided on our left. Every division that stays in Lorraine is a division that is not there." },
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { gqg_opening: "shifted" },
+        next: "gqg_1914_12_retreat",
+        outcome:
+          "Speculative. The Lorraine attack is cancelled and the railways turn west. Fewer " +
+          "men are spent on the frontier and more stand in front of the sweep, at the price " +
+          "of an army told that its doctrine was a week from being proved wrong. The " +
+          "officers who built their careers on the attack have to be persuaded, and the " +
+          "reports from the air, which they distrust, are what they are asked to believe.",
+      },
+      {
+        id: "probe",
+        label: "Attack in Lorraine with a smaller force, and use the rest to cover the left",
+        advisor: { name: "Joffre", position:
+          "A smaller attack keeps the Germans in Lorraine looking over their shoulders. The rest of the army can be where the reports say it is needed." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        dispute:
+          "Historians differ on how flexible the French plan was in August 1914. Some " +
+          "hold that the staff was bound to the attack by doctrine and could not have " +
+          "changed course. Others point out that Joffre did alter the deployment in the " +
+          "first weeks, and that what is argued is how early he was willing to. Whether a " +
+          "divided effort would have strengthened the left or weakened both wings is " +
+          "argued without result.",
+        uncertain: [
+          { weight: 50, title: "The smaller attack holds the Germans, and the left is covered",
+            impact: { manpower: 0, munitions: 0, will: 1 },
+            setFlags: { gqg_opening: "shifted" },
+            next: "gqg_1914_12_retreat",
+            outcome:
+              "Speculative. The attack in Lorraine goes in with fewer divisions and takes " +
+              "less ground, and it still draws German reserves toward it. The divisions " +
+              "that were held back are in front of the sweep when it comes, and the left " +
+              "is stronger than the plan would have made it. Neither wing has what it " +
+              "wanted. Both have more than they would have had if the whole army had gone " +
+              "one way." },
+          { weight: 50, title: "Neither force is strong enough for what it was given",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { gqg_opening: "asplanned" },
+            next: "gqg_1914_12_retreat",
+            outcome:
+              "Speculative. The smaller attack is stopped in a day, and the divisions on " +
+              "the left are too few to hold the Sambre and too many to be lost without " +
+              "being missed. The army has been divided between two aims and has not " +
+              "achieved either. The officers who wanted the whole weight in Lorraine and " +
+              "those who wanted it all on the left each have an account of what went " +
+              "wrong, and each is partly right." },
+        ],
+      },
     ],
   },
 
@@ -320,7 +427,7 @@ CAMPAIGNS.gqg.nodes = {
         label: "Continue the withdrawal and attack when the armies are rested",
         advisor: { name: "Joffre", position:
           "An attack made with troops in this condition can fail once and finish everything." },
-        gate: (m) => m.manpower >= -2,
+        gate: (m) => m.manpower >= -1,
         disabledReason: "There is no line further back that can be held with what is left",
         impact: { manpower: 1, munitions: 0, will: -3 },
         setFlags: { gqg_marne: "delayed", xc_marne_french: "delayed" },
@@ -386,6 +493,41 @@ CAMPAIGNS.gqg.nodes = {
           "coalfields are within reach of an enemy that has just been stopped, and the " +
           "British, who are moving north themselves, find the ground they meant to hold " +
           "already contested, with no French army beside them to share it.",
+      },
+      {
+        id: "aisne",
+        label: "Make one more attack on the Aisne heights with the army already there, before extending the line",
+        advisor: { name: "Foch", position:
+          "The Germans are tired and thin on the heights. An attack there now costs less than a race to the sea, and it might still decide the matter." },
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "Historians differ on whether the Allied attacks on the Aisne in September 1914 " +
+          "came near a result or only repeated the cost of the frontier battles. The German " +
+          "positions on the heights were strong and their guns could not be found. Whether " +
+          "a stronger effort, earlier, would have done more than the actual attacks is " +
+          "argued without result.",
+        uncertain: [
+          { weight: 65, title: "The heights hold, and the north stays open another week",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { gqg_race: "aisne" },
+            next: "gqg_1915_03_grignotage",
+            outcome:
+              "Speculative. The attack goes in on the plateau north of the river and is stopped " +
+              "by guns the aeroplanes did not find, on the same ground and in the same weather as " +
+              "the attacks that failed in the first week. Another week has been spent. The " +
+              "Second Army is still moving north, and the Germans who held the Aisne are " +
+              "moving north as well." },
+          { weight: 35, title: "A foothold is won on the plateau and held",
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            setFlags: { gqg_race: "aisne" },
+            next: "gqg_1915_03_grignotage",
+            outcome:
+              "Speculative. A foothold is won on the plateau above the river and held against " +
+              "the counter-attacks, at a heavy price. It is not a breakthrough. The Germans " +
+              "bring reserves to it which the extension of the left toward the sea would not " +
+              "have forced them to bring, and the race to the north starts a week later for " +
+              "both sides." },
+        ],
       },
     ],
   },
@@ -610,7 +752,7 @@ CAMPAIGNS.gqg.nodes = {
         label: "Give up the east bank and hold a shorter line further back",
         advisor: { name: "de Castelnau", position:
           "Ground is not the same as position. We are being invited to defend a name." },
-        gate: (m) => m.will >= 2,
+        gate: (m) => m.will >= -2,
         disabledReason: "Abandoning Verdun cannot be survived politically from here",
         impact: { manpower: 2, munitions: 1, will: -4 },
         setFlags: { gqg_verdun: "shortened" },
@@ -710,22 +852,42 @@ CAMPAIGNS.gqg.nodes = {
       "the line. One that fails would cost divisions the army has been trying to rest.",
     choices: [
       {
-        id: "retake",
-        label: "Authorise Mangin's attack to retake Douaumont",
-        historical: true,
-        advisor: { name: "Mangin", position:
-          "The fort can be taken back if the guns do their work first and the infantry stays close behind the barrage." },
-        impact: { manpower: 0, munitions: 0, will: 2 },
-        setFlags: { gqg_douaumont: "retaken" },
-        next: "gqg_1916_06_nivelle",
-        outcome:
-          "The bombardment begins on 21 October and the infantry goes forward on the 24th. " +
-          "By the evening Douaumont is French again and some six thousand prisoners have " +
-          "been taken, and Vaux follows by 2 November. A second blow on 15 December pushes " +
-          "the line back almost to where it stood in February, with more than eleven " +
-          "thousand prisoners. The army that had been told to hold at Verdun now knows it can also " +
-          "take ground there.",
-      },
+  id: "retake",
+  label: "Authorise Mangin's attack to retake Douaumont",
+  historical: true,
+  advisor: { name: "Mangin", position:
+    "The fort can be taken back if the guns do their work first and the infantry stays close behind the barrage." },
+  impact: { manpower: 0, munitions: 0, will: 2 },
+  setFlags: { gqg_douaumont: "retaken" },
+  dispute:
+    "The success of 24 October is usually credited to Mangin's creeping barrage, to " +
+    "the fog, and to the weakness of the German garrison, since German divisions had " +
+    "been taken from Verdun for the Somme and for Romania. How much each mattered is " +
+    "disputed, and so is how near the attack came to failing.",
+  uncertain: [
+    { weight: 75, title: "Douaumont is French again", historicalBranch: true,
+      impact: { manpower: 0, munitions: 0, will: 2 },
+      next: "gqg_1916_06_nivelle",
+      outcome:
+        "The bombardment begins on 21 October and the infantry goes forward on the 24th. " +
+        "By the evening Douaumont is French again and some six thousand prisoners have " +
+        "been taken, and Vaux follows by 2 November. A second blow on 15 December pushes " +
+        "the line back almost to where it stood in February, with more than eleven " +
+        "thousand prisoners. The army that had been told to hold at Verdun now knows it can also " +
+        "take ground there." },
+    { weight: 25, title: "The attack is held on the slope below the fort",
+      impact: { manpower: -2, munitions: -1, will: -1 },
+      setFlags: { gqg_douaumont: "failed" },
+      next: "gqg_1916_06_nivelle",
+      outcome:
+        "Speculative. The bombardment misses the casemates where the garrison shelters, " +
+        "and the infantry goes forward behind a barrage that has already moved on. The " +
+        "attack is held on the slope below the fort with the loss of most of its " +
+        "officers. Verdun goes into the winter with Douaumont still German, and a " +
+        "Commander-in-Chief whose critics now have a failed autumn to put beside a " +
+        "failed summer." },
+  ],
+},
       {
         id: "wait",
         label: "Stay on the defensive at Verdun and keep the divisions for the spring",
@@ -1151,7 +1313,7 @@ CAMPAIGNS.gqg.nodes = {
         label: "Take the objective and exploit beyond it while the line is broken",
         advisor: { name: "Mangin", position:
           "A broken line is an opportunity. Announcing in advance that we will not use it is a strange way to fight." },
-        gate: (m) => m.munitions >= -3,
+        gate: (m) => m.munitions >= -5,
         disabledReason: "The artillery cannot support an advance beyond the announced objective",
         impact: { manpower: -2, munitions: -1, will: -3 },
         setFlags: { gqg_malmaison: "exploited" },
@@ -1230,6 +1392,22 @@ CAMPAIGNS.gqg.nodes = {
           "to decide what it meant. If the blow does not fall there, the " +
           "Commander-in-Chief has won, and no one will know how near he came to losing.",
       },
+      {
+        id: "paris",
+        label: "Cover Paris first: tell Haig in writing that the French reserve will fall back on the capital if the retreat goes on",
+        advisor: { name: "Petain", position:
+          "The government's order is to cover Paris. If it comes to a choice, I shall have to obey it, and Haig must be told so plainly." },
+        impact: { manpower: 0, munitions: 0, will: -2 },
+        setFlags: { gqg_link: "paris" },
+        next: "gqg_1918_10_doullens",
+        outcome:
+          "Speculative. The warning goes to Haig in writing and not in conversation. He reads " +
+          "it as an intention and sends it to London that night. The British Cabinet, which " +
+          "has been looking for a way to put a French general over both armies, finds one in " +
+          "the French army's own statement that it may step aside. Foch is sent for to " +
+          "Doullens, and Petain's letter will be quoted against him there for as long as the " +
+          "argument over the command goes on.",
+      },
     ],
   },
 
@@ -1258,7 +1436,10 @@ CAMPAIGNS.gqg.nodes = {
           "that the French may not be able to keep the link."
         : flags.gqg_link === "allin"
           ? "\n\nThe French reserve has gone north to keep the link, and Champagne is open."
-          : ""),
+          : flags.gqg_link === "paris"
+            ? "\n\nHaig has been told in writing that the French reserve may fall back on Paris, " +
+              "and the warning is already in London."
+            : ""),
     context:
       "The Americans are arriving and the question of who commands them is the same " +
       "question, deferred. Whatever is agreed here sets the shape of it.",
@@ -1358,6 +1539,42 @@ CAMPAIGNS.gqg.nodes = {
           "carry out an order he has publicly despised, and may do so unwillingly. " +
           "Whether the battle behind the ridge would have held is something the record " +
           "cannot show.",
+      },
+      {
+        id: "relieve",
+        label: "Relieve the Sixth Army's commander tonight and put in a man who will carry out the order",
+        advisor: { name: "Foch", position:
+          "A commander who will not obey on the eve of the battle cannot be left in command of it. His successor will not know the ground, but he will know the order." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { gqg_duchene: "relieved" },
+        dispute:
+          "Whether defence in depth could have been enforced at the last moment is disputed. " +
+          "Those around Petain say the order was clear and that only disobedience lost the " +
+          "Aisne. Others say that the French army had little practice in an elastic defence, " +
+          "and that a hurried change of command would have done no more good than the order " +
+          "did.",
+        uncertain: [
+          { weight: 55, title: "The front line is thinned in time",
+            impact: { manpower: 0, munitions: 0, will: 0 },
+            setFlags: { gqg_aisne: "depth" },
+            next: "gqg_1918_11_counteroffensive",
+            outcome:
+              "Speculative. The new commander reaches Sixth Army headquarters at midnight and " +
+              "orders the front line cleared of all but a screen. By the morning of the 27th " +
+              "most of the divisions are behind the ridge. The bombardment falls on little, " +
+              "and the attack still comes and still gains ground, but it comes on into depth " +
+              "and the army is not broken on the first morning." },
+          { weight: 45, title: "The change of command is itself the confusion",
+            impact: { manpower: -1, munitions: 0, will: -1 },
+            setFlags: { gqg_aisne: "forward" },
+            next: "gqg_1918_11_counteroffensive",
+            outcome:
+              "Speculative. The new commander has a day and a night, and the corps under him " +
+              "do not know whom to obey. The front line is half cleared when the bombardment " +
+              "begins, and the divisions caught between the two dispositions suffer the " +
+              "worst of both. The line breaks as it would have done, and the army has the " +
+              "added bitterness of having changed its commander on the eve of the battle." },
+        ],
       },
     ],
   },
@@ -1651,6 +1868,7 @@ CAMPAIGNS.gqg.nodes = {
       "generation that is not coming back.",
     ending: { family: "victory-that-does-not-feel-like-one", badge: BADGES.SETTLED },
     epilogue: (flags) =>
+      (flags.gqg_week === "looked" ? "The first week: the offensive was held for a week while the cavalry looked.\n" : "") +
       "August 1914: " + (flags.gqg_opening === "shifted" ? "the plan was abandoned before it was tried." : "the plan was executed as written.") + "\n" +
       "The Marne: " + (flags.gqg_marne === "delayed" ? "the counterattack was deferred." : flags.gqg_marneResult === "contained" ? "attacked, and contained short of a separation." : "the flank was attacked and the gap exploited.") + "\n" +
       "July 1918: " + (flags.gqg_1918Result === "coincided" ? "the blow landed on an enemy already going back." : flags.gqg_1918 === "husbanded" ? "the reserve was held." : "the reserve took the initiative at Villers-Cotterets.") + "\n" +
@@ -1663,14 +1881,15 @@ CAMPAIGNS.gqg.nodes = {
       "La Malmaison: " + (flags.gqg_malmaison === "exploited" ? "the announced limit was exceeded." : "stopped on its objective.") + "\n" +
       "The order to go back: " + (flags.gqg_retreat === "stand" ? "a stand on the Sambre and the Meuse." : "the withdrawal ordered on 25 August.") + "\n" +
       "The commanders: " + (flags.gqg_sack === "kept" ? "kept in place." : "the failures relieved.") + "\n" +
-      "The race to the sea: " + (flags.gqg_race === "dug" ? "stopped on the Aisne." : "the left extended to the sea.") + "\n" +
+      "The race to the sea: " + (flags.gqg_race === "dug" ? "stopped on the Aisne." : flags.gqg_race === "aisne" ? "one more attack on the Aisne heights first, and then the extension." : "the left extended to the sea.") + "\n" +
       "Salonika: " + (flags.gqg_salonika === "refused" ? "no divisions sent." : "the Army of the Orient sent.") + "\n" +
       "Chantilly: " + (flags.gqg_chantilly === "free" ? "French freedom of action kept." : "simultaneous offensives proposed for 1916.") + "\n" +
-      "Douaumont: " + (flags.gqg_douaumont === "waited" ? "left in German hands for the winter." : "retaken in October 1916.") + "\n" +
+      "Douaumont: " + (flags.gqg_douaumont === "waited" ? "left in German hands for the winter." : flags.gqg_douaumont === "failed" ? "the attack of October 1916 failed." : "retaken in October 1916.") + "\n" +
       "Calais: " + (flags.gqg_calais === "agreement" ? "the British army left under its own commander." : "the British army placed under Nivelle for the offensive.") + "\n" +
       "May 1917: " + (flags.gqg_directive === "offensive" ? "a great offensive kept in preparation." : "limited objectives, by Directive No. 1.") + "\n" +
-      "March 1918, the link: " + (flags.gqg_link === "allin" ? "the whole reserve sent north." : "two armies in reserve in the Somme valley, twenty divisions refused.") + "\n" +
+      "March 1918, the link: " + (flags.gqg_link === "allin" ? "the whole reserve sent north." : flags.gqg_link === "paris" ? "Haig told in writing that the reserve might fall back on Paris." : "two armies in reserve in the Somme valley, twenty divisions refused.") + "\n" +
       "The Aisne, May 1918: " + (flags.gqg_aisne === "depth" ? "defence in depth enforced." : "the front line left full.") + "\n" +
+      (flags.gqg_duchene === "relieved" ? "The Sixth Army's commander: relieved on the eve of the attack.\n" : "") +
       "The Americans: " + (flags.gqg_americans === "split" ? "divided among the Allied armies." : "an army with its own sector.") + "\n" +
       "The autumn offensives: " + (flags.gqg_grand === "limited" ? "limited attacks, front by front." : "four concentric offensives from 26 September.") + "\n" +
       "The armistice terms: " + (flags.gqg_senlis === "moderate" ? "the moderate terms Haig urged." : "the Rhine bridgeheads and heavy surrender of equipment.") + "\n" +

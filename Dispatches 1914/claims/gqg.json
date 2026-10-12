@@ -861,5 +861,140 @@
     "status": "drafted",
     "sources": [],
     "note": "Rewrite if a source for the artillery's part is read."
+  },
+  {
+    "id": "gqg-fk-1",
+    "node": "gqg_1914_16_week",
+    "kind": "characterization",
+    "claim": "A week's pause in the Lorraine and Ardennes offensive to find the German right by cavalry and aeroplane is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "gqg-fk-2",
+    "node": "gqg_1914_16_week",
+    "kind": "fact",
+    "claim": "The French plan of August 1914 assumed that the Germans would not use reserve formations in the front line, and the German right wing through Belgium was stronger than the French staff had allowed for.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted; matches the existing claims on the opening node."
+  },
+  {
+    "id": "gqg-fk-3",
+    "node": "gqg_1914_16_week",
+    "kind": "position",
+    "claim": "Castelnau is characterized as favouring moving the weight to the left once the German right was found.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view of such a pause."
+  },
+  {
+    "id": "gqg-fk-4",
+    "node": "gqg_1914_16_week",
+    "kind": "characterization",
+    "claim": "Historians differ on how flexible the French plan of 1914 was and how early Joffre was willing to alter the deployment.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the roll."
+  },
+  {
+    "id": "gqg-fk-5",
+    "node": "gqg_1914_01_frontieres",
+    "kind": "position",
+    "claim": "Castelnau is characterized as favouring a week's pause to find the German right before attacking.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position."
+  },
+  {
+    "id": "gqg-fk-6",
+    "node": "gqg_1914_14_race",
+    "kind": "fact",
+    "claim": "French attacks on the Aisne heights in September 1914 failed to move the German line.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the node's own situation text; to be checked against a campaign history."
+  },
+  {
+    "id": "gqg-fk-7",
+    "node": "gqg_1914_14_race",
+    "kind": "characterization",
+    "claim": "A further attack on the Aisne heights before extending the line north is a modelled alternative; the two outcomes of the roll are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "gqg-fk-8",
+    "node": "gqg_1916_14_douaumont",
+    "kind": "fact",
+    "claim": "Douaumont was retaken on 24 October 1916 after a bombardment begun on 21 October, with some six thousand prisoners.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the existing claim on this node; the roll adds a modelled failure."
+  },
+  {
+    "id": "gqg-fk-9",
+    "node": "gqg_1916_14_douaumont",
+    "kind": "characterization",
+    "claim": "The success of 24 October 1916 is credited to Mangin's creeping barrage, the fog and the weakness of the German garrison, and historians dispute how much each mattered.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field."
+  },
+  {
+    "id": "gqg-fk-10",
+    "node": "gqg_1916_14_douaumont",
+    "kind": "characterization",
+    "claim": "The failure of the attack on the slope below the fort is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "gqg-fk-11",
+    "node": "gqg_1918_12_link",
+    "kind": "fact",
+    "claim": "On 24 March 1918 Petain was under orders from his government to cover Paris, and Haig reported that Petain might have to break contact with the British.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted; matches the dispute field of the node, which rests on Haig's diary."
+  },
+  {
+    "id": "gqg-fk-12",
+    "node": "gqg_1918_12_link",
+    "kind": "characterization",
+    "claim": "A written warning from Petain to Haig that the reserve would fall back on Paris is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "gqg-fk-13",
+    "node": "gqg_1918_13_aisne",
+    "kind": "fact",
+    "claim": "General Duchene commanded the Sixth Army, packed his divisions into the front line against Petain's order of defence in depth, and was relieved after the attack of 27 May 1918.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the existing outcome text; to be checked against a history of the Chemin des Dames in 1918."
+  },
+  {
+    "id": "gqg-fk-14",
+    "node": "gqg_1918_13_aisne",
+    "kind": "characterization",
+    "claim": "Relieving the Sixth Army's commander on the eve of the attack is a modelled alternative; the two outcomes of the roll are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "gqg-fk-15",
+    "node": "gqg_1918_13_aisne",
+    "kind": "position",
+    "claim": "Foch is characterized as holding that an army commander who will not obey on the eve of battle must be replaced.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view of it."
   }
 ]

@@ -1007,3 +1007,220 @@ BATTLES.piaveAustro = {
     },
   },
 };
+
+BATTLES.caporettoAustro = {
+  id: "caporettoAustro",
+  host: { node: "aok_1917_11_caporetto", choice: "german" },
+  winBranch: 0,
+  campaign: "aok",
+  title: "Order of Battle: Caporetto",
+  flavor:
+    "Nine Austro-Hungarian and six to eight German divisions are to be made into a new Fourteenth Army under Otto von Below, to break the Italian line at the northern end of the " +
+    "Isonzo front. The Italians hold the heights in a line packed forward. What has to be planned is how the blow is struck: by the guns and the gas, by infantry that goes round the strong points, or by the pursuit afterwards.",
+  conditions:
+    "Late October in the Julian Alps: mist in the valley, no wind on the morning of the attack, and the date put back two days by the weather and by guns not yet in place.",
+  categories: [
+    {
+      id: "divisions", name: "The Fourteenth Army's Divisions", meter: "manpower",
+      units: [
+        "Otto von Below's Fourteenth Army: nine Austro-Hungarian and six to eight German divisions",
+        "The German divisions, Ludendorff's general reserve, lent for the offensive",
+        "Army Group Boroevic, held ready on the Isonzo for the offensive",
+      ],
+      real:
+        "The army struck at the northern end of the Isonzo front and broke the Italian line between the IV and XXVII Corps. Some units advanced 25 kilometres on the first day, and by 10 November the Central Powers had come about 150 kilometres to the Piave.",
+      context:
+        "The divisions are the weight of the blow. Each commitment puts more of them into the breakthrough at Caporetto, and fewer on the flanks.",
+    },
+    {
+      id: "guns", name: "The Guns and the Gas", meter: "munitions",
+      units: [
+        "About 2,200 guns that opened fire at 6.41 on the morning of the attack",
+        "894 metal tubes, like Livens projectors, firing chlorine and arsenic agent and diphosgene",
+        "Two large mines fired at 8 o'clock, as the infantry went forward",
+      ],
+      real:
+        "At 2 in the morning on 24 October the tubes fired gas into the valley, and at 6.41 some 2,200 guns opened fire. At 8 two large mines were fired and the infantry attacked. The gas is reported to have killed 500 to 600 Italians.",
+      context:
+        "The guns open the line. Each commitment puts more batteries, gas and shell into the first hours, and takes them from the pursuit.",
+    },
+    {
+      id: "storm", name: "The Storm Troops on the Ridges", meter: "will",
+      units: [
+        "Stormtroop units with the 08/15 Maxim light machine gun, light trench mortars, mountain guns and flamethrowers",
+        "Alpine troops who infiltrated the ridges at Matajur and Kolovrat, laying telephone lines as they went",
+        "Erwin Rommel, then a junior officer, who won the Pour le Merite and later wrote Infantry Attacks",
+      ],
+      real:
+        "The storm units did not attack the line. They went between the Italian positions and down the valleys behind them, and the mountain troops took the ridges at Matajur and Kolovrat. Rommel won the Pour le Merite for his part.",
+      context:
+        "The storm troops are the method. Each commitment puts more of the army's confidence in the infantry that goes round the strong points.",
+    },
+    {
+      id: "pursuit", name: "The Pursuit and the Railways", meter: "manpower",
+      units: [
+        "The advance down the valleys behind the storm units",
+        "The roads and railways that had to be repaired to keep the army fed",
+        "The Tagliamento and the Piave, the rivers the Italians fell back on",
+      ],
+      real:
+        "After Cadorna ordered the retreat on 30 October the Italian crossing of the Tagliamento took four days. By 10 November the Italians held the Piave and Monte Grappa, and about 265,000 to 275,000 of them had been taken and some 3,000 guns lost.",
+      context:
+        "The pursuit turns a breakthrough into a victory. Each commitment holds more men and more supply back for the days after the blow.",
+    },
+  ],
+  // The storm troops first: the method was what broke the line. The guns second. The divisions third and the pursuit last. A game judgment, not a measurement.
+  effectiveness: { storm: 2.4, guns: 2.2, divisions: 1.8, pursuit: 1.4 },
+  commanders: [
+    { id: "below", name: "Below", role: "German general commanding the Fourteenth Army", category: "divisions",
+      note: "He has the army that has been made for the blow." },
+    { id: "krafft", name: "Krafft von Dellmensingen", role: "German lieutenant general, mountain-warfare expert", category: "storm",
+      note: "He reconnoitred the ground and chose where the army would go in." },
+    { id: "boroevic", name: "Boroevic", role: "Commander of the Army Group on the Isonzo", category: "pursuit",
+      note: "He has held the Isonzo for two years, and will lead the pursuit." },
+  ],
+  approaches: [
+    { id: "infiltrate", name: "Let the storm units go down the valleys and leave the strong points", note: "The line is turned and not attacked, and the guns follow.", modifiers: { storm: 0.5, divisions: -0.2, guns: -0.2 } },
+    { id: "bombard", name: "Break the line with gas and guns first, then send the infantry", note: "The line is opened by the guns, and the storm units follow through.", modifiers: { guns: 0.5, pursuit: 0.1, storm: -0.4 } },
+  ],
+  postures: [
+    { id: "forward", name: "A line packed forward on the heights", weight: 2,
+      intel: "Reports say the Italian Second Army holds its line packed forward on the slopes, with its reserves too far back and its commander ill.",
+      modifiers: { storm: 1.2, guns: 1.1 } },
+    { id: "depth", name: "A defence in depth", weight: 1,
+      intel: "Deserters speak of new orders to hold the line in depth, with a second position behind the first and reserves brought up close.",
+      modifiers: { storm: 0.8, divisions: 1.1, pursuit: 0.8 } },
+    { id: "warned", name: "An enemy that has been warned", weight: 1,
+      intel: "Prisoners report that an attack at the northern end of the front is expected within days, and that guns have been moved up to meet it.",
+      modifiers: { guns: 0.75, storm: 0.9, divisions: 1.0 } },
+  ],
+  echo: {
+    node: "aok_1917_12_pursuit",
+    grade: {
+      clean: "The blow at Caporetto was planned so that the divisions, the guns, the storm troops and the pursuit each had their part, and the staff knows it.",
+      costly: "The blow at Caporetto was won where its weight was put, with some arms starved to pay for the rest.",
+      marginal: "The plan for Caporetto held together, and the battle did not go the way it should have.",
+      total: "The blow at Caporetto was begun with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      divisions: "The divisions were left short of what the breakthrough needed.",
+      guns: "The guns and the gas were left short, and the line did not open as it should have.",
+      storm: "The storm troops were left short, and the line had to be attacked and not turned.",
+      pursuit: "The pursuit was left short, and the army ran out of road and food too soon.",
+    },
+    commander: {
+      below: "Below's army is the one that is spoken of as having broken the line.",
+      krafft: "Krafft's choice of ground is the one that is spoken of as having won it.",
+      boroevic: "Boroevic's pursuit is the one that is spoken of as having followed it.",
+    },
+  },
+};
+
+BATTLES.megiddoOttoman = {
+  id: "megiddoOttoman",
+  host: { node: "otto_1918_02_megiddo", choice: "hold" },
+  winBranch: 1,
+  campaign: "otto",
+  title: "Order of Battle: Megiddo",
+  flavor:
+    "Liman von Sanders has three armies and about 32,000 infantry between the sea and the Jordan. Allenby has put nearly five times as many men on the coast, behind a deception " +
+    "that has made the Ottoman staff look east. What has to be planned is how the line is held against a blow that has been hidden until the last night.",
+  conditions:
+    "Mid-September, dry, with dust on the roads and the sky held by British aeroplanes. The Ottoman units are understrength, short of food and boots, and losing men to desertion and sickness.",
+  categories: [
+    {
+      id: "coast", name: "The Coast: Eighth Army and XXII Corps", meter: "manpower",
+      units: [
+        "Jevad's Eighth Army: five divisions, a cavalry division and a German detachment of about a regiment",
+        "Refet's XXII Corps on the right flank of the Eighth Army",
+        "The line from the sea to the Judean Hills",
+      ],
+      real:
+        "The main blow fell on the coast at 4.30 on 19 September, after a barrage by 385 guns. The headquarters of the XXII Corps was overrun that day. Refet had wanted to withdraw before the attack and had been forbidden.",
+      context:
+        "The coast is where the blow will fall. Each commitment puts more men on the line from the sea to the hills, and fewer in the hills.",
+    },
+    {
+      id: "hills", name: "The Hills: the Seventh Army", meter: "manpower",
+      units: [
+        "Mustafa Kemal's Seventh Army: four divisions and a German regiment",
+        "The Judean Hills, from the Eighth Army's flank to the Jordan",
+        "The Nablus to Beisan road, through the defile of the Wadi Fara",
+      ],
+      real:
+        "On 21 September British aeroplanes attacked the Seventh Army's column on the road from Nablus to Beisan, in the defile of the Wadi Fara, and the column was destroyed in about an hour, its wreckage stretching over six miles.",
+      context:
+        "The hills guard the road back. Each commitment puts more men in the Seventh Army's sector and fewer on the coast.",
+    },
+    {
+      id: "signals", name: "The Telephones and the Staff", meter: "will",
+      units: [
+        "The telephone exchange at Afula, between Liman's headquarters at Nazareth and the Seventh and Eighth Armies",
+        "Liman's two German regiments and two weak cavalry divisions in reserve",
+        "The staff at Nazareth, which commands the army group by wire",
+      ],
+      real:
+        "At 1 in the morning on 19 September a single bomber dropped sixteen bombs on the Afula exchange and station, and the army group was cut off from the Seventh and Eighth Armies for two days. On the 20th British cavalry attacked Nazareth, and Liman escaped.",
+      context:
+        "The wire is how the army group is commanded. Each commitment puts more of the headquarters' effort into keeping orders moving when the lines are cut.",
+    },
+    {
+      id: "guns", name: "The Guns and the Road Back", meter: "munitions",
+      units: [
+        "402 guns on the front, against about 540 on the British side",
+        "The railway from Damascus and the line to Deraa",
+        "The supply columns on the roads north of Nablus",
+      ],
+      real:
+        "The Ottoman guns were outnumbered, and the columns on the roads left behind 87 guns, 55 motor lorries and 837 wagons. By the fall of Damascus on 1 October about 75,000 Ottoman soldiers had been taken.",
+      context:
+        "The guns and the roads decide whether an army can get away. Each commitment puts more batteries and transport behind the line.",
+    },
+  ],
+  // The coast first: it is where the blow fell. The telephones and the staff second: the cut wire decided how the army group could answer.
+  // The hills third, the guns and roads last. A game judgment, not a measurement.
+  effectiveness: { coast: 2.3, signals: 2.1, hills: 1.7, guns: 1.3 },
+  commanders: [
+    { id: "liman", name: "Liman von Sanders", role: "Commander of the Yildirim Army Group", category: "signals",
+      note: "He commands three armies by wire from Nazareth." },
+    { id: "refet", name: "Refet", role: "Commander of the XXII Corps on the coast", category: "coast",
+      note: "He thinks the attack is coming on his front, and wants to withdraw before it." },
+    { id: "kemal", name: "Mustafa Kemal", role: "Commander of the Seventh Army", category: "hills",
+      note: "He thinks the line too long for the men who hold it." },
+  ],
+  approaches: [
+    { id: "withdraw", name: "Draw the coast corps back to a shorter line before the blow", note: "The line is shorter and the first blow falls on empty ground.", modifiers: { coast: 0.5, hills: 0.2, signals: -0.2 } },
+    { id: "hold", name: "Hold every position and keep the reserve behind the centre", note: "No ground is given, and the reserve answers where the line gives.", modifiers: { signals: 0.3, guns: 0.2, coast: -0.4 } },
+  ],
+  postures: [
+    { id: "coast", name: "The main blow on the coast", weight: 2,
+      intel: "Prisoners and deserters speak of troops moving by night toward the coast, and the staff is divided about whether to believe them.",
+      modifiers: { coast: 0.7, signals: 0.8, guns: 0.9 } },
+    { id: "jordan", name: "The blow in the Jordan Valley", weight: 1,
+      intel: "Airmen and patrols report much activity in the Jordan Valley, with camps on the east bank and a fresh cavalry division reported there.",
+      modifiers: { coast: 1.3, hills: 1.1, signals: 1.1 } },
+    { id: "feint", name: "A feint on the coast and a blow in the hills", weight: 1,
+      intel: "A deserter says the coast is a feint and the real attack is meant for the hills, toward Nablus.",
+      modifiers: { hills: 0.8, coast: 1.1, signals: 1.0 } },
+  ],
+  echo: {
+    node: "otto_1918_03_mudros",
+    grade: {
+      clean: "The line in Palestine was planned so that the coast, the hills, the wire and the guns each had their part, and the staff knows it.",
+      costly: "The line in Palestine held where its weight was put, with some arms starved to pay for the rest.",
+      marginal: "The plan for Palestine held together, and the battle did not go the way it should have.",
+      total: "The line in Palestine was held with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      coast: "The coast was left short of men, and was the first place to give.",
+      hills: "The hills were left short of men, and the road back was not held.",
+      signals: "The wire and the staff were left short, and the army group could not answer.",
+      guns: "The guns and the road back were left short, and the columns were caught on the roads.",
+    },
+    commander: {
+      liman: "Liman's plan for the line is the one that is argued about.",
+      refet: "Refet's judgment of where the blow would fall is the one that is argued about.",
+      kemal: "Mustafa Kemal's judgment of the length of the line is the one that is argued about.",
+    },
+  },
+};

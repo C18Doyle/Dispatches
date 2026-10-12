@@ -649,5 +649,113 @@
     "status": "drafted",
     "sources": [],
     "note": "62-battles.jsx."
+  },
+  {
+    "id": "bef-fk-1",
+    "node": "bef_1914_01_warcouncil",
+    "kind": "fact",
+    "claim": "The Cabinet decided in the first week of August 1914 to send four infantry divisions and the cavalry division, and to keep two at home against invasion; the French had been promised six.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the node's own situation text; to be checked against the official history."
+  },
+  {
+    "id": "bef-fk-2",
+    "node": "bef_1914_01_warcouncil",
+    "kind": "characterization",
+    "claim": "Sending all six divisions at once is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "bef-fk-3",
+    "node": "bef_1914_01_warcouncil",
+    "kind": "position",
+    "claim": "Henry Wilson is characterized as holding that the French plan had been built on a British force of six divisions.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A characterization of his role in the staff talks with the French; in indirect speech."
+  },
+  {
+    "id": "bef-fk-4",
+    "node": "bef_1916_12_tanks",
+    "kind": "characterization",
+    "claim": "Using a dozen tanks on 15 September 1916 and holding the rest is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "bef-fk-5",
+    "node": "bef_1916_12_tanks",
+    "kind": "position",
+    "claim": "Lloyd George is characterized as favouring a trial of the tanks in small numbers.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records this."
+  },
+  {
+    "id": "bef-fk-6",
+    "node": "bef_1917_15_ypres3",
+    "kind": "fact",
+    "claim": "Plumer's limited attacks in September 1917 (the Menin Road Ridge on 20 September) took ground on the Gheluvelt plateau at lower cost than the earlier stages of the offensive.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from memory of the sequence of 'bite and hold' attacks; to be checked against the official history."
+  },
+  {
+    "id": "bef-fk-7",
+    "node": "bef_1917_15_ypres3",
+    "kind": "characterization",
+    "claim": "A Cabinet-imposed limit on the Flanders offensive, kept in writing by Haig, is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "bef-fk-8",
+    "node": "bef_1917_15_ypres3",
+    "kind": "position",
+    "claim": "Milner is characterized as holding that a limited attack with a kept limit was a compromise the Cabinet could accept.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records this."
+  },
+  {
+    "id": "bef-fk-9",
+    "node": "bef_1917_16_plateau",
+    "kind": "fact",
+    "claim": "The Cambrai attack of November 1917 used tanks in a mass on firm ground without a long preliminary bombardment.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from memory of the battle; to be checked."
+  },
+  {
+    "id": "bef-fk-10",
+    "node": "bef_1917_16_plateau",
+    "kind": "characterization",
+    "claim": "Historians differ about whether the later stages of the Flanders offensive were justified once the plateau had been taken.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the roll."
+  },
+  {
+    "id": "bef-fk-11",
+    "node": "bef_1917_16_plateau",
+    "kind": "characterization",
+    "claim": "The three courses at this node (go on, keep the limit, move to Cambrai) are modelled alternatives, and the outcomes of the roll are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "bef-fk-12",
+    "node": "bef_1917_16_plateau",
+    "kind": "position",
+    "claim": "Haig is characterized as believing the enemy tired and the ground open; Robertson as insisting on keeping an agreed limit; Lloyd George as preferring the tanks on firm ground.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A characterization of positions argued during the 1917 Flanders controversy, in indirect speech."
   }
 ]
