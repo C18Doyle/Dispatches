@@ -12888,6 +12888,223 @@ export function meanwhileAt(campaignId, node) {
 }
 
 // =============================================================================
+// MAP OPERATIONS
+// =============================================================================
+//
+// What an order does on the ground, drawn on the report's map: an attack is a solid arrow, a move a dashed one, a withdrawal a dashed arrow with an open head,
+// and a stand a marker. MAP_OPS is keyed "<report>/<order>" and lists the arrows of that order, each from a place to a place as [longitude, latitude]. On a
+// report the order the pointer or the keyboard is on is drawn in the accent, and the others lightly; the order given is kept and drawn on the next reports
+// and on its outcome. The places are approximate, like the front; check-mapops.js proves each key names a real report and order.
+// =============================================================================
+
+const A = (from, to) => ({ kind: "attack", from, to });
+const M = (from, to) => ({ kind: "move", from, to });
+const W = (from, to) => ({ kind: "withdraw", from, to });
+const H = (at) => ({ kind: "hold", at });
+
+export const MAP_OPS = {
+  // German Supreme Army Command
+  "ohl_1914_16_kaiser/west": [M([13.4, 52.5], [5.6, 50.6])],
+  "ohl_1914_16_kaiser/east": [M([13.4, 52.5], [5.6, 50.6]), M([13.4, 52.5], [21.0, 52.2])],
+  "ohl_1914_16_kaiser/wait": [H([13.4, 52.5])],
+  "ohl_1914_01_aufmarsch/right": [A([6.1, 50.8], [2.9, 49.2])],
+  "ohl_1914_01_aufmarsch/lorraine": [A([6.3, 49.0], [6.2, 48.4])],
+  "ohl_1914_01_aufmarsch/east": [M([7.6, 50.4], [21.0, 52.2])],
+  "ohl_1914_12_twocorps/send": [M([4.6, 50.3], [20.0, 53.3])],
+  "ohl_1914_12_twocorps/keep": [H([3.9, 50.2])],
+  "ohl_1914_13_ypres/press": [A([3.5, 50.85], [2.2, 50.95])],
+  "ohl_1914_13_ypres/break": [W([2.9, 50.85], [6.0, 51.0]), M([6.0, 51.0], [20.0, 52.5])],
+  "ohl_1914_13_ypres/dig": [H([2.9, 50.85])],
+  "ohl_1915_14_gorlice/gorlice": [A([20.9, 49.9], [23.5, 49.8])],
+  "ohl_1915_14_gorlice/envelop": [A([21.0, 54.4], [25.5, 53.6])],
+  "ohl_1915_14_gorlice/carpathians": [M([19.9, 50.1], [22.8, 49.3])],
+  "ohl_1915_15_serbia/serbia": [A([20.4, 44.9], [21.0, 43.4])],
+  "ohl_1915_15_serbia/wait": [H([4.7, 49.8])],
+  "ohl_1916_04_verdun/attrition": [A([5.4, 49.5], [5.4, 49.15])],
+  "ohl_1916_04_verdun/elsewhere": [H([5.4, 49.3])],
+  "ohl_1916_14_somme/hold": [H([2.9, 50.0])],
+  "ohl_1916_14_somme/elastic": [W([2.9, 50.0], [3.4, 49.95])],
+  "ohl_1916_14_somme/verdun": [M([5.4, 49.3], [2.9, 50.0])],
+  "ohl_1917_13_caporetto/send": [M([6.1, 49.6], [13.6, 46.3])],
+  "ohl_1917_13_caporetto/refuse": [H([6.1, 49.6])],
+  "ohl_1918_09_michael/adaptive": [A([3.3, 49.85], [1.9, 49.7]), A([3.3, 49.85], [2.6, 50.3])],
+  "ohl_1918_09_michael/amiens": [A([3.3, 49.85], [2.3, 49.9])],
+  "ohl_1918_13_aisne/exploit": [A([3.6, 49.4], [3.3, 48.95])],
+  "ohl_1918_13_aisne/halt": [H([3.6, 49.35])],
+  "ohl_1918_12_faustschlag/advance": [A([21.5, 56.0], [30.3, 59.9])],
+  "ohl_1918_12_faustschlag/narva": [A([24.0, 57.5], [28.2, 59.4])],
+  "ohl_1918_12_faustschlag/accept": [H([24.0, 57.0])],
+
+  // French General Headquarters
+  "gqg_1914_17_covering/obey": [W([6.9, 48.7], [6.5, 48.6])],
+  "gqg_1914_17_covering/stay": [H([6.9, 48.7])],
+  "gqg_1914_17_covering/ask": [M([2.35, 48.86], [6.9, 48.7])],
+  "gqg_1914_01_frontieres/attack": [A([6.8, 48.7], [7.6, 48.95]), A([4.9, 49.6], [5.6, 49.9])],
+  "gqg_1914_01_frontieres/shift": [W([6.8, 48.7], [6.2, 48.5]), M([6.0, 48.5], [3.9, 50.0])],
+  "gqg_1914_01_frontieres/week": [H([6.8, 48.7]), M([3.0, 48.8], [3.9, 49.9])],
+  "gqg_1914_12_retreat/withdraw": [W([4.4, 50.4], [3.3, 49.0])],
+  "gqg_1914_12_retreat/stand": [H([4.4, 50.4])],
+  "gqg_1914_02_marne/attack": [A([2.8, 48.9], [3.25, 49.1]), A([3.2, 48.7], [3.7, 48.95])],
+  "gqg_1914_02_marne/continue": [W([3.4, 48.8], [3.2, 48.2])],
+  "gqg_1914_14_race/extend": [M([4.0, 49.0], [2.9, 50.2])],
+  "gqg_1914_14_race/dig": [H([3.4, 49.5])],
+  "gqg_1914_14_race/aisne": [A([3.3, 49.4], [3.6, 49.65])],
+  "gqg_1915_03_grignotage/press": [A([2.8, 50.4], [3.15, 50.5]), A([4.3, 49.4], [4.5, 49.65])],
+  "gqg_1915_03_grignotage/limited": [H([2.8, 50.4])],
+  "gqg_1915_14_salonika/send": [M([2.35, 48.86], [22.9, 40.6])],
+  "gqg_1915_14_salonika/refuse": [H([2.35, 48.86])],
+  "gqg_1916_04_verdun/hold": [H([5.38, 49.2])],
+  "gqg_1916_04_verdun/shorten": [W([5.5, 49.2], [5.2, 48.95])],
+  "gqg_1916_05_somme/commit": [A([2.9, 49.95], [3.25, 49.97])],
+  "gqg_1916_05_somme/defer": [H([2.9, 49.95])],
+  "gqg_1917_07_chemin/continue": [A([3.6, 49.4], [3.75, 49.58])],
+  "gqg_1917_07_chemin/halt": [H([3.6, 49.4])],
+  "gqg_1917_09_malmaison/limited": [A([3.5, 49.45], [3.65, 49.52])],
+  "gqg_1917_09_malmaison/exploit": [A([3.5, 49.45], [3.85, 49.65])],
+  "gqg_1918_11_counteroffensive/strike": [A([3.05, 49.3], [3.45, 49.3])],
+  "gqg_1918_11_counteroffensive/hold": [H([3.05, 49.3])],
+  "gqg_1918_15_grand/concentric": [A([5.0, 49.0], [5.15, 49.65]), A([3.2, 49.85], [3.6, 50.1]), A([2.9, 50.8], [3.5, 51.05])],
+  "gqg_1918_15_grand/limited": [H([5.0, 49.2])],
+
+  // Russian Supreme Command
+  "stavka_1914_16_plans/both": [A([23.3, 54.3], [21.5, 54.5]), A([20.7, 53.0], [20.5, 53.7]), A([25.5, 50.8], [24.0, 49.9])],
+  "stavka_1914_16_plans/germany": [A([23.3, 54.3], [21.5, 54.5]), A([20.7, 53.0], [20.5, 53.7]), A([22.0, 53.3], [19.2, 53.5])],
+  "stavka_1914_16_plans/austria": [A([25.5, 50.8], [24.0, 49.9]), A([26.8, 49.6], [25.0, 49.5]), H([22.0, 54.0])],
+  "stavka_1914_01_prussia/advance": [A([23.3, 54.3], [21.0, 54.5])],
+  "stavka_1914_01_prussia/concentrate": [H([22.5, 53.5])],
+  "stavka_1914_12_tannenberg/press": [A([20.8, 53.1], [20.5, 53.8])],
+  "stavka_1914_12_tannenberg/halt": [H([20.8, 53.1])],
+  "stavka_1914_12_tannenberg/wheel": [M([20.6, 53.4], [21.8, 54.0])],
+  "stavka_1914_02_galicia/galicia": [A([25.0, 50.0], [22.8, 49.7])],
+  "stavka_1914_02_galicia/prussia": [M([23.0, 50.0], [21.5, 53.0])],
+  "stavka_1914_04_lodz/turn": [M([19.5, 51.0], [19.3, 52.0])],
+  "stavka_1914_04_lodz/silesia": [A([19.9, 51.0], [18.7, 50.5])],
+  "stavka_1915_01_masuria/hold": [H([22.8, 53.8])],
+  "stavka_1915_01_masuria/pull": [W([22.8, 53.8], [23.8, 54.0])],
+  "stavka_1915_01_masuria/reinforce": [M([21.0, 52.2], [22.8, 53.7])],
+  "stavka_1915_12_carpathians/press": [A([22.0, 49.5], [21.5, 48.8])],
+  "stavka_1915_12_carpathians/halt": [H([22.0, 49.4])],
+  "stavka_1915_03_retreat/withdraw": [W([21.0, 52.2], [23.7, 52.1])],
+  "stavka_1915_03_retreat/hold": [H([21.0, 52.2])],
+  "stavka_1915_05_sventsiany/counter": [A([26.0, 55.0], [26.5, 55.5])],
+  "stavka_1915_05_sventsiany/withdraw": [W([26.2, 55.2], [27.6, 54.8])],
+  "stavka_1915_05_sventsiany/partial": [A([26.0, 55.0], [26.3, 55.3])],
+  "stavka_1916_05_brusilov/support": [A([26.0, 53.0], [25.6, 52.0]), A([25.7, 50.4], [25.3, 50.75])],
+  "stavka_1916_05_brusilov/alone": [A([25.7, 50.4], [25.3, 50.75])],
+  "stavka_1916_12_kovel/kovel": [A([25.3, 50.75], [24.7, 51.2])],
+  "stavka_1916_12_kovel/hold": [H([25.0, 50.9])],
+  "stavka_1916_12_kovel/lemberg": [A([25.5, 50.0], [24.0, 49.8])],
+  "stavka_1916_13_romania/small": [M([27.5, 48.0], [26.0, 45.8])],
+  "stavka_1916_13_romania/army": [M([26.0, 48.5], [26.0, 45.0])],
+  "stavka_1917_09_riga/withdraw": [W([24.1, 56.95], [25.4, 57.5])],
+  "stavka_1917_09_riga/hold": [H([24.1, 56.95])],
+  "stavka_1917_09_riga/delay": [H([24.45, 56.8])],
+
+  // British Army and War Cabinet
+  "bef_1914_22_divisions/four": [M([-0.1, 51.5], [1.9, 50.95])],
+  "bef_1914_22_divisions/six": [M([-0.1, 51.5], [1.9, 50.95]), M([-0.1, 51.5], [1.6, 50.7])],
+  "bef_1914_22_divisions/two": [M([-0.1, 51.5], [1.6, 50.7])],
+  "bef_1914_01_warcouncil/maubeuge": [M([-0.1, 51.5], [3.97, 50.28])],
+  "bef_1914_01_warcouncil/amiens": [M([-0.1, 51.5], [2.3, 49.89])],
+  "bef_1914_01_warcouncil/six": [M([-0.1, 51.5], [3.97, 50.28])],
+  "bef_1914_02_seine/stay": [H([2.9, 48.9])],
+  "bef_1914_02_seine/seine": [W([3.0, 49.1], [2.3, 48.4])],
+  "bef_1914_03_ypres/hold": [H([2.9, 50.85])],
+  "bef_1914_03_ypres/coast": [W([2.9, 50.85], [2.4, 51.0])],
+  "bef_1915_06_loos/attack": [A([2.75, 50.5], [2.95, 50.43])],
+  "bef_1915_06_loos/limited": [A([2.95, 50.62], [3.15, 50.7])],
+  "bef_1915_04_dardanelles/release": [M([-0.1, 51.5], [26.2, 40.0])],
+  "bef_1915_04_dardanelles/hold": [H([-0.1, 51.5])],
+  "bef_1916_11_somme/compromise": [A([2.65, 50.0], [2.95, 50.12])],
+  "bef_1916_11_somme/bitehold": [A([2.65, 50.0], [2.82, 50.05])],
+  "bef_1916_12_tanks/now": [A([2.8, 50.0], [2.98, 50.08])],
+  "bef_1916_12_tanks/wait": [H([2.8, 50.0])],
+  "bef_1916_12_tanks/tested": [A([2.8, 50.0], [2.93, 50.05])],
+  "bef_1917_15_ypres3/authorise": [A([2.9, 50.85], [3.25, 50.92])],
+  "bef_1917_15_ypres3/veto": [H([2.9, 50.85])],
+  "bef_1917_15_ypres3/limited": [A([2.9, 50.82], [3.1, 50.82])],
+  "bef_1918_19_backs/order": [H([2.6, 50.65])],
+  "bef_1918_19_backs/withdraw": [W([2.9, 50.85], [2.6, 50.8])],
+
+  // Austro-Hungarian Army High Command
+  "aok_1914_15_mobilise/fourth": [M([16.4, 48.2], [22.0, 49.8])],
+  "aok_1914_15_mobilise/now": [M([16.4, 48.2], [22.0, 49.8])],
+  "aok_1914_15_mobilise/serbia": [M([16.4, 48.2], [20.5, 44.8])],
+  "aok_1914_01_serbia/serbia": [M([16.4, 48.2], [19.8, 44.8])],
+  "aok_1914_01_serbia/galicia": [M([16.4, 48.2], [22.8, 49.9])],
+  "aok_1914_03_galicia/offensive": [A([22.8, 50.0], [22.8, 51.2])],
+  "aok_1914_03_galicia/san": [H([22.77, 49.78])],
+  "aok_1914_03_galicia/cover": [A([22.8, 50.0], [22.8, 51.0]), H([24.0, 49.8])],
+  "aok_1914_04_rawa/blow": [A([23.2, 50.3], [23.5, 50.8])],
+  "aok_1914_04_rawa/breakoff": [W([23.6, 50.2], [22.0, 49.9])],
+  "aok_1914_05_kolubara/invade": [A([19.2, 44.7], [20.2, 44.2])],
+  "aok_1914_05_kolubara/decline": [H([19.2, 44.7])],
+  "aok_1914_05_kolubara/limited": [A([19.2, 44.7], [19.9, 44.4])],
+  "aok_1915_04_carpathians/relieve": [A([21.5, 49.2], [22.4, 49.7])],
+  "aok_1915_04_carpathians/hold": [H([21.5, 49.2])],
+  "aok_1915_06_isonzo/isonzo": [H([13.6, 46.0])],
+  "aok_1915_06_isonzo/attack": [A([11.0, 46.0], [11.6, 45.5])],
+  "aok_1916_07_strafe/strafe": [A([11.3, 46.0], [11.75, 45.7])],
+  "aok_1916_07_strafe/keep": [H([24.0, 49.8])],
+  "aok_1917_11_caporetto/german": [A([13.6, 46.3], [12.8, 46.1])],
+  "aok_1917_11_caporetto/defend": [H([13.6, 46.0])],
+  "aok_1918_12_piave/divide": [A([11.9, 46.0], [11.6, 45.7]), A([12.4, 45.85], [12.0, 45.5])],
+  "aok_1918_12_piave/concentrate": [A([12.3, 45.85], [11.8, 45.5])],
+
+  // Ottoman General Staff
+  "otto_1914_01_straits/admit": [M([26.4, 40.1], [28.98, 41.0])],
+  "otto_1914_01_straits/refuse": [H([26.4, 40.1])],
+  "otto_1914_03_sarikamis/launch": [A([41.6, 40.0], [42.6, 40.33])],
+  "otto_1914_03_sarikamis/wait": [H([41.27, 39.9])],
+  "otto_1914_03_sarikamis/postpone": [H([41.27, 39.9])],
+  "otto_1915_01_suez/attack": [A([34.8, 31.25], [32.3, 30.6])],
+  "otto_1915_01_suez/keep": [H([34.8, 31.25])],
+  "otto_1915_01_suez/raid": [A([34.8, 31.25], [32.5, 30.2])],
+  "otto_1915_02_gallipoli/reserve": [M([26.45, 40.4], [26.2, 40.1])],
+  "otto_1915_02_gallipoli/forward": [H([26.2, 40.05])],
+  "otto_1915_03_kut/siege": [H([46.04, 32.5])],
+  "otto_1915_03_kut/storm": [A([45.3, 32.7], [46.04, 32.5])],
+  "otto_1916_01_erzurum/defend": [H([41.27, 39.9])],
+  "otto_1916_01_erzurum/withdraw": [W([41.27, 39.9], [39.5, 39.7])],
+  "otto_1916_01_erzurum/counter": [A([42.3, 40.0], [41.7, 40.0])],
+  "otto_1916_03_romani/strike": [A([33.9, 31.0], [32.65, 31.0])],
+  "otto_1916_03_romani/wells": [H([33.5, 31.0])],
+  "otto_1916_03_romani/hejaz": [M([35.2, 32.0], [39.6, 24.5])],
+  "otto_1917_03_baghdad/diyala": [H([44.5, 33.2])],
+  "otto_1917_03_baghdad/ctesiphon": [A([44.7, 33.0], [44.55, 33.15])],
+  "otto_1917_03_baghdad/mosul": [W([44.36, 33.3], [43.14, 36.3])],
+  "otto_1917_04_gaza/line": [H([34.5, 31.5])],
+  "otto_1917_04_gaza/shorten": [W([34.5, 31.5], [35.2, 31.8])],
+  "otto_1917_04_gaza/strike": [A([34.5, 31.5], [33.6, 31.3])],
+  "otto_1917_05_aqaba/leave": [H([35.0, 29.5])],
+  "otto_1917_05_aqaba/pass": [M([35.7, 30.2], [35.3, 29.8])],
+  "otto_1917_05_aqaba/abandon": [W([35.0, 29.5], [35.7, 30.2])],
+  "otto_1917_06_hejaz/live": [H([39.6, 24.5])],
+  "otto_1917_06_hejaz/convoy": [M([36.3, 33.5], [39.6, 24.5])],
+  "otto_1917_06_hejaz/evacuate": [W([39.6, 24.5], [36.3, 33.5])],
+  "otto_1917_07_erzincan/sign": [H([39.5, 39.75])],
+  "otto_1917_07_erzincan/advance": [A([39.5, 39.75], [41.3, 39.9])],
+  "otto_1917_07_erzincan/palestine": [M([39.5, 39.75], [34.8, 31.5])],
+  "otto_1918_01_caucasus/baku": [A([43.0, 40.5], [49.8, 40.4])],
+  "otto_1918_01_caucasus/hold": [H([41.6, 41.6])],
+  "otto_1918_02_megiddo/hold": [H([35.3, 32.7])],
+  "otto_1918_02_megiddo/withdraw": [W([35.0, 32.4], [35.3, 32.9])],
+};
+
+/** The arrows of an order, or []. */
+export function mapOpsFor(nodeId, choiceId) {
+  return MAP_OPS[nodeId + "/" + choiceId] || [];
+}
+
+/** { choiceId: arrows } for a report's orders that have any. */
+export function mapOpsOf(nodeId) {
+  const out = {};
+  const prefix = nodeId + "/";
+  for (const k of Object.keys(MAP_OPS)) if (k.startsWith(prefix)) out[k.slice(prefix.length)] = MAP_OPS[k];
+  return out;
+}
+
+// =============================================================================
 // DERIVED REGISTRIES
 // =============================================================================
 //
@@ -16207,7 +16424,7 @@ export function sepiaCss() {
   @S .dg-choice.dg-issue{border:1px solid var(--ink);text-align:center;margin-top:12px}
 
   /* the map: a sepia sheet with its own ink, the front a ticked black line */
-  @S .dg-map{border:1px solid var(--rule);box-shadow:none;--ink:var(--map-ink);--ink-soft:var(--map-soft);--paper:var(--sea);--accent:var(--map-ink);${mapAcc}}
+  @S .dg-map{border:1px solid var(--rule);box-shadow:none;--ink:var(--map-ink);--ink-soft:var(--map-soft);--paper:var(--sea);--accent:var(--map-ink);--op-focus:#a3281a;${mapAcc}}
   @S .dg-country{stroke:var(--map-soft)}
   @S .dg-front-glow{stroke:var(--map-ink);stroke-width:11;stroke-dasharray:2 9;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1}
   @S .dg-front{stroke:var(--map-ink);stroke-width:3.5;stroke-dasharray:none;animation:none}
@@ -16680,7 +16897,8 @@ export const HOW_TO = [
     title: "Reading a report",
     paras: [
       "A report gives the date and the place, then the decision in a single line, with a button that goes straight to the orders. Below that are the map, any bulletin that came over the wire, the situation, the context, the three meters, and the orders.",
-      "Press a meter to see what it is made of. The map can be opened to the whole theatre, with a list of what the other commands were doing the same week.",
+      "Press a meter to see what it is made of. The map can be opened to the whole theatre, with a list of what the other commands were doing the same week. Move the pointer or the keyboard over an order and it is drawn on the map, a solid arrow for an attack, a dashed one for a move or a withdrawal and a ring for a stand. The orders you have given stay on the map for a while.",
+      "Some reports list what the staff believes, each belief with the grade the staff gave it. The grade is no guide, because firm reports have been wrong and doubtful ones right. You may check a belief, a few times in a file, to learn whether it holds. An order that rests on a false belief shows better odds than it really has until the belief is checked, and an order that does not rest on a belief you have found false earns a point of will.",
     ],
   },
   {
@@ -16692,10 +16910,18 @@ export const HOW_TO = [
     ],
   },
   {
+    id: "advisers",
+    title: "Advisers and trust",
+    paras: [
+      "Each order may carry an adviser's argument. An order that follows an adviser earns that adviser a point of trust, and each adviser whose order was passed over loses half a point. An adviser who has been overruled too often goes quiet, and the argument is no longer shown; after that the adviser asks to be relieved. A trusted adviser is marked, and brings one more check on a belief.",
+    ],
+  },
+  {
     id: "battles",
     title: "Battles",
     paras: [
       "Some contested orders open an Order of Battle. You name a commander, choose an approach and place your counters, and the staff's plan is always one press away. The odds you see are the odds of the plan on what the intelligence says the enemy has; the enemy may have something else. The result is graded, and the next report says how the battle was fought.",
+      "A battle lasts two days. When the plan is issued the first day shows the enemy that was really met, which may not be the one the intelligence named. You may then move up to two counters from one arm to another, worth three times what they would have been in the dark, and choose to hold the plan, to press the attack (a third more of the plan's edge or its error, and a point of manpower) or to steady the line (half of it).",
       "You can switch the planning off when you set up a file, and every battle is then rolled at the odds of the staff's plan.",
     ],
   },
@@ -17022,15 +17248,16 @@ export function intelEdge(nodeId, choice, flags, easy) {
 // THE ADVISERS' TRUST
 // =============================================================================
 //
-// An order that follows an adviser's argument earns that adviser a little trust, and each adviser whose own order was passed over loses a little. Trust
-// runs from -3 to +3 and is kept in the file (tr_<id>). It is light on purpose, and it changes what the staff will tell you:
+// An order that follows an adviser's argument earns that adviser a point of trust, and each adviser whose own order was passed over loses half a point
+// (once, however many of that adviser's orders were passed over). Trust runs from -3 to +3 and is kept in the file (tr_<id>). It is light on purpose, and it
+// changes what the staff will tell you:
 //   * at -2 or below the adviser has gone quiet: their argument is no longer shown on the orders;
 //   * at -3 they ask to be relieved (a special event, written from the dossier) and stay gone;
 //   * at +3 a trusted adviser brings the file one more check on a belief (68-intel.jsx), once.
 // An order's adviser is matched to the command's list of advisers by name (adviserIdFor); an order whose adviser cannot be matched changes no trust.
 // =============================================================================
 
-export const TRUST = { min: -3, max: 3, quietAt: -2, goneAt: -3, trustedAt: 3 };
+export const TRUST = { min: -3, max: 3, quietAt: -2, goneAt: -3, trustedAt: 3, follow: 1, passOver: -0.5 };
 
 const plain = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").replace(/\s+/g, " ").trim();
 
@@ -17062,7 +17289,7 @@ export function adviserState(flags, id) {
 }
 
 /**
- * The flags after an order is given at a report: +1 for the adviser whose argument was followed, -1 for each other adviser whose own order was passed over,
+ * The flags after an order is given at a report: +1 for the adviser whose argument was followed, -0.5 for each other adviser whose own order was passed over,
  * and the check a trusted adviser brings (ix_bonus, once). A gone adviser stays gone.
  */
 export function trustAfter(campaignId, nodeId, choice, flags) {
@@ -17083,12 +17310,14 @@ export function trustAfter(campaignId, nodeId, choice, flags) {
       out.ix_bonus = (Number(out.ix_bonus) || 0) + 1;
     }
   };
-  if (chosen) bump(chosen, 1);
+  bump(chosen, TRUST.follow);
+  const passed = new Set();
   for (const other of node.choices || []) {
     if (other.id === choice.id) continue;
     const id = adviserIdFor(campaignId, other.advisor && other.advisor.name);
-    if (id && id !== chosen) bump(id, -1);
+    if (id && id !== chosen) passed.add(id);
   }
+  for (const id of passed) bump(id, TRUST.passOver);
   return out;
 }
 
@@ -17553,6 +17782,20 @@ const css = `
   .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
   .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
 
+  /* ---- the orders on the map ---- */
+  .dg-op{fill:none;stroke:currentColor;stroke-linecap:round}
+  .dg-op-hold circle{fill:none;stroke:currentColor}
+  .dg-op-hold rect{fill:currentColor;stroke:none}
+  .dg-op-cand{color:var(--ink);opacity:.45}
+  .dg-op-focus{color:var(--op-focus,var(--accent));opacity:1}
+  .dg-op-done{color:var(--ink);opacity:.95}
+  .dg-op-past{color:var(--ink);opacity:.25}
+  .dg-mk-cand{color:var(--ink);opacity:.45}
+  .dg-mk-focus{color:var(--op-focus,var(--accent))}
+  .dg-mk-done{color:var(--ink)}
+  .dg-mk-past{color:var(--ink);opacity:.25}
+  .dg-swatch-op{background:linear-gradient(90deg,var(--accent) 0 60%,transparent 60%);height:4px;align-self:center}
+
   /* ---- the staff's reading, the advisers' trust ---- */
   .dg-intel{margin:0 0 6px}
   .dg-bel{list-style:none;margin:0 0 8px;padding:0}
@@ -17686,6 +17929,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
+  const [viewing, setViewing] = useState(null); // the order the pointer or the keyboard is on: its arrow is drawn on the map
   return (
     <main {...rootProps(campaignId, "node")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -17727,7 +17971,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
 
-      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} />}
 
       {node.context && (
         <details>
@@ -17758,7 +18002,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
             const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters)) : orderOdds(ch, meters);
             const rests = intelRests(nodeId, ch, flags || {}, easy);
             return (
-            <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)}>
+            <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)} onView={setViewing}>
               <div className="lab">{ch.label}</div>
               {odds && <OddsDial odds={odds} easy={easy} fog={fog} />}
               {rests && <span className="dg-rests">{rests}</span>}
@@ -17794,7 +18038,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 /** What the outcome of an order is called on its screen: as the record has it, a modelled alternative, or just the result. */
 const SPECULATIVE_LEAD = /^(Speculative|A modell?ed alternative)\.\s*/i;
 
-function OutcomeScreen({ campaignId, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
+function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const heading = useRef(null);
@@ -17840,6 +18084,9 @@ function OutcomeScreen({ campaignId, outcome, headline, historical, record, batt
             {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
             {informed && <p className="dg-note">The staff had checked its reading and knew what it was facing.</p>}
           </section>
+          {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
+            <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} />
+          )}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
           <MeterChanges changes={changes} labels={labels} />
@@ -18292,7 +18539,7 @@ export default function App() {
       {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} />}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
-        <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
+        <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} node={node} nodeId={nodeId} orderId={taken.length ? taken[taken.length - 1].choice : null} visited={visited} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
           changes={pending.changes} contested={pending.contested} informed={pending.informed} meters={meters} flags={flags} onContinue={cont} />
       )}
       {screen === "event" && pending && pending.event && <EventScreen key={pending.event.id} campaignId={campaignId} event={pending.event} onContinue={afterEvent} />}
@@ -19038,7 +19285,7 @@ const HOLD_SLOP = 14; // pixels a pointer may move before it is scrolling and no
  * An order. A contested one (`hold`) is signed by holding the button down; a keyboard or assistive press signs it at once (a click with no
  * pointer behind it has detail 0), and the setting can turn the holding off.
  */
-function OrderButton({ ch, hold, onSign, children }) {
+function OrderButton({ ch, hold, onSign, onView, children }) {
   const [holding, setHolding] = useState(false);
   const [holdMs, setHoldMs] = useState(HOLD_MS);
   const timer = useRef(null);
@@ -19069,6 +19316,8 @@ function OrderButton({ ch, hold, onSign, children }) {
   };
   return (
     <button className={"dg-choice" + (holding ? " holding" : "")} disabled={ch.blocked}
+      onFocus={onView ? () => onView(ch.id) : undefined} onBlur={onView ? () => onView(null) : undefined}
+      onMouseEnter={onView ? () => onView(ch.id) : undefined} onMouseLeave={onView ? () => onView(null) : undefined}
       onClick={(e) => { if (!hold || e.detail === 0) onSign(); }}
       onPointerDown={hold ? start : undefined} onPointerMove={hold ? move : undefined} onPointerUp={hold ? stop : undefined} onPointerLeave={hold ? stop : undefined} onPointerCancel={hold ? stop : undefined}
       onContextMenu={hold ? (e) => e.preventDefault() : undefined}
@@ -19120,8 +19369,38 @@ function projectFor(view) {
   return ([lon, lat]) => [((lon - view.lon[0]) / (view.lon[1] - view.lon[0])) * view.width, ((view.lat[1] - lat) / (view.lat[1] - view.lat[0])) * view.height];
 }
 
-/** The map as an SVG. `full` shows the whole theatre; otherwise the view is framed on the recent headquarters. */
-function MapCanvas({ campaignId, node, visited, full, pins }) {
+const OP_TONES = ["focus", "cand", "done", "past"];
+
+/** One arrow or marker of an order, drawn in a tone: the order in view, the other orders, the order given, an order given earlier. */
+function OpMark({ a, tone, pt, s, uid }) {
+  if (a.kind === "hold") {
+    const p = pt(a.at);
+    if (!p) return null;
+    return (
+      <g className={"dg-op dg-op-hold dg-op-" + tone}>
+        <circle cx={p[0]} cy={p[1]} r={8 * s} strokeWidth={(tone === "focus" ? 3.6 : 2.6) * s} />
+        <rect x={p[0] - 3 * s} y={p[1] - 3 * s} width={6 * s} height={6 * s} />
+      </g>
+    );
+  }
+  const f = pt(a.from);
+  const t = pt(a.to);
+  if (!f || !t) return null;
+  const open = a.kind === "withdraw";
+  // a short move is drawn long enough to be read: the arrow keeps its direction and starts at its place
+  const dx = t[0] - f[0];
+  const dy = t[1] - f[1];
+  const len = Math.hypot(dx, dy);
+  const min = 30 * s;
+  const to = len > 0 && len < min ? [f[0] + (dx * min) / len, f[1] + (dy * min) / len] : t;
+  return (
+    <line x1={f[0]} y1={f[1]} x2={to[0]} y2={to[1]} className={"dg-op dg-op-" + a.kind + " dg-op-" + tone} strokeWidth={(tone === "focus" ? 4.6 : 3.2) * s}
+      strokeDasharray={a.kind === "attack" ? undefined : `${6 * s} ${3.5 * s}`} markerEnd={`url(#${uid}-${open ? "o" : "s"}-${tone})`} />
+  );
+}
+
+/** The map as an SVG. `full` shows the whole theatre; otherwise the view is framed on the recent headquarters. `ops` is { candidates, focus, past, executed }: the orders drawn. */
+function MapCanvas({ campaignId, node, visited, full, pins, ops }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const camp = CAMPAIGNS[campaignId];
   const map = mapFor(campaignId);
@@ -19133,11 +19412,14 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
   const trail = (visited || []).map((id) => camp.nodes[id] && camp.nodes[id].city).filter((c, i, a) => XY[c] && c !== a[i - 1]);
   const shown = [...new Set([...trail, node.city])];
   const [hx, hy] = XY[node.city];
+  const pt = (p) => (Array.isArray(p) ? proj(p) : XY[p]);
+  const arrowPts = (arrows) => (arrows || []).flatMap((a) => (a.kind === "hold" ? [pt(a.at)] : [pt(a.from), pt(a.to)])).filter(Boolean);
+  const frameExtra = [...(ops && ops.candidates ? Object.values(ops.candidates).flatMap(arrowPts) : []), ...arrowPts(ops && ops.executed)];
 
   // the frame: the whole theatre, or the last few headquarters with room around them, at the shape of the card
   let box = { x: 0, y: 0, w: view.width, h: view.height };
   if (!full) {
-    const focus = [...new Set([...trail.slice(-5), node.city])].map((c) => XY[c]);
+    const focus = [...new Set([...trail.slice(-5), node.city])].map((c) => XY[c]).concat(frameExtra);
     const xs = focus.map((p) => p[0]);
     const ys = focus.map((p) => p[1]);
     const pad = 52;
@@ -19162,6 +19444,12 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
       aria-label={`Map of the front on ${nodeDate(campaignId, node.date)}. The headquarters is at ${node.city}.`}>
       <defs>
         {overlays.map((o) => <clipPath key={o.id} id={`${uid}-${o.id}`}><path d={mask(o)} /></clipPath>)}
+        {OP_TONES.map((tone) => (
+          <React.Fragment key={tone}>
+            <marker id={`${uid}-s-${tone}`} className={"dg-mk dg-mk-" + tone} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor" /></marker>
+            <marker id={`${uid}-o-${tone}`} className={"dg-mk dg-mk-" + tone} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="currentColor" strokeWidth="1.8" /></marker>
+          </React.Fragment>
+        ))}
       </defs>
       <rect x="0" y="0" width={view.width} height={view.height} className="dg-sea" />
       {countries.map((c) => <path key={c.id} d={c.d} className={"dg-country dg-side-" + sideOf(c.id)} />)}
@@ -19176,6 +19464,14 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
         </g>
       ))}
       {trail.length > 1 && <polyline points={trail.map((c) => XY[c].join(",")).join(" ")} className="dg-trail" />}
+      {ops && (
+        <g className="dg-ops" aria-hidden="true">
+          {(ops.past || []).map((a, i) => <OpMark key={"p" + i} a={a} tone="past" pt={pt} s={s} uid={uid} />)}
+          {ops.candidates && Object.entries(ops.candidates).filter(([id]) => id !== ops.focus).flatMap(([id, arrows]) => arrows.map((a, i) => <OpMark key={id + i} a={a} tone="cand" pt={pt} s={s} uid={uid} />))}
+          {ops.executed && ops.executed.map((a, i) => <OpMark key={"x" + i} a={a} tone="done" pt={pt} s={s} uid={uid} />)}
+          {ops.candidates && ops.focus && (ops.candidates[ops.focus] || []).map((a, i) => <OpMark key={"f" + i} a={a} tone="focus" pt={pt} s={s} uid={uid} />)}
+        </g>
+      )}
       {shown.filter((c) => c !== node.city).map((c) => <circle key={c} cx={XY[c][0]} cy={XY[c][1]} r={3.2 * s} className="dg-visited" />)}
       {(pins || []).filter((p) => XY[p.city]).map((p) => (
         <g key={p.campaignId} transform={`translate(${XY[p.city][0]} ${XY[p.city][1]})`}>
@@ -19194,8 +19490,17 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
 }
 
 /** The report's map: always there, small, and expandable to the whole theatre with its key and the other commands' news. */
-function FrontMapPanel({ campaignId, node, visited }) {
+function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, executed }) {
   const [open, setOpen] = useState(false);
+  // the orders drawn: this report's, the one in view, those given before (the last three), and the one just given
+  const ops = useMemo(() => {
+    if (!nodeId) return null;
+    const candidates = executed ? null : mapOpsOf(nodeId);
+    const past = (taken || []).filter((t) => t.node !== nodeId).slice(-3).flatMap((t) => mapOpsFor(t.node, t.choice));
+    const done = executed ? mapOpsFor(executed.nodeId, executed.choiceId) : null;
+    if (!past.length && !done && (!candidates || !Object.keys(candidates).length)) return null;
+    return { candidates, focus, past, executed: done };
+  }, [nodeId, focus, taken, executed]);
   const opener = useRef(null);
   const closer = useRef(null);
   const date = mapDate(campaignId, node.date);
@@ -19233,7 +19538,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
         <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
         <button ref={opener} className="dg-btn" aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>Expand the map</button>
       </div>
-      <MapCanvas campaignId={campaignId} node={node} visited={visited} full={false} pins={meanwhile} />
+      <MapCanvas campaignId={campaignId} node={node} visited={visited} full={false} pins={meanwhile} ops={ops} />
       {open && (
         <div className="dg-modal" role="dialog" aria-modal="true" aria-label="The front, whole theatre" onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
           <div className="dg-modal-inner">
@@ -19241,11 +19546,12 @@ function FrontMapPanel({ campaignId, node, visited }) {
               <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
               <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close the map</button>
             </div>
-            <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} />
+            <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} ops={ops} />
             <ul className="dg-key" aria-label="Key">
               {sides.map((k) => <li key={k}><i className={"dg-swatch dg-side-" + k} />{SIDE_NAMES[k]}</li>)}
               <li><i className="dg-swatch dg-swatch-front" />The front, approximate</li>
               <li><i className="dg-swatch dg-swatch-hq" />This headquarters</li>
+              {ops && <li><i className="dg-swatch dg-swatch-op" />An order: a solid arrow attacks, a dashed one moves or withdraws, a ring is a stand</li>}
             </ul>
             {meanwhile.length > 0 && (
               <>

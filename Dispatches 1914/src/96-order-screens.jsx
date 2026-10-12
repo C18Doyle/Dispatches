@@ -79,7 +79,7 @@ const HOLD_SLOP = 14; // pixels a pointer may move before it is scrolling and no
  * An order. A contested one (`hold`) is signed by holding the button down; a keyboard or assistive press signs it at once (a click with no
  * pointer behind it has detail 0), and the setting can turn the holding off.
  */
-function OrderButton({ ch, hold, onSign, children }) {
+function OrderButton({ ch, hold, onSign, onView, children }) {
   const [holding, setHolding] = useState(false);
   const [holdMs, setHoldMs] = useState(HOLD_MS);
   const timer = useRef(null);
@@ -110,6 +110,8 @@ function OrderButton({ ch, hold, onSign, children }) {
   };
   return (
     <button className={"dg-choice" + (holding ? " holding" : "")} disabled={ch.blocked}
+      onFocus={onView ? () => onView(ch.id) : undefined} onBlur={onView ? () => onView(null) : undefined}
+      onMouseEnter={onView ? () => onView(ch.id) : undefined} onMouseLeave={onView ? () => onView(null) : undefined}
       onClick={(e) => { if (!hold || e.detail === 0) onSign(); }}
       onPointerDown={hold ? start : undefined} onPointerMove={hold ? move : undefined} onPointerUp={hold ? stop : undefined} onPointerLeave={hold ? stop : undefined} onPointerCancel={hold ? stop : undefined}
       onContextMenu={hold ? (e) => e.preventDefault() : undefined}

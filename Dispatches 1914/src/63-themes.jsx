@@ -224,7 +224,7 @@ export function sepiaCss() {
   @S .dg-choice.dg-issue{border:1px solid var(--ink);text-align:center;margin-top:12px}
 
   /* the map: a sepia sheet with its own ink, the front a ticked black line */
-  @S .dg-map{border:1px solid var(--rule);box-shadow:none;--ink:var(--map-ink);--ink-soft:var(--map-soft);--paper:var(--sea);--accent:var(--map-ink);${mapAcc}}
+  @S .dg-map{border:1px solid var(--rule);box-shadow:none;--ink:var(--map-ink);--ink-soft:var(--map-soft);--paper:var(--sea);--accent:var(--map-ink);--op-focus:#a3281a;${mapAcc}}
   @S .dg-country{stroke:var(--map-soft)}
   @S .dg-front-glow{stroke:var(--map-ink);stroke-width:11;stroke-dasharray:2 9;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1}
   @S .dg-front{stroke:var(--map-ink);stroke-width:3.5;stroke-dasharray:none;animation:none}

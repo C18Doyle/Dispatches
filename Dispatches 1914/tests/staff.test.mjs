@@ -95,7 +95,7 @@ async function resume(saved) {
   ctx.restore();
 }
 
-// --- the advisers ----------------------------------------------------------------------------------------------------
+// --- the advisers: two orders from one adviser passed over together cost half a point, not a point each ----------------------------------------------------------------------------------------------------
 {
   const node = E.CAMPAIGNS.gqg.nodes.gqg_1914_01_frontieres;
   const ids = node.choices.map((c) => E.adviserIdFor("gqg", c.advisor && c.advisor.name));
@@ -112,12 +112,12 @@ async function resume(saved) {
   ctx.restore();
   // passing an adviser over for the third time
   const b = ids.findIndex((id) => id && id !== a);
-  ctx = await resume(savedAt("gqg", "gqg_1914_01_frontieres", { ["tr_" + a]: -2 }));
+  ctx = await resume(savedAt("gqg", "gqg_1914_01_frontieres", { ["tr_" + a]: -2.5 }));
   const pick = orders(ctx).find((x) => x.textContent.includes(node.choices[b].label.slice(0, 30)));
   await ctx.click(pick);
   if (btn(ctx, /^Break the seal$/)) await ctx.click(btn(ctx, /^Break the seal$/));
   await ctx.click(btn(ctx, /^Continue$/));
-  check(/Asks to Be Relieved/.test(ctx.text()), "passing an adviser over a third time sends the adviser away, by an event");
+  check(/Asks to Be Relieved/.test(ctx.text()), "passing an adviser over once too often sends the adviser away, by an event");
   ctx.restore();
 }
 

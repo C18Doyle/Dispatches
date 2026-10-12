@@ -34,9 +34,11 @@ for (const cid of E.CAMPAIGN_IDS) {
   const other = E.adviserIdFor(cid, node.choices[1].advisor.name);
   const mine = E.adviserIdFor(cid, pick.advisor.name);
   let flags = {};
-  for (let i = 0; i < 3; i++) flags = E.trustAfter(cid, nodeId, pick, flags);
-  if (E.trustOf(flags, mine) !== 3) problems.push(`${cid}: following an adviser three times does not make +3`);
-  if (E.trustOf(flags, other) !== -3) problems.push(`${cid}: passing an adviser over three times does not make -3`);
+  flags = E.trustAfter(cid, nodeId, pick, flags);
+  if (E.trustOf(flags, mine) !== 1 || E.trustOf(flags, other) !== -0.5) problems.push(`${cid}: one order does not make +1 and -0.5`);
+  for (let i = 0; i < 5; i++) flags = E.trustAfter(cid, nodeId, pick, flags);
+  if (E.trustOf(flags, mine) !== 3) problems.push(`${cid}: following an adviser does not make +3`);
+  if (E.trustOf(flags, other) !== -3) problems.push(`${cid}: passing an adviser over six times does not make -3`);
   if (E.adviserState(flags, mine) !== "trusted" || E.adviserState(flags, other) !== "gone") problems.push(`${cid}: the states are wrong`);
   if (E.intelChecksLeft(flags, false) !== E.INTEL.checks + 1) problems.push(`${cid}: a trusted adviser does not bring a check`);
   flags = E.trustAfter(cid, nodeId, pick, flags);

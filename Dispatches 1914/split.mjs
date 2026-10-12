@@ -29,6 +29,7 @@ const SECTIONS = [
   { title: "OTTOMAN GENERAL STAFF — HISTORICAL SPINE", file: "35-campaign-otto.jsx" },
   { title: "MAPS — spec §13.4", file: "40-maps.jsx" },
   { title: "THE FRONT THROUGH TIME", file: "41-map-history.jsx" },
+  { title: "MAP OPERATIONS", file: "42-map-ops.jsx" },
   { title: "DERIVED REGISTRIES", file: "50-registries.jsx" },
   { title: "METERS", file: "51-meters.jsx" },
   { title: "COMMANDER SUCCESSION — spec §3.2, §13.3", file: "52-succession.jsx" },

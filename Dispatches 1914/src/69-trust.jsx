@@ -2,15 +2,16 @@
 // THE ADVISERS' TRUST
 // =============================================================================
 //
-// An order that follows an adviser's argument earns that adviser a little trust, and each adviser whose own order was passed over loses a little. Trust
-// runs from -3 to +3 and is kept in the file (tr_<id>). It is light on purpose, and it changes what the staff will tell you:
+// An order that follows an adviser's argument earns that adviser a point of trust, and each adviser whose own order was passed over loses half a point
+// (once, however many of that adviser's orders were passed over). Trust runs from -3 to +3 and is kept in the file (tr_<id>). It is light on purpose, and it
+// changes what the staff will tell you:
 //   * at -2 or below the adviser has gone quiet: their argument is no longer shown on the orders;
 //   * at -3 they ask to be relieved (a special event, written from the dossier) and stay gone;
 //   * at +3 a trusted adviser brings the file one more check on a belief (68-intel.jsx), once.
 // An order's adviser is matched to the command's list of advisers by name (adviserIdFor); an order whose adviser cannot be matched changes no trust.
 // =============================================================================
 
-export const TRUST = { min: -3, max: 3, quietAt: -2, goneAt: -3, trustedAt: 3 };
+export const TRUST = { min: -3, max: 3, quietAt: -2, goneAt: -3, trustedAt: 3, follow: 1, passOver: -0.5 };
 
 const plain = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").replace(/\s+/g, " ").trim();
 
@@ -42,7 +43,7 @@ export function adviserState(flags, id) {
 }
 
 /**
- * The flags after an order is given at a report: +1 for the adviser whose argument was followed, -1 for each other adviser whose own order was passed over,
+ * The flags after an order is given at a report: +1 for the adviser whose argument was followed, -0.5 for each other adviser whose own order was passed over,
  * and the check a trusted adviser brings (ix_bonus, once). A gone adviser stays gone.
  */
 export function trustAfter(campaignId, nodeId, choice, flags) {
@@ -63,12 +64,14 @@ export function trustAfter(campaignId, nodeId, choice, flags) {
       out.ix_bonus = (Number(out.ix_bonus) || 0) + 1;
     }
   };
-  if (chosen) bump(chosen, 1);
+  bump(chosen, TRUST.follow);
+  const passed = new Set();
   for (const other of node.choices || []) {
     if (other.id === choice.id) continue;
     const id = adviserIdFor(campaignId, other.advisor && other.advisor.name);
-    if (id && id !== chosen) bump(id, -1);
+    if (id && id !== chosen) passed.add(id);
   }
+  for (const id of passed) bump(id, TRUST.passOver);
   return out;
 }
 

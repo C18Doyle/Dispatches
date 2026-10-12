@@ -438,6 +438,20 @@ const css = `
   .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
   .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
 
+  /* ---- the orders on the map ---- */
+  .dg-op{fill:none;stroke:currentColor;stroke-linecap:round}
+  .dg-op-hold circle{fill:none;stroke:currentColor}
+  .dg-op-hold rect{fill:currentColor;stroke:none}
+  .dg-op-cand{color:var(--ink);opacity:.45}
+  .dg-op-focus{color:var(--op-focus,var(--accent));opacity:1}
+  .dg-op-done{color:var(--ink);opacity:.95}
+  .dg-op-past{color:var(--ink);opacity:.25}
+  .dg-mk-cand{color:var(--ink);opacity:.45}
+  .dg-mk-focus{color:var(--op-focus,var(--accent))}
+  .dg-mk-done{color:var(--ink)}
+  .dg-mk-past{color:var(--ink);opacity:.25}
+  .dg-swatch-op{background:linear-gradient(90deg,var(--accent) 0 60%,transparent 60%);height:4px;align-self:center}
+
   /* ---- the staff's reading, the advisers' trust ---- */
   .dg-intel{margin:0 0 6px}
   .dg-bel{list-style:none;margin:0 0 8px;padding:0}
@@ -571,6 +585,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
+  const [viewing, setViewing] = useState(null); // the order the pointer or the keyboard is on: its arrow is drawn on the map
   return (
     <main {...rootProps(campaignId, "node")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -612,7 +627,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
 
-      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} />}
 
       {node.context && (
         <details>
@@ -643,7 +658,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
             const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters)) : orderOdds(ch, meters);
             const rests = intelRests(nodeId, ch, flags || {}, easy);
             return (
-            <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)}>
+            <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)} onView={setViewing}>
               <div className="lab">{ch.label}</div>
               {odds && <OddsDial odds={odds} easy={easy} fog={fog} />}
               {rests && <span className="dg-rests">{rests}</span>}
@@ -679,7 +694,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 /** What the outcome of an order is called on its screen: as the record has it, a modelled alternative, or just the result. */
 const SPECULATIVE_LEAD = /^(Speculative|A modell?ed alternative)\.\s*/i;
 
-function OutcomeScreen({ campaignId, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
+function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const heading = useRef(null);
@@ -725,6 +740,9 @@ function OutcomeScreen({ campaignId, outcome, headline, historical, record, batt
             {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
             {informed && <p className="dg-note">The staff had checked its reading and knew what it was facing.</p>}
           </section>
+          {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
+            <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} />
+          )}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
           <MeterChanges changes={changes} labels={labels} />
@@ -1177,7 +1195,7 @@ export default function App() {
       {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} />}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
-        <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
+        <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} node={node} nodeId={nodeId} orderId={taken.length ? taken[taken.length - 1].choice : null} visited={visited} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
           changes={pending.changes} contested={pending.contested} informed={pending.informed} meters={meters} flags={flags} onContinue={cont} />
       )}
       {screen === "event" && pending && pending.event && <EventScreen key={pending.event.id} campaignId={campaignId} event={pending.event} onContinue={afterEvent} />}

@@ -12,7 +12,7 @@ global.requestAnimationFrame = (cb) => setTimeout(cb, 0);
 global.IS_REACT_ACT_ENVIRONMENT = false; // state is set from effects (saving, the war record); the test waits instead of wrapping in act()
 
 let fail = 0;
-const t = (n, c) => { console.log(`  ${c ? "ok  " : "FAIL"} ${n}`); if (!c) fail++; };
+const t = (n, c) => { console.log(`  ${c ? "ok  " : "FAIL"} ${n}`); if (!c) { fail++; try { console.log("       page: " + ((document.querySelector("main") || document.getElementById("root")).textContent).replace(/\s+/g, " ").slice(0, 300)); } catch (e) { /* no page */ } } };
 
 const code = fs.readFileSync("dist/bundle.js", "utf8");
 try { new Function(code)(); } catch (e) { console.log("MOUNT ERROR:", e.message); process.exit(1); }
