@@ -1715,5 +1715,34 @@
     "status": "drafted",
     "sources": [],
     "note": "Existing claims for otto_1917_02_jerusalem give the date; to be cross-checked."
+  },
+  {
+    "id": "ix-otto_1914_03_sarikamis-thin",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "fact",
+    "claim": "Enver believed the Russian line at Sarikamis to be thin and badly equipped; the Russians had more men in the area than he reckoned, and a railway, while the Ottoman columns lacked winter clothing.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See the Sarikamis claims."
+  },
+  {
+    "id": "ix-otto_1915_02_gallipoli-bulair",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "Liman von Sanders expected a main landing at Bulair and kept two divisions at the neck of the peninsula; the landings came at Cape Helles and at Anzac.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The node's text gives the placing of the divisions."
+  },
+  {
+    "id": "ix-otto_1918_02_megiddo-jordan",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "The Ottoman staff expected the British attack across the Jordan; the British deceived it, and the attack of September 1918 came on the coast.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": "The node's text gives the deception."
   }
 ]

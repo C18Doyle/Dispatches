@@ -1127,5 +1127,14 @@
     "status": "drafted",
     "sources": [],
     "note": "The node's own text gives the dates."
+  },
+  {
+    "id": "ix-aok_1914_03_galicia-weak",
+    "node": "aok_1914_03_galicia",
+    "kind": "fact",
+    "claim": "The Austro-Hungarian staff underestimated the Russian force in Galicia, which was four armies and stronger and farther forward than it had reckoned.",
+    "status": "drafted",
+    "sources": [],
+    "note": "To be checked against a history of the Galician campaign."
   }
 ]

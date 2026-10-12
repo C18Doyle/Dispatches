@@ -1166,5 +1166,14 @@
     "status": "drafted",
     "sources": [],
     "note": "The date (about 11 July) is to be checked."
+  },
+  {
+    "id": "ix-ohl_1918_09_michael-thin",
+    "node": "ohl_1918_09_michael",
+    "kind": "fact",
+    "claim": "The British Fifth Army held a long front on the Somme in March 1918 with few divisions and little reserve, and the German attack of 21 March broke it in the first days.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See the Michael claims."
   }
 ]

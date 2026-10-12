@@ -131,7 +131,7 @@ export function resolveTheme(setting, prefersDark, prefersMore) {
 }
 
 const SEPIA_SERIF = '"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif';
-const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw"];
+const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw", ".dg-gtag", ".dg-trust"];
 const SEPIA_COMMANDS = ["ohl", "gqg", "stavka", "bef", "aok", "otto"];
 
 /**
@@ -298,6 +298,12 @@ export function sepiaCss() {
   @S .dg-sc-end{font-weight:500;font-size:34px}
   @S .dg-sc-cmd,@S .dg-sc-rank,@S .dg-sc-facts,@S .dg-sc-list{font-size:17px}
   @S .dg-sc-rank b{font-weight:500;font-size:26px}
+
+  /* the staff's reading */
+  @S .dg-bel li{border-top:1px solid var(--rule);font-size:16.5px}
+  @S .dg-gtag{border-color:var(--rule)}
+  @S .dg-g-firm{border-color:var(--ink-soft)}
+  @S .dg-rests{font-size:14.5px}
 
   /* the front screens */
   @S .dg-cmd{border:0;border-top:1px solid var(--rule);background:none;padding:18px 8px 14px;margin:0}

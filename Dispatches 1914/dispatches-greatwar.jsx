@@ -13334,7 +13334,7 @@ export function previewImpact(choice) {
  * impact is applied first, then nextIf is evaluated against POST-choice meters,
  * then next is the fallthrough.
  */
-export function chooseNext(campaignId, choice, flags, meters, hardState, rng = Math.random, plan = null) {
+export function chooseNext(campaignId, choice, flags, meters, hardState, rng = Math.random, plan = null, ctx = null) {
   let branch = null;
   let battle = null;
   if (choice.uncertain && choice.uncertain.length) {
@@ -13358,8 +13358,12 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
 
   let nextMeters = applyImpact(meters, impact);
   if (battle) nextMeters = applyImpact(nextMeters, battle.totals);
+  // given at a report by a player (ctx = { nodeId, easy }): the edge of checked intelligence, and the trust the order earns or costs
+  const edge = ctx ? intelEdge(ctx.nodeId, choice, flags, ctx.easy) : null;
+  if (edge) nextMeters = applyImpact(nextMeters, edge);
   const outcomeText = branch?.outcome ?? choice.outcome ?? null;
-  const nextFlags = tallyStrands({ ...flags, ...setFlags }, choice, impact, outcomeText, campaignId);
+  const tallied = tallyStrands({ ...flags, ...setFlags }, choice, impact, outcomeText, campaignId);
+  const nextFlags = ctx ? trustAfter(campaignId, ctx.nodeId, choice, tallied) : tallied;
   const nextHard = applyErosion(hardState, campaignId, choice);
 
   let nextId = branch?.next ?? null;
@@ -13386,6 +13390,7 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
     battle,
     changes: meterChanges(meters, nextMeters, flags, nextFlags, choice, outcomeText, campaignId),
     contested: Boolean(choice.uncertain && choice.uncertain.length),
+    informed: Boolean(edge),
   };
 }
 
@@ -16109,7 +16114,7 @@ export function resolveTheme(setting, prefersDark, prefersMore) {
 }
 
 const SEPIA_SERIF = '"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif';
-const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw"];
+const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw", ".dg-gtag", ".dg-trust"];
 const SEPIA_COMMANDS = ["ohl", "gqg", "stavka", "bef", "aok", "otto"];
 
 /**
@@ -16276,6 +16281,12 @@ export function sepiaCss() {
   @S .dg-sc-end{font-weight:500;font-size:34px}
   @S .dg-sc-cmd,@S .dg-sc-rank,@S .dg-sc-facts,@S .dg-sc-list{font-size:17px}
   @S .dg-sc-rank b{font-weight:500;font-size:26px}
+
+  /* the staff's reading */
+  @S .dg-bel li{border-top:1px solid var(--rule);font-size:16.5px}
+  @S .dg-gtag{border-color:var(--rule)}
+  @S .dg-g-firm{border-color:var(--ink-soft)}
+  @S .dg-rests{font-size:14.5px}
 
   /* the front screens */
   @S .dg-cmd{border:0;border-top:1px solid var(--rule);background:none;padding:18px 8px 14px;margin:0}
@@ -16866,10 +16877,238 @@ export const EVENTS = [
 export function dueEvent(campaignId, nodeId, flags, meters) {
   const node = CAMPAIGNS[campaignId] && CAMPAIGNS[campaignId].nodes[nodeId];
   if (!node || node.ending) return null;
+  const gone = resignationEvent(campaignId, flags || {}, node.date);
+  if (gone) return gone;
   for (const e of EVENTS) {
     if (e.campaign !== campaignId || (flags && flags["ev_" + e.id])) continue;
     if (node.date < e.from || node.date > e.to) continue;
     if (e.when(flags || {}, meters)) return e;
+  }
+  return null;
+}
+
+// =============================================================================
+// THE STAFF'S READING
+// =============================================================================
+//
+// A report tells what the headquarters believes, and sometimes that is wrong: the French staff thought the German right too weak to matter, the Russian
+// front staff thought the German Eighth Army was falling back on the Vistula, the Ottoman staff thought the British would attack in the east. A few
+// reports carry such beliefs (INTEL_ITEMS), each with the grade the staff gave it, whether it holds, and what the truth was. The grade is no guide: firm
+// reports have been wrong and doubtful ones right.
+//
+// The player may CHECK a belief, spending one of a few checks for the file (INTEL.checks; INTEL.hardChecks in hard mode; a trusted adviser can bring one
+// more: see 69-trust.jsx), and is told whether it holds. Two things follow, both small and neither touching a file that never checks:
+//   * the odds dial of an order that rests on a false belief shows the odds the belief would give, INTEL.believedShift points better than the roll's
+//     real odds, until the belief is checked (the dial says so);
+//   * an order that does not rest on a belief the player has checked and found false earns the edge: the staff knew what it was facing (+1 will).
+// In easy mode every belief is shown with its verdict from the start, at no cost, and there is no edge.
+// =============================================================================
+
+export const INTEL = { checks: 3, hardChecks: 2, believedShift: 15, edge: { will: 1 } };
+
+/** { [nodeId]: [{ id, text, grade, holds, truth, relied: [choiceId] }] }: what the report's staff believes. `relied` names the orders that rest on it. */
+export const INTEL_ITEMS = {
+  gqg_1914_01_frontieres: [
+    { id: "reserve", grade: "firm", holds: false, relied: ["attack"],
+      text: "The Germans will not put their reserve corps in the front line, so their right wing cannot be strong enough to matter.",
+      truth: "The German army put its reserve corps beside the active ones from the first day, and its right wing in Belgium was half as strong again as the French staff had allowed for." },
+  ],
+  stavka_1914_12_tannenberg: [
+    { id: "retiring", grade: "firm", holds: false, relied: ["press"],
+      text: "The German Eighth Army, beaten at Gumbinnen, is falling back toward the Vistula.",
+      truth: "The Eighth Army was not retiring on the Vistula. It was turning south, by rail and on foot, against the Second Army." },
+  ],
+  aok_1914_03_galicia: [
+    { id: "weak", grade: "doubtful", holds: false, relied: ["offensive"],
+      text: "The Russians in front of Lemberg are fewer than the plan assumed, and the armies can advance into Poland.",
+      truth: "The Russians put four armies into Galicia, and they were stronger and farther forward than the staff had reckoned." },
+  ],
+  bef_1916_11_somme: [
+    { id: "wire", grade: "firm", holds: false, relied: ["compromise"],
+      text: "A week's bombardment will cut the German wire and break the dugouts, and the infantry will walk into empty trenches.",
+      truth: "The shells, many of them shrapnel, did not cut the wire everywhere, and the deep German dugouts survived the bombardment." },
+  ],
+  otto_1914_03_sarikamis: [
+    { id: "thin", grade: "doubtful", holds: false, relied: ["launch"],
+      text: "The Russian line round Sarikamis is thin and has no winter equipment.",
+      truth: "The Russians had more men in the area than Enver reckoned, and a railway to bring up the rest. It was the Ottoman columns that had no winter clothing." },
+  ],
+  otto_1915_02_gallipoli: [
+    { id: "bulair", grade: "doubtful", holds: false, relied: ["reserve"],
+      text: "The main landing will come at Bulair, at the neck of the peninsula.",
+      truth: "The landings came at Cape Helles and at Anzac, far from Bulair, and the two divisions held at the neck were in the wrong place." },
+  ],
+  gqg_1916_04_verdun: [
+    { id: "stripped", grade: "firm", holds: true, relied: ["shorten"],
+      text: "The forts of Verdun have been stripped of their guns and garrisons.",
+      truth: "The forts had been largely disarmed, and a handful of men held Douaumont; the line in front of them was thin." },
+  ],
+  bef_1915_06_loos: [
+    { id: "light", grade: "doubtful", holds: true, relied: ["attack"],
+      text: "The German line at Loos is lightly held.",
+      truth: "The front line was lightly held and the first day made ground, but the German reserves were close behind it." },
+  ],
+  stavka_1915_01_masuria: [
+    { id: "warning", grade: "doubtful", holds: true, relied: ["pull", "reinforce"],
+      text: "The Tenth Army's commander is right: a German attack is coming against it.",
+      truth: "The Germans attacked on 7 February (Western calendar), in a snowstorm, and outflanked the Tenth Army within days." },
+  ],
+  ohl_1918_09_michael: [
+    { id: "thin", grade: "firm", holds: true, relied: ["adaptive", "amiens"],
+      text: "The British Fifth Army on the Somme is thinly held and has little reserve behind it.",
+      truth: "The Fifth Army held a long front with few divisions and few reserves, and the German blow broke it in the first days." },
+  ],
+  otto_1918_02_megiddo: [
+    { id: "jordan", grade: "firm", holds: false, relied: ["hold"],
+      text: "The British will attack in the east, across the Jordan.",
+      truth: "The British attacked on the coast. The preparations in the east were a deception, and the main force had been moved west in the nights before." },
+  ],
+  gqg_1914_02_marne: [
+    { id: "flank", grade: "firm", holds: true, relied: ["attack"],
+      text: "The German First Army is marching south-east of Paris and has exposed its right flank.",
+      truth: "The First Army had turned south-east of Paris, and French aircraft had seen it; its right flank was open to the Paris garrison and the Sixth Army." },
+  ],
+};
+
+/** The beliefs a report carries, or []. */
+export function intelItemsAt(nodeId) {
+  return INTEL_ITEMS[nodeId] || [];
+}
+
+const key = (nodeId, itemId) => `ix_${nodeId}_${itemId}`;
+
+/** Whether a belief has been checked in this file. */
+export function intelChecked(flags, nodeId, itemId) {
+  return Boolean(flags && flags[key(nodeId, itemId)]);
+}
+
+/** How many checks are left: the file's allowance, less those used, plus any a trusted adviser brought. */
+export function intelChecksLeft(flags, hard) {
+  const f = flags || {};
+  return Math.max(0, (hard ? INTEL.hardChecks : INTEL.checks) + (Number(f.ix_bonus) || 0) - (Number(f.ix_used) || 0));
+}
+
+/** The flags after checking one belief (the same flags if it is already checked or none are left). */
+export function intelCheck(flags, nodeId, itemId, hard) {
+  if (intelChecked(flags, nodeId, itemId) || intelChecksLeft(flags, hard) < 1) return flags;
+  return { ...flags, [key(nodeId, itemId)]: true, ix_used: (Number(flags.ix_used) || 0) + 1 };
+}
+
+/** True when the order rests on a belief that is false and has not been checked: its dial shows the belief's odds. Never in easy mode. */
+export function intelFogged(nodeId, choice, flags, easy) {
+  if (easy || !choice) return false;
+  return intelItemsAt(nodeId).some((it) => !it.holds && it.relied.includes(choice.id) && !intelChecked(flags, nodeId, it.id));
+}
+
+/** The odds the belief would give: the real odds, `believedShift` points better (never past 95). Same shape as orderOdds. */
+export function intelBelievedOdds(odds) {
+  if (!odds) return odds;
+  const pct = Math.min(95, odds.pct + INTEL.believedShift);
+  return { ...odds, pct, word: ODDS_BANDS.find((b) => pct < b.max).word };
+}
+
+/**
+ * The edge for an order given on checked intelligence: some belief at this report was checked and found false, and the order does not rest on it.
+ * An impact ({ will: 1 }) or null. Easy mode shows the truth for nothing, so it earns none.
+ */
+export function intelEdge(nodeId, choice, flags, easy) {
+  if (easy || !choice) return null;
+  const refuted = intelItemsAt(nodeId).filter((it) => !it.holds && intelChecked(flags, nodeId, it.id));
+  if (!refuted.length) return null;
+  return refuted.every((it) => !it.relied.includes(choice.id)) ? { ...INTEL.edge } : null;
+}
+
+// =============================================================================
+// THE ADVISERS' TRUST
+// =============================================================================
+//
+// An order that follows an adviser's argument earns that adviser a little trust, and each adviser whose own order was passed over loses a little. Trust
+// runs from -3 to +3 and is kept in the file (tr_<id>). It is light on purpose, and it changes what the staff will tell you:
+//   * at -2 or below the adviser has gone quiet: their argument is no longer shown on the orders;
+//   * at -3 they ask to be relieved (a special event, written from the dossier) and stay gone;
+//   * at +3 a trusted adviser brings the file one more check on a belief (68-intel.jsx), once.
+// An order's adviser is matched to the command's list of advisers by name (adviserIdFor); an order whose adviser cannot be matched changes no trust.
+// =============================================================================
+
+export const TRUST = { min: -3, max: 3, quietAt: -2, goneAt: -3, trustedAt: 3 };
+
+const plain = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").replace(/\s+/g, " ").trim();
+
+/** The id of the adviser an order's argument is attributed to, or null: by full name, then by the last or first word of the name. */
+export function adviserIdFor(campaignId, name) {
+  const c = CAMPAIGNS[campaignId];
+  if (!c || !name) return null;
+  const n = plain(name);
+  const list = c.advisors || [];
+  let hit = list.find((a) => plain(a.name) === n || a.id === n.replace(/ /g, ""));
+  if (hit) return hit.id;
+  const words = n.split(" ");
+  hit = list.find((a) => {
+    const an = plain(a.name).split(" ");
+    return words[words.length - 1] === an[an.length - 1] || a.id === words[words.length - 1] || a.id === words[0] || words[0] === an[0];
+  });
+  return hit ? hit.id : null;
+}
+
+/** An adviser's trust, -3 to +3. */
+export function trustOf(flags, id) {
+  return Math.max(TRUST.min, Math.min(TRUST.max, Number(flags && flags["tr_" + id]) || 0));
+}
+
+/** "gone", "quiet", "trusted" or "normal". */
+export function adviserState(flags, id) {
+  const t = trustOf(flags, id);
+  return t <= TRUST.goneAt ? "gone" : t <= TRUST.quietAt ? "quiet" : t >= TRUST.trustedAt ? "trusted" : "normal";
+}
+
+/**
+ * The flags after an order is given at a report: +1 for the adviser whose argument was followed, -1 for each other adviser whose own order was passed over,
+ * and the check a trusted adviser brings (ix_bonus, once). A gone adviser stays gone.
+ */
+export function trustAfter(campaignId, nodeId, choice, flags) {
+  const camp = CAMPAIGNS[campaignId];
+  const node = camp && camp.nodes[nodeId];
+  if (!node || !choice) return flags;
+  const chosen = adviserIdFor(campaignId, choice.advisor && choice.advisor.name);
+  if (!chosen) return flags; // an adviser who cannot be matched changes no trust
+  const out = { ...flags };
+  const bump = (id, d) => {
+    if (!id || out["tr_" + id + "_gone"]) return;
+    const before = trustOf(out, id);
+    const after = Math.max(TRUST.min, Math.min(TRUST.max, before + d));
+    out["tr_" + id] = after;
+    if (after <= TRUST.goneAt) out["tr_" + id + "_gone"] = true;
+    if (after >= TRUST.trustedAt && !out["tr_" + id + "_bonus"]) {
+      out["tr_" + id + "_bonus"] = true;
+      out.ix_bonus = (Number(out.ix_bonus) || 0) + 1;
+    }
+  };
+  if (chosen) bump(chosen, 1);
+  for (const other of node.choices || []) {
+    if (other.id === choice.id) continue;
+    const id = adviserIdFor(campaignId, other.advisor && other.advisor.name);
+    if (id && id !== chosen) bump(id, -1);
+  }
+  return out;
+}
+
+/** The event that follows an adviser's asking to be relieved: written from the dossier. null unless the adviser has just gone and it has not been shown. */
+export function resignationEvent(campaignId, flags, date) {
+  const c = CAMPAIGNS[campaignId];
+  if (!c) return null;
+  for (const a of c.advisors || []) {
+    if (flags["tr_" + a.id + "_gone"] && !flags["ev_resign_" + a.id]) {
+      const role = a.dossier && a.dossier.role ? a.dossier.role.charAt(0).toLowerCase() + a.dossier.role.slice(1) : "adviser";
+      return {
+        id: "resign_" + a.id, campaign: campaignId, kind: "The staff",
+        date,
+        title: a.name + " Asks to Be Relieved",
+        paras: [
+          a.name + ", " + role + ", has been overruled too often to go on. The request to be relieved is made in writing, and it is granted.",
+          "The work of the post is still to be done, and from now on no one in the room says what " + a.name + " would have said.",
+        ],
+      };
+    }
   }
   return null;
 }
@@ -17314,6 +17553,17 @@ const css = `
   .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
   .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
 
+  /* ---- the staff's reading, the advisers' trust ---- */
+  .dg-intel{margin:0 0 6px}
+  .dg-bel{list-style:none;margin:0 0 8px;padding:0}
+  .dg-bel li{border-top:1px dotted var(--ink-soft);padding:10px 0;font-size:14px}
+  .dg-gtag{display:inline-block;border:1.5px solid var(--ink-soft);padding:1px 8px;margin-right:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-g-firm{border-color:var(--ink);color:var(--ink)}
+  .dg-fogtag{font-weight:400;letter-spacing:.02em;text-transform:none}
+  .dg-rests{display:block;font-size:12px;color:var(--ink-soft);font-style:italic;margin:0 0 8px}
+  .dg-mute{font-style:italic;color:var(--ink-soft)}
+  .dg-trust{font-style:normal;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+
   ${sepiaCss()}
 `;
 
@@ -17432,7 +17682,7 @@ function jumpToOrders() {
   h.focus({ preventScroll: true });
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onHome }) {
+function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onCheck, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
@@ -17475,6 +17725,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
+      {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
+
       {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
 
       {node.context && (
@@ -17502,11 +17754,14 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           )}
           {node.choices.map((ch) => {
             const strain = strainedUncertain(ch, meters);
-            const odds = ch.blocked ? null : orderOdds(ch, meters);
+            const fog = !ch.blocked && intelFogged(nodeId, ch, flags || {}, easy);
+            const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters)) : orderOdds(ch, meters);
+            const rests = intelRests(nodeId, ch, flags || {}, easy);
             return (
             <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)}>
               <div className="lab">{ch.label}</div>
-              {odds && <OddsDial odds={odds} easy={easy} />}
+              {odds && <OddsDial odds={odds} easy={easy} fog={fog} />}
+              {rests && <span className="dg-rests">{rests}</span>}
               {ch.blocked && <div className="dg-cost">✕ {ch.disabledReason}</div>}
               {easy && ch.historical && <span className="dg-record-mark">✓ The order the command gave</span>}
               {easy && !ch.blocked && <span className="dg-preview">{previewText(ch, node.meterLabels)}</span>}
@@ -17514,11 +17769,13 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
                 <span className="dg-strain">Strain: {node.meterLabels[strain.meter]} is short, so the odds are {strain.points} points worse</span>
               )}
               {ch.erodes && hardState.enabled && <div className="dg-cost">✕ Costs standing</div>}
-              {ch.advisor && (
-                <div className="dg-quote">
-                  {ch.advisor.name} argues: {ch.advisor.position}
-                </div>
-              )}
+              {ch.advisor && (() => {
+                const aid = adviserIdFor(campaignId, ch.advisor.name);
+                const st = aid ? adviserState(flags || {}, aid) : "normal";
+                if (st === "gone") return <div className="dg-quote dg-mute">{ch.advisor.name} has left the staff.</div>;
+                if (st === "quiet") return <div className="dg-quote dg-mute">{ch.advisor.name} has gone quiet and offers no argument on this.</div>;
+                return <div className="dg-quote">{ch.advisor.name}{st === "trusted" ? <span className="dg-trust"> (trusted)</span> : null} argues: {ch.advisor.position}</div>;
+              })()}
               {ch.attested && (
                 <div className="dg-attested">
                   <span className="dg-attested-tag">On the record</span>{" "}
@@ -17537,7 +17794,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 /** What the outcome of an order is called on its screen: as the record has it, a modelled alternative, or just the result. */
 const SPECULATIVE_LEAD = /^(Speculative|A modell?ed alternative)\.\s*/i;
 
-function OutcomeScreen({ campaignId, outcome, headline, historical, record, battle, changes, contested, meters, flags, onContinue }) {
+function OutcomeScreen({ campaignId, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const heading = useRef(null);
@@ -17581,6 +17838,7 @@ function OutcomeScreen({ campaignId, outcome, headline, historical, record, batt
               ))}
             </ul>
             {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
+            {informed && <p className="dg-note">The staff had checked its reading and knew what it was facing.</p>}
           </section>
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
@@ -17973,7 +18231,7 @@ export default function App() {
   const choose = (ch, plan = null) => {
     if (settings.sound) playSound("tick");
     atmosphereFx("sign");
-    const r = chooseNext(campaignId, ch, flags, meters, hardState, Math.random, plan);
+    const r = chooseNext(campaignId, ch, flags, meters, hardState, Math.random, plan, { nodeId, easy: runEasy });
     if (runEasy) setHistory((h) => [...h, { nodeId, flags, meters, hardState, visited, taken }].slice(-REWIND_LIMIT));
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
@@ -17990,6 +18248,9 @@ export default function App() {
     setPending(null);
     setScreen("node");
   };
+
+  // Check a belief on the report in hand: one of the file's checks is spent.
+  const checkBelief = (itemId) => setFlags((f) => intelCheck(f, nodeId, itemId, hardState.enabled));
 
   // The event is shown once: its flag goes into the file as the report opens.
   const afterEvent = () => {
@@ -18032,7 +18293,7 @@ export default function App() {
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
         <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
-          changes={pending.changes} contested={pending.contested} meters={meters} flags={flags} onContinue={cont} />
+          changes={pending.changes} contested={pending.contested} informed={pending.informed} meters={meters} flags={flags} onContinue={cont} />
       )}
       {screen === "event" && pending && pending.event && <EventScreen key={pending.event.id} campaignId={campaignId} event={pending.event} onContinue={afterEvent} />}
       {screen === "battle" && battleChoice && (
@@ -18043,7 +18304,7 @@ export default function App() {
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
+          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onCheck={checkBelief} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">
@@ -18338,6 +18599,52 @@ function EventScreen({ campaignId, event, onContinue }) {
       <button className="dg-btn dg-go" onClick={onContinue}>Continue</button>
     </main>
   );
+}
+
+// =============================================================================
+// THE STAFF'S READING: THE PANEL
+// =============================================================================
+//
+// On a report that carries beliefs (68-intel.jsx): each belief with the grade the staff gave it, a button to check it, and, once checked (or at once, in
+// easy mode), whether it held and what the truth was. The orders that rest on a belief say so.
+
+const GRADE_TAG = { firm: "Reported as firm", doubtful: "Doubtful", poor: "Poor" };
+
+function IntelPanel({ nodeId, flags, easy, hard, onCheck }) {
+  const items = intelItemsAt(nodeId);
+  if (!items.length) return null;
+  const left = intelChecksLeft(flags, hard);
+  return (
+    <section className="dg-intel" aria-label="What the staff believes">
+      <h2 className="dg-sect">What the staff believes</h2>
+      <ul className="dg-bel">
+        {items.map((it) => {
+          const known = easy || intelChecked(flags, nodeId, it.id);
+          return (
+            <li key={it.id}>
+              <span className={"dg-gtag dg-g-" + it.grade}>{GRADE_TAG[it.grade]}</span> {it.text}
+              {known ? (
+                <p className="dg-note"><b>{it.holds ? "Confirmed." : "Wrong."}</b> {it.truth}</p>
+              ) : (
+                <p><button className="dg-btn" disabled={left < 1} onClick={() => onCheck(it.id)}>{left < 1 ? "No checks left" : "Check it (" + left + " left)"}</button></p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      {!easy && <p className="dg-note">The staff's grade is no guide: firm reports have been wrong and doubtful ones right. A check says whether a belief holds. Checks left in this file: {left}.</p>}
+    </section>
+  );
+}
+
+/** The line under an order that rests on a belief: that it does, and how it stands. "" when the order rests on none. */
+function intelRests(nodeId, choice, flags, easy) {
+  const items = intelItemsAt(nodeId).filter((it) => it.relied.includes(choice.id));
+  if (!items.length) return "";
+  const states = items.map((it) => (easy || intelChecked(flags, nodeId, it.id) ? (it.holds ? "held" : "wrong") : "open"));
+  if (states.includes("wrong")) return "Rests on a belief that proved wrong.";
+  if (states.includes("open")) return "Rests on a belief the staff has not checked.";
+  return "Rests on a belief that held.";
 }
 
 // =============================================================================
@@ -18705,7 +19012,7 @@ function dialPoint(deg, r) {
 }
 
 /** A half-circle dial for a contested order: the needle at the odds of the better outcome. */
-function OddsDial({ odds, easy }) {
+function OddsDial({ odds, easy, fog }) {
   const [nx, ny] = dialPoint(odds.pct * 1.8, 33);
   return (
     <span className="dg-odds">
@@ -18718,7 +19025,7 @@ function OddsDial({ odds, easy }) {
         <line x1="50" y1="50" x2={nx.toFixed(1)} y2={ny.toFixed(1)} stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
         <circle cx="50" cy="50" r="3.4" fill="currentColor" />
       </svg>
-      <span className="dg-odds-t">Odds: {odds.word}{easy ? ` (${odds.pct} in 100)` : ""}</span>
+      <span className="dg-odds-t">Odds: {odds.word}{easy ? ` (${odds.pct} in 100)` : ""}{fog ? <span className="dg-fogtag">, on the staff's reading</span> : null}</span>
     </span>
   );
 }

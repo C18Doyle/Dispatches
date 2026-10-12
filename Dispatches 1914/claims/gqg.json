@@ -1105,5 +1105,32 @@
       "wp-nivelle"
     ],
     "note": "The sources give 185,000 (British guide) to 187,000; Allied totals run higher."
+  },
+  {
+    "id": "ix-gqg_1914_01_frontieres-reserve",
+    "node": "gqg_1914_01_frontieres",
+    "kind": "fact",
+    "claim": "The French plan assumed that the Germans would not use their reserve corps in the front line; the German army did, and its right wing in Belgium was stronger than the French staff had allowed for.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The node's own context says the right wing was half again as strong as anyone had allowed for."
+  },
+  {
+    "id": "ix-gqg_1916_04_verdun-stripped",
+    "node": "gqg_1916_04_verdun",
+    "kind": "fact",
+    "claim": "The forts of Verdun had been largely stripped of their guns and garrisons before the German attack of February 1916; a handful of men held Fort Douaumont.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See the Verdun claims."
+  },
+  {
+    "id": "ix-gqg_1914_02_marne-flank",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "French aircraft saw the German First Army turn south-east of Paris, exposing its right flank to the Paris garrison and the Sixth Army.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See the Marne claims."
   }
 ]

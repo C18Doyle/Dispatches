@@ -438,6 +438,17 @@ const css = `
   .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
   .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
 
+  /* ---- the staff's reading, the advisers' trust ---- */
+  .dg-intel{margin:0 0 6px}
+  .dg-bel{list-style:none;margin:0 0 8px;padding:0}
+  .dg-bel li{border-top:1px dotted var(--ink-soft);padding:10px 0;font-size:14px}
+  .dg-gtag{display:inline-block;border:1.5px solid var(--ink-soft);padding:1px 8px;margin-right:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-g-firm{border-color:var(--ink);color:var(--ink)}
+  .dg-fogtag{font-weight:400;letter-spacing:.02em;text-transform:none}
+  .dg-rests{display:block;font-size:12px;color:var(--ink-soft);font-style:italic;margin:0 0 8px}
+  .dg-mute{font-style:italic;color:var(--ink-soft)}
+  .dg-trust{font-style:normal;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+
   ${sepiaCss()}
 `;
 
@@ -556,7 +567,7 @@ function jumpToOrders() {
   h.focus({ preventScroll: true });
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onHome }) {
+function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onCheck, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
@@ -599,6 +610,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
+      {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
+
       {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
 
       {node.context && (
@@ -626,11 +639,14 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           )}
           {node.choices.map((ch) => {
             const strain = strainedUncertain(ch, meters);
-            const odds = ch.blocked ? null : orderOdds(ch, meters);
+            const fog = !ch.blocked && intelFogged(nodeId, ch, flags || {}, easy);
+            const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters)) : orderOdds(ch, meters);
+            const rests = intelRests(nodeId, ch, flags || {}, easy);
             return (
             <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)}>
               <div className="lab">{ch.label}</div>
-              {odds && <OddsDial odds={odds} easy={easy} />}
+              {odds && <OddsDial odds={odds} easy={easy} fog={fog} />}
+              {rests && <span className="dg-rests">{rests}</span>}
               {ch.blocked && <div className="dg-cost">✕ {ch.disabledReason}</div>}
               {easy && ch.historical && <span className="dg-record-mark">✓ The order the command gave</span>}
               {easy && !ch.blocked && <span className="dg-preview">{previewText(ch, node.meterLabels)}</span>}
@@ -638,11 +654,13 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
                 <span className="dg-strain">Strain: {node.meterLabels[strain.meter]} is short, so the odds are {strain.points} points worse</span>
               )}
               {ch.erodes && hardState.enabled && <div className="dg-cost">✕ Costs standing</div>}
-              {ch.advisor && (
-                <div className="dg-quote">
-                  {ch.advisor.name} argues: {ch.advisor.position}
-                </div>
-              )}
+              {ch.advisor && (() => {
+                const aid = adviserIdFor(campaignId, ch.advisor.name);
+                const st = aid ? adviserState(flags || {}, aid) : "normal";
+                if (st === "gone") return <div className="dg-quote dg-mute">{ch.advisor.name} has left the staff.</div>;
+                if (st === "quiet") return <div className="dg-quote dg-mute">{ch.advisor.name} has gone quiet and offers no argument on this.</div>;
+                return <div className="dg-quote">{ch.advisor.name}{st === "trusted" ? <span className="dg-trust"> (trusted)</span> : null} argues: {ch.advisor.position}</div>;
+              })()}
               {ch.attested && (
                 <div className="dg-attested">
                   <span className="dg-attested-tag">On the record</span>{" "}
@@ -661,7 +679,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 /** What the outcome of an order is called on its screen: as the record has it, a modelled alternative, or just the result. */
 const SPECULATIVE_LEAD = /^(Speculative|A modell?ed alternative)\.\s*/i;
 
-function OutcomeScreen({ campaignId, outcome, headline, historical, record, battle, changes, contested, meters, flags, onContinue }) {
+function OutcomeScreen({ campaignId, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const heading = useRef(null);
@@ -705,6 +723,7 @@ function OutcomeScreen({ campaignId, outcome, headline, historical, record, batt
               ))}
             </ul>
             {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
+            {informed && <p className="dg-note">The staff had checked its reading and knew what it was facing.</p>}
           </section>
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
@@ -1097,7 +1116,7 @@ export default function App() {
   const choose = (ch, plan = null) => {
     if (settings.sound) playSound("tick");
     atmosphereFx("sign");
-    const r = chooseNext(campaignId, ch, flags, meters, hardState, Math.random, plan);
+    const r = chooseNext(campaignId, ch, flags, meters, hardState, Math.random, plan, { nodeId, easy: runEasy });
     if (runEasy) setHistory((h) => [...h, { nodeId, flags, meters, hardState, visited, taken }].slice(-REWIND_LIMIT));
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
@@ -1114,6 +1133,9 @@ export default function App() {
     setPending(null);
     setScreen("node");
   };
+
+  // Check a belief on the report in hand: one of the file's checks is spent.
+  const checkBelief = (itemId) => setFlags((f) => intelCheck(f, nodeId, itemId, hardState.enabled));
 
   // The event is shown once: its flag goes into the file as the report opens.
   const afterEvent = () => {
@@ -1156,7 +1178,7 @@ export default function App() {
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
         <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
-          changes={pending.changes} contested={pending.contested} meters={meters} flags={flags} onContinue={cont} />
+          changes={pending.changes} contested={pending.contested} informed={pending.informed} meters={meters} flags={flags} onContinue={cont} />
       )}
       {screen === "event" && pending && pending.event && <EventScreen key={pending.event.id} campaignId={campaignId} event={pending.event} onContinue={afterEvent} />}
       {screen === "battle" && battleChoice && (
@@ -1167,7 +1189,7 @@ export default function App() {
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
+          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onCheck={checkBelief} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">

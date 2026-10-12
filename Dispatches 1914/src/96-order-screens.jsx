@@ -53,7 +53,7 @@ function dialPoint(deg, r) {
 }
 
 /** A half-circle dial for a contested order: the needle at the odds of the better outcome. */
-function OddsDial({ odds, easy }) {
+function OddsDial({ odds, easy, fog }) {
   const [nx, ny] = dialPoint(odds.pct * 1.8, 33);
   return (
     <span className="dg-odds">
@@ -66,7 +66,7 @@ function OddsDial({ odds, easy }) {
         <line x1="50" y1="50" x2={nx.toFixed(1)} y2={ny.toFixed(1)} stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
         <circle cx="50" cy="50" r="3.4" fill="currentColor" />
       </svg>
-      <span className="dg-odds-t">Odds: {odds.word}{easy ? ` (${odds.pct} in 100)` : ""}</span>
+      <span className="dg-odds-t">Odds: {odds.word}{easy ? ` (${odds.pct} in 100)` : ""}{fog ? <span className="dg-fogtag">, on the staff's reading</span> : null}</span>
     </span>
   );
 }
