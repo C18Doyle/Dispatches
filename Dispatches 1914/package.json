@@ -20,6 +20,7 @@
     "test:battle": "node tests/battle.test.mjs",
     "test:dynamic": "node tests/dynamic.test.mjs",
     "audit:screens": "node tools/audit-screens.mjs",
+    "playthrough": "node tools/playthrough.mjs",
     "review:build": "node tools/claims-review.mjs",
     "review:status": "node tools/claims-review.mjs --status",
     "review:apply": "node tools/apply-review.mjs"

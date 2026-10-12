@@ -14308,7 +14308,7 @@ export function resolveTheme(setting, prefersDark, prefersMore) {
 }
 
 const SEPIA_SERIF = '"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif';
-const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key"];
+const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h"];
 const SEPIA_COMMANDS = ["ohl", "gqg", "stavka", "bef", "aok", "otto"];
 
 /**
@@ -14469,6 +14469,12 @@ export function sepiaCss() {
   @S .dg-chips li.neg{border-color:var(--rule)}
   @S .dg-chips li b{font-weight:500}
   @S .dg-grade{font-size:15.5px}
+
+  /* the shareable file */
+  @S .dg-sharecard{background:none;border-width:1px;border-color:var(--rule);box-shadow:none}
+  @S .dg-sc-end{font-weight:500;font-size:34px}
+  @S .dg-sc-cmd,@S .dg-sc-rank,@S .dg-sc-facts,@S .dg-sc-list{font-size:17px}
+  @S .dg-sc-rank b{font-weight:500;font-size:26px}
 
   /* text sizes: serif runs smaller than a typewriter at the same size */
   @S .dg-fs-m .dg-prose{font-size:21px}
@@ -14641,6 +14647,75 @@ export const ASKS = {
   otto_1918_02_megiddo: "Is the withdrawal forbidden and the line held as it stands, or may the XXII Corps fall back before the attack?",
   otto_1918_03_mudros: "Does the delegation sign the armistice on the British terms, or does the army refuse and fall back on Anatolia?",
 };
+
+// =============================================================================
+// THE SHAREABLE FILE
+// =============================================================================
+//
+// What a closed file says about itself in a few lines: the command, the ending and how it is badged, the rank, how many orders were given and
+// how many of them were contested or planned as battles, and the orders that left the record. The card on the ending screen (99-share-screen.jsx)
+// shows it, copies it as text, saves it as an image or prints it. Nothing here is saved: it is read from the run that has just ended.
+// =============================================================================
+
+const SHARE_LABEL_MAX = 84;
+
+/** A choice's label, cut to a single line for the card. */
+function shareLabel(label) {
+  const s = String(label || "").replace(/\s+/g, " ").trim();
+  if (s.length <= SHARE_LABEL_MAX) return s;
+  const cut = s.slice(0, SHARE_LABEL_MAX - 1);
+  return cut.slice(0, Math.max(cut.lastIndexOf(" "), 40)).replace(/[,;:]$/, "") + "…";
+}
+
+/**
+ * The summary of a closed file. `taken` is the run's list of { node, choice }, `flags` its flags (the fought battles leave bx_<id>_grade),
+ * `rank` the result of rankFor and `mode` "easy", "standard" or "hard". Returns the lines for the card and the plain text.
+ */
+export function shareSummary({ campaignId, endingId, rank, taken, flags, mode }) {
+  const camp = CAMPAIGNS[campaignId];
+  const ending = camp.nodes[endingId];
+  const orders = Array.isArray(taken) ? taken : [];
+  let contested = 0;
+  const departures = [];
+  for (const t of orders) {
+    const node = camp.nodes[t.node];
+    const choice = node && (node.choices || []).find((c) => c.id === t.choice);
+    if (!choice) continue;
+    if (choice.uncertain && choice.uncertain.length) contested++;
+    if (!choice.historical) departures.push({ node: node.title, label: shareLabel(choice.label) });
+  }
+  const battles = Object.keys(BATTLES).filter((id) => flags && flags[`bx_${id}_grade`]).length;
+  const badge = ending && ending.ending ? BADGE_LABELS[ending.ending.badge] || "" : "";
+  const modeWord = { easy: "easy mode", standard: "standard mode", hard: "hard mode" }[mode] || "standard mode";
+  const facts = [
+    `${orders.length} ${orders.length === 1 ? "order" : "orders"} given`,
+    `${contested} contested`,
+    `${battles} ${battles === 1 ? "battle" : "battles"} planned`,
+    `${departures.length} ${departures.length === 1 ? "departure" : "departures"} from the record`,
+  ];
+  const shown = departures.slice(0, 3);
+  const lines = {
+    game: "Dispatches 1914",
+    command: camp.name,
+    ending: ending ? ending.title : "",
+    badge,
+    rank: rank ? rank.rank : "",
+    score: rank ? rank.score : 0,
+    mode: modeWord,
+    facts,
+    departures: shown,
+    more: departures.length - shown.length,
+  };
+  const text = [
+    `Dispatches 1914: ${lines.command}`,
+    `Ending: ${lines.ending}${badge ? ` (${badge.toLowerCase()})` : ""}`,
+    rank ? `Rank: ${lines.rank}, ${lines.score} out of 100 (${modeWord})` : `Played in ${modeWord}`,
+    facts.join(", ") + ".",
+    ...(shown.length ? ["", "Orders that left the record:", ...shown.map((d) => `- ${d.node}: ${d.label}`)] : []),
+    ...(lines.more > 0 ? [`- and ${lines.more} more`] : []),
+  ].join("\n");
+  return { ...lines, text };
+}
 
 // =============================================================================
 // UI_LAYER
@@ -15001,6 +15076,28 @@ const css = `
   }
   @media print{.dg-root{background:#fff!important}.dg-btn,.dg-choice{box-shadow:none}}
 
+  /* ---- the shareable file ---- */
+  .dg-share{margin:26px 0}
+  .dg-sharecard{border:2px solid var(--rule);background:var(--paper-raised);padding:18px 18px 14px;text-align:center}
+  .dg-sc-top{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sc-cmd{margin-top:8px;font-size:15px;color:var(--ink-soft)}
+  .dg-sc-end{font-family:${THEME.serif};font-size:30px;font-weight:700;line-height:1.1;margin:6px 0 8px}
+  .dg-sc-badge{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:3px 10px}
+  .dg-sc-rank{margin-top:12px;font-size:14px}
+  .dg-sc-rank b{display:block;font-size:22px;font-family:${THEME.serif}}
+  .dg-sc-facts{font-size:14px;margin:12px 0 0}
+  .dg-sc-h{margin-top:12px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sc-list{list-style:none;margin:6px 0 0;padding:0;font-size:14px;text-align:left}
+  .dg-sc-list li{padding:6px 0;border-top:1px dotted var(--ink-soft)}
+  .dg-share-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .dg-share-text{width:100%;box-sizing:border-box;min-height:150px;font:inherit;font-size:14px;background:var(--paper-raised);color:var(--ink);border:1px solid var(--rule);margin-top:8px}
+  @media print{
+    .dg-root > *:not(.dg-share){display:none!important}
+    .dg-share-btns,.dg-share .dg-note,.dg-share h2,.dg-share-text{display:none!important}
+    .dg-sharecard{border-color:#000;background:#fff;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .dg-sharecard *{color:#000!important;border-color:#000!important}
+  }
+
   /* ---- the question, the steps of a battle plan, the verdict ---- */
   .dg-ask{border-left:4px solid var(--accent);padding:2px 0 2px 12px;margin:0 0 16px;font-size:16px}
   .dg-ask b{display:block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
@@ -15293,7 +15390,7 @@ function jumpToOrders() {
   h.focus({ preventScroll: true });
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, holdToSign, onRewind, onChoose, onHome }) {
+function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
@@ -15352,6 +15449,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <div className={`dg-badge dg-badge-${node.ending.badge}`}>{BADGE_LABELS[node.ending.badge]}</div>
           {node.epilogue && <GlossText key={nodeId + "-epilogue"} segs={epilogueSegs} />}
           {rank && <RankPanel result={rank} />}
+          {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
           <details>
             <summary>▶ A NOTE FOR THE AUTHOR</summary>
             <div className="dg-note-box">
@@ -15894,7 +15992,7 @@ export default function App() {
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
+          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">
@@ -16656,4 +16754,166 @@ function atmosphereFx(name) {
       o.stop(t + 0.15);
     }
   } catch (e) { /* silent */ }
+}
+
+// =============================================================================
+// THE SHAREABLE FILE: THE CARD
+// =============================================================================
+//
+// Shown under the rank when a file closes. The card is the summary of 65-share.jsx drawn as a page; it can be copied as text, saved as a picture
+// (drawn on a canvas, never uploaded) or printed. Where the clipboard is not available the text is shown to be selected by hand.
+
+/** Draw the card on a canvas and return it. The picture is always the dark page, whatever the colours chosen in the settings. */
+function drawShareCard(sum) {
+  const W = 1080;
+  const H = 1350;
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const g = canvas.getContext("2d");
+  if (!g) return null;
+  const serif = '"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif';
+  const INK = "#ece5d0";
+  const SOFT = "#b8ad90";
+  const RULE = "#867d68";
+  g.fillStyle = "#0a0908";
+  g.fillRect(0, 0, W, H);
+  g.strokeStyle = INK;
+  g.lineWidth = 3;
+  g.strokeRect(48, 48, W - 96, H - 96);
+  g.strokeStyle = RULE;
+  g.lineWidth = 1;
+  g.strokeRect(62, 62, W - 124, H - 124);
+  const wrap = (text, x, y, maxW, lh, font, color) => {
+    g.font = font;
+    g.fillStyle = color;
+    const words = String(text).split(" ");
+    let line = "";
+    for (const w of words) {
+      const t = line ? line + " " + w : w;
+      if (g.measureText(t).width > maxW && line) { g.fillText(line, x, y); y += lh; line = w; } else line = t;
+    }
+    if (line) { g.fillText(line, x, y); y += lh; }
+    return y;
+  };
+  g.textAlign = "center";
+  g.fillStyle = SOFT;
+  g.font = `28px ${serif}`;
+  g.fillText("A  G A M E  O F  T H E  S T A F F  T A B L E", W / 2, 150);
+  g.fillStyle = INK;
+  g.font = `bold 84px ${serif}`;
+  g.fillText(sum.game.toUpperCase(), W / 2, 250);
+  g.fillStyle = RULE;
+  g.fillRect(140, 285, W - 280, 2);
+  g.textAlign = "left";
+  let y = wrap(sum.command, 120, 370, W - 240, 52, `38px ${serif}`, SOFT);
+  y = wrap(sum.ending, 120, y + 40, W - 240, 84, `bold 76px ${serif}`, INK);
+  if (sum.badge) {
+    g.font = `30px ${serif}`;
+    const bw = g.measureText(sum.badge.toUpperCase()).width + 48;
+    g.strokeStyle = "#e8664e";
+    g.lineWidth = 4;
+    g.strokeRect(120, y + 10, bw, 58);
+    g.fillStyle = "#e8664e";
+    g.fillText(sum.badge.toUpperCase(), 144, y + 50);
+    y += 110;
+  }
+  if (sum.rank) {
+    g.fillStyle = INK;
+    g.font = `bold 64px ${serif}`;
+    g.fillText(sum.rank, 120, y + 50);
+    g.fillStyle = SOFT;
+    g.font = `34px ${serif}`;
+    g.fillText(`${sum.score} out of 100, ${sum.mode}`, 120, y + 100);
+    y += 150;
+  }
+  g.fillStyle = RULE;
+  g.fillRect(120, y, W - 240, 2);
+  y += 60;
+  y = wrap(sum.facts.join(", ") + ".", 120, y, W - 240, 46, `34px ${serif}`, INK);
+  if (sum.departures.length) {
+    y += 34;
+    g.fillStyle = SOFT;
+    g.font = `28px ${serif}`;
+    g.fillText("ORDERS THAT LEFT THE RECORD", 120, y);
+    y += 20;
+    for (const d of sum.departures) {
+      g.fillStyle = INK;
+      g.font = `bold 32px ${serif}`;
+      y += 54;
+      g.fillText(d.node, 120, y);
+      y = wrap(d.label, 120, y + 40, W - 240, 40, `italic 30px ${serif}`, SOFT);
+    }
+    if (sum.more > 0) { g.fillStyle = SOFT; g.font = `italic 30px ${serif}`; g.fillText(`and ${sum.more} more`, 120, y + 20); }
+  }
+  g.textAlign = "center";
+  g.fillStyle = RULE;
+  g.font = `26px ${serif}`;
+  g.fillText("This file is kept on this device only.", W / 2, H - 100);
+  return canvas;
+}
+
+function ShareCard({ campaignId, endingId, rank, taken, flags, mode }) {
+  const sum = useMemo(() => shareSummary({ campaignId, endingId, rank, taken, flags, mode }), [campaignId, endingId, rank, taken, flags, mode]);
+  const [note, setNote] = useState("");
+  const [showText, setShowText] = useState(false);
+  const area = useRef(null);
+  const copy = async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(sum.text);
+        setNote("Copied.");
+        return;
+      }
+    } catch (e) { /* the clipboard was refused */ }
+    setShowText(true);
+    setNote("Select the text below and copy it.");
+  };
+  useEffect(() => { if (showText && area.current) { area.current.focus(); area.current.select(); } }, [showText]);
+  const save = () => {
+    let canvas = null;
+    try { canvas = drawShareCard(sum); } catch (e) { canvas = null; }
+    if (!canvas || !canvas.toBlob) { setNote("This browser cannot draw the picture. Copy the text instead."); return; }
+    canvas.toBlob((blob) => {
+      if (!blob) { setNote("The picture could not be made."); return; }
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `dispatches-1914-${campaignId}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      setNote("Saved as a picture.");
+    }, "image/png");
+  };
+  const print = () => { try { window.print(); } catch (e) { setNote("This browser cannot print from here."); } };
+  return (
+    <section className="dg-share" aria-label="Share this file">
+      <h2 className="dg-order">Share this file</h2>
+      <div className="dg-sharecard">
+        <div className="dg-sc-top">{sum.game}</div>
+        <div className="dg-sc-cmd">{sum.command}</div>
+        <div className="dg-sc-end">{sum.ending}</div>
+        {sum.badge && <div className="dg-sc-badge">{sum.badge}</div>}
+        {sum.rank && <div className="dg-sc-rank"><b>{sum.rank}</b> {sum.score} out of 100, {sum.mode}</div>}
+        <p className="dg-sc-facts">{sum.facts.join(", ")}.</p>
+        {sum.departures.length > 0 && (
+          <>
+            <div className="dg-sc-h">Orders that left the record</div>
+            <ul className="dg-sc-list">
+              {sum.departures.map((d, i) => <li key={i}><b>{d.node}.</b> {d.label}</li>)}
+              {sum.more > 0 && <li>and {sum.more} more</li>}
+            </ul>
+          </>
+        )}
+      </div>
+      <div className="dg-share-btns">
+        <button className="dg-btn" onClick={copy}>Copy as text</button>
+        <button className="dg-btn" onClick={save}>Save as a picture</button>
+        <button className="dg-btn" onClick={print}>Print</button>
+      </div>
+      <p className="dg-note" role="status" aria-live="polite">{note}</p>
+      {showText && <textarea ref={area} className="dg-share-text" readOnly aria-label="The file as text" value={sum.text} onFocus={(e) => e.target.select()} />}
+    </section>
+  );
 }

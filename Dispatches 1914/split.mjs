@@ -44,11 +44,13 @@ const SECTIONS = [
   { title: "THE ORDERS OF BATTLE", file: "62-battles.jsx" },
   { title: "THEMES", file: "63-themes.jsx" },
   { title: "THE DECISIONS, IN A LINE", file: "64-asks.jsx" },
+  { title: "THE SHAREABLE FILE", file: "65-share.jsx" },
   { title: "UI_LAYER", file: "90-ui.jsx" },
   { title: "BATTLE SCREENS", file: "95-battle-screens.jsx" },
   { title: "ORDER SCREENS", file: "96-order-screens.jsx" },
   { title: "MAP SCREENS", file: "97-map-screens.jsx" },
   { title: "SOUND", file: "98-sound.jsx" },
+  { title: "THE SHAREABLE FILE: THE CARD", file: "99-share-screen.jsx" },
 ];
 
 const BANNER = /^\/\/ ={70,}$/;

@@ -357,6 +357,28 @@ const css = `
   }
   @media print{.dg-root{background:#fff!important}.dg-btn,.dg-choice{box-shadow:none}}
 
+  /* ---- the shareable file ---- */
+  .dg-share{margin:26px 0}
+  .dg-sharecard{border:2px solid var(--rule);background:var(--paper-raised);padding:18px 18px 14px;text-align:center}
+  .dg-sc-top{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sc-cmd{margin-top:8px;font-size:15px;color:var(--ink-soft)}
+  .dg-sc-end{font-family:${THEME.serif};font-size:30px;font-weight:700;line-height:1.1;margin:6px 0 8px}
+  .dg-sc-badge{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:3px 10px}
+  .dg-sc-rank{margin-top:12px;font-size:14px}
+  .dg-sc-rank b{display:block;font-size:22px;font-family:${THEME.serif}}
+  .dg-sc-facts{font-size:14px;margin:12px 0 0}
+  .dg-sc-h{margin-top:12px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sc-list{list-style:none;margin:6px 0 0;padding:0;font-size:14px;text-align:left}
+  .dg-sc-list li{padding:6px 0;border-top:1px dotted var(--ink-soft)}
+  .dg-share-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .dg-share-text{width:100%;box-sizing:border-box;min-height:150px;font:inherit;font-size:14px;background:var(--paper-raised);color:var(--ink);border:1px solid var(--rule);margin-top:8px}
+  @media print{
+    .dg-root > *:not(.dg-share){display:none!important}
+    .dg-share-btns,.dg-share .dg-note,.dg-share h2,.dg-share-text{display:none!important}
+    .dg-sharecard{border-color:#000;background:#fff;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .dg-sharecard *{color:#000!important;border-color:#000!important}
+  }
+
   /* ---- the question, the steps of a battle plan, the verdict ---- */
   .dg-ask{border-left:4px solid var(--accent);padding:2px 0 2px 12px;margin:0 0 16px;font-size:16px}
   .dg-ask b{display:block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
@@ -649,7 +671,7 @@ function jumpToOrders() {
   h.focus({ preventScroll: true });
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, holdToSign, onRewind, onChoose, onHome }) {
+function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
@@ -708,6 +730,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <div className={`dg-badge dg-badge-${node.ending.badge}`}>{BADGE_LABELS[node.ending.badge]}</div>
           {node.epilogue && <GlossText key={nodeId + "-epilogue"} segs={epilogueSegs} />}
           {rank && <RankPanel result={rank} />}
+          {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
           <details>
             <summary>▶ A NOTE FOR THE AUTHOR</summary>
             <div className="dg-note-box">
@@ -1250,7 +1273,7 @@ export default function App() {
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
+          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">
