@@ -44,8 +44,10 @@ const snapshot = (ctx) => {
   return o;
 };
 /** Play GQG up to the Marne node, taking the first order each time. */
-async function toMarne(ctx) {
+async function toMarne(ctx, planningOff = false) {
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Grand Quartier")));
+  if (planningOff) await ctx.click(ctx.d.querySelector('input[type="checkbox"]'));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   for (let i = 0; i < 40 && !/The Flank in the Open/.test(ctx.text()); i++) {
     const o = orders(ctx);
     if (o.length) await ctx.click(o.find((b) => !b.disabled) || o[0]);
@@ -57,9 +59,10 @@ async function toMarne(ctx) {
 // --- the menu ----------------------------------------------------------------------------------------------
 {
   const ctx = await boot();
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Grand Quartier")));
   const box = ctx.d.querySelector('input[type="checkbox"]');
-  check(!!box && box.checked, "the menu offers battle planning, switched on");
-  check(/Take control of battle planning/.test(ctx.text()), "the menu names it");
+  check(!!box && box.checked, "the briefing offers battle planning, switched on");
+  check(/Take control of battle planning/.test(ctx.text()), "the briefing names it");
   ctx.restore();
 }
 
@@ -124,9 +127,7 @@ ctx.restore();
 // --- the planning switched off -----------------------------------------------------------------------------
 {
   const off = await boot();
-  await off.click(off.d.querySelector('input[type="checkbox"]'));
-  check(!off.d.querySelector('input[type="checkbox"]').checked, "the planning can be switched off");
-  check(await toMarne(off), "the Marne node is reached with planning off");
+  check(await toMarne(off, true), "the Marne node is reached with planning off (switched off on the briefing)");
   await off.click(orders(off).find((b) => /Turn and attack/.test(off.lab(b))));
   const o = off.text();
   check(!/ORDER OF BATTLE/.test(o) && !/After-action report/.test(o), "with planning off the order resolves at once, with no screen and no report");

@@ -1357,5 +1357,32 @@
     "status": "drafted",
     "sources": [],
     "note": "A counterfactual position; the dispute field records that the messages were understood differently."
+  },
+  {
+    "id": "stavka_shells-1",
+    "node": "stavka_1915_04_command",
+    "kind": "fact",
+    "claim": "In 1915 the Russian army was severely short of shells and of rifles; commanders rationed their guns to a few rounds a day, and some units went into the line with a rifle for every two men.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The rifle figure is the commonly quoted one."
+  },
+  {
+    "id": "stavka_shells-2",
+    "node": "stavka_1915_04_command",
+    "kind": "fact",
+    "claim": "The War Minister Sukhomlinov was dismissed in June 1915, and War Industries Committees of industrialists were formed in the spring and summer of 1915 to help with supply.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "stavka_refugees-1",
+    "node": "stavka_1915_05_sventsiany",
+    "kind": "fact",
+    "claim": "In the Great Retreat of 1915 the Russian army ordered the lands it left laid waste and many of their people expelled, and large numbers of refugees crowded the roads and railways of the interior.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See wp-greatretreat in claims/sources.json; the numbers of refugees are not given."
   }
 ]

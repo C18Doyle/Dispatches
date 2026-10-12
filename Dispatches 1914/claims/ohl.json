@@ -1017,5 +1017,50 @@
     "status": "drafted",
     "sources": [],
     "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "ohl_turnip-1",
+    "node": "ohl_1917_06_pless",
+    "kind": "fact",
+    "claim": "The German potato harvest of 1916 failed and swedes (turnips) replaced potatoes in the diet of the cities in the winter of 1916 to 1917; bread, meat, fat and coal were rationed.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl_turnip-2",
+    "node": "ohl_1917_06_pless",
+    "kind": "characterization",
+    "claim": "The winter of 1916 to 1917 is remembered in Germany as the worst of the war for the home front (the Turnip Winter).",
+    "status": "drafted",
+    "sources": [],
+    "note": "Common in the histories of the German home front."
+  },
+  {
+    "id": "ohl_strikes-1",
+    "node": "ohl_1917_07_chancellor",
+    "kind": "fact",
+    "claim": "In April 1917, after a cut in the bread ration, workers struck in Berlin and Leipzig, in the munitions factories among others, with hundreds of thousands out.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Estimates of the numbers differ; the event gives no figure."
+  },
+  {
+    "id": "ohl_strikes-2",
+    "node": "ohl_1917_07_chancellor",
+    "kind": "fact",
+    "claim": "The strikes lasted a few days, and strike leaders were called up for military service.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "ohl_influenza-1",
+    "node": "ohl_1918_10_salient",
+    "kind": "fact",
+    "claim": "The first wave of the influenza of 1918 reached the German army in the spring and summer of 1918 and lengthened the sick lists of divisions in the line.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Ludendorff's own account blames it in part for the army's condition in July."
   }
 ]

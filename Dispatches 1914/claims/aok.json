@@ -1060,5 +1060,32 @@
     "status": "drafted",
     "sources": [],
     "note": "62-battles.jsx; the ordering follows the account of what broke the line."
+  },
+  {
+    "id": "aok_emperor-1",
+    "node": "aok_1917_10_sixtus",
+    "kind": "fact",
+    "claim": "Franz Joseph died on 21 November 1916, aged 86, after reigning for 68 years, and was succeeded by his great-nephew Karl, aged 29.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Karl was Franz Joseph's grandnephew in the strict sense; the event uses the common phrase."
+  },
+  {
+    "id": "aok_emperor-2",
+    "node": "aok_1917_10_sixtus",
+    "kind": "fact",
+    "claim": "Karl took over the supreme command of the army himself in December 1916 and sought peace.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "aok_strikes-1",
+    "node": "aok_1918_14_ukraine",
+    "kind": "fact",
+    "claim": "In January 1918, after the flour ration was halved on about 14 January, a strike began at Wiener Neustadt and spread to Vienna, Budapest and the industrial towns of Bohemia, with workers' councils formed on the Russian model; it ended in about a week.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
   }
 ]

@@ -757,5 +757,32 @@
     "status": "drafted",
     "sources": [],
     "note": "A characterization of positions argued during the 1917 Flanders controversy, in indirect speech."
+  },
+  {
+    "id": "bef_zeppelins-1",
+    "node": "bef_1915_06_loos",
+    "kind": "fact",
+    "claim": "German airships began to bomb the east coast of England in January 1915, and bombed London for the first time on the night of 31 May 1915, killing seven people.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "bef_rising-1",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "The Easter Rising began in Dublin on Easter Monday, 24 April 1916, when about a thousand Irish rebels seized buildings and proclaimed a republic; the army put it down in six days, using artillery.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "bef_rising-2",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "The leaders of the rising were executed in May 1916, and the executions turned much Irish opinion against the government.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
   }
 ]

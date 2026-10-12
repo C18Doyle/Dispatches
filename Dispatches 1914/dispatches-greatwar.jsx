@@ -14308,7 +14308,7 @@ export function resolveTheme(setting, prefersDark, prefersMore) {
 }
 
 const SEPIA_SERIF = '"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif';
-const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h"];
+const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw"];
 const SEPIA_COMMANDS = ["ohl", "gqg", "stavka", "bef", "aok", "otto"];
 
 /**
@@ -14475,6 +14475,26 @@ export function sepiaCss() {
   @S .dg-sc-end{font-weight:500;font-size:34px}
   @S .dg-sc-cmd,@S .dg-sc-rank,@S .dg-sc-facts,@S .dg-sc-list{font-size:17px}
   @S .dg-sc-rank b{font-weight:500;font-size:26px}
+
+  /* the front screens */
+  @S .dg-cmd{border:0;border-top:1px solid var(--rule);background:none;padding:18px 8px 14px;margin:0}
+  @S .dg-cmd:hover:not(:disabled){background:none;outline:2px solid var(--ink);outline-offset:-2px;box-shadow:0 0 26px rgba(236,229,208,.12)}
+  @S .dg-cmd-band{height:4px}
+  @S .dg-cmd-seal{border-color:var(--ink-soft);color:var(--ink);font-weight:400}
+  @S .dg-cmd-nation{font-weight:500;font-size:31px}
+  @S .dg-cmd-name{font-weight:400;font-size:17px}
+  @S .dg-cmd-native{font-size:15px}
+  @S .dg-cmd-pitch{font-size:16.5px}
+  @S .dg-navbtn{border:0;border-top:1px solid var(--rule);padding:12px 8px}
+  @S .dg-navbtn:hover{outline:2px solid var(--ink);outline-offset:-2px}
+  @S .dg-navbtn b{font-weight:400}
+  @S .dg-navbtn span{font-size:15.5px}
+  @S .dg-sub{font-size:16.5px;text-align:center}
+  @S .dg-title-sm{font-size:44px}
+  @S .dg-go{border:1px solid var(--ink);box-shadow:none}
+  @S .dg-sw{border-color:var(--rule)}
+  @S .dg-fixed{border-color:var(--rule)}
+  @S .dg-jumps a{color:var(--ink)}
 
   /* text sizes: serif runs smaller than a typewriter at the same size */
   @S .dg-fs-m .dg-prose{font-size:21px}
@@ -14718,6 +14738,330 @@ export function shareSummary({ campaignId, endingId, rank, taken, flags, mode })
 }
 
 // =============================================================================
+// THE BRIEFINGS, THE HOW TO, AND THE CALENDAR
+// =============================================================================
+//
+// What a player is told before a file opens: which command this is, where it stands on the first day, what seat they hold and what they are
+// about to be asked (BRIEFINGS, shown by the briefing screen in 91-menu-screens.jsx); how the game works and what it leaves out (HOW_TO, the
+// How to play screen); and the one calendar the whole game is written to. check-briefings.js enforces the shape and the style.
+//
+// THE CALENDAR. Every date shown is a date in the Western (Gregorian) calendar, written as it is in the United Kingdom: 4 August 1914. The
+// Russian command's own dates stay Old Style in its data (thirteen days behind until February 1918) and are converted by mapDate(); the Ottoman
+// command's are Western already. A date in the prose of a report may name the Old Style date once, as a note.
+// =============================================================================
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** "1914-08-04" as the UK writes it: "4 August 1914". A month alone ("1914-08") reads "August 1914". */
+export function ukDate(iso, short = false) {
+  const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(String(iso || ""));
+  if (!m) return "";
+  const name = MONTHS[Number(m[2]) - 1];
+  const month = short ? name.slice(0, 3) : name;
+  return m[3] ? `${Number(m[3])} ${month} ${m[1]}` : `${month} ${m[1]}`;
+}
+
+/** A node's date as it is shown: the Western date, in the UK form. */
+export function nodeDate(campaignId, iso, short = false) {
+  return ukDate(mapDate(campaignId, iso), short);
+}
+
+export const BRIEFINGS = {
+  ohl: {
+    nation: "Germany",
+    title: "German Supreme Army Command",
+    side: "central",
+    pitch: "Carry out the plan that has to win in weeks, then decide what a longer war is for.",
+    standing: [
+      "Germany is at war with France and Russia, and from 4 August with Britain. The army has one plan for a war on two fronts and has rehearsed little else: beat France in a few weeks by a wide march through Belgium, then send the armies east by rail before Russia is ready. Every railway timetable in the country is written around it.",
+      "The plan leaves little room to change course once the trains are running. Belgium's neutrality is guaranteed by treaty, and Britain is one of the guarantors.",
+    ],
+    seat: "You hold the seat of the Chief of the General Staff, whoever sits in it: Moltke when the file opens, Falkenhayn after him, and from 1916 Hindenburg and Ludendorff. The army is the Kaiser's to command and he leaves its running to the staff. You advise the Chancellor on what the army can do, and you reach the army commanders only by wireless, telephone and the officers you send.",
+    question: "How strong the right wing must be, and what to do about Lorraine.",
+  },
+  gqg: {
+    nation: "France",
+    title: "French General Headquarters",
+    side: "entente",
+    pitch: "Win by attacking, or learn in the first fortnight what attacking costs.",
+    standing: [
+      "France mobilised on 1 August and Germany declared war on 3 August. The army's Plan XVII sends its armies at the German frontier in Lorraine and towards the Ardennes, to recover the provinces lost in 1871. It rests on a doctrine of the offensive that shapes the army's training, its tactics and its officers' careers.",
+      "France is bound to Russia, which has promised to take the field within weeks, and to Britain, whose small army is crossing the Channel. Neither can be commanded from Vitry.",
+    ],
+    seat: "You hold the seat of the Commander-in-Chief of the armies of the north-east: Joffre when the file opens, Nivelle from December 1916 and Petain from May 1917. The government in Paris keeps the right to remove a general, and it uses it. The army commanders are strong men, and you hold them by the confidence you can keep.",
+    question: "Whether to go on attacking along the frontier when the first reports say the German right is very strong.",
+  },
+  stavka: {
+    nation: "Russia",
+    title: "Russian Supreme Command",
+    side: "entente",
+    pitch: "Hold the longest front in Europe together, and see whether a creaking state outlasts the war.",
+    standing: [
+      "Russia has the largest army in Europe on paper and far fewer railways than its enemies to move it by. It mobilised at the end of July. By treaty, and by years of French loans, it is committed to attack Germany quickly, before its own concentration is finished.",
+      "Its enemies are Germany in the north and Austria-Hungary in the south, and the front between the Baltic and the Carpathians is too long to be held everywhere.",
+    ],
+    seat: "You hold the seat of the Supreme Command, whoever sits in it: the Grand Duke Nicholas when the file opens, the Tsar himself from September 1915, and after the revolution of 1917 the Provisional Government's command. The ministries are behind you and the court is above you; they do not always agree about what the army has. Russia's own calendar runs thirteen days behind the West's until February 1918, and this game gives every date in the Western one.",
+    question: "Whether to invade East Prussia now, before the concentration is finished.",
+  },
+  bef: {
+    nation: "Britain",
+    title: "British Army and War Cabinet",
+    side: "entente",
+    pitch: "Raise a great army from a small one, and decide where to spend it.",
+    standing: [
+      "Britain declared war on Germany on 4 August, over the invasion of Belgium. Its strength is the fleet, its money and its empire. Its army is small, professional and spread across the world, and it has promised to send a force to fight beside the French.",
+      "The government has no plan for a long war, and the country has never raised a mass army without conscription. The army that fights from 1916 will not be the army that lands in 1914.",
+    ],
+    seat: "You hold the seat that joins field command and the Cabinet: the generals who command the force (Sir John French, then Sir Douglas Haig) and the ministers who decide what they are given (Asquith and Kitchener, then Lloyd George). Each wants something different from the army, and the French want a fourth thing.",
+    question: "Where the first four divisions and the cavalry are to assemble.",
+  },
+  aok: {
+    nation: "Austria-Hungary",
+    title: "Austro-Hungarian Army High Command",
+    side: "central",
+    pitch: "Hold together an empire of many peoples through a war it started.",
+    standing: [
+      "The monarchy declared war on Serbia on 28 July, after the assassination at Sarajevo. Russia's mobilisation has made it a war on two fronts. The army is short of guns and railways for the war it has planned, and it is made up of soldiers of many nationalities who speak many languages.",
+      "Its plan divides the army in three: a group for Serbia, a larger one in Galicia for Russia, and a swing force that can go to either. Everything depends on Germany keeping its promise to engage Russia.",
+    ],
+    seat: "You hold the seat of the Chief of the General Staff: Conrad von Hotzendorf when the file opens, and Arz von Straussenburg after him. The Emperor Franz Joseph, who is eighty-four, is above you, the Austrian and Hungarian governments behind you, and the German ally beside you, and none of them has the same war in mind.",
+    question: "Where the swing force is to go first.",
+  },
+  otto: {
+    nation: "The Ottoman Empire",
+    title: "Ottoman General Staff",
+    side: "central",
+    pitch: "Decide whether a poor empire can survive a world war, and what it will pay to try.",
+    standing: [
+      "The empire has lost Libya and nearly all its European provinces in the wars of 1911 to 1913. It is poor, thinly industrialised, short of railways and short of trained officers. It has signed a secret alliance with Germany and is, for the moment, neutral.",
+      "Two German warships, the Goeben and the Breslau, are at the mouth of the Dardanelles and have asked to be let in.",
+    ],
+    seat: "You hold the seat of the war ministry and general staff: Enver Pasha when the file opens, and Ahmed Izzet Pasha at the end. You share power with a small group of politicians of the Committee of Union and Progress and with a German military mission, and you serve a Sultan who reigns and does not rule. The Rumi calendar of the General Staff is converted: this game gives every date in the Western one.",
+    question: "Whether to open the Straits to the two German ships.",
+  },
+};
+
+/** The sections of the How to play screen: { id, title, paras }. The last is the list of what the game leaves out (LEAVES_OUT). */
+export const HOW_TO = [
+  {
+    id: "game",
+    title: "What you are doing",
+    paras: [
+      "You sit at a headquarters of the First World War. A file opens on a real day in 1914, and from then on a report arrives whenever the command had a decision to make: where the army was to assemble, whether an attack was to go on, whether a general was to be dismissed. You read it, and you give an order.",
+      "Each order has a cost, and the costs are kept in three meters. Most reports end in a historical order, the one the command gave, and one or two that it did not. A file ends in one of the endings its command could have had, from the armistice of 1918 to an earlier collapse.",
+    ],
+  },
+  {
+    id: "report",
+    title: "Reading a report",
+    paras: [
+      "A report gives the date and the place, then the decision in a single line, with a button that goes straight to the orders. Below that are the map, any bulletin that came over the wire, the situation, the context, the three meters, and the orders.",
+      "Press a meter to see what it is made of. The map can be opened to the whole theatre, with a list of what the other commands were doing the same week.",
+    ],
+  },
+  {
+    id: "orders",
+    title: "Orders and risk",
+    paras: [
+      "Some orders are certain: they do what they say. Others are contested: the order is given and the result is rolled. The odds are shown in words (Long odds, Against us, Even, Favourable, Strong) and a contested order is signed by holding the button for a moment. A sealed cable then carries the result, and you break the seal.",
+      "An order that is not the one the command gave begins its outcome with the word Speculative. It is a modelled alternative: the game states what happened in fact whenever the two differ.",
+    ],
+  },
+  {
+    id: "battles",
+    title: "Battles",
+    paras: [
+      "Some contested orders open an Order of Battle. You name a commander, choose an approach and place your counters, and the staff's plan is always one press away. The odds you see are the odds of the plan on what the intelligence says the enemy has; the enemy may have something else. The result is graded, and the next report says how the battle was fought.",
+      "You can switch the planning off when you set up a file, and every battle is then rolled at the odds of the staff's plan.",
+    ],
+  },
+  {
+    id: "modes",
+    title: "Easy, Standard and Hard",
+    paras: [
+      "Easy mode shows what each order will do to the meters, marks the order the command really gave, and lets you take back the last order. It cannot reach the highest rank.",
+      "Standard mode shows nothing in advance. Hard mode adds an erosion track particular to each command: the pressure its office was under. At the limit, your freedom to choose ends and a fixed ending follows.",
+    ],
+  },
+  {
+    id: "ends",
+    title: "Endings, rank and the war record",
+    paras: [
+      "A file closes on an ending, stamped as the record, a near thing, or not as it happened. The command rank is given for the file as a whole, and a card of the file can be copied, saved as a picture or printed. A file in progress is kept on this device, and the war record (dossiers, atlas, endings, battles) is kept with it. Nothing leaves your device.",
+    ],
+  },
+  {
+    id: "calendar",
+    title: "Dates",
+    paras: [
+      "Every date in the game is a date in the Western calendar, written as it is in the United Kingdom: 4 August 1914. Russia kept the Julian calendar, thirteen days behind, until February 1918, and the Ottoman state its own Rumi reckoning; those commands' dates are converted, and a report mentions the original date once where it matters.",
+    ],
+  },
+];
+
+// =============================================================================
+// SPECIAL EVENTS
+// =============================================================================
+//
+// A special event is a piece of context that the state of the file brings to a headquarters between two reports: a hunger winter, a strike, an
+// emperor's death, a lorry road that is the whole of a supply line. It is not a decision and it changes no meter; it is shown once, on its own
+// screen, before the first report whose date falls in its window, if the file's state (a meter, a flag) calls for it. Many files never see some
+// of them, and every file sees the ones its own course earned.
+//
+// The windows are in each command's own calendar, as the reports' dates are (the Russian command's are Old Style). `anchor` is a report inside
+// the window: its claims register carries the event's claims (claims/<command>.json) and check-events.js proves the anchor falls in the window.
+// Nothing here is spoken by a person in quotation marks; the events are narrated.
+// =============================================================================
+
+export const EVENTS = [
+  {
+    id: "ohl_turnip", campaign: "ohl", kind: "The home front", anchor: "ohl_1917_06_pless",
+    from: "1917-01-01", to: "1917-04-30", date: "1917-01-15",
+    title: "The Turnip Winter",
+    when: (f, m) => m.will <= -2,
+    paras: [
+      "The potato harvest of 1916 failed, and the cities are fed on swedes. Bread, meat, fat and coal are rationed, and the ration is smaller each month. The staff's own reports from the home districts count the hungry by the street.",
+      "The army is fed before the cities are, and every man who writes home knows it. The winter will be remembered as the worst of the war for the people behind the lines.",
+    ],
+  },
+  {
+    id: "ohl_strikes", campaign: "ohl", kind: "The home front", anchor: "ohl_1917_07_chancellor",
+    from: "1917-04-01", to: "1917-07-31", date: "1917-04-16",
+    title: "The April Strikes",
+    when: (f, m) => m.will <= -3,
+    paras: [
+      "After the bread ration is cut again, workers stop work in Berlin and Leipzig. Hundreds of thousands of them come out in the munitions factories, and they ask for bread, for an end to the state of siege, and for the government to say what it wants from the war.",
+      "The strikes end in a few days, with some promises, and the strike leaders are called up for service. The generals notice that the workers' demands have begun to sound like the demands of the Reichstag.",
+    ],
+  },
+  {
+    id: "ohl_influenza", campaign: "ohl", kind: "The army", anchor: "ohl_1918_10_salient",
+    from: "1918-06-01", to: "1918-09-30", date: "1918-06-20",
+    title: "The Sickness in the Ranks",
+    when: (f, m) => m.manpower <= -2,
+    paras: [
+      "An influenza, the first wave of a pandemic that no one yet understands, reaches the German army in the summer. The sick lists of the divisions in the line lengthen by the week, and the army's doctors can offer rest and little else.",
+      "The staff's reports note it among the reasons that the divisions are not what they were. It is one more thing that cannot be ordered away.",
+    ],
+  },
+  {
+    id: "gqg_casualties", campaign: "gqg", kind: "The army", anchor: "gqg_1914_12_retreat",
+    from: "1914-08-20", to: "1914-08-31", date: "1914-08-23",
+    title: "The Casualty Lists of 22 August",
+    when: () => true,
+    paras: [
+      "The first lists come in from the battles on the frontier. The day of 22 August will cost the French army about 27,000 dead, the heaviest loss in a single day in its history. Whole regiments went forward in red trousers into machine-gun fire.",
+      "The staff cannot yet add the numbers up, and the commanders in the field are reporting that the attacks have to stop. The army's doctrine was built on the belief that this price was worth paying.",
+    ],
+  },
+  {
+    id: "gqg_clemenceau", campaign: "gqg", kind: "Politics", anchor: "gqg_1918_12_link",
+    from: "1917-11-16", to: "1918-03-31", date: "1917-11-17",
+    title: "A New Government in Paris",
+    when: (f, m) => m.will <= -1,
+    paras: [
+      "After the mutinies and a year of ministries that fell, Georges Clemenceau becomes Premier on 16 November 1917. He is seventy-six years old, and he has made his reputation by attacking governments that make war weakly.",
+      "He promises war to the end and visits the trenches to say so. He also expects the commander-in-chief to answer to him, and he has the power to say who that is.",
+    ],
+  },
+  {
+    id: "stavka_shells", campaign: "stavka", kind: "The army", anchor: "stavka_1915_04_command",
+    from: "1915-04-15", to: "1915-09-05", date: "1915-05-20",
+    title: "The Shell Shortage",
+    when: (f, m) => m.munitions <= -2,
+    paras: [
+      "The front commanders are rationing their guns to a few shells a day, and the Germans are firing many times that. Rifles are short as well, and some regiments go into the line with a rifle to every two men, the rest to be picked up from the dead.",
+      "The War Minister Sukhomlinov is dismissed in June, and committees of industrialists are called in to help. It will be a year before the factories begin to deliver what the army needs.",
+    ],
+  },
+  {
+    id: "stavka_refugees", campaign: "stavka", kind: "The home front", anchor: "stavka_1915_05_sventsiany",
+    from: "1915-06-01", to: "1915-12-31", date: "1915-08-01",
+    title: "The Roads Behind the Front",
+    when: (f, m) => m.will <= 0,
+    paras: [
+      "The army is falling back, and the roads and railways behind it are full of people. Many have been ordered out by the army itself, with their villages burned, and many more have simply fled.",
+      "The towns of the interior cannot house or feed them, and the trains the army needs for its supplies are blocked by trains of refugees. The ministers in Petrograd say plainly what the war is doing to the country.",
+    ],
+  },
+  {
+    id: "bef_zeppelins", campaign: "bef", kind: "The home front", anchor: "bef_1915_06_loos",
+    from: "1915-05-30", to: "1915-12-31", date: "1915-05-31",
+    title: "Zeppelins over London",
+    when: (f, m) => m.will <= -2,
+    paras: [
+      "German airships have bombed the east coast since January, and on the night of 31 May they bomb London. A few people are killed and the damage is small, but the press and the public are angry that the country has no defence.",
+      "The government is asked why the fleet and the army cannot stop them, and the question comes to the soldiers, who have guns and fighter aircraft that the home defence wants.",
+    ],
+  },
+  {
+    id: "bef_rising", campaign: "bef", kind: "Politics", anchor: "bef_1916_11_somme",
+    from: "1916-04-24", to: "1916-06-30", date: "1916-04-24",
+    title: "The Rising in Dublin",
+    when: () => true,
+    paras: [
+      "On Easter Monday about a thousand Irish rebels seize buildings in Dublin and proclaim a republic. The army puts the rising down in six days, with artillery that is badly needed in France, and the leaders are shot in the weeks that follow.",
+      "The Cabinet has a second and nearer war to think about for a week, and the executions turn much of Irish opinion against the government. The army is asked for troops it can hardly spare.",
+    ],
+  },
+  {
+    id: "aok_emperor", campaign: "aok", kind: "Politics", anchor: "aok_1917_10_sixtus",
+    from: "1916-11-21", to: "1917-03-24", date: "1916-11-21",
+    title: "The Death of the Emperor",
+    when: () => true,
+    paras: [
+      "Franz Joseph dies on 21 November 1916, at the age of eighty-six, after sixty-eight years on the throne. He is succeeded by his great-nephew Karl, who is twenty-nine and has not been brought up to rule.",
+      "The old Emperor was the one thing that held the peoples of the monarchy together, and the army swore its oath to him. The new Emperor takes the supreme command himself, and wants peace.",
+    ],
+  },
+  {
+    id: "aok_strikes", campaign: "aok", kind: "The home front", anchor: "aok_1918_14_ukraine",
+    from: "1918-01-14", to: "1918-02-20", date: "1918-01-18",
+    title: "The January Strikes",
+    when: (f, m) => m.will <= -2,
+    paras: [
+      "The flour ration is halved in the middle of January, and the workers of Wiener Neustadt stop work. The strike spreads to Vienna, to Budapest and to the industrial towns of Bohemia, with demands for bread, for peace, and for a vote.",
+      "Workers' councils spring up in imitation of the Russian ones. The strike is ended in about a week by promises, and the army is called on to keep order in places where it has no men to spare.",
+    ],
+  },
+  {
+    id: "otto_tunnels", campaign: "otto", kind: "The army", anchor: "otto_1915_03_kut",
+    from: "1914-12-18", to: "1916-12-31", date: "1915-01-05",
+    title: "The Gaps in the Railway",
+    when: (f, m) => m.munitions <= -2,
+    paras: [
+      "The railway to Syria, Palestine and Mesopotamia has not been finished: the tunnels through the Taurus and the Amanus mountains are incomplete, and everything for the southern armies must be unloaded, carried over the mountains by cart and camel, and loaded again.",
+      "A shipment that leaves Constantinople takes weeks to reach the Suez front and months to reach Baghdad. Every gun, shell and uniform the General Staff orders arrives late.",
+    ],
+  },
+  {
+    id: "otto_disease", campaign: "otto", kind: "The army", anchor: "otto_1915_03_kut",
+    from: "1915-01-01", to: "1916-12-31", date: "1915-02-10",
+    title: "Typhus in the Army",
+    when: (f, m) => m.manpower <= -2,
+    paras: [
+      "Typhus, cholera and dysentery are in the army in every theatre, and the army has few doctors and little soap. The disease follows the soldiers home and spreads into the towns the troops pass through.",
+      "More Ottoman soldiers die of sickness than of the enemy's fire. The General Staff counts divisions that exist on paper and are fit for little in the field.",
+    ],
+  },
+];
+
+/**
+ * The event due before a report, or null: the first of the command's events, in the order above, that has not been shown in this file (its
+ * flag ev_<id> is not set), whose window holds the report's date and whose condition holds for the file's state.
+ */
+export function dueEvent(campaignId, nodeId, flags, meters) {
+  const node = CAMPAIGNS[campaignId] && CAMPAIGNS[campaignId].nodes[nodeId];
+  if (!node || node.ending) return null;
+  for (const e of EVENTS) {
+    if (e.campaign !== campaignId || (flags && flags["ev_" + e.id])) continue;
+    if (node.date < e.from || node.date > e.to) continue;
+    if (e.when(flags || {}, meters)) return e;
+  }
+  return null;
+}
+
+// =============================================================================
 // UI_LAYER
 // =============================================================================
 //
@@ -14748,15 +15092,6 @@ const THEME = {
 /** Props for a screen's root: it takes its command's accent and paper (see the stylesheet's [data-campaign] rules). */
 function rootProps(campaignId, screen) {
   return { className: "dg-root", "data-campaign": campaignId || undefined, "data-screen": screen };
-}
-
-const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
-
-/** IV.1940 — the series' date treatment. */
-function romanDate(iso) {
-  if (!iso) return "";
-  const [y, m] = iso.split("-");
-  return `${ROMAN[Number(m)]}.${y}`;
 }
 
 const css = `
@@ -15126,6 +15461,46 @@ const css = `
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
   /* ---- the Sepia look, over everything above ---- */
+
+  /* ---- the front screens: the commands, the briefing, how to play, settings ---- */
+  .dg-sub{font-size:14px;color:var(--ink-soft);margin:-6px 0 12px}
+  .dg-title-sm{font-size:40px;margin:6px 0 10px}
+  .dg-first{font-size:14px;margin:0 0 14px}
+  .dg-cmd{position:relative;display:flex;gap:14px;width:100%;box-sizing:border-box;text-align:left;font:inherit;color:inherit;background:var(--paper-raised);
+    border:1.5px solid var(--rule);padding:18px 14px 14px;margin:0 0 12px;cursor:pointer;min-height:44px;overflow:hidden}
+  .dg-cmd:hover:not(:disabled){outline:3px solid var(--ink);outline-offset:-3px}
+  .dg-cmd:disabled{opacity:.45;cursor:not-allowed}
+  .dg-cmd-band{position:absolute;left:0;right:0;top:0;height:7px}
+  .dg-cmd-seal{flex:none;width:58px;height:58px;box-sizing:border-box;display:grid;place-items:center;border:2px solid var(--ink);font-weight:700;font-size:12px;
+    letter-spacing:.04em;text-align:center;margin-top:4px;transform:rotate(-3deg)}
+  .dg-cmd-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .dg-cmd-nation{font-family:${THEME.serif};font-size:27px;font-weight:700;line-height:1.1}
+  .dg-cmd-name{font-size:14px;font-weight:700}
+  .dg-cmd-native{font-size:12px;color:var(--ink-soft);font-style:italic}
+  .dg-cmd-pitch{font-size:13.5px;margin-top:4px}
+  .dg-cmd-meta{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+  .dg-nav{display:flex;flex-direction:column;gap:10px}
+  .dg-navbtn{display:flex;flex-direction:column;gap:2px;text-align:left;font:inherit;color:inherit;background:none;border:1.5px solid var(--rule);padding:12px 14px;min-height:44px;cursor:pointer}
+  .dg-navbtn b{font-size:14px;letter-spacing:.12em;text-transform:uppercase}
+  .dg-navbtn span{font-size:12.5px;color:var(--ink-soft)}
+  .dg-navbtn:hover{outline:3px solid var(--ink);outline-offset:-3px}
+  .dg-brief{margin:0 0 12px}
+  .dg-go{display:block;width:100%;margin-top:18px;padding:14px;font-size:13px;background:var(--ink);color:var(--paper)}
+  .dg-go:hover:not(:disabled){background:var(--ink);color:var(--paper);outline:3px solid var(--ink-soft);outline-offset:2px}
+  .dg-jumps{display:flex;flex-wrap:wrap;gap:6px 16px;margin:0 0 6px;font-size:13px}
+  .dg-jumps a{color:var(--accent)}
+  .dg-setting{margin:0 0 20px}
+  .dg-range{width:100%;min-height:44px;accent-color:var(--ink);margin:0}
+  .dg-ticks{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sample{margin:10px 0 0;border-left:3px solid var(--rule);padding-left:12px}
+  .dg-swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px}
+  .dg-sw{display:flex;flex-direction:column;align-items:stretch;gap:6px;font:inherit;color:inherit;background:none;border:1.5px solid var(--rule);padding:8px;
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-align:center;cursor:pointer;min-height:44px}
+  .dg-sw:hover{outline:3px solid var(--ink-soft);outline-offset:-3px}
+  .dg-sw[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:-3px}
+  .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
+  .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
+
   ${sepiaCss()}
 `;
 
@@ -15134,7 +15509,6 @@ function Stamp({ children }) {
 }
 
 const TEXT_SIZE_LABELS = { s: "Standard", m: "Larger", l: "Largest" };
-const FEEDBACK_URL = "https://dispatches.itch.io/dispatches-1914#comments";
 
 /** A short typewriter tick or a stamp thud, made with the browser's own audio. Off unless the player turned it on. */
 let audioCtx = null;
@@ -15157,14 +15531,6 @@ function playSound(kind) {
     o.start(t);
     o.stop(t + (stamp ? 0.3 : 0.05));
   } catch (e) { /* no audio: carry on silently */ }
-}
-
-/** The note a player can paste into a bug report or a playtest comment: the whole path, from the flags. */
-function runNote(campaignId, nodeId, flags, mode, visited) {
-  const c = CAMPAIGNS[campaignId];
-  const marks = Object.keys(flags).sort().map((k) => k + "=" + flags[k]).join(" ");
-  return ["Dispatches 1914", c.shortName, mode === "hard" ? "hard mode" : mode === "easy" ? "easy mode" : "standard", "ending " + nodeId,
-    "decisions " + (visited.length - 1), "marks: " + marks].join(" | ");
 }
 
 // ---------- the glossary: the first mention of a term on a screen is underlined ----------
@@ -15216,143 +15582,6 @@ function GlossText({ segs, className = "dg-prose" }) {
       )}
       {def && <span className="dg-defn" role="note"><b>{def.term}.</b> {def.def}</span>}
     </div>
-  );
-}
-
-function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onMode, settings, onSettings, record }) {
-  const hardOn = mode === "hard";
-  const easyOn = mode === "easy";
-  const majors = CAMPAIGN_IDS.filter((c) => CAMPAIGNS[c].tier === TIERS.MAJOR);
-  const minors = CAMPAIGN_IDS.filter((c) => CAMPAIGNS[c].tier === TIERS.MINOR);
-  const saved = useMemo(() => {
-    if (!savedRun) return null;
-    try {
-      return resolveNode(savedRun.nodeId, savedRun.flags, savedRun.meters, savedRun.hardState);
-    } catch (e) {
-      return null;
-    }
-  }, [savedRun]);
-  const card = (cid) => {
-    const c = CAMPAIGNS[cid];
-    const playable = Object.keys(c.nodes).length > 0;
-    return (
-      <button key={cid} className="dg-card" disabled={!playable}
-        style={playable ? undefined : { opacity: 0.45, cursor: "not-allowed" }}
-        onClick={() => playable && onPick(cid)}>
-        <Stamp>{c.seal}</Stamp>
-        <h3>{c.name}</h3>
-        <p>{c.seat} · {CALENDARS[c.calendar].label}</p>
-        <p style={{ marginTop: 6 }}>
-          {playable ? `${Object.keys(c.nodes).length} nodes` : "No content yet"}
-        </p>
-        {playable && hardOn && c.hardMode.description && (
-          <p style={{ marginTop: 6 }}>Hard mode: {c.hardMode.description}</p>
-        )}
-        {playable && easyOn && EASY_NAMES[cid] && (
-          <p style={{ marginTop: 6 }}>Easy: {EASY_NAMES[cid]} Command</p>
-        )}
-      </button>
-    );
-  };
-  return (
-    <main {...rootProps(null, "menu")}>
-      <div className="dg-filerow"><span>File No. 1914</span><span className="r">Restricted</span></div>
-      <h1 className="dg-title">DISPATCHES<br />1914</h1>
-      <hr className="dg-rule" />
-
-      {saved && (
-        <section className="dg-banner" aria-label="Saved file">
-          <p>
-            <b>File in progress.</b> {CAMPAIGNS[savedRun.campaignId].shortName} · {romanDate(saved.date)} · {saved.title}
-            {savedRun.hardState.enabled ? " · hard mode" : savedRun.easy ? " · easy mode" : ""}
-          </p>
-          <p className="small">Starting a new file replaces this one.</p>
-          <button className="dg-btn" onClick={onResume}>Resume file</button>{" "}
-          <button className="dg-btn" onClick={onDiscard}>Discard</button>
-        </section>
-      )}
-
-      <div className="dg-seg" role="group" aria-label="Difficulty">
-        <button aria-pressed={easyOn} onClick={() => onMode("easy")}>Easy mode</button>
-        <button aria-pressed={mode === "standard"} onClick={() => onMode("standard")}>Standard</button>
-        <button aria-pressed={hardOn} onClick={() => onMode("hard")}>Hard mode</button>
-      </div>
-      <p className="dg-note">
-        {hardOn
-          ? "Hard mode adds an erosion track. Each command's office faced its own kind of pressure; at the limit its freedom to choose ends and a fixed ending follows."
-          : easyOn
-          ? "Easy mode shows what each order will do to the three meters, marks the order the command really gave, and lets you take back the last order. It cannot reach the highest rank."
-          : "Standard: every command plays on the same logistical triangle, with no erosion track."}
-      </p>
-      <label className="dg-check">
-        <input type="checkbox" checked={settings.battles !== false} onChange={(e) => onSettings({ ...settings, battles: e.target.checked })} />
-        <span>Take control of battle planning. {settings.battles !== false
-          ? "The battles that have an Order of Battle (" + Object.keys(BATTLES).length + ") open on a planning screen: you place the effort, name a commander and choose the approach."
-          : "Switched off, those battles are rolled as ordinary orders, at the same odds as the staff's plan."}</span>
-      </label>
-
-      <h2 className="dg-sect">Major Commands</h2>
-      {majors.map(card)}
-      <h2 className="dg-sect">Minor Commands</h2>
-      {minors.map(card)}
-      <hr className="dg-dash" />
-      <button className="dg-card" onClick={onRecord}>
-        ▶ WAR RECORD — DOSSIERS, ATLAS, ENDINGS GALLERY
-        <p style={{ marginTop: 8 }}>
-          {Object.values(record.nodes).reduce((n, l) => n + l.length, 0)} of {nodeTotal()} nodes seen · {record.endings.length} of {buildEndings().length} endings found
-        </p>
-      </button>
-      <details>
-        <summary>▶ SETTINGS</summary>
-        <div className="dg-count">Text size</div>
-        <div className="dg-seg" role="group" aria-label="Text size">
-          {TEXT_SIZES.map((s) => (
-            <button key={s} aria-pressed={settings.textSize === s} onClick={() => onSettings({ ...settings, textSize: s })}>
-              {TEXT_SIZE_LABELS[s]}
-            </button>
-          ))}
-        </div>
-        <div className="dg-count">Colours</div>
-        <div className="dg-seg dg-seg-wrap" role="group" aria-label="Colours">
-          {["sepia", "paper", "night", "contrast", "auto"].map((id) => (
-            <button key={id} aria-pressed={(settings.theme || DEFAULT_THEME) === id} onClick={() => onSettings({ ...settings, theme: id })}>{THEME_LABELS[id]}</button>
-          ))}
-        </div>
-        <div className="dg-count">Type</div>
-        <div className="dg-seg" role="group" aria-label="Type">
-          {[["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"]].map(([id, label]) => (
-            <button key={id} aria-pressed={(settings.font || "theme") === id} onClick={() => onSettings({ ...settings, font: id })}>{label}</button>
-          ))}
-        </div>
-        <div className="dg-count">Signing a risky order</div>
-        <div className="dg-seg" role="group" aria-label="Signing a risky order">
-          {[[true, "Hold to sign"], [false, "Tap to sign"]].map(([v, label]) => (
-            <button key={label} aria-pressed={(settings.holdToSign !== false) === v} onClick={() => onSettings({ ...settings, holdToSign: v })}>{label}</button>
-          ))}
-        </div>
-        <div className="dg-count">Sound</div>
-        <div className="dg-seg" role="group" aria-label="Sound">
-          {[["Off", false, false], ["Typewriter", true, false], ["Atmosphere", true, true]].map(([label, snd, atm]) => (
-            <button key={label} aria-pressed={settings.sound === snd && Boolean(settings.atmosphere) === atm} onClick={() => onSettings({ ...settings, sound: snd, atmosphere: atm })}>{label}</button>
-          ))}
-        </div>
-        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable, a seal and a signature.</p>
-      </details>
-      <details>
-        <summary>▶ WHAT THIS GAME LEAVES OUT</summary>
-        {LEAVES_OUT.map((p, i) => (
-          <p key={i} className="dg-note">{p}</p>
-        ))}
-      </details>
-      <details>
-        <summary>▶ FEEDBACK</summary>
-        <p className="dg-note">
-          Found a mistake in the history, or want to say what the game was like to play? Say so on the{" "}
-          <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer" style={{ color: THEME.accent }}>game's page</a>.
-          When a file closes, a note with the path you took is ready to paste.
-        </p>
-      </details>
-    </main>
   );
 }
 
@@ -15419,13 +15648,11 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
-      <div className="dg-node-date">{romanDate(node.date)}</div>
+      <div className="dg-node-date">{nodeDate(campaignId, node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
       {!node.ending && ASKS[nodeId] && (
         <p className="dg-ask"><b>The decision</b>{ASKS[nodeId]}{" "}<button type="button" className="dg-jump" onClick={jumpToOrders}>Go to the orders ↓</button></p>
       )}
-      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
-
       {node.bulletin && typeof node.bulletin === "object" && (
         <div className="dg-bulletin">
           <div className="h">{node.bulletin.source} · {node.bulletin.date}</div>
@@ -15434,6 +15661,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
       )}
 
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
+
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
 
       {node.context && (
         <details>
@@ -15450,17 +15679,6 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           {node.epilogue && <GlossText key={nodeId + "-epilogue"} segs={epilogueSegs} />}
           {rank && <RankPanel result={rank} />}
           {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
-          <details>
-            <summary>▶ A NOTE FOR THE AUTHOR</summary>
-            <div className="dg-note-box">
-              <p className="dg-note" style={{ marginTop: 0 }}>
-                A line that records the path you took. Paste it into a comment on the{" "}
-                <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer">game's page</a> with whatever you want to say.
-              </p>
-              <textarea readOnly aria-label="Note with the path taken" value={runNote(campaignId, nodeId || "", flags || {}, mode, visited || [])}
-                onFocus={(e) => e.target.select()} />
-            </div>
-          </details>
           <button className="dg-btn" onClick={onHome}>Return to file</button>
         </>
       ) : (
@@ -15681,7 +15899,7 @@ function RecordScreen({ record, onBack }) {
             const host = atlas[cfg.host.node];
             return (
               <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": "var(--acc-" + cfg.campaign + ")" }}>
-                <div className="meta">{c.shortName}{host ? ` · ${romanDate(host.date)}` : ""}</div>
+                <div className="meta">{c.shortName}{host ? ` · ${nodeDate(cfg.campaign, host.date)}` : ""}</div>
                 <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
                 {f ? (
                   <div className="dg-battle-grade">Fought {f.n} {f.n === 1 ? "time" : "times"} · best: <b>{f.best}</b></div>
@@ -15750,7 +15968,7 @@ function RecordScreen({ record, onBack }) {
                       const n = atlas[id];
                       return (
                         <div key={id} className="dg-entry">
-                          <div className="meta">{romanDate(n.date)}{n.city ? ` · ${n.city}` : ""}</div>
+                          <div className="meta">{nodeDate(n.campaignId, n.date)}{n.city ? ` · ${n.city}` : ""}</div>
                           <div className="t">{n.title}</div>
                         </div>
                       );
@@ -15801,6 +16019,7 @@ export default function App() {
   const [taken, setTaken] = useState([]); // the orders the run has given: { node, choice }
   const [history, setHistory] = useState([]); // the state before each order, for the easy mode's take-back
   const [screen, setScreen] = useState("menu");
+  const [cameFrom, setCameFrom] = useState("menu"); // where How to play and Settings go back to
   const [campaignId, setCampaignId] = useState(null);
   const [nodeId, setNodeId] = useState(null);
   const [flags, setFlags] = useState({});
@@ -15922,6 +16141,9 @@ export default function App() {
 
   const discard = () => { clearSavedRun(); setSavedRun(null); };
 
+  // How to play and Settings open from the menu or the briefing and go back to where they were opened.
+  const openAside = (which) => { setCameFrom(screen); setScreen(which); };
+
   const home = () => {
     setScreen("menu");
     setNodeId(null);
@@ -15943,13 +16165,23 @@ export default function App() {
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
     setRecord((rec) => (r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags)));
-    setPending({ ...r, headline: r.title || ch.label, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null });
-    setScreen(r.outcome ? "outcome" : "node");
+    const event = r.nextId ? dueEvent(campaignId, r.nextId, r.flags, r.meters) : null; // a special event that the file's state has earned, before the next report
+    setPending({ ...r, headline: r.title || ch.label, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null, event });
+    setScreen(r.outcome ? "outcome" : event ? "event" : "node");
     if (!r.outcome) setNodeId(r.nextId);
   };
 
   const cont = () => {
     setNodeId(pending?.nextId ?? null);
+    if (pending && pending.event) { setScreen("event"); return; }
+    setPending(null);
+    setScreen("node");
+  };
+
+  // The event is shown once: its flag goes into the file as the report opens.
+  const afterEvent = () => {
+    const id = pending.event.id;
+    setFlags((f) => ({ ...f, ["ev_" + id]: true }));
     setPending(null);
     setScreen("node");
   };
@@ -15975,15 +16207,21 @@ export default function App() {
     <div className={`dg-fs-${settings.textSize}`} style={{ display: "contents" }}>
       <style>{css}</style>
       {screen === "menu" && (
-        <MenuScreen onPick={start} onRecord={() => setScreen("record")} savedRun={savedRun}
-          onResume={resume} onDiscard={discard} mode={mode} onMode={setMode}
-          settings={settings} onSettings={setSettings} record={record} />
+        <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} savedRun={savedRun}
+          onResume={resume} onDiscard={discard} onHowTo={() => openAside("howto")} onSettings={() => openAside("settings")} record={record} />
       )}
+      {screen === "briefing" && campaignId && (
+        <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} settings={settings} onSettings={setSettings}
+          onEnter={() => start(campaignId)} onBack={home} onHowTo={() => openAside("howto")} />
+      )}
+      {screen === "howto" && <HowToScreen onBack={() => setScreen(cameFrom)} />}
+      {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} />}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
         <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
           changes={pending.changes} contested={pending.contested} meters={meters} flags={flags} onContinue={cont} />
       )}
+      {screen === "event" && pending && pending.event && <EventScreen key={pending.event.id} campaignId={campaignId} event={pending.event} onContinue={afterEvent} />}
       {screen === "battle" && battleChoice && (
         <BattleScreen campaignId={campaignId} config={battleOf(battleChoice)} choice={battleChoice} meters={meters} easy={runEasy}
           onCommit={(plan) => { const ch = battleChoice; setBattleChoice(null); choose(ch, plan); }}
@@ -16003,6 +16241,289 @@ export default function App() {
         </main>
       )}
     </div>
+  );
+}
+
+// =============================================================================
+// THE FRONT SCREENS: THE COMMANDS, THE BRIEFING, HOW TO PLAY, SETTINGS
+// =============================================================================
+//
+// The menu lists the six commands by side, so that it is plain which is which; the briefing that follows a choice says where the command
+// stands, what seat the player holds and what they will be asked, and is where the file is set up (the difficulty and whether the battles
+// are planned by hand); How to play holds what the game is and what it leaves out; Settings holds what is kept on the device.
+// The text is in 66-briefings.jsx and 60-glossary.jsx.
+
+const SIDES = [
+  { id: "central", label: "The Central Powers", ids: ["ohl", "aok", "otto"] },
+  { id: "entente", label: "The Entente", ids: ["gqg", "stavka", "bef"] },
+];
+
+/** What the war record says of one command, for its card: reports seen and the best rank. */
+function commandProgress(record, cid) {
+  const seen = (record.nodes[cid] || []).length;
+  const best = (record.best || {})[cid];
+  return { seen, best: best ? best.rank : null };
+}
+
+function MenuScreen({ onPick, onRecord, onHowTo, onSettings, savedRun, onResume, onDiscard, record }) {
+  const saved = useMemo(() => {
+    if (!savedRun) return null;
+    try {
+      return resolveNode(savedRun.nodeId, savedRun.flags, savedRun.meters, savedRun.hardState);
+    } catch (e) {
+      return null;
+    }
+  }, [savedRun]);
+  const nodesSeen = Object.values(record.nodes).reduce((n, l) => n + l.length, 0);
+  const card = (cid) => {
+    const c = CAMPAIGNS[cid];
+    const b = BRIEFINGS[cid];
+    const playable = Object.keys(c.nodes).length > 0;
+    const p = commandProgress(record, cid);
+    const decisions = Object.values(c.nodes).filter((n) => !n.ending).length;
+    return (
+      <button key={cid} className="dg-cmd" disabled={!playable} onClick={() => playable && onPick(cid)}>
+        <span className="dg-cmd-band" style={{ background: CAMPAIGN_BANDS[cid] }} aria-hidden="true" />
+        <span className="dg-cmd-seal" aria-hidden="true">{c.seal}</span>
+        <span className="dg-cmd-body">
+          <span className="dg-cmd-nation">{b.nation}</span>
+          <span className="dg-cmd-name">{b.title}</span>
+          <span className="dg-cmd-native">{c.name} · {c.seat}</span>
+          <span className="dg-cmd-pitch">{b.pitch}</span>
+          <span className="dg-cmd-meta">
+            {nodeDate(cid, c.span.from, true)} to {nodeDate(cid, c.span.to, true)} · {decisions} decisions
+            {p.best ? ` · best rank ${p.best}` : p.seen ? " · begun" : ""}
+          </span>
+        </span>
+      </button>
+    );
+  };
+  return (
+    <main {...rootProps(null, "menu")}>
+      <div className="dg-filerow"><span>File No. 1914</span><span className="r">Restricted</span></div>
+      <h1 className="dg-title">DISPATCHES<br />1914</h1>
+      <p className="dg-sub">Six headquarters of the First World War. Pick one, read the briefing, and give the orders it gave.</p>
+      <hr className="dg-rule" />
+
+      {saved && (
+        <section className="dg-banner" aria-label="Saved file">
+          <p>
+            <b>File in progress.</b> {CAMPAIGNS[savedRun.campaignId].shortName} · {nodeDate(savedRun.campaignId, saved.date)} · {saved.title}
+            {savedRun.hardState.enabled ? " · hard mode" : savedRun.easy ? " · easy mode" : ""}
+          </p>
+          <p className="small">Starting a new file replaces this one.</p>
+          <button className="dg-btn" onClick={onResume}>Resume file</button>{" "}
+          <button className="dg-btn" onClick={onDiscard}>Discard</button>
+        </section>
+      )}
+
+      {nodesSeen === 0 && (
+        <p className="dg-first">
+          New here? How to play takes two minutes. <button className="dg-btn" onClick={onHowTo}>How to play</button>
+        </p>
+      )}
+
+      {SIDES.map((side) => (
+        <section key={side.id} aria-label={side.label}>
+          <h2 className="dg-sect">{side.label}</h2>
+          {side.ids.map(card)}
+        </section>
+      ))}
+
+      <h2 className="dg-sect">The game</h2>
+      <nav className="dg-nav" aria-label="The game">
+        <button className="dg-navbtn" onClick={onHowTo}><b>How to play</b><span>Reading a report, orders and risk, battles, what the game leaves out</span></button>
+        <button className="dg-navbtn" onClick={onRecord}>
+          <b>War record</b>
+          <span>{nodesSeen} of {nodeTotal()} reports seen · {record.endings.length} of {buildEndings().length} endings found</span>
+        </button>
+        <button className="dg-navbtn" onClick={onSettings}><b>Settings</b><span>Text size, colours, type, sound and signing</span></button>
+      </nav>
+    </main>
+  );
+}
+
+const MODE_ROWS = [
+  { id: "easy", label: "Easy mode", text: "Shows what each order will do to the meters, marks the order the command really gave, and lets you take back the last order. It cannot reach the highest rank." },
+  { id: "standard", label: "Standard", text: "Every command plays on the same triangle of manpower, munitions and will. Nothing is shown in advance." },
+  { id: "hard", label: "Hard mode", text: null },
+];
+
+function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnter, onBack, onHowTo }) {
+  const c = CAMPAIGNS[campaignId];
+  const b = BRIEFINGS[campaignId];
+  const labels = meterLabels(campaignId);
+  const first = useMemo(() => resolveNode(c.startNode, {}, emptyMeters(), emptyHardState()), [campaignId]);
+  const modeText = (row) => (row.id === "hard" ? `Adds an erosion track: ${c.hardMode.description.charAt(0).toLowerCase()}${c.hardMode.description.slice(1)} At the limit your freedom to choose ends and a fixed ending follows.` : row.text);
+  const manpower = METER_STRANDS.manpower.map((s) => s.name).join(", ");
+  const munitions = METER_STRANDS.munitions.map((s) => s.name).join(", ");
+  return (
+    <main {...rootProps(campaignId, "briefing")}>
+      <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
+      <div className="dg-docrow">
+        <span>{c.docLabel}</span>
+        <button className="dg-btn" onClick={onBack}>Back to the commands</button>
+      </div>
+      <p className="dg-count">{b.title}</p>
+      <h1 className="dg-title dg-title-sm">{b.nation}</h1>
+      <p className="dg-sub">{c.name} · {c.seat}<br />{nodeDate(campaignId, c.span.from)} to {nodeDate(campaignId, c.span.to)}</p>
+      <hr className="dg-rule" />
+
+      <h2 className="dg-sect">Where things stand</h2>
+      {b.standing.map((p, i) => <p key={i} className="dg-prose dg-brief">{p}</p>)}
+      <FrontMapPanel campaignId={campaignId} node={first} visited={[]} />
+
+      <h2 className="dg-sect">Your seat</h2>
+      <p className="dg-prose dg-brief">{b.seat}</p>
+
+      <h2 className="dg-sect">What you will be asked</h2>
+      <p className="dg-prose dg-brief">The first report is dated {nodeDate(campaignId, first.date)}, at {first.city}. {b.question}</p>
+      <p className="dg-note">Three meters carry the cost of every order. <b>{labels.manpower}</b> is the army and the officers who lead it ({manpower.toLowerCase()}). <b>{labels.munitions}</b> is what feeds it ({munitions.toLowerCase()}). <b>{labels.will}</b> is {c.willMeaning.charAt(0).toLowerCase()}{c.willMeaning.slice(1)}</p>
+      <p className="dg-note"><button className="dg-btn" onClick={onHowTo}>How to play</button></p>
+
+      <h2 className="dg-sect">Set up the file</h2>
+      <div className="dg-seg" role="group" aria-label="Difficulty">
+        {MODE_ROWS.map((row) => (
+          <button key={row.id} aria-pressed={mode === row.id} onClick={() => onMode(row.id)}>{row.label}</button>
+        ))}
+      </div>
+      <p className="dg-note" aria-live="polite">
+        {modeText(MODE_ROWS.find((r) => r.id === mode))}
+        {mode === "easy" && EASY_NAMES[campaignId] ? ` In this command easy mode is called ${EASY_NAMES[campaignId]}.` : ""}
+      </p>
+      <label className="dg-check">
+        <input type="checkbox" checked={settings.battles !== false} onChange={(e) => onSettings({ ...settings, battles: e.target.checked })} />
+        <span>Take control of battle planning. {settings.battles !== false
+          ? "The battles that have an Order of Battle (" + Object.keys(BATTLES).length + " in all) open on a planning screen: you place the counters, name a commander and choose the approach."
+          : "Switched off, those battles are rolled as ordinary orders, at the same odds as the staff's plan."}</span>
+      </label>
+
+      <button className="dg-btn dg-go" onClick={onEnter}>Enter the war room</button>
+    </main>
+  );
+}
+
+function HowToScreen({ onBack }) {
+  return (
+    <main {...rootProps(null, "howto")}>
+      <div className="dg-filerow"><span>File No. 1914</span><button className="dg-btn" onClick={onBack}>Back</button></div>
+      <h1 className="dg-title dg-title-sm">How to play</h1>
+      <hr className="dg-rule" />
+      <nav className="dg-jumps" aria-label="On this page">
+        {[...HOW_TO, { id: "leaves", title: "What the game leaves out" }].map((s) => <a key={s.id} href={"#howto-" + s.id} onClick={(e) => { e.preventDefault(); const h = document.getElementById("howto-" + s.id); if (h) { h.scrollIntoView({ block: "start" }); h.focus({ preventScroll: true }); } }}>{s.title}</a>)}
+      </nav>
+      {HOW_TO.map((s) => (
+        <section key={s.id}>
+          <h2 id={"howto-" + s.id} tabIndex={-1} className="dg-sect">{s.title}</h2>
+          {s.paras.map((p, i) => <p key={i} className="dg-prose dg-brief">{p}</p>)}
+        </section>
+      ))}
+      <section>
+        <h2 id="howto-leaves" tabIndex={-1} className="dg-sect">What the game leaves out</h2>
+        {LEAVES_OUT.map((p, i) => <p key={i} className="dg-prose dg-brief">{p}</p>)}
+      </section>
+      <button className="dg-btn" onClick={onBack}>Back</button>
+    </main>
+  );
+}
+
+const FONT_ROWS = [["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"]];
+
+function SettingsScreen({ settings, onSettings, onBack }) {
+  const size = Math.max(0, TEXT_SIZES.indexOf(settings.textSize));
+  const set = (patch) => onSettings({ ...settings, ...patch });
+  return (
+    <main {...rootProps(null, "settings")}>
+      <div className="dg-filerow"><span>File No. 1914</span><button className="dg-btn" onClick={onBack}>Back</button></div>
+      <h1 className="dg-title dg-title-sm">Settings</h1>
+      <hr className="dg-rule" />
+      <p className="dg-note">Kept on this device only.</p>
+
+      <h2 className="dg-sect">Reading</h2>
+      <div className="dg-setting">
+        <label id="dg-size-l" htmlFor="dg-size" className="dg-count">Text size: {TEXT_SIZE_LABELS[TEXT_SIZES[size]]}</label>
+        <input id="dg-size" type="range" className="dg-range" min="0" max={TEXT_SIZES.length - 1} step="1" value={size}
+          aria-labelledby="dg-size-l" aria-valuetext={TEXT_SIZE_LABELS[TEXT_SIZES[size]]}
+          onChange={(e) => set({ textSize: TEXT_SIZES[Number(e.target.value)] })} />
+        <div className="dg-ticks" aria-hidden="true">{TEXT_SIZES.map((s) => <span key={s}>{TEXT_SIZE_LABELS[s]}</span>)}</div>
+        <p className="dg-prose dg-sample">The Chief of the General Staff has four days of rail capacity and six corps to move.</p>
+      </div>
+      <div className="dg-setting">
+        <div className="dg-count">Colours</div>
+        <div className="dg-swatches" role="group" aria-label="Colours">
+          {["sepia", "paper", "night", "contrast", "auto"].map((id) => {
+            const t = id === "auto" ? null : THEME_TOKENS[id].base;
+            return (
+              <button key={id} className="dg-sw" aria-pressed={(settings.theme || DEFAULT_THEME) === id} onClick={() => set({ theme: id })}>
+                <span className="dg-sw-chip" aria-hidden="true" style={t ? { background: t.paper, color: t.ink, borderColor: t.ink } : { background: "linear-gradient(90deg,#1c1a17 50%,#f4efe2 50%)", color: "#888" }}>Aa</span>
+                <span>{THEME_LABELS[id]}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <div className="dg-setting">
+        <div className="dg-count">Type</div>
+        <div className="dg-seg" role="group" aria-label="Type">
+          {FONT_ROWS.map(([id, label]) => (
+            <button key={id} aria-pressed={(settings.font || "theme") === id} onClick={() => set({ font: id })}>{label}</button>
+          ))}
+        </div>
+      </div>
+
+      <h2 className="dg-sect">Playing</h2>
+      <div className="dg-setting">
+        <div className="dg-count">Signing a risky order</div>
+        <div className="dg-seg" role="group" aria-label="Signing a risky order">
+          {[[true, "Hold to sign"], [false, "Tap to sign"]].map(([v, label]) => (
+            <button key={label} aria-pressed={(settings.holdToSign !== false) === v} onClick={() => set({ holdToSign: v })}>{label}</button>
+          ))}
+        </div>
+        <p className="dg-note">A contested order is signed by holding the button for a moment. Tap to sign does it at once, for a keyboard or a hand that cannot hold.</p>
+      </div>
+      <div className="dg-setting">
+        <div className="dg-count">Sound</div>
+        <div className="dg-seg" role="group" aria-label="Sound">
+          {[["Off", false, false], ["Typewriter", true, false], ["Atmosphere", true, true]].map(([label, snd, atm]) => (
+            <button key={label} aria-pressed={settings.sound === snd && Boolean(settings.atmosphere) === atm} onClick={() => set({ sound: snd, atmosphere: atm })}>{label}</button>
+          ))}
+        </div>
+        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable, a seal and a signature.</p>
+      </div>
+
+      <h2 className="dg-sect">Dates</h2>
+      <div className="dg-setting">
+        <p className="dg-note dg-fixed"><b>Calendar: United Kingdom.</b> Every date is written as in the UK, 4 August 1914, and reckoned in the Western calendar. The Russian command's Old Style dates and the Ottoman Rumi dates are converted. This cannot be changed.</p>
+      </div>
+
+      <div className="dg-setting">
+        <button className="dg-btn" onClick={() => onSettings(defaultSettings())}>Return all settings to the defaults</button>
+      </div>
+      <button className="dg-btn" onClick={onBack}>Back</button>
+    </main>
+  );
+}
+
+// =============================================================================
+// SPECIAL EVENTS: THE SCREEN
+// =============================================================================
+//
+// One event, shown once between two reports (src/67-events.jsx). It has its own screen so that it reads as news from outside the war room and
+// not as another decision: the kind of event, the date, a title, two short paragraphs, and a button back to the file.
+
+function EventScreen({ campaignId, event, onContinue }) {
+  const c = CAMPAIGNS[campaignId];
+  return (
+    <main {...rootProps(campaignId, "event")}>
+      <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
+      <div className="dg-docrow"><span>{c.docLabel}</span></div>
+      <p className="dg-kind dg-event-kind">Special event · {event.kind}</p>
+      <div className="dg-node-date">{nodeDate(campaignId, event.date)}</div>
+      <h1 className="dg-node-title">{event.title}</h1>
+      {event.paras.map((p, i) => <p key={i} className={"dg-prose" + (i === 0 ? " dg-lede" : "")}>{p}</p>)}
+      <p className="dg-note">This is not a decision, and it changes no meter. The file will remember it.</p>
+      <button className="dg-btn dg-go" onClick={onContinue}>Continue</button>
+    </main>
   );
 }
 
@@ -16417,7 +16938,7 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
   const mask = (o) => countries.filter((c) => o.mask.includes(c.id)).map((c) => c.d).join("");
   return (
     <svg className="dg-map" viewBox={`${box.x} ${box.y} ${box.w} ${box.h}`} role="img"
-      aria-label={`Map of the front on ${romanDate(node.date)}. The headquarters is at ${node.city}.`}>
+      aria-label={`Map of the front on ${nodeDate(campaignId, node.date)}. The headquarters is at ${node.city}.`}>
       <defs>
         {overlays.map((o) => <clipPath key={o.id} id={`${uid}-${o.id}`}><path d={mask(o)} /></clipPath>)}
       </defs>
@@ -16488,7 +17009,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
   return (
     <section className="dg-mapcard" aria-label="The front">
       <div className="dg-maphead">
-        <span className="t">The front · {romanDate(node.date)}</span>
+        <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
         <button ref={opener} className="dg-btn" aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>Expand the map</button>
       </div>
       <MapCanvas campaignId={campaignId} node={node} visited={visited} full={false} pins={meanwhile} />
@@ -16496,7 +17017,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
         <div className="dg-modal" role="dialog" aria-modal="true" aria-label="The front, whole theatre" onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
           <div className="dg-modal-inner">
             <div className="dg-maphead">
-              <span className="t">The front · {romanDate(node.date)}</span>
+              <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
               <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close the map</button>
             </div>
             <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} />
@@ -16512,7 +17033,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
                   {meanwhile.map((m) => (
                     <li key={m.campaignId} style={{ "--accent": "var(--acc-" + m.campaignId + ")" }}>
                       <span className="dg-seal">{CAMPAIGNS[m.campaignId].seal}</span>
-                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{romanDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} days before this report)` : ""}</span>
+                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} days before this report)` : ""}</span>
                     </li>
                   ))}
                 </ul>

@@ -996,5 +996,32 @@
     "status": "drafted",
     "sources": [],
     "note": "A counterfactual position; no source read records his view of it."
+  },
+  {
+    "id": "gqg_casualties-1",
+    "node": "gqg_1914_12_retreat",
+    "kind": "figure",
+    "claim": "On 22 August 1914, in the Battle of the Frontiers, the French army lost about 27,000 dead, the heaviest loss in a single day in its history.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The figure is the one most often quoted; some give a range."
+  },
+  {
+    "id": "gqg_casualties-2",
+    "node": "gqg_1914_12_retreat",
+    "kind": "fact",
+    "claim": "French infantry went into action in 1914 in red trousers and dark blue coats.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "gqg_clemenceau-1",
+    "node": "gqg_1918_12_link",
+    "kind": "fact",
+    "claim": "Georges Clemenceau became Premier of France on 16 November 1917, at the age of seventy-six, on a programme of waging the war to the end, and visited the front often.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
   }
 ]

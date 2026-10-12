@@ -34,6 +34,7 @@ const btn = (ctx, re) => ctx.buttons().find((b) => re.test(ctx.lab(b)));
 const orders = (ctx) => ctx.buttons().filter((b) => b.className.startsWith("dg-choice"));
 async function toMarne(ctx) {
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Grand Quartier")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   for (let i = 0; i < 40 && !/The Flank in the Open/.test(ctx.text()); i++) {
     const o = orders(ctx);
     if (o.length) await ctx.click(o.find((b) => !b.disabled) || o[0]);
@@ -48,6 +49,7 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
 {
   const ctx = await boot();
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Oberste")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   check(!/Odds:/.test(ctx.text()), "a settled order shows no odds dial");
   check(!ctx.d.querySelector(".dg-readings"), "the readings start closed");
   const m = ctx.d.querySelector(".dg-meter-btn");
@@ -94,7 +96,7 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
 {
   const ctx = await boot();
   const det = ctx.d.querySelector("details");
-  await ctx.click(btn(ctx, /^Tap to sign$/));
+  await ctx.click(btn(ctx, /Settings/)); await ctx.click(btn(ctx, /^Tap to sign$/)); await ctx.click(btn(ctx, /^Back$/));
   await toMarne(ctx);
   check(!/Hold to sign/.test(ctx.text()), "with tap to sign there is no hold hint");
   mouseClick(ctx, orders(ctx).find((b) => /Turn and attack/.test(ctx.lab(b))));
@@ -106,8 +108,9 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
 // --- the sealed cable ---------------------------------------------------------------------------------------------
 {
   const ctx = await boot();
-  await ctx.click(btn(ctx, /^Tap to sign$/));
+  await ctx.click(btn(ctx, /Settings/)); await ctx.click(btn(ctx, /^Tap to sign$/)); await ctx.click(btn(ctx, /^Back$/));
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Oberste")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   let sealed = false;
   for (let i = 0; i < 30 && !sealed; i++) {
     const o = orders(ctx);
@@ -159,12 +162,14 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
 // --- sound ------------------------------------------------------------------------------------------------------------
 {
   const ctx = await boot();
+  await ctx.click(btn(ctx, /Settings/)); // the sound is chosen on the Settings screen
   await ctx.click(btn(ctx, /^Atmosphere$/));
   const st = ctx.w.localStorage.getItem("dispatches1914_settings_v1") || "";
   check(st.includes('"sound":true') && st.includes('"atmosphere":true'), "Atmosphere can be chosen and is stored");
   await ctx.click(btn(ctx, /^Off$/));
   check((ctx.w.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"sound":false'), "Off turns it all off");
   await ctx.click(btn(ctx, /^Atmosphere$/));
+  await ctx.click(btn(ctx, /^Back$/));
   await toMarne(ctx); // no audio in the test browser: every sound call stays silent and nothing crashes
   check(/The Flank in the Open/.test(ctx.text()), "a run plays through with the atmosphere on and no audio available");
   ctx.restore();

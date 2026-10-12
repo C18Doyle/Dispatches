@@ -1464,5 +1464,23 @@
     "status": "drafted",
     "sources": [],
     "note": "62-battles.jsx; the ordering follows the account of where the blow fell and how the army group was cut off."
+  },
+  {
+    "id": "otto_tunnels-1",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "The Baghdad Railway was unfinished in the Taurus and Amanus mountains until 1917 and 1918, and supplies for the southern armies had to be carried over the gaps by cart and camel.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "otto_disease-1",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "Typhus, cholera and dysentery were widespread in the Ottoman army, which had few doctors, and more Ottoman soldiers died of disease than of enemy action.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A common judgement of the histories of the Ottoman army."
   }
 ]
