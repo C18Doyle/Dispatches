@@ -90,8 +90,14 @@ for (const engine of ENGINES) {
       await page.goto(URL_);
       await page.waitForSelector("main");
       await scan(page, at("menu"), { viewport: vp.label });
-      await page.locator("details summary", { hasText: /SETTINGS/ }).first().click();
-      await scan(page, at("menu settings"), { viewport: vp.label });
+      await click(page, /^Settings/);
+      await scan(page, at("settings"), { viewport: vp.label });
+      await click(page, /^Back$/);
+      await click(page, /^How to play/);
+      await scan(page, at("how to play"), { viewport: vp.label });
+      await click(page, /^Back$/);
+      await click(page, /Grand Quartier/);
+      await scan(page, at("briefing"), { viewport: vp.label });
       if (vp.label === "desktop") { await ctx.close(); continue; }
 
       // a report in each command
@@ -101,6 +107,8 @@ for (const engine of ENGINES) {
         const discard = page.getByRole("button", { name: /^Discard$/ });
         if (await discard.count()) await discard.click();
         await click(page, card);
+        await scan(page, at(`briefing ${label}`), { viewport: vp.label });
+        await click(page, /^Enter the war room$/);
         await scan(page, at(`report ${label}`), { viewport: vp.label });
       }
 
@@ -110,6 +118,7 @@ for (const engine of ENGINES) {
       const d2 = page.getByRole("button", { name: /^Discard$/ });
       if (await d2.count()) await d2.click();
       await click(page, /Grand Quartier/);
+      await click(page, /^Enter the war room$/);
       const reached = await playTo(page, "The Flank in the Open");
       if (!reached) fail(at("walk"), "could not reach the Marne report");
       else {
@@ -152,7 +161,7 @@ for (const engine of ENGINES) {
       // the war record
       await page.goto(URL_);
       await page.waitForSelector("main");
-      await click(page, /WAR RECORD/);
+      await click(page, /^War record/);
       for (const tab of ["Service", "Dossiers", "Endings", "Atlas", "Battles", "Glossary"]) {
         await click(page, new RegExp(`^${tab}$`));
         await scan(page, at(`record ${tab}`), { viewport: vp.label });

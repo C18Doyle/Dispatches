@@ -131,7 +131,7 @@ export function resolveTheme(setting, prefersDark, prefersMore) {
 }
 
 const SEPIA_SERIF = '"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif';
-const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h"];
+const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw"];
 const SEPIA_COMMANDS = ["ohl", "gqg", "stavka", "bef", "aok", "otto"];
 
 /**
@@ -298,6 +298,26 @@ export function sepiaCss() {
   @S .dg-sc-end{font-weight:500;font-size:34px}
   @S .dg-sc-cmd,@S .dg-sc-rank,@S .dg-sc-facts,@S .dg-sc-list{font-size:17px}
   @S .dg-sc-rank b{font-weight:500;font-size:26px}
+
+  /* the front screens */
+  @S .dg-cmd{border:0;border-top:1px solid var(--rule);background:none;padding:18px 8px 14px;margin:0}
+  @S .dg-cmd:hover:not(:disabled){background:none;outline:2px solid var(--ink);outline-offset:-2px;box-shadow:0 0 26px rgba(236,229,208,.12)}
+  @S .dg-cmd-band{height:4px}
+  @S .dg-cmd-seal{border-color:var(--ink-soft);color:var(--ink);font-weight:400}
+  @S .dg-cmd-nation{font-weight:500;font-size:31px}
+  @S .dg-cmd-name{font-weight:400;font-size:17px}
+  @S .dg-cmd-native{font-size:15px}
+  @S .dg-cmd-pitch{font-size:16.5px}
+  @S .dg-navbtn{border:0;border-top:1px solid var(--rule);padding:12px 8px}
+  @S .dg-navbtn:hover{outline:2px solid var(--ink);outline-offset:-2px}
+  @S .dg-navbtn b{font-weight:400}
+  @S .dg-navbtn span{font-size:15.5px}
+  @S .dg-sub{font-size:16.5px;text-align:center}
+  @S .dg-title-sm{font-size:44px}
+  @S .dg-go{border:1px solid var(--ink);box-shadow:none}
+  @S .dg-sw{border-color:var(--rule)}
+  @S .dg-fixed{border-color:var(--rule)}
+  @S .dg-jumps a{color:var(--ink)}
 
   /* text sizes: serif runs smaller than a typewriter at the same size */
   @S .dg-fs-m .dg-prose{font-size:21px}

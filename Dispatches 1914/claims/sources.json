@@ -120,7 +120,7 @@
     "url": "https://en.wikipedia.org/wiki/Role_of_Douglas_Haig_in_1918"
   },
   "wp-tannenberg": {
-    "title": "Battle of Tannenberg (1914)",
+    "title": "Battle of Tannenberg",
     "kind": "web (tertiary)",
     "url": "https://en.wikipedia.org/wiki/Battle_of_Tannenberg"
   },
@@ -473,5 +473,55 @@
     "title": "Operation Michael",
     "kind": "web (tertiary)",
     "url": "https://en.wikipedia.org/wiki/Operation_Michael"
+  },
+  "wp-romani": {
+    "title": "Battle of Romani",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Romani"
+  },
+  "wp-baghdad1917": {
+    "title": "Fall of Baghdad (1917)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Fall_of_Baghdad_(1917)"
+  },
+  "wp-gaza2": {
+    "title": "Second Battle of Gaza",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Second_Battle_of_Gaza"
+  },
+  "hn-kaisers-question": {
+    "title": "The Kaiser's Question, 1914 (HistoryNet)",
+    "kind": "web (secondary)",
+    "url": "https://historynet.com/kaisers-question-1914/"
+  },
+  "wh-staab": {
+    "title": "General Hermann von Staab (War History Online)",
+    "kind": "web (secondary)",
+    "url": "https://warhistory.org/es/article/general-hermann-von-staab"
+  },
+  "ency-russia-planning": {
+    "title": "Pre-war military planning (Russian Empire), 1914-1918-online",
+    "kind": "web (reference)",
+    "url": "https://encyclopedia.1914-1918-online.net/article/pre-war-military-planning-russian-empire/"
+  },
+  "ency-austria-planning": {
+    "title": "Pre-war military planning (Austria-Hungary), 1914-1918-online",
+    "kind": "web (reference)",
+    "url": "https://encyclopedia.1914-1918-online.net/article/pre_war_military_planning_austria-hungary"
+  },
+  "nam-tanks": {
+    "title": "Attack of the tanks (National Army Museum)",
+    "kind": "web (reference)",
+    "url": "https://www.nam.ac.uk/explore/attack-tanks"
+  },
+  "wh-first-tank": {
+    "title": "First Use of the Tank (War History Online)",
+    "kind": "web (secondary)",
+    "url": "https://warhistory.org/ko/article/first-use-of-the-tank"
+  },
+  "how-nonne": {
+    "title": "Battle of Nonne Bosschen, 11 November 1914 (History of War)",
+    "kind": "web (secondary)",
+    "url": "https://www.historyofwar.org/articles/battles_nonne_bosschen.html"
   }
 }

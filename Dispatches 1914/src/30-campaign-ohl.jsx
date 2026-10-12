@@ -11,7 +11,7 @@
 // 1940/1941 convention.
 // =============================================================================
 
-CAMPAIGNS.ohl.startNode = "ohl_1914_01_aufmarsch";
+CAMPAIGNS.ohl.startNode = "ohl_1914_16_kaiser";
 
 CAMPAIGNS.ohl.commanders = [
   { id: "moltke", name: "Moltke", title: "Chief of the General Staff",
@@ -84,11 +84,96 @@ CAMPAIGNS.ohl.hardMode.erosionMax = 7;
 CAMPAIGNS.ohl.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
+  ohl_1914_16_kaiser: {
+    year: 1914, date: "1914-08-01", city: "Berlin",
+    title: "The Kaiser's Question",
+    advisors: ["moltke", "tappen"],
+    situation:
+      "Mobilisation has been ordered, and the Chief of the General Staff is on his way to the " +
+      "palace with the order for the trains to begin. In the afternoon a telegram arrives from " +
+      "the ambassador in London: if Germany does not attack France, Britain will keep France out " +
+      "of the war. The Kaiser takes it as a gift, and sends for the Chief.\n\n" +
+      "He asks whether the whole army can be sent east against Russia, and the French left " +
+      "alone. The railway division has an old plan for it, revised each year until 1913. The " +
+      "plan for the west, with its timetable, is the one the whole army has been trained to carry out.",
+    context:
+      "Moltke has the deployment in his hand. Every train, every bridge and every halt in it " +
+      "has been timed for years, and a change tonight is a change to all of them. The ambassador's " +
+      "telegram is a promise of a kind, and nobody in Berlin has yet asked what it means.",
+    choices: [
+      {
+        id: "west",
+        label: "Tell the Kaiser that the deployment against France cannot be improvised, and let the trains run",
+        historical: true,
+        advisor: { name: "Moltke", position:
+          "An army of a million men cannot be turned round in an evening. The plan for the west is the only one that is ready, and an army turned east would be a mob without supplies." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { ohl_kaiser: "west" },
+        next: "ohl_1914_01_aufmarsch",
+        outcome:
+          "Moltke refuses. He tells the Kaiser that a deployment of that size cannot be changed in an " +
+          "evening, and the Kaiser, who says that Moltke's uncle would have answered differently, gives " +
+          "way. That night King George sends word that the ambassador must have misunderstood, and the " +
+          "offer from London is gone. The trains begin to run on the old timetable, and Moltke, who " +
+          "has won the argument, has lost something of the Kaiser's confidence.",
+      },
+      {
+        id: "east",
+        label: "Turn part of the army east on the old plan, and keep the rest on the timetable for the west",
+        advisor: { name: "Tappen", position:
+          "The Kaiser is the Supreme War Lord. A compromise that sends some of the army each way can be ordered tonight, and the railway division has the old plan in its files." },
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "The head of the railway division, Hermann von Staab, argued after the war that the army could have " +
+          "been turned east at a day's notice, and Moltke argued that it could not. Historians still debate it. " +
+          "The two timetables were not made to be mixed.",
+        uncertain: [
+          { weight: 50, title: "The compromise costs a day",
+            impact: { manpower: -1, munitions: 0, will: 0 },
+            setFlags: { ohl_kaiser: "east1" },
+            next: "ohl_1914_01_aufmarsch",
+            outcome:
+              "Speculative. The railway division turns two armies' trains east and leaves the rest on the " +
+              "old timetable. It is done, with a day lost and a number of trains standing in the wrong " +
+              "stations, and the armies in the west are late to their start. Britain's offer is withdrawn " +
+              "the same evening, and the eastern armies have been sent to meet an enemy that is not yet in " +
+              "the field." },
+          { weight: 50, title: "The compromise costs three days",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { ohl_kaiser: "east3" },
+            next: "ohl_1914_01_aufmarsch",
+            outcome:
+              "Speculative. The two timetables cross at the great junctions of the Rhine, and trains " +
+              "stand for hours in the stations. It takes three days to sort them out, and the right " +
+              "wing, which the whole plan depends on, is not at its start line when the army is meant " +
+              "to cross the Belgian frontier. Moltke is told that he has been right, and it does not help him." },
+        ],
+      },
+      {
+        id: "wait",
+        label: "Hold the order for a day to see whether London's offer is real",
+        advisor: { name: "Moltke", position:
+          "A day's delay is a day of the timetable, and the timetable has none to spare. But the Kaiser has asked, and a Chief who refuses to wait may be asked to explain it later." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The Kaiser has already signed, and the order is on its way to the railway division",
+        impact: { manpower: 0, munitions: -1, will: 0 },
+        setFlags: { ohl_kaiser: "wait" },
+        next: "ohl_1914_01_aufmarsch",
+        outcome:
+          "Speculative. Moltke holds the order for a day, and the offer from London is withdrawn " +
+          "before it is over. The army begins to deploy on the 2nd and not on the 1st. Every corps is a " +
+          "day behind the timetable that had no day in it, and the staff, which has just been told " +
+          "that it was right, spends the first week of the war trying to recover the time that the " +
+          "Kaiser's question cost.",
+      },
+    ],
+  },
+
   ohl_1914_01_aufmarsch: {
     year: 1914, date: "1914-08-04", city: "Koblenz",
     title: "The Weight on the Right",
     advisors: ["moltke", "tappen"],
-    situation:
+    situation: (flags) =>
       "The deployment rests on one proposition inherited from Schlieffen and modified " +
       "every year since: that the decisive weight falls on the right, swings wide " +
       "through Belgium, and that everything else in the line exists to make that " +
@@ -96,7 +181,14 @@ CAMPAIGNS.ohl.nodes = {
       "British.\n\n" +
       "Lorraine is the difficulty. The French will attack there, and the armies on the " +
       "left want to meet them and win something. Every corps that goes to Lorraine is " +
-      "a corps not on the right, and the plan was never designed to do both.",
+      "a corps not on the right, and the plan was never designed to do both." +
+      (flags.ohl_kaiser === "east1"
+        ? "\n\nThe attempt to turn part of the army east has cost a day, and the armies in the west start late."
+        : flags.ohl_kaiser === "east3"
+        ? "\n\nThe attempt to turn part of the army east has cost three days, and the right wing is not at its start line."
+        : flags.ohl_kaiser === "wait"
+        ? "\n\nThe order was held for a day, and every corps is a day behind the timetable."
+        : ""),
     context:
       "Supreme Command will direct this from Koblenz, and later from Luxembourg — " +
       "hundreds of kilometres behind armies it cannot see. There is no army group " +
@@ -473,6 +565,21 @@ CAMPAIGNS.ohl.nodes = {
           "Whether Russia can be finished with the extra divisions is the whole bet, " +
           "and the record gives no answer.",
       },
+      {
+        id: "aisne",
+        label: "Order the armies to dig in on the Aisne, and leave the choice of theatre until the line is held",
+        advisor: { name: "Tappen", position:
+          "The armies are tired and the line has to be made safe before any plan is made. The theatre can be chosen when the line holds, and not before." },
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        setFlags: { ohl_theatre: "waited" },
+        next: "ohl_1914_13_ypres",
+        outcome:
+          "Speculative. The armies are ordered to entrench where they stand, and the new Chief names no " +
+          "theatre for the weight of the war. The line on the Aisne is made strong and the exhausted " +
+          "corps are given a few days. The army commanders, left without a plan, try to turn each " +
+          "other's flanks to the north, as they did in the record, and the east, which asked for an " +
+          "answer, is told to wait. The decision is put off, and the war chooses a theatre in the meantime.",
+      },
     ],
   },
 
@@ -501,6 +608,7 @@ CAMPAIGNS.ohl.nodes = {
   historical: true,
   advisor: { name: "Falkenhayn", position:
     "The coast is the one place in the west where a result is still possible. If it is not taken now it will not be taken." },
+  keyBattleSubgame: { id: "ypresGerman" },
   impact: { manpower: -1, munitions: -1, will: 0 },
   setFlags: { ohl_flanders: "pressed" },
   dispute:
@@ -846,6 +954,21 @@ CAMPAIGNS.ohl.nodes = {
           "at home as something other than a defeat. The officers who hold that no yard " +
           "may be given up say so, and the Chief has to decide whether he is willing to " +
           "be overruled by his own caution.",
+      },
+      {
+        id: "verdun",
+        label: "Stop the offensive on the Meuse and send its reserves to the Somme",
+        advisor: { name: "Tappen", position:
+          "The Meuse has cost more than it has taken, and the Somme is where the enemy is strongest. The reserves belong where the line is bending, and not where the offensive has run down." },
+        impact: { manpower: 0, munitions: -1, will: -1 },
+        setFlags: { ohl_somme: "shifted" },
+        next: "ohl_1916_05_relief",
+        outcome:
+          "Speculative. The offensive at Verdun is stopped in the first days of July, and the divisions " +
+          "that were feeding it are sent to the Somme. The ground lost at the south end is counter-attacked " +
+          "with fresh troops and not retaken piecemeal, and the French, no longer pressed on the Meuse, " +
+          "are free to find more men for the Somme. The Chief has given up the object he chose in the " +
+          "winter, and has to say so to the Kaiser.",
       },
     ],
   },
@@ -1880,10 +2003,10 @@ CAMPAIGNS.ohl.nodes = {
       "The eastern front, 1915: " + (flags.ohl_gorlice === "envelop" ? "a wide envelopment." : flags.ohl_gorlice === "carpathians" ? "German divisions in the Carpathians and nothing larger." : "a breakthrough at Gorlice.") + "\n" +
       "Serbia: " + (flags.ohl_serbia === "declined" ? "declined." : "attacked in October 1915.") + "\n" +
       "The Meuse: " + (flags.ohl_verdun === "declined" ? "declined." : (flags.ohl_verdunExec === "fortress" ? "fought as a battle for the fortress." : "fought as the directive was written.")) + "\n" +
-      "The Somme: " + (flags.ohl_somme === "elastic" ? "ground given where it was dear." : "no ground to be given up.") + "\n" +
+      "The Somme: " + (flags.ohl_somme === "elastic" ? "ground given where it was dear." : flags.ohl_somme === "shifted" ? "the Meuse offensive stopped and its reserves sent south." : "no ground to be given up.") + "\n" +
       "The Hindenburg Programme: " + (flags.ohl_programme === "moderate" ? "a smaller programme." : "adopted at full size.") + "\n" +
       "The submarines: " + (flags.ohl_usw === "restricted" ? "held under prize rules." : flags.ohl_usw === "sharpened" ? "sharpened inside the cruiser rules." : "unrestricted from 1 February 1917.") + "\n" +
-      "Weight of effort after the Marne: " + (flags.ohl_theatre === "east" ? "shifted east." : "held in the west.") + "\n" +
+      "Weight of effort after the Marne: " + (flags.ohl_theatre === "east" ? "shifted east." : flags.ohl_theatre === "waited" ? "left undecided for a time, and held in the west." : "held in the west.") + "\n" +
       "Posture for 1917: " + (flags.ohl_1917posture === "offensive" ? "continued offensive effort." : "defensive, rebuilding.") + "\n" +
       "American entry: " + (flags.ohl_usEntry === "deferred" ? "deferred." : "brought on by the decision of 9 January 1917.") + "\n" +
       "The retirement to the Siegfried Line: " + (flags.ohl_alberich === "held" ? "refused." : flags.ohl_alberich === "spared" ? "made, with the ground left standing." : "made, with the ground destroyed.") + "\n" +

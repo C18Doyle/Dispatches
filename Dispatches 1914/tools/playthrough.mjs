@@ -53,12 +53,15 @@ async function playOne(browser, [card, id], play) {
   page.on("pageerror", (e) => problems.push(`${where}: uncaught error: ${String(e).slice(0, 160)}`));
   page.on("console", (m) => { if (m.type() === "error" && !/favicon|AudioContext|autoplay/i.test(m.text())) problems.push(`${where}: console error: ${m.text().slice(0, 160)}`); });
   const seen = new Set();
-  let screens = 0, orders = 0, battles = 0, ended = false;
+  let screens = 0, orders = 0, battles = 0, events = 0, ended = false;
   try {
     await page.goto(URL_);
     await page.waitForSelector("main");
-    if (play.easy) await page.getByRole("button", { name: /^Easy mode$/ }).click();
     await page.getByRole("button", { name: card }).first().click();
+    await page.waitForSelector("main");
+    if (!(await page.getByText("Where things stand").count())) problems.push(`${where}: the command does not open its briefing`);
+    if (play.easy) await page.getByRole("button", { name: /^Easy mode$/ }).click();
+    await page.getByRole("button", { name: /^Enter the war room$/ }).click();
     await page.waitForSelector("main");
 
     for (let step = 0; step < MAX_SCREENS && !ended; step++) {
@@ -97,6 +100,9 @@ async function playOne(browser, [card, id], play) {
         const seal = page.getByRole("button", { name: /^Break the seal$/ });
         if (await seal.count()) await seal.click();
         else await page.getByRole("button", { name: /^Continue$/ }).click();
+      } else if (screen === "event") {
+        events++;
+        await page.getByRole("button", { name: /^Continue$/ }).click();
       } else if (screen === "battle") {
         battles++;
         if (!play.manualBattle) {
@@ -130,7 +136,7 @@ async function playOne(browser, [card, id], play) {
   } finally {
     await ctx.close();
   }
-  console.log(`${problems.length ? "FAIL" : "ok  "} ${where}: ${screens} screens, ${orders} orders, ${battles} battles${ended ? ", ended" : ""}`);
+  console.log(`${problems.length ? "FAIL" : "ok  "} ${where}: ${screens} screens, ${orders} orders, ${battles} battles, ${events} events${ended ? ", ended" : ""}`);
   return problems;
 }
 

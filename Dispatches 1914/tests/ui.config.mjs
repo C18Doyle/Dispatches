@@ -28,14 +28,17 @@ export default {
   saveClicks: 8,
 
   async setup(ctx, [id, label, hard]) {
+    const card = ctx.buttons().find((b) => ctx.lab(b).includes(label));
+    if (!card) return "campaign card missing: " + label;
+    await ctx.click(card); // the briefing: the mode is chosen here, then the door to the war room
     if (hard) {
       const sw = ctx.buttons().find((b) => ctx.lab(b) === (hard === "easy" ? "Easy mode" : "Hard mode"));
       if (!sw) return "mode switch missing";
       await ctx.click(sw);
     }
-    const card = ctx.buttons().find((b) => ctx.lab(b).includes(label));
-    if (!card) return "campaign card missing: " + label;
-    await ctx.click(card);
+    const door = ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room");
+    if (!door) return "the briefing's door is missing";
+    await ctx.click(door);
     return null;
   },
 

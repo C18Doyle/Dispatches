@@ -1464,5 +1464,183 @@
     "status": "drafted",
     "sources": [],
     "note": "62-battles.jsx; the ordering follows the account of where the blow fell and how the army group was cut off."
+  },
+  {
+    "id": "otto_tunnels-1",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "The Baghdad Railway was unfinished in the Taurus and Amanus mountains until 1917 and 1918, and supplies for the southern armies had to be carried over the gaps by cart and camel.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "otto_disease-1",
+    "node": "otto_1915_03_kut",
+    "kind": "fact",
+    "claim": "Typhus, cholera and dysentery were widespread in the Ottoman army, which had few doctors, and more Ottoman soldiers died of disease than of enemy action.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A common judgement of the histories of the Ottoman army."
+  },
+  {
+    "id": "otto-w2-1",
+    "node": "otto_1916_03_romani",
+    "kind": "fact",
+    "claim": "By the summer of 1916 the British were building a railway and a water pipeline across northern Sinai, and their outposts had reached Romani, about forty kilometres from the Suez Canal.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romani"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-w2-2",
+    "node": "otto_1916_03_romani",
+    "kind": "figure",
+    "claim": "Kress von Kressenstein's force at Romani numbered about 16,000, including the 3rd Division, which had fought at Gallipoli, and batteries of German and Austrian heavy artillery.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romani"
+    ],
+    "note": "Sources give 16,000 to 18,000."
+  },
+  {
+    "id": "otto-w2-3",
+    "node": "otto_1916_03_romani",
+    "kind": "fact",
+    "claim": "The Ottoman attack began on the night of 3 to 4 August 1916 and was beaten; by 5 August Kress was in retreat, and he led his force back about a hundred kilometres to El Arish; a shortage of water was one cause.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romani"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-w2-4",
+    "node": "otto_1916_03_romani",
+    "kind": "figure",
+    "claim": "The Ottoman force lost thousands of men at Romani, about four thousand of them prisoners; the sources give totals of 5,000 to 9,200.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romani"
+    ],
+    "note": "The node gives no total."
+  },
+  {
+    "id": "otto-w2-5",
+    "node": "otto_1916_03_romani",
+    "kind": "fact",
+    "claim": "The British railway and pipeline went on across Sinai after Romani, and the battle ended the direct threat to the canal.",
+    "status": "web-checked",
+    "sources": [
+      "wp-romani",
+      "wp-sinaipal"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-w2-6",
+    "node": "otto_1917_03_baghdad",
+    "kind": "fact",
+    "claim": "The Ottoman force evacuated Kut on 24 February 1917, and the Sixth Army under Khalil Pasha, much weaker than the British, was pushed back toward Baghdad.",
+    "status": "web-checked",
+    "sources": [
+      "wp-baghdad1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-w2-7",
+    "node": "otto_1917_03_baghdad",
+    "kind": "fact",
+    "claim": "Khalil began to fortify Ctesiphon, abandoned the work to defend Baghdad itself, and put the Sixth Army along the Diyala south-east of the city; he is described as indecisive.",
+    "status": "web-checked",
+    "sources": [
+      "wp-baghdad1917"
+    ],
+    "note": "One source says he hesitated between three courses."
+  },
+  {
+    "id": "otto-w2-8",
+    "node": "otto_1917_03_baghdad",
+    "kind": "fact",
+    "claim": "The fighting on the Diyala lasted from 8 to 11 March 1917; the Ottoman troops evacuated Baghdad on 10 March, the British entered it on 11 March, and the Sixth Army's headquarters moved to Mosul.",
+    "status": "web-checked",
+    "sources": [
+      "wp-baghdad1917"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-w2-9",
+    "node": "otto_1917_04_gaza",
+    "kind": "fact",
+    "claim": "The first battle of Gaza (26 to 27 March 1917) was broken off by the British when they might have taken the town; the second (17 to 19 April 1917), with tanks and gas, cost the British about six and a half thousand men and gained no ground.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gaza2",
+      "wp-sinaipal"
+    ],
+    "note": "Sources give 6,444 to 6,716 British casualties."
+  },
+  {
+    "id": "otto-w2-10",
+    "node": "otto_1917_04_gaza",
+    "kind": "fact",
+    "claim": "After the second battle the Ottoman line from Gaza to Beersheba was strengthened with redoubts and strongpoints and reinforced by two divisions; Kress von Kressenstein was chief of staff of the Fourth Army under Djemal.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gaza2"
+    ],
+    "note": "Sources differ on Kress's title at Gaza."
+  },
+  {
+    "id": "otto-w2-11",
+    "node": "otto_1917_04_gaza",
+    "kind": "fact",
+    "claim": "The British did not attack again until the end of October 1917, at Beersheba.",
+    "status": "web-checked",
+    "sources": [
+      "wp-gaza2",
+      "wp-sinaipal"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-pre-1",
+    "node": "otto_1914_04_offer",
+    "kind": "fact",
+    "claim": "Enver proposed an alliance to the German ambassador, Wangenheim, on 22 July 1914, and the secret treaty was signed in the first days of August.",
+    "status": "drafted",
+    "sources": [],
+    "note": "To be checked against wp-ottoman-entry; the dates of the proposal and the signing differ between accounts (the node gives no day for the signing)."
+  },
+  {
+    "id": "otto-pre-2",
+    "node": "otto_1914_04_offer",
+    "kind": "fact",
+    "claim": "The empire in July 1914 had lost Libya and almost all its European provinces in the wars of 1911 to 1913, was in debt chiefly to France, and had no great-power guarantee of its frontiers.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
+  },
+  {
+    "id": "otto-pre-3",
+    "node": "otto_1914_04_offer",
+    "kind": "characterization",
+    "claim": "Only a few ministers knew of the German offer before the treaty was signed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Most accounts agree that the cabinet as a whole was not consulted."
+  },
+  {
+    "id": "otto-fk2-1",
+    "node": "otto_1916_01_erzurum",
+    "kind": "fact",
+    "claim": "The Ottoman Third Army fell back in January 1916 from the Koprukoy position to the fortress of Erzurum before the Russian winter offensive.",
+    "status": "drafted",
+    "sources": [],
+    "note": ""
   }
 ]

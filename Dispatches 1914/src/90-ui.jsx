@@ -31,15 +31,6 @@ function rootProps(campaignId, screen) {
   return { className: "dg-root", "data-campaign": campaignId || undefined, "data-screen": screen };
 }
 
-const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
-
-/** IV.1940 — the series' date treatment. */
-function romanDate(iso) {
-  if (!iso) return "";
-  const [y, m] = iso.split("-");
-  return `${ROMAN[Number(m)]}.${y}`;
-}
-
 const css = `
   /* ---- tokens: the themes and each command's accent, from src/63-themes.jsx ---- */
   ${themeCss()}
@@ -407,6 +398,46 @@ const css = `
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
   /* ---- the Sepia look, over everything above ---- */
+
+  /* ---- the front screens: the commands, the briefing, how to play, settings ---- */
+  .dg-sub{font-size:14px;color:var(--ink-soft);margin:-6px 0 12px}
+  .dg-title-sm{font-size:40px;margin:6px 0 10px}
+  .dg-first{font-size:14px;margin:0 0 14px}
+  .dg-cmd{position:relative;display:flex;gap:14px;width:100%;box-sizing:border-box;text-align:left;font:inherit;color:inherit;background:var(--paper-raised);
+    border:1.5px solid var(--rule);padding:18px 14px 14px;margin:0 0 12px;cursor:pointer;min-height:44px;overflow:hidden}
+  .dg-cmd:hover:not(:disabled){outline:3px solid var(--ink);outline-offset:-3px}
+  .dg-cmd:disabled{opacity:.45;cursor:not-allowed}
+  .dg-cmd-band{position:absolute;left:0;right:0;top:0;height:7px}
+  .dg-cmd-seal{flex:none;width:58px;height:58px;box-sizing:border-box;display:grid;place-items:center;border:2px solid var(--ink);font-weight:700;font-size:12px;
+    letter-spacing:.04em;text-align:center;margin-top:4px;transform:rotate(-3deg)}
+  .dg-cmd-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .dg-cmd-nation{font-family:${THEME.serif};font-size:27px;font-weight:700;line-height:1.1}
+  .dg-cmd-name{font-size:14px;font-weight:700}
+  .dg-cmd-native{font-size:12px;color:var(--ink-soft);font-style:italic}
+  .dg-cmd-pitch{font-size:13.5px;margin-top:4px}
+  .dg-cmd-meta{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+  .dg-nav{display:flex;flex-direction:column;gap:10px}
+  .dg-navbtn{display:flex;flex-direction:column;gap:2px;text-align:left;font:inherit;color:inherit;background:none;border:1.5px solid var(--rule);padding:12px 14px;min-height:44px;cursor:pointer}
+  .dg-navbtn b{font-size:14px;letter-spacing:.12em;text-transform:uppercase}
+  .dg-navbtn span{font-size:12.5px;color:var(--ink-soft)}
+  .dg-navbtn:hover{outline:3px solid var(--ink);outline-offset:-3px}
+  .dg-brief{margin:0 0 12px}
+  .dg-go{display:block;width:100%;margin-top:18px;padding:14px;font-size:13px;background:var(--ink);color:var(--paper)}
+  .dg-go:hover:not(:disabled){background:var(--ink);color:var(--paper);outline:3px solid var(--ink-soft);outline-offset:2px}
+  .dg-jumps{display:flex;flex-wrap:wrap;gap:6px 16px;margin:0 0 6px;font-size:13px}
+  .dg-jumps a{color:var(--accent)}
+  .dg-setting{margin:0 0 20px}
+  .dg-range{width:100%;min-height:44px;accent-color:var(--ink);margin:0}
+  .dg-ticks{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sample{margin:10px 0 0;border-left:3px solid var(--rule);padding-left:12px}
+  .dg-swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px}
+  .dg-sw{display:flex;flex-direction:column;align-items:stretch;gap:6px;font:inherit;color:inherit;background:none;border:1.5px solid var(--rule);padding:8px;
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-align:center;cursor:pointer;min-height:44px}
+  .dg-sw:hover{outline:3px solid var(--ink-soft);outline-offset:-3px}
+  .dg-sw[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:-3px}
+  .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
+  .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
+
   ${sepiaCss()}
 `;
 
@@ -415,7 +446,6 @@ function Stamp({ children }) {
 }
 
 const TEXT_SIZE_LABELS = { s: "Standard", m: "Larger", l: "Largest" };
-const FEEDBACK_URL = "https://dispatches.itch.io/dispatches-1914#comments";
 
 /** A short typewriter tick or a stamp thud, made with the browser's own audio. Off unless the player turned it on. */
 let audioCtx = null;
@@ -438,14 +468,6 @@ function playSound(kind) {
     o.start(t);
     o.stop(t + (stamp ? 0.3 : 0.05));
   } catch (e) { /* no audio: carry on silently */ }
-}
-
-/** The note a player can paste into a bug report or a playtest comment: the whole path, from the flags. */
-function runNote(campaignId, nodeId, flags, mode, visited) {
-  const c = CAMPAIGNS[campaignId];
-  const marks = Object.keys(flags).sort().map((k) => k + "=" + flags[k]).join(" ");
-  return ["Dispatches 1914", c.shortName, mode === "hard" ? "hard mode" : mode === "easy" ? "easy mode" : "standard", "ending " + nodeId,
-    "decisions " + (visited.length - 1), "marks: " + marks].join(" | ");
 }
 
 // ---------- the glossary: the first mention of a term on a screen is underlined ----------
@@ -497,143 +519,6 @@ function GlossText({ segs, className = "dg-prose" }) {
       )}
       {def && <span className="dg-defn" role="note"><b>{def.term}.</b> {def.def}</span>}
     </div>
-  );
-}
-
-function MenuScreen({ onPick, onRecord, savedRun, onResume, onDiscard, mode, onMode, settings, onSettings, record }) {
-  const hardOn = mode === "hard";
-  const easyOn = mode === "easy";
-  const majors = CAMPAIGN_IDS.filter((c) => CAMPAIGNS[c].tier === TIERS.MAJOR);
-  const minors = CAMPAIGN_IDS.filter((c) => CAMPAIGNS[c].tier === TIERS.MINOR);
-  const saved = useMemo(() => {
-    if (!savedRun) return null;
-    try {
-      return resolveNode(savedRun.nodeId, savedRun.flags, savedRun.meters, savedRun.hardState);
-    } catch (e) {
-      return null;
-    }
-  }, [savedRun]);
-  const card = (cid) => {
-    const c = CAMPAIGNS[cid];
-    const playable = Object.keys(c.nodes).length > 0;
-    return (
-      <button key={cid} className="dg-card" disabled={!playable}
-        style={playable ? undefined : { opacity: 0.45, cursor: "not-allowed" }}
-        onClick={() => playable && onPick(cid)}>
-        <Stamp>{c.seal}</Stamp>
-        <h3>{c.name}</h3>
-        <p>{c.seat} · {CALENDARS[c.calendar].label}</p>
-        <p style={{ marginTop: 6 }}>
-          {playable ? `${Object.keys(c.nodes).length} nodes` : "No content yet"}
-        </p>
-        {playable && hardOn && c.hardMode.description && (
-          <p style={{ marginTop: 6 }}>Hard mode: {c.hardMode.description}</p>
-        )}
-        {playable && easyOn && EASY_NAMES[cid] && (
-          <p style={{ marginTop: 6 }}>Easy: {EASY_NAMES[cid]} Command</p>
-        )}
-      </button>
-    );
-  };
-  return (
-    <main {...rootProps(null, "menu")}>
-      <div className="dg-filerow"><span>File No. 1914</span><span className="r">Restricted</span></div>
-      <h1 className="dg-title">DISPATCHES<br />1914</h1>
-      <hr className="dg-rule" />
-
-      {saved && (
-        <section className="dg-banner" aria-label="Saved file">
-          <p>
-            <b>File in progress.</b> {CAMPAIGNS[savedRun.campaignId].shortName} · {romanDate(saved.date)} · {saved.title}
-            {savedRun.hardState.enabled ? " · hard mode" : savedRun.easy ? " · easy mode" : ""}
-          </p>
-          <p className="small">Starting a new file replaces this one.</p>
-          <button className="dg-btn" onClick={onResume}>Resume file</button>{" "}
-          <button className="dg-btn" onClick={onDiscard}>Discard</button>
-        </section>
-      )}
-
-      <div className="dg-seg" role="group" aria-label="Difficulty">
-        <button aria-pressed={easyOn} onClick={() => onMode("easy")}>Easy mode</button>
-        <button aria-pressed={mode === "standard"} onClick={() => onMode("standard")}>Standard</button>
-        <button aria-pressed={hardOn} onClick={() => onMode("hard")}>Hard mode</button>
-      </div>
-      <p className="dg-note">
-        {hardOn
-          ? "Hard mode adds an erosion track. Each command's office faced its own kind of pressure; at the limit its freedom to choose ends and a fixed ending follows."
-          : easyOn
-          ? "Easy mode shows what each order will do to the three meters, marks the order the command really gave, and lets you take back the last order. It cannot reach the highest rank."
-          : "Standard: every command plays on the same logistical triangle, with no erosion track."}
-      </p>
-      <label className="dg-check">
-        <input type="checkbox" checked={settings.battles !== false} onChange={(e) => onSettings({ ...settings, battles: e.target.checked })} />
-        <span>Take control of battle planning. {settings.battles !== false
-          ? "The battles that have an Order of Battle (" + Object.keys(BATTLES).length + ") open on a planning screen: you place the effort, name a commander and choose the approach."
-          : "Switched off, those battles are rolled as ordinary orders, at the same odds as the staff's plan."}</span>
-      </label>
-
-      <h2 className="dg-sect">Major Commands</h2>
-      {majors.map(card)}
-      <h2 className="dg-sect">Minor Commands</h2>
-      {minors.map(card)}
-      <hr className="dg-dash" />
-      <button className="dg-card" onClick={onRecord}>
-        ▶ WAR RECORD — DOSSIERS, ATLAS, ENDINGS GALLERY
-        <p style={{ marginTop: 8 }}>
-          {Object.values(record.nodes).reduce((n, l) => n + l.length, 0)} of {nodeTotal()} nodes seen · {record.endings.length} of {buildEndings().length} endings found
-        </p>
-      </button>
-      <details>
-        <summary>▶ SETTINGS</summary>
-        <div className="dg-count">Text size</div>
-        <div className="dg-seg" role="group" aria-label="Text size">
-          {TEXT_SIZES.map((s) => (
-            <button key={s} aria-pressed={settings.textSize === s} onClick={() => onSettings({ ...settings, textSize: s })}>
-              {TEXT_SIZE_LABELS[s]}
-            </button>
-          ))}
-        </div>
-        <div className="dg-count">Colours</div>
-        <div className="dg-seg dg-seg-wrap" role="group" aria-label="Colours">
-          {["sepia", "paper", "night", "contrast", "auto"].map((id) => (
-            <button key={id} aria-pressed={(settings.theme || DEFAULT_THEME) === id} onClick={() => onSettings({ ...settings, theme: id })}>{THEME_LABELS[id]}</button>
-          ))}
-        </div>
-        <div className="dg-count">Type</div>
-        <div className="dg-seg" role="group" aria-label="Type">
-          {[["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"]].map(([id, label]) => (
-            <button key={id} aria-pressed={(settings.font || "theme") === id} onClick={() => onSettings({ ...settings, font: id })}>{label}</button>
-          ))}
-        </div>
-        <div className="dg-count">Signing a risky order</div>
-        <div className="dg-seg" role="group" aria-label="Signing a risky order">
-          {[[true, "Hold to sign"], [false, "Tap to sign"]].map(([v, label]) => (
-            <button key={label} aria-pressed={(settings.holdToSign !== false) === v} onClick={() => onSettings({ ...settings, holdToSign: v })}>{label}</button>
-          ))}
-        </div>
-        <div className="dg-count">Sound</div>
-        <div className="dg-seg" role="group" aria-label="Sound">
-          {[["Off", false, false], ["Typewriter", true, false], ["Atmosphere", true, true]].map(([label, snd, atm]) => (
-            <button key={label} aria-pressed={settings.sound === snd && Boolean(settings.atmosphere) === atm} onClick={() => onSettings({ ...settings, sound: snd, atmosphere: atm })}>{label}</button>
-          ))}
-        </div>
-        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable, a seal and a signature.</p>
-      </details>
-      <details>
-        <summary>▶ WHAT THIS GAME LEAVES OUT</summary>
-        {LEAVES_OUT.map((p, i) => (
-          <p key={i} className="dg-note">{p}</p>
-        ))}
-      </details>
-      <details>
-        <summary>▶ FEEDBACK</summary>
-        <p className="dg-note">
-          Found a mistake in the history, or want to say what the game was like to play? Say so on the{" "}
-          <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer" style={{ color: THEME.accent }}>game's page</a>.
-          When a file closes, a note with the path you took is ready to paste.
-        </p>
-      </details>
-    </main>
   );
 }
 
@@ -700,13 +585,11 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
-      <div className="dg-node-date">{romanDate(node.date)}</div>
+      <div className="dg-node-date">{nodeDate(campaignId, node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
       {!node.ending && ASKS[nodeId] && (
         <p className="dg-ask"><b>The decision</b>{ASKS[nodeId]}{" "}<button type="button" className="dg-jump" onClick={jumpToOrders}>Go to the orders ↓</button></p>
       )}
-      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
-
       {node.bulletin && typeof node.bulletin === "object" && (
         <div className="dg-bulletin">
           <div className="h">{node.bulletin.source} · {node.bulletin.date}</div>
@@ -715,6 +598,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
       )}
 
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
+
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
 
       {node.context && (
         <details>
@@ -731,17 +616,6 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           {node.epilogue && <GlossText key={nodeId + "-epilogue"} segs={epilogueSegs} />}
           {rank && <RankPanel result={rank} />}
           {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
-          <details>
-            <summary>▶ A NOTE FOR THE AUTHOR</summary>
-            <div className="dg-note-box">
-              <p className="dg-note" style={{ marginTop: 0 }}>
-                A line that records the path you took. Paste it into a comment on the{" "}
-                <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer">game's page</a> with whatever you want to say.
-              </p>
-              <textarea readOnly aria-label="Note with the path taken" value={runNote(campaignId, nodeId || "", flags || {}, mode, visited || [])}
-                onFocus={(e) => e.target.select()} />
-            </div>
-          </details>
           <button className="dg-btn" onClick={onHome}>Return to file</button>
         </>
       ) : (
@@ -962,7 +836,7 @@ function RecordScreen({ record, onBack }) {
             const host = atlas[cfg.host.node];
             return (
               <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": "var(--acc-" + cfg.campaign + ")" }}>
-                <div className="meta">{c.shortName}{host ? ` · ${romanDate(host.date)}` : ""}</div>
+                <div className="meta">{c.shortName}{host ? ` · ${nodeDate(cfg.campaign, host.date)}` : ""}</div>
                 <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
                 {f ? (
                   <div className="dg-battle-grade">Fought {f.n} {f.n === 1 ? "time" : "times"} · best: <b>{f.best}</b></div>
@@ -1031,7 +905,7 @@ function RecordScreen({ record, onBack }) {
                       const n = atlas[id];
                       return (
                         <div key={id} className="dg-entry">
-                          <div className="meta">{romanDate(n.date)}{n.city ? ` · ${n.city}` : ""}</div>
+                          <div className="meta">{nodeDate(n.campaignId, n.date)}{n.city ? ` · ${n.city}` : ""}</div>
                           <div className="t">{n.title}</div>
                         </div>
                       );
@@ -1082,6 +956,7 @@ export default function App() {
   const [taken, setTaken] = useState([]); // the orders the run has given: { node, choice }
   const [history, setHistory] = useState([]); // the state before each order, for the easy mode's take-back
   const [screen, setScreen] = useState("menu");
+  const [cameFrom, setCameFrom] = useState("menu"); // where How to play and Settings go back to
   const [campaignId, setCampaignId] = useState(null);
   const [nodeId, setNodeId] = useState(null);
   const [flags, setFlags] = useState({});
@@ -1203,6 +1078,9 @@ export default function App() {
 
   const discard = () => { clearSavedRun(); setSavedRun(null); };
 
+  // How to play and Settings open from the menu or the briefing and go back to where they were opened.
+  const openAside = (which) => { setCameFrom(screen); setScreen(which); };
+
   const home = () => {
     setScreen("menu");
     setNodeId(null);
@@ -1224,13 +1102,23 @@ export default function App() {
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
     setRecord((rec) => (r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags)));
-    setPending({ ...r, headline: r.title || ch.label, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null });
-    setScreen(r.outcome ? "outcome" : "node");
+    const event = r.nextId ? dueEvent(campaignId, r.nextId, r.flags, r.meters) : null; // a special event that the file's state has earned, before the next report
+    setPending({ ...r, headline: r.title || ch.label, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null, event });
+    setScreen(r.outcome ? "outcome" : event ? "event" : "node");
     if (!r.outcome) setNodeId(r.nextId);
   };
 
   const cont = () => {
     setNodeId(pending?.nextId ?? null);
+    if (pending && pending.event) { setScreen("event"); return; }
+    setPending(null);
+    setScreen("node");
+  };
+
+  // The event is shown once: its flag goes into the file as the report opens.
+  const afterEvent = () => {
+    const id = pending.event.id;
+    setFlags((f) => ({ ...f, ["ev_" + id]: true }));
     setPending(null);
     setScreen("node");
   };
@@ -1256,15 +1144,21 @@ export default function App() {
     <div className={`dg-fs-${settings.textSize}`} style={{ display: "contents" }}>
       <style>{css}</style>
       {screen === "menu" && (
-        <MenuScreen onPick={start} onRecord={() => setScreen("record")} savedRun={savedRun}
-          onResume={resume} onDiscard={discard} mode={mode} onMode={setMode}
-          settings={settings} onSettings={setSettings} record={record} />
+        <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} savedRun={savedRun}
+          onResume={resume} onDiscard={discard} onHowTo={() => openAside("howto")} onSettings={() => openAside("settings")} record={record} />
       )}
+      {screen === "briefing" && campaignId && (
+        <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} settings={settings} onSettings={setSettings}
+          onEnter={() => start(campaignId)} onBack={home} onHowTo={() => openAside("howto")} />
+      )}
+      {screen === "howto" && <HowToScreen onBack={() => setScreen(cameFrom)} />}
+      {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} />}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
         <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
           changes={pending.changes} contested={pending.contested} meters={meters} flags={flags} onContinue={cont} />
       )}
+      {screen === "event" && pending && pending.event && <EventScreen key={pending.event.id} campaignId={campaignId} event={pending.event} onContinue={afterEvent} />}
       {screen === "battle" && battleChoice && (
         <BattleScreen campaignId={campaignId} config={battleOf(battleChoice)} choice={battleChoice} meters={meters} easy={runEasy}
           onCommit={(plan) => { const ch = battleChoice; setBattleChoice(null); choose(ch, plan); }}

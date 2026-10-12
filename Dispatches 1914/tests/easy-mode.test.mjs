@@ -70,8 +70,9 @@ async function step(ctx, pick = 0) {
 // --- standard mode: none of the easy extras ---------------------------------------------------------------
 {
   const ctx = await boot();
-  await ctx.click(btn(ctx, /^Standard$/));
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Oberste")));
+  await ctx.click(btn(ctx, /^Standard$/));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   const t = ctx.text();
   check(orders(ctx).length >= 2, "standard: a node offers orders");
   check(!ctx.d.querySelector(".dg-preview") && !ctx.d.querySelector(".dg-record-mark"), "standard: no effect preview and no record mark");
@@ -82,10 +83,11 @@ async function step(ctx, pick = 0) {
 
 // --- easy mode ---------------------------------------------------------------------------------------------
 const easy = await boot();
-await easy.click(btn(easy, /^Easy mode$/));
-check(/Easy: Big Bertha Command/.test(easy.text()), "easy: the German card names the mode (Big Bertha)");
-check(/Easy: Soixante-Quinze Command/.test(easy.text()), "easy: the French card names the mode");
 await easy.click(easy.buttons().find((b) => easy.lab(b).includes("Oberste")));
+await easy.click(btn(easy, /^Easy mode$/));
+check(/easy mode is called Big Bertha/.test(easy.text()), "easy: the German briefing names the mode (Big Bertha)");
+check(/It cannot reach the highest rank/.test(easy.text()), "easy: the briefing says what the mode is");
+  await easy.click(easy.buttons().find((b) => easy.lab(b) === "Enter the war room"));
 const first = easy.text();
 check(easy.d.querySelectorAll(".dg-preview").length === orders(easy).length, "easy: every order shows its effect on the meters");
 check(/Manpower|Munitions|Home Front/.test(easy.d.querySelector(".dg-preview").textContent), "easy: the preview names the meters");

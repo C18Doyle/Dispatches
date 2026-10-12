@@ -52,7 +52,7 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
   const mask = (o) => countries.filter((c) => o.mask.includes(c.id)).map((c) => c.d).join("");
   return (
     <svg className="dg-map" viewBox={`${box.x} ${box.y} ${box.w} ${box.h}`} role="img"
-      aria-label={`Map of the front on ${romanDate(node.date)}. The headquarters is at ${node.city}.`}>
+      aria-label={`Map of the front on ${nodeDate(campaignId, node.date)}. The headquarters is at ${node.city}.`}>
       <defs>
         {overlays.map((o) => <clipPath key={o.id} id={`${uid}-${o.id}`}><path d={mask(o)} /></clipPath>)}
       </defs>
@@ -123,7 +123,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
   return (
     <section className="dg-mapcard" aria-label="The front">
       <div className="dg-maphead">
-        <span className="t">The front · {romanDate(node.date)}</span>
+        <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
         <button ref={opener} className="dg-btn" aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>Expand the map</button>
       </div>
       <MapCanvas campaignId={campaignId} node={node} visited={visited} full={false} pins={meanwhile} />
@@ -131,7 +131,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
         <div className="dg-modal" role="dialog" aria-modal="true" aria-label="The front, whole theatre" onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
           <div className="dg-modal-inner">
             <div className="dg-maphead">
-              <span className="t">The front · {romanDate(node.date)}</span>
+              <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
               <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close the map</button>
             </div>
             <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} />
@@ -147,7 +147,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
                   {meanwhile.map((m) => (
                     <li key={m.campaignId} style={{ "--accent": "var(--acc-" + m.campaignId + ")" }}>
                       <span className="dg-seal">{CAMPAIGNS[m.campaignId].seal}</span>
-                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{romanDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} days before this report)` : ""}</span>
+                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} days before this report)` : ""}</span>
                     </li>
                   ))}
                 </ul>

@@ -14,7 +14,7 @@
 // to a named person only where the record supports it.
 // =============================================================================
 
-CAMPAIGNS.aok.startNode = "aok_1914_01_serbia";
+CAMPAIGNS.aok.startNode = "aok_1914_15_mobilise";
 
 CAMPAIGNS.aok.commanders = [
   { id: "conrad", name: "Conrad von Hotzendorf", title: "Chief of the General Staff",
@@ -72,18 +72,107 @@ CAMPAIGNS.aok.researchGate = { open: false, note: "Closed on 2026-10-04 after a 
 CAMPAIGNS.aok.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
+  aok_1914_15_mobilise: {
+    year: 1914, date: "1914-07-30", city: "Vienna",
+    title: "Mobilising Against Russia",
+    advisors: ["conrad", "tisza"],
+    situation:
+      "The Emperor ordered mobilisation against Serbia on 25 July, to begin on the 28th, and the " +
+      "monarchy has been at war since that day. Russia has now begun to mobilise, and the news comes " +
+      "faster each hour. The railways have been timetabled for two cases: a war against Serbia " +
+      "alone, and a war against Serbia and Russia together, with the swing force going north.\n\n" +
+      "The mobilisation against Russia is a different timetable from the one that is running, and " +
+      "it cannot be begun without stopping trains that are already moving. The Chief of the General " +
+      "Staff has to say when it begins.",
+    context:
+      "A railway timetable is a thing that is made once. A train that is started for one " +
+      "front can be turned to another only at the cost of the day it takes to unload and " +
+      "load, and the days are not many.",
+    choices: [
+      {
+        id: "fourth",
+        label: "Begin the mobilisation against Russia on 4 August, and keep the swing force's destination open",
+        historical: true,
+        advisor: { name: "Conrad", position:
+          "The mobilisation against Russia cannot be begun sooner without breaking the one that is running. The Second Army can be sent to either front, and its destination can be left open for a few days longer." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { aok_mobilise: "fourth" },
+        next: "aok_1914_01_serbia",
+        outcome:
+          "Conrad fixes 4 August as the first day of the mobilisation against Russia, and the Second " +
+          "Army, the swing force, is left on the trains that are running to the south. If it is " +
+          "turned north later it will reach Galicia at the end of August, and understrength. " +
+          "Berlin, which has been promised an offensive in Galicia, is told that the army " +
+          "will be ready on the day that the plan says.",
+      },
+      {
+        id: "now",
+        label: "Begin the mobilisation against Russia at once, and send the swing force to Galicia",
+        advisor: { name: "Tisza", position:
+          "Russia will not wait for Vienna to make up its mind, and Berlin expects Galicia to be held. The army should go where the greatest enemy is, and Serbia can be dealt with by the Balkan group." },
+        gate: (m) => m.munitions >= -2,
+        disabledReason: "The railway staff has told the Chief that the timetable cannot be changed without a week of confusion",
+        impact: { manpower: 0, munitions: -1, will: 0 },
+        dispute:
+          "Whether an earlier start on the Russian timetable would have meant earlier arrivals in Galicia is " +
+          "argued. The mobilisation section held that any change would cause chaos on the railways.",
+        uncertain: [
+          { weight: 55, title: "The Second Army reaches Galicia a few days earlier",
+            impact: { manpower: 0, munitions: -1, will: 1 },
+            setFlags: { aok_mobilise: "now" },
+            next: "aok_1914_01_serbia",
+            outcome:
+              "Speculative. The trains are turned on the 31st, and the army begins its journey north " +
+              "while the Balkan group goes into Serbia without it. It arrives in Galicia some days " +
+              "earlier than it did in the record, in better order and with all its corps. The Serbian " +
+              "front is held by fewer men than the plan allowed for, and the Serbs have a good deal more room." },
+          { weight: 45, title: "The railways jam and the army arrives no sooner",
+            impact: { manpower: -1, munitions: -2, will: -1 },
+            setFlags: { aok_mobilise: "now" },
+            next: "aok_1914_01_serbia",
+            outcome:
+              "Speculative. The trains that were started for the south are stopped, and the junctions " +
+              "of Hungary fill with troop trains that stand for days in the wrong order. The army " +
+              "reaches Galicia as late as it did in the record, with units arriving in pieces, and " +
+              "the railway staff, which said that this would happen, is not in the mood to be thanked." },
+        ],
+      },
+      {
+        id: "serbia",
+        label: "Mobilise only against Serbia, and tell Berlin the army cannot be spared for Russia yet",
+        advisor: { name: "Tisza", position:
+          "The monarchy began this war to settle Serbia, and Serbia has to be settled. Russia has not yet declared war, and a mobilisation against her gives her the pretext she is waiting for." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "Berlin has been told that Galicia will be held, and the plan depends on it",
+        impact: { manpower: 0, munitions: 0, will: -2 },
+        setFlags: { aok_mobilise: "serbia" },
+        next: "aok_1914_01_serbia",
+        outcome:
+          "Speculative. The mobilisation goes on against Serbia only, and Berlin is told that Vienna " +
+          "needs a few days. The Germans, who had counted on Austria-Hungary to hold the Russians in " +
+          "Galicia, are angry, and say so. The Russians go on mobilising, and the monarchy has " +
+          "spent days in which its army was not where its plan said it would be.",
+      },
+    ],
+  },
+
   aok_1914_01_serbia: {
     year: 1914, date: "1914-08-01", city: "Vienna",
     title: "The Swing Force",
     advisors: ["conrad", "potiorek", "tisza"],
-    situation:
+    situation: (flags) =>
       "The monarchy is at war with Serbia, and Russia mobilised on 30 July. The army's " +
       "deployment is built on a division of the force into three: a Balkan group for " +
       "Serbia, a larger group in Galicia for Russia, and a swing force between them " +
       "that can be sent to either, depending on whether Russia comes in.\n\n" +
       "Russia is coming in. What is not settled is where the swing force, the Second " +
       "Army, is to go first. The Chief of the General Staff has planned a war on " +
-      "two fronts, and the war on the second front has already begun.",
+      "two fronts, and the war on the second front has already begun." +
+      (flags.aok_mobilise === "now"
+        ? "\n\nThe mobilisation against Russia was begun on 31 July, before the timetable had it, and the junctions are crowded with trains that are not in it."
+        : flags.aok_mobilise === "serbia"
+        ? "\n\nThe mobilisation against Russia has been held back, and Berlin has not been told why."
+        : ""),
     context:
       "The railways have been timetabled for months, and a train that is sent the " +
       "wrong way cannot easily be sent back. An army that goes to Serbia first is " +
@@ -478,6 +567,21 @@ CAMPAIGNS.aok.nodes = {
           "north. Serbia is left unbeaten and Potiorek unrewarded, and Budapest, " +
           "which wanted Serbia, says so. Galicia has the divisions, and the monarchy " +
           "has the army it would have lost in the mountains of Serbia in the winter.",
+      },
+      {
+        id: "limited",
+        label: "Allow Potiorek to advance to the Kolubara and stop there, and send two divisions north",
+        advisor: { name: "Conrad", position:
+          "Serbia cannot be left alone, and it cannot be finished with what the army can spare. An advance to the river holds the Serbs where they are and frees two divisions for Galicia." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { aok_kolubara: "limited" },
+        next: "aok_1915_04_carpathians",
+        outcome:
+          "Speculative. Potiorek is given leave to advance as far as the Kolubara and told to halt on it, " +
+          "and two divisions that would have gone into Serbia are sent north. He reaches the river in the " +
+          "middle of November, as in the record, and is stopped by order and not by the Serbs. Belgrade " +
+          "is not entered in December. The Serbs have time to bring up ammunition, and Potiorek writes " +
+          "to say what he thinks of a general who halts on a river.",
       },
     ],
   },
@@ -1450,6 +1554,21 @@ CAMPAIGNS.aok.nodes = {
           "continues to exist, as a country whose armies are commanded from Berlin and " +
           "whose government is a guest of the alliance.",
       },
+      {
+        id: "hungarians",
+        label: "Release the Hungarian divisions to go home, as Budapest is asking, and withdraw the rest",
+        advisor: { name: "Karl I", position:
+          "Budapest wants its soldiers home, and an army that is told to stay will leave anyway. Release the Hungarians with an order, and the rest can be got out in order." },
+        impact: { manpower: -1, munitions: 0, will: -2 },
+        setFlags: { aok_vittorio: "hungarians" },
+        next: "aok_end_dissolution",
+        outcome:
+          "Speculative. The Emperor releases the Hungarian divisions from their oath and orders them home, " +
+          "and the army's other units are told to fall back toward the Tagliamento. The Hungarians go by " +
+          "the railways, and most of them go in order. The Italians, who find the front emptied of half " +
+          "its defenders, advance faster than in the record, and the armistice, when it is asked for, is " +
+          "asked for by an army that has already begun to go home.",
+      },
     ],
   },
 
@@ -1471,7 +1590,7 @@ CAMPAIGNS.aok.nodes = {
       "Serbia and Galicia, 1914: " + (flags.aok_serbia === "galicia" ? "the swing force sent to Galicia first." : "the swing force sent to Serbia first, then recalled.") + "\n" +
       "The offensive into Russian Poland: " + (flags.aok_galicia === "defensive" ? "refused, and the army stood behind the San." : flags.aok_galicia === "cover" ? "launched with the Third Army held back at the San to cover the southern flank." : flags.aok_galiciaResult === "checked" ? "launched, and checked before the flank was turned." : "launched, and ended at Lemberg.") + "\n" +
       "Rawa, September 1914: " + (flags.aok_rawa === "brokeoff" ? "the battle broken off and the army drawn back behind the San." : "the decisive blow left to go on, and the retreat to the Dunajec.") + "\n" +
-      "Serbia, autumn 1914: " + (flags.aok_kolubara === "declined" ? "the third invasion declined." : "the third invasion made, and Belgrade lost again.") + "\n" +
+      "Serbia, autumn 1914: " + (flags.aok_kolubara === "declined" ? "the third invasion declined." : flags.aok_kolubara === "limited" ? "the advance stopped on the Kolubara." : "the third invasion made, and Belgrade lost again.") + "\n" +
       "Przemysl, 1915: " + (flags.aok_carpathians === "held" ? "the passes held, and the fortress left to its fate." : "relief pressed through the Carpathian winter.") + "\n" +
       "Przemysl, February 1915: " + (flags.aok_przemyslend === "third" ? "a third relief attempt ordered." : "the fortress told that no more relief would come.") + "\n" +
       "Gorlice: " + (flags.aok_gorlice === "own" ? "an Austro-Hungarian command insisted on." : "a German commander accepted.") + "\n" +
@@ -1486,7 +1605,7 @@ CAMPAIGNS.aok.nodes = {
       "November 1917: " + (flags.aok_pursuit === "halted" ? "the armies halted on the line they had won." : "one more push over the Piave and on Monte Grappa.") + "\n" +
       "February 1918: " + (flags.aok_ukraine === "kept" ? "the divisions kept for the Italian front." : flags.aok_ukraine === "partial" ? "two divisions sent for the grain, the rest kept." : "divisions sent into Ukraine for the grain.") + "\n" +
       "June 1918: " + (flags.aok_piave === "concentrated" ? "one thrust, with the whole army." : flags.aok_piaveResult === "bridgehead" ? "two thrusts, one of which held a bridgehead for a time." : "two thrusts, and the forces divided.") + "\n" +
-      "October 1918: " + (flags.aok_vittorio === "german" ? "the German command asked to take the front." : "the retreat ordered and an armistice asked for.") + "\n\n" +
+      "October 1918: " + (flags.aok_vittorio === "german" ? "the German command asked to take the front." : flags.aok_vittorio === "hungarians" ? "the Hungarian divisions sent home and the rest withdrawn." : "the retreat ordered and an armistice asked for.") + "\n\n" +
       "What actually happened: The armistice of Villa Giusti came into effect on 4 November 1918. The Italians had taken about 448,000 prisoners, a third of the army, and some 5,600 guns. Emperor Karl issued a proclamation on 11 November that recognised the right of the Austrian people to decide the form of the state, without using the word abdication. The monarchy was succeeded by Austria, Hungary, Czechoslovakia and the Kingdom of Serbs, Croats and Slovenes.",
   },
 

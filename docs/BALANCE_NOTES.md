@@ -39,3 +39,6 @@ node tools/balance.mjs 4000 --write       # about two minutes
 ```
 
 A change to a gate, an impact or a roll weight should be followed by this, and then by `node check-historical-ending.js` and `node walk-historical.js`.
+
+## Second wave (2026-10-12)
+After the preludes, eleven more third orders, three Ottoman reports and four battles (187 nodes, 52 three-way decisions, 46 rolls, 15 battles) the tool reports no dominant decision in Stavka, the Austro-Hungarian command or the Ottoman command, and one each in the German, French and British. Two things to watch: a file that takes the record's order every time reaches the settled ending only 60 per cent of the time in Stavka (its rolls on the record's own orders are many), and the Ottoman command, at 18 decisions, is still the shallowest. Random play enters the Sarikamis detour about a third of the time and no other detour often.

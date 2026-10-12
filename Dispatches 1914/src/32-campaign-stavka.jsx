@@ -11,7 +11,7 @@
 // Terminal nodes hand into the situation Dispatches 1922 opens from.
 // =============================================================================
 
-CAMPAIGNS.stavka.startNode = "stavka_1914_01_prussia";
+CAMPAIGNS.stavka.startNode = "stavka_1914_16_plans";
 
 CAMPAIGNS.stavka.commanders = [
   { id: "grandduke", name: "Grand Duke Nikolai Nikolaevich", title: "Supreme Commander",
@@ -81,6 +81,90 @@ CAMPAIGNS.stavka.hardMode.erosionMax = 4;
 
 CAMPAIGNS.stavka.nodes = {
 
+  stavka_1914_16_plans: {
+    year: 1914, date: "1914-07-19", city: "Petrograd",
+    title: "Two Offensives",
+    advisors: ["grandduke", "zhilinsky"],
+    situation:
+      "The Grand Duke has been named Supreme Commander, and the war with Germany is a day old. The " +
+      "mobilisation plan allows two versions of the opening: Plan G, which puts the weight against " +
+      "Germany, and Plan A, which puts it against Austria-Hungary. The armies that are to " +
+      "decide it are still on the railways, and the Eighth Army, in the south, will not be " +
+      "assembled for weeks.\n\n" +
+      "The French want everything sent against Germany, to draw troops from the west. The " +
+      "generals in the south want everything sent against Austria, which is the weaker enemy " +
+      "and is certain to come into Galicia.",
+    context:
+      "The plan that was made in peace was a compromise between two schools in the army, and " +
+      "a compromise is what is likely to come out of the next days. What has to be settled is how " +
+      "the army is divided, not whether it is.",
+    choices: [
+      {
+        id: "both",
+        label: "Send two armies against East Prussia and the stronger force against Galicia",
+        historical: true,
+        advisor: { name: "Grand Duke Nikolai", position:
+          "Germany has to be attacked to keep faith with France, and Austria is the enemy that can be beaten. The army is divided because the war is divided." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { stavka_plan: "both" },
+        next: "stavka_1914_01_prussia",
+        outcome:
+          "The army is divided between two offensives. Two armies are to invade East Prussia from " +
+          "the east and the south, and a stronger force, four armies, is to go into Galicia. About " +
+          "half as many men are sent against Germany as against Austria-Hungary, which is " +
+          "less than the French asked for and more than the army can easily supply. The " +
+          "Grand Duke's headquarters is at Baranovichi by the 4th.",
+      },
+      {
+        id: "germany",
+        label: "Put the main weight against Germany, as the French ask",
+        advisor: { name: "Zhilinsky", position:
+          "France is the ally that matters, and Germany is the enemy that has to be beaten first. A strong blow in East Prussia will bring German divisions east from the Marne." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The generals in the south have been told that Galicia is the main front, and have moved their trains",
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "Historians argue over whether a Russian army concentrated against Germany could have drawn " +
+          "troops from the west in time to matter, and whether the Russian railways could have carried it.",
+        uncertain: [
+          { weight: 50, title: "The concentration in the north is larger, and later",
+            impact: { manpower: -1, munitions: -1, will: 0 },
+            setFlags: { stavka_plan: "germany" },
+            next: "stavka_1914_01_prussia",
+            outcome:
+              "Speculative. The weight of the army goes to the north, and the Eighth Army is ordered to " +
+              "East Prussia and not to Galicia. The concentration there is larger, and it is not ready " +
+              "until later. The Austrians, who find fewer Russians in front of them, " +
+              "advance into Poland, and the French have to wait for the blow that they asked for." },
+          { weight: 50, title: "The Germans send more troops east",
+            impact: { manpower: -1, munitions: 0, will: 1 },
+            setFlags: { stavka_plan: "germany" },
+            next: "stavka_1914_01_prussia",
+            outcome:
+              "Speculative. The size of the Russian concentration is seen from the German side, and " +
+              "the Eighth Army in East Prussia is reinforced from the west sooner than it was in the " +
+              "record. The French have a little relief on the Marne, and the Russians have a stronger " +
+              "enemy in front of them, in the place where their roads and their railways are worst." },
+        ],
+      },
+      {
+        id: "austria",
+        label: "Stand on the defensive against Germany and send everything against Austria",
+        advisor: { name: "Grand Duke Nikolai", position:
+          "Austria is the weaker enemy and will be beaten. Germany is the stronger one, and the army has no need to hurry into a battle that it can lose." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { stavka_plan: "austria" },
+        next: "stavka_1914_01_prussia",
+        outcome:
+          "Speculative. The two armies that would have gone into East Prussia are held on the " +
+          "frontier, and the whole weight of the army goes into Galicia. The Austrians are met by " +
+          "more men than in the record. Paris is told that the offensive it was promised will " +
+          "come later, and the French, who had counted on it, ask why a promise given in writing " +
+          "can be kept in part.",
+      },
+    ],
+  },
+
   stavka_1914_01_prussia: {
     year: 1914, date: "1914-08-04", city: "Baranovichi",
     title: "Before the Concentration Is Finished",
@@ -91,7 +175,7 @@ CAMPAIGNS.stavka.nodes = {
         "The mobilisation proceeds throughout the Empire in exemplary order. The " +
         "armies of the Supreme Commander stand ready upon the western frontier.",
     },
-    situation:
+    situation: (flags) =>
       "The French are asking for an offensive into East Prussia now — today, 4 August " +
       "(17 August in the west) — and the undertaking to make one was given before the " +
       "war, in writing, as the price of the alliance and the loans that built the " +
@@ -99,7 +183,12 @@ CAMPAIGNS.stavka.nodes = {
       "The concentration is not finished. Two armies are to go in either side of the " +
       "Masurian Lakes, which means they cannot support one another until they have " +
       "converged past them, and the wireless discipline between them is not what it " +
-      "should be.",
+      "should be." +
+      (flags.stavka_plan === "germany"
+        ? "\n\nThe army has been sent north in greater strength than the plan first allowed, and the concentration there is later."
+        : flags.stavka_plan === "austria"
+        ? "\n\nOnly a screen has been left in the north, and the army that would have joined these two is in Galicia."
+        : ""),
     context:
       "Waiting three weeks produces two armies that can operate together. It also " +
       "means the French fight the opening of the war alone, having been promised they " +
@@ -201,6 +290,7 @@ CAMPAIGNS.stavka.nodes = {
         label: "Order the Second Army to wheel north-east toward the First, and give up the march on Allenstein",
         advisor: { name: "Samsonov", position:
           "The armies are too far apart to help each other. If they are to fight one battle, they must first be brought within reach of each other." },
+        keyBattleSubgame: { id: "tannenbergRussian" },
         impact: { manpower: 0, munitions: 0, will: -1 },
         dispute:
           "Historians differ on whether the loss of the Second Army could have been " +
@@ -358,6 +448,21 @@ CAMPAIGNS.stavka.nodes = {
           "this was known. The fortress holds into the winter all the same, and the " +
           "army that stormed it is smaller when the Austrians return.",
       },
+      {
+        id: "screen",
+        label: "Leave a covering force round the fortress and take the main army to the Vistula",
+        advisor: { name: "Brusilov", position:
+          "A fortress that cannot be reduced is best watched. The army is wanted on the Vistula, where the Germans are, and not in the mud round a place that will fall when its bread is gone." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { stavka_przemysl: "watched" },
+        next: "stavka_1914_04_lodz",
+        outcome:
+          "Speculative. A covering force of a few divisions and some militia is left round the fortress, " +
+          "and the army that would have settled round it goes to the Vistula. The garrison is kept in, and " +
+          "the covering force is not strong enough to stop a relief attempt if one is made in the snow. " +
+          "The army is in the right place for the German blow that comes in November, and the fortress " +
+          "holds out for as long as its stores allow.",
+      },
     ],
   },
 
@@ -501,6 +606,37 @@ CAMPAIGNS.stavka.nodes = {
           "was to be the anchor of the position is given up without a battle. It " +
           "is a retreat made on a subordinate's warning, which is what the front " +
           "commander said it would be.",
+      },
+      {
+        id: "reinforce",
+        label: "Send the Guard Reserve and the corps at Warsaw to the Tenth Army, and hold the border line",
+        advisor: { name: "Grand Duke Nikolai Nikolaevich", position:
+          "The border line is the anchor of the position in East Prussia, and the Tenth Army can hold it if it is given what it asks. A line that is held is worth more than one that is given up." },
+        impact: { manpower: -1, munitions: -1, will: -1 },
+        dispute:
+          "Whether more men at the border would have held the line or only added to the numbers caught in " +
+          "the forests round Augustow is argued. The Germans attacked in a snowstorm, and the Twentieth Corps " +
+          "was cut off.",
+        uncertain: [
+          { weight: 40, title: "The reinforced line holds",
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            setFlags: { stavka_masuria: "reinforced" },
+            next: "stavka_1915_12_carpathians",
+            outcome:
+              "Speculative. The reserves reach the border before the Germans attack, and the line is held " +
+              "through the first days. The blow falls on a front strong enough to bend and not to break, and " +
+              "the German attack in the snow makes ground in the forests and is stopped short of the Niemen. " +
+              "The Tenth Army is not surrounded, and the fresh troops have been used where they were needed." },
+          { weight: 60, title: "The reserve is drawn into the encirclement",
+            impact: { manpower: -3, munitions: -1, will: -2 },
+            setFlags: { stavka_masuria: "reinforced" },
+            next: "stavka_1915_12_carpathians",
+            outcome:
+              "Speculative. The reserves arrive as the storm breaks and are put into a line that is already " +
+              "being turned. The Germans close on both flanks in the snow, and the fresh troops are caught " +
+              "with the Twentieth Corps in the forests round Augustow. The loss is greater than in the " +
+              "record by the number of men who were sent to prevent it." },
+        ],
       },
     ],
   },
@@ -926,6 +1062,36 @@ CAMPAIGNS.stavka.nodes = {
           "who are fighting at Verdun, are not given what they asked for. The army " +
           "keeps the men and the shells that Naroch would have used, and it goes " +
           "into the summer a little stronger.",
+      },
+      {
+        id: "smaller",
+        label: "Attack at Naroch with the Northern Front's army only, on a narrower front and with a smaller aim",
+        advisor: { name: "Alekseyev", position:
+          "The French need the Germans held in the east, and not an offensive that fails. A smaller blow with the same guns on a narrower front can be a better one." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        dispute:
+          "Historians argue whether any attack at Naroch in March, in the thaw, could have worked, or whether " +
+          "its real use was to be seen to try. The ground was marsh, and the bombardment did not cut the wire.",
+        uncertain: [
+          { weight: 45, title: "The narrow blow makes ground and holds the Germans",
+            impact: { manpower: -1, munitions: 0, will: 1 },
+            setFlags: { stavka_naroch: "narrow", xc_naroch: "launched" },
+            next: "stavka_1916_05_brusilov",
+            outcome:
+              "Speculative. The guns are put on a front a third as wide, and this time the German wire in " +
+              "the sector is cut. The Russians take the first line and a stretch of the second, and the " +
+              "Germans bring up reserves to meet them, as the French asked. It is a small success, paid for " +
+              "with fewer men than in the record, and the Germans know that the Russians can still attack." },
+          { weight: 55, title: "The thaw defeats it",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { stavka_naroch: "narrow", xc_naroch: "launched" },
+            next: "stavka_1916_05_brusilov",
+            outcome:
+              "Speculative. The ice goes off the lakes in the middle of the attack, and the marsh turns the " +
+              "ground the guns have chosen into a swamp. The narrow front is swept from both flanks, and " +
+              "the attack is broken off after four days, with a smaller loss than in the record and the " +
+              "same result. The French are told that the Russians tried." },
+        ],
       },
     ],
   },
@@ -1916,12 +2082,12 @@ CAMPAIGNS.stavka.nodes = {
       "Romania: " + (flags.stavka_romania === "army" ? "an army sent at once." : "three divisions sent.") + "\n" +
       "The death penalty: " + (flags.stavka_deathpenalty === "refused" ? "not restored." : "restored at the front on 12 July 1917.") + "\n" +
       "The Kornilov affair: " + (flags.stavka_kornilov === "obeyed" ? "the dismissal obeyed." : flags.stavka_kornilov === "mediated" ? "a mediator sent, and the corps halted at Luga." : "the dismissal refused, and the march collapsed.") + "\n" +
-      "Przemysl, winter 1914: " + (flags.stavka_przemysl === "stormed" ? "assaulted." : "invested and starved out.") + "\n" +
+      "Przemysl, winter 1914: " + (flags.stavka_przemysl === "stormed" ? "assaulted." : flags.stavka_przemysl === "watched" ? "watched by a covering force." : "invested and starved out.") + "\n" +
       "Lodz, November 1914: " + (flags.stavka_lodz === "silesia" ? "the Silesian offensive pressed on." : flags.stavka_lodzResult === "covered" ? "the Fifth Army turned north and covered the flank." : "the Fifth Army turned north and the Silesian offensive was given up.") + "\n" +
-      "East Prussia, February 1915: " + (flags.stavka_masuria === "pulled" ? "the Tenth Army was drawn back to the Niemen." : "the border line was held and the Twentieth Corps lost.") + "\n" +
+      "East Prussia, February 1915: " + (flags.stavka_masuria === "pulled" ? "the Tenth Army was drawn back to the Niemen." : flags.stavka_masuria === "reinforced" ? "the Tenth Army was reinforced at the border." : "the border line was held and the Twentieth Corps lost.") + "\n" +
       "Sventsiany, September 1915: " + (flags.stavka_sventsiany === "withdrew" ? "the line was shortened." : flags.stavka_sventsiany === "partial" ? "the breach was met by a part of the new army, the rest held back." : "the breach was met by counterattack.") + "\n" +
       "Chantilly, December 1915: " + (flags.stavka_chantilly === "declined" ? "no commitment was made." : "Russia joined the plan for simultaneous offensives.") + "\n" +
-      "Lake Naroch, March 1916: " + (flags.stavka_naroch === "refused" ? "the French request was declined." : "the offensive was made.") + "\n" +
+      "Lake Naroch, March 1916: " + (flags.stavka_naroch === "refused" ? "the French request was declined." : flags.stavka_naroch === "narrow" ? "a smaller offensive was made on a narrower front." : "the offensive was made.") + "\n" +
       "The Romanian Front, December 1916: " + (flags.stavka_romfront === "limited" ? "only the Russian frontier was held." : "a front was formed in Moldavia under the King.") + "\n" +
       "The Allied missions, January 1917: " + (flags.stavka_petrograd === "promised" ? "a spring offensive was promised." : "the great offensives were put off.") + "\n" +
       "Riga, August 1917: " + (flags.stavka_riga === "held" ? "the Twelfth Army was ordered to hold." : flags.stavka_riga === "delayed" ? "the Latvian Riflemen held the bridgehead for two days." : "the Twelfth Army withdrew.") + "\n" +

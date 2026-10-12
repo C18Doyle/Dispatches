@@ -1224,3 +1224,448 @@ BATTLES.megiddoOttoman = {
     },
   },
 };
+
+BATTLES.tannenbergRussian = {
+  id: "tannenbergRussian",
+  host: { node: "stavka_1914_12_tannenberg", choice: "wheel" },
+  winBranch: 0,
+  campaign: "stavka",
+  title: "Order of Battle: Tannenberg",
+  flavor:
+    "The Second Army has gone into East Prussia from the south before its concentration was finished and before its bread could follow, and the First Army is a long way off to the north-east. " +
+    "The German Eighth Army, beaten at Gumbinnen, is thought by the staff to be falling back on the Vistula. What has to be planned is how the army is turned: which corps are drawn together, " +
+    "what is done about the bread, and how the link with the First Army is made.",
+  conditions:
+    "Late August in the lakes and sand of East Prussia: hot days, few good roads, and a country of forests and marshes in which the corps cannot see each other. The wireless sets are the only link between the armies, and the staff sends its orders in clear.",
+  categories: [
+    {
+      id: "corps", name: "The Second Army's Corps", meter: "manpower",
+      units: [
+        "Samsonov's Second Army, five corps and its cavalry",
+        "The corps on the right, marching toward Allenstein",
+        "The corps in the centre, on the roads through the forest",
+      ],
+      real:
+        "The corps were strung out over sandy roads a day or more apart. When the German Eighth Army struck on 26 August, the corps on the flanks were beaten in turn and the centre was drawn into a pocket. " +
+        "The army was almost entirely destroyed, and Samsonov died by his own hand.",
+      context:
+        "The corps are the army. Each commitment puts more of them in the march on Allenstein and fewer on the roads that hold the army together.",
+    },
+    {
+      id: "bread", name: "Bread and the Railheads", meter: "munitions",
+      units: [
+        "The field bakeries and the carts that carry the corps' bread",
+        "The railheads that the army has marched away from",
+        "The wells and villages of the sandy country in between",
+      ],
+      real:
+        "The army marched away from its railheads, through thin and sandy country, without the carts to follow it. The corps commanders complained that the men were short of bread and the horses of oats, " +
+        "and the army reached the battle hungry and tired.",
+      context:
+        "Bread is what holds an army to its road. Each commitment puts more carts and more days of food behind the corps, and takes them from the march.",
+    },
+    {
+      id: "link", name: "The Wireless and the Link with the First Army", meter: "will",
+      units: [
+        "Zhilinsky's headquarters of the North-Western Front",
+        "Rennenkampf's First Army, to the north-east",
+        "The wireless sets, whose messages were sent in clear",
+      ],
+      real:
+        "The Germans intercepted and read the Russian wireless messages, which were not enciphered, and knew where the Second Army was going. Rennenkampf's First Army, to the north-east, did not come to the Second Army's help, " +
+        "and the front headquarters was a long way from the fighting.",
+      context:
+        "The link is what makes two armies one. Each commitment puts more of the staff's effort into the wireless, the codes and the orders between the armies.",
+    },
+    {
+      id: "flank", name: "The Flank Corps", meter: "manpower",
+      units: [
+        "The corps on the left, round Soldau",
+        "The cavalry screen on the flanks",
+        "The reserve brigades on the road behind",
+      ],
+      real:
+        "On the left the Russian I Corps was attacked by François's corps, which had been brought by rail to the south-west, and was driven back toward Soldau. The flank that should have been the army's shield was opened, " +
+        "and the Germans closed in behind the centre.",
+      context:
+        "The flanks are what keep an army from being enveloped. Each commitment puts more men and horse on the corps at the edges of the line.",
+    },
+  ],
+  // The link first: the army was beaten by an enemy that read its orders. Bread second. The corps third and the flank last. A game judgment, not a measurement.
+  effectiveness: { link: 2.4, bread: 2.0, corps: 1.8, flank: 1.6 },
+  commanders: [
+    { id: "samsonov", name: "Samsonov", role: "Commander of the Second Army", category: "corps",
+      note: "He has taken the army into the country and he is the one who has to bring it out." },
+    { id: "zhilinsky", name: "Zhilinsky", role: "Commander of the North-Western Front", category: "link",
+      note: "He has the two armies and the wireless that is meant to join them." },
+    { id: "rennenkampf", name: "Rennenkampf", role: "Commander of the First Army", category: "flank",
+      note: "His army is the one that is to close the gap, and it is a long way off." },
+  ],
+  approaches: [
+    { id: "close", name: "Draw the corps together toward the First Army and shorten the front", note: "The corps are brought close and the link is made good before the army goes further.", modifiers: { link: 0.5, corps: 0.2, flank: -0.3 } },
+    { id: "feed", name: "Halt for the bread and close up the flank corps first", note: "The army stops where it is, and eats, and waits for the corps to come up.", modifiers: { bread: 0.5, flank: 0.3, corps: -0.4 } },
+  ],
+  postures: [
+    { id: "retiring", name: "A German army in retreat toward the Vistula", weight: 2,
+      intel: "Zhilinsky's staff reports that the German Eighth Army, beaten at Gumbinnen, is falling back toward the Vistula, and that the Second Army has only to pursue it.",
+      modifiers: { corps: 1.2, bread: 1.1 } },
+    { id: "turning", name: "A German army turning south on the Second Army", weight: 1,
+      intel: "Cavalry patrols report German columns marching south toward Soldau and Neidenburg, with trains of troops moving by rail on the flank.",
+      modifiers: { link: 1.25, flank: 1.2, corps: 0.8 } },
+    { id: "reinforced", name: "A German army that has been reinforced and has read the wireless", weight: 1,
+      intel: "Intercepted German messages and prisoners suggest that the Eighth Army has been reinforced and is moving to meet the Second Army where it is weakest.",
+      modifiers: { link: 1.2, bread: 0.85, flank: 1.1 } },
+  ],
+  echo: {
+    node: "stavka_1914_02_galicia",
+    grade: {
+      clean: "The Second Army's march was planned so that the corps, the bread, the wireless and the flank each had their part, and the staff knows it.",
+      costly: "The Second Army's march was kept together where its weight was put, with some arms left short to pay for the rest.",
+      marginal: "The plan for the Second Army held together, and the battle did not go the way it should have.",
+      total: "The Second Army went into the country with parts of its plan left bare, and the staff has seen what that costs.",
+    },
+    neglected: {
+      corps: "The corps were left short of the men that the march needed.",
+      bread: "The bread and the carts were left short, and the army arrived hungry.",
+      link: "The wireless and the link were left short, and the enemy read the orders.",
+      flank: "The flank corps were left short, and the flank was opened.",
+    },
+    commander: {
+      samsonov: "Samsonov's march is the one that is spoken of as having brought the army through.",
+      zhilinsky: "Zhilinsky's link between the armies is the one that is spoken of as having held.",
+      rennenkampf: "Rennenkampf's army is the one that is spoken of as having come up in time.",
+    },
+  },
+};
+
+BATTLES.cheminFrench = {
+  id: "cheminFrench",
+  host: { node: "gqg_1917_07_chemin", choice: "continue" },
+  winBranch: 1,
+  campaign: "gqg",
+  title: "Order of Battle: the Chemin des Dames",
+  flavor:
+    "The Fifth and Sixth Armies attacked on 16 April and took the lightly held front line. The German second position on the ridge is intact, the defenders are in quarries the barrage did not reach, " +
+    "and the promise given to the Minister of War was that the attack would stop if it had not broken through. What has to be planned is how the offensive is continued: where the guns and the tanks are put, and what the men are told.",
+  conditions:
+    "Late April on the Aisne: cold rain on the slopes, mud in the valleys, the ridge above covered by German machine guns, and an army that was told it was the last offensive.",
+  categories: [
+    {
+      id: "infantry", name: "The Divisions on the Ridge", meter: "manpower",
+      units: [
+        "The divisions of the Sixth Army under Mangin, on the left",
+        "The divisions of the Fifth Army under Mazel, on the right",
+        "The reserve divisions that Nivelle has kept back",
+      ],
+      real:
+        "On 16 April the infantry took the lightly held front line and found the intermediate defences largely intact. Troops, among them colonial regiments, fought their way up the slope and gained the ridge in places, " +
+        "but fire from the German second line on the plateau cut down soldiers by the platoon. The offensive was abandoned on 9 May.",
+      context:
+        "The divisions are the weight of the offensive. Each commitment puts more of them on the slope, and fewer in reserve for the days after.",
+    },
+    {
+      id: "barrage", name: "The Barrage and the Guns", meter: "munitions",
+      units: [
+        "The preliminary bombardment that began on 2 April",
+        "The creeping barrage that was to walk ahead of the infantry",
+        "The heavy guns that had to find the German batteries in the quarries",
+      ],
+      real:
+        "The bombardment had not destroyed the German defences in depth. The creeping barrage ran too far ahead of the infantry, and as the distance between them grew to hundreds of yards " +
+        "the German reserves were freed to counter-attack.",
+      context:
+        "The guns open the way. Each commitment puts more batteries and shell into the preparation, and takes them from the days when the infantry are on the slope.",
+    },
+    {
+      id: "tanks", name: "The Tanks at Berry-au-Bac", meter: "munitions",
+      units: [
+        "The groups of Schneider tanks with the Fifth Army",
+        "The crews, who had never fought together",
+        "The ground in front of Berry-au-Bac, cut by German guns",
+      ],
+      real:
+        "The Schneider tank went into action for the first time at Berry-au-Bac, in support of the Fifth Army, with more than a hundred machines. The losses were heavy, " +
+        "and a large part of them were lost on the first day. They brought the infantry little help.",
+      context:
+        "The tanks are the new thing. Each commitment puts more of the new machines and crews where they are tried, and takes them from the arm that has to carry the day.",
+    },
+    {
+      id: "word", name: "What the Men Are Told", meter: "will",
+      units: [
+        "The promise of a breakthrough in forty-eight hours",
+        "The men's belief that this was the last offensive",
+        "The orders read to the regiments before they went forward",
+      ],
+      real:
+        "The attack had been promised as the decisive one. When it failed, the French lost some 185,000 men by one count, and the belief that this offensive would end the war went with them. " +
+        "The refusals of May followed.",
+      context:
+        "The men's belief is what makes them climb the ridge. Each commitment puts more of the army's trust in what it has been told, and what it has been promised.",
+    },
+  ],
+  // What the men were told first: it was the army's belief that broke. The barrage second. The divisions third and the tanks last. A game judgment, not a measurement.
+  effectiveness: { word: 2.4, barrage: 2.2, infantry: 1.8, tanks: 1.2 },
+  commanders: [
+    { id: "mangin", name: "Mangin", role: "Commander of the Sixth Army", category: "infantry",
+      note: "He believes in the attack, and he is the one who has to make it again." },
+    { id: "mazel", name: "Mazel", role: "Commander of the Fifth Army", category: "barrage",
+      note: "His army has the heavy guns, and he has doubted the plan from the start." },
+    { id: "estienne", name: "Estienne", role: "Colonel, father of the French tank arm", category: "tanks",
+      note: "He built the tanks, and he is the one who will say what they are for." },
+  ],
+  approaches: [
+    { id: "whole", name: "Go on attacking along the whole front, as the Minister was promised", note: "The army goes on as the plan had it, and the men are told that it is the last effort.", modifiers: { word: 0.4, infantry: 0.2, barrage: -0.3 } },
+    { id: "sector", name: "Stop the general attack and make a limited one on a single sector with the guns shifted to it", note: "One sector is taken with all the guns, and the rest of the line is held.", modifiers: { barrage: 0.5, infantry: 0.1, word: -0.4 } },
+  ],
+  postures: [
+    { id: "quarries", name: "A German second position intact in the quarries", weight: 2,
+      intel: "Prisoners and air photographs show the German second position intact on the ridge, with the defenders in the quarries and the machine guns sited to cover every approach.",
+      modifiers: { barrage: 1.2, infantry: 0.9, tanks: 0.8 } },
+    { id: "depth", name: "A defence in depth, with the counter-attack divisions behind it", weight: 1,
+      intel: "German reserves are reported close behind the ridge, with fresh divisions brought up and ready to counter-attack any gain that is made.",
+      modifiers: { infantry: 1.2, word: 0.85, tanks: 1.1 } },
+    { id: "shaken", name: "A defence that has been shaken by the first day", weight: 1,
+      intel: "Deserters from the first day say that the German front line was thinly held and that the defenders on the ridge are short of food and ammunition.",
+      modifiers: { word: 1.2, infantry: 1.1, barrage: 0.8 } },
+  ],
+  echo: {
+    node: "gqg_1917_13_directive",
+    grade: {
+      clean: "The offensive was continued so that the divisions, the guns, the tanks and the men's belief each had their part, and the staff knows it.",
+      costly: "The offensive was pressed where its weight was put, with some arms left short to pay for the rest.",
+      marginal: "The plan for the offensive held together, and the ridge was not taken.",
+      total: "The offensive was continued with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      infantry: "The divisions were left short of what the slope needed.",
+      barrage: "The guns and the barrage were left short, and the defenders were not suppressed.",
+      tanks: "The tanks were left short, and they did not help the infantry.",
+      word: "What the men were told was left short of the truth, and they noticed.",
+    },
+    commander: {
+      mangin: "Mangin's attack is the one that is spoken of as having gone on longest.",
+      mazel: "Mazel's guns are the ones that are spoken of as having prepared it.",
+      estienne: "Estienne's tanks are the ones that are spoken of as having been tried.",
+    },
+  },
+};
+
+BATTLES.flersBritish = {
+  id: "flersBritish",
+  host: { node: "bef_1916_12_tanks", choice: "now" },
+  winBranch: 1,
+  campaign: "bef",
+  title: "Order of Battle: Flers and Courcelette",
+  flavor:
+    "The Somme has gone on for ten weeks, and the army needs a success. Forty-nine tanks are ready, and the attack of 15 September on the Fourth Army's front is the next chance to try them. " +
+    "The officers who built them would have waited for a mass attack on chosen ground. What has to be planned is how the tanks are used: where they go, how the guns and the infantry work with them, and how much of the secret is kept.",
+  conditions:
+    "Mid-September on the high ground of the Somme: a dry morning, the ground broken by ten weeks of shelling, and woods and villages that have been fought over since July.",
+  categories: [
+    {
+      id: "tanks", name: "The Tanks", meter: "munitions",
+      units: [
+        "The forty-nine tanks of the Heavy Section",
+        "The crews, who had trained in secret for months",
+        "The lanes left in the barrage for the tanks to pass",
+      ],
+      real:
+        "Of the forty-nine tanks, fewer than forty reached the start lines, and many of those broke down or ditched. A few reached Flers, and within fifteen minutes infantry had joined them and occupied the north and west of the village. " +
+        "Two of the four tanks with the New Zealand Division were knocked out by German artillery.",
+      context:
+        "The tanks are the new thing. Each commitment puts more of them and their crews where they are tried, and takes them from the arm that has to carry the day.",
+    },
+    {
+      id: "infantry", name: "The Six Divisions", meter: "manpower",
+      units: [
+        "The divisions of the Fourth Army that attack from Delville Wood to Flers",
+        "The 2nd Canadian Division, on the left, going for Courcelette",
+        "The New Zealand Division, between Delville Wood and High Wood",
+      ],
+      real:
+        "Six divisions attacked on 15 September. On the left the 2nd Canadian Division took Courcelette, and the New Zealanders fought between Delville and High Woods. The line advanced about a mile and a half and High Wood was taken, " +
+        "at a cost of some 29,000 casualties.",
+      context:
+        "The divisions are the weight of the attack. Each commitment puts more of them in the line and fewer in reserve for the next day.",
+    },
+    {
+      id: "guns", name: "The Barrage", meter: "munitions",
+      units: [
+        "The heavy artillery that cut the wire and shelled the German batteries",
+        "The creeping barrage that walked ahead of the infantry",
+        "The gaps left open in the barrage for the tanks",
+      ],
+      real:
+        "The British artillery fired a heavy barrage, with lanes left open so that the tanks could pass through it. It carried the infantry across the first German lines, and it did not reach the guns behind them.",
+      context:
+        "The guns open the way. Each commitment puts more of them and their shell into the barrage, and takes them from the tanks and the infantry.",
+    },
+    {
+      id: "secret", name: "The Secret", meter: "will",
+      units: [
+        "The ground that the designers wanted chosen for the first mass attack",
+        "The camouflage and the roads by which the tanks were brought up",
+        "The staff's plan for how the first use would be explained",
+      ],
+      real:
+        "The designers wanted the tanks held back until enough were ready for a mass attack on chosen ground. They were used in small groups in a battle already ten weeks old, and the Germans saw them and learned what the new weapon was.",
+      context:
+        "Surprise can be used once. Each commitment puts more of the army's effort into keeping the secret, and the later lessons for those who try.",
+    },
+  ],
+  // The infantry and the barrage first: the attack was won, where it was won, by them. The tanks next. The secret last. A game judgment, not a measurement.
+  effectiveness: { infantry: 2.2, guns: 2.0, tanks: 1.8, secret: 1.2 },
+  commanders: [
+    { id: "haig", name: "Haig", role: "Commander-in-Chief of the British armies in France", category: "secret",
+      note: "He wants the tanks tried now, and the secret is his to spend." },
+    { id: "rawlinson", name: "Rawlinson", role: "Commander of the Fourth Army", category: "infantry",
+      note: "His army has made the attack for ten weeks, and he is the one who will make it again." },
+    { id: "elles", name: "Elles", role: "Commander of the Heavy Section", category: "tanks",
+      note: "He has the machines and the crews, and he knows what they cannot do." },
+  ],
+  approaches: [
+    { id: "groups", name: "Spread the tanks in small groups ahead of the infantry along the whole front", note: "Every division gets a few, and the line is helped at the places where it is weakest.", modifiers: { tanks: 0.3, infantry: 0.3, secret: -0.4 } },
+    { id: "massed", name: "Keep the tanks in two strong groups at the points where the ground is best", note: "Two blows are made with all the machines, and the rest of the line is carried by the guns and the infantry.", modifiers: { tanks: 0.5, secret: 0.2, infantry: -0.3 } },
+  ],
+  postures: [
+    { id: "trenches", name: "German trenches that are strong on the high ground", weight: 2,
+      intel: "Air photographs show the German front system intact on the high ground, with the second line behind it and the villages of Flers and Courcelette strongly held.",
+      modifiers: { guns: 1.2, infantry: 0.9, tanks: 0.85 } },
+    { id: "wire", name: "Uncut wire and machine guns in the villages", weight: 1,
+      intel: "Patrols report that the wire in front of Flers is uncut in places, and the machine guns in the ruins have been moved forward.",
+      modifiers: { tanks: 1.25, secret: 1.1, guns: 0.85 } },
+    { id: "thin", name: "A German line that has been worn thin", weight: 1,
+      intel: "Prisoners say that the German divisions on the high ground have been worn down by ten weeks of fighting and have few reserves to put in.",
+      modifiers: { infantry: 1.2, guns: 1.1, secret: 0.85 } },
+  ],
+  echo: {
+    node: "bef_1917_13_calais",
+    grade: {
+      clean: "The attack at Flers was planned so that the tanks, the infantry, the guns and the secret each had their part, and the staff knows it.",
+      costly: "The attack at Flers was carried where its weight was put, with some arms left short to pay for the rest.",
+      marginal: "The plan for Flers held together, and the ground was not taken as it should have been.",
+      total: "The attack at Flers was made with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      tanks: "The tanks were left short, and they did little for the infantry.",
+      infantry: "The divisions were left short of what the ground needed.",
+      guns: "The guns and the barrage were left short, and the wire was not cut.",
+      secret: "The secret was left short, and the Germans learned what the tanks were.",
+    },
+    commander: {
+      haig: "Haig's decision to use the tanks is the one that is spoken of as having started them.",
+      rawlinson: "Rawlinson's divisions are the ones that are spoken of as having carried the ground.",
+      elles: "Elles's crews are the ones that are spoken of as having learned the machines.",
+    },
+  },
+};
+
+BATTLES.ypresGerman = {
+  id: "ypresGerman",
+  host: { node: "ohl_1914_13_ypres", choice: "press" },
+  winBranch: 1,
+  campaign: "ohl",
+  title: "Order of Battle: Ypres",
+  flavor:
+    "Antwerp has fallen and the race to the sea has ended without a result. If the line can be broken at Ypres, the Channel ports lie behind it. The Fourth Army is made largely of reserve corps raised since August, " +
+    "whose first assaults near Langemarck lost heavily for little ground. What has to be planned is the last attack of the autumn: where the divisions go, how the guns are used, and what is kept in reserve.",
+  conditions:
+    "Early November in Flanders: cold mist in the mornings, ground cut by drains and hedges, woods that hide the defenders, and a British line that has been fighting for three weeks and is very thin.",
+  categories: [
+    {
+      id: "divisions", name: "The Fresh Divisions", meter: "manpower",
+      units: [
+        "The Prussian Guard and the 4th Division, in twelve fresh battalions",
+        "The two army groups under Fabeck and Linsingen",
+        "The divisions of the Fourth and Sixth Armies that have been in the line since October",
+      ],
+      real:
+        "On 11 November twelve and a half divisions in two army groups attacked along a front of nine miles from Messines to Reutel. The spearhead was the Prussian Guard and the 4th Division, some ten thousand men in twelve fresh battalions, " +
+        "against eleven tired British battalions of about four thousand men.",
+      context:
+        "The divisions are the weight of the blow. Each commitment puts more of them at the point of the attack, and fewer on the rest of the line.",
+    },
+    {
+      id: "guns", name: "The Bombardment", meter: "munitions",
+      units: [
+        "The heavy guns that shelled the Menin Road and the woods",
+        "The field artillery that was to move forward with the infantry",
+        "The ammunition columns on the roads behind",
+      ],
+      real:
+        "The attack was preceded by a heavy bombardment and went in under morning mist. The mist let the Germans come out of it and over the British front line, but British artillery then isolated the Guards from their reinforcements.",
+      context:
+        "The guns open the way. Each commitment puts more of them and their shell into the first hours, and takes them from the days afterwards.",
+    },
+    {
+      id: "reserves", name: "The Second Wave and the Reserves", meter: "manpower",
+      units: [
+        "The reserve behind the Guard",
+        "The divisions held in the second line",
+        "The battalions that were to follow up a breakthrough",
+      ],
+      real:
+        "A gap north of the Menin Road was closed by British counter-attacks the same day, and by the afternoon a counter-attack had cleared the Germans from the wood. After that, there was no chance of a breakthrough, " +
+        "because the reserves that would have been needed to widen the gap could not be brought up under the British guns.",
+      context:
+        "A breakthrough has to be followed. Each commitment holds more men back for the moment when the line gives, and takes them from the first blow.",
+    },
+    {
+      id: "spirit", name: "The Men's Spirit", meter: "will",
+      units: [
+        "The reserve corps that were raised after the war began",
+        "The volunteers whose first assaults at Langemarck went in in mass",
+        "The officers who have led them and who are fewer every week",
+      ],
+      real:
+        "The reserve corps had gone in in mass at Langemarck and lost heavily for little ground. Their spirit was high and their training was short, and by November many of the officers and non-commissioned officers who could lead them were gone.",
+      context:
+        "The men's belief is what carries them forward. Each commitment puts more of the army's trust in the young soldiers, and asks more of them.",
+    },
+  ],
+  // The divisions first: the blow was struck by the Guard. The guns second. The reserves third and the men's spirit last. A game judgment, not a measurement.
+  effectiveness: { divisions: 2.2, guns: 2.0, reserves: 1.6, spirit: 1.4 },
+  commanders: [
+    { id: "fabeck", name: "Fabeck", role: "General commanding an army group of the Fourth and Sixth Armies", category: "divisions",
+      note: "He has the divisions that were brought up for the blow." },
+    { id: "linsingen", name: "Linsingen", role: "General commanding the other army group", category: "reserves",
+      note: "He has the divisions that are to follow up if the line gives." },
+    { id: "rupprecht", name: "Rupprecht", role: "Crown Prince of Bavaria, commanding the Sixth Army", category: "guns",
+      note: "He has the heavy guns, and the final word on the day." },
+  ],
+  approaches: [
+    { id: "point", name: "Put the guns and the Guard on one narrow front, and hold the rest of the line", note: "One blow is made at the Menin Road with everything that can be brought to it.", modifiers: { divisions: 0.4, guns: 0.3, reserves: -0.3 } },
+    { id: "wide", name: "Attack all along the line, to stretch the British and find the weak place", note: "The whole front is pressed at once, and the reserves are kept to follow where the line gives.", modifiers: { reserves: 0.5, spirit: 0.1, divisions: -0.4 } },
+  ],
+  postures: [
+    { id: "thin", name: "A British line that is thin and tired", weight: 2,
+      intel: "Prisoners and patrols say that the British line is held by a few tired battalions that have been fighting for three weeks, with very little behind them.",
+      modifiers: { divisions: 1.2, guns: 1.1, reserves: 0.9 } },
+    { id: "backed", name: "A British line with reserves close behind", weight: 1,
+      intel: "Aircraft and agents report that French and British reserves have been moved up close behind the line and are ready to counter-attack.",
+      modifiers: { reserves: 1.25, divisions: 0.85, guns: 1.1 } },
+    { id: "woods", name: "A line hidden in the woods, with its guns well placed", weight: 1,
+      intel: "Reports say that the British are holding the woods east of Ypres with rifles and machine guns, and that their artillery has been brought into positions to cover them.",
+      modifiers: { guns: 1.2, spirit: 0.85, divisions: 0.95 } },
+  ],
+  echo: {
+    node: "ohl_1915_14_gorlice",
+    grade: {
+      clean: "The last attack at Ypres was planned so that the divisions, the guns, the reserves and the men's spirit each had their part, and the staff knows it.",
+      costly: "The last attack at Ypres was made where its weight was put, with some arms left short to pay for the rest.",
+      marginal: "The plan for Ypres held together, and the line did not give as it should have.",
+      total: "The last attack at Ypres was made with parts of the plan left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      divisions: "The divisions were left short of what the blow needed.",
+      guns: "The guns were left short, and the defenders were not suppressed.",
+      reserves: "The reserves were left short, and the gap could not be widened.",
+      spirit: "The men's spirit was left short, and the young soldiers broke.",
+    },
+    commander: {
+      fabeck: "Fabeck's divisions are the ones that are spoken of as having struck the blow.",
+      linsingen: "Linsingen's reserves are the ones that are spoken of as having waited.",
+      rupprecht: "Rupprecht's guns are the ones that are spoken of as having opened it.",
+    },
+  },
+};

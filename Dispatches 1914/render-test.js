@@ -21,13 +21,23 @@ const wait = (ms) => new Promise(r => setTimeout(r, ms));
 const txt = () => document.getElementById("root").textContent;
 const btns = () => [...document.querySelectorAll("button")];
 const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles: true })); };
+/** The prelude each command opens on: press the order that holds the text, then Continue. */
+const pass = async (text) => {
+  click(btns().find((b) => b.textContent.includes(text))); await wait(60);
+  const c = btns().find((b) => b.textContent.trim() === "Continue");
+  if (c) { click(c); await wait(60); }
+};
+const enter = async () => { click(btns().find((b) => b.textContent.trim() === "Enter the war room")); await wait(60); }; // the briefing's door to the war room
 
 (async () => {
   await wait(80);
   t("root is not empty (no blank screen)", txt().length > 50);
   t("menu shows the title", txt().includes("DISPATCHES"));
-  t("menu shows Major Commands", txt().includes("Major Commands"));
-  t("menu shows Minor Commands", txt().includes("Minor Commands"));
+  t("menu groups the commands by side", txt().includes("The Central Powers") && txt().includes("The Entente"));
+  t("each card names its nation", ["Germany", "France", "Russia", "Britain", "Austria-Hungary", "The Ottoman Empire"].every((n) => txt().includes(n)));
+  t("the menu carries How to play, War record and Settings", ["How to play", "War record", "Settings"].every((n) => btns().some((b) => b.textContent.includes(n))));
+  t("the menu has no feedback option", !/feedback/i.test(txt()) && !document.querySelector('a[href*="dispatches.itch.io"]'));
+  t("difficulty is not on the menu", !btns().some((b) => b.textContent.trim() === "Hard mode"));
   t("all six campaigns listed",
     ["Oberste","Grand Quartier","Stavka","British","Armeeoberkommando","Ottoman"]
       .every(n => txt().includes(n)));
@@ -38,9 +48,15 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   const playable = btns().find(b => !b.disabled && b.textContent.includes("Oberste"));
   t("OHL card is enabled", !!playable);
   click(playable); await wait(60);
+  t("a command opens its briefing first", txt().includes("Where things stand") && txt().includes("Your seat") && txt().includes("Set up the file") && !txt().includes("Issue Order"));
+  t("the briefing says the first report's date in the UK form", txt().includes("1 August 1914"));
+  t("the briefing offers the difficulty and battle planning", btns().some((b) => b.textContent.trim() === "Easy mode") && txt().includes("Take control of battle planning"));
+  await enter();
+  t("a command opens on its prelude, in the UK date form", txt().includes("The Kaiser's Question") && txt().includes("1 August 1914"));
+  await pass("Tell the Kaiser that the deployment");
 
   t("node screen renders a title", txt().includes("The Weight on the Right"));
-  t("roman date renders", txt().includes("VIII.1914"));
+  t("the date renders as the UK writes it", txt().includes("4 August 1914"));
   t("no draft banner (content is real)", !txt().includes("DRAFT CONTENT"));
   t("meters render with campaign will label", txt().includes("HOME FRONT"));
   t("issue order renders", txt().includes("Issue Order"));
@@ -84,7 +100,7 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   if (home) { click(home); await wait(60); }
   const gqg = btns().find(b => !b.disabled && b.textContent.includes("Grand Quartier"));
   t("can return to menu and pick a second campaign", !!gqg);
-  if (gqg) { click(gqg); await wait(60); }
+  if (gqg) { click(gqg); await wait(60); await enter(); await pass("Obey, and withdraw"); }
   t("GQG node renders", txt().includes("Into Lorraine"));
   t("GQG uses its own will label", txt().includes("ARMY MORALE") && !txt().includes("HOME FRONT"));
   t("GQG uses its own document treatment", txt().includes("COMPTE RENDU"));
@@ -93,7 +109,7 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   if (home2) { click(home2); await wait(60); }
   const stavka = btns().find(b => !b.disabled && b.textContent.includes("Stavka"));
   t("Stavka is enabled", !!stavka);
-  if (stavka) { click(stavka); await wait(60); }
+  if (stavka) { click(stavka); await wait(60); await enter(); await pass("Send two armies"); }
   t("Stavka node renders", txt().includes("Before the Concentration"));
   t("Julian calendar stated on the card", true);
   t("Stavka uses its own will label", txt().includes("HOME STABILITY"));
@@ -111,20 +127,22 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   t("Resume file returns to the node the run was on", txt().includes("Before the Concentration"));
   click(byText("Home")); await wait(60);
 
-  // Hard mode switch.
-  t("the menu has a Standard / Hard mode switch", !!byText("Standard") && !!byText("Hard mode"));
-  click(byText("Hard mode")); await wait(40);
-  t("hard mode shows each command's pressure on its card", txt().includes("Hard mode: The war effort consuming the country that sustains it."));
+  // Hard mode switch: on the briefing, after the command is chosen.
   click(byIncludes("Oberste")); await wait(60);
+  t("the briefing has an Easy / Standard / Hard mode switch", !!byText("Easy mode") && !!byText("Standard") && !!byText("Hard mode"));
+  click(byText("Hard mode")); await wait(40);
+  t("hard mode shows the command's pressure", txt().includes("the war effort consuming the country that sustains it"));
+  await enter();
   t("a hard-mode run shows the erosion track", txt().includes("HARD MODE") && txt().includes("EROSION 0/"));
   click(byText("Home")); await wait(60);
-  click(byText("Standard")); await wait(40);
   click(byIncludes("Oberste")); await wait(60);
+  click(byText("Standard")); await wait(40);
+  await enter();
   t("a standard run shows no erosion track", !txt().includes("EROSION"));
   click(byText("Home")); await wait(60);
 
   // War record.
-  click(byIncludes("WAR RECORD")); await wait(60);
+  click(byIncludes("War record")); await wait(60);
   t("the war record opens", txt().includes("WAR RECORD") && txt().includes("Dossiers") && txt().includes("Atlas") && txt().includes("Endings"));
   t("the war record opens on the service record", txt().includes("Service record") && /files closed/.test(txt()) && /decisions reached/.test(txt()));
   t("each command has its progress, files and best rank", txt().includes("No rank yet") && /OHL/.test(txt()) && /Decisions\s*\d+\/\d+/.test(txt()));
@@ -141,16 +159,35 @@ const click = (b) => { b.dispatchEvent(new window.MouseEvent("click", { bubbles:
   click(byText("Return to file")); await wait(60);
   t("the war record is kept in localStorage", !!window.localStorage.getItem("dispatches1914_record_v1"));
 
-  // Settings: text size.
-  click(byText("Larger")); await wait(40);
+  // How to play.
+  click(byIncludes("How to play")); await wait(60);
+  t("How to play opens with its sections", txt().includes("Reading a report") && txt().includes("Orders and risk") && txt().includes("What the game leaves out"));
+  t("What the game leaves out is a section of How to play, not of the menu", txt().includes("Armenians"));
+  click(byText("Back")); await wait(60);
+  t("Back returns to the menu", txt().includes("The Central Powers") && !txt().includes("Orders and risk"));
+
+  // Settings: its own screen.
+  click(byIncludes("Settings")); await wait(60);
+  t("Settings opens as a screen with its sections", txt().includes("Reading") && txt().includes("Playing") && txt().includes("Calendar: United Kingdom"));
+  const slider = document.getElementById("dg-size");
+  t("text size is a slider with three stops", !!slider && slider.min === "0" && slider.max === "2");
+  const setSize = async (v) => {
+    const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+    setter.call(slider, String(v));
+    slider.dispatchEvent(new window.Event("input", { bubbles: true }));
+    slider.dispatchEvent(new window.Event("change", { bubbles: true }));
+    await wait(40);
+  };
+  await setSize(1);
   t("text size changes the page scale class", !!document.querySelector(".dg-fs-m"));
   t("text size is stored", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"m"'));
-  click(byText("Standard")); await wait(40);
+  await setSize(0);
+  t("text size can go back to Standard", !document.querySelector(".dg-fs-m"));
   click([...document.querySelectorAll('[aria-label="Sound"] button')].find((b) => b.textContent.trim() === "Typewriter")); await wait(40);
   t("sound can be switched on and is stored", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"sound":true'));
   click(byText("Off")); await wait(40);
   t("sound can be switched off again", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"sound":false'));
-  t("the menu points to a feedback page", txt().includes("FEEDBACK") && !!document.querySelector('a[href*="dispatches.itch.io/dispatches-1914"]'));
+  click(byText("Back")); await wait(60);
 
   // Landmarks and headings.
   t("every screen has a main landmark", document.querySelectorAll("main").length === 1);
