@@ -262,6 +262,106 @@ CAMPAIGNS.aok.nodes = {
           "Germans, who were told that the Austro-Hungarian army would take the " +
           "initiative in the south, are told instead that it will defend.",
       },
+      {
+        id: "cover",
+        label: "Open the offensive in the north, but hold the Third Army back at the San to cover the southern flank",
+        advisor: { name: "Archduke Friedrich", position:
+          "The army has an exposed flank that the plan did not count. A strong force held back at the San costs the blow some weight and saves the army a worse loss." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { aok_galicia: "cover" },
+        next: "aok_1914_06_flank",
+        outcome:
+          "Speculative. The Third Army is held at the San while the First and Fourth go north. " +
+          "The blow in the north is weaker by a corps and a half, and the flank that was " +
+          "meant to be turned is covered by an army that has not yet fought. The Russians " +
+          "have not shown which of the two armies they mean to hit, and the General Staff " +
+          "has to say what the Third Army is waiting for.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-08 (a detour: the southern flank)
+  aok_1914_06_flank: {
+    year: 1914, date: "1914-08-30", city: "Przemysl",
+    title: "The Southern Flank",
+    advisors: ["conrad", "friedrich"],
+    situation:
+      "The First and Fourth Armies are winning in the north, and the Russians have not " +
+      "been where the plan said they would be. On the southern flank Brusilov's Eighth " +
+      "Army and Ruzsky's Third are coming up toward the Gnila Lipa and Lemberg, and the " +
+      "Third Army under Brudermann is there with the corps it was given.\n\n" +
+      "If the Third Army is attacked in strength it will have to give ground. How much, " +
+      "and what the armies in the north do about it, is what Conrad has to settle today. " +
+      "Every corps that goes south is a corps taken from the blow that is going well.",
+    context:
+      "The railways in Galicia can move some corps and not at the speed the Russians " +
+      "are advancing. The General Staff has little information about the Russian " +
+      "advance south of Lemberg, and what it has is a day old.",
+    choices: [
+      {
+        id: "leave",
+        label: "Leave the Third Army as it stands and let the blow in the north go on",
+        historical: true,
+        advisor: { name: "Conrad", position:
+          "The decision is being won in the north. A flank can be given up for a few days if the blow there is decisive." },
+        impact: { manpower: -2, munitions: 0, will: -1 },
+        next: "aok_1914_04_rawa",
+        outcome:
+          "Speculative. The Third Army is left to meet the Russians with the corps it has, " +
+          "and the blow in the north goes on. The flank gives where the record says it " +
+          "gave, at the Gnila Lipa, and Lemberg is lost. The army that was held back at " +
+          "the San has only changed the place where the defeat is suffered, and the " +
+          "Fourth Army, still advancing, is told that its flank is open.",
+      },
+      {
+        id: "reinforce",
+        label: "Take two corps from the Fourth Army and send them south to the Third",
+        advisor: { name: "Archduke Friedrich", position:
+          "A flank that gives takes the whole army with it. Two corps from the north are worth more on the Gnila Lipa than on the Tanew." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        dispute:
+          "Whether Conrad could have shifted weight to the southern flank in time is " +
+          "argued. The railways could carry corps, but not at the speed of the Russian " +
+          "advance, and the General Staff knew little of what lay south of Lemberg. " +
+          "Whether two corps would have steadied the Third Army or only been lost with " +
+          "it is a matter of judgment on which the sources do not settle.",
+        uncertain: [
+          { weight: 55, title: "The flank holds for a week, and the blow in the north is weaker",
+            impact: { manpower: 0, munitions: 0, will: 0 },
+            next: "aok_1914_04_rawa",
+            outcome:
+              "Speculative. The two corps reach the Third Army by rail and by road and " +
+              "are put in at the Gnila Lipa. The Russians are held for a week, and " +
+              "Lemberg stays in Austrian hands that much longer. The Fourth Army goes " +
+              "on without them and has less in hand when it meets the Russian Fifth " +
+              "Army. The army has avoided one defeat and made another more likely." },
+          { weight: 45, title: "The corps arrive piecemeal, and are beaten in detail",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            next: "aok_1914_04_rawa",
+            outcome:
+              "Speculative. The corps arrive on different days by different roads and " +
+              "are put in as they come. The Russians, who have the whole of two armies " +
+              "in hand, beat them one at a time, and the Third Army is lost as it was in " +
+              "the record with two corps more. The Fourth Army has been weakened for " +
+              "nothing, and the General Staff has to explain why it divided its force " +
+              "between two fronts and was strong on neither." },
+        ],
+      },
+      {
+        id: "back",
+        label: "Withdraw the Third Army behind the Gnila Lipa and shorten its front before the Russians arrive",
+        advisor: { name: "Conrad", position:
+          "An army that gives up a few kilometres before it is attacked is in a better state than one that gives them after." },
+        impact: { manpower: 1, munitions: 0, will: -1 },
+        next: "aok_1914_04_rawa",
+        outcome:
+          "Speculative. The Third Army falls back behind the Gnila Lipa before the " +
+          "Russians have come up, and its front is shorter by a third. It meets the " +
+          "attack, when it comes, on ground it has chosen. Lemberg is left behind it " +
+          "undefended and open. The corps are saved for a battle later in the week, " +
+          "and the city, and the officers who were told to give it up, will not forget " +
+          "that it was given.",
+      },
     ],
   },
 
@@ -270,7 +370,7 @@ CAMPAIGNS.aok.nodes = {
     year: 1914, date: "1914-09-06", city: "Przemysl",
     title: "A Decisive Blow Meets Another",
     advisors: ["conrad", "friedrich"],
-    situation:
+    situation: (flags) =>
       "On 6 September the armies are three days into the great battle in Galicia. " +
       "Conrad's plan is a decisive blow by Auffenberg's Fourth Army, which has turned " +
       "south-east to deliver it, and the army to its left, under Archduke Joseph " +
@@ -280,7 +380,11 @@ CAMPAIGNS.aok.nodes = {
       "is coming straight at Auffenberg, so that the blow and the Russian advance meet " +
       "head on. The Austro-Hungarian armies are outnumbered by two to one, and on " +
       "the northern flank Plehve's Fifth Army is advancing from Komarow and the " +
-      "Russian Twenty-first Corps reaches beyond the left of the line.",
+      "Russian Twenty-first Corps reaches beyond the left of the line." +
+      (flags.aok_galicia === "cover"
+        ? "\n\nThe Third Army was held back at the San in the opening week, and the northern " +
+          "armies have fought without a corps and a half that would have stood beside them."
+        : ""),
     context:
       "Breaking off now is a retreat in the middle of the first great battle, with " +
       "the northern flank open and the fortress of Przemysl behind it. Going on is a " +
@@ -847,6 +951,21 @@ CAMPAIGNS.aok.nodes = {
           "farther. The army has staked everything on a single front and has asked an ally " +
           "to cover its loss on the other.",
       },
+      {
+        id: "split",
+        label: "Send half the divisions back to Galicia and keep the rest in the Tyrol for a limited objective on the Asiago plateau",
+        advisor: { name: "Conrad", position:
+          "Half is what Galicia needs at once, and the rest can still take the plateau, which is within reach and would give the army a success to show." },
+        impact: { manpower: -2, munitions: 0, will: 0 },
+        setFlags: { aok_brusilov: "split" },
+        next: "aok_1916_09_supreme",
+        outcome:
+          "Speculative. Half the divisions go back to Galicia by rail, and the rest are " +
+          "left in the Tyrol to take the plateau. The Russian wedge is slowed, not stopped, " +
+          "and the Italians are driven a little farther in the mountains. The army has " +
+          "divided its strength between two fronts and has not mended either, and the " +
+          "German command, which asked for all the divisions, has been given half.",
+      },
     ],
   },
 
@@ -999,22 +1118,43 @@ CAMPAIGNS.aok.nodes = {
       "is asking the ally to take the front's best success from it.",
     choices: [
       {
-        id: "german",
-        label: "Ask for German divisions and accept a German-commanded army at Caporetto",
-        historical: true,
-        advisor: { name: "Arz von Straussenburg", position:
-          "The army cannot hold another battle on the Isonzo by itself. A German-led blow is the best chance of keeping the front." },
-        impact: { manpower: 1, munitions: 1, will: 1 },
-        setFlags: { aok_caporetto: "german" },
-        erodes: "cede_sovereignty",
-        next: "aok_1917_12_pursuit",
-        outcome:
-          "A Fourteenth Army is made up of German and Austro-Hungarian divisions, under " +
-          "the German general Otto von Below. The offensive opens on 24 October and the " +
-          "Italian line at Caporetto breaks. The Italians retreat to the Piave, and the " +
-          "Allies send divisions to hold them. The monarchy is saved from the Italian " +
-          "armies once more, and has been shown again that it is saved by someone else.",
-      },
+  id: "german",
+  keyBattleSubgame: { id: "caporettoAustro" },
+  label: "Ask for German divisions and accept a German-commanded army at Caporetto",
+  historical: true,
+  advisor: { name: "Arz von Straussenburg", position:
+    "The army cannot hold another battle on the Isonzo by itself. A German-led blow is the best chance of keeping the front." },
+  impact: { manpower: 1, munitions: 1, will: 1 },
+  setFlags: { aok_caporetto: "german" },
+  erodes: "cede_sovereignty",
+  dispute:
+    "Historians differ on how far the victory at Caporetto was the work of the " +
+    "Fourteenth Army's tactics and how far of Italian failures: the rigid forward " +
+    "deployment, Cadorna's dispositions, the weather, and the illness of one of his " +
+    "army commanders. The Austro-German staff itself planned a limited blow, and how " +
+    "likely it was to break through at all is argued still.",
+  uncertain: [
+    { weight: 75, title: "The line breaks on the first day and the pursuit begins", historicalBranch: true,
+      impact: { manpower: 1, munitions: 1, will: 1 },
+      next: "aok_1917_12_pursuit",
+      outcome:
+        "A Fourteenth Army is made up of German and Austro-Hungarian divisions, under " +
+        "the German general Otto von Below. The offensive opens on 24 October and the " +
+        "Italian line at Caporetto breaks. The Italians retreat to the Piave, and the " +
+        "Allies send divisions to hold them. The monarchy is saved from the Italian " +
+        "armies once more, and has been shown again that it is saved by someone else." },
+    { weight: 25, title: "The Italians hold the Tagliamento for a week",
+      impact: { manpower: -1, munitions: -1, will: 0 },
+      next: "aok_1917_12_pursuit",
+      outcome:
+        "Speculative. The line at Caporetto breaks, and the pursuit is slower and " +
+        "costlier than it was in the record. Italian rearguards hold the Tagliamento " +
+        "for a week, and the stores that were captured on the first day are burned " +
+        "or taken back. The Fourteenth Army reaches the Piave later and with less. " +
+        "The monarchy is saved from another Italian attack, and has paid more for " +
+        "it than the staff had allowed." },
+  ],
+},
       {
         id: "defend",
         label: "Stay on the defensive on the Isonzo and ask only for guns",
@@ -1142,6 +1282,22 @@ CAMPAIGNS.aok.nodes = {
           "army has the divisions the offensive needs. " +
           "The summer comes with the army larger and the cities colder and " +
           "hungrier than they might have been.",
+      },
+      {
+        id: "partial",
+        label: "Send two divisions to Ukraine for the grain and keep the rest for the Italian front",
+        advisor: { name: "Karl", position:
+          "The grain is wanted, and so are the divisions. Two will secure what the towns need, and the rest can be kept for the summer." },
+        impact: { manpower: 0, munitions: 1, will: 0 },
+        setFlags: { aok_ukraine: "partial", xc_ukraine: "occupied" },
+        next: "aok_1918_12_piave",
+        outcome:
+          "Speculative. Two divisions go east, to the railway towns where the grain is " +
+          "loaded, and the rest stay on the Italian side. The grain that comes out is " +
+          "less than the monarchy hoped for and more than it would have had without " +
+          "them. The Germans, who took the first share, note that the Austrian army " +
+          "has sent a token force, and the army in Italy has the divisions it needs " +
+          "for one thrust and not for two.",
       },
     ],
   },
@@ -1313,7 +1469,7 @@ CAMPAIGNS.aok.nodes = {
     ending: { family: "dissolution", badge: BADGES.SETTLED },
     epilogue: (flags) =>
       "Serbia and Galicia, 1914: " + (flags.aok_serbia === "galicia" ? "the swing force sent to Galicia first." : "the swing force sent to Serbia first, then recalled.") + "\n" +
-      "The offensive into Russian Poland: " + (flags.aok_galicia === "defensive" ? "refused, and the army stood behind the San." : flags.aok_galiciaResult === "checked" ? "launched, and checked before the flank was turned." : "launched, and ended at Lemberg.") + "\n" +
+      "The offensive into Russian Poland: " + (flags.aok_galicia === "defensive" ? "refused, and the army stood behind the San." : flags.aok_galicia === "cover" ? "launched with the Third Army held back at the San to cover the southern flank." : flags.aok_galiciaResult === "checked" ? "launched, and checked before the flank was turned." : "launched, and ended at Lemberg.") + "\n" +
       "Rawa, September 1914: " + (flags.aok_rawa === "brokeoff" ? "the battle broken off and the army drawn back behind the San." : "the decisive blow left to go on, and the retreat to the Dunajec.") + "\n" +
       "Serbia, autumn 1914: " + (flags.aok_kolubara === "declined" ? "the third invasion declined." : "the third invasion made, and Belgrade lost again.") + "\n" +
       "Przemysl, 1915: " + (flags.aok_carpathians === "held" ? "the passes held, and the fortress left to its fate." : "relief pressed through the Carpathian winter.") + "\n" +
@@ -1323,12 +1479,12 @@ CAMPAIGNS.aok.nodes = {
       "Serbia, September 1915: " + (flags.aok_pless === "own" ? "the attack made under AOK's own orders." : "the attack made under Mackensen.") + "\n" +
       "Montenegro, January 1916: " + (flags.aok_montenegro === "halted" ? "left alone, and the divisions moved north." : "the campaign opened at once.") + "\n" +
       "The Trentino, May 1916: " + (flags.aok_strafe === "cancelled" ? "the offensive cancelled." : "launched, with the Galician divisions taken for it.") + "\n" +
-      "June 1916: " + (flags.aok_brusilov === "continued" ? "the offensive in the south kept up." : "the offensive halted and the divisions sent back.") + "\n" +
+      "June 1916: " + (flags.aok_brusilov === "continued" ? "the offensive in the south kept up." : flags.aok_brusilov === "split" ? "half the divisions sent back, the rest kept for the Asiago plateau." : "the offensive halted and the divisions sent back.") + "\n" +
       "The Supreme War Command: " + (flags.aok_supreme === "refused" ? "refused." : "accepted.") + "\n" +
       "March 1917: " + (flags.aok_sixtus === "separate" ? "the Emperor's wish for peace put to Berlin." : "the Emperor's approach to France kept from the German command.") + "\n" +
       "Caporetto: " + (flags.aok_caporetto === "defend" ? "the Isonzo defended without German divisions." : "a German-commanded army accepted.") + "\n" +
       "November 1917: " + (flags.aok_pursuit === "halted" ? "the armies halted on the line they had won." : "one more push over the Piave and on Monte Grappa.") + "\n" +
-      "February 1918: " + (flags.aok_ukraine === "kept" ? "the divisions kept for the Italian front." : "divisions sent into Ukraine for the grain.") + "\n" +
+      "February 1918: " + (flags.aok_ukraine === "kept" ? "the divisions kept for the Italian front." : flags.aok_ukraine === "partial" ? "two divisions sent for the grain, the rest kept." : "divisions sent into Ukraine for the grain.") + "\n" +
       "June 1918: " + (flags.aok_piave === "concentrated" ? "one thrust, with the whole army." : flags.aok_piaveResult === "bridgehead" ? "two thrusts, one of which held a bridgehead for a time." : "two thrusts, and the forces divided.") + "\n" +
       "October 1918: " + (flags.aok_vittorio === "german" ? "the German command asked to take the front." : "the retreat ordered and an armistice asked for.") + "\n\n" +
       "What actually happened: The armistice of Villa Giusti came into effect on 4 November 1918. The Italians had taken about 448,000 prisoners, a third of the army, and some 5,600 guns. Emperor Karl issued a proclamation on 11 November that recognised the right of the Austrian people to decide the form of the state, without using the word abdication. The monarchy was succeeded by Austria, Hungary, Czechoslovakia and the Kingdom of Serbs, Croats and Slovenes.",

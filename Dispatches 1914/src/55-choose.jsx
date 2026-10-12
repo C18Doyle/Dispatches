@@ -157,6 +157,8 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
     hardState: nextHard,
     branch,
     outcome: branch?.outcome ?? choice.outcome ?? null,
+    title: branch?.title ?? null,
+    historical: branch ? Boolean(branch.historicalBranch) : Boolean(choice.historical),
     aftermath: branch?.aftermath ?? choice.aftermath ?? null,
     battle,
     changes: meterChanges(meters, nextMeters, flags, nextFlags, choice, outcomeText, campaignId),

@@ -24,9 +24,12 @@
   "61-battle.jsx",
   "62-battles.jsx",
   "63-themes.jsx",
+  "64-asks.jsx",
+  "65-share.jsx",
   "90-ui.jsx",
   "95-battle-screens.jsx",
   "96-order-screens.jsx",
   "97-map-screens.jsx",
-  "98-sound.jsx"
+  "98-sound.jsx",
+  "99-share-screen.jsx"
 ]

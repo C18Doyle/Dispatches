@@ -70,16 +70,27 @@ await ctx.click(orders(ctx).find((b) => /Turn and attack/.test(ctx.lab(b))));
 let t = ctx.text();
 check(/ORDER OF BATTLE/.test(t) && /Order of Battle: the Marne/.test(t), "the attack opens the planning screen");
 check(/INTELLIGENCE SUMMARY/.test(t), "the screen gives an intelligence line");
-check(/6 of 6 chits left/.test(t) || /\d of \d chits left/.test(t), "the pool is shown");
+check(/Plan the battle in 3 steps/.test(t), "the screen says what the task is and how many steps it has");
+check(ctx.d.querySelectorAll(".dg-step").length === 3, "three steps are listed");
+check(/Name an officer/.test(ctx.d.querySelector("h2.dg-order").textContent), "the first step is the officer");
+check(/Counters\s*6 left/.test(ctx.d.querySelector(".dg-bt-bar").textContent), "the bar keeps the count of counters in view");
+check(!ctx.d.querySelector(".dg-issue"), "the plan cannot be issued from the first step");
+await ctx.click(btn(ctx, /^Next: choose the approach/));
+check(/Choose the approach/.test(ctx.d.querySelector("h2.dg-order").textContent), "the second step is the approach");
+await ctx.click(btn(ctx, /^Next: place the counters/));
+t = ctx.text();
+check(/\d of \d counters left to place/.test(t), "the pool is shown");
 const issue = () => btn(ctx, /^Issue the plan/);
 const unseal = async (c) => { const s = btn(c, /^Break the seal/); if (s) await c.click(s); };
 { const i = ctx.d.querySelector(".dg-issue"); check(!!i && i.disabled, "the plan cannot be issued with the pool unplaced"); }
 check(ctx.d.querySelectorAll(".dg-bt-arm").length === 4, "four arms are listed");
 check(/Maunoury's Sixth Army/.test(ctx.d.querySelector(".dg-bt-arm details").textContent), "an arm lists its real formations");
 await ctx.click(btn(ctx, /^More in The Sixth Army/));
-check(/5 of 6 chits left/.test(ctx.text()), "placing a chit uses the pool");
+check(/5 of 6 counters left/.test(ctx.text()), "placing a counter uses the pool");
+check(/Counters\s*5 left/.test(ctx.d.querySelector(".dg-bt-bar").textContent), "the bar follows the count");
 await ctx.click(btn(ctx, /^Clear the plan/));
-check(/6 of 6 chits left/.test(ctx.text()), "the plan can be cleared");
+await ctx.click(btn(ctx, /Place the counters/));
+check(/6 of 6 counters left/.test(ctx.text()), "the plan can be cleared");
 
 // back to the order, nothing spent
 await ctx.click(btn(ctx, /^Back to the order/));
@@ -88,7 +99,8 @@ check(orders(ctx).some((b) => /Turn and attack/.test(ctx.lab(b))), "back to the 
 // the staff plan, then issue
 await ctx.click(orders(ctx).find((b) => /Turn and attack/.test(ctx.lab(b))));
 await ctx.click(btn(ctx, /^Let the staff plan it/));
-check(/All 6 chits are placed/.test(ctx.text()), "the staff places the whole pool");
+check(/All 6 counters are placed/.test(ctx.text()), "the staff places the whole pool");
+check(/The odds\s*(Long odds|Against us|Even|Favourable|Strong)/.test(ctx.d.querySelector(".dg-bt-bar").textContent), "the bar gives the odds of a complete plan in words");
 check(!issue().disabled, "the plan can be issued once the pool is placed and an approach chosen");
 await ctx.click(issue());
 await unseal(ctx);

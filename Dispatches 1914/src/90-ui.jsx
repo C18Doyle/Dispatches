@@ -357,6 +357,55 @@ const css = `
   }
   @media print{.dg-root{background:#fff!important}.dg-btn,.dg-choice{box-shadow:none}}
 
+  /* ---- the shareable file ---- */
+  .dg-share{margin:26px 0}
+  .dg-sharecard{border:2px solid var(--rule);background:var(--paper-raised);padding:18px 18px 14px;text-align:center}
+  .dg-sc-top{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sc-cmd{margin-top:8px;font-size:15px;color:var(--ink-soft)}
+  .dg-sc-end{font-family:${THEME.serif};font-size:30px;font-weight:700;line-height:1.1;margin:6px 0 8px}
+  .dg-sc-badge{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:3px 10px}
+  .dg-sc-rank{margin-top:12px;font-size:14px}
+  .dg-sc-rank b{display:block;font-size:22px;font-family:${THEME.serif}}
+  .dg-sc-facts{font-size:14px;margin:12px 0 0}
+  .dg-sc-h{margin-top:12px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sc-list{list-style:none;margin:6px 0 0;padding:0;font-size:14px;text-align:left}
+  .dg-sc-list li{padding:6px 0;border-top:1px dotted var(--ink-soft)}
+  .dg-share-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .dg-share-text{width:100%;box-sizing:border-box;min-height:150px;font:inherit;font-size:14px;background:var(--paper-raised);color:var(--ink);border:1px solid var(--rule);margin-top:8px}
+  @media print{
+    .dg-root > *:not(.dg-share){display:none!important}
+    .dg-share-btns,.dg-share .dg-note,.dg-share h2,.dg-share-text{display:none!important}
+    .dg-sharecard{border-color:#000;background:#fff;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .dg-sharecard *{color:#000!important;border-color:#000!important}
+  }
+
+  /* ---- the question, the steps of a battle plan, the verdict ---- */
+  .dg-ask{border-left:4px solid var(--accent);padding:2px 0 2px 12px;margin:0 0 16px;font-size:16px}
+  .dg-ask b{display:block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+  .dg-jump{display:block;margin-top:6px;background:none;border:0;border-bottom:1px solid currentColor;padding:6px 0;font:inherit;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:inherit;cursor:pointer;min-height:44px}
+  .dg-steps{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:6px}
+  .dg-step{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:1.5px solid var(--rule);padding:10px 12px;font:inherit;color:inherit;cursor:pointer;min-height:44px}
+  .dg-steps .now .dg-step{background:var(--ink);color:var(--paper)}
+  .dg-step-n{flex:none;width:28px;height:28px;border:1.5px solid currentColor;border-radius:50%;display:grid;place-items:center;font-weight:700}
+  .dg-step-t b{display:block;font-size:14px}
+  .dg-step-t small{display:block;font-size:12.5px;opacity:.85}
+  .dg-bt-bar{position:sticky;bottom:0;z-index:5;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--paper);border-top:2px solid var(--rule);padding:10px 14px;margin:18px -20px 0}
+  .dg-bt-stat{display:flex;flex-direction:column;font-size:12.5px}
+  .dg-bt-k{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-bt-stat b{font-size:16px}
+  .dg-bt-stat small{font-size:12px;color:var(--ink-soft)}
+  .dg-bt-bar .dg-issue{margin:0;width:auto}
+  @media (max-width:480px){.dg-bt-bar{grid-template-columns:1fr 1fr}.dg-bt-bar>:last-child{grid-column:1 / -1}}
+  .dg-verdict{margin:0 0 18px}
+  .dg-kind{display:inline-block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;border:1.5px solid var(--ink-soft);padding:2px 8px;color:var(--ink-soft)}
+  .dg-verdict-h{font-family:${THEME.serif};font-size:26px;line-height:1.15;margin:10px 0 12px}
+  .dg-chips{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+  .dg-chips li{border:1.5px solid var(--ink-soft);padding:6px 10px;font-size:13px;display:flex;gap:8px;align-items:baseline}
+  .dg-chips li b{font-size:17px;font-family:${THEME.serif}}
+  .dg-chips li.neg{border-color:var(--accent)}
+  .dg-grade{margin:0;font-size:13.5px;color:var(--ink-soft)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
   /* ---- the Sepia look, over everything above ---- */
   ${sepiaCss()}
 `;
@@ -614,7 +663,15 @@ function RankPanel({ result }) {
   );
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, holdToSign, onRewind, onChoose, onHome }) {
+/** The report's jump: straight to the orders, and the focus goes with it. */
+function jumpToOrders() {
+  const h = document.getElementById("dg-orders");
+  if (!h) return;
+  h.scrollIntoView({ block: "start" });
+  h.focus({ preventScroll: true });
+}
+
+function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
@@ -645,6 +702,9 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <div className="dg-node-date">{romanDate(node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
+      {!node.ending && ASKS[nodeId] && (
+        <p className="dg-ask"><b>The decision</b>{ASKS[nodeId]}{" "}<button type="button" className="dg-jump" onClick={jumpToOrders}>Go to the orders ↓</button></p>
+      )}
       {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
 
       {node.bulletin && typeof node.bulletin === "object" && (
@@ -670,6 +730,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <div className={`dg-badge dg-badge-${node.ending.badge}`}>{BADGE_LABELS[node.ending.badge]}</div>
           {node.epilogue && <GlossText key={nodeId + "-epilogue"} segs={epilogueSegs} />}
           {rank && <RankPanel result={rank} />}
+          {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
           <details>
             <summary>▶ A NOTE FOR THE AUTHOR</summary>
             <div className="dg-note-box">
@@ -685,7 +746,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </>
       ) : (
         <>
-          <h2 className="dg-order">Issue Order</h2>
+          <h2 id="dg-orders" tabIndex={-1} className="dg-order">Issue Order</h2>
           {easy && canRewind && (
             <p><button className="dg-btn" onClick={onRewind}>Take back the last order</button></p>
           )}
@@ -723,13 +784,25 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
   );
 }
 
-function OutcomeScreen({ campaignId, outcome, record, battle, changes, contested, meters, flags, onContinue }) {
+/** What the outcome of an order is called on its screen: as the record has it, a modelled alternative, or just the result. */
+const SPECULATIVE_LEAD = /^(Speculative|A modell?ed alternative)\.\s*/i;
+
+function OutcomeScreen({ campaignId, outcome, headline, historical, record, battle, changes, contested, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const heading = useRef(null);
   useEffect(() => { if (contested && opened && heading.current) heading.current.focus(); }, [opened]);
-  const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([outcome, record && record.text]), [outcome, record]);
+  const speculative = SPECULATIVE_LEAD.test(outcome || "");
+  const body = speculative ? outcome.replace(SPECULATIVE_LEAD, "") : outcome;
+  const kind = speculative ? "A modelled alternative" : historical ? "As it happened" : contested ? "Not as it happened" : "The outcome";
+  const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([body, record && record.text]), [body, record]);
   const labels = meterLabels(campaignId);
+  // what each meter did, summed over its readings
+  const moved = useMemo(() => {
+    const o = {};
+    for (const ch of changes || []) o[ch.axis] = (o[ch.axis] || 0) + ch.delta;
+    return METER_AXES.filter((a) => o[a]).map((a) => ({ axis: a, delta: o[a] }));
+  }, [changes]);
   // where the meters stood before the order, so the gauges can slide to where they stand now
   const from = useMemo(() => {
     const f = { ...meters };
@@ -745,7 +818,20 @@ function OutcomeScreen({ campaignId, outcome, record, battle, changes, contested
         <SealedCable onOpen={() => { atmosphereFx("seal"); setOpened(true); }} />
       ) : (
         <>
-          {contested && <h2 ref={heading} tabIndex={-1} className="dg-order">The cable says</h2>}
+          <section className="dg-verdict" aria-label="The verdict">
+            <span className="dg-kind">{kind}</span>
+            <h2 ref={heading} tabIndex={-1} className="dg-verdict-h">{headline || (contested ? "The cable says" : "The outcome")}</h2>
+            <ul className="dg-chips" aria-label="What it did to the meters">
+              {moved.length === 0 && <li>No change to the meters</li>}
+              {moved.map((m) => (
+                <li key={m.axis} className={m.delta < 0 ? "neg" : "pos"}>
+                  <b aria-hidden="true">{m.delta < 0 ? "▼" : "▲"} {fmtMeter(m.delta)}</b>
+                  <span className="sr">{m.delta < 0 ? "Down " : "Up "}{Math.abs(m.delta)}: </span>{labels[m.axis]}
+                </li>
+              ))}
+            </ul>
+            {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
+          </section>
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
           <MeterChanges changes={changes} labels={labels} />
@@ -1078,6 +1164,8 @@ export default function App() {
       pendingOutcome: screen === "outcome" && pending ? pending.outcome ?? null : null,
       pendingRecord: screen === "outcome" && pending ? pending.record ?? null : null,
       pendingBattle: screen === "outcome" && pending ? pending.battle ?? null : null,
+      pendingHeadline: screen === "outcome" && pending ? pending.headline ?? null : null,
+      pendingHistorical: screen === "outcome" && pending ? (pending.historical === undefined ? null : pending.historical) : null,
     }));
   }, [screen, campaignId, nodeId, flags, meters, hardState, pending, visited, runEasy, taken, history]);
 
@@ -1107,7 +1195,7 @@ export default function App() {
     setTaken(Array.isArray(s.taken) ? s.taken : []);
     setHistory(Array.isArray(s.history) ? s.history : []);
     setVisited(s.visited);
-    setPending(s.pendingOutcome ? { nextId: s.pendingNextId, outcome: s.pendingOutcome, record: s.pendingRecord ?? null, battle: s.pendingBattle ?? null } : null);
+    setPending(s.pendingOutcome ? { nextId: s.pendingNextId, outcome: s.pendingOutcome, record: s.pendingRecord ?? null, battle: s.pendingBattle ?? null, headline: s.pendingHeadline ?? null, historical: s.pendingHistorical === true } : null);
     setRunKey((k) => k + 1);
     setNodeId(s.nodeId);
     setScreen(s.pendingOutcome ? "outcome" : "node");
@@ -1136,7 +1224,7 @@ export default function App() {
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
     setRecord((rec) => (r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags)));
-    setPending({ ...r, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null });
+    setPending({ ...r, headline: r.title || ch.label, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null });
     setScreen(r.outcome ? "outcome" : "node");
     if (!r.outcome) setNodeId(r.nextId);
   };
@@ -1174,18 +1262,18 @@ export default function App() {
       )}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
-        <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} record={pending.record} battle={pending.battle}
+        <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
           changes={pending.changes} contested={pending.contested} meters={meters} flags={flags} onContinue={cont} />
       )}
       {screen === "battle" && battleChoice && (
-        <BattleScreen campaignId={campaignId} config={battleOf(battleChoice)} meters={meters} easy={runEasy}
+        <BattleScreen campaignId={campaignId} config={battleOf(battleChoice)} choice={battleChoice} meters={meters} easy={runEasy}
           onCommit={(plan) => { const ch = battleChoice; setBattleChoice(null); choose(ch, plan); }}
           onBack={() => { setBattleChoice(null); setScreen("node"); }} />
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
+          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">

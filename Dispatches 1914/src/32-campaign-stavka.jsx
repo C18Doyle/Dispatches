@@ -196,6 +196,42 @@ CAMPAIGNS.stavka.nodes = {
           "The army gets its bread and its wireless sorted out, and it pays for both " +
           "with the time that was the whole purpose of the invasion.",
       },
+      {
+        id: "wheel",
+        label: "Order the Second Army to wheel north-east toward the First, and give up the march on Allenstein",
+        advisor: { name: "Samsonov", position:
+          "The armies are too far apart to help each other. If they are to fight one battle, they must first be brought within reach of each other." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        dispute:
+          "Historians differ on whether the loss of the Second Army could have been " +
+          "avoided by drawing it toward the First. Some hold that Samsonov was cut off " +
+          "because the front commander's orders kept the armies apart. Others hold that " +
+          "the Germans would have found any line of march across the lakes and woods, " +
+          "since Russian wireless messages went out in clear and every plan was known.",
+        uncertain: [
+          { weight: 55, title: "The two armies close up and face the Eighth Army together",
+            impact: { manpower: 0, munitions: 0, will: 1 },
+            setFlags: { stavka_tannenberg: "closed" },
+            next: "stavka_1914_02_galicia",
+            outcome:
+              "Speculative. Samsonov is ordered to turn his corps toward Rennenkampf's army, " +
+              "and within a week the two are in touch. The German Eighth Army has to fight " +
+              "two armies at once or retire, and in either case the Second Army is not alone " +
+              "on the road to Allenstein. The French are told that the advance goes on, " +
+              "a week slower than promised." },
+          { weight: 45, title: "The wheel opens the flank of the Second Army on the march",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { stavka_tannenberg: "wheeled" },
+            next: "stavka_1914_02_galicia",
+            outcome:
+              "Speculative. The Second Army turns, and in turning its corps are strung out " +
+              "along roads that the German Eighth Army knows from its own manoeuvres. The " +
+              "flank that was meant to be closed is opened, and the Germans come into it " +
+              "before the First Army is near enough to help. The army is not destroyed as " +
+              "it was in the record, and it is not saved either; Samsonov has less ground " +
+              "to be beaten on, and no more to do it with." },
+        ],
+      },
     ],
   },
 
@@ -395,7 +431,7 @@ CAMPAIGNS.stavka.nodes = {
         label: "Press on into Silesia and let the Second Army hold Lodz with what it has",
         advisor: { name: "Ruzsky", position:
           "The way to answer a blow at our flank is to be in Germany before it lands. The plan was to cross the frontier, and the army that crosses it is the one the enemy has to answer." },
-        gate: (m) => m.will >= -3,
+        gate: (m) => m.will >= -1,
         disabledReason: "Nobody at headquarters will answer for leaving the flank open",
         impact: { manpower: -1, munitions: -1, will: 2 },
         setFlags: { stavka_lodz: "silesia" },
@@ -737,6 +773,42 @@ CAMPAIGNS.stavka.nodes = {
           "its reserve, untried, and the Emperor, six days into the command, has a " +
           "retreat to his name that was not forced on him.",
       },
+      {
+        id: "partial",
+        label: "Counterattack with the cavalry and the leading divisions of the new army only, and keep the rest in reserve",
+        advisor: { name: "Polivanov", position:
+          "The new army has never been tried. Put in a part of it and the rest is still an army if the part is lost." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        dispute:
+          "Historians differ about the German cavalry drive at Sventsiany: whether it " +
+          "was meant as a deep envelopment of the Russian armies around Vilna, or was " +
+          "a raid whose success surprised its authors. How much force was needed to stop " +
+          "it depends on which of the two it was.",
+        uncertain: [
+          { weight: 60, title: "The leading divisions stop the cavalry, and the gap closes slowly",
+            impact: { manpower: 0, munitions: 0, will: 1 },
+            setFlags: { stavka_sventsiany: "partial" },
+            next: "stavka_1915_06_chantilly",
+            outcome:
+              "Speculative. The leading divisions of the new army are put in at the neck of " +
+              "the breach and stop the German cavalry, which has no infantry or guns with " +
+              "it. The rest of the army is kept back and arrives a few days later. The gap " +
+              "is closed more slowly than it would have been by the whole army, and the " +
+              "Emperor, in his first week in command, has a reserve still untried and a " +
+              "front that has held." },
+          { weight: 40, title: "The leading divisions are too few, and the cavalry cuts the railway",
+            impact: { manpower: -1, munitions: -1, will: -1 },
+            setFlags: { stavka_sventsiany: "partial" },
+            next: "stavka_1915_06_chantilly",
+            outcome:
+              "Speculative. The divisions put in at the breach are not enough to stop " +
+              "the cavalry, which reaches the railway at Molodechno and cuts it for two " +
+              "days. The rest of the new army arrives to find the breach wider than the " +
+              "report that sent it. The gap is closed in the end, a week after it would " +
+              "have been, and the army has learned what a reserve held back is worth " +
+              "when the moment to use it has gone." },
+        ],
+      },
     ],
   },
 
@@ -783,7 +855,7 @@ CAMPAIGNS.stavka.nodes = {
         label: "Decline to commit until the army has been re-equipped",
         advisor: { name: "Polivanov", position:
           "An army that has lost its guns and half its rifles cannot make a promise to attack by a date, and a promise it cannot keep is worse than the refusal." },
-        gate: (m) => m.munitions <= -2,
+        gate: (m) => m.munitions <= -6,
         disabledReason: "The army's stores are not low enough for a refusal to be believed",
         impact: { manpower: 1, munitions: 1, will: 0 },
         setFlags: { stavka_chantilly: "declined", xc_chantilly: "declined" },
@@ -994,6 +1066,120 @@ CAMPAIGNS.stavka.nodes = {
           "still there in the winter when the army needs them. The Commander who has " +
           "been asked for one more effort is told, instead, that the effort is over.",
       },
+      {
+        id: "lemberg",
+        label: "Shift the main effort south toward Lemberg and Halicz, and keep the Guards in reserve",
+        advisor: { name: "Alekseyev", position:
+          "The Germans are gathering in front of Kovel, and the marsh favours them. The Austrians are weaker in the south, and the road to Lemberg is the road the Galician front has always wanted." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        setFlags: { stavka_kovel: "lemberg" },
+        next: "stavka_1916_15_lemberg",
+        outcome:
+          "Speculative. The order to the Guards and the Special Army is not given. The " +
+          "weight of the front shifts south, toward ground the Russian armies know from " +
+          "1914 and 1915, and the staffs begin to draw up what a drive on Lemberg would " +
+          "need. The marsh at the Stokhod stays where it was. The Guards are told that " +
+          "they will not be wanted there, and the Supreme Command now has to say what " +
+          "they are wanted for.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-07 (a detour: the road to Lemberg)
+  stavka_1916_15_lemberg: {
+    year: 1916, date: "1916-07-29", city: "Mogilev",
+    title: "The Road to Lemberg",
+    advisors: ["alekseyev", "brusilov"],
+    situation:
+      "The weight has gone south. The Ninth Army and the Eleventh are in front of " +
+      "Stanislau and Brody, against an Austro-Hungarian front that has been bent and " +
+      "not broken, and a German force under Bothmer that is still standing. The " +
+      "Guards are in reserve. The roads in Galicia are better than the marsh at the " +
+      "Stokhod, and the railways are no better.\n\n" +
+      "The offensive has been going for two months. The armies have lost heavily, the " +
+      "supply is stretched, and every day gives the Germans time to bring divisions " +
+      "from the west.",
+    context:
+      "Brusilov wants a decision before the German reserves arrive. Alekseyev wants an " +
+      "army that is still there in the autumn. Romania is about to declare, and what " +
+      "Russia has left is what it will have to give her.",
+    choices: [
+      {
+        id: "stop",
+        label: "Suspend the offensive in the south as well, and take the army's strength into the autumn",
+        historical: true,
+        advisor: { name: "Alekseyev", position:
+          "The offensive has done what an offensive can do. An army that goes on until it is spent has nothing for Romania and nothing for the winter." },
+        impact: { manpower: 1, munitions: 1, will: -1 },
+        next: "stavka_1916_13_romania",
+        outcome:
+          "Speculative. The attack on Lemberg is not made. The armies in the south dig " +
+          "in where they stand, the Guards are kept for what comes in the autumn, and " +
+          "the front holds the line it has won. The Germans use the pause to bring up " +
+          "divisions, and Brusilov, who wanted one more effort, is told that the effort " +
+          "is over. The army goes into August with its strength intact and its " +
+          "opportunity behind it.",
+      },
+      {
+        id: "stanislau",
+        label: "Press the Ninth Army's attack at Stanislau and on the Dniester, with the Guards in support",
+        advisor: { name: "Brusilov", position:
+          "The enemy is still off balance in the south. A week from now it will not be, and the Guards in reserve are doing nothing." },
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "Historians differ about whether a Russian drive toward Lemberg in the summer " +
+          "of 1916 could have exploited the Austro-Hungarian collapse before German " +
+          "reserves arrived. The Russian armies had lost heavily and their supply was " +
+          "stretched; the Austro-Hungarian front had broken in the north and was " +
+          "bending in the south. How near the effort came to a result is argued without " +
+          "an answer.",
+        uncertain: [
+          { weight: 30, title: "The line of the Zlota Lipa is reached",
+            impact: { manpower: -1, munitions: -1, will: 2 },
+            next: "stavka_1916_13_romania",
+            outcome:
+              "Speculative. The attack goes forward from Stanislau and reaches the line " +
+              "of the Zlota Lipa, with the Guards put in behind it at the decisive " +
+              "moment. Lemberg is not taken, but it is within gun range, and the " +
+              "Austro-Hungarian armies in front of it have to fall back again. Romania " +
+              "declares war into a situation that looks better than it is, and the " +
+              "army pays for it in men it does not have." },
+          { weight: 45, title: "The attack stalls, and the front settles",
+            impact: { manpower: -1, munitions: -1, will: -1 },
+            next: "stavka_1916_13_romania",
+            outcome:
+              "Speculative. The attack makes ground for four days and is stopped on " +
+              "the next ridge by guns the Germans have brought up. The Guards are put " +
+              "in and do not change it. The front settles into positions further west " +
+              "than it would otherwise have, at a price in men that the autumn will " +
+              "make clear. Brusilov has been given his effort and has not been " +
+              "given his decision." },
+          { weight: 25, title: "Bothmer counter-attacks, and the Guards are drawn in",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            next: "stavka_1916_13_romania",
+            outcome:
+              "Speculative. The South Army counter-attacks on the flank of the advance, " +
+              "and the Guards, put in to restore the line, are spent on the Dniester " +
+              "instead of the Stokhod. The result is the same as the record in the one " +
+              "thing that matters: the best reserve in the army has been used up in July, " +
+              "and it will not be there when Romania needs it." },
+        ],
+      },
+      {
+        id: "romania",
+        label: "Hold the south as it stands and prepare a joint attack with the Romanians in September",
+        advisor: { name: "Brusilov", position:
+          "If Romania is coming, the combined weight of both armies is worth more than another week of ours alone. Prepare it properly." },
+        impact: { manpower: 0, munitions: 1, will: 0 },
+        next: "stavka_1916_13_romania",
+        outcome:
+          "Speculative. The offensive is paused and a joint operation with the " +
+          "Romanian army is planned for September, to cross the Carpathians together. " +
+          "The staffs begin to draw up the plan. The Germans, who can read a calendar " +
+          "as well as the Russians, use the weeks to bring divisions to Transylvania. " +
+          "The pause that was meant to build a larger blow gives the enemy time to " +
+          "build a larger defence.",
+      },
     ],
   },
 
@@ -1102,7 +1288,7 @@ CAMPAIGNS.stavka.nodes = {
         label: "Hold only the Russian frontier and the Prut, and leave the rest to the Romanians",
         advisor: { name: "Brusilov", position:
           "Every division sent south is a division not sent against the Austrians in the spring. The frontier we have to hold is our own." },
-        gate: (m) => m.manpower <= -2,
+        gate: (m) => m.manpower <= -5,
         disabledReason: "The army is not yet so short of men that the Romanians can be told they are on their own",
         impact: { manpower: 0, munitions: 1, will: -1 },
         setFlags: { stavka_romfront: "limited" },
@@ -1449,6 +1635,22 @@ CAMPAIGNS.stavka.nodes = {
           "the infantry could have held is answered the hard way. The risk is " +
           "an army encircled in a city it was ordered to hold.",
       },
+      {
+        id: "delay",
+        label: "Hold the Ikskile bridgehead for two days with the Latvian Riflemen, then withdraw",
+        advisor: { name: "Klembovsky", position:
+          "Two days at the crossing gives the rest of the army time to get back. The riflemen are the regiments that will stay, and they can be asked to." },
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { stavka_riga: "delayed" },
+        next: "stavka_1917_13_kornilov",
+        outcome:
+          "Speculative. The Latvian Riflemen are ordered to hold the bridgehead for two days " +
+          "while the rest of the army gets back across the roads behind it. They hold it, " +
+          "and they are not relieved. The Twelfth Army gets away a day further from the " +
+          "Daugava than it did in the record, and the riflemen who covered it do not get " +
+          "away at all. The regiments asked to stay are the ones with most to lose, and " +
+          "their losses are the price of a cleaner retreat.",
+      },
     ],
   },
 
@@ -1511,6 +1713,43 @@ CAMPAIGNS.stavka.nodes = {
           "the army has been spared learning that its generals could not be trusted " +
           "with it.",
       },
+      {
+        id: "mediate",
+        label: "Send Alekseyev to Petrograd to settle what each man meant, before the cavalry corps arrives",
+        advisor: { name: "Alekseyev", position:
+          "The two men have been speaking through intermediaries who understood them differently. Someone trusted by both should speak to them in person, and quickly." },
+        impact: { manpower: 0, munitions: 0, will: 0 },
+        dispute:
+          "Whether Kornilov meant to take power or to carry out an arrangement made with " +
+          "the government is disputed, as is whether the two men could have been brought " +
+          "to an understanding in the three days that the affair lasted. The messages " +
+          "that passed between them through an intermediary were understood differently " +
+          "by each.",
+        uncertain: [
+          { weight: 50, title: "A meeting is arranged and the corps is halted at Luga",
+            impact: { manpower: 0, munitions: 0, will: 1 },
+            setFlags: { stavka_kornilov: "mediated" },
+            next: "stavka_1917_08_october",
+            outcome:
+              "Speculative. Alekseyev reaches Petrograd on the evening of the 28th and is " +
+              "received by Kerensky the same night. The corps is halted at Luga while the " +
+              "two men are brought to speak, and it does not collapse because it has not " +
+              "been tested. Kornilov is dismissed, and arrested later, quietly. The " +
+              "soviets were not called out, and the Bolsheviks have no counter-revolution to " +
+              "claim they defeated." },
+          { weight: 50, title: "The mediator is too late, and the affair runs its course",
+            impact: { manpower: 1, munitions: 0, will: -1 },
+            setFlags: { stavka_kornilov: "refused" },
+            next: "stavka_1917_08_october",
+            outcome:
+              "Speculative. Alekseyev leaves Mogilev on the 27th and reaches Petrograd to find " +
+              "that the Soviet has already set up its committee and that the corps is coming " +
+              "apart on the line. His arrival changes nothing, and he is a witness to the " +
+              "end of the affair and no part of it. Kornilov is arrested, and the " +
+              "Bolsheviks, who were being blamed for July, come out of it with far more " +
+              "prestige." },
+        ],
+      },
     ],
   },
 
@@ -1538,7 +1777,10 @@ CAMPAIGNS.stavka.nodes = {
         : flags.stavka_kornilov === "obeyed"
           ? "\n\nThe Supreme Commander of the summer obeyed his dismissal in August, and the " +
             "army's officers have not forgotten that either."
-          : "") +
+          : flags.stavka_kornilov === "mediated"
+            ? "\n\nThe Supreme Commander of the summer was talked out of his march in August by an " +
+              "officer sent from this headquarters, and the army's officers have not forgotten who had to be sent."
+            : "") +
       "\n\nWhat is left to decide is what this headquarters does with the fact that " +
       "it no longer has a government it recognises and still has an enemy in front of " +
       "it.",
@@ -1668,21 +1910,21 @@ CAMPAIGNS.stavka.nodes = {
       "June 1917: " + (flags.stavka_kerensky === "refused" ? "the offensive was refused." : "the offensive was made.") + "\n" +
       "Autumn 1914: " + (flags.stavka_1914theatre === "prussia" ? "the northern effort was renewed." : "Galicia was reinforced.") + "\n" +
       "The Emperor at headquarters: " + (flags.stavka_commandResult === "steadied" ? "the capital held together in his absence." : flags.stavka_commandResult === "capitallost" ? "the capital did not hold together in his absence." : "the question did not arise.") + "\n" +
-      "The Second Army, August 1914: " + (flags.stavka_tannenberg === "halted" ? "halted at the frontier for its supply." : "left to press on.") + "\n" +
+      "The Second Army, August 1914: " + (flags.stavka_tannenberg === "halted" ? "halted at the frontier for its supply." : flags.stavka_tannenberg === "closed" ? "wheeled toward the First Army and the two closed up." : flags.stavka_tannenberg === "wheeled" ? "wheeled toward the First Army and caught on the march." : "left to press on.") + "\n" +
       "The Carpathians, March 1915: " + (flags.stavka_carpathians === "halted" ? "halted in the passes to refit." : "pressed on into the mountains.") + "\n" +
-      "The Guards, summer 1916: " + (flags.stavka_kovel === "held" ? "kept in reserve." : "sent at the Stokhod for Kovel.") + "\n" +
+      "The Guards, summer 1916: " + (flags.stavka_kovel === "held" ? "kept in reserve." : flags.stavka_kovel === "lemberg" ? "kept back while the weight was shifted south toward Lemberg." : "sent at the Stokhod for Kovel.") + "\n" +
       "Romania: " + (flags.stavka_romania === "army" ? "an army sent at once." : "three divisions sent.") + "\n" +
       "The death penalty: " + (flags.stavka_deathpenalty === "refused" ? "not restored." : "restored at the front on 12 July 1917.") + "\n" +
-      "The Kornilov affair: " + (flags.stavka_kornilov === "obeyed" ? "the dismissal obeyed." : "the dismissal refused, and the march collapsed.") + "\n" +
+      "The Kornilov affair: " + (flags.stavka_kornilov === "obeyed" ? "the dismissal obeyed." : flags.stavka_kornilov === "mediated" ? "a mediator sent, and the corps halted at Luga." : "the dismissal refused, and the march collapsed.") + "\n" +
       "Przemysl, winter 1914: " + (flags.stavka_przemysl === "stormed" ? "assaulted." : "invested and starved out.") + "\n" +
       "Lodz, November 1914: " + (flags.stavka_lodz === "silesia" ? "the Silesian offensive pressed on." : flags.stavka_lodzResult === "covered" ? "the Fifth Army turned north and covered the flank." : "the Fifth Army turned north and the Silesian offensive was given up.") + "\n" +
       "East Prussia, February 1915: " + (flags.stavka_masuria === "pulled" ? "the Tenth Army was drawn back to the Niemen." : "the border line was held and the Twentieth Corps lost.") + "\n" +
-      "Sventsiany, September 1915: " + (flags.stavka_sventsiany === "withdrew" ? "the line was shortened." : "the breach was met by counterattack.") + "\n" +
+      "Sventsiany, September 1915: " + (flags.stavka_sventsiany === "withdrew" ? "the line was shortened." : flags.stavka_sventsiany === "partial" ? "the breach was met by a part of the new army, the rest held back." : "the breach was met by counterattack.") + "\n" +
       "Chantilly, December 1915: " + (flags.stavka_chantilly === "declined" ? "no commitment was made." : "Russia joined the plan for simultaneous offensives.") + "\n" +
       "Lake Naroch, March 1916: " + (flags.stavka_naroch === "refused" ? "the French request was declined." : "the offensive was made.") + "\n" +
       "The Romanian Front, December 1916: " + (flags.stavka_romfront === "limited" ? "only the Russian frontier was held." : "a front was formed in Moldavia under the King.") + "\n" +
       "The Allied missions, January 1917: " + (flags.stavka_petrograd === "promised" ? "a spring offensive was promised." : "the great offensives were put off.") + "\n" +
-      "Riga, August 1917: " + (flags.stavka_riga === "held" ? "the Twelfth Army was ordered to hold." : "the Twelfth Army withdrew.") + "\n" +
+      "Riga, August 1917: " + (flags.stavka_riga === "held" ? "the Twelfth Army was ordered to hold." : flags.stavka_riga === "delayed" ? "the Latvian Riflemen held the bridgehead for two days." : "the Twelfth Army withdrew.") + "\n" +
       "The order to open talks: " + (flags.stavka_armistice === "obeyed" ? "carried out." : "declined; Dukhonin dismissed and killed.") + "\n" +
       "October 1917: " + (flags.stavka_october === "resisted" ? "the new authority was refused recognition." : "the headquarters took no side.") + "\n\n" +
       "The officers of this headquarters disperse toward the Don, toward Siberia, and " +

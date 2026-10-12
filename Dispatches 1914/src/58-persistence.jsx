@@ -101,7 +101,7 @@ export function removeKey(key) {
 // ---------- the saved run ----------
 
 /** What is stored for a run in progress. `pendingOutcome` (and `pendingRecord`, the historical note shown with it) are set while the player is on an outcome screen. */
-export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null, pendingBattle = null, easy = false, taken = [], history = [] }) {
+export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visited, pendingNextId = null, pendingOutcome = null, pendingRecord = null, pendingBattle = null, pendingHeadline = null, pendingHistorical = null, easy = false, taken = [], history = [] }) {
   return {
     schemaVersion: SAVE_SCHEMA_VERSION,
     campaignId,
@@ -112,6 +112,8 @@ export function snapshotRun({ campaignId, nodeId, flags, meters, hardState, visi
     visited,
     pendingNextId,
     pendingOutcome,
+    pendingHeadline,
+    pendingHistorical,
     pendingRecord,
     pendingBattle,
     // Added in 1.3.0, all optional: a save made before them has none and resumes as a standard (or hard) run with no rewind history.

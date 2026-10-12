@@ -1263,5 +1263,206 @@
     "status": "drafted",
     "sources": [],
     "note": "62-battles.jsx."
+  },
+  {
+    "id": "otto-fk-1",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "fact",
+    "claim": "At Sarikamis the Russian corps commander wanted to fall back on Kars in the first days of the Ottoman offensive in December 1914.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from memory of the battle (Myshlaevsky and Yudenich); to be checked against a history of the Caucasus front."
+  },
+  {
+    "id": "otto-fk-2",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "characterization",
+    "claim": "Historians differ on whether the plan at Sarikamis could have succeeded; the second outcome of the roll is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field."
+  },
+  {
+    "id": "otto-fk-3",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "position",
+    "claim": "Liman von Sanders is characterized as favouring a delay for clothing and rations.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; the recorded Liman argues against the offensive in the snow."
+  },
+  {
+    "id": "otto-fk-4",
+    "node": "otto_1915_04_clothing",
+    "kind": "characterization",
+    "claim": "A month's postponement of the Sarikamis offensive for winter clothing is a modelled alternative; the courses at this node and the outcomes of the roll are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "otto-fk-5",
+    "node": "otto_1915_04_clothing",
+    "kind": "fact",
+    "claim": "The Russians had a railway to within about 24 kilometres of the frontier at Sarikamis.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the existing claim in the Sarikamis node."
+  },
+  {
+    "id": "otto-fk-6",
+    "node": "otto_1915_04_clothing",
+    "kind": "characterization",
+    "claim": "Historians differ on whether the Sarikamis plan could have succeeded with better preparation or was impossible in the season and on the ground.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the roll."
+  },
+  {
+    "id": "otto-fk-7",
+    "node": "otto_1915_01_suez",
+    "kind": "fact",
+    "claim": "Kress von Kressenstein thought of the attack on the Suez Canal as a forcible reconnaissance; the British knew of the advance by aeroplane for days before.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the existing node text."
+  },
+  {
+    "id": "otto-fk-8",
+    "node": "otto_1915_01_suez",
+    "kind": "characterization",
+    "claim": "A bridgehead held for a day at the canal, and a raid by a smaller column, are modelled alternatives.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "otto-fk-9",
+    "node": "otto_1917_01_yildirim",
+    "kind": "fact",
+    "claim": "Falkenhayn warned that an advance on Baghdad without first securing the Sinai front would be unwise, and Djemal agreed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the node's situation text."
+  },
+  {
+    "id": "otto-fk-10",
+    "node": "otto_1917_01_yildirim",
+    "kind": "characterization",
+    "claim": "Dividing the Yildirim Army Group between Palestine and the Euphrates is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "otto-fk-11",
+    "node": "otto_1917_01_yildirim",
+    "kind": "position",
+    "claim": "Enver is characterized as holding that both fronts had to be held and Baghdad tried.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; Enver wanted Baghdad retaken."
+  },
+  {
+    "id": "otto-fk-12",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "At Megiddo on 19 September 1918 the attack began at 4.30 behind 385 guns, the telephone exchange at Afula was cut by a bomber, and Damascus fell on 1 October.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the existing outcome text."
+  },
+  {
+    "id": "otto-fk-13",
+    "node": "otto_1918_02_megiddo",
+    "kind": "characterization",
+    "claim": "Historians differ on how far the collapse was due to Allenby's deception and concentration and how far to the state of the Ottoman army.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the roll."
+  },
+  {
+    "id": "otto-fk-14",
+    "node": "otto_1918_02_megiddo",
+    "kind": "characterization",
+    "claim": "The branch in which the Eighth Army gets its guns away is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "bat-otto-23",
+    "node": "otto_1918_02_megiddo",
+    "kind": "figure",
+    "claim": "The Ottoman army group had about 32,000 infantry and 402 guns, against about 57,000 infantry, 12,000 mounted troops and 540 guns on the British side.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-24",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "The Eighth Army under Jevad held the coast, the Seventh under Mustafa Kemal the Judean Hills and the Fourth under Djemal Mersinli the Jordan; the XXII Corps under Refet was on the Eighth Army's right flank.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-25",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "The main attack began at 4.30 a.m. on 19 September 1918 after a barrage by 385 guns; at 1 a.m. a Handley Page bomber dropped sixteen bombs on the Afula telephone exchange and station, cutting the army group off from the Seventh and Eighth Armies for two days.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-26",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "On 20 September British cavalry attacked Nazareth, where Liman had his headquarters, and Liman escaped; on 21 September aircraft destroyed the Seventh Army's column in the Wadi Fara in about an hour.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-27",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "Refet, commanding the XXII Corps, had wanted to withdraw before the attack and was forbidden; his headquarters was overrun on 19 September.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-28",
+    "node": "otto_1918_02_megiddo",
+    "kind": "figure",
+    "claim": "The columns left behind 87 guns, 55 motor lorries and 837 wagons; about 75,000 Ottoman soldiers were taken by the fall of Damascus on 1 October 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-otto-29",
+    "node": "otto_1918_02_megiddo",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the four arms (coast 2.3, telephones and staff 2.1, hills 1.7, guns 1.3) and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx; the ordering follows the account of where the blow fell and how the army group was cut off."
   }
 ]

@@ -56,6 +56,10 @@ jobs:
         run: |
           npm run build
           node tools/audit-screens.mjs
+      - name: Real-browser playthrough of every command to its ending
+        if: matrix.os == 'ubuntu-24.04'
+        working-directory: Dispatches 1914
+        run: node tools/playthrough.mjs
       - name: Keep screenshots
         if: always() && matrix.os == 'ubuntu-24.04'
         uses: actions/upload-artifact@v7

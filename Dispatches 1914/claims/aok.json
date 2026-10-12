@@ -879,5 +879,186 @@
     "status": "drafted",
     "sources": [],
     "note": "62-battles.jsx."
+  },
+  {
+    "id": "aok-fk-1",
+    "node": "aok_1914_06_flank",
+    "kind": "fact",
+    "claim": "On the southern flank in Galicia in late August 1914 the Russian Eighth Army under Brusilov and the Third under Ruzsky advanced on the Gnila Lipa and Lemberg against the Austro-Hungarian Third Army under Brudermann.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the existing claims and the node's own outcome text."
+  },
+  {
+    "id": "aok-fk-2",
+    "node": "aok_1914_06_flank",
+    "kind": "characterization",
+    "claim": "The three courses at this node (leave the Third Army, send two corps south, withdraw behind the Gnila Lipa) are modelled alternatives, and the outcomes of the roll are modelled, not recorded.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "aok-fk-3",
+    "node": "aok_1914_06_flank",
+    "kind": "characterization",
+    "claim": "Whether Conrad could have shifted weight to the southern flank in time is argued; the railways could carry corps but not at the speed of the Russian advance.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the roll."
+  },
+  {
+    "id": "aok-fk-4",
+    "node": "aok_1914_06_flank",
+    "kind": "position",
+    "claim": "Conrad is characterized as holding that a flank can be given up for a few days if the blow in the north is decisive; Archduke Friedrich as favouring reinforcement of the Third Army.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position for the Archduke; Conrad's is a characterization of his recorded preference for the offensive."
+  },
+  {
+    "id": "aok-fk-5",
+    "node": "aok_1914_03_galicia",
+    "kind": "position",
+    "claim": "Archduke Friedrich is characterized as favouring holding the Third Army at the San to cover the southern flank.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; no source read records his view of such a plan."
+  },
+  {
+    "id": "aok-fk-6",
+    "node": "aok_1914_03_galicia",
+    "kind": "characterization",
+    "claim": "Holding the Third Army back at the San while the First and Fourth attack is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "aok-fk-7",
+    "node": "aok_1916_08_brusilov",
+    "kind": "characterization",
+    "claim": "Sending half the divisions back and keeping half in the Tyrol for a limited objective on the Asiago plateau is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "aok-fk-8",
+    "node": "aok_1916_08_brusilov",
+    "kind": "position",
+    "claim": "Conrad is characterized as favouring a partial return of the divisions while keeping a limited objective in the Tyrol.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position; the recorded Conrad of June 1916 argues for stopping the offensive."
+  },
+  {
+    "id": "aok-fk-9",
+    "node": "aok_1917_11_caporetto",
+    "kind": "fact",
+    "claim": "The Fourteenth Army, German and Austro-Hungarian under Otto von Below, attacked at Caporetto on 24 October 1917 and the Italian line broke.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Matches the existing claim on this node."
+  },
+  {
+    "id": "aok-fk-10",
+    "node": "aok_1917_11_caporetto",
+    "kind": "characterization",
+    "claim": "Historians differ on how far the victory at Caporetto was due to the Fourteenth Army's tactics and how far to Italian failures, and how likely the attack was to break through.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Stated in the dispute field of the roll."
+  },
+  {
+    "id": "aok-fk-11",
+    "node": "aok_1917_11_caporetto",
+    "kind": "characterization",
+    "claim": "The slower pursuit with a stand on the Tagliamento is a modelled alternative branch.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "aok-fk-12",
+    "node": "aok_1918_14_ukraine",
+    "kind": "characterization",
+    "claim": "Sending two divisions to Ukraine and keeping the rest for the Italian front is a modelled alternative.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A modelled alternative: this is not what the command did, and the node says so."
+  },
+  {
+    "id": "aok-fk-13",
+    "node": "aok_1918_14_ukraine",
+    "kind": "position",
+    "claim": "Karl is characterized as favouring a token force for the grain while keeping the main strength for Italy.",
+    "status": "drafted",
+    "sources": [],
+    "note": "A counterfactual position."
+  },
+  {
+    "id": "bat-aok-12",
+    "node": "aok_1917_11_caporetto",
+    "kind": "figure",
+    "claim": "The Fourteenth Army was formed of nine Austro-Hungarian and six to eight German divisions under the German general Otto von Below; the German divisions were Ludendorff's general reserve.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-13",
+    "node": "aok_1917_11_caporetto",
+    "kind": "fact",
+    "claim": "At 2 a.m. on 24 October 1917 some 894 metal tubes similar to Livens projectors fired a chlorine and arsenic agent and diphosgene into the valley; at 6.41 about 2,200 guns opened fire; at 8 two large mines were fired and the infantry attacked.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-14",
+    "node": "aok_1917_11_caporetto",
+    "kind": "fact",
+    "claim": "Stormtroop units used the 08/15 light machine gun, light trench mortars, mountain guns and flamethrowers, and Alpine troops infiltrated the ridges at Matajur and Kolovrat; Erwin Rommel won the Pour le Merite.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-15",
+    "node": "aok_1917_11_caporetto",
+    "kind": "figure",
+    "claim": "Some units advanced 25 kilometres on the first day and the Central Powers advanced about 150 kilometres to the Piave; some 265,000 to 275,000 Italians were captured and 3,152 guns lost.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-16",
+    "node": "aok_1917_11_caporetto",
+    "kind": "fact",
+    "claim": "Cadorna ordered most of the force to retreat on 30 October; the crossing of the Tagliamento took four days; by 10 November the Italians held the Piave and Monte Grappa.",
+    "status": "web-checked",
+    "sources": [
+      "wp-caporetto"
+    ],
+    "note": ""
+  },
+  {
+    "id": "bat-aok-17",
+    "node": "aok_1917_11_caporetto",
+    "kind": "characterization",
+    "claim": "The effectiveness weights of the four arms (storm troops 2.4, guns 2.2, divisions 1.8, pursuit 1.4) and the setups' modifiers are game judgments, not measurements.",
+    "status": "drafted",
+    "sources": [],
+    "note": "62-battles.jsx; the ordering follows the account of what broke the line."
   }
 ]

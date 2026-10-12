@@ -63,3 +63,5 @@ The settings gain `battles` (default true: a settings object without it loads as
 Settings gain `holdToSign` and `atmosphere` (defaults true and false). The war record gains `best` (the best command rank per command), `files` (files closed per command) and `battles` (how often each battle was fought, and the best grade): a record without them loads with empty ones. A run's flags gain `st_<reading>` tallies (the three readings under each meter). All optional, so no schema bump.
 
 Settings also gain `theme` (`sepia`, `paper`, `night`, `contrast` or `auto`, default `sepia`) and `font` (`theme`, meaning the look's own face, `typewriter` or `plain`, default `theme`). An unknown value loads as the default. Optional, so no schema bump.
+
+1914: a run snapshot also stores `pendingHeadline` (the outcome's headline) and `pendingHistorical` (whether it is the record's), so a saved file resumes on the same outcome screen. Both are optional; an older save without them shows the order's label and no kind badge. No schema bump.
