@@ -111,6 +111,45 @@ check(rate({ tier: "Minor Defeat", ceiling: "Contested Outcome" }).parts.find((p
 check(L.endingCeilingKey("italy", { italyPath: "coBelligerent" }) === "italy:coBelligerent" && L.endingCeilingKey("italy", { italyPath: "rsi" }) === "italy:rsi" && L.endingCeilingKey("italy", { italyEntry: "neutral" }) === "italy:neutral" && L.endingCeilingKey("italy", {}) === "italy:other" && L.endingCeilingKey("soviet", {}) === "soviet", "the ceiling key follows Italy's split at the armistice");
 check(L.endingCeiling("soviet", {}) === "Major Victory" && L.endingCeiling("italy", { italyPath: "rsi" }) === "Minor Defeat", "ceilings are read from the table");
 
+// --- advisers and trust ------------------------------------------------------------------------------------------
+const adv = (name, extra = {}) => ({ label: "order of " + name, impact: {}, advisor: { name, position: "x" }, ...extra });
+const council = { choices: [adv("Halder"), adv("Rommel"), adv("Model"), { label: "no adviser", impact: {} }] };
+const give = (st, i, flags = {}) => L.resolveChoice({ stage: st, index: i, mode: "open", favor: 5, defiance: 0, flags, meters: M(0, 0, 0), rand: () => 0.5 }).flags;
+let tf = give(council, 0);
+check(L.trustOf(tf, "Halder") === 2 && L.trustOf(tf, "Rommel") === -1 && L.trustOf(tf, "Model") === -1, "an order that follows an adviser earns a point; every other adviser on the decision loses half a point");
+check(L.trustOf(give(council, 3), "Halder") === -1, "an order that follows no adviser passes all of them over");
+check(L.trustOf(give({ choices: [adv("Halder"), adv("Halder"), adv("Rommel")] }, 2), "Halder") === -1, "an adviser who argues two orders on one decision loses half a point once, not twice");
+check(L.trustOf(give({ choices: [adv("Halder", { disabledReason: "x" }), adv("Rommel")] }, 1), "Halder") === 0, "an order that cannot be given does not count against its adviser");
+tf = {};
+for (let i = 0; i < 2; i++) tf = give(council, 0, tf);
+check(L.adviserStanding(tf, "Halder") === "trusted" && L.adviserStanding(tf, "Rommel") === "heard", "two orders followed make an adviser trusted; the ones passed over twice are still heard");
+tf = {};
+for (let i = 0; i < 4; i++) tf = give(council, 0, tf);
+check(L.trustOf(tf, "Rommel") === -4 && L.adviserStanding(tf, "Rommel") === "quiet" && !tf.trgone_rommel, "an adviser is quiet at -2 and has not yet left");
+for (let i = 0; i < 2; i++) tf = give(council, 0, tf);
+check(L.adviserStanding(tf, "Rommel") === "gone" && tf.trgone_rommel === "Rommel" && L.trustOf(tf, "Rommel") === -6, "an adviser passed over to -3 asks to be relieved");
+tf = give(council, 1, tf);
+check(L.trustOf(tf, "Rommel") === -6 && L.adviserStanding(tf, "Rommel") === "gone", "an adviser who has gone is not heard again and the standing does not move");
+check(L.trustOf(L.trustAfter({ tr_halder: 6 }, council, 0), "Halder") === 6 && L.trustOf(L.trustAfter({ tr_halder: -6 }, { choices: [adv("Halder"), adv("Model")] }, 1), "Halder") === -6, "trust stops at +3 and -3");
+check(eq(L.trustedAdvisers({ tr_halder: 4, trn_halder: "Halder", tr_victor_emmanuel_iii: 6, trn_victor_emmanuel_iii: "Victor Emmanuel III", tr_model: 2, trn_model: "Model" }), ["Halder", "Victor Emmanuel III"]), "the trusted are those at +2 or better, by name");
+check(eq(L.trustedAdvisers({ tr_halder: 6, trn_halder: "Halder", trgone_halder: "Halder" }), []), "an adviser who has gone is not trusted");
+
+// --- special events ----------------------------------------------------------------------------------------------
+const ev = (id, at, extra = {}) => ({ id, campaign: "german", at, dateline: "d", title: "t", text: ["x"], ...extra });
+const E = [ev("a", ["n1"]), ev("b", ["n1", "n2"]), ev("c", ["n3"], { when: { meters: { fuel: { max: -4 } } } }), ev("d", ["n4"], { when: { flags: { vichy: true } } }), ev("e", ["n5"], { campaign: "soviet" })];
+const due = (nodeId, flags = {}, meters = M(0, 0, 0), campaign = "german") => L.dueEvent(E, { nodeId, campaign, flags, meters });
+check(due("n1").id === "a" && due("n2").id === "b" && due("zz") === null, "an event is due on arriving at a report it is tied to, and not elsewhere");
+check(due("n1", { ev_a: true }).id === "b" && due("n1", { ev_a: true, ev_b: true }) === null, "an event that has been seen is never due again; the next one in the list takes its turn");
+check(due("n3") === null && due("n3", {}, M(0, -4, 0)).id === "c" && due("n3", {}, M(0, -3, 0)) === null, "an event with a meter condition is due only while the meter is in range");
+check(due("n4") === null && due("n4", { vichy: true }).id === "d", "an event with a flag condition is due only while the flag is set");
+check(due("n5") === null && L.dueEvent(E, { nodeId: "n5", campaign: "soviet", flags: {}, meters: M(0, 0, 0) }).id === "e", "an event belongs to its own campaign");
+tf = {};
+for (let i = 0; i < 6; i++) tf = give(council, 0, tf);
+let rs = L.dueEvent([], { nodeId: "any", campaign: "german", flags: tf, meters: M(0, 0, 0) });
+check(rs && rs.id === "resigns_rommel" && rs.title === "Rommel asks to be relieved", "an adviser's resignation is an event the file writes for itself");
+check(L.dueEvent([], { nodeId: "any", flags: { ...tf, ev_resigns_rommel: true, ev_resigns_model: true }, meters: M(0, 0, 0) }) === null, "and is shown once");
+check(L.eventSeenKey("a") === "ev_a", "the flag that marks an event seen is ev_ and its id");
+
 if (fails.length) {
   console.log(`\n${fails.length} check(s) failed`);
   process.exit(1);

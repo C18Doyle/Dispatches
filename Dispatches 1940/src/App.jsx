@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef, Component } from "react";
 import * as Tone from "tone";
-import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork } from "./logic";
+import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
@@ -7231,13 +7231,359 @@ const CAMPAIGNS = {
     id: "soviet",
     seal: "STAVKA",
     name: "Soviet High Command",
-    dates: "1941–1945",
+    dates: "1939–1945",
     brief: "Save the Red Army from the shock of Barbarossa and lead it to the gates of Berlin.",
     accent: "#8a2f1f",
     dynamic: true,
-    start: "border41",
+    start: "finnishPrep39",
     resolveNode(id, flags, meters) {
-      const nodes = {        get border41() {
+      const nodes = {
+        // The prelude (October 1939 to May 1941). The campaign used to open at the border on 22 June 1941; these eight reports are the
+        // decisions before it that the record leaves a command to make: how to fight the Winter War, what to take from it, where to
+        // expect the German blow, how to deploy against it, and what to do with the warnings. What the player chooses here is read at
+        // border41 as a readiness score (flags.readiness, from -3 to +3, each departure from the record moving it by one), and nothing is
+        // a hidden bonus: the situation report at the border says what the score means. Facts checked 2026-10-13 against Wikipedia
+        // (Winter War; Moscow Peace Treaty; Operation Barbarossa), Meretskov's and Shaposhnikov's biographies, and the secondary
+        // literature on the January 1941 games and the 15 May 1941 memorandum; the figures quoted are theirs (claims/soviet-prelude.json).
+        get finnishPrep39() {
+          return {
+          date: "OCTOBER – NOVEMBER 1939",
+          title: "The Finnish Question",
+          historicalRecord: true,
+          situation:
+            "The Red Army marched into eastern Poland in September, and under the Pact of 23 August the Soviet Union has a free hand in the Baltic. Moscow now wants the frontier on the Karelian Isthmus moved back from Leningrad, which lies some thirty kilometres from it, and has offered Finland territory farther north in exchange. The talks have stalled. Two plans lie on the table. Meretskov, who commands the Leningrad Military District, proposes an offensive on the whole front from the Gulf of Finland to the Arctic, which he expects to take a couple of weeks. Shaposhnikov, the Chief of the General Staff, has a different one: a narrow, heavy blow on the Karelian Isthmus, after a longer build-up, because he does not expect the Finnish defences to give way quickly. Stalin has asked for the plan that will be quickest. The army is vast, the Finnish army is small, and winter is coming." +
+            (flags.hardMode ? " It is two years since the army's officers were purged, and every man in the room knows what it costs to be wrong." : ""),
+          choices: [
+            {
+              label: "Attack on the whole front at once, as Meretskov proposes: the Red Army's weight should decide it in a fortnight",
+              advisor: { name: "Meretskov", position: "A Finnish army of a few hundred thousand cannot hold a front this long against a Soviet one, so the blow is struck everywhere at once and finished before the weather and the world have time to interfere." },
+              historical: true,
+              setFlags: { finland39: "quick" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "winterStall40",
+              outcome:
+                "What happened. On 30 November 1939, four days after a border incident at Mainila that Moscow blamed on Finland, the Red Army crossed the frontier on the Karelian Isthmus, north of Lake Ladoga and in the Arctic at Petsamo. The next day Moscow announced a Finnish Democratic Republic at Terijoki, just inside the line, under the Finnish communist Otto Kuusinen, and said it was the only Finnish government it recognised. The army had been prepared for a short campaign, and on the Isthmus the first assaults on the Finnish positions went in without the heavy guns or the engineers that the Finnish positions needed.",
+            },
+            {
+              label: "Postpone and prepare, as Shaposhnikov proposes: one narrow, heavy blow on the Karelian Isthmus when the army is concentrated for it",
+              advisor: { name: "Shaposhnikov", position: "The Finns will hold the Isthmus in depth and in the forest, so a blow that is not prepared with heavy guns and fresh divisions will be a long and costly one, and the time to prepare it is now." },
+              setFlags: { finland39: "prepared" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "summaBreak40",
+              outcome:
+                "Speculative. Stalin accepts a later date, which in practice means that the war begins when the artillery and the extra divisions are in place, in the worst of the winter. The army that crosses the frontier is concentrated on the Isthmus instead of spread along the whole border. The price is time: Finland's reservists are called up and its engineers have weeks more to dig in, and the world has weeks more to ask what the Soviet Union wants of Finland. The real attack went in on 30 November; this one does not go in until the new year.",
+            },
+          ],
+        };
+        },
+        get winterStall40() {
+          return {
+          date: "DECEMBER 1939 – JANUARY 1940",
+          title: "The Mannerheim Line",
+          historicalRecord: true,
+          situation:
+            "A month into a war that was to last a fortnight, the army has broken through nowhere. On the Isthmus the Finnish positions, which Moscow calls the Mannerheim Line, are mostly field works, forest and lakes, with few concrete bunkers, but they are held in depth and the Red Army has not yet got its guns and tanks to the right places. North of Lake Ladoga, Finnish ski troops have cut the Soviet columns on the forest roads and destroyed two divisions at Suomussalmi. The thermometer has fallen to forty below. On 14 December the League of Nations expelled the Soviet Union. Meretskov's plan has failed on its own terms, and on 28 December Timoshenko offered to take the command over. Two proposals are before the Main Military Council, which Voroshilov chairs." +
+            (flags.hardMode ? " Someone will be held to account for the winter, and everyone in the room knows it." : ""),
+          choices: [
+            {
+              label: "Stop, reorganise and rebuild: bring up the heavy guns, form a new front under Timoshenko and attack on the Isthmus alone",
+              advisor: { name: "Timoshenko", position: "The army has been asked to do too much with too little, so it halts, reforms, brings its artillery to one point and attacks there when everything is in place." },
+              historical: true,
+              setFlags: { finland39: "reorganised" },
+              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              next: "moscowPeace40",
+              outcome:
+                "What happened. The offensive was halted. The North-Western Front was formed under Timoshenko on 7 January, with the Isthmus as its main front, and the next five weeks went on bringing up heavy artillery and fresh divisions, drilling the assault on bunkers and rebuilding the supply. On 11 February, after a heavy bombardment, the assault began at Summa, and within a week the Finns had been pushed from their main line to a second one. In the first days of March the Red Army was attacking Vyborg.",
+            },
+            {
+              label: "Press on everywhere with what is there, as Voroshilov urges: the fault is one of will, and the attacks are to be renewed",
+              advisor: { name: "Voroshilov", position: "The troops have failed for want of resolve and of sound leadership, not of guns, so the attacks are renewed at once on every front and the commanders who stall are replaced." },
+              setFlags: { finland39: "doubled" },
+              impact: { manpower: -2, fuel: -1, initiative: -1 },
+              next: "moscowPeace40",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "A costly gain on the Isthmus",
+                  setFlags: { finland39: "doubled", finlandGain40: true },
+                  impact: { manpower: -2, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. The renewed assaults go in through January in the cold, over the same ground, and at one place on the Isthmus a wedge is driven into the outer positions at a cost the army counts in whole divisions. It is enough to show the Finns that the line will not hold for ever. It is not enough to make anyone in Moscow believe that the method was sound, and the commanders who were to have been replaced for stalling are replaced instead for failing.",
+                },
+                {
+                  weight: 100 - modWeight(30, meters.initiative),
+                  title: "The attacks bleed",
+                  setFlags: { finland39: "doubled" },
+                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The attacks go in again on every front in the worst of the cold. The artillery that would have broken the bunkers is not there, the infantry advance across open ice and snow in good order and are shot down in it, and the frostbite and sickness lists are almost as long as the casualty lists. January ends with no more ground taken than December did, and with a Red Army that has learned the wrong lesson from the same mistake.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get summaBreak40() {
+          return {
+          date: "JANUARY 1940",
+          title: "The Isthmus Breaks",
+          situation:
+            "Speculative. In this timeline the blow has fallen a month later than the real one, and a good deal harder. After a heavy bombardment the Red Army has broken the outer Finnish line on the Karelian Isthmus near Summa. Vyborg, Finland's second city, lies some thirty kilometres behind the breach, and Helsinki about two hundred kilometres beyond it along the coast. The Terijoki government under Kuusinen, which Moscow proclaimed on 1 December, still has no one to govern. Britain and France are talking of an expeditionary force for Finland by way of Narvik, and Norway and Sweden have so far refused it passage. Zhdanov, in Leningrad, wants to go on to the capital." +
+            (flags.hardMode ? " The people who proposed the plan will be remembered for what comes of it, one way or the other." : ""),
+          choices: [
+            {
+              label: "Secure Vyborg and offer terms: take what the frontier needs and stop",
+              advisor: { name: "Shaposhnikov", position: "The aim was to move the frontier away from Leningrad and the Gulf, and the Isthmus with Vyborg does that, so the army stops where it has what it came for and lets Finland sue for peace." },
+              historical: true,
+              setFlags: { finland40: "secured" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "moscowPeace40",
+              outcome:
+                "Speculative, but close to how the real war ended. The army closes on Vyborg and stops there, and the Finnish government, which has been looking for terms since the fighting began, is told through Stockholm what Moscow would accept. The Kuusinen government is allowed to fade. The Western powers' expeditionary force, which was never more than a plan for a landing at Narvik, is not needed.",
+            },
+            {
+              label: "Race for Helsinki: drive for the capital along the coast and install the Kuusinen government there",
+              advisor: { name: "Zhdanov", position: "Finland has no army that can hold the coast road, and a Finnish workers' government in the capital is a better guarantee of the frontier than any treaty, so the armies go on while the Finns are off balance." },
+              setFlags: { suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: -2, fuel: -1, initiative: 1 },
+              next: "moscowPeace40",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(20, meters.initiative),
+                  title: "A government in Helsinki",
+                  setFlags: { finland40: "helsinki" },
+                  impact: { manpower: -2, fuel: -2, initiative: 2 },
+                  outcome:
+                    "Speculative. The Finnish army, stretched along two hundred kilometres of coast and forest, cannot stop the leading columns, and by the end of February they are in the capital. The Kuusinen government is moved from Terijoki to Helsinki and is recognised by the Soviet Union and by no one else. It is a victory that has to be garrisoned: the Finnish army has not been beaten, and has gone north and east into the forest.",
+                },
+                {
+                  weight: 100 - modWeight(20, meters.initiative),
+                  title: "Stopped on the coast road",
+                  setFlags: { finland40: "overreach" },
+                  impact: { manpower: -3, fuel: -2, initiative: -2 },
+                  outcome:
+                    "Speculative. The columns go out along the coast road beyond their supplies and are stopped in the forest, where the Finns cut them into pieces as they did in the north. The offer of an expeditionary force from Britain and France stops being a talking point in London and Paris. Moscow signs a peace to close the question before it can be put again.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get moscowPeace40() {
+          const record = flags.finland39 === "reorganised" || flags.finland39 === "doubled";
+          const short = flags.finland40 === "secured" || flags.finland40 === "helsinki" || flags.finland40 === "overreach";
+          return {
+          date: "MARCH – MAY 1940",
+          title: flags.finland40 === "helsinki" ? "A Government in Helsinki" : "The Moscow Peace",
+          historicalRecord: true,
+          situation:
+            (flags.finland40 === "helsinki"
+              ? "Speculative. There is no peace conference to attend: the Finnish army is in the forest, the Kuusinen government sits in Helsinki and no other government recognises it. Soviet dead and wounded are counted in six figures, and the garrisons that are needed to hold what has been taken are drawn from the army's best divisions. "
+              : flags.finland40 === "overreach"
+              ? "Speculative. The peace was signed in Moscow on 12 March and the fighting stopped on 13 March, on terms that give the Soviet Union rather less than the army was promised and a good deal more than Finland wanted to give. Britain and France are no longer talking of an expeditionary force, and Moscow would like the question of Finland to be a closed one. "
+              : "The Finns asked for terms in the first days of March, with Vyborg under attack and the Allies' expeditionary force still in its ports. The Moscow Peace was signed on 12 March and the fighting stopped at noon on 13 March. Finland gave up the Karelian Isthmus with Vyborg, Ladoga Karelia with Sortavala and some islands in the Gulf of Finland, about nine per cent of its territory, and leased Hanko to the Soviet Union for thirty years. Moscow had dropped the Kuusinen government at the end of January and treated with the government in Helsinki. The Soviet dead and missing are usually put at about 126,000, against about 25,000 Finnish. ") +
+            (flags.finlandGain40 ? "The wedge that was driven into the outer line in January made the work of the spring a little shorter, and a little easier to call a success. " : "") +
+            (short
+              ? "A short war that ended in a clear gain is easy to read as a vindication, and there are men in the Main Military Council who are reading it so. "
+              : "The Red Army has won, and the whole world has watched how long it took and what it cost. ") +
+            "Stalin has called the senior commanders to the Kremlin in April to go through the lessons of the winter. Voroshilov, who is still the People's Commissar of Defence, and Timoshenko, who ended the war, have different views of what happened.",
+          choices: [
+            {
+              label: "Reform the army: replace Voroshilov with Timoshenko, rewrite the regulations and drill the assault on fortified positions",
+              advisor: { name: "Timoshenko", position: "The army has learned in the snow what its regulations and its commanders did not teach it, so the commissar who ran it that way goes, the drill is rewritten around what it met and the army is trained to fight rather than to parade." },
+              historical: true,
+              setFlags: { armyReformed40: true },
+              impact: { manpower: 1, fuel: 0, initiative: 1 },
+              next: "plan40",
+              outcome:
+                "What happened. Timoshenko replaced Voroshilov as People's Commissar of Defence in May 1940. The ranks of general and admiral were brought back that month, drill and training were rewritten around what the army had met in Finland, and in August the political officer's dual command was ended in favour of one commander. It did not make good the loss of the officers shot in 1937 and 1938, which was the largest part of the army's weakness, but it was a start, and it was made in the spring, not after 22 June.",
+            },
+            {
+              label: "Explain the winter away: the terrain and the cold are to blame, and the army and its commissar stay as they are",
+              advisor: { name: "Voroshilov", position: "The Finns had the forest and the snow, and the army broke the line in the end, so the army is sound and what it needs is more of what it has." },
+              setFlags: { armyReformed40: false, readiness: (flags.readiness || 0) - 1 },
+              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              next: "plan40",
+              outcome:
+                "Speculative. The meeting hears Voroshilov out, and the army's published account of the war is that it overcame a fortified line in winter against a stubborn enemy. Voroshilov stays as he is, and so do the regulations. The army that goes into the next war is the army that went into this one, with Finland's lessons filed away and the frontier moved west by the Pact.",
+            },
+          ],
+        };
+        },
+        get plan40() {
+          return {
+          date: "AUGUST – OCTOBER 1940",
+          title: "Where the Blow Will Fall",
+          historicalRecord: true,
+          situation:
+            "France has fallen, and the German army is the only one in Europe that matters. In July the General Staff, under Shaposhnikov, revised its war plan on the assumption that the main German blow would fall north of the Pripet Marshes, towards Belorussia and Smolensk; in August Shaposhnikov left the office of Chief of the General Staff, in poor health and, by some accounts, in disagreement with Stalin, and Meretskov took it over. The discussions of September began from the same assumption. On 5 October Meretskov and Timoshenko take a plan on those lines to Stalin. Stalin thinks that what Hitler most wants is the grain of Ukraine and the coal of the Donbas, and the General Staff has to decide what to put in front of him: the plan as it is, or a plan that will go through." +
+            (flags.armyReformed40 === false ? " The commissar who explained away the winter is still in office, and the General Staff has less to set against his opinion than it would like." : ""),
+          choices: [
+            {
+              label: "Redraft the plan with the main weight in the south, as Stalin directs: Ukraine and the Donbas are what the Germans want most",
+              advisor: { name: "Stalin", position: "The German army needs the grain and the coal and the oil, and all of them are in the south, so the strongest army is put there, and the General Staff is not to be clever about the north." },
+              historical: true,
+              setFlags: { plan40: "south" },
+              impact: { manpower: 0, fuel: 1, initiative: 0 },
+              next: "games41",
+              outcome:
+                "What happened. The General Staff redrafted the plan, and the version of October 1940 placed the main Soviet force in the south-west, on the Kiev side of the Pripet Marshes. Over the winter the South-Western Front became the strongest of the frontier fronts, and the Western Front, facing the German centre and the shortest road to Moscow, had less than its share. When the German blow came in June 1941, its heaviest weight was north of the marshes, where the Soviet defence had been planned to be lighter.",
+            },
+            {
+              label: "Keep the weight in the north, as Shaposhnikov's revision holds: the road to Moscow runs through Belorussia and Smolensk",
+              advisor: { name: "Shaposhnikov", position: "The German army fights where the roads, the railways and the main objectives are, which is the road from Warsaw to Smolensk and Moscow, so the greater part of the weight goes north of the marshes and the south is held with what is left." },
+              setFlags: { plan40: "north", readiness: (flags.readiness || 0) + 1 },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "games41",
+              outcome:
+                "Speculative. The General Staff puts the plan it believes in in front of Stalin, and for once he lets it stand: the main force of the western districts is placed on the Belorussian axis, with the Western Front and the Northwestern Front reinforced, and the South-Western Front is told to hold what it has. It costs the army something in the south, where a German thrust at Kiev will find less in front of it than the record's army had, and it is a gamble on an assessment that happens to be the right one.",
+            },
+          ],
+        };
+        },
+        get games41() {
+          return {
+          date: "JANUARY 1941",
+          title: "The War Games",
+          historicalRecord: true,
+          situation:
+            "In the first days of January the senior commanders gather in Moscow for two staff games on a map: the first, from 2 to 6 January, on the north-western axis, and the second, from 8 to 11 January, on the south-western. Zhukov commands one side, and Pavlov, who has the Western Special Military District, commands the other. Accounts disagree about which of them was said to have won. What is not in doubt is the argument that follows: how far forward the army should stand, how deep it should be, and whether the new fortified zones near the border are to be finished or left to the old ones behind them. Within weeks Zhukov will have replaced Meretskov as Chief of the General Staff, though the sources differ on the date." +
+            (flags.plan40 === "north" ? " The plan the General Staff is working to puts the weight north of the marshes, which is where Pavlov's district lies, and he knows it." : ""),
+          choices: [
+            {
+              label: "Let the staff draw its own conclusions: the plan stays, and so does the forward deployment",
+              advisor: { name: "Timoshenko", position: "The plan has been tested and found sound, with its faults to be mended in the field, and moving armies about in the dead of winter is a greater risk than the one it would cure." },
+              historical: true,
+              setFlags: { games41: "plan" },
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
+              next: "prep41",
+              outcome:
+                "What happened. The games were closed in the second week of January and the plan was not changed: the frontier districts went on holding the line of the new border, with the second echelon well behind them, and the new fortified zones went on being built beside the old ones, which were left to be stripped of their guns. Zhukov replaced Meretskov at the General Staff that winter.",
+            },
+            {
+              label: "Side with Pavlov: reinforce the frontier districts and finish the fortified zones near the new border",
+              advisor: { name: "Pavlov", position: "A defence that gives up ground gives up the railways and the airfields in the first week, so it is better to hold the frontier with everything that can be put there." },
+              setFlags: { games41: "forward", readiness: (flags.readiness || 0) - 1 },
+              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              next: "prep41",
+              outcome:
+                "Speculative. The frontier districts get what they ask for: the corps that were to have stood farther back are moved up behind the border, and the new fortified zones are given first call on the engineers and the concrete. A frontier that is held in strength is a bad thing to be caught outside, and the army is a good deal nearer to the German deployment areas than it was.",
+            },
+            {
+              label: "Thicken the rear: build the defence in depth behind the old border, and finish the new fortified zones second",
+              advisor: { name: "Shaposhnikov", position: "A defence that is built behind the old frontier, in depth, with the old fortified zones kept and armed, gives the army ground to trade and the time to bring the second echelon up." },
+              setFlags: { games41: "depth", readiness: (flags.readiness || 0) + 1, suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "prep41",
+              outcome:
+                "Speculative. Shaposhnikov, who built the old Stalin Line and was put in charge of fortifying the new frontier in the autumn, gets his way for a time. The old fortified zones are re-armed with the guns that had been taken out of them, the corps are held farther back, and the new border zones are finished more slowly. There are people in Moscow who regard giving ground on paper as the first step to giving it in the field, and it is noted who said so.",
+            },
+          ],
+        };
+        },
+        get prep41() {
+          return {
+          date: "MARCH 1941",
+          title: "The Mechanised Corps",
+          historicalRecord: true,
+          situation:
+            "The army that is to fight Germany is in the middle of being remade. Nine mechanised corps were ordered in July 1940, and in February and March a further twenty, but there are tanks for fewer than half of them: the new T-34s and KVs are coming off the lines in hundreds, not in thousands, and the crews are still learning to drive them. At the same time the airfields in the frontier districts are being rebuilt, many of them at once, so that the air regiments are crowded on the few that are left, and the anti-aircraft guns that should protect them have not arrived. There is not enough of anything to do everything, and the General Staff has to say what comes first.",
+          choices: [
+            {
+              label: "Carry on: form the twenty new corps and rebuild the frontier airfields together",
+              advisor: { name: "Timoshenko", position: "The army will not be remade by waiting, so the new corps are formed and the airfields rebuilt in the same year, whatever it costs in the spring." },
+              historical: true,
+              setFlags: { prep41: "both" },
+              impact: { manpower: -1, fuel: -1, initiative: 0 },
+              next: "memo41",
+              outcome:
+                "What happened. The twenty new corps were formed on paper and in their garrisons, and fewer than half of the corps had anything like their full establishment of tanks by June 1941. Many frontier airfields were under reconstruction when the Germans attacked, and the regiments that should have been dispersed were drawn up in rows on the few that were left. The fault lay in doing everything at the same time, not in any one of the orders.",
+            },
+            {
+              label: "Airfields and anti-aircraft guns first: finish fewer airfields, disperse the aircraft and bring the guns up before anything else",
+              advisor: { name: "Vasilevsky", position: "A force that loses its air regiments on the ground on the first morning cannot use its tanks, so the aircraft are dispersed, the guns come first and the rest of the programme waits." },
+              setFlags: { prep41: "air", readiness: (flags.readiness || 0) + 1 },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "memo41",
+              outcome:
+                "Speculative. The airfield programme is cut to what can be finished and the rest is left alone, the regiments are spread over twice as many fields, and the anti-aircraft guns are given to the airfields before they go to the new corps. The new corps are formed more slowly, and in June there are fewer tanks on the frontier than there might have been. But the air regiments will be there to fly on the first morning.",
+            },
+            {
+              label: "Double down on the tank corps: finish equipping the first nine and put every new tank into them",
+              advisor: { name: "Zhukov", position: "A mechanised corps without its tanks is a collection of lorries, so the first nine are completed, the twenty are held back and every tank that comes off the line goes where it can be used." },
+              setFlags: { prep41: "tanks", readiness: (flags.readiness || 0) - 1 },
+              impact: { manpower: -1, fuel: -2, initiative: 1 },
+              next: "memo41",
+              outcome:
+                "Speculative. The first nine corps get their tanks, and by June there are some of the best-equipped formations in the Red Army on the frontier. The airfield programme goes on as before, and so do the crowded fields and the missing guns. A tank corps is a powerful thing to have in the open on the first morning, and a bad one to leave under the German bombers.",
+            },
+          ],
+        };
+        },
+        get memo41() {
+          return {
+          date: "MAY 1941",
+          title: "The Memorandum",
+          historicalRecord: true,
+          situation:
+            "Warnings of every kind say that the Germans will attack, and Stalin does not believe that it will happen this summer. On 15 May a draft is put before him, 'Considerations on the plan of strategic deployment of the armed forces of the Soviet Union', in the names of Zhukov and Timoshenko, with Vasilevsky named in most accounts as its drafter. It proposes forestalling the German deployment by striking first at the German army in Poland. Historians disagree on what it was: a plan to be carried out, a staff exercise, or a paper written to be turned down. The Red Army could not yet carry it out: the new corps have no tanks, the mobilisation plan is not complete, and the second-line armies are still in the interior. In May the General Staff has begun to move armies from the interior towards the Dvina and the Dnieper, and about 800,000 reservists have been called to 'training camps'." +
+            (flags.readiness >= 2 ? " The army is better placed than the record's was, and the arguments for waiting and for striking are both a good deal stronger for it." : flags.readiness <= -1 ? " The army is worse placed than the record's was, and what is on the table is a plan for an army that is not there." : ""),
+          choices: [
+            {
+              label: "Reject the memorandum, but move the second-line armies up to the Dvina and the Dnieper, and say nothing",
+              advisor: { name: "Molotov", position: "Nothing is to be done that Berlin can call a provocation, so the armies move behind the screen of the frontier districts and the Foreign Ministry says that all is well." },
+              historical: true,
+              setFlags: { memo41: "quiet" },
+              impact: { manpower: 0, fuel: -1, initiative: 0 },
+              next: "border41",
+              outcome:
+                "What happened. Stalin did not approve the memorandum, and nothing of it was carried out. The movement of the second-line armies went on through May and June, and most of them were still on trains or in their assembly areas on 22 June. The frontier districts were told again to avoid anything that Berlin could call a provocation, and on 14 June TASS announced that rumours of a coming war were without foundation.",
+            },
+            {
+              label: "Do nothing: no troop movements, no warning to the frontier districts and no change to the plan",
+              advisor: { name: "Stalin", position: "The Germans are not ready to fight on two fronts, and any movement that Berlin sees is the pretext it is looking for, so the Red Army waits in its places." },
+              setFlags: { memo41: "nothing", readiness: (flags.readiness || 0) - 1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "border41",
+              outcome:
+                "Speculative. The armies in the interior stay where they are, the reservists stay at home and the frontier districts go on as they were. It is the policy that Stalin would have preferred if he had been left to himself, and there is a good deal to be said for it if the Germans do not attack in June. If they do, the army has lost the weeks that the movements of May and June bought.",
+            },
+            {
+              label: "Adopt the memorandum: prepare to forestall the German deployment, with the armies in forward assembly areas",
+              advisor: { name: "Zhukov", position: "The Germans are concentrating, and an army that waits to be struck while it is still deploying will be struck in pieces, so the Red Army has to get its blow in first, as soon as it is ready." },
+              setFlags: { memo41: "forestall" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "border41",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "Alert, but forward",
+                  setFlags: { memo41: "forestall", readiness: (flags.readiness || 0) + 1 },
+                  impact: { manpower: -1, fuel: -1, initiative: 2 },
+                  outcome:
+                    "Speculative. The plan is not given up and not carried out. The armies are brought up to the frontier under the cover of training, and when the Germans attack they find them awake and in their places, not yet in a position to strike but not caught asleep either. They are a good deal nearer the German guns than the defence would have put them.",
+                },
+                {
+                  weight: 100 - modWeight(25, meters.initiative),
+                  title: "Caught in their assembly areas",
+                  setFlags: { memo41: "caught", readiness: (flags.readiness || 0) - 2 },
+                  impact: { manpower: -2, fuel: -1, initiative: -2 },
+                  outcome:
+                    "Speculative. The armies are moved up to the frontier in the formations of an offensive, which a defence does not use, with their supplies in the rear and their commanders waiting for an order to attack that will not now be given. The Red Army was not ready to strike in June, as the memorandum itself admitted, and the German attack finds it halfway between the two postures and fit for neither.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get border41() {
+          // The readiness the prelude left (flags.readiness, -7 to +4; 0 for a command that took the record's orders every time or that begins here).
+          const rd = flags.readiness || 0;
+          const edge = rd >= 3 ? 2 : rd >= 1 ? 1 : rd <= -3 ? -2 : rd <= -1 ? -1 : 0;
           return {
           date: "JUNE 1941",
           title: "The Border Collapses",
@@ -7251,6 +7597,15 @@ const CAMPAIGNS = {
               : "") +
             (flags.forkBarbarossaDelay
               ? " Fragmentary reports from the frontier commands describe some German formations still arriving even now, hours into the attack, if accurate, the opening blow may not have landed with its full intended weight."
+              : "") +
+            (rd >= 3
+              ? " This morning the Red Army stands less badly than it has any right to. Over the winter and spring the decisions taken in this room have put the weight where the German blow is coming, spread the aircraft and brought the second line up; the blow still falls, and falls hard, but the commands that receive it are awake, and some of the first reports say that the Germans did not find what they expected."
+              : rd >= 1
+              ? " The frontier is not entirely asleep. Some of what the General Staff did over the winter and spring is in place, and a few of the commands that receive the first blow had been told to expect it, but the directive of the small hours reaches most of them too late."
+              : rd <= -3
+              ? " The army is caught in the worst of its postures, halfway between a defence and an attack, with its commands waiting for orders that will not come in time."
+              : rd <= -1
+              ? " The army is worse placed than the record's was: the frontier armies are in the wrong places in the wrong formations, the aircraft are packed on their fields and the second line is on the railways."
               : ""),
           choices: [
             {
@@ -7258,7 +7613,7 @@ const CAMPAIGNS = {
               advisor: { name: "Stalin", position: "Not one step back, because an army that retreats without orders has decided its own defeat." },
               historical: true,
               setFlags: { border41: "hold" },
-              impact: { manpower: -2, fuel: 0, initiative: 0 },
+              impact: { manpower: -2 + (edge >= 2 ? 1 : edge <= -2 ? -1 : 0), fuel: 0, initiative: edge > 0 ? 1 : edge < 0 ? -1 : 0 },
               next: "brodyCounterstroke41",
               outcome:
                 "Order No. 227 was still a year away, but its spirit governed June 1941 already: forward armies held rigid lines and were encircled wholesale: Białystok–Minsk alone cost some 300,000 men in the war's first ten days. The doctrine that caused this catastrophe was itself a product of the purges: officers who might have argued for elastic defense had, disproportionately, already been shot.",
@@ -20929,6 +21284,14 @@ const NODE_ATLAS = {
     { id: "backhandBlow43", date: "FEBRUARY – MARCH 1943", title: "The Backhand Blow" },
   ],
   soviet: [
+    { id: "finnishPrep39", date: "OCTOBER – NOVEMBER 1939", title: "The Finnish Question" },
+    { id: "winterStall40", date: "DECEMBER 1939 – JANUARY 1940", title: "The Mannerheim Line" },
+    { id: "summaBreak40", date: "JANUARY 1940", title: "The Isthmus Breaks" },
+    { id: "moscowPeace40", date: "MARCH – MAY 1940", title: "The Moscow Peace" },
+    { id: "plan40", date: "AUGUST – OCTOBER 1940", title: "Where the Blow Will Fall" },
+    { id: "games41", date: "JANUARY 1941", title: "The War Games" },
+    { id: "prep41", date: "MARCH 1941", title: "The Mechanised Corps" },
+    { id: "memo41", date: "MAY 1941", title: "The Memorandum" },
     { id: "border41", date: "JUNE 1941", title: "The Border Collapses" },
     { id: "smolensk41", date: "JULY – SEPTEMBER 1941", title: "Smolensk and the Kiev Question" },
     { id: "industrialShortfall42", date: "LATE 1941", title: "The Gap in the Ledger" },
@@ -25431,7 +25794,7 @@ function migrateSave(saved) {
   return s;
 }
 
-const NODE_TOTAL = 278; // 100 German + 63 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
+const NODE_TOTAL = 286; // 100 German + 71 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 // Framing quotes shown on entering the War Room. Where a clean, verified, short quote from
 // the actual command figure at this moment exists, it's used with a real name and date. Where
@@ -25770,7 +26133,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
 // must not spoil a fork the player hasn't discovered yet).
 const CAMPAIGN_MAP_YEARS = {
   german: [1940, 1941, 1942, 1943, 1944, 1945],
-  soviet: [1941, 1942, 1943, 1944, 1945],
+  soviet: [1940, 1941, 1942, 1943, 1944, 1945],
   allied: [1940, 1941, 1942, 1943, 1944, 1945],
   italy: [1940, 1941, 1942, 1943, 1944, 1945],
 };
@@ -26066,7 +26429,49 @@ function currentRegionStatuses(statusYear, flags, meters, dayKey) {
   const { o } = mapOverrides(statusYear, flags, meters, dayKey);
   return { ...base, ...o };
 }
-function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses: givenStatuses, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions }) {
+/** Orders drawn on the map: a solid arrow for an attack, a dashed one for a move, a fading dashed one for a withdrawal, a ring for a stand. tone is "focus" (the order picked) or "past" (an order already given). */
+function MapOpArrows({ arrows, bbox }) {
+  if (!arrows || !arrows.length) return null;
+  const pt = (p) => projectLonLat(p[0], p[1], bbox);
+  return (
+    <g style={{ pointerEvents: "none" }} aria-hidden="true">
+      <defs>
+        <marker id="op-head-focus" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#a3201a" />
+        </marker>
+        <marker id="op-head-past" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#4a4a4a" />
+        </marker>
+      </defs>
+      {arrows.map((a, i) => {
+        const focus = a.tone === "focus";
+        const colour = focus ? "#a3201a" : "#4a4a4a";
+        const opacity = focus ? 1 : 0.5;
+        if (a.kind === "hold") {
+          const [x, y] = pt(a.at);
+          return (
+            <g key={i} opacity={opacity}>
+              <circle cx={x} cy={y} r={10} fill="none" stroke="#ffffff" strokeWidth={focus ? 6 : 4} />
+              <circle cx={x} cy={y} r={10} fill="none" stroke={colour} strokeWidth={focus ? 3 : 2} />
+            </g>
+          );
+        }
+        const [x1, y1] = pt(a.from);
+        const [x2, y2] = pt(a.to);
+        const dash = a.kind === "move" ? "8,5" : a.kind === "withdraw" ? "3,5" : undefined;
+        const fade = a.kind === "withdraw" ? 0.7 : 1;
+        return (
+          <g key={i} opacity={opacity * fade}>
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#ffffff" strokeWidth={focus ? 6 : 4} strokeLinecap="round" />
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={colour} strokeWidth={focus ? 3 : 2} strokeLinecap="round" strokeDasharray={dash} markerEnd={`url(#op-head-${focus ? "focus" : "past"})`} />
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses: givenStatuses, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions, opArrows }) {
   const [geometry, setGeometry] = useState(null);
   useEffect(() => {
     let cancelled = false;
@@ -26354,11 +26759,12 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           </g>
         );
       })}
+      <MapOpArrows arrows={opArrows} bbox={bbox} />
     </svg>
   );
 }
 
-function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadlines, onClose, nodeId, lastSeenMapStatuses, onStatusesChange, history, embedded = false, review = null, endDate = null }) {
+function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadlines, onClose, nodeId, lastSeenMapStatuses, onStatusesChange, history, embedded = false, review = null, endDate = null, orders = null }) {
   const highlightRegions = (NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId];
   const years = CAMPAIGN_MAP_YEARS[campaign.id] || [year];
   const forks = DIVERGENCE_FORKS[campaign.id] || [];
@@ -26479,6 +26885,26 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   useEffect(() => {
     setSelectedRegion(null);
   }, [viewIndex]);
+  // The orders on the map (MAP_OPS in 36-map-ops.jsx): the report's own orders can be picked from a list and drawn, and the last few orders given stay on the map, faint.
+  const opsHere = (MAP_OPS[campaign.id] || {})[nodeId] || null;
+  const opsList = !embedded && opsHere && orders
+    ? orders.map((c, index) => ({ index, label: c.label, op: opsHere.find((o) => c.label.startsWith(o.match)) || null })).filter((x) => x.op)
+    : [];
+  const [focusOp, setFocusOp] = useState(null);
+  const focused = opsList.find((x) => x.index === focusOp) || null;
+  const pastArrows = [];
+  if (!embedded && current.isLast && history && history.length > 1) {
+    const given = history[history.length - 1].log || [];
+    for (let k = Math.max(0, history.length - 4); k < history.length - 1; k++) {
+      const op = given[k] && ((MAP_OPS[campaign.id] || {})[history[k].position] || []).find((o) => given[k].label.startsWith(o.match));
+      if (op) for (const a of op.arrows) pastArrows.push({ ...a, tone: "past" });
+    }
+  }
+  const opArrows = current.isLast ? [...pastArrows, ...(focused ? focused.op.arrows.map((a) => ({ ...a, tone: "focus" })) : [])] : [];
+  const opName = (label) => {
+    const head = label.split(":")[0];
+    return head.length <= 64 ? head : head.split(" ").slice(0, 8).join(" ") + "…";
+  };
   const headingRef = useRef(null);
   useEffect(() => {
     if (!embedded && headingRef.current) headingRef.current.focus();
@@ -26582,6 +27008,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             highlightRegions={highlightRegions}
             accent={campaign.accent}
             changedRegions={changedRegions}
+            opArrows={opArrows}
           />
           {revealedForks.map((fk, i) => (
             <div
@@ -26601,6 +27028,32 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             />
           ))}
         </div>
+        {opsList.length > 0 && current.isLast && (
+          <div className="mt-3">
+            <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1.5" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
+              Orders on the map
+            </div>
+            <div className="flex flex-col gap-1.5">
+              {opsList.map((o) => (
+                <button
+                  key={o.index}
+                  aria-pressed={focusOp === o.index}
+                  onClick={() => setFocusOp(focusOp === o.index ? null : o.index)}
+                  className="text-left text-[11px] leading-snug border-2 border-black px-2 py-1.5 transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", backgroundColor: focusOp === o.index ? "#16130f" : "transparent", color: focusOp === o.index ? "#ffffff" : "#000000" }}
+                >
+                  {opName(o.label)}
+                </button>
+              ))}
+            </div>
+            <p className="mt-2 text-[12px] leading-snug min-h-[2.5em]" aria-live="polite" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              {focused ? focused.op.note : "Pick an order to see where it goes."}
+            </p>
+            <p className="mt-1 text-[10px] leading-snug opacity-80" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.
+            </p>
+          </div>
+        )}
         <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
           {usedStatuses.map((s) => (
             <span
@@ -26793,6 +27246,12 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             })}
           </div>
         </div>
+        <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+          <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Your staff
+          </span>
+          Advisers argue for some orders. Follow one and that adviser trusts you more; pass one over and the trust falls a little. An adviser who is overruled too often goes quiet, and then asks to be relieved. A trusted adviser brings a reconnaissance pass at no cost. On the theater map you can pick an order and see where it would send the army.
+        </p>
         {hasForks && (
           <StampToggle
             accent={campaign.accent}
@@ -26833,6 +27292,515 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
     </div>
   );
 }
+
+const SPECIAL_EVENTS = [
+  // ---- OKW -----------------------------------------------------------------------------------------------------------------------
+  {
+    id: "dunkirk-lift",
+    campaign: "german",
+    at: ["channel"],
+    dateline: "Dunkirk, 26 May to 4 June 1940",
+    title: "The beaches are empty",
+    text: [
+      "The Royal Navy and hundreds of small craft have taken some 338,000 British and French soldiers off the beaches and the harbour mole. They left almost all their guns and vehicles behind, but the army that has come home is whole.",
+      "Hitler was promised that the Luftwaffe would finish the work from the air. Cloud, the Royal Air Force and the sheer number of targets did not let it.",
+    ],
+    source: "Operation Dynamo, 26 May to 4 June 1940.",
+  },
+  {
+    id: "stalingrad-last-pocket",
+    campaign: "german",
+    at: ["easternCollapse1943"],
+    dateline: "Stalingrad, 31 January to 2 February 1943",
+    title: "The Sixth Army is gone",
+    text: [
+      "The southern pocket surrendered on 31 January, the day after Paulus was made a field marshal, and the northern pocket on 2 February. About 91,000 men went into captivity.",
+      "The wireless played slow music, and the High Command's communiqué spoke of a fight to the last man, which was not what had happened.",
+    ],
+    source: "The surrender of the Sixth Army, 31 January and 2 February 1943. Of the 91,000 prisoners, perhaps one in twenty came home.",
+  },
+  {
+    id: "hamburg-firestorm",
+    campaign: "german",
+    at: ["twoFires1943"],
+    dateline: "Hamburg, 24 July to 3 August 1943",
+    title: "Four nights over Hamburg",
+    text: [
+      "Bomber Command by night and the Eighth Air Force by day have burnt out the eastern districts. On the night of 27 July the fires drew together into a storm that no fire brigade could enter. More than 30,000 people died, and perhaps a million left the city.",
+      "The radar of the night fighters and the guns was blinded on the first night by strips of metal foil dropped from the bombers, which the British had never used before.",
+    ],
+    source: "Operation Gomorrah, 24 July to 3 August 1943.",
+  },
+  {
+    id: "centre-in-moscow",
+    campaign: "german",
+    at: ["romaniaDefects44"],
+    dateline: "Moscow, 17 July 1944",
+    title: "The prisoners are marched through Moscow",
+    text: [
+      "Some 57,000 German prisoners, most of them taken from Army Group Centre, were marched through the streets of Moscow while the city watched. The newsreels have it already.",
+      "Behind them the Red Army has taken Minsk, and Army Group Centre has lost most of its divisions.",
+    ],
+    source: "The march of German prisoners through Moscow, 17 July 1944.",
+  },
+  {
+    id: "v2-and-dora",
+    campaign: "german",
+    at: ["ardennes"],
+    dateline: "Paris and London, 8 September 1944",
+    title: "The first V-2s",
+    text: [
+      "The first long-range rockets were fired at Paris and London on 8 September, and from October Antwerp became their chief target. Nothing can be done to stop one in flight.",
+      "They are assembled underground in the Harz, at Mittelbau-Dora, by prisoners who are worked until they die.",
+    ],
+    source: "The V-2 campaign, from 8 September 1944. About 3,000 were fired; by most counts more prisoners died building them than the rockets killed.",
+  },
+
+  // ---- STAVKA --------------------------------------------------------------------------------------------------------------------
+  {
+    id: "brest-casemates",
+    campaign: "soviet",
+    at: ["smolensk41"],
+    dateline: "Brest, from 22 June 1941",
+    title: "The fortress at Brest",
+    text: [
+      "The old fortress on the frontier was surrounded on the first morning. Groups of its garrison fought on in the casemates for weeks, the last of them into July, long after the front had passed them by.",
+      "Almost nothing about it reached the staff at the time, and no one in Moscow could say for certain who was still holding out there.",
+    ],
+    source: "The defence of the Brest fortress, 22 June to July 1941.",
+  },
+  {
+    id: "red-square-parade",
+    campaign: "soviet",
+    at: ["specialSection41"],
+    dateline: "Moscow, 7 November 1941",
+    title: "The parade on Red Square",
+    text: [
+      "On the anniversary of the revolution, with the Germans about a hundred kilometres away, the parade went ahead in the snow. Stalin spoke of the great Russian commanders of the past, and the regiments marched from the square to the front.",
+      "The counteroffensive that followed on 5 and 6 December was fought in part by divisions brought from Siberia and the Far East in the weeks before.",
+    ],
+    source: "The Red Square parade of 7 November 1941 and the Moscow counteroffensive of December.",
+  },
+  {
+    id: "stalingrad-bombed",
+    campaign: "soviet",
+    at: ["stalingradStreets42"],
+    dateline: "Stalingrad, 23 August 1942",
+    title: "The city burns",
+    text: [
+      "The Luftwaffe flew more than a thousand sorties against Stalingrad in a day and killed thousands of civilians. The same afternoon the leading German tanks reached the Volga north of the city, at Rynok.",
+      "No one had ordered the population out. The factories are still working, and the men who work in them are being armed in the yards.",
+    ],
+    source: "The bombing of Stalingrad and the German advance to the Volga, 23 August 1942.",
+  },
+  {
+    id: "leningrad-corridor",
+    campaign: "soviet",
+    at: ["quietSector43"],
+    dateline: "Leningrad, 18 January 1943",
+    title: "A corridor to Leningrad",
+    text: [
+      "The Leningrad and Volkhov Fronts have met near Shlisselburg and opened a land corridor on the south shore of Lake Ladoga, between eight and eleven kilometres wide. A railway is laid along it within weeks.",
+      "The siege that began on 8 September 1941 is not over. The corridor stays under German guns, and the city will not be freed until January 1944.",
+    ],
+    source: "Operation Iskra, 12 to 18 January 1943.",
+  },
+  {
+    id: "warsaw-sixty-three-days",
+    campaign: "soviet",
+    at: ["polishQuestion45"],
+    dateline: "Warsaw, 1 August to 2 October 1944",
+    title: "Sixty-three days",
+    text: [
+      "The rising in Warsaw ended on 2 October with a capitulation. About 16,000 Home Army fighters were killed, and some 150,000 civilians. The survivors were driven out of the city, and what was left of it was then destroyed building by building.",
+      "The Red Army stood on the east bank of the Vistula through all of it, and the question of why will be asked in London and in Washington.",
+    ],
+    source: "The Warsaw Rising, 1 August to 2 October 1944.",
+  },
+
+  // ---- SHAEF ---------------------------------------------------------------------------------------------------------------------
+  {
+    id: "dunkirk-home",
+    campaign: "allied",
+    at: ["battleOfBritain40"],
+    dateline: "Dover, 4 June 1940",
+    title: "The army is home",
+    text: [
+      "Some 338,000 men came off the beaches at Dunkirk, and the trains have been carrying them across England for a week. They left more than 63,000 vehicles and nearly 2,500 guns on the French side.",
+      "The Prime Minister has warned the House of Commons that wars are not won by evacuations. The men will be rearmed, and Britain is now an island with an army and almost nothing to equip it with.",
+    ],
+    source: "Operation Dynamo, 26 May to 4 June 1940.",
+  },
+  {
+    id: "pearl-harbor-aftermath",
+    campaign: "allied",
+    at: ["europeFirst42"],
+    dateline: "Washington, 7 to 13 December 1941",
+    title: "Two oceans",
+    text: [
+      "Japan attacked Pearl Harbor on 7 December and killed 2,403 Americans. Four days later Germany and Italy declared war on the United States, which settled a question that the Americans had not wished to settle for themselves.",
+      "The Prime Minister sailed for Washington on 13 December to put the order of the war to the President before the Pacific takes the whole of the country's attention.",
+    ],
+    source: "Pearl Harbor, 7 December 1941; the German and Italian declarations of war, 11 December.",
+  },
+  {
+    id: "church-bells",
+    campaign: "allied",
+    at: ["casablanca43"],
+    dateline: "Britain, 15 November 1942",
+    title: "The church bells",
+    text: [
+      "For the first time since the summer of 1940 the church bells of Britain were rung, for the victory of the Eighth Army at El Alamein. They had been kept silent as the warning of an invasion.",
+      "Speaking at the Mansion House, the Prime Minister called it not the end, nor the beginning of the end, but perhaps the end of the beginning.",
+    ],
+    source: "The Battle of El Alamein, 23 October to 11 November 1942; the Mansion House speech, 10 November.",
+  },
+  {
+    id: "hamburg-gomorrah",
+    campaign: "allied",
+    at: ["tehran43"],
+    dateline: "Hamburg, 24 July to 3 August 1943",
+    title: "The firestorm",
+    text: [
+      "Bomber Command by night and the Eighth Air Force by day have raided Hamburg for ten days. On the night of 27 July the fires joined into a firestorm, and more than 30,000 people died.",
+      "It is the largest single success the bombing offensive has had, and the argument over what it is worth has not yet been settled in London or in Washington.",
+    ],
+    source: "Operation Gomorrah, 24 July to 3 August 1943.",
+  },
+  {
+    id: "the-camps",
+    campaign: "allied",
+    at: ["germanyOccupation45"],
+    dateline: "Buchenwald, 11 April, and Bergen-Belsen, 15 April 1945",
+    title: "The camps",
+    text: [
+      "American troops reached Buchenwald on 11 April and British troops Bergen-Belsen on 15 April. Thousands of dead lay unburied, and thousands of the living were too weak to be moved.",
+      "General Eisenhower went to Ohrdruf the day after it was taken, and asked that journalists and legislators from both countries be brought to see what he had seen, so that no one could say afterwards that it was not so.",
+    ],
+    source: "The liberation of Buchenwald and Bergen-Belsen, April 1945; Eisenhower at Ohrdruf, 12 April.",
+  },
+
+  // ---- COMANDO SUPREMO -----------------------------------------------------------------------------------------------------------
+  {
+    id: "korce-falls",
+    campaign: "italy",
+    at: ["compass40"],
+    dateline: "Albania, 22 November 1940",
+    title: "The Greeks are in Albania",
+    text: [
+      "Within a month of the invasion of Greece the Greek army has taken Korçë and holds ground well inside Albania.",
+      "The offensive that was to reach Athens in days has become a fight for the passes in the snow. The mountain roads are mud and then snow, and everything the divisions need crosses the Adriatic to Durazzo and Valona, where the ports are under attack from the air.",
+    ],
+    source: "The Greek counteroffensive, November 1940.",
+  },
+  {
+    id: "pedestal",
+    campaign: "italy",
+    at: ["alamein42"],
+    dateline: "Malta, 11 to 15 August 1942",
+    title: "Five ships of fourteen",
+    text: [
+      "Fourteen merchant ships sailed for Malta in Operation Pedestal. Italian submarines, torpedo boats and aircraft joined the Germans in the attacks, and nine of the merchant ships were sunk, with an aircraft carrier and two cruisers. Five ships got in, among them the tanker Ohio, held up between two destroyers, which came into Grand Harbour on 15 August.",
+      "The island will live on what they carried. The convoys that supply Rommel are about to feel it.",
+    ],
+    source: "Operation Pedestal, 10 to 15 August 1942.",
+  },
+  {
+    id: "rome-bombed",
+    campaign: "italy",
+    at: ["mussoliniCoup43"],
+    dateline: "Rome, 19 July 1943",
+    title: "Bombs on Rome",
+    text: [
+      "American bombers hit the railway yards at San Lorenzo, and more than a thousand people died in the district beside them. It was the first time that bombs had fallen on the capital. The Pope came to San Lorenzo the same day.",
+      "Five days later the Grand Council met.",
+    ],
+    source: "The bombing of Rome, 19 July 1943; the Grand Council, 24 to 25 July.",
+  },
+  {
+    id: "ardeatine",
+    campaign: "italy",
+    at: ["romeLiberation44"],
+    dateline: "Rome, 23 and 24 March 1944",
+    title: "The Ardeatine caves",
+    text: [
+      "A bomb in the Via Rasella killed thirty-three men of a German police regiment. The next day 335 Italians, taken from the prisons, were shot in a quarry on the Via Ardeatina, ten for each German and five more by mistake.",
+      "Rome has been an open city in name for months. It is now a city that is counting its dead before it is freed.",
+    ],
+    source: "The attack in the Via Rasella and the massacre at the Ardeatine caves, 23 and 24 March 1944.",
+  },
+  {
+    id: "verona-trial",
+    campaign: "italy",
+    at: ["civilWarPartisans44"],
+    dateline: "Verona, 11 January 1944",
+    title: "The Verona trial",
+    text: [
+      "Five of the men on the Grand Council who voted against Mussolini on 24 and 25 July were shot at Verona, among them Galeazzo Ciano, Mussolini's son-in-law and his former foreign minister. Mussolini had refused to hear his daughter's appeal.",
+      "The others who had voted with them, and had got away, were condemned in their absence.",
+    ],
+    source: "The Verona trial, 8 to 10 January 1944, and the executions of 11 January.",
+  },
+];
+
+function SpecialEventScreen({ campaign, event, onContinue }) {
+  const paperTint = { german: "#fbfaf8", soviet: "#f8f1e2", allied: "#eff3f4", italy: "#f2f0e8" }[campaign.id] || "#ffffff";
+  const headingRef = useRef(null);
+  useEffect(() => {
+    if (headingRef.current) headingRef.current.focus();
+  }, []);
+  return (
+    <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
+      <div className="w-full max-w-lg">
+        <h1 ref={headingRef} tabIndex={-1} className="sr-only outline-none">
+          Special dispatch
+        </h1>
+        <div className="wire-tear" style={{ "--wire-paper": paperTint }}></div>
+        <div className="px-5 py-5" style={{ backgroundColor: paperTint }}>
+          <div className="pb-2 mb-3" style={{ borderBottom: `2px solid ${campaign.accent}`, fontFamily: "'IBM Plex Mono', monospace" }}>
+            <div className="text-xs font-bold tracking-[0.16em]" style={{ color: campaign.accent }}>
+              SPECIAL DISPATCH
+            </div>
+            <div className="text-[11px] text-[#444] mt-0.5">{event.dateline}</div>
+          </div>
+          <h2 className="text-2xl uppercase leading-tight mb-3 text-[#16130f]" style={{ fontFamily: "Oswald, sans-serif", fontWeight: 700 }}>
+            {event.title}
+          </h2>
+          {event.text.map((p, i) => (
+            <p key={i} className="text-[14px] leading-relaxed mb-3 text-[#2a2622]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              {p}
+            </p>
+          ))}
+          <div className="text-[11px] pt-2 text-[#555]" style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}>
+            {event.source ? `For the record: ${event.source}` : "Nothing in this dispatch changes a meter."}
+          </div>
+        </div>
+        <div className="wire-tear wire-tear-bottom" style={{ "--wire-paper": paperTint }}></div>
+        <button
+          onClick={onContinue}
+          className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
+          style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const mapArrow = (kind, from, to) => ({ kind, from, to });
+const mapStand = (at) => ({ kind: "hold", at });
+
+// The orders on the map. For a report, each order that can be given is drawn on the checkpoint map when the player picks it from the list under the map:
+// a solid arrow for an attack, a dashed one for a move, a dashed one that fades for a withdrawal, a ring for a stand. Positions are [longitude, latitude]
+// and the drawing is schematic: it shows where the weight goes, not a line of advance. An order is found by the start of its label (`match`), so a report
+// whose orders change with the file still finds the ones it has. tools/check-map-ops.mjs checks every entry. The reports not drawn here have no list.
+const MAP_OPS = {
+  german: {
+  norway40: [
+    { match: "Commit the surface fleet", note: "Warships and transports sail on the same night for Narvik, Trondheim, Bergen, Kristiansand and Oslo.", arrows: [mapArrow("move", [10.1, 54.3], [10.75, 59.9]), mapArrow("move", [8.1, 53.5], [5.3, 60.4]), mapArrow("move", [8.1, 53.5], [10.4, 63.4]), mapArrow("move", [8.1, 53.5], [17.4, 68.4])] },
+    { match: "Limited landings", note: "A smaller force takes Oslo and Trondheim, and Narvik, the ore port itself, is left alone.", arrows: [mapArrow("move", [10.1, 54.3], [10.75, 59.9]), mapArrow("move", [8.1, 53.5], [10.4, 63.4])] },
+  ],
+  caseYellow40: [
+    { match: "Adopt the Manstein Plan", note: "The armour crosses the Ardennes to the Meuse at Sedan and then runs for the Channel, while a smaller force draws the Allies into Belgium.", arrows: [mapArrow("attack", [8.0, 50.3], [4.95, 49.7]), mapArrow("attack", [4.95, 49.7], [1.85, 50.1]), mapArrow("move", [6.9, 51.5], [4.4, 51.2])] },
+    { match: "Hold to the original plan", note: "The weight goes through the Belgian plain towards Brussels and Lille, where the Allies are waiting for it.", arrows: [mapArrow("attack", [6.9, 50.9], [4.35, 50.85]), mapArrow("attack", [4.35, 50.85], [3.06, 50.63])] },
+  ],
+  dunkirk: [
+    { match: "Order the halt", note: "The tanks stand on the line of the canals west of Dunkirk while the Luftwaffe is sent against the pocket.", arrows: [mapStand([2.2, 50.75])] },
+    { match: "Press the attack", note: "The armour goes into the pocket from the west and south at once.", arrows: [mapArrow("attack", [1.5, 50.2], [2.37, 51.03]), mapArrow("attack", [2.9, 50.4], [2.37, 51.03])] },
+  ],
+  channel: [
+    { match: "Commit fully to Sea Lion", note: "Barges and transports gather in the Channel ports for landings on the Kent and Sussex coasts and in Lyme Bay.", arrows: [mapArrow("attack", [1.8, 50.95], [1.1, 51.1]), mapArrow("attack", [0.2, 49.5], [-0.1, 50.8]), mapArrow("attack", [-1.6, 49.65], [-2.2, 50.6])] },
+    { match: "Shift to attrition", note: "The Luftwaffe turns on London and the ports, the U-boats go out from Lorient, and the staff begins to look east.", arrows: [mapArrow("attack", [2.0, 50.9], [-0.1, 51.5]), mapArrow("move", [-3.4, 47.8], [-9.6, 50.0])] },
+    { match: "Begin Barbarossa planning now", note: "The Channel coast is held as it is, and the divisions are moved east for a war against the Soviet Union.", arrows: [mapStand([1.6, 50.9]), mapArrow("move", [6.9, 50.9], [21.0, 52.2])] },
+    { match: "Launch Sea Lion in September", note: "The crossing is ordered on the first date the barges are ready, from Calais, Boulogne and Le Havre.", arrows: [mapArrow("attack", [1.8, 50.95], [1.1, 51.1]), mapArrow("attack", [1.6, 50.2], [0.5, 50.8]), mapArrow("attack", [0.2, 49.5], [-0.1, 50.8])] },
+  ],
+  balkans: [
+    { match: "Full intervention", note: "Armies enter Greece from Bulgaria and Yugoslavia from Austria, Hungary and Romania, and the Balkans are cleared before the east.", arrows: [mapArrow("attack", [23.3, 42.7], [22.95, 40.64]), mapArrow("attack", [22.95, 40.64], [23.73, 38.1]), mapArrow("attack", [15.4, 47.07], [15.98, 45.8]), mapArrow("attack", [21.2, 45.75], [20.46, 44.8])] },
+    { match: "Ignore the Balkans", note: "Nothing is sent south. The divisions stay on the eastern frontier and the timetable is kept.", arrows: [mapArrow("move", [15.0, 52.0], [23.0, 52.0]), mapStand([20.0, 43.5])] },
+    { match: "Limited intervention", note: "A small force goes through Bulgaria to Salonica and another threatens Belgrade, with the rest held back for the east.", arrows: [mapArrow("attack", [23.3, 42.7], [22.95, 40.64]), mapArrow("attack", [21.2, 45.75], [20.46, 44.8])] },
+  ],
+  barbarossa41: [
+    { match: "Launch Barbarossa as planned", note: "Three army groups cross the frontier: one towards Leningrad, one towards Moscow and one towards Kiev.", arrows: [mapArrow("attack", [22.0, 54.5], [30.3, 59.95]), mapArrow("attack", [23.7, 52.1], [37.6, 55.75]), mapArrow("attack", [24.0, 50.2], [30.5, 50.45])] },
+    { match: "Postpone one year", note: "The army waits on the line of the frontier and is built up through the winter.", arrows: [mapArrow("move", [10.0, 51.0], [21.0, 52.2]), mapStand([21.5, 52.5])] },
+    { match: "Cancel Barbarossa", note: "There is no eastern war. The divisions stay where they are.", arrows: [mapStand([21.0, 52.5])] },
+    { match: "Delay Barbarossa", note: "The summer goes to a campaign in the Mediterranean, against Malta and against Gibraltar through Spain, and the east waits for the autumn.", arrows: [mapArrow("attack", [-1.8, 43.3], [-5.35, 36.5]), mapArrow("attack", [15.0, 37.6], [14.51, 35.9])] },
+  ],
+  moscowKiev: [
+    { match: "Press directly for Moscow", note: "Army Group Centre goes straight on from Smolensk.", arrows: [mapArrow("attack", [32.05, 54.78], [37.6, 55.75])] },
+    { match: "Divert south", note: "Guderian's tanks turn south from Roslavl to meet Kleist coming north from the Dnieper, and close the pocket east of Kiev.", arrows: [mapArrow("attack", [32.9, 53.9], [33.25, 50.35]), mapArrow("attack", [33.4, 49.07], [33.25, 50.35])] },
+    { match: "Split forces", note: "Part of the armour goes south and the rest keeps its face to Moscow.", arrows: [mapArrow("attack", [32.9, 53.9], [33.2, 51.2]), mapArrow("attack", [32.05, 54.78], [35.0, 55.3])] },
+  ],
+  caseBlue: [
+    { match: "Pursue both objectives", note: "One army goes for Stalingrad and the Volga, the other for the oilfields of the Caucasus, and neither is strong enough.", arrows: [mapArrow("attack", [38.0, 51.5], [44.5, 48.7]), mapArrow("attack", [39.7, 47.2], [40.1, 44.6]), mapArrow("attack", [39.7, 47.2], [45.7, 43.3])] },
+    { match: "Concentrate fully on the Caucasus", note: "Everything goes south to Maikop and Grozny, and the flank on the Don is held where it stands.", arrows: [mapArrow("attack", [39.7, 47.2], [40.1, 44.6]), mapArrow("attack", [39.7, 47.2], [45.7, 43.3]), mapStand([44.0, 49.0])] },
+    { match: "Concentrate fully on Stalingrad", note: "Both armies go for the Volga, and the Caucasus is left for later.", arrows: [mapArrow("attack", [38.0, 51.5], [44.5, 48.7]), mapArrow("attack", [41.0, 49.0], [44.5, 48.7]), mapStand([39.7, 47.2])] },
+  ],
+  kursk: [
+    { match: "Strike now, in spring", note: "The attack goes in at once, from Orel in the north and Belgorod in the south, with the tanks on hand.", arrows: [mapArrow("attack", [36.07, 52.97], [36.2, 51.73]), mapArrow("attack", [36.6, 50.6], [36.2, 51.73])] },
+    { match: "Wait for the Panthers", note: "The same two thrusts, from Orel and Belgorod, are launched in July with the new tanks.", arrows: [mapArrow("attack", [36.07, 52.97], [36.2, 51.73]), mapArrow("attack", [36.6, 50.6], [36.2, 51.73])] },
+    { match: "Cancel the offensive", note: "The line is shortened and the tanks are held back for a counterstroke.", arrows: [mapArrow("withdraw", [36.07, 52.97], [34.4, 53.25]), mapStand([36.25, 50.0])] },
+  ],
+  normandy: [
+    { match: "Release Panzer reserves", note: "The armoured divisions near Paris and Amiens are ordered to Caen at once.", arrows: [mapArrow("move", [2.35, 48.85], [-0.37, 49.18]), mapArrow("move", [2.3, 49.9], [-0.37, 49.18])] },
+    { match: "Hold reserves", note: "The armour waits near Calais and on the Seine until the main landing is certain.", arrows: [mapStand([1.9, 50.5]), mapStand([1.1, 49.45])] },
+  ],
+  ardennes: [
+    { match: "Launch the Ardennes offensive", note: "Three armies attack through the Eifel and the Ardennes towards the Meuse and Antwerp.", arrows: [mapArrow("attack", [6.3, 50.5], [4.4, 51.2]), mapArrow("attack", [6.2, 50.1], [4.87, 50.47]), mapArrow("attack", [6.6, 49.8], [5.72, 49.9])] },
+    { match: "Hold remaining reserves", note: "The reserves stay behind the Rhine at Bonn and Düsseldorf for the defence of the Reich.", arrows: [mapStand([7.1, 50.7]), mapStand([6.77, 51.2])] },
+  ],
+  berlinDefense45: [
+    { match: "Commit the Volkssturm", note: "Old men and boys are put into the line beside the regular troops, on the Seelow Heights and around Berlin.", arrows: [mapStand([13.4, 52.5]), mapStand([14.4, 52.55])] },
+    { match: "Limit the defense", note: "The line is held by regular troops alone, and falls back on the city when it is pierced.", arrows: [mapStand([14.38, 52.56]), mapArrow("withdraw", [14.38, 52.56], [13.4, 52.5])] },
+  ],
+
+  },
+  soviet: {
+  border41: [
+    { match: "Hold every position", note: "Every army stays where it stands: at Brest, at Lvov and on the Niemen.", arrows: [mapStand([23.7, 52.1]), mapStand([24.0, 49.84]), mapStand([23.9, 54.9])] },
+    { match: "Order a fighting withdrawal", note: "The armies give ground to Minsk, Kiev and the Dvina to keep their strength.", arrows: [mapArrow("withdraw", [23.7, 52.1], [27.55, 53.9]), mapArrow("withdraw", [24.0, 49.84], [30.5, 50.45]), mapArrow("withdraw", [23.9, 54.9], [26.5, 55.9])] },
+  ],
+  smolensk41: [
+    { match: "Hold Kiev", note: "The Southwestern Front stays on the Dnieper at Kiev and Chernigov while the Germans close behind it.", arrows: [mapStand([30.5, 50.45]), mapStand([31.3, 51.5])] },
+    { match: "Withdraw the Southwestern Front", note: "The front pulls back east of the Dnieper before the pocket closes.", arrows: [mapArrow("withdraw", [30.5, 50.45], [34.55, 49.6]), mapArrow("withdraw", [31.3, 51.5], [35.0, 50.9])] },
+  ],
+  leningrad41: [
+    { match: "Hold the city", note: "The city is held and its people stay in it.", arrows: [mapStand([30.3, 59.95])] },
+    { match: "Prioritize evacuation", note: "Civilians and the wounded are taken over Lake Ladoga by boat before the ice is firm.", arrows: [mapArrow("move", [30.1, 60.1], [32.4, 59.95]), mapStand([30.3, 59.95])] },
+  ],
+  moscowVyazma41: [
+    { match: "Commit the Southwestern survivors", note: "The survivors from the south go into the gap at Vyazma at once, from Tula.", arrows: [mapArrow("attack", [37.6, 54.2], [34.5, 55.2]), mapStand([36.0, 55.5])] },
+    { match: "Hold them back", note: "The reserve is kept at Tula and Moscow for a counteroffensive in the winter.", arrows: [mapStand([37.6, 54.2]), mapStand([37.6, 55.75])] },
+  ],
+  stalingradCounter42: [
+    { match: "The full envelopment", note: "The attack goes deep, from the Don bridgehead in the north and the lakes south of the city, to meet at Kalach.", arrows: [mapArrow("attack", [42.7, 49.6], [43.5, 48.7]), mapArrow("attack", [44.5, 47.0], [43.5, 48.7])] },
+    { match: "A shallower envelopment", note: "The pincers meet close to the city and shut in the garrison there.", arrows: [mapArrow("attack", [43.0, 49.6], [44.4, 48.9]), mapArrow("attack", [44.5, 47.0], [44.4, 48.3])] },
+  ],
+  kharkov43: [
+    { match: "Continue the pursuit", note: "The armies go on at speed from Kharkov towards the Dnieper at Dnepropetrovsk.", arrows: [mapArrow("attack", [36.25, 50.0], [35.0, 48.45])] },
+    { match: "Halt and consolidate", note: "The advance stops at Kharkov until the railways have caught up.", arrows: [mapStand([36.25, 50.0])] },
+    { match: "Skip Kharkov", note: "The reserve goes past Kharkov to the crossings of the Dnieper at Kremenchug.", arrows: [mapArrow("attack", [37.5, 50.0], [33.4, 49.07])] },
+  ],
+  kurskDefense43: [
+    { match: "Defense in depth", note: "The salient is held behind belts of mines and anti-tank guns, and the reserves are kept back.", arrows: [mapStand([36.2, 51.5]), mapStand([36.5, 51.0])] },
+    { match: "Preempt", note: "The Red Army strikes the German assembly areas at Orel and Belgorod before they can attack.", arrows: [mapArrow("attack", [36.1, 51.9], [36.07, 52.97]), mapArrow("attack", [36.6, 51.1], [36.6, 50.6])] },
+  ],
+  bagrationSoviet44: [
+    { match: "Press the offensive", note: "The fronts go through Vitebsk and Bobruisk to Minsk and then on to the Vistula, until supply stops them.", arrows: [mapArrow("attack", [30.4, 54.5], [27.55, 53.9]), mapArrow("attack", [27.55, 53.9], [21.0, 52.23])] },
+    { match: "Halt at Warsaw", note: "The fronts take Minsk and stop at the approaches to Warsaw.", arrows: [mapArrow("attack", [30.4, 54.5], [27.55, 53.9]), mapArrow("attack", [27.55, 53.9], [23.7, 52.1]), mapStand([21.5, 52.3])] },
+    { match: "Delay the launch", note: "Supplies are brought up behind the start line for two weeks before the attack begins.", arrows: [mapArrow("move", [37.0, 54.5], [30.4, 54.5]), mapStand([30.3, 54.5])] },
+  ],
+  warsawUprising44: [
+    { match: "Push the advance", note: "The leading armies go on to the Vistula at Warsaw without waiting for their supplies.", arrows: [mapArrow("attack", [22.0, 52.25], [21.0, 52.23])] },
+    { match: "Halt at the Vistula", note: "The advance stops on the east bank and the armies are resupplied.", arrows: [mapStand([21.3, 52.25])] },
+  ],
+  balkans44: [
+    { match: "Press deep into the Balkans", note: "The armies cross Romania to Belgrade and then go north-west through Hungary towards Vienna.", arrows: [mapArrow("attack", [26.1, 44.43], [20.46, 44.8]), mapArrow("attack", [20.46, 44.8], [19.04, 47.5]), mapArrow("attack", [19.04, 47.5], [16.37, 48.2])] },
+    { match: "Limit the Balkan commitment", note: "The armies go into Bulgaria and hold on the Danube while Tito's partisans clear Belgrade.", arrows: [mapArrow("move", [26.1, 44.43], [23.3, 42.7]), mapStand([20.46, 44.8])] },
+    { match: "Push further south", note: "The armies go on through Bulgaria to Salonica and Larissa, towards Athens, before the British land.", arrows: [mapArrow("attack", [23.3, 42.7], [22.95, 40.64]), mapArrow("attack", [22.95, 40.64], [22.42, 39.64])] },
+  ],
+  vistulaOder45: [
+    { match: "Press straight for Berlin", note: "The armies cross the Oder at Küstrin and go on for the capital.", arrows: [mapArrow("attack", [21.0, 52.23], [14.65, 52.58]), mapArrow("attack", [14.65, 52.58], [13.4, 52.5])] },
+    { match: "Halt on the Oder", note: "The armies stop on the Oder while other fronts clear Pomerania and East Prussia.", arrows: [mapStand([14.65, 52.58]), mapArrow("attack", [17.0, 53.2], [15.57, 54.18]), mapArrow("attack", [20.5, 53.6], [20.5, 54.7])] },
+  ],
+  berlinRace45: [
+    { match: "A single concentrated thrust", note: "One front, under one commander, attacks from the Oder, and the other waits.", arrows: [mapArrow("attack", [14.65, 52.58], [13.4, 52.5])] },
+    { match: "Let both fronts race", note: "Zhukov goes from the Oder and Konev from the Neisse, and they meet in Berlin.", arrows: [mapArrow("attack", [14.65, 52.58], [13.4, 52.5]), mapArrow("attack", [14.8, 51.5], [13.4, 52.45])] },
+  ],
+
+  },
+  allied: {
+  dunkirk40: [
+    { match: "Full evacuation effort", note: "Every ship that can be found, large and small, lifts men from the beaches and the mole to Dover and Ramsgate.", arrows: [mapArrow("withdraw", [2.37, 51.03], [1.3, 51.13]), mapArrow("withdraw", [2.37, 51.03], [1.4, 51.33])] },
+    { match: "Prioritize the professional core", note: "The trained divisions are taken first and the rest hold the perimeter.", arrows: [mapArrow("withdraw", [2.37, 51.03], [1.3, 51.13]), mapStand([2.4, 51.0])] },
+  ],
+  sicilyHusky43: [
+    { match: "Redirect naval and air assets", note: "Ships and aircraft from Tunisia are turned on the Strait of Messina to stop the Germans leaving.", arrows: [mapArrow("attack", [10.2, 36.8], [15.6, 38.1])] },
+    { match: "Continue the race for Messina", note: "Patton goes along the north coast and Montgomery up the east, and the evacuation goes on.", arrows: [mapArrow("attack", [14.2, 37.1], [15.55, 38.19]), mapArrow("attack", [13.4, 38.1], [15.55, 38.19])] },
+  ],
+  anzio44: [
+    { match: "Launch Shingle", note: "A landing from Naples at Anzio, behind the Gustav Line, with the aim of reaching the Alban Hills.", arrows: [mapArrow("move", [14.27, 40.85], [12.63, 41.45]), mapArrow("attack", [12.63, 41.45], [12.3, 42.3])] },
+    { match: "Cancel Shingle", note: "The landing craft are kept for Overlord and the Gustav Line is attacked from the front at Cassino.", arrows: [mapArrow("attack", [14.5, 41.0], [13.8, 41.5])] },
+  ],
+  normandy44: [
+    { match: "Back Montgomery's narrow thrust", note: "Everything goes to one spearhead in the north, through Belgium and over the Rhine into the Ruhr.", arrows: [mapArrow("attack", [1.5, 49.1], [4.4, 51.2]), mapArrow("attack", [4.4, 51.2], [7.0, 51.45])] },
+    { match: "Hold Eisenhower's broad front", note: "Every army advances on its own line, from Antwerp in the north to Strasbourg in the south.", arrows: [mapArrow("attack", [1.5, 49.1], [4.4, 51.2]), mapArrow("attack", [2.35, 48.5], [6.17, 49.12]), mapArrow("attack", [4.0, 48.3], [7.75, 48.58])] },
+  ],
+  anvilDragoon44: [
+    { match: "Proceed with the southern France landing", note: "A landing on the coast of Provence takes Marseille and Toulon and goes up the Rhône to Lyon.", arrows: [mapArrow("attack", [6.64, 43.27], [5.37, 43.3]), mapArrow("attack", [5.5, 43.8], [4.84, 45.76])] },
+    { match: "Redirect to the Balkans", note: "The force goes by sea from Naples to Trieste and on through the Ljubljana gap towards Vienna.", arrows: [mapArrow("move", [14.27, 40.85], [13.77, 45.65]), mapArrow("attack", [13.77, 45.65], [14.5, 46.05]), mapArrow("attack", [14.5, 46.05], [16.37, 48.2])] },
+  ],
+  marketGarden44: [
+    { match: "Launch Market Garden", note: "Three airborne divisions seize the bridges and the Guards Armoured Division drives up the single road from Neerpelt to Arnhem.", arrows: [mapArrow("attack", [5.4, 51.2], [5.9, 51.98])] },
+    { match: "Scale the plan back", note: "Only the nearer bridges, as far as Nijmegen, are taken, and Arnhem is left for a slower advance.", arrows: [mapArrow("attack", [5.4, 51.2], [5.85, 51.84])] },
+  ],
+  ardennesResponse44: [
+    { match: "Approve Patton's rapid wheel", note: "Third Army turns ninety degrees from the Saar and attacks north from Luxembourg to Bastogne.", arrows: [mapArrow("attack", [6.17, 49.12], [5.72, 50.0])] },
+    { match: "Take the more cautious", note: "Third Army moves up in stages and does not risk its flank, with Bastogne holding on its own.", arrows: [mapArrow("attack", [6.1, 49.1], [5.9, 49.75]), mapStand([5.72, 50.0])] },
+  ],
+  berlinDecision45: [
+    { match: "Push for Berlin", note: "The American armies go on from the Elbe at Magdeburg to Berlin, over the line the zone agreement draws.", arrows: [mapArrow("attack", [11.63, 52.13], [13.4, 52.5])] },
+    { match: "Halt on the Elbe", note: "The American armies stop at the Elbe and leave Berlin to the Red Army.", arrows: [mapStand([11.63, 52.13])] },
+  ],
+  dieppe42: [
+    { match: "Launch the raid", note: "Canadian troops cross the Channel from Newhaven and land at Dieppe and on the beaches beside it.", arrows: [mapArrow("attack", [0.05, 50.79], [1.08, 49.93])] },
+    { match: "Cancel the raid", note: "The troops stay in England and the harbour at Dieppe is left alone.", arrows: [mapStand([0.05, 50.79])] },
+  ],
+
+  },
+  italy: {
+  alpsFront40: [
+    { match: "Push hard", note: "The Italian armies attack over the Little St Bernard and along the Riviera towards Nice before the armistice.", arrows: [mapArrow("attack", [7.6, 43.8], [6.4, 43.5]), mapArrow("attack", [6.9, 45.7], [6.0, 45.4])] },
+    { match: "Limited, symbolic advance", note: "The armies keep to the passes and the coast road and do little more.", arrows: [mapStand([7.0, 45.5]), mapStand([7.5, 43.85])] },
+  ],
+  medStrategy40: [
+    { match: "Move on Malta first", note: "A landing from Sicily on Malta while the garrison is weak.", arrows: [mapArrow("attack", [14.0, 37.1], [14.51, 35.9])] },
+    { match: "Push into Egypt", note: "The army goes along the coast from Bardia to Alexandria and the Suez Canal.", arrows: [mapArrow("attack", [25.1, 31.76], [29.9, 31.2])] },
+    { match: "Reach past both", note: "The effort goes into diplomacy: a seat in Berlin's plans and in the Spanish closing of Gibraltar.", arrows: [mapArrow("move", [12.5, 41.9], [13.4, 52.5]), mapArrow("move", [12.5, 41.9], [-3.7, 40.4])] },
+  ],
+  greeceDecision40: [
+    { match: "Proceed on the planned date", note: "The army attacks from Albania towards Ioannina and the Epirus coast on the date the political timing sets.", arrows: [mapArrow("attack", [20.1, 40.6], [20.85, 39.67]), mapArrow("attack", [19.5, 40.2], [20.2, 39.4])] },
+    { match: "Argue for delay", note: "The force in Albania is built up first and the attack waits.", arrows: [mapStand([19.8, 41.3])] },
+  ],
+  compass40: [
+    { match: "Order an immediate general withdrawal", note: "The garrison at Sidi Barrani falls back to Bardia and Tobruk before the British attack.", arrows: [mapArrow("withdraw", [25.9, 31.6], [24.0, 32.0])] },
+    { match: "Hold the fortified camps", note: "The army stays in its camps around Sidi Barrani and trusts them to hold.", arrows: [mapStand([25.9, 31.6]), mapStand([25.5, 31.4])] },
+  ],
+  tobruk42: [
+    { match: "Press on toward Egypt", note: "The army goes on from Tobruk to the Alamein position, using what it has captured.", arrows: [mapArrow("attack", [23.97, 32.08], [28.95, 30.83])] },
+    { match: "Halt at the Libya-Egypt frontier", note: "The army stops at the frontier at Sollum and consolidates.", arrows: [mapArrow("attack", [23.97, 32.08], [25.15, 31.77]), mapStand([25.2, 31.57])] },
+  ],
+  alamein42: [
+    { match: "Fight the defensive battle", note: "The army stays in the Alamein line between the sea and the Qattara Depression.", arrows: [mapStand([28.95, 30.83]), mapStand([28.3, 30.6])] },
+    { match: "Order a fighting withdrawal", note: "The army leaves the line and falls back into Libya, towards Benghazi.", arrows: [mapArrow("withdraw", [28.95, 30.83], [25.15, 31.77]), mapArrow("withdraw", [25.15, 31.77], [20.07, 32.12])] },
+  ],
+  torchTunisia42: [
+    { match: "Rush every available reinforcement", note: "Troops and stores are flown and shipped from Naples and Palermo to Tunis and Bizerte.", arrows: [mapArrow("move", [14.27, 40.85], [10.18, 36.8]), mapArrow("move", [13.36, 38.12], [9.87, 37.27])] },
+    { match: "Limit the Tunisia commitment", note: "The experienced units are taken back to Italy and Tunisia is held with what is there.", arrows: [mapArrow("withdraw", [10.18, 36.8], [14.27, 40.85]), mapStand([10.18, 36.8])] },
+  ],
+  sicilyHusky43: [
+    { match: "Concentrate the defense on denying the Strait", note: "The garrison falls back through the island to Messina and crosses to the mainland.", arrows: [mapArrow("withdraw", [14.2, 37.4], [15.55, 38.19]), mapArrow("withdraw", [13.36, 38.12], [15.55, 38.19])] },
+    { match: "Order the garrison to hold Sicily", note: "The garrison stands where it is, at Gela, Catania and Palermo, and is not withdrawn.", arrows: [mapStand([14.2, 37.3]), mapStand([13.36, 38.12]), mapStand([14.9, 37.5])] },
+  ],
+  armisticeAnnounce43: [
+    { match: "Execute the armistice", note: "The King and the government leave Rome for Brindisi, and the garrisons are left to act on their own.", arrows: [mapArrow("move", [12.5, 41.9], [17.94, 40.63])] },
+    { match: "Delay the public announcement", note: "The scattered units are drawn in around Rome first, and the announcement waits.", arrows: [mapArrow("move", [11.0, 43.5], [12.5, 41.9]), mapArrow("move", [13.5, 42.5], [12.5, 41.9]), mapStand([12.5, 41.9])] },
+  ],
+  monteLungo43: [
+    { match: "Accept the American plan", note: "The Group attacks Monte Lungo on 8 December, in the morning mist, beside the American II Corps.", arrows: [mapArrow("attack", [13.45, 41.15], [14.0, 41.55])] },
+    { match: "Ask II Corps for another week", note: "The attack is put off for a week to rehearse it with the guns and the infantry that will support it.", arrows: [mapStand([13.7, 41.25])] },
+    { match: "Keep the Group out of the line", note: "The Group stays in the rear, in Apulia, until it is trained and equipped as a division.", arrows: [mapStand([16.87, 41.12])] },
+  ],
+  gothicLine44: [
+    { match: "Commit the Co-Belligerent Army", note: "The combat groups go in with the Allied armies on the Adriatic and over the Apennines towards Bologna.", arrows: [mapArrow("attack", [13.0, 43.6], [12.4, 44.2]), mapArrow("attack", [11.25, 43.77], [11.34, 44.5])] },
+    { match: "Commit more cautiously", note: "Only a part of the army is committed, on the Adriatic, and the rest is kept for the spring.", arrows: [mapArrow("attack", [13.1, 43.5], [12.6, 44.0]), mapStand([11.25, 43.77])] },
+  ],
+  springOffensive45: [
+    { match: "Ask for the assault roles", note: "Cremona crosses the Senio at Alfonsine, and Friuli and Folgore take the road towards Bologna.", arrows: [mapArrow("attack", [12.2, 44.3], [11.34, 44.5]), mapArrow("attack", [11.0, 44.0], [11.34, 44.5])] },
+    { match: "Keep the Groups to supporting roles", note: "The Groups hold the flanks and follow up, and are kept whole for the occupation.", arrows: [mapStand([12.2, 44.3]), mapStand([11.0, 44.0])] },
+  ],
+  },
+};
 
 function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange }) {
   const [record, setRecord] = useState(null);
@@ -28168,6 +29136,14 @@ const NODE_HIGHLIGHT_REGIONS = {
   backhandBlow43: ["ussrUkraine", "ussrDon"],
   },
   soviet: {
+  finnishPrep39: ["finland"],
+  winterStall40: ["finland"],
+  summaBreak40: ["finland"],
+  moscowPeace40: ["finland"],
+  plan40: ["ussrBelarus", "ussrUkraine"],
+  games41: ["ussrBelarus", "baltics"],
+  prep41: ["ussrBelarus", "ussrUkraine"],
+  memo41: ["ussrBelarus", "ussrMoscow"],
   border41: ["baltics", "ussrLeningrad", "ussrBelarus", "ussrUkraine"],
   smolensk41: ["ussrMoscow", "ussrUkraine"],
   industrialShortfall42: ["ussrMoscow", "ussrUrals"],
@@ -29585,6 +30561,31 @@ function cohesionLabel(c) {
   return "Fraying";
 }
 
+/** The adviser's line on an order, by how far the player has trusted them (see adviserStanding in logic.ts). Phrasing content only: it sits inside the order's button. */
+function AdviserLine({ advisor, flags }) {
+  const standing = adviserStanding(flags || {}, advisor.name);
+  const name = advisor.name.charAt(0).toUpperCase() + advisor.name.slice(1);
+  if (standing === "gone") return null;
+  if (standing === "quiet") {
+    return (
+      <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
+        {name} says little now: overruled too often to argue this one.
+      </span>
+    );
+  }
+  return (
+    <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
+      {standing === "trusted" && (
+        <span className="not-italic mr-2 border border-current px-1.5 py-[1px] text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          Trusted
+        </span>
+      )}
+      {standing === "trusted" && " "}
+      {name} argues: {advisor.position}
+    </span>
+  );
+}
+
 function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
@@ -29719,6 +30720,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             lastSeenMapStatuses={lastSeenMapStatuses}
             onStatusesChange={onStatusesChange}
             history={history}
+            orders={stage.choices}
             review={showReview ? (!iron ? (total >= 3 ? " · ahead of the historical baseline" : total <= -3 ? " · behind the historical baseline" : " · tracking the historical record") : "") + (comparableSoFar.length > 0 ? ` · history matched at ${matchedSoFar} of ${comparableSoFar.length} points` : "") : null}
           />
         )}
@@ -30003,11 +31005,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   “{choice.attested.text}”: {choice.attested.by}
                 </span>
               ) : (
-                choice.advisor && (
-                  <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
-                    {choice.advisor.name.charAt(0).toUpperCase() + choice.advisor.name.slice(1)} argues: {choice.advisor.position}
-                  </span>
-                )
+                choice.advisor && <AdviserLine advisor={choice.advisor} flags={flags} />
               )}
               {choice.strain && choice.strain.points > 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
@@ -30178,11 +31176,13 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // assessment is gated below (needs Initiative to spend, one use per screen instance — buying
   // a second look at the same ground has diminishing returns the design isn't trying to model).
   const [reconUsed, setReconUsed] = useState(!!(resume && resume.reconUsed));
+  // A trusted adviser's own staff has already looked at the ground: the pass costs nothing (see trustedAdvisers in logic.ts).
+  const reconAdviser = trustedAdvisers(flags || {})[0] || null;
   function requestRecon() {
-    if (reconUsed || (meters.initiative || 0) <= 0 || !posture) return;
+    if (reconUsed || (!reconAdviser && (meters.initiative || 0) <= 0) || !posture) return;
     setIntel(drawIntel(KEY_BATTLE_RECON_ERROR_RATE));
     setReconUsed(true);
-    if (onSpendInitiative) onSpendInitiative();
+    if (!reconAdviser && onSpendInitiative) onSpendInitiative();
     if (soundOn) playRadio();
   }
 
@@ -30469,7 +31469,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
               <li>You have a pool of effort: five points, plus one for each of Manpower, Matériel and Initiative above +2. Each point gives an arm more weight.</li>
               <li>Weight on one arm helps, but a bare arm costs you: a battle punishes a gap.</li>
               <li>Name one field commander, who strengthens one arm, and pick one tactical approach, which strengthens one arm and weakens another.</li>
-              <li>The enemy's setup is hidden. A line of intelligence hints at it and is wrong about one time in four. Reconnaissance and a staff review cost Initiative.</li>
+              <li>The enemy's setup is hidden. A line of intelligence hints at it and is wrong about one time in four. Reconnaissance and a staff review cost Initiative, unless an adviser you trust has already looked at the ground.</li>
               <li>Effort left unplaced is a reserve to commit at the decisive hour, once you have seen the enemy's hand. It counts for less than planned effort.</li>
               <li>You may be asked for a field decision during the battle.</li>
               <li>Letting the staff plan it costs nothing: they fight the battle for you, without field decisions.</li>
@@ -30542,11 +31542,11 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             {!reconUsed && !easyMode && (
               <button
                 onClick={requestRecon}
-                disabled={(meters.initiative || 0) <= 0}
+                disabled={!reconAdviser && (meters.initiative || 0) <= 0}
                 className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={labelStyle}
               >
-                Call for a Reconnaissance Pass: costs 1 Initiative
+                {reconAdviser ? `Call for a Reconnaissance Pass: free, ${reconAdviser}'s staff has already looked` : "Call for a Reconnaissance Pass: costs 1 Initiative"}
               </button>
             )}
             {reconUsed && (
@@ -32349,7 +33349,9 @@ const ADVISOR_DOSSIERS = {
   Rotmistrov: { role: "General: tank corps commander", bio: "Led armor committed to stem the German winter 1942 breakout attempts toward the Stalingrad pocket's trapped Sixth Army.", fate: "Later led the Fifth Guards Tank Army at Kursk and rose to Chief Marshal of Armored Troops; died in 1982.", faction: "soviet", rank: 3 },
   Khrulev: { role: "General: Red Army's chief of rear services", bio: "Ran Soviet military logistics, the unglamorous machinery behind Bagration's June 1944 supply and movement.", fate: "Continued in senior postwar defense-ministry roles before later administrative posts; died in 1962.", faction: "soviet", rank: 3 },
   Kirponos: { role: "Colonel-General: commander, Southwestern Front (1941)", bio: "Commanded the front that took the first weight of the invasion in Ukraine, and argued for defensive consolidation over the immediate counterattack Moscow's Directive No. 3 demanded of it.", fate: "Killed on September 20, 1941, trying to break out of the Kiev pocket his front had been ordered to hold.", faction: "soviet", rank: 3 },
-  Shaposhnikov: { role: "Marshal: Chief of the General Staff (1941–42)", bio: "The Red Army's most senior staff officer and the author of 'The Brain of the Army', who took the General Staff over when Zhukov was moved from it in the summer of 1941.", fate: "Died in March 1945, worn out, weeks before Berlin.", faction: "soviet", rank: 2 },
+  Voroshilov: { role: "Marshal: People's Commissar of Defence until May 1940", bio: "A civil-war cavalry commander and one of Stalin's oldest associates, who ran the army through the purges and the first months of the Winter War and was replaced by Timoshenko in the spring of 1940.", fate: "Failed as the commander at Leningrad in 1941 and was never again given a front; outlived Stalin and died in 1969, still a Marshal of the Soviet Union.", faction: "soviet", rank: 2 },
+  Pavlov: { role: "General: commander of the Western Special Military District", bio: "A tank officer who served in Spain and became the Red Army's armoured chief, then took the Western Special Military District, the one that faced the German centre, in 1940.", fate: "Arrested in the first days of July 1941 and shot on 22 July as a scapegoat for the collapse of the Western Front; rehabilitated after Stalin's death.", faction: "soviet", rank: 3 },
+  Shaposhnikov: { role: "Marshal: Chief of the General Staff (1937–40 and 1941–42)", bio: "The Red Army's most senior staff officer and the author of 'The Brain of the Army', who left the General Staff in the summer of 1940, fortified the new frontier, and took the General Staff over again when Zhukov was moved from it in the summer of 1941.", fate: "Died in March 1945, worn out, weeks before Berlin.", faction: "soviet", rank: 2 },
   Ironside: { role: "Field Marshal: Chief of the Imperial General Staff", bio: "Britain's senior soldier during the Norway campaign's Narvik fighting in spring 1940, a command relationship strained by the campaign's confusion.", fate: "Replaced as CIGS that same month; created Baron Ironside; died in 1959.", faction: "allied", rank: 2 },
   Gort: { role: "Field Marshal: commander of the British Expeditionary Force", bio: "Made the call to fall back on Dunkirk in May 1940 rather than fight on for a doomed link-up with French forces to the south.", fate: "Later governor of Gibraltar and Malta; died of cancer in 1946.", faction: "allied", rank: 2 },
   Halifax: { role: "Foreign Secretary: the war cabinet's other voice", bio: "Pressed the War Cabinet in late May 1940 to explore terms through Mussolini's mediation, the road not taken that Churchill closed off.", fate: "Sent as ambassador to Washington from 1941; died in 1959.", faction: "allied", rank: 2 },
@@ -32930,6 +33932,8 @@ function WW2CommandInner() {
   const [visited, setVisited] = useState([]);
   const [seenWireHeadlines, setSeenWireHeadlines] = useState([]);
   const [pendingWireHeadline, setPendingWireHeadline] = useState(null);
+  // A special dispatch waiting to be read before the next report ({ event, wire }: wire is the bulletin that follows it, if any).
+  const [pendingEvent, setPendingEvent] = useState(null);
   // Region statuses as of the last time the Checkpoint Map was closed, this run — null
   // means "never opened yet" (no flash on first open). Lives up here rather than inside
   // BriefingScreen because BriefingScreen itself remounts on every new node in the normal
@@ -32979,6 +33983,7 @@ function WW2CommandInner() {
     setRewinds(0);
     setSeenWireHeadlines([]);
     setPendingWireHeadline(null);
+    setPendingEvent(null);
     setLastSeenMapStatuses(null);
     setScreen("warroom");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -33038,6 +34043,7 @@ function WW2CommandInner() {
     setRewinds(0);
     setSeenWireHeadlines([]);
     setPendingWireHeadline(null);
+    setPendingEvent(null);
     setLastSeenMapStatuses(null);
     setScreen("warroom");
   }
@@ -33187,7 +34193,11 @@ function WW2CommandInner() {
 
     setOutcomeStage(null);
     if (!isEnd) {
-      const newHistory = [...history, { position: nextPos, flags, meters, log: newLog }];
+      // A special dispatch is due on arriving at some reports (and when an adviser has asked to be relieved): shown once, before the report.
+      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: campaignId, flags, meters }) : null;
+      const flagsOut = dueEv ? { ...flags, [eventSeenKey(dueEv.id)]: true } : flags;
+      if (dueEv) setFlags(flagsOut);
+      const newHistory = [...history, { position: nextPos, flags: flagsOut, meters, log: newLog }];
       setHistory(newHistory);
       const newVisited = nextVisited(visited, nextPos);
       setVisited(newVisited);
@@ -33213,7 +34223,10 @@ function WW2CommandInner() {
         : wantsWire
         ? pickWireHeadline(yearFrom(nextStage.date, 1940), String(nextPos), seenWireHeadlines)
         : null;
-      if (headline) {
+      if (dueEv) {
+        setPendingEvent({ event: dueEv, wire: headline || null });
+        setScreen("event");
+      } else if (headline) {
         setPendingWireHeadline(headline);
         setScreen("wire");
       } else {
@@ -33231,7 +34244,7 @@ function WW2CommandInner() {
           favor: mode === "iron" && choice.favor ? favor - choice.favor : favor,
           defiance,
           position: nextPos,
-          flags,
+          flags: flagsOut,
           meters,
           log: newLog,
           visited: newVisited,
@@ -33563,6 +34576,22 @@ function WW2CommandInner() {
       {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
+      )}
+      {screen === "event" && campaign && pendingEvent && (
+        <SpecialEventScreen
+          campaign={campaign}
+          event={pendingEvent.event}
+          onContinue={() => {
+            const wire = pendingEvent.wire;
+            setPendingEvent(null);
+            if (wire) {
+              setPendingWireHeadline(wire);
+              setScreen("wire");
+            } else {
+              setScreen("briefing");
+            }
+          }}
+        />
       )}
       {screen === "wire" && campaign && pendingWireHeadline && (
         <WireBulletin

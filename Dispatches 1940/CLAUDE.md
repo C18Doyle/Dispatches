@@ -49,3 +49,11 @@ React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 278 nodes, Easy / Sta
 - Real-browser check (from the repo root, after building): `npm run smoke:browser`. Known layout findings are listed in `tests/browser-allowlist.json`.
 
 Writing: follow `../docs/WRITING.md`. `npm run check-writing` fails on an em dash in on-screen text.
+
+## Trust, special dispatches, orders on the map, balance and the playthrough bot
+- **Trust** is rule code in `src/logic.ts` (`trustAfter`, called by `resolveChoice`; `adviserStanding`, `trustedAdvisers`) kept in the flags `tr_<name>` (half-points, -6 to +6), `trn_<name>` (the display name) and `trgone_<name>`. The card line is `AdviserLine` in `40-...`; the free reconnaissance pass is in `BattleAllocationScreen`. Any new flag family has to be stripped in the root `packages/engine/tests/campaign-equivalence.test.mjs` (`withoutTallies`), or CI fails.
+- **Special dispatches**: data `SPECIAL_EVENTS` and `SpecialEventScreen` in `src/parts/35-events.jsx`; `dueEvent` in `src/logic.ts` decides; `proceed()` in `50-app.jsx` shows the event first and the wire bulletin after it, and marks `ev_<id>` at once. An event is tied to reports by id (`at`), never by date: node dates are free text. `npm run check-events`.
+- **Orders on the map**: `MAP_OPS[campaign][nodeId]` in `src/parts/36-map-ops.jsx`, each order found by the start of its label (`match`, which must keep the label's own spelling); `CheckpointMap` takes `orders`, `MapOpArrows` draws. A report drawn has all its orders drawn. `npm run check-map-ops`.
+- **Balance**: `npm run balance` (`tools/balance.mjs`, `docs/BALANCE.md`). Change a campaign's costs, then read the pinned-meter line and `npm run check-endings`; do not tune by feel.
+- **Playthrough**: `npm run playthrough` (needs `npm run build:nozip` and Playwright's Chromium) plays all four campaigns in a real browser; 1940 has no screen markers, so it reads button text like `tests/ui.config.mjs`. In CI's `browser` job.
+- The new text is written in British English (the game as a whole is mixed); `match` strings copy the game's label exactly.

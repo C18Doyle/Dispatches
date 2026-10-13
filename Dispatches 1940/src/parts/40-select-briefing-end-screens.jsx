@@ -1332,6 +1332,14 @@ const NODE_HIGHLIGHT_REGIONS = {
   backhandBlow43: ["ussrUkraine", "ussrDon"],
   },
   soviet: {
+  finnishPrep39: ["finland"],
+  winterStall40: ["finland"],
+  summaBreak40: ["finland"],
+  moscowPeace40: ["finland"],
+  plan40: ["ussrBelarus", "ussrUkraine"],
+  games41: ["ussrBelarus", "baltics"],
+  prep41: ["ussrBelarus", "ussrUkraine"],
+  memo41: ["ussrBelarus", "ussrMoscow"],
   border41: ["baltics", "ussrLeningrad", "ussrBelarus", "ussrUkraine"],
   smolensk41: ["ussrMoscow", "ussrUkraine"],
   industrialShortfall42: ["ussrMoscow", "ussrUrals"],
@@ -2749,6 +2757,31 @@ function cohesionLabel(c) {
   return "Fraying";
 }
 
+/** The adviser's line on an order, by how far the player has trusted them (see adviserStanding in logic.ts). Phrasing content only: it sits inside the order's button. */
+function AdviserLine({ advisor, flags }) {
+  const standing = adviserStanding(flags || {}, advisor.name);
+  const name = advisor.name.charAt(0).toUpperCase() + advisor.name.slice(1);
+  if (standing === "gone") return null;
+  if (standing === "quiet") {
+    return (
+      <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
+        {name} says little now: overruled too often to argue this one.
+      </span>
+    );
+  }
+  return (
+    <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
+      {standing === "trusted" && (
+        <span className="not-italic mr-2 border border-current px-1.5 py-[1px] text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          Trusted
+        </span>
+      )}
+      {standing === "trusted" && " "}
+      {name} argues: {advisor.position}
+    </span>
+  );
+}
+
 function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
@@ -2883,6 +2916,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             lastSeenMapStatuses={lastSeenMapStatuses}
             onStatusesChange={onStatusesChange}
             history={history}
+            orders={stage.choices}
             review={showReview ? (!iron ? (total >= 3 ? " · ahead of the historical baseline" : total <= -3 ? " · behind the historical baseline" : " · tracking the historical record") : "") + (comparableSoFar.length > 0 ? ` · history matched at ${matchedSoFar} of ${comparableSoFar.length} points` : "") : null}
           />
         )}
@@ -3167,11 +3201,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   “{choice.attested.text}”: {choice.attested.by}
                 </span>
               ) : (
-                choice.advisor && (
-                  <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
-                    {choice.advisor.name.charAt(0).toUpperCase() + choice.advisor.name.slice(1)} argues: {choice.advisor.position}
-                  </span>
-                )
+                choice.advisor && <AdviserLine advisor={choice.advisor} flags={flags} />
               )}
               {choice.strain && choice.strain.points > 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
@@ -3342,11 +3372,13 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // assessment is gated below (needs Initiative to spend, one use per screen instance — buying
   // a second look at the same ground has diminishing returns the design isn't trying to model).
   const [reconUsed, setReconUsed] = useState(!!(resume && resume.reconUsed));
+  // A trusted adviser's own staff has already looked at the ground: the pass costs nothing (see trustedAdvisers in logic.ts).
+  const reconAdviser = trustedAdvisers(flags || {})[0] || null;
   function requestRecon() {
-    if (reconUsed || (meters.initiative || 0) <= 0 || !posture) return;
+    if (reconUsed || (!reconAdviser && (meters.initiative || 0) <= 0) || !posture) return;
     setIntel(drawIntel(KEY_BATTLE_RECON_ERROR_RATE));
     setReconUsed(true);
-    if (onSpendInitiative) onSpendInitiative();
+    if (!reconAdviser && onSpendInitiative) onSpendInitiative();
     if (soundOn) playRadio();
   }
 
@@ -3633,7 +3665,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
               <li>You have a pool of effort: five points, plus one for each of Manpower, Matériel and Initiative above +2. Each point gives an arm more weight.</li>
               <li>Weight on one arm helps, but a bare arm costs you: a battle punishes a gap.</li>
               <li>Name one field commander, who strengthens one arm, and pick one tactical approach, which strengthens one arm and weakens another.</li>
-              <li>The enemy's setup is hidden. A line of intelligence hints at it and is wrong about one time in four. Reconnaissance and a staff review cost Initiative.</li>
+              <li>The enemy's setup is hidden. A line of intelligence hints at it and is wrong about one time in four. Reconnaissance and a staff review cost Initiative, unless an adviser you trust has already looked at the ground.</li>
               <li>Effort left unplaced is a reserve to commit at the decisive hour, once you have seen the enemy's hand. It counts for less than planned effort.</li>
               <li>You may be asked for a field decision during the battle.</li>
               <li>Letting the staff plan it costs nothing: they fight the battle for you, without field decisions.</li>
@@ -3706,11 +3738,11 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             {!reconUsed && !easyMode && (
               <button
                 onClick={requestRecon}
-                disabled={(meters.initiative || 0) <= 0}
+                disabled={!reconAdviser && (meters.initiative || 0) <= 0}
                 className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={labelStyle}
               >
-                Call for a Reconnaissance Pass: costs 1 Initiative
+                {reconAdviser ? `Call for a Reconnaissance Pass: free, ${reconAdviser}'s staff has already looked` : "Call for a Reconnaissance Pass: costs 1 Initiative"}
               </button>
             )}
             {reconUsed && (
