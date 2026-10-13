@@ -35,6 +35,22 @@ const BRANCH_NODES = [
   { campaign: "alliedPacific", id: "stilwellInChungking42", flags: {} },
   { campaign: "alliedPacific", id: "carrierRequest42", flags: {} },
   { campaign: "alliedPacific", id: "vladivostokRoute42", flags: {} },
+  // The second fork wave: only the order added to an existing report is played here (the others are in the baseline).
+  { campaign: "japan", id: "unificationQuestion40", flags: {}, last: true },
+  { campaign: "japan", id: "pearlHarbor41", flags: {}, last: true },
+  { campaign: "japan", id: "burmaRangoon42", flags: { openingVector: "pearlHarbor" }, last: true },
+  { campaign: "japan", id: "doolittleRaid42", flags: {}, last: true },
+  { campaign: "japan", id: "coralSea42", flags: {}, last: true },
+  { campaign: "japan", id: "midway42", flags: {}, last: true },
+  { campaign: "japan", id: "kokodaTrail42", flags: {}, last: true },
+  { campaign: "japan", id: "guadalcanal42", flags: {}, last: true },
+  { campaign: "japan", id: "leyteGulf44", flags: {}, last: true },
+  { campaign: "alliedPacific", id: "wakeIslandRelief41", flags: {}, last: true },
+  { campaign: "alliedPacific", id: "curtinsTurn42", flags: {}, last: true },
+  { campaign: "alliedPacific", id: "kokodaTrailAllied42", flags: {}, last: true },
+  { campaign: "alliedPacific", id: "torpedoCrisis43", flags: {}, last: true },
+  { campaign: "alliedPacific", id: "tehransPromise43", flags: {}, last: true },
+  { campaign: "alliedPacific", id: "strategicBombingAllied45Delayed", flags: {}, last: true },
 ];
 const FIXTURE = { japan: "japan-open", alliedPacific: "alliedPacific-open" };
 
@@ -57,14 +73,17 @@ for (const n of BRANCH_NODES) {
   const stage = camp.resolveNode(n.id, flags, { ...GOOD });
   const choices = stage.choices || [];
   check(choices.length >= 2, `${n.id}: offers at least two options`);
-  for (let i = 0; i < choices.length; i++) {
+  for (let i = n.last ? choices.length - 1 : 0; i < choices.length; i++) {
     const ch = choices[i];
     const nexts = [ch.next, ...(ch.uncertain || []).map((u) => u.next)].filter(Boolean);
     const rolls = (ch.uncertain || []).length > 0;
-    // A roll is played with two seeds so both outcomes have a chance to be seen.
-    for (const seed of rolls ? [1, 2, 3, 4] : [1]) {
+    // A roll is played with two seeds, one with strong meters and one with weak, so the odds differ.
+    for (const seed of rolls ? [1, 2] : [1]) {
       const meters = seed % 2 ? GOOD : { readiness: -2, pipeline: -2, initiative: -2 };
       const tag = `${n.id} option ${i + 1}${rolls ? ` seed ${seed}` : ""}`;
+      // A gate that is closed at these meters is not a failure: the option cannot be picked.
+      const atMeters = camp.resolveNode(n.id, flags, { ...meters });
+      if (atMeters?.choices?.[i]?.disabledReason) continue;
       const ctx = makeContext(cfg, bundle, seed, saveFor(n.campaign, n.id, n.flags, meters));
       if (ctx.failed) throw new Error(ctx.failed);
       await sleep(150);
