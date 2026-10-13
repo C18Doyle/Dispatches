@@ -17215,7 +17215,7 @@ const CAMPAIGNS = {
               historical: true,
               setFlags: { greeceDecision: "proceed", trust: (flags.trust || 0) + (-1) },
               trustDelta: -1,
-              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "tarantoDoctrine40",
               outcome:
                 "What happened: the invasion launched from Albania on October 28, 1940, into weather every planning assumption had bet against, with an army roughly a third the size later staff studies concluded the terrain and Greek resistance actually required. It would be Comando Supremo's clearest unforced disaster of the war's early years, and everything that follows this decision (the winter reversal, the humiliating request for German rescue, Badoglio's resignation) traces back to this single date being chosen for reasons that had nothing to do with military readiness.",
@@ -17466,7 +17466,7 @@ const CAMPAIGNS = {
                   weight: 100 - modWeight(50, meters.manpower),
                   title: "The reserve arrives late, and the line keeps giving ground",
                   setFlags: { greeceWinterResult: "worse" },
-                  impact: { manpower: -2, fuel: 0, initiative: -1 },
+                  impact: { manpower: -1, fuel: 0, initiative: -1 },
                   outcome:
                     "The dice on this one land against the historical outcome: reinforcement that should have stabilized the front arrives piecemeal into a collapse already past the point where it helps, and the Greek counteroffensive pushes further into Albanian territory than the real campaign ever allowed. The eventual rescue this campaign is already heading toward will have a deeper hole to climb out of when it comes.",
                 },
@@ -17512,7 +17512,7 @@ const CAMPAIGNS = {
               advisor: { name: "Cavallero", position: "Rome's own intelligence calls this a reconnaissance in force and not an offensive, so the reserve will not be moved for a five-day raid the estimates say will exhaust itself against the wire." },
               historical: true,
               setFlags: { compass40: "hold" },
-              impact: { manpower: -2, fuel: -1, initiative: -1 },
+              impact: { manpower: -1, fuel: -1, initiative: -1 },
               next: "germanRescue41",
               outcome:
                 "What actually happened, and it is the single worst reversal any command in this game presides over: the 'five-day raid' becomes a two-month rout that destroys the Tenth Army as a fighting force, takes some 130,000 Italian prisoners against a few hundred British casualties, and advances 500 miles into Libya before finally outrunning its own supply line near El Agheila. Nothing about the intelligence estimate that called this a limited raid survives contact with what it actually was.",
@@ -18170,7 +18170,7 @@ const CAMPAIGNS = {
               advisor: { name: "Rommel", position: "There is not the fuel to fight this battle the way he would prefer, so the line held is the line held, and Montgomery will pay by the yard for what he takes." },
               historical: true,
               setFlags: { alamein42: "hold" },
-              impact: { manpower: -2, fuel: -1, initiative: -1 },
+              impact: { manpower: -1, fuel: -1, initiative: -1 },
               next: "torchTunisia42",
               outcome:
                 "What happened: twelve days of attritional fighting break the Axis line by early November, and what follows is not an orderly withdrawal but a headlong 1,500-mile retreat across Libya that doesn't stop until Tunisia: the beginning of the end for the entire North African campaign, decided as much by the fuel convoys that never arrived as by anything that happened on the battlefield itself.",
@@ -18265,7 +18265,7 @@ const CAMPAIGNS = {
               advisor: { name: "Messe", position: "He will not order the army to lay down its arms while it can still fight for one more hour of dignity, however little that hour changes the outcome." },
               historical: true,
               setFlags: { tunisiaCollapse: "fight" },
-              impact: { manpower: -2, fuel: 0, initiative: 0 },
+              impact: { manpower: -1, fuel: 0, initiative: 0 },
               next: "homeFrontBombing43",
               outcome:
                 "What happened: the last organized Axis resistance in Tunisia surrenders on May 13, 1943, after Messe, the last Axis commander still fighting, is promoted to Field Marshal by radio message hours before the surrender, largely so he would not have to surrender at a rank junior to the German commander alongside him. Some 275,000 Axis troops go into captivity, a loss in prisoners alone that rivals Stalingrad's, and North Africa is entirely lost.",
@@ -18601,7 +18601,7 @@ const CAMPAIGNS = {
               advisor: { name: "Badoglio", position: "There is no coherent order ready to send, only a government that must survive to represent Italy past tonight, and that comes first, whatever it costs the units that cannot be reached in time." },
               historical: true,
               setFlags: { armisticeExecution: "evacuate" },
-              impact: { manpower: -2, fuel: 0, initiative: -1 },
+              impact: { manpower: -1, fuel: 0, initiative: -1 },
               next: "twoItalies43",
               outcome:
                 "What happened: the King and Badoglio's government flee Rome for Allied-held Brindisi in the early hours of September 9, most of the fleet escapes to Allied ports per the armistice terms, and the army, without orders, disintegrates almost everywhere at once. Some units resist Operation Achse's disarmament attempts (the garrison on Cephalonia fights for days before its survivors are massacred after surrendering); most simply hand over their weapons; roughly 600,000 Italian soldiers are deported to Germany as forced labor in the weeks that follow. Rome itself is left essentially undefended and falls under German control within days.",
@@ -19138,7 +19138,7 @@ const CAMPAIGNS = {
               advisor: { name: "Utili", position: "This is the sector where the answer to what this army is gets written down and not argued about, so commit everything that can fight." },
               historical: true,
               setFlags: { gothicLine44: "commit" },
-              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "combatGroups44",
               outcome:
                 "The fuller commitment this path represents mirrors the actual expansion of Italian combat groups into the Gothic Line fighting through late 1944: formations that by the campaign's final phase are integrated into Allied corps structure as genuine front-line units rather than auxiliary support. The offensive still stalls for the winter regardless of how committed any single army's sector is, since the halt is a resourcing and weather problem the whole Allied front shares, not a question any one formation's effort could individually solve.",
@@ -19184,7 +19184,7 @@ const CAMPAIGNS = {
               advisor: { name: "Messe", position: "An army that is never seen fighting is never equipped to fight, and the Group goes in on the day it is asked to, with the guns it is given." },
               historical: true,
               setFlags: { monteLungo43: "attack" },
-              impact: { manpower: -2, fuel: 0, initiative: 1 },
+              impact: { manpower: -1, fuel: 0, initiative: 1 },
               next: "vaticanChannel44",
               // Round 25 (Craig's item 9: Orders of Battle for the actions added in rounds 24-25). The first Italian
               // attack on Monte Lungo, 8 December 1943. Facts checked 2026-10-08 (Italian Wikipedia, Battaglia di
@@ -19376,7 +19376,7 @@ const CAMPAIGNS = {
                   weight: modWeight(30, meters.initiative),
                   title: "The hill falls on the first morning",
                   setFlags: { monteLungoResult: "firstTry" },
-                  impact: { manpower: -1, fuel: 0, initiative: 2 },
+                  impact: { manpower: 0, fuel: 0, initiative: 2 },
                   outcome:
                     "Speculative. The mist holds a little longer, the patrols have found enough of the German line for the guns to keep it down, and the Group is on the crest of Monte Lungo before the Germans have settled their fire on the slope. It is the Royal Army's first battle on the Allied side, and it is won on the first morning, with fewer dead than the real attack cost on December 8. The Allied staffs that had wondered whether the Italians would fight are told the same afternoon that they will. What is lost is nothing the Group would have wanted to keep: the story of an attack that failed and went back up a week later.",
                 },
@@ -19384,7 +19384,7 @@ const CAMPAIGNS = {
                   weight: 100 - modWeight(30, meters.initiative),
                   title: "Thrown back in the mist, and up again on the 16th",
                   setFlags: { monteLungoResult: "retaken" },
-                  impact: { manpower: -2, fuel: 0, initiative: 1 },
+                  impact: { manpower: -1, fuel: 0, initiative: 1 },
                   outcome:
                     "What happened. On December 8 the Group went up Monte Lungo beside American infantry under the morning mist. When the mist lifted the Italians were on open slopes under fire from German positions the hurried plan had not found, and the attack failed, with about fifty dead and more than a hundred wounded. It was the first action of the Royal Army on the Allied side. It was repeated on December 16 with a heavy artillery preparation and American infantry beside it, and this time the hill was taken. General Clark wrote to congratulate the Group on its determination to free Italy from German domination: the Allies had watched the Italian army fight twice, and win the second time.",
                 },
@@ -19654,7 +19654,7 @@ const CAMPAIGNS = {
                   weight: 100 - Math.min(90, modWeight(72, meters.initiative)),
                   title: "The first assault is thrown back",
                   setFlags: { adriaticResult44: "stopped" },
-                  impact: { manpower: -2, fuel: 0, initiative: 0 },
+                  impact: { manpower: -1, fuel: 0, initiative: 0 },
                   outcome:
                     "Speculative. The first assault on Filottrano is stopped on the olive terraces at the edge of the town by paratroopers who are as good as the Italians are and have the better ground, and the Polish armour and guns have to be brought up before the place falls, some days later than the Polish plan had allowed. The Nembo's casualties are heavy, and the Polish staff, who had been told the Italians were the best formation on the Adriatic side, note in their reports that the paratroopers are brave and are not yet a corps.",
                 },
@@ -20049,7 +20049,7 @@ const CAMPAIGNS = {
                   weight: lead,
                   title: "The Groups take what they asked for",
                   setFlags: { springResult45: "decisive" },
-                  impact: { manpower: -1, fuel: 0, initiative: 2 },
+                  impact: { manpower: 0, fuel: 0, initiative: 2 },
                   outcome:
                     "What happened. At dawn on April 10 Cremona crossed the Senio at Alfonsine and took the town that day, crossed the Santerno, and went north through Cavarzere, Chioggia and Mestre to Venice, which it reached at the end of the month. In the hills, Friuli and Folgore took Case Grizzano and Casalecchio de' Conti on April 19, where the Nembo's second battalion drove off the German 1st Parachute Division five times in hand-to-hand fighting, and on the morning of April 21 Friuli entered Bologna beside the Polish 3rd Carpathian Division. The German armies in Italy surrendered at Caserta on April 29, effective on May 2. The Italian divisions had been in the line for three months, and for the last three weeks of the war some of them were at the front of it.",
                 },
@@ -20057,7 +20057,7 @@ const CAMPAIGNS = {
                   weight: 100 - lead,
                   title: "The assault is paid for in full",
                   setFlags: { springResult45: "costly" },
-                  impact: { manpower: -3, fuel: 0, initiative: 0 },
+                  impact: { manpower: -2, fuel: 0, initiative: 0 },
                   outcome:
                     "Speculative. The Groups' first assault against a prepared river line is stopped on the first day by an enemy who is short of everything and has been told not to give ground, and what the Italian divisions take, they take two days late and at a price a small army can ill afford. The offensive goes on around them: the Allied armies break through on other sectors, and the Groups follow up in the pursuit. They are in the line for the German collapse, and they have paid more than their share of the cost of it.",
                 },
@@ -21310,7 +21310,7 @@ const ENDINGS_GALLERY = [
 // own objectives, independent of the war's larger, fixed result.
 const TIER_META = {
   "Major Victory": { short: "Major Victory", color: "#2f5233" },
-  "Minor Victory": { short: "Minor Victory", color: "#4a7856" },
+  "Minor Victory": { short: "Minor Victory", color: "#40694c" },
   "Contested Outcome": { short: "Contested", color: "#6b5b1f" },
   "Minor Defeat": { short: "Minor Defeat", color: "#8a4a2f" },
   "Major Defeat": { short: "Major Defeat", color: "#7a2e2e" },
@@ -25742,7 +25742,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
             {headline.dek}
           </p>
           <div
-            className="text-[9px] pt-2 text-[#888]"
+            className="text-[9px] pt-2 text-[#6b6b6b]"
             style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}
           >
             WIRE: RELAYED VIA {campaign.name.toUpperCase()}, ROUTINE PRIORITY
@@ -25752,7 +25752,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
         <button
           onClick={onContinue}
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
-          style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: "transparent" }}
+          style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
         >
           Continue
         </button>
@@ -29682,7 +29682,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             >
               {campaign.dynamic ? campaignReportLabel(campaign.id, stage.directive ? "directive" : "situation") : stage.directive ? "Theater Directive" : "Situation Report"} · No. {reportNumber}
               {campaign.dynamic && FILING_NOTE[timeSev] && (
-                <span className="opacity-50 italic normal-case tracking-normal"> · {FILING_NOTE[timeSev]}</span>
+                <span className="opacity-70 italic normal-case tracking-normal"> · {FILING_NOTE[timeSev]}</span>
               )}
             </div>
             <button
@@ -31695,7 +31695,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
           </div>
           <div
             className="text-[9px] uppercase tracking-[0.14em] font-bold shrink-0"
-            style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", opacity: 0.75 }}
+            style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", opacity: 0.9 }}
           >
             {STAFF_BRANCH_LABELS[campaign.id]?.[classifyStaffBranch(stage)]}
           </div>
