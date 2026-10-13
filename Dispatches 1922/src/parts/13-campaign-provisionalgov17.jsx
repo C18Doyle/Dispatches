@@ -36,7 +36,7 @@ CAMPAIGNS.provisionalGov17 = {
       "No rewind, no meter dashboard -- only cabinet minutes. Five points of Decree Capital to spend ruling by ministerial emergency power instead of negotiating with the Soviet Executive Committee's own delegates. Spend all five and the government hasn't out-argued the Soviet, it has stopped pretending dual power was ever a partnership -- named for the word Kerensky's own allies on the moderate left used, from the first coalition onward, for exactly the outcome they hoped backing him would prevent.",
     buttonLabel: "OPEN CABINET",
     maxCap: 5,
-    maxEndingId: "endingKornilovsRepublic17",
+    maxEndingId: "endingDecreeCabinet17",
   },
 
   NEWSPAPER_MASTHEAD: "VESTNIK VREMENNOGO PRAVITELSTVA",
@@ -79,22 +79,39 @@ CAMPAIGNS.provisionalGov17 = {
       faction: "Kadet Party, First Coalition Cabinet",
       rank: 1,
     },
+    savinkov: {
+      role: "Deputy Minister of War (from the summer of 1917)",
+      bio:
+        "A Socialist Revolutionary who had organized the assassinations of the interior minister Plehve in 1904 and of Grand Duke Sergei in 1905. In 1917 he served as a commissar with the army and then as Kerensky's deputy at the War Ministry. He was one of those who pressed for Kornilov to be made Supreme Commander.",
+      fate:
+        "Left the War Ministry in the first days of September, after the Kornilov affair. He fought the Bolsheviks in 1918, lived in exile in Europe, and was arrested after crossing back into the Soviet Union in 1924. He was sentenced to death, the sentence was reduced to ten years, and he died in the Lubyanka on 7 May 1925. The official finding was suicide.",
+      faction: "Provisional Government, War Ministry",
+      rank: 1,
+    },
   },
 
   NODE_ATLAS: [
     { id: "aprilCrisis17", date: "APRIL 1917", title: "Petrograd: The Note That Became Public" },
+    { id: "armyCommissars17", date: "MAY 1917", title: "The Ministry of War: Committees, Commissars and a Declaration" },
     { id: "juneOffensive17", date: "JUNE 1917", title: "The Southwestern Front: An Offensive With a Government's Name On It" },
     { id: "julyDays17", date: "JULY 1917", title: "Petrograd: The Days the Machine Guns Came Out" },
+    { id: "supremeCommand17", date: "JULY 1917", title: "Stavka: Who Commands the Army" },
+    { id: "moscowConference17", date: "AUGUST 1917", title: "Moscow: The State Conference" },
     { id: "kornilovAffair17", date: "AUGUST 1917", title: "Petrograd: The General's Trains" },
+    { id: "directory17", date: "SEPTEMBER 1917", title: "Petrograd: Five Ministers and a Republic" },
+    { id: "democraticConference17", date: "SEPTEMBER 1917", title: "Petrograd: The Democratic Conference" },
+    { id: "octoberStand17", date: "OCTOBER 1917", title: "Petrograd: The Morning of the 24th" },
   ],
-  NODE_TOTAL: 4,
+  NODE_TOTAL: 10,
   ENDINGS_GALLERY: [
     { id: "endingWinterPalaceFalls17", title: "The Winter Palace Falls", classification: "historical" },
     { id: "endingKornilovsRepublic17", title: "The General's Republic", classification: "speculative" },
+    { id: "endingDecreeCabinet17", title: "The Cabinet That Governed Alone", classification: "speculative" },
   ],
   ENDING_CLASSIFICATION: {
     endingWinterPalaceFalls17: "historical",
     endingKornilovsRepublic17: "speculative",
+    endingDecreeCabinet17: "speculative",
   },
 
   resolveNode(nodeId, flags = {}, meters = {}) {
@@ -122,12 +139,12 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Back Miliukov. The note states this government's actual policy; reversing it because a crowd formed outside the palace teaches every future crowd that a crowd is how policy gets made here.",
               advisor: {
                 name: "Miliukov",
-                quote: "I have not lied to the Allies about what we intend. I am being asked to lie to them instead, and to call the lie clarification. I would rather resign than sign my name to it.",
+                position: "Miliukov holds that the note states the government's policy, that withdrawing it in front of a crowd teaches every later crowd the same lesson, and that he would resign rather than sign a clarification.",
               },
               historical: false,
               setFlags: { aprilCrisisChoice: "standFirm" },
               impact: { authority: -2, sovietRelations: -3 },
-              next: "juneOffensive17",
+              next: "armyCommissars17",
               outcome:
                 "The note stands as written. The demonstrations don't stop; they harden, and the officer counter-demonstration hardens with them. Miliukov keeps his portfolio for now, at the cost of a Soviet Executive Committee that no longer takes this Cabinet's public commitments at face value.",
             },
@@ -135,12 +152,12 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Accept the Soviet's terms: clarify the note's language, and bring Soviet-aligned socialists into the Cabinet itself rather than governing over their objections.",
               advisor: {
                 name: "Tsereteli",
-                quote: "A coalition is not a concession. It is the only version of this government that can actually issue an order and have it obeyed past the palace gates. I would rather share the Cabinet than keep the whole of it and none of the authority that comes with it.",
+                position: "Tsereteli argues that a coalition is the only form of this government whose orders will be obeyed beyond the palace gates, and that sharing the cabinet is better than holding all of it with none of the authority.",
               },
               historical: true,
               setFlags: { aprilCrisisChoice: "coalition" },
               impact: {},
-              next: "juneOffensive17",
+              next: "armyCommissars17",
               outcome:
                 "Miliukov and War Minister Guchkov resign within days. On 5 May a reorganized coalition cabinet is sworn in with six socialist ministers, Kerensky moving from Justice to War among them -- the first time the Soviet's own people sit in the government rather than merely supervising it from outside.",
             },
@@ -148,7 +165,68 @@ CAMPAIGNS.provisionalGov17 = {
         };
 
       // -----------------------------------------------------------------
-      // Reached by both aprilCrisis17 choices with no flags-conditional
+      // May 1917. Documented: each field army and front was given commissars from the
+      // Provisional Government, the Petrograd Soviet and the soldiers' committees, who could
+      // countersign orders and recommend the removal of officers. Kerensky's Declaration of
+      // Soldiers' Rights was modified so that committees could not elect officers and officers
+      // kept control of operations, training and supply. Brusilov replaced Alekseev as Supreme
+      // Commander in late May. The exact date of the Declaration is not claimed here.
+      // Sources: claims/provisional-government-round1.md
+      case "armyCommissars17":
+        return {
+          date: "MAY 1917",
+          title: "The Ministry of War: Committees, Commissars and a Declaration",
+          bulletin: {
+            headline: "THE ARMY NOW HAS THREE KINDS OF AUTHORITY",
+            body:
+              "Every regiment has an elected soldiers' committee. Every field army and front now has commissars named by the Provisional Government, the Petrograd Soviet and the soldiers' committees. They can countersign orders and recommend that an officer be removed. The officers say the army cannot attack under this arrangement. The committees say the officers want the old army back.",
+            meanwhile: {
+              southRussia: "Does not exist yet as a command. General Alekseev, the Supreme Commander, will raise the Volunteer Army on the Don after the October rising.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "Lenin has been back in Petrograd since 3 April and argues for all power to the Soviets. The Bolsheviks are a minority in the Soviet.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "You are Minister of War. The army has to attack in the summer if Russia is to keep its place beside the Allies, and it has to attack with a soldiers' committee in every regiment. The officers want the committees confined to supply and welfare. The Soviet wants the soldiers' rights written into law. You have to decide what the army is allowed to be before you ask it to fight." +
+            (flags.aprilCrisisChoice === "standFirm"
+              ? " The Soviet Executive Committee has no minister of its own in the cabinet to speak for the committees, and says so."
+              : " The Soviet's ministers sit in the cabinet and will read whatever you issue."),
+          choices: [
+            {
+              label: "Issue the Declaration of Soldiers' Rights, with the commissars in place. Committees may not elect officers. Officers keep command of operations, training and supply.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli argues that soldiers will take orders only from a government they can see the Soviet standing behind.",
+              },
+              historical: true,
+              setFlags: { armyPolicy: "declaration" },
+              impact: {},
+              next: "juneOffensive17",
+              outcome:
+                "The Declaration goes out over your signature. Soldiers keep their civil rights and their committees. They lose the right to elect their officers, and officers get back command of operations, training and supply. The commissars stay with the armies.",
+              aftermath:
+                "Brusilov took over as Supreme Commander in late May 1917, when Alekseev was removed.",
+            },
+            {
+              label: "Hold the Declaration back. Confine the committees to supply and welfare by order, and keep the commissars as observers.",
+              advisor: {
+                name: "Kornilov",
+                position: "Kornilov argues that committees which can discuss orders have already ended command, and that the army will attack only when they are confined to the mess and the stores.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { armyPolicy: "withheld" },
+              impact: { frontDiscipline: 2, sovietRelations: -3, authority: -1 },
+              next: "juneOffensive17",
+              outcome:
+                "A modeled alternative. The order goes to the armies as a telegram from the Ministry. Officers act on it at once. Many committees refuse to recognize it, and the Soviet Executive Committee asks by what authority the Ministry issued it.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // Reached by both armyCommissars17 choices with no flags-conditional
       // branch here — check-continuity.js flags this every run, and it's a
       // deliberate, accepted convergence, not a gap: this is a 4-node
       // chain, not a wide tree, and April's choice is already read forward
@@ -170,13 +248,18 @@ CAMPAIGNS.provisionalGov17 = {
           },
           historicalRecord: true,
           situation:
-            "As the new War Minister, you campaigned across the front for this offensive personally, on the argument that Russia keeps its seat among the Allies -- and its claim on any postwar settlement -- only by fighting, not merely by surviving. The Southwestern Front attacks at dawn on 18 June. The first two days go well: real ground, real prisoners. What happens after that is not yet written.",
+            "As the new War Minister, you campaigned across the front for this offensive personally, on the argument that Russia keeps its seat among the Allies -- and its claim on any postwar settlement -- only by fighting, not merely by surviving. The Southwestern Front attacks at dawn on 18 June. The first two days go well: real ground, real prisoners. What happens after that is not yet written." +
+            (flags.armyPolicy === "withheld"
+              ? " The committees have not accepted the May order. Several regiments on the line have voted on whether to attack at all."
+              : flags.armyPolicy === "declaration"
+              ? " Under the Declaration the committees keep their civil rights and the commissars countersign the orders. Officers command the attack."
+              : ""),
           choices: [
             {
               label: "Commit the reserves forward the moment the initial advance succeeds, to turn a local gain into an actual breakthrough before the front stabilizes again.",
               advisor: {
                 name: "Kerensky",
-                quote: "I did not spend three weeks telling exhausted men why this offensive matters so that we could stop the day it started working. A gain we don't press is a gain we'll have spent for nothing at all.",
+                position: "Kerensky argues that a gain not pressed on the day it starts to work will have been spent for nothing, after three weeks of telling tired men why the offensive matters.",
               },
               historical: true,
               setFlags: { offensiveChoice: "pressForward" },
@@ -209,8 +292,8 @@ CAMPAIGNS.provisionalGov17 = {
             {
               label: "Hold the reserves back and consolidate the initial gain, rather than gambling everything on turning two good days into something larger.",
               advisor: {
-                name: "General Kornilov",
-                quote: "An army this ready to stop fighting on its own does not get better with caution. Every day this offensive doesn't visibly succeed is a day the men decide for themselves that it already failed.",
+                name: "Kornilov",
+                position: "Kornilov argues that an army this ready to stop fighting does not improve with caution, and that each day the offensive fails to succeed visibly is a day the men decide it has already failed.",
               },
               historical: false,
               setFlags: { offensiveChoice: "consolidate", offensiveOutcome: "consolidated" },
@@ -253,12 +336,12 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Bring in loyal front-line units to clear the streets, arrest the Bolshevik leadership reachable in the city, and shut down the Party's press -- but stop short of an outright ban on the party itself.",
               advisor: {
                 name: "Tsereteli",
-                quote: "Breaking the rising is not the same decision as outlawing every man who marched in it. One is restoring order the Soviet's own moderate majority already wants restored. The other makes martyrs of people this government may need to still be talking to in a month.",
+                position: "Tsereteli argues that breaking the rising is not the same decision as outlawing everyone who marched in it. The Soviet's moderate majority wants order restored. A ban would make martyrs of people the government may still need to talk to.",
               },
               historical: true,
               setFlags: { julyDaysChoice: "targetedCrackdown" },
               impact: { sovietRelations: 1, frontDiscipline: -1 },
-              next: "kornilovAffair17",
+              next: "supremeCommand17",
               outcome:
                 "Loyalist units restore order within days. Trotsky is arrested; Lenin, warned in time, goes into hiding and crosses into Finland within days, not returning to the city until October. The Bolshevik press is shut down for a matter of weeks, not permanently, and the party itself is never formally outlawed -- a targeted defeat, not an eradication.",
             },
@@ -266,17 +349,153 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Use the moment to move against the Bolshevik party as an organization outright -- outlaw it, not merely its individual leaders, while the rising has discredited it in front of the Soviet's own moderate majority.",
               advisor: {
                 name: "Kerensky",
-                quote: "I understand the argument for restraint. I am less persuaded of it every week this party spends organizing against a government it has no intention of ever recognizing as legitimate.",
+                position: "Kerensky grants the case for restraint but says he is less persuaded by it each week the party organizes against a government it does not mean to recognize.",
               },
               historical: false,
               gate: (m) => m.authority >= -3,
               disabledReason:
                 "the Cabinet's own authority to make a decree like this actually stick is already too thin -- an outright ban announced by a government this weak reads as a threat it cannot enforce, not a real one.",
+              costsCapital: true,
               setFlags: { julyDaysChoice: "outrightBan" },
               impact: { sovietRelations: -3, authority: 1 },
-              next: "kornilovAffair17",
+              next: "supremeCommand17",
               outcome:
                 "The ban is issued. It costs the Soviet Executive Committee's own patience more than it costs the Bolsheviks any real capacity -- a party used to operating illegally under the old regime does not stop existing because this government's decree says it should, and the moderate socialists whose cooperation this Cabinet needs for everything else now have their own reasons to wonder what 'temporary emergency measure' will be reached for next.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // July 1917. Documented: Kornilov, in command of the Southwestern Front from 8 July (OS),
+      // asked for the death penalty behind the lines and for the removal of General Cheremisov;
+      // Kerensky agreed to move Cheremisov provided Kornilov pledged to answer to the government;
+      // Savinkov was among those who pressed for Kornilov; Kornilov replaced Brusilov as Supreme
+      // Commander. Kerensky's account says the reforms were acceptable in substance but were put
+      // in a form he could not accept; that is one side of the dispute.
+      case "supremeCommand17":
+        return {
+          date: "JULY 1917",
+          title: "Stavka: Who Commands the Army",
+          bulletin: {
+            headline: "THE FRONT BROKE AT TARNOPOL. THE SUPREME COMMANDER IS TO CHANGE.",
+            body:
+              "The German and Austrian counterattack of 6 July broke the Southwestern Front near Tarnopol. The government has restored the death penalty at the front. General Kornilov, who took the Southwestern Front on 8 July, has told the government what he will need as Supreme Commander. He asks for the death penalty behind the lines as well, and for the removal of General Cheremisov.",
+            meanwhile: {
+              southRussia: "Does not exist yet as a command. General Denikin commands the Western Front and is about to be given the Southwestern Front that Kornilov is leaving.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "Lenin is in hiding after the July Days. Warrants have been issued for the Bolshevik leaders.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "Prince Lvov has resigned. You are Minister-Chairman as well as Minister of War. Brusilov is to be replaced as Supreme Commander. Savinkov, your deputy at the War Ministry, wants Kornilov. The Soviet's left objects to him. Kornilov will take the post, but on conditions." +
+            (flags.julyDaysChoice === "outrightBan"
+              ? " The ban on the Bolshevik party has already cost you the patience of the Executive Committee, and a general with a reputation for harshness will not help."
+              : ""),
+          choices: [
+            {
+              label: "Appoint Kornilov. Agree to move Cheremisov, but only against Kornilov's written pledge that he answers to the government.",
+              advisor: {
+                name: "Savinkov",
+                position: "Savinkov argues that only Kornilov can restore discipline at the front, and that the government should take him.",
+              },
+              historical: true,
+              setFlags: { supremeCommand: "written_pledge" },
+              impact: {},
+              next: "moscowConference17",
+              outcome:
+                "Kornilov takes the post. His pledge is in writing. It says he answers to the government, and Cheremisov is moved.",
+              aftermath:
+                "Kerensky's later account says the reforms Kornilov asked for were acceptable in substance but were put in a form he could not accept. That account is one side of the dispute.",
+            },
+            {
+              label: "Appoint Kornilov on his own terms: the death penalty behind the lines, the committees cut back, Cheremisov dismissed, and no written pledge.",
+              advisor: {
+                name: "Kornilov",
+                position: "Kornilov argues that a Supreme Commander who must clear every order with ministers cannot hold a front that is already breaking.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { supremeCommand: "on_his_terms" },
+              impact: { frontDiscipline: 2, sovietRelations: -2, authority: -2 },
+              next: "moscowConference17",
+              outcome:
+                "A modeled alternative. The telegram accepting his terms goes to Mogilev the same night. The Soviet's left reads it as the government handing the army to the officers.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // August 1917. Documented: the Moscow State Conference met from 12 August (OS); it opened
+      // under a strike called by the Bolsheviks; Kerensky told the delegates that resistance to the
+      // government would be put down with iron and blood; Kornilov was cheered by half the hall and
+      // met with hostile silence by the rest; his program asked for the death penalty behind the
+      // lines and martial law on the railways and in defence factories, with strikes and meetings
+      // banned there. Kerensky convened the Conference to rebuild a middle ground.
+      case "moscowConference17":
+        return {
+          date: "AUGUST 1917",
+          title: "Moscow: The State Conference",
+          bulletin: {
+            headline: "A CONFERENCE OPENS UNDER A STRIKE",
+            body:
+              "The State Conference meets in Moscow from 12 August. Delegates come from the Duma, the Soviets, the army, the banks, the cooperatives and the Cossack hosts. It opens under a strike called by the Bolsheviks. You tell the delegates that any attempt to resist the government will be put down with iron and blood.",
+            meanwhile: {
+              southRussia: "Kornilov and General Alekseev are among the generals in Moscow. Kaledin, ataman of the Don Host, speaks for the Cossacks.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "The Bolsheviks have called a strike in Moscow against the Conference.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "Kornilov has sent you his program. He wants the death penalty extended behind the lines. He wants martial law on the railways and in the factories that work for the front, with strikes and meetings banned there. You agree with part of it and dislike its tone. The Conference is the one room in Russia where the generals, the Soviets and the banks sit together." +
+            (flags.supremeCommand === "written_pledge"
+              ? " He has given you a written pledge that he answers to the government."
+              : flags.supremeCommand === "on_his_terms"
+              ? " You gave him his terms in July without a written pledge, and he writes to you as an equal."
+              : ""),
+          choices: [
+            {
+              label: "Open the Conference yourself, ask for support against both extremes, and keep Kornilov's program in committee.",
+              advisor: {
+                name: "Kerensky",
+                position: "Kerensky wants the Conference to show the country that the government has a majority between the extremes.",
+              },
+              historical: true,
+              setFlags: { moscowChoice: "program_in_committee" },
+              impact: {},
+              next: "kornilovAffair17",
+              outcome:
+                "You open the Conference and speak against both extremes. Kornilov is greeted with an ovation from half the hall and a hostile silence from the rest. In his speech he names the laws passed since the monarchy fell as the main cause of the army's collapse. The Conference adopts nothing on his program.",
+              aftermath:
+                "The Conference did not settle the split between the government and the generals. Within two weeks Kornilov moved troops toward Petrograd.",
+            },
+            {
+              label: "Declare martial law on the railways and in the war factories by decree before the Conference closes, and extend the death penalty behind the front.",
+              advisor: {
+                name: "Savinkov",
+                position: "Savinkov argues that part of Kornilov's program is the government's own business and should be done by the government, not left for the general to demand.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { moscowChoice: "decree" },
+              impact: { frontDiscipline: 2, sovietRelations: -4 },
+              next: "kornilovAffair17",
+              outcome:
+                "A modeled alternative. The decrees are published in Moscow while the delegates are still in the hall. The Soviet delegates call them the end of the revolution's gains, and the strike in the city grows.",
+            },
+            {
+              label: "Keep the generals out of politics. Kornilov reports to the cabinet in Petrograd and does not address the Conference.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli argues that a speech by the Supreme Commander in front of the delegates is a political act, and that the Soviet delegates will not sit through it.",
+              },
+              historical: false,
+              setFlags: { moscowChoice: "generals_kept_off" },
+              impact: { authority: -1, frontDiscipline: -1, sovietRelations: 2 },
+              next: "kornilovAffair17",
+              outcome:
+                "A modeled alternative. The order reaches Mogilev and Kornilov does not come. The officers' unions in the capital protest, and Kornilov's staff tell the press why he stayed away.",
             },
           ],
         };
@@ -292,7 +511,17 @@ CAMPAIGNS.provisionalGov17 = {
               "Six weeks ago you made Kornilov Supreme Commander yourself, over the objections of the Soviet's own left, because the front needed someone the officer corps still believed in. What passed between you and him through the intermediary Lvov this past week -- an agreed plan to suppress a Bolshevik rising nobody has actually staged yet, or a coup you encouraged and are now publicly disowning -- is a question the two of you will spend the rest of your lives answering differently. What isn't in dispute: General Krymov's Third Cavalry Corps is moving on Petrograd by rail, and you have just publicly dismissed Kornilov and called it mutiny." +
               (flags.offensiveChoice === "pressForward"
                 ? " Kornilov's own case for the appointment always ran through June -- that a War Minister who pressed the offensive forward understood, as he did, that an army without discipline stops being an army. He is, in effect, invoking your own June decision against you now."
-                : " Kornilov never had much use for the June Offensive's caution, and says so to anyone who asks -- an army you preferred to consolidate rather than push, in his account, is exactly the kind of army you're now relying on to stop him."),
+                : " Kornilov never had much use for the June Offensive's caution, and says so to anyone who asks -- an army you preferred to consolidate rather than push, in his account, is exactly the kind of army you're now relying on to stop him.") +
+              (flags.supremeCommand === "written_pledge"
+                ? " In July he gave you a written pledge that he answers to the government. He has now acted without you."
+                : flags.supremeCommand === "on_his_terms"
+                ? " In July you gave him his terms without a written pledge. Nothing in writing binds him now."
+                : "") +
+              (flags.moscowChoice === "decree"
+                ? " The decrees you issued in Moscow were his program, and he says the government has not carried out the rest."
+                : flags.moscowChoice === "generals_kept_off"
+                ? " You kept him off the platform in Moscow, and he has not forgotten it."
+                : ""),
             meanwhile: {
               bolsheviks: "Not yet a command. Trotsky is in prison; Lenin is in Finland. Whether the Party's own moment is still to come depends more on how this crisis resolves than on anything the Central Committee decides on its own this month.",
               southRussia: "Does not exist yet as a command. Kornilov's own officers -- Denikin among them -- are watching this crisis from the front, and several will follow him into whatever comes next regardless of how it ends here.",
@@ -310,11 +539,11 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Accept the Soviet's offer. Arm everyone willing to fight, including the Bolshevik Red Guards, and worry about what that arming makes possible afterward.",
               advisor: {
                 name: "Tsereteli",
-                quote: "You are asking whether arming them is dangerous. It is. The alternative is finding out in person whether Krymov's corps stops itself, and I do not like that answer any better.",
+                position: "Tsereteli grants that arming the Red Guards is dangerous, and argues that the alternative is to find out in person whether Krymov's corps stops itself.",
               },
               historical: true,
               impact: {},
-              next: "endingWinterPalaceFalls17",
+              next: "directory17",
               outcome:
                 "Word is enough. Railway workers refuse to move Krymov's trains; soldiers' committees the general is counting on send delegations to negotiate instead of fighting. The advance dissolves without a real battle, over three days, and Kornilov is arrested at Mogilev. Nobody had to test whether the Red Guards you just armed would give the weapons back.",
             },
@@ -322,12 +551,13 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Refuse the Soviet's Red Guards. Rely on whatever units still answer directly to this government, and try to negotiate Kornilov down instead.",
               advisor: {
                 name: "Kerensky",
-                quote: "I removed one general this month for exceeding his authority. I am not eager to arm the men most likely to decide, having stopped him, that they don't need to hand the rifles back to a government that only trusted them once.",
+                position: "Kerensky argues that he has just removed one general for exceeding his authority, and does not want to arm the men most likely to decide, once that general is stopped, that they need not return their rifles.",
               },
               historical: false,
               gate: (m) => m.sovietRelations >= -6 && m.frontDiscipline >= -2,
               disabledReason:
                 "there is no longer a loyal garrison left to rely on instead -- every choice that damaged relations with the Soviet also cost the units that were never going to fight for this government without the Soviet's own backing behind the order, and a front that's already come apart doesn't leave a garrison worth relying on regardless.",
+              costsCapital: true,
               setFlags: { kornilovAffairChoice: "refusedRedGuards" },
               impact: { sovietRelations: -2, authority: 1 },
               outcome:
@@ -340,7 +570,7 @@ CAMPAIGNS.provisionalGov17 = {
                     title: "The garrison holds without them",
                     setFlags: { kornilovOutcome: "garrisonHeld" },
                     impact: { frontDiscipline: 1 },
-                    next: "endingWinterPalaceFalls17",
+                    next: "directory17",
                     outcome:
                       "It's close enough that staff afterward disagree about whether it was ever really in doubt, but the garrison and the same railway refusals that happened in the record are enough on their own. Kornilov is arrested. The Soviet notices, plainly, that it was asked to stand aside from its own defense of the capital -- and remembers it.",
                   },
@@ -355,6 +585,213 @@ CAMPAIGNS.provisionalGov17 = {
                   },
                 ];
               })(),
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // 1 September 1917. Documented: a decree signed by Kerensky proclaimed the Russian Republic
+      // on 1 September (OS) and a Directory of five, with Kerensky as president, held power until
+      // 25 September; the Kadet ministers had resigned during the Kornilov affair.
+      case "directory17":
+        return {
+          date: "SEPTEMBER 1917",
+          title: "Petrograd: Five Ministers and a Republic",
+          bulletin: {
+            headline: "RUSSIA IS PROCLAIMED A REPUBLIC",
+            body:
+              "On 1 September a decree signed by Kerensky proclaims the Russian Republic. Executive power passes to a Directory of five, with Kerensky as president. The Kadet ministers have resigned from the cabinet. Part of the Soviet Executive Committee wants a government of socialists only.",
+            meanwhile: {
+              southRussia: "Kornilov and the generals who backed him are under arrest.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "On 31 August the Petrograd Soviet passed a Bolshevik resolution for the first time. Trotsky is still in prison.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "Kornilov's advance has collapsed. You have named yourself Supreme Commander in his place. The Kadet ministers have resigned and the cabinet is half empty. A government has to be named this week, and the republic has to be proclaimed.",
+          choices: [
+            {
+              label: "Proclaim the republic and govern through a Directory of five, with yourself as president.",
+              advisor: {
+                name: "Kerensky",
+                position: "Kerensky argues that a small body can decide in a day what a coalition takes a month to agree.",
+              },
+              historical: true,
+              costsCapital: true,
+              setFlags: { governmentForm: "directory" },
+              impact: {},
+              next: "democraticConference17",
+              outcome:
+                "The decree is published. The Directory is you, Tereshchenko, Verkhovsky, Verderevsky and Nikitin. It governs by decree until a wider body can be called.",
+              aftermath:
+                "The Directory sat from 1 September to 25 September.",
+            },
+            {
+              label: "Ask the Kadet ministers to return at once, on the terms on which they left.",
+              advisor: {
+                name: "Miliukov",
+                position: "Miliukov argues that the Kadets left over the handling of the Kornilov affair and not over a program, and that the country wants a government that can keep order.",
+              },
+              historical: false,
+              gate: (m) => m.sovietRelations >= -6,
+              disabledReason:
+                "the Soviet Executive Committee will not sit in a cabinet that brings back the ministers who resigned during the Kornilov affair, and the cabinet cannot govern without it.",
+              setFlags: { governmentForm: "kadets_back" },
+              impact: { authority: 2, sovietRelations: -3 },
+              next: "democraticConference17",
+              outcome:
+                "A modeled alternative. The Kadets return to the cabinet. The Soviet Executive Committee reads it as the cabinet siding with the right.",
+            },
+            {
+              label: "Ask the Soviet's moderate majority to name a government of socialists only.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli warns that a cabinet of socialists alone cannot be formed without losing the banks, the officers and the railways, and says so against the left of his own party.",
+              },
+              historical: false,
+              setFlags: { governmentForm: "socialist_cabinet" },
+              impact: { sovietRelations: 3, authority: -2, frontDiscipline: -1 },
+              next: "democraticConference17",
+              outcome:
+                "A modeled alternative. The Executive Committee names a cabinet of socialists. The Kadets, the banks and the officers' unions withhold their support from it.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // September 1917. Documented: the Democratic Conference voted 766 to 688, with 38 abstentions,
+      // for a coalition with the propertied parties; the cabinet formed on 25 September had six
+      // socialist, six liberal and six non-party ministers; a Council of the Republic (the
+      // Pre-Parliament) sat at the Mariinsky Palace.
+      case "democraticConference17":
+        return {
+          date: "SEPTEMBER 1917",
+          title: "Petrograd: The Democratic Conference",
+          bulletin: {
+            headline: "A CONFERENCE OF DELEGATES VOTES ON COALITION",
+            body:
+              "The All-Russian Democratic Conference meets in Petrograd in September. It votes 766 to 688, with 38 abstentions, for a coalition with the propertied parties. The vote splits the delegates almost evenly.",
+            meanwhile: {
+              southRussia: "Does not exist yet as a command. Kornilov is under arrest.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "Lenin is hiding in Finland. In letters to the Central Committee he argues that the party should take power.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "The Conference has voted for a coalition, narrowly. A cabinet has to be named that the delegates, the Kadets and the Soviet will all put up with." +
+            (flags.governmentForm === "kadets_back"
+              ? " The Kadets are already back in the cabinet, and the delegates who voted against coalition say so."
+              : flags.governmentForm === "socialist_cabinet"
+              ? " A cabinet of socialists is already in office, and the vote asks it to take in the parties it excluded."
+              : flags.governmentForm === "directory"
+              ? " The Directory has governed for two weeks, and the delegates know it."
+              : ""),
+          choices: [
+            {
+              label: "Form the coalition: socialists, liberals and ministers without party, with the Kadets inside, and create a Council of the Republic to advise it.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli argues that the vote, narrow as it is, gives the cabinet the Soviet's consent to include the propertied parties.",
+              },
+              historical: true,
+              setFlags: { conferenceChoice: "coalition_with_kadets" },
+              impact: {},
+              next: "octoberStand17",
+              outcome:
+                "On 25 September the new cabinet is sworn in. It has six socialist ministers, six liberals and six without party. The Council of the Republic, called the Pre-Parliament, meets at the Mariinsky Palace.",
+              aftermath:
+                "The Directory ended on 25 September, when this cabinet was formed.",
+            },
+            {
+              label: "Keep the Directory. Tell the Conference that it advises and does not appoint.",
+              advisor: {
+                name: "Miliukov",
+                position: "Miliukov argues that a conference of delegates elected by no one cannot choose a government, and that the government should rule until the Constituent Assembly meets.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { conferenceChoice: "directory_continues" },
+              impact: { authority: 1, sovietRelations: -3 },
+              next: "octoberStand17",
+              outcome:
+                "A modeled alternative. The Directory stays in office. The delegates go home with a vote and no cabinet to show for it.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // 24 October 1917. Documented: at dawn on 24 October (OS) cadets were sent to close the plant
+      // that printed the Bolshevik paper Rabochii Put; the Military Revolutionary Committee ordered
+      // it reopened and sent the Lithuanian Regiment and a reserve sapper battalion to guard it;
+      // Kerensky spoke to the Pre-Parliament that day and Dan answered him; Kerensky left
+      // Petrograd by car for Pskov on the morning of the 25th. The Bolshevik Central Committee
+      // had voted ten to two for an armed uprising on 10 October.
+      case "octoberStand17":
+        return {
+          date: "OCTOBER 1917",
+          title: "Petrograd: The Morning of the 24th",
+          bulletin: {
+            headline: "THE GOVERNMENT TRIES TO CLOSE TWO NEWSPAPERS",
+            body:
+              "At dawn on 24 October cadets arrive to close the plant that prints the Bolshevik newspaper Rabochii Put. The Military Revolutionary Committee of the Petrograd Soviet orders the plant reopened and sends the Lithuanian Regiment and a reserve sapper battalion to guard it.",
+            meanwhile: {
+              southRussia: "Kornilov and the generals are still held under arrest.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "On 10 October the Bolshevik Central Committee voted ten to two for an armed uprising. Kamenev and Zinoviev voted against.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "The Military Revolutionary Committee was formed in the Petrograd Soviet to control the garrison, and it now has commissars in most regiments. You have the cadets, some Cossacks and what is left of the loyal garrison. The front is days away by rail. The Pre-Parliament sits this afternoon." +
+            (flags.conferenceChoice === "directory_continues"
+              ? " It sits only to advise, and it knows that."
+              : flags.conferenceChoice === "coalition_with_kadets"
+              ? " The coalition cabinet is a month old."
+              : ""),
+          choices: [
+            {
+              label: "Strike first. Close the Bolshevik presses, order the cadets and Cossacks to the bridges, and arrest the Military Revolutionary Committee.",
+              advisor: {
+                name: "Savinkov",
+                position: "Savinkov argues that a government which waits for a rising to begin has already lost the first day.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { octoberChoice: "strike_first" },
+              impact: { authority: 1, sovietRelations: -3 },
+              next: "endingWinterPalaceFalls17",
+              outcome:
+                "A modeled alternative. The presses are closed at dawn, as in the record. The order to arrest the committee goes to the cadets at noon.",
+            },
+            {
+              label: "Stay in the capital and stake the government on a vote of the Pre-Parliament.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli argues that only a vote of the Pre-Parliament can bring the garrison back under the Soviet's own leaders.",
+              },
+              historical: false,
+              setFlags: { octoberChoice: "stake_on_vote" },
+              impact: { sovietRelations: 1 },
+              next: "endingWinterPalaceFalls17",
+              outcome:
+                "A modeled alternative. You speak to the Pre-Parliament that afternoon. Dan answers for the Executive Committee, and the debate runs into the evening.",
+            },
+            {
+              label: "Leave for the front to bring loyal troops to Petrograd, and leave the cabinet to hold the Winter Palace.",
+              advisor: {
+                name: "Kerensky",
+                position: "Kerensky holds that the garrison cannot be relied on and that only troops brought from the front can defend the government.",
+              },
+              historical: true,
+              setFlags: { octoberChoice: "leave_for_front" },
+              impact: {},
+              next: "endingWinterPalaceFalls17",
+              outcome:
+                "On the morning of 25 October you leave Petrograd by car for Pskov. The ministers stay in the Winter Palace.",
+              aftermath:
+                "Kerensky spoke to the Pre-Parliament on 24 October and left the capital the next morning. The Winter Palace was taken in the night of 25 to 26 October.",
             },
           ],
         };
@@ -376,6 +813,17 @@ CAMPAIGNS.provisionalGov17 = {
             "Whatever this Cabinet did differently through the summer, October does not move. The Kornilov Affair's real casualty was never the general's advance, which dissolved in three days without much of a fight -- it was the last plausible argument that this government still had the right's confidence and the left's cooperation at the same time. Arming the Soviet's Red Guards to stop Kornilov left several thousand rifles in Bolshevik-organized hands that were never collected back, and a Petrograd Soviet whose Bolshevik share of seats, negligible in April, is now a majority. On the night of 24-25 October the Military Revolutionary Committee -- a Soviet body, not this Cabinet's -- takes the telephone exchange, the State Bank, the bridges, and the Winter Palace itself by the early hours of the 26th, with barely a shot fired in its actual defense. Kerensky is already gone, driving south in a borrowed car to find loyal troops that mostly do not exist anymore.\n\nEverything the rest of this file's campaigns take as their own opening backstory starts here: the Council of People's Commissars formed that same week; the Constituent Assembly elected in November and dissolved by force in January when it returns a non-Bolshevik majority; Brest-Litovsk signed in March, ceding a quarter of the empire to end a war this government spent this whole campaign trying to keep fighting; and, within weeks of that peace, the civil war that the Armed Forces of South Russia, the Siberian government, and the Revolutionary Military Council fight through 1922. None of that changes no matter how well or badly this Cabinet is played. What changes is only how much warning the men who found the Volunteer Army in the Don that winter had, and how isolated a government it was that fell." +
             (flags.kornilovAffairChoice === "refusedRedGuards" && flags.kornilovOutcome === "garrisonHeld"
               ? "\n\nThe Soviet's Red Guards were never actually armed for this crisis, in this branch -- the garrison held on its own, on the same railway refusals that happened in the record. It changes remarkably little about October. The Bolsheviks' rifles come from elsewhere over the following two months regardless, and a Soviet Executive Committee that watched this Cabinet decline its help once, and survive anyway, extends noticeably less benefit of the doubt the second time its cooperation is asked for."
+              : "") +
+            (flags.armyPolicy === "withheld"
+              ? "\n\nThe committees never accepted the May order that confined them to supply and welfare. In October the regiments in the capital took their instructions from the Soviet's own committee."
+              : "") +
+            (flags.conferenceChoice === "directory_continues"
+              ? "\n\nThe Directory never gave way to a wider cabinet. The Pre-Parliament that sat in October advised a government it had not chosen."
+              : "") +
+            (flags.octoberChoice === "strike_first"
+              ? "\n\nIn this telling the cabinet ordered the Military Revolutionary Committee arrested on 24 October. The cadets could not carry the order out, and the Palace fell on the same night as in the record."
+              : flags.octoberChoice === "stake_on_vote"
+              ? "\n\nIn this telling the cabinet put its fate to a vote of the Pre-Parliament. The debate lasted the afternoon, and the Palace fell that night."
               : ""),
         };
 
@@ -396,6 +844,21 @@ CAMPAIGNS.provisionalGov17 = {
           classification: "speculative",
           epilogue:
             "Krymov's Third Cavalry Corps was perhaps fifteen thousand men against a capital of over two million -- the real historical margin was that thin, and it held on railway refusals and soldier committees that simply declined to fight, not on any garrison actually stopping the advance by force. Take the Soviet's Red Guards out of the defense and that thin margin does not hold. Krymov's Cossacks reach central Petrograd; Kornilov, following behind, is not arrested at Mogilev but is in the capital inside the week, and this Cabinet is not the government that survives the encounter.\n\nWhat forms afterward is not the historical dictatorship the word 'Bonapartist' was already being used to warn against that same month -- Kornilov's own program, so far as he ever stated one plainly, was closer to a military-backed government of national unity than personal rule, with the death penalty and labor conscription he'd wanted since taking command extended well past the front. Kerensky's own fate in this branch is unresolved by anything the record can settle: arrested alongside the rest of the Cabinet is the most likely outcome contemporaries would have expected, though nothing here should be read as claiming more certainty about that than the record actually supports.\n\nSay plainly what this branch means for the rest of this file: it does not happen. There is no Bolshevik seizure of power in October, because the Petrograd Soviet that would have staged it has just watched a military government take the capital by force with the left's own militia unable or unwilling to stop it. No Council of People's Commissars, no Brest-Litovsk, no Constituent Assembly dissolved by a Bolshevik decree instead of a Cossack one. Whatever civil war follows a Kornilov government's attempt to actually govern a country still fighting a war it cannot win is not the war the Armed Forces of South Russia, the Siberian government, or the Revolutionary Military Council in this file were built to fight -- it is a different war, against a different opponent, that this file does not contain. That is not a coy way of saying 'to be continued.' It means this branch's ending is genuinely the end of what this file can tell you about what happens next.",
+        };
+
+      // -----------------------------------------------------------------
+      // HARD MODE ENDING -- reached when the fifth point of Decree Capital is spent, at whatever
+      // report the player is on. Not a historical event: the record shows the government losing the
+      // Soviet's confidence by degrees, never breaking with it in form.
+      case "endingDecreeCabinet17":
+        return {
+          isEnding: true,
+          title: "The Cabinet That Governed Alone",
+          date: "DATE VARIES: THE FIFTH DECREE",
+          badge: "◇ SPECULATIVE -- HARD MODE",
+          classification: "speculative",
+          epilogue:
+            "A modeled alternative. The cabinet takes its fifth emergency decree without the consent of the Soviet Executive Committee. Each earlier decree had a reason that could be written down: the army, the railways, the presses. The fifth has none that the Executive Committee accepts, and it stops sending delegates to the cabinet. From that day the government rules by ministerial order in Petrograd and nowhere else, and the regiments of the garrison take their orders from the Soviet.\n\nThis is not what happened. In the record the government never broke with the Soviet in form. It lost the Soviet's confidence between April and October, a little at a time. No source says what a formal break would have led to.",
         };
 
       default:

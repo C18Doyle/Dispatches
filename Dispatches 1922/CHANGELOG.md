@@ -11,6 +11,8 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 - Layout is mobile-first: the whole app is a centred column at most 600px wide on desktop (it was full width). Phones are unchanged.
 - tools/monte-carlo.js replaced by tools/monte-carlo.mjs, which plays the real src/logic.ts (seeded). It reports gate-bite rate and which endings are reached. It no longer reproduces the old routing.
 ### Added
+- The 1917 Provisional Government campaign grows from 4 reports to 10: the May commissars and Soldiers' Declaration, the Supreme Command (Kornilov's terms), the Moscow State Conference, the September Directory, the Democratic Conference and the morning of 24 October. Three reports have three choices. Two new advisers lines are positions, not speech: all eight old quotes in this campaign were rewritten the same way. New adviser dossier: Savinkov. Sources in claims/provisional-government-round1.md; several lines are marked there as not yet read.
+- The 1917 hard mode (Decree Capital) can now be played to its end: six choices cost capital, and the fifth point ends the campaign at a new ending, The Cabinet That Governed Alone (speculative). Before, no 1917 choice cost capital, and the hard-mode ending was The General's Republic.
 - South Russia: a new report, "Sevastopol: The Radio From Frunze" (11 November 1920), with three choices (keep the offer from the army, refuse it, publish it). The ending epilogue records what happened. Sources in claims/south-russia-round1.md.
 - South Russia: a third choice at the Sevastopol council (name the successor by order after hearing the council).
 - Adviser lines can be written as a third-person position (no speech marks) with `advisor.position`; new text uses it (docs/WRITING.md rule 7).
