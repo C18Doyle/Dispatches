@@ -235,7 +235,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
             {headline.dek}
           </p>
           <div
-            className="text-[9px] pt-2 text-[#888]"
+            className="text-[9px] pt-2 text-[#6b6b6b]"
             style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}
           >
             WIRE: RELAYED VIA {campaign.name.toUpperCase()}, ROUTINE PRIORITY
@@ -245,7 +245,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
         <button
           onClick={onContinue}
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
-          style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: "transparent" }}
+          style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
         >
           Continue
         </button>

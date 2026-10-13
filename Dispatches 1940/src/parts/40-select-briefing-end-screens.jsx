@@ -2846,7 +2846,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             >
               {campaign.dynamic ? campaignReportLabel(campaign.id, stage.directive ? "directive" : "situation") : stage.directive ? "Theater Directive" : "Situation Report"} · No. {reportNumber}
               {campaign.dynamic && FILING_NOTE[timeSev] && (
-                <span className="opacity-50 italic normal-case tracking-normal"> · {FILING_NOTE[timeSev]}</span>
+                <span className="opacity-70 italic normal-case tracking-normal"> · {FILING_NOTE[timeSev]}</span>
               )}
             </div>
             <button
@@ -4859,7 +4859,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
           </div>
           <div
             className="text-[9px] uppercase tracking-[0.14em] font-bold shrink-0"
-            style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", opacity: 0.75 }}
+            style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", opacity: 0.9 }}
           >
             {STAFF_BRANCH_LABELS[campaign.id]?.[classifyStaffBranch(stage)]}
           </div>
