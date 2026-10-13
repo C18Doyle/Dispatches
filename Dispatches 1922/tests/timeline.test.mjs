@@ -76,6 +76,27 @@ const months = (text) => [...text.matchAll(new RegExp("(" + MONTHS.join("|") + "
   ctx.restore();
 }
 
+// --- the front map steps back through the run's months -------------------------------------------------------
+{
+  const ctx = await start(["southRussia", "Armed Forces of South Russia"]);
+  const orders = ctx.buttons().filter((b) => ctx.lab(b) === "ISSUE THE ORDER");
+  await ctx.click(orders[0]);
+  let guard = 0;
+  while (!/ISSUE THE ORDER/.test(ctx.text()) && guard++ < 6) {
+    const next = find(ctx, /^CONTINUE$/);
+    if (!next) break;
+    await ctx.click(next);
+  }
+  await ctx.click(find(ctx, /VIEW FRONT MAP/));
+  check(/AS OF JULY 1919/.test(ctx.text()), "map: opens at the month the run has reached");
+  const later = find(ctx, /LATER MONTH/);
+  check(!later, "map: no later month to step to (a disabled button is not offered)");
+  await ctx.click(find(ctx, /EARLIER MONTH/));
+  check(/AS OF APRIL 1918/.test(ctx.text()), "map: one step back shows the earlier month");
+  check(!!find(ctx, /LATER MONTH/), "map: and a later month is then available");
+  ctx.restore();
+}
+
 if (fails.length) {
   console.log(`\n${fails.length} failure(s)`);
   process.exit(1);

@@ -1870,7 +1870,11 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
   // repeatedly, and a single snapshot would be wrong for most of the war.
   const currentNodeId = visitedNodes[visitedNodes.length - 1];
   const currentNode = currentNodeId ? c.resolveNode(currentNodeId, {}, {}) : null;
-  const atDate = dateToYYYYMM(currentNode && currentNode.date);
+  // The months this run has been through, oldest first. The player may step back through them; later months do not exist yet.
+  const runMonths = [...new Set(visitedNodes.map((nid) => { const at = c.NODE_ATLAS.find((x) => x.id === nid); return at ? firstMonthKey(at.date) : null; }).filter(Boolean))].sort((p, q) => p - q);
+  const [monthIdx, setMonthIdx] = useState(null);
+  const shownIdx = runMonths.length ? (monthIdx == null ? runMonths.length - 1 : Math.min(monthIdx, runMonths.length - 1)) : -1;
+  const atDate = shownIdx >= 0 ? runMonths[shownIdx] : dateToYYYYMM(currentNode && currentNode.date);
 
   // In-world framing per command. The map is a thing a staff officer put on
   // the table, not a progress tracker — so the copy is addressed to the
@@ -1919,6 +1923,29 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
           </div>
         )}
 
+        {runMonths.length > 1 && (
+          <div className="flex items-center gap-2 mt-3">
+            <button
+              onClick={() => setMonthIdx(Math.max(0, shownIdx - 1))}
+              disabled={shownIdx <= 0}
+              className="border-2 px-3 py-2 text-xs font-bold"
+              style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin), opacity: shownIdx <= 0 ? 0.45 : 1 }}
+            >
+              ◀ EARLIER MONTH
+            </button>
+            <div className="flex-1 text-center text-xs font-bold" style={{ ...monoFontStyle(skin), ...primaryTextStyle(skin) }} aria-live="polite">
+              AS OF {monthKeyLabel(atDate)}
+            </div>
+            <button
+              onClick={() => setMonthIdx(Math.min(runMonths.length - 1, shownIdx + 1))}
+              disabled={shownIdx >= runMonths.length - 1}
+              className="border-2 px-3 py-2 text-xs font-bold"
+              style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin), opacity: shownIdx >= runMonths.length - 1 ? 0.45 : 1 }}
+            >
+              LATER MONTH ▶
+            </button>
+          </div>
+        )}
         <div className="border-2 mt-3" style={{ borderColor: skin.accent }}>
           <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={currentCityId} skin={skin} atDate={atDate} />
         </div>
