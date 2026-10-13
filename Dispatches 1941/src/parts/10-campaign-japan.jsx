@@ -1902,6 +1902,26 @@
               setFlags: { leytePath: "shoGo" },
               impact: { readiness: -3, pipeline: -2, initiative: 0 },
               next: "kuritaAtLeyte44",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.shoGo44,
+              uncertain: [
+                  {
+                    weight: modWeight(55, meters.pipeline),
+                    title: "The decoy works and the fleet reaches the straits",
+                    setFlags: { leyteResult: "reached" },
+                    impact: { readiness: 0, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "The decoy works. Halsey's carriers are drawn north, and Kurita's battleships come through San Bernardino Strait to find only escort carriers and destroyers between his guns and the landing beaches, with the invasion transports still unloading nearby. Nishimura's old battleships are destroyed in Surigao Strait the same night. What Kurita does next is the most argued-over decision of the naval war.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(55, meters.pipeline); return Math.max(5, 100 - w); })(),
+                    title: "The fleet is stopped in the straits",
+                    setFlags: { leyteResult: "stopped" },
+                    impact: { readiness: -2, pipeline: -1, initiative: -2 },
+                    next: "iwoJima45",
+                    outcome:
+                      "Speculative. Halsey does not take the bait, and the covering fleet stays off San Bernardino Strait. Kurita's battleships, hit from the air all day in the Sibuyan Sea with no fighter cover, are met at the strait by the carriers' full strength and turned back with heavy losses, and Nishimura's old battleships are destroyed in Surigao Strait the same night. The Combined Fleet's last offensive ends without sight of the beaches.",
+                  },
+              ],
               outcome:
                 "The decoy works. Halsey's carriers are drawn north, and Kurita's battleships come through San Bernardino Strait to find only escort carriers and destroyers between his guns and the landing beaches, with the invasion transports still unloading nearby. What he does next is the most argued-over decision of the naval war.",
             },
@@ -1925,7 +1945,7 @@
           title: "Taffy 3",
           historicalRecord: true,
           situation:
-            "Kurita's battleships, Yamato among them, have come through San Bernardino Strait to find a single escort carrier group, Taffy 3, with six small carriers, three destroyers and four destroyer escorts, between his guns and the Leyte beaches. Halsey's fast carriers are far to the north, still chasing the decoy force. Taffy 3's destroyers are charging Kurita's line to buy time, and the transports still unloading at the beachhead have almost nothing to defend them if the line gets past the escort carriers.",
+            "Kurita's battleships, Yamato among them, have come through San Bernardino Strait to find a single escort carrier group, Taffy 3, with six small carriers, three destroyers and four destroyer escorts, between his guns and the Leyte beaches. Halsey's fast carriers are far to the north, still chasing the decoy force. Taffy 3's destroyers are charging Kurita's line to buy time, and the transports still unloading at the beachhead have almost nothing to defend them if the line gets past the escort carriers." + (flags.leytePath === "shoGo" ? keyBattleEcho("shoGo44", flags) : ""),
           choices: [
             {
               label: "Withdraw: uncertain reports and fear of a trap outweigh the opportunity in front of this fleet",
@@ -2002,7 +2022,7 @@
           title: "Iwo Jima: The Doctrine That Abandoned the Beach",
           historicalRecord: true,
           situation:
-            "American Marines are landing on eight square miles of volcanic ash whose value is its airfields, close enough to escort B-29s to Tokyo and back. Lieutenant General Kuribayashi has abandoned the beach-defense doctrine that failed on earlier islands: no counterattack at the water's edge, no banzai charge to waste the garrison in an afternoon. Instead, over eleven miles of tunnels cut into volcanic rock, he means to bleed the invasion for as long as possible. Imperial Headquarters has one real decision left: whether the garrison already there is the last reinforcement the island gets, or whether more can still be found.",
+            "American Marines are landing on eight square miles of volcanic ash whose value is its airfields, close enough to escort B-29s to Tokyo and back. Lieutenant General Kuribayashi has abandoned the beach-defense doctrine that failed on earlier islands: no counterattack at the water's edge, no banzai charge to waste the garrison in an afternoon. Instead, over eleven miles of tunnels cut into volcanic rock, he means to bleed the invasion for as long as possible. Imperial Headquarters has one real decision left: whether the garrison already there is the last reinforcement the island gets, or whether more can still be found." + (flags.leyteResult === "stopped" ? keyBattleEcho("shoGo44", flags) : ""),
           choices: [
             {
               label: "Reinforce and hold as long as the garrison physically can: no evacuation, no withdrawal",
@@ -2013,6 +2033,25 @@
               disabledReason: meters.pipeline <= -3 ? "There's no shipping left to run reinforcements to an island already effectively cut off by American naval and air superiority. Nothing more can physically reach the garrison." : undefined,
               gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
               next: "okinawa45",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.iwoJimaJapan45,
+              uncertain: [
+                  {
+                    weight: modWeight(60, meters.readiness),
+                    title: "The tunnels hold for the full battle",
+                    setFlags: {},
+                    impact: { readiness: 1, pipeline: 0, initiative: 0 },
+                    outcome:
+                      "Of about 21,000 defenders, around 200 are taken prisoner; the rest are killed over five weeks of fighting in tunnels and rock that neither naval bombardment nor flamethrowers fully cleared. The battle costs the Marines their heaviest losses of the war, nearly 7,000 American dead, and produces the best-known photograph of the Pacific War, the flag raising on Suribachi on the fifth day of a battle that has thirty more to run.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(60, meters.readiness); return Math.max(5, 100 - w); })(),
+                    title: "The tunnels are cleared early",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: 0, initiative: -1 },
+                    outcome:
+                      "Speculative. The guns are silenced in the first days, the stores are cut off and the tunnels are sealed one after another, and the garrison is overrun in half the time. The Marines take the island at a lower cost than the real battle, and the Japanese Army has nothing to show for the garrison it spent.",
+                  },
+              ],
               outcome:
                 "Of about 21,000 defenders, around 200 are taken prisoner; the rest are killed over five weeks of fighting in tunnels and rock that neither naval bombardment nor flamethrowers fully cleared. The battle costs the Marines their heaviest losses of the war, nearly 7,000 American dead, and produces the best-known photograph of the Pacific War, the flag raising on Suribachi on the fifth day of a battle that has thirty more to run.",
             },
@@ -2040,7 +2079,7 @@
               : "") +
             (flags.iwoJimaPath === "conserve"
               ? " Whatever was held back rather than sent to Kuribayashi's tunnels is part of what's being weighed here now. It wasn't enough to save the island. Whether it's enough to matter here is a different question."
-              : ""),
+              : "") + (flags.iwoJimaPath === "hold" ? keyBattleEcho("iwoJimaJapan45", flags) : ""),
           choices: [
             {
               label: "Commit everything: Yamato's sortie, the full Kikusui kamikaze campaign, against the invasion fleet",
@@ -2051,6 +2090,25 @@
               disabledReason: meters.pipeline <= -6 ? "There isn't fuel left for a one-way Yamato sortie, let alone the sustained kamikaze sortie rate Kikusui requires. Whatever's left can defend or it can sail. It can't do both at this pipeline level." : undefined,
               gateCheck: { meter: "pipeline", threshold: -6, label: "Pipeline" },
               next: "theSubmarineCarriersQuestion45",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.okinawaJapan45,
+              uncertain: [
+                  {
+                    weight: modWeight(55, meters.pipeline),
+                    title: "The sacrifice takes its toll",
+                    setFlags: {},
+                    impact: { readiness: 0, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "On April 7 American carrier aircraft sink Yamato before she reaches Okinawa, and about 3,000 of her crew die. The ten Kikusui mass attacks over the following three months sink or damage more American ships than any other campaign of the Pacific War, and the Navy's remaining kamikaze pilots are almost all used up. Okinawa is the costliest battle of the war for the U.S. Navy, and it does not change its outcome.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(55, meters.pipeline); return Math.max(5, 100 - w); })(),
+                    title: "The sacrifice is spent for little",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                    outcome:
+                      "Speculative. The squadron is found early and sunk well short of the island, and the picket destroyers and the carriers' strikes on Kyushu together shoot down most of the Kikusui aircraft before they reach the transports. The Navy's last offensive costs the American fleet a handful of ships, and costs the Japanese Navy what was left of its air arm.",
+                  },
+              ],
               outcome:
                 "On April 7 American carrier aircraft sink Yamato before she reaches Okinawa, and about 3,000 of her crew die. The ten Kikusui mass attacks over the following three months sink or damage more American ships than any other campaign of the Pacific War, and the Navy's remaining kamikaze pilots are almost all used up. Okinawa is the costliest battle of the war for the U.S. Navy, and it does not change its outcome.",
             },
@@ -2072,7 +2130,7 @@
           title: "The World's Largest Submarines, Still Waiting for Orders",
           historicalRecord: true,
           situation:
-            "I-400 and I-401, the largest submarines built by any navy in the war, carry three Aichi M6A1 Seiran floatplanes each, folding-wing bombers launched by catapult from a hangar in the hull, each with an 1,800-pound bomb. Yamamoto backed the class in 1942 for a target no other Japanese weapon could reach: the lock gates of the Panama Canal, struck from the Caribbean side, cutting the shortest route between the American fleet's two oceans. The order has since shrunk from eighteen hulls to five, and with the American fleet closing on the home islands themselves there is less reason to send the boats all the way to Panama.",
+            "I-400 and I-401, the largest submarines built by any navy in the war, carry three Aichi M6A1 Seiran floatplanes each, folding-wing bombers launched by catapult from a hangar in the hull, each with an 1,800-pound bomb. Yamamoto backed the class in 1942 for a target no other Japanese weapon could reach: the lock gates of the Panama Canal, struck from the Caribbean side, cutting the shortest route between the American fleet's two oceans. The order has since shrunk from eighteen hulls to five, and with the American fleet closing on the home islands themselves there is less reason to send the boats all the way to Panama." + (flags.okinawaPath === "commitAll" ? keyBattleEcho("okinawaJapan45", flags) : ""),
           choices: [
             {
               label: "Launch the original mission: the Panama Canal, struck from the Caribbean side, severing the fleet's shortest route between two oceans",

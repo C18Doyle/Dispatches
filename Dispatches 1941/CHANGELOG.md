@@ -5,6 +5,11 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## Unreleased
+### Added
+- **Six more battles on the Order of Battle screen.** Watchtower (CINCPAC, the landing on 7 to 9 August 1942: the Marines, the carriers, the unloading, the coastwatchers), Sho-Go (IGHQ, 22 to 25 October 1944: the main body, Ozawa's decoy, the southern force, the land-based air), Iwo Jima from both sides (IGHQ: the tunnels, the guns, the tanks, the stores; CINCPAC: the assault regiments, the gunfire, the beach parties, reconnaissance) and Okinawa from both sides (IGHQ: Kikusui, the Thirty-Second Army, Yamato's sortie, direction; CINCPAC: the radar pickets, the air patrol, the carrier strikes on Kyushu, repair). Each has a field decision, an order-of-battle sheet per arm, four commanders (three for Iwo Jima), two approaches and three enemy setups. The choices that host them (Land the Marines immediately; Execute Sho-Go; Reinforce and hold; Commit everything; Accept the three-day bombardment; Hold the radar picket line) now carry a win and a loss, and are marked "Leads to battle planning". The loss outcomes are labelled speculative; a lost Sho-Go goes straight to Iwo Jima. The next report says how the battle was fought. Facts, and which are still unchecked, are in `claims/battles-round2.json`.
+- `npm run test:battle-hosts` starts a fresh page from a save on each hosting report, plays the battle through the real screens and checks that both outcomes lead to a working next report. It is in `test:fast`.
+
 ## 1.1.0 (2026-10-10)
 ### Changed
 - **Shortages change the odds.** A meter below -4 takes points of probability off the best outcome of the contested decisions that put that meter at stake (not battles, which weigh their own shortages), and each point owed adds half a point more, up to 12. The decision says so in red before you choose ("Strain: Pipeline short, so the odds are 7 points worse for it"), and the roll uses the same weights. A decision is about the meter its check names, else the one its outcomes move most.
