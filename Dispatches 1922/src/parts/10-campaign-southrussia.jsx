@@ -252,6 +252,7 @@
             choices: [
               {
                 label: "Press one more day. The foothold gained might be the beginning of something, not the end of it.",
+                keyBattleSubgame: { id: "ekaterinodar" },
                 advisor: {
                   name: "Alekseev",
                   quote:
@@ -790,6 +791,7 @@
               },
               {
                 label: "Pull the weakest sections of the line back overnight to consolidate, even if it lets part of Makhno's force slip out.",
+                keyBattleSubgame: { id: "peregonovka" },
                 advisor: {
                   name: "Wrangel",
                   quote:
@@ -960,6 +962,7 @@
               },
               {
                 label: "Order a fighting withdrawal to the Kursk–Kharkov line instead. Preserve the army over the ground.",
+                keyBattleSubgame: { id: "orel" },
                 advisor: {
                   name: "Wrangel",
                   quote:

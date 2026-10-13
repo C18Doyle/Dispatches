@@ -129,6 +129,42 @@ for (const [runCase, seed] of RUNS) {
   ctx.restore();
 }
 
+// ---- the Order of Battle: the planning screen at each of its three steps, and the report ------------------------------------
+{
+  const runCase = [...SOUTH, false];
+  const ctx = makeContext(cfg, bundle, 6);
+  if (ctx.failed) throw new Error(ctx.failed);
+  ctx.runCase = runCase;
+  await sleep(300);
+  await ctx.settle();
+  const err = await cfg.setup(ctx, runCase);
+  if (err) throw new Error(err);
+  const orders = () => ctx.buttons().filter((b) => ctx.lab(b) === "ISSUE THE ORDER");
+  await ctx.click(orders()[1]);
+  for (let i = 0; i < 4 && !/One More Day/.test(ctx.text()); i++) {
+    const next = ctx.buttons().find((b) => ctx.lab(b) === "CONTINUE");
+    if (!next) break;
+    await ctx.click(next);
+  }
+  const host = ctx.buttons().find((b) => ctx.lab(b) === "ISSUE THE ORDER" && /LEADS TO BATTLE PLANNING/.test(b.parentElement?.textContent || ""));
+  if (!host) note("battle: the assault at Ekaterinodar no longer hosts a battle");
+  else {
+    await ctx.click(host);
+    checkPage(ctx, "battle: officer step");
+    for (const re of [/^NEXT: /, /^NEXT: /]) {
+      const nx = ctx.buttons().find((b) => re.test(ctx.lab(b)));
+      if (!nx) break;
+      await ctx.click(nx);
+      checkPage(ctx, "battle: next step");
+    }
+    await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "LET THE STAFF PLAN IT"));
+    await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "ISSUE THE PLAN"));
+    checkPage(ctx, "battle: report");
+    if (!/AFTER-ACTION REPORT/.test(ctx.text())) note("battle: no after-action report on the outcome");
+  }
+  ctx.restore();
+}
+
 // ---- the Key Events screen, both views ------------------------------------------------------------------------------------
 {
   const runCase = [...SOUTH, false];

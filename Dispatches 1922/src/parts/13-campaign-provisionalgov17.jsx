@@ -257,6 +257,7 @@ CAMPAIGNS.provisionalGov17 = {
           choices: [
             {
               label: "Commit the reserves forward the moment the initial advance succeeds, to turn a local gain into an actual breakthrough before the front stabilizes again.",
+              keyBattleSubgame: { id: "juneOffensive" },
               advisor: {
                 name: "Kerensky",
                 position: "Kerensky argues that a gain not pressed on the day it starts to work will have been spent for nothing, after three weeks of telling tired men why the offensive matters.",

@@ -8,6 +8,9 @@ React 18 + Tailwind 3, esbuild. Four campaigns (`provisionalGov17`, `southRussia
 - `src/main.jsx`, `src/input.css`, `src/prelude.html`, `build.mjs` build. `tools/` validators (`check-*.js`, `walk-historical.js`, `monte-carlo.mjs`) and `tools/ui_differential.mjs`. `tests/*.js` older jsdom behaviour tests (need `bundle_test.js` = a copy of `dist/bundle.js` in the project root). `tests/baseline/ui/` recorded runs from the pre-refactor build.
 - `HANDOVER.md`, `VALIDATION_REPORT.md`, `CIVILWAR_EXPANSION_PLAN.md`, `IMPROVEMENT_RECOMMENDATIONS.md` content/history notes.
 
+## Orders of Battle
+`src/battle.ts` is the pure arithmetic (typed, in `npm run typecheck`). `src/parts/35-battles.jsx` holds the configs (`BATTLES`), the planning screen and the report. A battle is hosted by a choice with `keyBattleSubgame: { id }` and exactly two contested outcomes; `winBranch` is the index of the better one. The staff's plan must move the odds by exactly 0 (tests/battle.test.mjs proves it for every config, setup and pool size), so never change the arithmetic without running it. New battle: config, `keyBattleSubgame` on the order, a line in claims/battles-round1.md.
+
 ## Editing surface: src/parts/ (not src/App.jsx)
 `src/App.jsx` is an assembled artifact (the validators, extractors and baselines read it). Edit the parts in `src/parts/`: `00-head-and-helpers`, one file per campaign (`10-campaign-southrussia`, `11-campaign-siberia`, `12-campaign-bolsheviks`, `13-campaign-provisionalgov17`), `20-data-exports`, `30-screens` (starts at the `// PREVIEW SCREENS` marker), `40-app`. A session that touches one campaign needs that one part plus this file.
 - `npm run build` assembles the parts into `src/App.jsx` first, and refuses if `src/App.jsx` is newer than every part (you edited the artifact by hand). Run `npm run split` to push such an edit back into the parts, or revert it.

@@ -45,6 +45,22 @@ export default {
   choose(ctx) {
     const lab = ctx.lab;
     const bs = ctx.buttons();
+    // The Order of Battle: let the staff plan it, now and then move one counter, then issue the plan.
+    const issuePlan = bs.find((x) => lab(x) === "ISSUE THE PLAN");
+    if (issuePlan) {
+      if (!ctx.tweaked && ctx.pick() < 0.4) {
+        const fewer = bs.filter((x) => /^Fewer in /.test(lab(x)));
+        if (fewer.length) {
+          ctx.tweaked = true;
+          return fewer[Math.floor(ctx.pick() * fewer.length)];
+        }
+      }
+      return issuePlan;
+    }
+    const putBack = bs.filter((x) => /^More in /.test(lab(x)));
+    if (ctx.tweaked && putBack.length) return putBack[Math.floor(ctx.pick() * putBack.length)];
+    const staffPlan = bs.find((x) => lab(x) === "LET THE STAFF PLAN IT");
+    if (staffPlan) return staffPlan;
     // Easy mode: now and then take the last order back, so the rewind is part of the recorded behaviour.
     const back = bs.find((x) => lab(x) === "TAKE BACK THIS ORDER");
     if (back && (ctx.rewinds || 0) < 2 && ctx.pick() < 0.35) {
