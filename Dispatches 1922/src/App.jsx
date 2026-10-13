@@ -390,8 +390,9 @@ export const CAMPAIGNS = {
       { id: "northernTauride20", date: "JUNE 1920", title: "Tauride: Neither Bayonets Nor Deeds" },
       { id: "wrangelsEnvoy20", date: "JULY 1920", title: "Vrem'evka: The Letter to Makhno" },
       { id: "crimeaDefensePrep20", date: "OCTOBER 1920", title: "Sevastopol: Preparing for the End" },
+      { id: "frunzeOffer20", date: "NOVEMBER 1920", title: "Sevastopol: The Radio From Frunze" },
     ],
-    NODE_TOTAL: 29,
+    NODE_TOTAL: 30,
     ENDINGS_GALLERY: [
       { id: "endingBizerte", title: "The Bizerte Fleet", classification: "historical" },
       { id: "endingTheCouncilAtSevastopol20", title: "The Council at Sevastopol", classification: "speculative" },
@@ -1767,6 +1768,7 @@ export const CAMPAIGNS = {
             choices: [
               {
                 label: "Prioritize the Volunteer Army's combat units. Cossack formations, horses, and heavy equipment are left to fend for themselves.",
+                costsCapital: true,
                 advisor: {
                   name: "Denikin",
                   quote:
@@ -1934,6 +1936,7 @@ export const CAMPAIGNS = {
             choices: [
               {
                 label: "Dismiss him. A command that tolerates a general publishing his own case against it in front of the officer corps has already lost something no reassignment gets back.",
+                costsCapital: true,
                 advisor: {
                   name: "Denikin",
                   quote:
@@ -2112,6 +2115,17 @@ export const CAMPAIGNS = {
                 outcome:
                   "The refusal is stated plainly and changes nothing about the room it is stated in.",
               },
+              {
+                label: "Ask the council for its opinion, then name the successor by your own order. A commander is appointed from above and not elected from below.",
+                historical: false,
+                setFlags: { sevastopolCouncil: "designated" },
+                impact: {},
+                aftermath:
+                  "A 1920 cable from the US naval commander at Sevastopol reports that the generals thought it subversive of military discipline for subordinates to elect their superior, and that they named Wrangel as the only acceptable successor. Denikin then designated Wrangel himself. Other accounts differ on the date and on what part General Dragomirov's committee played. Denikin resigned in either version and sailed for Constantinople.",
+                next: "landLawDecision20",
+                outcome:
+                  "The generals give their view of Wrangel and nothing more. The appointment is issued as an order over your signature, and the resignation follows it the same day.",
+              },
             ],
           };
 
@@ -2145,7 +2159,7 @@ export const CAMPAIGNS = {
             historicalRecord: true,
             situation:
               "Wrangel has replaced Denikin, and Krivoshein — his new Prime Minister, once the most liberal minister the Tsar ever had — is pushing a land law: peasants can purchase, through the state as intermediary, the land they already work. A White general in exile will later say plainly that if Denikin had published this exact law two years earlier, the outcome of the whole war might have been different. It is May 1920. There is no more time left to test that theory gently." +
-              (flags.sevastopolCouncil === "resigned"
+              (flags.sevastopolCouncil === "resigned" || flags.sevastopolCouncil === "designated"
               ? " The law arrives over a signature the army agreed on at Sevastopol three weeks ago, which is the only reason a measure this radical can be issued at all without the Kuban reading it as a trick."
               : "") +
             (flags.novorossiyskPolicy === "volunteer_priority"
@@ -2325,7 +2339,7 @@ export const CAMPAIGNS = {
                 historical: true,
                 setFlags: { evacuationPrep: "advance" },
                 impact: {},
-                next: "finalReckoning20",
+                next: "frunzeOffer20",
                 outcome:
                   "The preparation happens quietly, alongside the defense rather than instead of it. It is the reason the eventual Crimean evacuation moves some 145,000 people off the peninsula in reasonable order — the one piece of this whole campaign that does not end in the kind of chaos Novorossiysk did.",
               },
@@ -2339,9 +2353,89 @@ export const CAMPAIGNS = {
                 historical: false,
                 setFlags: { evacuationPrep: "none" },
                 impact: { manpower: 2 },
-                next: "finalReckoning20",
+                next: "frunzeOffer20",
                 outcome:
                   "Every spare resource goes to the defense instead. It marginally strengthens the line at Perekop — and if that line breaks anyway, as it does on the other side of this history, whatever evacuation follows will have to be improvised from nothing, the way Novorossiysk was.",
+              },
+            ],
+          };
+
+        // ---------------------------------------------------------------------
+        // 11 November 1920: Frunze's radio offer. Documented: Lenin's Collected Works (telegram of
+        // 12 Nov 1920 and its editorial note) say Frunze radioed Wrangel an offer to stop fighting,
+        // with amnesty for those who laid down arms, and that Wrangel neither replied nor told his
+        // troops. The Presidential Library of Russia says the offer was rejected. Sources disagree
+        // on whether there was a reply, so the concealment is the historical choice (the Lenin
+        // note) and the refusal is a marked alternative. Publishing it to the army is modeled.
+        case "frunzeOffer20":
+          return {
+            date: "NOVEMBER 1920",
+            title: "Sevastopol: The Radio From Frunze",
+            bulletin: {
+              headline: "THE ISTHMUS IS BREAKING",
+              body: "The Red Army has been attacking across the Perekop isthmus and wading the Sivash since the night of 7 November. Orders to evacuate have gone to the ports. On 11 November a radio message from Frunze, the commander of the Southern Front, arrives in clear.",
+              meanwhile: {
+                siberia: "The Far Eastern Republic holds Chita. Fighting east of Lake Baikal goes on in the Maritime provinces and along the Manchurian border.",
+                bolsheviks: "Lenin cables the Southern Front the next day. He thinks the terms Frunze has offered are excessively accommodating.",
+              },
+            },
+            historicalRecord: true,
+            situation:
+              "Frunze offers to stop the fighting. Anyone who lays down arms will be granted an amnesty. The message is addressed to the commander and is open to anyone with a receiver. The line at Perekop is giving way and the ships are being loaded. Whatever is done with this message, it has to be done today." +
+              (flags.evacuationPrep === "advance"
+                ? " The evacuation has been planned since the autumn. The ports know their berths, and the order only starts what is already laid out."
+                : " No evacuation was planned in advance. Every berth has to be found today, from the same wires that carry this message.") +
+              (flags.makhnoOutreach === "sent"
+                ? " The Soviet press has used the letter to Makhno since July. Few in the army believe the offer is meant, and many believe the opposite."
+                : ""),
+            choices: [
+              {
+                label: "Keep it from the army. Do not answer. The evacuation order stands.",
+                advisor: {
+                  name: "Kutepov",
+                  position:
+                    "Kutepov holds that the regiments can be moved to the ports in order only while they take orders from this headquarters, and that an amnesty read to them would end that.",
+                },
+                historical: true,
+                setFlags: { frunzeOffer: "concealed" },
+                impact: {},
+                next: "finalReckoning20",
+                outcome:
+                  "The message is not posted and no reply goes back. The evacuation order goes out over the same wires, and the ports begin to fill.",
+                aftermath:
+                  "Lenin's Collected Works record that Wrangel did not reply to Frunze and did not tell his troops. The last ships left the Crimea on 14 November.",
+              },
+              {
+                label: "Answer it with a refusal. Tell the army the terms were offered and refused.",
+                advisor: {
+                  name: "Shatilov",
+                  position:
+                    "Shatilov, the chief of staff, argues that an unanswered offer will reach the regiments anyway, and that it is better for them to hear it from this headquarters with a refusal beside it.",
+                },
+                historical: false,
+                setFlags: { frunzeOffer: "refused" },
+                impact: { manpower: -1 },
+                next: "finalReckoning20",
+                outcome:
+                  "The reply goes out by radio that afternoon. The army is told that an amnesty was offered and that it was refused. The evacuation order is not withdrawn.",
+                aftermath:
+                  "The sources disagree. Lenin's Collected Works say Wrangel did not reply. The Presidential Library of Russia says the offer was rejected. No document by Wrangel settles it.",
+              },
+              {
+                label: "Publish it to every regiment and port. Leave the evacuation order open to anyone who wants a berth.",
+                advisor: {
+                  name: "Wrangel",
+                  position:
+                    "Wrangel's own reasoning is not recorded for this day. Those who want the offer put to the army say that men who are told the truth will choose for themselves, and that choosing is all an evacuation can ask of them.",
+                },
+                historical: false,
+                setFlags: { frunzeOffer: "published" },
+                impact: { manpower: -2 },
+                next: "finalReckoning20",
+                outcome:
+                  "Speculative. The message is read to the regiments on the isthmus and posted in every port. The evacuation order stands beside it, so each officer has both papers in his hand.",
+                aftermath:
+                  "Speculative. No record shows the offer reaching the troops. Lenin cabled the Southern Front the next day that its terms were excessively accommodating, and that the fleet was to be seized if they were accepted.",
               },
             ],
           };
@@ -2359,10 +2453,23 @@ export const CAMPAIGNS = {
         // gamble actually fail. Two real decisions in direct sequence, not
         // an arithmetic side-effect of the whole campaign.
         case "finalReckoning20":
+          const frunzeNotes = {
+            concealed:
+              "On 11 November Frunze radioed an offer to stop fighting, with amnesty for anyone who laid down arms. Lenin's Collected Works record that Wrangel did not reply and did not tell his troops. Lenin cabled the Southern Front the next day that the terms were excessively accommodating, and that the fleet was to be seized if they were accepted.",
+            refused:
+              "On 11 November Frunze radioed an offer to stop fighting, with amnesty for anyone who laid down arms. In this telling the offer was refused and the army was told so. The sources disagree on whether Wrangel answered at all. Lenin cabled the Southern Front the next day that the terms were excessively accommodating.",
+            published:
+              "Speculative. Frunze's offer of 11 November, an amnesty for anyone who laid down arms, was read to the army. No record shows that this happened. Lenin cabled the Southern Front the next day that the terms were excessively accommodating. Some units would have stayed to take them and some would have run for the ships, and no source says in what numbers.",
+          };
+          const finalNode = (id) => {
+            const ending = this.resolveNode(id);
+            const note = frunzeNotes[flags.frunzeOffer];
+            return note && ending && ending.epilogue ? { ...ending, epilogue: ending.epilogue + "\n\n" + note } : ending;
+          };
           if (flags.ekaterinodarChoice === "press" && flags.secondDayOutcome === "collapsed") {
-            return this.resolveNode("endingArmyDissolved20");
+            return finalNode("endingArmyDissolved20");
           }
-          return this.resolveNode(flags.evacuationPrep === "advance" ? "endingBizerte" : "endingSecondNovorossiysk");
+          return finalNode(flags.evacuationPrep === "advance" ? "endingBizerte" : "endingSecondNovorossiysk");
 
         // ---------------------------------------------------------------------
         // ENDING — reachable only via a specific decision chain: pressing
@@ -4513,6 +4620,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Reassert Revvoensoviet authority now, even though the moment to do it cleanly at Tsaritsyn has already passed.",
+              costsCapital: true,
               advisor: {
                 name: "Trotsky",
                 quote:
@@ -4656,6 +4764,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Intensify requisitioning in reconquered territory. The army and the cities eat first.",
+              costsCapital: true,
               advisor: {
                 name: "Trotsky",
                 quote:
@@ -5066,6 +5175,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Approve the unified Cavalry Army under Budyonny's command.",
+              costsCapital: true,
               advisor: {
                 name: "Budyonny",
                 quote:
@@ -6540,6 +6650,7 @@ const NODE_TO_CITY = {
   northernTauride20: "perekop",
   wrangelsEnvoy20: "perekop",
   crimeaDefensePrep20: "sevastopol",
+  frunzeOffer20: "sevastopol",
   endingBizerte: "sevastopol",
   endingSecondNovorossiysk: "novorossiysk",
   endingArmyDissolved20: "sevastopol",
@@ -7104,8 +7215,8 @@ function ChoiceCard({ choice, skin, meters, hardMode, hardModeEnabled, capitalRe
       )}
       {choice.advisor && (
         <div className="mt-2 border-l-4 pl-3 text-xs italic" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-          "{choice.advisor.quote}"
-          <div className="not-italic font-bold mt-1" style={primaryTextStyle(skin)}>— {choice.advisor.name.toUpperCase()}</div>
+          {choice.advisor.position ? choice.advisor.position : `"${choice.advisor.quote}"`}
+          <div className="not-italic font-bold mt-1" style={primaryTextStyle(skin)}>{choice.advisor.position ? "ADVISER: " : "— "}{choice.advisor.name.toUpperCase()}</div>
         </div>
       )}
       {choice.historical && (
