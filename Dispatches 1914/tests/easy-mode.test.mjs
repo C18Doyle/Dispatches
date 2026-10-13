@@ -144,7 +144,7 @@ for (let i = 0; i < 400; i++) {
 check(termChecked, "glossary: a term turned up in the story text on the way");
 const end = back.text();
 check(/Your command/.test(end) && /out of 100/.test(end), "rank: a closed file shows the command rank and its score");
-check(/Standing at the close/.test(end) && /The mode/.test(end) && /easy mode/.test(end), "rank: and the parts it is made of");
+check(/Ground held/.test(end) && /Power at the close/.test(end) && /The staff kept/.test(end) && /The mode/.test(end) && /easy mode/.test(end), "rank: and the parts it is made of");
 check(!/Field Marshal/.test(end), "rank: an easy file cannot reach the top rank");
 back.restore();
 

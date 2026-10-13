@@ -1057,7 +1057,7 @@ export default function App() {
       if (settings.sound) playSound("stamp");
       setRecord((r) => {
         const closed = noteEnding(r, nodeId, hardState.enabled);
-        return noteRank(closed, campaignId, rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken }));
+        return noteRank(closed, campaignId, rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken, flags }));
       });
     }
   }, [screen, campaignId, nodeId, runKey]);
@@ -1176,8 +1176,8 @@ export default function App() {
 
   const runMode = modeOf(hardState, runEasy);
   const rank = useMemo(
-    () => (node && node.ending ? rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken }) : null),
-    [node, campaignId, nodeId, meters, hardState, runEasy, taken]
+    () => (node && node.ending ? rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken, flags }) : null),
+    [node, campaignId, nodeId, meters, hardState, runEasy, taken, flags]
   );
 
   return (
