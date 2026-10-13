@@ -5,6 +5,18 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## Unreleased
+### Added
+- **Advisers have a standing with you.** An order that follows an adviser earns that adviser a point of trust; every other adviser on the decision whose order you passed over loses half a point, once for a decision. An adviser overruled to -2 goes quiet (the card says so and no longer gives the argument); at -3 the adviser asks to be relieved, in a special dispatch, and is gone for the rest of the file. An adviser trusted to +2 is marked "Trusted", and while any adviser is trusted the reconnaissance pass before a battle is free. The standing is kept in the flags `tr_<name>` (half-points), `trn_<name>` and `trgone_<name>`, so saves carry it. Rules and tests: `src/logic.ts` (`trustAfter`, `adviserStanding`, `trustedAdvisers`), `tests/logic-rules.test.mjs`.
+- **Special dispatches.** Twenty short reports from outside the headquarters (five a command: Dunkirk, the Sixth Army, Hamburg, Brest, the Moscow parade, Warsaw, Pearl Harbor, Pedestal, the Ardeatine caves and others) are shown once, before a report, when you arrive at the one they are tied to. They change no meter and set only the flag `ev_<id>`. Data in `src/parts/35-events.jsx`, the rule `dueEvent` in `src/logic.ts`, `npm run check-events`.
+- **Orders on the map.** On the theater map, 45 decisions (12 German, 12 Soviet, 9 Allied, 12 Italian) list their orders; pick one and it is drawn: a solid arrow for an attack, a dashed one for a move, fading dashes for a withdrawal, a ring for a stand, each with a line saying where the weight goes. The last three orders you gave stay on the map in grey. Data in `src/parts/36-map-ops.jsx`, `npm run check-map-ops`.
+- **`tools/playthrough.mjs`** plays each campaign to an ending in real Chromium (easy mode with a battle planned by hand, hard mode with the staff planning), checks for console errors, stalls and serious axe findings, and runs in the CI browser job. `npm run playthrough`.
+- **`tools/balance.mjs`** (`npm run balance`, `docs/BALANCE.md`) plays every campaign in six styles and reports pinned meters, the endings each style reaches and decisions where one order beats another by more than four points of meter.
+### Changed
+- **The Italian army is no longer worn to the floor by following history.** The record path used to reach the end of the war at -9.8 Manpower (95% of runs on the floor from mid-1944; 99% of its endings "An Army Spent Twice"). Eleven historical impacts were made a point gentler (Greece, Compass, Alamein, Tunisia, the armistice, Monte Lungo, the Adriatic road, the Gothic Line, the spring offensive); the record now ends near -6.6 and "The Line Held on Its Own Front" is its most common ending. The rank ceilings still hold (`npm run check-endings`).
+### Fixed
+- Contrast: the wire bulletin's Continue button (accent on black, 2.2:1), the dateline of a bulletin, the "filed out of sequence" note, the staff-branch label on the outcome page and the Minor Victory tier badge. The playthrough bot found them.
+
 ## 6.1.0 (2026-10-10)
 ### Fixed
 - **Two contrast failures that stopped the first release.** The demo's "Free Demo: OKW Command Only" badge was dark red on black (2.25:1) and is now a light red (about 9:1); the small distribution line at the foot of the German war room document was grey on cream (4.3:1) and is now darker. The release check (axe, phone size) found both; there is no change to the text or to play.
