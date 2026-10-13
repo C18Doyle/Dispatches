@@ -106,6 +106,11 @@ check(/All 6 counters are placed/.test(ctx.text()), "the staff places the whole 
 check(/The odds\s*(Long odds|Against us|Even|Favourable|Strong)/.test(ctx.d.querySelector(".dg-bt-bar").textContent), "the bar gives the odds of a complete plan in words");
 check(!issue().disabled, "the plan can be issued once the pool is placed and an approach chosen");
 await ctx.click(issue());
+t = ctx.text();
+check(/The first day/.test(t) && /The second day/.test(t) && /REPORT FROM THE FIELD/.test(t), "issuing the plan opens the first day's report and the second day's orders");
+check(/The enemy was /.test(t), "the first day names the enemy that was met");
+check(ctx.d.querySelectorAll('[aria-label="Stance"] button').length === 3, "three stances are offered");
+await ctx.click(btn(ctx, /^Carry on to the second day/));
 await unseal(ctx);
 t = ctx.text();
 check(/After-action report/.test(t) && /The enemy's setup was this/.test(t), "the outcome carries an after-action report");
@@ -122,6 +127,36 @@ ctx.restore();
   await unseal(r);
   check(/After-action report/.test(r.text()), "a saved file resumes on the outcome with its report");
   r.restore();
+}
+
+// --- the second day: counters moved once the enemy is known, and a stance --------------------------------------------
+{
+  const day = await boot();
+  check(await toMarne(day), "the Marne node is reached for the second day");
+  await day.click(orders(day).find((x) => /Turn and attack/.test(day.lab(x))));
+  await day.click(btn(day, /^Let the staff plan it/));
+  await day.click(btn(day, /^Issue the plan/));
+  check(!day.d.querySelector(".dg-issue").disabled, "with nothing moved the second day can be carried on");
+  await day.click(btn(day, /^Take a counter out of/));
+  check(/1 counter in hand/.test(day.text()), "a counter taken out is in hand");
+  check(day.d.querySelector(".dg-issue").disabled, "the second day cannot be carried on with a counter in hand");
+  const put = day.buttons().filter((x) => /^Put a counter into/.test(day.lab(x)) && !x.disabled).pop(); // not the arm it came from
+  await day.click(put);
+  check(/1 counter moved/.test(day.text()), "a counter put back counts as moved");
+  const before = day.text().match(/The odds\s*(Long odds|Against us|Even|Favourable|Strong)/);
+  await day.click(btn(day, /^Press the attack/));
+  check(/Press the attack/.test(day.d.querySelector(".dg-bt-bar").textContent), "the bar names the stance");
+  await day.click(btn(day, /^Change the plan/));
+  check(/Place the counters|Name an officer|Choose the approach/.test(day.text()), "Change the plan returns to the plan");
+  await day.click(btn(day, /^Let the staff plan it/));
+  await day.click(btn(day, /^Issue the plan/));
+  await day.click(btn(day, /^Press the attack/));
+  await day.click(btn(day, /^Carry on to the second day/));
+  await unseal(day);
+  t = day.text();
+  check(/The second day: the attack was pressed/.test(t), "the report says how the second day was fought");
+  check(/Pressed the attack: −1 Munitions|Pressed the attack: −1 Manpower/.test(t) || /Pressed the attack/.test(t), "pressing the attack costs a point");
+  day.restore();
 }
 
 // --- the planning switched off -----------------------------------------------------------------------------

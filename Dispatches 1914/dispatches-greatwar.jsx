@@ -5578,7 +5578,7 @@ CAMPAIGNS.stavka.nodes = {
           "continue to divide on how much of the monarchy's fall to assign to the " +
           "autocratic system, to wartime dislocation, and to this man's personality.",
         uncertain: [
-          { weight: 60, title: "The front steadies and the capital does not", historicalBranch: true,
+          { weight: 80, title: "The front steadies and the capital does not", historicalBranch: true,
             impact: { will: -2 },
             setFlags: { stavka_commandResult: "capitallost" },
             next: "stavka_1915_05_sventsiany",
@@ -5589,7 +5589,7 @@ CAMPAIGNS.stavka.nodes = {
               "against the war spreads through people who are not revolutionaries and were " +
               "not going to be. The Emperor is now answerable for every defeat at the " +
               "front, and the capital is run by people he cannot supervise." },
-          { weight: 40, title: "The presence steadies both",
+          { weight: 20, title: "The presence steadies both",
             impact: { will: 1 },
             setFlags: { stavka_commandResult: "steadied" },
             next: "stavka_1915_05_sventsiany",
@@ -11860,7 +11860,7 @@ CAMPAIGNS.otto.nodes = {
           "The line has held twice and can hold again if it is strengthened. Gaza is the gate to Jerusalem, and the British have to come to it." },
         impact: { manpower: 0, munitions: -1, will: 1 },
         setFlags: { otto_gaza: "line" },
-        next: "otto_1917_01_yildirim",
+        next: "otto_1917_05_aqaba",
         outcome:
           "After the second battle the line is lengthened to Beersheba, with a chain of redoubts " +
           "and strongpoints, and two divisions reinforce the Fourth Army. Gaza is the strongest " +
@@ -11876,7 +11876,7 @@ CAMPAIGNS.otto.nodes = {
         disabledReason: "Gaza has been held twice and cannot be given up while it can be held",
         impact: { manpower: 1, munitions: 0, will: -2 },
         setFlags: { otto_gaza: "shortened" },
-        next: "otto_1917_01_yildirim",
+        next: "otto_1917_05_aqaba",
         outcome:
           "Speculative. The army leaves Gaza and falls back into the hills, to a line that runs " +
           "from the coast near Jaffa to the hills above Hebron. The line is shorter and the " +
@@ -11899,7 +11899,7 @@ CAMPAIGNS.otto.nodes = {
         uncertain: [
           { weight: 25, title: "The British outposts are driven in",
             impact: { manpower: -2, munitions: -1, will: 2 },
-            next: "otto_1917_01_yildirim",
+            next: "otto_1917_05_aqaba",
             outcome:
               "Speculative. A column of horse and infantry moves out of Gaza at night and drives " +
               "in the British outposts on the Wadi Ghazze. The British fall back some " +
@@ -11908,13 +11908,99 @@ CAMPAIGNS.otto.nodes = {
               "line, and the Ottoman line is longer and thinner than it was." },
           { weight: 75, title: "The attack is met in the open and driven back",
             impact: { manpower: -3, munitions: -1, will: -2 },
-            next: "otto_1917_01_yildirim",
+            next: "otto_1917_05_aqaba",
             outcome:
               "Speculative. The column is met in the open by British mounted troops and guns " +
               "that have been brought up in the days since the battle. It loses a good part of its " +
               "strength, and the line it left is weaker for the divisions it took. The British know " +
               "now how few men there are on the Gaza line." },
         ],
+      },
+    ],
+  },
+
+  otto_1917_05_aqaba: {
+    year: 1917, date: "1917-06-25", city: "Damascus",
+    title: "The Port the Revolt Needs",
+    advisors: ["djemal", "fakhri"],
+    situation: (flags) =>
+      "In January the Arab forces took Wejh on the Red Sea coast, with the help of the British navy, and " +
+      "since then they have raided the Hejaz railway on most nights. The one port that could give them " +
+      "a base in touch with the British in Sinai is Aqaba, at the head of the gulf. It is held by a " +
+      "battalion or less, with a few outposts in the hills behind it.\n\n" +
+      "The road to it from the desert side runs through the Wadi Itm and the pass at Abu el Lissan, " +
+      "where there is a blockhouse. The nearest force of any size is at Ma'an, some days away, and " +
+      "the army in Palestine, where the British are expected to attack again, wants every man." +
+      (flags.otto_medina === "held" ? "\n\nThe garrison of Medina is at the other end of the same railway, and the same raiders are cutting it." : ""),
+    context:
+      "A port is worth what can be landed in it. In Arab hands Aqaba would take stores and guns from " +
+      "the British in Egypt, and the railway would be struck from its landward side as well as from the desert.",
+    choices: [
+      {
+        id: "leave",
+        label: "Leave Aqaba with its small garrison and its outposts as they are, and keep the main force at Ma'an",
+        historical: true,
+        advisor: { name: "Djemal", position:
+          "Aqaba is a port with no good road behind it. A battalion is enough to hold it, and the men that a stronger garrison would take are wanted in Palestine." },
+        impact: { manpower: 0, munitions: 0, will: -1 },
+        setFlags: { otto_aqaba: "fell" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "In the first days of July Arab irregulars under Auda abu Tayi, with Lawrence and the Sharif " +
+          "Nasir, come across the desert from the north-east and defeat a Turkish battalion at Abu el " +
+          "Lissan on 2 July. The posts in the Wadi Itm fall in the next days, and on 6 July the Aqaba " +
+          "garrison surrenders, about 300 men giving up the post at Khadra. The Arab revolt has a port " +
+          "in touch with the British in Sinai, and the railway has a second enemy on its flank.",
+      },
+      {
+        id: "pass",
+        label: "Move a battalion and two guns forward to the Wadi Itm and the pass at Abu el Lissan, and put Ma'an on alert",
+        advisor: { name: "Fakhri Pasha", position:
+          "The way to Aqaba is the pass, and the pass can be held by a battalion with guns. A garrison that waits in the port will be cut off in it." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Fourth Army has no battalion to spare while Gaza is threatened",
+        impact: { manpower: -1, munitions: -1, will: 0 },
+        dispute:
+          "Whether a stronger force at the pass would have stopped the Arab column is argued. The column came " +
+          "by a long desert route, and it was lightly equipped, but it had surprise, and its leaders knew the ground.",
+        uncertain: [
+          { weight: 40, title: "The pass holds and the column turns back",
+            impact: { manpower: -1, munitions: -1, will: 1 },
+            setFlags: { otto_aqaba: "pass" },
+            next: "otto_1917_01_yildirim",
+            outcome:
+              "Speculative. The battalion and its guns are in the pass when the Arab column comes up, and " +
+              "the first charge is met with fire it did not expect. The column draws off and tries the " +
+              "northern road, and the garrison at Ma'an, which has been alerted, moves out to meet it. " +
+              "Aqaba stays in Ottoman hands through the summer, and the Arabs are left with a longer " +
+              "road to the sea than they hoped." },
+          { weight: 60, title: "The battalion is cut off and Aqaba falls anyway",
+            impact: { manpower: -2, munitions: -1, will: -1 },
+            setFlags: { otto_aqaba: "pass" },
+            next: "otto_1917_01_yildirim",
+            outcome:
+              "Speculative. The column goes round the pass by a path the Turkish staff did not know, and " +
+              "the battalion in it finds the Arabs behind it. It is cut off from Ma'an and from the port, and " +
+              "surrenders with its guns. Aqaba falls a few days later, as it did in the record, to an " +
+              "attacker that has taken more men and more rifles on the way." },
+        ],
+      },
+      {
+        id: "abandon",
+        label: "Give up Aqaba, bring the garrison back to Ma'an, and make the railway the line",
+        advisor: { name: "Djemal", position:
+          "A port that cannot be held is better given up with its garrison than lost with it. The line that matters is the railway, and Ma'an is its keystone." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The Sultan's government has told Berlin that the Red Sea ports will be held",
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        setFlags: { otto_aqaba: "abandoned" },
+        next: "otto_1917_01_yildirim",
+        outcome:
+          "Speculative. The garrison and its guns are brought back to Ma'an in June, and Aqaba is left to " +
+          "the Arabs when they come. The force at Ma'an is stronger by a battalion, and the railway has a " +
+          "shorter flank to watch. The Arabs and the British have their port a few weeks earlier than " +
+          "in the record, and without a shot being fired for it, which is an easier thing to " +
+          "explain to the Sultan than a surrender.",
       },
     ],
   },
@@ -11956,7 +12042,7 @@ CAMPAIGNS.otto.nodes = {
           "An army group that goes to Baghdad leaves the road to Jerusalem open. Sinai and Palestine must be secured first, and the Yildirim should go there." },
         impact: { manpower: 0, munitions: 0, will: 1 },
         setFlags: { otto_yildirim: "palestine" },
-        next: "otto_1917_02_jerusalem",
+        next: "otto_1917_06_hejaz",
         outcome:
           "In September 1917 Falkenhayn redirects the group to Sinai and Palestine. The command " +
           "is reorganised: Kress von Kressenstein receives the Eighth Army for the Gaza front, Djemal " +
@@ -11975,7 +12061,7 @@ CAMPAIGNS.otto.nodes = {
         impact: { manpower: -2, munitions: -2, will: 1 },
         erodes: "overextend",
         setFlags: { otto_yildirim: "baghdad" },
-        next: "otto_1917_02_jerusalem",
+        next: "otto_1917_06_hejaz",
         outcome:
           "Speculative. The army group sets out down the Euphrates, with the German guns and " +
           "a supply line that will not stretch to the objective. The road is long and there " +
@@ -11990,7 +12076,7 @@ CAMPAIGNS.otto.nodes = {
           "Both fronts have to be held, and Baghdad has to be tried. A force sent to each does what a force sent to one cannot." },
         impact: { manpower: -1, munitions: -1, will: 0 },
         setFlags: { otto_yildirim: "divided" },
-        next: "otto_1917_02_jerusalem",
+        next: "otto_1917_06_hejaz",
         outcome:
           "Speculative. The army group is divided, and part of it goes by the railway to " +
           "Palestine and part down the Euphrates. Neither has what it needs. The force " +
@@ -11998,6 +12084,98 @@ CAMPAIGNS.otto.nodes = {
           "and the force on the Euphrates is too small to retake Baghdad and too far from " +
           "its railway to do anything else. Falkenhayn, who warned against dividing the " +
           "effort, has done what he was asked to do.",
+      },
+    ],
+  },
+
+  otto_1917_06_hejaz: {
+    year: 1917, date: "1917-10-12", city: "Damascus",
+    title: "Flour and Firewood",
+    advisors: ["djemal", "fakhri"],
+    situation: (flags) =>
+      "On 4 October Fakhri Pasha reported that the wheat and the food in Medina were nearly gone, and that " +
+      "he could no longer rely on the railway, which the Arab raiders cut again and again. The staff at " +
+      "Damascus has told him that he is responsible for his own fuel, and may pull down the houses of the " +
+      "city, the holy places excepted.\n\n" +
+      "The army in Palestine, where the British are about to attack, needs every truck and every ton " +
+      "of coal on the same line. At the far end of thirteen hundred kilometres of single track " +
+      "a garrison of thousands has about a month of bread." +
+      (flags.otto_aqaba === "fell" || flags.otto_aqaba === "pass"
+        ? "\n\nAqaba is in Arab hands, and the railway is struck now from the south-west as well as from the desert."
+        : flags.otto_aqaba === "abandoned"
+        ? "\n\nAqaba was given up in the summer, and the Arabs and the British have the port."
+        : ""),
+    context:
+      "A garrison that is fed from a railway lives as long as the railway runs. Trucks sent to Medina " +
+      "are trucks not sent to Gaza, and a garrison brought out is a garrison that has given up the city " +
+      "that the Sultan's claim to be caliph rests on.",
+    choices: [
+      {
+        id: "live",
+        label: "Tell Fakhri to live on what the district can give him, and keep the railway for Palestine",
+        historical: true,
+        advisor: { name: "Djemal", position:
+          "The army that has to fight the British is the one that matters. The garrison of Medina can live on the district, and on the houses of the city, until the front is safe." },
+        impact: { manpower: -1, munitions: 0, will: -1 },
+        setFlags: { otto_hejaz: "held" },
+        next: "otto_1917_02_jerusalem",
+        outcome:
+          "The staff answers Fakhri that he must find his own fuel, and may take down the buildings of " +
+          "Medina except the holy places, and the railway goes on carrying what Palestine needs. In " +
+          "November, with the line at Gaza lost, Djemal tells him that if Jerusalem falls the garrison " +
+          "is to be taken out. The programme, which would have taken seventy-five days, is " +
+          "never carried out, for want of rolling stock and fuel. The garrison stays.",
+      },
+      {
+        id: "convoy",
+        label: "Send three trains of flour and fuel to Medina, and take the trucks from Palestine",
+        advisor: { name: "Fakhri Pasha", position:
+          "A garrison that is not fed will not hold. The holy city cannot be left to starve, and three trains of flour will keep it until the spring." },
+        gate: (m) => m.munitions >= -3,
+        disabledReason: "The Palestine army has told Damascus that it cannot lose a single truck",
+        impact: { manpower: 0, munitions: -2, will: 1 },
+        setFlags: { otto_hejaz: "fed" },
+        next: "otto_1917_02_jerusalem",
+        outcome:
+          "Speculative. Three trains of flour and fuel are made up at Damascus and sent south. They " +
+          "reach Medina with the help of a column that clears the line, and the garrison has bread " +
+          "through the winter. The trucks that carried them are not at Gaza when the British come, and " +
+          "the army in Palestine is the poorer by a few thousand tons of supplies, and by the men " +
+          "who guarded the trains.",
+      },
+      {
+        id: "evacuate",
+        label: "Order the Hejaz force out of Medina now, by the railway, before the winter",
+        advisor: { name: "Djemal", position:
+          "Medina is a gangrened finger, and it will spread to Ma'an and to Syria if it is not cut off. The force in it is worth more in Palestine than in a city it cannot feed." },
+        gate: (m) => m.will >= -2,
+        disabledReason: "The Sultan-caliph cannot be seen to give up the Prophet's city, and Fakhri has said he will not leave",
+        impact: { manpower: 1, munitions: -1, will: -3 },
+        erodes: "overextend",
+        dispute:
+          "Whether the garrison could have been brought out is argued. The line was single, the trucks were few, " +
+          "the fuel was short, and the Arab raiders cut the track every few days, so that an evacuation planned " +
+          "for seventy-five days might have taken a good deal longer.",
+        uncertain: [
+          { weight: 35, title: "The first trains get the garrison out",
+            impact: { manpower: 1, munitions: -1, will: -2 },
+            setFlags: { otto_hejaz: "evacuated" },
+            next: "otto_1917_02_jerusalem",
+            outcome:
+              "Speculative. The first trains leave Medina in October with the sick and the guns, and most " +
+              "of the force follows in three weeks, with the Arab raiders kept off the line by columns from " +
+              "Ma'an. Fakhri leaves last, and under protest. The city is open to the Arabs, and the " +
+              "men who held it are in Syria in time for the British attack." },
+          { weight: 65, title: "The railway breaks and the garrison is strung out along it",
+            impact: { manpower: -2, munitions: -1, will: -3 },
+            setFlags: { otto_hejaz: "evacuated" },
+            next: "otto_1917_02_jerusalem",
+            outcome:
+              "Speculative. The trains run out of fuel at the first long gradient, and the Arabs blow the " +
+              "track in half a dozen places. The garrison is spread over four hundred kilometres of " +
+              "line in stalled trains and camps, short of food and water, and the Arabs take the " +
+              "stragglers at their leisure. Medina is lost, and a good part of the force with it." },
+        ],
       },
     ],
   },
@@ -12035,7 +12213,7 @@ CAMPAIGNS.otto.nodes = {
           "A battle for the city would be fought on the British guns' terms. The Seventh Army should be kept in being on the Nablus road, with the city left open." },
         impact: { manpower: 0, munitions: -1, will: -2 },
         setFlags: { otto_jerusalem: "withdrew" },
-        next: "otto_1918_01_caucasus",
+        next: "otto_1917_07_erzincan",
         outcome:
           "The Seventh Army retreats in the evening of 8 December, in rain. On the 9th the " +
           "governor surrenders the city, in writing, citing the danger to the holy places from " +
@@ -12053,7 +12231,7 @@ CAMPAIGNS.otto.nodes = {
         impact: { manpower: -2, munitions: -1, will: 1 },
         erodes: "overextend",
         setFlags: { otto_jerusalem: "held" },
-        next: "otto_1918_01_caucasus",
+        next: "otto_1917_07_erzincan",
         outcome:
           "Speculative. The army digs in in front of the city and the British guns open on it. " +
           "The battle that follows is fought in the streets and among the shrines, and the " +
@@ -12064,12 +12242,96 @@ CAMPAIGNS.otto.nodes = {
     ],
   },
 
+  otto_1917_07_erzincan: {
+    year: 1917, date: "1917-12-14", city: "Constantinople",
+    title: "A Pause in the Snow",
+    advisors: ["enver", "djemal"],
+    situation:
+      "The Russian army in the Caucasus is coming apart. After the October revolution its soldiers are " +
+      "going home, and the front is held by Armenian and Georgian units and by what is left of the rest. " +
+      "Vehib Pasha, who commands the Third Army, has proposed a ceasefire, and the Transcaucasian " +
+      "authorities have said they will talk.\n\n" +
+      "Jerusalem fell on 9 December, and Djemal and the Germans want every division that can be spared " +
+      "in Palestine. The Third Army is hungry, ill-clothed and half the size on paper that it was, " +
+      "and it is the winter in the mountains.",
+    context:
+      "An enemy that is going home is an enemy that cannot be fought and cannot be trusted to stay " +
+      "gone. A ceasefire gives the Third Army the winter, and the Russians the same, and what " +
+      "the spring brings is not something that can be known now.",
+    choices: [
+      {
+        id: "sign",
+        label: "Sign the ceasefire at Erzincan, and hold the Third Army where it is while the Russians go home",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "The army cannot fight in the snow and has no need to. A ceasefire holds the line for the winter, and the Russians will not come back." },
+        impact: { manpower: 1, munitions: 0, will: 1 },
+        setFlags: { otto_erzincan: "signed" },
+        next: "otto_1918_01_caucasus",
+        outcome:
+          "The ceasefire is signed at Erzincan on 18 December, between the Third Army and the Transcaucasian " +
+          "authorities, and the fighting on the Caucasus and Persian fronts stops until February. The " +
+          "empire treats the other side as a state on its own, and the other side does not. The Third " +
+          "Army has the winter to rest in, and the Russian army goes home.",
+      },
+      {
+        id: "advance",
+        label: "Refuse any pause and advance into the collapsing front now, in the snow",
+        advisor: { name: "Enver", position:
+          "An enemy that is falling apart should be pushed, and not given the winter to put itself together. The army that waits will have to fight in the spring what it could take now." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Third Army has told Constantinople that it cannot march without boots",
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        erodes: "overextend",
+        dispute:
+          "Historians disagree on whether the Ottoman army could have gone far in the winter of 1917 to 1918. " +
+          "It had little transport, and the roads were closed by snow, but the front in front of it was nearly empty.",
+        uncertain: [
+          { weight: 50, title: "The army walks into an empty front",
+            impact: { manpower: -2, munitions: -1, will: 2 },
+            setFlags: { otto_erzincan: "advance" },
+            next: "otto_1918_01_caucasus",
+            outcome:
+              "Speculative. The Third Army marches into the snow and meets almost no one. Whole divisions of " +
+              "the Russian army have gone home, and the Armenian and Georgian units that are left fall " +
+              "back. The army reaches Erzurum in weeks, with men dead of cold on the road, and it holds " +
+              "ground that it would have had in the spring in any case." },
+          { weight: 50, title: "The advance stalls in the snow",
+            impact: { manpower: -3, munitions: -1, will: -1 },
+            setFlags: { otto_erzincan: "advance" },
+            next: "otto_1918_01_caucasus",
+            outcome:
+              "Speculative. The advance is stopped in the passes by snow and by the Armenian units, who " +
+              "hold the narrow roads with what guns they have. The army has no boots and no food for " +
+              "a march, and it loses more men to the cold than to the enemy. It falls back to " +
+              "its winter quarters in February, a good deal smaller." },
+        ],
+      },
+      {
+        id: "palestine",
+        label: "Sign the ceasefire, and send two divisions of the Third Army to Palestine",
+        advisor: { name: "Djemal", position:
+          "The British are on the road to Damascus. The Third Army can hold the mountains with a ceasefire and half its strength, and the other half is needed where the war is." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Third Army is already below the strength that the mountains need",
+        impact: { manpower: -1, munitions: 0, will: 0 },
+        setFlags: { otto_erzincan: "palestine" },
+        next: "otto_1918_01_caucasus",
+        outcome:
+          "Speculative. The ceasefire is signed, and two divisions of the Third Army go by Aleppo to " +
+          "Palestine, where they arrive in the new year. The line in the mountains is thinner, and the " +
+          "Armenians and the Georgians see it. The Palestine army has two divisions more when the " +
+          "British come on, and the Third Army has fewer when the Russians have gone and the spring comes.",
+      },
+    ],
+  },
+
   // ---------------------------------------------------------------- 1918-07
   otto_1918_01_caucasus: {
     year: 1918, date: "1918-07-10", city: "Constantinople",
     title: "The Road to Baku",
     advisors: ["enver", "liman"],
-    situation:
+    situation: (flags) =>
       "Russia made peace at Brest-Litovsk on 3 March, and the empire has taken back the " +
       "districts of Kars, Ardahan and Batum that it lost forty years ago. On 4 June it " +
       "signed the treaty of Batum with the new republics of Armenia, Azerbaijan and " +
@@ -12078,7 +12340,12 @@ CAMPAIGNS.otto.nodes = {
       "men and no German officers in it.\n\n" +
       "Enver wants Baku, its oil, and the Muslims of the Caspian coast. The Germans want " +
       "the oil for themselves and have told him to keep out of southern Russia. " +
-      "In Palestine, Liman von Sanders is asking for every division he can get.",
+      "In Palestine, Liman von Sanders is asking for every division he can get." +
+      (flags.otto_erzincan === "advance"
+        ? "\n\nThe Third Army has been in the field since the winter, and it is smaller than it was."
+        : flags.otto_erzincan === "palestine"
+        ? "\n\nTwo divisions of the Third Army went to Palestine in January, and the Caucasus is held more thinly."
+        : ""),
     context:
       "Baku is five hundred kilometres from the nearest Ottoman railway, and a long way " +
       "from any front where the war will be decided. The divisions that are sent to the " +
@@ -12290,8 +12557,14 @@ CAMPAIGNS.otto.nodes = {
       "Kut, winter of 1915-16: " + (flags.otto_kut === "storm" ? "the town stormed." : flags.otto_kutResult === "relieved" ? "the siege broken by the relief force." : "the siege kept, and the British surrender.") + "\n" +
       "Erzurum, 1916: " + (flags.otto_erzurum === "withdrew" ? "the fortress given up and the army saved." : flags.otto_erzurum === "fought" ? "the army fought the Russians outside the fortress." : "the fortress held until it fell.") + "\n" +
       "The Hejaz, 1916: " + (flags.otto_medina === "evacuated" ? "evacuated." : "Medina held to the end of the war.") + "\n" +
+      "Sinai, 1916: " + (flags.otto_romani === "waited" ? "the force kept by its wells." : flags.otto_romani === "hejaz" ? "the divisions sent to the Hejaz." : "the attack at Romani.") + "\n" +
+      "Baghdad, 1917: " + (flags.otto_baghdad === "ctesiphon" ? "the stand below the city." : flags.otto_baghdad === "mosul" ? "the city given up and the army saved." : "the line of the Diyala.") + "\n" +
+      "Gaza, 1917: " + (flags.otto_gaza === "shortened" ? "the army drawn back to the hills." : flags.otto_gaza === "struck" ? "the British railhead attacked." : "the line held and lengthened to Beersheba.") + "\n" +
+      "Aqaba, 1917: " + (flags.otto_aqaba === "abandoned" ? "the port given up." : flags.otto_aqaba === "pass" ? "the pass defended." : "the port lost to the Arab column.") + "\n" +
+      "Medina, autumn 1917: " + (flags.otto_hejaz === "evacuated" ? "the garrison ordered out." : flags.otto_hejaz === "fed" ? "fed by trains from Syria." : "left to live on the district.") + "\n" +
       "The Yildirim, 1917: " + (flags.otto_yildirim === "baghdad" ? "sent against Baghdad." : flags.otto_yildirim === "divided" ? "divided between Palestine and the Euphrates." : "sent to Palestine.") + "\n" +
       "Jerusalem, 1917: " + (flags.otto_jerusalem === "held" ? "the city defended." : "the city left undefended.") + "\n" +
+      "Erzincan, December 1917: " + (flags.otto_erzincan === "advance" ? "the advance in the snow." : flags.otto_erzincan === "palestine" ? "the ceasefire, and two divisions sent to Palestine." : "the ceasefire signed.") + "\n" +
       "The Caucasus, 1918: " + (flags.otto_caucasus === "held" ? "the army halted at Batum." : "the Army of Islam sent to Baku.") + "\n" +
       "Palestine, September 1918: " + (flags.otto_megiddo === "withdrew" ? "the corps withdrawn before the attack." : "the line held.") + "\n\n" +
       "What actually happened: the armistice of Mudros was signed on 30 October 1918 and took " +
@@ -12611,6 +12884,223 @@ export function meanwhileAt(campaignId, node) {
       out.push(best);
     }
   }
+  return out;
+}
+
+// =============================================================================
+// MAP OPERATIONS
+// =============================================================================
+//
+// What an order does on the ground, drawn on the report's map: an attack is a solid arrow, a move a dashed one, a withdrawal a dashed arrow with an open head,
+// and a stand a marker. MAP_OPS is keyed "<report>/<order>" and lists the arrows of that order, each from a place to a place as [longitude, latitude]. On a
+// report the order the pointer or the keyboard is on is drawn in the accent, and the others lightly; the order given is kept and drawn on the next reports
+// and on its outcome. The places are approximate, like the front; check-mapops.js proves each key names a real report and order.
+// =============================================================================
+
+const A = (from, to) => ({ kind: "attack", from, to });
+const M = (from, to) => ({ kind: "move", from, to });
+const W = (from, to) => ({ kind: "withdraw", from, to });
+const H = (at) => ({ kind: "hold", at });
+
+export const MAP_OPS = {
+  // German Supreme Army Command
+  "ohl_1914_16_kaiser/west": [M([13.4, 52.5], [5.6, 50.6])],
+  "ohl_1914_16_kaiser/east": [M([13.4, 52.5], [5.6, 50.6]), M([13.4, 52.5], [21.0, 52.2])],
+  "ohl_1914_16_kaiser/wait": [H([13.4, 52.5])],
+  "ohl_1914_01_aufmarsch/right": [A([6.1, 50.8], [2.9, 49.2])],
+  "ohl_1914_01_aufmarsch/lorraine": [A([6.3, 49.0], [6.2, 48.4])],
+  "ohl_1914_01_aufmarsch/east": [M([7.6, 50.4], [21.0, 52.2])],
+  "ohl_1914_12_twocorps/send": [M([4.6, 50.3], [20.0, 53.3])],
+  "ohl_1914_12_twocorps/keep": [H([3.9, 50.2])],
+  "ohl_1914_13_ypres/press": [A([3.5, 50.85], [2.2, 50.95])],
+  "ohl_1914_13_ypres/break": [W([2.9, 50.85], [6.0, 51.0]), M([6.0, 51.0], [20.0, 52.5])],
+  "ohl_1914_13_ypres/dig": [H([2.9, 50.85])],
+  "ohl_1915_14_gorlice/gorlice": [A([20.9, 49.9], [23.5, 49.8])],
+  "ohl_1915_14_gorlice/envelop": [A([21.0, 54.4], [25.5, 53.6])],
+  "ohl_1915_14_gorlice/carpathians": [M([19.9, 50.1], [22.8, 49.3])],
+  "ohl_1915_15_serbia/serbia": [A([20.4, 44.9], [21.0, 43.4])],
+  "ohl_1915_15_serbia/wait": [H([4.7, 49.8])],
+  "ohl_1916_04_verdun/attrition": [A([5.4, 49.5], [5.4, 49.15])],
+  "ohl_1916_04_verdun/elsewhere": [H([5.4, 49.3])],
+  "ohl_1916_14_somme/hold": [H([2.9, 50.0])],
+  "ohl_1916_14_somme/elastic": [W([2.9, 50.0], [3.4, 49.95])],
+  "ohl_1916_14_somme/verdun": [M([5.4, 49.3], [2.9, 50.0])],
+  "ohl_1917_13_caporetto/send": [M([6.1, 49.6], [13.6, 46.3])],
+  "ohl_1917_13_caporetto/refuse": [H([6.1, 49.6])],
+  "ohl_1918_09_michael/adaptive": [A([3.3, 49.85], [1.9, 49.7]), A([3.3, 49.85], [2.6, 50.3])],
+  "ohl_1918_09_michael/amiens": [A([3.3, 49.85], [2.3, 49.9])],
+  "ohl_1918_13_aisne/exploit": [A([3.6, 49.4], [3.3, 48.95])],
+  "ohl_1918_13_aisne/halt": [H([3.6, 49.35])],
+  "ohl_1918_12_faustschlag/advance": [A([21.5, 56.0], [30.3, 59.9])],
+  "ohl_1918_12_faustschlag/narva": [A([24.0, 57.5], [28.2, 59.4])],
+  "ohl_1918_12_faustschlag/accept": [H([24.0, 57.0])],
+
+  // French General Headquarters
+  "gqg_1914_17_covering/obey": [W([6.9, 48.7], [6.5, 48.6])],
+  "gqg_1914_17_covering/stay": [H([6.9, 48.7])],
+  "gqg_1914_17_covering/ask": [M([2.35, 48.86], [6.9, 48.7])],
+  "gqg_1914_01_frontieres/attack": [A([6.8, 48.7], [7.6, 48.95]), A([4.9, 49.6], [5.6, 49.9])],
+  "gqg_1914_01_frontieres/shift": [W([6.8, 48.7], [6.2, 48.5]), M([6.0, 48.5], [3.9, 50.0])],
+  "gqg_1914_01_frontieres/week": [H([6.8, 48.7]), M([3.0, 48.8], [3.9, 49.9])],
+  "gqg_1914_12_retreat/withdraw": [W([4.4, 50.4], [3.3, 49.0])],
+  "gqg_1914_12_retreat/stand": [H([4.4, 50.4])],
+  "gqg_1914_02_marne/attack": [A([2.8, 48.9], [3.25, 49.1]), A([3.2, 48.7], [3.7, 48.95])],
+  "gqg_1914_02_marne/continue": [W([3.4, 48.8], [3.2, 48.2])],
+  "gqg_1914_14_race/extend": [M([4.0, 49.0], [2.9, 50.2])],
+  "gqg_1914_14_race/dig": [H([3.4, 49.5])],
+  "gqg_1914_14_race/aisne": [A([3.3, 49.4], [3.6, 49.65])],
+  "gqg_1915_03_grignotage/press": [A([2.8, 50.4], [3.15, 50.5]), A([4.3, 49.4], [4.5, 49.65])],
+  "gqg_1915_03_grignotage/limited": [H([2.8, 50.4])],
+  "gqg_1915_14_salonika/send": [M([2.35, 48.86], [22.9, 40.6])],
+  "gqg_1915_14_salonika/refuse": [H([2.35, 48.86])],
+  "gqg_1916_04_verdun/hold": [H([5.38, 49.2])],
+  "gqg_1916_04_verdun/shorten": [W([5.5, 49.2], [5.2, 48.95])],
+  "gqg_1916_05_somme/commit": [A([2.9, 49.95], [3.25, 49.97])],
+  "gqg_1916_05_somme/defer": [H([2.9, 49.95])],
+  "gqg_1917_07_chemin/continue": [A([3.6, 49.4], [3.75, 49.58])],
+  "gqg_1917_07_chemin/halt": [H([3.6, 49.4])],
+  "gqg_1917_09_malmaison/limited": [A([3.5, 49.45], [3.65, 49.52])],
+  "gqg_1917_09_malmaison/exploit": [A([3.5, 49.45], [3.85, 49.65])],
+  "gqg_1918_11_counteroffensive/strike": [A([3.05, 49.3], [3.45, 49.3])],
+  "gqg_1918_11_counteroffensive/hold": [H([3.05, 49.3])],
+  "gqg_1918_15_grand/concentric": [A([5.0, 49.0], [5.15, 49.65]), A([3.2, 49.85], [3.6, 50.1]), A([2.9, 50.8], [3.5, 51.05])],
+  "gqg_1918_15_grand/limited": [H([5.0, 49.2])],
+
+  // Russian Supreme Command
+  "stavka_1914_16_plans/both": [A([23.3, 54.3], [21.5, 54.5]), A([20.7, 53.0], [20.5, 53.7]), A([25.5, 50.8], [24.0, 49.9])],
+  "stavka_1914_16_plans/germany": [A([23.3, 54.3], [21.5, 54.5]), A([20.7, 53.0], [20.5, 53.7]), A([22.0, 53.3], [19.2, 53.5])],
+  "stavka_1914_16_plans/austria": [A([25.5, 50.8], [24.0, 49.9]), A([26.8, 49.6], [25.0, 49.5]), H([22.0, 54.0])],
+  "stavka_1914_01_prussia/advance": [A([23.3, 54.3], [21.0, 54.5])],
+  "stavka_1914_01_prussia/concentrate": [H([22.5, 53.5])],
+  "stavka_1914_12_tannenberg/press": [A([20.8, 53.1], [20.5, 53.8])],
+  "stavka_1914_12_tannenberg/halt": [H([20.8, 53.1])],
+  "stavka_1914_12_tannenberg/wheel": [M([20.6, 53.4], [21.8, 54.0])],
+  "stavka_1914_02_galicia/galicia": [A([25.0, 50.0], [22.8, 49.7])],
+  "stavka_1914_02_galicia/prussia": [M([23.0, 50.0], [21.5, 53.0])],
+  "stavka_1914_04_lodz/turn": [M([19.5, 51.0], [19.3, 52.0])],
+  "stavka_1914_04_lodz/silesia": [A([19.9, 51.0], [18.7, 50.5])],
+  "stavka_1915_01_masuria/hold": [H([22.8, 53.8])],
+  "stavka_1915_01_masuria/pull": [W([22.8, 53.8], [23.8, 54.0])],
+  "stavka_1915_01_masuria/reinforce": [M([21.0, 52.2], [22.8, 53.7])],
+  "stavka_1915_12_carpathians/press": [A([22.0, 49.5], [21.5, 48.8])],
+  "stavka_1915_12_carpathians/halt": [H([22.0, 49.4])],
+  "stavka_1915_03_retreat/withdraw": [W([21.0, 52.2], [23.7, 52.1])],
+  "stavka_1915_03_retreat/hold": [H([21.0, 52.2])],
+  "stavka_1915_05_sventsiany/counter": [A([26.0, 55.0], [26.5, 55.5])],
+  "stavka_1915_05_sventsiany/withdraw": [W([26.2, 55.2], [27.6, 54.8])],
+  "stavka_1915_05_sventsiany/partial": [A([26.0, 55.0], [26.3, 55.3])],
+  "stavka_1916_05_brusilov/support": [A([26.0, 53.0], [25.6, 52.0]), A([25.7, 50.4], [25.3, 50.75])],
+  "stavka_1916_05_brusilov/alone": [A([25.7, 50.4], [25.3, 50.75])],
+  "stavka_1916_12_kovel/kovel": [A([25.3, 50.75], [24.7, 51.2])],
+  "stavka_1916_12_kovel/hold": [H([25.0, 50.9])],
+  "stavka_1916_12_kovel/lemberg": [A([25.5, 50.0], [24.0, 49.8])],
+  "stavka_1916_13_romania/small": [M([27.5, 48.0], [26.0, 45.8])],
+  "stavka_1916_13_romania/army": [M([26.0, 48.5], [26.0, 45.0])],
+  "stavka_1917_09_riga/withdraw": [W([24.1, 56.95], [25.4, 57.5])],
+  "stavka_1917_09_riga/hold": [H([24.1, 56.95])],
+  "stavka_1917_09_riga/delay": [H([24.45, 56.8])],
+
+  // British Army and War Cabinet
+  "bef_1914_22_divisions/four": [M([-0.1, 51.5], [1.9, 50.95])],
+  "bef_1914_22_divisions/six": [M([-0.1, 51.5], [1.9, 50.95]), M([-0.1, 51.5], [1.6, 50.7])],
+  "bef_1914_22_divisions/two": [M([-0.1, 51.5], [1.6, 50.7])],
+  "bef_1914_01_warcouncil/maubeuge": [M([-0.1, 51.5], [3.97, 50.28])],
+  "bef_1914_01_warcouncil/amiens": [M([-0.1, 51.5], [2.3, 49.89])],
+  "bef_1914_01_warcouncil/six": [M([-0.1, 51.5], [3.97, 50.28])],
+  "bef_1914_02_seine/stay": [H([2.9, 48.9])],
+  "bef_1914_02_seine/seine": [W([3.0, 49.1], [2.3, 48.4])],
+  "bef_1914_03_ypres/hold": [H([2.9, 50.85])],
+  "bef_1914_03_ypres/coast": [W([2.9, 50.85], [2.4, 51.0])],
+  "bef_1915_06_loos/attack": [A([2.75, 50.5], [2.95, 50.43])],
+  "bef_1915_06_loos/limited": [A([2.95, 50.62], [3.15, 50.7])],
+  "bef_1915_04_dardanelles/release": [M([-0.1, 51.5], [26.2, 40.0])],
+  "bef_1915_04_dardanelles/hold": [H([-0.1, 51.5])],
+  "bef_1916_11_somme/compromise": [A([2.65, 50.0], [2.95, 50.12])],
+  "bef_1916_11_somme/bitehold": [A([2.65, 50.0], [2.82, 50.05])],
+  "bef_1916_12_tanks/now": [A([2.8, 50.0], [2.98, 50.08])],
+  "bef_1916_12_tanks/wait": [H([2.8, 50.0])],
+  "bef_1916_12_tanks/tested": [A([2.8, 50.0], [2.93, 50.05])],
+  "bef_1917_15_ypres3/authorise": [A([2.9, 50.85], [3.25, 50.92])],
+  "bef_1917_15_ypres3/veto": [H([2.9, 50.85])],
+  "bef_1917_15_ypres3/limited": [A([2.9, 50.82], [3.1, 50.82])],
+  "bef_1918_19_backs/order": [H([2.6, 50.65])],
+  "bef_1918_19_backs/withdraw": [W([2.9, 50.85], [2.6, 50.8])],
+
+  // Austro-Hungarian Army High Command
+  "aok_1914_15_mobilise/fourth": [M([16.4, 48.2], [22.0, 49.8])],
+  "aok_1914_15_mobilise/now": [M([16.4, 48.2], [22.0, 49.8])],
+  "aok_1914_15_mobilise/serbia": [M([16.4, 48.2], [20.5, 44.8])],
+  "aok_1914_01_serbia/serbia": [M([16.4, 48.2], [19.8, 44.8])],
+  "aok_1914_01_serbia/galicia": [M([16.4, 48.2], [22.8, 49.9])],
+  "aok_1914_03_galicia/offensive": [A([22.8, 50.0], [22.8, 51.2])],
+  "aok_1914_03_galicia/san": [H([22.77, 49.78])],
+  "aok_1914_03_galicia/cover": [A([22.8, 50.0], [22.8, 51.0]), H([24.0, 49.8])],
+  "aok_1914_04_rawa/blow": [A([23.2, 50.3], [23.5, 50.8])],
+  "aok_1914_04_rawa/breakoff": [W([23.6, 50.2], [22.0, 49.9])],
+  "aok_1914_05_kolubara/invade": [A([19.2, 44.7], [20.2, 44.2])],
+  "aok_1914_05_kolubara/decline": [H([19.2, 44.7])],
+  "aok_1914_05_kolubara/limited": [A([19.2, 44.7], [19.9, 44.4])],
+  "aok_1915_04_carpathians/relieve": [A([21.5, 49.2], [22.4, 49.7])],
+  "aok_1915_04_carpathians/hold": [H([21.5, 49.2])],
+  "aok_1915_06_isonzo/isonzo": [H([13.6, 46.0])],
+  "aok_1915_06_isonzo/attack": [A([11.0, 46.0], [11.6, 45.5])],
+  "aok_1916_07_strafe/strafe": [A([11.3, 46.0], [11.75, 45.7])],
+  "aok_1916_07_strafe/keep": [H([24.0, 49.8])],
+  "aok_1917_11_caporetto/german": [A([13.6, 46.3], [12.8, 46.1])],
+  "aok_1917_11_caporetto/defend": [H([13.6, 46.0])],
+  "aok_1918_12_piave/divide": [A([11.9, 46.0], [11.6, 45.7]), A([12.4, 45.85], [12.0, 45.5])],
+  "aok_1918_12_piave/concentrate": [A([12.3, 45.85], [11.8, 45.5])],
+
+  // Ottoman General Staff
+  "otto_1914_01_straits/admit": [M([26.4, 40.1], [28.98, 41.0])],
+  "otto_1914_01_straits/refuse": [H([26.4, 40.1])],
+  "otto_1914_03_sarikamis/launch": [A([41.6, 40.0], [42.6, 40.33])],
+  "otto_1914_03_sarikamis/wait": [H([41.27, 39.9])],
+  "otto_1914_03_sarikamis/postpone": [H([41.27, 39.9])],
+  "otto_1915_01_suez/attack": [A([34.8, 31.25], [32.3, 30.6])],
+  "otto_1915_01_suez/keep": [H([34.8, 31.25])],
+  "otto_1915_01_suez/raid": [A([34.8, 31.25], [32.5, 30.2])],
+  "otto_1915_02_gallipoli/reserve": [M([26.45, 40.4], [26.2, 40.1])],
+  "otto_1915_02_gallipoli/forward": [H([26.2, 40.05])],
+  "otto_1915_03_kut/siege": [H([46.04, 32.5])],
+  "otto_1915_03_kut/storm": [A([45.3, 32.7], [46.04, 32.5])],
+  "otto_1916_01_erzurum/defend": [H([41.27, 39.9])],
+  "otto_1916_01_erzurum/withdraw": [W([41.27, 39.9], [39.5, 39.7])],
+  "otto_1916_01_erzurum/counter": [A([42.3, 40.0], [41.7, 40.0])],
+  "otto_1916_03_romani/strike": [A([33.9, 31.0], [32.65, 31.0])],
+  "otto_1916_03_romani/wells": [H([33.5, 31.0])],
+  "otto_1916_03_romani/hejaz": [M([35.2, 32.0], [39.6, 24.5])],
+  "otto_1917_03_baghdad/diyala": [H([44.5, 33.2])],
+  "otto_1917_03_baghdad/ctesiphon": [A([44.7, 33.0], [44.55, 33.15])],
+  "otto_1917_03_baghdad/mosul": [W([44.36, 33.3], [43.14, 36.3])],
+  "otto_1917_04_gaza/line": [H([34.5, 31.5])],
+  "otto_1917_04_gaza/shorten": [W([34.5, 31.5], [35.2, 31.8])],
+  "otto_1917_04_gaza/strike": [A([34.5, 31.5], [33.6, 31.3])],
+  "otto_1917_05_aqaba/leave": [H([35.0, 29.5])],
+  "otto_1917_05_aqaba/pass": [M([35.7, 30.2], [35.3, 29.8])],
+  "otto_1917_05_aqaba/abandon": [W([35.0, 29.5], [35.7, 30.2])],
+  "otto_1917_06_hejaz/live": [H([39.6, 24.5])],
+  "otto_1917_06_hejaz/convoy": [M([36.3, 33.5], [39.6, 24.5])],
+  "otto_1917_06_hejaz/evacuate": [W([39.6, 24.5], [36.3, 33.5])],
+  "otto_1917_07_erzincan/sign": [H([39.5, 39.75])],
+  "otto_1917_07_erzincan/advance": [A([39.5, 39.75], [41.3, 39.9])],
+  "otto_1917_07_erzincan/palestine": [M([39.5, 39.75], [34.8, 31.5])],
+  "otto_1918_01_caucasus/baku": [A([43.0, 40.5], [49.8, 40.4])],
+  "otto_1918_01_caucasus/hold": [H([41.6, 41.6])],
+  "otto_1918_02_megiddo/hold": [H([35.3, 32.7])],
+  "otto_1918_02_megiddo/withdraw": [W([35.0, 32.4], [35.3, 32.9])],
+};
+
+/** The arrows of an order, or []. */
+export function mapOpsFor(nodeId, choiceId) {
+  return MAP_OPS[nodeId + "/" + choiceId] || [];
+}
+
+/** { choiceId: arrows } for a report's orders that have any. */
+export function mapOpsOf(nodeId) {
+  const out = {};
+  const prefix = nodeId + "/";
+  for (const k of Object.keys(MAP_OPS)) if (k.startsWith(prefix)) out[k.slice(prefix.length)] = MAP_OPS[k];
   return out;
 }
 
@@ -13061,7 +13551,7 @@ export function previewImpact(choice) {
  * impact is applied first, then nextIf is evaluated against POST-choice meters,
  * then next is the fallthrough.
  */
-export function chooseNext(campaignId, choice, flags, meters, hardState, rng = Math.random, plan = null) {
+export function chooseNext(campaignId, choice, flags, meters, hardState, rng = Math.random, plan = null, ctx = null) {
   let branch = null;
   let battle = null;
   if (choice.uncertain && choice.uncertain.length) {
@@ -13085,8 +13575,12 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
 
   let nextMeters = applyImpact(meters, impact);
   if (battle) nextMeters = applyImpact(nextMeters, battle.totals);
+  // given at a report by a player (ctx = { nodeId, easy }): the edge of checked intelligence, and the trust the order earns or costs
+  const edge = ctx ? intelEdge(ctx.nodeId, choice, flags, ctx.easy) : null;
+  if (edge) nextMeters = applyImpact(nextMeters, edge);
   const outcomeText = branch?.outcome ?? choice.outcome ?? null;
-  const nextFlags = tallyStrands({ ...flags, ...setFlags }, choice, impact, outcomeText, campaignId);
+  const tallied = tallyStrands({ ...flags, ...setFlags }, choice, impact, outcomeText, campaignId);
+  const nextFlags = ctx ? trustAfter(campaignId, ctx.nodeId, choice, tallied) : tallied;
   const nextHard = applyErosion(hardState, campaignId, choice);
 
   let nextId = branch?.next ?? null;
@@ -13113,6 +13607,7 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
     battle,
     changes: meterChanges(meters, nextMeters, flags, nextFlags, choice, outcomeText, campaignId),
     contested: Boolean(choice.uncertain && choice.uncertain.length),
+    informed: Boolean(edge),
   };
 }
 
@@ -13768,6 +14263,11 @@ export const BATTLE_BONUS_CLAMP = 20; // points of weight a plan can move the ro
 export const BATTLE_SCALE = 1.3; // points of weight per point of contribution above (or below) the staff's plan
 export const BATTLE_INTEL_ERROR = 0.25; // how often the free intelligence summary describes the wrong setup
 export const BATTLE_WEIGHT_BOUNDS = [5, 95];
+export const BATTLE_PRESS = 1.3; // the second day: pressing on multiplies the plan's edge (or its error) by this
+export const BATTLE_STEADY = 0.5; // the second day: steadying the line multiplies it by this
+export const BATTLE_SHIFT_MAX = 2; // counters that can be moved between arms on the second day
+export const BATTLE_SHIFT_COST = 1; // points of weight lost to the confusion of moving them, once any are moved
+export const BATTLE_SECOND_GAIN = 3; // what a counter moved with the enemy known is worth, against the same move made in the dark
 
 /** Filled in by 62-battles.jsx: { [battleId]: config }. */
 export const BATTLES = {};
@@ -13875,13 +14375,57 @@ export function staffPlanFor(config, pool) {
   return best;
 }
 
-/** Points of weight a plan moves the roll, against the staff's plan under the same enemy setup. Zero for the staff's own plan. */
-export function battleBonus(config, plan, posture, pool) {
+const clampBonus = (raw) => Math.max(-BATTLE_BONUS_CLAMP, Math.min(BATTLE_BONUS_CLAMP, Math.round(raw)));
+
+/** The unrounded edge of a plan over the staff's, under the same enemy setup. */
+function rawBonus(config, plan, posture, pool) {
   const staff = staffPlanFor(config, pool);
   const mine = sumValues(battleContributions(config, plan, posture, pool));
   const theirs = sumValues(battleContributions(config, staff, posture, pool));
-  const raw = (mine - theirs) * BATTLE_SCALE;
-  return Math.max(-BATTLE_BONUS_CLAMP, Math.min(BATTLE_BONUS_CLAMP, Math.round(raw)));
+  return (mine - theirs) * BATTLE_SCALE;
+}
+
+/** Points of weight a plan moves the roll, against the staff's plan under the same enemy setup. Zero for the staff's own plan. */
+export function battleBonus(config, plan, posture, pool) {
+  return clampBonus(rawBonus(config, plan, posture, pool));
+}
+
+// ---------- the second day ----------
+//
+// The plan is made on one reading of the enemy and the first day shows the real one. On the second day the player may (a) move up to BATTLE_SHIFT_MAX
+// counters from one arm to another (a counter moved with the enemy known is worth BATTLE_SECOND_GAIN times what it was worth in the dark, less
+// BATTLE_SHIFT_COST points of weight in the confusion), and (b) choose a stance: hold the plan (the
+// plan's edge as it is), press on (BATTLE_PRESS times the edge, and a point of manpower), or steady the line (BATTLE_STEADY times the edge). A plan
+// that is not given a second day is a plan held with nothing moved, so the staff's plan still plays the record's odds.
+export const BATTLE_STANCES = [
+  { id: "hold", name: "Hold the plan", note: "Carry on as planned, with the odds as they stand." },
+  { id: "press", name: "Press the attack", note: "Double down: the plan's edge, or its error, is a third greater, and it costs a point of manpower." },
+  { id: "steady", name: "Steady the line", note: "Play safe: the plan's edge, or its error, is halved." },
+];
+
+/** The plan with its second day applied: { ...plan, allocation } after the counters moved ({ from, to } pairs, at most BATTLE_SHIFT_MAX). */
+export function battleSecondPlan(plan) {
+  const second = plan.second || {};
+  const alloc = { ...(plan.allocation || {}) };
+  let n = 0;
+  for (const m of second.moves || []) {
+    if (n >= BATTLE_SHIFT_MAX || !m || m.from === m.to || !(alloc[m.from] > 0) || !(m.to in alloc)) continue;
+    alloc[m.from] -= 1;
+    alloc[m.to] += 1;
+    n++;
+  }
+  return { ...plan, allocation: alloc, moved: n };
+}
+
+/** The bonus the roll takes: the plan after its second day, under the setup the enemy really showed. Equals battleBonus for a plan with no second day. */
+export function battleFinalBonus(config, plan, posture, pool) {
+  const adjusted = battleSecondPlan(plan);
+  const stance = (plan.second && plan.second.stance) || "hold";
+  const before = rawBonus(config, plan, posture, pool);
+  let raw = before + (rawBonus(config, adjusted, posture, pool) - before) * BATTLE_SECOND_GAIN;
+  raw *= stance === "press" ? BATTLE_PRESS : stance === "steady" ? BATTLE_STEADY : 1;
+  if (adjusted.moved > 0) raw -= BATTLE_SHIFT_COST;
+  return clampBonus(raw);
 }
 
 /**
@@ -13890,7 +14434,7 @@ export function battleBonus(config, plan, posture, pool) {
  */
 export function battlePlanOdds(choice, config, plan, posture, pool, meters) {
   const strained = strainedUncertain(choice, meters).uncertain;
-  const bonus = plan ? battleBonus(config, plan, posture, pool) : 0;
+  const bonus = plan ? battleFinalBonus(config, plan, posture, pool) : 0;
   const moved = shiftToward(strained, config.winBranch, bonus);
   const total = moved.reduce((s, x) => s + x.weight, 0) || 100;
   const pct = Math.round((moved[config.winBranch].weight / total) * 100);
@@ -13914,11 +14458,13 @@ export function shiftToward(uncertain, winIndex, bonus) {
  * two points from the three meters, so a plan can sting but never outweigh the battle's own outcome. The grade: a win with nothing neglected is
  * "clean", any other win "costly"; a loss is "marginal" when the plan held up and "total" when two or more arms were left short.
  */
-export function battlePlanCosts(config, plan, posture, pool, won) {
+export function battlePlanCosts(config, planGiven, posture, pool, won) {
   const cats = config.categories;
+  const plan = battleSecondPlan(planGiven);
   const alloc = plan.allocation || {};
   const contributions = battleContributions(config, plan, posture, pool);
   const lines = [];
+  if (planGiven.second && planGiven.second.stance === "press") lines.push({ meter: "manpower", delta: -1, reason: "Pressed the attack" });
   for (const c of cats) {
     if ((alloc[c.id] || 0) >= pool / 2) lines.push({ meter: c.meter, delta: -1, reason: `Heavy commitment to ${c.name}` });
   }
@@ -13976,7 +14522,7 @@ export function battleRoll(choice, plan, meters) {
   if (!config || !plan || !choice.uncertain || choice.uncertain.length !== 2) return null;
   const posture = lookup(config.postures, plan.postureId);
   const pool = plan.pool || battlePoolSize(meters);
-  const bonus = battleBonus(config, plan, posture, pool);
+  const bonus = battleFinalBonus(config, plan, posture, pool);
   return { config, posture, pool, bonus, costsFor: (won) => battlePlanCosts(config, plan, posture, pool, won) };
 }
 
@@ -15785,7 +16331,7 @@ export function resolveTheme(setting, prefersDark, prefersMore) {
 }
 
 const SEPIA_SERIF = '"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif';
-const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw"];
+const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw", ".dg-gtag", ".dg-trust"];
 const SEPIA_COMMANDS = ["ohl", "gqg", "stavka", "bef", "aok", "otto"];
 
 /**
@@ -15878,7 +16424,7 @@ export function sepiaCss() {
   @S .dg-choice.dg-issue{border:1px solid var(--ink);text-align:center;margin-top:12px}
 
   /* the map: a sepia sheet with its own ink, the front a ticked black line */
-  @S .dg-map{border:1px solid var(--rule);box-shadow:none;--ink:var(--map-ink);--ink-soft:var(--map-soft);--paper:var(--sea);--accent:var(--map-ink);${mapAcc}}
+  @S .dg-map{border:1px solid var(--rule);box-shadow:none;--ink:var(--map-ink);--ink-soft:var(--map-soft);--paper:var(--sea);--accent:var(--map-ink);--op-focus:#a3281a;${mapAcc}}
   @S .dg-country{stroke:var(--map-soft)}
   @S .dg-front-glow{stroke:var(--map-ink);stroke-width:11;stroke-dasharray:2 9;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1}
   @S .dg-front{stroke:var(--map-ink);stroke-width:3.5;stroke-dasharray:none;animation:none}
@@ -15952,6 +16498,12 @@ export function sepiaCss() {
   @S .dg-sc-end{font-weight:500;font-size:34px}
   @S .dg-sc-cmd,@S .dg-sc-rank,@S .dg-sc-facts,@S .dg-sc-list{font-size:17px}
   @S .dg-sc-rank b{font-weight:500;font-size:26px}
+
+  /* the staff's reading */
+  @S .dg-bel li{border-top:1px solid var(--rule);font-size:16.5px}
+  @S .dg-gtag{border-color:var(--rule)}
+  @S .dg-g-firm{border-color:var(--ink-soft)}
+  @S .dg-rests{font-size:14.5px}
 
   /* the front screens */
   @S .dg-cmd{border:0;border-top:1px solid var(--rule);background:none;padding:18px 8px 14px;margin:0}
@@ -16147,6 +16699,9 @@ export const ASKS = {
   otto_1917_03_baghdad: "Where does the Sixth Army make its stand for Baghdad: on the Diyala, below the city at Ctesiphon, or not at all?",
   otto_1917_04_gaza: "What is done with the Gaza line after the second victory: hold it and strengthen it, draw back to the hills, or strike at the British railhead?",
   otto_1916_02_medina: "Does the empire reinforce the Hejaz and hold Medina and the railway, or evacuate and hold only as far as Ma'an?",
+  otto_1917_05_aqaba: "Does the command leave Aqaba as it is, hold the pass at Abu el Lissan, or give the port up?",
+  otto_1917_06_hejaz: "Does Medina live on its own district, get trains of flour and fuel, or is the Hejaz force ordered out?",
+  otto_1917_07_erzincan: "Does the Third Army sign the ceasefire at Erzincan, advance in the snow, or sign and send two divisions to Palestine?",
   otto_1917_01_yildirim: "Does the Yildirim Army Group go to Palestine, down the Euphrates to Baghdad, or divide between them?",
   otto_1917_02_jerusalem: "Does the army withdraw into the hills and leave Jerusalem undefended, or defend the city?",
   otto_1918_01_caucasus: "Does the Army of Islam go to Baku, or halt at Batum and send the Caucasus divisions to Palestine?",
@@ -16342,7 +16897,8 @@ export const HOW_TO = [
     title: "Reading a report",
     paras: [
       "A report gives the date and the place, then the decision in a single line, with a button that goes straight to the orders. Below that are the map, any bulletin that came over the wire, the situation, the context, the three meters, and the orders.",
-      "Press a meter to see what it is made of. The map can be opened to the whole theatre, with a list of what the other commands were doing the same week.",
+      "Press a meter to see what it is made of. The map can be opened to the whole theatre, with a list of what the other commands were doing the same week. Move the pointer or the keyboard over an order and it is drawn on the map, a solid arrow for an attack, a dashed one for a move or a withdrawal and a ring for a stand. The orders you have given stay on the map for a while.",
+      "Some reports list what the staff believes, each belief with the grade the staff gave it. The grade is no guide, because firm reports have been wrong and doubtful ones right. You may check a belief, a few times in a file, to learn whether it holds. An order that rests on a false belief shows better odds than it really has until the belief is checked, and an order that does not rest on a belief you have found false earns a point of will.",
     ],
   },
   {
@@ -16354,10 +16910,18 @@ export const HOW_TO = [
     ],
   },
   {
+    id: "advisers",
+    title: "Advisers and trust",
+    paras: [
+      "Each order may carry an adviser's argument. An order that follows an adviser earns that adviser a point of trust, and each adviser whose order was passed over loses half a point. An adviser who has been overruled too often goes quiet, and the argument is no longer shown; after that the adviser asks to be relieved. A trusted adviser is marked, and brings one more check on a belief.",
+    ],
+  },
+  {
     id: "battles",
     title: "Battles",
     paras: [
       "Some contested orders open an Order of Battle. You name a commander, choose an approach and place your counters, and the staff's plan is always one press away. The odds you see are the odds of the plan on what the intelligence says the enemy has; the enemy may have something else. The result is graded, and the next report says how the battle was fought.",
+      "A battle lasts two days. When the plan is issued the first day shows the enemy that was really met, which may not be the one the intelligence named. You may then move up to two counters from one arm to another, worth three times what they would have been in the dark, and choose to hold the plan, to press the attack (a third more of the plan's edge or its error, and a point of manpower) or to steady the line (half of it).",
       "You can switch the planning off when you set up a file, and every battle is then rolled at the odds of the staff's plan.",
     ],
   },
@@ -16539,10 +17103,241 @@ export const EVENTS = [
 export function dueEvent(campaignId, nodeId, flags, meters) {
   const node = CAMPAIGNS[campaignId] && CAMPAIGNS[campaignId].nodes[nodeId];
   if (!node || node.ending) return null;
+  const gone = resignationEvent(campaignId, flags || {}, node.date);
+  if (gone) return gone;
   for (const e of EVENTS) {
     if (e.campaign !== campaignId || (flags && flags["ev_" + e.id])) continue;
     if (node.date < e.from || node.date > e.to) continue;
     if (e.when(flags || {}, meters)) return e;
+  }
+  return null;
+}
+
+// =============================================================================
+// THE STAFF'S READING
+// =============================================================================
+//
+// A report tells what the headquarters believes, and sometimes that is wrong: the French staff thought the German right too weak to matter, the Russian
+// front staff thought the German Eighth Army was falling back on the Vistula, the Ottoman staff thought the British would attack in the east. A few
+// reports carry such beliefs (INTEL_ITEMS), each with the grade the staff gave it, whether it holds, and what the truth was. The grade is no guide: firm
+// reports have been wrong and doubtful ones right.
+//
+// The player may CHECK a belief, spending one of a few checks for the file (INTEL.checks; INTEL.hardChecks in hard mode; a trusted adviser can bring one
+// more: see 69-trust.jsx), and is told whether it holds. Two things follow, both small and neither touching a file that never checks:
+//   * the odds dial of an order that rests on a false belief shows the odds the belief would give, INTEL.believedShift points better than the roll's
+//     real odds, until the belief is checked (the dial says so);
+//   * an order that does not rest on a belief the player has checked and found false earns the edge: the staff knew what it was facing (+1 will).
+// In easy mode every belief is shown with its verdict from the start, at no cost, and there is no edge.
+// =============================================================================
+
+export const INTEL = { checks: 3, hardChecks: 2, believedShift: 15, edge: { will: 1 } };
+
+/** { [nodeId]: [{ id, text, grade, holds, truth, relied: [choiceId] }] }: what the report's staff believes. `relied` names the orders that rest on it. */
+export const INTEL_ITEMS = {
+  gqg_1914_01_frontieres: [
+    { id: "reserve", grade: "firm", holds: false, relied: ["attack"],
+      text: "The Germans will not put their reserve corps in the front line, so their right wing cannot be strong enough to matter.",
+      truth: "The German army put its reserve corps beside the active ones from the first day, and its right wing in Belgium was half as strong again as the French staff had allowed for." },
+  ],
+  stavka_1914_12_tannenberg: [
+    { id: "retiring", grade: "firm", holds: false, relied: ["press"],
+      text: "The German Eighth Army, beaten at Gumbinnen, is falling back toward the Vistula.",
+      truth: "The Eighth Army was not retiring on the Vistula. It was turning south, by rail and on foot, against the Second Army." },
+  ],
+  aok_1914_03_galicia: [
+    { id: "weak", grade: "doubtful", holds: false, relied: ["offensive"],
+      text: "The Russians in front of Lemberg are fewer than the plan assumed, and the armies can advance into Poland.",
+      truth: "The Russians put four armies into Galicia, and they were stronger and farther forward than the staff had reckoned." },
+  ],
+  bef_1916_11_somme: [
+    { id: "wire", grade: "firm", holds: false, relied: ["compromise"],
+      text: "A week's bombardment will cut the German wire and break the dugouts, and the infantry will walk into empty trenches.",
+      truth: "The shells, many of them shrapnel, did not cut the wire everywhere, and the deep German dugouts survived the bombardment." },
+  ],
+  otto_1914_03_sarikamis: [
+    { id: "thin", grade: "doubtful", holds: false, relied: ["launch"],
+      text: "The Russian line round Sarikamis is thin and has no winter equipment.",
+      truth: "The Russians had more men in the area than Enver reckoned, and a railway to bring up the rest. It was the Ottoman columns that had no winter clothing." },
+  ],
+  otto_1915_02_gallipoli: [
+    { id: "bulair", grade: "doubtful", holds: false, relied: ["reserve"],
+      text: "The main landing will come at Bulair, at the neck of the peninsula.",
+      truth: "The landings came at Cape Helles and at Anzac, far from Bulair, and the two divisions held at the neck were in the wrong place." },
+  ],
+  gqg_1916_04_verdun: [
+    { id: "stripped", grade: "firm", holds: true, relied: ["shorten"],
+      text: "The forts of Verdun have been stripped of their guns and garrisons.",
+      truth: "The forts had been largely disarmed, and a handful of men held Douaumont; the line in front of them was thin." },
+  ],
+  bef_1915_06_loos: [
+    { id: "light", grade: "doubtful", holds: true, relied: ["attack"],
+      text: "The German line at Loos is lightly held.",
+      truth: "The front line was lightly held and the first day made ground, but the German reserves were close behind it." },
+  ],
+  stavka_1915_01_masuria: [
+    { id: "warning", grade: "doubtful", holds: true, relied: ["pull", "reinforce"],
+      text: "The Tenth Army's commander is right: a German attack is coming against it.",
+      truth: "The Germans attacked on 7 February (Western calendar), in a snowstorm, and outflanked the Tenth Army within days." },
+  ],
+  ohl_1918_09_michael: [
+    { id: "thin", grade: "firm", holds: true, relied: ["adaptive", "amiens"],
+      text: "The British Fifth Army on the Somme is thinly held and has little reserve behind it.",
+      truth: "The Fifth Army held a long front with few divisions and few reserves, and the German blow broke it in the first days." },
+  ],
+  otto_1918_02_megiddo: [
+    { id: "jordan", grade: "firm", holds: false, relied: ["hold"],
+      text: "The British will attack in the east, across the Jordan.",
+      truth: "The British attacked on the coast. The preparations in the east were a deception, and the main force had been moved west in the nights before." },
+  ],
+  gqg_1914_02_marne: [
+    { id: "flank", grade: "firm", holds: true, relied: ["attack"],
+      text: "The German First Army is marching south-east of Paris and has exposed its right flank.",
+      truth: "The First Army had turned south-east of Paris, and French aircraft had seen it; its right flank was open to the Paris garrison and the Sixth Army." },
+  ],
+};
+
+/** The beliefs a report carries, or []. */
+export function intelItemsAt(nodeId) {
+  return INTEL_ITEMS[nodeId] || [];
+}
+
+const key = (nodeId, itemId) => `ix_${nodeId}_${itemId}`;
+
+/** Whether a belief has been checked in this file. */
+export function intelChecked(flags, nodeId, itemId) {
+  return Boolean(flags && flags[key(nodeId, itemId)]);
+}
+
+/** How many checks are left: the file's allowance, less those used, plus any a trusted adviser brought. */
+export function intelChecksLeft(flags, hard) {
+  const f = flags || {};
+  return Math.max(0, (hard ? INTEL.hardChecks : INTEL.checks) + (Number(f.ix_bonus) || 0) - (Number(f.ix_used) || 0));
+}
+
+/** The flags after checking one belief (the same flags if it is already checked or none are left). */
+export function intelCheck(flags, nodeId, itemId, hard) {
+  if (intelChecked(flags, nodeId, itemId) || intelChecksLeft(flags, hard) < 1) return flags;
+  return { ...flags, [key(nodeId, itemId)]: true, ix_used: (Number(flags.ix_used) || 0) + 1 };
+}
+
+/** True when the order rests on a belief that is false and has not been checked: its dial shows the belief's odds. Never in easy mode. */
+export function intelFogged(nodeId, choice, flags, easy) {
+  if (easy || !choice) return false;
+  return intelItemsAt(nodeId).some((it) => !it.holds && it.relied.includes(choice.id) && !intelChecked(flags, nodeId, it.id));
+}
+
+/** The odds the belief would give: the real odds, `believedShift` points better (never past 95). Same shape as orderOdds. */
+export function intelBelievedOdds(odds) {
+  if (!odds) return odds;
+  const pct = Math.min(95, odds.pct + INTEL.believedShift);
+  return { ...odds, pct, word: ODDS_BANDS.find((b) => pct < b.max).word };
+}
+
+/**
+ * The edge for an order given on checked intelligence: some belief at this report was checked and found false, and the order does not rest on it.
+ * An impact ({ will: 1 }) or null. Easy mode shows the truth for nothing, so it earns none.
+ */
+export function intelEdge(nodeId, choice, flags, easy) {
+  if (easy || !choice) return null;
+  const refuted = intelItemsAt(nodeId).filter((it) => !it.holds && intelChecked(flags, nodeId, it.id));
+  if (!refuted.length) return null;
+  return refuted.every((it) => !it.relied.includes(choice.id)) ? { ...INTEL.edge } : null;
+}
+
+// =============================================================================
+// THE ADVISERS' TRUST
+// =============================================================================
+//
+// An order that follows an adviser's argument earns that adviser a point of trust, and each adviser whose own order was passed over loses half a point
+// (once, however many of that adviser's orders were passed over). Trust runs from -3 to +3 and is kept in the file (tr_<id>). It is light on purpose, and it
+// changes what the staff will tell you:
+//   * at -2 or below the adviser has gone quiet: their argument is no longer shown on the orders;
+//   * at -3 they ask to be relieved (a special event, written from the dossier) and stay gone;
+//   * at +3 a trusted adviser brings the file one more check on a belief (68-intel.jsx), once.
+// An order's adviser is matched to the command's list of advisers by name (adviserIdFor); an order whose adviser cannot be matched changes no trust.
+// =============================================================================
+
+export const TRUST = { min: -3, max: 3, quietAt: -2, goneAt: -3, trustedAt: 3, follow: 1, passOver: -0.5 };
+
+const plain = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").replace(/\s+/g, " ").trim();
+
+/** The id of the adviser an order's argument is attributed to, or null: by full name, then by the last or first word of the name. */
+export function adviserIdFor(campaignId, name) {
+  const c = CAMPAIGNS[campaignId];
+  if (!c || !name) return null;
+  const n = plain(name);
+  const list = c.advisors || [];
+  let hit = list.find((a) => plain(a.name) === n || a.id === n.replace(/ /g, ""));
+  if (hit) return hit.id;
+  const words = n.split(" ");
+  hit = list.find((a) => {
+    const an = plain(a.name).split(" ");
+    return words[words.length - 1] === an[an.length - 1] || a.id === words[words.length - 1] || a.id === words[0] || words[0] === an[0];
+  });
+  return hit ? hit.id : null;
+}
+
+/** An adviser's trust, -3 to +3. */
+export function trustOf(flags, id) {
+  return Math.max(TRUST.min, Math.min(TRUST.max, Number(flags && flags["tr_" + id]) || 0));
+}
+
+/** "gone", "quiet", "trusted" or "normal". */
+export function adviserState(flags, id) {
+  const t = trustOf(flags, id);
+  return t <= TRUST.goneAt ? "gone" : t <= TRUST.quietAt ? "quiet" : t >= TRUST.trustedAt ? "trusted" : "normal";
+}
+
+/**
+ * The flags after an order is given at a report: +1 for the adviser whose argument was followed, -0.5 for each other adviser whose own order was passed over,
+ * and the check a trusted adviser brings (ix_bonus, once). A gone adviser stays gone.
+ */
+export function trustAfter(campaignId, nodeId, choice, flags) {
+  const camp = CAMPAIGNS[campaignId];
+  const node = camp && camp.nodes[nodeId];
+  if (!node || !choice) return flags;
+  const chosen = adviserIdFor(campaignId, choice.advisor && choice.advisor.name);
+  if (!chosen) return flags; // an adviser who cannot be matched changes no trust
+  const out = { ...flags };
+  const bump = (id, d) => {
+    if (!id || out["tr_" + id + "_gone"]) return;
+    const before = trustOf(out, id);
+    const after = Math.max(TRUST.min, Math.min(TRUST.max, before + d));
+    out["tr_" + id] = after;
+    if (after <= TRUST.goneAt) out["tr_" + id + "_gone"] = true;
+    if (after >= TRUST.trustedAt && !out["tr_" + id + "_bonus"]) {
+      out["tr_" + id + "_bonus"] = true;
+      out.ix_bonus = (Number(out.ix_bonus) || 0) + 1;
+    }
+  };
+  bump(chosen, TRUST.follow);
+  const passed = new Set();
+  for (const other of node.choices || []) {
+    if (other.id === choice.id) continue;
+    const id = adviserIdFor(campaignId, other.advisor && other.advisor.name);
+    if (id && id !== chosen) passed.add(id);
+  }
+  for (const id of passed) bump(id, TRUST.passOver);
+  return out;
+}
+
+/** The event that follows an adviser's asking to be relieved: written from the dossier. null unless the adviser has just gone and it has not been shown. */
+export function resignationEvent(campaignId, flags, date) {
+  const c = CAMPAIGNS[campaignId];
+  if (!c) return null;
+  for (const a of c.advisors || []) {
+    if (flags["tr_" + a.id + "_gone"] && !flags["ev_resign_" + a.id]) {
+      const role = a.dossier && a.dossier.role ? a.dossier.role.charAt(0).toLowerCase() + a.dossier.role.slice(1) : "adviser";
+      return {
+        id: "resign_" + a.id, campaign: campaignId, kind: "The staff",
+        date,
+        title: a.name + " Asks to Be Relieved",
+        paras: [
+          a.name + ", " + role + ", has been overruled too often to go on. The request to be relieved is made in writing, and it is granted.",
+          "The work of the post is still to be done, and from now on no one in the room says what " + a.name + " would have said.",
+        ],
+      };
+    }
   }
   return null;
 }
@@ -16987,6 +17782,31 @@ const css = `
   .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
   .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
 
+  /* ---- the orders on the map ---- */
+  .dg-op{fill:none;stroke:currentColor;stroke-linecap:round}
+  .dg-op-hold circle{fill:none;stroke:currentColor}
+  .dg-op-hold rect{fill:currentColor;stroke:none}
+  .dg-op-cand{color:var(--ink);opacity:.45}
+  .dg-op-focus{color:var(--op-focus,var(--accent));opacity:1}
+  .dg-op-done{color:var(--ink);opacity:.95}
+  .dg-op-past{color:var(--ink);opacity:.25}
+  .dg-mk-cand{color:var(--ink);opacity:.45}
+  .dg-mk-focus{color:var(--op-focus,var(--accent))}
+  .dg-mk-done{color:var(--ink)}
+  .dg-mk-past{color:var(--ink);opacity:.25}
+  .dg-swatch-op{background:linear-gradient(90deg,var(--accent) 0 60%,transparent 60%);height:4px;align-self:center}
+
+  /* ---- the staff's reading, the advisers' trust ---- */
+  .dg-intel{margin:0 0 6px}
+  .dg-bel{list-style:none;margin:0 0 8px;padding:0}
+  .dg-bel li{border-top:1px dotted var(--ink-soft);padding:10px 0;font-size:14px}
+  .dg-gtag{display:inline-block;border:1.5px solid var(--ink-soft);padding:1px 8px;margin-right:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-g-firm{border-color:var(--ink);color:var(--ink)}
+  .dg-fogtag{font-weight:400;letter-spacing:.02em;text-transform:none}
+  .dg-rests{display:block;font-size:12px;color:var(--ink-soft);font-style:italic;margin:0 0 8px}
+  .dg-mute{font-style:italic;color:var(--ink-soft)}
+  .dg-trust{font-style:normal;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+
   ${sepiaCss()}
 `;
 
@@ -17105,10 +17925,11 @@ function jumpToOrders() {
   h.focus({ preventScroll: true });
 }
 
-function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onHome }) {
+function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onCheck, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
   const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
+  const [viewing, setViewing] = useState(null); // the order the pointer or the keyboard is on: its arrow is drawn on the map
   return (
     <main {...rootProps(campaignId, "node")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -17148,7 +17969,9 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
-      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} visited={visited || []} />}
+      {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
+
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} />}
 
       {node.context && (
         <details>
@@ -17175,11 +17998,14 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           )}
           {node.choices.map((ch) => {
             const strain = strainedUncertain(ch, meters);
-            const odds = ch.blocked ? null : orderOdds(ch, meters);
+            const fog = !ch.blocked && intelFogged(nodeId, ch, flags || {}, easy);
+            const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters)) : orderOdds(ch, meters);
+            const rests = intelRests(nodeId, ch, flags || {}, easy);
             return (
-            <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)}>
+            <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)} onView={setViewing}>
               <div className="lab">{ch.label}</div>
-              {odds && <OddsDial odds={odds} easy={easy} />}
+              {odds && <OddsDial odds={odds} easy={easy} fog={fog} />}
+              {rests && <span className="dg-rests">{rests}</span>}
               {ch.blocked && <div className="dg-cost">✕ {ch.disabledReason}</div>}
               {easy && ch.historical && <span className="dg-record-mark">✓ The order the command gave</span>}
               {easy && !ch.blocked && <span className="dg-preview">{previewText(ch, node.meterLabels)}</span>}
@@ -17187,11 +18013,13 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
                 <span className="dg-strain">Strain: {node.meterLabels[strain.meter]} is short, so the odds are {strain.points} points worse</span>
               )}
               {ch.erodes && hardState.enabled && <div className="dg-cost">✕ Costs standing</div>}
-              {ch.advisor && (
-                <div className="dg-quote">
-                  {ch.advisor.name} argues: {ch.advisor.position}
-                </div>
-              )}
+              {ch.advisor && (() => {
+                const aid = adviserIdFor(campaignId, ch.advisor.name);
+                const st = aid ? adviserState(flags || {}, aid) : "normal";
+                if (st === "gone") return <div className="dg-quote dg-mute">{ch.advisor.name} has left the staff.</div>;
+                if (st === "quiet") return <div className="dg-quote dg-mute">{ch.advisor.name} has gone quiet and offers no argument on this.</div>;
+                return <div className="dg-quote">{ch.advisor.name}{st === "trusted" ? <span className="dg-trust"> (trusted)</span> : null} argues: {ch.advisor.position}</div>;
+              })()}
               {ch.attested && (
                 <div className="dg-attested">
                   <span className="dg-attested-tag">On the record</span>{" "}
@@ -17210,7 +18038,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 /** What the outcome of an order is called on its screen: as the record has it, a modelled alternative, or just the result. */
 const SPECULATIVE_LEAD = /^(Speculative|A modell?ed alternative)\.\s*/i;
 
-function OutcomeScreen({ campaignId, outcome, headline, historical, record, battle, changes, contested, meters, flags, onContinue }) {
+function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
   const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const heading = useRef(null);
@@ -17254,7 +18082,11 @@ function OutcomeScreen({ campaignId, outcome, headline, historical, record, batt
               ))}
             </ul>
             {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
+            {informed && <p className="dg-note">The staff had checked its reading and knew what it was facing.</p>}
           </section>
+          {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
+            <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} />
+          )}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
           <MeterChanges changes={changes} labels={labels} />
@@ -17646,7 +18478,7 @@ export default function App() {
   const choose = (ch, plan = null) => {
     if (settings.sound) playSound("tick");
     atmosphereFx("sign");
-    const r = chooseNext(campaignId, ch, flags, meters, hardState, Math.random, plan);
+    const r = chooseNext(campaignId, ch, flags, meters, hardState, Math.random, plan, { nodeId, easy: runEasy });
     if (runEasy) setHistory((h) => [...h, { nodeId, flags, meters, hardState, visited, taken }].slice(-REWIND_LIMIT));
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
@@ -17663,6 +18495,9 @@ export default function App() {
     setPending(null);
     setScreen("node");
   };
+
+  // Check a belief on the report in hand: one of the file's checks is spent.
+  const checkBelief = (itemId) => setFlags((f) => intelCheck(f, nodeId, itemId, hardState.enabled));
 
   // The event is shown once: its flag goes into the file as the report opens.
   const afterEvent = () => {
@@ -17704,8 +18539,8 @@ export default function App() {
       {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} />}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
-        <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
-          changes={pending.changes} contested={pending.contested} meters={meters} flags={flags} onContinue={cont} />
+        <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} node={node} nodeId={nodeId} orderId={taken.length ? taken[taken.length - 1].choice : null} visited={visited} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
+          changes={pending.changes} contested={pending.contested} informed={pending.informed} meters={meters} flags={flags} onContinue={cont} />
       )}
       {screen === "event" && pending && pending.event && <EventScreen key={pending.event.id} campaignId={campaignId} event={pending.event} onContinue={afterEvent} />}
       {screen === "battle" && battleChoice && (
@@ -17716,7 +18551,7 @@ export default function App() {
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onHome={home} />
+          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onCheck={checkBelief} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">
@@ -18014,6 +18849,52 @@ function EventScreen({ campaignId, event, onContinue }) {
 }
 
 // =============================================================================
+// THE STAFF'S READING: THE PANEL
+// =============================================================================
+//
+// On a report that carries beliefs (68-intel.jsx): each belief with the grade the staff gave it, a button to check it, and, once checked (or at once, in
+// easy mode), whether it held and what the truth was. The orders that rest on a belief say so.
+
+const GRADE_TAG = { firm: "Reported as firm", doubtful: "Doubtful", poor: "Poor" };
+
+function IntelPanel({ nodeId, flags, easy, hard, onCheck }) {
+  const items = intelItemsAt(nodeId);
+  if (!items.length) return null;
+  const left = intelChecksLeft(flags, hard);
+  return (
+    <section className="dg-intel" aria-label="What the staff believes">
+      <h2 className="dg-sect">What the staff believes</h2>
+      <ul className="dg-bel">
+        {items.map((it) => {
+          const known = easy || intelChecked(flags, nodeId, it.id);
+          return (
+            <li key={it.id}>
+              <span className={"dg-gtag dg-g-" + it.grade}>{GRADE_TAG[it.grade]}</span> {it.text}
+              {known ? (
+                <p className="dg-note"><b>{it.holds ? "Confirmed." : "Wrong."}</b> {it.truth}</p>
+              ) : (
+                <p><button className="dg-btn" disabled={left < 1} onClick={() => onCheck(it.id)}>{left < 1 ? "No checks left" : "Check it (" + left + " left)"}</button></p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      {!easy && <p className="dg-note">The staff's grade is no guide: firm reports have been wrong and doubtful ones right. A check says whether a belief holds. Checks left in this file: {left}.</p>}
+    </section>
+  );
+}
+
+/** The line under an order that rests on a belief: that it does, and how it stands. "" when the order rests on none. */
+function intelRests(nodeId, choice, flags, easy) {
+  const items = intelItemsAt(nodeId).filter((it) => it.relied.includes(choice.id));
+  if (!items.length) return "";
+  const states = items.map((it) => (easy || intelChecked(flags, nodeId, it.id) ? (it.holds ? "held" : "wrong") : "open"));
+  if (states.includes("wrong")) return "Rests on a belief that proved wrong.";
+  if (states.includes("open")) return "Rests on a belief the staff has not checked.";
+  return "Rests on a belief that held.";
+}
+
+// =============================================================================
 // BATTLE SCREENS
 // =============================================================================
 //
@@ -18030,11 +18911,103 @@ const GRADE_WORDS = {
 
 const GRADE_SHORT = { clean: "A clean battle", costly: "A costly victory", marginal: "A plan that held, and a battle that did not go its way", total: "A plan that gave out" };
 
+/** The first day's word: how the plan sits on the enemy that was really met. */
+function dayOneWord(bonus) {
+  return bonus >= 5 ? "The first day went well: the plan fits the enemy that was met."
+    : bonus <= -5 ? "The first day went badly: the plan was made for another enemy."
+    : "The first day was even: the plan neither fits the enemy nor fails against it.";
+}
+
+/** The second day: the enemy is known, a few counters can be moved, and a stance is chosen. */
+function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel, pool, onCommit, onBack }) {
+  const c = CAMPAIGNS[campaignId];
+  const [stance, setStance] = useState("hold");
+  const [delta, setDelta] = useState({});
+  const alloc = plan.allocation;
+  const d = (id) => delta[id] || 0;
+  const hand = -Object.values(delta).reduce((a, v) => a + v, 0);
+  const movedOut = Object.values(delta).reduce((a, v) => a + Math.max(0, -v), 0);
+  const out = [];
+  const into = [];
+  for (const k of config.categories) {
+    for (let i = 0; i < -d(k.id); i++) out.push(k.id);
+    for (let i = 0; i < d(k.id); i++) into.push(k.id);
+  }
+  const moves = out.map((from, i) => ({ from, to: into[i] })).filter((m) => m.to);
+  const final = { ...plan, second: { stance, moves } };
+  const dayOne = battleBonus(config, plan, posture, pool);
+  const odds = useMemo(() => battlePlanOdds(choice, config, final, posture, pool, meters), [stance, delta]);
+  const was = useMemo(() => battlePlanOdds(choice, config, plan, posture, pool, meters), []);
+  const contributions = battleContributions(config, battleSecondPlan(final), posture, pool);
+  const bump = (id, step) => setDelta((x) => ({ ...x, [id]: (x[id] || 0) + step }));
+  const stanceOf = (id) => BATTLE_STANCES.find((x) => x.id === id);
+  return (
+    <main {...rootProps(campaignId, "battle")}>
+      <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
+      <div className="dg-docrow">
+        <span>ORDER OF BATTLE</span>
+        <button className="dg-btn" onClick={onBack}>Change the plan</button>
+      </div>
+      <h1 className="dg-node-title">{config.title}</h1>
+      <section aria-label="The first day">
+        <h2 className="dg-order">The first day</h2>
+        <div className="dg-bulletin">
+          <div className="h">REPORT FROM THE FIELD</div>
+          The enemy was {posture ? posture.name.charAt(0).toLowerCase() + posture.name.slice(1) : "not what was expected"}.
+          {intel && intel.shown && posture && intel.shown.id !== posture.id ? " The staff's intelligence summary had described another setup." : " The staff's intelligence summary was right."}
+        </div>
+        <p className="dg-prose">{dayOneWord(dayOne)}</p>
+        <p className="dg-note">The odds on the plan as issued: {was.word}.</p>
+      </section>
+
+      <section aria-label="The second day">
+        <h2 className="dg-order">The second day</h2>
+        <p className="dg-note">Now that the enemy is known, up to {BATTLE_SHIFT_MAX} counters may be moved from one arm to another. A counter moved now is worth {BATTLE_SECOND_GAIN} times what it would have been in the dark, less {BATTLE_SHIFT_COST} point of weight for the confusion. Then say how the day is to be fought.</p>
+        {config.categories.map((k) => (
+          <div key={k.id} className="dg-bt-arm">
+            <div className="dg-bt-head">
+              <b>{k.name}</b>
+              <span className="dg-bt-ctl">
+                <button className="dg-btn" aria-label={"Take a counter out of " + k.name} disabled={!(alloc[k.id] + d(k.id) > 0) || movedOut >= BATTLE_SHIFT_MAX} onClick={() => bump(k.id, -1)}>−</button>
+                <span className="dg-bt-n" aria-label={k.name + ": " + (alloc[k.id] + d(k.id)) + " counters"}>{alloc[k.id] + d(k.id)}</span>
+                <button className="dg-btn" aria-label={"Put a counter into " + k.name} disabled={hand <= 0} onClick={() => bump(k.id, 1)}>+</button>
+              </span>
+            </div>
+            <p className="dg-note" style={{ marginBottom: 6 }}>{contributions[k.id] < 0 ? "This arm is short against the enemy that was met." : "This arm is holding its own."}</p>
+          </div>
+        ))}
+        <p className="dg-note" role="status" aria-live="polite">{hand > 0 ? hand + " counter" + (hand === 1 ? "" : "s") + " in hand: put them into an arm." : moves.length ? moves.length + " counter" + (moves.length === 1 ? "" : "s") + " moved." : "No counters moved."}</p>
+        <div role="group" aria-label="Stance" className="dg-bt-pick">
+          {BATTLE_STANCES.map((x) => (
+            <button key={x.id} className="dg-choice dg-opt" aria-pressed={stance === x.id} onClick={() => setStance(x.id)}>
+              <div className="lab">{x.name}</div>
+              <div className="dg-quote">{x.note}</div>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <div className="dg-bt-bar" role="group" aria-label="The second day">
+        <div className="dg-bt-stat">
+          <span className="dg-bt-k">The odds</span>
+          <b>{odds.word}</b>
+          <small>{stanceOf(stance).name}{moves.length ? "; " + moves.length + " moved" : ""}</small>
+        </div>
+        <button className="dg-choice dg-issue" disabled={hand !== 0} onClick={() => onCommit(final)}>
+          <div className="lab">Carry on to the second day</div>
+          {hand !== 0 && <div className="dg-cost">Put the counters in hand into an arm</div>}
+        </button>
+      </div>
+    </main>
+  );
+}
+
 function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBack }) {
   const c = CAMPAIGNS[campaignId];
   const pool = useMemo(() => battlePoolSize(meters), [meters]);
   const [posture] = useState(() => pickBattlePosture(config));
   const [intel] = useState(() => battleIntel(config, posture));
+  const [committed, setCommitted] = useState(null); // the plan as issued: the second day follows
   const empty = useMemo(() => Object.fromEntries(config.categories.map((k) => [k.id, 0])), [config]);
   const [allocation, setAllocation] = useState(empty);
   const [commanderId, setCommanderId] = useState(null);
@@ -18076,6 +19049,10 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
   const heading = { officer: "Name an officer", approach: "Choose the approach", counters: "Place the counters" };
   const last = si === steps.length - 1;
   const next = () => setSi((i) => Math.min(steps.length - 1, i + 1));
+  if (committed) {
+    return <BattleDayTwo campaignId={campaignId} config={config} choice={choice} meters={meters} plan={committed} posture={posture} intel={intel} pool={pool}
+      onCommit={onCommit} onBack={() => setCommitted(null)} />;
+  }
   return (
     <main {...rootProps(campaignId, "battle")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -18177,7 +19154,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
           {staffOdds && <small>The staff's plan: {staffOdds.word}</small>}
         </div>
         {last ? (
-          <button className="dg-choice dg-issue" disabled={!ready} onClick={() => onCommit(plan)}>
+          <button className="dg-choice dg-issue" disabled={!ready} onClick={() => { setCommitted(plan); if (window.scrollTo) window.scrollTo(0, 0); }}>
             <div className="lab">Issue the plan</div>
             {!ready && <div className="dg-cost">{left > 0 ? `Place the remaining ${left} counters` : "Choose the approach"}</div>}
           </button>
@@ -18198,6 +19175,10 @@ function BattleReport({ battle }) {
   const placed = plan ? config.categories.filter((k) => plan.allocation[k.id]).map((k) => `${k.name} ${plan.allocation[k.id]}`).join(", ") : null;
   const commander = plan && (config.commanders || []).find((m) => m.id === plan.commanderId);
   const approach = plan && (config.approaches || []).find((a) => a.id === plan.approachId);
+  const second = plan && plan.second;
+  const secondLine = second && (second.stance !== "hold" || (second.moves && second.moves.length))
+    ? "The second day: " + (second.stance === "press" ? "the attack was pressed" : second.stance === "steady" ? "the line was steadied" : "the plan was held") + (second.moves && second.moves.length ? ", and " + second.moves.length + (second.moves.length === 1 ? " counter was" : " counters were") + " moved once the enemy was known" : "") + "."
+    : null;
   const moved = battle.bonus === 0 ? "The plan did as the staff's would have: the odds were the record's." : battle.bonus > 0
     ? `The plan moved the odds ${battle.bonus} points toward the better outcome.` : `The plan moved the odds ${-battle.bonus} points away from the better outcome.`;
   return (
@@ -18205,6 +19186,7 @@ function BattleReport({ battle }) {
       <h2 className="dg-order">After-action report</h2>
       {posture && <p className="dg-prose" style={{ marginBottom: 8 }}>The enemy's setup was this: {posture.name}.</p>}
       {plan && <p className="dg-note">The plan: {placed}{approach ? `; ${approach.name.toLowerCase()}` : ""}{commander ? `; ${commander.name} named` : ""}.</p>}
+      {secondLine && <p className="dg-note">{secondLine}</p>}
       <p className="dg-prose" style={{ marginBottom: 8 }}>{moved}</p>
       <p className="dg-prose" style={{ marginBottom: 8 }}>{GRADE_WORDS[battle.grade]}</p>
       {battle.lines.length > 0 && (
@@ -18277,7 +19259,7 @@ function dialPoint(deg, r) {
 }
 
 /** A half-circle dial for a contested order: the needle at the odds of the better outcome. */
-function OddsDial({ odds, easy }) {
+function OddsDial({ odds, easy, fog }) {
   const [nx, ny] = dialPoint(odds.pct * 1.8, 33);
   return (
     <span className="dg-odds">
@@ -18290,7 +19272,7 @@ function OddsDial({ odds, easy }) {
         <line x1="50" y1="50" x2={nx.toFixed(1)} y2={ny.toFixed(1)} stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
         <circle cx="50" cy="50" r="3.4" fill="currentColor" />
       </svg>
-      <span className="dg-odds-t">Odds: {odds.word}{easy ? ` (${odds.pct} in 100)` : ""}</span>
+      <span className="dg-odds-t">Odds: {odds.word}{easy ? ` (${odds.pct} in 100)` : ""}{fog ? <span className="dg-fogtag">, on the staff's reading</span> : null}</span>
     </span>
   );
 }
@@ -18303,7 +19285,7 @@ const HOLD_SLOP = 14; // pixels a pointer may move before it is scrolling and no
  * An order. A contested one (`hold`) is signed by holding the button down; a keyboard or assistive press signs it at once (a click with no
  * pointer behind it has detail 0), and the setting can turn the holding off.
  */
-function OrderButton({ ch, hold, onSign, children }) {
+function OrderButton({ ch, hold, onSign, onView, children }) {
   const [holding, setHolding] = useState(false);
   const [holdMs, setHoldMs] = useState(HOLD_MS);
   const timer = useRef(null);
@@ -18334,6 +19316,8 @@ function OrderButton({ ch, hold, onSign, children }) {
   };
   return (
     <button className={"dg-choice" + (holding ? " holding" : "")} disabled={ch.blocked}
+      onFocus={onView ? () => onView(ch.id) : undefined} onBlur={onView ? () => onView(null) : undefined}
+      onMouseEnter={onView ? () => onView(ch.id) : undefined} onMouseLeave={onView ? () => onView(null) : undefined}
       onClick={(e) => { if (!hold || e.detail === 0) onSign(); }}
       onPointerDown={hold ? start : undefined} onPointerMove={hold ? move : undefined} onPointerUp={hold ? stop : undefined} onPointerLeave={hold ? stop : undefined} onPointerCancel={hold ? stop : undefined}
       onContextMenu={hold ? (e) => e.preventDefault() : undefined}
@@ -18385,8 +19369,38 @@ function projectFor(view) {
   return ([lon, lat]) => [((lon - view.lon[0]) / (view.lon[1] - view.lon[0])) * view.width, ((view.lat[1] - lat) / (view.lat[1] - view.lat[0])) * view.height];
 }
 
-/** The map as an SVG. `full` shows the whole theatre; otherwise the view is framed on the recent headquarters. */
-function MapCanvas({ campaignId, node, visited, full, pins }) {
+const OP_TONES = ["focus", "cand", "done", "past"];
+
+/** One arrow or marker of an order, drawn in a tone: the order in view, the other orders, the order given, an order given earlier. */
+function OpMark({ a, tone, pt, s, uid }) {
+  if (a.kind === "hold") {
+    const p = pt(a.at);
+    if (!p) return null;
+    return (
+      <g className={"dg-op dg-op-hold dg-op-" + tone}>
+        <circle cx={p[0]} cy={p[1]} r={8 * s} strokeWidth={(tone === "focus" ? 3.6 : 2.6) * s} />
+        <rect x={p[0] - 3 * s} y={p[1] - 3 * s} width={6 * s} height={6 * s} />
+      </g>
+    );
+  }
+  const f = pt(a.from);
+  const t = pt(a.to);
+  if (!f || !t) return null;
+  const open = a.kind === "withdraw";
+  // a short move is drawn long enough to be read: the arrow keeps its direction and starts at its place
+  const dx = t[0] - f[0];
+  const dy = t[1] - f[1];
+  const len = Math.hypot(dx, dy);
+  const min = 30 * s;
+  const to = len > 0 && len < min ? [f[0] + (dx * min) / len, f[1] + (dy * min) / len] : t;
+  return (
+    <line x1={f[0]} y1={f[1]} x2={to[0]} y2={to[1]} className={"dg-op dg-op-" + a.kind + " dg-op-" + tone} strokeWidth={(tone === "focus" ? 4.6 : 3.2) * s}
+      strokeDasharray={a.kind === "attack" ? undefined : `${6 * s} ${3.5 * s}`} markerEnd={`url(#${uid}-${open ? "o" : "s"}-${tone})`} />
+  );
+}
+
+/** The map as an SVG. `full` shows the whole theatre; otherwise the view is framed on the recent headquarters. `ops` is { candidates, focus, past, executed }: the orders drawn. */
+function MapCanvas({ campaignId, node, visited, full, pins, ops }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const camp = CAMPAIGNS[campaignId];
   const map = mapFor(campaignId);
@@ -18398,11 +19412,14 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
   const trail = (visited || []).map((id) => camp.nodes[id] && camp.nodes[id].city).filter((c, i, a) => XY[c] && c !== a[i - 1]);
   const shown = [...new Set([...trail, node.city])];
   const [hx, hy] = XY[node.city];
+  const pt = (p) => (Array.isArray(p) ? proj(p) : XY[p]);
+  const arrowPts = (arrows) => (arrows || []).flatMap((a) => (a.kind === "hold" ? [pt(a.at)] : [pt(a.from), pt(a.to)])).filter(Boolean);
+  const frameExtra = [...(ops && ops.candidates ? Object.values(ops.candidates).flatMap(arrowPts) : []), ...arrowPts(ops && ops.executed)];
 
   // the frame: the whole theatre, or the last few headquarters with room around them, at the shape of the card
   let box = { x: 0, y: 0, w: view.width, h: view.height };
   if (!full) {
-    const focus = [...new Set([...trail.slice(-5), node.city])].map((c) => XY[c]);
+    const focus = [...new Set([...trail.slice(-5), node.city])].map((c) => XY[c]).concat(frameExtra);
     const xs = focus.map((p) => p[0]);
     const ys = focus.map((p) => p[1]);
     const pad = 52;
@@ -18427,6 +19444,12 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
       aria-label={`Map of the front on ${nodeDate(campaignId, node.date)}. The headquarters is at ${node.city}.`}>
       <defs>
         {overlays.map((o) => <clipPath key={o.id} id={`${uid}-${o.id}`}><path d={mask(o)} /></clipPath>)}
+        {OP_TONES.map((tone) => (
+          <React.Fragment key={tone}>
+            <marker id={`${uid}-s-${tone}`} className={"dg-mk dg-mk-" + tone} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor" /></marker>
+            <marker id={`${uid}-o-${tone}`} className={"dg-mk dg-mk-" + tone} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="currentColor" strokeWidth="1.8" /></marker>
+          </React.Fragment>
+        ))}
       </defs>
       <rect x="0" y="0" width={view.width} height={view.height} className="dg-sea" />
       {countries.map((c) => <path key={c.id} d={c.d} className={"dg-country dg-side-" + sideOf(c.id)} />)}
@@ -18441,6 +19464,14 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
         </g>
       ))}
       {trail.length > 1 && <polyline points={trail.map((c) => XY[c].join(",")).join(" ")} className="dg-trail" />}
+      {ops && (
+        <g className="dg-ops" aria-hidden="true">
+          {(ops.past || []).map((a, i) => <OpMark key={"p" + i} a={a} tone="past" pt={pt} s={s} uid={uid} />)}
+          {ops.candidates && Object.entries(ops.candidates).filter(([id]) => id !== ops.focus).flatMap(([id, arrows]) => arrows.map((a, i) => <OpMark key={id + i} a={a} tone="cand" pt={pt} s={s} uid={uid} />))}
+          {ops.executed && ops.executed.map((a, i) => <OpMark key={"x" + i} a={a} tone="done" pt={pt} s={s} uid={uid} />)}
+          {ops.candidates && ops.focus && (ops.candidates[ops.focus] || []).map((a, i) => <OpMark key={"f" + i} a={a} tone="focus" pt={pt} s={s} uid={uid} />)}
+        </g>
+      )}
       {shown.filter((c) => c !== node.city).map((c) => <circle key={c} cx={XY[c][0]} cy={XY[c][1]} r={3.2 * s} className="dg-visited" />)}
       {(pins || []).filter((p) => XY[p.city]).map((p) => (
         <g key={p.campaignId} transform={`translate(${XY[p.city][0]} ${XY[p.city][1]})`}>
@@ -18459,8 +19490,17 @@ function MapCanvas({ campaignId, node, visited, full, pins }) {
 }
 
 /** The report's map: always there, small, and expandable to the whole theatre with its key and the other commands' news. */
-function FrontMapPanel({ campaignId, node, visited }) {
+function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, executed }) {
   const [open, setOpen] = useState(false);
+  // the orders drawn: this report's, the one in view, those given before (the last three), and the one just given
+  const ops = useMemo(() => {
+    if (!nodeId) return null;
+    const candidates = executed ? null : mapOpsOf(nodeId);
+    const past = (taken || []).filter((t) => t.node !== nodeId).slice(-3).flatMap((t) => mapOpsFor(t.node, t.choice));
+    const done = executed ? mapOpsFor(executed.nodeId, executed.choiceId) : null;
+    if (!past.length && !done && (!candidates || !Object.keys(candidates).length)) return null;
+    return { candidates, focus, past, executed: done };
+  }, [nodeId, focus, taken, executed]);
   const opener = useRef(null);
   const closer = useRef(null);
   const date = mapDate(campaignId, node.date);
@@ -18498,7 +19538,7 @@ function FrontMapPanel({ campaignId, node, visited }) {
         <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
         <button ref={opener} className="dg-btn" aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>Expand the map</button>
       </div>
-      <MapCanvas campaignId={campaignId} node={node} visited={visited} full={false} pins={meanwhile} />
+      <MapCanvas campaignId={campaignId} node={node} visited={visited} full={false} pins={meanwhile} ops={ops} />
       {open && (
         <div className="dg-modal" role="dialog" aria-modal="true" aria-label="The front, whole theatre" onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
           <div className="dg-modal-inner">
@@ -18506,11 +19546,12 @@ function FrontMapPanel({ campaignId, node, visited }) {
               <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
               <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close the map</button>
             </div>
-            <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} />
+            <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} ops={ops} />
             <ul className="dg-key" aria-label="Key">
               {sides.map((k) => <li key={k}><i className={"dg-swatch dg-side-" + k} />{SIDE_NAMES[k]}</li>)}
               <li><i className="dg-swatch dg-swatch-front" />The front, approximate</li>
               <li><i className="dg-swatch dg-swatch-hq" />This headquarters</li>
+              {ops && <li><i className="dg-swatch dg-swatch-op" />An order: a solid arrow attacks, a dashed one moves or withdraws, a ring is a stand</li>}
             </ul>
             {meanwhile.length > 0 && (
               <>

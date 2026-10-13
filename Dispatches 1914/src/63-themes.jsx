@@ -131,7 +131,7 @@ export function resolveTheme(setting, prefersDark, prefersMore) {
 }
 
 const SEPIA_SERIF = '"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif';
-const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw"];
+const SEPIA_SMALL = [".dg-filerow", ".dg-sect", ".dg-timeline", ".dg-btn", ".dg-docrow", ".dg-order", ".dg-maphead .t", ".dg-cost", ".dg-meters", ".dg-badge", ".dg-seg button", ".dg-count", ".dg-preview", ".dg-record-mark", ".dg-tile span", ".dg-cmd-head .meta", ".dg-seal", ".dg-ribbon .y", ".dg-ending .meta", ".dg-holdhint", ".dg-entry .meta", ".dg-attested-tag", ".dg-hard", ".dg-draft", ".dg-key", ".dg-sc-top", ".dg-sc-badge", ".dg-sc-h", ".dg-cmd-meta", ".dg-ticks", ".dg-navbtn b", ".dg-sw", ".dg-gtag", ".dg-trust"];
 const SEPIA_COMMANDS = ["ohl", "gqg", "stavka", "bef", "aok", "otto"];
 
 /**
@@ -224,7 +224,7 @@ export function sepiaCss() {
   @S .dg-choice.dg-issue{border:1px solid var(--ink);text-align:center;margin-top:12px}
 
   /* the map: a sepia sheet with its own ink, the front a ticked black line */
-  @S .dg-map{border:1px solid var(--rule);box-shadow:none;--ink:var(--map-ink);--ink-soft:var(--map-soft);--paper:var(--sea);--accent:var(--map-ink);${mapAcc}}
+  @S .dg-map{border:1px solid var(--rule);box-shadow:none;--ink:var(--map-ink);--ink-soft:var(--map-soft);--paper:var(--sea);--accent:var(--map-ink);--op-focus:#a3281a;${mapAcc}}
   @S .dg-country{stroke:var(--map-soft)}
   @S .dg-front-glow{stroke:var(--map-ink);stroke-width:11;stroke-dasharray:2 9;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1}
   @S .dg-front{stroke:var(--map-ink);stroke-width:3.5;stroke-dasharray:none;animation:none}
@@ -298,6 +298,12 @@ export function sepiaCss() {
   @S .dg-sc-end{font-weight:500;font-size:34px}
   @S .dg-sc-cmd,@S .dg-sc-rank,@S .dg-sc-facts,@S .dg-sc-list{font-size:17px}
   @S .dg-sc-rank b{font-weight:500;font-size:26px}
+
+  /* the staff's reading */
+  @S .dg-bel li{border-top:1px solid var(--rule);font-size:16.5px}
+  @S .dg-gtag{border-color:var(--rule)}
+  @S .dg-g-firm{border-color:var(--ink-soft)}
+  @S .dg-rests{font-size:14.5px}
 
   /* the front screens */
   @S .dg-cmd{border:0;border-top:1px solid var(--rule);background:none;padding:18px 8px 14px;margin:0}

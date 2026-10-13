@@ -53,7 +53,7 @@ function dialPoint(deg, r) {
 }
 
 /** A half-circle dial for a contested order: the needle at the odds of the better outcome. */
-function OddsDial({ odds, easy }) {
+function OddsDial({ odds, easy, fog }) {
   const [nx, ny] = dialPoint(odds.pct * 1.8, 33);
   return (
     <span className="dg-odds">
@@ -66,7 +66,7 @@ function OddsDial({ odds, easy }) {
         <line x1="50" y1="50" x2={nx.toFixed(1)} y2={ny.toFixed(1)} stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
         <circle cx="50" cy="50" r="3.4" fill="currentColor" />
       </svg>
-      <span className="dg-odds-t">Odds: {odds.word}{easy ? ` (${odds.pct} in 100)` : ""}</span>
+      <span className="dg-odds-t">Odds: {odds.word}{easy ? ` (${odds.pct} in 100)` : ""}{fog ? <span className="dg-fogtag">, on the staff's reading</span> : null}</span>
     </span>
   );
 }
@@ -79,7 +79,7 @@ const HOLD_SLOP = 14; // pixels a pointer may move before it is scrolling and no
  * An order. A contested one (`hold`) is signed by holding the button down; a keyboard or assistive press signs it at once (a click with no
  * pointer behind it has detail 0), and the setting can turn the holding off.
  */
-function OrderButton({ ch, hold, onSign, children }) {
+function OrderButton({ ch, hold, onSign, onView, children }) {
   const [holding, setHolding] = useState(false);
   const [holdMs, setHoldMs] = useState(HOLD_MS);
   const timer = useRef(null);
@@ -110,6 +110,8 @@ function OrderButton({ ch, hold, onSign, children }) {
   };
   return (
     <button className={"dg-choice" + (holding ? " holding" : "")} disabled={ch.blocked}
+      onFocus={onView ? () => onView(ch.id) : undefined} onBlur={onView ? () => onView(null) : undefined}
+      onMouseEnter={onView ? () => onView(ch.id) : undefined} onMouseLeave={onView ? () => onView(null) : undefined}
       onClick={(e) => { if (!hold || e.detail === 0) onSign(); }}
       onPointerDown={hold ? start : undefined} onPointerMove={hold ? move : undefined} onPointerUp={hold ? stop : undefined} onPointerLeave={hold ? stop : undefined} onPointerCancel={hold ? stop : undefined}
       onContextMenu={hold ? (e) => e.preventDefault() : undefined}

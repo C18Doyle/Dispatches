@@ -1642,5 +1642,107 @@
     "status": "drafted",
     "sources": [],
     "note": ""
+  },
+  {
+    "id": "otto-w3-1",
+    "node": "otto_1917_05_aqaba",
+    "kind": "fact",
+    "claim": "The Arab forces took Wejh on the Red Sea coast in January 1917 with the help of the Royal Navy and raided the Hejaz railway thereafter.",
+    "status": "drafted",
+    "sources": [],
+    "note": "To be checked against wp-sinaipal."
+  },
+  {
+    "id": "otto-w3-2",
+    "node": "otto_1917_05_aqaba",
+    "kind": "fact",
+    "claim": "The Aqaba garrison was about a battalion or less (sources give 300 to 550); the road to the port from the desert ran through the Wadi Itm and the pass at Abu el Lissan, where there was a blockhouse.",
+    "status": "web-checked",
+    "sources": [
+      "wp-aqaba"
+    ],
+    "note": "The garrison figure is disputed."
+  },
+  {
+    "id": "otto-w3-3",
+    "node": "otto_1917_05_aqaba",
+    "kind": "fact",
+    "claim": "Arab irregulars under Auda abu Tayi, with Lawrence and the Sharif Nasir, defeated a Turkish battalion at Abu el Lissan on 2 July 1917; the post at Khadra at the mouth of the Itm, with about 300 men, surrendered on 6 July, the day on which Aqaba fell.",
+    "status": "web-checked",
+    "sources": [
+      "wp-aqaba"
+    ],
+    "note": "Sources differ on some dates."
+  },
+  {
+    "id": "otto-w3-4",
+    "node": "otto_1917_06_hejaz",
+    "kind": "fact",
+    "claim": "On 4 October 1917 Fakhri Pasha reported that the food in Medina was nearly exhausted and that he could not rely on the railway; the staff replied that he was responsible for his own fuel and could pull down buildings in the city, the holy places excepted.",
+    "status": "web-checked",
+    "sources": [
+      "qdl-hejaz"
+    ],
+    "note": "The source is a British compilation from intercepted Ottoman signals."
+  },
+  {
+    "id": "otto-w3-5",
+    "node": "otto_1917_06_hejaz",
+    "kind": "fact",
+    "claim": "On 10 November 1917 Djemal told Fakhri that, if Jerusalem fell, it was intended to evacuate the Hejaz Expeditionary Force from Medina; the programme drawn up that month would have taken 75 days and was never carried out, for want of rolling stock, fuel and supplies and because of constant interruptions of the railway.",
+    "status": "web-checked",
+    "sources": [
+      "qdl-hejaz"
+    ],
+    "note": ""
+  },
+  {
+    "id": "otto-w3-6",
+    "node": "otto_1917_07_erzincan",
+    "kind": "fact",
+    "claim": "The armistice of Erzincan was signed on 18 December 1917 (5 December Old Style) between the Ottoman Third Army and the Transcaucasian authorities, after a proposal by Vehib Pasha; it held until fighting resumed in February 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-erzincan"
+    ],
+    "note": "The Ottomans treated the other side as an independent state; the Commissariat did not."
+  },
+  {
+    "id": "otto-w3-7",
+    "node": "otto_1917_07_erzincan",
+    "kind": "fact",
+    "claim": "Jerusalem fell to the British on 9 December 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Existing claims for otto_1917_02_jerusalem give the date; to be cross-checked."
+  },
+  {
+    "id": "ix-otto_1914_03_sarikamis-thin",
+    "node": "otto_1914_03_sarikamis",
+    "kind": "fact",
+    "claim": "Enver believed the Russian line at Sarikamis to be thin and badly equipped; the Russians had more men in the area than he reckoned, and a railway, while the Ottoman columns lacked winter clothing.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See the Sarikamis claims."
+  },
+  {
+    "id": "ix-otto_1915_02_gallipoli-bulair",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "fact",
+    "claim": "Liman von Sanders expected a main landing at Bulair and kept two divisions at the neck of the peninsula; the landings came at Cape Helles and at Anzac.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The node's text gives the placing of the divisions."
+  },
+  {
+    "id": "ix-otto_1918_02_megiddo-jordan",
+    "node": "otto_1918_02_megiddo",
+    "kind": "fact",
+    "claim": "The Ottoman staff expected the British attack across the Jordan; the British deceived it, and the attack of September 1918 came on the coast.",
+    "status": "web-checked",
+    "sources": [
+      "wp-megiddo"
+    ],
+    "note": "The node's text gives the deception."
   }
 ]

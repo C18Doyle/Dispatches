@@ -152,6 +152,8 @@ export const EVENTS = [
 export function dueEvent(campaignId, nodeId, flags, meters) {
   const node = CAMPAIGNS[campaignId] && CAMPAIGNS[campaignId].nodes[nodeId];
   if (!node || node.ending) return null;
+  const gone = resignationEvent(campaignId, flags || {}, node.date);
+  if (gone) return gone;
   for (const e of EVENTS) {
     if (e.campaign !== campaignId || (flags && flags["ev_" + e.id])) continue;
     if (node.date < e.from || node.date > e.to) continue;

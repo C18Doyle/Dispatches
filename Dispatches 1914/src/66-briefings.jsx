@@ -117,7 +117,8 @@ export const HOW_TO = [
     title: "Reading a report",
     paras: [
       "A report gives the date and the place, then the decision in a single line, with a button that goes straight to the orders. Below that are the map, any bulletin that came over the wire, the situation, the context, the three meters, and the orders.",
-      "Press a meter to see what it is made of. The map can be opened to the whole theatre, with a list of what the other commands were doing the same week.",
+      "Press a meter to see what it is made of. The map can be opened to the whole theatre, with a list of what the other commands were doing the same week. Move the pointer or the keyboard over an order and it is drawn on the map, a solid arrow for an attack, a dashed one for a move or a withdrawal and a ring for a stand. The orders you have given stay on the map for a while.",
+      "Some reports list what the staff believes, each belief with the grade the staff gave it. The grade is no guide, because firm reports have been wrong and doubtful ones right. You may check a belief, a few times in a file, to learn whether it holds. An order that rests on a false belief shows better odds than it really has until the belief is checked, and an order that does not rest on a belief you have found false earns a point of will.",
     ],
   },
   {
@@ -129,10 +130,18 @@ export const HOW_TO = [
     ],
   },
   {
+    id: "advisers",
+    title: "Advisers and trust",
+    paras: [
+      "Each order may carry an adviser's argument. An order that follows an adviser earns that adviser a point of trust, and each adviser whose order was passed over loses half a point. An adviser who has been overruled too often goes quiet, and the argument is no longer shown; after that the adviser asks to be relieved. A trusted adviser is marked, and brings one more check on a belief.",
+    ],
+  },
+  {
     id: "battles",
     title: "Battles",
     paras: [
       "Some contested orders open an Order of Battle. You name a commander, choose an approach and place your counters, and the staff's plan is always one press away. The odds you see are the odds of the plan on what the intelligence says the enemy has; the enemy may have something else. The result is graded, and the next report says how the battle was fought.",
+      "A battle lasts two days. When the plan is issued the first day shows the enemy that was really met, which may not be the one the intelligence named. You may then move up to two counters from one arm to another, worth three times what they would have been in the dark, and choose to hold the plan, to press the attack (a third more of the plan's edge or its error, and a point of manpower) or to steady the line (half of it).",
       "You can switch the planning off when you set up a file, and every battle is then rolled at the odds of the staff's plan.",
     ],
   },

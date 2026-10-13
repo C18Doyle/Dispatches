@@ -111,7 +111,7 @@ export function previewImpact(choice) {
  * impact is applied first, then nextIf is evaluated against POST-choice meters,
  * then next is the fallthrough.
  */
-export function chooseNext(campaignId, choice, flags, meters, hardState, rng = Math.random, plan = null) {
+export function chooseNext(campaignId, choice, flags, meters, hardState, rng = Math.random, plan = null, ctx = null) {
   let branch = null;
   let battle = null;
   if (choice.uncertain && choice.uncertain.length) {
@@ -135,8 +135,12 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
 
   let nextMeters = applyImpact(meters, impact);
   if (battle) nextMeters = applyImpact(nextMeters, battle.totals);
+  // given at a report by a player (ctx = { nodeId, easy }): the edge of checked intelligence, and the trust the order earns or costs
+  const edge = ctx ? intelEdge(ctx.nodeId, choice, flags, ctx.easy) : null;
+  if (edge) nextMeters = applyImpact(nextMeters, edge);
   const outcomeText = branch?.outcome ?? choice.outcome ?? null;
-  const nextFlags = tallyStrands({ ...flags, ...setFlags }, choice, impact, outcomeText, campaignId);
+  const tallied = tallyStrands({ ...flags, ...setFlags }, choice, impact, outcomeText, campaignId);
+  const nextFlags = ctx ? trustAfter(campaignId, ctx.nodeId, choice, tallied) : tallied;
   const nextHard = applyErosion(hardState, campaignId, choice);
 
   let nextId = branch?.next ?? null;
@@ -163,5 +167,6 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
     battle,
     changes: meterChanges(meters, nextMeters, flags, nextFlags, choice, outcomeText, campaignId),
     contested: Boolean(choice.uncertain && choice.uncertain.length),
+    informed: Boolean(edge),
   };
 }

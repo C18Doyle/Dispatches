@@ -863,5 +863,23 @@
     "status": "drafted",
     "sources": [],
     "note": "Helles was the last place evacuated; the exact days are to be checked."
+  },
+  {
+    "id": "ix-bef_1916_11_somme-wire",
+    "node": "bef_1916_11_somme",
+    "kind": "fact",
+    "claim": "The British planners expected the bombardment before the Somme to cut the German wire and destroy the dugouts; on 1 July 1916 the wire was uncut in places and the deep dugouts survived.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The node's own text and the Somme claims cover the outcome."
+  },
+  {
+    "id": "ix-bef_1915_06_loos-light",
+    "node": "bef_1915_06_loos",
+    "kind": "fact",
+    "claim": "The German front line at Loos was lightly held and the attack of 25 September 1915 made ground on the first day, but German reserves were close behind.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See the Loos claims."
   }
 ]

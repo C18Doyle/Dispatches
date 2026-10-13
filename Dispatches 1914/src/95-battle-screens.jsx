@@ -15,11 +15,103 @@ const GRADE_WORDS = {
 
 const GRADE_SHORT = { clean: "A clean battle", costly: "A costly victory", marginal: "A plan that held, and a battle that did not go its way", total: "A plan that gave out" };
 
+/** The first day's word: how the plan sits on the enemy that was really met. */
+function dayOneWord(bonus) {
+  return bonus >= 5 ? "The first day went well: the plan fits the enemy that was met."
+    : bonus <= -5 ? "The first day went badly: the plan was made for another enemy."
+    : "The first day was even: the plan neither fits the enemy nor fails against it.";
+}
+
+/** The second day: the enemy is known, a few counters can be moved, and a stance is chosen. */
+function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel, pool, onCommit, onBack }) {
+  const c = CAMPAIGNS[campaignId];
+  const [stance, setStance] = useState("hold");
+  const [delta, setDelta] = useState({});
+  const alloc = plan.allocation;
+  const d = (id) => delta[id] || 0;
+  const hand = -Object.values(delta).reduce((a, v) => a + v, 0);
+  const movedOut = Object.values(delta).reduce((a, v) => a + Math.max(0, -v), 0);
+  const out = [];
+  const into = [];
+  for (const k of config.categories) {
+    for (let i = 0; i < -d(k.id); i++) out.push(k.id);
+    for (let i = 0; i < d(k.id); i++) into.push(k.id);
+  }
+  const moves = out.map((from, i) => ({ from, to: into[i] })).filter((m) => m.to);
+  const final = { ...plan, second: { stance, moves } };
+  const dayOne = battleBonus(config, plan, posture, pool);
+  const odds = useMemo(() => battlePlanOdds(choice, config, final, posture, pool, meters), [stance, delta]);
+  const was = useMemo(() => battlePlanOdds(choice, config, plan, posture, pool, meters), []);
+  const contributions = battleContributions(config, battleSecondPlan(final), posture, pool);
+  const bump = (id, step) => setDelta((x) => ({ ...x, [id]: (x[id] || 0) + step }));
+  const stanceOf = (id) => BATTLE_STANCES.find((x) => x.id === id);
+  return (
+    <main {...rootProps(campaignId, "battle")}>
+      <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
+      <div className="dg-docrow">
+        <span>ORDER OF BATTLE</span>
+        <button className="dg-btn" onClick={onBack}>Change the plan</button>
+      </div>
+      <h1 className="dg-node-title">{config.title}</h1>
+      <section aria-label="The first day">
+        <h2 className="dg-order">The first day</h2>
+        <div className="dg-bulletin">
+          <div className="h">REPORT FROM THE FIELD</div>
+          The enemy was {posture ? posture.name.charAt(0).toLowerCase() + posture.name.slice(1) : "not what was expected"}.
+          {intel && intel.shown && posture && intel.shown.id !== posture.id ? " The staff's intelligence summary had described another setup." : " The staff's intelligence summary was right."}
+        </div>
+        <p className="dg-prose">{dayOneWord(dayOne)}</p>
+        <p className="dg-note">The odds on the plan as issued: {was.word}.</p>
+      </section>
+
+      <section aria-label="The second day">
+        <h2 className="dg-order">The second day</h2>
+        <p className="dg-note">Now that the enemy is known, up to {BATTLE_SHIFT_MAX} counters may be moved from one arm to another. A counter moved now is worth {BATTLE_SECOND_GAIN} times what it would have been in the dark, less {BATTLE_SHIFT_COST} point of weight for the confusion. Then say how the day is to be fought.</p>
+        {config.categories.map((k) => (
+          <div key={k.id} className="dg-bt-arm">
+            <div className="dg-bt-head">
+              <b>{k.name}</b>
+              <span className="dg-bt-ctl">
+                <button className="dg-btn" aria-label={"Take a counter out of " + k.name} disabled={!(alloc[k.id] + d(k.id) > 0) || movedOut >= BATTLE_SHIFT_MAX} onClick={() => bump(k.id, -1)}>−</button>
+                <span className="dg-bt-n" aria-label={k.name + ": " + (alloc[k.id] + d(k.id)) + " counters"}>{alloc[k.id] + d(k.id)}</span>
+                <button className="dg-btn" aria-label={"Put a counter into " + k.name} disabled={hand <= 0} onClick={() => bump(k.id, 1)}>+</button>
+              </span>
+            </div>
+            <p className="dg-note" style={{ marginBottom: 6 }}>{contributions[k.id] < 0 ? "This arm is short against the enemy that was met." : "This arm is holding its own."}</p>
+          </div>
+        ))}
+        <p className="dg-note" role="status" aria-live="polite">{hand > 0 ? hand + " counter" + (hand === 1 ? "" : "s") + " in hand: put them into an arm." : moves.length ? moves.length + " counter" + (moves.length === 1 ? "" : "s") + " moved." : "No counters moved."}</p>
+        <div role="group" aria-label="Stance" className="dg-bt-pick">
+          {BATTLE_STANCES.map((x) => (
+            <button key={x.id} className="dg-choice dg-opt" aria-pressed={stance === x.id} onClick={() => setStance(x.id)}>
+              <div className="lab">{x.name}</div>
+              <div className="dg-quote">{x.note}</div>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <div className="dg-bt-bar" role="group" aria-label="The second day">
+        <div className="dg-bt-stat">
+          <span className="dg-bt-k">The odds</span>
+          <b>{odds.word}</b>
+          <small>{stanceOf(stance).name}{moves.length ? "; " + moves.length + " moved" : ""}</small>
+        </div>
+        <button className="dg-choice dg-issue" disabled={hand !== 0} onClick={() => onCommit(final)}>
+          <div className="lab">Carry on to the second day</div>
+          {hand !== 0 && <div className="dg-cost">Put the counters in hand into an arm</div>}
+        </button>
+      </div>
+    </main>
+  );
+}
+
 function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBack }) {
   const c = CAMPAIGNS[campaignId];
   const pool = useMemo(() => battlePoolSize(meters), [meters]);
   const [posture] = useState(() => pickBattlePosture(config));
   const [intel] = useState(() => battleIntel(config, posture));
+  const [committed, setCommitted] = useState(null); // the plan as issued: the second day follows
   const empty = useMemo(() => Object.fromEntries(config.categories.map((k) => [k.id, 0])), [config]);
   const [allocation, setAllocation] = useState(empty);
   const [commanderId, setCommanderId] = useState(null);
@@ -61,6 +153,10 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
   const heading = { officer: "Name an officer", approach: "Choose the approach", counters: "Place the counters" };
   const last = si === steps.length - 1;
   const next = () => setSi((i) => Math.min(steps.length - 1, i + 1));
+  if (committed) {
+    return <BattleDayTwo campaignId={campaignId} config={config} choice={choice} meters={meters} plan={committed} posture={posture} intel={intel} pool={pool}
+      onCommit={onCommit} onBack={() => setCommitted(null)} />;
+  }
   return (
     <main {...rootProps(campaignId, "battle")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -162,7 +258,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
           {staffOdds && <small>The staff's plan: {staffOdds.word}</small>}
         </div>
         {last ? (
-          <button className="dg-choice dg-issue" disabled={!ready} onClick={() => onCommit(plan)}>
+          <button className="dg-choice dg-issue" disabled={!ready} onClick={() => { setCommitted(plan); if (window.scrollTo) window.scrollTo(0, 0); }}>
             <div className="lab">Issue the plan</div>
             {!ready && <div className="dg-cost">{left > 0 ? `Place the remaining ${left} counters` : "Choose the approach"}</div>}
           </button>
@@ -183,6 +279,10 @@ function BattleReport({ battle }) {
   const placed = plan ? config.categories.filter((k) => plan.allocation[k.id]).map((k) => `${k.name} ${plan.allocation[k.id]}`).join(", ") : null;
   const commander = plan && (config.commanders || []).find((m) => m.id === plan.commanderId);
   const approach = plan && (config.approaches || []).find((a) => a.id === plan.approachId);
+  const second = plan && plan.second;
+  const secondLine = second && (second.stance !== "hold" || (second.moves && second.moves.length))
+    ? "The second day: " + (second.stance === "press" ? "the attack was pressed" : second.stance === "steady" ? "the line was steadied" : "the plan was held") + (second.moves && second.moves.length ? ", and " + second.moves.length + (second.moves.length === 1 ? " counter was" : " counters were") + " moved once the enemy was known" : "") + "."
+    : null;
   const moved = battle.bonus === 0 ? "The plan did as the staff's would have: the odds were the record's." : battle.bonus > 0
     ? `The plan moved the odds ${battle.bonus} points toward the better outcome.` : `The plan moved the odds ${-battle.bonus} points away from the better outcome.`;
   return (
@@ -190,6 +290,7 @@ function BattleReport({ battle }) {
       <h2 className="dg-order">After-action report</h2>
       {posture && <p className="dg-prose" style={{ marginBottom: 8 }}>The enemy's setup was this: {posture.name}.</p>}
       {plan && <p className="dg-note">The plan: {placed}{approach ? `; ${approach.name.toLowerCase()}` : ""}{commander ? `; ${commander.name} named` : ""}.</p>}
+      {secondLine && <p className="dg-note">{secondLine}</p>}
       <p className="dg-prose" style={{ marginBottom: 8 }}>{moved}</p>
       <p className="dg-prose" style={{ marginBottom: 8 }}>{GRADE_WORDS[battle.grade]}</p>
       {battle.lines.length > 0 && (

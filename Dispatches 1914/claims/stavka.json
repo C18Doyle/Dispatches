@@ -1484,5 +1484,25 @@
     "status": "drafted",
     "sources": [],
     "note": ""
+  },
+  {
+    "id": "ix-stavka_1914_12_tannenberg-retiring",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "fact",
+    "claim": "The Russian front staff believed that the German Eighth Army, beaten at Gumbinnen, was retiring toward the Vistula; in fact it turned south, partly by rail, against the Second Army.",
+    "status": "web-checked",
+    "sources": [
+      "wp-tannenberg"
+    ],
+    "note": ""
+  },
+  {
+    "id": "ix-stavka_1915_01_masuria-warning",
+    "node": "stavka_1915_01_masuria",
+    "kind": "fact",
+    "claim": "The Tenth Army's commander warned in January 1915 that a German attack was coming; the Germans attacked on 7 February (Western calendar) in a snowstorm.",
+    "status": "drafted",
+    "sources": [],
+    "note": "See the Masuria claims."
   }
 ]

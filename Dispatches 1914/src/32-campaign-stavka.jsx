@@ -808,7 +808,7 @@ CAMPAIGNS.stavka.nodes = {
           "continue to divide on how much of the monarchy's fall to assign to the " +
           "autocratic system, to wartime dislocation, and to this man's personality.",
         uncertain: [
-          { weight: 60, title: "The front steadies and the capital does not", historicalBranch: true,
+          { weight: 80, title: "The front steadies and the capital does not", historicalBranch: true,
             impact: { will: -2 },
             setFlags: { stavka_commandResult: "capitallost" },
             next: "stavka_1915_05_sventsiany",
@@ -819,7 +819,7 @@ CAMPAIGNS.stavka.nodes = {
               "against the war spreads through people who are not revolutionaries and were " +
               "not going to be. The Emperor is now answerable for every defeat at the " +
               "front, and the capital is run by people he cannot supervise." },
-          { weight: 40, title: "The presence steadies both",
+          { weight: 20, title: "The presence steadies both",
             impact: { will: 1 },
             setFlags: { stavka_commandResult: "steadied" },
             next: "stavka_1915_05_sventsiany",
