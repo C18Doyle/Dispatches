@@ -38,7 +38,7 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 
 ## Early branching and forks
 - The first year and a half has seven reports of its own (Burma Road, Neutrality Pact, Indian Ocean raid; China air force, Stilwell, Wasp request, Pacific route) and sixteen reports carry a third order added in the second fork wave. Facts: `claims/early-branching-round1.json`, `claims/forks-round1.json`. `npm run test:branch-nodes` clicks every option of the seven and the added order of the sixteen from a save on each report.
-- Adding a report: atlas entry, `NODE_TOTAL`, a map hint in `MAP_NODE_REGIONS` (30-screens), and a reader for every flag it sets (`check-reachability` fails on a flag written and never read).
+- Adding a report: atlas entry, `NODE_TOTAL`, a map hint in `NODE_REGION_HINTS` (30-screens), and a reader for every flag it sets (`check-reachability` fails on a flag written and never read).
 
 ## Commands
 - `npm run build` writes `dist/full` and `dist/demo` (demo = `process.env.DEMO_BUILD` defined true).
