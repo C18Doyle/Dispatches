@@ -16,6 +16,7 @@ function WW2CommandInner() {
   const battleDraftRef = useRef(null);
   const [battleResume, setBattleResume] = useState(null);
   const [pendingPressEvent, setPendingPressEvent] = useState(null);
+  const [pendingStateEvent, setPendingStateEvent] = useState(null);
   const [pendingDivergenceReveal, setPendingDivergenceReveal] = useState(null);
   // Ids of divergence forks already shown to the player this run — a fork has exactly one
   // reveal point (its revealNode), so this exists purely to guard against ever showing the
@@ -142,6 +143,13 @@ function WW2CommandInner() {
     setScreen("briefing");
   }
 
+  function dismissStateEvent() {
+    // Pure context. The flag records that it was shown, so it can never come twice in this file.
+    if (pendingStateEvent) setFlags((prev) => ({ ...prev, [STATE_EVENT_FLAG_PREFIX + pendingStateEvent.id]: true }));
+    setPendingStateEvent(null);
+    setScreen("briefing");
+  }
+
   function dismissDivergence() {
     // Also pure context — no meter or flag effects here either, the fork's actual gameplay
     // weight was already applied back at the choice that rolled it. Marks the reveal seen
@@ -257,6 +265,12 @@ function WW2CommandInner() {
       setPosition(nextPos);
       setChoiceIndex(null);
       setRollIndex(null);
+      let nextDate;
+      try {
+        nextDate = campaign.resolveNode(String(nextPos), flags, meters)?.date;
+      } catch (e) {
+        nextDate = undefined;
+      }
       const arrival = arrivalScreen({
         dynamic: !!campaign.dynamic,
         campaignId,
@@ -266,6 +280,9 @@ function WW2CommandInner() {
         forks: DIVERGENCE_FORKS,
         events: SPECIAL_EVENTS,
         seenReveals: seenDivergenceReveals,
+        stateEvents: STATE_EVENTS,
+        nextDate,
+        meters,
       });
       if (arrival.divergenceForkId) {
         setPendingDivergenceReveal(DIVERGENCE_HEADLINES[arrival.divergenceForkId]);
@@ -273,6 +290,7 @@ function WW2CommandInner() {
         setScreen("divergence");
       } else {
         setPendingPressEvent(arrival.pressEvent);
+        setPendingStateEvent(arrival.stateEvent);
         setScreen(arrival.screen);
       }
       // Autosave every 3rd decision (plus always on manual Save / Home) — the storage API is
@@ -486,6 +504,9 @@ function WW2CommandInner() {
       )}
       {screen === "press" && campaign && pendingPressEvent && (
         <PressReportScreen campaignId={campaign.id} event={pendingPressEvent} onContinue={dismissPress} />
+      )}
+      {screen === "stateEvent" && campaign && pendingStateEvent && (
+        <StateEventScreen campaign={campaign} event={pendingStateEvent} onContinue={dismissStateEvent} />
       )}
       {screen === "divergence" && campaign && pendingDivergenceReveal && (
         <DivergenceRevealScreen campaign={campaign} headline={pendingDivergenceReveal} onContinue={dismissDivergence} />

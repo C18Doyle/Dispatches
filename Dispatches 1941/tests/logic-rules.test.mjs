@@ -29,6 +29,27 @@ check(L.strandOf("pipeline", { label: "Convoy the tankers from Palembang to the 
 check(L.strandOf("initiative", { label: "Break the codes and read the intercepts" }) === "int", "intelligence words file an initiative impact under Intelligence");
 check(L.strandOf("readiness", { label: "Nothing in particular" }) === "flt" && L.strandOf("pipeline", { label: "Nothing" }) === "shp" && L.strandOf("initiative", { label: "Nothing" }) === "tmp", "an impact whose text names nothing falls on the meter's default reading");
 
+// --- state-driven events -----------------------------------------------------------------------------------------
+check(L.reportStartMonth("SEPTEMBER 1940") === "1940-09" && L.reportStartMonth("JUNE – JULY 1942") === "1942-06" && L.reportStartMonth("1943 – 1944") === "1943-01" && L.reportStartMonth("LATE 1944") === "1944-01" && L.reportStartMonth("OCTOBER 25, 1944") === "1944-10", "a report date reads as the month it starts in");
+check(L.reportStartMonth("NO YEAR") === null && L.reportStartMonth(undefined) === null, "a date with no year has no start month");
+const EV = [
+  { id: "x_a", campaign: "japan", from: "1943-06", to: "1944-09", when: (f, m) => m.pipeline <= -3 },
+  { id: "x_b", campaign: "japan", from: "1943-06", to: "1944-09", when: () => true },
+  { id: "x_c", campaign: "alliedPacific", from: "1943-06", to: "1944-09", when: () => true },
+];
+const due = (date, flags, meters, campaignId = "japan") => L.dueStateEvent({ campaignId, events: EV, nextDate: date, flags, meters });
+check(due("JUNE 1944", {}, M(0, -4, 0))?.id === "x_a", "the first event in the list whose condition holds is due");
+check(due("JUNE 1944", {}, M(0, 0, 0))?.id === "x_b", "an event whose condition fails is passed over for the next");
+check(due("MAY 1943", {}, M(0, -4, 0)) === null && due("OCTOBER 1944", {}, M(0, -4, 0)) === null, "no event is due before its window or after it");
+check(due("JUNE 1944", { ev_x_a: true }, M(0, -4, 0))?.id === "x_b" && due("JUNE 1944", { ev_x_a: true, ev_x_b: true }, M(0, -4, 0)) === null, "an event that was shown is never due again");
+check(due("JUNE 1944", {}, M(0, 0, 0), "alliedPacific")?.id === "x_c", "an event belongs to its own command");
+const arrive = (extra) => L.arrivalScreen({ dynamic: true, campaignId: "japan", position: "a", nextPos: "b", flags: {}, forks: {}, events: {}, seenReveals: [], stateEvents: EV, nextDate: "JUNE 1944", meters: M(0, 0, 0), ...extra });
+check(arrive({}).screen === "stateEvent" && arrive({}).stateEvent.id === "x_b", "the arrival screen is the event screen when an event is due");
+check(arrive({ stateEvents: undefined }).screen === "briefing", "without state events the arrival is the briefing, as before");
+check(arrive({ events: { japan: [{ type: "press", afterNode: "a", pressEvent: "p" }] } }).screen === "press", "a report-keyed event comes before a state event");
+check(arrive({ forks: { japan: [{ id: "f", flag: "fk", revealNode: "b" }] }, flags: { fk: true } }).screen === "divergence", "a divergence reveal comes before a state event");
+check(arrive({ dynamic: false }).screen === "briefing", "a campaign that is not dynamic never shows a state event");
+
 // --- the tallies and the bands -----------------------------------------------------------------------------------
 let r = resolve(choice({ readiness: 2 }, { label: "Train new aircrews" }), M(0, 0, 0));
 check(r.flags.rdyTrn === 2 && r.meters.readiness === 2, "an impact adds to its reading's tally and to the headline");

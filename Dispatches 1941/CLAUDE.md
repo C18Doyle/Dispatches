@@ -9,7 +9,7 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 - `tests/baseline/ui/` recorded runs (64: easy, standard, hard and a staff-plan run per campaign, x 8 seeds). `tests/ui.config.mjs` configures the shared headless driver in `../packages/testkit`.
 
 ## Editing surface: src/parts/ (not src/App.jsx)
-`src/App.jsx` is an assembled artifact (the validators, extractors and baselines read it). Edit the parts in `src/parts/`: `00-head`, one file per campaign (`10-campaign-japan`, `11-campaign-alliedpacific`), `20-registries-and-gallery`, `25-battle-subgame` (the Order of Battle engine and registries), `26-battles-pacific` (the three battles), `30-screens`, `35-battle-screens`, `40-app`. A session that touches one campaign needs that one part plus this file.
+`src/App.jsx` is an assembled artifact (the validators, extractors and baselines read it). Edit the parts in `src/parts/`: `00-head`, one file per campaign (`10-campaign-japan`, `11-campaign-alliedpacific`), `20-registries-and-gallery`, `25-battle-subgame` (the Order of Battle engine and registries), `26-battles-pacific` (the nine battles), `30-screens`, `35-battle-screens`, `40-app`. A session that touches one campaign needs that one part plus this file.
 - `npm run build` assembles the parts into `src/App.jsx` first, and refuses if `src/App.jsx` is newer than every part (you edited the artifact by hand). Run `npm run split` to push such an edit back into the parts, or revert it.
 - `npm run assemble` / `npm run roundtrip` (proves split then assemble is byte-identical) are available on their own. The split points live in `split.config.json`; the tool is `../packages/testkit/src/split.mjs`.
 - Both the parts and the artifact are committed.
@@ -19,6 +19,11 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 - `npm run check-battle-balance` evaluates the engine and battle parts in a sandbox and fails on any broken invariant (hedge exploits, staff plan worse than careless play, no reason to read the enemy, a registry that does not match the config or its hosting choice). New battle: add the config, registries and title, host it on a choice, add the echo, run the check, run `npm run test:battle-resume`.
 - Flags a battle writes: `<id>Grade`, `<id>Counter`, `<id>PlanNeglected`, `<id>PlanCommander`, `<id>Staff`, `<id>Posture`, `<id>Dec_*`. A save made inside a battle carries a `battle` field (`restoreBattleSave`).
 - `npm run check-undefined` is the guard for names shared between parts.
+
+- Nine battles: Midway, the November battles off Guadalcanal, the Philippine Sea, Watchtower (CINCPAC), Sho-Go (IGHQ), Iwo Jima and Okinawa from both sides. Facts: `claims/battles-round1.json`, `claims/battles-round2.json`. `npm run test:battle-hosts` plays each through the real UI from a save on its hosting report, both outcomes.
+
+## Special events (state-driven)
+- `STATE_EVENTS` (20-registries) are short pieces of context shown once, between two reports, when the file's state calls for them: a window of months (`from`, `to`) that holds the report being arrived at, and `when(flags, meters)`. The rule is `dueStateEvent` / `arrivalScreen` in `logic.ts` (a divergence reveal and a report-keyed SPECIAL_EVENTS entry come first); the screen is `StateEventScreen`; the flag `ev_<id>` records that it was shown. They ask for no decision and change no meter. An event needs two paragraphs (no quotation marks, no em dashes), an `anchor` report inside its window, and claims in `claims/events-round1.json` under its id. `npm run check-events` and `npm run test:state-events` are in `test:fast`.
 
 ## Strain and arrears
 - `strainStage` (logic.ts) worsens the odds of a contested choice by the shortage of the meter it is about (`strainMeterOf`: its `gateCheck` label, else the meter its outcomes move most); the app and the audits (`audit-lib.mjs`, `check-endings.mjs`) run every stage through it, so what is shown is what is rolled. `resolveChoice` keeps arrears (`arrearsReadiness`, `arrearsPipeline`, `arrearsInitiative`, capped at 3) for what a cost takes below -10. The flags are set aside in the engine equivalence test (`TALLY_FLAGS`) and in `check-reachability`.
@@ -30,6 +35,10 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 ## Content in JSON (pilot)
 - 20 Allied Pacific nodes that are plain data live in `src/data/alliedPacific.nodes.json`; their getters in `src/parts/11-campaign-alliedpacific.jsx` are stubs (`return dataNode(ALLIED_PACIFIC_DATA, "id");`). Edit those nodes in the JSON, then `npm run build` (assembly inlines the JSON via `/*@inline-json ...*/`). All other nodes stay code in the part.
 - `npm run split` refuses in this game (the artifact no longer holds the directives). `npm run test:json` keeps JSON and stubs consistent. `npm run extract:json -- alliedPacific --dry-run` shows what else is plain. See `../docs/DATA_MIGRATION.md`.
+
+## Early branching and forks
+- The first year and a half has seven reports of its own (Burma Road, Neutrality Pact, Indian Ocean raid; China air force, Stilwell, Wasp request, Pacific route) and sixteen reports carry a third order added in the second fork wave. Facts: `claims/early-branching-round1.json`, `claims/forks-round1.json`. `npm run test:branch-nodes` clicks every option of the seven and the added order of the sixteen from a save on each report.
+- Adding a report: atlas entry, `NODE_TOTAL`, a map hint in `MAP_NODE_REGIONS` (30-screens), and a reader for every flag it sets (`check-reachability` fails on a flag written and never read).
 
 ## Commands
 - `npm run build` writes `dist/full` and `dist/demo` (demo = `process.env.DEMO_BUILD` defined true).
