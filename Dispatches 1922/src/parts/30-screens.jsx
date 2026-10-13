@@ -16,7 +16,11 @@
 // gambling," per your instruction — not revealed only after the fact.
 
 import React, { useState, useEffect } from "react";
-import { resolveChoice, afterOutcome } from "./logic";
+import { resolveChoice, afterOutcome, pickUncertain } from "./logic";
+import {
+  battlePoolSize, pickBattlePosture, battleIntel, battleArmWeight, staffPlanFor, battlePlanOdds, battleBonus, shiftToward,
+  battlePlanCosts, battleFlagsOut, battleEchoText,
+} from "./battle";
 
 // Real Google Fonts, loaded once at the App root. This is a self-contained
 // convenience for previewing the file as-is — in the real production build,
@@ -1036,7 +1040,7 @@ function CampaignDetailScreen({ campaignId, onEnter, onClose }) {
   );
 }
 
-function WarRoomScreen({ campaignId, hardModeEnabled, easyMode, onStart, onClose }) {
+function WarRoomScreen({ campaignId, hardModeEnabled, easyMode, planBattles, setPlanBattles, onStart, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   return (
@@ -1062,6 +1066,19 @@ function WarRoomScreen({ campaignId, hardModeEnabled, easyMode, onStart, onClose
         <div className="mt-6">
           <TriangleMeters campaign={c} meters={c.initialMeters} skin={skin} />
         </div>
+        {Object.values(BATTLES).some((b) => b.campaign === c.id) && (
+          <label className="flex items-start gap-3 mt-5 text-sm cursor-pointer">
+            <input type="checkbox" checked={planBattles} onChange={(e) => setPlanBattles(e.target.checked)} className="mt-1" />
+            <span>
+              <b>Take control of battle planning.</b>
+              <span className="block text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                {planBattles
+                  ? "An order that leads to a battle opens the Order of Battle. You place the counters, or let the staff plan it and play the record's odds."
+                  : "A battle is fought like any other order, at the record's odds."}
+              </span>
+            </span>
+          </label>
+        )}
         <button
           onClick={() => onStart(c.id)}
           className="mt-6 w-full font-bold py-3"
@@ -1082,7 +1099,7 @@ function OddsBadge({ entries, skin }) {
   );
 }
 
-function ChoiceCard({ choice, skin, meters, campaign, easyMode, hardMode, hardModeEnabled, capitalRemaining, onChoose }) {
+function ChoiceCard({ choice, skin, meters, campaign, easyMode, planBattles, hardMode, hardModeEnabled, capitalRemaining, onChoose }) {
   const blocked = typeof choice.gate === "function" && !choice.gate(meters);
   const costsCapital = hardModeEnabled && choice.costsCapital === true;
   return (
@@ -1106,6 +1123,11 @@ function ChoiceCard({ choice, skin, meters, campaign, easyMode, hardMode, hardMo
         <div className="text-xs mt-2" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>◆ HISTORICAL RECORD</div>
       )}
       {choice.uncertain && <OddsBadge entries={choice.uncertain} skin={skin} />}
+      {planBattles && !blocked && battleOf(choice) && (
+        <div className="inline-block border-2 mt-2 px-2 py-1 text-xs font-bold" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin) }}>
+          ⚔ LEADS TO BATTLE PLANNING
+        </div>
+      )}
       {easyMode && !blocked && <EasyPreview choice={choice} campaign={campaign} skin={skin} />}
       {blocked ? (
         <div className="mt-3 text-xs" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
@@ -1283,7 +1305,7 @@ function ObjectivesPanel({ campaign, skin }) {
   );
 }
 
-function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, easyMode, hardModeValue, instantText, reduceMotion, onChoose, onClose, onOpenMap, onOpenTimeline }) {
+function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, easyMode, planBattles, hardModeValue, instantText, reduceMotion, onChoose, onClose, onOpenMap, onOpenTimeline }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   const node = c.resolveNode(nodeId, flags, meters);
@@ -1366,7 +1388,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ea
               {backgroundOpen && node.context}
             </div>
           )}
-          <TypewriterText text={node.situation} instant={instantText} className="text-sm mt-4 leading-relaxed" />
+          <TypewriterText text={node.situation + battleEchoText(BATTLES, nodeId, flags)} instant={instantText} className="text-sm mt-4 leading-relaxed" />
         </div>
         <div className="mt-6">
           {node.choices.map((choice, i) => (
@@ -1377,6 +1399,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ea
               meters={meters}
               campaign={c}
               easyMode={easyMode}
+              planBattles={planBattles}
               hardMode={c.hardMode}
               hardModeEnabled={hardModeEnabled}
               capitalRemaining={capitalRemaining}
@@ -1389,7 +1412,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ea
   );
 }
 
-function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeValue, hardModeMaxed, hardModeEnabled, easyMode, canRewind, onRewind, deltas, onContinue, onClose }) {
+function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeValue, hardModeMaxed, hardModeEnabled, easyMode, canRewind, onRewind, battle, deltas, onContinue, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   const triangleDeltaEntries = Object.entries(deltas.triangle);
@@ -1410,6 +1433,8 @@ function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeVa
             {aftermath}
           </div>
         )}
+
+        {battle && <BattleReport campaignId={campaignId} battle={battle} skin={skin} />}
 
         {/* Explicit delta statement — this is what actually answers "did
             anything change." A bar shifting 1-2 points out of ±10 is easy to
