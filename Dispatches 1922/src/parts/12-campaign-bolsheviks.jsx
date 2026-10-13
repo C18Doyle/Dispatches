@@ -536,6 +536,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Reassert Revvoensoviet authority now, even though the moment to do it cleanly at Tsaritsyn has already passed.",
+              costsCapital: true,
               advisor: {
                 name: "Trotsky",
                 quote:
@@ -679,6 +680,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Intensify requisitioning in reconquered territory. The army and the cities eat first.",
+              costsCapital: true,
               advisor: {
                 name: "Trotsky",
                 quote:
@@ -1089,6 +1091,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Approve the unified Cavalry Army under Budyonny's command.",
+              costsCapital: true,
               advisor: {
                 name: "Budyonny",
                 quote:
