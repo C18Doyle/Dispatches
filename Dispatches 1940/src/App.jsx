@@ -7231,13 +7231,359 @@ const CAMPAIGNS = {
     id: "soviet",
     seal: "STAVKA",
     name: "Soviet High Command",
-    dates: "1941–1945",
+    dates: "1939–1945",
     brief: "Save the Red Army from the shock of Barbarossa and lead it to the gates of Berlin.",
     accent: "#8a2f1f",
     dynamic: true,
-    start: "border41",
+    start: "finnishPrep39",
     resolveNode(id, flags, meters) {
-      const nodes = {        get border41() {
+      const nodes = {
+        // The prelude (October 1939 to May 1941). The campaign used to open at the border on 22 June 1941; these eight reports are the
+        // decisions before it that the record leaves a command to make: how to fight the Winter War, what to take from it, where to
+        // expect the German blow, how to deploy against it, and what to do with the warnings. What the player chooses here is read at
+        // border41 as a readiness score (flags.readiness, from -3 to +3, each departure from the record moving it by one), and nothing is
+        // a hidden bonus: the situation report at the border says what the score means. Facts checked 2026-10-13 against Wikipedia
+        // (Winter War; Moscow Peace Treaty; Operation Barbarossa), Meretskov's and Shaposhnikov's biographies, and the secondary
+        // literature on the January 1941 games and the 15 May 1941 memorandum; the figures quoted are theirs (claims/soviet-prelude.json).
+        get finnishPrep39() {
+          return {
+          date: "OCTOBER – NOVEMBER 1939",
+          title: "The Finnish Question",
+          historicalRecord: true,
+          situation:
+            "The Red Army marched into eastern Poland in September, and under the Pact of 23 August the Soviet Union has a free hand in the Baltic. Moscow now wants the frontier on the Karelian Isthmus moved back from Leningrad, which lies some thirty kilometres from it, and has offered Finland territory farther north in exchange. The talks have stalled. Two plans lie on the table. Meretskov, who commands the Leningrad Military District, proposes an offensive on the whole front from the Gulf of Finland to the Arctic, which he expects to take a couple of weeks. Shaposhnikov, the Chief of the General Staff, has a different one: a narrow, heavy blow on the Karelian Isthmus, after a longer build-up, because he does not expect the Finnish defences to give way quickly. Stalin has asked for the plan that will be quickest. The army is vast, the Finnish army is small, and winter is coming." +
+            (flags.hardMode ? " It is two years since the army's officers were purged, and every man in the room knows what it costs to be wrong." : ""),
+          choices: [
+            {
+              label: "Attack on the whole front at once, as Meretskov proposes: the Red Army's weight should decide it in a fortnight",
+              advisor: { name: "Meretskov", position: "A Finnish army of a few hundred thousand cannot hold a front this long against a Soviet one, so the blow is struck everywhere at once and finished before the weather and the world have time to interfere." },
+              historical: true,
+              setFlags: { finland39: "quick" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "winterStall40",
+              outcome:
+                "What happened. On 30 November 1939, four days after a border incident at Mainila that Moscow blamed on Finland, the Red Army crossed the frontier on the Karelian Isthmus, north of Lake Ladoga and in the Arctic at Petsamo. The next day Moscow announced a Finnish Democratic Republic at Terijoki, just inside the line, under the Finnish communist Otto Kuusinen, and said it was the only Finnish government it recognised. The army had been prepared for a short campaign, and on the Isthmus the first assaults on the Finnish positions went in without the heavy guns or the engineers that the Finnish positions needed.",
+            },
+            {
+              label: "Postpone and prepare, as Shaposhnikov proposes: one narrow, heavy blow on the Karelian Isthmus when the army is concentrated for it",
+              advisor: { name: "Shaposhnikov", position: "The Finns will hold the Isthmus in depth and in the forest, so a blow that is not prepared with heavy guns and fresh divisions will be a long and costly one, and the time to prepare it is now." },
+              setFlags: { finland39: "prepared" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "summaBreak40",
+              outcome:
+                "Speculative. Stalin accepts a later date, which in practice means that the war begins when the artillery and the extra divisions are in place, in the worst of the winter. The army that crosses the frontier is concentrated on the Isthmus instead of spread along the whole border. The price is time: Finland's reservists are called up and its engineers have weeks more to dig in, and the world has weeks more to ask what the Soviet Union wants of Finland. The real attack went in on 30 November; this one does not go in until the new year.",
+            },
+          ],
+        };
+        },
+        get winterStall40() {
+          return {
+          date: "DECEMBER 1939 – JANUARY 1940",
+          title: "The Mannerheim Line",
+          historicalRecord: true,
+          situation:
+            "A month into a war that was to last a fortnight, the army has broken through nowhere. On the Isthmus the Finnish positions, which Moscow calls the Mannerheim Line, are mostly field works, forest and lakes, with few concrete bunkers, but they are held in depth and the Red Army has not yet got its guns and tanks to the right places. North of Lake Ladoga, Finnish ski troops have cut the Soviet columns on the forest roads and destroyed two divisions at Suomussalmi. The thermometer has fallen to forty below. On 14 December the League of Nations expelled the Soviet Union. Meretskov's plan has failed on its own terms, and on 28 December Timoshenko offered to take the command over. Two proposals are before the Main Military Council, which Voroshilov chairs." +
+            (flags.hardMode ? " Someone will be held to account for the winter, and everyone in the room knows it." : ""),
+          choices: [
+            {
+              label: "Stop, reorganise and rebuild: bring up the heavy guns, form a new front under Timoshenko and attack on the Isthmus alone",
+              advisor: { name: "Timoshenko", position: "The army has been asked to do too much with too little, so it halts, reforms, brings its artillery to one point and attacks there when everything is in place." },
+              historical: true,
+              setFlags: { finland39: "reorganised" },
+              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              next: "moscowPeace40",
+              outcome:
+                "What happened. The offensive was halted. The North-Western Front was formed under Timoshenko on 7 January, with the Isthmus as its main front, and the next five weeks went on bringing up heavy artillery and fresh divisions, drilling the assault on bunkers and rebuilding the supply. On 11 February, after a heavy bombardment, the assault began at Summa, and within a week the Finns had been pushed from their main line to a second one. In the first days of March the Red Army was attacking Vyborg.",
+            },
+            {
+              label: "Press on everywhere with what is there, as Voroshilov urges: the fault is one of will, and the attacks are to be renewed",
+              advisor: { name: "Voroshilov", position: "The troops have failed for want of resolve and of sound leadership, not of guns, so the attacks are renewed at once on every front and the commanders who stall are replaced." },
+              setFlags: { finland39: "doubled" },
+              impact: { manpower: -2, fuel: -1, initiative: -1 },
+              next: "moscowPeace40",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "A costly gain on the Isthmus",
+                  setFlags: { finland39: "doubled", finlandGain40: true },
+                  impact: { manpower: -2, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. The renewed assaults go in through January in the cold, over the same ground, and at one place on the Isthmus a wedge is driven into the outer positions at a cost the army counts in whole divisions. It is enough to show the Finns that the line will not hold for ever. It is not enough to make anyone in Moscow believe that the method was sound, and the commanders who were to have been replaced for stalling are replaced instead for failing.",
+                },
+                {
+                  weight: 100 - modWeight(30, meters.initiative),
+                  title: "The attacks bleed",
+                  setFlags: { finland39: "doubled" },
+                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The attacks go in again on every front in the worst of the cold. The artillery that would have broken the bunkers is not there, the infantry advance across open ice and snow in good order and are shot down in it, and the frostbite and sickness lists are almost as long as the casualty lists. January ends with no more ground taken than December did, and with a Red Army that has learned the wrong lesson from the same mistake.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get summaBreak40() {
+          return {
+          date: "JANUARY 1940",
+          title: "The Isthmus Breaks",
+          situation:
+            "Speculative. In this timeline the blow has fallen a month later than the real one, and a good deal harder. After a heavy bombardment the Red Army has broken the outer Finnish line on the Karelian Isthmus near Summa. Vyborg, Finland's second city, lies some thirty kilometres behind the breach, and Helsinki about two hundred kilometres beyond it along the coast. The Terijoki government under Kuusinen, which Moscow proclaimed on 1 December, still has no one to govern. Britain and France are talking of an expeditionary force for Finland by way of Narvik, and Norway and Sweden have so far refused it passage. Zhdanov, in Leningrad, wants to go on to the capital." +
+            (flags.hardMode ? " The people who proposed the plan will be remembered for what comes of it, one way or the other." : ""),
+          choices: [
+            {
+              label: "Secure Vyborg and offer terms: take what the frontier needs and stop",
+              advisor: { name: "Shaposhnikov", position: "The aim was to move the frontier away from Leningrad and the Gulf, and the Isthmus with Vyborg does that, so the army stops where it has what it came for and lets Finland sue for peace." },
+              historical: true,
+              setFlags: { finland40: "secured" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "moscowPeace40",
+              outcome:
+                "Speculative, but close to how the real war ended. The army closes on Vyborg and stops there, and the Finnish government, which has been looking for terms since the fighting began, is told through Stockholm what Moscow would accept. The Kuusinen government is allowed to fade. The Western powers' expeditionary force, which was never more than a plan for a landing at Narvik, is not needed.",
+            },
+            {
+              label: "Race for Helsinki: drive for the capital along the coast and install the Kuusinen government there",
+              advisor: { name: "Zhdanov", position: "Finland has no army that can hold the coast road, and a Finnish workers' government in the capital is a better guarantee of the frontier than any treaty, so the armies go on while the Finns are off balance." },
+              setFlags: { suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: -2, fuel: -1, initiative: 1 },
+              next: "moscowPeace40",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(20, meters.initiative),
+                  title: "A government in Helsinki",
+                  setFlags: { finland40: "helsinki" },
+                  impact: { manpower: -2, fuel: -2, initiative: 2 },
+                  outcome:
+                    "Speculative. The Finnish army, stretched along two hundred kilometres of coast and forest, cannot stop the leading columns, and by the end of February they are in the capital. The Kuusinen government is moved from Terijoki to Helsinki and is recognised by the Soviet Union and by no one else. It is a victory that has to be garrisoned: the Finnish army has not been beaten, and has gone north and east into the forest.",
+                },
+                {
+                  weight: 100 - modWeight(20, meters.initiative),
+                  title: "Stopped on the coast road",
+                  setFlags: { finland40: "overreach" },
+                  impact: { manpower: -3, fuel: -2, initiative: -2 },
+                  outcome:
+                    "Speculative. The columns go out along the coast road beyond their supplies and are stopped in the forest, where the Finns cut them into pieces as they did in the north. The offer of an expeditionary force from Britain and France stops being a talking point in London and Paris. Moscow signs a peace to close the question before it can be put again.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get moscowPeace40() {
+          const record = flags.finland39 === "reorganised" || flags.finland39 === "doubled";
+          const short = flags.finland40 === "secured" || flags.finland40 === "helsinki" || flags.finland40 === "overreach";
+          return {
+          date: "MARCH – MAY 1940",
+          title: flags.finland40 === "helsinki" ? "A Government in Helsinki" : "The Moscow Peace",
+          historicalRecord: true,
+          situation:
+            (flags.finland40 === "helsinki"
+              ? "Speculative. There is no peace conference to attend: the Finnish army is in the forest, the Kuusinen government sits in Helsinki and no other government recognises it. Soviet dead and wounded are counted in six figures, and the garrisons that are needed to hold what has been taken are drawn from the army's best divisions. "
+              : flags.finland40 === "overreach"
+              ? "Speculative. The peace was signed in Moscow on 12 March and the fighting stopped on 13 March, on terms that give the Soviet Union rather less than the army was promised and a good deal more than Finland wanted to give. Britain and France are no longer talking of an expeditionary force, and Moscow would like the question of Finland to be a closed one. "
+              : "The Finns asked for terms in the first days of March, with Vyborg under attack and the Allies' expeditionary force still in its ports. The Moscow Peace was signed on 12 March and the fighting stopped at noon on 13 March. Finland gave up the Karelian Isthmus with Vyborg, Ladoga Karelia with Sortavala and some islands in the Gulf of Finland, about nine per cent of its territory, and leased Hanko to the Soviet Union for thirty years. Moscow had dropped the Kuusinen government at the end of January and treated with the government in Helsinki. The Soviet dead and missing are usually put at about 126,000, against about 25,000 Finnish. ") +
+            (flags.finlandGain40 ? "The wedge that was driven into the outer line in January made the work of the spring a little shorter, and a little easier to call a success. " : "") +
+            (short
+              ? "A short war that ended in a clear gain is easy to read as a vindication, and there are men in the Main Military Council who are reading it so. "
+              : "The Red Army has won, and the whole world has watched how long it took and what it cost. ") +
+            "Stalin has called the senior commanders to the Kremlin in April to go through the lessons of the winter. Voroshilov, who is still the People's Commissar of Defence, and Timoshenko, who ended the war, have different views of what happened.",
+          choices: [
+            {
+              label: "Reform the army: replace Voroshilov with Timoshenko, rewrite the regulations and drill the assault on fortified positions",
+              advisor: { name: "Timoshenko", position: "The army has learned in the snow what its regulations and its commanders did not teach it, so the commissar who ran it that way goes, the drill is rewritten around what it met and the army is trained to fight rather than to parade." },
+              historical: true,
+              setFlags: { armyReformed40: true },
+              impact: { manpower: 1, fuel: 0, initiative: 1 },
+              next: "plan40",
+              outcome:
+                "What happened. Timoshenko replaced Voroshilov as People's Commissar of Defence in May 1940. The ranks of general and admiral were brought back that month, drill and training were rewritten around what the army had met in Finland, and in August the political officer's dual command was ended in favour of one commander. It did not make good the loss of the officers shot in 1937 and 1938, which was the largest part of the army's weakness, but it was a start, and it was made in the spring, not after 22 June.",
+            },
+            {
+              label: "Explain the winter away: the terrain and the cold are to blame, and the army and its commissar stay as they are",
+              advisor: { name: "Voroshilov", position: "The Finns had the forest and the snow, and the army broke the line in the end, so the army is sound and what it needs is more of what it has." },
+              setFlags: { armyReformed40: false, readiness: (flags.readiness || 0) - 1 },
+              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              next: "plan40",
+              outcome:
+                "Speculative. The meeting hears Voroshilov out, and the army's published account of the war is that it overcame a fortified line in winter against a stubborn enemy. Voroshilov stays as he is, and so do the regulations. The army that goes into the next war is the army that went into this one, with Finland's lessons filed away and the frontier moved west by the Pact.",
+            },
+          ],
+        };
+        },
+        get plan40() {
+          return {
+          date: "AUGUST – OCTOBER 1940",
+          title: "Where the Blow Will Fall",
+          historicalRecord: true,
+          situation:
+            "France has fallen, and the German army is the only one in Europe that matters. In July the General Staff, under Shaposhnikov, revised its war plan on the assumption that the main German blow would fall north of the Pripet Marshes, towards Belorussia and Smolensk; in August Shaposhnikov left the office of Chief of the General Staff, in poor health and, by some accounts, in disagreement with Stalin, and Meretskov took it over. The discussions of September began from the same assumption. On 5 October Meretskov and Timoshenko take a plan on those lines to Stalin. Stalin thinks that what Hitler most wants is the grain of Ukraine and the coal of the Donbas, and the General Staff has to decide what to put in front of him: the plan as it is, or a plan that will go through." +
+            (flags.armyReformed40 === false ? " The commissar who explained away the winter is still in office, and the General Staff has less to set against his opinion than it would like." : ""),
+          choices: [
+            {
+              label: "Redraft the plan with the main weight in the south, as Stalin directs: Ukraine and the Donbas are what the Germans want most",
+              advisor: { name: "Stalin", position: "The German army needs the grain and the coal and the oil, and all of them are in the south, so the strongest army is put there, and the General Staff is not to be clever about the north." },
+              historical: true,
+              setFlags: { plan40: "south" },
+              impact: { manpower: 0, fuel: 1, initiative: 0 },
+              next: "games41",
+              outcome:
+                "What happened. The General Staff redrafted the plan, and the version of October 1940 placed the main Soviet force in the south-west, on the Kiev side of the Pripet Marshes. Over the winter the South-Western Front became the strongest of the frontier fronts, and the Western Front, facing the German centre and the shortest road to Moscow, had less than its share. When the German blow came in June 1941, its heaviest weight was north of the marshes, where the Soviet defence had been planned to be lighter.",
+            },
+            {
+              label: "Keep the weight in the north, as Shaposhnikov's revision holds: the road to Moscow runs through Belorussia and Smolensk",
+              advisor: { name: "Shaposhnikov", position: "The German army fights where the roads, the railways and the main objectives are, which is the road from Warsaw to Smolensk and Moscow, so the greater part of the weight goes north of the marshes and the south is held with what is left." },
+              setFlags: { plan40: "north", readiness: (flags.readiness || 0) + 1 },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "games41",
+              outcome:
+                "Speculative. The General Staff puts the plan it believes in in front of Stalin, and for once he lets it stand: the main force of the western districts is placed on the Belorussian axis, with the Western Front and the Northwestern Front reinforced, and the South-Western Front is told to hold what it has. It costs the army something in the south, where a German thrust at Kiev will find less in front of it than the record's army had, and it is a gamble on an assessment that happens to be the right one.",
+            },
+          ],
+        };
+        },
+        get games41() {
+          return {
+          date: "JANUARY 1941",
+          title: "The War Games",
+          historicalRecord: true,
+          situation:
+            "In the first days of January the senior commanders gather in Moscow for two staff games on a map: the first, from 2 to 6 January, on the north-western axis, and the second, from 8 to 11 January, on the south-western. Zhukov commands one side, and Pavlov, who has the Western Special Military District, commands the other. Accounts disagree about which of them was said to have won. What is not in doubt is the argument that follows: how far forward the army should stand, how deep it should be, and whether the new fortified zones near the border are to be finished or left to the old ones behind them. Within weeks Zhukov will have replaced Meretskov as Chief of the General Staff, though the sources differ on the date." +
+            (flags.plan40 === "north" ? " The plan the General Staff is working to puts the weight north of the marshes, which is where Pavlov's district lies, and he knows it." : ""),
+          choices: [
+            {
+              label: "Let the staff draw its own conclusions: the plan stays, and so does the forward deployment",
+              advisor: { name: "Timoshenko", position: "The plan has been tested and found sound, with its faults to be mended in the field, and moving armies about in the dead of winter is a greater risk than the one it would cure." },
+              historical: true,
+              setFlags: { games41: "plan" },
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
+              next: "prep41",
+              outcome:
+                "What happened. The games were closed in the second week of January and the plan was not changed: the frontier districts went on holding the line of the new border, with the second echelon well behind them, and the new fortified zones went on being built beside the old ones, which were left to be stripped of their guns. Zhukov replaced Meretskov at the General Staff that winter.",
+            },
+            {
+              label: "Side with Pavlov: reinforce the frontier districts and finish the fortified zones near the new border",
+              advisor: { name: "Pavlov", position: "A defence that gives up ground gives up the railways and the airfields in the first week, so it is better to hold the frontier with everything that can be put there." },
+              setFlags: { games41: "forward", readiness: (flags.readiness || 0) - 1 },
+              impact: { manpower: -1, fuel: 0, initiative: 1 },
+              next: "prep41",
+              outcome:
+                "Speculative. The frontier districts get what they ask for: the corps that were to have stood farther back are moved up behind the border, and the new fortified zones are given first call on the engineers and the concrete. A frontier that is held in strength is a bad thing to be caught outside, and the army is a good deal nearer to the German deployment areas than it was.",
+            },
+            {
+              label: "Thicken the rear: build the defence in depth behind the old border, and finish the new fortified zones second",
+              advisor: { name: "Shaposhnikov", position: "A defence that is built behind the old frontier, in depth, with the old fortified zones kept and armed, gives the army ground to trade and the time to bring the second echelon up." },
+              setFlags: { games41: "depth", readiness: (flags.readiness || 0) + 1, suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "prep41",
+              outcome:
+                "Speculative. Shaposhnikov, who built the old Stalin Line and was put in charge of fortifying the new frontier in the autumn, gets his way for a time. The old fortified zones are re-armed with the guns that had been taken out of them, the corps are held farther back, and the new border zones are finished more slowly. There are people in Moscow who regard giving ground on paper as the first step to giving it in the field, and it is noted who said so.",
+            },
+          ],
+        };
+        },
+        get prep41() {
+          return {
+          date: "MARCH 1941",
+          title: "The Mechanised Corps",
+          historicalRecord: true,
+          situation:
+            "The army that is to fight Germany is in the middle of being remade. Nine mechanised corps were ordered in July 1940, and in February and March a further twenty, but there are tanks for fewer than half of them: the new T-34s and KVs are coming off the lines in hundreds, not in thousands, and the crews are still learning to drive them. At the same time the airfields in the frontier districts are being rebuilt, many of them at once, so that the air regiments are crowded on the few that are left, and the anti-aircraft guns that should protect them have not arrived. There is not enough of anything to do everything, and the General Staff has to say what comes first.",
+          choices: [
+            {
+              label: "Carry on: form the twenty new corps and rebuild the frontier airfields together",
+              advisor: { name: "Timoshenko", position: "The army will not be remade by waiting, so the new corps are formed and the airfields rebuilt in the same year, whatever it costs in the spring." },
+              historical: true,
+              setFlags: { prep41: "both" },
+              impact: { manpower: -1, fuel: -1, initiative: 0 },
+              next: "memo41",
+              outcome:
+                "What happened. The twenty new corps were formed on paper and in their garrisons, and fewer than half of the corps had anything like their full establishment of tanks by June 1941. Many frontier airfields were under reconstruction when the Germans attacked, and the regiments that should have been dispersed were drawn up in rows on the few that were left. The fault lay in doing everything at the same time, not in any one of the orders.",
+            },
+            {
+              label: "Airfields and anti-aircraft guns first: finish fewer airfields, disperse the aircraft and bring the guns up before anything else",
+              advisor: { name: "Vasilevsky", position: "A force that loses its air regiments on the ground on the first morning cannot use its tanks, so the aircraft are dispersed, the guns come first and the rest of the programme waits." },
+              setFlags: { prep41: "air", readiness: (flags.readiness || 0) + 1 },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "memo41",
+              outcome:
+                "Speculative. The airfield programme is cut to what can be finished and the rest is left alone, the regiments are spread over twice as many fields, and the anti-aircraft guns are given to the airfields before they go to the new corps. The new corps are formed more slowly, and in June there are fewer tanks on the frontier than there might have been. But the air regiments will be there to fly on the first morning.",
+            },
+            {
+              label: "Double down on the tank corps: finish equipping the first nine and put every new tank into them",
+              advisor: { name: "Zhukov", position: "A mechanised corps without its tanks is a collection of lorries, so the first nine are completed, the twenty are held back and every tank that comes off the line goes where it can be used." },
+              setFlags: { prep41: "tanks", readiness: (flags.readiness || 0) - 1 },
+              impact: { manpower: -1, fuel: -2, initiative: 1 },
+              next: "memo41",
+              outcome:
+                "Speculative. The first nine corps get their tanks, and by June there are some of the best-equipped formations in the Red Army on the frontier. The airfield programme goes on as before, and so do the crowded fields and the missing guns. A tank corps is a powerful thing to have in the open on the first morning, and a bad one to leave under the German bombers.",
+            },
+          ],
+        };
+        },
+        get memo41() {
+          return {
+          date: "MAY 1941",
+          title: "The Memorandum",
+          historicalRecord: true,
+          situation:
+            "Warnings of every kind say that the Germans will attack, and Stalin does not believe that it will happen this summer. On 15 May a draft is put before him, 'Considerations on the plan of strategic deployment of the armed forces of the Soviet Union', in the names of Zhukov and Timoshenko, with Vasilevsky named in most accounts as its drafter. It proposes forestalling the German deployment by striking first at the German army in Poland. Historians disagree on what it was: a plan to be carried out, a staff exercise, or a paper written to be turned down. The Red Army could not yet carry it out: the new corps have no tanks, the mobilisation plan is not complete, and the second-line armies are still in the interior. In May the General Staff has begun to move armies from the interior towards the Dvina and the Dnieper, and about 800,000 reservists have been called to 'training camps'." +
+            (flags.readiness >= 2 ? " The army is better placed than the record's was, and the arguments for waiting and for striking are both a good deal stronger for it." : flags.readiness <= -1 ? " The army is worse placed than the record's was, and what is on the table is a plan for an army that is not there." : ""),
+          choices: [
+            {
+              label: "Reject the memorandum, but move the second-line armies up to the Dvina and the Dnieper, and say nothing",
+              advisor: { name: "Molotov", position: "Nothing is to be done that Berlin can call a provocation, so the armies move behind the screen of the frontier districts and the Foreign Ministry says that all is well." },
+              historical: true,
+              setFlags: { memo41: "quiet" },
+              impact: { manpower: 0, fuel: -1, initiative: 0 },
+              next: "border41",
+              outcome:
+                "What happened. Stalin did not approve the memorandum, and nothing of it was carried out. The movement of the second-line armies went on through May and June, and most of them were still on trains or in their assembly areas on 22 June. The frontier districts were told again to avoid anything that Berlin could call a provocation, and on 14 June TASS announced that rumours of a coming war were without foundation.",
+            },
+            {
+              label: "Do nothing: no troop movements, no warning to the frontier districts and no change to the plan",
+              advisor: { name: "Stalin", position: "The Germans are not ready to fight on two fronts, and any movement that Berlin sees is the pretext it is looking for, so the Red Army waits in its places." },
+              setFlags: { memo41: "nothing", readiness: (flags.readiness || 0) - 1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "border41",
+              outcome:
+                "Speculative. The armies in the interior stay where they are, the reservists stay at home and the frontier districts go on as they were. It is the policy that Stalin would have preferred if he had been left to himself, and there is a good deal to be said for it if the Germans do not attack in June. If they do, the army has lost the weeks that the movements of May and June bought.",
+            },
+            {
+              label: "Adopt the memorandum: prepare to forestall the German deployment, with the armies in forward assembly areas",
+              advisor: { name: "Zhukov", position: "The Germans are concentrating, and an army that waits to be struck while it is still deploying will be struck in pieces, so the Red Army has to get its blow in first, as soon as it is ready." },
+              setFlags: { memo41: "forestall" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "border41",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "Alert, but forward",
+                  setFlags: { memo41: "forestall", readiness: (flags.readiness || 0) + 1 },
+                  impact: { manpower: -1, fuel: -1, initiative: 2 },
+                  outcome:
+                    "Speculative. The plan is not given up and not carried out. The armies are brought up to the frontier under the cover of training, and when the Germans attack they find them awake and in their places, not yet in a position to strike but not caught asleep either. They are a good deal nearer the German guns than the defence would have put them.",
+                },
+                {
+                  weight: 100 - modWeight(25, meters.initiative),
+                  title: "Caught in their assembly areas",
+                  setFlags: { memo41: "caught", readiness: (flags.readiness || 0) - 2 },
+                  impact: { manpower: -2, fuel: -1, initiative: -2 },
+                  outcome:
+                    "Speculative. The armies are moved up to the frontier in the formations of an offensive, which a defence does not use, with their supplies in the rear and their commanders waiting for an order to attack that will not now be given. The Red Army was not ready to strike in June, as the memorandum itself admitted, and the German attack finds it halfway between the two postures and fit for neither.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get border41() {
+          // The readiness the prelude left (flags.readiness, -7 to +4; 0 for a command that took the record's orders every time or that begins here).
+          const rd = flags.readiness || 0;
+          const edge = rd >= 3 ? 2 : rd >= 1 ? 1 : rd <= -3 ? -2 : rd <= -1 ? -1 : 0;
           return {
           date: "JUNE 1941",
           title: "The Border Collapses",
@@ -7251,6 +7597,15 @@ const CAMPAIGNS = {
               : "") +
             (flags.forkBarbarossaDelay
               ? " Fragmentary reports from the frontier commands describe some German formations still arriving even now, hours into the attack, if accurate, the opening blow may not have landed with its full intended weight."
+              : "") +
+            (rd >= 3
+              ? " This morning the Red Army stands less badly than it has any right to. Over the winter and spring the decisions taken in this room have put the weight where the German blow is coming, spread the aircraft and brought the second line up; the blow still falls, and falls hard, but the commands that receive it are awake, and some of the first reports say that the Germans did not find what they expected."
+              : rd >= 1
+              ? " The frontier is not entirely asleep. Some of what the General Staff did over the winter and spring is in place, and a few of the commands that receive the first blow had been told to expect it, but the directive of the small hours reaches most of them too late."
+              : rd <= -3
+              ? " The army is caught in the worst of its postures, halfway between a defence and an attack, with its commands waiting for orders that will not come in time."
+              : rd <= -1
+              ? " The army is worse placed than the record's was: the frontier armies are in the wrong places in the wrong formations, the aircraft are packed on their fields and the second line is on the railways."
               : ""),
           choices: [
             {
@@ -7258,7 +7613,7 @@ const CAMPAIGNS = {
               advisor: { name: "Stalin", position: "Not one step back, because an army that retreats without orders has decided its own defeat." },
               historical: true,
               setFlags: { border41: "hold" },
-              impact: { manpower: -2, fuel: 0, initiative: 0 },
+              impact: { manpower: -2 + (edge >= 2 ? 1 : edge <= -2 ? -1 : 0), fuel: 0, initiative: edge > 0 ? 1 : edge < 0 ? -1 : 0 },
               next: "brodyCounterstroke41",
               outcome:
                 "Order No. 227 was still a year away, but its spirit governed June 1941 already: forward armies held rigid lines and were encircled wholesale: Białystok–Minsk alone cost some 300,000 men in the war's first ten days. The doctrine that caused this catastrophe was itself a product of the purges: officers who might have argued for elastic defense had, disproportionately, already been shot.",
@@ -20929,6 +21284,14 @@ const NODE_ATLAS = {
     { id: "backhandBlow43", date: "FEBRUARY – MARCH 1943", title: "The Backhand Blow" },
   ],
   soviet: [
+    { id: "finnishPrep39", date: "OCTOBER – NOVEMBER 1939", title: "The Finnish Question" },
+    { id: "winterStall40", date: "DECEMBER 1939 – JANUARY 1940", title: "The Mannerheim Line" },
+    { id: "summaBreak40", date: "JANUARY 1940", title: "The Isthmus Breaks" },
+    { id: "moscowPeace40", date: "MARCH – MAY 1940", title: "The Moscow Peace" },
+    { id: "plan40", date: "AUGUST – OCTOBER 1940", title: "Where the Blow Will Fall" },
+    { id: "games41", date: "JANUARY 1941", title: "The War Games" },
+    { id: "prep41", date: "MARCH 1941", title: "The Mechanised Corps" },
+    { id: "memo41", date: "MAY 1941", title: "The Memorandum" },
     { id: "border41", date: "JUNE 1941", title: "The Border Collapses" },
     { id: "smolensk41", date: "JULY – SEPTEMBER 1941", title: "Smolensk and the Kiev Question" },
     { id: "industrialShortfall42", date: "LATE 1941", title: "The Gap in the Ledger" },
@@ -25431,7 +25794,7 @@ function migrateSave(saved) {
   return s;
 }
 
-const NODE_TOTAL = 278; // 100 German + 63 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
+const NODE_TOTAL = 286; // 100 German + 71 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 // Framing quotes shown on entering the War Room. Where a clean, verified, short quote from
 // the actual command figure at this moment exists, it's used with a real name and date. Where
@@ -25770,7 +26133,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
 // must not spoil a fork the player hasn't discovered yet).
 const CAMPAIGN_MAP_YEARS = {
   german: [1940, 1941, 1942, 1943, 1944, 1945],
-  soviet: [1941, 1942, 1943, 1944, 1945],
+  soviet: [1940, 1941, 1942, 1943, 1944, 1945],
   allied: [1940, 1941, 1942, 1943, 1944, 1945],
   italy: [1940, 1941, 1942, 1943, 1944, 1945],
 };
@@ -28773,6 +29136,14 @@ const NODE_HIGHLIGHT_REGIONS = {
   backhandBlow43: ["ussrUkraine", "ussrDon"],
   },
   soviet: {
+  finnishPrep39: ["finland"],
+  winterStall40: ["finland"],
+  summaBreak40: ["finland"],
+  moscowPeace40: ["finland"],
+  plan40: ["ussrBelarus", "ussrUkraine"],
+  games41: ["ussrBelarus", "baltics"],
+  prep41: ["ussrBelarus", "ussrUkraine"],
+  memo41: ["ussrBelarus", "ussrMoscow"],
   border41: ["baltics", "ussrLeningrad", "ussrBelarus", "ussrUkraine"],
   smolensk41: ["ussrMoscow", "ussrUkraine"],
   industrialShortfall42: ["ussrMoscow", "ussrUrals"],
@@ -32978,7 +33349,9 @@ const ADVISOR_DOSSIERS = {
   Rotmistrov: { role: "General: tank corps commander", bio: "Led armor committed to stem the German winter 1942 breakout attempts toward the Stalingrad pocket's trapped Sixth Army.", fate: "Later led the Fifth Guards Tank Army at Kursk and rose to Chief Marshal of Armored Troops; died in 1982.", faction: "soviet", rank: 3 },
   Khrulev: { role: "General: Red Army's chief of rear services", bio: "Ran Soviet military logistics, the unglamorous machinery behind Bagration's June 1944 supply and movement.", fate: "Continued in senior postwar defense-ministry roles before later administrative posts; died in 1962.", faction: "soviet", rank: 3 },
   Kirponos: { role: "Colonel-General: commander, Southwestern Front (1941)", bio: "Commanded the front that took the first weight of the invasion in Ukraine, and argued for defensive consolidation over the immediate counterattack Moscow's Directive No. 3 demanded of it.", fate: "Killed on September 20, 1941, trying to break out of the Kiev pocket his front had been ordered to hold.", faction: "soviet", rank: 3 },
-  Shaposhnikov: { role: "Marshal: Chief of the General Staff (1941–42)", bio: "The Red Army's most senior staff officer and the author of 'The Brain of the Army', who took the General Staff over when Zhukov was moved from it in the summer of 1941.", fate: "Died in March 1945, worn out, weeks before Berlin.", faction: "soviet", rank: 2 },
+  Voroshilov: { role: "Marshal: People's Commissar of Defence until May 1940", bio: "A civil-war cavalry commander and one of Stalin's oldest associates, who ran the army through the purges and the first months of the Winter War and was replaced by Timoshenko in the spring of 1940.", fate: "Failed as the commander at Leningrad in 1941 and was never again given a front; outlived Stalin and died in 1969, still a Marshal of the Soviet Union.", faction: "soviet", rank: 2 },
+  Pavlov: { role: "General: commander of the Western Special Military District", bio: "A tank officer who served in Spain and became the Red Army's armoured chief, then took the Western Special Military District, the one that faced the German centre, in 1940.", fate: "Arrested in the first days of July 1941 and shot on 22 July as a scapegoat for the collapse of the Western Front; rehabilitated after Stalin's death.", faction: "soviet", rank: 3 },
+  Shaposhnikov: { role: "Marshal: Chief of the General Staff (1937–40 and 1941–42)", bio: "The Red Army's most senior staff officer and the author of 'The Brain of the Army', who left the General Staff in the summer of 1940, fortified the new frontier, and took the General Staff over again when Zhukov was moved from it in the summer of 1941.", fate: "Died in March 1945, worn out, weeks before Berlin.", faction: "soviet", rank: 2 },
   Ironside: { role: "Field Marshal: Chief of the Imperial General Staff", bio: "Britain's senior soldier during the Norway campaign's Narvik fighting in spring 1940, a command relationship strained by the campaign's confusion.", fate: "Replaced as CIGS that same month; created Baron Ironside; died in 1959.", faction: "allied", rank: 2 },
   Gort: { role: "Field Marshal: commander of the British Expeditionary Force", bio: "Made the call to fall back on Dunkirk in May 1940 rather than fight on for a doomed link-up with French forces to the south.", fate: "Later governor of Gibraltar and Malta; died of cancer in 1946.", faction: "allied", rank: 2 },
   Halifax: { role: "Foreign Secretary: the war cabinet's other voice", bio: "Pressed the War Cabinet in late May 1940 to explore terms through Mussolini's mediation, the road not taken that Churchill closed off.", fate: "Sent as ambassador to Washington from 1941; died in 1959.", faction: "allied", rank: 2 },
