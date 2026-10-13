@@ -172,9 +172,12 @@
     "node": "gqg_1915_14_salonika",
     "kind": "fact",
     "claim": "Bulgaria signed the convention with the Central Powers on 6 September 1915 (entered the war in October).",
-    "status": "drafted",
-    "sources": [],
-    "note": "Check the entry date."
+    "status": "web-checked",
+    "sources": [
+      "wp-bg-de-treaty",
+      "nam-bulgaria-war"
+    ],
+    "note": "Signed 6 September 1915 (24 August Old Style); Bulgaria declared war on Serbia on 14 October 1915."
   },
   {
     "id": "gqg-chantilly-1",
@@ -423,9 +426,11 @@
     "node": "gqg_1918_14_americans",
     "kind": "fact",
     "claim": "The American First Army pinched out the Saint-Mihiel salient on 12 September and attacked in the Meuse-Argonne on 26 September.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Confirm with the Hundred Days page."
+    "status": "web-checked",
+    "sources": [
+      "marshall-stmihiel"
+    ],
+    "note": "Saint-Mihiel began 12 September; the Meuse-Argonne offensive opened on 26 September."
   },
   {
     "id": "gqg-americans-4",
@@ -622,9 +627,11 @@
     "node": "gqg_1917_09_malmaison",
     "kind": "fact",
     "claim": "The attack at La Malmaison on 23 October 1917 was a limited-objective attack that took its objective and stopped.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+    "status": "web-checked",
+    "sources": [
+      "wp-malmaison"
+    ],
+    "note": "Opened 23 October 1917 with limited objectives; the French took the fort and ridge. Losses about 12,000 to 14,000 French."
   },
   {
     "id": "gqg-doullens-1",
@@ -644,7 +651,7 @@
     "claim": "The counterattack of 18 July 1918 came out of the forest of Villers-Cotterêts against the flank of the Marne salient, led by Mangin.",
     "status": "drafted",
     "sources": [],
-    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+    "note": "Mangin's Tenth Army attacked the west flank of the Marne salient on 18 July (confirmed); that it came out of the forest of Villers-Cotterets was not confirmed in the pages read."
   },
   {
     "id": "gqg-counter-2",
@@ -975,9 +982,11 @@
     "node": "gqg_1918_13_aisne",
     "kind": "fact",
     "claim": "General Duchene commanded the Sixth Army, packed his divisions into the front line against Petain's order of defence in depth, and was relieved after the attack of 27 May 1918.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Matches the existing outcome text; to be checked against a history of the Chemin des Dames in 1918."
+    "status": "web-checked",
+    "sources": [
+      "wp-duchene"
+    ],
+    "note": "Checked: Duchene massed his troops in the front line against Petain's order of defence in depth; the line broke on 27 May and he was relieved by the prime minister."
   },
   {
     "id": "gqg-fk-14",
@@ -1028,10 +1037,13 @@
     "id": "gqg-pre-1",
     "node": "gqg_1914_17_covering",
     "kind": "fact",
-    "claim": "On 30 July 1914 the French government ordered the covering troops to fall back ten kilometres from the frontier, so that no incident could be laid at France's door and so that Britain would see that France had not provoked the war; Joffre protested.",
-    "status": "drafted",
-    "sources": [],
-    "note": "To be checked against Joffre's memoirs and a history of the July crisis."
+    "claim": "On 30 July 1914 the French government ordered the covering troops to fall back ten kilometres from the frontier, so that no incident could be laid at France's door and Britain would see France had not provoked the war; Joffre accepted the withdrawal but pressed for orders to assemble the covering force.",
+    "status": "web-checked",
+    "sources": [
+      "hw-1914-07-30",
+      "wp-frontiers"
+    ],
+    "note": "Corrected from 'Joffre protested': his surviving telegram insists on no incident at the frontier, and his objection was to the effect on the covering troops. The node offers obeying the order and refusing it as the player's choices."
   },
   {
     "id": "gqg-pre-2",

@@ -538,5 +538,110 @@
     "title": "Armistice of Erzincan",
     "kind": "web (tertiary)",
     "url": "https://en.wikipedia.org/wiki/Armistice_of_Erzincan"
+  },
+  "wp-armistice1918": {
+    "title": "Armistice of 11 November 1918",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Armistice_of_11_November_1918"
+  },
+  "ghdi-armistice": {
+    "title": "Conditions of the Armistice with Germany, 11 November 1918 (Compiegne text)",
+    "kind": "web (primary text)",
+    "url": "https://germanhistorydocs.org/en/weimar-germany-1918-1933/ghdi:document-4011"
+  },
+  "wp-ludendorff": {
+    "title": "Erich Ludendorff",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Erich_Ludendorff"
+  },
+  "hw-rupprecht": {
+    "title": "Crown Prince Rupprecht of Bavaria, 1869-1955",
+    "kind": "web (tertiary)",
+    "url": "https://www.historyofwar.org/articles/people_rupprecht_bavaria.html"
+  },
+  "wp-msa1916-act": {
+    "title": "Military Service Act 1916",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Military_Service_Act_1916"
+  },
+  "lltrail-msa1916": {
+    "title": "The 1916 Military Service Act (Long, Long Trail)",
+    "kind": "web (specialist)",
+    "url": "https://www.longlongtrail.co.uk/soldiers/a-soldiers-life-1914-1918/enlisting-into-the-army/the-1916-military-service-act/"
+  },
+  "parl-conscription": {
+    "title": "Conscription (UK Parliament, Living Heritage)",
+    "kind": "web (official)",
+    "url": "https://webtest.parliament.uk/about/living-heritage/transformingsociety/private-lives/yourcountry/overview/conscription"
+  },
+  "abmc-gibraltar-convoy": {
+    "title": "Protecting Allied Ships during WWI: The Convoy System Comes to Gibraltar (ABMC)",
+    "kind": "web (official)",
+    "url": "https://www.abmc.gov/node/534025"
+  },
+  "anzacmem-evacuation": {
+    "title": "Evacuation (Anzac Memorial, Sydney)",
+    "kind": "web (official)",
+    "url": "https://www.anzacmemorial.nsw.gov.au/evacuation"
+  },
+  "iwm-gallipoli": {
+    "title": "What you need to know about the Gallipoli campaign (Imperial War Museums)",
+    "kind": "web (official)",
+    "url": "https://www.iwm.org.uk/history/first-world-war/gallipoli/what-you-need-to-know-about-the-gallipoli-campaign"
+  },
+  "wp-czernin": {
+    "title": "Ottokar Czernin",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Ottokar_Czernin"
+  },
+  "ency-robertson": {
+    "title": "Robertson, William Robert (1914-1918-online)",
+    "kind": "web (specialist)",
+    "url": "https://encyclopedia.1914-1918-online.net/article/robertson-william-robert/"
+  },
+  "hw-1914-07-30": {
+    "title": "30 July 1914 (History of War, day by day)",
+    "kind": "web (tertiary)",
+    "url": "https://www.historyofwar.org/firstworldwar/daybyday/1914_07_30.html"
+  },
+  "wp-frontiers": {
+    "title": "Battle of the Frontiers",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_the_Frontiers"
+  },
+  "brit-nicholas-command": {
+    "title": "Nicholas II (Britannica): assumes supreme command, 5 September 1915 (23 August Old Style)",
+    "kind": "web (reference)",
+    "url": "https://www.britannica.com/print/article/414049"
+  },
+  "alpha-1917": {
+    "title": "Russian Revolution timeline 1917 (Alpha History)",
+    "kind": "web (tertiary)",
+    "url": "https://alphahistory.com/russianrevolution/russian-revolution-timeline-1917/"
+  },
+  "wp-bg-de-treaty": {
+    "title": "Bulgaria-Germany treaty (1915)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Bulgaria%E2%80%93Germany_treaty_(1915)"
+  },
+  "nam-bulgaria-war": {
+    "title": "Bulgaria declares war on Serbia (National Army Museum)",
+    "kind": "web (official)",
+    "url": "https://ww1.nam.ac.uk/timeline/bulgaria-declares-war-serbia/"
+  },
+  "marshall-stmihiel": {
+    "title": "St. Mihiel and the Meuse-Argonne (George C. Marshall Foundation)",
+    "kind": "web (specialist)",
+    "url": "https://marshallfoundation.org/library/wp-content/uploads/sites/16/2014/06/XI-St.-Mihiel-and-the-Meuse-Argonne.pdf"
+  },
+  "wp-malmaison": {
+    "title": "Battle of La Malmaison",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_La_Malmaison"
+  },
+  "wp-masurian1": {
+    "title": "First Battle of the Masurian Lakes",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/First_Battle_of_the_Masurian_Lakes"
   }
 }

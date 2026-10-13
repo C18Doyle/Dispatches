@@ -38,9 +38,11 @@
     "node": "stavka_1914_12_tannenberg",
     "kind": "fact",
     "claim": "The First Army was turned back about a fortnight later (Masurian Lakes, 9-14 September New Style).",
-    "status": "drafted",
-    "sources": [],
-    "note": "Confirm."
+    "status": "web-checked",
+    "sources": [
+      "wp-masurian1"
+    ],
+    "note": "Rennenkampf's First Army was driven back at the First Battle of the Masurian Lakes (main phase 9-14 September; some sources give 2-16 September)."
   },
   {
     "id": "stavka-tannenberg-5",
@@ -212,9 +214,11 @@
     "node": "stavka_1917_12_deathpenalty",
     "kind": "fact",
     "claim": "The Provisional Government abolished the death penalty in the army in March 1917.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Confirm the date."
+    "status": "web-checked",
+    "sources": [
+      "alpha-1917"
+    ],
+    "note": "Decree of 12 March 1917; the penalty was restored at the front on 12 July 1917."
   },
   {
     "id": "stavka-deathpenalty-3",
@@ -267,7 +271,7 @@
     "claim": "Kornilov was arrested and Alekseyev returned as Chief of Staff at the end of August.",
     "status": "drafted",
     "sources": [],
-    "note": "The Alekseyev dossier says he returned briefly as Chief of Staff; check the date of the arrest (1 September)."
+    "note": "The removal and arrest after the failed march are supported; the date of 1 September and Alekseyev's return were not confirmed by the pages read."
   },
   {
     "id": "stavka-kornilov-5",
@@ -350,9 +354,11 @@
     "node": "stavka_1915_04_command",
     "kind": "fact",
     "claim": "On 23 August 1915 (Old Style) Nicholas II assumed the supreme command, with Alekseyev as Chief of Staff; the Grand Duke Nikolai Nikolaevich became Viceroy of the Caucasus.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+    "status": "web-checked",
+    "sources": [
+      "brit-nicholas-command"
+    ],
+    "note": "5 September 1915 New Style is 23 August Old Style; Alekseyev as Chief of Staff and the Grand Duke to the Caucasus confirmed."
   },
   {
     "id": "stavka-brusilov-1",
@@ -440,9 +446,11 @@
     "node": "stavka_end_holds",
     "kind": "fact",
     "claim": "Epilogue, 'What actually happened': The Germans resumed the advance on 18 February 1918; Minsk fell 21 February and Kiev 2 March almost without fighting; the treaty was signed 3 March.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+    "status": "web-checked",
+    "sources": [
+      "wp-faustschlag"
+    ],
+    "note": "Checked: the advance began on 18 February, Minsk fell 21 February, Kiev 2 March, the treaty was signed 3 March."
   },
   {
     "id": "stavka-epilogue-separate",

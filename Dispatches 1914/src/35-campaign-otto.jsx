@@ -451,7 +451,7 @@ CAMPAIGNS.otto.nodes = {
             outcome:
               "Speculative. The columns find the passes held and the patrols that the " +
               "plan feared. The attack is made and stopped in the high ground, with fewer " +
-              "men lost to the cold than in the record and more to the Russian guns. The " +
+              "men lost to the cold than the real march cost and more to the Russian guns. The " +
               "army withdraws in order to the Erzurum line, clothed and fed, and Enver " +
               "has the defeat the plan always risked, at a lower price." },
         ],
@@ -831,7 +831,7 @@ CAMPAIGNS.otto.nodes = {
               "Speculative. The Third Army meets the Russians in the open and is beaten, with its guns lost in " +
               "the snow and its men hardly able to move in their rags. It falls back on the fortress in " +
               "disorder, and the Russians arrive before the forts have been made ready. Erzurum falls sooner " +
-              "than it did in the record, and the army that is left to defend the road to the west is smaller." },
+              "than it did, and the army that is left to defend the road to the west is smaller." },
         ],
       },
     ],
@@ -1036,7 +1036,7 @@ CAMPAIGNS.otto.nodes = {
               "Speculative. The Sixth Army holds its ground below the city for six days, and the " +
               "British have to bring up their guns and fight for each stretch of the line. It is a " +
               "delay and not a victory. The stand costs the army a third of its men, and Baghdad " +
-              "falls a week later than it did in the record, to an army that has less left to retreat " +
+              "falls a week later than it did, to an army that has less left to retreat " +
               "with." },
           { weight: 70, title: "The army is outflanked and broken",
             impact: { manpower: -3, munitions: -2, will: -2 },
@@ -1044,8 +1044,8 @@ CAMPAIGNS.otto.nodes = {
             outcome:
               "Speculative. The British turn the line from the east, and the Sixth Army is caught " +
               "between the river and the desert. Thousands are taken and most of the guns are lost. " +
-              "Baghdad falls on the 11th, as it did in the record, but the army that fell back on " +
-              "Mosul in the record is now a remnant, and the north is open." },
+              "Baghdad falls on the 11th, as it did, but the army that fell back on " +
+              "Mosul in fact is now a remnant, and the north is open." },
         ],
       },
       {
@@ -1061,7 +1061,7 @@ CAMPAIGNS.otto.nodes = {
         outcome:
           "Speculative. Khalil is ordered to leave Baghdad at once, and the Sixth Army marches north " +
           "with its guns, its stores and nearly all its men. The British enter the city a few days " +
-          "earlier than in the record and without a shot. The army that falls back on Mosul is the " +
+          "earlier than it did and without a shot. The army that falls back on Mosul is the " +
           "whole Sixth Army, and the empire has given up its chief city in Mesopotamia without a " +
           "battle, which Enver, who wanted to fight, has to explain.",
       },
@@ -1218,7 +1218,7 @@ CAMPAIGNS.otto.nodes = {
             outcome:
               "Speculative. The column goes round the pass by a path the Turkish staff did not know, and " +
               "the battalion in it finds the Arabs behind it. It is cut off from Ma'an and from the port, and " +
-              "surrenders with its guns. Aqaba falls a few days later, as it did in the record, to an " +
+              "surrenders with its guns. Aqaba falls a few days later, as it did, to an " +
               "attacker that has taken more men and more rifles on the way." },
         ],
       },
@@ -1236,7 +1236,7 @@ CAMPAIGNS.otto.nodes = {
           "Speculative. The garrison and its guns are brought back to Ma'an in June, and Aqaba is left to " +
           "the Arabs when they come. The force at Ma'an is stronger by a battalion, and the railway has a " +
           "shorter flank to watch. The Arabs and the British have their port a few weeks earlier than " +
-          "in the record, and without a shot being fired for it, which is an easier thing to " +
+          "they did, and without a shot being fired for it, which is an easier thing to " +
           "explain to the Sultan than a surrender.",
       },
     ],

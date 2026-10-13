@@ -212,10 +212,12 @@
     "id": "bef-succ-2",
     "node": "bef_1915_09_succession",
     "kind": "fact",
-    "claim": "Robertson became CIGS on 23 December 1915 and French became Commander-in-Chief of the Home Forces.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Confirm."
+    "claim": "Robertson became CIGS in December 1915 and French became Commander-in-Chief of the Home Forces.",
+    "status": "web-checked",
+    "sources": [
+      "ency-robertson"
+    ],
+    "note": "The month is confirmed; the sources read did not give the day (the drafted 23 December)."
   },
   {
     "id": "bef-msa-1",
@@ -458,10 +460,12 @@
     "id": "bef-epilogue-4",
     "node": "bef_end_shipping",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': First convoy 10 May 1917; losses fell through the summer; food rationing in 1918 without starvation.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+    "claim": "Epilogue, 'What actually happened': the first convoy sailed from Gibraltar on 10 May 1917 and arrived without loss.",
+    "status": "web-checked",
+    "sources": [
+      "abmc-gibraltar-convoy"
+    ],
+    "note": "Checked. The first transatlantic convoy from Hampton Roads left on 24 May. The losses falling through the summer and the 1918 rationing are logged separately."
   },
   {
     "id": "bef-epilogue-5",
@@ -470,7 +474,7 @@
     "claim": "Epilogue, 'What actually happened': Evacuation of Anzac and Suvla completed 20 December 1915 and of Helles 8-9 January 1916; about 250,000 casualties on each side.",
     "status": "drafted",
     "sources": [],
-    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+    "note": "Evacuation dates confirmed (Anzac Memorial, IWM). The 'about 250,000 casualties on each side' is a round estimate: sources give Allied losses of roughly 220,000 to 250,000 and Ottoman of 250,000 to 300,000, so it stays drafted."
   },
   {
     "id": "bef-epilogue-6",
@@ -488,16 +492,20 @@
     "claim": "Epilogue, 'What actually happened': Robertson forced out 11 February 1918; Haig refused the general reserve order in early March; Foch coordinated the reserves from Doullens.",
     "status": "drafted",
     "sources": [],
-    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+    "note": "Robertson's forced resignation on 11 February 1918 was confirmed by a web search; the source page was not pinned, so the claim stays drafted. The Doullens and reserve-order details are unchecked."
   },
   {
     "id": "bef-epilogue-8",
     "node": "bef_end_volunteers",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Military Service Act assent 27 January 1916, in force 17 February; 35 Liberals voted against; Simon resigned; the 1918 Act raised the age to 51.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written from the author's knowledge and the sources above; check each date and figure before release."
+    "claim": "Epilogue, 'What actually happened': Military Service Act assent 27 January 1916, in force 2 March; 35 Liberals voted against; Simon resigned; the 1918 Act raised the age to 51.",
+    "status": "web-checked",
+    "sources": [
+      "wp-msa1916-act",
+      "lltrail-msa1916",
+      "parl-conscription"
+    ],
+    "note": "Corrected: the drafted 'in force 17 February' is not supported; the sources give 2 March (one infobox says 17 February and contradicts its own text). The Liberal vote is given as 34 or 35 in different sources."
   },
   {
     "id": "bef-epilogue-9",
@@ -860,9 +868,12 @@
     "node": "bef_1915_08_evacuate",
     "kind": "fact",
     "claim": "Anzac and Suvla were evacuated in December 1915, and Helles was evacuated on 8 and 9 January 1916.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Helles was the last place evacuated; the exact days are to be checked."
+    "status": "web-checked",
+    "sources": [
+      "anzacmem-evacuation",
+      "iwm-gallipoli"
+    ],
+    "note": "Anzac and Suvla left by 20 December 1915 (last men at Anzac 4.10 a.m.); Helles was evacuated on 8-9 January 1916."
   },
   {
     "id": "ix-bef_1916_11_somme-wire",
@@ -881,5 +892,14 @@
     "status": "drafted",
     "sources": [],
     "note": "See the Loos claims."
+  },
+  {
+    "id": "bef-epilogue-4b",
+    "node": "bef_end_shipping",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': losses fell through the summer of 1917; food rationing came in 1918 without starvation.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Not checked in this pass."
   }
 ]

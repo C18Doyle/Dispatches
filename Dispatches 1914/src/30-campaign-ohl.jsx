@@ -577,7 +577,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The armies are ordered to entrench where they stand, and the new Chief names no " +
           "theatre for the weight of the war. The line on the Aisne is made strong and the exhausted " +
           "corps are given a few days. The army commanders, left without a plan, try to turn each " +
-          "other's flanks to the north, as they did in the record, and the east, which asked for an " +
+          "other's flanks to the north, as they did in fact, and the east, which asked for an " +
           "answer, is told to wait. The decision is put off, and the war chooses a theatre in the meantime.",
       },
     ],
@@ -1067,7 +1067,7 @@ CAMPAIGNS.ohl.nodes = {
         setFlags: { ohl_programme: "full" },
         next: "ohl_1917_06_pless",
         outcome:
-          "The programme is issued on 31 August, and the Auxiliary Service " +
+          "The programme is issued at the end of August, and the Auxiliary Service " +
           "Law passes the Reichstag in December, though with amendments that the " +
           "Supreme Command did not want. Output rises, but nowhere near the targets. " +
           "The winter of 1916 and 1917 brings a failed potato harvest, a coal famine " +
@@ -1226,7 +1226,7 @@ CAMPAIGNS.ohl.nodes = {
         id: "spare",
         label: "Withdraw to the new line, leaving the ground as it is",
         advisor: { name: "Crown Prince Rupprecht", position:
-          "The ground can be given up without being destroyed. The destruction harms Germany's name abroad more than it harms the enemy." },
+          "The ground can be given up without being destroyed. The destruction harms the Empire's prestige and the discipline of the troops more than it harms the enemy." },
         impact: { manpower: 2, munitions: 0, will: 0 },
         setFlags: { ohl_alberich: "spared" },
         next: "ohl_1917_07_chancellor",
@@ -2148,8 +2148,8 @@ CAMPAIGNS.ohl.nodes = {
       "accept. The terms required the evacuation of occupied territory and of the " +
       "left bank of the Rhine, the surrender of guns, aircraft, submarines and much " +
       "of the fleet, and kept the blockade in force until the peace. The delegation " +
-      "had no authority to bargain and little to bargain with, and the one " +
-      "concession it did obtain, a small reduction in the numbers of guns and " +
+      "had no authority to bargain and little to bargain with, and the few " +
+      "concessions it did obtain, among them a reduction in the numbers of guns and " +
       "machine guns to be surrendered, did not change the character of the terms.",
   },
 
@@ -2173,7 +2173,7 @@ CAMPAIGNS.ohl.nodes = {
       "from it, not all that might have. The salients were held through July and " +
       "the army that asked for an armistice in the autumn was a worn army with few " +
       "reserves. The armistice required it to leave France, Belgium and " +
-      "Alsace-Lorraine within fourteen days and to give up its heavy equipment, " +
+      "Alsace-Lorraine within fifteen days and to give up its heavy equipment, " +
       "whatever state it was in. The army's condition was not the thing that made " +
       "the terms, which were made by the Allies' own view of what they needed in " +
       "order not to fight again.",
@@ -2228,7 +2228,7 @@ CAMPAIGNS.ohl.nodes = {
       "at Spa that the army no longer stood behind him. The Kaiser left for the " +
       "Netherlands the next day. The office went on after its occupants had gone, " +
       "as the epilogue says. Ludendorff left for Sweden, in civilian clothes and " +
-      "dark glasses, a few days afterwards, and Hindenburg remained at his post " +
+      "dark glasses, afterwards, and Hindenburg remained at his post " +
       "until the army was home. The Supreme Command that had set out in 1916 to win " +
       "the war by force of will ended it as the object of a quarrel among the " +
       "people it had governed.",
