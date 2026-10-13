@@ -110,7 +110,7 @@ const SKINS = {
     paper: "#D9C9A3",
     paperDim: "#B8A87D",
     ink: "#0F0B08",
-    accent: "#B31E23",
+    accent: "#E65A5E",
     accentLight: "#7A1418",
     dark: true,
     headerStyle: "stamp",
@@ -130,7 +130,7 @@ const SKINS = {
     paperDim: "#B7AD98",
     ink: "#1D2530",
     inkMuted: "#5B6270",
-    accent: "#8A6D1F",
+    accent: "#785E16",
     accentLight: "#A98A34",
     dark: false,
     headerStyle: "telegram",
@@ -570,18 +570,30 @@ function cipherGroups(seedStr) {
   return groups;
 }
 
-function TopBar({ title, onClose, menuItems }) {
+// Enter or Space does what a click does, for the few cards and panels that are not real buttons.
+function activateOnKey(fn) {
+  return (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      fn();
+    }
+  };
+}
+
+function TopBar({ title, screenTitle, onClose, menuItems }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="bg-black text-white px-4 py-3 flex items-center justify-between relative">
-      <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm">
+      <button onClick={onClose} aria-label="Close and go back" className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm">
         ✕
       </button>
-      <div className="font-mono text-sm">{title}</div>
+      <div className="font-mono text-sm" role="heading" aria-level={1} aria-label={screenTitle || title}>{title}</div>
       {menuItems && menuItems.length > 0 ? (
         <>
           <button
             onClick={() => setMenuOpen((v) => !v)}
+            aria-label="More"
+            aria-expanded={menuOpen}
             className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm"
           >
             ···
@@ -604,7 +616,7 @@ function TopBar({ title, onClose, menuItems }) {
           )}
         </>
       ) : (
-        <div className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm">···</div>
+        <div aria-hidden="true" className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm">···</div>
       )}
     </div>
   );
@@ -714,7 +726,16 @@ function TriangleMeters({ campaign, meters, skin }) {
         return (
           <div key={key} className="flex items-center mb-2 text-xs">
             <span style={labelStyle}>{label}</span>
-            <div className="flex-1 mx-3 border-2 h-5 relative flex" style={borderColor}>
+            <div
+              className="flex-1 mx-3 border-2 h-5 relative flex"
+              style={borderColor}
+              role="meter"
+              aria-label={label}
+              aria-valuemin={-10}
+              aria-valuemax={10}
+              aria-valuenow={val}
+              aria-valuetext={`${val > 0 ? "+" : ""}${val} from the historical baseline`}
+            >
               <div className="w-1/2 h-full relative border-r" style={dividerColor}>
                 {pct < 0 && (
                   <div className="h-full absolute right-0" style={{ backgroundColor: skin.accent, width: `${(Math.abs(pct) / 10) * 100}%` }} />
@@ -762,6 +783,9 @@ function RecordsListScreen({ onOpen, onOpenWarRecord, onOpenSettings, savedRun, 
       <div
         key={c.id}
         onClick={() => onOpen(c.id)}
+        onKeyDown={activateOnKey(() => onOpen(c.id))}
+        role="button"
+        tabIndex={0}
         className="cursor-pointer relative"
         style={{ background: "#e9e1cc", border: "1px solid #1a1712", padding: "12px 14px", marginBottom: 12 }}
       >
@@ -792,7 +816,7 @@ function RecordsListScreen({ onOpen, onOpenWarRecord, onOpenSettings, savedRun, 
 
   return (
     <div style={{ background: "#f2ecdc", minHeight: "100%" }}>
-      <TopBar title="dispatches-1922" onClose={() => {}} />
+      <TopBar title="dispatches-1922" screenTitle={"The Records"} onClose={() => {}} />
       <div style={{ padding: "16px 16px 10px", borderBottom: "2px double #1a1712" }}>
         <div
           style={{
@@ -915,13 +939,63 @@ function RecordsListScreen({ onOpen, onOpenWarRecord, onOpenSettings, savedRun, 
   );
 }
 
+// Easy mode: each command has a name of its own, like the other Dispatches games.
+const EASY_MODE_NAMES = {
+  southRussia: "Tachanka Command",
+  siberia: "Teplushka Command",
+  bolsheviks: "Armoured Train Command",
+  provisionalGov17: "Samovar Command",
+};
+const EASY_MODE_TEXT =
+  "Each order shows what it will do to the meters. A contested order lists every outcome with its odds. The record marks what history did, and you can take back the last order.";
+
+function easyModeName(campaignId) {
+  return EASY_MODE_NAMES[campaignId] || "Easy Command";
+}
+
+function impactSummary(campaign, impact) {
+  const label = (key) => ((campaign.triangleAxes.find((a) => a.key === key) || {}).label || key).toUpperCase();
+  const parts = Object.entries(impact || {})
+    .filter(([, v]) => v !== 0)
+    .map(([k, v]) => label(k) + " " + (v > 0 ? "+" + v : v));
+  return parts.length ? parts.join(", ") : "NO CHANGE";
+}
+
+function addImpacts(a, b) {
+  const out = { ...(a || {}) };
+  for (const k of Object.keys(b || {})) out[k] = (out[k] || 0) + b[k];
+  return out;
+}
+
+// What an order will do, shown before it is issued. Meters are capped at plus or minus 10, so a shown
+// change can be smaller when a meter is already near its cap.
+function EasyPreview({ choice, campaign, skin }) {
+  return (
+    <div className="border-2 border-dashed mt-2 px-2 py-2 text-xs" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin) }}>
+      <div className="font-bold" style={accentTextStyle(skin)}>IF YOU ISSUE THIS ORDER</div>
+      {choice.uncertain ? (
+        <>
+          <div className="mt-1">Before the roll: {impactSummary(campaign, choice.impact)}</div>
+          {choice.uncertain.map((e, i) => (
+            <div key={i} className="mt-1">
+              {e.weight}% {e.title}: {impactSummary(campaign, addImpacts(choice.impact, e.impact))}
+            </div>
+          ))}
+        </>
+      ) : (
+        <div className="mt-1">{impactSummary(campaign, choice.impact)}</div>
+      )}
+    </div>
+  );
+}
+
 function CampaignDetailScreen({ campaignId, onEnter, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   const written = c.NODE_ATLAS.length;
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={c.label} onClose={onClose} />
       <div className="p-6">
         <div className="inline-block border-2 font-bold px-3 py-1 text-sm" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...displayFontStyle(skin) }}>
           {c.shortTag}
@@ -948,18 +1022,26 @@ function CampaignDetailScreen({ campaignId, onEnter, onClose }) {
             ✕ {c.hardMode.capitalName}
           </button>
         </div>
+        <button
+          onClick={() => onEnter(c.id, false, true)}
+          className="w-full border-2 font-bold py-3 mt-3 text-sm"
+          style={{ borderColor: skin.dark ? skin.paperDim : skin.ink, ...monoFontStyle(skin) }}
+        >
+          EASY: {easyModeName(c.id)}
+        </button>
+        <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{EASY_MODE_TEXT}</div>
         <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{c.hardMode.description}</div>
       </div>
     </div>
   );
 }
 
-function WarRoomScreen({ campaignId, hardModeEnabled, onStart, onClose }) {
+function WarRoomScreen({ campaignId, hardModeEnabled, easyMode, onStart, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={c.label} onClose={onClose} />
       <div className="p-6">
         <div className="text-3xl font-bold" style={displayFontStyle(skin)}>{c.label}</div>
         {hardModeEnabled ? (
@@ -968,6 +1050,11 @@ function WarRoomScreen({ campaignId, hardModeEnabled, onStart, onClose }) {
               ✕ {c.hardMode.capitalName} — {"●".repeat(c.hardMode.maxCap)}
             </div>
             <div className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>No rewind. Decisions final. Full meter dashboard hidden below the capital counter.</div>
+          </div>
+        ) : easyMode ? (
+          <div className="border-2 mt-3 p-4" style={{ borderColor: skin.paperDim }}>
+            <div className="text-xs font-bold" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>EASY: {easyModeName(c.id).toUpperCase()}</div>
+            <div className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{EASY_MODE_TEXT}</div>
           </div>
         ) : (
           <div className="text-sm mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>Full meter visibility, known-risk odds shown before every gamble.</div>
@@ -995,7 +1082,7 @@ function OddsBadge({ entries, skin }) {
   );
 }
 
-function ChoiceCard({ choice, skin, meters, hardMode, hardModeEnabled, capitalRemaining, onChoose }) {
+function ChoiceCard({ choice, skin, meters, campaign, easyMode, hardMode, hardModeEnabled, capitalRemaining, onChoose }) {
   const blocked = typeof choice.gate === "function" && !choice.gate(meters);
   const costsCapital = hardModeEnabled && choice.costsCapital === true;
   return (
@@ -1019,6 +1106,7 @@ function ChoiceCard({ choice, skin, meters, hardMode, hardModeEnabled, capitalRe
         <div className="text-xs mt-2" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>◆ HISTORICAL RECORD</div>
       )}
       {choice.uncertain && <OddsBadge entries={choice.uncertain} skin={skin} />}
+      {easyMode && !blocked && <EasyPreview choice={choice} campaign={campaign} skin={skin} />}
       {blocked ? (
         <div className="mt-3 text-xs" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
           ✕ NOT AVAILABLE — {choice.disabledReason}
@@ -1093,7 +1181,7 @@ function BulletinScreen({ campaignId, nodeId, flags, meters, onContinue }) {
               <span>DISPATCH</span>
               <span>{c.NEWSPAPER_SUBHEAD}</span>
             </div>
-            <div style={{ fontFamily: paperFont, fontWeight: 900, fontSize: 32, letterSpacing: 1, lineHeight: 0.95 }}>
+            <div role="heading" aria-level={1} style={{ fontFamily: paperFont, fontWeight: 900, fontSize: 32, letterSpacing: 1, lineHeight: 0.95 }}>
               {c.NEWSPAPER_MASTHEAD}
             </div>
           </div>
@@ -1159,6 +1247,10 @@ function ObjectivesPanel({ campaign, skin }) {
       className="border-l-2 mt-3 pl-3 py-1 text-xs leading-relaxed cursor-pointer"
       style={{ borderColor: skin.accent, ...mutedTextStyle(skin) }}
       onClick={() => setOpen((v) => !v)}
+      onKeyDown={activateOnKey(() => setOpen((v) => !v))}
+      role="button"
+      tabIndex={0}
+      aria-expanded={open}
     >
       <div
         className="font-bold tracking-widest mb-1 flex items-center justify-between"
@@ -1191,7 +1283,7 @@ function ObjectivesPanel({ campaign, skin }) {
   );
 }
 
-function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, hardModeValue, instantText, reduceMotion, onChoose, onClose, onOpenMap, onOpenTimeline }) {
+function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, easyMode, hardModeValue, instantText, reduceMotion, onChoose, onClose, onOpenMap, onOpenTimeline }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   const node = c.resolveNode(nodeId, flags, meters);
@@ -1203,7 +1295,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
   useEffect(() => { setBackgroundOpen(false); }, [nodeId]);
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={node.title} onClose={onClose} />
       <div className="p-6">
         {hardModeEnabled && (
           <div className="border-2 p-3 mb-3 flex items-center justify-between" style={{ borderColor: skin.accent }}>
@@ -1213,6 +1305,11 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
             <div className="text-lg tracking-widest" style={accentTextStyle(skin)}>
               {"●".repeat(capitalRemaining)}{"○".repeat(c.hardMode.maxCap - capitalRemaining)}
             </div>
+          </div>
+        )}
+        {easyMode && (
+          <div className="border-2 p-2 mb-3 text-xs font-bold" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
+            EASY: {easyModeName(c.id).toUpperCase()}
           </div>
         )}
         <TriangleMeters campaign={c} meters={meters} skin={skin} />
@@ -1257,6 +1354,10 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
               className="border-l-2 mt-4 pl-3 py-1 text-xs leading-relaxed cursor-pointer"
               style={{ borderColor: skin.accent, ...mutedTextStyle(skin) }}
               onClick={() => setBackgroundOpen((v) => !v)}
+              onKeyDown={activateOnKey(() => setBackgroundOpen((v) => !v))}
+              role="button"
+              tabIndex={0}
+              aria-expanded={backgroundOpen}
             >
               <div className="font-bold tracking-widest mb-1 flex items-center justify-between" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
                 <span>BACKGROUND</span>
@@ -1274,6 +1375,8 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
               choice={choice}
               skin={skin}
               meters={meters}
+              campaign={c}
+              easyMode={easyMode}
               hardMode={c.hardMode}
               hardModeEnabled={hardModeEnabled}
               capitalRemaining={capitalRemaining}
@@ -1286,7 +1389,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
   );
 }
 
-function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeValue, hardModeMaxed, hardModeEnabled, deltas, onContinue, onClose }) {
+function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeValue, hardModeMaxed, hardModeEnabled, easyMode, canRewind, onRewind, deltas, onContinue, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   const triangleDeltaEntries = Object.entries(deltas.triangle);
@@ -1294,7 +1397,7 @@ function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeVa
   const axisLabel = (key) => (c.triangleAxes.find((a) => a.key === key) || {}).label || key;
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Outcome"} onClose={onClose} />
       <div className="p-6">
         <div className="text-xs tracking-widest" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>OUTCOME</div>
         <div className="text-sm mt-4 leading-relaxed whitespace-pre-line">{resolvedText}</div>
@@ -1337,6 +1440,15 @@ function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeVa
         <button onClick={onContinue} className="mt-6 w-full font-bold py-3" style={{ ...accentBgStyle(skin), ...displayFontStyle(skin) }}>
           CONTINUE
         </button>
+        {easyMode && canRewind && (
+          <button
+            onClick={onRewind}
+            className="mt-3 w-full border-2 font-bold py-3 text-sm"
+            style={{ borderColor: skin.dark ? skin.paperDim : skin.ink, ...monoFontStyle(skin) }}
+          >
+            TAKE BACK THIS ORDER
+          </button>
+        )}
       </div>
     </div>
   );
@@ -1758,7 +1870,11 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
   // repeatedly, and a single snapshot would be wrong for most of the war.
   const currentNodeId = visitedNodes[visitedNodes.length - 1];
   const currentNode = currentNodeId ? c.resolveNode(currentNodeId, {}, {}) : null;
-  const atDate = dateToYYYYMM(currentNode && currentNode.date);
+  // The months this run has been through, oldest first. The player may step back through them; later months do not exist yet.
+  const runMonths = [...new Set(visitedNodes.map((nid) => { const at = c.NODE_ATLAS.find((x) => x.id === nid); return at ? firstMonthKey(at.date) : null; }).filter(Boolean))].sort((p, q) => p - q);
+  const [monthIdx, setMonthIdx] = useState(null);
+  const shownIdx = runMonths.length ? (monthIdx == null ? runMonths.length - 1 : Math.min(monthIdx, runMonths.length - 1)) : -1;
+  const atDate = shownIdx >= 0 ? runMonths[shownIdx] : dateToYYYYMM(currentNode && currentNode.date);
 
   // In-world framing per command. The map is a thing a staff officer put on
   // the table, not a progress tracker — so the copy is addressed to the
@@ -1787,7 +1903,7 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
 
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Front map"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold" style={displayFontStyle(skin)}>{c.label}</div>
         <div className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
@@ -1807,6 +1923,29 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
           </div>
         )}
 
+        {runMonths.length > 1 && (
+          <div className="flex items-center gap-2 mt-3">
+            <button
+              onClick={() => setMonthIdx(Math.max(0, shownIdx - 1))}
+              disabled={shownIdx <= 0}
+              className="border-2 px-3 py-2 text-xs font-bold"
+              style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin), opacity: shownIdx <= 0 ? 0.45 : 1 }}
+            >
+              ◀ EARLIER MONTH
+            </button>
+            <div className="flex-1 text-center text-xs font-bold" style={{ ...monoFontStyle(skin), ...primaryTextStyle(skin) }} aria-live="polite">
+              AS OF {monthKeyLabel(atDate)}
+            </div>
+            <button
+              onClick={() => setMonthIdx(Math.min(runMonths.length - 1, shownIdx + 1))}
+              disabled={shownIdx >= runMonths.length - 1}
+              className="border-2 px-3 py-2 text-xs font-bold"
+              style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin), opacity: shownIdx >= runMonths.length - 1 ? 0.45 : 1 }}
+            >
+              LATER MONTH ▶
+            </button>
+          </div>
+        )}
         <div className="border-2 mt-3" style={{ borderColor: skin.accent }}>
           <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={currentCityId} skin={skin} atDate={atDate} />
         </div>
@@ -1828,20 +1967,38 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
   );
 }
 
+// The first month named in a display date, as a YYYYMM number. "AUGUST 1920 – MARCH 1921" is August 1920.
+function firstMonthKey(dateStr) {
+  if (!dateStr) return null;
+  const up = dateStr.toUpperCase();
+  const year = (up.match(/\b(19\d{2})\b/) || [])[1];
+  if (!year) return null;
+  let month = 1;
+  let at = Infinity;
+  for (const [name, num] of Object.entries(MONTH_NUMS)) {
+    const i = up.indexOf(name);
+    if (i !== -1 && i < at) {
+      month = num;
+      at = i;
+    }
+  }
+  return parseInt(year, 10) * 100 + month;
+}
+
+function monthKeyLabel(k) {
+  return Object.keys(MONTH_NUMS)[(k % 100) - 1] + " " + Math.floor(k / 100);
+}
+
 /**
- * Round 23 — the "Context/Key Events timeline" named in the file's own
- * BACKLOG comment as still-missing. Scope, stated plainly: this lists the
- * situations this run has actually passed through, in order, with date and
- * title — a legible record of the sequence, replacing "scroll the front
- * map's marker list and infer it." It does NOT reconstruct and display
- * which literal choice text was clicked at each stop (that would mean
- * matching current flags back against each node's choices' setFlags, which
- * gets genuinely ambiguous once an uncertain roll's own setFlags are mixed
- * in on top of the base choice's) — the date+title sequence is what's
- * actually reliable to show, and is what "timeline" means here.
+ * Two views of the war. "This run" lists the situations this command has actually been in, in order. "The war at
+ * large" lists what every command was deciding, month by month, up to the month this run has reached, so a player
+ * sees the fronts side by side. It is built from the situation atlases of all four campaigns, so a new report
+ * appears here without any extra work. Nothing later than this run's month is shown, and the other branches of
+ * this command stay hidden (only reports this run has visited).
  */
 function TimelineScreen({ campaignId, visitedNodes, flags, meters, skin, onClose }) {
   const c = CAMPAIGNS[campaignId];
+  const [view, setView] = useState("run");
   const entries = visitedNodes
     .map((nid) => {
       let node;
@@ -1854,38 +2011,111 @@ function TimelineScreen({ campaignId, visitedNodes, flags, meters, skin, onClose
       return { id: nid, date: node.date, title: node.title, historicalRecord: node.historicalRecord, isEnding: !!node.isEnding };
     })
     .filter(Boolean);
+
+  // the war at large
+  const reached = Math.max(0, ...visitedNodes.map((nid) => { const at = c.NODE_ATLAS.find((x) => x.id === nid); return at ? firstMonthKey(at.date) || 0 : 0; }));
+  const wide = [];
+  for (const cc of Object.values(CAMPAIGNS)) {
+    for (const at of cc.NODE_ATLAS) {
+      const k = firstMonthKey(at.date);
+      if (!k || k > reached) continue;
+      const mine = cc.id === campaignId;
+      if (mine && !visitedNodes.includes(at.id)) continue;
+      wide.push({ k, id: cc.id + ":" + at.id, tag: cc.shortTag, command: cc.label, title: at.title, mine });
+    }
+  }
+  wide.sort((p, q) => p.k - q.k || (p.mine === q.mine ? 0 : p.mine ? -1 : 1));
+  const months = [];
+  for (const w of wide) {
+    if (!months.length || months[months.length - 1].k !== w.k) months.push({ k: w.k, rows: [] });
+    months[months.length - 1].rows.push(w);
+  }
+  const others = wide.filter((w) => !w.mine).length;
+
+  const tab = (key, label) => (
+    <button
+      onClick={() => setView(key)}
+      aria-pressed={view === key}
+      className="flex-1 border-2 py-2 text-xs font-bold"
+      style={{ ...accentBorderStyle(skin), ...(view === key ? accentBgStyle(skin) : accentTextStyle(skin)), ...monoFontStyle(skin) }}
+    >
+      {label}
+    </button>
+  );
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Key events"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold" style={displayFontStyle(skin)}>{c.label}</div>
-        <div className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-          KEY EVENTS — THIS RUN, IN ORDER
-        </div>
-        <div className="text-xs mt-2 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-          Every situation this command has actually been in, in the order it reached them —
-          {" "}{entries.length} so far.
+        <div className="flex gap-2 mt-3">
+          {tab("run", "THIS RUN")}
+          {tab("war", "THE WAR AT LARGE")}
         </div>
 
-        <div className="mt-4">
-          {entries.map((e, i) => (
-            <div key={`${e.id}-${i}`} className="flex gap-3 py-2" style={{ borderBottom: i < entries.length - 1 ? `1px solid ${skin.paperDim}` : "none" }}>
-              <div className="flex-shrink-0 w-5 text-right" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin), fontSize: 11 }}>
-                {i + 1}
-              </div>
-              <div className="flex-1">
-                <div className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-                  {e.date}
-                  {e.isEnding && <span style={accentTextStyle(skin)}> · ENDING</span>}
-                </div>
-                <div className="font-bold" style={displayFontStyle(skin)}>{e.title}</div>
-              </div>
-              <div className="flex-shrink-0 text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-                {e.historicalRecord ? "◆" : "◇"}
-              </div>
+        {view === "run" ? (
+          <>
+            <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              KEY EVENTS — THIS RUN, IN ORDER
             </div>
-          ))}
-        </div>
+            <div className="text-xs mt-2 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              Every situation this command has actually been in, in the order it reached them —
+              {" "}{entries.length} so far.
+            </div>
+
+            <div className="mt-4">
+              {entries.map((e, i) => (
+                <div key={`${e.id}-${i}`} className="flex gap-3 py-2" style={{ borderBottom: i < entries.length - 1 ? `1px solid ${skin.paperDim}` : "none" }}>
+                  <div className="flex-shrink-0 w-5 text-right" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin), fontSize: 11 }}>
+                    {i + 1}
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                      {e.date}
+                      {e.isEnding && <span style={accentTextStyle(skin)}> · ENDING</span>}
+                    </div>
+                    <div className="font-bold" style={displayFontStyle(skin)}>{e.title}</div>
+                  </div>
+                  <div className="flex-shrink-0 text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                    {e.historicalRecord ? "◆" : "◇"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              THE WAR AT LARGE — UP TO {reached ? monthKeyLabel(reached) : "THE START"}
+            </div>
+            <div className="text-xs mt-2 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              What each command was deciding, month by month, up to the month this run has reached. Later months stay closed.
+              Your own command is marked.
+            </div>
+            {others === 0 && (
+              <div className="text-xs mt-3 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                No other command has a report dated this early.
+              </div>
+            )}
+            <div className="mt-4">
+              {months.map((m) => (
+                <div key={m.k} className="py-2" style={{ borderBottom: `1px solid ${skin.paperDim}` }}>
+                  <div className="text-xs font-bold" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
+                    {monthKeyLabel(m.k)}{m.k === reached ? " · YOU ARE HERE" : ""}
+                  </div>
+                  {m.rows.map((r) => (
+                    <div key={r.id} className="flex gap-2 mt-1">
+                      <div className="flex-shrink-0 text-xs font-bold" style={{ ...monoFontStyle(skin), width: 28, ...(r.mine ? accentTextStyle(skin) : mutedTextStyle(skin)) }}>{r.tag}</div>
+                      <div className="flex-1 text-sm" style={r.mine ? { fontWeight: 700 } : undefined}>
+                        {r.title}
+                        {r.mine && <span className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}> · your command</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         <button onClick={onClose} className="mt-6 w-full border-2 font-bold py-3" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin) }}>
           RETURN TO COMMAND
@@ -1898,7 +2128,7 @@ function TimelineScreen({ campaignId, visitedNodes, flags, meters, skin, onClose
 function EndStubScreen({ onClose }) {
   return (
     <div className="bg-black min-h-full text-white">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"End of the demonstration chain"} onClose={onClose} />
       <div className="p-6">
         <div className="border-2 border-dashed border-white/40 p-6 font-mono text-sm">
           DEMO CHAIN ENDS HERE. This branch hasn't reached a written ending yet —
@@ -1941,7 +2171,7 @@ function EndingScreen({ campaignId, endingId, flags, visitedNodes, instantText, 
   }
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={ending.title} onClose={onClose} />
       <div className="p-6">
         <div className="text-xs tracking-widest" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
           {ending.date} — ENDING REACHED
@@ -1999,7 +2229,7 @@ function WarRecordScreen({ onClose, onOpenSection, discovery }) {
   ];
   return (
     <div style={{ background: "#f2ecdc", minHeight: "100%" }}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"The War Record"} onClose={onClose} />
 
       <div style={{ padding: "16px 16px 10px", borderBottom: `2px double ${ink}` }}>
         <div style={{ display: "flex", justifyContent: "space-between", fontFamily: mono, fontSize: 9, letterSpacing: 2, color: "#6b6150", marginBottom: 8 }}>
@@ -2058,7 +2288,7 @@ function WarRecordScreen({ onClose, onOpenSection, discovery }) {
 function DiscoveryAtlasScreen({ onClose, discovery }) {
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Discovery Atlas"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-4" style={{ fontFamily: BODY_FONT }}>Discovery Atlas</div>
         {Object.values(CAMPAIGNS).map((c) => {
@@ -2094,7 +2324,7 @@ function DiscoveryAtlasScreen({ onClose, discovery }) {
 function EndingsGalleryScreen({ onClose, discovery }) {
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Endings Gallery"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-4" style={{ fontFamily: BODY_FONT }}>Endings Gallery</div>
         {Object.values(CAMPAIGNS).map((c) => {
@@ -2129,7 +2359,7 @@ function EndingsGalleryScreen({ onClose, discovery }) {
 function GlossaryScreen({ onClose }) {
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Glossary"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-1" style={{ fontFamily: BODY_FONT }}>Glossary</div>
         <div className="font-mono text-xs text-stone-500 mb-6 leading-relaxed">
@@ -2149,7 +2379,7 @@ function GlossaryScreen({ onClose }) {
 function CommandDossiersScreen({ onClose }) {
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Command Dossiers"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-4" style={{ fontFamily: BODY_FONT }}>Command Dossiers</div>
         {Object.values(CAMPAIGNS).map((c) => {
@@ -2248,7 +2478,7 @@ function SettingsScreen({ textSize, setTextSize, reduceMotion, setReduceMotion, 
 
   return (
     <div style={{ background: "#f2ecdc", minHeight: "100%" }}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Settings"} onClose={onClose} />
 
       <div style={{ padding: "16px 16px 10px", borderBottom: `2px double ${ink}` }}>
         <div
@@ -2341,7 +2571,7 @@ function HowToReadScreen({ onClose }) {
   ];
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"How to Read the Reports"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-4" style={{ fontFamily: BODY_FONT }}>How to Read the Reports</div>
         {items.map(([label, body], i) => (
