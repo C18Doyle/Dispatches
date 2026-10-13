@@ -158,7 +158,7 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The two armies that would have gone into East Prussia are held on the " +
           "frontier, and the whole weight of the army goes into Galicia. The Austrians are met by " +
-          "more men than in the record. Paris is told that the offensive it was promised will " +
+          "more men than it had. Paris is told that the offensive it was promised will " +
           "come later, and the French, who had counted on it, ask why a promise given in writing " +
           "can be kept in part.",
       },
@@ -318,7 +318,7 @@ CAMPAIGNS.stavka.nodes = {
               "along roads that the German Eighth Army knows from its own manoeuvres. The " +
               "flank that was meant to be closed is opened, and the Germans come into it " +
               "before the First Army is near enough to help. The army is not destroyed as " +
-              "it was in the record, and it is not saved either; Samsonov has less ground " +
+              "it was, and it is not saved either; Samsonov has less ground " +
               "to be beaten on, and no more to do it with." },
         ],
       },
@@ -1081,7 +1081,7 @@ CAMPAIGNS.stavka.nodes = {
               "Speculative. The guns are put on a front a third as wide, and this time the German wire in " +
               "the sector is cut. The Russians take the first line and a stretch of the second, and the " +
               "Germans bring up reserves to meet them, as the French asked. It is a small success, paid for " +
-              "with fewer men than in the record, and the Germans know that the Russians can still attack." },
+              "with fewer men than the real attack cost, and the Germans know that the Russians can still attack." },
           { weight: 55, title: "The thaw defeats it",
             impact: { manpower: -2, munitions: -1, will: -1 },
             setFlags: { stavka_naroch: "narrow", xc_naroch: "launched" },
@@ -1089,7 +1089,7 @@ CAMPAIGNS.stavka.nodes = {
             outcome:
               "Speculative. The ice goes off the lakes in the middle of the attack, and the marsh turns the " +
               "ground the guns have chosen into a swamp. The narrow front is swept from both flanks, and " +
-              "the attack is broken off after four days, with a smaller loss than in the record and the " +
+              "the attack is broken off after four days, with a smaller loss than the real attack and the " +
               "same result. The French are told that the Russians tried." },
         ],
       },
@@ -1813,7 +1813,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The Latvian Riflemen are ordered to hold the bridgehead for two days " +
           "while the rest of the army gets back across the roads behind it. They hold it, " +
           "and they are not relieved. The Twelfth Army gets away a day further from the " +
-          "Daugava than it did in the record, and the riflemen who covered it do not get " +
+          "Daugava than it did historically, and the riflemen who covered it do not get " +
           "away at all. The regiments asked to stay are the ones with most to lose, and " +
           "their losses are the price of a cleaner retreat.",
       },

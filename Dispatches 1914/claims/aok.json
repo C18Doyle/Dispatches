@@ -192,10 +192,12 @@
     "id": "aok-sixtus-2",
     "node": "aok_1917_10_sixtus",
     "kind": "fact",
-    "claim": "Czernin was Foreign Minister from 22 December 1916 to 14 April 1918.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Confirm exact dates."
+    "claim": "Czernin was Foreign Minister from late December 1916 (22 or 23 December) to his resignation on 14 April 1918.",
+    "status": "web-checked",
+    "sources": [
+      "wp-czernin"
+    ],
+    "note": "Wikipedia gives 23 December 1916 for the start; 14 April 1918 for the resignation after the Sixtus affair was published."
   },
   {
     "id": "aok-sixtus-3",

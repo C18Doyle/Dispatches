@@ -908,7 +908,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The armies are ordered to entrench where they stand, and the new Chief names no " +
           "theatre for the weight of the war. The line on the Aisne is made strong and the exhausted " +
           "corps are given a few days. The army commanders, left without a plan, try to turn each " +
-          "other's flanks to the north, as they did in the record, and the east, which asked for an " +
+          "other's flanks to the north, as they did in fact, and the east, which asked for an " +
           "answer, is told to wait. The decision is put off, and the war chooses a theatre in the meantime.",
       },
     ],
@@ -1398,7 +1398,7 @@ CAMPAIGNS.ohl.nodes = {
         setFlags: { ohl_programme: "full" },
         next: "ohl_1917_06_pless",
         outcome:
-          "The programme is issued on 31 August, and the Auxiliary Service " +
+          "The programme is issued at the end of August, and the Auxiliary Service " +
           "Law passes the Reichstag in December, though with amendments that the " +
           "Supreme Command did not want. Output rises, but nowhere near the targets. " +
           "The winter of 1916 and 1917 brings a failed potato harvest, a coal famine " +
@@ -1557,7 +1557,7 @@ CAMPAIGNS.ohl.nodes = {
         id: "spare",
         label: "Withdraw to the new line, leaving the ground as it is",
         advisor: { name: "Crown Prince Rupprecht", position:
-          "The ground can be given up without being destroyed. The destruction harms Germany's name abroad more than it harms the enemy." },
+          "The ground can be given up without being destroyed. The destruction harms the Empire's prestige and the discipline of the troops more than it harms the enemy." },
         impact: { manpower: 2, munitions: 0, will: 0 },
         setFlags: { ohl_alberich: "spared" },
         next: "ohl_1917_07_chancellor",
@@ -2479,8 +2479,8 @@ CAMPAIGNS.ohl.nodes = {
       "accept. The terms required the evacuation of occupied territory and of the " +
       "left bank of the Rhine, the surrender of guns, aircraft, submarines and much " +
       "of the fleet, and kept the blockade in force until the peace. The delegation " +
-      "had no authority to bargain and little to bargain with, and the one " +
-      "concession it did obtain, a small reduction in the numbers of guns and " +
+      "had no authority to bargain and little to bargain with, and the few " +
+      "concessions it did obtain, among them a reduction in the numbers of guns and " +
       "machine guns to be surrendered, did not change the character of the terms.",
   },
 
@@ -2504,7 +2504,7 @@ CAMPAIGNS.ohl.nodes = {
       "from it, not all that might have. The salients were held through July and " +
       "the army that asked for an armistice in the autumn was a worn army with few " +
       "reserves. The armistice required it to leave France, Belgium and " +
-      "Alsace-Lorraine within fourteen days and to give up its heavy equipment, " +
+      "Alsace-Lorraine within fifteen days and to give up its heavy equipment, " +
       "whatever state it was in. The army's condition was not the thing that made " +
       "the terms, which were made by the Allies' own view of what they needed in " +
       "order not to fight again.",
@@ -2559,7 +2559,7 @@ CAMPAIGNS.ohl.nodes = {
       "at Spa that the army no longer stood behind him. The Kaiser left for the " +
       "Netherlands the next day. The office went on after its occupants had gone, " +
       "as the epilogue says. Ludendorff left for Sweden, in civilian clothes and " +
-      "dark glasses, a few days afterwards, and Hindenburg remained at his post " +
+      "dark glasses, afterwards, and Hindenburg remained at his post " +
       "until the army was home. The Supreme Command that had set out in 1916 to win " +
       "the war by force of will ended it as the object of a quarrel among the " +
       "people it had governed.",
@@ -4928,7 +4928,7 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The two armies that would have gone into East Prussia are held on the " +
           "frontier, and the whole weight of the army goes into Galicia. The Austrians are met by " +
-          "more men than in the record. Paris is told that the offensive it was promised will " +
+          "more men than it had. Paris is told that the offensive it was promised will " +
           "come later, and the French, who had counted on it, ask why a promise given in writing " +
           "can be kept in part.",
       },
@@ -5088,7 +5088,7 @@ CAMPAIGNS.stavka.nodes = {
               "along roads that the German Eighth Army knows from its own manoeuvres. The " +
               "flank that was meant to be closed is opened, and the Germans come into it " +
               "before the First Army is near enough to help. The army is not destroyed as " +
-              "it was in the record, and it is not saved either; Samsonov has less ground " +
+              "it was, and it is not saved either; Samsonov has less ground " +
               "to be beaten on, and no more to do it with." },
         ],
       },
@@ -5851,7 +5851,7 @@ CAMPAIGNS.stavka.nodes = {
               "Speculative. The guns are put on a front a third as wide, and this time the German wire in " +
               "the sector is cut. The Russians take the first line and a stretch of the second, and the " +
               "Germans bring up reserves to meet them, as the French asked. It is a small success, paid for " +
-              "with fewer men than in the record, and the Germans know that the Russians can still attack." },
+              "with fewer men than the real attack cost, and the Germans know that the Russians can still attack." },
           { weight: 55, title: "The thaw defeats it",
             impact: { manpower: -2, munitions: -1, will: -1 },
             setFlags: { stavka_naroch: "narrow", xc_naroch: "launched" },
@@ -5859,7 +5859,7 @@ CAMPAIGNS.stavka.nodes = {
             outcome:
               "Speculative. The ice goes off the lakes in the middle of the attack, and the marsh turns the " +
               "ground the guns have chosen into a swamp. The narrow front is swept from both flanks, and " +
-              "the attack is broken off after four days, with a smaller loss than in the record and the " +
+              "the attack is broken off after four days, with a smaller loss than the real attack and the " +
               "same result. The French are told that the Russians tried." },
         ],
       },
@@ -6583,7 +6583,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The Latvian Riflemen are ordered to hold the bridgehead for two days " +
           "while the rest of the army gets back across the roads behind it. They hold it, " +
           "and they are not relieved. The Twelfth Army gets away a day further from the " +
-          "Daugava than it did in the record, and the riflemen who covered it do not get " +
+          "Daugava than it did historically, and the riflemen who covered it do not get " +
           "away at all. The regiments asked to stay are the ones with most to lose, and " +
           "their losses are the price of a cleaner retreat.",
       },
@@ -7198,8 +7198,8 @@ CAMPAIGNS.bef.nodes = {
             outcome:
               "Speculative. All six divisions and the cavalry go to France in the second week of August, " +
               "and the French are told that Britain has kept its word. The army that lands is a third " +
-              "bigger than the one that did in the record, and the coast is not tested. The two " +
-              "divisions that were held back in the record are in the line when the Germans arrive, and " +
+              "bigger than the one that landed in fact, and the coast is not tested. The two " +
+              "divisions that were held back in fact are in the line when the Germans arrive, and " +
               "in no position to be spared." },
           { weight: 40, title: "A scare on the east coast brings a division back",
             impact: { manpower: -2, munitions: -1, will: -1 },
@@ -7757,7 +7757,7 @@ CAMPAIGNS.bef.nodes = {
         setFlags: { bef_evacuate: "helles" },
         next: "bef_1915_09_succession",
         outcome:
-          "Speculative. Anzac and Suvla are cleared in December, as in the record, and the army at Helles " +
+          "Speculative. Anzac and Suvla are cleared in December, as they were, and the army at Helles " +
           "stays through the winter and into the spring. The beaches are shelled by the guns that the Turks, " +
           "freed from the other two fronts, bring to the toe of the peninsula, and the corps there is " +
           "supplied with some difficulty across an open beach. It is evacuated in the end, a few months " +
@@ -7852,7 +7852,7 @@ CAMPAIGNS.bef.nodes = {
         next: "bef_1916_11_somme",
         outcome:
           "The Military Service Act receives the royal assent on 27 January and takes effect " +
-          "on 17 February. Thirty-five Liberal members vote against it, with thirteen " +
+          "on 2 March. Thirty-five Liberal members vote against it, with thirteen " +
           "Labour members and the Irish Nationalists, and the Home Secretary, Sir John " +
           "Simon, resigns. A second Act in May extends liability to married men. The army " +
           "has its drafts for the summer, and the Cabinet has spent some of the goodwill " +
@@ -8983,7 +8983,7 @@ CAMPAIGNS.bef.nodes = {
     epilogue: () =>
       "Speculative. The Military Service Act was passed in January 1916, and a " +
       "second in May extended it to married men. What actually happened: the Act " +
-      "received the royal assent on 27 January and came into force on 17 February; " +
+      "received the royal assent on 27 January and came into force on 2 March; " +
       "thirty-five Liberals voted against it, and the Home Secretary, Sir John " +
       "Simon, resigned. A third Act in 1918 raised the upper age to fifty-one. " +
       "Without compulsion the army could not have been kept up to the strength that " +
@@ -9146,7 +9146,7 @@ CAMPAIGNS.aok.nodes = {
             outcome:
               "Speculative. The trains are turned on the 31st, and the army begins its journey north " +
               "while the Balkan group goes into Serbia without it. It arrives in Galicia some days " +
-              "earlier than it did in the record, in better order and with all its corps. The Serbian " +
+              "earlier than it did, in better order and with all its corps. The Serbian " +
               "front is held by fewer men than the plan allowed for, and the Serbs have a good deal more room." },
           { weight: 45, title: "The railways jam and the army arrives no sooner",
             impact: { manpower: -1, munitions: -2, will: -1 },
@@ -9155,7 +9155,7 @@ CAMPAIGNS.aok.nodes = {
             outcome:
               "Speculative. The trains that were started for the south are stopped, and the junctions " +
               "of Hungary fill with troop trains that stand for days in the wrong order. The army " +
-              "reaches Galicia as late as it did in the record, with units arriving in pieces, and " +
+              "reaches Galicia as late as it did, with units arriving in pieces, and " +
               "the railway staff, which said that this would happen, is not in the mood to be thanked." },
         ],
       },
@@ -9601,7 +9601,7 @@ CAMPAIGNS.aok.nodes = {
         outcome:
           "Speculative. Potiorek is given leave to advance as far as the Kolubara and told to halt on it, " +
           "and two divisions that would have gone into Serbia are sent north. He reaches the river in the " +
-          "middle of November, as in the record, and is stopped by order and not by the Serbs. Belgrade " +
+          "middle of November, as he did, and is stopped by order and not by the Serbs. Belgrade " +
           "is not entered in December. The Serbs have time to bring up ammunition, and Potiorek writes " +
           "to say what he thinks of a general who halts on a river.",
       },
@@ -10274,7 +10274,7 @@ CAMPAIGNS.aok.nodes = {
       next: "aok_1917_12_pursuit",
       outcome:
         "Speculative. The line at Caporetto breaks, and the pursuit is slower and " +
-        "costlier than it was in the record. Italian rearguards hold the Tagliamento " +
+        "costlier than it was in fact. Italian rearguards hold the Tagliamento " +
         "for a week, and the stores that were captured on the first day are burned " +
         "or taken back. The Fourteenth Army reaches the Piave later and with less. " +
         "The monarchy is saved from another Italian attack, and has paid more for " +
@@ -10588,7 +10588,7 @@ CAMPAIGNS.aok.nodes = {
           "Speculative. The Emperor releases the Hungarian divisions from their oath and orders them home, " +
           "and the army's other units are told to fall back toward the Tagliamento. The Hungarians go by " +
           "the railways, and most of them go in order. The Italians, who find the front emptied of half " +
-          "its defenders, advance faster than in the record, and the armistice, when it is asked for, is " +
+          "its defenders, advance faster than they did, and the armistice, when it is asked for, is " +
           "asked for by an army that has already begun to go home.",
       },
     ],
@@ -11214,7 +11214,7 @@ CAMPAIGNS.otto.nodes = {
             outcome:
               "Speculative. The columns find the passes held and the patrols that the " +
               "plan feared. The attack is made and stopped in the high ground, with fewer " +
-              "men lost to the cold than in the record and more to the Russian guns. The " +
+              "men lost to the cold than the real march cost and more to the Russian guns. The " +
               "army withdraws in order to the Erzurum line, clothed and fed, and Enver " +
               "has the defeat the plan always risked, at a lower price." },
         ],
@@ -11594,7 +11594,7 @@ CAMPAIGNS.otto.nodes = {
               "Speculative. The Third Army meets the Russians in the open and is beaten, with its guns lost in " +
               "the snow and its men hardly able to move in their rags. It falls back on the fortress in " +
               "disorder, and the Russians arrive before the forts have been made ready. Erzurum falls sooner " +
-              "than it did in the record, and the army that is left to defend the road to the west is smaller." },
+              "than it did, and the army that is left to defend the road to the west is smaller." },
         ],
       },
     ],
@@ -11799,7 +11799,7 @@ CAMPAIGNS.otto.nodes = {
               "Speculative. The Sixth Army holds its ground below the city for six days, and the " +
               "British have to bring up their guns and fight for each stretch of the line. It is a " +
               "delay and not a victory. The stand costs the army a third of its men, and Baghdad " +
-              "falls a week later than it did in the record, to an army that has less left to retreat " +
+              "falls a week later than it did, to an army that has less left to retreat " +
               "with." },
           { weight: 70, title: "The army is outflanked and broken",
             impact: { manpower: -3, munitions: -2, will: -2 },
@@ -11807,8 +11807,8 @@ CAMPAIGNS.otto.nodes = {
             outcome:
               "Speculative. The British turn the line from the east, and the Sixth Army is caught " +
               "between the river and the desert. Thousands are taken and most of the guns are lost. " +
-              "Baghdad falls on the 11th, as it did in the record, but the army that fell back on " +
-              "Mosul in the record is now a remnant, and the north is open." },
+              "Baghdad falls on the 11th, as it did, but the army that fell back on " +
+              "Mosul in fact is now a remnant, and the north is open." },
         ],
       },
       {
@@ -11824,7 +11824,7 @@ CAMPAIGNS.otto.nodes = {
         outcome:
           "Speculative. Khalil is ordered to leave Baghdad at once, and the Sixth Army marches north " +
           "with its guns, its stores and nearly all its men. The British enter the city a few days " +
-          "earlier than in the record and without a shot. The army that falls back on Mosul is the " +
+          "earlier than it did and without a shot. The army that falls back on Mosul is the " +
           "whole Sixth Army, and the empire has given up its chief city in Mesopotamia without a " +
           "battle, which Enver, who wanted to fight, has to explain.",
       },
@@ -11981,7 +11981,7 @@ CAMPAIGNS.otto.nodes = {
             outcome:
               "Speculative. The column goes round the pass by a path the Turkish staff did not know, and " +
               "the battalion in it finds the Arabs behind it. It is cut off from Ma'an and from the port, and " +
-              "surrenders with its guns. Aqaba falls a few days later, as it did in the record, to an " +
+              "surrenders with its guns. Aqaba falls a few days later, as it did, to an " +
               "attacker that has taken more men and more rifles on the way." },
         ],
       },
@@ -11999,7 +11999,7 @@ CAMPAIGNS.otto.nodes = {
           "Speculative. The garrison and its guns are brought back to Ma'an in June, and Aqaba is left to " +
           "the Arabs when they come. The force at Ma'an is stronger by a battalion, and the railway has a " +
           "shorter flank to watch. The Arabs and the British have their port a few weeks earlier than " +
-          "in the record, and without a shot being fired for it, which is an easier thing to " +
+          "they did, and without a shot being fired for it, which is an easier thing to " +
           "explain to the Sultan than a surrender.",
       },
     ],
@@ -13089,6 +13089,109 @@ export const MAP_OPS = {
   "otto_1918_01_caucasus/hold": [H([41.6, 41.6])],
   "otto_1918_02_megiddo/hold": [H([35.3, 32.7])],
   "otto_1918_02_megiddo/withdraw": [W([35.0, 32.4], [35.3, 32.9])],
+
+  // the rest of the operational orders (the orders of command, politics and diplomacy are not drawn: they move no troops)
+  "ohl_1914_14_timetable/hold": [M([13.4, 52.5], [5.6, 50.6])],
+  "ohl_1914_14_timetable/half": [M([13.4, 52.5], [5.6, 50.6]), M([13.4, 52.5], [21.0, 52.2])],
+  "ohl_1914_14_timetable/whole": [M([13.4, 52.5], [21.0, 52.2])],
+  "ohl_1914_02_marne/hentsch": [M([6.1, 49.6], [3.7, 49.0])],
+  "ohl_1914_02_marne/goforward": [M([6.1, 49.6], [3.9, 49.25])],
+  "ohl_1914_03_succession/west": [H([3.5, 49.4])],
+  "ohl_1914_03_succession/east": [M([3.5, 49.4], [21.0, 52.2])],
+  "ohl_1914_03_succession/aisne": [H([3.4, 49.45])],
+  "ohl_1916_05_relief/defensive": [W([2.9, 50.0], [3.4, 50.0])],
+  "ohl_1916_05_relief/press": [A([5.4, 49.4], [5.4, 49.15])],
+  "ohl_1917_06_pless/unrestricted": [A([8.1, 53.5], [-8.0, 49.5])],
+  "ohl_1917_06_pless/restricted": [H([8.1, 53.5])],
+  "ohl_1917_06_pless/sharpened": [A([8.1, 53.5], [-4.0, 50.5])],
+  "ohl_1917_12_alberich/devastate": [W([2.9, 49.6], [3.4, 49.7])],
+  "ohl_1917_12_alberich/spare": [W([2.9, 49.5], [3.4, 49.6])],
+  "ohl_1917_12_alberich/stay": [H([2.9, 49.6])],
+  "ohl_1918_10_salient/shorten": [W([3.5, 49.2], [3.5, 49.5])],
+  "ohl_1918_10_salient/hold": [H([3.3, 49.1])],
+  "ohl_1918_14_blackday/defensive": [H([2.7, 49.85])],
+  "ohl_1918_14_blackday/offensive": [A([3.0, 49.9], [2.2, 49.9])],
+
+  "gqg_1914_16_week/attack": [A([6.8, 48.7], [7.6, 48.95]), A([4.9, 49.6], [5.6, 49.9])],
+  "gqg_1914_16_week/move": [W([6.8, 48.7], [6.2, 48.5]), M([6.0, 48.5], [3.9, 50.0])],
+  "gqg_1914_16_week/probe": [A([6.8, 48.7], [7.3, 48.8]), M([3.0, 48.8], [3.9, 49.9])],
+  "gqg_1916_14_douaumont/retake": [A([5.46, 49.2], [5.4, 49.34])],
+  "gqg_1916_14_douaumont/wait": [H([5.38, 49.25])],
+  "gqg_1918_12_link/reserve": [M([2.35, 49.0], [2.9, 49.8])],
+  "gqg_1918_12_link/allin": [M([2.35, 49.0], [2.8, 50.1])],
+  "gqg_1918_12_link/paris": [H([2.35, 48.9])],
+  "gqg_1918_13_aisne/leave": [H([3.7, 49.4])],
+  "gqg_1918_13_aisne/depth": [W([3.7, 49.45], [3.65, 49.3])],
+  "gqg_1918_13_aisne/relieve": [H([3.75, 49.35])],
+  "gqg_1918_14_americans/army": [M([-1.6, 47.2], [5.0, 49.2])],
+  "gqg_1918_14_americans/split": [M([-1.6, 47.2], [3.0, 49.6])],
+
+  "stavka_1914_03_przemysl/invest": [H([22.77, 49.78])],
+  "stavka_1914_03_przemysl/storm": [A([22.2, 49.95], [22.77, 49.78])],
+  "stavka_1914_03_przemysl/screen": [H([22.77, 49.78]), M([22.5, 49.9], [21.0, 52.2])],
+  "stavka_1916_02_naroch/launch": [A([27.4, 54.8], [26.2, 54.8])],
+  "stavka_1916_02_naroch/refuse": [H([26.8, 54.8])],
+  "stavka_1916_02_naroch/smaller": [A([27.1, 54.8], [26.4, 54.8])],
+  "stavka_1916_15_lemberg/stop": [H([25.0, 49.5])],
+  "stavka_1916_15_lemberg/stanislau": [A([25.6, 49.0], [24.7, 48.9])],
+  "stavka_1916_15_lemberg/romania": [A([25.5, 49.0], [25.9, 47.9])],
+  "stavka_1916_14_romfront/take": [M([27.5, 48.5], [27.0, 46.0])],
+  "stavka_1916_14_romfront/limit": [H([27.5, 48.0])],
+  "stavka_1917_07_kerensky/attack": [A([26.0, 49.6], [24.3, 49.8])],
+  "stavka_1917_07_kerensky/refuse": [H([25.6, 49.6])],
+  "stavka_1917_13_kornilov/refuse": [M([29.0, 57.6], [30.3, 59.9])],
+  "stavka_1917_13_kornilov/obey": [W([30.0, 59.0], [29.0, 57.6])],
+  "stavka_1917_13_kornilov/mediate": [H([30.3, 59.9])],
+
+  "bef_1915_07_reserves/keep": [H([2.55, 50.4])],
+  "bef_1915_07_reserves/release": [M([2.4, 50.4], [2.75, 50.45])],
+  "bef_1915_08_evacuate/evacuate": [W([26.28, 40.25], [25.2, 39.9])],
+  "bef_1915_08_evacuate/stay": [M([25.27, 39.88], [26.2, 40.1])],
+  "bef_1915_08_evacuate/helles": [W([26.28, 40.25], [25.2, 39.9]), H([26.17, 40.04])],
+  "bef_1917_14_convoy/convoy": [M([-5.0, 50.0], [-14.0, 49.5])],
+  "bef_1917_14_convoy/patrols": [H([-5.0, 50.0])],
+  "bef_1917_16_plateau/goon": [A([3.0, 50.88], [3.25, 50.9])],
+  "bef_1917_16_plateau/keep": [H([2.95, 50.85])],
+  "bef_1917_16_plateau/cambrai": [M([2.9, 50.85], [3.2, 50.15])],
+  "bef_1918_16_manpower/extend": [M([3.1, 49.9], [3.25, 49.4])],
+  "bef_1918_16_manpower/refuse": [H([3.1, 49.9])],
+  "bef_1918_16_manpower/oise": [M([3.1, 49.9], [3.2, 49.65])],
+  "bef_1918_20_hundreddays/attack": [A([3.0, 50.2], [3.4, 50.0])],
+  "bef_1918_20_hundreddays/pause": [H([3.0, 50.2])],
+
+  "aok_1914_02_recall/recall": [M([20.0, 44.8], [22.8, 49.9])],
+  "aok_1914_02_recall/stay": [H([20.0, 44.8])],
+  "aok_1914_06_flank/leave": [H([24.0, 49.7])],
+  "aok_1914_06_flank/reinforce": [M([23.0, 50.2], [24.0, 49.6])],
+  "aok_1914_06_flank/back": [W([24.0, 49.7], [23.2, 49.5])],
+  "aok_1915_07_przemysl/none": [H([22.77, 49.78])],
+  "aok_1915_07_przemysl/third": [A([21.6, 49.2], [22.5, 49.7])],
+  "aok_1916_06_montenegro/attack": [A([19.8, 43.3], [19.0, 42.5])],
+  "aok_1916_06_montenegro/halt": [M([19.8, 43.3], [13.6, 46.0])],
+  "aok_1916_08_brusilov/halt": [M([11.5, 45.9], [25.0, 50.0])],
+  "aok_1916_08_brusilov/continue": [A([11.3, 46.0], [11.75, 45.7])],
+  "aok_1916_08_brusilov/split": [M([11.5, 45.9], [25.0, 50.0]), H([11.5, 45.9])],
+  "aok_1917_12_pursuit/push": [A([12.2, 45.75], [11.8, 45.85])],
+  "aok_1917_12_pursuit/halt": [H([12.2, 45.8])],
+  "aok_1918_14_ukraine/occupy": [M([22.0, 48.5], [30.5, 50.4])],
+  "aok_1918_14_ukraine/keep": [H([13.6, 46.0])],
+  "aok_1918_14_ukraine/partial": [M([22.0, 48.5], [28.0, 49.0])],
+  "aok_1918_13_vittorio/armistice": [W([12.3, 45.9], [13.8, 46.0])],
+  "aok_1918_13_vittorio/german": [H([12.3, 45.9])],
+  "aok_1918_13_vittorio/hungarians": [M([12.3, 45.9], [19.0, 47.5])],
+
+  "otto_1914_02_blacksea/raid": [A([29.1, 41.2], [33.5, 44.6])],
+  "otto_1914_02_blacksea/hold": [H([29.1, 41.15])],
+  "otto_1915_04_clothing/hold": [H([41.27, 39.9])],
+  "otto_1915_04_clothing/go": [A([41.6, 40.0], [42.6, 40.33])],
+  "otto_1915_04_clothing/olti": [A([41.8, 40.5], [42.2, 40.95])],
+  "otto_1916_02_medina/hold": [M([36.3, 33.5], [39.6, 24.5])],
+  "otto_1916_02_medina/evacuate": [W([39.6, 24.5], [35.7, 30.2])],
+  "otto_1917_01_yildirim/palestine": [M([37.2, 36.2], [34.5, 31.5])],
+  "otto_1917_01_yildirim/baghdad": [M([37.2, 36.2], [44.4, 33.3])],
+  "otto_1917_01_yildirim/both": [M([37.2, 36.2], [34.5, 31.5]), M([37.2, 36.2], [44.4, 33.3])],
+  "otto_1917_02_jerusalem/withdraw": [W([35.2, 31.8], [35.3, 32.3])],
+  "otto_1917_02_jerusalem/hold": [H([35.2, 31.8])],
 };
 
 /** The arrows of an order, or []. */

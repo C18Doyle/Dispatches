@@ -34,7 +34,7 @@ for (const [nodeId, have] of Object.entries(byNode)) {
 let decisions = 0;
 for (const { node } of E.allNodes()) if (!node.ending) decisions++;
 checked++;
-if (Object.keys(byNode).length < 55) problems.push(`only ${Object.keys(byNode).length} reports have their orders drawn`);
+if (Object.keys(byNode).length < 100) problems.push(`only ${Object.keys(byNode).length} reports have their orders drawn`);
 for (const cid of E.CAMPAIGN_IDS) {
   checked++;
   const n = Object.keys(byNode).filter((id) => E.findNode(id).campaignId === cid).length;

@@ -134,8 +134,8 @@ CAMPAIGNS.bef.nodes = {
             outcome:
               "Speculative. All six divisions and the cavalry go to France in the second week of August, " +
               "and the French are told that Britain has kept its word. The army that lands is a third " +
-              "bigger than the one that did in the record, and the coast is not tested. The two " +
-              "divisions that were held back in the record are in the line when the Germans arrive, and " +
+              "bigger than the one that landed in fact, and the coast is not tested. The two " +
+              "divisions that were held back in fact are in the line when the Germans arrive, and " +
               "in no position to be spared." },
           { weight: 40, title: "A scare on the east coast brings a division back",
             impact: { manpower: -2, munitions: -1, will: -1 },
@@ -693,7 +693,7 @@ CAMPAIGNS.bef.nodes = {
         setFlags: { bef_evacuate: "helles" },
         next: "bef_1915_09_succession",
         outcome:
-          "Speculative. Anzac and Suvla are cleared in December, as in the record, and the army at Helles " +
+          "Speculative. Anzac and Suvla are cleared in December, as they were, and the army at Helles " +
           "stays through the winter and into the spring. The beaches are shelled by the guns that the Turks, " +
           "freed from the other two fronts, bring to the toe of the peninsula, and the corps there is " +
           "supplied with some difficulty across an open beach. It is evacuated in the end, a few months " +
@@ -788,7 +788,7 @@ CAMPAIGNS.bef.nodes = {
         next: "bef_1916_11_somme",
         outcome:
           "The Military Service Act receives the royal assent on 27 January and takes effect " +
-          "on 17 February. Thirty-five Liberal members vote against it, with thirteen " +
+          "on 2 March. Thirty-five Liberal members vote against it, with thirteen " +
           "Labour members and the Irish Nationalists, and the Home Secretary, Sir John " +
           "Simon, resigns. A second Act in May extends liability to married men. The army " +
           "has its drafts for the summer, and the Cabinet has spent some of the goodwill " +
@@ -1919,7 +1919,7 @@ CAMPAIGNS.bef.nodes = {
     epilogue: () =>
       "Speculative. The Military Service Act was passed in January 1916, and a " +
       "second in May extended it to married men. What actually happened: the Act " +
-      "received the royal assent on 27 January and came into force on 17 February; " +
+      "received the royal assent on 27 January and came into force on 2 March; " +
       "thirty-five Liberals voted against it, and the Home Secretary, Sir John " +
       "Simon, resigned. A third Act in 1918 raised the upper age to fifty-one. " +
       "Without compulsion the army could not have been kept up to the strength that " +
