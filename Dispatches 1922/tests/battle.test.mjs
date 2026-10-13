@@ -189,6 +189,45 @@ const cardWithBadge = (ctx) => ctx.buttons().find((b) => ctx.lab(b) === "ISSUE T
   ctx.restore();
 }
 
+// ---- every other campaign reaches a battle, plans it and gets its report ------------------------------------------------
+for (const [id, label] of [
+  ["siberia", "Provisional All-Russian Government"],
+  ["bolsheviks", "Revolutionary Military Council of the Republic"],
+  ["provisionalGov17", "The Provisional Government"],
+]) {
+  const ctx = makeContext(cfgUi, bundle, 11);
+  if (ctx.failed) throw new Error(ctx.failed);
+  ctx.runCase = [id, label, false];
+  await sleep(300);
+  await ctx.settle();
+  const err = await cfgUi.setup(ctx, [id, label, false]);
+  if (err) throw new Error(err);
+  let reached = false;
+  for (let i = 0; i < 120 && !reached; i++) {
+    const host = cardWithBadge(ctx);
+    if (host) {
+      reached = true;
+      await ctx.click(host);
+      check(/ORDER OF BATTLE/.test(ctx.text()), `${id}: the order opens the planning screen`);
+      await ctx.click(find(ctx, /^LET THE STAFF PLAN IT$/));
+      await ctx.click(find(ctx, /^ISSUE THE PLAN$/));
+      check(/AFTER-ACTION REPORT/.test(ctx.text()), `${id}: the outcome carries the after-action report`);
+      await ctx.click(find(ctx, /^CONTINUE$/));
+      check(!/ORDER OF BATTLE/.test(ctx.text()), `${id}: the run goes on after the battle`);
+      break;
+    }
+    const o = orders(ctx);
+    if (o.length) await ctx.click(o[0]);
+    else {
+      const next = find(ctx, /^(CONTINUE|PROCEED|NEXT)/i);
+      if (!next) break;
+      await ctx.click(next);
+    }
+  }
+  check(reached, `${id}: a run reaches a battle (first order each time)`);
+  ctx.restore();
+}
+
 if (fails.length) {
   console.log(`\n${fails.length} failure(s)`);
   process.exit(1);
