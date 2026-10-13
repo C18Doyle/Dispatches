@@ -235,7 +235,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
             {headline.dek}
           </p>
           <div
-            className="text-[9px] pt-2 text-[#888]"
+            className="text-[9px] pt-2 text-[#6b6b6b]"
             style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}
           >
             WIRE: RELAYED VIA {campaign.name.toUpperCase()}, ROUTINE PRIORITY
@@ -245,7 +245,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
         <button
           onClick={onContinue}
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
-          style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: "transparent" }}
+          style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
         >
           Continue
         </button>
@@ -559,7 +559,49 @@ function currentRegionStatuses(statusYear, flags, meters, dayKey) {
   const { o } = mapOverrides(statusYear, flags, meters, dayKey);
   return { ...base, ...o };
 }
-function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses: givenStatuses, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions }) {
+/** Orders drawn on the map: a solid arrow for an attack, a dashed one for a move, a fading dashed one for a withdrawal, a ring for a stand. tone is "focus" (the order picked) or "past" (an order already given). */
+function MapOpArrows({ arrows, bbox }) {
+  if (!arrows || !arrows.length) return null;
+  const pt = (p) => projectLonLat(p[0], p[1], bbox);
+  return (
+    <g style={{ pointerEvents: "none" }} aria-hidden="true">
+      <defs>
+        <marker id="op-head-focus" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#a3201a" />
+        </marker>
+        <marker id="op-head-past" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#4a4a4a" />
+        </marker>
+      </defs>
+      {arrows.map((a, i) => {
+        const focus = a.tone === "focus";
+        const colour = focus ? "#a3201a" : "#4a4a4a";
+        const opacity = focus ? 1 : 0.5;
+        if (a.kind === "hold") {
+          const [x, y] = pt(a.at);
+          return (
+            <g key={i} opacity={opacity}>
+              <circle cx={x} cy={y} r={10} fill="none" stroke="#ffffff" strokeWidth={focus ? 6 : 4} />
+              <circle cx={x} cy={y} r={10} fill="none" stroke={colour} strokeWidth={focus ? 3 : 2} />
+            </g>
+          );
+        }
+        const [x1, y1] = pt(a.from);
+        const [x2, y2] = pt(a.to);
+        const dash = a.kind === "move" ? "8,5" : a.kind === "withdraw" ? "3,5" : undefined;
+        const fade = a.kind === "withdraw" ? 0.7 : 1;
+        return (
+          <g key={i} opacity={opacity * fade}>
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#ffffff" strokeWidth={focus ? 6 : 4} strokeLinecap="round" />
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={colour} strokeWidth={focus ? 3 : 2} strokeLinecap="round" strokeDasharray={dash} markerEnd={`url(#op-head-${focus ? "focus" : "past"})`} />
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses: givenStatuses, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions, opArrows }) {
   const [geometry, setGeometry] = useState(null);
   useEffect(() => {
     let cancelled = false;
@@ -847,11 +889,12 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           </g>
         );
       })}
+      <MapOpArrows arrows={opArrows} bbox={bbox} />
     </svg>
   );
 }
 
-function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadlines, onClose, nodeId, lastSeenMapStatuses, onStatusesChange, history, embedded = false, review = null, endDate = null }) {
+function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadlines, onClose, nodeId, lastSeenMapStatuses, onStatusesChange, history, embedded = false, review = null, endDate = null, orders = null }) {
   const highlightRegions = (NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId];
   const years = CAMPAIGN_MAP_YEARS[campaign.id] || [year];
   const forks = DIVERGENCE_FORKS[campaign.id] || [];
@@ -972,6 +1015,26 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   useEffect(() => {
     setSelectedRegion(null);
   }, [viewIndex]);
+  // The orders on the map (MAP_OPS in 36-map-ops.jsx): the report's own orders can be picked from a list and drawn, and the last few orders given stay on the map, faint.
+  const opsHere = (MAP_OPS[campaign.id] || {})[nodeId] || null;
+  const opsList = !embedded && opsHere && orders
+    ? orders.map((c, index) => ({ index, label: c.label, op: opsHere.find((o) => c.label.startsWith(o.match)) || null })).filter((x) => x.op)
+    : [];
+  const [focusOp, setFocusOp] = useState(null);
+  const focused = opsList.find((x) => x.index === focusOp) || null;
+  const pastArrows = [];
+  if (!embedded && current.isLast && history && history.length > 1) {
+    const given = history[history.length - 1].log || [];
+    for (let k = Math.max(0, history.length - 4); k < history.length - 1; k++) {
+      const op = given[k] && ((MAP_OPS[campaign.id] || {})[history[k].position] || []).find((o) => given[k].label.startsWith(o.match));
+      if (op) for (const a of op.arrows) pastArrows.push({ ...a, tone: "past" });
+    }
+  }
+  const opArrows = current.isLast ? [...pastArrows, ...(focused ? focused.op.arrows.map((a) => ({ ...a, tone: "focus" })) : [])] : [];
+  const opName = (label) => {
+    const head = label.split(":")[0];
+    return head.length <= 64 ? head : head.split(" ").slice(0, 8).join(" ") + "…";
+  };
   const headingRef = useRef(null);
   useEffect(() => {
     if (!embedded && headingRef.current) headingRef.current.focus();
@@ -1075,6 +1138,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             highlightRegions={highlightRegions}
             accent={campaign.accent}
             changedRegions={changedRegions}
+            opArrows={opArrows}
           />
           {revealedForks.map((fk, i) => (
             <div
@@ -1094,6 +1158,32 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             />
           ))}
         </div>
+        {opsList.length > 0 && current.isLast && (
+          <div className="mt-3">
+            <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1.5" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
+              Orders on the map
+            </div>
+            <div className="flex flex-col gap-1.5">
+              {opsList.map((o) => (
+                <button
+                  key={o.index}
+                  aria-pressed={focusOp === o.index}
+                  onClick={() => setFocusOp(focusOp === o.index ? null : o.index)}
+                  className="text-left text-[11px] leading-snug border-2 border-black px-2 py-1.5 transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", backgroundColor: focusOp === o.index ? "#16130f" : "transparent", color: focusOp === o.index ? "#ffffff" : "#000000" }}
+                >
+                  {opName(o.label)}
+                </button>
+              ))}
+            </div>
+            <p className="mt-2 text-[12px] leading-snug min-h-[2.5em]" aria-live="polite" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              {focused ? focused.op.note : "Pick an order to see where it goes."}
+            </p>
+            <p className="mt-1 text-[10px] leading-snug opacity-80" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.
+            </p>
+          </div>
+        )}
         <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
           {usedStatuses.map((s) => (
             <span
@@ -1286,6 +1376,12 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             })}
           </div>
         </div>
+        <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+          <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Your staff
+          </span>
+          Advisers argue for some orders. Follow one and that adviser trusts you more; pass one over and the trust falls a little. An adviser who is overruled too often goes quiet, and then asks to be relieved. A trusted adviser brings a reconnaissance pass at no cost. On the theater map you can pick an order and see where it would send the army.
+        </p>
         {hasForks && (
           <StampToggle
             accent={campaign.accent}

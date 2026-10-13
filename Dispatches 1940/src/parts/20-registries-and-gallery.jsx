@@ -598,7 +598,7 @@ const ENDINGS_GALLERY = [
 // own objectives, independent of the war's larger, fixed result.
 const TIER_META = {
   "Major Victory": { short: "Major Victory", color: "#2f5233" },
-  "Minor Victory": { short: "Minor Victory", color: "#4a7856" },
+  "Minor Victory": { short: "Minor Victory", color: "#40694c" },
   "Contested Outcome": { short: "Contested", color: "#6b5b1f" },
   "Minor Defeat": { short: "Minor Defeat", color: "#8a4a2f" },
   "Major Defeat": { short: "Major Defeat", color: "#7a2e2e" },

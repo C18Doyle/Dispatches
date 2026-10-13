@@ -133,7 +133,7 @@ const engine = await compileTs(join(ROOT, "packages", "engine", "src", "campaign
 // Manpower; iniInt, iniCmd, iniTmp for Initiative: where each choice's impact fell, for the readings under each meter) and the arrears flags (what a cost took below the floor). They are a 1940 addition to the shared rules, so
 // they are set aside here and the rest of the flags must still match the engine exactly.
 const TALLY_FLAGS = new Set(["matOil", "matArms", "matAmmo", "matSteel", "matShip", "manOrg", "manExp", "manRdy", "iniInt", "iniCmd", "iniTmp", "rdyTrn", "rdyFlt", "rdyMor", "pipOil", "pipShp", "pipInd", "arrearsManpower", "arrearsFuel", "arrearsInitiative", "arrearsReadiness", "arrearsPipeline"]);
-const withoutTallies = (flags) => Object.fromEntries(Object.entries(flags).filter(([k]) => !TALLY_FLAGS.has(k)));
+const withoutTallies = (flags) => Object.fromEntries(Object.entries(flags).filter(([k]) => !TALLY_FLAGS.has(k) && !/^(tr_|trn_|trgone_|ev_)/.test(k)));
 for (const [game, modes, ceilings, endFlags, axes] of [
   [
     "Dispatches 1941",

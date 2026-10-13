@@ -59,6 +59,8 @@ function WW2CommandInner() {
   const [visited, setVisited] = useState([]);
   const [seenWireHeadlines, setSeenWireHeadlines] = useState([]);
   const [pendingWireHeadline, setPendingWireHeadline] = useState(null);
+  // A special dispatch waiting to be read before the next report ({ event, wire }: wire is the bulletin that follows it, if any).
+  const [pendingEvent, setPendingEvent] = useState(null);
   // Region statuses as of the last time the Checkpoint Map was closed, this run — null
   // means "never opened yet" (no flash on first open). Lives up here rather than inside
   // BriefingScreen because BriefingScreen itself remounts on every new node in the normal
@@ -108,6 +110,7 @@ function WW2CommandInner() {
     setRewinds(0);
     setSeenWireHeadlines([]);
     setPendingWireHeadline(null);
+    setPendingEvent(null);
     setLastSeenMapStatuses(null);
     setScreen("warroom");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -167,6 +170,7 @@ function WW2CommandInner() {
     setRewinds(0);
     setSeenWireHeadlines([]);
     setPendingWireHeadline(null);
+    setPendingEvent(null);
     setLastSeenMapStatuses(null);
     setScreen("warroom");
   }
@@ -316,7 +320,11 @@ function WW2CommandInner() {
 
     setOutcomeStage(null);
     if (!isEnd) {
-      const newHistory = [...history, { position: nextPos, flags, meters, log: newLog }];
+      // A special dispatch is due on arriving at some reports (and when an adviser has asked to be relieved): shown once, before the report.
+      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: campaignId, flags, meters }) : null;
+      const flagsOut = dueEv ? { ...flags, [eventSeenKey(dueEv.id)]: true } : flags;
+      if (dueEv) setFlags(flagsOut);
+      const newHistory = [...history, { position: nextPos, flags: flagsOut, meters, log: newLog }];
       setHistory(newHistory);
       const newVisited = nextVisited(visited, nextPos);
       setVisited(newVisited);
@@ -342,7 +350,10 @@ function WW2CommandInner() {
         : wantsWire
         ? pickWireHeadline(yearFrom(nextStage.date, 1940), String(nextPos), seenWireHeadlines)
         : null;
-      if (headline) {
+      if (dueEv) {
+        setPendingEvent({ event: dueEv, wire: headline || null });
+        setScreen("event");
+      } else if (headline) {
         setPendingWireHeadline(headline);
         setScreen("wire");
       } else {
@@ -360,7 +371,7 @@ function WW2CommandInner() {
           favor: mode === "iron" && choice.favor ? favor - choice.favor : favor,
           defiance,
           position: nextPos,
-          flags,
+          flags: flagsOut,
           meters,
           log: newLog,
           visited: newVisited,
@@ -692,6 +703,22 @@ function WW2CommandInner() {
       {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
+      )}
+      {screen === "event" && campaign && pendingEvent && (
+        <SpecialEventScreen
+          campaign={campaign}
+          event={pendingEvent.event}
+          onContinue={() => {
+            const wire = pendingEvent.wire;
+            setPendingEvent(null);
+            if (wire) {
+              setPendingWireHeadline(wire);
+              setScreen("wire");
+            } else {
+              setScreen("briefing");
+            }
+          }}
+        />
       )}
       {screen === "wire" && campaign && pendingWireHeadline && (
         <WireBulletin
