@@ -25,7 +25,7 @@
               historical: true,
               setFlags: { embargoPath: "total", cohesion: (flags.cohesion || 0) + 1 },
               impact: { readiness: 0, pipeline: 1, initiative: 1 },
-              next: "wakeIslandRelief41",
+              next: "chinaAirForce41",
               outcome:
                 "The freeze becomes, in practice if not in explicit policy, a complete embargo. Japan's oil reserves start their real countdown from this administrative decision as much as from any formal declaration, and the eighteen-month clock the fleet in Tokyo is already running against starts here. Roosevelt reportedly wanted to preserve some flexibility in the freeze; the bureaucracy that implemented it read the order more literally, and by the time anyone senior enough to calibrate it notices, the embargo has already hardened into policy by default.",
             },
@@ -34,7 +34,7 @@
               advisor: { name: "Grew", position: "Japan's mood has shifted for a decade under the ambassador's eye, and a total cutoff does not make Japan back down but makes the faction that already wants war impossible to argue against." },
               setFlags: { embargoPath: "calibrated", cohesion: (flags.cohesion || 0) - 1 },
               impact: { readiness: 1, pipeline: -1, initiative: -1 },
-              next: "wakeIslandRelief41",
+              next: "chinaAirForce41",
               uncertain: [
                 {
                   weight: modWeight(30, meters.initiative),
@@ -62,7 +62,7 @@
               advisor: { name: "Roosevelt", position: "If the government is going to embargo Japan's oil, it should be the President's decision, made in public, and not a filing-cabinet judgment nobody signed." },
               setFlags: { embargoPath: "explicit", cohesion: (flags.cohesion || 0) + 1 },
               impact: { readiness: 0, pipeline: 1, initiative: 2 },
-              next: "wakeIslandRelief41",
+              next: "chinaAirForce41",
               outcome:
                 "The same practical embargo the strict administrative reading produced, but arrived at deliberately rather than discovered after the fact. Historically, the ambiguity itself did real work: it let Roosevelt maintain plausible distance from a decision his own bureaucracy effectively made for him. Removing that ambiguity removes the deniability too, an explicit presidential embargo is a harder policy to walk back quietly if the diplomatic situation changes, and a clearer signal to Tokyo that this was considered policy, not bureaucratic accident.",
             },
@@ -358,6 +358,210 @@
         get warWithoutAmerica45() {
           return dataNode(ALLIED_PACIFIC_DATA, "warWithoutAmerica45", meters);
         },
+        get chinaAirForce41() {
+          return {
+          date: "JULY – NOVEMBER 1941",
+          title: "A Bomber Force for China",
+          historicalRecord: true,
+          situation:
+            "Chiang's government has asked for American aircraft since 1938. A volunteer fighter group under Claire Chennault, recruited from American pilots under a Chinese contract, is training at Toungoo in Burma. Chennault's friends and Chiang's brother-in-law T. V. Soong want more: American bombers and crews flying from Chinese airfields against Japan. The Army Air Forces would rather keep its bombers for the Philippines, and Marshall's staff doubt that the Chinese fields can be held or supplied.",
+          choices: [
+            {
+              label: "Keep American help to the fighter group and to supplies: no American bombers in China",
+              advisor: { name: "Marshall", position: "Every heavy bomber the Army has is wanted in the Philippines and over the home coast, and a bomber force with no field it can hold or supply is wasted." },
+              historical: true,
+              setFlags: { chinaAirPath: "fighters" },
+              impact: { readiness: 0, pipeline: 0, initiative: 0 },
+              next: "wakeIslandRelief41",
+              outcome:
+                "The volunteer group goes into action over Kunming in December, days after Pearl Harbor, and flies over Rangoon until the city falls. It is disbanded in July 1942. No American bombers reach China before the war begins.",
+            },
+            {
+              label: "Send a bomber force to China: ship the aircraft and crews to Chinese bases within range of Japan",
+              advisor: { name: "Arnold", position: "A force of bombers in China would make Tokyo defend its cities, and the Chinese fields are the only ones within reach. The risk is that the aircraft arrive after the war has begun." },
+              setFlags: { chinaAirPath: "bombers" },
+              impact: { readiness: -1, pipeline: -2, initiative: 1 },
+              next: "wakeIslandRelief41",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.pipeline),
+                  title: "The bombers reach the Chinese fields before December",
+                  setFlags: { chinaAirResult: "arrived" },
+                  impact: { readiness: 0, pipeline: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. A small force of bombers is on the Chinese fields when the war begins, and raids on Japanese ports in the first weeks matter more in Tokyo than in damage done.",
+                },
+                {
+                  weight: (() => { const w = modWeight(30, meters.pipeline); return Math.max(5, 100 - w); })(),
+                  title: "The bombers are caught on the way",
+                  setFlags: { chinaAirResult: "delayed" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The long route to China is slow, and when the war begins the aircraft are still in Burma and India, short of crews and spares. The first raids are months late.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. A plan for American bombers in China was drawn up in the summer of 1941. The aircraft and crews were not ready, and the war began before it could be carried out.",
+            },
+            {
+              label: "Hold China to a supply role: trucks, rifles and food, and no American aircraft",
+              advisor: { name: "Hull", position: "Aircraft with American markings over Japan would be an act of war, and the State Department would rather not hand Tokyo the argument before the talks have ended." },
+              setFlags: { chinaAirPath: "supplies" },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "wakeIslandRelief41",
+              outcome:
+                "A modeled alternative. Chiang is given less than he asked for and says so. The fighter group is not helped to grow, and the Chinese air force goes into the war with what it has.",
+            },
+          ],
+        };
+        },
+        get stilwellInChungking42() {
+          return {
+          date: "FEBRUARY – MARCH 1942",
+          title: "A General for Chiang",
+          historicalRecord: true,
+          situation:
+            "Rangoon is about to fall. Chiang has offered Chinese armies for Burma and found the British slow to accept. Marshall wants an American general in Chungking with authority over Lend-Lease and over the Chinese forces that will fight in Burma. He has picked Joseph Stilwell, who speaks Chinese, has served in China for years and is known to be blunt." +
+            (flags.chinaAirPath === "fighters"
+              ? " The volunteer fighter group is already flying from Kunming, and Chennault expects to be consulted."
+              : ""),
+          choices: [
+            {
+              label: "Send Stilwell as Chiang's chief of staff, with command of the Chinese armies in Burma and control of Lend-Lease",
+              advisor: { name: "Marshall", position: "American supplies and American officers should come with a voice in how they are used, and Stilwell is the officer who can say so to Chiang." },
+              historical: true,
+              setFlags: { stilwellPath: "chiefOfStaff" },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "rangoonRetreatAllied42",
+              outcome:
+                "Stilwell reaches Chungking in early March. Chiang agrees that Stilwell will command the Chinese 5th and 6th Armies in Burma, and then disputes many of his orders. It is the first of a long series of quarrels between the two men that ends with Stilwell's recall in 1944.",
+            },
+            {
+              label: "Send an advisory mission only: American officers advise, and Chiang commands his own armies",
+              advisor: { name: "Roosevelt", position: "Chiang's pride is a fact of the war, and an American general over Chinese troops spends goodwill the alliance needs more than it needs a command." },
+              setFlags: { stilwellPath: "advisory" },
+              impact: { readiness: 0, pipeline: 0, initiative: -1 },
+              next: "rangoonRetreatAllied42",
+              outcome:
+                "A modeled alternative. Chiang commands his own armies in Burma and controls the supplies sent to him. There is less friction with Chungking, and less leverage over how American aid is used.",
+            },
+          ],
+        };
+        },
+        get carrierRequest42() {
+          return {
+          date: "APRIL 1942",
+          title: "Churchill Asks for a Carrier",
+          historicalRecord: true,
+          situation:
+            "Malta is bombed every day and its fighters are nearly gone. The Royal Navy cannot get Spitfires close enough to fly in. Churchill has asked Roosevelt to lend the carrier Wasp, which is in the Atlantic, for the run. Pearl Harbor's staff wants every carrier in the Pacific, where the fleet has only a handful and is about to meet the Japanese near New Guinea.",
+          choices: [
+            {
+              label: "Lend Wasp for the Malta run",
+              advisor: { name: "Roosevelt", position: "Malta needs a carrier that nobody else has, and Wasp cannot reach the Pacific in time for the next battle in any case." },
+              historical: true,
+              setFlags: { carrierRequestPath: "lendWasp", cohesion: (flags.cohesion || 0) + 1 },
+              impact: { readiness: -1, pipeline: 0, initiative: 1 },
+              next: "coralSeaMidwayAllied42",
+              outcome:
+                "Wasp carries Spitfires from the Clyde and the aircraft fly off toward Malta on April 20. Most are lost on the ground within days. She makes a second run in May and reaches the Pacific in the summer.",
+            },
+            {
+              label: "Refuse: every carrier stays in the Pacific",
+              advisor: { name: "King", position: "The Pacific has too few carriers for the next battles, and a carrier lent to the Mediterranean is a carrier not on station when the Japanese move." },
+              setFlags: { carrierRequestPath: "refuse", cohesion: (flags.cohesion || 0) - 1 },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "coralSeaMidwayAllied42",
+              outcome:
+                "A modeled alternative. Wasp goes to the Pacific earlier. Malta's fighters are flown in more slowly, and Churchill's request, turned down, cools the alliance for a time.",
+            },
+            {
+              label: "Send Wasp to the Indian Ocean to join the Eastern Fleet",
+              advisor: { name: "Churchill", position: "The Eastern Fleet has been driven out of Ceylon, and a second carrier from America would let Somerville threaten the Japanese flank instead of hiding from it." },
+              setFlags: { carrierRequestPath: "indianOcean" },
+              impact: { readiness: -1, pipeline: -1, initiative: 0 },
+              next: "coralSeaMidwayAllied42",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.readiness),
+                  title: "The Eastern Fleet gets its second carrier",
+                  setFlags: { carrierResult: "joined" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. Wasp joins Somerville in time to make a Japanese raid on the Indian Ocean look risky. The Eastern Fleet is no longer a fleet in hiding.",
+                },
+                {
+                  weight: (() => { const w = modWeight(30, meters.readiness); return Math.max(5, 100 - w); })(),
+                  title: "Wasp arrives too late to matter",
+                  setFlags: { carrierResult: "late" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The long passage around the Cape takes Wasp out of the war for two months. She joins an Eastern Fleet that has already withdrawn, and the Pacific does without her.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. Wasp was sent to the Mediterranean, and the Indian Ocean was left to the Royal Navy. Putting an American carrier there gives the Eastern Fleet more force, and the Pacific one fewer.",
+            },
+          ],
+        };
+        },
+        get vladivostokRoute42() {
+          return {
+          date: "LATE 1942",
+          title: "The Pacific Route to Russia",
+          historicalRecord: true,
+          situation:
+            "The Soviet Union is fighting for Stalingrad and needs everything America can ship. German submarines and aircraft are cutting up the Arctic convoys to Murmansk, and the Persian route is slow. The Pacific route runs from the West Coast to Vladivostok, through waters Japan controls. Japan and the Soviet Union are neutral toward each other, so Soviet-flag ships can pass and American ships cannot. Stalin has not asked for American escorts, and Tokyo has said little about the traffic.",
+          choices: [
+            {
+              label: "Leave the Pacific route to Soviet-flag ships, under the neutrality Tokyo and Moscow keep",
+              advisor: { name: "Marshall", position: "The route works because nobody in Tokyo is asked to notice it, and an American escort would make them notice." },
+              historical: true,
+              setFlags: { vladivostokPath: "sovietFlag" },
+              impact: { readiness: 0, pipeline: -1, initiative: 0 },
+              next: "unconditionalSurrender43",
+              outcome:
+                "Soviet ships carry the cargo to Vladivostok, and Japan inspects some of them and leaves the route open. The Pacific route carries about half of the aid by weight before the war ends. Japan, which cannot afford a second front, puts up with it.",
+            },
+            {
+              label: "Send American-flag ships to Vladivostok with Navy escorts",
+              advisor: { name: "King", position: "Cargo on American ships can be counted and protected, and the Navy has escorts to spare on the northern run that nobody is using." },
+              setFlags: { vladivostokPath: "americanFlag" },
+              impact: { readiness: -1, pipeline: -2, initiative: 1 },
+              next: "unconditionalSurrender43",
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "Tokyo protests and does nothing",
+                  setFlags: { vladivostokResult: "tolerated" },
+                  impact: { readiness: 0, pipeline: 1, initiative: 1 },
+                  outcome:
+                    "Speculative. Tokyo protests and takes no action. More cargo gets through on American ships than the Soviet fleet could carry, and Japan's tolerance is shown to have a wider limit than expected.",
+                },
+                {
+                  weight: (() => { const w = modWeight(25, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "An American freighter is stopped",
+                  setFlags: { vladivostokResult: "incident" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. A Japanese warship stops an American freighter in the La Perouse Strait. Washington and Tokyo are one incident from a quarrel that neither has chosen, and the Navy withdraws the escorts.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. Only Soviet-flag ships made the Pacific run in the real war. Sending American ships and escorts into waters Japan controls tests a neutrality that Tokyo had no wish to break.",
+            },
+            {
+              label: "Move the aid to the Persian Corridor and the Arctic route, and keep clear of Japanese waters",
+              advisor: { name: "Stimson", position: "The Pacific route depends on Japan's restraint, and a war department that builds its plans on restraint it does not control has a plan with a weak spot." },
+              setFlags: { vladivostokPath: "persian" },
+              impact: { readiness: 0, pipeline: -2, initiative: -1 },
+              next: "unconditionalSurrender43",
+              outcome:
+                "A modeled alternative. The Persian Corridor and the Arctic convoys carry less than the Pacific route, and each ton takes longer to arrive. The Pacific route is left idle, and Moscow is told that supplies will come later.",
+            },
+          ],
+        };
+        },
         get wakeIslandRelief41() {
           return {
           date: "DECEMBER 1941",
@@ -466,6 +670,18 @@
             "British, Indian and Burmese forces in Burma, soon to be reorganized as Slim's Burma Corps, and the divisions of the Chinese Expeditionary Force that Chiang sent across the border, after months of British hesitation, to defend the road that supplies his government, are being outpaced by Iida's advance on Rangoon. The question is not whether Rangoon holds, because British planning has already concluded that it cannot. It is what happens to the armies still trying to defend it." +
             (flags.arcadiaPath === "pacificParity"
               ? " Whatever Washington decided at Arcadia about Pacific resourcing, it hasn't reached Burma yet. This theater runs on British and Indian divisions King's argument was never going to reallocate regardless of how it came out."
+              : "") +
+            (flags.stilwellPath === "chiefOfStaff"
+              ? " Stilwell is in Chungking and commands the Chinese 5th and 6th Armies in Burma, and Chiang is disputing his orders."
+              : flags.stilwellPath === "advisory"
+              ? " The American mission in Chungking advises, and Chiang gives the orders to his own armies in Burma."
+              : "") +
+            (flags.chinaAirPath === "fighters"
+              ? " The volunteer fighter group has been flying over Rangoon since late December."
+              : flags.chinaAirPath === "bombers" && flags.chinaAirResult === "arrived"
+              ? " American bombers are flying from Chinese fields against Japanese ports."
+              : flags.chinaAirPath === "bombers" && flags.chinaAirResult === "delayed"
+              ? " The bombers meant for China are still in India, short of crews and spares."
               : ""),
           choices: [
             {
@@ -707,6 +923,15 @@
               ? " Blamey's fighting withdrawal on the Kokoda Track is still trading ground for time as this landing goes in, a second under-resourced front asking the same theater command for reinforcements this one also needs."
               : flags.kokodaAlliedPath === "standFast"
               ? " MacArthur's own stand-fast order on the Kokoda Track is testing Australian units against the same supply reality this landing is about to run into on a different island entirely."
+              : "") +
+            (flags.carrierRequestPath === "lendWasp"
+              ? " Wasp, back from the Mediterranean, is one of the three carriers under Fletcher."
+              : flags.carrierRequestPath === "refuse"
+              ? " Wasp has been in the Pacific since the spring, and Fletcher has three carriers."
+              : flags.carrierRequestPath === "indianOcean" && flags.carrierResult === "joined"
+              ? " Wasp is still with the Eastern Fleet in the Indian Ocean, so Fletcher has two carriers."
+              : flags.carrierRequestPath === "indianOcean" && flags.carrierResult === "late"
+              ? " Wasp is back from a long passage that achieved nothing, and Fletcher has three carriers that have not worked together."
               : ""),
           choices: [
             {
@@ -779,7 +1004,7 @@
               historical: true,
               setFlags: { savoPath: "publicInquiry" },
               impact: { readiness: -1, pipeline: 0, initiative: -1 },
-              next: "unconditionalSurrender43",
+              next: "vladivostokRoute42",
               uncertain: [
                 {
                   weight: modWeight(55, meters.readiness),
@@ -804,7 +1029,7 @@
               advisor: { name: "King", position: "The facts are not disputed, only whether the Marines still fighting on the island need to read about them in a newspaper this week." },
               setFlags: { savoPath: "classified" },
               impact: { readiness: 1, pipeline: 0, initiative: 1 },
-              next: "unconditionalSurrender43",
+              next: "vladivostokRoute42",
               outcome:
                 "The findings stay internal and doctrine changes quietly, sparing the campaign a blow to morale that the Navy's leadership judged it could not afford. The price is a lesson learned in private, and some future squadron may repeat the mistake before word gets around.",
             },
@@ -815,7 +1040,7 @@
                     advisor: { name: "King", position: "The admiral's position is that the campaign continues in its present state of delay, linger and wait, and that the Washington staff should step in directly." },
                     setFlags: { savoPath: "kingIntervenes" },
                     impact: { readiness: -1, pipeline: 1, initiative: 3 },
-                    next: "unconditionalSurrender43",
+                    next: "vladivostokRoute42",
                     outcome:
                       "A real, documented frustration, escalated here into something the historical King mostly kept to a terse written note: direct intervention from Washington into a theater commander's own operational decisions, a chain-of-command breach King's own real irritation with the campaign's grinding pace never quite crossed into. It forces movement where the campaign had stalled into exactly the delay, linger, and wait he complained about, at the real cost of a precedent for Washington overriding the men actually fighting the war on the spot.",
                   },
@@ -969,6 +1194,15 @@
               ? " This delegation negotiates from a Pacific intelligence picture that's stayed intact despite looser use, a source proven resilient enough that Washington's read on Japan's actual position, weighed against Stalin's promise, is built on current signals rather than a year-old snapshot."
               : flags.magicDisciplinePath === "willing" && flags.magicResult === "closeCall"
               ? " This delegation negotiates from a Pacific intelligence picture that came uncomfortably close to going dark earlier this year, a source this room is trusting a little less completely than it might have, in a negotiation where verifying Stalin's own timetable against real Japanese dispositions matters more than usual."
+              : "") +
+            (flags.vladivostokPath === "sovietFlag"
+              ? " Soviet ships have carried about half of the American aid through Vladivostok under the neutrality, a trade that Stalin's promise would end."
+              : flags.vladivostokPath === "americanFlag" && flags.vladivostokResult === "tolerated"
+              ? " American ships and escorts have been going to Vladivostok since the autumn, and Tokyo has protested and done nothing."
+              : flags.vladivostokPath === "americanFlag" && flags.vladivostokResult === "incident"
+              ? " The American escorts to Vladivostok were withdrawn after Japan stopped a freighter, and the trade is back to Soviet ships."
+              : flags.vladivostokPath === "persian"
+              ? " The Pacific route to Vladivostok has been left idle since the autumn."
               : ""),
           choices: [
             {
