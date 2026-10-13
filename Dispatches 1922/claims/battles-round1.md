@@ -1,7 +1,7 @@
 # Orders of Battle, round 1: sources
 
 Four battles: `juneOffensive` (June 1917), `ekaterinodar` (April 1918), `peregonovka` (September 1919), `orel` (October 1919).
-"Read" means the page was opened or its text came back in a search result. Every weight, every arm and every enemy setup is a game judgment, and each config says so in its `modelled` field. The Bolsheviks and Siberia have no battle yet: none of their contested orders is an engagement with two outcomes (the Siberian candidate, the assault on Irkutsk, is a modeled alternative with little documented about it).
+"Read" means the page was opened or its text came back in a search result. Every weight, every arm and every enemy setup is a game judgment, and each config says so in its `modelled` field. Siberia and the Bolsheviks are in claims/battles-round2.md.
 
 | Battle | Claim in the game | Source | Status |
 |---|---|---|---|

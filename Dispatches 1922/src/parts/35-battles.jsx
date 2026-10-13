@@ -342,6 +342,333 @@ BATTLES.orel = {
   },
 };
 
+BATTLES.chelyabinsk = {
+  id: "chelyabinsk",
+  host: { node: "chelyabinskGrinder19", choice: 0 },
+  winBranch: 0,
+  campaign: "siberia",
+  cleanMeter: "manpower",
+  title: "Order of Battle: Chelyabinsk",
+  flavor:
+    "The Red 5th Army has been advancing on Chelyabinsk since 17 July. The White Western Army, renamed the 3rd Army this month, is falling back on the city, and the groups of Voitsekhovsky and Kappel are to be thrown into a counterattack. The Reds have already cut the railway between Chelyabinsk and Ekaterinburg.",
+  conditions:
+    "Late July 1919. The sources date the Red operation from 17 July to 4 August, and they differ on the day Chelyabinsk fell.",
+  modelled:
+    "The sources give the opposing armies, the dates and the course of the White counterattacks. They do not give strengths or the White dispositions. The arms, the enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "The Red 5th Army's Chelyabinsk operation ran from 17 July to 4 August 1919. The White groups of Voitsekhovsky (25 July) and Kappel (27 July) went over to the offensive. North-west of Chelyabinsk they pushed back the 35th Rifle Division and broke through at its junction with the 27th. The Reds took Chelyabinsk. The date and the losses differ between sources: a chronicle by Wollenberg gives 3 August, 15,000 prisoners and the destruction of three White divisions.",
+  categories: [
+    {
+      id: "voits", name: "Voitsekhovsky's group", meter: "manpower",
+      units: ["The group under General Voitsekhovsky"],
+      real: "Voitsekhovsky's group went over to the offensive on 25 July.",
+      context: "The group is one of the two fists of the counterattack. Each counter puts more of it into the blow and leaves the line behind it thinner.",
+    },
+    {
+      id: "kappel", name: "Kappel's Volga group", meter: "manpower",
+      units: ["The Volga group under General Kappel"],
+      real: "Kappel's group went over to the offensive on 27 July. The Red 26th Rifle Division, under Eiche, fought it.",
+      context: "The Volga group is the other fist. Each counter puts more of it into the blow and takes it from the road back.",
+    },
+    {
+      id: "army", name: "The Western (3rd) Army", meter: "materiel",
+      units: ["The Western Army, renamed the 3rd Army in July, under General Sakharov"],
+      real: "The Western Army under Sakharov was the main White force facing the Red 5th Army. It was renamed the 3rd Army in July.",
+      context: "The army holds the ground between the groups. Each counter keeps more of it in the line instead of in the counterattack.",
+    },
+    {
+      id: "rail", name: "The railway and the junction", meter: "rail",
+      units: ["The railway from Ekaterinburg to Chelyabinsk, and the junction"],
+      real: "The Reds cut the railway between Chelyabinsk and Ekaterinburg in July.",
+      context: "The railway is how the army lives and how it leaves. Each counter spends men and trains on holding it.",
+    },
+  ],
+  // The two groups did the attacking in the record; the army and the railway held ground. A game judgment.
+  effectiveness: { voits: 1.9, kappel: 2.0, army: 1.4, rail: 1.3 },
+  commanders: [
+    { id: "voitsekhovsky", name: "Voitsekhovsky", role: "Commander of his own group", category: "voits", note: "His group attacks on 25 July." },
+    { id: "kappel", name: "Kappel", role: "Commander of the Volga group", category: "kappel", note: "His group attacks two days later." },
+    { id: "sakharov", name: "Sakharov", role: "Commander of the Western (3rd) Army", category: "army", note: "He commands the army that has been falling back." },
+  ],
+  approaches: [
+    { id: "junction", name: "Strike the flank at the junction of the Red divisions", note: "Both groups go for the seam between two Red divisions north-west of the city.", modifiers: { voits: 0.3, kappel: 0.3, army: -0.2 } },
+    { id: "hold", name: "Hold the city and the railway", note: "The groups stay close to the junction and the army holds the line.", modifiers: { rail: 0.5, army: 0.2, voits: -0.2, kappel: -0.3 } },
+  ],
+  postures: [
+    { id: "flank", name: "A Red flank blow prepared north-west of the city", weight: 2,
+      intel: "Scouts report Red columns massing on the flank, at the junction of two divisions.",
+      modifiers: { voits: 0.8, kappel: 0.8, army: 1.0, rail: 1.1 } },
+    { id: "railway", name: "A Red frontal advance along the railway", weight: 1,
+      intel: "Reports say the Red advance is following the railway.",
+      modifiers: { rail: 0.8, army: 0.9, voits: 1.2, kappel: 1.2 } },
+    { id: "thin", name: "Red regiments stretched thin", weight: 1,
+      intel: "Prisoners say the Red regiments have outrun their supply.",
+      modifiers: { voits: 1.15, kappel: 1.15, army: 1.1, rail: 1.0 } },
+  ],
+  echo: {
+    node: "railPriority19",
+    grade: {
+      clean: "The counterattack at Chelyabinsk was made with each part of the front given its work.",
+      costly: "The counterattack at Chelyabinsk was made with some parts of the front short to pay for the rest.",
+      marginal: "The plan at Chelyabinsk held together and the battle did not go the way it should have.",
+      total: "The counterattack at Chelyabinsk was made with parts of the front left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      voits: "Voitsekhovsky's group was left short.",
+      kappel: "Kappel's group was left short.",
+      army: "The 3rd Army was left short.",
+      rail: "The railway was left short.",
+    },
+    commander: {
+      voitsekhovsky: "Voitsekhovsky's group is remembered for the attack of 25 July.",
+      kappel: "Kappel's group is remembered for the attack of 27 July.",
+      sakharov: "Sakharov's army is remembered for holding the ground between them.",
+    },
+  },
+};
+
+BATTLES.irkutsk = {
+  id: "irkutsk",
+  host: { node: "irkutskUltimatum20", choice: 0 },
+  winBranch: 0,
+  campaign: "siberia",
+  cleanMeter: "manpower",
+  title: "Order of Battle: Irkutsk",
+  flavor:
+    "Kappel is dead and General Voitsekhovsky commands what is left of the army: about six thousand bayonets that can be thrown into a battle, with the Izhevsk Division among them. Irkutsk is held by the Political Centre, which has Kolchak. The council at Nizhneudinsk decided on 23 January to storm the city, and the offensive began on 24 January.",
+  conditions:
+    "February 1920. The army has been marching since the autumn through deep cold. Kolchak was handed to the Political Centre in January.",
+  modelled:
+    "The sources give the army's strength, its units and the dates. They say nothing of the Red and Political Centre forces at Irkutsk or of any fighting on 5 and 6 February. The arms, the enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "The decision to storm Irkutsk was taken on 23 January and the offensive began on 24 January. Kappel died on 26 January and Voitsekhovsky took command. The army took Zima on 29 January after a fight. Kolchak was shot on 7 February. After that Voitsekhovsky gave up the assault, and the army went round Irkutsk in two columns toward Bolshoe Goloustnoe. The Izhevsk Division was the first onto the ice of Lake Baikal, on 11 February. Between 30,000 and 35,000 people crossed in a few days. One French-language source says an attack on Irkutsk on 5 February failed.",
+  categories: [
+    {
+      id: "izhevsk", name: "The Izhevsk Division", meter: "manpower",
+      units: ["The Izhevsk Division"],
+      real: "The Izhevsk Division was the first onto the ice of Lake Baikal, on 11 February.",
+      context: "The division is the army's hardest striking force. Each counter puts more of it before the city and leaves the column with fewer to cover it.",
+    },
+    {
+      id: "second", name: "The remnants of the 2nd Army", meter: "manpower",
+      units: ["What remained of Kappel's 2nd Army, under Voitsekhovsky"],
+      real: "The remnants of the 2nd Army took the station of Zima on 29 January after a fight.",
+      context: "The 2nd Army is what is left of the corps that came out of the Urals. Each counter spends more of it on the city.",
+    },
+    {
+      id: "column", name: "The column and its wounded", meter: "rail",
+      units: ["The sick, the wounded, women and children following the army"],
+      real: "In all between 30,000 and 35,000 people crossed Baikal, many of them sick, wounded, women and children.",
+      context: "The column is not a fighting arm, and it has to be covered. Each counter spent here is a counter not spent on the city.",
+    },
+    {
+      id: "guns", name: "The guns", meter: "materiel",
+      units: ["The army's artillery"],
+      real: "On the Baikal crossing the guns were hauled by hand and many horses died.",
+      context: "The guns are few and the horses are failing. Each counter puts more of them forward.",
+    },
+  ],
+  // The Izhevsk Division and the 2nd Army were the fighting force; the column and the guns could not take a city. A game judgment.
+  effectiveness: { izhevsk: 1.8, second: 1.8, column: 1.2, guns: 1.5 },
+  commanders: [
+    { id: "voitsekhovsky", name: "Voitsekhovsky", role: "Commander since 26 January", category: "second", note: "He took command from the dying Kappel." },
+  ],
+  approaches: [
+    { id: "storm", name: "Storm from the march", note: "Everything goes at the city, and the column follows behind.", modifiers: { izhevsk: 0.4, second: 0.3, column: -0.3 } },
+    { id: "close", name: "Close up and press under arms", note: "The army stays together and presses the ultimatum with its guns forward.", modifiers: { column: 0.4, guns: 0.3, izhevsk: -0.2, second: -0.2 } },
+  ],
+  postures: [
+    { id: "dug", name: "A garrison dug in on the approaches", weight: 2,
+      intel: "Scouts report the approaches to the city wired and held.",
+      modifiers: { izhevsk: 0.85, second: 0.85, guns: 1.1, column: 1.0 } },
+    { id: "regulars", name: "Red regulars arriving from the west", weight: 1,
+      intel: "Prisoners say Red regular units are coming up from Krasnoyarsk.",
+      modifiers: { izhevsk: 0.9, second: 0.9, guns: 0.9, column: 0.8 } },
+    { id: "divided", name: "A weak and divided garrison", weight: 1,
+      intel: "Deserters say the Political Centre's men will not stand against regulars.",
+      modifiers: { izhevsk: 1.1, second: 1.2, guns: 1.0, column: 1.0 } },
+  ],
+  echo: {
+    node: "semyonovMerger20",
+    grade: {
+      clean: "The attempt on Irkutsk was made with every part of the army given its work.",
+      costly: "The attempt on Irkutsk was made with some parts of the army short to pay for the rest.",
+      marginal: "The plan for Irkutsk held together and the attempt still failed. No one can say what was left undone.",
+      total: "The attempt on Irkutsk was made with parts of the army left bare, and what is left of it has seen what that costs.",
+    },
+    neglected: {
+      izhevsk: "The Izhevsk Division was left short.",
+      second: "The remnants of the 2nd Army were left short.",
+      column: "The column was left short of cover.",
+      guns: "The guns were left short.",
+    },
+    commander: {
+      voitsekhovsky: "Voitsekhovsky's plan is the one the officers argue about.",
+    },
+  },
+};
+
+BATTLES.voronezh = {
+  id: "voronezh",
+  host: { node: "cavalryArmyDebate19", choice: 0 },
+  winBranch: 0,
+  campaign: "bolsheviks",
+  cleanMeter: "reliability",
+  title: "Order of Battle: Voronezh and Kastornoye",
+  flavor:
+    "Budyonny's 1st Cavalry Corps has beaten Mamontov and Shkuro at Voronezh, and the fighting for the Kastornoye junction is not over. What is being decided is how the Red cavalry fights the rest of it: tied to the pace of the infantry armies, or as one army with its own command.",
+  conditions:
+    "October and November 1919. The operation ran from 13 October to 16 November. A serious snowstorm covered the Red attack of 5 to 15 November.",
+  modelled:
+    "The sources give the formations, the dates and the course of the battle. They do not give the strength of each arm or the enemy's intentions. The enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "Budyonny's corps fought Mamontov near Moskovskoye from 13 to 19 October, repulsed Shkuro and Mamontov at Khrenovoe on 19 October, and took Voronezh with 8th Army units on 23 and 24 October. Liski was occupied on 26 October and Livny on 3 November. The Whites retook several towns between 5 and 15 November, and the Reds then retook Kastornoye. The area was cleared of White troops on 16 November. It was the first major battle of the Civil War in which large cavalry formations were used in mass, and the Reds struck at the flank with cavalry and rifle divisions together. The corps became the 1st Cavalry Army in the second half of November.",
+  categories: [
+    {
+      id: "strike", name: "The cavalry corps", meter: "warIndustry",
+      units: ["The 4th and 6th Cavalry Divisions of the 1st Cavalry Corps, under Budyonny"],
+      real: "The 4th and 6th Cavalry Divisions fought near Khrenovoe, and the corps took Voronezh with 8th Army units on 23 and 24 October.",
+      context: "The corps is the blow itself. Each counter puts more horsemen into the strike and asks more of remounts and forage.",
+    },
+    {
+      id: "reserve", name: "The reserve cavalry division", meter: "mobilization",
+      units: ["The 11th Cavalry Division, held in reserve"],
+      real: "The reserve 11th Cavalry Division joined on 31 October.",
+      context: "The reserve is what a breakthrough needs behind it. Each counter keeps more riders back from the first blow.",
+    },
+    {
+      id: "rifles", name: "The rifle divisions", meter: "mobilization",
+      units: ["Units of the 8th Army", "The 13th Army, including the 42nd Rifle Division", "The Estonian 1st Red Division"],
+      real: "The 13th Army's 42nd Rifle Division captured Dolgorukovo on 29 October.",
+      context: "The rifle divisions hold ground and strike with the cavalry. Each counter puts more infantry on the flank.",
+    },
+  ],
+  // The cavalry did the decisive work in the record, with the rifle divisions beside it. A game judgment.
+  effectiveness: { strike: 1.8, rifles: 1.7, reserve: 1.6 },
+  commanders: [
+    { id: "budyonny", name: "Budyonny", role: "Commander of the 1st Cavalry Corps", category: "strike", note: "He wants the cavalry together under one command." },
+    { id: "yegorov", name: "Yegorov", role: "Commander of the Southern Front", category: "rifles", note: "The rifle divisions are part of his front." },
+  ],
+  approaches: [
+    { id: "flank", name: "A flank strike, cavalry and rifles together", note: "The cavalry and the rifle divisions go in at the same flank of the White horse.", modifiers: { strike: 0.3, rifles: 0.3, reserve: -0.2 } },
+    { id: "pursuit", name: "Keep a reserve for the pursuit", note: "The reserve division is held back to follow a breakthrough.", modifiers: { reserve: 0.5, strike: -0.2, rifles: -0.1 } },
+  ],
+  postures: [
+    { id: "junction", name: "Mamontov and Shkuro strike first at the junction", weight: 2,
+      intel: "Prisoners say Mamontov and Shkuro are preparing a combined blow.",
+      modifiers: { strike: 0.9, rifles: 1.1, reserve: 1.0 } },
+    { id: "withdraw", name: "The White cavalry falls back across the Don", weight: 1,
+      intel: "Reports say the White cavalry is withdrawing toward the Don crossings.",
+      modifiers: { strike: 1.1, reserve: 1.1, rifles: 0.95 } },
+    { id: "storm", name: "A snowstorm and a White counterattack", weight: 1,
+      intel: "Scouts report White columns assembling at the stations behind the front.",
+      modifiers: { strike: 0.85, rifles: 0.8, reserve: 1.15 } },
+  ],
+  echo: {
+    node: "perekopAssault20",
+    grade: {
+      clean: "The battle for the Voronezh flank was fought with every arm given its work.",
+      costly: "The battle for the Voronezh flank was won with some arms short to pay for the rest.",
+      marginal: "The plan for the Voronezh flank held together and the battle did not go the way it should have.",
+      total: "The battle for the Voronezh flank was fought with arms left bare, and the Front has seen what that costs.",
+    },
+    neglected: {
+      strike: "The cavalry corps was left short.",
+      reserve: "The reserve division was left short.",
+      rifles: "The rifle divisions were left short.",
+    },
+    commander: {
+      budyonny: "Budyonny's corps is the one the Front talks about.",
+      yegorov: "The Southern Front's rifle divisions had their part in the plan.",
+    },
+  },
+};
+
+BATTLES.perekop = {
+  id: "perekop",
+  host: { node: "perekopAssault20", choice: 0 },
+  winBranch: 0,
+  campaign: "bolsheviks",
+  cleanMeter: "reliability",
+  title: "Order of Battle: Perekop",
+  flavor:
+    "Wrangel's army holds the Turkish Wall at Perekop and the crossings at Chongar. Frunze's plan puts the main blow at Perekop with the 6th Army and the 1st and 2nd Cavalry Armies, and a lesser blow at Chongar with the 4th Army. A frontal attack on 3 November failed. On 5 November the wind has driven the water out of the Sivash, and it can be crossed.",
+  conditions:
+    "7 to 17 November 1920. The Turkish Wall is about 11 kilometres long, with an old Tatar ditch, wire and three lines of trenches. The Yushun line lies 20 to 25 kilometres to the south. The attacking side is about four times the size of the defenders.",
+  modelled:
+    "The sources give the forces, the defences and the course of the days. They do not agree on every unit's part: one page puts the 51st Division at the Wall and another has it crossing the Sivash. The enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "The shock group of the 6th Army, the 15th, 51st and 52nd Divisions and a cavalry group, about 20,000 men with 36 guns, crossed the Sivash, about 7 kilometres of water, in the night of 8 November, and by the afternoon had broken Fostikov's brigade, about 1,500 bayonets with 12 guns. The 51st Division's frontal assault on the Turkish Wall failed with heavy losses. The Kornilov division left the Wall for Yushun on the night of 9 November. The Reds broke the whole Yushun line on 11 November, and Yushun fell on 12 November. Simferopol was occupied on 13 November and Sevastopol and Feodosiya on 15 November.",
+  categories: [
+    {
+      id: "wall", name: "The frontal assault on the Wall", meter: "mobilization",
+      units: ["The 51st Rifle Division under Blyukher", "The 6th Army's front against the Turkish Wall"],
+      real: "A frontal attack on 3 November failed. The 51st Division's assault on the Turkish Wall on 8 November failed, with losses reported at over half.",
+      context: "The Wall holds the garrison where it is. Each counter spent on it is a life spent against wire and machine guns.",
+    },
+    {
+      id: "sivash", name: "The Sivash crossing", meter: "reliability",
+      units: ["The 15th and 52nd Rifle Divisions", "A cavalry group"],
+      real: "About 20,000 men crossed the Sivash in the night of 8 November, in freezing wind, and broke Fostikov's brigade by the afternoon.",
+      context: "The crossing is the risk, and the part that turns the Wall. Each counter asks more of formations that must not dissolve in the dark.",
+    },
+    {
+      id: "cavalry", name: "The cavalry armies", meter: "warIndustry",
+      units: ["The 1st and 2nd Cavalry Armies"],
+      real: "A 1st Cavalry Army attack from Henichesk was stopped by fire from Wrangel's fleet.",
+      context: "The cavalry turns a breakthrough into a rout. Each counter keeps more of it ready behind the crossing.",
+    },
+    {
+      id: "chongar", name: "The Chongar thrust", meter: "mobilization",
+      units: ["The 4th Army", "The 3rd Cavalry Corps"],
+      real: "A landing from the Chongar Peninsula toward Armyansk stalled for lack of cavalry. Chongar was breached on 11 November.",
+      context: "The lesser blow keeps the garrison at Chongar from reinforcing the Wall. Each counter spent here is taken from the main effort.",
+    },
+  ],
+  // The crossing turned the Wall in the record; the cavalry exploited it; the Wall and Chongar held the garrison in place. A game judgment.
+  effectiveness: { sivash: 2.1, wall: 1.7, cavalry: 1.7, chongar: 1.4 },
+  commanders: [
+    { id: "blyukher", name: "Blyukher", role: "Commander of the 51st Division", category: "wall", note: "His division is to storm the Turkish Wall." },
+    { id: "kork", name: "Kork", role: "Commander of the 6th Army", category: "sivash", note: "He sends a third of his army across the Sivash." },
+    { id: "budyonny", name: "Budyonny", role: "Commander of the 1st Cavalry Army", category: "cavalry", note: "His army is the exploitation force." },
+  ],
+  approaches: [
+    { id: "fix", name: "Fix the garrison at the Wall and cross at night", note: "The Wall is attacked to hold the garrison while the crossing goes in.", modifiers: { wall: 0.3, sivash: 0.3, chongar: -0.2 } },
+    { id: "weight", name: "Weight the crossing and the exploitation", note: "The Wall is only demonstrated against, and the weight goes behind the crossing and the cavalry.", modifiers: { sivash: 0.5, cavalry: 0.3, wall: -0.4 } },
+  ],
+  postures: [
+    { id: "strong", name: "Perekop and Yushun held in strength", weight: 2,
+      intel: "Aeroplane and scout reports say the garrison at the Wall has been reinforced and the Yushun line is manned.",
+      modifiers: { wall: 0.8, sivash: 1.1, cavalry: 0.9, chongar: 1.0 } },
+    { id: "thin", name: "The Sivash lightly held", weight: 1,
+      intel: "Reports say only a thin screen holds the Sivash shore.",
+      modifiers: { sivash: 1.3, wall: 0.9, cavalry: 1.1, chongar: 0.9 } },
+    { id: "horse", name: "A strong White cavalry reserve behind Yushun", weight: 1,
+      intel: "Aeroplanes report White cavalry massed behind the Yushun line.",
+      modifiers: { cavalry: 0.8, sivash: 1.0, wall: 1.0, chongar: 1.1 } },
+  ],
+  echo: {
+    node: ["kronstadt21", "compressedEvacuation20"],
+    grade: {
+      clean: "Perekop was taken with every arm given its work.",
+      costly: "Perekop was taken with some arms short to pay for the rest.",
+      marginal: "The plan for Perekop held together and the isthmus was not taken the way it should have been.",
+      total: "Perekop was fought with arms left bare, and the Front has seen what that costs.",
+    },
+    neglected: {
+      wall: "The assault on the Wall was left short.",
+      sivash: "The Sivash crossing was left short.",
+      cavalry: "The cavalry armies were left short.",
+      chongar: "The Chongar thrust was left short.",
+    },
+    commander: {
+      blyukher: "Blyukher's division is remembered at the Wall.",
+      kork: "Kork's army is remembered for the crossing.",
+      budyonny: "Budyonny's army is remembered for the exploitation.",
+    },
+  },
+};
+
 /** The battle a choice hosts, or null. */
 function battleOf(choice) {
   const id = choice && choice.keyBattleSubgame && choice.keyBattleSubgame.id;

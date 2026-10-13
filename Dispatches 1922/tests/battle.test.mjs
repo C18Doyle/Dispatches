@@ -38,7 +38,7 @@ const BATTLES = new Function(configSrc + "\nreturn BATTLES;")();
 
 // ---- 1. arithmetic and configs ----------------------------------------------------------------------------------
 const ids = Object.keys(BATTLES);
-check(ids.length === 4, `four battles are registered (${ids.join(", ")})`);
+check(ids.length === 8, `eight battles are registered (${ids.join(", ")})`);
 for (const [id, cfg] of Object.entries(BATTLES)) {
   const camp = CAMPAIGNS[cfg.campaign];
   const axes = camp.triangleAxes.map((a) => a.key);
@@ -48,7 +48,7 @@ for (const [id, cfg] of Object.entries(BATTLES)) {
   const choice = node && node.choices[cfg.host.choice];
   check(!!choice && choice.keyBattleSubgame && choice.keyBattleSubgame.id === id, `${id}: the order ${cfg.host.node}[${cfg.host.choice}] names this battle`);
   check(!!choice && Array.isArray(choice.uncertain) && choice.uncertain.length === 2, `${id}: the hosting order has exactly two contested outcomes`);
-  check(camp.NODE_ATLAS.some((a) => a.id === cfg.echo.node), `${id}: the echo report ${cfg.echo.node} exists`);
+  check([].concat(cfg.echo.node).every((n) => camp.NODE_ATLAS.some((a) => a.id === n)), `${id}: the echo report(s) ${[].concat(cfg.echo.node).join(", ")} exist`);
   check(cfg.categories.every((k) => axes.includes(k.meter)) && axes.includes(cfg.cleanMeter), `${id}: every arm's meter and the clean meter are axes of ${cfg.campaign}`);
   check(Object.keys(cfg.effectiveness).sort().join() === [...armIds].sort().join(), `${id}: a weight for every arm and no other`);
   check((cfg.commanders || []).every((m) => armIds.includes(m.category)), `${id}: every officer leads a real arm`);

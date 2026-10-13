@@ -34,7 +34,8 @@ export interface BattleCommander { id: string; name: string; role: string; categ
 export interface BattleApproach { id: string; name: string; note: string; modifiers: Record<string, number> }
 export interface BattlePosture { id: string; name: string; intel: string; modifiers: Record<string, number>; weight?: number }
 export interface BattleEcho {
-  node: string;
+  /** The report (or reports) whose situation carries the echo. */
+  node: string | string[];
   grade?: Record<string, string>;
   neglected?: Record<string, string>;
   commander?: Record<string, string>;
@@ -263,7 +264,7 @@ export function battleEchoText(configs: Record<string, BattleConfig>, nodeId: st
   if (!flags) return "";
   const parts: string[] = [];
   for (const config of Object.values(configs)) {
-    if (!config.echo || config.echo.node !== nodeId) continue;
+    if (!config.echo || !([] as string[]).concat(config.echo.node).includes(nodeId)) continue;
     const grade = flags[`bx_${config.id}_grade`] as string | undefined;
     if (!grade) continue;
     const e = config.echo;
