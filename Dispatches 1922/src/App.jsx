@@ -8607,20 +8607,38 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
   );
 }
 
+// The first month named in a display date, as a YYYYMM number. "AUGUST 1920 – MARCH 1921" is August 1920.
+function firstMonthKey(dateStr) {
+  if (!dateStr) return null;
+  const up = dateStr.toUpperCase();
+  const year = (up.match(/\b(19\d{2})\b/) || [])[1];
+  if (!year) return null;
+  let month = 1;
+  let at = Infinity;
+  for (const [name, num] of Object.entries(MONTH_NUMS)) {
+    const i = up.indexOf(name);
+    if (i !== -1 && i < at) {
+      month = num;
+      at = i;
+    }
+  }
+  return parseInt(year, 10) * 100 + month;
+}
+
+function monthKeyLabel(k) {
+  return Object.keys(MONTH_NUMS)[(k % 100) - 1] + " " + Math.floor(k / 100);
+}
+
 /**
- * Round 23 — the "Context/Key Events timeline" named in the file's own
- * BACKLOG comment as still-missing. Scope, stated plainly: this lists the
- * situations this run has actually passed through, in order, with date and
- * title — a legible record of the sequence, replacing "scroll the front
- * map's marker list and infer it." It does NOT reconstruct and display
- * which literal choice text was clicked at each stop (that would mean
- * matching current flags back against each node's choices' setFlags, which
- * gets genuinely ambiguous once an uncertain roll's own setFlags are mixed
- * in on top of the base choice's) — the date+title sequence is what's
- * actually reliable to show, and is what "timeline" means here.
+ * Two views of the war. "This run" lists the situations this command has actually been in, in order. "The war at
+ * large" lists what every command was deciding, month by month, up to the month this run has reached, so a player
+ * sees the fronts side by side. It is built from the situation atlases of all four campaigns, so a new report
+ * appears here without any extra work. Nothing later than this run's month is shown, and the other branches of
+ * this command stay hidden (only reports this run has visited).
  */
 function TimelineScreen({ campaignId, visitedNodes, flags, meters, skin, onClose }) {
   const c = CAMPAIGNS[campaignId];
+  const [view, setView] = useState("run");
   const entries = visitedNodes
     .map((nid) => {
       let node;
@@ -8633,38 +8651,111 @@ function TimelineScreen({ campaignId, visitedNodes, flags, meters, skin, onClose
       return { id: nid, date: node.date, title: node.title, historicalRecord: node.historicalRecord, isEnding: !!node.isEnding };
     })
     .filter(Boolean);
+
+  // the war at large
+  const reached = Math.max(0, ...visitedNodes.map((nid) => { const at = c.NODE_ATLAS.find((x) => x.id === nid); return at ? firstMonthKey(at.date) || 0 : 0; }));
+  const wide = [];
+  for (const cc of Object.values(CAMPAIGNS)) {
+    for (const at of cc.NODE_ATLAS) {
+      const k = firstMonthKey(at.date);
+      if (!k || k > reached) continue;
+      const mine = cc.id === campaignId;
+      if (mine && !visitedNodes.includes(at.id)) continue;
+      wide.push({ k, id: cc.id + ":" + at.id, tag: cc.shortTag, command: cc.label, title: at.title, mine });
+    }
+  }
+  wide.sort((p, q) => p.k - q.k || (p.mine === q.mine ? 0 : p.mine ? -1 : 1));
+  const months = [];
+  for (const w of wide) {
+    if (!months.length || months[months.length - 1].k !== w.k) months.push({ k: w.k, rows: [] });
+    months[months.length - 1].rows.push(w);
+  }
+  const others = wide.filter((w) => !w.mine).length;
+
+  const tab = (key, label) => (
+    <button
+      onClick={() => setView(key)}
+      aria-pressed={view === key}
+      className="flex-1 border-2 py-2 text-xs font-bold"
+      style={{ ...accentBorderStyle(skin), ...(view === key ? accentBgStyle(skin) : accentTextStyle(skin)), ...monoFontStyle(skin) }}
+    >
+      {label}
+    </button>
+  );
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
       <TopBar title="dispatches-1922" screenTitle={"Key events"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold" style={displayFontStyle(skin)}>{c.label}</div>
-        <div className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-          KEY EVENTS — THIS RUN, IN ORDER
-        </div>
-        <div className="text-xs mt-2 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-          Every situation this command has actually been in, in the order it reached them —
-          {" "}{entries.length} so far.
+        <div className="flex gap-2 mt-3">
+          {tab("run", "THIS RUN")}
+          {tab("war", "THE WAR AT LARGE")}
         </div>
 
-        <div className="mt-4">
-          {entries.map((e, i) => (
-            <div key={`${e.id}-${i}`} className="flex gap-3 py-2" style={{ borderBottom: i < entries.length - 1 ? `1px solid ${skin.paperDim}` : "none" }}>
-              <div className="flex-shrink-0 w-5 text-right" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin), fontSize: 11 }}>
-                {i + 1}
-              </div>
-              <div className="flex-1">
-                <div className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-                  {e.date}
-                  {e.isEnding && <span style={accentTextStyle(skin)}> · ENDING</span>}
-                </div>
-                <div className="font-bold" style={displayFontStyle(skin)}>{e.title}</div>
-              </div>
-              <div className="flex-shrink-0 text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-                {e.historicalRecord ? "◆" : "◇"}
-              </div>
+        {view === "run" ? (
+          <>
+            <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              KEY EVENTS — THIS RUN, IN ORDER
             </div>
-          ))}
-        </div>
+            <div className="text-xs mt-2 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              Every situation this command has actually been in, in the order it reached them —
+              {" "}{entries.length} so far.
+            </div>
+
+            <div className="mt-4">
+              {entries.map((e, i) => (
+                <div key={`${e.id}-${i}`} className="flex gap-3 py-2" style={{ borderBottom: i < entries.length - 1 ? `1px solid ${skin.paperDim}` : "none" }}>
+                  <div className="flex-shrink-0 w-5 text-right" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin), fontSize: 11 }}>
+                    {i + 1}
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                      {e.date}
+                      {e.isEnding && <span style={accentTextStyle(skin)}> · ENDING</span>}
+                    </div>
+                    <div className="font-bold" style={displayFontStyle(skin)}>{e.title}</div>
+                  </div>
+                  <div className="flex-shrink-0 text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                    {e.historicalRecord ? "◆" : "◇"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              THE WAR AT LARGE — UP TO {reached ? monthKeyLabel(reached) : "THE START"}
+            </div>
+            <div className="text-xs mt-2 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              What each command was deciding, month by month, up to the month this run has reached. Later months stay closed.
+              Your own command is marked.
+            </div>
+            {others === 0 && (
+              <div className="text-xs mt-3 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                No other command has a report dated this early.
+              </div>
+            )}
+            <div className="mt-4">
+              {months.map((m) => (
+                <div key={m.k} className="py-2" style={{ borderBottom: `1px solid ${skin.paperDim}` }}>
+                  <div className="text-xs font-bold" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
+                    {monthKeyLabel(m.k)}{m.k === reached ? " · YOU ARE HERE" : ""}
+                  </div>
+                  {m.rows.map((r) => (
+                    <div key={r.id} className="flex gap-2 mt-1">
+                      <div className="flex-shrink-0 text-xs font-bold" style={{ ...monoFontStyle(skin), width: 28, ...(r.mine ? accentTextStyle(skin) : mutedTextStyle(skin)) }}>{r.tag}</div>
+                      <div className="flex-1 text-sm" style={r.mine ? { fontWeight: 700 } : undefined}>
+                        {r.title}
+                        {r.mine && <span className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}> · your command</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         <button onClick={onClose} className="mt-6 w-full border-2 font-bold py-3" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin) }}>
           RETURN TO COMMAND

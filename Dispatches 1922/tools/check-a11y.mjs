@@ -129,6 +129,29 @@ for (const [runCase, seed] of RUNS) {
   ctx.restore();
 }
 
+// ---- the Key Events screen, both views ------------------------------------------------------------------------------------
+{
+  const runCase = [...SOUTH, false];
+  const ctx = makeContext(cfg, bundle, 5);
+  if (ctx.failed) throw new Error(ctx.failed);
+  ctx.runCase = runCase;
+  await sleep(300);
+  await ctx.settle();
+  const err = await cfg.setup(ctx, runCase);
+  if (err) throw new Error(err);
+  const open = ctx.buttons().find((b) => /KEY EVENTS/.test(ctx.lab(b)));
+  if (open) {
+    await ctx.click(open);
+    checkPage(ctx, "key events");
+    const war = ctx.buttons().find((b) => ctx.lab(b) === "THE WAR AT LARGE");
+    if (war) {
+      await ctx.click(war);
+      checkPage(ctx, "key events > the war at large");
+    }
+  }
+  ctx.restore();
+}
+
 // ---- the menu screens (settings, war record, glossary, dossiers, endings, atlas, how to read) ---------------------------
 {
   const ctx = makeContext(cfg, bundle, 9);
