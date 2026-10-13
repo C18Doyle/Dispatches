@@ -5,6 +5,10 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## Unreleased
+### Added
+- **The Soviet command now begins in October 1939.** Eight new reports come before the border of June 1941: the Finnish plans (Meretskov's quick strike on the whole front, which is the record, or Shaposhnikov's postponed blow on the Isthmus), the stalled winter and what to do about it, the Moscow Peace and what to take from it (reform under Timoshenko, or explain the winter away), where the German blow will fall (the record's southern plan, or the northern one the General Staff held), the January 1941 war games, the March 1941 mechanised corps and airfields, and the May 1941 memorandum. The Finnish war has a speculative branch (a race for Helsinki, a 20% chance to succeed). Each departure from the record moves a score, `readiness`, which the border report puts into words: the Red Army can be caught worse than in the record, a little better, or (needing every departure) standing less badly than anyone had a right to hope, and the opening orders change with it. It cannot derail Barbarossa. The Soviet map has a 1940 sheet (Finland shows as contested from 30 November 1939 to 13 March 1940), and the atlas, the dossiers (Voroshilov and Pavlov are new) and `NODE_TOTAL` (286) are updated. Facts, and what is still drafted, are in `claims/soviet-prelude.json`. The Soviet UI baseline was re-recorded.
+
 ## 6.1.0 (2026-10-10)
 ### Fixed
 - **Two contrast failures that stopped the first release.** The demo's "Free Demo: OKW Command Only" badge was dark red on black (2.25:1) and is now a light red (about 9:1); the small distribution line at the foot of the German war room document was grey on cream (4.3:1) and is now darker. The release check (axe, phone size) found both; there is no change to the text or to play.

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "p-winterwar-start",
+    "where": "finnishPrep39",
+    "claim": "The Red Army crossed the Finnish frontier on 30 November 1939, four days after the Mainila incident (26 November); Moscow proclaimed the Finnish Democratic Republic under Otto Kuusinen at Terijoki on 1 December; Leningrad lies about thirty kilometres from the frontier on the Isthmus; the Pact was signed on 23 August and the Red Army entered Poland on 17 September.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Winter War (30 November, 1 December); the Mainila date and the distance to Leningrad are from the standard accounts and were not reopened."
+  },
+  {
+    "id": "p-plans",
+    "where": "finnishPrep39 and winterStall40",
+    "claim": "Shaposhnikov favoured a narrow, heavy blow on the Karelian Isthmus after a longer build-up; Meretskov, commanding the Leningrad Military District, expected a campaign of about two weeks; the offensive that began on 30 November followed the lighter plan, and Shaposhnikov's approach was in effect adopted when Timoshenko took over; Timoshenko offered on 28 December to take the command, and the North-Western Front was formed in January 1940 (7 January, from memory).",
+    "status": "drafted",
+    "source": "Wikipedia, Winter War, which states the two approaches, Meretskov's two-week prediction and Timoshenko's offer of 28 December; it does not say in so many words which plan Stalin signed, and a search found no source that does. The attribution of the record to Meretskov's plan follows the standard accounts (Trotter, A Frozen Hell; Edwards, The Winter War) and needs a reader who has them to confirm it. The exact day of the North-Western Front's formation was not reopened."
+  },
+  {
+    "id": "p-stall",
+    "where": "winterStall40",
+    "claim": "Finnish ski troops destroyed two Soviet divisions at Suomussalmi in December 1939 and January 1940; the League of Nations expelled the Soviet Union on 14 December 1939; temperatures fell to about forty below in January; the Finnish positions on the Isthmus were mostly field works with few concrete bunkers; the Summa assault began on 11 February 1940 and the Finns were pushed to a second line within a week; Vyborg was attacked in the first days of March.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Winter War (the expulsion; the February breakthrough). The 14 December date for the League and the day of the Summa assault are from the standard accounts and were not reopened."
+  },
+  {
+    "id": "p-peace",
+    "where": "moscowPeace40",
+    "claim": "The Moscow Peace was signed on 12 March 1940 (Moscow time) and fighting ended at noon Leningrad time on 13 March; Finland ceded the Karelian Isthmus with Vyborg, parts of Ladoga Karelia (Sortavala, Käkisalmi, Suojärvi) and some islands, about nine per cent of its territory, and leased Hanko for thirty years; Molotov ended the Terijoki government and recognised the Ryti-Tanner government on 29 January 1940; Soviet dead and missing 126,875 to 167,976 (Krivosheev and later), Finnish 25,904.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Moscow Peace Treaty (dates, terms, 29 January); Wikipedia, Winter War (casualty ranges; the game says about 126,000 and about 25,000)."
+  },
+  {
+    "id": "p-reform",
+    "where": "moscowPeace40",
+    "claim": "Timoshenko replaced Voroshilov as People's Commissar of Defence in May 1940; the ranks of general and admiral were reintroduced in May 1940; the political officer's dual command was abolished in August 1940; senior commanders met in April 1940 to review the Winter War.",
+    "status": "drafted",
+    "source": "Standard accounts of the Red Army's reforms after Finland; none of the pages read for this prelude gives the dates, so each is from memory and needs one source."
+  },
+  {
+    "id": "p-plan40",
+    "where": "plan40",
+    "claim": "The General Staff revised its war plan in July 1940 with the main German blow expected north of the Pripet Marshes; Shaposhnikov left the post of Chief of the General Staff in August 1940, in poor health and by some accounts in disagreement with Stalin, and Meretskov succeeded him; the September discussions began from the northern assumption; on 5 October Meretskov and Timoshenko submitted a plan to Stalin, who thought Hitler wanted the grain of Ukraine and the coal of the Donbas, and the General Staff redrafted it with the South-Western Front near Kiev as the main force.",
+    "status": "confirmed-secondary",
+    "source": "Search results summarising Wikipedia's Operation Barbarossa and the secondary literature (2026-10-13); the strength of the South-Western Front against the Western Front in June 1941 is from the standard order of battle and was not reopened. Treat as drafted until a primary or specialist source is read."
+  },
+  {
+    "id": "p-games",
+    "where": "games41",
+    "claim": "Two staff games were held in January 1941, from 2 to 6 January on the north-western axis and from 8 to 11 January on the south-western, with Zhukov and Pavlov commanding opposing sides; sources differ on who won and one dates a similar exercise to the autumn of 1940; Pavlov commanded the Western Special Military District from 1940; Zhukov replaced Meretskov as Chief of the General Staff in January or at the start of February 1941; Shaposhnikov was the Deputy People's Commissar for fortified zones from August 1940.",
+    "status": "drafted",
+    "source": "Search results (2026-10-13) citing Bobylev for the dates of the games, and Wikipedia's Dmitry Pavlov (general). The game states the disagreement instead of choosing. Zhukov's appointment date differs between 15 January and 1 February in the sources, so the game says only 'within weeks' and 'that winter'."
+  },
+  {
+    "id": "p-prep41",
+    "where": "prep41",
+    "claim": "Nine mechanised corps were ordered in July 1940 and about twenty more in February and March 1941; fewer than half had anything like their full establishment of tanks by June 1941; many frontier airfields were being rebuilt at once in the spring of 1941, so that aircraft were crowded onto few fields.",
+    "status": "drafted",
+    "source": "Standard accounts of the Red Army in 1941 (Glantz, Stumbling Colossus); not reopened for this prelude. The tank figures are stated without numbers on purpose."
+  },
+  {
+    "id": "p-memo",
+    "where": "memo41",
+    "claim": "A draft dated 15 May 1941, 'Considerations on the plan of strategic deployment of the armed forces of the Soviet Union in case of war with Germany and her allies', attributed to Zhukov and Timoshenko with Vasilevsky as its drafter in most accounts, proposed forestalling the German deployment by a first strike; Stalin did not approve it; its authorship, purpose and status are disputed; in May and June 1941 armies were moved from the interior towards the Dvina and the Dnieper and about 800,000 reservists were called to training camps; TASS denied the rumours of war on 14 June.",
+    "status": "drafted",
+    "source": "Search results (2026-10-13) on the memorandum and the dispute over it (Danilov and others); the movement of the second-line armies and the 800,000 reservists are from the standard accounts. The game says 'in most accounts' and 'historians disagree' on purpose."
+  }
+]

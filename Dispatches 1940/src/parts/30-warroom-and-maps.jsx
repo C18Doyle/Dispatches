@@ -263,7 +263,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
 // must not spoil a fork the player hasn't discovered yet).
 const CAMPAIGN_MAP_YEARS = {
   german: [1940, 1941, 1942, 1943, 1944, 1945],
-  soviet: [1941, 1942, 1943, 1944, 1945],
+  soviet: [1940, 1941, 1942, 1943, 1944, 1945],
   allied: [1940, 1941, 1942, 1943, 1944, 1945],
   italy: [1940, 1941, 1942, 1943, 1944, 1945],
 };
