@@ -89,7 +89,7 @@
               : flags.burmaRoadPath === "permanent" && flags.burmaRoadResult === "refused"
               ? " London refused the demand over the Burma Road in July. The Navy says this is what a pact with Germany will bring on, from Britain and from America."
               : flags.burmaRoadPath === "bombed"
-              ? " The Army's bombers have cut the Burma Road for days at a time since July, and Chinese labor has repaired it each time."
+              ? " The Army's bombers have raided the Burma Road since July, and Chinese labor has repaired it each time."
               : ""),
           choices: [
             {
@@ -219,7 +219,7 @@
               impact: { readiness: -1, pipeline: -1, initiative: 1 },
               next: "tripartitePact40",
               outcome:
-                "A modeled alternative. Bombers cut the bridges and the road for days at a time, and Chinese labor repairs them each time by hand. The raids cost aircraft and fuel and do not stop the traffic, and Britain's goodwill is left alone.",
+                "A modeled alternative. Bombers raid the bridges and the road, and Chinese labor repairs the damage by hand each time. The raids cost aircraft and fuel and do not stop the traffic, and Britain's goodwill is left alone.",
             },
           ],
         };
@@ -1737,7 +1737,7 @@
               ? " Horii's column is still pushing toward Port Moresby on a supply line already failing, a second front bleeding the same limited transport capacity this campaign needs for its own night runs down the Slot."
               : flags.kokodaPath === "earlyWithdraw"
               ? " The early withdrawal from the Kokoda Track freed transport capacity that, in principle, this campaign could use, though freed capacity and available capacity aren't quite the same thing once Guadalcanal's own demands are counted."
-              : ""),
+              : "") + (flags.earlyPeacePath === "fightOn" ? " Tokyo decided after Midway to fight on and put out no feelers about terms." : flags.earlyPeacePath === "explore" || flags.earlyPeacePath === "exploreFromStrength" ? " Feelers about terms went out after Midway, and nothing has come of them." : ""),
           choices: [
             {
               label: "Commit destroyers and remaining naval air strength to retake Henderson Field",
@@ -2511,7 +2511,7 @@
               : "") +
             (flags.australiaLandingPath === "press"
               ? " Three years on, nobody drafting this militia plan has forgotten what a beachhead nobody could supply cost this fleet in tonnage it never got back."
-              : ""),
+              : "") + (flags.submarineCarriersPath === "panama" ? " I-400 and I-401 sailed in June for the Panama Canal, and the home islands are without them." : flags.submarineCarriersPath === "ulithi" ? " I-400 and I-401 were ordered against the American anchorage at Ulithi." : ""),
           choices: [
             {
               label: "Commit to Ketsu-Go: mobilize civilian militia, prepare the home islands for invasion",
@@ -2721,7 +2721,6 @@
             {
               label: "IGHQ orders no change: the deadlock in the war ministry is a civilian government question, not a military one, and the military keeps executing Ketsu-Go's existing plan without waiting on Tokyo to decide anything",
               advisor: { name: "Umezu", position: "The council's paralysis is its own failure to resolve and not the chief of staff's to solve by exceeding his authority, so the staff goes on preparing the defense it was already preparing." },
-              setFlags: { finalDeadlockPath: "militaryProceeds" },
               impact: { readiness: -1, pipeline: -1, initiative: 0 },
               next: "END",
               outcome:
@@ -2730,7 +2729,6 @@
             {
               label: "Send the deadlock itself to the Emperor as a formal question, without asking him to break it: state plainly that the council could not decide, and let him choose what, if anything, that information changes",
               advisor: { name: "Kido", position: "There is a difference between asking the Emperor to cast the deciding vote and telling him the vote could not be cast, and the second is the only honest option the council has left." },
-              setFlags: { finalDeadlockPath: "informedAnyway" },
               impact: { readiness: 0, pipeline: 0, initiative: -1 },
               next: "END",
               outcome:

@@ -859,7 +859,7 @@ KEY_BATTLE_CONFIGS.watchtowerAllied42 = {
         "Their Wildcat fighters, Dauntless dive bombers and Avenger torpedo planes",
       ],
       real:
-        "The carriers kept station south of Guadalcanal for two days and their fighters met the Rabaul raids, with the loss of about twenty Wildcats. On the evening of 8 August Fletcher asked leave to withdraw, citing fuel and the risk to his carriers, and the transports lost their air cover.",
+        "The carriers kept station south of Guadalcanal for two days and their fighters met the Rabaul raids, with the loss of about twenty aircraft. On the evening of 8 August Fletcher asked leave to withdraw, citing fuel and the risk to his carriers, and the transports lost their air cover.",
     },
     unload: {
       units: [
@@ -1143,7 +1143,7 @@ KEY_BATTLE_CONFIGS.shoGo44 = {
     air: {
       units: [
         "The First Air Fleet on Luzon under Vice Admiral Takijiro Onishi",
-        "The Second Air Fleet, which had flown in from Formosa after the October air battles",
+        "Vice Admiral Fukudome's Second Air Fleet on Formosa, whose strength was largely destroyed in the air battle off Formosa on 12 to 16 October",
       ],
       real:
         "The Navy's land-based aircraft were largely spent in the fighting off Formosa earlier in the month. The few that were left attacked the American carriers and the landing from Luzon, and gave Kurita no fighter cover.",
@@ -1403,11 +1403,11 @@ KEY_BATTLE_CONFIGS.iwoJimaJapan45 = {
     },
     tanks: {
       units: [
-        "Colonel Baron Takeichi Nishi's 26th Tank Regiment, with about two dozen tanks",
+        "Colonel Baron Takeichi Nishi's 26th Tank Regiment",
         "A mobile reserve of infantry held behind the airfields",
       ],
       real:
-        "Most of the regiment's tanks were dug in as fixed guns and were knocked out by the Marines in the first weeks. They were never used as the mobile force that Nishi had hoped for.",
+        "The regiment's tanks were first dug in as fixed guns, and as the Marines advanced they were used in local counterattacks. Nishi was killed in the fighting in March.",
     },
     stores: {
       units: [
@@ -1658,7 +1658,7 @@ KEY_BATTLE_CONFIGS.iwoJimaAllied45 = {
         "The 3rd Marine Division, held in corps reserve and committed in the following days",
       ],
       real:
-        "The Marines took heavy fire on the beaches from the first minutes and had Mount Suribachi cut off by the afternoon of the first day. The 28th Marines took the summit on 23 February. The island was declared secured on 16 March, and the fighting went on in the north for ten days more.",
+        "The Marines took heavy fire on the beaches from the first minutes and had Mount Suribachi cut off by the afternoon of the first day. The 28th Marines took the summit on 23 February. The Marines announced the capture of the island on 14 March, and the last Japanese attack came on the night of 25 to 26 March.",
     },
     gunfire: {
       units: [
@@ -2360,7 +2360,7 @@ KEY_BATTLE_COMMANDERS.okinawaAllied45 = [
   { id: "turner", name: "Vice Admiral Richmond Kelly Turner", role: "Commanding the amphibious forces", category: "pickets", note: "The radar picket stations around the island were set up under his command. Effort in the Radar Picket Destroyers carries further under him.", reportLine: "Turner posts the destroyers on the stations and keeps the transports unloading." },
   { id: "mulcahy", name: "Major General Francis Mulcahy", role: "Commanding the Tactical Air Force, Tenth Army", category: "patrol", note: "The Marine and Army fighters on the island were his. Effort in Combat Air Patrol over the Pickets carries further under him.", reportLine: "Mulcahy sends the Marine squadrons from the Okinawa airfields to patrol over the stations." },
   { id: "mitscher", name: "Vice Admiral Marc Mitscher", role: "Commanding Task Force 58", category: "strikes", note: "The fast carriers were his. Effort in Carrier Strikes on Kyushu carries further under him.", reportLine: "Mitscher launches the carriers' strikes against the Kyushu airfields." },
-  { id: "calhoun", name: "Vice Admiral William Calhoun", role: "Commanding the Service Force, Pacific Fleet", category: "repair", note: "The repair ships, tugs and floating docks were his. Effort in Repair and Damage Control carries further under him.", reportLine: "Calhoun's repair ships and tugs work at the stations and at Kerama Retto." },
+  { id: "smith", name: "Vice Admiral William W. Smith", role: "Commanding the Service Force, Pacific Fleet", category: "repair", note: "The repair ships, tugs and floating docks were his. Effort in Repair and Damage Control carries further under him.", reportLine: "Smith's repair ships and tugs work at the stations and at Kerama Retto." },
 ];
 
 KEY_BATTLE_APPROACHES.okinawaAllied45 = [
@@ -2433,7 +2433,7 @@ KEY_BATTLE_ECHOES.okinawaAllied45 = {
     turner: "Turner is on his flagship, with the station reports on the table.",
     mulcahy: "Mulcahy's Marines are on the Okinawa airfields, counting the day's kills.",
     mitscher: "Mitscher's carriers are at sea off Kyushu, with their decks full.",
-    calhoun: "Calhoun's repair ships are at Kerama Retto, working through the night.",
+    smith: "Smith's repair ships are at Kerama Retto, working through the night.",
   },
 };
 KEY_BATTLE_TITLES.push({ id: "okinawaAllied45", seal: "CINCPAC", title: "Okinawa" });

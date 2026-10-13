@@ -82,9 +82,6 @@
           {
             "weight": 40,
             "title": "The early vote passes",
-            "setFlags": {
-              "declarationResult": "passed"
-            },
             "impact": {
               "readiness": 1,
               "pipeline": 0,
@@ -96,9 +93,6 @@
           {
             "weight": 60,
             "title": "The early vote fails",
-            "setFlags": {
-              "declarationResult": "failed"
-            },
             "impact": {
               "readiness": -2,
               "pipeline": -1,
@@ -126,9 +120,6 @@
           "name": "Marshall",
           "position": "The question was whether Congress could be walked to a war it was not shocked into, and it could, and what that war looks like is a different question from the one this file was opened to answer."
         },
-        "setFlags": {
-          "lateWarPath": "fileClosed"
-        },
         "impact": {
           "readiness": 0,
           "pipeline": 0,
@@ -144,7 +135,6 @@
           "position": "The effort went into proving Congress could be walked to a vote and not shocked into one, and the next question is what kind of war that walk bought, not only that it reached the door."
         },
         "setFlags": {
-          "lateWarPath": "continued",
           "speculativePath": true
         },
         "impact": {
@@ -359,9 +349,6 @@
           "position": "On paper the bat bomb is a better weapon than what is being dropped now, and the transfer is authorized on that basis alone and not out of confidence that bats are a serious instrument of war."
         },
         "historical": true,
-        "setFlags": {
-          "batBombPath": "pushed"
-        },
         "impact": {
           "readiness": 0,
           "pipeline": -1,
@@ -375,9 +362,6 @@
         "advisor": {
           "name": "Nimitz",
           "position": "The numbers are not doubted on paper, but a weapon built from live animals that must be captured, refrigerated and kept cold enough to stay dormant carries a great deal of operational fragility for a fire-efficiency advantage."
-        },
-        "setFlags": {
-          "batBombPath": "redirected"
         },
         "impact": {
           "readiness": 0,
@@ -848,9 +832,6 @@
           "position": "The standing order already covers this, and no new signature is needed to do what the President has authorized."
         },
         "historical": true,
-        "setFlags": {
-          "secondBombPath": "automatic"
-        },
         "impact": {
           "readiness": 0,
           "pipeline": 0,
@@ -864,9 +845,6 @@
         "advisor": {
           "name": "McCloy",
           "position": "As written, the order means the next bomb happens because nobody stopped it and not because anybody decided it, and those are not the same thing."
-        },
-        "setFlags": {
-          "secondBombPath": "paused"
         },
         "impact": {
           "readiness": 0,
