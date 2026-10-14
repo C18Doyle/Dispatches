@@ -158,7 +158,7 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The two armies that would have gone into East Prussia are held on the " +
           "frontier, and the whole weight of the army goes into Galicia. The Austrians are met by " +
-          "more men than it had. Paris is told that the offensive it was promised will " +
+          "more men than they met in fact. Paris is told that the offensive it was promised will " +
           "come later, and the French, who had counted on it, ask why a promise given in writing " +
           "can be kept in part.",
       },

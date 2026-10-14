@@ -1512,5 +1512,95 @@
     "status": "drafted",
     "sources": [],
     "note": "See the Masuria claims."
+  },
+  {
+    "id": "stavka_newsplan-1",
+    "node": "stavka_1914_12_tannenberg",
+    "kind": "characterization",
+    "claim": "Newspaper special, Berliner Tageblatt, Berlin: East Prussia Is Not Invaded. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "stavka_newsgalicia-1",
+    "node": "stavka_1914_03_przemysl",
+    "kind": "characterization",
+    "claim": "Newspaper special, Neue Freie Presse, Vienna: Galicia Is Quiet. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "stavka_newschantilly-1",
+    "node": "stavka_1916_02_naroch",
+    "kind": "characterization",
+    "claim": "Newspaper special, Le Figaro, Paris: St Petersburg Withholds Its Signature. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "stavka_newsnaroch-1",
+    "node": "stavka_1916_05_brusilov",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Times, London: Joffre's Appeal to the Russians Is Refused. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "stavka_newspetrograd-1",
+    "node": "stavka_1917_07_kerensky",
+    "kind": "characterization",
+    "claim": "Newspaper special, Corriere della Sera, Milan: The Allied Missions Leave Petrograd with a Date. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "stavka_newskornilov-1",
+    "node": "stavka_1917_08_october",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Daily Chronicle, London: Kerensky Dismisses His Commander and the Corps Turns Back. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "stavka-end-unspent-1",
+    "node": "stavka_end_unspent",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the Russian offensive of the summer of 1917 gained a little ground in Galicia and was thrown back by a German counter-stroke in July, and the army's discipline broke in the retreat. The death penalty was restored at the front on 12 July. The armistice was signed at Brest-Litovsk in December and the treaty on 3 March 1918.\n\nThe Provisional Government's offensive was the last of the old army's operations and the first in which the committees voted whether to obey. In this ending the vote is never asked, and the army that is left at the end of the year is an army that has been spared the test and has not passed it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "stavka-end-rigaheld-1",
+    "node": "stavka_end_rigaheld",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the Germans took Riga in September 1917 in an operation that crossed the Daugava with a short, heavy bombardment, and the Twelfth Army fell back. The German advance was resumed in February 1918 and the treaty was signed at Brest-Litovsk on 3 March, which gave up the Baltic provinces.\n\nThe fall of Riga in September 1917 was a military defeat that the Russian staff described at the time as a withdrawal, and it was followed by the German landing on the islands of the Gulf of Riga in October. In this ending the German landing does not come, and the fleet is left where it was.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "stavka-end-grandduke-1",
+    "node": "stavka_end_grandduke",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Nicholas II took the supreme command himself on 5 September 1915, sending the Grand Duke to the Caucasus, and the Grand Duke was never recalled. After the October rising the headquarters at Mogilev was occupied by Bolshevik forces on 3 December 1917, and General Dukhonin, the Chief of Staff, was killed by soldiers on the same day.\n\nThe Grand Duke was in the Caucasus until the monarchy fell in March 1917, and he was relieved by the Provisional Government in the spring of 1917. In this ending the headquarters has a commander who has never left it, and the question that the army has to answer is not whether to obey the Bolsheviks but whether to obey him.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "stavka-end-winners-1",
+    "node": "stavka_end_winners",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Brusilov's offensive of June 1916 was made without any serious support from the other fronts, Romania entered the war on 27 August 1916 and Bucharest fell on 6 December, and the Allied conference at Petrograd in January and February 1917 ended without a Russian date. The armistice was signed in December 1917 and the treaty at Brest-Litovsk on 3 March 1918.\n\nThe Allies did not count Russia among the powers at the peace table in 1919, and the Allied intervention in the Russian civil war was fought on Russian soil by Allied troops and White armies. In this ending the Russian delegation is at Versailles, and the question of who sent it is the subject of its own quarrel.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
   }
 ]

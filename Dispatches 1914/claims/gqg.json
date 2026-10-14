@@ -1144,5 +1144,95 @@
     "status": "drafted",
     "sources": [],
     "note": "See the Marne claims."
+  },
+  {
+    "id": "gqg_newssalonika-1",
+    "node": "gqg_1916_04_verdun",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Times, London: No French Army Goes to Salonika. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newscovering-1",
+    "node": "gqg_1914_01_frontieres",
+    "kind": "characterization",
+    "claim": "Newspaper special, Berliner Tageblatt, Berlin: France Has Mobilised Before Her Neighbour Asked. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newsverdun-1",
+    "node": "gqg_1916_05_somme",
+    "kind": "characterization",
+    "claim": "Newspaper special, Frankfurter Zeitung, Frankfurt: The Right Bank Taken Without a Fight. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newschemin-1",
+    "node": "gqg_1917_13_directive",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Daily Telegraph, London: The Aisne Offensive Is Stopped on the Third Day. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newslink-1",
+    "node": "gqg_1918_13_aisne",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Daily Mail, London: Haig Is Told the French Reserve Will Cover Paris. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newscommand-1",
+    "node": "gqg_1918_13_aisne",
+    "kind": "characterization",
+    "claim": "Newspaper special, Le Matin, Paris: At Doullens the Armies Agree to Confer. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg-end-pursuit-1",
+    "node": "gqg_end_pursuit",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the attack at La Malmaison on 23 October 1917 took its objective and stopped, as it was designed to. The armistice of 11 November 1918 was signed with French troops still on the Belgian and French side of the frontier, and the occupation of the left bank of the Rhine began in December.\n\nThe same lesson was written into the French army's regulations in the last year of the war, and the attacks of the autumn were planned as a series that could be carried on from one objective to the next. In this ending the series is carried to the frontier, and the staff that planned it is surprised by its own success.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "gqg-end-mutinyspreads-1",
+    "node": "gqg_end_mutinyspreads",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the refusals of May and June 1917 spread through a large part of the French army. About 3,400 men were tried, 554 were condemned to death and a few dozen were shot, and Pétain's remedies were regular leave, better rest and the end of the great offensives. The army that fought in 1918 was held together by the same remedies.\n\nPétain's handling of the refusals is counted among the things that held the army to the end, and the court-martial figures were kept from the public for years. In this ending the figures are larger and the secret is shorter, and the Chamber is told in the autumn what it was told in the spring of 1917.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "gqg-end-generals-1",
+    "node": "gqg_end_generals",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Joffre relieved many generals in August and September 1914, among them the commander of the Fifth Army, Lanrezac, whom he replaced on 3 September, and the practice of dismissing unsuccessful commanders went on through the war. The armistice was signed on 11 November 1918.\n\nThe practice had its critics from the first, who said that it made commanders afraid to report bad news, and its defenders, who said that an army cannot keep generals who lose battles. In this ending the critics are right about the first year, and the defenders do not get the chance to say what they would have done.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "gqg-end-waiting-1",
+    "node": "gqg_end_waiting",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the American First Army was formed on 10 August 1918, Pershing having refused to have his divisions distributed among the Allied armies, and Foch's general offensive of 26 September attacked along the whole front from the Meuse to the sea. The German army was driven back through October, and the plans for a campaign in 1919 had been prepared and were not needed.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
   }
 ]

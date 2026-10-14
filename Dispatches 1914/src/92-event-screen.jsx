@@ -12,9 +12,19 @@ function EventScreen({ campaignId, event, onContinue }) {
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow"><span>{c.docLabel}</span></div>
       <p className="dg-kind dg-event-kind">Special event · {event.kind}</p>
-      <div className="dg-node-date">{nodeDate(campaignId, event.date)}</div>
-      <h1 className="dg-node-title">{event.title}</h1>
-      {event.paras.map((p, i) => <p key={i} className={"dg-prose" + (i === 0 ? " dg-lede" : "")}>{p}</p>)}
+      {event.paper ? (
+        <div className="dg-paper">
+          <div className="dg-paper-head"><span className="n">{event.paper.name}</span><span className="p">{event.paper.place}, {nodeDate(campaignId, event.date)}</span></div>
+          <h1 className="dg-node-title">{event.title}</h1>
+          {event.paras.map((p, i) => <p key={i} className={"dg-prose" + (i === 0 ? " dg-lede" : "")}>{p}</p>)}
+        </div>
+      ) : (
+        <>
+          <div className="dg-node-date">{nodeDate(campaignId, event.date)}</div>
+          <h1 className="dg-node-title">{event.title}</h1>
+          {event.paras.map((p, i) => <p key={i} className={"dg-prose" + (i === 0 ? " dg-lede" : "")}>{p}</p>)}
+        </>
+      )}
       <p className="dg-note">This is not a decision, and it changes no meter. The file will remember it.</p>
       <button className="dg-btn dg-go" onClick={onContinue}>Continue</button>
     </main>

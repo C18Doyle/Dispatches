@@ -36,7 +36,7 @@ function loadEngine(file) {
     "snapshotRun", "validateSave", "emptyRecord", "noteNodeSeen", "MAP_CITIES", "MAP_VIEW", "MAP_NEAR", "MAP_LAND_PATH", "MAP_COUNTRIES", "mapFor", "MAP_ALLEGIANCE", "MAP_OVERLAYS", "sideOfCountry", "activeOverlays", "mapDate", "meanwhileAt", "noteEnding", "noteRank", "noteBattle", "noteEchoes", "echoSeed", "ECHOES", "sanitizeSettings", "defaultSettings", "SAVE_SCHEMA_VERSION",
     "NODE_ID_PATTERN", "ENDING_ID_PATTERN", "isValidNodeId",
     "STRAIN", "strainMeterOf", "strainedUncertain", "previewImpact", "REWIND_LIMIT",
-    "EASY_NAMES", "ENDING_TIER", "ENDING_GROUND", "STAFF_SCORE", "staffScore", "RANKS", "EASY_RANK_CAP", "modeOf", "costlyOrders", "rankFor",
+    "EASY_NAMES", "ENDING_TIER", "ENDING_GROUND", "MAP_GROUND", "groundOf", "groundTally", "RISKS", "MORE_ENDINGS", "STAFF_SCORE", "staffScore", "RANKS", "EASY_RANK_CAP", "modeOf", "costlyOrders", "rankFor",
     "GLOSSARY", "LEAVES_OUT",
     "THEME_IDS", "THEME_LABELS", "THEME_TOKENS", "THEME_PAIRS", "THEME_MIN_RATIO", "CAMPAIGN_BANDS", "contrastRatio", "tokensFor", "themeCss", "sepiaCss", "ASKS", "shareSummary", "BRIEFINGS", "HOW_TO", "ukDate", "nodeDate", "EVENTS", "dueEvent", "INTEL", "INTEL_ITEMS", "intelItemsAt", "intelChecked", "intelChecksLeft", "intelCheck", "intelFogged", "intelBelievedOdds", "intelEdge", "MAP_OPS", "mapOpsFor", "mapOpsOf", "TRUST", "adviserIdFor", "trustOf", "adviserState", "trustAfter", "resignationEvent", "DEFAULT_THEME", "resolveTheme",
     "BATTLES", "BATTLE_COMMANDER_BONUS", "BATTLE_NEGLECT_PENALTY", "BATTLE_BONUS_CLAMP", "BATTLE_SCALE", "BATTLE_INTEL_ERROR", "BATTLE_WEIGHT_BOUNDS",

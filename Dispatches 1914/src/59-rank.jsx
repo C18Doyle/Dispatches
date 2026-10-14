@@ -128,6 +128,12 @@ export const ENDING_GROUND = {
   otto_end_overextended: 0,
 };
 
+// the endings added in 45-more-endings.jsx carry their own tier and ground
+for (const e of MORE_ENDINGS) {
+  ENDING_TIER[e.id] = e.tier;
+  ENDING_GROUND[e.id] = e.ground;
+}
+
 /** The staff part of the rank: a base of 6, two points for each of two trusted advisers, and a loss for each adviser who has gone or gone quiet. */
 export const STAFF_SCORE = { base: 6, trusted: 2, trustedMax: 2, gone: 3, quiet: 1.5, max: 10 };
 
@@ -181,7 +187,7 @@ export function staffScore(campaignId, flags) {
 /**
  * The command rank for a closed file. `taken` is the list of { node, choice } the run gave, `flags` the file's flags (the advisers' trust).
  * Returns { score, rank, parts }, where each part is { id, label, points, max, note }. Seven parts, 100 at their best: the ground held
- * (30) and the power left (20, and 10 for nothing run dry) are most of it; the staff kept (10), the ending's tier (10), restraint (10) and
+ * (30, the ending's rating and up to two places either way from the ledger in 43-map-ground.jsx) and the power left (20, and 10 for nothing run dry) are most of it; the staff kept (10), the ending's tier (10), restraint (10) and
  * the mode (10) make up the rest.
  */
 export function rankFor({ campaignId, endingId, meters, hardState, easy, taken, flags }) {
@@ -190,6 +196,8 @@ export function rankFor({ campaignId, endingId, meters, hardState, easy, taken, 
   const sum = METER_AXES.reduce((s, a) => s + m[a], 0);
   const power = Math.max(0, Math.min(20, Math.round((sum + 30) / 3)));
   const ground = ENDING_GROUND[endingId] ?? 1;
+  const tally = groundTally(campaignId, flags);
+  const groundPoints = Math.max(0, Math.min(30, ground * 10 + Math.max(-4, Math.min(4, 2 * tally.net))));
   const tier = ENDING_TIER[endingId] ?? 1;
   const dry = METER_AXES.filter((a) => m[a] <= -5).length;
   const reserves = Math.max(0, 10 - 4 * dry);
@@ -198,7 +206,7 @@ export function rankFor({ campaignId, endingId, meters, hardState, easy, taken, 
   const modePoints = { easy: 4, standard: 7, hard: 10 }[mode];
   const staff = staffScore(campaignId, flags);
   const parts = [
-    { id: "territory", label: "Ground held", points: ground * 10, max: 30, note: ["the heartland invaded or the capital lost", "a large part of the territory lost", "the homeland held, with some losses", "all of its own ground held or recovered"][ground] },
+    { id: "territory", label: "Ground held", points: groundPoints, max: 30, note: ["the heartland invaded or the capital lost", "a large part of the territory lost", "the homeland held, with some losses", "all of its own ground held or recovered"][ground] + (tally.gained || tally.lost ? `; ${tally.gained} place${tally.gained === 1 ? "" : "s"} held or taken beyond the record, ${tally.lost} lost or not taken` : "") },
     { id: "power", label: "Power at the close", points: power, max: 20, note: `the three meters together stood at ${sum > 0 ? "+" : ""}${sum}` },
     { id: "reserves", label: "Nothing run dry", points: reserves, max: 10, note: dry ? `${dry} meter${dry === 1 ? "" : "s"} ended at -5 or worse` : "no meter ended at -5 or worse" },
     { id: "staff", label: "The staff kept", points: staff.points, max: 10, note: staff.note },

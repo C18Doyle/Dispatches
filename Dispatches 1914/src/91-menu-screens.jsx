@@ -91,7 +91,7 @@ function MenuScreen({ onPick, onRecord, onHowTo, onSettings, savedRun, onResume,
           <b>War record</b>
           <span>{nodesSeen} of {nodeTotal()} reports seen · {record.endings.length} of {buildEndings().length} endings found</span>
         </button>
-        <button className="dg-navbtn" onClick={onSettings}><b>Settings</b><span>Text size, colours, type, sound and signing</span></button>
+        <button className="dg-navbtn" onClick={onSettings}><b>Settings</b><span>Text size, colours, type, spacing, motion, sound and signing</span></button>
       </nav>
     </main>
   );
@@ -181,6 +181,9 @@ function HowToScreen({ onBack }) {
   );
 }
 
+const SPACING_ROWS = [["standard", "Standard"], ["roomy", "Roomy"], ["wide", "Wide"]];
+const MEASURE_ROWS = [["standard", "Standard"], ["narrow", "Narrow"]];
+const MOTION_ROWS = [["auto", "Follow my device"], ["reduced", "Reduce motion"]];
 const FONT_ROWS = [["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"]];
 
 function SettingsScreen({ settings, onSettings, onBack }) {
@@ -223,6 +226,36 @@ function SettingsScreen({ settings, onSettings, onBack }) {
             <button key={id} aria-pressed={(settings.font || "theme") === id} onClick={() => set({ font: id })}>{label}</button>
           ))}
         </div>
+      </div>
+
+      <div className="dg-setting">
+        <div className="dg-count">Line spacing</div>
+        <div className="dg-seg" role="group" aria-label="Line spacing">
+          {SPACING_ROWS.map(([id, label]) => (
+            <button key={id} aria-pressed={(settings.spacing || "standard") === id} onClick={() => set({ spacing: id })}>{label}</button>
+          ))}
+        </div>
+      </div>
+      <div className="dg-setting">
+        <div className="dg-count">Line length</div>
+        <div className="dg-seg" role="group" aria-label="Line length">
+          {MEASURE_ROWS.map(([id, label]) => (
+            <button key={id} aria-pressed={(settings.measure || "standard") === id} onClick={() => set({ measure: id })}>{label}</button>
+          ))}
+        </div>
+        <p className="dg-note">A narrow line keeps the report to about thirty-four characters across, which is easier to track on a wide screen.</p>
+      </div>
+      <div className="dg-setting">
+        <div className="dg-count">Motion</div>
+        <div className="dg-seg" role="group" aria-label="Motion">
+          {MOTION_ROWS.map(([id, label]) => (
+            <button key={id} aria-pressed={(settings.motion || "auto") === id} onClick={() => set({ motion: id })}>{label}</button>
+          ))}
+        </div>
+        <p className="dg-note">Follow my device obeys the system setting. Reduce motion stops the marching front line on the map, the stamp, the reports sliding in and the dials moving, whatever the system says.</p>
+      </div>
+      <div className="dg-setting">
+        <button className="dg-btn" onClick={() => set({ font: "plain", spacing: "roomy", measure: "narrow", motion: "reduced" })}>Easy reading: plain type, roomy spacing, narrow lines, no motion</button>
       </div>
 
       <h2 className="dg-sect">Playing</h2>
