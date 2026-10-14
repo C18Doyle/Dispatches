@@ -364,7 +364,7 @@
           title: "A Bomber Force for China",
           historicalRecord: true,
           situation:
-            "Chiang's government has asked for American aircraft since 1938. A volunteer fighter group under Claire Chennault, recruited from American pilots under a Chinese contract, is training at Toungoo in Burma. Chennault's friends and Chiang's brother-in-law T. V. Soong want more: American bombers and crews flying from Chinese airfields against Japan. The Army Air Forces would rather keep its bombers for the Philippines, and Marshall's staff doubt that the Chinese fields can be held or supplied.",
+            "Chiang's government has asked for American aircraft since 1938. A volunteer fighter group under Claire Chennault, recruited from American pilots under a Chinese contract, is training at Toungoo in Burma. Chennault's friends and Chiang's brother-in-law T. V. Soong want more: American bombers and crews flying from Chinese airfields against Japan. The Army Air Forces would rather keep its bombers for the Philippines, and Marshall's staff doubt that the Chinese fields can be held or supplied." + (flags.embargoResult === "insufficient" ? " The calibrated embargo has bought no change in Tokyo's course, and the Chinese government asks what Washington means to do." : ""),
           choices: [
             {
               label: "Keep American help to the fighter group and to supplies: no American bombers in China",
@@ -623,7 +623,7 @@
               impact: { readiness: 0, pipeline: -1, initiative: 1 },
               next: "arcadia41",
               outcome:
-                "A modeled alternative. A carrier raid on the Marshalls was ordered in the real month and cancelled. Here it goes ahead while Wake is left to fall, and the raid hits Jaluit and finds fewer ships there than hoped.",
+                "A modeled alternative. A carrier raid on Jaluit, in the Marshalls, was part of the real plan for Wake, as a diversion for the relief. Here it is made the whole of the operation, and Wake is left to fall.",
             },
           ],
         };
@@ -2189,7 +2189,7 @@
               ? " Cabanatuan is three weeks old, and the men it actually freed are real, but so is what it cost getting them out, a fact this command is still weighing against the raid's own success in deciding how much appetite remains for the next deep, risky operation this campaign asks of it."
               : flags.cabanatuanPath === "declined"
               ? " Cabanatuan's camp is finally within the regular advance's reach, three weeks after the raid this command chose not to attempt. Whether that decision cost the prisoners held there anything is still the same unresolved question it was in January, only closer now to actually being answered."
-              : ""),
+              : "") + (flags.halseyTyphoonPath === "retained" ? " Halsey is still in command of the Third Fleet after the court's findings on the typhoon." : flags.halseyTyphoonPath === "relieved" ? " Halsey was relieved of the Third Fleet after the typhoon." : ""),
           choices: [
             {
               label: "Accept the compressed three-day bombardment and proceed on schedule",
@@ -2658,7 +2658,7 @@
               ? " The pause on the second weapon, held rather than let run on the standing order's own momentum, is the reason this room is even having this conversation: the peace faction's argument gained real ground without a second city added to the first, and Downfall's own planning is proceeding into a war ministry this staff has genuine, if cautious, reason to think may already be closer to breaking than the historical timeline suggested."
               : flags.nagasakiDelayResult === "deadlock"
               ? " The pause on the second weapon, held rather than let run on the standing order's own momentum, didn't move the war ministry's deadlock at all: the extra days bought nothing, and this room is planning Downfall against a Japan whose internal resistance to surrender looks exactly as intact as the historical record's own three-three split ever showed it."
-              : ""),
+              : "") + (flags.nagasakiDelayPath === "held" ? " The second weapon is being held, ready and unused, while Tokyo makes up its mind." : flags.nagasakiDelayPath === "clarified" ? " The pause on the second weapon was used to ask the President for his own decision." : ""),
           choices: [
             {
               label: "Prepare Operation Downfall: the amphibious invasion of the home islands",
@@ -2800,7 +2800,6 @@
             {
               label: "Let the combined pressure speak for itself: make no separate demand, let Tokyo draw its own conclusion from what it's actually facing",
               advisor: { name: "Marshall", position: "A war ministry that can see a blockade and an invasion fleet in front of it does not need to be told, and should do the arithmetic itself." },
-              setFlags: { combinedPressurePath: "silent" },
               impact: { readiness: 1, pipeline: 0, initiative: 0 },
               next: "sovietHokkaido45",
               uncertain: [
@@ -2829,7 +2828,6 @@
             {
               label: "Make the combined pressure explicit: a formal statement naming the blockade and the invasion fleet together, in the direct register of the Potsdam Declaration's warning of 'prompt and utter destruction'",
               advisor: { name: "Truman", position: "Japan was told plainly in July what continuing the war would cost, and there is no case for going quiet now with more to point to." },
-              setFlags: { combinedPressurePath: "explicit" },
               impact: { readiness: 0, pipeline: 1, initiative: 1 },
               next: "sovietHokkaido45",
               uncertain: [
@@ -2909,7 +2907,7 @@
               : "") +
             (flags.philippineIndependencePath === "basingRights"
               ? " The harder bargain struck over Philippine basing rights is still fresh enough that this room's appetite for another territorial negotiation, so soon after the last contentious one, is thinner than it might otherwise be."
-              : ""),
+              : "") + (flags.gasWarfarePath === "declined" ? " Truman refused the proposal to use gas on the caves and bunkers, holding to Roosevelt's pledge." : flags.gasWarfarePath === "limitedAuthorized" && flags.gasWarfareResult === "containedEffective" ? " Gas was used against caves and bunkers on Marshall's terms, and the weapon stayed where it was aimed." : flags.gasWarfarePath === "limitedAuthorized" && flags.gasWarfareResult === "creepIneffective" ? " Gas was used against caves and bunkers, drifted, and did little to the positions it was aimed at." : flags.gasWarfarePath === "areaAuthorized" ? " Gas was authorized for whole areas, and Roosevelt's pledge not to use it first is broken." : ""),
           choices: [
             {
               label: "Refuse the Soviet occupation zone: insist on sole American administration of the home islands",

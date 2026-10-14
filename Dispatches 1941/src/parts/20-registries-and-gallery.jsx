@@ -1034,8 +1034,8 @@ const STATE_EVENTS = [
     title: "The Cabinet Falls",
     when: () => true,
     paras: [
-      "Saipan falls in the first days of July 1944, and with it the home islands come within range of the new bombers. On 16 July Tojo is removed as Chief of the Army General Staff, and on 18 July he and his cabinet announce their resignation, under pressure from the senior statesmen and from inside the Navy. General Koiso becomes Prime Minister on 22 July.",
-      "In August a Supreme Council for the Direction of the War is formed from the service chiefs and a few ministers, in place of the Liaison Conferences that the government had used since 1937.",
+      "Saipan falls in early July 1944, and with it the home islands come within range of the new bombers. On 16 July Tojo is removed as Chief of the Army General Staff, and on 18 July he and his cabinet announce their resignation, under pressure from the senior statesmen and from inside the Navy. General Koiso becomes Prime Minister on 22 July.",
+      "In August a Supreme Council for the Direction of the War is formed from the Prime Minister, the Foreign Minister, the two service ministers and the two chiefs of staff, to settle the basic policy of the war.",
     ],
   },
   {
