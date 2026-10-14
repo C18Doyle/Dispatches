@@ -997,6 +997,15 @@ const CAMPAIGNS = {
               outcome:
                 "A reform that neither service accepted in the real war without years of pressure. Shared codebreaking, common aircraft standards and one intelligence assessment instead of two are dull administrative work with a real operational gain, bought with goodwill between the services that later decisions will have to draw on.",
             },
+            {
+              label: "Unify the codebreaking only: one joint cryptologic bureau, and leave everything else parallel",
+              advisor: { name: "Yamamoto", position: "Both services read the same traffic and never compare notes. One joint bureau costs the least of any reform and saves the most." },
+              setFlags: { unificationPath: "cryptoOnly" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "neutralityPact41",
+              outcome:
+                "A modeled alternative. The Army and Navy bureaus are merged into one office for decryption, and the services otherwise stay apart. It is a smaller change than a joint command and a less painful one. Intercepts are read once and shared, and the quarrel over aircraft and intelligence goes on.",
+            },
           ],
         };
         },
@@ -1754,6 +1763,33 @@ const CAMPAIGNS = {
               outcome:
                 "A modeled alternative that the Naval General Staff argued and lost before Yamamoto's plan carried the day. Without a Hawaii strike there is no Pearl Harbor to unite American opinion at once. A Congress that spent 1941 divided over intervention in Europe must decide, on its own timetable, whether Japanese landings half a world away justify a two-ocean war. The Southern Operation runs faster and better supplied with every carrier committed to it. America still has an intact Pacific Fleet.",
             },
+            {
+              label: "Execute the strike with orders for a follow-up wave against the oil tanks and the dockyards",
+              advisor: { name: "Nagumo", position: "The carriers are all the Navy has, and a follow-up wave means an hour more inside the enemy's range with his own carriers not found. The oil tanks are worth the risk only if the order is given before the first aircraft leaves." },
+              setFlags: { openingVector: "pearlHarbor" },
+              impact: { readiness: -1, pipeline: 0, initiative: 1 },
+              next: "burmaRangoon42",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "The oil tanks and the dockyards burn",
+                  setFlags: { pearlFollowUpResult: "burned" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. The second and third waves find the oil tanks full and the dockyards undefended. The fire burns for days, and the Pacific Fleet that survives the morning has no fuel at Pearl Harbor to leave with.",
+                },
+                {
+                  weight: (() => { const w = modWeight(40, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The strike force is found before it can leave",
+                  setFlags: { pearlFollowUpResult: "found" },
+                  impact: { readiness: -2, pipeline: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The extra hour keeps the carriers within reach of the American search. Aircraft from the fleet that was at sea find them, and Nagumo withdraws with heavy losses among his aircrews.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. Some of Nagumo's own staff argued for a follow-up strike after the real attack, and the commander declined it. Here the order is given in advance, and the risk to the carriers is taken on purpose.",
+            },
           ],
         };
         },
@@ -1807,6 +1843,17 @@ const CAMPAIGNS = {
                   },
                 ]
               : []),
+            {
+              label: "Send a second column north for Toungoo and Lashio at once, and cut the Burma Road before the Chinese divisions are in place",
+              advisor: { name: "Iida", position: "Rangoon is a port, and the road is the objective. A column that reaches Lashio early closes the road before Chiang's armies have deployed along it." },
+              setFlags: { burmaPath: "northColumn" },
+              impact: { readiness: -2, pipeline: -1, initiative: 2 },
+              disabledReason: meters.pipeline <= -3 ? "There is no supply train for a second column. The army can take Rangoon or race for the road, and it cannot do both." : undefined,
+              gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
+              next: "indianOceanRaid42",
+              outcome:
+                "A modeled alternative. The northern column outruns its supply and reaches Toungoo as a Chinese division is digging in there. Rangoon falls to the main body on schedule, and the road north is closed a few weeks sooner at the price of a division stretched thin.",
+            },
           ],
         };
         },
@@ -1940,6 +1987,14 @@ const CAMPAIGNS = {
               outcome:
                 "A modeled alternative, built on the skeptical view that existed in the Naval General Staff before the raid. The raid killed few people and destroyed little, and a slower, better prepared answer to the gap it exposed is a fair reading of the military stakes. It gives up the urgency that pushed the Midway operation through in the real war, and Midway's planning gets the extra weeks its critics wanted.",
             },
+            {
+              label: "Extend the picket line to a thousand miles out and ask the Army to move fighters to the home islands",
+              advisor: { name: "Yamamoto", position: "The raid came from beyond the patrol line, and a longer line and fighters on the home islands cost far less than moving the fleet to guard Tokyo." },
+              impact: { readiness: 1, pipeline: -1, initiative: 0 },
+              next: "doolittleAirmen42",
+              outcome:
+                "A modeled alternative. Patrol boats are sent out beyond the old line and an Army fighter group is moved to the home islands. It takes boats and aircraft from other tasks, and it does not stop the next raid from coming in from a different direction.",
+            },
           ],
         };
         },
@@ -2035,6 +2090,15 @@ const CAMPAIGNS = {
                 },
               ],
             },
+            {
+              label: "Cancel the Aleutian operation and add the light carriers Junyo and Ryujo to the Midway carrier force",
+              advisor: { name: "Yamamoto", position: "The Aleutians operation is the price the Army set for its support, and it takes two carriers away from the battle that decides the year. Those decks belong with the force that fights it." },
+              setFlags: { midwayConcentration: true },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "midway42",
+              outcome:
+                "A modeled alternative. The Aleutians operation is cancelled and Junyo and Ryujo sail with the main force. Nagumo's four carriers go to Midway with two more decks beside them, and the Army's landings on Attu and Kiska are put off.",
+            },
           ],
         };
         },
@@ -2050,7 +2114,7 @@ const CAMPAIGNS = {
               : "") +
             (flags.forkYorktownDelayed
               ? " Naval Intelligence's unconfirmed reports of trouble in the American repair yards, if accurate, would mean whatever carrier force is out there tonight is thinner than this plan's own assumptions account for."
-              : ""),
+              : "") + (flags.midwayConcentration ? " Junyo and Ryujo have been brought down from the Aleutians, and the carrier force has six decks instead of four." : "") + (flags.pearlFollowUpResult === "burned" ? " The oil tanks at Pearl Harbor burned in December, and the Pacific Fleet has been supplied from the West Coast since." : flags.pearlFollowUpResult === "found" ? " Nagumo's aircrews lost heavily in December, and the carriers sail with replacements." : ""),
           choices: [
             {
               label: "Proceed with the plan as built: full commitment to the Midway invasion and the decisive battle it's meant to force",
@@ -2061,7 +2125,7 @@ const CAMPAIGNS = {
               next: "kokodaTrail42",
               uncertain: [
                 {
-                  weight: modWeight((carriersUntouched ? 15 : 8) + (flags.forkYorktownDelayed ? 5 : 0), meters.readiness),
+                  weight: modWeight((carriersUntouched ? 15 : 8) + (flags.forkYorktownDelayed ? 5 : 0) + (flags.midwayConcentration ? 3 : 0), meters.readiness),
                   title: "The morning breaks Japan's way instead",
                   setFlags: { midwayResult: "decisive" },
                   impact: { readiness: 3, pipeline: 1, initiative: 3 },
@@ -2073,7 +2137,7 @@ const CAMPAIGNS = {
                       : ""),
                 },
                 {
-                  weight: modWeight(carriersUntouched ? 32 : 20, meters.readiness),
+                  weight: modWeight((carriersUntouched ? 32 : 20) + (flags.midwayConcentration ? 5 : 0), meters.readiness),
                   title: "The strike force survives the morning",
                   setFlags: { midwayResult: "survived" },
                   impact: { readiness: -2, pipeline: 0, initiative: -1 },
@@ -2082,8 +2146,8 @@ const CAMPAIGNS = {
                 },
                 {
                   weight: (() => {
-                    const vw = modWeight(carriersUntouched ? 15 : 8, meters.readiness);
-                    const sw = modWeight(carriersUntouched ? 32 : 20, meters.readiness);
+                    const vw = modWeight((carriersUntouched ? 15 : 8) + (flags.midwayConcentration ? 3 : 0), meters.readiness);
+                    const sw = modWeight((carriersUntouched ? 32 : 20) + (flags.midwayConcentration ? 5 : 0), meters.readiness);
                     return Math.max(5, 100 - vw - sw);
                   })(),
                   title: "The five fatal minutes",
@@ -2103,6 +2167,47 @@ const CAMPAIGNS = {
               next: "severSupplyLine42",
               outcome:
                 "A modeled alternative: the operation the Naval General Staff favored before Yamamoto's insistence on a decisive battle won out. The carriers sail against lightly defended islands in the South Pacific and degrade the Australia supply line without risking a fleet carrier against an enemy that was waiting at Midway, which the command cannot know. At the time it looks like caution.",
+            },
+            {
+              label: "Proceed with the plan, and bring the Main Body's battleships up to within a hundred miles of the carriers",
+              advisor: { name: "Ugaki", position: "The battleships are three hundred miles behind the carriers and are no use to them there. A battle line that stays close can at least take the shock of a surprise." },
+              setFlags: { midwayPath: "committed", midwayBattleLine: "close" },
+              impact: { readiness: -1, pipeline: -1, initiative: 1 },
+              next: "kokodaTrail42",
+              uncertain: [
+                {
+                  weight: modWeight((carriersUntouched ? 15 : 8) + (flags.midwayConcentration ? 3 : 0), meters.readiness),
+                  title: "The morning breaks Japan's way instead",
+                  setFlags: { midwayResult: "decisive" },
+                  impact: { readiness: 3, pipeline: 1, initiative: 3 },
+                  next: "yamamotoAscendant42",
+                  outcome:
+                    "Speculative, and the least likely of the three. American search planes miss the Japanese carriers in the early hours, and Nagumo's strike force finds the American carriers with their aircraft on deck, rearming. The battleships close up behind and complete the work.",
+                },
+                {
+                  weight: modWeight((carriersUntouched ? 32 : 20) + 8 + (flags.midwayConcentration ? 5 : 0), meters.readiness),
+                  title: "The strike force survives the morning",
+                  setFlags: { midwayResult: "survived" },
+                  impact: { readiness: -2, pipeline: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. American dive bombers catch the carriers while they are rearming, but the battleships close enough to draw some of the attacks and the damage-control parties get the fires out. Two carriers are lost rather than four.",
+                },
+                {
+                  weight: (() => {
+                    const vw = modWeight((carriersUntouched ? 15 : 8) + (flags.midwayConcentration ? 3 : 0), meters.readiness);
+                    const sw = modWeight((carriersUntouched ? 32 : 20) + 8 + (flags.midwayConcentration ? 5 : 0), meters.readiness);
+                    return Math.max(5, 100 - vw - sw);
+                  })(),
+                  title: "The five fatal minutes",
+                  setFlags: { midwayResult: "disaster" },
+                  impact: { readiness: -4, pipeline: 0, initiative: -2 },
+                  next: "earlyPeaceQuestion42",
+                  outcome:
+                    "American dive bombers arrive while the carriers have aircraft, bombs and fuel exposed on their decks. Akagi, Kaga and Soryu are burning within minutes of each other, and the battleships, a hundred miles away, arrive in time to pick up survivors.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The Main Body kept three hundred miles behind the carriers in the real plan, and the criticism of that distance began with the battle. Here the battleships come up, and they cost fuel the fleet has little of.",
             },
           ],
         };
@@ -2429,7 +2534,7 @@ const CAMPAIGNS = {
           title: "The Kokoda Track",
           historicalRecord: true,
           situation:
-            "With the seaborne invasion of Port Moresby turned back at Coral Sea, Major General Horii's South Seas Detachment is attempting the only alternative: an overland march across the Owen Stanley Range on a single foot-track, carrying supplies on men's backs because no vehicle can follow. The detachment has pushed to within thirty miles of Port Moresby, but the supply line behind it, stretched past what porters can sustain, is failing faster than the advance.",
+            "With the seaborne invasion of Port Moresby turned back at Coral Sea, Major General Horii's South Seas Detachment is attempting the only alternative: an overland march across the Owen Stanley Range on a single foot-track, carrying supplies on men's backs because no vehicle can follow. The detachment has pushed to within thirty miles of Port Moresby, but the supply line behind it, stretched past what porters can sustain, is failing faster than the advance." + (flags.midwayBattleLine === "close" ? " The battleships that closed up at Midway fired no shot, and the fuel they burned is missed in the south." : ""),
           choices: [
             {
               label: "Press the final push toward Port Moresby despite the supply collapse behind it",
@@ -2451,6 +2556,14 @@ const CAMPAIGNS = {
               next: "guadalcanal42",
               outcome:
                 "A modeled alternative, on the supply arithmetic that forced IGHQ's hand in the real war. Withdrawing before the advance exhausts itself keeps more of the detachment for the later fighting in New Guinea, at the price of never testing whether the last thirty miles could have been crossed. Most historians of the campaign judge Port Moresby out of reach given what the track could carry, so an early withdrawal spends fewer lives to reach the same limit.",
+            },
+            {
+              label: "Halt at Ioribaiwa and hold the high ground until the supply line is rebuilt",
+              advisor: { name: "Horii", position: "The detachment is at the end of a line it cannot feed, and every day of advance spends men it will not replace. The ridge can be held with what is on it." },
+              impact: { readiness: 0, pipeline: -1, initiative: -1 },
+              next: "guadalcanal42",
+              outcome:
+                "A modeled alternative. The South Seas Detachment digs in on the Ioribaiwa ridge, about thirty miles from Port Moresby, and lives on what carriers can bring up the track. It is not driven back by the Australians, and it does not go forward.",
             },
           ],
         };
@@ -2526,6 +2639,34 @@ const CAMPAIGNS = {
                   },
                 ]
               : []),
+            {
+              label: "Commit the Army's 2nd and 38th Divisions together, in one lift, instead of in battalions by destroyer",
+              advisor: { name: "Tanaka", position: "The Army is going in a battalion at a time against an enemy that grows every week, and the Express cannot carry a division at once. A convoy that lands two divisions together is the only way the Army fights on equal terms." },
+              impact: { readiness: -3, pipeline: -3, initiative: 1 },
+              disabledReason: meters.pipeline <= -2 ? "There is no shipping for a convoy of two divisions. The destroyers can run a battalion at a time, and the transports cannot be spared." : undefined,
+              gateCheck: { meter: "pipeline", threshold: -2, label: "Pipeline" },
+              next: "keGoWithdrawal43",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.pipeline),
+                  title: "The two divisions land together",
+                  setFlags: { guadalcanalLiftResult: "landed" },
+                  impact: { readiness: 2, pipeline: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. The convoy reaches Tassafaronga at night with both divisions and most of their guns. The Army fights the Marines at something near parity, once, and the airfield is under artillery fire for the first time.",
+                },
+                {
+                  weight: (() => { const w = modWeight(35, meters.pipeline); return Math.max(5, 100 - w); })(),
+                  title: "The convoy is caught in the Slot",
+                  setFlags: { guadalcanalLiftResult: "caught" },
+                  impact: { readiness: -3, pipeline: -2, initiative: -1 },
+                  outcome:
+                    "Speculative. American aircraft from Henderson Field find the convoy at dawn. The transports are sunk or beached, and a good part of two divisions is lost at sea before it has fired a shot.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The Army wanted its divisions landed together. The Navy could not lift them without a convoy that daylight air power would find, and it sent them in packets instead.",
+            },
           ],
         };
         },
@@ -2543,7 +2684,7 @@ const CAMPAIGNS = {
               ? " The destroyer force this evacuation depends on is the same one that fought the November naval battles to a genuine standstill rather than a rout, a fighting chance that's part of why there's still enough of a squadron left to attempt Ke-Go's kind of precision at all."
               : flags.guadalcanalNavalResult === "disaster"
               ? " The destroyer force this evacuation depends on is thinner than it should be, having taken losses in November closer to a rout than a contested fight, which is exactly the kind of shortfall a deception plan this precise has no real margin to absorb."
-              : "")) + (flags.guadalcanalPath === "commit" ? keyBattleEcho("guadalcanalNaval42", flags) : ""),
+              : "") + (flags.guadalcanalLiftResult === "landed" ? " The two divisions that landed together in the autumn are the force being evacuated now." : flags.guadalcanalLiftResult === "caught" ? " Two divisions were largely lost at sea in the autumn, and the force being evacuated is what was left." : "")) + (flags.guadalcanalPath === "commit" ? keyBattleEcho("guadalcanalNaval42", flags) : ""),
           choices: [
             {
               label: "Commit to the deception plan in full: stage a visible reinforcement buildup to mask the actual evacuation",
@@ -2963,6 +3104,17 @@ const CAMPAIGNS = {
               outcome:
                 "A modeled alternative. Keeping the fleet in being preserves a defensive force, but giving up the Philippines without a naval fight cuts the oil route from the Indies completely, months ahead of the real timetable, and a fleet that survives has no fuel to move.",
             },
+            {
+              label: "Send the Southern Force through San Bernardino Strait behind Kurita, in one column",
+              advisor: { name: "Ugaki", position: "Two columns separated by a mountain range cannot support each other, and the old battleships are worth more at Kurita's side than alone in a strait they will be shot to pieces in." },
+              setFlags: { leytePath: "oneColumn" },
+              impact: { readiness: -3, pipeline: -2, initiative: 0 },
+              disabledReason: meters.pipeline <= -4 ? "There is not enough oil to bring the Southern Force round to the northern strait. The two columns go separately or not at all." : undefined,
+              gateCheck: { meter: "pipeline", threshold: -4, label: "Pipeline" },
+              next: "kuritaAtLeyte44",
+              outcome:
+                "A modeled alternative. Nishimura's battleships join Kurita's column and the combined fleet comes through the strait together. The fleet that meets Taffy 3 is stronger, and the Southern Force is not lost alone in Surigao Strait the same night.",
+            },
           ],
         };
         },
@@ -2972,7 +3124,7 @@ const CAMPAIGNS = {
           title: "Taffy 3",
           historicalRecord: true,
           situation:
-            "Kurita's battleships, Yamato among them, have come through San Bernardino Strait to find a single escort carrier group, Taffy 3, with six small carriers, three destroyers and four destroyer escorts, between his guns and the Leyte beaches. Halsey's fast carriers are far to the north, still chasing the decoy force. Taffy 3's destroyers are charging Kurita's line to buy time, and the transports still unloading at the beachhead have almost nothing to defend them if the line gets past the escort carriers." + (flags.leytePath === "shoGo" ? keyBattleEcho("shoGo44", flags) : ""),
+            "Kurita's battleships, Yamato among them, have come through San Bernardino Strait to find a single escort carrier group, Taffy 3, with six small carriers, three destroyers and four destroyer escorts, between his guns and the Leyte beaches. Halsey's fast carriers are far to the north, still chasing the decoy force. Taffy 3's destroyers are charging Kurita's line to buy time, and the transports still unloading at the beachhead have almost nothing to defend them if the line gets past the escort carriers." + (flags.leytePath === "shoGo" ? keyBattleEcho("shoGo44", flags) : "") + (flags.leytePath === "oneColumn" ? " Nishimura's two old battleships came through the strait with Kurita, and the fleet off Samar is the stronger for them." : ""),
           choices: [
             {
               label: "Withdraw: uncertain reports and fear of a trap outweigh the opportunity in front of this fleet",
@@ -4748,6 +4900,15 @@ const CAMPAIGNS = {
               outcome:
                 "A modeled alternative. Chiang commands his own armies in Burma and controls the supplies sent to him. There is less friction with Chungking, and less leverage over how American aid is used.",
             },
+            {
+              label: "Send Stilwell, and put Chennault's fighters under his command with the rest of the American forces in China",
+              advisor: { name: "Marshall", position: "One American in Chungking should answer for all American forces there, aircraft included. Two commands will argue over the same trucks and gasoline." },
+              setFlags: { stilwellPath: "chiefOfStaff", chennaultUnderStilwell: true },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "rangoonRetreatAllied42",
+              outcome:
+                "A modeled alternative. Stilwell commands the Chinese armies in Burma, controls Lend-Lease and has Chennault's air force under him. Chennault, who has the Generalissimo's ear, resents it from the first week, and the quarrel over supplies begins in the same room.",
+            },
           ],
         };
         },
@@ -4910,6 +5071,15 @@ const CAMPAIGNS = {
               outcome:
                 "A modeled alternative. Some of the task force's officers reportedly wanted to press on. Whether Saratoga's air group could have turned back a second, larger invasion force, or would only have risked the Pacific Fleet's only available carrier for a garrison likely to fall anyway, is still disputed by historians.",
             },
+            {
+              label: "Use the carriers to raid the Marshalls as a diversion, and leave Wake to fend for itself",
+              advisor: { name: "Fletcher", position: "Three days out, the relief force cannot reach Wake before the second landing, but a raid on the Marshalls can still hit the enemy somewhere and give the carriers something to show for the voyage." },
+              setFlags: { wakeReliefPath: "diversion" },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "arcadia41",
+              outcome:
+                "A modeled alternative. A carrier raid on the Marshalls was ordered in the real month and cancelled. Here it goes ahead while Wake is left to fall, and the raid hits Jaluit and finds fewer ships there than hoped.",
+            },
           ],
         };
         },
@@ -4985,7 +5155,7 @@ const CAMPAIGNS = {
               ? " American bombers are flying from Chinese fields against Japanese ports."
               : flags.chinaAirPath === "bombers" && flags.chinaAirResult === "delayed"
               ? " The bombers meant for China are still in India, short of crews and spares."
-              : ""),
+              : "") + (flags.chennaultUnderStilwell ? " Chennault's fighters are under his command as well." : ""),
           choices: [
             {
               label: "Order a fighting retreat toward the Indian border: preserve the army over the city",
@@ -5057,6 +5227,15 @@ const CAMPAIGNS = {
               next: "corregidorEvacuation42",
               outcome:
                 "A modeled alternative: the position Churchill pushed in the real war, here granted. The division fights in Burma rather than defending Australian soil directly, preserving Commonwealth unity at a moment London badly needed it, at real political cost to Curtin domestically and a home defense Australia has to build without its own most experienced division for the war's most dangerous early stretch.",
+            },
+            {
+              label: "Compromise: send one brigade to garrison Ceylon, and bring the rest of the division home",
+              advisor: { name: "Blamey", position: "A brigade in Ceylon is a favor to London that costs one brigade and not a division. The rest can be home before the Japanese reach Port Moresby." },
+              setFlags: { curtinPath: "compromise" },
+              impact: { readiness: 0, pipeline: 0, initiative: 0 },
+              next: "corregidorEvacuation42",
+              outcome:
+                "A modeled alternative. Two brigades of the 6th Division did garrison Ceylon for five months in 1942, at Churchill's request. Here a brigade is offered during the dispute over Burma, and Curtin keeps most of the 7th Division. Australia's defense is a brigade thinner than it was, and the break with London is put off and not avoided.",
             },
           ],
         };
@@ -5206,6 +5385,14 @@ const CAMPAIGNS = {
               next: "guadalcanalAllied42",
               outcome:
                 "A modeled alternative: MacArthur's pressure taken to its conclusion. Forcing a stand before reinforcements arrive risks the encirclement and destruction of the militia battalions conducting the withdrawal, on ground that historians of the campaign agree offered no defensible line short of the one the Australian commanders had chosen. Military historians now generally regard the criticism of the withdrawal as unfair to troops carrying out a sound plan in impossible conditions.",
+            },
+            {
+              label: "Send the American 32nd Division, by air and sea, to take over the Kokoda line from the Australian militia",
+              advisor: { name: "MacArthur", position: "American troops can be put where they are needed in days by air, and the militia can be relieved before they are destroyed." },
+              impact: { readiness: -2, pipeline: -1, initiative: 1 },
+              next: "guadalcanalAllied42",
+              outcome:
+                "A modeled alternative. The 32nd Division is a National Guard formation with no jungle training. Put on the track it meets the same Japanese advance as the militia did, with less experience and the same supply problem.",
             },
           ],
         };
@@ -5437,6 +5624,14 @@ const CAMPAIGNS = {
               outcome:
                 "The institutionally cautious path, and the one that costs the most in ships not sunk. Without a theater commander's tests forcing the issue, the depth defect goes uncorrected for longer, and the submarine force goes on firing spreads that run under their targets or fail to detonate, against a Bureau that still blames everything but the torpedo.",
             },
+            {
+              label: "Order a joint firing test of the Mark 14 at Pearl Harbor, with the Bureau's own officers present",
+              advisor: { name: "King", position: "The Navy needs the truth about its torpedo in a form the Bureau cannot dispute, and it can get it by firing the weapon in front of the people who built it." },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "theBatBombQuestion43",
+              outcome:
+                "A modeled alternative. The test is run before the Bureau's officers, and the result is not left to argument. It costs weeks, and the fleet goes on firing torpedoes that miss while the test is arranged.",
+            },
           ],
         };
         },
@@ -5528,6 +5723,14 @@ const CAMPAIGNS = {
               next: "centralPacificDrive43",
               outcome:
                 "A modeled alternative, on the argument Pacific-minded planners found frustrating: every month that the Kwantung Army in Manchuria sits uncommitted is a month that the Pacific war faces Japan's full remaining strength alone. Historians of Soviet wartime strategy consider an earlier date close to a non-starter, because the Eastern Front's needs for manpower were not negotiable before Germany's collapse.",
+            },
+            {
+              label: "Ask Stalin for American air bases on the Soviet Far East coast, in return for continued Lend-Lease",
+              advisor: { name: "Arnold", position: "Bombers on the coast near Vladivostok and Kamchatka would reach Japan from the north, and a promise to enter the war is worth less than a field that can be used now." },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "centralPacificDrive43",
+              outcome:
+                "A modeled alternative. The request is made, and Stalin gives an answer that commits him to nothing. In the real war Stalin told Harriman in June 1944 that American bombers could use six or seven Far East airfields, and no base was built.",
             },
           ],
         };
@@ -6658,6 +6861,15 @@ const CAMPAIGNS = {
               next: "atomicDemonstration45",
               outcome:
                 "A modeled alternative: a late objection to an early decision. The staff cannot undo March, only argue about April onward. The campaign's remaining scope narrows somewhat, at a cost to the industrial-target case LeMay's doctrine was built on, and the deadliest raid is already on the record.",
+            },
+            {
+              label: "Shift most of the bomber effort from the cities to the railways and to mines in the Inland Sea",
+              advisor: { name: "Arnold", position: "A railway that cannot carry rice and coal starves a city as surely as a fire does, and mines keep the ships in port. The same aircraft can do both, and the fire campaign can be cut back." },
+              setFlags: { bombingPath: "railsAndMines" },
+              impact: { readiness: 0, pipeline: 1, initiative: -1 },
+              next: "atomicDemonstration45",
+              outcome:
+                "A modeled alternative. LeMay's bombers are put on the railways and on mines, and the incendiary campaign is cut back. The Navy's mining of Japanese waters had already begun in March. Whether this ends the war sooner is not something the record settles.",
             },
           ],
         };

@@ -445,6 +445,15 @@
               outcome:
                 "A modeled alternative. Chiang commands his own armies in Burma and controls the supplies sent to him. There is less friction with Chungking, and less leverage over how American aid is used.",
             },
+            {
+              label: "Send Stilwell, and put Chennault's fighters under his command with the rest of the American forces in China",
+              advisor: { name: "Marshall", position: "One American in Chungking should answer for all American forces there, aircraft included. Two commands will argue over the same trucks and gasoline." },
+              setFlags: { stilwellPath: "chiefOfStaff", chennaultUnderStilwell: true },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "rangoonRetreatAllied42",
+              outcome:
+                "A modeled alternative. Stilwell commands the Chinese armies in Burma, controls Lend-Lease and has Chennault's air force under him. Chennault, who has the Generalissimo's ear, resents it from the first week, and the quarrel over supplies begins in the same room.",
+            },
           ],
         };
         },
@@ -607,6 +616,15 @@
               outcome:
                 "A modeled alternative. Some of the task force's officers reportedly wanted to press on. Whether Saratoga's air group could have turned back a second, larger invasion force, or would only have risked the Pacific Fleet's only available carrier for a garrison likely to fall anyway, is still disputed by historians.",
             },
+            {
+              label: "Use the carriers to raid the Marshalls as a diversion, and leave Wake to fend for itself",
+              advisor: { name: "Fletcher", position: "Three days out, the relief force cannot reach Wake before the second landing, but a raid on the Marshalls can still hit the enemy somewhere and give the carriers something to show for the voyage." },
+              setFlags: { wakeReliefPath: "diversion" },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "arcadia41",
+              outcome:
+                "A modeled alternative. A carrier raid on the Marshalls was ordered in the real month and cancelled. Here it goes ahead while Wake is left to fall, and the raid hits Jaluit and finds fewer ships there than hoped.",
+            },
           ],
         };
         },
@@ -682,7 +700,7 @@
               ? " American bombers are flying from Chinese fields against Japanese ports."
               : flags.chinaAirPath === "bombers" && flags.chinaAirResult === "delayed"
               ? " The bombers meant for China are still in India, short of crews and spares."
-              : ""),
+              : "") + (flags.chennaultUnderStilwell ? " Chennault's fighters are under his command as well." : ""),
           choices: [
             {
               label: "Order a fighting retreat toward the Indian border: preserve the army over the city",
@@ -754,6 +772,15 @@
               next: "corregidorEvacuation42",
               outcome:
                 "A modeled alternative: the position Churchill pushed in the real war, here granted. The division fights in Burma rather than defending Australian soil directly, preserving Commonwealth unity at a moment London badly needed it, at real political cost to Curtin domestically and a home defense Australia has to build without its own most experienced division for the war's most dangerous early stretch.",
+            },
+            {
+              label: "Compromise: send one brigade to garrison Ceylon, and bring the rest of the division home",
+              advisor: { name: "Blamey", position: "A brigade in Ceylon is a favor to London that costs one brigade and not a division. The rest can be home before the Japanese reach Port Moresby." },
+              setFlags: { curtinPath: "compromise" },
+              impact: { readiness: 0, pipeline: 0, initiative: 0 },
+              next: "corregidorEvacuation42",
+              outcome:
+                "A modeled alternative. Two brigades of the 6th Division did garrison Ceylon for five months in 1942, at Churchill's request. Here a brigade is offered during the dispute over Burma, and Curtin keeps most of the 7th Division. Australia's defense is a brigade thinner than it was, and the break with London is put off and not avoided.",
             },
           ],
         };
@@ -903,6 +930,14 @@
               next: "guadalcanalAllied42",
               outcome:
                 "A modeled alternative: MacArthur's pressure taken to its conclusion. Forcing a stand before reinforcements arrive risks the encirclement and destruction of the militia battalions conducting the withdrawal, on ground that historians of the campaign agree offered no defensible line short of the one the Australian commanders had chosen. Military historians now generally regard the criticism of the withdrawal as unfair to troops carrying out a sound plan in impossible conditions.",
+            },
+            {
+              label: "Send the American 32nd Division, by air and sea, to take over the Kokoda line from the Australian militia",
+              advisor: { name: "MacArthur", position: "American troops can be put where they are needed in days by air, and the militia can be relieved before they are destroyed." },
+              impact: { readiness: -2, pipeline: -1, initiative: 1 },
+              next: "guadalcanalAllied42",
+              outcome:
+                "A modeled alternative. The 32nd Division is a National Guard formation with no jungle training. Put on the track it meets the same Japanese advance as the militia did, with less experience and the same supply problem.",
             },
           ],
         };
@@ -1134,6 +1169,14 @@
               outcome:
                 "The institutionally cautious path, and the one that costs the most in ships not sunk. Without a theater commander's tests forcing the issue, the depth defect goes uncorrected for longer, and the submarine force goes on firing spreads that run under their targets or fail to detonate, against a Bureau that still blames everything but the torpedo.",
             },
+            {
+              label: "Order a joint firing test of the Mark 14 at Pearl Harbor, with the Bureau's own officers present",
+              advisor: { name: "King", position: "The Navy needs the truth about its torpedo in a form the Bureau cannot dispute, and it can get it by firing the weapon in front of the people who built it." },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "theBatBombQuestion43",
+              outcome:
+                "A modeled alternative. The test is run before the Bureau's officers, and the result is not left to argument. It costs weeks, and the fleet goes on firing torpedoes that miss while the test is arranged.",
+            },
           ],
         };
         },
@@ -1225,6 +1268,14 @@
               next: "centralPacificDrive43",
               outcome:
                 "A modeled alternative, on the argument Pacific-minded planners found frustrating: every month that the Kwantung Army in Manchuria sits uncommitted is a month that the Pacific war faces Japan's full remaining strength alone. Historians of Soviet wartime strategy consider an earlier date close to a non-starter, because the Eastern Front's needs for manpower were not negotiable before Germany's collapse.",
+            },
+            {
+              label: "Ask Stalin for American air bases on the Soviet Far East coast, in return for continued Lend-Lease",
+              advisor: { name: "Arnold", position: "Bombers on the coast near Vladivostok and Kamchatka would reach Japan from the north, and a promise to enter the war is worth less than a field that can be used now." },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "centralPacificDrive43",
+              outcome:
+                "A modeled alternative. The request is made, and Stalin gives an answer that commits him to nothing. In the real war Stalin told Harriman in June 1944 that American bombers could use six or seven Far East airfields, and no base was built.",
             },
           ],
         };
@@ -2355,6 +2406,15 @@
               next: "atomicDemonstration45",
               outcome:
                 "A modeled alternative: a late objection to an early decision. The staff cannot undo March, only argue about April onward. The campaign's remaining scope narrows somewhat, at a cost to the industrial-target case LeMay's doctrine was built on, and the deadliest raid is already on the record.",
+            },
+            {
+              label: "Shift most of the bomber effort from the cities to the railways and to mines in the Inland Sea",
+              advisor: { name: "Arnold", position: "A railway that cannot carry rice and coal starves a city as surely as a fire does, and mines keep the ships in port. The same aircraft can do both, and the fire campaign can be cut back." },
+              setFlags: { bombingPath: "railsAndMines" },
+              impact: { readiness: 0, pipeline: 1, initiative: -1 },
+              next: "atomicDemonstration45",
+              outcome:
+                "A modeled alternative. LeMay's bombers are put on the railways and on mines, and the incendiary campaign is cut back. The Navy's mining of Japanese waters had already begun in March. Whether this ends the war sooner is not something the record settles.",
             },
           ],
         };
