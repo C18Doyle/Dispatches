@@ -1,0 +1,26 @@
+{
+  "note": "Reports whose text states nothing checkable (no date, figure, unit or named event): mostly the divergent branches and the consequence reports. A report that gains a checkable statement must be removed from this list (tools/claims-draft.mjs adds its claims); never add a report here.",
+  "nodes": [
+    "southRussia:afterEkaterinodar18",
+    "southRussia:volgaThrust19",
+    "southRussia:volgaOverextension19",
+    "southRussia:makhnosAftermath19",
+    "southRussia:kharkovLine19",
+    "southRussia:afterTheCavalryStrike19",
+    "southRussia:kubanQuotaAftermath19",
+    "southRussia:moleRearguardFate20",
+    "southRussia:wrangelsReassignment20",
+    "siberia:reluctanceAftermath18",
+    "siberia:saratovJunction19",
+    "siberia:exposedFlank19",
+    "bolsheviks:tsaritsynAftermath18",
+    "bolsheviks:grainRequisition18",
+    "bolsheviks:stalinsNewPosting18",
+    "bolsheviks:supplyRationingConsequence19",
+    "bolsheviks:congressFallout19",
+    "bolsheviks:donbasMobilization19",
+    "bolsheviks:donbasAttrition19",
+    "bolsheviks:reinforcedBattalionsTest19",
+    "bolsheviks:distributedPursuit19"
+  ]
+}

@@ -1101,7 +1101,7 @@ CAMPAIGNS.bolsheviks = {
               historical: true,
               setFlags: { cavalryDoctrine: "unified" },
               aftermath:
-                "The 1st Cavalry Army was formed on 17 November 1919 under Budyonny, with Voroshilov and Shchadenko on its revolutionary military council. It became the war's decisive manoeuvre formation — driving the AFSR from Rostov, and later fighting in the Polish war of 1920, where it was also blamed for the failure at Warsaw. Its command group mattered well past the Civil War: Budyonny and Voroshilov both became Marshals of the Soviet Union, and both survived the purges that removed most of the officers who had criticised them.",
+                "The 1st Cavalry Army was formed in the second half of November 1919 from Budyonny's cavalry corps; Voroshilov and Shchadenko joined its revolutionary military council in December. It became the war's decisive manoeuvre formation — driving the AFSR from Rostov, and later fighting in the Polish war of 1920, where it was also blamed for the failure at Warsaw. Its command group mattered well past the Civil War: Budyonny and Voroshilov both became Marshals of the Soviet Union, and both survived the purges that removed most of the officers who had criticised them.",
               impact: {},
               next: "perekopAssault20",
               outcome:
@@ -1402,7 +1402,7 @@ CAMPAIGNS.bolsheviks = {
           title: "The Vistula: Warsaw or Lwów",
           historicalRecord: true,
           context:
-            "The Polish–Soviet war has run since spring. Piłsudski took Kiev in May; the counteroffensive threw him back nearly 400 miles, and by August Tukhachevsky's Western Front is at the Vistula with Warsaw in front of it. Lenin's calculation is explicit and political: a Red Army entering Warsaw brings the revolution to Germany. The 1st Cavalry Army, under Budyonny with Stalin as the South-Western Front's political member, is committed at Lwów, 250 miles to the south — and Tukhachevsky's exposed left flank needs it at Warsaw.",
+            "The Polish–Soviet war has run since spring. Piłsudski took Kiev in May; the counteroffensive threw him back nearly 400 miles, and by August Tukhachevsky's Western Front is at the Vistula with Warsaw in front of it. Lenin's calculation is explicit and political: a Red Army entering Warsaw brings the revolution to Germany. The 1st Cavalry Army, under Budyonny with Stalin as the South-Western Front's political member, is committed at Lwów, about two hundred miles to the south — and Tukhachevsky's exposed left flank needs it at Warsaw.",
           situation:
             "The order to transfer the Cavalry Army north has been issued and is not being obeyed with any urgency. Lwów is close to falling and the men in front of it can see that; Warsaw is a different front's problem. Command has to decide whether to force the transfer against a front command that plainly does not want to make it, or accept the southern axis and let Tukhachevsky close on Warsaw with his flank as it is.",
           choices: [
@@ -1433,7 +1433,7 @@ CAMPAIGNS.bolsheviks = {
               setFlags: { polishAxis: "south" },
               impact: {},
               aftermath:
-                "This is what happened. The Cavalry Army stayed south, Warsaw was lost between 12 and 25 August in what Polish accounts call the Miracle on the Vistula, and the Western Front was driven back several hundred miles. The Treaty of Riga in March 1921 fixed a border well east of the Curzon Line. The recriminations over whose decision lost Warsaw ran in Soviet military print for years afterward and were never settled on the merits.",
+                "This is what happened. The Cavalry Army stayed south, the Red Army lost the battle of Warsaw, fought from 12 to 25 August and called by Polish accounts the Miracle on the Vistula, and the Western Front was driven back several hundred miles. The Treaty of Riga in March 1921 fixed a border well east of the Curzon Line. The recriminations over whose decision lost Warsaw ran in Soviet military print for years afterward and were never settled on the merits.",
               next: "endingTheVistula20",
               outcome:
                 "Lwów holds the Cavalry Army's attention. Warsaw is decided without it, and decided against the Republic.",
@@ -1565,16 +1565,17 @@ CAMPAIGNS.bolsheviks = {
       // accumulated legitimacy meter (<= -6) alongside the assault flag;
       // changed to specific centralizing decisions, for the same reason as the
       // other two campaigns' checkpoints — the triangle shouldn't be what
-      // decides which ending a run gets. Either decision is enough: the grain
-      // committees' intensified requisitioning (grainRequisition18) or pressing
-      // the Eighth Congress (militaryOppositionCongress19). They sit on opposite
-      // branches of this campaign, so a run can only ever make one of them; the
-      // original "both" condition made this ending unreachable.
+      // decides which ending a run gets. The condition is the one departure from the
+      // record that costs goodwill: pressing the Eighth Congress floor fight
+      // (militaryOppositionCongress19) instead of negotiating. The record
+      // itself (intensified requisitioning, negotiating at the Congress, then
+      // the assault) ends at endingIceBroken: tools/historical-spine.mjs fails if
+      // the most likely ending of the record is a speculative one.
       case "kronstadtReckoning21":
         if (flags.kronstadtChoice === "wait_for_thaw") {
           return this.resolveNode("endingTheIsland21");
         }
-        if (flags.kronstadtChoice === "assault" && (flags.requisitionPolicy === "intensified" || flags.congressChoice === "press")) {
+        if (flags.kronstadtChoice === "assault" && flags.congressChoice === "press") {
           return this.resolveNode("endingHollowVictory21");
         }
         return this.resolveNode(flags.kronstadtChoice === "assault" ? "endingIceBroken" : "endingUnlikelyPrecedent");
@@ -1597,8 +1598,7 @@ CAMPAIGNS.bolsheviks = {
 
       // -----------------------------------------------------------------------
       // ENDING — reachable only via the historical assault choice combined
-      // with two specific centralizing decisions: intensifying requisitioning
-      // in reconquered territory, and pressing the Congress floor fight
+      // with one departure from the record: pressing the Congress floor fight
       // rather than negotiating. historicalRecord false: the assault and its
       // casualty figures are real and identical to endingIceBroken's — what's
       // speculative is the domestic and international reading of it, which
@@ -1612,7 +1612,7 @@ CAMPAIGNS.bolsheviks = {
           badge: "SPECULATIVE — SAME EVENT, DIFFERENT RECKONING",
           classification: "speculative",
           epilogue:
-            "The assault happens exactly as it did historically — the failed 8 March attempt, the mutiny, the successful second assault on the 17th-18th, the executions, Solovki. None of that is different. What's different is that this command arrives at Kronstadt having chosen intensified requisitioning over restraint in reconquered territory, and having pressed the Congress floor fight rather than folding the Opposition's concerns in quietly. Two decisions, not an accumulated total — but the two that mattered most for whether anyone still extends this government the benefit of the doubt. There is no reservoir of revolutionary goodwill left for the NEP announcement, in the same month, to draw on.\n\nHistorically, even sympathetic observers can read Lenin's NEP as a genuine, if late, course correction — grain requisitioning ended in the same breath as the sailors who died protesting it were executed, an uncomfortable but real complexity. Here, with those two decisions already on the record, nobody extends that same benefit of the doubt. The concession reads as exactly what it looks like on its surface: capitulation dressed as policy, offered only after the guns had already answered the actual argument. The Revolution wins Kronstadt by force either way. Only one version of this command still gets to claim it conceded anything freely." +
+            "The assault happens exactly as it did historically — the failed 8 March attempt, the mutiny, the successful second assault on the 17th-18th, the executions, Solovki. None of that is different. What's different is that this command arrives at Kronstadt having pressed the Congress floor fight against the Military Opposition rather than negotiating with it. Historically the Congress ended in a compromise resolution on the army; here the fight was carried to the floor and won outright, in public, and it is the decision that mattered most for whether anyone still extends this government the benefit of the doubt. There is no reservoir of revolutionary goodwill left for the NEP announcement, in the same month, to draw on.\n\nHistorically, even sympathetic observers can read Lenin's NEP as a genuine, if late, course correction — grain requisitioning ended in the same breath as the sailors who died protesting it were executed, an uncomfortable but real complexity. Here, with those two decisions already on the record, nobody extends that same benefit of the doubt. The concession reads as exactly what it looks like on its surface: capitulation dressed as policy, offered only after the guns had already answered the actual argument. The Revolution wins Kronstadt by force either way. Only one version of this command still gets to claim it conceded anything freely." +
             (flags.smirnovAssignment === "sidelined"
               ? "\n\nSmirnov was kept away from field command as well as policy — marginalized completely rather than partially. The Military Opposition's people learned from it what the sailors are learning now: that disagreement inside this structure is not answered, it is administered. They arrived at the same conclusion two years apart, by the same route."
               : flags.smirnovAssignment === "field_command"

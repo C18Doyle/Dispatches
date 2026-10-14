@@ -300,7 +300,7 @@ export const CAMPAIGNS = {
         bio:
           "Career Imperial Army officer of humble birth, risen on merit rather than aristocratic connection. Committed to a unified, centrally-governed Russia and instinctively suspicious of regional autonomy movements — a position that put him at odds with the Cossack Hosts and Ukrainian nationalists whose cooperation his campaign depended on. On 12 June 1919, he formally submitted to Kolchak's authority, telegraphing: 'Safety of cause lies in a single high commander-in-chief... I yield to Admiral Kolchak and recognize him as Supreme Governor Russian state and commander-in-chief Russia Army.' The recognition was real but purely symbolic — it changed nothing about AFSR's operational independence, which every later decision from this command reflects.",
         fate:
-          "Named Kolchak's successor as Supreme Ruler in December 1919; briefly held that title himself, in name only, from January to April 1920 — while personally commanding the Novorossiysk evacuation and the retreat that followed. Resigned command in April 1920 after the retreat into Crimea, handing over to Wrangel. Died in exile in the United States in 1947, having spent his final years urging émigrés not to side with Nazi Germany against the USSR.",
+          "Named by Kolchak as his successor on 4 January 1920; he accepted neither the title nor its functions, and the office was declared extinct on 4 April 1920, the day he handed command to Wrangel. He commanded the Novorossiysk evacuation and the retreat that followed. Resigned command in April 1920 after the retreat into Crimea, handing over to Wrangel. Died in exile in the United States in 1947, having spent his final years urging émigrés not to side with Nazi Germany against the USSR.",
         faction: "AFSR High Command",
         rank: 0,
       },
@@ -318,7 +318,7 @@ export const CAMPAIGNS = {
         bio:
           "Wrangel's closest staff officer and confidant, serving as his chief of staff through the entire Crimean period. Co-signed, with Konovalets, the letter proposing cooperation to Makhno's insurgent staff in June 1920 — an overture Makhno's own council answered by executing the messenger who delivered it.",
         fate:
-          "Evacuated with the rest of the command in November 1920. Remained one of Wrangel's closest associates in emigration, active in the Russian All-Military Union alongside Kutepov. Died in Cannes in 1954, one of the few senior AFSR/Russian Army commanders to die of natural causes rather than assassination, execution, or violence.",
+          "Evacuated with the rest of the command in November 1920. Remained one of Wrangel's closest associates in emigration, active in the Russian All-Military Union alongside Kutepov. Organized the army's move from Gallipoli and Lemnos to Serbia in 1921.",
         faction: "AFSR High Command",
         rank: 1,
       },
@@ -334,7 +334,7 @@ export const CAMPAIGNS = {
       krivoshein: {
         role: "Head of Government, South Russia (from April 1920)",
         bio:
-          "Agriculture minister under Nicholas II and Stolypin's closest collaborator on the land reforms of 1906–11, which broke up the peasant commune and created a class of individual smallholders. Brought in by Wrangel in April 1920 to give the Crimea a civil government, he wrote the land law of May 1920 — peasants purchasing, through the state, the land they already worked. It was the measure White commanders had been advised to adopt since 1918 and had refused every time.",
+          "Agriculture minister under Nicholas II and Stolypin's closest collaborator on the land reforms of 1906–11, which broke up the peasant commune and created a class of individual smallholders. Joined Wrangel in the spring of 1920 and headed his government in the Crimea from June, he wrote the land law of May 1920 — peasants purchasing, through the state, the land they already worked. It was the measure White commanders had been advised to adopt since 1918 and had refused every time.",
         fate:
           "The law had seven months to work in a peninsula under siege, which was not enough to test whether it would have changed anything in 1918. Evacuated with the rest in November 1920. Died in Berlin in 1921, a year after the government he had been brought in to build.",
         faction: "Crimean Government",
@@ -343,18 +343,18 @@ export const CAMPAIGNS = {
       ulagai: {
         role: "Commander, Kuban Expeditionary Force",
         bio:
-          "Led the roughly 4,500-man landing across the Sea of Azov in August 1920, timed to coincide with the land law's rollout in the hope of linking up with Kuban partisan networks and widening the Northern Tauride offensive.",
+          "Led the landing across the Sea of Azov in August 1920, a force of several thousand men (the sources differ on how many), timed to coincide with the land law's rollout in the hope of linking up with Kuban partisan networks and widening the Northern Tauride offensive.",
         fate:
-          "The expedition lasted barely three weeks before being forced to withdraw — the hoped-for peasant and Cossack rising in the Kuban never materialized at the scale needed to hold the bridgehead.",
+          "The expedition lasted about three and a half weeks before being forced to withdraw — the hoped-for peasant and Cossack rising in the Kuban never materialized at the scale needed to hold the bridgehead.",
         faction: "AFSR High Command",
         rank: 2,
       },
       holman: {
-        role: "Brigadier-General, head of the British Military Mission to South Russia",
+        role: "Major-General, head of the British Military Mission to South Russia",
         bio:
-          "Led Britain's military mission from mid-1919, overseeing the delivery of over 200,000 rifles and substantial artillery to the AFSR. At Novorossiysk personally promised Denikin that British forces would see the women and children of White officers evacuated safely, and stood on the harbor mole through the night of 26 March supervising the Don Cossacks' embarkation himself.",
+          "Led Britain's military mission from mid-1919, overseeing the delivery of over 200,000 rifles and substantial artillery to the AFSR. At Novorossiysk personally promised Denikin that British forces would see the women and children of White officers evacuated safely.",
         fate:
-          "Left South Russia with the evacuation's completion. His personal emotional investment in the people he'd promised to save was noted by those who served under him — described by one contemporary as visibly overwhelmed by what he witnessed on the docks.",
+          "Left South Russia with Denikin in April 1920. His personal emotional investment in the people he'd promised to save was noted by those who served under him — described by one contemporary as visibly overwhelmed by what he witnessed on the docks.",
         faction: "British Military Mission",
         rank: 2,
       },
@@ -423,7 +423,7 @@ export const CAMPAIGNS = {
               headline: "PEACE WITH GERMANY, SIX WEEKS OLD",
               body: "Brest-Litovsk, signed 3 March: Poland, Finland, the Baltics, and all of Ukraine surrendered to German occupation — a quarter of the old empire. Trotsky's own delegation walked out twice before signing. Lenin's argument carried the room: a government that does not survive the winter builds socialism nowhere. That government is what this command now exists to fight.",
               meanwhile: {
-                siberia: "No organized front here yet. The Czechoslovak Legion — 50,000 men working their way east along the Trans-Siberian under an agreement with the Bolsheviks to evacuate peacefully — is still six weeks from the clash that will end that agreement and open this front entirely.",
+                siberia: "No organized front here yet. The Czechoslovak Legion — some 40,000 men working their way east along the Trans-Siberian under an agreement with the Bolsheviks to evacuate peacefully — is still five weeks from the clash that will end that agreement and open this front entirely.",
                 bolsheviks: "The peace bought survival, not consensus. The Left Socialist-Revolutionaries who shared power with the Bolsheviks broke over the treaty within weeks, and their own uprising against the government they helped form is still four months off.",
               },
             },
@@ -479,7 +479,7 @@ export const CAMPAIGNS = {
               headline: "THE WAR IN THE WEST GOES ON WITHOUT US",
               body: "Germany's spring offensive has been running on the Western Front since 21 March — fifty divisions transferred from the east, freed by the peace Russia signed at Brest-Litovsk three weeks earlier. The Allies are being pushed back toward Amiens by men who were facing Russian guns in November. Every officer in this army understands the arithmetic: the troops now breaking the British Fifth Army are there because Russia left the war. It is the central grievance of the White movement and the reason Allied support for it will exist at all.",
               meanwhile: {
-                siberia: "No front here yet. The Czechoslovak Legion is still moving east along the Trans-Siberian under Bolshevik agreement, six weeks from the Chelyabinsk clash that opens this theatre.",
+                siberia: "No front here yet. The Czechoslovak Legion is still moving east along the Trans-Siberian under Bolshevik agreement, five weeks from the Chelyabinsk clash that opens this theatre.",
                 bolsheviks: "The government has moved the capital from Petrograd to Moscow in March, out of reach of the German advance the peace was supposed to have stopped.",
               },
             },
@@ -674,7 +674,7 @@ export const CAMPAIGNS = {
             badge: "\u25c7 SPECULATIVE — DOWNSTREAM OF DIVERGENCE",
             classification: "speculative",
             epilogue:
-              "The Volunteer Army does not survive Ekaterinodar. There is no second campaign, no Moscow Directive, no Orel, no Novorossiysk, and no Crimea — none of it occurs, because the force it would have been fought by is broken on the Kuban steppe in April 1918 by a garrison it should not have spent a third day in front of.\n\nThe real margin here was thin enough that this is not a large counterfactual. Kornilov was killed by a shell at his headquarters at Elizavetinskaya on 13 April 1918; Denikin called off the assault and extracted roughly four thousand men, and the First Kuban Campaign — the Ice March — reached the Don in May with the army intact but barely. Everything the AFSR later became grew from those four thousand. An army that stayed one day longer in front of Sorokin's garrison is not a different army by much. It is the same army, minus the extraction.\n\nWhat follows is what the White movement in south Russia looked like without a Volunteer Army at its centre: Cossack hosts defending their own territory and negotiating separately, German-backed formations in the Ukraine with their own priorities, and no unified command for the Allies to recognise, supply, or blame. Denikin, if he is among the four thousand who do not get clear, does not write the five volumes. There is no Novorossiysk to answer for, and no Bizerte to sail to.\n\nThe war is still won by the same side. It is won faster, against opponents who never combine, and the version of it that gets written afterward has no southern front worth arguing about — which is its own kind of erasure, and not obviously a kinder one than the record the historical army earned.",
+              "The Volunteer Army does not survive Ekaterinodar. There is no second campaign, no Moscow Directive, no Orel, no Novorossiysk, and no Crimea — none of it occurs, because the force it would have been fought by is broken on the Kuban steppe in April 1918 by a garrison it should not have spent a third day in front of.\n\nThe real margin here was thin enough that this is not a large counterfactual. Kornilov was killed by a shell at his farmhouse headquarters outside Ekaterinodar on 13 April 1918; Denikin called off the assault and extracted roughly four thousand men, and the First Kuban Campaign — the Ice March — reached the Don in May with the army intact but barely. Everything the AFSR later became grew from those four thousand. An army that stayed one day longer in front of Sorokin's garrison is not a different army by much. It is the same army, minus the extraction.\n\nWhat follows is what the White movement in south Russia looked like without a Volunteer Army at its centre: Cossack hosts defending their own territory and negotiating separately, German-backed formations in the Ukraine with their own priorities, and no unified command for the Allies to recognise, supply, or blame. Denikin, if he is among the four thousand who do not get clear, does not write the five volumes. There is no Novorossiysk to answer for, and no Bizerte to sail to.\n\nThe war is still won by the same side. It is won faster, against opponents who never combine, and the version of it that gets written afterward has no southern front worth arguing about — which is its own kind of erasure, and not obviously a kinder one than the record the historical army earned.",
           };
 
         case "moscowDirective19":
@@ -685,7 +685,7 @@ export const CAMPAIGNS = {
               headline: "FOURTEEN MONTHS OF NEWS, LATE",
               body: "Two items this front's own dispatches have been too consumed by the fighting to properly register. November: an armistice ends the war in Europe — not a victory for either side, and Allied troops remain on Russian soil with no reason for it committed to paper. March: Moscow declares itself the seat of a new Communist International, on the record for carrying revolution past Russia's own borders. No single battle this year has done more to keep Allied funding flowing than that declaration.",
               meanwhile: {
-                siberia: "Kolchak's own spring offensive, which briefly reached the Volga in April, has already broken. The Red counteroffensive out of Buguruslan has his armies falling back toward the Urals — the collapse that becomes general by autumn.",
+                siberia: "Kolchak's own spring offensive, which came within reach of the Volga in April, has already broken. The Red counteroffensive out of Buguruslan has his armies falling back toward the Urals — the collapse that becomes general by autumn.",
                 bolsheviks: "The Eighth Party Congress's internal fight over military policy was formally settled in March by compromise commission. It settled less than the resolution suggests; this southern front, now advancing, is what actually occupies Moscow's attention.",
               },
             },
@@ -751,7 +751,7 @@ export const CAMPAIGNS = {
             title: "Kiev: Whose Flag",
             historicalRecord: true,
             situation:
-              "The broad-front advance has reached Kiev from the south just as Ukrainian People's Republic forces close on it from the west — General Antin Kravs's Galician and Zaporizhzhia corps, some eighteen thousand men under Petliura's overall command, have already skirmished their way into the outskirts and are planning a victory parade for the morning of the 31st. Lieutenant-General Nikolai Bredov's advance guard, roughly six thousand strong, is a day behind them and closing on the same bridges. Two armies that have never coordinated a single operation between them are about to occupy the same city within hours of each other, and nobody on either side has decided what happens when they meet.",
+              "The broad-front advance has reached Kiev from the south just as Ukrainian People's Republic forces close on it from the west — General Antin Kravs's Galician and Zaporizhzhia corps, some eighteen thousand men under Petliura's overall command, have already skirmished their way into the outskirts and are planning a victory parade for the afternoon of the 31st. Lieutenant-General Nikolai Bredov's advance guard, roughly six thousand strong, is a day behind them and closing on the same bridges. Two armies that have never coordinated a single operation between them are about to occupy the same city within hours of each other, and nobody on either side has decided what happens when they meet.",
             choices: [
               {
                 label: "Let Bredov use his own judgment: enter alongside the Ukrainian parade, then demand Kravs's army disarm and withdraw the moment friction gives grounds for it.",
@@ -1010,7 +1010,7 @@ export const CAMPAIGNS = {
             title: "Peregonovka: The Trap That Broke",
             historicalRecord: true,
             situation:
-              "The diverted divisions have Makhno's exhausted Insurgent Army encircled near the village of Peregonovka after a four-hundred-mile pursuit — by every visible measure this should be a rout in the AFSR's favor. But reports overnight describe unusual movement inside the pocket, and the encircling line, thinned by the pursuit itself, has gaps nobody has had time to reinforce before dawn.",
+              "The diverted divisions have Makhno's exhausted Insurgent Army encircled near the village of Peregonovka after a pursuit across some six hundred kilometres of Ukraine — by every visible measure this should be a rout in the AFSR's favor. But reports overnight describe unusual movement inside the pocket, and the encircling line, thinned by the pursuit itself, has gaps nobody has had time to reinforce before dawn.",
             choices: [
               {
                 label: "Press the attack at dawn as planned. The numerical advantage should close the pocket before Makhno can organize anything.",
@@ -1157,15 +1157,15 @@ export const CAMPAIGNS = {
               headline: "THE REPUBLIC'S WORST MONTH",
               body: "By most later accounts, this month is the closest the Soviet government comes to losing the war outright — not on one front but three, in the same few weeks, by circumstance rather than by any coordination between the White commands.",
               meanwhile: {
-                siberia: "Kolchak's spring offensive, which briefly reached the Volga in the west, has been reversed entirely. His armies are falling back toward Omsk with no defensive line holding, in a retreat that will not really stop until Chita, a year and two thousand miles later.",
+                siberia: "Kolchak's spring offensive, which came within reach of the Volga in the west, has been reversed entirely. His armies are falling back toward Omsk with no defensive line holding, in a retreat that will not really stop until Chita, a year and two thousand miles later.",
                 bolsheviks: "General Yudenich's separate White army has reached the outskirts of Petrograd itself — close enough that the city's fall was treated inside the Council of People's Commissars as a genuine possibility, not a remote one. Trotsky personally organizes the city's defense.",
               },
             },
             historicalRecord: true,
             context:
-              "Orel is 250 miles from Moscow. The AFSR has advanced roughly 400 miles in four months on an offensive that began at Tsaritsyn in June, and its line now runs some 700 miles from Kiev to Tsaritsyn, held by fewer than 100,000 combat effectives. The Red Southern Front opposing it has been reorganized under Alexander Yegorov, with Stalin as its senior political member, and is concentrating a strike group south of Orel — Latvian riflemen, a Estonian brigade, and Primakov's cavalry — specifically to cut the salient at its base rather than meet it head-on.",
+              "Orel is about 200 miles from Moscow. The AFSR has advanced roughly 400 miles in four months on an offensive that began at Tsaritsyn in June, and its line now runs some 700 miles from Kiev to Tsaritsyn, held by fewer than 100,000 combat effectives. The Red Southern Front opposing it has been reorganized under Alexander Yegorov, with Stalin as its senior political member, and is concentrating a strike group south of Orel — Latvian riflemen, a Estonian brigade, and Primakov's cavalry — specifically to cut the salient at its base rather than meet it head-on.",
             situation:
-              "Orel has fallen — two hundred miles from Moscow, the deepest the Volunteer Army will ever reach. The Red Southern Front has been reorganized under new command and is throwing everything it has into a counteroffensive. Kuban Cossack officers are asking, openly now, whether they are fighting for Moscow or for Denikin's Moscow." +
+              "Orel has fallen — about two hundred miles from Moscow, the high-water mark of the Volunteer Army's advance. The Red Southern Front has been reorganized under new command and is throwing everything it has into a counteroffensive. Kuban Cossack officers are asking, openly now, whether they are fighting for Moscow or for Denikin's Moscow." +
               (flags.directiveIssued === "broad"
                 ? " Orel was reached on three axes at once, which is why it was reached at all and why there is nothing concentrated anywhere to hold it with."
                 : "") +
@@ -1191,7 +1191,7 @@ export const CAMPAIGNS = {
                 setFlags: { orelHeld: "attempted" },
                 impact: {},
                 aftermath:
-                  "Orel was retaken by the Red Army on 20 October 1919, eight days after it fell. The Kornilov Division — one of the AFSR's four named 'coloured' regiments and among its most reliable formations — was badly cut up holding it. Neither the Volunteer Army nor any other White force came closer to Moscow at any point in the war. The line from Orel to the Black Sea did not stabilise again.",
+                  "Orel was retaken by the Red Army on 20 October 1919, seven days after it fell. The Kornilov Division — one of the AFSR's four named 'coloured' regiments and among its most reliable formations — was badly cut up holding it. Neither the Volunteer Army nor any other White force came closer to Moscow at any point in the war. The line from Orel to the Black Sea did not stabilise again.",
                 costsCapital: true,
                 next: "cossackDesertion19",
                 outcome:
@@ -1756,7 +1756,7 @@ export const CAMPAIGNS = {
             title: "Novorossiysk: The Ships",
             historicalRecord: true,
             situation:
-              "The retreat has run out of road. Over a hundred thousand troops, Cossacks, and civilian refugees are crowded into Novorossiysk with the Red Army days away, and the British have told you plainly that their ships can carry perhaps five or six thousand people at a time. Kutepov's evacuation commission has to decide, in practice, who those ships are for — there is no version of this that gets everyone out." +
+              "The retreat has run out of road. Tens of thousands of troops, Cossacks, and civilian refugees are crowded into Novorossiysk with the Red Army days away, and the British have told you plainly that only five or six thousand people can be taken off by their ships. Kutepov's evacuation commission has to decide, in practice, who those ships are for — there is no version of this that gets everyone out." +
               (flags.cossackDiscipline === "enforced"
                 ? " The court-martial order issued against the departing Cossack Hosts is still nominally in force. It is being enforced by nobody, against men who are standing on the same docks asking for the same berths."
                 : flags.cossackDiscipline === "released"
@@ -1816,21 +1816,21 @@ export const CAMPAIGNS = {
             title: "The Mole: Whoever Holds It Last",
             historicalRecord: true,
             situation:
-              "The extended perimeter has bought its day and a half — and now Voroshilov's cavalry is through the line, closing on the harbor itself while General Holman personally supervises the Don Cossacks' embarkation on the mole. Denikin has already ordered the Volunteer Army's remaining units rushed aboard first, leaving the far more numerous Don Cossacks to wait their turn on a dock that may not have a turn left to give them.",
+              "The extended perimeter has bought its day and a half — and now the Red cavalry is through the line, closing on the harbor itself while the Don Cossacks are still waiting to embark on the mole. Denikin has already ordered the Volunteer Army's remaining units rushed aboard first, leaving the far more numerous Don Cossacks to wait their turn on a dock that may not have a turn left to give them.",
             choices: [
               {
                 label: "Hold the mole with whatever rearguard remains, buying the last possible minutes for the Don Cossacks still waiting to board.",
                 advisor: {
                   name: "Holman",
                   position:
-                    "Holman says he made promises on the dock that he means to keep as far as is physically possible, and will ask for a rearguard if it buys time to get more men aboard.",
+                    "Holman says he made promises about the evacuation that he means to keep as far as is physically possible, and will ask for a rearguard if it buys time to get more men aboard.",
                 },
                 historical: true,
                 setFlags: { moleChoice: "held" },
                 impact: {},
                 next: "moleRearguardFate20",
                 outcome:
-                  "The rearguard holds as long as it can. Cossacks arriving without their horses shoot them on the dock rather than leave them to the Reds — the docks fill with the sound and the sight of it, a detail contemporary accounts don't soften and this one won't either. Voroshilov's cavalry takes the port on the 27th regardless. What the rearguard bought was measured in boarding slots, not in the battle's outcome.",
+                  "The rearguard holds as long as it can. Cossacks arriving without their horses shoot them on the dock rather than leave them to the Reds — the docks fill with the sound and the sight of it, a detail contemporary accounts don't soften and this one won't either. The Red cavalry takes the port on 27 March regardless. What the rearguard bought was measured in boarding slots, not in the battle's outcome.",
               },
               {
                 label: "Order the last ships to cast off now rather than wait for a rearguard that may not survive to matter.",
@@ -1844,7 +1844,7 @@ export const CAMPAIGNS = {
                 impact: { manpower: 3 },
                 next: "sevastopolCouncil20",
                 outcome:
-                  "The last ships cast off without waiting on the rearguard's outcome. Fewer of the Don Cossacks still on the mole make it aboard — the decision trades a chance at marginally more evacuees for the certainty of not losing the ones already loaded. Voroshilov's cavalry takes an emptier port than it otherwise would have, which was never really the point of the choice either way.",
+                  "The last ships cast off without waiting on the rearguard's outcome. Fewer of the Don Cossacks still on the mole make it aboard — the decision trades a chance at marginally more evacuees for the certainty of not losing the ones already loaded. The Red cavalry takes an emptier port than it otherwise would have, which was never really the point of the choice either way.",
               },
             ],
           };
@@ -1950,7 +1950,7 @@ export const CAMPAIGNS = {
                 impact: { manpower: -1 },
                 next: "novorossiysk20",
                 aftermath:
-                  "Wrangel is dismissed alongside Lukomsky and Shatilov, and sails for Constantinople on 8 February. He is not the only general this decision removes, and Novorossiysk — three weeks away — will make the removal of exactly this kind of criticism look considerably worse in hindsight than it looked in the room where it was decided.",
+                  "Denikin signs the order dismissing Wrangel on 8 February, and Wrangel reaches Constantinople at the end of the month. He is not the only general this decision removes, and Novorossiysk — three weeks away — will make the removal of exactly this kind of criticism look considerably worse in hindsight than it looked in the room where it was decided.",
                 outcome:
                   "The dismissal order goes out. Wrangel leaves for exile within days, a Commander-in-Chief this command still formally answers to, now watching the war he predicted from a hotel room on the Bosphorus.",
               },
@@ -2232,7 +2232,7 @@ export const CAMPAIGNS = {
                 impact: {},
                 next: "wrangelsEnvoy20",
                 outcome:
-                  "Ulagai's 4,500 men land in the Kuban. The expedition lasts three weeks before it's forced to withdraw — and in Tauride and Ukraine alike, the peasants the whole operation was supposed to win over simply don't rally to the White cause. Not out of active hostility in every case. Out of a settled distrust that one land law, arriving this late, was never going to undo.",
+                  "Ulagai's force lands in the Kuban on 14 August. The expedition lasts about three weeks before it's forced to withdraw — and in Tauride and Ukraine alike, the peasants the whole operation was supposed to win over simply don't rally to the White cause. Not out of active hostility in every case. Out of a settled distrust that one land law, arriving this late, was never going to undo.",
               },
               {
                 label: "Hold the Tauride gains. Let the land law's actual effects on the ground be tested before overextending further.",
@@ -2669,7 +2669,7 @@ export const CAMPAIGNS = {
         bio:
           "Appointed to lead the retreat as Kolchak's authority collapsed, trusted by the rank and file in a way few other White commanders in Siberia were. Insisted on keeping the retreating army together as a fighting force rather than letting it dissolve into separate columns.",
         fate:
-          "Suffered severe frostbite crossing a frozen river during the retreat, developed pneumonia, and transferred command to General Voitsekhovsky on 21 January 1920. Died four days later, on 25 January 1920, at Nizhneozyornaya.",
+          "Suffered severe frostbite crossing a frozen river during the retreat, developed pneumonia, and transferred command to General Voitsekhovsky on 21 January 1920. Died on 26 January 1920 at Nizhneozyornaya, near Tulun (one source says 25 January).",
         faction: "Eastern Front Command",
         rank: 1,
       },
@@ -2682,7 +2682,7 @@ export const CAMPAIGNS = {
           // the succession — both agree on 26 January 1920.
           "A Czechoslovak Legion commander from December 1917, he took Chelyabinsk in May 1918 and transferred to Kolchak's Russian command in March 1919 as commander of the 2nd Ufa Corps, rising to command the whole 2nd Army by October — already the army's most experienced field officer well before Kappel's death made him its last one.",
         fate:
-          "Took command of the Eastern Front on Kappel's death from pneumonia on 26 January 1920 and led the remnant into Transbaikal, evacuating via Vladivostok to Istanbul that November. Settled in Czechoslovakia, rose to army general, and led its underground resistance after the 1939 German occupation. Abducted by Soviet SMERSH from Prague in 1945, he died in the Ozerlag Gulag camp in 1951 — the only advisor in this file whose Civil War service ended in a Soviet prison camp anyway, three decades and a second world war later.",
+          "Took command of the Eastern Front after Kappel's handover and death in January 1920 and led the remnant into Transbaikal. Sent to the Crimea in May 1920, he was evacuated to Istanbul with Wrangel's army that November. Settled in Czechoslovakia, rose to army general, and led its underground resistance after the 1939 German occupation. Abducted by Soviet SMERSH from Prague in 1945, he died in the Ozerlag Gulag camp in 1951 — the only advisor in this file whose Civil War service ended in a Soviet prison camp anyway, three decades and a second world war later.",
         faction: "Eastern Front Command",
         rank: 2,
       },
@@ -2700,14 +2700,14 @@ export const CAMPAIGNS = {
         bio:
           "Argued through the spring 1919 offensive for concentrating the dispersed White armies on a single central axis toward Kazan rather than splitting toward Gajda's Archangel and Denikin's Saratov junctions — a position he restated at length in his own postwar memoir, which is not a disinterested account of a plan he had proposed himself. Given supreme command in the war's final, hopeless stretch after Dieterichs' dismissal.",
         fate:
-          "Commanded through the retreat from Omsk and the worst of the Great Siberian Ice March before being replaced by Kappel in January 1920. Escaped through Harbin. Died in emigration in Belgium in 1935.",
+          "Commanded the Eastern Front through the retreat from Omsk until Kolchak replaced him with Kappel in December 1919. Escaped through Harbin and spent the rest of his life in emigration.",
         faction: "Western Army",
         rank: 1,
       },
       diterichs: {
         role: "Commander, 3rd Army; briefly Minister of War under Kolchak (August 1919)",
         bio:
-          "A staff officer known for internal discipline and self-confidence rather than a record of dramatic field command before this war. Ordered the July 1919 counterattack to retake Chelyabinsk's rail junction from the advancing Red 3rd Army under Frunze.",
+          "A staff officer known for internal discipline and self-confidence rather than a record of dramatic field command before this war. Ordered the July 1919 counterattack to retake Chelyabinsk's rail junction from the advancing Red 5th Army under Tukhachevsky.",
         fate:
           "Later led the last White government in the Russian Far East (the Priamurye government) in 1922, framing his cause explicitly as a religious crusade, before its final collapse that October. Died of tuberculosis in Shanghai in September 1937.",
         faction: "Siberian Army Command",
@@ -2767,7 +2767,7 @@ export const CAMPAIGNS = {
             title: "Omsk: The Offer Kolchak First Refused",
             bulletin: {
               headline: "THE LEGION THAT MADE THIS WAR POSSIBLE",
-              body: "There is a government to overthrow here because of an army that is not Russian. Roughly 50,000 men of the Czechoslovak Legion — former Austro-Hungarian prisoners organized under an emerging Czechoslovak National Council — were evacuating peacefully east under Bolshevik agreement. A clash at Chelyabinsk in May, followed by Moscow's order to disarm them outright, ended that agreement. The Legion answered by seizing the Trans-Siberian station by station. That seizure broke Bolshevik control of Siberia — not any Russian faction's own initiative.",
+              body: "There is a government to overthrow here because of an army that is not Russian. Roughly 40,000 men of the Czechoslovak Legion — former Austro-Hungarian prisoners organized under an emerging Czechoslovak National Council — were evacuating peacefully east under Bolshevik agreement. A clash at Chelyabinsk in May, followed by Moscow's order to disarm them outright, ended that agreement. The Legion answered by seizing the Trans-Siberian station by station. That seizure broke Bolshevik control of Siberia — not any Russian faction's own initiative.",
               meanwhile: {
                 southRussia: "Seven months after Kornilov's death at Ekaterinodar, the Volunteer Army survives under Denikin, still a modest force based in the Kuban — not yet the major southern threat it becomes through 1919.",
                 bolsheviks: "The Left SR uprising was crushed in July; an assassination attempt on Lenin himself in August has hardened the government's own security apparatus considerably. The Republic is fighting for its life on several fronts now, not just this one.",
@@ -2789,7 +2789,7 @@ export const CAMPAIGNS = {
                 impact: {},
                 next: "springOffensive19",
                 outcome:
-                  "The office is accepted. You are named Supreme Ruler, promote yourself to full admiral, and inherit a government that exists because Cossacks it does not fully control decided it should. The Left SR reaction is immediate — a small Omsk uprising in late December is put down by the same Cossacks and Czech Legion troops who made this possible, roughly five hundred executed. It will not be the last time this government's authority over the men enforcing it is more theoretical than real.",
+                  "The office is accepted. You are named Supreme Ruler, promote yourself to full admiral, and inherit a government that exists because Cossacks it does not fully control decided it should. The reaction comes within weeks. An underground rising in Omsk on 22 December is put down, and that night officers take nine Socialist-Revolutionary members of the Constituent Assembly from the prison and shoot them, apparently without Kolchak's knowledge. It will not be the last time this government's authority over the men enforcing it is more theoretical than real.",
               },
               {
                 label: "Press for a collective military council instead of sole authority, before accepting the role if that arrangement fails.",
@@ -3310,7 +3310,7 @@ export const CAMPAIGNS = {
             },
             historicalRecord: true,
             situation:
-              "The reserves committed to the Urals line have reached Chelyabinsk, and General Diterichs is proposing a counterattack to retake the city's rail junction before Frunze's 3rd Army can fully consolidate around it — a strike that, if it works, could stabilize the whole southern flank of the retreat. Frunze's forces are already massing for exactly this contingency." +
+              "The reserves committed to the Urals line have reached Chelyabinsk, and General Diterichs is proposing a counterattack to retake the city's rail junction before the Red 5th Army can fully consolidate around it — a strike that, if it works, could stabilize the whole southern flank of the retreat. The Red 5th Army is already massing for exactly this contingency." +
               (flags.uralsStand === true
                 ? " These are the reserves committed to standing at the Urals rather than withheld for the retreat behind it. Diterichs is proposing to spend them a second time, on the argument that the first commitment only makes sense if it is followed through."
                 : ""),
@@ -3346,7 +3346,7 @@ export const CAMPAIGNS = {
                       setFlags: { chelyabinskOutcome: "grinder" },
                       impact: {},
                       outcome:
-                        "The counterattack goes in on 29 July — directly into Frunze's prepared flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
+                        "The counterattack goes in on 29 July — directly into a prepared Red flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
                     },
                   ];
                 })(),
@@ -3465,7 +3465,7 @@ export const CAMPAIGNS = {
             title: "Omsk: The Evacuation Trains",
             historicalRecord: true,
             context:
-              "The Trans-Siberian east of Omsk is a single track. Roughly 60,000 Czechoslovak Legion troops control its stations and junctions under an arrangement that made them responsible for guarding the line rather than fighting on it, and their commander answers to the French general Maurice Janin, not to Omsk. Kolchak's own train carries what remains of the imperial gold reserve seized at Kazan in 1918 — some 500 tons of bullion. Omsk falls on 14 November. Roughly a million refugees, soldiers, and officials are trying to move east along one line at the same time.",
+              "The Trans-Siberian east of Omsk is a single track. Tens of thousands of Czechoslovak Legion troops control its stations and junctions under an arrangement that made them responsible for guarding the line rather than fighting on it, and their commander answers to the French general Maurice Janin, not to Omsk. Kolchak's own train carries what remains of the imperial gold reserve seized at Kazan in 1918 — some 500 tons of bullion. Omsk falls on 14 November. Roughly a million refugees, soldiers, and officials are trying to move east along one line at the same time.",
             situation:
               "Omsk is being evacuated. The Trans-Siberian has one track and far more trains than it can move at once — government trains, army trains, refugee trains, and the Czechoslovak Legion's own trains, all converging on the same line. The Legion controls the junctions. What moves, and in what order, is no longer entirely your decision to make." +
               (flags.diterichsHandling === "released"
@@ -5213,7 +5213,7 @@ CAMPAIGNS.bolsheviks = {
               historical: true,
               setFlags: { cavalryDoctrine: "unified" },
               aftermath:
-                "The 1st Cavalry Army was formed on 17 November 1919 under Budyonny, with Voroshilov and Shchadenko on its revolutionary military council. It became the war's decisive manoeuvre formation — driving the AFSR from Rostov, and later fighting in the Polish war of 1920, where it was also blamed for the failure at Warsaw. Its command group mattered well past the Civil War: Budyonny and Voroshilov both became Marshals of the Soviet Union, and both survived the purges that removed most of the officers who had criticised them.",
+                "The 1st Cavalry Army was formed in the second half of November 1919 from Budyonny's cavalry corps; Voroshilov and Shchadenko joined its revolutionary military council in December. It became the war's decisive manoeuvre formation — driving the AFSR from Rostov, and later fighting in the Polish war of 1920, where it was also blamed for the failure at Warsaw. Its command group mattered well past the Civil War: Budyonny and Voroshilov both became Marshals of the Soviet Union, and both survived the purges that removed most of the officers who had criticised them.",
               impact: {},
               next: "perekopAssault20",
               outcome:
@@ -5514,7 +5514,7 @@ CAMPAIGNS.bolsheviks = {
           title: "The Vistula: Warsaw or Lwów",
           historicalRecord: true,
           context:
-            "The Polish–Soviet war has run since spring. Piłsudski took Kiev in May; the counteroffensive threw him back nearly 400 miles, and by August Tukhachevsky's Western Front is at the Vistula with Warsaw in front of it. Lenin's calculation is explicit and political: a Red Army entering Warsaw brings the revolution to Germany. The 1st Cavalry Army, under Budyonny with Stalin as the South-Western Front's political member, is committed at Lwów, 250 miles to the south — and Tukhachevsky's exposed left flank needs it at Warsaw.",
+            "The Polish–Soviet war has run since spring. Piłsudski took Kiev in May; the counteroffensive threw him back nearly 400 miles, and by August Tukhachevsky's Western Front is at the Vistula with Warsaw in front of it. Lenin's calculation is explicit and political: a Red Army entering Warsaw brings the revolution to Germany. The 1st Cavalry Army, under Budyonny with Stalin as the South-Western Front's political member, is committed at Lwów, about two hundred miles to the south — and Tukhachevsky's exposed left flank needs it at Warsaw.",
           situation:
             "The order to transfer the Cavalry Army north has been issued and is not being obeyed with any urgency. Lwów is close to falling and the men in front of it can see that; Warsaw is a different front's problem. Command has to decide whether to force the transfer against a front command that plainly does not want to make it, or accept the southern axis and let Tukhachevsky close on Warsaw with his flank as it is.",
           choices: [
@@ -5545,7 +5545,7 @@ CAMPAIGNS.bolsheviks = {
               setFlags: { polishAxis: "south" },
               impact: {},
               aftermath:
-                "This is what happened. The Cavalry Army stayed south, Warsaw was lost between 12 and 25 August in what Polish accounts call the Miracle on the Vistula, and the Western Front was driven back several hundred miles. The Treaty of Riga in March 1921 fixed a border well east of the Curzon Line. The recriminations over whose decision lost Warsaw ran in Soviet military print for years afterward and were never settled on the merits.",
+                "This is what happened. The Cavalry Army stayed south, the Red Army lost the battle of Warsaw, fought from 12 to 25 August and called by Polish accounts the Miracle on the Vistula, and the Western Front was driven back several hundred miles. The Treaty of Riga in March 1921 fixed a border well east of the Curzon Line. The recriminations over whose decision lost Warsaw ran in Soviet military print for years afterward and were never settled on the merits.",
               next: "endingTheVistula20",
               outcome:
                 "Lwów holds the Cavalry Army's attention. Warsaw is decided without it, and decided against the Republic.",
@@ -5677,16 +5677,17 @@ CAMPAIGNS.bolsheviks = {
       // accumulated legitimacy meter (<= -6) alongside the assault flag;
       // changed to specific centralizing decisions, for the same reason as the
       // other two campaigns' checkpoints — the triangle shouldn't be what
-      // decides which ending a run gets. Either decision is enough: the grain
-      // committees' intensified requisitioning (grainRequisition18) or pressing
-      // the Eighth Congress (militaryOppositionCongress19). They sit on opposite
-      // branches of this campaign, so a run can only ever make one of them; the
-      // original "both" condition made this ending unreachable.
+      // decides which ending a run gets. The condition is the one departure from the
+      // record that costs goodwill: pressing the Eighth Congress floor fight
+      // (militaryOppositionCongress19) instead of negotiating. The record
+      // itself (intensified requisitioning, negotiating at the Congress, then
+      // the assault) ends at endingIceBroken: tools/historical-spine.mjs fails if
+      // the most likely ending of the record is a speculative one.
       case "kronstadtReckoning21":
         if (flags.kronstadtChoice === "wait_for_thaw") {
           return this.resolveNode("endingTheIsland21");
         }
-        if (flags.kronstadtChoice === "assault" && (flags.requisitionPolicy === "intensified" || flags.congressChoice === "press")) {
+        if (flags.kronstadtChoice === "assault" && flags.congressChoice === "press") {
           return this.resolveNode("endingHollowVictory21");
         }
         return this.resolveNode(flags.kronstadtChoice === "assault" ? "endingIceBroken" : "endingUnlikelyPrecedent");
@@ -5709,8 +5710,7 @@ CAMPAIGNS.bolsheviks = {
 
       // -----------------------------------------------------------------------
       // ENDING — reachable only via the historical assault choice combined
-      // with two specific centralizing decisions: intensifying requisitioning
-      // in reconquered territory, and pressing the Congress floor fight
+      // with one departure from the record: pressing the Congress floor fight
       // rather than negotiating. historicalRecord false: the assault and its
       // casualty figures are real and identical to endingIceBroken's — what's
       // speculative is the domestic and international reading of it, which
@@ -5724,7 +5724,7 @@ CAMPAIGNS.bolsheviks = {
           badge: "SPECULATIVE — SAME EVENT, DIFFERENT RECKONING",
           classification: "speculative",
           epilogue:
-            "The assault happens exactly as it did historically — the failed 8 March attempt, the mutiny, the successful second assault on the 17th-18th, the executions, Solovki. None of that is different. What's different is that this command arrives at Kronstadt having chosen intensified requisitioning over restraint in reconquered territory, and having pressed the Congress floor fight rather than folding the Opposition's concerns in quietly. Two decisions, not an accumulated total — but the two that mattered most for whether anyone still extends this government the benefit of the doubt. There is no reservoir of revolutionary goodwill left for the NEP announcement, in the same month, to draw on.\n\nHistorically, even sympathetic observers can read Lenin's NEP as a genuine, if late, course correction — grain requisitioning ended in the same breath as the sailors who died protesting it were executed, an uncomfortable but real complexity. Here, with those two decisions already on the record, nobody extends that same benefit of the doubt. The concession reads as exactly what it looks like on its surface: capitulation dressed as policy, offered only after the guns had already answered the actual argument. The Revolution wins Kronstadt by force either way. Only one version of this command still gets to claim it conceded anything freely." +
+            "The assault happens exactly as it did historically — the failed 8 March attempt, the mutiny, the successful second assault on the 17th-18th, the executions, Solovki. None of that is different. What's different is that this command arrives at Kronstadt having pressed the Congress floor fight against the Military Opposition rather than negotiating with it. Historically the Congress ended in a compromise resolution on the army; here the fight was carried to the floor and won outright, in public, and it is the decision that mattered most for whether anyone still extends this government the benefit of the doubt. There is no reservoir of revolutionary goodwill left for the NEP announcement, in the same month, to draw on.\n\nHistorically, even sympathetic observers can read Lenin's NEP as a genuine, if late, course correction — grain requisitioning ended in the same breath as the sailors who died protesting it were executed, an uncomfortable but real complexity. Here, with those two decisions already on the record, nobody extends that same benefit of the doubt. The concession reads as exactly what it looks like on its surface: capitulation dressed as policy, offered only after the guns had already answered the actual argument. The Revolution wins Kronstadt by force either way. Only one version of this command still gets to claim it conceded anything freely." +
             (flags.smirnovAssignment === "sidelined"
               ? "\n\nSmirnov was kept away from field command as well as policy — marginalized completely rather than partially. The Military Opposition's people learned from it what the sailors are learning now: that disagreement inside this structure is not answered, it is administered. They arrived at the same conclusion two years apart, by the same route."
               : flags.smirnovAssignment === "field_command"
@@ -6030,7 +6030,7 @@ CAMPAIGNS.provisionalGov17 = {
             body:
               "Every regiment has an elected soldiers' committee. Every field army and front now has commissars named by the Provisional Government, the Petrograd Soviet and the soldiers' committees. They can countersign orders and recommend that an officer be removed. The officers say the army cannot attack under this arrangement. The committees say the officers want the old army back.",
             meanwhile: {
-              southRussia: "Does not exist yet as a command. General Alekseev, the Supreme Commander, will raise the Volunteer Army on the Don after the October rising.",
+              southRussia: "Does not exist yet as a command. General Alekseev, the Supreme Commander, will raise the Volunteer Army on the Don after the November rising.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
               bolsheviks: "Lenin has been back in Petrograd since 16 April and argues for all power to the Soviets. The Bolsheviks are a minority in the Soviet.",
             },
@@ -6450,11 +6450,11 @@ CAMPAIGNS.provisionalGov17 = {
           bulletin: {
             headline: "RUSSIA IS PROCLAIMED A REPUBLIC",
             body:
-              "On 1 September a decree signed by Kerensky proclaims the Russian Republic. Executive power passes to a Directory of five, with Kerensky as president. The Kadet ministers have resigned from the cabinet. Part of the Soviet Executive Committee wants a government of socialists only.",
+              "On 14 September a decree signed by Kerensky proclaims the Russian Republic. Executive power passes to a Directory of five, with Kerensky as president. The Kadet ministers have resigned from the cabinet. Part of the Soviet Executive Committee wants a government of socialists only.",
             meanwhile: {
               southRussia: "Kornilov and the generals who backed him are under arrest.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
-              bolsheviks: "On 31 August the Petrograd Soviet passed a Bolshevik resolution for the first time. Trotsky is still in prison.",
+              bolsheviks: "On 13 September the Petrograd Soviet passed a Bolshevik resolution for the first time. Trotsky is still in prison.",
             },
           },
           historicalRecord: true,
@@ -6475,7 +6475,7 @@ CAMPAIGNS.provisionalGov17 = {
               outcome:
                 "The decree is published. The Directory is you, Tereshchenko, Verkhovsky, Verderevsky and Nikitin. It governs by decree until a wider body can be called.",
               aftermath:
-                "The Directory sat from 1 September to 25 September.",
+                "The Directory sat from 14 September to 8 October.",
             },
             {
               label: "Ask the Kadet ministers to return at once, on the terms on which they left.",
@@ -6589,7 +6589,7 @@ CAMPAIGNS.provisionalGov17 = {
             meanwhile: {
               southRussia: "Kornilov and the generals are still held under arrest.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
-              bolsheviks: "On 10 October the Bolshevik Central Committee voted ten to two for an armed uprising. Kamenev and Zinoviev voted against.",
+              bolsheviks: "On 23 October the Bolshevik Central Committee voted ten to two for an armed uprising. Kamenev and Zinoviev voted against.",
             },
           },
           historicalRecord: true,

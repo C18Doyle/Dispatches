@@ -13,7 +13,7 @@
     "assemble": "node ../packages/testkit/src/split.mjs assemble",
     "roundtrip": "node ../packages/testkit/src/split.mjs roundtrip",
     "check:structure": "node tools/check-structure.mjs",
-    "test:fast": "npm run build && npm run typecheck && npm run check && npm run check:structure && npm run check:advisers && npm run test:routing && npm run roundtrip && npm run verify:baseline && npm run test:easy && npm run test:timeline && npm run test:battle && npm run test:migration && npm run test:saves && npm run check:orphans && npm run check:a11y",
+    "test:fast": "npm run build && npm run typecheck && npm run check && npm run check:structure && npm run check:advisers && npm run check:claims && npm run check:spine && npm run test:routing && npm run roundtrip && npm run verify:baseline && npm run test:easy && npm run test:timeline && npm run test:battle && npm run test:migration && npm run test:saves && npm run check:orphans && npm run check:a11y",
     "release": "node ../packages/testkit/src/release.mjs",
     "monte-carlo": "node tools/monte-carlo.mjs 3000",
     "test:saves": "node ../packages/testkit/src/cli.mjs saves-verify",
@@ -24,7 +24,12 @@
     "check:a11y": "node tools/check-a11y.mjs",
     "test:timeline": "node tests/timeline.test.mjs",
     "test:battle": "node tests/battle.test.mjs",
-    "check:advisers": "node tools/check-advisers.mjs"
+    "check:advisers": "node tools/check-advisers.mjs",
+    "check:claims": "node tools/check-claims.mjs",
+    "check:spine": "node tools/historical-spine.mjs",
+    "review:build": "node tools/claims-review.mjs",
+    "review:status": "node tools/claims-review.mjs --status",
+    "review:apply": "node tools/apply-review.mjs"
   },
   "license": "UNLICENSED",
   "dependencies": {

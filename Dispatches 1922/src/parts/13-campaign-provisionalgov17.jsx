@@ -181,7 +181,7 @@ CAMPAIGNS.provisionalGov17 = {
             body:
               "Every regiment has an elected soldiers' committee. Every field army and front now has commissars named by the Provisional Government, the Petrograd Soviet and the soldiers' committees. They can countersign orders and recommend that an officer be removed. The officers say the army cannot attack under this arrangement. The committees say the officers want the old army back.",
             meanwhile: {
-              southRussia: "Does not exist yet as a command. General Alekseev, the Supreme Commander, will raise the Volunteer Army on the Don after the October rising.",
+              southRussia: "Does not exist yet as a command. General Alekseev, the Supreme Commander, will raise the Volunteer Army on the Don after the November rising.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
               bolsheviks: "Lenin has been back in Petrograd since 16 April and argues for all power to the Soviets. The Bolsheviks are a minority in the Soviet.",
             },
@@ -601,11 +601,11 @@ CAMPAIGNS.provisionalGov17 = {
           bulletin: {
             headline: "RUSSIA IS PROCLAIMED A REPUBLIC",
             body:
-              "On 1 September a decree signed by Kerensky proclaims the Russian Republic. Executive power passes to a Directory of five, with Kerensky as president. The Kadet ministers have resigned from the cabinet. Part of the Soviet Executive Committee wants a government of socialists only.",
+              "On 14 September a decree signed by Kerensky proclaims the Russian Republic. Executive power passes to a Directory of five, with Kerensky as president. The Kadet ministers have resigned from the cabinet. Part of the Soviet Executive Committee wants a government of socialists only.",
             meanwhile: {
               southRussia: "Kornilov and the generals who backed him are under arrest.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
-              bolsheviks: "On 31 August the Petrograd Soviet passed a Bolshevik resolution for the first time. Trotsky is still in prison.",
+              bolsheviks: "On 13 September the Petrograd Soviet passed a Bolshevik resolution for the first time. Trotsky is still in prison.",
             },
           },
           historicalRecord: true,
@@ -626,7 +626,7 @@ CAMPAIGNS.provisionalGov17 = {
               outcome:
                 "The decree is published. The Directory is you, Tereshchenko, Verkhovsky, Verderevsky and Nikitin. It governs by decree until a wider body can be called.",
               aftermath:
-                "The Directory sat from 1 September to 25 September.",
+                "The Directory sat from 14 September to 8 October.",
             },
             {
               label: "Ask the Kadet ministers to return at once, on the terms on which they left.",
@@ -740,7 +740,7 @@ CAMPAIGNS.provisionalGov17 = {
             meanwhile: {
               southRussia: "Kornilov and the generals are still held under arrest.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
-              bolsheviks: "On 10 October the Bolshevik Central Committee voted ten to two for an armed uprising. Kamenev and Zinoviev voted against.",
+              bolsheviks: "On 23 October the Bolshevik Central Committee voted ten to two for an armed uprising. Kamenev and Zinoviev voted against.",
             },
           },
           historicalRecord: true,

@@ -14,6 +14,9 @@ An adviser line is `advisor: { name, position }`: one or two sentences in the th
 ## Dates
 Western calendar, day then month, everywhere on screen (`7 November 1917`). Russia used the Julian calendar until 14 February 1918 (13 days behind), so Russian dates before that are converted; Old Style may appear in a code comment or a claims note, never on screen. Where sources disagree on a day, give the month. The How to Read screen carries the one sentence that explains it.
 
+## The historical spine
+`tools/historical-spine.mjs` (`npm run check:spine`, in test:fast) follows the choice flagged `historical: true` at every report, on the real rules, branching on each contested roll. It fails if a report on that path has no historical choice or more than one, if the historical choice is gated, if the path dead-ends, or if the most likely ending of the record is not a `historical` ending. It also ratchets (tests/spine-baseline.json) the share of record-following runs that end historically. A new report, gate or ending checkpoint must leave a player who follows the record at a historical ending.
+
 ## Orders of Battle
 `src/battle.ts` is the pure arithmetic (typed, in `npm run typecheck`). `src/parts/35-battles.jsx` holds the configs (`BATTLES`), the planning screen and the report. A battle is hosted by a choice with `keyBattleSubgame: { id }` and exactly two contested outcomes; `winBranch` is the index of the better one. The staff's plan must move the odds by exactly 0 (tests/battle.test.mjs proves it for every config, setup and pool size), so never change the arithmetic without running it. New battle: config, `keyBattleSubgame` on the order, a line in claims/battles-round1.md.
 

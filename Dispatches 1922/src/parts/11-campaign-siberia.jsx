@@ -81,7 +81,7 @@
         bio:
           "Appointed to lead the retreat as Kolchak's authority collapsed, trusted by the rank and file in a way few other White commanders in Siberia were. Insisted on keeping the retreating army together as a fighting force rather than letting it dissolve into separate columns.",
         fate:
-          "Suffered severe frostbite crossing a frozen river during the retreat, developed pneumonia, and transferred command to General Voitsekhovsky on 21 January 1920. Died four days later, on 25 January 1920, at Nizhneozyornaya.",
+          "Suffered severe frostbite crossing a frozen river during the retreat, developed pneumonia, and transferred command to General Voitsekhovsky on 21 January 1920. Died on 26 January 1920 at Nizhneozyornaya, near Tulun (one source says 25 January).",
         faction: "Eastern Front Command",
         rank: 1,
       },
@@ -94,7 +94,7 @@
           // the succession — both agree on 26 January 1920.
           "A Czechoslovak Legion commander from December 1917, he took Chelyabinsk in May 1918 and transferred to Kolchak's Russian command in March 1919 as commander of the 2nd Ufa Corps, rising to command the whole 2nd Army by October — already the army's most experienced field officer well before Kappel's death made him its last one.",
         fate:
-          "Took command of the Eastern Front on Kappel's death from pneumonia on 26 January 1920 and led the remnant into Transbaikal, evacuating via Vladivostok to Istanbul that November. Settled in Czechoslovakia, rose to army general, and led its underground resistance after the 1939 German occupation. Abducted by Soviet SMERSH from Prague in 1945, he died in the Ozerlag Gulag camp in 1951 — the only advisor in this file whose Civil War service ended in a Soviet prison camp anyway, three decades and a second world war later.",
+          "Took command of the Eastern Front after Kappel's handover and death in January 1920 and led the remnant into Transbaikal. Sent to the Crimea in May 1920, he was evacuated to Istanbul with Wrangel's army that November. Settled in Czechoslovakia, rose to army general, and led its underground resistance after the 1939 German occupation. Abducted by Soviet SMERSH from Prague in 1945, he died in the Ozerlag Gulag camp in 1951 — the only advisor in this file whose Civil War service ended in a Soviet prison camp anyway, three decades and a second world war later.",
         faction: "Eastern Front Command",
         rank: 2,
       },
@@ -112,14 +112,14 @@
         bio:
           "Argued through the spring 1919 offensive for concentrating the dispersed White armies on a single central axis toward Kazan rather than splitting toward Gajda's Archangel and Denikin's Saratov junctions — a position he restated at length in his own postwar memoir, which is not a disinterested account of a plan he had proposed himself. Given supreme command in the war's final, hopeless stretch after Dieterichs' dismissal.",
         fate:
-          "Commanded through the retreat from Omsk and the worst of the Great Siberian Ice March before being replaced by Kappel in January 1920. Escaped through Harbin. Died in emigration in Belgium in 1935.",
+          "Commanded the Eastern Front through the retreat from Omsk until Kolchak replaced him with Kappel in December 1919. Escaped through Harbin and spent the rest of his life in emigration.",
         faction: "Western Army",
         rank: 1,
       },
       diterichs: {
         role: "Commander, 3rd Army; briefly Minister of War under Kolchak (August 1919)",
         bio:
-          "A staff officer known for internal discipline and self-confidence rather than a record of dramatic field command before this war. Ordered the July 1919 counterattack to retake Chelyabinsk's rail junction from the advancing Red 3rd Army under Frunze.",
+          "A staff officer known for internal discipline and self-confidence rather than a record of dramatic field command before this war. Ordered the July 1919 counterattack to retake Chelyabinsk's rail junction from the advancing Red 5th Army under Tukhachevsky.",
         fate:
           "Later led the last White government in the Russian Far East (the Priamurye government) in 1922, framing his cause explicitly as a religious crusade, before its final collapse that October. Died of tuberculosis in Shanghai in September 1937.",
         faction: "Siberian Army Command",
@@ -179,7 +179,7 @@
             title: "Omsk: The Offer Kolchak First Refused",
             bulletin: {
               headline: "THE LEGION THAT MADE THIS WAR POSSIBLE",
-              body: "There is a government to overthrow here because of an army that is not Russian. Roughly 50,000 men of the Czechoslovak Legion — former Austro-Hungarian prisoners organized under an emerging Czechoslovak National Council — were evacuating peacefully east under Bolshevik agreement. A clash at Chelyabinsk in May, followed by Moscow's order to disarm them outright, ended that agreement. The Legion answered by seizing the Trans-Siberian station by station. That seizure broke Bolshevik control of Siberia — not any Russian faction's own initiative.",
+              body: "There is a government to overthrow here because of an army that is not Russian. Roughly 40,000 men of the Czechoslovak Legion — former Austro-Hungarian prisoners organized under an emerging Czechoslovak National Council — were evacuating peacefully east under Bolshevik agreement. A clash at Chelyabinsk in May, followed by Moscow's order to disarm them outright, ended that agreement. The Legion answered by seizing the Trans-Siberian station by station. That seizure broke Bolshevik control of Siberia — not any Russian faction's own initiative.",
               meanwhile: {
                 southRussia: "Seven months after Kornilov's death at Ekaterinodar, the Volunteer Army survives under Denikin, still a modest force based in the Kuban — not yet the major southern threat it becomes through 1919.",
                 bolsheviks: "The Left SR uprising was crushed in July; an assassination attempt on Lenin himself in August has hardened the government's own security apparatus considerably. The Republic is fighting for its life on several fronts now, not just this one.",
@@ -201,7 +201,7 @@
                 impact: {},
                 next: "springOffensive19",
                 outcome:
-                  "The office is accepted. You are named Supreme Ruler, promote yourself to full admiral, and inherit a government that exists because Cossacks it does not fully control decided it should. The Left SR reaction is immediate — a small Omsk uprising in late December is put down by the same Cossacks and Czech Legion troops who made this possible, roughly five hundred executed. It will not be the last time this government's authority over the men enforcing it is more theoretical than real.",
+                  "The office is accepted. You are named Supreme Ruler, promote yourself to full admiral, and inherit a government that exists because Cossacks it does not fully control decided it should. The reaction comes within weeks. An underground rising in Omsk on 22 December is put down, and that night officers take nine Socialist-Revolutionary members of the Constituent Assembly from the prison and shoot them, apparently without Kolchak's knowledge. It will not be the last time this government's authority over the men enforcing it is more theoretical than real.",
               },
               {
                 label: "Press for a collective military council instead of sole authority, before accepting the role if that arrangement fails.",
@@ -722,7 +722,7 @@
             },
             historicalRecord: true,
             situation:
-              "The reserves committed to the Urals line have reached Chelyabinsk, and General Diterichs is proposing a counterattack to retake the city's rail junction before Frunze's 3rd Army can fully consolidate around it — a strike that, if it works, could stabilize the whole southern flank of the retreat. Frunze's forces are already massing for exactly this contingency." +
+              "The reserves committed to the Urals line have reached Chelyabinsk, and General Diterichs is proposing a counterattack to retake the city's rail junction before the Red 5th Army can fully consolidate around it — a strike that, if it works, could stabilize the whole southern flank of the retreat. The Red 5th Army is already massing for exactly this contingency." +
               (flags.uralsStand === true
                 ? " These are the reserves committed to standing at the Urals rather than withheld for the retreat behind it. Diterichs is proposing to spend them a second time, on the argument that the first commitment only makes sense if it is followed through."
                 : ""),
@@ -758,7 +758,7 @@
                       setFlags: { chelyabinskOutcome: "grinder" },
                       impact: {},
                       outcome:
-                        "The counterattack goes in on 29 July — directly into Frunze's prepared flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
+                        "The counterattack goes in on 29 July — directly into a prepared Red flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
                     },
                   ];
                 })(),
@@ -877,7 +877,7 @@
             title: "Omsk: The Evacuation Trains",
             historicalRecord: true,
             context:
-              "The Trans-Siberian east of Omsk is a single track. Roughly 60,000 Czechoslovak Legion troops control its stations and junctions under an arrangement that made them responsible for guarding the line rather than fighting on it, and their commander answers to the French general Maurice Janin, not to Omsk. Kolchak's own train carries what remains of the imperial gold reserve seized at Kazan in 1918 — some 500 tons of bullion. Omsk falls on 14 November. Roughly a million refugees, soldiers, and officials are trying to move east along one line at the same time.",
+              "The Trans-Siberian east of Omsk is a single track. Tens of thousands of Czechoslovak Legion troops control its stations and junctions under an arrangement that made them responsible for guarding the line rather than fighting on it, and their commander answers to the French general Maurice Janin, not to Omsk. Kolchak's own train carries what remains of the imperial gold reserve seized at Kazan in 1918 — some 500 tons of bullion. Omsk falls on 14 November. Roughly a million refugees, soldiers, and officials are trying to move east along one line at the same time.",
             situation:
               "Omsk is being evacuated. The Trans-Siberian has one track and far more trains than it can move at once — government trains, army trains, refugee trains, and the Czechoslovak Legion's own trains, all converging on the same line. The Legion controls the junctions. What moves, and in what order, is no longer entirely your decision to make." +
               (flags.diterichsHandling === "released"
