@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        game: ["Frankenstein", "1914", "1922", "1941", "1940"]
+        game: ["Frankenstein", "1914", "1922", "1941", "1940", "Sherlock"]
         os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-24.04"]') || fromJSON('["ubuntu-24.04","windows-latest"]') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
@@ -67,7 +67,7 @@ jobs:
       - run: node tools/run-all.mjs --install
       - name: Build every game
         run: |
-          for g in "Dispatches Frankenstein" "Dispatches 1914" "Dispatches 1922" "Dispatches 1941" "Dispatches 1940"; do
+          for g in "Dispatches Frankenstein" "Dispatches 1914" "Dispatches 1922" "Dispatches 1941" "Dispatches 1940" "Dispatches Sherlock"; do
             echo ">>> $g"
             if (cd "$g" && npm run | grep -q "build:nozip"); then (cd "$g" && npm run build:nozip); else (cd "$g" && npm run build); fi
           done

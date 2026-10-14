@@ -1,0 +1,227 @@
+{
+  "_comment": "Every statement the 'In the Canon' notes (flavor.json novelNotes) and the ending texts make about Doyle's stories. status: 'secondary' = confirmed in at least one secondary source read on 2026-10-13 (see source); 'memory' = from the author's memory of the text, not yet checked against the story itself. The full texts (The Final Problem, 1893; The Empty House, 1903) are public domain; a human check against them is still to do for every 'memory' claim.",
+  "claims": [
+    {
+      "id": "fp-published",
+      "statement": "The Final Problem was published in the Strand Magazine in December 1893.",
+      "source": "https://en.wikipedia.org/wiki/The_Final_Problem",
+      "status": "secondary",
+      "endings": [
+        "ENDING_THE_FALL"
+      ]
+    },
+    {
+      "id": "fp-gang-arrested",
+      "statement": "Holmes learns that most of Moriarty's gang have been arrested but that Moriarty has escaped and is pursuing him abroad.",
+      "source": "https://en.wikipedia.org/wiki/The_Final_Problem",
+      "status": "secondary",
+      "endings": [
+        "ENDING_NET_CLOSES",
+        "ENDING_NAPOLEON_ESCAPES"
+      ]
+    },
+    {
+      "id": "fp-never-tried",
+      "statement": "Moriarty is never tried in the canon.",
+      "source": "https://en.wikipedia.org/wiki/The_Final_Problem",
+      "status": "secondary",
+      "endings": [
+        "ENDING_NET_CLOSES",
+        "ENDING_THE_COMPACT"
+      ]
+    },
+    {
+      "id": "fp-decoy",
+      "statement": "Watson is drawn away from the Falls by a letter claiming a dying Englishwoman at the hotel needs an English doctor.",
+      "source": "https://en.wikipedia.org/wiki/The_Final_Problem",
+      "status": "secondary",
+      "endings": [
+        "ENDING_THE_FALL",
+        "ENDING_WATSON_STANDS"
+      ]
+    },
+    {
+      "id": "fp-fire",
+      "statement": "Holmes tells Watson that his Baker Street rooms were set on fire the night before, an attempt to kill him and destroy his evidence.",
+      "source": "https://en.wikipedia.org/wiki/The_Final_Problem (via search summary)",
+      "status": "secondary",
+      "endings": [
+        "ENDING_BAKER_STREET_BURNS"
+      ]
+    },
+    {
+      "id": "fp-priest-special",
+      "statement": "Holmes meets Watson disguised as an aged Italian priest, sees Moriarty on the Victoria platform, and the pair leave the train at Canterbury as Moriarty's chartered one-coach special passes.",
+      "source": "https://en.wikipedia.org/wiki/The_Final_Problem (via search summary)",
+      "status": "secondary",
+      "endings": []
+    },
+    {
+      "id": "fp-footprints-note",
+      "statement": "Watson returns to find a note, a cigarette-case and a stick, and footprints leading to the edge and not back; Holmes and Moriarty are presumed fallen.",
+      "source": "memory of the story; the note and decoy are confirmed secondarily in The Empty House summaries",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_FALL"
+      ]
+    },
+    {
+      "id": "fp-date",
+      "statement": "The Reichenbach encounter is dated 4 May 1891 in the story.",
+      "source": "memory of the story",
+      "status": "memory",
+      "endings": []
+    },
+    {
+      "id": "eh-survival",
+      "statement": "In The Empty House Holmes says he was never in the abyss: he wrote the note with Moriarty's courteous leave and escaped.",
+      "source": "https://lettersfromwatson.substack.com/p/the-empty-house-part-2-of-3 (search summary)",
+      "status": "secondary",
+      "endings": [
+        "ENDING_THE_EMPTY_GRAVE"
+      ]
+    },
+    {
+      "id": "eh-travels",
+      "statement": "Holmes then travelled in Tibet (as the Norwegian Sigerson), Persia, Mecca and Khartoum, and worked on coal-tar derivatives at Montpellier before returning.",
+      "source": "search summaries of The Empty House",
+      "status": "secondary",
+      "endings": [
+        "ENDING_THE_EMPTY_GRAVE"
+      ]
+    },
+    {
+      "id": "eh-mycroft",
+      "statement": "Mycroft alone knew Holmes was alive and supplied him with money.",
+      "source": "https://en.wikipedia.org/wiki/Mycroft_Holmes (search summary)",
+      "status": "secondary",
+      "endings": [
+        "ENDING_THE_EMPTY_GRAVE"
+      ]
+    },
+    {
+      "id": "eh-return",
+      "statement": "Holmes returned to London in 1894.",
+      "source": "memory of the story",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_EMPTY_GRAVE"
+      ]
+    },
+    {
+      "id": "eh-moran",
+      "statement": "Colonel Sebastian Moran uses an air-gun in The Empty House and is caught by Holmes.",
+      "source": "search summaries of The Empty House",
+      "status": "secondary",
+      "endings": [
+        "ENDING_FATAL_SHOT",
+        "ENDING_WATSON_STANDS"
+      ]
+    },
+    {
+      "id": "moran-lieutenant",
+      "statement": "Moran is Moriarty's chief lieutenant and a celebrated heavy-game shot.",
+      "source": "memory of the stories",
+      "status": "memory",
+      "endings": [
+        "ENDING_FATAL_SHOT"
+      ]
+    },
+    {
+      "id": "irregulars",
+      "statement": "The Baker Street Irregulars are Holmes's street-boy agents, led by Wiggins, paid a shilling a day.",
+      "source": "memory of A Study in Scarlet and The Sign of Four",
+      "status": "memory",
+      "endings": [
+        "ENDING_PRIVATE_WAR"
+      ]
+    },
+    {
+      "id": "mycroft-govt",
+      "statement": "Mycroft is a government man of great reach in later stories.",
+      "source": "memory of The Bruce-Partington Plans",
+      "status": "memory",
+      "endings": [
+        "ENDING_REASON_OF_STATE"
+      ]
+    },
+    {
+      "id": "refuses-moriarty",
+      "statement": "In the story Moriarty visits Baker Street to warn Holmes off and Holmes refuses.",
+      "source": "memory of the story; the visit itself is confirmed secondarily",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_COMPACT"
+      ]
+    },
+    {
+      "id": "cocaine",
+      "statement": "Watson records Holmes's long fits of languor and his use of cocaine in the earlier stories.",
+      "source": "memory of The Sign of Four and A Scandal in Bohemia",
+      "status": "memory",
+      "endings": [
+        "ENDING_CRISIS_NERVE"
+      ]
+    },
+    {
+      "id": "invented",
+      "statement": "The crises, the closed hearing and second ledger, Larch, Pike, Alf, the Limehouse wharf and the alternate endings are the game's own invention and are labelled so.",
+      "source": "n/a (design)",
+      "status": "invented",
+      "endings": [
+        "ENDING_CRISIS_EVIDENCE",
+        "ENDING_CRISIS_STANDING",
+        "ENDING_REASON_OF_STATE",
+        "ENDING_PRIVATE_WAR",
+        "ENDING_THE_COMPACT",
+        "ENDING_WATSON_STANDS"
+      ]
+    },
+    {
+      "id": "eh-return-faint",
+      "statement": "In The Empty House Holmes returns in April 1894 over the Park Lane murder of Ronald Adair and reveals himself to Watson, who faints.",
+      "source": "search summaries of The Empty House; the faint and the disguise are from memory",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_RETURN"
+      ]
+    },
+    {
+      "id": "watson-bereaved",
+      "statement": "Watson has suffered a bereavement (the death of his wife) in the years Holmes is away.",
+      "source": "memory of The Empty House",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_RETURN"
+      ]
+    },
+    {
+      "id": "mycroft-later",
+      "statement": "Holmes does work for the Government through Mycroft in later stories (for example The Bruce-Partington Plans), without any commission.",
+      "source": "memory of the stories",
+      "status": "memory",
+      "endings": [
+        "ENDING_HER_MAJESTYS_SERVICE"
+      ]
+    },
+    {
+      "id": "milverton",
+      "statement": "In Charles Augustus Milverton Holmes burns a blackmailer's letters rather than publish them.",
+      "source": "memory of the story",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_SECOND_LEDGER"
+      ]
+    },
+    {
+      "id": "invented-roads",
+      "statement": "The Whitehall road, the second ledger, Lord Harcastle, Superintendent Greaves, the case board and the examinations are the game's own invention.",
+      "source": "n/a (design)",
+      "status": "invented",
+      "endings": [
+        "ENDING_HER_MAJESTYS_SERVICE",
+        "ENDING_THE_SECOND_LEDGER"
+      ]
+    }
+  ]
+}
