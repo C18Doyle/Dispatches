@@ -11,6 +11,7 @@ import {
   nextPosition,
   nextVisited,
   arrivalScreen,
+  STATE_EVENT_FLAG_PREFIX,
   startFlags,
   strandReadout,
   commandRating,

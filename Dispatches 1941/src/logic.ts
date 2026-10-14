@@ -62,6 +62,63 @@ export interface SpecialEvent {
   pressEvent?: unknown;
 }
 
+/**
+ * A state-driven special event: a piece of context that the state of the file brings to a headquarters between two reports (a shortage,
+ * a change of government, the first of a new weapon). It is not a decision and changes no meter. It is shown once, on its own screen, before
+ * the first report whose date starts inside its window, if `when` holds for the file's state. The flag `ev_<id>` records that it was shown.
+ */
+export interface StateEvent {
+  id: string;
+  campaign: string;
+  kind: string;
+  /** A report inside the window, for the audit (tools/check-events.mjs) and the claims register. */
+  anchor: string;
+  /** The window, as "YYYY-MM", compared with the month a report's date starts in. */
+  from: string;
+  to: string;
+  /** The date shown on the screen. */
+  date: string;
+  title: string;
+  paras: string[];
+  when: (flags: Flags, meters: Meters) => boolean;
+}
+
+export const STATE_EVENT_FLAG_PREFIX = "ev_";
+
+const REPORT_MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+/**
+ * The month a report's date starts in, as "YYYY-MM": "SEPTEMBER 1940" is 1940-09, "JUNE – JULY 1942" is 1942-06, "1943 – 1944" is 1943-01,
+ * "LATE 1944" is 1944-01 (a date with no month is taken from the start of the year, so a window is never entered early by it). Null when the
+ * date holds no year.
+ */
+export function reportStartMonth(date: string | undefined): string | null {
+  if (typeof date !== "string") return null;
+  const year = date.match(/(19\d{2})/);
+  if (!year) return null;
+  const month = date.toUpperCase().match(/JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC/);
+  const mm = String((month ? REPORT_MONTHS.indexOf(month[0]) : 0) + 1).padStart(2, "0");
+  return `${year[1]}-${mm}`;
+}
+
+/** The first event of the command, in list order, that has not been shown, whose window holds the report's start and whose condition holds. */
+export function dueStateEvent(args: {
+  campaignId: string;
+  events: StateEvent[];
+  nextDate: string | undefined;
+  flags: Flags;
+  meters: Meters;
+}): StateEvent | null {
+  const start = reportStartMonth(args.nextDate);
+  if (!start) return null;
+  for (const e of args.events) {
+    if (e.campaign !== args.campaignId || args.flags[STATE_EVENT_FLAG_PREFIX + e.id]) continue;
+    if (start < e.from || start > e.to) continue;
+    if (e.when(args.flags, args.meters)) return e;
+  }
+  return null;
+}
+
 export interface DivergenceFork {
   id: string;
   flag: string;
@@ -649,12 +706,14 @@ export interface Arrival {
   screen: string;
   divergenceForkId: string | null;
   pressEvent: unknown;
+  stateEvent: StateEvent | null;
 }
 
 /**
  * Decides which interstitial (if any) shows on arriving at nextPos: a Historical
  * Divergence reveal wins outright; otherwise a SPECIAL_EVENTS entry keyed to the node
- * just left; otherwise the next briefing.
+ * just left; otherwise a state-driven event the file has earned (STATE_EVENTS, one at
+ * a time); otherwise the next briefing.
  */
 export function arrivalScreen(args: {
   dynamic: boolean;
@@ -665,6 +724,10 @@ export function arrivalScreen(args: {
   forks: Record<string, DivergenceFork[]>;
   events: Record<string, SpecialEvent[]>;
   seenReveals: string[];
+  /** State-driven events, with the date of the report being arrived at and the state on arrival. Omitted: none can fire. */
+  stateEvents?: StateEvent[];
+  nextDate?: string;
+  meters?: Meters;
 }): Arrival {
   const { dynamic, campaignId, flags } = args;
   const fork = dynamic
@@ -675,10 +738,13 @@ export function arrivalScreen(args: {
   const event = dynamic
     ? (args.events[campaignId] || []).find((e) => e.afterNode === args.position && (!e.condition || e.condition(flags)))
     : null;
-  if (fork) return { screen: "divergence", divergenceForkId: fork.id, pressEvent: null };
-  return {
-    screen: event ? event.type : "briefing",
-    divergenceForkId: null,
-    pressEvent: event && event.type === "press" ? event.pressEvent : null,
-  };
+  if (fork) return { screen: "divergence", divergenceForkId: fork.id, pressEvent: null, stateEvent: null };
+  if (event) {
+    return { screen: event.type, divergenceForkId: null, pressEvent: event.type === "press" ? event.pressEvent : null, stateEvent: null };
+  }
+  const stateEvent =
+    dynamic && args.stateEvents && args.meters
+      ? dueStateEvent({ campaignId, events: args.stateEvents, nextDate: args.nextDate, flags, meters: args.meters })
+      : null;
+  return { screen: stateEvent ? "stateEvent" : "briefing", divergenceForkId: null, pressEvent: null, stateEvent };
 }
