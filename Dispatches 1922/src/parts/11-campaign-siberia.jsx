@@ -729,6 +729,7 @@
             choices: [
               {
                 label: "Commit to Diterichs' counterattack. Throw the reserves into retaking the city.",
+                keyBattleSubgame: { id: "chelyabinsk" },
                 advisor: {
                   name: "Diterichs",
                   quote:
@@ -739,7 +740,28 @@
                 impact: {},
                 next: "railPriority19",
                 outcome:
-                  "The counterattack goes in on July 29 — directly into Frunze's prepared flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
+                  "The counterattack goes in against a Red army that has been preparing for exactly this. Whether it checks the advance or is ground down is decided by the battle.",
+                uncertain: (() => {
+                  const checkWeight = modWeight(25, meterPct(meters.manpower));
+                  return [
+                    {
+                      weight: checkWeight,
+                      title: "The counterattack checks the Red advance",
+                      setFlags: { chelyabinskOutcome: "checked" },
+                      impact: { manpower: 2 },
+                      outcome:
+                        "A modeled alternative. The counterattack pushes a Red division back on the flank and the junction holds for several days. It does not retake the city, and Chelyabinsk falls within the week. The reserves leave it as a formation and not as a crowd.",
+                    },
+                    {
+                      weight: 100 - checkWeight,
+                      title: "The counterattack is ground down",
+                      setFlags: { chelyabinskOutcome: "grinder" },
+                      impact: {},
+                      outcome:
+                        "The counterattack goes in on July 29 — directly into Frunze's prepared flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
+                    },
+                  ];
+                })(),
               },
               {
                 label: "Decline the counterattack. Pull the reserves back to a more defensible line rather than commit them to urban fighting.",
@@ -1111,6 +1133,7 @@
             choices: [
               {
                 label: "Attack. Force the issue at Irkutsk and try to take Kolchak back by strength.",
+                keyBattleSubgame: { id: "irkutsk" },
                 advisor: {
                   name: "Voitsekhovsky",
                   quote:
@@ -1459,7 +1482,9 @@
                 : flags.eichePursuitChoice === "continue"
                 ? "\n\nThe column kept moving and let the rearguard absorb the pursuit unsupported. More men reached the border for it. The decision is recorded in nobody's memoir as anything other than the correct one, which is its own kind of comment on what this retreat had become by then."
                 : "") +
-              (flags.chelyabinskChoice === "counterattack"
+              (flags.chelyabinskChoice === "counterattack" && flags.chelyabinskOutcome === "checked"
+                ? "\n\nIn this telling Diterichs' counterattack at Chelyabinsk checked the Red advance for a few days. It did not hold the city, but the reserves it spent came out as a formation, and more of them were still walking by the Manchurian border."
+                : flags.chelyabinskChoice === "counterattack"
                 ? "\n\nDiterichs' counterattack at Chelyabinsk was committed to and did not stabilize the flank it was meant to. The reserves it spent were the ones that would otherwise have been available for exactly this stretch of the retreat, and their absence shaped who was still walking by the Manchurian border."
                 : ""),
           };

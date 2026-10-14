@@ -38,7 +38,7 @@ const BATTLES = new Function(configSrc + "\nreturn BATTLES;")();
 
 // ---- 1. arithmetic and configs ----------------------------------------------------------------------------------
 const ids = Object.keys(BATTLES);
-check(ids.length === 4, `four battles are registered (${ids.join(", ")})`);
+check(ids.length === 8, `eight battles are registered (${ids.join(", ")})`);
 for (const [id, cfg] of Object.entries(BATTLES)) {
   const camp = CAMPAIGNS[cfg.campaign];
   const axes = camp.triangleAxes.map((a) => a.key);
@@ -48,7 +48,7 @@ for (const [id, cfg] of Object.entries(BATTLES)) {
   const choice = node && node.choices[cfg.host.choice];
   check(!!choice && choice.keyBattleSubgame && choice.keyBattleSubgame.id === id, `${id}: the order ${cfg.host.node}[${cfg.host.choice}] names this battle`);
   check(!!choice && Array.isArray(choice.uncertain) && choice.uncertain.length === 2, `${id}: the hosting order has exactly two contested outcomes`);
-  check(camp.NODE_ATLAS.some((a) => a.id === cfg.echo.node), `${id}: the echo report ${cfg.echo.node} exists`);
+  check([].concat(cfg.echo.node).every((n) => camp.NODE_ATLAS.some((a) => a.id === n)), `${id}: the echo report(s) ${[].concat(cfg.echo.node).join(", ")} exist`);
   check(cfg.categories.every((k) => axes.includes(k.meter)) && axes.includes(cfg.cleanMeter), `${id}: every arm's meter and the clean meter are axes of ${cfg.campaign}`);
   check(Object.keys(cfg.effectiveness).sort().join() === [...armIds].sort().join(), `${id}: a weight for every arm and no other`);
   check((cfg.commanders || []).every((m) => armIds.includes(m.category)), `${id}: every officer leads a real arm`);
@@ -186,6 +186,45 @@ const cardWithBadge = (ctx) => ctx.buttons().find((b) => ctx.lab(b) === "ISSUE T
   check(!/LEADS TO BATTLE PLANNING/.test(ctx.text()), "ui: with planning off there is no badge");
   await ctx.click(orders(ctx)[0]);
   check(/OUTCOME/.test(ctx.text()) && !/AFTER-ACTION REPORT/.test(ctx.text()) && !/ORDER OF BATTLE/.test(ctx.text()), "ui: with planning off the order goes straight to its outcome, at the record's odds");
+  ctx.restore();
+}
+
+// ---- every other campaign reaches a battle, plans it and gets its report ------------------------------------------------
+for (const [id, label] of [
+  ["siberia", "Provisional All-Russian Government"],
+  ["bolsheviks", "Revolutionary Military Council of the Republic"],
+  ["provisionalGov17", "The Provisional Government"],
+]) {
+  const ctx = makeContext(cfgUi, bundle, 11);
+  if (ctx.failed) throw new Error(ctx.failed);
+  ctx.runCase = [id, label, false];
+  await sleep(300);
+  await ctx.settle();
+  const err = await cfgUi.setup(ctx, [id, label, false]);
+  if (err) throw new Error(err);
+  let reached = false;
+  for (let i = 0; i < 120 && !reached; i++) {
+    const host = cardWithBadge(ctx);
+    if (host) {
+      reached = true;
+      await ctx.click(host);
+      check(/ORDER OF BATTLE/.test(ctx.text()), `${id}: the order opens the planning screen`);
+      await ctx.click(find(ctx, /^LET THE STAFF PLAN IT$/));
+      await ctx.click(find(ctx, /^ISSUE THE PLAN$/));
+      check(/AFTER-ACTION REPORT/.test(ctx.text()), `${id}: the outcome carries the after-action report`);
+      await ctx.click(find(ctx, /^CONTINUE$/));
+      check(!/ORDER OF BATTLE/.test(ctx.text()), `${id}: the run goes on after the battle`);
+      break;
+    }
+    const o = orders(ctx);
+    if (o.length) await ctx.click(o[0]);
+    else {
+      const next = find(ctx, /^(CONTINUE|PROCEED|NEXT)/i);
+      if (!next) break;
+      await ctx.click(next);
+    }
+  }
+  check(reached, `${id}: a run reaches a battle (first order each time)`);
   ctx.restore();
 }
 
