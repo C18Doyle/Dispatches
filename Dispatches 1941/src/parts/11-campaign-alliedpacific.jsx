@@ -718,6 +718,25 @@
               disabledReason: meters.readiness <= -3 ? "The Marine divisions available can't absorb an underprepared landing at this readiness level on top of everything already committed. There isn't a force left to land immediately with." : undefined,
               gateCheck: { meter: "readiness", threshold: -3, label: "Readiness" },
               next: "savoIslandReckoning42",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.watchtowerAllied42,
+              uncertain: [
+                  {
+                    weight: modWeight(65, meters.readiness),
+                    title: "The beachhead holds with what was landed",
+                    setFlags: {},
+                    impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "The Marines take Tulagi and the unfinished airfield on Guadalcanal, and the beachhead holds through the raids from Rabaul and the carriers' withdrawal. The transports sail on 9 August with part of their cargo still aboard, and the division goes onto short rations, but it is ashore with an airfield. The campaign that follows is fought on a logistical shoestring the Joint Chiefs never fully resourced.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(65, meters.readiness); return Math.max(5, 100 - w); })(),
+                    title: "The beachhead is left short",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                    outcome:
+                      "Speculative. The raids from Rabaul and the early loss of air cover disrupt the unloading, and the transports leave with half of the division's food and ammunition still aboard. The Marines hold the airfield, but their first weeks on Guadalcanal are spent short of everything, and the Japanese counterattacks arrive while the beachhead is at its weakest.",
+                  },
+              ],
               outcome:
                 "Unprepared, the airfield's garrison loses it days from completion, but the six-month campaign that follows, the 'Tokyo Express' night naval battles, the starvation conditions in the jungle on both sides, is fought on a logistical shoestring the Joint Chiefs never fully resourced. Guadalcanal is held, barely, and becomes the campaign that starts converting American industrial advantage into a Pacific-wide offensive.",
             },
@@ -752,7 +771,7 @@
           title: "Savo Island",
           historicalRecord: true,
           situation:
-            "On the night of August 8–9, two days after the landing, a Japanese cruiser squadron under Mikawa slips past Allied picket destroyers at night and catches the covering force completely by surprise off Savo Island. Four Allied heavy cruisers, Astoria, Quincy, Vincennes, and the Australian cruiser Canberra, are sunk in under an hour, in what becomes one of the worst single defeats in U.S. Navy history. Mikawa withdraws without attacking the transports, which saves the landing and does nothing for the covering force. More than a thousand Allied sailors are dead by morning, and Nimitz's command has to decide how the defeat is handled while the Guadalcanal campaign is under way.",
+            "On the night of August 8–9, two days after the landing, a Japanese cruiser squadron under Mikawa slips past Allied picket destroyers at night and catches the covering force completely by surprise off Savo Island. Four Allied heavy cruisers, Astoria, Quincy, Vincennes, and the Australian cruiser Canberra, are sunk in under an hour, in what becomes one of the worst single defeats in U.S. Navy history. Mikawa withdraws without attacking the transports, which saves the landing and does nothing for the covering force. More than a thousand Allied sailors are dead by morning, and Nimitz's command has to decide how the defeat is handled while the Guadalcanal campaign is under way." + (flags.guadalcanalAlliedPath === "immediate" ? keyBattleEcho("watchtowerAllied42", flags) : ""),
           choices: [
             {
               label: "Order a full court of inquiry and make the findings public: accountability now, whatever it costs morale mid-campaign",
@@ -1894,6 +1913,25 @@
               setFlags: { iwoJimaAlliedPath: "compressed" },
               impact: { readiness: -3, pipeline: 0, initiative: 2 },
               next: "okinawaAllied45",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.iwoJimaAllied45,
+              uncertain: [
+                  {
+                    weight: modWeight(55, meters.readiness),
+                    title: "The island falls on the timetable",
+                    setFlags: {},
+                    impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "The compressed bombardment fails to meaningfully touch Kuribayashi's tunnel network, and the Marines who land on February 19th walk into a defense barely dented by three days of shelling. The battle runs five weeks and costs the Marine Corps nearly 7,000 dead, its highest single-battle toll of the war, a price historians have argued for decades might have been lower with the ten days originally requested.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(55, meters.readiness); return Math.max(5, 100 - w); })(),
+                    title: "The landing stalls on the beaches",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                    outcome:
+                      "Speculative. The guns on Suribachi and the plateau wreck the first waves, the beaches jam with burning craft and the second wave cannot land. The Marines are pinned on the ash for days, the reserve is committed early, and the island is taken weeks later and at a higher cost than the historical battle.",
+                  },
+              ],
               outcome:
                 "The compressed bombardment fails to meaningfully touch Kuribayashi's tunnel network, and the Marines who land on February 19th walk into a defense barely dented by three days of shelling. The battle runs five weeks and costs the Marine Corps nearly 7,000 dead, its highest single-battle toll of the war, a price historians have argued for decades might have been lower with the ten days originally requested, against a Navy schedule that had competing claims on the same ships.",
             },
@@ -1978,7 +2016,7 @@
               : "") +
             (flags.overlandPath === "ledoRoad"
               ? " The Ledo Road option kept China supplied by land rather than air alone, and whatever that bought the wider war effort, it's one fewer variable competing for the same shipping this fleet is drawing on right now."
-              : ""),
+              : "") + (flags.iwoJimaAlliedPath === "compressed" ? keyBattleEcho("iwoJimaAllied45", flags) : ""),
           choices: [
             {
               label: "Hold the radar picket line as planned: early warning takes priority over picket-ship survival",
@@ -1987,6 +2025,25 @@
               setFlags: { okinawaAlliedPath: "holdPicket" },
               impact: { readiness: -3, pipeline: -1, initiative: 1 },
               next: "strategicBombingAllied45Delayed",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.okinawaAllied45,
+              uncertain: [
+                  {
+                    weight: modWeight(55, meters.initiative),
+                    title: "The picket line holds",
+                    setFlags: {},
+                    impact: { readiness: 0, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "The picket destroyers absorb a disproportionate share of the kamikaze campaign's cost: several are sunk and dozens more damaged, with casualties among picket crews severe enough that the sailors on those stations speak of them as death sentences. The early warning they give is real and saves ships further in. It does not change what the watch costs the destroyers that keep it.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(55, meters.initiative); return Math.max(5, 100 - w); })(),
+                    title: "The picket line is broken",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                    outcome:
+                      "Speculative. The stations are overwhelmed one after another by the massed attacks, the fighters cannot cover all of them, and the raids reach the transports and carriers behind the line. The fleet's losses are far higher than the real ones, and the landing is held up while the damaged ships are repaired.",
+                  },
+              ],
               outcome:
                 "The picket destroyers absorb a disproportionate share of the kamikaze campaign's cost: several are sunk and dozens more damaged, with casualties among picket crews severe enough that the sailors on those stations speak of them as death sentences. The early warning they give is real and saves ships further in. It does not change what the watch costs the destroyers that keep it.",
             },
@@ -2044,7 +2101,7 @@
               ? " The picket doctrine argument off Okinawa, pulled back and vindicated by radar and fighter direction closing the gap, is the kind of recent institutional success that makes trusting LeMay's own already-running judgment an easier case to accept without relitigating it from scratch."
               : flags.okinawaPickResult === "warningLost"
               ? " The picket doctrine argument off Okinawa, pulled back at a cost in ships hit deeper in the formation, is a recent reminder that a plausible-sounding change to doctrine doesn't always survive contact with results, a caution this staff can't fully apply retroactively to a firebombing campaign that's been running for months without its direct sign-off."
-              : ""),
+              : "") + (flags.okinawaAlliedPath === "holdPicket" ? keyBattleEcho("okinawaAllied45", flags) : ""),
           choices: [
             {
               label: "Endorse the campaign as already run: let LeMay's doctrine continue expanding to the remaining target list",
