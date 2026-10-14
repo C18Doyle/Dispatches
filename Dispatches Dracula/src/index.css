@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Deliberately single-theme: a candlelit 1818 laboratory ledger. Inverting
-   this to a light palette would break the conceit, so we commit to dark
-   and declare it explicitly rather than by omission. */
+/* Dark by design: the game is played at night. The palette is not in this file: it is a theme (src/themes.json, applied as the --c-* and --a-* variables by
+   src/theme.ts), so every colour below is `rgb(var(--c-x))`. The fallbacks after the commas are the default theme, for the instant before the script runs. */
 @layer base {
   :root {
     color-scheme: dark;
@@ -17,19 +16,53 @@
   }
 
   body {
-    background-color: #0a0a0a;
+    background-color: rgb(var(--c-void, 11 7 8));
     background-image:
-      /* engraving hatch, carried across every screen rather than just the
-         card, so the whole game reads as printed on the same stock */
-      repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 5px),
-      radial-gradient(ellipse 60% 40% at 50% -10%, rgba(201, 48, 44, 0.13), transparent 60%),
-      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+      /* engraving hatch, carried across every screen so the whole game reads as printed on the same stock */
+      repeating-linear-gradient(115deg, rgb(255 255 255 / 0.025) 0px, rgb(255 255 255 / 0.025) 1px, transparent 1px, transparent 5px),
+      radial-gradient(ellipse 60% 40% at 50% -10%, rgb(var(--c-blood-bright, 176 32 42) / 0.16), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 50% 50%, rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.6) 100%);
     background-attachment: fixed;
   }
 
   ::selection {
-    background: rgba(201, 48, 44, 0.35);
+    background: rgb(var(--c-blood-bright, 176 32 42) / 0.4);
   }
+}
+
+/* ---- artwork (src/art.tsx): the classes the drawings use, all from the theme ---- */
+.a-moon { fill: var(--a-moon, #efe3c4); }
+.a-far { fill: var(--a-far, #1b0d12); }
+.a-sil { fill: var(--a-sil, #070406); }
+.a-win-fill { fill: var(--a-win, #e8a33a); }
+.a-fog-fill { fill: var(--a-fog, #7a5058); }
+.a-stroke { stroke: var(--a-sil, #070406); }
+.a-wave { stroke: var(--a-moon, #efe3c4); }
+.a-st-top { stop-color: var(--a-skyTop, #05030a); }
+.a-st-mid { stop-color: var(--a-skyMid, #1a0a12); }
+.a-st-low { stop-color: var(--a-skyLow, #4a1418); }
+.a-st-moon { stop-color: var(--a-moon, #efe3c4); }
+.a-st-win { stop-color: var(--a-win, #e8a33a); }
+.a-st-glow { stop-color: var(--a-glow, #b0202a); }
+.a-st-fog { stop-color: var(--a-fog, #7a5058); }
+.a-st-void { stop-color: rgb(var(--c-void, 11 7 8)); }
+
+.art-banner {
+  display: block;
+  width: 100%;
+  height: 8.5rem;
+}
+.art-title {
+  display: block;
+  width: 100%;
+  height: clamp(17rem, 44vh, 24rem);
+}
+
+/* a heading that takes focus when a screen changes (for screen readers) does not need a ring drawn round it */
+main h1:focus,
+main h2:focus,
+main [data-screen-heading]:focus {
+  outline: none;
 }
 
 @layer utilities {
@@ -54,47 +87,63 @@
     padding: 0.15rem 0.45rem;
     border-radius: 1px;
     border: 1px solid currentColor;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgb(0 0 0 / 0.2);
   }
 
+  /* the page: paper with a double rule, a gilt inner line and a halftone grain */
   .parchment-card {
     position: relative;
-    background-color: #EDEAE0;
-    /* halftone dot-grid, closer to a woodcut/engraving print texture than
-       the old fine parallel-line hatch */
-    background-image: radial-gradient(circle, rgba(10, 10, 10, 0.07) 1px, transparent 1px);
+    background-color: rgb(var(--c-parchment));
+    background-image: radial-gradient(circle, rgb(var(--c-ink) / 0.07) 1px, transparent 1px);
     background-size: 4px 4px;
-    border: 1px solid rgba(10, 10, 10, 0.65);
+    border: 1px solid rgb(var(--c-ink) / 0.7);
     box-shadow:
-      0 0 0 1px rgba(201, 48, 44, 0.2),
-      0 20px 60px -12px rgba(0, 0, 0, 0.85),
-      0 0 70px -22px rgba(201, 48, 44, 0.3);
+      0 0 0 1px rgb(var(--c-brass) / 0.35),
+      0 0 0 4px rgb(var(--c-void)),
+      0 0 0 5px rgb(var(--c-brass) / 0.45),
+      0 22px 60px -12px rgb(0 0 0 / 0.85),
+      0 0 70px -22px rgb(var(--c-blood-bright) / 0.35);
   }
 
   .parchment-card::before {
     content: "";
     position: absolute;
     inset: 6px;
-    border: 1px solid rgba(201, 48, 44, 0.22);
+    border: 1px solid rgb(var(--c-blood-bright) / 0.28);
     pointer-events: none;
+    z-index: 2;
   }
 
+  /* gilt corner brackets with a diamond at the tip */
   .corner-flourish {
     position: absolute;
-    width: 1.1rem;
-    height: 1.1rem;
-    border: 1.5px solid rgba(201, 48, 44, 0.55);
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 1.5px solid rgb(var(--c-brass) / 0.9);
+    z-index: 3;
   }
-  .corner-flourish.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
-  .corner-flourish.tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
-  .corner-flourish.bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
-  .corner-flourish.br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+  .corner-flourish::after {
+    content: "";
+    position: absolute;
+    width: 0.38rem;
+    height: 0.38rem;
+    background: rgb(var(--c-brass));
+    transform: rotate(45deg);
+  }
+  .corner-flourish.tl { top: 3px; left: 3px; border-right: none; border-bottom: none; }
+  .corner-flourish.tl::after { top: -0.2rem; left: -0.2rem; }
+  .corner-flourish.tr { top: 3px; right: 3px; border-left: none; border-bottom: none; }
+  .corner-flourish.tr::after { top: -0.2rem; right: -0.2rem; }
+  .corner-flourish.bl { bottom: 3px; left: 3px; border-right: none; border-top: none; }
+  .corner-flourish.bl::after { bottom: -0.2rem; left: -0.2rem; }
+  .corner-flourish.br { bottom: 3px; right: 3px; border-left: none; border-top: none; }
+  .corner-flourish.br::after { bottom: -0.2rem; right: -0.2rem; }
 
   .ornament-divider {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: rgba(176, 141, 70, 0.7);
+    color: rgb(var(--c-brass) / 0.85);
   }
   .ornament-divider::before,
   .ornament-divider::after {
@@ -105,7 +154,93 @@
   }
 
   .gauge-track {
-    background: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0 1px, transparent 1px 10%);
+    background: repeating-linear-gradient(90deg, rgb(0 0 0 / 0.35) 0 1px, transparent 1px 10%);
+  }
+
+  /* the first letter of a scene, in the display face, in blood */
+  .dropcap::first-letter {
+    font-family: var(--font-display), Georgia, serif;
+    float: left;
+    font-size: 3.5em;
+    line-height: 0.8;
+    padding: 0.07em 0.1em 0 0;
+    color: rgb(var(--c-blood));
+  }
+
+  /* a wax seal: the number of a choice, as a letter would be sealed */
+  .seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 46% 54% 50% 50% / 52% 46% 54% 48%;
+    background: radial-gradient(circle at 35% 30%, rgb(var(--c-blood-bright)), rgb(var(--c-blood)) 68%, rgb(0 0 0 / 0.55));
+    color: rgb(var(--c-parchment));
+    font-family: "Cinzel", Georgia, serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    box-shadow: inset 0 0 0 2px rgb(0 0 0 / 0.16), 0 1px 3px rgb(0 0 0 / 0.45);
+  }
+  .seal-dim {
+    background: rgb(var(--c-ink-soft) / 0.28);
+    color: rgb(var(--c-ink-soft));
+    box-shadow: none;
+  }
+  .seal-big {
+    width: 4.2rem;
+    height: 4.2rem;
+    font-size: 1.5rem;
+    font-family: var(--font-display), Georgia, serif;
+  }
+
+  /* the title screen's buttons: a double rule, like the frame of a plate */
+  .btn-gothic {
+    position: relative;
+    border: 1px solid rgb(var(--c-brass));
+    color: rgb(var(--c-parchment));
+    background: linear-gradient(rgb(var(--c-brass) / 0.1), rgb(var(--c-brass) / 0.02));
+    box-shadow: inset 0 0 0 3px rgb(var(--c-void)), inset 0 0 0 4px rgb(var(--c-brass) / 0.45);
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .btn-gothic:hover {
+    background: rgb(var(--c-brass));
+    color: rgb(var(--c-ink));
+  }
+
+  /* the documents (letters, newspapers, notebooks), each its own kind of paper */
+  .paper {
+    position: relative;
+    background-color: rgb(var(--c-parchment));
+    color: rgb(var(--c-ink));
+    box-shadow: 0 22px 60px -12px rgb(0 0 0 / 0.85), 0 0 0 1px rgb(var(--c-brass) / 0.3);
+  }
+  .paper-news {
+    background-image: radial-gradient(circle, rgb(var(--c-ink) / 0.09) 1px, transparent 1px);
+    background-size: 3px 3px;
+    border: 4px double rgb(var(--c-ink));
+  }
+  .paper-letter {
+    border-top: 6px solid rgb(var(--c-blood));
+    background-image: linear-gradient(rgb(var(--c-parchment-dim) / 0.5), transparent 6rem);
+  }
+  .paper-diary {
+    background-image:
+      linear-gradient(90deg, transparent 2.1rem, rgb(var(--c-blood) / 0.45) 2.1rem, rgb(var(--c-blood) / 0.45) calc(2.1rem + 1px), transparent calc(2.1rem + 1px)),
+      repeating-linear-gradient(transparent 0, transparent 1.74rem, rgb(var(--c-ink) / 0.16) 1.74rem, rgb(var(--c-ink) / 0.16) calc(1.74rem + 1px));
+    background-position: 0 0, 0 0.3rem;
+    padding-left: 3.2rem;
+  }
+  .paper-diary .diary-text {
+    line-height: 1.75rem;
+  }
+  .paper-fold::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent calc(50% - 1px), rgb(var(--c-ink) / 0.08) 50%, transparent calc(50% + 1px));
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -114,6 +249,18 @@
     }
     .tension-pulse {
       animation: tension-pulse 0.7s ease-in-out infinite;
+    }
+    .bat-a {
+      animation: bat-drift 7s ease-in-out infinite alternate;
+    }
+    .bat-b {
+      animation: bat-drift 9s ease-in-out infinite alternate-reverse;
+    }
+    .fog-a {
+      animation: fog-drift 26s ease-in-out infinite alternate;
+    }
+    .fog-b {
+      animation: fog-drift 34s ease-in-out infinite alternate-reverse;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -128,12 +275,20 @@
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.06); opacity: 0.72; }
   }
+  @keyframes bat-drift {
+    from { translate: 0 0; }
+    to { translate: 14px -6px; }
+  }
+  @keyframes fog-drift {
+    from { translate: -18px 0; }
+    to { translate: 18px 0; }
+  }
   @keyframes flicker {
-    0%, 100% { opacity: 1; text-shadow: 0 0 18px rgba(201, 48, 44, 0.55), 0 0 40px rgba(201, 48, 44, 0.25); }
-    42% { opacity: 0.96; text-shadow: 0 0 14px rgba(201, 48, 44, 0.4), 0 0 28px rgba(201, 48, 44, 0.18); }
-    45% { opacity: 1; text-shadow: 0 0 22px rgba(201, 48, 44, 0.65), 0 0 46px rgba(201, 48, 44, 0.3); }
-    68% { opacity: 0.9; text-shadow: 0 0 10px rgba(201, 48, 44, 0.35); }
-    71% { opacity: 1; text-shadow: 0 0 18px rgba(201, 48, 44, 0.55), 0 0 40px rgba(201, 48, 44, 0.25); }
+    0%, 100% { opacity: 1; text-shadow: 0 0 18px rgb(var(--c-blood-bright) / 0.55), 0 0 40px rgb(var(--c-blood-bright) / 0.25); }
+    42% { opacity: 0.96; text-shadow: 0 0 14px rgb(var(--c-blood-bright) / 0.4), 0 0 28px rgb(var(--c-blood-bright) / 0.18); }
+    45% { opacity: 1; text-shadow: 0 0 22px rgb(var(--c-blood-bright) / 0.65), 0 0 46px rgb(var(--c-blood-bright) / 0.3); }
+    68% { opacity: 0.9; text-shadow: 0 0 10px rgb(var(--c-blood-bright) / 0.35); }
+    71% { opacity: 1; text-shadow: 0 0 18px rgb(var(--c-blood-bright) / 0.55), 0 0 40px rgb(var(--c-blood-bright) / 0.25); }
   }
 }
 

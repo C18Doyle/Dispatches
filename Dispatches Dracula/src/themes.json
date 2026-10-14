@@ -1,0 +1,104 @@
+{
+  "default": "blood",
+  "themes": [
+    {
+      "id": "blood",
+      "label": "Blood and Bone",
+      "blurb": "Black lacquer, bone paper, crimson and tarnished gold. The traditional look.",
+      "displayFont": "'Pirata One'",
+      "colors": {
+        "void": "#0b0708",
+        "void2": "#150c0d",
+        "parchment": "#ece4d2",
+        "parchment-dim": "#d6cbb4",
+        "ink": "#140d0c",
+        "ink-soft": "#43322f",
+        "blood": "#8c1b1b",
+        "blood-bright": "#b0202a",
+        "verdigris": "#2f5a3f",
+        "verdigris-bright": "#2f6b46",
+        "brass": "#b8944a",
+        "brass-bright": "#d9b865",
+        "brass-dim": "#5c4a22",
+        "ash": "#a09484"
+      },
+      "art": {
+        "skyTop": "#05030a",
+        "skyMid": "#1a0a12",
+        "skyLow": "#4a1418",
+        "moon": "#efe3c4",
+        "far": "#1b0d12",
+        "sil": "#070406",
+        "win": "#e8a33a",
+        "fog": "#7a5058",
+        "glow": "#b0202a"
+      }
+    },
+    {
+      "id": "candle",
+      "label": "Candlelit Study",
+      "blurb": "Walnut and vellum under one candle. Warmer, older, quieter.",
+      "displayFont": "'IM Fell English SC'",
+      "colors": {
+        "void": "#110b06",
+        "void2": "#1c130a",
+        "parchment": "#efe0bf",
+        "parchment-dim": "#d9c79c",
+        "ink": "#221608",
+        "ink-soft": "#54402a",
+        "blood": "#8a2a14",
+        "blood-bright": "#a8381a",
+        "verdigris": "#4a6a2c",
+        "verdigris-bright": "#436026",
+        "brass": "#cf9f4e",
+        "brass-bright": "#ecbe66",
+        "brass-dim": "#68481a",
+        "ash": "#ab9874"
+      },
+      "art": {
+        "skyTop": "#0b0704",
+        "skyMid": "#27160a",
+        "skyLow": "#6b3a14",
+        "moon": "#f6dfa8",
+        "far": "#2a170a",
+        "sil": "#0c0703",
+        "win": "#ffc15a",
+        "fog": "#8d6a40",
+        "glow": "#ecbe66"
+      }
+    },
+    {
+      "id": "night",
+      "label": "Carpathian Night",
+      "blurb": "Midnight blue, moonlit silver and cold paper. Crimson only where it matters.",
+      "displayFont": "'Cinzel Decorative'",
+      "colors": {
+        "void": "#060914",
+        "void2": "#0c1224",
+        "parchment": "#e0e6ef",
+        "parchment-dim": "#c3cbd9",
+        "ink": "#0c1220",
+        "ink-soft": "#38465c",
+        "blood": "#8f1f2b",
+        "blood-bright": "#a8222f",
+        "verdigris": "#2c5f63",
+        "verdigris-bright": "#27595a",
+        "brass": "#a2b3cc",
+        "brass-bright": "#cbd8ec",
+        "brass-dim": "#3b4a66",
+        "ash": "#8e9cb6"
+      },
+      "art": {
+        "skyTop": "#03060f",
+        "skyMid": "#0d1a38",
+        "skyLow": "#27406a",
+        "moon": "#eef3fb",
+        "far": "#0f1c3a",
+        "sil": "#04070f",
+        "win": "#f0c060",
+        "fog": "#6f84a8",
+        "glow": "#9db6e0"
+      }
+    }
+  ]
+}

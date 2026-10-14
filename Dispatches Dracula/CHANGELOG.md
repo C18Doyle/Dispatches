@@ -6,6 +6,10 @@ Format: version or date, then Fixed / Changed / Added. A change that moves the U
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased
+### Added (prototype, branch dracula/ui-prototype)
+- **Themes.** Three looks, chosen in Settings and kept per browser: Blood and Bone (the default), Candlelit Study and Carpathian Night. A theme is data in `src/themes.json` (palette, display face, artwork colours), applied as CSS variables by `src/theme.ts`; the accessibility check tests every theme's contrast pairs.
+- **Artwork drawn in code** (`src/art.tsx`): an illustrated title screen (moon, ridge, castle, bats, drifting fog), a silhouette frontispiece for each place (castle, Varna, the sea, Whitby, London, Carfax, Piccadilly, the East End, dawn), bat rules, wax-seal choice numbers, drop caps, gilt corners, icons for the reserves.
+- **Documents on their own paper:** newspapers in columns, typed letters with a wax seal, ruled notebook pages.
 
 ## 0.1.0 (2026-10-14)
 ### Added

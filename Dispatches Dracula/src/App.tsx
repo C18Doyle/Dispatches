@@ -26,11 +26,21 @@ import * as sfx from "./sfx";
 import { score } from "./score";
 import type { ScoreMood } from "./score";
 import RouteMap from "./RouteMap";
+import { BatMark, ResourceIcon, SceneBanner, TitleScene } from "./art";
+import { THEMES, applyTheme, loadTheme, saveTheme } from "./theme";
 
 type Resource = string;
 type FontSize = UiPrefs["fontSize"];
 
 const TOTAL_ENDINGS = Object.keys(def.content.endings).length;
+const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+
+/** Which kind of paper a document is printed on: a newspaper, a letter or a page of someone's notebook. */
+function paperKind(p: { kind: string; source: string }): "news" | "letter" | "diary" {
+  if (/Gazette|Telegraph|List|Times|Mail/.test(p.source)) return "news";
+  if (p.kind === "crisis" || p.kind === "transition") return "diary";
+  return "letter";
+}
 
 const RESOURCE_IDS: Resource[] = def.config.resources.map((r) => r.id);
 const RESOURCE_LABELS: Record<Resource, string> = Object.fromEntries(def.config.resources.map((r) => [r.id, r.label]));
@@ -212,8 +222,8 @@ function CoinIcon({ className }: { className?: string }) {
 
 function OrnamentDivider() {
   return (
-    <div className="ornament-divider text-blood-bright/70 my-4 select-none">
-      <span className="font-heading text-sm">{"❦"}</span>
+    <div className="ornament-divider my-4 select-none">
+      <BatMark className="w-7 h-3.5" />
     </div>
   );
 }
@@ -242,8 +252,9 @@ function Meter({ resource, value }: { resource: Resource; value: number }) {
   return (
     <div className="flex-1 min-w-0" role="meter" aria-label={RESOURCE_LABELS[resource]} aria-valuemin={range.min} aria-valuemax={range.max} aria-valuenow={value} aria-valuetext={`${value}${inCrisis ? ", in crisis" : ""}`}>
       <div className="flex items-baseline justify-between mb-1 sm:mb-1.5 gap-1">
-        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">
-          {RESOURCE_LABELS[resource]}
+        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate inline-flex items-center gap-1">
+          <ResourceIcon id={resource} className="w-3 h-3 shrink-0" />
+          <span className="truncate">{RESOURCE_LABELS[resource]}</span>
         </span>
         <span className={`font-heading text-[0.65rem] sm:text-xs font-bold tabular-nums shrink-0 ${inCrisis ? "text-blood" : "text-ink"}`}>
           {value > 0 ? `+${value}` : value}
@@ -285,6 +296,11 @@ export default function App() {
   // Engine state: only the pure reducer changes it. Everything else below is UI-only.
   const [state, dispatch] = useReducer((s: GameState, a: Action) => reduce(def, s, a), undefined, () => createInitialState(def));
   const [prefs, setPrefs] = useState<UiPrefs>(loadSettings);
+  const [theme, setTheme] = useState<string>(loadTheme);
+  useEffect(() => {
+    applyTheme(theme);
+    saveTheme(theme);
+  }, [theme]);
   const [overlay, setOverlay] = useState<"SETTINGS" | "RESEARCH" | "LEDGER" | null>(null);
   // The demo build locks at the end of Act I, on arriving at the first scene of a track (src/demo.ts); the full game never does.
   const demoStop = IS_DEMO && state.phase === "NODE" && isDemoStop(def, state.currentNodeId);
@@ -504,6 +520,35 @@ export default function App() {
           <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1" aria-hidden="true">Settings</p>
           <h1 id="settings-title" className="font-heading text-2xl font-bold mb-5">{ui.settingsTitle}</h1>
 
+          <p id="look-label" className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Look</p>
+          <div role="radiogroup" aria-labelledby="look-label" className="space-y-2 mb-7">
+            {THEMES.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                role="radio"
+                aria-checked={theme === t.id}
+                onClick={() => {
+                  click();
+                  setTheme(t.id);
+                }}
+                className={`w-full flex items-center gap-3 text-left p-2.5 border transition-colors ${
+                  theme === t.id ? "border-blood bg-blood/10" : "border-ink/25 hover:border-ink/60"
+                }`}
+              >
+                <span aria-hidden="true" className="flex shrink-0 border border-ink/40">
+                  {["void", "blood-bright", "brass", "parchment"].map((c) => (
+                    <span key={c} className="block w-4 h-8" style={{ backgroundColor: t.colors[c] }} />
+                  ))}
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-heading text-sm font-bold">{t.label}</span>
+                  <span className="block text-xs text-ink/75 leading-snug">{t.blurb}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+
           <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Font Size</p>
           <div className="flex gap-2 mb-7">
             {(["small", "medium", "large"] as FontSize[]).map((size) => (
@@ -721,15 +766,20 @@ export default function App() {
     );
   } else if (screen === "MENU") {
     content = (
-      <VoidScreen>
-        <div className="max-w-lg w-full text-center">
-          <p className="font-heading text-xs uppercase tracking-[0.5em] text-brass/80 mb-3">A Dispatches Chronicle</p>
-          <h1 className="flicker font-display text-5xl sm:text-6xl font-bold text-parchment leading-tight mb-2">
-            {ui.title}
-          </h1>
-          <p className="font-heading text-sm sm:text-base uppercase tracking-[0.35em] text-brass mb-10">
-            {ui.subtitle}
-          </p>
+      <div className="min-h-screen flex flex-col">
+        <div className="relative">
+          <TitleScene />
+          <div className="absolute inset-x-0 bottom-0 px-4 pb-1 text-center">
+            <p className="font-heading text-[0.65rem] uppercase tracking-[0.5em] text-brass mb-1">A Dispatches Chronicle</p>
+            <h1 className="flicker font-display text-6xl sm:text-7xl font-bold text-parchment leading-none mb-2">
+              {ui.title}
+            </h1>
+            <p className="font-heading text-sm sm:text-base uppercase tracking-[0.35em] text-brass-bright">
+              {ui.subtitle}
+            </p>
+          </div>
+        </div>
+        <div className="max-w-lg w-full mx-auto px-4 pb-10 text-center">
           <OrnamentDivider />
           <button
             onClick={() => {
@@ -737,7 +787,7 @@ export default function App() {
               tryStartMusic();
               dispatch({ type: "START_GAME" });
             }}
-            className="mt-6 w-full sm:w-auto px-10 py-3.5 border border-brass text-parchment font-heading uppercase text-sm tracking-[0.25em] hover:bg-brass hover:text-ink transition-colors"
+            className="btn-gothic mt-4 w-full sm:w-auto px-10 py-3.5 font-heading uppercase text-sm tracking-[0.25em]"
           >
             {ui.beginLabel}
           </button>
@@ -793,17 +843,20 @@ export default function App() {
             {ui.tagline}
           </p>
         </div>
-      </VoidScreen>
+      </div>
     );
   } else if (screen === "PROLOGUE") {
     content = (
       <VoidScreen>
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
+          <div className="-mx-8 -mt-8 sm:-mx-10 sm:-mt-10 mb-6 border-b border-ink/70 overflow-hidden">
+            <SceneBanner place={ui.map ? ui.map.at[def.content.startNodeId] ?? ui.map.defaultAt : ""} />
+          </div>
           <h1 className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-5">{ui.prologueHeading}</h1>
           <div className="space-y-4 text-[1.05rem] leading-relaxed">
             {def.flavor.prologue.map((para, i) => (
-              <p key={i} className={i === 0 ? "font-heading text-lg tracking-wide" : ""}>
+              <p key={i} className={i === 0 ? "font-heading text-lg tracking-wide" : i === 1 ? "dropcap" : ""}>
                 {para}
               </p>
             ))}
@@ -929,6 +982,9 @@ export default function App() {
         {settingsButton}
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
+          <div className="-mx-8 -mt-8 sm:-mx-10 sm:-mt-10 mb-6 border-b border-ink/70 overflow-hidden">
+            <SceneBanner place="dawn" />
+          </div>
           <p className={`font-heading text-xs uppercase tracking-[0.3em] font-bold mb-2 ${isFailure ? "text-blood" : "text-brass-dim"}`}>
             {isFailure ? ui.endText.collapsed : ui.endText.closed}
           </p>
@@ -1083,25 +1139,53 @@ export default function App() {
     );
   } else if (screen === "INTERLUDE" && interlude) {
     const paper = interlude;
+    const kind = paperKind(paper);
+    const turn = (
+      <button
+        onClick={() => {
+          pageTurn();
+          dispatch({ type: "DISMISS_INTERLUDE" });
+        }}
+        className="mt-6 px-4 py-2 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
+      >
+        Turn the Page
+      </button>
+    );
     content = (
       <VoidScreen>
-        <div className="max-w-xl w-full bg-parchment border-4 border-double border-ink p-6 sm:p-8 font-broadsheet text-ink shadow-2xl relative">
-          <div className="flex items-center justify-between border-b-2 border-ink pb-2 mb-4">
-            <span className="text-xs uppercase tracking-[0.25em] font-bold">{paper.source}</span>
-            <span className="text-xs uppercase tracking-widest text-ink/60">{paper.kind}</span>
+        {kind === "news" && (
+          <div className="paper paper-news max-w-xl w-full p-6 sm:p-8 font-broadsheet">
+            <p className="text-center text-[0.7rem] uppercase tracking-[0.3em] text-ink/70 border-b border-ink/60 pb-1 mb-2">{paper.kind === "crisis" ? "Letters to the Editor" : "Latest Intelligence"}</p>
+            <p className="text-center font-display text-3xl sm:text-4xl leading-none border-b-2 border-ink pb-2 mb-4">{paper.source}</p>
+            <h1 className="text-2xl sm:text-3xl font-bold leading-tight mb-3">{paper.headline}</h1>
+            <p className="font-body text-sm leading-relaxed columns-1 sm:columns-2 gap-6 whitespace-pre-line [column-rule:1px_solid_rgb(var(--c-ink)/0.35)]">{paper.bodyText}</p>
+            {turn}
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold leading-tight mb-3">{paper.headline}</h1>
-          <p className="font-body text-sm leading-relaxed columns-1 sm:columns-2 gap-6 whitespace-pre-line">{paper.bodyText}</p>
-          <button
-            onClick={() => {
-              pageTurn();
-              dispatch({ type: "DISMISS_INTERLUDE" });
-            }}
-            className="mt-6 px-4 py-2 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
-          >
-            Turn the Page
-          </button>
-        </div>
+        )}
+        {kind === "letter" && (
+          <div className="paper paper-letter max-w-xl w-full p-6 sm:p-9">
+            <p className="text-center font-heading text-xs uppercase tracking-[0.3em] font-bold text-blood">{paper.source}</p>
+            <div className="ornament-divider text-blood my-3">
+              <BatMark className="w-5 h-2.5" />
+            </div>
+            <h1 className="font-heading text-lg font-bold leading-snug mb-4 text-center">{paper.headline}</h1>
+            <p className="font-typed text-[0.95rem] leading-relaxed whitespace-pre-line">{paper.bodyText}</p>
+            <div className="flex items-end justify-between mt-4">
+              {turn}
+              <span aria-hidden="true" className="seal seal-big mb-1">
+                {paper.source.charAt(0)}
+              </span>
+            </div>
+          </div>
+        )}
+        {kind === "diary" && (
+          <div className="paper paper-diary max-w-xl w-full py-6 pr-6 sm:py-8 sm:pr-8">
+            <p className="font-heading text-xs uppercase tracking-[0.25em] font-bold text-blood mb-1">{paper.source}</p>
+            <h1 className="font-body italic text-2xl font-bold leading-snug mb-2">{paper.headline}</h1>
+            <p className="diary-text font-body italic text-[1.05rem] whitespace-pre-line">{paper.bodyText}</p>
+            {turn}
+          </div>
+        )}
       </VoidScreen>
     );
   } else if (screen === "ROLL" && state.pendingRoll) {
@@ -1374,8 +1458,11 @@ export default function App() {
 
           <div className="parchment-card p-6 sm:p-8 font-body text-ink relative">
             <CornerFlourishes />
+            <div className="-mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-5 border-b border-ink/70 overflow-hidden">
+              <SceneBanner place={ui.map ? ui.map.at[state.currentNodeId] ?? ui.map.defaultAt : ""} />
+            </div>
             <h2 data-screen-heading className="font-heading text-2xl font-bold mb-3">{node.title}</h2>
-            <p className="text-[1.05rem] leading-relaxed text-ink/90 mb-2">{node.description}</p>
+            <p className="dropcap text-[1.05rem] leading-relaxed text-ink/90 mb-2">{node.description}</p>
             {(node.echoes ?? [])
               .filter((e) => evalCondition(e.when, state))
               .map((e, i) => (
@@ -1411,7 +1498,7 @@ export default function App() {
                         setArmedOptionIndex(i);
                       }
                     }}
-                    className={`group block w-full text-left border rounded-sm p-4 transition-colors ${
+                    className={`group flex items-start gap-3 w-full text-left border rounded-sm p-4 transition-colors ${
                       locked
                         ? "cursor-not-allowed border-ink/15 bg-ink/5 opacity-60"
                         : armed
@@ -1419,6 +1506,10 @@ export default function App() {
                         : "cursor-pointer border-ink/30 bg-black/[0.03] hover:bg-black/[0.06]"
                     }`}
                   >
+                    <span aria-hidden="true" className={`seal mt-0.5 ${locked ? "seal-dim" : ""}`}>
+                      {ROMAN[i] ?? i + 1}
+                    </span>
+                    <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
                       {showStampPreview &&
                         Object.entries(option.stamps).map(([resource, delta]) =>
@@ -1482,6 +1573,7 @@ export default function App() {
                         Tap again to confirm
                       </p>
                     )}
+                    </div>
                   </button>
                 );
               })}

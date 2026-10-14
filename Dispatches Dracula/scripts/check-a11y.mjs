@@ -58,7 +58,7 @@ function checkPage(ctx, where) {
   for (const m of d.querySelectorAll("[role='meter']")) if (!m.getAttribute("aria-valuenow") || !nameOf(m, d)) note(`${where}: a meter has no name or value`);
 }
 
-// ---- the palette (tailwind.config.js) --------------------------------------------------------------------------------
+// ---- the palettes (src/themes.json: every theme) --------------------------------------------------------------------------------
 const lum = (hex) => {
   const c = hex.replace("#", "");
   const [r, g, b] = [0, 2, 4].map((i) => parseInt(c.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
@@ -69,33 +69,39 @@ const ratio = (a, b) => {
   const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
   return (x + 0.05) / (y + 0.05);
 };
-const C = {
-  void: "#0a0a0a", parchment: "#EDEAE0", "parchment-dim": "#d7d2c4", ink: "#0f0f0e", "ink-soft": "#3a3a37", blood: "#8a231f", "blood-bright": "#BE2A26",
-  verdigris: "#3d5c45", "verdigris-bright": "#3A754A", brass: "#8f887a", "brass-bright": "#b8b2a2", "brass-dim": "#4a463f", ash: "#847f74",
-};
-const pairs = [];
-const P = C.parchment;
-// text on the parchment cards (App.tsx opacities: ink/90, /80, /75, /70)
-for (const a of [1, 0.9, 0.8, 0.75, 0.7]) pairs.push([`ink at ${a * 100}% on parchment`, mix(C.ink, P, a), P, 4.5]);
-pairs.push(["ink-soft on parchment", C["ink-soft"], P, 4.5]);
-pairs.push(["blood on parchment", C.blood, P, 4.5]);
-pairs.push(["blood-bright on parchment (armed option, failure)", C["blood-bright"], P, 4.5]);
-pairs.push(["verdigris-bright on parchment (a gain badge)", C["verdigris-bright"], P, 4.5]);
-pairs.push(["brass-dim on parchment (labels)", C["brass-dim"], P, 4.5]);
-// text on the dark ground
-pairs.push(["parchment on void", P, C.void, 4.5]);
-pairs.push(["brass on void", C.brass, C.void, 4.5]);
-pairs.push(["brass-bright on void", C["brass-bright"], C.void, 4.5]);
-pairs.push(["ash on void", C.ash, C.void, 4.5]);
-pairs.push(["ash on void (the endings counter)", C.ash, C.void, 4.5]);
-// buttons
-pairs.push(["parchment on ink (a primary button)", P, C.ink, 4.5]);
-pairs.push(["parchment on blood (the red button)", P, C.blood, 4.5]);
-pairs.push(["ink on brass (a selected difficulty)", C.ink, C.brass, 4.5]);
-for (const [label, fg, bg, need] of pairs) {
-  const r = ratio(fg, bg);
-  if (r < need) note(`palette: ${label} is ${r.toFixed(2)}:1, under the ${need}:1 it needs`);
+const themes = JSON.parse(readFileSync(join(ROOT, "src/themes.json"), "utf8")).themes;
+let pairCount = 0;
+for (const theme of themes) {
+  const C = theme.colors;
+  const P = C.parchment;
+  const pairs = [];
+  // text on the parchment cards (App.tsx opacities: ink/90, /80, /75, /70)
+  for (const a of [1, 0.9, 0.8, 0.75, 0.7]) pairs.push([`ink at ${a * 100}% on parchment`, mix(C.ink, P, a), P, 4.5]);
+  pairs.push(["ink-soft on parchment", C["ink-soft"], P, 4.5]);
+  pairs.push(["blood on parchment", C.blood, P, 4.5]);
+  pairs.push(["blood-bright on parchment (armed option, failure)", C["blood-bright"], P, 4.5]);
+  pairs.push(["verdigris-bright on parchment (a gain badge)", C["verdigris-bright"], P, 4.5]);
+  pairs.push(["brass-dim on parchment (labels)", C["brass-dim"], P, 4.5]);
+  pairs.push(["blood on the dim paper of a letter", C.blood, C["parchment-dim"], 4.5]);
+  // text on the dark ground
+  pairs.push(["parchment on void", P, C.void, 4.5]);
+  pairs.push(["brass on void", C.brass, C.void, 4.5]);
+  pairs.push(["brass-bright on void", C["brass-bright"], C.void, 4.5]);
+  pairs.push(["ash on void", C.ash, C.void, 4.5]);
+  pairs.push(["ash on void (the endings counter)", C.ash, C.void, 4.5]);
+  // buttons
+  pairs.push(["parchment on ink (a primary button)", P, C.ink, 4.5]);
+  pairs.push(["parchment on blood (the red button)", P, C.blood, 4.5]);
+  pairs.push(["parchment on blood-bright (a wax seal)", P, C["blood-bright"], 4.5]);
+  pairs.push(["ink on brass (a selected difficulty)", C.ink, C.brass, 4.5]);
+  pairs.push(["parchment on void2 (the title screen's second ground)", P, C.void2, 4.5]);
+  for (const [label, fg, bg, need] of pairs) {
+    const r = ratio(fg, bg);
+    if (r < need) note(`palette (${theme.id}): ${label} is ${r.toFixed(2)}:1, under the ${need}:1 it needs`);
+  }
+  pairCount += pairs.length;
 }
+const pairs = { length: pairCount };
 
 // ---- play ------------------------------------------------------------------------------------------------------------
 let steps = 0;
