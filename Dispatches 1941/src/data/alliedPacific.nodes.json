@@ -264,7 +264,7 @@
           "pipeline": 0,
           "initiative": 1
         },
-        "next": "rangoonRetreatAllied42",
+        "next": "stilwellInChungking42",
         "outcome": "Roughly 120,000 people of Japanese descent, most of them American citizens, are forcibly removed from the West Coast and held in inland camps for the duration of the war, on the basis of a military necessity claim later government reviews concluded was not supported by the evidence available at the time. No comparable order is issued against German or Italian Americans. The Supreme Court upholds the order in Korematsu v. United States in 1944; the conviction is not formally repudiated until decades later."
       },
       {
@@ -281,7 +281,7 @@
           "pipeline": 0,
           "initiative": -1
         },
-        "next": "rangoonRetreatAllied42",
+        "next": "stilwellInChungking42",
         "outcome": "A modeled alternative: the position Justice Department officials held and lost. Individual review of specific, credible suspicions, and not of an entire ethnic population regardless of citizenship, was an option in early 1942, and it is how German and Italian nationals in the United States were mostly handled. It spares the injustice the real order caused. It does not remove the wartime anxiety DeWitt's command was responding to."
       },
       {
@@ -298,7 +298,7 @@
           "pipeline": 0,
           "initiative": 0
         },
-        "next": "rangoonRetreatAllied42",
+        "next": "stilwellInChungking42",
         "outcome": "A modeled alternative on the distinction the Alien Enemies Act draws between non-citizens and citizens by birth, which DeWitt's order did not honor. It still removes and detains a large population under wartime enemy-alien authority, on firmer legal ground, and spares the two-thirds who were American citizens. It resolves the order's clearest constitutional problem and not the anxiety behind it."
       }
     ]
@@ -324,7 +324,7 @@
           "pipeline": -1,
           "initiative": 3
         },
-        "next": "coralSeaMidwayAllied42",
+        "next": "carrierRequest42",
         "outcome": "All sixteen aircraft reach Japan, but none reaches the intended Chinese airfields: most crews bail out or crash-land along the Chinese coast, eight are captured by the Japanese, three are executed and one dies in captivity, and the raid kills few people and destroys little. The effect on morale is out of proportion to the damage: after four months of unbroken defeats the American public has its first good headline, and in Imperial Headquarters the raid silences the Naval General Staff's remaining doubts about Midway. It also triggers a Japanese reprisal campaign through Zhejiang and Jiangxi, the provinces that sheltered the raid's other crews, which kills Chinese civilians in numbers never precisely counted, estimated from tens of thousands to several hundred thousand."
       },
       {
@@ -341,7 +341,7 @@
           "pipeline": 1,
           "initiative": -3
         },
-        "next": "coralSeaMidwayAllied42",
+        "next": "carrierRequest42",
         "outcome": "A modeled alternative: aborting, which Doolittle and Halsey had the authority to choose and did not. Cancelling preserves the aircrews and denies Japan the embarrassment that hardened the case for Midway, but it also denies a tired home front its first good news of the Pacific war. Whether Midway happens on the same schedule without the raid's shock is answered on the Japan side. The choice also avoids the reprisal campaign against the Chinese provinces that sheltered the crews, a civilian death toll never precisely counted."
       }
     ]

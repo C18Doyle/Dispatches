@@ -2191,6 +2191,12 @@ const NODE_REGION_HINTS = {
   australiaLanding42: ["australia"],
   wakeIslandRelief41: ["marshalls"],
   burmaRangoon42: ["burma"],
+  burmaRoad40: ["burma", "freeChina"],
+  neutralityPact41: ["manchuria", "sovietFarEast"],
+  indianOceanRaid42: ["india"], // Ceylon has no region of its own; India is the nearest on the map
+  chinaAirForce41: ["freeChina"],
+  stilwellInChungking42: ["freeChina", "burma"],
+  vladivostokRoute42: ["sovietFarEast"],
   rangoonRetreatAllied42: ["burma"],
   burmaReconquest45: ["burma"],
   theMainlandCrisis44: ["hunanGuangxi", "burma", "india"], // Ichi-Go and U-Go (this hint was keyed to a node id that does not exist)

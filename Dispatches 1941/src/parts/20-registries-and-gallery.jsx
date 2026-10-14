@@ -393,8 +393,10 @@ function Stamp({ text, color, campaignId }) {
 const NODE_ATLAS = {
   japan: [
     { id: "chinaPeaceQuestion40", date: "1940", title: "The China Question, Unsolved" },
+    { id: "burmaRoad40", date: "JULY 1940", title: "The Burma Road" },
     { id: "tripartitePact40", date: "SEPTEMBER 1940", title: "The Tripartite Pact" },
     { id: "unificationQuestion40", date: "LATE 1940", title: "Two Services, Two Wars" },
+    { id: "neutralityPact41", date: "APRIL 1941", title: "The Neutrality Pact" },
     { id: "hokushinDebate41", date: "JULY 1941", title: "Kantokuen: The Road Not Taken North" },
     { id: "kantokuenOffensive41", date: "AUGUST 1941", title: "The Kwantung Army's Wager" },
     { id: "siberianReckoning42", date: "1942", title: "A War on Two Fronts, By Choice" },
@@ -402,6 +404,7 @@ const NODE_ATLAS = {
     { id: "novemberUltimatum41", date: "LATE NOVEMBER 1941", title: "The Hull Note" },
     { id: "pearlHarbor41", date: "DECEMBER 1941", title: "The Opening Vector" },
     { id: "burmaRangoon42", date: "MARCH 1942", title: "The Road to Rangoon" },
+    { id: "indianOceanRaid42", date: "APRIL 1942", title: "The Indian Ocean Raid" },
     { id: "burmaRangoon42Delayed", date: "LATE 1942", title: "The Road to Rangoon, Months Late" },
     { id: "bataanPOWQuestion42", date: "APRIL 1942", title: "Bataan: More Prisoners Than Anyone Planned For" },
     { id: "doolittleRaid42", date: "APRIL 1942", title: "Sixteen Bombers Over Tokyo" },
@@ -463,6 +466,7 @@ const NODE_ATLAS = {
   ],
   alliedPacific: [
     { id: "americanEmbargoResponse41", date: "JULY 1941", title: "The Embargo Decision" },
+    { id: "chinaAirForce41", date: "JULY – NOVEMBER 1941", title: "A Bomber Force for China" },
     { id: "aStandoffInsteadOfAWar41", date: "LATE 1941 – 1943", title: "A War Fought Without the United States" },
     { id: "theSlowerDeclaration42", date: "EARLY 1942", title: "Five Weeks in 1917, and No Guarantee of the Same Now" },
     { id: "warBeginsLate42", date: "1942", title: "A War Congress Chose Rather Than Had Chosen For It" },
@@ -477,14 +481,17 @@ const NODE_ATLAS = {
     { id: "wakeIslandRelief41", date: "DECEMBER 1941", title: "The Relief Force" },
     { id: "arcadia41", date: "DECEMBER 1941 – JANUARY 1942", title: "Arcadia: Europe First, Confirmed" },
     { id: "internmentQuestion42", date: "FEBRUARY 1942", title: "Executive Order 9066" },
+    { id: "stilwellInChungking42", date: "FEBRUARY – MARCH 1942", title: "A General for Chiang" },
     { id: "rangoonRetreatAllied42", date: "MARCH – APRIL 1942", title: "The Fall of Rangoon" },
     { id: "curtinsTurn42", date: "FEBRUARY 1942", title: "Curtin's Turn" },
     { id: "corregidorEvacuation42", date: "MARCH 1942", title: "The Order to Leave" },
     { id: "doolittleRaidAllied42", date: "APRIL 1942", title: "Doolittle's Gamble" },
+    { id: "carrierRequest42", date: "APRIL 1942", title: "Churchill Asks for a Carrier" },
     { id: "coralSeaMidwayAllied42", date: "MAY – JUNE 1942", title: "Midway: The Ambush Nobody Was Supposed to Win" },
     { id: "kokodaTrailAllied42", date: "JULY – NOVEMBER 1942", title: "The Kokoda Track" },
     { id: "guadalcanalAllied42", date: "AUGUST 1942", title: "Watchtower: The First Offensive" },
     { id: "savoIslandReckoning42", date: "AUGUST 1942", title: "Savo Island" },
+    { id: "vladivostokRoute42", date: "LATE 1942", title: "The Pacific Route to Russia" },
     { id: "unconditionalSurrender43", date: "JANUARY 1943", title: "The Casablanca Declaration" },
     { id: "torpedoCrisis43", date: "JANUARY 1943", title: "The Torpedo That Won't Explode" },
     { id: "theBatBombQuestion43", date: "JANUARY 1943", title: "Project X-Ray: A Dentist's Idea, Sixteen Months Later" },
@@ -820,7 +827,7 @@ const HARD_MODE_OF = { japan: "fanatical", alliedPacific: "coalition" };
 // Named for a famous failure of each side: the Shinano, the carrier sunk on her maiden voyage; the Mark 14 torpedo, which ran too deep and often did not explode.
 const EASY_MODE_NAMES = { japan: "Shinano Command", alliedPacific: "Mark 14 Command" };
 
-const NODE_TOTAL = 139; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
+const NODE_TOTAL = 146; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
 // or seriously built programs (Project X-Ray's bat bombs, the I-400 submarine carriers'
 // Panama Canal mission) that were genuinely pursued and then overtaken by events, not
 // invented for flavor. Both cite real, checked figures and dates.

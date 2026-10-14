@@ -27,7 +27,7 @@
               historical: true,
               setFlags: { chinaPeacePath: "continueWar" },
               impact: { readiness: 0, pipeline: -1, initiative: 0 },
-              next: "tripartitePact40",
+              next: "burmaRoad40",
               outcome:
                 "China's war grinds on with no resolution, consuming roughly a million men Japan will spend the rest of the war wishing it had for the Southern Operation and, later, for the mainland crisis of 1944. Tokyo recognizes Wang Jingwei's government in November 1940, Germany and Italy in 1941, and almost no one else ever does.",
             },
@@ -36,7 +36,7 @@
               advisor: { name: "Konoe", position: "Refusing to deal with Chiang's government has failed for three years, and continuing to refuse is the real weakness, however much saying so now sounds like weakness." },
               setFlags: { chinaPeacePath: "negotiate", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
-              next: "tripartitePact40",
+              next: "burmaRoad40",
               uncertain: [
                 {
                   weight: modWeight(40, meters.readiness),
@@ -63,7 +63,7 @@
               advisor: { name: "Sugiyama", position: "Pressure alone has not produced terms in three years, so the army should press and keep a back channel open, and try both before conceding that either has failed." },
               setFlags: { chinaPeacePath: "pressureAndTalk" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
-              next: "tripartitePact40",
+              next: "burmaRoad40",
               outcome:
                 "A harder push against Chiang's remaining strongholds, paired with an intermediary channel neither side treats as a real offer yet. It satisfies neither the Army's wish for a decisive campaign nor Konoe's case for genuine terms, and it reproduces the war as it was: pressure without resolution, a channel that is never seriously used, and the same million men committed to a war that was supposed to be over in months.",
             },
@@ -81,6 +81,15 @@
               ? " This argument is being made by a government that just freed roughly a million men from a China war Chiang actually agreed to settle, a fact Matsuoka's own case for deterrence-through-strength doesn't quite know what to do with: the strength on offer is suddenly real rather than theoretical, and Yamamoto's skepticism has less to stand on than it would have a season ago."
               : flags.chinaPeaceResult === "rejected"
               ? " This argument is being made by a government that just watched a negotiating effort with Chiang fail, a million men still committed to a war with no resolution in sight, which does nothing to help Matsuoka's case that Japan is negotiating from strength rather than searching for it."
+              : "") +
+            (flags.burmaRoadPath === "closed"
+              ? " London closed the Burma Road in July when it was asked, and Matsuoka points to it as proof that pressure on a weak Britain works."
+              : flags.burmaRoadPath === "permanent" && flags.burmaRoadResult === "yielded"
+              ? " London agreed to a long closure of the Burma Road in July, and Matsuoka points to it as proof that pressure on Britain works."
+              : flags.burmaRoadPath === "permanent" && flags.burmaRoadResult === "refused"
+              ? " London refused the demand over the Burma Road in July. The Navy says this is what a pact with Germany will bring on, from Britain and from America."
+              : flags.burmaRoadPath === "bombed"
+              ? " The Army's bombers have cut the Burma Road for days at a time since July, and Chinese labor has repaired it each time."
               : ""),
           choices: [
             {
@@ -128,7 +137,7 @@
               historical: true,
               setFlags: { unificationPath: "parallel" },
               impact: { readiness: 0, pipeline: 0, initiative: 1 },
-              next: "hokushinDebate41",
+              next: "neutralityPact41",
               outcome:
                 "Separate codebreaking, separate intelligence assessments and separate aircraft programs that never converge on shared standards: this is how the Army and Navy fight the whole war. It drags on the war effort throughout, and no single day shows the cost, which is spread across four years.",
             },
@@ -137,9 +146,166 @@
               advisor: { name: "Nagano", position: "The fight over a joint command is unpopular in both services and still right, and the coming war will not forgive the years spent not fixing it." },
               setFlags: { unificationPath: "forced", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
-              next: "hokushinDebate41",
+              next: "neutralityPact41",
               outcome:
                 "A reform that neither service accepted in the real war without years of pressure. Shared codebreaking, common aircraft standards and one intelligence assessment instead of two are dull administrative work with a real operational gain, bought with goodwill between the services that later decisions will have to draw on.",
+            },
+          ],
+        };
+        },
+        get burmaRoad40() {
+          return {
+          date: "JULY 1940",
+          title: "The Burma Road",
+          historicalRecord: true,
+          situation:
+            "France fell in June, and Britain is fighting alone with German aircraft over England. The Burma Road runs from Lashio in Burma to Kunming and Chungking, and much of what reaches Chiang's government from outside travels along it. Japan has already pressed the French to stop the arms traffic through Indochina. The Army wants the same done to the road. The Foreign Ministry can ask London to close it, and London is in no position to refuse everything." +
+            (flags.chinaPeaceResult === "rejected"
+              ? " The overture to Chiang has failed, so the road is the only lever left on his supply."
+              : flags.chinaPeaceResult === "accepted"
+              ? " Chiang's government is talking, and closing the road would be a way to keep it talking."
+              : ""),
+          choices: [
+            {
+              label: "Ask London to close the road for three months, as France closed the Indochina route",
+              advisor: { name: "Yonai", position: "London has a war to fight at home, and it will give way on a road in Burma if it is asked quietly. A harder demand would make Britain a worse enemy than it is now." },
+              historical: true,
+              setFlags: { burmaRoadPath: "closed" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "tripartitePact40",
+              outcome:
+                "Britain agrees in mid-July and the road is closed for three months, the rainy season, when traffic is light. It reopens in October. London gives way because it cannot afford a second enemy, and Tokyo notes that pressure on Britain works.",
+            },
+            {
+              label: "Demand a permanent closure, and an end to British supplies to Chungking through Hong Kong",
+              advisor: { name: "Tojo", position: "Britain is weaker than it will ever be again, and a demand made now costs nothing. A temporary closure only postpones the question." },
+              setFlags: { burmaRoadPath: "permanent", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "tripartitePact40",
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "London gives more than it gave in July",
+                  setFlags: { burmaRoadResult: "yielded" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. With invasion expected within weeks, London agrees to a closure that runs through the winter and to limits on the Hong Kong traffic. Chiang's supplies fall for a year and the Army claims the credit.",
+                },
+                {
+                  weight: (() => { const w = modWeight(25, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "London refuses and turns to Washington",
+                  setFlags: { burmaRoadResult: "refused" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The demand goes further than London can accept. The road stays open, Britain's attention turns toward Washington, and the Foreign Ministry has spent a favor it needed later.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The Army's wish was a permanent closure, and the Foreign Ministry knew it could not be had without more pressure than Britain's position justified. Whether a harder demand in July 1940 would have been met is not something the record settles.",
+            },
+            {
+              label: "Leave the diplomacy alone and cut the road from the air and from northern Indochina",
+              advisor: { name: "Sugiyama", position: "A road can be cut by bombers and by troops on its flank, and neither needs London's permission. The Army air force has the range for the bridges." },
+              setFlags: { burmaRoadPath: "bombed" },
+              impact: { readiness: -1, pipeline: -1, initiative: 1 },
+              next: "tripartitePact40",
+              outcome:
+                "A modeled alternative. Bombers cut the bridges and the road for days at a time, and Chinese labor repairs them each time by hand. The raids cost aircraft and fuel and do not stop the traffic, and Britain's goodwill is left alone.",
+            },
+          ],
+        };
+        },
+        get neutralityPact41() {
+          return {
+          date: "APRIL 1941",
+          title: "The Neutrality Pact",
+          historicalRecord: true,
+          situation:
+            "Matsuoka is in Moscow on his way home from Berlin. In Berlin, Ribbentrop pressed him to take Singapore. Moscow has offered a neutrality pact. For the Navy it secures the northern border while the fleet turns south. For the Army's northern school it ends the plan for a war against the Soviet Union that the Army has preferred since Nomonhan two years ago. The Soviet army in the Far East is one of the largest in the world." +
+            (flags.tripartitePath === "signed"
+              ? " Japan is an ally of Germany by the Tripartite Pact, and Berlin has said nothing about a pact with Moscow."
+              : ""),
+          choices: [
+            {
+              label: "Sign the five-year neutrality pact with the Soviet Union",
+              advisor: { name: "Matsuoka", position: "The pact secures the northern border while the fleet turns south. It binds Moscow, and it costs Japan nothing it means to use." },
+              historical: true,
+              setFlags: { sovietPactPath: "signed" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "hokushinDebate41",
+              outcome:
+                "The pact is signed on April 13, 1941, and Stalin sees Matsuoka off at the Moscow station. Germany attacks the Soviet Union ten weeks later. With Japan bound by the pact, Moscow can move divisions from Siberia to the west.",
+            },
+            {
+              label: "Refuse the pact and keep the northern option open",
+              advisor: { name: "Sugiyama", position: "The Army's plan for the north needs freedom of action, and a treaty with Moscow takes it away for five years. A pact can be signed later if the plan is dropped." },
+              setFlags: { sovietPactPath: "refused", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: -1, pipeline: 0, initiative: 1 },
+              next: "hokushinDebate41",
+              outcome:
+                "A modeled alternative. Moscow leaves its Far East army where it is and watches Manchuria. The Army's northern plan is not closed, and Japan has no assurance on its northern border while the fleet turns south.",
+            },
+          ],
+        };
+        },
+        get indianOceanRaid42() {
+          return {
+          date: "APRIL 1942",
+          title: "The Indian Ocean Raid",
+          historicalRecord: true,
+          situation:
+            "Nagumo's carriers have finished the opening moves of the Southern Operation. The British Eastern Fleet, under Admiral Somerville, is based at Ceylon and Addu Atoll, with a handful of old battleships and some carriers. Combined Fleet wants it sunk or driven out of the Indian Ocean before the next move, and proposes that Nagumo's five carriers raid Ceylon. The crews have been at sea since November and the aircraft are worn." +
+            (flags.ceylonPath === "invade"
+              ? " Divisions have been diverted to a landing on Ceylon, and the raid is the first stage of it."
+              : ""),
+          choices: [
+            {
+              label: "Send the five carriers into the Indian Ocean for a raid on Ceylon",
+              advisor: { name: "Nagumo", position: "The Eastern Fleet is weak and the carriers are at their best. A raid now removes it from the war for months, and the crews have the experience." },
+              historical: true,
+              setFlags: { indianOceanPath: "raid" },
+              impact: { readiness: -1, pipeline: -1, initiative: 2 },
+              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              outcome:
+                "Nagumo's aircraft strike Colombo on April 5 and Trincomalee on April 9. His search planes find the heavy cruisers Cornwall and Dorsetshire and the carrier Hermes, and all three are sunk. Somerville, who had hoped for a night action, withdraws to East Africa. The carriers return to Japan in late April with tired aircrews.",
+            },
+            {
+              label: "Raid in strength and hunt for the Eastern Fleet until it is brought to battle",
+              advisor: { name: "Yamamoto", position: "A raid that leaves the British fleet afloat has done half the work. If the carriers are in the Indian Ocean, they should stay until the Eastern Fleet is found." },
+              setFlags: { indianOceanPath: "hunt" },
+              impact: { readiness: -2, pipeline: -2, initiative: 1 },
+              disabledReason: meters.pipeline <= -3 ? "There is no fuel for a week of searching in the Indian Ocean. The carriers can raid and return, and they cannot hunt." : undefined,
+              gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
+              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "The Eastern Fleet is found and broken",
+                  setFlags: { indianOceanResult: "found" },
+                  impact: { readiness: 0, pipeline: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. Somerville's carriers are found and sunk, and the Eastern Fleet is gone from the Indian Ocean for the year. Britain's convoys to the Middle East run without a fleet to cover them.",
+                },
+                {
+                  weight: (() => { const w = modWeight(35, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The search finds nothing",
+                  setFlags: { indianOceanResult: "empty" },
+                  impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The British fleet keeps out of reach, and the carriers burn fuel for a week of searching. They return to Japan later and more tired than in the real raid.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. Somerville was looking for a night action and never found Nagumo, and Nagumo never found him. Pressing the raid into a hunt takes the carriers further from the Pacific for longer.",
+            },
+            {
+              label: "Skip the raid and send the carriers home to rest before the next operation",
+              advisor: { name: "Yamamoto", position: "The carriers are needed in the Pacific, where the American fleet is, and a month of rest and refit is worth more to them than a raid on the Indian Ocean." },
+              setFlags: { indianOceanPath: "refit" },
+              impact: { readiness: 1, pipeline: 1, initiative: -2 },
+              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              outcome:
+                "A modeled alternative. The crews are rested and the aircraft overhauled a month before Coral Sea. The British Eastern Fleet is left to build up at Ceylon and Addu Atoll, and its convoys cross the Indian Ocean undisturbed.",
             },
           ],
         };
@@ -150,7 +316,12 @@
           title: "Kantokuen: The Road Not Taken North",
           historicalRecord: true,
           situation:
-            "Germany's invasion of the Soviet Union, begun on June 22, appears from every report reaching Tokyo to be succeeding faster than anyone expected. Army Group Center is already deep into Soviet territory, and if Moscow falls this year, the Kwantung Army's staff argue that Siberia becomes an undefended prize rather than the hardened frontier it's been since the humiliating defeat at Nomonhan two years ago. Kantokuen, the Kwantung Special Maneuvers, has quietly mobilized about 700,000 men on the Manchurian border under cover of an exercise, ready to strike north once Soviet forces in Siberia are thin enough. This is the last live moment in the old argument between the Army's northern strike and the Navy's southern one: whether Japan's war is against the Soviet Union, as the Army has preferred, or against the resource-rich south, as the Navy has needed.",
+            "Germany's invasion of the Soviet Union, begun on June 22, appears from every report reaching Tokyo to be succeeding faster than anyone expected. Army Group Center is already deep into Soviet territory, and if Moscow falls this year, the Kwantung Army's staff argue that Siberia becomes an undefended prize rather than the hardened frontier it's been since the humiliating defeat at Nomonhan two years ago. Kantokuen, the Kwantung Special Maneuvers, has quietly mobilized about 700,000 men on the Manchurian border under cover of an exercise, ready to strike north once Soviet forces in Siberia are thin enough. This is the last live moment in the old argument between the Army's northern strike and the Navy's southern one: whether Japan's war is against the Soviet Union, as the Army has preferred, or against the resource-rich south, as the Navy has needed." +
+            (flags.sovietPactPath === "signed"
+              ? " The neutrality pact signed in April is in force. Attacking now would tear it up, and the Kwantung Army's staff say that a treaty with a country about to lose its war binds nobody."
+              : flags.sovietPactPath === "refused"
+              ? " There is no pact in the way. Moscow has watched Manchuria since April and has kept its Far East army where it was."
+              : ""),
           choices: [
             {
               label: "Hold to the Southern Operation: the resources that actually solve the oil problem are south, not north",
@@ -763,7 +934,7 @@
               impact: { readiness: -1, pipeline: 1, initiative: 2 },
               disabledReason: meters.pipeline <= -3 ? "The supply train can't sustain a forced march through this terrain at this pipeline level. A rushed drive here risks stranding the division, not just tiring it." : undefined,
               gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
-              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              next: "indianOceanRaid42",
               outcome:
                 "Rangoon falls on March 8, 1942, faster than British planning had judged possible, and the port that fed the Burma Road is lost. The road itself closes when Lashio falls at the end of April. China's supply then depends on the Hump, transport aircraft flying over the Himalayas at a fraction of the road's capacity, at a cost in aircrew and airframes that becomes its own long campaign.",
             },
@@ -772,7 +943,7 @@
               advisor: { name: "Sakurai", position: "Rangoon will fall either way, and a division that is still a division for the harder push into India is worth more than one spent winning a race the British retreat would have lost anyway." },
               setFlags: { burmaPath: "methodical" },
               impact: { readiness: 1, pipeline: -1, initiative: -1 },
-              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              next: "indianOceanRaid42",
               outcome:
                 "A modeled alternative. A slower advance still takes Rangoon, weeks later, and lets more of the retreating British, Indian and Chinese forces escape north with their equipment. That is a fair trade for the harder campaign toward Assam, which this path is better prepared for, and China keeps its supply line a little longer.",
             },
@@ -783,7 +954,7 @@
                     advisor: { name: "Sugiyama", position: "The Navy has asked for these divisions three times and been refused, because Burma and the mainland already claim more of the army than it can supply, but at this rate of advance refusing is no longer clearly the more disciplined course." },
                     setFlags: { ceylonPath: "invade" },
                     impact: { readiness: -3, pipeline: -2, initiative: -1 },
-                    next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+                    next: "indianOceanRaid42",
                     outcome:
                       "The actual historical refusal, reversed: the Imperial Army declined to allocate troops for a Ceylon invasion in 1942, over the Navy's real objections that the opportunity wouldn't hold. Churchill himself later called the moment Japan's fleet turned toward Ceylon the single most dangerous of the entire war for Britain, by his own account worse than anything the Battle of Britain produced. What an actual invasion would have achieved, control of the Indian Ocean, isolation of Middle Eastern oil from Britain's war effort, is a question the historical refusal never let anyone test. This path spends real divisions finding out.",
                   },
@@ -971,7 +1142,16 @@
           title: "Coral Sea and the Port Moresby Question",
           historicalRecord: true,
           situation:
-            "The Southern Operation has run ahead of every prewar estimate: Malaya, the Indies and Burma have fallen faster than the staffs planned. Port Moresby, on Papua's southern coast, is the next objective. Taken, it puts northern Australia within bomber range. A light carrier covers the invasion convoy, with the fleet carriers Shokaku and Zuikaku in support. American codebreakers have read enough traffic to have carriers of their own in the Coral Sea, Yorktown and Lexington, and contact reports confirm it.\n\nIn the battle of May 7–8 the light carrier Shoho is sunk. Lexington is lost and Yorktown is damaged. Shokaku is damaged, and both Shokaku and Zuikaku lose so many aircraft and aircrew that neither can be ready for the next operation. The Port Moresby invasion is turned back.",
+            "The Southern Operation has run ahead of every prewar estimate: Malaya, the Indies and Burma have fallen faster than the staffs planned. Port Moresby, on Papua's southern coast, is the next objective. Taken, it puts northern Australia within bomber range. A light carrier covers the invasion convoy, with the fleet carriers Shokaku and Zuikaku in support. American codebreakers have read enough traffic to have carriers of their own in the Coral Sea, Yorktown and Lexington, and contact reports confirm it.\n\nIn the battle of May 7–8 the light carrier Shoho is sunk. Lexington is lost and Yorktown is damaged. Shokaku is damaged, and both Shokaku and Zuikaku lose so many aircraft and aircrew that neither can be ready for the next operation. The Port Moresby invasion is turned back." +
+            (flags.indianOceanPath === "raid"
+              ? " Shokaku and Zuikaku came to the Coral Sea from the Indian Ocean raid, with aircrews who had been at sea since November."
+              : flags.indianOceanPath === "hunt" && flags.indianOceanResult === "found"
+              ? " Shokaku and Zuikaku came to the Coral Sea from the Indian Ocean, where they had broken the British Eastern Fleet."
+              : flags.indianOceanPath === "hunt" && flags.indianOceanResult === "empty"
+              ? " Shokaku and Zuikaku came to the Coral Sea after a week of fruitless searching in the Indian Ocean, short of fuel and rest."
+              : flags.indianOceanPath === "refit"
+              ? " Shokaku and Zuikaku came to the Coral Sea after a month of rest and refit, with fresh aircrews."
+              : ""),
           choices: [
             {
               label: "Accept the decisive battle Yamamoto wants: commit the fleet toward Midway",
