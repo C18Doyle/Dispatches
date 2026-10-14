@@ -189,8 +189,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Commit to the voenspetsy system: ex-Imperial officers under Bolshevik commissar oversight, army-wide.",
               advisor: {
                 name: "Trotsky",
-                quote:
-                  "We did not abolish the General Staff's competence when we abolished its politics. A commissar at every officer's shoulder costs us nothing we cannot afford and saves us everything an army built from enthusiasm alone would lose on the first real battlefield.",
+                position:
+                  "Trotsky argues that abolishing the General Staff's politics did not abolish its competence, and that a commissar at each officer's shoulder costs little and saves what an army built on enthusiasm would lose in its first real battle.",
               },
               historical: true,
               setFlags: { specialistPolicy: "voenspetsy" },
@@ -203,8 +203,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Reject wholesale reliance on specialists. Build command up from proven revolutionary cadres instead.",
               advisor: {
                 name: "Stalin",
-                quote:
-                  "Ruthless competence from a man who despises everything this army stands for is not competence we can rely on when it matters. I would rather have officers who bleed for the revolution than ones who merely tolerate it.",
+                position:
+                  "Stalin argues that competence from a man who despises what the army stands for cannot be relied on when it matters, and prefers officers who bleed for the revolution to those who merely tolerate it.",
               },
               historical: false,
               setFlags: { specialistPolicy: "cadres" },
@@ -217,8 +217,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Split the difference: specialists at senior staff and planning level only, revolutionary cadres in direct troop command.",
               advisor: {
                 name: "Lenin",
-                quote:
-                  "A clean policy in either direction has its appeal — I understand why both sides want one. What the army actually needs is not obviously the same thing. A former Imperial colonel drafting the operational plan and a man the troops actually trust leading them into it are not incompatible positions, whatever this argument between Trotsky and the Opposition would like to pretend.",
+                position:
+                  "Lenin argues that a clean policy either way has its appeal but is not what the army needs, and that a former Imperial colonel drafting the plan and a man the troops trust leading them into it are not incompatible.",
               },
               historical: false,
               setFlags: { specialistPolicy: "split_command" },
@@ -258,8 +258,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Press the advantage from the closed-session win. Push for the Opposition's platform in the full Congress vote.",
               advisor: {
                 name: "Smirnov",
-                quote:
-                  "We won the room that actually understands the army's condition. If we cannot carry that into the full Congress, the closed vote was worth nothing but the appearance of a debate we were always going to lose anyway.",
+                position:
+                  "Smirnov argues that the Opposition won the room that understands the army's condition, and that if it cannot carry that into the full Congress the closed vote was worth only the appearance of a debate.",
               },
               historical: false,
               setFlags: { congressChoice: "press" },
@@ -279,8 +279,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Take the closed-session win as leverage for a negotiated concession rather than forcing an unwinnable floor fight.",
               advisor: {
                 name: "Trotsky",
-                quote:
-                  "You have already shown me the closed vote can go against my policy. I am telling you plainly that more red commanders trained at the Academy is a concession I can actually make. A floor fight I have to win by 79 votes is not a negotiation — it's a formality neither of us needs.",
+                position:
+                  "Trotsky says the closed vote has shown his policy can be beaten, that more Red commanders trained at the Academy is a concession he can make, and that a floor fight won by a wide margin is a formality neither side needs.",
               },
               historical: true,
               setFlags: { congressChoice: "negotiate" },
@@ -309,8 +309,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Marginalize the Opposition's leadership publicly. Make clear that further factional organizing won't be tolerated.",
                 advisor: {
                   name: "Trotsky",
-                  quote:
-                    "A defeated faction that is allowed to regroup as though nothing happened will simply relitigate this fight at the next Congress. I would rather close this argument decisively now than refight it every six months.",
+                  position:
+                    "Trotsky argues that a defeated faction allowed to regroup will fight the same argument again at the next Congress, and that it is better to close it decisively now.",
                 },
                 historical: false,
                 setFlags: { congressFallout: "marginalized" },
@@ -324,8 +324,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Quietly fold some of the Opposition's concerns into policy without public concessions, defusing resentment without a rematch.",
                 advisor: {
                   name: "Smirnov",
-                  quote:
-                    "I do not need a victory lap. I need to know the men who voted for us in the closed session aren't simply going to watch their concerns disappear because the full floor happened to go the other way.",
+                  position:
+                    "Smirnov says he does not need a victory lap but wants to know that the men who voted for the Opposition in the closed session will not see their concerns vanish because the full floor went the other way.",
                 },
                 historical: false,
                 setFlags: { congressFallout: "absorbed" },
@@ -356,8 +356,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Assign him a real field command anyway. The Front needs competent officers more than it needs a tidy political narrative.",
                 advisor: {
                   name: "Lenin",
-                  quote:
-                    "I did not spend my own career choosing between competence and loyalty when I could help it, and I am not going to start recommending it now on someone else's behalf. Use the man. Watch him. Those are not mutually exclusive instructions.",
+                  position:
+                    "Lenin argues that he has not chosen between competence and loyalty when he could avoid it, and that the instruction is to use the man and watch him, which are not exclusive.",
                 },
                 historical: false,
                 setFlags: { smirnovAssignment: "field_command" },
@@ -370,8 +370,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Keep him away from field command as well. A marginalization that still hands him visible successes isn't really a marginalization.",
                 advisor: {
                   name: "Trotsky",
-                  quote:
-                    "What we lose operationally is real, and I am not pretending otherwise. What it costs the argument we just won — watching the man we just defeated politically become, inside a month, the name attached to this Front's next real victory — is worse, and considerably harder to explain at the next Congress.",
+                  position:
+                    "Trotsky grants that the operational loss is real, and argues that the greater cost is watching a man just defeated politically become the name on the Front's next victory, which will be harder to explain at the next Congress.",
                 },
                 historical: false,
                 setFlags: { smirnovAssignment: "sidelined" },
@@ -406,8 +406,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Assert central authority. Threaten Voroshilov with court-martial and have Stalin recalled from the front.",
               advisor: {
                 name: "Trotsky",
-                quote:
-                  "Tsaritsyn obeys the Revvoensoviet, or it explains to the Republic why it does not. I did not build a unified command to watch it dissolve into a dozen private armies the moment a Party figure decides his instincts outrank the General Staff.",
+                position:
+                  "Trotsky argues that Tsaritsyn must obey the Revvoensoviet or explain why not, and that a unified command should not dissolve into private armies whenever a Party figure thinks his instincts outrank the General Staff.",
               },
               historical: true,
               setFlags: { tsaritsynOutcome: "recalled" },
@@ -447,8 +447,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Conciliate. Let Tsaritsyn's command stand as it is rather than force a rupture with Stalin.",
               advisor: {
                 name: "Stalin",
-                quote:
-                  "The city held. That is the only test that matters to the men who fought for it, and it should be the only test that matters to you. Discipline a commander for winning and you will find fewer of them willing to win the next city.",
+                position:
+                  "Stalin argues that the city held, that this is the only test that matters to the men who fought for it, and that disciplining a commander for winning leaves fewer willing to win the next city.",
               },
               historical: false,
               setFlags: { tsaritsynOutcome: "conciliated" },
@@ -461,8 +461,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Separate the two questions. Discipline Voroshilov specifically for bypassing the specialists — but leave Stalin's political oversight of the city in place.",
               advisor: {
                 name: "Lenin",
-                quote:
-                  "The complaint against Tsaritsyn was always really two complaints wearing one telegram — a military commander who ignored the General Staff, and a political commissar who backed him. I am not convinced both problems require the same solution, or that solving them together is actually simpler than solving them apart.",
+                position:
+                  "Lenin argues that the complaint against Tsaritsyn was two complaints in one telegram, a military commander who ignored the General Staff and a political commissar who backed him, and that they need not have the same solution.",
               },
               historical: false,
               setFlags: { tsaritsynOutcome: "split_discipline" },
@@ -500,8 +500,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Extend the reprimand's logic. Address the broader pattern, not just the single incident already corrected.",
                 advisor: {
                   name: "Trotsky",
-                  quote:
-                    "A narrow correction that leaves the underlying pattern untouched was never going to hold past the first new resignation. I would rather finish the argument now than relitigate it one voenspets colonel at a time.",
+                  position:
+                    "Trotsky argues that a narrow correction that leaves the pattern untouched will not hold past the next resignation, and would rather settle the argument now than one voenspets colonel at a time.",
                 },
                 historical: false,
                 setFlags: { tsaritsynAftermath: "extended" },
@@ -514,8 +514,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Let the narrow reprimand stand as the full response. A second intervention risks looking like the first one wasn't real.",
                 advisor: {
                   name: "Stalin",
-                  quote:
-                    "You already drew a line once. Redrawing it now, wider, tells every command watching that the first line was never the real one — which is a worse lesson than one more resignation over an appointment that was always going to favor trust over unfamiliarity.",
+                  position:
+                    "Stalin argues that redrawing a line already drawn, wider, tells every command that the first line was never the real one, which is a worse lesson than one more resignation.",
                 },
                 historical: false,
                 setFlags: { tsaritsynAftermath: "held_narrow" },
@@ -539,8 +539,8 @@ CAMPAIGNS.bolsheviks = {
               costsCapital: true,
               advisor: {
                 name: "Trotsky",
-                quote:
-                  "I let this stand once already. I am not required to let a second resignation pass unanswered simply because the first one did. This is precisely the drift a unified command exists to stop.",
+                position:
+                  "Trotsky argues that he let this stand once and need not let a second resignation pass because the first did, since this is the drift a unified command exists to stop.",
               },
               historical: false,
               setFlags: { tsaritsynAftermath: "reasserted" },
@@ -553,8 +553,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Let it stand. A second intervention this soon would look like the first decision was a mistake.",
               advisor: {
                 name: "Stalin",
-                quote:
-                  "You already decided this question once. Reversing yourself now teaches every front commander watching that your decisions are provisional until someone complains loudly enough — which is a worse lesson for the army than one voenspets colonel's resignation.",
+                position:
+                  "Stalin argues that reversing a decision already made teaches every front commander that the commissar's decisions are provisional until someone complains loudly, which is worse for the army than one colonel's resignation.",
               },
               historical: false,
               setFlags: { tsaritsynAftermath: "unaddressed" },
@@ -585,8 +585,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Reassign Stalin to a role with real responsibility, rather than let the recall read as pure punishment.",
               advisor: {
                 name: "Lenin",
-                quote:
-                  "A capable man humiliated twice in one year is not a man who forgets it quietly. Give him something real to do and the recall reads as reassignment. Give him nothing and it reads exactly like what it is.",
+                position:
+                  "Lenin argues that a capable man humiliated twice in a year does not forget it quietly, and that a recall reads as a reassignment only if he is given something real to do.",
               },
               historical: false,
               setFlags: { stalinRecallHandling: "reassigned" },
@@ -599,8 +599,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Leave the reassignment unresolved. The recall itself is the message; a new posting can wait.",
               advisor: {
                 name: "Trotsky",
-                quote:
-                  "I am not in the business of softening a decision I believe was correct. If the message is uncomfortable, it should be — that is what makes it a message rather than a formality.",
+                position:
+                  "Trotsky says he does not soften a decision he believes correct, and that an uncomfortable message is what makes it a message and not a formality.",
               },
               historical: false,
               setFlags: { stalinRecallHandling: "unresolved" },
@@ -634,8 +634,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Give the posting real authority, with minimal additional oversight beyond what any comparable role would get.",
                 advisor: {
                   name: "Lenin",
-                  quote:
-                    "A reassignment that comes wrapped in obvious extra scrutiny is not actually a reassignment — it is the recall, continued, with better paperwork. If we are going to do this, we should do it in a way he can't reasonably read as another humiliation.",
+                  position:
+                    "Lenin argues that a reassignment wrapped in obvious extra scrutiny is the recall continued, and that if it is done it should be done in a way Stalin cannot read as another humiliation.",
                 },
                 historical: false,
                 setFlags: { postingAuthority: "real" },
@@ -648,8 +648,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Attach real but discreet oversight. The posting is genuine; so is the reasonable caution around handing it over cleanly.",
                 advisor: {
                   name: "Trotsky",
-                  quote:
-                    "I am willing to call this a real posting. I am not willing to pretend two prior conflicts didn't happen simply because we're both being polite about the reassignment. The oversight stays — quietly, but it stays.",
+                  position:
+                    "Trotsky says he will call the posting a real one, will not pretend the two earlier conflicts did not happen, and that the oversight stays, quietly.",
                 },
                 historical: false,
                 setFlags: { postingAuthority: "supervised" },
@@ -683,8 +683,8 @@ CAMPAIGNS.bolsheviks = {
               costsCapital: true,
               advisor: {
                 name: "Trotsky",
-                quote:
-                  "An army that starves does not win the argument about how grain should be distributed — it simply loses, and the argument is settled by Denikin instead. This is not a policy I am fond of. It is the one that keeps the front supplied through the winter.",
+                position:
+                  "Trotsky argues that an army that starves does not win the argument about grain and Denikin settles it instead, and that the policy he is not fond of keeps the front supplied through the winter.",
               },
               historical: true,
               setFlags: { requisitionPolicy: "intensified" },
@@ -731,8 +731,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Ease requisitioning in newly held areas. Buy peasant tolerance at the cost of the supply shortfall.",
               advisor: {
                 name: "Stalin",
-                quote:
-                  "Squeeze a village twice in one winter and you will not need Denikin's army to lose it — it will simply stop being ours in anything but name. There is a cost to that arithmetic too, even if it does not show up on a supply ledger.",
+                position:
+                  "Stalin argues that squeezing a village twice in one winter will cost the village without Denikin's help, and that the cost does not show on a supply ledger.",
               },
               historical: false,
               setFlags: { requisitionPolicy: "eased" },
@@ -745,8 +745,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Dissolve the Committees of Poor Peasants. Fold requisitioning into the regular local Soviets instead.",
               advisor: {
                 name: "Kalinin",
-                quote:
-                  "The kombedy were built to fight the village soviets, not to feed the cities, and in most districts that is exactly and only what they have accomplished. Merge them back into the soviets they were set up to override, and let the requisitioning answer to a body the village has some standing to argue with.",
+                position:
+                  "Kalinin argues that the kombedy were built to fight the village soviets and not to feed the cities, and that requisitioning should answer to a body the village has some standing to argue with.",
               },
               historical: false,
               setFlags: { requisitionPolicy: "restructured" },
@@ -782,8 +782,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Prioritize the Southern Front. Denikin's advance is the more immediate threat to the capital.",
               advisor: {
                 name: "Trotsky",
-                quote:
-                  "Kolchak is further from Moscow in every sense that matters militarily. If we starve one front of shells this spring, it should not be the one closest to deciding the whole war by summer.",
+                position:
+                  "Trotsky argues that Kolchak is further from Moscow in every military sense, and that if one front is starved of shells this spring it should not be the one closest to deciding the war.",
               },
               historical: false,
               setFlags: { supplyPriority: "south" },
@@ -796,8 +796,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Split supply evenly between both fronts rather than gamble the war on prioritizing one direction.",
               advisor: {
                 name: "War Industry Commissariat Official",
-                quote:
-                  "I would rather have two fronts slightly underequipped than one front confident and one front collapsing. An even split does not win either campaign quickly. It also does not lose either one for a shortage we could have prevented.",
+                position:
+                  "A War Industry Commissariat official argues for two fronts slightly underequipped over one confident and one collapsing, since an even split wins neither campaign quickly but loses neither for a preventable shortage.",
               },
               historical: false,
               setFlags: { supplyPriority: "split" },
@@ -830,8 +830,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Hold the split as firm policy. Neither front gets to argue its way into a larger share through persistence.",
                 advisor: {
                   name: "Trotsky",
-                  quote:
-                    "A policy that bends every time a front commander complains loudly enough is not a policy — it is an invitation to complain loudly. I would rather hold an imperfect split than reward whichever commander is most persistent this month.",
+                  position:
+                    "Trotsky argues that a policy that bends whenever a front commander complains loudly is an invitation to complain, and would rather hold an imperfect split than reward the most persistent commander of the month.",
                 },
                 historical: false,
                 setFlags: { rationingConsequence: "held_firm" },
@@ -844,8 +844,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Quietly adjust allocation toward whichever front's need looks most acute in the moment.",
                 advisor: {
                   name: "War Industry Commissariat Official",
-                  quote:
-                    "I understand the argument for a fixed policy. I am the one who has to explain to whichever front is actually collapsing this week why the ledger says the allocation was decided in January and isn't up for revision in February.",
+                  position:
+                    "A War Industry Commissariat official grants the case for a fixed policy, and notes that he must explain to the front that is collapsing this week why the ledger says the split was settled in January.",
                 },
                 historical: false,
                 setFlags: { rationingConsequence: "adjusted" },
@@ -890,8 +890,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Back Kamenev. Concentrate the reserves toward Tsaritsyn and the Kuban.",
               advisor: {
                 name: "Trotsky",
-                quote:
-                  "Every argument for the Donbas route assumes the workers there rise to meet us the moment we arrive. I would rather stake this offensive on ground we can actually take than on a rising we can only hope for.",
+                position:
+                  "Trotsky argues that every case for the Donbas route assumes the workers rise to meet the army, and would rather stake the offensive on ground it can take than on a rising it can only hope for.",
               },
               historical: true,
               setFlags: { southernPlan: "tsaritsyn" },
@@ -905,8 +905,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Overrule Kamenev. Concentrate through the Donbas instead, on the denser rail and the industrial workforce.",
               advisor: {
                 name: "Unnamed Southern Front Commissar",
-                quote:
-                  "We keep asking Cossack villages to be neutral ground for an army they have every reason to distrust. The Donbas does not require that leap of faith from anyone — the rail is ours, and so, mostly, are the workers standing next to it.",
+                position:
+                  "A Southern Front commissar argues that the army keeps asking Cossack villages to be neutral ground for an army they distrust, whereas the Donbas asks no such leap, since the rail is Red and so, mostly, are the workers.",
               },
               historical: false,
               setFlags: { southernPlan: "donbas" },
@@ -939,8 +939,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Commit the worker battalions to the line as front-line infantry, trusting political commitment to offset the training gap.",
               advisor: {
                 name: "Unnamed Southern Front Commissar",
-                quote:
-                  "These men have more reason to hold this ground than any conscript brought in from outside the region. I would rather trust that than hold them back and explain to Denikin's army why we declined the help.",
+                position:
+                  "A Southern Front commissar argues that the miners have more reason to hold the ground than any conscript from outside the region, and that declining their help would have to be explained to Denikin's army.",
               },
               historical: false,
               setFlags: { donbasChoice: "front_line" },
@@ -957,8 +957,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Use the battalions for rear-area and rail defense instead, keeping trained units on the front line.",
               advisor: {
                 name: "Frunze",
-                quote:
-                  "Enthusiasm is not a substitute for the drill that keeps a line from breaking under pressure it has never actually faced. Let them hold what they can actually hold, and put the men who already know how to do this where the fighting is hardest.",
+                position:
+                  "Frunze argues that enthusiasm is no substitute for the drill that keeps a line from breaking under pressure, and would let the battalions hold what they can and put trained men where the fighting is hardest.",
               },
               historical: false,
               setFlags: { donbasChoice: "rear_area" },
@@ -993,8 +993,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Merge the survivors into regular infantry formations. Effectiveness now matters more than the symbol.",
                 advisor: {
                   name: "Frunze",
-                  quote:
-                    "I did not want them on the line in the first place, and I am not going to argue for keeping a symbolic formation together now that keeping it together costs actual combat effectiveness. Merge them where they'll do the most good.",
+                  position:
+                    "Frunze says he did not want the battalions on the line, and argues that now a symbolic formation costs combat effectiveness it should be merged where it does the most good.",
                 },
                 historical: false,
                 setFlags: { donbasAttritionChoice: "merged" },
@@ -1007,8 +1007,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Keep the battalions nominally intact, reinforced with fresh conscripts, even at reduced combat value.",
                 advisor: {
                   name: "Unnamed Southern Front Commissar",
-                  quote:
-                    "These men earned the name on the unit rolls with actual blood. I am not prepared to dissolve that into an anonymous infantry company because it would be more administratively tidy. Reinforce them and keep the name.",
+                  position:
+                    "A Southern Front commissar argues that the battalions earned the name with blood, and that they should be reinforced and keep it, not dissolved into an anonymous infantry company for administrative tidiness.",
                 },
                 historical: false,
                 setFlags: { donbasAttritionChoice: "reinforced" },
@@ -1038,8 +1038,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Keep the symbolic treatment. The name still matters for morale and recruitment even if the fighting record no longer distinguishes it.",
                 advisor: {
                   name: "Unnamed Southern Front Commissar",
-                  quote:
-                    "The name was never really about this specific engagement's casualty ratio. It is about what recruiting posters and Party newspapers can still say honestly about where these men came from — and that much is still true, whatever the fighting looked like this time.",
+                  position:
+                    "A Southern Front commissar argues that the name is about what recruiting posters and Party newspapers can still honestly say of where the men came from, whatever the fighting looked like this time.",
                 },
                 historical: false,
                 setFlags: { battalionNameTreatment: "symbolic_kept" },
@@ -1052,8 +1052,8 @@ CAMPAIGNS.bolsheviks = {
                 label: "Stop the pretense. Reclassify the formation as an ordinary unit rather than maintain a distinction the fighting no longer supports.",
                 advisor: {
                   name: "Frunze",
-                  quote:
-                    "I would rather have an honest ledger than a flattering one. If the unit fights like ordinary infantry, it should be carried on the rolls as ordinary infantry — the name was never going to change what actually happens on the line either way.",
+                  position:
+                    "Frunze argues for an honest ledger over a flattering one: a unit that fights like ordinary infantry should be carried as ordinary infantry, since the name changes nothing on the line.",
                 },
                 historical: false,
                 setFlags: { battalionNameTreatment: "reclassified" },
@@ -1095,8 +1095,8 @@ CAMPAIGNS.bolsheviks = {
               costsCapital: true,
               advisor: {
                 name: "Budyonny",
-                quote:
-                  "Hitch my divisions to an infantry army and you get an infantry army's war fought at an infantry army's walking pace — I have watched it happen twice already and buried good men to it both times. Give me the corps together, one command, my command, and I will show this front what cavalry actually does when nobody is holding its reins.",
+                position:
+                  "Budyonny argues that divisions hitched to an infantry army fight at its walking pace, and asks for the corps together under one command, his own, to show what cavalry does when nobody holds its reins.",
               },
               historical: true,
               setFlags: { cavalryDoctrine: "unified" },
@@ -1137,8 +1137,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Keep cavalry distributed among the infantry armies as integral support rather than a separate strategic arm.",
               advisor: {
                 name: "Southern Front Staff Officer",
-                quote:
-                  "An infantry army without its own cavalry screen is blind on its flanks the moment the enemy moves faster than it does. I understand the argument for concentration. I do not think every infantry commander who loses his cavalry to a separate command will agree it was worth it.",
+                position:
+                  "A Southern Front staff officer argues that an infantry army without its own cavalry screen is blind on its flanks once the enemy moves faster, and doubts that every infantry commander will agree that losing his cavalry was worth it.",
               },
               historical: false,
               setFlags: { cavalryDoctrine: "distributed" },
@@ -1161,8 +1161,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Concentrate the two strongest corps into one reinforced corps — short of a full, separately-commanded Army.",
               advisor: {
                 name: "Kamenev",
-                quote:
-                  "Budyonny is not wrong that piecemeal cavalry underperforms. I am not convinced the answer has to be an Army-scale command answering over the Front's own head to the center. A reinforced corps tests his argument without settling, in the same order, a much larger question about who commands what.",
+                position:
+                  "Kamenev grants that piecemeal cavalry underperforms, doubts that the answer must be an Army-scale command answering over the Front to the centre, and argues that a reinforced corps tests Budyonny's case without deciding who commands what.",
               },
               historical: false,
               setFlags: { cavalryDoctrine: "reinforced_corps" },
@@ -1191,8 +1191,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Halt the pursuit until cavalry reconnaissance can be arranged, even if it costs the army its momentum.",
               advisor: {
                 name: "Southern Front Staff Officer",
-                quote:
-                  "I argued for keeping the cavalry close specifically so this wouldn't happen. Having made that argument, I am not prepared to press an advance blind into ground where I can't currently say what's actually out there.",
+                position:
+                  "A Southern Front staff officer says he argued for keeping the cavalry close to avoid this, and will not press an advance blind into ground where he cannot say what is out there.",
               },
               historical: false,
               setFlags: { distributedPursuitChoice: "halt" },
@@ -1205,8 +1205,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Press the pursuit regardless. The retreating force is unlikely to risk a serious counterattack this late in its collapse.",
               advisor: {
                 name: "Unnamed Infantry Army Commander",
-                quote:
-                  "Denikin's army is coming apart. I am not going to hand it a week's grace because we can't currently locate one rearguard cavalry detachment that is, by every reasonable estimate, more interested in escaping than in attacking us.",
+                position:
+                  "An infantry army commander argues that Denikin's army is coming apart and that it should not be given a week's grace because one rearguard cavalry detachment cannot be located.",
               },
               historical: false,
               setFlags: { distributedPursuitChoice: "press" },
@@ -1252,8 +1252,8 @@ CAMPAIGNS.bolsheviks = {
               keyBattleSubgame: { id: "perekop" },
               advisor: {
                 name: "Frunze",
-                quote:
-                  "The Wall is built to stop an army that comes straight at it. It was not built to stop one that doesn't. Wading the Sivash at night, in November, is going to cost lives — I'm not going to dress that up. So does another winter spent besieging Perekop head-on. I know which cost I'd rather explain afterward.",
+                position:
+                  "Frunze argues that the Wall was built to stop an army that comes straight at it and not one that does not, that wading the Sivash at night in November will cost lives, and that another winter besieging Perekop head-on costs lives too.",
               },
               historical: true,
               setFlags: { perekopPlan: "sivash_crossing" },
@@ -1292,8 +1292,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Rely on a massed frontal assault against the Turkish Wall alone. Skip the Sivash crossing's risk.",
               advisor: {
                 name: "Southern Front Staff Officer",
-                quote:
-                  "I am not questioning that the crossing worked. I am pointing out that it worked — it was not guaranteed to, and an army that drowns fording an inlet at night in November has not flanked anything. There is a version of this plan that doesn't require the Sivash to cooperate.",
+                position:
+                  "A Southern Front staff officer grants that the crossing worked, argues that it was not guaranteed to, and says there is a version of the plan that does not need the Sivash to cooperate.",
               },
               historical: false,
               setFlags: { perekopPlan: "frontal_only" },
@@ -1333,8 +1333,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Press the pursuit to the ports. Take the quays before the loading finishes.",
               advisor: {
                 name: "Frunze",
-                quote:
-                  "I offered them an amnesty and I meant it, but an amnesty is a political instrument and the men on those ships are the ones who will be back with French guns in three years if they are anywhere at all. If we can reach the quays, I would rather this ended in the Crimea than in Constantinople.",
+                position:
+                  "Frunze argues that an amnesty is a political instrument and that the men on the ships are the ones who would return with French guns, and would rather the war ended in the Crimea than in Constantinople.",
               },
               historical: false,
               setFlags: { compressedEvacuation: "press_ports" },
@@ -1372,8 +1372,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Let them go. Take the Crimea without contesting the embarkation.",
               advisor: {
                 name: "Kamenev",
-                quote:
-                  "The peninsula is the objective and the peninsula is ours in either case. Storming a loading quay against men with nothing left to lose costs us formations we will want in the spring, in exchange for prisoners we would then have to feed.",
+                position:
+                  "Kamenev argues that the peninsula is the objective and will be Red either way, and that storming a loading quay against men with nothing left to lose costs formations needed in the spring for prisoners who would have to be fed.",
               },
               historical: true,
               setFlags: { compressedEvacuation: "let_them_go" },
@@ -1410,8 +1410,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Force the transfer. The Cavalry Army goes north to Warsaw regardless of what Lwów costs.",
               advisor: {
                 name: "Tukhachevsky",
-                quote:
-                  "My left flank is open and everyone in this room knows which formation is supposed to be covering it. If Lwów falls a month later than it might have, the Republic survives that. If the Vistula goes badly with the cavalry 250 miles away, I would like it on the record whose decision that was.",
+                position:
+                  "Tukhachevsky argues that his left flank is open, that the Republic can survive Lwów falling a month later but not the Vistula going badly with the cavalry far away, and asks that it be on the record whose decision that was.",
               },
               historical: false,
               setFlags: { polishAxis: "north" },
@@ -1426,8 +1426,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Accept the southern axis. Take Lwów, and let the Western Front carry Warsaw on its own.",
               advisor: {
                 name: "Stalin",
-                quote:
-                  "The South-Western Front has an objective in front of it and the men to take it. I am not going to break off an operation that is working in order to reinforce one that may not, on the argument that Warsaw is worth more than Galicia because Warsaw is closer to Berlin.",
+                position:
+                  "Stalin argues that the South-Western Front has an objective and the men to take it, and that an operation that is working should not be broken off to reinforce one that may not, on the argument that Warsaw is worth more than Galicia.",
               },
               historical: true,
               setFlags: { polishAxis: "south" },
@@ -1508,8 +1508,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Demand unconditional surrender. Order Tukhachevsky to take the fortress by force across the ice before the spring thaw.",
               advisor: {
                 name: "Trotsky",
-                quote:
-                  "I know exactly who is inside that fortress and what they fought for in 1917 — better than most of the men now arguing for patience. None of that changes the arithmetic. A rebellion at Kronstadt, this close to Petrograd, with the ice still crossable, is not a grievance the Republic has the luxury of negotiating on their timeline instead of ours.",
+                position:
+                  "Trotsky argues that he knows who is inside the fortress and what they fought for in 1917, and that a rebellion at Kronstadt so near Petrograd with the ice still crossable cannot be negotiated on the rebels' timeline.",
               },
               historical: true,
               setFlags: { kronstadtChoice: "assault" },
@@ -1523,8 +1523,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Open real negotiations on the demands themselves rather than issue an ultimatum.",
               advisor: {
                 name: "Kalinin",
-                quote:
-                  "I do not think 'Soviets without Communists' is a demand this government can simply grant — but free elections and an end to requisitioning are not White Guard demands, whatever we are calling this in the newspapers. I think we owe it to the men who made the Revolution possible to at least test whether this is negotiable before we decide it isn't.",
+                position:
+                  "Kalinin argues that 'Soviets without Communists' cannot simply be granted, but that free elections and an end to requisitioning are not White Guard demands, and that the government owes the men who made the Revolution a test of whether it is negotiable.",
               },
               historical: false,
               setFlags: { kronstadtChoice: "negotiate" },
@@ -1537,8 +1537,8 @@ CAMPAIGNS.bolsheviks = {
               label: "Neither yet. Wait for the thaw — an assault becomes impossible, but so does the fortress's link to Petrograd.",
               advisor: {
                 name: "Kamenev",
-                quote:
-                  "In three weeks the ice is gone and nobody crosses it in either direction. They cannot march on Petrograd and we cannot storm them, and a garrison on an island with no relief and no harvest is a different negotiating partner in May than it is in March. The cost of waiting is that the Congress watches us wait.",
+                position:
+                  "Kamenev argues that in three weeks the ice is gone and nobody crosses it, that a garrison on an island with no relief and no harvest is a different negotiating partner in May than in March, and that the cost of waiting is that the Congress watches the government wait.",
               },
               historical: false,
               setFlags: { kronstadtChoice: "wait_for_thaw" },

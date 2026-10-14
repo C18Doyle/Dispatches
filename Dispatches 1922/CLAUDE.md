@@ -8,6 +8,9 @@ React 18 + Tailwind 3, esbuild. Four campaigns (`provisionalGov17`, `southRussia
 - `src/main.jsx`, `src/input.css`, `src/prelude.html`, `build.mjs` build. `tools/` validators (`check-*.js`, `walk-historical.js`, `monte-carlo.mjs`) and `tools/ui_differential.mjs`. `tests/*.js` older jsdom behaviour tests (need `bundle_test.js` = a copy of `dist/bundle.js` in the project root). `tests/baseline/ui/` recorded runs from the pre-refactor build.
 - `HANDOVER.md`, `VALIDATION_REPORT.md`, `CIVILWAR_EXPANSION_PLAN.md`, `IMPROVEMENT_RECOMMENDATIONS.md` content/history notes.
 
+## Advisers
+An adviser line is `advisor: { name, position }`: one or two sentences in the third person saying what the person argues, never speech and never an invented figure. A real quotation goes only where it is logged with a source. `npm run check:advisers` enforces it.
+
 ## Dates
 Western calendar, day then month, everywhere on screen (`7 November 1917`). Russia used the Julian calendar until 14 February 1918 (13 days behind), so Russian dates before that are converted; Old Style may appear in a code comment or a claims note, never on screen. Where sources disagree on a day, give the month. The How to Read screen carries the one sentence that explains it.
 

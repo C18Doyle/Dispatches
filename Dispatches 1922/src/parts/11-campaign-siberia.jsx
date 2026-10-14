@@ -193,8 +193,8 @@
                 label: "Accept the offer. Take supreme power with full emergency authority as Supreme Ruler.",
                 advisor: {
                   name: "Vologodsky",
-                  quote:
-                    "The Directory is already gone in every way that matters — the only open question left is whether Russia's government has one authority or none at all. I am asking you to accept the first option before events settle on the second for us.",
+                  position:
+                    "Vologodsky argues that the Directory is already gone in every way that matters, and that the question is whether Russia has one authority or none.",
                 },
                 historical: true,
                 setFlags: { omskCoupChoice: "accept" },
@@ -207,8 +207,8 @@
                 label: "Press for a collective military council instead of sole authority, before accepting the role if that arrangement fails.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "I did not ask to be the answer to this question by myself. I would rather propose that three of us hold this authority jointly than accept alone a title Cossacks I don't fully command just handed me by removing everyone who might have argued the point.",
+                  position:
+                    "Kolchak proposes that three men hold the authority jointly, rather than accept alone a title the Cossacks have just given him by removing everyone who might have objected.",
                 },
                 historical: false,
                 setFlags: { omskCoupChoice: "council_first" },
@@ -221,8 +221,8 @@
                 label: "Redirect the offer to Boldyrev, as you argued when it was first raised this morning — and mean it this time.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "I told the Council this morning that the post belongs to Boldyrev, as a member of the Directory and its own commander-in-chief, and I meant it before I let myself be talked into a second conversation. He is still in this city. I am not going to spend the rest of the day being persuaded out of the answer I already gave once.",
+                  position:
+                    "Kolchak says he told the Council that morning that the post belongs to Boldyrev, who is still in Omsk, and will not be talked out of the answer he already gave.",
                 },
                 historical: false,
                 setFlags: { omskCoupChoice: "redirect_boldyrev" },
@@ -268,8 +268,8 @@
                 label: "Press for the arrested Directory members' reinstatement. Spend the goodwill; it's what the office is for.",
                 advisor: {
                   name: "Boldyrev",
-                  quote:
-                    "I did not take this post to preside over the same government with a different name on the door. If I am not willing to spend what little standing I have on the one thing I actually believe, the Council can find someone who agrees with them completely and save us all the pretense.",
+                  position:
+                    "Boldyrev argues that he did not take the post to preside over the same government under another name, and that if he will not spend his standing on what he believes the Council should find someone who agrees with it.",
                 },
                 historical: false,
                 setFlags: { boldyrevFirstWeek: "reinstatement_pressed" },
@@ -282,8 +282,8 @@
                 label: "Accept the expulsion as settled. A fight over it now costs more than it can possibly buy.",
                 advisor: {
                   name: "Boldyrev",
-                  quote:
-                    "I have been in this office a week and I do not yet have the standing to win a fight with the Council over men already on a train to the frontier. I would rather keep the authority I have and spend it on something I can actually change than lose it in the first week proving a point that changes nothing for Avksentiev either way.",
+                  position:
+                    "Boldyrev argues that after a week in office he lacks the standing to win a fight with the Council over men already on a train, and would rather keep the authority he has for something he can change.",
                 },
                 historical: false,
                 setFlags: { boldyrevFirstWeek: "expulsion_accepted" },
@@ -351,8 +351,8 @@
                 label: "Address it directly. Send a formal communication asserting the title is not, in practice, negotiable.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "I would rather correct the record now, plainly, than let a private hesitation calcify into a public precedent. Semyonov was never going to be an easy subordinate. I don't need to hand him a documented reason to be a harder one.",
+                  position:
+                    "Kolchak would rather correct the record now than let a private hesitation harden into a public precedent, and does not want to give Semyonov a documented reason to be harder.",
                 },
                 historical: false,
                 setFlags: { reluctanceResponse: "assert" },
@@ -386,8 +386,8 @@
                 label: "Let it pass without comment. A response risks confirming there was ever a real question to answer.",
                 advisor: {
                   name: "Vologodsky",
-                  quote:
-                    "Silence has its own risk — it can read as confidence or as evasion depending entirely on who's already inclined to distrust you. With Semyonov, I suspect it reads as the latter regardless of what we actually do.",
+                  position:
+                    "Vologodsky argues that silence can read as confidence or evasion depending on who distrusts you, and that with Semyonov it will read as evasion either way.",
                 },
                 historical: false,
                 setFlags: { reluctanceResponse: "ignore" },
@@ -415,8 +415,8 @@
                   label: "Press for something concrete — a specific commitment on rail cooperation — while the opening is real.",
                   advisor: {
                     name: "Kolchak",
-                    quote:
-                      "A private correspondence that grows warmer costs us nothing if we never actually spend it on anything. I would rather test what this opening is worth in practice than let it remain a pleasant but unused fact about Semyonov's staff.",
+                    position:
+                      "Kolchak argues that a warmer private correspondence costs nothing if it is never spent, and would rather test what the opening is worth in practice.",
                   },
                   historical: false,
                   setFlags: { semyonovOpeningChoice: "pressed" },
@@ -429,8 +429,8 @@
                   label: "Leave it alone. A fragile gain not yet asked to prove anything is safer than one that's just been tested and found wanting.",
                   advisor: {
                     name: "Vologodsky",
-                    quote:
-                      "I understand the appeal of testing what we have. I would rather bank a small, real improvement than risk discovering, by asking for more, that it was smaller than it looked.",
+                    position:
+                      "Vologodsky would rather bank a small real improvement than risk finding by asking for more that it was smaller than it looked.",
                   },
                   historical: false,
                   setFlags: { semyonovOpeningChoice: "preserved" },
@@ -461,8 +461,8 @@
                 label: "Escalate. A half-measure that backfired is worse than either full commitment or none — press the point formally.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "I have already tried the moderate version of this and watched it hand Semyonov's staff an excuse instead of a correction. I am not inclined to leave the record standing at 'attempted and failed' when escalating it costs little more than the attempt already did.",
+                  position:
+                    "Kolchak argues that the moderate approach has already handed Semyonov's staff an excuse, and that escalating costs little more than the attempt did.",
                 },
                 historical: false,
                 setFlags: { assertionEscalation: "escalated" },
@@ -475,8 +475,8 @@
                 label: "Let it drop. The approach didn't work; repeating it more forcefully isn't likely to work better.",
                 advisor: {
                   name: "Vologodsky",
-                  quote:
-                    "I said at the outset that silence carries its own risk. I did not say every risk is worth answering with a bigger version of the same failed approach. Let this one go.",
+                  position:
+                    "Vologodsky argues that silence carries a risk, but that not every risk is worth answering with a bigger version of an approach that has failed, and says to let it go.",
                 },
                 historical: false,
                 setFlags: { assertionEscalation: "dropped" },
@@ -514,8 +514,8 @@
                 label: "Continue the northward drive toward Vyatka, pursuing the Archangel junction.",
                 advisor: {
                   name: "Gajda",
-                  quote:
-                    "The Allied force at Archangel is real, supplied, and waiting. Denikin's proposal asks us to abandon a plan already succeeding for one that exists only in a letter.",
+                  position:
+                    "Gajda argues that the Allied force at Archangel is real, supplied and waiting, and that Denikin's proposal asks the army to give up a plan that is succeeding for one that exists only in a letter.",
                 },
                 historical: true,
                 setFlags: { offensiveDirection: "north" },
@@ -528,8 +528,8 @@
                 label: "Divert south toward Saratov, attempting the junction with Denikin's forces.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "Denikin is right that a combined front is worth more than two fronts advancing alone. Whether we can actually reach Saratov before the Red reserves reach us first is a separate question entirely.",
+                  position:
+                    "Kolchak grants that a combined front is worth more than two fronts advancing alone, and asks whether the army can reach Saratov before the Red reserves reach it.",
                 },
                 historical: false,
                 setFlags: { offensiveDirection: "south" },
@@ -543,8 +543,8 @@
                 label: "Neither flank. Concentrate on the central axis — drive straight west on Kazan and Nizhny Novgorod.",
                 advisor: {
                   name: "Sakharov",
-                  quote:
-                    "Gajda wants Archangel and Denikin wants Saratov, and both of them are asking this army to march away from the only objective that ends the war. The Red centre is what broke in March. Kazan is the road to Moscow and it is open now in a way it will not be in June.",
+                  position:
+                    "Sakharov argues that Gajda wants Archangel and Denikin wants Saratov, both asking the army to leave the only objective that ends the war, and that Kazan, the road to Moscow, is open now as it will not be in June.",
                 },
                 historical: false,
                 setFlags: { offensiveDirection: "centre" },
@@ -574,8 +574,8 @@
                 label: "Continue toward the junction. The political value of a combined White front may be worth the flank risk.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "A combined front with Denikin is worth more to the movement than any ground either of us holds alone. That calculation is considerably easier to make from a desk in Omsk than it will be to defend on the flank it actually costs, and I am not going to pretend otherwise to make it sound braver.",
+                  position:
+                    "Kolchak argues that a combined front with Denikin is worth more than any ground either army holds alone, and admits that it is easier to argue from a desk in Omsk than to defend on the flank it costs.",
                 },
                 historical: false,
                 setFlags: { saratovChoice: "continue" },
@@ -588,8 +588,8 @@
                 label: "Pull back from the junction attempt and shore up the exposed flank instead.",
                 advisor: {
                   name: "Gajda",
-                  quote:
-                    "I opposed this diversion from the start, but I will not pretend reversing it now is free. It is still better than losing the flank entirely to a counteroffensive we should have seen coming the moment we turned south.",
+                  position:
+                    "Gajda says he opposed the diversion from the start, that reversing it is not free, and that it is still better than losing the flank to a counteroffensive that should have been foreseen.",
                 },
                 historical: false,
                 setFlags: { saratovChoice: "withdraw" },
@@ -618,8 +618,8 @@
                 label: "Turn to meet the counteroffensive directly. The junction can wait; the flank can't.",
                 advisor: {
                   name: "Gajda",
-                  quote:
-                    "I told you what this would cost when you overruled me. I am not going to spend more time being right about it than it takes to actually turn this army around and face the threat that's already here.",
+                  position:
+                    "Gajda says he warned what the diversion would cost, and wants the army turned round to face the threat that is already here.",
                 },
                 historical: false,
                 setFlags: { exposedFlankChoice: "turn_to_meet" },
@@ -632,8 +632,8 @@
                 label: "Press on toward Saratov anyway. Fight through the counteroffensive rather than let it dictate the campaign's direction.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "There is an argument for turning back, and I have heard it stated correctly. What I do not believe is that an army which reverses its own strategic direction every time a Red counteroffensive materializes was ever going to reach a junction with anyone, on any axis, at any point in this war.",
+                  position:
+                    "Kolchak grants the argument for turning back, and doubts that an army that reverses direction whenever a Red counteroffensive appears would ever reach a junction with anyone.",
                 },
                 historical: false,
                 setFlags: { exposedFlankChoice: "press_on" },
@@ -674,8 +674,8 @@
                 label: "Stand at the Urals. Commit the reserves to holding the line.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "Give up the mountains without a fight and there is no natural line between here and Omsk. We hold here, or we do not hold anywhere.",
+                  position:
+                    "Kolchak argues that if the mountains are given up without a fight there is no natural line between here and Omsk, and that the army holds here or nowhere.",
                 },
                 historical: false,
                 setFlags: { uralsStand: true },
@@ -690,8 +690,8 @@
                 label: "Withdraw in good order toward the Trans-Siberian. Preserve the army for the line at Omsk.",
                 advisor: {
                   name: "Gajda",
-                  quote:
-                    "The mountains are not the war. The railway is the war — it is the only thing keeping this army fed, armed, and moving. Spend men holding rock and you will still lose the line that matters.",
+                  position:
+                    "Gajda argues that the mountains are not the war but the railway is, since it keeps the army fed, armed and moving, and that men spent holding rock will not save the line that matters.",
                 },
                 historical: true,
                 setFlags: { uralsStand: false },
@@ -732,8 +732,8 @@
                 keyBattleSubgame: { id: "chelyabinsk" },
                 advisor: {
                   name: "Diterichs",
-                  quote:
-                    "Today the army must deliver a decisive blow to the Chelyabinsk group, or every mile we have already spent holding the Urals line was spent for nothing. This is the moment that decision either pays for itself or doesn't.",
+                  position:
+                    "Diterichs argues that the army must deliver a decisive blow to the Chelyabinsk group, or every mile spent holding the Urals line was spent for nothing.",
                 },
                 historical: true,
                 setFlags: { chelyabinskChoice: "counterattack" },
@@ -767,8 +767,8 @@
                 label: "Decline the counterattack. Pull the reserves back to a more defensible line rather than commit them to urban fighting.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "I do not relish overruling Diterichs on the ground. I relish even less the prospect of losing the reserves we already sacrificed the Urals timeline to preserve, in a fight inside a city Frunze has clearly built his own plan around.",
+                  position:
+                    "Kolchak says he is reluctant to overrule Diterichs, and fears losing the reserves already spent preserving the Urals timeline in a fight inside a city the Reds have built their plan around.",
                 },
                 historical: false,
                 setFlags: { chelyabinskChoice: "withdraw" },
@@ -801,8 +801,8 @@
                 label: "Accept the resignation request. A commander who no longer trusts your judgment isn't one you can rely on regardless of his competence.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "I would rather lose a capable general who has already told me, in every way but directly, that he does not trust this command's judgment, than keep him in place and discover exactly how far that distrust extends the next time I need to overrule him.",
+                  position:
+                    "Kolchak would rather lose a capable general who distrusts this command's judgment than keep him and find out how far the distrust goes the next time he is overruled.",
                 },
                 historical: false,
                 setFlags: { diterichsHandling: "released" },
@@ -815,8 +815,8 @@
                 label: "Refuse the request. Keep Diterichs in command and address the resentment directly rather than lose the officer.",
                 advisor: {
                   name: "Diterichs",
-                  quote:
-                    "I did not submit that request lightly, and I will not pretend a refusal resolves what prompted it. But if you are asking me to stay, I will stay — competently, and without the illusion that this settles what I actually think about how that order was given.",
+                  position:
+                    "Diterichs says he did not submit the request lightly, that a refusal does not resolve what prompted it, and that he will stay and serve competently without pretending his view of the order has changed.",
                 },
                 historical: false,
                 setFlags: { diterichsHandling: "retained" },
@@ -843,8 +843,8 @@
                 label: "Promote the cautious senior officer. Competence that won't argue is worth more right now than competence that might.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "I have just spent a command decision on a general whose independence became a liability. I am not eager to install his replacement's replacement on the same trajectory within the year.",
+                  position:
+                    "Kolchak says he has just spent a command decision on a general whose independence became a liability, and does not want to install his replacement on the same path within the year.",
                 },
                 historical: false,
                 setFlags: { thirdArmySuccessor: "cautious" },
@@ -857,8 +857,8 @@
                 label: "Promote the talented but independent younger officer. The Front needs genuine ability more than it needs another compliant appointment.",
                 advisor: {
                   name: "Voitsekhovsky",
-                  quote:
-                    "I understand the caution after Diterichs. I would still rather have a commander capable of a genuinely good independent decision under pressure than one whose main qualification is being unlikely to make one at all.",
+                  position:
+                    "Voitsekhovsky grants the caution after Diterichs, and would still rather have a commander capable of a good independent decision under pressure than one chosen for being unlikely to make any.",
                 },
                 historical: false,
                 setFlags: { thirdArmySuccessor: "independent" },
@@ -895,8 +895,8 @@
                 label: "Assert priority for the government and gold reserve trains over the Legion's own.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "The Legion has fought alongside us for a year and profited from every mile of that railway. If they will not yield the junction to their own government's evacuation, say so plainly and we will know exactly where we stand.",
+                  position:
+                    "Kolchak argues that the Legion has fought beside the army for a year and profited from every mile of the railway, and that if it will not yield the junction to its own government's evacuation it should say so plainly.",
                 },
                 historical: true,
                 setFlags: { railPriorityAsserted: true },
@@ -914,8 +914,8 @@
                 label: "Concede priority to the Legion's trains and negotiate passage for the rest.",
                 advisor: {
                   name: "Sakharov",
-                  quote:
-                    "You do not have the leverage to make demands of the men holding the only railway east of here. I argued once for concentrating this army instead of splitting it, and lost that argument too — I am not going to lose a second one to pride when the answer is this obvious. Negotiate, and you may still get your trains through. Demand, and you will not.",
+                  position:
+                    "Sakharov argues that the government lacks the leverage to make demands of the men holding the only railway east, that he lost an earlier argument for concentration, and that negotiating may still get the trains through where demanding will not.",
                 },
                 historical: false,
                 setFlags: { railPriorityAsserted: false },
@@ -970,8 +970,8 @@
                 label: "Accept Janin's guarantee. Place the evacuation formally under Allied protection.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "I do not particularly trust a general who regards me as a British instrument he was never consulted about installing. I trust the alternative — negotiating separately with every Legion unit between here and Irkutsk — even less.",
+                  position:
+                    "Kolchak says he does not trust a general who regards him as a British instrument, and trusts the alternative, negotiating separately with every Legion unit to Irkutsk, even less.",
                 },
                 historical: false,
                 setFlags: { janinChoice: "accepted" },
@@ -984,8 +984,8 @@
                 label: "Decline the formal guarantee. Continue negotiating passage independently rather than depend on Janin's word.",
                 advisor: {
                   name: "Kolchak",
-                  quote:
-                    "A guarantee that depends entirely on one foreign general's discretion is not a guarantee — it is a hope with better paperwork. I would rather retain whatever independent leverage this government still has than trade it for a document.",
+                  position:
+                    "Kolchak argues that a guarantee that rests on one foreign general's discretion is not a guarantee, and would rather keep whatever independent leverage the government has than trade it for a document.",
                 },
                 historical: false,
                 setFlags: { janinChoice: "declined" },
@@ -1036,8 +1036,8 @@
                 label: "Press forward at full pace. Combat-effective troops keep moving; the worst-off are left with the trains that can no longer keep up.",
                 advisor: {
                   name: "Kappel",
-                  quote:
-                    "I take no comfort in this order, and I will not pretend to anyone that I do. But a column that stops for every man who cannot walk becomes a column that saves no one — least of all the men we stopped for.",
+                  position:
+                    "Kappel says he takes no comfort in the order, and argues that a column that stops for every man who cannot walk saves no one, least of all the men it stopped for.",
                 },
                 historical: true,
                 setFlags: { iceMarchPolicy: "press_forward" },
@@ -1050,8 +1050,8 @@
                 label: "Hold the column together. The sick and wounded stay with the main body regardless of pace.",
                 advisor: {
                   name: "Voitsekhovsky",
-                  quote:
-                    "I understand the arithmetic against this. I am telling you that an army which abandons its own sick to freeze in locked railcars is not an army I am confident will hold together for whatever comes after this march, whatever the pace bought us.",
+                  position:
+                    "Voitsekhovsky grants the arithmetic against his view, and argues that an army that leaves its own sick to freeze in locked railcars will not hold together for what comes after the march.",
                 },
                 historical: false,
                 setFlags: { iceMarchPolicy: "held_together" },
@@ -1085,8 +1085,8 @@
                 label: "Turn the rearguard to fight. Buy the column time at the cost of the men holding the line.",
                 advisor: {
                   name: "Voitsekhovsky",
-                  quote:
-                    "I did not argue for holding the column together so that the first contact with Eiche's advance guard scatters it anyway. A rearguard that actually fights buys real distance. One that simply keeps retreating buys nothing but a shorter chase.",
+                  position:
+                    "Voitsekhovsky argues that a rearguard that fights buys real distance and one that only retreats buys a shorter chase, and that holding the column together is no use if first contact with Eiche's advance guard scatters it.",
                 },
                 historical: false,
                 setFlags: { eichePursuitChoice: "fight" },
@@ -1101,8 +1101,8 @@
                 label: "Keep the whole column moving. Accept the rearguard's exposure rather than slow down further to support it.",
                 advisor: {
                   name: "A Column Staff Officer",
-                  quote:
-                    "General Kappel made the argument for speed himself, before the frostbite took him off the column entirely. I am only repeating it now because he no longer can. I am not going to pretend slowing down again to reinforce a rearguard skirmish is free — but it was never his argument that it would be.",
+                  position:
+                    "A column staff officer reports that Kappel himself made the argument for speed before frostbite took him off the column, and that the argument was never that slowing again to reinforce a rearguard skirmish is free.",
                 },
                 historical: false,
                 setFlags: { eichePursuitChoice: "continue" },
@@ -1136,8 +1136,8 @@
                 keyBattleSubgame: { id: "irkutsk" },
                 advisor: {
                   name: "Voitsekhovsky",
-                  quote:
-                    "He would not have left any of us to a Political Centre firing squad if the positions were reversed, and I am not prepared to be the man who decided it was more practical to leave him to one. We go in.",
+                  position:
+                    "Voitsekhovsky argues that Kolchak would not have left any of them to a Political Centre firing squad had the positions been reversed, and that the army should go in.",
                 },
                 historical: true,
                 setFlags: { irkutskChoice: "assault" },
@@ -1170,8 +1170,8 @@
                 label: "Do not attack. Accept the Political Centre's terms and bypass the city, prioritizing the army's survival over the rescue.",
                 advisor: {
                   name: "Voitsekhovsky",
-                  quote:
-                    "I have already told you what I think of leaving him. I am telling you now, separately, what a failed assault against a fortified city with an army this exhausted actually costs — because that arithmetic does not go away just because the other argument is the more honorable one.",
+                  position:
+                    "Voitsekhovsky says he has stated what he thinks of leaving Kolchak, and argues separately that a failed assault on a fortified city by an exhausted army has a cost that the more honourable argument does not remove.",
                 },
                 historical: false,
                 setFlags: { irkutskChoice: "bypass" },
@@ -1224,8 +1224,8 @@
                 label: "Accept the merger. Fold the army into Semyonov's command structure to survive the winter.",
                 advisor: {
                   name: "Voitsekhovsky",
-                  quote:
-                    "I do not ask any of you to respect him. I ask you to recognize that an army that refuses shelter on principle, in this condition, in this season, is not making a stand — it is simply choosing a slower way to stop existing.",
+                  position:
+                    "Voitsekhovsky does not ask anyone to respect Semyonov, and argues that an army that refuses shelter on principle, in this condition and season, is not making a stand but choosing a slower way to stop existing.",
                 },
                 historical: true,
                 setFlags: { semyonovChoice: "merged" },
@@ -1239,8 +1239,8 @@
                 label: "Refuse. Attempt independent passage toward Manchuria rather than serve under Semyonov.",
                 advisor: {
                   name: "Voitsekhovsky",
-                  quote:
-                    "I have said what I think of him plainly enough already. What I have not said is what an unsupplied march to the Chinese border, right now, in the state this army is actually in, is likely to cost — and I do not think that cost is smaller than the one we're trying to avoid.",
+                  position:
+                    "Voitsekhovsky argues that an unsupplied march to the Chinese border in the army's present state would cost no less than the cost the army is trying to avoid.",
                 },
                 historical: false,
                 setFlags: { semyonovChoice: "refused" },
@@ -1283,8 +1283,8 @@
                 label: "Comply. Surrender arms at the border rather than risk a confrontation with Chinese forces the column can't win.",
                 advisor: {
                   name: "Voitsekhovsky",
-                  quote:
-                    "We left Semyonov specifically to avoid answering to someone else's authority, and now I am recommending we answer to China's instead. I do not see a version of reaching safety from here that doesn't run through someone else's terms.",
+                  position:
+                    "Voitsekhovsky argues that the army left Semyonov to avoid answering to another authority and would now be answering to China's, and sees no route to safety that does not run through someone else's terms.",
                 },
                 historical: true,
                 setFlags: { borderChoice: "disarm" },
@@ -1297,8 +1297,8 @@
                 label: "Refuse to disarm. Attempt to force or negotiate passage while keeping the column armed.",
                 advisor: {
                   name: "Kappel's Former Staff Officer",
-                  quote:
-                    "The principle is sound enough on paper. Paper is not what a Chinese garrison responds to — they have disarmed better-supplied columns than ours without much trouble at all. We already walked away from one loathed authority. I see no reason to assume this one has more patience than the last.",
+                  position:
+                    "A former staff officer of Kappel's argues that the principle is sound on paper, that a Chinese garrison responds to something else, and that the army has already walked away from one loathed authority and has no reason to expect more patience from the next.",
                 },
                 historical: false,
                 setFlags: { borderChoice: "refuse" },
@@ -1387,8 +1387,8 @@
                 label: "Make a real stand at Chita rather than abandon the position without a fight.",
                 advisor: {
                   name: "Semyonov",
-                  quote:
-                    "I have held this city since 1918 against worse odds than these, and against men who thought their reasons for wanting it were better than mine. I am not asking anyone to die for my own authority, though I would let them think that if it moved them faster. Everything east of here answers to whoever holds Chita. I intend for that to still be me.",
+                  position:
+                    "Semyonov argues that he has held Chita since 1918 against worse odds, that he is not asking anyone to die for his authority, and that everything east answers to whoever holds Chita, which he intends to be himself.",
                 },
                 historical: true,
                 setFlags: { chitaDefense: "stand" },
@@ -1401,8 +1401,8 @@
                 label: "Withdraw toward the Manchurian border immediately rather than commit to a defense of Chita.",
                 advisor: {
                   name: "Voitsekhovsky",
-                  quote:
-                    "Holding this city buys Semyonov's authority a few more weeks. It does not change where any of us end up when those weeks run out. I would rather cross that border with an army than without one.",
+                  position:
+                    "Voitsekhovsky argues that holding Chita buys Semyonov's authority a few more weeks without changing where anyone ends up, and that he would rather cross the border with an army than without one.",
                 },
                 historical: false,
                 setFlags: { chitaDefense: "immediate_withdrawal" },
