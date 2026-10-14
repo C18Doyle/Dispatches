@@ -136,6 +136,7 @@ async function startSouth(planning) {
   check(!!box && box.checked, "war room: battle planning is on by default");
   if (!planning) await ctx.click(box);
   await ctx.click(find(ctx, /^ENTER COMMAND/));
+  await ctx.click(find(ctx, /^CONTINUE TO THE FIRST REPORT$/));
   return ctx;
 }
 /** Plays South Russia to the assault at Ekaterinodar (press the assault, then the order that hosts the battle). */
