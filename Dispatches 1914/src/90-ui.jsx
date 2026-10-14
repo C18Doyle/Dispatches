@@ -37,6 +37,13 @@ const css = `
   .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
   [data-font="typewriter"] .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
   [data-font="plain"] .dg-root{--mono:"Atkinson Hyperlegible","Segoe UI",Verdana,Tahoma,sans-serif;line-height:1.72;letter-spacing:.012em;word-spacing:.06em}
+  /* reading comfort (Settings): line spacing, line length and motion, after the type so they win */
+  [data-spacing="roomy"] .dg-root{line-height:1.85;letter-spacing:.02em;word-spacing:.08em}
+  [data-spacing="roomy"] .dg-prose{margin-bottom:24px}
+  [data-spacing="wide"] .dg-root{line-height:2.05;letter-spacing:.035em;word-spacing:.14em}
+  [data-spacing="wide"] .dg-prose{margin-bottom:30px}
+  [data-measure="narrow"] .dg-prose,[data-measure="narrow"] .dg-lede,[data-measure="narrow"] .dg-ask{max-width:34em}
+  [data-motion="reduced"] .dg-root *,[data-motion="reduced"] .dg-root *::before,[data-motion="reduced"] .dg-root *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 
   /* ---- the sheet ---- */
   .dg-root{background-color:var(--paper);
@@ -438,6 +445,38 @@ const css = `
   .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
   .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
 
+  /* ---- ground held or lost against the record, on the map and in its list ---- */
+  .dg-ground circle,.dg-ground rect{stroke-width:2.2;vector-effect:non-scaling-stroke}
+  .dg-ground path{fill:none;stroke-width:2.2;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .dg-ground-gained circle{fill:var(--paper);stroke:var(--accent)}
+  .dg-ground-gained path{stroke:var(--accent)}
+  .dg-ground-lost rect{fill:var(--paper);stroke:var(--op-focus,#9b2c1f)}
+  .dg-ground-lost path{stroke:var(--op-focus,#9b2c1f)}
+  .dg-swatch-gained{border-radius:50%;border:2px solid var(--accent);background:var(--paper)}
+  .dg-swatch-lost{border:2px solid var(--op-focus,#9b2c1f);background:var(--paper)}
+  .dg-groundlist{list-style:none;margin:6px 0 14px;padding:0}
+  .dg-groundlist li{font-size:13px;margin:0 0 8px;padding-left:10px;border-left:3px solid var(--accent)}
+  .dg-groundlist li.dg-ground-lost{border-left-color:var(--op-focus,#9b2c1f)}
+
+  /* ---- a newspaper special ---- */
+  .dg-paper{border:2px solid var(--rule);border-top:6px double var(--rule);background:var(--paper-raised);padding:14px 16px 6px;margin:6px 0 14px}
+  .dg-paper-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1.5px solid var(--rule);padding-bottom:6px;margin-bottom:8px}
+  .dg-paper-head .n{font-family:${THEME.serif};font-size:24px;font-weight:700;letter-spacing:.01em}
+  .dg-paper-head .p{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-paper .dg-node-title{font-size:30px;margin-top:4px}
+
+  /* ---- the file at its close ---- */
+  .dg-strip{margin:22px 0}
+  .dg-strip-maps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+  .dg-strip-maps figure{margin:0}
+  .dg-strip-maps figcaption{font-size:12px;color:var(--ink-soft);margin-top:4px}
+  @media (max-width:640px){.dg-strip-maps{grid-template-columns:1fr}}
+  .dg-strip-h{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:18px 0 8px}
+  .dg-strip-list{margin:0;padding-left:20px;font-size:13.5px}
+  .dg-strip-list li{margin:0 0 7px}
+  .dg-strip-list .d{color:var(--ink-soft);font-size:12px}
+  .dg-strip-staff{margin:0;padding-left:18px;font-size:13.5px}
+
   /* ---- the orders on the map ---- */
   .dg-op{fill:none;stroke:currentColor;stroke-linecap:round}
   .dg-op-hold circle{fill:none;stroke:currentColor}
@@ -627,7 +666,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
 
-      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} />}
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} flags={flags} />}
 
       {node.context && (
         <details>
@@ -643,6 +682,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <div className={`dg-badge dg-badge-${node.ending.badge}`}>{BADGE_LABELS[node.ending.badge]}</div>
           {node.epilogue && <GlossText key={nodeId + "-epilogue"} segs={epilogueSegs} />}
           {rank && <RankPanel result={rank} />}
+          <FileStrip campaignId={campaignId} endingId={nodeId} flags={flags} taken={taken || []} hard={hardState.enabled} />
           {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
           <button className="dg-btn" onClick={onHome}>Return to file</button>
         </>
@@ -741,7 +781,7 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
             {informed && <p className="dg-note">The staff had checked its reading and knew what it was facing.</p>}
           </section>
           {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
-            <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} />
+            <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} flags={flags} />
           )}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
@@ -1019,6 +1059,9 @@ export default function App() {
       const root = document.documentElement;
       root.setAttribute("data-theme", theme);
       root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" ? settings.font : "theme");
+      root.setAttribute("data-spacing", settings.spacing || "standard");
+      root.setAttribute("data-measure", settings.measure || "standard");
+      root.setAttribute("data-motion", settings.motion || "auto");
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute("content", THEME_TOKENS[theme].base.paper);
     };
@@ -1027,7 +1070,7 @@ export default function App() {
     const qs = [window.matchMedia("(prefers-color-scheme: dark)"), window.matchMedia("(prefers-contrast: more)")];
     qs.forEach((q) => q.addEventListener && q.addEventListener("change", apply));
     return () => qs.forEach((q) => q.removeEventListener && q.removeEventListener("change", apply));
-  }, [settings.theme, settings.font]);
+  }, [settings.theme, settings.font, settings.spacing, settings.measure, settings.motion]);
   // sound: the mode follows the settings, the ambience follows the command in play, and a bulletin comes in on the wire
   useEffect(() => { setAudioMode(settings.sound ? (settings.atmosphere ? 2 : 1) : 0); }, [settings.sound, settings.atmosphere]);
   useEffect(() => {

@@ -1744,5 +1744,104 @@
       "wp-megiddo"
     ],
     "note": "The node's text gives the deception."
+  },
+  {
+    "id": "otto_newsstraits-1",
+    "node": "otto_1914_02_blacksea",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Daily Telegraph, London: Constantinople Turns the German Ships Away. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "otto_newsoffer-1",
+    "node": "otto_1914_01_straits",
+    "kind": "characterization",
+    "claim": "Newspaper special, Novoye Vremya, Petrograd: The Porte Asks What St Petersburg Would Guarantee. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "otto_newssuez-1",
+    "node": "otto_1915_02_gallipoli",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Egyptian Gazette, Cairo: The Canal Is Quiet. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "otto_newskut-1",
+    "node": "otto_1916_01_erzurum",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Times, London: Kut Held and Not Starved. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "otto_newsmedina-1",
+    "node": "otto_1916_03_romani",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Arab Bulletin, Cairo: Medina Is Left to the Sharif. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "otto_newsaqaba-1",
+    "node": "otto_1917_02_jerusalem",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Times, London: Aqaba Is Given Up. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "otto_newscaucasus-1",
+    "node": "otto_1918_02_megiddo",
+    "kind": "characterization",
+    "claim": "Newspaper special, Novoye Vremya, Petrograd: No Turks at Baku. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "otto-end-neutral-1",
+    "node": "otto_end_neutral",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the German cruisers Goeben and Breslau were admitted to the Straits on 10 August 1914 and transferred to the Ottoman navy, and the empire entered the war on 29 October 1914 after the raid on the Russian Black Sea ports. The Armistice of Mudros was signed on 30 October 1918 and the empire lost its Arab provinces.\n\nThe empire's entry into the war was decided by a small group in Constantinople and by the German naval mission, and the Cabinet as a whole was not consulted. In this ending the Cabinet is asked and answers differently, and the army that did not march to Sarikamish is the army that was kept in the field.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "otto-end-shorter-1",
+    "node": "otto_end_shorter",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Aqaba was taken from the land side by the Arab forces on 6 July 1917, and the garrison of Medina held out until 10 January 1919, after the armistice. The Arab Revolt, begun in June 1916, tied down tens of thousands of Ottoman troops along the Hejaz railway.\n\nThe Hejaz railway was the long thread on which the empire's hold on the Arabian provinces hung, and the Arab Revolt of 1916 cut it again and again. In this ending the thread is shortened, and the garrisons are brought home while there is still a line to bring them back along.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "otto-end-baghdad-1",
+    "node": "otto_end_baghdad",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Baghdad fell to the British on 11 March 1917, and the Yildirim army group, formed in 1917 under German command, was sent to Palestine and not to Mesopotamia. Jerusalem fell on 9 December 1917, and the British entered Damascus on 1 October 1918.\n\nThe Yildirim army group was a German project that failed to retake Baghdad because it was sent to Palestine and was too weak when it got there, and the British advanced on both fronts in 1917. In this ending the project is carried out as planned, and Palestine pays for it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "otto-end-jerusalem-1",
+    "node": "otto_end_jerusalem",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the Ottoman army withdrew from Jerusalem and the city surrendered to the British on 9 December 1917, after a battle for the outer defences from 7 December, and Allenby entered on foot on 11 December. The front in Palestine held through the winter and broke at Megiddo in September 1918.\n\nThe loss of Jerusalem in December 1917 was a blow to Ottoman prestige and to the Sultan's claim to the caliphate, and it was celebrated in London as the Christmas gift of the nation. In this ending there is no such gift, and the question of what the British were fighting for is asked in the winter.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
   }
 ]

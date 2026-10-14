@@ -26,6 +26,8 @@ for (const e of E.EVENTS) {
   if (e.date < e.from || e.date > e.to) problems.push(`${where}: its date is outside its window`);
   if (!e.title || !e.kind) problems.push(`${where}: no title or kind`);
   if (!Array.isArray(e.paras) || e.paras.length !== 2) problems.push(`${where}: two paragraphs needed`);
+  if (e.paper && (!e.paper.name || !e.paper.place)) problems.push(`${where}: a newspaper event needs a paper name and a place`);
+  if (e.paper && !/^Speculative. /.test((e.paras || [])[0] || "")) problems.push(`${where}: a newspaper event is speculative and its first paragraph begins "Speculative."`);
   const text = [e.title, e.kind, ...(e.paras || [])].join(" ");
   if (/[—–]/.test(text)) problems.push(`${where}: a long dash`);
   if (/["“”]/.test(text)) problems.push(`${where}: a quotation mark (events are narrated)`);
@@ -37,7 +39,7 @@ for (const e of E.EVENTS) {
   const best = { manpower: E.METER_MAX, munitions: E.METER_MAX, will: E.METER_MAX };
   const inWindow = Object.entries(camp.nodes).filter(([, n]) => !n.ending && n.date >= e.from && n.date <= e.to).map(([id]) => id);
   if (!inWindow.length) problems.push(`${where}: no report falls in its window`);
-  else if (![worst, best].some((m) => E.dueEvent(e.campaign, inWindow[0], {}, m) !== null)) problems.push(`${where}: it cannot fire on any state`);
+  else if (![worst, best].some((m) => E.dueEvent(e.campaign, inWindow[0], e.fires || {}, m) !== null)) problems.push(`${where}: it cannot fire on any state`);
   // not before the window, not twice
   const early = Object.entries(camp.nodes).find(([, n]) => !n.ending && n.date < e.from && E.dueEvent(e.campaign, n.id || "", {}, worst) && E.dueEvent(e.campaign, n.id || "", {}, worst).id === e.id);
   if (early) problems.push(`${where}: due before its window`);

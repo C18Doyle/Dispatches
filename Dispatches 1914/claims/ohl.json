@@ -1207,5 +1207,95 @@
     "status": "drafted",
     "sources": [],
     "note": "The Armistice article gives the abdication announcement on 9 November but does not mention the departure; to be checked."
+  },
+  {
+    "id": "ohl_newsserbia-1",
+    "node": "ohl_1916_04_verdun",
+    "kind": "characterization",
+    "claim": "Newspaper special, Le Temps, Paris: The Salonika Army Finds No Enemy. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newsverdun-1",
+    "node": "ohl_1916_14_somme",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Times, London: The French Come to the Somme in Full Strength. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newscaporetto-1",
+    "node": "ohl_1918_12_faustschlag",
+    "kind": "characterization",
+    "claim": "Newspaper special, Corriere della Sera, Milan: The Isonzo Holds. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newsusw-1",
+    "node": "ohl_1917_07_chancellor",
+    "kind": "characterization",
+    "claim": "Newspaper special, The New York Times, New York: Berlin Keeps to the Cruiser Rules. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newsfaust-1",
+    "node": "ohl_1918_09_michael",
+    "kind": "characterization",
+    "claim": "Newspaper special, Izvestia, Petrograd: The German Advance Stops Short. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newsamiens-1",
+    "node": "ohl_1918_13_aisne",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Daily Mail, London: Amiens Under the Guns. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl-end-civilgov-1",
+    "node": "ohl_end_civilgov",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Bethmann Hollweg was forced out in July 1917, in the crisis over the Reichstag's peace resolution, at the insistence of the Supreme Command, and the governments that followed were weaker. Prince Max of Baden became Chancellor on 3 October 1918 and the request to President Wilson went out in the first days of that month. The armistice was signed on 11 November, and within a year the account of an army betrayed at home was in print.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "ohl-end-mediation-1",
+    "node": "ohl_end_mediation",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the United States declared war on Germany on 6 April 1917, after the resumption of unrestricted submarine warfare, and American divisions were in the line in France in the spring of 1918. The German request of October 1918 went to the President as the leader of an enemy, who answered it three times and set conditions that included the end of the monarchy's power and terms that left Germany unable to renew the war.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "ohl-end-viennafirst-1",
+    "node": "ohl_end_viennafirst",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Austria-Hungary asked for an armistice at the end of October 1918, after the Italian victory at Vittorio Veneto, and it was signed at the Villa Giusti on 3 November, to take effect the next day. The monarchy dissolved into its successor states in the following weeks, and Germany signed its own armistice a week after the Austrian one.\n\nIn the real days that followed, the German staff did look at the open southern frontier, and Bavarian officers feared an Allied advance from Austria. In this ending the fear comes first and the armistice comes second, and the Supreme Command is asked which of its two frontiers it means to cover.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "ohl-end-easternpeace-1",
+    "node": "ohl_end_easternpeace",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Brest-Litovsk was signed on 3 March 1918, the German advance in the east took Kiev on 2 March, and the spring offensive in the west took ground and was stopped short of Amiens. The armistice of 11 November annulled the treaty and called for the withdrawal of German troops from the former Russian territories when the Allies judged the moment suitable.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
   }
 ]

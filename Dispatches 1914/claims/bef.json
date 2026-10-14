@@ -901,5 +901,95 @@
     "status": "drafted",
     "sources": [],
     "note": "Not checked in this pass."
+  },
+  {
+    "id": "bef_newslanding-1",
+    "node": "bef_1914_02_seine",
+    "kind": "characterization",
+    "claim": "Newspaper special, Le Matin, Paris: The British Are Arriving Farther Back. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "bef_newsdardanelles-1",
+    "node": "bef_1915_05_shells",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Daily News, London: The Navy Alone at the Straits. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "bef_newsconvoy-1",
+    "node": "bef_1917_15_ypres3",
+    "kind": "characterization",
+    "claim": "Newspaper special, The New York Times, New York: Sinkings Climb and Washington Presses for Convoy. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "bef_newsconscription-1",
+    "node": "bef_1916_11_somme",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Frankfurter Zeitung, Frankfurt: Britain Still Relies on Volunteers. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "bef_newscalais-1",
+    "node": "bef_1917_14_convoy",
+    "kind": "characterization",
+    "claim": "Newspaper special, Le Temps, Paris: London Declines to Serve under Nivelle. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "bef_newsreserve-1",
+    "node": "bef_1918_18_doullens",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Times, London: A Reserve for the Whole Front. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "bef-end-surprise-1",
+    "node": "bef_end_surprise",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': tanks were first used on 15 September 1916 at Flers-Courcelette, in small numbers. The attack at Cambrai on 20 November 1917 used some 400 tanks on firm ground and made a deep advance on the first day. The Flanders offensive of 1917 ran from 31 July to 10 November and ended at Passchendaele.\n\nThe battle of Cambrai was a success on the first day and a disappointment by the tenth, when the Germans counter-attacked and retook much of the ground. In this ending the tanks are many enough for the success to be followed up, and the army that sees them is the army that learned to use them in a year and not in two.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "bef-end-wheat-1",
+    "node": "bef_end_wheat",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the first convoy sailed from Gibraltar on 10 May 1917 and losses fell through the summer. The Military Service Act of January 1916 introduced conscription for single men, and a second Act in May extended it to married men. Food rationing came in 1918, without starvation.\n\nThe Admiralty adopted the convoy against its own judgment and under pressure from the Prime Minister, and the figures for May and June 1917 showed that it worked. In this ending the pressure comes late, the stocks are low, and the question of what the country can eat in the spring is answered in the House of Commons.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "bef-end-calaisrow-1",
+    "node": "bef_end_calaisrow",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': at the Calais conference in February 1917 the British accepted Nivelle's direction for the spring offensive, and the arrangement was dropped after its failure. At Doullens on 26 March 1918 Foch was given the coordination of the Allied armies, and he was named Allied commander-in-chief in April.\n\nThe relations between Haig and Nivelle at Calais were strained, and the relations between Haig and Foch in 1918 were correct but not warm. In this ending the strain is the whole of the relation, and the commanders who are said to coordinate are known to the staff to be doing nothing of the kind.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "bef-end-groundgiven-1",
+    "node": "bef_end_groundgiven",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': in the first days of September 1914 the British commander wished to withdraw behind the Seine, and Kitchener went to Paris on 1 September to insist that the army stay in the line. The British army held the Ypres salient through the First Battle of Ypres, from October to November 1914.\n\nThe first battle of Ypres was fought by the army that had been in France for three months, and it was held at a cost of much of the old regular army. In this ending the army is withdrawn before the cost is paid, and the question of who would have held the line is left to the historians.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
   }
 ]
