@@ -1,0 +1,1150 @@
+[
+ {
+  "id": "siberia-omskCoup18-1",
+  "node": "omskCoup18",
+  "kind": "figure",
+  "where": "bulletin",
+  "claim": "Roughly 40,000 men of the Czechoslovak Legion — former Austro-Hungarian prisoners organized under an emerging Czechoslovak National Council — were evacuating peacefully east under Bolshevik agreement.",
+  "status": "disputed",
+  "sources": [
+   "wp-czech-revolt"
+  ],
+  "note": "42,000 (infobox, 1918); other sources 50,000 or 60,000."
+ },
+ {
+  "id": "siberia-omskCoup18-2",
+  "node": "omskCoup18",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "A clash at Chelyabinsk in May, followed by Moscow's order to disarm them outright, ended that agreement.",
+  "status": "web-checked",
+  "sources": [
+   "wp-czech-revolt"
+  ],
+  "note": "14 May 1918."
+ },
+ {
+  "id": "siberia-omskCoup18-3",
+  "node": "omskCoup18",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "The Legion answered by seizing the Trans-Siberian station by station.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-omskCoup18-4",
+  "node": "omskCoup18",
+  "kind": "fact",
+  "where": "meanwhile southRussia",
+  "claim": "Seven months after Kornilov's death at Ekaterinodar, the Volunteer Army survives under Denikin, still a modest force based in the Kuban — not yet the major southern threat it becomes through 1919.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-omskCoup18-5",
+  "node": "omskCoup18",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The Left SR uprising was crushed in July; an assassination attempt on Lenin himself in August has hardened the government's own security apparatus considerably.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-omskCoup18-6",
+  "node": "omskCoup18",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Cossack troops under ataman Krasilnikov arrested the Directory's Socialist-Revolutionary members overnight, purging the government's left wing without your explicit order — though you did nothing to discourage it either.",
+  "status": "web-checked",
+  "sources": [
+   "wp-kolchak-coup",
+   "frus-omsk-1918"
+  ],
+  "note": "Night of 17 to 18 November 1918; a US report says the government had no part and disapproved."
+ },
+ {
+  "id": "siberia-omskCoup18-7",
+  "node": "omskCoup18",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "An underground rising in Omsk on 22 December is put down, and that night officers take nine Socialist-Revolutionary members of the Constituent Assembly from the prison and shoot them, apparently without Kolchak's knowledge.",
+  "status": "web-checked",
+  "sources": [
+   "frus-omsk-1919"
+  ],
+  "note": "Nine SR members of the Constituent Assembly were taken from the prison and shot on 23 December, apparently without Kolchak's knowledge. An earlier text said a Left SR rising and 500 executed (corrected)."
+ },
+ {
+  "id": "siberia-boldyrevsFirstWeek18-1",
+  "node": "boldyrevsFirstWeek18",
+  "kind": "fact",
+  "where": "background",
+  "claim": "The Council of Ministers has already made its own preference clear: a single conservative authority, the Directory's moderate socialist wing removed from the government entirely.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-boldyrevsFirstWeek18-2",
+  "node": "boldyrevsFirstWeek18",
+  "kind": "fact",
+  "where": "background",
+  "claim": "Avksentiev, Zenzinov, and the other arrested Directory members are being held for expulsion abroad rather than harmed — the Council's idea of restraint.",
+  "status": "web-checked",
+  "sources": [
+   "frus-omsk-1918"
+  ],
+  "note": "Deported via Harbin; saved from execution by Allied protection."
+ },
+ {
+  "id": "siberia-semyonovResponse18-1",
+  "node": "semyonovResponse18",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "The war the Czechoslovak Legion took up arms to reach ended on 11 November.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-semyonovResponse18-2",
+  "node": "semyonovResponse18",
+  "kind": "fact",
+  "where": "meanwhile southRussia",
+  "claim": "The Volunteer Army has been consolidated as the Armed Forces of South Russia under Denikin, and the Armistice has freed Allied shipping to reach Novorossiysk with supplies for the first time in quantity.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-semyonovResponse18-3",
+  "node": "semyonovResponse18",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "German forces are withdrawing from Ukraine, and the Red Army is moving into the vacuum they leave behind.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-springOffensive19-1",
+  "node": "springOffensive19",
+  "kind": "fact",
+  "where": "meanwhile southRussia",
+  "claim": "A comparatively quiet stretch for the AFSR — Denikin's forces regrouping through the winter before the summer offensive that becomes the Moscow Directive in July.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-springOffensive19-2",
+  "node": "springOffensive19",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The Eighth Party Congress is meeting in this same city, this same month — the Military Opposition's fight over relying on ex-Imperial officers is being argued in parallel with the Comintern's own founding sessions.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-ufaCounteroffensive19-1",
+  "node": "ufaCounteroffensive19",
+  "kind": "fact",
+  "where": "meanwhile southRussia",
+  "claim": "Denikin took Kharkov in June and is preparing the order that becomes the Moscow Directive — the southern front at its strongest exactly as this one breaks.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-chelyabinskGrinder19-1",
+  "node": "chelyabinskGrinder19",
+  "kind": "fact",
+  "where": "meanwhile southRussia",
+  "claim": "Kharkov fell to Denikin's forces at the end of June.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-chelyabinskGrinder19-2",
+  "node": "chelyabinskGrinder19",
+  "kind": "fact",
+  "where": "meanwhile southRussia",
+  "claim": "On 3 July he issues the Moscow Directive, ordering a broad-front advance on the capital — the most ambitious single order of the entire war, and the one the southern command is currently executing at full confidence.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-chelyabinskGrinder19-3",
+  "node": "chelyabinskGrinder19",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The 'Military Opposition' fight from March's Party Congress is still unsettled in practice even where it was formally resolved on paper.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-chelyabinskGrinder19-4",
+  "node": "chelyabinskGrinder19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The reserves committed to the Urals line have reached Chelyabinsk, and General Diterichs is proposing a counterattack to retake the city's rail junction before the Red 5th Army can fully consolidate around it — a strike that, if it works, could stabilize the whole southern flank of the retreat.",
+  "status": "disputed",
+  "sources": [
+   "wp-diterikhs",
+   "perm-chelyabinsk"
+  ],
+  "note": "Diterichs took command of the Siberian Army in July 1919; the operation's sources name Voitsekhovsky, Kappel and Sakharov. Needs a reviewer."
+ },
+ {
+  "id": "siberia-chelyabinskGrinder19-5",
+  "node": "chelyabinskGrinder19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The Red 5th Army is already massing for exactly this contingency.",
+  "status": "web-checked",
+  "sources": [
+   "perm-chelyabinsk"
+  ],
+  "note": "Tukhachevsky's 5th Army, 17 July to 4 August 1919. An earlier text said Frunze's 3rd Army (corrected)."
+ },
+ {
+  "id": "siberia-chelyabinskGrinder19-6",
+  "node": "chelyabinskGrinder19",
+  "kind": "fact",
+  "where": "roll: The counterattack is ground down",
+  "claim": "The counterattack goes in on 29 July — directly into a prepared Red flanking strike.",
+  "status": "disputed",
+  "sources": [
+   "perm-chelyabinsk",
+   "wollenberg-red-army"
+  ],
+  "note": "The sources date the White counterattacks to 25 and 27 July; Chelyabinsk fell between 24 July and 3 August. 29 July not found."
+ },
+ {
+  "id": "siberia-chelyabinskGrinder19-7",
+  "node": "chelyabinskGrinder19",
+  "kind": "figure",
+  "where": "roll: The counterattack is ground down",
+  "claim": "What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it.",
+  "status": "disputed",
+  "sources": [
+   "wollenberg-red-army"
+  ],
+  "note": "A chronicle gives 3 August and 15,000 prisoners; not corroborated."
+ },
+ {
+  "id": "siberia-diterichsOverruled19-1",
+  "node": "diterichsOverruled19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Diterichs has accepted the countermanded order without public objection — but the request to relieve him of Third Army command, quietly submitted the following week, is sitting on your desk.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-thirdArmySuccessor19-1",
+  "node": "thirdArmySuccessor19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Third Army needs a new commander, and the two realistic candidates represent a trade-off this command has faced before: a proven but politically cautious senior officer with no independent standing to challenge future orders, or a less experienced but genuinely talented younger commander whose independence is exactly what made Diterichs difficult in the first place.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-railPriority19-1",
+  "node": "railPriority19",
+  "kind": "fact",
+  "where": "background",
+  "claim": "Tens of thousands of Czechoslovak Legion troops control its stations and junctions under an arrangement that made them responsible for guarding the line rather than fighting on it, and their commander answers to the French general Maurice Janin, not to Omsk.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-railPriority19-2",
+  "node": "railPriority19",
+  "kind": "figure",
+  "where": "background",
+  "claim": "Kolchak's own train carries what remains of the imperial gold reserve seized at Kazan in 1918 — some 500 tons of bullion.",
+  "status": "web-checked",
+  "sources": [
+   "kolchak-gold"
+  ],
+  "note": "About 500 tons at the May 1919 inventory; handed over at the end of January 1920."
+ },
+ {
+  "id": "siberia-railPriority19-3",
+  "node": "railPriority19",
+  "kind": "fact",
+  "where": "background",
+  "claim": "Omsk falls on 14 November.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-railPriority19-4",
+  "node": "railPriority19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The Trans-Siberian has one track and far more trains than it can move at once — government trains, army trains, refugee trains, and the Czechoslovak Legion's own trains, all converging on the same line.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-railPriority19-5",
+  "node": "railPriority19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The Legion controls the junctions.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-railPriority19-6",
+  "node": "railPriority19",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "Whether the Legion honors it, and what that answer costs the authority of a government that no longer controls its own evacuation, is written next.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-railPriority19-7",
+  "node": "railPriority19",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "The Legion did not yield the junctions.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-railPriority19-8",
+  "node": "railPriority19",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "Kolchak's train was repeatedly sidetracked in favour of Legion echelons through November and December, and he was reduced to travelling under Legion guard rather than his own.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-janinsWord19-1",
+  "node": "janinsWord19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "With rail priority already conceded, General Janin — the Allied commander who actually controls whether the Legion cooperates at all — is offering something more formal: his personal guarantee of safe passage for the Supreme Ruler's train, in exchange for placing the evacuation openly under his protection rather than negotiating piecemeal with individual Legion units.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-iceMarchDecision19-1",
+  "node": "iceMarchDecision19",
+  "kind": "figure",
+  "where": "historical outcome",
+  "claim": "It is the decision the record actually shows: roughly 30,000 reach Chita by March.",
+  "status": "web-checked",
+  "sources": [
+   "ruwp-great-ice-march"
+  ],
+  "note": "30,000 to 35,000 crossed Baikal in February."
+ },
+ {
+  "id": "siberia-eichesPursuit20-1",
+  "node": "eichesPursuit20",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The slower pace has cost the column exactly what it was expected to: Genrich Eiche's pursuing Red 5th Army has closed the gap enough that its advance elements are now in contact with the rearguard.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-irkutskUltimatum20-1",
+  "node": "irkutskUltimatum20",
+  "kind": "fact",
+  "where": "meanwhile southRussia",
+  "claim": "Novorossiysk, the port his retreating army is converging on, will be the site of a chaotic evacuation within weeks — tens of thousands left on the docks, the Cossack formations that made up much of his army effectively dissolving as organized units.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-irkutskUltimatum20-2",
+  "node": "irkutskUltimatum20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "With Denikin's collapse in the south now visible and this front's own end approaching, Moscow's attention is beginning to turn toward a question that will define the rest of the year: how far west the Red Army's own ambitions should now reach.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-irkutskUltimatum20-3",
+  "node": "irkutskUltimatum20",
+  "kind": "fact",
+  "where": "roll: The column holds together and goes on east",
+  "claim": "Kolchak is executed before dawn on 7 February — the Bolshevik command's own stated reason is to remove the army's motive for taking the city at all.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-irkutskUltimatum20-4",
+  "node": "irkutskUltimatum20",
+  "kind": "fact",
+  "where": "roll: The column holds together and goes on east",
+  "claim": "By the 8th, what is left of the army bypasses Irkutsk and continues east without him, still recognisably a formation.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-irkutskUltimatum20-5",
+  "node": "irkutskUltimatum20",
+  "kind": "fact",
+  "where": "roll: The assault breaks the column as well as failing",
+  "claim": "Kolchak is shot before dawn on 7 February.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-semyonovMerger20-1",
+  "node": "semyonovMerger20",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "He is offering to fold what remains of the Eastern Front into his own command as a single Far Eastern Army.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-semyonovMerger20-2",
+  "node": "semyonovMerger20",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "The Far Eastern Army is formed, nominally unified, in practice an uneasy coalition the officers who agreed to it did not stop resenting.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-manchurianBorder20-1",
+  "node": "manchurianBorder20",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "American forces completed their withdrawal from Vladivostok on 1 April; the British and French are gone.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-manchurianBorder20-2",
+  "node": "manchurianBorder20",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "The intervention that justified itself in 1918 as a way to reconstitute an eastern front against Germany has outlived the German war by seventeen months, and what is left of it has nothing to do with Germany at all.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-manchurianBorder20-3",
+  "node": "manchurianBorder20",
+  "kind": "fact",
+  "where": "meanwhile southRussia",
+  "claim": "Denikin resigned at Sevastopol on 4 April after Novorossiysk.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-chitaFall20-1",
+  "node": "chitaFall20",
+  "kind": "fact",
+  "where": "meanwhile southRussia",
+  "claim": "Wrangel's Crimea is preparing its own defense at Perekop, and — quietly, alongside that defense rather than instead of it — its own evacuation.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-chitaFall20-2",
+  "node": "chitaFall20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The Polish war has just ended in an armistice, with formal peace talks opening at Riga.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-chitaFall20-3",
+  "node": "chitaFall20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "Frunze's Southern Front, freed from sharing reserves with the Polish front, is about to turn its full weight against the Crimea within weeks.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-chitaFall20-4",
+  "node": "chitaFall20",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The Far Eastern Republic's National Revolutionary Army and Red partisan forces are closing on Chita — the last chokepoint keeping direct Soviet control off the Trans-Siberian's eastern stretch.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-chitaFall20-5",
+  "node": "chitaFall20",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "The defense holds for a time before Chita falls on 22 October.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingManchuria-1",
+  "node": "endingManchuria",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Chita falls on 22 October 1920, after a defense that could not outlast the loss of Japanese support and the National Revolutionary Army's numbers.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingManchuria-2",
+  "node": "endingManchuria",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "What remains of Semyonov's Far Eastern Army — Kappelites and Transbaikal Cossacks alike, a coalition built on necessity rather than trust — retreats across the border into Manchuria.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingManchuria-3",
+  "node": "endingManchuria",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The command that crosses this border is, in the narrowest sense, the same one that accepted supreme power without hesitation in November 1918.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingManchuria-4",
+  "node": "endingManchuria",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The command seat held since the Omsk coup in November 1918 ends here — not in a lost battle, but in a border crossed.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingBoldyrevsOmsk18-1",
+  "node": "endingBoldyrevsOmsk18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The Council of Ministers, having spent the morning removing the Directory's left wing specifically to install a single authority, is not enthusiastic about a redirection to a general most of them regard as barely less socialist than the men they just arrested.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingBoldyrevsOmsk18-2",
+  "node": "endingBoldyrevsOmsk18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "They accept it anyway, for lack of an alternative in the room, and Vasily Boldyrev — commander-in-chief of the Directory's own forces, a founding member of the Union for the Regeneration of Russia, and a man on record as more sympathetic to the moderate socialists than to the officers who just cleared his path — becomes Supreme Ruler instead of Kolchak.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingBoldyrevsOmsk18-3",
+  "node": "endingBoldyrevsOmsk18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The military position east of the Urals in November 1918 is what it is regardless of whose name is on the office — the numbers, the rail capacity, and the Red Army's growing organisational advantage were never a function of this specific appointment.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingBoldyrevsOmsk18-4",
+  "node": "endingBoldyrevsOmsk18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "A more moderate Supreme Ruler might hold the SR delegations closer and govern with less of the naked reaction that alienated the peasantry Kolchak's own government needed; whether that changes anything material by 1919 is a genuinely open question, and one the record does not settle.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingBoldyrevsOmsk18-5",
+  "node": "endingBoldyrevsOmsk18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Boldyrev's own later record is real and is not quietly repurposed here: historically he went to Japan ten days after this point, returned to Vladivostok in 1920, signed a neutral-zone agreement with the Japanese as commander of the Far East's forces, was arrested when the Red Army took Vladivostok in November 1922, declared his willingness to serve the Soviet government, taught at a research institute in Novosibirsk for a decade, and was shot in August 1933 on a fabricated espionage charge.",
+  "status": "web-checked",
+  "sources": [
+   "wp-boldyrev"
+  ],
+  "note": "Left for Japan after 28 November 1918."
+ },
+ {
+  "id": "siberia-endingBoldyrevsOmsk18-6",
+  "node": "endingBoldyrevsOmsk18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "A general who takes this office in November 1918 is not living that career, and no honest account can say which parts of it he keeps.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingOmskFalls19-1",
+  "node": "endingOmskFalls19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The Legion holds the junctions; the government's own echelons sit on sidings east of the city while the Fifth Army enters it.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingOmskFalls19-2",
+  "node": "endingOmskFalls19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "What leaves Omsk leaves on foot, in November, in Siberia.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingOmskFalls19-3",
+  "node": "endingOmskFalls19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Historically Omsk fell on 14 November 1919 and the government got out — badly, chaotically, with the gold reserve and most of the ministries strung along the Trans-Siberian for two thousand miles, but out.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingOmskFalls19-4",
+  "node": "endingOmskFalls19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "That withdrawal was the thing that made the Great Siberian Ice March possible at all, and made Kappel's column, and Irkutsk, and eventually Chita.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingOmskFalls19-5",
+  "node": "endingOmskFalls19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "None of it is available to a command that reaches November with no rail control left to spend.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingOmskFalls19-6",
+  "node": "endingOmskFalls19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "There is no Political Centre transaction, no Legion bargain, no interrogation transcripts running to nine sessions.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingTheAdmiralAtIrkutsk20-1",
+  "node": "endingTheAdmiralAtIrkutsk20",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Kolchak was handed to the Political Centre by the Czechoslovak Legion on 15 January 1920, passed from them to the Bolshevik Revolutionary Committee, interrogated over nine sessions whose transcripts survive, and shot alongside his prime minister Viktor Pepelyaev before dawn on 7 February.",
+  "status": "disputed",
+  "sources": [
+   "wp-great-ice-march",
+   "ruwp-great-ice-march"
+  ],
+  "note": "14 January (English page), 15 January (other accounts), 21 January (Russian page)."
+ },
+ {
+  "id": "siberia-endingManchuriaEarly-1",
+  "node": "endingManchuriaEarly",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Some drifted on to Shanghai, some to Europe, some eventually accepted Soviet amnesties and went back to outcomes that varied from unremarkable to fatal.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingManchuriaEarly-2",
+  "node": "endingManchuriaEarly",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The Japanese backing that had propped up Semyonov's Transbaikal evaporated with the withdrawal in 1922, and the men who left Chita a few weeks early ended up in exactly the same cities as the men who left it a few weeks late.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingDispersedAtTheBorder-1",
+  "node": "endingDispersedAtTheBorder",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "There is no Far Eastern Army left to dissolve, because this command never joined one.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingDispersedAtTheBorder-2",
+  "node": "endingDispersedAtTheBorder",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "What's left of it is disarmed at the Manchurian frontier and, per the pattern documented up and down this border through 1920, mostly disperses — men making their own way home individually, or moving on toward the Japanese-controlled zone around Vladivostok rather than staying together as a fighting force.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingDispersedAtTheBorder-3",
+  "node": "endingDispersedAtTheBorder",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The command that disperses at this border accepted supreme, undivided authority without hesitation at the very start, in November 1918.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingDispersedAtTheBorder-4",
+  "node": "endingDispersedAtTheBorder",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The command that has held this seat since November 1918 ends here too — not in Semyonov's betrayal, and not in a battle, but in a column that simply stops being a column, man by man, at a border that was never going to let it cross intact regardless of whose command it left or refused to join.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingLegionWithdraws-1",
+  "node": "endingLegionWithdraws",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Somewhere on the retreat, the Czechoslovak Legion — the only force that actually controls whether this command's trains move at all — formally withdraws its cooperation.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingLegionWithdraws-2",
+  "node": "endingLegionWithdraws",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "This is the same betrayal Janin's real, documented conduct toward Kolchak shows the Legion was capable of regardless of the path that led here — the pattern was always live.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingLegionWithdraws-3",
+  "node": "endingLegionWithdraws",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "What accumulated authority erosion changes is not whether the Legion could withdraw its protection.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingLegionWithdraws-4",
+  "node": "endingLegionWithdraws",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The Legion's own priority was never in dispute, and it was never Omsk.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-endingLegionWithdraws-5",
+  "node": "endingLegionWithdraws",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The arrangement that delivered Kolchak to the Political Centre at Irkutsk in January 1920 secured their trains and a share of what remained of the imperial gold reserve's transit, and the last of them sailed from Vladivostok in September.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-vologodsky-bio-1",
+  "node": "dossier:vologodsky",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "A moderate Siberian regionalist politician who chaired the Council of Ministers through the Directory's collapse and the transfer of power to Kolchak, having concluded that a single military authority was the only alternative to total governmental breakdown.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-vologodsky-fate-2",
+  "node": "dossier:vologodsky",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Remained Prime Minister under Kolchak until November 1919, resigning as the government's collapse became undeniable.",
+  "status": "web-checked",
+  "sources": [
+   "wp-vologodsky"
+  ],
+  "note": "Resigned 22 November 1919."
+ },
+ {
+  "id": "siberia-dossier-vologodsky-fate-3",
+  "node": "dossier:vologodsky",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Died in exile in Harbin in 1925.",
+  "status": "web-checked",
+  "sources": [
+   "wp-vologodsky"
+  ],
+  "note": "19 November 1925."
+ },
+ {
+  "id": "siberia-dossier-boldyrev-bio-1",
+  "node": "dossier:boldyrev",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "On record as more sympathetic to the Directory's socialist wing than most of the officers who ended it — the reason Kolchak first proposed redirecting the Supreme Ruler offer to him rather than accepting it himself.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-boldyrev-fate-2",
+  "node": "dossier:boldyrev",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Returned to Vladivostok in 1920 as commander of the Far East's forces, was arrested by the Red Army in 1922, declared willingness to serve the Soviet government, taught for a decade in Novosibirsk, and was shot in 1933 on a fabricated espionage charge.",
+  "status": "web-checked",
+  "sources": [
+   "wp-boldyrev"
+  ],
+  "note": "Commander of the Far East's forces 8 April to 12 December 1920; arrested 5 November 1922; shot 20 August 1933."
+ },
+ {
+  "id": "siberia-dossier-kolchak-bio-1",
+  "node": "dossier:kolchak",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Former Imperial Navy admiral with no experience commanding land armies before assuming supreme power in November 1918.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-kolchak-bio-2",
+  "node": "dossier:kolchak",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "His recognition as supreme commander by every other major White general in mid-1919 was genuine and diplomatically significant — it secured Allied recognition of his government as Russia's legitimate authority — but it never translated into actual coordination with AFSR a continent away.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-kolchak-fate-3",
+  "node": "dossier:kolchak",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Renounced supreme power on 4 January 1920, as his government collapsed, naming Denikin as his successor.",
+  "status": "web-checked",
+  "sources": [
+   "wp-supreme-ruler"
+  ],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-kolchak-fate-4",
+  "node": "dossier:kolchak",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Handed over by the Czechoslovak Legion to the Bolshevik-aligned Irkutsk Political Centre in exchange for safe passage east.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-kolchak-fate-5",
+  "node": "dossier:kolchak",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Executed by firing squad on 7 February 1920; his body was put through the ice of the frozen Angara River and never recovered.",
+  "status": "web-checked",
+  "sources": [
+   "wp-great-ice-march"
+  ],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-gajda-bio-1",
+  "node": "dossier:gajda",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "A Czechoslovak Legion officer turned Russian general, celebrated for the capture of Perm in December 1918 and popular with his troops.",
+  "status": "web-checked",
+  "sources": [
+   "wp-gajda"
+  ],
+  "note": "24 December 1918."
+ },
+ {
+  "id": "siberia-dossier-gajda-bio-2",
+  "node": "dossier:gajda",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Pushed hard for continuing the offensive north toward a junction with Allied forces at Archangel rather than diverting south.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-gajda-fate-3",
+  "node": "dossier:gajda",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Dismissed by Kolchak in July 1919 after the offensive's collapse.",
+  "status": "web-checked",
+  "sources": [
+   "wp-gajda"
+  ],
+  "note": "5 July 1919."
+ },
+ {
+  "id": "siberia-dossier-gajda-fate-4",
+  "node": "dossier:gajda",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "In November 1919 organized an armed revolt against Kolchak's government in Vladivostok, which failed.",
+  "status": "disputed",
+  "sources": [
+   "wp-gajda"
+  ],
+  "note": "The page dates a failed SR mutiny to 17 November 1919 and does not name Vladivostok."
+ },
+ {
+  "id": "siberia-dossier-gajda-fate-5",
+  "node": "dossier:gajda",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Returned to Czechoslovakia, became leader of the country's small fascist party, and died in Prague in 1948.",
+  "status": "web-checked",
+  "sources": [
+   "wp-gajda"
+  ],
+  "note": "15 April 1948."
+ },
+ {
+  "id": "siberia-dossier-kappel-fate-1",
+  "node": "dossier:kappel",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Suffered severe frostbite crossing a frozen river during the retreat, developed pneumonia, and transferred command to General Voitsekhovsky on 21 January 1920.",
+  "status": "web-checked",
+  "sources": [
+   "wp-kappel"
+  ],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-kappel-fate-2",
+  "node": "dossier:kappel",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Died on 26 January 1920 at Nizhneozyornaya, near Tulun (one source says 25 January).",
+  "status": "web-checked",
+  "sources": [
+   "wp-kappel"
+  ],
+  "note": "25 January in one source; pneumonia or typhus."
+ },
+ {
+  "id": "siberia-dossier-voitsekhovsky-bio-1",
+  "node": "dossier:voitsekhovsky",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "A Czechoslovak Legion commander from December 1917, he took Chelyabinsk in May 1918 and transferred to Kolchak's Russian command in March 1919 as commander of the 2nd Ufa Corps, rising to command the whole 2nd Army by October — already the army's most experienced field officer well before Kappel's death made him its last one.",
+  "status": "web-checked",
+  "sources": [
+   "wp-voytsekhovsky"
+  ],
+  "note": "Night of 26 to 27 May."
+ },
+ {
+  "id": "siberia-dossier-voitsekhovsky-fate-2",
+  "node": "dossier:voitsekhovsky",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Took command of the Eastern Front after Kappel's handover and death in January 1920 and led the remnant into Transbaikal.",
+  "status": "web-checked",
+  "sources": [
+   "wp-voytsekhovsky"
+  ],
+  "note": "25 January 1920; sent to the Crimea in May 1920."
+ },
+ {
+  "id": "siberia-dossier-voitsekhovsky-fate-3",
+  "node": "dossier:voitsekhovsky",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Sent to the Crimea in May 1920, he was evacuated to Istanbul with Wrangel's army that November.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-voitsekhovsky-fate-4",
+  "node": "dossier:voitsekhovsky",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Settled in Czechoslovakia, rose to army general, and led its underground resistance after the 1939 German occupation.",
+  "status": "web-checked",
+  "sources": [
+   "wp-voytsekhovsky"
+  ],
+  "note": "Army general 30 December 1929."
+ },
+ {
+  "id": "siberia-dossier-voitsekhovsky-fate-5",
+  "node": "dossier:voitsekhovsky",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Abducted by Soviet SMERSH from Prague in 1945, he died in the Ozerlag Gulag camp in 1951 — the only advisor in this file whose Civil War service ended in a Soviet prison camp anyway, three decades and a second world war later.",
+  "status": "web-checked",
+  "sources": [
+   "wp-voytsekhovsky"
+  ],
+  "note": "12 May 1945; died in Ozerlag 7 April 1951."
+ },
+ {
+  "id": "siberia-dossier-semyonov-bio-1",
+  "node": "dossier:semyonov",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Ruled Transbaikal from 1918 with Japanese military backing and nominal, largely theoretical subordination to Kolchak's government.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-semyonov-fate-2",
+  "node": "dossier:semyonov",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Lost Chita in October 1920 and retreated to Manchuria.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-semyonov-fate-3",
+  "node": "dossier:semyonov",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Captured by Soviet forces in Manchuria in 1945 and executed in Moscow the following year.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-sakharov-bio-1",
+  "node": "dossier:sakharov",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Argued through the spring 1919 offensive for concentrating the dispersed White armies on a single central axis toward Kazan rather than splitting toward Gajda's Archangel and Denikin's Saratov junctions — a position he restated at length in his own postwar memoir, which is not a disinterested account of a plan he had proposed himself.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "siberia-dossier-sakharov-fate-2",
+  "node": "dossier:sakharov",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Commanded the Eastern Front through the retreat from Omsk until Kolchak replaced him with Kappel in December 1919.",
+  "status": "disputed",
+  "sources": [
+   "wp-kappel"
+  ],
+  "note": "Kappel took the Eastern Front in mid-December 1919; the handover from Sakharov was not confirmed by name. His death date was not found and was removed."
+ },
+ {
+  "id": "siberia-dossier-diterichs-bio-1",
+  "node": "dossier:diterichs",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Ordered the July 1919 counterattack to retake Chelyabinsk's rail junction from the advancing Red 5th Army under Tukhachevsky.",
+  "status": "disputed",
+  "sources": [
+   "wp-diterikhs"
+  ],
+  "note": "As above."
+ },
+ {
+  "id": "siberia-dossier-diterichs-fate-2",
+  "node": "dossier:diterichs",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Later led the last White government in the Russian Far East (the Priamurye government) in 1922, framing his cause explicitly as a religious crusade, before its final collapse that October.",
+  "status": "web-checked",
+  "sources": [
+   "wp-diterikhs"
+  ],
+  "note": "Priamurye government, July to October 1922; he called the fight a religious crusade."
+ },
+ {
+  "id": "siberia-dossier-diterichs-fate-3",
+  "node": "dossier:diterichs",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Died of tuberculosis in Shanghai in September 1937.",
+  "status": "web-checked",
+  "sources": [
+   "wp-diterikhs"
+  ],
+  "note": "9 September 1937; the page gives no cause."
+ }
+]

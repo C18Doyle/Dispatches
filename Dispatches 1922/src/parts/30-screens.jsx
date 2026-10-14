@@ -1115,8 +1115,8 @@ function ChoiceCard({ choice, skin, meters, campaign, easyMode, planBattles, har
       )}
       {choice.advisor && (
         <div className="mt-2 border-l-4 pl-3 text-xs italic" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-          {choice.advisor.position ? choice.advisor.position : `"${choice.advisor.quote}"`}
-          <div className="not-italic font-bold mt-1" style={primaryTextStyle(skin)}>{choice.advisor.position ? "ADVISER: " : "— "}{choice.advisor.name.toUpperCase()}</div>
+          {choice.advisor.position}
+          <div className="not-italic font-bold mt-1" style={primaryTextStyle(skin)}>ADVISER: {choice.advisor.name.toUpperCase()}</div>
         </div>
       )}
       {choice.historical && (

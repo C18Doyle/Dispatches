@@ -1,0 +1,22 @@
+{
+  "southRussia": {
+    "spineReports": 14,
+    "spineHistoricalShare": 1,
+    "randomHistoricalShare": 0.248
+  },
+  "siberia": {
+    "spineReports": 8,
+    "spineHistoricalShare": 1,
+    "randomHistoricalShare": 0.464
+  },
+  "bolsheviks": {
+    "spineReports": 8,
+    "spineHistoricalShare": 1,
+    "randomHistoricalShare": 0.369
+  },
+  "provisionalGov17": {
+    "spineReports": 10,
+    "spineHistoricalShare": 1,
+    "randomHistoricalShare": 0.833
+  }
+}
