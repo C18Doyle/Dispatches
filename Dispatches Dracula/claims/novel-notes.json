@@ -1,0 +1,649 @@
+{
+  "_about": "Every statement the game makes about what the novel says or does. A fact or reading carries a passage that must be in the 1897 text (claims/source/dracula-1897.txt, Project Gutenberg #345) in the chapter named; case, quotation marks and dashes are ignored. An absence claim (the novel never does X) cannot be shown by a passage: it lists terms that must not occur anywhere in the text, and says what else supports it. `where` names the ending or scene of either seat that relies on it. Checked by `npm run check:claims`.",
+  "facts": [
+    {
+      "id": "no-servants",
+      "claim": "The Count keeps no servants and lays the table himself.",
+      "where": "Count 1",
+      "passages": [
+        {
+          "chapter": 3,
+          "text": "there were no servants in the house"
+        },
+        {
+          "chapter": 3,
+          "text": "laying the table in the dining-room"
+        }
+      ]
+    },
+    {
+      "id": "count-drove",
+      "claim": "The Count was the driver of the calèche that brought Harker.",
+      "where": "Count 1",
+      "passages": [
+        {
+          "chapter": 3,
+          "text": "it must have been the count himself who was the driver of the coach"
+        }
+      ]
+    },
+    {
+      "id": "old-woman-crucifix",
+      "claim": "An old woman at Bistritz gave Harker a crucifix.",
+      "where": "Count 1, 3",
+      "passages": [
+        {
+          "chapter": 1,
+          "text": "taking a crucifix from her neck offered it to me"
+        }
+      ]
+    },
+    {
+      "id": "solicitors-question",
+      "claim": "The Count asked Harker whether a man in England might have two solicitors or more.",
+      "where": "Count 2",
+      "passages": [
+        {
+          "chapter": 3,
+          "text": "he asked if a man in england might have two solicitors or more"
+        }
+      ]
+    },
+    {
+      "id": "no-mirrors",
+      "claim": "There is no mirror in the castle but Harker's small shaving glass, and the Count has no reflection in it.",
+      "where": "Count 3",
+      "passages": [
+        {
+          "chapter": 2,
+          "text": "in none of the rooms is there a mirror"
+        },
+        {
+          "chapter": 2,
+          "text": "there was no reflection of him in the mirror"
+        }
+      ]
+    },
+    {
+      "id": "razor-cut",
+      "claim": "Harker cut himself shaving; the Count's fury passed when his hand touched the crucifix; he flung the glass out of the window.",
+      "where": "Count 3",
+      "passages": [
+        {
+          "chapter": 2,
+          "text": "the blood was trickling over my chin"
+        },
+        {
+          "chapter": 2,
+          "text": "his hand touched the string of beads which held the crucifix"
+        },
+        {
+          "chapter": 2,
+          "text": "he flung out the glass"
+        }
+      ]
+    },
+    {
+      "id": "three-letters",
+      "claim": "The Count made Harker write three letters.",
+      "where": "Count 4",
+      "passages": [
+        {
+          "chapter": 4,
+          "text": "write three letters"
+        }
+      ]
+    },
+    {
+      "id": "sisters",
+      "claim": "Three women live in the east wing, two dark and one fair; the Count drove them off, saying Harker was his, and gave them a bag with a child in it.",
+      "where": "Count 5",
+      "passages": [
+        {
+          "chapter": 3,
+          "text": "two were dark"
+        },
+        {
+          "chapter": 3,
+          "text": "this man belongs to me"
+        },
+        {
+          "chapter": 3,
+          "text": "a half-smothered child"
+        }
+      ]
+    },
+    {
+      "id": "fifty-boxes",
+      "claim": "Fifty boxes of earth went from the castle to Whitby and were delivered at Carfax; twenty-nine were left of the fifty at Carfax.",
+      "where": "Count 6, 11; Mina 8A",
+      "passages": [
+        {
+          "chapter": 18,
+          "text": "from the castle to whitby came fifty boxes of earth"
+        },
+        {
+          "chapter": 19,
+          "text": "twenty-nine left out of the fifty"
+        }
+      ]
+    },
+    {
+      "id": "boxes-elsewhere",
+      "claim": "Nine boxes went to Piccadilly, six to Chicksand Street (Mile End New Town) and six to Jamaica Lane (Bermondsey).",
+      "where": "Mina 9A, 9C",
+      "passages": [
+        {
+          "chapter": 20,
+          "text": "six in the cartload which he took from carfax and left at 197, chicksand street, mile end new town"
+        },
+        {
+          "chapter": 20,
+          "text": "another six which he deposited at jamaica lane, bermondsey"
+        },
+        {
+          "chapter": 20,
+          "text": "taken from this house to the latter nine great boxes"
+        }
+      ]
+    },
+    {
+      "id": "count-de-ville",
+      "claim": "The Piccadilly house (no. 347) was bought for cash by a foreign nobleman, Count de Ville, through house agents Mitchell, Sons and Candy.",
+      "where": "Count 12A, 12B",
+      "passages": [
+        {
+          "chapter": 20,
+          "text": "count de ville"
+        },
+        {
+          "chapter": 20,
+          "text": "mitchell, sons, & candy, the house agents"
+        },
+        {
+          "chapter": 20,
+          "text": "paying the purchase money in notes 'over the counter,'"
+        }
+      ]
+    },
+    {
+      "id": "demeter-cargo",
+      "claim": "The Demeter sailed from Varna with silver sand and boxes of earth, a crew of five hands, two mates and a cook, and her master was found lashed to the wheel with a crucifix.",
+      "where": "Count 8, 9; Mina 1",
+      "passages": [
+        {
+          "chapter": 7,
+          "text": "silver sand and boxes of earth"
+        },
+        {
+          "chapter": 7,
+          "text": "crew, five hands"
+        },
+        {
+          "chapter": 7,
+          "text": "lashed to the wheel"
+        },
+        {
+          "chapter": 7,
+          "text": "between the inner hand and the wood was a crucifix"
+        }
+      ]
+    },
+    {
+      "id": "demeter-log",
+      "claim": "The captain began keeping an accurate log because of strange happenings.",
+      "where": "Count 8",
+      "passages": [
+        {
+          "chapter": 7,
+          "text": "things so strange happening, that i shall keep accurate note henceforth till we land"
+        }
+      ]
+    },
+    {
+      "id": "dog-ashore",
+      "claim": "An immense dog sprang ashore from the Demeter and was seen no more.",
+      "where": "Count 9; Mina 1",
+      "passages": [
+        {
+          "chapter": 7,
+          "text": "an immense dog"
+        }
+      ]
+    },
+    {
+      "id": "billington",
+      "claim": "The cargo was consigned to a Whitby solicitor, Mr S. F. Billington, of 7 The Crescent.",
+      "where": "Count 9; Mina 7",
+      "passages": [
+        {
+          "chapter": 7,
+          "text": "mr. s. f. billington, of 7, the crescent"
+        }
+      ]
+    },
+    {
+      "id": "carter-paterson",
+      "claim": "The boxes were carried on from Whitby by Carter, Paterson and Company.",
+      "where": "Count 11; Mina 7, 8B, 9B",
+      "passages": [
+        {
+          "chapter": 8,
+          "text": "messrs. carter, paterson & co., london"
+        }
+      ]
+    },
+    {
+      "id": "swales",
+      "claim": "Old Mr Swales sat on a seat over a suicide's grave, and was found dead on it, his neck broken.",
+      "where": "Count 10; Mina 2",
+      "passages": [
+        {
+          "chapter": 6,
+          "text": "sitting over the grave of a suicide"
+        },
+        {
+          "chapter": 7,
+          "text": "mr. swales was found dead this morning on our seat, his neck being broken"
+        }
+      ]
+    },
+    {
+      "id": "lucy-sleepwalks",
+      "claim": "Lucy walks in her sleep.",
+      "where": "Count 10; Mina 2",
+      "passages": [
+        {
+          "chapter": 6,
+          "text": "taken to her old habit of walking in her sleep"
+        }
+      ]
+    },
+    {
+      "id": "three-proposals",
+      "claim": "Lucy had three proposals in one day.",
+      "where": "Count prologue; Mina prologue",
+      "passages": [
+        {
+          "chapter": 5,
+          "text": "three proposals in one day"
+        }
+      ]
+    },
+    {
+      "id": "mina-shorthand",
+      "claim": "Mina is engaged to Harker, practises shorthand and the typewriter.",
+      "where": "Count 7; Mina prologue",
+      "passages": [
+        {
+          "chapter": 5,
+          "text": "practising shorthand very assiduously"
+        },
+        {
+          "chapter": 5,
+          "text": "write it out for him on the typewriter"
+        }
+      ]
+    },
+    {
+      "id": "renfield-59",
+      "claim": "Renfield is fifty-nine.",
+      "where": "Count 11-ASYLUM",
+      "passages": [
+        {
+          "chapter": 5,
+          "text": "r. m. renfield, ætat 59"
+        }
+      ]
+    },
+    {
+      "id": "renfield-servant",
+      "claim": "Renfield tells the Count he is his slave and will be faithful.",
+      "where": "Count 11-ASYLUM",
+      "passages": [
+        {
+          "chapter": 8,
+          "text": "i am here to do your bidding, master. i am your slave, and you will reward me, for i shall be faithful"
+        }
+      ]
+    },
+    {
+      "id": "seward-phonograph",
+      "claim": "Dr Seward keeps his diary on a phonograph.",
+      "where": "Count 13A",
+      "passages": [
+        {
+          "chapter": 5,
+          "text": "phonograph"
+        }
+      ]
+    },
+    {
+      "id": "buda-pesth",
+      "claim": "Harker was nursed at the Hospital of St Joseph and Ste Mary in Buda-Pesth with a brain fever.",
+      "where": "Mina 3, 4",
+      "passages": [
+        {
+          "chapter": 8,
+          "text": "st. joseph and ste. mary"
+        },
+        {
+          "chapter": 8,
+          "text": "violent brain fever"
+        }
+      ]
+    },
+    {
+      "id": "white-hair",
+      "claim": "Harker's hair has gone white.",
+      "where": "Mina 4, 4-HOME",
+      "passages": [
+        {
+          "chapter": 25,
+          "text": "the snowy whiteness of his hair"
+        }
+      ]
+    },
+    {
+      "id": "garlic-haarlem",
+      "claim": "Van Helsing's garlic came from Haarlem.",
+      "where": "Mina 5",
+      "passages": [
+        {
+          "chapter": 10,
+          "text": "all the way from haarlem"
+        }
+      ]
+    },
+    {
+      "id": "wolf-bersicker",
+      "claim": "The wolf Bersicker was one of three grey wolves from Norway, bought from Jamrach's, at the Zoological Gardens.",
+      "where": "Mina 6; Count 12C, 13C",
+      "passages": [
+        {
+          "chapter": 11,
+          "text": "bersicker"
+        },
+        {
+          "chapter": 11,
+          "text": "came from norway to jamrach's"
+        }
+      ]
+    },
+    {
+      "id": "kingstead",
+      "claim": "Lucy is buried at Kingstead.",
+      "where": "Mina 6-VIGIL",
+      "passages": [
+        {
+          "chapter": 15,
+          "text": "the churchyard at kingstead"
+        }
+      ]
+    },
+    {
+      "id": "bloofer-lady",
+      "claim": "Children on the Heath spoke of a 'bloofer lady'.",
+      "where": "Mina 6-VIGIL",
+      "passages": [
+        {
+          "chapter": 13,
+          "text": "bloofer lady"
+        }
+      ]
+    },
+    {
+      "id": "unclean",
+      "claim": "Mina cries 'Unclean, unclean!' and bears a red mark on her forehead after the Host touches it.",
+      "where": "Mina 10A; Count 17A",
+      "passages": [
+        {
+          "chapter": 21,
+          "text": "unclean, unclean! i must touch him or kiss him no more"
+        },
+        {
+          "chapter": 22,
+          "text": "on your forehead i touch this piece of sacred wafer"
+        },
+        {
+          "chapter": 24,
+          "text": "the red mark upon my forehead"
+        }
+      ]
+    },
+    {
+      "id": "count-struck",
+      "claim": "Harker struck the Count with a shovel in his box; the Count carries a red scar on the forehead from it.",
+      "where": "Count 17A",
+      "passages": [
+        {
+          "chapter": 4,
+          "text": "a deep gash above the forehead"
+        },
+        {
+          "chapter": 21,
+          "text": "the red scar on his forehead where jonathan had struck him"
+        }
+      ]
+    },
+    {
+      "id": "czarina",
+      "claim": "The Czarina Catherine sailed from Doolittle's wharf for Varna.",
+      "where": "Count 18A, 18B, 18C; Mina 12A",
+      "passages": [
+        {
+          "chapter": 24,
+          "text": "she is the czarina catherine, and she sail from doolittle's wharf for varna"
+        }
+      ]
+    },
+    {
+      "id": "agents",
+      "claim": "Immanuel Hildesheim was the forwarding agent at Varna; Mackenzie and Steinkoff were agents at Galatz; Petrof Skinsky dealt with the Slovaks.",
+      "where": "Mina 13A, 13B",
+      "passages": [
+        {
+          "chapter": 26,
+          "text": "immanuel hildesheim"
+        },
+        {
+          "chapter": 26,
+          "text": "mackenzie & steinkoff"
+        },
+        {
+          "chapter": 26,
+          "text": "petrof skinsky"
+        }
+      ]
+    },
+    {
+      "id": "szgany-slovaks",
+      "claim": "The Szgany brought the boxes from the castle and delivered them to Slovaks who took them to Varna.",
+      "where": "Count 6",
+      "passages": [
+        {
+          "chapter": 26,
+          "text": "he was brought from the castle by szgany, and probably they delivered their cargo to slovaks who took the boxes to varna"
+        }
+      ]
+    },
+    {
+      "id": "kukri-bowie",
+      "claim": "Harker's kukri and Quincey's bowie knife destroy the Count; he crumbles to dust.",
+      "where": "Count ENDING_1C; Mina ENDING_1A, 2A, 3A",
+      "passages": [
+        {
+          "chapter": 27,
+          "text": "great kukri knife"
+        },
+        {
+          "chapter": 27,
+          "text": "bowie"
+        }
+      ]
+    },
+    {
+      "id": "look-of-peace",
+      "claim": "Mina writes that there was a look of peace on the Count's face at the moment of dissolution.",
+      "where": "Count ENDING_1C; Mina ENDING_1B, 1D",
+      "passages": [
+        {
+          "chapter": 27,
+          "text": "a look of peace"
+        }
+      ]
+    },
+    {
+      "id": "curse-passed",
+      "claim": "At the end the mark on Mina's forehead is clean.",
+      "where": "Count ENDING_1C, 2D; Mina ENDING_1A, 3A",
+      "passages": [
+        {
+          "chapter": 27,
+          "text": "the snow is not more stainless than her forehead! the curse has passed away!"
+        }
+      ]
+    },
+    {
+      "id": "bundle-of-names",
+      "claim": "Mina's son carries the names of all the men.",
+      "where": "Mina ENDING_1A",
+      "passages": [
+        {
+          "chapter": 27,
+          "text": "his bundle of names links all our little band of men together"
+        }
+      ]
+    },
+    {
+      "id": "great-tomb",
+      "claim": "There is a great tomb in the castle chapel marked with one word, Dracula.",
+      "where": "Count ENDING_1D",
+      "passages": [
+        {
+          "chapter": 27,
+          "text": "on it was but one word dracula"
+        }
+      ]
+    },
+    {
+      "id": "carries-bags",
+      "claim": "The Count insists on carrying Harker's luggage himself.",
+      "where": "Count 1; book's road",
+      "passages": [
+        {
+          "chapter": 2,
+          "text": "he insisted on carrying my traps along the passage"
+        }
+      ]
+    },
+    {
+      "id": "harker-locked",
+      "claim": "Harker is locked in the castle, a prisoner.",
+      "where": "Count 7; book's road",
+      "passages": [
+        {
+          "chapter": 2,
+          "text": "the castle is a veritable prison, and i am a prisoner"
+        },
+        {
+          "chapter": 4,
+          "text": "i was locked in my prison"
+        }
+      ]
+    },
+    {
+      "id": "demeter-crew",
+      "claim": "The Demeter's crew go missing one by one on the voyage.",
+      "where": "Count 8; book's road",
+      "passages": [
+        {
+          "chapter": 7,
+          "text": "one of crew, petrofsky, was missing"
+        }
+      ]
+    },
+    {
+      "id": "lucy-at-seat",
+      "claim": "Mina finds Lucy on the seat with something long and black bending over her.",
+      "where": "Count 10; book's road",
+      "passages": [
+        {
+          "chapter": 8,
+          "text": "something, long and black, bending over the half-reclining white figure"
+        }
+      ]
+    },
+    {
+      "id": "mina-attacked",
+      "claim": "The Count attacks Mina in her bed at Purfleet while Harker lies beside her in a stupor, and compels her to drink.",
+      "where": "Count 17A, 16B, 16C; book's road",
+      "passages": [
+        {
+          "chapter": 21,
+          "text": "jonathan harker, his face flushed and breathing heavily as though in a stupor"
+        },
+        {
+          "chapter": 21,
+          "text": "compel it to drink"
+        }
+      ]
+    },
+    {
+      "id": "garlic-removed",
+      "claim": "Lucy's mother, meaning well, takes the garlic flowers away.",
+      "where": "Count 15B; book's road",
+      "passages": [
+        {
+          "chapter": 11,
+          "text": "there were a lot of those horrible, strong-smelling flowers about everywhere"
+        }
+      ]
+    },
+    {
+      "id": "wolf-window",
+      "claim": "The wolf puts its head through the broken window at Hillingham and Lucy's mother, frightened, dies of heart disease.",
+      "where": "Count 14C, 15B; book's road",
+      "passages": [
+        {
+          "chapter": 11,
+          "text": "the head of a great, gaunt grey wolf"
+        },
+        {
+          "chapter": 12,
+          "text": "mrs. westenra had disease of the heart, and we can certify that she died of it"
+        }
+      ]
+    }
+  ],
+  "absences": [
+    {
+      "id": "no-antwerp",
+      "claim": "The Count never travels with a household to Antwerp or anywhere else.",
+      "where": "Count ENDING_2A",
+      "absent": [],
+      "support": "To be confirmed by a reader who knows the book: he leaves England alone on the Czarina Catherine with one box (ch 24, 26). The word Antwerp occurs once, in a telegram of Van Helsing's."
+    },
+    {
+      "id": "no-london-rule",
+      "claim": "London is never put under fog for days by the Count.",
+      "where": "Count ENDING_3D",
+      "absent": [],
+      "support": "To be confirmed by a reader who knows the book: the fog and mist he raises are local and brief."
+    },
+    {
+      "id": "no-carfax-stand",
+      "claim": "The Count never makes a stand at Carfax.",
+      "where": "Count ENDING_2C, 3B",
+      "absent": [],
+      "support": "To be confirmed by a reader who knows the book: the hunters sanctify the boxes at Carfax and the Count is not there (ch 19)."
+    },
+    {
+      "id": "no-carrying-mina",
+      "claim": "The Count never carries Mina with him to the pass.",
+      "where": "Count ENDING_2B",
+      "absent": [],
+      "support": "To be confirmed by a reader who knows the book: Mina travels with Van Helsing (ch 26, 27)."
+    }
+  ]
+}

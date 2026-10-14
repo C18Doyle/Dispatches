@@ -68,6 +68,6 @@ for (let seed = 1; seed <= RUNS; seed++) {
   runs.push({ seed, actions, hashes });
 }
 const baseline: Baseline = { generatedBy: "engine reducer (packages/engine/tools/record_baseline.ts), recorded 2026-10", runs, coverage };
-writeFileSync("tests/fixtures/baseline.json", JSON.stringify(baseline));
+writeFileSync(process.env.BASELINE ?? "tests/fixtures/baseline.json", JSON.stringify(baseline));
 console.log(`recorded ${runs.length} runs, ${runs.reduce((a, r) => a + r.actions.length, 0)} steps. Coverage:`);
 for (const k of Object.keys(coverage).sort()) console.log(`  ${k}: ${coverage[k]}`);

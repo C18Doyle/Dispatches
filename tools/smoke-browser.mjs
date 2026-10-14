@@ -32,6 +32,7 @@ const dirArg = process.argv.find((a) => a.startsWith("--dir="));
 const positional = process.argv.slice(2).find((a) => !a.startsWith("--"));
 const GAMES = dirArg ? [{ name: process.argv.find((a) => a.startsWith("--name="))?.slice(7) ?? "folder", dist: dirArg.slice(6) }] : [
   { name: "Frankenstein", dist: "Dispatches Frankenstein/dist" },
+  { name: "Dracula", dist: "Dispatches Dracula/dist" },
   { name: "1914", dist: "Dispatches 1914/dist" },
   { name: "1922", dist: "Dispatches 1922/dist" },
   { name: "1941", dist: "Dispatches 1941/dist/full" },

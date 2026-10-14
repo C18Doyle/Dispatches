@@ -83,8 +83,9 @@ function checkCondition(where: string, c: unknown) {
 // ── config ──
 shape("config", config, {
   id: "string", title: "string", schemaVersion: "number", resources: "array", axes: "array", epilogue: "?object",
-  difficulties: "object", defaultDifficulty: "string", startBranch: "string", interludeTriggers: "array", assist: "?object", strain: "?object", skipToNodeId: "?string",
+  difficulties: "object", defaultDifficulty: "string", startBranch: "string", interludeTriggers: "array", assist: "?object", strain: "?object", trackers: "?array", skipToNodeId: "?string",
 });
+// trackers are checked once the flags used are known (see below): their conditions are read like any other
 if (config.strain) {
   shape("strain", config.strain, { threshold: "number", perPoint: "number", max: "number" });
   if (!(config.strain.perPoint > 0 && config.strain.max > 0 && config.strain.max < 1)) fail("strain", "perPoint must be above 0 and max within (0, 1)");
@@ -123,6 +124,19 @@ if (config.epilogue) {
     checkAxisDelta(`epilogue rule ${i}`, r.delta);
   });
 }
+const trackerIds = new Set<string>();
+config.trackers?.forEach((t, i) => {
+  const tw = `tracker ${t.id ?? i}`;
+  shape(tw, t, { id: "string", label: "string", base: "number", rules: "array", min: "?number", max: "?number", showWhen: "?object" });
+  if (trackerIds.has(t.id)) fail(tw, "duplicate id");
+  trackerIds.add(t.id);
+  if (t.min !== undefined && t.max !== undefined && t.min > t.max) fail(tw, "min is above max");
+  if (t.showWhen) checkCondition(`${tw} showWhen`, t.showWhen);
+  t.rules.forEach((r, ri) => {
+    shape(`${tw} rule ${ri}`, r, { when: "object", delta: "number" });
+    checkCondition(`${tw} rule ${ri}`, r.when);
+  });
+});
 if (config.assist) {
   shape("assist", config.assist, { adviceLimit: "number", favors: "object", favorFlag: "string" });
   for (const [r, st] of Object.entries(config.assist.favors)) {
@@ -150,7 +164,7 @@ for (const [key, node] of Object.entries(content.nodes)) {
     shape(ow, o, {
       label: "string", detail: "string", stamps: "object", quote: "object", outcome: "string", gate: "?object", moneyCost: "?number",
       moneyDelta: "?number", roll: "?object", nextNodeId: "string", setFlags: "?string[]", axisDelta: "?object", requiresFlag: "?string", requiresFlagHint: "?string",
-      requires: "?object", requiresHint: "?string", showWhen: "?object",
+      requires: "?object", requiresHint: "?string", showWhen: "?object", tag: "?string",
     });
     if (o.requires) checkCondition(`${ow} requires`, o.requires);
     if (o.showWhen) checkCondition(`${ow} showWhen`, o.showWhen);

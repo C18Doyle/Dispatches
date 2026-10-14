@@ -5,6 +5,7 @@ One folder per game. Each is a standalone project (own package.json, src/, scrip
 | Folder | Status |
 |---|---|
 | Dispatches Frankenstein | Refactored: pure engine in `src/engine/`, content in JSON, `npm test` green, baseline-verified. See its CLAUDE.md. |
+| Dispatches Dracula | New (not yet released). Frankenstein's format on the shared engine: you are the Count, 41 scenes, three tracks, 15 endings, content in JSON, `npm test` green. Mina Harker's campaign is built and checked but hidden (a second seat). See its CLAUDE.md. |
 | Dispatches 1914 | Builds; logic layer already pure (reference shape); 24-run headless UI baseline; validators/smoke/render green (Ottoman gate fails on purpose). See its CLAUDE.md. |
 | Dispatches 1922 | Builds. Pure run logic in `src/logic.ts`; 48-run headless UI baseline; shipped crash fixed; validators green. Content still code in App.jsx. See its CLAUDE.md. |
 | Dispatches 1940 | Builds (no-zip on Windows). Pure run logic in `src/logic.ts`; 48-run headless UI baseline; audit tooling repaired. Content still code in App.jsx. See its CLAUDE.md. |

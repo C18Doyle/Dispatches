@@ -1,0 +1,141 @@
+{
+  "heading": "The Book's Road",
+  "intro": "At some scenes the novel's Count does something the game can follow. This is how far you went with him.",
+  "road": {
+    "1": {
+      "options": [
+        0
+      ],
+      "note": "He insists on carrying Harker's luggage himself.",
+      "claim": "carries-bags"
+    },
+    "2": {
+      "options": [
+        0
+      ],
+      "note": "He asks Harker whether a man in England may have two solicitors.",
+      "claim": "solicitors-question"
+    },
+    "3": {
+      "options": [
+        0
+      ],
+      "note": "He flings the shaving glass out of the window.",
+      "claim": "razor-cut"
+    },
+    "4": {
+      "options": [
+        0
+      ],
+      "note": "He has Harker write three letters.",
+      "claim": "three-letters"
+    },
+    "5": {
+      "options": [
+        0
+      ],
+      "note": "He drives the women off: this man belongs to him.",
+      "claim": "sisters"
+    },
+    "6": {
+      "options": [
+        0
+      ],
+      "note": "Fifty boxes of earth go to England.",
+      "claim": "fifty-boxes"
+    },
+    "7": {
+      "options": [
+        0
+      ],
+      "note": "He leaves Harker locked in the castle.",
+      "claim": "harker-locked"
+    },
+    "8": {
+      "options": [
+        1
+      ],
+      "note": "The Demeter's crew go missing one by one.",
+      "claim": "demeter-crew"
+    },
+    "9": {
+      "options": [
+        0,
+        2
+      ],
+      "note": "A great dog leaps ashore as the Demeter runs aground at Whitby.",
+      "claim": "dog-ashore"
+    },
+    "10": {
+      "options": [
+        1
+      ],
+      "note": "Mina finds Lucy on the seat with something long and black bending over her.",
+      "claim": "lucy-at-seat"
+    },
+    "17A": {
+      "options": [
+        2
+      ],
+      "note": "He attacks Mina in her bed at Purfleet, with her husband in a stupor.",
+      "claim": "mina-attacked"
+    },
+    "18A": {
+      "options": [
+        0
+      ],
+      "note": "He sails for Varna in the Czarina Catherine.",
+      "claim": "czarina"
+    },
+    "19A": {
+      "options": [
+        2
+      ],
+      "note": "He is destroyed at sunset on the road home.",
+      "claim": "kukri-bowie"
+    },
+    "15B": {
+      "options": [
+        0,
+        1
+      ],
+      "note": "Lucy's mother takes the garlic away, and the wolf comes through the window.",
+      "claim": "garlic-removed"
+    },
+    "16B": {
+      "options": [
+        1
+      ],
+      "note": "He attacks Mina in her bed at Purfleet, with her husband in a stupor.",
+      "claim": "mina-attacked"
+    },
+    "18B": {
+      "options": [
+        2
+      ],
+      "note": "He sails for Varna in the Czarina Catherine.",
+      "claim": "czarina"
+    },
+    "14C": {
+      "options": [
+        0
+      ],
+      "note": "The wolf comes through the window at Hillingham, and Lucy's mother dies.",
+      "claim": "wolf-window"
+    },
+    "16C": {
+      "options": [
+        0
+      ],
+      "note": "He attacks Mina in her bed at Purfleet, with her husband in a stupor.",
+      "claim": "mina-attacked"
+    },
+    "18C": {
+      "options": [
+        1
+      ],
+      "note": "He sails for Varna in the Czarina Catherine.",
+      "claim": "czarina"
+    }
+  }
+}

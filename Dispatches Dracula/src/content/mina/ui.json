@@ -1,0 +1,44 @@
+{
+  "title": "Dracula",
+  "subtitle": "The Harker Papers",
+  "tagline": "Whitby, Exeter, London. Someone has to keep the record.",
+  "beginLabel": "Begin the Journal",
+  "continueLabel": "Continue Your Journal",
+  "prologueHeading": "From Mina Murray's Journal",
+  "skipLabel": "Skip to the Council",
+  "settingsTitle": "The Typewriter",
+  "seriesBlurb": "Dracula is one entry in the Dispatches series of document-driven branching narrative games.",
+  "branchLabels": {
+    "UNIVERSAL": "Act I · Whitby and London",
+    "SACRED": "Act II · The Sacred Rite",
+    "MODERN": "Act II · The Modern Hunt",
+    "TIE": "Act II · The Tie"
+  },
+  "suspensePhrases": [
+    "The lamp gutters.",
+    "Somewhere a clock strikes late.",
+    "The Professor holds his breath.",
+    "Something outside shifts its weight."
+  ],
+  "money": { "format": "£{n}", "label": "Purse", "left": "Purse Left" },
+  "endText": {
+    "collapsed": "The Hunt Collapses",
+    "closed": "The Record Closes",
+    "remembered": "How the Papers Are Read",
+    "newRun": "Begin a New Journal",
+    "novelHeading": "In the Novel"
+  },
+  "adviser": {
+    "name": "Professor Van Helsing",
+    "openLabel": "Send for the Professor",
+    "askLabel": "Ask the Professor's Advice",
+    "advisedLabel": "The Professor Has Advised You",
+    "advisedNote": "The Professor takes out his notebook and tells you, quietly, exactly what each choice below will cost you.",
+    "remedyLabel": "A Remedy",
+    "remedyNote": "The Professor carries one remedy in his bag. It will lift one of your reserves, and it will cost you elsewhere. He can give it once, so choose carefully.",
+    "talkLabel": "Table Talk",
+    "talkPrefix": "Overheard.",
+    "readLabel": "How He Reads You",
+    "readPrefix": "Van Helsing, on you:"
+  }
+}

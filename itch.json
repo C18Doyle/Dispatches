@@ -34,6 +34,16 @@
     }
   },
   "_comment": "itch.io pushes. Each game lists, per release variant, the 'user/page:channel' entries it is pushed to (one zip can go to several pages). Needs a repository secret named BUTLER_API_KEY (itch.io > Settings > API keys). A variant listed under 'unpushed' is built but has no page. Entries left as REPLACE_ME are skipped. Check with: node tools/check-itch-config.mjs. After a channel's first push, tick 'This file will be played in the browser' on that upload on the itch.io page, once.",
+  "dracula": {
+    "pushes": {
+      "full": [
+        "dispatches/dispatches-dracula:web-full"
+      ]
+    },
+    "unpushed": [
+      "demo"
+    ]
+  },
   "frankenstein": {
     "pushes": {
       "demo": [

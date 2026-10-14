@@ -1,0 +1,417 @@
+{
+  "prologue": [
+    "Whitby, the last week of July.",
+    "Lucy and I have taken rooms on the crescent for the summer, with her mother, who has a weak heart and a strong opinion of the sea air. I am Wilhelmina Murray, assistant schoolmistress at Exeter, and I have a typewriter, a notebook in Pitman's shorthand, and a pair of stout boots. I am engaged to be married to Jonathan Harker, who is a solicitor at Mr Hawkins's office in Exeter.",
+    "In May Jonathan went to Transylvania to see a nobleman, Count Dracula, who is buying a house at Purfleet through our firm. His last letter was written from the castle at the end of June. It said that he would be leaving in a day or two, and that the Count had been very civil. I have had nothing since. I tell myself that the post in the Carpathians is slow.",
+    "Lucy is to be married to the Honourable Arthur Holmwood. She was proposed to by three men on the same day, one of them a doctor and one of them an American, and she says it was like being offered three different kinds of cake. She sleeps badly and has begun to walk in her sleep. I have not mentioned it to her mother.",
+    "I keep this journal in shorthand because nobody in Whitby can read it. Tonight the glass is falling and the old men on the East Cliff say there is weather coming. I mean to put down everything that happens, for Jonathan, in the order that it happens."
+  ],
+  "chapterCard": {
+    "title": "The Storm",
+    "subtitle": "Whitby · Chapter One"
+  },
+  "howToPlay": [
+    {
+      "heading": "The Three Reserves",
+      "body": "You are Mina Harker, née Murray. Three reserves run from -10 to +10: Nerve (how steady you are), Blood (what you have in you to give and to lose) and Fellowship (how far the people around you trust you and each other). Every choice moves them. A reserve that falls to -7 brings a warning. At -10 the story ends in a collapse, and there are three of those."
+    },
+    {
+      "heading": "Locked Options",
+      "body": "Some choices are shown but locked. A lock names what it asks for in plain terms: a reserve that must be high enough, something you did earlier, or a way of acting that you have not yet shown. Some are hidden on the easier difficulties and on the harder ones, and say so."
+    },
+    {
+      "heading": "The Professor",
+      "body": "Press Send for the Professor on any scene. He will advise you three times a game: his advice shows what each choice below will cost. He has one remedy to give, once, and it costs you elsewhere. He will pass on what the party is saying at the table. And he will tell you how he reads you, which is a hint about the endings that are open to you."
+    },
+    {
+      "heading": "Difficulty",
+      "body": "The Schoolmistress is shown the sums before she answers. The Stenographer writes it down and finds out afterwards. The Purse-Keeper has sixty pounds of the party's money, and a few options cost money, or are only offered to someone who can pay. You choose when you begin a run."
+    },
+    {
+      "heading": "Ventures",
+      "body": "Some choices are ventures: they can go well or badly, and the page tells you the odds. A venture is about one of your reserves. The higher that reserve, the better the odds."
+    },
+    {
+      "heading": "Strain",
+      "body": "When a reserve is below -4 it takes two and a half points off the odds of every venture that is about it, for each point below, up to twelve. The venture screen tells you when this applies."
+    },
+    {
+      "heading": "What You Carry Forward",
+      "body": "A scene may add a line in italics under its description. That is something you did earlier, remembered: a witness, a debt, a wound, a promise. Ninety or so things can be carried, and most of them are never mentioned unless they matter."
+    },
+    {
+      "heading": "Endings",
+      "body": "There are fifteen. Each of the three tracks has four, and three are collapses. How the story is remembered afterwards depends on two things the game never shows you: how you leaned between faith and reason, and between mercy and resolve."
+    },
+    {
+      "heading": "The Record",
+      "body": "Once you have found an ending, the Ledger button appears on the title page. It lists every ending, the ones you have found with what happens in Stoker's book at that point, and the rest with a hint on where to look. It also lists your last ten runs. It is kept in this browser only."
+    },
+    {
+      "heading": "What the Game Leaves Out",
+      "body": "The novel was published in 1897 and its attitudes belong to it. It is hard on women who step out of line, wary of foreigners and careless about people in asylums. The game does not agree with any of that, and it does not take it out of the characters' mouths. It also leaves out most of the book: Lucy's three proposals, the long chapters at Whitby, and the Count's own account of his people. Whatever the novel does not do is invented here. That includes Mina making the decisions, the three tracks of the second act, and most of the endings."
+    },
+    {
+      "heading": "The Book",
+      "body": "The game follows the events of Bram Stoker's Dracula (1897) as far as they go and then asks what you would have done. Characters speak in lines the game has imagined. None of them is Stoker's own sentence. Where the book does something different from the game, the ending screen says so, under In the Novel."
+    }
+  ],
+  "gossip": [
+    {
+      "lines": [
+        "Quincey Morris, filling a pipe: A man who is afraid of the dark is no use. A man who is not afraid of it is no use either. I'd rather be the first kind and know it.",
+        "Arthur Holmwood: I keep thinking of Lucy's laugh. I keep trying to stop.",
+        "Dr Seward: I have recorded eleven hundred observations on this case, and I should like to be told what they have taught me.",
+        "Jonathan Harker: Every time I shut my eyes I see the wall of that castle. Every time I open them, you are there. Mina, please stay."
+      ]
+    },
+    {
+      "when": {
+        "flag": "gaveBlood"
+      },
+      "lines": [
+        "Arthur Holmwood, quietly: Mrs Harker gave her own blood for Lucy. I did not know until Seward told me. I have not yet found how to thank her.",
+        "Dr Seward: The Professor wrote it down like a bill, three-quarters of a pint. I think he meant it as a prayer."
+      ]
+    },
+    {
+      "when": {
+        "flag": "readJournal"
+      },
+      "lines": [
+        "Jonathan Harker, to Seward: I think she knows what is in the book. I think she has always known. I would rather she asked.",
+        "Quincey Morris: A woman who reads her husband's diary has a right to. A woman who types it up has a duty. Mrs Harker is both."
+      ]
+    },
+    {
+      "when": {
+        "flag": "sealedJournal"
+      },
+      "lines": [
+        "Jonathan Harker: She never opened it. I keep wondering whether that was love or fear. I think it was both, and that I have been very lucky.",
+        "Dr Seward: She kept it sealed for three weeks. I would have broken a window."
+      ]
+    },
+    {
+      "when": {
+        "flag": "foreheadBurned"
+      },
+      "lines": [
+        "Quincey Morris: That mark on her forehead is not hurting her, ma'am says. It hurts us all to look at it.",
+        "Van Helsing: The Host does not burn the innocent. It burns what has been put there. I have said this twice and I will say it again."
+      ]
+    },
+    {
+      "when": {
+        "any": [
+          {
+            "flag": "hostSpent"
+          },
+          {
+            "flag": "hostReserve"
+          }
+        ]
+      },
+      "lines": [
+        "Van Helsing: The wafers are fewer than I would like. I have written to Amsterdam. I do not like the reply.",
+        "Dr Seward: Count the Host, Professor, and then count it again. I would prefer to know the number than to be told I am worrying."
+      ]
+    },
+    {
+      "when": {
+        "flag": "typedRecord"
+      },
+      "lines": [
+        "Dr Seward: The typescript is the best case-history I have ever been handed. I shall be quoting it for years.",
+        "Jonathan Harker: Mina types it as if the world depended on the carriage return. I think it may."
+      ]
+    },
+    {
+      "when": {
+        "flag": "telegramNet"
+      },
+      "lines": [
+        "Quincey Morris: Twenty-six telegrams, Mrs Harker? You'll bankrupt Western Union.",
+        "Dr Seward: The clerk at Purfleet has asked if he can put in for a medal."
+      ]
+    },
+    {
+      "when": {
+        "flag": "tieDeep"
+      },
+      "lines": [
+        "Jonathan Harker, in a low voice: She stops in the middle of a sentence and looks at the window. I do not like to ask what she sees.",
+        "Van Helsing: The tie works both ways, my friends. We must remember that it is a door, and a door opens inwards also."
+      ]
+    },
+    {
+      "when": {
+        "flag": "secretTrances"
+      },
+      "lines": [
+        "Dr Seward: Mrs Harker is looking very tired. I have found a sheet of her shorthand in the Bible. I cannot read it.",
+        "Quincey Morris: She's keeping something back. I know the look. I did the same at Austin."
+      ]
+    },
+    {
+      "when": {
+        "flag": "priestBlessed"
+      },
+      "lines": [
+        "Van Helsing: The priest said his grandmother would have known. I said mine would have too. We understood each other perfectly."
+      ]
+    },
+    {
+      "when": {
+        "flag": "launchBought"
+      },
+      "lines": [
+        "Arthur Holmwood: I bought a steam launch. I did not ask the price. The man who sold her said she was lucky, and I said that I would take his word for it."
+      ]
+    },
+    {
+      "when": {
+        "flag": "customsHold"
+      },
+      "lines": [
+        "Van Helsing: The box is under seal in a customs shed. I have fought him for years in cathedrals and crypts. I did not know he could be stopped by a form."
+      ]
+    },
+    {
+      "when": {
+        "resource": "fellowship",
+        "op": "<=",
+        "value": -3
+      },
+      "lines": [
+        "Arthur Holmwood: We are seven people at one table and six conversations. Someone should say it.",
+        "Quincey Morris: I've been in a mining camp where nobody spoke for a week. This is worse."
+      ]
+    }
+  ],
+  "epilogueReadings": {
+    "pos_pos": {
+      "label": "Devout and Gentle",
+      "epilogue": "The typescript is kept in the vestry safe of a country church, and a priest reads the last pages aloud once a year on the feast of All Souls. Those who hear it say that the woman in it does not hate the thing she has fought. She is sorry for it, and she says so, and is believed."
+    },
+    "pos_neutral": {
+      "label": "Devout",
+      "epilogue": "The papers go to a Catholic archive in Amsterdam, where an archivist files them under Miracles, Doubtful. The account is careful and the author is evidently a woman of firm belief. Nobody quarrels with her. A few readers say a prayer afterwards, without quite knowing for whom."
+    },
+    "pos_neg": {
+      "label": "Crusade",
+      "epilogue": "The record is read in two lights. To a few it is a witness's statement, and to most it is a warning. The woman who wrote it never once doubted that what she did was right, and she did it with a thoroughness that frightened the men beside her. A bishop calls it the best account of holy work he has read. He asks that it not be shown to children."
+    },
+    "neutral_pos": {
+      "label": "Kind",
+      "epilogue": "The typescript has no ideology to speak of. It is the account of a woman who was kind to people who were not kind to her, and it ends with her sitting up with a dying man. It is read at the bedsides of the sick by a district nurse, who says it is better than the Psalms for the purpose."
+    },
+    "neutral_neutral": {
+      "label": "Fair",
+      "epilogue": "The record is a plain account: dates, hours, names, the weather. A young barrister reads it in the 1920s and says that there is not a line in it that he can fault, and not a line he can believe. He puts it in a drawer. He takes it out every few years and reads it again."
+    },
+    "neutral_neg": {
+      "label": "Hard-handed",
+      "epilogue": "It is read as an after-action report. The author is clear, unsparing and exact. She spared nobody, including herself, and the hunters who read it in later years say that they came away trusting her more than the Professor, and liking her less. A staff officer asks for a copy."
+    },
+    "neg_pos": {
+      "label": "Reasoning and Merciful",
+      "epilogue": "The record is bound in blue cloth and kept in a physician's library. It is cited in a lecture on trauma in 1911, by a doctor who calls it the most lucid case-history of a collective delusion he has ever seen. At the end of the lecture he adds that he is not entirely sure it was a delusion. He is not asked to repeat the lecture."
+    },
+    "neg_neutral": {
+      "label": "Cool-headed",
+      "epilogue": "The typescript is filed with the Metropolitan Police under 'unsolved'. It is a thorough account. A detective inspector who reads it in 1905 says that it contains every element of a crime except an offender who can be arrested. He puts a question mark in the margin, and takes it home."
+    },
+    "neg_neg": {
+      "label": "Surgical",
+      "epilogue": "The papers pass to a medical society, who read the account as a model of method. The woman who wrote it sets out her reasons, takes her decisions and signs her name, and there is no passage in it about how she felt. It is quoted in a textbook on the conduct of operations in difficult conditions. The textbook does not say which operations."
+    }
+  },
+  "creatureReportLines": {
+    "pos_pos": [
+      "Madam Mina, you reach for the cross and then you reach for a kind word. I find the order of those two things reassuring.",
+      "You lean on your faith, and you lean on mercy. It is a good way to lean. It is a hard way to win."
+    ],
+    "pos_neutral": [
+      "You trust the Host more than you trust the evidence, Madam Mina. I would not have you change. I would have you notice.",
+      "Your faith holds. What it does to the people around you, I cannot yet say."
+    ],
+    "pos_neg": [
+      "You pray hard and you strike hard. I have known saints like that. I have also buried them.",
+      "Your faith is stern, Madam Mina, and your hand is firmer. Be careful that one does not make a weapon of the other."
+    ],
+    "neutral_pos": [
+      "You pity where the rest of us calculate, Madam Mina. It is not a weakness. It may be a weapon.",
+      "Mercy comes easily to you. I do not know yet whether it comes at a price."
+    ],
+    "neutral_neutral": [
+      "I cannot read you, Madam Mina. It is a rare thing in a woman and a rarer thing in an enemy. I am glad you are the first.",
+      "You have not yet shown what you believe. I suspect that you do not yet know."
+    ],
+    "neutral_neg": [
+      "You are hard when you must be. I do not say that as a criticism.",
+      "You decide quickly and you do not look back. I have seen that in surgeons and in soldiers, and I have never seen it make either of them happy."
+    ],
+    "neg_pos": [
+      "You reason, and you forgive. The first is a method. The second is a habit. Together they are very rare.",
+      "You trust evidence, Madam Mina, and you do not trust it to be cruel. That is a gift."
+    ],
+    "neg_neutral": [
+      "You want proof for everything. It is a virtue in a scientist and an inconvenience in a vampire hunter, but I cannot say that I blame you.",
+      "You lean on reason as another woman leans on a rosary. I understand. I have a rosary too."
+    ],
+    "neg_neg": [
+      "Your mind is a scalpel, Madam Mina, and you hold it without a tremble. I should like to know what it costs you.",
+      "You trust your reason and you do not spare your enemies. Be careful that you do not come to enjoy it."
+    ]
+  },
+  "difficultyInfo": {
+    "EASY": {
+      "label": "The Schoolmistress",
+      "blurb": "The Professor reads the figures aloud: you see exactly how each choice will move your reserves before you commit."
+    },
+    "MEDIUM": {
+      "label": "The Stenographer",
+      "blurb": "How each choice moves your reserves stays hidden until after you commit. The Professor will advise you three times."
+    },
+    "HARD": {
+      "label": "The Purse-Keeper",
+      "blurb": "As the Stenographer, plus sixty pounds of the party's money. Some choices cost money you cannot get back, some are only offered to someone who can pay, and the bills are read out at breakfast."
+    }
+  },
+  "novelNotes": {
+    "ENDING_1A": "In the novel the Count is destroyed at sunset, in his box on a cart below the castle. Jonathan Harker cuts his throat with a kukri, and Quincey Morris drives a bowie knife into his heart. The Count crumbles to dust. Quincey dies of a wound received in the fight. The scar on Mina's forehead fades. Her son is later given Quincey's name among his own.",
+    "ENDING_1B": "In the novel nobody reads the burial office over the Count. He is destroyed by the two knives. Mina writes afterwards that, as he crumbled, there was in his face a look of peace.",
+    "ENDING_1C": "In the novel the boxes of earth are not buried in a crypt. Professor Van Helsing sanctifies them with a piece of the Host so that the Count cannot rest in them, and the Count himself is destroyed.",
+    "ENDING_1D": "In the novel it is Mina who pleads for pity for the Count when the others speak of killing him. The look of peace on his face at the end is described in her own account.",
+    "ENDING_2A": "In the novel the box is carried up the road to the castle in a wagon by a gang of Slovaks, and the hunters close in from different directions as the sun goes down. Jonathan and Quincey strike. Quincey is wounded and dies.",
+    "ENDING_2B": "In the novel there is a steam launch on the river, and the hunters use it to chase the boat that carries the Count's box up the Sereth. They do not sink it. The chase ends on the road.",
+    "ENDING_2C": "In the novel the box passes through the hands of forwarding agents at Varna and Galatz. The hunters follow the paperwork to learn where it has gone. No one holds it under seal.",
+    "ENDING_2D": "In the novel Quincey Morris dies at the end. Mina works out timetables and routes, and it is her calculations that put the hunters on the same road as the box.",
+    "ENDING_3A": "In the novel Mina is hypnotised by Van Helsing at dawn and at sunset, and what she hears and sees in the trance tells the hunters where the Count is. The tie is cut when he is destroyed, and the scar on her forehead fades.",
+    "ENDING_3B": "In the novel the Host burns a scar on Mina's forehead the night the Count marks her. She cries out 'Unclean!', and the scar remains until the Count is destroyed, when it vanishes.",
+    "ENDING_3C": "In the novel Mina does not lure the Count into a trap. The hunters take him on the road, and Mina is in the company of Van Helsing at the castle.",
+    "ENDING_3D": "In the novel Mina does not go to him. She remains with Van Helsing in a circle of Host at the pass, and she is saved.",
+    "ENDING_CRISIS_NERVE": "In the novel Mina is never confined. The patient in the asylum is Renfield, and he is killed by the Count.",
+    "ENDING_CRISIS_BLOOD": "In the novel Mina does not die. She is bitten, and she suffers, and she survives. It is Lucy who dies and returns.",
+    "ENDING_CRISIS_FELLOWSHIP": "In the novel the hunters hold together to the end. A good deal of the book's last third is about what they will and will not do for one another."
+  },
+  "endingHints": {
+    "ENDING_1A": "On the Sacred track, at the last choice, let the men strike with the long knife and the bowie.",
+    "ENDING_1B": "On the Sacred track, at the last choice, ask the men to wait while you read the burial office.",
+    "ENDING_1C": "On the Sacred track, at the last choice, seal the box with the Host you kept back at Carfax.",
+    "ENDING_1D": "On the Sacred track, be gentle and devout enough in earlier scenes that the last choice includes going to him alone.",
+    "ENDING_2A": "On the Modern track, at the last choice, take the wagon on the road in daylight.",
+    "ENDING_2B": "On the Modern track, buy a launch of your own, then sink the box in the river.",
+    "ENDING_2C": "On the Modern track, get the box held under seal at Galatz, then have it opened at noon.",
+    "ENDING_2D": "On the Modern track, send the wires, keep the timetable and hold the party together until the four parties meet.",
+    "ENDING_3A": "On the Tie track, at the last choice, lead the hunters to the box with your eyes closed.",
+    "ENDING_3B": "On the Tie track, keep the Host to hand in the guarded sessions, then cut the tie at the last choice.",
+    "ENDING_3C": "On the Tie track, let the tie go deep, then let him believe you have come over.",
+    "ENDING_3D": "On the Tie track, open yourself to him far enough, without enough else to hold on to, and walk up the road.",
+    "ENDING_CRISIS_NERVE": "Let your Nerve run to -10.",
+    "ENDING_CRISIS_BLOOD": "Let your Blood run to -10.",
+    "ENDING_CRISIS_FELLOWSHIP": "Let your Fellowship run to -10."
+  },
+  "flagNotes": {
+    "readLog": "You read the Demeter's log before the Board of Trade sealed it.",
+    "sawShape": "You saw the figure on the Abbey steps.",
+    "noticedMarks": "You saw the two marks on Lucy's throat and told yourself it was a pin.",
+    "sealedJournal": "Jonathan's journal stayed sealed until you needed it.",
+    "readJournal": "You read Jonathan's journal on your own, before the others knew.",
+    "gaveBlood": "You gave Lucy your own blood.",
+    "wreathKept": "You kept the garlic in Lucy's room.",
+    "toldArthur": "You told Arthur about Lucy yourself.",
+    "arthurPrepared": "You prepared Arthur for the tomb.",
+    "sawEmptyCoffin": "You saw Lucy's coffin empty by daylight.",
+    "renfieldTrusts": "Renfield told you the door was not locked.",
+    "hostSpent": "You laid Host in every box at Carfax.",
+    "hostReserve": "You kept some of the Host in reserve.",
+    "foreheadBurned": "The Host left a mark on your forehead.",
+    "refusedHost": "You refused the Host the first night.",
+    "refusedHim": "You said your name to the Count and refused him.",
+    "drankHisBlood": "You drank the Count's blood.",
+    "insisted": "You insisted on being told everything.",
+    "excluded": "You let the men leave you out of their plans.",
+    "priestBlessed": "A priest at Varna blessed the Host.",
+    "prayedAllNight": "You prayed all night on the pass.",
+    "spokeToBrides": "You spoke to the Brides through the night.",
+    "typedRecord": "You kept the typed record of the hunt.",
+    "telegramNet": "You sent twenty-six telegrams down the Thames.",
+    "detectiveHired": "You hired an inquiry agent.",
+    "timetableKept": "You kept the timetable.",
+    "launchBought": "You bought a steam launch.",
+    "customsHold": "You got the box held under seal at Galatz.",
+    "tieDeep": "The tie with the Count went deep.",
+    "hostCarried": "You kept the Host to hand during the trances.",
+    "secretTrances": "You went under in secret, alone, at night.",
+    "keptSecret": "You kept back what you heard in the trance.",
+    "fedHim": "You fed the Count lies through the tie.",
+    "heardHim": "You listened to what the Count wanted.",
+    "namedThem": "You said the names of the people you love, on the pass.",
+    "tookRemedy": "You took the Professor's remedy.",
+    "sawWreck": "You watched them cut the dead captain from the Demeter's wheel.",
+    "partLog": "You copied part of the Demeter's log before you were stopped.",
+    "householdKnows": "You woke the household, and the town learned that Lucy walks in her sleep.",
+    "lucyLeft": "You left Lucy to go to Jonathan.",
+    "stayedWithLucy": "You stayed with Lucy and sent a clerk for Jonathan.",
+    "lucyWatched": "You asked Dr Seward and Arthur to look in on Lucy.",
+    "married": "You married Jonathan before the autumn.",
+    "heardRavings": "You learned what Jonathan raved about in his fever.",
+    "windowShut": "You persuaded Mrs Westenra to keep the window shut.",
+    "windowOpened": "Mrs Westenra opened the window against advice.",
+    "hailedIt": "You called out to the figure on the Abbey steps.",
+    "sawLucyUndead": "You saw Lucy walk, in the tomb, in her shroud.",
+    "metCount": "You saw the Count in the door of the chapel at Carfax.",
+    "piccadillySealed": "You helped seal the house in Piccadilly.",
+    "eastEndSealed": "You helped seal the houses at Mile End and Bermondsey.",
+    "keptRecords": "You kept the records at the asylum while the others went out.",
+    "compromise": "You agreed to keep the record and know the road, and not the hour.",
+    "railParty": "You went to Varna by rail with the Professor.",
+    "seaParty": "You went after the ship by sea in a hired launch.",
+    "wholeParty": "You travelled with the whole party, in one train.",
+    "quayWatched": "You watched the quay at Varna for two days.",
+    "shipSealed": "You sealed the hold of the Czarina Catherine with the Host.",
+    "carterTalked": "A carter at Carter, Paterson's told you what he had seen.",
+    "sawCab": "You noted the number of the cab that carried a box away at night.",
+    "draughtGiven": "Dr Seward gave you a draught to sleep.",
+    "satUp": "You sat up all night with a revolver.",
+    "fourParties": "You sent four parties by the four quickest routes.",
+    "knowsRoute": "You bought the bill of lading at Galatz.",
+    "sawBarge": "You watched the barge go up the river.",
+    "aheadOfBarge": "The launch got three bends ahead of the barge.",
+    "followedBarge": "You followed the barge and noted every landing.",
+    "rodeAhead": "You rode ahead by road to reach the Pass first.",
+    "tranceOpen": "You told the Professor everything you saw in the first trance.",
+    "heardSea": "You heard water and timbers in the trance.",
+    "tranceGuarded": "You woke yourself from the trance, or kept the sessions guarded.",
+    "bellFound": "You found the church with the slow clock at Bermondsey.",
+    "sawBox": "You saw the Count's box in the second trance.",
+    "tranceStopped": "You put the thread away and stopped the trances.",
+    "followedShip": "You followed the ship to Varna.",
+    "calledHim": "You called to the Count through the tie.",
+    "sealedLairs": "You sealed the last of the Count's lairs in England.",
+    "wroteRefusal": "You refused the Count aloud and wrote it down.",
+    "knowsBerth": "You named the Count's berth at Varna before the ship docked.",
+    "jonathanScribed": "Jonathan wrote down what you said in your sleep.",
+    "heldTheCircle": "You held the cross inside the circle for a night.",
+    "answeredCall": "You answered the Count's call from the circle.",
+    "storyTold": "You told the officer at Varna a dull story and were believed.",
+    "bribedCustoms": "You paid the customs officer at Varna.",
+    "slippedOut": "You slipped out of the customs house while the Professor held the officer.",
+    "lightenedLaunch": "You threw the launch's stores overboard to get her off the sandbar.",
+    "pushedLaunch": "You went over the side and pushed the launch off the sandbar.",
+    "hiredTow": "You paid a farmer to tow the launch off the sandbar.",
+    "readOwnWords": "You read what the Professor wrote down in your trance.",
+    "leftItUnread": "You asked the Professor not to tell you what he wrote down.",
+    "burnedPages": "You burned the pages the Professor wrote down in your trance."
+  },
+  "demoEnd": {
+    "title": "End of Act I",
+    "body": [
+      "You have been through the whole of the first act: the storm at Whitby, the letter from Buda-Pesth, Lucy's illness, the tomb at Kingstead, and the council in Dr Seward's study that decides how the hunt will be run.",
+      "The door ahead is locked in the demo. The full game goes on through the second act on the track you chose, to the last choice on each of the three tracks, fifteen endings in all, and the Ledger that keeps the ones you have found and says where to look for the rest."
+    ],
+    "restart": "Begin Again"
+  }
+}

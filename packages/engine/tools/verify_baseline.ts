@@ -11,7 +11,7 @@ import { hashProjection, type Baseline, type Projection, type RecordedAction } f
 import { loadDefinition } from "./load_definition";
 
 const def: GameDefinition = loadDefinition(process.argv[2] ?? "frankenstein");
-const baseline: Baseline = JSON.parse(readFileSync("tests/fixtures/baseline.json", "utf8"));
+const baseline: Baseline = JSON.parse(readFileSync(process.env.BASELINE ?? "tests/fixtures/baseline.json", "utf8"));
 
 const project = makeProject(def);
 

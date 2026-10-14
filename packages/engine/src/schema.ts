@@ -154,6 +154,8 @@ export interface Option {
   requiresHint?: string;
   /** The option is not shown, and cannot be chosen, unless this holds (for example { difficulty: "HARD" }). */
   showWhen?: Condition;
+  /** A label the game's UI may show on the option (for example "dawn"). The engine does not read it. */
+  tag?: string;
 }
 
 /** Lines added under a scene's description while their condition holds: the player's earlier choices carried forward. */
@@ -249,6 +251,24 @@ export interface StrainConfig {
   max: number;
 }
 
+/**
+ * A derived counter shown to the player: a number worked out from the state, never stored in it. The value is `base` plus the `delta` of every rule whose
+ * condition holds, kept within [min, max] (min defaults to 0). Shown only while `showWhen` holds (always, when absent).
+ */
+export interface TrackerRule {
+  when: Condition;
+  delta: number;
+}
+export interface TrackerDef {
+  id: string;
+  label: string;
+  base: number;
+  rules: TrackerRule[];
+  min?: number;
+  max?: number;
+  showWhen?: Condition;
+}
+
 /** config.json */
 export interface GameConfig {
   id: string; // e.g. "frankenstein"
@@ -264,6 +284,8 @@ export interface GameConfig {
   interludeTriggers: InterludeTrigger[];
   assist?: AssistConfig;
   strain?: StrainConfig;
+  /** Derived counters the UI may show (see TrackerDef). */
+  trackers?: TrackerDef[];
   /** Node to jump to for returning players. Resets resources/axes/flags to start values. */
   skipToNodeId?: NodeId;
 }

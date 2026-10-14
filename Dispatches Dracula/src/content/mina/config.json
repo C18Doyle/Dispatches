@@ -1,0 +1,122 @@
+{
+  "id": "mina",
+  "title": "Dracula: The Harker Papers",
+  "schemaVersion": 1,
+  "resources": [
+    {
+      "id": "nerve",
+      "label": "Nerve",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_NERVE",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_NERVE"
+    },
+    {
+      "id": "blood",
+      "label": "Blood",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_BLOOD",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_BLOOD"
+    },
+    {
+      "id": "fellowship",
+      "label": "Fellowship",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_FELLOWSHIP",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_FELLOWSHIP"
+    }
+  ],
+  "axes": [
+    {
+      "id": "creed",
+      "label": "Creed",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "mercy",
+      "label": "Mercy",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    }
+  ],
+  "epilogue": {
+    "axes": [
+      "creed",
+      "mercy"
+    ],
+    "inferredRules": [
+      { "when": { "flag": "readJournal" }, "delta": { "creed": -1 } },
+      { "when": { "flag": "sawEmptyCoffin" }, "delta": { "creed": -1 } },
+      { "when": { "flag": "prayedAllNight" }, "delta": { "creed": 1 } },
+      { "when": { "flag": "tookRemedy" }, "delta": { "creed": -1 } },
+      { "when": { "flag": "sealedJournal" }, "delta": { "mercy": 1 } },
+      { "when": { "flag": "arthurPrepared" }, "delta": { "mercy": 1 } },
+      { "when": { "flag": "secretTrances" }, "delta": { "mercy": -1 } },
+      { "when": { "flag": "namedThem" }, "delta": { "mercy": 1 } },
+      { "when": { "resource": "fellowship", "op": "<=", "value": -4 }, "delta": { "mercy": -1 } },
+      { "when": { "resource": "fellowship", "op": ">=", "value": 5 }, "delta": { "mercy": 1 } },
+      { "when": { "resource": "nerve", "op": "<=", "value": -4 }, "delta": { "creed": 1 } },
+      { "when": { "resource": "nerve", "op": ">=", "value": 5 }, "delta": { "creed": -1 } },
+      { "when": { "resource": "blood", "op": "<=", "value": -4 }, "delta": { "mercy": -1 } },
+      { "when": { "resource": "blood", "op": ">=", "value": 5 }, "delta": { "mercy": 1 } }
+    ]
+  },
+  "difficulties": {
+    "EASY": {
+      "showPreview": true,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": false
+    },
+    "MEDIUM": {
+      "showPreview": false,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": true
+    },
+    "HARD": {
+      "showPreview": false,
+      "enforceMoney": true,
+      "startingMoney": 60,
+      "adviceEnabled": true
+    }
+  },
+  "defaultDifficulty": "MEDIUM",
+  "startBranch": "UNIVERSAL",
+  "interludeTriggers": [
+    { "interludeId": "LORE_DEMETER", "onEnterNodes": ["2", "2-DARK"] },
+    { "interludeId": "LORE_WOLF", "onEnterNodes": ["6"] },
+    { "interludeId": "LORE_BLOOFER", "onEnterNodes": ["6-VIGIL"] },
+    { "interludeId": "TRANSITION_COUNCIL", "onEnterNodes": ["8A", "8B", "8C"] },
+    { "interludeId": "LORE_CZARINA", "onEnterNodes": ["13A", "13B", "13C"] }
+  ],
+  "assist": {
+    "adviceLimit": 3,
+    "favors": {
+      "nerve": { "nerve": 3, "blood": -2 },
+      "blood": { "blood": 3, "nerve": -2 },
+      "fellowship": { "fellowship": 3, "nerve": -1, "blood": -1 }
+    },
+    "favorFlag": "tookRemedy"
+  },
+  "skipToNodeId": "7",
+  "strain": {
+    "threshold": -4,
+    "perPoint": 0.025,
+    "max": 0.12
+  }
+}

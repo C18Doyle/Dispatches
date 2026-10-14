@@ -1,6 +1,6 @@
 /** Pure rule helpers shared by the reducer and the UI (locks, odds, clamping). */
 import { evalCondition } from "./conditions";
-import type { AxisId, GameDefinition, GameState, Option, PartialStamps, Roll, StrainConfig } from "./schema";
+import type { AxisId, GameDefinition, GameState, Option, PartialStamps, Roll, StrainConfig, TrackerDef } from "./schema";
 
 export function clampTo(n: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, n));
@@ -49,6 +49,20 @@ export function effectiveRollChance(roll: Roll, resources: Record<string, number
   if (!roll.scaling) return clampTo(roll.chance - penalty, 0.05, 0.95);
   const { resource, perPoint, min = 0.1, max = 0.95 } = roll.scaling;
   return clampTo(clampTo(roll.chance + (resources[resource] ?? 0) * perPoint, min, max) - penalty, 0.05, max);
+}
+
+/** The value of a tracker for a state: base plus every rule that holds, within [min, max]. */
+export function trackerValue(tracker: TrackerDef, state: GameState): number {
+  let v = tracker.base;
+  for (const rule of tracker.rules) if (evalCondition(rule.when, state)) v += rule.delta;
+  return clampTo(v, tracker.min ?? 0, tracker.max ?? Number.MAX_SAFE_INTEGER);
+}
+
+/** The trackers to show now, in config order, each with its value. */
+export function evalTrackers(def: GameDefinition, state: GameState): { id: string; label: string; value: number }[] {
+  return (def.config.trackers ?? [])
+    .filter((t) => !t.showWhen || evalCondition(t.showWhen, state))
+    .map((t) => ({ id: t.id, label: t.label, value: trackerValue(t, state) }));
 }
 
 export function isOptionLocked(resources: Record<string, number>, gate?: Option["gate"]): boolean {

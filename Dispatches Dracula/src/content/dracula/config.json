@@ -1,0 +1,417 @@
+{
+  "id": "dracula",
+  "title": "Dracula: The Passage",
+  "schemaVersion": 1,
+  "resources": [
+    {
+      "id": "strength",
+      "label": "Strength",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_STRENGTH",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_STRENGTH"
+    },
+    {
+      "id": "secrecy",
+      "label": "Secrecy",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_SECRECY",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_SECRECY"
+    },
+    {
+      "id": "dominion",
+      "label": "Dominion",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_DOMINION",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_DOMINION"
+    }
+  ],
+  "axes": [
+    {
+      "id": "manner",
+      "label": "Manner",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "longing",
+      "label": "Longing",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    }
+  ],
+  "epilogue": {
+    "axes": [
+      "manner",
+      "longing"
+    ],
+    "inferredRules": [
+      {
+        "when": {
+          "flag": "harkerDead"
+        },
+        "delta": {
+          "manner": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "crewTaken"
+        },
+        "delta": {
+          "manner": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "lucyTakenFast"
+        },
+        "delta": {
+          "manner": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "lucyAtWindow"
+        },
+        "delta": {
+          "manner": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "wolfSent"
+        },
+        "delta": {
+          "manner": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "hostWarm"
+        },
+        "delta": {
+          "manner": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "heldBack"
+        },
+        "delta": {
+          "longing": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "lucySpared"
+        },
+        "delta": {
+          "longing": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "minaListened"
+        },
+        "delta": {
+          "longing": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "usedTheNight"
+        },
+        "delta": {
+          "manner": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "dominion",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "longing": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "dominion",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "manner": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "secrecy",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "manner": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "secrecy",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "longing": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "strength",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "longing": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "strength",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "manner": -1
+        }
+      }
+    ]
+  },
+  "difficulties": {
+    "EASY": {
+      "showPreview": true,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": false
+    },
+    "MEDIUM": {
+      "showPreview": false,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": true
+    },
+    "HARD": {
+      "showPreview": false,
+      "enforceMoney": true,
+      "startingMoney": 60,
+      "adviceEnabled": true
+    }
+  },
+  "defaultDifficulty": "MEDIUM",
+  "startBranch": "UNIVERSAL",
+  "interludeTriggers": [
+    {
+      "interludeId": "LORE_LETTER",
+      "onEnterNodes": [
+        "2"
+      ]
+    },
+    {
+      "interludeId": "LORE_GAZETTE",
+      "onEnterNodes": [
+        "9-X",
+        "10",
+        "10-QUIET"
+      ]
+    },
+    {
+      "interludeId": "LORE_ALMANACK",
+      "onEnterNodes": [
+        "12A",
+        "12B",
+        "12C"
+      ]
+    },
+    {
+      "interludeId": "LORE_WOLF",
+      "onEnterNodes": [
+        "13C"
+      ]
+    },
+    {
+      "interludeId": "LORE_CZARINA",
+      "onEnterNodes": [
+        "18A",
+        "18B",
+        "18C"
+      ]
+    }
+  ],
+  "assist": {
+    "adviceLimit": 3,
+    "favors": {
+      "strength": {
+        "strength": 3,
+        "secrecy": -2
+      },
+      "secrecy": {
+        "secrecy": 3,
+        "dominion": -1,
+        "strength": -1
+      },
+      "dominion": {
+        "dominion": 3,
+        "strength": -1,
+        "secrecy": -1
+      }
+    },
+    "favorFlag": "usedTheNight"
+  },
+  "skipToNodeId": "11",
+  "strain": {
+    "threshold": -4,
+    "perPoint": 0.025,
+    "max": 0.12
+  },
+  "trackers": [
+    {
+      "id": "beds",
+      "label": "Beds in England",
+      "base": 0,
+      "min": 0,
+      "showWhen": {
+        "any": [
+          {
+            "flag": "fullHold"
+          },
+          {
+            "flag": "reserveBoxes"
+          },
+          {
+            "flag": "fewBoxes"
+          }
+        ]
+      },
+      "rules": [
+        {
+          "when": {
+            "flag": "fullHold"
+          },
+          "delta": 50
+        },
+        {
+          "when": {
+            "flag": "reserveBoxes"
+          },
+          "delta": 40
+        },
+        {
+          "when": {
+            "flag": "fewBoxes"
+          },
+          "delta": 20
+        },
+        {
+          "when": {
+            "flag": "boxesShort"
+          },
+          "delta": -12
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "flag": "carfaxSealed"
+              },
+              {
+                "flag": "fullHold"
+              }
+            ]
+          },
+          "delta": -29
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "flag": "carfaxSealed"
+              },
+              {
+                "flag": "reserveBoxes"
+              }
+            ]
+          },
+          "delta": -23
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "flag": "carfaxSealed"
+              },
+              {
+                "flag": "fewBoxes"
+              }
+            ]
+          },
+          "delta": -12
+        },
+        {
+          "when": {
+            "flag": "movedBoxes"
+          },
+          "delta": 11
+        },
+        {
+          "when": {
+            "flag": "movedFew"
+          },
+          "delta": 4
+        }
+      ]
+    },
+    {
+      "id": "crypt",
+      "label": "In the castle crypt",
+      "base": 0,
+      "showWhen": {
+        "any": [
+          {
+            "flag": "reserveBoxes"
+          },
+          {
+            "flag": "fewBoxes"
+          }
+        ]
+      },
+      "rules": [
+        {
+          "when": {
+            "flag": "reserveBoxes"
+          },
+          "delta": 10
+        },
+        {
+          "when": {
+            "flag": "fewBoxes"
+          },
+          "delta": 30
+        }
+      ]
+    }
+  ]
+}
