@@ -173,6 +173,8 @@ export function App() {
   const [history, setHistory] = useState([]);
   // The orders given this run, for the "Your war against the record" panel on the ending screen (saved with the run; a run saved before this existed has none).
   const [decisions, setDecisions] = useState([]);
+  // Where "What this game leaves out" returns to: the prelude of a new run, or the War Record.
+  const [historyFrom, setHistoryFrom] = useState("warrecord");
   // Battle planning: on by default; an order that hosts a battle opens the Order of Battle first. `pendingBattle` is the order waiting for its plan.
   const [planBattles, setPlanBattles] = useState(true);
   const [pendingBattle, setPendingBattle] = useState(null);
@@ -268,7 +270,7 @@ export function App() {
     setFlagsState({});
     setVisitedNodes([c.start]);
     setNodeId(c.start);
-    setScreen("briefing");
+    setScreen(PRELUDES[id] ? "prelude" : "briefing");
     setDiscovery((prev) => addDiscovered(prev, id, "nodes", c.start));
   }
 
@@ -435,7 +437,7 @@ export function App() {
         />
       )}
       {screen === "warrecord" && (
-        <WarRecordScreen onClose={toRecords} onOpenSection={setScreen} discovery={discovery} />
+        <WarRecordScreen onClose={toRecords} onOpenSection={(key) => { setHistoryFrom("warrecord"); setScreen(key); }} discovery={discovery} />
       )}
       {screen === "atlas" && <DiscoveryAtlasScreen onClose={() => setScreen("warrecord")} discovery={discovery} />}
       {screen === "endingsgallery" && <EndingsGalleryScreen onClose={() => setScreen("warrecord")} discovery={discovery} />}
@@ -457,6 +459,15 @@ export function App() {
         />
       )}
       {screen === "howtoread" && <HowToReadScreen onClose={() => setScreen("warrecord")} />}
+      {screen === "hardhistory" && <HardHistoryScreen onClose={() => setScreen(historyFrom)} />}
+      {screen === "prelude" && PRELUDES[campaignId] && (
+        <PreludeScreen
+          campaignId={campaignId}
+          onContinue={() => setScreen("briefing")}
+          onOpenHistory={() => { setHistoryFrom("prelude"); setScreen("hardhistory"); }}
+          onClose={toRecords}
+        />
+      )}
       {screen === "detail" && (
         <CampaignDetailScreen
           campaignId={campaignId}

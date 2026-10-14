@@ -37,6 +37,12 @@ export default {
     const enter = ctx.buttons().find((b) => /^ENTER COMMAND/.test(lab(b)));
     if (!enter) return "no ENTER COMMAND";
     await ctx.click(enter);
+    // The prelude comes first; a test that wants to look at it sets ctx.stayOnPrelude.
+    if (!ctx.stayOnPrelude) {
+      const go = ctx.buttons().find((b) => lab(b) === "CONTINUE TO THE FIRST REPORT");
+      if (!go) return "no prelude after ENTER COMMAND";
+      await ctx.click(go);
+    }
     return null;
   },
 

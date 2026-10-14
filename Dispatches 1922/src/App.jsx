@@ -6910,6 +6910,87 @@ function skinFor(campaignId) {
 //            "contested" where control genuinely alternated faster than a
 //            monthly resolution can express. Marker FILL follows this, at
 //            the date of the situation currently in front of the player.
+// Preludes: what a player should know before the first report of each command, and the hard history the orders do not show.
+// Written with hindsight and labelled so. Atrocities are described briefly and accurately, here and not as decisions (docs/WRITING.md rule 12).
+// Every figure is a range from the historians' estimates; the sources are in claims/preludes-round1.md and are waiting for a reviewer.
+const PRELUDES = {
+  provisionalGov17: {
+    date: "SPRING 1917",
+    title: "Petrograd",
+    paragraphs: [
+      "Russia has been at war since August 1914. By the spring of 1917 millions of its soldiers have been killed, wounded or taken prisoner, the railways cannot move both troops and grain, and the price of bread has risen faster than wages. Strikes in Petrograd began on 8 March 1917. Within a week the garrison had joined them, and on 15 March Nicholas II abdicated.",
+      "Two bodies now claim to govern. The Provisional Government, named by a committee of the Duma, holds the ministries and the recognition of the Allies. The Petrograd Soviet of Workers' and Soldiers' Deputies holds the barracks and the loyalty of most workers' organisations. Soldiers obey the Soviet's Order No. 1 of 14 March, which gave their elected committees authority over arms and discipline in the garrison. Neither can govern without the other.",
+      "Lenin reached Petrograd on 16 April. In the countryside peasants have begun to take estate land without waiting for a law. The Allies expect Russia to keep fighting, and so do most of the ministers. The civil war has not yet begun.",
+    ],
+  },
+  southRussia: {
+    date: "APRIL 1918",
+    title: "The Kuban steppe",
+    paragraphs: [
+      "After the October Revolution, former Imperial officers gathered on the Don. Generals Alekseev and Kornilov formed the Volunteer Army there in December 1917. In February 1918 some four thousand men marched out of Rostov onto the Kuban steppe, hoping to take the Kuban capital, Ekaterinodar.",
+      "The Volunteers are officers, cadets and students, with few Cossacks and fewer peasants. Their opponents call them Whites. In the Don and Kuban the Bolsheviks have shot officers and landowners in the towns they hold. Both sides kill prisoners, and the wounded who cannot be moved are left behind and often killed.",
+      "You take command on 13 April 1918, with Kornilov dead. Over the next two years this army will rule much of southern Russia. Its units will also carry out reprisals against villages and take part in anti-Jewish violence, which General Denikin condemned and did not stop. That part of the record is in \"What this game leaves out\", and not in the orders.",
+    ],
+  },
+  siberia: {
+    date: "NOVEMBER 1918",
+    title: "Omsk",
+    paragraphs: [
+      "In May 1918 the Czechoslovak Legion, some 40,000 men travelling east on the Trans-Siberian Railway to leave Russia, rose against Soviet attempts to disarm it. Within weeks Soviet power was gone from the railway between the Volga and Lake Baikal. Several governments took its place, among them a Socialist-Revolutionary government at Samara and a Siberian regional government at Omsk.",
+      "A conference at Ufa in September and October agreed on a five-man Directory. Admiral Kolchak reached Omsk in October as War Minister. On the night of 17 to 18 November Cossack officers arrested the Socialist-Revolutionary members of the Directory, and the ministers asked Kolchak to take power as Supreme Ruler.",
+      "The Tsar and his family were shot at Ekaterinburg on 17 July 1918 by their Bolshevik guards. The Admiral's government will rest on officers, Cossack atamans and Allied supplies. In the Far East some atamans, Semyonov and Kalmykov among them, run their own territory and kill civilians. In 1919 detachments of the government will be used against peasant partisans. That part of the record is in \"What this game leaves out\".",
+    ],
+  },
+  bolsheviks: {
+    date: "SEPTEMBER 1918",
+    title: "Moscow",
+    paragraphs: [
+      "Six months ago the Soviet government signed the Treaty of Brest-Litovsk. Since then it has lost most of the Volga to a Czechoslovak revolt and a Socialist-Revolutionary government at Samara, and Kazan fell on 6 August. A rising by the Left Socialist-Revolutionaries in Moscow in July was put down. On 30 August Uritsky, head of the Petrograd Cheka, was shot dead, and Lenin was shot and wounded in Moscow.",
+      "On 2 September the Republic was declared an armed camp and the Revolutionary Military Council was formed under Trotsky. On 5 September the Council of People's Commissars ordered the Red Terror: the Cheka was to shoot enemies of the regime and hold hostages. This game starts with the Military Council, and the Terror is not one of its orders. It is part of the setting. It is described in \"What this game leaves out\".",
+      "The army this council commands is built by conscription in a country with little food. Grain detachments went into the villages from the summer of 1918, and peasants resisted them. The families of some officers who served in the Red Army were held as hostages for their loyalty.",
+    ],
+  },
+};
+
+const HARD_HISTORY = {
+  intro:
+    "This game puts you at the level of a headquarters. Its orders are about armies, railways, ministers and meters. Most of what happened to people in the war was done to them by every side, and it is not an order here. These pages describe it briefly. The figures are estimates: historians disagree about what to count, and for much of the war nobody counted. Where a range is given, the sources are in the repository (claims/preludes-round1.md) and are waiting for a reviewer.",
+  sections: [
+    {
+      title: "How many died",
+      text: "Estimates of the deaths in Russia from 1917 to 1922 run from about 7 million to 12 million, most of them civilians who died of hunger and disease. Others give lower totals. Combat deaths are a small part of any total. Nobody has a firm count.",
+    },
+    {
+      title: "The Red Terror",
+      text: "After the attempt on Lenin and the murder of Uritsky on 30 August 1918, the Council of People's Commissars ordered the Red Terror on 5 September. The Cheka shot suspected enemies, took hostages and ran camps, often with no trial. Official figures counted about 8,500 summary executions in the first year, and historians treat that as too low. Estimates of those shot by the Cheka and the tribunals from 1918 to 1922 run from about 50,000 to 140,000, and the high end is disputed.",
+    },
+    {
+      title: "The White terror",
+      text: "White governments and commanders also shot suspected Bolsheviks, Soviet officials, Jews and the families of Red soldiers, and sent punitive detachments against villages. Some atamans in the Far East, Semyonov and Kalmykov among them, ran their own territories by killing. There is no reliable total. Historians note that much of it was done by detachments the White command could not control, and that the Red Terror was more systematic.",
+    },
+    {
+      title: "The pogroms in Ukraine, 1918 to 1921",
+      text: "More than a thousand pogroms were recorded in Ukraine in these years. Estimates of the Jews killed run from about 30,000 to 60,000, and over 100,000 if the wounded and those who died afterwards are counted. The troops of the Ukrainian People's Republic, the Volunteer Army, the Red Army and local armed bands all took part. One study attributes about one in six of the recorded pogroms to the Volunteer Army and fewer to the Red Army, with the largest share to Ukrainian nationalist units and local bands. At Proskurov on 15 February 1919 troops of the Ukrainian People's Republic killed some 1,500 Jews in one day. Every command condemned pogroms. None stopped them.",
+    },
+    {
+      title: "Decossackization",
+      text: "On 24 January 1919 the Orgburo of the Communist Party sent a secret circular ordering mass terror against the richer Cossacks and the seizure of their arms and land. The Upper Don rose against the Reds in March. The number killed or deported in 1919 and 1920 is unknown: estimates run from a few thousand to between 300,000 and 500,000, and historians disagree about whether it was a plan to destroy a people. The Party withdrew the directive in the course of 1919 and later separated the Cossack leaders from the working Cossacks.",
+    },
+    {
+      title: "The peasant wars",
+      text: "Peasants fought every government that took their grain and their sons. Armed peasant bands, called Greens, held forests and villages in many provinces. In southern Ukraine the Revolutionary Insurgent Army under Nestor Makhno fought the Germans and the Hetman, then the Whites, and at different times allied with the Reds and was attacked by them. In Tambov province a rising against grain requisitioning began in August 1920 under Alexander Antonov. The Red Army under Tukhachevsky took it over in the spring of 1921, held hostages, interned families in camps and used chemical weapons against the rebels in the forests. Small bands held out until 1922.",
+    },
+    {
+      title: "The famine of 1921 and 1922",
+      text: "Drought in 1921 fell on a country already stripped by war and by the requisitioning of grain. About 5 million people died, mostly along the Volga and in the Urals, and estimates run from 1 million to 10 million. The Soviet government counted some 23 million people starving in the middle of 1922. Maxim Gorky appealed for help abroad, and the American Relief Administration under Herbert Hoover fed millions. Disease, typhus and cholera among them, killed more than hunger alone.",
+    },
+    {
+      title: "What the game does with this",
+      text: "None of this is a choice, a meter or a score. The orders show a command's decisions as far as the record supports them. They cannot show what a requisition, a reprisal or a retreat did to the people on its road, and a player who finishes a run with a historical ending has not seen that part of the war.",
+    },
+  ],
+};
+
 // Shared across all three campaigns — a single alphabetical list rather than
 // per-campaign, since a confused player usually doesn't know which
 // campaign's vocabulary a term even belongs to. Terms actually used
@@ -9031,6 +9112,7 @@ function WarRecordScreen({ onClose, onOpenSection, discovery }) {
     { key: "dossiers", label: "COMMAND DOSSIERS", detail: "The advisors, and what became of them" },
     { key: "glossary", label: "GLOSSARY", detail: "Terms & abbreviations" },
     { key: "howtoread", label: "HOW TO READ THE REPORTS", detail: "Badges, meters, and what the odds mean" },
+    { key: "hardhistory", label: "WHAT THIS GAME LEAVES OUT", detail: "The terror, the pogroms, the peasant wars, the famine" },
   ];
   return (
     <div style={{ background: "#f2ecdc", minHeight: "100%" }}>
@@ -9361,6 +9443,51 @@ function SettingsScreen({ textSize, setTextSize, reduceMotion, setReduceMotion, 
           nothing, kept visible rather than hidden so the gap is legible rather than
           disguised.
         </div>
+      </div>
+    </div>
+  );
+}
+
+// Shown once after ENTER COMMAND: the situation the first report assumes, and the way into the hard history.
+function PreludeScreen({ campaignId, onContinue, onOpenHistory, onClose }) {
+  const c = CAMPAIGNS[campaignId];
+  const skin = skinFor(c.id);
+  const p = PRELUDES[campaignId];
+  return (
+    <div className="min-h-full" style={screenStyle(skin)}>
+      <TopBar title="dispatches-1922" screenTitle={"Before the first report"} onClose={onClose} />
+      <div className="p-6">
+        <div className="text-xs tracking-widest" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+          {p.date} · BACKGROUND, WRITTEN WITH HINDSIGHT
+        </div>
+        <div className="text-3xl font-bold mt-2" style={displayFontStyle(skin)}>{p.title}</div>
+        {p.paragraphs.map((t, i) => (
+          <p key={i} className="text-sm mt-4 leading-relaxed">{t}</p>
+        ))}
+        <button onClick={onContinue} className="mt-8 w-full font-bold py-3" style={{ ...accentBgStyle(skin), ...displayFontStyle(skin) }}>
+          CONTINUE TO THE FIRST REPORT
+        </button>
+        <button onClick={onOpenHistory} className="mt-3 w-full font-bold py-3 border-2" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...displayFontStyle(skin) }}>
+          WHAT THIS GAME LEAVES OUT
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function HardHistoryScreen({ onClose }) {
+  return (
+    <div className="bg-stone-50 min-h-full">
+      <TopBar title="dispatches-1922" screenTitle={"What this game leaves out"} onClose={onClose} />
+      <div className="p-6">
+        <div className="text-2xl font-bold mb-2" style={{ fontFamily: BODY_FONT }}>What this game leaves out</div>
+        <p className="font-mono text-xs text-stone-600 leading-relaxed mb-4">{HARD_HISTORY.intro}</p>
+        {HARD_HISTORY.sections.map((sec, i) => (
+          <section key={i} className="border-b border-stone-300 py-3" aria-labelledby={"hh-" + i}>
+            <h2 id={"hh-" + i} className="font-bold" style={{ fontFamily: BODY_FONT }}>{sec.title}</h2>
+            <p className="text-sm mt-1 leading-relaxed text-stone-800">{sec.text}</p>
+          </section>
+        ))}
       </div>
     </div>
   );
@@ -10497,6 +10624,8 @@ export function App() {
   const [history, setHistory] = useState([]);
   // The orders given this run, for the "Your war against the record" panel on the ending screen (saved with the run; a run saved before this existed has none).
   const [decisions, setDecisions] = useState([]);
+  // Where "What this game leaves out" returns to: the prelude of a new run, or the War Record.
+  const [historyFrom, setHistoryFrom] = useState("warrecord");
   // Battle planning: on by default; an order that hosts a battle opens the Order of Battle first. `pendingBattle` is the order waiting for its plan.
   const [planBattles, setPlanBattles] = useState(true);
   const [pendingBattle, setPendingBattle] = useState(null);
@@ -10592,7 +10721,7 @@ export function App() {
     setFlagsState({});
     setVisitedNodes([c.start]);
     setNodeId(c.start);
-    setScreen("briefing");
+    setScreen(PRELUDES[id] ? "prelude" : "briefing");
     setDiscovery((prev) => addDiscovered(prev, id, "nodes", c.start));
   }
 
@@ -10759,7 +10888,7 @@ export function App() {
         />
       )}
       {screen === "warrecord" && (
-        <WarRecordScreen onClose={toRecords} onOpenSection={setScreen} discovery={discovery} />
+        <WarRecordScreen onClose={toRecords} onOpenSection={(key) => { setHistoryFrom("warrecord"); setScreen(key); }} discovery={discovery} />
       )}
       {screen === "atlas" && <DiscoveryAtlasScreen onClose={() => setScreen("warrecord")} discovery={discovery} />}
       {screen === "endingsgallery" && <EndingsGalleryScreen onClose={() => setScreen("warrecord")} discovery={discovery} />}
@@ -10781,6 +10910,15 @@ export function App() {
         />
       )}
       {screen === "howtoread" && <HowToReadScreen onClose={() => setScreen("warrecord")} />}
+      {screen === "hardhistory" && <HardHistoryScreen onClose={() => setScreen(historyFrom)} />}
+      {screen === "prelude" && PRELUDES[campaignId] && (
+        <PreludeScreen
+          campaignId={campaignId}
+          onContinue={() => setScreen("briefing")}
+          onOpenHistory={() => { setHistoryFrom("prelude"); setScreen("hardhistory"); }}
+          onClose={toRecords}
+        />
+      )}
       {screen === "detail" && (
         <CampaignDetailScreen
           campaignId={campaignId}

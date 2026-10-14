@@ -20,6 +20,9 @@ Western calendar, day then month, everywhere on screen (`7 November 1917`). Russ
 ## Your war against the record
 `decisionEntry` and `RecordPanel` (src/parts/30-screens.jsx) record and show every order against the choice flagged `historical: true` at that report; the log is the `decisions` state in 40-app.jsx, saved with the run (optional field, no schema bump) and rewound with Easy mode. A choice's `outcome` is what is shown as "what the record did", so the historical choice's `outcome` must read as the account of what happened. `npm run test:record`.
 
+## Preludes and the hard history
+`PRELUDES` (one per command) and `HARD_HISTORY` are in src/parts/30-screens.jsx, shown by `PreludeScreen` after ENTER COMMAND and by `HardHistoryScreen` (from the prelude and the War Record). The prelude is not saved: a resumed run goes straight to its report. Tests start past the prelude (`tests/ui.config.mjs` setup) unless `ctx.stayOnPrelude`; `check:a11y` visits both screens. Every figure in them must be in claims/preludes-round1.md with a source; they describe atrocities and never offer one as an order, a meter or a score.
+
 ## Orders of Battle
 `src/battle.ts` is the pure arithmetic (typed, in `npm run typecheck`). `src/parts/35-battles.jsx` holds the configs (`BATTLES`), the planning screen and the report. A battle is hosted by a choice with `keyBattleSubgame: { id }` and exactly two contested outcomes; `winBranch` is the index of the better one. The staff's plan must move the odds by exactly 0 (tests/battle.test.mjs proves it for every config, setup and pool size), so never change the arithmetic without running it. New battle: config, `keyBattleSubgame` on the order, a line in claims/battles-round1.md.
 

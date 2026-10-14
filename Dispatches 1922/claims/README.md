@@ -15,7 +15,7 @@ State of the record: run `npm run review:status`. At the first pass the register
 ## What is and is not in the register
 
 - In: the bulletin, the background, the situation, the aftermath and outcome of the choice that follows the record, every ending's epilogue, and every adviser's biography and fate, for each sentence that has a date, a figure, a unit or a named event.
-- Not in: the text that appears only when a flag has a certain value (the register reads each report with no flags), the battle configs, and the new 1917 reports. Those have their own source tables: `south-russia-round1.md`, `provisional-government-round1.md`, `battles-round1.md`, `battles-round2.md`.
+- Not in: the text that appears only when a flag has a certain value (the register reads each report with no flags), the battle configs, and the new 1917 reports. Those have their own source tables: `preludes-round1.md` (the preludes and "What this game leaves out"), `south-russia-round1.md`, `provisional-government-round1.md`, `battles-round1.md`, `battles-round2.md`.
 - `uncovered.json`: reports with nothing checkable in their text. A report that gains a checkable sentence has to leave that list.
 
 ## For the reviewer
