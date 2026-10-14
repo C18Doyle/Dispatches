@@ -6,9 +6,9 @@
   "dispatches1922_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"provisionalGov17\",\"nodeId\":\"kornilovAffair17\",\"meters\":{\"authority\":-2,\"frontDiscipline\":-3,\"sovietRelations\":-6},\"flags\":{\"aprilCrisisChoice\":\"standFirm\",\"offensiveChoice\":\"pressForward\",\"offensiveOutcome\":\"routed\",\"julyDaysChoice\":\"outrightBan\"},\"visitedNodes\":[\"aprilCrisis17\",\"juneOffensive17\",\"julyDays17\",\"kornilovAffair17\"],\"hardModeValue\":0,\"hardModeMaxed\":false,\"hardModeEnabled\":false,\"screen\":\"bulletin\",\"savedAt\":1790962028086}"
  },
  "expect": {
-  "menuHash": "_4F1z7m0:523",
+  "menuHash": "f-Iiq4Ha:526",
   "resumeControl": "▶ RESUME COMMAND",
-  "afterResumeHash": "HwBtI1ip:1669",
+  "afterResumeHash": "aY1A2mXT:1670",
   "errors": []
  }
 }

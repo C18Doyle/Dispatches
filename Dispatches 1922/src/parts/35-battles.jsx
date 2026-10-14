@@ -22,11 +22,11 @@ BATTLES.juneOffensive = {
   winBranch: 0,
   campaign: "provisionalGov17",
   cleanMeter: "frontDiscipline",
-  title: "Order of Battle: the June Offensive",
+  title: "Order of Battle: the Kerensky Offensive",
   flavor:
-    "The Southwestern Front is to attack toward Lemberg. The barrage began on 16 June. There are shock battalions raised this spring from volunteers, regiments with elected committees, and an Eighth Army under General Kornilov on the southern wing.",
+    "The Southwestern Front is to attack toward Lemberg. The barrage began on 29 June. There are shock battalions raised this spring from volunteers, regiments with elected committees, and an Eighth Army under General Kornilov on the southern wing.",
   conditions:
-    "The attack goes in on 18 June. Three armies of the Southwestern Front take part: the Seventh, the Eleventh and the Eighth. The staff do not know which divisions the Central Powers have behind their line.",
+    "The attack goes in on 1 July. Three armies of the Southwestern Front take part: the Seventh, the Eleventh and the Eighth. The staff do not know which divisions the Central Powers have behind their line.",
   modelled:
     "The sources give the armies, the dates and the results. They do not give the enemy's dispositions or the weight of fire. The enemy's setup and every weight in this battle are game judgments.",
   record:
@@ -53,7 +53,7 @@ BATTLES.juneOffensive = {
     {
       id: "guns", name: "The artillery", meter: "authority",
       units: ["The artillery of the three armies"],
-      real: "The preliminary barrage began on 16 June (Old Style). The sources do not give the number of guns or how long it lasted.",
+      real: "The preliminary barrage began on 29 June. The sources do not give the number of guns or how long it lasted.",
       context: "The guns open the way for every other arm and decide none of them. Each counter puts more batteries and shells forward.",
     },
   ],

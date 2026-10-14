@@ -8,6 +8,9 @@ React 18 + Tailwind 3, esbuild. Four campaigns (`provisionalGov17`, `southRussia
 - `src/main.jsx`, `src/input.css`, `src/prelude.html`, `build.mjs` build. `tools/` validators (`check-*.js`, `walk-historical.js`, `monte-carlo.mjs`) and `tools/ui_differential.mjs`. `tests/*.js` older jsdom behaviour tests (need `bundle_test.js` = a copy of `dist/bundle.js` in the project root). `tests/baseline/ui/` recorded runs from the pre-refactor build.
 - `HANDOVER.md`, `VALIDATION_REPORT.md`, `CIVILWAR_EXPANSION_PLAN.md`, `IMPROVEMENT_RECOMMENDATIONS.md` content/history notes.
 
+## Dates
+Western calendar, day then month, everywhere on screen (`7 November 1917`). Russia used the Julian calendar until 14 February 1918 (13 days behind), so Russian dates before that are converted; Old Style may appear in a code comment or a claims note, never on screen. Where sources disagree on a day, give the month. The How to Read screen carries the one sentence that explains it.
+
 ## Orders of Battle
 `src/battle.ts` is the pure arithmetic (typed, in `npm run typecheck`). `src/parts/35-battles.jsx` holds the configs (`BATTLES`), the planning screen and the report. A battle is hosted by a choice with `keyBattleSubgame: { id }` and exactly two contested outcomes; `winBranch` is the index of the better one. The staff's plan must move the odds by exactly 0 (tests/battle.test.mjs proves it for every config, setup and pool size), so never change the arithmetic without running it. New battle: config, `keyBattleSubgame` on the order, a line in claims/battles-round1.md.
 
