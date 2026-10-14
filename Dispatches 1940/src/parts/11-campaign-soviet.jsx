@@ -243,14 +243,14 @@
                 "Speculative. The frontier districts get what they ask for: the corps that were to have stood farther back are moved up behind the border, and the new fortified zones are given first call on the engineers and the concrete. A frontier that is held in strength is a bad thing to be caught outside, and the army is a good deal nearer to the German deployment areas than it was.",
             },
             {
-              label: "Thicken the rear: build the defence in depth behind the old border, and finish the new fortified zones second",
-              advisor: { name: "Shaposhnikov", position: "A defence that is built behind the old frontier, in depth, with the old fortified zones kept and armed, gives the army ground to trade and the time to bring the second echelon up." },
+              label: "Meet them inland: hold the border with covering forces only, and mass the armies in depth on a line behind it",
+              advisor: { name: "Zhukov", position: "An army spread in a thin line at the border is surrounded in the first week, so the covering forces hold the frontier and the mass of the army stands deeper, where it can meet the German blow with its strength together." },
               setFlags: { games41: "depth", readiness: (flags.readiness || 0) + 1, suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
               impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "prep41",
               outcome:
-                "Speculative. Shaposhnikov, who built the old Stalin Line and was put in charge of fortifying the new frontier in the autumn, gets his way for a time. The old fortified zones are re-armed with the guns that had been taken out of them, the corps are held farther back, and the new border zones are finished more slowly. There are people in Moscow who regard giving ground on paper as the first step to giving it in the field, and it is noted who said so.",
+                "Speculative. The argument that Zhukov is reported to have made in the games, that the Red Army should meet the blow slightly inland and not at the border, so as not to be surrounded there, is adopted as the plan. The frontier districts keep their covering forces on the new border, the main body of the army is massed on a line behind them, and the old fortified zones, which had been stripped of their guns, are re-armed as the line that the mass stands on. There are people in Moscow who regard giving ground on paper as the first step to giving it in the field, and it is noted who said so.",
             },
           ],
         };
@@ -300,18 +300,45 @@
           title: "The Memorandum",
           historicalRecord: true,
           situation:
-            "Warnings of every kind say that the Germans will attack, and Stalin does not believe that it will happen this summer. On 15 May a draft is put before him, 'Considerations on the plan of strategic deployment of the armed forces of the Soviet Union', in the names of Zhukov and Timoshenko, with Vasilevsky named in most accounts as its drafter. It proposes forestalling the German deployment by striking first at the German army in Poland. Historians disagree on what it was: a plan to be carried out, a staff exercise, or a paper written to be turned down. The Red Army could not yet carry it out: the new corps have no tanks, the mobilisation plan is not complete, and the second-line armies are still in the interior. In May the General Staff has begun to move armies from the interior towards the Dvina and the Dnieper, and about 800,000 reservists have been called to 'training camps'." +
+            "Warnings of every kind say that the Germans will attack, and Stalin does not believe that it will happen this summer. On 15 May a draft is put before him, 'Considerations on the plan of strategic deployment of the armed forces of the Soviet Union', in the names of Zhukov and Timoshenko, with Vasilevsky named in most accounts as its drafter. It is read in two ways. Most accounts take it to propose forestalling the German deployment by a first strike. Other historians read its practical core as something plainer: begin to mobilise, bring the armies of the interior districts up to the line of the Dnieper and the Western Dvina, and mass the army in one echelon instead of leaving it in the three thin ones it stands in. The Kiev district shows why: nine rifle divisions in the first echelon, fifteen more in the second, in deep corps, and the third, the 16th and 19th Armies, still unloading at railway stations, against a German group that stands in a single echelon of eighteen infantry divisions with five in reserve. The Red Army could not have struck in May in any case: the new corps have no tanks, the mobilisation plan is not complete and the second-line armies are still in the interior. In May the General Staff has begun to move armies from the interior towards the Dvina and the Dnieper, and about 800,000 reservists have been called to 'training camps'; the movements are said to have slowed as the expected date of the attack passed, and to have been taken up in earnest only in the second week of June." +
             (flags.readiness >= 2 ? " The army is better placed than the record's was, and the arguments for waiting and for striking are both a good deal stronger for it." : flags.readiness <= -1 ? " The army is worse placed than the record's was, and what is on the table is a plan for an army that is not there." : ""),
           choices: [
             {
-              label: "Reject the memorandum, but move the second-line armies up to the Dvina and the Dnieper, and say nothing",
+              label: "Reject the first strike, but move the second-line armies up to the Dvina and the Dnieper by degrees, and say nothing",
               advisor: { name: "Molotov", position: "Nothing is to be done that Berlin can call a provocation, so the armies move behind the screen of the frontier districts and the Foreign Ministry says that all is well." },
               historical: true,
               setFlags: { memo41: "quiet" },
               impact: { manpower: 0, fuel: -1, initiative: 0 },
               next: "border41",
               outcome:
-                "What happened. Stalin did not approve the memorandum, and nothing of it was carried out. The movement of the second-line armies went on through May and June, and most of them were still on trains or in their assembly areas on 22 June. The frontier districts were told again to avoid anything that Berlin could call a provocation, and on 14 June TASS announced that rumours of a coming war were without foundation.",
+                "What happened. Stalin did not approve the memorandum, and nothing of it was carried out. The movement of the second-line armies began in mid-May, slowed, and was taken up again only in June, so that most of them were still on trains or in their assembly areas on 22 June. The frontier districts were told again to avoid anything that Berlin could call a provocation, and on 14 June TASS announced that rumours of a coming war were without foundation.",
+            },
+            {
+              label: "Mobilise now: call up the reserves, bring the interior armies to the Dnieper and the Dvina at once, and mass the army in a single echelon",
+              advisor: { name: "Zhukov", position: "The army stands in three thin echelons against a single German blow, so the districts of the interior are mobilised now and their armies brought up to the Dnieper and the Dvina, and the whole is massed in one place where it can meet the blow together." },
+              setFlags: { memo41: "mass", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
+              suspicionDelta: 1,
+              impact: { manpower: -1, fuel: -2, initiative: 1 },
+              next: "border41",
+              concealRoll: true,
+              uncertain: [
+                {
+                  weight: modWeight(55, meters.initiative),
+                  title: "The line is manned in time",
+                  setFlags: { memo41: "mass", readiness: (flags.readiness || 0) + 1 + (flags.games41 === "depth" ? 1 : 0) },
+                  impact: { manpower: -1, fuel: -2, initiative: 2 },
+                  outcome:
+                    "Speculative. Stalin lets the mobilisation run, and the movements of mid-May are not stopped when the date of the attack passes. By the third week of June the armies of the Moscow, Volga and Leningrad districts are on the Dnieper and the Dvina, with the frontier armies falling back onto them, and the army that meets the blow is one mass and not three thin lines. It has used up a great deal of fuel and rolling stock to get there, and the staff has a name for what Berlin may make of it. Where the army has already been told to meet the enemy inland, the plan and the movement fit together.",
+                },
+                {
+                  weight: 100 - modWeight(55, meters.initiative),
+                  title: "Stopped halfway",
+                  setFlags: { memo41: "mass", readiness: flags.readiness || 0 },
+                  impact: { manpower: -1, fuel: -2, initiative: 0 },
+                  outcome:
+                    "Speculative. Stalin stops it. The mobilisation is a provocation that will give Berlin the pretext it is looking for, he says, and the armies that were on the move halt where they are, strung out along the railways between the interior and the border. They take it up again in June, when it is too late to finish. It is much what the record's army had, with the fuel spent on a movement that did not reach its end.",
+                },
+              ],
             },
             {
               label: "Do nothing: no troop movements, no warning to the frontier districts and no change to the plan",
@@ -323,7 +350,7 @@
                 "Speculative. The armies in the interior stay where they are, the reservists stay at home and the frontier districts go on as they were. It is the policy that Stalin would have preferred if he had been left to himself, and there is a good deal to be said for it if the Germans do not attack in June. If they do, the army has lost the weeks that the movements of May and June bought.",
             },
             {
-              label: "Adopt the memorandum: prepare to forestall the German deployment, with the armies in forward assembly areas",
+              label: "Adopt the memorandum as a plan to strike first: forestall the German deployment, with the armies in forward assembly areas",
               advisor: { name: "Zhukov", position: "The Germans are concentrating, and an army that waits to be struck while it is still deploying will be struck in pieces, so the Red Army has to get its blow in first, as soon as it is ready." },
               setFlags: { memo41: "forestall" },
               impact: { manpower: -1, fuel: -1, initiative: 1 },
