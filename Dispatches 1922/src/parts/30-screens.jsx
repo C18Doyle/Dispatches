@@ -2592,6 +2592,7 @@ function HowToReadScreen({ onClose }) {
     ["◇ SPECULATIVE — DOWNSTREAM OF DIVERGENCE", "A genuine counterfactual, argued from the same evidence as the historical choice, not an invented alternative. Its impact shows how it diverges from what actually happened."],
     ["⚠ CONTESTED — odds shown", "Real historiographical uncertainty, not a random skin on a settled fact. Odds are shown before you choose — known-risk, not a hidden roll."],
     ["Triangle meters (±10, start at 0)", "Zero is the historical baseline for that campaign's three axes. Plus or minus tracks divergence from the record, not an absolute strength score."],
+    ["Dates", "Dates are in the Western calendar, written day then month. Russia used the Julian calendar until 14 February 1918, thirteen days behind, so the game converts: the rising in Petrograd falls on 6 and 7 November, and the Miliukov note on 3 May. Where the sources disagree on a day, a report gives the month."],
     ["Hard mode meter", "A campaign-specific erosion track, not part of the zero-baseline system. Rises when a subordinate's judgment gets overridden by central authority; at 100 the campaign ends in something other than battlefield defeat."],
   ];
   return (

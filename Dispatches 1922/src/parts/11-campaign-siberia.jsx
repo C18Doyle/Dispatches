@@ -63,7 +63,7 @@
         bio:
           "Former Imperial Navy admiral with no experience commanding land armies before assuming supreme power in November 1918. Relied heavily on his chief of staff for operational planning and never fully resolved his authority over the regional atamans who controlled the rail line behind his own front. His recognition as supreme commander by every other major White general in mid-1919 was genuine and diplomatically significant — it secured Allied recognition of his government as Russia's legitimate authority — but it never translated into actual coordination with AFSR a continent away. The two campaigns fought, in practice, entirely independent wars against the same enemy.",
         fate:
-          "Renounced supreme power on January 4, 1920, as his government collapsed, naming Denikin as his successor. Handed over by the Czechoslovak Legion to the Bolshevik-aligned Irkutsk Political Centre in exchange for safe passage east. Executed by firing squad on February 7, 1920; his body was put through the ice of the frozen Angara River and never recovered.",
+          "Renounced supreme power on 4 January 1920, as his government collapsed, naming Denikin as his successor. Handed over by the Czechoslovak Legion to the Bolshevik-aligned Irkutsk Political Centre in exchange for safe passage east. Executed by firing squad on 7 February 1920; his body was put through the ice of the frozen Angara River and never recovered.",
         faction: "Provisional All-Russian Government",
         rank: 0,
       },
@@ -81,7 +81,7 @@
         bio:
           "Appointed to lead the retreat as Kolchak's authority collapsed, trusted by the rank and file in a way few other White commanders in Siberia were. Insisted on keeping the retreating army together as a fighting force rather than letting it dissolve into separate columns.",
         fate:
-          "Suffered severe frostbite crossing a frozen river during the retreat, developed pneumonia, and transferred command to General Voitsekhovsky on January 21, 1920. Died four days later, on January 25, 1920, at Nizhneozyornaya.",
+          "Suffered severe frostbite crossing a frozen river during the retreat, developed pneumonia, and transferred command to General Voitsekhovsky on 21 January 1920. Died four days later, on 25 January 1920, at Nizhneozyornaya.",
         faction: "Eastern Front Command",
         rank: 1,
       },
@@ -758,7 +758,7 @@
                       setFlags: { chelyabinskOutcome: "grinder" },
                       impact: {},
                       outcome:
-                        "The counterattack goes in on July 29 — directly into Frunze's prepared flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
+                        "The counterattack goes in on 29 July — directly into Frunze's prepared flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
                     },
                   ];
                 })(),
@@ -1150,7 +1150,7 @@
                     impact: { manpower: -2 },
                     next: "semyonovMerger20",
                     outcome:
-                      "The assault reaches Innokentievskaya, seven kilometers from the city, before the line holds. Kolchak is executed before dawn on February 7 — the Bolshevik command's own stated reason is to remove the army's motive for taking the city at all. By the 8th, what is left of the army bypasses Irkutsk and continues east without him, still recognisably a formation.",
+                      "The assault reaches Innokentievskaya, seven kilometers from the city, before the line holds. Kolchak is executed before dawn on 7 February — the Bolshevik command's own stated reason is to remove the army's motive for taking the city at all. By the 8th, what is left of the army bypasses Irkutsk and continues east without him, still recognisably a formation.",
                   },
                   {
                     title: "The assault breaks the column as well as failing",
@@ -1159,7 +1159,7 @@
                     impact: { manpower: -3 },
                     next: "endingTheAdmiralAtIrkutsk20",
                     outcome:
-                      "The assault reaches Innokentievskaya and stops there. Kolchak is shot before dawn on February 7. What breaks with him is the column's own reason to remain a column — the formation that historically bypassed the city and went on does not re-form here, and the men who tried to reach him go east as individuals or not at all.",
+                      "The assault reaches Innokentievskaya and stops there. Kolchak is shot before dawn on 7 February. What breaks with him is the column's own reason to remain a column — the formation that historically bypassed the city and went on does not re-form here, and the men who tried to reach him go east as individuals or not at all.",
                   },
                 ],
                 next: "semyonovMerger20",
@@ -1395,7 +1395,7 @@
                 impact: {},
                 next: "chitaReckoning20",
                 outcome:
-                  "The defense holds for a time before Chita falls on October 22. Semyonov's remaining forces retreat toward Manchuria — the position could not be held indefinitely against Japan's withdrawal and the NRA's numbers, whatever the defense actually cost to mount.",
+                  "The defense holds for a time before Chita falls on 22 October. Semyonov's remaining forces retreat toward Manchuria — the position could not be held indefinitely against Japan's withdrawal and the NRA's numbers, whatever the defense actually cost to mount.",
               },
               {
                 label: "Withdraw toward the Manchurian border immediately rather than commit to a defense of Chita.",
@@ -1472,7 +1472,7 @@
             badge: "HISTORICAL RECORD",
             classification: "historical",
             epilogue:
-              "Chita falls on October 22, 1920, after a defense that could not outlast the loss of Japanese support and the National Revolutionary Army's numbers. What remains of Semyonov's Far Eastern Army — Kappelites and Transbaikal Cossacks alike, a coalition built on necessity rather than trust — retreats across the border into Manchuria. Many settle into Harbin's already-large Russian émigré community; some later take service with regional Chinese warlords, or find themselves, decades on, still displaced when Japan occupies Manchuria outright."
+              "Chita falls on 22 October 1920, after a defense that could not outlast the loss of Japanese support and the National Revolutionary Army's numbers. What remains of Semyonov's Far Eastern Army — Kappelites and Transbaikal Cossacks alike, a coalition built on necessity rather than trust — retreats across the border into Manchuria. Many settle into Harbin's already-large Russian émigré community; some later take service with regional Chinese warlords, or find themselves, decades on, still displaced when Japan occupies Manchuria outright."
               + (flags.omskCoupChoice === "council_first"
                   ? "\n\nThe hesitation at Omsk, two years and one command earlier, is a footnote by now — nobody crossing into Harbin in October 1920 is thinking about a proposal for collective leadership that lasted a few hours before being rejected. But the pattern it set, of an authority that had to assert itself rather than simply holding it, runs in a more or less straight line from that first morning to this border. Whether asserting it harder at the start would have changed anything by the end is exactly the kind of counterfactual this crossing doesn't get to answer."
                   : "\n\nThe command that crosses this border is, in the narrowest sense, the same one that accepted supreme power without hesitation in November 1918. Confidence at the start bought nothing durable by the end — the same dissolution, on the same schedule, regardless.")

@@ -106,7 +106,7 @@ CAMPAIGNS.bolsheviks = {
     kalinin: {
       role: "Chairman, All-Russian Central Executive Committee",
       bio:
-        "The Soviet state's nominal head, from a peasant background himself — sent to Kronstadt on March 1, 1921, to address the sailors directly, alongside Fleet Commissar Kuzmin. The government's own account of that meeting concedes it went badly, hardening the rebellion rather than calming it.",
+        "The Soviet state's nominal head, from a peasant background himself — sent to Kronstadt on 1 March 1921, to address the sailors directly, alongside Fleet Commissar Kuzmin. The government's own account of that meeting concedes it went badly, hardening the rebellion rather than calming it.",
       fate:
         "Remained the USSR's ceremonial head of state until 1946, a rare senior Bolshevik of his generation to die of natural causes rather than execution or purge, in June 1946.",
       faction: "Central Executive Committee",
@@ -117,7 +117,7 @@ CAMPAIGNS.bolsheviks = {
       bio:
         "Backed Trotsky's authority over the Southern Front's own chain of command in the Tsaritsyn dispute, and over the Military Opposition at the 8th Congress — while remaining, throughout, the one figure both Trotsky and Stalin needed to stay on good terms with rather than each other.",
       fate:
-        "Suffered a severe stroke in May 1922, a second in December 1922, and a third in March 1923 that left him unable to speak. Died on January 21, 1924, having spent his final year largely incapacitated while Stalin, Trotsky, and others maneuvered for succession around him.",
+        "Suffered a severe stroke in May 1922, a second in December 1922, and a third in March 1923 that left him unable to speak. Died on 21 January 1924, having spent his final year largely incapacitated while Stalin, Trotsky, and others maneuvered for succession around him.",
       faction: "Council of People's Commissars",
       rank: 0,
     },
@@ -1315,7 +1315,7 @@ CAMPAIGNS.bolsheviks = {
       // DIVERGENT BRANCH — downstream of the delayed, frontal-only Perekop
       // assault. historicalRecord true: the real evacuation timeline this
       // delay compresses is documented down to the day — Red forces broke
-      // through on November 11, Wrangel's evacuation order went out on the
+      // through on 11 November, Wrangel's evacuation order went out on the
       // 13th, and the entire operation was complete by the 16th. There was
       // almost no slack in that schedule even in the version that actually
       // happened.
@@ -1517,7 +1517,7 @@ CAMPAIGNS.bolsheviks = {
               costsCapital: true,
               next: "kronstadtReckoning21",
               outcome:
-                "The ultimatum goes out — surrender or be 'shot like partridges.' The first assault on March 8 fails badly enough that one regiment mutinies rather than continue it. The second, on March 17-18, succeeds. Somewhere between 1,200 and 2,000 are executed after the surrender, mostly without trial; thousands more are sent to the Solovki camp. Some who fled across the ice to Finland are later lured back by an amnesty that is not honored.",
+                "The ultimatum goes out — surrender or be 'shot like partridges.' The first assault on 8 March fails badly enough that one regiment mutinies rather than continue it. The second, on 17–18 March, succeeds. Somewhere between 1,200 and 2,000 are executed after the surrender, mostly without trial; thousands more are sent to the Solovki camp. Some who fled across the ice to Finland are later lured back by an amnesty that is not honored.",
             },
             {
               label: "Open real negotiations on the demands themselves rather than issue an ultimatum.",
@@ -1612,7 +1612,7 @@ CAMPAIGNS.bolsheviks = {
           badge: "SPECULATIVE — SAME EVENT, DIFFERENT RECKONING",
           classification: "speculative",
           epilogue:
-            "The assault happens exactly as it did historically — the failed March 8 attempt, the mutiny, the successful second assault on the 17th-18th, the executions, Solovki. None of that is different. What's different is that this command arrives at Kronstadt having chosen intensified requisitioning over restraint in reconquered territory, and having pressed the Congress floor fight rather than folding the Opposition's concerns in quietly. Two decisions, not an accumulated total — but the two that mattered most for whether anyone still extends this government the benefit of the doubt. There is no reservoir of revolutionary goodwill left for the NEP announcement, in the same month, to draw on.\n\nHistorically, even sympathetic observers can read Lenin's NEP as a genuine, if late, course correction — grain requisitioning ended in the same breath as the sailors who died protesting it were executed, an uncomfortable but real complexity. Here, with those two decisions already on the record, nobody extends that same benefit of the doubt. The concession reads as exactly what it looks like on its surface: capitulation dressed as policy, offered only after the guns had already answered the actual argument. The Revolution wins Kronstadt by force either way. Only one version of this command still gets to claim it conceded anything freely." +
+            "The assault happens exactly as it did historically — the failed 8 March attempt, the mutiny, the successful second assault on the 17th-18th, the executions, Solovki. None of that is different. What's different is that this command arrives at Kronstadt having chosen intensified requisitioning over restraint in reconquered territory, and having pressed the Congress floor fight rather than folding the Opposition's concerns in quietly. Two decisions, not an accumulated total — but the two that mattered most for whether anyone still extends this government the benefit of the doubt. There is no reservoir of revolutionary goodwill left for the NEP announcement, in the same month, to draw on.\n\nHistorically, even sympathetic observers can read Lenin's NEP as a genuine, if late, course correction — grain requisitioning ended in the same breath as the sailors who died protesting it were executed, an uncomfortable but real complexity. Here, with those two decisions already on the record, nobody extends that same benefit of the doubt. The concession reads as exactly what it looks like on its surface: capitulation dressed as policy, offered only after the guns had already answered the actual argument. The Revolution wins Kronstadt by force either way. Only one version of this command still gets to claim it conceded anything freely." +
             (flags.smirnovAssignment === "sidelined"
               ? "\n\nSmirnov was kept away from field command as well as policy — marginalized completely rather than partially. The Military Opposition's people learned from it what the sailors are learning now: that disagreement inside this structure is not answered, it is administered. They arrived at the same conclusion two years apart, by the same route."
               : flags.smirnovAssignment === "field_command"
@@ -1634,7 +1634,7 @@ CAMPAIGNS.bolsheviks = {
           badge: "HISTORICAL RECORD",
           classification: "historical",
           epilogue:
-            "The second assault takes the fortress on March 17–18, after the first attempt on March 8 fails badly enough that one regiment mutinies rather than continue it. Somewhere between 1,200 and 2,000 rebels are executed afterward, most without trial; thousands more are sent to Solovki, the first major Soviet concentration camp. Some who escaped across the ice to Finland are later lured home by an amnesty that is not honored."
+            "The second assault takes the fortress on 17–18 March, after the first attempt on 8 March fails badly enough that one regiment mutinies rather than continue it. Somewhere between 1,200 and 2,000 rebels are executed afterward, most without trial; thousands more are sent to Solovki, the first major Soviet concentration camp. Some who escaped across the ice to Finland are later lured home by an amnesty that is not honored."
             + (flags.congressFallout === "marginalized" || flags.tsaritsynOutcome === "recalled"
                 ? "\n\nNone of that surprises anyone who watched this command's pattern from the beginning — Tsaritsyn, the Congress fallout, every regional objection answered the same way. Kronstadt is not a break from how this command has governed. It is that pattern's largest, and last, application."
                 : "\n\nEven a command that chose accommodation more often than not, when it had the choice, arrives at the same ultimatum in the end — a reminder that not every outcome in this war actually turned on what came before it, however much most of the earlier ones did.")
