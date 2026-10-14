@@ -2169,7 +2169,64 @@ function EndStubScreen({ onClose }) {
   );
 }
 
-function EndingScreen({ campaignId, endingId, flags, visitedNodes, instantText, onClose }) {
+// One order, as kept for the ending screen: what the player chose against what the record did at that report.
+function decisionEntry(campaign, nodeId, flags, meters, choice) {
+  const node = campaign.resolveNode(nodeId, flags, meters) || {};
+  const record = (node.choices || []).find((x) => x.historical === true);
+  const kept = choice.historical === true;
+  return {
+    nodeId,
+    date: node.date || "",
+    title: node.title || nodeId,
+    label: choice.label,
+    kept,
+    recordLabel: !kept && record ? record.label : "",
+    recordOutcome: !kept && record ? record.outcome || "" : "",
+  };
+}
+
+// "Your war against the record": every order of the run, and where it left what history did.
+function RecordPanel({ decisions, skin }) {
+  const list = decisions || [];
+  const kept = list.filter((d) => d.kept).length;
+  const firstLeft = list.find((d) => !d.kept);
+  return (
+    <section className="mt-8 border-2 p-4" style={{ borderColor: skin.paperDim }} aria-labelledby="record-panel-title">
+      <h2 id="record-panel-title" className="text-lg font-bold" style={displayFontStyle(skin)}>Your war against the record</h2>
+      {list.length === 0 ? (
+        <p className="text-sm mt-2" style={mutedTextStyle(skin)}>The orders of this run were not kept (a run saved before this page existed).</p>
+      ) : (
+        <>
+          <p className="text-sm mt-2">
+            You followed the historical record in {kept} of {list.length} orders.
+            {firstLeft ? ` You first left it at ${firstLeft.date ? firstLeft.date + ", " : ""}${firstLeft.title}.` : " You never left it."}
+          </p>
+          <p className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+            "The record" is the order the real command gave at that report. After you leave it, later reports are speculation built on your choices.
+          </p>
+          <ol className="mt-3" style={{ listStyle: "none", padding: 0 }}>
+            {list.map((d, i) => (
+              <li key={i} className="border-t py-3" style={{ borderColor: skin.paperDim }}>
+                <div className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{d.date} · {d.title}</div>
+                <div className="text-sm mt-1"><b>You ordered:</b> {d.label}</div>
+                <div className="text-xs mt-1 font-bold" style={monoFontStyle(skin)}>{d.kept ? "◆ WITH THE RECORD" : "◇ A DEPARTURE FROM THE RECORD"}</div>
+                {!d.kept && d.recordLabel && (
+                  <details className="mt-1">
+                    <summary className="text-xs cursor-pointer" style={monoFontStyle(skin)}>What the record did</summary>
+                    <p className="text-sm mt-1"><b>The order given:</b> {d.recordLabel}</p>
+                    {d.recordOutcome && <p className="text-sm mt-1">{d.recordOutcome}</p>}
+                  </details>
+                )}
+              </li>
+            ))}
+          </ol>
+        </>
+      )}
+    </section>
+  );
+}
+
+function EndingScreen({ campaignId, endingId, flags, visitedNodes, decisions, instantText, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   const ending = c.resolveNode(endingId, flags);
@@ -2222,6 +2279,7 @@ function EndingScreen({ campaignId, endingId, flags, visitedNodes, instantText, 
           </div>
         )}
         <TypewriterText text={ending.epilogue} instant={instantText} className="text-sm mt-5 leading-relaxed whitespace-pre-line" />
+        <RecordPanel decisions={decisions} skin={skin} />
         <button onClick={onClose} className="mt-8 w-full font-bold py-3" style={{ ...accentBgStyle(skin), ...displayFontStyle(skin) }}>
           RETURN TO RECORDS
         </button>

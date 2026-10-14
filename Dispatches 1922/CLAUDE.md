@@ -17,6 +17,9 @@ Western calendar, day then month, everywhere on screen (`7 November 1917`). Russ
 ## The historical spine
 `tools/historical-spine.mjs` (`npm run check:spine`, in test:fast) follows the choice flagged `historical: true` at every report, on the real rules, branching on each contested roll. It fails if a report on that path has no historical choice or more than one, if the historical choice is gated, if the path dead-ends, or if the most likely ending of the record is not a `historical` ending. It also ratchets (tests/spine-baseline.json) the share of record-following runs that end historically. A new report, gate or ending checkpoint must leave a player who follows the record at a historical ending.
 
+## Your war against the record
+`decisionEntry` and `RecordPanel` (src/parts/30-screens.jsx) record and show every order against the choice flagged `historical: true` at that report; the log is the `decisions` state in 40-app.jsx, saved with the run (optional field, no schema bump) and rewound with Easy mode. A choice's `outcome` is what is shown as "what the record did", so the historical choice's `outcome` must read as the account of what happened. `npm run test:record`.
+
 ## Orders of Battle
 `src/battle.ts` is the pure arithmetic (typed, in `npm run typecheck`). `src/parts/35-battles.jsx` holds the configs (`BATTLES`), the planning screen and the report. A battle is hosted by a choice with `keyBattleSubgame: { id }` and exactly two contested outcomes; `winBranch` is the index of the better one. The staff's plan must move the odds by exactly 0 (tests/battle.test.mjs proves it for every config, setup and pool size), so never change the arithmetic without running it. New battle: config, `keyBattleSubgame` on the order, a line in claims/battles-round1.md.
 
