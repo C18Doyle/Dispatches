@@ -523,8 +523,7 @@ CAMPAIGNS.ohl.nodes = {
         ? "The manner of the withdrawal has made the change easier to justify and " +
           "harder to survive politically."
         : "The armies are intact on the Aisne. The change is made anyway.") +
-      "\n\nWhat arrives with the new Chief is not a new plan. It is the recognition " +
-      "that the old one has been spent, and that the war now has to be won by some " +
+      "\n\nThe new Chief brings no new plan. He brings the recognition that the old one has been spent, and that the war now has to be won by some " +
       "method nobody in this building has yet described.",
     context:
       "Tappen stays at the head of the Operations Division across the transition. " +
@@ -1107,12 +1106,11 @@ CAMPAIGNS.ohl.nodes = {
     situation:
       "Holtzendorff's memorandum of 22 December sets out the case in figures: " +
       "unrestricted submarine warfare, six hundred thousand tons a month, and Britain " +
-      "is out inside six months — before American strength could be raised, shipped " +
+      "is out inside five months — before American strength could be raised, shipped " +
       "and brought to bear. The paper has the appearance of arithmetic and the " +
       "backing of every senior soldier in the Empire.\n\n" +
-      "The Chancellor's objection is not about tonnage. It is that this brings the " +
-      "United States in, that the figures assume everything runs as projected, and " +
-      "that if the six months pass without Britain breaking, there is no second plan " +
+      "The Chancellor's objection is the United States: this brings them in, the figures assume everything runs as projected, and " +
+      "that if the five months pass without Britain breaking, there is no second plan " +
       "and a new enemy with no upper limit on its manpower.",
     context:
       "Bethmann Hollweg has maintained throughout that the decision belongs to the " +
@@ -1140,7 +1138,7 @@ CAMPAIGNS.ohl.nodes = {
         id: "restricted",
         label: "Hold to restricted warfare and keep the Americans out",
         advisor: { name: "Bethmann Hollweg", position:
-          "If the six months pass and Britain is still in, we will have added an enemy and have nothing left to add ourselves." },
+          "If the five months pass and Britain is still in, we will have added an enemy and have nothing left to add ourselves." },
         impact: { manpower: 0, munitions: -1, will: -2 },
         gate: (m) => m.will >= -1,
         disabledReason: "The Supreme Command no longer has the standing to overrule the naval staff",
@@ -1166,7 +1164,7 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. The Navy is given a larger zone and leave to sink armed ships without " +
           "warning. Neutral ships and passenger liners stay under the old rules. The tonnage " +
-          "sunk rises, but not to the figure in the memorandum, and Holtzendorff's six months " +
+          "sunk rises, but not to the figure in the memorandum, and Holtzendorff's five months " +
           "run out with Britain's convoys still untried. The Americans do not declare war " +
           "in February. The soldiers hold that the compromise has put the lives of U-boat " +
           "crews into a half measure.",
@@ -1701,8 +1699,7 @@ CAMPAIGNS.ohl.nodes = {
       "\n\nThe salients are deep, the flanks are long, the divisions that made them " +
       "are the divisions that were supposed to hold them, and American formations are " +
       "now arriving faster than they can be counted.\n\n" +
-      "Giving up ground bought at this price is not a military problem. It is a " +
-      "problem of what can be said afterwards.",
+      "Giving up ground bought at this price raises the problem of what can be said afterwards.",
     context:
       "A shortened line can be held by fewer men, with the reserve restored. It also " +
       "concedes, in front of the whole country, that the spring bought nothing.",
@@ -1820,13 +1817,11 @@ CAMPAIGNS.ohl.nodes = {
     },
     situation: (flags) =>
       "The army in the west is retreating in order, on ground it still holds, in front " +
-      "of an enemy it can still hurt. What has gone is not the army. It is the " +
-      "possibility of any outcome except a worse one later.\n\n" +
+      "of an enemy it can still hurt. The army is still there. What has gone is the possibility of any outcome except a worse one later.\n\n" +
       (flags.ohl_salient === "shortened"
         ? "The line is short and held, and the reserve exists. It buys months. It does not buy a different answer."
         : "The divisions that took the salients in the spring are the divisions that were spent holding them.") +
-      "\n\nWhat is decided now is not whether an armistice is sought. It is who is " +
-      "recorded as having sought it.",
+      "\n\nWhether an armistice is sought is already settled. What is decided now is who is recorded as having sought it.",
     context: (flags) =>
       flags.ohl_chancellor === "removed"
         ? "There is no civil authority left with standing of its own. It was removed in " +
@@ -1975,8 +1970,7 @@ CAMPAIGNS.ohl.nodes = {
     title: "The Request",
     advisors: ["hindenburg"],
     situation: (flags) =>
-      "The army in the west is not broken in the sense the word is used in staff " +
-      "colleges. It is retreating in order, on ground it still holds, in front of an " +
+      "In the sense the word is used in staff colleges the army in the west is not broken: it is retreating in order, on ground it still holds, in front of an " +
       "enemy it can still hurt. What has gone is the possibility of any outcome except " +
       "a worse one later.\n\n" +
       (flags.ohl_usw === "unrestricted"
@@ -2140,8 +2134,7 @@ CAMPAIGNS.ohl.nodes = {
       "What arrives instead is a delegation with a signature and no position.",
     ending: { family: "armistice-on-worse-terms", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. Terms are not made only by armies. They are made by what the " +
-      "asking side still has when it asks.\n\nWhat actually happened: The armistice " +
+      "Speculative. The terms depend on more than the armies: they are made by what the asking side still has when it asks.\n\nWhat actually happened: The armistice " +
       "was signed in the railway carriage at Compiegne at about five in the morning " +
       "of 11 November, by a delegation led by the civilian politician Matthias " +
       "Erzberger and not by a soldier, who had been given seventy-two hours to " +

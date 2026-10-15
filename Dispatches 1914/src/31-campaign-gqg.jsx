@@ -1028,8 +1028,8 @@ CAMPAIGNS.gqg.nodes = {
         setFlags: { gqg_command: "nivelle" },
         next: "gqg_1917_12_calais",
         outcome:
-          "Nivelle takes the command in December. Lyautey leaves the war ministry " +
-          "rather than sign the plan, and is replaced in March by Painleve, who is no " +
+          "Nivelle takes the command in December. Lyautey leaves the war ministry after a quarrel in the Chamber " +
+          "in March and is replaced by Painleve, who is no " +
           "more convinced but stays to argue. The army is told that the rupture will " +
           "take forty-eight hours, and it believes what it is told, because it has been " +
           "waiting two and a half years to be told it. The promise that is made is the " +
@@ -1167,9 +1167,7 @@ CAMPAIGNS.gqg.nodes = {
               "The offensive is halted on 9 May having taken ground and not the ridge, at a " +
               "cost around a hundred and eighty-seven thousand French casualties. What " +
               "follows is not a collapse of the front. Units refuse to move up to attack " +
-              "while continuing to hold the line they are in, and it spreads. The men are " +
-              "not deserting. They are bargaining, over leave, food and the promise that no " +
-              "one will be sent forward like that again." },
+              "while continuing to hold the line they are in, and it spreads. The men are bargaining rather than deserting: their demands are leave, food and the promise that no one will be sent forward like that again." },
           { weight: 40, title: "Indiscipline stays local and is contained",
             impact: { will: -1 },
             setFlags: { gqg_mutinyScale: "contained" },
@@ -1282,9 +1280,7 @@ CAMPAIGNS.gqg.nodes = {
           "thirteen. Between thirty and forty thousand men are involved by most counts.\n\n"
         : "The refusals are confined to the divisions worst used on the Aisne. They are " +
           "real, they are repeated, and they have not spread.\n\n") +
-      "What they are is the difficulty. These men are not deserting and not " +
-      "fraternising. They are holding the line against attack and refusing orders to " +
-      "go forward, and their demands are leave, food, rest, and what happens to their " +
+      "What they are is the difficulty. These men hold the line against attack and refuse orders to go forward, and their demands are leave, food, rest, and what happens to their " +
       "families. It resembles a strike more than it resembles a collapse.\n\n" +
       "An army that will defend but will not attack is still an army. It is not an " +
       "army that can be ordered to do anything.",
@@ -2012,7 +2008,7 @@ CAMPAIGNS.gqg.nodes = {
       "actually happened: The army recovered in weeks. Petain stopped the " +
       "offensives, gave the men regular leave and better food, visited the " +
       "divisions himself and listened to the grievances, and the courts-martial of " +
-      "the summer handed down several hundred death sentences, of which a few dozen " +
+      "the summer handed down several hundred death sentences, of which between twenty-six and forty-nine, by different counts, " +
       "were carried out. The exact count is still argued about. The army that " +
       "returned to the line in the autumn of 1917 attacked at La Malmaison, and in " +
       "1918 it counterattacked. Pétain's reputation, in the army and in France, was " +

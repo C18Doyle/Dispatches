@@ -32,7 +32,7 @@ for (const cid of E.CAMPAIGN_IDS) {
 // the choice of theme
 checked++;
 if (E.resolveTheme("auto", true, false) !== "night" || E.resolveTheme("auto", false, true) !== "contrast" || E.resolveTheme("auto", false, false) !== "paper" || E.resolveTheme("nonsense", false, false) !== E.DEFAULT_THEME || E.resolveTheme("sepia", false, false) !== "sepia") problems.push("resolveTheme");
-if (E.DEFAULT_THEME !== "sepia") problems.push("the default theme is not sepia");
+if (E.DEFAULT_THEME !== "paper") problems.push("the default theme is not paper");
 // the Sepia sheet is scoped to its theme and keeps every command on the one ink
 checked++;
 const sepia = E.sepiaCss();

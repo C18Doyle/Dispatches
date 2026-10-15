@@ -331,13 +331,13 @@ export const MEASURES = ["standard", "narrow"];
 export const MOTIONS = ["auto", "reduced"];
 
 export function defaultSettings() {
-  return { schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, holdToSign: true, theme: DEFAULT_THEME, font: "theme", spacing: "standard", measure: "standard", motion: "auto" };
+  return { schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, signHold: false, theme: DEFAULT_THEME, themeSet: false, font: "theme", spacing: "standard", measure: "standard", motion: "auto" };
 }
 
 export function sanitizeSettings(raw) {
   const base = defaultSettings();
   if (!raw || typeof raw !== "object" || raw.schemaVersion !== 1) return base;
-  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, holdToSign: raw.holdToSign !== false, theme: [...THEME_IDS, "auto"].includes(raw.theme) ? raw.theme : DEFAULT_THEME, font: raw.font === "plain" || raw.font === "typewriter" ? raw.font : "theme", spacing: SPACINGS.includes(raw.spacing) ? raw.spacing : base.spacing, measure: MEASURES.includes(raw.measure) ? raw.measure : base.measure, motion: MOTIONS.includes(raw.motion) ? raw.motion : base.motion };
+  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, signHold: raw.signHold === true, themeSet: raw.themeSet === true, theme: raw.themeSet === true && [...THEME_IDS, "auto"].includes(raw.theme) ? raw.theme : DEFAULT_THEME, font: raw.font === "plain" || raw.font === "typewriter" ? raw.font : "theme", spacing: SPACINGS.includes(raw.spacing) ? raw.spacing : base.spacing, measure: MEASURES.includes(raw.measure) ? raw.measure : base.measure, motion: MOTIONS.includes(raw.motion) ? raw.motion : base.motion };
 }
 
 export function loadSettings() {

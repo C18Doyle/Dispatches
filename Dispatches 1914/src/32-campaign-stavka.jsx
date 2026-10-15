@@ -783,9 +783,7 @@ CAMPAIGNS.stavka.nodes = {
       "answerable to nobody except the Emperor. Civil and military authority in the " +
       "border regions have not been coordinated at all.",
     context:
-      "Whoever holds the title, Alekseyev will run the operations. What actually " +
-      "changes with this decision is not where orders come from. It is where blame " +
-      "goes, and what happens in the capital while the Emperor is four hundred miles " +
+      "Whoever holds the title, Alekseyev will run the operations. Orders still come from headquarters. What changes with this decision is where blame goes, and what happens in the capital while the Emperor is four hundred miles " +
       "away at headquarters.",
     choices: [
       {
@@ -1161,9 +1159,7 @@ CAMPAIGNS.stavka.nodes = {
             next: "stavka_1916_12_kovel",
             outcome:
               "The offensive succeeds beyond anything this army has managed and breaks the " +
-              "Austrian front, forcing German divisions east to hold it. The supporting " +
-              "attacks are not pressed. It is exploited as far as one front can exploit " +
-              "anything alone, and the divisions that did it are the divisions that will " +
+              "Austrian front, forcing German divisions east to hold it. The supporting attacks are not pressed, and the breakthrough is exploited as far as one front can exploit anything alone, and the divisions that did it are the divisions that will " +
               "not be there next year. Brusilov has done what no one thought could be done " +
               "with the army he had, and he has done it once." },
           { weight: 45, title: "The breakthrough is banked rather than pushed",
@@ -1651,9 +1647,7 @@ CAMPAIGNS.stavka.nodes = {
             outcome:
               "The first days go well where the artillery is good and the units are " +
               "willing. Then the willing units are used up, the rest decline to replace " +
-              "them, and the counterattack finds a front that is arguing with itself. What " +
-              "comes back is not an army that failed at an offensive. It is an army that " +
-              "has stopped. The Provisional Government, which ordered the attack, is left " +
+              "them, and the counterattack finds a front that is arguing with itself. What comes back is an army that has stopped. The Provisional Government, which ordered the attack, is left " +
               "with a retreat that no committee will agree to halt." },
           { weight: 30, title: "The offensive achieves a limited gain and stops",
             impact: { manpower: -1, will: -1 },
@@ -1976,8 +1970,7 @@ CAMPAIGNS.stavka.nodes = {
           "not to be a position that exists. The front dissolves by desertion rather " +
           "than by defeat, and the officer corps disperses toward the places where the " +
           "next war is being organised. The men go home with their rifles, and the " +
-          "Germans, who have no need to attack, are content to watch. The army is not " +
-          "defeated. It is demobilised without anyone having given the order.",
+          "Germans, who have no need to attack, are content to watch. The army is demobilised without anyone having given the order, and without having been defeated.",
       },
       {
         id: "resist",
@@ -2110,7 +2103,7 @@ CAMPAIGNS.stavka.nodes = {
       "There is no moment at which this is decided. There are trains, and men on them, " +
       "and each individual departure is a private decision that nobody has the " +
       "authority to prevent.\n\n" +
-      "The front is not broken. It is vacated.",
+      "The front is vacated rather than broken.",
     ending: { family: "disintegration-without-defeat", badge: BADGES.CONTESTED },
     epilogue: () =>
       "An army is an agreement about who gives orders. Once that agreement lapses, " +
@@ -2175,9 +2168,7 @@ CAMPAIGNS.stavka.nodes = {
     year: 1918, date: "1918-03-03", city: "Mogilev",
     title: "A Front That Was Still There",
     situation:
-      "The army was not spent in June and was not asked to answer a political question " +
-      "it could not survive answering. It is a smaller army and a worse one than 1914's " +
-      "and it is in the field.\n\n" +
+      "The army was spared the offensive in June and was not asked to answer a political question it could not survive answering. It is smaller and worse than the army of 1914, and it is in the field.\n\n" +
       "It does not change what is signed. It changes what the people signing it have " +
       "behind them while they do.",
     ending: { family: "army-holds-into-1918", badge: BADGES.SPECULATIVE },

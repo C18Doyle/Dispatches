@@ -44,9 +44,11 @@
     "node": "aok_1914_02_recall",
     "kind": "fact",
     "claim": "The recall order was given about 18 August 1914.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Date not given on the web sources used; confirm."
+    "status": "web-checked",
+    "sources": [
+      "wp-serbia1914"
+    ],
+    "note": "The Second Army was due to be moved to Galicia from 18 August 1914."
   },
   {
     "id": "aok-recall-3",
@@ -1068,8 +1070,10 @@
     "node": "aok_1917_10_sixtus",
     "kind": "fact",
     "claim": "Franz Joseph died on 21 November 1916, aged 86, after reigning for 68 years, and was succeeded by his great-nephew Karl, aged 29.",
-    "status": "drafted",
-    "sources": [],
+    "status": "web-checked",
+    "sources": [
+      "wp-franzjoseph"
+    ],
     "note": "Karl was Franz Joseph's grandnephew in the strict sense; the event uses the common phrase."
   },
   {
@@ -1077,9 +1081,11 @@
     "node": "aok_1917_10_sixtus",
     "kind": "fact",
     "claim": "Karl took over the supreme command of the army himself in December 1916 and sought peace.",
-    "status": "drafted",
-    "sources": [],
-    "note": ""
+    "status": "web-checked",
+    "sources": [
+      "wp-karl"
+    ],
+    "note": "Karl became Supreme Commander on 2 December 1916."
   },
   {
     "id": "aok_strikes-1",
@@ -1125,7 +1131,7 @@
     "id": "aok-fk2-2",
     "node": "aok_1914_05_kolubara",
     "kind": "fact",
-    "claim": "Potiorek's third invasion reached the Kolubara in the middle of November 1914 and took Belgrade on 2 December; the Serbs counter-attacked on 3 December.",
+    "claim": "Potiorek's third invasion reached the Kolubara in the middle of November 1914 and took Belgrade on 1 December; the Serbs counter-attacked on 2 December.",
     "status": "drafted",
     "sources": [],
     "note": "The node's own text gives the dates."
@@ -1194,10 +1200,21 @@
     "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
   },
   {
+    "id": "aok-menu-quote-1",
+    "node": "aok_1914_15_mobilise",
+    "kind": "quotation",
+    "claim": "Franz Joseph's manifesto To My Peoples of 28 July 1914 says that he had examined and weighed everything and set out with a serene conscience on the path to which his duty pointed.",
+    "status": "web-checked",
+    "sources": [
+      "wp-tomypeoples"
+    ],
+    "note": "An English translation of the manifesto."
+  },
+  {
     "id": "aok-end-independent-1",
     "node": "aok_end_independent",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Franz Joseph accepted German overall command of the Central Powers' armies in September 1916, Karl's letter to Prince Sixtus of 24 March 1917 was published in April 1918 and led to Czernin's resignation, and the monarchy broke up into its successor states after the armistice of Villa Giusti on 3 November 1918.\n\nThe monarchy's armies were put under German direction for most operations after 1916, and the Emperor's attempts to treat for peace were known to the German command and to the Allies. In this ending the Emperor's independence is real and is one of the reasons that the monarchy is asked to the table.",
+    "claim": "Epilogue, 'What actually happened': Franz Joseph accepted German overall command of the Central Powers' armies in September 1916, Karl's letter to Prince Sixtus of 24 March 1917 was published in April 1918 and led to Czernin's resignation, and the monarchy broke up into its successor states after the armistice of Villa Giusti on 3 November 1918.\n\nThe monarchy's armies were put under German direction for most operations after 1916, and the Emperor's attempts to treat for peace were known to the German command and to the Allies.",
     "status": "drafted",
     "sources": [],
     "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
@@ -1206,7 +1223,7 @@
     "id": "aok-end-grain-1",
     "node": "aok_end_grain",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Austro-Hungarian forces occupied parts of Ukraine from February 1918, after the treaty of Brest-Litovsk with the Ukrainian People's Republic, and Odessa was taken by Austro-Hungarian troops in the spring. The grain that came out was far less than had been promised, and the monarchy was hungry in the summer.\n\nThe Ukrainian grain that the monarchy was promised under the treaty of February 1918 was a small part of what the cities needed, and the hunger of that summer was one of the causes of the strikes and the mutinies that followed. In this ending the hunger is less and the strikes are fewer, and the army in Italy has bread.",
+    "claim": "Epilogue, 'What actually happened': Austro-Hungarian forces occupied parts of Ukraine from February 1918, after the treaty of Brest-Litovsk with the Ukrainian People's Republic, and Odessa was taken by Austro-Hungarian troops in the spring. The grain that came out was far less than had been promised, and the monarchy was hungry in the summer.\n\nThe Ukrainian grain that the monarchy was promised under the treaty of February 1918 was a small part of what the cities needed, and the hunger of that summer was one of the causes of the strikes and the mutinies that followed.",
     "status": "drafted",
     "sources": [],
     "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
@@ -1215,7 +1232,7 @@
     "id": "aok-end-italybeaten-1",
     "node": "aok_end_italybeaten",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Italy declared war on Austria-Hungary on 23 May 1915 and the Isonzo front was fought through eleven battles before the Austro-German victory at Caporetto in October 1917. The Trentino offensive of May 1916 took part of the Asiago plateau and was broken off when the Russians attacked in Galicia.\n\nThe Italian army was reformed after Caporetto under Diaz and grew in strength through 1918, and the battle of Vittorio Veneto in October broke the Austro-Hungarian front. In this ending the Italian front is not there to be broken, and the monarchy's last battles are fought elsewhere.",
+    "claim": "Epilogue, 'What actually happened': Italy declared war on Austria-Hungary on 23 May 1915 and the Isonzo front was fought through eleven battles before the Austro-German victory at Caporetto in October 1917. The Trentino offensive of May 1916 took part of the Asiago plateau and was broken off when the Russians attacked in Galicia.\n\nThe Italian army was reformed after Caporetto under Diaz and grew in strength through 1918, and the battle of Vittorio Veneto in October broke the Austro-Hungarian front. Hundreds of thousands of Italian soldiers were taken prisoner at Caporetto in 1917, and the army was rebuilt under Diaz.",
     "status": "drafted",
     "sources": [],
     "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
@@ -1224,9 +1241,20 @@
     "id": "aok-end-southfirst-1",
     "node": "aok_end_southfirst",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Potiorek's second invasion of Serbia took Belgrade in December 1914 and was thrown back by the Serbian counterattack at the Kolubara, and Potiorek was relieved on 22 December. Montenegro was attacked in January 1916 and Mount Lovcen was taken on 11 January, and the country surrendered within the month.\n\nThe Serbian army was not destroyed in 1914 and was driven out only in the autumn of 1915, by a combined Austro-German and Bulgarian offensive. In this ending the southern campaigns are conducted with fewer divisions, and the German command is asked for none of the help that it later gave.",
+    "claim": "Epilogue, 'What actually happened': Potiorek's second invasion of Serbia took Belgrade in December 1914 and was thrown back by the Serbian counterattack at the Kolubara, and Potiorek was relieved on 22 December. Montenegro was attacked in January 1916 and Mount Lovcen was taken on 11 January, and the country surrendered within the month.\n\nThe Serbian army was not destroyed in 1914 and was driven out only in the autumn of 1915, by a combined Austro-German and Bulgarian offensive. Serbia was overrun in the autumn of 1915, and the army that escaped through Albania was carried to Corfu by the Allied fleets.",
     "status": "drafted",
     "sources": [],
     "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "doc-aok_1914_15_mobilise-1",
+    "node": "aok_1914_15_mobilise",
+    "kind": "quotation",
+    "claim": "Franz Joseph's manifesto To My Peoples of 28 July 1914 says it was his fervent wish to protect his peoples from the sacrifices and burdens of war, and that Providence had otherwise decreed.",
+    "status": "web-checked",
+    "sources": [
+      "wp-tomypeoples"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
   }
 ]

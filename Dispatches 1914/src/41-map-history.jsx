@@ -17,7 +17,7 @@ const POLY = (line, close) => [...line, ...close];
 export const MAP_ALLEGIANCE = {
   Germany: [["1914-01-01", "cp"]], Austria: [["1914-01-01", "cp"]], Hungary: [["1914-01-01", "cp"]], Czechia: [["1914-01-01", "cp"]],
   Slovakia: [["1914-01-01", "cp"]], Slovenia: [["1914-01-01", "cp"]], Croatia: [["1914-01-01", "cp"]], "Bosnia and Herz.": [["1914-01-01", "cp"]],
-  Turkey: [["1914-01-01", "neu"], ["1914-10-29", "cp"]], Syria: [["1914-01-01", "cp"]], Lebanon: [["1914-01-01", "cp"]], Israel: [["1914-01-01", "cp"]],
+  Turkey: [["1914-01-01", "cp"]], Syria: [["1914-01-01", "cp"]], Lebanon: [["1914-01-01", "cp"]], Israel: [["1914-01-01", "cp"]],
   Palestine: [["1914-01-01", "cp"]], Jordan: [["1914-01-01", "cp"]], Iraq: [["1914-01-01", "cp"]],
   Bulgaria: [["1914-01-01", "neu"], ["1915-10-14", "cp"], ["1918-09-30", "neu"]],
   Luxembourg: [["1914-01-01", "neu"], ["1914-08-02", "cp"], ["1918-11-11", "neu"]],

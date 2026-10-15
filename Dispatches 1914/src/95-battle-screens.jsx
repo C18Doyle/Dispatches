@@ -168,7 +168,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
       <p className="dg-ask"><b>The task.</b> Plan the battle in {steps.length} {steps.length === 1 ? "step" : "steps"}, or let the staff plan it and change what you like.</p>
       <p className="dg-prose">{config.flavor}</p>
       <details>
-        <summary>▶ Conditions on the day</summary>
+        <summary className="dg-sum">Conditions on the day</summary>
         <p className="dg-note">{config.conditions}</p>
       </details>
 
@@ -238,7 +238,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
                 <p className="dg-note" style={{ marginBottom: 6 }}>{k.context}</p>
                 {easy && <p className="dg-note" style={{ marginBottom: 6 }}>Easy mode: each counter here carries {weights[k.id].toFixed(1)} before the enemy's setup.</p>}
                 <details>
-                  <summary>▶ The formations</summary>
+                  <summary className="dg-sum">The formations</summary>
                   <ul className="dg-bt-units">{k.units.map((u) => <li key={u}>{u}</li>)}</ul>
                 </details>
               </div>
@@ -299,7 +299,7 @@ function BattleReport({ battle }) {
         </ul>
       )}
       <details>
-        <summary>▶ What happened on the day</summary>
+        <summary className="dg-sum">What happened on the day</summary>
         {config.categories.map((k) => (
           <p key={k.id} className="dg-note"><b>{k.name}.</b> {k.real}</p>
         ))}

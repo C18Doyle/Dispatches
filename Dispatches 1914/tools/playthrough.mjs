@@ -22,7 +22,7 @@ const DIST = join(ROOT, "dist");
 const VERBOSE = Boolean(process.env.VERBOSE);
 const RUNS = Number(process.env.RUNS || 3);
 const MAX_SCREENS = 160;
-const ALL = [[/Oberste/, "ohl"], [/Grand Quartier/, "gqg"], [/Stavka/, "stavka"], [/British Expeditionary/, "bef"], [/Armeeoberkommando/, "aok"], [/Ottoman General Staff/, "otto"]];
+const ALL = [[/Germany/, "ohl"], [/France/, "gqg"], [/Russia/, "stavka"], [/Britain/, "bef"], [/Austria-Hungary/, "aok"], [/Ottoman Empire/, "otto"]];
 const COMMANDS = ALL.filter(([, id]) => !process.env.COMMANDS || process.env.COMMANDS.split(",").includes(id));
 const PLAYS = [
   { label: "record", easy: true, theme: "sepia", seed: 0 },

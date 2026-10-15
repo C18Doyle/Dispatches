@@ -92,16 +92,16 @@ for (const engine of ENGINES) {
       await scan(page, at("menu"), { viewport: vp.label });
       await click(page, /^Settings/);
       await scan(page, at("settings"), { viewport: vp.label });
-      await click(page, /^Back$/);
       await click(page, /^How to play/);
       await scan(page, at("how to play"), { viewport: vp.label });
       await click(page, /^Back$/);
-      await click(page, /Grand Quartier/);
+      await click(page, /^Back$/);
+      await click(page, /France/);
       await scan(page, at("briefing"), { viewport: vp.label });
       if (vp.label === "desktop") { await ctx.close(); continue; }
 
       // a report in each command
-      for (const [card, label] of [[/Oberste/, "ohl"], [/Grand Quartier/, "gqg"], [/Stavka/, "stavka"], [/British Expeditionary/, "bef"], [/Armeeoberkommando/, "aok"], [/Ottoman General Staff/, "otto"]]) {
+      for (const [card, label] of [[/Germany/, "ohl"], [/France/, "gqg"], [/Russia/, "stavka"], [/Britain/, "bef"], [/Austria-Hungary/, "aok"], [/Ottoman Empire/, "otto"]]) {
         await page.goto(URL_);
         await page.waitForSelector("main");
         const discard = page.getByRole("button", { name: /^Discard$/ });
@@ -117,7 +117,7 @@ for (const engine of ENGINES) {
       await page.waitForSelector("main");
       const d2 = page.getByRole("button", { name: /^Discard$/ });
       if (await d2.count()) await d2.click();
-      await click(page, /Grand Quartier/);
+      await click(page, /France/);
       await click(page, /^Enter the war room$/);
       const reached = await playTo(page, "The Flank in the Open");
       if (!reached) fail(at("walk"), "could not reach the Marne report");
