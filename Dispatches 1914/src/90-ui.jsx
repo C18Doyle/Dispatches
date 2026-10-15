@@ -233,7 +233,8 @@ const css = `
   /* ---- the readings under a meter, the odds dial, the hold to sign, the sealed cable, the list of changes ---- */
   .dg-meter-btn{display:block;width:100%;text-align:left;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;letter-spacing:inherit;cursor:pointer}
   .dg-meter-btn:hover b{text-decoration:underline dotted}
-  .dg-more{font-size:9px;opacity:.7}
+  .dg-more{display:inline-block;width:0;height:0;margin-left:4px;vertical-align:middle;border:4px solid transparent;border-top-color:currentColor;border-bottom-width:0;opacity:.7}
+  .dg-more.open{border-top-width:0;border-bottom-width:4px;border-top-color:transparent;border-bottom-color:currentColor}
   .dg-gauge i{transition:left .9s cubic-bezier(.3,.7,.2,1)}
   .dg-readings{border:1.5px solid var(--rule);border-top:0;margin:-20px 0 20px;padding:12px 14px 6px;background:rgba(255,255,255,.3);font-size:12px}
   .dg-reading{display:grid;grid-template-columns:9.5em 1fr 8em;gap:10px;align-items:center;padding:5px 0;border-top:1px dotted var(--ink-soft)}
@@ -267,7 +268,6 @@ const css = `
   .dg-changes li.pos b{color:var(--good)}
   @media (prefers-reduced-motion:no-preference){
     @keyframes dg-shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
-    .dg-envelope{animation:dg-shake 1.6s ease-in-out infinite}
   }
   @media (prefers-reduced-motion:reduce){.dg-gauge i{transition:none}}
 
@@ -281,7 +281,7 @@ const css = `
   @media (max-width:420px){.dg-tiles{grid-template-columns:repeat(2,1fr)}}
   .dg-rec-bar{display:grid;grid-template-columns:7.5em 1fr 3.8em;gap:10px;align-items:center;padding:3px 0;font-size:12px}
   .dg-rec-bar b{text-align:right}
-  .dg-cmd{border:1.5px solid var(--rule);border-left:8px solid var(--accent);padding:12px 14px;margin:0 0 14px;background:rgba(255,255,255,.28);box-shadow:2px 3px 0 rgba(28,26,23,.12)}
+  .dg-rec-cmd{border:1.5px solid var(--rule);border-left:8px solid var(--accent);padding:12px 14px;margin:0 0 14px;background:rgba(255,255,255,.28);box-shadow:2px 3px 0 rgba(28,26,23,.12)}
   .dg-cmd-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
   .dg-cmd-head .t{font-family:${THEME.serif};font-size:19px;font-weight:700;line-height:1.15}
   .dg-cmd-head .meta{font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase}
@@ -421,7 +421,10 @@ const css = `
   .dg-cmd-nation{font-family:${THEME.serif};font-size:27px;font-weight:700;line-height:1.1}
   .dg-cmd-name{font-size:14px;font-weight:700}
   .dg-cmd-native{font-size:12px;color:var(--ink-soft);font-style:italic}
-  .dg-cmd-pitch{font-size:13.5px;margin-top:4px}
+  .dg-cmd-quote{font-size:14.5px;font-style:italic;margin-top:6px;line-height:1.5}
+  .dg-cmd-by{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px}
+  .dg-sum::before{content:"+";font-weight:700;display:inline-block;width:1.4em}
+  details[open]>.dg-sum::before{content:"−"}
   .dg-cmd-meta{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
   .dg-nav{display:flex;flex-direction:column;gap:10px}
   .dg-navbtn{display:flex;flex-direction:column;gap:2px;text-align:left;font:inherit;color:inherit;background:none;border:1.5px solid var(--rule);padding:12px 14px;min-height:44px;cursor:pointer}
@@ -457,6 +460,12 @@ const css = `
   .dg-groundlist{list-style:none;margin:6px 0 14px;padding:0}
   .dg-groundlist li{font-size:13px;margin:0 0 8px;padding-left:10px;border-left:3px solid var(--accent)}
   .dg-groundlist li.dg-ground-lost{border-left-color:var(--op-focus,#9b2c1f)}
+
+  /* ---- a document from the record, at the head of a report ---- */
+  .dg-document{margin:0 0 18px;padding:10px 14px 10px 16px;border-left:4px solid var(--accent);background:rgba(255,255,255,.18)}
+  .dg-document figcaption{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+  .dg-document blockquote{margin:0;font-style:italic;line-height:1.6}
+  .dg-document .src{font-size:11px;color:var(--ink-soft);margin-top:6px}
 
   /* ---- a newspaper special ---- */
   .dg-paper{border:2px solid var(--rule);border-top:6px double var(--rule);background:var(--paper-raised);padding:14px 16px 6px;margin:6px 0 14px}
@@ -652,10 +661,13 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <div className="dg-node-date">{nodeDate(campaignId, node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
-      {!node.ending && ASKS[nodeId] && (
-        <p className="dg-ask"><b>The decision</b>{ASKS[nodeId]}{" "}<button type="button" className="dg-jump" onClick={jumpToOrders}>Go to the orders ↓</button></p>
-      )}
-      {node.bulletin && typeof node.bulletin === "object" && (
+      {documentOf(nodeId) ? (
+        <figure className="dg-document">
+          <figcaption>{documentOf(nodeId).date}. {documentOf(nodeId).by}</figcaption>
+          <blockquote>{documentOf(nodeId).text}</blockquote>
+          <div className="src">{documentOf(nodeId).source}</div>
+        </figure>
+      ) : node.bulletin && typeof node.bulletin === "object" && (
         <div className="dg-bulletin">
           <div className="h">{node.bulletin.source} · {node.bulletin.date}</div>
           {node.bulletin.text}
@@ -670,7 +682,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       {node.context && (
         <details>
-          <summary>▶ SHOW BACKGROUND</summary>
+          <summary className="dg-sum">SHOW BACKGROUND</summary>
           <GlossText key={nodeId + "-context"} segs={contextSegs} />
         </details>
       )}
@@ -702,13 +714,13 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
               <div className="lab">{ch.label}</div>
               {odds && <OddsDial odds={odds} easy={easy} fog={fog} />}
               {rests && <span className="dg-rests">{rests}</span>}
-              {ch.blocked && <div className="dg-cost">✕ {ch.disabledReason}</div>}
-              {easy && ch.historical && <span className="dg-record-mark">✓ The order the command gave</span>}
+              {ch.blocked && <div className="dg-cost">{ch.disabledReason}</div>}
+              {easy && ch.historical && <span className="dg-record-mark">The order the command gave</span>}
               {easy && !ch.blocked && <span className="dg-preview">{previewText(ch, node.meterLabels)}</span>}
               {strain.points > 0 && (
                 <span className="dg-strain">Strain: {node.meterLabels[strain.meter]} is short, so the odds are {strain.points} points worse</span>
               )}
-              {ch.erodes && hardState.enabled && <div className="dg-cost">✕ Costs standing</div>}
+              {ch.erodes && hardState.enabled && <div className="dg-cost">Costs standing</div>}
               {ch.advisor && (() => {
                 const aid = adviserIdFor(campaignId, ch.advisor.name);
                 const st = aid ? adviserState(flags || {}, aid) : "normal";
@@ -741,7 +753,6 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
   useEffect(() => { if (contested && opened && heading.current) heading.current.focus(); }, [opened]);
   const speculative = SPECULATIVE_LEAD.test(outcome || "");
   const body = speculative ? outcome.replace(SPECULATIVE_LEAD, "") : outcome;
-  const kind = speculative ? "A modelled alternative" : historical ? "As it happened" : contested ? "Not as it happened" : "The outcome";
   const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([body, record && record.text]), [body, record]);
   const labels = meterLabels(campaignId);
   // what each meter did, summed over its readings
@@ -766,32 +777,24 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
       ) : (
         <>
           <section className="dg-verdict" aria-label="The verdict">
-            <span className="dg-kind">{kind}</span>
             <h2 ref={heading} tabIndex={-1} className="dg-verdict-h">{headline || (contested ? "The cable says" : "The outcome")}</h2>
             <ul className="dg-chips" aria-label="What it did to the meters">
               {moved.length === 0 && <li>No change to the meters</li>}
               {moved.map((m) => (
                 <li key={m.axis} className={m.delta < 0 ? "neg" : "pos"}>
-                  <b aria-hidden="true">{m.delta < 0 ? "▼" : "▲"} {fmtMeter(m.delta)}</b>
+                  <b aria-hidden="true">{fmtMeter(m.delta)}</b>
                   <span className="sr">{m.delta < 0 ? "Down " : "Up "}{Math.abs(m.delta)}: </span>{labels[m.axis]}
                 </li>
               ))}
             </ul>
             {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
-            {informed && <p className="dg-note">The staff had checked its reading and knew what it was facing.</p>}
+            {informed && <p className="dg-note">The staff had checked its reading and had a better idea of what it was facing.</p>}
           </section>
           {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
             <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} flags={flags} />
           )}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
-          <MeterChanges changes={changes} labels={labels} />
-          {record && (
-            <details>
-              <summary>▶ THE HISTORICAL RECORD</summary>
-              <GlossText key={"r-" + String(outcome).slice(0, 24)} segs={recordSegs} />
-            </details>
-          )}
           {battle && <BattleReport battle={battle} />}
           <button className="dg-btn" onClick={onContinue}>Continue</button>
         </>
@@ -871,7 +874,7 @@ function RecordScreen({ record, onBack }) {
             const s = stats[cid];
             const b = best[cid];
             return (
-              <div key={cid} className="dg-cmd" style={{ "--accent": "var(--acc-" + cid + ")" }}>
+              <div key={cid} className="dg-rec-cmd" style={{ "--accent": "var(--acc-" + cid + ")" }}>
                 <div className="dg-cmd-head">
                   <span className="dg-seal">{c.seal}</span>
                   <div>
@@ -1034,6 +1037,7 @@ export default function App() {
   const [history, setHistory] = useState([]); // the state before each order, for the easy mode's take-back
   const [screen, setScreen] = useState("menu");
   const [cameFrom, setCameFrom] = useState("menu"); // where How to play and Settings go back to
+  const [howBack, setHowBack] = useState(null); // How to play opened from Settings goes back to it
   const [campaignId, setCampaignId] = useState(null);
   const [nodeId, setNodeId] = useState(null);
   const [flags, setFlags] = useState({});
@@ -1078,7 +1082,7 @@ export default function App() {
     else atmosphereStop();
   }, [screen, campaignId, settings.sound, settings.atmosphere]);
   useEffect(() => {
-    if (screen === "node" && node && node.bulletin && typeof node.bulletin === "object") atmosphereFx("telegraph");
+    if (screen === "node" && node && node.bulletin && typeof node.bulletin === "object" && !documentOf(nodeId)) atmosphereFx("telegraph");
   }, [screen, nodeId]);
 
   // A new screen puts keyboard and screen-reader focus on its heading, so the change is announced.
@@ -1228,14 +1232,14 @@ export default function App() {
       <style>{css}</style>
       {screen === "menu" && (
         <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} savedRun={savedRun}
-          onResume={resume} onDiscard={discard} onHowTo={() => openAside("howto")} onSettings={() => openAside("settings")} record={record} />
+          onResume={resume} onDiscard={discard} onSettings={() => openAside("settings")} record={record} />
       )}
       {screen === "briefing" && campaignId && (
         <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} settings={settings} onSettings={setSettings}
-          onEnter={() => start(campaignId)} onBack={home} onHowTo={() => openAside("howto")} />
+          onEnter={() => start(campaignId)} onBack={home} />
       )}
-      {screen === "howto" && <HowToScreen onBack={() => setScreen(cameFrom)} />}
-      {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} />}
+      {screen === "howto" && <HowToScreen onBack={() => { setScreen(howBack || cameFrom); setHowBack(null); }} />}
+      {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} onHowTo={() => { setHowBack("settings"); setScreen("howto"); }} />}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
         <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} node={node} nodeId={nodeId} orderId={taken.length ? taken[taken.length - 1].choice : null} visited={visited} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
@@ -1250,7 +1254,7 @@ export default function App() {
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onCheck={checkBelief} onHome={home} />
+          rank={rank} mode={runMode} taken={taken} holdToSign={settings.signHold === true} onRewind={rewind} onChoose={pick} onCheck={checkBelief} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">

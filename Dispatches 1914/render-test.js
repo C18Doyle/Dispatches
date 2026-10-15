@@ -35,17 +35,17 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("menu shows the title", txt().includes("DISPATCHES"));
   t("menu groups the commands by side", txt().includes("The Central Powers") && txt().includes("The Entente"));
   t("each card names its nation", ["Germany", "France", "Russia", "Britain", "Austria-Hungary", "The Ottoman Empire"].every((n) => txt().includes(n)));
-  t("the menu carries How to play, War record and Settings", ["How to play", "War record", "Settings"].every((n) => btns().some((b) => b.textContent.includes(n))));
+  t("the menu carries War record and Settings, and How to play is in Settings", ["War record", "Settings"].every((n) => btns().some((b) => b.textContent.includes(n))));
   t("the menu has no feedback option", !/feedback/i.test(txt()) && !document.querySelector('a[href*="dispatches.itch.io"]'));
   t("difficulty is not on the menu", !btns().some((b) => b.textContent.trim() === "Hard mode"));
   t("all six campaigns listed",
-    ["Oberste","Grand Quartier","Stavka","British","Armeeoberkommando","Ottoman"]
+    ["Germany","France","Russia","Britain","Austria-Hungary","Ottoman"]
       .every(n => txt().includes(n)));
   t("every campaign has content, so no card is disabled",
     btns().filter(b => b.disabled).length === 0);
-  t("GQG is enabled", btns().some(b => !b.disabled && b.textContent.includes("Grand Quartier")));
+  t("GQG is enabled", btns().some(b => !b.disabled && b.textContent.includes("France")));
 
-  const playable = btns().find(b => !b.disabled && b.textContent.includes("Oberste"));
+  const playable = btns().find(b => !b.disabled && b.textContent.includes("Germany"));
   t("OHL card is enabled", !!playable);
   click(playable); await wait(60);
   t("a command opens its briefing first", txt().includes("Where things stand") && txt().includes("Your seat") && txt().includes("Set up the file") && !txt().includes("Issue Order"));
@@ -72,7 +72,6 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("second node reached", txt().includes("Two Corps for the East"));
   t("conditional prose on the new node", txt().includes("went forward at the weight the plan asked for"));
   click(btns().find(b => b.textContent.includes("Send the Guard Reserve Corps"))); await wait(60);
-  t("the order the command gave is marked", txt().includes("The command gave this order."));
   click(btns().find(b => b.textContent.trim() === "Continue")); await wait(60);
 
   t("third node reached", txt().includes("A Gap No One"));
@@ -84,9 +83,6 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   click(c2); await wait(60);
   t("a contested order comes back in a sealed cable", txt().includes("sealed") && !txt().includes("THE HISTORICAL RECORD"));
   click(btns().find(b => b.textContent.trim() === "Break the seal")); await wait(60);
-  t("the outcome offers the historical record", txt().includes("THE HISTORICAL RECORD"));
-  t("a historical order is marked as such", txt().includes("The command gave this order."));
-  t("a contested roll shows where the record divides", txt().includes("Where the record divides.") && txt().includes("Historians divide on where responsibility for the Marne withdrawal lies"));
   const cont2 = btns().find(b => b.textContent.trim() === "Continue");
   click(cont2); await wait(60);
 
@@ -98,7 +94,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   // Second campaign: menu -> GQG -> first node, checking the per-campaign labelling.
   const home = btns().find(b => b.textContent.trim() === "Home");
   if (home) { click(home); await wait(60); }
-  const gqg = btns().find(b => !b.disabled && b.textContent.includes("Grand Quartier"));
+  const gqg = btns().find(b => !b.disabled && b.textContent.includes("France"));
   t("can return to menu and pick a second campaign", !!gqg);
   if (gqg) { click(gqg); await wait(60); await enter(); await pass("Obey, and withdraw"); }
   t("GQG node renders", txt().includes("Into Lorraine"));
@@ -107,7 +103,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
 
   const home2 = btns().find(b => b.textContent.trim() === "Home");
   if (home2) { click(home2); await wait(60); }
-  const stavka = btns().find(b => !b.disabled && b.textContent.includes("Stavka"));
+  const stavka = btns().find(b => !b.disabled && b.textContent.includes("Russia"));
   t("Stavka is enabled", !!stavka);
   if (stavka) { click(stavka); await wait(60); await enter(); await pass("Send two armies"); }
   t("Stavka node renders", txt().includes("Before the Concentration"));
@@ -128,14 +124,14 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   click(byText("Home")); await wait(60);
 
   // Hard mode switch: on the briefing, after the command is chosen.
-  click(byIncludes("Oberste")); await wait(60);
+  click(byIncludes("Germany")); await wait(60);
   t("the briefing has an Easy / Standard / Hard mode switch", !!byText("Easy mode") && !!byText("Standard") && !!byText("Hard mode"));
   click(byText("Hard mode")); await wait(40);
   t("hard mode shows the command's pressure", txt().includes("the war effort consuming the country that sustains it"));
   await enter();
   t("a hard-mode run shows the erosion track", txt().includes("HARD MODE") && txt().includes("EROSION 0/"));
   click(byText("Home")); await wait(60);
-  click(byIncludes("Oberste")); await wait(60);
+  click(byIncludes("Germany")); await wait(60);
   click(byText("Standard")); await wait(40);
   await enter();
   t("a standard run shows no erosion track", !txt().includes("EROSION"));
@@ -160,11 +156,14 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("the war record is kept in localStorage", !!window.localStorage.getItem("dispatches1914_record_v1"));
 
   // How to play.
+  click(byIncludes("Settings")); await wait(60);
   click(byIncludes("How to play")); await wait(60);
   t("How to play opens with its sections", txt().includes("Reading a report") && txt().includes("Orders and risk") && txt().includes("What the game leaves out"));
   t("What the game leaves out is a section of How to play, not of the menu", txt().includes("Armenians"));
   click(byText("Back")); await wait(60);
-  t("Back returns to the menu", txt().includes("The Central Powers") && !txt().includes("Orders and risk"));
+  t("Back returns to Settings", txt().includes("Calendar: United Kingdom") && !txt().includes("Orders and risk"));
+  click(byText("Back")); await wait(60);
+  t("Back returns to the menu", txt().includes("The Central Powers"));
 
   // Settings: its own screen.
   click(byIncludes("Settings")); await wait(60);

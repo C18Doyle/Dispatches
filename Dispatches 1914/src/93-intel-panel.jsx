@@ -21,7 +21,7 @@ function IntelPanel({ nodeId, flags, easy, hard, onCheck }) {
             <li key={it.id}>
               <span className={"dg-gtag dg-g-" + it.grade}>{GRADE_TAG[it.grade]}</span> {it.text}
               {known ? (
-                <p className="dg-note"><b>{it.holds ? "Confirmed." : "Wrong."}</b> {it.truth}</p>
+                <p className="dg-note"><b>{it.holds ? "The staff is divided, but the reports lean toward it." : "The staff is divided, and the reports lean against it."}</b> {it.truth}</p>
               ) : (
                 <p><button className="dg-btn" disabled={left < 1} onClick={() => onCheck(it.id)}>{left < 1 ? "No checks left" : "Check it (" + left + " left)"}</button></p>
               )}
@@ -29,7 +29,7 @@ function IntelPanel({ nodeId, flags, easy, hard, onCheck }) {
           );
         })}
       </ul>
-      {!easy && <p className="dg-note">The staff's grade is no guide: firm reports have been wrong and doubtful ones right. A check says whether a belief holds. Checks left in this file: {left}.</p>}
+      {!easy && <p className="dg-note">The staff's grade is no guide: firm reports have been wrong and doubtful ones right. A check never settles a belief: the staff argues over what it shows. Checks left in this file: {left}.</p>}
     </section>
   );
 }
@@ -39,7 +39,7 @@ function intelRests(nodeId, choice, flags, easy) {
   const items = intelItemsAt(nodeId).filter((it) => it.relied.includes(choice.id));
   if (!items.length) return "";
   const states = items.map((it) => (easy || intelChecked(flags, nodeId, it.id) ? (it.holds ? "held" : "wrong") : "open"));
-  if (states.includes("wrong")) return "Rests on a belief that proved wrong.";
+  if (states.includes("wrong")) return "Rests on a belief the staff now doubts.";
   if (states.includes("open")) return "Rests on a belief the staff has not checked.";
-  return "Rests on a belief that held.";
+  return "Rests on a belief the staff has come to trust.";
 }

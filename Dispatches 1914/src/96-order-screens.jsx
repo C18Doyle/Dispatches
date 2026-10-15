@@ -25,7 +25,7 @@ function MeterLedger({ meters, labels, flags, from }) {
             <button className="dg-meter-btn" aria-expanded={open === a} aria-controls={"dg-rd-" + a} onClick={() => setOpen(open === a ? null : a)}>
               <b>{meters[a] > 0 ? `+${meters[a]}` : meters[a]}</b>
               <span className="dg-gauge" aria-hidden="true"><i style={{ left: `${(shown[a] + 10) * 5}%` }} /></span>
-              {labels[a].toUpperCase()} <span className="dg-more" aria-hidden="true">{open === a ? "▴" : "▾"}</span>
+              {labels[a].toUpperCase()} <span className={"dg-more" + (open === a ? " open" : "")} aria-hidden="true" />
             </button>
           </div>
         ))}
@@ -127,7 +127,6 @@ function OrderButton({ ch, hold, onSign, onView, children }) {
 function SealedCable({ onOpen }) {
   return (
     <section className="dg-cable" aria-label="A sealed cable">
-      <div className="dg-envelope" aria-hidden="true"><i /></div>
       <p className="dg-prose">A cable has come in from the front, and it is sealed. What it says settles the order.</p>
       <button className="dg-btn" onClick={onOpen}>Break the seal</button>
     </section>

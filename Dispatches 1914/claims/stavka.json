@@ -309,9 +309,11 @@
     "node": "stavka_1914_01_prussia",
     "kind": "fact",
     "claim": "Russia gave the French an undertaking, as part of the alliance and the loans, to attack East Prussia early in the war; the invasion began on 4 August Old Style (17 August New Style).",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+    "status": "web-checked",
+    "sources": [
+      "wp-eprussia1914"
+    ],
+    "note": "Russia had promised the French an early invasion; the first engagement was on 17 August New Style."
   },
   {
     "id": "stavka-prussia-2",
@@ -327,9 +329,11 @@
     "node": "stavka_1914_02_galicia",
     "kind": "fact",
     "claim": "Russian forces in Galicia took Lvov in late August 1914 and pressed the Austrians; the node's dates are Old Style.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite. Dates in this campaign are Old Style to 31 January 1918."
+    "status": "web-checked",
+    "sources": [
+      "wp-galicia1914"
+    ],
+    "note": "Lemberg was taken in early September New Style (late August Old Style)."
   },
   {
     "id": "stavka-retreat-1",
@@ -410,9 +414,11 @@
     "node": "stavka_end_brest",
     "kind": "fact",
     "claim": "Epilogue, 'What actually happened': Treaty signed 3 March 1918, annulled by the armistice of 11 November and repudiated by the Soviet government on 13 November; Poland, Finland and the Baltic states became independent.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+    "status": "web-checked",
+    "sources": [
+      "wp-brest"
+    ],
+    "note": "Signed 3 March 1918; annulled by the armistice of 11 November and by the Soviet government on 13 November."
   },
   {
     "id": "stavka-epilogue-disintegration",
@@ -941,9 +947,12 @@
     "node": "stavka_1916_14_romfront",
     "kind": "fact",
     "claim": "Bucharest fell to the army of Mackensen in early December 1916 (6 December), and by the end of 1916 only western Moldavia remained under Romanian and Russian control.",
-    "status": "drafted",
-    "sources": [],
-    "note": "The second half is in the Romanian Front article; the date of Bucharest's fall needs a source."
+    "status": "web-checked",
+    "sources": [
+      "wp-romania1916",
+      "wp-joffre"
+    ],
+    "note": "Bucharest fell on 6 December 1916; only western Moldavia remained to Romania and Russia."
   },
   {
     "id": "stavka-romfront-44",
@@ -1218,9 +1227,11 @@
     "node": "stavka_1914_12_tannenberg",
     "kind": "fact",
     "claim": "Russian wireless messages between the First and Second Armies in August 1914 were sent in clear, and the Germans read them.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Matches the node's situation text; to be checked against a history of Tannenberg."
+    "status": "web-checked",
+    "sources": [
+      "wp-tannenberg"
+    ],
+    "note": "Samsonov's army broadcast its orders in clear."
   },
   {
     "id": "stavka-fk-2",
@@ -1568,10 +1579,21 @@
     "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
   },
   {
+    "id": "stavka-menu-quote-1",
+    "node": "stavka_1914_16_plans",
+    "kind": "quotation",
+    "claim": "The Tsar's manifesto of 2 August 1914 called on Russia to rise like one man and repel the insolent assault of the enemy.",
+    "status": "web-checked",
+    "sources": [
+      "nvcc-russian-manifesto"
+    ],
+    "note": "A translation of the manifesto."
+  },
+  {
     "id": "stavka-end-unspent-1",
     "node": "stavka_end_unspent",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': the Russian offensive of the summer of 1917 gained a little ground in Galicia and was thrown back by a German counter-stroke in July, and the army's discipline broke in the retreat. The death penalty was restored at the front on 12 July. The armistice was signed at Brest-Litovsk in December and the treaty on 3 March 1918.\n\nThe Provisional Government's offensive was the last of the old army's operations and the first in which the committees voted whether to obey. In this ending the vote is never asked, and the army that is left at the end of the year is an army that has been spared the test and has not passed it.",
+    "claim": "Epilogue, 'What actually happened': the Russian offensive of the summer of 1917 gained a little ground in Galicia and was thrown back by a German counter-stroke in July, and the army's discipline broke in the retreat. The death penalty was restored at the front on 12 July. The armistice was signed at Brest-Litovsk in December and the treaty on 3 March 1918.\n\nThe Provisional Government's offensive was the last of the old army's operations and the first in which the committees voted whether to obey.",
     "status": "drafted",
     "sources": [],
     "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
@@ -1580,7 +1602,7 @@
     "id": "stavka-end-rigaheld-1",
     "node": "stavka_end_rigaheld",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': the Germans took Riga in September 1917 in an operation that crossed the Daugava with a short, heavy bombardment, and the Twelfth Army fell back. The German advance was resumed in February 1918 and the treaty was signed at Brest-Litovsk on 3 March, which gave up the Baltic provinces.\n\nThe fall of Riga in September 1917 was a military defeat that the Russian staff described at the time as a withdrawal, and it was followed by the German landing on the islands of the Gulf of Riga in October. In this ending the German landing does not come, and the fleet is left where it was.",
+    "claim": "Epilogue, 'What actually happened': the Germans took Riga in September 1917 in an operation that crossed the Daugava with a short, heavy bombardment, and the Twelfth Army fell back. The German advance was resumed in February 1918 and the treaty was signed at Brest-Litovsk on 3 March, which gave up the Baltic provinces.\n\nThe fall of Riga in September 1917 was a military defeat that the Russian staff described at the time as a withdrawal, and it was followed by the German landing on the islands of the Gulf of Riga in October.",
     "status": "drafted",
     "sources": [],
     "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
@@ -1589,7 +1611,7 @@
     "id": "stavka-end-grandduke-1",
     "node": "stavka_end_grandduke",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Nicholas II took the supreme command himself on 5 September 1915, sending the Grand Duke to the Caucasus, and the Grand Duke was never recalled. After the October rising the headquarters at Mogilev was occupied by Bolshevik forces on 3 December 1917, and General Dukhonin, the Chief of Staff, was killed by soldiers on the same day.\n\nThe Grand Duke was in the Caucasus until the monarchy fell in March 1917, and he was relieved by the Provisional Government in the spring of 1917. In this ending the headquarters has a commander who has never left it, and the question that the army has to answer is not whether to obey the Bolsheviks but whether to obey him.",
+    "claim": "Epilogue, 'What actually happened': Nicholas II took the supreme command himself on 5 September 1915, sending the Grand Duke to the Caucasus, and the Grand Duke was never recalled. After the October rising the headquarters at Mogilev was occupied by Bolshevik forces on 3 December 1917, and General Dukhonin, the Chief of Staff, was killed by soldiers on the same day.\n\nThe Grand Duke was in the Caucasus until the monarchy fell in March 1917, and he was relieved by the Provisional Government in the spring of 1917.",
     "status": "drafted",
     "sources": [],
     "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
@@ -1598,9 +1620,20 @@
     "id": "stavka-end-winners-1",
     "node": "stavka_end_winners",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Brusilov's offensive of June 1916 was made without any serious support from the other fronts, Romania entered the war on 27 August 1916 and Bucharest fell on 6 December, and the Allied conference at Petrograd in January and February 1917 ended without a Russian date. The armistice was signed in December 1917 and the treaty at Brest-Litovsk on 3 March 1918.\n\nThe Allies did not count Russia among the powers at the peace table in 1919, and the Allied intervention in the Russian civil war was fought on Russian soil by Allied troops and White armies. In this ending the Russian delegation is at Versailles, and the question of who sent it is the subject of its own quarrel.",
+    "claim": "Epilogue, 'What actually happened': Brusilov's offensive of June 1916 was made without any serious support from the other fronts, Romania entered the war on 27 August 1916 and Bucharest fell on 6 December, and the Allied conference at Petrograd in January and February 1917 ended without a Russian date. The armistice was signed in December 1917 and the treaty at Brest-Litovsk on 3 March 1918.\n\nThe Allies did not count Russia among the powers at the peace table in 1919, and the Allied intervention in the Russian civil war was fought on Russian soil by Allied troops and White armies.",
     "status": "drafted",
     "sources": [],
     "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "doc-stavka_1914_01_prussia-1",
+    "node": "stavka_1914_01_prussia",
+    "kind": "quotation",
+    "claim": "The Tsar's manifesto of 2 August 1914 says that he firmly believes all his loyal subjects will rally to the defence of the Russian soil and asks that domestic strife be forgotten.",
+    "status": "web-checked",
+    "sources": [
+      "nvcc-russian-manifesto"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
   }
 ]

@@ -31,9 +31,11 @@ async function boot(storage) {
   return ctx;
 }
 const btn = (ctx, re) => ctx.buttons().find((b) => re.test(ctx.lab(b)));
+// the default is a tap; the hold is a setting, so the hold tests start with it switched on
+const HOLD = { dispatches1914_settings_v1: JSON.stringify({ schemaVersion: 1, signHold: true }) };
 const orders = (ctx) => ctx.buttons().filter((b) => b.className.startsWith("dg-choice"));
 async function toMarne(ctx) {
-  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Grand Quartier")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("France")));
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   for (let i = 0; i < 40 && !/The Flank in the Open/.test(ctx.text()); i++) {
     const o = orders(ctx);
@@ -48,7 +50,7 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
 // --- the first node: a settled order, and the readings -------------------------------------------------------
 {
   const ctx = await boot();
-  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Oberste")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Germany")));
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   check(/Odds:/.test(ctx.text()), "the prelude offers a contested order with an odds dial");
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b).startsWith("Tell the Kaiser"))); // the settled order of the prelude
@@ -68,7 +70,7 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
 
 // --- the Marne: a contested order ------------------------------------------------------------------------------
 {
-  const ctx = await boot();
+  const ctx = await boot(HOLD);
   check(await toMarne(ctx), "the Marne node is reached");
   check(/Odds: (Long odds|Against us|Even|Favourable|Strong)/.test(ctx.text()), "the contested order shows an odds dial with a word");
   check(/Hold to sign/.test(ctx.text()), "it says to hold to sign");
@@ -112,7 +114,7 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
 {
   const ctx = await boot();
   await ctx.click(btn(ctx, /Settings/)); await ctx.click(btn(ctx, /^Tap to sign$/)); await ctx.click(btn(ctx, /^Back$/));
-  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Oberste")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Germany")));
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   let sealed = false;
   for (let i = 0; i < 30 && !sealed; i++) {
@@ -135,7 +137,7 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
     check(!ctx.d.querySelector(".dg-cable") === false && !/Continue/.test(ctx.text()), "the outcome is not shown until the seal is broken");
     await ctx.click(btn(ctx, /^Break the seal$/));
     check(!ctx.d.querySelector(".dg-cable") && !!btn(ctx, /^Continue$/), "breaking the seal shows the outcome");
-    check(ctx.d.querySelectorAll(".dg-changes li").length >= 1, "the report lists what the order did to the meters");
+    check(ctx.d.querySelectorAll(".dg-chips li").length >= 1, "the report lists what the order did to the meters");
     check(!!ctx.d.querySelector(".dg-meters"), "the report shows the meters");
   }
   ctx.restore();

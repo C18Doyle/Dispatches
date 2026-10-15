@@ -10,20 +10,20 @@
 export const THEME_IDS = ["sepia", "paper", "night", "contrast"];
 export const THEME_LABELS = { sepia: "Sepia", paper: "Paper", night: "Night", contrast: "High contrast", auto: "Match my device" };
 /** The theme a new player sees. */
-export const DEFAULT_THEME = "sepia";
+export const DEFAULT_THEME = "paper";
 
 /** Tokens common to a theme. Text and ground pairs are listed in THEME_PAIRS. */
 export const THEME_TOKENS = {
   // Sepia: cream on black, a sepia map, no colour but one red kept for what needs a decision. The map has its own ink (mapInk, mapSoft) because it is a light sheet on a dark page.
   sepia: {
-    base: { paper: "#0a0908", paperRaised: "#14110d", ink: "#ece5d0", inkSoft: "#b8ad90", rule: "#867d68", accent: "#e8664e", good: "#ece5d0", inverse: "#ece5d0", sea: "#b4a37c", cp: "#a39368", ent: "#c2b28b", neu: "#b8a880", mapInk: "#15110a", mapSoft: "#43371d" },
+    base: { paper: "#0a0908", paperRaised: "#14110d", ink: "#ece5d0", inkSoft: "#b8ad90", rule: "#867d68", accent: "#e8664e", good: "#ece5d0", inverse: "#ece5d0", sea: "#c9cbbd", cp: "#968560", ent: "#b9a878", neu: "#e8dfc4", mapInk: "#15110a", mapSoft: "#43371d" },
     campaigns: {
       ohl: { accent: "#e8664e" }, gqg: { accent: "#e8664e" }, stavka: { accent: "#e8664e" }, bef: { accent: "#e8664e" }, aok: { accent: "#e8664e" }, otto: { accent: "#e8664e" },
     },
     extra: { tint: "rgba(0,0,0,0)", grain: "none" },
   },
   paper: {
-    base: { paper: "#f4efe2", paperRaised: "#e9e2cf", ink: "#1c1a17", inkSoft: "#5d574c", rule: "#1c1a17", accent: "#7a2e2e", good: "#3d5a2f", inverse: "#0d0c0b", sea: "#d3dddb", cp: "#cdb98f", ent: "#b6c5c4", neu: "#ece6d4", mapInk: "#1c1a17", mapSoft: "#5d574c" },
+    base: { paper: "#f4efe2", paperRaised: "#e9e2cf", ink: "#1c1a17", inkSoft: "#5d574c", rule: "#1c1a17", accent: "#7a2e2e", good: "#3d5a2f", inverse: "#0d0c0b", sea: "#d6e4ec", cp: "#d0a96b", ent: "#9db7a4", neu: "#efe9d8", mapInk: "#1c1a17", mapSoft: "#5d574c" },
     // a command's own paper, accent and tint
     campaigns: {
       ohl: { accent: "#7a2e2e", tint: "rgba(70,80,60,.06)" },
@@ -36,14 +36,14 @@ export const THEME_TOKENS = {
     extra: { tint: "rgba(0,0,0,0)" },
   },
   night: {
-    base: { paper: "#1b1814", paperRaised: "#27231d", ink: "#ece5d2", inkSoft: "#b9b09b", rule: "#cfc6b0", accent: "#e0a79d", good: "#9cc48a", inverse: "#f4efe2", sea: "#202c2e", cp: "#6a5c40", ent: "#38535a", neu: "#363229", mapInk: "#ece5d2", mapSoft: "#b9b09b" },
+    base: { paper: "#1b1814", paperRaised: "#27231d", ink: "#ece5d2", inkSoft: "#b9b09b", rule: "#cfc6b0", accent: "#e0a79d", good: "#9cc48a", inverse: "#f4efe2", sea: "#121c22", cp: "#74633f", ent: "#2f5a52", neu: "#403b30", mapInk: "#ece5d2", mapSoft: "#b9b09b" },
     campaigns: {
       ohl: { accent: "#e6a39b" }, gqg: { accent: "#93b8d4" }, stavka: { accent: "#dbb57f" }, bef: { accent: "#adc58d" }, aok: { accent: "#dcbd6e" }, otto: { accent: "#c7acea" },
     },
     extra: { tint: "rgba(0,0,0,0)", grain: "none" },
   },
   contrast: {
-    base: { paper: "#ffffff", paperRaised: "#f1f1f1", ink: "#000000", inkSoft: "#1f1f1f", rule: "#000000", accent: "#6a0000", good: "#0a4a00", inverse: "#000000", sea: "#e3eef3", cp: "#e6cf91", ent: "#9fc4cb", neu: "#f7f7f7", mapInk: "#000000", mapSoft: "#1f1f1f" },
+    base: { paper: "#ffffff", paperRaised: "#f1f1f1", ink: "#000000", inkSoft: "#1f1f1f", rule: "#000000", accent: "#6a0000", good: "#0a4a00", inverse: "#000000", sea: "#d4e6ee", cp: "#e6c06a", ent: "#8fc2a8", neu: "#ffffff", mapInk: "#000000", mapSoft: "#1f1f1f" },
     campaigns: {
       ohl: { accent: "#5c0000" }, gqg: { accent: "#002f4a" }, stavka: { accent: "#4a2600" }, bef: { accent: "#1c3300" }, aok: { accent: "#4f3000" }, otto: { accent: "#38195f" },
     },

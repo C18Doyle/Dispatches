@@ -45,7 +45,7 @@ const snapshot = (ctx) => {
 };
 /** Play GQG up to the Marne node, taking the first order each time. */
 async function toMarne(ctx, planningOff = false) {
-  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Grand Quartier")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("France")));
   if (planningOff) await ctx.click(ctx.d.querySelector('input[type="checkbox"]'));
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   for (let i = 0; i < 40 && !/The Flank in the Open/.test(ctx.text()); i++) {
@@ -59,7 +59,7 @@ async function toMarne(ctx, planningOff = false) {
 // --- the menu ----------------------------------------------------------------------------------------------
 {
   const ctx = await boot();
-  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Grand Quartier")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("France")));
   const box = ctx.d.querySelector('input[type="checkbox"]');
   check(!!box && box.checked, "the briefing offers battle planning, switched on");
   check(/Take control of battle planning/.test(ctx.text()), "the briefing names it");

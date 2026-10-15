@@ -441,8 +441,7 @@ CAMPAIGNS.otto.nodes = {
             outcome:
               "Speculative. The columns, clothed and fed, cross the mountains by night and " +
               "reach the heights above Sarikamis, where the Russian line has been thinned " +
-              "to feed the corps that came up by rail. The battle that follows is not the " +
-              "destruction of an army. It is a hard fight in the snow that the Russians " +
+              "to feed the corps that came up by rail. The battle that follows is a hard fight in the snow that the Russians " +
               "lose by a little, and the Third Army has its victory at the price of a " +
               "third of its men." },
           { weight: 60, title: "The Russians are forewarned and hold the passes",

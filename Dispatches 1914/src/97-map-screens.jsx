@@ -207,6 +207,19 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
               <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close the map</button>
             </div>
             <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} ops={ops} ground={ground} />
+            {meanwhile.length > 0 && (
+              <>
+                <h2 className="dg-order">Meanwhile</h2>
+                <ul className="dg-meanwhile">
+                  {meanwhile.map((m) => (
+                    <li key={m.campaignId} style={{ "--accent": "var(--acc-" + m.campaignId + ")" }}>
+                      <span className="dg-seal">{CAMPAIGNS[m.campaignId].seal}</span>
+                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} ${m.daysAgo === 1 ? "day" : "days"} before this report)` : ""}</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
             <ul className="dg-key" aria-label="Key">
               {sides.map((k) => <li key={k}><i className={"dg-swatch dg-side-" + k} />{SIDE_NAMES[k]}</li>)}
               <li><i className="dg-swatch dg-swatch-front" />The front, approximate</li>
@@ -221,19 +234,6 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
                 <ul className="dg-groundlist">
                   {ground.map((g) => (
                     <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> Speculative. {g.text}</li>
-                  ))}
-                </ul>
-              </>
-            )}
-            {meanwhile.length > 0 && (
-              <>
-                <h2 className="dg-order">Meanwhile</h2>
-                <ul className="dg-meanwhile">
-                  {meanwhile.map((m) => (
-                    <li key={m.campaignId} style={{ "--accent": "var(--acc-" + m.campaignId + ")" }}>
-                      <span className="dg-seal">{CAMPAIGNS[m.campaignId].seal}</span>
-                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} days before this report)` : ""}</span>
-                    </li>
                   ))}
                 </ul>
               </>
