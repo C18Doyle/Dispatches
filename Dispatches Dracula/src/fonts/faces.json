@@ -1,0 +1,86 @@
+[
+  {
+    "family": "Pirata One",
+    "style": "normal",
+    "weight": "400",
+    "file": "pirata-one-400-normal.woff2",
+    "bytes": 6784
+  },
+  {
+    "family": "Cinzel",
+    "style": "normal",
+    "weight": "400",
+    "file": "cinzel-400-normal.woff2",
+    "bytes": 20508
+  },
+  {
+    "family": "Cinzel",
+    "style": "normal",
+    "weight": "600",
+    "file": "cinzel-600-normal.woff2",
+    "bytes": 20508
+  },
+  {
+    "family": "Cinzel",
+    "style": "normal",
+    "weight": "700",
+    "file": "cinzel-700-normal.woff2",
+    "bytes": 20508
+  },
+  {
+    "family": "Cinzel Decorative",
+    "style": "normal",
+    "weight": "700",
+    "file": "cinzel-decorative-700-normal.woff2",
+    "bytes": 13256
+  },
+  {
+    "family": "IM Fell English",
+    "style": "italic",
+    "weight": "400",
+    "file": "im-fell-english-400-italic.woff2",
+    "bytes": 49956
+  },
+  {
+    "family": "IM Fell English",
+    "style": "normal",
+    "weight": "400",
+    "file": "im-fell-english-400-normal.woff2",
+    "bytes": 50980
+  },
+  {
+    "family": "IM Fell English SC",
+    "style": "normal",
+    "weight": "400",
+    "file": "im-fell-english-sc-400-normal.woff2",
+    "bytes": 48656
+  },
+  {
+    "family": "Playfair Display",
+    "style": "italic",
+    "weight": "700",
+    "file": "playfair-display-700-italic.woff2",
+    "bytes": 20288
+  },
+  {
+    "family": "Playfair Display",
+    "style": "normal",
+    "weight": "700",
+    "file": "playfair-display-700-normal.woff2",
+    "bytes": 32924
+  },
+  {
+    "family": "Playfair Display",
+    "style": "normal",
+    "weight": "900",
+    "file": "playfair-display-900-normal.woff2",
+    "bytes": 32924
+  },
+  {
+    "family": "Special Elite",
+    "style": "normal",
+    "weight": "400",
+    "file": "special-elite-400-normal.woff2",
+    "bytes": 45236
+  }
+]

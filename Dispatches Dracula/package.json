@@ -9,7 +9,7 @@
     "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts dracula",
     "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts dracula",
     "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
-    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run check:writing && npm run check:repetition && npm run check:quotations && npm run check:claims && npm run check:map && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check:demo && npm run check-a11y && npm run check:mina",
+    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run check:writing && npm run check:repetition && npm run check:fonts && npm run check:quotations && npm run check:claims && npm run check:map && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check:demo && npm run check-a11y && npm run check:mina",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
     "build": "npm run build:css && npm run build:js && node scripts/inline.mjs && npm run build:demo",
@@ -32,7 +32,8 @@
     "check:claims": "node scripts/check_novel_claims.mjs",
     "report:options": "tsx scripts/report_options.ts",
     "map": "node scripts/scene_map.mjs",
-    "check:map": "node scripts/scene_map.mjs --check"
+    "check:map": "node scripts/scene_map.mjs --check",
+    "check:fonts": "node scripts/check_fonts.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { fontCss } from "./lib/fonts.mjs";
 
 // `node scripts/inline.mjs --demo` builds dist/demo/index.html from dist/demo/bundle.js; `--seat=<id>` does the same for another seat (dist/<id>)
 const seat = (process.argv.find((a) => a.startsWith("--seat=")) ?? "--seat=dracula").slice(7);
@@ -13,13 +14,8 @@ const html = `<!doctype html>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>${title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Special+Elite&display=swap"
-      rel="stylesheet"
-    />
     <style>
+${fontCss()}
 ${css}
     </style>
   </head>
