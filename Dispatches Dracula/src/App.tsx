@@ -447,11 +447,32 @@ export default function App() {
     } else if (screen === "INTERLUDE" && interlude?.kind === "crisis") {
       sfx.playCrisis(prefs.sfxVolume);
     } else if (screen === "ENDING") {
-      if (state.endingId?.startsWith("ENDING_CRISIS")) sfx.playEndingCrisis(prefs.sfxVolume);
-      else sfx.playEnding(prefs.sfxVolume);
+      if (state.endingId?.startsWith("ENDING_CRISIS")) {
+        sfx.playEndingCrisis(prefs.sfxVolume);
+        sfx.playCreak(prefs.sfxVolume);
+      } else {
+        sfx.playEnding(prefs.sfxVolume);
+        sfx.playBell(prefs.sfxVolume, 2);
+      }
+    } else if (screen === "INTERLUDE" && interlude && paperKind(interlude) === "diary") {
+      sfx.playScratch(prefs.sfxVolume);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen, state.pendingOutcomeKind]);
+
+  // The sound of the place a scene is set in, once as you arrive; a heartbeat under it when a reserve is at the brink.
+  const placeNow = ui.map && screen === "NODE" ? ui.map.at[state.currentNodeId] ?? ui.map.defaultAt : "";
+  useEffect(() => {
+    if (!prefs.sfxEnabled || screen !== "NODE" || !placeNow) return;
+    const v = prefs.sfxVolume;
+    if (dread === 2) sfx.playHeartbeat(v);
+    else if (placeNow === "castle") sfx.playHowl(v);
+    else if (placeNow === "whitby") sfx.playBell(v);
+    else if (placeNow === "carfax") sfx.playCreak(v);
+    else if (placeNow === "eastend" || placeNow === "piccadilly") sfx.playScurry(v);
+    else if (placeNow === "london" && state.activeBranch === "STORM") sfx.playBats(v);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen, state.currentNodeId]);
 
   function click() {
     if (prefs.sfxEnabled) sfx.playClick(prefs.sfxVolume);
