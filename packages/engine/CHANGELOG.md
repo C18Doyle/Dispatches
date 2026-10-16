@@ -4,6 +4,9 @@ Versioning: the engine is consumed by source path, so the version is a communica
 resolution. Bump the minor for new optional capability, the major for anything that needs game changes.
 A game's `config.json` `schemaVersion` changes only when that game's saved state shape changes.
 
+## 0.5.0 (2026-10)
+- One optional addition, used by Dracula: `config.interludeTriggers[].when`, a condition that must hold for the interlude to be offered (so a document can depend on what the player did). A trigger without `when` behaves exactly as before. Checked by `validate_schema.ts`.
+
 ## 0.4.0 (2026-10)
 - Two optional additions, used by Dracula; no existing game or content changes: `option.tag` (a label the game's UI may show on an option; the engine does not read it) and `config.trackers` (derived counters: a base plus the delta of every rule whose condition holds, within [min, max], shown while `showWhen` holds; `trackerValue`, `evalTrackers`). Checked by `validate_schema.ts`.
 

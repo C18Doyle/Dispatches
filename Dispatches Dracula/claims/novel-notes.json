@@ -614,6 +614,132 @@
           "text": "mrs. westenra had disease of the heart, and we can certify that she died of it"
         }
       ]
+    },
+    {
+      "id": "demeter-log-bottle",
+      "claim": "The Demeter's addendum to the log was found in a corked bottle in the dead man's pocket, and was produced at the inquest through a clerk of the Russian consul; a man of the crew was reported missing.",
+      "where": "Count LORE_DEMETER_LOG",
+      "passages": [
+        {
+          "chapter": 7,
+          "text": "in his pocket was a bottle, carefully corked"
+        },
+        {
+          "chapter": 7,
+          "text": "produced at the inquest"
+        },
+        {
+          "chapter": 7,
+          "text": "clerk of the russian consul"
+        },
+        {
+          "chapter": 7,
+          "text": "one of crew, petrofsky, was missing"
+        },
+        {
+          "chapter": 7,
+          "text": "lashed to the wheel"
+        }
+      ]
+    },
+    {
+      "id": "renfield-case-entry",
+      "claim": "Dr Seward's case note on Renfield: aged fifty-nine, sanguine temperament, great strength, morbidly excitable, periods of gloom ending in a fixed idea, possibly dangerous.",
+      "where": "Count LORE_PHONO_RENFIELD",
+      "passages": [
+        {
+          "chapter": 5,
+          "text": "sanguine temperament; great physical strength; morbidly excitable"
+        },
+        {
+          "chapter": 5,
+          "text": "periods of gloom, ending in some fixed idea which i cannot make out"
+        },
+        {
+          "chapter": 5,
+          "text": "a possibly dangerous man"
+        },
+        {
+          "chapter": 5,
+          "text": "dr. seward's diary. (kept in phonograph)"
+        }
+      ]
+    },
+    {
+      "id": "mina-finds-lucy-on-the-seat",
+      "claim": "At Whitby Mina found Lucy on the seat with something long and black bending over her; she fastened the shawl at Lucy's throat with a big safety-pin and found two little red points like pin-pricks.",
+      "where": "Count LORE_MINA_WHITBY",
+      "passages": [
+        {
+          "chapter": 8,
+          "text": "something, long and black, bending over the half-reclining white figure"
+        },
+        {
+          "chapter": 8,
+          "text": "i fastened the shawl at her throat with a big safety-pin"
+        },
+        {
+          "chapter": 8,
+          "text": "two little red points like pin-pricks"
+        }
+      ]
+    },
+    {
+      "id": "seward-sends-for-van-helsing",
+      "claim": "Seward wrote to Holmwood that he had asked Van Helsing, who knows as much about obscure diseases as any one in the world, to come at once.",
+      "where": "Count LORE_SEWARD_LETTER",
+      "passages": [
+        {
+          "chapter": 9,
+          "text": "knows as much about obscure diseases as any one in the world"
+        },
+        {
+          "chapter": 9,
+          "text": "i have asked him to come at once"
+        },
+        {
+          "chapter": 9,
+          "text": "she is to meet me at the stores, so that i may not alarm her mother"
+        }
+      ]
+    },
+    {
+      "id": "hampstead-mystery-bloofer-lady",
+      "claim": "The Westminster Gazette of 25 September ran A Hampstead Mystery: children missed in the evening, whose excuses agreed that they had been with a bloofer lady.",
+      "where": "Count LORE_BLOOFER",
+      "passages": [
+        {
+          "chapter": 13,
+          "text": "the westminster gazette,\" 25 september. a hampstead mystery"
+        },
+        {
+          "chapter": 13,
+          "text": "they had been with a \"bloofer lady.\""
+        },
+        {
+          "chapter": 13,
+          "text": "for straying children, especially when very young, in and around hampstead heath"
+        },
+        {
+          "chapter": 13,
+          "text": "for any stray dog which may be about"
+        }
+      ]
+    },
+    {
+      "id": "mina-typed-the-papers",
+      "claim": "Mina typed her husband's journal and her own diary and Dr Seward's phonograph diary, taking three copies.",
+      "where": "Count LORE_TYPESCRIPT",
+      "passages": [
+        {
+          "chapter": 17,
+          "text": "my own diary and my husband's also, which i have typed"
+        },
+        {
+          "chapter": 17,
+          "text": "so took three copies of the diary"
+        }
+      ]
     }
   ],
   "absences": [

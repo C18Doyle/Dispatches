@@ -4371,6 +4371,48 @@
       "kind": "crisis",
       "headline": "RENFIELD",
       "bodyText": "PURFLEET. Renfield is quiet again. For three weeks he raved about a Master, and watched the lane from his window, and kept a count of sparrows. Tonight he sat on the edge of his bed with his hands in his lap and said that nobody was coming. He did not weep. I find that I mind it more than the raving.\n\nI have also noticed that the animals at the gate have gone. The fog has lifted. The house next door has been dark for nine nights. I am an educated man and I do not believe in influence, and I am very much afraid that something has let go."
+    },
+    "LORE_DEMETER_LOG": {
+      "id": "LORE_DEMETER_LOG",
+      "kind": "lore",
+      "source": "The Log of the Demeter: Varna to Whitby",
+      "headline": "FOUND IN A BOTTLE",
+      "bodyText": "A bottle, carefully corked, was found in the dead man's pocket. In it was a roll of paper, the addendum to the ship's log. It was read to the inquest through a clerk of the Russian consul, who put it into English.\n\nThe hand is steady at first and grows worse. The crew are uneasy about the boxes of earth in the hold. A man is reported missing from the watch, and nobody can account for it. A second goes, and then a third. The mate is wild-eyed and cannot be calmed.\n\nAt the last the master was found lashed to the wheel, so that the ship should come into port with a hand upon her."
+    },
+    "LORE_PHONO_RENFIELD": {
+      "id": "LORE_PHONO_RENFIELD",
+      "kind": "lore",
+      "source": "Dr Seward's Diary, kept in the phonograph",
+      "headline": "R. M. RENFIELD, AGED FIFTY-NINE",
+      "bodyText": "Sanguine temperament. Great physical strength. Morbidly excitable, with periods of gloom that end in some fixed idea which I cannot make out.\n\nHe keeps flies, and spiders to eat the flies, and he is very careful of them. I think him a possibly dangerous man, and I have written down everything he says. I shall be glad to be wrong."
+    },
+    "LORE_MINA_WHITBY": {
+      "id": "LORE_MINA_WHITBY",
+      "kind": "lore",
+      "source": "Miss Murray's Journal, Whitby",
+      "headline": "ON THE EAST CLIFF",
+      "bodyText": "Lucy was out of bed again in the night, and this time I could not find her. I found her at last on our seat on the East Cliff, with the moon behind the abbey. There was something long and black bending over her, and it raised its head when I called her name.\n\nShe remembers nothing. I fastened her shawl at the throat with a big safety-pin, and I fear I was clumsy with it, for there are two little red points on her skin like pin-pricks. I have promised not to say a word to her mother.\n\nJonathan has not written for a long time."
+    },
+    "LORE_SEWARD_LETTER": {
+      "id": "LORE_SEWARD_LETTER",
+      "kind": "lore",
+      "source": "Dr Seward to the Hon. Arthur Holmwood",
+      "headline": "A LETTER ABOUT MISS WESTENRA",
+      "bodyText": "My dear Art,\n\nMiss Westenra is no better, and I cannot find the cause. I have written to an old friend and master of mine, Professor Van Helsing of Amsterdam, who knows as much about obscure diseases as any man living. I have asked him to come at once.\n\nI shall see Miss Westenra again to-morrow. She is to meet me at the stores, so that I may not alarm her mother.\n\nYours always,\nJohn Seward"
+    },
+    "LORE_BLOOFER": {
+      "id": "LORE_BLOOFER",
+      "kind": "lore",
+      "source": "The Westminster Gazette, 25 September",
+      "headline": "A HAMPSTEAD MYSTERY",
+      "bodyText": "The neighbourhood of Hampstead is much exercised by a series of events. Children have been missed, always late in the evening, and have come home next morning with very little account of themselves. The consensus of their excuses is that they had been with a “bloofer lady.”\n\nThe police are asked to keep a close look-out for straying children in and around Hampstead Heath, especially the very young, and for any stray dog which may be about."
+    },
+    "LORE_TYPESCRIPT": {
+      "id": "LORE_TYPESCRIPT",
+      "kind": "lore",
+      "source": "Mrs Harker's typescript, Purfleet",
+      "headline": "THE PAPERS, IN ORDER",
+      "bodyText": "MEMORANDUM. The papers are copied fair and set in order of date: Jonathan's journal from Exeter to the castle, Dr Seward's diary, spoken into the phonograph and written out from the cylinders, and my own. Where an entry is in shorthand I have put it into longhand. I have taken three copies of each.\n\nNothing is explained. I have set the dates side by side and let them say what they say."
     }
   },
   "endings": {

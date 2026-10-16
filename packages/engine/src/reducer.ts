@@ -3,6 +3,7 @@
  * returns a new state, never mutates, never reads Math.random / Date / DOM.
  * Randomness arrives inside the action (CONDUCT_EXPERIMENT.roll).
  */
+import { evalCondition } from "./conditions";
 import { applyAxisDelta, applyStamps, checkFailureEnding, effectiveRollChance, isOptionUnavailable } from "./rules";
 import type { Action, GameDefinition, GameState } from "./schema";
 
@@ -201,7 +202,9 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
       // At most one interlude per transition: one-shot triggers in config order,
       // then the first resource at its crisis level (once per run).
       let interludeId: string | null = null;
-      const trigger = config.interludeTriggers.find((t) => t.onEnterNodes.includes(target) && !state.shownOneShot.includes(t.interludeId));
+      const trigger = config.interludeTriggers.find(
+        (t) => t.onEnterNodes.includes(target) && !state.shownOneShot.includes(t.interludeId) && (!t.when || evalCondition(t.when, state))
+      );
       if (trigger) {
         interludeId = trigger.interludeId;
       } else {

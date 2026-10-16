@@ -110,7 +110,8 @@ for (const d of ["EASY", "MEDIUM", "HARD"]) if (!(d in config.difficulties)) fai
 if (!knownBranches.has(config.startBranch)) fail("config", `startBranch "${config.startBranch}" is not a branch used by any node`);
 if (config.skipToNodeId && !nodeIds.has(config.skipToNodeId)) fail("config", `skipToNodeId "${config.skipToNodeId}" is not a node`);
 for (const t of config.interludeTriggers) {
-  shape(`trigger ${t.interludeId}`, t, { interludeId: "string", onEnterNodes: "string[]" });
+  shape(`trigger ${t.interludeId}`, t, { interludeId: "string", onEnterNodes: "string[]", when: "?object" });
+  if (t.when) checkCondition(`trigger ${t.interludeId} when`, t.when);
   if (!interludeIds.has(t.interludeId)) fail(`trigger ${t.interludeId}`, "interlude does not exist");
   for (const n of t.onEnterNodes) if (!nodeIds.has(n)) fail(`trigger ${t.interludeId}`, `node "${n}" does not exist`);
 }

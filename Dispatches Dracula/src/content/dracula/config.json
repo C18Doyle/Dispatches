@@ -259,6 +259,67 @@
         "18B",
         "18C"
       ]
+    },
+    {
+      "interludeId": "LORE_DEMETER_LOG",
+      "onEnterNodes": [
+        "11"
+      ],
+      "when": {
+        "flag": "crewTaken"
+      }
+    },
+    {
+      "interludeId": "LORE_PHONO_RENFIELD",
+      "onEnterNodes": [
+        "11-ASYLUM",
+        "13A",
+        "13B"
+      ]
+    },
+    {
+      "interludeId": "LORE_MINA_WHITBY",
+      "onEnterNodes": [
+        "14A",
+        "14B",
+        "14C"
+      ],
+      "when": {
+        "flag": "lucyMarked"
+      }
+    },
+    {
+      "interludeId": "LORE_SEWARD_LETTER",
+      "onEnterNodes": [
+        "15A",
+        "15B",
+        "15C"
+      ]
+    },
+    {
+      "interludeId": "LORE_BLOOFER",
+      "onEnterNodes": [
+        "16B",
+        "16C"
+      ],
+      "when": {
+        "any": [
+          {
+            "flag": "lucyTakenFast"
+          },
+          {
+            "flag": "lucyAtWindow"
+          }
+        ]
+      }
+    },
+    {
+      "interludeId": "LORE_TYPESCRIPT",
+      "onEnterNodes": [
+        "17A",
+        "17B",
+        "17C"
+      ]
     }
   ],
   "assist": {

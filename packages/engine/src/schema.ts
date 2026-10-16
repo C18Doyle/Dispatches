@@ -229,6 +229,8 @@ export interface DifficultyRules {
 export interface InterludeTrigger {
   interludeId: InterludeId;
   onEnterNodes: NodeId[];
+  /** Optional: the interlude is only offered while this condition holds (a document that depends on what the player did). */
+  when?: Condition;
 }
 
 export interface AssistConfig {

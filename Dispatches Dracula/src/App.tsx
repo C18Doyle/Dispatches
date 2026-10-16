@@ -38,7 +38,7 @@ const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 /** Which kind of paper a document is printed on: a newspaper, a letter or a page of someone's notebook. */
 function paperKind(p: { kind: string; source: string }): "news" | "letter" | "diary" {
   if (/Gazette|Telegraph|List|Times|Mail/.test(p.source)) return "news";
-  if (p.kind === "crisis" || p.kind === "transition") return "diary";
+  if (p.kind === "crisis" || p.kind === "transition" || /(Log|Journal|Diary|Notebook|Case-Book)/.test(p.source)) return "diary";
   return "letter";
 }
 
