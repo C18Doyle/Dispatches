@@ -20,7 +20,9 @@
         "brass": "#b8944a",
         "brass-bright": "#d9b865",
         "brass-dim": "#5c4a22",
-        "ash": "#a09484"
+        "ash": "#a09484",
+        "bone": "#ece4d2",
+        "on-brass": "#140d0c"
       },
       "art": {
         "skyTop": "#05030a",
@@ -32,6 +34,14 @@
         "win": "#e8a33a",
         "fog": "#7a5058",
         "glow": "#b0202a"
+      },
+      "page": {
+        "scheme": "dark",
+        "hatch": "255 255 255 / 0.025",
+        "vignette": "0 0 0 / 0.6",
+        "titleKicker": "#b8944a",
+        "titleText": "#ece4d2",
+        "titleSub": "#d9b865"
       }
     },
     {
@@ -53,7 +63,9 @@
         "brass": "#cf9f4e",
         "brass-bright": "#ecbe66",
         "brass-dim": "#68481a",
-        "ash": "#ab9874"
+        "ash": "#ab9874",
+        "bone": "#efe0bf",
+        "on-brass": "#221608"
       },
       "art": {
         "skyTop": "#0b0704",
@@ -65,6 +77,14 @@
         "win": "#ffc15a",
         "fog": "#8d6a40",
         "glow": "#ecbe66"
+      },
+      "page": {
+        "scheme": "dark",
+        "hatch": "255 255 255 / 0.025",
+        "vignette": "0 0 0 / 0.6",
+        "titleKicker": "#cf9f4e",
+        "titleText": "#efe0bf",
+        "titleSub": "#ecbe66"
       }
     },
     {
@@ -86,7 +106,9 @@
         "brass": "#a2b3cc",
         "brass-bright": "#cbd8ec",
         "brass-dim": "#3b4a66",
-        "ash": "#8e9cb6"
+        "ash": "#8e9cb6",
+        "bone": "#e0e6ef",
+        "on-brass": "#0c1220"
       },
       "art": {
         "skyTop": "#03060f",
@@ -98,6 +120,57 @@
         "win": "#f0c060",
         "fog": "#6f84a8",
         "glow": "#9db6e0"
+      },
+      "page": {
+        "scheme": "dark",
+        "hatch": "255 255 255 / 0.025",
+        "vignette": "0 0 0 / 0.6",
+        "titleKicker": "#a2b3cc",
+        "titleText": "#e0e6ef",
+        "titleSub": "#cbd8ec"
+      }
+    },
+    {
+      "id": "journal",
+      "label": "Harker's Journal",
+      "blurb": "Cream paper and black ink, as a diary is kept by day. The easiest to read.",
+      "displayFont": "'IM Fell English SC'",
+      "colors": {
+        "void": "#e6dcc3",
+        "void2": "#d9cdb0",
+        "parchment": "#f8f2e3",
+        "parchment-dim": "#e3d8bd",
+        "ink": "#1c140c",
+        "ink-soft": "#4b3d2c",
+        "blood": "#8a1c1c",
+        "blood-bright": "#a3232b",
+        "verdigris": "#35603f",
+        "verdigris-bright": "#2e5f3a",
+        "brass": "#6e4f12",
+        "brass-bright": "#5a3f0c",
+        "brass-dim": "#5c4a22",
+        "ash": "#554c3f",
+        "bone": "#1c140c",
+        "on-brass": "#f8f2e3"
+      },
+      "art": {
+        "skyTop": "#120d18",
+        "skyMid": "#2c1a2a",
+        "skyLow": "#7a3f35",
+        "moon": "#f3e6c6",
+        "far": "#241420",
+        "sil": "#0b070a",
+        "win": "#f0a83c",
+        "fog": "#8b6a68",
+        "glow": "#c0392b"
+      },
+      "page": {
+        "scheme": "light",
+        "hatch": "0 0 0 / 0.04",
+        "vignette": "90 60 30 / 0.22",
+        "titleKicker": "#d9b865",
+        "titleText": "#f3e6c6",
+        "titleSub": "#f0cf86"
       }
     }
   ]

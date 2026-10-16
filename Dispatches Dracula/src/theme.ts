@@ -13,9 +13,11 @@ export interface Theme {
   displayFont: string;
   colors: Record<string, string>;
   art: Record<string, string>;
+  /** The page itself: dark or light, the hatching and vignette over it, and the colours of the title over the title art. */
+  page: { scheme: "dark" | "light"; hatch: string; vignette: string; titleKicker: string; titleText: string; titleSub: string };
 }
 
-export const THEMES: Theme[] = themeData.themes;
+export const THEMES = themeData.themes as unknown as Theme[];
 export const DEFAULT_THEME: string = themeData.default;
 
 const KEY = `${def.config.id}_theme`;
@@ -50,5 +52,11 @@ export function applyTheme(id: string): void {
   for (const [name, hex] of Object.entries(theme.colors)) root.style.setProperty(`--c-${name}`, channels(hex));
   for (const [name, hex] of Object.entries(theme.art)) root.style.setProperty(`--a-${name}`, hex);
   root.style.setProperty("--font-display", theme.displayFont);
+  root.style.setProperty("--hatch", theme.page.hatch);
+  root.style.setProperty("--vignette", theme.page.vignette);
+  root.style.setProperty("--t-kicker", theme.page.titleKicker);
+  root.style.setProperty("--t-title", theme.page.titleText);
+  root.style.setProperty("--t-sub", theme.page.titleSub);
+  root.dataset.scheme = theme.page.scheme;
   root.dataset.theme = theme.id;
 }

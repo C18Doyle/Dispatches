@@ -84,7 +84,8 @@ for (const theme of themes) {
   pairs.push(["brass-dim on parchment (labels)", C["brass-dim"], P, 4.5]);
   pairs.push(["blood on the dim paper of a letter", C.blood, C["parchment-dim"], 4.5]);
   // text on the dark ground
-  pairs.push(["parchment on void", P, C.void, 4.5]);
+  pairs.push(["bone on void (text on the page)", C.bone, C.void, 4.5]);
+  pairs.push(["bone on void2", C.bone, C.void2, 4.5]);
   pairs.push(["brass on void", C.brass, C.void, 4.5]);
   pairs.push(["brass-bright on void", C["brass-bright"], C.void, 4.5]);
   pairs.push(["ash on void", C.ash, C.void, 4.5]);
@@ -93,8 +94,7 @@ for (const theme of themes) {
   pairs.push(["parchment on ink (a primary button)", P, C.ink, 4.5]);
   pairs.push(["parchment on blood (the red button)", P, C.blood, 4.5]);
   pairs.push(["parchment on blood-bright (a wax seal)", P, C["blood-bright"], 4.5]);
-  pairs.push(["ink on brass (a selected difficulty)", C.ink, C.brass, 4.5]);
-  pairs.push(["parchment on void2 (the title screen's second ground)", P, C.void2, 4.5]);
+  pairs.push(["on-brass on brass (a selected difficulty)", C["on-brass"], C.brass, 4.5]);
   for (const [label, fg, bg, need] of pairs) {
     const r = ratio(fg, bg);
     if (r < need) note(`palette (${theme.id}): ${label} is ${r.toFixed(2)}:1, under the ${need}:1 it needs`);

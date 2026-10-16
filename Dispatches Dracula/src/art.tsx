@@ -420,7 +420,7 @@ export function TitleScene({ className = "" }: { className?: string }) {
       <g className="fog-b">
         <ellipse className="a-fog-fill" cx="200" cy="228" rx="170" ry="11" opacity="0.2" />
       </g>
-      <rect y="214" width="400" height="86" fill={`url(#${id}-fade)`} />
+      <rect className="title-fade" y="214" width="400" height="86" fill={`url(#${id}-fade)`} />
     </svg>
   );
 }

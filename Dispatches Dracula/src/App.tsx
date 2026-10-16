@@ -770,11 +770,11 @@ export default function App() {
         <div className="relative">
           <TitleScene />
           <div className="absolute inset-x-0 bottom-0 px-4 pb-1 text-center">
-            <p className="font-heading text-[0.65rem] uppercase tracking-[0.5em] text-brass mb-1">A Dispatches Chronicle</p>
-            <h1 className="flicker font-display text-6xl sm:text-7xl font-bold text-parchment leading-none mb-2">
+            <p className="title-kicker font-heading text-[0.65rem] uppercase tracking-[0.5em] mb-1">A Dispatches Chronicle</p>
+            <h1 className="title-text flicker font-display text-6xl sm:text-7xl font-bold leading-none mb-2">
               {ui.title}
             </h1>
-            <p className="font-heading text-sm sm:text-base uppercase tracking-[0.35em] text-brass-bright">
+            <p className="title-sub font-heading text-sm sm:text-base uppercase tracking-[0.35em]">
               {ui.subtitle}
             </p>
           </div>
@@ -798,7 +798,7 @@ export default function App() {
                 tryStartMusic();
                 dispatch({ type: "HYDRATE", state: resumableSave });
               }}
-              className="mt-3 w-full sm:w-auto block mx-auto px-10 py-2.5 border border-brass-dim/70 text-ash font-heading uppercase text-xs tracking-[0.2em] hover:border-brass hover:text-parchment transition-colors"
+              className="mt-3 w-full sm:w-auto block mx-auto px-10 py-2.5 border border-brass-dim/70 text-ash font-heading uppercase text-xs tracking-[0.2em] hover:border-brass hover:text-bone transition-colors"
             >
               {ui.continueLabel}
             </button>
@@ -809,7 +809,7 @@ export default function App() {
                 click();
                 setOverlay("RESEARCH");
               }}
-              className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
+              className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-bone transition-colors"
             >
               How To
             </button>
@@ -818,7 +818,7 @@ export default function App() {
                 click();
                 setOverlay("SETTINGS");
               }}
-              className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
+              className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-bone transition-colors"
             >
               Settings
             </button>
@@ -828,7 +828,7 @@ export default function App() {
                   click();
                   setOverlay("LEDGER");
                 }}
-                className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
+                className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-bone transition-colors"
               >
                 Ledger
               </button>
@@ -878,7 +878,7 @@ export default function App() {
       <VoidScreen>
         <div className="text-center max-w-lg w-full">
           <OrnamentDivider />
-          <h1 className="flicker font-display text-4xl sm:text-5xl font-bold text-parchment my-6">
+          <h1 className="flicker font-display text-4xl sm:text-5xl font-bold text-bone my-6">
             {def.flavor.chapterCard.title}
           </h1>
           <p className="font-heading text-xs uppercase tracking-[0.4em] text-brass/80 mb-8">{def.flavor.chapterCard.subtitle}</p>
@@ -894,8 +894,8 @@ export default function App() {
                 }}
                 className={`px-4 py-2.5 border font-heading uppercase text-xs tracking-[0.2em] transition-colors ${
                   state.difficulty === d
-                    ? "bg-brass text-ink border-brass"
-                    : "border-brass-dim/70 text-parchment hover:border-brass"
+                    ? "bg-brass text-on-brass border-brass"
+                    : "border-brass-dim/70 text-bone hover:border-brass"
                 }`}
               >
                 {DIFFICULTY_INFO[d].label}
@@ -910,7 +910,7 @@ export default function App() {
               select();
               dispatch({ type: "ENTER_STORY" });
             }}
-            className="mt-4 px-8 py-3 border border-brass text-parchment font-heading uppercase text-sm tracking-[0.25em] hover:bg-brass hover:text-ink transition-colors"
+            className="mt-4 px-8 py-3 border border-brass text-bone font-heading uppercase text-sm tracking-[0.25em] hover:bg-brass hover:text-on-brass transition-colors"
           >
             Enter
           </button>
@@ -921,7 +921,7 @@ export default function App() {
                   select();
                   dispatch({ type: "SKIP_TO_ACT2" });
                 }}
-                className="px-6 py-2 border border-brass-dim/60 text-ash font-heading uppercase text-xs tracking-[0.15em] hover:border-brass hover:text-parchment transition-colors"
+                className="px-6 py-2 border border-brass-dim/60 text-ash font-heading uppercase text-xs tracking-[0.15em] hover:border-brass hover:text-bone transition-colors"
               >
                 {ui.skipLabel}
               </button>
@@ -1296,7 +1296,7 @@ export default function App() {
         <div className="max-w-2xl mx-auto">
           <header className="mb-6 text-center">
             <p className="font-heading text-xs uppercase tracking-[0.35em] text-brass mb-1">{ui.title}</p>
-            <h1 className="font-display text-xl sm:text-2xl font-bold text-parchment">{ui.subtitle}</h1>
+            <h1 className="font-display text-xl sm:text-2xl font-bold text-bone">{ui.subtitle}</h1>
             <p className="font-heading text-xs uppercase tracking-widest text-ash mt-1">{BRANCH_LABELS[state.activeBranch]}</p>
           </header>
 
@@ -1335,7 +1335,7 @@ export default function App() {
                   click();
                   setMapOpen((o) => !o);
                 }}
-                className="px-4 py-2 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
+                className="px-4 py-2 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-bone transition-colors"
               >
                 {mapOpen ? "Hide the Map" : "Map"}
               </button>
@@ -1354,7 +1354,7 @@ export default function App() {
                 click();
                 setProfessorPanelOpen(true);
               }}
-              className="mb-6 px-4 py-2 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
+              className="mb-6 px-4 py-2 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-bone transition-colors"
             >
               {ui.adviser.openLabel}
             </button>

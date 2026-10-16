@@ -23,6 +23,9 @@ export default {
         "brass-bright": token("brass-bright"),
         "brass-dim": token("brass-dim"),
         ash: token("ash"),
+        // text on the page itself (light on a dark theme, dark on the light one) and text on a gold fill
+        bone: token("bone"),
+        "on-brass": token("on-brass"),
       },
       fontFamily: {
         // The display face is part of the theme (--font-display): large, sparse moments only (the title, chapter cards, drop caps). Never body copy or small chrome.
