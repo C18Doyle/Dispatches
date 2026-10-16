@@ -211,10 +211,10 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
               <>
                 <h2 className="dg-order">Meanwhile</h2>
                 <ul className="dg-meanwhile">
-                  {meanwhile.map((m) => (
+                  {[...meanwhile].sort((x, y) => x.daysAgo - y.daysAgo).slice(0, 3).map((m) => (
                     <li key={m.campaignId} style={{ "--accent": "var(--acc-" + m.campaignId + ")" }}>
                       <span className="dg-seal">{CAMPAIGNS[m.campaignId].seal}</span>
-                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} ${m.daysAgo === 1 ? "day" : "days"} before this report)` : ""}</span>
+                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} ${m.daysAgo === 1 ? "day" : "days"} before this report)` : ""}<br /><span className="dg-mw-ctx">{m.context}</span></span>
                     </li>
                   ))}
                 </ul>
@@ -238,7 +238,6 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
                 </ul>
               </>
             )}
-            <p className="dg-note">The countries are drawn with today's borders and coloured by the side each stood on that day. The lines of the front are drawn from the course of the fighting and are approximate.</p>
           </div>
         </div>
       )}

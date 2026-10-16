@@ -1822,12 +1822,12 @@
     "id": "otto-menu-quote-1",
     "node": "otto_1914_04_offer",
     "kind": "quotation",
-    "claim": "The Ottoman Embassy told the United States on 8 August 1914 that the Imperial Ottoman Government had decided to observe strict neutrality in the European conflict.",
+    "claim": "Enver Pasha said, on the evening the Goeben and Breslau reached the Dardanelles, that he had allowed them through because he did not wish to condemn the ships of an allied State to certain destruction.",
     "status": "web-checked",
     "sources": [
-      "frus-ottoman-neutrality"
+      "djemal-memories"
     ],
-    "note": "The same week the empire had signed a secret alliance with Germany; the note is the official position, not the whole."
+    "note": "Djemal Pasha, who was present at the dinner of the Committee's leaders, gives Enver's words in his memoirs (English translation, 1922) and dates the evening 11 August; the ships were at the Narrows on 10 August and reached Constantinople on 11 August in most accounts. The menu gives the month only. The words are a memoir's report of speech, not a transcript."
   },
   {
     "id": "otto-end-neutral-1",

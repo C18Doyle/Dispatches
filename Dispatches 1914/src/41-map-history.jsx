@@ -132,6 +132,18 @@ export function mapDate(campaignId, iso) {
   return iso;
 }
 
+/** The opening sentences of a report's situation, up to about two hundred characters: what that headquarters was facing. */
+function sceneOf(text) {
+  const sentences = String(text || "").replace(/s+/g, " ").trim().split(/(?<=[.!?])s+/);
+  let out = "";
+  for (const s of sentences) {
+    if (out && (out + " " + s).length > 220) break;
+    out = out ? out + " " + s : s;
+    if (out.length >= 110) break;
+  }
+  return out;
+}
+
 /**
  * What the other commands were doing: for each of them, its latest report on or before this node's date (Western calendar), as
  * { campaignId, nodeId, title, city, date, daysAgo }. A command with no report yet is left out.
@@ -146,7 +158,7 @@ export function meanwhileAt(campaignId, node) {
     for (const [nid, n] of Object.entries(c.nodes)) {
       if (n.ending) continue;
       const d = mapDate(cid, n.date);
-      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d };
+      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d, context: sceneOf(n.situation) };
     }
     if (best) {
       best.daysAgo = Math.round((new Date(now + "T00:00:00Z") - new Date(best.date + "T00:00:00Z")) / 86400000);

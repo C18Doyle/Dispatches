@@ -63,8 +63,6 @@ async function click(page, name, opts = {}) {
 async function playTo(page, title) {
   for (let i = 0; i < 60; i++) {
     if ((await page.locator("h1").first().innerText()).includes(title)) return true;
-    const seal = page.getByRole("button", { name: /^Break the seal$/ });
-    if (await seal.count()) { await seal.click(); await page.waitForTimeout(120); continue; }
     const cont = page.getByRole("button", { name: /^Continue$/ });
     if (await cont.count()) { await cont.click(); await page.waitForTimeout(120); continue; }
     const order = page.locator("button.dg-choice:not([disabled]):not(.dg-opt):not(.dg-issue)").first();
@@ -152,11 +150,9 @@ for (const engine of ENGINES) {
         await click(page, /^Issue the plan/);
         await scan(page, at("battle second day"), { viewport: vp.label });
         await click(page, /^Carry on to the second day/);
-        await scan(page, at("sealed cable"), { viewport: vp.label });
-        await click(page, /^Break the seal$/);
         checks++;
         const focused = await page.evaluate(() => (document.activeElement ? document.activeElement.tagName + ":" + (document.activeElement.textContent || "").slice(0, 40) : ""));
-        if (/^BODY/.test(focused) || /Break the seal/.test(focused)) fail(at("outcome"), `the focus is lost when the seal is broken (${focused})`);
+        if (/^BODY/.test(focused)) fail(at("outcome"), `the focus is lost when the result comes (${focused})`);
         await scan(page, at("outcome"), { viewport: vp.label });
       }
 

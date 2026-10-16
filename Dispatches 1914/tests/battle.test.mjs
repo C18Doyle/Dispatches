@@ -109,7 +109,7 @@ await ctx.click(issue());
 t = ctx.text();
 check(/The first day/.test(t) && /The second day/.test(t) && /REPORT FROM THE FIELD/.test(t), "issuing the plan opens the first day's report and the second day's orders");
 check(/The enemy was /.test(t), "the first day names the enemy that was met");
-check(ctx.d.querySelectorAll('[aria-label="Stance"] button').length === 3, "three stances are offered");
+check(ctx.d.querySelectorAll('[aria-label="The day\'s orders"] button').length >= 4, "the second day offers tactical orders: hold, press, fall back and send the reserve");
 await ctx.click(btn(ctx, /^Carry on to the second day/));
 await unseal(ctx);
 t = ctx.text();
@@ -129,21 +129,19 @@ ctx.restore();
   r.restore();
 }
 
-// --- the second day: counters moved once the enemy is known, and a stance --------------------------------------------
+// --- the second day: orders from the field once the enemy is known --------------------------------------------
 {
   const day = await boot();
   check(await toMarne(day), "the Marne node is reached for the second day");
   await day.click(orders(day).find((x) => /Turn and attack/.test(day.lab(x))));
   await day.click(btn(day, /^Let the staff plan it/));
   await day.click(btn(day, /^Issue the plan/));
-  check(!day.d.querySelector(".dg-issue").disabled, "with nothing moved the second day can be carried on");
-  await day.click(btn(day, /^Take a counter out of/));
-  check(/1 counter in hand/.test(day.text()), "a counter taken out is in hand");
-  check(day.d.querySelector(".dg-issue").disabled, "the second day cannot be carried on with a counter in hand");
-  const put = day.buttons().filter((x) => /^Put a counter into/.test(day.lab(x)) && !x.disabled).pop(); // not the arm it came from
-  await day.click(put);
-  check(/1 counter moved/.test(day.text()), "a counter put back counts as moved");
-  const before = day.text().match(/The odds\s*(Long odds|Against us|Even|Favourable|Strong)/);
+  check(!day.d.querySelector(".dg-issue").disabled, "the second day can be carried on with the line held");
+  check(!day.d.querySelector('[aria-label="The day\'s orders"] button[aria-pressed="false"][class*="dg-opt"]') === false, "the day's orders are offered as a choice");
+  const reserve = day.buttons().find((x) => /^Send the reserve to the/.test(day.lab(x)));
+  check(!!reserve, "an arm that is short can be sent the reserve");
+  await day.click(reserve);
+  check(/Send the reserve to the/.test(day.d.querySelector(".dg-bt-bar").textContent), "the bar names the order chosen");
   await day.click(btn(day, /^Press the attack/));
   check(/Press the attack/.test(day.d.querySelector(".dg-bt-bar").textContent), "the bar names the stance");
   await day.click(btn(day, /^Change the plan/));

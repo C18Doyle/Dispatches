@@ -47,11 +47,11 @@ async function resume(saved) {
   check(/What the staff believes/.test(t) && /reserve corps in the front line/.test(t), "the report lists the staff's belief");
   check(/Reported as firm/.test(t), "the belief carries the staff's grade");
   check(/Rests on a belief the staff has not checked/.test(t), "the order that rests on it says so");
-  check(/Checks left in this file: 3/.test(t) && !!btn(ctx, /^Check it \(3 left\)/), "three checks are offered");
+  check(!!btn(ctx, /^Check it \(3 left\)/), "three checks are offered");
   await ctx.click(btn(ctx, /^Check it/));
   t = ctx.text();
   check(/The staff is divided, and the reports lean against it\./.test(t) && /half as strong again/.test(t), "a check says the staff is divided, leaning against the belief, and gives the evidence");
-  check(/Checks left in this file: 2/.test(t), "a check spends one");
+  check(!btn(ctx, /^Check it/), "a checked belief offers no second check");
   check(/Rests on a belief the staff now doubts/.test(t), "the order now says the staff doubts its belief");
   // an order that does not rest on it
   const free = orders(ctx).find((b) => !/Rests on/.test(b.textContent));

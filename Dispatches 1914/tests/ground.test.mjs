@@ -87,8 +87,8 @@ async function resume(saved) {
   await ctx.click(btn(ctx, /^Decline the Balkan commitment/));
   await ctx.click(btn(ctx, /^Continue$/));
   const t = ctx.text();
-  check(/Special event/.test(t) && /Le Temps/.test(t) && /Salonika Army Finds No Enemy/.test(t), "newspaper: a speculative order brings a front page from another front before the next report");
-  check(/Speculative\./.test(t) && !!ctx.d.querySelector(".dg-paper"), "newspaper: it has a masthead and is written as speculative");
+  check(!!ctx.d.querySelector('[data-screen="event"]') && /Le Temps/.test(t) && /Salonika Army Finds No Enemy/.test(t), "newspaper: a speculative order brings a front page from another front before the next report");
+  check(/Speculative/.test(t) && !!ctx.d.querySelector(".dg-paper"), "newspaper: it has a masthead and is written as speculative");
   await ctx.click(btn(ctx, /^Continue$/));
   check(!/Le Temps/.test(ctx.text()) && /The Meuse/.test(ctx.text()) && orders(ctx).length >= 1, "newspaper: and then the report follows, and the paper is not shown again");
   ctx.restore();

@@ -158,9 +158,9 @@ export function battleBonus(config, plan, posture, pool) {
 // plan's edge as it is), press on (BATTLE_PRESS times the edge, and a point of manpower), or steady the line (BATTLE_STEADY times the edge). A plan
 // that is not given a second day is a plan held with nothing moved, so the staff's plan still plays the record's odds.
 export const BATTLE_STANCES = [
-  { id: "hold", name: "Hold the plan", note: "Carry on as planned, with the odds as they stand." },
-  { id: "press", name: "Press the attack", note: "Double down: the plan's edge, or its error, is a third greater, and it costs a point of manpower." },
-  { id: "steady", name: "Steady the line", note: "Play safe: the plan's edge, or its error, is halved." },
+  { id: "hold", name: "Hold the line", note: "Stand where the first day left the troops, with the odds as they stand." },
+  { id: "press", name: "Press the attack", note: "Throw in everything where the enemy is giving: the plan's edge, or its error, is a third greater, and it costs a point of manpower." },
+  { id: "steady", name: "Fall back to the second line", note: "Play safe: the plan's edge, or its error, is halved." },
 ];
 
 /** The plan with its second day applied: { ...plan, allocation } after the counters moved ({ from, to } pairs, at most BATTLE_SHIFT_MAX). */

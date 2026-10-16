@@ -37,7 +37,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("each card names its nation", ["Germany", "France", "Russia", "Britain", "Austria-Hungary", "The Ottoman Empire"].every((n) => txt().includes(n)));
   t("the menu carries War record and Settings, and How to play is in Settings", ["War record", "Settings"].every((n) => btns().some((b) => b.textContent.includes(n))));
   t("the menu has no feedback option", !/feedback/i.test(txt()) && !document.querySelector('a[href*="dispatches.itch.io"]'));
-  t("difficulty is not on the menu", !btns().some((b) => b.textContent.trim() === "Hard mode"));
+  t("difficulty is not on the menu", !btns().some((b) => b.textContent.trim().endsWith("Hard mode")));
   t("all six campaigns listed",
     ["Germany","France","Russia","Britain","Austria-Hungary","Ottoman"]
       .every(n => txt().includes(n)));
@@ -50,7 +50,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   click(playable); await wait(60);
   t("a command opens its briefing first", txt().includes("Where things stand") && txt().includes("Your seat") && txt().includes("Set up the file") && !txt().includes("Issue Order"));
   t("the briefing says the first report's date in the UK form", txt().includes("1 August 1914"));
-  t("the briefing offers the difficulty and battle planning", btns().some((b) => b.textContent.trim() === "Easy mode") && txt().includes("Take control of battle planning"));
+  t("the briefing offers the difficulty and battle planning", btns().some((b) => b.textContent.trim().endsWith("Easy mode")) && txt().includes("Take control of battle planning"));
   await enter();
   t("a command opens on its prelude, in the UK date form", txt().includes("The Kaiser's Question") && txt().includes("1 August 1914"));
   await pass("Tell the Kaiser that the deployment");
@@ -81,8 +81,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
 
   const c2 = btns().find(b => b.textContent.includes("Send Hentsch forward"));
   click(c2); await wait(60);
-  t("a contested order comes back in a sealed cable", txt().includes("sealed") && !txt().includes("THE HISTORICAL RECORD"));
-  click(btns().find(b => b.textContent.trim() === "Break the seal")); await wait(60);
+  t("a contested order shows its result at once, with no sealed cable", !txt().includes("A cable has come in") && !btns().some(b => b.textContent.trim() === "Break the seal") && !txt().includes("THE HISTORICAL RECORD"));
   const cont2 = btns().find(b => b.textContent.trim() === "Continue");
   click(cont2); await wait(60);
 
@@ -98,7 +97,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("can return to menu and pick a second campaign", !!gqg);
   if (gqg) { click(gqg); await wait(60); await enter(); await pass("Obey, and withdraw"); }
   t("GQG node renders", txt().includes("Into Lorraine"));
-  t("GQG uses its own will label", txt().includes("ARMY MORALE") && !txt().includes("HOME FRONT"));
+  t("GQG uses its own will label", txt().includes("MORALE") && !txt().includes("ARMY MORALE") && !txt().includes("HOME FRONT"));
   t("GQG uses its own document treatment", txt().includes("COMPTE RENDU"));
 
   const home2 = btns().find(b => b.textContent.trim() === "Home");
@@ -113,7 +112,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
 
 
   // ---- v1.1: saved file, hard mode switch, war record, settings -------------------------------------------
-  const byText = (x) => btns().find((b) => b.textContent.trim() === x);
+  const byText = (x) => btns().find((b) => b.textContent.trim() === x || (/ mode$/.test(x) && b.textContent.trim().endsWith(x)));
   const byIncludes = (x) => btns().find((b) => b.textContent.includes(x));
   // Stavka is in progress: going Home offers it back.
   click(byText("Home")); await wait(60);
@@ -144,14 +143,13 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("each command has its progress, files and best rank", txt().includes("No rank yet") && /OHL/.test(txt()) && /Decisions\s*\d+\/\d+/.test(txt()));
   t("the war record has no echoes tab", !txt().includes("Echoes"));
   click(byText("Dossiers")); await wait(40);
-  t("dossiers opened by advisers met in play", /[1-9]\d* of \d+ dossiers open/.test(txt()));
-  t("dossiers not yet met stay closed", txt().includes("File closed."));
+  t("every dossier can be read, with how often the adviser was followed", /You followed this adviser|No orders given on this adviser/.test(txt()) && !txt().includes("File closed."));
   click(byText("Atlas")); await wait(40);
   t("atlas lists decisions reached and not yet reached", /decisions reached/.test(txt()) && /not yet reached/i.test(txt()));
   click(byText("Endings")); await wait(40);
   t("endings gallery counts endings found", /\d+ of \d+ endings found/.test(txt()));
   click(byText("Battles")); await wait(40);
-  t("the battles tab lists the Orders of Battle", txt().includes("the Marne") && txt().includes("Not yet fought"));
+  t("the battles tab lists the Orders of Battle", txt().includes("the Marne") && !txt().includes("Not yet fought"));
   click(byText("Return to file")); await wait(60);
   t("the war record is kept in localStorage", !!window.localStorage.getItem("dispatches1914_record_v1"));
 
@@ -168,6 +166,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   // Settings: its own screen.
   click(byIncludes("Settings")); await wait(60);
   t("Settings opens as a screen with its sections", txt().includes("Reading") && txt().includes("Playing") && txt().includes("Calendar: United Kingdom"));
+  t("the settings offer the music, on or off, with a volume while it is on", txt().includes("Music") && !!document.querySelector('[aria-label="Music"]') && !!document.querySelector('input[type="range"]#dg-music'));
   const slider = document.getElementById("dg-size");
   t("text size is a slider with three stops", !!slider && slider.min === "0" && slider.max === "2");
   const setSize = async (v) => {
@@ -184,8 +183,11 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("text size can go back to Standard", !document.querySelector(".dg-fs-m"));
   click([...document.querySelectorAll('[aria-label="Sound"] button')].find((b) => b.textContent.trim() === "Typewriter")); await wait(40);
   t("sound can be switched on and is stored", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"sound":true'));
-  click(byText("Off")); await wait(40);
+  click([...document.querySelectorAll('[aria-label="Sound"] button')].find((b) => b.textContent.trim() === "Off")); await wait(40);
   t("sound can be switched off again", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"sound":false'));
+  click([...document.querySelectorAll('[aria-label="Music"] button')].find((b) => b.textContent.trim() === "Off")); await wait(40);
+  t("music can be switched off and is stored, and its volume goes", (window.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"music":false') && !document.querySelector("#dg-music"));
+  click([...document.querySelectorAll('[aria-label="Music"] button')].find((b) => b.textContent.trim() === "On")); await wait(40);
   click(byText("Back")); await wait(60);
 
   // Landmarks and headings.

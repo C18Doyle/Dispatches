@@ -59,7 +59,7 @@ export const CAMPAIGNS = {
     seat: "Commander-in-Chief",
     calendar: "gregorian",
     flagPrefix: "gqg_",
-    willLabel: "Army Morale",
+    willLabel: "Morale",
     willMeaning: "The cohesion and obedience of the army itself.",
     span: { from: "1914-07-30", to: "1918-11-11" },
     targetNodes: [38, 42],
