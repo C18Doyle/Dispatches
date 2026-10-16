@@ -1425,7 +1425,7 @@ CAMPAIGNS.ohl.nodes = {
   // ---------------------------------------------------------------- 1917-01
   ohl_1917_06_pless: {
     year: 1917, date: "1917-01-09", city: "Pless",
-    title: "Six Months, by Arithmetic",
+    title: "Five Months, by Arithmetic",
     advisors: ["holtzendorff", "bethmann", "ludendorff", "hindenburg"],
     bulletin: {
       voice: "ohl", date: "1917-01-05", source: "Official communiqué",
@@ -12842,9 +12842,19 @@ export function mapDate(campaignId, iso) {
   return iso;
 }
 
+/** A report's situation as text: a situation that is built from the file's flags is read for a file with none. */
+function plainSituation(cid, nid, n) {
+  try {
+    const s = typeof n.situation === "function" ? n.situation({}, emptyMeters(), { flags: {}, meters: emptyMeters(), campaignId: cid, nodeId: nid }) : n.situation;
+    return typeof s === "string" ? s : "";
+  } catch (e) {
+    return "";
+  }
+}
+
 /** The opening sentences of a report's situation, up to about two hundred characters: what that headquarters was facing. */
 function sceneOf(text) {
-  const sentences = String(text || "").replace(/s+/g, " ").trim().split(/(?<=[.!?])s+/);
+  const sentences = String(text || "").replace(/\s+/g, " ").trim().split(/(?<=[.!?])\s+/);
   let out = "";
   for (const s of sentences) {
     if (out && (out + " " + s).length > 220) break;
@@ -12868,7 +12878,7 @@ export function meanwhileAt(campaignId, node) {
     for (const [nid, n] of Object.entries(c.nodes)) {
       if (n.ending) continue;
       const d = mapDate(cid, n.date);
-      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d, context: sceneOf(n.situation) };
+      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d, context: sceneOf(plainSituation(cid, nid, n)) };
     }
     if (best) {
       best.daysAgo = Math.round((new Date(now + "T00:00:00Z") - new Date(best.date + "T00:00:00Z")) / 86400000);

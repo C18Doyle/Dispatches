@@ -5,6 +5,10 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## 1.3.3 (2026-10-16)
+### Fixed: the Meanwhile list on the expanded map
+- The sentence under each Meanwhile entry was read wrongly for reports whose situation is built from the file, so some showed the program text and the rest lost every letter s. Each is now the opening of that report as it reads for a file with no choices made, and `smoke.js` proves that no entry is code or has letters missing.
+
 ## 1.3.2 (2026-10-16)
 ### Changed: the front, the war record, the report and the second day of a battle
 - **The menu.** The quotations carry the speaker's name under them and a date in small type, and the word "attributed" and the phrase "as he recalled it" are gone. The title line is credited to David Lloyd George, 1916, which is the common attribution and not a proven one (the earliest citation found is a book of 1932; the claims register marks it disputed). The Ottoman card now quotes Enver Pasha on letting the Goeben and Breslau through the Straits, as Djemal Pasha recorded it in his memoirs. The STAVKA seal is set smaller so that it fits on one line.

@@ -1094,7 +1094,7 @@ CAMPAIGNS.ohl.nodes = {
   // ---------------------------------------------------------------- 1917-01
   ohl_1917_06_pless: {
     year: 1917, date: "1917-01-09", city: "Pless",
-    title: "Six Months, by Arithmetic",
+    title: "Five Months, by Arithmetic",
     advisors: ["holtzendorff", "bethmann", "ludendorff", "hindenburg"],
     bulletin: {
       voice: "ohl", date: "1917-01-05", source: "Official communiqué",

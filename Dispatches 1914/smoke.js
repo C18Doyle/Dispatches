@@ -143,6 +143,7 @@ t("flag prefixes are unique",
   const r3 = E.noteEnding(r2, "ohl_end_armistice", true);
   t("the record counts endings and hard-mode runs", r3.endings.length === 1 && r3.runs === 1 && r3.hardRuns === 1);
   t("settings fall back to the default on junk", E.sanitizeSettings({ schemaVersion: 1, textSize: "huge" }).textSize === "s" && E.sanitizeSettings(null).textSize === "s");
+  t("the Meanwhile entries are sentences, never the source of a function", E.CAMPAIGN_IDS.every((cid) => Object.values(E.CAMPAIGNS[cid].nodes).filter((n) => !n.ending).every((n) => E.meanwhileAt(cid, n).every((m) => typeof m.context === "string" && m.context.length > 15 && !/=>|function|\be\./.test(m.context)))));
   t("music is on by default at half volume, can be turned off, and a bad volume falls back", E.defaultSettings().music === true && E.defaultSettings().musicVolume === 0.5 && E.sanitizeSettings({ schemaVersion: 1, music: false }).music === false && E.sanitizeSettings({ schemaVersion: 1, musicVolume: 7 }).musicVolume === 0.5 && E.sanitizeSettings({ schemaVersion: 1, musicVolume: 0.3 }).musicVolume === 0.3);
   t("sound is off by default and only a literal true turns it on", E.defaultSettings().sound === false && E.sanitizeSettings({ schemaVersion: 1, sound: "yes" }).sound === false && E.sanitizeSettings({ schemaVersion: 1, sound: true }).sound === true);
   t("every advisor named on a node has a dossier entry", E.allNodes().every(({ campaignId, node }) => (node.advisors || []).every((id) => E.CAMPAIGNS[campaignId].advisors.some((a) => a.id === id && a.dossier))));
