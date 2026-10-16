@@ -36,11 +36,11 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
     return (
       <button key={cid} className="dg-cmd" disabled={!playable} onClick={() => playable && onPick(cid)}>
         <span className="dg-cmd-band" style={{ background: CAMPAIGN_BANDS[cid] }} aria-hidden="true" />
-        <span className="dg-cmd-seal" aria-hidden="true">{c.seal}</span>
+        <span className={"dg-cmd-seal" + (c.seal.length > 4 ? " long" : "")} aria-hidden="true">{c.seal}</span>
         <span className="dg-cmd-body">
           <span className="dg-cmd-nation">{b.nation}</span>
           <span className="dg-cmd-quote">{"\u201C"}{b.quote.text}{"\u201D"}</span>
-          <span className="dg-cmd-by">{b.quote.by}</span>
+          <span className="dg-cmd-by">{b.quote.by}<span className="dg-cmd-qdate">{b.quote.date}</span></span>
           <span className="dg-cmd-meta">
             {nodeDate(cid, c.span.from)}
             {p.best ? ` \u00B7 best rank ${p.best}` : ""}
@@ -52,7 +52,8 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
   return (
     <main {...rootProps(null, "menu")}>
       <h1 className="dg-title">DISPATCHES<br />1914</h1>
-      <p className="dg-sub">This war, like the next war, is a war to end war.</p>
+      <p className="dg-sub">{"\u201C"}This war, like the next war, is a war to end war.{"\u201D"}</p>
+      <p className="dg-sub-by">David Lloyd George<span>1916</span></p>
       <hr className="dg-rule" />
 
       {saved && (
@@ -93,7 +94,6 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
   const b = BRIEFINGS[campaignId];
   const first = useMemo(() => resolveNode(c.startNode, {}, emptyMeters(), emptyHardState()), [campaignId]);
   const modeText = (row) => (row.id === "hard" ? `Adds an erosion track: ${c.hardMode.description.charAt(0).toLowerCase()}${c.hardMode.description.slice(1)}` : row.text);
-  const ask = b.question.charAt(0).toLowerCase() + b.question.slice(1);
   const note = modeText(MODE_ROWS.find((r) => r.id === mode));
   return (
     <main {...rootProps(campaignId, "briefing")}>
@@ -111,18 +111,22 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
       <FrontMapPanel campaignId={campaignId} node={first} visited={[]} />
 
       <h2 className="dg-sect">Your seat</h2>
-      <p className="dg-prose dg-brief">{b.seat} Your first decision is {nodeDate(campaignId, first.date)}, at {first.city}: {ask}</p>
+      <p className="dg-prose dg-brief">{b.seat}</p>
 
       <h2 className="dg-sect">Set up the file</h2>
       <div className="dg-seg" role="group" aria-label="Difficulty">
         {MODE_ROWS.map((row) => (
-          <button key={row.id} aria-pressed={mode === row.id} onClick={() => onMode(row.id)}>{row.label}</button>
+          <button key={row.id} className="dg-mode" aria-pressed={mode === row.id} onClick={() => onMode(row.id)}>
+            {b.modes[row.id] && <span className="dg-mode-name">{b.modes[row.id]}</span>}
+            <span className="dg-mode-tag">{row.label}</span>
+          </button>
         ))}
       </div>
       {note && <p className="dg-note" aria-live="polite">{note}</p>}
-      <label className="dg-check">
+      <label className={"dg-planstamp" + (settings.battles !== false ? " on" : "")}>
         <input type="checkbox" checked={settings.battles !== false} onChange={(e) => onSettings({ ...settings, battles: e.target.checked })} />
-        <span>Take control of battle planning</span>
+        <span className="dg-planstamp-text">Take control of battle planning</span>
+        <span className="dg-planstamp-mark" aria-hidden="true">{settings.battles !== false ? "Approved" : "Left to the staff"}</span>
       </label>
 
       <button className="dg-btn dg-go" onClick={onEnter}>Enter the war room</button>
@@ -245,13 +249,30 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
         <p className="dg-note">Hold to sign asks for the button to be held for a moment before a contested order is signed.</p>
       </div>
       <div className="dg-setting">
+        <div className="dg-count">Music</div>
+        <div className="dg-seg" role="group" aria-label="Music">
+          {[["On", true], ["Off", false]].map(([label, v]) => (
+            <button key={label} aria-pressed={(settings.music !== false) === v} onClick={() => set({ music: v })}>{label}</button>
+          ))}
+        </div>
+        {settings.music !== false && (
+          <>
+            <label id="dg-music-l" htmlFor="dg-music" className="dg-count">Volume: {Math.round((settings.musicVolume ?? 0.5) * 100)} per cent</label>
+            <input id="dg-music" type="range" className="dg-range" min="0" max="20" step="1" value={Math.round((settings.musicVolume ?? 0.5) * 20)}
+              aria-labelledby="dg-music-l" aria-valuetext={Math.round((settings.musicVolume ?? 0.5) * 100) + " per cent"}
+              onChange={(e) => set({ musicVolume: Number(e.target.value) / 20 })} />
+          </>
+        )}
+        <p className="dg-note">The soundtrack plays on a loop once you tap or press a key, and stops when you set it to Off.</p>
+      </div>
+      <div className="dg-setting">
         <div className="dg-count">Sound</div>
         <div className="dg-seg" role="group" aria-label="Sound">
           {[["Off", false, false], ["Typewriter", true, false], ["Atmosphere", true, true]].map(([label, snd, atm]) => (
             <button key={label} aria-pressed={settings.sound === snd && Boolean(settings.atmosphere) === atm} onClick={() => set({ sound: snd, atmosphere: atm })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable, a seal and a signature.</p>
+        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable and a signature.</p>
       </div>
 
       <h2 className="dg-sect">Dates</h2>

@@ -32,7 +32,7 @@ export default {
     if (!card) return "campaign card missing: " + label;
     await ctx.click(card); // the briefing: the mode is chosen here, then the door to the war room
     if (hard) {
-      const sw = ctx.buttons().find((b) => ctx.lab(b) === (hard === "easy" ? "Easy mode" : "Hard mode"));
+      const sw = ctx.buttons().find((b) => ctx.lab(b).endsWith(hard === "easy" ? "Easy mode" : "Hard mode"));
       if (!sw) return "mode switch missing";
       await ctx.click(sw);
     }

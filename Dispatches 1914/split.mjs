@@ -34,6 +34,7 @@ const SECTIONS = [
   { title: "ORDERS THAT CAN FAIL", file: "44-risks.jsx" },
   { title: "MORE ENDINGS", file: "45-more-endings.jsx" },
   { title: "DOCUMENTS FROM THE RECORD", file: "46-documents.jsx" },
+  { title: "WHAT AN ORDER COMMITS THE COMMAND TO", file: "47-order-notes.jsx" },
   { title: "DERIVED REGISTRIES", file: "50-registries.jsx" },
   { title: "METERS", file: "51-meters.jsx" },
   { title: "COMMANDER SUCCESSION — spec §3.2, §13.3", file: "52-succession.jsx" },

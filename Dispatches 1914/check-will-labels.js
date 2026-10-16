@@ -10,7 +10,7 @@ const allLabels = E.CAMPAIGN_IDS.map((c) => E.CAMPAIGNS[c].willLabel);
 for (const cid of E.CAMPAIGN_IDS) {
   const c = E.CAMPAIGNS[cid];
   if (!c.willLabel) { problems.push(`${cid}: no willLabel defined`); continue; }
-  const foreign = allLabels.filter((l) => l !== c.willLabel);
+  const foreign = allLabels.filter((l) => l !== c.willLabel && /s/.test(l)); // a one-word label such as Morale is an ordinary word and cannot be told from prose
 
   for (const [nid, node] of Object.entries(c.nodes)) {
     checked++;

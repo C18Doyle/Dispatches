@@ -227,6 +227,15 @@ const css = `
   .dg-opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-left-color:var(--paper-raised)}
   .dg-opt[aria-pressed="true"] .dg-quote{color:var(--paper-raised);border-top-color:var(--paper-raised)}
   .dg-bt-report{border-top:3px double var(--rule);margin-top:22px;padding-top:8px}
+  .dg-mode{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+  .dg-mode-name{font-family:${THEME.serif};font-size:14px;letter-spacing:0;text-transform:none;font-weight:700}
+  .dg-mode-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+  .dg-planstamp{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;padding:10px 12px;border:1.5px dashed var(--rule);cursor:pointer;position:relative}
+  .dg-planstamp input{position:absolute;opacity:0;width:100%;height:100%;left:0;top:0;margin:0;cursor:pointer}
+  .dg-planstamp:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+  .dg-planstamp-text{font-size:13px}
+  .dg-planstamp-mark{flex:none;border:2.5px solid var(--rule);color:var(--ink-soft);padding:4px 10px;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-4deg);opacity:.6}
+  .dg-planstamp.on .dg-planstamp-mark{border-color:var(--accent);color:var(--accent);opacity:1}
   .dg-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:0 0 10px;cursor:pointer}
   .dg-check input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent)}
 
@@ -290,6 +299,8 @@ const css = `
   .dg-avatar{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;border-radius:50%;margin-right:10px;border:2px solid var(--accent);
     background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:15px;box-shadow:inset 0 0 0 2px var(--paper)}
   .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
+  .dg-mw-ctx{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+  .dg-agreed{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
   .dg-dossier summary{display:flex;align-items:center;border:0;padding:0;margin:0;background:none}
   .dg-dossier summary:hover{background:none;color:inherit}
   .dg-dossier-locked{display:flex;align-items:center}
@@ -422,6 +433,10 @@ const css = `
   .dg-cmd-name{font-size:14px;font-weight:700}
   .dg-cmd-native{font-size:12px;color:var(--ink-soft);font-style:italic}
   .dg-cmd-quote{font-size:14.5px;font-style:italic;margin-top:6px;line-height:1.5}
+  .dg-cmd-seal.long{font-size:10px;letter-spacing:0;white-space:nowrap}
+  .dg-cmd-qdate{display:block;text-transform:none;letter-spacing:.02em;font-size:11px;margin-top:1px}
+  .dg-sub-by{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:-6px 0 14px}
+  .dg-sub-by span{display:block;text-transform:none;letter-spacing:.02em}
   .dg-cmd-by{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px}
   .dg-sum::before{content:"+";font-weight:700;display:inline-block;width:1.4em}
   details[open]>.dg-sum::before{content:"−"}
@@ -468,11 +483,15 @@ const css = `
   .dg-document .src{font-size:11px;color:var(--ink-soft);margin-top:6px}
 
   /* ---- a newspaper special ---- */
-  .dg-paper{border:2px solid var(--rule);border-top:6px double var(--rule);background:var(--paper-raised);padding:14px 16px 6px;margin:6px 0 14px}
-  .dg-paper-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1.5px solid var(--rule);padding-bottom:6px;margin-bottom:8px}
-  .dg-paper-head .n{font-family:${THEME.serif};font-size:24px;font-weight:700;letter-spacing:.01em}
-  .dg-paper-head .p{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
-  .dg-paper .dg-node-title{font-size:30px;margin-top:4px}
+  .dg-paper{position:relative;border:1.5px solid var(--rule);background:var(--paper-raised);padding:16px 18px 10px;margin:6px 0 18px;box-shadow:3px 3px 0 var(--rule)}
+  .dg-paper-mast{font-family:${THEME.serif};font-size:34px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.02em;padding-bottom:8px;border-bottom:4px double var(--ink)}
+  .dg-paper-date{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);padding:6px 0;border-bottom:1.5px solid var(--rule)}
+  .dg-paper-stamp{display:inline-block;margin-top:12px;transform:rotate(-2deg);border:2px solid var(--accent);color:var(--accent);padding:2px 8px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--paper-raised);opacity:.9}
+  .dg-paper-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.08;margin:8px 0 10px;letter-spacing:-.01em}
+  .dg-paper-cols{border-top:1.5px solid var(--rule);padding-top:10px}
+  .dg-paper-cols p{margin:0 0 10px;line-height:1.6;text-align:justify;hyphens:auto}
+  .dg-paper-first::first-letter{font-family:${THEME.serif};float:left;font-size:3.1em;line-height:.85;padding:4px 6px 0 0;font-weight:700}
+  @media (min-width:720px){.dg-paper-cols{column-count:2;column-gap:26px;column-rule:1px solid var(--rule)}.dg-paper-cols p{break-inside:avoid-column}}
 
   /* ---- the file at its close ---- */
   .dg-strip{margin:22px 0}
@@ -632,7 +651,7 @@ function jumpToOrders() {
 function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onCheck, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
-  const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
+  const [situationSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.epilogue]), [node]);
   const [viewing, setViewing] = useState(null); // the order the pointer or the keyboard is on: its arrow is drawn on the map
   return (
     <main {...rootProps(campaignId, "node")}>
@@ -661,6 +680,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <div className="dg-node-date">{nodeDate(campaignId, node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} flags={flags} />}
       {documentOf(nodeId) ? (
         <figure className="dg-document">
           <figcaption>{documentOf(nodeId).date}. {documentOf(nodeId).by}</figcaption>
@@ -677,15 +697,6 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
       {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
-
-      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} flags={flags} />}
-
-      {node.context && (
-        <details>
-          <summary className="dg-sum">SHOW BACKGROUND</summary>
-          <GlossText key={nodeId + "-context"} segs={contextSegs} />
-        </details>
-      )}
 
       <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
 
@@ -712,6 +723,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
             return (
             <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)} onView={setViewing}>
               <div className="lab">{ch.label}</div>
+              {!ch.advisor && orderNote(nodeId, ch.id) && <div className="dg-quote">{orderNote(nodeId, ch.id)}</div>}
               {odds && <OddsDial odds={odds} easy={easy} fog={fog} />}
               {rests && <span className="dg-rests">{rests}</span>}
               {ch.blocked && <div className="dg-cost">{ch.disabledReason}</div>}
@@ -748,9 +760,8 @@ const SPECULATIVE_LEAD = /^(Speculative|A modell?ed alternative)\.\s*/i;
 
 function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
-  const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const heading = useRef(null);
-  useEffect(() => { if (contested && opened && heading.current) heading.current.focus(); }, [opened]);
+  useEffect(() => { if (contested && heading.current) heading.current.focus(); }, []);
   const speculative = SPECULATIVE_LEAD.test(outcome || "");
   const body = speculative ? outcome.replace(SPECULATIVE_LEAD, "") : outcome;
   const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([body, record && record.text]), [body, record]);
@@ -772,12 +783,10 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <h1 className="dg-docrow" style={{ margin: "18px 0 16px" }}><span>{c.docLabel} · OUTCOME</span></h1>
       <hr className="dg-rule" />
-      {!opened ? (
-        <SealedCable onOpen={() => { atmosphereFx("seal"); setOpened(true); }} />
-      ) : (
+      {(
         <>
           <section className="dg-verdict" aria-label="The verdict">
-            <h2 ref={heading} tabIndex={-1} className="dg-verdict-h">{headline || (contested ? "The cable says" : "The outcome")}</h2>
+            <h2 ref={heading} tabIndex={-1} className="dg-verdict-h">{headline || (contested ? "The result" : "The outcome")}</h2>
             <ul className="dg-chips" aria-label="What it did to the meters">
               {moved.length === 0 && <li>No change to the meters</li>}
               {moved.map((m) => (
@@ -836,13 +845,11 @@ function RecordScreen({ record, onBack }) {
     const seen = ids.filter((id) => (record.nodes[cid] || []).includes(id)).length;
     const list = endings.filter((e) => e.campaignId === cid);
     const found = list.filter((e) => record.endings.includes(e.id)).length;
-    const met = c.advisors.filter((a) => (record.advisers[cid] || []).includes(a.id)).length;
-    return [cid, { seen, decisions: ids.length, found, endings: list.length, met, advisers: c.advisors.length }];
+    return [cid, { seen, decisions: ids.length, found, endings: list.length }];
   }));
   const sum = (k) => playable.reduce((n, cid) => n + stats[cid][k], 0);
-  const opened = sum("seen") + sum("found") + sum("met");
-  const everything = sum("decisions") + sum("endings") + sum("advisers");
-  const overall = everything ? Math.round((opened / everything) * 100) : 0;
+  const opened = sum("seen") + sum("found");
+  const everything = sum("decisions") + sum("endings");
   const TABS = [["service", "Service"], ["dossiers", "Dossiers"], ["endings", "Endings"], ["atlas", "Atlas"], ["battles", "Battles"], ["glossary", "Glossary"]];
   return (
     <main {...rootProps(null, "record")}>
@@ -867,7 +874,6 @@ function RecordScreen({ record, onBack }) {
               <div className="dg-tile"><b>{sum("seen")}<small>/{sum("decisions")}</small></b><span>decisions reached</span></div>
             </div>
             <RecBar label="The whole record" a={opened} b={everything} />
-            <p className="dg-note" style={{ margin: "8px 0 0" }}>{overall} per cent of the record is open. It is kept in this browser.</p>
           </div>
           {playable.map((cid) => {
             const c = CAMPAIGNS[cid];
@@ -884,7 +890,6 @@ function RecordScreen({ record, onBack }) {
                 </div>
                 <RecBar label="Decisions" a={s.seen} b={s.decisions} />
                 <RecBar label="Endings" a={s.found} b={s.endings} />
-                <RecBar label="Dossiers" a={s.met} b={s.advisers} />
                 <div className="dg-cmd-foot">
                   <span>{files[cid] ? `${files[cid]} ${files[cid] === 1 ? "file" : "files"} closed` : "No file closed yet"}</span>
                   <span>{b ? `Best: ${b.rank} (${b.score}/100)` : "No rank yet"}</span>
@@ -900,7 +905,7 @@ function RecordScreen({ record, onBack }) {
           <p className="dg-note">Words and places in the files. In the story text, the first mention of each on a screen is underlined: press it for the definition.</p>
           {[...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term)).map((g) => (
             <div key={g.id} className="dg-entry">
-              <div className="t">{g.term}</div>
+              <div className="t">{g.term.replace(/(^|[\s-])([a-z])/g, (m, a, b) => a + b.toUpperCase())}</div>
               <div>{g.def}</div>
             </div>
           ))}
@@ -918,11 +923,7 @@ function RecordScreen({ record, onBack }) {
               <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": "var(--acc-" + cfg.campaign + ")" }}>
                 <div className="meta">{c.shortName}{host ? ` · ${nodeDate(cfg.campaign, host.date)}` : ""}</div>
                 <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
-                {f ? (
-                  <div className="dg-battle-grade">Fought {f.n} {f.n === 1 ? "time" : "times"} · best: <b>{f.best}</b></div>
-                ) : (
-                  <div>Not yet fought. It opens from "{host ? host.title : cfg.host.node}".</div>
-                )}
+                {f && <div className="dg-battle-grade">Fought {f.n} {f.n === 1 ? "time" : "times"} · best: <b>{f.best}</b></div>}
               </div>
             );
           })}
@@ -932,27 +933,23 @@ function RecordScreen({ record, onBack }) {
       {tab !== "service" && tab !== "glossary" && tab !== "battles" && playable.map((cid) => {
         const c = CAMPAIGNS[cid];
         if (tab === "dossiers") {
-          const met = record.advisers[cid] || [];
+          const advice = (record.advice || {})[cid] || {};
           return (
             <section key={cid} style={{ "--accent": "var(--acc-" + cid + ")" }}>
               <h2 className="dg-sect">{c.shortName}</h2>
-              <p className="dg-count">{c.advisors.filter((a) => met.includes(a.id)).length} of {c.advisors.length} dossiers open</p>
-              {c.advisors.map((a) =>
-                met.includes(a.id) ? (
+              {c.advisors.map((a) => {
+                const adv = advice[a.id] || { agreed: 0, argued: 0 };
+                return (
                   <details key={a.id} className="dg-entry dg-dossier">
                     <summary>
                       <span className="dg-avatar" aria-hidden="true">{initialsOf(a.name)}</span>
-                      <span><span className="t">{a.name}</span> <span className="meta">{a.dossier.role} · {yearsInPost(a)}</span></span>
+                      <span><span className="t">{a.name}</span> <span className="meta">{a.dossier.role} · {yearsInPost(a)}</span>
+                        <span className="dg-agreed">{adv.argued ? `You followed this adviser in ${adv.agreed} of ${adv.argued} orders.` : "No orders given on this adviser's argument yet."}</span></span>
                     </summary>
                     <div className="dg-prose">{a.dossier.bio}{"\n\n"}Fate: {a.dossier.fate}</div>
                   </details>
-                ) : (
-                  <div key={a.id} className="dg-entry locked dg-dossier-locked">
-                    <span className="dg-avatar shut" aria-hidden="true">?</span>
-                    <span>File closed. Meet this adviser in play to open it.</span>
-                  </div>
-                )
-              )}
+                );
+              })}
             </section>
           );
         }
@@ -1075,6 +1072,14 @@ export default function App() {
     qs.forEach((q) => q.addEventListener && q.addEventListener("change", apply));
     return () => qs.forEach((q) => q.removeEventListener && q.removeEventListener("change", apply));
   }, [settings.theme, settings.font, settings.spacing, settings.measure, settings.motion]);
+  // the soundtrack follows the settings, and starts on the first tap or key because the browser will not start it before then
+  useEffect(() => { musicApply(settings.music !== false, typeof settings.musicVolume === "number" ? settings.musicVolume : 0.5); }, [settings.music, settings.musicVolume]);
+  useEffect(() => {
+    const opts = { once: true, capture: true };
+    const go = () => musicResume();
+    ["pointerdown", "keydown", "touchstart"].forEach((e) => document.addEventListener(e, go, opts));
+    return () => ["pointerdown", "keydown", "touchstart"].forEach((e) => document.removeEventListener(e, go, opts));
+  }, []);
   // sound: the mode follows the settings, the ambience follows the command in play, and a bulletin comes in on the wire
   useEffect(() => { setAudioMode(settings.sound ? (settings.atmosphere ? 2 : 1) : 0); }, [settings.sound, settings.atmosphere]);
   useEffect(() => {
@@ -1089,9 +1094,10 @@ export default function App() {
   const firstScreen = useRef(true);
   useEffect(() => {
     if (firstScreen.current) { firstScreen.current = false; return; }
+    try { window.scrollTo(0, 0); } catch (e) { /* no scrolling here */ }
     const h = document.querySelector("main h1");
     if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
-  }, [screen, nodeId]);
+  }, [screen, nodeId, campaignId]);
   useEffect(() => { saveRecord(record); }, [record]);
 
   // A node on screen counts as seen, and so do the advisers present at it.
@@ -1185,7 +1191,9 @@ export default function App() {
     if (runEasy) setHistory((h) => [...h, { nodeId, flags, meters, hardState, visited, taken }].slice(-REWIND_LIMIT));
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
-    setRecord((rec) => (r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags)));
+    const argued = (node.choices || []).map((c) => adviserIdFor(campaignId, c.advisor && c.advisor.name)).filter(Boolean);
+    const followed = adviserIdFor(campaignId, ch.advisor && ch.advisor.name);
+    setRecord((rec) => noteAdvice(r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags), campaignId, argued, followed));
     const event = r.nextId ? dueEvent(campaignId, r.nextId, r.flags, r.meters) : null; // a special event that the file's state has earned, before the next report
     setPending({ ...r, headline: r.title || ch.label, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null, event });
     setScreen(r.outcome ? "outcome" : event ? "event" : "node");

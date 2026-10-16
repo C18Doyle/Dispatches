@@ -136,7 +136,7 @@ export const CAMPAIGNS = {
     seat: "Commander-in-Chief",
     calendar: "gregorian",
     flagPrefix: "gqg_",
-    willLabel: "Army Morale",
+    willLabel: "Morale",
     willMeaning: "The cohesion and obedience of the army itself.",
     span: { from: "1914-07-30", to: "1918-11-11" },
     targetNodes: [38, 42],
@@ -12842,6 +12842,18 @@ export function mapDate(campaignId, iso) {
   return iso;
 }
 
+/** The opening sentences of a report's situation, up to about two hundred characters: what that headquarters was facing. */
+function sceneOf(text) {
+  const sentences = String(text || "").replace(/s+/g, " ").trim().split(/(?<=[.!?])s+/);
+  let out = "";
+  for (const s of sentences) {
+    if (out && (out + " " + s).length > 220) break;
+    out = out ? out + " " + s : s;
+    if (out.length >= 110) break;
+  }
+  return out;
+}
+
 /**
  * What the other commands were doing: for each of them, its latest report on or before this node's date (Western calendar), as
  * { campaignId, nodeId, title, city, date, daysAgo }. A command with no report yet is left out.
@@ -12856,7 +12868,7 @@ export function meanwhileAt(campaignId, node) {
     for (const [nid, n] of Object.entries(c.nodes)) {
       if (n.ending) continue;
       const d = mapDate(cid, n.date);
-      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d };
+      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d, context: sceneOf(n.situation) };
     }
     if (best) {
       best.daysAgo = Math.round((new Date(now + "T00:00:00Z") - new Date(best.date + "T00:00:00Z")) / 86400000);
@@ -13893,6 +13905,51 @@ export function documentOf(nodeId) {
 }
 
 // =============================================================================
+// WHAT AN ORDER COMMITS THE COMMAND TO
+// =============================================================================
+//
+// An order that no adviser argues for would show as its label alone. Each of these carries one plain sentence under the label that says what the order
+// would do, in the words of the report that hosts it and with nothing added to it: no forecast and no argument, which are the advisers' and the
+// outcome's. Keyed "<report id>|<order id>". check-order-notes.js proves that every order with no adviser has a note, that every key names an order, and
+// that a note keeps to the style of the game.
+// =============================================================================
+
+export const ORDER_NOTES = {
+  "ohl_1916_14_somme|elastic": "Second Army would give up ground that cannot be held cheaply and build a second line behind it, in place of counter-attacking to win back every yard.",
+  "ohl_1917_13_caporetto|refuse": "Berlin would send heavy guns and staff officers to the Isonzo and keep its divisions in Flanders.",
+  "ohl_1918_13_aisne|halt": "The armies would stop on the Vesle, where the plan said they should, and the reserves would go back north for the attack in Flanders.",
+  "ohl_1918_14_blackday|offensive": "Divisions from the quiet sectors would be gathered for one more attack in September, before the Americans arrive in strength.",
+  "gqg_1914_12_retreat|stand": "The armies would stay where they are and fight on the Sambre and the Meuse, in place of withdrawing.",
+  "gqg_1914_13_sack|keep": "The commanders would keep their armies, with officers from General Headquarters sent beside them to see that the orders are carried out.",
+  "gqg_1914_14_race|dig": "The line on the Aisne would be dug in as it stands, and the left wing would not be extended to the north.",
+  "gqg_1915_14_salonika|refuse": "No divisions would be taken from France for Salonika, though the government has decided to send them.",
+  "gqg_1915_15_chantilly|free": "The French army would plan its own campaign for 1916 and would not agree to a scheme fixed with the other armies.",
+  "gqg_1916_14_douaumont|wait": "No attack would be made this autumn: the divisions would rest and the shells would be kept for the spring.",
+  "gqg_1917_12_calais|agreement": "The British army would stay under Haig, and the two headquarters would coordinate by agreement between them.",
+  "gqg_1917_13_directive|offensive": "The army would be told to prepare another great offensive for the summer.",
+  "gqg_1918_12_link|allin": "Every division that can be moved would go north to hold the junction with the British, and Champagne would be left thin.",
+  "gqg_1918_13_aisne|depth": "The front line would be thinned to a screen and the divisions drawn back behind the ridge, as Petain's order requires.",
+  "gqg_1918_15_grand|limited": "The attacks would go on one front at a time, each on its own date, with the army kept in hand.",
+  "stavka_1914_12_tannenberg|halt": "The Second Army would stop at the frontier until its supply and the First Army come up.",
+  "stavka_1915_12_carpathians|press": "The armies would go on over the passes into Hungary, in the snow and short of shells.",
+  "stavka_1915_12_carpathians|halt": "The armies would hold the passes they have and stop attacking, and the spring would go to refitting.",
+  "stavka_1916_12_kovel|hold": "Offensive operations toward Kovel would stop, the front would hold what it has taken and the Guards would stay in reserve.",
+  "stavka_1916_13_romania|army": "An army would go to Romania at once, and the line in Galicia would be shortened to find it.",
+  "stavka_1917_12_deathpenalty|restore": "The death penalty would be restored at the front, and courts-martial would be set up.",
+  "stavka_1917_12_deathpenalty|refuse": "The penalty would not be restored, and order would rest on the commissars and the committees.",
+  "stavka_1917_13_kornilov|refuse": "The dismissal would be refused, and Krymov's cavalry corps would keep marching toward Petrograd.",
+  "stavka_1917_13_kornilov|obey": "The dismissal would be accepted, and the cavalry corps would be recalled before it reaches the capital.",
+  "stavka_1917_14_armistice|obey": "The order of the Council of People's Commissars would be carried out, and an armistice proposed to the German command.",
+  "bef_1914_02_seine|seine": "The army would leave the line and march to the Seine to refit before it returns.",
+  "bef_1914_03_ypres|coast": "The army would fall back toward the coast, to a shorter line that covers Dunkirk and Calais.",
+};
+
+/** The sentence under an order that no adviser argues for, or "". */
+export function orderNote(nodeId, orderId) {
+  return ORDER_NOTES[nodeId + "|" + orderId] || "";
+}
+
+// =============================================================================
 // DERIVED REGISTRIES
 // =============================================================================
 //
@@ -14639,7 +14696,7 @@ export function clearSavedRun() {
 export const RECORD_SCHEMA_VERSION = 1;
 
 export function emptyRecord() {
-  return { schemaVersion: RECORD_SCHEMA_VERSION, nodes: {}, advisers: {}, endings: [], runs: 0, hardRuns: 0, xc: {}, best: {}, files: {}, battles: {} };
+  return { schemaVersion: RECORD_SCHEMA_VERSION, nodes: {}, advisers: {}, endings: [], runs: 0, hardRuns: 0, xc: {}, best: {}, files: {}, battles: {}, advice: {} };
 }
 
 export function loadRecord() {
@@ -14647,7 +14704,7 @@ export function loadRecord() {
   if (!raw || raw.schemaVersion !== RECORD_SCHEMA_VERSION) return emptyRecord();
   const merged = { ...emptyRecord(), ...raw };
   if (!merged.xc || typeof merged.xc !== "object" || Array.isArray(merged.xc)) merged.xc = {};
-  for (const k of ["best", "files", "battles"]) if (!merged[k] || typeof merged[k] !== "object" || Array.isArray(merged[k])) merged[k] = {};
+  for (const k of ["best", "files", "battles", "advice"]) if (!merged[k] || typeof merged[k] !== "object" || Array.isArray(merged[k])) merged[k] = {};
   return merged;
 }
 
@@ -14667,6 +14724,17 @@ export function noteNodeSeen(record, campaignId, nodeId, adviserIds = []) {
   const advisers = withAdded(record.advisers[campaignId], adviserIds);
   if (nodes === record.nodes[campaignId] && advisers === record.advisers[campaignId]) return record;
   return { ...record, nodes: { ...record.nodes, [campaignId]: nodes }, advisers: { ...record.advisers, [campaignId]: advisers } };
+}
+
+/** An order was given at a report where these advisers each argued for an order of their own: the one whose order was given is followed, the rest are passed over. */
+export function noteAdvice(record, campaignId, arguedIds, followedId) {
+  if (!arguedIds.length) return record;
+  const camp = { ...((record.advice || {})[campaignId] || {}) };
+  for (const id of new Set(arguedIds)) {
+    const had = camp[id] || { agreed: 0, argued: 0 };
+    camp[id] = { agreed: had.agreed + (id === followedId ? 1 : 0), argued: had.argued + 1 };
+  }
+  return { ...record, advice: { ...(record.advice || {}), [campaignId]: camp } };
 }
 
 /** A run has reached this ending. */
@@ -14802,13 +14870,13 @@ export const MEASURES = ["standard", "narrow"];
 export const MOTIONS = ["auto", "reduced"];
 
 export function defaultSettings() {
-  return { schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, signHold: false, theme: DEFAULT_THEME, themeSet: false, font: "theme", spacing: "standard", measure: "standard", motion: "auto" };
+  return { schemaVersion: 1, textSize: "s", sound: false, atmosphere: false, battles: true, signHold: false, music: true, musicVolume: 0.5, theme: DEFAULT_THEME, themeSet: false, font: "theme", spacing: "standard", measure: "standard", motion: "auto" };
 }
 
 export function sanitizeSettings(raw) {
   const base = defaultSettings();
   if (!raw || typeof raw !== "object" || raw.schemaVersion !== 1) return base;
-  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, signHold: raw.signHold === true, themeSet: raw.themeSet === true, theme: raw.themeSet === true && [...THEME_IDS, "auto"].includes(raw.theme) ? raw.theme : DEFAULT_THEME, font: raw.font === "plain" || raw.font === "typewriter" ? raw.font : "theme", spacing: SPACINGS.includes(raw.spacing) ? raw.spacing : base.spacing, measure: MEASURES.includes(raw.measure) ? raw.measure : base.measure, motion: MOTIONS.includes(raw.motion) ? raw.motion : base.motion };
+  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, signHold: raw.signHold === true, music: raw.music !== false, musicVolume: typeof raw.musicVolume === "number" && raw.musicVolume >= 0 && raw.musicVolume <= 1 ? Math.round(raw.musicVolume * 20) / 20 : base.musicVolume, themeSet: raw.themeSet === true, theme: raw.themeSet === true && [...THEME_IDS, "auto"].includes(raw.theme) ? raw.theme : DEFAULT_THEME, font: raw.font === "plain" || raw.font === "typewriter" ? raw.font : "theme", spacing: SPACINGS.includes(raw.spacing) ? raw.spacing : base.spacing, measure: MEASURES.includes(raw.measure) ? raw.measure : base.measure, motion: MOTIONS.includes(raw.motion) ? raw.motion : base.motion };
 }
 
 export function loadSettings() {
@@ -15058,27 +15126,16 @@ export function rankFor({ campaignId, endingId, meters, hardState, easy, taken, 
 export const GLOSSARY = [
   { id: "general-staff", term: "General Staff", def: "The permanent body of officers that plans and directs an army. Each great power ran its war through its general staff and the officer who headed it." },
   { id: "supreme-commander", term: "Supreme Commander", def: "The Russian title for the officer who commanded all the armies. Grand Duke Nikolai Nikolaevich held it until September 1915, when Tsar Nicholas II took it himself." },
-  { id: "corps", term: "corps", ci: true, def: "A formation of two or more divisions under a general: the level between a division and an army." },
-  { id: "army-group", term: "army group", ci: true, def: "A command over several armies at once, one level above an army." },
-  { id: "salient", term: "salient", ci: true, def: "A bulge in a front line that pushes into enemy ground, so that it can be fired on from more than one side." },
-  { id: "barrage", term: "barrage", ci: true, def: "A heavy, sustained artillery bombardment. A creeping barrage moves forward ahead of the infantry at a set pace." },
-  { id: "tank", term: "tank", ci: true, match: "tanks?", def: "An armoured, tracked vehicle carrying guns. The British first used tanks in action on 15 September 1916, on the Somme." },
-  { id: "convoy", term: "convoy", ci: true, match: "convoys?", def: "Merchant ships sailing together under naval escort. The Royal Navy adopted the system in 1917 against submarine attack." },
-  { id: "blockade", term: "blockade", ci: true, def: "Using warships to stop a country's trade by sea. The Royal Navy's blockade restricted Germany's imports throughout the war." },
-  { id: "conscription", term: "conscription", ci: true, def: "Compulsory military service. Britain relied on volunteers until the Military Service Act of January 1916." },
   { id: "shell-shortage", term: "shell shortage", ci: true, def: "In May 1915 the British commander blamed a lack of high-explosive shells for a failed attack, and the press took up the charge. It helped bring in a coalition government and a Ministry of Munitions." },
   { id: "unrestricted", term: "unrestricted submarine warfare", ci: true, def: "Sinking merchant ships without warning, neutrals' included. Germany adopted it on 1 February 1917, and the United States declared war in April." },
   { id: "hindenburg-programme", term: "Hindenburg Programme", def: "The German plan of August 1916 to raise munitions and weapons output sharply, named for the new head of the army, Field Marshal Hindenburg." },
   { id: "war-cabinet", term: "War Cabinet", def: "The body of ministers that directed the British war. In December 1916 Lloyd George replaced the large Cabinet with a War Cabinet of five." },
-  { id: "admiralty", term: "Admiralty", def: "The British government department that ran the Royal Navy, under a minister, the First Lord, and an admiral, the First Sea Lord." },
   { id: "reichstag", term: "Reichstag", def: "The German national parliament. It voted the money for the war, but the army answered to the Kaiser, not to it." },
-  { id: "kaiser", term: "Kaiser", def: "The German word for emperor. The German Kaiser in this war was Wilhelm II." },
   { id: "provisional-government", term: "Provisional Government", def: "The Russian government formed after the Tsar abdicated in March 1917. It ruled until the Bolsheviks seized power in November." },
   { id: "soviet", term: "Soviet", def: "A council of elected workers' and soldiers' deputies. In 1917 the Petrograd Soviet shared power with the Provisional Government." },
   { id: "old-style", term: "Old Style", def: "The Julian calendar, which Russia used until February 1918. In this war it ran thirteen days behind the Western calendar. Dates in the Russian command are given Old Style, with the Western date in brackets." },
   { id: "central-powers", term: "Central Powers", def: "Germany, Austria-Hungary, the Ottoman Empire and Bulgaria." },
   { id: "entente", term: "Entente", def: "The alliance of France, Russia and Britain, later joined by Italy, Romania, the United States and others." },
-  { id: "armistice", term: "armistice", ci: true, def: "An agreement to stop fighting, short of a peace treaty. The one signed on 11 November 1918 ended the war in the west." },
   { id: "stavka", term: "Stavka", def: "The supreme headquarters of the Russian army: the command you hold in this game." },
   { id: "bef", term: "BEF", def: "The British Expeditionary Force: the army sent to France in August 1914, and the name for the British forces on the Western Front." },
   { id: "galicia", term: "Galicia", def: "The Austrian province north of the Carpathians, now divided between south-eastern Poland and western Ukraine. It was the main Austro-Russian battlefield." },
@@ -15281,9 +15338,9 @@ export function battleBonus(config, plan, posture, pool) {
 // plan's edge as it is), press on (BATTLE_PRESS times the edge, and a point of manpower), or steady the line (BATTLE_STEADY times the edge). A plan
 // that is not given a second day is a plan held with nothing moved, so the staff's plan still plays the record's odds.
 export const BATTLE_STANCES = [
-  { id: "hold", name: "Hold the plan", note: "Carry on as planned, with the odds as they stand." },
-  { id: "press", name: "Press the attack", note: "Double down: the plan's edge, or its error, is a third greater, and it costs a point of manpower." },
-  { id: "steady", name: "Steady the line", note: "Play safe: the plan's edge, or its error, is halved." },
+  { id: "hold", name: "Hold the line", note: "Stand where the first day left the troops, with the odds as they stand." },
+  { id: "press", name: "Press the attack", note: "Throw in everything where the enemy is giving: the plan's edge, or its error, is a third greater, and it costs a point of manpower." },
+  { id: "steady", name: "Fall back to the second line", note: "Play safe: the plan's edge, or its error, is halved." },
 ];
 
 /** The plan with its second day applied: { ...plan, allocation } after the counters moved ({ from, to } pairs, at most BATTLE_SHIFT_MAX). */
@@ -17693,75 +17750,75 @@ export function nodeDate(campaignId, iso, short = false) {
 export const BRIEFINGS = {
   ohl: {
     nation: "Germany",
+    modes: { easy: "Big Bertha", hard: "The Pickelhaube" },
     title: "German Supreme Army Command",
     side: "central",
-    quote: { text: "You will be home before the leaves have fallen from the trees.", by: "Kaiser Wilhelm II, August 1914 (attributed)" },
+    quote: { text: "You will be home before the leaves have fallen from the trees.", by: "Kaiser Wilhelm II", date: "August 1914" },
     standing: [
       "Germany is at war with France and Russia, and from 4 August with Britain. The army has one plan for a war on two fronts and has rehearsed little else: beat France in a few weeks by a wide march through Belgium, then send the armies east by rail before Russia is ready. Every railway timetable in the country is written around it.",
       "The plan leaves little room to change course once the trains are running. Belgium's neutrality is guaranteed by treaty, and Britain is one of the guarantors.",
     ],
-    seat: "You hold the seat of the Chief of the General Staff, whoever sits in it: Moltke when the file opens, Falkenhayn after him, and from 1916 Hindenburg and Ludendorff. The army is the Kaiser's to command and he leaves its running to the staff. You advise the Chancellor on what the army can do, and you reach the army commanders only by wireless, telephone and the officers you send.",
-    question: "How strong the right wing must be, and what to do about Lorraine.",
+    seat: "You hold the seat of the Chief of the General Staff, whoever sits in it: Moltke when the file opens, Falkenhayn after him, and from 1916 Hindenburg and Ludendorff. Seven armies stand in the west, three of them massed on the right wing, and the Eighth stands alone in East Prussia. The Kaiser leaves the running of the army to the staff, and you reach the commanders only by wireless, telephone and the officers you send.",
   },
   gqg: {
     nation: "France",
+    modes: { easy: "The Soixante-Quinze", hard: "The Red Trousers" },
     title: "French General Headquarters",
     side: "entente",
-    quote: { text: "France will be heroically defended by all her sons, whose sacred union in the face of the enemy nothing will break.", by: "President Poincare, message to Parliament, 4 August 1914" },
+    quote: { text: "France will be heroically defended by all her sons, whose sacred union in the face of the enemy nothing will break.", by: "President Poincare", date: "4 August 1914" },
     standing: [
       "France mobilised on 1 August and Germany declared war on 3 August. The army's Plan XVII sends its armies at the German frontier in Lorraine and towards the Ardennes, to recover the provinces lost in 1871. It rests on a doctrine of the offensive that shapes the army's training, its tactics and its officers' careers.",
       "France is bound to Russia, which has promised to take the field within weeks, and to Britain, whose small army is crossing the Channel. Neither can be commanded from Vitry.",
     ],
-    seat: "You hold the seat of the Commander-in-Chief of the armies of the north-east: Joffre when the file opens, Nivelle from December 1916 and Petain from May 1917. The government in Paris keeps the right to remove a general, and it uses it. The army commanders are strong men, and you hold them by the confidence you can keep.",
-    question: "Whether to go on attacking along the frontier when the first reports say the German right is very strong.",
+    seat: "You hold the seat of the Commander-in-Chief of the armies of the north-east: Joffre when the file opens, Nivelle from December 1916 and Petain from May 1917. Five armies stand along the frontier from the Vosges to the Belgian border, with the cavalry and the reserve divisions behind them, and the British are still crossing the Channel. The government in Paris keeps the right to remove a general, and uses it.",
   },
   stavka: {
     nation: "Russia",
+    modes: { easy: "The Ilya Muromets", hard: "The Shared Rifle" },
     title: "Russian Supreme Command",
     side: "entente",
-    quote: { text: "Let Russia, rising like one man, repel the insolent assault of the enemy.", by: "Nicholas II, manifesto of 2 August 1914" },
+    quote: { text: "Let Russia, rising like one man, repel the insolent assault of the enemy.", by: "Tsar Nicholas II", date: "2 August 1914" },
     standing: [
       "Russia has the largest army in Europe on paper and far fewer railways than its enemies to move it by. It mobilised at the end of July. By treaty, and by years of French loans, it is committed to attack Germany quickly, before its own concentration is finished.",
       "Its enemies are Germany in the north and Austria-Hungary in the south, and the front between the Baltic and the Carpathians is too long to be held everywhere.",
     ],
-    seat: "You hold the seat of the Supreme Command, whoever sits in it: the Grand Duke Nicholas when the file opens, the Tsar himself from September 1915, and after the revolution of 1917 the Provisional Government's command. The ministries are behind you and the court is above you; they do not always agree about what the army has. Russia's own calendar runs thirteen days behind the West's until February 1918, and this game gives every date in the Western one.",
-    question: "Whether to invade East Prussia now, before the concentration is finished.",
+    seat: "You hold the seat of the Supreme Command, whoever sits in it: the Grand Duke Nicholas when the file opens, the Tsar himself from September 1915, and after the revolution of 1917 the Provisional Government's command. A peacetime army of about 1.3 million is being swollen by mobilisation towards 4.5 million, in a North-West Front facing Germany and a South-West Front facing Austria-Hungary. Dates are given in the Western calendar, which runs thirteen days ahead of Russia's own until February 1918.",
   },
   bef: {
     nation: "Britain",
+    modes: { easy: "The Lee-Enfield", hard: "The Mark I" },
     title: "British Army and War Cabinet",
     side: "entente",
-    quote: { text: "The lamps are going out all over Europe; we shall not see them lit again in our lifetime.", by: "Sir Edward Grey, 3 August 1914, as he recalled it" },
+    quote: { text: "The lamps are going out all over Europe; we shall not see them lit again in our lifetime.", by: "Sir Edward Grey", date: "3 August 1914" },
     standing: [
       "Britain declared war on Germany on 4 August, over the invasion of Belgium. Its strength is the fleet, its money and its empire. Its army is small, professional and spread across the world, and it has promised to send a force to fight beside the French.",
       "The government has no plan for a long war, and the country has never raised a mass army without conscription. The army that fights from 1916 will not be the army that lands in 1914.",
     ],
-    seat: "You hold the seat that joins field command and the Cabinet: the generals who command the force (Sir John French, then Sir Douglas Haig) and the ministers who decide what they are given (Asquith and Kitchener, then Lloyd George). Each wants something different from the army, and the French want a fourth thing.",
-    question: "Where the first four divisions and the cavalry are to assemble.",
+    seat: "You hold the seat that joins field command and the Cabinet: the generals who command the force (Sir John French, then Sir Douglas Haig) and the ministers who decide what they are given (Asquith and Kitchener, then Lloyd George). The army is six infantry divisions and five cavalry brigades on paper, of which four divisions and the cavalry cross first, and the Royal Navy is the largest in the world.",
   },
   aok: {
     nation: "Austria-Hungary",
+    modes: { easy: "The Skoda Mortar", hard: "The Horse-Drawn Gun" },
     title: "Austro-Hungarian Army High Command",
     side: "central",
-    quote: { text: "I have examined and weighed everything, and with a serene conscience I set out on the path to which my duty points.", by: "Franz Joseph, To My Peoples, 28 July 1914" },
+    quote: { text: "I have examined and weighed everything, and with a serene conscience I set out on the path to which my duty points.", by: "Emperor Franz Joseph", date: "28 July 1914" },
     standing: [
       "The monarchy declared war on Serbia on 28 July, after the assassination at Sarajevo. Russia's mobilisation has made it a war on two fronts. The army is short of guns and railways for the war it has planned, and it is made up of soldiers of many nationalities who speak many languages.",
       "Its plan divides the army in three: a group for Serbia, a larger one in Galicia for Russia, and a swing force that can go to either. Everything depends on Germany keeping its promise to engage Russia.",
     ],
-    seat: "You hold the seat of the Chief of the General Staff: Conrad von Hotzendorf when the file opens, and Arz von Straussenburg after him. The Emperor Franz Joseph, who is eighty-four, is above you, the Austrian and Hungarian governments behind you, and the German ally beside you, and none of them has the same war in mind.",
-    question: "Where the swing force is to go first.",
+    seat: "You hold the seat of the Chief of the General Staff: Conrad von Hotzendorf when the file opens, and Arz von Straussenburg after him. Six armies are mobilising: two for Serbia, three in Galicia against Russia, and the Second Army, which can go to either. The Emperor Franz Joseph, who is eighty-four, is above you, and the German ally beside you does not have the same war in mind.",
   },
   otto: {
     nation: "The Ottoman Empire",
+    modes: { easy: "The Nusret", hard: "The Peabody-Martini" },
     title: "Ottoman General Staff",
     side: "central",
-    quote: { text: "The Imperial Ottoman Government has decided to observe strict neutrality in the European conflict now being waged.", by: "Ottoman note to the United States, 8 August 1914" },
+    quote: { text: "I did not wish to condemn the ships of an allied State to certain destruction.", by: "Enver Pasha", date: "August 1914" },
     standing: [
       "The empire has lost Libya and nearly all its European provinces in the wars of 1911 to 1913. It is poor, thinly industrialised, short of railways and short of trained officers. It has signed a secret alliance with Germany and is, for the moment, neutral.",
       "Two German warships, the Goeben and the Breslau, are at the mouth of the Dardanelles and have asked to be let in.",
     ],
-    seat: "You hold the seat of the war ministry and general staff: Enver Pasha when the file opens, and Ahmed Izzet Pasha at the end. You share power with a small group of politicians of the Committee of Union and Progress and with a German military mission, and you serve a Sultan who reigns and does not rule. The Rumi calendar of the General Staff is converted: this game gives every date in the Western one.",
-    question: "Whether to open the Straits to the two German ships.",
+    seat: "You hold the seat of the war ministry and general staff: Enver Pasha when the file opens, and Ahmed Izzet Pasha at the end. The army has begun a general mobilisation and the Third Army, at Erzurum, faces the Russian frontier. You share power with a small group of the Committee of Union and Progress and a German military mission, and you serve a Sultan who reigns and does not rule. Dates are given in the Western calendar, not the Rumi calendar of the General Staff.",
   },
 };
 
@@ -17793,7 +17850,7 @@ export const HOW_TO = [
     id: "advisers",
     title: "Advisers and battles",
     paras: [
-      "An order may carry an adviser's argument. An adviser who is overruled too often goes quiet and then asks to be relieved. Some contested orders open an Order of Battle, where you place your counters and may move some of them on the second day. You can switch the planning off when you set up a file.",
+      "An order may carry an adviser's argument. An adviser who is overruled too often goes quiet and then asks to be relieved. Some contested orders open an Order of Battle, where you place your counters and, once the enemy is known, give the orders for the second day. You can switch the planning off when you set up a file.",
     ],
   },
   {
@@ -18612,6 +18669,15 @@ const css = `
   .dg-opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-left-color:var(--paper-raised)}
   .dg-opt[aria-pressed="true"] .dg-quote{color:var(--paper-raised);border-top-color:var(--paper-raised)}
   .dg-bt-report{border-top:3px double var(--rule);margin-top:22px;padding-top:8px}
+  .dg-mode{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+  .dg-mode-name{font-family:${THEME.serif};font-size:14px;letter-spacing:0;text-transform:none;font-weight:700}
+  .dg-mode-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+  .dg-planstamp{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;padding:10px 12px;border:1.5px dashed var(--rule);cursor:pointer;position:relative}
+  .dg-planstamp input{position:absolute;opacity:0;width:100%;height:100%;left:0;top:0;margin:0;cursor:pointer}
+  .dg-planstamp:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+  .dg-planstamp-text{font-size:13px}
+  .dg-planstamp-mark{flex:none;border:2.5px solid var(--rule);color:var(--ink-soft);padding:4px 10px;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-4deg);opacity:.6}
+  .dg-planstamp.on .dg-planstamp-mark{border-color:var(--accent);color:var(--accent);opacity:1}
   .dg-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:0 0 10px;cursor:pointer}
   .dg-check input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent)}
 
@@ -18675,6 +18741,8 @@ const css = `
   .dg-avatar{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;border-radius:50%;margin-right:10px;border:2px solid var(--accent);
     background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:15px;box-shadow:inset 0 0 0 2px var(--paper)}
   .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
+  .dg-mw-ctx{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+  .dg-agreed{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
   .dg-dossier summary{display:flex;align-items:center;border:0;padding:0;margin:0;background:none}
   .dg-dossier summary:hover{background:none;color:inherit}
   .dg-dossier-locked{display:flex;align-items:center}
@@ -18807,6 +18875,10 @@ const css = `
   .dg-cmd-name{font-size:14px;font-weight:700}
   .dg-cmd-native{font-size:12px;color:var(--ink-soft);font-style:italic}
   .dg-cmd-quote{font-size:14.5px;font-style:italic;margin-top:6px;line-height:1.5}
+  .dg-cmd-seal.long{font-size:10px;letter-spacing:0;white-space:nowrap}
+  .dg-cmd-qdate{display:block;text-transform:none;letter-spacing:.02em;font-size:11px;margin-top:1px}
+  .dg-sub-by{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:-6px 0 14px}
+  .dg-sub-by span{display:block;text-transform:none;letter-spacing:.02em}
   .dg-cmd-by{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px}
   .dg-sum::before{content:"+";font-weight:700;display:inline-block;width:1.4em}
   details[open]>.dg-sum::before{content:"−"}
@@ -18853,11 +18925,15 @@ const css = `
   .dg-document .src{font-size:11px;color:var(--ink-soft);margin-top:6px}
 
   /* ---- a newspaper special ---- */
-  .dg-paper{border:2px solid var(--rule);border-top:6px double var(--rule);background:var(--paper-raised);padding:14px 16px 6px;margin:6px 0 14px}
-  .dg-paper-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1.5px solid var(--rule);padding-bottom:6px;margin-bottom:8px}
-  .dg-paper-head .n{font-family:${THEME.serif};font-size:24px;font-weight:700;letter-spacing:.01em}
-  .dg-paper-head .p{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
-  .dg-paper .dg-node-title{font-size:30px;margin-top:4px}
+  .dg-paper{position:relative;border:1.5px solid var(--rule);background:var(--paper-raised);padding:16px 18px 10px;margin:6px 0 18px;box-shadow:3px 3px 0 var(--rule)}
+  .dg-paper-mast{font-family:${THEME.serif};font-size:34px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.02em;padding-bottom:8px;border-bottom:4px double var(--ink)}
+  .dg-paper-date{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);padding:6px 0;border-bottom:1.5px solid var(--rule)}
+  .dg-paper-stamp{display:inline-block;margin-top:12px;transform:rotate(-2deg);border:2px solid var(--accent);color:var(--accent);padding:2px 8px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--paper-raised);opacity:.9}
+  .dg-paper-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.08;margin:8px 0 10px;letter-spacing:-.01em}
+  .dg-paper-cols{border-top:1.5px solid var(--rule);padding-top:10px}
+  .dg-paper-cols p{margin:0 0 10px;line-height:1.6;text-align:justify;hyphens:auto}
+  .dg-paper-first::first-letter{font-family:${THEME.serif};float:left;font-size:3.1em;line-height:.85;padding:4px 6px 0 0;font-weight:700}
+  @media (min-width:720px){.dg-paper-cols{column-count:2;column-gap:26px;column-rule:1px solid var(--rule)}.dg-paper-cols p{break-inside:avoid-column}}
 
   /* ---- the file at its close ---- */
   .dg-strip{margin:22px 0}
@@ -19017,7 +19093,7 @@ function jumpToOrders() {
 function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onCheck, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
-  const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
+  const [situationSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.epilogue]), [node]);
   const [viewing, setViewing] = useState(null); // the order the pointer or the keyboard is on: its arrow is drawn on the map
   return (
     <main {...rootProps(campaignId, "node")}>
@@ -19046,6 +19122,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <div className="dg-node-date">{nodeDate(campaignId, node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} flags={flags} />}
       {documentOf(nodeId) ? (
         <figure className="dg-document">
           <figcaption>{documentOf(nodeId).date}. {documentOf(nodeId).by}</figcaption>
@@ -19062,15 +19139,6 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
       {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
-
-      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} flags={flags} />}
-
-      {node.context && (
-        <details>
-          <summary className="dg-sum">SHOW BACKGROUND</summary>
-          <GlossText key={nodeId + "-context"} segs={contextSegs} />
-        </details>
-      )}
 
       <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
 
@@ -19097,6 +19165,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
             return (
             <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)} onView={setViewing}>
               <div className="lab">{ch.label}</div>
+              {!ch.advisor && orderNote(nodeId, ch.id) && <div className="dg-quote">{orderNote(nodeId, ch.id)}</div>}
               {odds && <OddsDial odds={odds} easy={easy} fog={fog} />}
               {rests && <span className="dg-rests">{rests}</span>}
               {ch.blocked && <div className="dg-cost">{ch.disabledReason}</div>}
@@ -19133,9 +19202,8 @@ const SPECULATIVE_LEAD = /^(Speculative|A modell?ed alternative)\.\s*/i;
 
 function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
-  const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const heading = useRef(null);
-  useEffect(() => { if (contested && opened && heading.current) heading.current.focus(); }, [opened]);
+  useEffect(() => { if (contested && heading.current) heading.current.focus(); }, []);
   const speculative = SPECULATIVE_LEAD.test(outcome || "");
   const body = speculative ? outcome.replace(SPECULATIVE_LEAD, "") : outcome;
   const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([body, record && record.text]), [body, record]);
@@ -19157,12 +19225,10 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <h1 className="dg-docrow" style={{ margin: "18px 0 16px" }}><span>{c.docLabel} · OUTCOME</span></h1>
       <hr className="dg-rule" />
-      {!opened ? (
-        <SealedCable onOpen={() => { atmosphereFx("seal"); setOpened(true); }} />
-      ) : (
+      {(
         <>
           <section className="dg-verdict" aria-label="The verdict">
-            <h2 ref={heading} tabIndex={-1} className="dg-verdict-h">{headline || (contested ? "The cable says" : "The outcome")}</h2>
+            <h2 ref={heading} tabIndex={-1} className="dg-verdict-h">{headline || (contested ? "The result" : "The outcome")}</h2>
             <ul className="dg-chips" aria-label="What it did to the meters">
               {moved.length === 0 && <li>No change to the meters</li>}
               {moved.map((m) => (
@@ -19221,13 +19287,11 @@ function RecordScreen({ record, onBack }) {
     const seen = ids.filter((id) => (record.nodes[cid] || []).includes(id)).length;
     const list = endings.filter((e) => e.campaignId === cid);
     const found = list.filter((e) => record.endings.includes(e.id)).length;
-    const met = c.advisors.filter((a) => (record.advisers[cid] || []).includes(a.id)).length;
-    return [cid, { seen, decisions: ids.length, found, endings: list.length, met, advisers: c.advisors.length }];
+    return [cid, { seen, decisions: ids.length, found, endings: list.length }];
   }));
   const sum = (k) => playable.reduce((n, cid) => n + stats[cid][k], 0);
-  const opened = sum("seen") + sum("found") + sum("met");
-  const everything = sum("decisions") + sum("endings") + sum("advisers");
-  const overall = everything ? Math.round((opened / everything) * 100) : 0;
+  const opened = sum("seen") + sum("found");
+  const everything = sum("decisions") + sum("endings");
   const TABS = [["service", "Service"], ["dossiers", "Dossiers"], ["endings", "Endings"], ["atlas", "Atlas"], ["battles", "Battles"], ["glossary", "Glossary"]];
   return (
     <main {...rootProps(null, "record")}>
@@ -19252,7 +19316,6 @@ function RecordScreen({ record, onBack }) {
               <div className="dg-tile"><b>{sum("seen")}<small>/{sum("decisions")}</small></b><span>decisions reached</span></div>
             </div>
             <RecBar label="The whole record" a={opened} b={everything} />
-            <p className="dg-note" style={{ margin: "8px 0 0" }}>{overall} per cent of the record is open. It is kept in this browser.</p>
           </div>
           {playable.map((cid) => {
             const c = CAMPAIGNS[cid];
@@ -19269,7 +19332,6 @@ function RecordScreen({ record, onBack }) {
                 </div>
                 <RecBar label="Decisions" a={s.seen} b={s.decisions} />
                 <RecBar label="Endings" a={s.found} b={s.endings} />
-                <RecBar label="Dossiers" a={s.met} b={s.advisers} />
                 <div className="dg-cmd-foot">
                   <span>{files[cid] ? `${files[cid]} ${files[cid] === 1 ? "file" : "files"} closed` : "No file closed yet"}</span>
                   <span>{b ? `Best: ${b.rank} (${b.score}/100)` : "No rank yet"}</span>
@@ -19285,7 +19347,7 @@ function RecordScreen({ record, onBack }) {
           <p className="dg-note">Words and places in the files. In the story text, the first mention of each on a screen is underlined: press it for the definition.</p>
           {[...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term)).map((g) => (
             <div key={g.id} className="dg-entry">
-              <div className="t">{g.term}</div>
+              <div className="t">{g.term.replace(/(^|[\s-])([a-z])/g, (m, a, b) => a + b.toUpperCase())}</div>
               <div>{g.def}</div>
             </div>
           ))}
@@ -19303,11 +19365,7 @@ function RecordScreen({ record, onBack }) {
               <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": "var(--acc-" + cfg.campaign + ")" }}>
                 <div className="meta">{c.shortName}{host ? ` · ${nodeDate(cfg.campaign, host.date)}` : ""}</div>
                 <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
-                {f ? (
-                  <div className="dg-battle-grade">Fought {f.n} {f.n === 1 ? "time" : "times"} · best: <b>{f.best}</b></div>
-                ) : (
-                  <div>Not yet fought. It opens from "{host ? host.title : cfg.host.node}".</div>
-                )}
+                {f && <div className="dg-battle-grade">Fought {f.n} {f.n === 1 ? "time" : "times"} · best: <b>{f.best}</b></div>}
               </div>
             );
           })}
@@ -19317,27 +19375,23 @@ function RecordScreen({ record, onBack }) {
       {tab !== "service" && tab !== "glossary" && tab !== "battles" && playable.map((cid) => {
         const c = CAMPAIGNS[cid];
         if (tab === "dossiers") {
-          const met = record.advisers[cid] || [];
+          const advice = (record.advice || {})[cid] || {};
           return (
             <section key={cid} style={{ "--accent": "var(--acc-" + cid + ")" }}>
               <h2 className="dg-sect">{c.shortName}</h2>
-              <p className="dg-count">{c.advisors.filter((a) => met.includes(a.id)).length} of {c.advisors.length} dossiers open</p>
-              {c.advisors.map((a) =>
-                met.includes(a.id) ? (
+              {c.advisors.map((a) => {
+                const adv = advice[a.id] || { agreed: 0, argued: 0 };
+                return (
                   <details key={a.id} className="dg-entry dg-dossier">
                     <summary>
                       <span className="dg-avatar" aria-hidden="true">{initialsOf(a.name)}</span>
-                      <span><span className="t">{a.name}</span> <span className="meta">{a.dossier.role} · {yearsInPost(a)}</span></span>
+                      <span><span className="t">{a.name}</span> <span className="meta">{a.dossier.role} · {yearsInPost(a)}</span>
+                        <span className="dg-agreed">{adv.argued ? `You followed this adviser in ${adv.agreed} of ${adv.argued} orders.` : "No orders given on this adviser's argument yet."}</span></span>
                     </summary>
                     <div className="dg-prose">{a.dossier.bio}{"\n\n"}Fate: {a.dossier.fate}</div>
                   </details>
-                ) : (
-                  <div key={a.id} className="dg-entry locked dg-dossier-locked">
-                    <span className="dg-avatar shut" aria-hidden="true">?</span>
-                    <span>File closed. Meet this adviser in play to open it.</span>
-                  </div>
-                )
-              )}
+                );
+              })}
             </section>
           );
         }
@@ -19460,6 +19514,14 @@ export default function App() {
     qs.forEach((q) => q.addEventListener && q.addEventListener("change", apply));
     return () => qs.forEach((q) => q.removeEventListener && q.removeEventListener("change", apply));
   }, [settings.theme, settings.font, settings.spacing, settings.measure, settings.motion]);
+  // the soundtrack follows the settings, and starts on the first tap or key because the browser will not start it before then
+  useEffect(() => { musicApply(settings.music !== false, typeof settings.musicVolume === "number" ? settings.musicVolume : 0.5); }, [settings.music, settings.musicVolume]);
+  useEffect(() => {
+    const opts = { once: true, capture: true };
+    const go = () => musicResume();
+    ["pointerdown", "keydown", "touchstart"].forEach((e) => document.addEventListener(e, go, opts));
+    return () => ["pointerdown", "keydown", "touchstart"].forEach((e) => document.removeEventListener(e, go, opts));
+  }, []);
   // sound: the mode follows the settings, the ambience follows the command in play, and a bulletin comes in on the wire
   useEffect(() => { setAudioMode(settings.sound ? (settings.atmosphere ? 2 : 1) : 0); }, [settings.sound, settings.atmosphere]);
   useEffect(() => {
@@ -19474,9 +19536,10 @@ export default function App() {
   const firstScreen = useRef(true);
   useEffect(() => {
     if (firstScreen.current) { firstScreen.current = false; return; }
+    try { window.scrollTo(0, 0); } catch (e) { /* no scrolling here */ }
     const h = document.querySelector("main h1");
     if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
-  }, [screen, nodeId]);
+  }, [screen, nodeId, campaignId]);
   useEffect(() => { saveRecord(record); }, [record]);
 
   // A node on screen counts as seen, and so do the advisers present at it.
@@ -19570,7 +19633,9 @@ export default function App() {
     if (runEasy) setHistory((h) => [...h, { nodeId, flags, meters, hardState, visited, taken }].slice(-REWIND_LIMIT));
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
-    setRecord((rec) => (r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags)));
+    const argued = (node.choices || []).map((c) => adviserIdFor(campaignId, c.advisor && c.advisor.name)).filter(Boolean);
+    const followed = adviserIdFor(campaignId, ch.advisor && ch.advisor.name);
+    setRecord((rec) => noteAdvice(r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags), campaignId, argued, followed));
     const event = r.nextId ? dueEvent(campaignId, r.nextId, r.flags, r.meters) : null; // a special event that the file's state has earned, before the next report
     setPending({ ...r, headline: r.title || ch.label, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null, event });
     setScreen(r.outcome ? "outcome" : event ? "event" : "node");
@@ -19691,11 +19756,11 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
     return (
       <button key={cid} className="dg-cmd" disabled={!playable} onClick={() => playable && onPick(cid)}>
         <span className="dg-cmd-band" style={{ background: CAMPAIGN_BANDS[cid] }} aria-hidden="true" />
-        <span className="dg-cmd-seal" aria-hidden="true">{c.seal}</span>
+        <span className={"dg-cmd-seal" + (c.seal.length > 4 ? " long" : "")} aria-hidden="true">{c.seal}</span>
         <span className="dg-cmd-body">
           <span className="dg-cmd-nation">{b.nation}</span>
           <span className="dg-cmd-quote">{"\u201C"}{b.quote.text}{"\u201D"}</span>
-          <span className="dg-cmd-by">{b.quote.by}</span>
+          <span className="dg-cmd-by">{b.quote.by}<span className="dg-cmd-qdate">{b.quote.date}</span></span>
           <span className="dg-cmd-meta">
             {nodeDate(cid, c.span.from)}
             {p.best ? ` \u00B7 best rank ${p.best}` : ""}
@@ -19707,7 +19772,8 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
   return (
     <main {...rootProps(null, "menu")}>
       <h1 className="dg-title">DISPATCHES<br />1914</h1>
-      <p className="dg-sub">This war, like the next war, is a war to end war.</p>
+      <p className="dg-sub">{"\u201C"}This war, like the next war, is a war to end war.{"\u201D"}</p>
+      <p className="dg-sub-by">David Lloyd George<span>1916</span></p>
       <hr className="dg-rule" />
 
       {saved && (
@@ -19748,7 +19814,6 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
   const b = BRIEFINGS[campaignId];
   const first = useMemo(() => resolveNode(c.startNode, {}, emptyMeters(), emptyHardState()), [campaignId]);
   const modeText = (row) => (row.id === "hard" ? `Adds an erosion track: ${c.hardMode.description.charAt(0).toLowerCase()}${c.hardMode.description.slice(1)}` : row.text);
-  const ask = b.question.charAt(0).toLowerCase() + b.question.slice(1);
   const note = modeText(MODE_ROWS.find((r) => r.id === mode));
   return (
     <main {...rootProps(campaignId, "briefing")}>
@@ -19766,18 +19831,22 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
       <FrontMapPanel campaignId={campaignId} node={first} visited={[]} />
 
       <h2 className="dg-sect">Your seat</h2>
-      <p className="dg-prose dg-brief">{b.seat} Your first decision is {nodeDate(campaignId, first.date)}, at {first.city}: {ask}</p>
+      <p className="dg-prose dg-brief">{b.seat}</p>
 
       <h2 className="dg-sect">Set up the file</h2>
       <div className="dg-seg" role="group" aria-label="Difficulty">
         {MODE_ROWS.map((row) => (
-          <button key={row.id} aria-pressed={mode === row.id} onClick={() => onMode(row.id)}>{row.label}</button>
+          <button key={row.id} className="dg-mode" aria-pressed={mode === row.id} onClick={() => onMode(row.id)}>
+            {b.modes[row.id] && <span className="dg-mode-name">{b.modes[row.id]}</span>}
+            <span className="dg-mode-tag">{row.label}</span>
+          </button>
         ))}
       </div>
       {note && <p className="dg-note" aria-live="polite">{note}</p>}
-      <label className="dg-check">
+      <label className={"dg-planstamp" + (settings.battles !== false ? " on" : "")}>
         <input type="checkbox" checked={settings.battles !== false} onChange={(e) => onSettings({ ...settings, battles: e.target.checked })} />
-        <span>Take control of battle planning</span>
+        <span className="dg-planstamp-text">Take control of battle planning</span>
+        <span className="dg-planstamp-mark" aria-hidden="true">{settings.battles !== false ? "Approved" : "Left to the staff"}</span>
       </label>
 
       <button className="dg-btn dg-go" onClick={onEnter}>Enter the war room</button>
@@ -19900,13 +19969,30 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
         <p className="dg-note">Hold to sign asks for the button to be held for a moment before a contested order is signed.</p>
       </div>
       <div className="dg-setting">
+        <div className="dg-count">Music</div>
+        <div className="dg-seg" role="group" aria-label="Music">
+          {[["On", true], ["Off", false]].map(([label, v]) => (
+            <button key={label} aria-pressed={(settings.music !== false) === v} onClick={() => set({ music: v })}>{label}</button>
+          ))}
+        </div>
+        {settings.music !== false && (
+          <>
+            <label id="dg-music-l" htmlFor="dg-music" className="dg-count">Volume: {Math.round((settings.musicVolume ?? 0.5) * 100)} per cent</label>
+            <input id="dg-music" type="range" className="dg-range" min="0" max="20" step="1" value={Math.round((settings.musicVolume ?? 0.5) * 20)}
+              aria-labelledby="dg-music-l" aria-valuetext={Math.round((settings.musicVolume ?? 0.5) * 100) + " per cent"}
+              onChange={(e) => set({ musicVolume: Number(e.target.value) / 20 })} />
+          </>
+        )}
+        <p className="dg-note">The soundtrack plays on a loop once you tap or press a key, and stops when you set it to Off.</p>
+      </div>
+      <div className="dg-setting">
         <div className="dg-count">Sound</div>
         <div className="dg-seg" role="group" aria-label="Sound">
           {[["Off", false, false], ["Typewriter", true, false], ["Atmosphere", true, true]].map(([label, snd, atm]) => (
             <button key={label} aria-pressed={settings.sound === snd && Boolean(settings.atmosphere) === atm} onClick={() => set({ sound: snd, atmosphere: atm })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable, a seal and a signature.</p>
+        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable and a signature.</p>
       </div>
 
       <h2 className="dg-sect">Dates</h2>
@@ -19927,29 +20013,35 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
 // =============================================================================
 //
 // One event, shown once between two reports (src/67-events.jsx). It has its own screen so that it reads as news from outside the war room and
-// not as another decision: the kind of event, the date, a title, two short paragraphs, and a button back to the file.
+// not as another decision: the date, a title, two short paragraphs, and a button back to the file. A paper's front page has a masthead, a dateline, a
+// headline, a stamp that says it is speculative, and two columns of text.
 
 function EventScreen({ campaignId, event, onContinue }) {
   const c = CAMPAIGNS[campaignId];
+  const speculative = /^Speculative\.\s/.test(event.paras[0] || "");
+  const paras = event.paras.map((p, i) => (i === 0 && speculative ? p.replace(/^Speculative\.\s+/, "") : p));
   return (
     <main {...rootProps(campaignId, "event")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow"><span>{c.docLabel}</span></div>
-      <p className="dg-kind dg-event-kind">Special event · {event.kind}</p>
       {event.paper ? (
-        <div className="dg-paper">
-          <div className="dg-paper-head"><span className="n">{event.paper.name}</span><span className="p">{event.paper.place}, {nodeDate(campaignId, event.date)}</span></div>
-          <h1 className="dg-node-title">{event.title}</h1>
-          {event.paras.map((p, i) => <p key={i} className={"dg-prose" + (i === 0 ? " dg-lede" : "")}>{p}</p>)}
-        </div>
+        <article className="dg-paper">
+          <div className="dg-paper-mast">{event.paper.name}</div>
+          <div className="dg-paper-date"><span>{event.paper.place}</span><span>{nodeDate(campaignId, event.date)}</span></div>
+          {speculative && <span className="dg-paper-stamp">Speculative</span>}
+          <h1 className="dg-paper-title">{event.title}</h1>
+          <div className="dg-paper-cols">
+            {paras.map((p, i) => <p key={i} className={i === 0 ? "dg-paper-first" : ""}>{p}</p>)}
+          </div>
+        </article>
       ) : (
         <>
+          <p className="dg-kind dg-event-kind">{event.kind}</p>
           <div className="dg-node-date">{nodeDate(campaignId, event.date)}</div>
           <h1 className="dg-node-title">{event.title}</h1>
           {event.paras.map((p, i) => <p key={i} className={"dg-prose" + (i === 0 ? " dg-lede" : "")}>{p}</p>)}
         </>
       )}
-      <p className="dg-note">This is not a decision, and it changes no meter. The file will remember it.</p>
       <button className="dg-btn dg-go" onClick={onContinue}>Continue</button>
     </main>
   );
@@ -19986,7 +20078,6 @@ function IntelPanel({ nodeId, flags, easy, hard, onCheck }) {
           );
         })}
       </ul>
-      {!easy && <p className="dg-note">The staff's grade is no guide: firm reports have been wrong and doubtful ones right. A check never settles a belief: the staff argues over what it shows. Checks left in this file: {left}.</p>}
     </section>
   );
 }
@@ -20130,29 +20221,43 @@ function dayOneWord(bonus) {
     : "The first day was even: the plan neither fits the enemy nor fails against it.";
 }
 
-/** The second day: the enemy is known, a few counters can be moved, and a stance is chosen. */
+/**
+ * The second day: the enemy is known, and the day is fought with one of a few orders from the field: hold the line, press the attack, fall back to the
+ * second line, or send the reserve to an arm that is short. The orders are the stance and the counters of 61-battle.jsx under names a commander would use;
+ * sending the reserve moves up to BATTLE_SHIFT_MAX counters from the strongest arm to the short one.
+ */
 function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel, pool, onCommit, onBack }) {
   const c = CAMPAIGNS[campaignId];
-  const [stance, setStance] = useState("hold");
-  const [delta, setDelta] = useState({});
+  const [pick, setPick] = useState("hold");
   const alloc = plan.allocation;
-  const d = (id) => delta[id] || 0;
-  const hand = -Object.values(delta).reduce((a, v) => a + v, 0);
-  const movedOut = Object.values(delta).reduce((a, v) => a + Math.max(0, -v), 0);
-  const out = [];
-  const into = [];
-  for (const k of config.categories) {
-    for (let i = 0; i < -d(k.id); i++) out.push(k.id);
-    for (let i = 0; i < d(k.id); i++) into.push(k.id);
-  }
-  const moves = out.map((from, i) => ({ from, to: into[i] })).filter((m) => m.to);
-  const final = { ...plan, second: { stance, moves } };
   const dayOne = battleBonus(config, plan, posture, pool);
-  const odds = useMemo(() => battlePlanOdds(choice, config, final, posture, pool, meters), [stance, delta]);
+  const base = useMemo(() => battleContributions(config, plan, posture, pool), []);
+  const weakest = [...config.categories].sort((a, b) => base[a.id] - base[b.id]);
+  const short = weakest.filter((k) => base[k.id] < 0);
+  const options = [
+    ...BATTLE_STANCES.map((x) => ({ id: x.id, name: x.name, note: x.note })),
+    ...(short.length ? short : weakest.slice(0, 1)).slice(0, 2).map((k) => ({
+      id: "to:" + k.id,
+      name: "Send the reserve to the " + k.name.toLowerCase(),
+      note: "Now that the enemy is known, up to " + BATTLE_SHIFT_MAX + " counters move up from the strongest arm. It costs a point of weight for the confusion.",
+      target: k.id,
+    })),
+  ];
+  const chosen = options.find((x) => x.id === pick) || options[0];
+  const moves = [];
+  if (chosen.target) {
+    const left = { ...alloc };
+    for (let i = 0; i < BATTLE_SHIFT_MAX; i++) {
+      const from = config.categories.filter((k) => k.id !== chosen.target && left[k.id] > 0).sort((a, b) => left[b.id] - left[a.id])[0];
+      if (!from) break;
+      left[from.id] -= 1;
+      moves.push({ from: from.id, to: chosen.target });
+    }
+  }
+  const stance = chosen.id === "press" || chosen.id === "steady" ? chosen.id : "hold";
+  const final = { ...plan, second: { stance, moves } };
+  const odds = useMemo(() => battlePlanOdds(choice, config, final, posture, pool, meters), [pick]);
   const was = useMemo(() => battlePlanOdds(choice, config, plan, posture, pool, meters), []);
-  const contributions = battleContributions(config, battleSecondPlan(final), posture, pool);
-  const bump = (id, step) => setDelta((x) => ({ ...x, [id]: (x[id] || 0) + step }));
-  const stanceOf = (id) => BATTLE_STANCES.find((x) => x.id === id);
   return (
     <main {...rootProps(campaignId, "battle")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -20174,24 +20279,10 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
 
       <section aria-label="The second day">
         <h2 className="dg-order">The second day</h2>
-        <p className="dg-note">Now that the enemy is known, up to {BATTLE_SHIFT_MAX} counters may be moved from one arm to another. A counter moved now is worth {BATTLE_SECOND_GAIN} times what it would have been in the dark, less {BATTLE_SHIFT_COST} point of weight for the confusion. Then say how the day is to be fought.</p>
-        {config.categories.map((k) => (
-          <div key={k.id} className="dg-bt-arm">
-            <div className="dg-bt-head">
-              <b>{k.name}</b>
-              <span className="dg-bt-ctl">
-                <button className="dg-btn" aria-label={"Take a counter out of " + k.name} disabled={!(alloc[k.id] + d(k.id) > 0) || movedOut >= BATTLE_SHIFT_MAX} onClick={() => bump(k.id, -1)}>−</button>
-                <span className="dg-bt-n" aria-label={k.name + ": " + (alloc[k.id] + d(k.id)) + " counters"}>{alloc[k.id] + d(k.id)}</span>
-                <button className="dg-btn" aria-label={"Put a counter into " + k.name} disabled={hand <= 0} onClick={() => bump(k.id, 1)}>+</button>
-              </span>
-            </div>
-            <p className="dg-note" style={{ marginBottom: 6 }}>{contributions[k.id] < 0 ? "This arm is short against the enemy that was met." : "This arm is holding its own."}</p>
-          </div>
-        ))}
-        <p className="dg-note" role="status" aria-live="polite">{hand > 0 ? hand + " counter" + (hand === 1 ? "" : "s") + " in hand: put them into an arm." : moves.length ? moves.length + " counter" + (moves.length === 1 ? "" : "s") + " moved." : "No counters moved."}</p>
-        <div role="group" aria-label="Stance" className="dg-bt-pick">
-          {BATTLE_STANCES.map((x) => (
-            <button key={x.id} className="dg-choice dg-opt" aria-pressed={stance === x.id} onClick={() => setStance(x.id)}>
+        <p className="dg-note">The enemy is known now. Say how the day is to be fought.</p>
+        <div role="group" aria-label="The day's orders" className="dg-bt-pick">
+          {options.map((x) => (
+            <button key={x.id} className="dg-choice dg-opt" aria-pressed={chosen.id === x.id} onClick={() => setPick(x.id)}>
               <div className="lab">{x.name}</div>
               <div className="dg-quote">{x.note}</div>
             </button>
@@ -20203,11 +20294,10 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
         <div className="dg-bt-stat">
           <span className="dg-bt-k">The odds</span>
           <b>{odds.word}</b>
-          <small>{stanceOf(stance).name}{moves.length ? "; " + moves.length + " moved" : ""}</small>
+          <small>{chosen.name}</small>
         </div>
-        <button className="dg-choice dg-issue" disabled={hand !== 0} onClick={() => onCommit(final)}>
+        <button className="dg-choice dg-issue" onClick={() => onCommit(final)}>
           <div className="lab">Carry on to the second day</div>
-          {hand !== 0 && <div className="dg-cost">Put the counters in hand into an arm</div>}
         </button>
       </div>
     </main>
@@ -20389,7 +20479,7 @@ function BattleReport({ battle }) {
   const approach = plan && (config.approaches || []).find((a) => a.id === plan.approachId);
   const second = plan && plan.second;
   const secondLine = second && (second.stance !== "hold" || (second.moves && second.moves.length))
-    ? "The second day: " + (second.stance === "press" ? "the attack was pressed" : second.stance === "steady" ? "the line was steadied" : "the plan was held") + (second.moves && second.moves.length ? ", and " + second.moves.length + (second.moves.length === 1 ? " counter was" : " counters were") + " moved once the enemy was known" : "") + "."
+    ? "The second day: " + (second.stance === "press" ? "the attack was pressed" : second.stance === "steady" ? "the line fell back to its second position" : "the line was held") + (second.moves && second.moves.length ? ", and " + second.moves.length + (second.moves.length === 1 ? " counter was" : " counters were") + " moved once the enemy was known" : "") + "."
     : null;
   const moved = battle.bonus === 0 ? "The plan did as the staff's would have: the odds were the record's." : battle.bonus > 0
     ? `The plan moved the odds ${battle.bonus} points toward the better outcome.` : `The plan moved the odds ${-battle.bonus} points away from the better outcome.`;
@@ -20421,7 +20511,7 @@ function BattleReport({ battle }) {
 // =============================================================================
 //
 // The pieces that make an order feel like an order: the ledger of meters with the three readings under each, the odds dial on a contested
-// order, the button that has to be held to sign it, the sealed cable that comes back, and the list of what the order did.
+// order, the button that has to be held to sign it, and the list of what the order did.
 // Nothing here changes a rule: the readings and the odds are read from the engine (51-meters.jsx, 55-choose.jsx).
 
 const fmtMeter = (v) => (v > 0 ? `+${v}` : v < 0 ? `−${-v}` : "0");
@@ -20538,16 +20628,6 @@ function OrderButton({ ch, hold, onSign, onView, children }) {
       {hold && !ch.blocked && <span className="dg-holdhint">Hold to sign</span>}
       {hold && <span className="dg-holdbar" aria-hidden="true" style={{ animationDuration: holdMs + "ms" }} />}
     </button>
-  );
-}
-
-/** The cable that carries the result of a contested order: sealed until the player breaks the seal. */
-function SealedCable({ onOpen }) {
-  return (
-    <section className="dg-cable" aria-label="A sealed cable">
-      <p className="dg-prose">A cable has come in from the front, and it is sealed. What it says settles the order.</p>
-      <button className="dg-btn" onClick={onOpen}>Break the seal</button>
-    </section>
   );
 }
 
@@ -20778,10 +20858,10 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
               <>
                 <h2 className="dg-order">Meanwhile</h2>
                 <ul className="dg-meanwhile">
-                  {meanwhile.map((m) => (
+                  {[...meanwhile].sort((x, y) => x.daysAgo - y.daysAgo).slice(0, 3).map((m) => (
                     <li key={m.campaignId} style={{ "--accent": "var(--acc-" + m.campaignId + ")" }}>
                       <span className="dg-seal">{CAMPAIGNS[m.campaignId].seal}</span>
-                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} ${m.daysAgo === 1 ? "day" : "days"} before this report)` : ""}</span>
+                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} ${m.daysAgo === 1 ? "day" : "days"} before this report)` : ""}<br /><span className="dg-mw-ctx">{m.context}</span></span>
                     </li>
                   ))}
                 </ul>
@@ -20805,7 +20885,6 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
                 </ul>
               </>
             )}
-            <p className="dg-note">The countries are drawn with today's borders and coloured by the side each stood on that day. The lines of the front are drawn from the course of the fighting and are approximate.</p>
           </div>
         </div>
       )}
@@ -20823,6 +20902,70 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
 
 let audioMode = 0; // 0 off, 1 typewriter, 2 atmosphere
 let AU = null; // { ctx, master, brown, white, amb }
+
+// ---------- the soundtrack ----------
+//
+// One looping track (assets/theme.mp3), bundled as a data URL and handed over by entry.jsx as window.__DISPATCHES_THEME__. It is on by default and is
+// played once the browser has seen a tap or a key, because no browser will start sound before that. The element goes through a Web Audio gain node,
+// because an iPhone ignores the element's own volume; the volume setting turns that gain. Nothing here is needed to play: with no track, no audio, or a
+// test page that has no sound, every call does nothing.
+
+let MU = null; // { el, ctx, gain }
+let musicWant = null; // the volume the music should have, or null when it should be off
+
+function musicUp() {
+  if (MU) return MU;
+  try {
+    const src = typeof window !== "undefined" ? window.__DISPATCHES_THEME__ : null;
+    if (!src || /jsdom/i.test((typeof navigator !== "undefined" && navigator.userAgent) || "")) return null;
+    const el = new Audio(src);
+    el.loop = true;
+    el.preload = "auto";
+    let ctx = null;
+    let gain = null;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) {
+      ctx = new AC();
+      gain = ctx.createGain();
+      gain.gain.value = 0;
+      ctx.createMediaElementSource(el).connect(gain).connect(ctx.destination);
+    }
+    MU = { el, ctx, gain };
+  } catch (e) {
+    MU = null;
+  }
+  return MU;
+}
+
+function musicLevel(mu, volume) {
+  if (mu.gain) mu.gain.gain.setTargetAtTime(volume, mu.ctx.currentTime, 0.35);
+  else mu.el.volume = volume;
+}
+
+/** Turns the music on at a volume from 0 to 1, or off. Safe to call before the browser has allowed sound: the first tap or key retries it. */
+function musicApply(on, volume) {
+  musicWant = on ? volume : null;
+  const mu = on ? musicUp() : MU;
+  if (!mu) return;
+  try {
+    if (!on) { mu.el.pause(); return; }
+    if (mu.ctx && mu.ctx.state === "suspended") mu.ctx.resume().catch(() => {});
+    musicLevel(mu, volume);
+    const p = mu.el.play();
+    if (p && p.catch) p.catch(() => {});
+  } catch (e) { /* no sound here */ }
+}
+
+/** Called on the first tap or key: starts the music if it should be playing and the browser had refused it before. */
+function musicResume() {
+  if (musicWant === null) return;
+  const mu = musicUp();
+  if (!mu) return;
+  try {
+    if (mu.ctx && mu.ctx.state === "suspended") mu.ctx.resume().catch(() => {});
+    if (mu.el.paused) { musicLevel(mu, musicWant); const p = mu.el.play(); if (p && p.catch) p.catch(() => {}); }
+  } catch (e) { /* no sound here */ }
+}
 
 /** What each command sounds like: guns (a shell every so many seconds, on average; 0 for none), wind, rain and a low hum. */
 const ATMOSPHERE = {

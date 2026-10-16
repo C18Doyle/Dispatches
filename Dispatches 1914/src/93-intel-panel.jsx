@@ -29,7 +29,6 @@ function IntelPanel({ nodeId, flags, easy, hard, onCheck }) {
           );
         })}
       </ul>
-      {!easy && <p className="dg-note">The staff's grade is no guide: firm reports have been wrong and doubtful ones right. A check never settles a belief: the staff argues over what it shows. Checks left in this file: {left}.</p>}
     </section>
   );
 }

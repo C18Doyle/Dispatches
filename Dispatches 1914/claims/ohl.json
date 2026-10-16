@@ -1314,10 +1314,19 @@
     "id": "ohl-menu-quote-1",
     "node": "ohl_1914_16_kaiser",
     "kind": "quotation",
-    "claim": "Kaiser Wilhelm II is widely reported to have told troops leaving in August 1914 that they would be home before the leaves had fallen. No primary source for the words or the day was found, so the menu gives it as attributed.",
+    "claim": "Kaiser Wilhelm II is widely reported to have told troops leaving in August 1914 that they would be home before the leaves had fallen. No primary source for the words or the day was found.",
     "status": "disputed",
     "sources": [],
-    "note": "The attribution is common and the wording varies; the Dupuy Institute page asks when and where it was said and does not answer. Shown on the menu as attributed."
+    "note": "The attribution is common and the wording varies; the Dupuy Institute page asks when and where it was said and does not answer. The menu gives the name and the month without a caveat, at the user's choice."
+  },
+  {
+    "id": "ohl-menu-tagline-1",
+    "node": "ohl_1914_16_kaiser",
+    "kind": "quotation",
+    "claim": "David Lloyd George is credited with saying, about 1916, 'This war, like the next war, is a war to end war.' The earliest printed citation found is E. V. Lucas, Reading, Writing and Remembering (1932), p. 296; no speech or contemporary record was found.",
+    "status": "disputed",
+    "sources": [],
+    "note": "A popular attribution. H. G. Wells coined the phrase 'the war that will end war' in 1914, and the sentence on the title screen is a later joke on it. The title screen gives the name and the year as the common attribution."
   },
   {
     "id": "ohl-end-civilgov-1",
