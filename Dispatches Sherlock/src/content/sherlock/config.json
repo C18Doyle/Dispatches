@@ -1,0 +1,445 @@
+{
+  "id": "sherlock",
+  "title": "Sherlock Holmes: The Final Problem",
+  "schemaVersion": 1,
+  "resources": [
+    {
+      "id": "evidence",
+      "label": "Evidence",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_EVIDENCE",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_EVIDENCE"
+    },
+    {
+      "id": "standing",
+      "label": "Standing",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_STANDING",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_STANDING"
+    },
+    {
+      "id": "nerve",
+      "label": "Nerve",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_NERVE",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_NERVE"
+    }
+  ],
+  "axes": [
+    {
+      "id": "heart",
+      "label": "Heart",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "company",
+      "label": "Company",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "trustWatson",
+      "label": "Watson",
+      "min": -4,
+      "max": 4,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "trustLestrade",
+      "label": "Lestrade",
+      "min": -4,
+      "max": 4,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "trustMycroft",
+      "label": "Mycroft",
+      "min": -4,
+      "max": 4,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "trustWiggins",
+      "label": "Wiggins",
+      "min": -4,
+      "max": 4,
+      "bucketThreshold": 2
+    }
+  ],
+  "epilogue": {
+    "axes": [
+      "heart",
+      "company"
+    ],
+    "inferredRules": [
+      {
+        "when": {
+          "flag": "larchLost"
+        },
+        "delta": {
+          "heart": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "boyLost"
+        },
+        "delta": {
+          "heart": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "boyFound"
+        },
+        "delta": {
+          "heart": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "lawFirst"
+        },
+        "delta": {
+          "heart": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "stateBargain"
+        },
+        "delta": {
+          "heart": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "watsonIn"
+        },
+        "delta": {
+          "company": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "watsonSpared"
+        },
+        "delta": {
+          "company": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "irregulars"
+        },
+        "delta": {
+          "company": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "mycroftFavour"
+        },
+        "delta": {
+          "company": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "vigilante"
+        },
+        "delta": {
+          "company": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "watsonStays"
+        },
+        "delta": {
+          "company": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "watsonDecoyed"
+        },
+        "delta": {
+          "company": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "governessSafe"
+        },
+        "delta": {
+          "heart": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "governessBait"
+        },
+        "delta": {
+          "heart": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "confessed"
+        },
+        "delta": {
+          "heart": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "boysStand"
+        },
+        "delta": {
+          "heart": 1,
+          "company": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "printerTurns"
+        },
+        "delta": {
+          "heart": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "cleanHands"
+        },
+        "delta": {
+          "heart": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "readSecond"
+        },
+        "delta": {
+          "heart": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "ministerHeld"
+        },
+        "delta": {
+          "heart": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "wroteWatson"
+        },
+        "delta": {
+          "company": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "returnedEarly"
+        },
+        "delta": {
+          "heart": 1,
+          "company": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "nerve",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "heart": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "nerve",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "heart": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "standing",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "company": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "standing",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "company": -1
+        }
+      }
+    ]
+  },
+  "difficulties": {
+    "EASY": {
+      "showPreview": true,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": false
+    },
+    "MEDIUM": {
+      "showPreview": false,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": true
+    },
+    "HARD": {
+      "showPreview": false,
+      "enforceMoney": true,
+      "startingMoney": 30,
+      "adviceEnabled": true
+    }
+  },
+  "defaultDifficulty": "MEDIUM",
+  "startBranch": "WEB",
+  "interludeTriggers": [
+    {
+      "interludeId": "LORE_CITY_MISFORTUNES",
+      "onEnterNodes": [
+        "2"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_YARD",
+      "onEnterNodes": [
+        "Y1"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_STREET",
+      "onEnterNodes": [
+        "S1"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_CONTINENT",
+      "onEnterNodes": [
+        "C1"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_REICHENBACH",
+      "onEnterNodes": [
+        "C9"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_MYCROFT",
+      "onEnterNodes": [
+        "M1"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_HIATUS",
+      "onEnterNodes": [
+        "H1"
+      ]
+    }
+  ],
+  "assist": {
+    "adviceLimit": 3,
+    "favors": {
+      "evidence": {
+        "evidence": 3,
+        "standing": -2
+      },
+      "standing": {
+        "standing": 3,
+        "nerve": -2
+      },
+      "nerve": {
+        "nerve": 3,
+        "evidence": -1,
+        "standing": -1
+      }
+    },
+    "favorFlag": "mycroftFavour"
+  },
+  "skipToNodeId": "11",
+  "strain": {
+    "threshold": -4,
+    "perPoint": 0.025,
+    "max": 0.12
+  },
+  "coupling": [
+    {
+      "when": {
+        "resource": "nerve",
+        "atOrBelow": -4
+      },
+      "on": {
+        "resource": "evidence",
+        "direction": "gain"
+      },
+      "add": {
+        "evidence": -1
+      },
+      "label": "A tired mind reads less: while Nerve is -4 or worse, every gain of Evidence is one point smaller."
+    },
+    {
+      "when": {
+        "resource": "evidence",
+        "atOrBelow": -3
+      },
+      "on": {
+        "resource": "standing",
+        "direction": "gain"
+      },
+      "add": {
+        "standing": -1
+      },
+      "label": "A man without proof is not believed: while Evidence is -3 or worse, every gain of Standing is one point smaller."
+    },
+    {
+      "when": {
+        "resource": "standing",
+        "atOrBelow": -3
+      },
+      "on": {
+        "resource": "nerve",
+        "direction": "gain"
+      },
+      "add": {
+        "nerve": -1
+      },
+      "label": "A discredited man cannot rest: while Standing is -3 or worse, every gain of Nerve is one point smaller."
+    }
+  ]
+}

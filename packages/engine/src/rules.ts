@@ -6,8 +6,31 @@ export function clampTo(n: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, n));
 }
 
-/** Applies stamps in config resource order, clamping each touched resource to its own bounds. */
-export function applyStamps(def: GameDefinition, resources: Record<string, number>, stamps: PartialStamps): Record<string, number> {
+/** The coupling rules that are active against these gauges (for display). */
+export function activeCoupling(def: GameDefinition, resources: Record<string, number>) {
+  return (def.config.coupling ?? []).filter((c) => (resources[c.when.resource] ?? 0) <= c.when.atOrBelow);
+}
+
+/**
+ * The stamps a choice really applies: its own, plus the extra of every coupling rule that fires (the gauge it depends on is short, and the stamps
+ * move the gauge it is about in the stated direction). With no coupling in the config this is the same object that went in.
+ */
+export function effectiveStamps(def: GameDefinition, resources: Record<string, number>, stamps: PartialStamps): PartialStamps {
+  const rules = activeCoupling(def, resources);
+  if (!rules.length) return stamps;
+  let out: PartialStamps | null = null;
+  for (const c of rules) {
+    const moved = stamps[c.on.resource] ?? 0;
+    if (c.on.direction === "gain" ? moved <= 0 : moved >= 0) continue;
+    out ??= { ...stamps };
+    for (const [k, v] of Object.entries(c.add)) out[k] = (out[k] ?? 0) + (v ?? 0);
+  }
+  return out ?? stamps;
+}
+
+/** Applies stamps in config resource order, clamping each touched resource to its own bounds. Coupling is applied unless `coupled` is false. */
+export function applyStamps(def: GameDefinition, resources: Record<string, number>, stampsIn: PartialStamps, coupled = true): Record<string, number> {
+  const stamps = coupled ? effectiveStamps(def, resources, stampsIn) : stampsIn;
   const next = { ...resources };
   for (const r of def.config.resources) {
     const delta = stamps[r.id] ?? 0;

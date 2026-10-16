@@ -43,5 +43,12 @@
         "dispatches/dispatchesfrankensteinconfidential:web-full"
       ]
     }
+  },
+  "sherlock": {
+    "pushes": {
+      "full": [
+        "dispatches/dispatches-sherlock:web"
+      ]
+    }
   }
 }
