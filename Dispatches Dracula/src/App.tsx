@@ -468,6 +468,13 @@ export default function App() {
 
   // The score is made in the browser (src/score.ts). It follows the screen and how low the lowest reserve has fallen, and the track colours it.
   const lowestReserve = Math.min(...RESOURCE_IDS.map((r) => state.resources[r] ?? 0));
+  // how close to the brink the lowest reserve is: 1 = uneasy (-4), 2 = in crisis (the reserve's own crisis level); only while a run is on
+  const inRun = screen === "NODE" || screen === "ROLL" || screen === "OUTCOME" || screen === "INTERLUDE";
+  const crisisLine = Math.min(...def.config.resources.map((r) => r.crisisAt ?? -7));
+  const dread = inRun ? (lowestReserve <= crisisLine ? 2 : lowestReserve <= -4 ? 1 : 0) : 0;
+  useEffect(() => {
+    document.documentElement.dataset.dread = String(dread);
+  }, [dread]);
   const mood: ScoreMood =
     screen === "MENU" || screen === "SETTINGS" || screen === "RESEARCH" || screen === "LEDGER"
       ? "menu"
@@ -983,7 +990,7 @@ export default function App() {
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
           <div className="-mx-8 -mt-8 sm:-mx-10 sm:-mt-10 mb-6 border-b border-ink/70 overflow-hidden">
-            <SceneBanner place="dawn" />
+            <SceneBanner place={state.endingId ? `end-${state.endingId}` : "dawn"} />
           </div>
           <p className={`font-heading text-xs uppercase tracking-[0.3em] font-bold mb-2 ${isFailure ? "text-blood" : "text-brass-dim"}`}>
             {isFailure ? ui.endText.collapsed : ui.endText.closed}
@@ -1459,7 +1466,10 @@ export default function App() {
           <div className="parchment-card p-6 sm:p-8 font-body text-ink relative">
             <CornerFlourishes />
             <div className="-mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-5 border-b border-ink/70 overflow-hidden">
-              <SceneBanner place={ui.map ? ui.map.at[state.currentNodeId] ?? ui.map.defaultAt : ""} />
+              <SceneBanner
+                place={ui.map ? ui.map.at[state.currentNodeId] ?? ui.map.defaultAt : ""}
+                tint={dread === 2 ? "dread" : node.options.some((o) => o.tag === "dawn") ? "dawn" : undefined}
+              />
             </div>
             <h2 data-screen-heading className="font-heading text-2xl font-bold mb-3">{node.title}</h2>
             <p className="dropcap text-[1.05rem] leading-relaxed text-ink/90 mb-2">{node.description}</p>
@@ -1586,6 +1596,7 @@ export default function App() {
 
   return (
     <>
+      <div className={`dread-veil dread-${dread}`} aria-hidden="true" />
       <main className="app-shell" ref={shellRef}>
         {content}
       </main>

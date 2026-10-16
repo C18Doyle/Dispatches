@@ -41,6 +41,10 @@ function Defs({ id }: { id: string }) {
         <stop offset="0" className="a-st-glow" stopOpacity="0.85" />
         <stop offset="1" className="a-st-glow" stopOpacity="0" />
       </radialGradient>
+      <radialGradient id={`${id}-dread`} cx="0.5" cy="0.55" r="0.75">
+        <stop offset="0.35" className="a-st-blood" stopOpacity="0" />
+        <stop offset="1" className="a-st-blood" stopOpacity="0.7" />
+      </radialGradient>
       <linearGradient id={`${id}-fog`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" className="a-st-fog" stopOpacity="0" />
         <stop offset="1" className="a-st-fog" stopOpacity="0.6" />
@@ -134,6 +138,92 @@ function Row({ buildings, base, lit }: { buildings: Building[]; base: number; li
       })}
       <g className="a-win-fill">{windows}</g>
     </g>
+  );
+}
+
+function Figure({ x, y, s = 1, cloak = false }: { x: number; y: number; s?: number; cloak?: boolean }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      <circle cx="0" cy="-12.5" r="2.3" />
+      {cloak ? <path d="M-2 -10 Q0 -12 2 -10 L5.5 0 L-5.5 0Z" /> : <path d="M-2.4 0 L-1.8 -9.4 Q0 -10.8 1.8 -9.4 L2.4 0Z" />}
+    </g>
+  );
+}
+
+function Torch({ id, x, y }: { id: string; x: number; y: number }) {
+  return (
+    <g>
+      <circle cx={x} cy={y} r="9" fill={`url(#${id}-glow)`} />
+      <ellipse className="a-win-fill" cx={x} cy={y} rx="1.5" ry="2.4" />
+    </g>
+  );
+}
+
+function Wolf({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
+  return <path transform={`translate(${x} ${y}) scale(${s})`} d="M0 0 q4 -6 11 -4 l4 -3 l1 3 q4 1 5 4 l-1 3 q-3 0 -5 2 l-1 4 h-2 l0 -4 h-6 l-1 4 h-2 l1 -4 q-3 0 -5 -1 l-2 5 h-2 l2 -6 q-1 -2 1 -3z" />;
+}
+
+/** A row of stepped Flemish gables, for the house in Antwerp. */
+function Gable({ x, w, y }: { x: number; w: number; y: number }) {
+  const m = x + w / 2;
+  return <polygon points={`${x},${y} ${x},${y - 5} ${x + 8},${y - 5} ${x + 8},${y - 10} ${x + 16},${y - 10} ${x + 16},${y - 15} ${m},${y - 15} ${m},${y - 15} ${x + w - 16},${y - 15} ${x + w - 16},${y - 10} ${x + w - 8},${y - 10} ${x + w - 8},${y - 5} ${x + w},${y - 5} ${x + w},${y}`} />;
+}
+
+/** The wagon on the mountain road at the end of the day: the Count's box, the sun on the rim, and the hunters on the ridge. `two` puts a second figure on the wagon. */
+function WagonPass({ id, two }: { id: string; two?: boolean }) {
+  return (
+    <>
+      <circle cx="64" cy="76" r="44" fill={`url(#${id}-glow)`} />
+      <circle className="a-win-fill" cx="64" cy="72" r="15" />
+      <path className="a-far" d="M0 96 L40 70 L90 90 L150 66 L220 94 L400 78 V120 H0Z" />
+      <g className="a-sil">
+        <path d="M0 120 V82 L34 74 L70 86 L120 80 L180 98 L400 96 V120Z" />
+        <path d="M300 96 L330 74 L370 70 L400 66 V96Z" />
+        <g transform="translate(-160 -72) scale(1.7)">
+          <rect x="204" y="90" width="34" height="5" />
+          <rect x="209" y="82" width="25" height="8" />
+          <circle cx="212" cy="98" r="4.4" />
+          <circle cx="232" cy="98" r="4.4" />
+          <path d="M238 92 q9 -6 18 -4 l5 -5 l2 4 q3 2 2 6 l-2 6 h-2 l1 -5 h-5 l-2 6 h-2 l1 -6 h-8 l-2 6 h-2z" />
+          {two && <Figure x={222} y={82} s={0.9} cloak />}
+          {two && <Figure x={228} y={82} s={0.85} />}
+        </g>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <g key={i}>
+            <Figure x={318 + i * 15} y={78 - (i % 2) * 4 - i * 1.5} s={1.25} />
+            <path d={`M${318 + i * 15 + 3} ${72 - (i % 2) * 4 - i * 1.5} l4 -9`} className="a-stroke" fill="none" strokeWidth="0.9" />
+          </g>
+        ))}
+      </g>
+    </>
+  );
+}
+
+function StormShip({ id }: { id: string }) {
+  void id;
+  return (
+    <>
+      <rect className="a-far" x="0" y="92" width="400" height="28" />
+      <g className="a-far" opacity="0.9">
+        <ellipse cx="70" cy="22" rx="110" ry="20" />
+        <ellipse cx="250" cy="14" rx="130" ry="18" />
+        <ellipse cx="370" cy="34" rx="90" ry="16" />
+      </g>
+      <polyline points="262,6 250,34 262,34 244,66" fill="none" className="a-wave" strokeWidth="2.2" strokeLinejoin="round" />
+      <polyline points="262,6 250,34 262,34 244,66" fill="none" className="a-wave" strokeWidth="6" opacity="0.18" strokeLinejoin="round" />
+      <Waves y={90} rows={4} />
+      <g className="a-sil" transform="rotate(-9 150 92)">
+        <path d="M90 92 L214 92 L200 106 L104 106Z" />
+        <rect x="140" y="64" width="12" height="28" />
+        <rect x="114" y="76" width="64" height="16" />
+        <rect x="186" y="46" width="2.4" height="46" />
+      </g>
+      <g className="a-fog-fill" opacity="0.5" transform="rotate(-9 150 92)">
+        <ellipse cx="150" cy="56" rx="10" ry="5" />
+        <ellipse cx="166" cy="44" rx="14" ry="6" />
+        <ellipse cx="188" cy="34" rx="18" ry="7" />
+      </g>
+    </>
   );
 }
 
@@ -348,6 +438,262 @@ function PlaceArt({ id, place }: { id: string; place: string }) {
           <rect x="0" y="84" width="400" height="36" fill={`url(#${id}-fog)`} />
         </>
       );
+    case "end-ENDING_1A": {
+      return (
+        <>
+          <Moon id={id} cx={340} cy={26} r={9} />
+          <path className="a-far" d="M0 100 L30 84 L60 96 L100 78 L140 96 L190 82 L240 98 L300 80 L400 96 V120 H0Z" />
+          <g className="a-sil">
+            <path d="M0 120 V92 L28 78 L50 92 L84 74 L112 92 L150 80 L184 94 L220 76 L256 92 L292 80 L330 94 L366 78 L400 92 V120Z" />
+            <rect x="60" y="56" width="6" height="22" />
+            <rect x="226" y="52" width="6" height="26" />
+            <rect x="88" y="78" width="48" height="42" />
+            <polygon points="84,78 112,60 140,78" />
+          </g>
+          <circle cx="112" cy="92" r="26" fill={`url(#${id}-glow)`} />
+          <rect className="a-win-fill" x="107" y="87" width="10" height="12" />
+          <rect x="0" y="84" width="400" height="36" fill={`url(#${id}-fog)`} />
+        </>
+      );
+    }
+    case "end-ENDING_1B":
+      return (
+        <>
+          <rect x="0" y="0" width="400" height="120" fill={`url(#${id}-dawn)`} opacity="0.7" />
+          <rect className="a-far" x="0" y="84" width="400" height="36" />
+          <Waves y={92} rows={3} />
+          <g className="a-sil">
+            <path d="M120 86 L220 86 L210 98 L130 98Z" />
+            <rect x="160" y="62" width="9" height="24" />
+            <rect x="140" y="74" width="50" height="12" />
+            <rect x="204" y="52" width="2.2" height="34" />
+            <rect x="296" y="88" width="104" height="6" />
+            <rect x="302" y="94" width="3" height="16" />
+            <rect x="340" y="94" width="3" height="16" />
+            <rect x="380" y="94" width="3" height="16" />
+            {[0, 1, 2, 3, 4].map((i) => (
+              <Figure key={i} x={318 + i * 13} y={88} s={0.95} />
+            ))}
+          </g>
+          <g className="a-fog-fill" opacity="0.45">
+            <ellipse cx="172" cy="52" rx="10" ry="5" />
+            <ellipse cx="188" cy="40" rx="14" ry="6" />
+            <ellipse cx="208" cy="30" rx="18" ry="7" />
+          </g>
+          <Torch id={id} x={366} y={76} />
+        </>
+      );
+    case "end-ENDING_1C":
+      return <WagonPass id={id} />;
+    case "end-ENDING_2B":
+      return <WagonPass id={id} two />;
+    case "end-ENDING_1D":
+    case "end-ENDING_CRISIS_STRENGTH": {
+      const closed = place === "end-ENDING_CRISIS_STRENGTH";
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <path className="a-far" d="M60 120 V50 Q60 12 130 12 H270 Q340 12 340 50 V120Z" />
+          <rect className="a-sil" x="0" y="100" width="400" height="20" />
+          <polygon className="a-moon" opacity={closed ? 0.2 : 0.12} points={closed ? "250,0 272,0 236,98 190,98" : "190,0 206,0 236,100 150,100"} />
+          <path className="a-sil" d="M150 98 L168 76 H232 L250 98Z" />
+          {closed ? <rect className="a-sil" x="166" y="70" width="68" height="7" /> : <path className="a-sil" d="M236 74 L262 62 L270 66 L246 78Z" />}
+          {closed && (
+            <g className="a-moon" opacity="0.6">
+              <circle cx="204" cy="34" r="1" />
+              <circle cx="216" cy="52" r="0.8" />
+              <circle cx="226" cy="40" r="1.1" />
+              <circle cx="238" cy="62" r="0.8" />
+              <circle cx="212" cy="70" r="0.9" />
+            </g>
+          )}
+          {!closed && (
+            <g className="a-win-fill">
+              <circle cx="300" cy="46" r="3" />
+              <rect x="299" y="49" width="2" height="12" />
+            </g>
+          )}
+        </>
+      );
+    }
+    case "end-ENDING_2A": {
+      const houses = [];
+      const wins = [];
+      for (let i = 0; i < 6; i++) {
+        const x = i * 68 - 8;
+        const y = 56 + (i % 3) * 7;
+        houses.push(<rect key={`r${i}`} x={x} y={y} width="64" height={100 - y} />, <Gable key={`g${i}`} x={x} w={64} y={y} />);
+        for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) wins.push(<rect key={`${i}${r}${c}`} x={x + 8 + c * 18} y={y + 8 + r * 11} width="6" height="7" opacity={(i + r * 2 + c) % 3 === 2 ? 0.35 : 1} />);
+      }
+      return (
+        <>
+          <Moon id={id} cx={360} cy={22} r={8} />
+          <g className="a-sil">
+            {houses}
+            <rect x="0" y="100" width="400" height="20" />
+          </g>
+          <g className="a-win-fill">{wins}</g>
+          <rect className="a-far" x="0" y="96" width="400" height="24" />
+          <g className="a-win-fill" opacity="0.28">
+            <rect x="40" y="104" width="6" height="3" />
+            <rect x="160" y="106" width="6" height="3" />
+            <rect x="270" y="104" width="6" height="3" />
+          </g>
+          <Waves y={104} rows={2} />
+          <path className="a-sil" d="M150 104 L196 104 L190 110 L156 110Z" />
+        </>
+      );
+    }
+    case "end-ENDING_2C":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <path className="a-far" d="M30 120 V54 Q30 14 100 14 H300 Q370 14 370 54 V120Z" />
+          <rect className="a-win-fill" opacity="0.22" x="170" y="30" width="60" height="70" />
+          <g className="a-win-fill" opacity="0.9">
+            <rect x="188" y="40" width="24" height="58" />
+          </g>
+          <g className="a-sil">
+            <rect x="0" y="100" width="400" height="20" />
+            <Figure x={199} y={98} s={0.9} />
+            <Figure x={205} y={98} s={0.9} />
+            <Figure x={193} y={98} s={0.9} />
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <Figure key={i} x={52 + i * 36 + (i > 4 ? 28 : 0) * 1} y={116} s={2.1} />
+            ))}
+          </g>
+          <Torch id={id} x={199} y={60} />
+        </>
+      );
+    case "end-ENDING_2D":
+      return (
+        <>
+          <Moon id={id} cx={300} cy={26} r={10} />
+          <path className="a-far" d="M0 90 Q100 80 200 92 T400 88 V120 H0Z" />
+          <path className="a-far" d="M60 120 Q140 98 250 96 Q330 94 400 100 V120Z" opacity="0.7" />
+          <g className="a-sil">
+            <rect x="10" y="50" width="70" height="52" />
+            <polygon points="6,50 45,28 84,50" />
+            <rect x="26" y="14" width="7" height="18" />
+            <rect x="0" y="100" width="400" height="20" />
+            <rect x="228" y="70" width="5" height="32" />
+            <rect x="262" y="70" width="5" height="32" />
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <Figure key={i} x={110 + i * 30} y={108 - i * 1.6} s={1.7 - i * 0.12} />
+            ))}
+          </g>
+          <rect className="a-win-fill" x="38" y="76" width="14" height="26" />
+          <circle cx="45" cy="92" r="26" fill={`url(#${id}-glow)`} />
+        </>
+      );
+    case "end-ENDING_3A":
+      return <StormShip id={id} />;
+    case "end-ENDING_3B":
+      return (
+        <>
+          <rect x="0" y="0" width="400" height="120" fill={`url(#${id}-dawn)`} opacity="0.55" />
+          <path className="a-far" d="M0 90 Q100 80 200 92 T400 88 V120 H0Z" />
+          <g className="a-sil">
+            <rect x="20" y="52" width="64" height="48" />
+            <polygon points="14,52 52,28 90,52" />
+            <rect x="96" y="26" width="12" height="74" />
+            <polygon points="94,26 102,2 110,26" />
+            <rect x="0" y="100" width="400" height="20" />
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <Figure key={i} x={170 + i * 36} y={110 - (i % 2) * 3} s={1.7} />
+            ))}
+            <path d="M118 100 L128 82 H152 L160 100Z" opacity="0.0" />
+          </g>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <Torch key={i} id={id} x={186 + i * 44} y={86 - (i % 2) * 3} />
+          ))}
+        </>
+      );
+    case "end-ENDING_3C":
+      return (
+        <>
+          <Moon id={id} cx={86} cy={30} r={12} />
+          <path className="a-far" d="M0 88 L40 66 L90 84 L150 62 L220 88 L400 72 V120 H0Z" />
+          <g className="a-sil">
+            <path d="M150 120 L190 86 L240 78 L270 62 L330 60 L370 76 L400 72 V120Z" />
+            <g transform="translate(274 62) scale(0.9)">
+              <Castle />
+            </g>
+            <rect x="0" y="104" width="400" height="16" />
+            <Figure x={108} y={112} s={1.9} cloak />
+            <Figure x={130} y={112} s={1.9} />
+            <path d="M133 100 l5 -12" className="a-stroke" fill="none" strokeWidth="1.2" />
+          </g>
+          <ellipse cx="119" cy="110" rx="40" ry="7" fill="none" className="a-wave" strokeWidth="1.8" strokeDasharray="1.6 2.6" />
+        </>
+      );
+    case "end-ENDING_3D": {
+      const skyline: Building[] = [[0, 22, 40], [22, 16, 52], [38, 20, 44], [58, 14, 58], [92, 16, 54], [150, 18, 48], [168, 14, 60], [182, 20, 44], [202, 16, 54], [284, 16, 56], [300, 20, 44], [320, 14, 62], [334, 22, 48], [356, 18, 54], [374, 26, 44]];
+      return (
+        <>
+          <Moon id={id} cx={46} cy={26} r={9} />
+          <g className="a-sil">
+            <Row base={100} buildings={skyline} lit={3} />
+            <rect x="214" y="60" width="38" height="40" />
+            <polygon points="210,60 233,38 256,60" />
+            <path d="M233 38 l-9 -22 M233 38 l9 -22" className="a-stroke" fill="none" strokeWidth="1.6" />
+            <Figure x={233} y={42} s={2.6} cloak />
+            <rect x="0" y="96" width="400" height="24" />
+            <Wolf x={30} y={112} s={1.7} />
+            <Wolf x={110} y={114} s={1.9} />
+            <Wolf x={300} y={113} s={1.7} />
+            <Wolf x={350} y={115} s={1.5} />
+          </g>
+          <rect x="0" y="74" width="400" height="46" fill={`url(#${id}-fog)`} />
+        </>
+      );
+    }
+    case "end-ENDING_CRISIS_SECRECY":
+      return (
+        <>
+          <rect x="0" y="0" width="400" height="120" fill={`url(#${id}-dawn)`} opacity="0.5" />
+          <path className="a-far" d="M0 86 Q100 78 200 88 T400 84 V120 H0Z" />
+          <g className="a-sil">
+            <rect x="0" y="100" width="400" height="20" />
+            <rect x="120" y="40" width="8" height="62" />
+            <rect x="272" y="40" width="8" height="62" />
+            {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+              <rect key={i} x={130 + i * 18} y="44" width="1.8" height="58" />
+            ))}
+            <rect x="120" y="44" width="160" height="2" />
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+              <Figure key={i} x={20 + i * 38 + (i % 2) * 6} y={114 + (i % 3)} s={1.6} />
+            ))}
+            <Wolf x={160} y={116} s={0.9} />
+            <Wolf x={236} y={117} s={0.85} />
+          </g>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <Torch key={i} id={id} x={42 + i * 82} y={84 - (i % 2) * 6} />
+          ))}
+        </>
+      );
+    case "end-ENDING_CRISIS_DOMINION":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <path className="a-far" d="M30 120 V54 Q30 14 100 14 H300 Q370 14 370 54 V120Z" />
+          <g className="a-sil">
+            <rect x="0" y="102" width="400" height="18" />
+            <rect x="176" y="86" width="48" height="16" />
+            <rect x="320" y="38" width="22" height="64" />
+          </g>
+          <circle cx="200" cy="80" r="30" fill={`url(#${id}-glow)`} />
+          <g className="a-win-fill">
+            <rect x="198" y="74" width="4" height="12" />
+            <ellipse cx="200" cy="72" rx="1.6" ry="3" />
+          </g>
+          <rect className="a-moon" opacity="0.16" x="326" y="42" width="10" height="58" />
+          <g className="a-sil">
+            <Figure x={331} y={102} s={1.1} />
+            <Figure x={337} y={102} s={1.1} />
+          </g>
+        </>
+      );
     case "dawn":
       return (
         <>
@@ -377,7 +723,7 @@ function PlaceArt({ id, place }: { id: string; place: string }) {
 }
 
 /** A frontispiece for a scene: the place, at night, in silhouette. `place` is an id from the seat's ui.map; anything else gets a plain moonlit ridge. */
-export function SceneBanner({ place, className = "" }: { place: string; className?: string }) {
+export function SceneBanner({ place, tint, className = "" }: { place: string; tint?: "dread" | "dawn"; className?: string }) {
   const id = "banner";
   return (
     <svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMid slice" className={`art-banner ${className}`} aria-hidden="true" focusable="false">
@@ -385,6 +731,14 @@ export function SceneBanner({ place, className = "" }: { place: string; classNam
       <rect width="400" height="120" fill={`url(#${id}-sky)`} />
       <Stars limit={place === "dawn" ? 6 : 16} />
       <PlaceArt id={id} place={place} />
+      {tint === "dawn" && <rect width="400" height="120" fill={`url(#${id}-dawn)`} opacity="0.8" />}
+      {tint === "dread" && (
+        <>
+          <rect width="400" height="120" fill={`url(#${id}-dread)`} />
+          <path d="M0 26 L34 38 L48 30 L92 54 L108 44 L150 64" className="a-wave" fill="none" strokeWidth="0.8" opacity="0.45" />
+          <path d="M400 20 L360 40 L346 32 L300 58 L284 50" className="a-wave" fill="none" strokeWidth="0.8" opacity="0.45" />
+        </>
+      )}
     </svg>
   );
 }

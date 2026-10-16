@@ -48,6 +48,7 @@
 .a-st-win { stop-color: var(--a-win, #e8a33a); }
 .a-st-glow { stop-color: var(--a-glow, #b0202a); }
 .a-st-fog { stop-color: var(--a-fog, #7a5058); }
+.a-st-blood { stop-color: rgb(var(--c-blood-bright, 176 32 42)); }
 .a-st-void { stop-color: rgb(var(--c-void, 11 7 8)); }
 
 .title-kicker { color: var(--t-kicker, #b8944a); }
@@ -300,6 +301,33 @@ main [data-screen-heading]:focus {
     68% { opacity: 0.9; text-shadow: 0 0 10px rgb(var(--c-blood-bright) / 0.35); }
     71% { opacity: 1; text-shadow: 0 0 18px rgb(var(--c-blood-bright) / 0.55), 0 0 40px rgb(var(--c-blood-bright) / 0.25); }
   }
+}
+
+/* when a reserve runs low the page itself darkens at the edges, red; at the brink the gilt cracks to blood and the veil beats */
+.dread-veil {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 1.2s;
+}
+.dread-veil.dread-1 {
+  opacity: 1;
+  box-shadow: inset 0 0 110px 10px rgb(var(--c-blood-bright, 176 32 42) / 0.22);
+}
+.dread-veil.dread-2 {
+  opacity: 1;
+  box-shadow: inset 0 0 150px 30px rgb(var(--c-blood-bright, 176 32 42) / 0.5);
+}
+:root[data-dread="2"] .corner-flourish { border-color: rgb(var(--c-blood-bright)); }
+:root[data-dread="2"] .corner-flourish::after { background: rgb(var(--c-blood-bright)); }
+@media (prefers-reduced-motion: no-preference) {
+  .dread-veil.dread-2 { animation: dread-beat 2.4s ease-in-out infinite; }
+}
+@keyframes dread-beat {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
 }
 
 /* Mobile-first shell: every screen renders inside this container. */
