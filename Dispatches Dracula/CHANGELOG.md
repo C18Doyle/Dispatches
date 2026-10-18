@@ -6,10 +6,22 @@ Format: version or date, then Fixed / Changed / Added. A change that moves the U
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased
-### Added (prototype, branch dracula/ui-prototype)
-- **Themes.** Three looks, chosen in Settings and kept per browser: Blood and Bone (the default), Candlelit Study and Carpathian Night. A theme is data in `src/themes.json` (palette, display face, artwork colours), applied as CSS variables by `src/theme.ts`; the accessibility check tests every theme's contrast pairs.
-- **Artwork drawn in code** (`src/art.tsx`): an illustrated title screen (moon, ridge, castle, bats, drifting fog), a silhouette frontispiece for each place (castle, Varna, the sea, Whitby, London, Carfax, Piccadilly, the East End, dawn), bat rules, wax-seal choice numbers, drop caps, gilt corners, icons for the reserves.
-- **Documents on their own paper:** newspapers in columns, typed letters with a wax seal, ruled notebook pages.
+
+## 0.2.0 (2026-10-18)
+### Added
+- **Four looks**, chosen in Settings and kept per browser: Blood and Bone (the Count's default), Candlelit Study, Carpathian Night and Harker's Journal (cream paper and black ink, the light one, Mina's default). A theme is data in `src/themes.json`; the accessibility check tests every theme's contrast pairs.
+- **Artwork drawn in code** (`src/art.tsx`): an illustrated title screen, a silhouette frontispiece for each place, **a picture for each of the fifteen endings**, bat rules, wax-seal choice numbers, drop caps, gilt corners and icons for the reserves. Nothing loads a file.
+- **Dread.** When your lowest reserve falls to -4 the page darkens red at the edges; at the brink it beats, the gilt cracks to blood, and the banner cracks and reddens. "Before dawn" scenes tint toward sunrise.
+- **Six more documents**, each tied to what you did: the Demeter's log (if you took the crew), Dr Seward's note on Renfield, Miss Murray's journal on the East Cliff (if you marked Lucy), Seward's letter about Miss Westenra, the Westminster Gazette's "A Hampstead Mystery" (if you took Lucy hard) and Mrs Harker's typescript. Newspapers, typed letters and ruled notebook pages each have their own paper. Every statement in them is a claim checked against the 1897 text. (Engine 0.5.0: an interlude trigger can carry a condition.)
+- **Mina as a second seat.** A button on the title page switches between the Count and Mina Harker (the page reloads; each seat keeps its own saves, ledger, settings and theme). She has her own title picture, scene pictures and endings plates, and a writing pass: the repetition check now runs on her text too.
+- **Sound effects for places and moods**, all generated: a wolf at the castle, a bell at Whitby, a door at Carfax, rats in the East End, wings in the Storm, a heartbeat at the brink, a pen on a notebook page, a bell tolling at an ending.
+- **Save Card:** the ending screen makes a picture of your ending (plate, title, record) to save or hand to the phone's share sheet. Nothing is sent anywhere.
+- **Fonts are embedded** (cut down to the characters the game uses), so it looks right offline and inside itch.io's frame. `npm run check:fonts` fails if the text uses a character the fonts do not have.
+- `itch/`: the cover (630x500), screenshots and the page copy for the itch.io page.
+### Changed
+- The page is about 1 MB (it was 0.4 MB), mostly fonts and the second seat.
+- The how-to-play page describes Before Dawn, Beds in England, the Map and the music.
+- The accessibility check covers all four themes; Firefox is added as an advisory step in CI (it cannot be run on the author's machine).
 
 ## 0.1.0 (2026-10-14)
 ### Added

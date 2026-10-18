@@ -19,12 +19,12 @@
 // Accessibility (axe-core, Chromium, phone viewport, on the opening screen and after clicking through): serious and
 // critical violations are compared with tests/a11y-allowlist.json (rule -> most elements allowed, per game). A rule
 // that is not listed, or more elements than listed, fails. Known debt is therefore visible and cannot grow silently.
-// First run on a machine: npx playwright install chromium webkit
+// First run on a machine: npx playwright install chromium webkit   (Firefox is opt-in: npx playwright install firefox, then BROWSERS=chromium,webkit,firefox)
 import { createServer } from "node:http";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { chromium, webkit } from "playwright";
+import { chromium, firefox, webkit } from "playwright";
 import AxeBuilder from "@axe-core/playwright";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
@@ -164,12 +164,12 @@ async function checkGame(browser, engine, game, vp) {
   return { problems, a11y };
 }
 
-const launchers = { chromium, webkit };
+const launchers = { chromium, webkit, firefox };
 const recorded = {};
 let failed = 0;
 for (const engine of ENGINES) {
   if (!launchers[engine]) {
-    console.error(`unknown browser "${engine}" (use chromium or webkit)`);
+    console.error(`unknown browser "${engine}" (use chromium, webkit or firefox)`);
     process.exit(2);
   }
   let browser;

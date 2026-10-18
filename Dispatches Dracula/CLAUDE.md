@@ -4,13 +4,15 @@ Document-driven branching strategy game (React + TypeScript, built with esbuild 
 
 **The game is the Count's.** You are Count Dracula, from the castle in April to the last choice at the end of the passage. Act I (castle, boxes, voyage, Whitby, Carfax) is the same for everyone. Act II is one of three tracks, chosen at Carfax: the Quiet Colony (patience), the Court at Carfax (dominion, a household of the marked) and the Storm (wolves, rats and fog). Fifteen endings: four on each track and three collapses.
 
-**Mina's campaign is the hidden second seat.** It is complete (40 scenes, 15 endings), kept in `src/content/mina/`, checked on every `npm test`, and not offered to the player. See "The hidden seat" below.
+**Mina's campaign is the second seat.** It is complete (40 scenes, 15 endings), kept in `src/content/mina/`, checked on every `npm test`, and offered on the title page (a button switches seats). See "The second seat" below.
 
 ## Layout
-- `src/content/<seat>/`: `config.json` (rules), `events.json` (scenes, interludes, endings), `flavor.json` (prologue, help, table talk, epilogues, ending notes, flag notes), `ui.json` (the words around the story: titles, labels, the adviser's panel; shape in `src/seat.ts`) and `checks.json` (what `scripts/validate.ts` needs to know about the seat). Seats: `dracula` (the Count, the shipped game) and `mina`.
-- `src/game.ts` binds the seat's JSON to the engine. `@seat/*` resolves to `src/content/dracula/` for the type-checker and the scripts (tsconfig paths) and to the seat named by `--seat=` for a bundle (esbuild alias).
+- `src/content/<seat>/`: `config.json` (rules), `events.json` (scenes, interludes, endings), `flavor.json` (prologue, help, table talk, epilogues, ending notes, flag notes), `ui.json` (the words around the story: titles, labels, the adviser's panel; shape in `src/seat.ts`) and `checks.json` (what `scripts/validate.ts` needs to know about the seat). Seats: `dracula` (the Count, the default) and `mina`.
+- `src/seats.ts` holds both seats' JSON (`SEATS`), says which is playing (`chosenSeatId`: the stored choice in localStorage `dispatches_dracula_seat`, else the build's `--seat=`, else the Count; the demo is always the Count) and switches (`switchSeat` stores the choice and reloads). `src/game.ts` binds the playing seat to the engine as `def`, `ui` and `book`. `@seat/*` (tsconfig paths) still resolves to `src/content/dracula/` for the type-checker, not for the bundle.
 - `src/App.tsx`, `main.tsx`, `sfx.ts`, `index.css` UI. `src/ledger.ts` the Ledger. `src/runSave.ts` saved-run parsing. `src/demo.ts` the demo lock.
 - `src/themes.json` + `src/theme.ts` the themes (palette tokens become CSS variables; tailwind colours read them); `src/art.tsx` the artwork (SVG in code, coloured by the theme's `art` block). Add a theme by adding an entry to `themes.json`; `npm run check-a11y` checks it.
+- `src/card.ts` the share card (canvas PNG of an ending). `src/fonts/` the embedded font files (`scripts/fetch_fonts.mjs` downloads them, cut to the characters in `_chars.txt`; `scripts/lib/fonts.mjs` turns them into @font-face data URIs at build; `npm run check:fonts` checks coverage).
+- `itch/` the cover, screenshots and page copy for itch.io (nothing there is uploaded by any script).
 - `src/score.ts` the generated score (Web Audio; no audio file). `src/RouteMap.tsx` the route map, drawn from `ui.json`'s `map`.
 - `claims/novel-notes.json` every statement the game makes about the novel; `claims/source/dracula-1897.txt` the Gutenberg text (data only). `src/content/<seat>/book.json` the book's road (scenes where the novel's Count does something the game can follow).
 - `SCENE_MAP.md` / `SCENE_MAP.mina.md` generated: the scene diagram and the flag table.
@@ -26,11 +28,10 @@ Document-driven branching strategy game (React + TypeScript, built with esbuild 
 - Statements about the novel: add a claim to `claims/novel-notes.json` (a passage that must be in the text, in the named chapter) when a scene or ending note says what the book does. A choice quotation that is Stoker's own words is marked `quote.kind: "novel"` with `source: "Chapter <Roman>"`; `npm run check:quotations` finds it in the text. Find a passage with `node scripts/find_in_novel.mjs <words>`.
 - The year is never named, because the novel does not name it, and the Count's age is never given.
 
-## The hidden seat (Mina)
-- Content: `src/content/mina/` (the same five files). Her Act I is Whitby to the council at Purfleet, then three tracks: the Sacred Rite, the Modern Hunt and the Tie. `config.json` has `"id": "mina"`, so her saves, ledger and settings are stored under their own keys.
-- `npm run check:mina` (part of `npm test`) validates her schema, writing, behaviour baseline (`tests/fixtures/mina-baseline.json`), exhaustive search and balance, then builds her bundle (`npm run build:mina` writes `dist/mina/index.html`) and plays it through the real screens.
-- To play her seat locally: `npm run build:mina`, then open `dist/mina/index.html`.
-- To bring her back into the game: decide how the player chooses (a second button on the title page is the smallest change: `game.ts` would have to import both seats and `App.tsx` would have to take its seat from state, which is a refactor of `def` and `ui` into props); give her a track-by-track rewrite of `flavor.json` for the Ledger; add her `xc_` echoes to and from the Count's flags (the Count's `harkerDead`, `harkerFree`, `lucyAtWindow`, `minaMarked` and the rest are the ones her scenes assume); and re-record both seats' baselines.
+## The second seat (Mina)
+- Content: `src/content/mina/` (the same five files). Her Act I is Whitby to the council at Purfleet, then three tracks: the Sacred Rite, the Modern Hunt and the Tie. `config.json` has `"id": "mina"`, so her saves, ledger, settings and theme are stored under their own keys. Her `ui.json` carries `switchSeat`, `defaultTheme` (the light Journal look) and `art` (which picture each scene and ending gets, since she has no map).
+- `npm run check:mina` (part of `npm test`) validates her schema, writing, repetition, behaviour baseline (`tests/fixtures/mina-baseline.json`), exhaustive search and balance, then builds a bundle that starts on her seat (`npm run build:mina` writes `dist/mina/index.html`; every bundle contains both seats) and plays it through the real screens.
+- Not done yet: a track-by-track rewrite of her `flavor.json` for the Ledger, a route map for her, and echoes between the seats (the Count's `harkerDead`, `harkerFree`, `lucyAtWindow`, `minaMarked` and the rest are the flags her scenes assume).
 - Her scenes are written from the other side of the same events: the wolf at Lucy's window, the night visit to Mina's room, the sealed boxes at Carfax. Keep the two consistent when either changes.
 
 ## Hard rules
@@ -63,6 +64,8 @@ Document-driven branching strategy game (React + TypeScript, built with esbuild 
 
 ## Gotchas
 - The run-save key is `<config.id>_run_save_v1`. Change it whenever `GameState` changes shape.
+- Seat, theme, run save, ledger and settings are all stored under the seat's config id; the seat choice itself is `dispatches_dracula_seat`.
+- The `.dread-veil`, banners and sounds read the lowest reserve (`dread` in `App.tsx`); a new seat's resources need `crisisAt` for the veil to reach its second level.
 - The score is generated at run time (`src/score.ts`); there is no audio file. It follows `mood` in `App.tsx` (screen, track, lowest reserve).
 - Both seats' `events.json` were generated once from scene scripts and then tuned; edit them directly from here on. A writing pass (the Count's) was applied as id-keyed replacements; keep an option's `detail` a description of what it does and risks, not a saying, and do not let an outcome repeat the opening of the ending it leads to. `check:repetition` will tell you.
 - This folder syncs to OneDrive when it lives there. Exclude `node_modules/`.

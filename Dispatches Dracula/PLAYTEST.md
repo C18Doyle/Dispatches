@@ -19,6 +19,8 @@ The player is the Count. That is a deliberate and uncomfortable choice, made by 
 6. Press Copy Summary and paste it into a comment on the game's page, with whatever you want to say.
 
 ## What to look for
+- **On the new look:** which of the four themes people choose, and whether the dark red edge when a reserve runs low reads as tension or as a fault. Whether the sound effects help or annoy.
+- **A phone check nobody has done:** play on a real Android phone and a real iPhone (Safari and Chrome), including the Save Card button and the share sheet.
 - A venture whose odds felt wrong (they are shown before you commit, and strain says so when a shortage makes them worse).
 - A choice that was locked and a lock whose reason was unclear (the hidden Manner and Longing are deliberately not named).
 - A scene that echoed a choice you did not make (the italic lines under a scene's description). That is a bug.
@@ -46,9 +48,8 @@ Also worth a reader's eye: the "In the Novel" notes (the ending screen), the nin
 driven to -10) still ends normally in either build. `npm run check:demo` plays both builds and checks that. Whether the lock should come there, or earlier or later,
 is a question for testers too.
 
-## The hidden seat
-Mina's campaign is built and checked but is not offered to the player (see `CLAUDE.md`). It has had no more playtesting than the Count's, and it was written first,
-so its tone is the one the Count's was matched to. Whether to put it back in front of the player, and how, is the author's call.
+## The second seat
+Mina's campaign is on the title page as a button (see `CLAUDE.md`). It has had no more playtesting than the Count's, and it was written first, so its tone is the one the Count's was matched to. Worth asking testers: did they find the button, did they play both, and did either seat feel like the other with the names changed?
 
 ## Before trusting the results
 Five or six testers will find the big problems and too few to find the balance ones. Balance is measured by simulation (`scripts/balance_check.ts`), not by playtest. The simulated careful and bold players
@@ -60,5 +61,5 @@ levers are the strain figures in `config.json` and the heaviest costs in `events
 - The year. The text never names it; most readers say 1893. The game says nothing.
 - Whether the generated score (`src/score.ts`) is right, or the game wants a composed track.
 - Publishing: the demo points at the draft page `dispatches/dispatches-dracula`; the full game's target is still REPLACE_ME in `itch.json`. Nothing has been pushed. Cover art.
-- When and how Mina's seat returns, and whether the two seats should read each other's choices.
+- Whether the two seats should read each other's choices (they do not yet).
 - Whether to build the Sherlock crossover proposed in `docs/proposals/SHERLOCK_AND_DRACULA.md`.
