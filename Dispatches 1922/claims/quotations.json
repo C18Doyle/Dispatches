@@ -1,0 +1,68 @@
+[
+ {
+  "id": "q-kornilov-1917",
+  "node": "kornilovAffair17",
+  "speaker": "General Lavr Kornilov",
+  "date": "27 August 1917 (Old Style), the reply to Kerensky",
+  "text": "Russian people, the life of your motherland is in your hands!",
+  "translation": "English, as printed by soviethistory.msu.edu from Browder and Kerensky (translator not named).",
+  "sources": [
+   "msu-kornilov-response"
+  ],
+  "status": "web-checked",
+  "note": "The closing line of the reply. The page was read; only this line was quoted, so the wording elsewhere in the reply has not been checked against the Russian."
+ },
+ {
+  "id": "q-kolchak-1918",
+  "node": "omskCoup18",
+  "speaker": "Admiral Alexander Kolchak",
+  "date": "18 November 1918, on taking power",
+  "text": "I will not follow the path of reaction or the disastrous path of partisanship. My main goal is to create a combat-ready army, defeat the Bolsheviks, and reestablish law and order.",
+  "translation": "English as printed in the Wikipedia article; no source is cited there and the translator is unknown.",
+  "sources": [
+   "wp-supreme-ruler"
+  ],
+  "status": "drafted",
+  "note": "NEEDS A READER: the wording is one translation of the proclamation; other translations differ (for example 'ruinous path of party politics'). Check against a scholarly edition (Smele; Cambridge, Civil War in Siberia) before relying on it."
+ },
+ {
+  "id": "q-denikin-1919",
+  "node": "moscowDirective19",
+  "speaker": "General Anton Denikin",
+  "date": "Directive of 3 July 1919 (20 June, Old Style)",
+  "text": "With the aim of seizing the heart of Russia, Moscow, I order:",
+  "translation": "English, from a Markovtsy campaign history; the opening of the directive only.",
+  "sources": [
+   "markovtsy-moscow-campaign",
+   "rbth-last-chance"
+  ],
+  "status": "web-checked",
+  "note": "Seen in a search summary of the PDF, not in the original. The directive is numbered 08878 (RBTH). Dates differ by a day between sources (2 or 3 July)."
+ },
+ {
+  "id": "q-wrangel-directive",
+  "node": "moscowDirective19",
+  "speaker": "Baron Pyotr Wrangel",
+  "date": "Later, in his memoirs, on the Directive",
+  "text": "a death sentence to the armies of the South of Russia",
+  "translation": "English, as quoted by RBTH.",
+  "sources": [
+   "rbth-last-chance"
+  ],
+  "status": "drafted",
+  "note": "NEEDS A READER: second-hand, quoted by a news feature. Check against Wrangel's memoirs."
+ },
+ {
+  "id": "q-kronstadt-1921",
+  "node": "kronstadt21",
+  "speaker": "The Petropavlovsk resolution",
+  "date": "1 March 1921, first demand",
+  "text": "Immediate new elections to the Soviets. The present Soviets no longer express the wishes of the workers and peasants. The new elections should be by secret ballot, and should be preceded by free electoral propaganda.",
+  "translation": "English, after Ida Mett, as given by libcom.org and the anarchist FAQ.",
+  "sources": [
+   "libcom-kronstadt"
+  ],
+  "status": "web-checked",
+  "note": "Seen in a search summary. The translation comes from partisan sources; check against Avrich, Kronstadt 1921."
+ }
+]
