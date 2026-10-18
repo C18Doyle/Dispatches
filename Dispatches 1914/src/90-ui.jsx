@@ -302,10 +302,6 @@ const css = `
   .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
   .dg-mw-ctx{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
   #root{position:relative}
-  .dg-musicwrap{position:absolute;top:6px;left:8px;z-index:20}
-  [data-screen="menu"] .dg-title{margin-top:52px}
-  .dg-musicbtn{min-height:40px;padding:0 12px;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--paper);border:1.5px solid var(--rule);cursor:pointer}
-  .dg-musicbtn:hover{background:var(--paper-raised)}
   .dg-read{margin:0 0 14px}
   .dg-agreed{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
   .dg-dossier summary{display:flex;align-items:center;border:0;padding:0;margin:0;background:none}
@@ -490,15 +486,35 @@ const css = `
   .dg-document .src{font-size:11px;color:var(--ink-soft);margin-top:6px}
 
   /* ---- a newspaper special ---- */
-  .dg-paper{position:relative;border:1.5px solid var(--rule);background:var(--paper-raised);padding:16px 18px 10px;margin:6px 0 18px;box-shadow:3px 3px 0 var(--rule)}
-  .dg-paper-mast{font-family:${THEME.serif};font-size:34px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.02em;padding-bottom:8px;border-bottom:4px double var(--ink)}
-  .dg-paper-date{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);padding:6px 0;border-bottom:1.5px solid var(--rule)}
-  .dg-paper-stamp{display:inline-block;margin-top:12px;transform:rotate(-2deg);border:2px solid var(--accent);color:var(--accent);padding:2px 8px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--paper-raised);opacity:.9}
-  .dg-paper-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.08;margin:8px 0 10px;letter-spacing:-.01em}
-  .dg-paper-cols{border-top:1.5px solid var(--rule);padding-top:10px}
-  .dg-paper-cols p{margin:0 0 10px;line-height:1.6;text-align:justify;hyphens:auto}
+  .dg-paper{position:relative;border:1px solid var(--rule);background:linear-gradient(90deg,rgba(60,40,10,.10),rgba(60,40,10,0) 5%,rgba(60,40,10,0) 95%,rgba(60,40,10,.12)),var(--paper-raised);padding:16px 18px 10px;margin:6px 0 18px;box-shadow:3px 4px 0 rgba(28,26,23,.18);color:var(--ink)}
+  .dg-paper-mast{font-family:${THEME.serif};font-size:36px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.03em;text-transform:uppercase;padding-bottom:8px;border-bottom:4px double var(--ink)}
+  .dg-paper-mast.de{font-family:"Old English Text MT","UnifrakturCook","Luminari",${THEME.serif};text-transform:none;font-size:40px;letter-spacing:0}
+  .dg-paper-mast.fr{font-style:italic;text-transform:none;font-size:40px}
+  .dg-paper-date{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);padding:6px 0;border-bottom:1.5px solid var(--rule)}
+  .dg-paper-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.08;margin:12px 0 4px;letter-spacing:-.01em}
+  .dg-paper-by{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;padding-bottom:8px;border-bottom:1.5px solid var(--rule)}
+  .dg-paper-cols p{margin:0 0 10px;font-family:${THEME.serif};font-size:15.5px;line-height:1.5;text-align:justify;hyphens:auto}
   .dg-paper-first::first-letter{font-family:${THEME.serif};float:left;font-size:3.1em;line-height:.85;padding:4px 6px 0 0;font-weight:700}
+  .dg-paper-foot{font-size:11px;font-style:italic;color:var(--ink-soft);text-align:center;margin:6px 0 4px;padding-top:6px;border-top:1px dotted var(--ink-soft)}
   @media (min-width:720px){.dg-paper-cols{column-count:2;column-gap:26px;column-rule:1px solid var(--rule)}.dg-paper-cols p{break-inside:avoid-column}}
+
+  /* ---- the modes, the demo, the battle rig ---- */
+  .dg-mode[data-mode="easy"]{border-bottom:4px solid #5f7b58}
+  .dg-mode[data-mode="hard"]{border-bottom:4px solid #94504a}
+  .dg-seg button.dg-mode[data-mode="easy"][aria-pressed="true"]{background:#4f6b49;color:#fff}
+  .dg-seg button.dg-mode[data-mode="hard"][aria-pressed="true"]{background:#85443f;color:#fff}
+  .dg-bullets{margin:0 0 14px;padding:8px 12px 8px 30px;font-size:13px;line-height:1.5;border-left:4px solid var(--rule)}
+  .dg-bullets[data-mode="easy"]{border-left-color:#5f7b58}
+  .dg-bullets[data-mode="hard"]{border-left-color:#94504a}
+  .dg-bullets li{margin:2px 0}
+  .dg-cmd-locked{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-top:6px}
+  .dg-demo-note{font-size:13px;margin:0 0 14px;padding:10px 12px;border:1.5px dashed var(--rule);background:rgba(255,255,255,.2)}
+  a.dg-link{display:block;text-decoration:none;text-align:center;box-sizing:border-box;margin:14px 0}
+  .dg-rigrow{border:1.5px solid var(--rule);border-left:6px solid var(--accent);padding:10px 12px;margin:0 0 10px;background:var(--paper-raised)}
+  .dg-rigrow .meta{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-rigrow .t{font-weight:700;margin:2px 0 8px}
+  .dg-rigsel{display:flex;gap:10px;align-items:center;margin:0 0 8px;font-size:13px}
+  .dg-rigsel select{flex:1;min-height:40px;font:inherit;background:var(--paper);color:var(--ink);border:1.5px solid var(--rule)}
 
   /* ---- the file at its close ---- */
   .dg-strip{margin:22px 0}
@@ -1034,7 +1050,9 @@ function RecordScreen({ record, onBack }) {
 export default function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [record, setRecord] = useState(loadRecord);
-  const [savedRun, setSavedRun] = useState(loadSavedRun);
+  const [savedRun, setSavedRun] = useState(() => { const s = loadSavedRun(); return DEMO && s && (s.campaignId !== DEMO_COMMAND || (Array.isArray(s.taken) ? s.taken.length : 0) >= DEMO_DECISIONS) ? null : s; });
+  const [rigOn, setRigOn] = useState(false); // a battle opened from the battle rig (a dev build): nothing of it is saved
+  const [rigPosture, setRigPosture] = useState(null);
   const [mode, setMode] = useState("standard"); // the menu's choice: "easy", "standard" or "hard"
   const [runEasy, setRunEasy] = useState(false); // the run in hand is an easy run
   const [taken, setTaken] = useState([]); // the orders the run has given: { node, choice }
@@ -1110,7 +1128,7 @@ export default function App() {
     const h = document.querySelector("main h1");
     if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
   }, [screen, nodeId, campaignId]);
-  useEffect(() => { saveRecord(record); }, [record]);
+  useEffect(() => { if (!rigOn) saveRecord(record); }, [record]);
 
   // A node on screen counts as seen, and so do the advisers present at it.
   useEffect(() => {
@@ -1129,7 +1147,7 @@ export default function App() {
 
   // The run in progress is saved after every step; a finished run clears its save.
   useEffect(() => {
-    if (!campaignId || !nodeId || (screen !== "node" && screen !== "outcome")) return;
+    if (rigOn || !campaignId || !nodeId || (screen !== "node" && screen !== "outcome")) return;
     if (screen === "node" && node && node.ending) {
       clearSavedRun();
       setSavedRun(null);
@@ -1184,6 +1202,7 @@ export default function App() {
   const openAside = (which) => { setCameFrom(screen); setScreen(which); };
 
   const home = () => {
+    setRigOn(false);
     setScreen("menu");
     setNodeId(null);
     setCampaignId(null);
@@ -1212,7 +1231,26 @@ export default function App() {
     if (!r.outcome) setNodeId(r.nextId);
   };
 
+  // The battle rig: a battle opened at its own report, with the meters and the enemy chosen.
+  const rigFight = ({ cfg, postureId, meters: m, easy }) => {
+    const resolved = resolveNode(cfg.host.node, {}, m, emptyHardState());
+    const ch = resolved && resolved.choices.find((x) => x.id === cfg.host.choice);
+    if (!ch) return;
+    setRigOn(true);
+    setRigPosture(postureId);
+    setCampaignId(cfg.campaign);
+    setFlags({}); setMeters(m); setHardState(emptyHardState()); setRunEasy(easy);
+    setTaken([]); setHistory([]); setVisited([cfg.host.node]); setPending(null);
+    setRunKey((k) => k + 1);
+    setNodeId(cfg.host.node);
+    setBattleChoice(ch);
+    setScreen("battle");
+  };
+
   const cont = () => {
+    if (rigOn) { setRigOn(false); setPending(null); setScreen("rig"); return; }
+    // the free demo stops after its last order, whatever comes next
+    if (DEMO && taken.length >= DEMO_DECISIONS) { clearSavedRun(); setSavedRun(null); setPending(null); setScreen("demoend"); return; }
     setNodeId(pending?.nextId ?? null);
     if (pending && pending.event) { setScreen("event"); return; }
     setPending(null);
@@ -1250,15 +1288,16 @@ export default function App() {
   return (
     <div className={`dg-fs-${settings.textSize}`} style={{ display: "contents" }}>
       <style>{css}</style>
-      <div className="dg-root dg-musicwrap" style={{ background: "transparent", backgroundImage: "none", width: "auto", minHeight: 0, padding: 0, margin: 0, border: 0, boxShadow: "none" }}><MusicToggle settings={settings} onSettings={setSettings} /></div>
       {screen === "menu" && (
-        <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} savedRun={savedRun}
+        <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} onRig={() => setScreen("rig")} savedRun={savedRun}
           onResume={resume} onDiscard={discard} onSettings={() => openAside("settings")} record={record} />
       )}
       {screen === "briefing" && campaignId && (
         <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} settings={settings} onSettings={setSettings}
           onEnter={() => start(campaignId)} onBack={home} />
       )}
+      {screen === "demoend" && campaignId && <DemoEndScreen campaignId={campaignId} onHome={home} />}
+      {screen === "rig" && <BattleRigScreen onFight={rigFight} onBack={home} />}
       {screen === "howto" && <HowToScreen onBack={() => { setScreen(howBack || cameFrom); setHowBack(null); }} />}
       {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} onHowTo={() => { setHowBack("settings"); setScreen("howto"); }} />}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
@@ -1270,7 +1309,8 @@ export default function App() {
       {screen === "battle" && battleChoice && (
         <BattleScreen campaignId={campaignId} config={battleOf(battleChoice)} choice={battleChoice} meters={meters} easy={runEasy}
           onCommit={(plan) => { const ch = battleChoice; setBattleChoice(null); choose(ch, plan); }}
-          onBack={() => { setBattleChoice(null); setScreen("node"); }} />
+          forcePostureId={rigPosture}
+          onBack={() => { setBattleChoice(null); setScreen(rigOn ? "rig" : "node"); }} />
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}

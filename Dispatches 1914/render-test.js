@@ -166,7 +166,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   // Settings: its own screen.
   click(byIncludes("Settings")); await wait(60);
   t("Settings opens as a screen with its sections", txt().includes("Reading") && txt().includes("Playing") && txt().includes("Calendar: United Kingdom"));
-  t("a switch for the music is on every screen, and the typeface choices include a dyslexia-friendly one", !!byText("Music on") && txt().includes("Dyslexia-friendly"));
+  t("the music is a setting, not a switch on every screen, and the typeface choices include a dyslexia-friendly one", !byText("Music on") && !byText("Music off") && txt().includes("Dyslexia-friendly"));
   t("the settings offer the music, on or off, with a volume while it is on", txt().includes("Music") && !!document.querySelector('[aria-label="Music"]') && !!document.querySelector('input[type="range"]#dg-music'));
   const slider = document.getElementById("dg-size");
   t("text size is a slider with three stops", !!slider && slider.min === "0" && slider.max === "2");

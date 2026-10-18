@@ -18710,10 +18710,6 @@ const css = `
   .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
   .dg-mw-ctx{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
   #root{position:relative}
-  .dg-musicwrap{position:absolute;top:6px;left:8px;z-index:20}
-  [data-screen="menu"] .dg-title{margin-top:52px}
-  .dg-musicbtn{min-height:40px;padding:0 12px;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--paper);border:1.5px solid var(--rule);cursor:pointer}
-  .dg-musicbtn:hover{background:var(--paper-raised)}
   .dg-read{margin:0 0 14px}
   .dg-agreed{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
   .dg-dossier summary{display:flex;align-items:center;border:0;padding:0;margin:0;background:none}
@@ -18898,15 +18894,35 @@ const css = `
   .dg-document .src{font-size:11px;color:var(--ink-soft);margin-top:6px}
 
   /* ---- a newspaper special ---- */
-  .dg-paper{position:relative;border:1.5px solid var(--rule);background:var(--paper-raised);padding:16px 18px 10px;margin:6px 0 18px;box-shadow:3px 3px 0 var(--rule)}
-  .dg-paper-mast{font-family:${THEME.serif};font-size:34px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.02em;padding-bottom:8px;border-bottom:4px double var(--ink)}
-  .dg-paper-date{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);padding:6px 0;border-bottom:1.5px solid var(--rule)}
-  .dg-paper-stamp{display:inline-block;margin-top:12px;transform:rotate(-2deg);border:2px solid var(--accent);color:var(--accent);padding:2px 8px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--paper-raised);opacity:.9}
-  .dg-paper-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.08;margin:8px 0 10px;letter-spacing:-.01em}
-  .dg-paper-cols{border-top:1.5px solid var(--rule);padding-top:10px}
-  .dg-paper-cols p{margin:0 0 10px;line-height:1.6;text-align:justify;hyphens:auto}
+  .dg-paper{position:relative;border:1px solid var(--rule);background:linear-gradient(90deg,rgba(60,40,10,.10),rgba(60,40,10,0) 5%,rgba(60,40,10,0) 95%,rgba(60,40,10,.12)),var(--paper-raised);padding:16px 18px 10px;margin:6px 0 18px;box-shadow:3px 4px 0 rgba(28,26,23,.18);color:var(--ink)}
+  .dg-paper-mast{font-family:${THEME.serif};font-size:36px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.03em;text-transform:uppercase;padding-bottom:8px;border-bottom:4px double var(--ink)}
+  .dg-paper-mast.de{font-family:"Old English Text MT","UnifrakturCook","Luminari",${THEME.serif};text-transform:none;font-size:40px;letter-spacing:0}
+  .dg-paper-mast.fr{font-style:italic;text-transform:none;font-size:40px}
+  .dg-paper-date{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);padding:6px 0;border-bottom:1.5px solid var(--rule)}
+  .dg-paper-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.08;margin:12px 0 4px;letter-spacing:-.01em}
+  .dg-paper-by{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;padding-bottom:8px;border-bottom:1.5px solid var(--rule)}
+  .dg-paper-cols p{margin:0 0 10px;font-family:${THEME.serif};font-size:15.5px;line-height:1.5;text-align:justify;hyphens:auto}
   .dg-paper-first::first-letter{font-family:${THEME.serif};float:left;font-size:3.1em;line-height:.85;padding:4px 6px 0 0;font-weight:700}
+  .dg-paper-foot{font-size:11px;font-style:italic;color:var(--ink-soft);text-align:center;margin:6px 0 4px;padding-top:6px;border-top:1px dotted var(--ink-soft)}
   @media (min-width:720px){.dg-paper-cols{column-count:2;column-gap:26px;column-rule:1px solid var(--rule)}.dg-paper-cols p{break-inside:avoid-column}}
+
+  /* ---- the modes, the demo, the battle rig ---- */
+  .dg-mode[data-mode="easy"]{border-bottom:4px solid #5f7b58}
+  .dg-mode[data-mode="hard"]{border-bottom:4px solid #94504a}
+  .dg-seg button.dg-mode[data-mode="easy"][aria-pressed="true"]{background:#4f6b49;color:#fff}
+  .dg-seg button.dg-mode[data-mode="hard"][aria-pressed="true"]{background:#85443f;color:#fff}
+  .dg-bullets{margin:0 0 14px;padding:8px 12px 8px 30px;font-size:13px;line-height:1.5;border-left:4px solid var(--rule)}
+  .dg-bullets[data-mode="easy"]{border-left-color:#5f7b58}
+  .dg-bullets[data-mode="hard"]{border-left-color:#94504a}
+  .dg-bullets li{margin:2px 0}
+  .dg-cmd-locked{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-top:6px}
+  .dg-demo-note{font-size:13px;margin:0 0 14px;padding:10px 12px;border:1.5px dashed var(--rule);background:rgba(255,255,255,.2)}
+  a.dg-link{display:block;text-decoration:none;text-align:center;box-sizing:border-box;margin:14px 0}
+  .dg-rigrow{border:1.5px solid var(--rule);border-left:6px solid var(--accent);padding:10px 12px;margin:0 0 10px;background:var(--paper-raised)}
+  .dg-rigrow .meta{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-rigrow .t{font-weight:700;margin:2px 0 8px}
+  .dg-rigsel{display:flex;gap:10px;align-items:center;margin:0 0 8px;font-size:13px}
+  .dg-rigsel select{flex:1;min-height:40px;font:inherit;background:var(--paper);color:var(--ink);border:1.5px solid var(--rule)}
 
   /* ---- the file at its close ---- */
   .dg-strip{margin:22px 0}
@@ -19442,7 +19458,9 @@ function RecordScreen({ record, onBack }) {
 export default function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [record, setRecord] = useState(loadRecord);
-  const [savedRun, setSavedRun] = useState(loadSavedRun);
+  const [savedRun, setSavedRun] = useState(() => { const s = loadSavedRun(); return DEMO && s && (s.campaignId !== DEMO_COMMAND || (Array.isArray(s.taken) ? s.taken.length : 0) >= DEMO_DECISIONS) ? null : s; });
+  const [rigOn, setRigOn] = useState(false); // a battle opened from the battle rig (a dev build): nothing of it is saved
+  const [rigPosture, setRigPosture] = useState(null);
   const [mode, setMode] = useState("standard"); // the menu's choice: "easy", "standard" or "hard"
   const [runEasy, setRunEasy] = useState(false); // the run in hand is an easy run
   const [taken, setTaken] = useState([]); // the orders the run has given: { node, choice }
@@ -19518,7 +19536,7 @@ export default function App() {
     const h = document.querySelector("main h1");
     if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
   }, [screen, nodeId, campaignId]);
-  useEffect(() => { saveRecord(record); }, [record]);
+  useEffect(() => { if (!rigOn) saveRecord(record); }, [record]);
 
   // A node on screen counts as seen, and so do the advisers present at it.
   useEffect(() => {
@@ -19537,7 +19555,7 @@ export default function App() {
 
   // The run in progress is saved after every step; a finished run clears its save.
   useEffect(() => {
-    if (!campaignId || !nodeId || (screen !== "node" && screen !== "outcome")) return;
+    if (rigOn || !campaignId || !nodeId || (screen !== "node" && screen !== "outcome")) return;
     if (screen === "node" && node && node.ending) {
       clearSavedRun();
       setSavedRun(null);
@@ -19592,6 +19610,7 @@ export default function App() {
   const openAside = (which) => { setCameFrom(screen); setScreen(which); };
 
   const home = () => {
+    setRigOn(false);
     setScreen("menu");
     setNodeId(null);
     setCampaignId(null);
@@ -19620,7 +19639,26 @@ export default function App() {
     if (!r.outcome) setNodeId(r.nextId);
   };
 
+  // The battle rig: a battle opened at its own report, with the meters and the enemy chosen.
+  const rigFight = ({ cfg, postureId, meters: m, easy }) => {
+    const resolved = resolveNode(cfg.host.node, {}, m, emptyHardState());
+    const ch = resolved && resolved.choices.find((x) => x.id === cfg.host.choice);
+    if (!ch) return;
+    setRigOn(true);
+    setRigPosture(postureId);
+    setCampaignId(cfg.campaign);
+    setFlags({}); setMeters(m); setHardState(emptyHardState()); setRunEasy(easy);
+    setTaken([]); setHistory([]); setVisited([cfg.host.node]); setPending(null);
+    setRunKey((k) => k + 1);
+    setNodeId(cfg.host.node);
+    setBattleChoice(ch);
+    setScreen("battle");
+  };
+
   const cont = () => {
+    if (rigOn) { setRigOn(false); setPending(null); setScreen("rig"); return; }
+    // the free demo stops after its last order, whatever comes next
+    if (DEMO && taken.length >= DEMO_DECISIONS) { clearSavedRun(); setSavedRun(null); setPending(null); setScreen("demoend"); return; }
     setNodeId(pending?.nextId ?? null);
     if (pending && pending.event) { setScreen("event"); return; }
     setPending(null);
@@ -19658,15 +19696,16 @@ export default function App() {
   return (
     <div className={`dg-fs-${settings.textSize}`} style={{ display: "contents" }}>
       <style>{css}</style>
-      <div className="dg-root dg-musicwrap" style={{ background: "transparent", backgroundImage: "none", width: "auto", minHeight: 0, padding: 0, margin: 0, border: 0, boxShadow: "none" }}><MusicToggle settings={settings} onSettings={setSettings} /></div>
       {screen === "menu" && (
-        <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} savedRun={savedRun}
+        <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} onRig={() => setScreen("rig")} savedRun={savedRun}
           onResume={resume} onDiscard={discard} onSettings={() => openAside("settings")} record={record} />
       )}
       {screen === "briefing" && campaignId && (
         <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} settings={settings} onSettings={setSettings}
           onEnter={() => start(campaignId)} onBack={home} />
       )}
+      {screen === "demoend" && campaignId && <DemoEndScreen campaignId={campaignId} onHome={home} />}
+      {screen === "rig" && <BattleRigScreen onFight={rigFight} onBack={home} />}
       {screen === "howto" && <HowToScreen onBack={() => { setScreen(howBack || cameFrom); setHowBack(null); }} />}
       {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} onHowTo={() => { setHowBack("settings"); setScreen("howto"); }} />}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
@@ -19678,7 +19717,8 @@ export default function App() {
       {screen === "battle" && battleChoice && (
         <BattleScreen campaignId={campaignId} config={battleOf(battleChoice)} choice={battleChoice} meters={meters} easy={runEasy}
           onCommit={(plan) => { const ch = battleChoice; setBattleChoice(null); choose(ch, plan); }}
-          onBack={() => { setBattleChoice(null); setScreen("node"); }} />
+          forcePostureId={rigPosture}
+          onBack={() => { setBattleChoice(null); setScreen(rigOn ? "rig" : "node"); }} />
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
@@ -19706,6 +19746,15 @@ export default function App() {
 // How to play, reached from Settings, holds what the game is and what it leaves out; Settings holds what is kept on the device.
 // The text is in 66-briefings.jsx and 60-glossary.jsx.
 
+// The free demo (build.mjs makes it with DEMO_BUILD true): one command, its first DEMO_DECISIONS orders, the standard file only, and an ending screen that
+// points to the full game. The French command is the demo because its first six orders carry the whole game in small: contested orders, the staff's
+// beliefs, the Marne as an Order of Battle, and a front that moves. RIG is the battle rig (DEV_RIG true, dist/rig): a menu entry that opens any battle at once.
+const DEMO = DEMO_BUILD;
+const DEMO_COMMAND = "gqg";
+const DEMO_DECISIONS = 6;
+const FULL_GAME_URL = "https://dispatches.itch.io/dispatches-1914";
+const RIG = DEV_RIG;
+
 const SIDES = [
   { id: "central", label: "The Central Powers", ids: ["ohl", "aok", "otto"] },
   { id: "entente", label: "The Entente", ids: ["gqg", "stavka", "bef"] },
@@ -19718,7 +19767,7 @@ function commandProgress(record, cid) {
   return { seen, best: best ? best.rank : null };
 }
 
-function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscard, record }) {
+function MenuScreen({ onPick, onRecord, onSettings, onRig, savedRun, onResume, onDiscard, record }) {
   const saved = useMemo(() => {
     if (!savedRun) return null;
     try {
@@ -19730,7 +19779,7 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
   const card = (cid) => {
     const c = CAMPAIGNS[cid];
     const b = BRIEFINGS[cid];
-    const playable = Object.keys(c.nodes).length > 0;
+    const playable = Object.keys(c.nodes).length > 0 && (!DEMO || cid === DEMO_COMMAND);
     const p = commandProgress(record, cid);
     return (
       <button key={cid} className="dg-cmd" disabled={!playable} onClick={() => playable && onPick(cid)}>
@@ -19739,11 +19788,12 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
         <span className="dg-cmd-body">
           <span className="dg-cmd-nation">{b.nation}</span>
           <span className="dg-cmd-quote">{"\u201C"}{b.quote.text}{"\u201D"}</span>
-          <span className="dg-cmd-by">{b.quote.by}<span className="dg-cmd-qdate">{b.quote.date}</span></span>
+          <span className="dg-cmd-by">{b.quote.by}</span>
           <span className="dg-cmd-meta">
             {nodeDate(cid, c.span.from)}
             {p.best ? ` \u00B7 best rank ${p.best}` : ""}
           </span>
+          {DEMO && cid !== DEMO_COMMAND && <span className="dg-cmd-locked">In the full game</span>}
         </span>
       </button>
     );
@@ -19754,6 +19804,7 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
       <p className="dg-sub">{"\u201C"}This war, like the next war, is a war to end war.{"\u201D"}</p>
       <p className="dg-sub-by">David Lloyd George<span>1916</span></p>
       <hr className="dg-rule" />
+      {DEMO && <p className="dg-demo-note"><b>Free demo.</b> Play the first {DEMO_DECISIONS} orders of the French command. The full game has six commands and 71 endings.</p>}
 
       {saved && (
         <section className="dg-banner" aria-label="Saved file">
@@ -19777,23 +19828,27 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
       <nav className="dg-nav" aria-label="The game">
         <button className="dg-navbtn" onClick={onRecord}><b>War record</b></button>
         <button className="dg-navbtn" onClick={onSettings}><b>Settings</b></button>
+        {RIG && <button className="dg-navbtn" onClick={onRig}><b>Battle rig</b></button>}
       </nav>
     </main>
   );
 }
 
-const MODE_ROWS = [
-  { id: "easy", label: "Easy mode", text: "Shows what each order will do and lets you take back the last order. It cannot reach the highest rank." },
-  { id: "standard", label: "Standard", text: null },
-  { id: "hard", label: "Hard mode", text: null },
-];
+const MODE_ROWS = [{ id: "easy", label: "Easy mode" }, { id: "standard", label: "Standard" }, { id: "hard", label: "Hard mode" }];
+
+/** What a file's mode changes, as short bullets (the numbers are INTEL.checks and INTEL.hardChecks, 68-intel.jsx, and the command's own erosion track). */
+function modeBullets(mode, c) {
+  const track = c.hardMode.description.charAt(0).toLowerCase() + c.hardMode.description.slice(1).replace(/\.$/, "");
+  if (mode === "easy") return ["Each order shows what it will do to the meters", "The staff's reading is plain, with no fog", "The last order can be taken back", "The highest rank is out of reach"];
+  if (mode === "hard") return [`An erosion track: ${track}`, `${INTEL.hardChecks} checks on the staff's beliefs, not ${INTEL.checks}`, "Some endings are reached only here"];
+  return ["Orders show their odds in words", `${INTEL.checks} checks on the staff's beliefs`, "An order cannot be taken back"];
+}
 
 function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnter, onBack }) {
   const c = CAMPAIGNS[campaignId];
   const b = BRIEFINGS[campaignId];
   const first = useMemo(() => resolveNode(c.startNode, {}, emptyMeters(), emptyHardState()), [campaignId]);
-  const modeText = (row) => (row.id === "hard" ? `Adds an erosion track: ${c.hardMode.description.charAt(0).toLowerCase()}${c.hardMode.description.slice(1)}` : row.text);
-  const note = modeText(MODE_ROWS.find((r) => r.id === mode));
+  const bullets = modeBullets(mode, c);
   return (
     <main {...rootProps(campaignId, "briefing")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -19813,15 +19868,21 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
       <p className="dg-prose dg-brief">{b.seat}</p>
 
       <h2 className="dg-sect">Set up the file</h2>
-      <div className="dg-seg" role="group" aria-label="Difficulty">
-        {MODE_ROWS.map((row) => (
-          <button key={row.id} className="dg-mode" aria-pressed={mode === row.id} onClick={() => onMode(row.id)}>
-            {b.modes[row.id] && <span className="dg-mode-name">{b.modes[row.id]}</span>}
-            <span className="dg-mode-tag">{row.label}</span>
-          </button>
-        ))}
-      </div>
-      {note && <p className="dg-note" aria-live="polite">{note}</p>}
+      {!DEMO && (
+        <>
+          <div className="dg-seg" role="group" aria-label="Difficulty">
+            {MODE_ROWS.map((row) => (
+              <button key={row.id} className="dg-mode" data-mode={row.id} aria-pressed={mode === row.id} onClick={() => onMode(row.id)}>
+                {b.modes[row.id] && <span className="dg-mode-name">{b.modes[row.id]}</span>}
+                <span className="dg-mode-tag">{row.label}</span>
+              </button>
+            ))}
+          </div>
+          <ul className="dg-bullets" data-mode={mode} aria-live="polite">
+            {bullets.map((t) => <li key={t}>{t}</li>)}
+          </ul>
+        </>
+      )}
       <label className={"dg-planstamp" + (settings.battles !== false ? " on" : "")}>
         <input type="checkbox" checked={settings.battles !== false} onChange={(e) => onSettings({ ...settings, battles: e.target.checked })} />
         <span className="dg-planstamp-text">Take control of battle planning</span>
@@ -19831,12 +19892,6 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
       <button className="dg-btn dg-go" onClick={onEnter}>Enter the war room</button>
     </main>
   );
-}
-
-/** The music switch, on every screen, at the top left. */
-function MusicToggle({ settings, onSettings }) {
-  const on = settings.music !== false;
-  return <button className="dg-musicbtn" onClick={() => onSettings({ ...settings, music: !on })}>{on ? "Music on" : "Music off"}</button>;
 }
 
 /** Reads a report aloud with the browser's own voice, where it has one. */
@@ -19858,6 +19913,62 @@ function ReadAloud({ id, text }) {
     setOn(true);
   };
   return <button className="dg-btn dg-read" onClick={toggle}>{on ? "Stop reading" : "Read aloud"}</button>;
+}
+
+/** The end of the free demo: where the file stops, and what the full game is. */
+function DemoEndScreen({ campaignId, onHome }) {
+  const c = CAMPAIGNS[campaignId];
+  return (
+    <main {...rootProps(campaignId, "demoend")}>
+      <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
+      <div className="dg-docrow"><span>{c.docLabel} · END OF THE DEMO</span></div>
+      <h1 className="dg-node-title">The demo ends here</h1>
+      <p className="dg-prose dg-lede">You have given the first {DEMO_DECISIONS} orders of the French command, from the covering of the frontier to the race to the sea. The war has four years to run, and the file goes on to Verdun, the Nivelle offensive, the mutinies and the armistice.</p>
+      <p className="dg-prose">The full game has six headquarters (German, French, Russian, British, Austro-Hungarian and Ottoman), over 200 decisions and 71 endings, with real documents at the head of the reports, the Order of Battle, and the Easy and Hard files.</p>
+      <p><a className="dg-btn dg-go dg-link" href={FULL_GAME_URL} target="_blank" rel="noopener noreferrer">Get the full game</a></p>
+      <button className="dg-btn" onClick={onHome}>Back to the commands</button>
+    </main>
+  );
+}
+
+/** The battle rig (a dev build only): every Order of Battle in a list, to open at once with the enemy's setup, the strain on the command and the mode chosen. */
+function BattleRigScreen({ onFight, onBack }) {
+  const list = Object.values(BATTLES);
+  const [pick, setPick] = useState({});
+  const [strain, setStrain] = useState("mid");
+  const [easy, setEasy] = useState(false);
+  const LEVEL = { low: -4, mid: 0, high: 4 };
+  const meters = { manpower: LEVEL[strain], munitions: LEVEL[strain], will: LEVEL[strain] };
+  return (
+    <main {...rootProps(null, "rig")}>
+      <div className="dg-filerow"><span /><button className="dg-btn" onClick={onBack}>Back</button></div>
+      <h1 className="dg-title dg-title-sm">Battle rig</h1>
+      <p className="dg-note">Each battle opens at its own report. The settings below apply to all.</p>
+      <div className="dg-seg" role="group" aria-label="The meters">
+        {[["low", "Meters low"], ["mid", "Meters level"], ["high", "Meters high"]].map(([id, label]) => (
+          <button key={id} aria-pressed={strain === id} onClick={() => setStrain(id)}>{label}</button>
+        ))}
+      </div>
+      <label className="dg-check"><input type="checkbox" checked={easy} onChange={(e) => setEasy(e.target.checked)} /><span>Easy mode (the hints show)</span></label>
+      {list.map((cfg) => {
+        const host = buildNodeAtlas()[cfg.host.node];
+        return (
+          <section key={cfg.id} className="dg-rigrow" style={{ "--accent": "var(--acc-" + cfg.campaign + ")" }}>
+            <div className="meta">{CAMPAIGNS[cfg.campaign].shortName}{host ? " · " + nodeDate(cfg.campaign, host.date) : ""}</div>
+            <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
+            <label className="dg-rigsel">
+              <span>The enemy</span>
+              <select value={pick[cfg.id] || ""} onChange={(e) => setPick({ ...pick, [cfg.id]: e.target.value })}>
+                <option value="">Drawn at random</option>
+                {cfg.postures.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+            </label>
+            <button className="dg-btn" onClick={() => onFight({ cfg, postureId: pick[cfg.id] || null, meters, easy })}>Fight this battle</button>
+          </section>
+        );
+      })}
+    </main>
+  );
 }
 
 function HowToScreen({ onBack }) {
@@ -20015,26 +20126,60 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
 // =============================================================================
 //
 // One event, shown once between two reports (src/67-events.jsx). It has its own screen so that it reads as news from outside the war room and
-// not as another decision: the date, a title, two short paragraphs, and a button back to the file. A paper's front page has a masthead, a dateline, a
-// headline, a stamp that says it is speculative, and two columns of text.
+// not as another decision: the date, a title, two short paragraphs, and a button back to the file. A paper's front page is set as the paper would set it: a
+// masthead, a dateline with the weekday in the paper's language, a headline, a line saying whom it is from, two justified columns and a drop capital. The page says
+// at its foot, in small type, that it comes from the file and not from the record.
+
+const PAPER_LANG = {
+  "Le Temps": "fr", "Le Matin": "fr", "Le Figaro": "fr",
+  "Corriere della Sera": "it", "Il Secolo": "it",
+  "Berliner Tageblatt": "de", "Frankfurter Zeitung": "de", "The Frankfurter Zeitung": "de", "Neue Freie Presse": "de",
+};
+const PAPER_DAYS = {
+  en: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+  fr: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
+  it: ["domenica", "luned\u00EC", "marted\u00EC", "mercoled\u00EC", "gioved\u00EC", "venerd\u00EC", "sabato"],
+  de: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+};
+const PAPER_MONTHS = {
+  en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  fr: ["janvier", "f\u00E9vrier", "mars", "avril", "mai", "juin", "juillet", "ao\u00FBt", "septembre", "octobre", "novembre", "d\u00E9cembre"],
+  it: ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"],
+  de: ["Januar", "Februar", "M\u00E4rz", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+};
+const PAPER_BY = { en: "From our correspondent", fr: "De notre correspondant", it: "Dal nostro corrispondente", de: "Von unserem Korrespondenten" };
+
+/** A date as the paper would print it: "Samedi 5 f\u00E9vrier 1916", "Saturday, 5 February 1916", "Samstag, den 5. Februar 1916". */
+function paperDate(lang, iso) {
+  const d = new Date(iso + "T12:00:00Z");
+  const day = d.getUTCDate();
+  const wd = PAPER_DAYS[lang][d.getUTCDay()];
+  const mon = PAPER_MONTHS[lang][d.getUTCMonth()];
+  const yr = d.getUTCFullYear();
+  if (lang === "en") return `${wd}, ${day} ${mon} ${yr}`;
+  if (lang === "de") return `${wd}, den ${day}. ${mon} ${yr}`;
+  if (lang === "fr") return `${wd} ${day === 1 ? "1er" : day} ${mon} ${yr}`;
+  return `${wd} ${day} ${mon} ${yr}`;
+}
 
 function EventScreen({ campaignId, event, onContinue }) {
   const c = CAMPAIGNS[campaignId];
-  const speculative = /^Speculative\.\s/.test(event.paras[0] || "");
-  const paras = event.paras.map((p, i) => (i === 0 && speculative ? p.replace(/^Speculative\.\s+/, "") : p));
+  const lang = (event.paper && PAPER_LANG[event.paper.name]) || "en";
+  const paras = event.paras.map((p, i) => (i === 0 ? p.replace(/^Speculative\.\s+/, "") : p));
   return (
     <main {...rootProps(campaignId, "event")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow"><span>{c.docLabel}</span></div>
       {event.paper ? (
         <article className="dg-paper">
-          <div className="dg-paper-mast">{event.paper.name}</div>
-          <div className="dg-paper-date"><span>{event.paper.place}</span><span>{nodeDate(campaignId, event.date)}</span></div>
-          {speculative && <span className="dg-paper-stamp">Speculative</span>}
+          <div className={"dg-paper-mast " + lang}>{event.paper.name.replace(/^The /, lang === "en" ? "The " : "")}</div>
+          <div className="dg-paper-date"><span>{event.paper.place}</span><span>{paperDate(lang, mapDate(campaignId, event.date))}</span></div>
           <h1 className="dg-paper-title">{event.title}</h1>
+          <p className="dg-paper-by">{PAPER_BY[lang]}</p>
           <div className="dg-paper-cols">
             {paras.map((p, i) => <p key={i} className={i === 0 ? "dg-paper-first" : ""}>{p}</p>)}
           </div>
+          <p className="dg-paper-foot">A page from your file, not from the record.</p>
         </article>
       ) : (
         <>
@@ -20306,10 +20451,10 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
   );
 }
 
-function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBack }) {
+function BattleScreen({ campaignId, config, choice, meters, easy, forcePostureId, onCommit, onBack }) {
   const c = CAMPAIGNS[campaignId];
   const pool = useMemo(() => battlePoolSize(meters), [meters]);
-  const [posture] = useState(() => pickBattlePosture(config));
+  const [posture] = useState(() => (forcePostureId && (config.postures || []).find((p) => p.id === forcePostureId)) || pickBattlePosture(config));
   const [intel] = useState(() => battleIntel(config, posture));
   const [committed, setCommitted] = useState(null); // the plan as issued: the second day follows
   const empty = useMemo(() => Object.fromEntries(config.categories.map((k) => [k.id, 0])), [config]);

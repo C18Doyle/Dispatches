@@ -105,10 +105,10 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
   );
 }
 
-function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBack }) {
+function BattleScreen({ campaignId, config, choice, meters, easy, forcePostureId, onCommit, onBack }) {
   const c = CAMPAIGNS[campaignId];
   const pool = useMemo(() => battlePoolSize(meters), [meters]);
-  const [posture] = useState(() => pickBattlePosture(config));
+  const [posture] = useState(() => (forcePostureId && (config.postures || []).find((p) => p.id === forcePostureId)) || pickBattlePosture(config));
   const [intel] = useState(() => battleIntel(config, posture));
   const [committed, setCommitted] = useState(null); // the plan as issued: the second day follows
   const empty = useMemo(() => Object.fromEntries(config.categories.map((k) => [k.id, 0])), [config]);

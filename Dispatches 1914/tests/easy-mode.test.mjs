@@ -86,8 +86,8 @@ async function step(ctx, pick = 0) {
 const easy = await boot();
 await easy.click(easy.buttons().find((b) => easy.lab(b).includes("Germany")));
 await easy.click(btn(easy, /Easy mode$/));
-check(/take back the last order/.test(easy.text()), "easy: the briefing says what the mode does");
-check(/It cannot reach the highest rank/.test(easy.text()), "easy: the briefing says what the mode is");
+check(/The last order can be taken back/.test(easy.text()), "easy: the briefing says what the mode does");
+check(/The highest rank is out of reach/.test(easy.text()) && !!easy.d.querySelector('.dg-bullets[data-mode="easy"]'), "easy: the briefing lists the mode in bullets");
   await easy.click(easy.buttons().find((b) => easy.lab(b) === "Enter the war room"));
 const first = easy.text();
 check(easy.d.querySelectorAll(".dg-preview").length === orders(easy).length, "easy: every order shows its effect on the meters");

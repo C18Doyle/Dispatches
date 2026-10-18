@@ -4,12 +4,13 @@
   "description": "Dispatches 1914: the Great War from OHL, GQG and STAVKA.",
   "scripts": {
     "build": "node build.mjs",
+    "rig": "node build.mjs && node ../tools/serve-dist.mjs dist/rig 8768",
     "validate": "bash validate.sh",
     "smoke": "node smoke.js",
     "render": "node render-test.js",
     "roundtrip": "node roundtrip-test.mjs",
     "verify:baseline": "node ../packages/testkit/src/cli.mjs verify",
-    "test": "npm run build && npm run smoke && npm run render && npm run roundtrip && npm run validate && npm run verify:baseline && npm run test:migration && npm run test:saves && npm run test:easy && npm run test:battle && npm run test:dynamic && npm run test:flow && npm run test:staff && npm run test:map && npm run test:ground",
+    "test": "npm run build && npm run test:demo && npm run test:rig && npm run smoke && npm run render && npm run roundtrip && npm run validate && npm run verify:baseline && npm run test:migration && npm run test:saves && npm run test:easy && npm run test:battle && npm run test:dynamic && npm run test:flow && npm run test:staff && npm run test:map && npm run test:ground",
     "test:fast": "npm test && npm run check:orphans",
     "release": "node ../packages/testkit/src/release.mjs",
     "baseline:accept": "node ../packages/testkit/src/cli.mjs accept",
@@ -23,6 +24,8 @@
     "test:staff": "node tests/staff.test.mjs",
     "test:map": "node tests/map.test.mjs",
     "test:ground": "node tests/ground.test.mjs",
+    "test:demo": "node tests/demo.test.mjs",
+    "test:rig": "node tests/rig.test.mjs",
     "audit:screens": "node tools/audit-screens.mjs",
     "playthrough": "node tools/playthrough.mjs",
     "review:build": "node tools/claims-review.mjs",
@@ -41,9 +44,17 @@
     "build": "npm run build",
     "variants": [
       {
-        "name": "web",
-        "from": "dist",
-        "zip": "dispatches-1914-web.zip",
+        "name": "full",
+        "from": "dist/full",
+        "zip": "dispatches-1914-full.zip",
+        "include": [
+          "index.html"
+        ]
+      },
+      {
+        "name": "demo",
+        "from": "dist/demo",
+        "zip": "dispatches-1914-demo.zip",
         "include": [
           "index.html"
         ]
