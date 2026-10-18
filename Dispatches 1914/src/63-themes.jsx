@@ -144,7 +144,7 @@ export function sepiaCss() {
   const mapAcc = SEPIA_COMMANDS.map((c) => `--acc-${c}:var(--map-ink)`).join(";");
   const css = `
   /* ---- Sepia: a quiet column ---- */
-  [data-theme="sepia"]:not([data-font="plain"]):not([data-font="typewriter"]) .dg-root{--mono:${SEPIA_SERIF}}
+  [data-theme="sepia"]:not([data-font="plain"]):not([data-font="typewriter"]):not([data-font="dyslexia"]) .dg-root{--mono:${SEPIA_SERIF}}
   @S .dg-root{${accVars};background-image:none;font-size:19px;line-height:1.5}
   @S .dg-root[data-campaign]::before,@S .dg-root[data-screen="menu"]::before{display:none}
   @S .dg-root button:focus-visible,@S .dg-root summary:focus-visible,@S .dg-root input:focus-visible{outline:3px solid var(--ink);outline-offset:3px}

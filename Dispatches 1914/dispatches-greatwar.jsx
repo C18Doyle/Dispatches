@@ -557,8 +557,7 @@ CAMPAIGNS.ohl.nodes = {
           "Corps go south. There is fighting in Lorraine that the plan did not ask for, " +
           "and a French attack is met and beaten there, which is reported at home as a " +
           "victory. The right wing goes forward lighter than the plan assumed, by " +
-          "exactly the corps that went south. Nobody in this building can say yet what " +
-          "that will cost, and nobody will be able to say until September.",
+          "exactly the corps that went south. Nobody in this building can yet say what that will cost.",
       },
       {
         id: "east",
@@ -602,7 +601,7 @@ CAMPAIGNS.ohl.nodes = {
         label: "Tell the Kaiser that the deployment cannot be reversed, and let the western mobilisation go on",
         historical: true,
         advisor: { name: "Moltke", position:
-          "A deployment is one plan and not a menu. An army sent the wrong way on the railways is not recovered by a better order afterwards." },
+          "A deployment is one plan and not a menu. A better order cannot recover an army that has been sent the wrong way on the railways." },
         impact: { manpower: 0, munitions: 0, will: -1 },
         setFlags: { ohl_timetable: "asked" },
         next: "ohl_1914_12_twocorps",
@@ -732,10 +731,7 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. Both corps stay where the plan put them. The new command in " +
           "East Prussia fights with the army it has, and the right wing goes forward at " +
-          "a strength the plan could count on. Whether the eastern army could have held " +
-          "without them is not something the record can settle. What is certain is that " +
-          "the province goes on being overrun while the matter is argued, and that " +
-          "the Chief has to answer for it.",
+          "a strength the plan could count on. The province goes on being overrun while the matter is argued, every report from East Prussia asks for more men than the army there has, and the Chief has to answer for it.",
       },
     ],
   },
@@ -1480,9 +1476,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The U-boats stay under prize rules, American neutrality is not " +
           "forced, and the war in the west continues on the ground with no instrument " +
           "for changing it. The Supreme Command has declined the only decisive-looking " +
-          "option it had and now has to find another. The Chancellor has won the " +
-          "argument, and the soldiers who lost it will remember who won it when the " +
-          "next one comes round.",
+          "option it had and now has to find another. The Chancellor has won the argument, and the soldiers who lost it know who won it.",
       },
       {
         id: "sharpened",
@@ -1706,9 +1700,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. Vienna gets the artillery it asked for and not the divisions. " +
           "The Isonzo line holds, or it does not, on the strength of an army that has " +
           "been strained to the limit. Whatever happens there, the divisions stay in " +
-          "Flanders, where the British are still attacking. The Emperor has asked his " +
-          "ally for a great deal and been given a little, and he will remember the " +
-          "proportion when the question of peace comes up.",
+          "Flanders, where the British are still attacking. The Emperor has asked his ally for a great deal and been given a little, and he has noted the proportion.",
       },
     ],
   },
@@ -1769,9 +1761,7 @@ CAMPAIGNS.ohl.nodes = {
           "declared the war ended, and there is no treaty and no further advance. " +
           "Divisions that would have been marching are free to be moved. The Baltic " +
           "provinces and Ukraine stay open and uncertain, and the annexationists at " +
-          "home regard the opportunity as thrown away. Whether the Russian declaration " +
-          "would have held, with a German army at the line, is a question of what the " +
-          "army was prepared to ignore.",
+          "home regard the opportunity as thrown away.",
       },
       {
         id: "narva",
@@ -1998,9 +1988,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The army stops where the plan said it should, with a gain that " +
           "was never in the plan, and the reserves go back to the north. The attack in " +
           "Flanders goes ahead as designed, against a British army that has had time to " +
-          "prepare for it. Paris is not threatened, and the country is told so. Whether " +
-          "the Chief who passed up the Marne could have won a battle in Flanders is a " +
-          "question only the Flanders battle could have answered.",
+          "prepare for it. Paris is not threatened, and the country is told so.",
       },
     ],
   },
@@ -2030,7 +2018,7 @@ CAMPAIGNS.ohl.nodes = {
       "\n\nThe salients are deep, the flanks are long, the divisions that made them " +
       "are the divisions that were supposed to hold them, and American formations are " +
       "now arriving faster than they can be counted.\n\n" +
-      "Giving up ground bought at this price raises the problem of what can be said afterwards.",
+      "Giving up ground bought at this price raises the problem of what can be said at home.",
     context:
       "A shortened line can be held by fewer men, with the reserve restored. It also " +
       "concedes, in front of the whole country, that the spring bought nothing.",
@@ -2385,8 +2373,7 @@ CAMPAIGNS.ohl.nodes = {
       "This is the outcome the Supreme Command spent four years arranging not to have: " +
       "a break in the field, in daylight, with nothing behind it. The divisions asked " +
       "to close it are the divisions that were used up making and then holding the " +
-      "spring's ground.\n\nThere is no argument to be had afterwards about whether the " +
-      "army was beaten. Everyone can see where it happened.",
+      "spring's ground.\n\nNobody here argues about whether the army is beaten. Everyone can see where it happened.",
     ending: { family: "army-collapse-first", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The historical German army retreated in order to the end and " +
@@ -2994,9 +2981,7 @@ CAMPAIGNS.gqg.nodes = {
           "beside them to see that the orders are carried out. Nobody is publicly " +
           "blamed, and the army keeps the leaders it has. The orders arrive at the " +
           "armies through two channels, and in the first week of September both are " +
-          "needed. The army does not learn that failure costs a command, and the " +
-          "officers who failed in August are still giving orders in the battle that " +
-          "comes.",
+          "needed. The officers who failed in August are still giving orders.",
       },
     ],
   },
@@ -3056,10 +3041,7 @@ CAMPAIGNS.gqg.nodes = {
             outcome:
               "The armies turn. The gap between the German First and Second Armies opens " +
               "and is exploited, and the invasion stops short of the decision it needed. " +
-              "The war that follows is a different war from the one everyone prepared for, " +
-              "and it will last four years. The French army that attacks on the Marne is " +
-              "exhausted, short of shells and not sure of its own success, and does not " +
-              "know until days afterwards that it has won." },
+              "The French army that attacks on the Marne is exhausted, short of shells and not sure of its own success. Joffre's order of the day tells every unit that one which cannot advance must hold its ground and die there rather than fall back." },
           { weight: 35, title: "The counterattack is contained and the line settles further south",
             impact: { manpower: -1, will: -1 },
             setFlags: { gqg_marneResult: "contained" },
@@ -3650,9 +3632,7 @@ CAMPAIGNS.gqg.nodes = {
           "By the Calais agreement of 27 February Haig is formally subordinated to Nivelle for " +
           "the duration of the offensive. The next day Haig and Robertson tell Lloyd George " +
           "they will resign rather than carry it out, and the arrangement is watered down " +
-          "with more freedom for the British commander. The conference leaves mistrust " +
-          "between the British government and its generals, and it sets back the case for " +
-          "unified command until the spring of 1918.",
+          "with more freedom for the British commander. The conference leaves mistrust between the British government and its generals.",
       },
       {
         id: "agreement",
@@ -3756,8 +3736,7 @@ CAMPAIGNS.gqg.nodes = {
           "army is told the truth on the third day rather than the twenty-third, and " +
           "the commander who made the promise has to survive having kept it. The " +
           "casualties are fewer, and the army that comes out of April is angry with its " +
-          "general and not yet with its government. Whether that difference is enough " +
-          "to prevent the refusals is something no one can say.",
+          "general and not yet with its government.",
       },
     ],
   },
@@ -4037,8 +4016,7 @@ CAMPAIGNS.gqg.nodes = {
           "with the British holds. Champagne and the road to Paris are left to what " +
           "remains. If the main blow falls there, the French army has nothing to meet " +
           "it with, and the government that told its general to cover the capital has " +
-          "to decide what it meant. If the blow does not fall there, the " +
-          "Commander-in-Chief has won, and no one will know how near he came to losing.",
+          "to decide what it meant. If the blow does not fall there, the Commander-in-Chief has won.",
       },
       {
         id: "paris",
@@ -4184,9 +4162,7 @@ CAMPAIGNS.gqg.nodes = {
           "divisions are moved back behind the ridge. The bombardment falls on little " +
           "and the attack still comes and still gains ground, but it comes on into " +
           "depth, and the army is not broken on the first morning. Duchene is told to " +
-          "carry out an order he has publicly despised, and may do so unwillingly. " +
-          "Whether the battle behind the ridge would have held is something the record " +
-          "cannot show.",
+          "carry out an order he has publicly despised, and may do so unwillingly.",
       },
       {
         id: "relieve",
@@ -4428,8 +4404,7 @@ CAMPAIGNS.gqg.nodes = {
           "front and its own date. The Germans can move their reserves from one to " +
           "another, and the winter comes with the line still on German ground. The " +
           "armies are spared the heavy cost of a general offensive and the Allied " +
-          "governments are asked to explain a pause that the enemy does not take. The " +
-          "war goes into 1919, as it was always going to.",
+          "governments are asked to explain a pause that the enemy does not take.",
       },
     ],
   },
@@ -5344,9 +5319,7 @@ CAMPAIGNS.stavka.nodes = {
           "within ten days have outflanked the Tenth Army and driven it out of East " +
           "Prussia. The Twentieth Corps is cut off in the forest near Augustow and " +
           "surrenders on 9 February (22 February in the west), with its losses put at " +
-          "some 34,000 men. Much of the Tenth Army gets away. The quartermaster-general " +
-          "afterwards calls it a great German success: it cost Russia the anchor it had " +
-          "planned around.",
+          "some 34,000 men. Much of the Tenth Army gets away. The Germans count it a great success: it costs Russia the anchor it had planned around.",
       },
       {
         id: "pull",
@@ -5448,9 +5421,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The armies hold the passes they have and stop attacking. The " +
           "rifles and shells that would have been spent in the snow are kept, and the " +
           "Austrians have the spring to recover. Przemysl has been taken and nothing " +
-          "more is asked of it. The army is less tired when the German blow comes in " +
-          "May, and no one will be able to say whether it would have held, because the " +
-          "shells it saved would not have been enough.",
+          "more is asked of it. The army is less tired, and the shells it has saved are few.",
       },
     ],
   },
@@ -6491,9 +6462,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The penalty is not restored. The retreat in Galicia is left to " +
           "the commissars and the committees, and the commander who made the ultimatum " +
           "has to be answered. The Supreme Command stays with the officers who say that " +
-          "discipline can be built on consent. The units that would have been steadied " +
-          "by the threat have to be steadied by argument, and the Galician front falls " +
-          "back, as it was going to, at its own pace.",
+          "discipline can be built on consent. The units that the threat would have steadied have to be steadied by argument, and the Galician front falls back at its own pace.",
       },
     ],
   },
@@ -6550,8 +6519,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The Twelfth Army is ordered to stand, and what stands is a " +
           "fraction of what is on the books. The bombardment and the crossing " +
           "do what they did to the army that withdrew, to an army that has been " +
-          "told to remain, and the line behind it is not yet a line. Whether " +
-          "the infantry could have held is answered the hard way. The risk is " +
+          "told to remain, and the line behind it is not yet a line. The risk is " +
           "an army encircled in a city it was ordered to hold.",
       },
       {
@@ -7638,9 +7606,7 @@ CAMPAIGNS.bef.nodes = {
               "The reserves do not reach the front until the evening of the first day, " +
               "and go into the attack tired, in the dark, against a German second line " +
               "that has been reinforced. British casualties at Loos by 8 October are " +
-              "59,247. French's handling of the reserve is the main charge made against " +
-              "him afterwards, and it is made by the army commanders under him, in " +
-              "letters to the King's household." },
+              "59,247. The army commanders under French blame his handling of the reserve, and say so in letters to the King's household." },
           { weight: 40, title: "The reserves arrive in time and are stopped by the second line",
             impact: { will: 1 },
             setFlags: { bef_reservesResult: "stopped" },
@@ -7777,9 +7743,7 @@ CAMPAIGNS.bef.nodes = {
         outcome:
           "French resigns on 15 December and goes home as Commander-in-Chief of the Home " +
           "Forces. Haig takes over on 21 December, and Robertson goes to the War Office as " +
-          "Chief of the Imperial General Staff two days later. The new Commander-in-Chief " +
-          "has been chosen by the army and not by the Cabinet, and the Cabinet will remember " +
-          "that when it has cause to disagree with him.",
+          "Chief of the Imperial General Staff two days later. The new Commander-in-Chief has been chosen by the army and not by the Cabinet. Haig has commanded the First Army since the landing, and the army knows him.",
       },
       {
         id: "keep",
@@ -8089,10 +8053,7 @@ CAMPAIGNS.bef.nodes = {
           "By the Calais agreement of 27 February Haig is formally subordinated to Nivelle " +
           "for the duration of the offensive. The next day Haig and Robertson tell the " +
           "Prime Minister that they will resign rather than carry it out, and the " +
-          "arrangement is watered down, with more freedom for the British. The conference " +
-          "leaves mistrust between the British government and its generals that lasts " +
-          "to the end of the war, and sets back the cause of unified command until " +
-          "the spring of 1918.",
+          "arrangement is watered down, with more freedom for the British. The conference leaves mistrust between the British government and its generals.",
       },
       {
         id: "refuse",
@@ -8485,10 +8446,7 @@ CAMPAIGNS.bef.nodes = {
         outcome:
           "Speculative. The British divisions are put into the general reserve, and the " +
           "French and Italian contributions follow. The reserve exists when the German " +
-          "offensive opens, and can be sent to the threatened sector. It is under a " +
-          "committee, and the army that gave the divisions has fewer in its own line on " +
-          "21 March. Whether the committee moves them in time, and in the right " +
-          "direction, is the thing that nobody can say beforehand.",
+          "offensive opens, and can be sent to the threatened sector. It is under a committee, the divisions it holds are the ones the army commanders wanted to keep, and the army that gave them has fewer in its own line on 21 March.",
       },
     ],
   },
@@ -8882,8 +8840,7 @@ CAMPAIGNS.bef.nodes = {
       "the divisions that would have gone to France. The campaign in the East became " +
       "the second front of the war for Britain, and the Western Front was held with " +
       "what the Eastern one left over.\n\n" +
-      "When the end came it was in France, as it was always going to be, and the " +
-      "armies that finished it were smaller than they might have been.",
+      "The war ends in France, and the armies that finish it are smaller than they might have been.",
     ending: { family: "the-other-strategy", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The Cabinet voted to evacuate Gallipoli, and did so with very " +
@@ -10699,7 +10656,7 @@ CAMPAIGNS.aok.nodes = {
       "not break the Italian line, and it was not entirely beaten. It took more of the " +
       "ground, and held it longer than the other had, and the army that was left at the " +
       "end of the summer had still something to hold together.\n\n" +
-      "The war ended in November, as it was going to end.",
+      "The war ends in November.",
     ending: { family: "concentrated-offensive", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The offensive of June 1918 was made in two thrusts, and failed. " +
@@ -11562,8 +11519,7 @@ CAMPAIGNS.otto.nodes = {
             next: "otto_1916_02_medina",
             outcome:
               "Speculative. The Third Army turns on the leading Russian columns at Koprukoy and checks them " +
-              "for a week in the snow. It falls back to Erzurum afterwards with a third of its men gone, and " +
-              "the fortress is held a little longer, with an army inside it that still has some fight left. " +
+              "for a week in the snow. It falls back to Erzurum with a third of its men gone, and the fortress is held a little longer by an army that still has some fight left. " +
               "The Russians have lost time, and when they come to the forts they come to a garrison that knows the ground." },
           { weight: 70, title: "The army is beaten in the open",
             impact: { manpower: -3, munitions: -2, will: -2 },
@@ -13371,10 +13327,10 @@ export const RISKS = {
   // British Expeditionary Force
   "bef_1914_01_warcouncil/six": R(60, "All six divisions cross and the French are heartened", "The invasion scare is not laid and the army is short at home",
     { manpower: -2, munitions: -1, will: 0 },
-    "Speculative. All six divisions go over, and the two held for home defence are missed almost at once. A German raid on the east coast, small and ill-planned, sets off a panic in the Cabinet, and the Prime Minister asks why the whole of the regular army is in France. The Cabinet agrees afterwards that the risk was real and was run on purpose, and that nobody had expected it to be tested so soon."),
+    "Speculative. All six divisions go over, and the two held for home defence are missed almost at once. A German raid on the east coast, small and ill-planned, sets off a panic in the Cabinet, and the Prime Minister asks why the whole of the regular army is in France. The Cabinet agrees that the risk was real and was run on purpose, and that nobody had expected it to be tested so soon."),
   "bef_1915_07_reserves/release": R(55, "The reserve goes forward in the first hours", "The reserve is lost in the traffic behind the line",
     { manpower: -3, munitions: -1, will: -1 },
-    "Speculative. XI Corps is put close behind the attack and starts forward in the first hours. The roads are choked with the wounded and with ammunition limbers, the corps arrives piecemeal and tired, and it goes into the battle in time to share in its losses and too late to change its course. Haig says afterwards that the reserve was sent in too late, and French says that it was released too soon, and both are quoted."),
+    "Speculative. XI Corps is put close behind the attack and starts forward in the first hours. The roads are choked with the wounded and with ammunition limbers, the corps arrives piecemeal and tired, and it goes into the battle in time to share in its losses and too late to change its course. Haig says the reserve was sent in too late, and French says it was released too soon."),
   "bef_1915_08_evacuate/stay": R(45, "The army is reinforced and holds through the winter", "The reinforced army is cut off by the storm and the guns",
     { manpower: -3, munitions: -2, will: 0 },
     "Speculative. Divisions are sent that were wanted in France, and the beaches are held. The winter storms and the Turkish guns above them make the landing places unreliable, the supply of the army is a matter of luck and of the weather, and the divisions sent are as hard to get out as they were to put in."),
@@ -13409,16 +13365,16 @@ export const RISKS = {
     "Speculative. The withdrawal goes on past the Marne and the gap the Germans have left in their line closes. The army is not rested, only farther back, and the German advance, which was coming apart, is given another week to put itself right before the armies meet again. The government, which had been told that the army was being preserved, is told within the week that Paris will have to be defended."),
   "gqg_1917_09_malmaison/exploit": R(40, "The objective is taken and the advance goes on", "The advance goes past the guns and is stopped",
     { manpower: -3, munitions: -2, will: -3 },
-    "Speculative. The attack takes its objective and goes beyond it, and the guns that made the first success cannot move forward in time. The infantry are on open ground and under the German guns, and the losses of the second day are heavier than those of the first. The army is told afterwards that the first day was the success and the second day the mistake, which was the lesson the plan had been made to teach."),
+    "Speculative. The attack takes its objective and goes beyond it, and the guns that made the first success cannot move forward in time. The infantry are on open ground and under the German guns, and the losses of the second day are heavier than those of the first. The army is told that the first day was the success and the second day the mistake."),
   "gqg_1918_12_link/allin": R(55, "The reserve goes north and the junction holds", "The reserve is committed and the French front is open",
     { manpower: -3, munitions: -1, will: -1 },
     "Speculative. Every division that can be moved goes north, and the junction with the British holds for the moment. The German offensive then strikes the part of the French line that has been stripped to feed it, and there is no reserve left to meet it. The Chief of the General Staff reports to the Premier that the junction was held at a price that nobody had asked the country whether it could pay."),
   "gqg_1918_13_aisne/depth": R(60, "The front is thinned and the depth holds", "The commanders ignore the order and the line is packed",
     { manpower: -2, munitions: 0, will: -2 },
-    "Speculative. The order for defence in depth is given, and the Sixth Army's commander finds reasons to put his divisions forward as he always has. The Germans' first bombardment falls on a line that is full of men, and the army that was to be spared is destroyed in the first hours. The commander is relieved afterwards, and the order that he ignored is quoted in the inquiry as the one thing that was done correctly."),
+    "Speculative. The order for defence in depth is given, and the Sixth Army's commander finds reasons to put his divisions forward as he always has. The Germans' first bombardment falls on a line that is full of men, and the army that was to be spared is destroyed in the first hours. The commander is relieved, and the order that he ignored is quoted in the inquiry as the one thing that was done correctly."),
   "gqg_1918_11_counteroffensive/hold": R(55, "The reserve is held and the offensives run out", "The reserve is held too long and the Marne is crossed",
     { manpower: -2, munitions: -1, will: -2 },
-    "Speculative. The reserve is kept in hand and the offensives are allowed to exhaust themselves, and the Germans are given the time to cross the Marne in strength. When the reserve is used it is used to close a gap, not to open a counter-stroke, and the initiative stays on the other side. The delay is explained afterwards as prudence, and the staff that urged it is not asked to explain why the Marne had to be crossed first."),
+    "Speculative. The reserve is kept in hand and the offensives are allowed to exhaust themselves, and the Germans are given the time to cross the Marne in strength. When the reserve is used it is used to close a gap, not to open a counter-stroke, and the initiative stays on the other side. The delay is explained as prudence, and the staff that urged it is not asked why the Marne had to be crossed first."),
   "gqg_1916_06_nivelle/petain": R(55, "Petain's doctrine is applied a year early", "The army is cautious and the Germans are not",
     { manpower: -1, munitions: -1, will: -2 },
     "Speculative. Limited objectives become the rule, and the army learns them, but the Germans have had a year to learn the defence in depth that they are about to use. Each attack takes its objective and no more, and the government, which had hoped for a victory, asks what the limited method will win. The Chamber that had hoped for a victory in the spring asks for the old plan, and the new doctrine has to be defended against its own critics."),
@@ -13429,7 +13385,7 @@ export const RISKS = {
     "Speculative. The force is sent north at once, and the railways that were timed for the Balkans cannot be turned in a week. The divisions arrive in the wrong order and in different days, and the armies they were to strengthen fight the first battles with the old numbers. The staff in Vienna blames the railways, the railwaymen blame the staff, and the first battles in Galicia are fought without the help."),
   "aok_1914_03_galicia/cover": R(55, "The flank is covered and the blow goes north", "The covering force is too weak and the flank is turned",
     { manpower: -2, munitions: 0, will: -1 },
-    "Speculative. The Third Army is held at the San to cover the flank, and the Russians attack where the covering force is thinnest. The blow in the north goes on regardless, and the armies there learn in the second week what has happened behind them. The commander of the Third Army says afterwards that he was left with too little, and the others say that he was left with enough."),
+    "Speculative. The Third Army is held at the San to cover the flank, and the Russians attack where the covering force is thinnest. The blow in the north goes on regardless, and the armies there learn in the second week what has happened behind them. The commander of the Third Army says that he was left with too little, and the others say that he was left with enough."),
   "aok_1915_07_przemysl/third": R(40, "The third relief reaches the fortress", "The third relief is lost in the passes",
     { manpower: -3, munitions: -1, will: -1 },
     "Speculative. The attack goes through the passes at the end of the winter with what the second left of the army, and it is stopped by snow and by an enemy who has had time to prepare. The fortress falls on the same day as it did, and the army that tried to save it is smaller by a corps."),
@@ -13925,7 +13881,7 @@ export function documentOf(nodeId) {
 // =============================================================================
 
 export const ORDER_NOTES = {
-  "ohl_1916_14_somme|elastic": "Second Army would give up ground that cannot be held cheaply and build a second line behind it, in place of counter-attacking to win back every yard.",
+  "ohl_1916_14_somme|elastic": "Second Army would give up ground that cannot be held cheaply and build a second line behind it.",
   "ohl_1917_13_caporetto|refuse": "Berlin would send heavy guns and staff officers to the Isonzo and keep its divisions in Flanders.",
   "ohl_1918_13_aisne|halt": "The armies would stop on the Vesle, where the plan said they should, and the reserves would go back north for the attack in Flanders.",
   "ohl_1918_14_blackday|offensive": "Divisions from the quiet sectors would be gathered for one more attack in September, before the Americans arrive in strength.",
@@ -14886,7 +14842,7 @@ export function defaultSettings() {
 export function sanitizeSettings(raw) {
   const base = defaultSettings();
   if (!raw || typeof raw !== "object" || raw.schemaVersion !== 1) return base;
-  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, signHold: raw.signHold === true, music: raw.music !== false, musicVolume: typeof raw.musicVolume === "number" && raw.musicVolume >= 0 && raw.musicVolume <= 1 ? Math.round(raw.musicVolume * 20) / 20 : base.musicVolume, themeSet: raw.themeSet === true, theme: raw.themeSet === true && [...THEME_IDS, "auto"].includes(raw.theme) ? raw.theme : DEFAULT_THEME, font: raw.font === "plain" || raw.font === "typewriter" ? raw.font : "theme", spacing: SPACINGS.includes(raw.spacing) ? raw.spacing : base.spacing, measure: MEASURES.includes(raw.measure) ? raw.measure : base.measure, motion: MOTIONS.includes(raw.motion) ? raw.motion : base.motion };
+  return { ...base, textSize: TEXT_SIZES.includes(raw.textSize) ? raw.textSize : base.textSize, sound: raw.sound === true, atmosphere: raw.atmosphere === true, battles: raw.battles !== false, signHold: raw.signHold === true, music: raw.music !== false, musicVolume: typeof raw.musicVolume === "number" && raw.musicVolume >= 0 && raw.musicVolume <= 1 ? Math.round(raw.musicVolume * 20) / 20 : base.musicVolume, themeSet: raw.themeSet === true, theme: raw.themeSet === true && [...THEME_IDS, "auto"].includes(raw.theme) ? raw.theme : DEFAULT_THEME, font: raw.font === "plain" || raw.font === "typewriter" || raw.font === "dyslexia" ? raw.font : "theme", spacing: SPACINGS.includes(raw.spacing) ? raw.spacing : base.spacing, measure: MEASURES.includes(raw.measure) ? raw.measure : base.measure, motion: MOTIONS.includes(raw.motion) ? raw.motion : base.motion };
 }
 
 export function loadSettings() {
@@ -16494,7 +16450,7 @@ BATTLES.caporettoAustro = {
   title: "Order of Battle: Caporetto",
   flavor:
     "Nine Austro-Hungarian and six to eight German divisions are to be made into a new Fourteenth Army under Otto von Below, to break the Italian line at the northern end of the " +
-    "Isonzo front. The Italians hold the heights in a line packed forward. What has to be planned is how the blow is struck: by the guns and the gas, by infantry that goes round the strong points, or by the pursuit afterwards.",
+    "Isonzo front. The Italians hold the heights in a line packed forward. What has to be planned is how the blow is struck: by the guns and the gas, by infantry that goes round the strong points, or by the pursuit that follows.",
   conditions:
     "Late October in the Julian Alps: mist in the valley, no wind on the morning of the attack, and the date put back two days by the weather and by guns not yet in place.",
   categories: [
@@ -17294,7 +17250,7 @@ export function sepiaCss() {
   const mapAcc = SEPIA_COMMANDS.map((c) => `--acc-${c}:var(--map-ink)`).join(";");
   const css = `
   /* ---- Sepia: a quiet column ---- */
-  [data-theme="sepia"]:not([data-font="plain"]):not([data-font="typewriter"]) .dg-root{--mono:${SEPIA_SERIF}}
+  [data-theme="sepia"]:not([data-font="plain"]):not([data-font="typewriter"]):not([data-font="dyslexia"]) .dg-root{--mono:${SEPIA_SERIF}}
   @S .dg-root{${accVars};background-image:none;font-size:19px;line-height:1.5}
   @S .dg-root[data-campaign]::before,@S .dg-root[data-screen="menu"]::before{display:none}
   @S .dg-root button:focus-visible,@S .dg-root summary:focus-visible,@S .dg-root input:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
@@ -17768,7 +17724,7 @@ export const BRIEFINGS = {
       "Germany is at war with France and Russia, and from 4 August with Britain. The army has one plan for a war on two fronts and has rehearsed little else: beat France in a few weeks by a wide march through Belgium, then send the armies east by rail before Russia is ready. Every railway timetable in the country is written around it.",
       "The plan leaves little room to change course once the trains are running. Belgium's neutrality is guaranteed by treaty, and Britain is one of the guarantors.",
     ],
-    seat: "You hold the seat of the Chief of the General Staff, whoever sits in it: Moltke when the file opens, Falkenhayn after him, and from 1916 Hindenburg and Ludendorff. Seven armies stand in the west, three of them massed on the right wing, and the Eighth stands alone in East Prussia. The Kaiser leaves the running of the army to the staff, and you reach the commanders only by wireless, telephone and the officers you send.",
+    seat: "You hold the seat of the Chief of the General Staff, and Moltke sits in it. Seven armies stand in the west, three of them massed on the right wing, and the Eighth stands alone in East Prussia. The Kaiser leaves the running of the army to the staff, and you reach the commanders only by wireless, telephone and the officers you send.",
   },
   gqg: {
     nation: "France",
@@ -17780,7 +17736,7 @@ export const BRIEFINGS = {
       "France mobilised on 1 August and Germany declared war on 3 August. The army's Plan XVII sends its armies at the German frontier in Lorraine and towards the Ardennes, to recover the provinces lost in 1871. It rests on a doctrine of the offensive that shapes the army's training, its tactics and its officers' careers.",
       "France is bound to Russia, which has promised to take the field within weeks, and to Britain, whose small army is crossing the Channel. Neither can be commanded from Vitry.",
     ],
-    seat: "You hold the seat of the Commander-in-Chief of the armies of the north-east: Joffre when the file opens, Nivelle from December 1916 and Petain from May 1917. Five armies stand along the frontier from the Vosges to the Belgian border, with the cavalry and the reserve divisions behind them, and the British are still crossing the Channel. The government in Paris keeps the right to remove a general, and uses it.",
+    seat: "You hold the seat of the Commander-in-Chief of the armies of the north-east, and Joffre sits in it. Five armies stand along the frontier from the Vosges to the Belgian border, with the cavalry and the reserve divisions behind them, and the British are still crossing the Channel. The government in Paris keeps the right to remove a general, and uses it.",
   },
   stavka: {
     nation: "Russia",
@@ -17792,7 +17748,7 @@ export const BRIEFINGS = {
       "Russia has the largest army in Europe on paper and far fewer railways than its enemies to move it by. It mobilised at the end of July. By treaty, and by years of French loans, it is committed to attack Germany quickly, before its own concentration is finished.",
       "Its enemies are Germany in the north and Austria-Hungary in the south, and the front between the Baltic and the Carpathians is too long to be held everywhere.",
     ],
-    seat: "You hold the seat of the Supreme Command, whoever sits in it: the Grand Duke Nicholas when the file opens, the Tsar himself from September 1915, and after the revolution of 1917 the Provisional Government's command. A peacetime army of about 1.3 million is being swollen by mobilisation towards 4.5 million, in a North-West Front facing Germany and a South-West Front facing Austria-Hungary. Dates are given in the Western calendar, which runs thirteen days ahead of Russia's own until February 1918.",
+    seat: "You hold the seat of the Supreme Command, and the Grand Duke Nicholas sits in it. A peacetime army of about 1.3 million is being swollen by mobilisation towards 4.5 million, in a North-West Front facing Germany and a South-West Front facing Austria-Hungary.",
   },
   bef: {
     nation: "Britain",
@@ -17802,9 +17758,9 @@ export const BRIEFINGS = {
     quote: { text: "The lamps are going out all over Europe; we shall not see them lit again in our lifetime.", by: "Sir Edward Grey", date: "3 August 1914" },
     standing: [
       "Britain declared war on Germany on 4 August, over the invasion of Belgium. Its strength is the fleet, its money and its empire. Its army is small, professional and spread across the world, and it has promised to send a force to fight beside the French.",
-      "The government has no plan for a long war, and the country has never raised a mass army without conscription. The army that fights from 1916 will not be the army that lands in 1914.",
+      "The government has no plan for a long war, and the country has never raised a mass army without conscription.",
     ],
-    seat: "You hold the seat that joins field command and the Cabinet: the generals who command the force (Sir John French, then Sir Douglas Haig) and the ministers who decide what they are given (Asquith and Kitchener, then Lloyd George). The army is six infantry divisions and five cavalry brigades on paper, of which four divisions and the cavalry cross first, and the Royal Navy is the largest in the world.",
+    seat: "You hold the seat that joins field command and the Cabinet: Sir John French commands the force, and Asquith and Kitchener decide what it is given. The army is six infantry divisions and five cavalry brigades on paper, of which four divisions and the cavalry cross first, and the Royal Navy is the largest in the world.",
   },
   aok: {
     nation: "Austria-Hungary",
@@ -17816,7 +17772,7 @@ export const BRIEFINGS = {
       "The monarchy declared war on Serbia on 28 July, after the assassination at Sarajevo. Russia's mobilisation has made it a war on two fronts. The army is short of guns and railways for the war it has planned, and it is made up of soldiers of many nationalities who speak many languages.",
       "Its plan divides the army in three: a group for Serbia, a larger one in Galicia for Russia, and a swing force that can go to either. Everything depends on Germany keeping its promise to engage Russia.",
     ],
-    seat: "You hold the seat of the Chief of the General Staff: Conrad von Hotzendorf when the file opens, and Arz von Straussenburg after him. Six armies are mobilising: two for Serbia, three in Galicia against Russia, and the Second Army, which can go to either. The Emperor Franz Joseph, who is eighty-four, is above you, and the German ally beside you does not have the same war in mind.",
+    seat: "You hold the seat of the Chief of the General Staff, and Conrad von Hotzendorf sits in it. Six armies are mobilising: two for Serbia, three in Galicia against Russia, and the Second Army, which can go to either. The Emperor Franz Joseph, who is eighty-four, is above you, and the German ally beside you does not have the same war in mind.",
   },
   otto: {
     nation: "The Ottoman Empire",
@@ -17828,7 +17784,7 @@ export const BRIEFINGS = {
       "The empire has lost Libya and nearly all its European provinces in the wars of 1911 to 1913. It is poor, thinly industrialised, short of railways and short of trained officers. It has signed a secret alliance with Germany and is, for the moment, neutral.",
       "Two German warships, the Goeben and the Breslau, are at the mouth of the Dardanelles and have asked to be let in.",
     ],
-    seat: "You hold the seat of the war ministry and general staff: Enver Pasha when the file opens, and Ahmed Izzet Pasha at the end. The army has begun a general mobilisation and the Third Army, at Erzurum, faces the Russian frontier. You share power with a small group of the Committee of Union and Progress and a German military mission, and you serve a Sultan who reigns and does not rule. Dates are given in the Western calendar, not the Rumi calendar of the General Staff.",
+    seat: "You hold the seat of the war ministry and general staff, and Enver Pasha sits in it. The army has begun a general mobilisation and the Third Army, at Erzurum, faces the Russian frontier. You share power with a small group of the Committee of Union and Progress and a German military mission, and you serve a Sultan who reigns and does not rule.",
   },
 };
 
@@ -17901,7 +17857,7 @@ export const EVENTS = [
     when: (f, m) => m.will <= -2,
     paras: [
       "The potato harvest of 1916 failed, and the cities are fed on swedes. Bread, meat, fat and coal are rationed, and the ration is smaller each month. The staff's own reports from the home districts count the hungry by the street.",
-      "The army is fed before the cities are, and every man who writes home knows it. The winter will be remembered as one of the hardest of the war for the people behind the lines.",
+      "The army is fed before the cities are, and every man who writes home knows it. It is the hardest winter yet for the people behind the lines.",
     ],
   },
   {
@@ -18386,7 +18342,7 @@ EVENTS.push(
     "In London the Derby scheme is extended, and the newspapers that want conscription say so in the first column."),
   NEWS("bef_newscalais", "bef", "Le Temps", "Paris", "bef_1917_14_convoy", "1917-02-27", "1917-05-31", "1917-03-20", "London Declines to Serve under Nivelle",
     ["bef_calais", "refused"],
-    "Speculative. The British army will not be put under the French commander-in-chief, and the French newspapers say so before the French government has been told. The Prime Minister is embarrassed and the French staff has a grievance it will remember.",
+    "Speculative. The British army will not be put under the French commander-in-chief, and the French newspapers say so before the French government has been told. The Prime Minister is embarrassed and the French staff has a grievance.",
     "Nivelle plans his offensive with an ally who has agreed to coordinate and has not agreed to obey."),
   NEWS("bef_newsreserve", "bef", "The Times", "London", "bef_1918_18_doullens", "1918-03-02", "1918-05-31", "1918-03-18", "A Reserve for the Whole Front",
     ["bef_reserve", "complied"],
@@ -18488,6 +18444,7 @@ const css = `
   ${themeCss()}
   .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
   [data-font="typewriter"] .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
+  [data-font="dyslexia"] .dg-root{--mono:"OpenDyslexic","Lexend","Atkinson Hyperlegible",Verdana,"Trebuchet MS",sans-serif;line-height:1.9;letter-spacing:.05em;word-spacing:.16em}
   [data-font="plain"] .dg-root{--mono:"Atkinson Hyperlegible","Segoe UI",Verdana,Tahoma,sans-serif;line-height:1.72;letter-spacing:.012em;word-spacing:.06em}
   /* reading comfort (Settings): line spacing, line length and motion, after the type so they win */
   [data-spacing="roomy"] .dg-root{line-height:1.85;letter-spacing:.02em;word-spacing:.08em}
@@ -18752,6 +18709,12 @@ const css = `
     background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:15px;box-shadow:inset 0 0 0 2px var(--paper)}
   .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
   .dg-mw-ctx{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+  #root{position:relative}
+  .dg-musicwrap{position:absolute;top:6px;left:8px;z-index:20}
+  [data-screen="menu"] .dg-title{margin-top:52px}
+  .dg-musicbtn{min-height:40px;padding:0 12px;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--paper);border:1.5px solid var(--rule);cursor:pointer}
+  .dg-musicbtn:hover{background:var(--paper-raised)}
+  .dg-read{margin:0 0 14px}
   .dg-agreed{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
   .dg-dossier summary{display:flex;align-items:center;border:0;padding:0;margin:0;background:none}
   .dg-dossier summary:hover{background:none;color:inherit}
@@ -19146,6 +19109,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
+      <ReadAloud id={nodeId} text={[node.title, documentOf(nodeId) ? documentOf(nodeId).by + ". " + documentOf(nodeId).text : "", String(node.situation || "").replace(/\s+/g, " ")].filter(Boolean).join(". ")} />
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
       {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
@@ -19249,7 +19213,7 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
               ))}
             </ul>
             {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
-            {informed && <p className="dg-note">The staff had checked its reading and had a better idea of what it was facing.</p>}
+            {informed && <p className="dg-note">The staff had checked its reading.</p>}
           </section>
           {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
             <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} flags={flags} />
@@ -19354,7 +19318,7 @@ function RecordScreen({ record, onBack }) {
 
       {tab === "glossary" && (
         <section>
-          <p className="dg-note">Words and places in the files. In the story text, the first mention of each on a screen is underlined: press it for the definition.</p>
+          <p className="dg-note">Underlined words in a report open their definition.</p>
           {[...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term)).map((g) => (
             <div key={g.id} className="dg-entry">
               <div className="t">{g.term.replace(/(^|[\s-])([a-z])/g, (m, a, b) => a + b.toUpperCase())}</div>
@@ -19366,7 +19330,6 @@ function RecordScreen({ record, onBack }) {
 
       {tab === "battles" && (
         <section>
-          <p className="dg-note">The battles that open on an Order of Battle. Each keeps your best grade.</p>
           {Object.values(BATTLES).map((cfg) => {
             const f = fought[cfg.id];
             const c = CAMPAIGNS[cfg.campaign];
@@ -19511,7 +19474,7 @@ export default function App() {
       const theme = resolveTheme(settings.theme || DEFAULT_THEME, mq("(prefers-color-scheme: dark)"), mq("(prefers-contrast: more)"));
       const root = document.documentElement;
       root.setAttribute("data-theme", theme);
-      root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" ? settings.font : "theme");
+      root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" || settings.font === "dyslexia" ? settings.font : "theme");
       root.setAttribute("data-spacing", settings.spacing || "standard");
       root.setAttribute("data-measure", settings.measure || "standard");
       root.setAttribute("data-motion", settings.motion || "auto");
@@ -19526,6 +19489,11 @@ export default function App() {
   }, [settings.theme, settings.font, settings.spacing, settings.measure, settings.motion]);
   // the soundtrack follows the settings, and starts on the first tap or key because the browser will not start it before then
   useEffect(() => { musicApply(settings.music !== false, typeof settings.musicVolume === "number" ? settings.musicVolume : 0.5); }, [settings.music, settings.musicVolume]);
+  useEffect(() => {
+    const vis = () => musicHidden(document.hidden);
+    document.addEventListener("visibilitychange", vis);
+    return () => document.removeEventListener("visibilitychange", vis);
+  }, []);
   useEffect(() => {
     const opts = { once: true, capture: true };
     const go = () => musicResume();
@@ -19690,6 +19658,7 @@ export default function App() {
   return (
     <div className={`dg-fs-${settings.textSize}`} style={{ display: "contents" }}>
       <style>{css}</style>
+      <div className="dg-root dg-musicwrap" style={{ background: "transparent", backgroundImage: "none", width: "auto", minHeight: 0, padding: 0, margin: 0, border: 0, boxShadow: "none" }}><MusicToggle settings={settings} onSettings={setSettings} /></div>
       {screen === "menu" && (
         <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} savedRun={savedRun}
           onResume={resume} onDiscard={discard} onSettings={() => openAside("settings")} record={record} />
@@ -19864,6 +19833,33 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
   );
 }
 
+/** The music switch, on every screen, at the top left. */
+function MusicToggle({ settings, onSettings }) {
+  const on = settings.music !== false;
+  return <button className="dg-musicbtn" onClick={() => onSettings({ ...settings, music: !on })}>{on ? "Music on" : "Music off"}</button>;
+}
+
+/** Reads a report aloud with the browser's own voice, where it has one. */
+function ReadAloud({ id, text }) {
+  const [on, setOn] = useState(false);
+  const can = typeof window !== "undefined" && "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance !== "undefined";
+  useEffect(() => () => { try { if (can) window.speechSynthesis.cancel(); } catch (e) { /* no voice here */ } }, [id]);
+  if (!can) return null;
+  const toggle = () => {
+    const ss = window.speechSynthesis;
+    if (on) { ss.cancel(); setOn(false); return; }
+    const u = new window.SpeechSynthesisUtterance(text);
+    u.lang = "en-GB";
+    u.rate = 0.95;
+    u.onend = () => setOn(false);
+    u.onerror = () => setOn(false);
+    ss.cancel();
+    ss.speak(u);
+    setOn(true);
+  };
+  return <button className="dg-btn dg-read" onClick={toggle}>{on ? "Stop reading" : "Read aloud"}</button>;
+}
+
 function HowToScreen({ onBack }) {
   return (
     <main {...rootProps(null, "howto")}>
@@ -19891,7 +19887,7 @@ function HowToScreen({ onBack }) {
 const SPACING_ROWS = [["standard", "Standard"], ["roomy", "Roomy"], ["wide", "Wide"]];
 const MEASURE_ROWS = [["standard", "Standard"], ["narrow", "Narrow"]];
 const MOTION_ROWS = [["auto", "Follow my device"], ["reduced", "Reduce motion"]];
-const FONT_ROWS = [["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"]];
+const FONT_ROWS = [["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"], ["dyslexia", "Dyslexia-friendly"]];
 
 function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
   const size = Math.max(0, TEXT_SIZES.indexOf(settings.textSize));
@@ -19904,7 +19900,6 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
       <nav className="dg-nav" aria-label="Help">
         <button className="dg-navbtn" onClick={onHowTo}><b>How to play</b></button>
       </nav>
-      <p className="dg-note">Settings are kept on this device only.</p>
 
       <h2 className="dg-sect">Reading</h2>
       <div className="dg-setting">
@@ -19953,7 +19948,6 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
             <button key={id} aria-pressed={(settings.measure || "standard") === id} onClick={() => set({ measure: id })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">A narrow line keeps the report to about thirty-four characters across, which is easier to track on a wide screen.</p>
       </div>
       <div className="dg-setting">
         <div className="dg-count">Motion</div>
@@ -19962,7 +19956,7 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
             <button key={id} aria-pressed={(settings.motion || "auto") === id} onClick={() => set({ motion: id })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">Follow my device obeys the system setting. Reduce motion stops the marching front line on the map, the stamp, the reports sliding in and the dials moving, whatever the system says.</p>
+        <p className="dg-note">Reduce motion stops the marching front line, the stamp and the moving dials.</p>
       </div>
       <div className="dg-setting">
         <button className="dg-btn" onClick={() => set({ font: "plain", spacing: "roomy", measure: "narrow", motion: "reduced" })}>Easy reading: plain type, roomy spacing, narrow lines, no motion</button>
@@ -19976,7 +19970,6 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
             <button key={label} aria-pressed={(settings.signHold === true) === v} onClick={() => set({ signHold: v })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">Hold to sign asks for the button to be held for a moment before a contested order is signed.</p>
       </div>
       <div className="dg-setting">
         <div className="dg-count">Music</div>
@@ -19993,7 +19986,6 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
               onChange={(e) => set({ musicVolume: Number(e.target.value) / 20 })} />
           </>
         )}
-        <p className="dg-note">The soundtrack plays on a loop once you tap or press a key, and stops when you set it to Off.</p>
       </div>
       <div className="dg-setting">
         <div className="dg-count">Sound</div>
@@ -20002,7 +19994,7 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
             <button key={label} aria-pressed={settings.sound === snd && Boolean(settings.atmosphere) === atm} onClick={() => set({ sound: snd, atmosphere: atm })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable and a signature.</p>
+        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds guns, wind and rain.</p>
       </div>
 
       <h2 className="dg-sect">Dates</h2>
@@ -20289,7 +20281,7 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
 
       <section aria-label="The second day">
         <h2 className="dg-order">The second day</h2>
-        <p className="dg-note">The enemy is known now. Say how the day is to be fought.</p>
+        <p className="dg-note">The enemy is known now.</p>
         <div role="group" aria-label="The day's orders" className="dg-bt-pick">
           {options.map((x) => (
             <button key={x.id} className="dg-choice dg-opt" aria-pressed={chosen.id === x.id} onClick={() => setPick(x.id)}>
@@ -20383,7 +20375,6 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
       <div className="dg-bulletin">
         <div className="h">INTELLIGENCE SUMMARY</div>
         {intel.shown ? intel.shown.intel : "Nothing is known of the enemy's setup."}
-        <div className="dg-note" style={{ marginTop: 6, marginBottom: 0 }}>The staff's reading is right about three times in four.</div>
       </div>
 
       <p><button className="dg-btn" onClick={byStaff}>Let the staff plan it</button>{" "}
@@ -20404,7 +20395,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
         <h2 className="dg-order">{heading[step]}</h2>
         {step === "officer" && (
           <>
-            <p className="dg-note">A named officer adds weight to the arm he really led. You may name none.</p>
+            <p className="dg-note">A named officer adds weight to the arm he led.</p>
             <div role="group" aria-label="Commander" className="dg-bt-pick">
               <button className="dg-choice dg-opt" aria-pressed={commanderId === null} onClick={() => setCommanderId(null)}>
                 <div className="lab">No particular emphasis</div>
@@ -20431,7 +20422,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
         {step === "counters" && (
           <>
             <p className="dg-note" role="status" aria-live="polite">
-              {left > 0 ? `${left} of ${pool} counters left to place.` : `All ${pool} counters are placed.`} An arm left with less than its fair share costs the plan.
+              {left > 0 ? `${left} of ${pool} counters left to place.` : `All ${pool} counters are placed.`} An arm left short costs the plan.
             </p>
             {config.categories.map((k) => (
               <div key={k.id} className="dg-bt-arm">
@@ -20964,6 +20955,11 @@ function musicApply(on, volume) {
     const p = mu.el.play();
     if (p && p.catch) p.catch(() => {});
   } catch (e) { /* no sound here */ }
+}
+
+/** The tab is hidden: the music stops, and starts again, if it should be playing, when the tab is shown. */
+function musicHidden(hidden) {
+  if (hidden) { try { if (MU) MU.el.pause(); } catch (e) { /* no sound here */ } } else musicResume();
 }
 
 /** Called on the first tap or key: starts the music if it should be playing and the browser had refused it before. */

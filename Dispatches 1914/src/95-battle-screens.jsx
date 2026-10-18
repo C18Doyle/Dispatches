@@ -80,7 +80,7 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
 
       <section aria-label="The second day">
         <h2 className="dg-order">The second day</h2>
-        <p className="dg-note">The enemy is known now. Say how the day is to be fought.</p>
+        <p className="dg-note">The enemy is known now.</p>
         <div role="group" aria-label="The day's orders" className="dg-bt-pick">
           {options.map((x) => (
             <button key={x.id} className="dg-choice dg-opt" aria-pressed={chosen.id === x.id} onClick={() => setPick(x.id)}>
@@ -174,7 +174,6 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
       <div className="dg-bulletin">
         <div className="h">INTELLIGENCE SUMMARY</div>
         {intel.shown ? intel.shown.intel : "Nothing is known of the enemy's setup."}
-        <div className="dg-note" style={{ marginTop: 6, marginBottom: 0 }}>The staff's reading is right about three times in four.</div>
       </div>
 
       <p><button className="dg-btn" onClick={byStaff}>Let the staff plan it</button>{" "}
@@ -195,7 +194,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
         <h2 className="dg-order">{heading[step]}</h2>
         {step === "officer" && (
           <>
-            <p className="dg-note">A named officer adds weight to the arm he really led. You may name none.</p>
+            <p className="dg-note">A named officer adds weight to the arm he led.</p>
             <div role="group" aria-label="Commander" className="dg-bt-pick">
               <button className="dg-choice dg-opt" aria-pressed={commanderId === null} onClick={() => setCommanderId(null)}>
                 <div className="lab">No particular emphasis</div>
@@ -222,7 +221,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, onCommit, onBa
         {step === "counters" && (
           <>
             <p className="dg-note" role="status" aria-live="polite">
-              {left > 0 ? `${left} of ${pool} counters left to place.` : `All ${pool} counters are placed.`} An arm left with less than its fair share costs the plan.
+              {left > 0 ? `${left} of ${pool} counters left to place.` : `All ${pool} counters are placed.`} An arm left short costs the plan.
             </p>
             {config.categories.map((k) => (
               <div key={k.id} className="dg-bt-arm">

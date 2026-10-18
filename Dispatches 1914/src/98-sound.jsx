@@ -62,6 +62,11 @@ function musicApply(on, volume) {
   } catch (e) { /* no sound here */ }
 }
 
+/** The tab is hidden: the music stops, and starts again, if it should be playing, when the tab is shown. */
+function musicHidden(hidden) {
+  if (hidden) { try { if (MU) MU.el.pause(); } catch (e) { /* no sound here */ } } else musicResume();
+}
+
 /** Called on the first tap or key: starts the music if it should be playing and the browser had refused it before. */
 function musicResume() {
   if (musicWant === null) return;

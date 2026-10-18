@@ -57,7 +57,7 @@ async function resume(saved) {
   const free = orders(ctx).find((b) => !/Rests on/.test(b.textContent));
   await ctx.click(free);
   t = ctx.text();
-  check(/better idea of what it was facing/.test(t), "an order given on checked intelligence earns the staff's edge");
+  check(/The staff had checked its reading/.test(t), "an order given on checked intelligence earns the staff's edge");
   ctx.restore();
 }
 
@@ -66,7 +66,7 @@ async function resume(saved) {
   const ctx = await resume(savedAt("gqg", "gqg_1914_01_frontieres"));
   const relies = orders(ctx).find((b) => /Rests on a belief the staff has not checked/.test(b.textContent));
   await ctx.click(relies);
-  check(!/better idea of what it was facing/.test(ctx.text()), "an order that rests on the belief earns no edge");
+  check(!/The staff had checked its reading/.test(ctx.text()), "an order that rests on the belief earns no edge");
   ctx.restore();
 }
 
@@ -91,7 +91,7 @@ async function resume(saved) {
   check(/lean toward it\./.test(ctx.text()), "a check can confirm a belief");
   const first = orders(ctx)[0];
   await ctx.click(first);
-  check(!/better idea of what it was facing/.test(ctx.text()), "checking a belief that held earns no edge");
+  check(!/The staff had checked its reading/.test(ctx.text()), "checking a belief that held earns no edge");
   ctx.restore();
 }
 

@@ -38,7 +38,7 @@ export const BRIEFINGS = {
       "Germany is at war with France and Russia, and from 4 August with Britain. The army has one plan for a war on two fronts and has rehearsed little else: beat France in a few weeks by a wide march through Belgium, then send the armies east by rail before Russia is ready. Every railway timetable in the country is written around it.",
       "The plan leaves little room to change course once the trains are running. Belgium's neutrality is guaranteed by treaty, and Britain is one of the guarantors.",
     ],
-    seat: "You hold the seat of the Chief of the General Staff, whoever sits in it: Moltke when the file opens, Falkenhayn after him, and from 1916 Hindenburg and Ludendorff. Seven armies stand in the west, three of them massed on the right wing, and the Eighth stands alone in East Prussia. The Kaiser leaves the running of the army to the staff, and you reach the commanders only by wireless, telephone and the officers you send.",
+    seat: "You hold the seat of the Chief of the General Staff, and Moltke sits in it. Seven armies stand in the west, three of them massed on the right wing, and the Eighth stands alone in East Prussia. The Kaiser leaves the running of the army to the staff, and you reach the commanders only by wireless, telephone and the officers you send.",
   },
   gqg: {
     nation: "France",
@@ -50,7 +50,7 @@ export const BRIEFINGS = {
       "France mobilised on 1 August and Germany declared war on 3 August. The army's Plan XVII sends its armies at the German frontier in Lorraine and towards the Ardennes, to recover the provinces lost in 1871. It rests on a doctrine of the offensive that shapes the army's training, its tactics and its officers' careers.",
       "France is bound to Russia, which has promised to take the field within weeks, and to Britain, whose small army is crossing the Channel. Neither can be commanded from Vitry.",
     ],
-    seat: "You hold the seat of the Commander-in-Chief of the armies of the north-east: Joffre when the file opens, Nivelle from December 1916 and Petain from May 1917. Five armies stand along the frontier from the Vosges to the Belgian border, with the cavalry and the reserve divisions behind them, and the British are still crossing the Channel. The government in Paris keeps the right to remove a general, and uses it.",
+    seat: "You hold the seat of the Commander-in-Chief of the armies of the north-east, and Joffre sits in it. Five armies stand along the frontier from the Vosges to the Belgian border, with the cavalry and the reserve divisions behind them, and the British are still crossing the Channel. The government in Paris keeps the right to remove a general, and uses it.",
   },
   stavka: {
     nation: "Russia",
@@ -62,7 +62,7 @@ export const BRIEFINGS = {
       "Russia has the largest army in Europe on paper and far fewer railways than its enemies to move it by. It mobilised at the end of July. By treaty, and by years of French loans, it is committed to attack Germany quickly, before its own concentration is finished.",
       "Its enemies are Germany in the north and Austria-Hungary in the south, and the front between the Baltic and the Carpathians is too long to be held everywhere.",
     ],
-    seat: "You hold the seat of the Supreme Command, whoever sits in it: the Grand Duke Nicholas when the file opens, the Tsar himself from September 1915, and after the revolution of 1917 the Provisional Government's command. A peacetime army of about 1.3 million is being swollen by mobilisation towards 4.5 million, in a North-West Front facing Germany and a South-West Front facing Austria-Hungary. Dates are given in the Western calendar, which runs thirteen days ahead of Russia's own until February 1918.",
+    seat: "You hold the seat of the Supreme Command, and the Grand Duke Nicholas sits in it. A peacetime army of about 1.3 million is being swollen by mobilisation towards 4.5 million, in a North-West Front facing Germany and a South-West Front facing Austria-Hungary.",
   },
   bef: {
     nation: "Britain",
@@ -72,9 +72,9 @@ export const BRIEFINGS = {
     quote: { text: "The lamps are going out all over Europe; we shall not see them lit again in our lifetime.", by: "Sir Edward Grey", date: "3 August 1914" },
     standing: [
       "Britain declared war on Germany on 4 August, over the invasion of Belgium. Its strength is the fleet, its money and its empire. Its army is small, professional and spread across the world, and it has promised to send a force to fight beside the French.",
-      "The government has no plan for a long war, and the country has never raised a mass army without conscription. The army that fights from 1916 will not be the army that lands in 1914.",
+      "The government has no plan for a long war, and the country has never raised a mass army without conscription.",
     ],
-    seat: "You hold the seat that joins field command and the Cabinet: the generals who command the force (Sir John French, then Sir Douglas Haig) and the ministers who decide what they are given (Asquith and Kitchener, then Lloyd George). The army is six infantry divisions and five cavalry brigades on paper, of which four divisions and the cavalry cross first, and the Royal Navy is the largest in the world.",
+    seat: "You hold the seat that joins field command and the Cabinet: Sir John French commands the force, and Asquith and Kitchener decide what it is given. The army is six infantry divisions and five cavalry brigades on paper, of which four divisions and the cavalry cross first, and the Royal Navy is the largest in the world.",
   },
   aok: {
     nation: "Austria-Hungary",
@@ -86,7 +86,7 @@ export const BRIEFINGS = {
       "The monarchy declared war on Serbia on 28 July, after the assassination at Sarajevo. Russia's mobilisation has made it a war on two fronts. The army is short of guns and railways for the war it has planned, and it is made up of soldiers of many nationalities who speak many languages.",
       "Its plan divides the army in three: a group for Serbia, a larger one in Galicia for Russia, and a swing force that can go to either. Everything depends on Germany keeping its promise to engage Russia.",
     ],
-    seat: "You hold the seat of the Chief of the General Staff: Conrad von Hotzendorf when the file opens, and Arz von Straussenburg after him. Six armies are mobilising: two for Serbia, three in Galicia against Russia, and the Second Army, which can go to either. The Emperor Franz Joseph, who is eighty-four, is above you, and the German ally beside you does not have the same war in mind.",
+    seat: "You hold the seat of the Chief of the General Staff, and Conrad von Hotzendorf sits in it. Six armies are mobilising: two for Serbia, three in Galicia against Russia, and the Second Army, which can go to either. The Emperor Franz Joseph, who is eighty-four, is above you, and the German ally beside you does not have the same war in mind.",
   },
   otto: {
     nation: "The Ottoman Empire",
@@ -98,7 +98,7 @@ export const BRIEFINGS = {
       "The empire has lost Libya and nearly all its European provinces in the wars of 1911 to 1913. It is poor, thinly industrialised, short of railways and short of trained officers. It has signed a secret alliance with Germany and is, for the moment, neutral.",
       "Two German warships, the Goeben and the Breslau, are at the mouth of the Dardanelles and have asked to be let in.",
     ],
-    seat: "You hold the seat of the war ministry and general staff: Enver Pasha when the file opens, and Ahmed Izzet Pasha at the end. The army has begun a general mobilisation and the Third Army, at Erzurum, faces the Russian frontier. You share power with a small group of the Committee of Union and Progress and a German military mission, and you serve a Sultan who reigns and does not rule. Dates are given in the Western calendar, not the Rumi calendar of the General Staff.",
+    seat: "You hold the seat of the war ministry and general staff, and Enver Pasha sits in it. The army has begun a general mobilisation and the Third Army, at Erzurum, faces the Russian frontier. You share power with a small group of the Committee of Union and Progress and a German military mission, and you serve a Sultan who reigns and does not rule.",
   },
 };
 

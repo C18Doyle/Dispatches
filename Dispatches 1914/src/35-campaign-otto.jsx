@@ -819,8 +819,7 @@ CAMPAIGNS.otto.nodes = {
             next: "otto_1916_02_medina",
             outcome:
               "Speculative. The Third Army turns on the leading Russian columns at Koprukoy and checks them " +
-              "for a week in the snow. It falls back to Erzurum afterwards with a third of its men gone, and " +
-              "the fortress is held a little longer, with an army inside it that still has some fight left. " +
+              "for a week in the snow. It falls back to Erzurum with a third of its men gone, and the fortress is held a little longer by an army that still has some fight left. " +
               "The Russians have lost time, and when they come to the forts they come to a garrison that knows the ground." },
           { weight: 70, title: "The army is beaten in the open",
             impact: { manpower: -3, munitions: -2, will: -2 },
