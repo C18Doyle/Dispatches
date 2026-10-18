@@ -14,6 +14,7 @@ Document-driven branching strategy game (React + TypeScript, built with esbuild 
 - **Trust**: four hidden axes `trustWatson`, `trustLestrade`, `trustMycroft`, `trustWiggins` (-4..4; the UI shows any axis whose id starts with `trust`). Options unlock on them with `requires`. **Hard-only options** use `showWhen: { difficulty: "HARD" }`.
 - Rolls are called **gambits** in the UI; the engine still calls them experiments (`CONDUCT_EXPERIMENT`). The helper panel is "Baker Street" (Watson's advice, Mycroft's Favour, Overheard talk, Watson's Notebook).
 - **Gauge coupling** (`config.coupling`, engine 0.4.0): while a gauge is short, a gain in another is one point smaller; the scene screen says so while it is true. **Repair options** (a night at Watson's, Lestrade vouching) are offered once, to a man at the bottom, and loop back to their own scene.
+- **The Strand** (resources `hours`, `hands`, `wires`, -8..8, crisis -5, ruin -8 into `ENDING_CRISIS_STRAND`): each option carries its own Hours, Hands and Wires changes in its stamps. **Case-Book**: the start scene is `0` (a shelf); branches `BOHEMIA` (B1-B4), `BAND` (R1-R4), `CARBUNCLE` (G1-G4) are standalone and hide the Company, Board and Calendar tabs. New in 0.4.0: disguise scene `10W` (flags `dsPriest`, `dsSailor`, `dsClerk`), Whitehall cable room `MX1-MX3` and `M6B`, Mrs Norton `K7`/`K8` (axis `trustAdler`, shown only once `adlerMet`), the board (`src/board.tsx`) and the calendar (`src/calendar.tsx`, `src/calendar_dates.ts`, one date per scene).
 - Money is pounds, enforced on Hard only. Dates are written 4 January 1891 (UK, no US order), and no on-screen text uses dashes.
 
 ## Hard rules
@@ -30,4 +31,4 @@ Same as Frankenstein: the engine imports nothing outside its folder; state chang
 - Bump the run-save key in `App.tsx` and `SAVE_SCHEMA_VERSION` only if `GameState` changes shape; add node aliases to `runSave.ts` when a scene id is renamed.
 
 ## Not done
-- No release wiring yet: no `itch.json` target, no tag in `release.yml`/`verify-release`, no version beyond 0.1.0. No human playtest (see PLAYTEST.md). Eight claims in `claims/canon-notes.json` rest on the author's memory of the stories and need a reader's check.
+- Version 0.4.0 is released. No human playtest (see PLAYTEST.md). Fifteen claims in `claims/canon-notes.json` rest on the author's memory of the stories and need a reader's check against the public-domain texts.

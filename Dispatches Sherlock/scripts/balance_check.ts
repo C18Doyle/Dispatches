@@ -23,7 +23,8 @@ function expectedStamps(o: Option, s: GameState): Record<string, number> {
 }
 
 type Policy = "random" | "cautious" | "bold";
-function play(policy: Policy, seed: number, difficulty: "EASY" | "MEDIUM" | "HARD"): string {
+/** `book` is the volume taken from the shelf at the start: 0 is The Final Problem, 1 to 3 the standalone cases. */
+function play(policy: Policy, seed: number, difficulty: "EASY" | "MEDIUM" | "HARD", book = 0): string {
   const rng = makeRng(seed * 7919 + (policy === "random" ? 1 : policy === "cautious" ? 2 : 3));
   let s = createInitialState(def);
   const go = (a: Action) => (s = reduce(def, s, a));
@@ -36,6 +37,10 @@ function play(policy: Policy, seed: number, difficulty: "EASY" | "MEDIUM" | "HAR
       const node = def.content.nodes[s.currentNodeId];
       const open = node.options.map((_o, k) => k).filter((k) => !isOptionUnavailable(def, s, node.options[k]));
       let pick = open[Math.floor(rng() * open.length)];
+      if (s.currentNodeId === "0") {
+        go({ type: "SELECT_OPTION", optionIndex: book });
+        continue;
+      }
       // the careful and the bold player each err one time in four, so that they do not walk one road every time
       if (policy !== "random" && rng() >= 0.25) {
         let best = -Infinity;
@@ -63,7 +68,7 @@ const policies: Policy[] = ["random", "cautious", "bold"];
 for (const policy of policies) {
   const tally: Record<string, number> = {};
   for (let n = 0; n < RUNS; n++) {
-    const end = play(policy, n + 1, (["EASY", "MEDIUM", "HARD"] as const)[n % 3]);
+    const end = play(policy, n + 1, (["EASY", "MEDIUM", "HARD"] as const)[n % 3], 0);
     tally[end] = (tally[end] ?? 0) + 1;
     reached.add(end);
   }
@@ -76,6 +81,22 @@ for (const policy of policies) {
   if (Object.keys(tally).length < 2) {
     failures++;
     console.error(`FAIL: the ${policy} policy reaches only one ending`);
+  }
+}
+// the three short cases: each should end in more than one way for every policy, and a careful player should not often fail
+for (const [book, name] of [[1, "Bohemia"], [2, "Band"], [3, "Carbuncle"]] as const) {
+  for (const policy of policies) {
+    const tally: Record<string, number> = {};
+    for (let n = 0; n < 200; n++) {
+      const end = play(policy, n + 1, (["EASY", "MEDIUM", "HARD"] as const)[n % 3], book);
+      tally[end] = (tally[end] ?? 0) + 1;
+      reached.add(end);
+    }
+    console.log(`case ${name.padEnd(9)} ${policy.padEnd(9)} ` + Object.entries(tally).sort().map(([k, v]) => `${k.replace("ENDING_", "")}:${v}`).join(" "));
+    if (Object.keys(tally).length < 2) {
+      failures++;
+      console.error(`FAIL: the ${policy} policy reaches only one ending in the ${name} case`);
+    }
   }
 }
 const narrative = Object.values(def.content.endings).filter((e) => e.kind === "narrative").map((e) => e.id);

@@ -35,6 +35,39 @@
       "crisisInterludeId": "CRISIS_NERVE",
       "failAt": -10,
       "failureEndingId": "ENDING_CRISIS_NERVE"
+    },
+    {
+      "id": "hours",
+      "label": "Hours",
+      "min": -8,
+      "max": 8,
+      "start": 0,
+      "crisisAt": -5,
+      "crisisInterludeId": "CRISIS_HOURS",
+      "failAt": -8,
+      "failureEndingId": "ENDING_CRISIS_STRAND"
+    },
+    {
+      "id": "hands",
+      "label": "Hands",
+      "min": -8,
+      "max": 8,
+      "start": 0,
+      "crisisAt": -5,
+      "crisisInterludeId": "CRISIS_HANDS",
+      "failAt": -8,
+      "failureEndingId": "ENDING_CRISIS_STRAND"
+    },
+    {
+      "id": "wires",
+      "label": "Wires",
+      "min": -8,
+      "max": 8,
+      "start": 0,
+      "crisisAt": -5,
+      "crisisInterludeId": "CRISIS_WIRES",
+      "failAt": -8,
+      "failureEndingId": "ENDING_CRISIS_STRAND"
     }
   ],
   "axes": [
@@ -76,6 +109,13 @@
     {
       "id": "trustWiggins",
       "label": "Wiggins",
+      "min": -4,
+      "max": 4,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "trustAdler",
+      "label": "Mrs Norton",
       "min": -4,
       "max": 4,
       "bucketThreshold": 2
@@ -361,6 +401,24 @@
       ]
     },
     {
+      "interludeId": "TRANSITION_BOHEMIA",
+      "onEnterNodes": [
+        "B1"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_BAND",
+      "onEnterNodes": [
+        "R1"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_CARBUNCLE",
+      "onEnterNodes": [
+        "G1"
+      ]
+    },
+    {
       "interludeId": "TRANSITION_MYCROFT",
       "onEnterNodes": [
         "M1"
@@ -440,6 +498,48 @@
         "nerve": -1
       },
       "label": "A discredited man cannot rest: while Standing is -3 or worse, every gain of Nerve is one point smaller."
+    },
+    {
+      "when": {
+        "resource": "hands",
+        "atOrBelow": -4
+      },
+      "on": {
+        "resource": "evidence",
+        "direction": "gain"
+      },
+      "add": {
+        "evidence": -1
+      },
+      "label": "Nobody to carry it: while Hands are -4 or worse, every gain of Evidence is one point smaller."
+    },
+    {
+      "when": {
+        "resource": "wires",
+        "atOrBelow": -4
+      },
+      "on": {
+        "resource": "standing",
+        "direction": "gain"
+      },
+      "add": {
+        "standing": -1
+      },
+      "label": "Nobody hears of it: while Wires are -4 or worse, every gain of Standing is one point smaller."
+    },
+    {
+      "when": {
+        "resource": "hours",
+        "atOrBelow": -4
+      },
+      "on": {
+        "resource": "nerve",
+        "direction": "gain"
+      },
+      "add": {
+        "nerve": -1
+      },
+      "label": "Hurried, you cannot rest: while Hours are -4 or worse, every gain of Nerve is one point smaller."
     }
   ]
 }

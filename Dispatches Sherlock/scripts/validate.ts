@@ -173,6 +173,99 @@ const keyAxes = [...KEY_AXES].sort();
 for (const c of def.config.coupling ?? []) for (const v of Object.values(c.add)) if ((v ?? 0) > 0) { console.error("FAIL: coupling must only subtract (a higher gauge must never be worse)"); process.exit(1); }
 const flagBit = new Map(keyFlags.map((f, i) => [f, 1n << BigInt(i)]));
 type Entry = { res: number[]; ax: number[]; mask: bigint };
+
+// CAPS: for each scene and each gauge or axis in the key, the value above which nothing the rest of the game can do will matter. It is the highest threshold any
+// option, coupling rule or ruin asks about, plus the most that the rest of the game could take off (the longest run of losses from this scene to any ending).
+// A state whose value is above the cap can never fall to a threshold, so it plays out exactly as one at the cap does, and two such states are one state.
+// The scenes that can still be reached from each scene (itself included): only what is read there or later can change what the rest of the game offers.
+const FUT = new Map<string, Set<string>>();
+{
+  const succ = (id: string) => NODES[id].options.flatMap((o) => (o.roll ? [o.roll.success.nextNodeId ?? o.nextNodeId, o.roll.failure.nextNodeId ?? o.nextNodeId] : [o.nextNodeId])).filter((t) => !t.startsWith("ENDING_") && NODES[t]);
+  for (const id of Object.keys(NODES)) {
+    const seen = new Set<string>([id]);
+    const stack = [id];
+    while (stack.length) for (const t of succ(stack.pop()!)) if (!seen.has(t)) { seen.add(t); stack.push(t); }
+    FUT.set(id, seen);
+  }
+}
+const liveFlagsAt = new Map<string, bigint>();
+const liveAxesAt = new Map<string, boolean[]>();
+const thresholdOf = (id: string, kind: "res" | "ax", scope?: Set<string>): number => {
+  let t = -Infinity;
+  const consider = (c: Condition | undefined) => {
+    if (!c) return;
+    if (kind === "res" && "resource" in c && c.resource === id) t = Math.max(t, c.op === ">" ? c.value + 1 : c.value);
+    else if (kind === "ax" && "axis" in c && c.axis === id) t = Math.max(t, c.op === ">" ? c.value + 1 : c.value);
+    else if ("all" in c) c.all.forEach(consider);
+    else if ("any" in c) c.any.forEach(consider);
+  };
+  for (const node of Object.values(NODES)) for (const opt of node.options) {
+    if (scope && !scope.has(node.id)) continue;
+    if (NONMONO.has(opt)) continue;
+    consider(opt.requires);
+    consider(opt.showWhen);
+    if (kind === "res" && opt.gate?.resource === id) t = Math.max(t, opt.gate.minThreshold);
+  }
+  if (kind === "res") {
+    for (const c of def.config.coupling ?? []) if (c.when.resource === id) t = Math.max(t, c.when.atOrBelow + 1);
+    const r = RESOURCE_DEFS.find((x) => x.id === id);
+    if (r?.failAt !== undefined) t = Math.max(t, r.failAt + 1);
+  }
+  return Number.isFinite(t) ? t : 0;
+};
+const dropMemo = new Map<string, number>();
+const couplingExtra = (id: string) => (def.config.coupling ?? []).reduce((m, c) => Math.max(m, -(c.add[id] ?? 0)), 0);
+/** The most that can be taken off gauge or axis `id` between this scene (inclusive) and any ending. */
+function maxDrop(nodeId: string, id: string, kind: "res" | "ax", stack: string[] = []): number {
+  const key = `${kind}:${id}:${nodeId}`;
+  const hit = dropMemo.get(key);
+  if (hit !== undefined) return hit;
+  if (stack.includes(nodeId)) return 0;
+  let best = 0;
+  for (const opt of NODES[nodeId].options) {
+    if (NONMONO.has(opt)) continue;
+    const lists = opt.roll ? [opt.roll.success.stamps, opt.roll.failure.stamps] : [opt.stamps];
+    let here = 0;
+    for (const st of lists) {
+      if (kind === "res") {
+        const d = st[id] ?? 0;
+        // a gain can also be shrunk by a coupling rule, so it may take one point off as well
+        here = Math.max(here, d < 0 ? -d : 0, couplingExtra(id));
+      }
+    }
+    if (kind === "ax") here = Math.max(here, -(opt.axisDelta?.[id] ?? 0));
+    const targets = opt.roll ? [opt.roll.success.nextNodeId ?? opt.nextNodeId, opt.roll.failure.nextNodeId ?? opt.nextNodeId] : [opt.nextNodeId];
+    let after = 0;
+    for (const t of targets) if (t !== nodeId && !t.startsWith("ENDING_") && NODES[t]) after = Math.max(after, maxDrop(t, id, kind, [...stack, nodeId]));
+    best = Math.max(best, here + after);
+  }
+  dropMemo.set(key, best);
+  return best;
+}
+const CAPS = new Map<string, { res: number[]; ax: number[] }>();
+{
+  for (const id of Object.keys(NODES)) {
+    const scope = FUT.get(id)!;
+    CAPS.set(id, { res: RESOURCES.map((r) => thresholdOf(r, "res", scope) + maxDrop(id, r, "res")), ax: keyAxes.map((a) => thresholdOf(a, "ax", scope) + maxDrop(id, a, "ax")) });
+    // flags and axes that nothing from here on reads cannot matter, so states differing only in them are one state
+    let live = 0n;
+    const liveAx = keyAxes.map(() => false);
+    for (const sid of scope) for (const opt of NODES[sid].options) {
+      if (NONMONO.has(opt)) continue;
+      const fs = new Set<string>();
+      if (opt.requiresFlag) fs.add(opt.requiresFlag);
+      condFlagsOf(opt.requires, fs);
+      condFlagsOf(opt.showWhen, fs);
+      for (const f of fs) live |= flagBit.get(f)!;
+      const as = new Set<string>();
+      condAxesOf(opt.requires, as);
+      condAxesOf(opt.showWhen, as);
+      keyAxes.forEach((a, i) => { if (as.has(a)) liveAx[i] = true; });
+    }
+    liveFlagsAt.set(id, live);
+    liveAxesAt.set(id, liveAx);
+  }
+}
 const frontier = new Map<string, Entry[]>();
 let pruned = 0;
 /** Does `e` do at least as well as `n` on every dimension that matters? */
@@ -186,7 +279,15 @@ function covers(e: Entry, n: Entry): boolean {
 function dominated(difficulty: string, nodeId: string, resources: Resources, axes: Axes, flags: Record<string, boolean>): boolean {
   let mask = 0n;
   for (const f of keyFlags) if (flags[f]) mask |= flagBit.get(f)!;
-  const n: Entry = { res: RESOURCES.map((r) => resources[r]), ax: keyAxes.map((a) => axes[a]), mask };
+  mask &= liveFlagsAt.get(nodeId) ?? ~0n;
+  const liveAx = liveAxesAt.get(nodeId);
+  // Values far above every threshold that the rest of the game could bring them down to are equivalent, so they are compared capped (see CAPS).
+  const cap = CAPS.get(nodeId);
+  const n: Entry = {
+    res: RESOURCES.map((r, i) => Math.min(resources[r], cap ? cap.res[i] : Infinity)),
+    ax: keyAxes.map((a, i) => (liveAx && !liveAx[i] ? 0 : Math.min(axes[a], cap ? cap.ax[i] : Infinity))),
+    mask,
+  };
   const k = `${difficulty}|${nodeId}`;
   let list = frontier.get(k);
   if (!list) frontier.set(k, (list = []));
@@ -195,12 +296,29 @@ function dominated(difficulty: string, nodeId: string, resources: Resources, axe
   list.push(n);
   return false;
 }
+// Everything this validator proves is "some real path does it", so the search stops the moment every scene, ending (the ruin endings are shown by the witness
+// runs below) and option has been seen to be reachable. A scene, ending or option still unseen sends the search on, up to the whole space.
+class AllReached extends Error {}
+const RUIN_ENDINGS = new Set(RESOURCE_DEFS.map((r) => r.failureEndingId).filter(Boolean) as string[]);
+const goalMaps = [gateEverSatisfied, flagGateEverSatisfied, condGateEverSatisfied, shownWhenEverShown];
+function everythingReached(): boolean {
+  if (reachableNodeIds.size < Object.keys(NODES).length) return false;
+  for (const e of Object.keys(ENDINGS)) if (!RUIN_ENDINGS.has(e) && !reachableEndingIds.has(e)) return false;
+  for (const m of goalMaps) for (const v of m.values()) if (!v) return false;
+  return true;
+}
+let stoppedEarly = false;
+const unseenTarget = (t: string) => (t.startsWith("ENDING_") ? !reachableEndingIds.has(t) : !reachableNodeIds.has(t));
 function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<string, boolean>, depth: number, difficulty: Difficulty) {
   if (dominated(difficulty, nodeId, resources, axes, flags)) {
     pruned++;
     return;
   }
   pathsExplored++;
+  if (pathsExplored % 64 === 0 && everythingReached()) {
+    stoppedEarly = true;
+    throw new AllReached();
+  }
   deepestDepth = Math.max(deepestDepth, depth);
   reachableNodeIds.add(nodeId);
   recordExtremes(nodeId, resources);
@@ -208,7 +326,14 @@ function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<str
   if (!node) return;
 
   const here = stateOf(resources, axes, flags, difficulty, node.branch);
-  for (const opt of node.options) {
+  // options that lead somewhere not yet seen, or that unlock something not yet seen, go first
+  const goalKey = (o: (typeof node.options)[number]) => `${nodeId}:${o.label}`;
+  const fresh = (o: (typeof node.options)[number]) => {
+    const ts = o.roll ? [o.roll.success.nextNodeId ?? o.nextNodeId, o.roll.failure.nextNodeId ?? o.nextNodeId] : [o.nextNodeId];
+    return ts.some(unseenTarget) || [gateEverSatisfied, flagGateEverSatisfied, condGateEverSatisfied, shownWhenEverShown].some((m) => m.get(goalKey(o)) === false);
+  };
+  const ordered = [...node.options].sort((a, b) => Number(fresh(b)) - Number(fresh(a)));
+  for (const opt of ordered) {
     if (NONMONO.has(opt)) continue;
     if (opt.showWhen) {
       if (isOptionHidden(here, opt)) continue;
@@ -270,9 +395,15 @@ function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<str
   }
 }
 
-for (const difficulty of DIFFICULTIES) dfs(START_NODE_ID, Object.fromEntries(def.config.resources.map((r) => [r.id, r.start])), Object.fromEntries(def.config.axes.map((a) => [a.id, 0])), {}, 0, difficulty);
+// One search, on the hardest setting: it offers every option the easier ones do (the search ignores the purse) and the options only it shows, so what is
+// reachable on Easy or Medium is reachable here. (The check below is that something is reachable on some difficulty, which is what it always was.)
+try {
+  for (const difficulty of ["HARD" as Difficulty]) dfs(START_NODE_ID, Object.fromEntries(def.config.resources.map((r) => [r.id, r.start])), Object.fromEntries(def.config.axes.map((a) => [a.id, 0])), {}, 0, difficulty);
+} catch (e) {
+  if (!(e instanceof AllReached)) throw e;
+}
 
-ok(`${pathsExplored} game-states expanded (${pruned} pruned as dominated; max depth ${deepestDepth}) by exhaustive DFS on every difficulty, forking ${rollsForked} roll option encounter(s) into success/failure branches`);
+ok(`${pathsExplored} game-states expanded (${pruned} pruned as dominated; max depth ${deepestDepth}) by DFS on the hardest setting (a superset of the others), forking ${rollsForked} roll option encounter(s) into success/failure branches; ${stoppedEarly ? "stopped once every scene, ending and option had been reached" : "the whole space was searched"}`);
 
 // Low-state options (see NONMONO): leaving them out of the search must lose nothing, and each must be shown by some real run.
 {
@@ -317,9 +448,11 @@ ok(`${pathsExplored} game-states expanded (${pruned} pruned as dominated; max de
       return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
   };
-  const targets = [...RESOURCES, ...def.config.axes.filter((a) => a.id.startsWith("trust")).map((a) => a.id), ""];
+  // each witness player pushes one or two things: a gauge or a trust down, or a gauge down while a trust goes up (the repair options need exactly that)
+  const trustIds = def.config.axes.filter((a) => a.id.startsWith("trust")).map((a) => a.id);
+  const targets: [string, number][][] = [...RESOURCES.map((r) => [[r, 1]] as [string, number][]), ...trustIds.map((a) => [[a, 1]] as [string, number][]), ...RESOURCES.flatMap((r) => trustIds.map((a) => [[r, 1], [a, -1]] as [string, number][])), []];
   const seen = new Set<object>();
-  for (let seed = 1; seed <= 9000 && seen.size < NONMONO.size; seed++) {
+  for (let seed = 1; seed <= 20000 && seen.size < NONMONO.size; seed++) {
     const target = targets[seed % targets.length];
     const rand = rngW(seed * 17 + 3);
     let st = createInitialState(def);
@@ -332,12 +465,15 @@ ok(`${pathsExplored} game-states expanded (${pruned} pruned as dominated; max de
         const open = node.options.map((_o, k) => k).filter((k) => !isOptionUnavailable(def, st, node.options[k]));
         const score = (k: number) => {
           const o = node.options[k];
-          if (!target) return 0;
-          if (target in (st.resources as object)) return o.roll ? Math.min(o.roll.success.stamps[target] ?? 0, o.roll.failure.stamps[target] ?? 0) : o.stamps[target] ?? 0;
-          return o.axisDelta?.[target] ?? 0;
+          let sum = 0;
+          for (const [t, w] of target) {
+            if (t in (st.resources as object)) sum += w * (o.roll ? Math.min(o.roll.success.stamps[t] ?? 0, o.roll.failure.stamps[t] ?? 0) : o.stamps[t] ?? 0);
+            else sum += w * (o.axisDelta?.[t] ?? 0);
+          }
+          return sum;
         };
         open.sort((x, y) => score(x) - score(y));
-        const pick = !target || rand() < 0.3 ? open[Math.floor(rand() * open.length)] : open[0];
+        const pick = !target.length || rand() < 0.3 ? open[Math.floor(rand() * open.length)] : open[0];
         st = reduce(def, st, { type: "SELECT_OPTION", optionIndex: pick });
       } else if (st.phase === "ROLL") st = reduce(def, st, { type: "CONDUCT_EXPERIMENT", roll: rand() });
       else if (st.phase === "OUTCOME") st = reduce(def, st, { type: "CONTINUE_OUTCOME" });

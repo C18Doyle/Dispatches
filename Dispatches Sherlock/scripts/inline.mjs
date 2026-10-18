@@ -1,7 +1,8 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
-// `node scripts/inline.mjs --demo` builds dist/demo/index.html from dist/demo/bundle.js
-const dir = process.argv.includes("--demo") ? "dist/demo" : "dist";
+// Builds dist/index.html from dist/styles.css, dist/fonts.css (scripts/fonts.mjs) and dist/bundle.js: one file, no network at play time.
+const dir = "dist";
+const fonts = readFileSync("dist/fonts.css", "utf8");
 const css = readFileSync("dist/styles.css", "utf8");
 const js = readFileSync(`${dir}/bundle.js`, "utf8");
 
@@ -11,13 +12,8 @@ const html = `<!doctype html>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Sherlock Holmes: The Final Problem</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap"
-      rel="stylesheet"
-    />
     <style>
+${fonts}
 ${css}
     </style>
   </head>

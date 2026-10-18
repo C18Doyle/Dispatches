@@ -2,6 +2,20 @@
 
 Player-facing and rules-facing changes only. Newest first. Add an entry in the same commit as the change.
 
+## 0.4.0 (2026-10-18)
+### Added
+- **Houndstooth**: the whole game is restyled as a Victorian parlour (a houndstooth ground, cream and oxblood cards, Playfair Display, Rokkitt and Lora). The fonts are bundled into the page, so it works offline.
+- **The Strand**: three smaller lines under the three gauges (Hours, Hands, Wires), each -8 to +8 with its own warning card at -5 and its own ruin at -8, one ending ("The Strand Snaps", three versions). Short lines make a gauge harder to fill (six coupling rules in all).
+- **Different cards for different messages**: telegram, handwritten note, calling card, journal and guidebook page, instead of one newspaper.
+- **Board** tab: the traces, people and moves you have pinned, the Professor's web (eleven arms, found and cut, and what he does about it) and the questions you cannot yet answer. **Calendar** tab: where the scene falls in 1891 and how long to the next date that matters.
+- **Disguises** (priest, sailor, clerk): pack one in the back bedroom on the last Friday and it opens a choice on one of the roads.
+- **The Whitehall road is deeper**: three scenes in the cable room to break the Professor's cipher, the Professor himself at the Diogenes Club, and two new finales (read his cables to the Cabinet, or have Special Branch take him at Southampton).
+- **Mrs Norton (Irene Adler)** writes in February; her own trust meter and three ways to answer. She can burn the letters, sell them for bait, or leave London, and it comes back later on the Yard and Continental roads.
+- **The Case-Book**: the game opens on a shelf with The Final Problem and three short standalone cases, A Scandal in Bohemia (1888), The Speckled Band (1883) and The Blue Carbuncle (1889): thirteen scenes in all (shelf plus twelve), nine endings, their own cards, map places and gauges.
+### Changed
+- The exhaustive validator stops once every scene, ending and option has been shown reachable, ignores flags and trust that nothing later reads, and caps values that cannot matter any more (the full search had grown past ten minutes). It now takes about three minutes. Witness runs now push one gauge down and a trust up at once.
+- The balance check plays each of the four volumes separately.
+
 ## 0.3.0 (2026-10-14)
 ### Changed
 - **The road is chosen at the fourth choice, not the nineteenth.** After the brick in Vere Street, scene F1 asks whom you trust first (the Yard, the boys, your brother, or no one), and each answer sends you down its own short arc (four new scenes: F1, MA, MB, FA). The old Act I scenes that applied to everyone are now consequences of what you chose: the roof examination only follows the rooftop chase, the case board is a detour for the Yard and the lone road, the dray only meets a man who told Watson nothing. Scene 11 now confirms the road you chose, or lets you change it. A random run is 25 choices (it was 31) and reaches its first road scene at about choice 12 (it was 19).

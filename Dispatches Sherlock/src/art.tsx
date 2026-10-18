@@ -10,7 +10,7 @@ function Plate({ children }: { children: ReactNode }) {
   return (
     <svg
       viewBox="0 0 240 110"
-      className="w-full h-auto max-h-32 text-ink/70"
+      className="w-full h-auto max-h-32 text-current" style={{ opacity: 0.85 }}
       fill="none"
       stroke="currentColor"
       strokeWidth="1.3"
@@ -245,6 +245,29 @@ export const PLATES = {
       <path d="M54 94l66 6 66-6" strokeWidth="0.8" />
     </Plate>
   ),
+  emblem: (
+    <Plate>
+      {/* the deerstalker */}
+      <path d="M80 62C80 38 98 26 122 26S164 38 164 62" />
+      <path d="M72 64H172" />
+      <path d="M72 64C60 66 50 70 46 77 62 77 76 73 84 67M172 64C184 66 194 70 198 77 182 77 168 73 160 67" />
+      <path d="M102 30C98 44 98 56 100 64M142 30C146 44 146 56 144 64" strokeWidth="0.9" />
+      <path d="M116 27C108 17 101 22 105 28 109 33 115 29 118 27M128 27C136 17 143 22 139 28 135 33 129 29 126 27" />
+      <circle cx="122" cy="27" r="2.2" />
+      {[0, 1, 2, 3].map((i) => (
+        <path key={i} d={`M${108 + i * 9} 44l5 5-5 5-5-5Z`} strokeWidth="0.7" opacity="0.7" />
+      ))}
+      {/* the pipe, and its smoke */}
+      <path d="M150 92C132 99 112 96 94 88" strokeWidth="2.2" />
+      <path d="M148 92c0-9 8-14 18-11l2 14c-8 4-18 2-20-3Z" />
+      <path d="M154 78c-4-6 3-9-1-15M162 76c-4-7 3-10-1-17" strokeWidth="0.8" opacity="0.7" />
+      {/* the glass */}
+      <circle cx="62" cy="92" r="11" />
+      <circle cx="62" cy="92" r="8" strokeWidth="0.7" />
+      <path d="M70 100l14 8" strokeWidth="3.2" />
+      <path d="M56 88c2-3 6-3 9 0" strokeWidth="0.7" />
+    </Plate>
+  ),
   crown: (
     <Plate>
       <path d="M0 100H240" strokeWidth="0.6" />
@@ -280,6 +303,12 @@ export function plateForInterlude(id: string): PlateId | null {
       return "magnifier";
     case "CRISIS_NERVE":
       return "lamp";
+    case "CRISIS_HOURS":
+      return "train";
+    case "CRISIS_HANDS":
+      return "note";
+    case "CRISIS_WIRES":
+      return "telegram";
     default:
       return null;
   }
@@ -293,6 +322,8 @@ export function plateForEnding(id: string): PlateId {
       return "newspaper";
     case "ENDING_CRISIS_NERVE":
       return "lamp";
+    case "ENDING_CRISIS_STRAND":
+      return "telegram";
     case "ENDING_NET_CLOSES":
     case "ENDING_NAPOLEON_ESCAPES":
       return "yard";
@@ -315,6 +346,7 @@ export function plateForEnding(id: string): PlateId {
   }
 }
 
-export function PlateView({ id }: { id: PlateId }) {
-  return <div className="mb-4 mx-auto max-w-xs">{PLATES[id]}</div>;
+/** The plate on a card (ink on paper) or, with tone="light", on the dark ground (the title screen). */
+export function PlateView({ id, tone = "ink" }: { id: PlateId; tone?: "ink" | "light" }) {
+  return <div className={`mb-4 mx-auto max-w-xs ${tone === "light" ? "text-brass-bright" : ""}`}>{PLATES[id]}</div>;
 }

@@ -25,6 +25,8 @@ import type { Ledger } from "./ledger";
 import * as sfx from "./sfx";
 import { PlateView, plateForEnding, plateForInterlude } from "./art";
 import { MapView } from "./map";
+import { CalendarView } from "./calendar";
+import { BoardView } from "./board";
 
 type Resource = string;
 type FontSize = UiPrefs["fontSize"];
@@ -33,6 +35,9 @@ const TOTAL_ENDINGS = Object.keys(def.content.endings).length;
 
 const RESOURCE_IDS: Resource[] = def.config.resources.map((r) => r.id);
 const RESOURCE_LABELS: Record<Resource, string> = Object.fromEntries(def.config.resources.map((r) => [r.id, r.label]));
+/** The Strand: three lines of means (Hours, Hands, Wires) drawn as one gauge with three sub-lines. The other resources are plain gauges. */
+const STRAND_IDS = ["hours", "hands", "wires"].filter((id) => RESOURCE_IDS.includes(id));
+const CORE_IDS = RESOURCE_IDS.filter((r) => !STRAND_IDS.includes(r));
 
 function isInCrisis(resource: Resource, value: number): boolean {
   const r = def.config.resources.find((x) => x.id === resource);
@@ -44,6 +49,11 @@ const BRANCH_LABELS: Record<string, string> = {
   YARD: "Act II · The Net",
   STREET: "Act II · The Shadow War",
   CONTINENT: "Act II · The Long Flight",
+  MYCROFT: "Act II · The Cabinet",
+  HIATUS: "Act III · The Years Away",
+  BOHEMIA: "Case · A Scandal in Bohemia",
+  BAND: "Case · The Speckled Band",
+  CARBUNCLE: "Case · The Blue Carbuncle",
 };
 
 // The names and blurbs are content (flavor.json); these only stand in if a game does not supply them.
@@ -273,6 +283,58 @@ function Meter({ resource, value }: { resource: Resource; value: number }) {
   );
 }
 
+function StrandMeter({ resources }: { resources: Record<string, number> }) {
+  const lines = STRAND_IDS.map((id) => ({ id, range: def.config.resources.find((r) => r.id === id)!, value: resources[id] ?? 0 }));
+  if (!lines.length) return null;
+  const { min, max } = lines[0].range;
+  const low = Math.min(...lines.map((l) => l.value));
+  const crisis = lines.some((l) => isInCrisis(l.id, l.value));
+  const pct = ((low - min) / (max - min)) * 100;
+  const fill = crisis || low < 0 ? "bg-blood-bright" : "bg-verdigris-bright";
+  return (
+    <div
+      className="flex-1 min-w-0"
+      role="meter"
+      aria-label="The Strand"
+      aria-valuemin={min}
+      aria-valuemax={max}
+      aria-valuenow={low}
+      aria-valuetext={`${lines.map((l) => `${RESOURCE_LABELS[l.id]} ${l.value}`).join(", ")}${crisis ? ", in crisis" : ""}`}
+    >
+      <div className="flex items-baseline justify-between mb-1 sm:mb-1.5 gap-1">
+        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">The Strand</span>
+        <span className={`font-heading text-[0.65rem] sm:text-xs font-bold tabular-nums shrink-0 ${crisis ? "text-blood" : "text-ink"}`}>{low > 0 ? `+${low}` : low}</span>
+      </div>
+      <div className="gauge-track relative h-1.5 sm:h-2 rounded-sm bg-black/60 border border-brass-dim/70 overflow-hidden">
+        <div className="absolute inset-y-0 w-px bg-brass/40" style={{ left: "50%" }} />
+        <div
+          className={`absolute inset-y-0 ${fill} transition-all duration-500`}
+          style={{ left: low >= 0 ? "50%" : `${pct}%`, right: low >= 0 ? `${100 - pct}%` : "50%" }}
+        />
+      </div>
+      <ul className="mt-1.5 space-y-0.5" aria-hidden="true">
+        {lines.map((l) => {
+          const p = ((l.value - min) / (max - min)) * 100;
+          const bad = isInCrisis(l.id, l.value);
+          return (
+            <li key={l.id} className="flex items-center gap-1">
+              <span className="w-[2.1rem] shrink-0 font-heading text-[0.5rem] uppercase tracking-wider text-ink-soft">{RESOURCE_LABELS[l.id]}</span>
+              <span className="relative h-[3px] flex-1 bg-black/50 overflow-hidden rounded-sm">
+                <span className="absolute inset-y-0 w-px bg-brass/40" style={{ left: "50%" }} />
+                <span
+                  className={`absolute inset-y-0 ${bad || l.value < 0 ? "bg-blood-bright" : "bg-verdigris-bright"}`}
+                  style={{ left: l.value >= 0 ? "50%" : `${p}%`, right: l.value >= 0 ? `${100 - p}%` : "50%" }}
+                />
+              </span>
+              <span className={`w-3 text-right font-heading text-[0.55rem] tabular-nums ${bad ? "text-blood" : "text-ink"}`}>{l.value}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 function StampBadge({ resource, delta }: { resource: Resource; delta: number }) {
   const positive = delta > 0;
   return (
@@ -283,7 +345,7 @@ function StampBadge({ resource, delta }: { resource: Resource; delta: number }) 
   );
 }
 
-const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT"];
+const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", "BOHEMIA", "BAND", "CARBUNCLE"];
 const BRANCH_TINT: Record<string, string> = {
   WEB: "bg-brass-dim",
   YARD: "bg-blood",
@@ -291,16 +353,19 @@ const BRANCH_TINT: Record<string, string> = {
   CONTINENT: "bg-ink",
   MYCROFT: "bg-brass",
   HIATUS: "bg-ink-soft",
+  BOHEMIA: "bg-brass",
+  BAND: "bg-verdigris",
+  CARBUNCLE: "bg-blood",
 };
 const TRUST_WORDS = ["Estranged", "Cold", "Doubtful", "Wary", "Neutral", "Warming", "Trusting", "Loyal", "Devoted"];
 const trustWord = (v: number) => TRUST_WORDS[Math.max(0, Math.min(8, v + 4))];
 const TRUST_AXES = def.config.axes.filter((a) => a.id.startsWith("trust"));
 
-/** The four people who stand behind you, as words and a row of pips. */
-function TrustRow({ axes }: { axes: Record<string, number> }) {
+/** The people who stand behind you, as words and a row of pips. */
+function TrustRow({ axes, flags }: { axes: Record<string, number>; flags: Record<string, boolean> }) {
   return (
     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 mb-3" aria-label="Who trusts you">
-      {TRUST_AXES.map((a) => {
+      {TRUST_AXES.filter((a) => a.id !== "trustAdler" || flags.adlerMet).map((a) => {
         const v = axes[a.id] ?? 0;
         return (
           <li key={a.id} className="flex items-center justify-between gap-2 text-xs">
@@ -361,6 +426,21 @@ function RoadRecord({ state, endingsSeen }: { state: GameState; endingsSeen: Set
   );
 }
 
+/** What each message looks like on the page (the classes are in index.css; no entry is a newspaper). */
+const CARD_KIND: Record<string, string> = {
+  TRANSITION_YARD: "card-telegram",
+  TRANSITION_STREET: "card-note",
+  CRISIS_EVIDENCE: "card-note",
+  TRANSITION_MYCROFT: "card-calling",
+  TRANSITION_BOHEMIA: "card-calling",
+  TRANSITION_BAND: "card-telegram",
+  TRANSITION_CARBUNCLE: "card-note",
+  TRANSITION_REICHENBACH: "card-guide",
+  CRISIS_NERVE: "card-journal",
+  CRISIS_HOURS: "card-guide",
+  CRISIS_HANDS: "card-note",
+  CRISIS_WIRES: "card-telegram",
+};
 const EXAM_SCENES = new Set(["X1", "X2", "X3", "YX1", "YX2", "YX3"]);
 const ALLY_SPEAKERS: Record<string, string> = { Watson: "Dr Watson", Lestrade: "Inspector Lestrade", Mycroft: "Mycroft Holmes", Wiggins: "Wiggins" };
 
@@ -424,7 +504,7 @@ export default function App() {
   const interlude = state.activeInterludeId ? def.content.interludes[state.activeInterludeId] : undefined;
   const shellRef = useRef<HTMLElement>(null);
   const [favorPanelOpen, setFavorPanelOpen] = useState(false);
-  const [houseTab, setHouseTab] = useState<"HOUSE" | "COMPANY" | "MAP" | null>(null);
+  const [houseTab, setHouseTab] = useState<"HOUSE" | "COMPANY" | "BOARD" | "MAP" | "CALENDAR" | null>(null);
   // browsers keep a page silent until the player has acted on it, so the atmosphere waits for the first click
   const [heard, setHeard] = useState(false);
   const [gossipLine, setGossipLine] = useState<string | null>(null);
@@ -848,6 +928,7 @@ export default function App() {
     content = (
       <VoidScreen>
         <div className="max-w-lg w-full text-center">
+          <PlateView id="emblem" tone="light" />
           <p className="font-heading text-xs uppercase tracking-[0.5em] text-brass/80 mb-3">A Dispatches Chronicle</p>
           <h1 className="flicker font-display text-5xl sm:text-6xl font-bold text-parchment leading-tight mb-2">
             Sherlock Holmes
@@ -1131,7 +1212,7 @@ export default function App() {
     const paper = interlude;
     content = (
       <VoidScreen>
-        <div className="max-w-xl w-full bg-parchment border-4 border-double border-ink p-6 sm:p-8 font-broadsheet text-ink shadow-2xl relative">
+        <div className={`max-w-xl w-full bg-parchment border-4 border-double border-ink p-6 sm:p-8 font-broadsheet text-ink shadow-2xl relative ${CARD_KIND[paper.id] ?? ""}`}>
           <div className="flex items-center justify-between border-b-2 border-ink pb-2 mb-4">
             <span className="text-xs uppercase tracking-[0.25em] font-bold">{paper.source}</span>
             <span className="text-xs uppercase tracking-widest text-ink/60">{paper.kind}</span>
@@ -1255,7 +1336,23 @@ export default function App() {
     const suggestion = rules.showPreview ? watsonSuggestion(state, node.options) : null;
     const clues = Object.keys(state.flags).filter((f) => f.startsWith("clue") && state.flags[f]);
     const coupling = activeCoupling(def, state.resources);
-    const tabButton = (id: "HOUSE" | "COMPANY" | "MAP", label: string) => (
+    // the road you are on, for the calendar and the board: the branch, or, before you have gone down one, the one you leaned towards
+    const road =
+      state.activeBranch !== "WEB"
+        ? state.activeBranch
+        : state.flags.leanYard
+        ? "YARD"
+        : state.flags.leanStreet
+        ? "STREET"
+        : state.flags.leanMycroft
+        ? "MYCROFT"
+        : state.flags.leanFlight
+        ? "CONTINENT"
+        : "WEB";
+    // the three standalone cases are short and self-contained: no company, board or calendar to keep
+    const inCase = ["BOHEMIA", "BAND", "CARBUNCLE"].includes(state.activeBranch);
+    const onShelf = state.currentNodeId === "0";
+    const tabButton = (id: "HOUSE" | "COMPANY" | "BOARD" | "MAP" | "CALENDAR", label: string) => (
       <button
         role="tab"
         aria-selected={houseTab === id}
@@ -1276,10 +1373,13 @@ export default function App() {
         <div className="max-w-2xl mx-auto">
           <header className="mb-6 text-center">
             <p className="font-heading text-xs uppercase tracking-[0.35em] text-brass mb-1">Sherlock Holmes</p>
-            <h1 className="font-display text-xl sm:text-2xl font-bold text-parchment">The Final Problem</h1>
-            <p className="font-heading text-xs uppercase tracking-widest text-ash mt-1">{BRANCH_LABELS[state.activeBranch]}</p>
+            <h1 className="font-display text-xl sm:text-2xl font-bold text-parchment">
+              {onShelf ? "The Case-Book" : inCase ? BRANCH_LABELS[state.activeBranch].split("· ")[1] : "The Final Problem"}
+            </h1>
+            <p className="font-heading text-xs uppercase tracking-widest text-ash mt-1">{onShelf ? "Choose a volume" : inCase ? "A short case" : BRANCH_LABELS[state.activeBranch]}</p>
           </header>
 
+          {!onShelf && (
           <div className="parchment-card p-4 sm:p-5 mb-6 relative">
             <CornerFlourishes />
             {rules.enforceMoney && (
@@ -1291,9 +1391,10 @@ export default function App() {
               </div>
             )}
             <div className="flex flex-nowrap gap-2 sm:gap-4">
-              {RESOURCE_IDS.map((r) => (
+              {CORE_IDS.map((r) => (
                 <Meter key={r} resource={r} value={state.resources[r]} />
               ))}
+              <StrandMeter resources={state.resources} />
             </div>
             {coupling.map((c) => (
               <p key={c.label} className="mt-2 text-[0.72rem] leading-snug italic text-blood">
@@ -1301,15 +1402,20 @@ export default function App() {
               </p>
             ))}
           </div>
+          )}
 
           <div className="mb-6">
+            {!onShelf && (
             <div role="tablist" aria-label="Baker Street" className="flex flex-wrap gap-2">
               {tabButton("HOUSE", "Baker Street")}
-              {tabButton("COMPANY", "Company")}
+              {!inCase && tabButton("COMPANY", "Company")}
+              {!inCase && tabButton("BOARD", "Board")}
               {tabButton("MAP", "Map")}
+              {!inCase && tabButton("CALENDAR", "Calendar")}
             </div>
+            )}
             {houseTab === "HOUSE" && (
-              <div role="tabpanel" className="parchment-card p-4 mt-3 relative">
+              <div role="tabpanel" className="parchment-card p-4 mt-3 relative text-ink font-body">
                 <CornerFlourishes />
                 <div className="flex flex-wrap gap-2">
                   {rules.adviceEnabled && (
@@ -1394,12 +1500,12 @@ export default function App() {
               </div>
             )}
             {houseTab === "COMPANY" && (
-              <div role="tabpanel" className="parchment-card p-4 mt-3 relative">
+              <div role="tabpanel" className="parchment-card p-4 mt-3 relative text-ink font-body">
                 <CornerFlourishes />
                 <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">Who Stands Behind You</p>
-                <TrustRow axes={state.axes} />
+                <TrustRow axes={state.axes} flags={state.flags} />
                 <ul className="space-y-1.5 text-sm text-ink/85">
-                  {TRUST_AXES.map((a) => {
+                  {TRUST_AXES.filter((a) => a.id !== "trustAdler" || state.flags.adlerMet).map((a) => {
                     const said = lastHeard(state, ALLY_SPEAKERS[a.label] ?? a.label);
                     return (
                       <li key={a.id}>
@@ -1411,8 +1517,20 @@ export default function App() {
                 </ul>
               </div>
             )}
+            {houseTab === "BOARD" && (
+              <div role="tabpanel" className="parchment-card p-4 mt-3 relative text-ink font-body">
+                <CornerFlourishes />
+                <BoardView state={state} road={road} />
+              </div>
+            )}
+            {houseTab === "CALENDAR" && (
+              <div role="tabpanel" className="parchment-card p-4 mt-3 relative text-ink font-body">
+                <CornerFlourishes />
+                <CalendarView nodeId={state.currentNodeId} branch={road} />
+              </div>
+            )}
             {houseTab === "MAP" && (
-              <div role="tabpanel" className="parchment-card p-3 mt-3 relative">
+              <div role="tabpanel" className="parchment-card p-3 mt-3 relative text-ink font-body">
                 <MapView nodeId={state.currentNodeId} history={state.history} />
               </div>
             )}

@@ -48,7 +48,7 @@ export function parseLedger(raw: string | null): Ledger {
   }
 }
 
-const ROAD_NAMES: Record<string, string> = { YARD: "Scotland Yard", STREET: "the Irregulars", CONTINENT: "the flight", MYCROFT: "Whitehall" };
+const ROAD_NAMES: Record<string, string> = { YARD: "Scotland Yard", STREET: "the Irregulars", CONTINENT: "the flight", MYCROFT: "Whitehall", BOHEMIA: "A Scandal in Bohemia", BAND: "The Speckled Band", CARBUNCLE: "The Blue Carbuncle" };
 const TRUST_WORDS = ["Estranged", "Cold", "Doubtful", "Wary", "Neutral", "Warming", "Trusting", "Loyal", "Devoted"];
 
 /** The facts worth keeping about a finished run. */

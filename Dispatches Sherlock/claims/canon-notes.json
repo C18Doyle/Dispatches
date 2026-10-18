@@ -222,6 +222,72 @@
         "ENDING_HER_MAJESTYS_SERVICE",
         "ENDING_THE_SECOND_LEDGER"
       ]
+    },
+    {
+      "id": "invented-strand",
+      "statement": "The Strand (Hours, Hands, Wires) and its ruin ending are the game's own invention.",
+      "source": "n/a (design)",
+      "status": "invented",
+      "endings": [
+        "ENDING_CRISIS_STRAND"
+      ]
+    },
+    {
+      "id": "sib-adler-letter",
+      "statement": "In A Scandal in Bohemia the King of Bohemia, masked and calling himself Count von Kramm, asks Holmes to recover a photograph of himself with Irene Adler before his betrothal to a Scandinavian princess; Adler leaves before Holmes can act, with a letter and her own photograph, and Holmes asks for the photograph in place of the King's ring.",
+      "source": "memory of the story (public domain); not yet checked against the text",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_WOMAN"
+      ]
+    },
+    {
+      "id": "sib-invented",
+      "statement": "Holmes pursuing Adler abroad, burgling her house, or telling the King nothing, and their consequences, are the game's own invention.",
+      "source": "n/a (design)",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_STRONGBOX",
+        "ENDING_THE_KING_WAITS"
+      ]
+    },
+    {
+      "id": "band-snake",
+      "statement": "In The Adventure of the Speckled Band Dr Grimesby Roylott sends a swamp adder through a ventilator and down a dummy bell-rope to kill his stepdaughter, as he killed her twin; Holmes drives the snake back with a cane and Roylott dies of its bite.",
+      "source": "memory of the story (public domain); not yet checked against the text",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_BAND_RETURNS"
+      ]
+    },
+    {
+      "id": "band-invented",
+      "statement": "A late strike, a warning to Roylott, a locked door and a Doctor who lives are the game's own invention.",
+      "source": "n/a (design)",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_WHISTLE_MISSED",
+        "ENDING_THE_DOCTOR_LIVES"
+      ]
+    },
+    {
+      "id": "carbuncle-mercy",
+      "statement": "In The Adventure of the Blue Carbuncle Holmes traces a stolen jewel through a Christmas goose to James Ryder, and lets him go, saying it is the season of forgiveness and that he may be compounding a felony.",
+      "source": "memory of the story (public domain); not yet checked against the text",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_CHRISTMAS_MERCY"
+      ]
+    },
+    {
+      "id": "carbuncle-invented",
+      "statement": "Sending for Lestrade, and Ryder's escape, are the game's own invention.",
+      "source": "n/a (design)",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_STONE_RETURNED",
+        "ENDING_THE_STONE_LOST"
+      ]
     }
   ]
 }

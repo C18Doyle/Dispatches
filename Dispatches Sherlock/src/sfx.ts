@@ -291,6 +291,15 @@ export function playGaugeCrisis(volume: number, index: number) {
     tone(164, 1.6, volume * 0.4, "sine");
     tone(328, 1.2, volume * 0.14, "sine", 0.01);
     tone(122, 1.6, volume * 0.22, "sine", 0.5);
+  } else if (index === 3) {
+    // Hours: a clock, running down
+    for (let i = 0; i < 6; i++) tone(i % 2 ? 880 : 740, 0.05, volume * (0.32 - i * 0.03), "square", i * 0.28);
+  } else if (index === 4) {
+    // Hands: footsteps going away
+    for (let i = 0; i < 5; i++) noiseBurst(0.09, volume * (0.5 - i * 0.08), 380, i * 0.34);
+  } else if (index === 5) {
+    // Wires: a key tapping out nothing
+    for (const [d, len] of [[0, 0.05], [0.12, 0.12], [0.34, 0.05], [0.46, 0.05], [0.7, 0.12]] as const) tone(620, len, volume * 0.28, "square", d);
   } else {
     for (let i = 0; i < 4; i++) {
       tone(58, 0.16, volume * 0.55, "sine", i * 0.5);

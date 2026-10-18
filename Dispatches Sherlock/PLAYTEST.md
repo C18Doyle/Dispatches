@@ -13,7 +13,9 @@
 - The Yard and street roads now end in three steps, and a well-prepared player has a sure route to the win; has nobody checked that the sure route is not too sure, or too hidden?
 - The street road is shut unless the Irregulars were hired in scene 5, and the Whitehall road needs Mycroft's trust; most random play never reaches either.
 - The road is chosen at about the fourth choice and a run is about 25 choices. Does the early fork feel like a real choice, or like a menu? Does anyone choose the street road, and does the Whitehall road feel earned?
-- The validator takes about four minutes (it was seconds); a cheaper abstraction would help the next change.
+- The validator takes about three minutes now that it stops as soon as everything is reached; it is no longer an exhaustive proof of every state, only of every scene, ending and option.
+- The three short cases are new and untested by anyone: are they too easy, and does the Strand matter at all in a four-scene case?
+- Mrs Norton's letter, the disguises and the cable room are new in the long case; ask whether each felt like a real choice.
 - The examinations reward reading the scene text for a clue; a tester should say whether the clue was fair.
 - The map is a hand sketch: ask a Londoner whether the streets are close enough to be forgiven.
 - Nobody who knows the period has read the details of the Yard scenes (warrants at Bow Street, the Old Bailey in June).

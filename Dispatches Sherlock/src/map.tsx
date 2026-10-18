@@ -32,6 +32,9 @@ export const PLACES: Record<string, Place> = {
   hackney: { map: "london", name: "Hackney", x: 164, y: 26 },
   wapping: { map: "london", name: "Wapping", x: 152, y: 80 },
   limehouse: { map: "london", name: "Limehouse", x: 176, y: 78 },
+  briony: { map: "london", name: "Briony Lodge, St John's Wood", x: 52, y: 30 },
+  stoke: { map: "london", name: "Stoke Moran, off the map", x: 20, y: 104 },
+  covent: { map: "london", name: "Covent Garden", x: 114, y: 66 },
   // Europe (viewBox 240 x 160)
   victoria: { map: "europe", name: "London", x: 36, y: 46 },
   canterbury: { map: "europe", name: "Canterbury", x: 50, y: 54 },
@@ -62,6 +65,9 @@ export const SCENE_PLACE: Record<string, string> = {
   C1: "victoria", C2: "canterbury", C3: "channel", C4: "brussels", C4B: "brussels", C5: "strasbourg", C5B: "basel", C6: "geneva",
   C6B: "interlaken", C7: "meiringen", C7B: "meiringen", C8: "meiringen", C9: "meiringen", C10: "meiringen",
   H1: "florence", H2: "tibet", H3: "montpellier", H4: "victoria",
+  MX1: "whitehall", MX2: "whitehall", MX3: "whitehall", M6B: "pallmall", "10W": "baker", K7: "briony", K8: "briony",
+  "0": "baker", B1: "baker", B2: "briony", B3: "briony", B4: "briony", R1: "baker", R2: "stoke", R3: "stoke", R4: "stoke",
+  G1: "baker", G2: "baker", G3: "covent", G4: "baker",
 };
 
 const LONDON_THAMES = "M-4 92C20 94 36 96 56 90S84 84 100 88 122 84 140 88 164 90 204 82";

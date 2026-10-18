@@ -12,11 +12,15 @@
   "howToPlay": [
     {
       "heading": "Your Part",
-      "body": "You are Sherlock Holmes, from the first week of January 1891, hunting a man who has never been charged with a crime. Each scene is a dated report. You read it, and choose how to answer. Tap an option once to mark it, and again to confirm it. What you choose changes what comes next, and some doors open only for a detective who has done the right things earlier. You choose your road early, within a few scenes."
+      "body": "The Case-Book on your table holds four volumes. The thick one is The Final Problem, the long case of 1891, and the three thin ones are short cases that stand alone: A Scandal in Bohemia, The Speckled Band and The Blue Carbuncle. They are short, share nothing with the long case, and are a good way to learn the game. The rest of this page is about The Final Problem. You are Sherlock Holmes, from the first week of January 1891, hunting a man who has never been charged with a crime. Each scene is a dated report. You read it, and choose how to answer. Tap an option once to mark it, and again to confirm it. What you choose changes what comes next, and some doors open only for a detective who has done the right things earlier. You choose your road early, within a few scenes."
     },
     {
       "heading": "Evidence, Standing and Nerve",
       "body": "Three gauges run from minus ten to plus ten. Evidence is what you can prove in a court. Standing is the trust of Scotland Yard, the magistrates and the press. Nerve is your own health and calm. When a gauge falls to minus seven, a warning card appears. At minus ten, the story ends in ruin. Watch the lowest gauge more than the highest."
+    },
+    {
+      "heading": "The Strand",
+      "body": "Under the three gauges run three smaller lines, which the game calls the Strand, after the street and the magazine. Hours is time in hand: slow, patient work spends it. Hands is the people at your disposal: Watson, the boys, the Yard's men. Wires is your reach: a telegram, a file, an informant, the press. Each line runs from minus eight to plus eight, and has its own warning card at minus five. Any one of them at minus eight cuts the Strand, and the Professor goes untouched. A Strand line that is short also makes a gauge harder to fill. Keep the three in step, and do not spend the same line twice."
     },
     {
       "heading": "Gambits",
@@ -24,7 +28,7 @@
     },
     {
       "heading": "Baker Street, and Who Trusts You",
-      "body": "The three buttons above each scene open one panel at a time. Baker Street gives you Watson's advice (a few times in a game, it shows what each choice will cost), Mycroft's Favour (once, one gauge improves at the cost of another), overheard talk, and Watson's Notebook, his private opinion of the man you are becoming. Company shows how far Watson, Lestrade, Mycroft and Wiggins trust you, and the last thing each was heard to say. Some options open only to a detective they trust, and a few only to one they have lost. Map is the sketch map."
+      "body": "The five buttons above each scene open one panel at a time. Baker Street gives you Watson's advice (a few times in a game, it shows what each choice will cost), Mycroft's Favour (once, one gauge improves at the cost of another), overheard talk, and Watson's Notebook, his private opinion of the man you are becoming. Company shows how far Watson, Lestrade, Mycroft and Wiggins trust you, and the last thing each was heard to say. Some options open only to a detective they trust, and a few only to one they have lost. Board is your cork board: the traces, people and moves you have pinned up, the Professor's web with the arms you have found and cut (he notices), and the questions you cannot yet answer. Calendar shows where the scene falls in the winter and spring of 1891 and how long to the next date that matters. Map is the sketch map."
     },
     {
       "heading": "When a Gauge Runs Short",
@@ -32,7 +36,7 @@
     },
     {
       "heading": "Side Cases and Examinations",
-      "body": "In Act I you may take on one of three small cases, or decline them all and rest. Twice in the story you are asked to examine a scene, three scenes running. Pick what to look at with care: the traces you read decide whether you can state a deduction at the end. A trace you did not read cannot be guessed at."
+      "body": "In Act I you may take on one of three small cases, or decline them all and rest. Twice in the story you are asked to examine a scene, three scenes running. Before you leave Baker Street on the last Friday, you may pack a disguise: the priest, the sailor or the clerk. It opens a choice later on that a man in his own face cannot have. Pick what to look at with care: the traces you read decide whether you can state a deduction at the end. A trace you did not read cannot be guessed at."
     },
     {
       "heading": "Four Roads, Chosen Early",
@@ -48,7 +52,7 @@
     },
     {
       "heading": "What Is Real and What Is Not",
-      "body": "This game follows the outline of Arthur Conan Doyle's story The Final Problem (1893) and, at the end of one road, The Empty House (1903): Professor Moriarty, the flight across the Continent, the Reichenbach Falls and the return. Most of the scenes, the clerk Larch, Sergeant Pike, the boy Alf and the newspaper clippings are invented. Each ending says, afterwards, what the original story does."
+      "body": "This game follows the outline of Arthur Conan Doyle's story The Final Problem (1893) and, at the end of one road, The Empty House (1903): Professor Moriarty, the flight across the Continent, the Reichenbach Falls and the return. The three short cases follow Doyle's A Scandal in Bohemia (1891), The Adventure of the Speckled Band (1892) and The Adventure of the Blue Carbuncle (1892). Irene Adler's letter in 1891 is the game's own invention. Most of the scenes, the clerk Larch, Sergeant Pike, the boy Alf and the newspaper clippings are invented. Each ending says, afterwards, what the original story does."
     }
   ],
   "gossip": [
@@ -294,7 +298,17 @@
     "ENDING_FATAL_SHOT": "In the Canon: Colonel Sebastian Moran is Moriarty's chief lieutenant and a celebrated shot. In The Empty House he is the man who fires an air-gun, and Holmes catches him. At the Falls, Doyle gives him no shot at all. Here he fires one.",
     "ENDING_THE_RETURN": "In the Canon: this is the opening of The Empty House (1903). Holmes returns to London in April 1894, with the Park Lane murder of Ronald Adair as his occasion. He reveals himself to Watson, who faints, and explains afterwards where he has been. The game gives you the choice of how.",
     "ENDING_HER_MAJESTYS_SERVICE": "In the Canon: Holmes does work for the Government in later stories, through Mycroft, as in The Bruce-Partington Plans. He is never given a commission, and the game's quiet office off Whitehall is its own invention.",
-    "ENDING_THE_SECOND_LEDGER": "In the Canon: nothing like this. Doyle's Holmes never exposes the powerful to the press, and in Charles Augustus Milverton he burns a blackmailer's letters rather than publish them. The great scandal is this game's invention."
+    "ENDING_THE_SECOND_LEDGER": "In the Canon: nothing like this. Doyle's Holmes never exposes the powerful to the press, and in Charles Augustus Milverton he burns a blackmailer's letters rather than publish them. The great scandal is this game's invention.",
+    "ENDING_THE_WOMAN": "In the Canon: A Scandal in Bohemia (1891, but set in March 1888). Holmes's one defeat. Irene Adler leaves a letter and her own photograph, and the King offers an emerald ring. Holmes asks for the photograph instead.",
+    "ENDING_THE_STRONGBOX": "Invented. In the story Holmes does not catch Adler; she leaves England with her husband before he can act.",
+    "ENDING_THE_KING_WAITS": "Invented. In the story the King accepts that the matter is closed.",
+    "ENDING_THE_BAND_RETURNS": "In the Canon: The Adventure of the Speckled Band (1892, set in April 1883). Holmes drives the snake back through the ventilator, and Dr Roylott dies of its bite. Holmes says he is indirectly responsible for the death.",
+    "ENDING_THE_WHISTLE_MISSED": "Invented. In the story the case is solved in one night and Helen Stoner lives.",
+    "ENDING_THE_DOCTOR_LIVES": "Invented. In the story Dr Roylott dies of his own snake.",
+    "ENDING_THE_CHRISTMAS_MERCY": "In the Canon: The Adventure of the Blue Carbuncle (1892, set at Christmas 1889). Holmes lets Ryder go, saying that it is the season of forgiveness, and that he is 'commuting a felony'.",
+    "ENDING_THE_STONE_RETURNED": "Invented. In the story Holmes does not call the police.",
+    "ENDING_THE_STONE_LOST": "Invented. In the story Ryder is frightened and Holmes lets him go; the stone is recovered.",
+    "ENDING_CRISIS_STRAND": "In the Canon: Holmes is never short of time, helpers or word of the world for long: he has Watson, the Irregulars, Lestrade, his brother and the telegraph. Running out of any of them is this game's invention."
   },
   "endingHints": {
     "ENDING_CRISIS_EVIDENCE": "Let the case run dry: choose the options that cost Evidence until nothing remains.",
@@ -312,7 +326,17 @@
     "ENDING_FATAL_SHOT": "Meet Colonel Moran on the ridge and lose the climb or the gunfight.",
     "ENDING_THE_RETURN": "Survive the Falls, win the struggle, and choose to come home from the years away.",
     "ENDING_HER_MAJESTYS_SERVICE": "Take the road through your brother's club, and accept the Government's terms in full.",
-    "ENDING_THE_SECOND_LEDGER": "Take the road through your brother's club, read the second ledger, and put it in the newspapers."
+    "ENDING_THE_SECOND_LEDGER": "Take the road through your brother's club, read the second ledger, and put it in the newspapers.",
+    "ENDING_THE_WOMAN": "In Bohemia, accept that you have been beaten and take her portrait.",
+    "ENDING_THE_STRONGBOX": "In Bohemia, follow her abroad and win the photograph back.",
+    "ENDING_THE_KING_WAITS": "In Bohemia, tell the King what he wants to hear, and nothing more.",
+    "ENDING_THE_BAND_RETURNS": "At Stoke Moran, drive the snake back before it reaches the bed.",
+    "ENDING_THE_WHISTLE_MISSED": "At Stoke Moran, be slow with the cane, or warn the Doctor you are coming.",
+    "ENDING_THE_DOCTOR_LIVES": "At Stoke Moran, leave the snake to the constables, or break the door too late.",
+    "ENDING_THE_CHRISTMAS_MERCY": "In the Carbuncle case, let James Ryder go on Christmas night.",
+    "ENDING_THE_STONE_RETURNED": "In the Carbuncle case, send for Lestrade.",
+    "ENDING_THE_STONE_LOST": "In the Carbuncle case, press Ryder for a confession and let him run.",
+    "ENDING_CRISIS_STRAND": "Spend your Hours, your Hands or your Wires down to nothing: work slowly, work alone, or cut yourself off."
   },
   "flagNotes": {
     "yardFile": "You opened a joint file with Lestrade at Scotland Yard.",
@@ -402,6 +426,36 @@
     "ministerTurned": "Lord Harcastle talked, and was spared.",
     "ministerHeld": "You hold Lord Harcastle's word in your pocket-book.",
     "immunityAccepted": "You backed your brother's immunity for the Professor.",
+    "bohemiaFull": "The King told you the whole of it, letters included.",
+    "bohemiaKnown": "You told the King that you knew who he was.",
+    "bohemiaTerms": "You took the King's thousand pounds on your own terms.",
+    "bohemiaGroom": "You played an out-of-work groom in the mews at Briony Lodge.",
+    "bohemiaWatch": "You watched Briony Lodge from across the road.",
+    "bohemiaWatson": "Watson waited at the corner with the smoke-rocket.",
+    "bohemiaPhoto": "You saw where she hides the photograph: the panel behind the bell-pull.",
+    "bohemiaSuspect": "She saw through the ruse at once.",
+    "bohemiaBurglar": "You searched her house at night and left a card.",
+    "bohemiaWaited": "You waited in the street, and she left in the night.",
+    "bandNoon": "You promised Miss Stoner that you would come by noon.",
+    "bandLondon": "You learned what the money is and when it is due.",
+    "bandSurgeon": "The police surgeon has seen Miss Stoner.",
+    "bandRope": "The bell-rope is a dummy, and the ventilator opens into the Doctor's room.",
+    "bandMilk": "A saucer of milk on the safe, and a dog-lash with a loop.",
+    "bandBend": "Dr Roylott came home early and bent the poker.",
+    "bandAnimals": "A cheetah, a baboon and a camp of gipsies keep the house.",
+    "bandVigil": "You waited in the dark with a cane.",
+    "bandWatson": "Watson waited at the window with his revolver.",
+    "bandWarned": "You warned Dr Roylott that you were watching him.",
+    "carbHat": "You read the hat.",
+    "carbAdvert": "You advertised for Henry Baker in four evening papers.",
+    "carbStone": "You tested the stone against a pane of glass.",
+    "carbClub": "You learned of the goose-club at the Alpha Inn.",
+    "carbTruth": "You told Henry Baker what was in his goose.",
+    "carbQuiet": "You said nothing to Henry Baker about the stone.",
+    "carbOakshott": "Mrs Oakshott of Brixton Road reared the geese.",
+    "carbRebuffed": "Mr Breckinridge turned you away.",
+    "carbPaid": "You paid for the name of Mrs Oakshott.",
+    "carbFollow": "You followed the ferret-faced man and found James Ryder.",
     "leanYard": "You took it to Scotland Yard first.",
     "leanStreet": "You sent for the boys first.",
     "leanMycroft": "You went to your brother's club first.",
@@ -411,6 +465,18 @@
     "fofClerk": "You followed the Foreign Office clerk to Kensington.",
     "routePlanned": "You planned your road out of England in February.",
     "restTaken": "You took a night's rest, and mended.",
-    "standingRepaired": "Lestrade vouched for you, and it cost him."
+    "standingRepaired": "Lestrade vouched for you, and it cost him.",
+    "dsPriest": "You packed the priest's black.",
+    "dsSailor": "You packed the old sailor's jacket and beard.",
+    "dsClerk": "You packed the clerk's coat and bowler.",
+    "adlerMet": "Mrs Norton, once Irene Adler, wrote to you, and you called.",
+    "buyerNamed": "Mr Hector Dunmore of Brandt and Chambers is buying for the Professor.",
+    "adlerBait": "You asked Mrs Norton to sell, and followed the money.",
+    "adlerAbroad": "Mrs Norton went abroad, with the packet.",
+    "clueBook": "The Professor's cipher is made of groups of four figures, none above four hundred: a book.",
+    "clueTitle": "Every cable opens with the same five groups: a title.",
+    "cipherBroken": "You read the Professor's cipher: his own treatise, by page and line.",
+    "knowsDeparture": "The Professor means to sail from Southampton on Tuesday.",
+    "mycroftAlone": "You would not sit in the room with the Professor, and Mycroft bore it alone."
   }
 }
