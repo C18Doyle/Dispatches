@@ -77,7 +77,7 @@ jobs:
           npx playwright install --with-deps chromium webkit
       - name: Real-browser smoke test (Chromium + WebKit, accessibility)
         run: node tools/smoke-browser.mjs
-      - name: Firefox smoke test of Dracula (advisory: the other games have not been looked at in Firefox yet)
+      - name: Firefox smoke test of Dracula (advisory, as the other games have not been looked at in Firefox yet)
         continue-on-error: true
         run: |
           npx playwright install --with-deps firefox
