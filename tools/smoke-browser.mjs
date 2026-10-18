@@ -131,7 +131,7 @@ async function checkGame(browser, engine, game, vp) {
     }
     if (wantA11y) await axeScan(page, a11y);
     for (let i = 1; i <= 5; i++) {
-      const buttons = page.locator("button:visible");
+      const buttons = page.locator("button:visible:not([disabled])");
       const n = await buttons.count();
       if (n === 0) break;
       // avoid destructive/navigation-away controls; take the first that is not rewind/restart/exit/mute
