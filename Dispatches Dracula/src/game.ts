@@ -1,18 +1,10 @@
 /**
- * Glue between this game's content files and the generic engine.
- * The one place that binds a seat's JSON to the engine. `@seat/*` is the folder of the seat being built (tsconfig paths for the
- * type-checker and the scripts, an esbuild alias for the bundle): the Count (src/content/dracula) unless the build says otherwise.
+ * Glue between the playing seat's content files and the generic engine (src/seats.ts says which seat is playing).
+ * `def` is the engine's GameDefinition, `ui` the words around the story, `book` the novel's road for the ending screen.
  */
-import type { GameDefinition } from "@dispatches/engine";
-import config from "@seat/config.json";
-import content from "@seat/events.json";
-import flavor from "@seat/flavor.json";
-import seatUi from "@seat/ui.json";
-import seatBook from "@seat/book.json";
-import type { SeatBook, SeatUi } from "./seat";
+import { SEATS, chosenSeatId } from "./seats";
 
-// JSON files are checked against schema.ts by `npm run validate:schema`; the cast
-// only bridges TypeScript's widened JSON literal types.
-export const def = { config, content, flavor } as unknown as GameDefinition;
-export const ui = seatUi as unknown as SeatUi;
-export const book = seatBook as unknown as SeatBook;
+const seat = SEATS[chosenSeatId()];
+export const def = seat.def;
+export const ui = seat.ui;
+export const book = seat.book;

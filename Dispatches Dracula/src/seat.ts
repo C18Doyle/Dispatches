@@ -3,7 +3,7 @@ import type { Condition } from "@dispatches/engine";
 /**
  * The words around a seat's story that the engine does not model: titles, menu and button labels, the adviser's panel, the end-screen headings.
  * Each seat (a playable point of view) has a folder under src/content/ with config.json, events.json, flavor.json, ui.json (this shape), checks.json and book.json.
- * The build picks one seat (esbuild.config.mjs --seat=<id>, default "dracula", the Count); `@seat/*` in the code resolves to that folder.
+ * Every seat is in the bundle (src/seats.ts); the player picks one with the switch on the title page. `--seat=<id>` says which a fresh browser starts on.
  */
 export interface SeatUi {
   title: string;
@@ -39,6 +39,12 @@ export interface SeatUi {
   account?: { heading: string; intro: string; people: { name: string; lines: { when: Condition; text: string }[] }[] };
   /** A sketch map of the seat's journey, redrawn from the state. */
   map?: SeatMap;
+  /** The button on the title page that switches to the other seat. */
+  switchSeat?: { to: string; label: string; note: string };
+  /** The theme a first-time player of this seat sees (themes.json id). */
+  defaultTheme?: string;
+  /** Pictures for seats with no map: the place each scene is set in (`at`, `defaultAt`), a place for each ending (`endings`), and the title picture. */
+  art?: { at: Record<string, string>; defaultAt: string; endings?: Record<string, string>; title?: "castle" | "cliff" };
 }
 
 export interface SeatMap {

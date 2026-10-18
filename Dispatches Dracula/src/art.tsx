@@ -487,6 +487,7 @@ function PlaceArt({ id, place }: { id: string; place: string }) {
       return <WagonPass id={id} />;
     case "end-ENDING_2B":
       return <WagonPass id={id} two />;
+    case "crypt":
     case "end-ENDING_1D":
     case "end-ENDING_CRISIS_STRENGTH": {
       const closed = place === "end-ENDING_CRISIS_STRENGTH";
@@ -744,8 +745,37 @@ export function SceneBanner({ place, tint, className = "" }: { place: string; ti
 }
 
 /** The title screen: moon, ridge, the castle, bats, fog. The title is set in HTML over its lower edge. */
-export function TitleScene({ className = "" }: { className?: string }) {
+export function TitleScene({ className = "", variant = "castle" }: { className?: string; variant?: "castle" | "cliff" }) {
   const id = "title";
+  if (variant === "cliff") {
+    return (
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" className={`art-title ${className}`} aria-hidden="true" focusable="false">
+        <Defs id={id} />
+        <rect width="400" height="300" fill={`url(#${id}-sky)`} />
+        <Stars />
+        <Moon id={id} cx={290} cy={92} r={36} />
+        <Bats at={[[240, 66, 1.4], [262, 108, 1.1], [336, 44, 1.2], [120, 140, 0.9]]} />
+        <path className="a-far" d="M0 196 Q100 170 200 192 T400 184 V300 H0Z" />
+        <g className="a-sil">
+          <path d="M0 300 V124 L90 116 L170 128 L230 202 L300 234 L400 238 V300Z" />
+          <g transform="translate(8 28) scale(2.1)">
+            <path fillRule="evenodd" d="M14 44 V20 L24 16 L34 22 L46 14 L60 20 L72 14 L84 22 L96 18 V44Z M24 42 V28 Q29 19 34 28 V42Z M44 42 V28 Q49 19 54 28 V42Z M64 42 V28 Q69 19 74 28 V42Z" />
+            <path fillRule="evenodd" d="M96 44 V12 L104 0 L112 12 V44Z M101 40 V16 Q104 10 107 16 V40Z" />
+          </g>
+          <Row base={268} buildings={[[210, 22, 26], [232, 26, 34], [258, 20, 24], [278, 28, 40], [306, 22, 28], [328, 26, 34], [356, 24, 26]]} lit={1} />
+          <rect x="284" y="212" width="10" height="56" />
+          <polygon points="283,212 289,190 295,212" />
+          <rect x="0" y="286" width="400" height="14" />
+        </g>
+        <Waves y={276} rows={3} />
+        <g className="fog-a">
+          <ellipse className="a-fog-fill" cx="110" cy="238" rx="150" ry="14" opacity="0.26" />
+          <ellipse className="a-fog-fill" cx="320" cy="262" rx="150" ry="14" opacity="0.22" />
+        </g>
+        <rect className="title-fade" y="214" width="400" height="86" fill={`url(#${id}-fade)`} />
+      </svg>
+    );
+  }
   return (
     <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" className={`art-title ${className}`} aria-hidden="true" focusable="false">
       <Defs id={id} />

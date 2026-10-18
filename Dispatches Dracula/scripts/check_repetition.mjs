@@ -14,6 +14,7 @@ const dir = join("src", "content", seat);
 const events = JSON.parse(readFileSync(join(dir, "events.json"), "utf8"));
 const flavor = JSON.parse(readFileSync(join(dir, "flavor.json"), "utf8"));
 const checks = JSON.parse(readFileSync(join(dir, "checks.json"), "utf8"));
+const alternatives = checks.alternativeNodes ?? []; // groups of scenes that are the same moment told two ways, never both in one run
 const decisionNodes = checks.decisionNodes ?? []; // the same decision offered from two scenes: only the first is counted
 
 // limits for --strict (a count above the limit fails)
@@ -52,7 +53,7 @@ for (const e of Object.values(events.endings)) {
 for (const it of Object.values(events.interludes)) add(`${it.id}`, it.id, "ANY", it.bodyText, "prose");
 for (const p of flavor.prologue) add("prologue", "prologue", "ANY", p, "prose");
 for (const r of Object.values(flavor.epilogueReadings)) add(`epilogue ${r.label}`, "epilogue", "ANY", r.epilogue, "prose");
-const together = (a, b) => a.scene !== b.scene && (a.track === b.track || a.track === "ANY" || b.track === "ANY");
+const together = (a, b) => a.scene !== b.scene && !alternatives.some((g) => g.includes(a.scene) && g.includes(b.scene)) && (a.track === b.track || a.track === "ANY" || b.track === "ANY");
 
 const words = (t) => t.toLowerCase().replace(/[‘’]/g, "'").match(/[a-z']+/g) ?? [];
 const sentences = (t) => t.replace(/\s+/g, " ").split(/(?<=[.!?])\s+(?=[A-Z"“])/).filter(Boolean);

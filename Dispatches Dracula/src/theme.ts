@@ -1,5 +1,5 @@
 import themeData from "./themes.json";
-import { def } from "./game";
+import { def, ui } from "./game";
 
 /**
  * The look of the game. A theme is a palette (the same token names tailwind.config.js uses), a display face, and the colours the artwork in art.tsx is drawn with.
@@ -35,7 +35,8 @@ export function loadTheme(): string {
   } catch {
     /* private window, or storage blocked: the default theme is fine */
   }
-  return DEFAULT_THEME;
+  // a first-time player of a seat sees that seat's own look
+  return ui.defaultTheme && THEMES.some((x) => x.id === ui.defaultTheme) ? ui.defaultTheme : DEFAULT_THEME;
 }
 
 export function saveTheme(id: string): void {

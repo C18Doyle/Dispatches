@@ -20,7 +20,11 @@
     "The Professor holds his breath.",
     "Something outside shifts its weight."
   ],
-  "money": { "format": "£{n}", "label": "Purse", "left": "Purse Left" },
+  "money": {
+    "format": "£{n}",
+    "label": "Purse",
+    "left": "Purse Left"
+  },
   "endText": {
     "collapsed": "The Hunt Collapses",
     "closed": "The Record Closes",
@@ -40,5 +44,74 @@
     "talkPrefix": "Overheard.",
     "readLabel": "How He Reads You",
     "readPrefix": "Van Helsing, on you:"
+  },
+  "switchSeat": {
+    "to": "dracula",
+    "label": "Play as the Count",
+    "note": "The same weeks, from the castle: his boxes, his houses, his choices."
+  },
+  "defaultTheme": "journal",
+  "art": {
+    "at": {
+      "1": "whitby",
+      "2": "whitby",
+      "3": "london",
+      "4": "london",
+      "5": "london",
+      "6": "london",
+      "7": "carfax",
+      "2-DARK": "whitby",
+      "4-HOME": "london",
+      "6-VIGIL": "crypt",
+      "7-ASYLUM": "carfax",
+      "7-COUNCIL": "carfax",
+      "8A": "carfax",
+      "9A": "piccadilly",
+      "10A": "london",
+      "11A": "carfax",
+      "12A": "sea",
+      "13A": "varna",
+      "14A": "castle",
+      "15A": "castle",
+      "8B": "carfax",
+      "9B": "eastend",
+      "10B": "london",
+      "11B": "london",
+      "12B": "london",
+      "13B": "varna",
+      "14B": "sea",
+      "15B": "castle",
+      "8C": "london",
+      "9C": "london",
+      "10C": "carfax",
+      "11C": "london",
+      "12C": "carfax",
+      "12C-X": "carfax",
+      "13C": "varna",
+      "14C": "castle",
+      "15C": "castle",
+      "13A-X": "varna",
+      "14B-X": "sea",
+      "13C-X": "london"
+    },
+    "defaultAt": "london",
+    "title": "cliff",
+    "endings": {
+      "ENDING_1A": "end-ENDING_1C",
+      "ENDING_1B": "crypt",
+      "ENDING_1C": "crypt",
+      "ENDING_1D": "dawn",
+      "ENDING_2A": "end-ENDING_1C",
+      "ENDING_2B": "sea",
+      "ENDING_2C": "sea",
+      "ENDING_2D": "end-ENDING_1C",
+      "ENDING_3A": "castle",
+      "ENDING_3B": "end-ENDING_3C",
+      "ENDING_3C": "end-ENDING_3C",
+      "ENDING_3D": "castle",
+      "ENDING_CRISIS_NERVE": "carfax",
+      "ENDING_CRISIS_BLOOD": "dawn",
+      "ENDING_CRISIS_FELLOWSHIP": "end-ENDING_CRISIS_DOMINION"
+    }
   }
 }

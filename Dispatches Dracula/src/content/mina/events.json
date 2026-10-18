@@ -5,7 +5,7 @@
       "id": "1",
       "branch": "UNIVERSAL",
       "title": "The Storm Over Whitby",
-      "description": "Half of Whitby has climbed the East Cliff to watch the sea go white. By evening a bank of fog stands off the harbour like a wall, and out of it comes a schooner under full sail, running straight at the pier with nobody at her wheel that anyone can see. The coastguard's searchlight finds her name, Demeter, as she drives up onto the sand below the churchyard. Something large and grey leaps from her deck and is gone up the Abbey steps before anyone can shout. Lucy has taken hold of your sleeve. You have had no letter from Jonathan for weeks, and you have stopped saying so.",
+      "description": "Half of Whitby has climbed the East Cliff to watch the sea go white. By evening a bank of fog stands off the harbour like a wall, and out of it comes a schooner under full sail, running straight at the pier with no hand at her wheel that anyone can see. The coastguard's searchlight finds her name, Demeter, as she drives up onto the sand below the churchyard. Something large and grey leaps from her deck and is gone up the Abbey steps before anyone can shout. Lucy has taken hold of your sleeve. You have had no letter from Jonathan for weeks, and you have stopped saying so.",
       "options": [
         {
           "label": "Take Lucy home before the fog reaches the crescent.",
@@ -19,7 +19,7 @@
             "speaker": "Lucy",
             "text": "Mina, you are shaking, and I do not think it is the cold."
           },
-          "outcome": "Mrs Westenra's fire is lit and the shutters are closed against the weather. Through the wall you hear the coastguard's signal guns until midnight. By morning the whole town has a story, and you have only heard it second-hand.",
+          "outcome": "Mrs Westenra's fire is lit and the shutters are closed against the weather. Through the plaster you hear the coastguard's signal guns until midnight. By morning the whole town has a story, and you have only heard it second-hand.",
           "nextNodeId": "2"
         },
         {
@@ -131,7 +131,7 @@
         },
         {
           "label": "Wake the household and go out with the gardener and two maids.",
-          "detail": "It is slower, and you will not be alone if you find something.",
+          "detail": "Slower, but you will not be alone if you find something.",
           "stamps": {
             "nerve": 1,
             "fellowship": -1,
@@ -149,7 +149,7 @@
         },
         {
           "label": "Go to the seat, but send the watchman's boy after you with a lantern.",
-          "detail": "It is quick enough, and a second pair of eyes may see what yours do not.",
+          "detail": "Quicker, and a second pair of eyes may see what yours do not.",
           "stamps": {
             "nerve": -1,
             "fellowship": 1
@@ -176,7 +176,7 @@
           "when": {
             "flag": "readLog"
           },
-          "text": "The log in your notebook says fifty boxes of earth. Nobody in Whitby has asked what earth is for."
+          "text": "The log in your notebook says fifty boxes of earth. Whitby has not asked what earth is for."
         },
         {
           "when": {
@@ -214,7 +214,7 @@
             "speaker": "Lucy",
             "text": "Go, Mina. I shall be perfectly well. I shall write every day and tell you nothing at all."
           },
-          "outcome": "You pack in an hour. Lucy kisses you at the station and says she is quite well, and you believe her only because you wish to. The train takes you away from the sea.",
+          "outcome": "You pack in an hour. Lucy kisses you at the station and tells you she is perfectly well, and you believe her only because you wish to. The train takes you away from the sea.",
           "nextNodeId": "4",
           "setFlags": [
             "lucyLeft"
@@ -370,7 +370,7 @@
         },
         {
           "label": "Keep the room as the Professor asks: garlic at the window and flowers round her neck.",
-          "detail": "It makes no medical sense, and he does not argue with anyone who asks him why.",
+          "detail": "It makes no medical sense, and Dr Seward does it without argument.",
           "stamps": {
             "nerve": 1,
             "fellowship": 1,
@@ -498,7 +498,7 @@
         },
         {
           "label": "Take charge of the house: the dead woman, the maids, the police and the solicitor.",
-          "detail": "Somebody must, and the men are no use in a house of this kind.",
+          "detail": "Someone has to, and the men are no use here.",
           "stamps": {
             "nerve": 1,
             "fellowship": 1,
@@ -597,7 +597,7 @@
             "speaker": "Jonathan",
             "text": "Billington and Son took the delivery at Whitby. Carter, Paterson and Company carted it to Purfleet. A man who leaves a trail of receipts can be found."
           },
-          "outcome": "Jonathan takes up the idea as if it were a drink of water. By noon he has a list of names, and you have sorted it into a table, and Quincey has put a pin in a map of London for every house that has had a delivery from Whitby. The Professor says nothing for a minute. Then he says that he is a very old man, and he has never been so pleased to be shown a timetable.",
+          "outcome": "Jonathan takes up the idea as if it were a drink of water. By noon he has a list of names, and you have sorted it into a table, and Quincey has pinned a pin into London for each delivery that came up from Whitby. The Professor says nothing for a minute. Then he says that he is a very old man, and he has never been so pleased to be shown a timetable.",
           "nextNodeId": "8B",
           "axisDelta": {
             "creed": -2
@@ -1025,7 +1025,7 @@
       "id": "8A",
       "branch": "SACRED",
       "title": "Twenty-Nine Boxes at Carfax",
-      "description": "Carfax is a damp old house with a ruined chapel at the end of the grounds. Inside the chapel, among fallen plaster and rat droppings, the hunters count twenty-nine wooden boxes. Each is heavy, and each smells of earth that is not English. Rats go out between your feet. On a tombstone the Professor lays out his case: crucifixes, a bundle of wild rose, and a small silver box of Host, consecrated in Amsterdam, of which he has brought as many as he dared. He says there is enough for the work in London if the work is done sparingly. Nobody says how sparingly that is.",
+      "description": "Carfax is a damp old house with a ruined chapel at the end of the grounds. Inside the chapel, among fallen plaster and rat droppings, the hunters count twenty-nine wooden boxes. Each is heavy, and each smells of earth that is not English. Rats go out between your feet. On a tombstone the Professor lays out his case: crucifixes, a bundle of wild rose, and a small silver box of Host, consecrated in Amsterdam, of which he has brought as many as he dared. He says there is enough for the work in London if the work is done sparingly. The Professor does not say how sparingly that is.",
       "options": [
         {
           "label": "Lay a piece of the Host in every box and close the lids.",
@@ -1128,7 +1128,7 @@
             "speaker": "Arthur",
             "text": "I shall say I am the new owner and I am anxious about the drains. One does not ask a lord to prove he owns a drain."
           },
-          "outcome": "Arthur plays the new owner, and a locksmith who is paid by the hour and has no questions opens the cellar. There are nine boxes. The Professor says the words and closes the lids. The locksmith asks whether the house will be sold. Arthur says certainly, and tips him twice what he is owed.",
+          "outcome": "Arthur plays the new owner, and a locksmith who is paid by the hour and has no questions opens the cellar. There are nine boxes. The Professor speaks the words over each and closes the lids. The locksmith asks whether the house will be sold. Arthur says certainly, and tips him twice what he is owed.",
           "nextNodeId": "10A",
           "setFlags": [
             "piccadillySealed"
@@ -1236,7 +1236,7 @@
             "speaker": "Mina",
             "text": "I know what I am afraid of. Please, not tonight. Let me be myself a little longer."
           },
-          "outcome": "The Professor lowers the wafer. The men look at each other, and no one argues. You sit with a shawl round you and your hands in your lap. At the back of your head there is a pressure, like someone listening. You tell nobody.",
+          "outcome": "The Professor lowers the wafer. The men look at each other, and no one argues. You sit with a shawl round you and your hands in your lap. There is a pressure behind your eyes, like someone listening. You say nothing of it.",
           "nextNodeId": "11A",
           "setFlags": [
             "refusedHost"
@@ -1356,7 +1356,7 @@
             "speaker": "Van Helsing",
             "text": "A bargain. You will know the road, and the hour we keep in the pocket. It is fair."
           },
-          "outcome": "It takes ten minutes. Dr Seward is the last to sign the minute, and he does it as if the pen were hot. You keep the record, you know the road, and nobody speaks the hour aloud in front of you.",
+          "outcome": "It takes ten minutes. Dr Seward is the last to sign the minute, and he does it as if the pen were hot. You keep the record, you know the road, and the hour is never spoken aloud in front of you.",
           "nextNodeId": "12A",
           "setFlags": [
             "compromise"
@@ -1374,7 +1374,7 @@
           "when": {
             "flag": "refusedHost"
           },
-          "text": "You did not take the Host. Nobody has mentioned it since, which is its own way of mentioning it."
+          "text": "You did not take the Host. It has not been mentioned since, which is its own way of mentioning it."
         },
         {
           "when": {
@@ -1407,7 +1407,7 @@
       "id": "12A",
       "branch": "SACRED",
       "title": "The Czarina Catherine",
-      "description": "The Professor counts forty-nine boxes sealed and one gone. A telegram from Lloyd's says that a steamer, the Czarina Catherine, left the Thames on the morning tide, bound for Varna, with a single large box among her cargo marked for a forwarding agent at Galatz. The Count is going home. The Professor says there is a train, a boat and another train, and that if the party leaves tonight, it can be in Varna before the steamer. He puts the matter to the table. He does not say that he expects it to be easy.",
+      "description": "The Professor counts forty-nine boxes sealed and one gone. A telegram from Lloyd's says that a steamer, the Czarina Catherine, has sailed for Varna with a single large box among her cargo, marked for a forwarding agent at Galatz. The Count is going home. The Professor says there is a train, a boat and another train, and that if the party leaves tonight, it can be in Varna before the steamer. He puts the matter to the table. He does not say that he expects it to be easy.",
       "options": [
         {
           "label": "Go by rail to Varna with the Professor.",
@@ -1509,7 +1509,7 @@
             "speaker": "Priest",
             "text": "I do not know what you carry. My grandmother would have known. I bless it as she would have."
           },
-          "outcome": "He listens without surprise, which surprises you. He blesses the Host with a long prayer in Slavonic, and when he is done, he gives you a handful of wild rose and a small iron cross on a thong. The Professor says that the rite is in better hands than his.",
+          "outcome": "He listens without surprise, which surprises you. He blesses the Host with a long prayer in Slavonic, and when he is done, he gives you wild roses from his own garden and a small iron cross on a thong. The Professor says that the rite is in better hands than his.",
           "nextNodeId": "14A",
           "setFlags": [
             "priestBlessed"
@@ -1580,7 +1580,7 @@
           "when": {
             "flag": "railParty"
           },
-          "text": "Arthur and Jonathan are still on the water. You and the Professor are first to arrive and have no one to talk to but the gulls."
+          "text": "Arthur and Jonathan are still on the water. You and the Professor are first to arrive and have only the gulls to talk to."
         },
         {
           "when": {
@@ -1701,7 +1701,7 @@
           "when": {
             "flag": "quayWatched"
           },
-          "text": "Two days on the quay have burnt your face. Nobody says anything."
+          "text": "Two days on the quay have burnt your face. Not a word is said."
         }
       ]
     },
@@ -1737,7 +1737,7 @@
             "speaker": "Van Helsing",
             "text": "Madam Mina, there is not time. But if there were time, I would choose this. Say it. We will hold the road."
           },
-          "outcome": "You read the words from the Professor's prayer-book with the rifle across your knees, in a voice that the wind carries. Jonathan holds the horses. Nobody speaks. When you come to the committal you hear the lid lift, and a voice in the box says a single word, and it is not a curse.",
+          "outcome": "You read the words from the Professor's prayer-book with the rifle across your knees, in a voice that the wind carries. Jonathan holds the horses. The room is silent. When you come to the committal you hear the lid lift, and a voice in the box says a single word, and it is not a curse.",
           "nextNodeId": "ENDING_1B",
           "axisDelta": {
             "mercy": 2
@@ -1817,7 +1817,7 @@
       "options": [
         {
           "label": "Type up the table of boxes: where each was delivered, by whom, and when.",
-          "detail": "A table is a weapon if everyone in the room can read it at once.",
+          "detail": "Sort the deliveries into one table that every man in the room can read at once.",
           "stamps": {
             "nerve": 1,
             "fellowship": 1,
@@ -1855,7 +1855,7 @@
         },
         {
           "label": "Hire an inquiry agent to follow the carters, and pay him out of Arthur's account.",
-          "detail": "A professional can watch a street for a week without anyone remembering his face.",
+          "detail": "An agent can watch the carters' street for a week and be forgotten.",
           "stamps": {
             "fellowship": 1
           },
@@ -1978,7 +1978,7 @@
             "speaker": "Dr Seward",
             "text": "A grain of chloral, Mrs Harker, and nothing more. I shall sit by the bed. I am afraid I am no use at all at anything else."
           },
-          "outcome": "The draught is bitter. Dr Seward sits by the bed with his notebook and does not write anything. You sleep for ten hours and dream of the sea. When you wake, someone has left a bunch of snowdrops on the table, which is impossible in October, and nobody will say who.",
+          "outcome": "The draught is bitter. Dr Seward sits by the bed with his notebook and does not write anything. You sleep for ten hours and dream of the sea. When you wake, someone has left a bunch of snowdrops on the table, which is impossible in October, and the house will not say who.",
           "nextNodeId": "11B",
           "setFlags": [
             "draughtGiven"
@@ -2015,7 +2015,7 @@
             "speaker": "Mina",
             "text": "I made the entry before I washed my face. I think the others thought it was shock. It was method."
           },
-          "outcome": "You set it down by lamplight, in the shorthand that nobody else in the house can read: the hand at your neck, the cut, the way the candles did not flicker. When you finish you read it back and it looks like a medical history. The Professor will say later that it is the best account of the first night he has ever seen.",
+          "outcome": "You set it down by lamplight, in a shorthand the house cannot read: the hand at your neck, the cut, the way the candles did not flicker. When you finish you read it back and it looks like a medical history. The Professor will say later that it is the best account of the first night he has ever seen.",
           "nextNodeId": "11B",
           "setFlags": [
             "typedRecord"
@@ -2048,7 +2048,7 @@
       "options": [
         {
           "label": "Accept the decision. Offer the table as a gift and go and lie down.",
-          "detail": "It is not unreasonable, and you are tired.",
+          "detail": "Leave the typescript with them and go to bed. You are tired.",
           "stamps": {
             "nerve": 1,
             "fellowship": -2,
@@ -2113,7 +2113,7 @@
           "when": {
             "flag": "satUp"
           },
-          "text": "You sat up all night with a revolver. Nobody has mentioned it, and Jonathan has put it away."
+          "text": "You sat up all night with a revolver. It has not been mentioned, and Jonathan has put it away."
         },
         {
           "when": {
@@ -2139,7 +2139,7 @@
             "speaker": "Jonathan",
             "text": "I shall go by the Orient express with the Professor. Arthur by sea. Quincey and Seward by the Vienna road. And you, Mina, here at the telegraph."
           },
-          "outcome": "By midnight the four parties have railway tickets, hotel addresses and a list of wires. You assign each man a day and a place, and your own part is to sit at the end of the telegraph and tell them where the others are. The Professor says it is the neatest operation order he has ever seen from an Englishwoman.",
+          "outcome": "By midnight the four parties have railway tickets, hotel addresses and a list of wires. You assign each man a day and a place, and your own part is to sit at the end of the telegraph and tell them where the others are. The Professor calls it the neatest operation order he has ever seen from an Englishwoman.",
           "nextNodeId": "13B",
           "setFlags": [
             "fourParties",
@@ -2247,7 +2247,7 @@
         },
         {
           "label": "Pay for the bill of lading, and for the agent's reply.",
-          "detail": "A clerk's price is lower than a captain's and the paper is the same.",
+          "detail": "A clerk costs less than a captain, and the paper is the same.",
           "stamps": {
             "fellowship": 1,
             "nerve": 1,
@@ -2334,7 +2334,7 @@
               ]
             },
             "failure": {
-              "outcome": "A sandbar catches the keel. For two hours the launch cannot be moved, and the barge slides past a hundred yards away on the far side of the channel with the Slovaks looking back. Someone laughs. You fire a shot in the air, and the sound carries a long way.",
+              "outcome": "A sandbar catches the keel. For two hours the launch cannot be moved, and the barge slides past a hundred yards away with the Slovaks looking back. Someone laughs. You fire a shot in the air, and the sound carries a long way.",
               "stamps": {
                 "nerve": -1,
                 "fellowship": -1
@@ -2447,7 +2447,7 @@
         },
         {
           "label": "Do not go to the Pass. Have the box opened under seal in the customs shed, at noon.",
-          "detail": "Nobody can stop a customs officer opening a box that is under seal, and nobody can stop the sun reaching a shed.",
+          "detail": "A customs officer can open a box under seal, and the sun can reach a shed.",
           "stamps": {
             "nerve": 1,
             "fellowship": 1,
@@ -2474,7 +2474,7 @@
             "speaker": "Jonathan",
             "text": "You said the fourteenth bridge at four fifteen. It is four fourteen, Mina. We are exactly on time."
           },
-          "outcome": "At a quarter past four the waggon comes round the bend into a clearing where nine men, one woman and four horses are already waiting. Nobody is hurt. The Slovaks lay down their knives. The box is opened and the thing inside has no time to rise. The long knife and the bowie go in together, in perfect time, and the Count is dust before the sun is off the road. Nobody is wounded.",
+          "outcome": "At a quarter past four the waggon comes round the bend into a clearing where nine men, one woman and four horses are already waiting. The Slovaks lay down their knives. The box is opened and the thing inside has no time to rise.",
           "nextNodeId": "ENDING_2D",
           "requires": {
             "all": [
@@ -2822,7 +2822,7 @@
       "options": [
         {
           "label": "Agree to stop. Put the thread away.",
-          "detail": "It is a bad bargain to go on selling the thing the other side is buying.",
+          "detail": "Give up the watch and the thread, and stop feeding what the Count is reading.",
           "stamps": {
             "nerve": 1,
             "fellowship": 1,
@@ -2832,7 +2832,7 @@
             "speaker": "Van Helsing",
             "text": "Madam Mina, you have more courage than all of us. To stop is also courage. I am glad of it."
           },
-          "outcome": "You hand over the watch and the thread. The house breathes out. For two days you do nothing but eat, sleep, and read a novel that Dr Seward lends you. The pressure at the back of your head eases. On the third day the Professor gives you a look which says that it will not last.",
+          "outcome": "You hand over the watch and the thread. The house breathes out. For two days you do nothing but eat, sleep, and read a novel that Dr Seward lends you. The pressure eases. On the third day the Professor gives you a look which says that it will not last.",
           "nextNodeId": "12C",
           "setFlags": [
             "tranceStopped"
@@ -2852,7 +2852,7 @@
             "speaker": "Van Helsing",
             "text": "At the edge of the day, with a witness and a wafer. It is a poor compromise, but it is a compromise."
           },
-          "outcome": "The first guarded session is short and bleak. The Professor times it by the church clock, and you come out of it with a headache and the name of a town: Galatz. Quincey takes the Host and places it on the windowsill. It is a small ritual, and it makes the room easier to sit in.",
+          "outcome": "The first guarded session is short and bleak. The Professor times it by the church clock, and you surface with a headache and the name of a town: Galatz. Quincey takes the Host and places it on the windowsill. It is a small ritual, and it makes the room easier to sit in.",
           "nextNodeId": "12C",
           "setFlags": [
             "tranceGuarded",
@@ -2864,7 +2864,7 @@
         },
         {
           "label": "Go on in secret, by yourself, in the small hours.",
-          "detail": "Nobody else can do it, and nobody else knows what it is like. You do not need a witness. You need the dark.",
+          "detail": "You alone can do it, and you alone know what it is like. You do not need a witness. You need the dark.",
           "stamps": {
             "nerve": -1,
             "blood": -2,
@@ -2949,7 +2949,7 @@
         },
         {
           "label": "Use the silence: he cannot see you, so seal what is left of his lairs at once.",
-          "detail": "A dark that goes both ways is a dark you can work in.",
+          "detail": "Seal the last lairs while he cannot see you. The quiet will not last.",
           "stamps": {
             "nerve": 2,
             "fellowship": 1,
@@ -2959,7 +2959,7 @@
             "speaker": "Quincey",
             "text": "If he has gone quiet, so much the better. A man who is not watching is a man who can be surprised."
           },
-          "outcome": "For three days the hunters empty the last cellars. Nobody is bitten. Nobody sees anything. On the fourth you stand together in the dusty yard of the last house with eight boxes sealed behind you, and the Professor says that there is nothing left in England that belongs to him.",
+          "outcome": "For three days the hunters empty the last cellars. No one is bitten, and nothing is seen. On the fourth you stand together in the dusty yard of the last house with eight boxes sealed behind you, and the Professor says that there is nothing left in England that belongs to him.",
           "nextNodeId": "13C",
           "setFlags": [
             "sealedLairs"
@@ -3233,7 +3233,7 @@
             "speaker": "Jonathan",
             "text": "Mina, say my name. Say it as many times as you like. I shall not mind. I shall be here."
           },
-          "outcome": "You walk the edge of the Host and say the names. Jonathan. The Professor. Lucy. Arthur and Quincey and Dr Seward. Your mother. Mrs Westenra. You say them all and begin again. The call at the back of your head thins and breaks, and by midnight you cannot hear it at all.",
+          "outcome": "You walk the edge of the Host and say the names. Jonathan. The Professor. Lucy. Arthur and Quincey and Dr Seward. Your mother. Mrs Westenra. You say them all and begin again. The call thins and breaks, and by midnight you cannot hear it at all.",
           "nextNodeId": "15C",
           "setFlags": [
             "namedThem"
@@ -3311,7 +3311,7 @@
         },
         {
           "label": "Have the Professor touch the Host to your forehead and cut the tie before you go any further.",
-          "detail": "Whatever he is, he will not see through you if you close the window yourself.",
+          "detail": "It ends his hold on you, and it ends your place in the hunt.",
           "stamps": {
             "nerve": -1,
             "blood": -2,
@@ -3341,7 +3341,7 @@
             "speaker": "The Count",
             "text": "At last. I knew you were a woman who understood these things. Come here and let me look at you."
           },
-          "outcome": "You walk to the box and kneel. The lid lifts and the pale hand comes out. You put your forehead against it, and say that you are tired and that you are ready to be his. His face, in the last light, is quite human. He is smiling. The long knife and the bowie come out of the trees together. His face does not change before the dust takes it.",
+          "outcome": "You walk to the box and kneel. The lid lifts and the pale hand comes out. You put your forehead against it, and say that you are tired and that you are ready to be his. His face, in the last light, is quite human. He is smiling. Two blades come out of the trees together. His face does not change before the dust takes it.",
           "nextNodeId": "ENDING_3C",
           "requiresFlag": "tieDeep",
           "requiresFlagHint": "NEEDS THE TIE TO BE DEEP ENOUGH TO BELIEVE",
@@ -3410,7 +3410,7 @@
       "options": [
         {
           "label": "Tell the officer a plain story: an inheritance, a missing coffin, a quarrel with a Hungarian solicitor.",
-          "detail": "The best lie for a customs house is a dull one with a lawyer in it.",
+          "detail": "A dull story with a lawyer in it. It will take an hour, and the barge will not wait.",
           "stamps": {
             "fellowship": 1
           },
@@ -3473,7 +3473,7 @@
       "id": "14B-X",
       "branch": "MODERN",
       "title": "A Sandbar at Noon",
-      "description": "The launch is stuck fast. The keel has found a bank of sand and gravel in the brown water, and Arthur has put the engine astern twice and then forward twice, and each time the boat has settled a little more. The barge with its four Slovaks goes by on the far side of the channel at walking pace. Jonathan has the rifle, and does not use it. There is a farmhouse on the bank and, in front of it, a man with a long pole who has been watching the whole thing with interest.",
+      "description": "The launch is stuck fast. The keel has found a bank of sand and gravel in the brown water, and Arthur has put the engine astern twice and then forward twice, and each time the boat has settled a little more. The barge with its four Slovaks goes by across the water at walking pace. Jonathan has the rifle, and does not use it. There is a farmhouse on the bank and, in front of it, a man with a long pole who has been watching the whole thing with interest.",
       "options": [
         {
           "label": "Lighten the launch: coal, cases and everything that can be tipped into the river.",
@@ -3538,7 +3538,7 @@
       "id": "13C-X",
       "branch": "TIE",
       "title": "What the Professor Wrote Down",
-      "description": "You wake on the floor of the hotel room with a cut lip, and the Professor is kneeling beside you with his notebook. He is writing very fast, and when he looks up his face is grey. You spoke for eleven minutes, he says, and not for the whole of it in your own voice. He has written down what was said. He has not decided whether you should see it. The window is open, and the gulls have stopped.",
+      "description": "You wake on the floor of the hotel room with a cut lip, and the Professor is kneeling beside you with his notebook. He is writing very fast, and when he looks up his face is grey. You spoke for eleven minutes, he says, and not for the whole of it in your own voice. He has written down what was said. He has not decided whether you should see it. The sash is up, and the gulls have stopped.",
       "options": [
         {
           "label": "Ask to see the notebook, and read it all.",
@@ -3572,7 +3572,7 @@
             "speaker": "Mina",
             "text": "Please put it away, Professor. Whatever it says, I shall act on what I know, and not on what I have said."
           },
-          "outcome": "He closes the notebook and puts it in his breast pocket, and you can hear that he is relieved. For the rest of the journey he is gentler with you than he has been. At night, in the next compartment, you hear him turning the pages.",
+          "outcome": "He closes the notebook and slips it inside his coat, and you can hear that he is relieved. For the rest of the journey he is gentler with you than he has been. At night, in the next compartment, you hear him turning the pages.",
           "nextNodeId": "14C",
           "setFlags": [
             "leftItUnread"
@@ -3618,7 +3618,7 @@
       "source": "The Pall Mall Gazette",
       "kind": "lore",
       "headline": "AN ESCAPED WOLF: THE ZOOLOGICAL GARDENS ALARMED",
-      "bodyText": "A grey wolf has escaped from the Zoological Gardens in Regent's Park. The animal, which had been quiet for months, was last seen on the night of the nineteenth, going north. A keeper who followed it as far as Primrose Hill says that it paid no attention to him at all, and ran like an animal that knew where it was going.\n\nResidents of Hampstead are asked to bolt their shutters. The Superintendent of the Gardens wishes it understood that the wolf is old, tame, and generally a gentle creature, and that it is not in the habit of breaking into houses."
+      "bodyText": "A grey wolf has escaped from the Zoological Gardens in Regent's Park. The animal, which had been quiet for months, was last seen on the night of the nineteenth, going north. A keeper who followed it as far as Primrose Hill says that it paid no attention to him at all, and ran like an animal that knew where it was going.\n\nResidents of Hampstead are asked to bolt their shutters. The Superintendent of the Gardens wishes it understood that the wolf is old, tame, and generally a gentle creature, and that it is not given to breaking into houses."
     },
     "LORE_BLOOFER": {
       "id": "LORE_BLOOFER",
@@ -3646,14 +3646,14 @@
       "source": "Dr Seward's Case-Book",
       "kind": "crisis",
       "headline": "MRS HARKER: A NOTE ON HER CONDITION",
-      "bodyText": "PURFLEET. I have been watching Mrs Harker for a week and must record that I do not like what I see. She sleeps for an hour at a time and wakes with her hand at her throat. She flinches when a door opens, and she has taken to writing in her sleep, in a shorthand I cannot read. The Professor says it is the strain, and that she is stronger than any of us.\n\nI do not doubt it. I also know what a mind looks like just before it breaks, and I have seen a good many. I have said nothing to her husband."
+      "bodyText": "PURFLEET. I have been watching Mrs Harker for a week and must record that I do not like what I see. She sleeps for an hour at a time and wakes with her hand at her throat. She flinches when a door opens, and she has taken to writing in her sleep, in a shorthand I cannot read. The Professor calls it the strain, and that she is stronger than any of us.\n\nI do not doubt it. I also know what a mind looks like just before it breaks, and I have seen a good many. I have said nothing to her husband."
     },
     "CRISIS_BLOOD": {
       "id": "CRISIS_BLOOD",
       "source": "Van Helsing's Notebook",
       "kind": "crisis",
       "headline": "PALLOR",
-      "bodyText": "I have asked Mrs Harker to lie down. She is white to the lips and her hands are cold. She says she is quite well and I do not believe her, and she knows I do not, and we have agreed not to discuss it. I have seen this colour before, in a house at Hillingham, on a young woman I could not save.\n\nI shall give her my blood if I must. I shall do it at once, without telling the others. A man who has done what I have done in his life cannot do less than this for the woman who has typed it."
+      "bodyText": "I have asked Mrs Harker to lie down. She is white to the lips and her hands are cold. She tells me she is perfectly well and I do not believe her, and she knows I do not, and we have agreed not to discuss it. I have seen this colour before, in a house at Hillingham, on a young woman I could not save.\n\nI shall give her my blood if I must. I shall do it at once, without telling the others. A man who has done what I have done in his life cannot do less than this for the woman who has typed it."
     },
     "CRISIS_FELLOWSHIP": {
       "id": "CRISIS_FELLOWSHIP",
@@ -3669,12 +3669,12 @@
       "title": "The Last Sunset",
       "kind": "narrative",
       "headline": "AMERICAN GENTLEMAN DIES IN THE CARPATHIANS",
-      "text": "The sun touches the ridge as the long knife touches the throat. The bowie goes into the heart a breath later, and the Count is dust before the lid has stopped moving. Quincey Morris is cut in the side and does not know how badly until he sits down. He dies at the foot of the pass an hour afterwards with his head on your arm. He says he is glad, and asks you to tell Arthur that it was no trouble. You bury him on the road to Bistritz. Jonathan holds your hand all the way down to Bistritz and says very little.",
+      "text": "The sun touches the ridge as the long knife touches the throat. The bowie goes into the heart a breath later, and the Count has turned to dust before the lid has stopped moving. Quincey Morris is cut in the side and does not know how badly until he sits down. He dies at the foot of the pass an hour afterwards with his head on your arm. He says he is glad, and asks you to tell Arthur that it was no trouble. You bury him on the road to Bistritz. Jonathan holds your hand all the way down to Bistritz and says very little.",
       "variants": [
         {
           "flag": "foreheadBurned",
           "headline": "DEATH OF A TEXAN: THE PASS AT BORGO",
-          "text": "The sun touches the ridge as the long knife touches the throat. The bowie goes in a breath later, and the Count is dust before the lid has stopped moving. At the same moment the scar on your forehead goes pale, and by evening there is nothing there but skin. Quincey Morris is cut in the side and does not know how badly until he sits down. He dies at the foot of the pass an hour afterwards with his head on your arm. He says he is glad. You bury him on the road to Bistritz."
+          "text": "The sun touches the ridge as the long knife touches the throat. The bowie goes in a breath later, and the Count has turned to dust before the lid has stopped moving. At the same moment the scar on your forehead goes pale, and by evening there is nothing there but skin. Quincey Morris is cut in the side and does not know how badly until he sits down. He dies at the foot of the pass an hour afterwards with his head on your arm. He says he is glad. You bury him on the road to Bistritz."
         }
       ]
     },
@@ -3688,7 +3688,7 @@
         {
           "flag": "priestBlessed",
           "headline": "THE PRIEST OF VARNA SAYS MASS FOR AN UNKNOWN MAN",
-          "text": "You read the committal from the Professor's prayer-book, with the priest's iron cross round your neck, and the men hold the road. When you reach the last words you hear the lid lift, and the voice in the box says one word, and it is thanks. Nobody strikes him. The dust comes by itself, slowly. At Varna, a fortnight later, the priest says a mass for him by name. He asks nobody what the name was. Quincey is alive, and Jonathan is alive, and the Professor says that he has never in his life been so wrong about the price of a mercy."
+          "text": "You read the committal from the Professor's prayer-book, with the priest's iron cross round your neck, and the men hold the road. When you reach the last words you hear the lid lift, and the voice in the box says one word, and it is thanks. Nobody strikes him. The dust comes by itself, slowly. At Varna, a fortnight later, the priest says a mass for him by name. He does not ask what the name was. Quincey is alive, and Jonathan is alive, and the Professor says that he has never in his life been so wrong about the price of a mercy."
         }
       ]
     },
@@ -3739,12 +3739,12 @@
       "title": "The River Takes the Box",
       "kind": "narrative",
       "headline": "BARGE SUNK ON THE SERETH: BOX NOT RECOVERED",
-      "text": "The box goes down with a sound like a door closing. Arthur lets out the chain. Nothing comes up, then or later. You stand on the deck of the launch until the ripples have all gone out to the banks. Nobody is hurt and nobody is dead, and the Professor says the river will keep what it is given for as long as it is a river. Dr Seward writes to a friend at the Danube Commission and asks, very mildly, whether anyone proposes to dredge the Sereth. He is told that nobody does.",
+      "text": "The box goes down with a sound like a door closing. Arthur lets out the chain. Nothing comes up, then or later. You stand on the deck of the launch until the ripples have all gone out to the banks. No one is hurt or dead, and the Professor says the river will keep what it is given for as long as it is a river. Dr Seward writes to a friend at the Danube Commission and asks, very mildly, whether anyone proposes to dredge the Sereth. He is told that nobody does.",
       "variants": [
         {
           "flag": "aheadOfBarge",
           "headline": "A LAUNCH CLEARS A RIVER NARROWS",
-          "text": "The box goes down with a sound like a door closing. Arthur lets out the chain. You were three bends ahead of the barge at the time and had two hours in hand, and when it was done you had four hours to wait for dusk on the bank. Nothing comes up. Nobody is hurt. The Professor says the river will keep what it is given as long as it is a river. Dr Seward writes to a friend at the Danube Commission and asks whether anyone proposes to dredge the Sereth. Nobody does."
+          "text": "The box goes down with a sound like a door closing. Arthur lets out the chain. You were three bends ahead of the barge at the time and had two hours in hand, and when it was done you had four hours to wait for dusk on the bank. Nothing comes up. No one is hurt. The Professor says the river will keep what it is given as long as it is a river. Dr Seward writes to a friend at the Danube Commission and asks whether anyone proposes to dredge the Sereth. Nobody does."
         }
       ]
     },
@@ -3753,7 +3753,7 @@
       "title": "The Sealed Hold",
       "kind": "narrative",
       "headline": "CUSTOMS SHED INCIDENT AT GALATZ",
-      "text": "The harbour master asks what the powder is. The clerk, writing, says that he supposes it is the packing. The box is opened in the presence of two witnesses and the seal is broken in daylight, and nobody has to cut anything. You sign the report as a witness. In the margin the harbour master has written, in careful English, that the consignment was unfit for transit. It is a good deal better than anything that was said at Whitby. The Professor shakes your hand outside, in the sun, and tells you that this is the best day's work in the case.",
+      "text": "The harbour master asks what the powder is. The clerk, writing, says that he supposes it is the packing. The box is opened in the presence of two witnesses and the seal is broken in daylight, and nothing has to be cut. You sign the report as a witness. In the margin the harbour master has written, in careful English, that the consignment was unfit for transit. It is a good deal better than anything that was said at Whitby. The Professor shakes your hand outside, in the sun, and tells you that this is the best day's work in the case.",
       "variants": [
         {
           "flag": "telegramNet",
@@ -3767,12 +3767,12 @@
       "title": "The Last Dispatch",
       "kind": "narrative",
       "headline": "FOUR PARTIES MEET AT A BRIDGE: ONE NOBLEMAN DEAD, NONE INJURED",
-      "text": "Nobody is wounded. The long knife and the bowie go in together in perfect time, and the Count is dust before the sun is off the road. The four parties had arrived within a minute of each other from four directions on a road with no signposts, and when Quincey is asked how, he points at you. \"She said the fourteenth bridge,\" he says. \"It was the fourteenth bridge.\" You file the account in triplicate. The Professor frames one copy. Your son, born the following year, is given all their names. He is told about this at bedtime, and grows up thinking that timetables are the stuff of legend.",
+      "text": "Not a man is wounded. Both blades go in together, in perfect time, and the Count has turned to dust before the sun has left the road. The four parties had arrived within a minute of each other from four directions on a road with no signposts, and when Quincey is asked how, he points at you. \"She said the fourteenth bridge,\" he says. \"It was the fourteenth bridge.\" You file the account in triplicate. The Professor frames one copy. Your son, born the following year, is given all their names. He is told about this at bedtime, and grows up thinking that timetables are the stuff of legend.",
       "variants": [
         {
           "flag": "detectiveHired",
           "headline": "A PLAIN MAN IN A BOWLER HAT PAID IN FULL",
-          "text": "Nobody is wounded. The long knife and the bowie go in together, and the Count is dust before the sun is off the road. The four parties arrive within a minute of each other, and an inquiry agent in a bowler hat, who has been following the carters for three weeks, watches from a hedge with a notebook. You pay him afterwards. He asks no questions. He never discovers what he has been paid for, and his notes are sold for waste paper in 1923."
+          "text": "Not a man is wounded. Both blades go in together, and the Count has turned to dust before the sun has left the road. The four parties arrive within a minute of each other, and an inquiry agent in a bowler hat, who has been following the carters for three weeks, watches from a hedge with a notebook. You pay him afterwards. He asks no questions. He never discovers what he has been paid for, and his notes are sold for waste paper in 1923."
         }
       ]
     },
@@ -3851,7 +3851,7 @@
       "title": "Every Hand Alone",
       "kind": "failure",
       "headline": "SOCIETY OF GENTLEMEN DISSOLVES: THE COUNT AT LARGE",
-      "text": "By the end of October the party that met in Dr Seward's study has gone its separate ways. Arthur is at Ring, putting his father's estate in order. Quincey has gone back to Texas. Dr Seward has taken a post in the north, and the Professor is in Amsterdam, writing to nobody. Jonathan is in Exeter, at Mr Hawkins's old desk, and you keep the typescript in a locked drawer. Somewhere in the Black Sea a steamer is making good time with a single box. Nobody is at the quay in Varna to meet it. Nobody at all."
+      "text": "By the end of October the party that met in Dr Seward's study has gone its separate ways. Arthur is at Ring, putting his father's estate in order. Quincey has gone back to Texas. Dr Seward has taken a post in the north, and the Professor is in Amsterdam, writing letters he does not send. Jonathan is in Exeter, at Mr Hawkins's old desk, and you keep the typescript in a locked drawer. Somewhere in the Black Sea a steamer is making good time with a single box. Nobody is at the quay in Varna to meet it. Nobody at all."
     }
   }
 }

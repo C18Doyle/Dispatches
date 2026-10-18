@@ -1,7 +1,22 @@
 {
   "loreInterlude": "LORE_DEMETER",
   "entryInterlude": "TRANSITION_COUNCIL",
-  "decisionNodes": ["7", "7-COUNCIL"],
-  "engineFlags": ["tookRemedy"],
-  "demoLocks": ["8A", "8B", "8C"]
+  "decisionNodes": [
+    "7",
+    "7-COUNCIL"
+  ],
+  "engineFlags": [
+    "tookRemedy"
+  ],
+  "demoLocks": [
+    "8A",
+    "8B",
+    "8C"
+  ],
+  "alternativeNodes": [
+    [
+      "4",
+      "4-HOME"
+    ]
+  ]
 }

@@ -28,11 +28,22 @@ import type { ScoreMood } from "./score";
 import RouteMap from "./RouteMap";
 import { BatMark, ResourceIcon, SceneBanner, TitleScene } from "./art";
 import { THEMES, applyTheme, loadTheme, saveTheme } from "./theme";
+import { CAN_SWITCH_SEAT, SEATS, switchSeat } from "./seats";
+import { makeCard, shareOrSave } from "./card";
 
 type Resource = string;
 type FontSize = UiPrefs["fontSize"];
 
 const TOTAL_ENDINGS = Object.keys(def.content.endings).length;
+/** Which picture a scene gets: the seat's map says where each scene is set, or, for a seat with no map, its art table. */
+function placeFor(nodeId: string): string {
+  return ui.art?.at[nodeId] ?? ui.map?.at[nodeId] ?? ui.art?.defaultAt ?? ui.map?.defaultAt ?? "";
+}
+function endingPlace(endingId: string | null): string {
+  if (!endingId) return "dawn";
+  return ui.art?.endings?.[endingId] ?? `end-${endingId}`;
+}
+
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
 /** Which kind of paper a document is printed on: a newspaper, a letter or a page of someone's notebook. */
@@ -461,7 +472,7 @@ export default function App() {
   }, [screen, state.pendingOutcomeKind]);
 
   // The sound of the place a scene is set in, once as you arrive; a heartbeat under it when a reserve is at the brink.
-  const placeNow = ui.map && screen === "NODE" ? ui.map.at[state.currentNodeId] ?? ui.map.defaultAt : "";
+  const placeNow = screen === "NODE" ? placeFor(state.currentNodeId) : "";
   useEffect(() => {
     if (!prefs.sfxEnabled || screen !== "NODE" || !placeNow) return;
     const v = prefs.sfxVolume;
@@ -796,7 +807,7 @@ export default function App() {
     content = (
       <div className="min-h-screen flex flex-col">
         <div className="relative">
-          <TitleScene />
+          <TitleScene variant={ui.art?.title ?? "castle"} />
           <div className="absolute inset-x-0 bottom-0 px-4 pb-1 text-center">
             <p className="title-kicker font-heading text-[0.65rem] uppercase tracking-[0.5em] mb-1">A Dispatches Chronicle</p>
             <h1 className="title-text flicker font-display text-6xl sm:text-7xl font-bold leading-none mb-2">
@@ -867,6 +878,20 @@ export default function App() {
               {endingsSeen.size} / {TOTAL_ENDINGS} Endings Discovered
             </p>
           )}
+          {CAN_SWITCH_SEAT && ui.switchSeat && SEATS[ui.switchSeat.to] && (
+            <div className="mt-8 pt-5 border-t border-brass-dim/40">
+              <button
+                onClick={() => {
+                  select();
+                  switchSeat(ui.switchSeat!.to);
+                }}
+                className="px-6 py-2.5 border border-brass text-bone font-heading uppercase text-xs tracking-[0.2em] hover:bg-brass hover:text-on-brass transition-colors"
+              >
+                {ui.switchSeat.label}
+              </button>
+              <p className="mt-2 text-ash text-sm italic max-w-xs mx-auto">{ui.switchSeat.note}</p>
+            </div>
+          )}
           <p className="mt-8 font-body italic text-ash text-sm">
             {ui.tagline}
           </p>
@@ -879,7 +904,7 @@ export default function App() {
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
           <div className="-mx-8 -mt-8 sm:-mx-10 sm:-mt-10 mb-6 border-b border-ink/70 overflow-hidden">
-            <SceneBanner place={ui.map ? ui.map.at[def.content.startNodeId] ?? ui.map.defaultAt : ""} />
+            <SceneBanner place={placeFor(def.content.startNodeId)} />
           </div>
           <h1 className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-5">{ui.prologueHeading}</h1>
           <div className="space-y-4 text-[1.05rem] leading-relaxed">
@@ -1011,7 +1036,7 @@ export default function App() {
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
           <div className="-mx-8 -mt-8 sm:-mx-10 sm:-mt-10 mb-6 border-b border-ink/70 overflow-hidden">
-            <SceneBanner place={state.endingId ? `end-${state.endingId}` : "dawn"} />
+            <SceneBanner place={endingPlace(state.endingId)} />
           </div>
           <p className={`font-heading text-xs uppercase tracking-[0.3em] font-bold mb-2 ${isFailure ? "text-blood" : "text-brass-dim"}`}>
             {isFailure ? ui.endText.collapsed : ui.endText.closed}
@@ -1157,6 +1182,37 @@ export default function App() {
               className="px-5 py-2.5 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
             >
               Copy Summary
+            </button>
+            <button
+              onClick={async () => {
+                click();
+                const blob = await makeCard(
+                  {
+                    seatTitle: ui.title,
+                    seatSubtitle: ui.subtitle,
+                    kindLabel: isFailure ? ui.endText.collapsed : ui.endText.closed,
+                    title: ending.title,
+                    headline: ending.headline,
+                    remembered: ending.epilogueLabel ? `${ui.endText.remembered}: ${ending.epilogueLabel}` : undefined,
+                    stats: [
+                      { label: "Track", value: BRANCH_LABELS[state.activeBranch]?.split("· ")[1] ?? state.activeBranch },
+                      { label: "Choices", value: String(state.history.length) },
+                      { label: "Difficulty", value: DIFFICULTY_INFO[state.difficulty].label },
+                    ],
+                    reserves: RESOURCE_IDS.map((r) => ({ label: RESOURCE_LABELS[r], value: `${state.resources[r] > 0 ? "+" : ""}${state.resources[r]}` })),
+                    footer: `dispatches.itch.io/dispatches-dracula  ·  ${endingsSeen.size} of ${TOTAL_ENDINGS} endings found`,
+                  },
+                  document.querySelector<SVGSVGElement>("main .art-banner"),
+                );
+                if (!blob) {
+                  setCopyNote("Could not make the card.");
+                  return;
+                }
+                setCopyNote(await shareOrSave(blob, `${def.config.id}-${(state.endingId ?? "ending").toLowerCase()}.png`, `${ui.title}: ${ending.title}`));
+              }}
+              className="px-5 py-2.5 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
+            >
+              Save Card
             </button>
             <span role="status" className="text-sm text-ink-soft">
               {copyNote}
@@ -1488,7 +1544,7 @@ export default function App() {
             <CornerFlourishes />
             <div className="-mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-5 border-b border-ink/70 overflow-hidden">
               <SceneBanner
-                place={ui.map ? ui.map.at[state.currentNodeId] ?? ui.map.defaultAt : ""}
+                place={placeFor(state.currentNodeId)}
                 tint={dread === 2 ? "dread" : node.options.some((o) => o.tag === "dawn") ? "dawn" : undefined}
               />
             </div>

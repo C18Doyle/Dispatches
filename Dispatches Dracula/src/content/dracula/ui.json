@@ -503,5 +503,11 @@
       "sealed": "sealed by the hunters",
       "safe": "boxes safe here"
     }
-  }
+  },
+  "switchSeat": {
+    "to": "mina",
+    "label": "Play as Mina Harker",
+    "note": "The same weeks, from the other side: her journal, her typewriter, her choices."
+  },
+  "defaultTheme": "blood"
 }
