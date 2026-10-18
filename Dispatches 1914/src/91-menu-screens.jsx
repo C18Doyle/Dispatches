@@ -7,6 +7,15 @@
 // How to play, reached from Settings, holds what the game is and what it leaves out; Settings holds what is kept on the device.
 // The text is in 66-briefings.jsx and 60-glossary.jsx.
 
+// The free demo (build.mjs makes it with DEMO_BUILD true): one command, its first DEMO_DECISIONS orders, the standard file only, and an ending screen that
+// points to the full game. The French command is the demo because its first six orders carry the whole game in small: contested orders, the staff's
+// beliefs, the Marne as an Order of Battle, and a front that moves. RIG is the battle rig (DEV_RIG true, dist/rig): a menu entry that opens any battle at once.
+const DEMO = DEMO_BUILD;
+const DEMO_COMMAND = "gqg";
+const DEMO_DECISIONS = 6;
+const FULL_GAME_URL = "https://dispatches.itch.io/dispatches-1914";
+const RIG = DEV_RIG;
+
 const SIDES = [
   { id: "central", label: "The Central Powers", ids: ["ohl", "aok", "otto"] },
   { id: "entente", label: "The Entente", ids: ["gqg", "stavka", "bef"] },
@@ -19,7 +28,7 @@ function commandProgress(record, cid) {
   return { seen, best: best ? best.rank : null };
 }
 
-function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscard, record }) {
+function MenuScreen({ onPick, onRecord, onSettings, onRig, savedRun, onResume, onDiscard, record }) {
   const saved = useMemo(() => {
     if (!savedRun) return null;
     try {
@@ -31,7 +40,7 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
   const card = (cid) => {
     const c = CAMPAIGNS[cid];
     const b = BRIEFINGS[cid];
-    const playable = Object.keys(c.nodes).length > 0;
+    const playable = Object.keys(c.nodes).length > 0 && (!DEMO || cid === DEMO_COMMAND);
     const p = commandProgress(record, cid);
     return (
       <button key={cid} className="dg-cmd" disabled={!playable} onClick={() => playable && onPick(cid)}>
@@ -40,11 +49,12 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
         <span className="dg-cmd-body">
           <span className="dg-cmd-nation">{b.nation}</span>
           <span className="dg-cmd-quote">{"\u201C"}{b.quote.text}{"\u201D"}</span>
-          <span className="dg-cmd-by">{b.quote.by}<span className="dg-cmd-qdate">{b.quote.date}</span></span>
+          <span className="dg-cmd-by">{b.quote.by}</span>
           <span className="dg-cmd-meta">
             {nodeDate(cid, c.span.from)}
             {p.best ? ` \u00B7 best rank ${p.best}` : ""}
           </span>
+          {DEMO && cid !== DEMO_COMMAND && <span className="dg-cmd-locked">In the full game</span>}
         </span>
       </button>
     );
@@ -55,6 +65,7 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
       <p className="dg-sub">{"\u201C"}This war, like the next war, is a war to end war.{"\u201D"}</p>
       <p className="dg-sub-by">David Lloyd George<span>1916</span></p>
       <hr className="dg-rule" />
+      {DEMO && <p className="dg-demo-note"><b>Free demo.</b> Play the first {DEMO_DECISIONS} orders of the French command. The full game has six commands and 71 endings.</p>}
 
       {saved && (
         <section className="dg-banner" aria-label="Saved file">
@@ -78,23 +89,27 @@ function MenuScreen({ onPick, onRecord, onSettings, savedRun, onResume, onDiscar
       <nav className="dg-nav" aria-label="The game">
         <button className="dg-navbtn" onClick={onRecord}><b>War record</b></button>
         <button className="dg-navbtn" onClick={onSettings}><b>Settings</b></button>
+        {RIG && <button className="dg-navbtn" onClick={onRig}><b>Battle rig</b></button>}
       </nav>
     </main>
   );
 }
 
-const MODE_ROWS = [
-  { id: "easy", label: "Easy mode", text: "Shows what each order will do and lets you take back the last order. It cannot reach the highest rank." },
-  { id: "standard", label: "Standard", text: null },
-  { id: "hard", label: "Hard mode", text: null },
-];
+const MODE_ROWS = [{ id: "easy", label: "Easy mode" }, { id: "standard", label: "Standard" }, { id: "hard", label: "Hard mode" }];
+
+/** What a file's mode changes, as short bullets (the numbers are INTEL.checks and INTEL.hardChecks, 68-intel.jsx, and the command's own erosion track). */
+function modeBullets(mode, c) {
+  const track = c.hardMode.description.charAt(0).toLowerCase() + c.hardMode.description.slice(1).replace(/\.$/, "");
+  if (mode === "easy") return ["Each order shows what it will do to the meters", "The staff's reading is plain, with no fog", "The last order can be taken back", "The highest rank is out of reach"];
+  if (mode === "hard") return [`An erosion track: ${track}`, `${INTEL.hardChecks} checks on the staff's beliefs, not ${INTEL.checks}`, "Some endings are reached only here"];
+  return ["Orders show their odds in words", `${INTEL.checks} checks on the staff's beliefs`, "An order cannot be taken back"];
+}
 
 function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnter, onBack }) {
   const c = CAMPAIGNS[campaignId];
   const b = BRIEFINGS[campaignId];
   const first = useMemo(() => resolveNode(c.startNode, {}, emptyMeters(), emptyHardState()), [campaignId]);
-  const modeText = (row) => (row.id === "hard" ? `Adds an erosion track: ${c.hardMode.description.charAt(0).toLowerCase()}${c.hardMode.description.slice(1)}` : row.text);
-  const note = modeText(MODE_ROWS.find((r) => r.id === mode));
+  const bullets = modeBullets(mode, c);
   return (
     <main {...rootProps(campaignId, "briefing")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -114,15 +129,21 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
       <p className="dg-prose dg-brief">{b.seat}</p>
 
       <h2 className="dg-sect">Set up the file</h2>
-      <div className="dg-seg" role="group" aria-label="Difficulty">
-        {MODE_ROWS.map((row) => (
-          <button key={row.id} className="dg-mode" aria-pressed={mode === row.id} onClick={() => onMode(row.id)}>
-            {b.modes[row.id] && <span className="dg-mode-name">{b.modes[row.id]}</span>}
-            <span className="dg-mode-tag">{row.label}</span>
-          </button>
-        ))}
-      </div>
-      {note && <p className="dg-note" aria-live="polite">{note}</p>}
+      {!DEMO && (
+        <>
+          <div className="dg-seg" role="group" aria-label="Difficulty">
+            {MODE_ROWS.map((row) => (
+              <button key={row.id} className="dg-mode" data-mode={row.id} aria-pressed={mode === row.id} onClick={() => onMode(row.id)}>
+                {b.modes[row.id] && <span className="dg-mode-name">{b.modes[row.id]}</span>}
+                <span className="dg-mode-tag">{row.label}</span>
+              </button>
+            ))}
+          </div>
+          <ul className="dg-bullets" data-mode={mode} aria-live="polite">
+            {bullets.map((t) => <li key={t}>{t}</li>)}
+          </ul>
+        </>
+      )}
       <label className={"dg-planstamp" + (settings.battles !== false ? " on" : "")}>
         <input type="checkbox" checked={settings.battles !== false} onChange={(e) => onSettings({ ...settings, battles: e.target.checked })} />
         <span className="dg-planstamp-text">Take control of battle planning</span>
@@ -132,12 +153,6 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
       <button className="dg-btn dg-go" onClick={onEnter}>Enter the war room</button>
     </main>
   );
-}
-
-/** The music switch, on every screen, at the top left. */
-function MusicToggle({ settings, onSettings }) {
-  const on = settings.music !== false;
-  return <button className="dg-musicbtn" onClick={() => onSettings({ ...settings, music: !on })}>{on ? "Music on" : "Music off"}</button>;
 }
 
 /** Reads a report aloud with the browser's own voice, where it has one. */
@@ -159,6 +174,62 @@ function ReadAloud({ id, text }) {
     setOn(true);
   };
   return <button className="dg-btn dg-read" onClick={toggle}>{on ? "Stop reading" : "Read aloud"}</button>;
+}
+
+/** The end of the free demo: where the file stops, and what the full game is. */
+function DemoEndScreen({ campaignId, onHome }) {
+  const c = CAMPAIGNS[campaignId];
+  return (
+    <main {...rootProps(campaignId, "demoend")}>
+      <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
+      <div className="dg-docrow"><span>{c.docLabel} · END OF THE DEMO</span></div>
+      <h1 className="dg-node-title">The demo ends here</h1>
+      <p className="dg-prose dg-lede">You have given the first {DEMO_DECISIONS} orders of the French command, from the covering of the frontier to the race to the sea. The war has four years to run, and the file goes on to Verdun, the Nivelle offensive, the mutinies and the armistice.</p>
+      <p className="dg-prose">The full game has six headquarters (German, French, Russian, British, Austro-Hungarian and Ottoman), over 200 decisions and 71 endings, with real documents at the head of the reports, the Order of Battle, and the Easy and Hard files.</p>
+      <p><a className="dg-btn dg-go dg-link" href={FULL_GAME_URL} target="_blank" rel="noopener noreferrer">Get the full game</a></p>
+      <button className="dg-btn" onClick={onHome}>Back to the commands</button>
+    </main>
+  );
+}
+
+/** The battle rig (a dev build only): every Order of Battle in a list, to open at once with the enemy's setup, the strain on the command and the mode chosen. */
+function BattleRigScreen({ onFight, onBack }) {
+  const list = Object.values(BATTLES);
+  const [pick, setPick] = useState({});
+  const [strain, setStrain] = useState("mid");
+  const [easy, setEasy] = useState(false);
+  const LEVEL = { low: -4, mid: 0, high: 4 };
+  const meters = { manpower: LEVEL[strain], munitions: LEVEL[strain], will: LEVEL[strain] };
+  return (
+    <main {...rootProps(null, "rig")}>
+      <div className="dg-filerow"><span /><button className="dg-btn" onClick={onBack}>Back</button></div>
+      <h1 className="dg-title dg-title-sm">Battle rig</h1>
+      <p className="dg-note">Each battle opens at its own report. The settings below apply to all.</p>
+      <div className="dg-seg" role="group" aria-label="The meters">
+        {[["low", "Meters low"], ["mid", "Meters level"], ["high", "Meters high"]].map(([id, label]) => (
+          <button key={id} aria-pressed={strain === id} onClick={() => setStrain(id)}>{label}</button>
+        ))}
+      </div>
+      <label className="dg-check"><input type="checkbox" checked={easy} onChange={(e) => setEasy(e.target.checked)} /><span>Easy mode (the hints show)</span></label>
+      {list.map((cfg) => {
+        const host = buildNodeAtlas()[cfg.host.node];
+        return (
+          <section key={cfg.id} className="dg-rigrow" style={{ "--accent": "var(--acc-" + cfg.campaign + ")" }}>
+            <div className="meta">{CAMPAIGNS[cfg.campaign].shortName}{host ? " · " + nodeDate(cfg.campaign, host.date) : ""}</div>
+            <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
+            <label className="dg-rigsel">
+              <span>The enemy</span>
+              <select value={pick[cfg.id] || ""} onChange={(e) => setPick({ ...pick, [cfg.id]: e.target.value })}>
+                <option value="">Drawn at random</option>
+                {cfg.postures.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+            </label>
+            <button className="dg-btn" onClick={() => onFight({ cfg, postureId: pick[cfg.id] || null, meters, easy })}>Fight this battle</button>
+          </section>
+        );
+      })}
+    </main>
+  );
 }
 
 function HowToScreen({ onBack }) {

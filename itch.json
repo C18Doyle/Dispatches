@@ -1,8 +1,13 @@
 {
   "1914": {
-    "target": "dispatches/dispatches-1914",
-    "channels": {
-      "web": "web"
+    "pushes": {
+      "demo": [
+        "dispatches/dispatches-1914:web-demo"
+      ],
+      "full": [
+        "dispatches/dispatches-1914:download-full",
+        "dispatches/dispatches-1914-confidential:web-full"
+      ]
     }
   },
   "1922": {

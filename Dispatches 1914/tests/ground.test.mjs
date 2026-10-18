@@ -88,7 +88,7 @@ async function resume(saved) {
   await ctx.click(btn(ctx, /^Continue$/));
   const t = ctx.text();
   check(!!ctx.d.querySelector('[data-screen="event"]') && /Le Temps/.test(t) && /Salonika Army Finds No Enemy/.test(t), "newspaper: a speculative order brings a front page from another front before the next report");
-  check(/Speculative/.test(t) && !!ctx.d.querySelector(".dg-paper"), "newspaper: it has a masthead and is written as speculative");
+  check(!/Speculative/.test(t) && !!ctx.d.querySelector(".dg-paper-mast") && /Saturday|Monday|Tuesday|Wednesday|Thursday|Friday|dimanche|lundi|mardi|mercredi|jeudi|vendredi|samedi/.test(ctx.d.querySelector(".dg-paper-date").textContent) && /not from the record/.test(t), "newspaper: a masthead, a dateline with the weekday, no label at the top and a line at the foot that it is from the file");
   await ctx.click(btn(ctx, /^Continue$/));
   check(!/Le Temps/.test(ctx.text()) && /The Meuse/.test(ctx.text()) && orders(ctx).length >= 1, "newspaper: and then the report follows, and the paper is not shown again");
   ctx.restore();
