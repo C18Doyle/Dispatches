@@ -528,6 +528,8 @@ export function App() {
         <FrontMapScreen
           campaignId={campaignId}
           visitedNodes={visitedNodes}
+          flags={flags}
+          meters={meters}
           skin={skinFor(campaignId)}
           onClose={() => setScreen("briefing")}
         />

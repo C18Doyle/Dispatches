@@ -30,10 +30,10 @@
     "read": "search summary"
   },
   "wp-supreme-ruler": {
-    "title": "Supreme Ruler of Russia",
+    "title": "Supreme Ruler of Russia (Wikipedia), the statement on assuming power; the page cites no source for the translation",
     "kind": "web (tertiary)",
     "url": "https://en.wikipedia.org/wiki/Supreme_Ruler_of_Russia",
-    "read": "search summary"
+    "read": "page"
   },
   "frus-denikin-1919": {
     "title": "FRUS 1919 Russia: telegram reporting Denikin's speech of 12 June 1919",
@@ -375,6 +375,42 @@
     "title": "History of the Civil War in the USSR, vol. 2, ch. 4 (marxists.org)",
     "kind": "book (online, Soviet-era)",
     "url": "https://www.marxists.org/history/ussr/events/civilwar/history-civil-war/vol2/ch04-5.htm",
+    "read": "search summary"
+  },
+  "msu-kornilov-response": {
+    "title": "Kornilov Responds to Kerenskii (Browder and Kerensky, The Russian Provisional Government 1917: Documents, vol. 3, pp. 55-57), soviethistory.msu.edu",
+    "kind": "web (documents collection)",
+    "url": "https://soviethistory.msu.edu/1917/kornilov-affair/kornilov-affair-texts/kornilov-responds-to-kerenskii/",
+    "read": "page"
+  },
+  "markovtsy-moscow-campaign": {
+    "title": "Markovtsy in the Moscow campaign (pygmywars.com PDF), translation of the opening of Denikin's directive",
+    "kind": "web (campaign history, translation)",
+    "url": "https://www.pygmywars.com/rcw/history/markovtsy/markovtsy_moscow_campaign.pdf",
+    "read": "search summary"
+  },
+  "rbth-last-chance": {
+    "title": "How the last chance to overthrow the Bolsheviks in Russia failed (RBTH): the directive number and Wrangel's later judgement",
+    "kind": "web (news feature)",
+    "url": "https://www.rbth.com/history/332951-last-chance-to-overthrow-bolsheviks",
+    "read": "search summary"
+  },
+  "libcom-kronstadt": {
+    "title": "1921: The Kronstadt rebellion (libcom.org, from the anarchist FAQ, after Ida Mett)",
+    "kind": "web (partisan, translation)",
+    "url": "https://libcom.org/article/1921-kronstadt-rebellion",
+    "read": "search summary"
+  },
+  "wp-revvoensovet": {
+    "title": "Revolutionary Military Council (Wikipedia)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Revolutionary_Military_Council",
+    "read": "search summary"
+  },
+  "ipn-tukhachevsky-order": {
+    "title": "The War of the Worlds (Institute of National Remembrance, Poland): Tukhachevsky's order of 2 July 1920",
+    "kind": "web (institutional)",
+    "url": "https://ipn.gov.pl/en/news/9778,The-War-of-the-Worlds.pdf",
     "read": "search summary"
   }
 }
