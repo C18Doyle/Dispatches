@@ -1016,7 +1016,7 @@ BATTLES.caporettoAustro = {
   title: "Order of Battle: Caporetto",
   flavor:
     "Nine Austro-Hungarian and six to eight German divisions are to be made into a new Fourteenth Army under Otto von Below, to break the Italian line at the northern end of the " +
-    "Isonzo front. The Italians hold the heights in a line packed forward. What has to be planned is how the blow is struck: by the guns and the gas, by infantry that goes round the strong points, or by the pursuit afterwards.",
+    "Isonzo front. The Italians hold the heights in a line packed forward. What has to be planned is how the blow is struck: by the guns and the gas, by infantry that goes round the strong points, or by the pursuit that follows.",
   conditions:
     "Late October in the Julian Alps: mist in the valley, no wind on the morning of the attack, and the date put back two days by the weather and by guns not yet in place.",
   categories: [

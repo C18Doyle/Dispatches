@@ -36,6 +36,7 @@ const css = `
   ${themeCss()}
   .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
   [data-font="typewriter"] .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
+  [data-font="dyslexia"] .dg-root{--mono:"OpenDyslexic","Lexend","Atkinson Hyperlegible",Verdana,"Trebuchet MS",sans-serif;line-height:1.9;letter-spacing:.05em;word-spacing:.16em}
   [data-font="plain"] .dg-root{--mono:"Atkinson Hyperlegible","Segoe UI",Verdana,Tahoma,sans-serif;line-height:1.72;letter-spacing:.012em;word-spacing:.06em}
   /* reading comfort (Settings): line spacing, line length and motion, after the type so they win */
   [data-spacing="roomy"] .dg-root{line-height:1.85;letter-spacing:.02em;word-spacing:.08em}
@@ -300,6 +301,12 @@ const css = `
     background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:15px;box-shadow:inset 0 0 0 2px var(--paper)}
   .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
   .dg-mw-ctx{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+  #root{position:relative}
+  .dg-musicwrap{position:absolute;top:6px;left:8px;z-index:20}
+  [data-screen="menu"] .dg-title{margin-top:52px}
+  .dg-musicbtn{min-height:40px;padding:0 12px;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--paper);border:1.5px solid var(--rule);cursor:pointer}
+  .dg-musicbtn:hover{background:var(--paper-raised)}
+  .dg-read{margin:0 0 14px}
   .dg-agreed{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
   .dg-dossier summary{display:flex;align-items:center;border:0;padding:0;margin:0;background:none}
   .dg-dossier summary:hover{background:none;color:inherit}
@@ -694,6 +701,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </div>
       )}
 
+      <ReadAloud id={nodeId} text={[node.title, documentOf(nodeId) ? documentOf(nodeId).by + ". " + documentOf(nodeId).text : "", String(node.situation || "").replace(/\s+/g, " ")].filter(Boolean).join(". ")} />
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
       {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
@@ -797,7 +805,7 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
               ))}
             </ul>
             {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
-            {informed && <p className="dg-note">The staff had checked its reading and had a better idea of what it was facing.</p>}
+            {informed && <p className="dg-note">The staff had checked its reading.</p>}
           </section>
           {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
             <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} flags={flags} />
@@ -902,7 +910,7 @@ function RecordScreen({ record, onBack }) {
 
       {tab === "glossary" && (
         <section>
-          <p className="dg-note">Words and places in the files. In the story text, the first mention of each on a screen is underlined: press it for the definition.</p>
+          <p className="dg-note">Underlined words in a report open their definition.</p>
           {[...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term)).map((g) => (
             <div key={g.id} className="dg-entry">
               <div className="t">{g.term.replace(/(^|[\s-])([a-z])/g, (m, a, b) => a + b.toUpperCase())}</div>
@@ -914,7 +922,6 @@ function RecordScreen({ record, onBack }) {
 
       {tab === "battles" && (
         <section>
-          <p className="dg-note">The battles that open on an Order of Battle. Each keeps your best grade.</p>
           {Object.values(BATTLES).map((cfg) => {
             const f = fought[cfg.id];
             const c = CAMPAIGNS[cfg.campaign];
@@ -1059,7 +1066,7 @@ export default function App() {
       const theme = resolveTheme(settings.theme || DEFAULT_THEME, mq("(prefers-color-scheme: dark)"), mq("(prefers-contrast: more)"));
       const root = document.documentElement;
       root.setAttribute("data-theme", theme);
-      root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" ? settings.font : "theme");
+      root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" || settings.font === "dyslexia" ? settings.font : "theme");
       root.setAttribute("data-spacing", settings.spacing || "standard");
       root.setAttribute("data-measure", settings.measure || "standard");
       root.setAttribute("data-motion", settings.motion || "auto");
@@ -1074,6 +1081,11 @@ export default function App() {
   }, [settings.theme, settings.font, settings.spacing, settings.measure, settings.motion]);
   // the soundtrack follows the settings, and starts on the first tap or key because the browser will not start it before then
   useEffect(() => { musicApply(settings.music !== false, typeof settings.musicVolume === "number" ? settings.musicVolume : 0.5); }, [settings.music, settings.musicVolume]);
+  useEffect(() => {
+    const vis = () => musicHidden(document.hidden);
+    document.addEventListener("visibilitychange", vis);
+    return () => document.removeEventListener("visibilitychange", vis);
+  }, []);
   useEffect(() => {
     const opts = { once: true, capture: true };
     const go = () => musicResume();
@@ -1238,6 +1250,7 @@ export default function App() {
   return (
     <div className={`dg-fs-${settings.textSize}`} style={{ display: "contents" }}>
       <style>{css}</style>
+      <div className="dg-root dg-musicwrap" style={{ background: "transparent", backgroundImage: "none", width: "auto", minHeight: 0, padding: 0, margin: 0, border: 0, boxShadow: "none" }}><MusicToggle settings={settings} onSettings={setSettings} /></div>
       {screen === "menu" && (
         <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} savedRun={savedRun}
           onResume={resume} onDiscard={discard} onSettings={() => openAside("settings")} record={record} />

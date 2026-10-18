@@ -112,7 +112,7 @@ EVENTS.push(
     "In London the Derby scheme is extended, and the newspapers that want conscription say so in the first column."),
   NEWS("bef_newscalais", "bef", "Le Temps", "Paris", "bef_1917_14_convoy", "1917-02-27", "1917-05-31", "1917-03-20", "London Declines to Serve under Nivelle",
     ["bef_calais", "refused"],
-    "Speculative. The British army will not be put under the French commander-in-chief, and the French newspapers say so before the French government has been told. The Prime Minister is embarrassed and the French staff has a grievance it will remember.",
+    "Speculative. The British army will not be put under the French commander-in-chief, and the French newspapers say so before the French government has been told. The Prime Minister is embarrassed and the French staff has a grievance.",
     "Nivelle plans his offensive with an ally who has agreed to coordinate and has not agreed to obey."),
   NEWS("bef_newsreserve", "bef", "The Times", "London", "bef_1918_18_doullens", "1918-03-02", "1918-05-31", "1918-03-18", "A Reserve for the Whole Front",
     ["bef_reserve", "complied"],

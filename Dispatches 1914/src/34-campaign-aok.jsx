@@ -1697,7 +1697,7 @@ CAMPAIGNS.aok.nodes = {
       "not break the Italian line, and it was not entirely beaten. It took more of the " +
       "ground, and held it longer than the other had, and the army that was left at the " +
       "end of the summer had still something to hold together.\n\n" +
-      "The war ended in November, as it was going to end.",
+      "The war ends in November.",
     ending: { family: "concentrated-offensive", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The offensive of June 1918 was made in two thrusts, and failed. " +

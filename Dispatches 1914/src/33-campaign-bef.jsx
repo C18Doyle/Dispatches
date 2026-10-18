@@ -594,9 +594,7 @@ CAMPAIGNS.bef.nodes = {
               "The reserves do not reach the front until the evening of the first day, " +
               "and go into the attack tired, in the dark, against a German second line " +
               "that has been reinforced. British casualties at Loos by 8 October are " +
-              "59,247. French's handling of the reserve is the main charge made against " +
-              "him afterwards, and it is made by the army commanders under him, in " +
-              "letters to the King's household." },
+              "59,247. The army commanders under French blame his handling of the reserve, and say so in letters to the King's household." },
           { weight: 40, title: "The reserves arrive in time and are stopped by the second line",
             impact: { will: 1 },
             setFlags: { bef_reservesResult: "stopped" },
@@ -733,9 +731,7 @@ CAMPAIGNS.bef.nodes = {
         outcome:
           "French resigns on 15 December and goes home as Commander-in-Chief of the Home " +
           "Forces. Haig takes over on 21 December, and Robertson goes to the War Office as " +
-          "Chief of the Imperial General Staff two days later. The new Commander-in-Chief " +
-          "has been chosen by the army and not by the Cabinet, and the Cabinet will remember " +
-          "that when it has cause to disagree with him.",
+          "Chief of the Imperial General Staff two days later. The new Commander-in-Chief has been chosen by the army and not by the Cabinet. Haig has commanded the First Army since the landing, and the army knows him.",
       },
       {
         id: "keep",
@@ -1045,10 +1041,7 @@ CAMPAIGNS.bef.nodes = {
           "By the Calais agreement of 27 February Haig is formally subordinated to Nivelle " +
           "for the duration of the offensive. The next day Haig and Robertson tell the " +
           "Prime Minister that they will resign rather than carry it out, and the " +
-          "arrangement is watered down, with more freedom for the British. The conference " +
-          "leaves mistrust between the British government and its generals that lasts " +
-          "to the end of the war, and sets back the cause of unified command until " +
-          "the spring of 1918.",
+          "arrangement is watered down, with more freedom for the British. The conference leaves mistrust between the British government and its generals.",
       },
       {
         id: "refuse",
@@ -1441,10 +1434,7 @@ CAMPAIGNS.bef.nodes = {
         outcome:
           "Speculative. The British divisions are put into the general reserve, and the " +
           "French and Italian contributions follow. The reserve exists when the German " +
-          "offensive opens, and can be sent to the threatened sector. It is under a " +
-          "committee, and the army that gave the divisions has fewer in its own line on " +
-          "21 March. Whether the committee moves them in time, and in the right " +
-          "direction, is the thing that nobody can say beforehand.",
+          "offensive opens, and can be sent to the threatened sector. It is under a committee, the divisions it holds are the ones the army commanders wanted to keep, and the army that gave them has fewer in its own line on 21 March.",
       },
     ],
   },
@@ -1838,8 +1828,7 @@ CAMPAIGNS.bef.nodes = {
       "the divisions that would have gone to France. The campaign in the East became " +
       "the second front of the war for Britain, and the Western Front was held with " +
       "what the Eastern one left over.\n\n" +
-      "When the end came it was in France, as it was always going to be, and the " +
-      "armies that finished it were smaller than they might have been.",
+      "The war ends in France, and the armies that finish it are smaller than they might have been.",
     ending: { family: "the-other-strategy", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The Cabinet voted to evacuate Gallipoli, and did so with very " +

@@ -134,6 +134,33 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
   );
 }
 
+/** The music switch, on every screen, at the top left. */
+function MusicToggle({ settings, onSettings }) {
+  const on = settings.music !== false;
+  return <button className="dg-musicbtn" onClick={() => onSettings({ ...settings, music: !on })}>{on ? "Music on" : "Music off"}</button>;
+}
+
+/** Reads a report aloud with the browser's own voice, where it has one. */
+function ReadAloud({ id, text }) {
+  const [on, setOn] = useState(false);
+  const can = typeof window !== "undefined" && "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance !== "undefined";
+  useEffect(() => () => { try { if (can) window.speechSynthesis.cancel(); } catch (e) { /* no voice here */ } }, [id]);
+  if (!can) return null;
+  const toggle = () => {
+    const ss = window.speechSynthesis;
+    if (on) { ss.cancel(); setOn(false); return; }
+    const u = new window.SpeechSynthesisUtterance(text);
+    u.lang = "en-GB";
+    u.rate = 0.95;
+    u.onend = () => setOn(false);
+    u.onerror = () => setOn(false);
+    ss.cancel();
+    ss.speak(u);
+    setOn(true);
+  };
+  return <button className="dg-btn dg-read" onClick={toggle}>{on ? "Stop reading" : "Read aloud"}</button>;
+}
+
 function HowToScreen({ onBack }) {
   return (
     <main {...rootProps(null, "howto")}>
@@ -161,7 +188,7 @@ function HowToScreen({ onBack }) {
 const SPACING_ROWS = [["standard", "Standard"], ["roomy", "Roomy"], ["wide", "Wide"]];
 const MEASURE_ROWS = [["standard", "Standard"], ["narrow", "Narrow"]];
 const MOTION_ROWS = [["auto", "Follow my device"], ["reduced", "Reduce motion"]];
-const FONT_ROWS = [["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"]];
+const FONT_ROWS = [["theme", "The look's own"], ["typewriter", "Typewriter"], ["plain", "Plain and clear"], ["dyslexia", "Dyslexia-friendly"]];
 
 function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
   const size = Math.max(0, TEXT_SIZES.indexOf(settings.textSize));
@@ -174,7 +201,6 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
       <nav className="dg-nav" aria-label="Help">
         <button className="dg-navbtn" onClick={onHowTo}><b>How to play</b></button>
       </nav>
-      <p className="dg-note">Settings are kept on this device only.</p>
 
       <h2 className="dg-sect">Reading</h2>
       <div className="dg-setting">
@@ -223,7 +249,6 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
             <button key={id} aria-pressed={(settings.measure || "standard") === id} onClick={() => set({ measure: id })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">A narrow line keeps the report to about thirty-four characters across, which is easier to track on a wide screen.</p>
       </div>
       <div className="dg-setting">
         <div className="dg-count">Motion</div>
@@ -232,7 +257,7 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
             <button key={id} aria-pressed={(settings.motion || "auto") === id} onClick={() => set({ motion: id })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">Follow my device obeys the system setting. Reduce motion stops the marching front line on the map, the stamp, the reports sliding in and the dials moving, whatever the system says.</p>
+        <p className="dg-note">Reduce motion stops the marching front line, the stamp and the moving dials.</p>
       </div>
       <div className="dg-setting">
         <button className="dg-btn" onClick={() => set({ font: "plain", spacing: "roomy", measure: "narrow", motion: "reduced" })}>Easy reading: plain type, roomy spacing, narrow lines, no motion</button>
@@ -246,7 +271,6 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
             <button key={label} aria-pressed={(settings.signHold === true) === v} onClick={() => set({ signHold: v })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">Hold to sign asks for the button to be held for a moment before a contested order is signed.</p>
       </div>
       <div className="dg-setting">
         <div className="dg-count">Music</div>
@@ -263,7 +287,6 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
               onChange={(e) => set({ musicVolume: Number(e.target.value) / 20 })} />
           </>
         )}
-        <p className="dg-note">The soundtrack plays on a loop once you tap or press a key, and stops when you set it to Off.</p>
       </div>
       <div className="dg-setting">
         <div className="dg-count">Sound</div>
@@ -272,7 +295,7 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
             <button key={label} aria-pressed={settings.sound === snd && Boolean(settings.atmosphere) === atm} onClick={() => set({ sound: snd, atmosphere: atm })}>{label}</button>
           ))}
         </div>
-        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds distant guns, wind and rain for the command in play, and small sounds for a cable and a signature.</p>
+        <p className="dg-note">Typewriter is the key and the stamp. Atmosphere adds guns, wind and rain.</p>
       </div>
 
       <h2 className="dg-sect">Dates</h2>

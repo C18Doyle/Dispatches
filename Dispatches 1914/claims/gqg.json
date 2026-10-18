@@ -547,6 +547,15 @@
     "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
   },
   {
+    "id": "gqg-marne-joffre-order-1",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "Joffre's order of the day for the Marne battle told every unit that one which could not advance must hold its ground and die there rather than fall back.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The order is given in this sense in the English histories of 1919 and in a popular account; the exact English wording varies between translations and the French text was not read. Check against the French text and cite it."
+  },
+  {
     "id": "gqg-marne-2",
     "node": "gqg_1914_02_marne",
     "kind": "characterization",

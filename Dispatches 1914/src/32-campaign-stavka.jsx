@@ -585,9 +585,7 @@ CAMPAIGNS.stavka.nodes = {
           "within ten days have outflanked the Tenth Army and driven it out of East " +
           "Prussia. The Twentieth Corps is cut off in the forest near Augustow and " +
           "surrenders on 9 February (22 February in the west), with its losses put at " +
-          "some 34,000 men. Much of the Tenth Army gets away. The quartermaster-general " +
-          "afterwards calls it a great German success: it cost Russia the anchor it had " +
-          "planned around.",
+          "some 34,000 men. Much of the Tenth Army gets away. The Germans count it a great success: it costs Russia the anchor it had planned around.",
       },
       {
         id: "pull",
@@ -689,9 +687,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The armies hold the passes they have and stop attacking. The " +
           "rifles and shells that would have been spent in the snow are kept, and the " +
           "Austrians have the spring to recover. Przemysl has been taken and nothing " +
-          "more is asked of it. The army is less tired when the German blow comes in " +
-          "May, and no one will be able to say whether it would have held, because the " +
-          "shells it saved would not have been enough.",
+          "more is asked of it. The army is less tired, and the shells it has saved are few.",
       },
     ],
   },
@@ -1732,9 +1728,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The penalty is not restored. The retreat in Galicia is left to " +
           "the commissars and the committees, and the commander who made the ultimatum " +
           "has to be answered. The Supreme Command stays with the officers who say that " +
-          "discipline can be built on consent. The units that would have been steadied " +
-          "by the threat have to be steadied by argument, and the Galician front falls " +
-          "back, as it was going to, at its own pace.",
+          "discipline can be built on consent. The units that the threat would have steadied have to be steadied by argument, and the Galician front falls back at its own pace.",
       },
     ],
   },
@@ -1791,8 +1785,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The Twelfth Army is ordered to stand, and what stands is a " +
           "fraction of what is on the books. The bombardment and the crossing " +
           "do what they did to the army that withdrew, to an army that has been " +
-          "told to remain, and the line behind it is not yet a line. Whether " +
-          "the infantry could have held is answered the hard way. The risk is " +
+          "told to remain, and the line behind it is not yet a line. The risk is " +
           "an army encircled in a city it was ordered to hold.",
       },
       {

@@ -5,6 +5,13 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## 1.3.4 (2026-10-18)
+### Changed: the text speaks from inside the war room, the interface says less, the soundtrack is lighter, and two reading aids
+- **The live voice.** A report, an outcome, a bulletin, an event or a newspaper no longer looks back or forward from the day it describes. About forty sentences were rewritten or cut: the historians and what they argue, "afterwards", "will remember", "as it was always going to", "no one will ever know whether", "the war goes into 1919", and similar. Situations keep their length. The briefings' "Your seat" now says who sits in the seat and what stands under it on the first day, and no longer names their successors. `check-live-voice.js` holds the line (part of `validate`): it flags those phrases anywhere outside the epilogue, the dossiers, the battle after-action line and the notes that only the validators read, and it caps a menu quotation at 24 words, a seat at 75 and the note under an order at 26. Three outcomes that fell below the length floor had a sentence added from what the report already says, and one new fact (Joffre's order of the day at the Marne) is logged as a drafted claim.
+- **Less interface text.** Six explanatory notes on the Settings screen are gone or cut to one short line, and so are the line about the staff's reading being right three times in four, the war record's battle note and a few more. `check-ui-copy.js` keeps a note or subtitle under seventeen words.
+- **The soundtrack** is re-encoded from 4.1 MB to 1.7 MB (80 kbps), so the build is about 2.4 MB smaller. A Music on or off switch sits at the top left of every screen, and the music pauses when the tab is hidden.
+- **Reading aids.** A Read aloud button on each report speaks its title, document and situation with the browser's own voice (it appears only where the browser has one). Settings has a Dyslexia-friendly typeface: a wider-spaced sans-serif that uses OpenDyslexic or Lexend if they are installed.
+
 ## 1.3.3 (2026-10-16)
 ### Fixed: the Meanwhile list on the expanded map
 - The sentence under each Meanwhile entry was read wrongly for reports whose situation is built from the file, so some showed the program text and the rest lost every letter s. Each is now the opening of that report as it reads for a file with no choices made, and `smoke.js` proves that no entry is code or has letters missing.

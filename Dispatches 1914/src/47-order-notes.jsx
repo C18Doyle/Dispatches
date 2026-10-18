@@ -9,7 +9,7 @@
 // =============================================================================
 
 export const ORDER_NOTES = {
-  "ohl_1916_14_somme|elastic": "Second Army would give up ground that cannot be held cheaply and build a second line behind it, in place of counter-attacking to win back every yard.",
+  "ohl_1916_14_somme|elastic": "Second Army would give up ground that cannot be held cheaply and build a second line behind it.",
   "ohl_1917_13_caporetto|refuse": "Berlin would send heavy guns and staff officers to the Isonzo and keep its divisions in Flanders.",
   "ohl_1918_13_aisne|halt": "The armies would stop on the Vesle, where the plan said they should, and the reserves would go back north for the attack in Flanders.",
   "ohl_1918_14_blackday|offensive": "Divisions from the quiet sectors would be gathered for one more attack in September, before the Americans arrive in strength.",
