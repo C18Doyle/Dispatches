@@ -17,7 +17,7 @@ const POLY = (line, close) => [...line, ...close];
 export const MAP_ALLEGIANCE = {
   Germany: [["1914-01-01", "cp"]], Austria: [["1914-01-01", "cp"]], Hungary: [["1914-01-01", "cp"]], Czechia: [["1914-01-01", "cp"]],
   Slovakia: [["1914-01-01", "cp"]], Slovenia: [["1914-01-01", "cp"]], Croatia: [["1914-01-01", "cp"]], "Bosnia and Herz.": [["1914-01-01", "cp"]],
-  Turkey: [["1914-01-01", "neu"], ["1914-10-29", "cp"]], Syria: [["1914-01-01", "cp"]], Lebanon: [["1914-01-01", "cp"]], Israel: [["1914-01-01", "cp"]],
+  Turkey: [["1914-01-01", "cp"]], Syria: [["1914-01-01", "cp"]], Lebanon: [["1914-01-01", "cp"]], Israel: [["1914-01-01", "cp"]],
   Palestine: [["1914-01-01", "cp"]], Jordan: [["1914-01-01", "cp"]], Iraq: [["1914-01-01", "cp"]],
   Bulgaria: [["1914-01-01", "neu"], ["1915-10-14", "cp"], ["1918-09-30", "neu"]],
   Luxembourg: [["1914-01-01", "neu"], ["1914-08-02", "cp"], ["1918-11-11", "neu"]],
@@ -132,6 +132,28 @@ export function mapDate(campaignId, iso) {
   return iso;
 }
 
+/** A report's situation as text: a situation that is built from the file's flags is read for a file with none. */
+function plainSituation(cid, nid, n) {
+  try {
+    const s = typeof n.situation === "function" ? n.situation({}, emptyMeters(), { flags: {}, meters: emptyMeters(), campaignId: cid, nodeId: nid }) : n.situation;
+    return typeof s === "string" ? s : "";
+  } catch (e) {
+    return "";
+  }
+}
+
+/** The opening sentences of a report's situation, up to about two hundred characters: what that headquarters was facing. */
+function sceneOf(text) {
+  const sentences = String(text || "").replace(/\s+/g, " ").trim().split(/(?<=[.!?])\s+/);
+  let out = "";
+  for (const s of sentences) {
+    if (out && (out + " " + s).length > 220) break;
+    out = out ? out + " " + s : s;
+    if (out.length >= 110) break;
+  }
+  return out;
+}
+
 /**
  * What the other commands were doing: for each of them, its latest report on or before this node's date (Western calendar), as
  * { campaignId, nodeId, title, city, date, daysAgo }. A command with no report yet is left out.
@@ -146,7 +168,7 @@ export function meanwhileAt(campaignId, node) {
     for (const [nid, n] of Object.entries(c.nodes)) {
       if (n.ending) continue;
       const d = mapDate(cid, n.date);
-      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d };
+      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d, context: sceneOf(plainSituation(cid, nid, n)) };
     }
     if (best) {
       best.daysAgo = Math.round((new Date(now + "T00:00:00Z") - new Date(best.date + "T00:00:00Z")) / 86400000);

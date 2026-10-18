@@ -9,6 +9,75 @@
 let audioMode = 0; // 0 off, 1 typewriter, 2 atmosphere
 let AU = null; // { ctx, master, brown, white, amb }
 
+// ---------- the soundtrack ----------
+//
+// One looping track (assets/theme.mp3), bundled as a data URL and handed over by entry.jsx as window.__DISPATCHES_THEME__. It is on by default and is
+// played once the browser has seen a tap or a key, because no browser will start sound before that. The element goes through a Web Audio gain node,
+// because an iPhone ignores the element's own volume; the volume setting turns that gain. Nothing here is needed to play: with no track, no audio, or a
+// test page that has no sound, every call does nothing.
+
+let MU = null; // { el, ctx, gain }
+let musicWant = null; // the volume the music should have, or null when it should be off
+
+function musicUp() {
+  if (MU) return MU;
+  try {
+    const src = typeof window !== "undefined" ? window.__DISPATCHES_THEME__ : null;
+    if (!src || /jsdom/i.test((typeof navigator !== "undefined" && navigator.userAgent) || "")) return null;
+    const el = new Audio(src);
+    el.loop = true;
+    el.preload = "auto";
+    let ctx = null;
+    let gain = null;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) {
+      ctx = new AC();
+      gain = ctx.createGain();
+      gain.gain.value = 0;
+      ctx.createMediaElementSource(el).connect(gain).connect(ctx.destination);
+    }
+    MU = { el, ctx, gain };
+  } catch (e) {
+    MU = null;
+  }
+  return MU;
+}
+
+function musicLevel(mu, volume) {
+  if (mu.gain) mu.gain.gain.setTargetAtTime(volume, mu.ctx.currentTime, 0.35);
+  else mu.el.volume = volume;
+}
+
+/** Turns the music on at a volume from 0 to 1, or off. Safe to call before the browser has allowed sound: the first tap or key retries it. */
+function musicApply(on, volume) {
+  musicWant = on ? volume : null;
+  const mu = on ? musicUp() : MU;
+  if (!mu) return;
+  try {
+    if (!on) { mu.el.pause(); return; }
+    if (mu.ctx && mu.ctx.state === "suspended") mu.ctx.resume().catch(() => {});
+    musicLevel(mu, volume);
+    const p = mu.el.play();
+    if (p && p.catch) p.catch(() => {});
+  } catch (e) { /* no sound here */ }
+}
+
+/** The tab is hidden: the music stops, and starts again, if it should be playing, when the tab is shown. */
+function musicHidden(hidden) {
+  if (hidden) { try { if (MU) MU.el.pause(); } catch (e) { /* no sound here */ } } else musicResume();
+}
+
+/** Called on the first tap or key: starts the music if it should be playing and the browser had refused it before. */
+function musicResume() {
+  if (musicWant === null) return;
+  const mu = musicUp();
+  if (!mu) return;
+  try {
+    if (mu.ctx && mu.ctx.state === "suspended") mu.ctx.resume().catch(() => {});
+    if (mu.el.paused) { musicLevel(mu, musicWant); const p = mu.el.play(); if (p && p.catch) p.catch(() => {}); }
+  } catch (e) { /* no sound here */ }
+}
+
 /** What each command sounds like: guns (a shell every so many seconds, on average; 0 for none), wind, rain and a low hum. */
 const ATMOSPHERE = {
   ohl: { guns: 7, wind: 0.05, rain: 0, hum: 0.16 },

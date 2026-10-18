@@ -85,9 +85,9 @@
     "url": "https://en.wikipedia.org/wiki/Calais_Conference_(1917)"
   },
   "wp-mutinies": {
-    "title": "1917 French Army mutinies",
+    "title": "French Army mutinies",
     "kind": "web (tertiary)",
-    "url": "https://en.wikipedia.org/wiki/1917_French_Army_mutinies"
+    "url": "https://en.wikipedia.org/wiki/French_Army_mutinies"
   },
   "wp-nivelle": {
     "title": "Nivelle offensive",
@@ -643,5 +643,235 @@
     "title": "First Battle of the Masurian Lakes",
     "kind": "web (tertiary)",
     "url": "https://en.wikipedia.org/wiki/First_Battle_of_the_Masurian_Lakes"
+  },
+  "wp-tomypeoples": {
+    "title": "To my peoples (Franz Joseph, 28 July 1914)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/To_my_peoples"
+  },
+  "nvcc-russian-manifesto": {
+    "title": "Russian Imperial Manifesto, announcing the start of war in August 1914",
+    "kind": "web (translation of a primary text)",
+    "url": "https://novaonline.nvcc.edu/eli/evans/HIS242/Documents/ManifestoAugust1914.html"
+  },
+  "byu-poincare": {
+    "title": "President Poincare's war message, 4 August 1914",
+    "kind": "web (translation of a primary text)",
+    "url": "https://net.lib.byu.edu/~rdh7/wwi/1914/poincare.html"
+  },
+  "tna-lamps": {
+    "title": "The lamps are going out all over Europe (The National Archives blog)",
+    "kind": "web (official)",
+    "url": "https://blog.nationalarchives.gov.uk/lamps-going-europe"
+  },
+  "frus-ottoman-neutrality": {
+    "title": "Ottoman Embassy note to the Department of State, 8 August 1914 (FRUS 1914 Supplement)",
+    "kind": "web (primary text)",
+    "url": "https://history.state.gov/historicaldocuments/frus1914Supp/d116"
+  },
+  "dupuy-leaves": {
+    "title": "Home before the leaves fall (Dupuy Institute)",
+    "kind": "web (tertiary)",
+    "url": "https://dupuyinstitute.org/2021/02/06/home-before-the-leaves-fall/"
+  },
+  "wp-eprussia2": {
+    "title": "Second Russian invasion of East Prussia (1914)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Second_Russian_invasion_of_East_Prussia_(1914)"
+  },
+  "mf-antwerp": {
+    "title": "The Fall of Antwerp (Mental Floss, WWI Centennial)",
+    "kind": "web (popular)",
+    "url": "https://www.mentalfloss.com/history/world-war-i/wwi-centennial-fall-antwerp"
+  },
+  "wp-langemark": {
+    "title": "Langemark",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Langemark"
+  },
+  "wp-oberost": {
+    "title": "Ober Ost",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Ober_Ost"
+  },
+  "wp-serbia1914": {
+    "title": "Serbian campaign (1914)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Serbian_campaign_(1914)"
+  },
+  "ghdi-holtzendorff": {
+    "title": "Unrestricted Submarine Warfare (Holtzendorff memorandum, 22 December 1916), German History in Documents and Images",
+    "kind": "web (primary text, translation)",
+    "url": "https://germanhistorydocs.org/en/wilhelmine-germany-and-the-first-world-war-1890-1918/ghdi:document-811"
+  },
+  "ghdi-first-note": {
+    "title": "The First German Note to President Woodrow Wilson, October 1918 (GHDI)",
+    "kind": "web (primary text, translation)",
+    "url": "https://germanhistorydocs.org/en/wilhelmine-germany-and-the-first-world-war-1890-1918/the-first-german-note-to-president-woodrow-wilson-october-1918"
+  },
+  "wp-crowncouncil": {
+    "title": "9 January 1917 German Crown Council meeting",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/9_January_1917_German_Crown_Council_meeting"
+  },
+  "wp-pless": {
+    "title": "Pless conference",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Pless_conference"
+  },
+  "usni-awakening": {
+    "title": "The Awakening, May 1917 (U.S. Naval Institute Proceedings, 1927)",
+    "kind": "web (specialist)",
+    "url": "https://www.usni.org/magazines/proceedings/1927/may/awakening-may-1917"
+  },
+  "wp-bethmann": {
+    "title": "Theobald von Bethmann Hollweg",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Theobald_von_Bethmann_Hollweg"
+  },
+  "wp-spa1918": {
+    "title": "Spa Conference (13-15 August 1918)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Spa_Conference_(13%E2%80%9315_August_1918)"
+  },
+  "wp-falkenhayn": {
+    "title": "Erich von Falkenhayn",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Erich_von_Falkenhayn"
+  },
+  "wp-moltke": {
+    "title": "Helmuth von Moltke the Younger",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Helmuth_von_Moltke_the_Younger"
+  },
+  "wp-kiel": {
+    "title": "Kiel mutiny",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Kiel_mutiny"
+  },
+  "ghdi-spread": {
+    "title": "The Spread of the 1918 Revolution (GHDI)",
+    "kind": "web (primary text)",
+    "url": "https://germanhistorydocs.org/en/weimar-germany-1918-1933/the-spread-of-the-1918-revolution"
+  },
+  "byu-groener": {
+    "title": "Wilhelm Groener (BYU World War I Document Archive)",
+    "kind": "web (reference)",
+    "url": "https://net.lib.byu.edu/estu/wwi/bio/g/groener.html"
+  },
+  "wp-freikorps-baltic": {
+    "title": "Freikorps in the Baltic",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Freikorps_in_the_Baltic"
+  },
+  "wp-brest": {
+    "title": "Treaty of Brest-Litovsk",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Treaty_of_Brest-Litovsk"
+  },
+  "wp-artois2": {
+    "title": "Second Battle of Artois",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Second_Battle_of_Artois"
+  },
+  "wp-champagne2": {
+    "title": "Second Battle of Champagne",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Second_Battle_of_Champagne"
+  },
+  "wp-douaumont": {
+    "title": "Fort Douaumont",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Fort_Douaumont"
+  },
+  "wp-julycrisis": {
+    "title": "July Crisis",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/July_Crisis"
+  },
+  "wp-deadlydays": {
+    "title": "Deadliest single days of World War I",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Deadliest_single_days_of_World_War_I"
+  },
+  "wp-pantalon": {
+    "title": "Pantalon rouge",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Pantalon_rouge"
+  },
+  "wp-galicia1914": {
+    "title": "Battle of Galicia",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Galicia"
+  },
+  "wp-eprussia1914": {
+    "title": "Russian invasion of East Prussia (1914)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Russian_invasion_of_East_Prussia_(1914)"
+  },
+  "wp-stquentincanal": {
+    "title": "Battle of the St. Quentin Canal",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_the_St._Quentin_Canal"
+  },
+  "wp-zeppelin": {
+    "title": "Zeppelin",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Zeppelin"
+  },
+  "wp-jellicoe": {
+    "title": "John Jellicoe, 1st Earl Jellicoe",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/John_Jellicoe,_1st_Earl_Jellicoe"
+  },
+  "wp-haig": {
+    "title": "Douglas Haig, 1st Earl Haig",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Douglas_Haig,_1st_Earl_Haig"
+  },
+  "wp-franzjoseph": {
+    "title": "Franz Joseph I of Austria",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Franz_Joseph_I_of_Austria"
+  },
+  "wp-salonica-armistice": {
+    "title": "Armistice of Salonica",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Armistice_of_Salonica"
+  },
+  "wp-ottgerm": {
+    "title": "Ottoman-German alliance",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Ottoman%E2%80%93German_alliance"
+  },
+  "turkeyswar-alliance": {
+    "title": "Alliance with Germany (Turkey's War)",
+    "kind": "web (specialist)",
+    "url": "https://turkeyswar.com/alliance/alliance-with-germany/"
+  },
+  "wp-rumi": {
+    "title": "Rumi calendar",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Rumi_calendar"
+  },
+  "gutenberg-fighting-retreat": {
+    "title": "Roger Ingpen, The Fighting Retreat to Paris (Project Gutenberg 53736)",
+    "kind": "web (printed text)",
+    "url": "https://gutenberg.org/cache/epub/53736/pg53736-images.html"
+  },
+  "bl-haig-order": {
+    "title": "'With our backs to the wall': Sir Douglas Haig's Special Order 1918 (British Library blog)",
+    "kind": "web (official)",
+    "url": "https://www.bl.uk/stories/blogs/posts/with-our-backs-to-the-wall-sir-douglas-haigs-special-order-1918"
+  },
+  "avalon-balfour": {
+    "title": "Balfour Declaration 1917 (The Avalon Project)",
+    "kind": "web (primary text)",
+    "url": "https://avalon.law.yale.edu/20th_century/balfour.asp"
+  },
+  "djemal-memories": {
+    "title": "Djemal Pasha, Memories of a Turkish Statesman 1913-1919 (1922), the chapter on the cruise of the Goeben and Breslau",
+    "kind": "web (printed memoir)",
+    "url": "https://archive.org/stream/memoriesofturkis00cemarich/memoriesofturkis00cemarich_djvu.txt"
   }
 }

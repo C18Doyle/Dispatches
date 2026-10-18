@@ -71,7 +71,7 @@ async function step(ctx, pick = 0) {
 // --- standard mode: none of the easy extras ---------------------------------------------------------------
 {
   const ctx = await boot();
-  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Oberste")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Germany")));
   await ctx.click(btn(ctx, /^Standard$/));
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   const t = ctx.text();
@@ -84,9 +84,9 @@ async function step(ctx, pick = 0) {
 
 // --- easy mode ---------------------------------------------------------------------------------------------
 const easy = await boot();
-await easy.click(easy.buttons().find((b) => easy.lab(b).includes("Oberste")));
-await easy.click(btn(easy, /^Easy mode$/));
-check(/easy mode is called Big Bertha/.test(easy.text()), "easy: the German briefing names the mode (Big Bertha)");
+await easy.click(easy.buttons().find((b) => easy.lab(b).includes("Germany")));
+await easy.click(btn(easy, /Easy mode$/));
+check(/take back the last order/.test(easy.text()), "easy: the briefing says what the mode does");
 check(/It cannot reach the highest rank/.test(easy.text()), "easy: the briefing says what the mode is");
   await easy.click(easy.buttons().find((b) => easy.lab(b) === "Enter the war room"));
 const first = easy.text();

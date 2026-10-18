@@ -22,7 +22,7 @@ const DIST = join(ROOT, "dist");
 const VERBOSE = Boolean(process.env.VERBOSE);
 const RUNS = Number(process.env.RUNS || 3);
 const MAX_SCREENS = 160;
-const ALL = [[/Oberste/, "ohl"], [/Grand Quartier/, "gqg"], [/Stavka/, "stavka"], [/British Expeditionary/, "bef"], [/Armeeoberkommando/, "aok"], [/Ottoman General Staff/, "otto"]];
+const ALL = [[/Germany/, "ohl"], [/France/, "gqg"], [/Russia/, "stavka"], [/Britain/, "bef"], [/Austria-Hungary/, "aok"], [/Ottoman Empire/, "otto"]];
 const COMMANDS = ALL.filter(([, id]) => !process.env.COMMANDS || process.env.COMMANDS.split(",").includes(id));
 const PLAYS = [
   { label: "record", easy: true, theme: "sepia", seed: 0 },
@@ -60,7 +60,7 @@ async function playOne(browser, [card, id], play) {
     await page.getByRole("button", { name: card }).first().click();
     await page.waitForSelector("main");
     if (!(await page.getByText("Where things stand").count())) problems.push(`${where}: the command does not open its briefing`);
-    if (play.easy) await page.getByRole("button", { name: /^Easy mode$/ }).click();
+    if (play.easy) await page.getByRole("button", { name: /Easy mode$/ }).click();
     await page.getByRole("button", { name: /^Enter the war room$/ }).click();
     await page.waitForSelector("main");
 
@@ -97,9 +97,7 @@ async function playOne(browser, [card, id], play) {
         await pick.focus();
         await page.keyboard.press("Enter");
       } else if (screen === "outcome") {
-        const seal = page.getByRole("button", { name: /^Break the seal$/ });
-        if (await seal.count()) await seal.click();
-        else await page.getByRole("button", { name: /^Continue$/ }).click();
+        await page.getByRole("button", { name: /^Continue$/ }).click();
       } else if (screen === "event") {
         events++;
         await page.getByRole("button", { name: /^Continue$/ }).click();
@@ -124,17 +122,9 @@ async function playOne(browser, [card, id], play) {
         const issue = page.getByRole("button", { name: /^Issue the plan/ });
         if (await issue.isDisabled()) problems.push(`${where}: the battle plan cannot be issued after planning`);
         await issue.click();
-        // the second day: a stance chosen by the bot's own dice, a counter moved now and then
-        const stances = page.locator('[aria-label="Stance"] button');
+        // the second day: one of the day's orders, chosen by the bot's own dice
+        const stances = page.locator('[aria-label="The day\'s orders"] button');
         if (await stances.count()) await stances.nth(Math.floor(rnd() * (await stances.count()))).click();
-        if (rnd() < 0.5) {
-          const out = page.locator('button[aria-label^="Take a counter out of"]:not([disabled])');
-          if (await out.count()) {
-            await out.nth(Math.floor(rnd() * (await out.count()))).click();
-            const into = page.locator('button[aria-label^="Put a counter into"]:not([disabled])');
-            if (await into.count()) await into.nth(Math.floor(rnd() * (await into.count()))).click();
-          }
-        }
         const carry = page.getByRole("button", { name: /^Carry on to the second day/ });
         if (await carry.isDisabled()) problems.push(`${where}: the second day cannot be carried on`);
         await carry.click();

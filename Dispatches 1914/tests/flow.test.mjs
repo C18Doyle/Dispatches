@@ -46,16 +46,16 @@ async function step(ctx) {
   const t = ctx.text();
   check(/The Central Powers/.test(t) && /The Entente/.test(t), "the menu groups the commands by side");
   check(["Germany", "France", "Russia", "Britain", "Austria-Hungary", "The Ottoman Empire"].every((n) => t.includes(n)), "each card names its nation");
-  check(!btn(ctx, /^Hard mode$/) && !/Take control of battle planning/.test(t), "difficulty and battle planning are not on the menu");
+  check(!btn(ctx, /Hard mode$/) && !/Take control of battle planning/.test(t), "difficulty and battle planning are not on the menu");
   check(!/feedback/i.test(t), "there is no feedback option");
-  await ctx.click(btn(ctx, /Stavka/));
+  await ctx.click(btn(ctx, /Russia/));
   const b = ctx.text();
-  check(/Where things stand/.test(b) && /Your seat/.test(b) && /What you will be asked/.test(b) && /Set up the file/.test(b), "a command opens its briefing");
+  check(/Where things stand/.test(b) && /Your seat/.test(b) && !/What you will be asked/.test(b) && /Set up the file/.test(b), "a command opens its briefing");
   check(/1 August 1914/.test(b), "the Russian command's prelude is dated in the Western calendar (19 July Old Style is 1 August)");
   check(/Old Style|Julian/.test(b) === false || /thirteen days/.test(b), "the briefing explains the calendar if it mentions it");
   await ctx.click(btn(ctx, /^Back to the commands$/));
   check(/The Central Powers/.test(ctx.text()), "Back to the commands returns to the menu");
-  await ctx.click(btn(ctx, /Oberste/));
+  await ctx.click(btn(ctx, /Germany/));
   await ctx.click(btn(ctx, /^Enter the war room$/));
   check(/1 August 1914/.test(ctx.text()) && /The Kaiser's Question/.test(ctx.text()) && orders(ctx).length >= 2, "the war room opens on the command's prelude, with its orders");
   const text = ctx.d.querySelector("main").textContent;
@@ -69,46 +69,47 @@ async function step(ctx) {
 // --- how to play and settings -----------------------------------------------------------------------------------
 {
   const ctx = await boot();
+  check(!btn(ctx, /^How to play/), "the menu has no How to play: it is in Settings");
+  await ctx.click(btn(ctx, /^Settings/));
   await ctx.click(btn(ctx, /^How to play/));
   const t = ctx.text();
   check(/Reading a report/.test(t) && /Orders and risk/.test(t) && /What the game leaves out/.test(t) && /Armenians/.test(t), "How to play holds the sections and what the game leaves out");
   await ctx.click(btn(ctx, /^Back$/));
-  check(/The Entente/.test(ctx.text()), "Back returns to the menu");
-  await ctx.click(btn(ctx, /^Settings/));
+  check(/Calendar: United Kingdom/.test(ctx.text()), "Back from How to play returns to Settings");
   const s = ctx.d.getElementById("dg-size");
   check(!!s && s.min === "0" && s.max === "2" && s.step === "1", "text size is a slider with three stops");
   check(/Calendar: United Kingdom/.test(ctx.text()), "Settings states the calendar");
-  await ctx.click(btn(ctx, /^Tap to sign$/));
-  check((ctx.w.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"holdToSign":false'), "a setting is stored");
+  await ctx.click(btn(ctx, /^Hold to sign$/));
+  check((ctx.w.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"signHold":true'), "a setting is stored");
   await ctx.click(btn(ctx, /^Return all settings to the defaults$/));
-  check((ctx.w.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"holdToSign":true'), "the defaults can be restored");
+  check((ctx.w.localStorage.getItem("dispatches1914_settings_v1") || "").includes('"signHold":false'), "the defaults can be restored, and a tap signs by default");
   ctx.restore();
 }
 
 // --- a special event --------------------------------------------------------------------------------------------
 {
   const ctx = await boot();
-  await ctx.click(btn(ctx, /Grand Quartier/));
+  await ctx.click(btn(ctx, /France/));
   await ctx.click(btn(ctx, /^Enter the war room$/));
   let seen = 0;
   let sawEventTitle = false;
   for (let i = 0; i < 12; i++) {
-    if (/Special event/.test(ctx.text())) {
+    if (ctx.d.querySelector('[data-screen="event"]')) {
       seen++;
       sawEventTitle = /Casualty Lists of 22 August/.test(ctx.text());
       check(orders(ctx).length === 0 && !!btn(ctx, /^Continue$/), "an event offers no order, only Continue");
-      check(/changes no meter/.test(ctx.text()), "an event says it is not a decision");
+      check(!/changes no meter/.test(ctx.text()), "an event carries no note about the meters");
       await ctx.click(btn(ctx, /^Continue$/));
       break;
     }
     await step(ctx);
   }
   check(seen === 1 && sawEventTitle, "the French command meets the casualty lists of 22 August before its next report");
-  check(!/Special event/.test(ctx.text()) && orders(ctx).length >= 1, "after the event the report follows");
+  check(!ctx.d.querySelector('[data-screen="event"]') && orders(ctx).length >= 1, "after the event the report follows");
   // and not again
   let again = 0;
   for (let i = 0; i < 6; i++) {
-    if (/Special event · The army/.test(ctx.text()) && /Casualty Lists/.test(ctx.text())) again++;
+    if (ctx.d.querySelector('[data-screen="event"]') && /Casualty Lists/.test(ctx.text())) again++;
     await step(ctx);
   }
   check(again === 0, "an event is shown once");

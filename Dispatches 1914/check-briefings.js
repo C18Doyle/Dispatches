@@ -15,14 +15,16 @@ for (const id of E.CAMPAIGN_IDS) {
   const b = E.BRIEFINGS[id];
   checked++;
   if (!b) { problems.push(`${id}: no briefing`); continue; }
-  for (const k of ["nation", "title", "pitch", "seat", "question"]) if (!b[k] || typeof b[k] !== "string") problems.push(`${id}: no ${k}`);
+  for (const k of ["nation", "title", "seat"]) if (!b[k] || typeof b[k] !== "string") problems.push(`${id}: no ${k}`);
+  if (!b.quote || typeof b.quote.text !== "string" || typeof b.quote.by !== "string" || typeof b.quote.date !== "string") problems.push(`${id}: no quote with text, by and date`);
+  else if (/[—–]/.test(b.quote.text + b.quote.by) || /"/.test(b.quote.text + b.quote.by)) problems.push(`${id}: the quote has a long dash or a quotation mark (they are added on screen)`);
+  if (!b.modes || typeof b.modes.easy !== "string" || typeof b.modes.hard !== "string") problems.push(`${id}: no names for the easy and hard files`);
   if (!["central", "entente"].includes(b.side)) problems.push(`${id}: side must be central or entente`);
   if (!Array.isArray(b.standing) || b.standing.length < 2) problems.push(`${id}: standing needs two paragraphs`);
-  const all = [b.nation, b.title, b.pitch, b.seat, b.question, ...(b.standing || [])];
+  const all = [b.nation, b.title, b.seat, ...(b.standing || [])];
   all.forEach((s, i) => style(`${id} part ${i}`, s));
   if (wc(b.standing && b.standing.join(" ")) > 150) problems.push(`${id}: the standing text is over 150 words`);
-  if (wc(b.seat) > 80) problems.push(`${id}: the seat text is over 80 words`);
-  if (!/\?$/.test(b.question) && !/\.$/.test(b.question)) problems.push(`${id}: the question does not end in a full stop`);
+  if (wc(b.seat) > 90) problems.push(`${id}: the seat text is over 90 words`);
 }
 const ids = new Set();
 for (const s of E.HOW_TO) {

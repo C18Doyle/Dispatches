@@ -11,7 +11,7 @@ t("four majors, two minors",
 t("meters clamp at +10", E.clampMeter(999) === 10 && E.clampMeter(-999) === -10);
 t("impact clamps", E.applyImpact({manpower:9,munitions:0,will:0},{manpower:5}).manpower === 10);
 t("will label is per campaign",
-  E.meterLabels("ohl").will === "Home Front" && E.meterLabels("gqg").will === "Army Morale");
+  E.meterLabels("ohl").will === "Home Front" && E.meterLabels("gqg").will === "Morale");
 t("six distinct will labels",
   new Set(E.CAMPAIGN_IDS.map(c => E.CAMPAIGNS[c].willLabel)).size === 6);
 t("six distinct erosion triggers",
@@ -143,6 +143,9 @@ t("flag prefixes are unique",
   const r3 = E.noteEnding(r2, "ohl_end_armistice", true);
   t("the record counts endings and hard-mode runs", r3.endings.length === 1 && r3.runs === 1 && r3.hardRuns === 1);
   t("settings fall back to the default on junk", E.sanitizeSettings({ schemaVersion: 1, textSize: "huge" }).textSize === "s" && E.sanitizeSettings(null).textSize === "s");
+  t("the Meanwhile entries are sentences, never the source of a function", E.CAMPAIGN_IDS.every((cid) => Object.values(E.CAMPAIGNS[cid].nodes).filter((n) => !n.ending).every((n) => E.meanwhileAt(cid, n).every((m) => typeof m.context === "string" && m.context.length > 15 && !/=>|function|\be\./.test(m.context)))));
+  t("the dyslexia-friendly typeface can be chosen and an unknown typeface falls back", E.sanitizeSettings({ schemaVersion: 1, font: "dyslexia" }).font === "dyslexia" && E.sanitizeSettings({ schemaVersion: 1, font: "comic" }).font === "theme");
+  t("music is on by default at half volume, can be turned off, and a bad volume falls back", E.defaultSettings().music === true && E.defaultSettings().musicVolume === 0.5 && E.sanitizeSettings({ schemaVersion: 1, music: false }).music === false && E.sanitizeSettings({ schemaVersion: 1, musicVolume: 7 }).musicVolume === 0.5 && E.sanitizeSettings({ schemaVersion: 1, musicVolume: 0.3 }).musicVolume === 0.3);
   t("sound is off by default and only a literal true turns it on", E.defaultSettings().sound === false && E.sanitizeSettings({ schemaVersion: 1, sound: "yes" }).sound === false && E.sanitizeSettings({ schemaVersion: 1, sound: true }).sound === true);
   t("every advisor named on a node has a dossier entry", E.allNodes().every(({ campaignId, node }) => (node.advisors || []).every((id) => E.CAMPAIGNS[campaignId].advisors.some((a) => a.id === id && a.dossier))));
 }

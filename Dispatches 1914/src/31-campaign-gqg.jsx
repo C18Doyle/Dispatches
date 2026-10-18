@@ -432,9 +432,7 @@ CAMPAIGNS.gqg.nodes = {
           "beside them to see that the orders are carried out. Nobody is publicly " +
           "blamed, and the army keeps the leaders it has. The orders arrive at the " +
           "armies through two channels, and in the first week of September both are " +
-          "needed. The army does not learn that failure costs a command, and the " +
-          "officers who failed in August are still giving orders in the battle that " +
-          "comes.",
+          "needed. The officers who failed in August are still giving orders.",
       },
     ],
   },
@@ -494,10 +492,7 @@ CAMPAIGNS.gqg.nodes = {
             outcome:
               "The armies turn. The gap between the German First and Second Armies opens " +
               "and is exploited, and the invasion stops short of the decision it needed. " +
-              "The war that follows is a different war from the one everyone prepared for, " +
-              "and it will last four years. The French army that attacks on the Marne is " +
-              "exhausted, short of shells and not sure of its own success, and does not " +
-              "know until days afterwards that it has won." },
+              "The French army that attacks on the Marne is exhausted, short of shells and not sure of its own success. Joffre's order of the day tells every unit that one which cannot advance must hold its ground and die there rather than fall back." },
           { weight: 35, title: "The counterattack is contained and the line settles further south",
             impact: { manpower: -1, will: -1 },
             setFlags: { gqg_marneResult: "contained" },
@@ -1028,8 +1023,8 @@ CAMPAIGNS.gqg.nodes = {
         setFlags: { gqg_command: "nivelle" },
         next: "gqg_1917_12_calais",
         outcome:
-          "Nivelle takes the command in December. Lyautey leaves the war ministry " +
-          "rather than sign the plan, and is replaced in March by Painleve, who is no " +
+          "Nivelle takes the command in December. Lyautey leaves the war ministry after a quarrel in the Chamber " +
+          "in March and is replaced by Painleve, who is no " +
           "more convinced but stays to argue. The army is told that the rupture will " +
           "take forty-eight hours, and it believes what it is told, because it has been " +
           "waiting two and a half years to be told it. The promise that is made is the " +
@@ -1088,9 +1083,7 @@ CAMPAIGNS.gqg.nodes = {
           "By the Calais agreement of 27 February Haig is formally subordinated to Nivelle for " +
           "the duration of the offensive. The next day Haig and Robertson tell Lloyd George " +
           "they will resign rather than carry it out, and the arrangement is watered down " +
-          "with more freedom for the British commander. The conference leaves mistrust " +
-          "between the British government and its generals, and it sets back the case for " +
-          "unified command until the spring of 1918.",
+          "with more freedom for the British commander. The conference leaves mistrust between the British government and its generals.",
       },
       {
         id: "agreement",
@@ -1167,9 +1160,7 @@ CAMPAIGNS.gqg.nodes = {
               "The offensive is halted on 9 May having taken ground and not the ridge, at a " +
               "cost around a hundred and eighty-seven thousand French casualties. What " +
               "follows is not a collapse of the front. Units refuse to move up to attack " +
-              "while continuing to hold the line they are in, and it spreads. The men are " +
-              "not deserting. They are bargaining, over leave, food and the promise that no " +
-              "one will be sent forward like that again." },
+              "while continuing to hold the line they are in, and it spreads. The men are bargaining rather than deserting: their demands are leave, food and the promise that no one will be sent forward like that again." },
           { weight: 40, title: "Indiscipline stays local and is contained",
             impact: { will: -1 },
             setFlags: { gqg_mutinyScale: "contained" },
@@ -1196,8 +1187,7 @@ CAMPAIGNS.gqg.nodes = {
           "army is told the truth on the third day rather than the twenty-third, and " +
           "the commander who made the promise has to survive having kept it. The " +
           "casualties are fewer, and the army that comes out of April is angry with its " +
-          "general and not yet with its government. Whether that difference is enough " +
-          "to prevent the refusals is something no one can say.",
+          "general and not yet with its government.",
       },
     ],
   },
@@ -1282,9 +1272,7 @@ CAMPAIGNS.gqg.nodes = {
           "thirteen. Between thirty and forty thousand men are involved by most counts.\n\n"
         : "The refusals are confined to the divisions worst used on the Aisne. They are " +
           "real, they are repeated, and they have not spread.\n\n") +
-      "What they are is the difficulty. These men are not deserting and not " +
-      "fraternising. They are holding the line against attack and refusing orders to " +
-      "go forward, and their demands are leave, food, rest, and what happens to their " +
+      "What they are is the difficulty. These men hold the line against attack and refuse orders to go forward, and their demands are leave, food, rest, and what happens to their " +
       "families. It resembles a strike more than it resembles a collapse.\n\n" +
       "An army that will defend but will not attack is still an army. It is not an " +
       "army that can be ordered to do anything.",
@@ -1479,8 +1467,7 @@ CAMPAIGNS.gqg.nodes = {
           "with the British holds. Champagne and the road to Paris are left to what " +
           "remains. If the main blow falls there, the French army has nothing to meet " +
           "it with, and the government that told its general to cover the capital has " +
-          "to decide what it meant. If the blow does not fall there, the " +
-          "Commander-in-Chief has won, and no one will know how near he came to losing.",
+          "to decide what it meant. If the blow does not fall there, the Commander-in-Chief has won.",
       },
       {
         id: "paris",
@@ -1626,9 +1613,7 @@ CAMPAIGNS.gqg.nodes = {
           "divisions are moved back behind the ridge. The bombardment falls on little " +
           "and the attack still comes and still gains ground, but it comes on into " +
           "depth, and the army is not broken on the first morning. Duchene is told to " +
-          "carry out an order he has publicly despised, and may do so unwillingly. " +
-          "Whether the battle behind the ridge would have held is something the record " +
-          "cannot show.",
+          "carry out an order he has publicly despised, and may do so unwillingly.",
       },
       {
         id: "relieve",
@@ -1870,8 +1855,7 @@ CAMPAIGNS.gqg.nodes = {
           "front and its own date. The Germans can move their reserves from one to " +
           "another, and the winter comes with the line still on German ground. The " +
           "armies are spared the heavy cost of a general offensive and the Allied " +
-          "governments are asked to explain a pause that the enemy does not take. The " +
-          "war goes into 1919, as it was always going to.",
+          "governments are asked to explain a pause that the enemy does not take.",
       },
     ],
   },
@@ -2012,7 +1996,7 @@ CAMPAIGNS.gqg.nodes = {
       "actually happened: The army recovered in weeks. Petain stopped the " +
       "offensives, gave the men regular leave and better food, visited the " +
       "divisions himself and listened to the grievances, and the courts-martial of " +
-      "the summer handed down several hundred death sentences, of which a few dozen " +
+      "the summer handed down several hundred death sentences, of which between twenty-six and forty-nine, by different counts, " +
       "were carried out. The exact count is still argued about. The army that " +
       "returned to the line in the autumn of 1917 attacked at La Malmaison, and in " +
       "1918 it counterattacked. Pétain's reputation, in the army and in France, was " +

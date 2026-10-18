@@ -15,6 +15,19 @@ function projectFor(view) {
 
 const OP_TONES = ["focus", "cand", "done", "past"];
 
+/** A place held or taken beyond the record (a ring and a plus) or lost or not taken against it (a square and a cross), drawn at its place. */
+function GroundMark({ g, p, s, label, big }) {
+  const r = (big ? 11 : 7) * s;
+  const k = r * 0.5;
+  return (
+    <g className={"dg-ground dg-ground-" + g.kind} transform={`translate(${p[0]} ${p[1]})`}>
+      {g.kind === "gained" ? <circle r={r} /> : <rect x={-r} y={-r} width={2 * r} height={2 * r} />}
+      {g.kind === "gained" ? <path d={`M${-k} 0H${k}M0 ${-k}V${k}`} /> : <path d={`M${-k} ${-k}L${k} ${k}M${-k} ${k}L${k} ${-k}`} />}
+      {label && <text x={r + 3 * s} y={4 * s} fontSize={(big ? 13 : 10.5) * s} className="dg-maplabel">{g.name}</text>}
+    </g>
+  );
+}
+
 /** One arrow or marker of an order, drawn in a tone: the order in view, the other orders, the order given, an order given earlier. */
 function OpMark({ a, tone, pt, s, uid }) {
   if (a.kind === "hold") {
@@ -44,7 +57,7 @@ function OpMark({ a, tone, pt, s, uid }) {
 }
 
 /** The map as an SVG. `full` shows the whole theatre; otherwise the view is framed on the recent headquarters. `ops` is { candidates, focus, past, executed }: the orders drawn. */
-function MapCanvas({ campaignId, node, visited, full, pins, ops }) {
+function MapCanvas({ campaignId, node, visited, full, pins, ops, ground }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const camp = CAMPAIGNS[campaignId];
   const map = mapFor(campaignId);
@@ -116,6 +129,7 @@ function MapCanvas({ campaignId, node, visited, full, pins, ops }) {
           {ops.candidates && ops.focus && (ops.candidates[ops.focus] || []).map((a, i) => <OpMark key={"f" + i} a={a} tone="focus" pt={pt} s={s} uid={uid} />)}
         </g>
       )}
+      {(ground || []).filter((g) => full || inBox(proj(g.at))).map((g) => <GroundMark key={g.id} g={g} p={proj(g.at)} s={s} label big={full} />)}
       {shown.filter((c) => c !== node.city).map((c) => <circle key={c} cx={XY[c][0]} cy={XY[c][1]} r={3.2 * s} className="dg-visited" />)}
       {(pins || []).filter((p) => XY[p.city]).map((p) => (
         <g key={p.campaignId} transform={`translate(${XY[p.city][0]} ${XY[p.city][1]})`}>
@@ -134,8 +148,10 @@ function MapCanvas({ campaignId, node, visited, full, pins, ops }) {
 }
 
 /** The report's map: always there, small, and expandable to the whole theatre with its key and the other commands' news. */
-function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, executed }) {
+function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, executed, flags }) {
   const [open, setOpen] = useState(false);
+  // the ground the file has taken or given up against the record
+  const ground = useMemo(() => groundOf(campaignId, flags), [campaignId, flags]);
   // the orders drawn: this report's, the one in view, those given before (the last three), and the one just given
   const ops = useMemo(() => {
     if (!nodeId) return null;
@@ -182,7 +198,7 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
         <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
         <button ref={opener} className="dg-btn" aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>Expand the map</button>
       </div>
-      <MapCanvas campaignId={campaignId} node={node} visited={visited} full={false} pins={meanwhile} ops={ops} />
+      <MapCanvas campaignId={campaignId} node={node} visited={visited} full={false} pins={meanwhile} ops={ops} ground={ground} />
       {open && (
         <div className="dg-modal" role="dialog" aria-modal="true" aria-label="The front, whole theatre" onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
           <div className="dg-modal-inner">
@@ -190,27 +206,38 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
               <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
               <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close the map</button>
             </div>
-            <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} ops={ops} />
-            <ul className="dg-key" aria-label="Key">
-              {sides.map((k) => <li key={k}><i className={"dg-swatch dg-side-" + k} />{SIDE_NAMES[k]}</li>)}
-              <li><i className="dg-swatch dg-swatch-front" />The front, approximate</li>
-              <li><i className="dg-swatch dg-swatch-hq" />This headquarters</li>
-              {ops && <li><i className="dg-swatch dg-swatch-op" />An order: a solid arrow attacks, a dashed one moves or withdraws, a ring is a stand</li>}
-            </ul>
+            <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} ops={ops} ground={ground} />
             {meanwhile.length > 0 && (
               <>
                 <h2 className="dg-order">Meanwhile</h2>
                 <ul className="dg-meanwhile">
-                  {meanwhile.map((m) => (
+                  {[...meanwhile].sort((x, y) => x.daysAgo - y.daysAgo).slice(0, 3).map((m) => (
                     <li key={m.campaignId} style={{ "--accent": "var(--acc-" + m.campaignId + ")" }}>
                       <span className="dg-seal">{CAMPAIGNS[m.campaignId].seal}</span>
-                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} days before this report)` : ""}</span>
+                      <span><b>{m.title}</b><br />{m.city ? `${m.city}, ` : ""}{ukDate(m.date)}{m.daysAgo > 0 ? ` (${m.daysAgo} ${m.daysAgo === 1 ? "day" : "days"} before this report)` : ""}<br /><span className="dg-mw-ctx">{m.context}</span></span>
                     </li>
                   ))}
                 </ul>
               </>
             )}
-            <p className="dg-note">The countries are drawn with today's borders and coloured by the side each stood on that day. The lines of the front are drawn from the course of the fighting and are approximate.</p>
+            <ul className="dg-key" aria-label="Key">
+              {sides.map((k) => <li key={k}><i className={"dg-swatch dg-side-" + k} />{SIDE_NAMES[k]}</li>)}
+              <li><i className="dg-swatch dg-swatch-front" />The front, approximate</li>
+              <li><i className="dg-swatch dg-swatch-hq" />This headquarters</li>
+              {ops && <li><i className="dg-swatch dg-swatch-op" />An order: a solid arrow attacks, a dashed one moves or withdraws, a ring is a stand</li>}
+              {ground.length > 0 && <li><i className="dg-swatch dg-swatch-gained" />Ground held or taken beyond the record</li>}
+              {ground.length > 0 && <li><i className="dg-swatch dg-swatch-lost" />Ground lost or not taken, against the record</li>}
+            </ul>
+            {ground.length > 0 && (
+              <>
+                <h2 className="dg-order">Your file against the record</h2>
+                <ul className="dg-groundlist">
+                  {ground.map((g) => (
+                    <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> Speculative. {g.text}</li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
         </div>
       )}

@@ -25,7 +25,9 @@ if (fs.existsSync("src/MANIFEST.json")) {
 }
 // The typeof process guard must NEVER wrap a define-substituted build flag.
 const common = { entryPoints: ["entry.jsx"], bundle: true, format: "iife",
-  jsx: "automatic", define: { DEMO_BUILD: JSON.stringify(DEMO_BUILD) } };
+  jsx: "automatic", define: { DEMO_BUILD: JSON.stringify(DEMO_BUILD) },
+  // the soundtrack is inlined as a data URL, so that a file opened from disk plays it as the itch.io page does (see entry.jsx)
+  loader: { ".mp3": "dataurl" } };
 // Both artifacts are built every time. A stale unminified bundle once made the
 // render test pass against content that had already been deleted.
 await esbuild.build({ ...common, outfile: "dist/bundle.js", minify: false });
