@@ -223,6 +223,10 @@ export interface DifficultyRules {
   startingMoney: number;
   /** Can the player spend advice charges to reveal a preview? (MEDIUM/HARD: true). */
   adviceEnabled: boolean;
+  /** Optional: multiplies the strain (the odds lost to a short reserve): 0.5 halves it, 1.5 makes it half as heavy again. Absent means 1. See `strainFor`. */
+  strainScale?: number;
+  /** Optional: added to each named reserve's starting value when a run begins (and after the returning-player skip), within the reserve's range. */
+  startBonus?: Record<string, number>;
 }
 
 /** One-shot interlude triggered by arriving at one of the listed nodes. Array order = priority; at most one fires per transition. */

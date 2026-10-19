@@ -4,7 +4,7 @@
  * so this can't silently drift from what ships. Reports measured counts, per
  * Craig's own validation standard: never "looks good" without numbers.
  */
-import { clampTo, isOptionLocked, isOptionFlagLocked, isOptionHidden, isOptionConditionLocked, applyAxisDelta } from "@dispatches/engine";
+import { clampTo, isOptionLocked, isOptionFlagLocked, isOptionHidden, isOptionConditionLocked, applyAxisDelta, startResourcesFor } from "@dispatches/engine";
 import type { Condition, Difficulty, GameState } from "@dispatches/engine";
 import { readFileSync } from "node:fs";
 import { loadDefinition } from "../../packages/engine/tools/load_definition";
@@ -283,7 +283,7 @@ function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<str
   }
 }
 
-for (const difficulty of DIFFICULTIES) dfs(START_NODE_ID, Object.fromEntries(RESOURCES.map((r) => [r, 0])), Object.fromEntries(def.config.axes.map((a) => [a.id, 0])), {}, 0, difficulty);
+for (const difficulty of DIFFICULTIES) dfs(START_NODE_ID, startResourcesFor(def.config, difficulty), Object.fromEntries(def.config.axes.map((a) => [a.id, 0])), {}, 0, difficulty);
 
 ok(`${pathsExplored} distinct game-states explored (max depth ${deepestDepth}) via exhaustive DFS on every difficulty, forking ${rollsForked} roll option encounter(s) into success/failure branches`);
 

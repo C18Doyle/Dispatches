@@ -268,7 +268,7 @@
   "difficultyInfo": {
     "EASY": {
       "label": "The Schoolmistress",
-      "blurb": "The Professor reads the figures aloud: you see exactly how each choice will move your reserves before you commit."
+      "blurb": "The Professor reads the figures aloud: you see exactly how each choice will move your reserves before you commit. You begin stronger, with two points in every reserve, and a short reserve costs you half as much."
     },
     "MEDIUM": {
       "label": "The Stenographer",
@@ -276,7 +276,7 @@
     },
     "HARD": {
       "label": "The Purse-Keeper",
-      "blurb": "As the Stenographer, plus sixty pounds of the party's money. Some choices cost money you cannot get back, some are only offered to someone who can pay, and the bills are read out at breakfast."
+      "blurb": "As the Stenographer, plus sixty pounds of the party's money. Some choices cost money you cannot get back, some are only offered to someone who can pay, and the bills are read out at breakfast. You begin a little weakened, two points down in every reserve, and a short reserve costs you twice as much."
     }
   },
   "novelNotes": {

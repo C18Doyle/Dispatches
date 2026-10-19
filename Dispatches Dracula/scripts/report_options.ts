@@ -6,7 +6,7 @@
  * filler); scenes where one option takes more than 70% of the cautious or the bold player's choices (the others are not competing); and where each policy
  * ends. Options that are gated or hidden are counted only from the times they were on offer. Run from the game folder; GAME=<seat> for the other seat.
  */
-import { createInitialState, reduce, isOptionUnavailable, effectiveRollChance, type Action, type GameState, type Option } from "@dispatches/engine";
+import { createInitialState, reduce, isOptionUnavailable, effectiveRollChance, strainFor, type Action, type GameState, type Option } from "@dispatches/engine";
 import { loadDefinition } from "../../packages/engine/tools/load_definition";
 import { makeRng } from "../../packages/engine/tools/projection";
 
@@ -28,7 +28,7 @@ const tallies: Record<Policy, Tally> = { random: newTally(), cautious: newTally(
 
 function expected(o: Option, s: GameState): Record<string, number> {
   if (!o.roll) return o.stamps as Record<string, number>;
-  const p = effectiveRollChance(o.roll, s.resources, def.config.strain);
+  const p = effectiveRollChance(o.roll, s.resources, strainFor(def.config, s.difficulty));
   const out: Record<string, number> = {};
   for (const r of resources) out[r] = p * (o.roll.success.stamps[r] ?? 0) + (1 - p) * (o.roll.failure.stamps[r] ?? 0);
   return out;

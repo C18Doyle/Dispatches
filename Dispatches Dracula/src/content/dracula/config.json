@@ -206,7 +206,13 @@
       "showPreview": true,
       "enforceMoney": false,
       "startingMoney": 0,
-      "adviceEnabled": false
+      "adviceEnabled": false,
+      "strainScale": 0.5,
+      "startBonus": {
+        "strength": 2,
+        "secrecy": 2,
+        "dominion": 2
+      }
     },
     "MEDIUM": {
       "showPreview": false,
@@ -218,7 +224,13 @@
       "showPreview": false,
       "enforceMoney": true,
       "startingMoney": 60,
-      "adviceEnabled": true
+      "adviceEnabled": true,
+      "strainScale": 2,
+      "startBonus": {
+        "strength": -2,
+        "secrecy": -2,
+        "dominion": -2
+      }
     }
   },
   "defaultDifficulty": "MEDIUM",

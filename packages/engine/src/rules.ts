@@ -1,6 +1,6 @@
 /** Pure rule helpers shared by the reducer and the UI (locks, odds, clamping). */
 import { evalCondition } from "./conditions";
-import type { AxisId, GameDefinition, GameState, Option, PartialStamps, Roll, StrainConfig, TrackerDef } from "./schema";
+import type { AxisId, Difficulty, GameConfig, GameDefinition, GameState, Option, PartialStamps, Roll, StrainConfig, TrackerDef } from "./schema";
 
 export function clampTo(n: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, n));
@@ -29,6 +29,24 @@ export function checkFailureEnding(def: GameDefinition, resources: Record<string
     if (r.failAt !== undefined && r.failureEndingId && (resources[r.id] ?? 0) <= r.failAt) return r.failureEndingId;
   }
   return null;
+}
+
+/**
+ * The strain in force on a difficulty: the game's strain config with its rate and its cap scaled by the difficulty's `strainScale` (the cap never reaches 1).
+ * Use this, not `config.strain`, wherever odds are worked out, so an easier or harder difficulty changes them everywhere alike.
+ */
+export function strainFor(config: GameConfig, difficulty: Difficulty): StrainConfig | undefined {
+  const strain = config.strain;
+  if (!strain) return undefined;
+  const scale = config.difficulties[difficulty]?.strainScale ?? 1;
+  if (scale === 1) return strain;
+  return { threshold: strain.threshold, perPoint: strain.perPoint * scale, max: Math.min(0.95, strain.max * scale) };
+}
+
+/** The reserves a run starts with on a difficulty: each reserve's `start` plus the difficulty's `startBonus`, kept within the reserve's range. */
+export function startResourcesFor(config: GameConfig, difficulty: Difficulty): Record<string, number> {
+  const bonus = config.difficulties[difficulty]?.startBonus ?? {};
+  return Object.fromEntries(config.resources.map((r) => [r.id, clampTo(r.start + (bonus[r.id] ?? 0), r.min, r.max)]));
 }
 
 /**

@@ -4,6 +4,9 @@ Versioning: the engine is consumed by source path, so the version is a communica
 resolution. Bump the minor for new optional capability, the major for anything that needs game changes.
 A game's `config.json` `schemaVersion` changes only when that game's saved state shape changes.
 
+## 0.6.0 (2026-10)
+- Two optional additions to a difficulty, used by Dracula (a game that sets neither behaves exactly as before): `strainScale` (multiplies the strain, so an easier or harder difficulty changes the odds lost to a short reserve; `strainFor(config, difficulty)` is the one place that works it out, and the reducer and every UI use it) and `startBonus` (added to each named reserve's starting value when the run begins and after the returning-player skip; `startResourcesFor`). Checked by `validate_schema.ts`.
+
 ## 0.5.0 (2026-10)
 - One optional addition, used by Dracula: `config.interludeTriggers[].when`, a condition that must hold for the interlude to be offered (so a document can depend on what the player did). A trigger without `when` behaves exactly as before. Checked by `validate_schema.ts`.
 

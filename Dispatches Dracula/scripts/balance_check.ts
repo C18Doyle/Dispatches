@@ -6,7 +6,7 @@
  * Fails if a cautious player collapses too often (a game you cannot survive by being careful is not a game), if the three
  * policies do not all reach more than one ending, or if a narrative ending is never reached by anyone.
  */
-import { createInitialState, reduce, isOptionUnavailable, effectiveRollChance, type Action, type GameState, type Option } from "@dispatches/engine";
+import { createInitialState, reduce, isOptionUnavailable, effectiveRollChance, strainFor, type Action, type GameState, type Option } from "@dispatches/engine";
 import { loadDefinition } from "../../packages/engine/tools/load_definition";
 import { makeRng } from "../../packages/engine/tools/projection";
 
@@ -16,7 +16,7 @@ const resources = def.config.resources.map((r) => r.id);
 
 function expectedStamps(o: Option, s: GameState): Record<string, number> {
   if (!o.roll) return o.stamps as Record<string, number>;
-  const p = effectiveRollChance(o.roll, s.resources, def.config.strain);
+  const p = effectiveRollChance(o.roll, s.resources, strainFor(def.config, s.difficulty));
   const out: Record<string, number> = {};
   for (const r of resources) out[r] = p * (o.roll.success.stamps[r] ?? 0) + (1 - p) * (o.roll.failure.stamps[r] ?? 0);
   return out;
@@ -62,13 +62,23 @@ const reached = new Set<string>();
 const policies: Policy[] = ["random", "cautious", "bold"];
 for (const policy of policies) {
   const tally: Record<string, number> = {};
+  const byDifficulty: Record<string, { runs: number; collapses: number }> = { EASY: { runs: 0, collapses: 0 }, MEDIUM: { runs: 0, collapses: 0 }, HARD: { runs: 0, collapses: 0 } };
   for (let n = 0; n < RUNS; n++) {
-    const end = play(policy, n + 1, (["EASY", "MEDIUM", "HARD"] as const)[n % 3]);
+    const difficulty = (["EASY", "MEDIUM", "HARD"] as const)[n % 3];
+    const end = play(policy, n + 1, difficulty);
+    byDifficulty[difficulty].runs++;
+    if (end.startsWith("ENDING_CRISIS")) byDifficulty[difficulty].collapses++;
     tally[end] = (tally[end] ?? 0) + 1;
     reached.add(end);
   }
   const crisis = Object.entries(tally).filter(([k]) => k.startsWith("ENDING_CRISIS")).reduce((a, [, v]) => a + v, 0);
   console.log(`${policy.padEnd(9)} collapse ${((100 * crisis) / RUNS).toFixed(1)}%   ` + Object.entries(tally).sort().map(([k, v]) => `${k.replace("ENDING_", "")}:${v}`).join(" "));
+  const rate = (d: string) => (100 * byDifficulty[d].collapses) / Math.max(1, byDifficulty[d].runs);
+  console.log(`          by difficulty: Easy ${rate("EASY").toFixed(1)}%  Medium ${rate("MEDIUM").toFixed(1)}%  Hard ${rate("HARD").toFixed(1)}%`);
+  if (policy === "random" && !(rate("EASY") <= rate("MEDIUM") && rate("MEDIUM") <= rate("HARD"))) {
+    failures++;
+    console.error("FAIL: a random player should collapse least on Easy and most on Hard");
+  }
   if (policy === "cautious" && crisis / RUNS > 0.2) {
     failures++;
     console.error(`FAIL: a cautious player collapses in ${((100 * crisis) / RUNS).toFixed(1)}% of runs (limit 20%)`);

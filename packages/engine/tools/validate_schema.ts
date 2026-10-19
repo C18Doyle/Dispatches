@@ -104,7 +104,14 @@ for (const r of config.resources) {
 }
 for (const a of config.axes) shape(`axis ${a.id}`, a, { id: "string", label: "string", min: "number", max: "number", bucketThreshold: "number" });
 for (const [name, d] of Object.entries(config.difficulties))
-  shape(`difficulty ${name}`, d, { showPreview: "boolean", enforceMoney: "boolean", startingMoney: "number", adviceEnabled: "boolean" });
+  shape(`difficulty ${name}`, d, { showPreview: "boolean", enforceMoney: "boolean", startingMoney: "number", adviceEnabled: "boolean", strainScale: "?number", startBonus: "?object" });
+for (const [name, d] of Object.entries(config.difficulties) as [string, { strainScale?: number; startBonus?: Record<string, number> }][]) {
+  if (d.strainScale !== undefined && !(d.strainScale > 0 && d.strainScale <= 3)) fail(`difficulty ${name}`, "strainScale must be above 0 and at most 3");
+  for (const [r, n] of Object.entries(d.startBonus ?? {})) {
+    if (!resourceIds.has(r)) fail(`difficulty ${name}`, `startBonus names "${r}", which is not a resource`);
+    if (typeof n !== "number") fail(`difficulty ${name}`, `startBonus for "${r}" is not a number`);
+  }
+}
 if (!(config.defaultDifficulty in config.difficulties)) fail("config", "defaultDifficulty is not in difficulties");
 for (const d of ["EASY", "MEDIUM", "HARD"]) if (!(d in config.difficulties)) fail("config", `difficulties missing ${d}`);
 if (!knownBranches.has(config.startBranch)) fail("config", `startBranch "${config.startBranch}" is not a branch used by any node`);

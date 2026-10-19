@@ -253,7 +253,7 @@
   "difficultyInfo": {
     "EASY": {
       "label": "The Householder",
-      "blurb": "The Children of the Night report in advance: you see exactly how each choice will move your reserves before you commit."
+      "blurb": "The Children of the Night report in advance: you see exactly how each choice will move your reserves before you commit. You begin stronger, with two points in every reserve, and a short reserve costs you half as much."
     },
     "MEDIUM": {
       "label": "The Nobleman",
@@ -261,7 +261,7 @@
     },
     "HARD": {
       "label": "The Exile",
-      "blurb": "As the Nobleman, plus sixty pieces of gold from the castle chest and no more where they came from. Some choices cost gold you cannot replace, and some are only offered to a man who can pay."
+      "blurb": "As the Nobleman, plus sixty pieces of gold from the castle chest and no more where they came from. Some choices cost gold you cannot replace, and some are only offered to a man who can pay. You begin a little weakened, two points down in every reserve, and a short reserve costs you twice as much."
     }
   },
   "novelNotes": {

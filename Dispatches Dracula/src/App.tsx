@@ -15,6 +15,7 @@ import {
   rollStrain,
   evalCondition,
   evalTrackers,
+  strainFor,
 } from "@dispatches/engine";
 import type { Action, Difficulty, GameState, Quote, UiPrefs } from "@dispatches/engine";
 import { def, ui, book } from "./game";
@@ -1329,8 +1330,8 @@ export default function App() {
       </VoidScreen>
     );
   } else if (screen === "ROLL" && state.pendingRoll) {
-    const pct = Math.round(effectiveRollChance(state.pendingRoll, state.resources, def.config.strain) * 100);
-    const strainPct = Math.round(rollStrain(state.pendingRoll, state.resources, def.config.strain) * 100);
+    const pct = Math.round(effectiveRollChance(state.pendingRoll, state.resources, strainFor(def.config, state.difficulty)) * 100);
+    const strainPct = Math.round(rollStrain(state.pendingRoll, state.resources, strainFor(def.config, state.difficulty)) * 100);
     const strainAbout = state.pendingRoll.about ?? state.pendingRoll.scaling?.resource;
     content = (
       <VoidScreen>
@@ -1675,7 +1676,7 @@ export default function App() {
                         )}
                       {option.roll && (
                         <span className="stamp text-brass-dim border-brass-dim">
-                          {Math.round(effectiveRollChance(option.roll, state.resources, def.config.strain) * 100)}% VENTURE
+                          {Math.round(effectiveRollChance(option.roll, state.resources, strainFor(def.config, state.difficulty)) * 100)}% VENTURE
                         </span>
                       )}
                       {option.tag && ui.tags?.[option.tag] && (
@@ -1684,9 +1685,9 @@ export default function App() {
                           {ui.tags[option.tag].toUpperCase()}
                         </span>
                       )}
-                      {option.roll && rollStrain(option.roll, state.resources, def.config.strain) > 0 && (
+                      {option.roll && rollStrain(option.roll, state.resources, strainFor(def.config, state.difficulty)) > 0 && (
                         <span className="stamp text-blood border-blood">
-                          <span aria-hidden="true">▼ </span>STRAIN: {RESOURCE_LABELS[option.roll.about ?? option.roll.scaling?.resource ?? ""]} SHORT, -{Math.round(rollStrain(option.roll, state.resources, def.config.strain) * 100)} POINTS
+                          <span aria-hidden="true">▼ </span>STRAIN: {RESOURCE_LABELS[option.roll.about ?? option.roll.scaling?.resource ?? ""]} SHORT, -{Math.round(rollStrain(option.roll, state.resources, strainFor(def.config, state.difficulty)) * 100)} POINTS
                         </span>
                       )}
                       {option.gate && (
