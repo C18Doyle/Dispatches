@@ -774,7 +774,7 @@ CAMPAIGNS.gqg.nodes = {
           "before the Germans attack at Verdun.",
       },
       {
-        id: "free",
+        id: "free", ally: "the Allied missions",
         label: "Keep French freedom of action and attack when and where the army chooses",
         impact: { manpower: 1, munitions: 0, will: -1 },
         setFlags: { gqg_chantilly: "free" },
@@ -889,7 +889,7 @@ CAMPAIGNS.gqg.nodes = {
           "they are asked to do it a second time within the year.",
       },
       {
-        id: "defer",
+        id: "defer", ally: "Haig",
         label: "Defer the French contribution and let the British attack alone",
         advisor: { name: "Joffre", position:
           "We cannot fight two battles of this size in one summer. One of them has to be someone else's." },
@@ -1086,7 +1086,7 @@ CAMPAIGNS.gqg.nodes = {
           "with more freedom for the British commander. The conference leaves mistrust between the British government and its generals.",
       },
       {
-        id: "agreement",
+        id: "agreement", ally: "the British government",
         label: "Decline the subordination and coordinate with Haig by agreement",
         impact: { manpower: 0, munitions: 0, will: -1 },
         setFlags: { gqg_calais: "agreement" },

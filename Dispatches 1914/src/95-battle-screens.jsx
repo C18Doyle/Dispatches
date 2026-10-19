@@ -15,6 +15,68 @@ const GRADE_WORDS = {
 
 const GRADE_SHORT = { clean: "A clean battle", costly: "A costly victory", marginal: "A plan that held, and a battle that did not go its way", total: "A plan that gave out" };
 
+const STATUS_WORD = { gaining: "Gaining", holding: "Holding", breaking: "Breaking" };
+const STATUS_OFFSET = { gaining: -24, holding: 0, breaking: 24 };
+
+/**
+ * The sketch of the ground: one sector for each arm, left to right, the enemy above and our own side below, and the line between them. In the plan it is a straight
+ * line and each sector is pressed to put a counter in it (a counter is pressed to take it out); on the day each sector's part of the line is pushed forward, left
+ * where it is or pushed back, as the bulletins say. The buttons under each arm do the same for a keyboard or a screen reader, so the sketch itself is only drawn.
+ */
+function BattleSketch({ config, allocation, stage, small, onAdd, onRemove }) {
+  const hatch = "dg-hatch-" + useId().replace(/[^a-zA-Z0-9]/g, "");
+  const cats = config.categories;
+  const n = cats.length;
+  const W = 320;
+  const w = W / n;
+  const mid = 74;
+  const ys = cats.map((k, i) => mid + (stage ? STATUS_OFFSET[stage[i].status] : 0));
+  const edge = (i) => (i === 0 ? ys[0] : i === n ? ys[n - 1] : (ys[i - 1] + ys[i]) / 2);
+  let d = "M 0 " + edge(0);
+  cats.forEach((k, i) => { d += " L " + (i * w + 10) + " " + ys[i] + " L " + ((i + 1) * w - 10) + " " + ys[i] + " L " + (i + 1) * w + " " + edge(i + 1); });
+  const summary = stage ? stage.map((a) => a.name + ": " + a.status).join("; ") : cats.map((k) => k.name + ": " + (allocation[k.id] || 0)).join("; ");
+  return (
+    <svg className={"dg-sketch" + (small ? " small" : "")} viewBox="0 0 320 160" role="img" aria-label={"Sketch of the line. " + summary}>
+      <defs>
+        <pattern id={hatch} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" className="dg-sk-hatch" /></pattern>
+      </defs>
+      {cats.map((k, i) => (
+        <g key={k.id}>
+          <rect x={i * w} y="0" width={w} height="160" className={"dg-sk-sector" + (stage ? " " + stage[i].status : "")} />
+          <rect x={i * w} y="0" width={w} height={ys[i]} fill={"url(#" + hatch + ")"} opacity=".5" />
+          {i > 0 && <line x1={i * w} y1="0" x2={i * w} y2="160" className="dg-sk-div" />}
+          {onAdd && <rect x={i * w} y="0" width={w} height="160" className="dg-sk-hit" onClick={() => onAdd(k.id)} />}
+        </g>
+      ))}
+      <path d={d} className="dg-sk-line" />
+      {cats.map((k, i) => Array.from({ length: allocation[k.id] || 0 }, (_, j) => (
+        <rect key={k.id + j} x={i * w + 8 + (j % 4) * 17} y={ys[i] + 12 + Math.floor(j / 4) * 16} width="13" height="11" className="dg-sk-counter"
+          onClick={onRemove ? (e) => { e.stopPropagation(); onRemove(k.id); } : undefined} />
+      )))}
+      {cats.map((k, i) => <text key={"n" + k.id} x={(i + 1) * w - 8} y="154" textAnchor="end" className="dg-sk-num">{i + 1}</text>)}
+      <text x="6" y="12" className="dg-sk-label">Enemy</text>
+      <text x="6" y="154" className="dg-sk-label">Ours</text>
+    </svg>
+  );
+}
+
+/** One time of day: the sketch with the line where the bulletins put it, and a bulletin for each arm. */
+function BattleStage({ config, time, stage, allocation }) {
+  return (
+    <section className="dg-stage" aria-label={time}>
+      <h3 className="dg-stage-h">{time.charAt(0).toUpperCase() + time.slice(1)}</h3>
+      <BattleSketch config={config} allocation={allocation} stage={stage} small />
+      <ul className="dg-bulletins">
+        {stage.map((a, i) => (
+          <li key={a.id} className={"s-" + a.status}>
+            <span className="dg-bul-n">{i + 1}</span> <b className="dg-bul-s">{STATUS_WORD[a.status]}</b> {bulletinLine(time, a)}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 /** The first day's word: how the plan sits on the enemy that was really met. */
 function dayOneWord(bonus) {
   return bonus >= 5 ? "The first day went well: the plan fits the enemy that was met."
@@ -59,6 +121,7 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
   const final = { ...plan, second: { stance, moves } };
   const odds = useMemo(() => battlePlanOdds(choice, config, final, posture, pool, meters), [pick]);
   const was = useMemo(() => battlePlanOdds(choice, config, plan, posture, pool, meters), []);
+  const stages = useMemo(() => battleStages(config, plan, posture, pool), []);
   return (
     <main {...rootProps(campaignId, "battle")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -77,6 +140,8 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
         <p className="dg-prose">{dayOneWord(dayOne)}</p>
         <p className="dg-note">The odds on the plan as issued: {was.word}.</p>
       </section>
+
+      <BattleStage config={config} time="morning" stage={stages.morning} allocation={plan.allocation} />
 
       <section aria-label="The second day">
         <h2 className="dg-order">The second day</h2>
@@ -220,13 +285,14 @@ function BattleScreen({ campaignId, config, choice, meters, easy, forcePostureId
         )}
         {step === "counters" && (
           <>
+            <BattleSketch config={config} allocation={allocation} onAdd={(id) => bump(id, 1)} onRemove={(id) => bump(id, -1)} />
             <p className="dg-note" role="status" aria-live="polite">
-              {left > 0 ? `${left} of ${pool} counters left to place.` : `All ${pool} counters are placed.`} An arm left short costs the plan.
+              {left > 0 ? `${left} of ${pool} counters left to place. Press a sector to add one.` : `All ${pool} counters are placed.`} An arm left short costs the plan.
             </p>
-            {config.categories.map((k) => (
+            {config.categories.map((k, ki) => (
               <div key={k.id} className="dg-bt-arm">
                 <div className="dg-bt-head">
-                  <b>{k.name}</b>
+                  <b>{ki + 1}. {k.name}</b>
                   <span className="dg-bt-ctl">
                     <button className="dg-btn" aria-label={`Fewer in ${k.name}`} disabled={!allocation[k.id]} onClick={() => bump(k.id, -1)}>−</button>
                     <span className="dg-bt-n" aria-label={`${k.name}: ${allocation[k.id] || 0} counters`}>{allocation[k.id] || 0}</span>
@@ -296,6 +362,17 @@ function BattleReport({ battle }) {
           {battle.lines.map((l, i) => <li key={i}>{l.reason}: {l.delta > 0 ? "+" : "−"}1 {CAMPAIGNS[config.campaign] ? meterLabels(config.campaign)[l.meter] : l.meter}</li>)}
         </ul>
       )}
+      {plan && (() => {
+        const won = battle.grade === "clean" || battle.grade === "costly";
+        const st = battleStages(config, plan, posture, plan.pool, won);
+        return (
+          <div className="dg-day" aria-label="The day in bulletins">
+            <BattleStage config={config} time="morning" stage={st.morning} allocation={plan.allocation} />
+            <BattleStage config={config} time="noon" stage={st.noon} allocation={battleSecondPlan(plan).allocation} />
+            <BattleStage config={config} time="evening" stage={st.evening} allocation={battleSecondPlan(plan).allocation} />
+          </div>
+        );
+      })()}
       <details>
         <summary className="dg-sum">What happened on the day</summary>
         {config.categories.map((k) => (

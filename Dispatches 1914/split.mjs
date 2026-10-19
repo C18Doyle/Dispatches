@@ -35,6 +35,7 @@ const SECTIONS = [
   { title: "MORE ENDINGS", file: "45-more-endings.jsx" },
   { title: "DOCUMENTS FROM THE RECORD", file: "46-documents.jsx" },
   { title: "WHAT AN ORDER COMMITS THE COMMAND TO", file: "47-order-notes.jsx" },
+  { title: "THE CONDITIONS OF A REPORT", file: "48-conditions.jsx" },
   { title: "DERIVED REGISTRIES", file: "50-registries.jsx" },
   { title: "METERS", file: "51-meters.jsx" },
   { title: "COMMANDER SUCCESSION — spec §3.2, §13.3", file: "52-succession.jsx" },

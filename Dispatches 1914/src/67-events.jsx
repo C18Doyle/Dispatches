@@ -156,6 +156,7 @@ export function dueEvent(campaignId, nodeId, flags, meters) {
   if (gone) return gone;
   for (const e of EVENTS) {
     if (e.campaign !== campaignId || (flags && flags["ev_" + e.id])) continue;
+    if (e.paper && flags && flags.press_censored) continue; // a censored press prints no front pages
     if (node.date < e.from || node.date > e.to) continue;
     if (e.when(flags || {}, meters)) return e;
   }
