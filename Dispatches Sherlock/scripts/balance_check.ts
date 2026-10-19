@@ -84,7 +84,7 @@ for (const policy of policies) {
   }
 }
 // the three short cases: each should end in more than one way for every policy, and a careful player should not often fail
-for (const [book, name] of [[1, "Bohemia"], [2, "Band"], [3, "Carbuncle"]] as const) {
+for (const [book, name] of [[1, "Band"], [2, "Bohemia"], [3, "Carbuncle"], [4, "League"]] as const) {
   for (const policy of policies) {
     const tally: Record<string, number> = {};
     for (let n = 0; n < 200; n++) {

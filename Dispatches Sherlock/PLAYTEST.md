@@ -13,10 +13,13 @@
 - The Yard and street roads now end in three steps, and a well-prepared player has a sure route to the win; has nobody checked that the sure route is not too sure, or too hidden?
 - The street road is shut unless the Irregulars were hired in scene 5, and the Whitehall road needs Mycroft's trust; most random play never reaches either.
 - The road is chosen at about the fourth choice and a run is about 25 choices. Does the early fork feel like a real choice, or like a menu? Does anyone choose the street road, and does the Whitehall road feel earned?
-- The validator takes about three minutes now that it stops as soon as everything is reached; it is no longer an exhaustive proof of every state, only of every scene, ending and option.
+- The validator takes under a minute now that it stops as soon as everything is reached and searches the smallest unseen volume first; it is no longer an exhaustive proof of every state, only of every scene, ending and option.
 - The three short cases are new and untested by anyone: are they too easy, and does the Strand matter at all in a four-scene case?
 - Mrs Norton's letter, the disguises and the cable room are new in the long case; ask whether each felt like a real choice.
 - The examinations reward reading the scene text for a clue; a tester should say whether the clue was fair.
 - The map is a hand sketch: ask a Londoner whether the streets are close enough to be forgiven.
 - Nobody who knows the period has read the details of the Yard scenes (warrants at Bow Street, the Old Bailey in June).
 - The atmosphere, the violin sting and the gauge sounds are synthesised and have not been heard by anyone but the author (the browser would not play them in the checks). Is the drone pleasant or a headache?
+- The finales now have a second chance. Does a well-prepared player still feel the capture was earned, and does a careless one still feel that it could slip?
+- The two new investigations (the river and the hotel) are optional in spirit: does a tester see what they pay off in the finale?
+- The paper look has been checked for contrast by a script and by eye on a phone-width screenshot only; ask someone to read a long scene in it, outdoors.

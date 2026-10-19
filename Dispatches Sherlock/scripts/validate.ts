@@ -308,6 +308,22 @@ function everythingReached(): boolean {
   return true;
 }
 let stoppedEarly = false;
+// how many scenes reachable from a scene (itself included) have not been seen yet; recomputed whenever a new scene is first reached
+let unreachedVersion = -1;
+const unreachedAhead = new Map<string, number>();
+function unreachedFrom(id: string): number {
+  if (unreachedVersion !== reachableNodeIds.size) {
+    unreachedAhead.clear();
+    unreachedVersion = reachableNodeIds.size;
+  }
+  let n = unreachedAhead.get(id);
+  if (n === undefined) {
+    n = 0;
+    for (const x of FUT.get(id) ?? []) if (!reachableNodeIds.has(x)) n++;
+    unreachedAhead.set(id, n);
+  }
+  return n;
+}
 const unseenTarget = (t: string) => (t.startsWith("ENDING_") ? !reachableEndingIds.has(t) : !reachableNodeIds.has(t));
 function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<string, boolean>, depth: number, difficulty: Difficulty) {
   if (dominated(difficulty, nodeId, resources, axes, flags)) {
@@ -315,6 +331,13 @@ function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<str
     return;
   }
   pathsExplored++;
+  if (process.env.TRACE && pathsExplored % 20000 === 0) {
+    const open: string[] = [];
+    for (const id of Object.keys(NODES)) if (!reachableNodeIds.has(id)) open.push("node " + id);
+    for (const e of Object.keys(ENDINGS)) if (!RUIN_ENDINGS.has(e) && !reachableEndingIds.has(e)) open.push("ending " + e);
+    for (const m of goalMaps) for (const [k, v] of m.entries()) if (!v) open.push(k);
+    console.log(`  [trace] ${pathsExplored} expanded; ${open.length} goals open: ${open.slice(0, 8).join(" | ")}`);
+  }
   if (pathsExplored % 64 === 0 && everythingReached()) {
     stoppedEarly = true;
     throw new AllReached();
@@ -332,7 +355,14 @@ function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<str
     const ts = o.roll ? [o.roll.success.nextNodeId ?? o.nextNodeId, o.roll.failure.nextNodeId ?? o.nextNodeId] : [o.nextNodeId];
     return ts.some(unseenTarget) || [gateEverSatisfied, flagGateEverSatisfied, condGateEverSatisfied, shownWhenEverShown].some((m) => m.get(goalKey(o)) === false);
   };
-  const ordered = [...node.options].sort((a, b) => Number(fresh(b)) - Number(fresh(a)));
+  // among those, the one with the least still unseen ahead of it first: a small volume is finished before the long case is searched
+  const cost = (o: (typeof node.options)[number]) => {
+    if (!fresh(o)) return Infinity;
+    const ts = o.roll ? [o.roll.success.nextNodeId ?? o.nextNodeId, o.roll.failure.nextNodeId ?? o.nextNodeId] : [o.nextNodeId];
+    return Math.min(...ts.map((t) => (NODES[t] ? unreachedFrom(t) : 0)));
+  };
+  const costs = new Map(node.options.map((o) => [o, cost(o)] as const));
+  const ordered = [...node.options].sort((a, b) => (costs.get(a)! === costs.get(b)! ? 0 : costs.get(a)! < costs.get(b)! ? -1 : 1));
   for (const opt of ordered) {
     if (NONMONO.has(opt)) continue;
     if (opt.showWhen) {

@@ -419,6 +419,12 @@
       ]
     },
     {
+      "interludeId": "TRANSITION_LEAGUE",
+      "onEnterNodes": [
+        "L1"
+      ]
+    },
+    {
       "interludeId": "TRANSITION_MYCROFT",
       "onEnterNodes": [
         "M1"

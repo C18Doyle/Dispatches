@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useReducer } from "react";
+import { Fragment, useEffect, useRef, useState, useReducer } from "react";
 import {
   reduce,
   createInitialState,
@@ -27,6 +27,7 @@ import { PlateView, plateForEnding, plateForInterlude } from "./art";
 import { MapView } from "./map";
 import { CalendarView } from "./calendar";
 import { BoardView } from "./board";
+import { MINOR_BRANCHES, VOLUMES, volumeOfBranch, volumeOfEnding, volumeStats } from "./casebook";
 
 type Resource = string;
 type FontSize = UiPrefs["fontSize"];
@@ -38,6 +39,20 @@ const RESOURCE_LABELS: Record<Resource, string> = Object.fromEntries(def.config.
 /** The Strand: three lines of means (Hours, Hands, Wires) drawn as one gauge with three sub-lines. The other resources are plain gauges. */
 const STRAND_IDS = ["hours", "hands", "wires"].filter((id) => RESOURCE_IDS.includes(id));
 const CORE_IDS = RESOURCE_IDS.filter((r) => !STRAND_IDS.includes(r));
+
+/** Watson's lines about the Strand live with his other notebook lines, under the keys strand_hours, strand_hands, strand_wires and strand_plenty. */
+const STRAND_WORDS: Record<string, string[] | undefined> = {
+  hours: def.flavor.creatureReportLines["strand_hours"],
+  hands: def.flavor.creatureReportLines["strand_hands"],
+  wires: def.flavor.creatureReportLines["strand_wires"],
+  plenty: def.flavor.creatureReportLines["strand_plenty"],
+};
+/** Watson's remark about the Strand: the shortest line first (when one is at -2 or worse), or a word of comfort when all three are well supplied. */
+function strandRemark(state: GameState): string | null {
+  const short = STRAND_IDS.filter((id) => (state.resources[id] ?? 0) <= -2).sort((a, b) => state.resources[a] - state.resources[b]);
+  const pool = short.length ? STRAND_WORDS[short[0]] : STRAND_IDS.every((id) => (state.resources[id] ?? 0) >= 3) ? STRAND_WORDS.plenty : undefined;
+  return pool?.length ? pickLine(pool, Math.random()) : null;
+}
 
 function isInCrisis(resource: Resource, value: number): boolean {
   const r = def.config.resources.find((x) => x.id === resource);
@@ -54,6 +69,7 @@ const BRANCH_LABELS: Record<string, string> = {
   BOHEMIA: "Case · A Scandal in Bohemia",
   BAND: "Case · The Speckled Band",
   CARBUNCLE: "Case · The Blue Carbuncle",
+  LEAGUE: "Case · The Red-Headed League",
 };
 
 // The names and blurbs are content (flavor.json); these only stand in if a game does not supply them.
@@ -81,6 +97,17 @@ const ROLL_SUSPENSE_PHRASES = [
 ];
 
 const STORAGE_KEY = "sherlock_final_problem_settings";
+
+/** The look: tweed (the dark parlour) or paper (the same parlour in daylight). Kept apart from the other settings, which the engine's UiPrefs type fixes. */
+type Theme = "tweed" | "paper";
+const THEME_KEY = "sherlock_final_problem_theme";
+function loadTheme(): Theme {
+  try {
+    return localStorage.getItem(THEME_KEY) === "paper" ? "paper" : "tweed";
+  } catch {
+    return "tweed";
+  }
+}
 
 function loadSettings(): UiPrefs {
   const fallback = {
@@ -345,7 +372,7 @@ function StampBadge({ resource, delta }: { resource: Resource; delta: number }) 
   );
 }
 
-const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", "BOHEMIA", "BAND", "CARBUNCLE"];
+const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", ...MINOR_BRANCHES];
 const BRANCH_TINT: Record<string, string> = {
   WEB: "bg-brass-dim",
   YARD: "bg-blood",
@@ -356,6 +383,7 @@ const BRANCH_TINT: Record<string, string> = {
   BOHEMIA: "bg-brass",
   BAND: "bg-verdigris",
   CARBUNCLE: "bg-blood",
+  LEAGUE: "bg-brass-dim",
 };
 const TRUST_WORDS = ["Estranged", "Cold", "Doubtful", "Wary", "Neutral", "Warming", "Trusting", "Loyal", "Devoted"];
 const trustWord = (v: number) => TRUST_WORDS[Math.max(0, Math.min(8, v + 4))];
@@ -498,6 +526,15 @@ export default function App() {
   // Engine state: only the pure reducer changes it. Everything else below is UI-only.
   const [state, dispatch] = useReducer((s: GameState, a: Action) => reduce(def, s, a), undefined, () => createInitialState(def));
   const [prefs, setPrefs] = useState<UiPrefs>(loadSettings);
+  const [theme, setTheme] = useState<Theme>(loadTheme);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch {
+      /* private window: the look simply does not persist */
+    }
+  }, [theme]);
   const [overlay, setOverlay] = useState<"SETTINGS" | "RESEARCH" | "LEDGER" | null>(null);
   const screen: string = overlay ?? state.phase;
   const rules = def.config.difficulties[state.difficulty];
@@ -594,7 +631,10 @@ export default function App() {
   // the ENDING screen, after this same effect has already cleared the
   // save via the ENDING branch), so ENDING alone is the correct trigger.
   useEffect(() => {
-    if (IN_RUN_SCREENS.has(state.phase)) saveRunSave(state);
+    // the shelf is not a case: an unfinished one from an earlier visit stays on disk until a volume is opened over it
+    if (IN_RUN_SCREENS.has(state.phase)) {
+      if (state.currentNodeId !== "0") saveRunSave(state);
+    }
     else if (state.phase === "ENDING") clearRunSave();
   }, [state]);
 
@@ -723,6 +763,26 @@ export default function App() {
                 }`}
               >
                 {size}
+              </button>
+            ))}
+          </div>
+
+          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Look</p>
+          <div className="flex gap-2 mb-7">
+            {(["tweed", "paper"] as Theme[]).map((t) => (
+              <button
+                key={t}
+                aria-pressed={theme === t}
+                aria-label={t === "tweed" ? "Look: tweed, a dark parlour" : "Look: paper, the parlour in daylight"}
+                onClick={() => {
+                  click();
+                  setTheme(t);
+                }}
+                className={`flex-1 py-2 border font-heading text-xs uppercase tracking-widest transition-colors ${
+                  theme === t ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
+                }`}
+              >
+                {t === "tweed" ? "Tweed" : "Paper"}
               </button>
             ))}
           </div>
@@ -1119,6 +1179,27 @@ export default function App() {
             {DIFFICULTY_INFO[state.difficulty].label} · {state.history.length} choices ·{" "}
             {RESOURCE_IDS.map((r) => `${RESOURCE_LABELS[r]} ${state.resources[r] > 0 ? "+" : ""}${state.resources[r]}`).join(", ")}
           </p>
+          {(() => {
+            const here = volumeOfEnding(state.endingId ?? "");
+            const seen = new Set(endingsSeen);
+            seen.add(state.endingId ?? "");
+            const stats = volumeStats(seen);
+            const mine = stats.find((s) => s.volume.id === here.id)!;
+            const opened = stats.filter((s) => s.finished).length;
+            const next = stats.find((s) => !s.finished);
+            return (
+              <div className="mt-4 text-sm text-ink/85" aria-label="The Case-Book">
+                <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-brass-dim font-semibold mb-1">The Case-Book</p>
+                <p>
+                  <span className="font-semibold">{here.title}</span> ({here.major ? "the major case" : "a minor case"}, {here.year}): {mine.found} of {mine.total} endings found.
+                </p>
+                <p>
+                  {opened} of {VOLUMES.length} volumes finished.{" "}
+                  {next ? `Next on the shelf: ${next.volume.title} (${next.volume.major ? "the major case" : "a minor case"}).` : "Every volume has been finished at least once."}
+                </p>
+              </div>
+            );
+          })()}
           <Fold title="Your Record">
           <div>
             <div className={`grid grid-cols-2 gap-3 text-sm ${rules.enforceMoney ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}>
@@ -1350,8 +1431,12 @@ export default function App() {
         ? "CONTINENT"
         : "WEB";
     // the three standalone cases are short and self-contained: no company, board or calendar to keep
-    const inCase = ["BOHEMIA", "BAND", "CARBUNCLE"].includes(state.activeBranch);
+    const inCase = MINOR_BRANCHES.includes(state.activeBranch);
     const onShelf = state.currentNodeId === "0";
+    const shelfStats = onShelf ? volumeStats(endingsSeen) : [];
+    // an unfinished case from an earlier visit, which the shelf offers to take up again (the shelf itself is never saved)
+    const savedCase = onShelf ? loadRunSave() : null;
+    const openCase = savedCase && savedCase.currentNodeId !== "0" ? savedCase : null;
     const tabButton = (id: "HOUSE" | "COMPANY" | "BOARD" | "MAP" | "CALENDAR", label: string) => (
       <button
         role="tab"
@@ -1459,7 +1544,7 @@ export default function App() {
                     onClick={() => {
                       click();
                       setGossipLine(null);
-                      setNotebookLine(pickLine(creatureReportPool(def, state), Math.random()));
+                      setNotebookLine((Math.random() < 0.65 ? strandRemark(state) : null) ?? pickLine(creatureReportPool(def, state), Math.random()));
                     }}
                     className="px-4 py-2 border border-ink/40 text-ink font-heading uppercase text-xs tracking-widest hover:border-ink hover:bg-ink hover:text-parchment transition-colors"
                   >
@@ -1526,7 +1611,7 @@ export default function App() {
             {houseTab === "CALENDAR" && (
               <div role="tabpanel" className="parchment-card p-4 mt-3 relative text-ink font-body">
                 <CornerFlourishes />
-                <CalendarView nodeId={state.currentNodeId} branch={road} />
+                <CalendarView nodeId={state.currentNodeId} branch={road} hours={state.resources.hours ?? 0} />
               </div>
             )}
             {houseTab === "MAP" && (
@@ -1577,6 +1662,25 @@ export default function App() {
                 Take Watson's Suggestion
               </button>
             )}
+            {onShelf && openCase && (
+              <div className="mb-5 border border-brass-dim p-3 bg-black/[0.04]">
+                <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-1">A Case Is Open</p>
+                <p className="text-sm text-ink/90">
+                  {volumeOfBranch(openCase.activeBranch)?.title ?? "The Final Problem"}:{" "}
+                  <span className="font-semibold">{def.content.nodes[openCase.currentNodeId]?.title}</span>. {openCase.history.length} choices so far.
+                </p>
+                <button
+                  onClick={() => {
+                    select();
+                    dispatch({ type: "HYDRATE", state: openCase });
+                  }}
+                  className="mt-2 px-4 py-2 border border-ink/40 text-ink font-heading uppercase text-xs tracking-widest hover:border-ink hover:bg-ink hover:text-parchment transition-colors"
+                >
+                  Resume it
+                </button>
+                <p className="mt-2 text-xs text-ink/70">Opening a volume below puts this case away for good.</p>
+              </div>
+            )}
             <div className="space-y-4">
               {node.options.map((option, i) => {
                 // An option that is not on offer at this difficulty (or in this state) is not shown; the index stays the option's own.
@@ -1588,9 +1692,13 @@ export default function App() {
                 const affordLocked = !gateLocked && !flagLocked && !condLocked && locked;
                 const showStampPreview = rules.showPreview || state.adviceRevealed;
                 const armed = armedOptionIndex === i;
+                const volStat = onShelf ? shelfStats[i] : undefined;
                 return (
+                  <Fragment key={i}>
+                  {onShelf && i <= 1 && (
+                    <h3 className="font-heading text-[0.7rem] uppercase tracking-[0.3em] text-blood font-bold pt-2">{i === 0 ? "The Major Case" : "Minor Cases"}</h3>
+                  )}
                   <button
-                    key={i}
                     type="button"
                     disabled={locked}
                     onClick={() => {
@@ -1653,6 +1761,11 @@ export default function App() {
                           <CoinIcon className="w-3 h-3" /> +£{option.moneyDelta}
                         </span>
                       ) : null}
+                      {volStat && (
+                        <span className={`stamp ${volStat.found ? "text-verdigris-bright border-verdigris-bright" : "text-brass-dim border-brass-dim"}`}>
+                          {volStat.found ? `${volStat.found} OF ${volStat.total} ENDINGS FOUND` : "NOT YET OPENED"}
+                        </span>
+                      )}
                     </div>
                     <p
                       className={`font-heading font-semibold text-[1rem] leading-snug ${
@@ -1669,6 +1782,7 @@ export default function App() {
                       </p>
                     )}
                   </button>
+                  </Fragment>
                 );
               })}
             </div>

@@ -288,6 +288,25 @@
         "ENDING_THE_STONE_RETURNED",
         "ENDING_THE_STONE_LOST"
       ]
+    },
+    {
+      "id": "league-clay",
+      "statement": "In The Adventure of the Red-Headed League a pawnbroker, Jabez Wilson, is paid four pounds a week to copy the Encyclopaedia Britannica so that his assistant, John Clay, can tunnel from the cellar to the vault of the City and Suburban Bank next door; Holmes, with Peter Jones of Scotland Yard and the bank director Mr Merryweather, waits in the vault and takes Clay with a hunting-crop, and his accomplice is taken at the shop. Holmes says it is an attempt to escape from the commonplace.",
+      "source": "memory of the story (public domain); not yet checked against the text",
+      "status": "memory",
+      "endings": [
+        "ENDING_THE_LEAGUE_DISSOLVED"
+      ]
+    },
+    {
+      "id": "league-invented",
+      "statement": "A successful robbery, and a quiet arrest that keeps the bank out of the papers, are the game's own invention.",
+      "source": "n/a (design)",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_TUNNEL_OPEN",
+        "ENDING_THE_ENCYCLOPAEDIA"
+      ]
     }
   ]
 }

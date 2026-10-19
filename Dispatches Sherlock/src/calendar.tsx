@@ -39,11 +39,13 @@ export const formatDate = (iso: string) => {
 };
 const dayOf = (iso: string) => Math.round((parse(iso) - START) / DAY);
 
-export function CalendarView({ nodeId, branch }: { nodeId: string; branch: string }) {
+export function CalendarView({ nodeId, branch, hours = 0 }: { nodeId: string; branch: string; hours?: number }) {
   const iso = SCENE_DATES[nodeId];
   if (!iso) return null;
   const today = dayOf(iso);
   const mine = MILESTONES.filter((m) => !m.roads || m.roads.includes(branch));
+  // Hours are the days in hand: every point that you are short of them is a day that the calendar has already taken from you
+  const slip = Math.max(0, Math.min(8, -hours));
   const upcoming = mine.find((m) => dayOf(m.date) >= today);
   const toNext = upcoming ? dayOf(upcoming.date) - today : null;
   const away = today > 190;
@@ -92,11 +94,22 @@ export function CalendarView({ nodeId, branch }: { nodeId: string; branch: strin
             ))}
             <path d={`M${x(today)} 22l-4-8h8Z`} fill="#b8893f" stroke="#241b13" strokeWidth="0.8" />
             <line x1={x(today)} y1="22" x2={x(today)} y2="46" stroke="#b8893f" strokeWidth="1.2" strokeDasharray="2 2" />
+            {slip > 0 && (
+              <g>
+                <line x1={x(today)} y1="18" x2={x(today + slip)} y2="18" stroke="#7b2a1d" strokeWidth="1" strokeDasharray="1.5 2" />
+                <path d={`M${x(today + slip)} 22l-4-8h8Z`} fill="none" stroke="#7b2a1d" strokeWidth="1.2" />
+              </g>
+            )}
           </svg>
           {upcoming && (
             <p className="text-sm text-ink/90 mt-1">
               {toNext === 0 ? "Today: " : toNext === 1 ? "Tomorrow: " : `In ${toNext} days: `}
               <span className="font-semibold">{upcoming.label}</span>, {formatDate(upcoming.date)}.
+            </p>
+          )}
+          {slip > 0 && upcoming && (
+            <p className="text-sm text-blood mt-1">
+              Hours stand at {hours}. You are working as though it were {slip} {slip === 1 ? "day" : "days"} later, so the real time left is {Math.max(0, (toNext ?? 0) - slip)} {Math.max(0, (toNext ?? 0) - slip) === 1 ? "day" : "days"}.
             </p>
           )}
           <ul className="mt-2 text-xs text-ink/75 space-y-0.5">

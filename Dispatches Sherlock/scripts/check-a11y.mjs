@@ -69,10 +69,9 @@ const ratio = (a, b) => {
   const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
   return (x + 0.05) / (y + 0.05);
 };
-const C = {
-  void: "#0a0a0a", parchment: "#EDEAE0", "parchment-dim": "#d7d2c4", ink: "#0f0f0e", "ink-soft": "#3a3a37", blood: "#8a231f", "blood-bright": "#BE2A26",
-  verdigris: "#3d5c45", "verdigris-bright": "#3A754A", brass: "#8f887a", "brass-bright": "#b8b2a2", "brass-dim": "#4a463f", ash: "#847f74",
-};
+// the colours are read from tailwind.config.js, so that the check follows the palette the game actually ships
+const C = {};
+for (const m of readFileSync(join(ROOT, "tailwind.config.js"), "utf8").matchAll(/"?([a-z0-9-]+)"?:\s*"(#[0-9a-fA-F]{6})"/g)) C[m[1]] = m[2];
 const pairs = [];
 const P = C.parchment;
 // text on the parchment cards (App.tsx opacities: ink/90, /80, /75, /70)
@@ -92,6 +91,14 @@ pairs.push(["ash on void (the endings counter)", C.ash, C.void, 4.5]);
 pairs.push(["parchment on ink (a primary button)", P, C.ink, 4.5]);
 pairs.push(["parchment on blood (the red button)", P, C.blood, 4.5]);
 pairs.push(["ink on brass (a selected difficulty)", C.ink, C.brass, 4.5]);
+// the paper look (index.css, :root[data-theme="paper"]): ink-coloured text on a pale houndstooth ground
+const PAPER = "#e9dec4";
+const PAPER_TEXT = { ink: C.ink, "ash (paper)": "#54432f", "brass (paper)": "#6e4d10" };
+const PAPER_TOOTH = "#dccfab"; // the lighter thread of the ground, the worst case under text
+for (const [name, fg] of Object.entries(PAPER_TEXT)) {
+  pairs.push([`${name} on the paper ground`, fg, PAPER, 4.5]);
+  pairs.push([`${name} on the paper ground's lighter thread`, fg, PAPER_TOOTH, 4.5]);
+}
 for (const [label, fg, bg, need] of pairs) {
   const r = ratio(fg, bg);
   if (r < need) note(`palette: ${label} is ${r.toFixed(2)}:1, under the ${need}:1 it needs`);

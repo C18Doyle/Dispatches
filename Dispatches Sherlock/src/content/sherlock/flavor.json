@@ -12,7 +12,7 @@
   "howToPlay": [
     {
       "heading": "Your Part",
-      "body": "The Case-Book on your table holds four volumes. The thick one is The Final Problem, the long case of 1891, and the three thin ones are short cases that stand alone: A Scandal in Bohemia, The Speckled Band and The Blue Carbuncle. They are short, share nothing with the long case, and are a good way to learn the game. The rest of this page is about The Final Problem. You are Sherlock Holmes, from the first week of January 1891, hunting a man who has never been charged with a crime. Each scene is a dated report. You read it, and choose how to answer. Tap an option once to mark it, and again to confirm it. What you choose changes what comes next, and some doors open only for a detective who has done the right things earlier. You choose your road early, within a few scenes."
+      "body": "The Case-Book on your table holds five volumes. The thick one is the major case, The Final Problem of 1891. The four thin ones are minor cases that stand alone: The Speckled Band (1883), A Scandal in Bohemia (1888), The Blue Carbuncle (1889) and The Red-Headed League (1890). A minor case is four scenes long, shares nothing with the major case, and is a good way to learn the game. The shelf remembers which endings you have found, and offers to resume an unfinished case. The rest of this page is about The Final Problem. You are Sherlock Holmes, from the first week of January 1891, hunting a man who has never been charged with a crime. Each scene is a dated report. You read it, and choose how to answer. Tap an option once to mark it, and again to confirm it. What you choose changes what comes next, and some doors open only for a detective who has done the right things earlier. You choose your road early, within a few scenes."
     },
     {
       "heading": "Evidence, Standing and Nerve",
@@ -20,7 +20,7 @@
     },
     {
       "heading": "The Strand",
-      "body": "Under the three gauges run three smaller lines, which the game calls the Strand, after the street and the magazine. Hours is time in hand: slow, patient work spends it. Hands is the people at your disposal: Watson, the boys, the Yard's men. Wires is your reach: a telegram, a file, an informant, the press. Each line runs from minus eight to plus eight, and has its own warning card at minus five. Any one of them at minus eight cuts the Strand, and the Professor goes untouched. A Strand line that is short also makes a gauge harder to fill. Keep the three in step, and do not spend the same line twice."
+      "body": "Under the three gauges run three smaller lines, which the game calls the Strand, after the street and the magazine. Hours is time in hand: slow, patient work spends it. Hands is the people at your disposal: Watson, the boys, the Yard's men. Wires is your reach: a telegram, a file, an informant, the press. Each line runs from minus eight to plus eight, and has its own warning card at minus five. Any one of them at minus eight cuts the Strand, and the Professor goes untouched. A Strand line that is short also makes a gauge harder to fill. Keep the three in step, and do not spend the same line twice. Watson notices when one runs short, and says so in his notebook."
     },
     {
       "heading": "Gambits",
@@ -28,7 +28,7 @@
     },
     {
       "heading": "Baker Street, and Who Trusts You",
-      "body": "The five buttons above each scene open one panel at a time. Baker Street gives you Watson's advice (a few times in a game, it shows what each choice will cost), Mycroft's Favour (once, one gauge improves at the cost of another), overheard talk, and Watson's Notebook, his private opinion of the man you are becoming. Company shows how far Watson, Lestrade, Mycroft and Wiggins trust you, and the last thing each was heard to say. Some options open only to a detective they trust, and a few only to one they have lost. Board is your cork board: the traces, people and moves you have pinned up, the Professor's web with the arms you have found and cut (he notices), and the questions you cannot yet answer. Calendar shows where the scene falls in the winter and spring of 1891 and how long to the next date that matters. Map is the sketch map."
+      "body": "The five buttons above each scene open one panel at a time. Baker Street gives you Watson's advice (a few times in a game, it shows what each choice will cost), Mycroft's Favour (once, one gauge improves at the cost of another), overheard talk, and Watson's Notebook, his private opinion of the man you are becoming. Company shows how far Watson, Lestrade, Mycroft and Wiggins trust you, and the last thing each was heard to say. Some options open only to a detective they trust, and a few only to one they have lost. Board is your cork board: the traces, people and moves you have pinned up, the Professor's web with the arms you have found and cut (he notices), and the questions you cannot yet answer. Calendar shows where the scene falls in the winter and spring of 1891 and how long to the next date that matters; when your Hours run short it also shows how many days the calendar has already taken from you. Map is the sketch map."
     },
     {
       "heading": "When a Gauge Runs Short",
@@ -47,12 +47,16 @@
       "body": "The map button shows where you are, and the trail you have followed. It is a sketch and not a survey: the streets and the coasts are only approximately where the game puts them."
     },
     {
+      "heading": "Look and Sound",
+      "body": "Settings offers two looks: tweed, a dark parlour with cream paper cards, and paper, the same parlour in daylight. Both have the same houndstooth ground. There are three text sizes, and the atmosphere (a drone of fog and a distant chime) and the sound effects can be turned down or off. Nothing flashes, and motion stops if your device asks for it."
+    },
+    {
       "heading": "Difficulty",
       "body": "On the easiest setting every choice shows its cost first, and a button offers Watson's suggestion for any scene, so that you may read the story with one tap at a time. On the middle setting you must deduce the cost. On the hardest, bribes, tickets and informants cost real money from a thin purse, a choice you cannot afford is shut to you, and a few extra choices are offered only to a man who is short of funds."
     },
     {
       "heading": "What Is Real and What Is Not",
-      "body": "This game follows the outline of Arthur Conan Doyle's story The Final Problem (1893) and, at the end of one road, The Empty House (1903): Professor Moriarty, the flight across the Continent, the Reichenbach Falls and the return. The three short cases follow Doyle's A Scandal in Bohemia (1891), The Adventure of the Speckled Band (1892) and The Adventure of the Blue Carbuncle (1892). Irene Adler's letter in 1891 is the game's own invention. Most of the scenes, the clerk Larch, Sergeant Pike, the boy Alf and the newspaper clippings are invented. Each ending says, afterwards, what the original story does."
+      "body": "This game follows the outline of Arthur Conan Doyle's story The Final Problem (1893) and, at the end of one road, The Empty House (1903): Professor Moriarty, the flight across the Continent, the Reichenbach Falls and the return. The four minor cases follow Doyle's A Scandal in Bohemia (1891), The Adventure of the Speckled Band (1892), The Adventure of the Blue Carbuncle (1892) and The Adventure of the Red-Headed League (1891). Irene Adler's letter in 1891 is the game's own invention. Most of the scenes, the clerk Larch, Sergeant Pike, the boy Alf and the newspaper clippings are invented. Each ending says, afterwards, what the original story does."
     }
   ],
   "gossip": [
@@ -266,6 +270,25 @@
     "neg_neg": [
       "He is cold, and he is alone, and he is very nearly perfect. I find I cannot bear it.",
       "If I did not know him I should say there was nothing in him but the work. Since I know him, I say that there is something still, and it is a long way down."
+    ],
+    "strand_hours": [
+      "We are behind, Holmes. I do not say it to scold you. I say it because the Professor keeps a better diary than we do, and he has not wasted a day.",
+      "I have counted the days that remain, and I have counted the things that you still wish to do. The two sums do not agree, and I am a doctor, not a conjurer.",
+      "Every scene that you read slowly is a day that he spends. I should be very grateful, my dear fellow, for something a little brisk."
+    ],
+    "strand_hands": [
+      "You have not a man to spare, Holmes. The boys are tired, Lestrade's constables have other orders, and I am only one doctor. Let us not ask for more than can be sent.",
+      "I have looked round the room and counted, and I find that we are fewer than we were. A detective is not one man. You used to say so yourself.",
+      "If anyone is to be asked for a favour this week, I should like it to be somebody who has not already given us three."
+    ],
+    "strand_wires": [
+      "Nobody has answered a wire of ours in a day and a half. We are working in the dark, Holmes, and the world is a good deal further off than it was.",
+      "I have been to the post office twice this morning and have been told nothing at all, very civilly, both times. I do not at all like it.",
+      "The newspapers have not telephoned, the clerks have not written, and the street has gone quiet. It is a poor sort of quiet."
+    ],
+    "strand_plenty": [
+      "I must say, Holmes, that for once we are very well supplied. The boys, the wires, the hours: I do not think I have seen it so since the Jeremy affair. Do not waste it.",
+      "We have men, and time, and a good deal of news coming in. I should like to say that I am confident. I shall say instead that I am watching you very closely."
     ]
   },
   "difficultyInfo": {
@@ -308,6 +331,9 @@
     "ENDING_THE_CHRISTMAS_MERCY": "In the Canon: The Adventure of the Blue Carbuncle (1892, set at Christmas 1889). Holmes lets Ryder go, saying that it is the season of forgiveness, and that he is 'commuting a felony'.",
     "ENDING_THE_STONE_RETURNED": "Invented. In the story Holmes does not call the police.",
     "ENDING_THE_STONE_LOST": "Invented. In the story Ryder is frightened and Holmes lets him go; the stone is recovered.",
+    "ENDING_THE_LEAGUE_DISSOLVED": "In the Canon: The Adventure of the Red-Headed League (1891, set in autumn 1890). Holmes and Peter Jones take John Clay in the cellar of the City and Suburban Bank. In the story it is Holmes who seizes Clay, and Clay's accomplice escapes through the tunnel and is taken by Jones's men at the shop; Holmes says it is all an attempt to escape from the commonplace.",
+    "ENDING_THE_TUNNEL_OPEN": "Invented. In the story the robbery is prevented and the gold is saved.",
+    "ENDING_THE_ENCYCLOPAEDIA": "Invented. In the story the arrest is public and goes to Scotland Yard; the bank is not kept quiet.",
     "ENDING_CRISIS_STRAND": "In the Canon: Holmes is never short of time, helpers or word of the world for long: he has Watson, the Irregulars, Lestrade, his brother and the telegraph. Running out of any of them is this game's invention."
   },
   "endingHints": {
@@ -336,6 +362,9 @@
     "ENDING_THE_CHRISTMAS_MERCY": "In the Carbuncle case, let James Ryder go on Christmas night.",
     "ENDING_THE_STONE_RETURNED": "In the Carbuncle case, send for Lestrade.",
     "ENDING_THE_STONE_LOST": "In the Carbuncle case, press Ryder for a confession and let him run.",
+    "ENDING_THE_LEAGUE_DISSOLVED": "In the Red-Headed League, take Clay in the cellar, or let the Yard do it.",
+    "ENDING_THE_TUNNEL_OPEN": "In the Red-Headed League, be a half-second late, or go home to bed.",
+    "ENDING_THE_ENCYCLOPAEDIA": "In the Red-Headed League, take Clay quietly and keep the bank's name out of the papers.",
     "ENDING_CRISIS_STRAND": "Spend your Hours, your Hands or your Wires down to nothing: work slowly, work alone, or cut yourself off."
   },
   "flagNotes": {
@@ -456,6 +485,15 @@
     "carbRebuffed": "Mr Breckinridge turned you away.",
     "carbPaid": "You paid for the name of Mrs Oakshott.",
     "carbFollow": "You followed the ferret-faced man and found James Ryder.",
+    "leagueFull": "Jabez Wilson told you the whole of the story.",
+    "leagueAssistant": "The assistant works for half wages, and spends an hour at a time in the cellar.",
+    "leagueCard": "You held the card from the office door to the light.",
+    "leagueKnees": "The assistant's trousers are worn through at the knee.",
+    "leagueBank": "The pawnbroker's cellar backs on to the City and Suburban Bank.",
+    "leagueWatson": "Watson asked at the tobacconist's.",
+    "leagueVault": "Mr Merryweather lent you the vault key.",
+    "leagueMen": "Mr Jones brought four men and handcuffs.",
+    "leagueAlone": "You said that you would wait in the cellar alone.",
     "leanYard": "You took it to Scotland Yard first.",
     "leanStreet": "You sent for the boys first.",
     "leanMycroft": "You went to your brother's club first.",
@@ -477,6 +515,24 @@
     "clueTitle": "Every cable opens with the same five groups: a title.",
     "cipherBroken": "You read the Professor's cipher: his own treatise, by page and line.",
     "knowsDeparture": "The Professor means to sail from Southampton on Tuesday.",
-    "mycroftAlone": "You would not sit in the room with the Professor, and Mycroft bore it alone."
+    "mycroftAlone": "You would not sit in the room with the Professor, and Mycroft bore it alone.",
+    "wharfTide": "The Teal comes up on the top of the tide on Tuesday, a quarter past eight, and never takes a load.",
+    "wharfWatch": "A tall, stooping man went into the wharf on Sunday and did not come out.",
+    "wharfPolice": "The wharf is leased in the name of Mr Alexander Bell, who does not exist.",
+    "wharfMarks": "Three crosses and a bar, chalked on every bollard: a route to the cellar stair.",
+    "wharfOil": "Forty-one casks of lamp-oil at the wharf gate, and the tops are off.",
+    "wharfCarter": "You followed the carter who brings the bread.",
+    "registerRead": "There is no sick English lady at the Englischer Hof.",
+    "guideTalks": "Every guide in Meiringen has been paid to be somewhere else.",
+    "formsRead": "The message that will call Watson away is in a man's hand, on a post-office form.",
+    "pathRead": "You walked the path above the Falls and read the ground.",
+    "cleftSeen": "There is a cleft in the rock below the ledge, big enough for one man lying flat.",
+    "adlerWarned": "Mrs Norton warned you of a forged message for Watson.",
+    "adlerWatch": "Mrs Norton is watching the hotel for you.",
+    "adlerSent": "You sent Mrs Norton back to Brussels.",
+    "adlerStatement": "Mrs Norton gave a sworn statement to Lestrade.",
+    "adlerSafe": "You told Mrs Norton to stay out of court and out of London.",
+    "adlerDecoy": "Mrs Norton dined with Mr Dunmore at the Café Royal and learned the door and the hour.",
+    "adlerHurt": "Mr Dunmore saw through Mrs Norton at the Café Royal."
   }
 }

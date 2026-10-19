@@ -35,6 +35,8 @@ export const PLACES: Record<string, Place> = {
   briony: { map: "london", name: "Briony Lodge, St John's Wood", x: 52, y: 30 },
   stoke: { map: "london", name: "Stoke Moran, off the map", x: 20, y: 104 },
   covent: { map: "london", name: "Covent Garden", x: 114, y: 66 },
+  saxe: { map: "london", name: "Saxe-Coburg Square", x: 132, y: 50 },
+  citybank: { map: "london", name: "The City and Suburban Bank", x: 144, y: 60 },
   // Europe (viewBox 240 x 160)
   victoria: { map: "europe", name: "London", x: 36, y: 46 },
   canterbury: { map: "europe", name: "Canterbury", x: 50, y: 54 },
@@ -68,6 +70,8 @@ export const SCENE_PLACE: Record<string, string> = {
   MX1: "whitehall", MX2: "whitehall", MX3: "whitehall", M6B: "pallmall", "10W": "baker", K7: "briony", K8: "briony",
   "0": "baker", B1: "baker", B2: "briony", B3: "briony", B4: "briony", R1: "baker", R2: "stoke", R3: "stoke", R4: "stoke",
   G1: "baker", G2: "baker", G3: "covent", G4: "baker",
+  L1: "baker", L2: "saxe", L3: "baker", L4: "citybank",
+  SX1: "limehouse", SX2: "limehouse", S8D: "limehouse", CX1: "meiringen", CX2: "meiringen", AC: "meiringen", AY: "yard", Y9D: "hackney", M9: "whitehall",
 };
 
 const LONDON_THAMES = "M-4 92C20 94 36 96 56 90S84 84 100 88 122 84 140 88 164 90 204 82";

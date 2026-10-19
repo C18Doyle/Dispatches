@@ -15,7 +15,7 @@ export default {
         blood: "#7b2a1d",
         "blood-bright": "#a63f2b",
         verdigris: "#4a5d3a",
-        "verdigris-bright": "#587a43",
+        "verdigris-bright": "#2f6b40",
         brass: "#b8893f",
         "brass-bright": "#e0b360",
         "brass-dim": "#6b4f24",

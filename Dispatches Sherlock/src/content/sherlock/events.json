@@ -5,11 +5,11 @@
       "id": "0",
       "branch": "WEB",
       "title": "The Case-Book",
-      "description": "Four volumes lie on the corner of the table at 221B, in the lamp-light, in Watson's bad handwriting and your own good paper. The thick black one is the case that you will remember; the three thinner ones are cases that you have, for the moment, no particular reason to forget. Any of them can be opened. None of them depends on any other, and what you do in one will not follow you into the next.",
+      "description": "Five volumes lie on the corner of the table at 221B, in the lamp-light, in Watson's bad handwriting and your own good paper. The thick black one is the case that you will remember: it is the whole of a winter and a spring, and it is not finished with you. The four thinner ones are the smaller cases, each done in a day or a week, each complete in itself. Any of them can be opened. None of them depends on any other, and what you do in one will not follow you into the next.",
       "options": [
         {
           "label": "The Final Problem. London, 1891.",
-          "detail": "The long case: the Professor, the Yard, the boys in the street, your brother's club and the road to the Falls. Play it first, if you like, or last.",
+          "detail": "The major case: the Professor, the Yard, the boys in the street, your brother's club and the road to the Falls. A long story with four roads, six meters and a good many endings. Play it first, if you like, or last.",
           "stamps": {},
           "quote": {
             "speaker": "Dr Watson",
@@ -19,19 +19,8 @@
           "nextNodeId": "1"
         },
         {
-          "label": "A Scandal in Bohemia. London, 1888.",
-          "detail": "A King in a mask, a photograph in a strongbox, and the one woman who ever beat you. A short case.",
-          "stamps": {},
-          "quote": {
-            "speaker": "Dr Watson",
-            "text": "A mask, a King and a lady. It is the sort of thing that I should be ashamed to have written, if it were not so true."
-          },
-          "outcome": "You take down the thin yellow volume. It is the one with the pressed violet in it.",
-          "nextNodeId": "B1"
-        },
-        {
           "label": "The Speckled Band. Stoke Moran, 1883.",
-          "detail": "A frightened girl, a locked bedroom and a dead sister's last word. A short case.",
+          "detail": "A minor case: a frightened girl, a locked bedroom and a dead sister's last word. Four scenes, three endings.",
           "stamps": {},
           "quote": {
             "speaker": "Dr Watson",
@@ -41,8 +30,19 @@
           "nextNodeId": "R1"
         },
         {
+          "label": "A Scandal in Bohemia. London, 1888.",
+          "detail": "A minor case: a King in a mask, a photograph in a strongbox, and the one woman who ever beat you. Four scenes, three endings.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "A mask, a King and a lady. It is the sort of thing that I should be ashamed to have written, if it were not so true."
+          },
+          "outcome": "You take down the thin yellow volume. It is the one with the pressed violet in it.",
+          "nextNodeId": "B1"
+        },
+        {
           "label": "The Blue Carbuncle. Christmas, 1889.",
-          "detail": "A battered hat, a Christmas goose and a stone worth twenty thousand pounds. A short case, and rather cheerful.",
+          "detail": "A minor case, and rather cheerful: a battered hat, a Christmas goose and a stone worth twenty thousand pounds. Four scenes, three endings.",
           "stamps": {},
           "quote": {
             "speaker": "Dr Watson",
@@ -50,6 +50,17 @@
           },
           "outcome": "You take down the thin red volume. There is a goose feather between the pages.",
           "nextNodeId": "G1"
+        },
+        {
+          "label": "The Red-Headed League. Saxe-Coburg Square, 1890.",
+          "detail": "A minor case, the lightest of the five: a pawnbroker, four pounds a week and a very good reason to copy out the Encyclopaedia. Four scenes, three endings.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "I will say this for it, Holmes. It is the only case in the book in which I laughed aloud. You did not, but I did."
+          },
+          "outcome": "You take down the thin orange volume. There is a single red hair between the pages, rather wiry.",
+          "nextNodeId": "L1"
         }
       ]
     },
@@ -3415,6 +3426,21 @@
           "axisDelta": {
             "trustMycroft": 1
           }
+        },
+        {
+          "label": "Answer the Note From St John's Wood.",
+          "detail": "It was left at the door last night, on violet paper, and was not at all a request. It said only that she would be at the Yard at nine.",
+          "stamps": {
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Mrs Norton",
+            "text": "I am told that Mr Lestrade does not approve of lady witnesses. I should like to be told, in his own words, why."
+          },
+          "outcome": "You go to Scotland Yard in the wet, and she is there before you.",
+          "nextNodeId": "AY",
+          "requiresFlag": "adlerMet",
+          "requiresFlagHint": "Needs to have met Mrs Norton"
         }
       ],
       "echoes": [
@@ -3963,6 +3989,42 @@
           "axisDelta": {
             "trustAdler": 1
           }
+        },
+        {
+          "label": "Let Lestrade Take Mr Dunmore on Mrs Norton's Statement.",
+          "detail": "A name, a bank and a date, sworn to a magistrate. A man who has been buying letters for the Professor is a man who will be found at the bank on a Thursday.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "I've sent a man to the bank, Mr Holmes. A Mr Dunmore came out of it at ten and has been walking up and down in front of the Bank of England ever since, looking at his watch. I think he's waiting for somebody who isn't coming."
+          },
+          "outcome": "The thing is done by a single sergeant in a bowler hat, with a warrant and a decent manner, and Mr Dunmore, who is a good deal smaller in person than his cheques, comes away in a cab without any fuss. By the evening he has given the Yard the name of the house in Hackney, which is the thing that you wanted.",
+          "nextNodeId": "Y9B",
+          "requiresFlag": "adlerStatement",
+          "requiresFlagHint": "Needs Mrs Norton's statement",
+          "setFlags": [
+            "watchSet"
+          ]
+        },
+        {
+          "label": "Spring the Trap Mr Dunmore Walked Into.",
+          "detail": "He told her the day, the hour and the door. All that remains is to be standing at it.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Mrs Norton",
+            "text": "It is the back door, on the Cambridge Road side, between a corn-chandler's and a shuttered chapel. I should be there myself, if I were not a lady. Do be careful. He was not, I think, as stupid as he seemed."
+          },
+          "outcome": "You are at the Cambridge Road door at one in the morning with Lestrade and six men, in the wet, and at ten past a figure in a long coat comes round the corner of the chapel with his head down. It is the first time in the whole of the case that the Professor's side has walked into a thing that you had made.",
+          "nextNodeId": "Y9B",
+          "requiresFlag": "adlerDecoy",
+          "requiresFlagHint": "Needs the dinner at the Café Royal",
+          "setFlags": [
+            "watchSet"
+          ]
         }
       ],
       "echoes": [
@@ -4002,6 +4064,18 @@
             ]
           },
           "text": "Somewhere in the dark there is a soft metallic click, like a brass catch, that might be a latch or might not."
+        },
+        {
+          "when": {
+            "flag": "adlerSafe"
+          },
+          "text": "Mrs Norton is on a boat, somewhere in the Channel, with a book. You find that you are rather glad of it, and a little ashamed to be glad."
+        },
+        {
+          "when": {
+            "flag": "adlerHurt"
+          },
+          "text": "A note is in your pocket that says she was not frightened. You do not believe it, and you do not intend to say so."
         }
       ]
     },
@@ -4135,12 +4209,12 @@
           "outcome": "",
           "nextNodeId": "ENDING_NET_CLOSES",
           "roll": {
-            "chance": 0.45,
+            "chance": 0.5,
             "scaling": {
               "resource": "evidence",
-              "perPoint": 0.05,
-              "min": 0.2,
-              "max": 0.85
+              "perPoint": 0.06,
+              "min": 0.25,
+              "max": 0.9
             },
             "success": {
               "outcome": "He does not run. A clever man does not run when he is not certain, and he is not certain. Lestrade's men close in, and the long figure goes, with great dignity, into the van. You are not at all sure, afterwards, how you did it. It was, as the Professor himself would say, an affair of probabilities.",
@@ -4152,9 +4226,9 @@
             "failure": {
               "outcome": "The gap was exactly where he thought it was. A shadow goes under the bridge, and a boat noses out of the reeds, and by the time Lestrade's whistle has finished sounding there is a long, black, quiet reach of water and nothing on it. The Professor has gone, again, as a thought goes.",
               "stamps": {
-                "evidence": -2
+                "evidence": -1
               },
-              "nextNodeId": "ENDING_NAPOLEON_ESCAPES"
+              "nextNodeId": "Y9D"
             }
           }
         },
@@ -4177,7 +4251,7 @@
           "label": "Close the File and Go Home.",
           "detail": "You have broken his gang. You have no more to give. Perhaps that is enough.",
           "stamps": {
-            "nerve": 1
+            "standing": -1
           },
           "quote": {
             "speaker": "Dr Watson",
@@ -4891,7 +4965,7 @@
             "text": "Get out of there, sir! It's coming through the floor! Sir, for God's sake, leave it!"
           },
           "outcome": "You go back up the stairs through smoke that tastes of tar, and you come out with two armfuls of paper and the lining of your coat alight. The engine arrives a minute afterwards. By dawn the street is a river of black water, and you are sitting on the kerb in the cold, singed, hoarse and holding a bundle of cuttings like a child.",
-          "nextNodeId": "S8"
+          "nextNodeId": "SX1"
         },
         {
           "label": "Get Everyone Out First: The House Before the Papers.",
@@ -4906,7 +4980,7 @@
             "text": "I have lived in this house for twenty years, Mr Holmes, and I never thought to see it go. But I would not have you go back in there for a bundle of old newspaper. Not for the world."
           },
           "outcome": "You bring everyone out by the back stair: the lodger on the second floor, the cook, the old gentleman from the basement, and anyone else you can find in the smoke. When the roof falls in, an hour afterwards, you are standing in the road with all of them safe, and none of your papers. You have never felt so poor, or so clear.",
-          "nextNodeId": "S8",
+          "nextNodeId": "SX1",
           "axisDelta": {
             "heart": 2
           }
@@ -4920,7 +4994,7 @@
             "text": "I've got boys on all four corners, Mr Holmes. If he's here, he's looking at the roof. And a man looking at the roof is easy to see."
           },
           "outcome": "",
-          "nextNodeId": "S8",
+          "nextNodeId": "SX1",
           "roll": {
             "chance": 0.5,
             "scaling": {
@@ -5356,6 +5430,18 @@
             "flag": "followed"
           },
           "text": "You know the house with the green door in Camden Town, and the Professor knows that you know it. It is the only reason he has agreed to this meeting."
+        },
+        {
+          "when": {
+            "flag": "wharfWatch"
+          },
+          "text": "A tall, stooping gentleman went in at the gate on Sunday and did not come out. You are fairly sure that he is in there still."
+        },
+        {
+          "when": {
+            "flag": "wharfCarter"
+          },
+          "text": "The carter's name is in your pocket-book, and so is the hour at which he collects the bread. You are not the only one with an appointment tonight."
         }
       ]
     },
@@ -5489,6 +5575,21 @@
           "axisDelta": {
             "trustWiggins": 1
           }
+        },
+        {
+          "label": "Cut the Hoist-Chain Before the Casks Go.",
+          "detail": "You counted the oil. The chain runs from a winch on the roof to a hook above the front gantry, and it will let the front of the loft fall into the river.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "The winch is behind the sugar-hoist, Mr Holmes. Three of us can get to it by the back wall, and nobody'll ever know."
+          },
+          "outcome": "A boy goes up the back wall with a pair of pincers, and the whole of the gantry sags and hangs. You have taken the one thing in the building that would have let the Professor burn it. Now it is a plain, ordinary, damp, dim, dirty place, with a man at the end of it who has not yet been told.",
+          "nextNodeId": "S8C",
+          "requiresFlag": "wharfOil",
+          "requiresFlagHint": "Needs the oil counted on Monday"
         }
       ],
       "echoes": [
@@ -5558,7 +5659,7 @@
           "outcome": "",
           "nextNodeId": "ENDING_PRIVATE_WAR",
           "roll": {
-            "chance": 0.5,
+            "chance": 0.55,
             "scaling": {
               "resource": "evidence",
               "perPoint": 0.05,
@@ -5575,9 +5676,9 @@
             "failure": {
               "outcome": "He has brought more men than you were told, and fewer scruples than you hoped. They come out of the warehouse in a line, and you go over the wharf-edge into the black water with a boy's cry in your ears. You are pulled out at Wapping Stairs by a lighterman, half-drowned, to find that Baker Street has been quietly sold to a stranger.",
               "stamps": {
-                "nerve": -3
+                "nerve": -2
               },
-              "nextNodeId": "ENDING_BAKER_STREET_BURNS"
+              "nextNodeId": "S8D"
             }
           }
         },
@@ -5600,7 +5701,7 @@
           "label": "Turn Round and Walk Away.",
           "detail": "You have done enough. You have lost enough. Let him have the river.",
           "stamps": {
-            "nerve": 1
+            "standing": -1
           },
           "quote": {
             "speaker": "Dr Watson",
@@ -5608,6 +5709,28 @@
           },
           "outcome": "You turn your back on the wharf and walk the length of Narrow Street in the first grey of morning. No one calls after you. The tide runs out under the piers, and the fog comes up behind you like a curtain being drawn.",
           "nextNodeId": "ENDING_NAPOLEON_ESCAPES"
+        },
+        {
+          "label": "Take Him on the Stair That Was Marked in Chalk.",
+          "detail": "You read the route on the bollards and you have the hour of the tide. There is a way out of the building that only he knows, and it ends where you will be standing.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Professor Moriarty",
+            "text": "How very careless of me. I had thought that the stair was my own affair."
+          },
+          "outcome": "He comes down the steps in the dark, with his hat in one hand and a small brass lamp in the other, and he stops on the third step from the bottom. You are on the foreshore, with your stick under your arm and four constables behind you. He looks at you for a moment, with his head swaying slowly from side to side, and says that he had always thought you rather good at reading things, and that he is extremely sorry to find that it was not an exaggeration.",
+          "nextNodeId": "ENDING_PRIVATE_WAR",
+          "requires": {
+            "all": [
+              {
+                "flag": "wharfMarks"
+              },
+              {
+                "flag": "wharfTide"
+              }
+            ]
+          },
+          "requiresHint": "Needs the chalk marks read and the tide known"
         }
       ],
       "echoes": [
@@ -6515,6 +6638,49 @@
           "axisDelta": {
             "company": -2
           }
+        },
+        {
+          "label": "Show Watson the Forged Form.",
+          "detail": "A message in pencil, on a post-office form, in a hand that was told what a woman's looks like. It will not take a moment to convince him.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "It is a forgery, Holmes. I should know a woman's hand, and that is a man's, and a man who has been taught. I shall not go. I shall stay exactly where I am, and I do not intend to leave your side for a moment."
+          },
+          "outcome": "He holds the form to the window and reads it twice, and then he gives it back with a face of cold, patient, military anger. It is the look you have seen on him in the Afghan hills, and you are very glad indeed to have it on your side.",
+          "nextNodeId": "C9",
+          "requiresFlag": "formsRead",
+          "requiresFlagHint": "Needs the telegraph forms read",
+          "setFlags": [
+            "watsonWarned"
+          ],
+          "axisDelta": {
+            "trustWatson": 1
+          }
+        },
+        {
+          "label": "Show Watson Mrs Norton's Warning.",
+          "detail": "A lady who knows what she heard is a better witness than a form. He will believe her because he will not believe that she is lying.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "She came all this way, Holmes, in a wet dress, to tell you that. I do not at all know what to say to her. I think that I shall say thank you."
+          },
+          "outcome": "He goes down to the hall, in his shirt-sleeves, and thanks her very gravely, with a small stiff bow, and she is, for the first time in your acquaintance, extremely surprised. Then he comes back up the stairs, and sits down on the end of your bed, and says that it is a very peculiar thing to be saved by a woman whom one has met twice.",
+          "nextNodeId": "C9",
+          "requiresFlag": "adlerWarned",
+          "requiresFlagHint": "Needs Mrs Norton's warning",
+          "setFlags": [
+            "watsonWarned"
+          ],
+          "axisDelta": {
+            "trustWatson": 1,
+            "trustAdler": 1
+          }
         }
       ],
       "echoes": [
@@ -6529,6 +6695,18 @@
             "flag": "watsonWarned"
           },
           "text": "Watson knows what you mean to do at the water, and he has been watching your face since breakfast, and is not at all deceived by your manner."
+        },
+        {
+          "when": {
+            "flag": "pathRead"
+          },
+          "text": "You know the path now as you know your own stair: where it is wide, where it narrows, and where a heel has scraped the moss. It is not a comfort."
+        },
+        {
+          "when": {
+            "flag": "adlerSent"
+          },
+          "text": "A note in violet ink is in your pocket. It says 'Quite so'. You have not shown it to Watson, and you do not intend to."
         }
       ]
     },
@@ -6853,6 +7031,42 @@
             "trustWatson": 1,
             "company": 1
           }
+        },
+        {
+          "label": "Take the Cleft You Found in the Morning.",
+          "detail": "A narrow crack in the rock, a few feet below the path, with a ledge that will take a man lying flat, and a root as thick as your wrist. You are the only one who knows that it is there.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Professor Moriarty",
+            "text": "I do not see him. I see only the edge, and the water, and the spray. I think, Mr Holmes, that I have, after all, been rather clever."
+          },
+          "outcome": "",
+          "nextNodeId": "H1",
+          "requiresFlag": "cleftSeen",
+          "requiresFlagHint": "Needs the cleft below the ledge found",
+          "roll": {
+            "chance": 0.8,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.04,
+              "min": 0.45,
+              "max": 0.92
+            },
+            "success": {
+              "outcome": "You are over the lip before the shot, and into the crack with your face against the wet rock, and the whole world goes past with a roar. You lie there for an hour, with your fingers locked round the root, and listen to the Colonel's boots go back along the path. When it is quite dark you climb out, and the fall is the loudest thing in Europe, and you are a dead man.",
+              "stamps": {
+                "nerve": -1
+              },
+              "nextNodeId": "H1"
+            },
+            "failure": {
+              "outcome": "The root gives. You have a moment of cold, enormous surprise, with the spray in your face and the gorge opening under you, and the next thing that you know is the sound of Moran's rifle, a long way above, and the great white roar swallowing it.",
+              "stamps": {
+                "nerve": -3
+              },
+              "nextNodeId": "ENDING_FATAL_SHOT"
+            }
+          }
         }
       ],
       "echoes": [
@@ -7142,7 +7356,7 @@
             "text": "Here you put your foot, sir, and here you do not. There is a ledge below, and a crack, and a second ledge below that. I have seen a goat go down it. I have never seen a man."
           },
           "outcome": "You walk the whole path in the last of the light, with the roar of the water growing in your ears and the spray cold on your face. Hans points out each place with his stick: the ledge, the crack, the second ledge below. You look at each of them for a long time. You do not say why. He does not ask.",
-          "nextNodeId": "C8",
+          "nextNodeId": "CX1",
           "setFlags": [
             "ledgeKnown"
           ]
@@ -7159,7 +7373,7 @@
             "text": "Received. Moriarty left Paris on Friday for Geneva. He will be in Meiringen by Monday. I regret that I can do nothing more at this distance. Be careful, and do not do anything noble. M."
           },
           "outcome": "The reply comes within the hour, which is, for Mycroft, the speed of an alarm bell. It tells you in nineteen words what you had half-guessed in four days. You tear it up and put the pieces in the stove, and sit looking at the glow. 'Do not do anything noble.' It is the most affectionate thing he has ever said to you.",
-          "nextNodeId": "C8",
+          "nextNodeId": "CX1",
           "requiresFlag": "mycroftAsked",
           "requiresFlagHint": "Needs your brother's ear",
           "setFlags": [
@@ -7181,7 +7395,7 @@
             "text": "Good, Holmes. I shall sit by the window with my book, and when you start to talk in your sleep I shall make a note. Go on, now."
           },
           "outcome": "You sleep for nine hours with Watson in the chair by the window, and when you wake it is bright morning and the smell of coffee is rising up the stair. For ten minutes you lie quite still, looking at the beams of the ceiling, and you do not think about anything at all.",
-          "nextNodeId": "C8"
+          "nextNodeId": "CX1"
         },
         {
           "label": "Hire a Second Guide to Follow the Englishman.",
@@ -7194,11 +7408,26 @@
             "text": "My nephew is a good boy, sir, and very quiet on his feet. He will follow the gentleman and say nothing, and he will tell you in the morning where the gentleman has slept."
           },
           "outcome": "By midnight you know that the tall Englishman has taken a room at the other inn, that he has not undressed, and that he has been out twice to look at the path by lantern. He sits in his window with the lamp turned down. You cannot see his face. But you know the shape of the stick.",
-          "nextNodeId": "C8",
+          "nextNodeId": "CX1",
           "moneyCost": 4,
           "setFlags": [
             "moranSeen"
           ]
+        },
+        {
+          "label": "Look Up the Lady Who Has Taken the Room Below Yours.",
+          "detail": "She registered on Friday, in a name that is not hers, and has not been out of the house since. It is exactly the kind of room that she would take.",
+          "stamps": {
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "The proprietor",
+            "text": "A lady in grey, Monsieur? Yes, on the first floor, but she says she will not be disturbed. She is a lady of the most extraordinary firmness."
+          },
+          "outcome": "You go down the stair in the dusk, and she is already standing at her door, with a lamp.",
+          "nextNodeId": "AC",
+          "requiresFlag": "adlerMet",
+          "requiresFlagHint": "Needs to have met Mrs Norton"
         }
       ]
     },
@@ -8349,7 +8578,7 @@
                 "standing": -2,
                 "wires": 1
               },
-              "nextNodeId": "ENDING_NAPOLEON_ESCAPES"
+              "nextNodeId": "M9"
             }
           }
         },
@@ -8385,7 +8614,7 @@
           "label": "Walk Out of the Room.",
           "detail": "You will not serve, and you will not publish, and you will not plead. A man may refuse them all.",
           "stamps": {
-            "nerve": 1,
+            "standing": -1,
             "wires": -1
           },
           "quote": {
@@ -8478,9 +8707,9 @@
             "failure": {
               "outcome": "He is not on the ship. He was never going to be. The name on the passenger list is a clerk's, and the violin-case belongs to a bewildered young man from Manchester. The Professor sailed on the Monday, from Cherbourg, in a small yellow steamer, with the Government's blessing. It was a perfectly good plan. It was exactly the plan that he wished you to make.",
               "stamps": {
-                "evidence": -2
+                "evidence": -1
               },
-              "nextNodeId": "ENDING_NAPOLEON_ESCAPES"
+              "nextNodeId": "M9"
             }
           }
         }
@@ -9615,8 +9844,8 @@
           "label": "Pull Miss Stoner Clear and Wait for the Constables in the Morning.",
           "detail": "She is not there. But you can leave the room, and the house, and let the law take a sleeping man in his bed. It is the safe way, and the dull one.",
           "stamps": {
-            "nerve": 1,
-            "evidence": -1
+            "evidence": -1,
+            "standing": -1
           },
           "quote": {
             "speaker": "Dr Watson",
@@ -9991,6 +10220,1044 @@
           "text": "Henry Baker thinks he ate his goose in peace. You have not corrected him."
         }
       ]
+    },
+    "L1": {
+      "id": "L1",
+      "branch": "LEAGUE",
+      "title": "A Red-Headed Pawnbroker",
+      "description": "Saturday 11 October 1890, ten in the morning. A stout, florid gentleman with a very red head has come up the seventeen steps and is sitting on the edge of the basket-chair with his hat on his knee. His name is Jabez Wilson, and he keeps a small pawnbroker's business in Saxe-Coburg Square, in the City, with an assistant who will work for half wages. Eight weeks ago his assistant showed him an advertisement. It offered four pounds a week to any red-headed man of full age who would sit for four hours a day in an office in Pope's Court and copy out the Encyclopaedia Britannica, and Mr Wilson got the place. This morning he went to the office, and found a card on the door that said that the Red-Headed League was dissolved. He is not at all upset about the money. He would like to know what it was for.",
+      "options": [
+        {
+          "label": "Take the Case and Ask for the Whole of It.",
+          "detail": "A man who has been paid four pounds a week to copy the Encyclopaedia has been paid to be out of his shop. It is the shop that is interesting.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Jabez Wilson",
+            "text": "It was always from ten to two, Mr Holmes, and I never saw any League but a Mr Duncan Ross, who was very polite and wore a bowler hat. He used to look in at the end of the day and pay me in sovereigns. I did think it was queer, but I thought that it was queer in my favour."
+          },
+          "outcome": "He tells it with a good deal of detail and an immense relish, from the day the assistant, Vincent Spaulding, came to the shop, to the morning of the card on the door. You ask four questions. At the end of the fourth you have a pipe lit, and your eyes shut, and Watson, on the sofa, is looking at you with the face of a man who has seen it before. 'It is quite a three-pipe problem,' you say, 'and I beg that you won't speak to me for fifty minutes.'",
+          "nextNodeId": "L2",
+          "setFlags": [
+            "leagueFull"
+          ]
+        },
+        {
+          "label": "Ask About the Assistant Who Works for Half Wages.",
+          "detail": "A man who works for half pay is either a saint or has something to do in the shop that the pay would not allow.",
+          "stamps": {
+            "evidence": 2
+          },
+          "quote": {
+            "speaker": "Jabez Wilson",
+            "text": "Spaulding? A very smart fellow, Mr Holmes, though I don't know that I should have kept him at half wages if he hadn't been so good at the photography. He is always down in the cellar, developing his plates. It is his one fault. He takes an hour at it."
+          },
+          "outcome": "You ask him to describe the man, and he does so at some length. The assistant is short, and quick, and clean-shaven, with a white splash of acid upon his forehead, and ears that have been pierced for earrings. He is a clever man who is willing to work for half pay, and who spends an hour at a time in your client's cellar. You give no sign of what you think. You merely observe, in the course of the next moment, that there is no better evidence in the world than a man's own cellar.",
+          "nextNodeId": "L2",
+          "setFlags": [
+            "leagueAssistant"
+          ]
+        },
+        {
+          "label": "Look at the Card on the Door of the Office.",
+          "detail": "A card is a document. It will tell you at least as much as a story, and it cannot embroider.",
+          "stamps": {
+            "evidence": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Jabez Wilson",
+            "text": "I have it in my pocket, Mr Holmes. I took it off the door. It says that the League is dissolved, and the date is the ninth of October, 1890. I thought it a very civil way to end a matter."
+          },
+          "outcome": "He gives it to you, with some pride. It is a square card, in a good, plain hand, on a better paper than the occasion deserved. It is dated two days ago, and signed with a name that does not appear in any directory in London. You turn it over, and look at the back of it, and then, without a word, hold it to the light of the window. 'It has been written,' you say, 'by a man who was in a hurry, and who did not expect to be read.'",
+          "nextNodeId": "L2",
+          "setFlags": [
+            "leagueCard"
+          ]
+        }
+      ]
+    },
+    "L2": {
+      "id": "L2",
+      "branch": "LEAGUE",
+      "title": "Saxe-Coburg Square",
+      "description": "Saturday 11 October 1890, early afternoon. Saxe-Coburg Square is a shabby, genteel place, a square of dingy two-storeyed houses of brick looking out upon a small railed enclosure where a lawn of weedy grass and a few clumps of faded laurel-bushes make a hard fight against a smoke-laden and uncongenial atmosphere. On the corner house, three gilt balls and a brown board with Jabez Wilson in white letters announce the premises of your client. On the far side of the corner, a dull, shabby street runs back to a bright, busy one. It is the back of a bank.",
+      "options": [
+        {
+          "label": "Thump the Pavement and Knock at the Door.",
+          "detail": "You will not go in. You will merely strike the stones with your stick, outside the shop, and see which of them are not stones. And then ring the bell, and look at the man who opens it.",
+          "stamps": {
+            "evidence": 2
+          },
+          "quote": {
+            "speaker": "Vincent Spaulding",
+            "text": "Yes, sir? Was it Mr Wilson that you wanted? He is out, sir, but I am sure that I could oblige. I am the assistant."
+          },
+          "outcome": "The pavement is sound. The man at the door is not what you expected: he is quick, clean-shaven, clever, and has about him the look of one who has spent a great deal of time on his knees. You ask him the way to the Strand, and he tells you with perfect civility, and in the course of it you glance at the knees of his trousers. They are as you hoped. They are wrinkled, and stained, and worn through. You thank him, and go.",
+          "nextNodeId": "L3",
+          "setFlags": [
+            "leagueKnees"
+          ]
+        },
+        {
+          "label": "Walk Round the Block and Read the Bank Behind.",
+          "detail": "A dull street, a bright one, and the corner of a bank. An assistant who spends his time in the cellar is digging towards something, and there is only one thing in the block worth reaching.",
+          "stamps": {
+            "evidence": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "The City and Suburban Bank, Coburg Branch. A cellar wall that backs onto the pawnbroker's cellar. The distance is four yards, and a man could dig it between ten and two in a fortnight."
+          },
+          "outcome": "You walk round the block twice, with your hands behind you, and your hat over your eyes. On the second turn you have the whole of it. The little shop is at the back of the bank. The assistant is digging. The League has been sitting at the other end of the town, for four pounds a week, in order that the shop should be empty every day from ten to two. It is the cleverest and most extravagant device that you have encountered in a year.",
+          "nextNodeId": "L3",
+          "setFlags": [
+            "leagueBank"
+          ]
+        },
+        {
+          "label": "Send Watson to Ask at the Tobacconist's.",
+          "detail": "A tobacconist sees everything on a corner. A doctor with a pipe may ask him for a light, and a question, and be given both.",
+          "stamps": {
+            "hands": 1,
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "He says that the assistant goes out for a pipe every afternoon at two, Holmes, with a sooty face, and goes back in again. He also says that Mr Wilson has not had a customer since August. I did not ask. He volunteered it."
+          },
+          "outcome": "Watson is gone twenty minutes, and returns with a very good cigar, a great deal of gossip, and a look of enormous, innocent satisfaction. He has, without in the least intending it, been told about the whole of the street. You tell him that he is an admirable detective, and he says, rather pink, that he does not think that he had better be told so by you in public.",
+          "nextNodeId": "L3",
+          "setFlags": [
+            "leagueWatson"
+          ],
+          "axisDelta": {
+            "trustWatson": 1
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "leagueCard"
+          },
+          "text": "The card from the office door is in your pocket-book. It is dated the ninth of October, and it was not written by anybody who expected to be read."
+        }
+      ]
+    },
+    "L3": {
+      "id": "L3",
+      "branch": "LEAGUE",
+      "title": "A Concert and a Conference",
+      "description": "Saturday 11 October 1890, the evening. Sarasate is playing at St James's Hall, and you have spent the afternoon in it, with your fingers moving a little in the air to the music, and your face as vacant as a child's. It is not a thing that Watson can ever quite believe. At seven you are back at Baker Street, with a cold supper laid, and two gentlemen in the sitting-room: Mr Peter Jones of Scotland Yard, who is official and a little stiff, and Mr Merryweather, a director of the City and Suburban Bank, who is tall, sad and solemn, and does not at all like being out after dark. In the cellar of his bank, you have told them both, are thirty thousand napoleons in boxes.",
+      "options": [
+        {
+          "label": "Ask Mr Merryweather for the Vault Key and Be Dark About It.",
+          "detail": "He will give it, because he is afraid to refuse. A key is a very simple thing to forge, and a very simple thing to be seen holding.",
+          "stamps": {
+            "evidence": 1,
+            "standing": 1
+          },
+          "quote": {
+            "speaker": "Mr Merryweather",
+            "text": "I do not at all like the idea of a stranger in the vaults at night, Mr Holmes, with the French gold. But I have been a director for twenty years, and I have never been told anything by a man who looked so extremely sure of it."
+          },
+          "outcome": "He hands it over like a man giving up a relative. It is a long, heavy, ugly key, on a ring, and you slip it into your pocket and tell him that he will have it back by morning. He goes pale. Mr Jones says, in a low and carefully official voice, that he hopes that this is not a practical joke. You tell him that it is, in a sense, the last thing in the world that you would call it.",
+          "nextNodeId": "L4",
+          "setFlags": [
+            "leagueVault"
+          ]
+        },
+        {
+          "label": "Press Mr Jones to Bring Four Men and Handcuffs.",
+          "detail": "It is an old rule that a man who is walking into a trap should be given the benefit of company. The company had better be armed.",
+          "stamps": {
+            "hands": 1
+          },
+          "quote": {
+            "speaker": "Mr Peter Jones",
+            "text": "He is a clever fellow, is John Clay, Mr Holmes. His grandfather was a royal duke and he has been to Eton and Oxford. I have been on his track for years and have never set eyes on him yet. I shall bring four men, and a revolver, and I should be extremely obliged if you would lend me a little courage."
+          },
+          "outcome": "He says it with a good deal of dignity, and some resentment, and goes away at once to the nearest station to find the men. You are rather pleased. The Yard is slow and conventional, but it has a bulldog's courage and a bulldog's tenacity when it is once at close quarters, and you have, on the whole, a very high opinion of Mr Jones.",
+          "nextNodeId": "L4",
+          "setFlags": [
+            "leagueMen"
+          ]
+        },
+        {
+          "label": "Say That You Will Go Alone, and Ask Them to Wait at the Door.",
+          "detail": "A crowd in a vault is a crowd that makes a noise. You have been alone in worse places, and rather like it.",
+          "stamps": {
+            "nerve": -1,
+            "standing": -1
+          },
+          "quote": {
+            "speaker": "Mr Merryweather",
+            "text": "Alone, Mr Holmes? In my own bank, in the dark, with a thirty thousand pounds beneath the floor? I should prefer, if I may say so, to have the Yard in the room."
+          },
+          "outcome": "He is upset, and Mr Jones is affronted, and for a quarter of an hour the conversation is rather painful. You are obliged to say several times that it is not a lack of confidence in either of them. By the end of it you have a compromise: they are to be at the door of the bank, and you are to be in the cellar, and nobody is to be happy about it.",
+          "nextNodeId": "L4",
+          "setFlags": [
+            "leagueAlone"
+          ]
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "leagueKnees"
+          },
+          "text": "You can still see the trousers. There is a patch at the knee that nothing in the world but a spade can produce."
+        },
+        {
+          "when": {
+            "flag": "leagueBank"
+          },
+          "text": "A map of four yards of London is drawn on the back of the concert-programme. It is the best thing that you have done all week, and you did it during the Mendelssohn."
+        },
+        {
+          "when": {
+            "flag": "leagueWatson"
+          },
+          "text": "Watson is on the sofa, with a very good cigar and an air of conscious usefulness, and does not in the least know why he is so pleased."
+        }
+      ]
+    },
+    "L4": {
+      "id": "L4",
+      "branch": "LEAGUE",
+      "title": "The Cellar",
+      "description": "Saturday night, a little after ten. The cellar of the City and Suburban Bank is a long, cold, stone place, stacked to the roof with boxes and crates, and smelling of damp and old wood. You are on your knees with a lantern and a lens, and have been for an hour; Mr Jones is crouching behind a packing-case with a pair of handcuffs, and Mr Merryweather is behind another, holding his breath. At ten past, a thin, pale line of light appears between two flagstones in the floor, and spreads, and a flagstone rises, silently, as if on hinges. A hand comes through the opening, a white hand, quite small. It feels about, for a moment. It finds the edge of the floor. Then a face follows it, with a splash of white acid upon the forehead, and a head of bright red hair, and the man, with a sigh, rolls up into the cellar and sits there with his legs over the edge.",
+      "options": [
+        {
+          "label": "Pounce on the First Man and Hold Him by the Wrist.",
+          "detail": "He has a revolver in his pocket, and a rope over his shoulder, and he is as quick as a cat. You have a hunting-crop. It is a matter of the first half-second.",
+          "stamps": {},
+          "quote": {
+            "speaker": "John Clay",
+            "text": "It is no use, John. You have no chance at all. I have a man at the front, and a man at the back, and another at the door, and a very large number of friends in this cellar who are all, I am happy to say, extremely patient."
+          },
+          "outcome": "",
+          "nextNodeId": "ENDING_THE_LEAGUE_DISSOLVED",
+          "roll": {
+            "chance": 0.65,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.04,
+              "min": 0.35,
+              "max": 0.9
+            },
+            "success": {
+              "outcome": "The crop comes down on his wrist, and the pistol clatters on the stone, and Jones is across the floor like a terrier with the handcuffs before the other man's head is out of the hole. There is a cry, a scramble, a splash of loose earth, and a rush of feet along the tunnel. 'You will not gain much by that,' says Clay, with a perfectly good-humoured smile, 'for there are three of our friends at the door of the shop.' It is the neatest little arrest that you have ever seen.",
+              "stamps": {
+                "evidence": 1,
+                "nerve": -1
+              }
+            },
+            "failure": {
+              "outcome": "You are a half-second late. The hunting-crop goes through the air and meets the edge of the flagstone, and the man is down the hole as if he had been dropped, with a lamp, and a spade, and a noise like a cat on a roof. By the time Jones has found the end of the tunnel in the shop, there is nothing in it but a smell of paraffin and a trail of boot-prints. The bank is a great deal poorer, and the gold, which had been in the boxes for a week, is in a cart.",
+              "stamps": {
+                "standing": -2,
+                "nerve": -1
+              },
+              "nextNodeId": "ENDING_THE_TUNNEL_OPEN"
+            }
+          }
+        },
+        {
+          "label": "Hold the Light Back and Let Mr Jones Take Them on the Stair.",
+          "detail": "You have a man at the door of the shop, and four more behind the cellar-stair. You have only to keep the lantern shut.",
+          "stamps": {
+            "standing": 1
+          },
+          "quote": {
+            "speaker": "Mr Peter Jones",
+            "text": "I'll have him, Mr Holmes. I'll have the pair of them. I have been waiting for years for the chance of putting my hand upon the collar of John Clay, and I do not intend to ask you to do it for me."
+          },
+          "outcome": "He goes up the stair like a young man, with the four constables behind him, and takes the second one on the way out of the hole, with a shout, and a flurry, and a very great quantity of dust. Clay himself he takes in the shop, in the dark, at the foot of the little ladder. It is entirely Mr Jones's affair, and he deserves the whole of the credit for it, and receives, from you, with an air of perfect sincerity, the whole of the congratulations.",
+          "nextNodeId": "ENDING_THE_LEAGUE_DISSOLVED",
+          "requiresFlag": "leagueMen",
+          "requiresFlagHint": "Needs four men from the Yard"
+        },
+        {
+          "label": "Take Clay Quietly and Let the Bank Say Nothing.",
+          "detail": "A scandal would ruin the City and Suburban, and a quiet arrest would save it. It is not a thing that the papers need know.",
+          "stamps": {
+            "standing": -1
+          },
+          "quote": {
+            "speaker": "Mr Merryweather",
+            "text": "I should be everlastingly grateful, Mr Holmes, if the matter could be kept out of the Times. I have been a director for twenty years, and I do not at all like to think what my fellow directors would say."
+          },
+          "outcome": "It is done in the dark, in twenty minutes, without a shot. The two men are taken out by the back door of the shop in a four-wheeler, with a handkerchief round the mouth of one of them. The bank opens on Monday as usual. A paragraph, at the foot of the fifth column of the Standard, says that a quantity of coin was moved on Saturday night, for security. It is the only thing that the City ever says of it.",
+          "nextNodeId": "ENDING_THE_ENCYCLOPAEDIA",
+          "requiresFlag": "leagueVault",
+          "requiresFlagHint": "Needs the vault key"
+        },
+        {
+          "label": "Go Home to Bed and Leave the Bank to Mind Its Own Gold.",
+          "detail": "It was a clever plan, and a very good one. It will, you think, be a pity to spoil it.",
+          "stamps": {
+            "standing": -2
+          },
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "Holmes, I really do not understand you. We have come all this way, and given up a Saturday, and I have been sitting on a box for an hour. Do you mean to say that we are going home?"
+          },
+          "outcome": "You rise from the packing-case, brush the dust from your knees, and say that it is a splendid night for a walk. You go home. In the morning, at ten, there is a long, white, terrible face at the door of Baker Street, and it belongs to Mr Merryweather.",
+          "nextNodeId": "ENDING_THE_TUNNEL_OPEN"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "leagueAlone"
+          },
+          "text": "You are alone in the cellar, as you said you would be. You find that you did not say it for the right reasons, and it is rather late to change your mind."
+        },
+        {
+          "when": {
+            "flag": "leagueFull"
+          },
+          "text": "The whole of Jabez Wilson's story is in your head, in order, like a score. You have been listening to it for six hours."
+        }
+      ]
+    },
+    "SX1": {
+      "id": "SX1",
+      "branch": "STREET",
+      "title": "Reading the River",
+      "description": "Sunday 3 May, a flat grey morning. The Limehouse reach on a Sunday is shut and rather lovely, a long brown water with tarred sides moored along it, and not a crane moving. Wiggins has found a boat, and a man to row it, and has told the man that you are looking for a lost dog. You have two days, and a warehouse that you have so far seen only from the inside of a bad night. It is time to read the place the way that you read a hat. The river has been used for a good many years by a good many people, and it forgets nothing that is written on it.",
+      "options": [
+        {
+          "label": "Read the Tide Tables Against the Lighterman's Book.",
+          "detail": "A barge comes up on the top of the tide or not at all. If the Professor has a ship, there is a day on which she will be there, and the book will say it.",
+          "stamps": {
+            "evidence": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "A lighterman",
+            "text": "The Teal comes up on the top of the tide on Tuesday, a quarter past eight, and she never takes a load. Not once in a year. Rides high as a cork, she does, and goes out as light as she came in."
+          },
+          "outcome": "He lends you the book, in a pub, with a pot of tea, and you go down the column with your finger. It takes half an hour. By the end of it you know the hour, to the quarter, at which the thing that is going to happen on Tuesday will happen, and you know that there is a stair at the water's edge that will be dry at that hour and under water an hour afterwards.",
+          "nextNodeId": "SX2",
+          "setFlags": [
+            "wharfTide"
+          ]
+        },
+        {
+          "label": "Watch the Wharf From a Hired Barge.",
+          "detail": "A man in a boat with a pipe is the least interesting thing on the river. You may lie off the water-stairs all morning.",
+          "stamps": {
+            "evidence": 1,
+            "hands": -1
+          },
+          "quote": {
+            "speaker": "A bargee",
+            "text": "That's the third time that cart has been in and out since seven, guv'nor, and it's a Sunday. There's nothing to deliver on a Sunday."
+          },
+          "outcome": "You lie off the stairs with a line over the side and watch the gate in the way that a cat watches a hole. In three hours you see a cart, a small boy with a loaf, and a tall, stooping gentleman who does not come out again. It is not the Professor. It is someone who knows the Professor, and who walks in the way that a man walks who is sure of his welcome.",
+          "nextNodeId": "SX2",
+          "setFlags": [
+            "wharfWatch"
+          ]
+        },
+        {
+          "label": "Ask the River Police Who Pays for the Moorings.",
+          "detail": "A wharf is rented, and a lease is a name. The Thames Police keep a book, and the sergeant of the Wapping station owes Lestrade a favour.",
+          "stamps": {
+            "standing": 1,
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "The sergeant at Wapping",
+            "text": "The lease is in the name of a Mr Alexander Bell, of nowhere, paid quarterly, in notes. I should be glad if somebody would tell me why a man pays a thousand a year for a warehouse that has never in four years had a cask of anything in it but oil."
+          },
+          "outcome": "He is delighted to be asked, and has been waiting for the better part of a year for somebody to ask. You leave with a copy of the lease, a plan of the foreshore and a promise that the Thames Police will be looking the other way on Tuesday at eight. It is not much. It is the first time in the week that anyone has offered to look the other way on your behalf.",
+          "nextNodeId": "SX2",
+          "setFlags": [
+            "wharfPolice"
+          ],
+          "axisDelta": {
+            "trustLestrade": 1
+          }
+        }
+      ]
+    },
+    "SX2": {
+      "id": "SX2",
+      "branch": "STREET",
+      "title": "The Chalk and the Lamp-Oil",
+      "description": "Monday 4 May, noon. Wiggins and three of the boys are lying on the roof of a sugar-warehouse across the water-lane with their chins on their fists, and Alf has been sent to buy a pennyworth of toffee at a shop that has a view of the gate. The warehouse is a plain, high, flat-faced building with a hoist at the top and a double door at the bottom, and it has, in an ordinary light, nothing to say for itself at all. In the light of a Monday noon, with a lens, it has three things. There is chalk on the bollards. There are casks at the gate. And there is a carter who comes every day, at the same hour, with the same loaf.",
+      "options": [
+        {
+          "label": "Read the Chalk Marks on the Bollards.",
+          "detail": "Three crosses and a bar, on every post from the stairs to the gate. It is not a child's game. It is the way that a thing is laid out in the dark.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "I told you, Mr Holmes. Three crosses and a bar, and they go up to the door and they stop. And the last one's got an arrow on it, pointing at the floor. I'd not say it was a child that did it. A child would've drawn a face."
+          },
+          "outcome": "You go down the row with a lens and a pencil. They are not a child's. They are a route: the stairs, the gate, the yard, the door, a flight of steps that goes down and not up, and an arrow at the end of it. Someone who is not the Professor has laid out the way to a place in the building that he does not wish to be found in. It is the sort of thing that is useful only to the man who is expecting to be followed.",
+          "nextNodeId": "S8",
+          "setFlags": [
+            "wharfMarks"
+          ]
+        },
+        {
+          "label": "Count the Lamp-Oil Casks Through the Slats of the Gate.",
+          "detail": "A warehouse that has never in four years held anything but oil has, on the Monday of the raid, more oil than it ever held. A fire is being prepared.",
+          "stamps": {
+            "evidence": 1,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Alf",
+            "text": "Forty-one, Mr Holmes, and I counted twice. And the ones at the back haven't got any of them tops on. I think they've been took off. They stink something dreadful."
+          },
+          "outcome": "You do not need to count them. You smell them from the far side of the lane, a sweet, rank, greasy smell that goes into the back of the throat. There is a good deal more of it than a respectable warehouse would keep, and the casks have been moved, since Saturday, from the back of the building to the front. Somebody is not intending to leave the place as he found it. You write down forty-one, and underline it, and decide that you will need to know where the hoist-chain is.",
+          "nextNodeId": "S8",
+          "setFlags": [
+            "wharfOil"
+          ]
+        },
+        {
+          "label": "Follow the Carter Who Brings the Bread.",
+          "detail": "A man who brings bread to an empty warehouse every day at noon is feeding somebody. He may be feeding the man you want.",
+          "stamps": {},
+          "quote": {
+            "speaker": "The carter",
+            "text": "Gov'nor? I just brings the bread. A gentleman pays me a shilling at the Prince of Wales in Cable Street, and he's never said what he wants it for."
+          },
+          "outcome": "",
+          "nextNodeId": "S8",
+          "roll": {
+            "chance": 0.6,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.03,
+              "min": 0.35,
+              "max": 0.85
+            },
+            "success": {
+              "outcome": "He has a bad cough, a dray with a weak wheel, and no instinct whatever for being followed. You are with him to the Prince of Wales and a hundred yards past it, and when he comes out you have the name of the gentleman who pays him, and the hour at which the gentleman collects the bread. It is a name that you do not know and a habit that you can use.",
+              "stamps": {
+                "evidence": 2
+              },
+              "setFlags": [
+                "wharfCarter"
+              ]
+            },
+            "failure": {
+              "outcome": "He is a good deal less stupid than he looks. At the second corner he stops his dray, gets down, and stands looking at the horse's off hind hoof with an attention that no horse's hoof has ever merited, until you have gone past. When you look back he has gone. The bread has not been delivered. It is a message, and it is read at the other end in under ten minutes.",
+              "stamps": {
+                "evidence": -1,
+                "nerve": -1
+              }
+            }
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "wharfTide"
+          },
+          "text": "In your pocket-book is the hour of the tide, to the quarter, and the name of a barge that never takes a load."
+        },
+        {
+          "when": {
+            "flag": "wharfPolice"
+          },
+          "text": "A copy of the lease is folded in your coat. It is in the name of a Mr Alexander Bell, who does not exist."
+        }
+      ]
+    },
+    "CX1": {
+      "id": "CX1",
+      "branch": "CONTINENT",
+      "title": "The Hotel Register",
+      "description": "Monday 4 May, eight in the morning. It is a fine, hard morning, with the Alps standing up out of the valley like things that have been washed, and a smell of coffee and woodsmoke from the Englischer Hof. The Professor is somewhere on the line from Interlaken, and will be here before four. Before that, you have the hotel. You know, as you know the weather, that somebody will try today to separate you from Watson, and that the means will be a message, and that the message will be in a hand that is not the sender's. You have six hours, and a house full of people who are paid to be incurious.",
+      "options": [
+        {
+          "label": "Read the Hotel Register.",
+          "detail": "A ledger of names, with a column for nationality and a column for the date. It will say who is here and who is not.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "The proprietor",
+            "text": "An English lady, Monsieur? Madame, I regret that there is no English lady in this house who is ill. There is a Mrs Fenwick of Bath, who is perfectly well, and a Miss Sutherland, who is out walking."
+          },
+          "outcome": "He is shocked, and then he is helpful. You go down the register with your finger. There is no English lady who is ill. There is none who has sent for a doctor. There is, at the foot of the page, a gentleman who arrived on Saturday with a small bag and a violin-case and who has taken the room immediately over the stair, and who is out.",
+          "nextNodeId": "CX2",
+          "setFlags": [
+            "registerRead"
+          ]
+        },
+        {
+          "label": "Question the Stable-Boy About Who Has Hired the Guides.",
+          "detail": "A guide is a man who knows where the path goes. It would be as well to know who has paid him to keep away.",
+          "stamps": {
+            "evidence": 1,
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "The stable-boy",
+            "text": "Hans has gone down to Interlaken, sir, with the other two, and he was told that he would not be wanted until the Wednesday. The gentleman paid him in gold. I have never seen so much gold in a week."
+          },
+          "outcome": "He tells it in the Swiss German of the valley, and a good deal of it goes by, but the substance is plain. Every guide in Meiringen who could have told you the path has been paid to be somewhere else. It is a very economical piece of work: not one threat, and not one lie. The Professor has simply, and with great politeness, bought the whole of a village.",
+          "nextNodeId": "CX2",
+          "setFlags": [
+            "guideTalks"
+          ]
+        },
+        {
+          "label": "Look at the Forms at the Telegraph Office.",
+          "detail": "A forged message has to be written, and written on something. The little office at the foot of the street keeps its forms.",
+          "stamps": {
+            "wires": 1,
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "The telegraph clerk",
+            "text": "The message for the English doctor? It was handed in at half past ten, Monsieur, at the counter, by a boy. It was written in pencil, on one of our forms, with a very good English hand. It was not, I think, written by a lady."
+          },
+          "outcome": "You turn over the copies of the morning's messages, which he is extremely reluctant to let you see and perfectly willing to let you see for a franc. It is there: a request, in a clear and rather mannered English, for Dr Watson to come at once to the hotel at the foot of the Falls. The writing is the writing of a man who has been told what a woman's handwriting looks like. You put it in your pocket-book beside the ticket, and you underline the time.",
+          "nextNodeId": "CX2",
+          "setFlags": [
+            "formsRead"
+          ]
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "adlerWarned"
+          },
+          "text": "Mrs Norton's warning is in your head like a small cold coin. A message, in the morning, for the Doctor. You have not told Watson. You intend to."
+        },
+        {
+          "when": {
+            "flag": "adlerWatch"
+          },
+          "text": "At the foot of the stair, with a book, a lady in grey is reading the same page that she was reading at dinner. She does not look up."
+        }
+      ]
+    },
+    "CX2": {
+      "id": "CX2",
+      "branch": "CONTINENT",
+      "title": "The Path in Daylight",
+      "description": "Monday 4 May, ten in the morning. The path above the Reichenbach is a path of rock and wet roots, cut into the side of the gorge, going up and round through the spruce. It ends at a broad flat ledge on the lip of the upper fall, and the ledge ends in nothing at all. It is the loveliest and the least comfortable place that you have ever been. By dusk it will be the place where one of two men will not be. Now it is a place in a book. You have an hour, a walking-stick, and the knowledge that you will not be given another chance to look at it.",
+      "options": [
+        {
+          "label": "Walk the Path to the Fall and Read the Ground.",
+          "detail": "A path is a record. Every man who has gone along it has left something, and the wet makes it last.",
+          "stamps": {
+            "evidence": 1,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "Two sets of prints up, since the rain: a heavy boot, a light boot. None down. And at the ledge a place where the moss has been scraped by a heel, in the way that a man scrapes it who is preparing to be thrown."
+          },
+          "outcome": "You go up in the cold, with the roar of the water growing, and stand on the ledge with your toes at the edge. It is a hundred and sixty feet to the black water and a cloud of spray comes up over the lip in slow, soft puffs. Nothing could be quieter than the place where a man will die. On the way down you notice two things: the path is much wider than it looks, and in one place, at a bend, it is not very much wider than a man.",
+          "nextNodeId": "C8",
+          "setFlags": [
+            "pathRead"
+          ]
+        },
+        {
+          "label": "Find the Cleft in the Rock Below the Ledge.",
+          "detail": "There is a place at the foot of the cliff-face where a small man might go over the edge of the path and not be seen from the ledge. It will want a rope, and a good deal of care.",
+          "stamps": {
+            "hours": -1,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "You are going over the edge of a cliff, Holmes, with a rope, in a pair of boots that were bought for Bond Street. I should like to be told what you propose to find there."
+          },
+          "outcome": "It takes the whole hour, and a good deal of language. But you find it: a narrow cleft in the rock, a few feet below the lip of the path, with a ledge that will take the weight of a man lying flat, and a root as thick as your wrist to hold by. From the path above it is invisible. You lie in it for a full minute, with the spray on your face and the sky going round, and feel, for the first time in a week, perfectly calm.",
+          "nextNodeId": "C8",
+          "setFlags": [
+            "cleftSeen"
+          ]
+        },
+        {
+          "label": "Leave the Path Unread and Rest Before the Afternoon.",
+          "detail": "You will need your head by four, and a man who has walked a cliff-path in the morning has not got one.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "I am extremely glad to hear it, Holmes. I was beginning to think that you would not sleep again until you had gone over the edge yourself."
+          },
+          "outcome": "You go back to the hotel and lie on the bed with your boots on and your hands behind your head, and for two hours you do not think about anything at all. It is the nearest thing to a prayer that you have said for years. Watson looks in, once, and goes away again on tiptoe, with a face of such tender concern that you are obliged to pretend to be asleep.",
+          "nextNodeId": "C8"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "registerRead"
+          },
+          "text": "Somewhere in the Englischer Hof there is a man with a violin-case, who has taken a room over the stair and is, at present, out."
+        },
+        {
+          "when": {
+            "flag": "guideTalks"
+          },
+          "text": "There is not a guide in the valley who will tell you where the path is wide and where it is narrow. You are left to your own legs, and the spruces."
+        }
+      ]
+    },
+    "AC": {
+      "id": "AC",
+      "branch": "CONTINENT",
+      "title": "The Lady in Grey",
+      "description": "Sunday 3 May, ten at night. A knock at the door of your room at the Englischer Hof, and it is not the knock of a servant. It is a short, rapid, businesslike rap, and when you open the door there is a lady in a grey travelling-dress, with a veil put back, who says that she is very sorry to disturb you and not at all sorry to have found you. You last saw her at Briony Lodge, on the day she burned a packet in a pair of tongs. She is paler, and a little thinner, and she has the air of having walked a great way in order to say a thing that she has been a long time rehearsing. It is Mrs Norton, and she has not come for the view.",
+      "options": [
+        {
+          "label": "Hear Her Warning About a Message.",
+          "detail": "She has been in the hotel two days, and has been listening. A woman at a table with a book hears everything.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Mrs Norton",
+            "text": "There is a boy in the yard who has been paid a franc to run with a message at noon tomorrow. I have not seen the message. I have seen the man who wrote it. He was tall, and he walked as if he had been in India, and he did not at any point look at me, which I thought was unusual in a man who had been staring at the door for an hour."
+          },
+          "outcome": "She says it in four sentences, as she would give evidence, and she does not ask for anything. You thank her, and she says that thanks are unnecessary, in a tone that suggests that they are, on the contrary, extremely necessary and that she is a good deal too proud to say so. You have, at the end of it, a time and a description and a face. You also have, very distinctly, the feeling of having been given something that you cannot pay for.",
+          "nextNodeId": "CX1",
+          "setFlags": [
+            "adlerWarned"
+          ],
+          "axisDelta": {
+            "trustAdler": 1
+          }
+        },
+        {
+          "label": "Ask Her to Watch the Hotel in the Morning.",
+          "detail": "A woman at a table with a book is the best watcher in Europe. She will see who comes to the desk and who goes to the stable.",
+          "stamps": {
+            "hands": 1,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Mrs Norton",
+            "text": "You wish me to sit in the hall and read my book, and to remember who goes past. Mr Holmes, I have sat in halls and read books all my life. I think it is the only thing that I am really good at. Yes."
+          },
+          "outcome": "She agrees at once, and without the least show of reluctance, and goes away to her room with the lamp. You hear her door close, and, a little after, the faint, domestic sound of a woman winding a watch. You sleep, which you had not expected, and in the morning you find that the chair at the foot of the stair has been occupied since six, by a lady in grey, with a book, who does not look up.",
+          "nextNodeId": "CX1",
+          "setFlags": [
+            "adlerWatch"
+          ],
+          "axisDelta": {
+            "trustAdler": 1
+          }
+        },
+        {
+          "label": "Thank Her and Send Her Back to Brussels.",
+          "detail": "The Professor is not a man who forgives an accomplice. She has done a great deal already, and it would be wrong to let her do more.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Mrs Norton",
+            "text": "You are sending me away. I thought that you might. It is quite all right. You are being kind, and I am not at all accustomed to being protected, and I find that I do not like it. But I shall go."
+          },
+          "outcome": "She goes down the stairs in the grey dress with her bag in her hand, as if she were leaving a theatre. You watch her from the window all the way to the station. She does not look back. In the morning, at the desk, there is a note for you in a firm hand, in violet ink. It says, 'Quite so,' and nothing else, and you keep it, with the other one.",
+          "nextNodeId": "CX1",
+          "setFlags": [
+            "adlerSent"
+          ],
+          "axisDelta": {
+            "trustAdler": -1,
+            "heart": 1
+          }
+        }
+      ]
+    },
+    "AY": {
+      "id": "AY",
+      "branch": "YARD",
+      "title": "A Witness From St John's Wood",
+      "description": "Thursday 11 June, a little after nine in the morning. A note was left at Baker Street in the night, on violet paper, in a hand that you know. It says that Mr Hector Dunmore of Brandt and Chambers has been seen with a certain gentleman in the neighbourhood of the Old Bailey, and that she has, in consequence, taken it upon herself to walk across London on a wet morning and stand in the corner of Lestrade's room until somebody gives her a chair. She is there when you arrive, in the grey dress, on the hard chair, with her gloves in her lap. Lestrade is looking at her with the fixed, wary civility of a man who has been told that a lady is a witness and has not yet been told what for.",
+      "options": [
+        {
+          "label": "Take Her Sealed Statement to Lestrade's Desk.",
+          "detail": "She has written it down, in a firm hand, in the order in which it happened. It names the buyer and the bank. It is the first piece of evidence in the case that a jury might look at twice.",
+          "stamps": {
+            "evidence": 1,
+            "standing": 1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "I don't know what to make of her, Mr Holmes, and that's the truth. But I know what to make of a statement that gives a date, a bank and a man's name, and that's a thing I can swear to a magistrate. I'd be obliged if you'd tell the lady that I'm much obliged."
+          },
+          "outcome": "She signs it with a flourish, at the Inspector's blotter, and he reads it standing, with his lips moving. At the end he folds it into his inside pocket beside the warrants, and pats it, and looks at you with the beginnings of respect. It is, you reflect, an extraordinary thing, that two such different people should have found, in the course of five minutes, that they liked one another.",
+          "nextNodeId": "Y9",
+          "setFlags": [
+            "adlerStatement"
+          ],
+          "axisDelta": {
+            "trustAdler": 1,
+            "trustLestrade": 1
+          }
+        },
+        {
+          "label": "Tell Her to Stay Out of Court and Out of London.",
+          "detail": "She has done enough. The Professor's people have a long memory, and a witness is a person who can be found.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Mrs Norton",
+            "text": "You are trying to protect me. It is rather sweet, and quite useless, but I shall do as you ask. I shall be on the Continent by Saturday, and I shall be extremely hard to find. You may tell Mr Lestrade that I am sorry to have wasted his chair."
+          },
+          "outcome": "She rises, shakes hands with the Inspector, who has never in his life shaken the hand of a lady in a Scotland Yard office and is plainly not sure what to do with his thumb, and goes out. You see her to a cab. In the doorway she turns, and says that she has a feeling that you are going to be unhappy for a little time, and that she would very much like it if you did not do it alone. Then the cab goes, and the rain.",
+          "nextNodeId": "Y9",
+          "setFlags": [
+            "adlerSafe"
+          ],
+          "axisDelta": {
+            "trustAdler": 1,
+            "heart": 1
+          }
+        },
+        {
+          "label": "Ask Her to Dine With Mr Dunmore.",
+          "detail": "It is a dangerous request and a good plan. She is the only person in London who can be in a room with him and be expected.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Mrs Norton",
+            "text": "You wish me to dine with the man who tried to buy my letters, and to be charming, and to find out where he keeps the rest of the money. I think I should like it very much. It is a long time since I was asked to do something that mattered."
+          },
+          "outcome": "",
+          "nextNodeId": "Y9",
+          "axisDelta": {
+            "trustAdler": -1
+          },
+          "roll": {
+            "chance": 0.6,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.03,
+              "min": 0.35,
+              "max": 0.85
+            },
+            "success": {
+              "outcome": "She is at a table for two at the Café Royal at eight, in black, with a diamond at the throat, and she is a good deal more charming than a man in his position has any right to expect. By the second course he has told her the name of his clerk and the number of his box. By the fourth he has let slip the day, and the hour, and the door. She comes out into Regent Street at eleven with a headache and a handful of facts, and gives you all of them in a cab.",
+              "stamps": {
+                "evidence": 2
+              },
+              "setFlags": [
+                "adlerDecoy"
+              ]
+            },
+            "failure": {
+              "outcome": "She is at the table for two, and she is as charming as the evening requires, and at the fifth course he leans across and says, quite pleasantly, that he knows who she is, and who has sent her, and that he is extremely sorry for her. He pays the bill and goes. She walks home alone through the rain. You find the note under your door in the morning. It says: 'I am not hurt. I should like it noted that I was not at all frightened.'",
+              "stamps": {
+                "nerve": -2
+              },
+              "setFlags": [
+                "adlerHurt"
+              ]
+            }
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "adlerMet"
+          },
+          "text": "She is a good deal calmer than the room. She sits with her gloves in her lap, as one sits in a waiting-room at a dentist's, and looks at the Inspector's inkwell with polite interest."
+        }
+      ]
+    },
+    "Y9D": {
+      "id": "Y9D",
+      "branch": "YARD",
+      "title": "The Chase Along the Towpath",
+      "description": "Saturday 20 June, half past three in the morning. The net has not closed. At the last moment the tall, stooping figure on the towpath has seen the lantern on the bridge, and has turned and gone along the cut at a great pace, with his head thrust forward and his coat flying, and is already a hundred yards off. It is a black, narrow, wet night, with the towpath running between a high wall and the water, and every second that you stand here is a second in which he is further away. This is not the end. It is the last thing that you can do. Whatever you have prepared in the last two months will be needed in the next ten minutes.",
+      "options": [
+        {
+          "label": "Send the Constables Ahead to the Lock.",
+          "detail": "You have a man on the lock, because you set one there. He will be standing with a lantern in the middle of the path when the Professor arrives.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "He's got to go through the lock, Mr Holmes, there's no other way along the cut. Jenkins is at the gate, and Pike's at the other end. I've never in my life been so glad to have a man standing in a wet field."
+          },
+          "outcome": "The Professor comes round the bend at a steady walk, with his hat in his hand and a face of perfect composure, and finds a constable standing in the lock-gate with a lantern. He stops. He looks at the constable, and then, slowly, over his shoulder, at the three men coming along the path behind him, and then he puts his hat on again, with some care, and says that he supposes there is no help for it.",
+          "nextNodeId": "ENDING_NET_CLOSES",
+          "requiresFlag": "watchSet",
+          "requiresFlagHint": "Needs a watch set on the canal"
+        },
+        {
+          "label": "Whistle for the Boys on the Roofs.",
+          "detail": "A boy on a roof can see the whole length of the cut. If you have the hands, you have the eyes.",
+          "stamps": {
+            "hands": -1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "He's gone along the wall, Mr Holmes! Alf's got him, he's on the shed roof! He's gone left! He's gone left!"
+          },
+          "outcome": "The whistle goes up and down the length of the canal, from roof to roof, like a thing that is alive. In a minute there is a cry, and then another, and then a string of small, triumphant voices, and the Professor, who has been going along the cut at a great pace with every sense alert, finds himself pursued from above by thirteen children and a dog. He is not a man who runs well. He is a very much better man at sitting.",
+          "nextNodeId": "ENDING_NET_CLOSES",
+          "requires": {
+            "resource": "hands",
+            "op": ">=",
+            "value": 1
+          },
+          "requiresHint": "Needs Hands in hand"
+        },
+        {
+          "label": "Run Him Down Yourself.",
+          "detail": "A hundred yards in the dark, on a wet towpath, after a man ten years older than you. It is the kind of thing that you do rather well.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Professor Moriarty",
+            "text": "You are very persistent, Mr Holmes. It is a fault in the young, and a virtue, I am told, in the dog."
+          },
+          "outcome": "",
+          "nextNodeId": "ENDING_NET_CLOSES",
+          "roll": {
+            "chance": 0.5,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.04,
+              "min": 0.25,
+              "max": 0.85
+            },
+            "success": {
+              "outcome": "You are on him at the bend, in a flat run, with the stick under your arm, and you take him by the collar of the coat before he knows that you are there. He does not struggle. He stops, quite still, and stands with his head swaying slowly from side to side, in the light of the lantern, and says, mildly, that he had not supposed that you would be so fast. Behind you the constables come up with a rush.",
+              "stamps": {
+                "nerve": -2,
+                "evidence": 1
+              }
+            },
+            "failure": {
+              "outcome": "You are twenty yards short when the dark puts a root across your path. You go down on your face on the wet stone, with the wind knocked out of you, and by the time that you are up there is nothing at the end of the towpath at all but a cab, with its lamps lit, driving very fast and quite silently towards the City.",
+              "stamps": {
+                "nerve": -2,
+                "evidence": -1
+              }
+            }
+          }
+        },
+        {
+          "label": "Let Him Go.",
+          "detail": "You have not the means to stop him. There are better ways to be a policeman than to chase an old man along a canal.",
+          "stamps": {
+            "standing": -1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "You are letting him go, Mr Holmes. I do not understand it. But I'll say nothing, if you say nothing, and we'll both go home to bed."
+          },
+          "outcome": "You stand with your hands in your pockets and watch him go, a tall, stooping figure that grows smaller and smaller along the cut, until it passes under the next bridge and is gone. It is the most dignified retreat of your career, and the most expensive.",
+          "nextNodeId": "ENDING_NAPOLEON_ESCAPES"
+        }
+      ]
+    },
+    "S8D": {
+      "id": "S8D",
+      "branch": "STREET",
+      "title": "The Fire on the Stair",
+      "description": "Tuesday night, the lamp-light flickering. The first of the oil casks goes up with a low, soft roar, and the whole of the dim, high place is suddenly, shockingly bright. The Professor has not been trying to defend the warehouse. He has been trying to burn it, and he has done it with the thing that he has been collecting for a week. There is a river of burning oil spreading along the floor, a hoist-chain swinging in the heat, and fifteen boys, a very small boy among them, in a building with only two doors. You have, perhaps, three minutes, and a great deal to lose.",
+      "options": [
+        {
+          "label": "Cut the Hoist-Chain Above the Casks.",
+          "detail": "You counted the casks, and you know where the chain runs. The barrels on the front gantry will drop into the river instead of the floor.",
+          "stamps": {
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Alf",
+            "text": "The chain, Mr Holmes! The one with the hook! It's up on the roof by the winch!"
+          },
+          "outcome": "You are on the gantry before you have finished the thought, and the chain parts under the third blow of the iron bar. The front of the loft goes over into the river with a long, slow, shuddering crash, and a great cloud of smoke and steam, and the fire, which had the floor in its hand a moment before, is suddenly a small, sullen thing in a corner. Wiggins has the boys out of the water-door before you have taken a second breath. When the Professor looks round for his exit, there are four constables standing in it.",
+          "nextNodeId": "ENDING_PRIVATE_WAR",
+          "requiresFlag": "wharfOil",
+          "requiresFlagHint": "Needs the oil counted on Monday"
+        },
+        {
+          "label": "Run the Boys Out by the Water-Stair.",
+          "detail": "A boy knows a stair. If there is a way out of a building, he will have found it already.",
+          "stamps": {
+            "hands": -1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "This way! Single file, and don't push! Alf, you're last, and you hold the rope! I said single file, Dickie!"
+          },
+          "outcome": "They go out through the smoke by the water-stair in a long, silent, orderly line, each with a hand on the shoulder in front, and they are standing in the wet on the foreshore, coughing, before the beams begin to go. Not one is missing. By the time that the Professor has come to the end of his own plan, he finds that the ground on which he is standing has been taken by the thing that he forgot to count, which is a quantity of very small and very angry people.",
+          "nextNodeId": "ENDING_PRIVATE_WAR",
+          "requires": {
+            "resource": "hands",
+            "op": ">=",
+            "value": 1
+          },
+          "requiresHint": "Needs Hands in hand"
+        },
+        {
+          "label": "Go Back In for the Professor.",
+          "detail": "A man who has set fire to his own house does not generally intend to be in it. But he may be, and you would rather not know.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Professor Moriarty",
+            "text": "You should not have come in, Mr Holmes. I had made provision for most things, but not, I think, for you."
+          },
+          "outcome": "",
+          "nextNodeId": "ENDING_PRIVATE_WAR",
+          "roll": {
+            "chance": 0.45,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.04,
+              "min": 0.25,
+              "max": 0.85
+            },
+            "success": {
+              "outcome": "He is standing in the middle of the burning floor, with his hat in his hand, quite composed, and he lets you take him by the sleeve as a gentleman allows a waiter to take his coat. You get him to the water-door with a beam coming down behind you, and the last you see of the warehouse is the whole of the roof going up like a lantern.",
+              "stamps": {
+                "nerve": -3,
+                "evidence": 1
+              },
+              "nextNodeId": "ENDING_PRIVATE_WAR"
+            },
+            "failure": {
+              "outcome": "The smoke closes over you, and you go down on your knees, with the floor hot under your palms, and the Professor's figure on the far side of the fire turns, with a slight, courteous inclination of the head, and is lost. You are got out by a boy of eleven, by the coat. He has saved your life, and he is not at all impressed by it.",
+              "stamps": {
+                "nerve": -3
+              },
+              "nextNodeId": "ENDING_BAKER_STREET_BURNS"
+            }
+          }
+        },
+        {
+          "label": "Leave Him to the Fire and Get the Boys Out.",
+          "detail": "It is not a victory. But a child is not a thing to be set on a scale.",
+          "stamps": {
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "Mr Holmes, we've all got out. Every one. We've not got him, but we've got the boys."
+          },
+          "outcome": "You do the only thing that a man can do, and you do it without hesitation, and the Professor, in the smoke, has gone. When the fire has burnt down, there is nothing in the ruin of the warehouse but a quantity of charred oak and a small, neat, empty chair, in the middle of the floor, that no fire has touched.",
+          "nextNodeId": "ENDING_BAKER_STREET_BURNS"
+        }
+      ]
+    },
+    "M9": {
+      "id": "M9",
+      "branch": "MYCROFT",
+      "title": "One Throw More",
+      "description": "Friday 1 May, the late afternoon. The Cabinet Room is empty but for your brother, and the Prime Minister's secretary, and a tea-tray that no one has touched. The first throw has missed. It was a good one, and it was made at the right time, and it has not worked, and for a moment you stand and look at the table. Then Mycroft, who has not moved from his chair, says, in his flat, slow voice, that the Government has not yet decided that it is beaten, and that there is a quarter of an hour before the Prime Minister's carriage is called. He says it as one would give a man a coin for the omnibus. You have, therefore, exactly one more.",
+      "options": [
+        {
+          "label": "Lay the Professor's Cables Before the Committee.",
+          "detail": "You broke the cipher. Every cable of the year, in plain English, with the Professor's own dates. There is nothing the Government can say to that.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "You had them all along, Sherlock, and you kept them in your waistcoat for a week. I do not know whether to be proud of you or to dismiss you from the service. I shall do neither. Hand them to Sir Edward."
+          },
+          "outcome": "The sheets go on the green cloth in order, and Sir Edward reads the first aloud. By the sixth he has put down his tea. By the tenth the Prime Minister has been sent for, in the middle of his dinner, and has come, with a napkin in his collar. There is a warrant by seven, and a van by nine, and a quiet corridor in Holloway by midnight.",
+          "nextNodeId": "ENDING_NET_CLOSES",
+          "requiresFlag": "cipherBroken",
+          "requiresFlagHint": "Needs the cipher broken"
+        },
+        {
+          "label": "Put the Second Ledger in Lestrade's Hands.",
+          "detail": "If the Government will not use it, the Yard will. Lestrade is a man who knows what to do with a ledger, and what not to say about it.",
+          "stamps": {
+            "standing": 1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "You want me to take it to the Commissioner, Mr Holmes, with the Government's name written in it. I've been in the force for thirty years and I've never done a braver thing, or a stupider. I'll do it."
+          },
+          "outcome": "He walks out of the Cabinet Room with the ledger under his arm and his hat on straight, past the secretary, past the doorkeeper, past a Cabinet minister who tries to say something and is passed too. By the next morning it is the property of the Metropolitan Police, and by the next week it is in the hands of a printer.",
+          "nextNodeId": "ENDING_THE_SECOND_LEDGER",
+          "requires": {
+            "all": [
+              {
+                "flag": "readSecond"
+              },
+              {
+                "axis": "trustLestrade",
+                "op": ">=",
+                "value": 1
+              }
+            ]
+          },
+          "requiresHint": "Needs the second ledger read and Lestrade's trust"
+        },
+        {
+          "label": "Ask Greaves to Watch the Channel Ports Himself.",
+          "detail": "He will have men at Dover, Southampton, Folkestone and Newhaven by midnight. There are not many places in England from which a man of his height can leave unobserved.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Superintendent Greaves",
+            "text": "Every port on the south coast, sir, and a man at every station. I do not say we shall have him. I say that he will have to be a very remarkable gentleman to get past thirty."
+          },
+          "outcome": "",
+          "nextNodeId": "ENDING_NET_CLOSES",
+          "roll": {
+            "chance": 0.5,
+            "scaling": {
+              "resource": "evidence",
+              "perPoint": 0.04,
+              "min": 0.25,
+              "max": 0.85
+            },
+            "success": {
+              "outcome": "It is a telegram, at three in the morning, from a station-master at Newhaven. A tall, stooping gentleman has taken a first-class ticket for Dieppe under the name of Mr Alexander Bell, with a violin-case. He is stopped at the barrier by a young man from Special Branch with a cold. He goes quietly. He asks only whether there will be time for him to finish his tea.",
+              "stamps": {
+                "evidence": 1
+              },
+              "nextNodeId": "ENDING_NET_CLOSES"
+            },
+            "failure": {
+              "outcome": "He is not at any of them. He left London on the Wednesday, in a very plain brougham, with a quiet, plausible gentleman who is understood to be a clergyman, and he has been in Calais since Thursday. The ports are watched with great care for a week, and nothing at all is seen, except a number of tall, stooping, innocent men.",
+              "stamps": {
+                "evidence": -1
+              },
+              "nextNodeId": "ENDING_NAPOLEON_ESCAPES"
+            }
+          }
+        },
+        {
+          "label": "Let the Professor Sail.",
+          "detail": "There is no more to be done tonight, and you have had the better part of a week of it.",
+          "stamps": {
+            "standing": -1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "You are doing the sensible thing, Sherlock. It is the only thing in the world that I should like less than to see you do."
+          },
+          "outcome": "You rise from the table, and your brother does not, and the Prime Minister's secretary looks at his watch. There is nothing to say. You go out into Whitehall in a fine rain, and find that the lamps have been lit. Somewhere to the south, a long way off, a ship's siren sounds, very low, like a large animal clearing its throat.",
+          "nextNodeId": "ENDING_NAPOLEON_ESCAPES"
+        }
+      ]
     }
   },
   "interludes": {
@@ -10104,6 +11371,13 @@
       "source": "The Times, 24 December 1889",
       "headline": "THE COSMOPOLITAN JEWEL ROBBERY",
       "bodyText": "John Horner, a plumber, aged thirty, was brought up at the Bow Street Police Court on the charge of having abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle. James Ryder, the upper-attendant at the hotel, gave evidence of having shown Horner up to the dressing-room of the Countess in order that he might solder the second bar of the grate, which was loose. He had remained with Horner for some time, but had finally been called away. On returning he found that Horner had disappeared, that the bureau had been forced open, and that the small morocco casket in which, as it afterwards transpired, the Countess was accustomed to keep her jewel, was lying empty upon the dressing-table. The prisoner was committed for trial.",
+      "kind": "transition"
+    },
+    "TRANSITION_LEAGUE": {
+      "id": "TRANSITION_LEAGUE",
+      "source": "The Morning Post, a small advertisement",
+      "headline": "TO THE RED-HEADED LEAGUE",
+      "bodyText": "On account of the bequest of the late Ezekiah Hopkins, of Lebanon, Pennsylvania, U.S.A., there is now another vacancy open which entitles a member of the League to a salary of four pounds a week for purely nominal services. All red-headed men who are sound in body and mind, and above the age of twenty-one years, are eligible. Apply in person on Monday, at eleven o'clock, to Duncan Ross, at the offices of the League, 7 Pope's Court, Fleet Street.",
       "kind": "transition"
     }
   },
@@ -10806,6 +12080,53 @@
           "flag": "carbRebuffed",
           "headline": "THE STONE SLIPS AWAY: THE SALESMAN KNEW",
           "text": "You were turned away at the market, and you were slow to the chase, and the man who knew the end of the story was gone before you had learned the beginning. The stone goes back. The man does not. Lestrade will not let you forget it."
+        }
+      ]
+    },
+    "ENDING_THE_LEAGUE_DISSOLVED": {
+      "id": "ENDING_THE_LEAGUE_DISSOLVED",
+      "title": "The League Is Dissolved",
+      "kind": "narrative",
+      "headline": "THE CITY AND SUBURBAN BANK: A NARROW ESCAPE",
+      "text": "John Clay, murderer, thief, smasher and forger, who has for years been the cleverest criminal in London, is taken in the cellar of the City and Suburban Bank, and goes to prison for fourteen years. His accomplice is taken in the shop. Jabez Wilson goes back to his pawnbroking, with a good deal more red in his cheeks, and takes a new assistant. Mr Merryweather sends you a cheque and a very long letter. You and Watson walk home along the Embankment at three in the morning, in the first of the fog, and you tell him that it is all an attempt to escape from the commonplace, and that you are glad that it has not escaped.",
+      "variants": [
+        {
+          "flag": "leagueMen",
+          "headline": "THE LEAGUE IS DISSOLVED: THE YARD'S ARREST",
+          "text": "John Clay is taken, with his accomplice, by Mr Peter Jones of Scotland Yard, at the end of a very long evening, and the papers give the credit to Mr Jones, which is as it should be. He is promoted in the spring. You do not say a word. You think, as you walk home with Watson, that the best of a detective's work is the work that somebody else is thanked for."
+        },
+        {
+          "flag": "leagueAssistant",
+          "headline": "THE LEAGUE IS DISSOLVED: A MAN WITH PIERCED EARS",
+          "text": "John Clay, who had been a royal duke's grandson, an Etonian, an Oxonian, and a very pretty hand with a spade, is taken in the cellar of the City and Suburban Bank, with the white splash of acid still upon his forehead. His ears, as you had said, are pierced for earrings. Jabez Wilson says it is a most remarkable thing that you should have noticed."
+        }
+      ]
+    },
+    "ENDING_THE_TUNNEL_OPEN": {
+      "id": "ENDING_THE_TUNNEL_OPEN",
+      "title": "The Tunnel Open",
+      "kind": "failure",
+      "headline": "THIRTY THOUSAND NAPOLEONS: A CITY BANK ROBBED",
+      "text": "It is the largest robbery in the City for a decade, and the whole of it has been done with a spade and a jar of paraffin and four pounds a week. The gold, thirty thousand napoleons in boxes lent by the Bank of France, has gone out through the cellar of a pawnbroker in Saxe-Coburg Square, and down the Metropolitan, and on to the Continent. John Clay is not seen again. Jabez Wilson, who had been an innocent party to the whole of it, is eventually found, in a very modest lodging, in the Borough, with his hair, which is now going rather grey, in a small and rather sad ring. The League, you think, as you sit at the window and look at the street, was always better than the thing that it covered.",
+      "variants": [
+        {
+          "flag": "leagueAlone",
+          "headline": "THE TUNNEL OPEN: A MAN WHO WENT DOWN ALONE",
+          "text": "The gold goes out through the tunnel in the night, and you were in the cellar when it happened, and alone, because you said you would be. It is a thing that nobody forgives. Mr Merryweather writes to the Times, in an angry and rather unfair hand, about private detectives who would be wiser to leave the matter to the police."
+        }
+      ]
+    },
+    "ENDING_THE_ENCYCLOPAEDIA": {
+      "id": "ENDING_THE_ENCYCLOPAEDIA",
+      "title": "Four Pounds a Week",
+      "kind": "narrative",
+      "headline": "A QUANTITY OF COIN MOVED FOR SECURITY",
+      "text": "The City and Suburban Bank opens on Monday, as usual, and its customers, who have not the least idea of how near they came to being the customers of a hole in the ground, go in and out all day with their books and their bags. John Clay is in Pentonville by Tuesday. The bank does not say a word, and neither do you. Jabez Wilson, who has been told that the League was dissolved because it had served its purpose, goes back to his shop with a very large and impressive volume, which he has kept, in a drawer, as a souvenir: the first volume of the Encyclopaedia Britannica, copied out in his own hand as far as the letter B, and worth, as he says, a good deal more to him than the money.",
+      "variants": [
+        {
+          "flag": "leagueVault",
+          "headline": "FOUR POUNDS A WEEK: A DIRECTOR'S GRATITUDE",
+          "text": "The bank opens on Monday, as usual, and its director, who has kept his key, his good name and his thirty thousand napoleons, sends you a box of cigars of such extraordinary quality that Watson, who is a connoisseur, cannot at first believe that they are a gift. You say that you do not smoke cigars. You give them to Lestrade."
         }
       ]
     }

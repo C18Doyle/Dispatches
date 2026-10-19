@@ -2,6 +2,24 @@
 
 Player-facing and rules-facing changes only. Newest first. Add an entry in the same commit as the change.
 
+## 0.5.0 (unreleased)
+### Added
+- **The shelf is split into one major case and four minor ones**, each card showing how many of its endings you have found, and a card that offers to resume an unfinished case (opening a volume over it puts it away). The ending screen says which volume you finished, how many of its endings you have found, how many volumes you have finished, and what is next on the shelf.
+- **The Red-Headed League** (1890): the fifth volume. Four scenes and three endings, with the vault, the card on the door and the half-wage assistant.
+- **Two investigations each for the street and the flight.** The street road reads the river and the wharf (tide, chalk marks, lamp-oil); the flight reads the hotel and the path above the Falls (the register, the telegraph forms, a cleft in the rock). What you find opens a sure choice in the finale.
+- **Mrs Norton again**: a sworn statement and a dinner at the Café Royal on the Yard road, a warning at the Englischer Hof on the flight. Four scenes in all, and a payoff on both roads.
+- **A second chance at every finale that hung on one roll.** A missed net on the towpath becomes a chase (Y9D), a burning warehouse becomes a fight to get the boys out (S8D), and a failed shot at the Cabinet becomes one more throw (M9). Each has a sure route if you prepared (a watch set, the oil counted, the cipher broken, Hands in hand).
+- **Sixteen new ending plates**: every ending has its own picture now, and no ending shares a plate with another.
+- **The Professor answers**: the board lists what he did about each arm of the web that you cut.
+- **Watson reacts to the Strand**: his notebook comments when Hours, Hands or Wires run short (or when all three are well supplied).
+- **Hours show on the calendar**: when Hours run short, the calendar marks how many days it has already taken from you and shortens the time left to the next date that matters.
+- **A real houndstooth** (a twill weave, drawn in code) on the tweed ground and the itch artwork, and a **paper look** in Settings: the same parlour in daylight, with ink on a pale houndstooth.
+### Changed
+- Walking away from a finale (closing the file, leaving the room) now costs Standing, and the towpath net's odds rise faster with the Evidence you earned. A cautious player now reaches a capture in about two runs in three; before, most of them walked away.
+- The shelf is never saved as a run, so an unfinished case survives a visit to the shelf.
+- The accessibility check now reads its colours from `tailwind.config.js` (it was checking an older palette) and checks the paper look. The change found a real failure, a green gain badge at 4.0:1 on the cards, which is now darker.
+- The validator searches the smallest unseen volume first, so it finishes in under a minute again.
+
 ## 0.4.0 (2026-10-18)
 ### Added
 - **Houndstooth**: the whole game is restyled as a Victorian parlour (a houndstooth ground, cream and oxblood cards, Playfair Display, Rokkitt and Lora). The fonts are bundled into the page, so it works offline.

@@ -2,8 +2,8 @@
 import { def } from "../src/game";
 import { SCENE_DATES } from "../src/calendar_dates";
 
-const MONTH: Record<string, number> = { January: 1, February: 2, March: 3, April: 4, May: 5, June: 6, December: 12 };
-const re = /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),? (\d{1,2}) (January|February|March|April|May|June|December)(?: (\d{4}))?/;
+const MONTH: Record<string, number> = { January: 1, February: 2, March: 3, April: 4, May: 5, June: 6, October: 10, December: 12 };
+const re = /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),? (\d{1,2}) (January|February|March|April|May|June|October|December)(?: (\d{4}))?/;
 let failures = 0;
 const fail = (m: string) => {
   failures++;

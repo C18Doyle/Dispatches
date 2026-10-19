@@ -278,6 +278,247 @@ export const PLATES = {
       <path d="M116 14h8M120 10v8" strokeWidth="1.2" />
     </Plate>
   ),
+  portrait: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <rect x="82" y="8" width="76" height="86" />
+      <rect x="88" y="14" width="64" height="74" strokeWidth="0.7" />
+      <ellipse cx="120" cy="46" rx="22" ry="28" strokeWidth="0.9" />
+      <path d="M106 40c4-10 22-10 28 0M112 46c2-2 4-2 6 0M124 46c2-2 4-2 6 0" strokeWidth="1" />
+      <path d="M114 58c4 4 12 4 16 0" strokeWidth="1" />
+      <path d="M100 88c2-14 12-18 20-18s18 4 20 18" />
+      <path d="M96 22c6-8 14-10 24-10M144 22c-6-8-14-10-24-10" strokeWidth="0.8" />
+      <path d="M166 70l14-8 14 8-14 30Z" />
+      <path d="M180 62v38M170 76l10 6 10-6" strokeWidth="0.7" />
+      <path d="M44 100V88h22v12M40 88h30" />
+      <path d="M52 88V70M56 88V74M60 88V70" strokeWidth="0.8" />
+    </Plate>
+  ),
+  strongbox: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <rect x="64" y="46" width="112" height="50" />
+      <path d="M64 62h112M64 56h112" strokeWidth="0.8" />
+      <path d="M64 46C64 34 80 28 120 28s56 6 56 18" />
+      <rect x="112" y="54" width="16" height="18" />
+      <circle cx="120" cy="62" r="3" />
+      <path d="M120 65v4" strokeWidth="1.6" />
+      <path d="M76 96v4h12v-4M152 96v4h12v-4" />
+      <path d="M136 30l22-18 10 8-18 18Z" strokeWidth="1" />
+      <path d="M142 26l12-9" strokeWidth="0.6" />
+      <path d="M190 80h16a6 6 0 1 1 0 12h-16Z" />
+      <path d="M190 86h-18M176 86v6M182 86v4" />
+    </Plate>
+  ),
+  envelope: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <rect x="58" y="26" width="124" height="68" />
+      <path d="M58 26l62 44 62-44M58 94l46-40M182 94l-46-40" />
+      <circle cx="120" cy="70" r="9" />
+      <path d="M114 72l2-8 4 5 4-5 2 8Z" strokeWidth="0.8" />
+      <circle cx="196" cy="40" r="16" />
+      <circle cx="196" cy="40" r="13" strokeWidth="0.6" />
+      <path d="M196 40V30M196 40l8 4" />
+      <path d="M190 24l-3-5M202 24l3-5" strokeWidth="0.8" />
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => (
+        <path key={i} d={`M${196 + Math.cos((i * Math.PI) / 6) * 13} ${40 + Math.sin((i * Math.PI) / 6) * 13}l${Math.cos((i * Math.PI) / 6) * -2} ${Math.sin((i * Math.PI) / 6) * -2}`} strokeWidth="0.6" />
+      ))}
+    </Plate>
+  ),
+  snake: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M200 6V30" />
+      <path d="M196 30h8l-2 6h-4Z" />
+      <path d="M200 36c0 12-6 20-6 30M200 36c-2 12 4 20 4 30" strokeWidth="1" />
+      <path d="M60 94c-12 0-16-12-6-18s24-2 34 4 24 8 34 2 14-16 24-22 20-4 24 6-6 14-18 12" strokeWidth="2.4" />
+      <path d="M142 62c8-6 22-6 28 2" strokeWidth="2.4" />
+      <path d="M170 64l-4-8 10-2 8 6-8 8Z" />
+      <circle cx="176" cy="60" r="1.3" fill="currentColor" stroke="none" />
+      <path d="M184 62l8 2M184 62l8-2" strokeWidth="0.8" />
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <path key={i} d={`M${70 + i * 14} ${90 - (i % 2) * 6}l3 3M${74 + i * 14} ${84 - (i % 2) * 6}l-3 3`} strokeWidth="0.7" />
+      ))}
+      <path d="M30 100V70M26 70h16" />
+      <rect x="24" y="48" width="24" height="16" />
+      <path d="M28 52h16M28 56h16M28 60h16" strokeWidth="0.7" />
+    </Plate>
+  ),
+  candle: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M96 100V54h24V100M90 100h36" />
+      <path d="M108 54V44" strokeWidth="1.4" />
+      <path d="M104 44c4-4 8-4 8 0" strokeWidth="0.8" />
+      <path d="M108 40c-6-8 4-12-2-22M114 38c-6-8 4-12-2-22" strokeWidth="0.8" opacity="0.7" />
+      <rect x="148" y="24" width="52" height="40" />
+      <path d="M148 34h52M148 44h52M148 54h52M162 24v40M176 24v40M188 24v40" strokeWidth="0.8" />
+      <path d="M174 64v16" />
+      <path d="M168 80h12" />
+      <path d="M60 100c10-6 24-6 34 0" strokeWidth="0.8" />
+      <path d="M30 100l8-30 8 30M34 90h8" />
+    </Plate>
+  ),
+  bag: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M62 96V56c0-6 4-10 10-10h96c6 0 10 4 10 10v40Z" />
+      <path d="M62 70h116" strokeWidth="0.8" />
+      <path d="M98 46V38c0-6 4-8 10-8h24c6 0 10 2 10 8v8" />
+      <rect x="112" y="64" width="16" height="14" />
+      <circle cx="120" cy="71" r="2" />
+      <circle cx="196" cy="84" r="9" />
+      <circle cx="218" cy="84" r="9" />
+      <path d="M205 84h4M187 84l-10-4M227 84l8-4" />
+      <path d="M180 100c4-8 14-8 18 0" strokeWidth="0.8" />
+    </Plate>
+  ),
+  goose: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M52 76c0-16 14-26 34-26 12 0 20 4 28 8 8-6 10-18 6-28l-6-10 12 0c6 10 8 22 6 34 8 6 16 10 28 12-6 14-20 26-44 26-34 0-64-4-64-16Z" strokeWidth="1.2" />
+      <path d="M126 22l22 4-22 6Z" />
+      <circle cx="123" cy="20" r="1.4" fill="currentColor" stroke="none" />
+      <path d="M96 100V90M106 100V90M92 100h10M102 100h10" />
+      <path d="M72 74c10 2 22 2 32-2M78 80c8 2 18 2 28-2" strokeWidth="0.7" />
+      <path d="M178 38l10-12 10 12-10 20Z" />
+      <path d="M178 38h20M188 26l-4 12M188 26l4 12" strokeWidth="0.7" />
+      <path d="M200 84c4-8 12-8 16 0 4-8 12-8 16 0" strokeWidth="0.8" />
+      <circle cx="208" cy="82" r="1.6" />
+      <circle cx="224" cy="82" r="1.6" />
+    </Plate>
+  ),
+  cuffs: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <circle cx="90" cy="60" r="22" />
+      <circle cx="90" cy="60" r="16" strokeWidth="0.8" />
+      <path d="M72 74l-8 10M108 74l8 10" />
+      <rect x="62" y="82" width="16" height="10" />
+      <rect x="102" y="82" width="16" height="10" />
+      <path d="M78 87h24" strokeDasharray="3 3" />
+      <circle cx="154" cy="60" r="22" />
+      <circle cx="154" cy="60" r="16" strokeWidth="0.8" />
+      <path d="M136 74l-8 10M172 74l8 10" />
+      <path d="M190 30l14-16 14 16-14 28Z" />
+      <path d="M190 30h28M204 14l-6 16M204 14l6 16" strokeWidth="0.7" />
+    </Plate>
+  ),
+  hat: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M62 80c0-26 8-40 36-40s36 14 36 40" />
+      <path d="M50 80h96" />
+      <path d="M50 80c-6 4-4 10 6 12h84c10-2 12-8 6-12" />
+      <path d="M62 72h72" strokeWidth="0.7" />
+      <path d="M72 58l6 4M78 52l8 8M112 58l6 4" strokeWidth="0.7" opacity="0.7" />
+      <path d="M160 70c14 2 26 2 40-2l10 18-30 8-24-4Z" />
+      <path d="M170 74l30-2" strokeWidth="0.7" />
+      <path d="M200 40l8-10 8 10-8 16Z" strokeDasharray="2 2" />
+      <path d="M208 30l-4 10M208 30l4 10" strokeWidth="0.6" strokeDasharray="2 2" />
+    </Plate>
+  ),
+  vault: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <circle cx="120" cy="54" r="40" />
+      <circle cx="120" cy="54" r="33" strokeWidth="0.8" />
+      <circle cx="120" cy="54" r="8" />
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <path key={i} d={`M${120 + Math.cos((i * Math.PI) / 3) * 8} ${54 + Math.sin((i * Math.PI) / 3) * 8}L${120 + Math.cos((i * Math.PI) / 3) * 30} ${54 + Math.sin((i * Math.PI) / 3) * 30}`} />
+      ))}
+      <path d="M80 54H70M160 54h10M120 14V6M120 94v6" />
+      <path d="M40 100v-14h24v14M44 86V76h16v10" strokeWidth="0.9" />
+      <path d="M176 100v-8h30v8M182 92v-12h18v12" strokeWidth="0.9" />
+      <circle cx="191" cy="74" r="4" />
+    </Plate>
+  ),
+  tunnel: (
+    <Plate>
+      <path d="M0 60H240" strokeWidth="0.8" />
+      <path d="M0 68H240" strokeWidth="0.5" />
+      <path d="M70 60l8 8M110 60l8 8M150 60l8 8M190 60l8 8" strokeWidth="0.6" />
+      <path d="M98 60l-6 14M142 60l6 14" />
+      <path d="M92 74h56" strokeWidth="0.8" />
+      <path d="M96 60h48l-4 12H100Z" strokeDasharray="3 2" />
+      <path d="M100 72v18c0 6 4 10 8 10h24c4 0 8-4 8-10V72" />
+      <path d="M108 80h24M108 88h24" strokeWidth="0.7" />
+      <path d="M184 20l4 40M180 20h16" />
+      <path d="M180 20c-4-8 2-14 8-14s12 6 8 14Z" />
+      <path d="M40 98c10-4 20-4 30 0M170 98c10-4 20-4 30 0" strokeWidth="0.8" />
+    </Plate>
+  ),
+  book: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M56 90V30l64-6 64 6v60l-64-6Z" />
+      <path d="M120 24v60" />
+      <path d="M62 34l54-4v52l-54 4ZM124 30l54 4v52l-54-4Z" strokeWidth="0.6" />
+      <path d="M78 60c-6 0-6-12 0-12h8c8 0 8 10 0 10h-8c8 0 8 12 0 12h-8" strokeWidth="1.4" />
+      <path d="M142 42h28M142 50h28M142 58h20" strokeWidth="0.7" />
+      <path d="M194 98c0-8 8-10 20-10s20 2 20 10Z" />
+      <path d="M198 92h32M202 96h24" strokeWidth="0.6" />
+      <circle cx="214" cy="82" r="5" />
+    </Plate>
+  ),
+  flames: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M30 100V64h40v36M80 100V54h40v46M130 100V68h44v32M184 100V60h36v40" />
+      <path d="M44 64V52h12v12M96 54V42h14v12M148 68V56h14v12" strokeWidth="0.9" />
+      <path d="M96 52c-6-10 4-14 0-26 10 6 14 14 10 24 6-4 8-10 6-18 10 10 8 22 0 34Z" strokeWidth="1.2" />
+      <path d="M148 66c-4-8 4-12 0-20 8 4 12 10 8 18 4-2 6-8 4-14 8 8 6 18 0 24Z" strokeWidth="1.2" />
+      <path d="M196 58c-4-8 4-12 0-20 8 4 12 10 8 18 4-2 6-8 4-14 8 8 6 18 0 24Z" strokeWidth="1.2" />
+      <path d="M60 40c-4-6 2-8 0-14M70 36c-4-6 2-8 0-14" strokeWidth="0.8" opacity="0.7" />
+      <path d="M36 74h8M36 84h8M92 66h8M92 76h8M92 86h8M140 78h8M140 88h8M192 70h8M192 80h8" strokeWidth="1" />
+    </Plate>
+  ),
+  ship: (
+    <Plate>
+      <path d="M0 100c20-6 40-6 60 0s40 6 60 0 40-6 60 0 40 6 60 0" strokeWidth="1" />
+      <path d="M20 90c20-6 40-6 60 0s40 6 60 0 40-6 60 0" strokeWidth="0.6" opacity="0.7" />
+      <path d="M54 78h132l-14 14H70Z" />
+      <path d="M70 78V62h96v16M82 62V50h72v12" />
+      <path d="M96 50V30h16v20M128 50V34h12v16" />
+      <path d="M92 30h24M126 34h16" />
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <circle key={i} cx={80 + i * 16} cy="70" r="2.6" />
+      ))}
+      <path d="M104 26c-6-6 4-10-2-16M112 24c-6-6 4-10-2-16M134 28c-6-6 4-10-2-16" strokeWidth="0.8" opacity="0.7" />
+      <path d="M186 78V40M186 40h12" />
+      <path d="M26 82h24M20 78h20" strokeWidth="0.7" />
+    </Plate>
+  ),
+  rifle: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M0 80L30 70 60 78l30-22 28 14 30-30 40 20 22-12v52H0Z" strokeWidth="1" />
+      <path d="M130 40V96M142 44V96M154 42V96" strokeWidth="1.2" />
+      <path d="M44 38l110-14" strokeWidth="1.6" />
+      <path d="M44 38l-12 8 4 8 10-4Z" />
+      <path d="M154 24l12-2M162 20l4 4" strokeWidth="0.9" />
+      <circle cx="186" cy="48" r="10" />
+      <path d="M186 38V58M176 48h20" strokeWidth="0.7" />
+      <path d="M200 60c4-8 4-16 0-24" strokeWidth="0.7" strokeDasharray="2 2" />
+    </Plate>
+  ),
+  cord: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M20 40c20-10 40-10 60 0 12 6 22 6 30 4" />
+      <path d="M20 48c20-10 40-10 60 0 12 6 22 6 30 4" />
+      <path d="M20 56c20-10 40-10 60 0 12 6 22 6 30 4" />
+      <path d="M110 44l12 6-10 2 10 6M110 52l10 8-8 0 10 8M110 60l12 4-6 4" strokeWidth="0.8" />
+      <path d="M130 62c8 4 20 4 36 0 20-6 40-6 56 0" />
+      <path d="M130 70c8 4 20 4 36 0 20-6 40-6 56 0" />
+      <path d="M130 78c8 4 20 4 36 0 20-6 40-6 56 0" />
+      <path d="M118 66l-4 14M126 70l2 16" strokeWidth="0.7" opacity="0.7" />
+      <text x="50" y="22" fontSize="8" fill="currentColor" stroke="none" textAnchor="middle" style={{ fontFamily: "Rokkitt, Georgia, serif" }}>HOURS</text>
+      <text x="120" y="22" fontSize="8" fill="currentColor" stroke="none" textAnchor="middle" style={{ fontFamily: "Rokkitt, Georgia, serif" }}>HANDS</text>
+      <text x="190" y="22" fontSize="8" fill="currentColor" stroke="none" textAnchor="middle" style={{ fontFamily: "Rokkitt, Georgia, serif" }}>WIRES</text>
+    </Plate>
+  ),
 } as const;
 
 export type PlateId = keyof typeof PLATES;
@@ -299,6 +540,13 @@ export function plateForInterlude(id: string): PlateId | null {
       return "falls";
     case "TRANSITION_MYCROFT":
       return "club";
+    case "TRANSITION_BOHEMIA":
+      return "envelope";
+    case "TRANSITION_BAND":
+      return "telegram";
+    case "TRANSITION_CARBUNCLE":
+    case "TRANSITION_LEAGUE":
+      return "newspaper";
     case "CRISIS_EVIDENCE":
       return "magnifier";
     case "CRISIS_NERVE":
@@ -323,18 +571,49 @@ export function plateForEnding(id: string): PlateId {
     case "ENDING_CRISIS_NERVE":
       return "lamp";
     case "ENDING_CRISIS_STRAND":
-      return "telegram";
+      return "cord";
     case "ENDING_NET_CLOSES":
-    case "ENDING_NAPOLEON_ESCAPES":
       return "yard";
+    case "ENDING_NAPOLEON_ESCAPES":
+      return "ship";
+    case "ENDING_THE_WOMAN":
+      return "portrait";
+    case "ENDING_THE_STRONGBOX":
+      return "strongbox";
+    case "ENDING_THE_KING_WAITS":
+      return "envelope";
+    case "ENDING_THE_BAND_RETURNS":
+      return "snake";
+    case "ENDING_THE_WHISTLE_MISSED":
+      return "candle";
+    case "ENDING_THE_DOCTOR_LIVES":
+      return "bag";
+    case "ENDING_THE_CHRISTMAS_MERCY":
+      return "goose";
+    case "ENDING_THE_STONE_RETURNED":
+      return "cuffs";
+    case "ENDING_THE_STONE_LOST":
+      return "hat";
+    case "ENDING_THE_LEAGUE_DISSOLVED":
+      return "vault";
+    case "ENDING_THE_TUNNEL_OPEN":
+      return "tunnel";
+    case "ENDING_THE_ENCYCLOPAEDIA":
+      return "book";
+    case "ENDING_THE_FALL":
+      return "falls";
+    case "ENDING_FATAL_SHOT":
+    case "ENDING_WATSON_STANDS":
+      return "rifle";
     case "ENDING_REASON_OF_STATE":
     case "ENDING_HER_MAJESTYS_SERVICE":
       return "crown";
     case "ENDING_THE_SECOND_LEDGER":
       return "ledger";
     case "ENDING_PRIVATE_WAR":
-    case "ENDING_BAKER_STREET_BURNS":
       return "wharf";
+    case "ENDING_BAKER_STREET_BURNS":
+      return "flames";
     case "ENDING_THE_COMPACT":
       return "chess";
     case "ENDING_THE_RETURN":
