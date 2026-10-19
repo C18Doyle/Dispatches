@@ -47,7 +47,7 @@ All of it is drawn by the game's own artwork code (`src/art.tsx`) in the game's 
 >
 > **Or play the woman who keeps the record.**
 >
-> On the title page, switch to **Mina Harker**. It is the same weeks from the other side: her journal, her typewriter, her choices. Forty scenes of her own and fifteen more endings. She is not a hunter's assistant. She is the one who puts the papers in order, and the Count's enemy knows it.
+> On the title page, switch to **Mina Harker**. It is the same weeks from the other side: her journal, her typewriter, her choices. Forty scenes of her own and fifteen more endings. She is not a hunter's assistant. She is the one who puts the papers in order, and everyone around her knows it.
 >
 > ### What is in it
 > - **45 scenes** for the Count in three tracks (the Quiet Colony, the Court at Carfax, the Storm), **40 more** for Mina, and **30 endings** between them, each with its own picture.
