@@ -809,6 +809,68 @@ export function TitleScene({ className = "", variant = "castle" }: { className?:
   );
 }
 
+/** A wide night scene for banners and social cards: moon and castle on the right, empty sky on the left for the title. `vh` is the viewBox height (180 for a 3.55:1 banner, 336 for a 1.9:1 card). */
+export function WideScene({ vh = 180, className = "" }: { vh?: number; className?: string }) {
+  const id = "wide";
+  const k = vh / 180;
+  const b = vh;
+  const moonY = vh * 0.36;
+  return (
+    <svg viewBox={`0 0 640 ${vh}`} preserveAspectRatio="xMidYMax slice" className={`art-title ${className}`} aria-hidden="true" focusable="false">
+      <Defs id={id} />
+      <rect width="640" height={vh} fill={`url(#${id}-sky)`} />
+      <Stars scale={1.6} />
+      <g transform={`translate(0 ${vh * 0.12})`}>
+        <Stars scale={1.6} limit={12} />
+      </g>
+      <Moon id={id} cx={452} cy={moonY} r={30 * k} />
+      <Bats at={[[386, moonY - 16 * k, 1.1 * k], [414, moonY + 30 * k, 0.9 * k], [524, moonY - 30 * k, 1.0 * k], [350, moonY + 6 * k, 0.8 * k], [560, moonY + 24 * k, 0.8 * k]]} />
+      <path className="a-far" d={`M0 ${b - 52 * k} L60 ${b - 82 * k} L120 ${b - 58 * k} L190 ${b - 98 * k} L250 ${b - 62 * k} L330 ${b - 86 * k} L400 ${b - 54 * k} L520 ${b - 84 * k} L640 ${b - 60 * k} V${b} H0Z`} />
+      <g className="a-sil">
+        <path d={`M290 ${b} L335 ${b - 38 * k} L388 ${b - 46 * k} L420 ${b - 62 * k} L476 ${b - 64 * k} L526 ${b - 54 * k} L580 ${b - 58 * k} L640 ${b - 44 * k} V${b}Z`} />
+        <g transform={`translate(${452} ${b - 62 * k}) scale(${1.25 * k})`}>
+          <Castle />
+        </g>
+        <Pine x={26} y={b} h={120 * k} />
+        <Pine x={60} y={b + 2} h={86 * k} />
+        <Pine x={92} y={b + 4} h={60 * k} />
+        <Pine x={618} y={b + 2} h={96 * k} />
+        <Pine x={594} y={b + 4} h={64 * k} />
+      </g>
+      <g className="fog-a">
+        <ellipse className="a-fog-fill" cx="170" cy={b - 22 * k} rx="190" ry={9 * k} opacity="0.22" />
+        <ellipse className="a-fog-fill" cx="470" cy={b - 12 * k} rx="210" ry={9 * k} opacity="0.2" />
+      </g>
+    </svg>
+  );
+}
+
+/** A square mark: the moon behind the castle on its crag, bats, pines. For the icon. */
+export function IconScene({ className = "" }: { className?: string }) {
+  const id = "icon";
+  return (
+    <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" className={className} aria-hidden="true" focusable="false" style={{ display: "block", width: "100%", height: "100%" }}>
+      <Defs id={id} />
+      <rect width="200" height="200" fill={`url(#${id}-sky)`} />
+      <Stars scale={0.52} limit={14} />
+      <Moon id={id} cx={100} cy={82} r={52} />
+      <Bats at={[[48, 44, 1.2], [152, 60, 1.0], [132, 26, 0.9]]} />
+      <path className="a-far" d="M0 150 L36 122 L74 144 L116 112 L160 142 L200 124 V200 H0Z" />
+      <g className="a-sil">
+        <path d="M0 200 V160 L40 150 L70 156 L100 138 L130 156 L160 150 L200 160 V200Z" />
+        <g transform="translate(66 142) scale(1.15)">
+          <Castle />
+        </g>
+        <Pine x={22} y={198} h={74} />
+        <Pine x={48} y={200} h={50} />
+        <Pine x={180} y={198} h={70} />
+        <Pine x={156} y={200} h={46} />
+        <rect x="0" y="176" width="200" height="24" />
+      </g>
+    </svg>
+  );
+}
+
 /** The bat that stands in for the printer's flower in a rule. */
 export function BatMark({ className = "" }: { className?: string }) {
   return (
