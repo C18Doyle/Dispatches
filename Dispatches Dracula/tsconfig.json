@@ -25,6 +25,9 @@
       ],
       "@seat/*": [
         "./src/content/dracula/*"
+      ],
+      "@mina-seat": [
+        "./src/seat-mina.ts"
       ]
     }
   },

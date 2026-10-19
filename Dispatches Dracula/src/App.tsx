@@ -299,6 +299,52 @@ function StampBadge({ resource, delta }: { resource: Resource; delta: number }) 
   );
 }
 
+/**
+ * "Hear it": reads a document aloud with the browser's own speech (no file, no network). Shown only where the browser has speech; stops when the screen goes.
+ * An English voice is chosen if the device has one (British first); the pace is a little slow, the pitch a little low.
+ */
+function HearButton({ text }: { text: string }) {
+  const supported = typeof window !== "undefined" && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+  const [speaking, setSpeaking] = useState(false);
+  useEffect(
+    () => () => {
+      if (supported) window.speechSynthesis.cancel();
+    },
+    [supported],
+  );
+  if (!supported) return null;
+  function toggle() {
+    const synth = window.speechSynthesis;
+    if (speaking) {
+      synth.cancel();
+      setSpeaking(false);
+      return;
+    }
+    const voices = synth.getVoices();
+    const voice = voices.find((v) => /en[-_]GB/i.test(v.lang)) ?? voices.find((v) => /^en/i.test(v.lang));
+    const u = new SpeechSynthesisUtterance(text.replace(/\s*\n+\s*/g, ". "));
+    if (voice) u.voice = voice;
+    u.lang = voice?.lang ?? "en-GB";
+    u.rate = 0.9;
+    u.pitch = 0.9;
+    u.onend = () => setSpeaking(false);
+    u.onerror = () => setSpeaking(false);
+    synth.cancel();
+    synth.speak(u);
+    setSpeaking(true);
+  }
+  return (
+    <button
+      type="button"
+      aria-pressed={speaking}
+      onClick={toggle}
+      className="px-4 py-2 border border-ink/40 text-ink-soft font-heading font-semibold uppercase text-xs tracking-widest hover:border-ink hover:text-ink transition-colors"
+    >
+      {speaking ? "Stop" : "Hear it"}
+    </button>
+  );
+}
+
 function VoidScreen({ children }: { children: React.ReactNode }) {
   return <div className="min-h-screen flex items-center justify-center px-4 py-10">{children}</div>;
 }
@@ -1225,15 +1271,18 @@ export default function App() {
     const paper = interlude;
     const kind = paperKind(paper);
     const turn = (
-      <button
-        onClick={() => {
-          pageTurn();
-          dispatch({ type: "DISMISS_INTERLUDE" });
-        }}
-        className="mt-6 px-4 py-2 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
-      >
-        Turn the Page
-      </button>
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <button
+          onClick={() => {
+            pageTurn();
+            dispatch({ type: "DISMISS_INTERLUDE" });
+          }}
+          className="px-4 py-2 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
+        >
+          Turn the Page
+        </button>
+        <HearButton text={`${paper.source}. ${paper.headline}. ${paper.bodyText}`} />
+      </div>
     );
     content = (
       <VoidScreen>
