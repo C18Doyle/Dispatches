@@ -105,7 +105,7 @@ function modeBullets(mode, c) {
   return ["Orders show their odds in words", `${INTEL.checks} checks on the staff's beliefs`, "An order cannot be taken back"];
 }
 
-function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnter, onBack }) {
+function BriefingScreen({ campaignId, mode, onMode, signals, onSignals, press, onPress, settings, onSettings, onEnter, onBack }) {
   const c = CAMPAIGNS[campaignId];
   const b = BRIEFINGS[campaignId];
   const first = useMemo(() => resolveNode(c.startNode, {}, emptyMeters(), emptyHardState()), [campaignId]);
@@ -141,6 +141,26 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
           </div>
           <ul className="dg-bullets" data-mode={mode} aria-live="polite">
             {bullets.map((t) => <li key={t}>{t}</li>)}
+          </ul>
+        </>
+      )}
+      {!DEMO && (
+        <>
+          <div className="dg-seg" role="group" aria-label="Signals">
+            {[["cipher", "Signals in cipher"], ["clear", "Signals in clear"]].map(([id, label]) => (
+              <button key={id} aria-pressed={signals === id} onClick={() => onSignals(id)}>{label}</button>
+            ))}
+          </div>
+          <ul className="dg-bullets">
+            <li>{signals === "clear" ? "News comes sooner, and the enemy overhears: contested orders are a little worse" : "News is slower, and nothing is overheard"}</li>
+          </ul>
+          <div className="dg-seg" role="group" aria-label="The press">
+            {[["free", "A free press"], ["censored", "A censored press"]].map(([id, label]) => (
+              <button key={id} aria-pressed={press === id} onClick={() => onPress(id)}>{label}</button>
+            ))}
+          </div>
+          <ul className="dg-bullets">
+            <li>{press === "censored" ? "No newspaper front pages are printed" : "Newspapers print what your orders do to the other side"}</li>
           </ul>
         </>
       )}

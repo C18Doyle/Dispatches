@@ -212,7 +212,7 @@ CAMPAIGNS.bef.nodes = {
           "behind them to take it.",
       },
       {
-        id: "amiens",
+        id: "amiens", ally: "the French",
         label: "Assemble at Amiens, farther back, as Kitchener wants",
         advisor: { name: "Lord Kitchener", position:
           "Put the army where it can counterattack once the German line of march is known. In Belgium it would have to retreat almost at once and abandon its supplies." },
@@ -1477,7 +1477,7 @@ CAMPAIGNS.bef.nodes = {
           "must now ask rather than order.",
       },
       {
-        id: "national",
+        id: "national", ally: "Foch",
         label: "Keep the British command independent and coordinate with the French by agreement",
         advisor: { name: "Haig", position:
           "The army is fighting for its life, and it must be commanded by the man who knows it best." },

@@ -5,6 +5,16 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## Unreleased (2026-10, the battle and the conditions)
+### Added: the sketch of the ground and the day in bulletins, and the conditions of a report
+- **The sketch of the ground.** An Order of Battle is planned on a sketch: one numbered sector for each of the four arms, the enemy above and our own side below, and the line between them. A counter is placed by pressing a sector and taken back by pressing the counter; the buttons under each arm still do the same for a keyboard or a screen reader.
+- **The second day in bulletins.** The day is read as a morning, a noon and an evening bulletin for each arm, each marked gaining, holding or breaking, with the sketch redrawn for each hour so that the line moves forward, stays or falls back sector by sector. The morning opens the second day, before the order is given; the noon and the evening come with the after-action report, read off the order given and how the battle ended, so that they never disagree with the result. `battleStages` in src/61-battle.jsx does the reading, and `smoke.js` proves every battle gives every arm a status at every hour.
+- **The conditions of a report.** Under the title: how old the news is, the weather the month usually brings in the command's main theatre, the state of the railways (the rail reading of the munitions meter) and, on the three reports where the figure is documented (the Somme, Operation Michael and the third Ypres), the guns that were fired, with the source named in src/48-conditions.jsx. Advisers who are trusted or silent are named. The age of news and the weather are modelled for the command and the period, not recorded for the day, and the table says so.
+- **Signals and the press** are chosen when a file is set up. Signals in clear bring the news about thirty per cent sooner and move three points of weight on every contested order from its best outcome to its worst (the enemy overhears; battles read their own odds). A censored press prints no newspaper front pages.
+- **Hard mode: allies.** Eight orders that an ally would object to (deferring the French share of the Somme, declining the British under Nivelle, keeping the British command independent of Foch, refusing the French an attack at Naroch, leaving Ukraine to the Germans, refusing Vienna's request for divisions, and others) say who must be brought round and cost a point of standing in Hard mode only.
+- **The staff's beliefs name the evidence they rest on** (the General Staff's appreciation, French aerial reconnaissance, the Evidenzbureau, patrol and prisoner reports and the like).
+- **Not done:** a ledger of casualties by date and the first-hand rail timetables, because there is no series of figures by date that this register can check; the rail reading stands in for the second.
+
 ## 1.4.1 (2026-10-19)
 ### Fixed: the release check on the demo
 - The browser check that every release zip passes clicked the first button on the page, which in the demo is a locked command, and failed. It now clicks only buttons that can be pressed. The game is unchanged from 1.4.0, which was tagged but never reached itch.io.

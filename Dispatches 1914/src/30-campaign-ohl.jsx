@@ -1360,7 +1360,7 @@ CAMPAIGNS.ohl.nodes = {
           "deal of its own attention.",
       },
       {
-        id: "refuse",
+        id: "refuse", ally: "Vienna",
         label: "Send guns and staff officers but no divisions",
         impact: { manpower: 1, munitions: -1, will: 0 },
         setFlags: { ohl_caporetto: "refused", xc_caporetto: "refused" },

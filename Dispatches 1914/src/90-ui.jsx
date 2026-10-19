@@ -498,6 +498,31 @@ const css = `
   .dg-paper-foot{font-size:11px;font-style:italic;color:var(--ink-soft);text-align:center;margin:6px 0 4px;padding-top:6px;border-top:1px dotted var(--ink-soft)}
   @media (min-width:720px){.dg-paper-cols{column-count:2;column-gap:26px;column-rule:1px solid var(--rule)}.dg-paper-cols p{break-inside:avoid-column}}
 
+  /* ---- the sketch of the ground and the day's bulletins ---- */
+  .dg-sketch{display:block;width:100%;height:auto;border:1.5px solid var(--ink);background:var(--paper-raised);margin:0 0 10px;touch-action:manipulation}
+  .dg-sketch.small{margin:0 0 6px}
+  .dg-sk-sector{fill:transparent}
+  .dg-sk-sector.gaining{fill:rgba(95,123,88,.22)}
+  .dg-sk-sector.breaking{fill:rgba(148,80,74,.22)}
+  .dg-sk-hatch{stroke:var(--ink-soft);stroke-width:1}
+  .dg-sk-div{stroke:var(--ink-soft);stroke-width:1;stroke-dasharray:3 3}
+  .dg-sk-line{fill:none;stroke:var(--ink);stroke-width:3.5;stroke-linejoin:round}
+  .dg-sk-counter{fill:var(--accent);stroke:var(--ink);stroke-width:1;cursor:pointer}
+  .dg-sk-hit{fill:transparent;cursor:pointer}
+  .dg-cond{display:flex;flex-wrap:wrap;gap:2px 14px;list-style:none;margin:0 0 12px;padding:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-cond-guns{flex-basis:100%;text-transform:none;letter-spacing:.02em;font-size:12.5px;color:var(--ink)}
+  .dg-bel-src{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+  .dg-sk-num{font-size:13px;font-weight:700;fill:var(--ink)}
+  .dg-bul-n{display:inline-block;min-width:16px;text-align:center;font-size:10px;font-weight:700;border:1px solid var(--ink-soft);margin-right:4px}
+  .dg-sk-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink-soft)}
+  .dg-stage{margin:0 0 14px}
+  .dg-stage-h{font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin:6px 0 6px;color:var(--accent)}
+  .dg-bulletins{list-style:none;margin:0;padding:0}
+  .dg-bulletins li{padding:5px 8px;margin:0 0 4px;border-left:5px solid var(--rule);font-size:13px;line-height:1.45}
+  .dg-bulletins li.s-gaining{border-left-color:#5f7b58}
+  .dg-bulletins li.s-breaking{border-left-color:#94504a}
+  .dg-bul-s{font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-right:4px}
+
   /* ---- the modes, the demo, the battle rig ---- */
   .dg-mode[data-mode="easy"]{border-bottom:4px solid #5f7b58}
   .dg-mode[data-mode="hard"]{border-bottom:4px solid #94504a}
@@ -703,6 +728,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <div className="dg-node-date">{nodeDate(campaignId, node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
+      <ConditionsStrip campaignId={campaignId} node={{ ...node, id: nodeId }} flags={flags} meters={meters} />
       {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} flags={flags} />}
       {documentOf(nodeId) ? (
         <figure className="dg-document">
@@ -742,7 +768,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           {node.choices.map((ch) => {
             const strain = strainedUncertain(ch, meters);
             const fog = !ch.blocked && intelFogged(nodeId, ch, flags || {}, easy);
-            const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters)) : orderOdds(ch, meters);
+            const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters, flags)) : orderOdds(ch, meters, flags);
             const rests = intelRests(nodeId, ch, flags || {}, easy);
             return (
             <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)} onView={setViewing}>
@@ -756,7 +782,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
               {strain.points > 0 && (
                 <span className="dg-strain">Strain: {node.meterLabels[strain.meter]} is short, so the odds are {strain.points} points worse</span>
               )}
-              {ch.erodes && hardState.enabled && <div className="dg-cost">Costs standing</div>}
+              {ch.erodes && hardState.enabled && !ch.ally && <div className="dg-cost">Costs standing</div>}
+              {ch.ally && hardState.enabled && <div className="dg-cost">{ch.ally.charAt(0).toUpperCase() + ch.ally.slice(1)} must be brought round: it costs standing</div>}
               {ch.advisor && (() => {
                 const aid = adviserIdFor(campaignId, ch.advisor.name);
                 const st = aid ? adviserState(flags || {}, aid) : "normal";
@@ -1051,6 +1078,8 @@ export default function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [record, setRecord] = useState(loadRecord);
   const [savedRun, setSavedRun] = useState(() => { const s = loadSavedRun(); return DEMO && s && (s.campaignId !== DEMO_COMMAND || (Array.isArray(s.taken) ? s.taken.length : 0) >= DEMO_DECISIONS) ? null : s; });
+  const [signals, setSignals] = useState("cipher"); // the briefing's choice: "cipher" or "clear"
+  const [press, setPress] = useState("free"); // the briefing's choice: "free" or "censored"
   const [rigOn, setRigOn] = useState(false); // a battle opened from the battle rig (a dev build): nothing of it is saved
   const [rigPosture, setRigPosture] = useState(null);
   const [mode, setMode] = useState("standard"); // the menu's choice: "easy", "standard" or "hard"
@@ -1166,7 +1195,7 @@ export default function App() {
 
   const start = (cid) => {
     setCampaignId(cid);
-    setFlags(echoSeed(record));
+    setFlags({ ...echoSeed(record), ...(signals === "clear" ? { sig_clear: true } : {}), ...(press === "censored" ? { press_censored: true } : {}) });
     setMeters(emptyMeters());
     setHardState({ ...emptyHardState(), enabled: mode === "hard" });
     setRunEasy(mode === "easy");
@@ -1293,7 +1322,7 @@ export default function App() {
           onResume={resume} onDiscard={discard} onSettings={() => openAside("settings")} record={record} />
       )}
       {screen === "briefing" && campaignId && (
-        <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} settings={settings} onSettings={setSettings}
+        <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} signals={signals} onSignals={setSignals} press={press} onPress={setPress} settings={settings} onSettings={setSettings}
           onEnter={() => start(campaignId)} onBack={home} />
       )}
       {screen === "demoend" && campaignId && <DemoEndScreen campaignId={campaignId} onHome={home} />}

@@ -1370,7 +1370,7 @@ CAMPAIGNS.aok.nodes = {
           "The army that goes east is the monarchy's own, and it goes for the grain.",
       },
       {
-        id: "keep",
+        id: "keep", ally: "Berlin",
         label: "Keep the divisions for the Italian front and leave Ukraine to the Germans",
         advisor: { name: "Arz", position:
           "The summer offensive is the army's last chance to end the war in the south, and it needs every division it has. The bread has to come by another road." },

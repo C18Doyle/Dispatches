@@ -19,9 +19,12 @@ export function emptyHardState() {
 
 export function erosionFromChoice(campaignId, choice) {
   const c = CAMPAIGNS[campaignId];
-  if (!c || !choice || !choice.erodes) return 0;
+  if (!c || !choice) return 0;
+  // an order that an ally would object to (choice.ally, the ally's name) costs a point of standing in Hard mode, whatever the command's own trigger
+  const ally = choice.ally ? 1 : 0;
+  if (!choice.erodes) return ally;
   const triggers = Array.isArray(choice.erodes) ? choice.erodes : [choice.erodes];
-  return triggers.includes(c.hardMode.trigger) ? (choice.erosionWeight ?? 1) : 0;
+  return (triggers.includes(c.hardMode.trigger) ? (choice.erosionWeight ?? 1) : 0) + ally;
 }
 
 export function applyErosion(hardState, campaignId, choice) {

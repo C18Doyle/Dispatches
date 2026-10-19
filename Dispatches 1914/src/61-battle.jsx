@@ -188,6 +188,65 @@ export function battleFinalBonus(config, plan, posture, pool) {
   return clampBonus(raw);
 }
 
+// ---------- the day in bulletins ----------
+//
+// The second day is read as three bulletins from the field, morning, noon and evening, one for each arm, each marking the arm as gaining, holding or breaking.
+// Nothing here is rolled: a bulletin is read off the plan and the enemy that was met, and the last is read off how the battle ended, so that the bulletins and the
+// result never disagree. An arm's ratio is what it contributes (its counters at their weight, less the penalty for being left short) over a fair share of the pool.
+//   morning  the plan as issued, under the enemy that was really met
+//   noon     after the second day's order: counters moved (send the reserve), the attack pressed (arms that are ahead go further, the rest fall away), or the line
+//            fallen back (every arm pulled toward holding)
+//   evening  noon, moved by the result: a won battle lifts every arm a little and a lost one lowers it, and an arm that was left short does not come through a defeat
+export const BULLETIN_TIMES = ["morning", "noon", "evening"];
+const STATUS_AT = { gaining: 1.15, holding: 0.6 };
+const statusOf = (r) => (r >= STATUS_AT.gaining ? "gaining" : r >= STATUS_AT.holding ? "holding" : "breaking");
+
+export function battleStages(config, plan, posture, pool, won) {
+  const cats = config.categories;
+  const share = pool / cats.length;
+  const ratios = (alloc) => {
+    const c = battleContributions(config, { ...plan, allocation: alloc }, posture, pool);
+    return cats.map((k) => (c[k.id] || 0) / share);
+  };
+  const first = ratios(plan.allocation);
+  const moved = battleSecondPlan(plan);
+  const stance = (plan.second && plan.second.stance) || "hold";
+  const noon = ratios(moved.allocation).map((r) => (stance === "press" ? (r >= 1 ? r + 0.2 : r - 0.2) : stance === "steady" ? 0.9 + (r - 0.9) * 0.5 : r));
+  const left = battleContributions(config, plan, posture, pool);
+  const evening = won === undefined ? null : noon.map((r, i) => {
+    const out = r + (won ? 0.2 : -0.25);
+    return left[cats[i].id] < 0 ? (won ? Math.min(out, 0.9) : Math.min(out, 0.3)) : out;
+  });
+  const pack = (rs) => rs && cats.map((k, i) => ({ id: k.id, name: k.name, ratio: rs[i], status: statusOf(rs[i]) }));
+  return { morning: pack(first), noon: pack(noon), evening: pack(evening) };
+}
+
+const PHRASES = {
+  morning: {
+    gaining: ["First objectives taken", "Advancing on the first reports", "Ahead of the timetable"],
+    holding: ["Holding at first light", "The line stands as ordered", "No ground lost"],
+    breaking: ["Giving way under the first blows", "Units falling back", "Short of what the plan asked"],
+  },
+  noon: {
+    gaining: ["Gone forward again", "Across the first line", "Pressing the enemy back"],
+    holding: ["Holding through the middle of the day", "Every attack stopped", "Where it was at dawn"],
+    breaking: ["Losing ground", "First line lost", "Calling for support that is not there"],
+  },
+  evening: {
+    gaining: ["Ends the day ahead", "The ground taken is held", "The enemy on the move"],
+    holding: ["Ends the day where it began", "Held to the last light", "Spent, but standing"],
+    breaking: ["Broken", "Gone back in disorder", "Ends the day without a line"],
+  },
+};
+
+/** One arm's bulletin at one time of day: "The Guns: Held to the last light." The wording is picked by the arm and the hour, so that it does not change on a redraw. */
+export function bulletinLine(time, arm) {
+  const list = PHRASES[time][arm.status];
+  let h = 0;
+  for (const ch of arm.id + time) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return arm.name + ": " + list[h % list.length] + ".";
+}
+
 /**
  * The odds of the better outcome as the player can reckon them: the plan's bonus under the enemy setup the intelligence names (which is right about
  * three times in four), on the roll as strain leaves it. { pct, word, bonus }. For the screen's bar; the roll itself never reads it.

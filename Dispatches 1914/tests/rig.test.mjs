@@ -39,8 +39,10 @@ check(/Order of Battle/.test(ctx.text()) && !!btn(ctx, /Let the staff plan it/),
 await ctx.click(btn(ctx, /Let the staff plan it/));
 await ctx.click(btn(ctx, /^Issue the plan/));
 check(/The second day/.test(ctx.text()), "the plan opens the second day");
+check(!!ctx.d.querySelector(".dg-sketch") && ctx.d.querySelectorAll(".dg-bulletins li").length === 4, "the second day opens on the morning's four bulletins and a sketch of the line");
 await ctx.click(btn(ctx, /^Carry on to the second day/));
 check(/After-action report/.test(ctx.text()), "the battle ends in its report");
+check(ctx.d.querySelectorAll(".dg-day .dg-stage").length === 3 && ctx.d.querySelectorAll(".dg-day .dg-bulletins li").length === 12, "the report gives the morning, noon and evening bulletins, four each");
 await ctx.click(btn(ctx, /^Continue$/));
 check(ctx.buttons().filter((b) => /^Fight this battle/.test(ctx.lab(b))).length === fights.length, "the result goes back to the rig");
 check(!ctx.w.localStorage.getItem("dispatches1914_save_v1"), "nothing of the battle is saved as a file");

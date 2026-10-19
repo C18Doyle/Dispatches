@@ -50,6 +50,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   click(playable); await wait(60);
   t("a command opens its briefing first", txt().includes("Where things stand") && txt().includes("Your seat") && txt().includes("Set up the file") && !txt().includes("Issue Order"));
   t("the briefing says the first report's date in the UK form", txt().includes("1 August 1914"));
+  t("the briefing offers the signals and the press", btns().some((b) => b.textContent.trim() === "Signals in clear") && btns().some((b) => b.textContent.trim() === "A censored press"));
   t("the briefing offers the difficulty and battle planning", btns().some((b) => b.textContent.trim().endsWith("Easy mode")) && txt().includes("Take control of battle planning"));
   await enter();
   t("a command opens on its prelude, in the UK date form", txt().includes("The Kaiser's Question") && txt().includes("1 August 1914"));
@@ -69,6 +70,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   const cont = btns().find(b => b.textContent.trim() === "Continue");
   click(cont); await wait(60);
 
+  t("a report opens with its conditions: the age of its news and the usual weather", !!document.querySelector(".dg-cond") && /News .* old/.test(document.querySelector(".dg-cond").textContent) && /Usually/.test(document.querySelector(".dg-cond").textContent));
   t("second node reached", txt().includes("Two Corps for the East"));
   t("conditional prose on the new node", txt().includes("went forward at the weight the plan asked for"));
   click(btns().find(b => b.textContent.includes("Send the Guard Reserve Corps"))); await wait(60);

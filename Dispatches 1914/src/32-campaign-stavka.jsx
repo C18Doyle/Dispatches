@@ -1041,7 +1041,7 @@ CAMPAIGNS.stavka.nodes = {
           "the French.",
       },
       {
-        id: "refuse",
+        id: "refuse", ally: "the French",
         label: "Tell the French that the army will keep its strength for the summer",
         advisor: { name: "Brusilov", position:
           "An offensive made in a hurry, on frozen lakes, is not a gift to the French. The summer is when it can be made to count." },

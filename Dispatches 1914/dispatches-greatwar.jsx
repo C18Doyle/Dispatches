@@ -1691,7 +1691,7 @@ CAMPAIGNS.ohl.nodes = {
           "deal of its own attention.",
       },
       {
-        id: "refuse",
+        id: "refuse", ally: "Vienna",
         label: "Send guns and staff officers but no divisions",
         impact: { manpower: 1, munitions: -1, will: 0 },
         setFlags: { ohl_caporetto: "refused", xc_caporetto: "refused" },
@@ -3323,7 +3323,7 @@ CAMPAIGNS.gqg.nodes = {
           "before the Germans attack at Verdun.",
       },
       {
-        id: "free",
+        id: "free", ally: "the Allied missions",
         label: "Keep French freedom of action and attack when and where the army chooses",
         impact: { manpower: 1, munitions: 0, will: -1 },
         setFlags: { gqg_chantilly: "free" },
@@ -3438,7 +3438,7 @@ CAMPAIGNS.gqg.nodes = {
           "they are asked to do it a second time within the year.",
       },
       {
-        id: "defer",
+        id: "defer", ally: "Haig",
         label: "Defer the French contribution and let the British attack alone",
         advisor: { name: "Joffre", position:
           "We cannot fight two battles of this size in one summer. One of them has to be someone else's." },
@@ -3635,7 +3635,7 @@ CAMPAIGNS.gqg.nodes = {
           "with more freedom for the British commander. The conference leaves mistrust between the British government and its generals.",
       },
       {
-        id: "agreement",
+        id: "agreement", ally: "the British government",
         label: "Decline the subordination and coordinate with Haig by agreement",
         impact: { manpower: 0, munitions: 0, will: -1 },
         setFlags: { gqg_calais: "agreement" },
@@ -5775,7 +5775,7 @@ CAMPAIGNS.stavka.nodes = {
           "the French.",
       },
       {
-        id: "refuse",
+        id: "refuse", ally: "the French",
         label: "Tell the French that the army will keep its strength for the summer",
         advisor: { name: "Brusilov", position:
           "An offensive made in a hurry, on frozen lakes, is not a gift to the French. The summer is when it can be made to count." },
@@ -7224,7 +7224,7 @@ CAMPAIGNS.bef.nodes = {
           "behind them to take it.",
       },
       {
-        id: "amiens",
+        id: "amiens", ally: "the French",
         label: "Assemble at Amiens, farther back, as Kitchener wants",
         advisor: { name: "Lord Kitchener", position:
           "Put the army where it can counterattack once the German line of march is known. In Belgium it would have to retreat almost at once and abandon its supplies." },
@@ -8489,7 +8489,7 @@ CAMPAIGNS.bef.nodes = {
           "must now ask rather than order.",
       },
       {
-        id: "national",
+        id: "national", ally: "Foch",
         label: "Keep the British command independent and coordinate with the French by agreement",
         advisor: { name: "Haig", position:
           "The army is fighting for its life, and it must be commanded by the man who knows it best." },
@@ -10329,7 +10329,7 @@ CAMPAIGNS.aok.nodes = {
           "The army that goes east is the monarchy's own, and it goes for the grain.",
       },
       {
-        id: "keep",
+        id: "keep", ally: "Berlin",
         label: "Keep the divisions for the Italian front and leave Ukraine to the Germans",
         advisor: { name: "Arz", position:
           "The summer offensive is the army's last chance to end the war in the south, and it needs every division it has. The bread has to come by another road." },
@@ -13916,6 +13916,68 @@ export function orderNote(nodeId, orderId) {
 }
 
 // =============================================================================
+// THE CONDITIONS OF A REPORT
+// =============================================================================
+//
+// What a headquarters knew about the state of things when a report reached it, apart from the decision: how old the news was, the weather the month usually brings,
+// the guns that had been fired. These tables are MODELLED, not recorded: the age of the reports is a figure for the means of communication of each command in each
+// period (telephone and wireless on the German and French fronts, couriers and a wireless sent in the clear on the Russian, long distances for the Ottoman staff),
+// and the weather is the usual weather of the command's main theatre in the month, not the weather of the day. The guns are different: each is a figure from the
+// histories, with the source named, and is shown only on the report it belongs to. check-conditions.js proves the tables are whole and the figures sourced.
+// =============================================================================
+
+/** Hours that the news a headquarters acts on has already been travelling, by command: [from this year, hours]. */
+export const COMMS = {
+  ohl: [[1914, 8], [1916, 6], [1917, 5]],
+  gqg: [[1914, 10], [1916, 6], [1917, 5]],
+  stavka: [[1914, 30], [1915, 24], [1917, 36]],
+  bef: [[1914, 10], [1916, 6], [1917, 5]],
+  aok: [[1914, 20], [1915, 14], [1917, 12]],
+  otto: [[1914, 48], [1916, 40], [1917, 60]],
+};
+/** A file that sends its signals in the clear gets its news this much sooner (and is overheard: see SIGNALS_EXPOSURE in 55-choose.jsx). */
+export const CLEAR_SPEEDUP = 0.7;
+
+/** How old the news is on a report, for a command, on a date (Western calendar), for a file with these flags: { hours, text }. */
+export function reportAge(campaignId, iso, flags) {
+  const rows = COMMS[campaignId] || [[1914, 12]];
+  const year = Number(String(iso).slice(0, 4));
+  let hours = rows[0][1];
+  for (const [from, h] of rows) if (year >= from) hours = h;
+  if (flags && flags.sig_clear) hours = Math.round(hours * CLEAR_SPEEDUP);
+  const text = hours < 24 ? hours + " hours old" : hours < 36 ? "a day old" : hours < 60 ? "two days old" : "more than two days old";
+  return { hours, text };
+}
+
+/** The usual weather of each command's main theatre, month by month. */
+const WEST = ["Hard frost", "Frost and fog", "Thaw and mud", "Showers", "Fine, with showers", "Warm", "Warm", "Warm, with storms", "Fine, cooling", "Rain", "Rain and mud", "Frost"];
+const EAST = ["Hard frost", "Hard frost and snow", "Thaw and mud", "Mud: the roads are rivers", "Fine", "Warm", "Hot", "Hot", "Fine", "Rain: the rasputitsa begins", "Mud and the first frost", "Frost and snow"];
+const ANATOLIA = ["Snow and deep cold", "Snow and deep cold", "Snow melting", "Rain", "Fine", "Hot", "Very hot", "Very hot", "Hot and dry", "Cool, snow in the hills", "Snow on the passes", "Snow and deep cold"];
+export const WEATHER = { ohl: WEST, gqg: WEST, bef: WEST, stavka: EAST, aok: EAST, otto: ANATOLIA };
+
+/** The usual weather for the month on a date (Western calendar), in the command's main theatre. */
+export function usualWeather(campaignId, iso) {
+  const m = Number(String(iso).slice(5, 7)) - 1;
+  const table = WEATHER[campaignId];
+  return table && m >= 0 && m < 12 ? table[m] : "";
+}
+
+/**
+ * The guns of the great bombardments, on the report where the order to fire them is given: [the report, what was fired, the source]. Each is a figure from the
+ * histories (the sources disagree a little, and the line says "about" or "more than"), shown on that report only.
+ */
+export const BOMBARDMENTS = {
+  bef_1916_11_somme: { text: "Over 1.5 million shells in the week before the attack, about two thirds of them shrapnel", source: "Imperial War Museum, the Somme" },
+  ohl_1918_09_michael: { text: "More than a million shells in the first five hours", source: "Mental Floss, from the German accounts (1.16 million; another count gives 1.1 million)" },
+  bef_1917_15_ypres3: { text: "About 4.25 million shells since 18 July", source: "Long Way to Tipperary, University of Limerick (other sources give 4.5 million and a start on the 15th or 16th)" },
+};
+
+/** The line about the guns on a report, or "". */
+export function bombardmentAt(nodeId) {
+  return BOMBARDMENTS[nodeId] ? BOMBARDMENTS[nodeId].text : "";
+}
+
+// =============================================================================
 // DERIVED REGISTRIES
 // =============================================================================
 //
@@ -14178,9 +14240,12 @@ export function emptyHardState() {
 
 export function erosionFromChoice(campaignId, choice) {
   const c = CAMPAIGNS[campaignId];
-  if (!c || !choice || !choice.erodes) return 0;
+  if (!c || !choice) return 0;
+  // an order that an ally would object to (choice.ally, the ally's name) costs a point of standing in Hard mode, whatever the command's own trigger
+  const ally = choice.ally ? 1 : 0;
+  if (!choice.erodes) return ally;
   const triggers = Array.isArray(choice.erodes) ? choice.erodes : [choice.erodes];
-  return triggers.includes(c.hardMode.trigger) ? (choice.erosionWeight ?? 1) : 0;
+  return (triggers.includes(c.hardMode.trigger) ? (choice.erosionWeight ?? 1) : 0) + ally;
 }
 
 export function applyErosion(hardState, campaignId, choice) {
@@ -14290,8 +14355,11 @@ export function strainMeterOf(choice) {
   return best;
 }
 
+/** Points of weight a file that sends its signals in the clear loses on a contested order (the enemy overhears): moved from the best outcome to the worst. */
+export const SIGNALS_EXPOSURE = 3;
+
 /** { uncertain, points, meter }: the order's contested outcomes after strain (the same array when there is none). */
-export function strainedUncertain(choice, meters) {
+function strainOnly(choice, meters) {
   const u = choice.uncertain;
   if (!u || u.length < 2) return { uncertain: u, points: 0, meter: null };
   const meter = strainMeterOf(choice);
@@ -14310,6 +14378,23 @@ export function strainedUncertain(choice, meters) {
   };
 }
 
+/**
+ * strainOnly, and then the exposure of signals in the clear (flag sig_clear, set in the briefing): SIGNALS_EXPOSURE points move from the best outcome to the worst.
+ * An order that hosts a battle is left alone, since the battle screen reads its own odds.
+ */
+export function strainedUncertain(choice, meters, flags) {
+  const r = strainOnly(choice, meters);
+  const u = r.uncertain;
+  if (!flags || !flags.sig_clear || !u || u.length < 2 || (typeof battleOf === "function" && battleOf(choice))) return r;
+  const sums = u.map((b) => sumImpact(b.impact || choice.impact));
+  const best = sums.indexOf(Math.max(...sums));
+  const worst = sums.indexOf(Math.min(...sums));
+  if (best === worst || sums[best] === sums[worst]) return r;
+  const moved = Math.min(SIGNALS_EXPOSURE, u[best].weight - STRAIN.floor);
+  if (moved <= 0) return r;
+  return { ...r, uncertain: u.map((b, i) => (i === best ? { ...b, weight: b.weight - moved } : i === worst ? { ...b, weight: b.weight + moved } : b)) };
+}
+
 // ---------- the odds of a contested order, for the dial ----------
 
 export const ODDS_BANDS = [
@@ -14325,10 +14410,10 @@ export const ODDS_BANDS = [
  * The better outcome is the battle's own win where the order hosts one, otherwise the outcome whose impact is best in total (as strain reads it).
  * null for a settled order.
  */
-export function orderOdds(choice, meters) {
+export function orderOdds(choice, meters, flags) {
   const u = choice.uncertain;
   if (!u || u.length < 2) return null;
-  const strained = strainedUncertain(choice, meters).uncertain;
+  const strained = strainedUncertain(choice, meters, flags).uncertain;
   const cfg = typeof battleOf === "function" ? battleOf(choice) : null;
   let best;
   if (cfg && u.length === 2) best = cfg.winBranch;
@@ -14366,7 +14451,7 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
   let branch = null;
   let battle = null;
   if (choice.uncertain && choice.uncertain.length) {
-    let weights = strainedUncertain(choice, meters).uncertain;
+    let weights = strainedUncertain(choice, meters, flags).uncertain;
     const roll = plan ? battleRoll(choice, plan, meters) : null;
     if (roll) weights = shiftToward(weights, roll.config.winBranch, roll.bonus);
     branch = rollUncertain(weights, rng);
@@ -15332,6 +15417,65 @@ export function battleFinalBonus(config, plan, posture, pool) {
   raw *= stance === "press" ? BATTLE_PRESS : stance === "steady" ? BATTLE_STEADY : 1;
   if (adjusted.moved > 0) raw -= BATTLE_SHIFT_COST;
   return clampBonus(raw);
+}
+
+// ---------- the day in bulletins ----------
+//
+// The second day is read as three bulletins from the field, morning, noon and evening, one for each arm, each marking the arm as gaining, holding or breaking.
+// Nothing here is rolled: a bulletin is read off the plan and the enemy that was met, and the last is read off how the battle ended, so that the bulletins and the
+// result never disagree. An arm's ratio is what it contributes (its counters at their weight, less the penalty for being left short) over a fair share of the pool.
+//   morning  the plan as issued, under the enemy that was really met
+//   noon     after the second day's order: counters moved (send the reserve), the attack pressed (arms that are ahead go further, the rest fall away), or the line
+//            fallen back (every arm pulled toward holding)
+//   evening  noon, moved by the result: a won battle lifts every arm a little and a lost one lowers it, and an arm that was left short does not come through a defeat
+export const BULLETIN_TIMES = ["morning", "noon", "evening"];
+const STATUS_AT = { gaining: 1.15, holding: 0.6 };
+const statusOf = (r) => (r >= STATUS_AT.gaining ? "gaining" : r >= STATUS_AT.holding ? "holding" : "breaking");
+
+export function battleStages(config, plan, posture, pool, won) {
+  const cats = config.categories;
+  const share = pool / cats.length;
+  const ratios = (alloc) => {
+    const c = battleContributions(config, { ...plan, allocation: alloc }, posture, pool);
+    return cats.map((k) => (c[k.id] || 0) / share);
+  };
+  const first = ratios(plan.allocation);
+  const moved = battleSecondPlan(plan);
+  const stance = (plan.second && plan.second.stance) || "hold";
+  const noon = ratios(moved.allocation).map((r) => (stance === "press" ? (r >= 1 ? r + 0.2 : r - 0.2) : stance === "steady" ? 0.9 + (r - 0.9) * 0.5 : r));
+  const left = battleContributions(config, plan, posture, pool);
+  const evening = won === undefined ? null : noon.map((r, i) => {
+    const out = r + (won ? 0.2 : -0.25);
+    return left[cats[i].id] < 0 ? (won ? Math.min(out, 0.9) : Math.min(out, 0.3)) : out;
+  });
+  const pack = (rs) => rs && cats.map((k, i) => ({ id: k.id, name: k.name, ratio: rs[i], status: statusOf(rs[i]) }));
+  return { morning: pack(first), noon: pack(noon), evening: pack(evening) };
+}
+
+const PHRASES = {
+  morning: {
+    gaining: ["First objectives taken", "Advancing on the first reports", "Ahead of the timetable"],
+    holding: ["Holding at first light", "The line stands as ordered", "No ground lost"],
+    breaking: ["Giving way under the first blows", "Units falling back", "Short of what the plan asked"],
+  },
+  noon: {
+    gaining: ["Gone forward again", "Across the first line", "Pressing the enemy back"],
+    holding: ["Holding through the middle of the day", "Every attack stopped", "Where it was at dawn"],
+    breaking: ["Losing ground", "First line lost", "Calling for support that is not there"],
+  },
+  evening: {
+    gaining: ["Ends the day ahead", "The ground taken is held", "The enemy on the move"],
+    holding: ["Ends the day where it began", "Held to the last light", "Spent, but standing"],
+    breaking: ["Broken", "Gone back in disorder", "Ends the day without a line"],
+  },
+};
+
+/** One arm's bulletin at one time of day: "The Guns: Held to the last light." The wording is picked by the arm and the hour, so that it does not change on a redraw. */
+export function bulletinLine(time, arm) {
+  const list = PHRASES[time][arm.status];
+  let h = 0;
+  for (const ch of arm.id + time) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return arm.name + ": " + list[h % list.length] + ".";
 }
 
 /**
@@ -17993,6 +18137,7 @@ export function dueEvent(campaignId, nodeId, flags, meters) {
   if (gone) return gone;
   for (const e of EVENTS) {
     if (e.campaign !== campaignId || (flags && flags["ev_" + e.id])) continue;
+    if (e.paper && flags && flags.press_censored) continue; // a censored press prints no front pages
     if (node.date < e.from || node.date > e.to) continue;
     if (e.when(flags || {}, meters)) return e;
   }
@@ -18021,62 +18166,62 @@ export const INTEL = { checks: 3, hardChecks: 2, believedShift: 15, edge: { will
 /** { [nodeId]: [{ id, text, grade, holds, truth, relied: [choiceId] }] }: what the report's staff believes. `relied` names the orders that rest on it. */
 export const INTEL_ITEMS = {
   gqg_1914_01_frontieres: [
-    { id: "reserve", grade: "firm", holds: false, relied: ["attack"],
+    { id: "reserve", grade: "firm", holds: false, relied: ["attack"], source: "the General Staff's own appreciation, made before the war",
       text: "The Germans will not put their reserve corps in the front line, so their right wing cannot be strong enough to matter.",
       truth: "The German army put its reserve corps beside the active ones from the first day, and its right wing in Belgium was half as strong again as the French staff had allowed for." },
   ],
   stavka_1914_12_tannenberg: [
-    { id: "retiring", grade: "firm", holds: false, relied: ["press"],
+    { id: "retiring", grade: "firm", holds: false, relied: ["press"], source: "reports reaching the front's headquarters",
       text: "The German Eighth Army, beaten at Gumbinnen, is falling back toward the Vistula.",
       truth: "The Eighth Army was not retiring on the Vistula. It was turning south, by rail and on foot, against the Second Army." },
   ],
   aok_1914_03_galicia: [
-    { id: "weak", grade: "doubtful", holds: false, relied: ["offensive"],
+    { id: "weak", grade: "doubtful", holds: false, relied: ["offensive"], source: "the army's intelligence office, the Evidenzbureau",
       text: "The Russians in front of Lemberg are fewer than the plan assumed, and the armies can advance into Poland.",
       truth: "The Russians put four armies into Galicia, and they were stronger and farther forward than the staff had reckoned." },
   ],
   bef_1916_11_somme: [
-    { id: "wire", grade: "firm", holds: false, relied: ["compromise"],
+    { id: "wire", grade: "firm", holds: false, relied: ["compromise"], source: "the artillery staff's estimate",
       text: "A week's bombardment will cut the German wire and break the dugouts, and the infantry will walk into empty trenches.",
       truth: "The shells, many of them shrapnel, did not cut the wire everywhere, and the deep German dugouts survived the bombardment." },
   ],
   otto_1914_03_sarikamis: [
-    { id: "thin", grade: "doubtful", holds: false, relied: ["launch"],
+    { id: "thin", grade: "doubtful", holds: false, relied: ["launch"], source: "Enver's own reading of the front",
       text: "The Russian line round Sarikamis is thin and has no winter equipment.",
       truth: "The Russians had more men in the area than Enver reckoned, and a railway to bring up the rest. It was the Ottoman columns that had no winter clothing." },
   ],
   otto_1915_02_gallipoli: [
-    { id: "bulair", grade: "doubtful", holds: false, relied: ["reserve"],
+    { id: "bulair", grade: "doubtful", holds: false, relied: ["reserve"], source: "the German adviser's judgement",
       text: "The main landing will come at Bulair, at the neck of the peninsula.",
       truth: "The landings came at Cape Helles and at Anzac, far from Bulair, and the two divisions held at the neck were in the wrong place." },
   ],
   gqg_1916_04_verdun: [
-    { id: "stripped", grade: "firm", holds: true, relied: ["shorten"],
+    { id: "stripped", grade: "firm", holds: true, relied: ["shorten"], source: "reports from officers in the fortress region",
       text: "The forts of Verdun have been stripped of their guns and garrisons.",
       truth: "The forts had been largely disarmed, and a handful of men held Douaumont; the line in front of them was thin." },
   ],
   bef_1915_06_loos: [
-    { id: "light", grade: "doubtful", holds: true, relied: ["attack"],
+    { id: "light", grade: "doubtful", holds: true, relied: ["attack"], source: "patrol and prisoner reports",
       text: "The German line at Loos is lightly held.",
       truth: "The front line was lightly held and the first day made ground, but the German reserves were close behind it." },
   ],
   stavka_1915_01_masuria: [
-    { id: "warning", grade: "doubtful", holds: true, relied: ["pull", "reinforce"],
+    { id: "warning", grade: "doubtful", holds: true, relied: ["pull", "reinforce"], source: "the Tenth Army's own reports",
       text: "The Tenth Army's commander is right: a German attack is coming against it.",
       truth: "The Germans attacked on 7 February (Western calendar), in a snowstorm, and outflanked the Tenth Army within days." },
   ],
   ohl_1918_09_michael: [
-    { id: "thin", grade: "firm", holds: true, relied: ["adaptive", "amiens"],
+    { id: "thin", grade: "firm", holds: true, relied: ["adaptive", "amiens"], source: "German reconnaissance of the British lines",
       text: "The British Fifth Army on the Somme is thinly held and has little reserve behind it.",
       truth: "The Fifth Army held a long front with few divisions and few reserves, and the German blow broke it in the first days." },
   ],
   otto_1918_02_megiddo: [
-    { id: "jordan", grade: "firm", holds: false, relied: ["hold"],
+    { id: "jordan", grade: "firm", holds: false, relied: ["hold"], source: "reconnaissance of the British camps",
       text: "The British will attack in the east, across the Jordan.",
       truth: "The British attacked on the coast. The preparations in the east were a deception, and the main force had been moved west in the nights before." },
   ],
   gqg_1914_02_marne: [
-    { id: "flank", grade: "firm", holds: true, relied: ["attack"],
+    { id: "flank", grade: "firm", holds: true, relied: ["attack"], source: "French aerial reconnaissance",
       text: "The German First Army is marching south-east of Paris and has exposed its right flank.",
       truth: "The First Army had turned south-east of Paris, and French aircraft had seen it; its right flank was open to the Paris garrison and the Sixth Army." },
   ],
@@ -18906,6 +19051,31 @@ const css = `
   .dg-paper-foot{font-size:11px;font-style:italic;color:var(--ink-soft);text-align:center;margin:6px 0 4px;padding-top:6px;border-top:1px dotted var(--ink-soft)}
   @media (min-width:720px){.dg-paper-cols{column-count:2;column-gap:26px;column-rule:1px solid var(--rule)}.dg-paper-cols p{break-inside:avoid-column}}
 
+  /* ---- the sketch of the ground and the day's bulletins ---- */
+  .dg-sketch{display:block;width:100%;height:auto;border:1.5px solid var(--ink);background:var(--paper-raised);margin:0 0 10px;touch-action:manipulation}
+  .dg-sketch.small{margin:0 0 6px}
+  .dg-sk-sector{fill:transparent}
+  .dg-sk-sector.gaining{fill:rgba(95,123,88,.22)}
+  .dg-sk-sector.breaking{fill:rgba(148,80,74,.22)}
+  .dg-sk-hatch{stroke:var(--ink-soft);stroke-width:1}
+  .dg-sk-div{stroke:var(--ink-soft);stroke-width:1;stroke-dasharray:3 3}
+  .dg-sk-line{fill:none;stroke:var(--ink);stroke-width:3.5;stroke-linejoin:round}
+  .dg-sk-counter{fill:var(--accent);stroke:var(--ink);stroke-width:1;cursor:pointer}
+  .dg-sk-hit{fill:transparent;cursor:pointer}
+  .dg-cond{display:flex;flex-wrap:wrap;gap:2px 14px;list-style:none;margin:0 0 12px;padding:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-cond-guns{flex-basis:100%;text-transform:none;letter-spacing:.02em;font-size:12.5px;color:var(--ink)}
+  .dg-bel-src{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+  .dg-sk-num{font-size:13px;font-weight:700;fill:var(--ink)}
+  .dg-bul-n{display:inline-block;min-width:16px;text-align:center;font-size:10px;font-weight:700;border:1px solid var(--ink-soft);margin-right:4px}
+  .dg-sk-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink-soft)}
+  .dg-stage{margin:0 0 14px}
+  .dg-stage-h{font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin:6px 0 6px;color:var(--accent)}
+  .dg-bulletins{list-style:none;margin:0;padding:0}
+  .dg-bulletins li{padding:5px 8px;margin:0 0 4px;border-left:5px solid var(--rule);font-size:13px;line-height:1.45}
+  .dg-bulletins li.s-gaining{border-left-color:#5f7b58}
+  .dg-bulletins li.s-breaking{border-left-color:#94504a}
+  .dg-bul-s{font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-right:4px}
+
   /* ---- the modes, the demo, the battle rig ---- */
   .dg-mode[data-mode="easy"]{border-bottom:4px solid #5f7b58}
   .dg-mode[data-mode="hard"]{border-bottom:4px solid #94504a}
@@ -19111,6 +19281,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <div className="dg-node-date">{nodeDate(campaignId, node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
+      <ConditionsStrip campaignId={campaignId} node={{ ...node, id: nodeId }} flags={flags} meters={meters} />
       {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} flags={flags} />}
       {documentOf(nodeId) ? (
         <figure className="dg-document">
@@ -19150,7 +19321,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           {node.choices.map((ch) => {
             const strain = strainedUncertain(ch, meters);
             const fog = !ch.blocked && intelFogged(nodeId, ch, flags || {}, easy);
-            const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters)) : orderOdds(ch, meters);
+            const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters, flags)) : orderOdds(ch, meters, flags);
             const rests = intelRests(nodeId, ch, flags || {}, easy);
             return (
             <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)} onView={setViewing}>
@@ -19164,7 +19335,8 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
               {strain.points > 0 && (
                 <span className="dg-strain">Strain: {node.meterLabels[strain.meter]} is short, so the odds are {strain.points} points worse</span>
               )}
-              {ch.erodes && hardState.enabled && <div className="dg-cost">Costs standing</div>}
+              {ch.erodes && hardState.enabled && !ch.ally && <div className="dg-cost">Costs standing</div>}
+              {ch.ally && hardState.enabled && <div className="dg-cost">{ch.ally.charAt(0).toUpperCase() + ch.ally.slice(1)} must be brought round: it costs standing</div>}
               {ch.advisor && (() => {
                 const aid = adviserIdFor(campaignId, ch.advisor.name);
                 const st = aid ? adviserState(flags || {}, aid) : "normal";
@@ -19459,6 +19631,8 @@ export default function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [record, setRecord] = useState(loadRecord);
   const [savedRun, setSavedRun] = useState(() => { const s = loadSavedRun(); return DEMO && s && (s.campaignId !== DEMO_COMMAND || (Array.isArray(s.taken) ? s.taken.length : 0) >= DEMO_DECISIONS) ? null : s; });
+  const [signals, setSignals] = useState("cipher"); // the briefing's choice: "cipher" or "clear"
+  const [press, setPress] = useState("free"); // the briefing's choice: "free" or "censored"
   const [rigOn, setRigOn] = useState(false); // a battle opened from the battle rig (a dev build): nothing of it is saved
   const [rigPosture, setRigPosture] = useState(null);
   const [mode, setMode] = useState("standard"); // the menu's choice: "easy", "standard" or "hard"
@@ -19574,7 +19748,7 @@ export default function App() {
 
   const start = (cid) => {
     setCampaignId(cid);
-    setFlags(echoSeed(record));
+    setFlags({ ...echoSeed(record), ...(signals === "clear" ? { sig_clear: true } : {}), ...(press === "censored" ? { press_censored: true } : {}) });
     setMeters(emptyMeters());
     setHardState({ ...emptyHardState(), enabled: mode === "hard" });
     setRunEasy(mode === "easy");
@@ -19701,7 +19875,7 @@ export default function App() {
           onResume={resume} onDiscard={discard} onSettings={() => openAside("settings")} record={record} />
       )}
       {screen === "briefing" && campaignId && (
-        <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} settings={settings} onSettings={setSettings}
+        <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} signals={signals} onSignals={setSignals} press={press} onPress={setPress} settings={settings} onSettings={setSettings}
           onEnter={() => start(campaignId)} onBack={home} />
       )}
       {screen === "demoend" && campaignId && <DemoEndScreen campaignId={campaignId} onHome={home} />}
@@ -19844,7 +20018,7 @@ function modeBullets(mode, c) {
   return ["Orders show their odds in words", `${INTEL.checks} checks on the staff's beliefs`, "An order cannot be taken back"];
 }
 
-function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnter, onBack }) {
+function BriefingScreen({ campaignId, mode, onMode, signals, onSignals, press, onPress, settings, onSettings, onEnter, onBack }) {
   const c = CAMPAIGNS[campaignId];
   const b = BRIEFINGS[campaignId];
   const first = useMemo(() => resolveNode(c.startNode, {}, emptyMeters(), emptyHardState()), [campaignId]);
@@ -19880,6 +20054,26 @@ function BriefingScreen({ campaignId, mode, onMode, settings, onSettings, onEnte
           </div>
           <ul className="dg-bullets" data-mode={mode} aria-live="polite">
             {bullets.map((t) => <li key={t}>{t}</li>)}
+          </ul>
+        </>
+      )}
+      {!DEMO && (
+        <>
+          <div className="dg-seg" role="group" aria-label="Signals">
+            {[["cipher", "Signals in cipher"], ["clear", "Signals in clear"]].map(([id, label]) => (
+              <button key={id} aria-pressed={signals === id} onClick={() => onSignals(id)}>{label}</button>
+            ))}
+          </div>
+          <ul className="dg-bullets">
+            <li>{signals === "clear" ? "News comes sooner, and the enemy overhears: contested orders are a little worse" : "News is slower, and nothing is overheard"}</li>
+          </ul>
+          <div className="dg-seg" role="group" aria-label="The press">
+            {[["free", "A free press"], ["censored", "A censored press"]].map(([id, label]) => (
+              <button key={id} aria-pressed={press === id} onClick={() => onPress(id)}>{label}</button>
+            ))}
+          </div>
+          <ul className="dg-bullets">
+            <li>{press === "censored" ? "No newspaper front pages are printed" : "Newspapers print what your orders do to the other side"}</li>
           </ul>
         </>
       )}
@@ -20215,7 +20409,7 @@ function IntelPanel({ nodeId, flags, easy, hard, onCheck }) {
           const known = easy || intelChecked(flags, nodeId, it.id);
           return (
             <li key={it.id}>
-              <span className={"dg-gtag dg-g-" + it.grade}>{GRADE_TAG[it.grade]}</span> {it.text}
+              <span className={"dg-gtag dg-g-" + it.grade}>{GRADE_TAG[it.grade]}</span> {it.text} <span className="dg-bel-src">Source: {it.source}.</span>
               {known ? (
                 <p className="dg-note"><b>{it.holds ? "The staff is divided, but the reports lean toward it." : "The staff is divided, and the reports lean against it."}</b> {it.truth}</p>
               ) : (
@@ -20227,6 +20421,35 @@ function IntelPanel({ nodeId, flags, easy, hard, onCheck }) {
       </ul>
     </section>
   );
+}
+
+/** The few conditions a report opens with: how old its news is, the usual weather, the state of the railways, the guns that were fired, and the advisers who are trusted or silent. */
+function ConditionsStrip({ campaignId, node, flags, meters }) {
+  if (!node || node.ending) return null;
+  const iso = mapDate(campaignId, node.date);
+  const age = reportAge(campaignId, iso, flags);
+  const weather = usualWeather(campaignId, iso);
+  const rail = strandReadout("munitions", flags || {}, meters).find((r) => r.id === "rail");
+  const guns = bombardmentAt(node.id);
+  const camp = CAMPAIGNS[campaignId];
+  const names = (state) => (camp.advisors || []).filter((a) => advisersHere(node, a) && adviserState(flags || {}, a.id) === state).map((a) => a.name);
+  const trusted = names("trusted");
+  const quiet = names("quiet");
+  return (
+    <ul className="dg-cond" aria-label="Conditions">
+      <li>News {age.text}</li>
+      {weather && <li>Usually {weather.toLowerCase()}</li>}
+      {rail && <li>Rail: {rail.band.toLowerCase()}</li>}
+      {guns && <li className="dg-cond-guns">{guns}</li>}
+      {trusted.length > 0 && <li>Trusted: {trusted.join(", ")}</li>}
+      {quiet.length > 0 && <li>Silent: {quiet.join(", ")}</li>}
+    </ul>
+  );
+}
+
+/** Whether an adviser is at the headquarters on the report's date (the dossier's years, as 54-resolve's advisorsPresent reads them). */
+function advisersHere(node, adviser) {
+  return (node.advisorsPresent || []).some((a) => (typeof a === "string" ? a === adviser.id : a.id === adviser.id));
 }
 
 /** The line under an order that rests on a belief: that it does, and how it stands. "" when the order rests on none. */
@@ -20361,6 +20584,68 @@ const GRADE_WORDS = {
 
 const GRADE_SHORT = { clean: "A clean battle", costly: "A costly victory", marginal: "A plan that held, and a battle that did not go its way", total: "A plan that gave out" };
 
+const STATUS_WORD = { gaining: "Gaining", holding: "Holding", breaking: "Breaking" };
+const STATUS_OFFSET = { gaining: -24, holding: 0, breaking: 24 };
+
+/**
+ * The sketch of the ground: one sector for each arm, left to right, the enemy above and our own side below, and the line between them. In the plan it is a straight
+ * line and each sector is pressed to put a counter in it (a counter is pressed to take it out); on the day each sector's part of the line is pushed forward, left
+ * where it is or pushed back, as the bulletins say. The buttons under each arm do the same for a keyboard or a screen reader, so the sketch itself is only drawn.
+ */
+function BattleSketch({ config, allocation, stage, small, onAdd, onRemove }) {
+  const hatch = "dg-hatch-" + useId().replace(/[^a-zA-Z0-9]/g, "");
+  const cats = config.categories;
+  const n = cats.length;
+  const W = 320;
+  const w = W / n;
+  const mid = 74;
+  const ys = cats.map((k, i) => mid + (stage ? STATUS_OFFSET[stage[i].status] : 0));
+  const edge = (i) => (i === 0 ? ys[0] : i === n ? ys[n - 1] : (ys[i - 1] + ys[i]) / 2);
+  let d = "M 0 " + edge(0);
+  cats.forEach((k, i) => { d += " L " + (i * w + 10) + " " + ys[i] + " L " + ((i + 1) * w - 10) + " " + ys[i] + " L " + (i + 1) * w + " " + edge(i + 1); });
+  const summary = stage ? stage.map((a) => a.name + ": " + a.status).join("; ") : cats.map((k) => k.name + ": " + (allocation[k.id] || 0)).join("; ");
+  return (
+    <svg className={"dg-sketch" + (small ? " small" : "")} viewBox="0 0 320 160" role="img" aria-label={"Sketch of the line. " + summary}>
+      <defs>
+        <pattern id={hatch} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" className="dg-sk-hatch" /></pattern>
+      </defs>
+      {cats.map((k, i) => (
+        <g key={k.id}>
+          <rect x={i * w} y="0" width={w} height="160" className={"dg-sk-sector" + (stage ? " " + stage[i].status : "")} />
+          <rect x={i * w} y="0" width={w} height={ys[i]} fill={"url(#" + hatch + ")"} opacity=".5" />
+          {i > 0 && <line x1={i * w} y1="0" x2={i * w} y2="160" className="dg-sk-div" />}
+          {onAdd && <rect x={i * w} y="0" width={w} height="160" className="dg-sk-hit" onClick={() => onAdd(k.id)} />}
+        </g>
+      ))}
+      <path d={d} className="dg-sk-line" />
+      {cats.map((k, i) => Array.from({ length: allocation[k.id] || 0 }, (_, j) => (
+        <rect key={k.id + j} x={i * w + 8 + (j % 4) * 17} y={ys[i] + 12 + Math.floor(j / 4) * 16} width="13" height="11" className="dg-sk-counter"
+          onClick={onRemove ? (e) => { e.stopPropagation(); onRemove(k.id); } : undefined} />
+      )))}
+      {cats.map((k, i) => <text key={"n" + k.id} x={(i + 1) * w - 8} y="154" textAnchor="end" className="dg-sk-num">{i + 1}</text>)}
+      <text x="6" y="12" className="dg-sk-label">Enemy</text>
+      <text x="6" y="154" className="dg-sk-label">Ours</text>
+    </svg>
+  );
+}
+
+/** One time of day: the sketch with the line where the bulletins put it, and a bulletin for each arm. */
+function BattleStage({ config, time, stage, allocation }) {
+  return (
+    <section className="dg-stage" aria-label={time}>
+      <h3 className="dg-stage-h">{time.charAt(0).toUpperCase() + time.slice(1)}</h3>
+      <BattleSketch config={config} allocation={allocation} stage={stage} small />
+      <ul className="dg-bulletins">
+        {stage.map((a, i) => (
+          <li key={a.id} className={"s-" + a.status}>
+            <span className="dg-bul-n">{i + 1}</span> <b className="dg-bul-s">{STATUS_WORD[a.status]}</b> {bulletinLine(time, a)}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 /** The first day's word: how the plan sits on the enemy that was really met. */
 function dayOneWord(bonus) {
   return bonus >= 5 ? "The first day went well: the plan fits the enemy that was met."
@@ -20405,6 +20690,7 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
   const final = { ...plan, second: { stance, moves } };
   const odds = useMemo(() => battlePlanOdds(choice, config, final, posture, pool, meters), [pick]);
   const was = useMemo(() => battlePlanOdds(choice, config, plan, posture, pool, meters), []);
+  const stages = useMemo(() => battleStages(config, plan, posture, pool), []);
   return (
     <main {...rootProps(campaignId, "battle")}>
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
@@ -20423,6 +20709,8 @@ function BattleDayTwo({ campaignId, config, choice, meters, plan, posture, intel
         <p className="dg-prose">{dayOneWord(dayOne)}</p>
         <p className="dg-note">The odds on the plan as issued: {was.word}.</p>
       </section>
+
+      <BattleStage config={config} time="morning" stage={stages.morning} allocation={plan.allocation} />
 
       <section aria-label="The second day">
         <h2 className="dg-order">The second day</h2>
@@ -20566,13 +20854,14 @@ function BattleScreen({ campaignId, config, choice, meters, easy, forcePostureId
         )}
         {step === "counters" && (
           <>
+            <BattleSketch config={config} allocation={allocation} onAdd={(id) => bump(id, 1)} onRemove={(id) => bump(id, -1)} />
             <p className="dg-note" role="status" aria-live="polite">
-              {left > 0 ? `${left} of ${pool} counters left to place.` : `All ${pool} counters are placed.`} An arm left short costs the plan.
+              {left > 0 ? `${left} of ${pool} counters left to place. Press a sector to add one.` : `All ${pool} counters are placed.`} An arm left short costs the plan.
             </p>
-            {config.categories.map((k) => (
+            {config.categories.map((k, ki) => (
               <div key={k.id} className="dg-bt-arm">
                 <div className="dg-bt-head">
-                  <b>{k.name}</b>
+                  <b>{ki + 1}. {k.name}</b>
                   <span className="dg-bt-ctl">
                     <button className="dg-btn" aria-label={`Fewer in ${k.name}`} disabled={!allocation[k.id]} onClick={() => bump(k.id, -1)}>−</button>
                     <span className="dg-bt-n" aria-label={`${k.name}: ${allocation[k.id] || 0} counters`}>{allocation[k.id] || 0}</span>
@@ -20642,6 +20931,17 @@ function BattleReport({ battle }) {
           {battle.lines.map((l, i) => <li key={i}>{l.reason}: {l.delta > 0 ? "+" : "−"}1 {CAMPAIGNS[config.campaign] ? meterLabels(config.campaign)[l.meter] : l.meter}</li>)}
         </ul>
       )}
+      {plan && (() => {
+        const won = battle.grade === "clean" || battle.grade === "costly";
+        const st = battleStages(config, plan, posture, plan.pool, won);
+        return (
+          <div className="dg-day" aria-label="The day in bulletins">
+            <BattleStage config={config} time="morning" stage={st.morning} allocation={plan.allocation} />
+            <BattleStage config={config} time="noon" stage={st.noon} allocation={battleSecondPlan(plan).allocation} />
+            <BattleStage config={config} time="evening" stage={st.evening} allocation={battleSecondPlan(plan).allocation} />
+          </div>
+        );
+      })()}
       <details>
         <summary className="dg-sum">What happened on the day</summary>
         {config.categories.map((k) => (
