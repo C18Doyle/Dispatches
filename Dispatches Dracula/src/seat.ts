@@ -41,6 +41,8 @@ export interface SeatUi {
   map?: SeatMap;
   /** The button on the title page that switches to the other seat. */
   switchSeat?: { to: string; label: string; note: string };
+  /** Each Act II track: a plate shown on its first scene (picture, epigraph) and the colour the page glow takes while it is played. */
+  tracks?: Record<string, { epigraph: string; place: string; tint: string }>;
   /** The theme a first-time player of this seat sees (themes.json id). */
   defaultTheme?: string;
   /** Pictures for seats with no map: the place each scene is set in (`at`, `defaultAt`), a place for each ending (`endings`), and the title picture. */

@@ -27,7 +27,7 @@ import { score } from "./score";
 import type { ScoreMood } from "./score";
 import RouteMap from "./RouteMap";
 import { BatMark, ResourceIcon, SceneBanner, TitleScene } from "./art";
-import { THEMES, applyTheme, loadTheme, saveTheme } from "./theme";
+import { THEMES, applyTheme, channels, loadTheme, saveTheme } from "./theme";
 import { CAN_SWITCH_SEAT, SEATS, switchSeat } from "./seats";
 import { makeCard, shareOrSave } from "./card";
 
@@ -553,6 +553,13 @@ export default function App() {
   useEffect(() => {
     document.documentElement.dataset.dread = String(dread);
   }, [dread]);
+  // the page glow takes the colour of the track being played (Act II), and goes back to the theme's own on the menu
+  const trackTint = inRun ? ui.tracks?.[state.activeBranch]?.tint : undefined;
+  useEffect(() => {
+    const root = document.documentElement;
+    if (trackTint) root.style.setProperty("--track-tint", channels(trackTint));
+    else root.style.removeProperty("--track-tint");
+  }, [trackTint]);
   const mood: ScoreMood =
     screen === "MENU" || screen === "SETTINGS" || screen === "RESEARCH" || screen === "LEDGER"
       ? "menu"
@@ -1423,6 +1430,8 @@ export default function App() {
     // screen === "NODE"
     const node = def.content.nodes[state.currentNodeId];
     const trackers = evalTrackers(def, state);
+    // the first scene of a track opens with its plate
+    const trackPlate = ui.tracks?.[node.branch] && state.history.every((h) => def.content.nodes[h.nodeId]?.branch !== node.branch) ? ui.tracks[node.branch] : null;
     content = (
       <div className="min-h-screen px-4 py-8 sm:py-12">
         {settingsButton}
@@ -1586,6 +1595,19 @@ export default function App() {
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {trackPlate && (
+            <div className="parchment-card mb-6 overflow-hidden text-center relative">
+              <CornerFlourishes />
+              <div className="border-b border-ink/70 overflow-hidden">
+                <SceneBanner place={trackPlate.place} className="art-plate" />
+              </div>
+              <div className="px-6 py-5 font-body text-ink">
+                <p className="font-heading text-[0.65rem] uppercase tracking-[0.3em] text-blood font-bold mb-2">{BRANCH_LABELS[node.branch]}</p>
+                <p className="italic text-[1.1rem] leading-snug text-ink/85">{trackPlate.epigraph}</p>
+              </div>
             </div>
           )}
 

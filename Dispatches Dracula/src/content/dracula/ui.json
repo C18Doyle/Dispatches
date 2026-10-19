@@ -509,5 +509,22 @@
     "label": "Play as Mina Harker",
     "note": "The same weeks, from the other side: her journal, her typewriter, her choices."
   },
-  "defaultTheme": "blood"
+  "defaultTheme": "blood",
+  "tracks": {
+    "QUIET": {
+      "epigraph": "Be small, be patient, be forgotten.",
+      "place": "eastend",
+      "tint": "#c9892b"
+    },
+    "COURT": {
+      "epigraph": "Every lord needs someone to open the door for him.",
+      "place": "piccadilly",
+      "tint": "#d4a72c"
+    },
+    "STORM": {
+      "epigraph": "The animals of London have been waiting a long time to be asked.",
+      "place": "carfax",
+      "tint": "#3f8f9a"
+    }
+  }
 }

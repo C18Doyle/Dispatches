@@ -113,5 +113,22 @@
       "ENDING_CRISIS_BLOOD": "dawn",
       "ENDING_CRISIS_FELLOWSHIP": "end-ENDING_CRISIS_DOMINION"
     }
+  },
+  "tracks": {
+    "SACRED": {
+      "epigraph": "What the Professor carries is older than what the others believe.",
+      "place": "carfax",
+      "tint": "#e0b85a"
+    },
+    "MODERN": {
+      "epigraph": "A fact set down in time does more than a box of wafers.",
+      "place": "london",
+      "tint": "#5b8bb0"
+    },
+    "TIE": {
+      "epigraph": "You can hear him, and he can hear you.",
+      "place": "castle",
+      "tint": "#8a5fa0"
+    }
   }
 }

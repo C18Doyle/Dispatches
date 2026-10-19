@@ -23,7 +23,7 @@ export const DEFAULT_THEME: string = themeData.default;
 const KEY = `${def.config.id}_theme`;
 
 /** "#8c1b1b" -> "140 27 27", the form tailwind's `rgb(var(--c-x) / <alpha>)` colours read. */
-function channels(hex: string): string {
+export function channels(hex: string): string {
   const h = hex.replace("#", "");
   return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)).join(" ");
 }
