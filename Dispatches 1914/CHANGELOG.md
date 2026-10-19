@@ -5,7 +5,11 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
-## Unreleased (2026-10, the sales layout)
+## 1.4.1 (2026-10-19)
+### Fixed: the release check on the demo
+- The browser check that every release zip passes clicked the first button on the page, which in the demo is a locked command, and failed. It now clicks only buttons that can be pressed. The game is unchanged from 1.4.0, which was tagged but never reached itch.io.
+
+## 1.4.0 (2026-10-19)
 ### Added: a free demo, a full download and a battle rig. Changed: the menu, the modes, the newspapers
 - **The release is split into a free demo and the full game**, as in 1940 and 1941. `npm run build` makes the full game (dist/, and dist/full for the zip), the demo (dist/demo) and the battle rig (dist/rig). The demo is the French command, its first six orders (the covering of the frontier, Lorraine, the retreat, the sacked generals, the Marne as an Order of Battle and the race to the sea), standard mode only, and it ends on a screen that links to the full game; the other five commands are listed as locked. `itch.json` is set to push the demo to `dispatches-1914:web-demo`, the full game to `dispatches-1914:download-full` and to the restricted page `dispatches-1914-confidential:web-full`. `tests/demo.test.mjs` plays the demo to its end screen.
 - **The battle rig.** `npm run rig` builds and serves a version of the game with a Battle rig entry on the menu: all fifteen Orders of Battle in a list, each opened at its own report with the enemy's setup, the strain on the meters (low, level or high) and Easy mode chosen. A battle runs to its result and goes back to the list, and nothing of it is saved. The full game has no such entry. `tests/rig.test.mjs` fights one through.
