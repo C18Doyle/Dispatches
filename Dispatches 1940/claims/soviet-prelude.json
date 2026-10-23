@@ -44,9 +44,9 @@
   {
     "id": "p-games",
     "where": "games41",
-    "claim": "Two staff games were held in January 1941, from 2 to 6 January on the north-western axis and from 8 to 11 January on the south-western, with Zhukov and Pavlov commanding opposing sides; sources differ on who won and one dates a similar exercise to the autumn of 1940; Pavlov commanded the Western Special Military District from 1940; Zhukov replaced Meretskov as Chief of the General Staff in January or at the start of February 1941; Shaposhnikov was the Deputy People's Commissar for fortified zones from August 1940.",
+    "claim": "Two staff games were held in January 1941, from 2 to 6 January on the north-western axis and from 8 to 11 January on the south-western, with Zhukov and Pavlov commanding opposing sides; sources differ on who won and one dates a similar exercise to the autumn of 1940; Pavlov commanded the Western Special Military District from 1940; Zhukov replaced Meretskov as Chief of the General Staff in January or at the start of February 1941; Shaposhnikov was the Deputy People's Commissar for fortified zones from August 1940. Zhukov is reported to have argued in the games for meeting the enemy slightly inland, not in forward deployment, so as not to be surrounded at the border (the third option of games41).",
     "status": "drafted",
-    "source": "Search results (2026-10-13) citing Bobylev for the dates of the games, and Wikipedia's Dmitry Pavlov (general). The game states the disagreement instead of choosing. Zhukov's appointment date differs between 15 January and 1 February in the sources, so the game says only 'within weeks' and 'that winter'."
+    "source": "Search results (2026-10-13) citing Bobylev for the dates of the games, and Wikipedia's Dmitry Pavlov (general). The game states the disagreement instead of choosing. Zhukov's appointment date differs between 15 January and 1 February in the sources, so the game says only 'within weeks' and 'that winter'. The inland argument is from a commenter on the chart (2026-10-14) and was not found in the pages read, which say only that Zhukov and Pavlov commanded opposing sides; it needs a source."
   },
   {
     "id": "p-prep41",
@@ -58,8 +58,15 @@
   {
     "id": "p-memo",
     "where": "memo41",
-    "claim": "A draft dated 15 May 1941, 'Considerations on the plan of strategic deployment of the armed forces of the Soviet Union in case of war with Germany and her allies', attributed to Zhukov and Timoshenko with Vasilevsky as its drafter in most accounts, proposed forestalling the German deployment by a first strike; Stalin did not approve it; its authorship, purpose and status are disputed; in May and June 1941 armies were moved from the interior towards the Dvina and the Dnieper and about 800,000 reservists were called to training camps; TASS denied the rumours of war on 14 June.",
+    "claim": "A draft dated 15 May 1941, 'Considerations on the plan of strategic deployment of the armed forces of the Soviet Union in case of war with Germany and her allies', attributed to Zhukov and Timoshenko with Vasilevsky as its drafter in most accounts, proposed forestalling the German deployment by a first strike; Stalin did not approve it; its authorship, purpose and status are disputed; in May and June 1941 armies were moved from the interior towards the Dvina and the Dnieper and about 800,000 reservists were called to training camps; TASS denied the rumours of war on 14 June. An alternative reading takes its practical core to be mobilisation and the movement of the interior armies to the Dnieper and Western Dvina line, massing the army in one echelon; the movements began on 15 May, slowed when the expected date of the attack passed and were resumed in earnest around 10 June (memo41, fourth option and the record's outcome).",
     "status": "drafted",
-    "source": "Search results (2026-10-13) on the memorandum and the dispute over it (Danilov and others); the movement of the second-line armies and the 800,000 reservists are from the standard accounts. The game says 'in most accounts' and 'historians disagree' on purpose."
+    "source": "Search results (2026-10-13) on the memorandum and the dispute over it (Danilov and others); the movement of the second-line armies and the 800,000 reservists are from the standard accounts. The game says 'in most accounts' and 'historians disagree' on purpose. The mobilisation reading and the 15 May to 10 June sequence are from the same commenter and are not in the pages read, which describe a pre-emptive strike plan of disputed status; both readings are offered as separate options for that reason."
+  },
+  {
+    "id": "p-echelons",
+    "where": "memo41",
+    "claim": "At the start of the war the Kiev Special Military District stood in three thin echelons: nine rifle divisions of the 5th, 6th and 26th Armies in the first; fifteen divisions in deep rifle corps in the second; the 16th and 19th Armies, from the interior districts, still unloading at railway stations in the third; the 12th Army was on the Hungarian and Romanian border. Opposite them the German Army Group South stood in a single echelon of eighteen infantry divisions in the front line, five in reserve and three security divisions.",
+    "status": "drafted",
+    "source": "A Russian-language staff-history diagram, 'Forestalling in deployment' (on the example of the troops of the KOVO and the 6th and 17th Armies and 1st Panzer Group of Army Group South), supplied by the commenter on 2026-10-14. The author and the book are not yet identified; the figures are the diagram's own and need a printed source."
   }
 ]
