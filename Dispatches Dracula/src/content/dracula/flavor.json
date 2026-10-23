@@ -1,0 +1,466 @@
+{
+  "prologue": [
+    "Castle Dracula, the Borgo Pass. April.",
+    "You are the last of an old house, and for as long as the house has stood you have done something that nobody has asked you about. You have lived in one castle, on one mountain, among a people who are afraid of you and are, for that reason, quite safe. The wolves obey you. The Szgany carry what you tell them to carry. In the east wing there are three women who have been with you longer than anyone in the village has had a grandfather. It is a quiet life, and it has become a long one.",
+    "A solicitor in Exeter has bought you a house in England. It stands at Purfleet, beside a private asylum, with a chapel in its grounds, and you have never seen it. For years you have read about England in the books you order from London: Bradshaw's railway guide, the Army and Navy List, Whitaker's Almanack, the directories. You do not know how an Englishman sits at dinner, or what he says when a stranger comes into the room. You are about to find out.",
+    "In a month a young clerk will come to the castle to witness the deeds. You keep no servants. You will meet his coach yourself.",
+    "You have a great many reasons to go, and one that you would say aloud. You have not said it aloud to anyone for a long time. It is that you are tired of mountains."
+  ],
+  "chapterCard": {
+    "title": "The Pass",
+    "subtitle": "Castle Dracula · Chapter One"
+  },
+  "howToPlay": [
+    {
+      "heading": "The Three Reserves",
+      "body": "You are Count Dracula. Three reserves run from -10 to +10: Strength (what you have in you to act with), Secrecy (how little the world knows of you) and Dominion (how firmly the people and creatures you have marked still answer to you). Every choice moves them. A reserve that falls to -7 brings a warning. At -10 the passage ends in a collapse, and there are three of those."
+    },
+    {
+      "heading": "Side Scenes",
+      "body": "In Act I, three scenes have an extra door you can take or leave: Harker's journal, the Szgany in the courtyard, and the harbour office at Whitby. Each is an hour you spend, and what you learn in it comes back later."
+    },
+    {
+      "heading": "Locked Options",
+      "body": "Some choices are shown but locked. A lock names what it asks for in plain terms: a reserve that must be high enough, something you did earlier, or something you learned from Mr Harker. Some are hidden on the easier difficulties and on the harder ones, and say so."
+    },
+    {
+      "heading": "The Children of the Night",
+      "body": "Press Call the Children of the Night on any scene. The wolves, rats and owls will report three times a game what each choice below will cost. They will hunt once for you, which lifts one reserve and costs you elsewhere. They will tell you what they have overheard. And the old wolf will say what he thinks of you, which is a hint about the endings that are open to you."
+    },
+    {
+      "heading": "Difficulty",
+      "body": "The Householder is told the sums before he answers, begins with two points in every reserve, and feels a short reserve half as much. The Nobleman finds out afterwards. The Exile has sixty pieces of gold from the castle chest and no more where they came from, begins two points down in every reserve, and feels a short reserve twice as much; a few options cost gold, or are only offered to a man who can pay. You choose when you begin a run."
+    },
+    {
+      "heading": "Ventures",
+      "body": "Some choices are ventures: they can go well or badly, and the page tells you the odds. A venture is about one of your reserves. The higher that reserve, the better the odds."
+    },
+    {
+      "heading": "Strain",
+      "body": "When a reserve is below -4 it takes two and a half points off the odds of every venture that is about it, for each point below, up to twelve. The venture screen tells you when this applies."
+    },
+    {
+      "heading": "What You Carry Forward",
+      "body": "A scene may add a line in italics under its description. That is something you did earlier, remembered: a witness, a servant, a debt, a promise. A hundred or so things can be carried, and most of them are never mentioned unless they matter."
+    },
+    {
+      "heading": "Before Dawn",
+      "body": "A choice marked Before Dawn is a race against the sun: moving boxes, running a ship in, changing cellars. They are the choices where being slow or tired is what goes wrong, and they are mostly ventures, so check your Strength."
+    },
+    {
+      "heading": "Beds in England",
+      "body": "Once you have brought boxes of earth out of the castle, a counter under the reserves shows how many beds you have in England and how many are still in the crypt at home. Hunters sealing a house take the beds in it. You can see what a choice costs before you make it."
+    },
+    {
+      "heading": "The Map",
+      "body": "The Map button under the reserves draws your journey from the castle to London: where the scene is set, which of your houses you still hold, which the hunters have sealed, and which are safe. A list under the picture says the same in words. It is a sketch, not a survey."
+    },
+    {
+      "heading": "Music",
+      "body": "The score is made as you play. It follows the screen and how low your lowest reserve has fallen, and it changes with the track you are on. The Settings page has a volume control and a switch."
+    },
+    {
+      "heading": "Endings",
+      "body": "There are fifteen. Each of the three tracks has four, and three are collapses. How you are remembered afterwards depends on two things the game never shows you: whether you ruled by courtesy or by terror, and whether you were cold or lonely. The ending screen then shows your route, a plain account of what became of the people you met (What It Cost), and how far you went with the book's Count (The Book's Road)."
+    },
+    {
+      "heading": "Documents",
+      "body": "Letters, clippings, notebook pages and typescripts turn up as you play, depending on what you did. Press Hear it on any of them and the device reads it aloud (where the browser has a voice for it)."
+    },
+    {
+      "heading": "The Record",
+      "body": "Once you have found an ending, the Ledger button appears on the title page. It lists every ending, the ones you have found with what happens in Stoker's book at that point, and the rest with a hint on where to look. It also lists your last ten runs. It is kept in this browser only."
+    },
+    {
+      "heading": "What the Game Leaves Out",
+      "body": "The novel gives the Count almost no inner life: he is seen from outside, in other people's journals. Everything he thinks here is invented, including his tiredness and his manners. The game does not ask you to admire him. It does not show what he does to the people he feeds on, and it does not make a game of it. The novel was published in 1897 and its attitudes belong to it. It is hard on women who step out of line, wary of foreigners and careless about people in asylums. The game does not agree with any of that, and does not take it out of the characters' mouths."
+    },
+    {
+      "heading": "The Book",
+      "body": "The game follows the events of Bram Stoker's Dracula (1897) as far as they go, and then asks what the Count would have done. Characters speak in lines the game has imagined. None of them is Stoker's own sentence. Where the book does something different from the game, the ending screen says so, under In the Novel."
+    }
+  ],
+  "gossip": [
+    {
+      "lines": [
+        "A rat in Dr Seward's wall: The young doctor talks into a machine every night. He says he is tired. He says it very clearly.",
+        "The old wolf: There is a woman in the house next door who writes down everything. I would be careful of her. She writes it in a script the others cannot read.",
+        "A sparrow on the Carfax wall: They have put out the lamps at Purfleet. I can see the whole of the garden. It is much smaller than it was.",
+        "A moth at a window in Piccadilly: A man was here this evening with a list. He did not look up. I do not think he knows how many of us are watching."
+      ]
+    },
+    {
+      "when": {
+        "flag": "crewTaken"
+      },
+      "lines": [
+        "A gull at Whitby: They found the ship's master lashed to the wheel. They found the log. I do not think they have found the crew.",
+        "A rat from the Demeter, still alive: It was a good ship, and a quiet one, until the storm. I did not count the men. I could not have borne it."
+      ]
+    },
+    {
+      "when": {
+        "flag": "harkerFree"
+      },
+      "lines": [
+        "A shepherd's dog below the castle: A young Englishman walked out of the gate at dawn, white as a sheet, and did not look back. We did not stop him. The master had said we should not."
+      ]
+    },
+    {
+      "when": {
+        "flag": "harkerDead"
+      },
+      "lines": [
+        "A Slovak at an inn: The Englishman never came down. The master said he had left by the Bistritz road. The master is a courteous man. I do not believe him."
+      ]
+    },
+    {
+      "when": {
+        "flag": "renfieldBound"
+      },
+      "lines": [
+        "Renfield, at his window: I have counted every cart on the road, Master, and every man who came to the gate. I have a good many sparrows. I have saved some for you.",
+        "Dr Seward, to his phonograph: Renfield is better organised than he has ever been. It is quite remarkable. I do not like it at all."
+      ]
+    },
+    {
+      "when": {
+        "flag": "lucyMarked"
+      },
+      "lines": [
+        "A bat at Whitby: The fair one walks in her sleep to the seat and sits looking at the sea. She does not know why. She says she is waiting for someone."
+      ]
+    },
+    {
+      "when": {
+        "flag": "lucyTaken"
+      },
+      "lines": [
+        "An owl at Hillingham: They are saying she will not live out the month. The old man from Amsterdam is in the house. He has put garlic on the sill."
+      ]
+    },
+    {
+      "when": {
+        "flag": "minaMarked"
+      },
+      "lines": [
+        "A moth at a window in Purfleet: The woman is awake at all hours. She wears a scarf at her neck, and a strip of linen over her forehead. She has not spoken to her husband in three days."
+      ]
+    },
+    {
+      "when": {
+        "flag": "carfaxLost"
+      },
+      "lines": [
+        "A rat in the chapel at Carfax: They have laid bread in every chest. It is very quiet now, and very cold, and the smell of the place has changed."
+      ]
+    },
+    {
+      "when": {
+        "any": [
+          {
+            "flag": "piccadillyBought"
+          },
+          {
+            "flag": "piccadillyPaid"
+          }
+        ]
+      },
+      "lines": [
+        "A pigeon on the Piccadilly roof: A man in a dark coat comes and goes at night. He has never been seen by day. The charwoman says the house is cold as a church."
+      ]
+    },
+    {
+      "when": {
+        "resource": "secrecy",
+        "op": "<=",
+        "value": -3
+      },
+      "lines": [
+        "A cat in Hampstead: There is a drawing of you in the Pall Mall Gazette. The likeness is poor. It is good enough.",
+        "A rat in the Yard: The police have a description. They have a very short one. They are going to ask a great many questions."
+      ]
+    }
+  ],
+  "epilogueReadings": {
+    "pos_pos": {
+      "label": "Courtly and Lonely",
+      "epilogue": "In the tellings that outlast the newspapers, the foreign nobleman is remembered as a gentleman who asked for nothing but a house and a little company. A housemaid says he was the politest man she ever served. A solicitor's widow says he kept her husband's letters in a drawer after he died. Those who knew him say that he was always listening for a voice that did not come."
+    },
+    "pos_neutral": {
+      "label": "Courtly",
+      "epilogue": "He is remembered as a model of manners. The people who dined with him say that he never raised his voice and never took a second glass. A banker's clerk can still describe the way he folded his gloves. It is a good description, and nobody who gives it can say what else he did."
+    },
+    "pos_neg": {
+      "label": "Courtly and Cold",
+      "epilogue": "He is remembered as the most perfectly mannered man in the whole of the Season, and the one nobody quite liked. Hostesses who had him to dinner say that the room became cooler when he spoke. A footman says that he never once looked at the food, or at anyone's face for long. A great many people wrote to the Times to say that they had always felt there was something wrong."
+    },
+    "neutral_pos": {
+      "label": "Lonely",
+      "epilogue": "The stories that last are not about a monster. They are about a very old man in a very large house, who stood at windows and watched people go by. The children in the village say that he used to leave bread on the sill. Nobody can say who it was for. The bread was always there in the morning."
+    },
+    "neutral_neutral": {
+      "label": "Ambiguous",
+      "epilogue": "People cannot agree what he was. A policeman says a foreign gentleman and a housemaid says a great lord. A doctor writes a long paper on mass delusion, and a priest writes a short letter on something else. The shop in the village where he bought his newspapers still has a ledger with his name in it, and nobody has ever been able to read the signature."
+    },
+    "neutral_neg": {
+      "label": "Cold",
+      "epilogue": "He is remembered as a thing that was efficient and not cruel, and not kind either. The hunters who describe him say that he never wasted a movement. He never raised his voice, never threatened and never begged. He simply did what he had come to do. They found, afterwards, that this was much harder to forgive than rage."
+    },
+    "neg_pos": {
+      "label": "Terrible and Lonely",
+      "epilogue": "The tellings differ, but they agree on one thing: that whatever he did, he did it in a great hurry, as if he were afraid there would not be enough time. People remember that he wept. A girl from the village says that she saw him, on the night of the storm, standing on the cliff with his hands over his face. Nobody knows who she saw."
+    },
+    "neg_neutral": {
+      "label": "Terrible",
+      "epilogue": "He is remembered, plainly, as a terror. The village has a name for the fog that comes up the Thames in autumn, and it is his. Parents in Purfleet tell their children that the wolf in the Gardens was one of his. Nobody has ever been able to say why he came. The old people say that he was simply what was in the dark."
+    },
+    "neg_neg": {
+      "label": "Terrible and Cold",
+      "epilogue": "He is remembered as the worst thing that ever came out of the east. There are three books on him and a poem. The poem is the best. A schoolmaster in Whitby has the only surviving drawing of him: a tall pale man in a long dark coat, drawn from behind, standing over a seat on a cliff. The schoolmaster says that he has never been able to draw the face."
+    }
+  },
+  "creatureReportLines": {
+    "pos_pos": [
+      "He bows to the doorpost and he bows to the stranger. We do not understand it, and we do not want to be without it.",
+      "He walks slowly, and he looks back. We have never known a master who looked back before."
+    ],
+    "pos_neutral": [
+      "He is correct. He is always correct. We cannot tell what is under it, and we have been listening a long time.",
+      "He speaks softly and he does not hurry. Softness is a kind of strength. We would follow him."
+    ],
+    "pos_neg": [
+      "He is very courteous and he is very cold. We have never known a master who could do both. We find that it is the colder part that we trust.",
+      "He says please. He says thank you. He does not look at you while he says it. We do not know why this is worse."
+    ],
+    "neutral_pos": [
+      "He stops at windows. He stops a long while. We do not know what he sees. We know it is not us.",
+      "He is lonely. A wolf can tell. He is the loneliest thing in the whole of the south of England, and we have stopped finding it strange."
+    ],
+    "neutral_neutral": [
+      "We cannot read him. It is a thing we have never been able to say of a master. We find it interesting.",
+      "He is neither kind nor cruel. We are waiting to see which of them he becomes."
+    ],
+    "neutral_neg": [
+      "He does not feed for the pleasure of it. He feeds like a man paying a bill. We are not sure that is better.",
+      "He is hard when he must be and never harder. A pack could do a great deal worse for a leader."
+    ],
+    "neg_pos": [
+      "He is terrible and he is sad. We have seen the two in the same animal. It is usually the one that bites.",
+      "He shouted at the moon last night. Then he said he was sorry. We do not know who he was sorry to."
+    ],
+    "neg_neutral": [
+      "He is frightening, and he knows he is, and he does not seem to mind. A master who is feared is a master who is not asked questions.",
+      "We have run from him and with him. It is a great deal easier to run with."
+    ],
+    "neg_neg": [
+      "He is the coldest thing we have ever followed, and we have followed him a long way. We would not like to be the next thing he is cold to.",
+      "He does not look at us any more. He looks through us. The old ones say that is what the end looks like."
+    ]
+  },
+  "difficultyInfo": {
+    "EASY": {
+      "label": "The Householder",
+      "blurb": "The Children of the Night report in advance: you see exactly how each choice will move your reserves before you commit. You begin stronger, with two points in every reserve, and a short reserve costs you half as much."
+    },
+    "MEDIUM": {
+      "label": "The Nobleman",
+      "blurb": "How each choice moves your reserves stays hidden until after you commit. The Children of the Night will scout for you three times."
+    },
+    "HARD": {
+      "label": "The Exile",
+      "blurb": "As the Nobleman, plus sixty pieces of gold from the castle chest and no more where they came from. Some choices cost gold you cannot replace, and some are only offered to a man who can pay. You begin a little weakened, two points down in every reserve, and a short reserve costs you twice as much."
+    }
+  },
+  "novelNotes": {
+    "ENDING_1A": "In the novel the Count does not settle quietly. The hunters find and seal his boxes one by one, and he leaves England on the Czarina Catherine for Varna.",
+    "ENDING_1B": "In the novel the Count does sail home on the Czarina Catherine for Varna, with one box. The hunters follow by different routes: some by rail, some by sea, some up the river after the box.",
+    "ENDING_1C": "In the novel the Count is destroyed at sunset, in his box on a cart below the castle. Jonathan Harker cuts his throat with a kukri and Quincey Morris drives a bowie knife into his heart. The Count crumbles to dust. Quincey dies of a wound he received in the fight. Mina writes that, as he crumbled, there was a look of peace on his face.",
+    "ENDING_1D": "In the novel the Count does not sleep out the years in his crypt. There is a great tomb in the castle chapel, marked with his name, which Van Helsing finds empty. The Count is destroyed on the road before he can reach it.",
+    "ENDING_2A": "In the novel the Count never leaves England with a household. He leaves alone, with one box, and he is hunted all the way home.",
+    "ENDING_2B": "In the novel the Count does not carry Mina with him. She stays with the hunters, and goes with Van Helsing to the castle, where she is kept safe inside a ring of Host.",
+    "ENDING_2C": "In the novel the Count does not make a stand at Carfax. The hunters sanctify his boxes there and he is never seen to defend them.",
+    "ENDING_2D": "In the novel the Count releases no one. Mina is freed of him only when he is destroyed, and the scar on her forehead fades.",
+    "ENDING_3A": "In the novel the Count's ship, the Czarina Catherine, does reach Varna ahead of the hunters, and the box is sent up the river at once. They catch up with it on the road below the castle.",
+    "ENDING_3B": "In the novel the Count attacks Mina in her bed at Purfleet while her husband lies beside her in a stupor, and the hunters burst in. He escapes as a mist. He does not come back to fight.",
+    "ENDING_3C": "In the novel Van Helsing and Mina spend a night at the pass inside a ring of Host while three women try to lure her out of it. In the morning Van Helsing goes into the castle and destroys the women in the chapel.",
+    "ENDING_3D": "In the novel London is never put under the Count's rule. Stoker ends the story with his destruction.",
+    "ENDING_CRISIS_STRENGTH": "In the novel the Count is never starved. He is destroyed at the pass.",
+    "ENDING_CRISIS_SECRECY": "In the novel the Count is never exposed to the newspapers or the police. Only the hunters know what he is.",
+    "ENDING_CRISIS_DOMINION": "In the novel the Count's hold on Renfield lasts until the Count kills him, and Mina's mark is the last thing he leaves behind."
+  },
+  "endingHints": {
+    "ENDING_1A": "On the Quiet track, at the last choice, stay in London and wait for the hunt to tire.",
+    "ENDING_1B": "On the Quiet track, book a berth on the Czarina Catherine, then take her home.",
+    "ENDING_1C": "On the Quiet track, at the last choice, go home by the road.",
+    "ENDING_1D": "On the Quiet track, keep ten boxes in the castle crypt, and be lonely enough to want to go back to them.",
+    "ENDING_2A": "On the Court track, arrange a household's passage abroad, then take it.",
+    "ENDING_2B": "On the Court track, make Mina yours, then take her home.",
+    "ENDING_2C": "On the Court track, at the last choice, hold Carfax to the end.",
+    "ENDING_2D": "On the Court track, be courteous and lonely enough that the last choice includes letting everyone go.",
+    "ENDING_3A": "On the Storm track, raise a gale on the Channel, then go home on it.",
+    "ENDING_3B": "On the Storm track, at the last choice, go back to Purfleet and finish it.",
+    "ENDING_3C": "On the Storm track, at the last choice, travel by night with your wolves.",
+    "ENDING_3D": "On the Storm track, be terrible enough, and strong enough, that the last choice includes staying.",
+    "ENDING_CRISIS_STRENGTH": "Let your Strength run to -10.",
+    "ENDING_CRISIS_SECRECY": "Let your Secrecy run to -10.",
+    "ENDING_CRISIS_DOMINION": "Let your Dominion run to -10."
+  },
+  "demoEnd": {
+    "title": "End of Act I",
+    "body": [
+      "You have been through the whole of the first act: the castle, the three letters, the sisters, the boxes, the voyage, Whitby, and the choice of how to take London.",
+      "The door ahead is locked in the demo. The full game goes on through the second act on the track you chose, to the last choice on each of the three tracks, fifteen endings in all, and the Ledger that keeps the ones you have found and says where to look for the rest. Mina Harker's own story, with fifteen endings of its own, is in the full game too: it is on the game's page, to play in the browser or to download."
+    ],
+    "restart": "Begin Again"
+  },
+  "flagNotes": {
+    "hostWarm": "You received Mr Harker as an honoured friend.",
+    "hostCool": "You received Mr Harker correctly and kept your distance.",
+    "harkerBlunted": "You made Mr Harker forget the road to the castle.",
+    "harkerCross": "Mr Harker kept the old woman's crucifix.",
+    "knowsLaw": "You learned the law from Mr Harker.",
+    "knowsManners": "You learned English manners from Mr Harker.",
+    "knowsCity": "You learned the streets and the river from Mr Harker.",
+    "knowsDoctors": "You learned from Mr Harker whom to avoid.",
+    "brokeMirror": "You broke the looking-glass in front of him.",
+    "mirrorsGone": "You had every mirror removed from the house.",
+    "heldBack": "You kept away from his blood.",
+    "lettersWritten": "Mr Harker wrote three letters for you.",
+    "forgedHand": "You forged his hand, and it passed.",
+    "forgeryNoticed": "Mr Hawkins noticed the forgery.",
+    "caughtShorthand": "You caught his line of shorthand.",
+    "warningSlipped": "A line of his shorthand reached Exeter.",
+    "sistersForbidden": "You forbade the sisters to touch him.",
+    "sistersFed": "You took the sisters hunting on the hill pastures.",
+    "sistersPromised": "You promised the sisters that he would be theirs.",
+    "fullHold": "You shipped all fifty boxes.",
+    "reserveBoxes": "You left ten boxes in the castle crypt.",
+    "fewBoxes": "You shipped only twenty boxes.",
+    "harkerLocked": "You left Mr Harker locked in, with the key to be found.",
+    "harkerFree": "You left Mr Harker's door open and the road clear.",
+    "harkerDead": "Mr Harker never went home.",
+    "crewSpared": "You left the crew of the Demeter alone.",
+    "crewTaken": "You took the Demeter's crew, one at a time.",
+    "fogLord": "You called the fog and the wind on the voyage.",
+    "stormRaised": "A gale you raised ran out of your hands.",
+    "cameAsDog": "You came ashore at Whitby as a great dog.",
+    "wreckLanded": "You ran the Demeter onto the sand.",
+    "boxesLost": "The sea took boxes from the Demeter's hold.",
+    "passedWhitby": "You passed Whitby without being noticed.",
+    "lucyMarked": "You marked Lucy Westenra at Whitby.",
+    "markedMina": "You watched Mina Murray at Whitby.",
+    "claimedBoxes": "You claimed the boxes from the harbour clerk.",
+    "dogsCalled": "You called every dog in Whitby to the beach.",
+    "boxesShort": "You came to London twelve boxes short.",
+    "sawMinster": "You walked round York Minster in the night.",
+    "renfieldBound": "You promised Renfield lives if he would watch the house.",
+    "renfieldIgnored": "You ignored Renfield.",
+    "renfieldSnubbed": "You told Renfield the Master was not coming.",
+    "piccadillyBought": "You bought the house in Piccadilly by the book.",
+    "piccadillyPaid": "You paid a clerk to get the house in Piccadilly.",
+    "eastEndCellars": "You rented cellars in the East End in three names.",
+    "renfieldKept": "You kept Renfield quiet with small mercies.",
+    "darkHouse": "You kept Carfax in the dark.",
+    "metSeward": "You called on Dr Seward and charmed him.",
+    "sewardWary": "Dr Seward grew wary of you.",
+    "lucySpared": "You left Lucy Westenra alone.",
+    "lucyOnce": "You visited Lucy Westenra once.",
+    "lucyTaken": "You visited Lucy Westenra through the autumn.",
+    "vhKnown": "You learned how much Van Helsing knew.",
+    "vhWoke": "Van Helsing woke in his dream and turned you out.",
+    "layLow": "You kept your wolves and your face from the asylum.",
+    "metVanHelsing": "You met Van Helsing as a stranger in a bookshop.",
+    "lyingLow": "You lay low for a week after the dream failed.",
+    "showedFace": "You showed Van Helsing your face at his window.",
+    "ratsSent": "You sent rats to Van Helsing's room.",
+    "movedBoxes": "You moved boxes out of Carfax the night before.",
+    "carfaxLost": "You let the hunters have Carfax.",
+    "ambush": "You waited in the dark and took a man at Carfax.",
+    "minaSpared": "You left Mina Harker alone.",
+    "minaRead": "You read what Mina Harker had typed.",
+    "minaMarked": "You marked Mina Harker.",
+    "czarinaBooked": "You booked a berth in the Czarina Catherine.",
+    "wentToGround": "You went to ground in a cellar nobody knew.",
+    "fogWalker": "You changed cellars every night in the fog.",
+    "operaBox": "You took a box at the opera.",
+    "threeFriends": "You made friends of a solicitor, a banker and a doctor.",
+    "waitedAsked": "You waited to be asked.",
+    "renfieldSteward": "You made Renfield your steward in the asylum.",
+    "renfieldUsed": "You used Renfield once, to open a door.",
+    "renfieldRefused": "You refused Renfield's service.",
+    "lucyCourted": "You courted Lucy Westenra.",
+    "lucyTakenFast": "You took Lucy Westenra quickly.",
+    "lucyLeftAlone": "You left Lucy Westenra to her doctors.",
+    "flowersRemoved": "You had Lucy's mother take down the garlic.",
+    "wolfSent": "You sent the wolf through Lucy's window.",
+    "stayedAway": "You stayed away from the old man's flowers.",
+    "minaListened": "You told Mina Harker honestly what you were, and she listened.",
+    "minaScreamed": "Mina Harker screamed, and the house woke.",
+    "withdrewFromMina": "You withdrew from Mina Harker for a week.",
+    "burnedHand": "The cross burned your hand.",
+    "fogSiege": "You besieged the house in fog.",
+    "renfieldRescued": "You took Renfield out of the asylum.",
+    "courtDismissed": "You let your court go.",
+    "lastCourt": "You lit Carfax for a last night with your servants.",
+    "lastStand": "You gathered your servants for a stand at Carfax.",
+    "householdPassage": "You booked passage abroad for your household.",
+    "wolfHeld": "You held the wolf on a short lead.",
+    "ratsCalled": "You called every rat in London.",
+    "fogFirst": "You called the fog first.",
+    "ratSiege": "You sent rats into the walls of the asylum.",
+    "waited": "You waited three nights and let them wonder.",
+    "lucyAtWindow": "You sent the wolf through the window at Hillingham.",
+    "mistVisit": "You visited Lucy Westenra as a mist.",
+    "lucyAbandoned": "You left Lucy Westenra to the doctors.",
+    "struckVH": "You struck at Van Helsing and were turned back.",
+    "triedHost": "You laid your hand on the old man's bread.",
+    "unnervedThem": "You went for the young men's nerves.",
+    "minaSpoken": "You spoke to Mina Harker and showed her what you were.",
+    "papersTaken": "You took Mina Harker's typescript.",
+    "foughtAtCarfax": "You fought for Carfax and lost it.",
+    "gale": "You raised a gale on the Channel to cover your voyage.",
+    "galeFailed": "The gale you raised on the Channel failed you.",
+    "stayedToFight": "You decided to stay and finish the old man.",
+    "usedTheNight": "You let the pack hunt for you.",
+    "swalesSaw": "Old Mr Swales saw you at the girl's window.",
+    "swalesTalked": "You let old Mr Swales tell what he saw.",
+    "swalesDead": "Old Mr Swales was found on his seat with his neck broken.",
+    "leftWhitby": "You left Whitby the night the old man saw you.",
+    "gaffe": "You were noticed at the opera for the wrong reason.",
+    "ownHours": "You laughed off a bad moment at dinner as foreign custom.",
+    "forcedDinner": "You forced down a dinner in Belgrave Square.",
+    "leftEarly": "You left a dinner in Belgrave Square before the second course.",
+    "lucyWary": "Lucy Westenra wrote your name in her diary with a question mark.",
+    "movedFew": "You got only four boxes out of Carfax before dawn.",
+    "mistedOut": "You gave the hunters an empty crypt, and hid in the wall.",
+    "ratsAtCarfax": "You put out the watcher's lantern with rats.",
+    "staredDown": "You stared down the watcher in the crypt.",
+    "wolfLoose": "The wolf slipped his lead and ran across the Heath.",
+    "ratsAtDoor": "You sent rats and the wolf against Van Helsing's window while he wrote.",
+    "letHimWin": "You withdrew and let Van Helsing think he had won.",
+    "aroundHim": "You went round Van Helsing to the young men's windows.",
+    "policeSawCart": "A policeman wrote down a cart in a lane, and a gentleman.",
+    "constableSaw": "A constable at Jamaica Lane saw your cart and remembered it.",
+    "doctorFriend": "You made a friend of Lucy Westenra's doctor.",
+    "knewTheHours": "You learned the hours of Hillingham from a cabman and a milkman.",
+    "houseInTrust": "You put Carfax into a trust under Mr Billington's name.",
+    "noticeServed": "Mr Billington served notice on the hunters at Carfax.",
+    "dinedWithSeward": "You dined with Dr Seward as a foreign gentleman.",
+    "sentCard": "You sent Van Helsing a courteous card.",
+    "readHisPaper": "You read Van Helsing's own paper on the subject.",
+    "carfaxSealed": "The hunters sealed Carfax.",
+    "journalSettled": "You spent a night with Harker's journal.",
+    "readJournal": "You read Harker's journal through, in shorthand, while he slept.",
+    "copiedNames": "You copied the English names from Harker's journal.",
+    "leftJournal": "You left Harker's journal unread.",
+    "szganySettled": "You settled the carrying with the Szgany in the courtyard.",
+    "szganyPaid": "You paid the Szgany in gold.",
+    "szganyBound": "You frightened the Szgany into silence.",
+    "szganyTold": "You sat at the Szgany's fire and asked what the road says.",
+    "harbourWalked": "You went down to the harbour office at Whitby.",
+    "readHarbourBook": "You read the harbour clerk's book over his shoulder.",
+    "pageLost": "You had a page of the Whitby harbour book spoiled.",
+    "gaveName": "You gave your name at the Whitby harbour office."
+  }
+}

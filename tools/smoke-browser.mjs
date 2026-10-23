@@ -19,12 +19,12 @@
 // Accessibility (axe-core, Chromium, phone viewport, on the opening screen and after clicking through): serious and
 // critical violations are compared with tests/a11y-allowlist.json (rule -> most elements allowed, per game). A rule
 // that is not listed, or more elements than listed, fails. Known debt is therefore visible and cannot grow silently.
-// First run on a machine: npx playwright install chromium webkit
+// First run on a machine: npx playwright install chromium webkit   (Firefox is opt-in: npx playwright install firefox, then BROWSERS=chromium,webkit,firefox)
 import { createServer } from "node:http";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { chromium, webkit } from "playwright";
+import { chromium, firefox, webkit } from "playwright";
 import AxeBuilder from "@axe-core/playwright";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
@@ -32,6 +32,7 @@ const dirArg = process.argv.find((a) => a.startsWith("--dir="));
 const positional = process.argv.slice(2).find((a) => !a.startsWith("--"));
 const GAMES = dirArg ? [{ name: process.argv.find((a) => a.startsWith("--name="))?.slice(7) ?? "folder", dist: dirArg.slice(6) }] : [
   { name: "Frankenstein", dist: "Dispatches Frankenstein/dist" },
+  { name: "Dracula", dist: "Dispatches Dracula/dist" },
   { name: "1914", dist: "Dispatches 1914/dist" },
   { name: "1922", dist: "Dispatches 1922/dist" },
   { name: "1941", dist: "Dispatches 1941/dist/full" },
@@ -164,12 +165,12 @@ async function checkGame(browser, engine, game, vp) {
   return { problems, a11y };
 }
 
-const launchers = { chromium, webkit };
+const launchers = { chromium, webkit, firefox };
 const recorded = {};
 let failed = 0;
 for (const engine of ENGINES) {
   if (!launchers[engine]) {
-    console.error(`unknown browser "${engine}" (use chromium or webkit)`);
+    console.error(`unknown browser "${engine}" (use chromium, webkit or firefox)`);
     process.exit(2);
   }
   let browser;

@@ -1,0 +1,478 @@
+{
+  "id": "mina",
+  "title": "Dracula: The Harker Papers",
+  "schemaVersion": 1,
+  "resources": [
+    {
+      "id": "nerve",
+      "label": "Nerve",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_NERVE",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_NERVE"
+    },
+    {
+      "id": "blood",
+      "label": "Blood",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_BLOOD",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_BLOOD"
+    },
+    {
+      "id": "fellowship",
+      "label": "Fellowship",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "crisisAt": -7,
+      "crisisInterludeId": "CRISIS_FELLOWSHIP",
+      "failAt": -10,
+      "failureEndingId": "ENDING_CRISIS_FELLOWSHIP"
+    }
+  ],
+  "axes": [
+    {
+      "id": "creed",
+      "label": "Creed",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    },
+    {
+      "id": "mercy",
+      "label": "Mercy",
+      "min": -8,
+      "max": 8,
+      "bucketThreshold": 2
+    }
+  ],
+  "epilogue": {
+    "axes": [
+      "creed",
+      "mercy"
+    ],
+    "inferredRules": [
+      {
+        "when": {
+          "flag": "readJournal"
+        },
+        "delta": {
+          "creed": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "sawEmptyCoffin"
+        },
+        "delta": {
+          "creed": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "prayedAllNight"
+        },
+        "delta": {
+          "creed": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "tookRemedy"
+        },
+        "delta": {
+          "creed": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "sealedJournal"
+        },
+        "delta": {
+          "mercy": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "arthurPrepared"
+        },
+        "delta": {
+          "mercy": 1
+        }
+      },
+      {
+        "when": {
+          "flag": "secretTrances"
+        },
+        "delta": {
+          "mercy": -1
+        }
+      },
+      {
+        "when": {
+          "flag": "namedThem"
+        },
+        "delta": {
+          "mercy": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "fellowship",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "mercy": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "fellowship",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "mercy": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "nerve",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "creed": 1
+        }
+      },
+      {
+        "when": {
+          "resource": "nerve",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "creed": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "blood",
+          "op": "<=",
+          "value": -4
+        },
+        "delta": {
+          "mercy": -1
+        }
+      },
+      {
+        "when": {
+          "resource": "blood",
+          "op": ">=",
+          "value": 5
+        },
+        "delta": {
+          "mercy": 1
+        }
+      }
+    ]
+  },
+  "difficulties": {
+    "EASY": {
+      "showPreview": true,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": false,
+      "strainScale": 0.5,
+      "startBonus": {
+        "nerve": 2,
+        "blood": 2,
+        "fellowship": 2
+      }
+    },
+    "MEDIUM": {
+      "showPreview": false,
+      "enforceMoney": false,
+      "startingMoney": 0,
+      "adviceEnabled": true
+    },
+    "HARD": {
+      "showPreview": false,
+      "enforceMoney": true,
+      "startingMoney": 60,
+      "adviceEnabled": true,
+      "strainScale": 2,
+      "startBonus": {
+        "nerve": -2,
+        "blood": -2,
+        "fellowship": -2
+      }
+    }
+  },
+  "defaultDifficulty": "MEDIUM",
+  "startBranch": "UNIVERSAL",
+  "interludeTriggers": [
+    {
+      "interludeId": "LORE_DEMETER",
+      "onEnterNodes": [
+        "2",
+        "2-DARK"
+      ]
+    },
+    {
+      "interludeId": "LORE_WOLF",
+      "onEnterNodes": [
+        "6"
+      ]
+    },
+    {
+      "interludeId": "LORE_BLOOFER",
+      "onEnterNodes": [
+        "6-VIGIL"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_COUNCIL",
+      "onEnterNodes": [
+        "8A",
+        "8B",
+        "8C"
+      ]
+    },
+    {
+      "interludeId": "LORE_CZARINA",
+      "onEnterNodes": [
+        "13A",
+        "13B",
+        "13C"
+      ]
+    }
+  ],
+  "assist": {
+    "adviceLimit": 3,
+    "favors": {
+      "nerve": {
+        "nerve": 3,
+        "blood": -2
+      },
+      "blood": {
+        "blood": 3,
+        "nerve": -2
+      },
+      "fellowship": {
+        "fellowship": 3,
+        "nerve": -1,
+        "blood": -1
+      }
+    },
+    "favorFlag": "tookRemedy"
+  },
+  "skipToNodeId": "7",
+  "strain": {
+    "threshold": -4,
+    "perPoint": 0.025,
+    "max": 0.12
+  },
+  "trackers": [
+    {
+      "id": "host",
+      "label": "Host in the Professor's box",
+      "base": 12,
+      "min": 0,
+      "max": 14,
+      "showWhen": {
+        "any": [
+          {
+            "flag": "hostSpent"
+          },
+          {
+            "flag": "hostReserve"
+          }
+        ]
+      },
+      "rules": [
+        {
+          "when": {
+            "flag": "hostSpent"
+          },
+          "delta": -8
+        },
+        {
+          "when": {
+            "flag": "hostReserve"
+          },
+          "delta": -4
+        },
+        {
+          "when": {
+            "flag": "piccadillySealed"
+          },
+          "delta": -1
+        },
+        {
+          "when": {
+            "flag": "eastEndSealed"
+          },
+          "delta": -2
+        },
+        {
+          "when": {
+            "flag": "priestBlessed"
+          },
+          "delta": 3
+        },
+        {
+          "when": {
+            "flag": "shipSealed"
+          },
+          "delta": -2
+        },
+        {
+          "when": {
+            "flag": "hostCarried"
+          },
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "id": "tie",
+      "label": "The tie with the Count",
+      "base": 0,
+      "min": 0,
+      "max": 6,
+      "showWhen": {
+        "any": [
+          {
+            "flag": "tranceOpen"
+          },
+          {
+            "flag": "tranceGuarded"
+          },
+          {
+            "flag": "tieDeep"
+          },
+          {
+            "flag": "heardSea"
+          }
+        ]
+      },
+      "rules": [
+        {
+          "when": {
+            "flag": "tieDeep"
+          },
+          "delta": 2
+        },
+        {
+          "when": {
+            "flag": "secretTrances"
+          },
+          "delta": 1
+        },
+        {
+          "when": {
+            "flag": "heardHim"
+          },
+          "delta": 1
+        },
+        {
+          "when": {
+            "flag": "calledHim"
+          },
+          "delta": 1
+        },
+        {
+          "when": {
+            "flag": "answeredCall"
+          },
+          "delta": 1
+        },
+        {
+          "when": {
+            "flag": "tranceStopped"
+          },
+          "delta": -3
+        },
+        {
+          "when": {
+            "flag": "foreheadBurned"
+          },
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "id": "leads",
+      "label": "Leads in the record",
+      "base": 0,
+      "min": 0,
+      "max": 9,
+      "showWhen": {
+        "any": [
+          {
+            "flag": "typedRecord"
+          },
+          {
+            "flag": "telegramNet"
+          },
+          {
+            "flag": "detectiveHired"
+          }
+        ]
+      },
+      "rules": [
+        {
+          "when": {
+            "flag": "typedRecord"
+          },
+          "delta": 2
+        },
+        {
+          "when": {
+            "flag": "telegramNet"
+          },
+          "delta": 1
+        },
+        {
+          "when": {
+            "flag": "detectiveHired"
+          },
+          "delta": 1
+        },
+        {
+          "when": {
+            "flag": "carterTalked"
+          },
+          "delta": 1
+        },
+        {
+          "when": {
+            "flag": "sawCab"
+          },
+          "delta": 1
+        },
+        {
+          "when": {
+            "flag": "timetableKept"
+          },
+          "delta": 1
+        },
+        {
+          "when": {
+            "flag": "knowsRoute"
+          },
+          "delta": 2
+        }
+      ]
+    }
+  ]
+}

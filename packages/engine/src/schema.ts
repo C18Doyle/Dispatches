@@ -154,6 +154,8 @@ export interface Option {
   requiresHint?: string;
   /** The option is not shown, and cannot be chosen, unless this holds (for example { difficulty: "HARD" }). */
   showWhen?: Condition;
+  /** A label the game's UI may show on the option (for example "dawn"). The engine does not read it. */
+  tag?: string;
 }
 
 /** Lines added under a scene's description while their condition holds: the player's earlier choices carried forward. */
@@ -221,12 +223,18 @@ export interface DifficultyRules {
   startingMoney: number;
   /** Can the player spend advice charges to reveal a preview? (MEDIUM/HARD: true). */
   adviceEnabled: boolean;
+  /** Optional: multiplies the strain (the odds lost to a short reserve): 0.5 halves it, 1.5 makes it half as heavy again. Absent means 1. See `strainFor`. */
+  strainScale?: number;
+  /** Optional: added to each named reserve's starting value when a run begins (and after the returning-player skip), within the reserve's range. */
+  startBonus?: Record<string, number>;
 }
 
 /** One-shot interlude triggered by arriving at one of the listed nodes. Array order = priority; at most one fires per transition. */
 export interface InterludeTrigger {
   interludeId: InterludeId;
   onEnterNodes: NodeId[];
+  /** Optional: the interlude is only offered while this condition holds (a document that depends on what the player did). */
+  when?: Condition;
 }
 
 export interface AssistConfig {
@@ -247,6 +255,24 @@ export interface StrainConfig {
   threshold: number;
   perPoint: number;
   max: number;
+}
+
+/**
+ * A derived counter shown to the player: a number worked out from the state, never stored in it. The value is `base` plus the `delta` of every rule whose
+ * condition holds, kept within [min, max] (min defaults to 0). Shown only while `showWhen` holds (always, when absent).
+ */
+export interface TrackerRule {
+  when: Condition;
+  delta: number;
+}
+export interface TrackerDef {
+  id: string;
+  label: string;
+  base: number;
+  rules: TrackerRule[];
+  min?: number;
+  max?: number;
+  showWhen?: Condition;
 }
 
 /**
@@ -276,6 +302,8 @@ export interface GameConfig {
   interludeTriggers: InterludeTrigger[];
   assist?: AssistConfig;
   strain?: StrainConfig;
+  /** Derived counters the UI may show (see TrackerDef). */
+  trackers?: TrackerDef[];
   coupling?: CouplingRule[];
   /** Node to jump to for returning players. Resets resources/axes/flags to start values. */
   skipToNodeId?: NodeId;

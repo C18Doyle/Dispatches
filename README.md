@@ -5,6 +5,7 @@ One folder per game. Each is a standalone project (own package.json, src/, scrip
 | Folder | Status |
 |---|---|
 | Dispatches Frankenstein | Refactored: pure engine in `src/engine/`, content in JSON, `npm test` green, baseline-verified. See its CLAUDE.md. |
+| Dispatches Dracula | 2026-10, a test build on itch.io. Frankenstein's format on the shared engine: you are the Count (48 scenes) or Mina Harker (40 scenes), three tracks each, 30 endings, content in JSON, Easy and Hard modes, four looks, `npm test` green. See its CLAUDE.md. |
 | Dispatches Sherlock | New (2026-10): *The Final Problem*, 1891. Engine + JSON content (39 scenes, 13 endings), three routes, `npm test` green. See its CLAUDE.md. |
 | Dispatches 1914 | Builds; logic layer already pure (reference shape); 24-run headless UI baseline; validators/smoke/render green (Ottoman gate fails on purpose). See its CLAUDE.md. |
 | Dispatches 1922 | Builds. Pure run logic in `src/logic.ts`; 48-run headless UI baseline; shipped crash fixed; validators green. Content still code in App.jsx. See its CLAUDE.md. |

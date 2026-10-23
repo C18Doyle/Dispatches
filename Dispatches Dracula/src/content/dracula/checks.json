@@ -1,0 +1,7 @@
+{
+  "loreInterlude": "LORE_LETTER",
+  "entryInterlude": "LORE_ALMANACK",
+  "decisionNodes": ["11", "11-PLAN"],
+  "engineFlags": ["usedTheNight"],
+  "demoLocks": ["12A", "12B", "12C"]
+}

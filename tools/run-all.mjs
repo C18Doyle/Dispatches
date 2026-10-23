@@ -14,7 +14,7 @@ const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const args = process.argv.slice(2);
 const mode = args.find((a) => a.startsWith("--")) ?? "--fast";
 const filter = args.find((a) => !a.startsWith("--"));
-const GAMES = ["Dispatches Frankenstein", "Dispatches 1914", "Dispatches 1922", "Dispatches 1941", "Dispatches 1940", "Dispatches Sherlock"].filter((g) => !filter || g.includes(filter));
+const GAMES = ["Dispatches Frankenstein", "Dispatches Dracula", "Dispatches 1914", "Dispatches 1922", "Dispatches 1941", "Dispatches 1940", "Dispatches Sherlock"].filter((g) => !filter || g.includes(filter));
 
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 const rows = [];
