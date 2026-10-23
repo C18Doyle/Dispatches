@@ -36,6 +36,7 @@ const GAMES = dirArg ? [{ name: process.argv.find((a) => a.startsWith("--name=")
   { name: "1922", dist: "Dispatches 1922/dist" },
   { name: "1941", dist: "Dispatches 1941/dist/full" },
   { name: "1940", dist: "Dispatches 1940/dist/full" },
+  { name: "Sherlock", dist: "Dispatches Sherlock/dist" },
 ].filter((g) => dirArg || !positional || g.name.includes(positional));
 const VIEWPORTS = [
   { label: "phone", width: 375, height: 812 },
