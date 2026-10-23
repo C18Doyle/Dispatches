@@ -740,6 +740,32 @@
           "text": "so took three copies of the diary"
         }
       ]
+    },
+    {
+      "id": "harker-journal-shorthand",
+      "claim": "Harker keeps his journal in shorthand.",
+      "where": "Count 2-JOURNAL",
+      "passages": [
+        {
+          "chapter": 1,
+          "text": "jonathan harker's journal (kept in shorthand.)"
+        }
+      ]
+    },
+    {
+      "id": "szgany-in-the-courtyard",
+      "claim": "A band of Szgany camps in the castle courtyard, and the Szgany carry the Count's boxes from the castle.",
+      "where": "Count 6-SZGANY",
+      "passages": [
+        {
+          "chapter": 4,
+          "text": "a band of szgany have come to the castle, and are encamped in the courtyard"
+        },
+        {
+          "chapter": 26,
+          "text": "he was brought from the castle by szgany"
+        }
+      ]
     }
   ],
   "absences": [

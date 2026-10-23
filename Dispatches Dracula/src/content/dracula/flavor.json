@@ -16,6 +16,10 @@
       "body": "You are Count Dracula. Three reserves run from -10 to +10: Strength (what you have in you to act with), Secrecy (how little the world knows of you) and Dominion (how firmly the people and creatures you have marked still answer to you). Every choice moves them. A reserve that falls to -7 brings a warning. At -10 the passage ends in a collapse, and there are three of those."
     },
     {
+      "heading": "Side Scenes",
+      "body": "In Act I, three scenes have an extra door you can take or leave: Harker's journal, the Szgany in the courtyard, and the harbour office at Whitby. Each is an hour you spend, and what you learn in it comes back later."
+    },
+    {
       "heading": "Locked Options",
       "body": "Some choices are shown but locked. A lock names what it asks for in plain terms: a reserve that must be high enough, something you did earlier, or something you learned from Mr Harker. Some are hidden on the easier difficulties and on the harder ones, and say so."
     },
@@ -25,7 +29,7 @@
     },
     {
       "heading": "Difficulty",
-      "body": "The Householder is told the sums before he answers. The Nobleman finds out afterwards. The Exile has sixty pieces of gold from the castle chest and no more where they came from, and a few options cost gold, or are only offered to a man who can pay. You choose when you begin a run."
+      "body": "The Householder is told the sums before he answers, begins with two points in every reserve, and feels a short reserve half as much. The Nobleman finds out afterwards. The Exile has sixty pieces of gold from the castle chest and no more where they came from, begins two points down in every reserve, and feels a short reserve twice as much; a few options cost gold, or are only offered to a man who can pay. You choose when you begin a run."
     },
     {
       "heading": "Ventures",
@@ -58,6 +62,10 @@
     {
       "heading": "Endings",
       "body": "There are fifteen. Each of the three tracks has four, and three are collapses. How you are remembered afterwards depends on two things the game never shows you: whether you ruled by courtesy or by terror, and whether you were cold or lonely. The ending screen then shows your route, a plain account of what became of the people you met (What It Cost), and how far you went with the book's Count (The Book's Road)."
+    },
+    {
+      "heading": "Documents",
+      "body": "Letters, clippings, notebook pages and typescripts turn up as you play, depending on what you did. Press Hear it on any of them and the device reads it aloud (where the browser has a voice for it)."
     },
     {
       "heading": "The Record",
@@ -302,7 +310,7 @@
     "title": "End of Act I",
     "body": [
       "You have been through the whole of the first act: the castle, the three letters, the sisters, the boxes, the voyage, Whitby, and the choice of how to take London.",
-      "The door ahead is locked in the demo. The full game goes on through the second act on the track you chose, to the last choice on each of the three tracks, fifteen endings in all, and the Ledger that keeps the ones you have found and says where to look for the rest."
+      "The door ahead is locked in the demo. The full game goes on through the second act on the track you chose, to the last choice on each of the three tracks, fifteen endings in all, and the Ledger that keeps the ones you have found and says where to look for the rest. Mina Harker's own story, with fifteen endings of its own, is in the full game too: it is on the game's page, to play in the browser or to download."
     ],
     "restart": "Begin Again"
   },
@@ -441,6 +449,18 @@
     "dinedWithSeward": "You dined with Dr Seward as a foreign gentleman.",
     "sentCard": "You sent Van Helsing a courteous card.",
     "readHisPaper": "You read Van Helsing's own paper on the subject.",
-    "carfaxSealed": "The hunters sealed Carfax."
+    "carfaxSealed": "The hunters sealed Carfax.",
+    "journalSettled": "You spent a night with Harker's journal.",
+    "readJournal": "You read Harker's journal through, in shorthand, while he slept.",
+    "copiedNames": "You copied the English names from Harker's journal.",
+    "leftJournal": "You left Harker's journal unread.",
+    "szganySettled": "You settled the carrying with the Szgany in the courtyard.",
+    "szganyPaid": "You paid the Szgany in gold.",
+    "szganyBound": "You frightened the Szgany into silence.",
+    "szganyTold": "You sat at the Szgany's fire and asked what the road says.",
+    "harbourWalked": "You went down to the harbour office at Whitby.",
+    "readHarbourBook": "You read the harbour clerk's book over his shoulder.",
+    "pageLost": "You had a page of the Whitby harbour book spoiled.",
+    "gaveName": "You gave your name at the Whitby harbour office."
   }
 }

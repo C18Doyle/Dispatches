@@ -160,6 +160,22 @@
           "setFlags": [
             "knowsDoctors"
           ]
+        },
+        {
+          "label": "Take his journal from the table while he sleeps, and read it.",
+          "detail": "He keeps it in shorthand, and he puts down everything he sees. It would tell you what he has seen.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Jonathan Harker",
+            "text": "I keep a journal, Count, in shorthand. It is a habit of the office."
+          },
+          "outcome": "You go up to the east room while he sleeps.",
+          "nextNodeId": "2-JOURNAL",
+          "showWhen": {
+            "not": {
+              "flag": "journalSettled"
+            }
+          }
         }
       ]
     },
@@ -487,6 +503,22 @@
           "setFlags": [
             "fewBoxes"
           ]
+        },
+        {
+          "label": "First go down to the courtyard and settle the carrying with the Szgany yourself.",
+          "detail": "An hour at their fires before you choose. The headman is waiting.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Szgany headman",
+            "text": "The wagons are loaded in the dark, master, and the dark is not free."
+          },
+          "outcome": "You take a lantern and go down into the courtyard.",
+          "nextNodeId": "6-SZGANY",
+          "showWhen": {
+            "not": {
+              "flag": "szganySettled"
+            }
+          }
         }
       ]
     },
@@ -599,6 +631,12 @@
             "flag": "sistersForbidden"
           },
           "text": "The sisters are sulking in the east wing. They have not forgotten."
+        },
+        {
+          "when": {
+            "flag": "leftJournal"
+          },
+          "text": "He trusts you a little, because you left his journal alone."
         }
       ]
     },
@@ -699,6 +737,24 @@
             "flag": "fullHold"
           },
           "text": "Fifty boxes lie in the hold over your head."
+        },
+        {
+          "when": {
+            "flag": "szganyPaid"
+          },
+          "text": "Behind you on the road the Szgany you paid are spending it."
+        },
+        {
+          "when": {
+            "flag": "szganyBound"
+          },
+          "text": "The Szgany you frightened will not talk, and they will not forget."
+        },
+        {
+          "when": {
+            "flag": "szganyTold"
+          },
+          "text": "The headman told you which customs house dines at noon."
         }
       ]
     },
@@ -899,6 +955,22 @@
           "axisDelta": {
             "longing": 1
           }
+        },
+        {
+          "label": "Go down into the town first: the harbour office is still lit.",
+          "detail": "An hour among the lamps of Whitby. The old man on the bench will not wait for you.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Whitby clerk",
+            "text": "We are very busy tonight, sir. A ship has come in without a crew."
+          },
+          "outcome": "You leave the Abbey wall and walk down into the town.",
+          "nextNodeId": "10-HARBOUR",
+          "showWhen": {
+            "not": {
+              "flag": "harbourWalked"
+            }
+          }
         }
       ],
       "echoes": [
@@ -925,6 +997,12 @@
             "flag": "dogsCalled"
           },
           "text": "Every dog in Whitby went down to the beach last night. People are talking about it."
+        },
+        {
+          "when": {
+            "flag": "readJournal"
+          },
+          "text": "You know the dark one's name and her hand from his journal: Mina Murray, who writes in shorthand."
         }
       ]
     },
@@ -1059,6 +1137,30 @@
             "flag": "swalesSaw"
           },
           "text": "An old man on the Abbey wall saw you take a girl's hand."
+        },
+        {
+          "when": {
+            "flag": "copiedNames"
+          },
+          "text": "You carry three names copied from his journal: his employer, the Whitby people and a house agent."
+        },
+        {
+          "when": {
+            "flag": "readHarbourBook"
+          },
+          "text": "You know what the Whitby harbour book says, and it says very little."
+        },
+        {
+          "when": {
+            "flag": "pageLost"
+          },
+          "text": "A page of the Whitby harbour book is blotted past reading, and the clerk has a long memory."
+        },
+        {
+          "when": {
+            "flag": "gaveName"
+          },
+          "text": "Your name is in the visitors' column at Whitby, in a good hand."
         }
       ]
     },
@@ -2059,6 +2161,12 @@
             "flag": "staredDown"
           },
           "text": "You stared down a young man with a cross, and it cost you."
+        },
+        {
+          "when": {
+            "flag": "readJournal"
+          },
+          "text": "You read his journal in the castle. She is the woman in its last pages."
         }
       ]
     },
@@ -2279,6 +2387,12 @@
             "flag": "constableSaw"
           },
           "text": "A constable at Jamaica Lane remembers a gentleman who answered for his carter."
+        },
+        {
+          "when": {
+            "flag": "szganyPaid"
+          },
+          "text": "The Szgany at the courtyard fires have your gold, and they will meet you at the pass."
         }
       ]
     },
@@ -4310,6 +4424,190 @@
           "nextNodeId": "16C",
           "setFlags": [
             "aroundHim"
+          ]
+        }
+      ]
+    },
+    "2-JOURNAL": {
+      "id": "2-JOURNAL",
+      "branch": "UNIVERSAL",
+      "title": "His Journal, by Lamplight",
+      "description": "Harker sleeps in the east room with his journal on the table beside the candle. It is in shorthand, which you read as easily as English, and it is the first account of your house that an Englishman has written. He has put down the road, the wolves, the old woman at Bistritz and her crucifix, your supper and your hands. The last pages are not about you. They are letters begun and not finished, to a young woman called Mina.",
+      "options": [
+        {
+          "label": "Read all of it, and learn what an Englishman notices.",
+          "detail": "You learn which of your habits he has seen, and what he makes of them. It takes the night.",
+          "stamps": {
+            "secrecy": 1,
+            "strength": -1
+          },
+          "quote": {
+            "speaker": "Jonathan Harker",
+            "text": "I put everything down, Count, the way a clerk does. It is a habit of the office."
+          },
+          "outcome": "He has noticed the supper you never eat, the mirror you never use and the hours you keep. He has explained none of them to himself, and he has written all three down. You put the book back by dawn, with the ribbon at the same angle.",
+          "nextNodeId": "2",
+          "setFlags": [
+            "journalSettled",
+            "readJournal"
+          ]
+        },
+        {
+          "label": "Read only the pages about London, and copy the names.",
+          "detail": "A solicitor, a house agent and a firm at Whitby. You will not need the rest.",
+          "stamps": {
+            "dominion": 1
+          },
+          "quote": {
+            "speaker": "Jonathan Harker",
+            "text": "Mr Hawkins has dealt with the Whitby people for years, sir. They are very sound."
+          },
+          "outcome": "Three names and a street in Exeter. You have the shape of the English end of your business before the candle is out.",
+          "nextNodeId": "2",
+          "setFlags": [
+            "journalSettled",
+            "copiedNames"
+          ]
+        },
+        {
+          "label": "Put it back unopened. A guest's papers are a guest's.",
+          "detail": "He will trust a host who does not read his things.",
+          "stamps": {
+            "dominion": 1,
+            "secrecy": -1
+          },
+          "quote": {
+            "speaker": "Jonathan Harker",
+            "text": "You are very good to me, Count. I hardly know what to say."
+          },
+          "outcome": "You set the book exactly where it lay and go down. In the morning he thanks you for nothing in particular, and he trusts you a little more.",
+          "nextNodeId": "2",
+          "setFlags": [
+            "journalSettled",
+            "leftJournal"
+          ]
+        }
+      ]
+    },
+    "6-SZGANY": {
+      "id": "6-SZGANY",
+      "branch": "UNIVERSAL",
+      "title": "The Wagons in the Courtyard",
+      "description": "In the courtyard the Szgany have pitched their wagons and lit their fires. They have carried for your house longer than the village has had a church, and they have never been told why. The headman, a broad man with a gold ring in one ear, gets up from his fire when you come down the steps, which he has never done before. He wants to know what is to be paid, and what is to be said if the road asks questions.",
+      "options": [
+        {
+          "label": "Pay them well, in gold, and ask for no promises.",
+          "detail": "Gold keeps a driver steady. You will have less of it, and they will remember who paid.",
+          "stamps": {
+            "secrecy": 1
+          },
+          "quote": {
+            "speaker": "Szgany headman",
+            "text": "Gold is a good master, lord. It never howls."
+          },
+          "outcome": "The headman weighs the purse in his hand and does not count it. The wagons will go down the pass by night, and whatever the road asks, the answer is already bought.",
+          "nextNodeId": "6",
+          "setFlags": [
+            "szganySettled",
+            "szganyPaid"
+          ],
+          "moneyCost": 8
+        },
+        {
+          "label": "Tell them what happens on this road to men who talk.",
+          "detail": "Fear is cheaper than gold, and it keeps better. It also wears on the one who uses it.",
+          "stamps": {
+            "dominion": 1,
+            "strength": -1
+          },
+          "quote": {
+            "speaker": "Szgany headman",
+            "text": "We have never talked, lord. We have always known why not."
+          },
+          "outcome": "You say it quietly, with the wolves coming down the hill behind you while you speak. The headman nods slowly. The camp does not sleep that night.",
+          "nextNodeId": "6",
+          "setFlags": [
+            "szganySettled",
+            "szganyBound"
+          ]
+        },
+        {
+          "label": "Sit at his fire and ask what the road says about the castle.",
+          "detail": "It costs nothing. They carry for many houses, and they hear what the villages whisper.",
+          "stamps": {
+            "secrecy": 1
+          },
+          "quote": {
+            "speaker": "Szgany headman",
+            "text": "A man who asks is a man who is told, lord. Sit."
+          },
+          "outcome": "He tells you which village talks, which priest counts the carts, and which customs house takes its dinner at noon. You learn more from an hour at his fire than from a month of books.",
+          "nextNodeId": "6",
+          "setFlags": [
+            "szganySettled",
+            "szganyTold"
+          ]
+        }
+      ]
+    },
+    "10-HARBOUR": {
+      "id": "10-HARBOUR",
+      "branch": "UNIVERSAL",
+      "title": "The Harbour Office",
+      "description": "Below the cliff the harbour office is still lit. A clerk is copying the day's entries into a book by one lamp: the schooner out of Varna, the dead master at the wheel, the consignment to Billington and Son. The coastguard has come and gone. The clerk is alone, he is tired, and he has a pen.",
+      "options": [
+        {
+          "label": "Stand behind the clerk and read the book as he writes it.",
+          "detail": "You will know exactly what Whitby will say tomorrow, and how much of it is true.",
+          "stamps": {
+            "secrecy": 1
+          },
+          "quote": {
+            "speaker": "Whitby clerk",
+            "text": "We are closed to callers, sir, but the lamp is still lit."
+          },
+          "outcome": "He writes the consignee, the number of boxes and the name of the carrier, and he does not look up. You know what the town will read in the morning, and which of it is true.",
+          "nextNodeId": "10",
+          "setFlags": [
+            "harbourWalked",
+            "readHarbourBook"
+          ]
+        },
+        {
+          "label": "Have a page of the book come to grief: a word, and a little gold.",
+          "detail": "A missing line cannot be read to a coroner. It costs gold, and it leaves a clerk who remembers.",
+          "stamps": {
+            "secrecy": 2,
+            "dominion": -1
+          },
+          "quote": {
+            "speaker": "Whitby clerk",
+            "text": "I shall never forgive myself, sir. The ink was upset."
+          },
+          "outcome": "The clerk's pen stops. The lamp needs trimming, and when he looks again the page is blotted past reading. He does not look at you. He will remember very exactly that he was not looked at.",
+          "nextNodeId": "10",
+          "setFlags": [
+            "harbourWalked",
+            "pageLost"
+          ],
+          "moneyCost": 6
+        },
+        {
+          "label": "Give your name as a gentleman who is expecting a cargo.",
+          "detail": "A caller who gives his name is believed. It is also a name in a book.",
+          "stamps": {
+            "dominion": 1,
+            "secrecy": -1
+          },
+          "quote": {
+            "speaker": "Whitby clerk",
+            "text": "Of course, sir. Billington and Son will be glad to know that you called."
+          },
+          "outcome": "He writes your name in the visitors' column with a flourish and shows you out. Billington and Son will learn by breakfast that their new client is a courteous man.",
+          "nextNodeId": "10",
+          "setFlags": [
+            "harbourWalked",
+            "gaveName"
           ]
         }
       ]

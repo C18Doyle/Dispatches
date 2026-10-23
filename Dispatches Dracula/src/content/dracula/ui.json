@@ -444,7 +444,10 @@
       "18A": "eastend",
       "19A": "eastend",
       "18C": "sea",
-      "19C": "sea"
+      "19C": "sea",
+      "2-JOURNAL": "castle",
+      "6-SZGANY": "castle",
+      "10-HARBOUR": "whitby"
     },
     "defaultAt": "london",
     "states": [

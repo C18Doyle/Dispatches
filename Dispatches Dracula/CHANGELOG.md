@@ -7,6 +7,18 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased
 
+## 0.3.0 (2026-10-19)
+### Added
+- **Real Easy and Hard modes.** The three difficulties used to differ only in whether you could see the sums and whether gold mattered. Now they change the game itself (engine 0.6.0: `strainScale` and `startBonus`). The Householder (Easy) begins with two points in every reserve and feels a short reserve half as much. The Exile (Hard) begins two points down and feels a short reserve twice as much, with gold on top. A random player collapses in about 6% of Easy runs, 15% of Medium and 26% of Hard; `npm run check:balance` now reports that and fails if Easy is not easier than Medium, or Medium than Hard. Mina's seat has the same.
+- **Branches in Act I.** Three scenes now have an extra door that leads to a side scene and back: Harker's journal by lamplight (before the first lesson ends), the Szgany in the courtyard (before the boxes are chosen) and the harbour office at Whitby (before Carfax). Each has three ways to spend the hour, twelve new flags, and echoes in later scenes (Mina's name on the Abbey bench, the headman at the pass, a blotted page in the Whitby book). 48 scenes in all.
+- **A plate for each Act II track** (the Quiet Colony, the Court, the Storm; for Mina, the Sacred Rite, the Modern Hunt and the Tie) with a drawing, the act title and an epigraph on the track's first scene, and a page glow that takes the track's colour while you play it.
+- **Mina's counters:** Host in the Professor's box, the tie with the Count and leads in the record, each worked out from what you have done.
+- **Hear it** on every document: the device reads it aloud with its own voice (shown only where the browser has speech).
+- **Three ways to get the game** (`npm run build`): the web copy, a downloadable copy (a folder with the page, a manifest, a service worker, icons and a README, so it works offline and can be installed from an https host) and the demo. The demo is the Count's Act I only, and is about 20% smaller because Mina's story is no longer in the file.
+### Changed
+- The demo's end screen and the how-to page describe the side scenes, the modes and the documents.
+- itch.json: the demo and the download are pushed to the game's page; the full web copy waits for its own page (it still reads REPLACE_ME).
+
 ## 0.2.0 (2026-10-18)
 ### Added
 - **Four looks**, chosen in Settings and kept per browser: Blood and Bone (the Count's default), Candlelit Study, Carpathian Night and Harker's Journal (cream paper and black ink, the light one, Mina's default). A theme is data in `src/themes.json`; the accessibility check tests every theme's contrast pairs.

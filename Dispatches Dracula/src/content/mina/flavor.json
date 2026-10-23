@@ -25,7 +25,7 @@
     },
     {
       "heading": "Difficulty",
-      "body": "The Schoolmistress is shown the sums before she answers. The Stenographer writes it down and finds out afterwards. The Purse-Keeper has sixty pounds of the party's money, and a few options cost money, or are only offered to someone who can pay. You choose when you begin a run."
+      "body": "The Schoolmistress is shown the sums before she answers, begins with two points in every reserve, and feels a short reserve half as much. The Stenographer writes it down and finds out afterwards. The Purse-Keeper has sixty pounds of the party's money, begins two points down in every reserve, and feels a short reserve twice as much; a few options cost money, or are only offered to someone who can pay. You choose when you begin a run."
     },
     {
       "heading": "Ventures",
@@ -42,6 +42,10 @@
     {
       "heading": "Endings",
       "body": "There are fifteen. Each of the three tracks has four, and three are collapses. How the story is remembered afterwards depends on two things the game never shows you: how you leaned between faith and reason, and between mercy and resolve."
+    },
+    {
+      "heading": "Documents",
+      "body": "Letters, clippings, notebook pages and typescripts turn up as you play, depending on what you did. Press Hear it on any of them and the device reads it aloud (where the browser has a voice for it)."
     },
     {
       "heading": "The Record",

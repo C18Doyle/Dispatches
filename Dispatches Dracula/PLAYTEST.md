@@ -19,6 +19,7 @@ The player is the Count. That is a deliberate and uncomfortable choice, made by 
 6. Press Copy Summary and paste it into a comment on the game's page, with whatever you want to say.
 
 ## What to look for
+- **The three modes:** whether Easy feels like a story and Hard like a hunt, or whether the numbers are invisible. Whether the side scenes in Act I (Harker's journal, the Szgany, the harbour office) feel worth the hour.
 - **On the new look:** which of the four themes people choose, and whether the dark red edge when a reserve runs low reads as tension or as a fault. Whether the sound effects help or annoy.
 - **A phone check nobody has done:** play on a real Android phone and a real iPhone (Safari and Chrome), including the Save Card button and the share sheet.
 - A venture whose odds felt wrong (they are shown before you commit, and strain says so when a shortage makes them worse).

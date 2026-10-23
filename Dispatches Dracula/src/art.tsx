@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { ReactNode } from "react";
 
 /**
@@ -725,7 +726,8 @@ function PlaceArt({ id, place }: { id: string; place: string }) {
 
 /** A frontispiece for a scene: the place, at night, in silhouette. `place` is an id from the seat's ui.map; anything else gets a plain moonlit ridge. */
 export function SceneBanner({ place, tint, className = "" }: { place: string; tint?: "dread" | "dawn"; className?: string }) {
-  const id = "banner";
+  // two banners can be on one page (a track plate above a scene), so each needs ids of its own for its gradients
+  const id = "banner" + useId().replace(/[^a-zA-Z0-9]/g, "");
   return (
     <svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMid slice" className={`art-banner ${className}`} aria-hidden="true" focusable="false">
       <Defs id={id} />
