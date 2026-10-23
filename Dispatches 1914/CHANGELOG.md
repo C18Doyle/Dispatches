@@ -5,7 +5,7 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
-## Unreleased (2026-10, the battle and the conditions)
+## 1.4.2 (2026-10-23)
 ### Added: the sketch of the ground and the day in bulletins, and the conditions of a report
 - **The sketch of the ground.** An Order of Battle is planned on a sketch: one numbered sector for each of the four arms, the enemy above and our own side below, and the line between them. A counter is placed by pressing a sector and taken back by pressing the counter; the buttons under each arm still do the same for a keyboard or a screen reader.
 - **The second day in bulletins.** The day is read as a morning, a noon and an evening bulletin for each arm, each marked gaining, holding or breaking, with the sketch redrawn for each hour so that the line moves forward, stays or falls back sector by sector. The morning opens the second day, before the order is given; the noon and the evening come with the after-action report, read off the order given and how the battle ended, so that they never disagree with the result. `battleStages` in src/61-battle.jsx does the reading, and `smoke.js` proves every battle gives every arm a status at every hour.
