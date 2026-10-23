@@ -3,7 +3,7 @@
 // =============================================================================
 //
 // The pieces that make an order feel like an order: the ledger of meters with the three readings under each, the odds dial on a contested
-// order, the button that has to be held to sign it, the sealed cable that comes back, and the list of what the order did.
+// order, the button that has to be held to sign it, and the list of what the order did.
 // Nothing here changes a rule: the readings and the odds are read from the engine (51-meters.jsx, 55-choose.jsx).
 
 const fmtMeter = (v) => (v > 0 ? `+${v}` : v < 0 ? `−${-v}` : "0");
@@ -25,7 +25,7 @@ function MeterLedger({ meters, labels, flags, from }) {
             <button className="dg-meter-btn" aria-expanded={open === a} aria-controls={"dg-rd-" + a} onClick={() => setOpen(open === a ? null : a)}>
               <b>{meters[a] > 0 ? `+${meters[a]}` : meters[a]}</b>
               <span className="dg-gauge" aria-hidden="true"><i style={{ left: `${(shown[a] + 10) * 5}%` }} /></span>
-              {labels[a].toUpperCase()} <span className="dg-more" aria-hidden="true">{open === a ? "▴" : "▾"}</span>
+              {labels[a].toUpperCase()} <span className={"dg-more" + (open === a ? " open" : "")} aria-hidden="true" />
             </button>
           </div>
         ))}
@@ -120,17 +120,6 @@ function OrderButton({ ch, hold, onSign, onView, children }) {
       {hold && !ch.blocked && <span className="dg-holdhint">Hold to sign</span>}
       {hold && <span className="dg-holdbar" aria-hidden="true" style={{ animationDuration: holdMs + "ms" }} />}
     </button>
-  );
-}
-
-/** The cable that carries the result of a contested order: sealed until the player breaks the seal. */
-function SealedCable({ onOpen }) {
-  return (
-    <section className="dg-cable" aria-label="A sealed cable">
-      <div className="dg-envelope" aria-hidden="true"><i /></div>
-      <p className="dg-prose">A cable has come in from the front, and it is sealed. What it says settles the order.</p>
-      <button className="dg-btn" onClick={onOpen}>Break the seal</button>
-    </section>
   );
 }
 

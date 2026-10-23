@@ -63,8 +63,6 @@ async function click(page, name, opts = {}) {
 async function playTo(page, title) {
   for (let i = 0; i < 60; i++) {
     if ((await page.locator("h1").first().innerText()).includes(title)) return true;
-    const seal = page.getByRole("button", { name: /^Break the seal$/ });
-    if (await seal.count()) { await seal.click(); await page.waitForTimeout(120); continue; }
     const cont = page.getByRole("button", { name: /^Continue$/ });
     if (await cont.count()) { await cont.click(); await page.waitForTimeout(120); continue; }
     const order = page.locator("button.dg-choice:not([disabled]):not(.dg-opt):not(.dg-issue)").first();
@@ -92,16 +90,16 @@ for (const engine of ENGINES) {
       await scan(page, at("menu"), { viewport: vp.label });
       await click(page, /^Settings/);
       await scan(page, at("settings"), { viewport: vp.label });
-      await click(page, /^Back$/);
       await click(page, /^How to play/);
       await scan(page, at("how to play"), { viewport: vp.label });
       await click(page, /^Back$/);
-      await click(page, /Grand Quartier/);
+      await click(page, /^Back$/);
+      await click(page, /France/);
       await scan(page, at("briefing"), { viewport: vp.label });
       if (vp.label === "desktop") { await ctx.close(); continue; }
 
       // a report in each command
-      for (const [card, label] of [[/Oberste/, "ohl"], [/Grand Quartier/, "gqg"], [/Stavka/, "stavka"], [/British Expeditionary/, "bef"], [/Armeeoberkommando/, "aok"], [/Ottoman General Staff/, "otto"]]) {
+      for (const [card, label] of [[/Germany/, "ohl"], [/France/, "gqg"], [/Russia/, "stavka"], [/Britain/, "bef"], [/Austria-Hungary/, "aok"], [/Ottoman Empire/, "otto"]]) {
         await page.goto(URL_);
         await page.waitForSelector("main");
         const discard = page.getByRole("button", { name: /^Discard$/ });
@@ -117,7 +115,7 @@ for (const engine of ENGINES) {
       await page.waitForSelector("main");
       const d2 = page.getByRole("button", { name: /^Discard$/ });
       if (await d2.count()) await d2.click();
-      await click(page, /Grand Quartier/);
+      await click(page, /France/);
       await click(page, /^Enter the war room$/);
       const reached = await playTo(page, "The Flank in the Open");
       if (!reached) fail(at("walk"), "could not reach the Marne report");
@@ -152,11 +150,9 @@ for (const engine of ENGINES) {
         await click(page, /^Issue the plan/);
         await scan(page, at("battle second day"), { viewport: vp.label });
         await click(page, /^Carry on to the second day/);
-        await scan(page, at("sealed cable"), { viewport: vp.label });
-        await click(page, /^Break the seal$/);
         checks++;
         const focused = await page.evaluate(() => (document.activeElement ? document.activeElement.tagName + ":" + (document.activeElement.textContent || "").slice(0, 40) : ""));
-        if (/^BODY/.test(focused) || /Break the seal/.test(focused)) fail(at("outcome"), `the focus is lost when the seal is broken (${focused})`);
+        if (/^BODY/.test(focused)) fail(at("outcome"), `the focus is lost when the result comes (${focused})`);
         await scan(page, at("outcome"), { viewport: vp.label });
       }
 

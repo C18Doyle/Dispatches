@@ -275,6 +275,18 @@ export interface TrackerDef {
   showWhen?: Condition;
 }
 
+/**
+ * Coupling: a shortage in one gauge makes the effect of a choice on another gauge worse (a tired mind reads less, a discredited man is not heard).
+ * While `when.resource` is at or below `when.atOrBelow`, any stamps being applied that move `on.resource` in `on.direction` also add `add`.
+ * Keep `add` at zero or below, so that a higher gauge is never worse (a game's validator may rely on it). `label` is shown to the player while the rule is active.
+ */
+export interface CouplingRule {
+  when: { resource: ResourceId; atOrBelow: number };
+  on: { resource: ResourceId; direction: "gain" | "loss" };
+  add: PartialStamps;
+  label: string;
+}
+
 /** config.json */
 export interface GameConfig {
   id: string; // e.g. "frankenstein"
@@ -292,6 +304,7 @@ export interface GameConfig {
   strain?: StrainConfig;
   /** Derived counters the UI may show (see TrackerDef). */
   trackers?: TrackerDef[];
+  coupling?: CouplingRule[];
   /** Node to jump to for returning players. Resets resources/axes/flags to start values. */
   skipToNodeId?: NodeId;
 }

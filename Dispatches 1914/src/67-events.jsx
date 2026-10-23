@@ -20,7 +20,7 @@ export const EVENTS = [
     when: (f, m) => m.will <= -2,
     paras: [
       "The potato harvest of 1916 failed, and the cities are fed on swedes. Bread, meat, fat and coal are rationed, and the ration is smaller each month. The staff's own reports from the home districts count the hungry by the street.",
-      "The army is fed before the cities are, and every man who writes home knows it. The winter will be remembered as the worst of the war for the people behind the lines.",
+      "The army is fed before the cities are, and every man who writes home knows it. It is the hardest winter yet for the people behind the lines.",
     ],
   },
   {
@@ -156,6 +156,7 @@ export function dueEvent(campaignId, nodeId, flags, meters) {
   if (gone) return gone;
   for (const e of EVENTS) {
     if (e.campaign !== campaignId || (flags && flags["ev_" + e.id])) continue;
+    if (e.paper && flags && flags.press_censored) continue; // a censored press prints no front pages
     if (node.date < e.from || node.date > e.to) continue;
     if (e.when(flags || {}, meters)) return e;
   }

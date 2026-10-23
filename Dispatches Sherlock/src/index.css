@@ -1,0 +1,357 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Houndstooth: the Inverness cape and the deerstalker. A tweed ground, cream paper cards, stitched leather edges and brass buttons. It is
+   deliberately dark-grounded and single-theme; the cards are the light. The palette and fonts are in tailwind.config.js, the fonts are bundled
+   (scripts/fonts.mjs), and the card kinds (telegram, note, calling card, journal, guidebook) are at the foot of this file, outside any layer, so that
+   they win over the utilities they replace. */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    background-color: #2b2118;
+    background-image:
+      radial-gradient(ellipse 70% 40% at 50% 0%, rgba(224, 179, 96, 0.14), transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%232a2016'/%3E%3Cpath d='M0 0h4v4h-4zM4 0h4v4h-4zM8 0h4v4h-4zM12 0h4v4h-4zM24 0h4v4h-4zM28 0h4v4h-4zM0 4h4v4h-4zM4 4h4v4h-4zM8 4h4v4h-4zM12 4h4v4h-4zM20 4h4v4h-4zM24 4h4v4h-4zM0 8h4v4h-4zM4 8h4v4h-4zM8 8h4v4h-4zM12 8h4v4h-4zM16 8h4v4h-4zM20 8h4v4h-4zM0 12h4v4h-4zM4 12h4v4h-4zM8 12h4v4h-4zM12 12h4v4h-4zM16 12h4v4h-4zM28 12h4v4h-4zM0 16h4v4h-4zM4 16h4v4h-4zM0 20h4v4h-4zM12 20h4v4h-4zM8 24h4v4h-4zM12 24h4v4h-4zM4 28h4v4h-4zM8 28h4v4h-4z' fill='%233a2c1d'/%3E%3C/svg%3E");
+    background-size: auto, 32px 32px;
+    background-attachment: fixed;
+  }
+
+  /* a screen change puts focus on its heading (so a screen reader announces it); a heading is not a control, so it needs no ring */
+  h1[tabindex="-1"],
+  h2[tabindex="-1"] {
+    outline: none;
+  }
+
+  ::selection {
+    background: rgba(224, 179, 96, 0.4);
+  }
+}
+
+@layer utilities {
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-family: Rokkitt, Georgia, serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    border: 1px dashed currentColor;
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .parchment-card {
+    position: relative;
+    background-color: #f1e8d3;
+    background-image: radial-gradient(circle, rgba(70, 45, 15, 0.045) 1px, transparent 1px);
+    background-size: 4px 4px;
+    border: 3px solid #5a3f1f;
+    border-radius: 6px;
+    box-shadow:
+      inset 0 0 0 5px #f1e8d3,
+      inset 0 0 0 6px rgba(90, 63, 31, 0.5),
+      0 0 0 5px #2b2118,
+      0 0 0 7px rgba(184, 137, 63, 0.7),
+      0 24px 46px -10px rgba(0, 0, 0, 0.85);
+    margin: 8px;
+  }
+
+  /* the stitching */
+  .parchment-card::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border: 2px dashed rgba(90, 63, 31, 0.55);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  /* brass buttons at the corners */
+  .corner-flourish {
+    position: absolute;
+    width: 0.95rem;
+    height: 0.95rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 32%, #f1d28a, #b8893f 55%, #6b4f24);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+  .corner-flourish.tl { top: 5px; left: 5px; }
+  .corner-flourish.tr { top: 5px; right: 5px; }
+  .corner-flourish.bl { bottom: 5px; left: 5px; }
+  .corner-flourish.br { bottom: 5px; right: 5px; }
+
+  .ornament-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #7b2a1d;
+  }
+  .ornament-divider::before,
+  .ornament-divider::after {
+    content: "";
+    flex: 1;
+    height: 6px;
+    background: repeating-linear-gradient(90deg, currentColor 0 6px, transparent 6px 12px);
+    opacity: 0.55;
+  }
+
+  .gauge-track {
+    background: #2b2118;
+    border-radius: 4px;
+    border-color: #b8893f !important;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .flicker {
+      animation: flicker 6s ease-in-out infinite;
+    }
+    .tension-pulse {
+      animation: tension-pulse 0.7s ease-in-out infinite;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* Suspense is still conveyed via the cycling phrase text below the
+       percentage, so reduced-motion users lose only the pulsing, not the
+       sense that something is being held back. */
+    .tension-pulse {
+      opacity: 0.85;
+    }
+  }
+  @keyframes tension-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.06); opacity: 0.72; }
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; text-shadow: 0 3px 0 #000, 0 0 30px rgba(224, 179, 96, 0.4); }
+    45% { opacity: 1; text-shadow: 0 3px 0 #000, 0 0 40px rgba(224, 179, 96, 0.6); }
+    68% { opacity: 0.94; text-shadow: 0 3px 0 #000, 0 0 22px rgba(224, 179, 96, 0.3); }
+  }
+}
+
+/* Mobile-first shell: every screen renders inside this container. */
+.app-shell {
+  max-width: 600px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+.parchment-card h1,
+.parchment-card h2 {
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.flicker {
+  font-style: italic;
+}
+button.group {
+  border-width: 2px;
+  border-color: #5a3f1f;
+  border-radius: 5px;
+}
+[role="tab"] {
+  border-radius: 999px;
+}
+
+/* ───────────── card kinds: what a message looks like on the page ───────────── */
+.card-telegram,
+.card-note,
+.card-calling,
+.card-journal,
+.card-guide {
+  box-shadow: 0 22px 44px -12px rgba(0, 0, 0, 0.8);
+}
+.card-telegram h1,
+.card-note h1,
+.card-calling h1,
+.card-journal h1,
+.card-guide h1 {
+  text-transform: none;
+}
+
+/* a telegram form: buff paper, a ruled field, capitals */
+.card-telegram {
+  background-color: #ecdf9c !important;
+  background-image: repeating-linear-gradient(180deg, transparent 0 1.55rem, rgba(93, 74, 28, 0.28) 1.55rem calc(1.55rem + 1px)) !important;
+  border: 2px solid #5d4a1c !important;
+  font-family: Rokkitt, Georgia, serif;
+}
+.card-telegram h1,
+.card-telegram p {
+  font-family: Rokkitt, Georgia, serif !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  columns: 1 !important;
+}
+.card-telegram h1 {
+  font-size: 1.35rem;
+  border-bottom: 3px double #5d4a1c;
+  padding-bottom: 0.4rem;
+}
+.card-telegram::after {
+  content: "RECEIVED";
+  position: absolute;
+  bottom: 1.3rem;
+  right: 1rem;
+  transform: rotate(8deg);
+  font-family: Rokkitt, Georgia, serif;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+  color: #a3261c;
+  border: 2px solid #a3261c;
+  padding: 0.1rem 0.4rem;
+  opacity: 0.8;
+}
+
+/* a pencilled note on a scrap of ruled paper */
+.card-note {
+  background-color: #f5f0e0 !important;
+  background-image: repeating-linear-gradient(180deg, transparent 0 1.7rem, rgba(60, 90, 140, 0.22) 1.7rem calc(1.7rem + 1px)) !important;
+  border: 1px solid rgba(60, 50, 30, 0.5) !important;
+  transform: rotate(-1deg);
+  clip-path: polygon(0 1.2%, 4% 0, 9% 1.4%, 15% 0.2%, 22% 1.2%, 30% 0, 38% 1.1%, 47% 0.1%, 55% 1.3%, 63% 0.2%, 72% 1.2%, 80% 0, 88% 1.1%, 95% 0.2%, 100% 1%, 100% 100%, 0 100%);
+}
+.card-note h1,
+.card-note p {
+  font-family: Caveat, "Comic Sans MS", cursive !important;
+  color: #1d2f55;
+  text-transform: none;
+  columns: 1 !important;
+}
+.card-note h1 {
+  font-size: 1.7rem;
+}
+.card-note p {
+  font-size: 1.35rem;
+  line-height: 1.35;
+}
+
+/* a visiting card, left on the hall table */
+.card-calling {
+  background-color: #fbf6ea !important;
+  border: 1px solid #241b13 !important;
+  box-shadow: inset 0 0 0 6px #fbf6ea, inset 0 0 0 7px #241b13, 0 22px 44px -12px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  max-width: 28rem !important;
+}
+.card-calling h1,
+.card-calling p {
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-style: italic;
+  columns: 1 !important;
+}
+.card-calling h1 {
+  font-size: 1.7rem;
+  letter-spacing: 0.12em;
+}
+
+/* a page of Watson's private notebook */
+.card-journal {
+  background-color: #efe4c4 !important;
+  background-image:
+    linear-gradient(90deg, transparent 2rem, rgba(163, 38, 28, 0.5) 2rem, rgba(163, 38, 28, 0.5) calc(2rem + 1px), transparent calc(2rem + 1px)),
+    repeating-linear-gradient(180deg, transparent 0 1.7rem, rgba(90, 60, 25, 0.18) 1.7rem calc(1.7rem + 1px)) !important;
+  border: 1px solid rgba(70, 45, 15, 0.7) !important;
+  padding-left: 3rem !important;
+}
+.card-journal h1,
+.card-journal p {
+  font-family: Caveat, "Comic Sans MS", cursive !important;
+  color: #2a1d12;
+  text-transform: none;
+  columns: 1 !important;
+}
+.card-journal h1 {
+  font-size: 1.8rem;
+}
+.card-journal p {
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+
+/* a guide-book page, in red cloth */
+.card-guide {
+  background-color: #eadfbd !important;
+  border: 8px solid #5a2b1f !important;
+  box-shadow: inset 0 0 0 2px #c9a24a, 0 22px 44px -12px rgba(0, 0, 0, 0.8);
+}
+.card-guide h1 {
+  font-family: Rokkitt, Georgia, serif !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 2px solid #5a2b1f;
+  padding-bottom: 0.3rem;
+}
+.card-guide p {
+  font-family: Lora, Georgia, serif !important;
+  columns: 1 !important;
+}
+
+/* the cork board in the Board tab */
+.cork {
+  background-color: #b08a58;
+  background-image: radial-gradient(circle, rgba(60, 35, 10, 0.18) 1px, transparent 1.5px), radial-gradient(circle, rgba(255, 235, 190, 0.12) 1px, transparent 1.5px);
+  background-size: 7px 7px, 11px 11px;
+  background-position: 0 0, 3px 4px;
+  border: 6px solid #5a3f1f;
+  border-radius: 4px;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.45);
+}
+.pin-note {
+  position: relative;
+  background: #f6efd6;
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.35);
+  padding: 0.55rem 0.6rem 0.5rem;
+}
+.pin-note::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e0593f, #7b1f12);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* The paper look (Settings, Look): the same parlour in daylight. A pale houndstooth ground, ink on it where the tweed look has cream, and the cards, which
+   are already paper, left exactly as they are. A control that sits on a card keeps its own colours, so only the classes that mean "text on the ground" move. */
+:root[data-theme="paper"] {
+  color-scheme: light;
+}
+:root[data-theme="paper"] body {
+  background-color: #e9dec4;
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255, 252, 240, 0.7), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%23e9dec4'/%3E%3Cpath d='M0 0h4v4h-4zM4 0h4v4h-4zM8 0h4v4h-4zM12 0h4v4h-4zM24 0h4v4h-4zM28 0h4v4h-4zM0 4h4v4h-4zM4 4h4v4h-4zM8 4h4v4h-4zM12 4h4v4h-4zM20 4h4v4h-4zM24 4h4v4h-4zM0 8h4v4h-4zM4 8h4v4h-4zM8 8h4v4h-4zM12 8h4v4h-4zM16 8h4v4h-4zM20 8h4v4h-4zM0 12h4v4h-4zM4 12h4v4h-4zM8 12h4v4h-4zM12 12h4v4h-4zM16 12h4v4h-4zM28 12h4v4h-4zM0 16h4v4h-4zM4 16h4v4h-4zM0 20h4v4h-4zM12 20h4v4h-4zM8 24h4v4h-4zM12 24h4v4h-4zM4 28h4v4h-4zM8 28h4v4h-4z' fill='%23dccfab'/%3E%3C/svg%3E");
+  background-size: auto, 32px 32px;
+}
+:root[data-theme="paper"] .text-parchment { color: #241b13; }
+:root[data-theme="paper"] .bg-ink.text-parchment,
+:root[data-theme="paper"] .bg-blood.text-parchment,
+:root[data-theme="paper"] .bg-blood\/40.text-parchment\/70 { color: #f1e8d3; }
+:root[data-theme="paper"] .text-ash { color: #54432f; }
+:root[data-theme="paper"] .text-ash.hover\:text-parchment:hover { color: #241b13; }
+:root[data-theme="paper"] .text-brass { color: #6e4d10; }
+:root[data-theme="paper"] .text-brass-bright { color: #6e4d10; }
+:root[data-theme="paper"] .border-brass-dim,
+:root[data-theme="paper"] [class*="border-brass-dim/"] { border-color: rgba(75, 52, 22, 0.65); }
+:root[data-theme="paper"] .border-brass { border-color: #6e4d10; }
+:root[data-theme="paper"] .flicker { text-shadow: none; animation: none; }
+:root[data-theme="paper"] .hover\:border-brass:hover { border-color: #3d2a0c; }
+:root[data-theme="paper"] [class*="text-brass/"] { color: #6e4d10; }

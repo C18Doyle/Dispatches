@@ -124,7 +124,7 @@ CAMPAIGNS.aok.nodes = {
             outcome:
               "Speculative. The trains are turned on the 31st, and the army begins its journey north " +
               "while the Balkan group goes into Serbia without it. It arrives in Galicia some days " +
-              "earlier than it did in the record, in better order and with all its corps. The Serbian " +
+              "earlier than it did, in better order and with all its corps. The Serbian " +
               "front is held by fewer men than the plan allowed for, and the Serbs have a good deal more room." },
           { weight: 45, title: "The railways jam and the army arrives no sooner",
             impact: { manpower: -1, munitions: -2, will: -1 },
@@ -133,7 +133,7 @@ CAMPAIGNS.aok.nodes = {
             outcome:
               "Speculative. The trains that were started for the south are stopped, and the junctions " +
               "of Hungary fill with troop trains that stand for days in the wrong order. The army " +
-              "reaches Galicia as late as it did in the record, with units arriving in pieces, and " +
+              "reaches Galicia as late as it did, with units arriving in pieces, and " +
               "the railway staff, which said that this would happen, is not in the mood to be thanked." },
         ],
       },
@@ -579,7 +579,7 @@ CAMPAIGNS.aok.nodes = {
         outcome:
           "Speculative. Potiorek is given leave to advance as far as the Kolubara and told to halt on it, " +
           "and two divisions that would have gone into Serbia are sent north. He reaches the river in the " +
-          "middle of November, as in the record, and is stopped by order and not by the Serbs. Belgrade " +
+          "middle of November, as he did, and is stopped by order and not by the Serbs. Belgrade " +
           "is not entered in December. The Serbs have time to bring up ammunition, and Potiorek writes " +
           "to say what he thinks of a general who halts on a river.",
       },
@@ -1252,7 +1252,7 @@ CAMPAIGNS.aok.nodes = {
       next: "aok_1917_12_pursuit",
       outcome:
         "Speculative. The line at Caporetto breaks, and the pursuit is slower and " +
-        "costlier than it was in the record. Italian rearguards hold the Tagliamento " +
+        "costlier than it was in fact. Italian rearguards hold the Tagliamento " +
         "for a week, and the stores that were captured on the first day are burned " +
         "or taken back. The Fourteenth Army reaches the Piave later and with less. " +
         "The monarchy is saved from another Italian attack, and has paid more for " +
@@ -1370,7 +1370,7 @@ CAMPAIGNS.aok.nodes = {
           "The army that goes east is the monarchy's own, and it goes for the grain.",
       },
       {
-        id: "keep",
+        id: "keep", ally: "Berlin",
         label: "Keep the divisions for the Italian front and leave Ukraine to the Germans",
         advisor: { name: "Arz", position:
           "The summer offensive is the army's last chance to end the war in the south, and it needs every division it has. The bread has to come by another road." },
@@ -1566,7 +1566,7 @@ CAMPAIGNS.aok.nodes = {
           "Speculative. The Emperor releases the Hungarian divisions from their oath and orders them home, " +
           "and the army's other units are told to fall back toward the Tagliamento. The Hungarians go by " +
           "the railways, and most of them go in order. The Italians, who find the front emptied of half " +
-          "its defenders, advance faster than in the record, and the armistice, when it is asked for, is " +
+          "its defenders, advance faster than they did, and the armistice, when it is asked for, is " +
           "asked for by an army that has already begun to go home.",
       },
     ],
@@ -1697,7 +1697,7 @@ CAMPAIGNS.aok.nodes = {
       "not break the Italian line, and it was not entirely beaten. It took more of the " +
       "ground, and held it longer than the other had, and the army that was left at the " +
       "end of the summer had still something to hold together.\n\n" +
-      "The war ended in November, as it was going to end.",
+      "The war ends in November.",
     ending: { family: "concentrated-offensive", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The offensive of June 1918 was made in two thrusts, and failed. " +

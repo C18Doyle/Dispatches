@@ -36,7 +36,15 @@ const css = `
   ${themeCss()}
   .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
   [data-font="typewriter"] .dg-root{--mono:"American Typewriter","Courier Prime","Courier New",Courier,monospace}
+  [data-font="dyslexia"] .dg-root{--mono:"OpenDyslexic","Lexend","Atkinson Hyperlegible",Verdana,"Trebuchet MS",sans-serif;line-height:1.9;letter-spacing:.05em;word-spacing:.16em}
   [data-font="plain"] .dg-root{--mono:"Atkinson Hyperlegible","Segoe UI",Verdana,Tahoma,sans-serif;line-height:1.72;letter-spacing:.012em;word-spacing:.06em}
+  /* reading comfort (Settings): line spacing, line length and motion, after the type so they win */
+  [data-spacing="roomy"] .dg-root{line-height:1.85;letter-spacing:.02em;word-spacing:.08em}
+  [data-spacing="roomy"] .dg-prose{margin-bottom:24px}
+  [data-spacing="wide"] .dg-root{line-height:2.05;letter-spacing:.035em;word-spacing:.14em}
+  [data-spacing="wide"] .dg-prose{margin-bottom:30px}
+  [data-measure="narrow"] .dg-prose,[data-measure="narrow"] .dg-lede,[data-measure="narrow"] .dg-ask{max-width:34em}
+  [data-motion="reduced"] .dg-root *,[data-motion="reduced"] .dg-root *::before,[data-motion="reduced"] .dg-root *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 
   /* ---- the sheet ---- */
   .dg-root{background-color:var(--paper);
@@ -220,13 +228,23 @@ const css = `
   .dg-opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-left-color:var(--paper-raised)}
   .dg-opt[aria-pressed="true"] .dg-quote{color:var(--paper-raised);border-top-color:var(--paper-raised)}
   .dg-bt-report{border-top:3px double var(--rule);margin-top:22px;padding-top:8px}
+  .dg-mode{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+  .dg-mode-name{font-family:${THEME.serif};font-size:14px;letter-spacing:0;text-transform:none;font-weight:700}
+  .dg-mode-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+  .dg-planstamp{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;padding:10px 12px;border:1.5px dashed var(--rule);cursor:pointer;position:relative}
+  .dg-planstamp input{position:absolute;opacity:0;width:100%;height:100%;left:0;top:0;margin:0;cursor:pointer}
+  .dg-planstamp:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+  .dg-planstamp-text{font-size:13px}
+  .dg-planstamp-mark{flex:none;border:2.5px solid var(--rule);color:var(--ink-soft);padding:4px 10px;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-4deg);opacity:.6}
+  .dg-planstamp.on .dg-planstamp-mark{border-color:var(--accent);color:var(--accent);opacity:1}
   .dg-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:0 0 10px;cursor:pointer}
   .dg-check input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent)}
 
   /* ---- the readings under a meter, the odds dial, the hold to sign, the sealed cable, the list of changes ---- */
   .dg-meter-btn{display:block;width:100%;text-align:left;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;letter-spacing:inherit;cursor:pointer}
   .dg-meter-btn:hover b{text-decoration:underline dotted}
-  .dg-more{font-size:9px;opacity:.7}
+  .dg-more{display:inline-block;width:0;height:0;margin-left:4px;vertical-align:middle;border:4px solid transparent;border-top-color:currentColor;border-bottom-width:0;opacity:.7}
+  .dg-more.open{border-top-width:0;border-bottom-width:4px;border-top-color:transparent;border-bottom-color:currentColor}
   .dg-gauge i{transition:left .9s cubic-bezier(.3,.7,.2,1)}
   .dg-readings{border:1.5px solid var(--rule);border-top:0;margin:-20px 0 20px;padding:12px 14px 6px;background:rgba(255,255,255,.3);font-size:12px}
   .dg-reading{display:grid;grid-template-columns:9.5em 1fr 8em;gap:10px;align-items:center;padding:5px 0;border-top:1px dotted var(--ink-soft)}
@@ -260,7 +278,6 @@ const css = `
   .dg-changes li.pos b{color:var(--good)}
   @media (prefers-reduced-motion:no-preference){
     @keyframes dg-shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
-    .dg-envelope{animation:dg-shake 1.6s ease-in-out infinite}
   }
   @media (prefers-reduced-motion:reduce){.dg-gauge i{transition:none}}
 
@@ -274,7 +291,7 @@ const css = `
   @media (max-width:420px){.dg-tiles{grid-template-columns:repeat(2,1fr)}}
   .dg-rec-bar{display:grid;grid-template-columns:7.5em 1fr 3.8em;gap:10px;align-items:center;padding:3px 0;font-size:12px}
   .dg-rec-bar b{text-align:right}
-  .dg-cmd{border:1.5px solid var(--rule);border-left:8px solid var(--accent);padding:12px 14px;margin:0 0 14px;background:rgba(255,255,255,.28);box-shadow:2px 3px 0 rgba(28,26,23,.12)}
+  .dg-rec-cmd{border:1.5px solid var(--rule);border-left:8px solid var(--accent);padding:12px 14px;margin:0 0 14px;background:rgba(255,255,255,.28);box-shadow:2px 3px 0 rgba(28,26,23,.12)}
   .dg-cmd-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
   .dg-cmd-head .t{font-family:${THEME.serif};font-size:19px;font-weight:700;line-height:1.15}
   .dg-cmd-head .meta{font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase}
@@ -283,6 +300,10 @@ const css = `
   .dg-avatar{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;border-radius:50%;margin-right:10px;border:2px solid var(--accent);
     background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:15px;box-shadow:inset 0 0 0 2px var(--paper)}
   .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
+  .dg-mw-ctx{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+  #root{position:relative}
+  .dg-read{margin:0 0 14px}
+  .dg-agreed{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
   .dg-dossier summary{display:flex;align-items:center;border:0;padding:0;margin:0;background:none}
   .dg-dossier summary:hover{background:none;color:inherit}
   .dg-dossier-locked{display:flex;align-items:center}
@@ -414,7 +435,14 @@ const css = `
   .dg-cmd-nation{font-family:${THEME.serif};font-size:27px;font-weight:700;line-height:1.1}
   .dg-cmd-name{font-size:14px;font-weight:700}
   .dg-cmd-native{font-size:12px;color:var(--ink-soft);font-style:italic}
-  .dg-cmd-pitch{font-size:13.5px;margin-top:4px}
+  .dg-cmd-quote{font-size:14.5px;font-style:italic;margin-top:6px;line-height:1.5}
+  .dg-cmd-seal.long{font-size:10px;letter-spacing:0;white-space:nowrap}
+  .dg-cmd-qdate{display:block;text-transform:none;letter-spacing:.02em;font-size:11px;margin-top:1px}
+  .dg-sub-by{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:-6px 0 14px}
+  .dg-sub-by span{display:block;text-transform:none;letter-spacing:.02em}
+  .dg-cmd-by{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px}
+  .dg-sum::before{content:"+";font-weight:700;display:inline-block;width:1.4em}
+  details[open]>.dg-sum::before{content:"−"}
   .dg-cmd-meta{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
   .dg-nav{display:flex;flex-direction:column;gap:10px}
   .dg-navbtn{display:flex;flex-direction:column;gap:2px;text-align:left;font:inherit;color:inherit;background:none;border:1.5px solid var(--rule);padding:12px 14px;min-height:44px;cursor:pointer}
@@ -437,6 +465,93 @@ const css = `
   .dg-sw[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:-3px}
   .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
   .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
+
+  /* ---- ground held or lost against the record, on the map and in its list ---- */
+  .dg-ground circle,.dg-ground rect{stroke-width:2.2;vector-effect:non-scaling-stroke}
+  .dg-ground path{fill:none;stroke-width:2.2;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .dg-ground-gained circle{fill:var(--paper);stroke:var(--accent)}
+  .dg-ground-gained path{stroke:var(--accent)}
+  .dg-ground-lost rect{fill:var(--paper);stroke:var(--op-focus,#9b2c1f)}
+  .dg-ground-lost path{stroke:var(--op-focus,#9b2c1f)}
+  .dg-swatch-gained{border-radius:50%;border:2px solid var(--accent);background:var(--paper)}
+  .dg-swatch-lost{border:2px solid var(--op-focus,#9b2c1f);background:var(--paper)}
+  .dg-groundlist{list-style:none;margin:6px 0 14px;padding:0}
+  .dg-groundlist li{font-size:13px;margin:0 0 8px;padding-left:10px;border-left:3px solid var(--accent)}
+  .dg-groundlist li.dg-ground-lost{border-left-color:var(--op-focus,#9b2c1f)}
+
+  /* ---- a document from the record, at the head of a report ---- */
+  .dg-document{margin:0 0 18px;padding:10px 14px 10px 16px;border-left:4px solid var(--accent);background:rgba(255,255,255,.18)}
+  .dg-document figcaption{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+  .dg-document blockquote{margin:0;font-style:italic;line-height:1.6}
+  .dg-document .src{font-size:11px;color:var(--ink-soft);margin-top:6px}
+
+  /* ---- a newspaper special ---- */
+  .dg-paper{position:relative;border:1px solid var(--rule);background:linear-gradient(90deg,rgba(60,40,10,.10),rgba(60,40,10,0) 5%,rgba(60,40,10,0) 95%,rgba(60,40,10,.12)),var(--paper-raised);padding:16px 18px 10px;margin:6px 0 18px;box-shadow:3px 4px 0 rgba(28,26,23,.18);color:var(--ink)}
+  .dg-paper-mast{font-family:${THEME.serif};font-size:36px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.03em;text-transform:uppercase;padding-bottom:8px;border-bottom:4px double var(--ink)}
+  .dg-paper-mast.de{font-family:"Old English Text MT","UnifrakturCook","Luminari",${THEME.serif};text-transform:none;font-size:40px;letter-spacing:0}
+  .dg-paper-mast.fr{font-style:italic;text-transform:none;font-size:40px}
+  .dg-paper-date{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);padding:6px 0;border-bottom:1.5px solid var(--rule)}
+  .dg-paper-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.08;margin:12px 0 4px;letter-spacing:-.01em}
+  .dg-paper-by{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;padding-bottom:8px;border-bottom:1.5px solid var(--rule)}
+  .dg-paper-cols p{margin:0 0 10px;font-family:${THEME.serif};font-size:15.5px;line-height:1.5;text-align:justify;hyphens:auto}
+  .dg-paper-first::first-letter{font-family:${THEME.serif};float:left;font-size:3.1em;line-height:.85;padding:4px 6px 0 0;font-weight:700}
+  .dg-paper-foot{font-size:11px;font-style:italic;color:var(--ink-soft);text-align:center;margin:6px 0 4px;padding-top:6px;border-top:1px dotted var(--ink-soft)}
+  @media (min-width:720px){.dg-paper-cols{column-count:2;column-gap:26px;column-rule:1px solid var(--rule)}.dg-paper-cols p{break-inside:avoid-column}}
+
+  /* ---- the sketch of the ground and the day's bulletins ---- */
+  .dg-sketch{display:block;width:100%;height:auto;border:1.5px solid var(--ink);background:var(--paper-raised);margin:0 0 10px;touch-action:manipulation}
+  .dg-sketch.small{margin:0 0 6px}
+  .dg-sk-sector{fill:transparent}
+  .dg-sk-sector.gaining{fill:rgba(95,123,88,.22)}
+  .dg-sk-sector.breaking{fill:rgba(148,80,74,.22)}
+  .dg-sk-hatch{stroke:var(--ink-soft);stroke-width:1}
+  .dg-sk-div{stroke:var(--ink-soft);stroke-width:1;stroke-dasharray:3 3}
+  .dg-sk-line{fill:none;stroke:var(--ink);stroke-width:3.5;stroke-linejoin:round}
+  .dg-sk-counter{fill:var(--accent);stroke:var(--ink);stroke-width:1;cursor:pointer}
+  .dg-sk-hit{fill:transparent;cursor:pointer}
+  .dg-cond{display:flex;flex-wrap:wrap;gap:2px 14px;list-style:none;margin:0 0 12px;padding:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-cond-guns{flex-basis:100%;text-transform:none;letter-spacing:.02em;font-size:12.5px;color:var(--ink)}
+  .dg-bel-src{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+  .dg-sk-num{font-size:13px;font-weight:700;fill:var(--ink)}
+  .dg-bul-n{display:inline-block;min-width:16px;text-align:center;font-size:10px;font-weight:700;border:1px solid var(--ink-soft);margin-right:4px}
+  .dg-sk-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink-soft)}
+  .dg-stage{margin:0 0 14px}
+  .dg-stage-h{font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin:6px 0 6px;color:var(--accent)}
+  .dg-bulletins{list-style:none;margin:0;padding:0}
+  .dg-bulletins li{padding:5px 8px;margin:0 0 4px;border-left:5px solid var(--rule);font-size:13px;line-height:1.45}
+  .dg-bulletins li.s-gaining{border-left-color:#5f7b58}
+  .dg-bulletins li.s-breaking{border-left-color:#94504a}
+  .dg-bul-s{font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-right:4px}
+
+  /* ---- the modes, the demo, the battle rig ---- */
+  .dg-mode[data-mode="easy"]{border-bottom:4px solid #5f7b58}
+  .dg-mode[data-mode="hard"]{border-bottom:4px solid #94504a}
+  .dg-seg button.dg-mode[data-mode="easy"][aria-pressed="true"]{background:#4f6b49;color:#fff}
+  .dg-seg button.dg-mode[data-mode="hard"][aria-pressed="true"]{background:#85443f;color:#fff}
+  .dg-bullets{margin:0 0 14px;padding:8px 12px 8px 30px;font-size:13px;line-height:1.5;border-left:4px solid var(--rule)}
+  .dg-bullets[data-mode="easy"]{border-left-color:#5f7b58}
+  .dg-bullets[data-mode="hard"]{border-left-color:#94504a}
+  .dg-bullets li{margin:2px 0}
+  .dg-cmd-locked{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-top:6px}
+  .dg-demo-note{font-size:13px;margin:0 0 14px;padding:10px 12px;border:1.5px dashed var(--rule);background:rgba(255,255,255,.2)}
+  a.dg-link{display:block;text-decoration:none;text-align:center;box-sizing:border-box;margin:14px 0}
+  .dg-rigrow{border:1.5px solid var(--rule);border-left:6px solid var(--accent);padding:10px 12px;margin:0 0 10px;background:var(--paper-raised)}
+  .dg-rigrow .meta{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-rigrow .t{font-weight:700;margin:2px 0 8px}
+  .dg-rigsel{display:flex;gap:10px;align-items:center;margin:0 0 8px;font-size:13px}
+  .dg-rigsel select{flex:1;min-height:40px;font:inherit;background:var(--paper);color:var(--ink);border:1.5px solid var(--rule)}
+
+  /* ---- the file at its close ---- */
+  .dg-strip{margin:22px 0}
+  .dg-strip-maps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+  .dg-strip-maps figure{margin:0}
+  .dg-strip-maps figcaption{font-size:12px;color:var(--ink-soft);margin-top:4px}
+  @media (max-width:640px){.dg-strip-maps{grid-template-columns:1fr}}
+  .dg-strip-h{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:18px 0 8px}
+  .dg-strip-list{margin:0;padding-left:20px;font-size:13.5px}
+  .dg-strip-list li{margin:0 0 7px}
+  .dg-strip-list .d{color:var(--ink-soft);font-size:12px}
+  .dg-strip-staff{margin:0;padding-left:18px;font-size:13.5px}
 
   /* ---- the orders on the map ---- */
   .dg-op{fill:none;stroke:currentColor;stroke-linecap:round}
@@ -584,7 +699,7 @@ function jumpToOrders() {
 function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeId, easy, canRewind, rank, mode, taken, holdToSign, onRewind, onChoose, onCheck, onHome }) {
   const c = CAMPAIGNS[campaignId];
   const years = [1914, 1915, 1916, 1917, 1918];
-  const [situationSegs, contextSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.context, node.epilogue]), [node]);
+  const [situationSegs, epilogueSegs] = useMemo(() => markFirstMentions([node.situation, node.epilogue]), [node]);
   const [viewing, setViewing] = useState(null); // the order the pointer or the keyboard is on: its arrow is drawn on the map
   return (
     <main {...rootProps(campaignId, "node")}>
@@ -613,28 +728,25 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
 
       <div className="dg-node-date">{nodeDate(campaignId, node.date)}</div>
       <h1 className="dg-node-title">{node.title}</h1>
-      {!node.ending && ASKS[nodeId] && (
-        <p className="dg-ask"><b>The decision</b>{ASKS[nodeId]}{" "}<button type="button" className="dg-jump" onClick={jumpToOrders}>Go to the orders ↓</button></p>
-      )}
-      {node.bulletin && typeof node.bulletin === "object" && (
+      <ConditionsStrip campaignId={campaignId} node={{ ...node, id: nodeId }} flags={flags} meters={meters} />
+      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} flags={flags} />}
+      {documentOf(nodeId) ? (
+        <figure className="dg-document">
+          <figcaption>{documentOf(nodeId).date}. {documentOf(nodeId).by}</figcaption>
+          <blockquote>{documentOf(nodeId).text}</blockquote>
+          <div className="src">{documentOf(nodeId).source}</div>
+        </figure>
+      ) : node.bulletin && typeof node.bulletin === "object" && (
         <div className="dg-bulletin">
           <div className="h">{node.bulletin.source} · {node.bulletin.date}</div>
           {node.bulletin.text}
         </div>
       )}
 
+      <ReadAloud id={nodeId} text={[node.title, documentOf(nodeId) ? documentOf(nodeId).by + ". " + documentOf(nodeId).text : "", String(node.situation || "").replace(/\s+/g, " ")].filter(Boolean).join(". ")} />
       <GlossText key={nodeId + "-situation"} segs={situationSegs} className="dg-prose dg-lede" />
 
       {!node.ending && <IntelPanel nodeId={nodeId} flags={flags || {}} easy={easy} hard={hardState.enabled} onCheck={onCheck} />}
-
-      {node.city && mapFor(campaignId).cities[node.city] && <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} focus={viewing} taken={taken || []} />}
-
-      {node.context && (
-        <details>
-          <summary>▶ SHOW BACKGROUND</summary>
-          <GlossText key={nodeId + "-context"} segs={contextSegs} />
-        </details>
-      )}
 
       <MeterLedger meters={meters} labels={node.meterLabels} flags={flags} />
 
@@ -643,6 +755,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <div className={`dg-badge dg-badge-${node.ending.badge}`}>{BADGE_LABELS[node.ending.badge]}</div>
           {node.epilogue && <GlossText key={nodeId + "-epilogue"} segs={epilogueSegs} />}
           {rank && <RankPanel result={rank} />}
+          <FileStrip campaignId={campaignId} endingId={nodeId} flags={flags} taken={taken || []} hard={hardState.enabled} />
           {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
           <button className="dg-btn" onClick={onHome}>Return to file</button>
         </>
@@ -655,20 +768,22 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           {node.choices.map((ch) => {
             const strain = strainedUncertain(ch, meters);
             const fog = !ch.blocked && intelFogged(nodeId, ch, flags || {}, easy);
-            const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters)) : orderOdds(ch, meters);
+            const odds = ch.blocked ? null : fog ? intelBelievedOdds(orderOdds(ch, meters, flags)) : orderOdds(ch, meters, flags);
             const rests = intelRests(nodeId, ch, flags || {}, easy);
             return (
             <OrderButton key={ch.id} ch={ch} hold={holdToSign && !!odds} onSign={() => onChoose(ch)} onView={setViewing}>
               <div className="lab">{ch.label}</div>
+              {!ch.advisor && orderNote(nodeId, ch.id) && <div className="dg-quote">{orderNote(nodeId, ch.id)}</div>}
               {odds && <OddsDial odds={odds} easy={easy} fog={fog} />}
               {rests && <span className="dg-rests">{rests}</span>}
-              {ch.blocked && <div className="dg-cost">✕ {ch.disabledReason}</div>}
-              {easy && ch.historical && <span className="dg-record-mark">✓ The order the command gave</span>}
+              {ch.blocked && <div className="dg-cost">{ch.disabledReason}</div>}
+              {easy && ch.historical && <span className="dg-record-mark">The order the command gave</span>}
               {easy && !ch.blocked && <span className="dg-preview">{previewText(ch, node.meterLabels)}</span>}
               {strain.points > 0 && (
                 <span className="dg-strain">Strain: {node.meterLabels[strain.meter]} is short, so the odds are {strain.points} points worse</span>
               )}
-              {ch.erodes && hardState.enabled && <div className="dg-cost">✕ Costs standing</div>}
+              {ch.erodes && hardState.enabled && !ch.ally && <div className="dg-cost">Costs standing</div>}
+              {ch.ally && hardState.enabled && <div className="dg-cost">{ch.ally.charAt(0).toUpperCase() + ch.ally.slice(1)} must be brought round: it costs standing</div>}
               {ch.advisor && (() => {
                 const aid = adviserIdFor(campaignId, ch.advisor.name);
                 const st = aid ? adviserState(flags || {}, aid) : "normal";
@@ -696,12 +811,10 @@ const SPECULATIVE_LEAD = /^(Speculative|A modell?ed alternative)\.\s*/i;
 
 function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, headline, historical, record, battle, changes, contested, informed, meters, flags, onContinue }) {
   const c = CAMPAIGNS[campaignId];
-  const [opened, setOpened] = useState(!contested); // a contested order's result comes in a sealed cable
   const heading = useRef(null);
-  useEffect(() => { if (contested && opened && heading.current) heading.current.focus(); }, [opened]);
+  useEffect(() => { if (contested && heading.current) heading.current.focus(); }, []);
   const speculative = SPECULATIVE_LEAD.test(outcome || "");
   const body = speculative ? outcome.replace(SPECULATIVE_LEAD, "") : outcome;
-  const kind = speculative ? "A modelled alternative" : historical ? "As it happened" : contested ? "Not as it happened" : "The outcome";
   const [outcomeSegs, recordSegs] = useMemo(() => markFirstMentions([body, record && record.text]), [body, record]);
   const labels = meterLabels(campaignId);
   // what each meter did, summed over its readings
@@ -721,37 +834,27 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <h1 className="dg-docrow" style={{ margin: "18px 0 16px" }}><span>{c.docLabel} · OUTCOME</span></h1>
       <hr className="dg-rule" />
-      {!opened ? (
-        <SealedCable onOpen={() => { atmosphereFx("seal"); setOpened(true); }} />
-      ) : (
+      {(
         <>
           <section className="dg-verdict" aria-label="The verdict">
-            <span className="dg-kind">{kind}</span>
-            <h2 ref={heading} tabIndex={-1} className="dg-verdict-h">{headline || (contested ? "The cable says" : "The outcome")}</h2>
+            <h2 ref={heading} tabIndex={-1} className="dg-verdict-h">{headline || (contested ? "The result" : "The outcome")}</h2>
             <ul className="dg-chips" aria-label="What it did to the meters">
               {moved.length === 0 && <li>No change to the meters</li>}
               {moved.map((m) => (
                 <li key={m.axis} className={m.delta < 0 ? "neg" : "pos"}>
-                  <b aria-hidden="true">{m.delta < 0 ? "▼" : "▲"} {fmtMeter(m.delta)}</b>
+                  <b aria-hidden="true">{fmtMeter(m.delta)}</b>
                   <span className="sr">{m.delta < 0 ? "Down " : "Up "}{Math.abs(m.delta)}: </span>{labels[m.axis]}
                 </li>
               ))}
             </ul>
             {battle && <p className="dg-grade">{GRADE_SHORT[battle.grade]}</p>}
-            {informed && <p className="dg-note">The staff had checked its reading and knew what it was facing.</p>}
+            {informed && <p className="dg-note">The staff had checked its reading.</p>}
           </section>
           {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
-            <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} />
+            <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} flags={flags} />
           )}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
-          <MeterChanges changes={changes} labels={labels} />
-          {record && (
-            <details>
-              <summary>▶ THE HISTORICAL RECORD</summary>
-              <GlossText key={"r-" + String(outcome).slice(0, 24)} segs={recordSegs} />
-            </details>
-          )}
           {battle && <BattleReport battle={battle} />}
           <button className="dg-btn" onClick={onContinue}>Continue</button>
         </>
@@ -793,13 +896,11 @@ function RecordScreen({ record, onBack }) {
     const seen = ids.filter((id) => (record.nodes[cid] || []).includes(id)).length;
     const list = endings.filter((e) => e.campaignId === cid);
     const found = list.filter((e) => record.endings.includes(e.id)).length;
-    const met = c.advisors.filter((a) => (record.advisers[cid] || []).includes(a.id)).length;
-    return [cid, { seen, decisions: ids.length, found, endings: list.length, met, advisers: c.advisors.length }];
+    return [cid, { seen, decisions: ids.length, found, endings: list.length }];
   }));
   const sum = (k) => playable.reduce((n, cid) => n + stats[cid][k], 0);
-  const opened = sum("seen") + sum("found") + sum("met");
-  const everything = sum("decisions") + sum("endings") + sum("advisers");
-  const overall = everything ? Math.round((opened / everything) * 100) : 0;
+  const opened = sum("seen") + sum("found");
+  const everything = sum("decisions") + sum("endings");
   const TABS = [["service", "Service"], ["dossiers", "Dossiers"], ["endings", "Endings"], ["atlas", "Atlas"], ["battles", "Battles"], ["glossary", "Glossary"]];
   return (
     <main {...rootProps(null, "record")}>
@@ -824,14 +925,13 @@ function RecordScreen({ record, onBack }) {
               <div className="dg-tile"><b>{sum("seen")}<small>/{sum("decisions")}</small></b><span>decisions reached</span></div>
             </div>
             <RecBar label="The whole record" a={opened} b={everything} />
-            <p className="dg-note" style={{ margin: "8px 0 0" }}>{overall} per cent of the record is open. It is kept in this browser.</p>
           </div>
           {playable.map((cid) => {
             const c = CAMPAIGNS[cid];
             const s = stats[cid];
             const b = best[cid];
             return (
-              <div key={cid} className="dg-cmd" style={{ "--accent": "var(--acc-" + cid + ")" }}>
+              <div key={cid} className="dg-rec-cmd" style={{ "--accent": "var(--acc-" + cid + ")" }}>
                 <div className="dg-cmd-head">
                   <span className="dg-seal">{c.seal}</span>
                   <div>
@@ -841,7 +941,6 @@ function RecordScreen({ record, onBack }) {
                 </div>
                 <RecBar label="Decisions" a={s.seen} b={s.decisions} />
                 <RecBar label="Endings" a={s.found} b={s.endings} />
-                <RecBar label="Dossiers" a={s.met} b={s.advisers} />
                 <div className="dg-cmd-foot">
                   <span>{files[cid] ? `${files[cid]} ${files[cid] === 1 ? "file" : "files"} closed` : "No file closed yet"}</span>
                   <span>{b ? `Best: ${b.rank} (${b.score}/100)` : "No rank yet"}</span>
@@ -854,10 +953,10 @@ function RecordScreen({ record, onBack }) {
 
       {tab === "glossary" && (
         <section>
-          <p className="dg-note">Words and places in the files. In the story text, the first mention of each on a screen is underlined: press it for the definition.</p>
+          <p className="dg-note">Underlined words in a report open their definition.</p>
           {[...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term)).map((g) => (
             <div key={g.id} className="dg-entry">
-              <div className="t">{g.term}</div>
+              <div className="t">{g.term.replace(/(^|[\s-])([a-z])/g, (m, a, b) => a + b.toUpperCase())}</div>
               <div>{g.def}</div>
             </div>
           ))}
@@ -866,7 +965,6 @@ function RecordScreen({ record, onBack }) {
 
       {tab === "battles" && (
         <section>
-          <p className="dg-note">The battles that open on an Order of Battle. Each keeps your best grade.</p>
           {Object.values(BATTLES).map((cfg) => {
             const f = fought[cfg.id];
             const c = CAMPAIGNS[cfg.campaign];
@@ -875,11 +973,7 @@ function RecordScreen({ record, onBack }) {
               <div key={cfg.id} className={"dg-entry dg-battle" + (f ? "" : " locked")} style={{ "--accent": "var(--acc-" + cfg.campaign + ")" }}>
                 <div className="meta">{c.shortName}{host ? ` · ${nodeDate(cfg.campaign, host.date)}` : ""}</div>
                 <div className="t">{cfg.title.replace("Order of Battle: ", "")}</div>
-                {f ? (
-                  <div className="dg-battle-grade">Fought {f.n} {f.n === 1 ? "time" : "times"} · best: <b>{f.best}</b></div>
-                ) : (
-                  <div>Not yet fought. It opens from "{host ? host.title : cfg.host.node}".</div>
-                )}
+                {f && <div className="dg-battle-grade">Fought {f.n} {f.n === 1 ? "time" : "times"} · best: <b>{f.best}</b></div>}
               </div>
             );
           })}
@@ -889,27 +983,23 @@ function RecordScreen({ record, onBack }) {
       {tab !== "service" && tab !== "glossary" && tab !== "battles" && playable.map((cid) => {
         const c = CAMPAIGNS[cid];
         if (tab === "dossiers") {
-          const met = record.advisers[cid] || [];
+          const advice = (record.advice || {})[cid] || {};
           return (
             <section key={cid} style={{ "--accent": "var(--acc-" + cid + ")" }}>
               <h2 className="dg-sect">{c.shortName}</h2>
-              <p className="dg-count">{c.advisors.filter((a) => met.includes(a.id)).length} of {c.advisors.length} dossiers open</p>
-              {c.advisors.map((a) =>
-                met.includes(a.id) ? (
+              {c.advisors.map((a) => {
+                const adv = advice[a.id] || { agreed: 0, argued: 0 };
+                return (
                   <details key={a.id} className="dg-entry dg-dossier">
                     <summary>
                       <span className="dg-avatar" aria-hidden="true">{initialsOf(a.name)}</span>
-                      <span><span className="t">{a.name}</span> <span className="meta">{a.dossier.role} · {yearsInPost(a)}</span></span>
+                      <span><span className="t">{a.name}</span> <span className="meta">{a.dossier.role} · {yearsInPost(a)}</span>
+                        <span className="dg-agreed">{adv.argued ? `You followed this adviser in ${adv.agreed} of ${adv.argued} orders.` : "No orders given on this adviser's argument yet."}</span></span>
                     </summary>
                     <div className="dg-prose">{a.dossier.bio}{"\n\n"}Fate: {a.dossier.fate}</div>
                   </details>
-                ) : (
-                  <div key={a.id} className="dg-entry locked dg-dossier-locked">
-                    <span className="dg-avatar shut" aria-hidden="true">?</span>
-                    <span>File closed. Meet this adviser in play to open it.</span>
-                  </div>
-                )
-              )}
+                );
+              })}
             </section>
           );
         }
@@ -987,13 +1077,18 @@ function RecordScreen({ record, onBack }) {
 export default function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [record, setRecord] = useState(loadRecord);
-  const [savedRun, setSavedRun] = useState(loadSavedRun);
+  const [savedRun, setSavedRun] = useState(() => { const s = loadSavedRun(); return DEMO && s && (s.campaignId !== DEMO_COMMAND || (Array.isArray(s.taken) ? s.taken.length : 0) >= DEMO_DECISIONS) ? null : s; });
+  const [signals, setSignals] = useState("cipher"); // the briefing's choice: "cipher" or "clear"
+  const [press, setPress] = useState("free"); // the briefing's choice: "free" or "censored"
+  const [rigOn, setRigOn] = useState(false); // a battle opened from the battle rig (a dev build): nothing of it is saved
+  const [rigPosture, setRigPosture] = useState(null);
   const [mode, setMode] = useState("standard"); // the menu's choice: "easy", "standard" or "hard"
   const [runEasy, setRunEasy] = useState(false); // the run in hand is an easy run
   const [taken, setTaken] = useState([]); // the orders the run has given: { node, choice }
   const [history, setHistory] = useState([]); // the state before each order, for the easy mode's take-back
   const [screen, setScreen] = useState("menu");
   const [cameFrom, setCameFrom] = useState("menu"); // where How to play and Settings go back to
+  const [howBack, setHowBack] = useState(null); // How to play opened from Settings goes back to it
   const [campaignId, setCampaignId] = useState(null);
   const [nodeId, setNodeId] = useState(null);
   const [flags, setFlags] = useState({});
@@ -1018,7 +1113,10 @@ export default function App() {
       const theme = resolveTheme(settings.theme || DEFAULT_THEME, mq("(prefers-color-scheme: dark)"), mq("(prefers-contrast: more)"));
       const root = document.documentElement;
       root.setAttribute("data-theme", theme);
-      root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" ? settings.font : "theme");
+      root.setAttribute("data-font", settings.font === "plain" || settings.font === "typewriter" || settings.font === "dyslexia" ? settings.font : "theme");
+      root.setAttribute("data-spacing", settings.spacing || "standard");
+      root.setAttribute("data-measure", settings.measure || "standard");
+      root.setAttribute("data-motion", settings.motion || "auto");
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute("content", THEME_TOKENS[theme].base.paper);
     };
@@ -1027,7 +1125,20 @@ export default function App() {
     const qs = [window.matchMedia("(prefers-color-scheme: dark)"), window.matchMedia("(prefers-contrast: more)")];
     qs.forEach((q) => q.addEventListener && q.addEventListener("change", apply));
     return () => qs.forEach((q) => q.removeEventListener && q.removeEventListener("change", apply));
-  }, [settings.theme, settings.font]);
+  }, [settings.theme, settings.font, settings.spacing, settings.measure, settings.motion]);
+  // the soundtrack follows the settings, and starts on the first tap or key because the browser will not start it before then
+  useEffect(() => { musicApply(settings.music !== false, typeof settings.musicVolume === "number" ? settings.musicVolume : 0.5); }, [settings.music, settings.musicVolume]);
+  useEffect(() => {
+    const vis = () => musicHidden(document.hidden);
+    document.addEventListener("visibilitychange", vis);
+    return () => document.removeEventListener("visibilitychange", vis);
+  }, []);
+  useEffect(() => {
+    const opts = { once: true, capture: true };
+    const go = () => musicResume();
+    ["pointerdown", "keydown", "touchstart"].forEach((e) => document.addEventListener(e, go, opts));
+    return () => ["pointerdown", "keydown", "touchstart"].forEach((e) => document.removeEventListener(e, go, opts));
+  }, []);
   // sound: the mode follows the settings, the ambience follows the command in play, and a bulletin comes in on the wire
   useEffect(() => { setAudioMode(settings.sound ? (settings.atmosphere ? 2 : 1) : 0); }, [settings.sound, settings.atmosphere]);
   useEffect(() => {
@@ -1035,17 +1146,18 @@ export default function App() {
     else atmosphereStop();
   }, [screen, campaignId, settings.sound, settings.atmosphere]);
   useEffect(() => {
-    if (screen === "node" && node && node.bulletin && typeof node.bulletin === "object") atmosphereFx("telegraph");
+    if (screen === "node" && node && node.bulletin && typeof node.bulletin === "object" && !documentOf(nodeId)) atmosphereFx("telegraph");
   }, [screen, nodeId]);
 
   // A new screen puts keyboard and screen-reader focus on its heading, so the change is announced.
   const firstScreen = useRef(true);
   useEffect(() => {
     if (firstScreen.current) { firstScreen.current = false; return; }
+    try { window.scrollTo(0, 0); } catch (e) { /* no scrolling here */ }
     const h = document.querySelector("main h1");
     if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
-  }, [screen, nodeId]);
-  useEffect(() => { saveRecord(record); }, [record]);
+  }, [screen, nodeId, campaignId]);
+  useEffect(() => { if (!rigOn) saveRecord(record); }, [record]);
 
   // A node on screen counts as seen, and so do the advisers present at it.
   useEffect(() => {
@@ -1057,14 +1169,14 @@ export default function App() {
       if (settings.sound) playSound("stamp");
       setRecord((r) => {
         const closed = noteEnding(r, nodeId, hardState.enabled);
-        return noteRank(closed, campaignId, rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken }));
+        return noteRank(closed, campaignId, rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken, flags }));
       });
     }
   }, [screen, campaignId, nodeId, runKey]);
 
   // The run in progress is saved after every step; a finished run clears its save.
   useEffect(() => {
-    if (!campaignId || !nodeId || (screen !== "node" && screen !== "outcome")) return;
+    if (rigOn || !campaignId || !nodeId || (screen !== "node" && screen !== "outcome")) return;
     if (screen === "node" && node && node.ending) {
       clearSavedRun();
       setSavedRun(null);
@@ -1083,7 +1195,7 @@ export default function App() {
 
   const start = (cid) => {
     setCampaignId(cid);
-    setFlags(echoSeed(record));
+    setFlags({ ...echoSeed(record), ...(signals === "clear" ? { sig_clear: true } : {}), ...(press === "censored" ? { press_censored: true } : {}) });
     setMeters(emptyMeters());
     setHardState({ ...emptyHardState(), enabled: mode === "hard" });
     setRunEasy(mode === "easy");
@@ -1119,6 +1231,7 @@ export default function App() {
   const openAside = (which) => { setCameFrom(screen); setScreen(which); };
 
   const home = () => {
+    setRigOn(false);
     setScreen("menu");
     setNodeId(null);
     setCampaignId(null);
@@ -1138,14 +1251,35 @@ export default function App() {
     if (runEasy) setHistory((h) => [...h, { nodeId, flags, meters, hardState, visited, taken }].slice(-REWIND_LIMIT));
     setTaken((t) => [...t, { node: nodeId, choice: ch.id }]);
     setFlags(r.flags); setMeters(r.meters); setHardState(r.hardState);
-    setRecord((rec) => (r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags)));
+    const argued = (node.choices || []).map((c) => adviserIdFor(campaignId, c.advisor && c.advisor.name)).filter(Boolean);
+    const followed = adviserIdFor(campaignId, ch.advisor && ch.advisor.name);
+    setRecord((rec) => noteAdvice(r.battle ? noteBattle(noteEchoes(rec, r.flags), r.battle.id, r.battle.grade) : noteEchoes(rec, r.flags), campaignId, argued, followed));
     const event = r.nextId ? dueEvent(campaignId, r.nextId, r.flags, r.meters) : null; // a special event that the file's state has earned, before the next report
     setPending({ ...r, headline: r.title || ch.label, record: historicalNote(node, ch), battle: r.battle ? { ...r.battle, plan } : null, event });
     setScreen(r.outcome ? "outcome" : event ? "event" : "node");
     if (!r.outcome) setNodeId(r.nextId);
   };
 
+  // The battle rig: a battle opened at its own report, with the meters and the enemy chosen.
+  const rigFight = ({ cfg, postureId, meters: m, easy }) => {
+    const resolved = resolveNode(cfg.host.node, {}, m, emptyHardState());
+    const ch = resolved && resolved.choices.find((x) => x.id === cfg.host.choice);
+    if (!ch) return;
+    setRigOn(true);
+    setRigPosture(postureId);
+    setCampaignId(cfg.campaign);
+    setFlags({}); setMeters(m); setHardState(emptyHardState()); setRunEasy(easy);
+    setTaken([]); setHistory([]); setVisited([cfg.host.node]); setPending(null);
+    setRunKey((k) => k + 1);
+    setNodeId(cfg.host.node);
+    setBattleChoice(ch);
+    setScreen("battle");
+  };
+
   const cont = () => {
+    if (rigOn) { setRigOn(false); setPending(null); setScreen("rig"); return; }
+    // the free demo stops after its last order, whatever comes next
+    if (DEMO && taken.length >= DEMO_DECISIONS) { clearSavedRun(); setSavedRun(null); setPending(null); setScreen("demoend"); return; }
     setNodeId(pending?.nextId ?? null);
     if (pending && pending.event) { setScreen("event"); return; }
     setPending(null);
@@ -1176,23 +1310,25 @@ export default function App() {
 
   const runMode = modeOf(hardState, runEasy);
   const rank = useMemo(
-    () => (node && node.ending ? rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken }) : null),
-    [node, campaignId, nodeId, meters, hardState, runEasy, taken]
+    () => (node && node.ending ? rankFor({ campaignId, endingId: nodeId, meters, hardState, easy: runEasy, taken, flags }) : null),
+    [node, campaignId, nodeId, meters, hardState, runEasy, taken, flags]
   );
 
   return (
     <div className={`dg-fs-${settings.textSize}`} style={{ display: "contents" }}>
       <style>{css}</style>
       {screen === "menu" && (
-        <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} savedRun={savedRun}
-          onResume={resume} onDiscard={discard} onHowTo={() => openAside("howto")} onSettings={() => openAside("settings")} record={record} />
+        <MenuScreen onPick={(cid) => { setCampaignId(cid); setScreen("briefing"); }} onRecord={() => setScreen("record")} onRig={() => setScreen("rig")} savedRun={savedRun}
+          onResume={resume} onDiscard={discard} onSettings={() => openAside("settings")} record={record} />
       )}
       {screen === "briefing" && campaignId && (
-        <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} settings={settings} onSettings={setSettings}
-          onEnter={() => start(campaignId)} onBack={home} onHowTo={() => openAside("howto")} />
+        <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} signals={signals} onSignals={setSignals} press={press} onPress={setPress} settings={settings} onSettings={setSettings}
+          onEnter={() => start(campaignId)} onBack={home} />
       )}
-      {screen === "howto" && <HowToScreen onBack={() => setScreen(cameFrom)} />}
-      {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} />}
+      {screen === "demoend" && campaignId && <DemoEndScreen campaignId={campaignId} onHome={home} />}
+      {screen === "rig" && <BattleRigScreen onFight={rigFight} onBack={home} />}
+      {screen === "howto" && <HowToScreen onBack={() => { setScreen(howBack || cameFrom); setHowBack(null); }} />}
+      {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} onHowTo={() => { setHowBack("settings"); setScreen("howto"); }} />}
       {screen === "record" && <RecordScreen record={record} onBack={home} />}
       {screen === "outcome" && (
         <OutcomeScreen key={runKey + "-" + nodeId} campaignId={campaignId} node={node} nodeId={nodeId} orderId={taken.length ? taken[taken.length - 1].choice : null} visited={visited} outcome={pending.outcome} headline={pending.headline} historical={pending.historical} record={pending.record} battle={pending.battle}
@@ -1202,12 +1338,13 @@ export default function App() {
       {screen === "battle" && battleChoice && (
         <BattleScreen campaignId={campaignId} config={battleOf(battleChoice)} choice={battleChoice} meters={meters} easy={runEasy}
           onCommit={(plan) => { const ch = battleChoice; setBattleChoice(null); choose(ch, plan); }}
-          onBack={() => { setBattleChoice(null); setScreen("node"); }} />
+          forcePostureId={rigPosture}
+          onBack={() => { setBattleChoice(null); setScreen(rigOn ? "rig" : "node"); }} />
       )}
       {screen === "node" && node && (
         <NodeScreen campaignId={campaignId} node={node} meters={meters}
           hardState={hardState} visited={visited} flags={flags} nodeId={nodeId} easy={runEasy} canRewind={history.length > 0}
-          rank={rank} mode={runMode} taken={taken} holdToSign={settings.holdToSign !== false} onRewind={rewind} onChoose={pick} onCheck={checkBelief} onHome={home} />
+          rank={rank} mode={runMode} taken={taken} holdToSign={settings.signHold === true} onRewind={rewind} onChoose={pick} onCheck={checkBelief} onHome={home} />
       )}
       {screen === "node" && !node && (
         <main className="dg-root">

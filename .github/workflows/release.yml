@@ -2,13 +2,13 @@ name: release
 
 # Push a tag named <game>-v<version> to publish that game, for example:
 #   git tag 1941-v1.0.1 && git push origin 1941-v1.0.1
-# <game> is one of: frankenstein, dracula, 1914, 1922, 1941, 1940. <version> must equal "version" in that game's package.json.
+# <game> is one of: frankenstein, dracula, 1914, 1922, 1941, 1940, sherlock. <version> must equal "version" in that game's package.json.
 # A version with a suffix (1.2.3-rc.1) is a pre-release: it is built and attached to a GitHub pre-release but never pushed to itch.io.
 # The job checks the release is ready (tools/release-check.mjs), runs the game's tests, builds, zips (npm run release), checks the zips load in Chromium exactly as itch.io
 # would serve them, attaches them to a GitHub release, and, if itch.io is configured, pushes them with butler.
 on:
   push:
-    tags: ["frankenstein-v*", "dracula-v*", "1914-v*", "1922-v*", "1941-v*", "1940-v*"]
+    tags: ["frankenstein-v*", "dracula-v*", "1914-v*", "1922-v*", "1941-v*", "1940-v*", "sherlock-v*"]
 
 permissions:
   contents: write

@@ -39,8 +39,11 @@ export function strainMeterOf(choice) {
   return best;
 }
 
+/** Points of weight a file that sends its signals in the clear loses on a contested order (the enemy overhears): moved from the best outcome to the worst. */
+export const SIGNALS_EXPOSURE = 3;
+
 /** { uncertain, points, meter }: the order's contested outcomes after strain (the same array when there is none). */
-export function strainedUncertain(choice, meters) {
+function strainOnly(choice, meters) {
   const u = choice.uncertain;
   if (!u || u.length < 2) return { uncertain: u, points: 0, meter: null };
   const meter = strainMeterOf(choice);
@@ -59,6 +62,23 @@ export function strainedUncertain(choice, meters) {
   };
 }
 
+/**
+ * strainOnly, and then the exposure of signals in the clear (flag sig_clear, set in the briefing): SIGNALS_EXPOSURE points move from the best outcome to the worst.
+ * An order that hosts a battle is left alone, since the battle screen reads its own odds.
+ */
+export function strainedUncertain(choice, meters, flags) {
+  const r = strainOnly(choice, meters);
+  const u = r.uncertain;
+  if (!flags || !flags.sig_clear || !u || u.length < 2 || (typeof battleOf === "function" && battleOf(choice))) return r;
+  const sums = u.map((b) => sumImpact(b.impact || choice.impact));
+  const best = sums.indexOf(Math.max(...sums));
+  const worst = sums.indexOf(Math.min(...sums));
+  if (best === worst || sums[best] === sums[worst]) return r;
+  const moved = Math.min(SIGNALS_EXPOSURE, u[best].weight - STRAIN.floor);
+  if (moved <= 0) return r;
+  return { ...r, uncertain: u.map((b, i) => (i === best ? { ...b, weight: b.weight - moved } : i === worst ? { ...b, weight: b.weight + moved } : b)) };
+}
+
 // ---------- the odds of a contested order, for the dial ----------
 
 export const ODDS_BANDS = [
@@ -74,10 +94,10 @@ export const ODDS_BANDS = [
  * The better outcome is the battle's own win where the order hosts one, otherwise the outcome whose impact is best in total (as strain reads it).
  * null for a settled order.
  */
-export function orderOdds(choice, meters) {
+export function orderOdds(choice, meters, flags) {
   const u = choice.uncertain;
   if (!u || u.length < 2) return null;
-  const strained = strainedUncertain(choice, meters).uncertain;
+  const strained = strainedUncertain(choice, meters, flags).uncertain;
   const cfg = typeof battleOf === "function" ? battleOf(choice) : null;
   let best;
   if (cfg && u.length === 2) best = cfg.winBranch;
@@ -115,7 +135,7 @@ export function chooseNext(campaignId, choice, flags, meters, hardState, rng = M
   let branch = null;
   let battle = null;
   if (choice.uncertain && choice.uncertain.length) {
-    let weights = strainedUncertain(choice, meters).uncertain;
+    let weights = strainedUncertain(choice, meters, flags).uncertain;
     const roll = plan ? battleRoll(choice, plan, meters) : null;
     if (roll) weights = shiftToward(weights, roll.config.winBranch, roll.bonus);
     branch = rollUncertain(weights, rng);

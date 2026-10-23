@@ -209,6 +209,14 @@ const NODE_ATLAS = {
     { id: "backhandBlow43", date: "FEBRUARY – MARCH 1943", title: "The Backhand Blow" },
   ],
   soviet: [
+    { id: "finnishPrep39", date: "OCTOBER – NOVEMBER 1939", title: "The Finnish Question" },
+    { id: "winterStall40", date: "DECEMBER 1939 – JANUARY 1940", title: "The Mannerheim Line" },
+    { id: "summaBreak40", date: "JANUARY 1940", title: "The Isthmus Breaks" },
+    { id: "moscowPeace40", date: "MARCH – MAY 1940", title: "The Moscow Peace" },
+    { id: "plan40", date: "AUGUST – OCTOBER 1940", title: "Where the Blow Will Fall" },
+    { id: "games41", date: "JANUARY 1941", title: "The War Games" },
+    { id: "prep41", date: "MARCH 1941", title: "The Mechanised Corps" },
+    { id: "memo41", date: "MAY 1941", title: "The Memorandum" },
     { id: "border41", date: "JUNE 1941", title: "The Border Collapses" },
     { id: "smolensk41", date: "JULY – SEPTEMBER 1941", title: "Smolensk and the Kiev Question" },
     { id: "industrialShortfall42", date: "LATE 1941", title: "The Gap in the Ledger" },
@@ -590,7 +598,7 @@ const ENDINGS_GALLERY = [
 // own objectives, independent of the war's larger, fixed result.
 const TIER_META = {
   "Major Victory": { short: "Major Victory", color: "#2f5233" },
-  "Minor Victory": { short: "Minor Victory", color: "#4a7856" },
+  "Minor Victory": { short: "Minor Victory", color: "#40694c" },
   "Contested Outcome": { short: "Contested", color: "#6b5b1f" },
   "Minor Defeat": { short: "Minor Defeat", color: "#8a4a2f" },
   "Major Defeat": { short: "Major Defeat", color: "#7a2e2e" },

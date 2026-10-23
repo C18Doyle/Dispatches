@@ -6,7 +6,8 @@ One folder per game plus a shared engine. Read the folder's own `CLAUDE.md` befo
 |---|---|
 | `packages/engine/` | Shared pure engine `@dispatches/engine`. Read its CLAUDE.md before changing it: every game depends on it. |
 | `Dispatches Frankenstein/` | Migrated to the engine. TypeScript. `npm test` green. |
-| `Dispatches Dracula/` | New game on the shared engine (Frankenstein's format, data-only content): the Count's campaign, with Mina's kept as a hidden second seat (`src/content/mina/`). TypeScript. `npm test` green. Not released. |
+| `Dispatches Dracula/` | New game on the shared engine (Frankenstein's format, data-only content): play Count Dracula or Mina Harker (a second seat, `src/content/mina/`). TypeScript. `npm test` green. Released to itch.io as a test build (see its CLAUDE.md). |
+| `Dispatches Sherlock/` | New game on the engine (TypeScript, content in JSON). Copy of Frankenstein's shape, re-skinned. `npm test` green. |
 | `Dispatches 1940/` | Partly migrated: buildable, `src/logic.ts` extracted (incl. battle subgame resolution), headless UI baseline, audits green. Not on the shared engine yet. |
 | `Dispatches 1941/` | Partly migrated: buildable, `src/logic.ts` extracted, UI-differential baseline. Content is code in `src/App.jsx`; not on the shared engine yet. |
 | `Dispatches 1922/` | Partly migrated: buildable, `src/logic.ts` extracted, headless UI baseline, validators in `tools/`. Not on the shared engine yet. |

@@ -71,7 +71,7 @@ async function step(ctx, pick = 0) {
 // --- standard mode: none of the easy extras ---------------------------------------------------------------
 {
   const ctx = await boot();
-  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Oberste")));
+  await ctx.click(ctx.buttons().find((b) => ctx.lab(b).includes("Germany")));
   await ctx.click(btn(ctx, /^Standard$/));
   await ctx.click(ctx.buttons().find((b) => ctx.lab(b) === "Enter the war room"));
   const t = ctx.text();
@@ -84,10 +84,10 @@ async function step(ctx, pick = 0) {
 
 // --- easy mode ---------------------------------------------------------------------------------------------
 const easy = await boot();
-await easy.click(easy.buttons().find((b) => easy.lab(b).includes("Oberste")));
-await easy.click(btn(easy, /^Easy mode$/));
-check(/easy mode is called Big Bertha/.test(easy.text()), "easy: the German briefing names the mode (Big Bertha)");
-check(/It cannot reach the highest rank/.test(easy.text()), "easy: the briefing says what the mode is");
+await easy.click(easy.buttons().find((b) => easy.lab(b).includes("Germany")));
+await easy.click(btn(easy, /Easy mode$/));
+check(/The last order can be taken back/.test(easy.text()), "easy: the briefing says what the mode does");
+check(/The highest rank is out of reach/.test(easy.text()) && !!easy.d.querySelector('.dg-bullets[data-mode="easy"]'), "easy: the briefing lists the mode in bullets");
   await easy.click(easy.buttons().find((b) => easy.lab(b) === "Enter the war room"));
 const first = easy.text();
 check(easy.d.querySelectorAll(".dg-preview").length === orders(easy).length, "easy: every order shows its effect on the meters");
@@ -144,7 +144,7 @@ for (let i = 0; i < 400; i++) {
 check(termChecked, "glossary: a term turned up in the story text on the way");
 const end = back.text();
 check(/Your command/.test(end) && /out of 100/.test(end), "rank: a closed file shows the command rank and its score");
-check(/Standing at the close/.test(end) && /The mode/.test(end) && /easy mode/.test(end), "rank: and the parts it is made of");
+check(/Ground held/.test(end) && /Power at the close/.test(end) && /The staff kept/.test(end) && /The mode/.test(end) && /easy mode/.test(end), "rank: and the parts it is made of");
 check(!/Field Marshal/.test(end), "rank: an easy file cannot reach the top rank");
 back.restore();
 

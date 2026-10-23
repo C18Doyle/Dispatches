@@ -393,8 +393,10 @@ function Stamp({ text, color, campaignId }) {
 const NODE_ATLAS = {
   japan: [
     { id: "chinaPeaceQuestion40", date: "1940", title: "The China Question, Unsolved" },
+    { id: "burmaRoad40", date: "JULY 1940", title: "The Burma Road" },
     { id: "tripartitePact40", date: "SEPTEMBER 1940", title: "The Tripartite Pact" },
     { id: "unificationQuestion40", date: "LATE 1940", title: "Two Services, Two Wars" },
+    { id: "neutralityPact41", date: "APRIL 1941", title: "The Neutrality Pact" },
     { id: "hokushinDebate41", date: "JULY 1941", title: "Kantokuen: The Road Not Taken North" },
     { id: "kantokuenOffensive41", date: "AUGUST 1941", title: "The Kwantung Army's Wager" },
     { id: "siberianReckoning42", date: "1942", title: "A War on Two Fronts, By Choice" },
@@ -402,6 +404,7 @@ const NODE_ATLAS = {
     { id: "novemberUltimatum41", date: "LATE NOVEMBER 1941", title: "The Hull Note" },
     { id: "pearlHarbor41", date: "DECEMBER 1941", title: "The Opening Vector" },
     { id: "burmaRangoon42", date: "MARCH 1942", title: "The Road to Rangoon" },
+    { id: "indianOceanRaid42", date: "APRIL 1942", title: "The Indian Ocean Raid" },
     { id: "burmaRangoon42Delayed", date: "LATE 1942", title: "The Road to Rangoon, Months Late" },
     { id: "bataanPOWQuestion42", date: "APRIL 1942", title: "Bataan: More Prisoners Than Anyone Planned For" },
     { id: "doolittleRaid42", date: "APRIL 1942", title: "Sixteen Bombers Over Tokyo" },
@@ -463,6 +466,7 @@ const NODE_ATLAS = {
   ],
   alliedPacific: [
     { id: "americanEmbargoResponse41", date: "JULY 1941", title: "The Embargo Decision" },
+    { id: "chinaAirForce41", date: "JULY – NOVEMBER 1941", title: "A Bomber Force for China" },
     { id: "aStandoffInsteadOfAWar41", date: "LATE 1941 – 1943", title: "A War Fought Without the United States" },
     { id: "theSlowerDeclaration42", date: "EARLY 1942", title: "Five Weeks in 1917, and No Guarantee of the Same Now" },
     { id: "warBeginsLate42", date: "1942", title: "A War Congress Chose Rather Than Had Chosen For It" },
@@ -477,14 +481,17 @@ const NODE_ATLAS = {
     { id: "wakeIslandRelief41", date: "DECEMBER 1941", title: "The Relief Force" },
     { id: "arcadia41", date: "DECEMBER 1941 – JANUARY 1942", title: "Arcadia: Europe First, Confirmed" },
     { id: "internmentQuestion42", date: "FEBRUARY 1942", title: "Executive Order 9066" },
+    { id: "stilwellInChungking42", date: "FEBRUARY – MARCH 1942", title: "A General for Chiang" },
     { id: "rangoonRetreatAllied42", date: "MARCH – APRIL 1942", title: "The Fall of Rangoon" },
     { id: "curtinsTurn42", date: "FEBRUARY 1942", title: "Curtin's Turn" },
     { id: "corregidorEvacuation42", date: "MARCH 1942", title: "The Order to Leave" },
     { id: "doolittleRaidAllied42", date: "APRIL 1942", title: "Doolittle's Gamble" },
+    { id: "carrierRequest42", date: "APRIL 1942", title: "Churchill Asks for a Carrier" },
     { id: "coralSeaMidwayAllied42", date: "MAY – JUNE 1942", title: "Midway: The Ambush Nobody Was Supposed to Win" },
     { id: "kokodaTrailAllied42", date: "JULY – NOVEMBER 1942", title: "The Kokoda Track" },
     { id: "guadalcanalAllied42", date: "AUGUST 1942", title: "Watchtower: The First Offensive" },
     { id: "savoIslandReckoning42", date: "AUGUST 1942", title: "Savo Island" },
+    { id: "vladivostokRoute42", date: "LATE 1942", title: "The Pacific Route to Russia" },
     { id: "unconditionalSurrender43", date: "JANUARY 1943", title: "The Casablanca Declaration" },
     { id: "torpedoCrisis43", date: "JANUARY 1943", title: "The Torpedo That Won't Explode" },
     { id: "theBatBombQuestion43", date: "JANUARY 1943", title: "Project X-Ray: A Dentist's Idea, Sixteen Months Later" },
@@ -820,7 +827,7 @@ const HARD_MODE_OF = { japan: "fanatical", alliedPacific: "coalition" };
 // Named for a famous failure of each side: the Shinano, the carrier sunk on her maiden voyage; the Mark 14 torpedo, which ran too deep and often did not explode.
 const EASY_MODE_NAMES = { japan: "Shinano Command", alliedPacific: "Mark 14 Command" };
 
-const NODE_TOTAL = 139; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
+const NODE_TOTAL = 146; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
 // or seriously built programs (Project X-Ray's bat bombs, the I-400 submarine carriers'
 // Panama Canal mission) that were genuinely pursued and then overtaken by events, not
 // invented for flavor. Both cite real, checked figures and dates.
@@ -983,3 +990,113 @@ function warRoomModeInfo(mode, campaignId) {
   return { label: names[mode] || mode, note: summaries[mode] || "", summary: summaries[mode] || "" };
 }
 
+// ---------- STATE-DRIVEN EVENTS ----------
+// Special events that the state of the file brings to a headquarters between two reports: a shortage, a change of government, the first of a
+// new weapon. An event is not a decision and changes no meter. It is shown once, on its own screen, before the first report whose date starts
+// inside its window (logic.ts: dueStateEvent), if `when` holds for the file's state. Many files never see some of them. `anchor` is a report
+// inside the window; tools/check-events.mjs proves it, and claims/events-round1.json holds each event's claims under the id. Nothing here is
+// spoken by a person in quotation marks. The list order is the order of precedence when two are due at the same arrival.
+const STATE_EVENTS = [
+  // ---- IGHQ ----
+  {
+    id: "japan_munitions", campaign: "japan", kind: "Politics", anchor: "theMainlandCrisis44",
+    from: "1943-10", to: "1944-03", date: "NOVEMBER 1943",
+    title: "The Ministry of Munitions",
+    when: (f) => f.unificationPath !== "forced",
+    paras: [
+      "In November 1943 the government sets up a Ministry of Munitions to unify the production of arms, aircraft above all. The Army and the Navy have been bidding against each other for aluminum and engines, and each has kept its own factories and its own designs.",
+      "The new ministry moves the quarrel into one building and does not end it. Aircraft output goes on rising through 1944, and the pilots to fly the aircraft do not keep pace.",
+    ],
+  },
+  {
+    id: "japan_students", campaign: "japan", kind: "The home front", anchor: "theMainlandCrisis44",
+    from: "1943-10", to: "1944-06", date: "OCTOBER 1943",
+    title: "The Students Are Called Up",
+    when: (f, m) => m.readiness <= -2,
+    paras: [
+      "On 21 October 1943 tens of thousands of students march past Prime Minister Tojo in the rain at the Meiji Jingu stadium in Tokyo. The deferment that kept university students out of the army has ended, and the first of them are called up in December.",
+      "The armed forces need officers and pilots, and the classrooms that trained them are emptying. Factories lose the young men who ran the machines, and schoolgirls take their places on the lines.",
+    ],
+  },
+  {
+    id: "japan_tankers", campaign: "japan", kind: "The sea lanes", anchor: "philippineSea44",
+    from: "1943-06", to: "1944-09", date: "NOVEMBER 1943",
+    title: "The Tankers",
+    when: (f, m) => m.pipeline <= -3,
+    paras: [
+      "American submarines are sinking merchant ships faster than Japan can build them, and the tankers that carry oil from Borneo and Sumatra to the home islands are among the first to go. The Navy has too few escorts, and the ships run in small groups with little cover.",
+      "The Navy forms an independent escort command in November 1943. By then the voyage from the Indies to the home islands has become the most dangerous one in the war.",
+    ],
+  },
+  {
+    id: "japan_tojo", campaign: "japan", kind: "Politics", anchor: "onishiKamikaze44",
+    from: "1944-07", to: "1944-10", date: "JULY 1944",
+    title: "The Cabinet Falls",
+    when: () => true,
+    paras: [
+      "Saipan falls in early July 1944, and with it the home islands come within range of the new bombers. On 16 July Tojo is removed as Chief of the Army General Staff, and on 18 July he and his cabinet announce their resignation, under pressure from the senior statesmen and from inside the Navy. General Koiso becomes Prime Minister on 22 July.",
+      "In August a Supreme Council for the Direction of the War is formed from the Prime Minister, the Foreign Minister, the two service ministers and the two chiefs of staff, to settle the basic policy of the war.",
+    ],
+  },
+  {
+    id: "japan_rice", campaign: "japan", kind: "The home front", anchor: "theSubmarineCarriersQuestion45",
+    from: "1945-04", to: "1945-08", date: "JUNE 1945",
+    title: "The Rice Crop",
+    when: (f, m) => m.pipeline <= -3,
+    paras: [
+      "The year's rice crop is poor, and the city ration has already been cut to a level that leaves people hungry. Farm labor has gone to the war, and the blockade has stopped the rice that came from Korea, Taiwan and Indochina.",
+      "The ministries tell the cabinet that the food will not last into the winter. It is one of the figures the cabinet is shown that summer.",
+    ],
+  },
+  // ---- CINCPAC ----
+  {
+    id: "allied_carriers", campaign: "alliedPacific", kind: "Production", anchor: "unconditionalSurrender43",
+    from: "1943-01", to: "1943-12", date: "1943",
+    title: "The New Carriers",
+    when: (f, m) => m.pipeline >= 2,
+    paras: [
+      "The carrier Essex joins the fleet at the end of 1942, and more of her class follow through 1943. The carriers the fleet lost in 1942, Lexington, Yorktown, Wasp and Hornet, are being replaced faster than Japan can replace the ones it lost.",
+      "The first of the new carriers do not reach the Pacific in strength until the autumn, and the staff in Hawaii plans around that date. Until then the fleet has the carriers it has.",
+    ],
+  },
+  {
+    id: "allied_landing_ships", campaign: "alliedPacific", kind: "Production", anchor: "philippineSeaAllied44",
+    from: "1943-12", to: "1944-06", date: "FEBRUARY 1944",
+    title: "The Landing Ship Shortage",
+    when: (f, m) => m.pipeline <= -2,
+    paras: [
+      "Landing ships tank are the scarcest ships in the Allied navies. The Atlantic needs every one it can get for the landing in Normandy, and the Pacific has a fraction of what its commanders have asked for. The operations in the Central Pacific are timed around the few that are available.",
+      "The planners in Hawaii and Washington argue over every ship, and the Pacific is told again that the Atlantic comes first.",
+    ],
+  },
+  {
+    id: "allied_special_attack", campaign: "alliedPacific", kind: "The enemy", anchor: "quezonsSuccessor44",
+    from: "1944-10", to: "1944-12", date: "OCTOBER 1944",
+    title: "The First Special Attacks",
+    when: () => true,
+    paras: [
+      "On 25 October 1944, off Samar, Japanese naval aircraft dive into the escort carriers of Taffy 3 on purpose. The escort carrier St. Lo is sunk by a single hit, the first major warship lost to a kamikaze attack.",
+      "The attacks go on over Leyte Gulf in the days that follow. The fleet has no answer to them except to shoot the aircraft down before they arrive.",
+    ],
+  },
+  {
+    id: "allied_roosevelt", campaign: "alliedPacific", kind: "Politics", anchor: "okinawaAllied45",
+    from: "1945-04", to: "1945-04", date: "APRIL 1945",
+    title: "The President Is Dead",
+    when: () => true,
+    paras: [
+      "President Roosevelt dies at Warm Springs, Georgia, on 12 April 1945. Vice President Truman is sworn in that evening, and he has been told almost nothing of the war's secret programs.",
+      "The Joint Chiefs carry on as they were. The fleet is off Okinawa, and the war does not pause for the change of President.",
+    ],
+  },
+  {
+    id: "allied_fatigue", campaign: "alliedPacific", kind: "The fleet", anchor: "strategicBombingAllied45Delayed",
+    from: "1945-04", to: "1945-06", date: "MAY 1945",
+    title: "The Ships on Station",
+    when: (f, m) => m.readiness <= -3,
+    paras: [
+      "The ships on the Okinawa stations are at general quarters for much of every day and night. Sailors who have gone without sleep for days fall ill with what the medical officers call combat fatigue, and the sick lists show it.",
+      "The fatigue is one reason the Navy relieves the ships on the stations by turn, and one more cost of a campaign that lasts close to three months.",
+    ],
+  },
+];

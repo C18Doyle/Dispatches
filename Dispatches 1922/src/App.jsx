@@ -390,8 +390,9 @@ export const CAMPAIGNS = {
       { id: "northernTauride20", date: "JUNE 1920", title: "Tauride: Neither Bayonets Nor Deeds" },
       { id: "wrangelsEnvoy20", date: "JULY 1920", title: "Vrem'evka: The Letter to Makhno" },
       { id: "crimeaDefensePrep20", date: "OCTOBER 1920", title: "Sevastopol: Preparing for the End" },
+      { id: "frunzeOffer20", date: "NOVEMBER 1920", title: "Sevastopol: The Radio From Frunze" },
     ],
-    NODE_TOTAL: 29,
+    NODE_TOTAL: 30,
     ENDINGS_GALLERY: [
       { id: "endingBizerte", title: "The Bizerte Fleet", classification: "historical" },
       { id: "endingTheCouncilAtSevastopol20", title: "The Council at Sevastopol", classification: "speculative" },
@@ -488,6 +489,7 @@ export const CAMPAIGNS = {
             choices: [
               {
                 label: "Press one more day. The foothold gained might be the beginning of something, not the end of it.",
+                keyBattleSubgame: { id: "ekaterinodar" },
                 advisor: {
                   name: "Alekseev",
                   quote:
@@ -1026,6 +1028,7 @@ export const CAMPAIGNS = {
               },
               {
                 label: "Pull the weakest sections of the line back overnight to consolidate, even if it lets part of Makhno's force slip out.",
+                keyBattleSubgame: { id: "peregonovka" },
                 advisor: {
                   name: "Wrangel",
                   quote:
@@ -1196,6 +1199,7 @@ export const CAMPAIGNS = {
               },
               {
                 label: "Order a fighting withdrawal to the Kursk–Kharkov line instead. Preserve the army over the ground.",
+                keyBattleSubgame: { id: "orel" },
                 advisor: {
                   name: "Wrangel",
                   quote:
@@ -1767,6 +1771,7 @@ export const CAMPAIGNS = {
             choices: [
               {
                 label: "Prioritize the Volunteer Army's combat units. Cossack formations, horses, and heavy equipment are left to fend for themselves.",
+                costsCapital: true,
                 advisor: {
                   name: "Denikin",
                   quote:
@@ -1934,6 +1939,7 @@ export const CAMPAIGNS = {
             choices: [
               {
                 label: "Dismiss him. A command that tolerates a general publishing his own case against it in front of the officer corps has already lost something no reassignment gets back.",
+                costsCapital: true,
                 advisor: {
                   name: "Denikin",
                   quote:
@@ -2112,6 +2118,17 @@ export const CAMPAIGNS = {
                 outcome:
                   "The refusal is stated plainly and changes nothing about the room it is stated in.",
               },
+              {
+                label: "Ask the council for its opinion, then name the successor by your own order. A commander is appointed from above and not elected from below.",
+                historical: false,
+                setFlags: { sevastopolCouncil: "designated" },
+                impact: {},
+                aftermath:
+                  "A 1920 cable from the US naval commander at Sevastopol reports that the generals thought it subversive of military discipline for subordinates to elect their superior, and that they named Wrangel as the only acceptable successor. Denikin then designated Wrangel himself. Other accounts differ on the date and on what part General Dragomirov's committee played. Denikin resigned in either version and sailed for Constantinople.",
+                next: "landLawDecision20",
+                outcome:
+                  "The generals give their view of Wrangel and nothing more. The appointment is issued as an order over your signature, and the resignation follows it the same day.",
+              },
             ],
           };
 
@@ -2145,7 +2162,7 @@ export const CAMPAIGNS = {
             historicalRecord: true,
             situation:
               "Wrangel has replaced Denikin, and Krivoshein — his new Prime Minister, once the most liberal minister the Tsar ever had — is pushing a land law: peasants can purchase, through the state as intermediary, the land they already work. A White general in exile will later say plainly that if Denikin had published this exact law two years earlier, the outcome of the whole war might have been different. It is May 1920. There is no more time left to test that theory gently." +
-              (flags.sevastopolCouncil === "resigned"
+              (flags.sevastopolCouncil === "resigned" || flags.sevastopolCouncil === "designated"
               ? " The law arrives over a signature the army agreed on at Sevastopol three weeks ago, which is the only reason a measure this radical can be issued at all without the Kuban reading it as a trick."
               : "") +
             (flags.novorossiyskPolicy === "volunteer_priority"
@@ -2325,7 +2342,7 @@ export const CAMPAIGNS = {
                 historical: true,
                 setFlags: { evacuationPrep: "advance" },
                 impact: {},
-                next: "finalReckoning20",
+                next: "frunzeOffer20",
                 outcome:
                   "The preparation happens quietly, alongside the defense rather than instead of it. It is the reason the eventual Crimean evacuation moves some 145,000 people off the peninsula in reasonable order — the one piece of this whole campaign that does not end in the kind of chaos Novorossiysk did.",
               },
@@ -2339,9 +2356,89 @@ export const CAMPAIGNS = {
                 historical: false,
                 setFlags: { evacuationPrep: "none" },
                 impact: { manpower: 2 },
-                next: "finalReckoning20",
+                next: "frunzeOffer20",
                 outcome:
                   "Every spare resource goes to the defense instead. It marginally strengthens the line at Perekop — and if that line breaks anyway, as it does on the other side of this history, whatever evacuation follows will have to be improvised from nothing, the way Novorossiysk was.",
+              },
+            ],
+          };
+
+        // ---------------------------------------------------------------------
+        // 11 November 1920: Frunze's radio offer. Documented: Lenin's Collected Works (telegram of
+        // 12 Nov 1920 and its editorial note) say Frunze radioed Wrangel an offer to stop fighting,
+        // with amnesty for those who laid down arms, and that Wrangel neither replied nor told his
+        // troops. The Presidential Library of Russia says the offer was rejected. Sources disagree
+        // on whether there was a reply, so the concealment is the historical choice (the Lenin
+        // note) and the refusal is a marked alternative. Publishing it to the army is modeled.
+        case "frunzeOffer20":
+          return {
+            date: "NOVEMBER 1920",
+            title: "Sevastopol: The Radio From Frunze",
+            bulletin: {
+              headline: "THE ISTHMUS IS BREAKING",
+              body: "The Red Army has been attacking across the Perekop isthmus and wading the Sivash since the night of 7 November. Orders to evacuate have gone to the ports. On 11 November a radio message from Frunze, the commander of the Southern Front, arrives in clear.",
+              meanwhile: {
+                siberia: "The Far Eastern Republic holds Chita. Fighting east of Lake Baikal goes on in the Maritime provinces and along the Manchurian border.",
+                bolsheviks: "Lenin cables the Southern Front the next day. He thinks the terms Frunze has offered are excessively accommodating.",
+              },
+            },
+            historicalRecord: true,
+            situation:
+              "Frunze offers to stop the fighting. Anyone who lays down arms will be granted an amnesty. The message is addressed to the commander and is open to anyone with a receiver. The line at Perekop is giving way and the ships are being loaded. Whatever is done with this message, it has to be done today." +
+              (flags.evacuationPrep === "advance"
+                ? " The evacuation has been planned since the autumn. The ports know their berths, and the order only starts what is already laid out."
+                : " No evacuation was planned in advance. Every berth has to be found today, from the same wires that carry this message.") +
+              (flags.makhnoOutreach === "sent"
+                ? " The Soviet press has used the letter to Makhno since July. Few in the army believe the offer is meant, and many believe the opposite."
+                : ""),
+            choices: [
+              {
+                label: "Keep it from the army. Do not answer. The evacuation order stands.",
+                advisor: {
+                  name: "Kutepov",
+                  position:
+                    "Kutepov holds that the regiments can be moved to the ports in order only while they take orders from this headquarters, and that an amnesty read to them would end that.",
+                },
+                historical: true,
+                setFlags: { frunzeOffer: "concealed" },
+                impact: {},
+                next: "finalReckoning20",
+                outcome:
+                  "The message is not posted and no reply goes back. The evacuation order goes out over the same wires, and the ports begin to fill.",
+                aftermath:
+                  "Lenin's Collected Works record that Wrangel did not reply to Frunze and did not tell his troops. The last ships left the Crimea on 14 November.",
+              },
+              {
+                label: "Answer it with a refusal. Tell the army the terms were offered and refused.",
+                advisor: {
+                  name: "Shatilov",
+                  position:
+                    "Shatilov, the chief of staff, argues that an unanswered offer will reach the regiments anyway, and that it is better for them to hear it from this headquarters with a refusal beside it.",
+                },
+                historical: false,
+                setFlags: { frunzeOffer: "refused" },
+                impact: { manpower: -1 },
+                next: "finalReckoning20",
+                outcome:
+                  "The reply goes out by radio that afternoon. The army is told that an amnesty was offered and that it was refused. The evacuation order is not withdrawn.",
+                aftermath:
+                  "The sources disagree. Lenin's Collected Works say Wrangel did not reply. The Presidential Library of Russia says the offer was rejected. No document by Wrangel settles it.",
+              },
+              {
+                label: "Publish it to every regiment and port. Leave the evacuation order open to anyone who wants a berth.",
+                advisor: {
+                  name: "Wrangel",
+                  position:
+                    "Wrangel's own reasoning is not recorded for this day. Those who want the offer put to the army say that men who are told the truth will choose for themselves, and that choosing is all an evacuation can ask of them.",
+                },
+                historical: false,
+                setFlags: { frunzeOffer: "published" },
+                impact: { manpower: -2 },
+                next: "finalReckoning20",
+                outcome:
+                  "Speculative. The message is read to the regiments on the isthmus and posted in every port. The evacuation order stands beside it, so each officer has both papers in his hand.",
+                aftermath:
+                  "Speculative. No record shows the offer reaching the troops. Lenin cabled the Southern Front the next day that its terms were excessively accommodating, and that the fleet was to be seized if they were accepted.",
               },
             ],
           };
@@ -2359,10 +2456,23 @@ export const CAMPAIGNS = {
         // gamble actually fail. Two real decisions in direct sequence, not
         // an arithmetic side-effect of the whole campaign.
         case "finalReckoning20":
+          const frunzeNotes = {
+            concealed:
+              "On 11 November Frunze radioed an offer to stop fighting, with amnesty for anyone who laid down arms. Lenin's Collected Works record that Wrangel did not reply and did not tell his troops. Lenin cabled the Southern Front the next day that the terms were excessively accommodating, and that the fleet was to be seized if they were accepted.",
+            refused:
+              "On 11 November Frunze radioed an offer to stop fighting, with amnesty for anyone who laid down arms. In this telling the offer was refused and the army was told so. The sources disagree on whether Wrangel answered at all. Lenin cabled the Southern Front the next day that the terms were excessively accommodating.",
+            published:
+              "Speculative. Frunze's offer of 11 November, an amnesty for anyone who laid down arms, was read to the army. No record shows that this happened. Lenin cabled the Southern Front the next day that the terms were excessively accommodating. Some units would have stayed to take them and some would have run for the ships, and no source says in what numbers.",
+          };
+          const finalNode = (id) => {
+            const ending = this.resolveNode(id);
+            const note = frunzeNotes[flags.frunzeOffer];
+            return note && ending && ending.epilogue ? { ...ending, epilogue: ending.epilogue + "\n\n" + note } : ending;
+          };
           if (flags.ekaterinodarChoice === "press" && flags.secondDayOutcome === "collapsed") {
-            return this.resolveNode("endingArmyDissolved20");
+            return finalNode("endingArmyDissolved20");
           }
-          return this.resolveNode(flags.evacuationPrep === "advance" ? "endingBizerte" : "endingSecondNovorossiysk");
+          return finalNode(flags.evacuationPrep === "advance" ? "endingBizerte" : "endingSecondNovorossiysk");
 
         // ---------------------------------------------------------------------
         // ENDING — reachable only via a specific decision chain: pressing
@@ -3207,6 +3317,7 @@ export const CAMPAIGNS = {
             choices: [
               {
                 label: "Commit to Diterichs' counterattack. Throw the reserves into retaking the city.",
+                keyBattleSubgame: { id: "chelyabinsk" },
                 advisor: {
                   name: "Diterichs",
                   quote:
@@ -3217,7 +3328,28 @@ export const CAMPAIGNS = {
                 impact: {},
                 next: "railPriority19",
                 outcome:
-                  "The counterattack goes in on July 29 — directly into Frunze's prepared flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
+                  "The counterattack goes in against a Red army that has been preparing for exactly this. Whether it checks the advance or is ground down is decided by the battle.",
+                uncertain: (() => {
+                  const checkWeight = modWeight(25, meterPct(meters.manpower));
+                  return [
+                    {
+                      weight: checkWeight,
+                      title: "The counterattack checks the Red advance",
+                      setFlags: { chelyabinskOutcome: "checked" },
+                      impact: { manpower: 2 },
+                      outcome:
+                        "A modeled alternative. The counterattack pushes a Red division back on the flank and the junction holds for several days. It does not retake the city, and Chelyabinsk falls within the week. The reserves leave it as a formation and not as a crowd.",
+                    },
+                    {
+                      weight: 100 - checkWeight,
+                      title: "The counterattack is ground down",
+                      setFlags: { chelyabinskOutcome: "grinder" },
+                      impact: {},
+                      outcome:
+                        "The counterattack goes in on July 29 — directly into Frunze's prepared flanking strike. What follows becomes known simply as the Chelyabinsk grinder: roughly 15,000 men captured, the reserves that were meant to stabilize the southern flank instead consumed by it. The army does not recover its strategic initiative after this. It never really had the chance to.",
+                    },
+                  ];
+                })(),
               },
               {
                 label: "Decline the counterattack. Pull the reserves back to a more defensible line rather than commit them to urban fighting.",
@@ -3589,6 +3721,7 @@ export const CAMPAIGNS = {
             choices: [
               {
                 label: "Attack. Force the issue at Irkutsk and try to take Kolchak back by strength.",
+                keyBattleSubgame: { id: "irkutsk" },
                 advisor: {
                   name: "Voitsekhovsky",
                   quote:
@@ -3937,7 +4070,9 @@ export const CAMPAIGNS = {
                 : flags.eichePursuitChoice === "continue"
                 ? "\n\nThe column kept moving and let the rearguard absorb the pursuit unsupported. More men reached the border for it. The decision is recorded in nobody's memoir as anything other than the correct one, which is its own kind of comment on what this retreat had become by then."
                 : "") +
-              (flags.chelyabinskChoice === "counterattack"
+              (flags.chelyabinskChoice === "counterattack" && flags.chelyabinskOutcome === "checked"
+                ? "\n\nIn this telling Diterichs' counterattack at Chelyabinsk checked the Red advance for a few days. It did not hold the city, but the reserves it spent came out as a formation, and more of them were still walking by the Manchurian border."
+                : flags.chelyabinskChoice === "counterattack"
                 ? "\n\nDiterichs' counterattack at Chelyabinsk was committed to and did not stabilize the flank it was meant to. The reserves it spent were the ones that would otherwise have been available for exactly this stretch of the retreat, and their absence shaped who was still walking by the Manchurian border."
                 : ""),
           };
@@ -4513,6 +4648,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Reassert Revvoensoviet authority now, even though the moment to do it cleanly at Tsaritsyn has already passed.",
+              costsCapital: true,
               advisor: {
                 name: "Trotsky",
                 quote:
@@ -4656,6 +4792,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Intensify requisitioning in reconquered territory. The army and the cities eat first.",
+              costsCapital: true,
               advisor: {
                 name: "Trotsky",
                 quote:
@@ -5066,6 +5203,8 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Approve the unified Cavalry Army under Budyonny's command.",
+              keyBattleSubgame: { id: "voronezh" },
+              costsCapital: true,
               advisor: {
                 name: "Budyonny",
                 quote:
@@ -5222,6 +5361,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Commit to the combined plan — the frontal assault on Perekop timed with the night crossing of the Sivash.",
+              keyBattleSubgame: { id: "perekop" },
               advisor: {
                 name: "Frunze",
                 quote:
@@ -5236,7 +5376,29 @@ CAMPAIGNS.bolsheviks = {
               impact: {},
               next: "kronstadt21",
               outcome:
-                "The crossing succeeds. Blücher's division fords the Sivash overnight and turns the Perekop defense from the rear — the maneuver that actually breaks Wrangel's line and starts the retreat that ends, on the other side of this history, at the Crimean docks.",
+                "The order goes out. The shock group goes into the Sivash in the dark. Whether the crossing turns the Wall or is caught in the open is decided by the battle.",
+              uncertain: (() => {
+                const turnsWeight = modWeight(70, meterPct(meters.reliability));
+                return [
+                  {
+                    weight: turnsWeight,
+                    title: "The crossing turns the Wall",
+                    setFlags: { perekopOutcome: "turned" },
+                    impact: {},
+                    outcome:
+                      "The crossing succeeds. Blücher's division fords the Sivash overnight and turns the Perekop defense from the rear — the maneuver that actually breaks Wrangel's line and starts the retreat that ends, on the other side of this history, at the Crimean docks.",
+                  },
+                  {
+                    weight: 100 - turnsWeight,
+                    title: "The crossing is caught in the open",
+                    setFlags: { perekopOutcome: "stalled" },
+                    impact: { mobilization: -2, reliability: -1 },
+                    next: "compressedEvacuation20",
+                    outcome:
+                      "A modeled alternative. Either the water rises before the shock group is across, or the crossing is seen from the Wall. The frontal assault goes on alone and costs far more than the crossing was meant to save, and Perekop is taken days late.",
+                  },
+                ];
+              })(),
             },
             {
               label: "Rely on a massed frontal assault against the Turkish Wall alone. Skip the Sivash crossing's risk.",
@@ -5446,7 +5608,9 @@ CAMPAIGNS.bolsheviks = {
               : flags.polishAxis === "south"
               ? " The Cavalry Army stayed at Lw\u00f3w while Warsaw was lost. Every senior man in this room has spent the winter being asked, in print and in committee, whose decision that was — and arrives at Kronstadt with an appetite for a result nobody can argue about."
               : "") +
-            (flags.perekopPlan === "sivash_crossing"
+            (flags.perekopPlan === "sivash_crossing" && flags.perekopOutcome === "stalled"
+              ? " The Sivash crossing was caught in the open and Perekop was taken late, at a heavy cost. The formations available for an assault across the ice are thinner for it, and this one has to be made anyway."
+              : flags.perekopPlan === "sivash_crossing"
               ? " The Sivash crossing worked. The men who waded the Rotten Sea in November are, in some cases, the same men now being ordered across the ice at Kronstadt against sailors who are not Wrangel."
               : flags.perekopPlan === "frontal_only"
               ? " Perekop was taken frontally, at a cost the Sivash crossing was designed to avoid. The formations available for an assault across the ice are thinner for it, and this one has to be made anyway."
@@ -5721,7 +5885,7 @@ CAMPAIGNS.provisionalGov17 = {
       "No rewind, no meter dashboard -- only cabinet minutes. Five points of Decree Capital to spend ruling by ministerial emergency power instead of negotiating with the Soviet Executive Committee's own delegates. Spend all five and the government hasn't out-argued the Soviet, it has stopped pretending dual power was ever a partnership -- named for the word Kerensky's own allies on the moderate left used, from the first coalition onward, for exactly the outcome they hoped backing him would prevent.",
     buttonLabel: "OPEN CABINET",
     maxCap: 5,
-    maxEndingId: "endingKornilovsRepublic17",
+    maxEndingId: "endingDecreeCabinet17",
   },
 
   NEWSPAPER_MASTHEAD: "VESTNIK VREMENNOGO PRAVITELSTVA",
@@ -5764,22 +5928,39 @@ CAMPAIGNS.provisionalGov17 = {
       faction: "Kadet Party, First Coalition Cabinet",
       rank: 1,
     },
+    savinkov: {
+      role: "Deputy Minister of War (from the summer of 1917)",
+      bio:
+        "A Socialist Revolutionary who had organized the assassinations of the interior minister Plehve in 1904 and of Grand Duke Sergei in 1905. In 1917 he served as a commissar with the army and then as Kerensky's deputy at the War Ministry. He was one of those who pressed for Kornilov to be made Supreme Commander.",
+      fate:
+        "Left the War Ministry in the first days of September, after the Kornilov affair. He fought the Bolsheviks in 1918, lived in exile in Europe, and was arrested after crossing back into the Soviet Union in 1924. He was sentenced to death, the sentence was reduced to ten years, and he died in the Lubyanka on 7 May 1925. The official finding was suicide.",
+      faction: "Provisional Government, War Ministry",
+      rank: 1,
+    },
   },
 
   NODE_ATLAS: [
     { id: "aprilCrisis17", date: "APRIL 1917", title: "Petrograd: The Note That Became Public" },
+    { id: "armyCommissars17", date: "MAY 1917", title: "The Ministry of War: Committees, Commissars and a Declaration" },
     { id: "juneOffensive17", date: "JUNE 1917", title: "The Southwestern Front: An Offensive With a Government's Name On It" },
     { id: "julyDays17", date: "JULY 1917", title: "Petrograd: The Days the Machine Guns Came Out" },
+    { id: "supremeCommand17", date: "JULY 1917", title: "Stavka: Who Commands the Army" },
+    { id: "moscowConference17", date: "AUGUST 1917", title: "Moscow: The State Conference" },
     { id: "kornilovAffair17", date: "AUGUST 1917", title: "Petrograd: The General's Trains" },
+    { id: "directory17", date: "SEPTEMBER 1917", title: "Petrograd: Five Ministers and a Republic" },
+    { id: "democraticConference17", date: "SEPTEMBER 1917", title: "Petrograd: The Democratic Conference" },
+    { id: "octoberStand17", date: "OCTOBER 1917", title: "Petrograd: The Morning of the 24th" },
   ],
-  NODE_TOTAL: 4,
+  NODE_TOTAL: 10,
   ENDINGS_GALLERY: [
     { id: "endingWinterPalaceFalls17", title: "The Winter Palace Falls", classification: "historical" },
     { id: "endingKornilovsRepublic17", title: "The General's Republic", classification: "speculative" },
+    { id: "endingDecreeCabinet17", title: "The Cabinet That Governed Alone", classification: "speculative" },
   ],
   ENDING_CLASSIFICATION: {
     endingWinterPalaceFalls17: "historical",
     endingKornilovsRepublic17: "speculative",
+    endingDecreeCabinet17: "speculative",
   },
 
   resolveNode(nodeId, flags = {}, meters = {}) {
@@ -5807,12 +5988,12 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Back Miliukov. The note states this government's actual policy; reversing it because a crowd formed outside the palace teaches every future crowd that a crowd is how policy gets made here.",
               advisor: {
                 name: "Miliukov",
-                quote: "I have not lied to the Allies about what we intend. I am being asked to lie to them instead, and to call the lie clarification. I would rather resign than sign my name to it.",
+                position: "Miliukov holds that the note states the government's policy, that withdrawing it in front of a crowd teaches every later crowd the same lesson, and that he would resign rather than sign a clarification.",
               },
               historical: false,
               setFlags: { aprilCrisisChoice: "standFirm" },
               impact: { authority: -2, sovietRelations: -3 },
-              next: "juneOffensive17",
+              next: "armyCommissars17",
               outcome:
                 "The note stands as written. The demonstrations don't stop; they harden, and the officer counter-demonstration hardens with them. Miliukov keeps his portfolio for now, at the cost of a Soviet Executive Committee that no longer takes this Cabinet's public commitments at face value.",
             },
@@ -5820,12 +6001,12 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Accept the Soviet's terms: clarify the note's language, and bring Soviet-aligned socialists into the Cabinet itself rather than governing over their objections.",
               advisor: {
                 name: "Tsereteli",
-                quote: "A coalition is not a concession. It is the only version of this government that can actually issue an order and have it obeyed past the palace gates. I would rather share the Cabinet than keep the whole of it and none of the authority that comes with it.",
+                position: "Tsereteli argues that a coalition is the only form of this government whose orders will be obeyed beyond the palace gates, and that sharing the cabinet is better than holding all of it with none of the authority.",
               },
               historical: true,
               setFlags: { aprilCrisisChoice: "coalition" },
               impact: {},
-              next: "juneOffensive17",
+              next: "armyCommissars17",
               outcome:
                 "Miliukov and War Minister Guchkov resign within days. On 5 May a reorganized coalition cabinet is sworn in with six socialist ministers, Kerensky moving from Justice to War among them -- the first time the Soviet's own people sit in the government rather than merely supervising it from outside.",
             },
@@ -5833,7 +6014,68 @@ CAMPAIGNS.provisionalGov17 = {
         };
 
       // -----------------------------------------------------------------
-      // Reached by both aprilCrisis17 choices with no flags-conditional
+      // May 1917. Documented: each field army and front was given commissars from the
+      // Provisional Government, the Petrograd Soviet and the soldiers' committees, who could
+      // countersign orders and recommend the removal of officers. Kerensky's Declaration of
+      // Soldiers' Rights was modified so that committees could not elect officers and officers
+      // kept control of operations, training and supply. Brusilov replaced Alekseev as Supreme
+      // Commander in late May. The exact date of the Declaration is not claimed here.
+      // Sources: claims/provisional-government-round1.md
+      case "armyCommissars17":
+        return {
+          date: "MAY 1917",
+          title: "The Ministry of War: Committees, Commissars and a Declaration",
+          bulletin: {
+            headline: "THE ARMY NOW HAS THREE KINDS OF AUTHORITY",
+            body:
+              "Every regiment has an elected soldiers' committee. Every field army and front now has commissars named by the Provisional Government, the Petrograd Soviet and the soldiers' committees. They can countersign orders and recommend that an officer be removed. The officers say the army cannot attack under this arrangement. The committees say the officers want the old army back.",
+            meanwhile: {
+              southRussia: "Does not exist yet as a command. General Alekseev, the Supreme Commander, will raise the Volunteer Army on the Don after the October rising.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "Lenin has been back in Petrograd since 3 April and argues for all power to the Soviets. The Bolsheviks are a minority in the Soviet.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "You are Minister of War. The army has to attack in the summer if Russia is to keep its place beside the Allies, and it has to attack with a soldiers' committee in every regiment. The officers want the committees confined to supply and welfare. The Soviet wants the soldiers' rights written into law. You have to decide what the army is allowed to be before you ask it to fight." +
+            (flags.aprilCrisisChoice === "standFirm"
+              ? " The Soviet Executive Committee has no minister of its own in the cabinet to speak for the committees, and says so."
+              : " The Soviet's ministers sit in the cabinet and will read whatever you issue."),
+          choices: [
+            {
+              label: "Issue the Declaration of Soldiers' Rights, with the commissars in place. Committees may not elect officers. Officers keep command of operations, training and supply.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli argues that soldiers will take orders only from a government they can see the Soviet standing behind.",
+              },
+              historical: true,
+              setFlags: { armyPolicy: "declaration" },
+              impact: {},
+              next: "juneOffensive17",
+              outcome:
+                "The Declaration goes out over your signature. Soldiers keep their civil rights and their committees. They lose the right to elect their officers, and officers get back command of operations, training and supply. The commissars stay with the armies.",
+              aftermath:
+                "Brusilov took over as Supreme Commander in late May 1917, when Alekseev was removed.",
+            },
+            {
+              label: "Hold the Declaration back. Confine the committees to supply and welfare by order, and keep the commissars as observers.",
+              advisor: {
+                name: "Kornilov",
+                position: "Kornilov argues that committees which can discuss orders have already ended command, and that the army will attack only when they are confined to the mess and the stores.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { armyPolicy: "withheld" },
+              impact: { frontDiscipline: 2, sovietRelations: -3, authority: -1 },
+              next: "juneOffensive17",
+              outcome:
+                "A modeled alternative. The order goes to the armies as a telegram from the Ministry. Officers act on it at once. Many committees refuse to recognize it, and the Soviet Executive Committee asks by what authority the Ministry issued it.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // Reached by both armyCommissars17 choices with no flags-conditional
       // branch here — check-continuity.js flags this every run, and it's a
       // deliberate, accepted convergence, not a gap: this is a 4-node
       // chain, not a wide tree, and April's choice is already read forward
@@ -5855,13 +6097,19 @@ CAMPAIGNS.provisionalGov17 = {
           },
           historicalRecord: true,
           situation:
-            "As the new War Minister, you campaigned across the front for this offensive personally, on the argument that Russia keeps its seat among the Allies -- and its claim on any postwar settlement -- only by fighting, not merely by surviving. The Southwestern Front attacks at dawn on 18 June. The first two days go well: real ground, real prisoners. What happens after that is not yet written.",
+            "As the new War Minister, you campaigned across the front for this offensive personally, on the argument that Russia keeps its seat among the Allies -- and its claim on any postwar settlement -- only by fighting, not merely by surviving. The Southwestern Front attacks at dawn on 18 June. The first two days go well: real ground, real prisoners. What happens after that is not yet written." +
+            (flags.armyPolicy === "withheld"
+              ? " The committees have not accepted the May order. Several regiments on the line have voted on whether to attack at all."
+              : flags.armyPolicy === "declaration"
+              ? " Under the Declaration the committees keep their civil rights and the commissars countersign the orders. Officers command the attack."
+              : ""),
           choices: [
             {
               label: "Commit the reserves forward the moment the initial advance succeeds, to turn a local gain into an actual breakthrough before the front stabilizes again.",
+              keyBattleSubgame: { id: "juneOffensive" },
               advisor: {
                 name: "Kerensky",
-                quote: "I did not spend three weeks telling exhausted men why this offensive matters so that we could stop the day it started working. A gain we don't press is a gain we'll have spent for nothing at all.",
+                position: "Kerensky argues that a gain not pressed on the day it starts to work will have been spent for nothing, after three weeks of telling tired men why the offensive matters.",
               },
               historical: true,
               setFlags: { offensiveChoice: "pressForward" },
@@ -5894,8 +6142,8 @@ CAMPAIGNS.provisionalGov17 = {
             {
               label: "Hold the reserves back and consolidate the initial gain, rather than gambling everything on turning two good days into something larger.",
               advisor: {
-                name: "General Kornilov",
-                quote: "An army this ready to stop fighting on its own does not get better with caution. Every day this offensive doesn't visibly succeed is a day the men decide for themselves that it already failed.",
+                name: "Kornilov",
+                position: "Kornilov argues that an army this ready to stop fighting does not improve with caution, and that each day the offensive fails to succeed visibly is a day the men decide it has already failed.",
               },
               historical: false,
               setFlags: { offensiveChoice: "consolidate", offensiveOutcome: "consolidated" },
@@ -5938,12 +6186,12 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Bring in loyal front-line units to clear the streets, arrest the Bolshevik leadership reachable in the city, and shut down the Party's press -- but stop short of an outright ban on the party itself.",
               advisor: {
                 name: "Tsereteli",
-                quote: "Breaking the rising is not the same decision as outlawing every man who marched in it. One is restoring order the Soviet's own moderate majority already wants restored. The other makes martyrs of people this government may need to still be talking to in a month.",
+                position: "Tsereteli argues that breaking the rising is not the same decision as outlawing everyone who marched in it. The Soviet's moderate majority wants order restored. A ban would make martyrs of people the government may still need to talk to.",
               },
               historical: true,
               setFlags: { julyDaysChoice: "targetedCrackdown" },
               impact: { sovietRelations: 1, frontDiscipline: -1 },
-              next: "kornilovAffair17",
+              next: "supremeCommand17",
               outcome:
                 "Loyalist units restore order within days. Trotsky is arrested; Lenin, warned in time, goes into hiding and crosses into Finland within days, not returning to the city until October. The Bolshevik press is shut down for a matter of weeks, not permanently, and the party itself is never formally outlawed -- a targeted defeat, not an eradication.",
             },
@@ -5951,17 +6199,153 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Use the moment to move against the Bolshevik party as an organization outright -- outlaw it, not merely its individual leaders, while the rising has discredited it in front of the Soviet's own moderate majority.",
               advisor: {
                 name: "Kerensky",
-                quote: "I understand the argument for restraint. I am less persuaded of it every week this party spends organizing against a government it has no intention of ever recognizing as legitimate.",
+                position: "Kerensky grants the case for restraint but says he is less persuaded by it each week the party organizes against a government it does not mean to recognize.",
               },
               historical: false,
               gate: (m) => m.authority >= -3,
               disabledReason:
                 "the Cabinet's own authority to make a decree like this actually stick is already too thin -- an outright ban announced by a government this weak reads as a threat it cannot enforce, not a real one.",
+              costsCapital: true,
               setFlags: { julyDaysChoice: "outrightBan" },
               impact: { sovietRelations: -3, authority: 1 },
-              next: "kornilovAffair17",
+              next: "supremeCommand17",
               outcome:
                 "The ban is issued. It costs the Soviet Executive Committee's own patience more than it costs the Bolsheviks any real capacity -- a party used to operating illegally under the old regime does not stop existing because this government's decree says it should, and the moderate socialists whose cooperation this Cabinet needs for everything else now have their own reasons to wonder what 'temporary emergency measure' will be reached for next.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // July 1917. Documented: Kornilov, in command of the Southwestern Front from 8 July (OS),
+      // asked for the death penalty behind the lines and for the removal of General Cheremisov;
+      // Kerensky agreed to move Cheremisov provided Kornilov pledged to answer to the government;
+      // Savinkov was among those who pressed for Kornilov; Kornilov replaced Brusilov as Supreme
+      // Commander. Kerensky's account says the reforms were acceptable in substance but were put
+      // in a form he could not accept; that is one side of the dispute.
+      case "supremeCommand17":
+        return {
+          date: "JULY 1917",
+          title: "Stavka: Who Commands the Army",
+          bulletin: {
+            headline: "THE FRONT BROKE AT TARNOPOL. THE SUPREME COMMANDER IS TO CHANGE.",
+            body:
+              "The German and Austrian counterattack of 6 July broke the Southwestern Front near Tarnopol. The government has restored the death penalty at the front. General Kornilov, who took the Southwestern Front on 8 July, has told the government what he will need as Supreme Commander. He asks for the death penalty behind the lines as well, and for the removal of General Cheremisov.",
+            meanwhile: {
+              southRussia: "Does not exist yet as a command. General Denikin commands the Western Front and is about to be given the Southwestern Front that Kornilov is leaving.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "Lenin is in hiding after the July Days. Warrants have been issued for the Bolshevik leaders.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "Prince Lvov has resigned. You are Minister-Chairman as well as Minister of War. Brusilov is to be replaced as Supreme Commander. Savinkov, your deputy at the War Ministry, wants Kornilov. The Soviet's left objects to him. Kornilov will take the post, but on conditions." +
+            (flags.julyDaysChoice === "outrightBan"
+              ? " The ban on the Bolshevik party has already cost you the patience of the Executive Committee, and a general with a reputation for harshness will not help."
+              : ""),
+          choices: [
+            {
+              label: "Appoint Kornilov. Agree to move Cheremisov, but only against Kornilov's written pledge that he answers to the government.",
+              advisor: {
+                name: "Savinkov",
+                position: "Savinkov argues that only Kornilov can restore discipline at the front, and that the government should take him.",
+              },
+              historical: true,
+              setFlags: { supremeCommand: "written_pledge" },
+              impact: {},
+              next: "moscowConference17",
+              outcome:
+                "Kornilov takes the post. His pledge is in writing. It says he answers to the government, and Cheremisov is moved.",
+              aftermath:
+                "Kerensky's later account says the reforms Kornilov asked for were acceptable in substance but were put in a form he could not accept. That account is one side of the dispute.",
+            },
+            {
+              label: "Appoint Kornilov on his own terms: the death penalty behind the lines, the committees cut back, Cheremisov dismissed, and no written pledge.",
+              advisor: {
+                name: "Kornilov",
+                position: "Kornilov argues that a Supreme Commander who must clear every order with ministers cannot hold a front that is already breaking.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { supremeCommand: "on_his_terms" },
+              impact: { frontDiscipline: 2, sovietRelations: -2, authority: -2 },
+              next: "moscowConference17",
+              outcome:
+                "A modeled alternative. The telegram accepting his terms goes to Mogilev the same night. The Soviet's left reads it as the government handing the army to the officers.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // August 1917. Documented: the Moscow State Conference met from 12 August (OS); it opened
+      // under a strike called by the Bolsheviks; Kerensky told the delegates that resistance to the
+      // government would be put down with iron and blood; Kornilov was cheered by half the hall and
+      // met with hostile silence by the rest; his program asked for the death penalty behind the
+      // lines and martial law on the railways and in defence factories, with strikes and meetings
+      // banned there. Kerensky convened the Conference to rebuild a middle ground.
+      case "moscowConference17":
+        return {
+          date: "AUGUST 1917",
+          title: "Moscow: The State Conference",
+          bulletin: {
+            headline: "A CONFERENCE OPENS UNDER A STRIKE",
+            body:
+              "The State Conference meets in Moscow from 12 August. Delegates come from the Duma, the Soviets, the army, the banks, the cooperatives and the Cossack hosts. It opens under a strike called by the Bolsheviks. You tell the delegates that any attempt to resist the government will be put down with iron and blood.",
+            meanwhile: {
+              southRussia: "Kornilov and General Alekseev are among the generals in Moscow. Kaledin, ataman of the Don Host, speaks for the Cossacks.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "The Bolsheviks have called a strike in Moscow against the Conference.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "Kornilov has sent you his program. He wants the death penalty extended behind the lines. He wants martial law on the railways and in the factories that work for the front, with strikes and meetings banned there. You agree with part of it and dislike its tone. The Conference is the one room in Russia where the generals, the Soviets and the banks sit together." +
+            (flags.supremeCommand === "written_pledge"
+              ? " He has given you a written pledge that he answers to the government."
+              : flags.supremeCommand === "on_his_terms"
+              ? " You gave him his terms in July without a written pledge, and he writes to you as an equal."
+              : ""),
+          choices: [
+            {
+              label: "Open the Conference yourself, ask for support against both extremes, and keep Kornilov's program in committee.",
+              advisor: {
+                name: "Kerensky",
+                position: "Kerensky wants the Conference to show the country that the government has a majority between the extremes.",
+              },
+              historical: true,
+              setFlags: { moscowChoice: "program_in_committee" },
+              impact: {},
+              next: "kornilovAffair17",
+              outcome:
+                "You open the Conference and speak against both extremes. Kornilov is greeted with an ovation from half the hall and a hostile silence from the rest. In his speech he names the laws passed since the monarchy fell as the main cause of the army's collapse. The Conference adopts nothing on his program.",
+              aftermath:
+                "The Conference did not settle the split between the government and the generals. Within two weeks Kornilov moved troops toward Petrograd.",
+            },
+            {
+              label: "Declare martial law on the railways and in the war factories by decree before the Conference closes, and extend the death penalty behind the front.",
+              advisor: {
+                name: "Savinkov",
+                position: "Savinkov argues that part of Kornilov's program is the government's own business and should be done by the government, not left for the general to demand.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { moscowChoice: "decree" },
+              impact: { frontDiscipline: 2, sovietRelations: -4 },
+              next: "kornilovAffair17",
+              outcome:
+                "A modeled alternative. The decrees are published in Moscow while the delegates are still in the hall. The Soviet delegates call them the end of the revolution's gains, and the strike in the city grows.",
+            },
+            {
+              label: "Keep the generals out of politics. Kornilov reports to the cabinet in Petrograd and does not address the Conference.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli argues that a speech by the Supreme Commander in front of the delegates is a political act, and that the Soviet delegates will not sit through it.",
+              },
+              historical: false,
+              setFlags: { moscowChoice: "generals_kept_off" },
+              impact: { authority: -1, frontDiscipline: -1, sovietRelations: 2 },
+              next: "kornilovAffair17",
+              outcome:
+                "A modeled alternative. The order reaches Mogilev and Kornilov does not come. The officers' unions in the capital protest, and Kornilov's staff tell the press why he stayed away.",
             },
           ],
         };
@@ -5977,7 +6361,17 @@ CAMPAIGNS.provisionalGov17 = {
               "Six weeks ago you made Kornilov Supreme Commander yourself, over the objections of the Soviet's own left, because the front needed someone the officer corps still believed in. What passed between you and him through the intermediary Lvov this past week -- an agreed plan to suppress a Bolshevik rising nobody has actually staged yet, or a coup you encouraged and are now publicly disowning -- is a question the two of you will spend the rest of your lives answering differently. What isn't in dispute: General Krymov's Third Cavalry Corps is moving on Petrograd by rail, and you have just publicly dismissed Kornilov and called it mutiny." +
               (flags.offensiveChoice === "pressForward"
                 ? " Kornilov's own case for the appointment always ran through June -- that a War Minister who pressed the offensive forward understood, as he did, that an army without discipline stops being an army. He is, in effect, invoking your own June decision against you now."
-                : " Kornilov never had much use for the June Offensive's caution, and says so to anyone who asks -- an army you preferred to consolidate rather than push, in his account, is exactly the kind of army you're now relying on to stop him."),
+                : " Kornilov never had much use for the June Offensive's caution, and says so to anyone who asks -- an army you preferred to consolidate rather than push, in his account, is exactly the kind of army you're now relying on to stop him.") +
+              (flags.supremeCommand === "written_pledge"
+                ? " In July he gave you a written pledge that he answers to the government. He has now acted without you."
+                : flags.supremeCommand === "on_his_terms"
+                ? " In July you gave him his terms without a written pledge. Nothing in writing binds him now."
+                : "") +
+              (flags.moscowChoice === "decree"
+                ? " The decrees you issued in Moscow were his program, and he says the government has not carried out the rest."
+                : flags.moscowChoice === "generals_kept_off"
+                ? " You kept him off the platform in Moscow, and he has not forgotten it."
+                : ""),
             meanwhile: {
               bolsheviks: "Not yet a command. Trotsky is in prison; Lenin is in Finland. Whether the Party's own moment is still to come depends more on how this crisis resolves than on anything the Central Committee decides on its own this month.",
               southRussia: "Does not exist yet as a command. Kornilov's own officers -- Denikin among them -- are watching this crisis from the front, and several will follow him into whatever comes next regardless of how it ends here.",
@@ -5995,11 +6389,11 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Accept the Soviet's offer. Arm everyone willing to fight, including the Bolshevik Red Guards, and worry about what that arming makes possible afterward.",
               advisor: {
                 name: "Tsereteli",
-                quote: "You are asking whether arming them is dangerous. It is. The alternative is finding out in person whether Krymov's corps stops itself, and I do not like that answer any better.",
+                position: "Tsereteli grants that arming the Red Guards is dangerous, and argues that the alternative is to find out in person whether Krymov's corps stops itself.",
               },
               historical: true,
               impact: {},
-              next: "endingWinterPalaceFalls17",
+              next: "directory17",
               outcome:
                 "Word is enough. Railway workers refuse to move Krymov's trains; soldiers' committees the general is counting on send delegations to negotiate instead of fighting. The advance dissolves without a real battle, over three days, and Kornilov is arrested at Mogilev. Nobody had to test whether the Red Guards you just armed would give the weapons back.",
             },
@@ -6007,12 +6401,13 @@ CAMPAIGNS.provisionalGov17 = {
               label: "Refuse the Soviet's Red Guards. Rely on whatever units still answer directly to this government, and try to negotiate Kornilov down instead.",
               advisor: {
                 name: "Kerensky",
-                quote: "I removed one general this month for exceeding his authority. I am not eager to arm the men most likely to decide, having stopped him, that they don't need to hand the rifles back to a government that only trusted them once.",
+                position: "Kerensky argues that he has just removed one general for exceeding his authority, and does not want to arm the men most likely to decide, once that general is stopped, that they need not return their rifles.",
               },
               historical: false,
               gate: (m) => m.sovietRelations >= -6 && m.frontDiscipline >= -2,
               disabledReason:
                 "there is no longer a loyal garrison left to rely on instead -- every choice that damaged relations with the Soviet also cost the units that were never going to fight for this government without the Soviet's own backing behind the order, and a front that's already come apart doesn't leave a garrison worth relying on regardless.",
+              costsCapital: true,
               setFlags: { kornilovAffairChoice: "refusedRedGuards" },
               impact: { sovietRelations: -2, authority: 1 },
               outcome:
@@ -6025,7 +6420,7 @@ CAMPAIGNS.provisionalGov17 = {
                     title: "The garrison holds without them",
                     setFlags: { kornilovOutcome: "garrisonHeld" },
                     impact: { frontDiscipline: 1 },
-                    next: "endingWinterPalaceFalls17",
+                    next: "directory17",
                     outcome:
                       "It's close enough that staff afterward disagree about whether it was ever really in doubt, but the garrison and the same railway refusals that happened in the record are enough on their own. Kornilov is arrested. The Soviet notices, plainly, that it was asked to stand aside from its own defense of the capital -- and remembers it.",
                   },
@@ -6040,6 +6435,213 @@ CAMPAIGNS.provisionalGov17 = {
                   },
                 ];
               })(),
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // 1 September 1917. Documented: a decree signed by Kerensky proclaimed the Russian Republic
+      // on 1 September (OS) and a Directory of five, with Kerensky as president, held power until
+      // 25 September; the Kadet ministers had resigned during the Kornilov affair.
+      case "directory17":
+        return {
+          date: "SEPTEMBER 1917",
+          title: "Petrograd: Five Ministers and a Republic",
+          bulletin: {
+            headline: "RUSSIA IS PROCLAIMED A REPUBLIC",
+            body:
+              "On 1 September a decree signed by Kerensky proclaims the Russian Republic. Executive power passes to a Directory of five, with Kerensky as president. The Kadet ministers have resigned from the cabinet. Part of the Soviet Executive Committee wants a government of socialists only.",
+            meanwhile: {
+              southRussia: "Kornilov and the generals who backed him are under arrest.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "On 31 August the Petrograd Soviet passed a Bolshevik resolution for the first time. Trotsky is still in prison.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "Kornilov's advance has collapsed. You have named yourself Supreme Commander in his place. The Kadet ministers have resigned and the cabinet is half empty. A government has to be named this week, and the republic has to be proclaimed.",
+          choices: [
+            {
+              label: "Proclaim the republic and govern through a Directory of five, with yourself as president.",
+              advisor: {
+                name: "Kerensky",
+                position: "Kerensky argues that a small body can decide in a day what a coalition takes a month to agree.",
+              },
+              historical: true,
+              costsCapital: true,
+              setFlags: { governmentForm: "directory" },
+              impact: {},
+              next: "democraticConference17",
+              outcome:
+                "The decree is published. The Directory is you, Tereshchenko, Verkhovsky, Verderevsky and Nikitin. It governs by decree until a wider body can be called.",
+              aftermath:
+                "The Directory sat from 1 September to 25 September.",
+            },
+            {
+              label: "Ask the Kadet ministers to return at once, on the terms on which they left.",
+              advisor: {
+                name: "Miliukov",
+                position: "Miliukov argues that the Kadets left over the handling of the Kornilov affair and not over a program, and that the country wants a government that can keep order.",
+              },
+              historical: false,
+              gate: (m) => m.sovietRelations >= -6,
+              disabledReason:
+                "the Soviet Executive Committee will not sit in a cabinet that brings back the ministers who resigned during the Kornilov affair, and the cabinet cannot govern without it.",
+              setFlags: { governmentForm: "kadets_back" },
+              impact: { authority: 2, sovietRelations: -3 },
+              next: "democraticConference17",
+              outcome:
+                "A modeled alternative. The Kadets return to the cabinet. The Soviet Executive Committee reads it as the cabinet siding with the right.",
+            },
+            {
+              label: "Ask the Soviet's moderate majority to name a government of socialists only.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli warns that a cabinet of socialists alone cannot be formed without losing the banks, the officers and the railways, and says so against the left of his own party.",
+              },
+              historical: false,
+              setFlags: { governmentForm: "socialist_cabinet" },
+              impact: { sovietRelations: 3, authority: -2, frontDiscipline: -1 },
+              next: "democraticConference17",
+              outcome:
+                "A modeled alternative. The Executive Committee names a cabinet of socialists. The Kadets, the banks and the officers' unions withhold their support from it.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // September 1917. Documented: the Democratic Conference voted 766 to 688, with 38 abstentions,
+      // for a coalition with the propertied parties; the cabinet formed on 25 September had six
+      // socialist, six liberal and six non-party ministers; a Council of the Republic (the
+      // Pre-Parliament) sat at the Mariinsky Palace.
+      case "democraticConference17":
+        return {
+          date: "SEPTEMBER 1917",
+          title: "Petrograd: The Democratic Conference",
+          bulletin: {
+            headline: "A CONFERENCE OF DELEGATES VOTES ON COALITION",
+            body:
+              "The All-Russian Democratic Conference meets in Petrograd in September. It votes 766 to 688, with 38 abstentions, for a coalition with the propertied parties. The vote splits the delegates almost evenly.",
+            meanwhile: {
+              southRussia: "Does not exist yet as a command. Kornilov is under arrest.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "Lenin is hiding in Finland. In letters to the Central Committee he argues that the party should take power.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "The Conference has voted for a coalition, narrowly. A cabinet has to be named that the delegates, the Kadets and the Soviet will all put up with." +
+            (flags.governmentForm === "kadets_back"
+              ? " The Kadets are already back in the cabinet, and the delegates who voted against coalition say so."
+              : flags.governmentForm === "socialist_cabinet"
+              ? " A cabinet of socialists is already in office, and the vote asks it to take in the parties it excluded."
+              : flags.governmentForm === "directory"
+              ? " The Directory has governed for two weeks, and the delegates know it."
+              : ""),
+          choices: [
+            {
+              label: "Form the coalition: socialists, liberals and ministers without party, with the Kadets inside, and create a Council of the Republic to advise it.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli argues that the vote, narrow as it is, gives the cabinet the Soviet's consent to include the propertied parties.",
+              },
+              historical: true,
+              setFlags: { conferenceChoice: "coalition_with_kadets" },
+              impact: {},
+              next: "octoberStand17",
+              outcome:
+                "On 25 September the new cabinet is sworn in. It has six socialist ministers, six liberals and six without party. The Council of the Republic, called the Pre-Parliament, meets at the Mariinsky Palace.",
+              aftermath:
+                "The Directory ended on 25 September, when this cabinet was formed.",
+            },
+            {
+              label: "Keep the Directory. Tell the Conference that it advises and does not appoint.",
+              advisor: {
+                name: "Miliukov",
+                position: "Miliukov argues that a conference of delegates elected by no one cannot choose a government, and that the government should rule until the Constituent Assembly meets.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { conferenceChoice: "directory_continues" },
+              impact: { authority: 1, sovietRelations: -3 },
+              next: "octoberStand17",
+              outcome:
+                "A modeled alternative. The Directory stays in office. The delegates go home with a vote and no cabinet to show for it.",
+            },
+          ],
+        };
+
+      // -----------------------------------------------------------------
+      // 24 October 1917. Documented: at dawn on 24 October (OS) cadets were sent to close the plant
+      // that printed the Bolshevik paper Rabochii Put; the Military Revolutionary Committee ordered
+      // it reopened and sent the Lithuanian Regiment and a reserve sapper battalion to guard it;
+      // Kerensky spoke to the Pre-Parliament that day and Dan answered him; Kerensky left
+      // Petrograd by car for Pskov on the morning of the 25th. The Bolshevik Central Committee
+      // had voted ten to two for an armed uprising on 10 October.
+      case "octoberStand17":
+        return {
+          date: "OCTOBER 1917",
+          title: "Petrograd: The Morning of the 24th",
+          bulletin: {
+            headline: "THE GOVERNMENT TRIES TO CLOSE TWO NEWSPAPERS",
+            body:
+              "At dawn on 24 October cadets arrive to close the plant that prints the Bolshevik newspaper Rabochii Put. The Military Revolutionary Committee of the Petrograd Soviet orders the plant reopened and sends the Lithuanian Regiment and a reserve sapper battalion to guard it.",
+            meanwhile: {
+              southRussia: "Kornilov and the generals are still held under arrest.",
+              siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
+              bolsheviks: "On 10 October the Bolshevik Central Committee voted ten to two for an armed uprising. Kamenev and Zinoviev voted against.",
+            },
+          },
+          historicalRecord: true,
+          situation:
+            "The Military Revolutionary Committee was formed in the Petrograd Soviet to control the garrison, and it now has commissars in most regiments. You have the cadets, some Cossacks and what is left of the loyal garrison. The front is days away by rail. The Pre-Parliament sits this afternoon." +
+            (flags.conferenceChoice === "directory_continues"
+              ? " It sits only to advise, and it knows that."
+              : flags.conferenceChoice === "coalition_with_kadets"
+              ? " The coalition cabinet is a month old."
+              : ""),
+          choices: [
+            {
+              label: "Strike first. Close the Bolshevik presses, order the cadets and Cossacks to the bridges, and arrest the Military Revolutionary Committee.",
+              advisor: {
+                name: "Savinkov",
+                position: "Savinkov argues that a government which waits for a rising to begin has already lost the first day.",
+              },
+              historical: false,
+              costsCapital: true,
+              setFlags: { octoberChoice: "strike_first" },
+              impact: { authority: 1, sovietRelations: -3 },
+              next: "endingWinterPalaceFalls17",
+              outcome:
+                "A modeled alternative. The presses are closed at dawn, as in the record. The order to arrest the committee goes to the cadets at noon.",
+            },
+            {
+              label: "Stay in the capital and stake the government on a vote of the Pre-Parliament.",
+              advisor: {
+                name: "Tsereteli",
+                position: "Tsereteli argues that only a vote of the Pre-Parliament can bring the garrison back under the Soviet's own leaders.",
+              },
+              historical: false,
+              setFlags: { octoberChoice: "stake_on_vote" },
+              impact: { sovietRelations: 1 },
+              next: "endingWinterPalaceFalls17",
+              outcome:
+                "A modeled alternative. You speak to the Pre-Parliament that afternoon. Dan answers for the Executive Committee, and the debate runs into the evening.",
+            },
+            {
+              label: "Leave for the front to bring loyal troops to Petrograd, and leave the cabinet to hold the Winter Palace.",
+              advisor: {
+                name: "Kerensky",
+                position: "Kerensky holds that the garrison cannot be relied on and that only troops brought from the front can defend the government.",
+              },
+              historical: true,
+              setFlags: { octoberChoice: "leave_for_front" },
+              impact: {},
+              next: "endingWinterPalaceFalls17",
+              outcome:
+                "On the morning of 25 October you leave Petrograd by car for Pskov. The ministers stay in the Winter Palace.",
+              aftermath:
+                "Kerensky spoke to the Pre-Parliament on 24 October and left the capital the next morning. The Winter Palace was taken in the night of 25 to 26 October.",
             },
           ],
         };
@@ -6061,6 +6663,17 @@ CAMPAIGNS.provisionalGov17 = {
             "Whatever this Cabinet did differently through the summer, October does not move. The Kornilov Affair's real casualty was never the general's advance, which dissolved in three days without much of a fight -- it was the last plausible argument that this government still had the right's confidence and the left's cooperation at the same time. Arming the Soviet's Red Guards to stop Kornilov left several thousand rifles in Bolshevik-organized hands that were never collected back, and a Petrograd Soviet whose Bolshevik share of seats, negligible in April, is now a majority. On the night of 24-25 October the Military Revolutionary Committee -- a Soviet body, not this Cabinet's -- takes the telephone exchange, the State Bank, the bridges, and the Winter Palace itself by the early hours of the 26th, with barely a shot fired in its actual defense. Kerensky is already gone, driving south in a borrowed car to find loyal troops that mostly do not exist anymore.\n\nEverything the rest of this file's campaigns take as their own opening backstory starts here: the Council of People's Commissars formed that same week; the Constituent Assembly elected in November and dissolved by force in January when it returns a non-Bolshevik majority; Brest-Litovsk signed in March, ceding a quarter of the empire to end a war this government spent this whole campaign trying to keep fighting; and, within weeks of that peace, the civil war that the Armed Forces of South Russia, the Siberian government, and the Revolutionary Military Council fight through 1922. None of that changes no matter how well or badly this Cabinet is played. What changes is only how much warning the men who found the Volunteer Army in the Don that winter had, and how isolated a government it was that fell." +
             (flags.kornilovAffairChoice === "refusedRedGuards" && flags.kornilovOutcome === "garrisonHeld"
               ? "\n\nThe Soviet's Red Guards were never actually armed for this crisis, in this branch -- the garrison held on its own, on the same railway refusals that happened in the record. It changes remarkably little about October. The Bolsheviks' rifles come from elsewhere over the following two months regardless, and a Soviet Executive Committee that watched this Cabinet decline its help once, and survive anyway, extends noticeably less benefit of the doubt the second time its cooperation is asked for."
+              : "") +
+            (flags.armyPolicy === "withheld"
+              ? "\n\nThe committees never accepted the May order that confined them to supply and welfare. In October the regiments in the capital took their instructions from the Soviet's own committee."
+              : "") +
+            (flags.conferenceChoice === "directory_continues"
+              ? "\n\nThe Directory never gave way to a wider cabinet. The Pre-Parliament that sat in October advised a government it had not chosen."
+              : "") +
+            (flags.octoberChoice === "strike_first"
+              ? "\n\nIn this telling the cabinet ordered the Military Revolutionary Committee arrested on 24 October. The cadets could not carry the order out, and the Palace fell on the same night as in the record."
+              : flags.octoberChoice === "stake_on_vote"
+              ? "\n\nIn this telling the cabinet put its fate to a vote of the Pre-Parliament. The debate lasted the afternoon, and the Palace fell that night."
               : ""),
         };
 
@@ -6081,6 +6694,21 @@ CAMPAIGNS.provisionalGov17 = {
           classification: "speculative",
           epilogue:
             "Krymov's Third Cavalry Corps was perhaps fifteen thousand men against a capital of over two million -- the real historical margin was that thin, and it held on railway refusals and soldier committees that simply declined to fight, not on any garrison actually stopping the advance by force. Take the Soviet's Red Guards out of the defense and that thin margin does not hold. Krymov's Cossacks reach central Petrograd; Kornilov, following behind, is not arrested at Mogilev but is in the capital inside the week, and this Cabinet is not the government that survives the encounter.\n\nWhat forms afterward is not the historical dictatorship the word 'Bonapartist' was already being used to warn against that same month -- Kornilov's own program, so far as he ever stated one plainly, was closer to a military-backed government of national unity than personal rule, with the death penalty and labor conscription he'd wanted since taking command extended well past the front. Kerensky's own fate in this branch is unresolved by anything the record can settle: arrested alongside the rest of the Cabinet is the most likely outcome contemporaries would have expected, though nothing here should be read as claiming more certainty about that than the record actually supports.\n\nSay plainly what this branch means for the rest of this file: it does not happen. There is no Bolshevik seizure of power in October, because the Petrograd Soviet that would have staged it has just watched a military government take the capital by force with the left's own militia unable or unwilling to stop it. No Council of People's Commissars, no Brest-Litovsk, no Constituent Assembly dissolved by a Bolshevik decree instead of a Cossack one. Whatever civil war follows a Kornilov government's attempt to actually govern a country still fighting a war it cannot win is not the war the Armed Forces of South Russia, the Siberian government, or the Revolutionary Military Council in this file were built to fight -- it is a different war, against a different opponent, that this file does not contain. That is not a coy way of saying 'to be continued.' It means this branch's ending is genuinely the end of what this file can tell you about what happens next.",
+        };
+
+      // -----------------------------------------------------------------
+      // HARD MODE ENDING -- reached when the fifth point of Decree Capital is spent, at whatever
+      // report the player is on. Not a historical event: the record shows the government losing the
+      // Soviet's confidence by degrees, never breaking with it in form.
+      case "endingDecreeCabinet17":
+        return {
+          isEnding: true,
+          title: "The Cabinet That Governed Alone",
+          date: "DATE VARIES: THE FIFTH DECREE",
+          badge: "◇ SPECULATIVE -- HARD MODE",
+          classification: "speculative",
+          epilogue:
+            "A modeled alternative. The cabinet takes its fifth emergency decree without the consent of the Soviet Executive Committee. Each earlier decree had a reason that could be written down: the army, the railways, the presses. The fifth has none that the Executive Committee accepts, and it stops sending delegates to the cabinet. From that day the government rules by ministerial order in Petrograd and nowhere else, and the regiments of the garrison take their orders from the Soviet.\n\nThis is not what happened. In the record the government never broke with the Soviet in form. It lost the Soviet's confidence between April and October, a little at a time. No source says what a formal break would have led to.",
         };
 
       default:
@@ -6110,7 +6738,11 @@ export { modWeight, meterPct, applyImpact, clampTriangle, resolveNode };
 // gambling," per your instruction — not revealed only after the fact.
 
 import React, { useState, useEffect } from "react";
-import { resolveChoice, afterOutcome } from "./logic";
+import { resolveChoice, afterOutcome, pickUncertain } from "./logic";
+import {
+  battlePoolSize, pickBattlePosture, battleIntel, battleArmWeight, staffPlanFor, battlePlanOdds, battleBonus, shiftToward,
+  battlePlanCosts, battleFlagsOut, battleEchoText,
+} from "./battle";
 
 // Real Google Fonts, loaded once at the App root. This is a self-contained
 // convenience for previewing the file as-is — in the real production build,
@@ -6204,7 +6836,7 @@ const SKINS = {
     paper: "#D9C9A3",
     paperDim: "#B8A87D",
     ink: "#0F0B08",
-    accent: "#B31E23",
+    accent: "#E65A5E",
     accentLight: "#7A1418",
     dark: true,
     headerStyle: "stamp",
@@ -6224,7 +6856,7 @@ const SKINS = {
     paperDim: "#B7AD98",
     ink: "#1D2530",
     inkMuted: "#5B6270",
-    accent: "#8A6D1F",
+    accent: "#785E16",
     accentLight: "#A98A34",
     dark: false,
     headerStyle: "telegram",
@@ -6540,6 +7172,7 @@ const NODE_TO_CITY = {
   northernTauride20: "perekop",
   wrangelsEnvoy20: "perekop",
   crimeaDefensePrep20: "sevastopol",
+  frunzeOffer20: "sevastopol",
   endingBizerte: "sevastopol",
   endingSecondNovorossiysk: "novorossiysk",
   endingArmyDissolved20: "sevastopol",
@@ -6663,18 +7296,30 @@ function cipherGroups(seedStr) {
   return groups;
 }
 
-function TopBar({ title, onClose, menuItems }) {
+// Enter or Space does what a click does, for the few cards and panels that are not real buttons.
+function activateOnKey(fn) {
+  return (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      fn();
+    }
+  };
+}
+
+function TopBar({ title, screenTitle, onClose, menuItems }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="bg-black text-white px-4 py-3 flex items-center justify-between relative">
-      <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm">
+      <button onClick={onClose} aria-label="Close and go back" className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm">
         ✕
       </button>
-      <div className="font-mono text-sm">{title}</div>
+      <div className="font-mono text-sm" role="heading" aria-level={1} aria-label={screenTitle || title}>{title}</div>
       {menuItems && menuItems.length > 0 ? (
         <>
           <button
             onClick={() => setMenuOpen((v) => !v)}
+            aria-label="More"
+            aria-expanded={menuOpen}
             className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm"
           >
             ···
@@ -6697,7 +7342,7 @@ function TopBar({ title, onClose, menuItems }) {
           )}
         </>
       ) : (
-        <div className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm">···</div>
+        <div aria-hidden="true" className="w-8 h-8 flex items-center justify-center rounded-full border border-white/30 text-sm">···</div>
       )}
     </div>
   );
@@ -6807,7 +7452,16 @@ function TriangleMeters({ campaign, meters, skin }) {
         return (
           <div key={key} className="flex items-center mb-2 text-xs">
             <span style={labelStyle}>{label}</span>
-            <div className="flex-1 mx-3 border-2 h-5 relative flex" style={borderColor}>
+            <div
+              className="flex-1 mx-3 border-2 h-5 relative flex"
+              style={borderColor}
+              role="meter"
+              aria-label={label}
+              aria-valuemin={-10}
+              aria-valuemax={10}
+              aria-valuenow={val}
+              aria-valuetext={`${val > 0 ? "+" : ""}${val} from the historical baseline`}
+            >
               <div className="w-1/2 h-full relative border-r" style={dividerColor}>
                 {pct < 0 && (
                   <div className="h-full absolute right-0" style={{ backgroundColor: skin.accent, width: `${(Math.abs(pct) / 10) * 100}%` }} />
@@ -6855,6 +7509,9 @@ function RecordsListScreen({ onOpen, onOpenWarRecord, onOpenSettings, savedRun, 
       <div
         key={c.id}
         onClick={() => onOpen(c.id)}
+        onKeyDown={activateOnKey(() => onOpen(c.id))}
+        role="button"
+        tabIndex={0}
         className="cursor-pointer relative"
         style={{ background: "#e9e1cc", border: "1px solid #1a1712", padding: "12px 14px", marginBottom: 12 }}
       >
@@ -6885,7 +7542,7 @@ function RecordsListScreen({ onOpen, onOpenWarRecord, onOpenSettings, savedRun, 
 
   return (
     <div style={{ background: "#f2ecdc", minHeight: "100%" }}>
-      <TopBar title="dispatches-1922" onClose={() => {}} />
+      <TopBar title="dispatches-1922" screenTitle={"The Records"} onClose={() => {}} />
       <div style={{ padding: "16px 16px 10px", borderBottom: "2px double #1a1712" }}>
         <div
           style={{
@@ -7008,13 +7665,63 @@ function RecordsListScreen({ onOpen, onOpenWarRecord, onOpenSettings, savedRun, 
   );
 }
 
+// Easy mode: each command has a name of its own, like the other Dispatches games.
+const EASY_MODE_NAMES = {
+  southRussia: "Tachanka Command",
+  siberia: "Teplushka Command",
+  bolsheviks: "Armoured Train Command",
+  provisionalGov17: "Samovar Command",
+};
+const EASY_MODE_TEXT =
+  "Each order shows what it will do to the meters. A contested order lists every outcome with its odds. The record marks what history did, and you can take back the last order.";
+
+function easyModeName(campaignId) {
+  return EASY_MODE_NAMES[campaignId] || "Easy Command";
+}
+
+function impactSummary(campaign, impact) {
+  const label = (key) => ((campaign.triangleAxes.find((a) => a.key === key) || {}).label || key).toUpperCase();
+  const parts = Object.entries(impact || {})
+    .filter(([, v]) => v !== 0)
+    .map(([k, v]) => label(k) + " " + (v > 0 ? "+" + v : v));
+  return parts.length ? parts.join(", ") : "NO CHANGE";
+}
+
+function addImpacts(a, b) {
+  const out = { ...(a || {}) };
+  for (const k of Object.keys(b || {})) out[k] = (out[k] || 0) + b[k];
+  return out;
+}
+
+// What an order will do, shown before it is issued. Meters are capped at plus or minus 10, so a shown
+// change can be smaller when a meter is already near its cap.
+function EasyPreview({ choice, campaign, skin }) {
+  return (
+    <div className="border-2 border-dashed mt-2 px-2 py-2 text-xs" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin) }}>
+      <div className="font-bold" style={accentTextStyle(skin)}>IF YOU ISSUE THIS ORDER</div>
+      {choice.uncertain ? (
+        <>
+          <div className="mt-1">Before the roll: {impactSummary(campaign, choice.impact)}</div>
+          {choice.uncertain.map((e, i) => (
+            <div key={i} className="mt-1">
+              {e.weight}% {e.title}: {impactSummary(campaign, addImpacts(choice.impact, e.impact))}
+            </div>
+          ))}
+        </>
+      ) : (
+        <div className="mt-1">{impactSummary(campaign, choice.impact)}</div>
+      )}
+    </div>
+  );
+}
+
 function CampaignDetailScreen({ campaignId, onEnter, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   const written = c.NODE_ATLAS.length;
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={c.label} onClose={onClose} />
       <div className="p-6">
         <div className="inline-block border-2 font-bold px-3 py-1 text-sm" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...displayFontStyle(skin) }}>
           {c.shortTag}
@@ -7041,18 +7748,26 @@ function CampaignDetailScreen({ campaignId, onEnter, onClose }) {
             ✕ {c.hardMode.capitalName}
           </button>
         </div>
+        <button
+          onClick={() => onEnter(c.id, false, true)}
+          className="w-full border-2 font-bold py-3 mt-3 text-sm"
+          style={{ borderColor: skin.dark ? skin.paperDim : skin.ink, ...monoFontStyle(skin) }}
+        >
+          EASY: {easyModeName(c.id)}
+        </button>
+        <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{EASY_MODE_TEXT}</div>
         <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{c.hardMode.description}</div>
       </div>
     </div>
   );
 }
 
-function WarRoomScreen({ campaignId, hardModeEnabled, onStart, onClose }) {
+function WarRoomScreen({ campaignId, hardModeEnabled, easyMode, planBattles, setPlanBattles, onStart, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={c.label} onClose={onClose} />
       <div className="p-6">
         <div className="text-3xl font-bold" style={displayFontStyle(skin)}>{c.label}</div>
         {hardModeEnabled ? (
@@ -7062,12 +7777,30 @@ function WarRoomScreen({ campaignId, hardModeEnabled, onStart, onClose }) {
             </div>
             <div className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>No rewind. Decisions final. Full meter dashboard hidden below the capital counter.</div>
           </div>
+        ) : easyMode ? (
+          <div className="border-2 mt-3 p-4" style={{ borderColor: skin.paperDim }}>
+            <div className="text-xs font-bold" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>EASY: {easyModeName(c.id).toUpperCase()}</div>
+            <div className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{EASY_MODE_TEXT}</div>
+          </div>
         ) : (
           <div className="text-sm mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>Full meter visibility, known-risk odds shown before every gamble.</div>
         )}
         <div className="mt-6">
           <TriangleMeters campaign={c} meters={c.initialMeters} skin={skin} />
         </div>
+        {Object.values(BATTLES).some((b) => b.campaign === c.id) && (
+          <label className="flex items-start gap-3 mt-5 text-sm cursor-pointer">
+            <input type="checkbox" checked={planBattles} onChange={(e) => setPlanBattles(e.target.checked)} className="mt-1" />
+            <span>
+              <b>Take control of battle planning.</b>
+              <span className="block text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                {planBattles
+                  ? "An order that leads to a battle opens the Order of Battle. You place the counters, or let the staff plan it and play the record's odds."
+                  : "A battle is fought like any other order, at the record's odds."}
+              </span>
+            </span>
+          </label>
+        )}
         <button
           onClick={() => onStart(c.id)}
           className="mt-6 w-full font-bold py-3"
@@ -7088,7 +7821,7 @@ function OddsBadge({ entries, skin }) {
   );
 }
 
-function ChoiceCard({ choice, skin, meters, hardMode, hardModeEnabled, capitalRemaining, onChoose }) {
+function ChoiceCard({ choice, skin, meters, campaign, easyMode, planBattles, hardMode, hardModeEnabled, capitalRemaining, onChoose }) {
   const blocked = typeof choice.gate === "function" && !choice.gate(meters);
   const costsCapital = hardModeEnabled && choice.costsCapital === true;
   return (
@@ -7104,14 +7837,20 @@ function ChoiceCard({ choice, skin, meters, hardMode, hardModeEnabled, capitalRe
       )}
       {choice.advisor && (
         <div className="mt-2 border-l-4 pl-3 text-xs italic" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-          "{choice.advisor.quote}"
-          <div className="not-italic font-bold mt-1" style={primaryTextStyle(skin)}>— {choice.advisor.name.toUpperCase()}</div>
+          {choice.advisor.position ? choice.advisor.position : `"${choice.advisor.quote}"`}
+          <div className="not-italic font-bold mt-1" style={primaryTextStyle(skin)}>{choice.advisor.position ? "ADVISER: " : "— "}{choice.advisor.name.toUpperCase()}</div>
         </div>
       )}
       {choice.historical && (
         <div className="text-xs mt-2" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>◆ HISTORICAL RECORD</div>
       )}
       {choice.uncertain && <OddsBadge entries={choice.uncertain} skin={skin} />}
+      {planBattles && !blocked && battleOf(choice) && (
+        <div className="inline-block border-2 mt-2 px-2 py-1 text-xs font-bold" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin) }}>
+          ⚔ LEADS TO BATTLE PLANNING
+        </div>
+      )}
+      {easyMode && !blocked && <EasyPreview choice={choice} campaign={campaign} skin={skin} />}
       {blocked ? (
         <div className="mt-3 text-xs" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
           ✕ NOT AVAILABLE — {choice.disabledReason}
@@ -7186,7 +7925,7 @@ function BulletinScreen({ campaignId, nodeId, flags, meters, onContinue }) {
               <span>DISPATCH</span>
               <span>{c.NEWSPAPER_SUBHEAD}</span>
             </div>
-            <div style={{ fontFamily: paperFont, fontWeight: 900, fontSize: 32, letterSpacing: 1, lineHeight: 0.95 }}>
+            <div role="heading" aria-level={1} style={{ fontFamily: paperFont, fontWeight: 900, fontSize: 32, letterSpacing: 1, lineHeight: 0.95 }}>
               {c.NEWSPAPER_MASTHEAD}
             </div>
           </div>
@@ -7252,6 +7991,10 @@ function ObjectivesPanel({ campaign, skin }) {
       className="border-l-2 mt-3 pl-3 py-1 text-xs leading-relaxed cursor-pointer"
       style={{ borderColor: skin.accent, ...mutedTextStyle(skin) }}
       onClick={() => setOpen((v) => !v)}
+      onKeyDown={activateOnKey(() => setOpen((v) => !v))}
+      role="button"
+      tabIndex={0}
+      aria-expanded={open}
     >
       <div
         className="font-bold tracking-widest mb-1 flex items-center justify-between"
@@ -7284,7 +8027,7 @@ function ObjectivesPanel({ campaign, skin }) {
   );
 }
 
-function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, hardModeValue, instantText, reduceMotion, onChoose, onClose, onOpenMap, onOpenTimeline }) {
+function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, easyMode, planBattles, hardModeValue, instantText, reduceMotion, onChoose, onClose, onOpenMap, onOpenTimeline }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   const node = c.resolveNode(nodeId, flags, meters);
@@ -7296,7 +8039,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
   useEffect(() => { setBackgroundOpen(false); }, [nodeId]);
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={node.title} onClose={onClose} />
       <div className="p-6">
         {hardModeEnabled && (
           <div className="border-2 p-3 mb-3 flex items-center justify-between" style={{ borderColor: skin.accent }}>
@@ -7306,6 +8049,11 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
             <div className="text-lg tracking-widest" style={accentTextStyle(skin)}>
               {"●".repeat(capitalRemaining)}{"○".repeat(c.hardMode.maxCap - capitalRemaining)}
             </div>
+          </div>
+        )}
+        {easyMode && (
+          <div className="border-2 p-2 mb-3 text-xs font-bold" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
+            EASY: {easyModeName(c.id).toUpperCase()}
           </div>
         )}
         <TriangleMeters campaign={c} meters={meters} skin={skin} />
@@ -7350,6 +8098,10 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
               className="border-l-2 mt-4 pl-3 py-1 text-xs leading-relaxed cursor-pointer"
               style={{ borderColor: skin.accent, ...mutedTextStyle(skin) }}
               onClick={() => setBackgroundOpen((v) => !v)}
+              onKeyDown={activateOnKey(() => setBackgroundOpen((v) => !v))}
+              role="button"
+              tabIndex={0}
+              aria-expanded={backgroundOpen}
             >
               <div className="font-bold tracking-widest mb-1 flex items-center justify-between" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
                 <span>BACKGROUND</span>
@@ -7358,7 +8110,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
               {backgroundOpen && node.context}
             </div>
           )}
-          <TypewriterText text={node.situation} instant={instantText} className="text-sm mt-4 leading-relaxed" />
+          <TypewriterText text={node.situation + battleEchoText(BATTLES, nodeId, flags)} instant={instantText} className="text-sm mt-4 leading-relaxed" />
         </div>
         <div className="mt-6">
           {node.choices.map((choice, i) => (
@@ -7367,6 +8119,9 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
               choice={choice}
               skin={skin}
               meters={meters}
+              campaign={c}
+              easyMode={easyMode}
+              planBattles={planBattles}
               hardMode={c.hardMode}
               hardModeEnabled={hardModeEnabled}
               capitalRemaining={capitalRemaining}
@@ -7379,7 +8134,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ha
   );
 }
 
-function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeValue, hardModeMaxed, hardModeEnabled, deltas, onContinue, onClose }) {
+function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeValue, hardModeMaxed, hardModeEnabled, easyMode, canRewind, onRewind, battle, deltas, onContinue, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const skin = skinFor(c.id);
   const triangleDeltaEntries = Object.entries(deltas.triangle);
@@ -7387,7 +8142,7 @@ function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeVa
   const axisLabel = (key) => (c.triangleAxes.find((a) => a.key === key) || {}).label || key;
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Outcome"} onClose={onClose} />
       <div className="p-6">
         <div className="text-xs tracking-widest" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>OUTCOME</div>
         <div className="text-sm mt-4 leading-relaxed whitespace-pre-line">{resolvedText}</div>
@@ -7400,6 +8155,8 @@ function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeVa
             {aftermath}
           </div>
         )}
+
+        {battle && <BattleReport campaignId={campaignId} battle={battle} skin={skin} />}
 
         {/* Explicit delta statement — this is what actually answers "did
             anything change." A bar shifting 1-2 points out of ±10 is easy to
@@ -7430,6 +8187,15 @@ function OutcomeScreen({ campaignId, resolvedText, aftermath, meters, hardModeVa
         <button onClick={onContinue} className="mt-6 w-full font-bold py-3" style={{ ...accentBgStyle(skin), ...displayFontStyle(skin) }}>
           CONTINUE
         </button>
+        {easyMode && canRewind && (
+          <button
+            onClick={onRewind}
+            className="mt-3 w-full border-2 font-bold py-3 text-sm"
+            style={{ borderColor: skin.dark ? skin.paperDim : skin.ink, ...monoFontStyle(skin) }}
+          >
+            TAKE BACK THIS ORDER
+          </button>
+        )}
       </div>
     </div>
   );
@@ -7851,7 +8617,11 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
   // repeatedly, and a single snapshot would be wrong for most of the war.
   const currentNodeId = visitedNodes[visitedNodes.length - 1];
   const currentNode = currentNodeId ? c.resolveNode(currentNodeId, {}, {}) : null;
-  const atDate = dateToYYYYMM(currentNode && currentNode.date);
+  // The months this run has been through, oldest first. The player may step back through them; later months do not exist yet.
+  const runMonths = [...new Set(visitedNodes.map((nid) => { const at = c.NODE_ATLAS.find((x) => x.id === nid); return at ? firstMonthKey(at.date) : null; }).filter(Boolean))].sort((p, q) => p - q);
+  const [monthIdx, setMonthIdx] = useState(null);
+  const shownIdx = runMonths.length ? (monthIdx == null ? runMonths.length - 1 : Math.min(monthIdx, runMonths.length - 1)) : -1;
+  const atDate = shownIdx >= 0 ? runMonths[shownIdx] : dateToYYYYMM(currentNode && currentNode.date);
 
   // In-world framing per command. The map is a thing a staff officer put on
   // the table, not a progress tracker — so the copy is addressed to the
@@ -7880,7 +8650,7 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
 
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Front map"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold" style={displayFontStyle(skin)}>{c.label}</div>
         <div className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
@@ -7900,6 +8670,29 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
           </div>
         )}
 
+        {runMonths.length > 1 && (
+          <div className="flex items-center gap-2 mt-3">
+            <button
+              onClick={() => setMonthIdx(Math.max(0, shownIdx - 1))}
+              disabled={shownIdx <= 0}
+              className="border-2 px-3 py-2 text-xs font-bold"
+              style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin), opacity: shownIdx <= 0 ? 0.45 : 1 }}
+            >
+              ◀ EARLIER MONTH
+            </button>
+            <div className="flex-1 text-center text-xs font-bold" style={{ ...monoFontStyle(skin), ...primaryTextStyle(skin) }} aria-live="polite">
+              AS OF {monthKeyLabel(atDate)}
+            </div>
+            <button
+              onClick={() => setMonthIdx(Math.min(runMonths.length - 1, shownIdx + 1))}
+              disabled={shownIdx >= runMonths.length - 1}
+              className="border-2 px-3 py-2 text-xs font-bold"
+              style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin), opacity: shownIdx >= runMonths.length - 1 ? 0.45 : 1 }}
+            >
+              LATER MONTH ▶
+            </button>
+          </div>
+        )}
         <div className="border-2 mt-3" style={{ borderColor: skin.accent }}>
           <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={currentCityId} skin={skin} atDate={atDate} />
         </div>
@@ -7921,20 +8714,38 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
   );
 }
 
+// The first month named in a display date, as a YYYYMM number. "AUGUST 1920 – MARCH 1921" is August 1920.
+function firstMonthKey(dateStr) {
+  if (!dateStr) return null;
+  const up = dateStr.toUpperCase();
+  const year = (up.match(/\b(19\d{2})\b/) || [])[1];
+  if (!year) return null;
+  let month = 1;
+  let at = Infinity;
+  for (const [name, num] of Object.entries(MONTH_NUMS)) {
+    const i = up.indexOf(name);
+    if (i !== -1 && i < at) {
+      month = num;
+      at = i;
+    }
+  }
+  return parseInt(year, 10) * 100 + month;
+}
+
+function monthKeyLabel(k) {
+  return Object.keys(MONTH_NUMS)[(k % 100) - 1] + " " + Math.floor(k / 100);
+}
+
 /**
- * Round 23 — the "Context/Key Events timeline" named in the file's own
- * BACKLOG comment as still-missing. Scope, stated plainly: this lists the
- * situations this run has actually passed through, in order, with date and
- * title — a legible record of the sequence, replacing "scroll the front
- * map's marker list and infer it." It does NOT reconstruct and display
- * which literal choice text was clicked at each stop (that would mean
- * matching current flags back against each node's choices' setFlags, which
- * gets genuinely ambiguous once an uncertain roll's own setFlags are mixed
- * in on top of the base choice's) — the date+title sequence is what's
- * actually reliable to show, and is what "timeline" means here.
+ * Two views of the war. "This run" lists the situations this command has actually been in, in order. "The war at
+ * large" lists what every command was deciding, month by month, up to the month this run has reached, so a player
+ * sees the fronts side by side. It is built from the situation atlases of all four campaigns, so a new report
+ * appears here without any extra work. Nothing later than this run's month is shown, and the other branches of
+ * this command stay hidden (only reports this run has visited).
  */
 function TimelineScreen({ campaignId, visitedNodes, flags, meters, skin, onClose }) {
   const c = CAMPAIGNS[campaignId];
+  const [view, setView] = useState("run");
   const entries = visitedNodes
     .map((nid) => {
       let node;
@@ -7947,38 +8758,111 @@ function TimelineScreen({ campaignId, visitedNodes, flags, meters, skin, onClose
       return { id: nid, date: node.date, title: node.title, historicalRecord: node.historicalRecord, isEnding: !!node.isEnding };
     })
     .filter(Boolean);
+
+  // the war at large
+  const reached = Math.max(0, ...visitedNodes.map((nid) => { const at = c.NODE_ATLAS.find((x) => x.id === nid); return at ? firstMonthKey(at.date) || 0 : 0; }));
+  const wide = [];
+  for (const cc of Object.values(CAMPAIGNS)) {
+    for (const at of cc.NODE_ATLAS) {
+      const k = firstMonthKey(at.date);
+      if (!k || k > reached) continue;
+      const mine = cc.id === campaignId;
+      if (mine && !visitedNodes.includes(at.id)) continue;
+      wide.push({ k, id: cc.id + ":" + at.id, tag: cc.shortTag, command: cc.label, title: at.title, mine });
+    }
+  }
+  wide.sort((p, q) => p.k - q.k || (p.mine === q.mine ? 0 : p.mine ? -1 : 1));
+  const months = [];
+  for (const w of wide) {
+    if (!months.length || months[months.length - 1].k !== w.k) months.push({ k: w.k, rows: [] });
+    months[months.length - 1].rows.push(w);
+  }
+  const others = wide.filter((w) => !w.mine).length;
+
+  const tab = (key, label) => (
+    <button
+      onClick={() => setView(key)}
+      aria-pressed={view === key}
+      className="flex-1 border-2 py-2 text-xs font-bold"
+      style={{ ...accentBorderStyle(skin), ...(view === key ? accentBgStyle(skin) : accentTextStyle(skin)), ...monoFontStyle(skin) }}
+    >
+      {label}
+    </button>
+  );
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Key events"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold" style={displayFontStyle(skin)}>{c.label}</div>
-        <div className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-          KEY EVENTS — THIS RUN, IN ORDER
-        </div>
-        <div className="text-xs mt-2 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-          Every situation this command has actually been in, in the order it reached them —
-          {" "}{entries.length} so far.
+        <div className="flex gap-2 mt-3">
+          {tab("run", "THIS RUN")}
+          {tab("war", "THE WAR AT LARGE")}
         </div>
 
-        <div className="mt-4">
-          {entries.map((e, i) => (
-            <div key={`${e.id}-${i}`} className="flex gap-3 py-2" style={{ borderBottom: i < entries.length - 1 ? `1px solid ${skin.paperDim}` : "none" }}>
-              <div className="flex-shrink-0 w-5 text-right" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin), fontSize: 11 }}>
-                {i + 1}
-              </div>
-              <div className="flex-1">
-                <div className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-                  {e.date}
-                  {e.isEnding && <span style={accentTextStyle(skin)}> · ENDING</span>}
-                </div>
-                <div className="font-bold" style={displayFontStyle(skin)}>{e.title}</div>
-              </div>
-              <div className="flex-shrink-0 text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
-                {e.historicalRecord ? "◆" : "◇"}
-              </div>
+        {view === "run" ? (
+          <>
+            <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              KEY EVENTS — THIS RUN, IN ORDER
             </div>
-          ))}
-        </div>
+            <div className="text-xs mt-2 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              Every situation this command has actually been in, in the order it reached them —
+              {" "}{entries.length} so far.
+            </div>
+
+            <div className="mt-4">
+              {entries.map((e, i) => (
+                <div key={`${e.id}-${i}`} className="flex gap-3 py-2" style={{ borderBottom: i < entries.length - 1 ? `1px solid ${skin.paperDim}` : "none" }}>
+                  <div className="flex-shrink-0 w-5 text-right" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin), fontSize: 11 }}>
+                    {i + 1}
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                      {e.date}
+                      {e.isEnding && <span style={accentTextStyle(skin)}> · ENDING</span>}
+                    </div>
+                    <div className="font-bold" style={displayFontStyle(skin)}>{e.title}</div>
+                  </div>
+                  <div className="flex-shrink-0 text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                    {e.historicalRecord ? "◆" : "◇"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-xs mt-3" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              THE WAR AT LARGE — UP TO {reached ? monthKeyLabel(reached) : "THE START"}
+            </div>
+            <div className="text-xs mt-2 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+              What each command was deciding, month by month, up to the month this run has reached. Later months stay closed.
+              Your own command is marked.
+            </div>
+            {others === 0 && (
+              <div className="text-xs mt-3 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+                No other command has a report dated this early.
+              </div>
+            )}
+            <div className="mt-4">
+              {months.map((m) => (
+                <div key={m.k} className="py-2" style={{ borderBottom: `1px solid ${skin.paperDim}` }}>
+                  <div className="text-xs font-bold" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
+                    {monthKeyLabel(m.k)}{m.k === reached ? " · YOU ARE HERE" : ""}
+                  </div>
+                  {m.rows.map((r) => (
+                    <div key={r.id} className="flex gap-2 mt-1">
+                      <div className="flex-shrink-0 text-xs font-bold" style={{ ...monoFontStyle(skin), width: 28, ...(r.mine ? accentTextStyle(skin) : mutedTextStyle(skin)) }}>{r.tag}</div>
+                      <div className="flex-1 text-sm" style={r.mine ? { fontWeight: 700 } : undefined}>
+                        {r.title}
+                        {r.mine && <span className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}> · your command</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         <button onClick={onClose} className="mt-6 w-full border-2 font-bold py-3" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...monoFontStyle(skin) }}>
           RETURN TO COMMAND
@@ -7991,7 +8875,7 @@ function TimelineScreen({ campaignId, visitedNodes, flags, meters, skin, onClose
 function EndStubScreen({ onClose }) {
   return (
     <div className="bg-black min-h-full text-white">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"End of the demonstration chain"} onClose={onClose} />
       <div className="p-6">
         <div className="border-2 border-dashed border-white/40 p-6 font-mono text-sm">
           DEMO CHAIN ENDS HERE. This branch hasn't reached a written ending yet —
@@ -8034,7 +8918,7 @@ function EndingScreen({ campaignId, endingId, flags, visitedNodes, instantText, 
   }
   return (
     <div className="min-h-full" style={screenStyle(skin)}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={ending.title} onClose={onClose} />
       <div className="p-6">
         <div className="text-xs tracking-widest" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
           {ending.date} — ENDING REACHED
@@ -8092,7 +8976,7 @@ function WarRecordScreen({ onClose, onOpenSection, discovery }) {
   ];
   return (
     <div style={{ background: "#f2ecdc", minHeight: "100%" }}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"The War Record"} onClose={onClose} />
 
       <div style={{ padding: "16px 16px 10px", borderBottom: `2px double ${ink}` }}>
         <div style={{ display: "flex", justifyContent: "space-between", fontFamily: mono, fontSize: 9, letterSpacing: 2, color: "#6b6150", marginBottom: 8 }}>
@@ -8151,7 +9035,7 @@ function WarRecordScreen({ onClose, onOpenSection, discovery }) {
 function DiscoveryAtlasScreen({ onClose, discovery }) {
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Discovery Atlas"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-4" style={{ fontFamily: BODY_FONT }}>Discovery Atlas</div>
         {Object.values(CAMPAIGNS).map((c) => {
@@ -8187,7 +9071,7 @@ function DiscoveryAtlasScreen({ onClose, discovery }) {
 function EndingsGalleryScreen({ onClose, discovery }) {
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Endings Gallery"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-4" style={{ fontFamily: BODY_FONT }}>Endings Gallery</div>
         {Object.values(CAMPAIGNS).map((c) => {
@@ -8222,7 +9106,7 @@ function EndingsGalleryScreen({ onClose, discovery }) {
 function GlossaryScreen({ onClose }) {
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Glossary"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-1" style={{ fontFamily: BODY_FONT }}>Glossary</div>
         <div className="font-mono text-xs text-stone-500 mb-6 leading-relaxed">
@@ -8242,7 +9126,7 @@ function GlossaryScreen({ onClose }) {
 function CommandDossiersScreen({ onClose }) {
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Command Dossiers"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-4" style={{ fontFamily: BODY_FONT }}>Command Dossiers</div>
         {Object.values(CAMPAIGNS).map((c) => {
@@ -8341,7 +9225,7 @@ function SettingsScreen({ textSize, setTextSize, reduceMotion, setReduceMotion, 
 
   return (
     <div style={{ background: "#f2ecdc", minHeight: "100%" }}>
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"Settings"} onClose={onClose} />
 
       <div style={{ padding: "16px 16px 10px", borderBottom: `2px double ${ink}` }}>
         <div
@@ -8434,7 +9318,7 @@ function HowToReadScreen({ onClose }) {
   ];
   return (
     <div className="bg-stone-50 min-h-full">
-      <TopBar title="dispatches-1922" onClose={onClose} />
+      <TopBar title="dispatches-1922" screenTitle={"How to Read the Reports"} onClose={onClose} />
       <div className="p-6">
         <div className="text-2xl font-bold mb-4" style={{ fontFamily: BODY_FONT }}>How to Read the Reports</div>
         {items.map(([label, body], i) => (
@@ -8461,6 +9345,924 @@ function HowToReadScreen({ onClose }) {
 // header note's 1940 reference warns about). Wrapped in try/catch per this
 // environment's localStorage guidance — a viewer in private browsing, or
 // with storage blocked, should never see play break because of this.
+// ORDERS OF BATTLE: configs, the planning screen and the after-action report
+// =============================================================================
+//
+// The engagements that open on the Order of Battle screen. The arithmetic is in src/battle.ts. Each config is registered under the id of the
+// `keyBattleSubgame` of the choice that hosts it, and that choice has two contested outcomes: `winBranch` is the index of the better one.
+// Facts (units, dates, strengths) come from the pages named in claims/battles-round1.md. What is modelled and not documented, the weights
+// above all and the enemy's dispositions, is a game judgment and the config says so in `modelled`.
+//
+//   categories     the arms the pool is placed across: { id, name, meter (the meter a heavy commitment costs), units, real, context }
+//   effectiveness  the weight of one counter in each arm, before officer, approach and the enemy's setup
+//   commanders     { id, name, role, category (the arm the officer led), note }
+//   approaches     { id, name, note, modifiers: { arm: added weight } }
+//   postures       the enemy's setup, drawn hidden: { id, name, intel, modifiers: { arm: multiplier }, weight }
+//   echo           what the next report says (node, grade[clean|costly|marginal|total], neglected[arm], commander[id])
+// =============================================================================
+
+const BATTLES = {};
+
+BATTLES.juneOffensive = {
+  id: "juneOffensive",
+  host: { node: "juneOffensive17", choice: 0 },
+  winBranch: 0,
+  campaign: "provisionalGov17",
+  cleanMeter: "frontDiscipline",
+  title: "Order of Battle: the June Offensive",
+  flavor:
+    "The Southwestern Front is to attack toward Lemberg. The barrage began on 16 June. There are shock battalions raised this spring from volunteers, regiments with elected committees, and an Eighth Army under General Kornilov on the southern wing.",
+  conditions:
+    "The attack goes in on 18 June. Three armies of the Southwestern Front take part: the Seventh, the Eleventh and the Eighth. The staff do not know which divisions the Central Powers have behind their line.",
+  modelled:
+    "The sources give the armies, the dates and the results. They do not give the enemy's dispositions or the weight of fire. The enemy's setup and every weight in this battle are game judgments.",
+  record:
+    "The Eighth Army advanced 15 to 20 miles, the most of any army in the offensive. The Eleventh advanced about two miles on average, and the Seventh much less. By 3 and 4 July the offensive had collapsed. On 19 July the Central Powers broke through the Southwestern Front near Zboriv, and Tarnopol fell on 25 July.",
+  categories: [
+    {
+      id: "shock", name: "The shock battalions", meter: "frontDiscipline",
+      units: ["Volunteer shock battalions raised by the Provisional Government in the spring of 1917"],
+      real: "The shock battalions led the first breakthrough. There were too few of them to hold the ground against a counterattack, and the regular infantry were less reliable.",
+      context: "The shock battalions are the arm most likely to break through on the first day. Each counter puts more volunteers in the first wave and leaves the line with fewer of its best men.",
+    },
+    {
+      id: "line", name: "The committee regiments", meter: "sovietRelations",
+      units: ["Regiments of the Seventh and Eleventh Armies, each with an elected soldiers' committee"],
+      real: "The Eleventh Army's attack advanced about two miles on average, and the Seventh Army's much less. Soldiers soon refused to leave their trenches, and by 3 and 4 July the offensive had collapsed.",
+      context: "The line regiments are most of the army. Each counter asks more of men whose committees have a say in whether they go forward.",
+    },
+    {
+      id: "eighth", name: "The Eighth Army", meter: "authority",
+      units: ["The Eighth Army under General Kornilov, the southern wing of the attack"],
+      real: "The Eighth Army was the most successful army of the offensive. It advanced 15 to 20 miles, and sources record that Galich and Kalush were taken.",
+      context: "The southern wing is where an advance is most likely to be made. Each counter puts more weight behind Kornilov's army and makes his standing with the government larger.",
+    },
+    {
+      id: "guns", name: "The artillery", meter: "authority",
+      units: ["The artillery of the three armies"],
+      real: "The preliminary barrage began on 16 June (Old Style). The sources do not give the number of guns or how long it lasted.",
+      context: "The guns open the way for every other arm and decide none of them. Each counter puts more batteries and shells forward.",
+    },
+  ],
+  // The Eighth Army and the shock battalions made the offensive's gains in the record; the guns and the line followed. A game judgment.
+  effectiveness: { eighth: 2.3, shock: 2.1, guns: 1.4, line: 1.2 },
+  commanders: [
+    { id: "kornilov", name: "Kornilov", role: "Commander of the Eighth Army", category: "eighth", note: "He commands the army on the southern wing." },
+    { id: "erdeli", name: "Erdeli", role: "Commander of the Eleventh Army", category: "line", note: "He commands one of the two armies of the main attack." },
+  ],
+  approaches: [
+    { id: "south", name: "Back the southern thrust", note: "Everything goes behind the army that is most likely to advance. The others hold.", modifiers: { eighth: 0.4, shock: 0.2, line: -0.3 } },
+    { id: "front", name: "Attack along the whole front", note: "Every army attacks at once, with no single point of main effort.", modifiers: { line: 0.4, guns: 0.3, eighth: -0.3, shock: -0.2 } },
+  ],
+  postures: [
+    { id: "thin", name: "A thinly held Austrian line", weight: 2,
+      intel: "Prisoners say the Austrian regiments in front are under strength and short of food.",
+      modifiers: { eighth: 1.2, shock: 1.1, line: 1.1 } },
+    { id: "german", name: "German divisions behind the line", weight: 1,
+      intel: "Aeroplanes and deserters report German divisions arriving behind the Austrian front.",
+      modifiers: { shock: 0.9, line: 0.75, guns: 1.1, eighth: 0.9 } },
+  ],
+  echo: {
+    node: "julyDays17",
+    grade: {
+      clean: "The offensive was fought with each part of the front given its work.",
+      costly: "The offensive was fought with some parts of the front short to pay for the rest.",
+      marginal: "The plan held together and the offensive still failed. Nobody at the Ministry can say what was left undone.",
+      total: "The offensive was fought with parts of the front left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      shock: "The shock battalions were left short.",
+      line: "The line regiments were left short.",
+      eighth: "The Eighth Army was left short.",
+      guns: "The guns were left short.",
+    },
+    commander: {
+      kornilov: "Kornilov's army is the one the newspapers write about.",
+      erdeli: "Erdeli's army had its part in the plan.",
+    },
+  },
+};
+
+BATTLES.ekaterinodar = {
+  id: "ekaterinodar",
+  host: { node: "ekaterinodarAssault18", choice: 0 },
+  winBranch: 0,
+  campaign: "southRussia",
+  cleanMeter: "manpower",
+  title: "Order of Battle: Ekaterinodar",
+  flavor:
+    "The Volunteer Army has reached Ekaterinodar, the capital of the Kuban and of the North Caucasian Soviet Republic, after seven weeks on the steppe. It has about six thousand men, some two thousand of them Don Cossacks, and fourteen guns. Two days of assault have gained a foothold on the outskirts.",
+  conditions:
+    "The attack began on 10 April. The defenders are more than twice the Volunteers' number, and they have armoured trains on the railway.",
+  modelled:
+    "The sources give the Volunteers' strength, the size of the defence and the course of the five days. They do not say where the defenders stood. The enemy's setup and every weight in this battle are game judgments.",
+  record:
+    "The attack began on 10 April. Kornilov was killed on 13 April when a shell hit the farmhouse where he had set up his headquarters. Denikin took command, abandoned the assault after five days of fighting and withdrew north. The forced march began on the evening of 13 April.",
+  categories: [
+    {
+      id: "infantry", name: "The infantry brigades", meter: "manpower",
+      units: ["The 1st Infantry Brigade under General Markov", "The 2nd Infantry Brigade under General Bogaevsky"],
+      real: "The infantry did the fighting for five days against defenders more than twice their number. The army's losses in the battle were heavy, and the sources give widely different figures for them.",
+      context: "The brigades are the army. Each counter puts more of them into the fight for the city and leaves fewer to cover a withdrawal.",
+    },
+    {
+      id: "mounted", name: "The mounted brigade", meter: "manpower",
+      units: ["The mounted brigade, under General Erdeli in one account"],
+      real: "The sources name the mounted brigade and do not describe its part in the assault.",
+      context: "The horsemen can strike at a weak point or cover a flank. Each counter takes riders from the road out.",
+    },
+    {
+      id: "guns", name: "The guns", meter: "materiel",
+      units: ["The army's artillery, 14 pieces"],
+      real: "The army had 14 artillery pieces. The sources do not give its stock of shells.",
+      context: "Fourteen guns cannot batter a city. Each counter spends shells that cannot be replaced.",
+    },
+  ],
+  // The infantry carried the attack; the guns were too few to decide it; the mounted arm had no recorded part. A game judgment.
+  effectiveness: { infantry: 1.9, guns: 1.7, mounted: 1.5 },
+  commanders: [
+    { id: "markov", name: "Markov", role: "Commander of the 1st Infantry Brigade", category: "infantry", note: "His brigade is built on the officers' regiments." },
+    { id: "bogaevsky", name: "Bogaevsky", role: "Commander of the 2nd Infantry Brigade", category: "infantry", note: "He brought the Don Cossacks into the army." },
+    { id: "erdeli", name: "Erdeli", role: "Commander of the mounted brigade", category: "mounted", note: "The army's cavalry is under his hand." },
+  ],
+  approaches: [
+    { id: "storm", name: "Storm the city at once", note: "Everything goes into the infantry. The guns support and the horse watch the flanks.", modifiers: { infantry: 0.3, guns: 0.2, mounted: -0.3 } },
+    { id: "batter", name: "Batter the defences first", note: "The guns fire before the infantry go in, and the assault waits for them.", modifiers: { guns: 0.5, infantry: -0.2, mounted: -0.1 } },
+  ],
+  postures: [
+    { id: "dug", name: "The garrison dug in on the outskirts", weight: 2,
+      intel: "Scouts report the garrison dug in along the edge of the city, with armoured trains on the railway.",
+      modifiers: { infantry: 0.8, guns: 1.15, mounted: 0.85 } },
+    { id: "sortie", name: "A Red sortie against the flank", weight: 1,
+      intel: "Scouts report Red columns forming near the station for a sortie.",
+      modifiers: { infantry: 1.05, mounted: 1.25, guns: 0.9 } },
+    { id: "thin", name: "A weak side of the city", weight: 1,
+      intel: "Scouts report that the garrison on the western edge is weaker than on the rest.",
+      modifiers: { infantry: 1.1, mounted: 1.2, guns: 1.0 } },
+  ],
+  echo: {
+    node: "afterEkaterinodar18",
+    grade: {
+      clean: "The assault was planned with every arm given its work, and the staff knows what that is worth.",
+      costly: "The assault was won in its day with some arms short, and the army remembers which.",
+      marginal: "The plan held together and the city did not fall. No one at headquarters can say what was left undone.",
+      total: "The assault was fought with arms left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      infantry: "The infantry were left short.",
+      mounted: "The mounted brigade was left short.",
+      guns: "The guns were left short of shells.",
+    },
+    commander: {
+      markov: "Markov's brigade carried the assault.",
+      bogaevsky: "Bogaevsky's brigade carried the assault.",
+      erdeli: "Erdeli's horsemen were given their part.",
+    },
+  },
+};
+
+BATTLES.peregonovka = {
+  id: "peregonovka",
+  host: { node: "peregonovka19", choice: 1 },
+  winBranch: 0,
+  campaign: "southRussia",
+  cleanMeter: "manpower",
+  title: "Order of Battle: Peregonovka",
+  flavor:
+    "The White corps, twelve to fifteen thousand men, have been fighting the Insurgent Army of Makhno since 22 September. The insurgents, six to eight thousand strong, are in hills and ravines between the Syniukha and the Iatran, with dense forest along both rivers. The only crossings are at Novoarkhanhelsk and Ternivka.",
+  conditions:
+    "Late September. The usual date for the main battle is 26 September, and other accounts give the 25th and the 27th. The fighting began at three in the morning.",
+  modelled:
+    "The sources give the forces, the ground and the course of the day. They do not say how the White commanders divided their men. The arms, the enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "An insurgent brigade staged a feint at Krutenkoe that drew the Whites west while the main army moved back east. Explosives signalled the attack, and Makhno led his sotnia in a flanking charge with sabres that broke the Whites. Accounts give about 10,000 White dead and up to 5,000 prisoners. The insurgents captured 23 field guns and 100 machine guns. The White advance on Moscow was halted about 200 kilometres from the city.",
+  categories: [
+    {
+      id: "right", name: "The right flank", meter: "manpower",
+      units: ["The White right flank, along the Iatran"],
+      real: "Makhno regrouped on the right bank of the Iatran, opposite the weakened White right flank.",
+      context: "The right flank is the side nearest the river crossings. Each counter makes it harder to turn.",
+    },
+    {
+      id: "centre", name: "The centre on the heights", meter: "manpower",
+      units: ["The main White body, facing the heights east of Krutenkoe and Rogovo"],
+      real: "A feint at Krutenkoe drew the Whites west while the insurgent main army moved back east.",
+      context: "The centre faces the ground the insurgents hold. Each counter makes it harder to draw away.",
+    },
+    {
+      id: "officers", name: "The officer regiments", meter: "manpower",
+      units: ["The Simferopol Officer Regiment", "The units under Sklyarov, advancing toward Uman"],
+      real: "Sklyarov's units, advancing toward Uman, were separated from the Simferopol Officer Regiment. A unit under Almendinger was reduced to about 100 men from six companies.",
+      context: "The officers are the corps' best infantry and its reserve. Each counter keeps more of them in hand.",
+    },
+    {
+      id: "guns", name: "The guns and machine guns", meter: "materiel",
+      units: ["The corps' field guns and machine guns"],
+      real: "The insurgents captured 23 field guns and 100 machine guns.",
+      context: "The guns and the machine guns hold the ravines. Each counter puts more of them where the ground is narrow.",
+    },
+  ],
+  // The sources describe a flank attack and a feint; the White arms are weighted by how much each could do about that. A game judgment.
+  effectiveness: { right: 1.8, centre: 1.9, officers: 2.0, guns: 1.5 },
+  commanders: [
+    { id: "slashchov", name: "Slashchov", role: "White commander at Peregonovka", category: "centre", note: "He had earlier relieved a trapped White division at Novoukrainka." },
+    { id: "shilling", name: "Shilling", role: "White commander at Peregonovka", category: "right", note: "He shares the command with Slashchov." },
+  ],
+  approaches: [
+    { id: "close", name: "Draw in and close up", note: "The line shortens and the flanks come in toward the centre.", modifiers: { right: 0.4, centre: 0.3, officers: -0.2, guns: -0.2 } },
+    { id: "reserve", name: "Hold a strong reserve", note: "The officer regiments are kept back and the line is held thin.", modifiers: { officers: 0.5, guns: 0.2, right: -0.3, centre: -0.2 } },
+  ],
+  postures: [
+    { id: "feint", name: "A feint in the west and the blow on the right flank", weight: 2,
+      intel: "Scouts report insurgent columns massing on the far bank of the Iatran, opposite the right flank.",
+      modifiers: { right: 0.7, centre: 1.1, officers: 1.0, guns: 1.0 } },
+    { id: "stand", name: "A stand on the high ground", weight: 1,
+      intel: "Scouts report the insurgents dug in on the heights east of Krutenkoe and Rogovo.",
+      modifiers: { centre: 0.8, right: 1.1, guns: 1.2, officers: 1.0 } },
+    { id: "slip", name: "The insurgents slip away to the east", weight: 1,
+      intel: "Scouts report insurgent wagons and guns moving off toward the east.",
+      modifiers: { right: 1.1, centre: 1.1, officers: 1.2, guns: 0.8 } },
+  ],
+  echo: {
+    node: "makhnosAftermath19",
+    grade: {
+      clean: "The line at Peregonovka was drawn back with each arm given its work.",
+      costly: "The line at Peregonovka was drawn back with some arms short to pay for the rest.",
+      marginal: "The plan at Peregonovka held together and the battle did not go the way it should have.",
+      total: "The line at Peregonovka was drawn back with arms left bare, and the corps has seen what that costs.",
+    },
+    neglected: {
+      right: "The right flank was left short.",
+      centre: "The centre was left short.",
+      officers: "The officer regiments were left short.",
+      guns: "The guns were left short.",
+    },
+    commander: {
+      slashchov: "Slashchov's part in the plan is remembered in the corps.",
+      shilling: "Shilling's part in the plan is remembered in the corps.",
+    },
+  },
+};
+
+BATTLES.orel = {
+  id: "orel",
+  host: { node: "orelCulmination19", choice: 1 },
+  winBranch: 0,
+  campaign: "southRussia",
+  cleanMeter: "manpower",
+  title: "Order of Battle: Orel",
+  flavor:
+    "The Volunteer Army's drive on Moscow is stopping at Orel. The Red Southern Front has been attacking since 11 October with, by one count, 52,000 infantry, 7,000 cavalry and 278 guns, against about 19,000 White infantry and 5,000 cavalry. Kutepov's I Corps has to get its brigades back to the Kursk and Kharkov line without losing them.",
+  conditions:
+    "October 1919. The regiment strengths below are from a snapshot of 18 October, and they were falling fast.",
+  modelled:
+    "The sources give the regiments, their strengths and the Red order of battle. They do not say how a withdrawal was divided between them. The arms, the enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "The Red Southern Front won the battle. The Latvian Rifle Division led the Red shock group, which was moved from the 13th Army to the 14th during the operation as the 13th began to disintegrate. With Budyonny's breakthrough near Voronezh, the operation ended the Armed Forces of South Russia's drive on Moscow.",
+  categories: [
+    {
+      id: "kornilov", name: "The Kornilov Brigade", meter: "manpower",
+      units: ["1st Kornilov Shock Regiment, 945 bayonets", "2nd Kornilov Shock Regiment, 1,150 bayonets", "3rd Kornilov Shock Regiment, 1,279 bayonets"],
+      real: "The brigade began the campaign with over 6,000 bayonets. By the 18 October snapshot it had about 3,400 in its three regiments.",
+      context: "The Kornilov regiments are shock troops. Each counter makes them the rear guard of the whole corps.",
+    },
+    {
+      id: "markov", name: "The Markov Brigade", meter: "manpower",
+      units: ["1st Markov Officer Regiment, 882 bayonets", "2nd Markov Officer Regiment, 1,174 bayonets", "3rd Markov Officer Regiment, newly formed, 618 bayonets"],
+      real: "The brigade had about 2,700 bayonets in three regiments at the 18 October snapshot, the third of them newly formed.",
+      context: "The Markov regiments are the corps' other officer brigade. Each counter leaves it covering more of the road.",
+    },
+    {
+      id: "drozdov", name: "The Drozdovsky regiments and the Samursky", meter: "manpower",
+      units: ["1st Drozdovsky Regiment, 1,352 bayonets", "2nd Drozdovsky Regiment, 1,309 bayonets", "3rd Drozdovsky Regiment, forming, 1,130 bayonets", "83rd Samursky Regiment, 1,304 bayonets"],
+      real: "The 3rd Division had about 5,100 bayonets in four regiments at the 18 October snapshot, the third Drozdovsky regiment still forming.",
+      context: "The 3rd Division is the largest body in the corps. Each counter gives it more of the withdrawal to carry.",
+    },
+    {
+      id: "guns", name: "The guns and armoured trains", meter: "materiel",
+      units: ["1st Artillery Brigade, 14 light guns and 11 howitzers", "3rd Artillery Brigade, 20 light guns and 6 howitzers", "The 2nd and 9th Armoured Train Divisions"],
+      real: "The corps also had five tanks and heavy guns, which the order of battle's author judges played little part.",
+      context: "The guns and the trains hold the rail line. Each counter ties the withdrawal more closely to the railway.",
+    },
+  ],
+  // The Kornilov and Drozdovsky regiments were the corps' strongest; the Markov Brigade was smaller; the guns could not hold ground. A game judgment.
+  effectiveness: { kornilov: 2.0, drozdov: 2.0, markov: 1.6, guns: 1.3 },
+  commanders: [
+    { id: "skoblin", name: "Skoblin", role: "Colonel, Kornilov Brigade", category: "kornilov", note: "His brigade began the campaign with over 6,000 bayonets." },
+    { id: "tretyakov", name: "Tretyakov", role: "Major-General, Markov Brigade", category: "markov", note: "He commands the three Markov regiments." },
+    { id: "turkul", name: "Turkul", role: "Colonel, 2nd Drozdovsky Regiment", category: "drozdov", note: "His regiment is one of the three in the 3rd Division's Drozdovsky group." },
+  ],
+  approaches: [
+    { id: "echelons", name: "Withdraw by echelons", note: "One brigade covers another as each falls back, and the guns go early.", modifiers: { kornilov: 0.3, markov: 0.3, drozdov: 0.3, guns: -0.3 } },
+    { id: "rail", name: "Hold the rail line and withdraw by train", note: "The guns and armoured trains hold the line while the infantry entrain.", modifiers: { guns: 0.5, drozdov: -0.2, kornilov: -0.2 } },
+  ],
+  postures: [
+    { id: "latvians", name: "The Latvian division presses the centre", weight: 2,
+      intel: "Prisoners say the Latvian Rifle Division leads the Red attack.",
+      modifiers: { kornilov: 0.9, markov: 0.9, drozdov: 0.85, guns: 1.1 } },
+    { id: "slow", name: "A slow and careful Red advance", weight: 1,
+      intel: "Reports say the Red columns are advancing slowly and in order.",
+      modifiers: { kornilov: 1.15, markov: 1.15, drozdov: 1.15, guns: 1.0 } },
+    { id: "cavalry", name: "A cavalry thrust round the flank", weight: 1,
+      intel: "Aeroplanes report Red cavalry moving round the eastern flank.",
+      modifiers: { kornilov: 0.9, markov: 0.9, drozdov: 1.0, guns: 0.8 } },
+  ],
+  echo: {
+    node: "kharkovLine19",
+    grade: {
+      clean: "The withdrawal from Orel was fought with every brigade given its work.",
+      costly: "The withdrawal from Orel was carried out with some brigades short to pay for the rest.",
+      marginal: "The plan for Orel held together and the withdrawal still frayed. No one can say what was left undone.",
+      total: "The withdrawal from Orel was carried out with brigades left bare, and the corps has seen what that costs.",
+    },
+    neglected: {
+      kornilov: "The Kornilov Brigade was left short.",
+      markov: "The Markov Brigade was left short.",
+      drozdov: "The 3rd Division was left short.",
+      guns: "The guns and trains were left short.",
+    },
+    commander: {
+      skoblin: "Skoblin's brigade is remembered as the rear guard.",
+      tretyakov: "Tretyakov's brigade is remembered as the one that held.",
+      turkul: "Turkul's regiment is remembered at Orel.",
+    },
+  },
+};
+
+BATTLES.chelyabinsk = {
+  id: "chelyabinsk",
+  host: { node: "chelyabinskGrinder19", choice: 0 },
+  winBranch: 0,
+  campaign: "siberia",
+  cleanMeter: "manpower",
+  title: "Order of Battle: Chelyabinsk",
+  flavor:
+    "The Red 5th Army has been advancing on Chelyabinsk since 17 July. The White Western Army, renamed the 3rd Army this month, is falling back on the city, and the groups of Voitsekhovsky and Kappel are to be thrown into a counterattack. The Reds have already cut the railway between Chelyabinsk and Ekaterinburg.",
+  conditions:
+    "Late July 1919. The sources date the Red operation from 17 July to 4 August, and they differ on the day Chelyabinsk fell.",
+  modelled:
+    "The sources give the opposing armies, the dates and the course of the White counterattacks. They do not give strengths or the White dispositions. The arms, the enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "The Red 5th Army's Chelyabinsk operation ran from 17 July to 4 August 1919. The White groups of Voitsekhovsky (25 July) and Kappel (27 July) went over to the offensive. North-west of Chelyabinsk they pushed back the 35th Rifle Division and broke through at its junction with the 27th. The Reds took Chelyabinsk. The date and the losses differ between sources: a chronicle by Wollenberg gives 3 August, 15,000 prisoners and the destruction of three White divisions.",
+  categories: [
+    {
+      id: "voits", name: "Voitsekhovsky's group", meter: "manpower",
+      units: ["The group under General Voitsekhovsky"],
+      real: "Voitsekhovsky's group went over to the offensive on 25 July.",
+      context: "The group is one of the two fists of the counterattack. Each counter puts more of it into the blow and leaves the line behind it thinner.",
+    },
+    {
+      id: "kappel", name: "Kappel's Volga group", meter: "manpower",
+      units: ["The Volga group under General Kappel"],
+      real: "Kappel's group went over to the offensive on 27 July. The Red 26th Rifle Division, under Eiche, fought it.",
+      context: "The Volga group is the other fist. Each counter puts more of it into the blow and takes it from the road back.",
+    },
+    {
+      id: "army", name: "The Western (3rd) Army", meter: "materiel",
+      units: ["The Western Army, renamed the 3rd Army in July, under General Sakharov"],
+      real: "The Western Army under Sakharov was the main White force facing the Red 5th Army. It was renamed the 3rd Army in July.",
+      context: "The army holds the ground between the groups. Each counter keeps more of it in the line instead of in the counterattack.",
+    },
+    {
+      id: "rail", name: "The railway and the junction", meter: "rail",
+      units: ["The railway from Ekaterinburg to Chelyabinsk, and the junction"],
+      real: "The Reds cut the railway between Chelyabinsk and Ekaterinburg in July.",
+      context: "The railway is how the army lives and how it leaves. Each counter spends men and trains on holding it.",
+    },
+  ],
+  // The two groups did the attacking in the record; the army and the railway held ground. A game judgment.
+  effectiveness: { voits: 1.9, kappel: 2.0, army: 1.4, rail: 1.3 },
+  commanders: [
+    { id: "voitsekhovsky", name: "Voitsekhovsky", role: "Commander of his own group", category: "voits", note: "His group attacks on 25 July." },
+    { id: "kappel", name: "Kappel", role: "Commander of the Volga group", category: "kappel", note: "His group attacks two days later." },
+    { id: "sakharov", name: "Sakharov", role: "Commander of the Western (3rd) Army", category: "army", note: "He commands the army that has been falling back." },
+  ],
+  approaches: [
+    { id: "junction", name: "Strike the flank at the junction of the Red divisions", note: "Both groups go for the seam between two Red divisions north-west of the city.", modifiers: { voits: 0.3, kappel: 0.3, army: -0.2 } },
+    { id: "hold", name: "Hold the city and the railway", note: "The groups stay close to the junction and the army holds the line.", modifiers: { rail: 0.5, army: 0.2, voits: -0.2, kappel: -0.3 } },
+  ],
+  postures: [
+    { id: "flank", name: "A Red flank blow prepared north-west of the city", weight: 2,
+      intel: "Scouts report Red columns massing on the flank, at the junction of two divisions.",
+      modifiers: { voits: 0.8, kappel: 0.8, army: 1.0, rail: 1.1 } },
+    { id: "railway", name: "A Red frontal advance along the railway", weight: 1,
+      intel: "Reports say the Red advance is following the railway.",
+      modifiers: { rail: 0.8, army: 0.9, voits: 1.2, kappel: 1.2 } },
+    { id: "thin", name: "Red regiments stretched thin", weight: 1,
+      intel: "Prisoners say the Red regiments have outrun their supply.",
+      modifiers: { voits: 1.15, kappel: 1.15, army: 1.1, rail: 1.0 } },
+  ],
+  echo: {
+    node: "railPriority19",
+    grade: {
+      clean: "The counterattack at Chelyabinsk was made with each part of the front given its work.",
+      costly: "The counterattack at Chelyabinsk was made with some parts of the front short to pay for the rest.",
+      marginal: "The plan at Chelyabinsk held together and the battle did not go the way it should have.",
+      total: "The counterattack at Chelyabinsk was made with parts of the front left bare, and the army has seen what that costs.",
+    },
+    neglected: {
+      voits: "Voitsekhovsky's group was left short.",
+      kappel: "Kappel's group was left short.",
+      army: "The 3rd Army was left short.",
+      rail: "The railway was left short.",
+    },
+    commander: {
+      voitsekhovsky: "Voitsekhovsky's group is remembered for the attack of 25 July.",
+      kappel: "Kappel's group is remembered for the attack of 27 July.",
+      sakharov: "Sakharov's army is remembered for holding the ground between them.",
+    },
+  },
+};
+
+BATTLES.irkutsk = {
+  id: "irkutsk",
+  host: { node: "irkutskUltimatum20", choice: 0 },
+  winBranch: 0,
+  campaign: "siberia",
+  cleanMeter: "manpower",
+  title: "Order of Battle: Irkutsk",
+  flavor:
+    "Kappel is dead and General Voitsekhovsky commands what is left of the army: about six thousand bayonets that can be thrown into a battle, with the Izhevsk Division among them. Irkutsk is held by the Political Centre, which has Kolchak. The council at Nizhneudinsk decided on 23 January to storm the city, and the offensive began on 24 January.",
+  conditions:
+    "February 1920. The army has been marching since the autumn through deep cold. Kolchak was handed to the Political Centre in January.",
+  modelled:
+    "The sources give the army's strength, its units and the dates. They say nothing of the Red and Political Centre forces at Irkutsk or of any fighting on 5 and 6 February. The arms, the enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "The decision to storm Irkutsk was taken on 23 January and the offensive began on 24 January. Kappel died on 26 January and Voitsekhovsky took command. The army took Zima on 29 January after a fight. Kolchak was shot on 7 February. After that Voitsekhovsky gave up the assault, and the army went round Irkutsk in two columns toward Bolshoe Goloustnoe. The Izhevsk Division was the first onto the ice of Lake Baikal, on 11 February. Between 30,000 and 35,000 people crossed in a few days. One French-language source says an attack on Irkutsk on 5 February failed.",
+  categories: [
+    {
+      id: "izhevsk", name: "The Izhevsk Division", meter: "manpower",
+      units: ["The Izhevsk Division"],
+      real: "The Izhevsk Division was the first onto the ice of Lake Baikal, on 11 February.",
+      context: "The division is the army's hardest striking force. Each counter puts more of it before the city and leaves the column with fewer to cover it.",
+    },
+    {
+      id: "second", name: "The remnants of the 2nd Army", meter: "manpower",
+      units: ["What remained of Kappel's 2nd Army, under Voitsekhovsky"],
+      real: "The remnants of the 2nd Army took the station of Zima on 29 January after a fight.",
+      context: "The 2nd Army is what is left of the corps that came out of the Urals. Each counter spends more of it on the city.",
+    },
+    {
+      id: "column", name: "The column and its wounded", meter: "rail",
+      units: ["The sick, the wounded, women and children following the army"],
+      real: "In all between 30,000 and 35,000 people crossed Baikal, many of them sick, wounded, women and children.",
+      context: "The column is not a fighting arm, and it has to be covered. Each counter spent here is a counter not spent on the city.",
+    },
+    {
+      id: "guns", name: "The guns", meter: "materiel",
+      units: ["The army's artillery"],
+      real: "On the Baikal crossing the guns were hauled by hand and many horses died.",
+      context: "The guns are few and the horses are failing. Each counter puts more of them forward.",
+    },
+  ],
+  // The Izhevsk Division and the 2nd Army were the fighting force; the column and the guns could not take a city. A game judgment.
+  effectiveness: { izhevsk: 1.8, second: 1.8, column: 1.2, guns: 1.5 },
+  commanders: [
+    { id: "voitsekhovsky", name: "Voitsekhovsky", role: "Commander since 26 January", category: "second", note: "He took command from the dying Kappel." },
+  ],
+  approaches: [
+    { id: "storm", name: "Storm from the march", note: "Everything goes at the city, and the column follows behind.", modifiers: { izhevsk: 0.4, second: 0.3, column: -0.3 } },
+    { id: "close", name: "Close up and press under arms", note: "The army stays together and presses the ultimatum with its guns forward.", modifiers: { column: 0.4, guns: 0.3, izhevsk: -0.2, second: -0.2 } },
+  ],
+  postures: [
+    { id: "dug", name: "A garrison dug in on the approaches", weight: 2,
+      intel: "Scouts report the approaches to the city wired and held.",
+      modifiers: { izhevsk: 0.85, second: 0.85, guns: 1.1, column: 1.0 } },
+    { id: "regulars", name: "Red regulars arriving from the west", weight: 1,
+      intel: "Prisoners say Red regular units are coming up from Krasnoyarsk.",
+      modifiers: { izhevsk: 0.9, second: 0.9, guns: 0.9, column: 0.8 } },
+    { id: "divided", name: "A weak and divided garrison", weight: 1,
+      intel: "Deserters say the Political Centre's men will not stand against regulars.",
+      modifiers: { izhevsk: 1.1, second: 1.2, guns: 1.0, column: 1.0 } },
+  ],
+  echo: {
+    node: "semyonovMerger20",
+    grade: {
+      clean: "The attempt on Irkutsk was made with every part of the army given its work.",
+      costly: "The attempt on Irkutsk was made with some parts of the army short to pay for the rest.",
+      marginal: "The plan for Irkutsk held together and the attempt still failed. No one can say what was left undone.",
+      total: "The attempt on Irkutsk was made with parts of the army left bare, and what is left of it has seen what that costs.",
+    },
+    neglected: {
+      izhevsk: "The Izhevsk Division was left short.",
+      second: "The remnants of the 2nd Army were left short.",
+      column: "The column was left short of cover.",
+      guns: "The guns were left short.",
+    },
+    commander: {
+      voitsekhovsky: "Voitsekhovsky's plan is the one the officers argue about.",
+    },
+  },
+};
+
+BATTLES.voronezh = {
+  id: "voronezh",
+  host: { node: "cavalryArmyDebate19", choice: 0 },
+  winBranch: 0,
+  campaign: "bolsheviks",
+  cleanMeter: "reliability",
+  title: "Order of Battle: Voronezh and Kastornoye",
+  flavor:
+    "Budyonny's 1st Cavalry Corps has beaten Mamontov and Shkuro at Voronezh, and the fighting for the Kastornoye junction is not over. What is being decided is how the Red cavalry fights the rest of it: tied to the pace of the infantry armies, or as one army with its own command.",
+  conditions:
+    "October and November 1919. The operation ran from 13 October to 16 November. A serious snowstorm covered the Red attack of 5 to 15 November.",
+  modelled:
+    "The sources give the formations, the dates and the course of the battle. They do not give the strength of each arm or the enemy's intentions. The enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "Budyonny's corps fought Mamontov near Moskovskoye from 13 to 19 October, repulsed Shkuro and Mamontov at Khrenovoe on 19 October, and took Voronezh with 8th Army units on 23 and 24 October. Liski was occupied on 26 October and Livny on 3 November. The Whites retook several towns between 5 and 15 November, and the Reds then retook Kastornoye. The area was cleared of White troops on 16 November. It was the first major battle of the Civil War in which large cavalry formations were used in mass, and the Reds struck at the flank with cavalry and rifle divisions together. The corps became the 1st Cavalry Army in the second half of November.",
+  categories: [
+    {
+      id: "strike", name: "The cavalry corps", meter: "warIndustry",
+      units: ["The 4th and 6th Cavalry Divisions of the 1st Cavalry Corps, under Budyonny"],
+      real: "The 4th and 6th Cavalry Divisions fought near Khrenovoe, and the corps took Voronezh with 8th Army units on 23 and 24 October.",
+      context: "The corps is the blow itself. Each counter puts more horsemen into the strike and asks more of remounts and forage.",
+    },
+    {
+      id: "reserve", name: "The reserve cavalry division", meter: "mobilization",
+      units: ["The 11th Cavalry Division, held in reserve"],
+      real: "The reserve 11th Cavalry Division joined on 31 October.",
+      context: "The reserve is what a breakthrough needs behind it. Each counter keeps more riders back from the first blow.",
+    },
+    {
+      id: "rifles", name: "The rifle divisions", meter: "mobilization",
+      units: ["Units of the 8th Army", "The 13th Army, including the 42nd Rifle Division", "The Estonian 1st Red Division"],
+      real: "The 13th Army's 42nd Rifle Division captured Dolgorukovo on 29 October.",
+      context: "The rifle divisions hold ground and strike with the cavalry. Each counter puts more infantry on the flank.",
+    },
+  ],
+  // The cavalry did the decisive work in the record, with the rifle divisions beside it. A game judgment.
+  effectiveness: { strike: 1.8, rifles: 1.7, reserve: 1.6 },
+  commanders: [
+    { id: "budyonny", name: "Budyonny", role: "Commander of the 1st Cavalry Corps", category: "strike", note: "He wants the cavalry together under one command." },
+    { id: "yegorov", name: "Yegorov", role: "Commander of the Southern Front", category: "rifles", note: "The rifle divisions are part of his front." },
+  ],
+  approaches: [
+    { id: "flank", name: "A flank strike, cavalry and rifles together", note: "The cavalry and the rifle divisions go in at the same flank of the White horse.", modifiers: { strike: 0.3, rifles: 0.3, reserve: -0.2 } },
+    { id: "pursuit", name: "Keep a reserve for the pursuit", note: "The reserve division is held back to follow a breakthrough.", modifiers: { reserve: 0.5, strike: -0.2, rifles: -0.1 } },
+  ],
+  postures: [
+    { id: "junction", name: "Mamontov and Shkuro strike first at the junction", weight: 2,
+      intel: "Prisoners say Mamontov and Shkuro are preparing a combined blow.",
+      modifiers: { strike: 0.9, rifles: 1.1, reserve: 1.0 } },
+    { id: "withdraw", name: "The White cavalry falls back across the Don", weight: 1,
+      intel: "Reports say the White cavalry is withdrawing toward the Don crossings.",
+      modifiers: { strike: 1.1, reserve: 1.1, rifles: 0.95 } },
+    { id: "storm", name: "A snowstorm and a White counterattack", weight: 1,
+      intel: "Scouts report White columns assembling at the stations behind the front.",
+      modifiers: { strike: 0.85, rifles: 0.8, reserve: 1.15 } },
+  ],
+  echo: {
+    node: "perekopAssault20",
+    grade: {
+      clean: "The battle for the Voronezh flank was fought with every arm given its work.",
+      costly: "The battle for the Voronezh flank was won with some arms short to pay for the rest.",
+      marginal: "The plan for the Voronezh flank held together and the battle did not go the way it should have.",
+      total: "The battle for the Voronezh flank was fought with arms left bare, and the Front has seen what that costs.",
+    },
+    neglected: {
+      strike: "The cavalry corps was left short.",
+      reserve: "The reserve division was left short.",
+      rifles: "The rifle divisions were left short.",
+    },
+    commander: {
+      budyonny: "Budyonny's corps is the one the Front talks about.",
+      yegorov: "The Southern Front's rifle divisions had their part in the plan.",
+    },
+  },
+};
+
+BATTLES.perekop = {
+  id: "perekop",
+  host: { node: "perekopAssault20", choice: 0 },
+  winBranch: 0,
+  campaign: "bolsheviks",
+  cleanMeter: "reliability",
+  title: "Order of Battle: Perekop",
+  flavor:
+    "Wrangel's army holds the Turkish Wall at Perekop and the crossings at Chongar. Frunze's plan puts the main blow at Perekop with the 6th Army and the 1st and 2nd Cavalry Armies, and a lesser blow at Chongar with the 4th Army. A frontal attack on 3 November failed. On 5 November the wind has driven the water out of the Sivash, and it can be crossed.",
+  conditions:
+    "7 to 17 November 1920. The Turkish Wall is about 11 kilometres long, with an old Tatar ditch, wire and three lines of trenches. The Yushun line lies 20 to 25 kilometres to the south. The attacking side is about four times the size of the defenders.",
+  modelled:
+    "The sources give the forces, the defences and the course of the days. They do not agree on every unit's part: one page puts the 51st Division at the Wall and another has it crossing the Sivash. The enemy's setups and every weight in this battle are game judgments.",
+  record:
+    "The shock group of the 6th Army, the 15th, 51st and 52nd Divisions and a cavalry group, about 20,000 men with 36 guns, crossed the Sivash, about 7 kilometres of water, in the night of 8 November, and by the afternoon had broken Fostikov's brigade, about 1,500 bayonets with 12 guns. The 51st Division's frontal assault on the Turkish Wall failed with heavy losses. The Kornilov division left the Wall for Yushun on the night of 9 November. The Reds broke the whole Yushun line on 11 November, and Yushun fell on 12 November. Simferopol was occupied on 13 November and Sevastopol and Feodosiya on 15 November.",
+  categories: [
+    {
+      id: "wall", name: "The frontal assault on the Wall", meter: "mobilization",
+      units: ["The 51st Rifle Division under Blyukher", "The 6th Army's front against the Turkish Wall"],
+      real: "A frontal attack on 3 November failed. The 51st Division's assault on the Turkish Wall on 8 November failed, with losses reported at over half.",
+      context: "The Wall holds the garrison where it is. Each counter spent on it is a life spent against wire and machine guns.",
+    },
+    {
+      id: "sivash", name: "The Sivash crossing", meter: "reliability",
+      units: ["The 15th and 52nd Rifle Divisions", "A cavalry group"],
+      real: "About 20,000 men crossed the Sivash in the night of 8 November, in freezing wind, and broke Fostikov's brigade by the afternoon.",
+      context: "The crossing is the risk, and the part that turns the Wall. Each counter asks more of formations that must not dissolve in the dark.",
+    },
+    {
+      id: "cavalry", name: "The cavalry armies", meter: "warIndustry",
+      units: ["The 1st and 2nd Cavalry Armies"],
+      real: "A 1st Cavalry Army attack from Henichesk was stopped by fire from Wrangel's fleet.",
+      context: "The cavalry turns a breakthrough into a rout. Each counter keeps more of it ready behind the crossing.",
+    },
+    {
+      id: "chongar", name: "The Chongar thrust", meter: "mobilization",
+      units: ["The 4th Army", "The 3rd Cavalry Corps"],
+      real: "A landing from the Chongar Peninsula toward Armyansk stalled for lack of cavalry. Chongar was breached on 11 November.",
+      context: "The lesser blow keeps the garrison at Chongar from reinforcing the Wall. Each counter spent here is taken from the main effort.",
+    },
+  ],
+  // The crossing turned the Wall in the record; the cavalry exploited it; the Wall and Chongar held the garrison in place. A game judgment.
+  effectiveness: { sivash: 2.1, wall: 1.7, cavalry: 1.7, chongar: 1.4 },
+  commanders: [
+    { id: "blyukher", name: "Blyukher", role: "Commander of the 51st Division", category: "wall", note: "His division is to storm the Turkish Wall." },
+    { id: "kork", name: "Kork", role: "Commander of the 6th Army", category: "sivash", note: "He sends a third of his army across the Sivash." },
+    { id: "budyonny", name: "Budyonny", role: "Commander of the 1st Cavalry Army", category: "cavalry", note: "His army is the exploitation force." },
+  ],
+  approaches: [
+    { id: "fix", name: "Fix the garrison at the Wall and cross at night", note: "The Wall is attacked to hold the garrison while the crossing goes in.", modifiers: { wall: 0.3, sivash: 0.3, chongar: -0.2 } },
+    { id: "weight", name: "Weight the crossing and the exploitation", note: "The Wall is only demonstrated against, and the weight goes behind the crossing and the cavalry.", modifiers: { sivash: 0.5, cavalry: 0.3, wall: -0.4 } },
+  ],
+  postures: [
+    { id: "strong", name: "Perekop and Yushun held in strength", weight: 2,
+      intel: "Aeroplane and scout reports say the garrison at the Wall has been reinforced and the Yushun line is manned.",
+      modifiers: { wall: 0.8, sivash: 1.1, cavalry: 0.9, chongar: 1.0 } },
+    { id: "thin", name: "The Sivash lightly held", weight: 1,
+      intel: "Reports say only a thin screen holds the Sivash shore.",
+      modifiers: { sivash: 1.3, wall: 0.9, cavalry: 1.1, chongar: 0.9 } },
+    { id: "horse", name: "A strong White cavalry reserve behind Yushun", weight: 1,
+      intel: "Aeroplanes report White cavalry massed behind the Yushun line.",
+      modifiers: { cavalry: 0.8, sivash: 1.0, wall: 1.0, chongar: 1.1 } },
+  ],
+  echo: {
+    node: ["kronstadt21", "compressedEvacuation20"],
+    grade: {
+      clean: "Perekop was taken with every arm given its work.",
+      costly: "Perekop was taken with some arms short to pay for the rest.",
+      marginal: "The plan for Perekop held together and the isthmus was not taken the way it should have been.",
+      total: "Perekop was fought with arms left bare, and the Front has seen what that costs.",
+    },
+    neglected: {
+      wall: "The assault on the Wall was left short.",
+      sivash: "The Sivash crossing was left short.",
+      cavalry: "The cavalry armies were left short.",
+      chongar: "The Chongar thrust was left short.",
+    },
+    commander: {
+      blyukher: "Blyukher's division is remembered at the Wall.",
+      kork: "Kork's army is remembered for the crossing.",
+      budyonny: "Budyonny's army is remembered for the exploitation.",
+    },
+  },
+};
+
+/** The battle a choice hosts, or null. */
+function battleOf(choice) {
+  const id = choice && choice.keyBattleSubgame && choice.keyBattleSubgame.id;
+  return (id && BATTLES[id]) || null;
+}
+
+/** The label of a campaign meter, for the report. */
+function meterWord(campaignId, key) {
+  const a = (CAMPAIGNS[campaignId].triangleAxes.find((x) => x.key === key) || {}).label;
+  return (a || key).toLowerCase();
+}
+
+const GRADE_WORDS = {
+  clean: "A clean battle: every arm had its part, and the plan was won.",
+  costly: "A costly victory: the plan was won, but an arm was left short or a heavy commitment was paid for.",
+  marginal: "A plan that held, and a battle that did not go its way.",
+  total: "A plan that gave out: two or more arms were left short, and the battle was lost.",
+};
+
+/** The planning screen: who leads, how it is fought, where the counters go. */
+function BattleScreen({ campaignId, config, choice, meters, easyMode, onCommit, onBack }) {
+  const c = CAMPAIGNS[campaignId];
+  const skin = skinFor(campaignId);
+  const pool = React.useMemo(() => battlePoolSize(meters), []);
+  const [posture] = useState(() => pickBattlePosture(config));
+  const [intel] = useState(() => battleIntel(config, posture));
+  const empty = React.useMemo(() => Object.fromEntries(config.categories.map((k) => [k.id, 0])), [config]);
+  const [allocation, setAllocation] = useState(empty);
+  const [commanderId, setCommanderId] = useState(null);
+  const [approachId, setApproachId] = useState(null);
+  const hasCommanders = (config.commanders || []).length > 0;
+  const needsApproach = (config.approaches || []).length > 0;
+  const steps = React.useMemo(() => [hasCommanders && "officer", needsApproach && "approach", "counters"].filter(Boolean), [hasCommanders, needsApproach]);
+  const [si, setSi] = useState(0);
+  const step = steps[si];
+  const placed = config.categories.reduce((s, k) => s + (allocation[k.id] || 0), 0);
+  const left = pool - placed;
+  const ready = left === 0 && (!needsApproach || !!approachId);
+  const commander = (config.commanders || []).find((x) => x.id === commanderId) || null;
+  const approach = (config.approaches || []).find((x) => x.id === approachId) || null;
+  const bump = (id, d) =>
+    setAllocation((a) => {
+      const n = (a[id] || 0) + d;
+      if (n < 0 || (d > 0 && left <= 0)) return a;
+      return { ...a, [id]: n };
+    });
+  const byStaff = () => {
+    const s = staffPlanFor(config, pool);
+    setAllocation({ ...empty, ...s.allocation });
+    setApproachId(s.approachId);
+    setCommanderId(null);
+    setSi(steps.length - 1);
+  };
+  const plan = { allocation, commanderId, approachId, postureId: posture ? posture.id : null, pool };
+  const shown = intel.shown || null;
+  const staffOdds = React.useMemo(() => battlePlanOdds(choice.uncertain, config, null, shown, pool), [choice, config, shown, pool]);
+  const myOdds = React.useMemo(() => (ready ? battlePlanOdds(choice.uncertain, config, plan, shown, pool) : null), [choice, config, shown, pool, ready, allocation, commanderId, approachId]);
+  const weights = easyMode ? Object.fromEntries(config.categories.map((k) => [k.id, battleArmWeight(config, k.id, commander, approach, null)])) : null;
+  const summary = {
+    officer: commander ? commander.name : "No particular emphasis",
+    approach: approach ? approach.name : "Not chosen yet",
+    counters: `${placed} of ${pool} placed`,
+  };
+  const heading = { officer: "Name an officer", approach: "Choose the approach", counters: "Place the counters" };
+  const last = si === steps.length - 1;
+  const mono = { ...monoFontStyle(skin) };
+  const muted = { ...monoFontStyle(skin), ...mutedTextStyle(skin) };
+  const pick = (on) => ({ borderColor: on ? skin.accent : (skin.dark ? skin.paperDim : skin.ink), borderWidth: on ? 3 : 2, borderStyle: "solid" });
+  return (
+    <div className="min-h-full" style={screenStyle(skin)}>
+      <TopBar title="dispatches-1922" screenTitle={config.title} onClose={onBack} />
+      <div className="p-6">
+        <div className="text-xs font-bold tracking-widest" style={{ ...mono, ...accentTextStyle(skin) }}>ORDER OF BATTLE</div>
+        <div className="text-2xl font-bold mt-1" style={displayFontStyle(skin)} role="heading" aria-level={2}>{config.title}</div>
+        <div className="text-sm mt-3 leading-relaxed">{config.flavor}</div>
+        <details className="mt-3">
+          <summary className="text-xs font-bold cursor-pointer" style={{ ...mono, ...accentTextStyle(skin) }}>CONDITIONS ON THE DAY</summary>
+          <div className="text-xs mt-2 leading-relaxed" style={muted}>{config.conditions}</div>
+        </details>
+
+        <div className="border-2 mt-4 p-3 text-xs" style={{ borderColor: skin.accent, ...mono }}>
+          <div className="font-bold" style={accentTextStyle(skin)}>INTELLIGENCE SUMMARY</div>
+          <div className="mt-1 leading-relaxed">{intel.shown ? intel.shown.intel : "Nothing is known of the enemy's setup."}</div>
+          <div className="mt-1" style={mutedTextStyle(skin)}>The staff's reading is right about three times in four.</div>
+        </div>
+
+        <div className="flex gap-2 mt-4">
+          <button onClick={byStaff} className="flex-1 border-2 py-2 text-xs font-bold" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...mono }}>
+            LET THE STAFF PLAN IT
+          </button>
+          <button
+            onClick={() => { setAllocation(empty); setCommanderId(null); setApproachId(null); setSi(0); }}
+            className="flex-1 border-2 py-2 text-xs font-bold"
+            style={{ borderColor: skin.dark ? skin.paperDim : skin.ink, ...mono }}
+          >
+            CLEAR THE PLAN
+          </button>
+        </div>
+
+        <ol className="mt-4" aria-label="The steps of the plan" style={{ listStyle: "none", padding: 0 }}>
+          {steps.map((s, i) => (
+            <li key={s} className="mb-2">
+              <button
+                onClick={() => setSi(i)}
+                aria-current={i === si ? "step" : undefined}
+                className="w-full text-left p-2 text-xs"
+                style={{ ...pick(i === si), ...mono }}
+              >
+                <b>{i + 1}. {heading[s]}</b>
+                <div style={mutedTextStyle(skin)}>{summary[s]}</div>
+              </button>
+            </li>
+          ))}
+        </ol>
+
+        <section aria-label={heading[step]} className="mt-4">
+          <div className="text-lg font-bold" style={displayFontStyle(skin)} role="heading" aria-level={3}>{heading[step]}</div>
+          {step === "officer" && (
+            <>
+              <div className="text-xs mt-1" style={muted}>A named officer adds weight to the arm he led. You may name none.</div>
+              <div role="group" aria-label="Officer" className="mt-2">
+                <button onClick={() => setCommanderId(null)} aria-pressed={commanderId === null} className="w-full text-left p-3 mb-2 text-sm" style={pick(commanderId === null)}>
+                  <b>No particular emphasis</b>
+                </button>
+                {config.commanders.map((m) => (
+                  <button key={m.id} onClick={() => setCommanderId(m.id)} aria-pressed={commanderId === m.id} className="w-full text-left p-3 mb-2 text-sm" style={pick(commanderId === m.id)}>
+                    <b>{m.name}, {m.role}</b>
+                    <div className="text-xs mt-1" style={muted}>{m.note}</div>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+          {step === "approach" && (
+            <div role="group" aria-label="Approach" className="mt-2">
+              {config.approaches.map((a) => (
+                <button key={a.id} onClick={() => setApproachId(a.id)} aria-pressed={approachId === a.id} className="w-full text-left p-3 mb-2 text-sm" style={pick(approachId === a.id)}>
+                  <b>{a.name}</b>
+                  <div className="text-xs mt-1" style={muted}>{a.note}</div>
+                </button>
+              ))}
+            </div>
+          )}
+          {step === "counters" && (
+            <>
+              <div className="text-xs mt-1" style={muted} role="status" aria-live="polite">
+                {left > 0 ? `${left} of ${pool} counters left to place.` : `All ${pool} counters are placed.`} An arm left with less than its fair share costs the plan.
+              </div>
+              {config.categories.map((k) => (
+                <div key={k.id} className="border-2 mt-3 p-3" style={{ borderColor: skin.dark ? skin.paperDim : skin.ink }}>
+                  <div className="flex items-center justify-between">
+                    <b className="text-sm">{k.name}</b>
+                    <span className="flex items-center gap-2" style={mono}>
+                      <button className="border-2 px-3 py-1 font-bold" aria-label={`Fewer in ${k.name}`} disabled={!allocation[k.id]} onClick={() => bump(k.id, -1)} style={{ ...accentBorderStyle(skin), opacity: allocation[k.id] ? 1 : 0.4 }}>−</button>
+                      <span className="w-6 text-center font-bold" aria-label={`${k.name}: ${allocation[k.id] || 0} counters`}>{allocation[k.id] || 0}</span>
+                      <button className="border-2 px-3 py-1 font-bold" aria-label={`More in ${k.name}`} disabled={left <= 0} onClick={() => bump(k.id, 1)} style={{ ...accentBorderStyle(skin), opacity: left > 0 ? 1 : 0.4 }}>+</button>
+                    </span>
+                  </div>
+                  <div className="text-xs mt-2 leading-relaxed" style={muted}>{k.context}</div>
+                  {easyMode && <div className="text-xs mt-1" style={{ ...mono, ...accentTextStyle(skin) }}>EASY: each counter here carries {weights[k.id].toFixed(1)} before the enemy's setup.</div>}
+                  <details className="mt-2">
+                    <summary className="text-xs font-bold cursor-pointer" style={{ ...mono, ...accentTextStyle(skin) }}>THE FORMATIONS</summary>
+                    <ul className="text-xs mt-1 leading-relaxed" style={{ ...muted, paddingLeft: 16, listStyle: "disc" }}>{k.units.map((u) => <li key={u}>{u}</li>)}</ul>
+                  </details>
+                </div>
+              ))}
+            </>
+          )}
+        </section>
+
+        <div className="border-2 mt-5 p-3 text-xs" style={{ borderColor: skin.accent, ...mono }} role="group" aria-label="Your plan">
+          <div className="flex justify-between">
+            <span style={mutedTextStyle(skin)}>COUNTERS</span>
+            <b aria-live="polite">{left} left</b>
+          </div>
+          <div className="flex justify-between mt-1">
+            <span style={mutedTextStyle(skin)}>THE ODDS</span>
+            <b>{myOdds ? myOdds.word : "Plan not complete"}</b>
+          </div>
+          <div className="mt-1" style={mutedTextStyle(skin)}>The staff's plan: {staffOdds.word}</div>
+        </div>
+        {last ? (
+          <button
+            disabled={!ready}
+            onClick={() => onCommit({ ...plan, intelRight: intel.right })}
+            className="mt-3 w-full font-bold py-3"
+            style={{ ...accentBgStyle(skin), ...displayFontStyle(skin), opacity: ready ? 1 : 0.5 }}
+          >
+            ISSUE THE PLAN
+          </button>
+        ) : (
+          <button onClick={() => setSi((i) => Math.min(steps.length - 1, i + 1))} className="mt-3 w-full border-2 font-bold py-3" style={{ ...accentBorderStyle(skin), ...accentTextStyle(skin), ...mono }}>
+            NEXT: {heading[steps[si + 1]].toUpperCase()}
+          </button>
+        )}
+        {!ready && last && (
+          <div className="text-xs mt-2" style={muted}>{left > 0 ? `Place the remaining ${left} counters.` : "Choose the approach."}</div>
+        )}
+        <button onClick={onBack} className="mt-3 w-full border-2 font-bold py-3 text-sm" style={{ borderColor: skin.dark ? skin.paperDim : skin.ink, ...mono }}>
+          BACK TO THE ORDER
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** The after-action report shown with the outcome of a battle. */
+function BattleReport({ campaignId, battle, skin }) {
+  const config = BATTLES[battle.id];
+  if (!config) return null;
+  const posture = (config.postures || []).find((p) => p.id === battle.posture);
+  const plan = battle.plan;
+  const placed = plan ? config.categories.filter((k) => plan.allocation[k.id]).map((k) => `${k.name} ${plan.allocation[k.id]}`).join(", ") : null;
+  const commander = plan && (config.commanders || []).find((m) => m.id === plan.commanderId);
+  const approach = plan && (config.approaches || []).find((a) => a.id === plan.approachId);
+  const moved =
+    battle.bonus === 0
+      ? "The plan did as the staff's would have: the odds were the record's."
+      : battle.bonus > 0
+      ? `The plan moved the odds ${battle.bonus} points toward the better outcome.`
+      : `The plan moved the odds ${-battle.bonus} points away from the better outcome.`;
+  const muted = { ...monoFontStyle(skin), ...mutedTextStyle(skin) };
+  return (
+    <section className="border-2 mt-5 p-3 text-xs leading-relaxed" style={{ borderColor: skin.accent, ...monoFontStyle(skin) }} aria-label="After-action report">
+      <div className="font-bold tracking-widest" style={accentTextStyle(skin)} role="heading" aria-level={2}>AFTER-ACTION REPORT</div>
+      {posture && <div className="mt-2">The enemy's setup was this: {posture.name}.{battle.intelRight === false ? " The staff's intelligence summary had described another setup." : " The staff's intelligence summary was right."}</div>}
+      {plan && <div className="mt-2" style={mutedTextStyle(skin)}>The plan: {placed}{approach ? `; ${approach.name.toLowerCase()}` : ""}{commander ? `; ${commander.name} named` : ""}.</div>}
+      <div className="mt-2">{moved}</div>
+      <div className="mt-2">{GRADE_WORDS[battle.grade]}</div>
+      {battle.lines.length > 0 && (
+        <ul className="mt-2" style={{ paddingLeft: 16, listStyle: "disc" }}>
+          {battle.lines.map((l, i) => (
+            <li key={i}>{l.reason}: {l.delta > 0 ? "+" : "−"}1 {meterWord(campaignId, l.meter)}</li>
+          ))}
+        </ul>
+      )}
+      <details className="mt-2">
+        <summary className="font-bold cursor-pointer" style={accentTextStyle(skin)}>WHAT HAPPENED ON THE DAY</summary>
+        {config.record && <p className="mt-2">{config.record}</p>}
+        {config.categories.map((k) => (
+          <p key={k.id} className="mt-2" style={mutedTextStyle(skin)}><b>{k.name}.</b> {k.real}</p>
+        ))}
+        <p className="mt-2 italic" style={mutedTextStyle(skin)}>{config.modelled}</p>
+      </details>
+    </section>
+  );
+}
 const SAVE_KEY = "dispatches1922_save_v1";
 const SAVE_SCHEMA_VERSION = 1;
 
@@ -8613,7 +10415,13 @@ export function App() {
   // real, visible toggles with no audio assets behind them yet — scaffolded
   // honestly, not faked as functional.
   const [textSize, setTextSize] = useState("normal"); // 'small' | 'normal' | 'large'
-  const [reduceMotion, setReduceMotion] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(() => {
+    try {
+      return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    } catch (e) {
+      return false;
+    }
+  });
   const [instantText, setInstantText] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
   const [musicOn, setMusicOn] = useState(false);
@@ -8624,6 +10432,14 @@ export function App() {
   // WarRoomScreen, not a background process that runs during every regular
   // playthrough regardless of whether the player chose it.
   const [hardModeEnabled, setHardModeEnabled] = useState(false);
+  // Easy mode: meter effects shown before each order, and the last order can be taken back. Never combined
+  // with hard mode. `history` is the run as it stood before each order, newest last; it is not saved.
+  const [easyMode, setEasyMode] = useState(false);
+  const [history, setHistory] = useState([]);
+  // Battle planning: on by default; an order that hosts a battle opens the Order of Battle first. `pendingBattle` is the order waiting for its plan.
+  const [planBattles, setPlanBattles] = useState(true);
+  const [pendingBattle, setPendingBattle] = useState(null);
+  const [battleReport, setBattleReport] = useState(null);
   // Accumulated flags from every choice made this run, keyed by whatever
   // name each node's setFlags object uses. Every choice in every campaign
   // has defined setFlags since the first node was written — the engine
@@ -8654,6 +10470,8 @@ export function App() {
       hardModeValue,
       hardModeMaxed,
       hardModeEnabled,
+      easyMode,
+      planBattles,
       screen,
       savedAt: Date.now(),
     });
@@ -8663,7 +10481,7 @@ export function App() {
     // would re-render the menu constantly for no visible reason while a
     // run is in progress.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [campaignId, nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, hardModeEnabled, screen]);
+  }, [campaignId, nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, hardModeEnabled, easyMode, planBattles, screen]);
 
   function handleResume() {
     const save = readSave();
@@ -8676,6 +10494,9 @@ export function App() {
     setHardModeValue(save.hardModeValue || 0);
     setHardModeMaxed(!!save.hardModeMaxed);
     setHardModeEnabled(!!save.hardModeEnabled);
+    setEasyMode(!!save.easyMode);
+    setPlanBattles(save.planBattles !== false);
+    setHistory([]);
     setScreen(save.screen === "bulletin" ? "bulletin" : "briefing");
     // Backfill discovery for a save written before this log existed, or any
     // node the save/discovery writes otherwise missed — cheap, idempotent
@@ -8703,6 +10524,7 @@ export function App() {
     setMeters({ ...c.initialMeters });
     setHardModeValue(0); // capital spent so far — 0 means all 5 points available
     setHardModeMaxed(false);
+    setHistory([]);
     setFlagsState({});
     setVisitedNodes([c.start]);
     setNodeId(c.start);
@@ -8715,23 +10537,73 @@ export function App() {
     // but if this ever gets called for one anyway, refuse rather than
     // silently apply an order the player wasn't actually shown as available.
     if (typeof choice.gate === "function" && !choice.gate(meters)) return;
+    // An order that hosts a battle opens the Order of Battle first (unless the player left planning to the staff).
+    const hosted = battleOf(choice);
+    if (planBattles && hosted && choice.uncertain && choice.uncertain.length === 2) {
+      setPendingBattle({ choice, node });
+      setScreen("battle");
+      return;
+    }
+    issueOrder(choice, null);
+  }
+
+  // Resolves an order. `plan` is the Order of Battle plan for a hosted battle, or null: the plan moves the roll's weights toward the better
+  // outcome (the staff's own plan moves nothing), and charges the meters a little.
+  function issueOrder(choice, plan) {
     const c = CAMPAIGNS[campaignId];
+    // Easy mode keeps the run as it stood before this order, so the order can be taken back.
+    if (easyMode) {
+      setHistory((h) => [...h, { nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, discovery }]);
+    }
+    const axes = c.triangleAxes.map((a) => a.key);
+    const config = plan ? battleOf(choice) : null;
+    let effChoice = choice;
+    let rand = Math.random;
+    let report = null;
+    let costTotals = null;
+    let battleFlags = {};
+    if (plan && config) {
+      const posture = (config.postures || []).find((p) => p.id === plan.postureId) || null;
+      const bonus = battleBonus(config, plan, posture, plan.pool);
+      const shifted = shiftToward(choice.uncertain, config.winBranch, bonus);
+      effChoice = { ...choice, uncertain: shifted };
+      // One roll, taken here so the result is known: the same number goes to resolveChoice, which picks the same outcome.
+      const r = Math.random();
+      rand = () => r;
+      const won = shifted.indexOf(pickUncertain(shifted, r * 100)) === config.winBranch;
+      const costs = battlePlanCosts(config, plan, posture, plan.pool, won, axes);
+      costTotals = costs.totals;
+      battleFlags = battleFlagsOut(config, plan, costs);
+      report = { id: config.id, posture: posture ? posture.id : null, plan, bonus, grade: costs.grade, lines: costs.lines, intelRight: plan.intelRight };
+    }
     // All the arithmetic (roll, impact, clamp, capital, destination) lives in logic.ts.
     const res = resolveChoice({
-      choice,
+      choice: effChoice,
       meters,
       campaign: c,
       hardModeEnabled,
       hardModeValue,
-      rand: Math.random,
+      rand,
       helpers: { applyImpact, clampTriangle },
     });
+    let finalMeters = res.meters;
+    let finalDeltas = res.triangleDeltas;
+    if (costTotals) {
+      finalMeters = clampTriangle(applyImpact(res.meters, costTotals), axes);
+      finalDeltas = {};
+      for (const axis of axes) {
+        const d = finalMeters[axis] - meters[axis];
+        if (d !== 0) finalDeltas[axis] = d;
+      }
+    }
+    setBattleReport(report);
+    setPendingBattle(null);
     // Explicit deltas (post-clamp) so the Outcome screen can say plainly what changed.
-    setLastDeltas({ triangle: res.triangleDeltas });
-    setMeters(res.meters);
+    setLastDeltas({ triangle: finalDeltas });
+    setMeters(finalMeters);
     setHardModeValue(res.hardModeValue);
     setHardModeMaxed(res.hardModeMaxed);
-    setFlagsState((prev) => ({ ...prev, ...res.newFlags }));
+    setFlagsState((prev) => ({ ...prev, ...res.newFlags, ...battleFlags }));
     const destination = res.destination;
     if (destination && destination !== "END_STUB") {
       setVisitedNodes((prev) => (prev.includes(destination) ? prev : [...prev, destination]));
@@ -8764,17 +10636,56 @@ export function App() {
     }
   }
 
+  // Takes back the last order (Easy mode only): the run returns to the report where the order was given, and
+  // anything the order made "discovered" is forgotten again, so an ending cannot be unlocked by looking.
+  function handleRewind() {
+    const last = history[history.length - 1];
+    if (!last) return;
+    setHistory((h) => h.slice(0, -1));
+    setNodeId(last.nodeId);
+    setMeters(last.meters);
+    setFlagsState(last.flags);
+    setVisitedNodes(last.visitedNodes);
+    setHardModeValue(last.hardModeValue);
+    setHardModeMaxed(last.hardModeMaxed);
+    setDiscovery(last.discovery);
+    setBattleReport(null);
+    try {
+      window.localStorage.setItem(DISCOVERY_KEY, JSON.stringify(last.discovery));
+    } catch (e) {
+      // best-effort, like every other storage write
+    }
+    setScreen("briefing");
+  }
+
   function handleContinueFromBulletin() {
     setScreen("briefing");
   }
 
+  // A new screen takes focus (the page container) and starts at the top, so a keyboard or a screen reader
+  // is not left on a control that is no longer there. Skipped on the first render.
+  const mainRef = React.useRef(null);
+  const firstRender = React.useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    if (mainRef.current) mainRef.current.focus({ preventScroll: true });
+    try {
+      window.scrollTo(0, 0);
+    } catch (e) {
+      // not available in every environment
+    }
+  }, [screen, nodeId]);
+
   return (
-    <div className="w-full h-full min-h-screen font-sans" style={{ maxWidth: 600, margin: "0 auto", overflowX: "hidden" }}>
+    <main ref={mainRef} tabIndex={-1} className="w-full h-full min-h-screen font-sans" style={{ maxWidth: 600, margin: "0 auto", overflowX: "hidden", outline: "none" }}>
       <FontImports />
       <TextScaleStyle textSize={textSize} />
       {screen === "records" && (
         <RecordsListScreen
-          onOpen={(id) => { setCampaignId(id); setHardModeEnabled(false); setScreen("detail"); }}
+          onOpen={(id) => { setCampaignId(id); setHardModeEnabled(false); setEasyMode(false); setScreen("detail"); }}
           onOpenWarRecord={() => setScreen("warrecord")}
           onOpenSettings={() => setScreen("settings")}
           savedRun={savedRun}
@@ -8807,7 +10718,7 @@ export function App() {
       {screen === "detail" && (
         <CampaignDetailScreen
           campaignId={campaignId}
-          onEnter={(id, hardMode) => { setHardModeEnabled(hardMode); setScreen("warroom"); }}
+          onEnter={(id, hardMode, easy) => { setHardModeEnabled(hardMode); setEasyMode(!!easy && !hardMode); setScreen("warroom"); }}
           onClose={toRecords}
         />
       )}
@@ -8815,6 +10726,9 @@ export function App() {
         <WarRoomScreen
           campaignId={campaignId}
           hardModeEnabled={hardModeEnabled}
+          easyMode={easyMode}
+          planBattles={planBattles}
+          setPlanBattles={setPlanBattles}
           onClose={toRecords}
           onStart={handleStart}
         />
@@ -8835,13 +10749,26 @@ export function App() {
           meters={meters}
           flags={flags}
           hardModeEnabled={hardModeEnabled}
+          easyMode={easyMode}
+          planBattles={planBattles}
           hardModeValue={hardModeValue}
-          instantText={instantText}
+          instantText={instantText || reduceMotion}
           reduceMotion={reduceMotion}
           onChoose={handleChoose}
           onClose={toRecords}
           onOpenMap={() => setScreen("map")}
           onOpenTimeline={() => setScreen("timeline")}
+        />
+      )}
+      {screen === "battle" && pendingBattle && (
+        <BattleScreen
+          campaignId={campaignId}
+          config={battleOf(pendingBattle.choice)}
+          choice={pendingBattle.choice}
+          meters={meters}
+          easyMode={easyMode}
+          onCommit={(plan) => issueOrder(pendingBattle.choice, plan)}
+          onBack={() => { setPendingBattle(null); setScreen("briefing"); }}
         />
       )}
       {screen === "map" && (
@@ -8871,6 +10798,10 @@ export function App() {
           hardModeValue={hardModeValue}
           hardModeMaxed={hardModeMaxed}
           hardModeEnabled={hardModeEnabled}
+          easyMode={easyMode}
+          canRewind={history.length > 0}
+          onRewind={handleRewind}
+          battle={battleReport}
           deltas={lastDeltas}
           onContinue={handleContinueFromOutcome}
           onClose={toRecords}
@@ -8880,7 +10811,7 @@ export function App() {
         <EndingScreen campaignId={campaignId} endingId={nodeId} flags={flags} visitedNodes={visitedNodes} instantText={instantText} onClose={toRecords} />
       )}
       {screen === "end" && <EndStubScreen onClose={toRecords} />}
-    </div>
+    </main>
   );
 }
 

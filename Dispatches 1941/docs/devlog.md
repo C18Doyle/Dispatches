@@ -52,6 +52,12 @@ A meter below -4 takes points off the best outcome of the contested decisions it
 ### Interface and accessibility (#49)
 A first-run guide on the first report; map labels with a halo (they were unreadable on the dark red of a Japanese-held zone); unique map ids; a text summary of the map for a screen reader; `check-a11y` (names, ids, heading levels, alt text, focus, palette contrast); the UI baseline widened from 24 to 64 runs.
 
+### The second round (2026-10-13)
+- **Six more battles**: Watchtower, Sho-Go, Iwo Jima and Okinawa from both sides (nine battles in all). `tests/battle-hosts.test.mjs` starts a page from a save on each hosting report, plays the battle through the real screens and checks both outcomes.
+- **Seven early-war reports** (Burma Road, Neutrality Pact, Indian Ocean raid; China air force, Stilwell, the Wasp request, the Pacific route) and **a third order in sixteen existing reports** (a second fork wave). `tests/branch-nodes.test.mjs` clicks every option of the seven and the added order of the sixteen.
+- **Ten state-driven special events**: `dueStateEvent` in `logic.ts`, `STATE_EVENTS`, `StateEventScreen`, `tools/check-events.mjs`, `tests/state-events.test.mjs`.
+- **A second fact-check round**: 19 of 23 unchecked rows searched and recorded, nine mistakes in the game corrected, thirteen unread flags resolved.
+
 ## What went wrong, and what it taught
 
 - **A subagent, against the standing rule.** Fact lookups were once handed to a subagent. It was disclosed to the author at once, and later lookups were done directly with web search.
@@ -59,12 +65,15 @@ A first-run guide on the first report; map labels with a halo (they were unreada
 - **Two battle facts were wrong at first writing**: Kusaka commanded the 11th Air Fleet in November 1942, not the Southeast Area Fleet, and Rabaul is about 650 miles from Guadalcanal, not 560. Caught while checking the map dates, fixed in #47. The lesson is the claims register: anything from memory is marked `unchecked` in the file, and the file is the to-do list.
 - **CI.** #42's first run timed out at an hour and passed on a rerun. A UI baseline records page text, so any change to a screen's text re-records all of it; read the first-difference step before accepting.
 - **Shell quoting.** Patch scripts with regexes or backslashes fail in the shell; they were written with the file tool, with a replacement-count assert per edit.
+- **The first draft of each new battle carried mistakes the searches then found**: the repair commander at Okinawa had left his post, the Iwo Jima dates were off, Nishi's tanks were described wrongly, and the Supreme Council replaced a different body. Every new fact goes into a claims register as `unchecked` the day it is written, and the register is the to-do list.
+- **The orphan check is statistical** (random walks) where the search is too large; new reports before a rare ending moved the walks and lost it. Half the walks now start with the early peace thread collapsed (`tools/check-orphans.mjs`).
+- **A test that detects an outcome by text must look at the page where the outcome appears**: the pre-roll screen lists both titles, the After Action page shows only the result text.
+- **Shell redirection into a source file**: a failed `cat >> part 2>&1` wrote its error message into the battles part. Check the line count after a bulk append.
 
 ## Open
 
-- Unchecked rows in `claims/map-dates-round1.json` and `claims/battles-round1.json` (many map dates, and Vice Admiral Calhoun's post as commander of the Service Force).
-- More battles: Watchtower (drafted, not committed), Okinawa on both sides, Iwo Jima on both sides, Sho-Go. Each needs a win/loss roll added to its hosting choice and a speculative "loss" outcome.
-- More nodes into JSON (twenty Allied Pacific nodes are there now).
-- Early branching (China/Burma, the Indian Ocean, Soviet entry) and release readiness (a `PLAYTEST.md`, itch targets, a demo funnel) were not started.
-- Month-level dating of the overrides (they are still year-level).
+- Four claims rows are still unchecked and say why (`battles-round2.json`: the Guadalcanal garrison and the modeled report times; `early-branching-round1.json`: the bombing of the Burma Road; `forks-round1.json`: the 38th Division and Tanaka). Okinawa's dates on the map and Toyoda and Mitscher's commands were not searched. The reviewed adviser tenures (`tests/adviser-tenures.json`) are still from memory.
+- More battles: Coral Sea, Savo, Leyte Gulf from the American side, the Marianas air battle on the ground. Each needs a win/loss roll added to its hosting choice and a speculative "loss" outcome.
+- Early branching beyond the seven reports (the Burma campaign of 1943, the Soviet entry in 1945 as a decision for IGHQ). More nodes into JSON (twenty Allied Pacific nodes are there now).
+- Release readiness (a `PLAYTEST.md`, itch targets, a demo funnel) was not started. Month-level dating of the map overrides (they are still year-level).
 - Nobody has played the new battles or read the Pacific zone borders who knows the ground.

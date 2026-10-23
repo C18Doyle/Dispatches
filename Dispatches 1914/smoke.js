@@ -11,7 +11,7 @@ t("four majors, two minors",
 t("meters clamp at +10", E.clampMeter(999) === 10 && E.clampMeter(-999) === -10);
 t("impact clamps", E.applyImpact({manpower:9,munitions:0,will:0},{manpower:5}).manpower === 10);
 t("will label is per campaign",
-  E.meterLabels("ohl").will === "Home Front" && E.meterLabels("gqg").will === "Army Morale");
+  E.meterLabels("ohl").will === "Home Front" && E.meterLabels("gqg").will === "Morale");
 t("six distinct will labels",
   new Set(E.CAMPAIGN_IDS.map(c => E.CAMPAIGNS[c].willLabel)).size === 6);
 t("six distinct erosion triggers",
@@ -143,6 +143,38 @@ t("flag prefixes are unique",
   const r3 = E.noteEnding(r2, "ohl_end_armistice", true);
   t("the record counts endings and hard-mode runs", r3.endings.length === 1 && r3.runs === 1 && r3.hardRuns === 1);
   t("settings fall back to the default on junk", E.sanitizeSettings({ schemaVersion: 1, textSize: "huge" }).textSize === "s" && E.sanitizeSettings(null).textSize === "s");
+  t("the Meanwhile entries are sentences, never the source of a function", E.CAMPAIGN_IDS.every((cid) => Object.values(E.CAMPAIGNS[cid].nodes).filter((n) => !n.ending).every((n) => E.meanwhileAt(cid, n).every((m) => typeof m.context === "string" && m.context.length > 15 && !/=>|function|\be\./.test(m.context)))));
+  t("the dyslexia-friendly typeface can be chosen and an unknown typeface falls back", E.sanitizeSettings({ schemaVersion: 1, font: "dyslexia" }).font === "dyslexia" && E.sanitizeSettings({ schemaVersion: 1, font: "comic" }).font === "theme");
+  t("the day's bulletins: every battle gives each arm a status at each hour, and the wording is its own", Object.values(E.BATTLES).every((cfg) => {
+    const pool = 6;
+    const staff = E.staffPlanFor(cfg, pool);
+    const plan = { allocation: staff.allocation, approachId: staff.approachId, commanderId: null, pool, second: { stance: "hold", moves: [] } };
+    for (const p of cfg.postures) for (const won of [true, false]) {
+      const st = E.battleStages(cfg, plan, p, pool, won);
+      for (const k of E.BULLETIN_TIMES) {
+        if (!st[k] || st[k].length !== cfg.categories.length) return false;
+        if (!st[k].every((a) => ["gaining", "holding", "breaking"].includes(a.status) && E.bulletinLine(k, a).startsWith(a.name + ":"))) return false;
+      }
+    }
+    return true;
+  }));
+  t("signals in the clear bring the news sooner and cost a contested order three points of its best outcome", (() => {
+    const ch = { impact: {}, uncertain: [{ weight: 50, impact: { manpower: 2 } }, { weight: 50, impact: { manpower: -2 } }] };
+    const a = E.strainedUncertain(ch, E.emptyMeters(), {}).uncertain;
+    const b = E.strainedUncertain(ch, E.emptyMeters(), { sig_clear: true }).uncertain;
+    return a[0].weight === 50 && b[0].weight === 47 && b[1].weight === 53 && E.reportAge("stavka", "1914-08-10", { sig_clear: true }).hours < E.reportAge("stavka", "1914-08-10", {}).hours;
+  })());
+  t("a censored press prints no newspaper front pages, and a free press does", (() => {
+    const e = E.EVENTS.find((x) => x.paper);
+    const free = E.dueEvent(e.campaign, e.anchor, e.fires, E.emptyMeters());
+    const censored = E.dueEvent(e.campaign, e.anchor, { ...e.fires, press_censored: true }, E.emptyMeters());
+    return !!(free && free.paper) && !(censored && censored.paper);
+  })());
+  t("an order an ally would object to costs standing in Hard mode only", (() => {
+    const ch = E.findNode("gqg_1916_05_somme").node.choices.find((c) => c.id === "defer");
+    return !!ch.ally && E.erosionFromChoice("gqg", ch) >= 1 && E.applyErosion({ enabled: false, erosion: 0 }, "gqg", ch).erosion === 0 && E.applyErosion({ enabled: true, erosion: 0 }, "gqg", ch).erosion >= 1;
+  })());
+  t("music is on by default at half volume, can be turned off, and a bad volume falls back", E.defaultSettings().music === true && E.defaultSettings().musicVolume === 0.5 && E.sanitizeSettings({ schemaVersion: 1, music: false }).music === false && E.sanitizeSettings({ schemaVersion: 1, musicVolume: 7 }).musicVolume === 0.5 && E.sanitizeSettings({ schemaVersion: 1, musicVolume: 0.3 }).musicVolume === 0.3);
   t("sound is off by default and only a literal true turns it on", E.defaultSettings().sound === false && E.sanitizeSettings({ schemaVersion: 1, sound: "yes" }).sound === false && E.sanitizeSettings({ schemaVersion: 1, sound: true }).sound === true);
   t("every advisor named on a node has a dossier entry", E.allNodes().every(({ campaignId, node }) => (node.advisors || []).every((id) => E.CAMPAIGNS[campaignId].advisors.some((a) => a.id === id && a.dossier))));
 }

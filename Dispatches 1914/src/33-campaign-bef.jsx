@@ -134,8 +134,8 @@ CAMPAIGNS.bef.nodes = {
             outcome:
               "Speculative. All six divisions and the cavalry go to France in the second week of August, " +
               "and the French are told that Britain has kept its word. The army that lands is a third " +
-              "bigger than the one that did in the record, and the coast is not tested. The two " +
-              "divisions that were held back in the record are in the line when the Germans arrive, and " +
+              "bigger than the one that landed in fact, and the coast is not tested. The two " +
+              "divisions that were held back in fact are in the line when the Germans arrive, and " +
               "in no position to be spared." },
           { weight: 40, title: "A scare on the east coast brings a division back",
             impact: { manpower: -2, munitions: -1, will: -1 },
@@ -212,7 +212,7 @@ CAMPAIGNS.bef.nodes = {
           "behind them to take it.",
       },
       {
-        id: "amiens",
+        id: "amiens", ally: "the French",
         label: "Assemble at Amiens, farther back, as Kitchener wants",
         advisor: { name: "Lord Kitchener", position:
           "Put the army where it can counterattack once the German line of march is known. In Belgium it would have to retreat almost at once and abandon its supplies." },
@@ -594,9 +594,7 @@ CAMPAIGNS.bef.nodes = {
               "The reserves do not reach the front until the evening of the first day, " +
               "and go into the attack tired, in the dark, against a German second line " +
               "that has been reinforced. British casualties at Loos by 8 October are " +
-              "59,247. French's handling of the reserve is the main charge made against " +
-              "him afterwards, and it is made by the army commanders under him, in " +
-              "letters to the King's household." },
+              "59,247. The army commanders under French blame his handling of the reserve, and say so in letters to the King's household." },
           { weight: 40, title: "The reserves arrive in time and are stopped by the second line",
             impact: { will: 1 },
             setFlags: { bef_reservesResult: "stopped" },
@@ -693,7 +691,7 @@ CAMPAIGNS.bef.nodes = {
         setFlags: { bef_evacuate: "helles" },
         next: "bef_1915_09_succession",
         outcome:
-          "Speculative. Anzac and Suvla are cleared in December, as in the record, and the army at Helles " +
+          "Speculative. Anzac and Suvla are cleared in December, as they were, and the army at Helles " +
           "stays through the winter and into the spring. The beaches are shelled by the guns that the Turks, " +
           "freed from the other two fronts, bring to the toe of the peninsula, and the corps there is " +
           "supplied with some difficulty across an open beach. It is evacuated in the end, a few months " +
@@ -733,9 +731,7 @@ CAMPAIGNS.bef.nodes = {
         outcome:
           "French resigns on 15 December and goes home as Commander-in-Chief of the Home " +
           "Forces. Haig takes over on 21 December, and Robertson goes to the War Office as " +
-          "Chief of the Imperial General Staff two days later. The new Commander-in-Chief " +
-          "has been chosen by the army and not by the Cabinet, and the Cabinet will remember " +
-          "that when it has cause to disagree with him.",
+          "Chief of the Imperial General Staff two days later. The new Commander-in-Chief has been chosen by the army and not by the Cabinet. Haig has commanded the First Army since the landing, and the army knows him.",
       },
       {
         id: "keep",
@@ -788,7 +784,7 @@ CAMPAIGNS.bef.nodes = {
         next: "bef_1916_11_somme",
         outcome:
           "The Military Service Act receives the royal assent on 27 January and takes effect " +
-          "on 17 February. Thirty-five Liberal members vote against it, with thirteen " +
+          "on 2 March. Thirty-five Liberal members vote against it, with thirteen " +
           "Labour members and the Irish Nationalists, and the Home Secretary, Sir John " +
           "Simon, resigns. A second Act in May extends liability to married men. The army " +
           "has its drafts for the summer, and the Cabinet has spent some of the goodwill " +
@@ -1045,10 +1041,7 @@ CAMPAIGNS.bef.nodes = {
           "By the Calais agreement of 27 February Haig is formally subordinated to Nivelle " +
           "for the duration of the offensive. The next day Haig and Robertson tell the " +
           "Prime Minister that they will resign rather than carry it out, and the " +
-          "arrangement is watered down, with more freedom for the British. The conference " +
-          "leaves mistrust between the British government and its generals that lasts " +
-          "to the end of the war, and sets back the cause of unified command until " +
-          "the spring of 1918.",
+          "arrangement is watered down, with more freedom for the British. The conference leaves mistrust between the British government and its generals.",
       },
       {
         id: "refuse",
@@ -1441,10 +1434,7 @@ CAMPAIGNS.bef.nodes = {
         outcome:
           "Speculative. The British divisions are put into the general reserve, and the " +
           "French and Italian contributions follow. The reserve exists when the German " +
-          "offensive opens, and can be sent to the threatened sector. It is under a " +
-          "committee, and the army that gave the divisions has fewer in its own line on " +
-          "21 March. Whether the committee moves them in time, and in the right " +
-          "direction, is the thing that nobody can say beforehand.",
+          "offensive opens, and can be sent to the threatened sector. It is under a committee, the divisions it holds are the ones the army commanders wanted to keep, and the army that gave them has fewer in its own line on 21 March.",
       },
     ],
   },
@@ -1487,7 +1477,7 @@ CAMPAIGNS.bef.nodes = {
           "must now ask rather than order.",
       },
       {
-        id: "national",
+        id: "national", ally: "Foch",
         label: "Keep the British command independent and coordinate with the French by agreement",
         advisor: { name: "Haig", position:
           "The army is fighting for its life, and it must be commanded by the man who knows it best." },
@@ -1838,8 +1828,7 @@ CAMPAIGNS.bef.nodes = {
       "the divisions that would have gone to France. The campaign in the East became " +
       "the second front of the war for Britain, and the Western Front was held with " +
       "what the Eastern one left over.\n\n" +
-      "When the end came it was in France, as it was always going to be, and the " +
-      "armies that finished it were smaller than they might have been.",
+      "The war ends in France, and the armies that finish it are smaller than they might have been.",
     ending: { family: "the-other-strategy", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The Cabinet voted to evacuate Gallipoli, and did so with very " +
@@ -1919,7 +1908,7 @@ CAMPAIGNS.bef.nodes = {
     epilogue: () =>
       "Speculative. The Military Service Act was passed in January 1916, and a " +
       "second in May extended it to married men. What actually happened: the Act " +
-      "received the royal assent on 27 January and came into force on 17 February; " +
+      "received the royal assent on 27 January and came into force on 2 March; " +
       "thirty-five Liberals voted against it, and the Home Secretary, Sir John " +
       "Simon, resigned. A third Act in 1918 raised the upper age to fifty-one. " +
       "Without compulsion the army could not have been kept up to the strength that " +

@@ -13,9 +13,11 @@
     "node": "ohl_1914_12_twocorps",
     "kind": "fact",
     "claim": "Both corps detrained after the battle of Tannenberg had been decided.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Widely stated; confirm dates of arrival."
+    "status": "web-checked",
+    "sources": [
+      "wp-eprussia2"
+    ],
+    "note": "The reinforcements from the west did not arrive in time to take part in Tannenberg and were used in the Masurian Lakes fighting."
   },
   {
     "id": "ohl-twocorps-3",
@@ -40,36 +42,45 @@
     "node": "ohl_1914_13_ypres",
     "kind": "fact",
     "claim": "Antwerp had fallen by early November 1914 and the race to the sea had ended without a decision.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Antwerp fell 10 October."
+    "status": "web-checked",
+    "sources": [
+      "wp-racesea",
+      "mf-antwerp"
+    ],
+    "note": "Antwerp fell on 10 October 1914."
   },
   {
     "id": "ohl-ypres-2",
     "node": "ohl_1914_13_ypres",
     "kind": "fact",
     "claim": "Fourth Army's reserve corps, made up of recently raised units, attacked in mass near Langemarck and took heavy losses.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Attacks of 21-23 October and 10 November."
+    "status": "web-checked",
+    "sources": [
+      "wp-langemark"
+    ],
+    "note": "Attacks of 21-23 October and 10 November; the student share of the reserve corps is a later myth."
   },
   {
     "id": "ohl-ypres-3",
     "node": "ohl_1914_13_ypres",
     "kind": "fact",
     "claim": "A last concentrated German attack at Ypres was made in the second week of November and did not break through.",
-    "status": "drafted",
-    "sources": [],
-    "note": "10-11 November (Linsingen and Fabeck groups)."
+    "status": "web-checked",
+    "sources": [
+      "wp-ypres1"
+    ],
+    "note": "11 November, by the Fabeck and Linsingen groups."
   },
   {
     "id": "ohl-ypres-4",
     "node": "ohl_1914_13_ypres",
     "kind": "fact",
     "claim": "Hindenburg and Ludendorff, at Ober Ost from 1 November, were asking for reinforcements in the east.",
-    "status": "drafted",
-    "sources": [],
-    "note": ""
+    "status": "web-checked",
+    "sources": [
+      "wp-oberost"
+    ],
+    "note": "Hindenburg became commander in the east on 1 November 1914 with Ludendorff as chief of staff."
   },
   {
     "id": "ohl-gorlice-1",
@@ -85,8 +96,10 @@
     "node": "ohl_1915_14_gorlice",
     "kind": "fact",
     "claim": "Hindenburg and Ludendorff proposed a wide envelopment of the Russian armies in Poland out of East Prussia and Courland; Falkenhayn rejected it.",
-    "status": "drafted",
-    "sources": [],
+    "status": "web-checked",
+    "sources": [
+      "wp-gorlice"
+    ],
     "note": ""
   },
   {
@@ -94,8 +107,10 @@
     "node": "ohl_1915_14_gorlice",
     "kind": "fact",
     "claim": "Mackensen's Eleventh Army opened the Gorlice-Tarnow offensive on 2 May 1915.",
-    "status": "drafted",
-    "sources": [],
+    "status": "web-checked",
+    "sources": [
+      "wp-gorlice"
+    ],
     "note": ""
   },
   {
@@ -103,8 +118,10 @@
     "node": "ohl_1915_14_gorlice",
     "kind": "fact",
     "claim": "By the end of the summer Russia had lost Poland and part of the Baltic provinces without its armies being destroyed.",
-    "status": "drafted",
-    "sources": [],
+    "status": "web-checked",
+    "sources": [
+      "wp-greatretreat"
+    ],
     "note": "Great Retreat."
   },
   {
@@ -114,7 +131,7 @@
     "claim": "Bulgaria signed a military convention with the Central Powers on 6 September 1915 putting German, Austro-Hungarian and Bulgarian armies under Mackensen against Serbia.",
     "status": "drafted",
     "sources": [],
-    "note": ""
+    "note": "The date, 6 September 1915, is confirmed (24 August is the Old Style date that some sources give). The arrangement putting the armies under Mackensen was not checked in this pass, so the claim stays drafted."
   },
   {
     "id": "ohl-serbia-2",
@@ -130,9 +147,11 @@
     "node": "ohl_1915_15_serbia",
     "kind": "fact",
     "claim": "Serbia had turned back three Austro-Hungarian invasions in 1914.",
-    "status": "drafted",
-    "sources": [],
-    "note": ""
+    "status": "web-checked",
+    "sources": [
+      "wp-serbia1914"
+    ],
+    "note": "Cer and the Drina in August and September, and the Kolubara in December, which Belgrade's fall on 2 December had briefly interrupted."
   },
   {
     "id": "ohl-somme-1",
@@ -147,10 +166,10 @@
     "id": "ohl-somme-2",
     "node": "ohl_1916_14_somme",
     "kind": "fact",
-    "claim": "Falkenhayn issued an order in early July that no ground was to be given up and lost ground was to be retaken by immediate counter-attack.",
-    "status": "drafted",
+    "claim": "A standing order that no ground was to be given up and lost ground retaken at once governed the German defence of the Somme in July 1916.",
+    "status": "disputed",
     "sources": [],
-    "note": "Confirm the exact date (2 July is cited) and the addressee (Second Army)."
+    "note": "Sources differ on who issued it: it is attributed to Falkenhayn, and also to Second Army (Below, 3 July) after Falkenhayn dismissed Second Army's chief of staff, Grunert, for ordering a withdrawal. The node puts the rule as a decision for the Chief and says only that the order went to Second Army in the first days of July."
   },
   {
     "id": "ohl-somme-3",
@@ -165,10 +184,10 @@
     "id": "ohl-programme-1",
     "node": "ohl_1916_15_programme",
     "kind": "fact",
-    "claim": "The Hindenburg Programme was issued on 31 August 1916 and aimed to double munitions output and triple the supply of guns and machine guns by spring 1917.",
+    "claim": "The Hindenburg Programme was set out at the end of August 1916 and aimed to double munitions output and triple the supply of guns and machine guns by spring 1917.",
     "status": "drafted",
     "sources": [],
-    "note": ""
+    "note": "The exact date (31 August is often given) and the machine-gun figure were not confirmed in the web pass; the node now says the end of August."
   },
   {
     "id": "ohl-programme-2",
@@ -177,7 +196,7 @@
     "claim": "The Auxiliary Service Law passed the Reichstag in December 1916 with amendments the Supreme Command did not want.",
     "status": "drafted",
     "sources": [],
-    "note": "5 December."
+    "note": "The law is dated 5 December 1916; the date of its passage through the Reichstag was not confirmed, so the node says December."
   },
   {
     "id": "ohl-programme-3",
@@ -236,10 +255,13 @@
     "id": "ohl-alberich-5",
     "node": "ohl_1917_12_alberich",
     "kind": "position",
-    "claim": "Rupprecht objected to the devastation as harming Germany's name abroad more than the enemy.",
-    "status": "drafted",
-    "sources": [],
-    "note": "From the research pass (Rupprecht's war diary). Source not recorded: verify before release."
+    "claim": "Rupprecht supported the withdrawal but objected to the devastation, on the ground that it damaged the Empire's prestige and the discipline of the troops.",
+    "status": "web-checked",
+    "sources": [
+      "wp-alberich",
+      "hw-rupprecht"
+    ],
+    "note": "A characterization of his recorded objection. Corrected from the drafted version, which said he argued it harmed Germany's name abroad more than the enemy; the sources give prestige and discipline. The node's wording now follows."
   },
   {
     "id": "ohl-caporetto-1",
@@ -364,9 +386,11 @@
     "node": "ohl_1918_14_blackday",
     "kind": "fact",
     "claim": "A council at Spa on 14 August with the Kaiser, Hintze, Hindenburg and Ludendorff accepted a strategic defensive and asked Hintze to sound out peace through neutral channels.",
-    "status": "drafted",
-    "sources": [],
-    "note": ""
+    "status": "web-checked",
+    "sources": [
+      "wp-spa1918"
+    ],
+    "note": "The Crown Council of 13-14 August at Spa moved to a strategic defensive, and Hintze was directed to prepare peace proposals through intermediaries."
   },
   {
     "id": "ohl-blackday-3",
@@ -382,9 +406,12 @@
     "node": "ohl_1918_15_wilson",
     "kind": "fact",
     "claim": "Prince Max of Baden became Chancellor on 3 October and the request went out in the first week of October; Wilson replied on 8, 14 and 23 October.",
-    "status": "drafted",
-    "sources": [],
-    "note": ""
+    "status": "web-checked",
+    "sources": [
+      "wp-armistice1918",
+      "ghdi-first-note"
+    ],
+    "note": "The first note is dated 3 October (sent 3-5 October in different accounts); Wilson's replies are of 8, 14 and 23 October."
   },
   {
     "id": "ohl-wilson-2",
@@ -535,8 +562,11 @@
     "node": "ohl_1916_05_relief",
     "kind": "fact",
     "claim": "Verdun had stalled, the Somme had opened, Brusilov's offensive broke the Austrian front and Romania entered the war; Falkenhayn was removed on 29 August 1916 and Hindenburg took the General Staff with Ludendorff as First Quartermaster General.",
-    "status": "drafted",
-    "sources": [],
+    "status": "web-checked",
+    "sources": [
+      "wp-falkenhayn",
+      "wp-ludendorff"
+    ],
     "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
   },
   {
@@ -552,28 +582,35 @@
     "id": "ohl-pless-1",
     "node": "ohl_1917_06_pless",
     "kind": "fact",
-    "claim": "Holtzendorff's memorandum of 22 December 1916 argued that unrestricted submarine warfare at 600,000 tons a month would force Britain out within six months.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+    "claim": "Holtzendorff's memorandum of 22 December 1916 argued that unrestricted submarine warfare, at a monthly destruction of 600,000 tons of shipping space, would force England to sue for peace in five months.",
+    "status": "web-checked",
+    "sources": [
+      "ghdi-holtzendorff"
+    ],
+    "note": "Corrected from six months: the memorandum itself says five. The node's text now says five."
   },
   {
     "id": "ohl-pless-2",
     "node": "ohl_1917_06_pless",
     "kind": "fact",
     "claim": "A Crown Council at Pless on 9 January 1917 decided on unrestricted submarine warfare from 1 February; the Kaiser had resisted until the Entente rejected the December peace offer.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+    "status": "web-checked",
+    "sources": [
+      "wp-crowncouncil",
+      "wp-pless"
+    ],
+    "note": "The Crown Council of 9 January 1917 decided on unrestricted warfare to begin on 1 February; the Kaiser gave way after the Allies rejected the German peace offer of December 1916."
   },
   {
     "id": "ohl-pless-3",
     "node": "ohl_1917_06_pless",
     "kind": "figure",
     "claim": "April 1917 sinkings ran past 800,000 tons.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+    "status": "web-checked",
+    "sources": [
+      "usni-awakening"
+    ],
+    "note": "April 1917 sinkings are given as about 860,000 tons by German figures and 881,000 by others."
   },
   {
     "id": "ohl-pless-4",
@@ -589,9 +626,11 @@
     "node": "ohl_1917_07_chancellor",
     "kind": "fact",
     "claim": "In July 1917 the Reichstag was drafting a peace resolution without annexations; Hindenburg and Ludendorff pressed for Bethmann Hollweg's removal under threat of resignation, and he left on 13 July.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+    "status": "web-checked",
+    "sources": [
+      "wp-bethmann"
+    ],
+    "note": "Hindenburg and Ludendorff threatened to resign if Bethmann Hollweg were not replaced; he resigned on 13 July 1917."
   },
   {
     "id": "ohl-brest-1",
@@ -607,9 +646,11 @@
     "node": "ohl_1918_08_brest",
     "kind": "fact",
     "claim": "The treaty of Brest-Litovsk was signed on 3 March 1918 on severe terms.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written and checked in the original drafting of the campaign (the file header recorded 1914-1917 nodes as source-checked); no source was recorded then. Re-check and cite."
+    "status": "web-checked",
+    "sources": [
+      "wp-faustschlag"
+    ],
+    "note": "Checked 3 March 1918 against the Operation Faustschlag article."
   },
   {
     "id": "ohl-michael-1",
@@ -679,9 +720,12 @@
     "node": "ohl_end_homefirst",
     "kind": "fact",
     "claim": "Epilogue, 'What actually happened': Kiel mutiny early November 1918; councils spreading; abdication and republic 9 November; blockade hunger since the 1916-17 turnip winter.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+    "status": "web-checked",
+    "sources": [
+      "wp-kiel",
+      "ghdi-spread"
+    ],
+    "note": "The sailors' refusal was on 30 October and the Kiel rising on 3 November; the councils spread from there."
   },
   {
     "id": "ohl-epilogue-armyfirst",
@@ -714,10 +758,13 @@
     "id": "ohl-epilogue-worseterms",
     "node": "ohl_end_worseterms",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Armistice signed about 5 a.m. 11 November at Compiègne by a delegation led by Erzberger, given 72 hours; evacuation of occupied territory and left bank of the Rhine; surrender of guns, aircraft, submarines, much of the fleet; blockade kept; a small reduction in surrender numbers obtained.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+    "claim": "Epilogue, 'What actually happened': Armistice signed about 5 a.m. 11 November at Compiegne by a delegation led by Erzberger, given 72 hours; evacuation of occupied territory and left bank of the Rhine; surrender of guns, aircraft, submarines, much of the fleet; blockade kept; a few of the demands were corrected.",
+    "status": "web-checked",
+    "sources": [
+      "wp-armistice1918",
+      "ghdi-armistice"
+    ],
+    "note": "5 a.m., Erzberger, 72 hours, Rhine, blockade confirmed. The signed text allows fifteen days for evacuation of the west (earlier drafts said fourteen); the node now says fifteen. The reduction in guns and machine guns is from memory of the negotiation; the page says only that a few demands were corrected, so the node now says 'concessions' in the plural."
   },
   {
     "id": "ohl-epilogue-intact",
@@ -732,19 +779,23 @@
     "id": "ohl-epilogue-dictated",
     "node": "ohl_end_dictated",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Armistice annulled Brest-Litovsk and told troops in former Russian territories to withdraw when the Allies judged the moment suitable; German troops stayed in the Baltic into 1919; Freikorps fought there.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+    "claim": "Epilogue, 'What actually happened': the armistice annulled Brest-Litovsk and told German troops in former Russian territory to withdraw when the Allies judged the moment suitable.",
+    "status": "web-checked",
+    "sources": [
+      "ghdi-armistice"
+    ],
+    "note": "Article 12 of the signed text gives exactly this timing for Russia (as soon as the Allies think the moment suitable). The Baltic stay and the Freikorps are logged separately."
   },
   {
     "id": "ohl-epilogue-relieved",
     "node": "ohl_end_relieved",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': Ludendorff dismissed 26 October 1918; Groener replaced him and told the Kaiser at Spa on 9 November the army no longer stood behind him; Kaiser left for the Netherlands 10 November; Ludendorff left for Sweden in disguise within days; Hindenburg stayed.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+    "claim": "Epilogue, 'What actually happened': Ludendorff's resignation was accepted on 26 October 1918, Hindenburg stayed, and Ludendorff later left for Sweden in disguise.",
+    "status": "web-checked",
+    "sources": [
+      "wp-ludendorff"
+    ],
+    "note": "Resignation date, Hindenburg staying and the disguise confirmed. The drafted 'within days' for the departure to Sweden was not confirmed, so the node says 'afterwards'. Groener, Spa and the Kaiser's departure are logged separately."
   },
   {
     "id": "ohl-quote-1",
@@ -888,8 +939,10 @@
     "node": "ohl_1914_14_timetable",
     "kind": "fact",
     "claim": "On 1 August 1914 the Kaiser asked Moltke whether the army could be directed east against Russia, leaving France alone; Moltke answered that the deployment could not be changed.",
-    "status": "drafted",
-    "sources": [],
+    "status": "web-checked",
+    "sources": [
+      "wp-moltke"
+    ],
     "note": "Widely reported; to be checked against Moltke's own account and Tuchman, Barbara, The Guns of August."
   },
   {
@@ -942,9 +995,11 @@
     "node": "ohl_1914_13_ypres",
     "kind": "fact",
     "claim": "On 31 October 1914 the British line east of Ypres at Gheluvelt came close to breaking, and a counter-attack restored it.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Well known; to be checked against a regimental or official history."
+    "status": "web-checked",
+    "sources": [
+      "wp-ypres1"
+    ],
+    "note": "31 October, the 2nd Worcestershire's counter-attack."
   },
   {
     "id": "ohl-fk-8",
@@ -1004,10 +1059,12 @@
     "id": "ohl-fk-14",
     "node": "ohl_1918_12_faustschlag",
     "kind": "fact",
-    "claim": "German troops took Pskov on 25 February 1918 and Narva on 4 March 1918 in the advance that followed the end of the armistice.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Drafted; to be checked."
+    "claim": "German troops took Pskov and Narva between late February and early March 1918 in the advance that followed the end of the armistice.",
+    "status": "web-checked",
+    "sources": [
+      "wp-faustschlag"
+    ],
+    "note": "Drafted dates (Pskov 25 February, Narva 4 March) were not confirmed: the Faustschlag article has both secured on 28 February and other accounts differ by days, so the claim is given as a range."
   },
   {
     "id": "ohl-fk-15",
@@ -1031,10 +1088,10 @@
     "id": "ohl_turnip-2",
     "node": "ohl_1917_06_pless",
     "kind": "characterization",
-    "claim": "The winter of 1916 to 1917 is remembered in Germany as the worst of the war for the home front (the Turnip Winter).",
+    "claim": "The winter of 1916 to 1917 is remembered in Germany as one of the hardest of the war for the home front (the Turnip Winter).",
     "status": "drafted",
     "sources": [],
-    "note": "Common in the histories of the German home front."
+    "note": "Corrected from 'the worst'; sources say one of the harshest. The coal and railway detail in the potato-failure claim was not confirmed by the pages read."
   },
   {
     "id": "ohl_strikes-1",
@@ -1165,7 +1222,7 @@
     "claim": "The German offensive at Verdun was scaled down in July 1916 as the Somme battle drew reserves, and Falkenhayn ordered the Verdun operations to stop.",
     "status": "drafted",
     "sources": [],
-    "note": "The date (about 11 July) is to be checked."
+    "note": "The scaling down in July is supported; no 11 July order was confirmed. The node does not give a date."
   },
   {
     "id": "ix-ohl_1918_09_michael-thin",
@@ -1175,5 +1232,158 @@
     "status": "drafted",
     "sources": [],
     "note": "See the Michael claims."
+  },
+  {
+    "id": "ohl-epilogue-dictated-2",
+    "node": "ohl_end_dictated",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': German troops stayed in the Baltic into 1919; Freikorps fought there against the Bolsheviks and the new Baltic governments.",
+    "status": "web-checked",
+    "sources": [
+      "wp-freikorps-baltic"
+    ],
+    "note": "Well known, but not checked against a source in this pass."
+  },
+  {
+    "id": "ohl-epilogue-relieved-2",
+    "node": "ohl_end_relieved",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Groener replaced Ludendorff, told the Kaiser at Spa on 9 November the army no longer stood behind him, and the Kaiser left for the Netherlands on 10 November.",
+    "status": "web-checked",
+    "sources": [
+      "byu-groener",
+      "ghdi-spread"
+    ],
+    "note": "Groener told the Kaiser at Spa on 9 November that the army no longer stood behind him; the Kaiser left for the Netherlands on 10 November."
+  },
+  {
+    "id": "ohl_newsserbia-1",
+    "node": "ohl_1916_04_verdun",
+    "kind": "characterization",
+    "claim": "Newspaper special, Le Temps, Paris: The Salonika Army Finds No Enemy. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newsverdun-1",
+    "node": "ohl_1916_14_somme",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Times, London: The French Come to the Somme in Full Strength. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newscaporetto-1",
+    "node": "ohl_1918_12_faustschlag",
+    "kind": "characterization",
+    "claim": "Newspaper special, Corriere della Sera, Milan: The Isonzo Holds. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newsusw-1",
+    "node": "ohl_1917_07_chancellor",
+    "kind": "characterization",
+    "claim": "Newspaper special, The New York Times, New York: Berlin Keeps to the Cruiser Rules. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newsfaust-1",
+    "node": "ohl_1918_09_michael",
+    "kind": "characterization",
+    "claim": "Newspaper special, Izvestia, Petrograd: The German Advance Stops Short. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl_newsamiens-1",
+    "node": "ohl_1918_13_aisne",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Daily Mail, London: Amiens Under the Guns. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "ohl-menu-quote-1",
+    "node": "ohl_1914_16_kaiser",
+    "kind": "quotation",
+    "claim": "Kaiser Wilhelm II is widely reported to have told troops leaving in August 1914 that they would be home before the leaves had fallen. No primary source for the words or the day was found.",
+    "status": "disputed",
+    "sources": [],
+    "note": "The attribution is common and the wording varies; the Dupuy Institute page asks when and where it was said and does not answer. The menu gives the name and the month without a caveat, at the user's choice."
+  },
+  {
+    "id": "ohl-menu-tagline-1",
+    "node": "ohl_1914_16_kaiser",
+    "kind": "quotation",
+    "claim": "David Lloyd George is credited with saying, about 1916, 'This war, like the next war, is a war to end war.' The earliest printed citation found is E. V. Lucas, Reading, Writing and Remembering (1932), p. 296; no speech or contemporary record was found.",
+    "status": "disputed",
+    "sources": [],
+    "note": "A popular attribution. H. G. Wells coined the phrase 'the war that will end war' in 1914, and the sentence on the title screen is a later joke on it. The title screen gives the name and the year as the common attribution."
+  },
+  {
+    "id": "ohl-end-civilgov-1",
+    "node": "ohl_end_civilgov",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Bethmann Hollweg was forced out in July 1917, in the crisis over the Reichstag's peace resolution, at the insistence of the Supreme Command, and the governments that followed were weaker. Prince Max of Baden became Chancellor on 3 October 1918 and the request to President Wilson went out in the first days of that month. The armistice was signed on 11 November, and within a year the account of an army betrayed at home was in print.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "ohl-end-mediation-1",
+    "node": "ohl_end_mediation",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the United States declared war on Germany on 6 April 1917, after the resumption of unrestricted submarine warfare, and American divisions were in the line in France in the spring of 1918. The German request of October 1918 went to the President as the leader of an enemy, who answered it three times and set conditions that included the end of the monarchy's power and terms that left Germany unable to renew the war. The Germans' note of early October 1918 asked for an armistice and for peace on the basis of the Fourteen Points that Wilson had set out in January.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "ohl-end-viennafirst-1",
+    "node": "ohl_end_viennafirst",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Austria-Hungary asked for an armistice at the end of October 1918, after the Italian victory at Vittorio Veneto, and it was signed at the Villa Giusti on 3 November, to take effect the next day. The monarchy dissolved into its successor states in the following weeks, and Germany signed its own armistice a week after the Austrian one.\n\nIn the real days that followed, the German staff did look at the open southern frontier, and Bavarian officers feared an Allied advance from Austria.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "ohl-end-easternpeace-1",
+    "node": "ohl_end_easternpeace",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Brest-Litovsk was signed on 3 March 1918, the German advance in the east took Kiev on 2 March, and the spring offensive in the west took ground and was stopped short of Amiens. The armistice of 11 November annulled the treaty and called for the withdrawal of German troops from the former Russian territories when the Allies judged the moment suitable. Dozens of German divisions stayed in the east in the spring of 1918, to hold Ukraine and the Baltic provinces.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "doc-ohl_1917_06_pless-1",
+    "node": "ohl_1917_06_pless",
+    "kind": "quotation",
+    "claim": "Holtzendorff's memorandum of 22 December 1916 says: I am not afraid of saying that, given the way things now stand, with unlimited submarine warfare we can force England to sue for peace in five months.",
+    "status": "web-checked",
+    "sources": [
+      "ghdi-holtzendorff"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
+  },
+  {
+    "id": "doc-ohl_1918_15_wilson-1",
+    "node": "ohl_1918_15_wilson",
+    "kind": "quotation",
+    "claim": "The first German note to President Wilson, of 3 October 1918, asks him to take the initiative in bringing about peace and requests the immediate conclusion of an armistice on land, at sea and in the air.",
+    "status": "web-checked",
+    "sources": [
+      "ghdi-first-note"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
   }
 ]

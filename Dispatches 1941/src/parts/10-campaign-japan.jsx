@@ -27,7 +27,7 @@
               historical: true,
               setFlags: { chinaPeacePath: "continueWar" },
               impact: { readiness: 0, pipeline: -1, initiative: 0 },
-              next: "tripartitePact40",
+              next: "burmaRoad40",
               outcome:
                 "China's war grinds on with no resolution, consuming roughly a million men Japan will spend the rest of the war wishing it had for the Southern Operation and, later, for the mainland crisis of 1944. Tokyo recognizes Wang Jingwei's government in November 1940, Germany and Italy in 1941, and almost no one else ever does.",
             },
@@ -36,7 +36,7 @@
               advisor: { name: "Konoe", position: "Refusing to deal with Chiang's government has failed for three years, and continuing to refuse is the real weakness, however much saying so now sounds like weakness." },
               setFlags: { chinaPeacePath: "negotiate", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
-              next: "tripartitePact40",
+              next: "burmaRoad40",
               uncertain: [
                 {
                   weight: modWeight(40, meters.readiness),
@@ -63,7 +63,7 @@
               advisor: { name: "Sugiyama", position: "Pressure alone has not produced terms in three years, so the army should press and keep a back channel open, and try both before conceding that either has failed." },
               setFlags: { chinaPeacePath: "pressureAndTalk" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
-              next: "tripartitePact40",
+              next: "burmaRoad40",
               outcome:
                 "A harder push against Chiang's remaining strongholds, paired with an intermediary channel neither side treats as a real offer yet. It satisfies neither the Army's wish for a decisive campaign nor Konoe's case for genuine terms, and it reproduces the war as it was: pressure without resolution, a channel that is never seriously used, and the same million men committed to a war that was supposed to be over in months.",
             },
@@ -81,6 +81,15 @@
               ? " This argument is being made by a government that just freed roughly a million men from a China war Chiang actually agreed to settle, a fact Matsuoka's own case for deterrence-through-strength doesn't quite know what to do with: the strength on offer is suddenly real rather than theoretical, and Yamamoto's skepticism has less to stand on than it would have a season ago."
               : flags.chinaPeaceResult === "rejected"
               ? " This argument is being made by a government that just watched a negotiating effort with Chiang fail, a million men still committed to a war with no resolution in sight, which does nothing to help Matsuoka's case that Japan is negotiating from strength rather than searching for it."
+              : "") +
+            (flags.burmaRoadPath === "closed"
+              ? " London closed the Burma Road in July when it was asked, and Matsuoka points to it as proof that pressure on a weak Britain works."
+              : flags.burmaRoadPath === "permanent" && flags.burmaRoadResult === "yielded"
+              ? " London agreed to a long closure of the Burma Road in July, and Matsuoka points to it as proof that pressure on Britain works."
+              : flags.burmaRoadPath === "permanent" && flags.burmaRoadResult === "refused"
+              ? " London refused the demand over the Burma Road in July. The Navy says this is what a pact with Germany will bring on, from Britain and from America."
+              : flags.burmaRoadPath === "bombed"
+              ? " The Army's bombers have raided the Burma Road since July, and Chinese labor has repaired it each time."
               : ""),
           choices: [
             {
@@ -128,7 +137,7 @@
               historical: true,
               setFlags: { unificationPath: "parallel" },
               impact: { readiness: 0, pipeline: 0, initiative: 1 },
-              next: "hokushinDebate41",
+              next: "neutralityPact41",
               outcome:
                 "Separate codebreaking, separate intelligence assessments and separate aircraft programs that never converge on shared standards: this is how the Army and Navy fight the whole war. It drags on the war effort throughout, and no single day shows the cost, which is spread across four years.",
             },
@@ -137,9 +146,175 @@
               advisor: { name: "Nagano", position: "The fight over a joint command is unpopular in both services and still right, and the coming war will not forgive the years spent not fixing it." },
               setFlags: { unificationPath: "forced", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
-              next: "hokushinDebate41",
+              next: "neutralityPact41",
               outcome:
                 "A reform that neither service accepted in the real war without years of pressure. Shared codebreaking, common aircraft standards and one intelligence assessment instead of two are dull administrative work with a real operational gain, bought with goodwill between the services that later decisions will have to draw on.",
+            },
+            {
+              label: "Unify the codebreaking only: one joint cryptologic bureau, and leave everything else parallel",
+              advisor: { name: "Yamamoto", position: "Both services read the same traffic and never compare notes. One joint bureau costs the least of any reform and saves the most." },
+              setFlags: { unificationPath: "cryptoOnly" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "neutralityPact41",
+              outcome:
+                "A modeled alternative. The Army and Navy bureaus are merged into one office for decryption, and the services otherwise stay apart. It is a smaller change than a joint command and a less painful one. Intercepts are read once and shared, and the quarrel over aircraft and intelligence goes on.",
+            },
+          ],
+        };
+        },
+        get burmaRoad40() {
+          return {
+          date: "JULY 1940",
+          title: "The Burma Road",
+          historicalRecord: true,
+          situation:
+            "France fell in June, and Britain is fighting alone with German aircraft over England. The Burma Road runs from Lashio in Burma to Kunming and Chungking, and much of what reaches Chiang's government from outside travels along it. Japan has already pressed the French to stop the arms traffic through Indochina. The Army wants the same done to the road. The Foreign Ministry can ask London to close it, and London is in no position to refuse everything." +
+            (flags.chinaPeaceResult === "rejected"
+              ? " The overture to Chiang has failed, so the road is the only lever left on his supply."
+              : flags.chinaPeaceResult === "accepted"
+              ? " Chiang's government is talking, and closing the road would be a way to keep it talking."
+              : ""),
+          choices: [
+            {
+              label: "Ask London to close the road for three months, as France closed the Indochina route",
+              advisor: { name: "Yonai", position: "London has a war to fight at home, and it will give way on a road in Burma if it is asked quietly. A harder demand would make Britain a worse enemy than it is now." },
+              historical: true,
+              setFlags: { burmaRoadPath: "closed" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "tripartitePact40",
+              outcome:
+                "Britain agrees in mid-July and the road is closed for three months, the rainy season, when traffic is light. It reopens in October. London gives way because it cannot afford a second enemy, and Tokyo notes that pressure on Britain works.",
+            },
+            {
+              label: "Demand a permanent closure, and an end to British supplies to Chungking through Hong Kong",
+              advisor: { name: "Tojo", position: "Britain is weaker than it will ever be again, and a demand made now costs nothing. A temporary closure only postpones the question." },
+              setFlags: { burmaRoadPath: "permanent", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "tripartitePact40",
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "London gives more than it gave in July",
+                  setFlags: { burmaRoadResult: "yielded" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. With invasion expected within weeks, London agrees to a closure that runs through the winter and to limits on the Hong Kong traffic. Chiang's supplies fall for a year and the Army claims the credit.",
+                },
+                {
+                  weight: (() => { const w = modWeight(25, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "London refuses and turns to Washington",
+                  setFlags: { burmaRoadResult: "refused" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The demand goes further than London can accept. The road stays open, Britain's attention turns toward Washington, and the Foreign Ministry has spent a favor it needed later.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The Army's wish was a permanent closure, and the Foreign Ministry knew it could not be had without more pressure than Britain's position justified. Whether a harder demand in July 1940 would have been met is not something the record settles.",
+            },
+            {
+              label: "Leave the diplomacy alone and cut the road from the air and from northern Indochina",
+              advisor: { name: "Sugiyama", position: "A road can be cut by bombers and by troops on its flank, and neither needs London's permission. The Army air force has the range for the bridges." },
+              setFlags: { burmaRoadPath: "bombed" },
+              impact: { readiness: -1, pipeline: -1, initiative: 1 },
+              next: "tripartitePact40",
+              outcome:
+                "A modeled alternative. Bombers raid the bridges and the road, and Chinese labor repairs the damage by hand each time. The raids cost aircraft and fuel and do not stop the traffic, and Britain's goodwill is left alone.",
+            },
+          ],
+        };
+        },
+        get neutralityPact41() {
+          return {
+          date: "APRIL 1941",
+          title: "The Neutrality Pact",
+          historicalRecord: true,
+          situation:
+            "Matsuoka is in Moscow on his way home from Berlin. In Berlin, Ribbentrop pressed him to take Singapore. Moscow has offered a neutrality pact. For the Navy it secures the northern border while the fleet turns south. For the Army's northern school it ends the plan for a war against the Soviet Union that the Army has preferred since Nomonhan two years ago. The Soviet army in the Far East is one of the largest in the world." +
+            (flags.tripartitePath === "signed"
+              ? " Japan is an ally of Germany by the Tripartite Pact, and Berlin has said nothing about a pact with Moscow."
+              : ""),
+          choices: [
+            {
+              label: "Sign the five-year neutrality pact with the Soviet Union",
+              advisor: { name: "Matsuoka", position: "The pact secures the northern border while the fleet turns south. It binds Moscow, and it costs Japan nothing it means to use." },
+              historical: true,
+              setFlags: { sovietPactPath: "signed" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "hokushinDebate41",
+              outcome:
+                "The pact is signed on April 13, 1941, and Stalin sees Matsuoka off at the Moscow station. Germany attacks the Soviet Union ten weeks later. With Japan bound by the pact, Moscow can move divisions from Siberia to the west.",
+            },
+            {
+              label: "Refuse the pact and keep the northern option open",
+              advisor: { name: "Sugiyama", position: "The Army's plan for the north needs freedom of action, and a treaty with Moscow takes it away for five years. A pact can be signed later if the plan is dropped." },
+              setFlags: { sovietPactPath: "refused", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: -1, pipeline: 0, initiative: 1 },
+              next: "hokushinDebate41",
+              outcome:
+                "A modeled alternative. Moscow leaves its Far East army where it is and watches Manchuria. The Army's northern plan is not closed, and Japan has no assurance on its northern border while the fleet turns south.",
+            },
+          ],
+        };
+        },
+        get indianOceanRaid42() {
+          return {
+          date: "APRIL 1942",
+          title: "The Indian Ocean Raid",
+          historicalRecord: true,
+          situation:
+            "Nagumo's carriers have finished the opening moves of the Southern Operation. The British Eastern Fleet, under Admiral Somerville, is based at Ceylon and Addu Atoll, with a handful of old battleships and some carriers. Combined Fleet wants it sunk or driven out of the Indian Ocean before the next move, and proposes that Nagumo's five carriers raid Ceylon. The crews have been at sea since November and the aircraft are worn." +
+            (flags.ceylonPath === "invade"
+              ? " Divisions have been diverted to a landing on Ceylon, and the raid is the first stage of it."
+              : ""),
+          choices: [
+            {
+              label: "Send the five carriers into the Indian Ocean for a raid on Ceylon",
+              advisor: { name: "Nagumo", position: "The Eastern Fleet is weak and the carriers are at their best. A raid now removes it from the war for months, and the crews have the experience." },
+              historical: true,
+              setFlags: { indianOceanPath: "raid" },
+              impact: { readiness: -1, pipeline: -1, initiative: 2 },
+              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              outcome:
+                "Nagumo's aircraft strike Colombo on April 5 and Trincomalee on April 9. His search planes find the heavy cruisers Cornwall and Dorsetshire and the carrier Hermes, and all three are sunk. Somerville, who had hoped for a night action, withdraws to East Africa. The carriers return to Japan in late April with tired aircrews.",
+            },
+            {
+              label: "Raid in strength and hunt for the Eastern Fleet until it is brought to battle",
+              advisor: { name: "Yamamoto", position: "A raid that leaves the British fleet afloat has done half the work. If the carriers are in the Indian Ocean, they should stay until the Eastern Fleet is found." },
+              setFlags: { indianOceanPath: "hunt" },
+              impact: { readiness: -2, pipeline: -2, initiative: 1 },
+              disabledReason: meters.pipeline <= -3 ? "There is no fuel for a week of searching in the Indian Ocean. The carriers can raid and return, and they cannot hunt." : undefined,
+              gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
+              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "The Eastern Fleet is found and broken",
+                  setFlags: { indianOceanResult: "found" },
+                  impact: { readiness: 0, pipeline: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. Somerville's carriers are found and sunk, and the Eastern Fleet is gone from the Indian Ocean for the year. Britain's convoys to the Middle East run without a fleet to cover them.",
+                },
+                {
+                  weight: (() => { const w = modWeight(35, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The search finds nothing",
+                  setFlags: { indianOceanResult: "empty" },
+                  impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The British fleet keeps out of reach, and the carriers burn fuel for a week of searching. They return to Japan later and more tired than in the real raid.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. Somerville was looking for a night action and never found Nagumo, and Nagumo never found him. Pressing the raid into a hunt takes the carriers further from the Pacific for longer.",
+            },
+            {
+              label: "Skip the raid and send the carriers home to rest before the next operation",
+              advisor: { name: "Yamamoto", position: "The carriers are needed in the Pacific, where the American fleet is, and a month of rest and refit is worth more to them than a raid on the Indian Ocean." },
+              setFlags: { indianOceanPath: "refit" },
+              impact: { readiness: 1, pipeline: 1, initiative: -2 },
+              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              outcome:
+                "A modeled alternative. The crews are rested and the aircraft overhauled a month before Coral Sea. The British Eastern Fleet is left to build up at Ceylon and Addu Atoll, and its convoys cross the Indian Ocean undisturbed.",
             },
           ],
         };
@@ -150,7 +325,12 @@
           title: "Kantokuen: The Road Not Taken North",
           historicalRecord: true,
           situation:
-            "Germany's invasion of the Soviet Union, begun on June 22, appears from every report reaching Tokyo to be succeeding faster than anyone expected. Army Group Center is already deep into Soviet territory, and if Moscow falls this year, the Kwantung Army's staff argue that Siberia becomes an undefended prize rather than the hardened frontier it's been since the humiliating defeat at Nomonhan two years ago. Kantokuen, the Kwantung Special Maneuvers, has quietly mobilized about 700,000 men on the Manchurian border under cover of an exercise, ready to strike north once Soviet forces in Siberia are thin enough. This is the last live moment in the old argument between the Army's northern strike and the Navy's southern one: whether Japan's war is against the Soviet Union, as the Army has preferred, or against the resource-rich south, as the Navy has needed.",
+            "Germany's invasion of the Soviet Union, begun on June 22, appears from every report reaching Tokyo to be succeeding faster than anyone expected. Army Group Center is already deep into Soviet territory, and if Moscow falls this year, the Kwantung Army's staff argue that Siberia becomes an undefended prize rather than the hardened frontier it's been since the humiliating defeat at Nomonhan two years ago. Kantokuen, the Kwantung Special Maneuvers, has quietly mobilized about 700,000 men on the Manchurian border under cover of an exercise, ready to strike north once Soviet forces in Siberia are thin enough. This is the last live moment in the old argument between the Army's northern strike and the Navy's southern one: whether Japan's war is against the Soviet Union, as the Army has preferred, or against the resource-rich south, as the Navy has needed." +
+            (flags.sovietPactPath === "signed"
+              ? " The neutrality pact signed in April is in force. Attacking now would tear it up, and the Kwantung Army's staff say that a treaty with a country about to lose its war binds nobody."
+              : flags.sovietPactPath === "refused"
+              ? " There is no pact in the way. Moscow has watched Manchuria since April and has kept its Far East army where it was."
+              : ""),
           choices: [
             {
               label: "Hold to the Southern Operation: the resources that actually solve the oil problem are south, not north",
@@ -736,6 +916,33 @@
               outcome:
                 "A modeled alternative that the Naval General Staff argued and lost before Yamamoto's plan carried the day. Without a Hawaii strike there is no Pearl Harbor to unite American opinion at once. A Congress that spent 1941 divided over intervention in Europe must decide, on its own timetable, whether Japanese landings half a world away justify a two-ocean war. The Southern Operation runs faster and better supplied with every carrier committed to it. America still has an intact Pacific Fleet.",
             },
+            {
+              label: "Execute the strike with orders for a follow-up wave against the oil tanks and the dockyards",
+              advisor: { name: "Nagumo", position: "The carriers are all the Navy has, and a follow-up wave means an hour more inside the enemy's range with his own carriers not found. The oil tanks are worth the risk only if the order is given before the first aircraft leaves." },
+              setFlags: { openingVector: "pearlHarbor" },
+              impact: { readiness: -1, pipeline: 0, initiative: 1 },
+              next: "burmaRangoon42",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "The oil tanks and the dockyards burn",
+                  setFlags: { pearlFollowUpResult: "burned" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. The second and third waves find the oil tanks full and the dockyards undefended. The fire burns for days, and the Pacific Fleet that survives the morning has no fuel at Pearl Harbor to leave with.",
+                },
+                {
+                  weight: (() => { const w = modWeight(40, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The strike force is found before it can leave",
+                  setFlags: { pearlFollowUpResult: "found" },
+                  impact: { readiness: -2, pipeline: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The extra hour keeps the carriers within reach of the American search. Aircraft from the fleet that was at sea find them, and Nagumo withdraws with heavy losses among his aircrews.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. Some of Nagumo's own staff argued for a follow-up strike after the real attack, and the commander declined it. Here the order is given in advance, and the risk to the carriers is taken on purpose.",
+            },
           ],
         };
         },
@@ -763,7 +970,7 @@
               impact: { readiness: -1, pipeline: 1, initiative: 2 },
               disabledReason: meters.pipeline <= -3 ? "The supply train can't sustain a forced march through this terrain at this pipeline level. A rushed drive here risks stranding the division, not just tiring it." : undefined,
               gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
-              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              next: "indianOceanRaid42",
               outcome:
                 "Rangoon falls on March 8, 1942, faster than British planning had judged possible, and the port that fed the Burma Road is lost. The road itself closes when Lashio falls at the end of April. China's supply then depends on the Hump, transport aircraft flying over the Himalayas at a fraction of the road's capacity, at a cost in aircrew and airframes that becomes its own long campaign.",
             },
@@ -772,7 +979,7 @@
               advisor: { name: "Sakurai", position: "Rangoon will fall either way, and a division that is still a division for the harder push into India is worth more than one spent winning a race the British retreat would have lost anyway." },
               setFlags: { burmaPath: "methodical" },
               impact: { readiness: 1, pipeline: -1, initiative: -1 },
-              next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+              next: "indianOceanRaid42",
               outcome:
                 "A modeled alternative. A slower advance still takes Rangoon, weeks later, and lets more of the retreating British, Indian and Chinese forces escape north with their equipment. That is a fair trade for the harder campaign toward Assam, which this path is better prepared for, and China keeps its supply line a little longer.",
             },
@@ -783,12 +990,23 @@
                     advisor: { name: "Sugiyama", position: "The Navy has asked for these divisions three times and been refused, because Burma and the mainland already claim more of the army than it can supply, but at this rate of advance refusing is no longer clearly the more disciplined course." },
                     setFlags: { ceylonPath: "invade" },
                     impact: { readiness: -3, pipeline: -2, initiative: -1 },
-                    next: flags.openingVector === "southBlitz" ? "washingtonDecides42" : "bataanPOWQuestion42",
+                    next: "indianOceanRaid42",
                     outcome:
                       "The actual historical refusal, reversed: the Imperial Army declined to allocate troops for a Ceylon invasion in 1942, over the Navy's real objections that the opportunity wouldn't hold. Churchill himself later called the moment Japan's fleet turned toward Ceylon the single most dangerous of the entire war for Britain, by his own account worse than anything the Battle of Britain produced. What an actual invasion would have achieved, control of the Indian Ocean, isolation of Middle Eastern oil from Britain's war effort, is a question the historical refusal never let anyone test. This path spends real divisions finding out.",
                   },
                 ]
               : []),
+            {
+              label: "Send a second column north for Toungoo and Lashio at once, and cut the Burma Road before the Chinese divisions are in place",
+              advisor: { name: "Iida", position: "Rangoon is a port, and the road is the objective. A column that reaches Lashio early closes the road before Chiang's armies have deployed along it." },
+              setFlags: { burmaPath: "northColumn" },
+              impact: { readiness: -2, pipeline: -1, initiative: 2 },
+              disabledReason: meters.pipeline <= -3 ? "There is no supply train for a second column. The army can take Rangoon or race for the road, and it cannot do both." : undefined,
+              gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
+              next: "indianOceanRaid42",
+              outcome:
+                "A modeled alternative. The northern column outruns its supply and reaches Toungoo as a Chinese division is digging in there. Rangoon falls to the main body on schedule, and the road north is closed a few weeks sooner at the price of a division stretched thin.",
+            },
           ],
         };
         },
@@ -922,6 +1140,14 @@
               outcome:
                 "A modeled alternative, built on the skeptical view that existed in the Naval General Staff before the raid. The raid killed few people and destroyed little, and a slower, better prepared answer to the gap it exposed is a fair reading of the military stakes. It gives up the urgency that pushed the Midway operation through in the real war, and Midway's planning gets the extra weeks its critics wanted.",
             },
+            {
+              label: "Extend the picket line to a thousand miles out and ask the Army to move fighters to the home islands",
+              advisor: { name: "Yamamoto", position: "The raid came from beyond the patrol line, and a longer line and fighters on the home islands cost far less than moving the fleet to guard Tokyo." },
+              impact: { readiness: 1, pipeline: -1, initiative: 0 },
+              next: "doolittleAirmen42",
+              outcome:
+                "A modeled alternative. Patrol boats are sent out beyond the old line and an Army fighter group is moved to the home islands. It takes boats and aircraft from other tasks, and it does not stop the next raid from coming in from a different direction.",
+            },
           ],
         };
         },
@@ -971,7 +1197,16 @@
           title: "Coral Sea and the Port Moresby Question",
           historicalRecord: true,
           situation:
-            "The Southern Operation has run ahead of every prewar estimate: Malaya, the Indies and Burma have fallen faster than the staffs planned. Port Moresby, on Papua's southern coast, is the next objective. Taken, it puts northern Australia within bomber range. A light carrier covers the invasion convoy, with the fleet carriers Shokaku and Zuikaku in support. American codebreakers have read enough traffic to have carriers of their own in the Coral Sea, Yorktown and Lexington, and contact reports confirm it.\n\nIn the battle of May 7–8 the light carrier Shoho is sunk. Lexington is lost and Yorktown is damaged. Shokaku is damaged, and both Shokaku and Zuikaku lose so many aircraft and aircrew that neither can be ready for the next operation. The Port Moresby invasion is turned back.",
+            "The Southern Operation has run ahead of every prewar estimate: Malaya, the Indies and Burma have fallen faster than the staffs planned. Port Moresby, on Papua's southern coast, is the next objective. Taken, it puts northern Australia within bomber range. A light carrier covers the invasion convoy, with the fleet carriers Shokaku and Zuikaku in support. American codebreakers have read enough traffic to have carriers of their own in the Coral Sea, Yorktown and Lexington, and contact reports confirm it.\n\nIn the battle of May 7–8 the light carrier Shoho is sunk. Lexington is lost and Yorktown is damaged. Shokaku is damaged, and both Shokaku and Zuikaku lose so many aircraft and aircrew that neither can be ready for the next operation. The Port Moresby invasion is turned back." +
+            (flags.indianOceanPath === "raid"
+              ? " Shokaku and Zuikaku came to the Coral Sea from the Indian Ocean raid, with aircrews who had been at sea since November."
+              : flags.indianOceanPath === "hunt" && flags.indianOceanResult === "found"
+              ? " Shokaku and Zuikaku came to the Coral Sea from the Indian Ocean, where they had broken the British Eastern Fleet."
+              : flags.indianOceanPath === "hunt" && flags.indianOceanResult === "empty"
+              ? " Shokaku and Zuikaku came to the Coral Sea after a week of fruitless searching in the Indian Ocean, short of fuel and rest."
+              : flags.indianOceanPath === "refit"
+              ? " Shokaku and Zuikaku came to the Coral Sea after a month of rest and refit, with fresh aircrews."
+              : ""),
           choices: [
             {
               label: "Accept the decisive battle Yamamoto wants: commit the fleet toward Midway",
@@ -1008,6 +1243,15 @@
                 },
               ],
             },
+            {
+              label: "Cancel the Aleutian operation and add the light carriers Junyo and Ryujo to the Midway carrier force",
+              advisor: { name: "Yamamoto", position: "The Aleutians operation is the price the Army set for its support, and it takes two carriers away from the battle that decides the year. Those decks belong with the force that fights it." },
+              setFlags: { midwayConcentration: true },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "midway42",
+              outcome:
+                "A modeled alternative. The Aleutians operation is cancelled and Junyo and Ryujo sail with the main force. Nagumo's four carriers go to Midway with two more decks beside them, and the Army's landings on Attu and Kiska are put off.",
+            },
           ],
         };
         },
@@ -1023,7 +1267,7 @@
               : "") +
             (flags.forkYorktownDelayed
               ? " Naval Intelligence's unconfirmed reports of trouble in the American repair yards, if accurate, would mean whatever carrier force is out there tonight is thinner than this plan's own assumptions account for."
-              : ""),
+              : "") + (flags.midwayConcentration ? " Junyo and Ryujo have been brought down from the Aleutians, and the carrier force has six decks instead of four." : "") + (flags.pearlFollowUpResult === "burned" ? " The oil tanks at Pearl Harbor burned in December, and the Pacific Fleet has been supplied from the West Coast since." : flags.pearlFollowUpResult === "found" ? " Nagumo's aircrews lost heavily in December, and the carriers sail with replacements." : ""),
           choices: [
             {
               label: "Proceed with the plan as built: full commitment to the Midway invasion and the decisive battle it's meant to force",
@@ -1034,7 +1278,7 @@
               next: "kokodaTrail42",
               uncertain: [
                 {
-                  weight: modWeight((carriersUntouched ? 15 : 8) + (flags.forkYorktownDelayed ? 5 : 0), meters.readiness),
+                  weight: modWeight((carriersUntouched ? 15 : 8) + (flags.forkYorktownDelayed ? 5 : 0) + (flags.midwayConcentration ? 3 : 0), meters.readiness),
                   title: "The morning breaks Japan's way instead",
                   setFlags: { midwayResult: "decisive" },
                   impact: { readiness: 3, pipeline: 1, initiative: 3 },
@@ -1046,7 +1290,7 @@
                       : ""),
                 },
                 {
-                  weight: modWeight(carriersUntouched ? 32 : 20, meters.readiness),
+                  weight: modWeight((carriersUntouched ? 32 : 20) + (flags.midwayConcentration ? 5 : 0), meters.readiness),
                   title: "The strike force survives the morning",
                   setFlags: { midwayResult: "survived" },
                   impact: { readiness: -2, pipeline: 0, initiative: -1 },
@@ -1055,8 +1299,8 @@
                 },
                 {
                   weight: (() => {
-                    const vw = modWeight(carriersUntouched ? 15 : 8, meters.readiness);
-                    const sw = modWeight(carriersUntouched ? 32 : 20, meters.readiness);
+                    const vw = modWeight((carriersUntouched ? 15 : 8) + (flags.midwayConcentration ? 3 : 0), meters.readiness);
+                    const sw = modWeight((carriersUntouched ? 32 : 20) + (flags.midwayConcentration ? 5 : 0), meters.readiness);
                     return Math.max(5, 100 - vw - sw);
                   })(),
                   title: "The five fatal minutes",
@@ -1076,6 +1320,47 @@
               next: "severSupplyLine42",
               outcome:
                 "A modeled alternative: the operation the Naval General Staff favored before Yamamoto's insistence on a decisive battle won out. The carriers sail against lightly defended islands in the South Pacific and degrade the Australia supply line without risking a fleet carrier against an enemy that was waiting at Midway, which the command cannot know. At the time it looks like caution.",
+            },
+            {
+              label: "Proceed with the plan, and bring the Main Body's battleships up to within a hundred miles of the carriers",
+              advisor: { name: "Ugaki", position: "The battleships are three hundred miles behind the carriers and are no use to them there. A battle line that stays close can at least take the shock of a surprise." },
+              setFlags: { midwayPath: "committed", midwayBattleLine: "close" },
+              impact: { readiness: -1, pipeline: -1, initiative: 1 },
+              next: "kokodaTrail42",
+              uncertain: [
+                {
+                  weight: modWeight((carriersUntouched ? 15 : 8) + (flags.midwayConcentration ? 3 : 0), meters.readiness),
+                  title: "The morning breaks Japan's way instead",
+                  setFlags: { midwayResult: "decisive" },
+                  impact: { readiness: 3, pipeline: 1, initiative: 3 },
+                  next: "yamamotoAscendant42",
+                  outcome:
+                    "Speculative, and the least likely of the three. American search planes miss the Japanese carriers in the early hours, and Nagumo's strike force finds the American carriers with their aircraft on deck, rearming. The battleships close up behind and complete the work.",
+                },
+                {
+                  weight: modWeight((carriersUntouched ? 32 : 20) + 8 + (flags.midwayConcentration ? 5 : 0), meters.readiness),
+                  title: "The strike force survives the morning",
+                  setFlags: { midwayResult: "survived" },
+                  impact: { readiness: -2, pipeline: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. American dive bombers catch the carriers while they are rearming, but the battleships close enough to draw some of the attacks and the damage-control parties get the fires out. Two carriers are lost rather than four.",
+                },
+                {
+                  weight: (() => {
+                    const vw = modWeight((carriersUntouched ? 15 : 8) + (flags.midwayConcentration ? 3 : 0), meters.readiness);
+                    const sw = modWeight((carriersUntouched ? 32 : 20) + 8 + (flags.midwayConcentration ? 5 : 0), meters.readiness);
+                    return Math.max(5, 100 - vw - sw);
+                  })(),
+                  title: "The five fatal minutes",
+                  setFlags: { midwayResult: "disaster" },
+                  impact: { readiness: -4, pipeline: 0, initiative: -2 },
+                  next: "earlyPeaceQuestion42",
+                  outcome:
+                    "American dive bombers arrive while the carriers have aircraft, bombs and fuel exposed on their decks. Akagi, Kaga and Soryu are burning within minutes of each other, and the battleships, a hundred miles away, arrive in time to pick up survivors.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The Main Body kept three hundred miles behind the carriers in the real plan, and the criticism of that distance began with the battle. Here the battleships come up, and they cost fuel the fleet has little of.",
             },
           ],
         };
@@ -1402,7 +1687,7 @@
           title: "The Kokoda Track",
           historicalRecord: true,
           situation:
-            "With the seaborne invasion of Port Moresby turned back at Coral Sea, Major General Horii's South Seas Detachment is attempting the only alternative: an overland march across the Owen Stanley Range on a single foot-track, carrying supplies on men's backs because no vehicle can follow. The detachment has pushed to within thirty miles of Port Moresby, but the supply line behind it, stretched past what porters can sustain, is failing faster than the advance.",
+            "With the seaborne invasion of Port Moresby turned back at Coral Sea, Major General Horii's South Seas Detachment is attempting the only alternative: an overland march across the Owen Stanley Range on a single foot-track, carrying supplies on men's backs because no vehicle can follow. The detachment has pushed to within thirty miles of Port Moresby, but the supply line behind it, stretched past what porters can sustain, is failing faster than the advance." + (flags.midwayBattleLine === "close" ? " The battleships that closed up at Midway fired no shot, and the fuel they burned is missed in the south." : ""),
           choices: [
             {
               label: "Press the final push toward Port Moresby despite the supply collapse behind it",
@@ -1425,6 +1710,14 @@
               outcome:
                 "A modeled alternative, on the supply arithmetic that forced IGHQ's hand in the real war. Withdrawing before the advance exhausts itself keeps more of the detachment for the later fighting in New Guinea, at the price of never testing whether the last thirty miles could have been crossed. Most historians of the campaign judge Port Moresby out of reach given what the track could carry, so an early withdrawal spends fewer lives to reach the same limit.",
             },
+            {
+              label: "Halt at Ioribaiwa and hold the high ground until the supply line is rebuilt",
+              advisor: { name: "Horii", position: "The detachment is at the end of a line it cannot feed, and every day of advance spends men it will not replace. The ridge can be held with what is on it." },
+              impact: { readiness: 0, pipeline: -1, initiative: -1 },
+              next: "guadalcanal42",
+              outcome:
+                "A modeled alternative. The South Seas Detachment digs in on the Ioribaiwa ridge, about thirty miles from Port Moresby, and lives on what carriers can bring up the track. It is not driven back by the Australians, and it does not go forward.",
+            },
           ],
         };
         },
@@ -1444,7 +1737,7 @@
               ? " Horii's column is still pushing toward Port Moresby on a supply line already failing, a second front bleeding the same limited transport capacity this campaign needs for its own night runs down the Slot."
               : flags.kokodaPath === "earlyWithdraw"
               ? " The early withdrawal from the Kokoda Track freed transport capacity that, in principle, this campaign could use, though freed capacity and available capacity aren't quite the same thing once Guadalcanal's own demands are counted."
-              : ""),
+              : "") + (flags.earlyPeacePath === "fightOn" ? " Tokyo decided after Midway to fight on and put out no feelers about terms." : flags.earlyPeacePath === "explore" || flags.earlyPeacePath === "exploreFromStrength" ? " Feelers about terms went out after Midway, and nothing has come of them." : ""),
           choices: [
             {
               label: "Commit destroyers and remaining naval air strength to retake Henderson Field",
@@ -1499,6 +1792,34 @@
                   },
                 ]
               : []),
+            {
+              label: "Commit the Army's 2nd and 38th Divisions together, in one lift, instead of in battalions by destroyer",
+              advisor: { name: "Tanaka", position: "The Army is going in a battalion at a time against an enemy that grows every week, and the Express cannot carry a division at once. A convoy that lands two divisions together is the only way the Army fights on equal terms." },
+              impact: { readiness: -3, pipeline: -3, initiative: 1 },
+              disabledReason: meters.pipeline <= -2 ? "There is no shipping for a convoy of two divisions. The destroyers can run a battalion at a time, and the transports cannot be spared." : undefined,
+              gateCheck: { meter: "pipeline", threshold: -2, label: "Pipeline" },
+              next: "keGoWithdrawal43",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.pipeline),
+                  title: "The two divisions land together",
+                  setFlags: { guadalcanalLiftResult: "landed" },
+                  impact: { readiness: 2, pipeline: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. The convoy reaches Tassafaronga at night with both divisions and most of their guns. The Army fights the Marines at something near parity, once, and the airfield is under artillery fire for the first time.",
+                },
+                {
+                  weight: (() => { const w = modWeight(35, meters.pipeline); return Math.max(5, 100 - w); })(),
+                  title: "The convoy is caught in the Slot",
+                  setFlags: { guadalcanalLiftResult: "caught" },
+                  impact: { readiness: -3, pipeline: -2, initiative: -1 },
+                  outcome:
+                    "Speculative. American aircraft from Henderson Field find the convoy at dawn. The transports are sunk or beached, and a good part of two divisions is lost at sea before it has fired a shot.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The Army wanted its divisions landed together. The Navy could not lift them without a convoy that daylight air power would find, and it sent them in packets instead.",
+            },
           ],
         };
         },
@@ -1516,7 +1837,7 @@
               ? " The destroyer force this evacuation depends on is the same one that fought the November naval battles to a genuine standstill rather than a rout, a fighting chance that's part of why there's still enough of a squadron left to attempt Ke-Go's kind of precision at all."
               : flags.guadalcanalNavalResult === "disaster"
               ? " The destroyer force this evacuation depends on is thinner than it should be, having taken losses in November closer to a rout than a contested fight, which is exactly the kind of shortfall a deception plan this precise has no real margin to absorb."
-              : "")) + (flags.guadalcanalPath === "commit" ? keyBattleEcho("guadalcanalNaval42", flags) : ""),
+              : "") + (flags.guadalcanalLiftResult === "landed" ? " The two divisions that landed together in the autumn are the force being evacuated now." : flags.guadalcanalLiftResult === "caught" ? " Two divisions were largely lost at sea in the autumn, and the force being evacuated is what was left." : "")) + (flags.guadalcanalPath === "commit" ? keyBattleEcho("guadalcanalNaval42", flags) : ""),
           choices: [
             {
               label: "Commit to the deception plan in full: stage a visible reinforcement buildup to mask the actual evacuation",
@@ -1902,6 +2223,26 @@
               setFlags: { leytePath: "shoGo" },
               impact: { readiness: -3, pipeline: -2, initiative: 0 },
               next: "kuritaAtLeyte44",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.shoGo44,
+              uncertain: [
+                  {
+                    weight: modWeight(55, meters.pipeline),
+                    title: "The decoy works and the fleet reaches the straits",
+                    setFlags: { leyteResult: "reached" },
+                    impact: { readiness: 0, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "The decoy works. Halsey's carriers are drawn north, and Kurita's battleships come through San Bernardino Strait to find only escort carriers and destroyers between his guns and the landing beaches, with the invasion transports still unloading nearby. Nishimura's old battleships are destroyed in Surigao Strait the same night. What Kurita does next is the most argued-over decision of the naval war.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(55, meters.pipeline); return Math.max(5, 100 - w); })(),
+                    title: "The fleet is stopped in the straits",
+                    setFlags: { leyteResult: "stopped" },
+                    impact: { readiness: -2, pipeline: -1, initiative: -2 },
+                    next: "iwoJima45",
+                    outcome:
+                      "Speculative. Halsey does not take the bait, and the covering fleet stays off San Bernardino Strait. Kurita's battleships, hit from the air all day in the Sibuyan Sea with no fighter cover, are met at the strait by the carriers' full strength and turned back with heavy losses, and Nishimura's old battleships are destroyed in Surigao Strait the same night. The Combined Fleet's last offensive ends without sight of the beaches.",
+                  },
+              ],
               outcome:
                 "The decoy works. Halsey's carriers are drawn north, and Kurita's battleships come through San Bernardino Strait to find only escort carriers and destroyers between his guns and the landing beaches, with the invasion transports still unloading nearby. What he does next is the most argued-over decision of the naval war.",
             },
@@ -1916,6 +2257,17 @@
               outcome:
                 "A modeled alternative. Keeping the fleet in being preserves a defensive force, but giving up the Philippines without a naval fight cuts the oil route from the Indies completely, months ahead of the real timetable, and a fleet that survives has no fuel to move.",
             },
+            {
+              label: "Send the Southern Force through San Bernardino Strait behind Kurita, in one column",
+              advisor: { name: "Ugaki", position: "Two columns separated by a mountain range cannot support each other, and the old battleships are worth more at Kurita's side than alone in a strait they will be shot to pieces in." },
+              setFlags: { leytePath: "oneColumn" },
+              impact: { readiness: -3, pipeline: -2, initiative: 0 },
+              disabledReason: meters.pipeline <= -4 ? "There is not enough oil to bring the Southern Force round to the northern strait. The two columns go separately or not at all." : undefined,
+              gateCheck: { meter: "pipeline", threshold: -4, label: "Pipeline" },
+              next: "kuritaAtLeyte44",
+              outcome:
+                "A modeled alternative. Nishimura's battleships join Kurita's column and the combined fleet comes through the strait together. The fleet that meets Taffy 3 is stronger, and the Southern Force is not lost alone in Surigao Strait the same night.",
+            },
           ],
         };
         },
@@ -1925,7 +2277,7 @@
           title: "Taffy 3",
           historicalRecord: true,
           situation:
-            "Kurita's battleships, Yamato among them, have come through San Bernardino Strait to find a single escort carrier group, Taffy 3, with six small carriers, three destroyers and four destroyer escorts, between his guns and the Leyte beaches. Halsey's fast carriers are far to the north, still chasing the decoy force. Taffy 3's destroyers are charging Kurita's line to buy time, and the transports still unloading at the beachhead have almost nothing to defend them if the line gets past the escort carriers.",
+            "Kurita's battleships, Yamato among them, have come through San Bernardino Strait to find a single escort carrier group, Taffy 3, with six small carriers, three destroyers and four destroyer escorts, between his guns and the Leyte beaches. Halsey's fast carriers are far to the north, still chasing the decoy force. Taffy 3's destroyers are charging Kurita's line to buy time, and the transports still unloading at the beachhead have almost nothing to defend them if the line gets past the escort carriers." + (flags.leytePath === "shoGo" ? keyBattleEcho("shoGo44", flags) : "") + (flags.leytePath === "oneColumn" ? " Nishimura's two old battleships came through the strait with Kurita, and the fleet off Samar is the stronger for them." : ""),
           choices: [
             {
               label: "Withdraw: uncertain reports and fear of a trap outweigh the opportunity in front of this fleet",
@@ -2002,7 +2354,7 @@
           title: "Iwo Jima: The Doctrine That Abandoned the Beach",
           historicalRecord: true,
           situation:
-            "American Marines are landing on eight square miles of volcanic ash whose value is its airfields, close enough to escort B-29s to Tokyo and back. Lieutenant General Kuribayashi has abandoned the beach-defense doctrine that failed on earlier islands: no counterattack at the water's edge, no banzai charge to waste the garrison in an afternoon. Instead, over eleven miles of tunnels cut into volcanic rock, he means to bleed the invasion for as long as possible. Imperial Headquarters has one real decision left: whether the garrison already there is the last reinforcement the island gets, or whether more can still be found.",
+            "American Marines are landing on eight square miles of volcanic ash whose value is its airfields, close enough to escort B-29s to Tokyo and back. Lieutenant General Kuribayashi has abandoned the beach-defense doctrine that failed on earlier islands: no counterattack at the water's edge, no banzai charge to waste the garrison in an afternoon. Instead, over eleven miles of tunnels cut into volcanic rock, he means to bleed the invasion for as long as possible. Imperial Headquarters has one real decision left: whether the garrison already there is the last reinforcement the island gets, or whether more can still be found." + (flags.leyteResult === "stopped" ? keyBattleEcho("shoGo44", flags) : ""),
           choices: [
             {
               label: "Reinforce and hold as long as the garrison physically can: no evacuation, no withdrawal",
@@ -2013,6 +2365,25 @@
               disabledReason: meters.pipeline <= -3 ? "There's no shipping left to run reinforcements to an island already effectively cut off by American naval and air superiority. Nothing more can physically reach the garrison." : undefined,
               gateCheck: { meter: "pipeline", threshold: -3, label: "Pipeline" },
               next: "okinawa45",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.iwoJimaJapan45,
+              uncertain: [
+                  {
+                    weight: modWeight(60, meters.readiness),
+                    title: "The tunnels hold for the full battle",
+                    setFlags: {},
+                    impact: { readiness: 1, pipeline: 0, initiative: 0 },
+                    outcome:
+                      "Of about 21,000 defenders, around 200 are taken prisoner; the rest are killed over five weeks of fighting in tunnels and rock that neither naval bombardment nor flamethrowers fully cleared. The battle costs the Marines their heaviest losses of the war, nearly 7,000 American dead, and produces the best-known photograph of the Pacific War, the flag raising on Suribachi on the fifth day of a battle that has thirty more to run.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(60, meters.readiness); return Math.max(5, 100 - w); })(),
+                    title: "The tunnels are cleared early",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: 0, initiative: -1 },
+                    outcome:
+                      "Speculative. The guns are silenced in the first days, the stores are cut off and the tunnels are sealed one after another, and the garrison is overrun in half the time. The Marines take the island at a lower cost than the real battle, and the Japanese Army has nothing to show for the garrison it spent.",
+                  },
+              ],
               outcome:
                 "Of about 21,000 defenders, around 200 are taken prisoner; the rest are killed over five weeks of fighting in tunnels and rock that neither naval bombardment nor flamethrowers fully cleared. The battle costs the Marines their heaviest losses of the war, nearly 7,000 American dead, and produces the best-known photograph of the Pacific War, the flag raising on Suribachi on the fifth day of a battle that has thirty more to run.",
             },
@@ -2040,7 +2411,7 @@
               : "") +
             (flags.iwoJimaPath === "conserve"
               ? " Whatever was held back rather than sent to Kuribayashi's tunnels is part of what's being weighed here now. It wasn't enough to save the island. Whether it's enough to matter here is a different question."
-              : ""),
+              : "") + (flags.iwoJimaPath === "hold" ? keyBattleEcho("iwoJimaJapan45", flags) : ""),
           choices: [
             {
               label: "Commit everything: Yamato's sortie, the full Kikusui kamikaze campaign, against the invasion fleet",
@@ -2051,6 +2422,25 @@
               disabledReason: meters.pipeline <= -6 ? "There isn't fuel left for a one-way Yamato sortie, let alone the sustained kamikaze sortie rate Kikusui requires. Whatever's left can defend or it can sail. It can't do both at this pipeline level." : undefined,
               gateCheck: { meter: "pipeline", threshold: -6, label: "Pipeline" },
               next: "theSubmarineCarriersQuestion45",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.okinawaJapan45,
+              uncertain: [
+                  {
+                    weight: modWeight(55, meters.pipeline),
+                    title: "The sacrifice takes its toll",
+                    setFlags: {},
+                    impact: { readiness: 0, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "On April 7 American carrier aircraft sink Yamato before she reaches Okinawa, and about 3,000 of her crew die. The ten Kikusui mass attacks over the following three months sink or damage more American ships than any other campaign of the Pacific War, and the Navy's remaining kamikaze pilots are almost all used up. Okinawa is the costliest battle of the war for the U.S. Navy, and it does not change its outcome.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(55, meters.pipeline); return Math.max(5, 100 - w); })(),
+                    title: "The sacrifice is spent for little",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                    outcome:
+                      "Speculative. The squadron is found early and sunk well short of the island, and the picket destroyers and the carriers' strikes on Kyushu together shoot down most of the Kikusui aircraft before they reach the transports. The Navy's last offensive costs the American fleet a handful of ships, and costs the Japanese Navy what was left of its air arm.",
+                  },
+              ],
               outcome:
                 "On April 7 American carrier aircraft sink Yamato before she reaches Okinawa, and about 3,000 of her crew die. The ten Kikusui mass attacks over the following three months sink or damage more American ships than any other campaign of the Pacific War, and the Navy's remaining kamikaze pilots are almost all used up. Okinawa is the costliest battle of the war for the U.S. Navy, and it does not change its outcome.",
             },
@@ -2072,7 +2462,7 @@
           title: "The World's Largest Submarines, Still Waiting for Orders",
           historicalRecord: true,
           situation:
-            "I-400 and I-401, the largest submarines built by any navy in the war, carry three Aichi M6A1 Seiran floatplanes each, folding-wing bombers launched by catapult from a hangar in the hull, each with an 1,800-pound bomb. Yamamoto backed the class in 1942 for a target no other Japanese weapon could reach: the lock gates of the Panama Canal, struck from the Caribbean side, cutting the shortest route between the American fleet's two oceans. The order has since shrunk from eighteen hulls to five, and with the American fleet closing on the home islands themselves there is less reason to send the boats all the way to Panama.",
+            "I-400 and I-401, the largest submarines built by any navy in the war, carry three Aichi M6A1 Seiran floatplanes each, folding-wing bombers launched by catapult from a hangar in the hull, each with an 1,800-pound bomb. Yamamoto backed the class in 1942 for a target no other Japanese weapon could reach: the lock gates of the Panama Canal, struck from the Caribbean side, cutting the shortest route between the American fleet's two oceans. The order has since shrunk from eighteen hulls to five, and with the American fleet closing on the home islands themselves there is less reason to send the boats all the way to Panama." + (flags.okinawaPath === "commitAll" ? keyBattleEcho("okinawaJapan45", flags) : ""),
           choices: [
             {
               label: "Launch the original mission: the Panama Canal, struck from the Caribbean side, severing the fleet's shortest route between two oceans",
@@ -2121,7 +2511,7 @@
               : "") +
             (flags.australiaLandingPath === "press"
               ? " Three years on, nobody drafting this militia plan has forgotten what a beachhead nobody could supply cost this fleet in tonnage it never got back."
-              : ""),
+              : "") + (flags.submarineCarriersPath === "panama" ? " I-400 and I-401 sailed in June for the Panama Canal, and the home islands are without them." : flags.submarineCarriersPath === "ulithi" ? " I-400 and I-401 were ordered against the American anchorage at Ulithi." : ""),
           choices: [
             {
               label: "Commit to Ketsu-Go: mobilize civilian militia, prepare the home islands for invasion",
@@ -2331,7 +2721,6 @@
             {
               label: "IGHQ orders no change: the deadlock in the war ministry is a civilian government question, not a military one, and the military keeps executing Ketsu-Go's existing plan without waiting on Tokyo to decide anything",
               advisor: { name: "Umezu", position: "The council's paralysis is its own failure to resolve and not the chief of staff's to solve by exceeding his authority, so the staff goes on preparing the defense it was already preparing." },
-              setFlags: { finalDeadlockPath: "militaryProceeds" },
               impact: { readiness: -1, pipeline: -1, initiative: 0 },
               next: "END",
               outcome:
@@ -2340,7 +2729,6 @@
             {
               label: "Send the deadlock itself to the Emperor as a formal question, without asking him to break it: state plainly that the council could not decide, and let him choose what, if anything, that information changes",
               advisor: { name: "Kido", position: "There is a difference between asking the Emperor to cast the deciding vote and telling him the vote could not be cast, and the second is the only honest option the council has left." },
-              setFlags: { finalDeadlockPath: "informedAnyway" },
               impact: { readiness: 0, pipeline: 0, initiative: -1 },
               next: "END",
               outcome:

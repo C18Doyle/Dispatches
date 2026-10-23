@@ -399,6 +399,58 @@ function DivergenceRevealScreen({ campaign, headline, onContinue }) {
   );
 }
 
+// A state-driven special event (STATE_EVENTS, logic.ts dueStateEvent): news from outside the war room that the state of the file has earned.
+// It asks for no decision and changes no meter.
+function StateEventScreen({ campaign, event, onContinue }) {
+  const screenRef = useRef(null);
+  useEffect(() => {
+    if (screenRef.current) screenRef.current.focus();
+  }, []);
+  if (!event) return null;
+  return (
+    <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
+      <div
+        ref={screenRef}
+        tabIndex={-1}
+        role="main"
+        aria-label={`Special event: ${event.title}`}
+        className={`${paper} w-full max-w-lg p-7 focus:outline-none`}
+        style={campaignPaperStyle(campaign.id, campaign.accent)}
+      >
+        <div className="flex items-baseline justify-between pb-2 mb-4" style={{ borderBottom: `2px solid ${campaign.accent}` }}>
+          <div className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}>
+            {campaign.id === "japan" ? "IGHQ: Staff Notes" : "CINCPAC: Staff Notes"}
+          </div>
+          <div className="text-[10px] text-[#555] shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {event.date}
+          </div>
+        </div>
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1 text-[#555]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          Special event · {event.kind}
+        </p>
+        <h1 className="text-[24px] leading-tight mb-3 text-[#000000]" style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600 }}>
+          {event.title}
+        </h1>
+        {event.paras.map((p, i) => (
+          <p key={i} className="text-[13.5px] leading-relaxed mb-3 text-[#000000] opacity-90" style={{ fontFamily: "'Courier Prime', monospace" }}>
+            {p}
+          </p>
+        ))}
+        <div className="text-[9px] pt-2 mb-5 text-[#666]" style={{ borderTop: "1px dashed #999", fontFamily: "'IBM Plex Mono', monospace" }}>
+          BACKGROUND: NO DECISION IS ASKED OF THE COMMAND
+        </div>
+        <button
+          onClick={onContinue}
+          className="w-full border-2 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#ffffff] transition-colors duration-150"
+          style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onSetFontScale, reducedMotion, onToggleReducedMotion, sfxVolume, onSetSfxVolume, musicVolume, onSetMusicVolume }) {
   const [record, setRecord] = useState(null);
   const [advisorSearch, setAdvisorSearch] = useState("");
@@ -2191,6 +2243,12 @@ const NODE_REGION_HINTS = {
   australiaLanding42: ["australia"],
   wakeIslandRelief41: ["marshalls"],
   burmaRangoon42: ["burma"],
+  burmaRoad40: ["burma", "freeChina"],
+  neutralityPact41: ["manchuria", "sovietFarEast"],
+  indianOceanRaid42: ["india"], // Ceylon has no region of its own; India is the nearest on the map
+  chinaAirForce41: ["freeChina"],
+  stilwellInChungking42: ["freeChina", "burma"],
+  vladivostokRoute42: ["sovietFarEast"],
   rangoonRetreatAllied42: ["burma"],
   burmaReconquest45: ["burma"],
   theMainlandCrisis44: ["hunanGuangxi", "burma", "india"], // Ichi-Go and U-Go (this hint was keyed to a node id that does not exist)

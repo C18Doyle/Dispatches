@@ -235,7 +235,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
             {headline.dek}
           </p>
           <div
-            className="text-[9px] pt-2 text-[#888]"
+            className="text-[9px] pt-2 text-[#6b6b6b]"
             style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}
           >
             WIRE: RELAYED VIA {campaign.name.toUpperCase()}, ROUTINE PRIORITY
@@ -245,7 +245,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
         <button
           onClick={onContinue}
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
-          style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: "transparent" }}
+          style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
         >
           Continue
         </button>
@@ -263,7 +263,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
 // must not spoil a fork the player hasn't discovered yet).
 const CAMPAIGN_MAP_YEARS = {
   german: [1940, 1941, 1942, 1943, 1944, 1945],
-  soviet: [1941, 1942, 1943, 1944, 1945],
+  soviet: [1940, 1941, 1942, 1943, 1944, 1945],
   allied: [1940, 1941, 1942, 1943, 1944, 1945],
   italy: [1940, 1941, 1942, 1943, 1944, 1945],
 };
@@ -359,32 +359,7 @@ const VICHY_LINE = [
   [5.3, 46.9], [5.75, 46.5], [6.05, 46.2],
 ];
 
-// Round 13 (Craig: "hidden territories lines... to allow the campaign to look like it is
-// progressing"): two more high-water-mark lines, same idea as the Vichy line above — a
-// simplified real front position, not a player-choice-driven boundary, shown only for the
-// single year it's actually true of so the map visibly changes as a run advances rather than
-// sitting static through the whole USSR occupation window the way a single "contested" tint
-// does. Both lines mark the deepest point of the respective German offensive before the
-// following winter/summer counteroffensive pushed back past it.
-//
-// BARBAROSSA_LINE: the farthest advance in the Moscow-centered autumn 1941 offensive — from
-// the Tikhvin salient near Leningrad, past the closest approach to Moscow itself (Soviet
-// counterattack retook Yakhroma/Krasnaya Polyana within days of the line's absolute peak, so
-// this is the honest high point, not a line that was ever stable), through Tula's southern
-// flank, to Rostov-on-Don — taken in late November 1941 and lost again to a Soviet counterattack
-// within a week, the shortest-held of any city on this line. Shown only for statusYear 1941.
-const BARBAROSSA_LINE = [
-  [33.51, 59.65], [35.9, 57.9], [37.35, 56.4], [37.0, 55.95], [37.55, 54.85],
-  [38.9, 53.9], [39.72, 47.23],
-];
-
-// CASE_BLUE_LINE: the farthest advance of the summer 1942 southern offensive (Fall Blau) —
-// from Voronezh, down the Volga to Stalingrad, and into the North Caucasus foothills toward
-// Mozdok, the deepest point German forces reached in that theater and never crossed. Shown
-// only for statusYear 1942.
-const CASE_BLUE_LINE = [
-  [39.2, 51.67], [42.5, 50.0], [44.5, 48.71], [44.63, 43.75],
-];
+// The Barbarossa and Case Blue lines that stood here (the farthest advance of each German offensive) are now two of the dated fronts of FRONT_SERIES in 37-map-front.jsx.
 
 // Small strategic points too minor to be their own MAP_REGION (none is a full country)
 // but too load-bearing on the map's own narrative content — the Gibraltar chokepoint,
@@ -559,7 +534,49 @@ function currentRegionStatuses(statusYear, flags, meters, dayKey) {
   const { o } = mapOverrides(statusYear, flags, meters, dayKey);
   return { ...base, ...o };
 }
-function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses: givenStatuses, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions }) {
+/** Orders drawn on the map: a solid arrow for an attack, a dashed one for a move, a fading dashed one for a withdrawal, a ring for a stand. tone is "focus" (the order picked) or "past" (an order already given). */
+function MapOpArrows({ arrows, bbox }) {
+  if (!arrows || !arrows.length) return null;
+  const pt = (p) => projectLonLat(p[0], p[1], bbox);
+  return (
+    <g style={{ pointerEvents: "none" }} aria-hidden="true">
+      <defs>
+        <marker id="op-head-focus" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#a3201a" />
+        </marker>
+        <marker id="op-head-past" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#4a4a4a" />
+        </marker>
+      </defs>
+      {arrows.map((a, i) => {
+        const focus = a.tone === "focus";
+        const colour = focus ? "#a3201a" : "#4a4a4a";
+        const opacity = focus ? 1 : 0.5;
+        if (a.kind === "hold") {
+          const [x, y] = pt(a.at);
+          return (
+            <g key={i} opacity={opacity}>
+              <circle cx={x} cy={y} r={10} fill="none" stroke="#ffffff" strokeWidth={focus ? 6 : 4} />
+              <circle cx={x} cy={y} r={10} fill="none" stroke={colour} strokeWidth={focus ? 3 : 2} />
+            </g>
+          );
+        }
+        const [x1, y1] = pt(a.from);
+        const [x2, y2] = pt(a.to);
+        const dash = a.kind === "move" ? "8,5" : a.kind === "withdraw" ? "3,5" : undefined;
+        const fade = a.kind === "withdraw" ? 0.7 : 1;
+        return (
+          <g key={i} opacity={opacity * fade}>
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#ffffff" strokeWidth={focus ? 6 : 4} strokeLinecap="round" />
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={colour} strokeWidth={focus ? 3 : 2} strokeLinecap="round" strokeDasharray={dash} markerEnd={`url(#op-head-${focus ? "focus" : "past"})`} />
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses: givenStatuses, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions, opArrows, fronts, marks }) {
   const [geometry, setGeometry] = useState(null);
   useEffect(() => {
     let cancelled = false;
@@ -681,6 +698,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           style={{ pointerEvents: "none" }}
         />
       ))}
+      <MapFrontLines fronts={fronts} bbox={bbox} />
       {/* Diverged-region emphasis + click/keyboard handling, unmasked. The grid above
           already draws every region's ordinary border, so this pass only has work to do
           for a region that has actually diverged from the historical record: its own
@@ -770,39 +788,6 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           </text>
         );
       })}
-      {statuses.france === "axisAllied" && (
-        <polyline
-          points={VICHY_LINE.map(([lon, lat]) => projectLonLat(lon, lat, bbox).map((n) => n.toFixed(1)).join(",")).join(" ")}
-          fill="none"
-          stroke="#3a2f1d"
-          strokeWidth={1.6}
-          strokeDasharray="5,4"
-          strokeOpacity={0.8}
-          style={{ pointerEvents: "none" }}
-        />
-      )}
-      {statusYear === 1941 && (
-        <polyline
-          points={BARBAROSSA_LINE.map(([lon, lat]) => projectLonLat(lon, lat, bbox).map((n) => n.toFixed(1)).join(",")).join(" ")}
-          fill="none"
-          stroke="#3a2f1d"
-          strokeWidth={1.6}
-          strokeDasharray="5,4"
-          strokeOpacity={0.8}
-          style={{ pointerEvents: "none" }}
-        />
-      )}
-      {statusYear === 1942 && (
-        <polyline
-          points={CASE_BLUE_LINE.map(([lon, lat]) => projectLonLat(lon, lat, bbox).map((n) => n.toFixed(1)).join(",")).join(" ")}
-          fill="none"
-          stroke="#3a2f1d"
-          strokeWidth={1.6}
-          strokeDasharray="5,4"
-          strokeOpacity={0.8}
-          style={{ pointerEvents: "none" }}
-        />
-      )}
       {MAP_CITIES.filter(
         (c) => c.lon >= bbox.llcrnrlon && c.lon <= bbox.urcrnrlon && c.lat >= bbox.llcrnrlat && c.lat <= bbox.urcrnrlat
       ).map((c) => {
@@ -847,11 +832,13 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           </g>
         );
       })}
+      {marks && <MapFrontMarks bbox={bbox} here={marks.here} trail={marks.trail} pins={marks.pins} ground={marks.ground} accent={accent} seal={marks.seal} />}
+      <MapOpArrows arrows={opArrows} bbox={bbox} />
     </svg>
   );
 }
 
-function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadlines, onClose, nodeId, lastSeenMapStatuses, onStatusesChange, history, embedded = false, review = null, endDate = null }) {
+function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadlines, onClose, nodeId, lastSeenMapStatuses, onStatusesChange, history, embedded = false, review = null, endDate = null, orders = null }) {
   const highlightRegions = (NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId];
   const years = CAMPAIGN_MAP_YEARS[campaign.id] || [year];
   const forks = DIVERGENCE_FORKS[campaign.id] || [];
@@ -882,7 +869,11 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
     // never goes back in time: each stop takes the latest date, and the latest year, seen so far.
     let latestKey = 0;
     let latestYear = 0;
+    // the places the run has stood at (37-map-front.jsx), for the dotted trail
+    const stops = [];
     const raw = historySrc.map((snap, i) => {
+      const place = (MAP_PLACES[campaign.id] || {})[snap.position] || null;
+      if (place && stops[stops.length - 1] !== place) stops.push(place);
       const isLast = i === historySrc.length - 1;
       const s = resolveStage(campaign, snap.position, snap.flags || flags, snap.meters || meters);
       latestYear = Math.max(latestYear, yearFrom(s.date, 1940));
@@ -900,6 +891,8 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         meters: snapMeters,
         dayKey: latestKey || null,
         statuses: currentRegionStatuses(statusYear, snapFlags, snapMeters, latestKey || null),
+        here: place,
+        trail: stops.slice(-4),
         isLast,
       };
     });
@@ -972,6 +965,36 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   useEffect(() => {
     setSelectedRegion(null);
   }, [viewIndex]);
+  // The orders on the map (MAP_OPS in 36-map-ops.jsx): the report's own orders can be picked from a list and drawn, and the last few orders given stay on the map, faint.
+  const opsHere = (MAP_OPS[campaign.id] || {})[nodeId] || null;
+  const opsList = !embedded && opsHere && orders
+    ? orders.map((c, index) => ({ index, label: c.label, op: opsHere.find((o) => c.label.startsWith(o.match)) || null })).filter((x) => x.op)
+    : [];
+  const [focusOp, setFocusOp] = useState(null);
+  const focused = opsList.find((x) => x.index === focusOp) || null;
+  const pastArrows = [];
+  if (!embedded && current.isLast && history && history.length > 1) {
+    const given = history[history.length - 1].log || [];
+    for (let k = Math.max(0, history.length - 4); k < history.length - 1; k++) {
+      const op = given[k] && ((MAP_OPS[campaign.id] || {})[history[k].position] || []).find((o) => given[k].label.startsWith(o.match));
+      if (op) for (const a of op.arrows) pastArrows.push({ ...a, tone: "past" });
+    }
+  }
+  const opArrows = current.isLast ? [...pastArrows, ...(focused ? focused.op.arrows.map((a) => ({ ...a, tone: "focus" })) : [])] : [];
+  const opName = (label) => {
+    const head = label.split(":")[0];
+    return head.length <= 64 ? head : head.split(" ").slice(0, 8).join(" ") + "…";
+  };
+  // The front on the day, the report's place and the places before it, the other commands, and the ground taken or given up against the record (37-map-front.jsx).
+  const fronts = frontsOn(current.dayKey, statuses);
+  const groundNow = groundMarks(campaign.id, current.flags);
+  const meanwhile = embedded ? [] : meanwhileOn(campaign.id, current.dayKey);
+  const hereAt = embedded ? null : current.here || null;
+  const mapBox = CAMPAIGN_MAP_BBOX[campaign.id];
+  const [zoomed, setZoomed] = useState(false);
+  const frame = hereAt && mapBox ? mapFrame([hereAt, ...(current.trail || []).slice(-3), ...opArrows.flatMap((a) => (a.kind === "hold" ? [a.at] : [a.from, a.to]))], mapBox) : null;
+  const zoomStyle = zoomed && frame ? { transformOrigin: "0 0", transform: `scale(${frame.k}) translate(${(-frame.x / MAP_OVERLAY_W) * 100}%, ${(-frame.y / MAP_OVERLAY_H) * 100}%)` } : undefined;
+  const marks = { here: hereAt, trail: embedded ? [] : current.trail || [], pins: meanwhile, ground: groundNow, seal: campaign.seal };
   const headingRef = useRef(null);
   useEffect(() => {
     if (!embedded && headingRef.current) headingRef.current.focus();
@@ -1055,6 +1078,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
           </p>
         )}
         <div className="relative w-full border-2 border-black overflow-hidden" style={{ aspectRatio: "4 / 3" }}>
+          <div className="absolute inset-0" style={zoomStyle}>
           <img
             src={src}
             alt={`${campaign.name}: ${clampedYear}`}
@@ -1075,6 +1099,9 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             highlightRegions={highlightRegions}
             accent={campaign.accent}
             changedRegions={changedRegions}
+            opArrows={opArrows}
+            fronts={fronts}
+            marks={marks}
           />
           {revealedForks.map((fk, i) => (
             <div
@@ -1093,7 +1120,77 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               }}
             />
           ))}
+          </div>
         </div>
+        {frame && (
+          <button
+            aria-pressed={zoomed}
+            onClick={() => setZoomed(!zoomed)}
+            className="mt-2 text-[10px] uppercase tracking-widest font-bold border-2 border-black px-2 py-1 transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace", backgroundColor: zoomed ? "#16130f" : "transparent", color: zoomed ? "#ffffff" : "#000000" }}
+          >
+            {zoomed ? "Show the whole theatre" : "Zoom to this report"}
+          </button>
+        )}
+        {meanwhile.length > 0 && (
+          <div className="mt-3">
+            <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
+              Meanwhile, in the record
+            </div>
+            <ul className="list-none p-0 m-0">
+              {meanwhile.map((m) => (
+                <li key={m.campaignId} className="text-[12px] leading-snug mb-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  <span className="text-[10px] uppercase tracking-wider font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace", color: (CAMPAIGNS[m.campaignId] || {}).accent }}>{m.short}</span>
+                  {" · "}
+                  {mapIsoLabel(m.on)}: {m.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {groundNow.length > 0 && (
+          <div className="mt-3">
+            <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
+              Ground against the record
+            </div>
+            <ul className="list-none p-0 m-0">
+              {groundNow.map((g) => (
+                <li key={g.id} className="text-[12px] leading-snug mb-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  <span aria-hidden="true">{g.kind === "gained" ? "⊕ " : "⊗ "}</span>
+                  <span className="font-bold">{g.name}</span>
+                  {g.kind === "gained" ? ", held or taken beyond the record: " : ", given up or not taken against the record: "}
+                  {g.text} (projection)
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {opsList.length > 0 && current.isLast && (
+          <div className="mt-3">
+            <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1.5" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
+              Orders on the map
+            </div>
+            <div className="flex flex-col gap-1.5">
+              {opsList.map((o) => (
+                <button
+                  key={o.index}
+                  aria-pressed={focusOp === o.index}
+                  onClick={() => setFocusOp(focusOp === o.index ? null : o.index)}
+                  className="text-left text-[11px] leading-snug border-2 border-black px-2 py-1.5 transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", backgroundColor: focusOp === o.index ? "#16130f" : "transparent", color: focusOp === o.index ? "#ffffff" : "#000000" }}
+                >
+                  {opName(o.label)}
+                </button>
+              ))}
+            </div>
+            <p className="mt-2 text-[12px] leading-snug min-h-[2.5em]" aria-live="polite" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              {focused ? focused.op.note : "Pick an order to see where it goes."}
+            </p>
+            <p className="mt-1 text-[10px] leading-snug opacity-80" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.
+            </p>
+          </div>
+        )}
         <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
           {usedStatuses.map((s) => (
             <span
@@ -1148,9 +1245,12 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             ? `${revealedForks.length} confirmed divergence${revealedForks.length > 1 ? "s" : ""} from the historical record marked above.`
             : "No confirmed divergences from the historical record yet."}
           {" "}Ownership shown through end of {statusYear}.
-          {statuses.france === "axisAllied" && " Dashed line marks the Vichy/occupied-zone demarcation."}
-          {statusYear === 1941 && " Dashed line marks Barbarossa's farthest advance, autumn 1941."}
-          {statusYear === 1942 && " Dashed line marks Case Blue's farthest advance, autumn 1942."}
+          {fronts.some((f) => f.kind === "zone") && " The dotted line marks the demarcation between the occupied zone and Vichy."}
+          {fronts.some((f) => f.kind !== "zone" && !f.projection) && " The dark line is the front, drawn from the course of the fighting and approximate."}
+          {fronts.some((f) => f.projection) && " A dashed red line is where the record put the front: this run has departed from it."}
+          {hereAt && " The ringed square is where this report is set."}
+          {meanwhile.length > 0 && " A diamond marks what another command was doing."}
+          {groundNow.length > 0 && " A ring and a plus mark ground held or taken beyond the record; a square and a cross, ground given up or not taken."}
         </p>
       </div>
   );
@@ -1286,6 +1386,12 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             })}
           </div>
         </div>
+        <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+          <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Your staff
+          </span>
+          Advisers argue for some orders. Follow one and that adviser trusts you more; pass one over and the trust falls a little. An adviser who is overruled too often goes quiet, and then asks to be relieved. A trusted adviser brings a reconnaissance pass at no cost. On the theater map you can pick an order and see where it would send the army.
+        </p>
         {hasForks && (
           <StampToggle
             accent={campaign.accent}

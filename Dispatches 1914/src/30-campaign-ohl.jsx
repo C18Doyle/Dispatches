@@ -226,8 +226,7 @@ CAMPAIGNS.ohl.nodes = {
           "Corps go south. There is fighting in Lorraine that the plan did not ask for, " +
           "and a French attack is met and beaten there, which is reported at home as a " +
           "victory. The right wing goes forward lighter than the plan assumed, by " +
-          "exactly the corps that went south. Nobody in this building can say yet what " +
-          "that will cost, and nobody will be able to say until September.",
+          "exactly the corps that went south. Nobody in this building can yet say what that will cost.",
       },
       {
         id: "east",
@@ -271,7 +270,7 @@ CAMPAIGNS.ohl.nodes = {
         label: "Tell the Kaiser that the deployment cannot be reversed, and let the western mobilisation go on",
         historical: true,
         advisor: { name: "Moltke", position:
-          "A deployment is one plan and not a menu. An army sent the wrong way on the railways is not recovered by a better order afterwards." },
+          "A deployment is one plan and not a menu. A better order cannot recover an army that has been sent the wrong way on the railways." },
         impact: { manpower: 0, munitions: 0, will: -1 },
         setFlags: { ohl_timetable: "asked" },
         next: "ohl_1914_12_twocorps",
@@ -401,10 +400,7 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. Both corps stay where the plan put them. The new command in " +
           "East Prussia fights with the army it has, and the right wing goes forward at " +
-          "a strength the plan could count on. Whether the eastern army could have held " +
-          "without them is not something the record can settle. What is certain is that " +
-          "the province goes on being overrun while the matter is argued, and that " +
-          "the Chief has to answer for it.",
+          "a strength the plan could count on. The province goes on being overrun while the matter is argued, every report from East Prussia asks for more men than the army there has, and the Chief has to answer for it.",
       },
     ],
   },
@@ -523,8 +519,7 @@ CAMPAIGNS.ohl.nodes = {
         ? "The manner of the withdrawal has made the change easier to justify and " +
           "harder to survive politically."
         : "The armies are intact on the Aisne. The change is made anyway.") +
-      "\n\nWhat arrives with the new Chief is not a new plan. It is the recognition " +
-      "that the old one has been spent, and that the war now has to be won by some " +
+      "\n\nThe new Chief brings no new plan. He brings the recognition that the old one has been spent, and that the war now has to be won by some " +
       "method nobody in this building has yet described.",
     context:
       "Tappen stays at the head of the Operations Division across the transition. " +
@@ -577,7 +572,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The armies are ordered to entrench where they stand, and the new Chief names no " +
           "theatre for the weight of the war. The line on the Aisne is made strong and the exhausted " +
           "corps are given a few days. The army commanders, left without a plan, try to turn each " +
-          "other's flanks to the north, as they did in the record, and the east, which asked for an " +
+          "other's flanks to the north, as they did in fact, and the east, which asked for an " +
           "answer, is told to wait. The decision is put off, and the war chooses a theatre in the meantime.",
       },
     ],
@@ -1067,7 +1062,7 @@ CAMPAIGNS.ohl.nodes = {
         setFlags: { ohl_programme: "full" },
         next: "ohl_1917_06_pless",
         outcome:
-          "The programme is issued on 31 August, and the Auxiliary Service " +
+          "The programme is issued at the end of August, and the Auxiliary Service " +
           "Law passes the Reichstag in December, though with amendments that the " +
           "Supreme Command did not want. Output rises, but nowhere near the targets. " +
           "The winter of 1916 and 1917 brings a failed potato harvest, a coal famine " +
@@ -1095,7 +1090,7 @@ CAMPAIGNS.ohl.nodes = {
   // ---------------------------------------------------------------- 1917-01
   ohl_1917_06_pless: {
     year: 1917, date: "1917-01-09", city: "Pless",
-    title: "Six Months, by Arithmetic",
+    title: "Five Months, by Arithmetic",
     advisors: ["holtzendorff", "bethmann", "ludendorff", "hindenburg"],
     bulletin: {
       voice: "ohl", date: "1917-01-05", source: "Official communiqué",
@@ -1107,12 +1102,11 @@ CAMPAIGNS.ohl.nodes = {
     situation:
       "Holtzendorff's memorandum of 22 December sets out the case in figures: " +
       "unrestricted submarine warfare, six hundred thousand tons a month, and Britain " +
-      "is out inside six months — before American strength could be raised, shipped " +
+      "is out inside five months — before American strength could be raised, shipped " +
       "and brought to bear. The paper has the appearance of arithmetic and the " +
       "backing of every senior soldier in the Empire.\n\n" +
-      "The Chancellor's objection is not about tonnage. It is that this brings the " +
-      "United States in, that the figures assume everything runs as projected, and " +
-      "that if the six months pass without Britain breaking, there is no second plan " +
+      "The Chancellor's objection is the United States: this brings them in, the figures assume everything runs as projected, and " +
+      "that if the five months pass without Britain breaking, there is no second plan " +
       "and a new enemy with no upper limit on its manpower.",
     context:
       "Bethmann Hollweg has maintained throughout that the decision belongs to the " +
@@ -1140,7 +1134,7 @@ CAMPAIGNS.ohl.nodes = {
         id: "restricted",
         label: "Hold to restricted warfare and keep the Americans out",
         advisor: { name: "Bethmann Hollweg", position:
-          "If the six months pass and Britain is still in, we will have added an enemy and have nothing left to add ourselves." },
+          "If the five months pass and Britain is still in, we will have added an enemy and have nothing left to add ourselves." },
         impact: { manpower: 0, munitions: -1, will: -2 },
         gate: (m) => m.will >= -1,
         disabledReason: "The Supreme Command no longer has the standing to overrule the naval staff",
@@ -1151,9 +1145,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The U-boats stay under prize rules, American neutrality is not " +
           "forced, and the war in the west continues on the ground with no instrument " +
           "for changing it. The Supreme Command has declined the only decisive-looking " +
-          "option it had and now has to find another. The Chancellor has won the " +
-          "argument, and the soldiers who lost it will remember who won it when the " +
-          "next one comes round.",
+          "option it had and now has to find another. The Chancellor has won the argument, and the soldiers who lost it know who won it.",
       },
       {
         id: "sharpened",
@@ -1166,7 +1158,7 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. The Navy is given a larger zone and leave to sink armed ships without " +
           "warning. Neutral ships and passenger liners stay under the old rules. The tonnage " +
-          "sunk rises, but not to the figure in the memorandum, and Holtzendorff's six months " +
+          "sunk rises, but not to the figure in the memorandum, and Holtzendorff's five months " +
           "run out with Britain's convoys still untried. The Americans do not declare war " +
           "in February. The soldiers hold that the compromise has put the lives of U-boat " +
           "crews into a half measure.",
@@ -1226,7 +1218,7 @@ CAMPAIGNS.ohl.nodes = {
         id: "spare",
         label: "Withdraw to the new line, leaving the ground as it is",
         advisor: { name: "Crown Prince Rupprecht", position:
-          "The ground can be given up without being destroyed. The destruction harms Germany's name abroad more than it harms the enemy." },
+          "The ground can be given up without being destroyed. The destruction harms the Empire's prestige and the discipline of the troops more than it harms the enemy." },
         impact: { manpower: 2, munitions: 0, will: 0 },
         setFlags: { ohl_alberich: "spared" },
         next: "ohl_1917_07_chancellor",
@@ -1368,7 +1360,7 @@ CAMPAIGNS.ohl.nodes = {
           "deal of its own attention.",
       },
       {
-        id: "refuse",
+        id: "refuse", ally: "Vienna",
         label: "Send guns and staff officers but no divisions",
         impact: { manpower: 1, munitions: -1, will: 0 },
         setFlags: { ohl_caporetto: "refused", xc_caporetto: "refused" },
@@ -1377,9 +1369,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. Vienna gets the artillery it asked for and not the divisions. " +
           "The Isonzo line holds, or it does not, on the strength of an army that has " +
           "been strained to the limit. Whatever happens there, the divisions stay in " +
-          "Flanders, where the British are still attacking. The Emperor has asked his " +
-          "ally for a great deal and been given a little, and he will remember the " +
-          "proportion when the question of peace comes up.",
+          "Flanders, where the British are still attacking. The Emperor has asked his ally for a great deal and been given a little, and he has noted the proportion.",
       },
     ],
   },
@@ -1440,9 +1430,7 @@ CAMPAIGNS.ohl.nodes = {
           "declared the war ended, and there is no treaty and no further advance. " +
           "Divisions that would have been marching are free to be moved. The Baltic " +
           "provinces and Ukraine stay open and uncertain, and the annexationists at " +
-          "home regard the opportunity as thrown away. Whether the Russian declaration " +
-          "would have held, with a German army at the line, is a question of what the " +
-          "army was prepared to ignore.",
+          "home regard the opportunity as thrown away.",
       },
       {
         id: "narva",
@@ -1669,9 +1657,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The army stops where the plan said it should, with a gain that " +
           "was never in the plan, and the reserves go back to the north. The attack in " +
           "Flanders goes ahead as designed, against a British army that has had time to " +
-          "prepare for it. Paris is not threatened, and the country is told so. Whether " +
-          "the Chief who passed up the Marne could have won a battle in Flanders is a " +
-          "question only the Flanders battle could have answered.",
+          "prepare for it. Paris is not threatened, and the country is told so.",
       },
     ],
   },
@@ -1701,8 +1687,7 @@ CAMPAIGNS.ohl.nodes = {
       "\n\nThe salients are deep, the flanks are long, the divisions that made them " +
       "are the divisions that were supposed to hold them, and American formations are " +
       "now arriving faster than they can be counted.\n\n" +
-      "Giving up ground bought at this price is not a military problem. It is a " +
-      "problem of what can be said afterwards.",
+      "Giving up ground bought at this price raises the problem of what can be said at home.",
     context:
       "A shortened line can be held by fewer men, with the reserve restored. It also " +
       "concedes, in front of the whole country, that the spring bought nothing.",
@@ -1820,13 +1805,11 @@ CAMPAIGNS.ohl.nodes = {
     },
     situation: (flags) =>
       "The army in the west is retreating in order, on ground it still holds, in front " +
-      "of an enemy it can still hurt. What has gone is not the army. It is the " +
-      "possibility of any outcome except a worse one later.\n\n" +
+      "of an enemy it can still hurt. The army is still there. What has gone is the possibility of any outcome except a worse one later.\n\n" +
       (flags.ohl_salient === "shortened"
         ? "The line is short and held, and the reserve exists. It buys months. It does not buy a different answer."
         : "The divisions that took the salients in the spring are the divisions that were spent holding them.") +
-      "\n\nWhat is decided now is not whether an armistice is sought. It is who is " +
-      "recorded as having sought it.",
+      "\n\nWhether an armistice is sought is already settled. What is decided now is who is recorded as having sought it.",
     context: (flags) =>
       flags.ohl_chancellor === "removed"
         ? "There is no civil authority left with standing of its own. It was removed in " +
@@ -1975,8 +1958,7 @@ CAMPAIGNS.ohl.nodes = {
     title: "The Request",
     advisors: ["hindenburg"],
     situation: (flags) =>
-      "The army in the west is not broken in the sense the word is used in staff " +
-      "colleges. It is retreating in order, on ground it still holds, in front of an " +
+      "In the sense the word is used in staff colleges the army in the west is not broken: it is retreating in order, on ground it still holds, in front of an " +
       "enemy it can still hurt. What has gone is the possibility of any outcome except " +
       "a worse one later.\n\n" +
       (flags.ohl_usw === "unrestricted"
@@ -2060,8 +2042,7 @@ CAMPAIGNS.ohl.nodes = {
       "This is the outcome the Supreme Command spent four years arranging not to have: " +
       "a break in the field, in daylight, with nothing behind it. The divisions asked " +
       "to close it are the divisions that were used up making and then holding the " +
-      "spring's ground.\n\nThere is no argument to be had afterwards about whether the " +
-      "army was beaten. Everyone can see where it happened.",
+      "spring's ground.\n\nNobody here argues about whether the army is beaten. Everyone can see where it happened.",
     ending: { family: "army-collapse-first", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The historical German army retreated in order to the end and " +
@@ -2140,16 +2121,15 @@ CAMPAIGNS.ohl.nodes = {
       "What arrives instead is a delegation with a signature and no position.",
     ending: { family: "armistice-on-worse-terms", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. Terms are not made only by armies. They are made by what the " +
-      "asking side still has when it asks.\n\nWhat actually happened: The armistice " +
+      "Speculative. The terms depend on more than the armies: they are made by what the asking side still has when it asks.\n\nWhat actually happened: The armistice " +
       "was signed in the railway carriage at Compiegne at about five in the morning " +
       "of 11 November, by a delegation led by the civilian politician Matthias " +
       "Erzberger and not by a soldier, who had been given seventy-two hours to " +
       "accept. The terms required the evacuation of occupied territory and of the " +
       "left bank of the Rhine, the surrender of guns, aircraft, submarines and much " +
       "of the fleet, and kept the blockade in force until the peace. The delegation " +
-      "had no authority to bargain and little to bargain with, and the one " +
-      "concession it did obtain, a small reduction in the numbers of guns and " +
+      "had no authority to bargain and little to bargain with, and the few " +
+      "concessions it did obtain, among them a reduction in the numbers of guns and " +
       "machine guns to be surrendered, did not change the character of the terms.",
   },
 
@@ -2173,7 +2153,7 @@ CAMPAIGNS.ohl.nodes = {
       "from it, not all that might have. The salients were held through July and " +
       "the army that asked for an armistice in the autumn was a worn army with few " +
       "reserves. The armistice required it to leave France, Belgium and " +
-      "Alsace-Lorraine within fourteen days and to give up its heavy equipment, " +
+      "Alsace-Lorraine within fifteen days and to give up its heavy equipment, " +
       "whatever state it was in. The army's condition was not the thing that made " +
       "the terms, which were made by the Allies' own view of what they needed in " +
       "order not to fight again.",
@@ -2228,7 +2208,7 @@ CAMPAIGNS.ohl.nodes = {
       "at Spa that the army no longer stood behind him. The Kaiser left for the " +
       "Netherlands the next day. The office went on after its occupants had gone, " +
       "as the epilogue says. Ludendorff left for Sweden, in civilian clothes and " +
-      "dark glasses, a few days afterwards, and Hindenburg remained at his post " +
+      "dark glasses, afterwards, and Hindenburg remained at his post " +
       "until the army was home. The Supreme Command that had set out in 1916 to win " +
       "the war by force of will ended it as the object of a quarrel among the " +
       "people it had governed.",

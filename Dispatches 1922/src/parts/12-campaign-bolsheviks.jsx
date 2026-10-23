@@ -536,6 +536,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Reassert Revvoensoviet authority now, even though the moment to do it cleanly at Tsaritsyn has already passed.",
+              costsCapital: true,
               advisor: {
                 name: "Trotsky",
                 quote:
@@ -679,6 +680,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Intensify requisitioning in reconquered territory. The army and the cities eat first.",
+              costsCapital: true,
               advisor: {
                 name: "Trotsky",
                 quote:
@@ -1089,6 +1091,8 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Approve the unified Cavalry Army under Budyonny's command.",
+              keyBattleSubgame: { id: "voronezh" },
+              costsCapital: true,
               advisor: {
                 name: "Budyonny",
                 quote:
@@ -1245,6 +1249,7 @@ CAMPAIGNS.bolsheviks = {
           choices: [
             {
               label: "Commit to the combined plan — the frontal assault on Perekop timed with the night crossing of the Sivash.",
+              keyBattleSubgame: { id: "perekop" },
               advisor: {
                 name: "Frunze",
                 quote:
@@ -1259,7 +1264,29 @@ CAMPAIGNS.bolsheviks = {
               impact: {},
               next: "kronstadt21",
               outcome:
-                "The crossing succeeds. Blücher's division fords the Sivash overnight and turns the Perekop defense from the rear — the maneuver that actually breaks Wrangel's line and starts the retreat that ends, on the other side of this history, at the Crimean docks.",
+                "The order goes out. The shock group goes into the Sivash in the dark. Whether the crossing turns the Wall or is caught in the open is decided by the battle.",
+              uncertain: (() => {
+                const turnsWeight = modWeight(70, meterPct(meters.reliability));
+                return [
+                  {
+                    weight: turnsWeight,
+                    title: "The crossing turns the Wall",
+                    setFlags: { perekopOutcome: "turned" },
+                    impact: {},
+                    outcome:
+                      "The crossing succeeds. Blücher's division fords the Sivash overnight and turns the Perekop defense from the rear — the maneuver that actually breaks Wrangel's line and starts the retreat that ends, on the other side of this history, at the Crimean docks.",
+                  },
+                  {
+                    weight: 100 - turnsWeight,
+                    title: "The crossing is caught in the open",
+                    setFlags: { perekopOutcome: "stalled" },
+                    impact: { mobilization: -2, reliability: -1 },
+                    next: "compressedEvacuation20",
+                    outcome:
+                      "A modeled alternative. Either the water rises before the shock group is across, or the crossing is seen from the Wall. The frontal assault goes on alone and costs far more than the crossing was meant to save, and Perekop is taken days late.",
+                  },
+                ];
+              })(),
             },
             {
               label: "Rely on a massed frontal assault against the Turkish Wall alone. Skip the Sivash crossing's risk.",
@@ -1469,7 +1496,9 @@ CAMPAIGNS.bolsheviks = {
               : flags.polishAxis === "south"
               ? " The Cavalry Army stayed at Lw\u00f3w while Warsaw was lost. Every senior man in this room has spent the winter being asked, in print and in committee, whose decision that was — and arrives at Kronstadt with an appetite for a result nobody can argue about."
               : "") +
-            (flags.perekopPlan === "sivash_crossing"
+            (flags.perekopPlan === "sivash_crossing" && flags.perekopOutcome === "stalled"
+              ? " The Sivash crossing was caught in the open and Perekop was taken late, at a heavy cost. The formations available for an assault across the ice are thinner for it, and this one has to be made anyway."
+              : flags.perekopPlan === "sivash_crossing"
               ? " The Sivash crossing worked. The men who waded the Rotten Sea in November are, in some cases, the same men now being ordered across the ice at Kronstadt against sailors who are not Wrangel."
               : flags.perekopPlan === "frontal_only"
               ? " Perekop was taken frontally, at a cost the Sivash crossing was designed to avoid. The formations available for an assault across the ice are thinner for it, and this one has to be made anyway."

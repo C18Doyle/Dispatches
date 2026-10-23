@@ -25,7 +25,7 @@
               historical: true,
               setFlags: { embargoPath: "total", cohesion: (flags.cohesion || 0) + 1 },
               impact: { readiness: 0, pipeline: 1, initiative: 1 },
-              next: "wakeIslandRelief41",
+              next: "chinaAirForce41",
               outcome:
                 "The freeze becomes, in practice if not in explicit policy, a complete embargo. Japan's oil reserves start their real countdown from this administrative decision as much as from any formal declaration, and the eighteen-month clock the fleet in Tokyo is already running against starts here. Roosevelt reportedly wanted to preserve some flexibility in the freeze; the bureaucracy that implemented it read the order more literally, and by the time anyone senior enough to calibrate it notices, the embargo has already hardened into policy by default.",
             },
@@ -34,7 +34,7 @@
               advisor: { name: "Grew", position: "Japan's mood has shifted for a decade under the ambassador's eye, and a total cutoff does not make Japan back down but makes the faction that already wants war impossible to argue against." },
               setFlags: { embargoPath: "calibrated", cohesion: (flags.cohesion || 0) - 1 },
               impact: { readiness: 1, pipeline: -1, initiative: -1 },
-              next: "wakeIslandRelief41",
+              next: "chinaAirForce41",
               uncertain: [
                 {
                   weight: modWeight(30, meters.initiative),
@@ -62,7 +62,7 @@
               advisor: { name: "Roosevelt", position: "If the government is going to embargo Japan's oil, it should be the President's decision, made in public, and not a filing-cabinet judgment nobody signed." },
               setFlags: { embargoPath: "explicit", cohesion: (flags.cohesion || 0) + 1 },
               impact: { readiness: 0, pipeline: 1, initiative: 2 },
-              next: "wakeIslandRelief41",
+              next: "chinaAirForce41",
               outcome:
                 "The same practical embargo the strict administrative reading produced, but arrived at deliberately rather than discovered after the fact. Historically, the ambiguity itself did real work: it let Roosevelt maintain plausible distance from a decision his own bureaucracy effectively made for him. Removing that ambiguity removes the deniability too, an explicit presidential embargo is a harder policy to walk back quietly if the diplomatic situation changes, and a clearer signal to Tokyo that this was considered policy, not bureaucratic accident.",
             },
@@ -358,6 +358,219 @@
         get warWithoutAmerica45() {
           return dataNode(ALLIED_PACIFIC_DATA, "warWithoutAmerica45", meters);
         },
+        get chinaAirForce41() {
+          return {
+          date: "JULY – NOVEMBER 1941",
+          title: "A Bomber Force for China",
+          historicalRecord: true,
+          situation:
+            "Chiang's government has asked for American aircraft since 1938. A volunteer fighter group under Claire Chennault, recruited from American pilots under a Chinese contract, is training at Toungoo in Burma. Chennault's friends and Chiang's brother-in-law T. V. Soong want more: American bombers and crews flying from Chinese airfields against Japan. The Army Air Forces would rather keep its bombers for the Philippines, and Marshall's staff doubt that the Chinese fields can be held or supplied." + (flags.embargoResult === "insufficient" ? " The calibrated embargo has bought no change in Tokyo's course, and the Chinese government asks what Washington means to do." : ""),
+          choices: [
+            {
+              label: "Keep American help to the fighter group and to supplies: no American bombers in China",
+              advisor: { name: "Marshall", position: "Every heavy bomber the Army has is wanted in the Philippines and over the home coast, and a bomber force with no field it can hold or supply is wasted." },
+              historical: true,
+              setFlags: { chinaAirPath: "fighters" },
+              impact: { readiness: 0, pipeline: 0, initiative: 0 },
+              next: "wakeIslandRelief41",
+              outcome:
+                "The volunteer group goes into action over Kunming in December, days after Pearl Harbor, and flies over Rangoon until the city falls. It is disbanded in July 1942. No American bombers reach China before the war begins.",
+            },
+            {
+              label: "Send a bomber force to China: ship the aircraft and crews to Chinese bases within range of Japan",
+              advisor: { name: "Arnold", position: "A force of bombers in China would make Tokyo defend its cities, and the Chinese fields are the only ones within reach. The risk is that the aircraft arrive after the war has begun." },
+              setFlags: { chinaAirPath: "bombers" },
+              impact: { readiness: -1, pipeline: -2, initiative: 1 },
+              next: "wakeIslandRelief41",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.pipeline),
+                  title: "The bombers reach the Chinese fields before December",
+                  setFlags: { chinaAirResult: "arrived" },
+                  impact: { readiness: 0, pipeline: 0, initiative: 2 },
+                  outcome:
+                    "Speculative. A small force of bombers is on the Chinese fields when the war begins, and raids on Japanese ports in the first weeks matter more in Tokyo than in damage done.",
+                },
+                {
+                  weight: (() => { const w = modWeight(30, meters.pipeline); return Math.max(5, 100 - w); })(),
+                  title: "The bombers are caught on the way",
+                  setFlags: { chinaAirResult: "delayed" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The long route to China is slow, and when the war begins the aircraft are still in Burma and India, short of crews and spares. The first raids are months late.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. A plan for American bombers in China was drawn up in the summer of 1941. The aircraft and crews were not ready, and the war began before it could be carried out.",
+            },
+            {
+              label: "Hold China to a supply role: trucks, rifles and food, and no American aircraft",
+              advisor: { name: "Hull", position: "Aircraft with American markings over Japan would be an act of war, and the State Department would rather not hand Tokyo the argument before the talks have ended." },
+              setFlags: { chinaAirPath: "supplies" },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "wakeIslandRelief41",
+              outcome:
+                "A modeled alternative. Chiang is given less than he asked for and says so. The fighter group is not helped to grow, and the Chinese air force goes into the war with what it has.",
+            },
+          ],
+        };
+        },
+        get stilwellInChungking42() {
+          return {
+          date: "FEBRUARY – MARCH 1942",
+          title: "A General for Chiang",
+          historicalRecord: true,
+          situation:
+            "Rangoon is about to fall. Chiang has offered Chinese armies for Burma and found the British slow to accept. Marshall wants an American general in Chungking with authority over Lend-Lease and over the Chinese forces that will fight in Burma. He has picked Joseph Stilwell, who speaks Chinese, has served in China for years and is known to be blunt." +
+            (flags.chinaAirPath === "fighters"
+              ? " The volunteer fighter group is already flying from Kunming, and Chennault expects to be consulted."
+              : ""),
+          choices: [
+            {
+              label: "Send Stilwell as Chiang's chief of staff, with command of the Chinese armies in Burma and control of Lend-Lease",
+              advisor: { name: "Marshall", position: "American supplies and American officers should come with a voice in how they are used, and Stilwell is the officer who can say so to Chiang." },
+              historical: true,
+              setFlags: { stilwellPath: "chiefOfStaff" },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "rangoonRetreatAllied42",
+              outcome:
+                "Stilwell reaches Chungking in early March. Chiang agrees that Stilwell will command the Chinese 5th and 6th Armies in Burma, and then disputes many of his orders. It is the first of a long series of quarrels between the two men that ends with Stilwell's recall in 1944.",
+            },
+            {
+              label: "Send an advisory mission only: American officers advise, and Chiang commands his own armies",
+              advisor: { name: "Roosevelt", position: "Chiang's pride is a fact of the war, and an American general over Chinese troops spends goodwill the alliance needs more than it needs a command." },
+              setFlags: { stilwellPath: "advisory" },
+              impact: { readiness: 0, pipeline: 0, initiative: -1 },
+              next: "rangoonRetreatAllied42",
+              outcome:
+                "A modeled alternative. Chiang commands his own armies in Burma and controls the supplies sent to him. There is less friction with Chungking, and less leverage over how American aid is used.",
+            },
+            {
+              label: "Send Stilwell, and put Chennault's fighters under his command with the rest of the American forces in China",
+              advisor: { name: "Marshall", position: "One American in Chungking should answer for all American forces there, aircraft included. Two commands will argue over the same trucks and gasoline." },
+              setFlags: { stilwellPath: "chiefOfStaff", chennaultUnderStilwell: true },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "rangoonRetreatAllied42",
+              outcome:
+                "A modeled alternative. Stilwell commands the Chinese armies in Burma, controls Lend-Lease and has Chennault's air force under him. Chennault, who has the Generalissimo's ear, resents it from the first week, and the quarrel over supplies begins in the same room.",
+            },
+          ],
+        };
+        },
+        get carrierRequest42() {
+          return {
+          date: "APRIL 1942",
+          title: "Churchill Asks for a Carrier",
+          historicalRecord: true,
+          situation:
+            "Malta is bombed every day and its fighters are nearly gone. The Royal Navy cannot get Spitfires close enough to fly in. Churchill has asked Roosevelt to lend the carrier Wasp, which is in the Atlantic, for the run. Pearl Harbor's staff wants every carrier in the Pacific, where the fleet has only a handful and is about to meet the Japanese near New Guinea.",
+          choices: [
+            {
+              label: "Lend Wasp for the Malta run",
+              advisor: { name: "Roosevelt", position: "Malta needs a carrier that nobody else has, and Wasp cannot reach the Pacific in time for the next battle in any case." },
+              historical: true,
+              setFlags: { carrierRequestPath: "lendWasp", cohesion: (flags.cohesion || 0) + 1 },
+              impact: { readiness: -1, pipeline: 0, initiative: 1 },
+              next: "coralSeaMidwayAllied42",
+              outcome:
+                "Wasp carries Spitfires from the Clyde and the aircraft fly off toward Malta on April 20. Most are lost on the ground within days. She makes a second run in May and reaches the Pacific in the summer.",
+            },
+            {
+              label: "Refuse: every carrier stays in the Pacific",
+              advisor: { name: "King", position: "The Pacific has too few carriers for the next battles, and a carrier lent to the Mediterranean is a carrier not on station when the Japanese move." },
+              setFlags: { carrierRequestPath: "refuse", cohesion: (flags.cohesion || 0) - 1 },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "coralSeaMidwayAllied42",
+              outcome:
+                "A modeled alternative. Wasp goes to the Pacific earlier. Malta's fighters are flown in more slowly, and Churchill's request, turned down, cools the alliance for a time.",
+            },
+            {
+              label: "Send Wasp to the Indian Ocean to join the Eastern Fleet",
+              advisor: { name: "Churchill", position: "The Eastern Fleet has been driven out of Ceylon, and a second carrier from America would let Somerville threaten the Japanese flank instead of hiding from it." },
+              setFlags: { carrierRequestPath: "indianOcean" },
+              impact: { readiness: -1, pipeline: -1, initiative: 0 },
+              next: "coralSeaMidwayAllied42",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.readiness),
+                  title: "The Eastern Fleet gets its second carrier",
+                  setFlags: { carrierResult: "joined" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. Wasp joins Somerville in time to make a Japanese raid on the Indian Ocean look risky. The Eastern Fleet is no longer a fleet in hiding.",
+                },
+                {
+                  weight: (() => { const w = modWeight(30, meters.readiness); return Math.max(5, 100 - w); })(),
+                  title: "Wasp arrives too late to matter",
+                  setFlags: { carrierResult: "late" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The long passage around the Cape takes Wasp out of the war for two months. She joins an Eastern Fleet that has already withdrawn, and the Pacific does without her.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. Wasp was sent to the Mediterranean, and the Indian Ocean was left to the Royal Navy. Putting an American carrier there gives the Eastern Fleet more force, and the Pacific one fewer.",
+            },
+          ],
+        };
+        },
+        get vladivostokRoute42() {
+          return {
+          date: "LATE 1942",
+          title: "The Pacific Route to Russia",
+          historicalRecord: true,
+          situation:
+            "The Soviet Union is fighting for Stalingrad and needs everything America can ship. German submarines and aircraft are cutting up the Arctic convoys to Murmansk, and the Persian route is slow. The Pacific route runs from the West Coast to Vladivostok, through waters Japan controls. Japan and the Soviet Union are neutral toward each other, so Soviet-flag ships can pass and American ships cannot. Stalin has not asked for American escorts, and Tokyo has said little about the traffic.",
+          choices: [
+            {
+              label: "Leave the Pacific route to Soviet-flag ships, under the neutrality Tokyo and Moscow keep",
+              advisor: { name: "Marshall", position: "The route works because nobody in Tokyo is asked to notice it, and an American escort would make them notice." },
+              historical: true,
+              setFlags: { vladivostokPath: "sovietFlag" },
+              impact: { readiness: 0, pipeline: -1, initiative: 0 },
+              next: "unconditionalSurrender43",
+              outcome:
+                "Soviet ships carry the cargo to Vladivostok, and Japan inspects some of them and leaves the route open. The Pacific route carries about half of the aid by weight before the war ends. Japan, which cannot afford a second front, puts up with it.",
+            },
+            {
+              label: "Send American-flag ships to Vladivostok with Navy escorts",
+              advisor: { name: "King", position: "Cargo on American ships can be counted and protected, and the Navy has escorts to spare on the northern run that nobody is using." },
+              setFlags: { vladivostokPath: "americanFlag" },
+              impact: { readiness: -1, pipeline: -2, initiative: 1 },
+              next: "unconditionalSurrender43",
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "Tokyo protests and does nothing",
+                  setFlags: { vladivostokResult: "tolerated" },
+                  impact: { readiness: 0, pipeline: 1, initiative: 1 },
+                  outcome:
+                    "Speculative. Tokyo protests and takes no action. More cargo gets through on American ships than the Soviet fleet could carry, and Japan's tolerance is shown to have a wider limit than expected.",
+                },
+                {
+                  weight: (() => { const w = modWeight(25, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "An American freighter is stopped",
+                  setFlags: { vladivostokResult: "incident" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. A Japanese warship stops an American freighter in the La Perouse Strait. Washington and Tokyo are one incident from a quarrel that neither has chosen, and the Navy withdraws the escorts.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. Only Soviet-flag ships made the Pacific run in the real war. Sending American ships and escorts into waters Japan controls tests a neutrality that Tokyo had no wish to break.",
+            },
+            {
+              label: "Move the aid to the Persian Corridor and the Arctic route, and keep clear of Japanese waters",
+              advisor: { name: "Stimson", position: "The Pacific route depends on Japan's restraint, and a war department that builds its plans on restraint it does not control has a plan with a weak spot." },
+              setFlags: { vladivostokPath: "persian" },
+              impact: { readiness: 0, pipeline: -2, initiative: -1 },
+              next: "unconditionalSurrender43",
+              outcome:
+                "A modeled alternative. The Persian Corridor and the Arctic convoys carry less than the Pacific route, and each ton takes longer to arrive. The Pacific route is left idle, and Moscow is told that supplies will come later.",
+            },
+          ],
+        };
+        },
         get wakeIslandRelief41() {
           return {
           date: "DECEMBER 1941",
@@ -402,6 +615,15 @@
               ],
               outcome:
                 "A modeled alternative. Some of the task force's officers reportedly wanted to press on. Whether Saratoga's air group could have turned back a second, larger invasion force, or would only have risked the Pacific Fleet's only available carrier for a garrison likely to fall anyway, is still disputed by historians.",
+            },
+            {
+              label: "Use the carriers to raid the Marshalls as a diversion, and leave Wake to fend for itself",
+              advisor: { name: "Fletcher", position: "Three days out, the relief force cannot reach Wake before the second landing, but a raid on the Marshalls can still hit the enemy somewhere and give the carriers something to show for the voyage." },
+              setFlags: { wakeReliefPath: "diversion" },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "arcadia41",
+              outcome:
+                "A modeled alternative. A carrier raid on Jaluit, in the Marshalls, was part of the real plan for Wake, as a diversion for the relief. Here it is made the whole of the operation, and Wake is left to fall.",
             },
           ],
         };
@@ -466,7 +688,19 @@
             "British, Indian and Burmese forces in Burma, soon to be reorganized as Slim's Burma Corps, and the divisions of the Chinese Expeditionary Force that Chiang sent across the border, after months of British hesitation, to defend the road that supplies his government, are being outpaced by Iida's advance on Rangoon. The question is not whether Rangoon holds, because British planning has already concluded that it cannot. It is what happens to the armies still trying to defend it." +
             (flags.arcadiaPath === "pacificParity"
               ? " Whatever Washington decided at Arcadia about Pacific resourcing, it hasn't reached Burma yet. This theater runs on British and Indian divisions King's argument was never going to reallocate regardless of how it came out."
-              : ""),
+              : "") +
+            (flags.stilwellPath === "chiefOfStaff"
+              ? " Stilwell is in Chungking and commands the Chinese 5th and 6th Armies in Burma, and Chiang is disputing his orders."
+              : flags.stilwellPath === "advisory"
+              ? " The American mission in Chungking advises, and Chiang gives the orders to his own armies in Burma."
+              : "") +
+            (flags.chinaAirPath === "fighters"
+              ? " The volunteer fighter group has been flying over Rangoon since late December."
+              : flags.chinaAirPath === "bombers" && flags.chinaAirResult === "arrived"
+              ? " American bombers are flying from Chinese fields against Japanese ports."
+              : flags.chinaAirPath === "bombers" && flags.chinaAirResult === "delayed"
+              ? " The bombers meant for China are still in India, short of crews and spares."
+              : "") + (flags.chennaultUnderStilwell ? " Chennault's fighters are under his command as well." : ""),
           choices: [
             {
               label: "Order a fighting retreat toward the Indian border: preserve the army over the city",
@@ -538,6 +772,15 @@
               next: "corregidorEvacuation42",
               outcome:
                 "A modeled alternative: the position Churchill pushed in the real war, here granted. The division fights in Burma rather than defending Australian soil directly, preserving Commonwealth unity at a moment London badly needed it, at real political cost to Curtin domestically and a home defense Australia has to build without its own most experienced division for the war's most dangerous early stretch.",
+            },
+            {
+              label: "Compromise: send one brigade to garrison Ceylon, and bring the rest of the division home",
+              advisor: { name: "Blamey", position: "A brigade in Ceylon is a favor to London that costs one brigade and not a division. The rest can be home before the Japanese reach Port Moresby." },
+              setFlags: { curtinPath: "compromise" },
+              impact: { readiness: 0, pipeline: 0, initiative: 0 },
+              next: "corregidorEvacuation42",
+              outcome:
+                "A modeled alternative. Two brigades of the 6th Division did garrison Ceylon for five months in 1942, at Churchill's request. Here a brigade is offered during the dispute over Burma, and Curtin keeps most of the 7th Division. Australia's defense is a brigade thinner than it was, and the break with London is put off and not avoided.",
             },
           ],
         };
@@ -688,6 +931,14 @@
               outcome:
                 "A modeled alternative: MacArthur's pressure taken to its conclusion. Forcing a stand before reinforcements arrive risks the encirclement and destruction of the militia battalions conducting the withdrawal, on ground that historians of the campaign agree offered no defensible line short of the one the Australian commanders had chosen. Military historians now generally regard the criticism of the withdrawal as unfair to troops carrying out a sound plan in impossible conditions.",
             },
+            {
+              label: "Send the American 32nd Division, by air and sea, to take over the Kokoda line from the Australian militia",
+              advisor: { name: "MacArthur", position: "American troops can be put where they are needed in days by air, and the militia can be relieved before they are destroyed." },
+              impact: { readiness: -2, pipeline: -1, initiative: 1 },
+              next: "guadalcanalAllied42",
+              outcome:
+                "A modeled alternative. The 32nd Division is a National Guard formation with no jungle training. Put on the track it meets the same Japanese advance as the militia did, with less experience and the same supply problem.",
+            },
           ],
         };
         },
@@ -707,6 +958,15 @@
               ? " Blamey's fighting withdrawal on the Kokoda Track is still trading ground for time as this landing goes in, a second under-resourced front asking the same theater command for reinforcements this one also needs."
               : flags.kokodaAlliedPath === "standFast"
               ? " MacArthur's own stand-fast order on the Kokoda Track is testing Australian units against the same supply reality this landing is about to run into on a different island entirely."
+              : "") +
+            (flags.carrierRequestPath === "lendWasp"
+              ? " Wasp, back from the Mediterranean, is one of the three carriers under Fletcher."
+              : flags.carrierRequestPath === "refuse"
+              ? " Wasp has been in the Pacific since the spring, and Fletcher has three carriers."
+              : flags.carrierRequestPath === "indianOcean" && flags.carrierResult === "joined"
+              ? " Wasp is still with the Eastern Fleet in the Indian Ocean, so Fletcher has two carriers."
+              : flags.carrierRequestPath === "indianOcean" && flags.carrierResult === "late"
+              ? " Wasp is back from a long passage that achieved nothing, and Fletcher has three carriers that have not worked together."
               : ""),
           choices: [
             {
@@ -718,6 +978,25 @@
               disabledReason: meters.readiness <= -3 ? "The Marine divisions available can't absorb an underprepared landing at this readiness level on top of everything already committed. There isn't a force left to land immediately with." : undefined,
               gateCheck: { meter: "readiness", threshold: -3, label: "Readiness" },
               next: "savoIslandReckoning42",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.watchtowerAllied42,
+              uncertain: [
+                  {
+                    weight: modWeight(65, meters.readiness),
+                    title: "The beachhead holds with what was landed",
+                    setFlags: {},
+                    impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "The Marines take Tulagi and the unfinished airfield on Guadalcanal, and the beachhead holds through the raids from Rabaul and the carriers' withdrawal. The transports sail on 9 August with part of their cargo still aboard, and the division goes onto short rations, but it is ashore with an airfield. The campaign that follows is fought on a logistical shoestring the Joint Chiefs never fully resourced.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(65, meters.readiness); return Math.max(5, 100 - w); })(),
+                    title: "The beachhead is left short",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                    outcome:
+                      "Speculative. The raids from Rabaul and the early loss of air cover disrupt the unloading, and the transports leave with half of the division's food and ammunition still aboard. The Marines hold the airfield, but their first weeks on Guadalcanal are spent short of everything, and the Japanese counterattacks arrive while the beachhead is at its weakest.",
+                  },
+              ],
               outcome:
                 "Unprepared, the airfield's garrison loses it days from completion, but the six-month campaign that follows, the 'Tokyo Express' night naval battles, the starvation conditions in the jungle on both sides, is fought on a logistical shoestring the Joint Chiefs never fully resourced. Guadalcanal is held, barely, and becomes the campaign that starts converting American industrial advantage into a Pacific-wide offensive.",
             },
@@ -752,7 +1031,7 @@
           title: "Savo Island",
           historicalRecord: true,
           situation:
-            "On the night of August 8–9, two days after the landing, a Japanese cruiser squadron under Mikawa slips past Allied picket destroyers at night and catches the covering force completely by surprise off Savo Island. Four Allied heavy cruisers, Astoria, Quincy, Vincennes, and the Australian cruiser Canberra, are sunk in under an hour, in what becomes one of the worst single defeats in U.S. Navy history. Mikawa withdraws without attacking the transports, which saves the landing and does nothing for the covering force. More than a thousand Allied sailors are dead by morning, and Nimitz's command has to decide how the defeat is handled while the Guadalcanal campaign is under way.",
+            "On the night of August 8–9, two days after the landing, a Japanese cruiser squadron under Mikawa slips past Allied picket destroyers at night and catches the covering force completely by surprise off Savo Island. Four Allied heavy cruisers, Astoria, Quincy, Vincennes, and the Australian cruiser Canberra, are sunk in under an hour, in what becomes one of the worst single defeats in U.S. Navy history. Mikawa withdraws without attacking the transports, which saves the landing and does nothing for the covering force. More than a thousand Allied sailors are dead by morning, and Nimitz's command has to decide how the defeat is handled while the Guadalcanal campaign is under way." + (flags.guadalcanalAlliedPath === "immediate" ? keyBattleEcho("watchtowerAllied42", flags) : ""),
           choices: [
             {
               label: "Order a full court of inquiry and make the findings public: accountability now, whatever it costs morale mid-campaign",
@@ -760,7 +1039,7 @@
               historical: true,
               setFlags: { savoPath: "publicInquiry" },
               impact: { readiness: -1, pipeline: 0, initiative: -1 },
-              next: "unconditionalSurrender43",
+              next: "vladivostokRoute42",
               uncertain: [
                 {
                   weight: modWeight(55, meters.readiness),
@@ -785,7 +1064,7 @@
               advisor: { name: "King", position: "The facts are not disputed, only whether the Marines still fighting on the island need to read about them in a newspaper this week." },
               setFlags: { savoPath: "classified" },
               impact: { readiness: 1, pipeline: 0, initiative: 1 },
-              next: "unconditionalSurrender43",
+              next: "vladivostokRoute42",
               outcome:
                 "The findings stay internal and doctrine changes quietly, sparing the campaign a blow to morale that the Navy's leadership judged it could not afford. The price is a lesson learned in private, and some future squadron may repeat the mistake before word gets around.",
             },
@@ -796,7 +1075,7 @@
                     advisor: { name: "King", position: "The admiral's position is that the campaign continues in its present state of delay, linger and wait, and that the Washington staff should step in directly." },
                     setFlags: { savoPath: "kingIntervenes" },
                     impact: { readiness: -1, pipeline: 1, initiative: 3 },
-                    next: "unconditionalSurrender43",
+                    next: "vladivostokRoute42",
                     outcome:
                       "A real, documented frustration, escalated here into something the historical King mostly kept to a terse written note: direct intervention from Washington into a theater commander's own operational decisions, a chain-of-command breach King's own real irritation with the campaign's grinding pace never quite crossed into. It forces movement where the campaign had stalled into exactly the delay, linger, and wait he complained about, at the real cost of a precedent for Washington overriding the men actually fighting the war on the spot.",
                   },
@@ -890,6 +1169,14 @@
               outcome:
                 "The institutionally cautious path, and the one that costs the most in ships not sunk. Without a theater commander's tests forcing the issue, the depth defect goes uncorrected for longer, and the submarine force goes on firing spreads that run under their targets or fail to detonate, against a Bureau that still blames everything but the torpedo.",
             },
+            {
+              label: "Order a joint firing test of the Mark 14 at Pearl Harbor, with the Bureau's own officers present",
+              advisor: { name: "King", position: "The Navy needs the truth about its torpedo in a form the Bureau cannot dispute, and it can get it by firing the weapon in front of the people who built it." },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "theBatBombQuestion43",
+              outcome:
+                "A modeled alternative. The test is run before the Bureau's officers, and the result is not left to argument. It costs weeks, and the fleet goes on firing torpedoes that miss while the test is arranged.",
+            },
           ],
         };
         },
@@ -950,6 +1237,15 @@
               ? " This delegation negotiates from a Pacific intelligence picture that's stayed intact despite looser use, a source proven resilient enough that Washington's read on Japan's actual position, weighed against Stalin's promise, is built on current signals rather than a year-old snapshot."
               : flags.magicDisciplinePath === "willing" && flags.magicResult === "closeCall"
               ? " This delegation negotiates from a Pacific intelligence picture that came uncomfortably close to going dark earlier this year, a source this room is trusting a little less completely than it might have, in a negotiation where verifying Stalin's own timetable against real Japanese dispositions matters more than usual."
+              : "") +
+            (flags.vladivostokPath === "sovietFlag"
+              ? " Soviet ships have carried about half of the American aid through Vladivostok under the neutrality, a trade that Stalin's promise would end."
+              : flags.vladivostokPath === "americanFlag" && flags.vladivostokResult === "tolerated"
+              ? " American ships and escorts have been going to Vladivostok since the autumn, and Tokyo has protested and done nothing."
+              : flags.vladivostokPath === "americanFlag" && flags.vladivostokResult === "incident"
+              ? " The American escorts to Vladivostok were withdrawn after Japan stopped a freighter, and the trade is back to Soviet ships."
+              : flags.vladivostokPath === "persian"
+              ? " The Pacific route to Vladivostok has been left idle since the autumn."
               : ""),
           choices: [
             {
@@ -972,6 +1268,14 @@
               next: "centralPacificDrive43",
               outcome:
                 "A modeled alternative, on the argument Pacific-minded planners found frustrating: every month that the Kwantung Army in Manchuria sits uncommitted is a month that the Pacific war faces Japan's full remaining strength alone. Historians of Soviet wartime strategy consider an earlier date close to a non-starter, because the Eastern Front's needs for manpower were not negotiable before Germany's collapse.",
+            },
+            {
+              label: "Ask Stalin for American air bases on the Soviet Far East coast, in return for continued Lend-Lease",
+              advisor: { name: "Arnold", position: "Bombers on the coast near Vladivostok and Kamchatka would reach Japan from the north, and a promise to enter the war is worth less than a field that can be used now." },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "centralPacificDrive43",
+              outcome:
+                "A modeled alternative. The request is made, and Stalin gives an answer that commits him to nothing. In the real war Stalin told Harriman in June 1944 that American bombers could use six or seven Far East airfields, and no base was built.",
             },
           ],
         };
@@ -1885,7 +2189,7 @@
               ? " Cabanatuan is three weeks old, and the men it actually freed are real, but so is what it cost getting them out, a fact this command is still weighing against the raid's own success in deciding how much appetite remains for the next deep, risky operation this campaign asks of it."
               : flags.cabanatuanPath === "declined"
               ? " Cabanatuan's camp is finally within the regular advance's reach, three weeks after the raid this command chose not to attempt. Whether that decision cost the prisoners held there anything is still the same unresolved question it was in January, only closer now to actually being answered."
-              : ""),
+              : "") + (flags.halseyTyphoonPath === "retained" ? " Halsey is still in command of the Third Fleet after the court's findings on the typhoon." : flags.halseyTyphoonPath === "relieved" ? " Halsey was relieved of the Third Fleet after the typhoon." : ""),
           choices: [
             {
               label: "Accept the compressed three-day bombardment and proceed on schedule",
@@ -1894,6 +2198,25 @@
               setFlags: { iwoJimaAlliedPath: "compressed" },
               impact: { readiness: -3, pipeline: 0, initiative: 2 },
               next: "okinawaAllied45",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.iwoJimaAllied45,
+              uncertain: [
+                  {
+                    weight: modWeight(55, meters.readiness),
+                    title: "The island falls on the timetable",
+                    setFlags: {},
+                    impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "The compressed bombardment fails to meaningfully touch Kuribayashi's tunnel network, and the Marines who land on February 19th walk into a defense barely dented by three days of shelling. The battle runs five weeks and costs the Marine Corps nearly 7,000 dead, its highest single-battle toll of the war, a price historians have argued for decades might have been lower with the ten days originally requested.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(55, meters.readiness); return Math.max(5, 100 - w); })(),
+                    title: "The landing stalls on the beaches",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                    outcome:
+                      "Speculative. The guns on Suribachi and the plateau wreck the first waves, the beaches jam with burning craft and the second wave cannot land. The Marines are pinned on the ash for days, the reserve is committed early, and the island is taken weeks later and at a higher cost than the historical battle.",
+                  },
+              ],
               outcome:
                 "The compressed bombardment fails to meaningfully touch Kuribayashi's tunnel network, and the Marines who land on February 19th walk into a defense barely dented by three days of shelling. The battle runs five weeks and costs the Marine Corps nearly 7,000 dead, its highest single-battle toll of the war, a price historians have argued for decades might have been lower with the ten days originally requested, against a Navy schedule that had competing claims on the same ships.",
             },
@@ -1978,7 +2301,7 @@
               : "") +
             (flags.overlandPath === "ledoRoad"
               ? " The Ledo Road option kept China supplied by land rather than air alone, and whatever that bought the wider war effort, it's one fewer variable competing for the same shipping this fleet is drawing on right now."
-              : ""),
+              : "") + (flags.iwoJimaAlliedPath === "compressed" ? keyBattleEcho("iwoJimaAllied45", flags) : ""),
           choices: [
             {
               label: "Hold the radar picket line as planned: early warning takes priority over picket-ship survival",
@@ -1987,6 +2310,25 @@
               setFlags: { okinawaAlliedPath: "holdPicket" },
               impact: { readiness: -3, pipeline: -1, initiative: 1 },
               next: "strategicBombingAllied45Delayed",
+              keyBattleSubgame: KEY_BATTLE_CONFIGS.okinawaAllied45,
+              uncertain: [
+                  {
+                    weight: modWeight(55, meters.initiative),
+                    title: "The picket line holds",
+                    setFlags: {},
+                    impact: { readiness: 0, pipeline: 0, initiative: 1 },
+                    outcome:
+                      "The picket destroyers absorb a disproportionate share of the kamikaze campaign's cost: several are sunk and dozens more damaged, with casualties among picket crews severe enough that the sailors on those stations speak of them as death sentences. The early warning they give is real and saves ships further in. It does not change what the watch costs the destroyers that keep it.",
+                  },
+                  {
+                    weight: (() => { const w = modWeight(55, meters.initiative); return Math.max(5, 100 - w); })(),
+                    title: "The picket line is broken",
+                    setFlags: {},
+                    impact: { readiness: -2, pipeline: -1, initiative: -1 },
+                    outcome:
+                      "Speculative. The stations are overwhelmed one after another by the massed attacks, the fighters cannot cover all of them, and the raids reach the transports and carriers behind the line. The fleet's losses are far higher than the real ones, and the landing is held up while the damaged ships are repaired.",
+                  },
+              ],
               outcome:
                 "The picket destroyers absorb a disproportionate share of the kamikaze campaign's cost: several are sunk and dozens more damaged, with casualties among picket crews severe enough that the sailors on those stations speak of them as death sentences. The early warning they give is real and saves ships further in. It does not change what the watch costs the destroyers that keep it.",
             },
@@ -2044,7 +2386,7 @@
               ? " The picket doctrine argument off Okinawa, pulled back and vindicated by radar and fighter direction closing the gap, is the kind of recent institutional success that makes trusting LeMay's own already-running judgment an easier case to accept without relitigating it from scratch."
               : flags.okinawaPickResult === "warningLost"
               ? " The picket doctrine argument off Okinawa, pulled back at a cost in ships hit deeper in the formation, is a recent reminder that a plausible-sounding change to doctrine doesn't always survive contact with results, a caution this staff can't fully apply retroactively to a firebombing campaign that's been running for months without its direct sign-off."
-              : ""),
+              : "") + (flags.okinawaAlliedPath === "holdPicket" ? keyBattleEcho("okinawaAllied45", flags) : ""),
           choices: [
             {
               label: "Endorse the campaign as already run: let LeMay's doctrine continue expanding to the remaining target list",
@@ -2064,6 +2406,15 @@
               next: "atomicDemonstration45",
               outcome:
                 "A modeled alternative: a late objection to an early decision. The staff cannot undo March, only argue about April onward. The campaign's remaining scope narrows somewhat, at a cost to the industrial-target case LeMay's doctrine was built on, and the deadliest raid is already on the record.",
+            },
+            {
+              label: "Shift most of the bomber effort from the cities to the railways and to mines in the Inland Sea",
+              advisor: { name: "Arnold", position: "A railway that cannot carry rice and coal starves a city as surely as a fire does, and mines keep the ships in port. The same aircraft can do both, and the fire campaign can be cut back." },
+              setFlags: { bombingPath: "railsAndMines" },
+              impact: { readiness: 0, pipeline: 1, initiative: -1 },
+              next: "atomicDemonstration45",
+              outcome:
+                "A modeled alternative. LeMay's bombers are put on the railways and on mines, and the incendiary campaign is cut back. The Navy's mining of Japanese waters had already begun in March. Whether this ends the war sooner is not something the record settles.",
             },
           ],
         };
@@ -2307,7 +2658,7 @@
               ? " The pause on the second weapon, held rather than let run on the standing order's own momentum, is the reason this room is even having this conversation: the peace faction's argument gained real ground without a second city added to the first, and Downfall's own planning is proceeding into a war ministry this staff has genuine, if cautious, reason to think may already be closer to breaking than the historical timeline suggested."
               : flags.nagasakiDelayResult === "deadlock"
               ? " The pause on the second weapon, held rather than let run on the standing order's own momentum, didn't move the war ministry's deadlock at all: the extra days bought nothing, and this room is planning Downfall against a Japan whose internal resistance to surrender looks exactly as intact as the historical record's own three-three split ever showed it."
-              : ""),
+              : "") + (flags.nagasakiDelayPath === "held" ? " The second weapon is being held, ready and unused, while Tokyo makes up its mind." : flags.nagasakiDelayPath === "clarified" ? " The pause on the second weapon was used to ask the President for his own decision." : ""),
           choices: [
             {
               label: "Prepare Operation Downfall: the amphibious invasion of the home islands",
@@ -2449,7 +2800,6 @@
             {
               label: "Let the combined pressure speak for itself: make no separate demand, let Tokyo draw its own conclusion from what it's actually facing",
               advisor: { name: "Marshall", position: "A war ministry that can see a blockade and an invasion fleet in front of it does not need to be told, and should do the arithmetic itself." },
-              setFlags: { combinedPressurePath: "silent" },
               impact: { readiness: 1, pipeline: 0, initiative: 0 },
               next: "sovietHokkaido45",
               uncertain: [
@@ -2478,7 +2828,6 @@
             {
               label: "Make the combined pressure explicit: a formal statement naming the blockade and the invasion fleet together, in the direct register of the Potsdam Declaration's warning of 'prompt and utter destruction'",
               advisor: { name: "Truman", position: "Japan was told plainly in July what continuing the war would cost, and there is no case for going quiet now with more to point to." },
-              setFlags: { combinedPressurePath: "explicit" },
               impact: { readiness: 0, pipeline: 1, initiative: 1 },
               next: "sovietHokkaido45",
               uncertain: [
@@ -2558,7 +2907,7 @@
               : "") +
             (flags.philippineIndependencePath === "basingRights"
               ? " The harder bargain struck over Philippine basing rights is still fresh enough that this room's appetite for another territorial negotiation, so soon after the last contentious one, is thinner than it might otherwise be."
-              : ""),
+              : "") + (flags.gasWarfarePath === "declined" ? " Truman refused the proposal to use gas on the caves and bunkers, holding to Roosevelt's pledge." : flags.gasWarfarePath === "limitedAuthorized" && flags.gasWarfareResult === "containedEffective" ? " Gas was used against caves and bunkers on Marshall's terms, and the weapon stayed where it was aimed." : flags.gasWarfarePath === "limitedAuthorized" && flags.gasWarfareResult === "creepIneffective" ? " Gas was used against caves and bunkers, drifted, and did little to the positions it was aimed at." : flags.gasWarfarePath === "areaAuthorized" ? " Gas was authorized for whole areas, and Roosevelt's pledge not to use it first is broken." : ""),
           choices: [
             {
               label: "Refuse the Soviet occupation zone: insist on sole American administration of the home islands",

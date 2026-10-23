@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        game: ["Frankenstein", "Dracula", "1914", "1922", "1941", "1940"]
+        game: ["Frankenstein", "Dracula", "1914", "1922", "1941", "1940", "Sherlock"]
         os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-24.04"]') || fromJSON('["ubuntu-24.04","windows-latest"]') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
@@ -54,9 +54,9 @@ jobs:
 
   browser:
     # Every built game in real Chromium and WebKit (phone and desktop, accessibility), the 1914 screens in each theme, and
-    # a bot that plays each 1914 command to its ending.
+    # a bot that plays each 1914 command, and each 1940 campaign, to its ending.
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -67,7 +67,7 @@ jobs:
       - run: node tools/run-all.mjs --install
       - name: Build every game
         run: |
-          for g in "Dispatches Frankenstein" "Dispatches Dracula" "Dispatches 1914" "Dispatches 1922" "Dispatches 1941" "Dispatches 1940"; do
+          for g in "Dispatches Frankenstein" "Dispatches Dracula" "Dispatches 1914" "Dispatches 1922" "Dispatches 1941" "Dispatches 1940" "Dispatches Sherlock"; do
             echo ">>> $g"
             if (cd "$g" && npm run | grep -q "build:nozip"); then (cd "$g" && npm run build:nozip); else (cd "$g" && npm run build); fi
           done
@@ -90,6 +90,9 @@ jobs:
         run: node tools/audit-screens.mjs
       - name: Real-browser playthrough of every 1914 command to its ending
         working-directory: Dispatches 1914
+        run: node tools/playthrough.mjs
+      - name: Real-browser playthrough of every 1940 campaign to its ending
+        working-directory: Dispatches 1940
         run: node tools/playthrough.mjs
       - name: Keep screenshots
         if: always()

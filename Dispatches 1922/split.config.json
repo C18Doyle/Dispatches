@@ -9,6 +9,7 @@
     { "name": "13-campaign-provisionalgov17", "start": "^CAMPAIGNS\\.provisionalGov17 = \\{" },
     { "name": "20-data-exports", "start": "^export \\{ modWeight, meterPct" },
     { "name": "30-screens", "start": "^// PREVIEW SCREENS" },
+    { "name": "35-battles", "start": "^// ORDERS OF BATTLE" },
     { "name": "40-app", "start": "^const SAVE_KEY = " }
   ]
 }

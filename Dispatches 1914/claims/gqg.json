@@ -65,8 +65,10 @@
     "node": "gqg_1914_13_sack",
     "kind": "fact",
     "claim": "Lanrezac had argued with Joffre and with the British and criticized the plan.",
-    "status": "drafted",
-    "sources": [],
+    "status": "web-checked",
+    "sources": [
+      "wp-lanrezac"
+    ],
     "note": "Widely stated; cite Spears or Lanrezac's own account."
   },
   {
@@ -172,9 +174,12 @@
     "node": "gqg_1915_14_salonika",
     "kind": "fact",
     "claim": "Bulgaria signed the convention with the Central Powers on 6 September 1915 (entered the war in October).",
-    "status": "drafted",
-    "sources": [],
-    "note": "Check the entry date."
+    "status": "web-checked",
+    "sources": [
+      "wp-bg-de-treaty",
+      "nam-bulgaria-war"
+    ],
+    "note": "Signed 6 September 1915 (24 August Old Style); Bulgaria declared war on Serbia on 14 October 1915."
   },
   {
     "id": "gqg-chantilly-1",
@@ -237,9 +242,12 @@
     "node": "gqg_1916_14_douaumont",
     "kind": "fact",
     "claim": "Douaumont had been in German hands since 25 February 1916 and Vaux since early June.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Vaux fell 7 June."
+    "status": "web-checked",
+    "sources": [
+      "wp-verdun",
+      "wp-douaumont"
+    ],
+    "note": "Douaumont was entered on 25 February 1916; Vaux fell in June (7 June)."
   },
   {
     "id": "gqg-calais-1",
@@ -423,9 +431,11 @@
     "node": "gqg_1918_14_americans",
     "kind": "fact",
     "claim": "The American First Army pinched out the Saint-Mihiel salient on 12 September and attacked in the Meuse-Argonne on 26 September.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Confirm with the Hundred Days page."
+    "status": "web-checked",
+    "sources": [
+      "marshall-stmihiel"
+    ],
+    "note": "Saint-Mihiel began 12 September; the Meuse-Argonne offensive opened on 26 September."
   },
   {
     "id": "gqg-americans-4",
@@ -537,6 +547,15 @@
     "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
   },
   {
+    "id": "gqg-marne-joffre-order-1",
+    "node": "gqg_1914_02_marne",
+    "kind": "fact",
+    "claim": "Joffre's order of the day for the Marne battle told every unit that one which could not advance must hold its ground and die there rather than fall back.",
+    "status": "drafted",
+    "sources": [],
+    "note": "The order is given in this sense in the English histories of 1919 and in a popular account; the exact English wording varies between translations and the French text was not read. Check against the French text and cite it."
+  },
+  {
     "id": "gqg-marne-2",
     "node": "gqg_1914_02_marne",
     "kind": "characterization",
@@ -550,9 +569,12 @@
     "node": "gqg_1915_03_grignotage",
     "kind": "fact",
     "claim": "The French offensives of 1915 were fought in Artois in the spring and in Champagne in the autumn, taking the first position each time and not the second.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+    "status": "web-checked",
+    "sources": [
+      "wp-artois2",
+      "wp-champagne2"
+    ],
+    "note": "Each attack took the first position and was stopped at the second."
   },
   {
     "id": "gqg-grignotage-2",
@@ -577,8 +599,10 @@
     "node": "gqg_1916_04_verdun",
     "kind": "fact",
     "claim": "Pétain's rotation system passed most of the French army through the Verdun sector in 1916.",
-    "status": "drafted",
-    "sources": [],
+    "status": "web-checked",
+    "sources": [
+      "wp-verdun"
+    ],
     "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
   },
   {
@@ -603,7 +627,7 @@
     "id": "gqg-chemin-1",
     "node": "gqg_1917_07_chemin",
     "kind": "fact",
-    "claim": "Painlevé extracted the promise that the offensive would stop if it had not broken through in forty-eight hours; Lyautey resigned rather than carry the plan.",
+    "claim": "Painlevé extracted the promise that the offensive would stop if it had not broken through in forty-eight hours; Lyautey left the war ministry in March 1917 after a quarrel in the Chamber.",
     "status": "drafted",
     "sources": [],
     "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
@@ -622,9 +646,11 @@
     "node": "gqg_1917_09_malmaison",
     "kind": "fact",
     "claim": "The attack at La Malmaison on 23 October 1917 was a limited-objective attack that took its objective and stopped.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+    "status": "web-checked",
+    "sources": [
+      "wp-malmaison"
+    ],
+    "note": "Opened 23 October 1917 with limited objectives; the French took the fort and ridge. Losses about 12,000 to 14,000 French."
   },
   {
     "id": "gqg-doullens-1",
@@ -644,7 +670,7 @@
     "claim": "The counterattack of 18 July 1918 came out of the forest of Villers-Cotterêts against the flank of the Marne salient, led by Mangin.",
     "status": "drafted",
     "sources": [],
-    "note": "Written in the original drafting of the campaign; no source was recorded then. Re-check and cite."
+    "note": "Mangin's Tenth Army attacked the west flank of the Marne salient on 18 July (confirmed); that it came out of the forest of Villers-Cotterets was not confirmed in the pages read."
   },
   {
     "id": "gqg-counter-2",
@@ -668,10 +694,12 @@
     "id": "gqg-epilogue-armybreaks",
     "node": "gqg_end_armybreaks",
     "kind": "fact",
-    "claim": "Epilogue, 'What actually happened': The army recovered in weeks under Pétain (leave, food, visits, grievances heard); courts-martial handed down several hundred death sentences, a few dozen carried out (commonly cited 554 and 49; the count is disputed).",
-    "status": "drafted",
-    "sources": [],
-    "note": "Written in the writing pass from the author's knowledge; no source recorded. Check each date and figure before release."
+    "claim": "Epilogue, 'What actually happened': The army recovered in weeks under Petain (leave, food, visits, grievances heard); courts-martial held about 3,400 trials, handed down 554 death sentences and carried out a few dozen (26 on Wikipedia's count, 49 on another).",
+    "status": "web-checked",
+    "sources": [
+      "wp-mutinies"
+    ],
+    "note": "The execution count is disputed: 26 and 49 are both given."
   },
   {
     "id": "gqg-epilogue-coalitionfails",
@@ -975,9 +1003,11 @@
     "node": "gqg_1918_13_aisne",
     "kind": "fact",
     "claim": "General Duchene commanded the Sixth Army, packed his divisions into the front line against Petain's order of defence in depth, and was relieved after the attack of 27 May 1918.",
-    "status": "drafted",
-    "sources": [],
-    "note": "Matches the existing outcome text; to be checked against a history of the Chemin des Dames in 1918."
+    "status": "web-checked",
+    "sources": [
+      "wp-duchene"
+    ],
+    "note": "Checked: Duchene massed his troops in the front line against Petain's order of defence in depth; the line broke on 27 May and he was relieved by the prime minister."
   },
   {
     "id": "gqg-fk-14",
@@ -1002,8 +1032,10 @@
     "node": "gqg_1914_12_retreat",
     "kind": "figure",
     "claim": "On 22 August 1914, in the Battle of the Frontiers, the French army lost about 27,000 dead, the heaviest loss in a single day in its history.",
-    "status": "drafted",
-    "sources": [],
+    "status": "web-checked",
+    "sources": [
+      "wp-deadlydays"
+    ],
     "note": "The figure is the one most often quoted; some give a range."
   },
   {
@@ -1011,9 +1043,11 @@
     "node": "gqg_1914_12_retreat",
     "kind": "fact",
     "claim": "French infantry went into action in 1914 in red trousers and dark blue coats.",
-    "status": "drafted",
-    "sources": [],
-    "note": ""
+    "status": "web-checked",
+    "sources": [
+      "wp-pantalon"
+    ],
+    "note": "Red trousers from 1829 to December 1914; the dark blue coat is the standard description of the infantry's dress."
   },
   {
     "id": "gqg_clemenceau-1",
@@ -1028,19 +1062,24 @@
     "id": "gqg-pre-1",
     "node": "gqg_1914_17_covering",
     "kind": "fact",
-    "claim": "On 30 July 1914 the French government ordered the covering troops to fall back ten kilometres from the frontier, so that no incident could be laid at France's door and so that Britain would see that France had not provoked the war; Joffre protested.",
-    "status": "drafted",
-    "sources": [],
-    "note": "To be checked against Joffre's memoirs and a history of the July crisis."
+    "claim": "On 30 July 1914 the French government ordered the covering troops to fall back ten kilometres from the frontier, so that no incident could be laid at France's door and Britain would see France had not provoked the war; Joffre accepted the withdrawal but pressed for orders to assemble the covering force.",
+    "status": "web-checked",
+    "sources": [
+      "hw-1914-07-30",
+      "wp-frontiers"
+    ],
+    "note": "Corrected from 'Joffre protested': his surviving telegram insists on no incident at the frontier, and his objection was to the effect on the covering troops. The node offers obeying the order and refusing it as the player's choices."
   },
   {
     "id": "gqg-pre-2",
     "node": "gqg_1914_17_covering",
     "kind": "fact",
     "claim": "The order for general mobilisation in France was given on the afternoon of 1 August 1914.",
-    "status": "drafted",
-    "sources": [],
-    "note": ""
+    "status": "web-checked",
+    "sources": [
+      "wp-julycrisis"
+    ],
+    "note": "Mobilisation was ordered on 1 August 1914; the hour (afternoon) was not confirmed in this pass."
   },
   {
     "id": "gqg-pre-3",
@@ -1132,5 +1171,117 @@
     "status": "drafted",
     "sources": [],
     "note": "See the Marne claims."
+  },
+  {
+    "id": "gqg_newssalonika-1",
+    "node": "gqg_1916_04_verdun",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Times, London: No French Army Goes to Salonika. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newscovering-1",
+    "node": "gqg_1914_01_frontieres",
+    "kind": "characterization",
+    "claim": "Newspaper special, Berliner Tageblatt, Berlin: France Has Mobilised Before Her Neighbour Asked. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newsverdun-1",
+    "node": "gqg_1916_05_somme",
+    "kind": "characterization",
+    "claim": "Newspaper special, Frankfurter Zeitung, Frankfurt: The Right Bank Taken Without a Fight. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newschemin-1",
+    "node": "gqg_1917_13_directive",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Daily Telegraph, London: The Aisne Offensive Is Stopped on the Third Day. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newslink-1",
+    "node": "gqg_1918_13_aisne",
+    "kind": "characterization",
+    "claim": "Newspaper special, The Daily Mail, London: Haig Is Told the French Reserve Will Cover Paris. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg_newscommand-1",
+    "node": "gqg_1918_13_aisne",
+    "kind": "characterization",
+    "claim": "Newspaper special, Le Matin, Paris: At Doullens the Armies Agree to Confer. A modelled consequence on another front or at home of a departure from the record, not a report of anything that happened.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Speculative by construction: the paper and the place are real, the item is invented. It makes no claim about the record."
+  },
+  {
+    "id": "gqg-menu-quote-1",
+    "node": "gqg_1914_17_covering",
+    "kind": "quotation",
+    "claim": "Poincare's message to Parliament of 4 August 1914, read by Viviani, said that France would be heroically defended by all her sons, whose sacred union in the face of the enemy nothing would break.",
+    "status": "web-checked",
+    "sources": [
+      "byu-poincare"
+    ],
+    "note": "English translations vary in small details; the wording given is one of them."
+  },
+  {
+    "id": "gqg-end-pursuit-1",
+    "node": "gqg_end_pursuit",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the attack at La Malmaison on 23 October 1917 took its objective and stopped, as it was designed to. The armistice of 11 November 1918 was signed with French troops still on the Belgian and French side of the frontier, and the occupation of the left bank of the Rhine began in December.\n\nThe same lesson was written into the French army's regulations in the last year of the war, and the attacks of the autumn were planned as a series that could be carried on from one objective to the next.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "gqg-end-mutinyspreads-1",
+    "node": "gqg_end_mutinyspreads",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the refusals of May and June 1917 spread through a large part of the French army. About 3,400 men were tried, 554 were condemned to death and a few dozen were shot, and Pétain's remedies were regular leave, better rest and the end of the great offensives. The army that fought in 1918 was held together by the same remedies.\n\nPétain's handling of the refusals is counted among the things that held the army to the end, and the court-martial figures were kept from the public for years.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "gqg-end-generals-1",
+    "node": "gqg_end_generals",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': Joffre relieved many generals in August and September 1914, among them the commander of the Fifth Army, Lanrezac, whom he replaced on 3 September, and the practice of dismissing unsuccessful commanders went on through the war. The armistice was signed on 11 November 1918.\n\nThe practice had its critics from the first, who said that it made commanders afraid to report bad news, and its defenders, who said that an army cannot keep generals who lose battles.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "gqg-end-waiting-1",
+    "node": "gqg_end_waiting",
+    "kind": "fact",
+    "claim": "Epilogue, 'What actually happened': the American First Army was formed on 10 August 1918, Pershing having refused to have his divisions distributed among the Allied armies, and Foch's general offensive of 26 September attacked along the whole front from the Meuse to the sea. The German army was driven back through October, and the plans for a campaign in 1919 had been prepared and were not needed.\n\nThe Allied staffs had agreed in the summer that the armies would be stronger in 1919 and that the decisive effort would be made then, and the German collapse came a year earlier than any of them had planned.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Written in the endings pass from facts logged for the record endings and the reports; to be checked against a source before release."
+  },
+  {
+    "id": "doc-gqg_1917_08_mutinies-1",
+    "node": "gqg_1917_08_mutinies",
+    "kind": "quotation",
+    "claim": "Petain is reported to have said in 1917: I am waiting for the tanks and the Americans.",
+    "status": "web-checked",
+    "sources": [
+      "wp-mutinies"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
   }
 ]

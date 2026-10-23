@@ -150,7 +150,13 @@ export function App() {
   // real, visible toggles with no audio assets behind them yet — scaffolded
   // honestly, not faked as functional.
   const [textSize, setTextSize] = useState("normal"); // 'small' | 'normal' | 'large'
-  const [reduceMotion, setReduceMotion] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(() => {
+    try {
+      return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    } catch (e) {
+      return false;
+    }
+  });
   const [instantText, setInstantText] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
   const [musicOn, setMusicOn] = useState(false);
@@ -161,6 +167,14 @@ export function App() {
   // WarRoomScreen, not a background process that runs during every regular
   // playthrough regardless of whether the player chose it.
   const [hardModeEnabled, setHardModeEnabled] = useState(false);
+  // Easy mode: meter effects shown before each order, and the last order can be taken back. Never combined
+  // with hard mode. `history` is the run as it stood before each order, newest last; it is not saved.
+  const [easyMode, setEasyMode] = useState(false);
+  const [history, setHistory] = useState([]);
+  // Battle planning: on by default; an order that hosts a battle opens the Order of Battle first. `pendingBattle` is the order waiting for its plan.
+  const [planBattles, setPlanBattles] = useState(true);
+  const [pendingBattle, setPendingBattle] = useState(null);
+  const [battleReport, setBattleReport] = useState(null);
   // Accumulated flags from every choice made this run, keyed by whatever
   // name each node's setFlags object uses. Every choice in every campaign
   // has defined setFlags since the first node was written — the engine
@@ -191,6 +205,8 @@ export function App() {
       hardModeValue,
       hardModeMaxed,
       hardModeEnabled,
+      easyMode,
+      planBattles,
       screen,
       savedAt: Date.now(),
     });
@@ -200,7 +216,7 @@ export function App() {
     // would re-render the menu constantly for no visible reason while a
     // run is in progress.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [campaignId, nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, hardModeEnabled, screen]);
+  }, [campaignId, nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, hardModeEnabled, easyMode, planBattles, screen]);
 
   function handleResume() {
     const save = readSave();
@@ -213,6 +229,9 @@ export function App() {
     setHardModeValue(save.hardModeValue || 0);
     setHardModeMaxed(!!save.hardModeMaxed);
     setHardModeEnabled(!!save.hardModeEnabled);
+    setEasyMode(!!save.easyMode);
+    setPlanBattles(save.planBattles !== false);
+    setHistory([]);
     setScreen(save.screen === "bulletin" ? "bulletin" : "briefing");
     // Backfill discovery for a save written before this log existed, or any
     // node the save/discovery writes otherwise missed — cheap, idempotent
@@ -240,6 +259,7 @@ export function App() {
     setMeters({ ...c.initialMeters });
     setHardModeValue(0); // capital spent so far — 0 means all 5 points available
     setHardModeMaxed(false);
+    setHistory([]);
     setFlagsState({});
     setVisitedNodes([c.start]);
     setNodeId(c.start);
@@ -252,23 +272,73 @@ export function App() {
     // but if this ever gets called for one anyway, refuse rather than
     // silently apply an order the player wasn't actually shown as available.
     if (typeof choice.gate === "function" && !choice.gate(meters)) return;
+    // An order that hosts a battle opens the Order of Battle first (unless the player left planning to the staff).
+    const hosted = battleOf(choice);
+    if (planBattles && hosted && choice.uncertain && choice.uncertain.length === 2) {
+      setPendingBattle({ choice, node });
+      setScreen("battle");
+      return;
+    }
+    issueOrder(choice, null);
+  }
+
+  // Resolves an order. `plan` is the Order of Battle plan for a hosted battle, or null: the plan moves the roll's weights toward the better
+  // outcome (the staff's own plan moves nothing), and charges the meters a little.
+  function issueOrder(choice, plan) {
     const c = CAMPAIGNS[campaignId];
+    // Easy mode keeps the run as it stood before this order, so the order can be taken back.
+    if (easyMode) {
+      setHistory((h) => [...h, { nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, discovery }]);
+    }
+    const axes = c.triangleAxes.map((a) => a.key);
+    const config = plan ? battleOf(choice) : null;
+    let effChoice = choice;
+    let rand = Math.random;
+    let report = null;
+    let costTotals = null;
+    let battleFlags = {};
+    if (plan && config) {
+      const posture = (config.postures || []).find((p) => p.id === plan.postureId) || null;
+      const bonus = battleBonus(config, plan, posture, plan.pool);
+      const shifted = shiftToward(choice.uncertain, config.winBranch, bonus);
+      effChoice = { ...choice, uncertain: shifted };
+      // One roll, taken here so the result is known: the same number goes to resolveChoice, which picks the same outcome.
+      const r = Math.random();
+      rand = () => r;
+      const won = shifted.indexOf(pickUncertain(shifted, r * 100)) === config.winBranch;
+      const costs = battlePlanCosts(config, plan, posture, plan.pool, won, axes);
+      costTotals = costs.totals;
+      battleFlags = battleFlagsOut(config, plan, costs);
+      report = { id: config.id, posture: posture ? posture.id : null, plan, bonus, grade: costs.grade, lines: costs.lines, intelRight: plan.intelRight };
+    }
     // All the arithmetic (roll, impact, clamp, capital, destination) lives in logic.ts.
     const res = resolveChoice({
-      choice,
+      choice: effChoice,
       meters,
       campaign: c,
       hardModeEnabled,
       hardModeValue,
-      rand: Math.random,
+      rand,
       helpers: { applyImpact, clampTriangle },
     });
+    let finalMeters = res.meters;
+    let finalDeltas = res.triangleDeltas;
+    if (costTotals) {
+      finalMeters = clampTriangle(applyImpact(res.meters, costTotals), axes);
+      finalDeltas = {};
+      for (const axis of axes) {
+        const d = finalMeters[axis] - meters[axis];
+        if (d !== 0) finalDeltas[axis] = d;
+      }
+    }
+    setBattleReport(report);
+    setPendingBattle(null);
     // Explicit deltas (post-clamp) so the Outcome screen can say plainly what changed.
-    setLastDeltas({ triangle: res.triangleDeltas });
-    setMeters(res.meters);
+    setLastDeltas({ triangle: finalDeltas });
+    setMeters(finalMeters);
     setHardModeValue(res.hardModeValue);
     setHardModeMaxed(res.hardModeMaxed);
-    setFlagsState((prev) => ({ ...prev, ...res.newFlags }));
+    setFlagsState((prev) => ({ ...prev, ...res.newFlags, ...battleFlags }));
     const destination = res.destination;
     if (destination && destination !== "END_STUB") {
       setVisitedNodes((prev) => (prev.includes(destination) ? prev : [...prev, destination]));
@@ -301,17 +371,56 @@ export function App() {
     }
   }
 
+  // Takes back the last order (Easy mode only): the run returns to the report where the order was given, and
+  // anything the order made "discovered" is forgotten again, so an ending cannot be unlocked by looking.
+  function handleRewind() {
+    const last = history[history.length - 1];
+    if (!last) return;
+    setHistory((h) => h.slice(0, -1));
+    setNodeId(last.nodeId);
+    setMeters(last.meters);
+    setFlagsState(last.flags);
+    setVisitedNodes(last.visitedNodes);
+    setHardModeValue(last.hardModeValue);
+    setHardModeMaxed(last.hardModeMaxed);
+    setDiscovery(last.discovery);
+    setBattleReport(null);
+    try {
+      window.localStorage.setItem(DISCOVERY_KEY, JSON.stringify(last.discovery));
+    } catch (e) {
+      // best-effort, like every other storage write
+    }
+    setScreen("briefing");
+  }
+
   function handleContinueFromBulletin() {
     setScreen("briefing");
   }
 
+  // A new screen takes focus (the page container) and starts at the top, so a keyboard or a screen reader
+  // is not left on a control that is no longer there. Skipped on the first render.
+  const mainRef = React.useRef(null);
+  const firstRender = React.useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    if (mainRef.current) mainRef.current.focus({ preventScroll: true });
+    try {
+      window.scrollTo(0, 0);
+    } catch (e) {
+      // not available in every environment
+    }
+  }, [screen, nodeId]);
+
   return (
-    <div className="w-full h-full min-h-screen font-sans" style={{ maxWidth: 600, margin: "0 auto", overflowX: "hidden" }}>
+    <main ref={mainRef} tabIndex={-1} className="w-full h-full min-h-screen font-sans" style={{ maxWidth: 600, margin: "0 auto", overflowX: "hidden", outline: "none" }}>
       <FontImports />
       <TextScaleStyle textSize={textSize} />
       {screen === "records" && (
         <RecordsListScreen
-          onOpen={(id) => { setCampaignId(id); setHardModeEnabled(false); setScreen("detail"); }}
+          onOpen={(id) => { setCampaignId(id); setHardModeEnabled(false); setEasyMode(false); setScreen("detail"); }}
           onOpenWarRecord={() => setScreen("warrecord")}
           onOpenSettings={() => setScreen("settings")}
           savedRun={savedRun}
@@ -344,7 +453,7 @@ export function App() {
       {screen === "detail" && (
         <CampaignDetailScreen
           campaignId={campaignId}
-          onEnter={(id, hardMode) => { setHardModeEnabled(hardMode); setScreen("warroom"); }}
+          onEnter={(id, hardMode, easy) => { setHardModeEnabled(hardMode); setEasyMode(!!easy && !hardMode); setScreen("warroom"); }}
           onClose={toRecords}
         />
       )}
@@ -352,6 +461,9 @@ export function App() {
         <WarRoomScreen
           campaignId={campaignId}
           hardModeEnabled={hardModeEnabled}
+          easyMode={easyMode}
+          planBattles={planBattles}
+          setPlanBattles={setPlanBattles}
           onClose={toRecords}
           onStart={handleStart}
         />
@@ -372,13 +484,26 @@ export function App() {
           meters={meters}
           flags={flags}
           hardModeEnabled={hardModeEnabled}
+          easyMode={easyMode}
+          planBattles={planBattles}
           hardModeValue={hardModeValue}
-          instantText={instantText}
+          instantText={instantText || reduceMotion}
           reduceMotion={reduceMotion}
           onChoose={handleChoose}
           onClose={toRecords}
           onOpenMap={() => setScreen("map")}
           onOpenTimeline={() => setScreen("timeline")}
+        />
+      )}
+      {screen === "battle" && pendingBattle && (
+        <BattleScreen
+          campaignId={campaignId}
+          config={battleOf(pendingBattle.choice)}
+          choice={pendingBattle.choice}
+          meters={meters}
+          easyMode={easyMode}
+          onCommit={(plan) => issueOrder(pendingBattle.choice, plan)}
+          onBack={() => { setPendingBattle(null); setScreen("briefing"); }}
         />
       )}
       {screen === "map" && (
@@ -408,6 +533,10 @@ export function App() {
           hardModeValue={hardModeValue}
           hardModeMaxed={hardModeMaxed}
           hardModeEnabled={hardModeEnabled}
+          easyMode={easyMode}
+          canRewind={history.length > 0}
+          onRewind={handleRewind}
+          battle={battleReport}
           deltas={lastDeltas}
           onContinue={handleContinueFromOutcome}
           onClose={toRecords}
@@ -417,7 +546,7 @@ export function App() {
         <EndingScreen campaignId={campaignId} endingId={nodeId} flags={flags} visitedNodes={visitedNodes} instantText={instantText} onClose={toRecords} />
       )}
       {screen === "end" && <EndStubScreen onClose={toRecords} />}
-    </div>
+    </main>
   );
 }
 

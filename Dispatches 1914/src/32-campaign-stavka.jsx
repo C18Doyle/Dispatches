@@ -158,7 +158,7 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The two armies that would have gone into East Prussia are held on the " +
           "frontier, and the whole weight of the army goes into Galicia. The Austrians are met by " +
-          "more men than in the record. Paris is told that the offensive it was promised will " +
+          "more men than they met in fact. Paris is told that the offensive it was promised will " +
           "come later, and the French, who had counted on it, ask why a promise given in writing " +
           "can be kept in part.",
       },
@@ -318,7 +318,7 @@ CAMPAIGNS.stavka.nodes = {
               "along roads that the German Eighth Army knows from its own manoeuvres. The " +
               "flank that was meant to be closed is opened, and the Germans come into it " +
               "before the First Army is near enough to help. The army is not destroyed as " +
-              "it was in the record, and it is not saved either; Samsonov has less ground " +
+              "it was, and it is not saved either; Samsonov has less ground " +
               "to be beaten on, and no more to do it with." },
         ],
       },
@@ -585,9 +585,7 @@ CAMPAIGNS.stavka.nodes = {
           "within ten days have outflanked the Tenth Army and driven it out of East " +
           "Prussia. The Twentieth Corps is cut off in the forest near Augustow and " +
           "surrenders on 9 February (22 February in the west), with its losses put at " +
-          "some 34,000 men. Much of the Tenth Army gets away. The quartermaster-general " +
-          "afterwards calls it a great German success: it cost Russia the anchor it had " +
-          "planned around.",
+          "some 34,000 men. Much of the Tenth Army gets away. The Germans count it a great success: it costs Russia the anchor it had planned around.",
       },
       {
         id: "pull",
@@ -689,9 +687,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The armies hold the passes they have and stop attacking. The " +
           "rifles and shells that would have been spent in the snow are kept, and the " +
           "Austrians have the spring to recover. Przemysl has been taken and nothing " +
-          "more is asked of it. The army is less tired when the German blow comes in " +
-          "May, and no one will be able to say whether it would have held, because the " +
-          "shells it saved would not have been enough.",
+          "more is asked of it. The army is less tired, and the shells it has saved are few.",
       },
     ],
   },
@@ -783,9 +779,7 @@ CAMPAIGNS.stavka.nodes = {
       "answerable to nobody except the Emperor. Civil and military authority in the " +
       "border regions have not been coordinated at all.",
     context:
-      "Whoever holds the title, Alekseyev will run the operations. What actually " +
-      "changes with this decision is not where orders come from. It is where blame " +
-      "goes, and what happens in the capital while the Emperor is four hundred miles " +
+      "Whoever holds the title, Alekseyev will run the operations. Orders still come from headquarters. What changes with this decision is where blame goes, and what happens in the capital while the Emperor is four hundred miles " +
       "away at headquarters.",
     choices: [
       {
@@ -1047,7 +1041,7 @@ CAMPAIGNS.stavka.nodes = {
           "the French.",
       },
       {
-        id: "refuse",
+        id: "refuse", ally: "the French",
         label: "Tell the French that the army will keep its strength for the summer",
         advisor: { name: "Brusilov", position:
           "An offensive made in a hurry, on frozen lakes, is not a gift to the French. The summer is when it can be made to count." },
@@ -1081,7 +1075,7 @@ CAMPAIGNS.stavka.nodes = {
               "Speculative. The guns are put on a front a third as wide, and this time the German wire in " +
               "the sector is cut. The Russians take the first line and a stretch of the second, and the " +
               "Germans bring up reserves to meet them, as the French asked. It is a small success, paid for " +
-              "with fewer men than in the record, and the Germans know that the Russians can still attack." },
+              "with fewer men than the real attack cost, and the Germans know that the Russians can still attack." },
           { weight: 55, title: "The thaw defeats it",
             impact: { manpower: -2, munitions: -1, will: -1 },
             setFlags: { stavka_naroch: "narrow", xc_naroch: "launched" },
@@ -1089,7 +1083,7 @@ CAMPAIGNS.stavka.nodes = {
             outcome:
               "Speculative. The ice goes off the lakes in the middle of the attack, and the marsh turns the " +
               "ground the guns have chosen into a swamp. The narrow front is swept from both flanks, and " +
-              "the attack is broken off after four days, with a smaller loss than in the record and the " +
+              "the attack is broken off after four days, with a smaller loss than the real attack and the " +
               "same result. The French are told that the Russians tried." },
         ],
       },
@@ -1161,9 +1155,7 @@ CAMPAIGNS.stavka.nodes = {
             next: "stavka_1916_12_kovel",
             outcome:
               "The offensive succeeds beyond anything this army has managed and breaks the " +
-              "Austrian front, forcing German divisions east to hold it. The supporting " +
-              "attacks are not pressed. It is exploited as far as one front can exploit " +
-              "anything alone, and the divisions that did it are the divisions that will " +
+              "Austrian front, forcing German divisions east to hold it. The supporting attacks are not pressed, and the breakthrough is exploited as far as one front can exploit anything alone, and the divisions that did it are the divisions that will " +
               "not be there next year. Brusilov has done what no one thought could be done " +
               "with the army he had, and he has done it once." },
           { weight: 45, title: "The breakthrough is banked rather than pushed",
@@ -1651,9 +1643,7 @@ CAMPAIGNS.stavka.nodes = {
             outcome:
               "The first days go well where the artillery is good and the units are " +
               "willing. Then the willing units are used up, the rest decline to replace " +
-              "them, and the counterattack finds a front that is arguing with itself. What " +
-              "comes back is not an army that failed at an offensive. It is an army that " +
-              "has stopped. The Provisional Government, which ordered the attack, is left " +
+              "them, and the counterattack finds a front that is arguing with itself. What comes back is an army that has stopped. The Provisional Government, which ordered the attack, is left " +
               "with a retreat that no committee will agree to halt." },
           { weight: 30, title: "The offensive achieves a limited gain and stops",
             impact: { manpower: -1, will: -1 },
@@ -1738,9 +1728,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The penalty is not restored. The retreat in Galicia is left to " +
           "the commissars and the committees, and the commander who made the ultimatum " +
           "has to be answered. The Supreme Command stays with the officers who say that " +
-          "discipline can be built on consent. The units that would have been steadied " +
-          "by the threat have to be steadied by argument, and the Galician front falls " +
-          "back, as it was going to, at its own pace.",
+          "discipline can be built on consent. The units that the threat would have steadied have to be steadied by argument, and the Galician front falls back at its own pace.",
       },
     ],
   },
@@ -1797,8 +1785,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The Twelfth Army is ordered to stand, and what stands is a " +
           "fraction of what is on the books. The bombardment and the crossing " +
           "do what they did to the army that withdrew, to an army that has been " +
-          "told to remain, and the line behind it is not yet a line. Whether " +
-          "the infantry could have held is answered the hard way. The risk is " +
+          "told to remain, and the line behind it is not yet a line. The risk is " +
           "an army encircled in a city it was ordered to hold.",
       },
       {
@@ -1813,7 +1800,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The Latvian Riflemen are ordered to hold the bridgehead for two days " +
           "while the rest of the army gets back across the roads behind it. They hold it, " +
           "and they are not relieved. The Twelfth Army gets away a day further from the " +
-          "Daugava than it did in the record, and the riflemen who covered it do not get " +
+          "Daugava than it did historically, and the riflemen who covered it do not get " +
           "away at all. The regiments asked to stay are the ones with most to lose, and " +
           "their losses are the price of a cleaner retreat.",
       },
@@ -1976,8 +1963,7 @@ CAMPAIGNS.stavka.nodes = {
           "not to be a position that exists. The front dissolves by desertion rather " +
           "than by defeat, and the officer corps disperses toward the places where the " +
           "next war is being organised. The men go home with their rifles, and the " +
-          "Germans, who have no need to attack, are content to watch. The army is not " +
-          "defeated. It is demobilised without anyone having given the order.",
+          "Germans, who have no need to attack, are content to watch. The army is demobilised without anyone having given the order, and without having been defeated.",
       },
       {
         id: "resist",
@@ -2110,7 +2096,7 @@ CAMPAIGNS.stavka.nodes = {
       "There is no moment at which this is decided. There are trains, and men on them, " +
       "and each individual departure is a private decision that nobody has the " +
       "authority to prevent.\n\n" +
-      "The front is not broken. It is vacated.",
+      "The front is vacated rather than broken.",
     ending: { family: "disintegration-without-defeat", badge: BADGES.CONTESTED },
     epilogue: () =>
       "An army is an agreement about who gives orders. Once that agreement lapses, " +
@@ -2175,9 +2161,7 @@ CAMPAIGNS.stavka.nodes = {
     year: 1918, date: "1918-03-03", city: "Mogilev",
     title: "A Front That Was Still There",
     situation:
-      "The army was not spent in June and was not asked to answer a political question " +
-      "it could not survive answering. It is a smaller army and a worse one than 1914's " +
-      "and it is in the field.\n\n" +
+      "The army was spared the offensive in June and was not asked to answer a political question it could not survive answering. It is smaller and worse than the army of 1914, and it is in the field.\n\n" +
       "It does not change what is signed. It changes what the people signing it have " +
       "behind them while they do.",
     ending: { family: "army-holds-into-1918", badge: BADGES.SPECULATIVE },

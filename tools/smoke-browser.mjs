@@ -37,6 +37,7 @@ const GAMES = dirArg ? [{ name: process.argv.find((a) => a.startsWith("--name=")
   { name: "1922", dist: "Dispatches 1922/dist" },
   { name: "1941", dist: "Dispatches 1941/dist/full" },
   { name: "1940", dist: "Dispatches 1940/dist/full" },
+  { name: "Sherlock", dist: "Dispatches Sherlock/dist" },
 ].filter((g) => dirArg || !positional || g.name.includes(positional));
 const VIEWPORTS = [
   { label: "phone", width: 375, height: 812 },
@@ -132,7 +133,7 @@ async function checkGame(browser, engine, game, vp) {
     }
     if (wantA11y) await axeScan(page, a11y);
     for (let i = 1; i <= 5; i++) {
-      const buttons = page.locator("button:visible");
+      const buttons = page.locator("button:visible:not([disabled])");
       const n = await buttons.count();
       if (n === 0) break;
       // avoid destructive/navigation-away controls; take the first that is not rewind/restart/exit/mute

@@ -213,6 +213,129 @@ export function effectiveChoice(choice: Choice, rollIndex: number | null) {
   return { impact: choice.impact, outcome: choice.outcome, variantTitle: null as string | null | undefined };
 }
 
+// ---------- Advisers and trust ----------
+// Each adviser who argues an order has a standing with the player, kept as a number of half-points in the flag tr_<name>: an order that
+// follows the adviser earns two (a point), and every adviser whose order was passed over loses one (half a point), once for a decision.
+// An adviser who has been overruled to -2 goes quiet and the argument is no longer shown; at -3 the adviser asks to be relieved, once, and
+// is gone for the rest of the file. An adviser trusted to +2 or more is marked, and brings a reconnaissance pass before a battle at no cost.
+export const TRUST_MIN = -6;
+export const TRUST_MAX = 6;
+export const TRUST_QUIET_AT = -4;
+export const TRUST_TRUSTED_AT = 4;
+export type Standing = "trusted" | "heard" | "quiet" | "gone";
+
+const slugOf = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+export const trustKey = (name: string) => `tr_${slugOf(name)}`;
+const goneKey = (name: string) => `trgone_${slugOf(name)}`;
+const nameKey = (name: string) => `trn_${slugOf(name)}`;
+
+/** The adviser's standing in half-points, from -6 to +6. */
+export function trustOf(flags: Flags, name: string): number {
+  return Number(flags[trustKey(name)]) || 0;
+}
+
+export function adviserStanding(flags: Flags, name: string): Standing {
+  if (flags[goneKey(name)]) return "gone";
+  const t = trustOf(flags, name);
+  if (t <= TRUST_QUIET_AT) return "quiet";
+  if (t >= TRUST_TRUSTED_AT) return "trusted";
+  return "heard";
+}
+
+/** The advisers on this decision, once each, whose orders the player could have given. */
+export function advisersOn(stage: Stage): string[] {
+  const seen: string[] = [];
+  for (const c of stage.choices) if (c.advisor && !c.disabledReason && !seen.includes(c.advisor.name)) seen.push(c.advisor.name);
+  return seen;
+}
+
+/** The flags after the player gives the order at `index`: the adviser it follows gains, the others on the decision lose. */
+export function trustAfter(flags: Flags, stage: Stage, index: number): Flags {
+  const chosen = stage.choices[index] && stage.choices[index].advisor ? stage.choices[index].advisor!.name : null;
+  let out = flags;
+  for (const name of advisersOn(stage)) {
+    if (out[goneKey(name)]) continue;
+    const next = Math.max(TRUST_MIN, Math.min(TRUST_MAX, trustOf(out, name) + (name === chosen ? 2 : -1)));
+    out = { ...out, [trustKey(name)]: next, [nameKey(name)]: name };
+    if (next <= TRUST_MIN) out = { ...out, [goneKey(name)]: name };
+  }
+  return out;
+}
+
+/** Names of the advisers the player trusts, in the order they were first heard. */
+export function trustedAdvisers(flags: Flags): string[] {
+  return Object.keys(flags)
+    .filter((k) => k.startsWith("tr_") && !flags[`trgone_${k.slice(3)}`] && Number(flags[k]) >= TRUST_TRUSTED_AT)
+    .map((k) => String(flags[`trn_${k.slice(3)}`] || k.slice(3)));
+}
+
+// ---------- Special events ----------
+// A special event is a short dispatch from outside the headquarters that is shown once, when the player arrives at one of the reports
+// it is tied to and the state of the file matches its conditions. It changes no meter and sets only the flag that it has been seen
+// (ev_<id>). Events are data (SPECIAL_EVENTS in 35-events.jsx); an adviser's resignation is one that the file writes for itself.
+export interface MeterRange {
+  min?: number;
+  max?: number;
+}
+export interface GameEvent {
+  id: string;
+  campaign?: string;
+  /** Report ids: the event is due on arriving at any of them. */
+  at: string[];
+  dateline: string;
+  title: string;
+  text: string[];
+  source?: string;
+  when?: { flags?: Flags; meters?: Partial<Record<keyof Meters, MeterRange>> };
+}
+
+export const eventSeenKey = (id: string) => `ev_${id}`;
+
+function whenHolds(when: GameEvent["when"], flags: Flags, meters: Meters): boolean {
+  if (!when) return true;
+  for (const [k, v] of Object.entries(when.flags || {})) if (flags[k] !== v && !(v === true && !!flags[k])) return false;
+  for (const [m, r] of Object.entries(when.meters || {}) as [keyof Meters, MeterRange][]) {
+    if (r.min !== undefined && meters[m] < r.min) return false;
+    if (r.max !== undefined && meters[m] > r.max) return false;
+  }
+  return true;
+}
+
+/** An adviser who has asked to be relieved and has not yet been seen to go. */
+export function resignationEvent(flags: Flags): GameEvent | null {
+  for (const [k, v] of Object.entries(flags)) {
+    if (!k.startsWith("trgone_") || typeof v !== "string") continue;
+    const id = `resigns_${k.slice(7)}`;
+    if (flags[eventSeenKey(id)]) continue;
+    return {
+      id,
+      at: [],
+      dateline: "The headquarters",
+      title: `${v} asks to be relieved`,
+      text: [
+        `${v} has put in a request to leave the staff. The orders you have given have passed over ${v}'s advice too often, and ${v} will not go on arguing a case that is not heard.`,
+        `The request is granted. ${v}'s advice will not be put to you again, and the orders ${v} would have argued will have to stand on their own.`,
+      ],
+    };
+  }
+  return null;
+}
+
+/** The event due on arriving at report `nodeId`, if any: an adviser's resignation first, then the first matching event in the list. */
+export function dueEvent(events: GameEvent[], args: { nodeId: string; campaign?: string; flags: Flags; meters: Meters }): GameEvent | null {
+  const { nodeId, flags, meters } = args;
+  const resign = resignationEvent(flags);
+  if (resign) return resign;
+  for (const e of events) {
+    if (args.campaign && e.campaign && e.campaign !== args.campaign) continue;
+    if (flags[eventSeenKey(e.id)]) continue;
+    if (!e.at.includes(nodeId)) continue;
+    if (!whenHolds(e.when, flags, meters)) continue;
+    return e;
+  }
+  return null;
+}
+
 /** Flags every hard mode seeds at the start of a run. */
 export function startFlags(mode: Mode): Flags {
   return mode === "purge" || mode === "coalition" || mode === "axis" ? { hardMode: true } : {};
@@ -315,6 +438,8 @@ export function resolveChoice(args: {
   let flags: Flags = { ...args.flags };
   if (choice.setFlags) flags = { ...flags, ...choice.setFlags };
   if (choice.uncertain && ri != null && choice.uncertain[ri].setFlags) flags = { ...flags, ...choice.uncertain[ri].setFlags };
+  // Who was heard: the adviser the order follows gains trust, the others on the decision lose a little.
+  flags = trustAfter(flags, stage, index);
   // How a battle was fought, and how well (the plan's grade), carry into later node text.
   if (subgame && subgame.flagsOut) flags = { ...flags, ...subgame.flagsOut };
   if (planCosts && planCosts.grade && choice.keyBattleSubgame) flags = { ...flags, [`${choice.keyBattleSubgame.id}Grade`]: planCosts.grade };

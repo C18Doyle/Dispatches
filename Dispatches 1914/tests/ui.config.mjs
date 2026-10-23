@@ -4,12 +4,12 @@ import { JSDOM } from "jsdom";
 // [id, text on the menu card, hard mode?].
 const CASES = [];
 for (const [id, label] of [
-  ["ohl", "Oberste"],
-  ["gqg", "Grand Quartier"],
-  ["stavka", "Stavka"],
-  ["bef", "British Expeditionary"],
-  ["aok", "Armeeoberkommando"],
-  ["otto", "Ottoman General Staff"],
+  ["ohl", "Germany"],
+  ["gqg", "France"],
+  ["stavka", "Russia"],
+  ["bef", "Britain"],
+  ["aok", "Austria-Hungary"],
+  ["otto", "Ottoman Empire"],
 ])
   for (const hard of [false, true]) CASES.push([id, label, hard]);
 // The easy mode (1.3.0), one run per campaign and seed. Kept apart from CASES so the saved-file cases stay as they were.
@@ -32,7 +32,7 @@ export default {
     if (!card) return "campaign card missing: " + label;
     await ctx.click(card); // the briefing: the mode is chosen here, then the door to the war room
     if (hard) {
-      const sw = ctx.buttons().find((b) => ctx.lab(b) === (hard === "easy" ? "Easy mode" : "Hard mode"));
+      const sw = ctx.buttons().find((b) => ctx.lab(b).endsWith(hard === "easy" ? "Easy mode" : "Hard mode"));
       if (!sw) return "mode switch missing";
       await ctx.click(sw);
     }

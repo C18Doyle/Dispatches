@@ -47,17 +47,17 @@ async function resume(saved) {
   check(/What the staff believes/.test(t) && /reserve corps in the front line/.test(t), "the report lists the staff's belief");
   check(/Reported as firm/.test(t), "the belief carries the staff's grade");
   check(/Rests on a belief the staff has not checked/.test(t), "the order that rests on it says so");
-  check(/Checks left in this file: 3/.test(t) && !!btn(ctx, /^Check it \(3 left\)/), "three checks are offered");
+  check(!!btn(ctx, /^Check it \(3 left\)/), "three checks are offered");
   await ctx.click(btn(ctx, /^Check it/));
   t = ctx.text();
-  check(/Wrong\./.test(t) && /half as strong again/.test(t), "a check says the belief is wrong and gives the truth");
-  check(/Checks left in this file: 2/.test(t), "a check spends one");
-  check(/Rests on a belief that proved wrong/.test(t), "the order now says its belief proved wrong");
+  check(/The staff is divided, and the reports lean against it\./.test(t) && /half as strong again/.test(t), "a check says the staff is divided, leaning against the belief, and gives the evidence");
+  check(!btn(ctx, /^Check it/), "a checked belief offers no second check");
+  check(/Rests on a belief the staff now doubts/.test(t), "the order now says the staff doubts its belief");
   // an order that does not rest on it
   const free = orders(ctx).find((b) => !/Rests on/.test(b.textContent));
   await ctx.click(free);
   t = ctx.text();
-  check(/knew what it was facing/.test(t), "an order given on checked intelligence earns the staff's edge");
+  check(/The staff had checked its reading/.test(t), "an order given on checked intelligence earns the staff's edge");
   ctx.restore();
 }
 
@@ -66,7 +66,7 @@ async function resume(saved) {
   const ctx = await resume(savedAt("gqg", "gqg_1914_01_frontieres"));
   const relies = orders(ctx).find((b) => /Rests on a belief the staff has not checked/.test(b.textContent));
   await ctx.click(relies);
-  check(!/knew what it was facing/.test(ctx.text()), "an order that rests on the belief earns no edge");
+  check(!/The staff had checked its reading/.test(ctx.text()), "an order that rests on the belief earns no edge");
   ctx.restore();
 }
 
@@ -80,7 +80,7 @@ async function resume(saved) {
   ctx.restore();
   const easy = await resume(savedAt("otto", "otto_1914_03_sarikamis", {}, true));
   t = easy.text();
-  check(/Wrong\./.test(t) && !btn(easy, /^Check it/) && !/on the staff's reading/.test(t), "easy mode shows the verdict and no fog");
+  check(/lean against it\./.test(t) && !btn(easy, /^Check it/) && !/on the staff's reading/.test(t), "easy mode shows the verdict and no fog");
   easy.restore();
 }
 
@@ -88,10 +88,10 @@ async function resume(saved) {
 {
   const ctx = await resume(savedAt("gqg", "gqg_1916_04_verdun"));
   await ctx.click(btn(ctx, /^Check it/));
-  check(/Confirmed\./.test(ctx.text()), "a check can confirm a belief");
+  check(/lean toward it\./.test(ctx.text()), "a check can confirm a belief");
   const first = orders(ctx)[0];
   await ctx.click(first);
-  check(!/knew what it was facing/.test(ctx.text()), "checking a belief that held earns no edge");
+  check(!/The staff had checked its reading/.test(ctx.text()), "checking a belief that held earns no edge");
   ctx.restore();
 }
 

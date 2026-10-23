@@ -83,7 +83,17 @@ function checkCondition(where: string, c: unknown) {
 // ── config ──
 shape("config", config, {
   id: "string", title: "string", schemaVersion: "number", resources: "array", axes: "array", epilogue: "?object",
-  difficulties: "object", defaultDifficulty: "string", startBranch: "string", interludeTriggers: "array", assist: "?object", strain: "?object", trackers: "?array", skipToNodeId: "?string",
+  difficulties: "object", defaultDifficulty: "string", startBranch: "string", interludeTriggers: "array", assist: "?object", strain: "?object", trackers: "?array", coupling: "?array", skipToNodeId: "?string",
+});
+config.coupling?.forEach((c, i) => {
+  const w = `coupling ${i}`;
+  shape(w, c, { when: "object", on: "object", add: "object", label: "string" });
+  shape(`${w} when`, c.when, { resource: "string", atOrBelow: "number" });
+  shape(`${w} on`, c.on, { resource: "string", direction: "string" });
+  if (!resourceIds.has(c.when.resource)) fail(w, `unknown resource "${c.when.resource}"`);
+  if (!resourceIds.has(c.on.resource)) fail(w, `unknown resource "${c.on.resource}"`);
+  if (c.on.direction !== "gain" && c.on.direction !== "loss") fail(w, "direction must be gain or loss");
+  checkStamps(w, c.add);
 });
 // trackers are checked once the flags used are known (see below): their conditions are read like any other
 if (config.strain) {

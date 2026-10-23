@@ -1,22 +1,10 @@
 {
   "_note": "Reviewed exceptions for the audits in tools/. Each is a finding that is understood and accepted for now; remove an entry when the content is fixed.",
+  "_hardMode": "hardMode and purgedAt are markers that the rules in logic.ts write for the hard modes (startFlags, the suspicion ceiling). No report reads them: the run's mode and the end-screen label carry the same information. They stay as markers in the save.",
   "reachability": {
     "writeOnlyFlag": [
-      "batBombPath",
-      "combinedPressurePath",
-      "declarationResult",
-      "earlyPeacePath",
-      "embargoResult",
-      "finalDeadlockPath",
-      "gasWarfarePath",
-      "gasWarfareResult",
-      "halseyTyphoonPath",
       "hardMode",
-      "lateWarPath",
-      "nagasakiDelayPath",
-      "purgedAt",
-      "secondBombPath",
-      "submarineCarriersPath"
+      "purgedAt"
     ]
   },
   "adviserDates": []

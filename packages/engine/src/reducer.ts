@@ -4,7 +4,7 @@
  * Randomness arrives inside the action (CONDUCT_EXPERIMENT.roll).
  */
 import { evalCondition } from "./conditions";
-import { applyAxisDelta, applyStamps, checkFailureEnding, effectiveRollChance, isOptionUnavailable, startResourcesFor, strainFor } from "./rules";
+import { applyAxisDelta, applyStamps, checkFailureEnding, effectiveRollChance, effectiveStamps, isOptionUnavailable, startResourcesFor, strainFor } from "./rules";
 import type { Action, GameDefinition, GameState } from "./schema";
 
 export function createInitialState(def: GameDefinition): GameState {
@@ -143,7 +143,7 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
         phase: "OUTCOME",
         pendingOutcomeText: option.outcome,
         pendingOutcomeKind: "CHOICE",
-        pendingOutcomeStamps: option.stamps,
+        pendingOutcomeStamps: effectiveStamps(def, state.resources, option.stamps),
         pendingTarget: failureEnding ?? option.nextNodeId,
       };
     }
@@ -163,7 +163,7 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
         phase: "OUTCOME",
         pendingOutcomeText: result.outcome,
         pendingOutcomeKind: success ? "SUCCESS" : "FAILURE",
-        pendingOutcomeStamps: result.stamps,
+        pendingOutcomeStamps: effectiveStamps(def, state.resources, result.stamps),
         // A branch may name its own destination; otherwise the option's shared one stands.
         pendingTarget: failureEnding ?? result.nextNodeId ?? state.pendingTarget,
         pendingRoll: null,
@@ -180,7 +180,7 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
       const assist = config.assist;
       const stamps = assist?.favors[action.resource];
       if (!assist || !stamps || state.favorUsed) return state;
-      const resources = applyStamps(def, state.resources, stamps);
+      const resources = applyStamps(def, state.resources, stamps, false);
       const next = { ...state, resources, favorUsed: true, flags: { ...state.flags, [assist.favorFlag]: true } };
       const failureEnding = checkFailureEnding(def, resources);
       return failureEnding ? { ...next, phase: "ENDING" as const, endingId: failureEnding } : next;
