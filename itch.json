@@ -48,7 +48,7 @@
         "dispatches/dispatches-dracula:download-full"
       ],
       "full": [
-        "REPLACE_ME/dispatches-dracula-confidential:web-full"
+        "dispatches/dispatches-dracula:web-full"
       ]
     }
   },

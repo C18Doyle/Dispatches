@@ -20,7 +20,9 @@ Wide-banner line (already on the artwork): *Play the Count. Or the woman who kee
 - **Release status:** In development (a test build). **Pricing:** no payments while it is a test build.
 - **Tags:** dracula, gothic, horror, interactive-fiction, branching-narrative, text-based, strategy, victorian, historical, atmospheric, mobile-friendly, singleplayer, short
 - **Community:** comments on (this is where feedback goes).
-- **Embed (Uploads, channel `web-full`):** tick *This file will be played in the browser*; viewport 600 wide by 900 tall; tick *Mobile friendly* and *Fullscreen button*; leave *Automatically start on page load* off; leave *Scrollbars* on.
+- **Uploads.** A release pushes three files to this page: `web-full` (the whole game, both seats, to play in the browser), `download-full` (the same game as a folder with an offline-capable page, to download) and `web-demo` (the Count's Act I only, to play in the browser). If itch lets only one HTML upload be played in the browser, tick it on the one you want visitors to see first and leave the other as a download.
+- **Embed (for each browser-playable channel):** tick *This file will be played in the browser*; viewport 600 wide by 900 tall; tick *Mobile friendly* and *Fullscreen button*; leave *Automatically start on page load* off; leave *Scrollbars* on.
+- **Label the uploads** (the filenames are the zip names): Full game (play in browser), Full game (download, works offline), Demo (Act I of the Count).
 
 ## Artwork (`itch/artwork/`)
 
@@ -50,14 +52,16 @@ All of it is drawn by the game's own artwork code (`src/art.tsx`) in the game's 
 > On the title page, switch to **Mina Harker**. It is the same weeks from the other side: her journal, her typewriter, her choices. Forty scenes of her own and fifteen more endings. She is not a hunter's assistant. She is the one who puts the papers in order, and everyone around her knows it.
 >
 > ### What is in it
-> - **45 scenes** for the Count in three tracks (the Quiet Colony, the Court at Carfax, the Storm), **40 more** for Mina, and **30 endings** between them, each with its own picture.
+> - **48 scenes** for the Count in three tracks (the Quiet Colony, the Court at Carfax, the Storm), **40 more** for Mina, and **30 endings** between them, each with its own picture.
+> - **Three optional rooms in Act I:** Harker's journal by lamplight, the Szgany in the courtyard and the harbour office at Whitby. Each is an hour you can spend or save, and what you learn comes back later.
+> - **Easy and Hard that change the game**, not only what you can see: Easy starts you stronger and eases the strain of a short reserve; Hard starts you weakened and doubles it.
 > - **Ventures** whose odds you can see before you take them, and a hold on the clock: some choices are a race against the sun.
 > - **Documents the way the novel keeps them**: letters, newspaper clippings, Dr Seward's phonograph, the Demeter's log, a notebook page, Mrs Harker's typescript. Which ones you meet depends on what you did.
 > - **Facts you can trust.** Every claim the game makes about the book is checked against the 1897 text, and every line of Stoker's own is marked.
 > - **Four looks**, one of them cream paper and black ink; a score that follows the screen; sound effects for places and moods; and a **share card** of your ending to save or post.
 >
 > ### How to play
-> Read the scene and tap a choice. Tap again to confirm it. Watch the three reserves: a choice shows what it will cost, and a locked choice says what it asks for. Press **Call the Children of the Night** if you want the wolves, rats and owls to tell you more. Best on a phone, in the dark.
+> Read the scene and tap a choice. Tap again to confirm it. Letters and papers can be read aloud with **Hear it**. Watch the three reserves: a choice shows what it will cost, and a locked choice says what it asks for. Press **Call the Children of the Night** if you want the wolves, rats and owls to tell you more. Best on a phone, in the dark.
 >
 > ### Please read
 > This is a **test build**, and nobody but its author has played it yet. The dialogue is invented; the novel is public domain. The game does not show what the Count does to the people he feeds on, and it does not make a game of it. The novel is from 1897 and its attitudes belong to it: it is hard on women who step out of line, wary of foreigners and careless about people in asylums. The game does not agree with any of that.
@@ -78,6 +82,11 @@ All of it is drawn by the game's own artwork code (`src/art.tsx`) in the game's 
 
 > **0.2.0: a second seat, a picture for every ending, and the paper trail.**
 > Mina Harker is now playable from the title page, with her own scenes, endings and look. Every one of the 15 Count endings has a drawn plate, and the page darkens at the edges as a reserve runs low. Six more documents turn up depending on what you did (the Demeter's log, Dr Seward's note on Renfield, Mina's journal on the East Cliff, a letter, the Hampstead mystery and the typescript). There are four looks, generated sound effects, a share card, and the fonts are now inside the game, so it looks right offline. Tell me where it dragged.
+
+## Devlog post for 0.3.0
+
+> **0.3.0: three ways to get it, and a harder (and gentler) passage.**
+> The game now comes three ways on this page: play the whole thing in the browser, download it (it works offline, and from an https host you can add it to your phone's home screen), or try the demo, which is the Count's Act I only. Easy and Hard now change the numbers (Easy begins stronger, Hard begins weakened and feels strain twice as hard). Act I has three optional rooms you can step into and back out of. Each Act II track opens with its own plate and colours the page. Mina has counters of her own (the Host she has left, the tie with the Count, the leads in her record), and every document can be read aloud with Hear it.
 
 ## The day it goes public
 
