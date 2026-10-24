@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "paths": {
+      "@dispatches/engine": [
+        "../packages/engine/src/index.ts"
+      ],
+      "@seat/*": [
+        "./src/content/dracula/*"
+      ],
+      "@mina-seat": [
+        "./src/seat-mina.ts"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "scripts"
+  ]
+}

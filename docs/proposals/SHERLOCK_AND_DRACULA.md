@@ -2,6 +2,8 @@
 
 Status: proposal, not started. Written 2026-10-10 for the author to choose between.
 
+**Update 2026-10-13:** neither design below was built. A third, smaller one was: a plain *Dracula* in Frankenstein's format, with no Holmes, in `Dispatches Dracula/` (see its CLAUDE.md). You play the Count (the proposal's Design A seat, "the Count's household", without Mycroft); Mina's campaign is built as a hidden second seat. It leaves the year unnamed, uses only invented dialogue, and has not been checked against the printed text. A Sherlock crossover can still follow it.
+
 Both designs rest on the same fact: **the two stories overlap in time.** Stoker's novel runs from May to November of a year the text leaves out (his working notes and most readers put it in 1893). Conan Doyle sent Holmes over the Reichenbach Falls in May 1891 and brought him back in April 1894: the Great Hiatus, three years in which the world thinks the detective is dead. A Holmes who is alive, unseen and abroad in 1893 is not a crossover that fights the canon of either book. It fits in a gap that Doyle himself left open.
 
 **Rights.** *Dracula* (1897) and every Holmes story (the last was published in 1927) are in the public domain in the United States and the United Kingdom. What is not free: the Universal and Hammer films' look (Lugosi's cape and widow's peak), and anything from a later adaptation. The game must work from the printed texts only. Sources would be Project Gutenberg editions, checked against the novels, in the same way as `claims/source/frankenstein-1818.txt`.

@@ -1,0 +1,79 @@
+{
+  "name": "dracula-the-passage",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit && tsc -p ../packages/engine/tsconfig.json",
+    "validate": "tsx scripts/validate.ts",
+    "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts dracula",
+    "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts dracula",
+    "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
+    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run check:writing && npm run check:repetition && npm run check:fonts && npm run check:quotations && npm run check:claims && npm run check:map && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check:demo && npm run check-a11y && npm run check:mina",
+    "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
+    "build:js": "node esbuild.config.mjs",
+    "build": "npm run build:css && npm run build:js && node scripts/inline.mjs && node scripts/inline.mjs --pwa && node scripts/package_download.mjs && npm run build:demo",
+    "test:fast": "npm test",
+    "release": "node ../packages/testkit/src/release.mjs",
+    "test:saves": "tsx scripts/test_saves.ts",
+    "verify:ui": "npm run build && node ../packages/testkit/src/cli.mjs verify",
+    "ui:accept": "node ../packages/testkit/src/cli.mjs accept",
+    "check-a11y": "node scripts/check-a11y.mjs",
+    "record:baseline": "tsx ../packages/engine/tools/record_baseline.ts dracula",
+    "check:balance": "tsx scripts/balance_check.ts",
+    "test:ledger": "tsx scripts/test_ledger.ts",
+    "build:demo": "node esbuild.config.mjs --demo && node scripts/inline.mjs --demo",
+    "check:demo": "node scripts/check_demo.mjs",
+    "check:writing": "node scripts/check_writing.mjs && node ../tools/check-writing.mjs . --strict",
+    "check:repetition": "node scripts/check_repetition.mjs --strict",
+    "build:mina": "npm run build:css && node esbuild.config.mjs --seat=mina && node scripts/inline.mjs --seat=mina",
+    "check:mina": "node scripts/check_mina.mjs",
+    "check:quotations": "node scripts/check_quotations.mjs",
+    "check:claims": "node scripts/check_novel_claims.mjs",
+    "report:options": "tsx scripts/report_options.ts",
+    "map": "node scripts/scene_map.mjs",
+    "check:map": "node scripts/scene_map.mjs --check",
+    "check:fonts": "node scripts/check_fonts.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "esbuild": "^0.24.0",
+    "jsdom": "^30.1.2",
+    "playwright": "^1.63.0",
+    "tailwindcss": "^3.4.14",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "release": {
+    "build": "npm run build",
+    "variants": [
+      {
+        "name": "full",
+        "from": "dist",
+        "zip": "dispatches-dracula-full.zip",
+        "include": [
+          "index.html"
+        ]
+      },
+      {
+        "name": "download",
+        "from": "dist/download",
+        "zip": "dispatches-dracula-download.zip"
+      },
+      {
+        "name": "demo",
+        "from": "dist/demo",
+        "zip": "dispatches-dracula-demo.zip",
+        "include": [
+          "index.html"
+        ]
+      }
+    ]
+  }
+}

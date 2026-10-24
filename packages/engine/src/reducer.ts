@@ -3,7 +3,8 @@
  * returns a new state, never mutates, never reads Math.random / Date / DOM.
  * Randomness arrives inside the action (CONDUCT_EXPERIMENT.roll).
  */
-import { applyAxisDelta, applyStamps, checkFailureEnding, effectiveRollChance, effectiveStamps, isOptionUnavailable } from "./rules";
+import { evalCondition } from "./conditions";
+import { applyAxisDelta, applyStamps, checkFailureEnding, effectiveRollChance, effectiveStamps, isOptionUnavailable, startResourcesFor, strainFor } from "./rules";
 import type { Action, GameDefinition, GameState } from "./schema";
 
 export function createInitialState(def: GameDefinition): GameState {
@@ -67,6 +68,8 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
         currentNodeId: content.startNodeId,
         activeBranch: config.startBranch,
         money: rules.startingMoney,
+        // a difficulty may begin the run stronger or weaker (startBonus); without one the reserves are left as they were
+        ...(rules.startBonus ? { resources: startResourcesFor(config, state.difficulty) } : {}),
       };
 
     // Returning-player shortcut past the non-branching opening. Resources, axes
@@ -79,7 +82,7 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
         currentNodeId: config.skipToNodeId,
         activeBranch: config.startBranch,
         money: rules.startingMoney,
-        resources: Object.fromEntries(config.resources.map((r) => [r.id, r.start])),
+        resources: startResourcesFor(config, state.difficulty),
         axes: Object.fromEntries(config.axes.map((a) => [a.id, 0])),
         flags: {},
       };
@@ -148,7 +151,7 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
     case "CONDUCT_EXPERIMENT": {
       if (!state.pendingRoll || !state.pendingTarget) return state;
       const roll = state.pendingRoll;
-      const success = action.roll < effectiveRollChance(roll, state.resources, config.strain);
+      const success = action.roll < effectiveRollChance(roll, state.resources, strainFor(config, state.difficulty));
       const result = success ? roll.success : roll.failure;
 
       const resources = applyStamps(def, state.resources, result.stamps);
@@ -201,7 +204,9 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
       // At most one interlude per transition: one-shot triggers in config order,
       // then the first resource at its crisis level (once per run).
       let interludeId: string | null = null;
-      const trigger = config.interludeTriggers.find((t) => t.onEnterNodes.includes(target) && !state.shownOneShot.includes(t.interludeId));
+      const trigger = config.interludeTriggers.find(
+        (t) => t.onEnterNodes.includes(target) && !state.shownOneShot.includes(t.interludeId) && (!t.when || evalCondition(t.when, state))
+      );
       if (trigger) {
         interludeId = trigger.interludeId;
       } else {

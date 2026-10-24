@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        game: ["Frankenstein", "1914", "1922", "1941", "1940", "Sherlock"]
+        game: ["Frankenstein", "Dracula", "1914", "1922", "1941", "1940", "Sherlock"]
         os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-24.04"]') || fromJSON('["ubuntu-24.04","windows-latest"]') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
@@ -67,7 +67,7 @@ jobs:
       - run: node tools/run-all.mjs --install
       - name: Build every game
         run: |
-          for g in "Dispatches Frankenstein" "Dispatches 1914" "Dispatches 1922" "Dispatches 1941" "Dispatches 1940" "Dispatches Sherlock"; do
+          for g in "Dispatches Frankenstein" "Dispatches Dracula" "Dispatches 1914" "Dispatches 1922" "Dispatches 1941" "Dispatches 1940" "Dispatches Sherlock"; do
             echo ">>> $g"
             if (cd "$g" && npm run | grep -q "build:nozip"); then (cd "$g" && npm run build:nozip); else (cd "$g" && npm run build); fi
           done
@@ -77,6 +77,11 @@ jobs:
           npx playwright install --with-deps chromium webkit
       - name: Real-browser smoke test (Chromium + WebKit, accessibility)
         run: node tools/smoke-browser.mjs
+      - name: "Firefox smoke test of Dracula (advisory, as the other games have not been looked at in Firefox yet)"
+        continue-on-error: true
+        run: |
+          npx playwright install --with-deps firefox
+          BROWSERS=firefox node tools/smoke-browser.mjs Dracula
       - name: Real-browser audit of the 1914 screens (themes, phone, accessibility)
         working-directory: Dispatches 1914
         env:

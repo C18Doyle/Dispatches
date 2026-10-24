@@ -1,0 +1,533 @@
+{
+  "title": "Dracula",
+  "subtitle": "The Passage",
+  "tagline": "A very old man learns a new country.",
+  "beginLabel": "Begin the Passage",
+  "continueLabel": "Continue Your Passage",
+  "prologueHeading": "A Letter Not Sent",
+  "skipLabel": "Skip to Carfax",
+  "settingsTitle": "The Library",
+  "seriesBlurb": "Dracula is one entry in the Dispatches series of document-driven branching narrative games.",
+  "branchLabels": {
+    "UNIVERSAL": "Act I · The Passage",
+    "QUIET": "Act II · The Quiet Colony",
+    "COURT": "Act II · The Court at Carfax",
+    "STORM": "Act II · The Storm"
+  },
+  "suspensePhrases": [
+    "A wolf stops howling.",
+    "The candle leans.",
+    "Somewhere a door is tried.",
+    "The fog holds still."
+  ],
+  "money": {
+    "format": "{n} gold",
+    "label": "Chest",
+    "left": "Gold Left"
+  },
+  "endText": {
+    "collapsed": "The Passage Fails",
+    "closed": "The Night Ends",
+    "remembered": "How You Are Remembered",
+    "newRun": "Begin Another Passage",
+    "novelHeading": "In the Novel"
+  },
+  "adviser": {
+    "name": "The Children of the Night",
+    "openLabel": "Call the Children of the Night",
+    "askLabel": "Ask What They Have Seen",
+    "advisedLabel": "They Have Told You",
+    "advisedNote": "Wolves and rats and owls report, one after another, what each choice below will cost you.",
+    "remedyLabel": "A Night's Hunting",
+    "remedyNote": "The pack hunts once for you. It will lift one of your reserves, and it will cost you elsewhere. It will not hunt twice.",
+    "talkLabel": "What the Rats Heard",
+    "talkPrefix": "Overheard.",
+    "readLabel": "What the Old Wolf Thinks",
+    "readPrefix": "The old wolf, of you:"
+  },
+  "tags": {
+    "dawn": "Before dawn"
+  },
+  "account": {
+    "heading": "What It Cost",
+    "intro": "The people named in this passage, and what became of them. The list is plain on purpose.",
+    "people": [
+      {
+        "name": "Jonathan Harker",
+        "lines": [
+          {
+            "when": {
+              "flag": "harkerDead"
+            },
+            "text": "He did not go home."
+          },
+          {
+            "when": {
+              "flag": "harkerFree"
+            },
+            "text": "You left his door open, and he walked out."
+          },
+          {
+            "when": {
+              "flag": "harkerLocked"
+            },
+            "text": "You left him locked in with the key to be found. He found it."
+          }
+        ]
+      },
+      {
+        "name": "The three in the east wing",
+        "lines": [
+          {
+            "when": {
+              "flag": "sistersPromised"
+            },
+            "text": "You owe them a man, and they have kept count."
+          },
+          {
+            "when": {
+              "flag": "sistersFed"
+            },
+            "text": "You took them to the hill pastures, and the shepherds spoke of wolves."
+          },
+          {
+            "when": {
+              "flag": "sistersForbidden"
+            },
+            "text": "You drove them back from him, and they have not forgotten it."
+          }
+        ]
+      },
+      {
+        "name": "The crew of the Demeter",
+        "lines": [
+          {
+            "when": {
+              "flag": "crewTaken"
+            },
+            "text": "You took them one at a time. The master was found lashed to the wheel."
+          },
+          {
+            "when": {
+              "flag": "crewSpared"
+            },
+            "text": "You left them alone, and they did not forget the hold."
+          }
+        ]
+      },
+      {
+        "name": "Mr Swales",
+        "lines": [
+          {
+            "when": {
+              "flag": "swalesDead"
+            },
+            "text": "He was found on his seat with his neck broken."
+          },
+          {
+            "when": {
+              "flag": "swalesTalked"
+            },
+            "text": "He told what he had seen, and nobody believed him."
+          }
+        ]
+      },
+      {
+        "name": "Lucy Westenra",
+        "lines": [
+          {
+            "when": {
+              "flag": "lucyAtWindow"
+            },
+            "text": "A wolf came through her window, and her mother died in the room."
+          },
+          {
+            "when": {
+              "any": [
+                {
+                  "flag": "lucyTaken"
+                },
+                {
+                  "flag": "lucyTakenFast"
+                }
+              ]
+            },
+            "text": "You took her blood through the autumn, and her doctors could not say why she failed."
+          },
+          {
+            "when": {
+              "flag": "lucyCourted"
+            },
+            "text": "You courted her, and she asked after you in her sleep."
+          },
+          {
+            "when": {
+              "flag": "mistVisit"
+            },
+            "text": "You came to her as a mist, and she smiled in her sleep."
+          },
+          {
+            "when": {
+              "flag": "lucyOnce"
+            },
+            "text": "You took a little, once, and she thought she had been ill."
+          },
+          {
+            "when": {
+              "flag": "lucyMarked"
+            },
+            "text": "You marked her at Whitby, and went on."
+          },
+          {
+            "when": {
+              "any": [
+                {
+                  "flag": "lucySpared"
+                },
+                {
+                  "flag": "lucyLeftAlone"
+                },
+                {
+                  "flag": "lucyAbandoned"
+                }
+              ]
+            },
+            "text": "You left her alone, and she mended."
+          }
+        ]
+      },
+      {
+        "name": "Mrs Westenra",
+        "lines": [
+          {
+            "when": {
+              "any": [
+                {
+                  "flag": "lucyAtWindow"
+                },
+                {
+                  "flag": "wolfSent"
+                }
+              ]
+            },
+            "text": "She died of the shock when the wolf came through the window."
+          },
+          {
+            "when": {
+              "flag": "flowersRemoved"
+            },
+            "text": "She took down the garlic with her own hands, at your word."
+          }
+        ]
+      },
+      {
+        "name": "Mina Harker",
+        "lines": [
+          {
+            "when": {
+              "flag": "minaMarked"
+            },
+            "text": "You marked her, and she carries it."
+          },
+          {
+            "when": {
+              "flag": "minaListened"
+            },
+            "text": "You told her what you were. She said she would think."
+          },
+          {
+            "when": {
+              "flag": "minaSpoken"
+            },
+            "text": "You spoke to her, and she did not scream."
+          },
+          {
+            "when": {
+              "flag": "minaScreamed"
+            },
+            "text": "She screamed on purpose, and the house woke."
+          },
+          {
+            "when": {
+              "flag": "papersTaken"
+            },
+            "text": "You took her typescript, and she began it again."
+          },
+          {
+            "when": {
+              "flag": "minaRead"
+            },
+            "text": "You read what she had typed."
+          },
+          {
+            "when": {
+              "flag": "minaSpared"
+            },
+            "text": "You left her alone."
+          }
+        ]
+      },
+      {
+        "name": "Renfield",
+        "lines": [
+          {
+            "when": {
+              "flag": "renfieldRescued"
+            },
+            "text": "You took him out of the asylum. He asked for a bird."
+          },
+          {
+            "when": {
+              "flag": "renfieldSteward"
+            },
+            "text": "You made him your steward, and he kept faith."
+          },
+          {
+            "when": {
+              "flag": "renfieldBound"
+            },
+            "text": "You promised him lives, and he watched your road."
+          },
+          {
+            "when": {
+              "flag": "renfieldUsed"
+            },
+            "text": "You used him once, to open a door."
+          },
+          {
+            "when": {
+              "any": [
+                {
+                  "flag": "renfieldRefused"
+                },
+                {
+                  "flag": "renfieldSnubbed"
+                }
+              ]
+            },
+            "text": "You told him nobody was coming, and he stopped waiting."
+          }
+        ]
+      },
+      {
+        "name": "The watcher in the crypt",
+        "lines": [
+          {
+            "when": {
+              "flag": "staredDown"
+            },
+            "text": "You held his eyes until the cross shook."
+          },
+          {
+            "when": {
+              "flag": "ratsAtCarfax"
+            },
+            "text": "You put out his lantern with rats."
+          },
+          {
+            "when": {
+              "flag": "mistedOut"
+            },
+            "text": "You gave him an empty crypt."
+          }
+        ]
+      }
+    ]
+  },
+  "map": {
+    "heading": "The Passage",
+    "note": "A sketch, not to scale.",
+    "places": [
+      {
+        "id": "castle",
+        "label": "Castle Dracula",
+        "x": 88,
+        "y": 14
+      },
+      {
+        "id": "varna",
+        "label": "Varna",
+        "x": 84,
+        "y": 44
+      },
+      {
+        "id": "sea",
+        "label": "The sea",
+        "x": 58,
+        "y": 76
+      },
+      {
+        "id": "whitby",
+        "label": "Whitby",
+        "x": 28,
+        "y": 80
+      },
+      {
+        "id": "london",
+        "label": "London",
+        "x": 14,
+        "y": 56
+      },
+      {
+        "id": "carfax",
+        "label": "Carfax",
+        "x": 40,
+        "y": 40
+      },
+      {
+        "id": "piccadilly",
+        "label": "Piccadilly",
+        "x": 8,
+        "y": 32
+      },
+      {
+        "id": "eastend",
+        "label": "East End",
+        "x": 46,
+        "y": 60
+      }
+    ],
+    "routes": [
+      [
+        "castle",
+        "varna"
+      ],
+      [
+        "varna",
+        "sea"
+      ],
+      [
+        "sea",
+        "whitby"
+      ],
+      [
+        "whitby",
+        "london"
+      ],
+      [
+        "london",
+        "carfax"
+      ],
+      [
+        "london",
+        "piccadilly"
+      ],
+      [
+        "london",
+        "eastend"
+      ]
+    ],
+    "at": {
+      "1": "castle",
+      "2": "castle",
+      "3": "castle",
+      "4": "castle",
+      "5": "castle",
+      "6": "castle",
+      "7": "castle",
+      "8": "sea",
+      "9": "sea",
+      "10": "whitby",
+      "11": "carfax",
+      "9-X": "whitby",
+      "10-X": "whitby",
+      "10-QUIET": "london",
+      "11-ASYLUM": "carfax",
+      "11-PLAN": "carfax",
+      "12A": "piccadilly",
+      "13A": "carfax",
+      "16A": "carfax",
+      "16A-X": "carfax",
+      "17C": "carfax",
+      "19B": "carfax",
+      "18B": "london",
+      "18A": "eastend",
+      "19A": "eastend",
+      "18C": "sea",
+      "19C": "sea",
+      "2-JOURNAL": "castle",
+      "6-SZGANY": "castle",
+      "10-HARBOUR": "whitby"
+    },
+    "defaultAt": "london",
+    "states": [
+      {
+        "place": "castle",
+        "when": {
+          "any": [
+            {
+              "flag": "reserveBoxes"
+            },
+            {
+              "flag": "fewBoxes"
+            }
+          ]
+        },
+        "state": "safe"
+      },
+      {
+        "place": "carfax",
+        "when": {
+          "flag": "carfaxSealed"
+        },
+        "state": "sealed"
+      },
+      {
+        "place": "piccadilly",
+        "when": {
+          "any": [
+            {
+              "flag": "piccadillyBought"
+            },
+            {
+              "flag": "piccadillyPaid"
+            }
+          ]
+        },
+        "state": "held"
+      },
+      {
+        "place": "eastend",
+        "when": {
+          "flag": "eastEndCellars"
+        },
+        "state": "held"
+      },
+      {
+        "place": "varna",
+        "when": {
+          "flag": "czarinaBooked"
+        },
+        "state": "held"
+      }
+    ],
+    "stateLabels": {
+      "held": "yours",
+      "sealed": "sealed by the hunters",
+      "safe": "boxes safe here"
+    }
+  },
+  "switchSeat": {
+    "to": "mina",
+    "label": "Play as Mina Harker",
+    "note": "The same weeks, from the other side: her journal, her typewriter, her choices."
+  },
+  "defaultTheme": "blood",
+  "tracks": {
+    "QUIET": {
+      "epigraph": "Be small, be patient, be forgotten.",
+      "place": "eastend",
+      "tint": "#c9892b"
+    },
+    "COURT": {
+      "epigraph": "Every lord needs someone to open the door for him.",
+      "place": "piccadilly",
+      "tint": "#d4a72c"
+    },
+    "STORM": {
+      "epigraph": "The animals of London have been waiting a long time to be asked.",
+      "place": "carfax",
+      "tint": "#3f8f9a"
+    }
+  }
+}
