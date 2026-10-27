@@ -30,7 +30,8 @@
     "playthrough": "node tools/playthrough.mjs",
     "review:build": "node tools/claims-review.mjs",
     "review:status": "node tools/claims-review.mjs --status",
-    "review:apply": "node tools/apply-review.mjs"
+    "review:apply": "node tools/apply-review.mjs",
+    "visual": "node tools/visual.mjs"
   },
   "license": "UNLICENSED",
   "dependencies": {
