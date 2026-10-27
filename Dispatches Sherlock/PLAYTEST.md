@@ -23,3 +23,6 @@
 - The finales now have a second chance. Does a well-prepared player still feel the capture was earned, and does a careless one still feel that it could slip?
 - The two new investigations (the river and the hotel) are optional in spirit: does a tester see what they pay off in the finale?
 - The paper look has been checked for contrast by a script and by eye on a phone-width screenshot only; ask someone to read a long scene in it, outdoors.
+- Deadlines: do the late and early cards feel fair, or like punishment for a bad run of luck? Does anyone notice that Hours decide them?
+- The Professor's answers: do five of them feel like an opponent, or like a tax on cutting arms? Is the counter (a watch set, warrants sworn) discoverable?
+- The hidden endings: does a tester find any of them without being told? Is the lock's hint enough to guess the missing choice?

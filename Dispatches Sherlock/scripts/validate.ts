@@ -4,7 +4,7 @@
  * so this can't silently drift from what ships. Reports measured counts, per
  * Craig's own validation standard: never "looks good" without numbers.
  */
-import { isOptionLocked, isOptionFlagLocked, isOptionHidden, isOptionConditionLocked, applyAxisDelta, applyStamps, reduce, createInitialState, isOptionUnavailable } from "@dispatches/engine";
+import { isOptionLocked, isOptionFlagLocked, isOptionHidden, isOptionConditionLocked, applyAxisDelta, applyStamps, reduce, createInitialState, isOptionUnavailable, evalCondition } from "@dispatches/engine";
 import type { Condition, Difficulty, GameState } from "@dispatches/engine";
 import { loadDefinition } from "../../packages/engine/tools/load_definition";
 
@@ -24,6 +24,8 @@ type Resources = Record<string, number>;
 const ENGINE_LEVEL_FLAGS = [def.config.assist?.favorFlag ?? "mycroftFavour"];
 
 const RESOURCES: Resource[] = def.config.resources.map((r) => r.id);
+// Triggers with a condition and consequences (a deadline, an enemy's answer) fire on arriving at a scene; the search applies them as the engine does.
+const TRIGGERS = def.config.interludeTriggers;
 let failures = 0;
 
 // An option whose conditions ask for "at most" or "not set" (a repair for a low gauge, a consequence of low trust) is not part of the dominance search:
@@ -164,6 +166,7 @@ for (const node of Object.values(NODES)) {
     condAxesOf(opt.showWhen, KEY_AXES);
   }
 }
+for (const t of TRIGGERS) condFlagsOf(t.when, KEY_FLAGS);
 const keyFlags = [...KEY_FLAGS].sort();
 const keyAxes = [...KEY_AXES].sort();
 
@@ -194,7 +197,7 @@ const thresholdOf = (id: string, kind: "res" | "ax", scope?: Set<string>): numbe
   let t = -Infinity;
   const consider = (c: Condition | undefined) => {
     if (!c) return;
-    if (kind === "res" && "resource" in c && c.resource === id) t = Math.max(t, c.op === ">" ? c.value + 1 : c.value);
+    if (kind === "res" && "resource" in c && c.resource === id) t = Math.max(t, c.op === ">" || c.op === "<=" ? c.value + 1 : c.value);
     else if (kind === "ax" && "axis" in c && c.axis === id) t = Math.max(t, c.op === ">" ? c.value + 1 : c.value);
     else if ("all" in c) c.all.forEach(consider);
     else if ("any" in c) c.any.forEach(consider);
@@ -206,6 +209,7 @@ const thresholdOf = (id: string, kind: "res" | "ax", scope?: Set<string>): numbe
     consider(opt.showWhen);
     if (kind === "res" && opt.gate?.resource === id) t = Math.max(t, opt.gate.minThreshold);
   }
+  for (const tr of TRIGGERS) if (!scope || tr.onEnterNodes.some((n) => scope.has(n))) consider(tr.when);
   if (kind === "res") {
     for (const c of def.config.coupling ?? []) if (c.when.resource === id) t = Math.max(t, c.when.atOrBelow + 1);
     const r = RESOURCE_DEFS.find((x) => x.id === id);
@@ -239,8 +243,11 @@ function maxDrop(nodeId: string, id: string, kind: "res" | "ax", stack: string[]
     for (const t of targets) if (t !== nodeId && !t.startsWith("ENDING_") && NODES[t]) after = Math.max(after, maxDrop(t, id, kind, [...stack, nodeId]));
     best = Math.max(best, here + after);
   }
-  dropMemo.set(key, best);
-  return best;
+  // a trigger on arriving here can take something off too
+  let trigDrop = 0;
+  if (kind === "res") for (const tr of TRIGGERS) if (tr.onEnterNodes.includes(nodeId) && tr.stamps) trigDrop = Math.max(trigDrop, -(tr.stamps[id] ?? 0), couplingExtra(id));
+  dropMemo.set(key, best + trigDrop);
+  return best + trigDrop;
 }
 const CAPS = new Map<string, { res: number[]; ax: number[] }>();
 {
@@ -250,6 +257,12 @@ const CAPS = new Map<string, { res: number[]; ax: number[] }>();
     // flags and axes that nothing from here on reads cannot matter, so states differing only in them are one state
     let live = 0n;
     const liveAx = keyAxes.map(() => false);
+    for (const sid of scope) for (const tr of TRIGGERS) {
+      if (!tr.onEnterNodes.includes(sid)) continue;
+      const fs = new Set<string>();
+      condFlagsOf(tr.when, fs);
+      for (const f of fs) live |= flagBit.get(f)!;
+    }
     for (const sid of scope) for (const opt of NODES[sid].options) {
       if (NONMONO.has(opt)) continue;
       const fs = new Set<string>();
@@ -325,6 +338,26 @@ function unreachedFrom(id: string): number {
   return n;
 }
 const unseenTarget = (t: string) => (t.startsWith("ENDING_") ? !reachableEndingIds.has(t) : !reachableNodeIds.has(t));
+/** Arriving at a scene can fire a trigger with consequences: apply it as the engine does, then search from there. */
+function enter(target: string, resources: Resources, axes: Axes, flags: Record<string, boolean>, depth: number, difficulty: Difficulty) {
+  const node = NODES[target];
+  if (node) {
+    const here = stateOf(resources, axes, flags, difficulty, node.branch);
+    const trig = TRIGGERS.find((t) => t.onEnterNodes.includes(target) && (!t.when || evalCondition(t.when, here)));
+    if (trig && (trig.stamps || trig.setFlags)) {
+      const after = trig.stamps ? applyStamps(def, resources, trig.stamps) : resources;
+      const ending = trig.stamps ? failureOf(after) : undefined;
+      if (ending) {
+        reachableEndingIds.add(ending);
+        return;
+      }
+      const flags2 = trig.setFlags ? { ...flags, ...Object.fromEntries(trig.setFlags.map((f) => [f, true])) } : flags;
+      dfs(target, after, axes, flags2, depth, difficulty);
+      return;
+    }
+  }
+  dfs(target, resources, axes, flags, depth, difficulty);
+}
 function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<string, boolean>, depth: number, difficulty: Difficulty) {
   if (dominated(difficulty, nodeId, resources, axes, flags)) {
     pruned++;
@@ -401,7 +434,7 @@ function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<str
         const nextFlags = branch.setFlags
           ? { ...flags, ...Object.fromEntries(branch.setFlags.map((f) => [f, true])) }
           : flags;
-        dfs(target, next, nextAxes, nextFlags, depth + 1, difficulty);
+        enter(target, next, nextAxes, nextFlags, depth + 1, difficulty);
       }
       continue;
     }
@@ -421,7 +454,7 @@ function dfs(nodeId: string, resources: Resources, axes: Axes, flags: Record<str
     }
 
     const nextFlags = opt.setFlags ? { ...flags, ...Object.fromEntries(opt.setFlags.map((f) => [f, true])) } : flags;
-    dfs(target, next, nextAxes, nextFlags, depth + 1, difficulty);
+    enter(target, next, nextAxes, nextFlags, depth + 1, difficulty);
   }
 }
 

@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 const flavor = JSON.parse(readFileSync("src/content/sherlock/flavor.json", "utf8"));
 const events = JSON.parse(readFileSync("src/content/sherlock/events.json", "utf8"));
 const register = JSON.parse(readFileSync("claims/canon-notes.json", "utf8"));
-const STATUS = new Set(["secondary", "memory", "invented"]);
+const STATUS = new Set(["primary", "secondary", "memory", "invented"]);
 let failures = 0;
 const fail = (m) => {
   failures++;

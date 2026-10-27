@@ -20,7 +20,7 @@
         },
         {
           "label": "The Speckled Band. Stoke Moran, 1883.",
-          "detail": "A minor case: a frightened girl, a locked bedroom and a dead sister's last word. Four scenes, three endings.",
+          "detail": "A minor case: a frightened girl, a locked bedroom and a dead sister's last word. Four scenes, four endings, one of them hidden.",
           "stamps": {},
           "quote": {
             "speaker": "Dr Watson",
@@ -31,7 +31,7 @@
         },
         {
           "label": "A Scandal in Bohemia. London, 1888.",
-          "detail": "A minor case: a King in a mask, a photograph in a strongbox, and the one woman who ever beat you. Four scenes, three endings.",
+          "detail": "A minor case: a King in a mask, a photograph in a strongbox, and the one woman who ever beat you. Four scenes, four endings, one of them hidden.",
           "stamps": {},
           "quote": {
             "speaker": "Dr Watson",
@@ -42,7 +42,7 @@
         },
         {
           "label": "The Blue Carbuncle. Christmas, 1889.",
-          "detail": "A minor case, and rather cheerful: a battered hat, a Christmas goose and a stone worth twenty thousand pounds. Four scenes, three endings.",
+          "detail": "A minor case, and rather cheerful: a battered hat, a Christmas goose and a stone worth more than twenty thousand pounds. Four scenes, four endings, one of them hidden.",
           "stamps": {},
           "quote": {
             "speaker": "Dr Watson",
@@ -53,7 +53,7 @@
         },
         {
           "label": "The Red-Headed League. Saxe-Coburg Square, 1890.",
-          "detail": "A minor case, the lightest of the five: a pawnbroker, four pounds a week and a very good reason to copy out the Encyclopaedia. Four scenes, three endings.",
+          "detail": "A minor case, the lightest of the five: a pawnbroker, four pounds a week and a very good reason to copy out the Encyclopaedia. Four scenes, four endings, one of them hidden.",
           "stamps": {},
           "quote": {
             "speaker": "Dr Watson",
@@ -3608,6 +3608,20 @@
             "trustLestrade": 1
           }
         }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "raidsEarly"
+          },
+          "text": "The corridor is full of men who went in at half past three and found the beds still warm. Nobody says anything about your being late. Everybody looks at the clock."
+        },
+        {
+          "when": {
+            "flag": "dayInHand"
+          },
+          "text": "The prisoners are brought in at the hour that you said, in the order that you said, and the Yard's clerks have, for once, the paper ready. It is a pleasure to be early."
+        }
       ]
     },
     "YX1": {
@@ -4067,6 +4081,12 @@
         },
         {
           "when": {
+            "flag": "answeredMole"
+          },
+          "text": "There is a new young man at the second-floor window who does not look at you as you cross the yard. He is the sort of man who does not look at anybody."
+        },
+        {
+          "when": {
             "flag": "adlerSafe"
           },
           "text": "Mrs Norton is on a boat, somewhere in the Channel, with a book. You find that you are rather glad of it, and a little ashamed to be glad."
@@ -4167,6 +4187,12 @@
             "flag": "roofWatch"
           },
           "text": "Somewhere above you a very small whistle passes from slate to slate. The boys have seen it too."
+        },
+        {
+          "when": {
+            "flag": "answeredCabs"
+          },
+          "text": "The cab at the corner has its lamps out, and the horse is the wrong colour. You know a decoy when you are looking at one. It does not make the evening shorter."
         }
       ]
     },
@@ -5071,6 +5097,12 @@
             "flag": "moranMarked"
           },
           "text": "A hundred cabmen now know the Colonel's face. Not one has found him."
+        },
+        {
+          "when": {
+            "flag": "answeredBank"
+          },
+          "text": "A boy is missing from Wiggins's count. Wiggins has not said so. He says everything else, very fast."
         }
       ]
     },
@@ -5610,6 +5642,18 @@
             "flag": "openQuay"
           },
           "text": "You came by the front, with a lantern. Everyone in the building knows it."
+        },
+        {
+          "when": {
+            "flag": "tideMissed"
+          },
+          "text": "The barge is already against the wall, and the tide is already running. You have spent your quarter hour on something else, and the river has not waited."
+        },
+        {
+          "when": {
+            "flag": "dayInHand"
+          },
+          "text": "The tide is exactly as the lighterman's book said. You are at the stairs a quarter of an hour before it, and the boys are in their places."
         }
       ]
     },
@@ -5751,6 +5795,12 @@
             "flag": "moranDown"
           },
           "text": "The Colonel is trussed in the corner of the warehouse, silent and humiliated, with an expression of profound disapproval."
+        },
+        {
+          "when": {
+            "flag": "answeredPaper"
+          },
+          "text": "A pamphlet is on the floor by the door, still wet, in a better ink than you have seen before. It says that you are a fraud, and in a good plain type, and it is nearly convincing."
         }
       ]
     },
@@ -6841,6 +6891,18 @@
             "flag": "watsonStays"
           },
           "text": "Watson is twenty paces behind you on the path, with his hand in his coat, saying nothing. He has the face of a man who has resolved to be exactly where he is."
+        },
+        {
+          "when": {
+            "flag": "professorEarly"
+          },
+          "text": "He was early. You are not at all sure how long he has been standing on the path, with his hat in his hand, looking at the water."
+        },
+        {
+          "when": {
+            "flag": "dayInHand"
+          },
+          "text": "You are on the path before the sun is on the Falls, and it is quiet, and you have, for the first time since London, a minute in which to think."
         }
       ]
     },
@@ -8732,6 +8794,24 @@
             "flag": "cipherBroken"
           },
           "text": "In your breast-pocket is a key that fits four hundred and nine locks. It weighs nothing at all."
+        },
+        {
+          "when": {
+            "flag": "cabinetStarted"
+          },
+          "text": "The Prime Minister has begun without you. You can tell from the way that the secretary looks at his watch, and then at you, and then away."
+        },
+        {
+          "when": {
+            "flag": "dayInHand"
+          },
+          "text": "The room is yours for the hour before the Cabinet sits. Mycroft has had the chairs put straight, and the papers laid out, and he is sitting in the corner with his hands folded, looking pleased."
+        },
+        {
+          "when": {
+            "flag": "answeredCables"
+          },
+          "text": "The cables in your pocket are a year old, and every one of them is true. You find that you hold them a little less firmly than you did."
         }
       ]
     },
@@ -9396,6 +9476,34 @@
           "setFlags": [
             "bohemiaWaited"
           ]
+        },
+        {
+          "label": "Go to Her Door in Your Own Name and Tell Her the Whole of It.",
+          "detail": "You know what the King wrote, and what he wants, and you have stood in her mews in gaiters. There is only one honest thing left to try, and it is the one thing that Europe would never expect of you.",
+          "stamps": {
+            "standing": 1,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Mrs Norton",
+            "text": "You have come to tell me the truth, Mr Holmes. I have been waiting four years for somebody to try it. Please sit down. I am not going to say anything for at least ten minutes."
+          },
+          "outcome": "She hears it all, in the lamp-lit drawing-room, without moving. When you have done she rings for tea, and says that she will not sell the photograph and will not use it, and will put it, with a letter of her own, in the safe of a firm in Lincoln's Inn, to be opened only if the King breaks his word to her. It is, she says, the nearest thing to a treaty that either of them has had. You carry the proposal to Baker Street in a cab, in the rain, a good deal lighter than you went.",
+          "nextNodeId": "ENDING_THE_UNDERTAKING",
+          "requires": {
+            "all": [
+              {
+                "flag": "bohemiaFull"
+              },
+              {
+                "flag": "bohemiaGroom"
+              }
+            ]
+          },
+          "requiresHint": "Needs the King's whole story and an afternoon in her mews",
+          "axisDelta": {
+            "heart": 1
+          }
         }
       ],
       "echoes": [
@@ -9853,6 +9961,52 @@
           },
           "outcome": "You go out by the window, quietly, as you came, and Watson follows. At dawn the constables arrive, a sergeant and two men, and find the Doctor in his chair, asleep, with a hot cup of tea. There is no snake. There is a basket, and a milk-saucer, and a very civil gentleman who will say that he never saw you in his life.",
           "nextNodeId": "ENDING_THE_DOCTOR_LIVES"
+        },
+        {
+          "label": "Take the Snake Alive: Hold a Sack Over the Ventilator.",
+          "detail": "You know the motive and you know the method. A man who sends a creature down a rope can be shown the creature, and a coroner cannot call a snake in a sack a misadventure.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "You mean to catch it, Holmes. Alive. In a pillow-case. I have been in a good many tight places with you, and I do not think that any of them has been so small."
+          },
+          "outcome": "",
+          "nextNodeId": "ENDING_THE_ADDER_AT_THE_INQUEST",
+          "requires": {
+            "all": [
+              {
+                "flag": "bandLondon"
+              },
+              {
+                "flag": "bandRope"
+              }
+            ]
+          },
+          "requiresHint": "Needs the motive learned at dawn and the dummy rope found",
+          "roll": {
+            "chance": 0.75,
+            "scaling": {
+              "resource": "evidence",
+              "perPoint": 0.04,
+              "min": 0.45,
+              "max": 0.9
+            },
+            "success": {
+              "outcome": "The sack goes over the grille at the first whistle, with a sail-maker's knot at the neck and Watson's hands on the cord. The thing comes down the rope into the dark, finds the bag instead of the bed, and is a heavy, angry, lashing weight at the end of your arm. You carry it out through the window into the park, and you do not at all enjoy the walk.",
+              "stamps": {
+                "evidence": 1,
+                "nerve": -1
+              }
+            },
+            "failure": {
+              "outcome": "The knot is the wrong knot. The sack gapes, and the thing is out of it and into the dark of the room with a hiss like a kettle, and by the time the lantern is lit it has gone back by its own road, and there is a sound of someone falling in the next room. When you reach him, he is beyond all help, and there is nothing left for you to prove.",
+              "stamps": {
+                "nerve": -2,
+                "evidence": -1
+              },
+              "nextNodeId": "ENDING_THE_DOCTOR_LIVES"
+            }
+          }
         }
       ],
       "echoes": [
@@ -10167,6 +10321,41 @@
               },
               "nextNodeId": "ENDING_THE_STONE_LOST"
             }
+          }
+        },
+        {
+          "label": "Ask Them All to Baker Street for New Year's Eve.",
+          "detail": "Henry Baker, who knows the truth, and Mrs Oakshott, who reared the geese, and Peterson, and John Horner, who has been in a cell. And James Ryder, to be sat in the middle. It is a dinner, and it is a trial, and it is the only one in London that could end in a toast.",
+          "stamps": {
+            "standing": 1,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Henry Baker",
+            "text": "You mean me to sit at my own table with the man who put a stone in my goose. Mr Holmes, I have been a poor man for a good many years, and I find that I have a great deal of spare charity. I shall be very much surprised if I do not need it all."
+          },
+          "outcome": "It is the strangest dinner that Mrs Hudson has ever laid. Ryder sits between the hat and the plumber and eats nothing, and is looked at with a good deal of mild curiosity by a stout widow from the Brixton Road, and at the end of the second course he stands up, white as the cloth, and tells it all. Nobody says a word. Then Henry Baker, who has not at any point raised his voice, passes him the sprouts.",
+          "nextNodeId": "ENDING_THE_GOOSE_CLUB",
+          "requires": {
+            "all": [
+              {
+                "flag": "carbTruth"
+              },
+              {
+                "any": [
+                  {
+                    "flag": "carbOakshott"
+                  },
+                  {
+                    "flag": "carbPaid"
+                  }
+                ]
+              }
+            ]
+          },
+          "requiresHint": "Needs Henry Baker told the truth, and Mrs Oakshott found",
+          "axisDelta": {
+            "heart": 2
           }
         }
       ],
@@ -10508,6 +10697,30 @@
           },
           "outcome": "You rise from the packing-case, brush the dust from your knees, and say that it is a splendid night for a walk. You go home. In the morning, at ten, there is a long, white, terrible face at the door of Baker Street, and it belongs to Mr Merryweather.",
           "nextNodeId": "ENDING_THE_TUNNEL_OPEN"
+        },
+        {
+          "label": "Give Mr Wilson the Cellar Key and Let Him Wait at the Top of the Stair.",
+          "detail": "He has told you all of it, and you have seen the knees of his assistant's trousers. A pawnbroker who has been robbed of his own cellar has, you think, a good deal of right to be the man standing over the hole.",
+          "stamps": {
+            "standing": 1
+          },
+          "quote": {
+            "speaker": "Jabez Wilson",
+            "text": "Me, Mr Holmes? In my own cellar? With my own umbrella? I do not at all know what I am to say. But I should be very proud to be asked."
+          },
+          "outcome": "He is a stout, flushed, brave little man, and he takes up his post at the top of his own cellar steps with the family umbrella across his knees and an expression of immense and trembling dignity. At ten past ten a flagstone rises, and a head of red hair comes up through the floor, and Mr Jabez Wilson, who has never struck anyone in his life, brings down the umbrella, with both hands, upon the exact middle of it.",
+          "nextNodeId": "ENDING_THE_UMBRELLA",
+          "requires": {
+            "all": [
+              {
+                "flag": "leagueFull"
+              },
+              {
+                "flag": "leagueKnees"
+              }
+            ]
+          },
+          "requiresHint": "Needs Mr Wilson's whole story and the assistant's trousers seen"
         }
       ],
       "echoes": [
@@ -11379,6 +11592,97 @@
       "headline": "TO THE RED-HEADED LEAGUE",
       "bodyText": "On account of the bequest of the late Ezekiah Hopkins, of Lebanon, Pennsylvania, U.S.A., there is now another vacancy open which entitles a member of the League to a salary of four pounds a week for purely nominal services. All red-headed men who are sound in body and mind, and above the age of twenty-one years, are eligible. Apply in person on Monday, at eleven o'clock, to Duncan Ross, at the offices of the League, 7 Pope's Court, Fleet Street.",
       "kind": "transition"
+    },
+    "DEADLINE_RAIDS_LATE": {
+      "id": "DEADLINE_RAIDS_LATE",
+      "source": "Scotland Yard, a note",
+      "headline": "THE RAIDS WENT OFF WITHOUT YOU",
+      "bodyText": "LESTRADE HAS NOT WAITED. THE ELEVEN HOUSES WERE ENTERED AT HALF PAST THREE, WHICH IS EARLIER THAN WE AGREED, BECAUSE THE SUPERINTENDENT WOULD NOT HOLD HIS MEN ANOTHER HOUR ON YOUR ACCOUNT. HALF THE BIRDS WERE ALREADY GONE. I AM SORRY. I DID SAY THAT YOU WERE SLOW. L.",
+      "kind": "transition"
+    },
+    "DEADLINE_RAIDS_EARLY": {
+      "id": "DEADLINE_RAIDS_EARLY",
+      "source": "A Page of the Diary",
+      "headline": "A DAY IN HAND",
+      "bodyText": "For once you are ahead of the hour. The warrants are signed, the men are fed, and Lestrade, who has been up since four, has been told that he may sleep until two. It is a small, rare, rather astonishing thing, to find that the day has been waiting for you, and not the other way round.",
+      "kind": "transition"
+    },
+    "DEADLINE_TIDE_LATE": {
+      "id": "DEADLINE_TIDE_LATE",
+      "source": "Wiggins, in pencil",
+      "headline": "THE TEAL CAME UP EARLY",
+      "bodyText": "MR HOLMES THE BARGE IS IN. SHE CAME UP ON THE TIDE A QUARTER HOUR BEFORE YOU SAID AND SOMEBODY IS ALREADY ON THE STAIRS. I DID NOT LIKE TO SEND THE BOYS IN WITHOUT YOU. WE ARE BEHIND. W.",
+      "kind": "transition"
+    },
+    "DEADLINE_TIDE_EARLY": {
+      "id": "DEADLINE_TIDE_EARLY",
+      "source": "The Thames Pilot, a page",
+      "headline": "YOU ARE ON THE STAIRS FIRST",
+      "bodyText": "The tide has not yet turned and the wharf is still. You have time to count the boys twice, to look at the water, and to find the dry place on the third step where a man might stand and not be seen from the door. It is the first time in a week that the river has been on your side.",
+      "kind": "transition"
+    },
+    "DEADLINE_HOTEL_LATE": {
+      "id": "DEADLINE_HOTEL_LATE",
+      "source": "The Englischer Hof, a card",
+      "headline": "THE GENTLEMAN HAS ARRIVED",
+      "bodyText": "A gentleman, Monsieur, came by the noon diligence, a good deal earlier than anyone supposed, and has asked the way to the Falls. He gave no name. He has left his bag at the desk. It is a very small bag. The porter would be most obliged if you would say whether he is to be given a room.",
+      "kind": "transition"
+    },
+    "DEADLINE_HOTEL_EARLY": {
+      "id": "DEADLINE_HOTEL_EARLY",
+      "source": "A Page of Watson's Journal",
+      "headline": "A QUIET MORNING",
+      "bodyText": "It is an odd thing to record, but Holmes slept until seven, and ate a roll, and sat for twenty minutes at the window with the Alps in the glass, saying nothing whatever. He had everything arranged by nine. I have not seen him so easy since the spring, and I find that it makes me more anxious, not less.",
+      "kind": "transition"
+    },
+    "DEADLINE_CABINET_LATE": {
+      "id": "DEADLINE_CABINET_LATE",
+      "source": "A message from Whitehall",
+      "headline": "THE CABINET SAT WITHOUT YOU",
+      "bodyText": "THE PRIME MINISTER HAS TAKEN THE QUESTION AT NOON, AS HE SAID HE WOULD, AND AS YOU WERE NOT HERE HE HAS TAKEN IT ON YOUR BROTHER'S WORD ALONE. I HAVE DONE WHAT I COULD. I SHOULD HAVE BEEN GLAD OF A DAY MORE, AND SO, I DARE SAY, WOULD YOU. M.",
+      "kind": "transition"
+    },
+    "DEADLINE_CABINET_EARLY": {
+      "id": "DEADLINE_CABINET_EARLY",
+      "source": "A message from Whitehall",
+      "headline": "THE CABINET WILL WAIT FOR YOU",
+      "bodyText": "THE PRIME MINISTER HAS PUT BACK THE QUESTION TO THE AFTERNOON AT MY REQUEST, AND ASKS ME TO SAY THAT HE WILL BE GLAD TO HEAR YOU FULLY. IT IS NOT A THING I HAVE ASKED OF HIM BEFORE. YOU HAVE ARRIVED, I NOTICE, A DAY EARLY. IT SUITS YOU. M.",
+      "kind": "transition"
+    },
+    "ANSWER_CABS": {
+      "id": "ANSWER_CABS",
+      "source": "A foreman, in a hurry",
+      "headline": "THE CAB AT THE CORNER WAS A DECOY",
+      "bodyText": "You stopped the yard in Kentish Town. He sold it on the Thursday to a man in Hackney who has never driven a horse, and moved the one cab that mattered to the next street, where it is waiting now, with its lamps out and a rug over the wheel. It was done quietly, and for a price, and nobody in the yard will say who paid it.",
+      "kind": "lore"
+    },
+    "ANSWER_MOLE": {
+      "id": "ANSWER_MOLE",
+      "source": "The Home Office, an internal minute",
+      "headline": "A NEW MAN AT THE YARD",
+      "bodyText": "You put your finger on the Yard's informer, and the Yard thanked you, and dismissed him. The Professor sent his regrets and, by the same post, a young man with excellent references who has been sitting in the second-floor room since Tuesday. Nobody has yet found out why the young man's references are so very good.",
+      "kind": "lore"
+    },
+    "ANSWER_PAPER": {
+      "id": "ANSWER_PAPER",
+      "source": "A printer's boy, afterwards",
+      "headline": "THE PAPER IS PRINTED ELSEWHERE",
+      "bodyText": "You turned the printer, and the printer was grateful and very frightened, and told you what he knew. It has made no difference. The Professor's pamphlets are coming off another press in a cellar in Southwark, a better press, in a better ink, and the lies in them are better lies. Nobody in Fleet Street is aware that the press has changed.",
+      "kind": "lore"
+    },
+    "ANSWER_BANK": {
+      "id": "ANSWER_BANK",
+      "source": "A clerk, a note, unsigned",
+      "headline": "THE MONEY HAS MOVED",
+      "bodyText": "You ran the bank, and the bank was run, and every account that you could find was empty by Wednesday. The lieutenants have been paid in coin and told to carry what they need. The Professor has no more use for Lombard Street. And a boy who did an errand for you at the back door of the bank on Wednesday is not at his lodging tonight.",
+      "kind": "lore"
+    },
+    "ANSWER_CABLES": {
+      "id": "ANSWER_CABLES",
+      "source": "Mr Fenn, at the cable room",
+      "headline": "THE CIPHER CHANGED ON MONDAY",
+      "bodyText": "You read the whole of a year of his cables, and it was the finest thing that you have done. On Monday he changed the key. It is a new page, and a new book, and a new hour of the day, and Mr Fenn is looking at a column of four-figure groups again with the face of a man who has been told that the shore has moved. The year is read. It is a year old.",
+      "kind": "lore"
     }
   },
   "endings": {
@@ -12127,6 +12431,55 @@
           "flag": "leagueVault",
           "headline": "FOUR POUNDS A WEEK: A DIRECTOR'S GRATITUDE",
           "text": "The bank opens on Monday, as usual, and its director, who has kept his key, his good name and his thirty thousand napoleons, sends you a box of cigars of such extraordinary quality that Watson, who is a connoisseur, cannot at first believe that they are a gift. You say that you do not smoke cigars. You give them to Lestrade."
+        }
+      ]
+    },
+    "ENDING_THE_ADDER_AT_THE_INQUEST": {
+      "id": "ENDING_THE_ADDER_AT_THE_INQUEST",
+      "title": "The Adder at the Inquest",
+      "kind": "narrative",
+      "headline": "SURREY DOCTOR COMMITTED FOR TRIAL: THE EVIDENCE IN A SACK",
+      "text": "It is produced on the second day of the inquest into Julia Stoner's death, in a closed wicker basket, with the coroner standing a good way back, and nothing in the course of the proceedings has so much effect. Dr Grimesby Roylott is committed for trial at the Assizes and does not at any point speak; he looks at the basket the whole of the time. He is condemned in July. Helen Stoner goes to her aunt at Harrow and is married in the autumn, and in the year after sends you, by post, a small, plain, extremely unexpected present: a pair of very good, very thick gloves.",
+      "variants": [
+        {
+          "flag": "bandWatson",
+          "headline": "THE ADDER AT THE INQUEST: A WITNESS AT THE WINDOW",
+          "text": "It is produced on the second day of the inquest in a wicker basket, and the coroner stands a good way back. Dr Watson is called, gives his evidence in the clear, flat voice of an army surgeon, and is asked whether he was frightened. He says that he was extremely frightened, and that he would do it again. Dr Grimesby Roylott is committed for trial and condemned in July."
+        }
+      ]
+    },
+    "ENDING_THE_UNDERTAKING": {
+      "id": "ENDING_THE_UNDERTAKING",
+      "title": "The Undertaking",
+      "kind": "narrative",
+      "headline": "BOHEMIAN COURT: A PROMISE PUT IN WRITING",
+      "text": "The King signs at Baker Street, in the kind of fury that does a man credit, with the mask on the table and a very sulky Chancellor at his elbow. He undertakes in writing to leave Mrs Norton unmolested for the rest of her life, and she undertakes, with her own signature and a seal in violet wax, that the photograph will be put away for ever in the safe of a firm in Lincoln's Inn. Nobody is humiliated. The betrothal is announced in June. In the summer there comes to Baker Street a note, on violet paper, that says: 'Quite so. I.N.' It is, you think, a signal that the treaty has been ratified."
+    },
+    "ENDING_THE_GOOSE_CLUB": {
+      "id": "ENDING_THE_GOOSE_CLUB",
+      "title": "The Whole of the Goose Club",
+      "kind": "narrative",
+      "headline": "A CHRISTMAS DINNER AT BAKER STREET: THE COUNTESS'S STONE RESTORED",
+      "text": "By the second course it is quite clear that nobody at the table is going to be hanged, and by the fourth that nobody is going to be sorry. The blue carbuncle goes back to the Countess of Morcar with a covering note from Mr Sherlock Holmes, and John Horner the plumber is paid, out of the reward, the better part of what it cost him to be in prison. James Ryder goes to Canada in the spring with a letter of introduction from a gentleman in Museum Street who keeps a goose-club, and keeps, on the whole, remarkably straight. You tell Watson that you have never known the season of forgiveness so thoroughly overdone.",
+      "variants": [
+        {
+          "flag": "carbOakshott",
+          "headline": "THE WHOLE OF THE GOOSE CLUB: A WIDOW'S DINNER",
+          "text": "Mrs Oakshott of the Brixton Road, who reared the geese and has not been so far from Brixton since her wedding, tells the table what a goose will and will not swallow, and Ryder is the only man present who is seen to take notes. The stone goes back to the Countess, and the reward to the plumber, and Ryder to Canada."
+        }
+      ]
+    },
+    "ENDING_THE_UMBRELLA": {
+      "id": "ENDING_THE_UMBRELLA",
+      "title": "The Pawnbroker's Umbrella",
+      "kind": "narrative",
+      "headline": "PAWNBROKER FELLS NOTORIOUS CRIMINAL IN OWN CELLAR",
+      "text": "John Clay is taken in the cellar of the pawnbroker's shop in Saxe-Coburg Square at ten past ten on a Saturday night by a stout and trembling gentleman with an umbrella, and is carried out by Mr Peter Jones of Scotland Yard feeling, as he says, a good deal more insulted than hurt. His accomplice is taken in the tunnel by three police. Jabez Wilson is the toast of the City for a week, is presented with a very handsome umbrella by the directors of the City and Suburban Bank, and is asked by three separate newspapers to describe his feelings. He says that he does not at all know what they were. He says that they were red.",
+      "variants": [
+        {
+          "flag": "leagueMen",
+          "headline": "THE PAWNBROKER'S UMBRELLA: THE YARD AT THE FOOT OF THE STAIRS",
+          "text": "John Clay is taken in a pawnbroker's cellar by a stout gentleman with an umbrella, and Mr Peter Jones, who has been waiting four years to put his hand upon the man's collar, is just in time to put it there. He is exceedingly gracious about the umbrella. The directors of the City and Suburban Bank present Mr Wilson with another."
         }
       ]
     }

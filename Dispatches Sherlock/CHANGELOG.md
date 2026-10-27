@@ -2,7 +2,20 @@
 
 Player-facing and rules-facing changes only. Newest first. Add an entry in the same commit as the change.
 
-## 0.5.0 (unreleased)
+## 0.6.0 (unreleased)
+### Added
+- **Hours are a real deadline.** The story's dated moments come whether or not you are ready: the Monday raids (Yard), the tide on the Tuesday (street), the Professor's arrival at Meiringen (flight) and the Cabinet's sitting (Whitehall). With Hours short a card says what you lost; with Hours in hand, a card says what you gained. Each shows its cost on the card.
+- **The Professor answers a cut.** Five arms of his web (the cab-yard, the Yard's man, the bank, the printer, the cipher) answer in the story, with a card and a cost, unless you made ready beforehand (a watch set, warrants sworn, the route known, the boys in place, the law written into the terms). The board says which answered and which came to nothing.
+- **A hidden fourth ending for each minor case**: take the snake alive (Speckled Band), go to her door in your own name (Bohemia), ask them all to dinner (Blue Carbuncle), give Mr Wilson the cellar key (Red-Headed League). Each is locked, with its reason, until you have made the right choices earlier in that case; four new ending plates.
+- **One saved case per volume.** You can leave the long case half-played and finish a minor one; the shelf shows each volume's unfinished case with a Resume button. The old single save moves to its volume.
+- **Cards say what they cost**: an interlude with consequences lists its stamps, and cards are labelled Notice, Report or Warning.
+### Changed
+- **The generator is in the repo** (`gen/`) and is the source of the content files; `npm run gen` writes them and `npm run check:gen` fails if they differ.
+- **A writing lint** (`npm run check:prose`, part of `npm test` and CI) holds the house rules: no dashes, UK dates, UK spellings, no placeholders.
+- **Every Doyle claim is checked against the text** (Project Gutenberg, 2026-10-24). Twenty-six claims are now "primary". The check found and fixed: "commuting a felony", not "compounding"; the Alpine-stock, the silver cigarette-case and the three-page note; the Baker Street fire (no great harm done); Moran as chief of staff, and that he drops rocks at the Falls; the Irregulars' shilling; and Mycroft's "occasionally he is the British government".
+- Engine 0.8.0: an interlude trigger may carry stamps and flags.
+
+## 0.5.0 (2026-10-23)
 ### Added
 - **The shelf is split into one major case and four minor ones**, each card showing how many of its endings you have found, and a card that offers to resume an unfinished case (opening a volume over it puts it away). The ending screen says which volume you finished, how many of its endings you have found, how many volumes you have finished, and what is next on the shelf.
 - **The Red-Headed League** (1890): the fifth volume. Four scenes and three endings, with the vault, the card on the door and the half-wage assistant.

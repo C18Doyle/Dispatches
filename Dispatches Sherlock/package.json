@@ -1,6 +1,6 @@
 {
   "name": "sherlock-final-problem",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts sherlock",
     "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts sherlock",
     "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
-    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run check:claims && npm run check:map && npm run check:calendar && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check-a11y",
+    "test": "npm run typecheck && npm run check:boundaries && npm run check:gen && npm run validate:schema && npm run check:prose && npm run check:claims && npm run check:map && npm run check:calendar && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check-a11y",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
     "build": "npm run build:css && npm run build:js && node scripts/fonts.mjs && node scripts/inline.mjs",
@@ -24,7 +24,10 @@
     "test:ledger": "tsx scripts/test_ledger.ts",
     "check:claims": "node scripts/check_canon_claims.mjs",
     "check:map": "tsx scripts/check_map.ts",
-    "check:calendar": "tsx scripts/check_calendar.ts"
+    "check:calendar": "tsx scripts/check_calendar.ts",
+    "gen": "node gen/build.mjs",
+    "check:gen": "node gen/build.mjs --check",
+    "check:prose": "node scripts/check_prose.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

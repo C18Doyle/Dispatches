@@ -12,9 +12,9 @@
     },
     {
       "id": "fp-gang-arrested",
-      "statement": "Holmes learns that most of Moriarty's gang have been arrested but that Moriarty has escaped and is pursuing him abroad.",
-      "source": "https://en.wikipedia.org/wiki/The_Final_Problem",
-      "status": "secondary",
+      "statement": "Holmes tells Watson that the Professor's gang is about to be in the hands of the police, and later that they have secured the whole gang with the exception of Moriarty, who is pursuing him abroad.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_NET_CLOSES",
         "ENDING_NAPOLEON_ESCAPES"
@@ -22,9 +22,9 @@
     },
     {
       "id": "fp-never-tried",
-      "statement": "Moriarty is never tried in the canon.",
-      "source": "https://en.wikipedia.org/wiki/The_Final_Problem",
-      "status": "secondary",
+      "statement": "Moriarty himself is never tried: he dies at the Reichenbach Falls. (The Empty House says that the trial of the Moriarty gang left two of its most dangerous members at liberty.)",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem; The Return of Sherlock Holmes (#108), The Empty House (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_NET_CLOSES",
         "ENDING_THE_COMPACT"
@@ -32,9 +32,9 @@
     },
     {
       "id": "fp-decoy",
-      "statement": "Watson is drawn away from the Falls by a letter claiming a dying Englishwoman at the hotel needs an English doctor.",
-      "source": "https://en.wikipedia.org/wiki/The_Final_Problem",
-      "status": "secondary",
+      "statement": "Watson is drawn away from the Falls by a message that an English lady in the last stage of consumption has arrived at the hotel and wishes to see an English doctor.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_FALL",
         "ENDING_WATSON_STANDS"
@@ -42,41 +42,41 @@
     },
     {
       "id": "fp-fire",
-      "statement": "Holmes tells Watson that his Baker Street rooms were set on fire the night before, an attempt to kill him and destroy his evidence.",
-      "source": "https://en.wikipedia.org/wiki/The_Final_Problem (via search summary)",
-      "status": "secondary",
+      "statement": "Holmes tells Watson that the Professor's men set fire to the Baker Street rooms the night before; no great harm was done.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_BAKER_STREET_BURNS"
       ]
     },
     {
       "id": "fp-priest-special",
-      "statement": "Holmes meets Watson disguised as an aged Italian priest, sees Moriarty on the Victoria platform, and the pair leave the train at Canterbury as Moriarty's chartered one-coach special passes.",
-      "source": "https://en.wikipedia.org/wiki/The_Final_Problem (via search summary)",
-      "status": "secondary",
+      "statement": "Holmes meets Watson disguised as a venerable Italian priest at Victoria, the pair leave the boat-train at Canterbury, and Moriarty's engaged special passes them.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": []
     },
     {
       "id": "fp-footprints-note",
-      "statement": "Watson returns to find a note, a cigarette-case and a stick, and footprints leading to the edge and not back; Holmes and Moriarty are presumed fallen.",
-      "source": "memory of the story; the note and decoy are confirmed secondarily in The Empty House summaries",
-      "status": "memory",
+      "statement": "Watson finds Holmes's Alpine-stock against a rock, his silver cigarette-case with a three-page note under it, two lines of footmarks leading along the path and none returning, and a patch of trampled mud at the edge; Holmes and Moriarty are taken to have fallen together.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_FALL"
       ]
     },
     {
       "id": "fp-date",
-      "statement": "The Reichenbach encounter is dated 4 May 1891 in the story.",
-      "source": "memory of the story",
-      "status": "memory",
+      "statement": "Holmes and Watson reach Meiringen on the 3rd of May and set off for the Falls on the 4th (1891); Holmes tells Watson that Moriarty crossed his path on the 4th of January, and Holmes calls on Watson on the evening of the 24th of April.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": []
     },
     {
       "id": "eh-survival",
-      "statement": "In The Empty House Holmes says he was never in the abyss: he wrote the note with Moriarty's courteous leave and escaped.",
-      "source": "https://lettersfromwatson.substack.com/p/the-empty-house-part-2-of-3 (search summary)",
-      "status": "secondary",
+      "statement": "In The Empty House Holmes says he was never in the abyss: Moriarty gave him courteous permission to write the short note, Holmes slipped his grip with baritsu so that Moriarty fell, and he then climbed the rock wall so that he would be thought dead.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Empty House (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_EMPTY_GRAVE"
       ]
@@ -84,35 +84,35 @@
     {
       "id": "eh-travels",
       "statement": "Holmes then travelled in Tibet (as the Norwegian Sigerson), Persia, Mecca and Khartoum, and worked on coal-tar derivatives at Montpellier before returning.",
-      "source": "search summaries of The Empty House",
-      "status": "secondary",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Empty House (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_EMPTY_GRAVE"
       ]
     },
     {
       "id": "eh-mycroft",
-      "statement": "Mycroft alone knew Holmes was alive and supplied him with money.",
-      "source": "https://en.wikipedia.org/wiki/Mycroft_Holmes (search summary)",
-      "status": "secondary",
+      "statement": "Mycroft was Holmes's only confidant, told in order to obtain the money that he needed.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Empty House (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_EMPTY_GRAVE"
       ]
     },
     {
       "id": "eh-return",
-      "statement": "Holmes returned to London in 1894.",
-      "source": "memory of the story",
-      "status": "memory",
+      "statement": "Holmes returned to London in the spring of 1894, at the time of the Park Lane murder of the Honourable Ronald Adair.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Empty House (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_EMPTY_GRAVE"
       ]
     },
     {
       "id": "eh-moran",
-      "statement": "Colonel Sebastian Moran uses an air-gun in The Empty House and is caught by Holmes.",
-      "source": "search summaries of The Empty House",
-      "status": "secondary",
+      "statement": "Colonel Sebastian Moran uses an air-gun, made for Moriarty, to shoot Ronald Adair, and is caught by Holmes and the police in The Empty House.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Empty House (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_FATAL_SHOT",
         "ENDING_WATSON_STANDS"
@@ -120,18 +120,18 @@
     },
     {
       "id": "moran-lieutenant",
-      "statement": "Moran is Moriarty's chief lieutenant and a celebrated heavy-game shot.",
-      "source": "memory of the stories",
-      "status": "memory",
+      "statement": "Colonel Sebastian Moran, once of the Indian Army, was for a time chief of the staff to Moriarty, is called the second most dangerous man in London, and is the best heavy-game shot of the Eastern Empire.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Empty House (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_FATAL_SHOT"
       ]
     },
     {
       "id": "irregulars",
-      "statement": "The Baker Street Irregulars are Holmes's street-boy agents, led by Wiggins, paid a shilling a day.",
-      "source": "memory of A Study in Scarlet and The Sign of Four",
-      "status": "memory",
+      "statement": "The Baker Street Irregulars are a gang of street Arabs led by Wiggins, whom Holmes pays a shilling each at a time (in The Sign of the Four, 'the old scale of pay' and a guinea to the boy who finds the boat).",
+      "source": "Project Gutenberg, A Study in Scarlet (#244); The Sign of the Four (#2097) (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_PRIVATE_WAR"
       ]
@@ -139,26 +139,26 @@
     {
       "id": "mycroft-govt",
       "statement": "Mycroft is a government man of great reach in later stories.",
-      "source": "memory of The Bruce-Partington Plans",
-      "status": "memory",
+      "source": "Project Gutenberg, The Bruce-Partington Plans, in His Last Bow (#2350) (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_REASON_OF_STATE"
       ]
     },
     {
       "id": "refuses-moriarty",
-      "statement": "In the story Moriarty visits Baker Street to warn Holmes off and Holmes refuses.",
-      "source": "memory of the story; the visit itself is confirmed secondarily",
-      "status": "memory",
+      "statement": "In the story Moriarty visits Holmes's rooms, tells him 'You must drop it', and Holmes refuses ('After Monday').",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_COMPACT"
       ]
     },
     {
       "id": "cocaine",
-      "statement": "Watson records Holmes's long fits of languor and his use of cocaine in the earlier stories.",
-      "source": "memory of The Sign of Four and A Scandal in Bohemia",
-      "status": "memory",
+      "statement": "Watson records Holmes's use of cocaine ('a seven-per-cent solution') and his swings between languor and energy, 'alternating from week to week between cocaine and ambition'.",
+      "source": "Project Gutenberg, The Sign of the Four (#2097); The Adventures of Sherlock Holmes (#1661), A Scandal in Bohemia (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_CRISIS_NERVE"
       ]
@@ -179,36 +179,36 @@
     },
     {
       "id": "eh-return-faint",
-      "statement": "In The Empty House Holmes returns in April 1894 over the Park Lane murder of Ronald Adair and reveals himself to Watson, who faints.",
-      "source": "search summaries of The Empty House; the faint and the disguise are from memory",
-      "status": "memory",
+      "statement": "Holmes returns in the spring of 1894 over the murder of the Honourable Ronald Adair, and reveals himself to Watson, who faints.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Empty House (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_RETURN"
       ]
     },
     {
       "id": "watson-bereaved",
-      "statement": "Watson has suffered a bereavement (the death of his wife) in the years Holmes is away.",
-      "source": "memory of The Empty House",
-      "status": "memory",
+      "statement": "Holmes says that he had learned of Watson's 'own sad bereavement' while he was away (generally read as the death of Watson's wife).",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Empty House (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_RETURN"
       ]
     },
     {
       "id": "mycroft-later",
-      "statement": "Holmes does work for the Government through Mycroft in later stories (for example The Bruce-Partington Plans), without any commission.",
-      "source": "memory of the stories",
-      "status": "memory",
+      "statement": "In The Bruce-Partington Plans Mycroft calls on Holmes to take up a government matter (the Cadogan West case), and Holmes is told that Mycroft is, occasionally, the British government.",
+      "source": "Project Gutenberg, The Bruce-Partington Plans, in His Last Bow (#2350) (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_HER_MAJESTYS_SERVICE"
       ]
     },
     {
       "id": "milverton",
-      "statement": "In Charles Augustus Milverton Holmes burns a blackmailer's letters rather than publish them.",
-      "source": "memory of the story",
-      "status": "memory",
+      "statement": "In Charles Augustus Milverton, after the blackmailer is shot, Holmes burns the whole of his stock of letters rather than hand them to the police.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), Charles Augustus Milverton (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_SECOND_LEDGER"
       ]
@@ -234,9 +234,9 @@
     },
     {
       "id": "sib-adler-letter",
-      "statement": "In A Scandal in Bohemia the King of Bohemia, masked and calling himself Count von Kramm, asks Holmes to recover a photograph of himself with Irene Adler before his betrothal to a Scandinavian princess; Adler leaves before Holmes can act, with a letter and her own photograph, and Holmes asks for the photograph in place of the King's ring.",
-      "source": "memory of the story (public domain); not yet checked against the text",
-      "status": "memory",
+      "statement": "In A Scandal in Bohemia (20 March 1888) the King of Bohemia, masked and calling himself Count von Kramm, asks Holmes to recover a photograph of himself with Irene Adler before his betrothal to a daughter of the King of Scandinavia; Adler leaves England before Holmes can act, with a letter and a photograph of herself, and Holmes asks for her photograph in place of the King's emerald snake ring.",
+      "source": "Project Gutenberg, The Adventures of Sherlock Holmes (#1661), A Scandal in Bohemia (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_WOMAN"
       ]
@@ -253,9 +253,9 @@
     },
     {
       "id": "band-snake",
-      "statement": "In The Adventure of the Speckled Band Dr Grimesby Roylott sends a swamp adder through a ventilator and down a dummy bell-rope to kill his stepdaughter, as he killed her twin; Holmes drives the snake back with a cane and Roylott dies of its bite.",
-      "source": "memory of the story (public domain); not yet checked against the text",
-      "status": "memory",
+      "statement": "In The Adventure of the Speckled Band (early April 1883) Dr Grimesby Roylott sends a swamp adder through a ventilator and down a dummy bell-rope; Holmes strikes at it with a cane and drives it back, and it turns on its master. Holmes says he is indirectly responsible for Roylott's death.",
+      "source": "Project Gutenberg, The Adventures of Sherlock Holmes (#1661), The Adventure of the Speckled Band (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_BAND_RETURNS"
       ]
@@ -272,9 +272,9 @@
     },
     {
       "id": "carbuncle-mercy",
-      "statement": "In The Adventure of the Blue Carbuncle Holmes traces a stolen jewel through a Christmas goose to James Ryder, and lets him go, saying it is the season of forgiveness and that he may be compounding a felony.",
-      "source": "memory of the story (public domain); not yet checked against the text",
-      "status": "memory",
+      "statement": "Holmes traces the Countess of Morcar's stolen blue carbuncle through a Christmas goose to James Ryder, and lets him go, saying that he is commuting a felony but may be saving a soul, and that it is the season of forgiveness. The reward of one thousand pounds is said to be less than a twentieth of the stone's market price.",
+      "source": "Project Gutenberg, The Adventures of Sherlock Holmes (#1661), The Adventure of the Blue Carbuncle (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_CHRISTMAS_MERCY"
       ]
@@ -291,9 +291,9 @@
     },
     {
       "id": "league-clay",
-      "statement": "In The Adventure of the Red-Headed League a pawnbroker, Jabez Wilson, is paid four pounds a week to copy the Encyclopaedia Britannica so that his assistant, John Clay, can tunnel from the cellar to the vault of the City and Suburban Bank next door; Holmes, with Peter Jones of Scotland Yard and the bank director Mr Merryweather, waits in the vault and takes Clay with a hunting-crop, and his accomplice is taken at the shop. Holmes says it is an attempt to escape from the commonplace.",
-      "source": "memory of the story (public domain); not yet checked against the text",
-      "status": "memory",
+      "statement": "In The Adventure of the Red-Headed League a pawnbroker, Jabez Wilson, is paid four pounds a week to copy the Encyclopaedia Britannica so that his assistant, John Clay, can tunnel from the cellar to the vault of the City and Suburban Bank (thirty thousand napoleons from the Bank of France); Holmes, with Peter Jones of Scotland Yard and the director Mr Merryweather, waits in the vault, seizes Clay by the collar and knocks the revolver from his wrist with a hunting-crop; his accomplice dives down the hole and is taken at the door by three police. Holmes says that these problems help him from the commonplaces of existence.",
+      "source": "Project Gutenberg, The Adventures of Sherlock Holmes (#1661), The Adventure of the Red-Headed League (checked against the text on 2026-10-24)",
+      "status": "primary",
       "endings": [
         "ENDING_THE_LEAGUE_DISSOLVED"
       ]
@@ -306,6 +306,36 @@
       "endings": [
         "ENDING_THE_TUNNEL_OPEN",
         "ENDING_THE_ENCYCLOPAEDIA"
+      ]
+    },
+    {
+      "id": "carb-date",
+      "statement": "The Blue Carbuncle is set on the second morning after Christmas, five days after the robbery of 22 December, so on 27 December; the year (1889 in the game) is not given in the text.",
+      "source": "Project Gutenberg, The Adventures of Sherlock Holmes (#1661), The Adventure of the Blue Carbuncle (checked against the text on 2026-10-24); the year is a chronologist's reading, not Doyle's",
+      "status": "secondary",
+      "endings": [
+        "ENDING_THE_CHRISTMAS_MERCY"
+      ]
+    },
+    {
+      "id": "league-date",
+      "statement": "The Red-Headed League's notice is dated 9 October 1890, and the vault is watched on the Saturday of the same week; the text does not give the Saturday's date, and the game places it on 11 October 1890.",
+      "source": "Project Gutenberg, The Adventures of Sherlock Holmes (#1661), The Adventure of the Red-Headed League (checked against the text on 2026-10-24)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_LEAGUE_DISSOLVED"
+      ]
+    },
+    {
+      "id": "hidden-invented",
+      "statement": "The four hidden endings of the minor cases (the adder at the inquest, the undertaking, the whole goose club, the pawnbroker's umbrella) are the game's own invention.",
+      "source": "n/a (design)",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_ADDER_AT_THE_INQUEST",
+        "ENDING_THE_UNDERTAKING",
+        "ENDING_THE_GOOSE_CLUB",
+        "ENDING_THE_UMBRELLA"
       ]
     }
   ]

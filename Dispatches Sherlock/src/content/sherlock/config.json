@@ -425,6 +425,267 @@
       ]
     },
     {
+      "interludeId": "DEADLINE_RAIDS_LATE",
+      "onEnterNodes": [
+        "Y5"
+      ],
+      "when": {
+        "resource": "hours",
+        "op": "<=",
+        "value": -3
+      },
+      "stamps": {
+        "evidence": -1,
+        "nerve": -1
+      },
+      "setFlags": [
+        "raidsEarly"
+      ]
+    },
+    {
+      "interludeId": "DEADLINE_RAIDS_EARLY",
+      "onEnterNodes": [
+        "Y5"
+      ],
+      "when": {
+        "resource": "hours",
+        "op": ">=",
+        "value": 2
+      },
+      "stamps": {
+        "nerve": 1
+      },
+      "setFlags": [
+        "dayInHand"
+      ]
+    },
+    {
+      "interludeId": "DEADLINE_TIDE_LATE",
+      "onEnterNodes": [
+        "S8"
+      ],
+      "when": {
+        "resource": "hours",
+        "op": "<=",
+        "value": -3
+      },
+      "stamps": {
+        "hands": -1,
+        "evidence": -1
+      },
+      "setFlags": [
+        "tideMissed"
+      ]
+    },
+    {
+      "interludeId": "DEADLINE_TIDE_EARLY",
+      "onEnterNodes": [
+        "S8"
+      ],
+      "when": {
+        "resource": "hours",
+        "op": ">=",
+        "value": 1
+      },
+      "stamps": {
+        "evidence": 1
+      },
+      "setFlags": [
+        "dayInHand"
+      ]
+    },
+    {
+      "interludeId": "DEADLINE_HOTEL_LATE",
+      "onEnterNodes": [
+        "C8"
+      ],
+      "when": {
+        "resource": "hours",
+        "op": "<=",
+        "value": -3
+      },
+      "stamps": {
+        "nerve": -1,
+        "wires": -1
+      },
+      "setFlags": [
+        "professorEarly"
+      ]
+    },
+    {
+      "interludeId": "DEADLINE_HOTEL_EARLY",
+      "onEnterNodes": [
+        "C8"
+      ],
+      "when": {
+        "resource": "hours",
+        "op": ">=",
+        "value": 2
+      },
+      "stamps": {
+        "nerve": 1
+      },
+      "setFlags": [
+        "dayInHand"
+      ]
+    },
+    {
+      "interludeId": "DEADLINE_CABINET_LATE",
+      "onEnterNodes": [
+        "M8"
+      ],
+      "when": {
+        "resource": "hours",
+        "op": "<=",
+        "value": -4
+      },
+      "stamps": {
+        "standing": -1
+      },
+      "setFlags": [
+        "cabinetStarted"
+      ]
+    },
+    {
+      "interludeId": "DEADLINE_CABINET_EARLY",
+      "onEnterNodes": [
+        "M8"
+      ],
+      "when": {
+        "resource": "hours",
+        "op": ">=",
+        "value": 1
+      },
+      "stamps": {
+        "standing": 1
+      },
+      "setFlags": [
+        "dayInHand"
+      ]
+    },
+    {
+      "interludeId": "ANSWER_CABS",
+      "onEnterNodes": [
+        "Y9B"
+      ],
+      "when": {
+        "all": [
+          {
+            "flag": "cabStopped"
+          },
+          {
+            "not": {
+              "flag": "watchSet"
+            }
+          }
+        ]
+      },
+      "stamps": {
+        "evidence": -1,
+        "nerve": -1
+      },
+      "setFlags": [
+        "answeredCabs"
+      ]
+    },
+    {
+      "interludeId": "ANSWER_MOLE",
+      "onEnterNodes": [
+        "Y8"
+      ],
+      "when": {
+        "all": [
+          {
+            "flag": "moleExposed"
+          },
+          {
+            "not": {
+              "flag": "warrantsSworn"
+            }
+          }
+        ]
+      },
+      "stamps": {
+        "standing": -1
+      },
+      "setFlags": [
+        "answeredMole"
+      ]
+    },
+    {
+      "interludeId": "ANSWER_BANK",
+      "onEnterNodes": [
+        "S6B"
+      ],
+      "when": {
+        "all": [
+          {
+            "flag": "bankRun"
+          },
+          {
+            "not": {
+              "flag": "routeKnown"
+            }
+          }
+        ]
+      },
+      "stamps": {
+        "hands": -1
+      },
+      "setFlags": [
+        "answeredBank"
+      ]
+    },
+    {
+      "interludeId": "ANSWER_PAPER",
+      "onEnterNodes": [
+        "S8B"
+      ],
+      "when": {
+        "all": [
+          {
+            "flag": "printerTurns"
+          },
+          {
+            "not": {
+              "flag": "boysStand"
+            }
+          }
+        ]
+      },
+      "stamps": {
+        "wires": -1,
+        "nerve": -1
+      },
+      "setFlags": [
+        "answeredPaper"
+      ]
+    },
+    {
+      "interludeId": "ANSWER_CABLES",
+      "onEnterNodes": [
+        "M7"
+      ],
+      "when": {
+        "all": [
+          {
+            "flag": "cipherBroken"
+          },
+          {
+            "not": {
+              "flag": "lawClause"
+            }
+          }
+        ]
+      },
+      "stamps": {
+        "evidence": -1
+      },
+      "setFlags": [
+        "answeredCables"
+      ]
+    },
+    {
       "interludeId": "TRANSITION_MYCROFT",
       "onEnterNodes": [
         "M1"

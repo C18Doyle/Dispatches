@@ -35,11 +35,12 @@ Everything below is ready to paste into the page's edit screen (dispatches.itch.
 > - **Watch six meters.** Evidence, Standing and Nerve are what the case is made of. Under them runs **the Strand**: Hours, Hands and Wires, the time, the people and the reach you have left. Let one run dry and the Professor goes untouched.
 > - **Pin it up.** A cork board of traces, people and moves; the Professor's web, with every arm you find and cut (he notices); a calendar that counts the days to Monday; a sketch map of where you have been.
 > - **Spend trust carefully.** Watson, Lestrade, Mycroft and Wiggins each remember what you did. So, perhaps, does a certain lady from the opera.
+> - **Run against the calendar.** The Monday raids, the tide on the Tuesday, the Professor's arrival at the Falls and the Cabinet's sitting come whether or not you are ready, and a short Hours line costs you on the day. The Professor answers the arms of his web that you cut, unless you made ready for it.
 > - **Take a gambit.** Some choices are a gamble with the odds shown. Success and failure both have their own story.
 > - **Pack a disguise.** The priest, the sailor or the clerk will open a choice that a man in his own face cannot have.
 >
 > ### Five volumes in the Case-Book
-> The game opens on Holmes's shelf, which is split into the **major case** and the **minor cases**, and remembers which endings you have found. **The Final Problem** is the major case (101 scenes, 17 endings). Beside it lie four minor cases of four scenes each, which you can finish in one sitting: **The Speckled Band** (1883), **A Scandal in Bohemia** (1888), **The Blue Carbuncle** (Christmas, 1889) and **The Red-Headed League** (1890), each with three endings of its own. They share nothing with the major case, so they are a good place to learn the game.
+> The game opens on Holmes's shelf, which is split into the **major case** and the **minor cases**, and remembers which endings you have found. **The Final Problem** is the major case (101 scenes, 17 endings). Beside it lie four minor cases of four scenes each, which you can finish in one sitting: **The Speckled Band** (1883), **A Scandal in Bohemia** (1888), **The Blue Carbuncle** (Christmas, 1889) and **The Red-Headed League** (1890), each with four endings of its own (the fourth is hidden until you have made the right choices). They share nothing with the major case, so they are a good place to learn the game.
 >
 > ### How it looks and sounds
 > A Victorian parlour in houndstooth tweed and cream paper (or, in Settings, the same parlour in daylight): telegrams, handwritten notes, calling cards, journal pages and guidebook leaves, instead of one newspaper. A drone of fog and a distant chime (off by default), a violin sting for the Falls, and the sound of the wire going down when you run short of Wires. Fonts are bundled, so it runs offline.
@@ -57,6 +58,10 @@ Everything below is ready to paste into the page's edit screen (dispatches.itch.
 > Three text sizes; no flashing; motion stops if your device asks for reduced motion; every screen works at phone width; headings and meters are labelled for screen readers; contrast is checked on every colour pair. Saves are kept in your browser only.
 >
 > *Credits: from Arthur Conan Doyle's Sherlock Holmes stories (public domain). Fonts (Playfair Display, Rokkitt, Lora and Caveat) are under the SIL Open Font Licence. Part of the Dispatches series.*
+
+## Update notes for 0.6.0
+
+New: real deadlines (Hours decide what the dated days cost or give), the Professor's answers to a cut arm, a hidden fourth ending in each minor case, one saved case per volume, and a writing lint and canon check behind the scenes. See `CHANGELOG.md`.
 
 ## Update notes for 0.5.0
 

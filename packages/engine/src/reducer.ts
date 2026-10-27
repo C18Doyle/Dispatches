@@ -97,6 +97,7 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
         currentNodeId: target,
         activeBranch: node ? node.branch : state.activeBranch,
         activeInterludeId: null,
+        pendingOutcomeStamps: null,
         pendingTarget: null,
         shownOneShot: [...state.shownOneShot, state.activeInterludeId],
         adviceRevealed: false,
@@ -216,12 +217,21 @@ export function reduce(def: GameDefinition, state: GameState, action: Action): G
 
       const interlude = interludeId ? content.interludes[interludeId] : undefined;
       if (interlude) {
+        // A trigger may carry consequences (a deadline missed, an enemy's answer): they are applied as the card is offered, and the card shows the stamps.
+        const effects = trigger && trigger.interludeId === interlude.id ? trigger : undefined;
+        const resources = effects?.stamps ? applyStamps(def, state.resources, effects.stamps) : state.resources;
+        const failureEnding = effects?.stamps ? checkFailureEnding(def, resources) : undefined;
+        if (failureEnding) {
+          return { ...state, resources, flags: withFlags(state.flags, effects?.setFlags), phase: "ENDING", endingId: failureEnding, pendingOutcomeText: null, pendingOutcomeStamps: null, pendingTarget: null };
+        }
         return {
           ...state,
+          resources,
+          flags: withFlags(state.flags, effects?.setFlags),
           phase: "INTERLUDE",
           activeInterludeId: interlude.id,
           pendingOutcomeText: null,
-          pendingOutcomeStamps: null,
+          pendingOutcomeStamps: effects?.stamps ? effectiveStamps(def, state.resources, effects.stamps) : null,
           pendingTarget: target,
           shownCrises: interlude.kind === "crisis" ? [...state.shownCrises, interlude.id] : state.shownCrises,
         };

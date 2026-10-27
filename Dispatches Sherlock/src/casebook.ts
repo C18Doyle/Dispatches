@@ -19,10 +19,10 @@ export interface Volume {
 
 export const VOLUMES: Volume[] = [
   { id: "FINAL", title: "The Final Problem", year: "1891", major: true, start: "1", branches: ["WEB", "YARD", "STREET", "CONTINENT", "MYCROFT", "HIATUS"] },
-  { id: "BAND", title: "The Speckled Band", year: "1883", major: false, start: "R1", branches: ["BAND"], endings: ["ENDING_THE_BAND_RETURNS", "ENDING_THE_WHISTLE_MISSED", "ENDING_THE_DOCTOR_LIVES"] },
-  { id: "BOHEMIA", title: "A Scandal in Bohemia", year: "1888", major: false, start: "B1", branches: ["BOHEMIA"], endings: ["ENDING_THE_WOMAN", "ENDING_THE_STRONGBOX", "ENDING_THE_KING_WAITS"] },
-  { id: "CARBUNCLE", title: "The Blue Carbuncle", year: "1889", major: false, start: "G1", branches: ["CARBUNCLE"], endings: ["ENDING_THE_CHRISTMAS_MERCY", "ENDING_THE_STONE_RETURNED", "ENDING_THE_STONE_LOST"] },
-  { id: "LEAGUE", title: "The Red-Headed League", year: "1890", major: false, start: "L1", branches: ["LEAGUE"], endings: ["ENDING_THE_LEAGUE_DISSOLVED", "ENDING_THE_TUNNEL_OPEN", "ENDING_THE_ENCYCLOPAEDIA"] },
+  { id: "BAND", title: "The Speckled Band", year: "1883", major: false, start: "R1", branches: ["BAND"], endings: ["ENDING_THE_BAND_RETURNS", "ENDING_THE_WHISTLE_MISSED", "ENDING_THE_DOCTOR_LIVES", "ENDING_THE_ADDER_AT_THE_INQUEST"] },
+  { id: "BOHEMIA", title: "A Scandal in Bohemia", year: "1888", major: false, start: "B1", branches: ["BOHEMIA"], endings: ["ENDING_THE_WOMAN", "ENDING_THE_STRONGBOX", "ENDING_THE_KING_WAITS", "ENDING_THE_UNDERTAKING"] },
+  { id: "CARBUNCLE", title: "The Blue Carbuncle", year: "1889", major: false, start: "G1", branches: ["CARBUNCLE"], endings: ["ENDING_THE_CHRISTMAS_MERCY", "ENDING_THE_STONE_RETURNED", "ENDING_THE_STONE_LOST", "ENDING_THE_GOOSE_CLUB"] },
+  { id: "LEAGUE", title: "The Red-Headed League", year: "1890", major: false, start: "L1", branches: ["LEAGUE"], endings: ["ENDING_THE_LEAGUE_DISSOLVED", "ENDING_THE_TUNNEL_OPEN", "ENDING_THE_ENCYCLOPAEDIA", "ENDING_THE_UMBRELLA"] },
 ];
 
 export const MINOR_BRANCHES = VOLUMES.filter((v) => !v.major).flatMap((v) => v.branches);

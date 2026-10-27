@@ -4,6 +4,9 @@ Versioning: the engine is consumed by source path, so the version is a communica
 resolution. Bump the minor for new optional capability, the major for anything that needs game changes.
 A game's `config.json` `schemaVersion` changes only when that game's saved state shape changes.
 
+## 0.8.0 (2026-10)
+- One optional addition, used by Sherlock: `config.interludeTriggers[].stamps` and `.setFlags`, consequences applied (through the coupling rules) when the interlude is offered, and shown on the card through `pendingOutcomeStamps`. With `when`, a trigger becomes a conditional event on entering a node: a deadline missed, an enemy's answer. A trigger without them behaves exactly as before; a stamp that takes a gauge to its ruin level ends the run. `validate_schema.ts` checks the stamps and counts the flags.
+
 ## 0.7.0 (2026-10)
 - Two optional additions to a difficulty, used by Dracula (a game that sets neither behaves exactly as before): `strainScale` (multiplies the strain, so an easier or harder difficulty changes the odds lost to a short reserve; `strainFor(config, difficulty)` is the one place that works it out, and the reducer and every UI use it) and `startBonus` (added to each named reserve's starting value when the run begins and after the returning-player skip; `startResourcesFor`). Checked by `validate_schema.ts`.
 
