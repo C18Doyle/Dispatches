@@ -596,6 +596,16 @@ flavorOut.novelNotes.ENDING_CRISIS_STRAND = "In the Canon: Holmes is never short
 flavorOut.endingHints.ENDING_CRISIS_STRAND = "Spend your Hours, your Hands or your Wires down to nothing: work slowly, work alone, or cut yourself off.";
 flavorOut.endingHints.ENDING_NAPOLEON_ESCAPES = "Close the file too soon, fail a finale, or walk out of a room, and let the Professor go.";
 
+// the screen the demo build stops on (the demo is the Case-Book with the long case locked at the choice of road; src/demo.ts)
+flavorOut.demoEnd = {
+  title: "The Case Continues",
+  body: [
+    "You have been through the whole of the opening of The Final Problem: the brick in Vere Street, the first move, and the choice of how to meet the Professor's net.",
+    "The door ahead is locked in the demo. The full game goes on down the road that you chose, through the Yard, the street, Whitehall or the flight to the Falls, to the last choice on each road, with seventeen endings in the long case and the Case-Book that keeps the ones you have found. The four minor cases on the shelf are complete in the demo, hidden endings and all. The full game is on the game's page, to download.",
+  ],
+  restart: "Back to the Title",
+};
+
 // Watson's remarks about the Strand, for his notebook: the shortest line speaks first, and when all three are well supplied he says so
 flavorOut.creatureReportLines = { ...flavorOut.creatureReportLines };
 const strandLines = {

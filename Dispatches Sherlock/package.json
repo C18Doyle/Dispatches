@@ -9,10 +9,10 @@
     "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts sherlock",
     "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts sherlock",
     "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
-    "test": "npm run typecheck && npm run check:boundaries && npm run check:gen && npm run validate:schema && npm run check:prose && npm run check:claims && npm run check:map && npm run check:calendar && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check-a11y",
+    "test": "npm run typecheck && npm run check:boundaries && npm run check:gen && npm run validate:schema && npm run check:prose && npm run check:claims && npm run check:map && npm run check:calendar && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check:demo && npm run check-a11y",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
-    "build": "npm run build:css && npm run build:js && node scripts/fonts.mjs && node scripts/inline.mjs",
+    "build": "npm run build:css && npm run build:js && node scripts/fonts.mjs && node scripts/inline.mjs && npm run build:demo",
     "test:fast": "npm test",
     "release": "node ../packages/testkit/src/release.mjs",
     "test:saves": "tsx scripts/test_saves.ts",
@@ -27,7 +27,9 @@
     "check:calendar": "tsx scripts/check_calendar.ts",
     "gen": "node gen/build.mjs",
     "check:gen": "node gen/build.mjs --check",
-    "check:prose": "node scripts/check_prose.mjs"
+    "check:prose": "node scripts/check_prose.mjs",
+    "build:demo": "node esbuild.config.mjs --demo && node scripts/inline.mjs --demo",
+    "check:demo": "node scripts/check_demo.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -55,6 +57,15 @@
         "name": "full",
         "from": "dist",
         "zip": "dispatches-sherlock-full.zip",
+        "include": [
+          "index.html",
+          "README.txt"
+        ]
+      },
+      {
+        "name": "demo",
+        "from": "dist/demo",
+        "zip": "dispatches-sherlock-demo.zip",
         "include": [
           "index.html"
         ]

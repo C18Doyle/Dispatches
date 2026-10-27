@@ -27,6 +27,7 @@ import { PlateView, plateForEnding, plateForInterlude } from "./art";
 import { MapView } from "./map";
 import { CalendarView } from "./calendar";
 import { BoardView } from "./board";
+import { IS_DEMO, isDemoStop } from "./demo";
 import { MINOR_BRANCHES, VOLUMES, volumeOfBranch, volumeOfEnding, volumeStats } from "./casebook";
 
 type Resource = string;
@@ -596,7 +597,9 @@ export default function App() {
     }
   }, [theme]);
   const [overlay, setOverlay] = useState<"SETTINGS" | "RESEARCH" | "LEDGER" | null>(null);
-  const screen: string = overlay ?? state.phase;
+  // The demo build locks the long case on arriving at the first scene of a road (src/demo.ts); the full game never does.
+  const demoStop = IS_DEMO && state.phase === "NODE" && isDemoStop(def, state.currentNodeId);
+  const screen: string = overlay ?? (demoStop ? "DEMO_END" : state.phase);
   const rules = def.config.difficulties[state.difficulty];
   const interlude = state.activeInterludeId ? def.content.interludes[state.activeInterludeId] : undefined;
   const shellRef = useRef<HTMLElement>(null);
@@ -948,6 +951,33 @@ export default function App() {
           >
             Close
           </button>
+        </div>
+      </VoidScreen>
+    );
+  } else if (screen === "DEMO_END" && def.flavor.demoEnd) {
+    const demoEnd = def.flavor.demoEnd;
+    content = (
+      <VoidScreen>
+        {settingsButton}
+        <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
+          <CornerFlourishes />
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold mb-5">{demoEnd.title}</h1>
+          <div className="space-y-4 text-[1.05rem] leading-relaxed">
+            {demoEnd.body.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              onClick={() => {
+                click();
+                dispatch({ type: "RESTART" });
+              }}
+              className="px-5 py-2.5 bg-blood text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-blood-bright transition-colors"
+            >
+              {demoEnd.restart}
+            </button>
+          </div>
         </div>
       </VoidScreen>
     );

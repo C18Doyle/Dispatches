@@ -64,8 +64,12 @@
   },
   "sherlock": {
     "pushes": {
+      "demo": [
+        "dispatches/dispatches-sherlock:web-demo"
+      ],
       "full": [
-        "dispatches/dispatches-sherlock:web"
+        "dispatches/dispatches-sherlock:download-full",
+        "dispatches/dispatchessherlockconfidential:web-full"
       ]
     }
   }

@@ -1,6 +1,6 @@
 # itch.io page for Sherlock Holmes: The Final Problem
 
-Everything below is ready to paste into the page's edit screen (dispatches.itch.io/dispatches-sherlock). The 0.4.0 build is already on the `web` channel; the page is still a draft, so nothing here is public until you publish it.
+Everything below is ready to paste into the page's edit screen (dispatches.itch.io/dispatches-sherlock). From 0.6.0 the release pushes the demo to this page (channel `web-demo`, played in the browser) and the full game as a download (channel `download-full`). The full web version goes to the confidential page (`dispatches/dispatchessherlockconfidential`, channel `web-full`). The old `web` channel (0.5.0, the full game in the browser) is no longer updated: delete that upload on this page when you are ready. The page is still a draft, so nothing here is public until you publish it.
 
 ## Basics
 
@@ -19,8 +19,9 @@ Everything below is ready to paste into the page's edit screen (dispatches.itch.
 
 ## Embed settings (Uploads)
 
-- Channel `web` (the release pipeline pushes `dispatches-sherlock-full.zip` there).
-- Tick **This file will be played in the browser** (once, after the first push).
+- Channel `web-demo` (`dispatches-sherlock-demo.zip`): tick **This file will be played in the browser** (once, after the first push). This is the demo.
+- Channel `download-full` (`dispatches-sherlock-full.zip`): leave it as a download (an `index.html` and a README).
+- On the confidential page, channel `web-full` (the same full zip): tick **This file will be played in the browser** there too.
 - **Viewport:** 600 wide, 900 tall. Tick **Mobile friendly** and **Fullscreen button**. Leave "Automatically start on page load" off. Leave **Scrollbars** on.
 - Orientation: portrait.
 

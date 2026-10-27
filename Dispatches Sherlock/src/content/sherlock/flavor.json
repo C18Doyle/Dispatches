@@ -552,5 +552,13 @@
     "adlerSafe": "You told Mrs Norton to stay out of court and out of London.",
     "adlerDecoy": "Mrs Norton dined with Mr Dunmore at the Café Royal and learned the door and the hour.",
     "adlerHurt": "Mr Dunmore saw through Mrs Norton at the Café Royal."
+  },
+  "demoEnd": {
+    "title": "The Case Continues",
+    "body": [
+      "You have been through the whole of the opening of The Final Problem: the brick in Vere Street, the first move, and the choice of how to meet the Professor's net.",
+      "The door ahead is locked in the demo. The full game goes on down the road that you chose, through the Yard, the street, Whitehall or the flight to the Falls, to the last choice on each road, with seventeen endings in the long case and the Case-Book that keeps the ones you have found. The four minor cases on the shelf are complete in the demo, hidden endings and all. The full game is on the game's page, to download."
+    ],
+    "restart": "Back to the Title"
   }
 }
