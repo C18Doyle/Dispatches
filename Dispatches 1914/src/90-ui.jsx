@@ -757,6 +757,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           {rank && <RankPanel result={rank} />}
           <FileStrip campaignId={campaignId} endingId={nodeId} flags={flags} taken={taken || []} hard={hardState.enabled} />
           {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
+          {DEMO && <p><a className="dg-btn dg-go dg-link" href={FULL_GAME_URL} target="_blank" rel="noopener noreferrer">Play the other five commands in the full game</a></p>}
           <button className="dg-btn" onClick={onHome}>Return to file</button>
         </>
       ) : (
@@ -1077,7 +1078,7 @@ function RecordScreen({ record, onBack }) {
 export default function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [record, setRecord] = useState(loadRecord);
-  const [savedRun, setSavedRun] = useState(() => { const s = loadSavedRun(); return DEMO && s && (s.campaignId !== DEMO_COMMAND || (Array.isArray(s.taken) ? s.taken.length : 0) >= DEMO_DECISIONS) ? null : s; });
+  const [savedRun, setSavedRun] = useState(() => { const s = loadSavedRun(); return DEMO && s && s.campaignId !== DEMO_COMMAND ? null : s; });
   const [signals, setSignals] = useState("cipher"); // the briefing's choice: "cipher" or "clear"
   const [press, setPress] = useState("free"); // the briefing's choice: "free" or "censored"
   const [rigOn, setRigOn] = useState(false); // a battle opened from the battle rig (a dev build): nothing of it is saved
@@ -1278,8 +1279,6 @@ export default function App() {
 
   const cont = () => {
     if (rigOn) { setRigOn(false); setPending(null); setScreen("rig"); return; }
-    // the free demo stops after its last order, whatever comes next
-    if (DEMO && taken.length >= DEMO_DECISIONS) { clearSavedRun(); setSavedRun(null); setPending(null); setScreen("demoend"); return; }
     setNodeId(pending?.nextId ?? null);
     if (pending && pending.event) { setScreen("event"); return; }
     setPending(null);
@@ -1325,7 +1324,6 @@ export default function App() {
         <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} signals={signals} onSignals={setSignals} press={press} onPress={setPress} settings={settings} onSettings={setSettings}
           onEnter={() => start(campaignId)} onBack={home} />
       )}
-      {screen === "demoend" && campaignId && <DemoEndScreen campaignId={campaignId} onHome={home} />}
       {screen === "rig" && <BattleRigScreen onFight={rigFight} onBack={home} />}
       {screen === "howto" && <HowToScreen onBack={() => { setScreen(howBack || cameFrom); setHowBack(null); }} />}
       {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} onHowTo={() => { setHowBack("settings"); setScreen("howto"); }} />}

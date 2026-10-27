@@ -27,6 +27,7 @@ const HINDSIGHT = [
   [/\bwhether .{0,70}\b(could|would|might) have\b/i, "wonders what would have happened"],
   [/\bonly the .{1,50} (could|can) (answer|settle|say|decide)\b/i, "leaves the question to the future"],
   [/\b(it )?will last (four|three|two|another|for)\b|\bthe war that follows\b|\blasts? to the end of the war\b|\bsets? back .{0,50} until\b/i, "says how long something will last"],
+  [/, and [^.;]{0,80}\bhas to (decide|say|explain|answer)\b/i, "closes a sentence on who has to decide or explain"],
   [/\bpostwar\b|\bin retrospect\b|\bwith hindsight\b|\bin the long run\b/i, "looks back"],
 ];
 const KEY = /\b(dispute|situation|outcome|epilogue|bio|fate|real|context|aftermath|bulletin|dossier|position|label|headline|title|note|paras|desc|description|def|quote|text)\s*:/g;

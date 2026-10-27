@@ -7,12 +7,11 @@
 // How to play, reached from Settings, holds what the game is and what it leaves out; Settings holds what is kept on the device.
 // The text is in 66-briefings.jsx and 60-glossary.jsx.
 
-// The free demo (build.mjs makes it with DEMO_BUILD true): one command, its first DEMO_DECISIONS orders, the standard file only, and an ending screen that
-// points to the full game. The French command is the demo because its first six orders carry the whole game in small: contested orders, the staff's
-// beliefs, the Marne as an Order of Battle, and a front that moves. RIG is the battle rig (DEV_RIG true, dist/rig): a menu entry that opens any battle at once.
+// The free demo (build.mjs makes it with DEMO_BUILD true): the German command in full, from the first day to any of its endings, the standard file only, and a link
+// to the full game on the ending screen. The other five commands are listed and locked. The German command is the demo because it opens the war, carries the
+// whole of the game (contested orders, the staff's beliefs, Orders of Battle, documents and newspapers) and has the widest range of endings. RIG is the battle rig (DEV_RIG true, dist/rig): a menu entry that opens any battle at once.
 const DEMO = DEMO_BUILD;
-const DEMO_COMMAND = "gqg";
-const DEMO_DECISIONS = 6;
+const DEMO_COMMAND = "ohl";
 const FULL_GAME_URL = "https://dispatches.itch.io/dispatches-1914";
 const RIG = DEV_RIG;
 
@@ -65,7 +64,7 @@ function MenuScreen({ onPick, onRecord, onSettings, onRig, savedRun, onResume, o
       <p className="dg-sub">{"\u201C"}This war, like the next war, is a war to end war.{"\u201D"}</p>
       <p className="dg-sub-by">David Lloyd George<span>1916</span></p>
       <hr className="dg-rule" />
-      {DEMO && <p className="dg-demo-note"><b>Free demo.</b> Play the first {DEMO_DECISIONS} orders of the French command. The full game has six commands and 71 endings.</p>}
+      {DEMO && <p className="dg-demo-note"><b>Free demo.</b> The German command is open in full. The full game has six commands and 71 endings.</p>}
 
       {saved && (
         <section className="dg-banner" aria-label="Saved file">
@@ -194,22 +193,6 @@ function ReadAloud({ id, text }) {
     setOn(true);
   };
   return <button className="dg-btn dg-read" onClick={toggle}>{on ? "Stop reading" : "Read aloud"}</button>;
-}
-
-/** The end of the free demo: where the file stops, and what the full game is. */
-function DemoEndScreen({ campaignId, onHome }) {
-  const c = CAMPAIGNS[campaignId];
-  return (
-    <main {...rootProps(campaignId, "demoend")}>
-      <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
-      <div className="dg-docrow"><span>{c.docLabel} · END OF THE DEMO</span></div>
-      <h1 className="dg-node-title">The demo ends here</h1>
-      <p className="dg-prose dg-lede">You have given the first {DEMO_DECISIONS} orders of the French command, from the covering of the frontier to the race to the sea. The war has four years to run, and the file goes on to Verdun, the Nivelle offensive, the mutinies and the armistice.</p>
-      <p className="dg-prose">The full game has six headquarters (German, French, Russian, British, Austro-Hungarian and Ottoman), over 200 decisions and 71 endings, with real documents at the head of the reports, the Order of Battle, and the Easy and Hard files.</p>
-      <p><a className="dg-btn dg-go dg-link" href={FULL_GAME_URL} target="_blank" rel="noopener noreferrer">Get the full game</a></p>
-      <button className="dg-btn" onClick={onHome}>Back to the commands</button>
-    </main>
-  );
 }
 
 /** The battle rig (a dev build only): every Order of Battle in a list, to open at once with the enemy's setup, the strain on the command and the mode chosen. */

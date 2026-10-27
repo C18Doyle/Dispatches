@@ -93,7 +93,7 @@ CAMPAIGNS.gqg.nodes = {
         label: "Obey, and withdraw the covering troops ten kilometres, while pressing the Cabinet for the order to mobilise",
         historical: true,
         advisor: { name: "Joffre", position:
-          "The government is entitled to be obeyed, and Britain's opinion is worth ten kilometres. The cost is a day, and the Cabinet must be told what it is." },
+          "The government is entitled to be obeyed, and Britain's opinion is worth ten kilometres. The cost is a day." },
         impact: { manpower: 0, munitions: 0, will: 0 },
         setFlags: { gqg_covering: "obeyed" },
         next: "gqg_1914_01_frontieres",
@@ -192,9 +192,7 @@ CAMPAIGNS.gqg.nodes = {
           "The attacks go in and are stopped in front of positions the doctrine said " +
           "would give way. The Battle of the Frontiers costs the army more men in three " +
           "weeks than anyone in this building has budgeted for a year, and the German " +
-          "right comes on through Belgium regardless. The regiments that went forward " +
-          "in red trousers learn what machine guns and heavy howitzers do to a bayonet " +
-          "charge, and the lesson is paid for in full.",
+          "right comes on through Belgium regardless. The regiments that went forward in red trousers learn what machine guns and heavy howitzers do to a bayonet charge.",
       },
       {
         id: "shift",
@@ -501,9 +499,7 @@ CAMPAIGNS.gqg.nodes = {
               "Speculative. The turn is made and does not achieve the separation it needed. " +
               "The invasion is stopped, later and further south, and the line that congeals " +
               "runs across more of France than it historically did. The government is back " +
-              "in Bordeaux, and Paris is shelled. The army has fought a great battle and " +
-              "kept the capital, and has to explain to the country why it is still giving " +
-              "up villages." },
+              "in Bordeaux, and Paris is shelled. The army has fought a great battle and kept the capital, and is still giving up villages." },
         ],
       },
       {
@@ -652,9 +648,7 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1915_14_salonika",
         outcome:
           "Artois and Champagne are fought and the second position holds both times. " +
-          "The line moves by yards. The cost is entered in a ledger that the Chamber " +
-          "will eventually read, and the soldiers who go forward in the autumn go with " +
-          "no illusion left about what the first day will give them. The occupied " +
+          "The line moves by yards. The soldiers who go forward in the autumn go with no illusion left about what the first day will give them. The occupied " +
           "departments are no nearer, and the Commander-in-Chief has no other policy to " +
           "put in place of the one that has not worked.",
       },
@@ -862,9 +856,7 @@ CAMPAIGNS.gqg.nodes = {
       (flags.gqg_verdun === "shortened"
         ? "The line was shortened in February and the divisions exist. The original French share is still possible."
         : "Verdun has consumed the divisions that were to make it. What France can now put into the Somme is a fraction of what was promised.") +
-      "\n\nThe British will attack either way. What is at stake is whether they " +
-      "attack beside an ally or in place of one, and what that does to the alliance " +
-      "for the remaining years of the war." +
+      "\n\nThe British will attack either way. They attack either beside an ally or in place of one." +
       (flags.xc_chantilly === "declined" ? "\n\nThe Russian representative at Chantilly gave no date for an offensive in the east, and the Somme is the only combined blow the Allies are certain to make." : ""),
     context:
       "Relieving Verdun is one argument for the Somme. Keeping the coalition intact is " +
@@ -1326,7 +1318,7 @@ CAMPAIGNS.gqg.nodes = {
         id: "report",
         label: "Report to the government that the army cannot be relied on to attack",
         advisor: { name: "Painleve", position:
-          "If that is the true state of the army then the Ministry has to be told, whatever it decides to do with the information." },
+          "If that is the true state of the army, the Ministry must be told." },
         gate: (m) => m.will <= -2,
         disabledReason: "The army's condition does not yet warrant telling the government the offensive instrument is gone",
         impact: { manpower: 0, munitions: 0, will: -2 },
@@ -1374,15 +1366,14 @@ CAMPAIGNS.gqg.nodes = {
         label: "Attack with a limited objective and stop at it",
         historical: true,
         advisor: { name: "Petain", position:
-          "The men will be told exactly where the attack stops, and then it will stop there. That is the whole of the method." },
+          "The men will be told exactly where the attack stops, and then it will stop there." },
         impact: { manpower: -1, munitions: -2, will: 3 },
         setFlags: { gqg_malmaison: "limited" },
         next: "gqg_1918_12_link",
         outcome:
           "The fort and village are taken and the operation stops on its objective. The " +
           "Germans give up the remainder of the ridge and go back across the Ailette. " +
-          "The cost is a fraction of April's and the ground is greater. The army " +
-          "notices, which is the point of it. The soldiers who were promised battles " +
+          "The cost is a fraction of April's and the ground is greater. The army notices. The soldiers who were promised battles " +
           "they could win are given one, and a French attack does what the staff said " +
           "it would.",
       },
@@ -1465,15 +1456,13 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. Every division that can be moved goes north, and the junction " +
           "with the British holds. Champagne and the road to Paris are left to what " +
-          "remains. If the main blow falls there, the French army has nothing to meet " +
-          "it with, and the government that told its general to cover the capital has " +
-          "to decide what it meant. If the blow does not fall there, the Commander-in-Chief has won.",
+          "remains. If the main blow falls there, the French army has nothing to meet it with. The two armies stay in touch, and Amiens is not lost. If the blow does not fall there, the Commander-in-Chief has won.",
       },
       {
         id: "paris",
         label: "Cover Paris first: tell Haig in writing that the French reserve will fall back on the capital if the retreat goes on",
         advisor: { name: "Petain", position:
-          "The government's order is to cover Paris. If it comes to a choice, I shall have to obey it, and Haig must be told so plainly." },
+          "The government's order is to cover Paris. If it comes to a choice, I shall have to obey it, and Haig must be told so." },
         impact: { manpower: 0, munitions: 0, will: -2 },
         setFlags: { gqg_link: "paris" },
         next: "gqg_1918_10_doullens",
@@ -2062,8 +2051,7 @@ CAMPAIGNS.gqg.nodes = {
       "The army that stands at the armistice was rebuilt after 1917 rather than " +
       "merely disciplined, was not spent to prove points in the autumn, and was " +
       "committed once, at the right moment, under a command that could move it.\n\n" +
-      "The departments come back. So do more of the men who took them, and that is the " +
-      "whole of what was available to be won here.",
+      "The departments come back. So do more of the men who took them.",
     ending: { family: "victory-with-the-army-preserved", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The outcome of the war was not in the gift of this headquarters " +
@@ -2084,12 +2072,10 @@ CAMPAIGNS.gqg.nodes = {
     title: "Waiting Correctly",
     advisors: ["petain"],
     situation:
-      "The German offensives stopped without being counterattacked, which is what they " +
-      "were going to do. The reserve was preserved, the line held, and the initiative " +
+      "The German offensives stopped without being counterattacked. The reserve was preserved, the line held, and the initiative " +
       "was left where it lay.\n\n" +
       "It was not wrong. The army is intact and the front is unbroken and the argument " +
-      "for waiting was sound every single time it was made. The war simply goes on " +
-      "being fought by whoever is willing to start something.",
+      "for waiting was sound every single time it was made. The war goes on being fought by whoever is willing to start something.",
     ending: { family: "defensive-into-1919", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. Husbanding an army is a defensible doctrine and this is what it " +
@@ -2110,8 +2096,7 @@ CAMPAIGNS.gqg.nodes = {
     advisors: ["painleve"],
     situation:
       "With the army in open indiscipline and the Chamber told none of it, an approach " +
-      "is made. It is made from a country holding a line it can hold, with ten " +
-      "departments still under occupation, which is the whole difficulty: any terms " +
+      "is made. It is made from a country holding a line it can hold, with ten departments still under occupation: any terms " +
       "available now leave some of France where it currently is.\n\n" +
       "That is why this was never seriously attempted. It is not that nobody thought of " +
       "it.",

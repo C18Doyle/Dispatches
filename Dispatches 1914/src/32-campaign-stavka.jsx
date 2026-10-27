@@ -535,7 +535,7 @@ CAMPAIGNS.stavka.nodes = {
         id: "silesia",
         label: "Press on into Silesia and let the Second Army hold Lodz with what it has",
         advisor: { name: "Ruzsky", position:
-          "The way to answer a blow at our flank is to be in Germany before it lands. The plan was to cross the frontier, and the army that crosses it is the one the enemy has to answer." },
+          "The way to answer a blow at our flank is to be in Germany before it lands. The plan was to cross the frontier, and the army that crosses it is the one the enemy must answer." },
         gate: (m) => m.will >= -1,
         disabledReason: "Nobody at headquarters will answer for leaving the flank open",
         impact: { manpower: -1, munitions: -1, will: 2 },
@@ -601,9 +601,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The Tenth Army falls back toward the Niemen before the blow, and " +
           "the Germans, when they attack, find less to surround. The " +
           "Twentieth Corps is out of the forest and in the line, and the border that " +
-          "was to be the anchor of the position is given up without a battle. It " +
-          "is a retreat made on a subordinate's warning, which is what the front " +
-          "commander said it would be.",
+          "was to be the anchor of the position is given up without a battle. It is a retreat made on a subordinate's warning.",
       },
       {
         id: "reinforce",
@@ -821,8 +819,7 @@ CAMPAIGNS.stavka.nodes = {
               "Speculative. The Emperor at headquarters is visible to the army in a way he " +
               "has not been, the operations are conducted by a professional, and the " +
               "arrangements in the capital hold together better than they historically did. " +
-              "It requires the court to behave differently, which is the part of this that " +
-              "is speculation. The ministers who warned him against going to the front have " +
+              "It requires the court to behave differently. The ministers who warned him against going to the front have " +
               "to be shown wrong, and the Empress, who has been left in charge, has to be " +
               "content with her part." },
         ],
@@ -1123,9 +1120,7 @@ CAMPAIGNS.stavka.nodes = {
         setFlags: { stavka_brusilov: "supported" },
         next: "stavka_1916_12_kovel",
         outcome:
-          "Speculative. The supporting attacks are made and made seriously. The " +
-          "Austrian front does not merely bend, and the German divisions sent to shore " +
-          "it up come from somewhere they were needed. The other front commanders, who " +
+          "Speculative. The supporting attacks are made and made seriously. The Austrian front breaks, and the German divisions sent to shore it up come from somewhere they were needed. The other front commanders, who " +
           "have said they will not be ready, are overruled by Stavka and told to attack " +
           "on the day, and whether they obey, and with what, is the whole of the risk. " +
           "The offensive is no longer the work of one front.",
@@ -1236,9 +1231,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The order to the Guards and the Special Army is not given. The " +
           "weight of the front shifts south, toward ground the Russian armies know from " +
           "1914 and 1915, and the staffs begin to draw up what a drive on Lemberg would " +
-          "need. The marsh at the Stokhod stays where it was. The Guards are told that " +
-          "they will not be wanted there, and the Supreme Command now has to say what " +
-          "they are wanted for.",
+          "need. The marsh at the Stokhod stays where it was. The Guards are told that they will not be wanted there.",
       },
     ],
   },
@@ -1479,9 +1472,7 @@ CAMPAIGNS.stavka.nodes = {
       "Russian government, how the summer's offensives are to be coordinated and how " +
       "Russia is to be supplied with the equipment it has been asking for. At Port " +
       "Romanov thousands of tons of munitions are lying on the docks.\n\n" +
-      "Stavka is asked what to tell them about the spring. The Allies want a Russian " +
-      "offensive to go in with their own, and the High Command has to say whether " +
-      "it can be made.",
+      "Stavka is asked what to tell them about the spring. The Allies want a Russian offensive to go in with their own.",
     context:
       "The conference is meant to do the thing Chantilly did not: to put dates on " +
       "the promises. Russia is the one partner whose answer depends on the " +
@@ -1887,7 +1878,7 @@ CAMPAIGNS.stavka.nodes = {
               "Speculative. Alekseyev reaches Petrograd on the evening of the 28th and is " +
               "received by Kerensky the same night. The corps is halted at Luga while the " +
               "two men are brought to speak, and it does not collapse because it has not " +
-              "been tested. Kornilov is dismissed, and arrested later, quietly. The " +
+              "been tested. Kornilov is dismissed, and arrested later. The " +
               "soviets were not called out, and the Bolsheviks have no counter-revolution to " +
               "claim they defeated." },
           { weight: 50, title: "The mediator is too late, and the affair runs its course",
@@ -1978,9 +1969,7 @@ CAMPAIGNS.stavka.nodes = {
         next: "stavka_end_civilwar",
         outcome:
           "Speculative. The headquarters declines to recognise the new authority. " +
-          "Formations divide according to what their soldiers' committees decide, which " +
-          "is the same thing as saying the war at the front has become the war behind " +
-          "it, several months earlier than it historically did. The officers who go to " +
+          "Formations divide according to what their soldiers' committees decide: the war at the front has become the war behind it. The officers who go to " +
           "the Don with their men carry the German war with them as an afterthought, " +
           "and the Germans, who see an army turn on itself, wait for it to finish.",
       },

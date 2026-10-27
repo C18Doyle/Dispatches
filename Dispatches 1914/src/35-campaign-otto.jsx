@@ -381,9 +381,7 @@ CAMPAIGNS.otto.nodes = {
           "Speculative. Enver agrees to a month. The quartermasters are given until the middle " +
           "of January to find coats, boots and mules, and the staff is told to plan again for " +
           "the corps that will march. The Russians, who read a calendar as well as anybody, " +
-          "use the same weeks to bring up a corps by the railway. The Third Army will be " +
-          "better fit to march and the plan harder to surprise, and Enver has to say why a " +
-          "victory has been put off.",
+          "use the same weeks to bring up a corps by the railway. The Third Army will be better fit to march and the plan harder to surprise.",
       },
     ],
   },
@@ -547,9 +545,7 @@ CAMPAIGNS.otto.nodes = {
         outcome:
           "Speculative. The Fourth Army stays where it is and the British on the canal are " +
           "left to wonder what it intends. The 30,000 men and the aeroplanes stay on guard and " +
-          "are not sent anywhere else. The Ottoman force is not diminished by the march, " +
-          "and Djemal, who has been promised an operation, has to explain to Enver " +
-          "and to Berlin why there has not been one.",
+          "are not sent anywhere else. The Ottoman force is not diminished by the march, and Djemal, who has been promised an operation, has not had one.",
       },
       {
         id: "raid",
@@ -800,7 +796,7 @@ CAMPAIGNS.otto.nodes = {
           "and its guns to the Russians, who enter an empty city. The army is smaller than it " +
           "was, but whole, and it holds a line some distance to the west. The fortress, " +
           "whose fall would have been the defeat of the winter, is given up as a loss of " +
-          "ground only. Constantinople has to explain to the east why it left the town.",
+          "ground only.",
       },
       {
         id: "counter",
@@ -1060,8 +1056,7 @@ CAMPAIGNS.otto.nodes = {
           "Speculative. Khalil is ordered to leave Baghdad at once, and the Sixth Army marches north " +
           "with its guns, its stores and nearly all its men. The British enter the city a few days " +
           "earlier than it did and without a shot. The army that falls back on Mosul is the " +
-          "whole Sixth Army, and the empire has given up its chief city in Mesopotamia without a " +
-          "battle, which Enver, who wanted to fight, has to explain.",
+          "whole Sixth Army, and the empire has given up its chief city in Mesopotamia without a battle, though Enver wanted to fight.",
       },
     ],
   },
@@ -1818,8 +1813,7 @@ CAMPAIGNS.otto.nodes = {
       "The Allies broke out of the beaches and seized the heights above the forts, and from " +
       "them their guns look down on the Narrows. The minefield cannot be kept while it " +
       "is being shot at, and the fleet is at the entrance.\n\n" +
-      "The empire's capital is a day's steaming from a fleet that cannot now be stopped, and " +
-      "the Ottoman government has to decide whether to leave it. Whatever it decides, " +
+      "The empire's capital is a day's steaming from a fleet that cannot now be stopped, and the Ottoman government can only decide whether to leave it. Whatever it decides, " +
       "the war in the Straits is lost.",
     ending: { family: "straits-lost", badge: BADGES.SPECULATIVE },
     epilogue: () =>

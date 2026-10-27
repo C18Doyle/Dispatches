@@ -27,13 +27,13 @@ if (fs.existsSync("src/MANIFEST.json")) {
 const base = { entryPoints: ["entry.jsx"], bundle: true, format: "iife", jsx: "automatic",
   // the soundtrack is inlined as a data URL, so that a file opened from disk plays it as the itch.io page does (see entry.jsx)
   loader: { ".mp3": "dataurl" } };
-const page = (js, title) => `<!DOCTYPE html><html lang="en" data-theme="sepia"><head><meta charset="UTF-8">
+const page = (js, title) => `<!DOCTYPE html><html lang="en" data-theme="night"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23f4efe2'/%3E%3Crect x='6' y='6' width='52' height='52' fill='none' stroke='%231c1a17' stroke-width='3'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%237a2e2e'%3E14%3C/text%3E%3C/svg%3E">
 <title>${title}</title>
-<meta name="theme-color" content="#0a0908">
+<meta name="theme-color" content="#1b1814">
 <style>html,body{margin:0;padding:0;background:#d8cfb6;background-image:radial-gradient(ellipse at 50% 0,#e6dec9,#d2c8ad 70%);min-height:100%}#root{max-width:600px;margin:0 auto;overflow-x:hidden;min-height:100vh;background:#f4efe2;box-shadow:0 0 0 1px rgba(28,26,23,.14),0 12px 44px rgba(28,26,23,.22)}
 html[data-theme="sepia"],html[data-theme="sepia"] body{background:#060504;background-image:none}html[data-theme="sepia"] #root{background:#0a0908;box-shadow:0 0 0 1px rgba(236,229,208,.1),0 12px 44px rgba(0,0,0,.7)}
 html[data-theme="paper"],html[data-theme="paper"] body{background:#d8cfb6;background-image:radial-gradient(ellipse at 50% 0,#e6dec9,#d2c8ad 70%)}html[data-theme="paper"] #root{background:#f4efe2;box-shadow:0 0 0 1px rgba(28,26,23,.14),0 12px 44px rgba(28,26,23,.22)}
